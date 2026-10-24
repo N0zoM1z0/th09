@@ -27,7 +27,8 @@ int EffectManager::DrawBulletLayerEffects()
                     vm->position.y =
                         g_GameManager.TransformPopupY(effect->position.y);
                     vm->position.z = 0.08f;
-                    vm->position.Add(&vm->pos2);
+                    *reinterpret_cast<Float3 *>(&vm->position) +=
+                        *reinterpret_cast<const Float3 *>(&vm->pos2);
                     g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
                     ++vm;
                 }

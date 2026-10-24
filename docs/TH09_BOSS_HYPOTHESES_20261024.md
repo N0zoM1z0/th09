@@ -8,10 +8,11 @@ was tested. A failed concrete model never rules out an entire source family.
 
 ## Latest maintained source and active work
 
-Maintained source checkpoint: **22baf4e7**, local and not pushed. The isolated
-SDK resolver interface (H20) and API-only effect-release correction (H30) are
-adopted and verified; other model candidates remain isolated. Full CI passes
-1017 tests / 29 skips. Exact credit is still 244917 / 291883 (83.9093%);
+Current maintained source is this narrow H53 Effect vector API checkpoint,
+local and not pushed; **22baf4e7** is its predecessor. The isolated SDK resolver
+interface (H20), effect-release correction (H30), and minimal real Effect vector
+API cleanup (H53) are adopted and verified; other candidates remain isolated.
+Full CI passes1020 tests /29 skips (133.873 seconds, durable exit0). Exact credit is still 244917 / 291883 (83.9093%);
 RunEcl has 30 ordinary differences and Enemy has 13.
 
 - [x] Complete the paired common Enemy/operand-owner graph with genuine lvalue
@@ -41,11 +42,22 @@ RunEcl has 30 ordinary differences and Enemy has 13.
 - [x] Complete H47 uniform procedural-block factor: RunEcl15560/598,943 blocks
       with original root indices/structural shapes, but still nonexact and4 bytes
       short. All75 witnesses and114 other surviving owners remain protected.
-- [ ] Build the full original-bound changed-region map and investigate genuine
-      owner/capture source contracts. No new model outcome is claimed.
+- [x] Complete H48 four value-read API retention and independent full maps:
+      all598 fields bound, six changed regions remain; physical size is not exact.
+- [x] Complete H49 lvalue API retention: emitted caller code remains neutral.
+- [x] Complete H50 current /Ob1 native-timeout interaction: still nonexact,
+      with State byte reads and six raw spawn transfers protected.
+- [x] Close H51 State/Late native family: all117 emitted owners neutral.
+- [x] Close H52 Enemy module visibility, H54 seven raw copies and H55 shared
+      draw contracts; none resolves the bosses or grants exactness credit.
+- [x] Adopt only H53 minimal real Effect vector API cleanup: strict current-
+      manifest53-job/208-proof replay passes with zero overrides/local renames;
+      all139 main owners remain neutral, full CI1020/29 passes.
+- [ ] Continue same-author byte-flag idiom census and evidence-backed next boss
+      source hypotheses. No unmeasured model outcome is claimed.
 
 These are research checkpoints, not exactness progress. The dated baseline and
-H01-H47 records below preserve chronology and their own immutable inputs.
+H01-H55 records below preserve chronology and their own immutable inputs.
 Audit completion alone is not a compiler result or an exactness gain.
 
 ## Rules and baseline
@@ -1427,3 +1439,198 @@ match and four-byte physical deficit are not whole-function equality or credit.
 Next: full provenance-bound changed-region mapping and a coherent retention of
 the four existing scalar value-read APIs on H47, keeping raw/lvalue/owner macros
 and repaired procedural/spawn contracts. No next-experiment result is claimed.
+
+
+## H48: existing value-read APIs and independent complete changed maps
+
+Status: compiled and independently verified; complete diagnostic maps separately
+replayed by root at10:24. Packets:
+- .analysis/th09-value-read-api-retained-20261024-v01/ (CONCLUSION.md, verification.json).
+- .analysis/th09-h47-complete-map-20261024-v01/ (README.md, comparison.json).
+- .analysis/th09-value-read-complete-map-20261024-v01/ (README.md, comparison.json).
+
+Exactly219 name substitutions retain the four existing value-read APIs; all69
+source inputs otherwise inverse-match. No resolver purity or arbitrary
+reordering assumption is added. All75 canonical witnesses pass. All115 prior
+owners survive,114 non-RunEcl bodies unchanged; ReadLaserFloat/ReadLaserInt
+COMDATs reappear and match maintained, giving117 owners/116 maintained-identical
+non-RunEcl bodies. No RunEcl call to these synthetic APIs remains. Enemy and
+MoveRandomBiased remain maintained, and six raw spawn transfer proofs pass.
+
+RunEcl is15564 physical bytes/598 fields, but14790 logical bytes plus two8B FF
+post-RET alignment bytes precede772 table bytes; original logical code is14792
+without that padding. Opcode157's missing MOV ECX,EAX returns, while opcode4/155
+remain wrong. The unchanged stock identity audit now runs and passes binding,
+not byte equality:4147 differing bytes (3693 ordinary/454 field,65 table bytes
+reported). These shifted same-coordinate counts are not edit distance or credit.
+
+The independent maps bind all598 relocations uniquely:375 direct calls,28
+external data/literal fields,two local table bases and193 entries, with zero
+unknown/ambiguous bindings. All943 CFG blocks, roots, ordered edges, branch/call
+kinds and RET cleanup correspond. All75 canonical proofs,16 referenced same-
+object callees and six literal definitions are separately checked; calls use
+actual unique symbol provenance, never expected ordinal destinations. Actual
+candidate table positions are retained, not rebased to original for comparison.
+
+H47 has23 changed blocks in seven regions4/135/139/140/145/155/157. H48 has19
+changed blocks/37 instruction-edit groups in six regions4/135/139/140/145/155;
+only157's four blocks disappear from that map. Equal-length135/139 still differ.
+This is diagnostic graph-aligned instruction agreement, not a newly exact region
+or standalone function. Frozen replay bindings pin148 transitive dependencies;
+eight in-memory drift rejection tests pass without updating original bindings.
+Production guards, aliases and score rules are unchanged. No adoption or credit.
+
+## H49: retain the existing WriteInt/WriteFloat API family
+
+Status: compiled and independently verified. Packet:
+.analysis/th09-lvalue-api-retained-20261024-v01/ (CONCLUSION.md, verification.json).
+Forty name substitutions restore the actual APIs/attributes with exact inverse
+proof across69 parent inputs. No sequencing/purity assumptions or ABI changes.
+
+All117 previous emitted owners are byte/field-neutral versus H48. One WriteInt
+COMDAT reappears and matches maintained, giving118 owners and117 maintained-
+identical non-RunEcl bodies. All75 witnesses pass. No RunEcl call to any of the
+six synthetic read/write APIs remains. RunEcl15564/598,375 direct/4 indirect
+calls,943 structural blocks and all raw spawn proofs are unchanged. Opcode139/
+140 acquisition setup, opcode4/155 and4147-byte shifted comparison are unchanged.
+The stock diagnostic runs but does not pass equality. No adoption or credit.
+
+## H50: native timeout on the current value-read /Ob1 carrier
+
+Status: compiled and independently verified. Packet:
+.analysis/th09-value-api-native-timeout-20261024-v01/;
+CONCLUSION.md, verification.json and wire/transport proofs retain the outcome.
+All117 owners survive; only RunEcl changes,116 other bodies/effective references
+remain parent-neutral. All75 canonical witnesses pass and Enemy stays maintained.
+
+RunEcl remains15564/598,943 blocks,375 direct/4 indirect calls. Original identity
+binding passes but equality fails:4139 differing bytes (3685 ordinary/454 field,
+65 table bytes reported). These shifted-coordinate counts are not repaired-byte
+credit. Native opcode155 shrinks45 to44 bytes: direct MOVZX EAX byte input,
+old flags ESI, final ECX store. Original needs ECX input and final EAX; opcode4
+is unchanged and wrong. Length compensation is140−3,145+1,155−1,alignment+3;
+14789 logical bytes plus three alignment bytes and772 table bytes equal15564.
+
+All five State setters preserve one-byte wire reads and DWORD flag writes;
+six raw spawn transfers retain integer copies, separate numeric resolver stores
+and original live-mask/register/stack chronology. Independently bound per-root
+call sequences agree. No comparator relaxation, maintained adoption or credit.
+This bounded timeout factor does not substitute for full primary/secondary
+family coverage; H11's actual primary-only scope must remain distinguished.
+
+## H51: full State/Late native-field family, neutral
+
+Packet: .analysis/th09-state-late-native-family-20261024-v01/;
+CONCLUSION.md and sealed verification/width proofs close this experiment.
+All117 emitted owners/effective references equal the native-timeout parent;
+all75 canonical witnesses pass. RunEcl stays15564/598 with4139 shifted-coordinate
+differences,943 blocks and375 direct/4 indirect calls. Opcode4/155 remain wrong.
+All five State wire reads stay BYTE, their publications DWORD. Late primary
+173/183 and secondary182/185/187 each read/write one DWORD at337C/3380; category
+186 reads a DWORD. Six raw spawn transfer proofs remain intact. The bounded
+five-setter/one-read extension is neutral; it does not cover H11's broader
+Movement/Bullet/dispatcher/helper primary conversions. No adoption or credit.
+
+## H52: complete Enemy module visibility closure
+
+Packet: .analysis/th09-enemy-module-closure-20261024-v01/;
+CONCLUSION.md and owner-comparison.json retain the full paired proof.
+Control is maintained3900 bytes/97 fields/13 differences. Candidate proves eight
+selected complete helpers plus TimerEqual:17 canonical proofs versus control8.
+Of12 retained definitions,11 are unchanged; nine new definitions are all proved.
+All27 same-object calls bind to actual proved bodies; RunEcl remains external.
+The full170-block ordered CFG and69 direct targets agree with original.
+
+None of the original13 mismatch positions improves. Visible51-byte rank reset
+preserves ECX, eliminating the original receiver reload at+CC3; the next release
+reuses ECX. Logical code shrinks3883 to3881, alignment absorbs two bytes and
+physical size remains3900. The616 shifted physical differences are not a score.
+Production guard rejects the moved Timer-greater call. This reinforces the
+original reload constraint, not a unique TU partition; no adoption or credit.
+
+## H53: Effect vector three-arm study and minimal API-only adoption
+
+Packets: .analysis/th09-effect-vector-owner-pair-20261024-v01/ and
+.analysis/th09-effect-vector-api-only-20261024-v01/.
+The pair separates shared storage from added native-header visibility; the
+minimal third arm separately changes only three discarded-result facade Add
+calls to genuine Float3 += through unchanged POD bridges and removes the unused
+Add declaration. No profile/layout/include change belongs to that minimal arm.
+
+Core study proves the actual36-byte405730 += owner, all Effect boundaries before
+caller renames,186 pair proofs and91 minimal-arm proofs. All139 main owners,
+16 existing EffectManager owners and the bullet-layer owner remain neutral in
+bytes/effective references across audited arms. A shared-storage candidate adds
+one unreferenced three-byte empty Float3 constructor, explicitly not original
+credit. Minimal/control strict diagnostics remain RunEcl30 and Enemy13; alias
+candidate's unknown mangled symbols remain rejected by unchanged stock guards.
+
+The API-only canonical-path adoption closure has53 fresh jobs and208 passing
+proofs. After the production manifest refresh, strict current-manifest replay
+passes all53/208 with ZERO symbol overrides or local renames; evidence is
+canonical-adoption/post-refresh/verification.json. All139 main owners remain
+unchanged, RunEcl30/Enemy13. This checkpoint adopts only three genuine API sites,
+the unused POD facade declaration cleanup and three regression test methods.
+No shared storage alias or additional native-header co-visibility is adopted.
+
+The actual manifest change is365 symbol strings:362 independently proved DIR32
+same-owner private labels and three genuine REL32 API identities. Every target,
+offset, type, addend and profile is unchanged. Full CI completes1020 tests/29
+skips in133.873 seconds, durable exit0. Tracking, generated progress, docs, open
+build graph and whitespace checks pass. No exactness gain is claimed.
+
+This is the current narrow source checkpoint, with22baf4e7 as predecessor and
+3acea9a8 as prior documentation checkpoint. The corresponding source commit
+and input hashes are recorded in canonical-adoption/verified-source-state.json.
+The53 jobs cover existing canonical profiles, not the two unprofiled TUs, native
+product/runtime closure or portability. Those limitations remain open.
+
+Provenance corrections remain explicit:20 staged private labels were initially
+misattributed as preexisting; raw baseline/manifest checks established they were
+introduced, while their effective destinations stayed equal. The packet retains
+that correction. Original sources were LF; git apply introduced CRLF and the
+source guard failed. Root restored exact reviewed LF candidate bytes and the
+original binding before any canonical compile. The EOL correction receipt
+preserves the failure/restoration, rather than silently blessing changed inputs.
+The original binding was restored, with no hash waiver. Earlier staged nominal
+maps and rejected alias-candidate diagnostics remain historical evidence; the
+strict adopted replay uses no such substitutions. Adoption earns no exactness
+credit and does not close the larger boss-reconstruction goal.
+
+## H54: uniform seven-site Enemy raw-copy family
+
+Packet: .analysis/th09-enemy-raw-copy-family-20261024-v01/;
+CONCLUSION.md, verification.json and transfer-audit.json close the experiment.
+All139 emitted owners/2097 fields remain maintained-identical;75 witnesses pass.
+Enemy stays3900/97 with the same13 differences,69 calls and original ordered CFG.
+No memcpy call or empty Float3 constructor is emitted; real constructors remain.
+Explicit copies retain integer transfer instructions rather than FP conversions.
+
+History, head position/velocity, hitbox and tracked-player instruction slices
+match original; descriptor copy remains maintained-identical but nonexact.
+Tracked-player's24-byte target sequence preserves actual read/write chronology,
+even for hardware overlap, but this does NOT remove abstract memcpy overlap
+restrictions. Six site nonoverlap proofs hold; seventh player/Enemy pointer
+separation remains unknown. Raw neutrality alone does not authorize adoption.
+The exploratory window bound was corrected to an instruction boundary before
+final reporting, without changing source/object. No credit or spelling sweep.
+
+## H55: shared draw native-contract audit only
+
+Packet: .analysis/th09-draw-shared-native-contracts-20261024-v01/;
+CONCLUSION.md, audit.json and sdk-slot-proof.json. No new candidate or compile.
+Both original owners have20 direct/12 indirect calls, no matrix/D3DX or constructor
+calls. Pinned native d3d8.h independently gives actual COM slots C8/FC/120/130,
+with the genuine device+8 and20-byte vertex stride. Float3 polar/+=, coordinate
+transforms, triangle fan and timer return categories agree with current APIs.
+No hidden aggregate return or unsupported SDK declaration mismatch was found.
+
+Vertex element layout is14 hex bytes, but distinct Effect34/ExAttack outer row
+counts and allocations must not be conflated. Available exact canonical objects
+are replayed; missing configured objects were not rebuilt and their fresh proofs
+are explicitly unavailable. Original/current main observations stay Effect34
+946 bytes/53 fields/78 differences and ExAttack14/22 959 bytes/525 differences.
+Actual prior producer coverage was checked before declining repeated SDK/copy/
+visibility panels. ABI evidence does not uniquely recover source lifetime or
+loop ownership; future models need a concrete caller contract discrepancy.
+No adoption, runtime assertion or exactness credit follows from this audit.

@@ -18,10 +18,10 @@ not inferred from historical conclusions. Use AGENTS.md
 for current routing and commit identity. Historical handoff cleanup is complete.
 
 - Live exact credit is **244917/291883 (83.9093%)**, another **41129** whole
-  exact bytes short of98%. No gameplay source, compiler profile or ledger is
-  changed by this cleanup. Native product/runtime and later gates remain open.
-- Current maintained source checkpoint: **22baf4e7** (local, not pushed). It
-  preserves the selected-ECL-manager ownership repair from **f595786** and adds
+  exact bytes short of98%. This API-only source cleanup changes no compiler
+  profile or exactness ledger. Native product/runtime and later gates remain open.
+- Current maintained source is this minimal H53 real Effect vector API
+  checkpoint (local, not pushed); **22baf4e7** is its predecessor. It preserves the selected-ECL-manager ownership repair from **f595786** and adds
   the independently verified SDK resolver and effect-release API corrections.
   Preserve `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, especially
   its34 canonical objects and sidecars. Its140-unit adoption proof is scoped
@@ -75,10 +75,12 @@ RunEcl30/Enemy13 remain. H30 records the current full-CI/checkpoint state.
 The operator explicitly requested continued work, not a stop at a negative
 experiment. Current exactness remains RunEcl 30 / Enemy 13 differences; no new
 whole-owner credit was gained by the two API corrections. Latest source CI
-passes 1017 tests with 29 skips; the current Enemy gate cold-replays 87 canonical
-siblings. Source and comparison guards remain protected. The prior documentation
-checkpoint is d00bf850; no new full CI is claimed for the H38-H47 documentation
-update, and maintained gameplay source remains22baf4e7.
+passes1020 tests with29 skips in133.873 seconds, durable exit0. Strict H53
+current-manifest replay passes53 jobs/208 proofs with zero symbol overrides or
+local renames; all139 main owners remain unchanged at RunEcl30/Enemy13. Tracking,
+progress, documentation, open build graph and whitespace checks pass. This is
+the narrow source checkpoint following22baf4e7 and docs3acea9a8; its durable
+verified-source-state receipt will bind the commit after creation.
 
 - H31 common Enemy/operand graph and H32 Replay packed-frame pair are complete,
   independently verified negative results, not active preparations. H31 is
@@ -132,22 +134,49 @@ update, and maintained gameplay source remains22baf4e7.
   The16-byte reduction is7+8+1 bytes of shell-related layout, not a padding patch
   or proved compiler-IR mechanism. Remaining slice lengths differ140−3/145+1/
  157−2; equal-size regions also differ. Four bytes short is not four mismatches.
-- Active next work is the full original-bound changed-region map and genuine
-  owner/capture source contracts. No new model outcome is claimed. All candidates
-  remain isolated, unadopted; exactness score and maintained source are unchanged.
-- The fresh checklist records H01-H47 and source-bound packets. Earlier provider
+- H48 existing four value-read APIs give15564/598 but include two padding bytes:
+  stock identity binding passes, equality fails with4147 shifted differences.
+  Independent H47/H48 maps bind all598 fields with zero unknowns,943 blocks and
+ 375 calls. H48 retains six changed regions4/135/139/140/145/155 versus H47 seven;
+  only157 disappears from the instruction map, not newly exact owner credit.
+- H49 WriteInt/Float retention is neutral across117 previous owners, plus one
+  maintained WriteInt COMDAT (118 total), with no synthetic API calls. H50 native
+  timeout changes only RunEcl among117 owners:75 witnesses pass,15564/598 but4139
+  shifted differences;44-byte opcode155 still has wrong registers. All byte wire
+  reads and six raw spawn transfers stay protected. No candidate is adopted.
+- H51 State/Late family closes neutral across117 owners/75 witnesses, with byte
+  wire and DWORD flag accesses protected. H52 module closure fixes none of13
+  Enemy differences and removes the required+CC3 receiver reload; rejected.
+  H54 seven raw copies are neutral across139 owners, with seventh-site abstract
+  memcpy nonoverlap still unproved. H55 draw SDK/return audit finds no supported
+  new mismatch or candidate; missing fresh-object proofs remain explicit.
+- H53 three-arm Effect vector study is neutral. This checkpoint adopts only
+  three real Float3 += API sites, unused POD facade declaration cleanup and
+  three regression tests, not storage aliases or added header co-visibility.
+  Strict post-refresh current-manifest53/208 proofs pass with zero overrides or
+  local renames. Actual365 symbol-string changes are362 DIR32 same-owner labels
+  plus three REL32 API identities; targets/offsets/addends/profiles stay unchanged.
+  Twenty initially misattributed staged labels were corrected as introduced.
+  CRLF introduced by git apply was rejected; exact reviewed LF source and original
+  binding were restored before canonical compilation, without hash waiver.
+  Historical failed guards/staged maps remain recorded, not used as exemptions.
+  Two unprofiled TUs, native product/runtime and portability remain outside this
+  canonical-profile closure. There is no exactness gain.
+- Active work continues with same-author byte-flag idiom census and next boss
+  source hypotheses; no unmeasured candidate outcome is claimed.
+- The fresh checklist records H01-H55 and source-bound packets. Earlier provider
   hashes are intentionally historical; never update them blindly to current HEAD.
-  Reuse source-bound CI1017/29 from the
-  maintained22baf4e7 adoption. Fresh documentation-checkpoint full CI also passes
-  1017/29 (130.450 seconds, exit0); its durable log is linked in the checklist.
+  Earlier source-bound CI1017/29 and documentation CI1017/29 (130.450 seconds)
+  remain historical receipts, superseded for current validation by H53's1020/29.
 - Superseded H31 v01 loose source snapshots are now preserved in a verified
  232628-byte tar.xz archive (522 files, actual full restore tested). v02 and all
   accepted evidence remain untouched; see cleanup history for the exact receipt.
 
 Latest H38-H47 documentation validation: fresh full CI1017/29 passes in123.402
 seconds, exit0. Only two documentation files change; maintained source22baf4e7
-and exact credit stay unchanged. The next scalar-value API ownership experiment
-and complete changed-region map remain pending, not accepted results.
+and exact credit stayed unchanged. That historical checkpoint is3acea9a8.
+Current H53 source/API adoption and1020/29 validation supersede its active state;
+chronological experiment evidence and unchanged exact credit are preserved.
 
 ## Live ledger snapshot
 

@@ -16,7 +16,6 @@ struct EffectFloat3
     float x;
     float y;
     float z;
-    EffectFloat3 *Add(const EffectFloat3 *other);
 };
 typedef char EffectFloat3SizeIs0C[(sizeof(EffectFloat3) == 0x0C) ? 1 : -1];
 

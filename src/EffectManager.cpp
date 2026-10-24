@@ -321,7 +321,8 @@ int EffectManager::OnDraw(EffectManager *effectManager)
                     vm->position.x = g_GameManager.TransformPopupX(effect->position.x);
                     vm->position.y = g_GameManager.TransformPopupY(effect->position.y);
                     vm->position.z = 0.08f;
-                    vm->position.Add(&vm->pos2);
+                    *reinterpret_cast<Float3 *>(&vm->position) +=
+                        *reinterpret_cast<const Float3 *>(&vm->pos2);
                     g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
                     ++vm;
                 } while (--vmCount != 0);
@@ -352,7 +353,8 @@ int EffectManager::OnDrawShared(EffectManager *effectManager)
                     vm->position.x = effect->position.x;
                     vm->position.y = effect->position.y;
                     vm->position.z = 0.0f;
-                    vm->position.Add(&vm->pos2);
+                    *reinterpret_cast<Float3 *>(&vm->position) +=
+                        *reinterpret_cast<const Float3 *>(&vm->pos2);
                     g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
                     ++vm;
                 } while (--vmCount != 0);
