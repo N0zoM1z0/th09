@@ -526,3 +526,116 @@ back, not rerun. Source/config/scripts/tests remain95300f57-equivalent.
 Next isolated models are in preparation/execution: public EnemyFloat3 API,
 shared typed ECL variable banks and coherent scalar-operand scratch roles.
 These are not conclusions or exact progress. The campaign remains active.
+
+### H12: actual EnemyFloat3 API shares Float3
+
+Isolated live-baseline model, not stacked on H01b/H09. Packet:
+.analysis/th09-enemy-float3-contract-20261024-v01/.
+One header change aliases the public EnemyFloat3 POD name to existing Float3,
+closing field/API identity rather than adding an assignment operator.
+118 frozen inputs,31 TUs/141 configured units inventoried. Five observed local
+vectors are assigned before reads; changed POD/default-construction semantics
+remain an explicit caveat rather than a universal source-equivalence claim.
+
+Main carrier compiled: all139 prior bodies are raw-identical, with explicit
+renamed API references now independently original-bound. Enemy remains13.
+Stock RunEcl direct-call identity guard and movement proof reject changed symbol
+spellings; neither is silently waived. One new unused SpawnPacket constructor
+has independently checked3-byte body8bc1c3,zero fields/no calls from139 owners.
+Seven external boundary bodies pass complete original proofs:
+373/38/213/1142/16/12/138 bytes. Root reran verify.py including full139-body
+comparison, constructor extent/call audit,75 canonical main proofs and complete
+RunEcl15564/598/30 with zero field/table differences. No adoption.
+
+### H13: shared typed ECL variable banks and interpolation storage
+
+Packet: .analysis/th09-ecl-shared-variable-banks-20261024-v01/.
+Seven-file live-baseline delta,72 frozen inputs. Six variable banks match the
+actual separately exact operand resolver layout, and four interpolation floats
+share typed storage across writer/helper. Preserve32-byte shared-context memcpy
+via the full-context byte pointer, not beyond a16-byte array subobject. No H10
+callback-model combination or new evaluation timing.
+
+Main carrier remains byte/field-identical:139 bodies,75 canonical passes,
+RunEcl30 / Enemy13. Four external sources compile and all8 canonical equivalents
+pass:6445 physical bytes /394 fields. Initial resolver/helper strict namespace
+failures are preserved. Actual retained groups08/01, unchanged declarations and
+full raw/ref proofs bind exactly2 helper definitions and3 external API namespace
+identities at6 refs. Root reran verify.py and verify_boundaries.py; production
+comparators untouched. No adoption.
+
+### H14: coherent consumed scalar scratch roles
+
+Packet: .analysis/th09-shared-scalar-consumers-20261024-v01/.
+Two-file live-baseline delta,69 frozen inputs. Opcode4 uses existing Control
+rhsInt with the same4-byte memcpy; five State wire-byte setters share an actual
+unsigned-byte scratch, each defined once before its single consumer. No dummy
+use, additional initialization or declaration-order sweep. Prior isolated
+volatile substitutions and case-local lifetime experiments are not this model.
+
+Complete result regresses:2060 ordinary /242 field-byte /26 table-byte
+differences;145/148 handler shapes. Opcode4 is unchanged; opcode7 allocation
+changes remotely. Opcode155's wire value is now ECX but old flags EAX, yielding
+43 rather than45 bytes, missing the original ESI-to-EAX copy. This is evidence
+of cross-case compilation effects, not a matching-progress claim. Enemy13 and
+75 canonical proofs pass. Root reran full139-body audit:138 unchanged bodies
+and2097 fields checked; only RunEcl differs. No adoption.
+
+### H15: causal State-only ablation and native-field interaction
+
+H15a .analysis/th09-state-byte-sharing-20261024-v01/ retains only the five State
+byte consumers from H14, leaving Control unchanged. Compiled result2048 ordinary
+differences,242 field-byte/26 table-byte differences,146/148 shapes,Enemy13,
+75 canonical passes. Opcode7 restores baseline; opcode4 stays wrong and155 is43B.
+Root replayed139 bodies,138 unchanged versus baseline.
+
+H15b .analysis/th09-native-field-shared-byte-20261024-v01/ tests the measured
+complementary ESI-old/native and ECX-wire/shared-byte roles as one coherent native
+field/shared-byte source model. Control unchanged. Compiled result1938 ordinary
+differences,202 field-byte/26 table-byte differences,144/148 shapes,Enemy13,
+75 canonical passes. Root replayed138 bodies and2097 fields, all equal actual
+H01c under proven identities: complementary local roles do not compose here.
+Both use69 frozen inputs; prior packets immutable. H14 prose correction for the
+fallthrough opcode5 (not2) is in metadata-correction.json; source was correct.
+
+### H16: genuine void Float3 copy assignment
+
+Packet: .analysis/th09-float3-void-assignment-20261024-v01/.
+One live-baseline header change implements scalar x/y/z copy with void result,
+not the previously tested reference result.227 inputs/129 TUs/436 units
+inventoried, only main compiled. Same-author Timer void assignment is a weak
+hypothesis, not proof; scalar-copy NaN/FP effects and assignment-value consumers
+remain explicit source-contract constraints.
+
+Rejected:40 canonical passes,35 real failures. Enemy3804/3900,97 fields,96
+missing bytes and3187 known-bound overlap differences; one new descriptor copy
+call leaves4 bytes unbound, never assigned an invented destination. RunEcl
+15576/15564,598 fields,375 call multiplicities preserved,7525 fully-bound overlap
+differences plus12 excess bytes. Actual Type4/8 bodies are the same237-byte
+regression as H06 against249 original, so void result does not fix their copies.
+Parent live/H01b field-type differences confound unrelated passing-count changes.
+Root reran verify.py; no adoption.
+
+### H17: real resolver visibility plus common typed context
+
+Packet: .analysis/th09-ecl-visible-shared-context-20261024-v01/.
+Paired current-control and H13 shared-bank carriers include the complete real
+EclOperands.cpp, preserving all four actual bodies/calls. This tests whether
+co-visible returned pointers and common context storage interact, rather than
+merely repeating isolated accessor spellings.72 inputs per case.
+
+Both compile to same RunEcl raw9dbdf1e95606073e158af68dbad9e0bf481de49b8cf451960450e9e390834a6b:
+15564/598/42 ordinary differences,zero field/table differences; Enemy13.
+Root replayed143 emitted bodies /55822 bytes /2471 fields between cases.
+Each retains75 canonical proofs, plus all four native resolver originals
+5718 physical bytes /374 fields and272 same-object references. The shared
+context does not restore the12-byte opcode7 co-visibility regression. No adoption.
+
+### H18: promoted existing State integer role
+
+Packet: .analysis/th09-promoted-state-integer-role-20261024-v01/.
+All seven State narrow-wire consumers (five bytes,two shorts) use existing
+stateInt after lossless promotion; no new local/order change or Control change.
+Timeout keeps its actual1-byte memcpy before promotion, never partial int
+initialization. One file/69 frozen inputs. Compiled:1925 ordinary differences,
+Enemy13,75 canonical passes. Full source/body attribution pending; no adoption.
