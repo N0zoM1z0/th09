@@ -64,6 +64,86 @@ No adoption or exactness credit.
 Do not add unsupported inheritance, lifetime consumers or new runtime effects.
 A neutral result tests only this concrete model, not all shared-layout designs.
 
+### H01b: one actual public Enemy owner, including Core
+
+Status: main carrier and two external boundaries compiled and privately
+verified; both bosses retain30/13 differences. No adoption.
+
+Hypothesis: H01 unifies two internal views but leaves public EnemyView and Core
+nominally distinct. One actual public owner, with existing methods and all four
+views as aliases, is a broader coherent source model.
+
+- [x] Reconcile public/State/Movement/Core offsets and widths (107 fields).
+- [x] Preserve existing public method ABI and primary/opposing manager receivers.
+- [x] Prove Movement's 8-byte hitbox prefixes use only x/y where Core exposes
+      12-byte Float3; do not introduce extra copying or reads.
+- [x] Stage one owner without artificial inheritance or dummy fields.
+- [x] Compile complete carrier and verify all changed emitted functions.
+
+Packet: .analysis/th09-runecl-four-view-owner-20261024-v01/.
+Full affected closure is117 inputs /31 sources /142 canonical units. Only the
+main EclManager carrier plus child-release and attached-effect external
+boundaries were compiled. All139 main-carrier bodies match the fresh baseline,
+including6 proven definition renames and2 explicit external-boundary renames.
+All75 canonical equivalents pass their complete original proofs; complete Enemy
+has97 matching fields,69 calls,170 blocks and13 differences. Raw RunEcl is
+unchanged. Production comparator/config were not relaxed. verify.py replays the
+private identity proofs. The full31-source adoption scope is NOT all replayed.
+
+This is not an arbitrary combination sweep. It tests the real shared object
+identity omitted by H01 while preserving each original access.
+
+Independent source review found no concrete executed behavior drift in this
+candidate. It does not prove original nominal types or portable alias/lifetime
+legality. EnemyView's constructor is still declaration-only: a future definition
+would need separate scrutiny because exposed ZunTimer members default-construct.
+Do not treat a main-carrier comparison as constructor or full-product proof.
+
+### H01c: native timeout bitfield on the coherent public owner
+
+Status: compiled; complete RunEcl regresses and this candidate is rejected.
+
+Hypothesis: a genuine bitfield assignment may interact with the now-unified
+owner differently from the previous fragmented source. Original ANM supplies
+an independent native masked-RMW precedent, but does not prove source identity.
+
+- [x] Preserve all H01b inputs immutably.
+- [x] Replace only opcode155's synthetic pure-value update with assignment to
+      the actual shared one-bit field; preserve the full wire-byte read and
+      low-bit truncation, never Boolean-normalize.
+- [ ] Compile and compare the complete owner and affected native identities.
+- [ ] Compare actual output with current H01b and retained fragmented-model
+      observations; reject damage even if the local handler looks closer.
+
+Actual H01c output:15564 physical bytes /598 fields, but1938 ordinary and202
+field-byte differences,26 table-byte differences; only144/148 handler shapes.
+Raw SHA-256:82e081e31c21f83618c00f795d43f4191fe1be1d73dd444e1152eb1dd7e41ea3.
+Opcode4 remains wrong; opcode155 is44 rather than45 bytes and shifts subsequent
+handlers. This independently reproduces a prior native-bitfield output class
+on the new full-owner model; it is not a new improvement or universal exclusion.
+Evidence: .analysis/th09-runecl-four-view-native-timeout-20261024-v01/.
+Private identity/collateral verification now passes:138 emitted functions
+(the unused timeout helper disappears), other137 bodies/fields unchanged vs
+H01b;75 canonical equivalents pass; Enemy remains13 with97 matching fields.
+All138 raw bodies match the retained native-direct class, but two historical
+initializer symbol identities differ from the current selected-manager model
+and were recorded rather than blindly aliased. verify.py/collateral.json retain
+this scoped proof. No production adoption.
+
+### H01d: direct access on the unified public owner
+
+Status: bounded actual adapter audit; no candidate yet.
+
+Hypothesis: after genuine owner unification, reconstruction-only identity View
+adapters can be removed consistently rather than changing one opcode expression.
+Any test must prove each argument already has the actual public owner type,
+preserve evaluation count/timing and avoid arbitrary register/declaration hints.
+
+- [ ] Audit all relevant adapter definitions and real argument types.
+- [ ] Inspect actual prior whole-adapter transformations.
+- [ ] Stage only a coherent distinct source model, preserving prior candidates.
+- [ ] Compile and fully compare if justified.
+
 ## H02: genuine Timer predicate definitions and caller context
 
 Status: completed concrete two-model test; no improvement, no adoption.
@@ -120,7 +200,8 @@ model. It does not settle instruction nominal types or object-lifetime theory.
 
 ## H04: consistent author conventions across independently checked functions
 
-Status: cross-function evidence collection, not an established original style.
+Status: bounded original Timer/descriptor/bitfield census completed; no
+unique original style or additional justified local spelling trial established.
 
 Hypothesis: one consistent source convention should explain several independently
 observed TH09 code patterns, rather than special syntax for each troublesome
@@ -135,25 +216,62 @@ same idiom or that reconstructed source is the original author's source.
 - [ ] Prefer explanations that preserve or improve multiple complete owners;
       retain contradictory results rather than tailoring one exceptional opcode.
 
+Bounded H04 findings:
+- Enemy/Effect share the original28-byte descriptor constructor and three-DWORD
+  vector copy. ECL dispatch updates persistent storage after each resolver,
+  so a shared reset/configure aggregate is not justified.
+- Native ANM two-bit assignment at0x4374EF has masked-XOR RMW; adjacent Boolean
+  normalization at0x4374C7 differs. Do not replace low-bit truncation by bool.
+- CardAttack |= and &= lower differently; no universal XOR helper follows.
+- Original bytes/current source hashes are retained in the predicate packet's
+  original-bitfield-census.json. Its reconstructed ANM/Card full-body witnesses
+  were not freshly replayed; absent objects do not establish exactness.
+
 ## H05: structured whole-interpreter control flow
 
-Status: auditing actual prior coverage before staging.
+Status: scoped flat-dispatch model compiled; no owner-byte change.
 
 Observation: the maintained instruction-loop label precedes a for(;;) wrapper
 whose outer iteration exits through breaks or jumps to that label. A natural
 flat dispatch representation may preserve the real graph while changing the
 compiler's source-level lowering context.
 
-- [ ] Verify every outer-loop exit and context-restart path.
-- [ ] Check whether this exact graph-preserving whole-owner form was already tested.
-- [ ] If justified, remove only the redundant wrapper, preserving scopes required
+- [x] Verify every outer-loop exit and context-restart path.
+- [x] Inspect bounded actual prior recipes: complementary-else form found,
+      not this early-goto form; historical coverage is not claimed exhaustive.
+- [x] Remove only the redundant wrapper, preserving scopes required
       by C++ and the complete memory/call order.
-- [ ] Compile full owner and all affected native callees; explain any changes.
+- [x] Compile full owner and all affected native callees; explain any changes.
+  RunEcl retains15564/598/30 and raw bc9a1a71..., Enemy13; all75 canonical
+  bodies pass. Evidence: .analysis/th09-flat-dispatch-audit-20261024-v01/.
+  Removing the wrapper while preserving its compound scope does not change
+  code generation in this concrete context. No adoption.
 
 H04 observed limit from original Timer bodies: all five simple comparisons
 share a 20-byte SETcc shape, yet H02's expressions and guards can emit identical
 bytes. The compound periodic predicate distinguishes the tested 31/33-byte
 forms. This supports rejecting that concrete guard form, not unique syntax.
+
+## H06: shared Float3 copy-assignment contract
+
+Status: auditing actual prior source recipes; not yet a new trial.
+
+Fresh Enemy lifetime review finds the descriptor constants already match from
+owner+0x2C1 onward. The residual copy region is register/store permutation, not
+a missing long-lived manager, side-state or index value. Current Float3 has an
+implicit copy assignment and a genuine arithmetic API.
+
+Hypothesis to assess: a coherent explicitly defined ordinary-inline copy
+assignment across all Float3 consumers may differ from isolated descriptor
+helpers. This must preserve the natural three scalar stores and return contract,
+without forced inlining, register hints, declaration reordering or fake uses.
+
+- [x] Actual global ordinary-inline Float3 assignment found in Oct22
+      probe_copy_family.py, not merely descriptor-local helpers. Historical
+      source binding/results are being checked before any duplicate trial.
+- [ ] Check original copy patterns and current class ABI across several owners.
+- [ ] Stage only if a distinct, semantic model is justified.
+- [ ] If compiled, compare the complete carrier and all affected exact functions.
 
 ## Results and next queue
 
@@ -165,3 +283,6 @@ object and complete comparisons, plus a concise conclusion here.
 Checkpoint CI passed 1016 tests with 29 skips; live tracking, documentation,
 build graph, progress SVG and whitespace gates passed. Receipt:
 .analysis/gpt-dots-20261024-resume/checkpoint-ci.log and .exit.
+
+H03 and H05 each have an executed verify_no_compile.py:479 checks, fresh
+complete COFF/target observations and75 canonical proofs reproduce saved results.
