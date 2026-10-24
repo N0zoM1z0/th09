@@ -8,7 +8,7 @@ was tested. A failed concrete model never rules out an entire source family.
 
 ## Latest maintained source and active work
 
-Current maintained source is this narrow H53 Effect vector API checkpoint,
+Current maintained source is **1bccbf2a9376ba929cdaa71bc488c5e6b02bfdde**, the H53 Effect vector API checkpoint,
 local and not pushed; **22baf4e7** is its predecessor. The isolated SDK resolver
 interface (H20), effect-release correction (H30), and minimal real Effect vector
 API cleanup (H53) are adopted and verified; other candidates remain isolated.
@@ -53,11 +53,17 @@ RunEcl has 30 ordinary differences and Enemy has 13.
 - [x] Adopt only H53 minimal real Effect vector API cleanup: strict current-
       manifest53-job/208-proof replay passes with zero overrides/local renames;
       all139 main owners remain neutral, full CI1020/29 passes.
-- [ ] Continue same-author byte-flag idiom census and evidence-backed next boss
-      source hypotheses. No unmeasured model outcome is claimed.
+- [x] Complete H56 genuine byte-flag census and faithful direct compound XOR:
+      same known H15a emitted class, no adoption or exactness gain.
+- [x] Close H57 direct-byte acquisition pair and H58 anonymous primary owner:
+      all138 emitted owners are pair-neutral,75 witnesses pass per case.
+- [x] Close H59 direct raw-member ownership:135 common owners unchanged,
+      four uncalled accessor bodies differ; RunEcl30/Enemy13 remain.
+- [ ] Audit same-role scratch dataflow and actual older40-chain coverage.
+      No new source-model outcome is claimed.
 
 These are research checkpoints, not exactness progress. The dated baseline and
-H01-H55 records below preserve chronology and their own immutable inputs.
+H01-H59 records below preserve chronology and their own immutable inputs.
 Audit completion alone is not a compiler result or an exactness gain.
 
 ## Rules and baseline
@@ -1634,3 +1640,117 @@ Actual prior producer coverage was checked before declining repeated SDK/copy/
 visibility panels. ABI evidence does not uniquely recover source lifetime or
 loop ownership; future models need a concrete caller contract discrepancy.
 No adoption, runtime assertion or exactness credit follows from this audit.
+
+
+## H56: genuine byte-flag witness and faithful direct compound expression
+
+Packets: .analysis/th09-byte-flag-idiom-census-20261024-v01/ and
+.analysis/th09-direct-compound-timeout-20261024-v01/.
+The catalog-bound census examines2248 original owners;15 bounded idioms include
+five confirmed nearby-byte cases. Exact ANM opcode88 at438DC9 genuinely assigns
+u8 byteArgs[1] to unsigned one-bit flag17. Old EBX dies before the next call,
+so no invented old-word consumer is justified. No fresh ANM compile or unique
+original source/profile inference follows. Other integer-input witnesses are
+not relabeled byte-input evidence.
+
+Oct17's actual direct-compound recipe lacks opcode155's break and falls into156.
+That invalidates only that recipe's faithful-coverage claim, not all earlier
+models; reference-helper and typed-array/native recipes were separately checked.
+The new faithful direct compound keeps the mandatory break and byte acquisition.
+All75 witnesses pass;138 emitted owners survive,137 non-RunEcl owners neutral.
+The removed unused AssignTimeoutSpellBit helper is16 bytes, NOT24: root checked
+actual raw bytes; the explicit correction note and separate helper-correction-
+seal.json are complete, preserving the pre-correction seal. The earlier24-byte
+wording is not adopted as evidence.
+
+RunEcl15564/598 has2290 shifted-coordinate differences (2048 ordinary/242 field,
+26 table bytes reported),943 blocks,375 direct/4 indirect calls. Opcode155 is43
+versus original45 bytes: byte input ECX, old flags EAX, result ECX remain wrong;
+opcode4 remains wrong. Exactly one BYTE input and DWORD flag read/write, no
+call/drawGroup access and actual final redispatch/break are verified. Full raw
+RunEcl and all598 effective references equal retained H15a's bound object, not
+merely its difference count. No old binding is rewritten, adoption or credit.
+
+## H57: paired five-setter native byte-payload ownership, neutral
+
+Packet: .analysis/th09-native-byte-payload-pair-20261024-v01/.
+Both arms freeze current maintained1bccbf2a. Existing unsigned native State
+fields receive either direct RawByte or direct byteArgs[0] from the same byte-only
+view at+C. Both arms share the12-byte opaque header/one-byte payload assertions;
+no four-byte extent, restricted alias set, extra scalar or new ABI is assumed.
+Timeout's old capture disappears in both arms; all breaks and publication order
+remain. This is a bounded direct-member acquisition pair, not novel native
+syntax or erasure of actual older typed/native coverage. Portable object-lifetime
+legality remains unproved; no runtime/adoption claim follows.
+
+Final CONCLUSION.md, pair-audit.json and verification-seal.json close both arms.
+All75 witnesses pass per arm; all138 emitted owners/2097 effective fields are
+raw/identity-identical between arms. Against maintained,137 non-RunEcl owners
+remain neutral; both omit the unused16-byte timeout helper. RunEcl15564/598 has
+14791 logical bytes plus one alignment byte,943 blocks and375 direct/4 indirect
+calls. Original identity binding passes but2140 shifted coordinates differ
+(1938 ordinary/202 field,26 table diagnostic), not an edit-distance score.
+Opcode155 is44 versus45 bytes with EAX input/ESI old/ECX final instead of
+ECX/ESI/EAX; opcode4 stays wrong. All five setters preserve one BYTE input and
+one DWORD flags read/write, no calls, correct redispatch and mandatory breaks.
+No constructor boundary appears, no original source uniqueness or credit.
+
+Current source checkpoint is1bccbf2a9376ba929cdaa71bc488c5e6b02bfdde. Post-PDB-
+archive strict replay retains53 jobs/208 proofs. This docs-only batch does not
+claim new full CI; existing source CI1020/29 remains its historical bound result.
+
+
+## H58: current complete anonymous primary owner
+
+Packet: .analysis/th09-current-anonymous-primary-owner-20261024-v01/;
+CONCLUSION.md, family/width proofs and verification-seal.json. Root compiled
+once; all75 witnesses pass and all138 emitted owners/effective fields equal H57's
+named-native control. No added/removed definition or constructor/call difference.
+The source proof covers17 unsigned fields totaling32 bits. Both opcode127 boss
+arms plus five payload setters retain identical slices and DWORD stores; all
+five payload reads remain BYTE. The helper was already absent in control.
+
+RunEcl15564/598 and2140 shifted differences,943 blocks,375 direct/4 indirect
+calls remain inherited from H57, not caused by anonymous ownership. Against
+maintained137/138 surviving owners are neutral; Enemy3900/97/13 unchanged.
+This closes the bounded complete-family ownership factor negatively, not every
+source architecture. No adoption, profile/padding/register probe or credit.
+
+## H59: direct raw-member ownership pair
+
+Packet: .analysis/th09-direct-raw-member-pair-20261024-v01/;
+CONCLUSION.md, pair-audit.json and verification-seal.json. Both arms pass75
+canonical witnesses. Control139 owners equal maintained; candidate135 common
+owners and2097 effective fields equal control. Four uncalled5-byte free accessors
+are replaced by four uncalled14-byte member accessors, each with zero fields.
+They compute addresses without reading payloads; their real calling conventions
+are not declared equivalent. Every emitted field is scanned: zero references
+to these accessors, hence no new runtime boundary or invented callee binding.
+
+The initial constructor diagnostic compared unrelated COFF section metadata;
+its corrected comparison uses the same offset/type/addend/symbol/local-target
+identity as complete-owner proofs, without relaxing target identity. Constructor
+references agree. Source proof preserves33 exact contexts, mutable reference
+types, memcpy captures, statements and breaks. Five-TU header closure was not
+compiled; neutrality supplies no promotion rationale.
+
+Both full RunEcl bodies remain15564 physical/14792 logical bytes,598 fields,943 blocks,
+375 direct/4 indirect calls, with maintained30 ordinary/zero field differences
+(opcode4=7,155=23). Enemy remains3900/97/13. Timer call and subsequent displacement
+read retain chronology; all five State byte-input/DWORD-publication contracts
+hold. No boss improvement, original source inference or adoption. Active next
+work is same-role scratch dataflow and actual historical40-chain coverage audit,
+not a new model outcome.
+
+### H56-H59 and recoverable cleanup checkpoint validation
+
+Tracked edits are documentation only; source, profiles, manifests and tests stay
+identical to1bccbf2a. Fresh full CI passes1020 tests/29 skips in120.807 seconds,
+durable exit0. Evidence: .analysis/gpt-dots-20261024-continuation/
+ci-h56-h59-cleanup.log and .exit. Root independently replayed both H57 arms,
+H58 and both H59 arms. After116 PDB archives, strict current-manifest53-job/208-
+proof replay still passes with zero overrides and139 unchanged main owners.
+Tracking, generated progress, documentation, open build graph and whitespace
+checks pass. No new exact credit; current source remains RunEcl30/Enemy13.
+Next investigation is a bounded same-role decoded-scalar dataflow/coverage audit;
+ANM does not establish universal shared decoded scratch and no result is assumed.

@@ -20,8 +20,9 @@ for current routing and commit identity. Historical handoff cleanup is complete.
 - Live exact credit is **244917/291883 (83.9093%)**, another **41129** whole
   exact bytes short of98%. This API-only source cleanup changes no compiler
   profile or exactness ledger. Native product/runtime and later gates remain open.
-- Current maintained source is this minimal H53 real Effect vector API
-  checkpoint (local, not pushed); **22baf4e7** is its predecessor. It preserves the selected-ECL-manager ownership repair from **f595786** and adds
+- Current maintained source is **1bccbf2a9376ba929cdaa71bc488c5e6b02bfdde**,
+  the minimal H53 real Effect vector API checkpoint (local, not pushed);
+  **22baf4e7** is its predecessor. It preserves the selected-ECL-manager ownership repair from **f595786** and adds
   the independently verified SDK resolver and effect-release API corrections.
   Preserve `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, especially
   its34 canonical objects and sidecars. Its140-unit adoption proof is scoped
@@ -162,9 +163,27 @@ verified-source-state receipt will bind the commit after creation.
   Historical failed guards/staged maps remain recorded, not used as exemptions.
   Two unprofiled TUs, native product/runtime and portability remain outside this
   canonical-profile closure. There is no exactness gain.
-- Active work continues with same-author byte-flag idiom census and next boss
-  source hypotheses; no unmeasured candidate outcome is claimed.
-- The fresh checklist records H01-H55 and source-bound packets. Earlier provider
+- H56 byte-flag census confirms exact ANM438DC9 byteArgs[1] assignment without
+  later old-word use. Faithful direct compound preserves75 witnesses/137 other
+  owners and exactly reproduces H15a's full raw/598-field emitted class:15564
+  bytes,2048 ordinary/242 field shifted differences, no adoption. Removed helper
+  is16 bytes, not the initial24-byte report; correction note and separate seal
+  are complete, with the pre-correction seal retained.
+  Oct17 missing break invalidates only that recipe, not every previous model.
+- H57 direct-byte acquisition pair is complete:138 owners/2097 fields pair-neutral,
+ 75 witnesses per arm, inherited native-timeout differences remain. H58 anonymous
+  primary owner is neutral across the same138 owners and75 witnesses. Neither
+  grants portable lifetime/source uniqueness or exactness credit.
+- H59 direct raw-member pair preserves135 common owners/2097 fields; four
+  uncalled5-byte free accessors become uncalled14-byte members, zero references
+  to them. Both75-witness passes and full RunEcl30/Enemy13 remain unchanged.
+  Five-TU header closure is uncompiled, not needed for an unpromoted neutral model.
+- Active next work is same-role scratch dataflow and actual older40-chain coverage
+  audit only; no new model result or adoption is claimed.
+- Lossless archival of116 compiler PDBs passed full restores;1046 non-PDB files
+  stayed unchanged, net allocated saving8548352 bytes. Postarchive strict53/208
+  replay passes. See cleanup history; no fresh CI claim for this docs-only batch.
+- The fresh checklist records H01-H59 and source-bound packets. Earlier provider
   hashes are intentionally historical; never update them blindly to current HEAD.
   Earlier source-bound CI1017/29 and documentation CI1017/29 (130.450 seconds)
   remain historical receipts, superseded for current validation by H53's1020/29.

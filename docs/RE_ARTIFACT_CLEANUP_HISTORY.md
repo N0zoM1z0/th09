@@ -2001,3 +2001,29 @@ This is an evidence-preserving archival operation, not deletion of unique proof
 or an exactness claim. Current maintained source22baf4e7, RunEcl30/Enemy13,
 244917/291883 exact authored bytes (83.9093%) and source-adoption CI1017/29 remain
 unchanged. This documentation checkpoint itself does not claim a new full CI run.
+
+
+## 2026-10-24: lossless Effect-study compiler PDB archives
+
+Root archived116 compiler PDBs in the following two packet-local
+pdb-archive-20261024 directories. Each receipt.json records a real full restore
+with bytes and modes verified before removing only hash-verified loose duplicates.
+RESTORE.md and manifest.json retain recovery paths. No compiler invocation.
+
+- .analysis/th09-effect-vector-api-only-20261024-v01/:109 files,
+ 8409088 logical/8179712 allocated source bytes; archive140836 logical/143360
+  allocated bytes. SHA2567a22c7d76c7d86083b66709fb7c5bf1c114b8e373d84bd86d0da0578e0019684.
+  All109 files restored;706 protected artifacts unchanged.
+- .analysis/th09-effect-vector-owner-pair-20261024-v01/:7 files,
+ 774144 logical/757760 allocated source bytes; archive54516 logical/57344
+  allocated bytes. SHA256669734d8303b95839105d46b9820d76aca16ca6c2774c85638de778b87efa8a0.
+  All7 files restored;340 protected artifacts unchanged.
+
+Combined1046 non-PDB artifacts remain unchanged. Reported net allocated saving
+is8548352 bytes including archive bookkeeping, not merely original-minus-tar
+payload arithmetic. Preserve both compiler-pdbs.tar.xz archives and receipts;
+this does not discard unique proof or alter historical source/provider bindings.
+Root's postarchive strict current-manifest53-job/208-proof replay passes and Git
+was clean. Maintained1bccbf2a9376ba929cdaa71bc488c5e6b02bfdde, RunEcl30/Enemy13
+and83.9093% exact authored credit are unchanged. No new full CI is claimed for
+this documentation-only update.
