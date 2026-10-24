@@ -1976,3 +1976,28 @@ For a selected root, use the helper's --restore PACKET --output NEW_PATH below
 .analysis; restore to a fresh directory and inspect the old producer before
 rerunning it. Ignored archives and the helper must accompany the worktree;
 they are not published by the tracked handoff commit. No remote push is made.
+
+
+## October 24 continued campaign: superseded H31 preparation snapshots
+
+Only .analysis/th09-shared-enemy-operand-lvalues-20261024-v01/control and candidate
+source snapshots were archived. This preparation-only draft had no compiler
+output; its recipe, manifest, review patch and archival receipt remain loose.
+The accepted experimental evidence is the separate v02 packet; neither it nor
+any maintained source, object proof, target, toolchain or other packet was changed.
+
+SOURCE_ARCHIVE_RECEIPT.json records522 files,3150913 logical source bytes and
+4370432 allocated source bytes. source-snapshots.tar.xz is232628 bytes
+(233472 allocated), SHA256
+0f912de687d7915c989e54a94d03824a100422ac8d714a6246da8d960e8715b4.
+Every entry is recorded in the receipt, and an actual full restore test passed
+before the loose copies were removed (phase archived_and_loose_copies_removed).
+The allocated-file saving is4136960 bytes, excluding directory allocation.
+
+Recovery instructions are in that packet's ARCHIVE_README.md. Preserve the
+archive and receipt with the ignored analysis evidence; restore to a fresh
+scratch directory before examining or rerunning the superseded producer.
+This is an evidence-preserving archival operation, not deletion of unique proof
+or an exactness claim. Current maintained source22baf4e7, RunEcl30/Enemy13,
+244917/291883 exact authored bytes (83.9093%) and source-adoption CI1017/29 remain
+unchanged. This documentation checkpoint itself does not claim a new full CI run.

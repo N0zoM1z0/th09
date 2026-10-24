@@ -20,15 +20,16 @@ for current routing and commit identity. Historical handoff cleanup is complete.
 - Live exact credit is **244917/291883 (83.9093%)**, another **41129** whole
   exact bytes short of98%. No gameplay source, compiler profile or ledger is
   changed by this cleanup. Native product/runtime and later gates remain open.
-- Last investigation checkpoint: **77e0b2c2** (local). The maintained large-owner
-  baseline is **f595786**, the adopted selected-ECL-manager ownership repair.
+- Current maintained source checkpoint: **22baf4e7** (local, not pushed). It
+  preserves the selected-ECL-manager ownership repair from **f595786** and adds
+  the independently verified SDK resolver and effect-release API corrections.
   Preserve `.analysis/th09-selected-ecl-manager-owner-20261023-v01/`, especially
   its34 canonical objects and sidecars. Its140-unit adoption proof is scoped
   to its source/profile bindings; unchanged proofs may be reused after checking.
 - RunEcl remains15564 physical bytes/598 fields/30 differences, split7/23 between
   opcodes4/155. Enemy remains3900/97/13, with69 calls and170 blocks. Preserve all
   existing matching bytes; natural source hypotheses still require full owners.
-- Latest packet: `.analysis/gpt-61sol-20261024-ecl-math-boundary/`.
+- Preserved predecessor packet: `.analysis/gpt-61sol-20261024-ecl-math-boundary/`.
   `verify.py` replays its archive without compiling:378 attempts,366 passing
   existing-body comparisons,6 expected moved-definition absences and6 actual
   callback regressions. Hiding all Float3 core definitions damages Type4/8 by55
@@ -68,6 +69,44 @@ of an undefined Core facade. Definition visibility is unchanged. Two individuall
 proved private COFF label names are refreshed; target addresses/profiles and
 comparison rules remain unchanged. Cold Enemy gate passes87 canonical siblings,
 RunEcl30/Enemy13 remain. H30 records the current full-CI/checkpoint state.
+
+## Active continuation queue
+
+The operator explicitly requested continued work, not a stop at a negative
+experiment. Current exactness remains RunEcl 30 / Enemy 13 differences; no new
+whole-owner credit was gained by the two API corrections. Latest source CI
+passes 1017 tests with 29 skips; the current Enemy gate cold-replays 87 canonical
+siblings. Source and comparison guards remain protected.
+
+- H31 common Enemy/operand graph and H32 Replay packed-frame pair are complete,
+  independently verified negative results, not active preparations. H31 is
+  paired-neutral at RunEcl42 / Enemy13 (live remains30 /13); H32 preserves the
+  same three SaveReplay residuals. Full affected-header adoption is not claimed.
+- H33 explicit descriptor initialization is neutral. H34 reference flag family
+  changes whole-owner shape without repairing the residuals. H35 ordinary member
+  flags introduce11 unmatched runtime calls and are rejected. All remain isolated;
+  stock guards and current source/profile/test inputs remain unchanged.
+- H36 current full-macro pair is independently verified: /Ob1 preserves75 exact
+  witnesses but has15496-byte RunEcl/368 direct calls; /Ob0 has15540 bytes and the
+ 375-call destination multiset but fails15 witnesses. Neither fixes opcode4/155;
+  counts/multisets are not full CFG or original-byte proof. No profile is adopted.
+- H37 wide-wire/flag-successor audits are complete without a staged model: no
+  proven four-byte payload extent, original byte reads, no uniquely recovered
+  source type from MOVZX, and no actual later old-flag consumer. No compile or
+  exactness result is claimed for these audits.
+- Active next work is original producer/use-chain analysis for both RunEcl and
+  Enemy. A current native-timeout versus pure-value XOR interaction is being
+  staged on frozen H36 /Ob0; its inherited15 witness failures explicitly prevent
+  adoption and no result is claimed yet. H31/H32, H36 and H37 are completed
+  experiments/audits, not active preparation tasks.
+- The fresh checklist records H01-H37 and source-bound packets. Earlier provider
+  hashes are intentionally historical; never update them blindly to current HEAD.
+  Reuse source-bound CI1017/29 from the
+  maintained22baf4e7 adoption. Fresh documentation-checkpoint full CI also passes
+  1017/29 (130.450 seconds, exit0); its durable log is linked in the checklist.
+- Superseded H31 v01 loose source snapshots are now preserved in a verified
+ 232628-byte tar.xz archive (522 files, actual full restore tested). v02 and all
+  accepted evidence remain untouched; see cleanup history for the exact receipt.
 
 ## Live ledger snapshot
 

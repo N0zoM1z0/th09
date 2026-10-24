@@ -6,6 +6,34 @@ from the truth of historical repository conclusions. Historical notes may point
 to an artifact, but only its actual source, inputs and results establish what
 was tested. A failed concrete model never rules out an entire source family.
 
+## Latest maintained source and active work
+
+Maintained source checkpoint: **22baf4e7**, local and not pushed. The isolated
+SDK resolver interface (H20) and API-only effect-release correction (H30) are
+adopted and verified; other model candidates remain isolated. Full CI passes
+1017 tests / 29 skips. Exact credit is still 244917 / 291883 (83.9093%);
+RunEcl has 30 ordinary differences and Enemy has 13.
+
+- [x] Complete the paired common Enemy/operand-owner graph with genuine lvalue
+      visibility (H31): paired-neutral, RunEcl42 / Enemy13; no adoption.
+- [x] Complete the narrow packed Replay frame aggregate/memcpy pair (H32):
+      current SaveReplay still has its same three residual bytes; no adoption.
+- [x] Complete explicit descriptor initialization (H33), current reference flag
+      family reproduction (H34), and ordinary member flag ownership (H35).
+- [x] Complete the current full-macro profile pair (H36): neither profile fixes
+      the two RunEcl residuals; /Ob0 also regresses15 exact witnesses.
+- [x] Complete the wide-wire and flag-successor audits (H37): no proven four-byte
+      payload extent and no actual later old-flag consumer; no candidate staged.
+- [ ] Continue original producer/use-chain analysis for both RunEcl and Enemy,
+      keeping actual wire acquisition, publication and callable boundaries distinct.
+- [ ] Stage the current native-timeout versus pure-value XOR interaction on
+      frozen H36 /Ob0. Its inherited15 witness failures explicitly prevent
+      adoption; no result is claimed while preparation/verification is pending.
+
+These are research checkpoints, not exactness progress. The dated baseline and
+H01-H37 records below preserve chronology and their own immutable inputs.
+Audit completion alone is not a compiler result or an exactness gain.
+
 ## Rules and baseline
 
 - [x] Read live Git state: source baseline 95300f57, initially clean.
@@ -838,3 +866,221 @@ skips (118.498 seconds,exit0), including the new source-API regression test.
 The RPC timeout did not cancel execution; durable exit/log were checked. Source/config
 snapshots, initial failure, corrected proof and retry logs are in API-only
 live-adoption/. No new exact byte credit.
+
+### H31: complete common Enemy/operand graph with paired lvalue visibility
+
+Packet: .analysis/th09-shared-enemy-operand-lvalues-20261024-v02/.
+Current22baf4e7 sources generate one public/State/Movement/Core/Bullet/Operand/
+Helper Enemy graph, required context banks and actual primary-timeline manager
+banks. Both cases expose only the two genuine lvalue bodies. Raw-pointer fallback,
+all native APIs, descriptor constructor contracts and both adopted corrections
+remain intact. Compiler-free110-field layout and inverse resolver-body checks
+pass. Physical CRLF changes are explicitly reviewed separately from token edits.
+
+Root compiled both main cases, seven selected boundary TUs and a fresh actual
+Angle fixture. All141 emitted functions /51798 bytes /2185 fields are paired-
+neutral under seven proved definition renames and one child-release boundary
+rename. Four3-byte View adapters receive no original-source credit. Each case
+has44 actual same-object lvalue call fields;75 main canonical units plus both
+complete native lvalues pass. Both RunEcl owners retain15564 bytes/598 fields,
+42 ordinary differences and zero field/table differences, compared with live30.
+Both Enemy owners retain3900 bytes/97 fields/13 differences. The control's extra
+12 RunEcl differences are not a gain from shared ownership.
+
+Seven selected boundary TUs pass11 original units /7699 bytes, including all four
+isolated resolvers5718 bytes/374 fields, child/attached release48/64, interpolation
+74/188, context initialization73, non-boss clear392 and death rewards1142.
+The fresh current-header Angle fixture proves101 bytes/5 fields and two actual
+same-object calls, superseding the earlier retained-definition reuse argument.
+Private identities are explicitly proved, not wildcard-mapped. Full32-TU native
+closure is not claimed. No adoption or exactness credit. CONCLUSION.md,
+complete-nominal-proof.json and fresh-angle-boundary-proof.json retain results.
+The superseded preparation-only v01 source snapshots were archived with a full
+restore test; see cleanup history rather than treating removed loose copies as
+lost evidence.
+
+### H32: word-packed Replay wire-frame aggregate/copy pair
+
+Packet: .analysis/th09-replay-packed-frame-pair-20261024-v01/.
+Both cases narrowly apply pack(2) to the actual32-byte frame header, retaining all
+11 field offsets. One retains memcpy, the other uses trivial aggregate assignment
+into the same destination followed by the unchanged pointer-to-offset mutation.
+Actual prior recipes tested unpacked assignment or whole-header pack(1) with
+memcpy, not this pair. Word-sized serialization without rounding permits the
+alignment hypothesis; a complete gameplay frame-parity invariant remains unknown.
+
+Root compiled four case/profile combinations, all exit0. Independent replay
+checks every input/object and all24 complete canonical comparisons: twelve
+ReplayInput siblings per case, ten EH and two no-EH,8186 bytes/464 fields total.
+Both complete SaveReplay owners remain1238 bytes/380 instructions/53 fields,
+23 ordered calls/49 direct blocks, with exactly residual offsetsB7/BB/3F6 and no
+missing or extra bytes. Raw SHA256109c8005dd14dd60fd5ba56ddee0ebcecfd5e39618e5191ec7783a3ac113b839
+and every actual reference equal the current source-bound baseline. Neither copy
+form repairs a residual. Other shared-header consumers were not rebuilt; no
+packing, lifetime or original-source claim is promoted. No adoption or credit.
+
+### H33: explicit pointer-returning descriptor initialization
+
+Packet: .analysis/th09-descriptor-explicit-initializer-20261024-v01/.
+One isolated current-source model replaces the wrapper-constructor interface
+with an ordinary pointer-returning fastcall initializer. Descriptor fields and
+copy contract stay unchanged. Four real calls preserve ordering in Core,
+RandomAxes and both Type21 paths; empty Float3 default construction is retained.
+This is not the earlier constructor co-visibility or fifth-view model.
+
+Root compiled main and two boundaries. Independent replay first proves the
+actual28-byte helper at40D500, then775-byte/33-field RandomAxes and all75 main
+canonical units. All139 prior emitted main bodies and actual reference identities
+are unchanged after that real boundary proof. Four calls stay at Enemy+289,
+Type21+1A6/+2E6 and RandomAxes+14F. A new3-byte implicit descriptor default ctor
+has no code/non-debug-data references, only four debug references, and receives
+no target credit. RunEcl30/Enemy13 unchanged. Constructor versus initializer
+source identity remains unknown; no adoption or exactness gain.
+
+### H34: current reference masked-update family reproduction
+
+Packet: .analysis/th09-reference-flag-family-reproduction-20261024-v01/.
+This explicitly reproduces an older reference-XOR family on corrected22baf4e7,
+not an alleged new recipe or a universal exclusion from the older baseline.
+Five State and five Late consumers use the shared unsigned masked-update helper;
+existing attributes, layouts, timeout byte capture and operand ordering stay.
+Truth-table, unsigned truncation and actual token-order checks pass.
+
+Root compiled once and independently reran emitted, actual-shape, flag-access
+and region audits.75 canonical witnesses pass. Candidate emits138 functions/
+2097 fields:136 bodies/references unchanged, including Enemy3900/97. The reference
+helper changes24 to26 bytes; unused16-byte timeout helper disappears without
+remaining references. RunEcl15560 physical /14788 code /772 table bytes,
+598 fields,4382 instructions,375 direct+4 indirect calls and702 branches.
+All187 dispatch roots/internal targets validate.403 external-field identities
+are preserved, but no shifted per-occurrence original binding is claimed.
+
+All ten actual flag consumers have4-byte accesses and one DWORD write. Opcode4
+is raw-identical to baseline. Opcode155 keeps baseline scalar transport/bytes;
+only its branch displacement changes with the shifted root, preserving destination.
+Nine shorter flag regions remove15 bytes; opcode186 alignment jump adds8 and
+remaining code/padding adds3, net-4. Neither residual is repaired. Stock whole-
+owner/caller-inventory guards remain rejected; no normalized exactness score,
+comparison relaxation or adoption follows.
+
+### H35: ordinary EnemyView member masked-flag API
+
+Packet: .analysis/th09-enemy-member-flag-api-20261024-v01/.
+Two ordinary in-class methods publish primary/secondary masked words on the
+existing EnemyView fields. Ten source consumers retain byte capture, resolver
+order, layouts and helper attributes. No forced-inline hint is added. Source
+semantics, universal bit identity and23160 finite checks pass; an actual new
+runtime member boundary is a rejection condition, not a reason to add hints.
+
+Root compiled once and independently reran verify_emitted.py,
+audit_actual_shape.py and audit_member_calls.py.75 canonical witnesses pass.
+Both methods remain out of line,33 bytes each/zero fields. RunEcl adds11 member
+calls: seven primary and four secondary; opcode182 duplicates publication in
+resolved/immediate branches. Each executed branch still writes once, but the
+new call topology has no original counterpart and rejects this source model.
+
+RunEcl15496 physical /14724 code /772 tables,609 fields,4378 instructions,
+386 direct+4 indirect calls and702 branches. All187 roots/internal targets
+validate.139 emitted functions include136 unchanged prior bodies/references and
+unchanged Enemy3900/97; two old unused helpers disappear and two members appear.
+The403 existing external fields plus11 new member references are not a new
+per-occurrence original binding. Opcode4 remains raw-identical to baseline;
+opcode155 now calls a new helper. Both method bodies have one actual DWORD load
+and one DWORD store at their correct fields. The inline-handler access guard
+(audit_flag_accesses.py) has a false precondition here and is NOT claimed passed.
+Stock guards remain rejected; no full normalized score, adoption or credit.
+
+### H36: current full-macro profile pair, independently verified
+
+Packet: .analysis/th09-current-full-macro-profile-20261024-v01/.
+The fixed pair expands476 actual RunEcl wrapper sites using42 macro definitions
+across seven lexical files, with69 current transitive inputs frozen. Current
+Timer/API corrections, scalar captures, operand evaluation and value-returning
+timeout semantics are preserved. Four genuine CRT adapters retain their actual
+float-function-pointer signatures. Actual helper/callback/Enemy source outside
+RunEcl remains unchanged; unchanged source is not a promise of unchanged codegen.
+
+Root compiled both cases and independently reran verify.py successfully.
+Control /Ob1 preserves all75 canonical witnesses but RunEcl becomes15496 bytes/
+591 fields,368 direct plus4 indirect calls, versus375 original direct calls.
+The net count difference of seven is NOT a count of independently identified
+missing destinations: its call inventory separately records math-wrapper
+resolution and two unresolved __CIfmod references. No ordering/CFG equivalence
+or normalized exactness score is inferred from those counts. Of113 retained
+emitted owners,112 raw bodies/reference sets are unchanged;26 old definitions
+are absent. Full Enemy3900/97 remains byte/reference-identical to maintained.
+
+Candidate /Ob0 preserves60 witnesses and fails15. RunEcl15540 bytes/598 fields
+has375 direct plus4 indirect calls and the original direct-call destination
+multiset after independently proving the emitted compiler math wrappers.
+Those compiler-generated wrappers receive no authored credit. Matching call
+counts/multisets do not prove ordered occurrences, CFG, tables or full owner
+bytes. Stock whole-owner diagnostics remain rejected; no mappings are relaxed.
+
+handler-sequences.json independently reads original and candidate opcode-table
+roots. Both profiles retain the wrong opcode4 operand transport and opcode155
+byte/flag transport; neither residual is corrected. /Ob0 also changes the Enemy
+receiver register in those RunEcl slices, not the original scalar sequence.
+These bounded physical slices are not a complete CFG pairing.
+
+failure-classification.json attributes observed collateral to opaque wrapper
+calls outside the expanded RunEcl body. It includes existing42-family wrappers
+and four additional accessors: PostEclView, PostEclPlayer, GetType19PlayerSlot and
+GetType19PlayerValue. Their observed calls do not prove that expanding only the
+42-family everywhere, removing those four calls, or changing the whole TU profile
+would recover all bytes. Other scheduling/register effects remain possible.
+No simplistic full-TU fix, original profile attribution, source adoption or
+exactness credit follows. verification.json preserves every failed witness and
+actual field inventory. Next work is original producer/use-chain analysis for
+both bosses and the bounded native-timeout/pure-value XOR interaction on the
+frozen /Ob0 carrier, with inherited15 witness failures still blocking adoption.
+The completed wide-wire/prior-producer audit is recorded separately in H37.
+
+### H37: wide-wire input and actual flag-successor audits only
+
+Packets: .analysis/th09-state-wide-wire-audit-20261024-v01/ and
+.analysis/th09-flag-owner-successor-audit-20261024-v01/.
+These are source/original-byte/prior-producer audits, not new compiled models.
+
+The five investigated ECL setters129/145/151/155/156 actually read one byte at
+instruction+C and publish DWORD flags. No same-handler use establishes bytesD..F.
+The loader relocates offsets but supplies no per-opcode four-byte payload schema;
+nextOffset is not itself an argument-extent guarantee, and no script corpus is
+available to prove that wider access remains in bounds. Equal low bits on
+readable little-endian memory do not establish equal memory-access contracts.
+No direct-word candidate is staged without that missing extent evidence.
+
+Machine load width, including MOVZX, does not uniquely recover the source type.
+A same-game ANM intArgs assignment becomes a WORD load/store for opcode25, but
+its reviewed native flag handlers use DWORD loads, not a byte-narrowed witness.
+Actual older timeout RawInt producers were checked: the direct native form
+emits a DWORD load rather than the original BYTE. Byte capture promoted to an
+integer parameter is not a prior wide-wire read. These bounded observations do
+not prove a unique original declaration or exclude every source model.
+
+The successor audit independently replays the original integer-register slice:
+after opcode155 publication, ECX/EAX/ESI are killed at408756/40875A/40876B.
+The only intervening call involving ESI, exact Float3 add401100, saves it then
+overwrites/restores it without an old-word arithmetic use; its constructor does
+not add a hidden consumer. No actual later old-flag use is established. This is
+not all-memory liveness proof and does not justify inventing a dummy consumer.
+
+Prior native primary-owner, whole-word unsigned-long and shared-union workspace
+recipes already cover relevant ownership families. Secondary flag masks do not
+establish unshifted enum value domains; choosing types solely for allocation
+would not be a new evidenced interface. No new model, compile, adoption or
+exactness credit results. Active work remains original producer/use chains for
+both bosses. A native-timeout versus pure-value XOR interaction is being staged
+on frozen H36 /Ob0; inherited15 witness failures explicitly prevent adoption,
+and no pending experiment result is recorded here.
+
+### H31-H37 documentation checkpoint validation
+
+All tracked changes in this checkpoint are limited to this checklist, the active
+handoff and artifact cleanup history. Source, configuration, tests and scripts
+remain identical to maintained source22baf4e7. Fresh full CI completed with1017
+tests /29 skips in130.450 seconds, exit0. Tracking with the actual target,
+documentation, open build graph, generated progress and whitespace checks pass.
+The initial RPC timeout did not cancel execution; the durable exit was checked
+before reporting success. Evidence: .analysis/gpt-dots-20261024-continuation/
+ci-h31-h37.log and ci-h31-h37.exit. No source adoption or exactness gain.
