@@ -24,14 +24,28 @@ RunEcl has 30 ordinary differences and Enemy has 13.
       the two RunEcl residuals; /Ob0 also regresses15 exact witnesses.
 - [x] Complete the wide-wire and flag-successor audits (H37): no proven four-byte
       payload extent and no actual later old-flag consumer; no candidate staged.
-- [ ] Continue original producer/use-chain analysis for both RunEcl and Enemy,
-      keeping actual wire acquisition, publication and callable boundaries distinct.
-- [ ] Stage the current native-timeout versus pure-value XOR interaction on
-      frozen H36 /Ob0. Its inherited15 witness failures explicitly prevent
-      adoption; no result is claimed while preparation/verification is pending.
+- [x] Complete current full-macro native-timeout interaction (H38): same60/15
+      witness result, neither residual repaired; inherited failures block adoption.
+- [x] Complete returned-float-base leaf (H39): all139 emitted owners neutral.
+- [x] Reject conditional five-state wide-native model (H40): all five machine
+      reads are DWORD instead of original BYTE; H37 source extent remains unproved.
+- [x] Complete bounded original PE metadata and Enemy/jump use-chain audits (H41).
+- [x] Complete whole-TU /Ob0 wrapper expansion (H42):75/75 witnesses recover,
+      and genuine opcode64/88 transport returns, but full RunEcl remains nonexact.
+- [x] Complete CRT-retained RunEcl macros under /Ob1 (H43):75/75 witnesses,
+      all114 surviving non-RunEcl bodies unchanged; still no complete boss match.
+- [x] Complete H44 isolated branch-owned spawn transfer and H45 H43 composition:
+      six raw paths recover integer transfers, but full RunEcl remains nonexact.
+      H44 retains60/15; H45 preserves75 witnesses and114 other surviving owners.
+- [x] Complete H46 integer-prvalue cast factor: all115 emitted owners neutral.
+- [x] Complete H47 uniform procedural-block factor: RunEcl15560/598,943 blocks
+      with original root indices/structural shapes, but still nonexact and4 bytes
+      short. All75 witnesses and114 other surviving owners remain protected.
+- [ ] Build the full original-bound changed-region map and investigate genuine
+      owner/capture source contracts. No new model outcome is claimed.
 
 These are research checkpoints, not exactness progress. The dated baseline and
-H01-H37 records below preserve chronology and their own immutable inputs.
+H01-H47 records below preserve chronology and their own immutable inputs.
 Audit completion alone is not a compiler result or an exactness gain.
 
 ## Rules and baseline
@@ -1031,10 +1045,17 @@ GetType19PlayerValue. Their observed calls do not prove that expanding only the
 would recover all bytes. Other scheduling/register effects remain possible.
 No simplistic full-TU fix, original profile attribution, source adoption or
 exactness credit follows. verification.json preserves every failed witness and
-actual field inventory. Next work is original producer/use-chain analysis for
-both bosses and the bounded native-timeout/pure-value XOR interaction on the
-frozen /Ob0 carrier, with inherited15 witness failures still blocking adoption.
-The completed wide-wire/prior-producer audit is recorded separately in H37.
+actual field inventory. The subsequent native-timeout interaction is completed
+in H38; the wide-wire/prior-producer audit is recorded separately in H37.
+
+Further instruction-semantic limitation: the H36 /Ob0 raw spawn93/94 paths
+use FLD m32 and shared FSTP where the original copies bits with integer MOV.
+This is not only scheduling. Without an established finite/non-signaling input
+contract, x87 loads/stores can quiet signaling NaNs or alter invalid/denormal
+exception flags. No all-bit-pattern floating-point equivalence is established;
+no payload corpus/value assumption or runtime test is asserted. Independently
+of the15 witness failures, this open contract prevents adoption. H38 inherits
+it, and the H42/H43 inherit it; H44/H45 separately repair only the six raw spawn paths.
 
 ### H37: wide-wire input and actual flag-successor audits only
 
@@ -1048,7 +1069,9 @@ The loader relocates offsets but supplies no per-opcode four-byte payload schema
 nextOffset is not itself an argument-extent guarantee, and no script corpus is
 available to prove that wider access remains in bounds. Equal low bits on
 readable little-endian memory do not establish equal memory-access contracts.
-No direct-word candidate is staged without that missing extent evidence.
+No safe direct-word candidate follows from this audit. H40 subsequently records
+an explicitly conditional compile-only test, rejected on emitted widths; it
+does not supply the missing extent evidence or establish source equivalence.
 
 Machine load width, including MOVZX, does not uniquely recover the source type.
 A same-game ANM intArgs assignment becomes a WORD load/store for opcode25, but
@@ -1069,10 +1092,8 @@ Prior native primary-owner, whole-word unsigned-long and shared-union workspace
 recipes already cover relevant ownership families. Secondary flag masks do not
 establish unshifted enum value domains; choosing types solely for allocation
 would not be a new evidenced interface. No new model, compile, adoption or
-exactness credit results. Active work remains original producer/use chains for
-both bosses. A native-timeout versus pure-value XOR interaction is being staged
-on frozen H36 /Ob0; inherited15 witness failures explicitly prevent adoption,
-and no pending experiment result is recorded here.
+exactness credit results from H37. Subsequent H38 and H40 compiled observations
+are separately scoped below; neither resolves the missing source contract.
 
 ### H31-H37 documentation checkpoint validation
 
@@ -1084,3 +1105,325 @@ documentation, open build graph, generated progress and whitespace checks pass.
 The initial RPC timeout did not cancel execution; the durable exit was checked
 before reporting success. Evidence: .analysis/gpt-dots-20261024-continuation/
 ci-h31-h37.log and ci-h31-h37.exit. No source adoption or exactness gain.
+
+
+## H38: current full-macro native-timeout interaction
+
+Status: compiled and independently verified, including root replay. No gain or
+adoption. Packet: .analysis/th09-current-full-macro-native-timeout-20261024-v01/;
+read CONCLUSION.md, verification.json, delta-audit.json, structure-audit.json and
+region-audit.json together, not only the direct-call count.
+
+The frozen H36 /Ob0 carrier changes only the timeout masked-XOR publication to
+its existing unsigned one-bit member assignment. Byte memcpy acquisition,
+layout, native APIs and all other assignments remain intact; 9216 boundary/bit
+basis cases check the low-bit algebra. This is a distinct current-carrier pair,
+not a claim that native bitfield syntax was never tried historically.
+
+All75 canonical witnesses reproduce the same60 passes/15 inherited failures,
+with no recovery or new failure. Of113 emitted owners,112 remain byte/reference
+identical; only RunEcl changes. Enemy remains3900/97/13 by complete identity.
+RunEcl remains15540 physical bytes/598 fields,375 direct and4 indirect calls,
+24 bytes short of original. Direct destination multiset and control call-field
+sequence are preserved, not a proof of original ordering or complete CFG.
+Compiler math wrappers'54 exact bytes remain excluded from authored credit.
+
+The unchanged spawn93/94 raw paths also inherit H36's FLD m32/shared FSTP
+versus original integer-MOV semantic limitation. All-bit-pattern equivalence,
+including signaling-NaN handling and x87 invalid/denormal flags, is unproved.
+This instruction-semantic analysis is not a runtime test or an inferred finite
+input guarantee. It independently blocks adoption; H42 and H43 retain this open
+contract; H44/H45 separately verify a repair of only the six raw spawn paths.
+
+Opcode4 is unchanged and wrong. Opcode155 shrinks45 to44 bytes with direct
+MOVZX EAX from the same byte, but the old-word, receiver and final-value register
+choices still disagree with original. Sixteen table destinations shift by one;
+a later6-to7-byte alignment absorbs the shrink. Stock shape/inventory guards
+still reject; no normalized full-owner score is assigned.
+
+The structural audit finds the same physical opcode-root grouping/order but
+945 versus original943 blocks, with different block shapes and region lengths.
+In particular opcode64 is5 bytes longer and opcode88 is8 shorter; matching call
+counts do not resolve their real helper/private-call contracts. These findings
+motivated H42 whole-TU wrapper expansion under the same /Ob0, not a promise
+that removing witness collateral alone would recover RunEcl. H42/H43 results
+and the separately pending raw-copy test are recorded below.
+
+## H39: returned float-base contract in MoveRandomBiased
+
+Status: compiled once by root and independently verified, including root
+verify.py replay. No adoption. Packet:
+.analysis/th09-biased-returned-float-base-20261024-v01/;
+CONCLUSION.md and verification.json bind the complete current-source comparison.
+
+The actual returned float-pointer base is used directly with indexed Y rather
+than recasting through EnemyFloat3, following exact BeginBoundaryAwareMove style.
+All139 emitted owners remain identical in bytes and effective references:
+50104 bytes/2097 fields, no added or dropped owner. All75 original-exact canonical
+proofs pass. Full RunEcl remains30 ordinary differences with zero field/table
+differences; Enemy remains13.
+
+MoveRandomBiased remains517 versus original516 bytes,145 instructions,28 bound
+fields,14 calls and24 matching direct blocks. Its full leaf diagnostic is
+unchanged:148 overlap differences and one extra byte. This expression does not
+recover the target LEA or alter downstream bytes. Neutrality does not identify
+original type spelling or prove every pointer/lifetime model equivalent.
+
+## H40: conditional five-state wide-native input model
+
+Status: conditional compile-only hypothesis completed and rejected on every
+machine-width gate. No runtime/adoption or source-memory-equivalence claim.
+Packet: .analysis/th09-five-state-wide-native-conditional-20261024-v01/;
+README.md, source-proof.json, emitted-verification.json, actual-shape.json,
+wire-widths.json and flag-accesses.json retain the full evidence. Root replayed
+all five independent audits after the single compilation.
+
+Only setters129/145/151/155/156 use RawInt at instruction+C directly as existing
+unsigned native-bitfield input. Other source and layouts remain unchanged;
+packed death-script bytes stay byte-sized. H37 remains true: accessible C..F
+extent is unproved. The deliberately conditional compilation tests whether the
+optimizer narrows these actual reads; low-bit equivalence is not memory safety,
+and even narrow emitted reads would not prove the C++ source extent contract.
+
+All five actual candidate reads are DWORD[EBX+C], where every original uses
+BYTE[EBX+C]. This fails the hard gate for every setter. All75 canonical witnesses
+pass;137 existing emitted owners/fields are unchanged, including Enemy3900/97;
+the unused timeout helper disappears, giving138 emitted owners and no new symbol.
+RunEcl is15560 physical bytes/598 fields,14788 code plus772 table bytes,
+375 direct/4 indirect calls,701 branches and4389 instructions. All187 dispatch
+roots/internal branches validate;403 external references preserve their
+multiset, not shifted original-site binding. Stock full-owner/inventory guards
+still reject; no normalized score is assigned. Opcode4 is unchanged; opcode155
+still has the wrong input/result register choices. No forced-narrowing follow-up
+or exactness credit follows from this rejected conditional measurement.
+
+## H41: original metadata and residual producer/use-chain audits
+
+Status: audit-only, no candidate compilation or exactness credit. Root replayed
+all three audits. Packets:
+- .analysis/th09-original-pe-metadata-20261024-v01/ (README.md, metadata.json).
+- .analysis/th09-enemy-neighborhood-audit-20261024-v01/ (CONCLUSION.md, evidence.json).
+- .analysis/th09-runecl-jump-contract-audit-20261024-v01/ (README.md, audit.json).
+
+The hash-pinned original has no debug directory, COFF symbols, CodeView/PDB
+reference or source-line records identified; source labels survive only as
+allocation/error diagnostics. Rich checksum and17 tuples reproduce the already
+known mixed3077/4035 contributions, without function-to-record attribution.
+Linker7.10 and stored timestamp are observations, not unique compiler DLL,
+optimizer flags, original TU identity or verified historical build time.
+No compiler/profile sweep is justified by this metadata.
+
+Enemy's13 residual bytes reduce to four scratch-allocation neighborhoods:
+draw routing, effect receiver, timer threshold and descriptor copy. The symbolic
+copy proof preserves arbitrary x/y/z bits and final frame memory; leftover
+register values are overwritten before use. The threshold read occurs after the
+effect call and must not be hoisted without side-effect evidence. Exact sibling
+copies themselves vary register schedules. Actual older routing/helper/copy
+producers were checked, so no hidden flag/threshold/copy consumer or new local
+rewrite is established by this pass.
+
+RunEcl's complete audit reproduces30/0/0. Opcode5's live post-decrement reread
+must remain; opcode4 reads displacement after the genuine void timer assignment.
+The exact neighboring opcode2 already uses the current opcode4 EAX/push shape,
+contradicting a universal author timer-register convention. CompareOperands
+updates only current time, unlike full timer reset, so its pointer return cannot
+be generalized into opcode4. Physical EAX contents do not authorize an invented
+return ABI. These bounded audits do not exclude all natural whole-function
+source architectures; they reject unsupported extra consumers and premature
+operand captures as explanations.
+
+
+## H42: whole-TU synthetic wrapper expansion under /Ob0
+
+Status: compiled and independently verified; root reran verify.py at10:03.
+Packet: .analysis/th09-current-whole-tu-macro-20261024-v01/;
+CONCLUSION.md, summary.json and verification.json retain exact object bindings,
+complete emitted inventories and unchanged stock-guard rejections.
+
+All75 original witnesses pass (22463 bytes/990 fields): all15 H38 inherited
+failures recover, with no new failed witness. Of95 surviving emitted owners,
+90 match maintained bytes and fields;44 synthetic bodies disappear and none is
+added. Four non-RunEcl owners remain changed versus maintained, already changed
+in H38 and unchanged by H42: EffectDrawCallbackRing1024 to1028 bytes/54 to56
+fields; Type3 905 to921/40 to42; ExAttackDrawType14_22 remains959/53 but changes
+bytes; PlayerPositionType11 709 to732/34 to36. These are not exempted as exact.
+
+The specific real-boundary prediction succeeds: opcode64 recovers EAX=EBX and
+ECX=EDI with no post-call reloads around exact ConfigureRelativeMotion; opcode88
+recovers EBX=ECX and instruction/Enemy reloads around exact CallSubroutine.
+RunEcl is still15544 bytes/598 fields,14772 bytes before772-byte tables,
+375 direct/4 indirect calls. All148 physical root groups/order and their direct
+call destination sequences match using independent symbol bindings, not ordinal
+substitution; this is not full-owner equivalence. Two extra padding CFG blocks
+remain, and both complete guards still reject. Opcode4 and opcode155 remain wrong.
+Nine actual math calls and four compiler wrappers (54 bytes/one field) are proved,
+with no authored credit. Enemy3900/97 and MoveRandomBiased517/28 remain maintained.
+
+The spawn93/94 raw FLD/shared FSTP mismatch persists,15 and16 bytes shorter than
+original integer copies. Without a value-domain proof, signaling-NaN/x87-status
+semantics remain open. No adoption, profile uniqueness or exactness gain follows.
+
+## H43: retain genuine CRT adapter boundaries with RunEcl macros /Ob1
+
+Status: compiled and independently verified; root reran verify.py at10:03.
+Packet: .analysis/th09-current-full-macro-retain-crt-20261024-v01/;
+CONCLUSION.md, summary.json and verification.json bind the comparison.
+
+All75 original witnesses pass (22463 bytes/990 fields). Of115 surviving owners,
+all114 non-RunEcl bodies match maintained bytes and fields;24 source wrappers
+are omitted, none added. Against H36 /Ob1,112 of113 shared owners are unchanged;
+only RunEcl changes, and the ordinary SquareRoot/FloatModulo COMDATs reappear
+with maintained bodies. No surviving outside-owner regression is observed.
+
+Restoring nine actual adapter invocations restores3 cosine,3 sine,1 square-root
+and2 modulo calls. H36 had lost nine original destinations and gained two direct
+__CIfmod calls, a net seven fewer calls; this distinction is preserved. Candidate
+RunEcl has15544 bytes/598 fields,375 direct/4 indirect calls,148 physical root
+groups in original order, and independently bound per-region direct-call
+sequences. Four compiler wrappers remain54 exact bytes/one field, no authored
+credit. Full guards reject;945 versus943 blocks and a20-byte physical deficit
+are not complete original CFG/byte agreement. Opcode4 and opcode155 stay wrong.
+
+Opcode64/88 now have original private caller register roles under maintained
+/Ob1 as well as H42 /Ob0. Thus these observations do not uniquely identify the
+original inline profile. This carrier avoids H42's four outside-owner changes,
+but still inherits raw-spawn FLD/shared FSTP and its signaling-NaN/x87-status
+limitation. Enemy and MoveRandomBiased remain maintained; no adoption or credit.
+
+## H44: isolated branch-owned raw spawn representation copies
+
+Status: compiled and independently verified. Packet:
+.analysis/th09-spawn-branch-owned-transfer-20261024-v01/;
+README.md postcompile result, verification.json and transport-proof.json bind
+source, actual object and original PE evidence. Historical precompile paragraphs
+in that README do not supersede its final measured result.
+
+Only the shared spawn-position operation changes on frozen H38 /Ob0. Each live
+mask branch owns its transfer: a real ResolveFloat call plus numeric assignment,
+or memcpy of exactly four captured bytes. Packet/destination acquisition stays
+single and ordered; all eight live-mask outcome combinations are covered by the
+source effect proof. Integer-only representation witnesses include NaNs,
+subnormals, zeros and infinities without converting them to Python floats.
+This is not a blanket guarantee about resolver return bits or all FP semantics.
+
+The same113 emitted owners survive; all112 non-RunEcl owners remain parent-neutral.
+The same60 canonical witnesses pass and15 inherited failures remain, no new
+failure. Enemy is maintained-identical3900/97. RunEcl grows15540 to15572 bytes,
+598 fields/375 direct calls, with preserved direct destination multiset. Original
+is15564 bytes; strict full-owner guard still rejects, with4389 instructions and
+945 blocks versus4387/943. No normalized exactness gain is claimed.
+
+All six raw coordinate branches now use original-shaped integer MOV pairs,
+without FLD. All six resolver branches call actual4068A0 then own their numeric
+FSTP and skip jump. Actual instruction bytes, argument register/stack transport,
+both seven-dword snapshots, sequential live masks and score/item/life order are
+checked against PE and object. Opcode94 retains its real Float3 addition.
+Spawn93/94 recover263/268-byte region lengths (+15/+16); other scheduling changes
+make net growth32, not31. Physical slices are not separately accepted functions.
+
+The historical raw-copy FP limitation is fixed in these six transfer paths:
+raw representations no longer pass through x87 loads/stores. This does not prove
+universal FP equivalence, original syntax uniqueness or actual runtime exposure
+to exceptional values. H38/H42/H43 historical limitations remain as measured.
+
+## H45: branch-owned spawn transfer composed with H43 /Ob1
+
+Status: compiled and independently verified; root replayed verify.py and
+prove_transport.py at10:09. Packet:
+.analysis/th09-spawn-branch-transfer-retain-crt-20261024-v01/;
+CONCLUSION.md, verification.json and transport-proof.json bind the separate
+composition, both parent hashes and actual emitted transport.
+
+All75 canonical witnesses pass. All114 surviving non-RunEcl owners are maintained
+byte/reference-identical; the115-owner set is unchanged from H43. Enemy stays
+3900/97, not newly exact. RunEcl is15576 bytes/598 fields, versus15544 parent and
+15564 original;375 direct-call identities retain the target multiset, with four
+indirect calls and both tables. CFG is4388 instructions/945 blocks, not original
+4387/943. Strict guards still reject; opcode4 and opcode155 remain wrong.
+
+The identical source operation again restores all six raw integer-MOV paths
+and all six numeric resolver FSTP/skip arms with original-shaped argument
+transport, packet capture and live-mask/call order. Spawn regions are263/268
+bytes. This fixes only those raw-transfer FP round trips, not every possible FP
+contract. It is source/byte analysis, not a runtime exceptional-value test.
+
+Remaining physical region deltas are opcode62 +7,140 -3,145 +1,157 -2,186 +8,
+and final opcode1 slice +1 including alignment. Equal-length regions can still
+differ in bytes/fields; length closure is not matching proof. The result supports
+a coherent raw-representation versus numeric-resolver distinction across two
+carriers, not a unique author syntax, profile or whole-owner exactness claim.
+No adoption or credit. The separate integer-prvalue cast and uniform procedural
+shell factors are measured below as H46 and H47; neither is adopted.
+
+
+## H46: redundant integer-prvalue casts on the H45 carrier
+
+Status: compiled and independently verified; root replayed verify.py at10:13.
+Packet: .analysis/th09-int-read-value-contract-20261024-v01/;
+README.md measured result and verification.json retain the complete comparison.
+Exactly two outer same-type int casts are removed from ReadInt/ReadLaserInt.
+Both conditional arms have int type; the resolver rvalue already makes the
+complete conditional an int prvalue. All126 expansion sites preserve operand
+acquisition/evaluation and cannot expose an assignable lvalue. Float casts,
+actual lvalue-to-value casts, narrowing, reference returns, CRT adapters, State
+byte captures and branch-owned raw spawn transfers are protected.
+
+All115 emitted owners and2089 reference fields are identical to H45, with no
+added/removed definition. All75 canonical witnesses pass. RunEcl remains15576
+bytes/598 fields/375 direct calls; opcode4/155 and every other residual are
+unchanged. Five State byte-width gates and six raw spawn paths remain protected.
+Stock complete guards still reject. The source simplification is neutral, not
+new syntax discovery, original macro-architecture proof or exactness credit.
+
+## H47: uniform procedural macro shells become compound blocks
+
+Status: compiled and independently verified; root replayed verify.py and
+prove_transport.py at10:13. Packet:
+.analysis/th09-procedural-block-owned-20261024-v01/;
+CONCLUSION.md, verification.json and transport-proof.json record the outcome.
+All three procedural do0 shells change uniformly at12 syntactically safe sites;
+real for-loop, calls, captures, macro contents, transfer semantics, statement
+ordering and fixed profile remain unchanged. No padding patch is introduced.
+
+RunEcl becomes15560 bytes/598 fields,16 shorter than H45 and4 shorter than
+original15564. All75 canonical witnesses pass (22463 bytes/990 fields); all115
+owners survive and114 non-RunEcl owners remain byte/reference-identical to both
+H45 and maintained. Enemy and MoveRandomBiased remain maintained, not newly exact.
+
+The16-byte change consists of opcode62 alternate-arm padding −7, opcode186
+loop-entry jump/padding −8 and final alignment −1. CFG now has943 blocks with
+original root indices and every compared structural block shape, zero shape
+mismatches. Logical instructions are4385 versus original4387: structure is not
+full instruction equality. Actual148 root groups retain physical order; all
+region direct-call sequences match through independent symbol bindings, with
+375 direct/4 indirect calls and original nine math calls. No ordinal-based
+field mapping is authorized, and both strict complete guards still reject.
+
+All six raw spawn paths remain original-shaped integer-only transfers, with
+six separate numeric resolver FSTP arms; packet/live-mask and argument transport
+proofs still pass. Remaining length deltas are opcode140 −3 (shared result store
+instead of branch-owned stores),145 +1 (six-byte EDX AND versus accumulator form)
+and157 −2 (missing original MOV ECX,EAX). Equal-sized regions still contain
+instruction/register differences, including opcode4/155. A four-byte size deficit
+is not four mismatching bytes, and no partial authored credit follows.
+
+The shell factor demonstrably changes layout in this exact pair. A causal claim
+about retained compiler loop metadata would require unavailable IR; it remains
+an inference, not a proved internal mechanism. No profile change, adoption or
+original syntax uniqueness follows. Active next work is the complete
+original-bound changed-region map and genuine owner/capture source contracts,
+without a new model result yet.
+
+### H38-H47 checkpoint validation
+
+Only the checklist and active handoff change in this tracked checkpoint; all
+source, profiles, ledgers, tests and scripts remain identical to22baf4e7. Fresh
+full CI passes1017 tests with29 skips (123.402 seconds,exit0), including tracking,
+documentation, open build graph, generated progress and whitespace validation.
+Durable evidence is .analysis/gpt-dots-20261024-continuation/ci-h38-h47.log and
+ci-h38-h47.exit; checked after the RPC timeout, without a blind rerun. All
+experiment compiles are isolated and source-bound. H47's943-block structural
+match and four-byte physical deficit are not whole-function equality or credit.
+Next: full provenance-bound changed-region mapping and a coherent retention of
+the four existing scalar value-read APIs on H47, keeping raw/lvalue/owner macros
+and repaired procedural/spawn contracts. No next-experiment result is claimed.

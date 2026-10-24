@@ -76,7 +76,9 @@ The operator explicitly requested continued work, not a stop at a negative
 experiment. Current exactness remains RunEcl 30 / Enemy 13 differences; no new
 whole-owner credit was gained by the two API corrections. Latest source CI
 passes 1017 tests with 29 skips; the current Enemy gate cold-replays 87 canonical
-siblings. Source and comparison guards remain protected.
+siblings. Source and comparison guards remain protected. The prior documentation
+checkpoint is d00bf850; no new full CI is claimed for the H38-H47 documentation
+update, and maintained gameplay source remains22baf4e7.
 
 - H31 common Enemy/operand graph and H32 Replay packed-frame pair are complete,
   independently verified negative results, not active preparations. H31 is
@@ -94,12 +96,46 @@ siblings. Source and comparison guards remain protected.
   proven four-byte payload extent, original byte reads, no uniquely recovered
   source type from MOVZX, and no actual later old-flag consumer. No compile or
   exactness result is claimed for these audits.
-- Active next work is original producer/use-chain analysis for both RunEcl and
-  Enemy. A current native-timeout versus pure-value XOR interaction is being
-  staged on frozen H36 /Ob0; its inherited15 witness failures explicitly prevent
-  adoption and no result is claimed yet. H31/H32, H36 and H37 are completed
-  experiments/audits, not active preparation tasks.
-- The fresh checklist records H01-H37 and source-bound packets. Earlier provider
+- H38 native-timeout interaction on frozen H36 /Ob0 is complete: same60/15
+  witness result,112/113 emitted owners unchanged, neither residual repaired.
+  Its inherited15 failures still block adoption. H36 /Ob0 and H38 spawn93/94
+  raw paths also replace original integer MOV copies with FLD m32/shared FSTP.
+  All-bit-pattern FP equivalence is unproved: signaling NaNs may be quieted and
+  x87 invalid/denormal flags may change. This is instruction-semantic analysis,
+  not a runtime test or finite-input guarantee, and independently blocks adoption.
+  H39 returned-float-base leaf is
+  fully neutral across139 emitted owners/50104 bytes/2097 fields;75 witnesses pass.
+- H40 conditional five-state wide-native compilation is rejected: all five
+  reads are DWORD instead of original BYTE. H37's missing source-extent proof
+  remains true; this was a conditional compiler test, not source-memory
+  equivalence or permission to adopt/run widened reads. H41 original metadata
+  and Enemy/jump use-chain audits are complete without a new source model.
+- H42 whole-TU /Ob0 recovers all15 inherited witnesses to75/75 and genuine
+  opcode64/88 private caller transport. Of95 surviving owners,90 match maintained;
+  four other nonexact owners remain changed. H43 CRT-retained RunEcl macros /Ob1
+  also gives75/75 with all114 surviving non-RunEcl owners unchanged. Both have
+  RunEcl15544/598/375 direct calls but remain nonexact; neither proves unique
+  original profile choice, and both retain the raw-spawn FP semantic mismatch.
+- H44 branch-owned spawn transfer is verified:15572/598, same60/15 witnesses,
+  all112 other parent owners neutral. H45 composition on H43 /Ob1 is verified:
+ 15576/598, all75 witnesses and114 other surviving owners maintained-identical.
+  Both restore six raw integer-MOV paths and six original-shaped resolver arms.
+  The raw-FP limitation is fixed only in those six spawn transfer paths, not a
+  blanket FP-equivalence claim; H42/H43 historical limitations remain. Opcode4
+  and opcode155 still differ, strict full-owner guards reject, and no adoption
+  or exactness credit follows.
+- H46 removes two redundant integer-prvalue casts and is fully neutral across
+ 115 owners/2089 fields,75 witnesses passing. H47 uniformly replaces three do0
+  procedural shells at12 safe sites: RunEcl15560/598, all75 witnesses and114
+  other owners protected. Its943 blocks/root indices/structural shapes match
+  original, but full bytes do not; opcode4/155 remain wrong and guards reject.
+  The16-byte reduction is7+8+1 bytes of shell-related layout, not a padding patch
+  or proved compiler-IR mechanism. Remaining slice lengths differ140−3/145+1/
+ 157−2; equal-size regions also differ. Four bytes short is not four mismatches.
+- Active next work is the full original-bound changed-region map and genuine
+  owner/capture source contracts. No new model outcome is claimed. All candidates
+  remain isolated, unadopted; exactness score and maintained source are unchanged.
+- The fresh checklist records H01-H47 and source-bound packets. Earlier provider
   hashes are intentionally historical; never update them blindly to current HEAD.
   Reuse source-bound CI1017/29 from the
   maintained22baf4e7 adoption. Fresh documentation-checkpoint full CI also passes
@@ -107,6 +143,11 @@ siblings. Source and comparison guards remain protected.
 - Superseded H31 v01 loose source snapshots are now preserved in a verified
  232628-byte tar.xz archive (522 files, actual full restore tested). v02 and all
   accepted evidence remain untouched; see cleanup history for the exact receipt.
+
+Latest H38-H47 documentation validation: fresh full CI1017/29 passes in123.402
+seconds, exit0. Only two documentation files change; maintained source22baf4e7
+and exact credit stay unchanged. The next scalar-value API ownership experiment
+and complete changed-region map remain pending, not accepted results.
 
 ## Live ledger snapshot
 
