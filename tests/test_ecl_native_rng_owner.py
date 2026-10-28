@@ -1,4 +1,4 @@
-"""Pure-input checks for TH09 RunEcl's real shared RNG source ownership.
+"""Pure-input checks for TH09 RunEcl's shared RNG call identities.
 
 Exact physical PE/COFF validation, handler tables and private label target VAs
 are checked separately in the cold full-owner ECL audits and canonical units.
@@ -19,20 +19,6 @@ def units():
 
 
 class RunEclNativeRngSource(TestCase):
-    def test_shared_real_rng_declaration_and_source_are_consistent(self):
-        control = (ROOT / 'src/EclRunControl.inl').read_text()
-        runtime = (ROOT / 'src/RngRuntimeLeaves.hpp').read_text()
-        self.assertIn('#include "RngRuntimeLeaves.hpp"', control)
-        self.assertIn('extern RngRuntimeView g_Rng;', control)
-        self.assertIn('using ::g_Rng;', control)
-        self.assertNotIn('struct RngView', control)
-        self.assertNotIn('extern RngView g_Rng;', control)
-        for role in ('NextU16()', 'GetRandomU32InRange(',
-                     'GetRandomF32InRange(', 'GetRandomF32SignedInRange('):
-            self.assertIn(role, runtime)
-        self.assertIn('Th09EclRunControl::g_Rng.GetRandomF32InRange(',
-                      (ROOT / 'src/EclManager.cpp').read_text())
-
     def test_renamed_call_symbol_addresses_are_independent_existing_exact_leaves(self):
         spec = importlib.util.spec_from_file_location(
             'ecl_shared_rng_xrefs', ROOT/'scripts/audit-ecl-callsite-identities.py')
@@ -82,16 +68,3 @@ class RunEclNativeRngSource(TestCase):
             with self.subTest(offset=hex(offset)):
                 self.assertEqual(actual[offset],(kind,symbol,address))
         self.assertEqual(len(entry['relocations']),27)
-
-    def test_biased_movement_inspector_rejects_old_private_rng_names(self):
-        inspector=(ROOT/'scripts/inspect-ecl-biased-movement.py').read_text()
-        names={
-            '?g_Rng@@3URngRuntimeView@@A':0x004ACE0C,
-            '?GetRandomU32InRange@RngRuntimeView@@QAEII@Z':0x004048E0,
-            '?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z':0x00404910,
-            '?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z':0x00406200,
-        }
-        for name,address in names.items():
-            with self.subTest(name=name):
-                self.assertIn("'"+name+"': 0x%08X"%address,inspector)
-        self.assertNotIn('RngView@Th09EclRunControl',inspector)

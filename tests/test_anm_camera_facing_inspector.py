@@ -110,16 +110,6 @@ class CameraBossSweepTests(unittest.TestCase):
             'extra_candidate_bytes': 0, 'complete_bytes_equal': True, 'missing_target_bytes': 0,
         }
 
-    def test_source_uses_sdk_types_and_native_assignment(self):
-        source = (ROOT / 'src/AnmManagerCameraFacing.inl').read_text()
-        view = (ROOT / 'src/AnmCameraProjectionViews.hpp').read_text()
-        self.assertIn('#include <d3dx8math.h>', view)
-        self.assertNotIn('struct D3DXVECTOR3 :', view)
-        self.assertNotIn('CopyCameraFacingProjectionDelta', source)
-        self.assertNotIn('CameraProjectionScratch', source)
-        self.assertIn('Float3 origin(0.0f, 0.0f, 0.0f);', source)
-        self.assertIn('    delta = *reinterpret_cast<Float3 *>(&reference) -', source)
-
     def test_sweep_protects_exact_same_and_neighboring_translation_units(self):
         with patch.object(boss, 'build') as build, patch.object(
                 boss, 'parsed', return_value=self.evidence()), patch.object(

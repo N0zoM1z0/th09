@@ -43,8 +43,9 @@ work. That environment variable is only an explicit local override.
 
 Before changing anything:
 
-1. Read `docs/RE_HANDOFF.md`, `docs/RE_WORKFLOW.md`, `docs/ORACLES.md`, and the
-   relevant source or ledger rows.
+1. Read the current `docs/RE_HANDOFF.md` checkpoint and the instructions relevant
+   to the change. For reconstruction, also read `docs/RE_WORKFLOW.md`,
+   `docs/ORACLES.md`, and the affected source or ledger rows.
 2. Run `git status --short --branch`, inspect tracked and untracked work, and
    review the diff. A previous Web session may have disconnected while leaving
    valuable dirty work. Understand, recover, finish, or deliberately supersede
@@ -52,13 +53,13 @@ Before changing anything:
 3. In the repository shell, run `python3 scripts/verify-target.py`,
    `python3 scripts/validate-tracking.py --require-target`, and
    `python3 scripts/report-reconstruction-status.py` before target-dependent
-   work. For this Factory campaign, call th09-ida `get_metadata` with exactly `{}`
+   work. Before IDA analysis, call th09-ida `get_metadata` with exactly `{}`
    and require its target attestation, entry and distributed mapped-byte checks. Metadata hashes alone
    do not prove an unmodified mapped database. IDA is not an exactness Oracle.
 4. Work on one bounded unit or one coherent infrastructure batch and leave a
    reviewable local checkpoint.
 
-When available, also read the Factory guidance at
+Consult the Factory guidance when the task needs it:
 `/home/pentester/coding/codex_ida/touhou-reconstruction-factory/docs/ontology.md`,
 `docs/semantic-reconstruction.md`, `docs/agent-autonomy.md`, and
 `docs/worktree-recovery-and-analysis-artifacts.md` below that Factory root.
@@ -103,9 +104,28 @@ differ or the comparison is inconclusive, keep the TH09 fact unknown.
 
 The required order is exact reconstruction, faithful Windows i386 product
 closure, semantic reconstruction with target-plus-native dual Oracles, and only
-then portability. Do not treat exact units as proof that the executable builds
-or runs. Audit data owners, static initialization, resources, library objects,
-link order, and exercised runtime paths before opening the semantic gate.
+then portability. These later phases are not prerequisites for an exact-source
+checkpoint. Do not treat exact units as proof that the executable builds or runs.
+
+## Exact-phase validation scope
+
+- Verify the affected complete functions, physical tails/tables and relocations
+  with the pinned VC7.1 Oracle. Include affected exact siblings and callees;
+  reuse unchanged source/profile-bound proofs.
+- Do not add allocation-failure injection, null-pointer matrices, malformed game
+  input, fuzzing or general defensive-runtime tests as routine exact-phase work.
+  Recover branches present in the original; do not add defensive game behavior.
+  Extra behavioral tests need a specific reconstruction question or operator request.
+- Keep tests that detect wrong targets, incomplete comparisons, changed bytes,
+  relocation identities or stale proof inputs. Source spelling, whitespace,
+  include-count and handoff-format snapshots are not acceptance criteria.
+- Run checks relevant to the changed files. Documentation/test-only edits need
+  no compiler replay or IDA attestation. Full public CI is optional for ordinary
+  exact checkpoints; run it when changing shared validation or CI tooling.
+- Whole-product builds, runtime scenarios, dual-Oracle semantics and portability
+  validation belong to their later phases, not each exact iteration.
+
+This scope supersedes historical full-check lists in handoff/experiment notes.
 
 ## Autonomy and tools
 
@@ -144,8 +164,8 @@ analysis database is working state; mirror durable conclusions into the repo.
   tracked source and unreproduced analysis/experiment evidence.
 - Never commit the original executable, game archives/data, IDA databases,
   toolchains, generated decompiler text, credentials, or private endpoints.
-- Finish with the focused Oracle, `python3 scripts/validate-tracking.py`,
-  `python3 scripts/validate-docs.py`, `python3 scripts/progress.py --check`,
-  `python3 scripts/ci.py`, and `git diff --check`. Accepted receipts are
-  source-commit scoped; document the actual accepted claim and receipt, never
-  an outstanding replay as already accepted.
+- Finish with `git diff --check` and the checks required by the change: the
+  focused Oracle for reconstruction, tracking/progress for ledger changes,
+  documentation validation for status claims, and relevant tooling tests.
+  `python3 scripts/ci.py` remains available for full public checks. Accepted
+  receipts are source-commit scoped; never report a pending replay as accepted.

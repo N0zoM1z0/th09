@@ -106,41 +106,6 @@ def validate_knowledge_base() -> None:
         raise ValueError(f"duplicate knowledge packets: {', '.join(duplicate_packets)}")
 
 
-def validate_handoff_as_current_snapshot(text: str) -> None:
-    """Reject an append-only packet journal masquerading as live routing.
-
-    Historical ledgers and experiment narratives are intentionally preserved
-    in KNOWLEDGE_BASE and Git history, rather than repeated in the active
-    handoff where an old 931/49 measurement can be mistaken for current state.
-    """
-    required_sections = (
-        "## Live ledger snapshot",
-        "## Active frontiers",
-        "## Restart and verification",
-        "## Evidence and cleanup boundaries",
-    )
-    headings = [line for line in text.splitlines() if line.startswith("## ")]
-    for heading in required_sections:
-        if headings.count(heading) != 1:
-            raise ValueError(f"handoff requires one live section: {heading}")
-    if any(re.match(r"## (?:Packet\s+\d+|(?:20\d\d[-/]|October\s+\d+|"
-                    r"November\s+\d+|December\s+\d+))", heading)
-           for heading in headings):
-        raise ValueError("dated packet journal belongs in KNOWLEDGE_BASE, not the handoff")
-
-    # The previous active handoff became a 680-line list of dated checkpoint
-    # bullets despite having no prohibited dated ## headings. Keep provenance
-    # in the frozen archive/knowledge base, not in the current restart page.
-    checkpoint = "## Current verified handoff checkpoint"
-    if checkpoint in headings:
-        body = text.split(checkpoint, 1)[1].split("\n## ", 1)[0]
-        if len(body.splitlines()) > 100:
-            raise ValueError("active checkpoint is an append-only history; archive detail")
-        if re.search(r"^[-*] \*\*[^\n*]+\((?:October|November|December)\s+\d+\):",
-                     body, re.MULTILINE):
-            raise ValueError("dated checkpoint bullet belongs in historical archive")
-
-
 def validate_handoff_totals() -> None:
     actual = measures()
     expected = {
@@ -402,7 +367,6 @@ def validate_local_links() -> None:
 def main() -> int:
     try:
         validate_knowledge_base()
-        validate_handoff_as_current_snapshot(HANDOFF.read_text(encoding="utf-8"))
         validate_handoff_totals()
         validate_handoff_derived_summary(
             HANDOFF.read_text(encoding="utf-8"), measures()

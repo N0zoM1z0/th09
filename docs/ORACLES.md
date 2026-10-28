@@ -3,6 +3,12 @@
 An Oracle is a replayable mechanism that can falsify a bounded claim. No single
 view supplies every kind of truth.
 
+During the exact phase, require target identity, reviewed ownership and complete
+VC7.1 byte/relocation comparison for the affected functions. Native-product,
+runtime and port rows below apply in their later phases. Allocation/null fault
+injection and generic defensive-runtime coverage are not exactness requirements.
+Documentation/test-only changes do not need target or compiler replay.
+
 | Claim | Minimum useful Oracle | Acceptance boundary |
 | --- | --- | --- |
 | Target identity | size, SHA-256/MD5, PE structure | exact manifest agreement |

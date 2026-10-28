@@ -1,8 +1,7 @@
 """Genuine TH09 GameManager owns one native C++ symbol across ECL/ExAttack.
 
-Tests are target-independent guard rails. The cold full 15,564-byte RunEcl,
-Type19/21 callbacks, 26 exact ECL source units, and unrelated Etama/Pause
-exact source units must also pass complete original PE/COFF replay.
+These target-independent tests check manifest identities. Complete original
+PE/COFF replay of affected owners remains the exactness Oracle.
 """
 from pathlib import Path
 import tomllib
@@ -17,48 +16,8 @@ TRANSFORM_Y = '?TransformPopupY@AsciiGameManagerView@@QAEMM@Z'
 class SharedRealGameManagerEclOwners(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.header = (ROOT/'src/AsciiGameManagerView.hpp').read_text()
-        cls.overlay = (ROOT/'src/ExAttackType8GameManagerView.hpp').read_text()
-        cls.ecl = (ROOT/'src/EclManager.cpp').read_text()
-        cls.post = (ROOT/'src/EclPostRuntime.inl').read_text()
-        cls.type19 = (ROOT/'src/ExAttackInitType19.inl').read_text()
-        cls.type21 = (ROOT/'src/ExAttackInitType21.inl').read_text()
-        cls.trail = (ROOT/'scripts/inspect-exattack-trail-init.py').read_text()
-        cls.update21 = (ROOT/'scripts/inspect-exattack-type21.py').read_text()
-        cls.update7 = (ROOT/'scripts/inspect-exattack-type7.py').read_text()
         with (ROOT/'config/match-units.toml').open('rb') as f:
             cls.units = tomllib.load(f)['units']
-
-    def test_single_global_cpp_identity_and_real_coordinate_methods(self):
-        self.assertIn('extern AsciiGameManagerView g_GameManager;',self.header)
-        self.assertIn('typedef AsciiGameManagerView ExAttackType8GameManagerView;',self.overlay)
-        self.assertNotIn('struct ExAttackType8GameManagerView\n',self.overlay)
-        self.assertNotIn('struct ExAttackType8GameManagerView\n',self.header)
-        self.assertEqual(self.overlay.count('#include "AsciiGameManagerView.hpp"'),1)
-        self.assertIn('float TransformPopupX(float value);',self.header)
-        self.assertIn('float TransformPopupY(float value);',self.header)
-        for text in (self.type19,self.type21):
-            self.assertEqual(text.count('#include "ExAttackType8GameManagerView.hpp"'),1)
-            self.assertEqual(text.count('g_GameManager.TransformPopupX('),2)
-            self.assertEqual(text.count('g_GameManager.TransformPopupY('),2)
-
-    def test_shared_game_manager_physical_field_layout_is_genuine(self):
-        for clause in ('sizeof(AsciiGameManagerSideView) == 0x38',
-                       'offsetof(AsciiGameManagerSideView, player) == 0x04',
-                       'offsetof(AsciiGameManagerSideView, etama08) == 0x08',
-                       'offsetof(AsciiGameManagerSideView, anmOwner0C) == 0x0C',
-                       'offsetof(AsciiGameManagerSideView, runtime) == 0x1C',
-                       'offsetof(AsciiGameManagerView, speedEC) == 0xEC',
-                       'offsetof(AsciiGameManagerView, difficulty) == 0x11C',
-                       'offsetof(AsciiGameManagerView, coordinateOffsetX) == 0x350'):
-            with self.subTest(clause=clause):
-                self.assertIn(clause,self.header)
-        self.assertIn('union { int difficulty; int difficulty11C; };',self.header)
-        self.assertIn('PlayerLifecycleView *player04;',self.header)
-        self.assertIn('EtamaController *etama08;',self.header)
-        self.assertIn('ExAttackType8AnmOwner *anmOwner0C;',self.header)
-        self.assertEqual(self.ecl.count('g_GameManager.speedEC'),2)
-        self.assertEqual(self.post.count('g_GameManager.speedEC'),2)
 
     def test_exact_ecl_source_has_only_original_real_global_and_methods(self):
         actual = [entry for spec in self.units.values()
@@ -96,17 +55,6 @@ class SharedRealGameManagerEclOwners(unittest.TestCase):
             rows=self.units[name]['relocations']
             self.assertEqual(sum(r['symbol'] in (TRANSFORM_X,TRANSFORM_Y)
                                  for r in rows),4)
-
-    def test_original_callsite_auditors_exclude_second_class_alias(self):
-        for script in (self.trail,self.update21,self.update7):
-            self.assertIn(GM,script)
-            self.assertNotIn('ExAttackType8GameManagerView@@',script)
-        self.assertIn(TRANSFORM_X,self.trail)
-        self.assertIn(TRANSFORM_Y,self.trail)
-        self.assertNotIn('ExAttackType7GameManagerView@@',self.update7)
-        self.assertIn('0x401680',self.trail)
-        self.assertIn('0x4016b0',self.trail)
-        self.assertIn('0x4a7d90',self.trail)
 
     def test_pinned_original_pause_and_etama_exact_private_destinations(self):
         # Labels are compiler spelling only, never substitute for actual

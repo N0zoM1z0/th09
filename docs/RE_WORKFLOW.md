@@ -19,9 +19,10 @@ i386 product and later runtime/port phases remain independent gates.
 ## Session entry
 
 First recover the current worktree instead of assuming it is clean. Read the
-handoff, inspect status and diffs (including untracked work), then attest the
-disk target, IDA target, ledgers, and live status using the commands in
-`AGENTS.md`. Stop if any identity differs.
+current handoff checkpoint and inspect status and diffs, including untracked
+work. Before target-dependent work, verify the disk target and affected ledgers;
+attest IDA before using it. Documentation/test-only changes need no compiler
+replay or IDA session. See `AGENTS.md` for commands and target identity.
 
 ## Bounded exact-reconstruction loop
 
@@ -32,7 +33,7 @@ disk target, IDA target, ledgers, and live status using the commands in
 3. Classify origin independently: authored game code, compiler-generated,
    library, import thunk, data, padding, or still unknown.
 4. For authored code, recover ABI, types, object layout, globals, constants,
-   side effects, and error behavior using bounded IDA queries and raw target
+   side effects, and original branches using bounded IDA queries and raw target
    evidence. Keep hypotheses explicitly falsifiable. When useful, inspect the
    read-only TH08 reconstruction at
    `/home/pentester/coding/codex_ida/th08-reconstruction/th08` or TH095 at
@@ -77,19 +78,45 @@ original-bound Title owners.
 
 `python3 scripts/ci.py` runs target-independent tests with Python `-S`, so a
 prepared local machine cannot hide undeclared third-party import dependencies.
-Optional decoders belong inside private diagnostic entrypoints. This local gate
-uses the same command as GitHub Actions; a local pass does not prove a remote
-workflow run. **Commit verified local checkpoints** using the current operator
-prefix and identity in `AGENTS.md`. A local commit is never evidence of a
-successful remote push; verify publication independently when performed.
+Optional decoders belong inside private diagnostic entrypoints. Run full CI for
+shared validator/CI changes; ordinary exact checkpoints need only affected-owner
+replay and checks relevant to the diff. The command is also used by GitHub
+Actions. Commit using the current operator prefix and identity; report local
+checks separately from remote publication.
+
+### Checks during the exact phase
+
+The acceptance question is complete original-bound byte and relocation equality
+under the pinned compiler. Preserve affected exact siblings/callees and reuse
+unchanged source/profile-bound proofs. Tests for wrong targets, missing extents,
+incorrect relocations and stale evidence support that question.
+
+Do not add routine allocation-failure injection, null-pointer matrices, malformed
+game-input campaigns, fuzzing or general runtime hardening. Original error
+branches still belong in the source. Additional behavioral tests should answer
+a concrete reconstruction question or an explicit operator request. Avoid
+source-text snapshots that require a particular spelling, include count or
+equivalent C++ expression; let the compiler Oracle judge the result.
+
+Select checkpoint checks from the diff:
+
+- Reconstruction: focused complete-owner Oracle and affected exact siblings.
+- Ledgers or status claims: tracking, progress and documentation validators.
+- Tooling/tests: affected unit tests; full public CI for shared validation/CI.
+- Every checkpoint: review the diff and run `git diff --check`.
+
+Whole-product build/runtime, dual-Oracle semantic and portability checks belong
+to their later phases. No unrelated test suite is required for each exact edit.
+This scope supersedes historical full-check lists in handoff/experiment notes.
+Use `python3 scripts/build.py --check` when working on the product build graph;
+it is no longer part of exact-phase public CI.
 
 ### Current-state documentation hygiene
 
-`docs/RE_HANDOFF.md` is replace-in-place current state, not an append-only packet
-journal. Keep only the live ledger snapshot, active frontiers, restart commands,
-and short routing notes there. Historical experiments and superseded byte-count
-plateaus belong in Git history or the historical sections of
-`docs/KNOWLEDGE_BASE.md`.
+Keep the current handoff concise and sufficient to resume: current state, changed
+claims, unresolved work and useful commands. Put lengthy experiment details in
+Git history or `docs/KNOWLEDGE_BASE.md`; headings, dates and line counts are not
+validation gates.
 
 Do not use a knowledge-base `Recorded state` cell or old packet wording as a
 current exactness ledger. When a function changes exactness, update or remove
@@ -99,6 +126,7 @@ prose.
 
 ## Product and semantic gates
 
+These are later phases, not extra gates on current exact-source checkpoints.
 Function exactness is followed by a separate faithful-product phase. Populate
 `config/build.toml` as evidence establishes translation units, compiler
 profiles, libraries, resources, initializers, data owners, and link order. A

@@ -22,38 +22,9 @@ sp.loader.exec_module(ORACLE)
 class SharedScreenGameManager(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.screen=(ROOT/'src/ScreenEffect.cpp').read_text()
-        cls.game=(ROOT/'src/AsciiGameManagerView.hpp').read_text()
         cls.oracle=(ROOT/'scripts/inspect-screen-shake-envelope.py').read_text()
         with (ROOT/'config/match-units.toml').open('rb') as src:
             cls.units=tomllib.load(src)['units']
-
-    def test_screen_effect_source_has_single_true_game_manager_global(self):
-        self.assertIn('#include "AsciiGameManagerView.hpp"',self.screen)
-        self.assertNotIn('struct ScreenEffectGameManagerView',self.screen)
-        self.assertNotIn('extern ScreenEffectGameManagerView g_GameManager;',self.screen)
-        self.assertNotIn('struct ScreenEffectSideStateView',self.screen)
-        self.assertIn('extern AsciiGameManagerView g_GameManager;',self.game)
-        self.assertIn('g_GameManager.value348',self.screen)
-        self.assertIn('g_GameManager.flags & 0x1800',self.screen)
-        self.assertIn('g_GameManager.menuState97C8Active',self.screen)
-        self.assertIn('reinterpret_cast<unsigned char *>(&g_GameManager.sides[screenEffect->contextIndex].flags)[0]',self.screen)
-
-    def test_layout_checks_original_side_flags_and_gameplay_counter(self):
-        for fragment in (
-            'offsetof(AsciiGameManagerSideView, player) == 0x04',
-            'sizeof(AsciiGameManagerSideView) == 0x38',
-            'unsigned int flags;',
-            'offsetof(AsciiGameManagerView, flags) == 0x134',
-            'offsetof(AsciiGameManagerView, inGameMenu) == 0x13C',
-            'offsetof(AsciiGameManagerView, value348) == 0x348',
-            'offsetof(AsciiGameManagerView, coordinateOffsetX) == 0x350',
-            'offsetof(AsciiGameManagerView, coordinateOffsetY) == 0x354',
-        ):
-            with self.subTest(fragment=fragment):
-                self.assertIn(fragment,self.game)
-        self.assertIn('unsigned char unknown140[0x348 - 0x140];',self.game)
-        self.assertIn('unsigned char unknown34C[0x350 - 0x34C];',self.game)
 
     def test_true_original_envelope_global_with_real_coff_addend(self):
         self.assertEqual((ORACLE.BASE,ORACLE.SIZE),(0x4227A0,336))

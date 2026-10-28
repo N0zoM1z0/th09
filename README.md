@@ -69,7 +69,8 @@ the pinned VC7.1 compiler, compile serially at lowered priority, and reuse
 unchanged source/profile-bound proofs. New English commits use `gpt-6.1-sol: ...`
 with the identity/trailer in [AGENTS.md](AGENTS.md).
 
-Every new session must attest the target and live IDA database. Current
+Attest the target before target-dependent work and the live database before IDA
+analysis. Documentation/test-only edits do not need those checks. Current
 exact/non-exact state comes from `config/functions.csv`,
 `config/matches.csv`, `config/match-units.toml`, and a fresh status report.
 `docs/KNOWLEDGE_BASE.md` indexes durable evidence and bounded investigation
@@ -84,7 +85,11 @@ instead of pretending the project is buildable.
 Run `python3 scripts/progress.py` to regenerate the status card,
 `python3 scripts/validate-docs.py` to catch stale handoff totals, percentage,
 98% gap, non-exact routing and accepted-owner manifest/receipt entries, and
-`python3 scripts/ci.py` for the target-independent validation set. Canonical
+`python3 scripts/ci.py` for the full target-independent validation set when
+changing shared validation/CI tooling. Ordinary exact checkpoints use affected
+complete-owner comparisons and checks relevant to the diff; see
+[the validation scope](docs/RE_WORKFLOW.md#checks-during-the-exact-phase).
+Canonical
 build caches may be absent after reviewed cleanup; replay a function by
 running `python3 scripts/build-match-unit.py --unit NAME` before its
 corresponding comparison or non-crediting inspector. Preview disposable-cache
