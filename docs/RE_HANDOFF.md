@@ -173,6 +173,21 @@ existing owners retain24993 physical bytes/1090 fields. The packet is
 cases and750 repeated existing-body proofs without compiling. See the KB for
 the bounded conclusions and fresh mapped-byte-attested direct Ghidra export.
 
+### Controller native range snapshot
+
+ControllerInput now uses a size/offset-checked read-only view of each native
+JOYCAPSA min/max pair, copying the low-edge bounds while retaining the source
+for the high edge. Both original midpoint evaluations per axis return. The
+complete current owner is810 versus808 bytes,247/246 instructions,32 fields,
+18 ordered calls and eight branches; all nine native globals and the674-byte
+prefix pass. It restores30 original bytes without damaging the694 prior equal
+positions. There remain84 differences and two excess bytes, with no exact credit.
+Both same-TU exact helpers cold-replay37+47 bytes. All other source/profile
+proofs are unchanged. The packet .analysis/gpt-61sol-20261029-controller-accumulation/
+has32 frozen captures and62 existing-helper proofs; verify.py replays that epoch,
+and verify_adoption.py checks current source (one carrier with --build). The
+799-byte/93-difference candidate breaks an old match and remains rejected.
+
 ## Historical operator stop — October 24, 14:09 UTC
 
 TH09 research is paused at the operator's explicit request. Only cleanup and

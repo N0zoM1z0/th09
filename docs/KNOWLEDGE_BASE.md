@@ -22727,3 +22727,76 @@ No game source, profile, inspector, canonical manifest or exact ledger changes.
 Tracking, documentation, generated-progress and whitespace checks pass.
 Exact remains1003 and244917/291883(83.9093%);98% needs41129 whole exact bytes.
 Native product/runtime, semantic and portability gates remain independently open.
+
+## October 29: Controller native range snapshots recover thirty original bytes
+
+Recovery after0790df3f is clean. Direct Ghidra freshly exports42B410 after disk,
+Program and all685056 mapped-file-byte checks at
+.analysis/ghidra-direct/controller-input-20261029/. Independent PE/COFF review
+confirms the original808 bytes/246 instructions/32 fields/18 ordered direct
+helper calls/eight branches. The674-byte prefix already matches the maintained
+796-byte candidate. The original computes both unsigned midpoints for each
+axis; the scalar-source baseline shares them, leaving two SHR1 instructions
+where the original has four.
+
+Adopted ControllerInput.cpp adds JoystickAxisRangeView over the two consecutive
+native UINT fields. Its eight-byte size and X/Y field adjacency are asserted.
+The low threshold uses a value snapshot, while the high threshold reads the
+source range. This is a layout-grounded source model; original nominal C++
+class identity and helper ownership remain unknown. All calculations stay
+unsigned, both direction predicates remain independent, and the existing
+word-mask ABI, shared globals and DirectInput path are unchanged.
+
+An isolated capture and two maintained-path cold builds agree on the complete
+810-byte owner and raw SHA256
+f848769dd25738f0368fac95cf9d6555993eedc9151fe0866e49aae8fb4aa794.
+Current code has247 instructions,32 fields,18 ordered calls,eight original
+branch edges and the original0x148 frame. All nine real native-global provenance
+checks and the674-byte prefix pass. Four midpoint shifts return. Full original
+comparison restores30 old mismatches without changing any of694 prior equal
+positions;724 original positions now agree. It still has84 differences, two
+excess bytes and first mismatch+2B2. Allocation/scheduling, Y-field read order
+and an extra register copy remain unresolved. No exact or fractional credit.
+Both complete same-TU helpers retain37/47 original bytes with zero fields under
+their canonical profiles. No shared header or other source dependency changes;
+unchanged proofs for the other1001 exact functions are reused.
+
+One fresh canonical baseline plus31 serial private compiles use five frozen
+project inputs, seven provider bindings, unchanged flags, nice10, one CPU and
+a180-second limit. All32 complete objects remain available. Bounded findings:
+
+- Wide accumulators, grouped/summed masks and predicate multiplication do not
+  repair the whole owner. Normalized limits and their union view emit identical
+  802/32/104 with six missing bytes: four shifts return, but the sum is shared.
+- Split references add four global operands at826/827 bytes. Snapshots restore
+  the32-field inventory. The799/93 candidate restores13 positions but damages
+  previously equal+2BD, so its lower difference count does not justify adoption.
+- A32-bit incoming mask yields every796 baseline byte through the existing
+  word helpers; this does not uniquely identify original parameter spelling.
+  Widening the helpers' output storage produces36/52-byte actual bodies, losing
+  the canonical37/47 proofs. Their new symbols are not bound as equivalent.
+- Copied working limits retain both midpoint calculations but grow to820 bytes,
+  a0x154 frame and133 differences, damaging21 old equal positions. Axis scopes
+  and separate bit writes preserve that raw body. An explicit memcpy copy also
+  gives820/133, but44 raw bytes differ from the implicit-copy case; matching
+  aggregate metrics do not establish identical generated code.
+- Direct read-only views eliminate the extra frame. Default/memcpy copies,
+  word masks, a scalar low threshold, upper-endpoint projection and a referenced
+  position all reproduce the same810-byte body with30 recovered positions and
+  no old-position damage. Source publication keeps the scalar-threshold model.
+  A writeback method and snapshot-width getter outline extra native calls and
+  are rejected; combining position references and snapshot width gives36 fields.
+
+Packet .analysis/gpt-61sol-20261029-controller-accumulation/ preserves the
+0790df3f source archive, recipes, all32 objects, complete fields/differences,
+failed verification logs, canonical-before-adoption.json and current adoption
+objects/receipts. verify.py replays the historical input epoch and62 successful
+existing-helper body proofs without compiling. verify_adoption.py replays the
+current source-bound proof, or cold-builds only the affected carrier with --build.
+probe.py accepts one case with --from-archive --output for a fresh frozen-source
+capture. After verification,156 duplicate/debug files totaling3097301 bytes are
+removed; unique source, objects and results survive and both replays pass.
+
+Five focused Controller tests pass, as do target-required tracking, generated
+progress and whitespace checks. Exact remains1003 and244917/291883(83.9093%);
+98%, native product/runtime, semantic and portability gates remain open.

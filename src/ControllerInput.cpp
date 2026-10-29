@@ -63,6 +63,33 @@ static u32 SetButtonFromJoystickButtons(
     return (inputButtons & mask) ? touhouButton : 0;
 }
 
+// Native JOYCAPSA min/max words form one eight-byte range. Keep the
+// low-edge snapshot separate from the source range used for the high edge.
+struct JoystickAxisRangeView
+{
+    UINT minimum;
+    UINT maximum;
+
+    u32 GetDirectionButtons(DWORD position, u16 lowerBit, u16 upperBit) const
+    {
+        UINT quarterWidth = (maximum - minimum) >> 2;
+        JoystickAxisRangeView lower(*this);
+        UINT lowerThreshold = (lower.maximum + lower.minimum) >> 1;
+        lowerThreshold -= quarterWidth;
+        u32 result = position < lowerThreshold ? lowerBit : 0;
+        UINT upper = (minimum + maximum) >> 1;
+        upper += quarterWidth;
+        return result | (position > upper ? upperBit : 0);
+    }
+};
+
+typedef char JoystickAxisRangeViewSizeIs8[
+    (sizeof(JoystickAxisRangeView) == 8) ? 1 : -1];
+typedef char ControllerAxisNativeXPair[
+    (offsetof(JOYCAPSA, wXmax) - offsetof(JOYCAPSA, wXmin) == sizeof(UINT)) ? 1 : -1];
+typedef char ControllerAxisNativeYPair[
+    (offsetof(JOYCAPSA, wYmax) - offsetof(JOYCAPSA, wYmin) == sizeof(UINT)) ? 1 : -1];
+
 u16 __fastcall GetControllerInput(
     int controllerIndex, int joystickIndex, u16 buttons)
 {
@@ -101,26 +128,12 @@ u16 __fastcall GetControllerInput(
         SetButtonFromJoystickButtons(
             &buttons, inputSlot->keyCodes58[8], 0x100, rawButtons);
 
-        // Each axis reads the indexed JOYCAPSA members directly; the original
-        // uses four independent array-relative address operands here.
-        UINT xDeadzone =
-            (g_JoystickCaps[savedJoystickIndex].wXmax -
-             g_JoystickCaps[savedJoystickIndex].wXmin) >> 2;
-        UINT xMidpoint =
-            (g_JoystickCaps[savedJoystickIndex].wXmin +
-             g_JoystickCaps[savedJoystickIndex].wXmax) >> 1;
-        buttons |= joystickInfo.dwXpos < xMidpoint - xDeadzone ? 0x40 : 0;
-        buttons |= joystickInfo.dwXpos > xMidpoint + xDeadzone ? 0x80 : 0;
-
-        UINT yDeadzone =
-            (g_JoystickCaps[savedJoystickIndex].wYmax -
-             g_JoystickCaps[savedJoystickIndex].wYmin) >> 2;
-        UINT yMidpoint =
-            (g_JoystickCaps[savedJoystickIndex].wYmin +
-             g_JoystickCaps[savedJoystickIndex].wYmax) >> 1;
-        buttons |= joystickInfo.dwYpos < yMidpoint - yDeadzone ? 0x10 : 0;
-        buttons |= joystickInfo.dwYpos > yMidpoint + yDeadzone ? 0x20 : 0;
-
+        buttons |= reinterpret_cast<const JoystickAxisRangeView *>(
+            &g_JoystickCaps[savedJoystickIndex].wXmin)->GetDirectionButtons(
+                joystickInfo.dwXpos, 0x40, 0x80);
+        buttons |= reinterpret_cast<const JoystickAxisRangeView *>(
+            &g_JoystickCaps[savedJoystickIndex].wYmin)->GetDirectionButtons(
+                joystickInfo.dwYpos, 0x10, 0x20);
         return buttons;
     }
 
