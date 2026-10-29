@@ -1,6 +1,7 @@
 #include "EnemyManager.hpp"
 #include "EnemyManagerCardAttackSpawn.hpp"
 #include "RngRuntimeLeaves.hpp"
+#include "GameManagerInstructionMaskView.hpp"
 #include "ZunTimer.hpp"
 #include "ZunTimerEqual.inl"
 
@@ -71,7 +72,6 @@ typedef char EnemyScheduleAdvanceInstructionAt20[
     (offsetof(EnemyScheduleRuntimeAdvanceOverlay, instruction20) == 0x20) ? 1 : -1];
 
 extern EnemyTimelineSharedRuntimeView *g_PlayerSharedRuntime;
-extern unsigned char g_EnemyTimelineInstructionMask;
 extern float g_EnemyTimelineStep;
 extern unsigned char g_FrontMode0Done;
 extern RngRuntimeView g_Rng;
@@ -96,7 +96,8 @@ int EnemyScheduleRuntimeView::Run()
 
         if (runtime->timer00 == instructionTime)
         {
-            if ((g_EnemyTimelineInstructionMask & instruction->mask07) != 0)
+            if ((reinterpret_cast<const GameManagerInstructionMaskView *>(
+                    &g_GameManager)->instructionMaskLowByte120 & instruction->mask07) != 0)
             {
                 switch (instruction->opcode04)
                 {

@@ -2066,3 +2066,27 @@ Ignored .analysis/handoff-cleanup-20261030/ contains deletion inventories,
 record-preservation checks and validation logs. Older artifact references above
 remain dated records. Their deleted code snapshots are not restart prerequisites;
 use current tracked source, target and pinned build/inspection commands.
+
+
+## 2026-10-30: instruction-mask audit checkpoint cleanup
+
+After the operator resumed dependency review, the ECL/timeline/setup storage
+correction preserves92 existing complete exact owners and leaves83.9093% credit
+unchanged. Five affected canonical carriers are compiled; the whole1003-owner
+cold replay is not repeated. Public CI passes1016 tests/29 skips in105.471s.
+
+Cleanup removes431 ignored generated build/debug/bytecode and rejected view-getter
+files totaling8361802 logical bytes (about8MiB). build/ is absent. All27 existing
+packet documentation/record/recipe/log hashes remain unchanged. Ten baseline and
+current proof COFF files are retained because the cache-free current verifier
+uses them; original input, Ghidra state, tools and tracked source are untouched.
+There are no experimental C++ source copies or new source archives. Initial failed
+compiler/CI logs and the rejected getter's actual six-byte bodies/fields remain
+in records, with disposable getter binaries removed after extraction.
+
+.analysis/gpt-61sol-20261030-ecl-difficulty-data/cleanup.json records the deletion
+inventory and protected hashes. verify_current.py passes after deletion and
+rechecks the five profiles'92 complete byte/relocation/literal proofs, original
+DWORD-write/DWORD-read/BYTE-read accesses and the unchanged full large owners.
+Documentation and reconstruction findings remain in the handoff and knowledge
+base; older packets stay dated records and need not accept newer source hashes.

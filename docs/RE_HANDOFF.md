@@ -9,7 +9,7 @@ without assuming earlier notes are conclusive. The98% milestone is unfinished.
 
 The restart game-source baseline is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
 (Controller axis ranges); maintenance checkpoint7bc3b956 adds no game-source
-change. The current Player charge contract correction is described below. Use
+change. The charge, RunEcl and instruction-mask corrections are described below. Use
 live Git status and ledgers before dated measurements. Exactness credit and
 compiler profiles remain unchanged. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
 local commits do not establish remote publication.
@@ -72,9 +72,47 @@ focused ECL tests pass; public CI passes1012 tests/29 skips. Current proof objec
 remain after19 disposable object/debug files are removed; no source snapshots or
 new code archives remain.
 
-The next dependency audit should examine remaining data aliases and their actual
-storage, including4A7EB0 inside the currently opaque+120 GameManager view range.
-That address relationship alone does not prove original C++ member ownership.
+The instruction-mask audit below supersedes the proposed4A7EB0 investigation.
+Remaining callback-table and BossLifeMarker data aliases still need independent
+storage/definition review; no conclusion follows from address containment alone.
+
+## Shared instruction-mask storage and GameManager global identity
+
+Fresh direct Ghidra and independently decoded original PE accesses confirm
+408885 reads DWORD4A7EB0,40FD2A reads its low BYTE, and41AF8A writes DWORD0xFF.
+The old ECL and timeline declarations named distinct C++ globals for this same
+storage; setup also declared g_GameManager with a competing local-layout type.
+All three now use the existing AsciiGameManagerView global root4A7D90 and
+layout-checked+120 storage. Setup retains its local view, accessed through local
+references. The observed prefix/union does not establish original nominal member
+ownership, the complete GameManager class, or whole-product link closure.
+
+Five canonical carrier builds preserve92 existing exact owners:29274 complete
+physical bytes/1411 fields, including timeline's complete1048-byte table-bearing
+extent and setup's425-byte cleanup. Thirty-nine private names are refreshed only
+at proven unchanged COFF coordinates. Ninety-three setup references adopt the
+shared native root; timeline's field6C becomes root4A7D90+120, preserving4A7EB0.
+All nondebug sections and effective relocation identities remain equal in all
+five objects. RunEcl's linked15564 bytes/598 fields/30 differences, Enemy3900/97/13
+and Setup1689/171/904 remain unchanged. No new exactness credit is earned.
+
+The ECL audit removes the retired mask alias and requires the native undefined
+root, canonical provenance, addend120 and decoded DWORD read. Regression cases
+reject equal-address aliases, wrong roots/widths/accesses and missing fields;
+the actual prior ECL object is also rejected. Current source/profile/provider-
+bound replay is .analysis/gpt-61sol-20261030-ecl-difficulty-data/verify_current.py;
+--build compiles only the five affected carriers, serially at lowered priority.
+Default replay needs retained proof objects, not build/. Keep documentation,
+compiler logs, records and recipes; no old C++ source copies or archives are made.
+The unchanged residuals rule out this corrected storage declaration alone as the
+explanation for either large owner's remaining bytes.
+
+All92 focused ECL tests and22 focused GameManager/Front tests pass. Public CI
+passes1016 tests/29 skips in105.471s. Two obsolete source-spelling assertions
+are replaced by original-address/native-relocation checks, rather than making
+the new local variable spelling an acceptance rule. Cleanup removes431 ignored
+build/debug/bytecode and rejected-getter files,8361802 bytes; all27 research-record
+hashes remain unchanged. Cache-free current replay passes after build/ removal.
 
 ## Source changes and retained current proofs
 

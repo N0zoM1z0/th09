@@ -23,7 +23,7 @@ BASE,SIZE=0x0041B5C6,425
 SYMBOL='?CleanupGameplayState@GameManagerSetupLayout@@SIXXZ'
 TARGET_SHA='e31f3c176b3b735008612b07823982a646248cbae4fb8ac826e2f2cff2d6a798'
 SOURCES={
- '?g_GameManager@@3UGameManagerSetupLayout@@A':0x004A7D90,
+ '?g_GameManager@@3UAsciiGameManagerView@@A':0x004A7D90,
  '?ResetGameManager@@YIXPAUGameManagerSetupLayout@@@Z':0x0041A7C3,
  '?g_AsciiManager@@3VAsciiManager@@A':0x004CE458,
  '?Reset@AsciiManager@@QAEXXZ':0x004343E0,

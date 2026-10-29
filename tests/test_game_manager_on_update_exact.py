@@ -1,4 +1,4 @@
-"""Target-independent source/manifest and two-profile GameManager regressions."""
+"""Target-independent original-address/manifest and two-profile GameManager regressions."""
 
 import importlib.util
 from pathlib import Path
@@ -19,7 +19,6 @@ class GameManagerExactSource(unittest.TestCase):
         with (ROOT / 'config/match-units.toml').open('rb') as src:
             cls.units = tomllib.load(src)['units']
         cls.unit = cls.units['game-manager-on-update']
-        cls.source = (ROOT / 'src/GameManagerSetup.cpp').read_text()
 
     def test_cleanup_manifest_keeps_original_extent_native_calls_and_os_profile(self):
         unit = self.units['game-manager-cleanup-gameplay-state']
@@ -67,16 +66,20 @@ class GameManagerExactSource(unittest.TestCase):
         self.assertEqual(offsets[15:], [290,290])
         self.assertFalse(set(offsets[:5]) & set(offsets[5:15]))
 
-    def test_five_named_true_member_references_and_two_complete_publications(self):
-        part = self.source.split('int GameManagerSetupLayout::OnUpdate(',1)[1].split(
-            '\nint GameManagerSetupLayout::OnDraw(',1)[0]
-        fields = ('currentInput','word02','repeatOutput','word06','word08')
-        for i,field in enumerate(fields):
-            self.assertIn(f'const unsigned short &w{i} = g_ReplayInputStates[2].{field};',part)
-            self.assertEqual(part.count(f'g_ReplayInputStates[0].{field} = w{i};'),1)
-            self.assertEqual(part.count(f'g_ReplayInputStates[1].{field} = w{i};'),1)
-        self.assertNotIn('const InputSnapshot snapshot',part)
-        self.assertIn('g_GameManager.playtimeFrames++;',part)
+    def test_original_playtime_counter_uses_shared_native_global_root(self):
+        # Original increment at 0x41AA65 addresses GameManager +0x12C.
+        # Full PE/COFF replay proves the instruction, not variable spelling.
+        row = next(r for r in self.unit['relocations'] if r['offset'] == 8)
+        self.assertEqual(row, dict(offset=8, type='DIR32',
+                         symbol='?g_GameManager@@3UAsciiGameManagerView@@A',
+                         target=0x4A7D90, addend=0x12C))
+        for unit in self.units.values():
+            if unit['source'] != 'src/GameManagerSetup.cpp':
+                continue
+            for field in unit.get('relocations', []):
+                if field['symbol'].startswith('?g_GameManager@@'):
+                    self.assertEqual(field['symbol'], '?g_GameManager@@3UAsciiGameManagerView@@A')
+                    self.assertEqual(field['target'], 0x4A7D90)
 
     def test_two_distinct_real_tu_profiles_are_never_confused(self):
         fast = self.unit['profile']

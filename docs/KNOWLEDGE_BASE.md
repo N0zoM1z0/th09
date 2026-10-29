@@ -22962,3 +22962,86 @@ The actual old alias object is rejected by the new native-member gate. After
 all eight cases and612 complete-body proofs are replayed,19 disposable object/
 debug files totaling4248883 bytes are removed. Current objects, full records,
 recipes and logs remain; no temporary source tree or code archive remains.
+
+
+## October30: unify observed instruction-mask storage and the setup global root
+
+Recovery from4514216e is clean. The target, target-required tracking and current
+83.9093% status pass before analysis. Fresh direct Ghidra exports at
+.analysis/ghidra-direct/difficulty-mask-20261030/ attest the original JP1.50a
+Program against all685056 file-backed mapped bytes. A separate Capstone scan of
+reviewed original code extents finds three direct absolute operands for4A7EB0:
+RunEcl408885 reads DWORD, timeline40FD2A reads BYTE, setup41AF8A writes DWORD0xFF.
+This bounded scan is not a claim of complete executable xrefs. Ghidra semantics
+and address arithmetic alone are not an exactness or nominal-ownership Oracle.
+
+The maintained source had two independently named mask globals and setup's
+incompatible GameManagerSetupLayout global declaration. Sharing a numeric alias
+in a diagnostic does not unify their C++ object identities or overlapping storage.
+GameManagerInstructionMaskView.hpp now declares the existing AsciiGameManagerView
+root and a checked+120 prefix with DWORD/low-byte accesses. ECL and timeline read
+that root; setup uses its existing local layout through eight local references.
+Its mask field is named instructionMask120 and checked against the shared prefix.
+No complete original class, original union spelling, unique nominal owner, global
+product definition or Windows i386 link/runtime closure is inferred. Other setup
+and timeline facade interfaces remain separate audit work.
+
+Both canonical ECL profiles, timeline and both setup profiles compile serially
+at nice10 on one CPU. All92 existing complete exact owners pass29274 physical
+bytes/1411 fields, including timeline's974 logical/1048 physical bytes and actual
+switch table, and cleanup's425 bytes/43 fields. Config changes are exactly39
+private references at unchanged actual owner-local COFF coordinates,93 setup
+references to the native root at4A7D90, and timeline field6C from its byte alias
+at4A7EB0 to root4A7D90 with actual addend120. No profile, owner target/extent,
+byte mask or acceptance threshold changes. Literal definitions also replay.
+
+Whole nondebug object preservation is checked independently of accepted owners:
+ECL main203 sections/50452 bytes/2097 fields, ECL Ob0's203/47248/2235, timeline's
+4/1116/42, setup Os19/4737/408 and setup O2's18/5271/455. Only mask root/addend
+fields and equivalent reference spellings change. Every other raw byte, actual
+symbol coordinate and effective relocation identity is preserved. Each ECL object
+has220 private-name changes, timeline19, setup O2 twelve; setup's201/222 native
+root references are preserved across its two profiles. These comparisons prove
+control-to-control preservation, not original exactness of all object sections.
+A first inline view-getter model passed complete existing owners but emitted an
+unnecessary extra helper. The local-reference form removes that extra body;
+records retain the rejected proposal's hashes and findings, without source copies.
+
+Complete original-bound RunEcl remains15564/598/30 ordinary differences with no
+field/table difference and exactly the previous linked hash/residual positions.
+Enemy remains3900/97/13, raw-identical. Setup remains1689/171/904, raw-identical,
+with35 ordered calls and the same residual positions. The original DWORD-write,
+DWORD-read and BYTE-read widths and write0xFF are rechecked directly against each
+actual compiled memory operand, independently of field-address normalization.
+This corrects a source-storage identity discrepancy; it does not explain or fix
+the large owners' remaining codegen, nor establish that all other dependencies
+are already correct. No new exactness credit is recorded;98% remains unfinished.
+
+The ECL audit removes the old mask numeric alias and requires the undefined
+native root, zero symbol value, canonical provenance, actual addend120, original
+field408887 and decoded DWORD read. Four pure-input regressions reject retired
+mask/global spellings despite equal addresses, wrong widths/accesses/addends,
+defined surrogates, missing/duplicated fields and false identity/provenance. The
+actual4514216e ECL object fails this updated gate, as intended. Setup and cleanup
+inspectors also bind only the shared root identity. Existing indirect-call raw-
+hash observations retain their historical scope; complete object comparison here
+shows the indirect instruction bytes/operands unchanged, not a new runtime proof.
+
+.analysis/gpt-61sol-20261030-ecl-difficulty-data/ keeps the original access scan,
+compiler logs, baseline/current COFF, full byte/relocation/literal comparisons,
+reviewed manifest changes, input bindings and recipes. verify_current.py checks
+current source closure, profiles, providers and target before replaying all92
+owners and the three large diagnostics without build caches; --build compiles
+only five affected carriers. No source snapshots or new code archives are made.
+Older packets remain dated evidence and can correctly reject these newer inputs.
+
+The initial public check found two obsolete assertions of literal global-variable
+spelling, despite complete original-byte preservation. They now check the original
+playtime-counter address/root and actual cleanup-to-Front native call relocation;
+they do not pin the replacement local variable name, cast or include count.
+All92 focused ECL tests and22 GameManager/Front tests pass. Final public CI passes
+1016 tests/29 skips in105.471s; the initial failure log is retained. Target-required
+tracking, documentation, progress and whitespace checks pass. Cleanup removes431
+disposable ignored build/debug/bytecode and rejected-getter files totaling8361802
+bytes. All27 existing packet record hashes remain unchanged; ten baseline/current
+proof objects remain. Current source-bound replay passes with build/ absent.

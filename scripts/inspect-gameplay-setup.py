@@ -48,7 +48,7 @@ DESTINATIONS = {
     '?SupervisorCalculateFps@@YIXH@Z': 0x4316B0,
     '?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ': 0x415910,
     '?g_GameConfiguration@@3PAUGameConfiguration@@A': 0x4A7E78,
-    '?g_GameManager@@3UGameManagerSetupLayout@@A': 0x4A7D90,
+    '?g_GameManager@@3UAsciiGameManagerView@@A': 0x4A7D90,
     '?g_ReplayPlayTimeText@@3PADA': 0x4AC879,
     '?g_SetupSeedSource@@3GA': 0x4ACE0C,
     '?g_SetupStatus@@3HA': 0x4AC884,

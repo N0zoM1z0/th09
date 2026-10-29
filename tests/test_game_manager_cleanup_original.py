@@ -19,7 +19,7 @@ spec.loader.exec_module(mod)
 class CleanupOriginalIdentityTests(unittest.TestCase):
     @staticmethod
     def rows():
-        key='?g_GameManager@@3UGameManagerSetupLayout@@A'
+        key='?g_GameManager@@3UAsciiGameManagerView@@A'
         return [dict(offset=2+10*i, type='DIR32',symbol=key,addend=0)
                 for i in range(41)]
 

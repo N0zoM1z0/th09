@@ -37,15 +37,13 @@ class SharedFrontMessageOwner(unittest.TestCase):
             with self.subTest(fragment=fragment):
                 self.assertIn(fragment, self.header)
 
-    def test_no_source_duplicate_or_fabricated_front_callback_owner(self):
-        for body in (self.impl, self.game, self.front):
-            self.assertEqual(body.count('#include "FrontMessageOwnerView.hpp"'), 1)
-            self.assertNotIn('struct FrontMessageOwnerView\n', body)
-            self.assertNotIn('SetupFrontMessageResetView', body)
-            self.assertNotIn('FrontAddedMessageOwnerView', body)
-        self.assertIn('static_cast<FrontMessageOwnerView *>(g_GameManager.gameSubsystem)', self.game)
-        self.assertIn('reinterpret_cast<FrontMessageOwnerView *>(front)', self.front)
-        self.assertIn('void FrontMessageOwnerView::InitializeMessageRuntime()', self.impl)
+    def test_cleanup_calls_the_complete_native_message_owner(self):
+        # The actual original CALL at +0x1B binds its REL32 field at +0x1C.
+        # Local names, casts and include counts are not acceptance criteria.
+        rows = self.units['game-manager-cleanup-gameplay-state']['relocations']
+        calls = [r for r in rows if r['target'] == VA]
+        self.assertEqual(calls, [dict(offset=0x1C, type='REL32', symbol=SYMBOL, target=VA)])
+        self.assertEqual(self.units['front-message-initialize-runtime']['size'], 133)
 
     def test_same_genuine_member_referent_preserved_in_both_auditors(self):
         real = self.units['front-message-initialize-runtime']
@@ -59,8 +57,8 @@ class SharedFrontMessageOwner(unittest.TestCase):
         self.assertIn("'" + SYMBOL + "':0x004181E0", self.game_inspector)
 
     def test_preserves_both_distinct_nonexact_callers(self):
-        # Source/physical bound is not exactness; the original 425-byte
-        # gameplay cleanup remains 410 bytes in source and Front Added 706.
+        # Cleanup now has a complete canonical425-byte replay. Front Added
+        # remains a distinct nonexact caller; the signature alone proves neither.
         self.assertIn('CleanupGameplayState()', self.game)
         self.assertIn('int FrontAddedCallback(void *frontArg)', self.front)
         self.assertIn('425', self.game_inspector)

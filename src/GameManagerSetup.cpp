@@ -16,6 +16,7 @@
 #include "Chain.hpp"
 #include "GameConfiguration.hpp"
 #include "GameManagerOpponentSelectionView.hpp"
+#include "GameManagerInstructionMaskView.hpp"
 #include "ScreenEffect.hpp"
 #include "ReplayInputState.hpp"
 #include "ReplayManagerRuntimeView.hpp"
@@ -175,7 +176,7 @@ struct GameManagerSetupLayout
     unsigned char unknown_110[8];
     int gameMode;
     int setupMode;
-    int value120;
+    unsigned int instructionMask120;
     int gameplaySetupState;
     int gameplaySetupWaitFrames;
     int playtimeFrames;
@@ -254,7 +255,10 @@ typedef char SupervisorSetupLayoutLoadingAnmAt5D0[
 typedef char SupervisorSetupLayoutLoadingFlagAt740[
     (offsetof(SupervisorSetupLayout, loadingVmsHaveBeenSetup) == 0x740) ? 1 : -1];
 
-extern GameManagerSetupLayout g_GameManager;
+typedef char SetupGameManagerInstructionMaskAt120[
+    (offsetof(GameManagerSetupLayout, instructionMask120) ==
+     offsetof(GameManagerInstructionMaskView, instructionMask120)) ? 1 : -1];
+
 extern Chain g_Chain;
 extern ChainElem g_GameManagerCalcChain;
 extern ChainElem g_GameManagerDrawChain;
@@ -295,14 +299,17 @@ extern void __fastcall SupervisorCalculateFps(int shouldDraw);
 extern void __fastcall GameplaySetupThread(void *unused);
 int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 {
+    GameManagerSetupLayout &globalManager =
+        *reinterpret_cast<GameManagerSetupLayout *>(&g_GameManager);
+
     SupervisorSetupLayout *supervisor =
         reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
 
-    g_GameManager.playtimeFrames++;
+    globalManager.playtimeFrames++;
 
-    if (g_GameManager.gameMode != 2 ||
-        g_GameManager.sides[0].selector != 0 ||
-        g_GameManager.sides[1].selector != 0)
+    if (globalManager.gameMode != 2 ||
+        globalManager.sides[0].selector != 0 ||
+        globalManager.sides[1].selector != 0)
     {
         // The source is the distinct third ReplayInputState: its five word
         // members cannot alias either destination [0] or [1]. Bind each real
@@ -326,21 +333,21 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 
     }
 
-    if (g_GameManager.gameplaySetupState != 0)
+    if (globalManager.gameplaySetupState != 0)
     {
-        if (g_GameManager.gameplaySetupState == 2)
+        if (globalManager.gameplaySetupState == 2)
             return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
         gameManager->gameplaySetupWaitFrames++;
         return CHAIN_CALLBACK_RESULT_BREAK;
     }
 
-    if (g_GameManager.stageStartupMode != 0)
+    if (globalManager.stageStartupMode != 0)
     {
         reinterpret_cast<AnmManagerOnUpdateView *>(g_AnmManager)->ReleaseSurface(8);
         supervisor->loadingVmsHaveBeenSetup = 0;
-        if (g_GameManager.stageStartupMode == 1)
+        if (globalManager.stageStartupMode == 1)
             supervisor->StartStageAudio(0, 0);
-        g_GameManager.stageStartupMode = 0;
+        globalManager.stageStartupMode = 0;
     }
 
     if (gameManager->menuBlock13D == 0 &&
@@ -383,40 +390,40 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         return CHAIN_CALLBACK_RESULT_BREAK;
     }
 
-    if (!reinterpret_cast<GameSubsystemSetupView *>(g_GameManager.gameSubsystem)->IsActive())
+    if (!reinterpret_cast<GameSubsystemSetupView *>(globalManager.gameSubsystem)->IsActive())
     {
-        g_GameManager.valueD0++;
+        globalManager.valueD0++;
 
-        if (++g_GameManager.valueB0 % g_GameManager.valueC4 ==
-            g_GameManager.valueC4 - 1 &&
-            ++g_GameManager.limitB4 > g_GameManager.valueC8)
+        if (++globalManager.valueB0 % globalManager.valueC4 ==
+            globalManager.valueC4 - 1 &&
+            ++globalManager.limitB4 > globalManager.valueC8)
         {
-            g_GameManager.limitB4 = g_GameManager.valueC8;
+            globalManager.limitB4 = globalManager.valueC8;
         }
 
-        g_GameManager.valueC0++;
+        globalManager.valueC0++;
         // These difficulty counters belong to each side's subsystem1 object;
         // the separate state buffer is allocated as 0xA0 bytes.
-        if (g_GameManager.valueB0 % 3600u == 3599u)
+        if (globalManager.valueB0 % 3600u == 3599u)
         {
-            if (static_cast<PlayerLifecycleView *>(g_GameManager.sides[0].subsystem1)->header24.state7C < 16)
-                static_cast<PlayerLifecycleView *>(g_GameManager.sides[0].subsystem1)->header24.state7C++;
-            if (static_cast<PlayerLifecycleView *>(g_GameManager.sides[0].subsystem1)->header24.state80 < 16)
-                static_cast<PlayerLifecycleView *>(g_GameManager.sides[0].subsystem1)->header24.state80++;
-            if (static_cast<PlayerLifecycleView *>(g_GameManager.sides[1].subsystem1)->header24.state7C < 16)
-                static_cast<PlayerLifecycleView *>(g_GameManager.sides[1].subsystem1)->header24.state7C++;
-            if (static_cast<PlayerLifecycleView *>(g_GameManager.sides[1].subsystem1)->header24.state80 < 16)
-                static_cast<PlayerLifecycleView *>(g_GameManager.sides[1].subsystem1)->header24.state80++;
+            if (static_cast<PlayerLifecycleView *>(globalManager.sides[0].subsystem1)->header24.state7C < 16)
+                static_cast<PlayerLifecycleView *>(globalManager.sides[0].subsystem1)->header24.state7C++;
+            if (static_cast<PlayerLifecycleView *>(globalManager.sides[0].subsystem1)->header24.state80 < 16)
+                static_cast<PlayerLifecycleView *>(globalManager.sides[0].subsystem1)->header24.state80++;
+            if (static_cast<PlayerLifecycleView *>(globalManager.sides[1].subsystem1)->header24.state7C < 16)
+                static_cast<PlayerLifecycleView *>(globalManager.sides[1].subsystem1)->header24.state7C++;
+            if (static_cast<PlayerLifecycleView *>(globalManager.sides[1].subsystem1)->header24.state80 < 16)
+                static_cast<PlayerLifecycleView *>(globalManager.sides[1].subsystem1)->header24.state80++;
         }
 
-        if (g_GameManager.valueB8 < 6 &&
-            g_GameManager.valueC0 % 720u == 719u)
+        if (globalManager.valueB8 < 6 &&
+            globalManager.valueC0 % 720u == 719u)
         {
-            g_GameManager.valueB8++;
+            globalManager.valueB8++;
         }
 
-        if ((g_GameManager.flags & 0x1800u) == 0 &&
-            (g_GameManager.sides[0].flags & 1u) == 0)
+        if ((globalManager.flags & 0x1800u) == 0 &&
+            (globalManager.sides[0].flags & 1u) == 0)
         {
             unsigned int elapsed = gameManager->valueB0;
             int increase;
@@ -426,10 +433,10 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
                 increase = 4;
             else
                 increase = elapsed < 5400u ? 6 : 7;
-            g_GameManager.valueCC += increase;
+            globalManager.valueCC += increase;
         }
 
-        if (g_GameManager.valueCC > 10000)
+        if (globalManager.valueCC > 10000)
         {
             // Sample an unsigned four-lane value before the later int adjustment.
             unsigned short laneSample =
@@ -442,7 +449,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
                     lane = 0;
             }
 
-            g_GameManager.valueCC -= 10000;
+            globalManager.valueCC -= 10000;
             SetupLoadingPosition position;
             position.x = 0.0f;
             position.z = 0.0f;
@@ -450,82 +457,82 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
             position.y = -32.0f;
 
             SpawnedSideObjectView *object =
-                reinterpret_cast<SideSpawnerSetupView *>(g_GameManager.sides[0].subsystem4)
+                reinterpret_cast<SideSpawnerSetupView *>(globalManager.sides[0].subsystem4)
                     ->Spawn(19, &position, 830, -2, 10000, 0, 0);
             object->selector335C = lane;
             object->flags3380 |= 0x2000u;
 
             object =
-                reinterpret_cast<SideSpawnerSetupView *>(g_GameManager.sides[1].subsystem4)
+                reinterpret_cast<SideSpawnerSetupView *>(globalManager.sides[1].subsystem4)
                     ->Spawn(19, &position, 830, -2, 10000, 0, 0);
             object->flags3380 |= 0x2000u;
             object->selector335C = lane;
 
             g_SoundPlayer.PlaySoundByIdx(0x33, 0);
-            reinterpret_cast<SideAuxSetupView *>(g_GameManager.sides[0].subsystem6)->Trigger(1);
-            reinterpret_cast<SideAuxSetupView *>(g_GameManager.sides[1].subsystem6)->Trigger(1);
+            reinterpret_cast<SideAuxSetupView *>(globalManager.sides[0].subsystem6)->Trigger(1);
+            reinterpret_cast<SideAuxSetupView *>(globalManager.sides[1].subsystem6)->Trigger(1);
         }
     }
 
     for (int sideIndex = 0; sideIndex < 2; sideIndex++)
     {
-        if (g_GameManager.sides[sideIndex].state->value08 >= 1000000000u)
-            g_GameManager.sides[sideIndex].state->value08 = 999999999u;
+        if (globalManager.sides[sideIndex].state->value08 >= 1000000000u)
+            globalManager.sides[sideIndex].state->value08 = 999999999u;
 
-        if (g_GameManager.sides[sideIndex].state->value04 !=
-            g_GameManager.sides[sideIndex].state->value08)
+        if (globalManager.sides[sideIndex].state->value04 !=
+            globalManager.sides[sideIndex].state->value08)
         {
-            if (g_GameManager.sides[sideIndex].state->value08 <
-                g_GameManager.sides[sideIndex].state->value04)
+            if (globalManager.sides[sideIndex].state->value08 <
+                globalManager.sides[sideIndex].state->value04)
             {
-                g_GameManager.sides[sideIndex].state->value08 =
-                    g_GameManager.sides[sideIndex].state->value04;
+                globalManager.sides[sideIndex].state->value08 =
+                    globalManager.sides[sideIndex].state->value04;
             }
 
             unsigned int step =
-                (g_GameManager.sides[sideIndex].state->value08 -
-                 g_GameManager.sides[sideIndex].state->value04) /
+                (globalManager.sides[sideIndex].state->value08 -
+                 globalManager.sides[sideIndex].state->value04) /
                 15u;
             if (step >= 578910u)
                 step = 578910u;
             else if (step == 0)
                 step = 1;
 
-            if (g_GameManager.sides[sideIndex].state->value0C < step)
-                g_GameManager.sides[sideIndex].state->value0C = step;
-            if (g_GameManager.sides[sideIndex].state->value04 +
-                    g_GameManager.sides[sideIndex].state->value0C >
-                g_GameManager.sides[sideIndex].state->value08)
+            if (globalManager.sides[sideIndex].state->value0C < step)
+                globalManager.sides[sideIndex].state->value0C = step;
+            if (globalManager.sides[sideIndex].state->value04 +
+                    globalManager.sides[sideIndex].state->value0C >
+                globalManager.sides[sideIndex].state->value08)
             {
-                g_GameManager.sides[sideIndex].state->value0C =
-                    g_GameManager.sides[sideIndex].state->value08 -
-                    g_GameManager.sides[sideIndex].state->value04;
+                globalManager.sides[sideIndex].state->value0C =
+                    globalManager.sides[sideIndex].state->value08 -
+                    globalManager.sides[sideIndex].state->value04;
             }
-            g_GameManager.sides[sideIndex].state->value04 +=
-                g_GameManager.sides[sideIndex].state->value0C;
-            if (g_GameManager.sides[sideIndex].state->value04 >=
-                g_GameManager.sides[sideIndex].state->value08)
+            globalManager.sides[sideIndex].state->value04 +=
+                globalManager.sides[sideIndex].state->value0C;
+            if (globalManager.sides[sideIndex].state->value04 >=
+                globalManager.sides[sideIndex].state->value08)
             {
-                g_GameManager.sides[sideIndex].state->value0C = 0;
-                g_GameManager.sides[sideIndex].state->value04 =
-                    g_GameManager.sides[sideIndex].state->value08;
+                globalManager.sides[sideIndex].state->value0C = 0;
+                globalManager.sides[sideIndex].state->value04 =
+                    globalManager.sides[sideIndex].state->value08;
             }
         }
     }
 
-    if (g_GameManager.gameMode == 0)
+    if (globalManager.gameMode == 0)
     {
-        if (g_GameManager.sides[0].state->value04 >=
-            2000000u * g_GameManager.sides[0].state->phase10 + 1000000u)
+        if (globalManager.sides[0].state->value04 >=
+            2000000u * globalManager.sides[0].state->phase10 + 1000000u)
         {
-            g_GameManager.AdvanceTimedState();
+            globalManager.AdvanceTimedState();
         }
     }
-    if (g_GameManager.gameMode == 1 &&
-        g_GameManager.sides[0].state->value04 >=
-            500000u * (g_GameManager.sides[0].state->phase10 + 1))
+    if (globalManager.gameMode == 1 &&
+        globalManager.sides[0].state->value04 >=
+            500000u * (globalManager.sides[0].state->phase10 + 1))
     {
-        g_GameManager.AdvanceTimedState();
+        globalManager.AdvanceTimedState();
     }
 
     gameManager->value348++;
@@ -555,9 +562,12 @@ int GameManagerSetupLayout::OnDraw(GameManagerSetupLayout *gameManager)
 
 int GameManagerSetupLayout::RegisterChain()
 {
-    GameManagerSetupLayout *manager = &g_GameManager;
+    GameManagerSetupLayout &globalManager =
+        *reinterpret_cast<GameManagerSetupLayout *>(&g_GameManager);
 
-    g_GameManager.value348 = 0;
+    GameManagerSetupLayout *manager = &globalManager;
+
+    globalManager.value348 = 0;
     g_GameManagerCalcChain.callback =
         (ChainCallback)GameManagerSetupLayout::OnUpdate;
     g_GameManagerCalcChain.addedCallback =
@@ -580,6 +590,9 @@ int GameManagerSetupLayout::RegisterChain()
 
 int GameManagerSetupLayout::AddedCallback(GameManagerSetupLayout *gameManager)
 {
+    GameManagerSetupLayout &globalManager =
+        *reinterpret_cast<GameManagerSetupLayout *>(&g_GameManager);
+
     SupervisorSetupLayout *supervisor =
         reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
 
@@ -596,7 +609,7 @@ int GameManagerSetupLayout::AddedCallback(GameManagerSetupLayout *gameManager)
 
     SetupLoadingPosition position;
     position.z = 0.0f;
-    g_GameManager.gameplaySetupState = 1;
+    globalManager.gameplaySetupState = 1;
 
     if (supervisor->value594 == 1)
     {
@@ -626,12 +639,15 @@ int GameManagerSetupLayout::AddedCallback(GameManagerSetupLayout *gameManager)
 
 int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
 {
+    GameManagerSetupLayout &globalManager =
+        *reinterpret_cast<GameManagerSetupLayout *>(&g_GameManager);
+
     SupervisorSetupLayout *supervisor =
         reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
 
-    g_GameManager.sides[0].value24 = g_GameManager.sides[0].value20;
-    g_GameManager.sides[1].value24 = g_GameManager.sides[1].value20;
-    g_GameManager.valueF8 = g_GameManager.valueF4;
+    globalManager.sides[0].value24 = globalManager.sides[0].value20;
+    globalManager.sides[1].value24 = globalManager.sides[1].value20;
+    globalManager.valueF8 = globalManager.valueF4;
     gameManager->flags &= ~4u;
 
     if (supervisor->state590 != 3 &&
@@ -648,14 +664,14 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
     memset(g_DeletedScratch, 0, sizeof(g_DeletedScratch));
 
     SetupStateBuffer *state =
-        reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].state);
+        reinterpret_cast<SetupStateBuffer *>(globalManager.sides[0].state);
     if (state != NULL)
     {
         g_DeletedScoreRecord.value0C = state->value08;
         g_DeletedScoreRecord.sideValue14 =
-            static_cast<unsigned char>(g_GameManager.sides[0].value20);
+            static_cast<unsigned char>(globalManager.sides[0].value20);
         g_DeletedScoreRecord.setupMode15 =
-            static_cast<unsigned char>(g_GameManager.setupMode);
+            static_cast<unsigned char>(globalManager.setupMode);
         g_DeletedScoreRecord.stateValue2B = state->value14;
         g_DeletedScoreRecord.value10 = 0.0f;
         g_DeletedScoreRecord.magic = 0x52435348u;
@@ -666,7 +682,7 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
         g_DeletedScoreRecord.runtimeMarker = 0;
     }
 
-    if ((g_GameManager.flags & 8u) != 0 && supervisor->value598 != 0)
+    if ((globalManager.flags & 8u) != 0 && supervisor->value598 != 0)
     {
         ReleaseStageObject(gameManager->stageObject);
         gameManager->stageObject = NULL;
@@ -717,21 +733,24 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
 
 void GameManagerSetupLayout::AdvanceTimedState()
 {
+    GameManagerSetupLayout &globalManager =
+        *reinterpret_cast<GameManagerSetupLayout *>(&g_GameManager);
+
     SetupStateBuffer *state =
-        reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].state);
+        reinterpret_cast<SetupStateBuffer *>(globalManager.sides[0].state);
 
     if (state->value00 < 7.0f)
     {
         state->value00 += 1.0f;
         g_SoundPlayer.PlaySoundByIdx(0x1C, 0);
-        state = reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].state);
+        state = reinterpret_cast<SetupStateBuffer *>(globalManager.sides[0].state);
     }
 
     state->phase10++;
 
     SetupStateBuffer *thresholdState =
-        reinterpret_cast<SetupStateBuffer *>(g_GameManager.sides[0].state);
-    if (g_GameManager.gameMode == 1)
+        reinterpret_cast<SetupStateBuffer *>(globalManager.sides[0].state);
+    if (globalManager.gameMode == 1)
     {
         if (thresholdState->phase10 >= 8)
             thresholdState->phase10 = 99999;
@@ -745,14 +764,17 @@ void GameManagerSetupLayout::AdvanceTimedState()
 
 void GameManagerSetupLayout::CleanupGameplayState()
 {
-    ResetGameManager(&g_GameManager);
+    GameManagerSetupLayout &globalManager =
+        *reinterpret_cast<GameManagerSetupLayout *>(&g_GameManager);
+
+    ResetGameManager(&globalManager);
     g_AsciiManager.Reset();
-    static_cast<FrontMessageOwnerView *>(g_GameManager.gameSubsystem)->InitializeMessageRuntime();
-    ResetExAttackRecords(static_cast<ExAttackController *>(g_GameManager.secondarySubsystem));
+    static_cast<FrontMessageOwnerView *>(globalManager.gameSubsystem)->InitializeMessageRuntime();
+    ResetExAttackRecords(static_cast<ExAttackController *>(globalManager.secondarySubsystem));
 
     for (int sideIndex = 0; sideIndex < 2; sideIndex++)
     {
-        SetupSideState *side = &g_GameManager.sides[sideIndex];
+        SetupSideState *side = &globalManager.sides[sideIndex];
         side->flags &= ~1u;
         static_cast<SetupBackgroundResetView *>(side->subsystem0)->ClearSpellBackgroundState();
         static_cast<PlayerLifecycleView *>(side->subsystem1)->InitializeAddedState();
@@ -763,44 +785,44 @@ void GameManagerSetupLayout::CleanupGameplayState()
         static_cast<SetupFrontSideResetView *>(side->subsystem6)->ResetTransitionState();
     }
 
-    static_cast<EffectManager *>(g_GameManager.sharedSubsystem)->ResetPool();
+    static_cast<EffectManager *>(globalManager.sharedSubsystem)->ResetPool();
 
-    if (g_GameManager.gameMode == 2)
+    if (globalManager.gameMode == 2)
     {
-        g_GameManager.limitB4 -= 8;
-        if (g_GameManager.limitB4 < g_GameManager.value100)
-            g_GameManager.limitB4 = g_GameManager.value100;
+        globalManager.limitB4 -= 8;
+        if (globalManager.limitB4 < globalManager.value100)
+            globalManager.limitB4 = globalManager.value100;
     }
     else
     {
-        int stageValue = g_GameManager.value100;
+        int stageValue = globalManager.value100;
 
-        switch (g_GameManager.setupMode)
+        switch (globalManager.setupMode)
         {
         case 0:
-            g_GameManager.limitB4 = g_GameManager.counterFC / 3 + 1;
-            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 6;
-            g_GameManager.valueC4 = 600 * (stageValue + 3);
+            globalManager.limitB4 = globalManager.counterFC / 3 + 1;
+            globalManager.valueC8 = globalManager.counterFC / 2 + 6;
+            globalManager.valueC4 = 600 * (stageValue + 3);
             break;
         case 1:
-            g_GameManager.limitB4 = g_GameManager.counterFC + 1;
-            g_GameManager.valueC8 = g_GameManager.counterFC + 10;
-            g_GameManager.valueC4 = 600 * (stageValue + 2);
+            globalManager.limitB4 = globalManager.counterFC + 1;
+            globalManager.valueC8 = globalManager.counterFC + 10;
+            globalManager.valueC4 = 600 * (stageValue + 2);
             break;
         case 2:
-            g_GameManager.limitB4 = g_GameManager.counterFC + 3;
-            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 15;
-            g_GameManager.valueC4 = 600 * stageValue + 900;
+            globalManager.limitB4 = globalManager.counterFC + 3;
+            globalManager.valueC8 = globalManager.counterFC / 2 + 15;
+            globalManager.valueC4 = 600 * stageValue + 900;
             break;
         case 3:
-            g_GameManager.limitB4 = g_GameManager.counterFC + 6;
-            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 17;
-            g_GameManager.valueC4 = 600 * stageValue + 900;
+            globalManager.limitB4 = globalManager.counterFC + 6;
+            globalManager.valueC8 = globalManager.counterFC / 2 + 17;
+            globalManager.valueC4 = 600 * stageValue + 900;
             break;
         case 4:
-            g_GameManager.limitB4 = 18;
-            g_GameManager.valueC8 = 22;
-            g_GameManager.valueC4 = 600 * (stageValue + 1);
+            globalManager.limitB4 = 18;
+            globalManager.valueC8 = 22;
+            globalManager.valueC4 = 600 * (stageValue + 1);
             break;
         default:
             break;
@@ -808,21 +830,24 @@ void GameManagerSetupLayout::CleanupGameplayState()
 
         // The pinned build coalesces the per-case limits into this final
         // publication, followed by the conditional minimum publication.
-        g_GameManager.limitB4 -= 2 * stageValue;
-        if (g_GameManager.limitB4 < 1)
-            g_GameManager.limitB4 = 1;
+        globalManager.limitB4 -= 2 * stageValue;
+        if (globalManager.limitB4 < 1)
+            globalManager.limitB4 = 1;
     }
 
-    g_GameManager.valueB0 = 0;
-    g_GameManager.value348 = 0;
-    g_GameManager.valueCC -= 1000;
-    if (g_GameManager.valueCC < 0)
-        g_GameManager.valueCC = 0;
+    globalManager.valueB0 = 0;
+    globalManager.value348 = 0;
+    globalManager.valueCC -= 1000;
+    if (globalManager.valueCC < 0)
+        globalManager.valueCC = 0;
 }
 
 void __fastcall GameplaySetupThread(void *unused)
 {
-    GameManagerSetupLayout *manager = &g_GameManager;
+    GameManagerSetupLayout &globalManager =
+        *reinterpret_cast<GameManagerSetupLayout *>(&g_GameManager);
+
+    GameManagerSetupLayout *manager = &globalManager;
     SupervisorSetupLayout *supervisor = reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
     unsigned int previousMode;
     int sideIndex;
@@ -839,7 +864,7 @@ void __fastcall GameplaySetupThread(void *unused)
     manager->valueD0 = 0;
     manager->value348 = 0;
     manager->stageStartupMode = 1;
-    manager->value120 = 0xff;
+    manager->instructionMask120 = 0xff;
     manager->valueB8 = 2;
     manager->valueCC = 0;
     manager->valueC0 = 0;
@@ -915,7 +940,7 @@ mode_ready:
         if ((manager->flags & 8) == 0)
         {
             manager->seedCopy346 = g_SetupSeedSource;
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
                 ->SelectOpponentConfiguration();
             manager->stageObject = ReplayManagerView::Create(0, NULL);
         }
@@ -923,7 +948,7 @@ mode_ready:
         {
             manager->stageObject = ReplayManagerView::Create(
                 1, reinterpret_cast<const char *>(&manager->modeByte145));
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
                 ->SelectOpponentConfiguration();
         }
     }
@@ -934,20 +959,20 @@ mode_ready:
             SetupStateBuffer *state =
                 reinterpret_cast<SetupStateBuffer *>(manager->sides[0].state);
             if (state->value04 >= 2000000u * state->phase10 + 1000000u)
-                g_GameManager.AdvanceTimedState();
+                globalManager.AdvanceTimedState();
         }
         if (manager->gameMode == 1)
         {
             SetupStateBuffer *state =
                 reinterpret_cast<SetupStateBuffer *>(manager->sides[0].state);
             if (state->value04 >= 500000u * (state->phase10 + 1))
-                g_GameManager.AdvanceTimedState();
+                globalManager.AdvanceTimedState();
         }
 
         if ((manager->flags & 8) == 0)
         {
             manager->seedCopy346 = g_SetupSeedSource;
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
                 ->SelectOpponentConfiguration();
             DispatchReplayStage(
                 static_cast<ReplayStageDispatchView *>(manager->stageObject), 0);
@@ -956,7 +981,7 @@ mode_ready:
         {
             DispatchReplayStage(
                 static_cast<ReplayStageDispatchView *>(manager->stageObject), 1);
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
                 ->SelectOpponentConfiguration();
         }
 
@@ -1225,15 +1250,18 @@ typedef char GameManagerCutChainSupervisorRateAt5B8[
 
 void __fastcall GameManager_CutChain()
 {
-    if (g_GameManager.sides[0].state->value08 >= 1000000000u)
-        g_GameManager.sides[0].state->value08 = 999999999u;
-    g_GameManager.sides[0].state->value04 =
-        g_GameManager.sides[0].state->value08;
+    GameManagerSetupLayout &globalManager =
+        *reinterpret_cast<GameManagerSetupLayout *>(&g_GameManager);
 
-    if (g_GameManager.sides[1].state->value08 >= 1000000000u)
-        g_GameManager.sides[1].state->value08 = 999999999u;
-    g_GameManager.sides[1].state->value04 =
-        g_GameManager.sides[1].state->value08;
+    if (globalManager.sides[0].state->value08 >= 1000000000u)
+        globalManager.sides[0].state->value08 = 999999999u;
+    globalManager.sides[0].state->value04 =
+        globalManager.sides[0].state->value08;
+
+    if (globalManager.sides[1].state->value08 >= 1000000000u)
+        globalManager.sides[1].state->value08 = 999999999u;
+    globalManager.sides[1].state->value04 =
+        globalManager.sides[1].state->value08;
 
     reinterpret_cast<GameManagerCutChainSupervisorView *>(&g_Supervisor)
         ->frameRateMultiplier5B8 = 1.0f;

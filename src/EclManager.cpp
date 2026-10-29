@@ -1,6 +1,7 @@
 #include "EclManager.hpp"
 #include "EclRunLate.inl"
 #include "ExAttackType8GameManagerView.hpp"
+#include "GameManagerInstructionMaskView.hpp"
 
 #include <string.h>
 
@@ -15,8 +16,6 @@ static void EnemyPostEclUpdateShotAndAnm(EnemyView *enemy);
 
 namespace Th09EclRunOwner
 {
-
-extern unsigned int g_DifficultyMask;
 
 typedef void (__fastcall *InterpolationCallback)(
     EnemyView *enemy,
@@ -615,7 +614,8 @@ th09_ecl_instruction_loop:
             enemyState->activeContext2CE0;
         if (comparisonContext->time008 == instructionTime)
         {
-            executionMask = Th09EclRunOwner::g_DifficultyMask |
+            executionMask = reinterpret_cast<const GameManagerInstructionMaskView *>(
+                &g_GameManager)->instructionMask120 |
                             enemyState->difficultyOverride3388;
             if ((instruction->difficultyMask09 & executionMask) != executionMask)
                 goto th09_ecl_advance_instruction;
