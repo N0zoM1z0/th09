@@ -24,6 +24,25 @@ class TargetPayload:
 
 
 class EnemyUpdateBindingTests(TestCase):
+    def test_front_indicator_uses_implemented_member_and_shared_global(self):
+        units, functions, registry = inspector.reference_index()
+        cases = (
+            ('?SetSideEnemyIndicatorPosition@FrontEnemyIndicatorView@@QAEXHPBUFloat3@@@Z',
+             '?SetSideEnemyIndicatorPosition@EnemyCoreFrontView@@QAEXHPAUFloat3@@@Z',
+             0x416080, 'REL32'),
+            ('?g_PlayerSharedRuntime@@3PAUPlayerSharedRuntimeView@@A',
+             '?g_EnemyCoreFront@@3PAUEnemyCoreFrontView@@A',
+             0x4A7E38, 'DIR32'),
+        )
+        for actual, legacy, destination, kind in cases:
+            with self.subTest(symbol=actual):
+                row = self.row(symbol=actual, type=kind)
+                self.assertEqual(inspector.external_destination(
+                    row, units, functions, registry)[0], destination)
+                with self.assertRaisesRegex(ValueError, 'absent or ambiguous'):
+                    inspector.external_destination(
+                        dict(row, symbol=legacy), units, functions, registry)
+
     def test_shared_game_manager_requires_real_root_member_and_call_identities(self):
         units, _, _ = inspector.reference_index()
         target = bytearray(inspector.OWNER_SIZE)

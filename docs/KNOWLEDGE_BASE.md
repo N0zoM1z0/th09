@@ -22393,3 +22393,83 @@ inventory remains unproven and the ledgers are unchanged.
 Final public CI passes999 tests/29 skips in144.093 seconds. The initial two stale
 GameManager-inventory failures and final passing log are retained separately.
 Target-required tracking,documentation,progress and whitespace checks pass.
+
+## October 29: Enemy native Front connection and periodic selection countermodels
+
+Clean recovery at2eb9aa10 rechecks the original Japanese1.50a disk, tracking and
+current ledgers. Direct local Ghidra is used throughout, without IDA, REA or
+Factory MCP. This batch changes actual game source connections and independently
+rechecks old negative assumptions; it does not close the98% milestone.
+
+Original Enemy calls416080 at offsets41/E96 after loading4A7E38 at34/E91;
+the freeze read loads that same pointer at70. The independently exact Front
+owner at416080 consumes a three-float position and selects two2A4-byte VMs at
+123F4. Its alpha/position stores agree with the existing reviewed layouts.
+Ghidra exports both complete callers/callee with685056 mapped-file bytes
+attested. Automatic names/types remain provisional; the actual PE operands and
+213-byte/10-field compiler proof establish this bounded connection.
+
+EnemyCoreFrontView formerly declared an unimplemented indicator member, while
+g_EnemyCoreFront was a second source global for the actual g_PlayerSharedRuntime
+pointer. The actual Front implementation had a separate EnemyFloat3 parameter.
+FrontEnemyIndicatorView.hpp now shares its reviewed prefix and const Float3
+member declaration with Enemy. Enemy calls that implementation and uses the
+existing shared global; its freeze data projection stays separate. Two numeric
+inspector aliases are removed, and a focused test accepts the real identities
+while rejecting both old undefined names. Original nominal retail class names
+and complete shared-runtime storage ownership remain unknown.
+
+Three fresh final canonical builds cover both ECL profiles and Front. All80
+existing exact owners retain25428 physical bytes/1136 fields, with actual scalar
+definitions and owner-local label coordinates checked. Front remains213/10
+exact; its manifest changes only the input type in the implemented symbol.
+Two canonical private labels change spelling at the same targets408548/407A4C;
+no offset, type, addend, profile, extent or target destination changes. Complete
+old/new main-carrier comparison retains all203 nondebug sections/50452 raw
+bytes/2097 fields. Five references change to the actual API names and nine
+defined private-label references rename at identical section/value coordinates.
+RunEcl remains15564/598/30 with zero field/table drift; Enemy3900/97/13 retains
+all3887 target-equal positions. No new exact-function credit or native product
+closure follows from this source ownership repair.
+
+Nine serial, one-CPU, nice10 full-ECL controls revisit the periodic lead before
+adoption. All retain75 existing exact owners/22463 physical bytes/990 fields
+per object and unchanged complete RunEcl30. Their full Enemy inventories remain
+3900/97/69 calls/170 blocks, but only original-equal callees are eligible:
+
+- Native periodic definition:45 Enemy differences and an original-equal33-byte
+  callee. Restores the old13 but breaks45 other positions.
+- Snapshot the actual current frame:the same entire45-difference caller and
+  original-equal33-byte callee.
+- Two early returns:the same45-difference caller but a31-byte callee. The native
+  body gate rejects this source model.
+- Local result with conditional assignment:the same45-difference caller but a
+  37-byte callee; the native body gate rejects it.
+- Explicit count branches, direct or in a store operation:both retain the
+  entire maintained13-difference caller under the opaque periodic boundary.
+- Manager-owned prepend, alone or with either count model:all three produce
+  the same41-difference caller and original-equal33-byte periodic body. They
+  fail the maintained whole-owner frontier.
+
+Identical caller output therefore does not establish an exact native dependency.
+The31/37-byte functions are retained as rejected source models, not silently
+substituted for the original33-byte body. No countermodel is adopted.
+
+Ghidra initially lacked a function at Effect AddedCallback40D1C0 and the batch
+export correctly failed. A private direct script checks its known51-byte hash,
+disassembles every instruction, adds only the reviewed function metadata in a
+read-only session, then rechecks all mapped bytes. The corrected export covers
+Enemy, Effect AddedCallback and the periodic callee. It changes neither saved
+target bytes nor source exactness. Initial failures remain alongside successes.
+
+The packet .analysis/gpt-61sol-20261029-enemy-periodic-selection/ retains complete
+objects, source hashes, compiler commands, reports and direct Ghidra receipts.
+verify_adoption.py rechecks the current source-bound80-owner proof without
+compiling; verify_cases.py rechecks all nine historical observations with finite
+legacy identities confined to that private historical replay. source-epoch.zip
+holds70 common source inputs and the old identity providers. Hash verification
+precedes removal of627 redundant source/debug files,5754224 bytes; distinct
+variant sources and native objects remain. The two early-return/result callee
+rejections, private-label strict failure and initial tuple/JSON replay failure
+remain recorded.148 focused tests, tracking, documentation, progress and
+whitespace checks pass. Authored exact stays1003/1035 and244917/291883(83.9093%).

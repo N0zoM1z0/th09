@@ -74,6 +74,30 @@ objects, original-bound comparisons and source/provider hashes without compiling
 It retains the tested source recipes and native outputs. This closes these
 constructor hypotheses, not the Type29 owner or the reconstruction goal.
 
+### Enemy/Front native indicator connection
+
+Enemy now calls the implemented FrontEnemyIndicatorView member through the
+shared g_PlayerSharedRuntime pointer, removing its undefined private Front
+method/global declarations and two inspector aliases. The shared header uses
+the existing Float3 for the same twelve-byte input/position. Front's complete
+213-byte/10-field owner remains exact. Both ECL profiles plus Front cold-replay
+all80 existing exact owners:25428 physical bytes/1136 fields. All203 nondebug
+main-carrier sections retain50452 raw bytes/2097 effective relocation identities;
+five API names and nine private-label references change spelling only. Two
+canonical private labels were refreshed after their actual coordinates passed.
+RunEcl remains15564/598/30; Enemy3900/97/13; no new exact credit is claimed.
+
+Nine bounded Enemy controls preserve75 exact siblings each. Explicit count
+branches/store operations leave opaque13 or manager/periodic41 unchanged. A
+current-frame snapshot preserves the exact33-byte periodic callee and caller45;
+early-return/local-result alternatives emit31/37-byte callees and are ineligible.
+Direct Ghidra independently confirms the native indicator and call paths. Its
+missing Effect AddedCallback entry was created only in a read-only session from
+the reviewed51-byte hash/extent; every mapped file byte was rechecked afterward.
+The packet is .analysis/gpt-61sol-20261029-enemy-periodic-selection/;
+verify_adoption.py replays the current complete proofs without compiling, and
+verify_cases.py rechecks the archived experiments.148 focused tests pass.
+
 ## Historical operator stop — October 24, 14:09 UTC
 
 TH09 research is paused at the operator's explicit request. Only cleanup and

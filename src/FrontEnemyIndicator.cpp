@@ -1,46 +1,14 @@
-#include "EnemyManager.hpp"
+#include "FrontEnemyIndicatorView.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
 
 #include <stddef.h>
 
-struct FrontEnemyIndicatorColorView
-{
-    unsigned char blue;
-    unsigned char green;
-    unsigned char red;
-    unsigned char alpha;
-};
-
-struct FrontEnemyIndicatorVmView
-{
-    unsigned char unknown000[0x1F0];
-    FrontEnemyIndicatorColorView color1F0;
-    unsigned char unknown1F4[0x208 - 0x1F4];
-    EnemyFloat3 position208;
-    unsigned char unknown214[0x2A4 - 0x214];
-};
-typedef char FrontEnemyIndicatorVmSize2A4[
-    (sizeof(FrontEnemyIndicatorVmView) == 0x2A4) ? 1 : -1];
-typedef char FrontEnemyIndicatorVmColorAt1F0[
-    (offsetof(FrontEnemyIndicatorVmView, color1F0) == 0x1F0) ? 1 : -1];
-typedef char FrontEnemyIndicatorVmPositionAt208[
-    (offsetof(FrontEnemyIndicatorVmView, position208) == 0x208) ? 1 : -1];
-
-struct FrontEnemyIndicatorView
-{
-    unsigned char unknown00000[0x123F4];
-    FrontEnemyIndicatorVmView enemyIndicatorVms123F4[2];
-
-    void SetSideEnemyIndicatorPosition(
-        int sideIndex, const EnemyFloat3 *enemyPosition);
-};
-
 extern AsciiGameManagerView g_GameManager;
 extern Supervisor g_Supervisor;
 
 void FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition(
-    int sideIndex, const EnemyFloat3 *enemyPosition)
+    int sideIndex, const Float3 *enemyPosition)
 {
     g_Supervisor.SelectSide(sideIndex);
 

@@ -153,7 +153,6 @@ def reference_index():
 
 
 unit_aliases={
- '?SetSideEnemyIndicatorPosition@EnemyCoreFrontView@@QAEXHPAUFloat3@@@Z':'front-enemy-indicator',
  '?EnemyCoreRunLifeCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
  '?EnemyCoreRunTimerCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
  '?ExecuteScript@EnemyCoreAnmManagerView@@QAEHPAUEnemyCoreAnmVmView@@@Z':'anm-manager-execute-script',
@@ -163,7 +162,6 @@ unit_aliases={
  '?SetBossMarkerState@EnemyCoreUiView@@QAEXHH@Z':'ascii-manager-set-boss-marker-state',
 }
 symbol_aliases={
- '?g_EnemyCoreFront@@3PAUEnemyCoreFrontView@@A':'?g_PlayerSharedRuntime@@3PAUPlayerSharedRuntimeView@@A',
  '?g_EnemyCoreSchedule@@3PAEA':'?g_EnemySubroutineSchedule@@3PAEA',
  '?g_EnemyCoreAnmManager@@3PAUEnemyCoreAnmManagerView@@A':'?g_AnmManager@@3PAVAnmManager@@A',
  '?g_EnemyCoreSoundPlayer@@3UEnemyCoreSoundPlayerView@@A':'?g_SoundPlayer@@3VSoundPlayer@@A',

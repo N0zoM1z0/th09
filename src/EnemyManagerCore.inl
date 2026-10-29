@@ -2,6 +2,7 @@
 #include "AsciiGameManagerView.hpp"
 #include "PlayerDamageView.hpp"
 #include "PlayerState4OpsView.hpp"
+#include "FrontEnemyIndicatorView.hpp"
 #include "BulletSpawnDescriptorCtorView.hpp"
 #include "ZunTimer.hpp"
 // Lexical member of EclManager.cpp; reuses Th09EclRunState::ManagerStateView.
@@ -332,15 +333,13 @@ struct EnemyCoreFrontView
 {
     unsigned char unknown00000[0x1095C];
     int scriptedUpdateFreeze1095C;
-
-    void SetSideEnemyIndicatorPosition(
-        int sideIndex, Float3 *position);
 };
 typedef char EnemyCoreFrontFreezeAt1095C[
     (offsetof(EnemyCoreFrontView, scriptedUpdateFreeze1095C) == 0x1095C) ? 1 : -1];
 
 extern AsciiManager g_AsciiManager;
-extern EnemyCoreFrontView *g_EnemyCoreFront;
+struct PlayerSharedRuntimeView;
+extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 extern unsigned char g_EnemyCoreSchedule[];
 
 // Reconstruction aliases for the shared physical leaf at 0x0044AB20.
@@ -405,7 +404,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     if ((g_GameManager.flags & 0x1800) != 0)
         return 1;
 
-    g_EnemyCoreFront->SetSideEnemyIndicatorPosition(
+    reinterpret_cast<FrontEnemyIndicatorView *>(g_PlayerSharedRuntime)->SetSideEnemyIndicatorPosition(
         manager->sideIndex31C, &Float3(-999.0f, 0.0f, 0.0f));
     g_Supervisor.SelectSide(manager->sideIndex31C);
 
@@ -414,7 +413,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     manager->drawGroupHeads2AC410[1] = 0;
     manager->drawGroupHeads2AC410[0] = 0;
 
-    if (!g_EnemyCoreFront->scriptedUpdateFreeze1095C)
+    if (!reinterpret_cast<EnemyCoreFrontView *>(g_PlayerSharedRuntime)->scriptedUpdateFreeze1095C)
     {
         if (manager->scheduleObject2AC400 != 0)
         {
@@ -947,7 +946,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 manager->firstActiveEnemy2AC448 = enemy;
             if ((enemy->flags3380 & 0x0C00) == 0x0C00)
             {
-                g_EnemyCoreFront->SetSideEnemyIndicatorPosition(
+                reinterpret_cast<FrontEnemyIndicatorView *>(g_PlayerSharedRuntime)->SetSideEnemyIndicatorPosition(
                     manager->sideIndex31C, &enemy->position2D74);
                 manager->priorityEnemy2AC444 = enemy;
             }
