@@ -2142,3 +2142,27 @@ tracked source, profiles/providers, dated baseline binding and seven retained
 COFF files; --build rebuilds only the six affected canonical carriers. Historical
 control recipes reference their recorded inputs and do not require keeping old
 code trees. Exact credit stays244917/291883(83.9093%); the98% goal remains active.
+
+
+## 2026-10-30: GameManager ECL storage checkpoint cleanup
+
+The shared+120/+380 projection preserves92 existing complete exact owners across
+five canonical carrier/profile builds,29274 physical bytes/1411 fields. Full
+RunEcl/Enemy and setup differences remain30/13/904. Public CI passes1030 tests/
+29 skips in98.917s. Original opcode/reset/caller and actual COFF counterexamples
+remain recorded; no new authored exactness credit is claimed.
+
+Cleanup removes437 unused baseline/debug/cache/build files totaling8681243
+logical bytes (about8.3MiB). All34 packet records/recipes/logs and six necessary
+current/baseline proof objects retain their hashes. Four unused baseline COFF
+files are removed after their complete raw hashes, fields and source-bound
+results are recorded; the current verifier needs only the prior ECL object and
+five current carriers. build/ is absent and current cache-free replay passes.
+Documentation, original target, tools and Ghidra state remain. No C++ source copy
+or new code archive is retained. The obsolete single-field header is replaced
+by the current shared view, without a deprecated alias or duplicate version.
+
+Exact inventory and protected hashes are in
+.analysis/gpt-61sol-20261030-ecl-manager380/cleanup.json. The current verifier's
+--build rebuilds only five affected carriers. The existing handoff archive keeps
+the replaced checkpoint paragraphs; documentation and research are preserved.

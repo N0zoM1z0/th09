@@ -19,59 +19,57 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current checkpoint — Enemy storage and actual callback definitions
+## Current checkpoint — shared GameManager ECL storage
 
-EnemyManagerCoreView now exposes the two existing ECL manager prefixes and all129
-constructed enemy records, matching the maintained native manager view. Its
-update loop still processes128 records. A fresh original-code full-pool path
-through both SpawnEnemy and SpawnEnemyRecord reads exactly128 active flags,
-returns manager+2A6F58 (record index128), and writes only failure flag+2AC42C=1.
-The extra returned record is not accessed on that bounded path. The original
-constructor independently supplies count129 and stride5430. Initial ECL failure
-also sets the same flag while returning an earlier record; the two private spawn
-views now name it spawnFailure rather than spawnOverflow. Original nominal
-array/sentinel types and later caller behavior remain unproven. This fixture is
-not whole-game or native-product runtime validation.
+Opcode148 now adds1800 through the real g_GameManager root+380, replacing the
+independent BossLifeMarkerProtocolValue alias. Its enum name is the neutral
+ADD_GAME_MANAGER_VALUE380; the original writes establish no boss-life-marker
+meaning. ResetGameManager now uses the same field projection. The existing
+instruction-mask projection is consolidated into GameManagerEclStateView.hpp,
+covering+120 DWORD/BYTE accesses and+380 DWORD storage; the old single-purpose
+header is removed. Original nominal types, gameplay meaning of+380 and full
+GameManager/native-product storage remain unproven.
 
-Six canonical carrier/profile builds preserve85 existing complete exact owners:
-27307 physical bytes/1201 fields, with actual literal definitions checked. Two
-private label names change only at identical actual coordinates. Full Enemy
-3900/97/13 and RunEcl15564/598/30 remain raw-identical; there is no new exactness
-credit. Current source/profile/provider-bound replay is
-.analysis/gpt-61sol-20261030-enemy-formal-storage/verify_current.py. Default replay
-uses seven retained current/baseline objects without build/; --build compiles only
-ECL main/Ob0, lifecycle main/Ob0 and the two spawn carriers. Older callback/table
-proofs remain dated; their six-carrier source binding legitimately rejects this
-newer Core view and inspector.
+Independent original evidence binds opcode table148 to40B2F1's DWORD ADD1800 at
+4A8110. Complete exact ResetGameManager100 bytes clears receiver+380, while its
+complete425-byte cleanup caller loads ECX=4A7D90 and calls the actual reset owner.
+The matching native COFF names that same global and real callee. This closes the
+storage identity without treating arbitrary based+380 accesses as GameManager.
+Direct Ghidra checks all685056 mapped file bytes and exports RunEcl, reset, main
+update and cleanup; inferred names/types remain provisional.
 
-The Enemy inspector now independently verifies the actual three-byte native life
-and timer callback definitions at the shared physical4AB20 leaf. It no longer
-borrows Player's canonical unit as proof of those Enemy bodies. Real external
-calls require an explicit companion COFF via --folded-callback-object; changed or
-missing bodies are rejected. A source call can move in a nonexact diagnostic;
-its actual source offset and independently checked original call offset are
-reported separately, and full operands/bytes still determine equality. Original
-nominal ownership remains unknown and no extra function credit is assigned.
+Five canonical carrier/profile builds preserve92 existing exact owners:
+29274 physical bytes/1411 fields, including actual literal definitions. All92
+raw bodies remain baseline-identical. Thirty-nine private label names in three
+units are refreshed only at identical actual coordinates. RunEcl's only two raw
+byte changes encode the new+380 relocation addend; its fully resolved15564 bytes
+remain identical, with598 fields and30 ordinary differences. Enemy3900/97/13
+and gameplay setup1689/904 remain unchanged. No new exact credit is earned.
 
-Six complete storage/formal-interface controls, four compiling field-type
-controls, three genuine member-call controls and four complete28-byte initializer
-controls all retain Enemy's13 differences and75 same-profile exact siblings. Two
-unsigned-threshold controls fail the existing ZunTimer overload contract; a void
-initializer gives26 rather than28 bytes and is rejected before scoring a caller.
-Hiding the actual zero life callback changes13 to84 differences, losing71 old
-matches and restoring none of the old13; hiding only timer leaves13. All three
-opacity controls retain complete original three-byte companion bodies. These
-results constrain those particular models, not every possible original source
-or TU. Only the tested storage correction is adopted; rejected source copies and
-compiler caches are removed after preserving research records.
+The caller audit independently requires the real undefined GameManager symbol,
++380 addend, original target, DWORD read/write access, ADD operation and immediate
+1800. The real previous object with the old alias is rejected despite its equal
+numeric address. Actual native COFF copies with a wrong add constant or member
+are also rejected. Four new regressions cover root/provenance, missing/duplicate
+fields, operand widths, access and constants. All101 focused ECL tests pass;
+public CI passes1030 tests/29 skips in98.917s.
 
-Public CI passes1026 tests/29 skips in100.181s. Cleanup removes494 disposable
-build/debug/cache and fully recorded control files,19610551 logical bytes
-(about18.7MiB). All87 preexisting packet record/recipe/log hashes and seven
-retained proof-object hashes remain unchanged. build/ is absent; current replay
-passes after cleanup. No old source tree or new code archive is retained. The98%
-milestone, native product/runtime, semantic and portability gates remain open.
-Direct Ghidra, target attestation and pinned compiler profiles are unchanged.
+Current source/profile/provider-bound replay is
+.analysis/gpt-61sol-20261030-ecl-manager380/verify_current.py; default replay uses
+six retained current/baseline objects without build/, and --build compiles only
+ECL main/Ob0, timeline and GameManager setup Os/O2. verify_storage.py independently
+rechecks original opcode/reset/caller dataflow and complete native reset/caller
+bodies. Older source-bound captures remain historical and can reject the new
+header, symbols and global metadata. Their removed code copies are not restart
+dependencies. Previously measured input-type and value-liveness controls do not
+justify repeating identical opcode4/155 models after a byte-neutral storage fix.
+
+Cleanup removes437 unused baseline/debug/cache/build files,8681243 logical
+bytes (about8.3MiB). All34 preexisting packet records/recipes/logs and six retained
+proof objects keep their original hashes. build/ is absent and the current
+cache-free replay passes after deletion. No old source tree or new code archive
+is retained. The98% milestone and native product/runtime, semantic and
+portability gates remain open.
 
 ## Earlier dependency corrections
 
@@ -81,14 +79,11 @@ members. ECL, timeline and setup share GameManager+120 instruction-mask storage
 while retaining original DWORD/BYTE accesses. Detailed evidence is in the KB and
 dated packets; the predecessor handoff is preserved in the checkpoint archive.
 Older source-bound captures may reject newer global ledger hashes. They are
-historical evidence, not dependencies for the current six-carrier replay.
+historical evidence, not dependencies for the current five-carrier replay.
 
-The remaining BossLifeMarkerProtocolValue alias deserves a separate source-storage
-correction. Fresh original operands show opcode148 adds1800 at4A8110 and reset
-clears manager+380; neither observation establishes boss-life-marker semantics.
-The new scan also records a based+380 access in unrelated library code: offset
-membership alone is not GameManager identity. Do not resume old rejected source
-models without checking their actual inputs and scope.
+Opcode148's shared storage is corrected in the current checkpoint. Its+380
+member remains semantically unknown; the TH08 marker analogue and an unrelated
+library's based+380 access establish no additional TH09 meaning or ownership.
 
 ## Source changes and retained current proofs
 
@@ -100,6 +95,7 @@ and source-interface cleanup earn no partial exact credit.
 | --- | --- | --- |
 | e73311d9 | Charge uses actual Effect* state-effect methods;1197/70/1160 plus13 missing remains nonexact. | `gpt-61sol-20261030-charge-native-effects/verify_current.py` |
 | 4514216e | RunEcl uses actual Enemy/Etama/Background members; complete RunEcl/Enemy remain30/13 differences. | `gpt-61sol-20261030-ecl-native-calls/verify_current.py` |
+| 8866e604 | Enemy Core storage aligns with129 constructed records; actual folded callbacks checked;85 existing owners retain27307 bytes/1201 fields. | `gpt-61sol-20261030-enemy-formal-storage/verify_current.py` |
 | cbb6e3d5 | Twelve native extended callbacks share a real typed table;91 existing owners retain26545 bytes/1176 fields. | `gpt-61sol-20261030-ecl-global-storage/verify_current.py` |
 | 760f01a1 | Shared GameManager instruction-mask storage;92 existing owners preserve29274 bytes/1411 fields. | `gpt-61sol-20261030-ecl-difficulty-data/verify_current.py` |
 | 962ddb20 | Replay uses native GameManager mode predicates; 16 affected exact owners retain4,150 bytes/232 fields. | `gpt-61sol-20261029-replay-mode-adoption/verify_current.py` |

@@ -1,7 +1,7 @@
 #include "EnemyManager.hpp"
 #include "EnemyManagerCardAttackSpawn.hpp"
 #include "RngRuntimeLeaves.hpp"
-#include "GameManagerInstructionMaskView.hpp"
+#include "GameManagerEclStateView.hpp"
 #include "ZunTimer.hpp"
 #include "ZunTimerEqual.inl"
 
@@ -96,7 +96,7 @@ int EnemyScheduleRuntimeView::Run()
 
         if (runtime->timer00 == instructionTime)
         {
-            if ((reinterpret_cast<const GameManagerInstructionMaskView *>(
+            if ((reinterpret_cast<const GameManagerEclStateView *>(
                     &g_GameManager)->instructionMaskLowByte120 & instruction->mask07) != 0)
             {
                 switch (instruction->opcode04)

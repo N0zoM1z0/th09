@@ -2270,3 +2270,71 @@ review its paths and do not run `--apply` wholesale or `git clean -X`.
 Native Windows i386 compile/link/runtime closure is open. Semantic reconstruction
 with both original and native-product runtime Oracles, then portability, comes
 later. Exact functions and this cleanup do not establish a runnable product.
+
+
+## October 30 archival of the 8866e604 Enemy checkpoint
+
+These superseded current-checkpoint paragraphs are scoped to
+8866e604cbdc72c4992ff30a5e1a72b5990a2f7b. Unchanged routing/ledger sections remain
+in the active handoff and Git history; this archive preserves the replaced detail.
+
+## Current checkpoint — Enemy storage and actual callback definitions
+
+EnemyManagerCoreView now exposes the two existing ECL manager prefixes and all129
+constructed enemy records, matching the maintained native manager view. Its
+update loop still processes128 records. A fresh original-code full-pool path
+through both SpawnEnemy and SpawnEnemyRecord reads exactly128 active flags,
+returns manager+2A6F58 (record index128), and writes only failure flag+2AC42C=1.
+The extra returned record is not accessed on that bounded path. The original
+constructor independently supplies count129 and stride5430. Initial ECL failure
+also sets the same flag while returning an earlier record; the two private spawn
+views now name it spawnFailure rather than spawnOverflow. Original nominal
+array/sentinel types and later caller behavior remain unproven. This fixture is
+not whole-game or native-product runtime validation.
+
+Six canonical carrier/profile builds preserve85 existing complete exact owners:
+27307 physical bytes/1201 fields, with actual literal definitions checked. Two
+private label names change only at identical actual coordinates. Full Enemy
+3900/97/13 and RunEcl15564/598/30 remain raw-identical; there is no new exactness
+credit. Current source/profile/provider-bound replay is
+.analysis/gpt-61sol-20261030-enemy-formal-storage/verify_current.py. Default replay
+uses seven retained current/baseline objects without build/; --build compiles only
+ECL main/Ob0, lifecycle main/Ob0 and the two spawn carriers. Older callback/table
+proofs remain dated; their six-carrier source binding legitimately rejects this
+newer Core view and inspector.
+
+The Enemy inspector now independently verifies the actual three-byte native life
+and timer callback definitions at the shared physical4AB20 leaf. It no longer
+borrows Player's canonical unit as proof of those Enemy bodies. Real external
+calls require an explicit companion COFF via --folded-callback-object; changed or
+missing bodies are rejected. A source call can move in a nonexact diagnostic;
+its actual source offset and independently checked original call offset are
+reported separately, and full operands/bytes still determine equality. Original
+nominal ownership remains unknown and no extra function credit is assigned.
+
+Six complete storage/formal-interface controls, four compiling field-type
+controls, three genuine member-call controls and four complete28-byte initializer
+controls all retain Enemy's13 differences and75 same-profile exact siblings. Two
+unsigned-threshold controls fail the existing ZunTimer overload contract; a void
+initializer gives26 rather than28 bytes and is rejected before scoring a caller.
+Hiding the actual zero life callback changes13 to84 differences, losing71 old
+matches and restoring none of the old13; hiding only timer leaves13. All three
+opacity controls retain complete original three-byte companion bodies. These
+results constrain those particular models, not every possible original source
+or TU. Only the tested storage correction is adopted; rejected source copies and
+compiler caches are removed after preserving research records.
+
+Public CI passes1026 tests/29 skips in100.181s. Cleanup removes494 disposable
+build/debug/cache and fully recorded control files,19610551 logical bytes
+(about18.7MiB). All87 preexisting packet record/recipe/log hashes and seven
+retained proof-object hashes remain unchanged. build/ is absent; current replay
+passes after cleanup. No old source tree or new code archive is retained. The98%
+milestone, native product/runtime, semantic and portability gates remain open.
+Direct Ghidra, target attestation and pinned compiler profiles are unchanged.
+
+The remaining BossLifeMarkerProtocolValue alias deserves a separate source-storage
+correction. Fresh original operands show opcode148 adds1800 at4A8110 and reset
+clears manager+380; neither observation establishes boss-life-marker semantics.
+The new scan also records a based+380 access in unrelated library code: offset
+membership alone is not GameManager identity. Do not resume old rejected source
+models without checking their actual inputs and scope.

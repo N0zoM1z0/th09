@@ -23277,3 +23277,87 @@ No old source tree or new code archive remains; build/ is absent and current
 cache-free replay still passes. The predecessor handoff is preserved in the
 existing checkpoint archive. Exact credit remains244917/291883(83.9093%); the98%
 goal remains active, with native product/runtime and later phases open.
+
+
+## 2026-10-30: opcode148 and reset share actual GameManager+380 storage
+
+Recovery at8866e604cbdc72c4992ff30a5e1a72b5990a2f7b is clean; the preceding turn
+made source/validation progress. Original target identity, tracking and status
+pass before target-dependent work. Direct Ghidra reuses the working project,
+verifies every685056 mapped file byte and exports RunEcl, ResetGameManager,
+GameManager update and cleanup under ghidra-direct/ecl-shared-manager380-20261030/.
+No original byte, analysis metadata, compiler profile or tool routing is changed.
+
+The original opcode table's148th slot points to40B2F1, whose ten-byte ADD writes
+1800 to DWORD4A8110. Independently, the complete100-byte ResetGameManager at
+41A7C3 writes zero from EAX to ECX+380. Its complete425-byte cleanup caller at
+41B5C6 has a PUSH ESI prologue, then MOV ECX,4A7D90 / CALL41A7C3. Both complete
+native source bodies remain exact; actual caller COFF fields+2/+7 identify the
+existing native g_GameManager and actual reset function, including its same-object
+definition. Thus the ECL operation and reset access the same global storage.
+This is bounded dataflow evidence, not an exhaustive xref or whole-runtime claim.
+An unrelated library's based+380 LEA supplies no GameManager identity.
+
+The old separate extern int g_BossLifeMarkerProtocolValue and opcode name
+SET_BOSS_LIFE_MARKER_COUNT overstate both source storage independence and gameplay
+meaning. The handler now uses the real g_GameManager+380 field, and its opcode is
+named ADD_GAME_MANAGER_VALUE380. Reset uses the same projection. The existing
+GameManagerInstructionMaskView header is replaced by GameManagerEclStateView:
++120 retains its DWORD setup/RunEcl and low-BYTE timeline accesses; +380 records
+only the observed DWORD add/reset. No deprecated source alias or old header is
+retained. The384-byte projection is not a complete original GameManager class or
+proof of native-product allocation, original declared type, signedness, gameplay
+meaning or unique nominal ownership. Existing source integer spelling remains a
+bounded access model rather than evidence for boss-marker behavior.
+
+The baseline reuses only the source/provider-bound current ECL main/Ob0 objects
+and cold-builds the other three affected carriers. Adoption cold-builds exactly
+five canonical carrier/profile combinations: ECL main/Ob0, timeline, GameManager
+setup Os/O2. All92 existing complete exact owners retain29274 physical bytes/
+1411 fields and actual literal payloads, with every raw body baseline-identical.
+Thirty-nine private references in three units change label names only; actual
+coordinates, addends and destinations remain fixed. A sequential label-string
+updater detects a name collision and aborts before writing. The final updater
+checks each original symbol at its unique relocation offset; no target is fitted
+or relaxed. This bookkeeping failure is not a compiler-model rejection.
+
+Full RunEcl15564/598 retains exactly30 ordinary differences and zero field/table
+differences. The only raw byte changes are+2C33/+2C34, encoding actual native
+root addend380 instead of the retired standalone symbol's zero. Its complete
+resolved byte stream is unchanged. Enemy3900/97/13 stays raw-identical; the
+nonexact gameplay setup worker remains1689 bytes/904 differences. No partial
+match or new authored exactness credit follows from this storage correction.
+The reviewed opcode4/155 type, assignment and live-value controls already cover
+the same bounded candidate hypotheses; no duplicate compiler panel is run.
+
+The caller audit no longer supplies an address for the retired global. It
+requires the real undefined g_GameManager symbol, actual+380 addend, original
+operand4A8110, DWORD read/write access, ADD mnemonic and independently decoded
+immediate1800 on both PE/COFF instructions. Its source observation names the new
+shared header. The actual previous ECL object is rejected despite equal numeric
+storage. Two copies of the actual new COFF, with an ADD1801 constant or+37C
+member addend, are also rejected without modifying the target. Four pure-input
+regressions reject aliases, substitute storage, invalid types, missing/duplicate
+fields, wrong widths, access and constants while preserving unknown semantics.
+All101 focused ECL tests pass. Public CI passes1030 tests/29 skips in98.917s.
+
+The private storage verifier initially assumes receiver setup is the first
+instruction and fails before emitting a proof. Complete original decoding finds
+the PUSH ESI prologue; the corrected verifier locates the unique reset call and
+preceding ECX definition across the complete caller, then checks the actual COFF
+fields. Failed assumptions and corrections remain in the packet records rather
+than being bypassed. The complete100/425-byte native proofs are prerequisites.
+
+.analysis/gpt-61sol-20261030-ecl-manager380/ contains source/provider bindings,
+baseline/adoption/current complete proofs, the original/native storage witness,
+actual counterexamples, logs and recipes. verify_current.py replays all92 owners,
+both complete big callers, setup and original/native storage without build/;
+--build compiles only the five affected carriers serially on one CPU at nice10.
+Exact credit stays244917/291883(83.9093%); the98% goal remains active. Native
+product/runtime, semantic and portability gates remain open. Cleanup removes437
+unused baseline/debug/cache/build files,8681243 logical bytes (about8.3MiB). All34
+preexisting records/recipes/logs and six necessary proof objects retain their
+hashes. build/ is absent; current replay passes after deletion. No old source
+copy or new code archive is retained. Only the superseded checkpoint paragraphs
+are appended to the existing handoff archive; unchanged handoff sections remain
+in place and in Git history.

@@ -16,7 +16,7 @@
 #include "Chain.hpp"
 #include "GameConfiguration.hpp"
 #include "GameManagerOpponentSelectionView.hpp"
-#include "GameManagerInstructionMaskView.hpp"
+#include "GameManagerEclStateView.hpp"
 #include "ScreenEffect.hpp"
 #include "ReplayInputState.hpp"
 #include "ReplayManagerRuntimeView.hpp"
@@ -257,7 +257,7 @@ typedef char SupervisorSetupLayoutLoadingFlagAt740[
 
 typedef char SetupGameManagerInstructionMaskAt120[
     (offsetof(GameManagerSetupLayout, instructionMask120) ==
-     offsetof(GameManagerInstructionMaskView, instructionMask120)) ? 1 : -1];
+     offsetof(GameManagerEclStateView, instructionMask120)) ? 1 : -1];
 
 extern Chain g_Chain;
 extern ChainElem g_GameManagerCalcChain;
@@ -1201,16 +1201,12 @@ struct GameManagerResetView
     unsigned char value13C;
     unsigned char value13D;
     unsigned char value13E;
-    unsigned char unknown13F[0x380 - 0x13F];
-    int value380;
 };
 
 typedef char GameManagerResetRecordSize38[
     (sizeof(GameManagerResetRecord) == 0x38) ? 1 : -1];
 typedef char GameManagerResetValueB0AtB0[
     (offsetof(GameManagerResetView, valueB0) == 0xB0) ? 1 : -1];
-typedef char GameManagerResetValue380At380[
-    (offsetof(GameManagerResetView, value380) == 0x380) ? 1 : -1];
 }
 
 void __fastcall ResetGameManager(GameManagerSetupLayout *manager)
@@ -1233,7 +1229,7 @@ void __fastcall ResetGameManager(GameManagerSetupLayout *manager)
     view->value13C = 0;
     view->value13D = 0;
     view->value13E = 0;
-    view->value380 = 0;
+    reinterpret_cast<GameManagerEclStateView *>(manager)->value380 = 0;
 }
 
 namespace

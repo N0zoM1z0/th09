@@ -22,6 +22,7 @@
 #include "EffectManager.hpp"
 #include "AsciiBossMarkerVmView.hpp"
 #include "SoundPlayer.hpp"
+#include "GameManagerEclStateView.hpp"
 #include "ZunMemory.hpp"
 
 #include "EclEnemyPrimaryFlags.hpp"
@@ -246,8 +247,6 @@ typedef char Th09EclStateChildDepthAt06[
     (offsetof(ChildEclBlock, callStackDepth06) == 0x06) ? 1 : -1];
 typedef char Th09EclStateChildCallStackAt234[
     (offsetof(ChildEclBlock, callStack0234) == 0x0234) ? 1 : -1];
-
-extern int g_BossLifeMarkerProtocolValue;
 
 void __fastcall ReleaseAttachedEffects(EnemyView *enemy);
 
@@ -548,8 +547,8 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
-    case TH09_ECL_OPCODE_SET_BOSS_LIFE_MARKER_COUNT:
-        Th09EclRunState::g_BossLifeMarkerProtocolValue += 1800;
+    case TH09_ECL_OPCODE_ADD_GAME_MANAGER_VALUE380:
+        reinterpret_cast<GameManagerEclStateView *>(&g_GameManager)->value380 += 1800;
         break;
 
     {

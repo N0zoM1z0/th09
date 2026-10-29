@@ -85,8 +85,38 @@ EX_INSTRUCTION_TABLE_SYMBOL = '?g_EnemyEclExInstructions@@3PAP6IXPAUEnemyView@@P
 DATA_ALIASES = {
     '??_C@_06IPGJPKLK@ECLInt?$AA@': 0x48e468,
     EX_INSTRUCTION_TABLE_SYMBOL: 0x4a0b14,
-    '?g_BossLifeMarkerProtocolValue@Th09EclRunState@@3HA': 0x4a8110,
 }
+
+def validate_game_manager_value380_field(fields):
+    """Keep opcode148's unknown DWORD on the actual GameManager storage root."""
+    rows = [row for row in fields if row['target_address'] == 0x40B2F3]
+    require(len(rows) == 1, 'RunEcl GameManager+380 field inventory differs')
+    row = rows[0]
+    require(row['symbol'] == '?g_GameManager@@3UAsciiGameManagerView@@A'
+            and type(row['addend']) is int and row['addend'] == 0x380
+            and type(row.get('symbol_section')) is int and row['symbol_section'] == 0
+            and type(row.get('symbol_value')) is int and row['symbol_value'] == 0
+            and row['expected_value'] == row['target_value'] == 0x4A8110
+            and row['identity_agrees'] is True and row['operand_role_agrees'] is True
+            and row['instruction_mnemonics'] == ['add', 'add']
+            and type(row.get('candidate_memory_width')) is int
+            and type(row.get('target_memory_width')) is int
+            and row['candidate_memory_width'] == row['target_memory_width'] == 4
+            and type(row.get('candidate_memory_access')) is int
+            and type(row.get('target_memory_access')) is int
+            and row.get('candidate_memory_access') == row.get('target_memory_access') == 3
+            and type(row.get('candidate_immediate_values')) is list
+            and type(row.get('target_immediate_values')) is list
+            and all(type(value) is int for value in row['candidate_immediate_values']
+                    + row['target_immediate_values'])
+            and row.get('candidate_immediate_values') == row.get('target_immediate_values') == [1800]
+            and bool(row['provenance'].get('canonical_reference_units')),
+            'RunEcl GameManager+380 native root/add/width differs')
+    return dict(symbol=row['symbol'], root=0x4A7D90, addend=0x380,
+                original_instruction=0x40B2F1, width=4, access='read/write',
+                operation='add1800', gameplay_meaning='unknown',
+                original_nominal_member_ownership='unknown', exactness_credit='none')
+
 
 def validate_instruction_mask_field(fields):
     """Original DWORD reader must name the same native global root as setup.
@@ -284,7 +314,7 @@ def target_data(ins):
     for i in ins:
         for op in i.operands:
             if op.type == capstone.x86.X86_OP_MEM and i.disp_size == 4 and (0x400000 <= op.mem.disp < 0x4e7000):
-                result.append({'address': i.address + i.disp_offset, 'value': op.mem.disp, 'role': 'displacement', 'mnemonic': i.mnemonic, 'memory_width': op.size, 'memory_access': op.access})
+                result.append({'address': i.address + i.disp_offset, 'value': op.mem.disp, 'role': 'displacement', 'mnemonic': i.mnemonic, 'memory_width': op.size, 'memory_access': op.access, 'immediate_values': [operand.imm for operand in i.operands if operand.type == capstone.x86.X86_OP_IMM]})
             elif op.type == capstone.x86.X86_OP_IMM and i.imm_size == 4 and i.mnemonic in ('mov', 'push') and (0x400000 <= op.imm < 0x4e7000):
                 result.append({'address': i.address + i.imm_offset, 'value': op.imm, 'role': 'immediate', 'mnemonic': i.mnemonic})
     require(len({row['address'] for row in result}) == len(result), 'overlapping target operand fields')
@@ -510,7 +540,7 @@ def audit(object_path):
             require(role != 'unrecognized', 'relocation is not a decoded four-byte operand')
             require(role != 'immediate' or owner_ins.mnemonic in ('mov', 'push'), 'unreviewed immediate-address form')
             accounted.add(r['offset'])
-            body_data.append({'block': bn, 'candidate_offset': r['offset'], 'target_address': t['address'], 'symbol': sym, 'addend': r['addend'], 'expected_value': expected, 'target_value': t['value'], 'identity_agrees': expected == t['value'] if expected is not None else None, 'operand_role_agrees': role == t['role'], 'instruction_mnemonics_agree': owner_ins.mnemonic == t['mnemonic'], 'instruction_mnemonics': [owner_ins.mnemonic, t['mnemonic']], 'candidate_memory_width': next((op.size for op in owner_ins.operands if op.type == capstone.x86.X86_OP_MEM), None), 'target_memory_width': t.get('memory_width'), 'candidate_memory_access': next((op.access for op in owner_ins.operands if op.type == capstone.x86.X86_OP_MEM), None), 'target_memory_access': t.get('memory_access'), 'symbol_section': r['symbol_section'], 'symbol_value': r['symbol_value'], 'provenance': proof})
+            body_data.append({'block': bn, 'candidate_offset': r['offset'], 'target_address': t['address'], 'symbol': sym, 'addend': r['addend'], 'expected_value': expected, 'target_value': t['value'], 'identity_agrees': expected == t['value'] if expected is not None else None, 'operand_role_agrees': role == t['role'], 'instruction_mnemonics_agree': owner_ins.mnemonic == t['mnemonic'], 'instruction_mnemonics': [owner_ins.mnemonic, t['mnemonic']], 'candidate_memory_width': next((op.size for op in owner_ins.operands if op.type == capstone.x86.X86_OP_MEM), None), 'target_memory_width': t.get('memory_width'), 'candidate_memory_access': next((op.access for op in owner_ins.operands if op.type == capstone.x86.X86_OP_MEM), None), 'target_memory_access': t.get('memory_access'), 'candidate_immediate_values': [op.imm for op in owner_ins.operands if op.type == capstone.x86.X86_OP_IMM], 'target_immediate_values': t.get('immediate_values', []), 'symbol_section': r['symbol_section'], 'symbol_value': r['symbol_value'], 'provenance': proof})
     table_fields = []
     for family, ct in ctables.items():
         for n, (cd, td) in enumerate(zip(ct['entries'], ttables[family]['entries'])):
@@ -546,6 +576,7 @@ def audit(object_path):
     real_runstate = validate_real_runstate_callees(call_matrix, body_data)
     native_transitions = validate_native_transition_calls(call_matrix)
     instruction_mask = validate_instruction_mask_field(body_data)
+    value380 = validate_game_manager_value380_field(body_data)
     callback_table = validate_ex_instruction_table_fields(body_data)
 
     # Counts are observed, not copied from the historical expected totals.
@@ -561,7 +592,7 @@ def audit(object_path):
     if accounted != set(by_offset):
         failures.append('incomplete_relocation_accounting')
     source_paths = ['src/EclManager.cpp', 'src/EclOpcodes.hpp',
-                    'src/BackgroundSpellStateView.hpp', 'src/GameManagerInstructionMaskView.hpp',
+                    'src/BackgroundSpellStateView.hpp', 'src/GameManagerEclStateView.hpp',
                     'src/EnemyEclExInstructions.hpp', 'src/EnemyExAttackLeaves.cpp']
     source_paths += [str(path.relative_to(ROOT)) for path in sorted((ROOT / 'src').glob('EclRun*.inl'))]
     source_paths += ['config/match-units.toml', 'config/functions.csv']
@@ -596,6 +627,7 @@ def audit(object_path):
         'real_runstate_owner_gate': real_runstate,
         'native_transition_owner_gate': native_transitions,
         'instruction_mask_storage': instruction_mask,
+        'game_manager_value380_storage': value380,
         'native_ex_instruction_table': callback_table,
         'direct_calls': call_matrix,
         'compiler_math_wrappers': compiler_math,
