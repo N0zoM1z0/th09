@@ -56,6 +56,21 @@ class SharedRealGameManagerEclOwners(unittest.TestCase):
             self.assertEqual(sum(r['symbol'] in (TRANSFORM_X,TRANSFORM_Y)
                                  for r in rows),4)
 
+    def test_native_type6_to9_setup_callees_and_side_global(self):
+        side = self.units['exattack-record-get-side-state']
+        allocate = self.units['ex-attack-allocate-dynamic-data']
+        self.assertEqual(side['relocations'], [
+            {'offset': 7, 'type': 'DIR32', 'symbol': GM, 'target': 0x4A7D90}])
+        for name in ('exattack-type6-initialize', 'exattack-type7-init',
+                     'exattack-type8-init', 'exattack-type9-init'):
+            calls = [r for r in self.units[name]['relocations']
+                     if r['type'] == 'REL32']
+            for callee in (side, allocate):
+                bound = [r for r in calls if r['target'] == callee['target_address']]
+                with self.subTest(unit=name, callee=callee['symbol']):
+                    self.assertEqual(len(bound), 1)
+                    self.assertEqual(bound[0]['symbol'], callee['symbol'])
+
     def test_pinned_original_pause_and_etama_exact_private_destinations(self):
         # Labels are compiler spelling only, never substitute for actual
         # original VA checks. Cold PE/COFF comparison still owns exactness.

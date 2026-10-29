@@ -3,6 +3,7 @@
 #include "AnmManager.hpp"
 #include "RuntimeAngleMath.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackRecordRuntimeView.hpp"
 #include "ExAttackType8GameManagerView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
@@ -59,20 +60,6 @@ struct ExAttackType8RecordView
     ExAttackType8Extra *extra34;
 };
 
-struct ExAttackType8SideLookupView
-{
-    int unknown00;
-    int opponentSide04;
-    int side08;
-    ExAttackType8SideView *GetSideState();
-};
-
-struct ExAttackType8AllocateView
-{
-    unsigned char bytes[0x38];
-    void AllocateDynamicData(int vmCount, int extraBytes);
-};
-
 extern RngRuntimeView g_ReplayRng;
 
 int __fastcall ExAttackInitializeCallbackType8(ExAttackRecord *base)
@@ -80,11 +67,11 @@ int __fastcall ExAttackInitializeCallbackType8(ExAttackRecord *base)
     ExAttackType8RecordView *record =
         reinterpret_cast<ExAttackType8RecordView *>(base);
 
-    reinterpret_cast<ExAttackType8AllocateView *>(record)
+    reinterpret_cast<ExAttackAllocateRecordView *>(record)
         ->AllocateDynamicData(1, sizeof(ExAttackType8Extra));
 
-    reinterpret_cast<ExAttackType8SideLookupView *>(record)
-        ->GetSideState()->anmOwner0C->anm2D4->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->effectManager0C->effectAnm->ExecuteAnmIdx(
             reinterpret_cast<AnmVm *>(record->dynamicData1C), 37);
 
     ExAttackType8Extra *extra = record->extra34;
@@ -130,11 +117,11 @@ int __fastcall ExAttackInitializeCallbackType7(ExAttackRecord *base)
     ExAttackType8RecordView *record =
         reinterpret_cast<ExAttackType8RecordView *>(base);
 
-    reinterpret_cast<ExAttackType8AllocateView *>(record)
+    reinterpret_cast<ExAttackAllocateRecordView *>(record)
         ->AllocateDynamicData(1, sizeof(ExAttackType8Extra));
 
-    reinterpret_cast<ExAttackType8SideLookupView *>(record)
-        ->GetSideState()->anmOwner0C->anm2D4->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->effectManager0C->effectAnm->ExecuteAnmIdx(
             reinterpret_cast<AnmVm *>(record->dynamicData1C), 37);
 
     ExAttackType8Extra *extra = record->extra34;
@@ -189,11 +176,11 @@ int __fastcall ExAttackInitializeCallbackType6(ExAttackRecord *base)
     ExAttackType8RecordView *record =
         reinterpret_cast<ExAttackType8RecordView *>(base);
 
-    reinterpret_cast<ExAttackType8AllocateView *>(record)
+    reinterpret_cast<ExAttackAllocateRecordView *>(record)
         ->AllocateDynamicData(1, sizeof(ExAttackType8Extra));
 
-    reinterpret_cast<ExAttackType8SideLookupView *>(record)
-        ->GetSideState()->anmOwner0C->anm2D4->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->effectManager0C->effectAnm->ExecuteAnmIdx(
             reinterpret_cast<AnmVm *>(record->dynamicData1C), 37);
 
     ExAttackType8Extra *extra = record->extra34;
@@ -250,11 +237,11 @@ int __fastcall ExAttackInitializeCallbackType9(ExAttackRecord *base)
     ExAttackType8RecordView *record =
         reinterpret_cast<ExAttackType8RecordView *>(base);
 
-    reinterpret_cast<ExAttackType8AllocateView *>(record)
+    reinterpret_cast<ExAttackAllocateRecordView *>(record)
         ->AllocateDynamicData(1, sizeof(ExAttackType8Extra));
 
-    reinterpret_cast<ExAttackType8SideLookupView *>(record)
-        ->GetSideState()->anmOwner0C->anm2D4->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->effectManager0C->effectAnm->ExecuteAnmIdx(
             reinterpret_cast<AnmVm *>(record->dynamicData1C), 37);
 
     ExAttackType8Extra *extra = record->extra34;

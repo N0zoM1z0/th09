@@ -19,64 +19,56 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current checkpoint — shared mode/global declarations
+## Current checkpoint — native ExAttack side/EffectManager contracts
 
-A real VC7.1 header combination reproduces C2371: the former GameManagerModeView
-and existing AsciiGameManagerView declared the same global through incompatible
-C++ types. The mode, Front, Replay and Ending consumers now use the existing
-AsciiGameManagerView root and four actual mode-method definitions. The old mode
-header and FrontDraw's empty method facade are removed. Side character fields
-remain at20/58; addresses, method ABIs and compiler profiles stay fixed. Other
-subsystems still have their own legacy global projections; this is a bounded
-family correction, not complete GameManager or native-product closure.
+Type6/7/8/9 initializers now call the existing real side lookup and dynamic-data
+allocator, replacing eight references through unimplemented class facades.
+GetSideState uses the shared AsciiGameManagerView global. Its12-byte original
+returns the side indexed by record+08, stride38; the original initializer then
+reads side+0C and owner+2D4. Original GameManager setup stores the result of
+EffectManager::Create in that same side slot. The shared side now declares
+EffectManager*, and callers use its real effectAnm member. Six redundant structs
+and one unused alias are removed. Other legacy GameManager/AnmVm views remain
+independent source/product debt; no full nominal-type or product closure claim.
 
-GameManagerRuntimeView.hpp holds the shared data/method contract without ANM
-rendering declarations. AsciiGameManagerView.hpp remains the renderer gateway.
-Float2/Float3 declarations move verbatim into Float3.hpp; EndingAdded removes its
-duplicate Float3 class. This avoids importing the rendering AnmVm into Ending's
-separate lifecycle view. That broader AnmVm type debt is not claimed resolved.
-The vector extraction has a byte-exact inverse; no math implementation changes.
+Fifty-nine canonical source/profile groups preserve219 existing whole exact
+owners:71430 physical bytes/3963 fields with actual literal payloads checked.
+Four nonexact carriers bring the scope to63. All508 regular body/profile
+comparisons and11 compiler COMDATs/350 bytes/12 fields/15 entries retain their
+raw bytes and identities. Nine native symbol references change, plus326 private
+names in eight units at actual identical coordinates. All manifest offsets,
+kinds, addends, targets, extents and profiles stay fixed. The first overly strict
+private-name assertion is recorded; no byte or coordinate guard is relaxed.
+The actual old side-root and Replay mode objects are rejected despite equal
+numeric addresses. No new authored exact credit and no full1003-owner cold replay.
 
-Fifty-seven affected canonical source/profile groups preserve217 existing exact
-owners:71337 physical bytes/3959 fields, with actual literal payloads checked.
-Four extra nonexact carriers are also compiled. Across all61 groups,506 emitted
-body/profile comparisons retain every raw byte and field identity, allowing only
-the explicit class migration and actual identical owner-local coordinates.
-Supplemental comparison covers15 aux-less compiler entry symbols across11
-whole COMDATs,350 bytes/12 fields, including actual EH metadata bindings. Those
-compiled contributions are unchanged and receive no authored credit. There are
-no new emitted definitions. Four method names are reconciled across ledgers;367
-private names in12 units change only at proven identical coordinates.
-All217 complete existing exact bodies remain original-bound. No full1003-owner
-cold replay is run and no new authored exactness credit is earned.
+Genuine ECL+side and ECL+side+allocator source controls preserve76/77 exact
+bodies,22475/22556 bytes and991/994 fields. Four/eight native calls bind their
+actual same-object definitions; all138 preexisting regular ECL bodies remain
+byte/field neutral. These finite controls do not identify original TUs. Complete
+RunEcl15564/598/30, Enemy3900/97/13 and biased movement517/516 with28 fields/148
+overlap differences plus1 extra remain unchanged. SaveReplay, playback, Front
+and Title complete diagnostics also retain their previous frontiers.
 
-The newly coherent ECL+mode source control retains75 canonical ECL-profile
-owners and four complete native companion bodies. The latter use ECL's existing
-/Oi profile in this control; their canonical proofs remain under the separate
-unchanged mode profile. RunEcl15564/598/30 and Enemy3900/97/13 remain raw-identical.
-This single control proves neither original TU ownership nor all possible forms.
-Standalone SaveReplay1238/53/3, playback538/39+2 missing, Front added706/222,
-weighted Front681/569+12 missing and Title result1939/22 are also unchanged.
-
-Updated diagnostics require the actual shared native symbols; the real old
-Replay object is rejected despite identical numeric destinations. Public CI
-passes1030 tests/29 skips in103.641s. Original Ghidra exports all four mode leaves
-after checking685056 mapped file bytes. Earlier Effect export failures remain
-recorded; target identity passes and no original or Program byte is changed.
+Four separate RunEcl formal-type controls and two movement-helper formal controls
+preserve75 existing ECL siblings per model. State-pointer/direct/void* controls
+retain the original30 differences; Enemy& regresses to2153, including24 table
+bytes. Complete opcode157 changes160 to158 bytes and shifts six easing plus18
+opcode roots by-2; none of the original30 positions is repaired. Both movement
+formals retain the517-byte candidate. These are bounded compiler observations,
+not original nominal-type proof, and none is adopted.
 
 Current source/profile/provider-bound replay is
-.analysis/gpt-61sol-20261030-game-manager-mode-owner/verify_current.py. Default
-replay checks217 owners,506 bodies,11 compiler contributions and seven complete
-large-owner diagnostics;
---build serially rebuilds only these61 affected carriers. The dated baseline is
-bound to f74444dc, including19 Git/worktree EOL conversions across155 inputs.
-Older proofs can legitimately reject the new headers, symbols or ledger hashes.
-Use tracked source and current commands; removed old code copies are not restart
-dependencies. Cleanup removes611 unused baseline/control/debug/cache/build files,
-18256593 logical bytes (about17.4MiB). All284 packet records and62 necessary
-proof objects retain their hashes. build/ is absent and current cache-free replay
-passes after deletion. No old C++ source copy or new code archive remains. The98%
-milestone and native product/runtime, semantic and portability gates remain open.
+.analysis/gpt-61sol-20261030-runecl-formal-state/native_side.py verify;
+its build mode serially rebuilds only63 affected carriers. Older packet verifiers
+are dated evidence and may reject newer source/ledgers. Existing Git plus saved
+recipes reproduce all six private input hash sets without retained old C++
+source copies. Ghidra reuses the working project and checks685056 mapped file
+bytes before each export. Fourteen focused target-independent tests pass.
+Cleanup removes220 superseded binary/debug/cache files,12349457 logical bytes
+(about11.8MiB), preserving documentation/research and65 necessary current proof
+or actual-counterexample objects. No new code archive is created; build/ is
+absent. The98% milestone and later phase gates remain open.
 
 ## Earlier dependency corrections
 
@@ -100,6 +92,8 @@ and source-interface cleanup earn no partial exact credit.
 
 | Source checkpoint | Maintained change | Local evidence below `.analysis/` |
 | --- | --- | --- |
+| Current | Type6/7/8/9 use real native setup methods and EffectManager storage;219 existing exact owners retain71430 bytes/3963 fields. | `gpt-61sol-20261030-runecl-formal-state/native_side.py verify` |
+| 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |
 | e73311d9 | Charge uses actual Effect* state-effect methods;1197/70/1160 plus13 missing remains nonexact. | `gpt-61sol-20261030-charge-native-effects/verify_current.py` |
 | 4514216e | RunEcl uses actual Enemy/Etama/Background members; complete RunEcl/Enemy remain30/13 differences. | `gpt-61sol-20261030-ecl-native-calls/verify_current.py` |
 | f74444dc | Opcode148/reset share real GameManager+380 storage;92 existing owners retain29274 bytes/1411 fields. | `gpt-61sol-20261030-ecl-manager380/verify_current.py` |

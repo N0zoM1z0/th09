@@ -4,7 +4,7 @@
 
 #include <stddef.h>
 
-struct ExAttackType8AnmOwner;
+struct EffectManager;
 class EtamaController;
 struct PlayerLifecycleView;
 
@@ -34,7 +34,7 @@ struct AsciiGameManagerSideView
         PlayerLifecycleView *player04;
     };
     EtamaController *etama08;
-    ExAttackType8AnmOwner *anmOwner0C;
+    EffectManager *effectManager0C;
     unsigned char unknown10[0x0C];
     AsciiGameSideRuntimeView *runtime;
     int character20;
@@ -95,8 +95,8 @@ typedef char AsciiGameManagerSideRuntimeAt1C[
     (offsetof(AsciiGameManagerSideView, runtime) == 0x1C) ? 1 : -1];
 typedef char AsciiGameManagerSideEtamaAt08[
     (offsetof(AsciiGameManagerSideView, etama08) == 0x08) ? 1 : -1];
-typedef char AsciiGameManagerSideAnmOwnerAt0C[
-    (offsetof(AsciiGameManagerSideView, anmOwner0C) == 0x0C) ? 1 : -1];
+typedef char AsciiGameManagerSideEffectManagerAt0C[
+    (offsetof(AsciiGameManagerSideView, effectManager0C) == 0x0C) ? 1 : -1];
 typedef char AsciiGameManagerField0FC[
     (offsetof(AsciiGameManagerView, field0FC) == 0x0FC) ? 1 : -1];
 typedef char AsciiGameManagerValueAtB4[

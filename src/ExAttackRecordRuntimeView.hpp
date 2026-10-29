@@ -13,11 +13,6 @@ typedef char ExAttackGameSideSize38[(sizeof(ExAttackGameManagerSideView)==0x38)?
 typedef char ExAttackGameSideEffectAt0C[(offsetof(ExAttackGameManagerSideView,effectManager0C)==0x0C)?1:-1];
 typedef char ExAttackEffectManagerAnmAt2D4[(offsetof(EffectManager,effectAnm)==0x2D4)?1:-1];
 
-struct ExAttackGameManagerView
-{
-    ExAttackGameManagerSideView sides[2];
-};
-
 struct ExAttackRecordSideView
 {
     int unknown00;

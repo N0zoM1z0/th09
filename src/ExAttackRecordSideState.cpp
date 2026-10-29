@@ -1,8 +1,8 @@
 #include "ExAttackRecordRuntimeView.hpp"
-
-extern ExAttackGameManagerView g_GameManager;
+#include "GameManagerRuntimeView.hpp"
 
 ExAttackGameManagerSideView *ExAttackRecordSideView::GetSideState()
 {
-    return &g_GameManager.sides[side08];
+    return reinterpret_cast<ExAttackGameManagerSideView *>(
+        &g_GameManager.sides[side08]);
 }

@@ -2192,3 +2192,34 @@ Exact inventory and protected hashes are in
 verifier needs no build cache; --build serially rebuilds only61 affected carriers.
 The existing handoff archive preserves replaced checkpoint paragraphs. Exact
 credit remains244917/291883(83.9093%), with the98% goal active.
+
+
+## 2026-10-30: native ExAttack side contracts and formal-control cleanup
+
+Type6/7/8/9 now call the existing native side and allocator methods, and the
+shared side+0C uses the real EffectManager/effectAnm storage. The63 affected
+carriers preserve219 exact owners/71430 physical bytes/3963 fields,508 regular
+body/profile comparisons and11 compiler COMDATs. Fourteen focused tests pass.
+No new authored exact credit is assigned.
+
+Cleanup removes220 ignored, regular replaced compiler/debug/cache files,
+12349457 logical bytes (about11.8MiB). The old61 current carriers are replaced by
+63 current carriers; ten other control/extra-baseline objects are deleted only
+after complete regular/aux-less code and field observations are captured.
+Sixty-five necessary objects remain:63 current carriers and two actual retired
+root/mode counterexamples. All524 files protected at deletion keep their hashes
+at that point. Documentation/research records stay; no C++ source snapshot or
+new code archive is retained. Git plus finite recipes/EOL rules reproduces all
+six formal-control input hash sets and158 native baseline inputs in memory.
+
+The first cache-free repeat check detects six JSON tuple/list representation
+differences without any byte/field difference. The verifier normalizes only its
+serialized data representation after the substantive checks, and capture also
+requires actual producer source/profile/object hashes. The former receipt,
+failed repeat output and precise verifier changes remain recorded. Two deliberate
+post-cleanup verifier/receipt updates are separated from deletion protection.
+Current repeat replay passes without build/. Target, toolchains and Ghidra state
+are outside this operation. The exact manifest and protected hashes live in
+.analysis/gpt-61sol-20261030-runecl-formal-state/cleanup.json; current replay uses
+native_side.py verify, with build mode serially rebuilding only63 carriers.
+The replaced active checkpoint remains in the existing handoff archive.

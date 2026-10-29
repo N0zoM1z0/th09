@@ -23470,3 +23470,52 @@ other baseline/control binaries are removed after their complete bodies, fields
 and observations are recorded. build/ is absent and current cache-free replay
 passes after deletion. No old C++ source copy or new code archive remains. The
 replaced checkpoint paragraphs are preserved in the existing handoff archive.
+
+
+### 2026-10-30: native ExAttack side/EffectManager contracts and formal-type controls
+
+Recovery at8d05fa6af8e6e734abd885e772bf5ba06363ac69 is clean. Original Japanese
+v1.50a disk and direct Ghidra Program checks pass, including every685056 mapped
+file byte. The working project is reused; no target or Program byte changes.
+This is a bounded dependency correction with no new authored exactness credit.
+
+| ID | Evidence class | Fact and scope | Evidence |
+| --- | --- | --- | --- |
+| EXATTACK-NATIVE-SIDE-001 | original target / existing exact owners | The12-byte440CB0 leaf returns GameManager+38*record[08]. Original Type8 at446C10 calls440D90, then440CB0, reads returned side+0C and owner+2D4, and calls the existing ANM method. Original41AF2D stores40D320 EffectManager::Create's result in that same side slot before creating its Enemy manager. Complete original extents and decoded instructions are captured; Ghidra nominal names/prototypes remain provisional. | explanation.json and direct original Ghidra exports |
+| EXATTACK-NATIVE-SIDE-002 | maintained source contracts | Type6/7/8/9 now use existing ExAttackAllocateRecordView::AllocateDynamicData and ExAttackRecordSideView::GetSideState, replacing eight unimplemented facade references. The side leaf names the shared AsciiGameManagerView global. Shared side+0C is EffectManager*, and callers use actual effectAnm+2D4. Six redundant structs and one unused alias are removed. Separate GameManager/ANM views elsewhere remain source/product debt. | Current native headers, side leaf and Type8 lexical family |
+| EXATTACK-NATIVE-SIDE-003 | complete compiler/original comparison | Across59 canonical source/profile groups,219 existing exact owners preserve71430 physical bytes/3963 fields and actual literal definitions. Four nonexact carriers bring the scope to63. All508 regular body/profile comparisons and11 whole compiler COMDATs/350 bytes/12 fields/15 entries preserve their raw bytes and field identities. Only335 manifest symbol rows change: nine native identities and326 private labels across eight units at actual identical coordinates. All other manifest data, offsets, kinds, addends, destinations, extents and profiles remain identical. | native-current-verification.json and manifest-migration.json |
+| EXATTACK-NATIVE-SIDE-004 | genuine source composition | ECL+side and ECL+side+allocation controls preserve76/77 complete exact bodies,22475/22556 physical bytes and991/994 fields. Four/eight native calls point to their actual same-object definitions. All138 preexisting regular ECL bodies keep their raw bytes and actual fields. These two contexts are not original TU-ownership proof or a universal negative. | native-context.json and native-context-body-comparison.json |
+| ECL-FORMAL-STATE-001 | finite compiler controls at8d05fa6a | Complete-state pointer, direct state formal and void* formal keep every RunEcl raw byte,15564/598/30, including zero field/table drift. Enemy& remains15564/598 but has2153 differences:1925 ordinary/228 field, including24 table bytes. All75 canonical ECL siblings preserve22463 physical bytes/990 fields per model; Enemy remains3900/97/13. No formal variant is adopted. | inputs.json, models.json and source-recovery.json |
+| ECL-FORMAL-STATE-002 | complete dataflow/physical attribution | In the reference model, opcode157's stride result stays in EAX instead of moving to ECX. Its complete handler shrinks160 to158 bytes; logical code shrinks14792 to14790 and trailing alignment keeps15564 physical bytes. Six easing and18 opcode roots shift-2. Opcode155 remains unchanged and none of the original30 unequal positions is repaired. This is compiler dataflow evidence, not a null-check or original nominal-type conclusion. | explanation.json complete original/candidate opcode and table data |
+| ECL-FORMAL-STATE-003 | finite movement-helper controls | MovementView* and MovementView& formal models both preserve the full517-byte helper/28 fields/148 overlap differences plus1 excess, every main raw byte and all75 exact siblings. Prior SDK/Y-lvalue controls are separate contexts; no universal source impossibility or fractional credit is inferred. | helper-models.json and all complete ECL/Enemy/biased diagnostics |
+
+Complete maintained RunEcl15564/598/30, Enemy3900/97/13 and biased movement517/516
+remain unchanged, as do SaveReplay, playback, Front and Title complete frontiers.
+The actual retired side-root object is first proven against its old complete
+unit, then rejected by the new native-root unit despite an equal numeric address.
+The actual old Replay mode/root object is also rejected. The initial overly
+strict private-label assertion and later JSON tuple/list repeat-check failure
+are retained. Six diagnostic tuple/list representations are normalized only
+for storage/reload comparison after all original code/field/literal guards;
+no production validator or exact-byte acceptance is weakened. Current capture
+also verifies per-carrier producer source/profile/object hashes; build mode
+serially compiles the63 carriers rather than reusing incomplete provider pins.
+
+.analysis/gpt-61sol-20261030-runecl-formal-state/ keeps full bodies/fields,
+source/provider/profile hashes, original Ghidra routes, failures, strict current
+native_side.py replay and finite source recipes. Git8d05fa6a plus recorded EOL
+conversion reproduces all158 baseline inputs and every compiler-input hash of
+all six private formal models in memory. No frozen old C++ source tree is needed.
+Fourteen focused target-independent tests pass; no full public CI or whole1003
+cold replay is run for this source/ledger batch. Tracking remains2248 candidates,
+1035 authored/source and1003 exact;244917/291883 authored bytes(83.9093%),98% open.
+Native product/runtime, semantic and portability gates remain open.
+
+Cleanup deletes220 replaced compiler/debug/cache files,12349457 logical bytes
+(about11.8MiB). All documentation/research records and65 necessary current proof
+or actual-counterexample objects remain. All524 files protected at deletion
+retain hashes then; two deliberately updated verifier/receipt paths are separately
+recorded after the serialization/producer check repair, with the former receipt
+preserved. New code archives are not created; build/ is absent. Earlier packet
+verifiers and removed proof binaries are historical evidence, not restart inputs.
+The former active checkpoint is preserved in the existing handoff archive.

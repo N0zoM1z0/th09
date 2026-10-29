@@ -2397,3 +2397,65 @@ proof objects keep their original hashes. build/ is absent and the current
 cache-free replay passes after deletion. No old source tree or new code archive
 is retained. The98% milestone and native product/runtime, semantic and
 portability gates remain open.
+
+
+## October30 shared mode/root checkpoint, source8d05fa6a
+
+## Current checkpoint — shared mode/global declarations
+
+A real VC7.1 header combination reproduces C2371: the former GameManagerModeView
+and existing AsciiGameManagerView declared the same global through incompatible
+C++ types. The mode, Front, Replay and Ending consumers now use the existing
+AsciiGameManagerView root and four actual mode-method definitions. The old mode
+header and FrontDraw's empty method facade are removed. Side character fields
+remain at20/58; addresses, method ABIs and compiler profiles stay fixed. Other
+subsystems still have their own legacy global projections; this is a bounded
+family correction, not complete GameManager or native-product closure.
+
+GameManagerRuntimeView.hpp holds the shared data/method contract without ANM
+rendering declarations. AsciiGameManagerView.hpp remains the renderer gateway.
+Float2/Float3 declarations move verbatim into Float3.hpp; EndingAdded removes its
+duplicate Float3 class. This avoids importing the rendering AnmVm into Ending's
+separate lifecycle view. That broader AnmVm type debt is not claimed resolved.
+The vector extraction has a byte-exact inverse; no math implementation changes.
+
+Fifty-seven affected canonical source/profile groups preserve217 existing exact
+owners:71337 physical bytes/3959 fields, with actual literal payloads checked.
+Four extra nonexact carriers are also compiled. Across all61 groups,506 emitted
+body/profile comparisons retain every raw byte and field identity, allowing only
+the explicit class migration and actual identical owner-local coordinates.
+Supplemental comparison covers15 aux-less compiler entry symbols across11
+whole COMDATs,350 bytes/12 fields, including actual EH metadata bindings. Those
+compiled contributions are unchanged and receive no authored credit. There are
+no new emitted definitions. Four method names are reconciled across ledgers;367
+private names in12 units change only at proven identical coordinates.
+All217 complete existing exact bodies remain original-bound. No full1003-owner
+cold replay is run and no new authored exactness credit is earned.
+
+The newly coherent ECL+mode source control retains75 canonical ECL-profile
+owners and four complete native companion bodies. The latter use ECL's existing
+/Oi profile in this control; their canonical proofs remain under the separate
+unchanged mode profile. RunEcl15564/598/30 and Enemy3900/97/13 remain raw-identical.
+This single control proves neither original TU ownership nor all possible forms.
+Standalone SaveReplay1238/53/3, playback538/39+2 missing, Front added706/222,
+weighted Front681/569+12 missing and Title result1939/22 are also unchanged.
+
+Updated diagnostics require the actual shared native symbols; the real old
+Replay object is rejected despite identical numeric destinations. Public CI
+passes1030 tests/29 skips in103.641s. Original Ghidra exports all four mode leaves
+after checking685056 mapped file bytes. Earlier Effect export failures remain
+recorded; target identity passes and no original or Program byte is changed.
+
+Current source/profile/provider-bound replay is
+.analysis/gpt-61sol-20261030-game-manager-mode-owner/verify_current.py. Default
+replay checks217 owners,506 bodies,11 compiler contributions and seven complete
+large-owner diagnostics;
+--build serially rebuilds only these61 affected carriers. The dated baseline is
+bound to f74444dc, including19 Git/worktree EOL conversions across155 inputs.
+Older proofs can legitimately reject the new headers, symbols or ledger hashes.
+Use tracked source and current commands; removed old code copies are not restart
+dependencies. Cleanup removes611 unused baseline/control/debug/cache/build files,
+18256593 logical bytes (about17.4MiB). All284 packet records and62 necessary
+proof objects retain their hashes. build/ is absent and current cache-free replay
+passes after deletion. No old C++ source copy or new code archive remains. The98%
+milestone and native product/runtime, semantic and portability gates remain open.
