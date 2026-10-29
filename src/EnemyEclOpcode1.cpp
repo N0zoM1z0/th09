@@ -1,10 +1,6 @@
+#include "EnemyEclExInstructions.hpp"
+#include "SoundPlayer.hpp"
 #include "EnemyManager.hpp"
-
-struct EnemyEclOpcode1InstructionView
-{
-    unsigned char unknown00[0x10];
-    int value10;
-};
 
 struct EnemyEclOpcode1Flags
 {
@@ -18,15 +14,8 @@ struct EnemyEclOpcode1SideView
     EnemyEclOpcode1Flags flags34;
 };
 
-struct EnemyEclOpcode1SoundView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-};
-
-extern EnemyEclOpcode1SoundView g_SoundPlayer;
-
-void __fastcall EnemyEclOpcode1(
-    EnemyView *enemy, EnemyEclOpcode1InstructionView *instruction)
+void __fastcall EnemyEclExInstruction1(
+    EnemyView *enemy, EnemyEclExInstructionView *instruction)
 {
     reinterpret_cast<EnemyEclOpcode1SideView *>(
         enemy->manager00->sideState320)->flags34.bit0 =

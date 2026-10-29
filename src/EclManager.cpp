@@ -538,7 +538,7 @@ int EclManager::RunEcl(EnemyView *enemy)
     Th09EclInterpolationSlotView *slot;
     Float3 *position;
     Float3 *positionOffset;
-    Th09EclRunState::ExInstructionCallback perFrameCallback;
+    EnemyEclExInstruction perFrameCallback;
     Th09EclRunOwner::InterpolationCallback interpolationCallback;
     unsigned int executionMask;
     unsigned int affectedVariableBits;
@@ -676,8 +676,8 @@ th09_ecl_after_dispatch:
     if (enemyState->life2E48 > 0)
     {
         perFrameCallback =
-            reinterpret_cast<Th09EclRunState::ExInstructionCallback>(
-                enemyState->activeContext2CE0->perFrameCallback014);
+            reinterpret_cast<EnemyEclCallbackContextView *>(
+                enemyState->activeContext2CE0)->callback014;
         slot = &enemyState->activeContext2CE0->interpolationSlots0A0[0];
 
         positionInterpolated = false;
@@ -687,8 +687,8 @@ th09_ecl_after_dispatch:
         {
             perFrameCallback(
                 enemy,
-                reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-                    enemyState->activeContext2CE0->perFrameInstruction018));
+                reinterpret_cast<EnemyEclCallbackContextView *>(
+                    enemyState->activeContext2CE0)->instruction018);
         }
 
         for (interpolationIndex = TH09_ECL_INTERPOLATION_SLOT_COUNT;

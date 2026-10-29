@@ -1,3 +1,5 @@
+#include "EnemyEclExInstructions.hpp"
+#include "SoundPlayer.hpp"
 #include "BulletManager.hpp"
 #include "EnemyManager.hpp"
 #include "AnmManager.hpp"
@@ -15,20 +17,15 @@ struct EnemyEclOpcode2SideView
     EtamaController *etama08;
 };
 
-struct EnemyEclOpcode2SoundView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-};
-
 struct BulletTransformResetView
 {
     void ResetTransformRuntime();
 };
 
-extern RngRuntimeView g_ReplayRng;
-extern EnemyEclOpcode2SoundView g_SoundPlayer;
+extern RngRuntimeView g_Rng;
 
-void __fastcall EnemyEclOpcode2(EnemyView *enemy, void *)
+void __fastcall EnemyEclExInstruction2(
+    EnemyView *enemy, EnemyEclExInstructionView *)
 {
     EnemyEclOpcode2SideView *side =
         reinterpret_cast<EnemyEclOpcode2SideView *>(
@@ -51,7 +48,7 @@ void __fastcall EnemyEclOpcode2(EnemyView *enemy, void *)
             *reinterpret_cast<int *>(&bullet->unknownD74[0]) = 0;
             *reinterpret_cast<int *>(&bullet->unknownD74[4]) = 0;
             bullet->angle =
-                g_ReplayRng.GetRandomF32SignedInRange(3.1415927f);
+                g_Rng.GetRandomF32SignedInRange(3.1415927f);
             *reinterpret_cast<int *>(&bullet->unknownD80[0]) = 0;
             *reinterpret_cast<int *>(&bullet->unknownD80[4]) = 0;
             bullet->velocity.x = 0.0f;
@@ -95,7 +92,7 @@ void __fastcall EnemyEclOpcode2(EnemyView *enemy, void *)
             *reinterpret_cast<int *>(&bullet->unknownD74[0]) = 0;
             *reinterpret_cast<int *>(&bullet->unknownD74[4]) = 0;
             bullet->angle =
-                g_ReplayRng.GetRandomF32SignedInRange(3.1415927f);
+                g_Rng.GetRandomF32SignedInRange(3.1415927f);
             *reinterpret_cast<int *>(&bullet->unknownD80[0]) = 0;
             *reinterpret_cast<int *>(&bullet->unknownD80[4]) = 0;
             bullet->velocity.x = 0.0f;

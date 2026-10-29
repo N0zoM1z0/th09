@@ -18,6 +18,7 @@
 #define TH09_ECL_RUN_STATE_DECLARATIONS
 
 #include "EclRunBullet.inl"
+#include "EnemyEclExInstructions.hpp"
 #include "EffectManager.hpp"
 #include "AsciiBossMarkerVmView.hpp"
 #include "SoundPlayer.hpp"
@@ -246,11 +247,6 @@ typedef char Th09EclStateChildDepthAt06[
 typedef char Th09EclStateChildCallStackAt234[
     (offsetof(ChildEclBlock, callStack0234) == 0x0234) ? 1 : -1];
 
-typedef void (__fastcall *ExInstructionCallback)(
-    EnemyView *enemy,
-    Th09EclRawInstructionHeaderView *instruction);
-
-extern ExInstructionCallback g_ExInstructionCallbacks[];
 extern int g_BossLifeMarkerProtocolValue;
 
 void __fastcall ReleaseAttachedEffects(EnemyView *enemy);
@@ -517,10 +513,10 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_CALL_EX_INSTRUCTION:
-        Th09EclRunState::g_ExInstructionCallbacks[
+        g_EnemyEclExInstructions[
             Th09EclRunControl::ReadInt(enemy, instruction, 0)](
                 enemy,
-                instruction);
+                reinterpret_cast<EnemyEclExInstructionView *>(instruction));
         break;
 
     case TH09_ECL_OPCODE_SET_REPEATING_EX_INSTRUCTION:
@@ -528,16 +524,17 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         if (stateIndex >= 0)
         {
             stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-            Th09EclRunState::View(enemy)->activeContext2CE0->
-                perFrameCallback014 =
-                    Th09EclRunState::g_ExInstructionCallbacks[stateIndex];
-            Th09EclRunState::View(enemy)->activeContext2CE0->
-                perFrameInstruction018 = instruction;
+            reinterpret_cast<EnemyEclCallbackContextView *>(
+                Th09EclRunState::View(enemy)->activeContext2CE0)->callback014 =
+                    g_EnemyEclExInstructions[stateIndex];
+            reinterpret_cast<EnemyEclCallbackContextView *>(
+                Th09EclRunState::View(enemy)->activeContext2CE0)->instruction018 =
+                    reinterpret_cast<EnemyEclExInstructionView *>(instruction);
         }
         else
         {
-            Th09EclRunState::View(enemy)->activeContext2CE0->
-                perFrameCallback014 = 0;
+            reinterpret_cast<EnemyEclCallbackContextView *>(
+                Th09EclRunState::View(enemy)->activeContext2CE0)->callback014 = 0;
         }
         break;
 
@@ -576,6 +573,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     {
 #define TH09_ECL_RUN_BULLET_TRANSITION_BODY
 #include "EclRunBullet.inl"
+#include "EnemyEclExInstructions.hpp"
 #undef TH09_ECL_RUN_BULLET_TRANSITION_BODY
     }
 

@@ -19,100 +19,76 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Player charge state-effect contract correction
+## Current checkpoint — common extended-callback contracts
 
-Charge previously declared three implemented state-effect methods with void*
-returns; their actual definitions return Effect*, producing different C++ symbols.
-Caller and definitions now use one layout-checked PlayerStateEffectView.hpp.
-A final source-cold comparison preserves every1197 caller byte,70 fields,58 calls
-and all8 nondebug sections/1281 bytes. Only three external method references
-change identity. The actual91+91+100-byte callees and existing20-byte Timer body
-remain exact. Charge still has1160 overlap differences and13 missing bytes;
-there is no new exact credit or product-closure claim.
+The twelve callable entries at4A0B14 now have one source-callable ECX Enemy /
+EDX instruction interface, real definitions and an initialized table in
+EnemyExAttackLeaves.cpp. Ten previous no-argument member spellings were compatible
+byte models, not proof of original member ownership; two existing free functions
+also had different instruction parameter types. All twelve now use the checked
+EnemyEclExInstructionView prefix, with only slot1's+10 integer operand named.
+The separate copied-context prefix types callback+14 and instruction+18 without
+changing the complete context layout. These names/types are target-facing source
+contracts; original nominal declarations remain unknown.
 
-Ten bounded real-callee/type controls keep actual native bodies checked: effects
-and SpawnShots visibility are caller-neutral; resource-body visibility yields
-1195 bytes/1162 differences/15 missing and is rejected. Full resource/spawn
-declarations alone are neutral. All temporary source trees are removed; records,
-recipes and current proof objects remain below
-.analysis/gpt-61sol-20261030-charge-native-effects/. verify_current.py replays
-that source-bound capture without build caches, or compiles only two affected
-carriers with --build. See the KB for the scope and measured limits. Public CI
-passes1009 tests/29 skips; ten focused charge tests pass. All10 captured cases
-and28 native-body proofs replay before disposable object/debug cleanup; the
-packet stays below1MiB with no source snapshots or new source archives.
+The six affected canonical carriers preserve91 exact owners:26545 physical bytes /
+1176 fields. All twelve complete callback bodies retain1330 bytes/50 fields.
+The48-byte table prefix independently matches all twelve original pointers and
+native source identities; the next zero DWORD's ownership and original full array
+extent remain unknown. This data comparison grants no authored-function credit.
+Six table entries resolve to actual same-object definitions and six to external
+native definitions checked in the other carriers. Current strict proof is
+.analysis/gpt-61sol-20261030-ecl-global-storage/verify_current.py; default replay
+uses retained objects without build/, while --build compiles only six carriers.
+The tracked table-only diagnostic is scripts/inspect-ecl-ex-instruction-table.py;
+its --build compiles the existing spawn/table owner carrier.
 
-Enemy's two3-byte callback definitions retain unresolved folded ownership;
-matching the PlayerCheckState2 address does not make them that Player method.
+Slot1 supplies a concrete type/codegen control: the shared formal instruction
+prefix plus real SoundPlayer retains all76 original bytes. A raw-header formal
+parameter converted to a local view gives74 bytes; retaining the old SoundPlayer
+facade still gives74, and a word reference gives75. Those alternatives are
+rejected. Both callbacks now use actual SoundPlayer declarations; callback2 also
+uses the existing g_Rng root, replacing its misleading Replay alias. Twenty local
+references are refreshed only at unchanged actual coordinates; six external
+references adopt existing native SoundPlayer/RNG identities. Twelve function
+source symbols/names are updated consistently across ledgers. Addresses, complete
+extents, profiles, origin decisions and exact counts do not change.
 
-## RunEcl native clamp, bullet and Background contracts
+Two genuine all-callbacks-before/after TU controls keep full RunEcl15564/598/30 and
+Enemy3900/97/13 unchanged but shrink callback slot9 from226 to217 bytes. Its three
+receiver reloads disappear with the existing32-byte polar definition visible.
+Two controls hiding only that definition restore all226 bytes while22 other ECL
+owners regress; the32-byte callee is separately rechecked from the current proof.
+Neither TU change is adopted. These are bounded visibility constraints, not proof
+of unique original TUs. Current separate carriers retain all91 original matches.
 
-RunEcl now calls the existing Enemy clamp and Etama transition members, and the
-Background spell method through its shared layout-checked prefix. Three undefined
-facades and their diagnostic address aliases are removed. The audit requires the
-real canonical members at original call sites409806/40B5B1/40BD13, independently
-of candidate offsets. A three-case regression rejects retired names even when
-their numeric destinations agree.
+The caller audit requires the implemented table at the two original indexed calls
+and installation load, including decoded DWORD read widths. Real prior objects
+using the retired facade are rejected despite equal numeric addresses. Five new
+regressions reject incomplete/reordered prefixes, wrong canonical targets,
+member/void-pointer substitutions and invalid fields. All97 focused ECL tests
+pass; public CI passes1021 tests/29 skips in105.228s. No new exactness credit is
+earned:98%, native product/runtime, semantic and portability gates remain open.
+Cleanup removes454 disposable build/debug/bytecode and control files,11161914
+bytes; all57 existing packet record hashes remain unchanged. Twelve current/
+baseline proof objects remain. Cache-free replay passes after build/ removal.
 
-Both canonical ECL profiles and three native callee carriers cold-pass all82
-existing exact owners:25371 physical bytes/1128 fields. Twenty private reference
-names in two units are refreshed only after actual COFF coordinates prove the
-same target. Each complete ECL object preserves all203 nondebug sections and
-effective relocation identities; only three API and220 private reference strings
-change. Complete RunEcl15564/598/30 and Enemy3900/97/13 remain raw-identical.
-No definition move, compiler-profile change or new exact credit is adopted.
+## Earlier dependency corrections
 
-Eight genuinely connected native-body visibility controls test clamp, bullets,
-Background and all three together before/after the caller. Both full callers
-remain identical;612 repeated complete exact-body proofs pass. These are bounded
-measurements, not proof of original TU ownership. Current source-bound replay is
-.analysis/gpt-61sol-20261030-ecl-native-calls/verify_current.py; --build compiles
-only five affected carriers. Source staging is temporary; preserve the records. All88
-focused ECL tests pass; public CI passes1012 tests/29 skips. Current proof objects
-remain after19 disposable object/debug files are removed; no source snapshots or
-new code archives remain.
+Player charge's three state-effect return contracts now use actual Effect*
+methods. RunEcl calls actual Enemy clamp, Etama transition and Background spell
+members. ECL, timeline and setup share GameManager+120 instruction-mask storage
+while retaining original DWORD/BYTE accesses. Detailed evidence is in the KB and
+dated packets; the predecessor handoff is preserved in the checkpoint archive.
+Older source-bound captures may reject newer global ledger hashes. They are
+historical evidence, not dependencies for the current six-carrier replay.
 
-The instruction-mask audit below supersedes the proposed4A7EB0 investigation.
-Remaining callback-table and BossLifeMarker data aliases still need independent
-storage/definition review; no conclusion follows from address containment alone.
-
-## Shared instruction-mask storage and GameManager global identity
-
-Fresh direct Ghidra and independently decoded original PE accesses confirm
-408885 reads DWORD4A7EB0,40FD2A reads its low BYTE, and41AF8A writes DWORD0xFF.
-The old ECL and timeline declarations named distinct C++ globals for this same
-storage; setup also declared g_GameManager with a competing local-layout type.
-All three now use the existing AsciiGameManagerView global root4A7D90 and
-layout-checked+120 storage. Setup retains its local view, accessed through local
-references. The observed prefix/union does not establish original nominal member
-ownership, the complete GameManager class, or whole-product link closure.
-
-Five canonical carrier builds preserve92 existing exact owners:29274 complete
-physical bytes/1411 fields, including timeline's complete1048-byte table-bearing
-extent and setup's425-byte cleanup. Thirty-nine private names are refreshed only
-at proven unchanged COFF coordinates. Ninety-three setup references adopt the
-shared native root; timeline's field6C becomes root4A7D90+120, preserving4A7EB0.
-All nondebug sections and effective relocation identities remain equal in all
-five objects. RunEcl's linked15564 bytes/598 fields/30 differences, Enemy3900/97/13
-and Setup1689/171/904 remain unchanged. No new exactness credit is earned.
-
-The ECL audit removes the retired mask alias and requires the native undefined
-root, canonical provenance, addend120 and decoded DWORD read. Regression cases
-reject equal-address aliases, wrong roots/widths/accesses and missing fields;
-the actual prior ECL object is also rejected. Current source/profile/provider-
-bound replay is .analysis/gpt-61sol-20261030-ecl-difficulty-data/verify_current.py;
---build compiles only the five affected carriers, serially at lowered priority.
-Default replay needs retained proof objects, not build/. Keep documentation,
-compiler logs, records and recipes; no old C++ source copies or archives are made.
-The unchanged residuals rule out this corrected storage declaration alone as the
-explanation for either large owner's remaining bytes.
-
-All92 focused ECL tests and22 focused GameManager/Front tests pass. Public CI
-passes1016 tests/29 skips in105.471s. Two obsolete source-spelling assertions
-are replaced by original-address/native-relocation checks, rather than making
-the new local variable spelling an acceptance rule. Cleanup removes431 ignored
-build/debug/bytecode and rejected-getter files,8361802 bytes; all27 research-record
-hashes remain unchanged. Cache-free current replay passes after build/ removal.
+The remaining BossLifeMarkerProtocolValue alias deserves a separate source-storage
+correction. Fresh original operands show opcode148 adds1800 at4A8110 and reset
+clears manager+380; neither observation establishes boss-life-marker semantics.
+The new scan also records a based+380 access in unrelated library code: offset
+membership alone is not GameManager identity. Do not resume old rejected source
+models without checking their actual inputs and scope.
 
 ## Source changes and retained current proofs
 
@@ -122,6 +98,9 @@ and source-interface cleanup earn no partial exact credit.
 
 | Source checkpoint | Maintained change | Local evidence below `.analysis/` |
 | --- | --- | --- |
+| e73311d9 | Charge uses actual Effect* state-effect methods;1197/70/1160 plus13 missing remains nonexact. | `gpt-61sol-20261030-charge-native-effects/verify_current.py` |
+| 4514216e | RunEcl uses actual Enemy/Etama/Background members; complete RunEcl/Enemy remain30/13 differences. | `gpt-61sol-20261030-ecl-native-calls/verify_current.py` |
+| 760f01a1 | Shared GameManager instruction-mask storage;92 existing owners preserve29274 bytes/1411 fields. | `gpt-61sol-20261030-ecl-difficulty-data/verify_current.py` |
 | 962ddb20 | Replay uses native GameManager mode predicates; 16 affected exact owners retain4,150 bytes/232 fields. | `gpt-61sol-20261029-replay-mode-adoption/verify_current.py` |
 | a4a3cd13 | Enemy uses native Front indicator; ECL/Front profiles preserve80 exact owners/25,428 bytes/1,136 fields. | `gpt-61sol-20261029-enemy-periodic-selection/verify_adoption.py` |
 | 6bc1377b | Replay uses native RNG; five carriers retain25 exact owners/4,553 bytes/257 fields. | `gpt-61sol-20261029-replay-native-rng/verify_current.py` |

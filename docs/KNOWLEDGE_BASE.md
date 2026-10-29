@@ -23045,3 +23045,131 @@ tracking, documentation, progress and whitespace checks pass. Cleanup removes431
 disposable ignored build/debug/bytecode and rejected-getter files totaling8361802
 bytes. All27 existing packet record hashes remain unchanged; ten baseline/current
 proof objects remain. Current source-bound replay passes with build/ absent.
+
+
+## October30: unify twelve extended ECL callbacks and recover a typed-wire witness
+
+Recovery from760f01a1 is clean. Original JP1.50a verification, target-required
+tracking and the live83.9093% report pass before target work. An independent
+original PE operand scan finds two indexed4A0B14 calls at40B1BA/40B1D6 and the
+installation load40B219. The twelve callable pointer values, in order, are
+40C3C0,40C3F0,40C530,40C440,40C4A0,40C470,40C770,40C7C0,40C810,40C860,40C4D0,
+40C500. They are an extended-callback table, separate from the interpreter's
+187-way switch table. Following4A0B44 is zero and the independently reviewed
+Effect prefix starts4A0B48. Sentinel/padding/adjacent ownership of that zero and
+the complete original ECL array extent remain unknown; only48 callable bytes
+are adopted, without function exactness credit or invented padding.
+
+Fresh direct Ghidra rechecks all685056 mapped-file bytes. The first four-entry
+request fails closed because Ghidra has no function at40C3F0; its three actual
+exports and failure are preserved. A new three-entry request for RunEcl, reset
+and callback2 completes under ghidra-direct/ecl-global-storage-known-entries-20261030/.
+No function is fabricated and no target byte patched. Callback1's entry/body
+remain independently supported by its original table pointer, reviewed extent,
+actual original decoding and complete existing/fresh VC7.1 comparison. Ghidra's
+inferred RunEcl and callback signatures are not nominal-type evidence.
+
+Ten callback bodies had been modeled as no-argument EnemyExAttack*View members;
+callback1 took a private+10 instruction view and callback2 void*. Such individual
+byte matches did not yield one C++ callable table. The maintained representation
+now exposes EnemyEclExInstruction0..11 through one void fastcall ECX Enemy / EDX
+instruction contract and actual initialized g_EnemyEclExInstructions data. This
+normalizes the source interface observed at the caller; neither original member
+versus free-function syntax nor original nominal types are claimed recovered.
+Unused second arguments introduce no game action, fake return or stack argument.
+The shared instruction prefix names only the observed DWORD operand at+10 and
+asserts14-byte extent. The callback-context prefix asserts callable+14 and saved
+instruction+18, while the full0x22C context retains its existing opaque storage.
+
+Both SoundPlayer method/global facades in callbacks1/2 become actual existing
+SoundPlayer declarations at4DC698/43E2F0; callback2's g_ReplayRng alias becomes
+the real g_Rng at4ACE0C. The callbacks' actual sound/RNG callees and prototypes
+are already canonical and unchanged. No assembly, compiler profile, register/
+variable-order hint, dummy clobber, padding or additional runtime guard is added.
+
+The first common raw-header interface preserves90 existing bodies but callback1
+shrinks76 to74. Finite controls isolate this from SoundPlayer visibility: both
+raw-header/local-view versions give74 bytes/61 overlap differences/two missing;
+a raw-word-reference gives75/36/one missing. A formal typed instruction prefix
+with actual SoundPlayer restores all76 bytes/two fields. Four controls replay on
+the final shared-prefix source with the same results. This is a measured VC7.1
+formal-type/local-view lowering distinction, not evidence of semantic difference
+between the rejected expressions or a unique original instruction class.
+
+Six canonical carrier builds (ECL main/Ob0 and four callback sources) retain91
+complete existing exact owners:26545 physical bytes/1176 fields, with literal
+definitions checked. All twelve actual callbacks retain1330 bytes/50 fields.
+Every maintained body remains raw-identical to the baseline. Twelve function
+symbols/proposed names and callback calling-convention signatures are updated
+across functions, matches, reccmp, implemented and match-unit records. Twenty
+private ECL references change names only at proven identical actual owner-local
+coordinates; six external SoundPlayer/RNG references acquire actual canonical
+identities at unchanged destinations. Addresses, extents, origin classifications,
+profiles and acceptance thresholds remain unchanged. Existing unit keys stay
+stable for reproduction. An initial ledger update misses the reccmp/implemented
+names and fails tracking; both are reconciled rather than bypassing that check.
+
+The data definition lives with the existing six simple spawn callbacks; a first
+standalone data-only CPP was rejected by the function-mapping control plane and
+removed after moving the same reviewed definition into this existing carrier.
+The final actual COFF contains48 initialized writable bytes and12 DIR32 fields,
+zero addends and the twelve correct common callback symbols. Six referents are
+actual same-object functions, six external canonical definitions verified in the
+other carriers. inspect-ecl-ex-instruction-table.py verifies actual storage and
+all original pointer destinations; it reports a bounded prefix, no authored code
+credit, no original array extent and no native-product closure claim.
+
+Both complete RunEcl15564/598/30 and Enemy3900/97/13 remain raw-identical; ECL has
+zero field/table mismatch. Two all-twelve-definitions/table-before/after controls
+keep both callers unchanged but preserve only86 of87 same-profile bodies:
+23567 bytes/1028 fields each. Callback slot9 becomes217 bytes/12 fields instead
+of226/12. The original/current form reloads ECX after each polar call, three
+LEAs total; each co-visible form omits all three. The actual same-object32-byte
+Float3::FromAngleMagnitude still equals the original and writes no ECX register.
+
+Two further controls remove only that unchanged polar definition from the
+private TU, retaining its actual declaration and separately reusing the current
+complete32-byte proof. Callback slot9 restores all226 original bytes and three
+reloads, and all twelve callbacks are exact. However,22 other ECL owners regress
+and the expected polar body moves out. Each control retains64 actual matching
+bodies/12375 bytes/487 fields plus the separately exact32-byte callee. RunEcl and
+Enemy again stay30/13. Thus neither merging callbacks into this TU nor hiding the
+polar definition is adopted. The four complete models supply300 positive full-
+body proofs/71884 bytes/3030 fields and retain every failure separately. These
+are conditional compiler-visibility constraints, not original-TU uniqueness or
+all-memory/runtime proofs. Existing polar assembly is unchanged; no new assembly
+is introduced in the production change or these opacity controls.
+
+The ECL audit removes the undefined old table alias and requires the implemented
+native table at original fields40B1BD/40B1D9/40B21C: two indexed calls and one
+installation load, preserving actual DWORD read widths. Canonical provenance of
+the data is the separate real-COFF prefix checker, not matching numeric addresses
+alone. The real previous ECL object fails this updated gate. Five new pure-input
+regressions reject member/void* substitutions, wrong original order/targets,
+incomplete prefixes, missing/duplicate/shifted/nonpointer fields, invalid addends,
+truncated/wrong-machine COFF and retired caller table identities.
+
+.analysis/gpt-61sol-20261030-ecl-global-storage/ retains original scans, Ghidra
+logs, baseline/current proof objects, source/profile/provider bindings, complete
+native/data/caller comparisons, all controls, causal reload observations and
+recipes. Source staging self-cleans and no C++ snapshots or new source archives
+are retained. verify_current.py replays the current91 owners and actual table
+without build caches; --build compiles only six affected carriers. Historical
+captures stay source/commit scoped and may reject these newer global ledgers.
+All97 focused ECL tests pass. Public CI passes1021 tests/29 skips in105.228s;
+target-required tracking and generated progress pass. Exact credit remains
+244917/291883(83.9093%), and98% remains unfinished.
+
+The same independent scan reconfirms opcode148's DWORD add1800 at4A8110 and
+reset's DWORD clear at its receiver+380. The old BossLifeMarkerProtocolValue
+name and TH08 Gui marker analogue do not establish that field's meaning. A
+based+380 LEA in unrelated library code likewise supplies no GameManager owner.
+That remaining alias is not changed in this callback-contract checkpoint.
+
+After terminal compilers and public checks,454 disposable build/debug/bytecode
+and fully recorded control files totaling11161914 bytes are removed. All57
+existing packet documentation/record/recipe/log hashes remain unchanged. Twelve
+baseline/current proof objects remain; there are no experimental C++ source
+copies or new code archives. Current source-bound replay passes with build/
+absent. The predecessor handoff is preserved in the existing checkpoint archive
+before condensing the active instructions; documentation and research are kept.

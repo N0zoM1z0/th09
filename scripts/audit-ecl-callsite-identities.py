@@ -80,9 +80,11 @@ def validate_compiler_math_wrappers(coff, obj, image, symbols):
     return result
 
 
+EX_INSTRUCTION_TABLE_SYMBOL = '?g_EnemyEclExInstructions@@3PAP6IXPAUEnemyView@@PAUEnemyEclExInstructionView@@@ZA'
+
 DATA_ALIASES = {
     '??_C@_06IPGJPKLK@ECLInt?$AA@': 0x48e468,
-    '?g_ExInstructionCallbacks@Th09EclRunState@@3PAP6IXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@ZA': 0x4a0b14,
+    EX_INSTRUCTION_TABLE_SYMBOL: 0x4a0b14,
     '?g_BossLifeMarkerProtocolValue@Th09EclRunState@@3HA': 0x4a8110,
 }
 
@@ -112,6 +114,28 @@ def validate_instruction_mask_field(fields):
     return dict(symbol=row['symbol'], root=0x4A7D90, addend=0x120,
                 original_instruction=0x408885, width=4, access='read',
                 original_nominal_member_ownership='unknown')
+
+
+def validate_ex_instruction_table_fields(fields):
+    """Two indexed calls and one callback installation use the implemented table."""
+    expected = {0x40B1BD: 'call', 0x40B1D9: 'call', 0x40B21C: 'mov'}
+    rows = [r for r in fields if r['target_address'] in expected]
+    require(len(rows) == 3 and {r['target_address'] for r in rows} == set(expected),
+            'ECL native callback-table field inventory differs')
+    for row in rows:
+        mnemonic = expected[row['target_address']]
+        require(row['symbol'] == EX_INSTRUCTION_TABLE_SYMBOL
+                and type(row['addend']) is int and row['addend'] == 0
+                and row['expected_value'] == row['target_value'] == 0x4A0B14
+                and row['identity_agrees'] is True and row['operand_role_agrees'] is True
+                and row['instruction_mnemonics'] == [mnemonic, mnemonic]
+                and row.get('candidate_memory_width') == row.get('target_memory_width') == 4
+                and row.get('candidate_memory_access') == row.get('target_memory_access') == 1
+                and bool(row['provenance'].get('native_ecl_callback_table_review')),
+                'ECL callback-table native identity/access differs')
+    return dict(symbol=EX_INSTRUCTION_TABLE_SYMBOL, root=0x4A0B14, fields=3,
+                indexed_calls=2, installation_loads=1, reviewed_callable_slots=12,
+                definition_check='inspect-ecl-ex-instruction-table.py; separate COFF required')
 
 
 def validate_relocation_fields(raw, rows):
@@ -468,7 +492,10 @@ def audit(object_path):
                     proof = {'unresolved_local_symbol': sym}
             elif sym in DATA_ALIASES:
                 expected = DATA_ALIASES[sym] + r['addend']
-                proof = {'independent_global_review': 'Packet 785: independent callee/global source, target-body and xref review'}
+                proof = ({'native_ecl_callback_table_review':
+                          'Twelve original callable slots and actual COFF definition: inspect-ecl-ex-instruction-table.py'}
+                         if sym == EX_INSTRUCTION_TABLE_SYMBOL else
+                         {'independent_global_review': 'Packet 785: independent callee/global source, target-body and xref review'})
             else:
                 destinations = {a for a, k in refs[sym]}
                 if len(destinations) > 1:
@@ -519,6 +546,7 @@ def audit(object_path):
     real_runstate = validate_real_runstate_callees(call_matrix, body_data)
     native_transitions = validate_native_transition_calls(call_matrix)
     instruction_mask = validate_instruction_mask_field(body_data)
+    callback_table = validate_ex_instruction_table_fields(body_data)
 
     # Counts are observed, not copied from the historical expected totals.
     failures = []
@@ -533,7 +561,8 @@ def audit(object_path):
     if accounted != set(by_offset):
         failures.append('incomplete_relocation_accounting')
     source_paths = ['src/EclManager.cpp', 'src/EclOpcodes.hpp',
-                    'src/BackgroundSpellStateView.hpp', 'src/GameManagerInstructionMaskView.hpp']
+                    'src/BackgroundSpellStateView.hpp', 'src/GameManagerInstructionMaskView.hpp',
+                    'src/EnemyEclExInstructions.hpp', 'src/EnemyExAttackLeaves.cpp']
     source_paths += [str(path.relative_to(ROOT)) for path in sorted((ROOT / 'src').glob('EclRun*.inl'))]
     source_paths += ['config/match-units.toml', 'config/functions.csv']
     source_observation = {
@@ -567,6 +596,7 @@ def audit(object_path):
         'real_runstate_owner_gate': real_runstate,
         'native_transition_owner_gate': native_transitions,
         'instruction_mask_storage': instruction_mask,
+        'native_ex_instruction_table': callback_table,
         'direct_calls': call_matrix,
         'compiler_math_wrappers': compiler_math,
         'indirect_calls': indirect_matrix,

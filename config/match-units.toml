@@ -12118,8 +12118,8 @@ relocations = [
 source = "src/EnemyExAttackLeaves.cpp"
 object = "build/matching/EnemyExAttackLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyExAttackView::SpawnExAttackType1"]
-symbol = "?SpawnExAttackType1@EnemyExAttackView@@QAEXXZ"
+functions = ["EnemyEclExInstruction0"]
+symbol = "?EnemyEclExInstruction0@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C3C0
 size = 0x29
 relocations = [
@@ -12131,8 +12131,8 @@ relocations = [
 source = "src/EnemyExAttackLeaves.cpp"
 object = "build/matching/EnemyExAttackLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyExAttackView::SpawnExAttackType7"]
-symbol = "?SpawnExAttackType7@EnemyExAttackView@@QAEXXZ"
+functions = ["EnemyEclExInstruction3"]
+symbol = "?EnemyEclExInstruction3@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C440
 size = 0x29
 relocations = [
@@ -12144,8 +12144,8 @@ relocations = [
 source = "src/EnemyExAttackLeaves.cpp"
 object = "build/matching/EnemyExAttackLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyExAttackView::SpawnExAttackType8"]
-symbol = "?SpawnExAttackType8@EnemyExAttackView@@QAEXXZ"
+functions = ["EnemyEclExInstruction5"]
+symbol = "?EnemyEclExInstruction5@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C470
 size = 0x29
 relocations = [
@@ -12157,8 +12157,8 @@ relocations = [
 source = "src/EnemyExAttackLeaves.cpp"
 object = "build/matching/EnemyExAttackLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyExAttackView::SpawnExAttackType9"]
-symbol = "?SpawnExAttackType9@EnemyExAttackView@@QAEXXZ"
+functions = ["EnemyEclExInstruction4"]
+symbol = "?EnemyEclExInstruction4@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C4A0
 size = 0x29
 relocations = [
@@ -12170,8 +12170,8 @@ relocations = [
 source = "src/EnemyExAttackLeaves.cpp"
 object = "build/matching/EnemyExAttackLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyExAttackView::SpawnExAttackType23"]
-symbol = "?SpawnExAttackType23@EnemyExAttackView@@QAEXXZ"
+functions = ["EnemyEclExInstruction10"]
+symbol = "?EnemyEclExInstruction10@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C4D0
 size = 0x29
 relocations = [
@@ -12183,8 +12183,8 @@ relocations = [
 source = "src/EnemyExAttackLeaves.cpp"
 object = "build/matching/EnemyExAttackLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyExAttackView::SpawnExAttackType24"]
-symbol = "?SpawnExAttackType24@EnemyExAttackView@@QAEXXZ"
+functions = ["EnemyEclExInstruction11"]
+symbol = "?EnemyEclExInstruction11@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C500
 size = 0x29
 relocations = [
@@ -12206,21 +12206,21 @@ relocations = []
 source = "src/EnemyEclOpcode1.cpp"
 object = "build/matching/EnemyEclOpcode1.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyEclOpcode1"]
-symbol = "?EnemyEclOpcode1@@YIXPAUEnemyView@@PAUEnemyEclOpcode1InstructionView@@@Z"
+functions = ["EnemyEclExInstruction1"]
+symbol = "?EnemyEclExInstruction1@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C3F0
 size = 0x4C
 relocations = [
-  { offset = 0x42, type = "DIR32", symbol = "?g_SoundPlayer@@3UEnemyEclOpcode1SoundView@@A", target = 0x004DC698 },
-  { offset = 0x47, type = "REL32", symbol = "?PlaySoundByIdx@EnemyEclOpcode1SoundView@@QAEXHH@Z", target = 0x0043E2F0 },
+  { offset = 0x42, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x47, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z", target = 0x0043E2F0 },
 ]
 
 [units.enemy-spawn-exattack-type10]
 source = "src/EnemyExAttackMoreLeaves.cpp"
 object = "build/matching/EnemyExAttackMoreLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyExAttackMoreView::SpawnExAttackType10"]
-symbol = "?SpawnExAttackType10@EnemyExAttackMoreView@@QAEXXZ"
+functions = ["EnemyEclExInstruction6"]
+symbol = "?EnemyEclExInstruction6@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C770
 size = 0x46
 relocations = [
@@ -12232,8 +12232,8 @@ relocations = [
 source = "src/EnemyExAttackMoreLeaves.cpp"
 object = "build/matching/EnemyExAttackMoreLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyExAttackMoreView::SpawnExAttackType11"]
-symbol = "?SpawnExAttackType11@EnemyExAttackMoreView@@QAEXXZ"
+functions = ["EnemyEclExInstruction7"]
+symbol = "?EnemyEclExInstruction7@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C7C0
 size = 0x45
 relocations = [
@@ -12245,8 +12245,8 @@ relocations = [
 source = "src/EnemyExAttackMoreLeaves.cpp"
 object = "build/matching/EnemyExAttackMoreLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyExAttackMoreView::SpawnExAttackType12"]
-symbol = "?SpawnExAttackType12@EnemyExAttackMoreView@@QAEXXZ"
+functions = ["EnemyEclExInstruction8"]
+symbol = "?EnemyEclExInstruction8@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C810
 size = 0x45
 relocations = [
@@ -12258,8 +12258,8 @@ relocations = [
 source = "src/EnemyExAttackMoreLeaves.cpp"
 object = "build/matching/EnemyExAttackMoreLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyExAttackMoreView::SpawnExAttackType22Burst"]
-symbol = "?SpawnExAttackType22Burst@EnemyExAttackMoreView@@QAEXXZ"
+functions = ["EnemyEclExInstruction9"]
+symbol = "?EnemyEclExInstruction9@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C860
 size = 0xE2
 relocations = [
@@ -12489,29 +12489,29 @@ relocations = []
 source = "src/EnemyEclOpcode2.cpp"
 object = "build/matching/EnemyEclOpcode2.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["EnemyEclOpcode2"]
-symbol = "?EnemyEclOpcode2@@YIXPAUEnemyView@@PAX@Z"
+functions = ["EnemyEclExInstruction2"]
+symbol = "?EnemyEclExInstruction2@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView@@@Z"
 target_address = 0x0040C530
 size = 0x23E
 relocations = [
   { offset = 0x4F, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
   { offset = 0x71, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
-  { offset = 0x7B, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x7B, type = "DIR32", symbol = "?g_Rng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x92, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
   { offset = 0xBD, type = "REL32", symbol = "?ResetTransformRuntime@BulletTransformResetView@@QAEXXZ", target = 0x0040C390 },
   { offset = 0xC8, type = "REL32", symbol = "?InstallWaitTransform@Bullet@@QAEXHHH@Z", target = 0x004126B0 },
   { offset = 0xE3, type = "REL32", symbol = "?InstallVectorAccelerationTransform@Bullet@@QAEXHHHMM@Z", target = 0x00412680 },
   { offset = 0x12F, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
   { offset = 0x158, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
-  { offset = 0x162, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x162, type = "DIR32", symbol = "?g_Rng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x179, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
   { offset = 0x1A4, type = "REL32", symbol = "?ResetTransformRuntime@BulletTransformResetView@@QAEXXZ", target = 0x0040C390 },
   { offset = 0x1C6, type = "REL32", symbol = "?InstallSpriteTransform@Bullet@@QAEXHHHH@Z", target = 0x004126D0 },
   { offset = 0x1D2, type = "REL32", symbol = "?InstallWaitTransform@Bullet@@QAEXHHH@Z", target = 0x004126B0 },
   { offset = 0x1F3, type = "REL32", symbol = "?InstallWaitTransform@Bullet@@QAEXHHH@Z", target = 0x004126B0 },
   { offset = 0x20E, type = "REL32", symbol = "?InstallVectorAccelerationTransform@Bullet@@QAEXHHHMM@Z", target = 0x00412680 },
-  { offset = 0x22E, type = "DIR32", symbol = "?g_SoundPlayer@@3UEnemyEclOpcode2SoundView@@A", target = 0x004DC698 },
-  { offset = 0x233, type = "REL32", symbol = "?PlaySoundByIdx@EnemyEclOpcode2SoundView@@QAEXHH@Z", target = 0x0043E2F0 },
+  { offset = 0x22E, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
+  { offset = 0x233, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z", target = 0x0043E2F0 },
 ]
 
 [units.enemy-ecl-release-attached-effects]
@@ -16975,7 +16975,7 @@ relocations = [
   { offset = 0xFB, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
   { offset = 0x107, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x110, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
-  { offset = 0x139, type = "DIR32", symbol = "$L74400", target = 0x00408548 },
+  { offset = 0x139, type = "DIR32", symbol = "$L74474", target = 0x00408548 },
   { offset = 0x169, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x176, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x183, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
@@ -16998,12 +16998,12 @@ relocations = [
   { offset = 0x374, type = "REL32", symbol = "?SetAndExecuteScriptIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00403E00 },
   { offset = 0x39D, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
   { offset = 0x3A2, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z", target = 0x0043E2F0 },
-  { offset = 0x3C8, type = "DIR32", symbol = "$L62141", target = 0x004082BD },
-  { offset = 0x3CC, type = "DIR32", symbol = "$L62142", target = 0x004082C8 },
-  { offset = 0x3D0, type = "DIR32", symbol = "$L62143", target = 0x004082D6 },
-  { offset = 0x3D4, type = "DIR32", symbol = "$L62144", target = 0x004082E7 },
-  { offset = 0x3D8, type = "DIR32", symbol = "$L62145", target = 0x004082F4 },
-  { offset = 0x3DC, type = "DIR32", symbol = "$L62146", target = 0x00408301 },
+  { offset = 0x3C8, type = "DIR32", symbol = "$L62215", target = 0x004082BD },
+  { offset = 0x3CC, type = "DIR32", symbol = "$L62216", target = 0x004082C8 },
+  { offset = 0x3D0, type = "DIR32", symbol = "$L62217", target = 0x004082D6 },
+  { offset = 0x3D4, type = "DIR32", symbol = "$L62218", target = 0x004082E7 },
+  { offset = 0x3D8, type = "DIR32", symbol = "$L62219", target = 0x004082F4 },
+  { offset = 0x3DC, type = "DIR32", symbol = "$L62220", target = 0x00408301 },
 ]
 
 [units.ecl-post-update-shot-anm]
@@ -17162,7 +17162,7 @@ target_address = 0x00407700
 size = 0x34A
 compare_size = 0x37C
 relocations = [
-  { offset = 0x14, type = "DIR32", symbol = "$L73581", target = 0x00407A4C },
+  { offset = 0x14, type = "DIR32", symbol = "$L73655", target = 0x00407A4C },
   { offset = 0x24, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x3B, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x60, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
@@ -17187,18 +17187,18 @@ relocations = [
   { offset = 0x2DC, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x2FD, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
   { offset = 0x319, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
-  { offset = 0x34C, type = "DIR32", symbol = "$L61068", target = 0x00407718 },
-  { offset = 0x350, type = "DIR32", symbol = "$L61072", target = 0x00407753 },
-  { offset = 0x354, type = "DIR32", symbol = "$L61075", target = 0x0040779C },
-  { offset = 0x358, type = "DIR32", symbol = "$L61078", target = 0x004077D7 },
-  { offset = 0x35C, type = "DIR32", symbol = "$L61081", target = 0x00407820 },
-  { offset = 0x360, type = "DIR32", symbol = "$L61084", target = 0x0040785B },
-  { offset = 0x364, type = "DIR32", symbol = "$L61087", target = 0x004078A6 },
-  { offset = 0x368, type = "DIR32", symbol = "$L61090", target = 0x004078E1 },
-  { offset = 0x36C, type = "DIR32", symbol = "$L61093", target = 0x0040792C },
-  { offset = 0x370, type = "DIR32", symbol = "$L61096", target = 0x00407967 },
-  { offset = 0x374, type = "DIR32", symbol = "$L61099", target = 0x004079B9 },
-  { offset = 0x378, type = "DIR32", symbol = "$L61102", target = 0x004079F0 },
+  { offset = 0x34C, type = "DIR32", symbol = "$L61137", target = 0x00407718 },
+  { offset = 0x350, type = "DIR32", symbol = "$L61141", target = 0x00407753 },
+  { offset = 0x354, type = "DIR32", symbol = "$L61144", target = 0x0040779C },
+  { offset = 0x358, type = "DIR32", symbol = "$L61147", target = 0x004077D7 },
+  { offset = 0x35C, type = "DIR32", symbol = "$L61150", target = 0x00407820 },
+  { offset = 0x360, type = "DIR32", symbol = "$L61153", target = 0x0040785B },
+  { offset = 0x364, type = "DIR32", symbol = "$L61156", target = 0x004078A6 },
+  { offset = 0x368, type = "DIR32", symbol = "$L61159", target = 0x004078E1 },
+  { offset = 0x36C, type = "DIR32", symbol = "$L61162", target = 0x0040792C },
+  { offset = 0x370, type = "DIR32", symbol = "$L61165", target = 0x00407967 },
+  { offset = 0x374, type = "DIR32", symbol = "$L61168", target = 0x004079B9 },
+  { offset = 0x378, type = "DIR32", symbol = "$L61171", target = 0x004079F0 },
 ]
 
 [units.input-is-pressed-scrolling]

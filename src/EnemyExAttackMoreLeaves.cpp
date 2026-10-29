@@ -1,3 +1,4 @@
+#include "EnemyEclExInstructions.hpp"
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
 #include "ExAttackController.hpp"
@@ -19,11 +20,6 @@ struct EnemyExAttackMoreView
     EnemyExAttackContextValuesView *activeContext2CE0;
     unsigned char unknown2CE4[0x90];
     Float3 position2D74;
-
-    void SpawnExAttackType10();
-    void SpawnExAttackType11();
-    void SpawnExAttackType12();
-    void SpawnExAttackType22Burst();
 };
 
 typedef char EnemyExAttackMoreContextAt2CE0[
@@ -33,61 +29,73 @@ typedef char EnemyExAttackMorePositionAt2D74[
 
 extern ExAttackController *g_ExAttackController;
 
-void EnemyExAttackMoreView::SpawnExAttackType10()
+void __fastcall EnemyEclExInstruction6(
+    EnemyView *enemy, EnemyEclExInstructionView *)
 {
+    EnemyExAttackMoreView *view =
+        reinterpret_cast<EnemyExAttackMoreView *>(enemy);
     Float3 position;
-    position.x = activeContext2CE0->value6C;
-    position.y = activeContext2CE0->value70;
+    position.x = view->activeContext2CE0->value6C;
+    position.y = view->activeContext2CE0->value70;
     position.z = 0.0f;
     g_ExAttackController->Spawn(
         10, &position,
-        1 - manager00->sideIndex31C, 0);
+        1 - view->manager00->sideIndex31C, 0);
 }
 
-void EnemyExAttackMoreView::SpawnExAttackType11()
+void __fastcall EnemyEclExInstruction7(
+    EnemyView *enemy, EnemyEclExInstructionView *)
 {
+    EnemyExAttackMoreView *view =
+        reinterpret_cast<EnemyExAttackMoreView *>(enemy);
     Float3 position;
-    position.x = activeContext2CE0->value6C;
-    position.y = activeContext2CE0->value70;
-    position.z = activeContext2CE0->value3C;
+    position.x = view->activeContext2CE0->value6C;
+    position.y = view->activeContext2CE0->value70;
+    position.z = view->activeContext2CE0->value3C;
     g_ExAttackController->Spawn(
         11, &position,
-        1 - manager00->sideIndex31C, 0);
+        1 - view->manager00->sideIndex31C, 0);
 }
 
-void EnemyExAttackMoreView::SpawnExAttackType12()
+void __fastcall EnemyEclExInstruction8(
+    EnemyView *enemy, EnemyEclExInstructionView *)
 {
+    EnemyExAttackMoreView *view =
+        reinterpret_cast<EnemyExAttackMoreView *>(enemy);
     Float3 position;
-    position.x = activeContext2CE0->value6C;
-    position.y = activeContext2CE0->value70;
-    position.z = activeContext2CE0->value3C;
+    position.x = view->activeContext2CE0->value6C;
+    position.y = view->activeContext2CE0->value70;
+    position.z = view->activeContext2CE0->value3C;
     g_ExAttackController->Spawn(
         12, &position,
-        1 - manager00->sideIndex31C, 0);
+        1 - view->manager00->sideIndex31C, 0);
 }
 
-void EnemyExAttackMoreView::SpawnExAttackType22Burst()
+void __fastcall EnemyEclExInstruction9(
+    EnemyView *enemy, EnemyEclExInstructionView *)
 {
+    EnemyExAttackMoreView *view =
+        reinterpret_cast<EnemyExAttackMoreView *>(enemy);
     Float3 parameter;
 
     parameter.FromAngleMagnitude(1.5707964f, 64.0f);
-    parameter += position2D74;
+    parameter += view->position2D74;
     parameter.z = 1.5707964f;
     g_ExAttackController->Spawn(
-        22, &position2D74, 1 - manager00->sideIndex31C,
+        22, &view->position2D74, 1 - view->manager00->sideIndex31C,
         reinterpret_cast<int>(&parameter));
 
     parameter.FromAngleMagnitude(1.2566371f, 64.0f);
-    parameter += position2D74;
+    parameter += view->position2D74;
     parameter.z = 1.2566371f;
     g_ExAttackController->Spawn(
-        22, &position2D74, 1 - manager00->sideIndex31C,
+        22, &view->position2D74, 1 - view->manager00->sideIndex31C,
         reinterpret_cast<int>(&parameter));
 
     parameter.FromAngleMagnitude(1.8849556f, 64.0f);
-    parameter += position2D74;
+    parameter += view->position2D74;
     parameter.z = 1.8849556f;
     g_ExAttackController->Spawn(
-        22, &position2D74, 1 - manager00->sideIndex31C,
+        22, &view->position2D74, 1 - view->manager00->sideIndex31C,
         reinterpret_cast<int>(&parameter));
 }

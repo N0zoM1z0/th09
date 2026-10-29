@@ -2090,3 +2090,29 @@ rechecks the five profiles'92 complete byte/relocation/literal proofs, original
 DWORD-write/DWORD-read/BYTE-read accesses and the unchanged full large owners.
 Documentation and reconstruction findings remain in the handoff and knowledge
 base; older packets stay dated records and need not accept newer source hashes.
+
+
+## 2026-10-30: extended ECL callback-contract checkpoint cleanup
+
+The common-callback change preserves91 existing complete exact owners and the
+48-byte reviewed table prefix, with no new authored-function credit. Public CI
+passes1021 tests/29 skips in105.228s. Four callback1 formal-type controls and four
+connected callback/TU visibility controls preserve complete results and failures.
+The active handoff is condensed after saving its predecessor in the existing
+checkpoint archive. Documentation and research records remain available.
+
+Cleanup removes454 generated build/debug/bytecode and fully recorded control
+files totaling11161914 logical bytes (about10.6MiB). All57 preexisting packet
+record/recipe/log hashes remain unchanged. Twelve baseline/current proof COFF
+files remain for the cache-free current verifier and exact-coordinate review;
+original target, toolchains and Ghidra project are untouched. No experimental
+C++ source tree or new code-compression archive is retained. The temporary
+data-only CPP is removed after the same table definition is moved into the
+existing spawn owner; its compiled prefix and failed mapping attempt remain
+recorded. Current source-bound replay passes after build/ removal.
+
+The deletion inventory and protected hashes are in
+.analysis/gpt-61sol-20261030-ecl-global-storage/cleanup.json. The packet also
+contains all four native table/code witnesses, typed-wire counterexamples,
+complete caller comparisons, source/profile/provider bindings and recipes.
+Exact credit remains244917/291883(83.9093%), with the98% goal active.
