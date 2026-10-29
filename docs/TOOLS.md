@@ -1,64 +1,61 @@
 # Tool routing
 
-The active local campaign uses direct IDA Pro MCP and repository Bash, without
-Factory routing. The Factory/Web row below describes a separate client setup.
+Analysis uses **direct local Ghidra**, repository Bash and the pinned VC7.1
+compiler. The operator requires no IDA, REA or Factory MCP. The October30
+maintenance request does not authorize new reconstruction experiments; see
+[RE_HANDOFF.md](RE_HANDOFF.md) for current status and later restart scope.
 
-| Need | Command or provider | Claim established |
+| Need | Command | Claim established |
 | --- | --- | --- |
 | Verify private target | `python3 scripts/verify-target.py` | exact identity and PE structure |
-| Attest local-Codex IDA | direct `ida-pro-mcp` `get_metadata` with `{}`, then `python3 scripts/check-ida-mcp.py` | target metadata, entry point and distributed mapped-byte agreement |
-| Attest Factory/Web IDA | discover `th09-ida`, then call `get_metadata` with exactly `{}` | passed `target:th09-main` attestation over `factory-native-stdio` |
-| Call host IDA from shell | `python3 scripts/ida-mcp-call.py --search ...` / `--call ...` | bounded target analysis; metadata writes must be read back |
+| Analyze/export with Ghidra | `python3 -B scripts/ghidra-analysis.py --function 0x004086c0` | disk/Program identity, i386 language, base/entry and every file-backed mapped PE byte agree before export |
 | Validate tracking | `python3 scripts/validate-tracking.py --require-target` | ledger consistency only |
-| Report current state | `python3 scripts/report-reconstruction-status.py` | ledger-derived totals and exact/source frontier |
+| Report current state | `python3 scripts/report-reconstruction-status.py` | ledger-derived source/exact totals |
 | Regenerate progress | `python3 scripts/progress.py` | generated Markdown/SVG |
-| Replay one match | `python3 scripts/build-match-unit.py --unit NAME`, then `python3 scripts/compare-coff-function.py --unit NAME --json` | bounded VC7.1 codegen comparison |
+| Replay one match | `python3 scripts/build-match-unit.py --unit NAME`, then `python3 scripts/compare-coff-function.py --unit NAME --json` | complete original-bound VC7.1 bytes and relocations |
 | Inspect complete RunEcl | `python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj` | every physical byte and independently bound field; diagnostic only |
 | Locate RunEcl handler drift | `python3 scripts/report-ecl-handler-shapes.py --explain all build/matching/EclManager.obj` | normalized instruction shapes; diagnostic only |
-| Audit ExAttack Type14/22 shared draw | `python3 scripts/inspect-exattack-type14-22-draw.py --json build/matching/ExAttackDrawType14Type22.obj` | full 959-byte original, 53 bound fields, 20 direct and 12 indirect calls; **noncrediting**, rebuild the object first |
-| Audit runtime origins | `python3 scripts/audit-runtime-origins.py` | pinned archive/import evidence |
+| Replay an affected owner | `nice -n 10 python3 scripts/check-boss-frontiers.py --owner enemy` | complete diagnostic plus the selected affected exact-owner scope |
+| Audit runtime origins | `python3 scripts/audit-runtime-origins.py` | pinned library/import evidence |
 | Check product graph | `python3 scripts/build.py --check` | explicit open/closed graph state |
-| Run public checks | `python3 scripts/ci.py` | target-independent repository consistency |
-| Preview generated-cache cleanup | `python3 scripts/clean-generated-artifacts.py` | no exactness claim; review proposed paths before deletion, including any source-bound objects under `.analysis/` |
+| Validate documentation | `python3 scripts/validate-docs.py` | ledger-derived totals, links and frontier consistency |
+| Run public checks | `python3 scripts/ci.py` | target-independent repository consistency; required for shared validation/CI changes |
+| Preview cache cleanup | `python3 scripts/clean-generated-artifacts.py` | deletion proposal only; review paths before applying |
 
-The local IDA plugin is operator-managed and reached through the registered
-stdio provider. Always compare its metadata with `config/target.toml` before
-using semantic results. IDA names, types, decompilation, and function extents do
-not independently establish exactness or source ownership.
+The installed Ghidra12.1.4 is available via the ignored `.tools/ghidra` symlink;
+`--ghidra-dir` accepts another explicit installation. The runner imports once
+and reuses its project below `.analysis/ghidra-direct/` with
+`-noanalysis -readOnly`. It checks all685056 file-backed PE header/section bytes
+on every export. Metadata hashes alone are insufficient. Ghidra's inferred
+names, types and boundaries remain provisional and do not establish exactness
+or unique source ownership. Keep reviewed physical tails/tables for comparison.
 
-Rebuild the RunEcl carrier with `python3 scripts/build-match-unit.py --unit
-ecl-pop-context` before trusting a cached object. Other ECL-specific match
-units may use distinct profiles or output names; use their own configured build
-unit for canonical exact replay. A complete inspector
-exit status of 1 is expected for a non-exact owner; inspect its output to
-distinguish measured differences from an incomplete or failed identity audit.
-Canonical exact-unit comparisons must return 0.
+Legacy `ida-mcp-call.py` and `check-ida-mcp.py` scripts remain for historical
+receipts. Their presence does not select them for this session. Do not change
+or delete operator-managed analysis databases as part of ordinary cache cleanup.
 
-The current TH09 canonical function replay does not import or invoke Capstone.
-`build-match-unit.py` drives the pinned VC7.1 compiler, and
-`compare-coff-function.py` parses the target PE and candidate COFF directly.
-The system Python's Capstone version is therefore not a replay dependency. Do
-not copy another repository's Capstone wrapper or lock into TH09 unless a real
-consumer is added; that consumer must then fail closed on its pinned identity.
+Rebuild the relevant canonical unit before comparing an object. For the main
+ECL/Enemy profile, `exattack-type21-update` builds `build/matching/EclManager.obj`;
+`ecl-pop-context` uses that same source/profile. Other ECL units may use a
+different profile or object. Use the unit's own configured build for canonical
+replay. A nonexact inspector may return1 after a complete comparison; distinguish
+ordinary differences from a failed/incomplete identity audit. Exact comparators
+must return0. Missing build caches after cleanup are expected.
 
-`compile-probe.sh` checks the pinned driver (`cl.exe`), C/C++ frontends
-(`c1.dll`, `c1xx.dll`) and optimizer backend (`c2.dll`) before invoking Wine.
-All four hashes come from the exact tool-provider commit in `tools.lock.toml`.
-The compiler invocation clears ambient `CL` and `_CL_` option variables so the
-explicit match-unit/probe profile determines the command-line flags. These
-core pins do not establish the retail game's original switches or close SDK,
-library, linker, Wine or whole-product ownership.
+Canonical build/comparison parses PE/COFF directly and does not depend on
+Capstone. Several decoded diagnostic inspectors use the system Python Capstone;
+that diagnostic dependency does not alter the compiler profile or exact bytes.
+`compile-probe.sh` checks pinned `cl.exe`, `c1.dll`, `c1xx.dll` and `c2.dll`
+hashes from `config/tools.lock.toml`, and clears ambient `CL`/`_CL_` options.
+Those pins do not prove original retail switches or complete SDK/link ownership.
 
-Factory/Web clients must use their attested `th09-ida` route. Local Codex does
-not need Factory when the direct provider is available. Do not run the host-only
-`check-ida-mcp.py` from inside a Factory repository shell. Provider discovery
-must report `attestation.status=passed`, target `target:th09-main`, and transport
-`factory-native-stdio` before any IDA result is used.
+Use the ignored `resources/th09.exe`. Do not search `/mnt`, mount a Windows
+game directory, or commit original game files, databases, tools or decompiler
+exports. Keep generated analysis below `.analysis/`, builds below `build/` and
+downloaded tools below `.tools/`. The generic cleaner's apply scope includes
+`.analysis/` compiler objects, which can be unique proof: use the reviewed
+scope and archive restoration instructions in
+[RE_ARTIFACT_CLEANUP_HISTORY.md](RE_ARTIFACT_CLEANUP_HISTORY.md).
 
-The canonical executable is the ignored `resources/th09.exe`. Normal work must
-not search `/mnt`, mount a Windows game directory, or commit the target, IDA
-database, game data, compiler tools, or generated decompiler output.
-
-TH08 and TH095 checkouts are read-only hypothesis sources. Their names and
-source shapes can guide a probe, but only TH09-local target, ABI, compiler,
-linker, or runtime evidence can accept a TH09 claim.
+TH08 and TH095 remain read-only hypothesis sources. Only TH09-local target,
+ABI, compiler, linker or runtime evidence can accept a TH09 claim.

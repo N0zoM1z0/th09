@@ -2,13 +2,21 @@
 
 ## Current operator status
 
+On October 30 the operator cleared the autonomous reconstruction goal and
+requested documentation/code housekeeping and storage cleanup. New research,
+compiler experiments and source adoption require a new explicit request. The
+latest game-source checkpoint is cc19b484; use the current RE_HANDOFF.md.
+The operator specifically requested deleting unused old code copies and build
+artifacts instead of archiving them. Preserve documentation, research records,
+current game source, target/toolchains and the working Ghidra project.
+
 On October 29 the operator resumed reconstruction with direct local tools.
 The current explicit routing is **Ghidra directly, without IDA, REA or Factory
 MCP**. Use `scripts/ghidra-analysis.py` and the local `analyzeHeadless` executable;
 reuse the verified project instead of importing the target for every query.
 The October 24 stop and earlier tool routing are historical checkpoints.
 
-Prioritize complete RunEcl and EnemyManager::OnUpdate
+When reconstruction is explicitly resumed, prioritize complete RunEcl and EnemyManager::OnUpdate
 exactness toward the unfinished 98% reviewed-authored-byte milestone. Explore
 whole-function dataflow, shared types and real translation-unit boundaries as
 well as local source models; historical assumptions are not conclusive.

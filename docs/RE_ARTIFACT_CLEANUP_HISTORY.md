@@ -3,6 +3,10 @@
 > For current cache state, use the [active handoff](RE_HANDOFF.md).
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
+> October30 clarification: documentation and research records stay; unused
+> old code copies and caches may be deleted without new compression archives.
+> Earlier retained-path inventories describe their dated cleanup, not a promise
+> that every old source snapshot still exists today. Use the current handoff.
 
 ### 2026-10-22: Enemy descriptor constructor and consumed-value counterevidence
 
@@ -2027,3 +2031,38 @@ Root's postarchive strict current-manifest53-job/208-proof replay passes and Git
 was clean. Maintained1bccbf2a9376ba929cdaa71bc488c5e6b02bfdde, RunEcl30/Enemy13
 and83.9093% exact authored credit are unchanged. No new full CI is claimed for
 this documentation-only update.
+
+
+## 2026-10-30: remove unused code copies while retaining documentation and records
+
+The operator requested maintenance, cleared the reconstruction goal, and clarified
+that unused code versions should be deleted without new compression archives;
+documentation and research records must remain. Game-source checkpointcc19b484,
+compiler profiles, ledgers and83.9093% exact authored-byte credit are unchanged.
+
+Cleanup removes67,225 obsolete experimental C++/header/inline copies, source-only
+ZIP archives, compiler debug/bytecode and build-cache files:758,909,554 logical
+bytes (about724MiB). Another7,349 empty directories are removed. The analysis
+footprint falls from about2GiB to1.2GiB; build/ is absent and reproducible from
+tracked match-unit configuration. No new old-code compression archive remains.
+
+All documentation, findings, JSON/TOML/CSV records, logs, patches, disassembly
+and retained COFF evidence remain. In the additional source-copy sweep, all21,073
+record files pass before/after content hashes.146 configuration records totaling
+83,387,530 bytes were explicitly retained. Original target, game source/config,
+toolchains, SDK/Wine/provider state and the reusable Ghidra project are unchanged.
+
+The active handoff is condensed and its predecessor preserved in the existing
+checkpoint archive. README/TOOLS now select direct Ghidra. Controller810/808,
+84 differences/two excess and Player799 differences/13 missing are corrected in
+the frontier table. The stale README Factory/IDA assertion is removed; target-path
+checks remain, with three regression tests. Public CI passes1008 tests/29 skips
+in127.352s. Controller and collision proofs passed after source-copy cleanup.
+After build-cache removal, Controller still passes from its saved object; the
+collision verifier correctly requires rebuilding its missing build/ objects.
+Tracking, documentation, progress and whitespace checks pass after cleanup.
+
+Ignored .analysis/handoff-cleanup-20261030/ contains deletion inventories,
+record-preservation checks and validation logs. Older artifact references above
+remain dated records. Their deleted code snapshots are not restart prerequisites;
+use current tracked source, target and pinned build/inspection commands.

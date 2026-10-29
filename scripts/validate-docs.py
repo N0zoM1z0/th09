@@ -345,8 +345,6 @@ def validate_live_guidance() -> None:
         raise ValueError("README must not route normal work through TH09_TARGET_PATH")
     if "resources/th09.exe" not in readme:
         raise ValueError("README must name the canonical ignored target path")
-    if "Factory/Web" not in readme or "th09-ida" not in readme:
-        raise ValueError("README must distinguish Factory/Web IDA routing")
 
 
 def validate_local_links() -> None:

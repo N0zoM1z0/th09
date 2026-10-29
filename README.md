@@ -44,19 +44,19 @@ python3 scripts/validate-tracking.py --require-target
 python3 scripts/report-reconstruction-status.py
 ```
 
-The current local session calls `get_metadata` with exactly `{}` through the
-direct IDA Pro MCP provider, then runs `scripts/check-ida-mcp.py` to compare
-entry and distributed mapped bytes with the verified executable. See
-[`AGENTS.md`](AGENTS.md) and [`docs/TOOLS.md`](docs/TOOLS.md) before analysis.
-The separate Factory/Web client uses the attested `th09-ida` provider.
+Analysis uses direct local Ghidra through `scripts/ghidra-analysis.py`.
+The runner verifies disk/Program identity, i386 language, entry and every
+file-backed mapped PE byte before analysis or export, then reuses the saved
+project. See [`AGENTS.md`](AGENTS.md) and [`docs/TOOLS.md`](docs/TOOLS.md).
 
-Original executables, game data, IDA databases, decompiler output, and
+Original executables, game data, analysis databases, decompiler output, and
 downloaded tools are private and never committed.
 
 ## Current status
 
-The October 24 request is a clean handoff to a successor agent. The persistent
-automatic reconstruction goal was cleared; the **98% exact reviewed-authored
+The October 30 request is documentation/code housekeeping and storage cleanup
+for a successor agent. The automatic reconstruction goal was cleared; new
+research needs a new explicit request. The **98% exact reviewed-authored
 byte** milestone remains unfinished. Use [the handoff](docs/RE_HANDOFF.md) for the
 current code map, remaining large functions, restart commands and retained
 local evidence. [PROGRESS.md](docs/PROGRESS.md) is generated from the live ledgers;
@@ -64,12 +64,12 @@ historical knowledge-base measurements do not replace them. Exact authored-byte
 coverage does not establish a complete executable or runnable product.
 
 When reconstruction resumes, prioritize complete RunEcl and EnemyManager,
-followed by other large functions. Use direct IDA Pro MCP, repository Bash and
+followed by other large functions. Use direct local Ghidra, repository Bash and
 the pinned VC7.1 compiler, compile serially at lowered priority, and reuse
 unchanged source/profile-bound proofs. New English commits use `gpt-6.1-sol: ...`
 with the identity/trailer in [AGENTS.md](AGENTS.md).
 
-Attest the target before target-dependent work and the live database before IDA
+Attest the target before target-dependent work and mapped Program bytes before Ghidra
 analysis. Documentation/test-only edits do not need those checks. Current
 exact/non-exact state comes from `config/functions.csv`,
 `config/matches.csv`, `config/match-units.toml`, and a fresh status report.
@@ -125,7 +125,7 @@ not an acceptable shortcut around the native-product stage.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — target facts and maintained source/verification map.
 - [`docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`](docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md) — frozen historical checkpoints; use the active handoff, not this archive, for current facts.
 - [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) — durable TH09-only facts.
-- [`docs/TOOLS.md`](docs/TOOLS.md) — local and Factory tool routing.
+- [`docs/TOOLS.md`](docs/TOOLS.md) — direct Ghidra and pinned compiler routing.
 - [`docs/PROGRESS.md`](docs/PROGRESS.md) — generated ledger totals.
 - [`docs/SMALL_FUNCTION_FRONTIER.md`](docs/SMALL_FUNCTION_FRONTIER.md) — short open leaf owners.
 - [`docs/RE_ARTIFACT_CLEANUP_HISTORY.md`](docs/RE_ARTIFACT_CLEANUP_HISTORY.md) — verified generated-cache deletion audits and preservation policy.

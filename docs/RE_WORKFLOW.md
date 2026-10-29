@@ -2,7 +2,8 @@
 
 The project milestone is at least **98% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The operator resumed the unfinished campaign on October 29 and explicitly
+The October30 operator request is maintenance and handoff cleanup; a new
+explicit request is needed before resuming reconstruction. The October29 session explicitly
 selected direct local Ghidra, without IDA, REA or Factory MCP. Use repository
 Bash, `scripts/ghidra-analysis.py` and pinned VC7.1 tools.
 New English commits use `gpt-6.1-sol:` and the AGENTS.md identity/trailer. Compile

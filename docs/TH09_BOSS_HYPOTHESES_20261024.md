@@ -1,12 +1,15 @@
-# Fresh TH09 boss-function experiment checklist
+# Historical TH09 boss-function experiment checklist — October 24
 
 This is the independent working checklist requested on October 24, 2026.
+It records that source epoch only. Later October29 source adoptions supersede
+its maintained-source and Replay-unadopted statements; use [RE_HANDOFF.md](RE_HANDOFF.md)
+for current source, tool routing and operator authorization.
 It starts from observed current source and fresh target/compiler evidence, not
 from the truth of historical repository conclusions. Historical notes may point
 to an artifact, but only its actual source, inputs and results establish what
 was tested. A failed concrete model never rules out an entire source family.
 
-## Operator stop and maintained source
+## Historical operator stop and maintained source
 
 At 14:09 UTC the operator stopped TH09 and requested only cleanup/commit.
 The research queue is paused; do not resume on the older continuation request.
@@ -14,7 +17,7 @@ The final source remains 1bccbf2a, with no new exact credit. Replay's unadopted
 source edit was preserved and restored. Historical next-step language below
 is dated experiment context, not authorization to continue.
 
-## Maintained source and completed work
+## October24 maintained source and completed work
 
 Current maintained source is **1bccbf2a9376ba929cdaa71bc488c5e6b02bfdde**, the H53 Effect vector API checkpoint,
 local and not pushed; **22baf4e7** is its predecessor. The isolated SDK resolver
@@ -78,7 +81,7 @@ RunEcl has 30 ordinary differences and Enemy has 13.
 - [x] Close H63 guarded shared jump body: all 139 owners maintained-neutral.
 - [x] Close H64 complete signed-role jump capture: H60 regression plus the
       actual H14 opcode7 byte/reference class; no boss improvement.
-- [ ] Seek an independently evidenced owner/capture or consumer contract;
+- Historical open lead: seek an independently evidenced owner/capture or consumer contract;
       the bounded Effect29 chronology audit below identifies no new model.
 
 These are research checkpoints, not exactness progress. The dated baseline and

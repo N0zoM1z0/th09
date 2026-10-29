@@ -35,6 +35,31 @@ class KnowledgeStateTests(unittest.TestCase):
         )
 
 
+class LiveGuidanceTargetTests(unittest.TestCase):
+    def validate(self, readme: str) -> None:
+        knowledge = Mock()
+        knowledge.read_text.return_value = (
+            "| INVENTORY-001 | reviewed | Every currently tracked candidate | ledger |"
+        )
+        document = Mock()
+        document.read_text.return_value = readme
+        with patch.object(VALIDATE_DOCS, "KNOWLEDGE", knowledge), patch.object(
+            VALIDATE_DOCS, "README", document
+        ), patch.object(VALIDATE_DOCS, "measures", return_value={"pending": 0}):
+            VALIDATE_DOCS.validate_live_guidance()
+
+    def test_canonical_target_allows_a_different_analysis_provider(self) -> None:
+        self.validate("Use resources/th09.exe and direct local Ghidra.")
+
+    def test_normal_work_cannot_export_a_target_override(self) -> None:
+        with self.assertRaisesRegex(ValueError, "TH09_TARGET_PATH"):
+            self.validate("resources/th09.exe\nexport TH09_TARGET_PATH=/other/game.exe")
+
+    def test_canonical_private_target_path_remains_required(self) -> None:
+        with self.assertRaisesRegex(ValueError, "canonical ignored target"):
+            self.validate("Use an arbitrary executable.")
+
+
 class HandoffDerivedSummaryTests(unittest.TestCase):
     ACTUAL = {
         "authored_bytes": 275770, "exact_bytes": 224124,

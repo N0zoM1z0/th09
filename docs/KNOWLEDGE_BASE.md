@@ -9,6 +9,12 @@ and `config/match-units.toml`; use a fresh reconstruction report for totals.
 `docs/RE_HANDOFF.md` routes the active work; compiler object caches are
 not authoritative and may be absent after a deliberate cleanup.
 
+On October30 the operator requested that documentation and research records
+remain while unused old code copies, source-only archives and build caches are
+deleted. Packet paths below record their original capture locations; source
+snapshots may no longer exist. Current reconstruction restarts from tracked
+source/config and the pinned tools, without restoring old experiment code.
+
 Later packets are **historical, source-commit-scoped hypotheses and results**.
 They can contain superseded compiler shapes, errors, outdated 'current' counts
 or rejected proposals. **Do not treat an old packet as present-day verified
