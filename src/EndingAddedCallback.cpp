@@ -1,20 +1,12 @@
 #include "Ending.hpp"
 
 #include "AnmManager.hpp"
-#include "GameManagerMode.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "PlayStats.hpp"
 #include "ScreenEffect.hpp"
 #include "Supervisor.hpp"
 
 #include <stddef.h>
-
-struct Float3
-{
-    Float3(float x, float y, float z);
-    float x;
-    float y;
-    float z;
-};
 
 struct EndingAnmVmPositionView
 {
@@ -59,12 +51,12 @@ int Ending::AddedCallback(Ending *ending)
     if (g_GameManager.IsGameMode0())
     {
         g_PlayStatsRecord.IncrementCharacterStat(
-            (char)g_GameManager.side0Character, g_GameManager.difficulty);
+            (char)g_GameManager.sides[0].character20, g_GameManager.difficulty);
     }
     else if (g_GameManager.IsGameMode1())
     {
         g_PlayStatsRecord.IncrementCharacterStat(
-            (char)g_GameManager.side0Character, g_GameManager.difficulty);
+            (char)g_GameManager.sides[0].character20, g_GameManager.difficulty);
     }
 
     int completed = 0;
@@ -136,7 +128,7 @@ int Ending::AddedCallback(Ending *ending)
     }
 
     ending->hasSeenEnding = 1;
-    if (ending->LoadEndingScript(g_EndingFilePaths[g_GameManager.side0Character]) != 0)
+    if (ending->LoadEndingScript(g_EndingFilePaths[g_GameManager.sides[0].character20]) != 0)
         return -1;
 
     if (g_TitleFadeReleaseEffect != 0)

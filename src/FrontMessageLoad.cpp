@@ -1,6 +1,6 @@
 #include "FileSystem.hpp"
 #include "GameErrorContext.hpp"
-#include "GameManagerMode.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "Supervisor.hpp"
 
 #include <string.h>

@@ -88,12 +88,12 @@ REFERENTS = {
     '?AppendReplayFormat@@YAPADPADPBDZZ': 0x004200C0,
     '?g_ReplayPlayTimeText@@3PADA': 0x004AC879,
     '?g_ReplayInfoPlayTimeFormat@@3QBDB': 0x0048F168,
-    '?g_GameManager@@3UGameManagerModeView@@A': 0x004A7D90,
+    '?g_GameManager@@3UAsciiGameManagerView@@A': 0x004A7D90,
     '?g_ReplayDifficultyNames@@3PAPBDA': 0x004A1CD0,
     '?g_ReplayInfoDifficultyFormat@@3QBDB': 0x0048F158,
     '?g_ReplayModeNames@@3PAPBDA': 0x004A1CB8,
     '?g_ReplayInfoModeFormat@@3QBDB': 0x0048F148,
-    '?IsGameMode2@GameManagerModeView@@QAEHXZ': 0x00415D30,
+    '?IsGameMode2@AsciiGameManagerView@@QAEHXZ': 0x00415D30,
     '?g_ReplayCharacterNames@@3PAPBDA': 0x004A1C78,
     '?g_ReplayInfoCharacterFormat@@3QBDB': 0x0048F134,
     '?g_ReplayInfoVersusCharactersFormat@@3QBDB': 0x0048F11C,
@@ -175,7 +175,7 @@ def bind_candidate(raw, rows):
         symbol, kind, addend, off = (row['symbol'], row['type'],
                                     row['addend'], row['offset'])
         allowed = (ALLOWED_GAME_MANAGER_ADDENDS if symbol ==
-                   '?g_GameManager@@3UGameManagerModeView@@A' else {0})
+                   '?g_GameManager@@3UAsciiGameManagerView@@A' else {0})
         if (symbol not in REFERENTS or type(addend) is not int or addend not in allowed
                 or kind not in ('DIR32', 'REL32') or kind != original_kind
                 or REFERENTS[symbol] + addend != original_va):

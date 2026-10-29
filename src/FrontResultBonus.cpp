@@ -1,7 +1,7 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "GameConfiguration.hpp"
-#include "GameManagerMode.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "PlayStats.hpp"
 
 #include <stddef.h>

@@ -19,8 +19,8 @@ def load(name, filename):
 class ReplayNativeModeApiTests(unittest.TestCase):
     def test_save_requires_actual_mode_callee_and_receiver(self):
         audit = load('native_mode_save', 'inspect-replay-save.py')
-        manager = '?g_GameManager@@3UGameManagerModeView@@A'
-        mode = '?IsGameMode2@GameManagerModeView@@QAEHXZ'
+        manager = '?g_GameManager@@3UAsciiGameManagerView@@A'
+        mode = '?IsGameMode2@AsciiGameManagerView@@QAEHXZ'
         rows = []
         for offset, kind, destination in audit.TARGET_FIELDS:
             choices = [(symbol, 0) for symbol, address in audit.REFERENTS.items()
@@ -31,11 +31,13 @@ class ReplayNativeModeApiTests(unittest.TestCase):
         receiver = next(i for i, row in enumerate(rows) if row['symbol'] == manager)
         call = next(i for i, row in enumerate(rows) if row['symbol'] == mode)
         mutations = (
+            (receiver, {'symbol': '?g_GameManager@@3UGameManagerModeView@@A'}),
             (receiver, {'symbol': '?g_GameManager@@3UGameManagerReplayView@@A'}),
             (receiver, {'addend': 0x58 if rows[receiver]['addend'] != 0x58 else 0x20}),
             (receiver, {'type': 'REL32'}),
             (call, {'symbol': '?IsReplayStateTwo@GameManagerReplayView@@QAEHXZ'}),
-            (call, {'symbol': '?IsGameMode0@GameManagerModeView@@QAEHXZ'}),
+            (call, {'symbol': '?IsGameMode2@GameManagerModeView@@QAEHXZ'}),
+            (call, {'symbol': '?IsGameMode0@AsciiGameManagerView@@QAEHXZ'}),
         )
         for index, mutation in mutations:
             changed = copy.deepcopy(rows)
@@ -50,11 +52,11 @@ class ReplayNativeModeApiTests(unittest.TestCase):
                 for i, (symbol, kind, _, addend) in enumerate(audit.SOURCE_FIELDS)]
         audit.link_candidate(bytes(538), rows, known)
         obsolete = {
-            '?g_GameManager@@3UGameManagerModeView@@A':
+            '?g_GameManager@@3UAsciiGameManagerView@@A':
                 '?g_GameManager@@3UGameManagerReplayView@@A',
-            '?IsGameMode0@GameManagerModeView@@QAEHXZ':
+            '?IsGameMode0@AsciiGameManagerView@@QAEHXZ':
                 '?IsPlaybackStateZero@GameManagerReplayView@@QAEHXZ',
-            '?IsGameMode1@GameManagerModeView@@QAEHXZ':
+            '?IsGameMode1@AsciiGameManagerView@@QAEHXZ':
                 '?IsPlaybackStateOne@GameManagerReplayView@@QAEHXZ',
         }
         for actual, old in obsolete.items():
@@ -63,7 +65,7 @@ class ReplayNativeModeApiTests(unittest.TestCase):
             with self.subTest(symbol=old), self.assertRaises(ValueError):
                 audit.link_candidate(bytes(538), changed, known)
         wrong_receiver = copy.deepcopy(known)
-        wrong_receiver['?g_GameManager@@3UGameManagerModeView@@A'] = {0x4A7D94}
+        wrong_receiver['?g_GameManager@@3UAsciiGameManagerView@@A'] = {0x4A7D94}
         with self.assertRaises(ValueError):
             audit.link_candidate(bytes(538), rows, wrong_receiver)
 

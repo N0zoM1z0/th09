@@ -1,4 +1,4 @@
-#include "GameManagerMode.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "FrontMessageOwnerView.hpp"
 
 #include <stddef.h>

@@ -2338,3 +2338,62 @@ clears manager+380; neither observation establishes boss-life-marker semantics.
 The new scan also records a based+380 access in unrelated library code: offset
 membership alone is not GameManager identity. Do not resume old rejected source
 models without checking their actual inputs and scope.
+
+
+## October 30 archival of the f74444dc shared-storage checkpoint
+
+These replaced checkpoint paragraphs are scoped to
+f74444dc14a5b757515a923f7d49280b84ce87fb. Unchanged routing and ledgers remain
+in the active handoff and Git history.
+
+## Current checkpoint — shared GameManager ECL storage
+
+Opcode148 now adds1800 through the real g_GameManager root+380, replacing the
+independent BossLifeMarkerProtocolValue alias. Its enum name is the neutral
+ADD_GAME_MANAGER_VALUE380; the original writes establish no boss-life-marker
+meaning. ResetGameManager now uses the same field projection. The existing
+instruction-mask projection is consolidated into GameManagerEclStateView.hpp,
+covering+120 DWORD/BYTE accesses and+380 DWORD storage; the old single-purpose
+header is removed. Original nominal types, gameplay meaning of+380 and full
+GameManager/native-product storage remain unproven.
+
+Independent original evidence binds opcode table148 to40B2F1's DWORD ADD1800 at
+4A8110. Complete exact ResetGameManager100 bytes clears receiver+380, while its
+complete425-byte cleanup caller loads ECX=4A7D90 and calls the actual reset owner.
+The matching native COFF names that same global and real callee. This closes the
+storage identity without treating arbitrary based+380 accesses as GameManager.
+Direct Ghidra checks all685056 mapped file bytes and exports RunEcl, reset, main
+update and cleanup; inferred names/types remain provisional.
+
+Five canonical carrier/profile builds preserve92 existing exact owners:
+29274 physical bytes/1411 fields, including actual literal definitions. All92
+raw bodies remain baseline-identical. Thirty-nine private label names in three
+units are refreshed only at identical actual coordinates. RunEcl's only two raw
+byte changes encode the new+380 relocation addend; its fully resolved15564 bytes
+remain identical, with598 fields and30 ordinary differences. Enemy3900/97/13
+and gameplay setup1689/904 remain unchanged. No new exact credit is earned.
+
+The caller audit independently requires the real undefined GameManager symbol,
++380 addend, original target, DWORD read/write access, ADD operation and immediate
+1800. The real previous object with the old alias is rejected despite its equal
+numeric address. Actual native COFF copies with a wrong add constant or member
+are also rejected. Four new regressions cover root/provenance, missing/duplicate
+fields, operand widths, access and constants. All101 focused ECL tests pass;
+public CI passes1030 tests/29 skips in98.917s.
+
+Current source/profile/provider-bound replay is
+.analysis/gpt-61sol-20261030-ecl-manager380/verify_current.py; default replay uses
+six retained current/baseline objects without build/, and --build compiles only
+ECL main/Ob0, timeline and GameManager setup Os/O2. verify_storage.py independently
+rechecks original opcode/reset/caller dataflow and complete native reset/caller
+bodies. Older source-bound captures remain historical and can reject the new
+header, symbols and global metadata. Their removed code copies are not restart
+dependencies. Previously measured input-type and value-liveness controls do not
+justify repeating identical opcode4/155 models after a byte-neutral storage fix.
+
+Cleanup removes437 unused baseline/debug/cache/build files,8681243 logical
+bytes (about8.3MiB). All34 preexisting packet records/recipes/logs and six retained
+proof objects keep their original hashes. build/ is absent and the current
+cache-free replay passes after deletion. No old source tree or new code archive
+is retained. The98% milestone and native product/runtime, semantic and
+portability gates remain open.

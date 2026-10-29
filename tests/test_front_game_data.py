@@ -20,7 +20,7 @@ class FrontGameDataTests(unittest.TestCase):
             matches = list(csv.DictReader(stream))
         return units, matches
 
-    def test_inventory_follows_actual_include_closures_and_rejects_missing_unit(self):
+    def test_reviewed_family_requires_shared_owner_and_rejects_missing_unit(self):
         units, matches = self.inventory()
         groups = gate.affected_groups(units, matches)
         self.assertEqual(len(groups), 11)

@@ -25,11 +25,6 @@ struct FrontMessageRuntimeView
     int Draw();
 };
 
-struct GameManagerModeView
-{
-    int IsGameMode2();
-};
-
 struct FrontDrawTextPosition
 {
     float x;
@@ -233,8 +228,7 @@ int __fastcall FrontDrawCallback(void *frontArg)
 
     g_Supervisor.ConfigureScreenViewport(2);
 
-    if (reinterpret_cast<GameManagerModeView *>(
-            &g_GameManager)->IsGameMode2())
+    if (g_GameManager.IsGameMode2())
     {
         Float3 position(297.0f, 0.0f, 0.0f);
         g_AsciiManager.AddFormatText(

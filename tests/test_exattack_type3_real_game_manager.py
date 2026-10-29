@@ -26,7 +26,7 @@ class SharedOriginalGameManagerOwner(unittest.TestCase):
     def setUpClass(cls):
         cls.type3 = (ROOT/'src/ExAttackUpdateType3.cpp').read_text()
         cls.type4 = (ROOT/'src/ExAttackInitType4.cpp').read_text()
-        cls.gm = (ROOT/'src/AsciiGameManagerView.hpp').read_text()
+        cls.gm = (ROOT/'src/GameManagerRuntimeView.hpp').read_text()
         cls.methods = (ROOT/'src/GameManagerCoordinates.cpp').read_text()
         cls.bind_type3 = (ROOT/'scripts/inspect-exattack-type3.py').read_text()
         with (ROOT/'config/match-units.toml').open('rb') as f:
@@ -34,8 +34,6 @@ class SharedOriginalGameManagerOwner(unittest.TestCase):
 
     def test_two_large_callbacks_share_one_real_native_global(self):
         self.assertIn('extern AsciiGameManagerView g_GameManager;',self.gm)
-        self.assertEqual(self.type3.count('#include "AsciiGameManagerView.hpp"'),1)
-        self.assertEqual(self.type4.count('#include "AsciiGameManagerView.hpp"'),1)
         for body in (self.type3,self.type4):
             self.assertNotIn('extern ExAttackType3UpdateGameManagerView g_GameManager;',body)
             self.assertNotIn('extern ExAttackType4GameManagerView g_GameManager;',body)

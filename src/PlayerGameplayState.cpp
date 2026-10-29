@@ -1,4 +1,4 @@
-#include "GameManagerMode.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "ZunTimer.hpp"
 

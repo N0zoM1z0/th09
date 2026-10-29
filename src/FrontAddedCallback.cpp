@@ -3,7 +3,7 @@
 #include "FrontSupport.hpp"
 #include "FrontMessageOwnerView.hpp"
 #include "FrontMessageRuntimeView.hpp"
-#include "GameManagerMode.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 #include <stddef.h>
 
@@ -145,16 +145,16 @@ int FrontAddedCallback(void *frontArg)
     if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
     {
         if (front->messageRuntimeE944.LoadForSideCount(
-            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.side0Character][3]),
+            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.sides[0].character20][3]),
             0,
-            10 * g_GameManager.side1Character) != 0)
+            10 * g_GameManager.sides[1].character20) != 0)
             return -1;
     }
     else
     {
         if (front->messageRuntimeE944.LoadForSideCount(
-            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.side0Character][4]),
-            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.side1Character][4]),
+            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.sides[0].character20][4]),
+            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.sides[1].character20][4]),
             0) != 0)
             return -1;
     }

@@ -23361,3 +23361,112 @@ hashes. build/ is absent; current replay passes after deletion. No old source
 copy or new code archive is retained. Only the superseded checkpoint paragraphs
 are appended to the existing handoff archive; unchanged handoff sections remain
 in place and in Git history.
+
+
+## 2026-10-30: mode predicates share the existing GameManager source root
+
+This audit starts from clean f74444dc14a5b757515a923f7d49280b84ce87fb. Target,
+tracking and status checks pass. The prior turn made source/storage progress.
+Direct Ghidra successfully exports all four original mode leaves after checking
+all685056 mapped file bytes; names and nominal types remain provisional.
+An earlier Effect/GetAnm/Preload export batch has a decompilation failure, retained
+with its successful target check. No failed decompilation is treated as codegen
+or boundary evidence, and no original or Program byte is changed.
+
+A real two-header VC7.1 compile reproduces C2371: GameManagerMode.hpp declares
+g_GameManager as GameManagerModeView, while AsciiGameManagerView.hpp declares it
+as AsciiGameManagerView. FrontDraw additionally declares an empty class with the
+same old mode name solely to call IsGameMode2. Numeric address aliases did not
+make those independent source declarations one coherent C++ contract.
+The covered mode/Front/Replay/Ending family now uses the existing shared root and
+its actual four mode definitions. The old header and empty FrontDraw facade are
+removed. This does not claim original retail class names or resolve the many
+other subsystem-specific global projections elsewhere in the repository.
+
+GameManagerRuntimeView.hpp contains the common view and native method surface.
+Side character20 is the same existing observed DWORD: the second side remains
+root+58 through the unchanged38-byte side stride. Existing mode118, difficulty11C
+and flags134 offsets stay fixed. The source uses the same thiscall/int-return
+ABIs at40E470/404970/415D30/415D20, whose complete14/15/15/13-byte canonical
+bodies still match. Current C++ names are source contracts, not unique original
+nominal ownership. Four canonical method names/symbols are reconciled across
+functions, matches, reccmp, implemented and match-unit records; addresses,
+profiles, origin decisions, sizes and exact counts do not change.
+
+The first migration compile exposes Ending's duplicate Float3 and conflicting
+rendering/lifecycle AnmVm declarations. Both failed compiler epochs remain in
+logs. The final dependency split extracts the original Float2/Float3 declaration
+block verbatim into Float3.hpp, with a byte-exact inverse back into the old
+AsciiManager header. Rendering's existing gateway includes AsciiManager and the
+minimal runtime view; mode/Ending users include only the latter. EndingAdded
+uses the shared vector declaration and removes its private duplicate. No math
+body changes and no new source definition is emitted. The other AnmVm view
+conflicts remain independent source/product debt rather than being hidden by a
+renamed global or claimed closed by this header repair.
+
+The quoted-include scope contains57 canonical source/profile groups/217 existing
+exact owners plus four nonexact carriers,61 total groups. Baseline and final
+adoption preserve217 complete original-bound owners:71337 physical bytes/3959
+fields, with actual scalar/string payloads checked. All506 emitted body/profile
+comparisons retain complete raw bytes and actual fields. Some bodies repeat
+across profiles;506 is not a new unique-function or authored-byte count. A
+self-review finds that this enumeration skips aux-less function symbols. Before
+cleanup, all baseline/current objects are revisited and15 compiler entry symbols
+are compared across11 complete executable COMDAT contributions,350 bytes/12
+fields. Shared EH entries stay within their actual whole section rather than
+inventing individual target extents. Four renamed private $T data references
+require identical actual data coordinates, complete payloads and relocation
+bindings. Every contribution and entry coordinate stays unchanged; no original
+target or authored credit is assigned. The current verifier includes this
+supplement and the earlier incomplete inventory remains recorded. Only
+the explicit canonical class migration and identical owner-local coordinates
+are allowed; no address is fitted from target positions. There are zero new or
+missing emitted definitions. After source repair, unchanged partial captures
+are reused only with recovered input hashes; the final header split invalidates
+those hashes and affected carriers are rebuilt. Each compiler is serial, one
+allowed CPU, nice10 and180-second bounded. No whole1003-owner replay is run.
+
+Twelve units refresh367 private names only at their actual identical coordinates.
+An explicit source-commit audit checks all155 baseline inputs against f74444dc,
+including19 Git/worktree CRLF conversions. Raw compiler-input hashes are retained
+separately from Git blob/normalized text hashes; a direct raw-hash assertion is
+not silently treated as a source match. The baseline producer rejects newer
+source before overwriting dated evidence.
+
+A genuine new source-composition control includes the current EclManager.cpp and
+GameManagerMode.cpp in one TU, now allowed by the shared declaration. Under the
+unchanged pinned ECL profile, all75 canonical ECL bodies and four complete mode
+companion bodies match the original. The mode canonical profile lacks /Oi; its
+own four proofs remain separate, and the four /Oi companions are explicitly
+diagnostic rather than newly credited units. Both complete RunEcl15564/598/30
+and Enemy3900/97/13 remain raw-identical. This finite control neither identifies
+unique original TUs nor excludes other whole-function forms. No force-inline,
+register/variable-order hint, fake return, assembly, padding or profile search is
+introduced. No duplicated current game-source tree or new code archive is needed.
+
+Independent current complete-owner diagnostics also retain SaveReplay1238/53/3,
+BeginPlayback538/39+2 missing, FrontAdded706/222, weighted Front681/569+12 missing
+and TitleResult1939/22. Updated binders require the real canonical root and method
+identities. The actual old Replay COFF is rejected despite matching numeric
+addresses; two added subcases preserve rejection of the retired root/method.
+The public24-owner Front/mode/Replay checker keeps its reviewed family scope
+instead of accidentally expanding to every new shared-header consumer. A former
+fixture reads declarations from the old rendering gateway and fails; it is
+updated to the actual runtime contract, removing two include-count assertions.
+Final public CI passes1030 tests/29 skips in103.641s.
+
+.analysis/gpt-61sol-20261030-game-manager-mode-owner/ retains source/profile/
+provider bindings, full baseline/adoption bodies and fields, all failures,
+original Ghidra observations, the coherent TU control and strict current replay.
+verify_current.py rechecks217 owners/506 body comparisons,11 compiler
+contributions and seven large-owner diagnostics without build/; --build rebuilds only61 affected carriers. Old
+source/provider-bound proofs remain historical. This is source-contract progress,
+with no new exact credit:244917/291883(83.9093%),98% unfinished. Native product,
+runtime, semantic and portability gates remain open. Cleanup removes611 unused
+baseline/control/debug/cache/build files,18256593 logical bytes (about17.4MiB).
+All284 existing records and62 necessary proof objects retain their hashes.
+The62 objects are61 current carriers and the actual old Replay counterexample;
+other baseline/control binaries are removed after their complete bodies, fields
+and observations are recorded. build/ is absent and current cache-free replay
+passes after deletion. No old C++ source copy or new code archive remains. The
+replaced checkpoint paragraphs are preserved in the existing handoff archive.

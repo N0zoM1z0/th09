@@ -2166,3 +2166,29 @@ Exact inventory and protected hashes are in
 .analysis/gpt-61sol-20261030-ecl-manager380/cleanup.json. The current verifier's
 --build rebuilds only five affected carriers. The existing handoff archive keeps
 the replaced checkpoint paragraphs; documentation and research are preserved.
+
+
+## 2026-10-30: shared GameManager mode/root checkpoint cleanup
+
+The confirmed mode/rendering global-type conflict is repaired while preserving
+217 existing complete exact owners/71337 physical bytes/3959 fields across57
+canonical source/profile groups. Four nonexact carriers bring the scope to61.
+All506 regular body/profile comparisons and11 compiler contributions/350 bytes/
+12 fields retain their payloads and identities. No new authored exact credit is
+claimed. Public CI passes1030 tests/29 skips in103.641s.
+
+Cleanup removes611 unused baseline/control/debug/cache/build files and the fully
+recorded two-include compiler probe,18256593 logical bytes (about17.4MiB). All284
+packet records/recipes/logs and62 necessary proof COFF files retain their hashes.
+The62 files are61 current carriers and the old Replay object used for the actual
+retired-symbol counterexample. Other baseline/control binaries are removed only
+after full function/field and compiler/EH contributions are captured. No private
+C++ source tree or new code archive remains. Documentation, original executable,
+toolchains and Ghidra state are preserved; build/ is absent and the current
+source-bound verifier passes after cleanup.
+
+Exact inventory and protected hashes are in
+.analysis/gpt-61sol-20261030-game-manager-mode-owner/cleanup.json. Its current
+verifier needs no build cache; --build serially rebuilds only61 affected carriers.
+The existing handoff archive preserves replaced checkpoint paragraphs. Exact
+credit remains244917/291883(83.9093%), with the98% goal active.

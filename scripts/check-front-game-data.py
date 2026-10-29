@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Cold-check the shared GameManager prefix and Front's five native data reads.
 
-Only the 24 accepted units whose source includes GameManagerMode.hpp are
+Only the 24 accepted units in the reviewed mode/Front/Replay family are
 rebuilt, serially at nice10, plus the nonexact Front callback. This preserves
 existing source/profile proofs; it awards no new exact or origin credit.
 """
@@ -21,7 +21,7 @@ import sys
 import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
-HEADER = 'src/GameManagerMode.hpp'
+HEADER = 'src/GameManagerRuntimeView.hpp'
 EXPECTED = {
     'src/EndingAddedCallback.cpp': 1, 'src/FrontMessageInitializeRuntime.cpp': 1,
     'src/FrontMessageLoad.cpp': 1, 'src/FrontMessageReleaseForSideCount.cpp': 1,
@@ -64,7 +64,9 @@ def affected_groups(units, matches):
         source = unit['source']
         if source not in closures:
             closures[source] = source_inputs(source)
-        if HEADER in closures[source]:
+        if source in EXPECTED:
+            if HEADER not in closures[source]:
+                raise ValueError('mode/Front family lost the shared GameManager owner')
             result[(source, tuple(unit['profile']))].append(name)
     counts = Counter()
     for (source, _), names in result.items():

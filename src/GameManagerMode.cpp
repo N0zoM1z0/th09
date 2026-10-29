@@ -1,21 +1,21 @@
-#include "GameManagerMode.hpp"
+#include "GameManagerRuntimeView.hpp"
 
-int GameManagerModeView::IsGameMode0()
+int AsciiGameManagerView::IsGameMode0()
 {
     return gameMode == 0;
 }
 
-int GameManagerModeView::IsGameMode1()
+int AsciiGameManagerView::IsGameMode1()
 {
     return gameMode == 1;
 }
 
-int GameManagerModeView::IsGameMode2()
+int AsciiGameManagerView::IsGameMode2()
 {
     return gameMode == 2;
 }
 
-int GameManagerModeView::IsReplayNeutral()
+int AsciiGameManagerView::IsReplayNeutral()
 {
-    return (flags134 >> 3) & 1;
+    return (flags >> 3) & 1;
 }

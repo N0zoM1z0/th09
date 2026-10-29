@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE, SIZE = 0x00418480, 706
 SYMBOL = '?FrontAddedCallback@@YIHPAX@Z'
 TARGET_SHA256 = 'a1faabe117043306799d2c256fb5d0d76d0755b3c8e9015019c57dbd6a8377e1'
-GAME_MANAGER_SYMBOL = '?g_GameManager@@3UGameManagerModeView@@A'
+GAME_MANAGER_SYMBOL = '?g_GameManager@@3UAsciiGameManagerView@@A'
 GAME_MANAGER_BASE = 0x004A7D90
 GAME_MANAGER_DATA_FIELDS = (
     (0x11A, 0xFC), (0x266, 0x58), (0x277, 0x20),
@@ -26,9 +26,9 @@ DESTINATIONS = {
     '?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z': 0x0043C7A0,
     '?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z': 0x00401560,
     '?g_AsciiManager@@3VAsciiManager@@A': 0x004CE458,
-    '?g_GameManager@@3UGameManagerModeView@@A': 0x004A7D90,
-    '?IsGameMode0@GameManagerModeView@@QAEHXZ': 0x0040E470,
-    '?IsGameMode1@GameManagerModeView@@QAEHXZ': 0x00404970,
+    '?g_GameManager@@3UAsciiGameManagerView@@A': 0x004A7D90,
+    '?IsGameMode0@AsciiGameManagerView@@QAEHXZ': 0x0040E470,
+    '?IsGameMode1@AsciiGameManagerView@@QAEHXZ': 0x00404970,
     '?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z': 0x00436AC0,
     '?Reset@FrontMessageRuntimeResetView@@QAEHXZ': 0x00415C90,
     '?g_PlayerResourcePaths@@3PAY05PBDA': 0x004A1238,

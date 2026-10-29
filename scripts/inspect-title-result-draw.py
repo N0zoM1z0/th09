@@ -21,8 +21,6 @@ DESTINATIONS = {
     '?AddString@AsciiManager@@QAEXPAUFloat3@@PBD@Z': 0x4342A0,
     '?g_AsciiManager@@3VAsciiManager@@A': 0x4CE458,
     '?g_GameManager@@3UAsciiGameManagerView@@A': 0x4A7D90,
-    # Source-bound historical objects used this other view of the same root.
-    '?g_GameManager@@3UGameManagerModeView@@A': 0x4A7D90,
     '?g_TitleAlphabet@@3PADA': 0x4A1CF4,
     # Retained only to inspect source-bound historical objects. Current source
     # addresses the same +0x11C field through the reviewed GameManager root.
@@ -180,7 +178,6 @@ def main():
              'effective_target': DESTINATIONS[row['symbol']] + row['addend']}
             for row in rows if row['symbol'] in (
                 '?g_GameManager@@3UAsciiGameManagerView@@A',
-                '?g_GameManager@@3UGameManagerModeView@@A',
                 '?g_TitleNameTableIndex@@3HA')],
     }
     if args.json:

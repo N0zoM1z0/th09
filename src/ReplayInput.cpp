@@ -13,7 +13,7 @@
 #include "ReplayRuntimeLeaves.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "ReplayInputState.hpp"
-#include "GameManagerMode.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -70,11 +70,11 @@ typedef char GameManagerReplayFlagsAt134[(offsetof(GameManagerReplayView, flags)
 
 
 // Same original manager base: data overlay and native method receiver do not move it.
-typedef char ReplayNativeModeOffset118[(offsetof(GameManagerReplayView, playbackState118) == offsetof(GameManagerModeView, gameMode)) ? 1 : -1];
-typedef char ReplayNativeDifficultyOffset11C[(offsetof(GameManagerReplayView, difficulty11C) == offsetof(GameManagerModeView, difficulty)) ? 1 : -1];
-typedef char ReplayNativeFlagsOffset134[(offsetof(GameManagerReplayView, flags) == offsetof(GameManagerModeView, flags134)) ? 1 : -1];
-typedef char ReplayNativeCharacter0Offset20[(offsetof(GameManagerReplayView, sides) + offsetof(GameManagerReplaySideView, character) == offsetof(GameManagerModeView, side0Character)) ? 1 : -1];
-typedef char ReplayNativeCharacter1Offset58[(offsetof(GameManagerReplayView, sides) + sizeof(GameManagerReplaySideView) + offsetof(GameManagerReplaySideView, character) == offsetof(GameManagerModeView, side1Character)) ? 1 : -1];
+typedef char ReplayNativeModeOffset118[(offsetof(GameManagerReplayView, playbackState118) == offsetof(AsciiGameManagerView, gameMode)) ? 1 : -1];
+typedef char ReplayNativeDifficultyOffset11C[(offsetof(GameManagerReplayView, difficulty11C) == offsetof(AsciiGameManagerView, difficulty)) ? 1 : -1];
+typedef char ReplayNativeFlagsOffset134[(offsetof(GameManagerReplayView, flags) == offsetof(AsciiGameManagerView, flags)) ? 1 : -1];
+typedef char ReplayNativeCharacter0Offset20[(offsetof(GameManagerReplayView, sides) + offsetof(GameManagerReplaySideView, character) == offsetof(AsciiGameManagerView, sides) + offsetof(AsciiGameManagerSideView, character20)) ? 1 : -1];
+typedef char ReplayNativeCharacter1Offset58[(offsetof(GameManagerReplayView, sides) + sizeof(GameManagerReplaySideView) + offsetof(GameManagerReplaySideView, character) == offsetof(AsciiGameManagerView, sides) + sizeof(AsciiGameManagerSideView) + offsetof(AsciiGameManagerSideView, character20)) ? 1 : -1];
 
 struct ReplayUserDataHeaderView
 {

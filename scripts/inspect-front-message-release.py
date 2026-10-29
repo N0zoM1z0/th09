@@ -22,8 +22,8 @@ TARGET_SHA256 = '1cbe472fe579fb254f790b40e808c074032cff74ac8c75a55bdcc2ec6887aa8
 
 # Reviewed, independently observed TH09 original PE data and callees.
 DESTINATIONS = {
-    '?g_GameManager@@3UGameManagerModeView@@A': 0x004A7D90,
-    '?IsGameMode2@GameManagerModeView@@QAEHXZ': 0x00415D30,
+    '?g_GameManager@@3UAsciiGameManagerView@@A': 0x004A7D90,
+    '?IsGameMode2@AsciiGameManagerView@@QAEHXZ': 0x00415D30,
     '?g_Supervisor@@3VSupervisor@@A': 0x004B3100,
     '?ReleaseMusic@Supervisor@@QAEHH@Z': 0x0042FD90,
     '?g_FrontMessageSource@@3PAUFrontMessageSourceView@@A': 0x004A7E80,

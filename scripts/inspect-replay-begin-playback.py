@@ -47,21 +47,21 @@ TARGET_FIELDS = (
 # Independently decoded PE referents: cross-check the native mode units and
 # supply the stage-seen global absent from the exact-unit registry.
 TARGET_ONLY_BINDINGS = {
-    '?IsGameMode0@GameManagerModeView@@QAEHXZ': 0x0040E470,
-    '?IsGameMode1@GameManagerModeView@@QAEHXZ': 0x00404970,
+    '?IsGameMode0@AsciiGameManagerView@@QAEHXZ': 0x0040E470,
+    '?IsGameMode1@AsciiGameManagerView@@QAEHXZ': 0x00404970,
     '?g_ReplayStageSeen@@3PAEA': 0x004A7E68,
 }
 
 
 SOURCE_FIELDS = (
-    ('?g_GameManager@@3UGameManagerModeView@@A', 'DIR32', 0x004A7D90, 0x134),
+    ('?g_GameManager@@3UAsciiGameManagerView@@A', 'DIR32', 0x004A7D90, 0x134),
     ('?OpenFile@FileSystem@@YIPAEPBDPAHH@Z', 'REL32', 0x0042C970, 0),
     ('?LoadReplayData@ReplayManagerView@@SIPAUReplayDataView@@PAU2@H@Z', 'REL32', 0x004205E0, 0),
     ('?g_ReplayStageIndex@@3HA', 'DIR32', 0x004A7E8C, 0),
-    ('?g_GameManager@@3UGameManagerModeView@@A', 'DIR32', 0x004A7D90, 0),
-    ('?IsGameMode0@GameManagerModeView@@QAEHXZ', 'REL32', 0x0040E470, 0),
-    ('?g_GameManager@@3UGameManagerModeView@@A', 'DIR32', 0x004A7D90, 0),
-    ('?IsGameMode1@GameManagerModeView@@QAEHXZ', 'REL32', 0x00404970, 0),
+    ('?g_GameManager@@3UAsciiGameManagerView@@A', 'DIR32', 0x004A7D90, 0),
+    ('?IsGameMode0@AsciiGameManagerView@@QAEHXZ', 'REL32', 0x0040E470, 0),
+    ('?g_GameManager@@3UAsciiGameManagerView@@A', 'DIR32', 0x004A7D90, 0),
+    ('?IsGameMode1@AsciiGameManagerView@@QAEHXZ', 'REL32', 0x00404970, 0),
     ('?g_ReplayStageSeen@@3PAEA', 'DIR32', 0x004A7E68, 0),
     ('?g_ReplayFrame0Value06@@3IA', 'DIR32', 0x004A7DB0, 0),
     ('?g_ReplayFrame1Value06@@3IA', 'DIR32', 0x004A7DE8, 0),

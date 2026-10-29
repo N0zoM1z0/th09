@@ -22,7 +22,7 @@ class FrontMessageReleaseInspectorTests(unittest.TestCase):
             for n in range(14)
         ]
         fields[1].update(type='REL32',
-            symbol='?IsGameMode2@GameManagerModeView@@QAEHXZ')
+            symbol='?IsGameMode2@AsciiGameManagerView@@QAEHXZ')
         return fields
 
     def test_valid_complete_field_inventory_is_bound_without_target_bytes(self):

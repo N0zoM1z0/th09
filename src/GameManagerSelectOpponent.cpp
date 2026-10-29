@@ -1,4 +1,4 @@
-#include "GameManagerMode.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "PlayStats.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "SupervisorNetworkState.hpp"
@@ -15,8 +15,8 @@ extern int g_OpponentModeValues[];
 
 void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
 {
-    GameManagerModeView *modeView =
-        reinterpret_cast<GameManagerModeView *>(this);
+    AsciiGameManagerView *modeView =
+        reinterpret_cast<AsciiGameManagerView *>(this);
 
     if (modeView->IsGameMode0() || modeView->IsGameMode1())
     {

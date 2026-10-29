@@ -1,4 +1,4 @@
-#include "GameManagerMode.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "Supervisor.hpp"
 #include "ZunMemory.hpp"
 

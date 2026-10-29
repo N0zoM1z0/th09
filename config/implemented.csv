@@ -404,14 +404,14 @@ TitleScreenView::Release
 TitleScreenView::DeletedCallback
 TitleScreenView::SetMenuSelectionSprites
 TitleScreenView::UpdateMenuSelection
-GameManagerModeView::IsGameMode1
+AsciiGameManagerView::IsGameMode1
 PlayStatsRecordView::IncrementCharacterStat
 PlayStatsRecordView::SetCharacterUnlocked0
 PlayStatsRecordView::SetCharacterUnlocked1
 PlayStatsRecordView::SetCharacterUnlocked2
 PlayStatsRecordView::HasAnyPrimaryCharacterStat
 PlayStatsRecordView::GetCharacterStat5
-GameManagerModeView::IsGameMode0
+AsciiGameManagerView::IsGameMode0
 Ending::AddedCallback
 EnemyManagerView::Initialize
 EnemyManagerView::AddedCallback
