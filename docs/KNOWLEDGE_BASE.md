@@ -22661,3 +22661,69 @@ documentation, generated progress and whitespace checks pass.
 Authored exact remains1003 and244917/291883(83.9093%);98%, native-product,
 runtime, semantic and port gates remain open. RunEcl/Enemy reuse unchanged
 source/profile-bound proofs; no fresh cold replay of those owners is claimed.
+
+## October 29: Enemy callback entry, timed-attack operations and Effect resource results
+
+Recovery after015588e019adf6d42c97952cb084202139018b63 is clean. The preceding
+turn is progress: five Player bytes are recovered and committed without damaging
+an already equal position. The original Japanese1.50a target and tracking pass.
+Fresh direct Ghidra exports Enemy410730, descriptor constructor40D500 and Timer
+periodic predicate404920 with full685056 mapped-file-byte attestation at
+.analysis/ghidra-direct/enemy-register-paths-20261029/. Physical PE ownership,
+all fields/calls and the complete original remain independent of Ghidra's types.
+
+Enemy's13 residuals still partition into two draw-index bytes, four side/threshold
+transport bytes and seven position-copy bytes. The following14 private source-cold
+controls use73 frozen inputs,11 provider hashes and the unchanged pinned profiles.
+Every compiler runs serially, at nice10 on one allowed CPU, with a180-second bound.
+
+- Enemy baseline, static void-context callback, free void-context callback and
+  an instance-member entry all emit every baseline3900 raw byte/97 fields.
+  Each complete original comparison retains13 differences,69 calls and170
+  blocks. Source-entry spelling does not explain these remaining allocations.
+  The member entry demonstrates compatible ECX/RET transport only: a standard
+  member pointer is not a ChainCallback, and its registration is unproved.
+- A complete ordinary inline special-attack operation, also with void-context
+  entry, emits a real290-byte/nine-field local helper and a3608-byte/88-field
+  caller. Its positive caller reference is at+23F. There is no reviewed original
+  target for the added helper. The native RunEcl call leaves+397; the strict
+  inspector rejects it before assigning a whole-owner mismatch score.
+- Three smaller ordinary operations isolate periodic-effect processing, effect
+  spawning alone or the threshold predicate. Each actually inlines into the
+  caller, preserving all original call operands and every3900 baseline byte.
+  All retain the13 differences. This bounds these operation models; it does
+  not prove original TU ownership or exhaust ordinary inline source models.
+- Effect AddedCallback baseline and a free void-context callback retain every
+  baseline51 raw byte/four fields/eight differences. The free entry has a real
+  positive same-object Create reference. Fourteen same-profile exact siblings
+  use canonical identities; Create's original-address pointer uses one explicit
+  private callback-symbol view after that definition/reference is verified.
+- Ordinary inline helpers return the loaded ANM resource, passing the global
+  manager implicitly, explicitly or through a conditional return. Explicit
+  manager input repeats51/4/8. Implicit-global and conditional-return forms give
+  51/4/11: restore+08 but damage+01,+02,+22,+29. They keep the same two target
+  calls and three-block graph yet fail the unchanged byte-preservation guard.
+  No helper uses forced inlining or changes the native GetAnm/PreloadAnm ABI.
+
+All nine Enemy objects retain75 same-profile existing exact siblings,22463
+physical bytes/990 fields per object, plus unchanged complete RunEcl15564/598/30
+with zero field/table drift. All five Effect objects retain15 existing bodies,
+2530 bytes/100 fields per object. These are750 repeated body comparisons, not
+new functions or authored credit. Actual scalar/string definitions are checked.
+Separate current canonical ECL/Effect builds also pass all90 existing owners,
+24993 physical bytes/1090 fields; original-bound Enemy13 and Effect8 agree with
+the private baseline bodies. No unrelated cold cohort or whole-product build runs.
+
+Packet .analysis/gpt-61sol-20261029-chain-callback-context/ retains the immutable
+input archive, all14 objects, unique source derivatives, complete COFF reports,
+commands, failed observation logs and canonical-current.json. verify.py replays
+all observations, actual literals, full sibling bodies and original rejections
+without compiling. probe.py accepts one case plus --output for a fresh cold
+capture while source/profile/provider bindings still agree. After verification,
+1005 duplicate/debug files totaling8395999 bytes are removed; archive-derived
+inputs and all unique observations remain and replay after cleanup.
+
+No game source, profile, inspector, canonical manifest or exact ledger changes.
+Tracking, documentation, generated-progress and whitespace checks pass.
+Exact remains1003 and244917/291883(83.9093%);98% needs41129 whole exact bytes.
+Native product/runtime, semantic and portability gates remain independently open.

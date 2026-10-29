@@ -159,6 +159,20 @@ Public CI passes1005 tests with29 skips in125.079 seconds; its final log is
 .analysis/gpt-61sol-20261029-collision-workspaces/ci-final.log. Tracking,
 documentation, generated progress and whitespace checks pass.
 
+### Enemy callback and special-attack boundary controls
+
+Fourteen serial private compiles after015588e0 test three callback-entry models,
+complete/partial special-attack operations and the51-byte Effect callback's
+resource-return boundary. Eligible Enemy models retain every3900 baseline byte
+and13 differences; the complete operation outlines a new290-byte/nine-field
+callee, shrinking the caller to3608/88 and failing original call placement.
+Effect models retain8 differences or regress to11. No source/profile/ledger
+change is adopted. Both current canonical carriers were cold-built; all90
+existing owners retain24993 physical bytes/1090 fields. The packet is
+.analysis/gpt-61sol-20261029-chain-callback-context/; verify.py reproduces all14
+cases and750 repeated existing-body proofs without compiling. See the KB for
+the bounded conclusions and fresh mapped-byte-attested direct Ghidra export.
+
 ## Historical operator stop — October 24, 14:09 UTC
 
 TH09 research is paused at the operator's explicit request. Only cleanup and
