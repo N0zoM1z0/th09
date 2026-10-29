@@ -22332,3 +22332,64 @@ Current maintained Type29 remains2205/129/1170 plus15 missing. Coverage stays
 1003/1035 functions,244917/291883 reviewed-authored bytes(83.9093%). The principal
 RunEcl30/Enemy13 fronts and98% milestone remain unfinished. Product/runtime,
 semantic and portability gates remain open.
+
+## 2026-10-29: direct Ghidra project and complete mapped-file binding
+
+The operator selected direct local Ghidra and explicitly excluded IDA, REA and
+Factory MCP. The earlier bridge-launched Ghidra process was stopped after its
+identity was checked. The active workflow now invokes the installed Ghidra12.1.4
+`analyzeHeadless` directly through scripts/ghidra-analysis.py and Th09Export.java;
+no MCP service or bridge is used. The original Japanese1.50a file remains unchanged.
+
+The importer creates a reusable ignored project under .analysis/ghidra-direct/.
+Before automatic analysis and every export, the Java script checks the disk and
+Program SHA-256, little-endian i386 language,400000 image base and47D45F entry.
+It compares all1024 header bytes and every raw byte in the five PE sections,
+685056 file-backed bytes total, against the verified original. Cached exports
+use -process,-noanalysis,-readOnly; tool/script hashes and a project identity
+marker prevent silently substituting another target or tool profile. Time and
+CPU/heap limits are explicit. Decompiler output confers no exactness credit.
+
+Initial direct launch encountered Ghidra's rejection of hidden project path
+components before import. A temporary visible symlink now points at the actual
+project below .analysis; the database stays there after the alias is removed.
+Both initial logs remain. The successful direct import saves the database and
+exports RunEcl,Enemy OnUpdate and Type3. A second direct invocation reuses it
+without reimport/analysis, rechecks all mapped bytes and reproduces Type3's
+pseudocode SHA exactly. Native pseudocode and projects remain ignored.
+
+Observed body sets illustrate why Ghidra boundaries stay provisional. RunEcl's
+three body ranges contain14777 bytes over the14792-byte code span; Enemy has
+3881 bytes over3883 and Type3 has780 contiguous bytes. The original reviewed
+physical15564/3900/780-byte comparison extents remain authoritative, including
+owned tables and alignment. Automatic prototypes and local names are not
+original C++ declarations or new ABI evidence.
+
+Full public CI exposed a stale dependency inventory from the earlier Replay
+mode-API adoption. ReplayInput now genuinely includes GameManagerMode.hpp;
+its12 existing exact functions occupy two compiler profiles. The GameManager
+header gate now requires24 exact units in11 groups rather than12 in9. Tests
+also reject omission from either Replay profile. Complete-byte, field and source
+input checks remain intact. The12 Replay and four actual mode-leaf proofs are
+replayed from their unchanged source/profile-bound objects without recompiling
+unaffected callers. No game source, compiler profile or exact ledger changes.
+
+Direct import/export receipts are in .analysis/ghidra-direct/direct-import/ and
+reused-type3/. Four focused target-independent tests reject wrong target identity,
+entry,architecture,incomplete analysis,missing/changed mapped ranges and wrong
+function selection; an invalid disk target preserves older output before launch.
+The scripts verify emitted pseudocode hashes and reject changed tool/script inputs.
+Current authored exact coverage remains1003/1035 and244917/291883(83.9093%);
+RunEcl30/Enemy13/Type315 and the98% milestone remain open.
+
+A direct read-only inventory of the cached project returns2075 internal function
+starts.122 are absent from the catalog start set;31 lie inside existing primary
+spans and91 outside them, including apparent EH cleanup fragments. These are
+unmatched analysis entries, not122 new authored functions. Review the separate
+artifact/tail ownership before promoting any candidate. The bounded comparison
+is retained in .analysis/ghidra-direct/inventory/catalog-difference.json; complete
+inventory remains unproven and the ledgers are unchanged.
+
+Final public CI passes999 tests/29 skips in144.093 seconds. The initial two stale
+GameManager-inventory failures and final passing log are retained separately.
+Target-required tracking,documentation,progress and whitespace checks pass.

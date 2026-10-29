@@ -8,11 +8,31 @@
 ## Active local restart — October 29
 
 The operator explicitly resumed reconstruction with direct local tools, focused
-affected-owner replays and commits prefixed `gpt-6.1-sol:`. This supersedes the
-historical stop and Factory routing below. Recovery found a clean worktree at
-`1ac9fa29`; original Japanese v1.50a disk identity and tracking pass. The available
-IDA connection currently identifies TH105 and was rejected before analysis.
-This restart uses the verified TH09 PE and pinned VC7.1, with no new IDA claims.
+affected-owner replays and commits prefixed `gpt-6.1-sol:`. The latest routing is
+**direct local Ghidra, without IDA, REA or Factory MCP**. This supersedes the
+historical stop and tool routing below. Original Japanese v1.50a disk identity
+and tracking pass. Ghidra supplements the original PE and pinned VC7.1 Oracles;
+it does not grant source exactness credit.
+
+### Direct Ghidra project
+
+`python3 -B scripts/ghidra-analysis.py` imports the original once, then reuses its
+saved project with `-noanalysis -readOnly`. Select functions with repeated
+`--function 0x...` arguments; the default selects RunEcl, Enemy OnUpdate and
+Type3. Use `--ghidra-dir /path/to/ghidra` or the ignored `.tools/ghidra` symlink.
+The current direct Ghidra12.1.4 project and exports are below
+`.analysis/ghidra-direct/`; `direct-import/` holds the initial three-function
+export and `reused-type3/` proves cached export without another import/analysis.
+
+Every invocation checks disk/Program SHA-256, i386 language, image base and entry,
+then compares all685056 file-backed PE bytes in headers and five sections before
+analysis and export. Tool and script hashes bind the receipts. Native projects,
+decompiler text and logs stay ignored. Ghidra rejects hidden components in project
+URLs, so the runner uses a temporary visible symlink to the actual cached project;
+the database remains below `.analysis/`. Automatic types/boundaries are provisional:
+RunEcl has14777 body-set bytes over14792 code-span bytes, Enemy3881 over3883,
+and Type3 has780 contiguous bytes. Keep the original reviewed physical owners,
+including padding and tables, for compiler comparison.
 
 ReplayInput now uses the four existing `GameManagerModeView` predicates instead
 of undefined private Replay method facades. Its data overlay and original
@@ -453,8 +473,8 @@ git diff --cached
 python3 -B scripts/verify-target.py
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
-# Via Factory: call attested th09-ida get_metadata with exactly {}.
-# Require original target, entry and distributed mapped-byte attestation.
+# Direct local Ghidra: verify/import once or reuse the target-bound project.
+python3 -B scripts/ghidra-analysis.py --function 0x004086c0 --function 0x00410730
 # Choose one affected owner and reuse unchanged source/profile-bound proofs:
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner runecl
 nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner enemy
@@ -469,9 +489,9 @@ git diff --check
 python3 -B scripts/clean-generated-artifacts.py  # Preview only; do not apply wholesale.
 ```
 
-Metadata hashes alone do not establish an unmodified IDA mapping. Compare the
-entry and distributed mapped bytes with the verified disk target before
-analysis; target identity is not exactness credit. Build a canonical unit
+Metadata hashes alone do not establish an unmodified Ghidra mapping. Compare
+all file-backed mapped bytes with the verified disk target before analysis and
+each export; target identity is not exactness credit. Build a canonical unit
 afresh before comparing its COFF; missing OBJ/PDB files are expected after cleanup.
 
 For other large owners use the frontier table; for small leaves use

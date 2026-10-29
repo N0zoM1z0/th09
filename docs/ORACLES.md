@@ -12,7 +12,7 @@ Documentation/test-only changes do not need target or compiler replay.
 | Claim | Minimum useful Oracle | Acceptance boundary |
 | --- | --- | --- |
 | Target identity | size, SHA-256/MD5, PE structure | exact manifest agreement |
-| IDA routing | IDA metadata, entry point, distributed mapped bytes | exact target agreement before analysis |
+| Ghidra binding | disk/Program SHA-256, i386 language, image base, entry and all file-backed mapped PE bytes | exact target agreement before analysis and each export |
 | Boundary/ownership | target control flow, references, tables, adjacent bytes | complete reviewed extent; unknown if ambiguous |
 | Compiler generation | PE/Rich evidence plus pinned compiler probe | observed generation/build, not flags |
 | Source presence | maintained mapping and source file | no exactness credit |
@@ -21,7 +21,7 @@ Documentation/test-only changes do not need target or compiler replay.
 | Runtime semantics | deterministic scenarios against original and native products | both Oracles agree on declared observables |
 | Port behavior | native baseline plus port scenario | separate portability claim |
 
-IDA is the semantic-analysis provider, not an independent exactness Oracle.
+Direct local Ghidra is the semantic-analysis tool, not an independent exactness Oracle.
 Decompiler text, names, types, and candidate extents remain provisional. A
 successful build or visually plausible runtime also cannot waive missing bytes,
 relocations, data owners, or scenario observables.

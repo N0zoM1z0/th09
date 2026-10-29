@@ -2,28 +2,25 @@
 
 ## Current operator status
 
-On October 24 at 14:09 UTC the operator stopped TH09 work and requested only
-cleanup and a commit. Research, new experiments and source adoption are paused.
-Do not resume the earlier continuation queue without a new explicit request.
-The unadopted Replay source change was preserved and restored; use the latest
-RE_HANDOFF.md stop checkpoint, not the earlier resume paragraph below.
+On October 29 the operator resumed reconstruction with direct local tools.
+The current explicit routing is **Ghidra directly, without IDA, REA or Factory
+MCP**. Use `scripts/ghidra-analysis.py` and the local `analyzeHeadless` executable;
+reuse the verified project instead of importing the target for every query.
+The October 24 stop and earlier tool routing are historical checkpoints.
 
-On October 24 the operator resumed reconstruction through Factory MCP after
-the successor handoff. Prioritize complete RunEcl and EnemyManager::OnUpdate
+Prioritize complete RunEcl and EnemyManager::OnUpdate
 exactness toward the unfinished 98% reviewed-authored-byte milestone. Explore
 whole-function dataflow, shared types and real translation-unit boundaries as
 well as local source models; historical assumptions are not conclusive.
 Preserve existing exact matches and validate complete owners and affected callees.
 
-This resumed Web session uses Factory repository Bash (repository_id: th09)
-and the target-attested th09-ida provider with pinned VC7.1 Oracles. The previous
-direct-local-only routing described the predecessor's session, not this one.
+Use repository Bash, target-bound local Ghidra analysis and pinned VC7.1 Oracles.
 Compile serially at lowered priority, bound resources and reuse unchanged proofs.
 Recover dirty work rather than discarding or hiding it.
-Use English commits prefixed `gpt-dots:`, author
+Use English commits prefixed `gpt-6.1-sol:`, author
 `N0zoM1z0 <1705004398@qq.com>`, and trailer
 `Co-authored-by: gensokyo-dev <342580529+gensokyo-dev@users.noreply.github.com>`.
-Factory checkpoints are local; no Git push is available here.
+Create local checkpoints; do not infer remote publication from local state.
 Read docs/RE_HANDOFF.md for source and evidence routing.
 
 This repository targets only the original Japanese TH09 version 1.50a
@@ -36,7 +33,7 @@ The canonical private game file is
 (`resources/th09.exe` from the repository root). It is a read-only, ignored
 operator input copied into WSL from the Windows game directory; it must never be
 committed. Repository tools use this path by default. Do not search `/mnt`, add
-a Windows game-directory mount, or set `TH09_TARGET_PATH` during normal Factory
+a Windows game-directory mount, or set `TH09_TARGET_PATH` during normal reconstruction
 work. That environment variable is only an explicit local override.
 
 ## Mandatory session recovery
@@ -53,9 +50,11 @@ Before changing anything:
 3. In the repository shell, run `python3 scripts/verify-target.py`,
    `python3 scripts/validate-tracking.py --require-target`, and
    `python3 scripts/report-reconstruction-status.py` before target-dependent
-   work. Before IDA analysis, call th09-ida `get_metadata` with exactly `{}`
-   and require its target attestation, entry and distributed mapped-byte checks. Metadata hashes alone
-   do not prove an unmodified mapped database. IDA is not an exactness Oracle.
+   work. Before Ghidra analysis, verify the disk and Program SHA-256, i386
+   language, image base and entry, and compare every file-backed PE header and
+   section against mapped Ghidra memory. The direct runner checks these before
+   analysis and every export. Metadata hashes alone do not prove an unmodified
+   mapped database. Ghidra is not an exactness Oracle.
 4. Work on one bounded unit or one coherent infrastructure batch and leave a
    reviewable local checkpoint.
 
@@ -79,15 +78,15 @@ structure, compiler idioms, and useful probes, but they are hypothesis material
 only. TH095 is itself undergoing semantic reconstruction, so its semantic names,
 owners, layouts, and abstractions are especially provisional. Neither adjacent
 game's addresses, bytes, layouts, ownership, behavior, or exactness claims are
-TH09 evidence. Accept every TH09 conclusion only from TH09-local target, IDA,
+TH09 evidence. Accept every TH09 conclusion only from TH09-local target, Ghidra,
 xref, ABI, compiler, exact-byte, build, or runtime evidence. When the games
 differ or the comparison is inconclusive, keep the TH09 fact unknown.
 
 ## Evidence and state
 
-- Keep target observations, IDA observations, compiler observations, runtime
+- Keep target observations, Ghidra observations, compiler observations, runtime
   observations, cross-game corroboration, inference, and unknowns distinct.
-- IDA names, types, boundaries, and decompilation are provisional semantic
+- Ghidra names, types, boundaries, and decompilation are provisional semantic
   evidence. They do not establish authorship, object ownership, or exactness.
 - Keep boundary review, origin, source presence, exact codegen, native build
   closure, runtime validation, and port status independent.
@@ -120,7 +119,7 @@ checkpoint. Do not treat exact units as proof that the executable builds or runs
   relocation identities or stale proof inputs. Source spelling, whitespace,
   include-count and handoff-format snapshots are not acceptance criteria.
 - Run checks relevant to the changed files. Documentation/test-only edits need
-  no compiler replay or IDA attestation. Full public CI is optional for ordinary
+  no compiler replay or Ghidra attestation. Full public CI is optional for ordinary
   exact checkpoints; run it when changing shared validation or CI tooling.
 - Whole-product builds, runtime scenarios, dual-Oracle semantics and portability
   validation belong to their later phases, not each exact iteration.
@@ -129,19 +128,19 @@ This scope supersedes historical full-check lists in handoff/experiment notes.
 
 ## Autonomy and tools
 
-Agents may use broad repository Bash and compose small IDA, compiler, Wine,
+Agents may use broad repository Bash and compose small Ghidra, compiler, Wine,
 comparison, and Git tools as needed. The framework exists to improve feedback,
 accuracy, and resumability, not to restrict competent investigation. Each
 important operation must still fail closed on the wrong target.
 
-IDA metadata writes for reviewed names, types, prototypes, and comments are
+Ghidra metadata writes for reviewed names, types, prototypes, and comments are
 allowed when useful and must be read back. Never patch target bytes. The
 analysis database is working state; mirror durable conclusions into the repo.
 
 ## Checkpoints and artifacts
 
 - For the current local campaign, use concise, coherent local commits
-  prefixed **`gpt-dots: ...`**, with the author and co-author trailer above.
+  prefixed **`gpt-6.1-sol: ...`**, with the author and co-author trailer above.
   Report local checkpoints separately from independently verified remote state.
 - Route current work through `docs/RE_HANDOFF.md`; original-bound
   accepted receipts now live in `docs/RE_ACCEPTED_RECEIPTS.md` with
@@ -163,7 +162,7 @@ analysis database is working state; mirror durable conclusions into the repo.
   old `.obj`/`.pdb` as lost canonical evidence. Preserve original executable,
   tracked source and unreproduced analysis/experiment evidence.
 - Never commit the original executable, game archives/data, IDA databases,
-  toolchains, generated decompiler text, credentials, or private endpoints.
+  Ghidra projects, toolchains, generated decompiler text, credentials, or private endpoints.
 - Finish with `git diff --check` and the checks required by the change: the
   focused Oracle for reconstruction, tracking/progress for ledger changes,
   documentation validation for status claims, and relevant tooling tests.

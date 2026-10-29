@@ -2,14 +2,11 @@
 
 The project milestone is at least **98% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The earlier October 24 request resumed the unfinished RunEcl and Enemy exactness
-campaign. At 14:09 UTC the operator stopped TH09 and requested cleanup/commit
-only. Do not resume research or adoption without a new explicit request. The
-following workflow remains reference material for an authorized future restart.
-Use repository Bash and the attested th09-ida provider with pinned VC7.1 tools.
-New English commits use `gpt-dots:` and the AGENTS.md identity/trailer. Compile
+The operator resumed the unfinished campaign on October 29 and explicitly
+selected direct local Ghidra, without IDA, REA or Factory MCP. Use repository
+Bash, `scripts/ghidra-analysis.py` and pinned VC7.1 tools.
+New English commits use `gpt-6.1-sol:` and the AGENTS.md identity/trailer. Compile
 serially at lowered priority and preserve complete affected-owner/callee proofs.
-The predecessor's direct-local-only handoff routing is historical.
 See RE_HANDOFF.md for current source map, preserved archives and baseline.
 
 Historical negative results are bounded measurements, not proof that all natural
@@ -21,8 +18,17 @@ i386 product and later runtime/port phases remain independent gates.
 First recover the current worktree instead of assuming it is clean. Read the
 current handoff checkpoint and inspect status and diffs, including untracked
 work. Before target-dependent work, verify the disk target and affected ledgers;
-attest IDA before using it. Documentation/test-only changes need no compiler
-replay or IDA session. See `AGENTS.md` for commands and target identity.
+bind Ghidra to that original before using its results. The direct runner checks
+the Program identity and every file-backed mapped PE byte before analysis and
+each export. Documentation/test-only changes need no compiler or Ghidra replay.
+See `AGENTS.md` for commands and target identity.
+
+Run `python3 -B scripts/ghidra-analysis.py --function 0x004086c0` for a bounded
+export. The first invocation imports the original into an ignored local project;
+subsequent invocations use `-noanalysis -readOnly` after rechecking the target
+and every file-backed memory range. Supply `--ghidra-dir` or the ignored
+`.tools/ghidra` symlink to an existing installation. Outputs and the reusable
+project stay below `.analysis/ghidra-direct/`; no MCP service is needed.
 
 ## Bounded exact-reconstruction loop
 
@@ -33,7 +39,7 @@ replay or IDA session. See `AGENTS.md` for commands and target identity.
 3. Classify origin independently: authored game code, compiler-generated,
    library, import thunk, data, padding, or still unknown.
 4. For authored code, recover ABI, types, object layout, globals, constants,
-   side effects, and original branches using bounded IDA queries and raw target
+   side effects, and original branches using bounded Ghidra queries and raw target
    evidence. Keep hypotheses explicitly falsifiable. When useful, inspect the
    read-only TH08 reconstruction at
    `/home/pentester/coding/codex_ida/th08-reconstruction/th08` or TH095 at
@@ -56,8 +62,8 @@ replay or IDA session. See `AGENTS.md` for commands and target identity.
    the whole historical cohort or repeat cold builds after every edit. Each new
    exact owner still needs complete byte/relocation/source proof and a
    reproducible canonical local build/replay. Historical Factory receipts remain
-   scoped historical evidence. The resumed local campaign uses direct IDA MCP
-   with mapped-byte attestation and target-bound pinned compiler Oracles. This
+   scoped historical evidence. The resumed local campaign uses direct local
+   Ghidra with mapped-byte attestation and target-bound pinned compiler Oracles. This
    focused replay scope supersedes older broad replay wording.
 
 ### What to read at a fresh handoff

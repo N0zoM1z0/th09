@@ -23,11 +23,16 @@ class FrontGameDataTests(unittest.TestCase):
     def test_inventory_follows_actual_include_closures_and_rejects_missing_unit(self):
         units, matches = self.inventory()
         groups = gate.affected_groups(units, matches)
-        self.assertEqual(len(groups), 9)
-        self.assertEqual(sum(len(names) for _, names in groups), 12)
+        self.assertEqual(len(groups), 11)
+        self.assertEqual(sum(len(names) for _, names in groups), 24)
+        replay = [names for (source, _), names in groups if source == 'src/ReplayInput.cpp']
+        self.assertEqual(sorted(map(len, replay)), [2, 10])
         omitted = groups[0][1][0]
         with self.assertRaisesRegex(ValueError, 'inventory changed'):
             gate.affected_groups(units, [row for row in matches if row['unit'] != omitted])
+        for names in replay:
+            with self.subTest(omitted=names[0]), self.assertRaisesRegex(ValueError, 'inventory changed'):
+                gate.affected_groups(units, [row for row in matches if row['unit'] != names[0]])
 
     def test_wrong_target_stops_before_any_compile(self):
         coff = SimpleNamespace(verified_target=Mock(side_effect=ValueError('wrong target')))
@@ -50,9 +55,9 @@ class FrontGameDataTests(unittest.TestCase):
                 patch.object(gate.subprocess, 'run', return_value=SimpleNamespace(returncode=0)) as build, \
                 patch.object(gate, 'inputs', return_value={'source': 'stable'}) as pins:
             result = gate.run()
-            self.assertEqual((len(result['checked']), result['failures']), (12, []))
-            self.assertEqual(build.call_count, 9)
-            self.assertEqual(share.share_object.call_count, 9)
+            self.assertEqual((len(result['checked']), result['failures']), (24, []))
+            self.assertEqual(build.call_count, 11)
+            self.assertEqual(share.share_object.call_count, 11)
             self.assertTrue(all(call.args[0][:3] == ['nice', '-n', '10'] for call in build.call_args_list))
             boss.run_front_added.assert_called_once_with(protect_exact=False)
             self.assertEqual(result['exactness_credit'], 'no new credit')
@@ -61,7 +66,7 @@ class FrontGameDataTests(unittest.TestCase):
                 return {**compare(name), 'matched_compared_bytes': 8}
             coff.compare_unit.side_effect = truncated
             rejected = gate.run()
-            self.assertEqual((len(rejected['checked']), len(rejected['failures'])), (0, 12))
+            self.assertEqual((len(rejected['checked']), len(rejected['failures'])), (0, 24))
             coff.compare_unit.side_effect = compare
             pins.side_effect = [{'source': 'before'}, {'source': 'changed'}]
             with self.assertRaisesRegex(ValueError, 'inputs changed'):

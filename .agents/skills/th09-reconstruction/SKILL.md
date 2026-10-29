@@ -1,6 +1,6 @@
 ---
 name: th09-reconstruction
-description: Reconstruct bounded code and data from the original Japanese TH09 v1.50a executable using the hash-attested IDA provider, VC7.1 compiler Oracle, conservative ledgers, native i386 product gate, and later dual-Oracle semantic workflow.
+description: Reconstruct bounded code and data from the original Japanese TH09 v1.50a executable using direct target-bound Ghidra, the VC7.1 compiler Oracle, conservative ledgers, native i386 product gate, and later dual-Oracle semantic workflow.
 ---
 
 # TH09 reconstruction
@@ -10,9 +10,12 @@ reconstruction, also read `docs/RE_WORKFLOW.md`, `docs/ORACLES.md`, and affected
 source/ledger rows. Those files remain the standalone authority.
 
 Recover the current dirty worktree first. Attest the disk target before
-target-dependent work and the active IDA database before IDA analysis, then work
+target-dependent work and the local Ghidra Program before analysis, then work
 on one reviewed extent or coherent infrastructure batch. Documentation/test-only
-changes need neither compiler replay nor IDA attestation.
+changes need neither compiler replay nor Ghidra attestation.
+The operator explicitly requires direct Ghidra: do not use IDA, REA or Factory
+MCP. Use `scripts/ghidra-analysis.py`; its cached exports verify Program identity,
+entry, architecture and every file-backed mapped PE byte against the original.
 Keep boundary, origin, source presence, exact codegen, whole-product closure,
 runtime semantics, and port status separate. Use natural source and the pinned
 VC7.1 provider; accept exactness only for a complete zero-difference byte and
@@ -29,6 +32,6 @@ fault injection, source-text snapshots, whole-product closure or full CI for
 each exact checkpoint. Later-phase validation stays in its own phase; run full
 public CI when shared validation/CI tooling changes.
 
-Use broad repository Bash and composable IDA/compiler/Wine/Git tools where they
+Use broad repository Bash and composable Ghidra/compiler/Wine/Git tools where they
 accelerate correct feedback. Keep scratch below `.analysis/`, inspect it before
 cleanup, and create a coherent local checkpoint before handoff.

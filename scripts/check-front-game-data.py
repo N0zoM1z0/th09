@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Cold-check the shared GameManager prefix and Front's five native data reads.
 
-Only the 12 accepted units whose source includes GameManagerMode.hpp are
+Only the 24 accepted units whose source includes GameManagerMode.hpp are
 rebuilt, serially at nice10, plus the nonexact Front callback. This preserves
 existing source/profile proofs; it awards no new exact or origin credit.
 """
@@ -27,6 +27,7 @@ EXPECTED = {
     'src/FrontMessageLoad.cpp': 1, 'src/FrontMessageReleaseForSideCount.cpp': 1,
     'src/FrontResultBonus.cpp': 1, 'src/GameManagerMode.cpp': 4,
     'src/GameManagerSelectOpponent.cpp': 1, 'src/PlayerGameplayState.cpp': 2,
+    'src/ReplayInput.cpp': 12,
 }
 
 
@@ -68,7 +69,7 @@ def affected_groups(units, matches):
     counts = Counter()
     for (source, _), names in result.items():
         counts[source] += len(names)
-    if dict(counts) != EXPECTED or len(result) != 9:
+    if dict(counts) != EXPECTED or len(result) != 11:
         raise ValueError('shared GameManager affected-unit inventory changed')
     return sorted(result.items())
 
