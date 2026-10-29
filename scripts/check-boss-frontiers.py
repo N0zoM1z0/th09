@@ -1194,6 +1194,55 @@ def run_player_movement(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     return {'player_movement': owner}, exact
 
 
+PLAYER_BULLET_COLLISION_SHA256 = '9dcfe1aca4ac06526072014ee6f956120d9c1d84cc1bba044638556b9b82445c'
+# Fifty original-equal positions in the reviewed 849-byte candidate, including
+# the five recovered by the explicit type-2/type-3 cancel branches. Protect the
+# actual positions: a smaller mismatch count alone can hide a byte regression.
+PLAYER_BULLET_COLLISION_MATCHED = frozenset(
+    offset for start, end in (
+        (0, 7), (16, 17), (45, 47), (48, 49), (50, 52), (103, 104),
+        (110, 111), (192, 193), (277, 278), (291, 292), (297, 298),
+        (303, 304), (373, 374), (389, 390), (471, 473), (475, 478),
+        (479, 480), (500, 501), (589, 591), (604, 605), (617, 618),
+        (623, 624), (626, 628), (632, 635), (637, 640), (660, 661),
+        (757, 758), (785, 786), (795, 796), (813, 815), (839, 841),
+    ) for offset in range(start, end))
+
+
+def guard_player_bullet_collision(result: dict) -> dict:
+    """Retain complete-owner evidence and matching bytes without exact credit."""
+    bullet = noncrediting(result, name='Player CheckBulletCollision boss',
+                         target_size=862, fields=26)
+    size = bullet.get('candidate_bytes')
+    count = bullet.get('overlap_differences')
+    offsets = bullet.get('difference_offsets')
+    instructions = bullet.get('candidate_instructions')
+    if (bullet.get('target_sha256') != PLAYER_BULLET_COLLISION_SHA256 or
+            type(size) is not int or not 849 <= size <= 862 or
+            bullet.get('target_instructions') != 277 or
+            type(instructions) is not int or not 266 <= instructions <= 277 or
+            bullet.get('original_fields') != 26 or
+            bullet.get('ordered_calls') != 12 or
+            bullet.get('ordered_calls_agree') is not True or
+            bullet.get('ordered_fields_agree') is not True or
+            bullet.get('literal_definitions') != 4 or
+            bullet.get('original_blocks') != 33 or
+            bullet.get('candidate_blocks') not in (32, 33) or
+            bullet.get('direct_graphs_agree') is not (bullet.get('candidate_blocks') == 33) or
+            type(count) is not int or not 0 <= count <= 799 or
+            not isinstance(offsets, list) or
+            any(type(o) is not int or not 0 <= o < size for o in offsets) or
+            offsets != sorted(set(offsets)) or len(offsets) != count or
+            PLAYER_BULLET_COLLISION_MATCHED.intersection(offsets) or
+            bullet.get('missing_target_bytes') != 862 - size or
+            bullet.get('extra_candidate_bytes') != 0 or
+            bullet.get('complete_bytes_equal') is not (size == 862 and count == 0) or
+            (bullet.get('complete_bytes_equal') and
+             (instructions != 277 or bullet.get('direct_graphs_agree') is not True))):
+        raise RuntimeError('Player 862-byte collision boss target/fields/matching bytes regressed')
+    return bullet
+
+
 def run_player_collision(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     """Cold replay exact 602-byte Player collision query and true helper owners.
 
@@ -1210,26 +1259,9 @@ def run_player_collision(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # twenty-six original code operands are source-cold checked before the
     # exact CheckGrazeCollision consumer and other same-TU siblings replay.
     build('player-check-graze-collision')
-    bullet = noncrediting(parsed(['scripts/inspect-player-bullet-collision.py',
-                                  'build/matching/PlayerCollisionHelpers.obj', '--json']),
-                          name='Player CheckBulletCollision boss',
-                          target_size=862, fields=26)
-    if (bullet.get('candidate_bytes') != 849 or
-            bullet.get('target_instructions') != 277 or
-            bullet.get('candidate_instructions') != 266 or
-            bullet.get('original_fields') != 26 or
-            bullet.get('ordered_calls') != 12 or
-            bullet.get('ordered_calls_agree') is not True or
-            bullet.get('ordered_fields_agree') is not True or
-            bullet.get('original_blocks') != 33 or
-            bullet.get('candidate_blocks') not in (32, 33) or
-            bullet.get('direct_graphs_agree') is not (bullet.get('candidate_blocks') == 33) or
-            not isinstance(bullet.get('overlap_differences'), int) or
-            bullet['overlap_differences'] > 804 or
-            bullet.get('missing_target_bytes') != 13 or
-            bullet.get('extra_candidate_bytes') != 0 or
-            bullet.get('complete_bytes_equal') is not False):
-        raise RuntimeError('Player 862-byte original/849-byte source 26-field/12-call collision boss regressed')
+    bullet = guard_player_bullet_collision(parsed([
+        'scripts/inspect-player-bullet-collision.py',
+        'build/matching/PlayerCollisionHelpers.obj', '--json']))
     if protect_exact:
         # Same just-built object; no stale target or duplicate source definition.
         exact.append(canonical('player-calc-item-box-collision'))

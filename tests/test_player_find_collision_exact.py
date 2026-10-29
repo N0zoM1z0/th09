@@ -72,13 +72,17 @@ class PlayerFindCollisionColdSweep(unittest.TestCase):
     def noncrediting_bullet():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_sha256': frontier.PLAYER_BULLET_COLLISION_SHA256,
             'target_bytes': 862, 'candidate_bytes': 849,
             'target_instructions': 277, 'candidate_instructions': 266,
             'original_fields': 26, 'bound_fields': 26,
             'ordered_calls': 12, 'ordered_calls_agree': True,
             'ordered_fields_agree': True, 'original_blocks': 33,
             'candidate_blocks': 32, 'direct_graphs_agree': False,
-            'overlap_differences': 804, 'missing_target_bytes': 13,
+            'literal_definitions': 4,
+            'overlap_differences': 799, 'missing_target_bytes': 13,
+            'difference_offsets': [o for o in range(849)
+                                   if o not in frontier.PLAYER_BULLET_COLLISION_MATCHED],
             'extra_candidate_bytes': 0, 'complete_bytes_equal': False,
         }
 

@@ -3,6 +3,7 @@ import hashlib
 import importlib.util
 from pathlib import Path
 import struct
+from types import SimpleNamespace
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,6 +14,57 @@ spec.loader.exec_module(player)
 
 
 class PlayerBulletOriginalTests(unittest.TestCase):
+    @staticmethod
+    def scalar_definitions():
+        rows, original, contents = [], {}, bytearray()
+        for symbol, address in player.SOURCE_TARGETS.items():
+            if not symbol.startswith('__real@'):
+                continue
+            bits = symbol[7:]
+            payload = int(bits, 16).to_bytes(len(bits) // 2, 'little')
+            rows.append(dict(symbol=symbol, addend=0, symbol_section=1,
+                             symbol_value=len(contents)))
+            original[address] = payload
+            contents.extend(payload)
+        data = bytearray(60)
+        struct.pack_into('<HH', data, 0, 0x14C, 1)
+        struct.pack_into('<II', data, 36, len(contents), 60)
+        struct.pack_into('<I', data, 56, 0x40000040)
+        data.extend(contents)
+        coff = SimpleNamespace(pe_bytes_at=lambda image, address, size: original[address][:size])
+        return data, rows, original, coff
+
+    def test_actual_scalar_definitions_include_all_eight_bytes_of_double_zero(self):
+        data, rows, original, coff = self.scalar_definitions()
+        result = player.require_literal_definitions(data, rows, original, coff)
+        self.assertEqual(sorted(d['size'] for d in result), [4, 4, 4, 8])
+        for row in rows:
+            size = len(row['symbol'][7:]) // 2
+            for byte in range(size):
+                bad = bytearray(data)
+                bad[60 + row['symbol_value'] + byte] ^= 1
+                with self.subTest(symbol=row['symbol'], byte=byte), self.assertRaisesRegex(
+                        ValueError, 'definition differs'):
+                    player.require_literal_definitions(bad, rows, original, coff)
+
+    def test_scalar_definition_requires_target_extent_readonly_storage_and_complete_set(self):
+        data, rows, original, coff = self.scalar_definitions()
+        for changes in ({'symbol_section': 0}, {'symbol_section': 2},
+                        {'symbol_value': len(data)}, {'addend': 1},
+                        {'symbol': '__real@deadbeef'}):
+            bad = [dict(rows[0], **changes)] + rows[1:]
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                player.require_literal_definitions(data, bad, original, coff)
+        with self.assertRaisesRegex(ValueError, 'incomplete'):
+            player.require_literal_definitions(data, rows[:-1], original, coff)
+        bad = bytearray(data)
+        struct.pack_into('<I', bad, 56, 0xC0000040)
+        with self.assertRaisesRegex(ValueError, 'read-only'):
+            player.require_literal_definitions(bad, rows, original, coff)
+        original[player.SOURCE_TARGETS[rows[0]['symbol']]] = bytes([1]) + bytes(7)
+        with self.assertRaisesRegex(ValueError, 'definition differs'):
+            player.require_literal_definitions(data, rows, original, coff)
+
     @staticmethod
     def original_synthetic():
         data = bytearray(player.SIZE)

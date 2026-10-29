@@ -126,6 +126,39 @@ Ghidra exports are under .analysis/ghidra-direct/replay-save-20261029/,
 frame-insert-20261029/ and replay-native-rng-20261029/.16 focused tests passed
 before adoption; all17 archived observations replay afterward.
 
+### Player cancel branches and complete collision-owner controls
+
+CheckBulletCollision now uses separate type-2/type-3 branches into the existing
+cancel response. A source-cold complete-owner comparison improves804 overlapping
+differences to799, recovering original offsets+2F5,+311,+31B,+32D,+32E without
+breaking any previously equal byte. It remains849 versus862 physical bytes,
+266/277 instructions,26 fields,12 ordered calls and32/33 direct blocks; no exact
+credit is awarded. Five same-TU exact owners retain1220 bytes/32 fields across
+three canonical carrier paths. The native rotate callee remains62/2 and both
+actual compiler math wrappers retain their complete12 bytes.74 focused tests pass.
+
+Direct Ghidra exports RunEcl and collision with full mapped-file attestation at
+.analysis/ghidra-direct/ecl-collision-20261029/. Twenty bounded serial compiles
+test scratch lifetimes, shared workspaces, circle/box/reward block placement,
+type gates and real rotate visibility; every case preserves the five exact
+siblings. No workspace or TU move is adopted. Actual rotate visibility under
+the caller's unchanged profile emits a nonexact42-byte callee; consumed trig
+function pointers restore the whole62-byte callee and both12-byte wrappers,
+but do not improve the caller beyond799 differences. Keep the separate native TU.
+
+The packet .analysis/gpt-61sol-20261029-collision-workspaces/ retains frozen
+source inputs, all20 COFFs, recipes and results. verify_cases.py rechecks that
+historical source/provider epoch without compiling; verify_current.py rechecks
+the adopted current-source proofs, or cold-builds only these affected carriers
+with --build. The public diagnostic now checks all four actual read-only scalar
+definitions, including double zero's upper four bytes. Its noncrediting guard
+protects all50 currently equal original positions while allowing future complete
+convergence. Exact totals remain1003 and83.9093%; RunEcl/Enemy use their unchanged
+source/profile-bound proofs. Native product/runtime and98% remain open.
+Public CI passes1005 tests with29 skips in125.079 seconds; its final log is
+.analysis/gpt-61sol-20261029-collision-workspaces/ci-final.log. Tracking,
+documentation, generated progress and whitespace checks pass.
+
 ## Historical operator stop — October 24, 14:09 UTC
 
 TH09 research is paused at the operator's explicit request. Only cleanup and

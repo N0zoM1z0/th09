@@ -212,6 +212,7 @@ class BossFrontierChecks(TestCase):
     def player_boss_evidence():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
+            'target_sha256': frontiers.PLAYER_BULLET_COLLISION_SHA256,
             'target_bytes': 862, 'candidate_bytes': 849,
             'target_instructions': 277, 'candidate_instructions': 266,
             'original_fields': 26, 'bound_fields': 26,
@@ -219,7 +220,10 @@ class BossFrontierChecks(TestCase):
             'ordered_fields_agree': True,
             'original_blocks': 33, 'candidate_blocks': 32,
             'direct_graphs_agree': False,
-            'overlap_differences': 804, 'missing_target_bytes': 13,
+            'literal_definitions': 4,
+            'overlap_differences': 799, 'missing_target_bytes': 13,
+            'difference_offsets': [o for o in range(849)
+                                   if o not in frontiers.PLAYER_BULLET_COLLISION_MATCHED],
             'extra_candidate_bytes': 0, 'complete_bytes_equal': False,
         }
 
@@ -229,7 +233,7 @@ class BossFrontierChecks(TestCase):
                 frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, exact = frontiers.run_player_collision(protect_exact=True)
         self.assertEqual(owners['player_check_bullet_collision']['target_bytes'], 862)
-        self.assertEqual(owners['player_check_bullet_collision']['overlap_differences'], 804)
+        self.assertEqual(owners['player_check_bullet_collision']['overlap_differences'], 799)
         oracle.assert_called_once_with(['scripts/inspect-player-bullet-collision.py',
                                        'build/matching/PlayerCollisionHelpers.obj', '--json'])
         self.assertEqual([x['unit'] for x in exact],
@@ -246,13 +250,47 @@ class BossFrontierChecks(TestCase):
                        {'ordered_calls': 11}, {'ordered_calls_agree': False},
                        {'ordered_fields_agree': False}, {'original_blocks': 32},
                        {'candidate_blocks': 31}, {'direct_graphs_agree': True},
-                       {'overlap_differences': 805}, {'missing_target_bytes': 14},
+                       {'overlap_differences': 800}, {'missing_target_bytes': 14},
                        {'extra_candidate_bytes': 1}, {'complete_bytes_equal': True},
+                       {'target_sha256': '0' * 64}, {'literal_definitions': 3},
                        {'diagnostic_only': False}, {'exactness_credit': 'accepted'}):
             with self.subTest(change=change), patch.object(frontiers, 'build'), patch.object(
                     frontiers, 'canonical', return_value={'unit': 'exact'}), patch.object(
                     frontiers, 'parsed', return_value={**self.player_boss_evidence(), **change}), self.assertRaises(RuntimeError):
                 frontiers.run_player_collision(protect_exact=False)
+
+    def test_player_collision_protects_actual_matching_bytes_not_only_count(self):
+        evidence = self.player_boss_evidence()
+        differences = evidence['difference_offsets']
+        self.assertEqual(len(frontiers.PLAYER_BULLET_COLLISION_MATCHED), 50)
+        for offset in (0, 757, 785, 795, 813, 814):
+            changed = sorted(differences[1:] + [offset])
+            with self.subTest(offset=offset), self.assertRaises(RuntimeError):
+                frontiers.guard_player_bullet_collision(
+                    {**evidence, 'difference_offsets': changed})
+        for changed in (None, differences[::-1], differences + [differences[-1]],
+                        [True] + differences[1:], [-1] + differences[1:],
+                        differences[:-1] + [849], differences[:-1]):
+            with self.subTest(changed=str(changed)[:30]), self.assertRaises(RuntimeError):
+                frontiers.guard_player_bullet_collision(
+                    {**evidence, 'difference_offsets': changed})
+
+    def test_player_collision_allows_complete_convergence_without_credit(self):
+        evidence = self.player_boss_evidence()
+        improved = {**evidence, 'overlap_differences': 798,
+                    'difference_offsets': evidence['difference_offsets'][1:]}
+        self.assertEqual(frontiers.guard_player_bullet_collision(improved), improved)
+        converged = {**evidence, 'candidate_bytes': 862, 'candidate_instructions': 277,
+                     'candidate_blocks': 33, 'direct_graphs_agree': True,
+                     'overlap_differences': 0, 'difference_offsets': [],
+                     'missing_target_bytes': 0, 'complete_bytes_equal': True}
+        self.assertEqual(frontiers.guard_player_bullet_collision(converged), converged)
+        self.assertEqual(converged['exactness_credit'], 'none')
+        for changed in ({'candidate_bytes': 849, 'missing_target_bytes': 13},
+                        {'candidate_instructions': 266},
+                        {'candidate_blocks': 32, 'direct_graphs_agree': False}):
+            with self.subTest(changed=changed), self.assertRaises(RuntimeError):
+                frontiers.guard_player_bullet_collision({**converged, **changed})
 
     @staticmethod
     def enemy_evidence():

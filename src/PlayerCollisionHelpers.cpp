@@ -123,12 +123,14 @@ int PlayerLifecycleView::CheckBulletCollision(
         goto next;
 
 hit:
-        if ((*slot)->type38 != 2 && (*slot)->type38 != 3)
-        {
-            ++(*slot)->hitCount2C;
-            return 2;
-        }
+        if ((*slot)->type38 == 2)
+            goto cancel_hit;
+        if ((*slot)->type38 == 3)
+            goto cancel_hit;
+        ++(*slot)->hitCount2C;
+        return 2;
 
+    cancel_hit:
         if (currentBullet == NULL || currentBullet->bulletType != 0)
             goto next;
 

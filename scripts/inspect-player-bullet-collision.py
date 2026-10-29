@@ -79,6 +79,38 @@ def encode(kind: str, dest: int, offset: int) -> int:
     return (dest - (BASE + offset + 4 if kind == 'REL32' else 0)) & 0xFFFFFFFF
 
 
+def require_literal_definitions(data, rows, image, coff):
+    """Check all four actual scalar definitions, including the eight-byte zero."""
+    spec = importlib.util.spec_from_file_location(
+        'player_collision_literal_payload', ROOT/'scripts/coff_literal_definitions.py')
+    payload = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(payload)
+    expected = {symbol: address for symbol, address in SOURCE_TARGETS.items()
+                if symbol.startswith('__real@')}
+    definitions = {}
+    for row in rows:
+        symbol = row['symbol']
+        if not symbol.startswith('__real@'):
+            continue
+        if symbol not in expected or type(row.get('addend')) is not int or row['addend'] != 0:
+            raise ValueError('unreviewed Player collision scalar definition')
+        bits = symbol[7:]
+        size = len(bits) // 2
+        wanted = int(bits, 16).to_bytes(size, 'little')
+        if (coff.pe_bytes_at(image, expected[symbol], size) != wanted
+                or payload.literal_payload(data, row, size) != wanted):
+            raise ValueError('Player collision source/original scalar definition differs')
+        identity = dict(symbol=symbol, target=expected[symbol], size=size,
+                        section=row['symbol_section'], value=row['symbol_value'],
+                        sha256=hashlib.sha256(wanted).hexdigest())
+        if symbol in definitions and definitions[symbol] != identity:
+            raise ValueError('inconsistent Player collision scalar definition')
+        definitions[symbol] = identity
+    if definitions.keys() != expected.keys():
+        raise ValueError('incomplete Player collision scalar definitions')
+    return list(definitions.values())
+
+
 def original_manifest(code: bytes, *, expected_sha=TARGET_SHA256) -> None:
     if len(code) != SIZE or hashlib.sha256(code).hexdigest() != expected_sha:
         raise ValueError('original Player collision full SHA-256 / extent changed')
@@ -170,8 +202,9 @@ def diagnose(path: Path) -> dict:
     ti, tf, tc = disassemble(target)
     if len(ti) != 277 or tf != list(TARGET_FIELDS) or tuple(tc) != CALLS:
         raise ValueError('independently decoded original Player collision fields/calls differ')
-    raw, rows = cof.object_function(path, SYMBOL)
+    raw, rows = cof.object_function(path, SYMBOL, include_symbol_locations=True)
     linked, bound = bind_candidate(raw, rows)
+    literal_definitions = require_literal_definitions(path.read_bytes(), rows, pe, cof)
     ci, cf, cc = disassemble(linked)
     if cf != bound or cc != tc:
         raise ValueError('Player collision actual source instructions do not bind to reviewed COFF calls/fields')
@@ -186,9 +219,12 @@ def diagnose(path: Path) -> dict:
         'original_fields': len(tf), 'bound_fields': len(cf),
         'ordered_calls': len(tc), 'ordered_calls_agree': cc == tc,
         'ordered_fields_agree': [(k,v) for _,k,v in cf] == [(k,v) for _,k,v in tf],
+        'literal_definitions': len(literal_definitions),
+        'source_literal_definitions': literal_definitions,
         'original_blocks': len(tg), 'candidate_blocks': len(cg),
         'direct_graphs_agree': cg == tg,
         'overlap_differences': sum(a != b for a, b in zip(target, linked)),
+        'difference_offsets': [i for i, (a, b) in enumerate(zip(target, linked)) if a != b],
         'missing_target_bytes': max(0, SIZE-len(raw)),
         'extra_candidate_bytes': max(0, len(raw)-SIZE),
         'complete_bytes_equal': target == linked,

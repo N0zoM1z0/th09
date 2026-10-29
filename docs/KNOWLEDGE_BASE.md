@@ -22586,3 +22586,78 @@ inspectors. All17 observations replay after adoption. Direct Ghidra exports the
 real RNG bodies with the same full mapped-byte attestation.57 focused tests
 pass; tracking/docs/progress/whitespace pass. Exact credit stays1003 and83.9093%;
 native product/storage ownership and runtime closure remain independently open.
+
+## October 29: Player cancel branches, scratch lifetimes and real rotate visibility
+
+Direct Ghidra on the fully mapped-byte-attested original exports both RunEcl and
+Player CheckBulletCollision in .analysis/ghidra-direct/ecl-collision-20261029/.
+Decompiler scratch names are provisional. Independent complete PE disassembly
+confirms that the original collision owner and maintained candidate both use a
+0x34-byte frame. Original Bullet is in EBX from the prologue, while the source
+keeps position there and captures Bullet later. Original physical ownership has
+33 direct blocks, including an unreachable alignment-only LEA ESP,[ESP] at+19;
+the source has32. This is not proof of a missing reachable gameplay branch.
+The original rotation input/output at EBP-1C/-10 are reused for reward vectors.
+
+Twenty pinned-profile serial source-cold controls use the actual helper TU and
+its complete five exact siblings. Every case preserves those1220 physical
+bytes/32 fields. Results are full-owner comparisons, not an instruction slice:
+
+- Baseline and geometry-only local scope:849 bytes,804 overlapping differences,
+  13 missing. Scoped vectors alone emit identical code.
+- Reused vectors, actual pair/array members and shared EffectFloat3 records:
+  849/804 plus13 missing. Reused standalone vectors recover original scratch
+  coordinates without recovering a mismatching byte or damaging an equal one.
+- Circle-first/reward-first/shared-vector reward gateways:853/812 plus9 missing.
+  Block placement alone regresses matching positions.
+- Explicit infinite-loop gateway:834/795 plus28 missing. Rejected because it
+  loses the original three-ret12 exit contract.
+- Shape-local type gates or shared-vector gates:916 bytes/26 fields. Exceeds
+  the bounded physical extent; no admissible score is assigned.
+- Shape-local full responses:1624 bytes/69 fields. Duplicates native calls;
+  rejected before scoring.
+- Separate type-2/type-3 cancel branches, also with shared vectors:849/799 plus
+  13 missing. Recovers exactly five old mismatches without equal-position damage.
+- Separate cancel branches plus the three reward gateways:853/807 plus9 missing.
+  Gate improvement does not repair the gateway layout.
+- Real rotate definition co-visible under unchanged caller profile:865/826 with
+  3 excess. Its emitted callee is42 bytes rather than62, so it is ineligible.
+- Co-visible rotate with consumed sinf/cosf function pointers:849/799 plus13
+  missing. Real callee is fully original-equal62/2; actual sinf/cosf wrappers are
+  12 bytes each with no fields. Caller does not improve further.
+
+Adopt only the separate cancel branches in PlayerCollisionHelpers.cpp; leave
+workspace/TU ownership hypotheses unadopted. The complete862-byte original hash
+remains9dcfe1aca4ac06526072014ee6f956120d9c1d84cc1bba044638556b9b82445c.
+Candidate raw SHA256 is0ac303d17f6103533f46b528a90d372608783621638a3d1f78432e9a7e99273f.
+Recovered original offsets are+2F5,+311,+31B,+32D,+32E; no previously equal byte
+becomes unequal. Source still has849 bytes/266 instructions/26 fields/12 calls/
+32 blocks versus862/277/26/12/33. It remains nonexact with no fractional credit.
+
+Four affected canonical carriers are built serially at lowered priority: three
+paths for the unchanged same-profile helper TU and the separate native rotate
+callee. All five exact siblings retain1220 bytes/32 fields; rotate retains62/2
+and both actual math wrappers retain12 bytes. No unrelated cold cohort is run.
+The public collision diagnostic now verifies the actual four read-only COFF
+scalar definitions against target data, including all eight bytes of double zero.
+Its guard verifies sorted complete mismatch positions and protects all50 equal
+positions, rather than trusting a mismatch count that could hide regressions.
+Future full-owner convergence may pass the diagnostic without exactness credit;
+only a separate canonical complete proof can change the exact ledger.
+
+The source-bound packet .analysis/gpt-61sol-20261029-collision-workspaces/ keeps
+its original6bc1377b input archive/provider snapshot, all20 objects, compiler
+recipes and complete results. verify_cases.py reproduces all observations and
+checks actual source scalars and the native wrapper bodies without compiling;
+verify_current.py replays the current canonical objects/diagnostic or builds the
+four carriers with --build. Historical replay checks the frozen pre-adoption
+epoch, not the modified live source.74 focused corruption/frontier tests pass.
+After archive verification,320 duplicate header/debug files totaling3810680
+bytes are removed; all20 objects, distinct source recipes and receipts remain,
+and both historical and current proof replays pass after cleanup.
+Public CI passes1005 tests/29 skips in125.079 seconds (ci-final.log), including
+target-independent corruption checks without site packages. Tracking,
+documentation, generated progress and whitespace checks pass.
+Authored exact remains1003 and244917/291883(83.9093%);98%, native-product,
+runtime, semantic and port gates remain open. RunEcl/Enemy reuse unchanged
+source/profile-bound proofs; no fresh cold replay of those owners is claimed.
