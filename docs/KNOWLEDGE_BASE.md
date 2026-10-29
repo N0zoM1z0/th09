@@ -2372,6 +2372,11 @@ name into a TH09 fact without target-local evidence.
 
 ## Packet 410 EnemyManager spawn boundary cleanup
 
+October30 clarification: the historical overflow wording below refers to a
+scan/run failure flag. Initial ECL failure also sets+2AC42C and can return an
+earlier record; only the full-pool path necessarily returns record128. The
+current source uses spawnFailure and both spawn owners are now canonical exact.
+
 - `EnemyManagerView::SpawnEnemy @ 0x0040F340-0x0040F4B4` is now maintained source-present but deliberately NON-EXACT. Existing exact wrapper `0x004417C0` and TH09 ECL spawn handlers already fixed the seven-argument member ABI; direct target reconstruction now resolves the argument roles as subroutine id, position, life, defeat-token type, score, 0x78 initial-variable block, and a final primary/opposing-ECL selector.
 - The last argument had been mislabeled `runImmediately` in maintained declarations and old notes. TH09 target proves otherwise: zero initializes/runs through the primary ECL manager at EnemyManager `+0x000`, while nonzero uses the opposing ECL manager at `+0x188`. The exact 38-byte wrapper at `0x004417C0` is therefore renamed from `SpawnEnemyImmediate` to neutral `SpawnEnemyUsingOpposingEcl`. Its canonical replay remains 38/38, and exact `ExAttackUpdateCallbackType2 @ 0x00441A70` remains 137/137 after the symbol rename.
 - SpawnEnemy searches only the first 128 records beginning at manager `+0x5758` with stride `0x5430`. If every runtime slot is active, the search pointer naturally lands on record 128 at `+0x2A6F58`, the extra 129th Enemy record already proven by constructor layout. The routine returns that sentinel pointer and sets manager overflow flag `+0x2AC42C`. This resolves the previous “129 constructed versus 128 processed” asymmetry without inventing another owner.
@@ -23173,3 +23178,102 @@ baseline/current proof objects remain; there are no experimental C++ source
 copies or new code archives. Current source-bound replay passes with build/
 absent. The predecessor handoff is preserved in the existing checkpoint archive
 before condensing the active instructions; documentation and research are kept.
+
+
+## 2026-10-30: Enemy storage, full-pool return and folded callback evidence
+
+This bounded audit starts from cbb6e3d527462fa19b3d33f9e0341975c1248438.
+The original Japanese1.50a SHA remains10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
+Direct Ghidra exports the complete update, manager constructor, both spawn owners
+and descriptor initializer after checking all685056 mapped file bytes. Its
+inferred types and nominal ownership remain provisional. Exports and logs are
+under .analysis/ghidra-direct/enemy-formal-storage-20261030/.
+
+The original101-byte manager constructor at4121D0 separately initializes both
+ECL prefixes, the template at+328, and129 records of stride5430 beginning+5758.
+Both373-byte SpawnEnemy40F340 and364-byte SpawnEnemyRecord40F1D0 scan only128
+records. The maintained public view already covered129; the update's private
+Core view represented only128 records, left the last in opaque storage, and separately
+accessed ECL through another projected manager view. Core now represents both
+actual ECL prefixes and129 records, shrinking only the corresponding opaque gap.
+The runtime scan bound stays128. Complete manager size2AC450 and subsequent
+field offsets are unchanged. These source views model observed storage; original
+C++ array/sentinel declarations and unique nominal types are not established.
+
+A bounded Unicorn32 fixture executes each unmodified original spawn body with
+all128 active flags. It requires exactly those128 flag reads, no calls or callee
+stubs, only one manager write (+2AC42C=1), EAX=manager+2A6F58, and the original
+seven-DWORD callee-cleaned stack interface. No byte of the returned extra record
+is accessed on this path. This independently rechecks Packet410's full-pool
+return rather than treating the record's role as unknown. It does not establish
+later caller behavior, a safe caller contract, complete game runtime or native
+product closure. Original code also sets the same flag when initial RunEcl
+returns-1, clears the current record's active bit and returns that earlier record.
+Thus the two private spawn fields are renamed spawnFailure2AC42C: overflow alone
+was an incomplete description. Both full exact spawn bodies remain unchanged.
+
+Six canonical carrier/profile builds cover ECL main/Ob0, manager lifecycle
+main/Ob0 and the two spawn sources. All85 existing complete exact owners retain
+27307 physical bytes/1201 relocation fields and actual original literal payloads.
+Two compiler-private label names change only at actual identical owner-relative
+coordinates; external symbols, addends and destinations stay fixed. Complete
+RunEcl15564/598/30 and Enemy3900/97/13 are raw-identical to the source-bound
+baseline. There is no new authored-function exactness credit.
+
+The following finite controls use the existing pinned profile and verify complete
+callers, all75 same-profile exact siblings, actual field identities and literals:
+
+- Six storage/formal models cover129 records alone, embedded ECL alone, both,
+  direct Core formal parameters with/without complete storage, and a void formal
+  converted directly to complete Core. All retain the same13 Enemy differences.
+- Four compiling field controls cover two byte-field representations of the draw
+  group, unsigned side index and unsigned draw indexing; all retain13. Two
+  unsigned-threshold controls fail overload resolution against the real signed
+  ZunTimer greater interface. No extra cast is added to force these candidates.
+- Three genuine nonvirtual member spellings for the life/timer zero callbacks
+  retain13. Their actual complete three-byte bodies are checked first; this does
+  not prove original member ownership.
+- Four opaque/visible member/free pointer-return initializers each first reproduce
+  the entire original28-byte40D500 body, including its observed EAX receiver exit.
+  Each caller still differs13. A void initializer emits26 bytes and is rejected
+  before its caller is compiled/scored. Original constructor syntax stays
+  provisional; no alternate nominal API is adopted.
+- Hiding the actual life zero callback, alone or with timer, changes13 to84
+  differences. All13 original residual positions remain;71 previously equal
+  positions are lost. Hiding timer alone leaves13. Each external companion still
+  equals the genuine three-byte original. These are conditional visibility
+  constraints, not proof of unique original translation-unit boundaries.
+
+These20 complete caller controls and three earlier compile/callee rejections
+remain recorded with source/profile hashes, actual bytes, fields and failures.
+The rejected source changes are not adopted. No register/variable-order hint,
+assembly, dummy clobber, fabricated return, padding or compiler-profile change is
+introduced. Recipes describe dated inputs and are not current-source restart
+prerequisites after the tested storage model is adopted.
+
+The Enemy inspector previously bound its two native zero callbacks through
+Player's canonical exact unit at the shared physical4AB20 leaf. That numeric
+address did not verify the actual Enemy source bodies or establish Player as
+unique original owner. The inspector now requires both original call destinations
+and the actual complete three-byte Enemy definitions, with no relocations. A
+same-object call must resolve to its real defined symbol; a genuine external
+call requires an explicit companion COFF. Source and original call offsets are
+reported separately, allowing a real moved call to remain a nonexact diagnostic.
+Every complete operand and byte is still compared. No canonical Player unit,
+origin classification or exact count is changed, and the shared leaf earns no
+additional credit. Five regressions cover actual bodies, missing/external
+provenance, shifted calls, aliases, extents, addends and original operands.
+
+The native opacity objects replay only with their actual companions; missing
+companions and two poisoned real co-visible bodies are rejected. Full results
+are in .analysis/gpt-61sol-20261030-enemy-formal-storage/, including
+original-pool-path.json, callback-gate-verification.json, all model reports and
+current-verification.json. verify_current.py checks current source/profile/
+provider bindings and85 complete owners without build/; --build serially compiles
+only the six affected carriers. Final public CI passes1026 tests/29 skips in
+100.181s. Cleanup removes494 files/19610551 logical bytes (about18.7MiB); all87
+preexisting records and seven necessary proof objects keep their original hashes.
+No old source tree or new code archive remains; build/ is absent and current
+cache-free replay still passes. The predecessor handoff is preserved in the
+existing checkpoint archive. Exact credit remains244917/291883(83.9093%); the98%
+goal remains active, with native product/runtime and later phases open.

@@ -2116,3 +2116,29 @@ The deletion inventory and protected hashes are in
 contains all four native table/code witnesses, typed-wire counterexamples,
 complete caller comparisons, source/profile/provider bindings and recipes.
 Exact credit remains244917/291883(83.9093%), with the98% goal active.
+
+
+## 2026-10-30: Enemy storage and folded-callback checkpoint cleanup
+
+The current-source audit preserves85 existing complete exact owners/27307
+physical bytes/1201 fields across six canonical carrier/profile builds. Complete
+Enemy3900/97/13 and RunEcl15564/598/30 remain raw-identical. Twenty complete caller
+controls and three compile/callee rejections retain their findings; no new exact
+credit is claimed. Public CI passes1026 tests/29 skips in100.181s. The original
+full-pool witness and actual native callback-body guard results are also retained.
+
+After all compilers and checks terminate, cleanup removes494 disposable control
+binary/debug/cache/build files totaling19610551 logical bytes (about18.7MiB).
+All87 existing packet records/recipes/logs and seven necessary proof objects keep
+their original hashes. The packet contains no experimental C++ source copy or
+new source-compression archive. Documentation, research records, original target,
+toolchain and working Ghidra project remain. build/ is absent and current-source
+cache-free replay passes after deletion. The complete predecessor handoff is
+preserved in the existing checkpoint archive before updating active instructions.
+
+.analysis/gpt-61sol-20261030-enemy-formal-storage/cleanup.json contains the exact
+deletion inventory and protected hashes. Its current verifier needs only current
+tracked source, profiles/providers, dated baseline binding and seven retained
+COFF files; --build rebuilds only the six affected canonical carriers. Historical
+control recipes reference their recorded inputs and do not require keeping old
+code trees. Exact credit stays244917/291883(83.9093%); the98% goal remains active.

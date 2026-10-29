@@ -36,7 +36,7 @@ struct EnemySpawnManagerView
     EnemySpawnRecordView spawnTemplate328;
     EnemySpawnRecordView enemies5758[129];
     unsigned char unknown2AC388[0x2AC42C - 0x2AC388];
-    int spawnOverflow2AC42C;
+    int spawnFailure2AC42C;
 };
 
 EnemyView *EnemyManagerView::SpawnEnemy(
@@ -114,6 +114,6 @@ EnemyView *EnemyManagerView::SpawnEnemy(
         break;
     }
 
-    manager->spawnOverflow2AC42C = enemyIndex == 128;
+    manager->spawnFailure2AC42C = enemyIndex == 128;
     return reinterpret_cast<EnemyView *>(enemy);
 }

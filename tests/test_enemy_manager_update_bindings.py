@@ -114,10 +114,12 @@ class EnemyUpdateBindingTests(TestCase):
     def test_standalone_entry_does_not_change_the_standard_definition_gate(self):
         with patch.object(inspector, '_diagnose', return_value='fixture') as run:
             self.assertEqual(inspector.diagnose('fixture.obj'), 'fixture')
-            run.assert_called_once_with('fixture.obj', explain=False, external_runecl=False)
+            run.assert_called_once_with('fixture.obj', explain=False, external_runecl=False,
+                                        folded_callback_object=None)
         with patch.object(inspector, '_diagnose', return_value='fixture') as run:
             inspector.diagnose_standalone('fixture.obj')
-            run.assert_called_once_with('fixture.obj', explain=False, external_runecl=True)
+            run.assert_called_once_with('fixture.obj', explain=False, external_runecl=True,
+                                        folded_callback_object=None)
         call = self.row(symbol=inspector.RUNECL_SYMBOL, offset=0x397)
         fields = [dict(owner_section=8, owner_value=0) for _ in range(598)]
         with self.assertRaisesRegex(ValueError, 'does not resolve'):

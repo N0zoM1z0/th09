@@ -296,13 +296,15 @@ typedef char EnemyCoreDamageTimerAt53A8[
 
 struct EnemyManagerCoreView
 {
-    unsigned char unknown000000[0x31C];
+    EnemyEclManagerView primaryEclManager000;
+    EnemyEclManagerView opposingEclManager188;
+    unsigned char unknown310[0x0C];
     int sideIndex31C;
     EnemyCoreSideStateView *sideState320;
     EnemyCoreSideStateView *opposingSideState324;
     EnemyCoreView spawnTemplate328;
-    EnemyCoreView enemies5758[128];
-    unsigned char unknown2A6F58[0x2AC3AC - 0x2A6F58];
+    EnemyCoreView enemies5758[129];
+    unsigned char unknown2AC388[0x2AC3AC - 0x2AC388];
     int activeEnemyCount2AC3AC;
     int normalEnemyCount2AC3B0;
     int specialEnemyCount2AC3B4;
@@ -425,7 +427,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             manager->scheduleHighBit2AC3F8 =
                 g_EnemyCoreSchedule[manager->scheduleIndex2AC3D4] >> 7;
             manager->scheduleObject2AC400 =
-                enemyManager->primaryEclManager000.GetSubroutine(
+                manager->primaryEclManager000.GetSubroutine(
                     g_EnemyCoreSchedule[manager->scheduleIndex2AC3D4++] & 0x7F);
             manager->scheduleRuntime2AC3E0.timer00 = 0;
         }
@@ -537,7 +539,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             }
 
         run_enemy_ecl:
-            if (enemyManager->primaryEclManager000.RunEcl(
+            if (manager->primaryEclManager000.RunEcl(
                     reinterpret_cast<EnemyView *>(enemy)) == -1)
             {
                 enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
@@ -879,7 +881,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     *reinterpret_cast<const BulletSpawnDescriptor *>(
                         owner->spawnTemplate328.bulletState2E74);
                 enemy->shootInterval30B4 = 0;
-                enemyManager->primaryEclManager000.InitializeSubroutine(
+                manager->primaryEclManager000.InitializeSubroutine(
                         reinterpret_cast<Th09EclContextView *>(
                             enemy->eclStorage7F4),
                         enemy->deathCallbackSubId2D2E);

@@ -160,8 +160,10 @@ struct EnemyManagerView
     EnemySideStateView *sideState320;
     EnemySideStateView *opposingSideState324;
     EnemyView spawnTemplate328;
-    // The constructor vector-constructs 129 records here; the runtime update
-    // loop processes 128.  The role of the extra constructed record remains unknown.
+    // Construction covers 129 records; update/spawn scan only the first 128.
+    // A full spawn pool returns &enemies5758[128] (manager + 0x2A6F58).
+    // The failure flag at +0x2AC42C also covers initial ECL failure, which can
+    // return an earlier record. Original nominal array ownership is unproven.
     EnemyView enemies5758[129];
     EnemyView *remoteSlots2AC388[9];
     int activeEnemyCount2AC3AC;

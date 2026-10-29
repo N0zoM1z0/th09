@@ -9,7 +9,7 @@ without assuming earlier notes are conclusive. The98% milestone is unfinished.
 
 The restart game-source baseline is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
 (Controller axis ranges); maintenance checkpoint7bc3b956 adds no game-source
-change. The charge, RunEcl and instruction-mask corrections are described below. Use
+change. The charge, RunEcl, instruction-mask and callback corrections are described below. Use
 live Git status and ledgers before dated measurements. Exactness credit and
 compiler profiles remain unchanged. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
 local commits do not establish remote publication.
@@ -19,59 +19,59 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current checkpoint — common extended-callback contracts
+## Current checkpoint — Enemy storage and actual callback definitions
 
-The twelve callable entries at4A0B14 now have one source-callable ECX Enemy /
-EDX instruction interface, real definitions and an initialized table in
-EnemyExAttackLeaves.cpp. Ten previous no-argument member spellings were compatible
-byte models, not proof of original member ownership; two existing free functions
-also had different instruction parameter types. All twelve now use the checked
-EnemyEclExInstructionView prefix, with only slot1's+10 integer operand named.
-The separate copied-context prefix types callback+14 and instruction+18 without
-changing the complete context layout. These names/types are target-facing source
-contracts; original nominal declarations remain unknown.
+EnemyManagerCoreView now exposes the two existing ECL manager prefixes and all129
+constructed enemy records, matching the maintained native manager view. Its
+update loop still processes128 records. A fresh original-code full-pool path
+through both SpawnEnemy and SpawnEnemyRecord reads exactly128 active flags,
+returns manager+2A6F58 (record index128), and writes only failure flag+2AC42C=1.
+The extra returned record is not accessed on that bounded path. The original
+constructor independently supplies count129 and stride5430. Initial ECL failure
+also sets the same flag while returning an earlier record; the two private spawn
+views now name it spawnFailure rather than spawnOverflow. Original nominal
+array/sentinel types and later caller behavior remain unproven. This fixture is
+not whole-game or native-product runtime validation.
 
-The six affected canonical carriers preserve91 exact owners:26545 physical bytes /
-1176 fields. All twelve complete callback bodies retain1330 bytes/50 fields.
-The48-byte table prefix independently matches all twelve original pointers and
-native source identities; the next zero DWORD's ownership and original full array
-extent remain unknown. This data comparison grants no authored-function credit.
-Six table entries resolve to actual same-object definitions and six to external
-native definitions checked in the other carriers. Current strict proof is
-.analysis/gpt-61sol-20261030-ecl-global-storage/verify_current.py; default replay
-uses retained objects without build/, while --build compiles only six carriers.
-The tracked table-only diagnostic is scripts/inspect-ecl-ex-instruction-table.py;
-its --build compiles the existing spawn/table owner carrier.
+Six canonical carrier/profile builds preserve85 existing complete exact owners:
+27307 physical bytes/1201 fields, with actual literal definitions checked. Two
+private label names change only at identical actual coordinates. Full Enemy
+3900/97/13 and RunEcl15564/598/30 remain raw-identical; there is no new exactness
+credit. Current source/profile/provider-bound replay is
+.analysis/gpt-61sol-20261030-enemy-formal-storage/verify_current.py. Default replay
+uses seven retained current/baseline objects without build/; --build compiles only
+ECL main/Ob0, lifecycle main/Ob0 and the two spawn carriers. Older callback/table
+proofs remain dated; their six-carrier source binding legitimately rejects this
+newer Core view and inspector.
 
-Slot1 supplies a concrete type/codegen control: the shared formal instruction
-prefix plus real SoundPlayer retains all76 original bytes. A raw-header formal
-parameter converted to a local view gives74 bytes; retaining the old SoundPlayer
-facade still gives74, and a word reference gives75. Those alternatives are
-rejected. Both callbacks now use actual SoundPlayer declarations; callback2 also
-uses the existing g_Rng root, replacing its misleading Replay alias. Twenty local
-references are refreshed only at unchanged actual coordinates; six external
-references adopt existing native SoundPlayer/RNG identities. Twelve function
-source symbols/names are updated consistently across ledgers. Addresses, complete
-extents, profiles, origin decisions and exact counts do not change.
+The Enemy inspector now independently verifies the actual three-byte native life
+and timer callback definitions at the shared physical4AB20 leaf. It no longer
+borrows Player's canonical unit as proof of those Enemy bodies. Real external
+calls require an explicit companion COFF via --folded-callback-object; changed or
+missing bodies are rejected. A source call can move in a nonexact diagnostic;
+its actual source offset and independently checked original call offset are
+reported separately, and full operands/bytes still determine equality. Original
+nominal ownership remains unknown and no extra function credit is assigned.
 
-Two genuine all-callbacks-before/after TU controls keep full RunEcl15564/598/30 and
-Enemy3900/97/13 unchanged but shrink callback slot9 from226 to217 bytes. Its three
-receiver reloads disappear with the existing32-byte polar definition visible.
-Two controls hiding only that definition restore all226 bytes while22 other ECL
-owners regress; the32-byte callee is separately rechecked from the current proof.
-Neither TU change is adopted. These are bounded visibility constraints, not proof
-of unique original TUs. Current separate carriers retain all91 original matches.
+Six complete storage/formal-interface controls, four compiling field-type
+controls, three genuine member-call controls and four complete28-byte initializer
+controls all retain Enemy's13 differences and75 same-profile exact siblings. Two
+unsigned-threshold controls fail the existing ZunTimer overload contract; a void
+initializer gives26 rather than28 bytes and is rejected before scoring a caller.
+Hiding the actual zero life callback changes13 to84 differences, losing71 old
+matches and restoring none of the old13; hiding only timer leaves13. All three
+opacity controls retain complete original three-byte companion bodies. These
+results constrain those particular models, not every possible original source
+or TU. Only the tested storage correction is adopted; rejected source copies and
+compiler caches are removed after preserving research records.
 
-The caller audit requires the implemented table at the two original indexed calls
-and installation load, including decoded DWORD read widths. Real prior objects
-using the retired facade are rejected despite equal numeric addresses. Five new
-regressions reject incomplete/reordered prefixes, wrong canonical targets,
-member/void-pointer substitutions and invalid fields. All97 focused ECL tests
-pass; public CI passes1021 tests/29 skips in105.228s. No new exactness credit is
-earned:98%, native product/runtime, semantic and portability gates remain open.
-Cleanup removes454 disposable build/debug/bytecode and control files,11161914
-bytes; all57 existing packet record hashes remain unchanged. Twelve current/
-baseline proof objects remain. Cache-free replay passes after build/ removal.
+Public CI passes1026 tests/29 skips in100.181s. Cleanup removes494 disposable
+build/debug/cache and fully recorded control files,19610551 logical bytes
+(about18.7MiB). All87 preexisting packet record/recipe/log hashes and seven
+retained proof-object hashes remain unchanged. build/ is absent; current replay
+passes after cleanup. No old source tree or new code archive is retained. The98%
+milestone, native product/runtime, semantic and portability gates remain open.
+Direct Ghidra, target attestation and pinned compiler profiles are unchanged.
 
 ## Earlier dependency corrections
 
@@ -100,6 +100,7 @@ and source-interface cleanup earn no partial exact credit.
 | --- | --- | --- |
 | e73311d9 | Charge uses actual Effect* state-effect methods;1197/70/1160 plus13 missing remains nonexact. | `gpt-61sol-20261030-charge-native-effects/verify_current.py` |
 | 4514216e | RunEcl uses actual Enemy/Etama/Background members; complete RunEcl/Enemy remain30/13 differences. | `gpt-61sol-20261030-ecl-native-calls/verify_current.py` |
+| cbb6e3d5 | Twelve native extended callbacks share a real typed table;91 existing owners retain26545 bytes/1176 fields. | `gpt-61sol-20261030-ecl-global-storage/verify_current.py` |
 | 760f01a1 | Shared GameManager instruction-mask storage;92 existing owners preserve29274 bytes/1411 fields. | `gpt-61sol-20261030-ecl-difficulty-data/verify_current.py` |
 | 962ddb20 | Replay uses native GameManager mode predicates; 16 affected exact owners retain4,150 bytes/232 fields. | `gpt-61sol-20261029-replay-mode-adoption/verify_current.py` |
 | a4a3cd13 | Enemy uses native Front indicator; ECL/Front profiles preserve80 exact owners/25,428 bytes/1,136 fields. | `gpt-61sol-20261029-enemy-periodic-selection/verify_adoption.py` |
@@ -111,19 +112,19 @@ These paths locate dated source/profile/provider-bound evidence, not mandatory
 restart dependencies. Strict verifiers can reject newer source/ledger inputs or
 removed experiment copies. Use tracked build/inspection commands below to
 replay the current source; historical captures grant no new acceptance.
-This maintenance checkpoint passes public CI:1008 tests/29 skips in127.352s.
+Historical maintenance checkpoint7bc3b956 passed public CI:1008 tests/29 skips in127.352s.
 The obsolete README Factory/IDA requirement is removed from documentation
 validation; canonical-target-path checks remain. Controller and Player proofs
 passed after source-copy cleanup, before build-cache removal. Controller's saved
 object still replays; Player's verifier needs --build now that build/ is absent.
-No new game-source cold replay or exactness credit is claimed. Native
-product/runtime remain open.
+Those maintenance results are historical. Current affected-source replay is
+described above; native product/runtime remain open.
 
 RunEcl and Enemy remain15564/598/30 and3900/97/13. The October30 bounded fresh
 main carrier again preserves all75 same-profile exact owners. Direct Ghidra
 exports for both are in `ghidra-direct/ecl-enemy-20261030/`; Pause's export is in
-`ghidra-direct/pause-update-20261030/`. No new source experiment or adoption
-followed before the operator switched to maintenance.
+`ghidra-direct/pause-update-20261030/`. That initial measurement preceded the operator’s dependency-audit request;
+subsequent source adoption and controls are described in the current checkpoint.
 
 Recent rejected controls remain recorded in the dated KB and packets:
 `gpt-61sol-20261029-effect29-witness/`, `...-replay-byte-addresses/`,

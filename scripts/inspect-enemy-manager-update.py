@@ -40,6 +40,55 @@ PLAYER_DAMAGE_FIELDS = (0x8BF, 0x8FF)
 TIMER_GREATER_SYMBOL = '??OZunTimer@@QAEIH@Z'
 TIMER_GREATER_FIELDS = (0x0A1, 0x276, 0x921, 0xEC6)
 TIMER_GREATER_SHA256 = 'f4946c0b7b22e556c3b758435c2c7bdd468104acc285e40dda5ec2a737d36126'
+FOLDED_CALLBACK_ADDRESS = 0x0044AB20
+FOLDED_CALLBACK_BODY = bytes.fromhex('33c0c3')
+FOLDED_CALLBACK_CALLS = (
+    (0x6E8, '?EnemyCoreRunLifeCallback@@YIHPAUEnemyCoreView@@@Z'),
+    (0x6FF, '?EnemyCoreRunTimerCallback@@YIHPAUEnemyCoreView@@@Z'),
+)
+
+
+def require_folded_callback_definitions(fields, source, target, original_body, definitions):
+    """Verify actual Enemy callees without assigning the folded leaf to Player.
+
+    Definitions are complete COFF bodies read by their own native symbols. A
+    genuinely external call needs an explicitly supplied companion object.
+    These aliases establish no unique original C++ owner or additional credit.
+    """
+    if (len(source) != OWNER_SIZE or len(target) != OWNER_SIZE
+            or original_body != FOLDED_CALLBACK_BODY):
+        raise ValueError('original shared zero callback body/owner changed')
+    symbols = {symbol for _, symbol in FOLDED_CALLBACK_CALLS}
+    calls = [row for row in fields if row['symbol'] in symbols]
+    if len(calls) != 2 or set(definitions) != symbols:
+        raise ValueError('Enemy folded callback call/definition inventory changed')
+    result = []
+    for row, (offset, symbol) in zip(calls, FOLDED_CALLBACK_CALLS):
+        section = row.get('symbol_section')
+        candidate_offset = row['offset']
+        if (type(candidate_offset) is not int
+                or not 0 < candidate_offset <= len(source)-4
+                or source[candidate_offset-1] != 0xE8
+                or row['symbol'] != symbol or row['type'] != 'REL32'
+                or type(row['addend']) is not int or row['addend'] != 0
+                or type(section) is not int or section < 0
+                or type(row.get('symbol_value')) is not int or row['symbol_value'] != 0
+                or type(row.get('owner_section')) is not int or row['owner_section'] <= 0
+                or section == row['owner_section'] or target[offset-1] != 0xE8
+                or BASE+offset+4+struct.unpack_from('<i', target, offset)[0]
+                != FOLDED_CALLBACK_ADDRESS):
+            raise ValueError('Enemy folded callback lost its native call identity')
+        definition = definitions[symbol]
+        if (definition['body'] != original_body or definition['fields']
+                or type(definition['same_object']) is not bool
+                or definition['same_object'] != (section > 0)):
+            raise ValueError('Enemy folded callback lacks its complete native definition')
+        result.append(dict(symbol=symbol, call_offset=candidate_offset,
+                           original_call_offset=offset, bytes=3, fields=0,
+                           same_object_definition=section > 0))
+    return dict(address=FOLDED_CALLBACK_ADDRESS, callbacks=result,
+                original_nominal_owner='unknown; shared/folded leaf',
+                exactness_credit='none')
 
 
 def require_timer_greater_definition(fields, units, body, body_fields, target):
@@ -153,8 +202,6 @@ def reference_index():
 
 
 unit_aliases={
- '?EnemyCoreRunLifeCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
- '?EnemyCoreRunTimerCallback@@YIHPAUEnemyCoreView@@@Z':'player-check-state2',
  '?ExecuteScript@EnemyCoreAnmManagerView@@QAEHPAUEnemyCoreAnmVmView@@@Z':'anm-manager-execute-script',
  '?EnemyCoreReleaseAttachedEffects@@YIXPAUEnemyCoreView@@@Z':'enemy-ecl-release-attached-effects',
  '?PlaySoundPositionedByIdx@EnemyCoreSoundPlayerView@@QAEXHM@Z':'soundplayer-play-positioned-sound-by-idx',
@@ -269,6 +316,8 @@ def require_game_manager_fields(rows, units, target):
 
 def external_destination(row, units, functions, registry):
     symbol = row['symbol']
+    if symbol in {name for _, name in FOLDED_CALLBACK_CALLS}:
+        return FOLDED_CALLBACK_ADDRESS, 'independently verified shared zero callback definition'
     if symbol in semantic_aliases:
         name = semantic_aliases[symbol]
         function = functions.get(name)
@@ -313,16 +362,18 @@ def bind_field(row, units, functions, registry, compare, target):
     return value & 0xFFFFFFFF, destination, basis
 
 
-def diagnose(path, *, explain=False):
-    return _diagnose(path, explain=explain, external_runecl=False)
+def diagnose(path, *, explain=False, folded_callback_object=None):
+    return _diagnose(path, explain=explain, external_runecl=False,
+                     folded_callback_object=folded_callback_object)
 
 
-def diagnose_standalone(path, *, explain=False):
+def diagnose_standalone(path, *, explain=False, folded_callback_object=None):
     """Explicit bounded diagnostic; never claim a same-object RunEcl proof."""
-    return _diagnose(path, explain=explain, external_runecl=True)
+    return _diagnose(path, explain=explain, external_runecl=True,
+                     folded_callback_object=folded_callback_object)
 
 
-def _diagnose(path, *, explain, external_runecl):
+def _diagnose(path, *, explain, external_runecl, folded_callback_object):
     compare = load_compare()
     units, functions, registry = reference_index()
     target_file = compare.verified_target()
@@ -331,6 +382,21 @@ def _diagnose(path, *, explain, external_runecl):
         raise ValueError("original EnemyManager full-owner SHA changed")
     source, relocations = compare.object_function(
         path, SYMBOL, include_symbol_locations=True)
+    definitions = {}
+    for _, symbol in FOLDED_CALLBACK_CALLS:
+        calls = [row for row in relocations if row['symbol'] == symbol]
+        if len(calls) != 1:
+            raise ValueError('Enemy folded callback native call is missing or duplicated')
+        same_object = calls[0]['symbol_section'] > 0
+        definition_object = path if same_object else folded_callback_object
+        if definition_object is None:
+            raise ValueError('external Enemy folded callback needs an explicit definition object')
+        body, fields = compare.object_function(definition_object, symbol)
+        definitions[symbol] = dict(body=body, fields=fields, same_object=same_object)
+    native_folded_callbacks = require_folded_callback_definitions(
+        relocations, source, target,
+        compare.pe_bytes_at(target_file, FOLDED_CALLBACK_ADDRESS, 3),
+        definitions)
     if external_runecl:
         native_run_owner = require_external_runecl_call(relocations, target)
     else:
@@ -404,6 +470,7 @@ def _diagnose(path, *, explain, external_runecl):
         'native_player_damage': native_player_damage,
         'native_game_manager': native_game_manager,
         'native_timer_greater': native_timer_greater,
+        'native_folded_callbacks': native_folded_callbacks,
         'target_sha256': hashlib.sha256(target).hexdigest(),
         'target_bytes': OWNER_SIZE,
         'candidate_bytes': len(source),
@@ -435,8 +502,11 @@ def main():
     parser.add_argument('--json', action='store_true')
     parser.add_argument('--explain', action='store_true',
                         help='Include full instructions around grouped byte differences')
+    parser.add_argument('--folded-callback-object', type=Path,
+                        help='Actual companion COFF for genuinely external Enemy zero callbacks')
     args = parser.parse_args()
-    report = diagnose(args.object, explain=args.explain)
+    report = diagnose(args.object, explain=args.explain,
+                      folded_callback_object=args.folded_callback_object)
     if args.json:
         print(json.dumps(report, indent=2))
         return
