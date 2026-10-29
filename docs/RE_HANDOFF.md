@@ -19,7 +19,7 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current checkpoint — shared Enemy attached-effect storage
+## Current game-source checkpoint — 4dd2212d
 
 ECL, Enemy Core and release consumers now share the observed0x68-byte state at
 Enemy+53B4:24 Effect* slots, signed count+60 and float distance+64. The source
@@ -60,6 +60,27 @@ objects retain their hashes. Documentation/research stay and no code archive
 is created; build/ is absent.
 The98% milestone and later product/runtime/semantic/port gates remain open.
 
+## Latest review — receiver and Replay record controls
+
+Game source remains4dd2212d. A const RunEcl receiver preserves all138 emitted
+ECL body/field payloads,75 existing exact siblings and complete RunEcl30/Enemy13.
+Original entry tracing confirms ECX is overwritten before use; original C++
+constness/ownership is still unproved. No qualifier is adopted.
+
+A genuine Replay header/payload member composition preserves12 authored exact
+owners and both15/18-byte unknown-origin constructor bodies. Read-only manager
+and whole-record memcpy controls are also neutral. SaveReplay stays1238/53/3
+atB7,BB,3F6 and playback538/540 with39 overlaps plus2 missing. Across six control
+objects,109 repeated complete comparisons protect87 unique authored units plus
+two unknown-origin constructors; repeated bytes receive no new credit.
+
+The source/provider-bound observations and recipes are in
+.analysis/gpt-61sol-20261030-runecl-receiver/. Existing Git/EOL rules reproduce83
+inputs and all candidate hashes without old C++ copies. Three stale-input guard
+checks pass. Cleanup deletes12 fully recorded control/debug files,1118106
+logical bytes(about1.1MiB), retaining all40 records and current canonical proofs.
+No code archive is created; the98% goal is unfinished.
+
 ## Earlier dependency corrections
 
 Player charge's three state-effect return contracts now use actual Effect*
@@ -82,7 +103,7 @@ and source-interface cleanup earn no partial exact credit.
 
 | Source checkpoint | Maintained change | Local evidence below `.analysis/` |
 | --- | --- | --- |
-| Current | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/family.py verify` |
+| 4dd2212d | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/family.py verify` |
 | 17a11669 | Native Type6/7/8/9 setup and EffectManager contracts;219 existing exact owners preserved. | `gpt-61sol-20261030-runecl-formal-state/` (dated records) |
 | 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |
 | e73311d9 | Charge uses actual Effect* state-effect methods;1197/70/1160 plus13 missing remains nonexact. | `gpt-61sol-20261030-charge-native-effects/verify_current.py` |

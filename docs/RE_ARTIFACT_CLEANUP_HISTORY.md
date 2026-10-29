@@ -2248,3 +2248,24 @@ The precise inventory and protected hashes are in
 family.py verify succeeds without build/; build mode serially rebuilds only six
 affected carriers. Old receipts remain source-scoped records, not restart
 requirements. The former active checkpoint stays in the existing handoff archive.
+
+
+## 2026-10-30: bounded receiver/record control cleanup
+
+Maintained game source stays4dd2212d. A const RunEcl receiver and Replay record
+composition/read-only/byte-copy controls retain the complete existing frontiers.
+Across six control objects,109 repeated complete comparisons cover87 unique
+authored units plus two unknown-origin constructors; no new credit is assigned.
+
+Cleanup removes12 ignored, regular control/debug files,1118106 logical bytes
+(about1.1MiB), after all raw bodies, actual fields and compiler contributions
+are recorded. All40 research records/recipes keep their hashes. The current
+canonical proof objects, documentation, game source, target/toolchains and
+working Ghidra project are outside this operation. Existing Git/EOL rules and
+recipes recover83 original input hashes and every candidate hash in memory;
+no old C++ tree or new source archive is created. build/ remains absent.
+
+Exact inventory and hashes are in
+.analysis/gpt-61sol-20261030-runecl-receiver/cleanup.json. These finite controls
+are historical compiler evidence; current game-source replay continues through
+the attached-effect family's six-carrier verifier in the active handoff.

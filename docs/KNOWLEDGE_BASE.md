@@ -23576,3 +23576,48 @@ unaffected carriers and actual prior counterexamples remain. No new code archive
 is made; build/ is absent. Earlier verifiers are dated evidence and may reject
 newer headers or metadata; tracked source/current commands govern a restart.
 The previous active checkpoint is preserved in the existing handoff archive.
+
+
+### 2026-10-30: RunEcl receiver and Replay record representation controls
+
+Recovery at4dd2212d3e72c0655f009aefa7b4eb191e324575 is clean. Maintained game
+source, profiles, ledgers and public validators remain unchanged throughout this
+unit. Direct Ghidra reuses the working project and attests all685056 mapped file
+bytes before exporting RunEcl, SaveReplay and the playback entry. The observations
+below constrain specific source models; none supplies new authored exactness.
+
+| ID | Evidence class | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-RECEIVER-001 | original entry dataflow | Incoming ECX has no read on the straight/unconditional entry path before its first full definition and first conditional branch. This supports testing a read-only receiver, without proving original constness, class ownership or general object immutability. | original-entry-facts.json complete traced instructions; direct target-bound Ghidra. |
+| ECL-RECEIVER-002 | complete compiler control | A const receiver, with the declaration/definition and actual native caller symbol adapted coherently, preserves every15564 RunEcl raw byte/598 fields/30 ordinary differences. All138 regular ECL bodies/fields and compiler contributions remain after the one explicit method-identity change. All75 canonical siblings pass22463 physical bytes/990 fields; complete Enemy3900/97/13 remains. | inputs.json and result.json; only the actual emitted method name is adapted privately in existing inspectors. |
+| REPLAY-COMPOSITION-001 | whole-record source control | Genuine header/payload members replace inheritance privately, retaining all sizes/offsets and actual constructor behavior. EH/no-EH carriers preserve12 authored exact owners4093 physical bytes/232 fields. A separate carrier proves both15/18-byte constructors and their two fields; origin remains unknown and they earn no authored credit. | replay-composition-inputs.json and three full carrier reports. |
+| REPLAY-COMPOSITION-002 | complete caller result | Both carriers keep SaveReplay1238 bytes/53 fields/three differences atB7,BB,3F6, and playback538 versus540 with32 fields/39 overlaps plus2 missing. All regular Replay raw bodies/actual field identities and compiler contributions remain neutral. Thus these two source representations do not distinguish original inheritance from composition in this context. | complete-control-comparisons.json and complete Save/playback diagnostics. |
+| REPLAY-READONLY-COPY-001 | source API/representation controls | A const manager with actual const stage links, and explicit whole-live-record memcpy, each retain all complete Replay body/field payloads and ten EH-profile exact siblings. SaveReplay retains the same three unequal positions. Constructor timing, original uninitialized pre-copy scan, fields, wire values and effects stay. | readonly-manager.json and representation-copy.json. |
+
+The first composition scaffold omits two sizeof row-reference paths and fails
+C2039 before producing an object. Its inputs/logs remain separate; correcting
+only those paths preserves the intended source model and layout assertions.
+It is preparation failure, not TH09 counterevidence. No new source qualifier or
+representation is adopted, and no maintained acceptance guard is changed.
+No new volatile, register/variable-order hint, inert storage, fake return,
+assembly, target patch or compiler-profile variation is introduced.
+
+Six control objects supply109 repeated complete canonical-body comparisons,
+31407 repeated physical bytes/1468 fields:87 unique authored units plus two
+unknown-origin constructors. These totals describe comparison scope, not new
+credited bytes or whole-native-product closure. Existing Git4dd2212d plus EOL
+rules and the small recipes reproduce83 original input hashes and all candidate
+hashes in memory. Three stale-input guard cases reject source changes before
+replacing dated receipts. No old C++ source copy or new archive is retained.
+
+Evidence and recipes live in
+.analysis/gpt-61sol-20261030-runecl-receiver/. The current six-carrier
+attached-effect source verifier remains unchanged and independent of these
+control binaries. Cleanup removes12 fully recorded control/debug files,
+1118106 logical bytes(about1.1MiB), keeping all40 research records and current
+canonical proof objects. Source, target, tools and Ghidra are untouched; build/
+is absent. Documentation/tracking/whitespace checks pass. No full public CI or
+full1003-owner cold replay is required for this documentation/probe checkpoint.
+The87 unchanged authored proofs remain independent of any constructor-origin
+claim. Canonical244917/291883 bytes(83.9093%),1003 exact/32 nonexact and the98%
+goal remain unchanged and unfinished; product/runtime/semantic/port gates stay open.
