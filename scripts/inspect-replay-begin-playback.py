@@ -84,7 +84,7 @@ SOURCE_FIELDS = (
     ('?g_ReplaySideState1@@3PAUReplaySideStateView@@A', 'DIR32', 0x004A7DE4, 0),
     ('?g_ReplaySideState0@@3PAUReplaySideStateView@@A', 'DIR32', 0x004A7DAC, 0),
     ('?g_ReplayConfigSnapshot@@3PAEA', 'DIR32', 0x004A7E78, 0),
-    ('?g_ReplayRng@@3UReplayRngView@@A', 'DIR32', 0x004ACE0C, 0),
+    ('?g_ReplayRng@@3URngRuntimeView@@A', 'DIR32', 0x004ACE0C, 0),
     ('?SetSeed@ReplayRngView@@QAEXG@Z', 'REL32', 0x00420160, 0),
 )
 

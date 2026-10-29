@@ -11,6 +11,7 @@
 #include "ZunMemory.hpp"
 #include "Lzss.hpp"
 #include "ReplayRuntimeLeaves.hpp"
+#include "RngRuntimeLeaves.hpp"
 #include "ReplayInputState.hpp"
 #include "GameManagerMode.hpp"
 
@@ -87,7 +88,11 @@ typedef char ReplayUserDataHeaderSizeIs0C[(sizeof(ReplayUserDataHeaderView) == 0
 
 
 extern Chain g_Chain;
-extern ReplayRngView g_ReplayRng;
+// The seed methods and the shared generator project the same eight-byte state.
+typedef char ReplayNativeRngSize[(sizeof(ReplayRngView) == sizeof(RngRuntimeView)) ? 1 : -1];
+typedef char ReplayNativeRngSeed[(offsetof(ReplayRngView, seed) == offsetof(RngRuntimeView, seed)) ? 1 : -1];
+typedef char ReplayNativeRngCount[(offsetof(ReplayRngView, generationCount) == offsetof(RngRuntimeView, generationCount)) ? 1 : -1];
+extern RngRuntimeView g_ReplayRng;
 extern SupervisorReplayView g_Supervisor;
 extern i32 g_ReplayStageIndex;
 extern u8 *g_ReplayConfigSnapshot;
@@ -542,7 +547,7 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     replayManager->inputCursor0 = (u16 *)((u8 *)frame0 + 0x20);
     replayManager->inputCursor2 = (u16 *)((u8 *)frame2 + 0x20);
     memcpy(g_ReplayConfigSnapshot, &replayManager->replayData->configSnapshot, 0xCC);
-    g_ReplayRng.SetSeed(frame0->stageSeed);
+    reinterpret_cast<ReplayRngView &>(g_ReplayRng).SetSeed(frame0->stageSeed);
     replayManager->inputDelay = 0;
     return 0;
 }
@@ -550,8 +555,8 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
 int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
 {
     replayManager->frameEventFlags = 0;
-    replayManager->frameRngSeed = g_ReplayRng.GetSeed();
-    g_ReplayRng.ResetGenerationCount();
+    replayManager->frameRngSeed = reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed();
+    reinterpret_cast<ReplayRngView &>(g_ReplayRng).ResetGenerationCount();
 
     if (reinterpret_cast<GameManagerReplayView &>(g_GameManager).replayPauseRecorded != 0)
         replayManager->frameEventFlags |= 0x100;

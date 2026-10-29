@@ -98,6 +98,34 @@ The packet is .analysis/gpt-61sol-20261029-enemy-periodic-selection/;
 verify_adoption.py replays the current complete proofs without compiling, and
 verify_cases.py rechecks the archived experiments.148 focused tests pass.
 
+### Replay native RNG connection and representation controls
+
+Replay now uses the implemented RngRuntimeView range generator and shared
+global instead of the undefined private int-return facade. Actual seed methods
+remain behind their existing layout-checked projection. The unused declaration
+is removed. Five affected canonical carriers preserve25 existing exact owners,
+4553 physical bytes/257 fields, including the complete41-byte range generator
+and39-byte NextU16. Both full Replay objects retain all effective nondebug
+contents; only nine API references per profile and private EH labels rename.
+SaveReplay remains1238/53/3 and BeginPlaybackStage538/540/39. Shared-header
+network coverage retains808/46/105. The current proof/replay is
+.analysis/gpt-61sol-20261029-replay-native-rng/verify_current.py;57 focused
+tests pass. No new exact credit or full product closure is claimed.
+
+Seventeen bounded serial compiles after a4a3cd13 test SaveReplay address/byte
+operations and the213-byte received-frame leaf. Eight Replay source models
+repeat its complete1238/53/3 baseline; signed-byte masking gives1246 bytes and
+a64-bit accumulator1289, both rejected. All22 existing same-profile exact-owner
+comparisons pass. Five queue copy models repeat every213-byte baseline byte
+and35 differences. No game source/profile/ledger is adopted. The two packets
+are .analysis/gpt-61sol-20261029-replay-byte-addresses/ and
+.analysis/gpt-61sol-20261029-queue-representation/; each has verify.py, frozen
+inputs and complete COFF. Their verify.py scripts use the preserved a4a3cd13
+source/provider epoch, not the newly adopted RNG declarations. The direct
+Ghidra exports are under .analysis/ghidra-direct/replay-save-20261029/,
+frame-insert-20261029/ and replay-native-rng-20261029/.16 focused tests passed
+before adoption; all17 archived observations replay afterward.
+
 ## Historical operator stop — October 24, 14:09 UTC
 
 TH09 research is paused at the operator's explicit request. Only cleanup and

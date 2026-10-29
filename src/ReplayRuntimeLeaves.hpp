@@ -11,7 +11,6 @@ struct ReplayRngView
     unsigned short GetSeed();
     void SetSeed(unsigned short seed);
     void ResetGenerationCount();
-    int GetRandomU16InRange(unsigned short max);
 };
 
 typedef char ReplayRngGenerationCountAt04[

@@ -36,6 +36,21 @@ def frontier():
 
 
 class ReplaySaveTests(unittest.TestCase):
+    def test_rng_fields_require_the_implemented_shared_interface(self):
+        rows = binding_rows()
+        for actual, legacy in (
+                ('?g_ReplayRng@@3URngRuntimeView@@A',
+                 '?g_ReplayRng@@3UReplayRngView@@A'),
+                ('?GetRandomU16InRange@RngRuntimeView@@QAEGG@Z',
+                 '?GetRandomU16InRange@ReplayRngView@@QAEHG@Z')):
+            self.assertIn(actual, audit.REFERENTS)
+            self.assertNotIn(legacy, audit.REFERENTS)
+            changed = copy.deepcopy(rows)
+            index = next(i for i, row in enumerate(changed) if row['symbol'] == actual)
+            changed[index]['symbol'] = legacy
+            with self.subTest(symbol=legacy), self.assertRaises(ValueError):
+                audit.bind_candidate(bytes(audit.SIZE), changed)
+
     def test_all_source_fields_are_linked_at_their_actual_positions(self):
         rows = binding_rows()
         # Shift source operands: source offsets must not be guessed from PE offsets.

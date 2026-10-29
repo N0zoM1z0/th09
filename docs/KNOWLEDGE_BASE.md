@@ -22473,3 +22473,116 @@ variant sources and native objects remain. The two early-return/result callee
 rejections, private-label strict failure and initial tuple/JSON replay failure
 remain recorded.148 focused tests, tracking, documentation, progress and
 whitespace checks pass. Authored exact stays1003/1035 and244917/291883(83.9093%).
+
+## October 29: SaveReplay byte acquisition and received-frame representation
+
+Clean a4a3cd13 recovery verifies the original Japanese1.50a disk and ledgers.
+Direct local Ghidra exports SaveReplay420C60 and received-frame insertion42E9E0
+after comparing all685056 mapped-file bytes. The complete original PE/COFF
+comparisons, not decompiler types, determine every result below. The
+representation experiments adopt no game source, compiler profile, manifest
+or exactness ledger; the subsequent native RNG connection is recorded below.
+
+Eleven serial, single-CPU, nice10 no-EH Replay compiles include a fresh baseline
+and ten source hypotheses. Original SaveReplay remains1238 bytes/380 decoded
+instructions/53 fields/23 ordered call operands/49 direct blocks. Its actual
+residuals are B7/BB (EDI versus ECX frame-destination preparation) and3F6 (SIB
+base/index roles in the compressed-byte sum). All1235 other positions remain
+protected by the unchanged complete-owner guard.
+
+Eight models reproduce every baseline raw byte: grouping the frame's logical
+offset minus the C0 header; an ordinary payload-address operation; DWORD rather
+than unsigned-int accumulation; one-byte memcpy acquisition; an ordinary
+checksum-step operation; grouped address plus checksum step; signed-char load
+cast to u8; and signed-char mask followed by that u8 cast. Each keeps all53
+original field positions and identities, both actual literal definitions, calls
+and graph. The two ordinary helper operations inline at their callsites, but
+also emit unused8/14-byte definitions. Their original ownership is unknown.
+They shift COFF owner/symbol section ordinals without changing the caller's
+actual referents; literal payloads and all target-bound fields are checked
+independently. Raw neutrality does not prove whole-object or original TU identity.
+
+Signed-char load with only an integer &FF mask instead emits1246 bytes/382
+instructions/50 blocks,215 overlapping differences and8 excess bytes. Native
+code retains MOVSX then AND, whereas the explicit u8 cast returns to MOVZX and
+the unchanged three-byte frontier. Both expressions describe the same unsigned
+byte on this target; source semantic equivalence does not imply VC7.1 equality.
+No old mismatch is repaired by the masked-only model.
+
+A64-bit accumulator with final32-bit publication emits1289 bytes/400
+instructions/51 blocks,359 overlapping differences and51 excess bytes. Its
+frame grows618->61C and four actual ADC instructions survive; the original and
+baseline have none. These are complete rejected owners, not partial scores or
+permission to add a wider stored accumulator. All eleven objects still match
+the two existing no-EH owners, BeginRecordingStage1323/82 and Create361/28:
+22 complete existing-owner comparisons,18524 physical bytes/1210 fields. The
+unchanged EH-profile and other source-bound proofs are reused without compiling.
+
+Six separate received-frame compiles include a fresh baseline and five models:
+initial input copy, initial seed copy, both initial word copies, all six word
+copy sites including the shift/final stores, and initial frame-dword copy.
+Each uses memcpy for the same original object-representation bytes, preserving
+write order and the little-endian low-word transport. Every model reproduces
+all213 baseline bytes/67 instructions/zero fields/nine direct blocks and the
+same35 original differences. No ABI, parameter width, queue bound, final-slot
+ownership or field type changes. Older parameter-width models were inspected
+and not repeated. All178 previously equal original positions stay equal.
+
+The packets .analysis/gpt-61sol-20261029-replay-byte-addresses/ and
+.analysis/gpt-61sol-20261029-queue-representation/ hold frozen10/3-input archives,
+source recipes, actual objects, compiler commands and reports. Their verify.py
+scripts re-render every source hash and replay all17 complete objects without
+compiling. After verified archival,128 duplicate header/debug files totaling
+1535799 bytes are removed; distinct sources, objects and unique results remain.
+Sixteen existing focused Oracle tests pass, as do tracking, documentation,
+progress and whitespace checks. This excludes these bounded models only.
+Authored exact remains1003/1035 and244917/291883(83.9093%);98%, native-product,
+runtime, semantic and port gates remain open. RunEcl30/Enemy13 use unchanged
+source-bound proofs from the preceding checkpoint, not fresh cold compiles here.
+
+### Native RNG source connection after the representation controls
+
+ReplayInput previously called an undefined ReplayRngView::GetRandomU16InRange
+int-return facade despite an existing implemented RngRuntimeView member. The
+October21 native-return experiment had already proved the actual41-byte body
+and raw-neutral caller; that evidence was checked rather than recompiling the
+same alternative declaration as a new hypothesis. The present change connects
+the maintained caller to that existing source implementation and canonical
+shared global. It does not claim the old int return was physically incompatible
+or identify unique original retail C++ names/return types.
+
+ReplayInput now includes RngRuntimeLeaves.hpp and declares the existing
+g_ReplayRng with that shared type. The three random-range calls use the real
+member. SetSeed/GetSeed/ResetGenerationCount still call their actual maintained
+definitions through a ReplayRngView projection, with size8, seed0 and generation
+count4 compatibility asserted. The obsolete unimplemented range declaration
+is removed from ReplayRuntimeLeaves.hpp. Only two CaptureFrameSyncState manifest
+global names change; offsets, kinds, addends, addresses, sizes and profiles stay
+fixed. Save/BeginPlayback inspectors bind the native identities and a focused
+negative test rejects both superseded range/global names at the same addresses.
+
+Five serial source-cold carriers cover both Replay profiles, four Replay runtime
+leaves, eight real RNG leaves and the shared-header Mode4 reset. All25 existing
+exact functions preserve4553 physical bytes/257 fields, including the41-byte
+range generator and its39-byte NextU16 dependency. Complete controls compare
+30/25 effective nondebug sections for the EH/no-EH carriers,6330/6096 bytes.
+Nine genuine API fields per profile rename; six extra private-label references
+rename only in EH. SafeSEH indices resolve to identical complete handlers; this
+is control preservation, not original-exact EH support credit.
+
+Both full SaveReplay owners remain1238/53/3 and both BeginPlaybackStage owners
+remain538 versus540 with39 overlapping differences. Every raw byte stays equal
+to its respective old object. A separate shared-header network-message build
+retains its full808 bytes/46 fields/105 differences, original calls/graph/tables
+and all703 protected equal positions. No unrelated cold cohort is run.
+
+The current packet .analysis/gpt-61sol-20261029-replay-native-rng/ preserves
+the before sources/providers/carriers, six current objects,19-input archive,
+canonical/full-control receipts, network producer hashes and verification script.
+verify_current.py replays the complete current proof without compiling. The
+earlier experimental verifiers use their immutable a4a3cd13 source archive and
+the preserved old identity provider, keeping historical aliases out of maintained
+inspectors. All17 observations replay after adoption. Direct Ghidra exports the
+real RNG bodies with the same full mapped-byte attestation.57 focused tests
+pass; tracking/docs/progress/whitespace pass. Exact credit stays1003 and83.9093%;
+native product/storage ownership and runtime closure remain independently open.

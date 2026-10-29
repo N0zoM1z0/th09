@@ -2090,9 +2090,9 @@ symbol = "?CaptureFrameSyncState@ReplayManagerView@@SIHPAU1@@Z"
 target_address = 0x00420190
 size = 0x101
 relocations = [
-  { offset = 0x008, type = "DIR32", symbol = "?g_ReplayRng@@3UReplayRngView@@A", target = 0x004ACE0C },
+  { offset = 0x008, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x014, type = "REL32", symbol = "?GetSeed@ReplayRngView@@QAEGXZ", target = 0x0041A89E },
-  { offset = 0x019, type = "DIR32", symbol = "?g_ReplayRng@@3UReplayRngView@@A", target = 0x004ACE0C },
+  { offset = 0x019, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x025, type = "REL32", symbol = "?ResetGenerationCount@ReplayRngView@@QAEXXZ", target = 0x00420170 },
   { offset = 0x02B, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerModeView@@A", target = 0x004A7D90 },
   { offset = 0x03B, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
