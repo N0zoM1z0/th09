@@ -213,7 +213,6 @@ static void ConfigureRelativeMotion(
 static void BeginBoundaryAwareMove(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
-void ClampPosition(EnemyView *enemy);
 
 } // namespace Th09EclRunMovement
 
@@ -348,7 +347,7 @@ void ClampPosition(EnemyView *enemy);
         TH09_EXPR_MOVEMENT_VIEW(enemy)->position2D74.y =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         TH09_EXPR_MOVEMENT_VIEW(enemy)->position2D74.z = 0.0f;
-        Th09EclRunMovement::ClampPosition(enemy);
+        enemy->ClampPositionToMovementBounds();
         break;
 
     case TH09_ECL_OPCODE_MOVE_TO:

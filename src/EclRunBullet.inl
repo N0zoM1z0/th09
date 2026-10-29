@@ -182,7 +182,6 @@ inline void SetLaserPosition(
 static void DispatchShotInstruction(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction);
-void ClearBulletsForTransition(EtamaController *controller);
 
 } // namespace Th09EclRunBullet
 
@@ -484,8 +483,7 @@ void ClearBulletsForTransition(EtamaController *controller);
     int transitionBulletInt;
 
     case TH09_ECL_OPCODE_CLEAR_BULLETS_FOR_TRANSITION:
-        Th09EclRunBullet::ClearBulletsForTransition(
-            Th09EclRunBullet::Controller(enemy));
+        Th09EclRunBullet::Controller(enemy)->ClearBulletsForTransition();
         break;
 
     case TH09_ECL_OPCODE_SET_BULLET_SOUNDS:

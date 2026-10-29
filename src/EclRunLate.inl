@@ -17,6 +17,7 @@
 #define TH09_ECL_RUN_LATE_DECLARATIONS
 
 #include "EclRunState.inl"
+#include "BackgroundSpellStateView.hpp"
 
 #include <stddef.h>
 
@@ -41,8 +42,6 @@ struct BackgroundLateView
     int spellVmCountCD8;
     int spellVmScriptBaseCDC;
     AnmVm spellVmsCE0[32];
-
-    void StartSpellBackground();
 };
 typedef char Th09EclLateBackgroundSideAnmAt81C[
     (offsetof(BackgroundLateView, sideAnm81C) == 0x81C) ? 1 : -1];
@@ -277,8 +276,9 @@ static void MoveRandomBiased(
                 break;
             Th09EclRunLate::Manager(enemy)->sideState320->
                 owner14->alternateStateA8 = 2;
-            Th09EclRunLate::Manager(enemy)->sideState320->
-                background00->StartSpellBackground();
+            reinterpret_cast<BackgroundSpellStateView *>(
+                Th09EclRunLate::Manager(enemy)->sideState320->background00)
+                ->BeginSpellBackground();
             for (lateIndex = 0;
                  lateIndex <
                      Th09EclRunLate::Manager(enemy)->sideState320->

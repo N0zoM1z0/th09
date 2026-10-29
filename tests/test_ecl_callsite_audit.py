@@ -60,6 +60,57 @@ class EclCallsiteAuditTests(unittest.TestCase):
         self.assertEqual(result['table_use_counts'], {'opcode': 1})
 
 
+class NativeTransitionContractTests(unittest.TestCase):
+    @staticmethod
+    def calls():
+        return [dict(target_address=address, candidate_offset=index * 9,
+                     symbol=symbol, expected_destination=destination,
+                     target_destination=destination, identity_agrees=True,
+                     provenance={'canonical_units': [unit]})
+                for index, (address, (symbol, destination, unit)) in
+                enumerate(audit.RUNECL_NATIVE_TRANSITION_CALLS.items())]
+
+    def test_real_members_are_paired_by_original_call_not_candidate_position(self):
+        calls = self.calls()
+        proof = audit.validate_native_transition_calls(calls)
+        self.assertEqual(proof['original_bound_calls'], 3)
+        self.assertEqual(proof['exactness_credit'], 'none')
+        for row in calls:
+            row['candidate_offset'] += 40
+        self.assertEqual(audit.validate_native_transition_calls(calls), proof)
+
+    def test_retired_facades_cannot_borrow_equal_numeric_destinations(self):
+        legacy = ('?ClampPosition@Th09EclRunMovement@@YIXPAUEnemyView@@@Z',
+                  '?ClearBulletsForTransition@Th09EclRunBullet@@YIXPAUEtamaController@@@Z',
+                  '?StartSpellBackground@BackgroundLateView@Th09EclRunLate@@QAEXXZ')
+        for index, symbol in enumerate(legacy):
+            calls = self.calls()
+            calls[index]['symbol'] = symbol
+            with self.subTest(symbol=symbol):
+                self.assertIsNone(audit.direct_identity(
+                    symbol, {}, audit.ALIASES, calls[index]['target_destination'])[2])
+                with self.assertRaisesRegex(ValueError, 'native transition'):
+                    audit.validate_native_transition_calls(calls)
+
+    def test_missing_duplicate_retargeted_and_unproved_calls_fail(self):
+        for mutation in ('missing', 'duplicate', 'target', 'symbol', 'proof', 'false'):
+            calls = self.calls()
+            if mutation == 'missing':
+                calls.pop()
+            elif mutation == 'duplicate':
+                calls.append(dict(calls[0]))
+            elif mutation == 'target':
+                calls[0]['target_destination'] += 1
+            elif mutation == 'symbol':
+                calls[0]['symbol'] = calls[1]['symbol']
+            elif mutation == 'proof':
+                calls[0]['provenance'] = {'independent_alias_review': 'same address'}
+            else:
+                calls[0]['identity_agrees'] = False
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(ValueError, 'native transition'):
+                audit.validate_native_transition_calls(calls)
+
+
 class CompilerMathBodyTests(unittest.TestCase):
     @staticmethod
     def coff(raw, fields, target):

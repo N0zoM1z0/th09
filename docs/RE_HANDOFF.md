@@ -42,11 +42,39 @@ passes1009 tests/29 skips; ten focused charge tests pass. All10 captured cases
 and28 native-body proofs replay before disposable object/debug cleanup; the
 packet stays below1MiB with no source snapshots or new source archives.
 
-The complete RunEcl/Enemy call audit identifies three source-only RunEcl facades
-with existing native methods: movement ClampPosition, transition ClearBullets
-and BeginSpellBackground. Review direct member bindings in the next bounded
-unit. Enemy's two3-byte callback definitions retain unresolved folded ownership;
+Enemy's two3-byte callback definitions retain unresolved folded ownership;
 matching the PlayerCheckState2 address does not make them that Player method.
+
+## RunEcl native clamp, bullet and Background contracts
+
+RunEcl now calls the existing Enemy clamp and Etama transition members, and the
+Background spell method through its shared layout-checked prefix. Three undefined
+facades and their diagnostic address aliases are removed. The audit requires the
+real canonical members at original call sites409806/40B5B1/40BD13, independently
+of candidate offsets. A three-case regression rejects retired names even when
+their numeric destinations agree.
+
+Both canonical ECL profiles and three native callee carriers cold-pass all82
+existing exact owners:25371 physical bytes/1128 fields. Twenty private reference
+names in two units are refreshed only after actual COFF coordinates prove the
+same target. Each complete ECL object preserves all203 nondebug sections and
+effective relocation identities; only three API and220 private reference strings
+change. Complete RunEcl15564/598/30 and Enemy3900/97/13 remain raw-identical.
+No definition move, compiler-profile change or new exact credit is adopted.
+
+Eight genuinely connected native-body visibility controls test clamp, bullets,
+Background and all three together before/after the caller. Both full callers
+remain identical;612 repeated complete exact-body proofs pass. These are bounded
+measurements, not proof of original TU ownership. Current source-bound replay is
+.analysis/gpt-61sol-20261030-ecl-native-calls/verify_current.py; --build compiles
+only five affected carriers. Source staging is temporary; preserve the records. All88
+focused ECL tests pass; public CI passes1012 tests/29 skips. Current proof objects
+remain after19 disposable object/debug files are removed; no source snapshots or
+new code archives remain.
+
+The next dependency audit should examine remaining data aliases and their actual
+storage, including4A7EB0 inside the currently opaque+120 GameManager view range.
+That address relationship alone does not prove original C++ member ownership.
 
 ## Source changes and retained current proofs
 

@@ -40,12 +40,9 @@ ALIASES = {
     '@sinf@4': 0x401070,
     '@cosf@4': 0x401060,
     '@sqrtf@4': 0x401080,
-    '?ClampPosition@Th09EclRunMovement@@YIXPAUEnemyView@@@Z': 0x4101d0,
     '?MoveRandomBiased@Th09EclRunLate@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z': 0x407e30,
     '?GetRandomU32InRange@RngRuntimeView@@QAEII@Z': 0x4048e0,
-    '?ClearBulletsForTransition@Th09EclRunBullet@@YIXPAUEtamaController@@@Z': 0x405650,
     '?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z': 0x404910,
-    '?StartSpellBackground@BackgroundLateView@Th09EclRunLate@@QAEXXZ': 0x4067b0,
 }
 # Compiler-generated entries, independently reviewed/excluded in the origin
 # ledger. __CIfmod is the pinned CRT contribution entry at 0x0047B73A.
@@ -125,6 +122,38 @@ def direct_identity(symbol, canonical, aliases, observed_destination):
         provenance = {'unresolved': True}
     agrees = expected == observed_destination if expected is not None else None
     return expected, provenance, agrees
+
+
+RUNECL_NATIVE_TRANSITION_CALLS = {
+    0x00409806: ('?ClampPositionToMovementBounds@EnemyView@@QAEXXZ',
+                 0x004101D0, 'enemy-position-clamp'),
+    0x0040B5B1: ('?ClearBulletsForTransition@EtamaController@@QAEXXZ',
+                 0x00405650, 'etama-controller-clear-bullets-for-transition'),
+    0x0040BD13: ('?BeginSpellBackground@BackgroundSpellStateView@@QAEXXZ',
+                 0x004067B0, 'background-begin-spell'),
+}
+
+
+def validate_native_transition_calls(calls):
+    """Require real member identities at independently paired original calls."""
+    symbols = {value[0] for value in RUNECL_NATIVE_TRANSITION_CALLS.values()}
+    selected = [row for row in calls if row.get('target_address') in
+                RUNECL_NATIVE_TRANSITION_CALLS or row.get('symbol') in symbols]
+    if len(selected) != len(RUNECL_NATIVE_TRANSITION_CALLS):
+        raise ValueError('RunEcl native transition call inventory changed')
+    indexed = {row.get('target_address'): row for row in selected}
+    if len(indexed) != len(selected):
+        raise ValueError('RunEcl native transition original call duplicated')
+    for address, (symbol, destination, unit) in RUNECL_NATIVE_TRANSITION_CALLS.items():
+        row = indexed.get(address)
+        if (not isinstance(row, dict) or row.get('symbol') != symbol or
+                row.get('expected_destination') != destination or
+                row.get('target_destination') != destination or
+                row.get('identity_agrees') is not True or
+                unit not in row.get('provenance', {}).get('canonical_units', [])):
+            raise ValueError('RunEcl native transition member identity changed')
+    return {'diagnostic_only': True, 'exactness_credit': 'none',
+            'original_bound_calls': len(selected), 'native_member_identities_agree': True}
 
 
 def cfg(ins, tables, candidate, by_offset=None):
@@ -461,6 +490,7 @@ def audit(object_path):
         literals.append({'symbol': sym, 'bytes': len(value), 'object_and_target_match_declared_bits': actual == value == target_value})
 
     real_runstate = validate_real_runstate_callees(call_matrix, body_data)
+    native_transitions = validate_native_transition_calls(call_matrix)
 
     # Counts are observed, not copied from the historical expected totals.
     failures = []
@@ -474,7 +504,8 @@ def audit(object_path):
         failures.append('literal_contents')
     if accounted != set(by_offset):
         failures.append('incomplete_relocation_accounting')
-    source_paths = ['src/EclManager.cpp', 'src/EclOpcodes.hpp']
+    source_paths = ['src/EclManager.cpp', 'src/EclOpcodes.hpp',
+                    'src/BackgroundSpellStateView.hpp']
     source_paths += [str(path.relative_to(ROOT)) for path in sorted((ROOT / 'src').glob('EclRun*.inl'))]
     source_paths += ['config/match-units.toml', 'config/functions.csv']
     source_observation = {
@@ -506,6 +537,7 @@ def audit(object_path):
         'observed_table_use_counts': C['table_use_counts'],
         'table_roots_agree': C['roots'] == T['roots'],
         'real_runstate_owner_gate': real_runstate,
+        'native_transition_owner_gate': native_transitions,
         'direct_calls': call_matrix,
         'compiler_math_wrappers': compiler_math,
         'indirect_calls': indirect_matrix,

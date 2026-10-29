@@ -22879,3 +22879,86 @@ checks pass. All10 captured owners and28 native proofs are reverified before
 objects, all complete records and recipes remain; the packet is below1MiB and
 contains no staged source tree or new code archive. The98% goal remains active,
 with exact credit still244917/291883(83.9093%).
+
+
+## October30: RunEcl uses implemented member contracts and connected callee proofs
+
+Recovery frome73311d9 is clean; original JP1.50a target and ledgers pass. Direct
+Ghidra exports RunEcl and the three native callees after rechecking all685056
+mapped-file bytes, under .analysis/ghidra-direct/ecl-native-contracts-20261030/.
+Native bodies and caller arguments are also checked against the original PE.
+Ghidra's inferred function types/names are provisional, not source ownership.
+
+The movement ClampPosition and bullet ClearBulletsForTransition free-function
+facades had declarations but no corresponding maintained definitions. Background
+Late's StartSpellBackground member was likewise undefined. Numeric aliases had
+made their independently reconstructed native destinations auditable without
+connecting the actual C++ implementations. The source now calls implemented
+EnemyView::ClampPositionToMovementBounds, EtamaController::ClearBulletsForTransition
+and BackgroundSpellStateView::BeginSpellBackground directly. Source-level ECX
+receivers and existing no-argument member ABIs remain target-compatible. No
+wrapper, dummy argument, return, assembly or compiler option is introduced.
+
+Background's existing prefix moves into shared BackgroundSpellStateView.hpp;
+CCC/CD0 offsets andCD4 observed prefix extent are asserted. ECL's larger late
+view retains its ANM/count/script fields; the call projects the same base pointer
+onto the native prefix. This reconciles maintained declarations/definitions and
+does not establish unique original class names or full Background ownership.
+
+Two fresh canonical ECL profiles plus the three callee carriers preserve82
+existing complete exact owners:25371 physical bytes/1128 fields. Native routines
+retain127/one-field,8/one-field and21/zero-field bodies. The new header renumbers
+20 local references in ecl-post-update-movement and ecl-compare-operands. Every
+actual positive-section symbol/value/owner-relative coordinate and independently
+known target is verified before changing its name in the manifest. All profiles,
+addresses, addends and other manifest values remain unchanged. A subsequent
+strict82-owner replay passes without aliases or local-name substitutions.
+
+Both complete ECL objects retain all203 nondebug sections. Main preserves50452
+raw bytes/2097 effective relocation identities; Ob0 preserves47248/2235. Each
+has exactly three external API and220 defined-private symbol spelling changes;
+all actual coordinates and section bytes remain equal. These are control-to-
+control preservation observations, not whole-object original exactness credit.
+Full original-bound RunEcl remains15564 physical bytes/598 fields/30 ordinary
+differences, with no field/table mismatch. Enemy remains3900/97/13 with69 calls
+and170 blocks. The two complete raw caller bodies remain unchanged.
+
+Only after actual symbol connection, eight serial nice10/one-CPU probes expose
+real clamp, transition, Background and all-three definitions before/after the
+caller. Positive same-object symbols prove the caller references the definitions
+being tested. All eight retain every RunEcl/Enemy raw byte and their30/13 residuals.
+All612 repeated complete exact-body comparisons pass180328 physical bytes/7928
+fields, with actual literal definitions checked. This rules out improvement from
+these concrete connected visibility models; it identifies neither the original
+TU split nor a reason all dependency details must already be correct.
+
+The call-identity audit removes the retired numeric aliases and requires genuine
+canonical members at original409806/40B5B1/40BD13. Its guard keys on independently
+paired original call addresses, allowing candidate offsets to move. Focused tests
+accept real canonical provenance and reject absent/duplicate/retargeted calls,
+wrong members, alias-only provenance and false identity flags. The former object
+is expected to fail this updated source-contract gate despite equal addresses.
+
+.analysis/gpt-61sol-20261030-ecl-native-calls/ holds source/profile/provider
+bindings, full native/ECL/Enemy comparisons, actual COFF/literals, recipe and
+compiler logs. verify_current.py replays current proof objects without build
+caches; --build compiles only five affected carriers. Source trees are temporary;
+no frozen C++ copies or source compression archive is created. The diagnostic
+itself explicitly does not attest that merely observed source produced an object.
+The separate source-bound receipt supplies that binding.
+
+Remaining DATA_ALIASES deserve a distinct storage/definition audit. For example,
+4A7EB0 lies at+120 in the currently opaque GameManager view range; a native-root
+field binding is a hypothesis, not a fact established by arithmetic alone.
+Enemy's two zero callbacks continue to have real same-object definitions and
+unresolved folded ownership; they are not reclassified as PlayerCheckState2.
+Exact credit stays244917/291883(83.9093%);98%, complete inventory, native product/
+runtime, semantic and portability gates remain open.
+
+Current source-bound replay passes after the strict manifest refresh. All88
+focused ECL tests pass; public CI passes1012 tests/29 skips in118.269s. Target-
+required tracking, documentation, generated progress and whitespace checks pass.
+The actual old alias object is rejected by the new native-member gate. After
+all eight cases and612 complete-body proofs are replayed,19 disposable object/
+debug files totaling4248883 bytes are removed. Current objects, full records,
+recipes and logs remain; no temporary source tree or code archive remains.
