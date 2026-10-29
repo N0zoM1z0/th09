@@ -22261,3 +22261,74 @@ The original H65 packet remains available with its failed gates, frozen sources,
 canonical objects and section observations. Current exact coverage stays
 244917/291883 (83.9093%),1003/1035 functions. RunEcl30 and Enemy13 remain open;
 whole Windows i386 product/runtime, semantic and portability gates remain open.
+
+## 2026-10-29: Type29 satellite constructor lifetime models
+
+Clean source checkpoint962ddb20, original Japanese1.50a disk identity and tracking
+are reverified. IDA metadata still identifies TH105 and is not used for analysis.
+The previous turn made source progress by adopting the Replay mode-interface
+repair; its source-bound16-owner proof remains unchanged. This turn returns to
+the full2220-byte Type29 draw rather than treating that API repair as completion.
+
+Historical local-center receiver and source-shape results are reread, including
+the untested constructor caution in the October22 investigation packet. The new
+question is a complete geometric construction boundary: can constructing the
+satellite center through its real polar/translation operations explain the six
+local-center ECX reloads absent from the seven vertex paths? No separate target
+helper, alternate return contract or stronger register promise is invented.
+
+The derived model initializes its Float3 base with the existing zero-vector
+constructor, normalizes the consumed angle for nonzero satellite offsets, calls
+the real polar member with radius+24, then uses the real accumulation member to
+translate by Effect position. Its size is12 bytes. The composed model performs
+the same operations on an actual Float3 member at offset0. The owned-angle model
+adds the meaningful orientation member and uses it for the satellite loop,
+with the Effect angle argument captured before base construction. All keep the
+primary fan, seven native draw calls, public interfaces and original profile.
+No volatile, register/variable-order hint, forced inline, asm or padding is used.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| TYPE29-CONSTRUCTOR-001 | original-bound baseline | Maintained2205 bytes/129 fields;1170 overlap differences plus15 missing. | baseline/:75 existing exact witnesses. |
+| TYPE29-CONSTRUCTOR-002 | rejected source hypothesis | Derived center2205/129;1238 overlap plus15 missing;3 positions restored and71 newly mismatching. | derived-center/:full owner guard rejects. |
+| TYPE29-CONSTRUCTOR-003 | rejected source hypothesis | Composed center2205/129;1238 overlap plus15 missing;3 restored and71 newly mismatching. | composed-center/:raw bytes and all129 COFF rows equal derived. |
+| TYPE29-CONSTRUCTOR-004 | rejected source hypothesis | Owned orientation2204/129;1431 overlap plus16 missing;28 restored and290 newly mismatching. | owned-angle/:full owner guard rejects. |
+
+Restored/regressed position counts use the common compared prefix. The owned-
+angle model also loses one previously present byte at the end.
+
+All three constructors fully expand at their uses: all72 ordered original
+calls and all129 referent identities remain; there is no added constructor
+call to bind. The first two models produce identical complete raw bytes and
+all129 actual COFF rows, not two distinct emitted solutions. Every candidate
+still has zero center/zero vertex receiver reloads versus the original six/zero.
+Three actual scalar literal definitions are checked in each complete Type29
+comparison. Each candidate fails the unchanged original-bound physical frontier;
+none is adopted or credited merely for a local restored position.
+
+All four objects retain75 existing same-profile exact owners,22463 physical
+bytes/990 fields, including the real Float3 constructor and polar leaf. Their
+full bytes, all relocation identities, owner-local destinations and actual
+literal definitions are checked. Two private label spellings per changed object
+resolve to their unchanged complete-owner coordinates. All four full RunEcl
+reports retain15564/598/30 with zero field/table drift; all four Enemy reports
+retain3900/97/13 and pass the existing guard. These are repeated old exact
+witnesses, not300 newly reconstructed functions. The existing alternate-profile
+object was also inspected as a supplied object and reproduces Type29 baseline;
+no new source-bound alternate-profile proof is claimed.
+
+Evidence: `.analysis/gpt-61sol-20261029-effect29-witness/`. Four serial nice10,
+single-CPU180-second-bounded captures freeze the complete quoted source graph.
+`probe.py` retains each exact transformation and its compile command;
+`verify.py` replays all four complete observations and literal/callee proofs
+without compiling, rejecting changed source/provider/target inputs. The initial
+private verifier confused the call list with a count and JSON lists with Python
+tuples; corrected comparisons require actual list length and serialization of
+only that representation. Neither failure changes any byte/identity criterion,
+and the tuple-comparison failure log remains. Source, native outputs and full
+reports are retained. No original target or IDA state is modified.
+
+Current maintained Type29 remains2205/129/1170 plus15 missing. Coverage stays
+1003/1035 functions,244917/291883 reviewed-authored bytes(83.9093%). The principal
+RunEcl30/Enemy13 fronts and98% milestone remain unfinished. Product/runtime,
+semantic and portability gates remain open.

@@ -38,6 +38,22 @@ and 170 blocks; its diagnostic is in
 RunEcl and Enemy remain the principal unfinished fronts; the October 24 source
 and receipt bindings below are historical baselines, not the latest source.
 
+### Type29 constructor lifetime study after 962ddb20
+
+Four bounded main-profile builds compare the current Type29 draw with three
+ordinary geometric constructor models. Derived and composed 12-byte centers
+inline completely and produce identical 2205-byte/129-field owners, but increase
+overlap differences from1170 to1238. Owning the angle as well gives2204/129/1431.
+None recovers the original six center receiver reloads; all three fail the
+unchanged full-owner guard. No game source or profile is adopted. All75 existing
+same-profile exact owners retain22463 physical bytes/990 fields in every case,
+with actual literal definitions checked; RunEcl30 and Enemy13 also remain.
+The source-bound packet is
+`.analysis/gpt-61sol-20261029-effect29-witness/`; `verify.py` rechecks its full
+objects, original-bound comparisons and source/provider hashes without compiling.
+It retains the tested source recipes and native outputs. This closes these
+constructor hypotheses, not the Type29 owner or the reconstruction goal.
+
 ## Historical operator stop — October 24, 14:09 UTC
 
 TH09 research is paused at the operator's explicit request. Only cleanup and
