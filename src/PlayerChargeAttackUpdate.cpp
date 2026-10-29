@@ -1,6 +1,7 @@
 #include "EnemyManager.hpp"
 #include "FrontSide.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "PlayerStateEffectView.hpp"
 #include "ReplayInputState.hpp"
 #include "ZunTimer.hpp"
 // Only the native global identity is needed here.
@@ -77,13 +78,6 @@ struct CardAttackStartView
 struct PlayerResourceSubtractView
 {
     void SubtractResourceClamped(float amount);
-};
-
-struct PlayerStateEffectView
-{
-    void *ConfigureState3Effect13();
-    void *ConfigureState3Effect14();
-    void *ConfigureState3Effect15();
 };
 
 struct PlayerSpawnShotsView

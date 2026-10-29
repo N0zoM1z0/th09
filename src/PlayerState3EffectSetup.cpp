@@ -1,3 +1,4 @@
+#include "PlayerStateEffectView.hpp"
 #include "PlayerState4OpsView.hpp"
 #include "EffectManager.hpp"
 #include "ZunTimer.hpp"
@@ -16,31 +17,6 @@ struct PlayerCollisionRegionCreateView
     PlayerCollisionRegionCreateRegionView *CreateCircleType4(
         const PlayerRegionPointView *center, float radius, float radiusGrowth,
         int value, int lifetime, int delay);
-};
-
-struct PlayerStateEffectSideView
-{
-    unsigned char unknown00[0x0C];
-    EffectManager *effectManager0C;
-};
-struct PlayerStateEffectPosition
-{
-    float x;
-    float y;
-    float z;
-};
-struct PlayerStateEffectView
-{
-    unsigned char unknown00000[0x0C];
-    PlayerStateEffectSideView *sideState0C;
-    unsigned char unknown00010[0x1B88 - 0x10];
-    PlayerStateEffectPosition position1B88;
-    unsigned char unknown01B94[0x303C8 - 0x1B94];
-    ZunTimer timer303C8;
-
-    Effect *ConfigureState3Effect13();
-    Effect *ConfigureState3Effect14();
-    Effect *ConfigureState3Effect15();
 };
 
 Effect *PlayerStateEffectView::ConfigureState3Effect13()

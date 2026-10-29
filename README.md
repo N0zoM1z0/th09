@@ -54,9 +54,8 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-The October 30 request is documentation/code housekeeping and storage cleanup
-for a successor agent. The automatic reconstruction goal was cleared; new
-research needs a new explicit request. The **98% exact reviewed-authored
+The operator resumed reconstruction after the October30 housekeeping checkpoint.
+The **98% exact reviewed-authored
 byte** milestone remains unfinished. Use [the handoff](docs/RE_HANDOFF.md) for the
 current code map, remaining large functions, restart commands and retained
 local evidence. [PROGRESS.md](docs/PROGRESS.md) is generated from the live ledgers;

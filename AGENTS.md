@@ -2,10 +2,11 @@
 
 ## Current operator status
 
-On October 30 the operator cleared the autonomous reconstruction goal and
-requested documentation/code housekeeping and storage cleanup. New research,
-compiler experiments and source adoption require a new explicit request. The
-latest game-source checkpoint is cc19b484; use the current RE_HANDOFF.md.
+After the October30 maintenance checkpoint7bc3b956, the operator explicitly
+resumed reconstruction and the98% goal. Audit dependencies and shared contracts
+as well as the big-function bodies; the operator specifically requested checking
+and correcting earlier reconstruction details. This supersedes the maintenance
+stop. Latest game-source checkpoint at restart is cc19b484.
 The operator specifically requested deleting unused old code copies and build
 artifacts instead of archiving them. Preserve documentation, research records,
 current game source, target/toolchains and the working Ghidra project.

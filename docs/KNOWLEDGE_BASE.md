@@ -22806,3 +22806,76 @@ removed; unique source, objects and results survive and both replays pass.
 Five focused Controller tests pass, as do target-required tracking, generated
 progress and whitespace checks. Exact remains1003 and244917/291883(83.9093%);
 98%, native product/runtime, semantic and portability gates remain open.
+
+
+## October30: Player charge native Effect-return contract and real-callee controls
+
+The operator explicitly resumes reconstruction after7bc3b956 and asks that earlier
+interfaces, layouts and callees be checked alongside the large owners. Original
+JP1.50a target/tracking pass. Direct Ghidra reuses the local project, rechecks all
+685056 mapped-file bytes and exports RunEcl, Enemy and charge at
+.analysis/ghidra-direct/resumed-bosses-20261030/. No IDA, REA or Factory MCP.
+
+Charge's three local PlayerStateEffectView methods were declared void* returning,
+while the independently implemented/canonical methods return Effect*. Their
+pointer representation is the same32 bits, but VC7.1 decorates these as different
+external names. Equal numeric alias bindings had hidden undefined source symbols;
+no runtime corruption is inferred from the ignored return values. The new shared
+PlayerStateEffectView.hpp replaces both local class definitions and asserts the
+actual side pointer+0C, position+1B88, Timer+303C8, manager pointer+0C and303D4
+prefix extent. Original C++ nominal class identity remains unproved.
+
+Pinned baseline and final maintained-source cold builds use the unchanged
+player-on-update profile and native state-effect carrier. Main raw SHA remains
+f26cb3cba95c56a6ae3466be009fc4bf6ec214e892ef7f70e617f023c7832de6:
+1197 versus1210 bytes,342/350 instructions,70 independently bound fields,
+58 ordered calls,1160 overlapping differences and13 missing. All8 nondebug
+sections preserve1281 bytes and70 effective relocation identities. Only three
+external member names change; offsets, addends, symbol provenance and destinations
+stay fixed. Both emitted charge-TU functions retain1217 bytes. The actual20-byte
+Timer comparator and three complete91/91/100-byte effect methods remain exact,
+with all15 native callee fields. No original-byte or exact-function credit added.
+
+Eight serial one-CPU/nice10 compiles test the actual effects, resource-subtract,
+SpawnShots and combined bodies before/after the full caller. Bodies use their
+existing source and actual complete receiver views, without invented calls,
+register hints, ABI aliases or changed flags. All28 repeated native-body proofs
+pass, with actual literal definitions checked. Effect/SpawnShots visibility
+retains every1197 caller byte. Resource and combined visibility emit1195 bytes,
+1162 differences and15 missing; they are rejected. Two further declaration-only
+controls preserve the full resource/spawn types without their bodies and are
+raw-neutral. Thus the resource change in this measured context comes from body
+visibility, rather than merely introducing its full receiver layout. This does
+not identify original translation-unit ownership or exhaust natural source forms.
+
+The original charge byte-local[EBP-1] remains absent from every tested caller.
+These controls do not repair input/side/mode allocation, conditional sharing or
+the13-byte deficit. All source staging is temporary and is removed on completion.
+.analysis/gpt-61sol-20261030-charge-native-effects/ keeps compiler logs, recipes,
+full raw/COFF/diagnostic records, negative results and the selected current proof
+objects; no old-source compression archive is created. verify_current.py checks
+current source/profile/provider hashes and complete bodies without build caches;
+--build serially rebuilds only charge and the state-effect carrier.
+
+A complete current RunEcl/Enemy call-identity audit also finds three declared
+RunEcl facades whose destinations already have implemented native members:
+Th09EclRunMovement::ClampPosition -> EnemyView::ClampPositionToMovementBounds,
+Th09EclRunBullet::ClearBulletsForTransition -> EtamaController member, and
+BackgroundLateView::StartSpellBackground -> BeginSpellBackground. Their proposed
+source correction still needs a bounded full-owner/callee replay. Enemy's two
+3-byte zero callbacks have real same-object definitions; equal folded address
+44AB20 alone does not identify them as PlayerCheckState2. Keep that ownership
+unknown. Main big-owner source remains unchanged at RunEcl30 and Enemy13.
+
+The full charge inspector now accepts only the actual Effect-return symbols;
+a regression test rejects each old void-pointer alias at the same numeric target.
+Canonical effect rows, profiles and addresses are unchanged. Remaining exact,
+product/runtime, semantic and portability gates stay open.
+
+Public CI passes1009 tests/29 skips in104.758s; all10 focused charge tests pass.
+Current source-bound replay and target-required tracking/docs/progress/whitespace
+checks pass. All10 captured owners and28 native proofs are reverified before
+24 disposable object/debug files totaling1134770 bytes are removed. Three proof
+objects, all complete records and recipes remain; the packet is below1MiB and
+contains no staged source tree or new code archive. The98% goal remains active,
+with exact credit still244917/291883(83.9093%).

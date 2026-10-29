@@ -77,6 +77,19 @@ class ChargeCompleteTests(unittest.TestCase):
               self.assertRaisesRegex(ValueError, 'original operand')):
             oracle.bind_candidate(source, rows, target)
 
+    def test_void_pointer_return_aliases_cannot_replace_native_effect_returns(self):
+        source, rows, target = self.fixture()
+        for effect in (13, 14, 15):
+            native = f'?ConfigureState3Effect{effect}@PlayerStateEffectView@@QAEPAUEffect@@XZ'
+            changed = [dict(row) for row in rows]
+            calls = [row for row in changed if row['symbol'] == native]
+            self.assertEqual(len(calls), 1)
+            calls[0]['symbol'] = native.replace('PAUEffect@@', 'PAX')
+            with (self.subTest(effect=effect),
+                  patch.object(oracle, 'TARGET_SHA256', hashlib.sha256(target).hexdigest()),
+                  self.assertRaisesRegex(ValueError, 'symbol')):
+                oracle.bind_candidate(source, changed, target)
+
     def test_literal_uses_real_bounded_section_definition(self):
         payload = struct.pack('<I', 0x42C80000)
         data = bytearray(64)

@@ -2,21 +2,51 @@
 
 ## Operator status — October 30
 
-The operator cleared the autonomous reconstruction goal and requested code/doc
-housekeeping and storage cleanup. This is a maintenance checkpoint. Start new
-research, compiler experiments or source adoption only after a new explicit
-request. The 98% milestone remains unfinished.
+The operator explicitly resumed reconstruction after maintenance checkpoint
+7bc3b956, with the98% goal active. Audit dependencies, shared declarations, ABI
+and layouts as well as the large-function bodies; correct tested discrepancies
+without assuming earlier notes are conclusive. The98% milestone is unfinished.
 
-The latest game-source checkpoint is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
-(Controller axis ranges). Use live Git status and ledgers before any dated
-measurement. This cleanup changes no game source, compiler profile or exactness
-credit. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
+The restart game-source baseline is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
+(Controller axis ranges); maintenance checkpoint7bc3b956 adds no game-source
+change. The current Player charge contract correction is described below. Use
+live Git status and ledgers before dated measurements. Exactness credit and
+compiler profiles remain unchanged. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
 local commits do not establish remote publication.
 
 Analysis routing is **direct local Ghidra only**, without IDA, REA or Factory
 MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
+
+## Player charge state-effect contract correction
+
+Charge previously declared three implemented state-effect methods with void*
+returns; their actual definitions return Effect*, producing different C++ symbols.
+Caller and definitions now use one layout-checked PlayerStateEffectView.hpp.
+A final source-cold comparison preserves every1197 caller byte,70 fields,58 calls
+and all8 nondebug sections/1281 bytes. Only three external method references
+change identity. The actual91+91+100-byte callees and existing20-byte Timer body
+remain exact. Charge still has1160 overlap differences and13 missing bytes;
+there is no new exact credit or product-closure claim.
+
+Ten bounded real-callee/type controls keep actual native bodies checked: effects
+and SpawnShots visibility are caller-neutral; resource-body visibility yields
+1195 bytes/1162 differences/15 missing and is rejected. Full resource/spawn
+declarations alone are neutral. All temporary source trees are removed; records,
+recipes and current proof objects remain below
+.analysis/gpt-61sol-20261030-charge-native-effects/. verify_current.py replays
+that source-bound capture without build caches, or compiles only two affected
+carriers with --build. See the KB for the scope and measured limits. Public CI
+passes1009 tests/29 skips; ten focused charge tests pass. All10 captured cases
+and28 native-body proofs replay before disposable object/debug cleanup; the
+packet stays below1MiB with no source snapshots or new source archives.
+
+The complete RunEcl/Enemy call audit identifies three source-only RunEcl facades
+with existing native methods: movement ClampPosition, transition ClearBullets
+and BeginSpellBackground. Review direct member bindings in the next bounded
+unit. Enemy's two3-byte callback definitions retain unresolved folded ownership;
+matching the PlayerCheckState2 address does not make them that Player method.
 
 ## Source changes and retained current proofs
 

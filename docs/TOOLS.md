@@ -1,8 +1,7 @@
 # Tool routing
 
 Analysis uses **direct local Ghidra**, repository Bash and the pinned VC7.1
-compiler. The operator requires no IDA, REA or Factory MCP. The October30
-maintenance request does not authorize new reconstruction experiments; see
+compiler. The operator requires no IDA, REA or Factory MCP. Reconstruction resumed after the October30 maintenance checkpoint; see
 [RE_HANDOFF.md](RE_HANDOFF.md) for current status and later restart scope.
 
 | Need | Command | Claim established |
