@@ -8,6 +8,7 @@
 // Lexical member of EclManager.cpp; reuses Th09EclRunState::ManagerStateView.
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
+#include "EnemyAttachedEffectStateView.hpp"
 #include "BulletManager.hpp"
 #include "EnemyAppendCollisionView.hpp"
 #include "PlayerLifecycleView.hpp"
@@ -196,13 +197,6 @@ typedef char EnemyCoreBulletDescriptorMatchesEtamaFields[
      offsetof(BulletSpawnDescriptor, transformFlags) == 0x1FC &&
      offsetof(BulletSpawnDescriptor, templateSprites) == 0x210) ? 1 : -1];
 
-struct EnemyCoreEffectView
-{
-    unsigned char unknown000[0x2A4];
-
-    void SetInterrupt(int interrupt);
-};
-
 struct EnemyCoreView
 {
     EnemyManagerView *manager00;
@@ -264,10 +258,8 @@ struct EnemyCoreView
     short trailCollisionLength53A4;
     short trailSampleStride53A6;
     ZunTimer damageReductionTimer53A8;
-    EnemyCoreEffectView *attachedEffects53B4[24];
-    int attachedEffectCount5414;
-    float attachedEffectDistance5418;
-    EnemyCoreEffectView *alignmentEffect541C;
+    EnemyAttachedEffectStateView attachedEffectState53B4;
+    unsigned char unknown541C[4];
     int phaseEndSeconds5420;
     ZunTimer specialAttackTimer5424;
 };
@@ -291,6 +283,10 @@ typedef char EnemyCoreTrailVerticesEndAt5368[
      offsetof(EnemyCoreView, unknown5368)) ? 1 : -1];
 typedef char EnemyCoreTrailFlagsAt53A0[
     (offsetof(EnemyCoreView, trailFlags53A0) == 0x53A0) ? 1 : -1];
+typedef char EnemyCoreAttachedEffectStateAt53B4[
+    (offsetof(EnemyCoreView, attachedEffectState53B4) == 0x53B4) ? 1 : -1];
+typedef char EnemyCorePhaseEndSecondsAt5420[
+    (offsetof(EnemyCoreView, phaseEndSeconds5420) == 0x5420) ? 1 : -1];
 typedef char EnemyCoreDamageTimerAt53A8[
     (offsetof(EnemyCoreView, damageReductionTimer53A8) == 0x53A8) ? 1 : -1];
 
@@ -374,18 +370,18 @@ extern long double __stdcall AnmProjectionAbs(float value);
 
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy)
 {
-    for (int i = 0; i < enemy->attachedEffectCount5414; ++i)
+    for (int i = 0; i < enemy->attachedEffectState53B4.count60; ++i)
     {
         EnemyAttachedEffectUpdateView *effect =
             reinterpret_cast<EnemyAttachedEffectUpdateView *>(
-                enemy->attachedEffects53B4[i]);
+                enemy->attachedEffectState53B4.effects00[i]);
         if (effect != 0)
         {
             effect->position48 = enemy->position2D74;
-            if (effect->distance7C < enemy->attachedEffectDistance5418)
+            if (effect->distance7C < enemy->attachedEffectState53B4.distance64)
                 effect->distance7C += 0.3f;
             else
-                effect->distance7C = enemy->attachedEffectDistance5418;
+                effect->distance7C = enemy->attachedEffectState53B4.distance64;
             effect->angle80 =
                 AddNormalizeAngle(effect->angle80, 0.031415928f);
         }

@@ -23519,3 +23519,60 @@ recorded after the serialization/producer check repair, with the former receipt
 preserved. New code archives are not created; build/ is absent. Earlier packet
 verifiers and removed proof binaries are historical evidence, not restart inputs.
 The former active checkpoint is preserved in the existing handoff archive.
+
+
+### 2026-10-30: shared Enemy attached-effect storage and private callee boundary
+
+Recovery at17a11669845c2d206d1ae1a0af26b9fc43f1ffd1 is clean. The previous native
+ExAttack checkpoint changed authoritative source contracts and preserved complete
+original-bound proofs. This unit returns to Enemy's13 differences and audits
+its attached-effect dependency. Original Japanese1.50a disk and direct Ghidra
+Program checks pass, including all685056 mapped file bytes; the project is reused.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-EFFECT-STATE-001 | original observations | The151-byte40F4C0 update and64-byte40F560 release use slots beginning+53B4 and signed count+5414. Update reads float distance+5418, copies Enemy+2D74 to the pointed record+48, adjusts+7C and normalizes+80. Release sets the pointed record's+C6 byte and clears the slot/count. Original opcode128 writes raw operand4 to distance and increments count; this handler establishes those stores. | target-storage-facts.json; complete original Ghidra exports under enemy-effects-storage-20261030. |
+| ENEMY-EFFECT-STATE-002 | source contract correction | ECL, Core and release now share a0x68-byte projection:24 existing Effect* slots, signed count+60 and float distance+64. Core's unused2A4-byte facade/SetInterrupt declaration is removed. Unreviewed+541C is four opaque bytes. Original C++ storage/nominal type, slot capacity semantics and that last field's role remain unproved. | EnemyAttachedEffectStateView.hpp and the three maintained consumers; complete current compiler equality. |
+| ENEMY-EFFECT-STATE-003 | complete original-bound comparison | Six canonical source/profile carriers preserve84 existing exact owners,26006 physical bytes/1146 fields with actual literals. All282 regular body/profile comparisons and two whole compiler COMDATs/76 bytes/zero fields retain raw payloads and field identities. No new or missing emitted body/constructor. Twenty private labels in two units change only at actual identical coordinates; all other manifest data stays identical. | family.py current replay, current-verification.json and manifest-migration.json. |
+| ENEMY-EFFECT-STATE-004 | unchanged proof reuse | Another140 existing exact proofs from61 unaffected carriers retain actual source/profile/object/provider pins and unchanged canonical unit metadata. Changed ECL carriers are excluded from reuse. | unaffected-proof-reuse.json; no additional cold cohort. |
+| ENEMY-EFFECT-STATE-005 | reverified original transport | The already-correct ledger's private EDI entry is independently rechecked: original4115D7 sets EDI=EBX before4115D9 calls40F4C0, whose first Enemy read uses EDI. Its source static/default-fastcall decorated name does not supply a public ECX transport claim. | original caller bridge and complete original/canonical151-byte body. |
+| ENEMY-EFFECT-STATE-006 | rejected actual source boundary | Moving the actual body into an ordinary external companion emits152 bytes with PUSH EDI/MOV EDI,ECX. Its complete native proof fails before Enemy target binding or a caller score. All74 remaining canonical ECL siblings pass and independent RunEcl remains30. The final companion emits exactly one function. | opacity-observation.json, opacity-rejected.json and corrected compiler logs. |
+
+Two companion-scaffold errors are separated from TH09 counterevidence. Three
+qualified member redeclarations fail C2761; their errors are recovered from the
+actual tools output after that raw log was overwritten. A subsequent prefix
+also includes an unwanted genuine Timer greater definition. Both actual bodies
+are captured before removing that duplicate include. The final single-definition
+companion still has152 bytes. Existing main compilation is reused only after
+showing that the scaffold repair changes companion input alone; actual object
+hashes and producer inputs are preserved. Neither failed scaffold supplies a
+negative target result, and the unequal callee never gets an original address
+for the purpose of scoring Enemy. No register hint, fake ABI, padding, new
+assembly, profile variation or original-TU uniqueness claim is introduced.
+
+The canonical shared-state change keeps every complete RunEcl15564/598/30 and
+Enemy3900/97/13 raw byte; biased movement stays517/516 with28 fields/148 overlap
+differences plus1 excess. The13 Enemy differences remain two draw-index, four
+side/threshold and seven position-copy bytes. The actual source probe and adopted
+main agree across all138 bodies/fields and compiler contributions. Git17a11669
+plus recorded EOL rules recreates79 baseline input hashes and every private
+proposal hash in memory. No old C++ source snapshot is retained. Linear original
+operand candidates remain expressly incomplete xref evidence; they do not prove
+absence of a role or pointer at+541C.
+
+.analysis/gpt-61sol-20261030-enemy-dependency-review/ keeps source/provider/
+profile/producer bindings, complete code/fields, failures, source recipes and
+family.py. Its verify mode reads six current objects without build/; build mode
+serially rebuilds only those six at one CPU/nice10/180s. Thirty-three focused
+target-independent tests pass. Public validators are unchanged; no full public
+CI or full1003-owner cold replay is run. Canonical authored exactness remains
+244917/291883(83.9093%), with1003 exact/32 nonexact and the98% goal unfinished.
+Native product/runtime and later semantic/port gates remain open.
+
+Cleanup deletes24 replaced baseline/control/debug/cache files,3011745 logical
+bytes(about2.9MiB), preserving all314 protected records/proof files and six new
+current COFF objects. Those include complete current source proofs, while
+unaffected carriers and actual prior counterexamples remain. No new code archive
+is made; build/ is absent. Earlier verifiers are dated evidence and may reject
+newer headers or metadata; tracked source/current commands govern a restart.
+The previous active checkpoint is preserved in the existing handoff archive.

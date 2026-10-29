@@ -20,6 +20,7 @@
 #include "EclRunBullet.inl"
 #include "EnemyEclExInstructions.hpp"
 #include "EffectManager.hpp"
+#include "EnemyAttachedEffectStateView.hpp"
 #include "AsciiBossMarkerVmView.hpp"
 #include "SoundPlayer.hpp"
 #include "GameManagerEclStateView.hpp"
@@ -165,9 +166,7 @@ struct EnemyStateView
     short trailCollisionLength53A4;
     short trailSampleStride53A6;
     Th09EclTimerStorageView damageReductionTimer53A8;
-    void *attachedEffects53B4[24];
-    int attachedEffectCount5414;
-    float attachedEffectDistance5418;
+    EnemyAttachedEffectStateView attachedEffectState53B4;
     unsigned char unknown541C[0x5430 - 0x541C];
 };
 typedef char Th09EclStateEnemySizeIs5430[
@@ -214,7 +213,7 @@ typedef char Th09EclStateTrailVerticesAt3E68[
 typedef char Th09EclStateTrailFlagsAt53A0[
     (offsetof(EnemyStateView, trailFlags53A0) == 0x53A0) ? 1 : -1];
 typedef char Th09EclStateEffectsAt53B4[
-    (offsetof(EnemyStateView, attachedEffects53B4) == 0x53B4) ? 1 : -1];
+    (offsetof(EnemyStateView, attachedEffectState53B4) == 0x53B4) ? 1 : -1];
 
 struct TrailInstructionArgs
 {
@@ -353,10 +352,10 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_ATTACH_SPELL_EFFECT:
-        Th09EclRunState::View(enemy)->attachedEffectDistance5418 =
+        Th09EclRunState::View(enemy)->attachedEffectState53B4.distance64 =
             Th09EclRunControl::RawFloat(instruction, 4);
-        Th09EclRunState::View(enemy)->attachedEffectCount5414 =
-            Th09EclRunState::View(enemy)->attachedEffectCount5414 + 1;
+        Th09EclRunState::View(enemy)->attachedEffectState53B4.count60 =
+            Th09EclRunState::View(enemy)->attachedEffectState53B4.count60 + 1;
         break;
 
     case TH09_ECL_OPCODE_SET_DRAW_GROUP:

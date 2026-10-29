@@ -19,56 +19,46 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current checkpoint — native ExAttack side/EffectManager contracts
+## Current checkpoint — shared Enemy attached-effect storage
 
-Type6/7/8/9 initializers now call the existing real side lookup and dynamic-data
-allocator, replacing eight references through unimplemented class facades.
-GetSideState uses the shared AsciiGameManagerView global. Its12-byte original
-returns the side indexed by record+08, stride38; the original initializer then
-reads side+0C and owner+2D4. Original GameManager setup stores the result of
-EffectManager::Create in that same side slot. The shared side now declares
-EffectManager*, and callers use its real effectAnm member. Six redundant structs
-and one unused alias are removed. Other legacy GameManager/AnmVm views remain
-independent source/product debt; no full nominal-type or product closure claim.
+ECL, Enemy Core and release consumers now share the observed0x68-byte state at
+Enemy+53B4:24 Effect* slots, signed count+60 and float distance+64. The source
+reuses the existing Effect interface; original C++ storage/nominal types remain
+unproved. Core's unused2A4-byte effect facade/method is removed. Unreviewed+541C
+becomes four opaque bytes, without asserting its original role. No runtime
+branch, bound, allocation or field offset changes. Original opcode128 establishes
+the distance write and count increment; additional gameplay meaning stays open.
 
-Fifty-nine canonical source/profile groups preserve219 existing whole exact
-owners:71430 physical bytes/3963 fields with actual literal payloads checked.
-Four nonexact carriers bring the scope to63. All508 regular body/profile
-comparisons and11 compiler COMDATs/350 bytes/12 fields/15 entries retain their
-raw bytes and identities. Nine native symbol references change, plus326 private
-names in eight units at actual identical coordinates. All manifest offsets,
-kinds, addends, targets, extents and profiles stay fixed. The first overly strict
-private-name assertion is recorded; no byte or coordinate guard is relaxed.
-The actual old side-root and Replay mode objects are rejected despite equal
-numeric addresses. No new authored exact credit and no full1003-owner cold replay.
+Six affected canonical source/profile carriers preserve84 existing exact owners,
+26006 physical bytes/1146 fields and actual literals. All282 emitted regular
+body/profile comparisons and two whole compiler COMDATs/76 bytes/zero fields
+keep their raw bytes and identities. Twenty private names in two units change
+only at actual identical coordinates; every other manifest value/profile stays.
+Another140 existing proofs are reused from61 unaffected carriers after current
+source/profile/object/provider and unchanged unit-metadata checks. No new exact
+credit or full1003-owner cold replay. Complete RunEcl15564/598/30,
+Enemy3900/97/13 and biased517/516 with28 fields/148 overlaps remain unchanged.
 
-Genuine ECL+side and ECL+side+allocator source controls preserve76/77 exact
-bodies,22475/22556 bytes and991/994 fields. Four/eight native calls bind their
-actual same-object definitions; all138 preexisting regular ECL bodies remain
-byte/field neutral. These finite controls do not identify original TUs. Complete
-RunEcl15564/598/30, Enemy3900/97/13 and biased movement517/516 with28 fields/148
-overlap differences plus1 extra remain unchanged. SaveReplay, playback, Front
-and Title complete diagnostics also retain their previous frontiers.
-
-Four separate RunEcl formal-type controls and two movement-helper formal controls
-preserve75 existing ECL siblings per model. State-pointer/direct/void* controls
-retain the original30 differences; Enemy& regresses to2153, including24 table
-bytes. Complete opcode157 changes160 to158 bytes and shifts six easing plus18
-opcode roots by-2; none of the original30 positions is repaired. Both movement
-formals retain the517-byte candidate. These are bounded compiler observations,
-not original nominal-type proof, and none is adopted.
+The already-documented private EDI entry of the151-byte attached-effect update
+is rechecked at the actual original caller/callee. A genuine ordinary external
+companion emits152 bytes and fails that complete native proof before any Enemy
+score or target binding. The74 other canonical ECL bodies pass and RunEcl stays30.
+An invalid qualified-declaration scaffold and a duplicate Timer-body scaffold
+are recorded separately from the corrected single-definition result. No public
+fastcall ABI, register hint or unique original TU is inferred.
 
 Current source/profile/provider-bound replay is
-.analysis/gpt-61sol-20261030-runecl-formal-state/native_side.py verify;
-its build mode serially rebuilds only63 affected carriers. Older packet verifiers
-are dated evidence and may reject newer source/ledgers. Existing Git plus saved
-recipes reproduce all six private input hash sets without retained old C++
-source copies. Ghidra reuses the working project and checks685056 mapped file
-bytes before each export. Fourteen focused target-independent tests pass.
-Cleanup removes220 superseded binary/debug/cache files,12349457 logical bytes
-(about11.8MiB), preserving documentation/research and65 necessary current proof
-or actual-counterexample objects. No new code archive is created; build/ is
-absent. The98% milestone and later phase gates remain open.
+.analysis/gpt-61sol-20261030-enemy-dependency-review/family.py verify;
+build mode serially rebuilds only these six carriers. Existing Git17a11669 plus
+recorded EOL rules reproduces79 baseline input hashes and the private proposal
+without retained old C++ copies. Ghidra checks685056 mapped file bytes while
+reusing the working project. Thirty-three focused tests pass. Dated older
+verifiers may reject newer headers/ledgers; they are evidence, not restart
+requirements. Cleanup deletes24 replaced baseline/control/debug/cache files,
+3011745 logical bytes(about2.9MiB); all314 protected files and six current
+objects retain their hashes. Documentation/research stay and no code archive
+is created; build/ is absent.
+The98% milestone and later product/runtime/semantic/port gates remain open.
 
 ## Earlier dependency corrections
 
@@ -92,7 +82,8 @@ and source-interface cleanup earn no partial exact credit.
 
 | Source checkpoint | Maintained change | Local evidence below `.analysis/` |
 | --- | --- | --- |
-| Current | Type6/7/8/9 use real native setup methods and EffectManager storage;219 existing exact owners retain71430 bytes/3963 fields. | `gpt-61sol-20261030-runecl-formal-state/native_side.py verify` |
+| Current | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/family.py verify` |
+| 17a11669 | Native Type6/7/8/9 setup and EffectManager contracts;219 existing exact owners preserved. | `gpt-61sol-20261030-runecl-formal-state/` (dated records) |
 | 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |
 | e73311d9 | Charge uses actual Effect* state-effect methods;1197/70/1160 plus13 missing remains nonexact. | `gpt-61sol-20261030-charge-native-effects/verify_current.py` |
 | 4514216e | RunEcl uses actual Enemy/Etama/Background members; complete RunEcl/Enemy remain30/13 differences. | `gpt-61sol-20261030-ecl-native-calls/verify_current.py` |

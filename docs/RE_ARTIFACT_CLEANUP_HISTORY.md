@@ -2223,3 +2223,28 @@ are outside this operation. The exact manifest and protected hashes live in
 .analysis/gpt-61sol-20261030-runecl-formal-state/cleanup.json; current replay uses
 native_side.py verify, with build mode serially rebuilding only63 carriers.
 The replaced active checkpoint remains in the existing handoff archive.
+
+
+## 2026-10-30: shared Enemy attached-effect state cleanup
+
+The six affected source/profile carriers preserve84 existing exact owners,
+26006 physical bytes/1146 fields,282 complete body/profile comparisons and two
+compiler contributions/76 bytes/zero fields. Another140 existing proofs are
+reused from61 unaffected carriers after source/profile/object/provider checks.
+Thirty-three focused tests pass; RunEcl30 and Enemy13 remain unchanged.
+
+Cleanup deletes24 ignored regular files,3011745 logical bytes(about2.9MiB): six
+replaced baselines, three private/control objects and compiler/debug/cache data.
+The private proposal and both opacity-control objects have complete regular and
+aux-less code/field observations before deletion. Two prior ECL carriers are
+replaced by the new current ones; other unaffected carriers stay. All314
+protected files and six new current proof objects retain their hashes. Original
+target, toolchains, Ghidra, current source, documentation and research records
+are preserved. Existing Git/EOL rules plus recipes reproduce79 baseline inputs
+and the private proposal without an old C++ tree or new code archive.
+
+The precise inventory and protected hashes are in
+.analysis/gpt-61sol-20261030-enemy-dependency-review/cleanup.json. Current
+family.py verify succeeds without build/; build mode serially rebuilds only six
+affected carriers. Old receipts remain source-scoped records, not restart
+requirements. The former active checkpoint stays in the existing handoff archive.
