@@ -5,7 +5,40 @@
 > [the historical checkpoint archive](RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md),
 > [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md) and Git history.
 
-## Operator stop checkpoint — October 24, 14:09 UTC
+## Active local restart — October 29
+
+The operator explicitly resumed reconstruction with direct local tools, focused
+affected-owner replays and commits prefixed `gpt-6.1-sol:`. This supersedes the
+historical stop and Factory routing below. Recovery found a clean worktree at
+`1ac9fa29`; original Japanese v1.50a disk identity and tracking pass. The available
+IDA connection currently identifies TH105 and was rejected before analysis.
+This restart uses the verified TH09 PE and pinned VC7.1, with no new IDA claims.
+
+ReplayInput now uses the four existing `GameManagerModeView` predicates instead
+of undefined private Replay method facades. Its data overlay and original
+receiver remain unchanged. The previously unadopted H65 source was recovered;
+SafeSEH `.sxdata` entries are compared as actual COFF symbol references, with
+handler section/value/type/storage identity and code checked. Both canonical
+Replay profiles were rebuilt. All **16 affected exact owners / 4,150 physical
+bytes / 232 fields** pass, including the four native mode leaves. All nondebug
+sections retain their effective contents; only ten manifest symbol strings
+change, with no address, offset, addend or profile changes. SaveReplay remains
+**1,238 bytes / 53 fields / three differences**; BeginPlaybackStage remains
+**538 versus 540 bytes / 32 fields / 39 overlapping differences**. Exact credit
+remains **244917/291883 (83.9093%)**, 1003 functions. Forty focused Replay tests
+pass. No whole-product/runtime or original-exact EH claim follows.
+
+Evidence and no-compile replay:
+`.analysis/gpt-61sol-20261029-replay-mode-adoption/verify_current.py` and
+`current-verification.json`; `check_sxdata.py` rejects four metadata/code
+corruptions. The original H65 packet and failed verification remain preserved.
+A fresh Enemy main-carrier build independently retains **3900/97/13**, 69 calls
+and 170 blocks; its diagnostic is in
+`.analysis/gpt-61sol-20261029-enemy-live/baseline-enemy.json`.
+RunEcl and Enemy remain the principal unfinished fronts; the October 24 source
+and receipt bindings below are historical baselines, not the latest source.
+
+## Historical operator stop — October 24, 14:09 UTC
 
 TH09 research is paused at the operator's explicit request. Only cleanup and
 a local commit were requested; the old autonomous continuation instructions

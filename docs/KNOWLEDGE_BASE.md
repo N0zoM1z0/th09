@@ -22218,3 +22218,46 @@ Fresh selected reproduction:
 `PYTHONDONTWRITEBYTECODE=1 python3 -B .analysis/gpt-61sol-20261024-ecl-math-boundary/probe.py --case opaque-constructor --output .analysis/ecl-math-constructor-cold`.
 Coverage remains244917/291883 (83.9093%),41129 whole bytes short of98%. Native
 product/runtime, semantic and portability gates remain open.
+
+## 2026-10-29: recover Replay native mode calls and finish H65 adoption
+
+Recovery at clean `1ac9fa29` verifies the original Japanese v1.50a disk target,
+tracking and current coverage. The available direct IDA metadata identifies
+TH105, so no IDA analysis is used. A fresh pinned canonical ECL carrier independently
+reproduces Enemy's complete 3900-byte/97-field/13-difference frontier, 69 ordered
+calls and 170 blocks. No Enemy source or exactness claim changes.
+
+The stopped H65 Replay source and all eleven source/header bindings still match
+its preserved inputs. ReplayInput now includes GameManagerMode.hpp, calls the
+existing IsGameMode0/1/2 and IsReplayNeutral methods, and projects only its data
+accesses through the retained Replay overlay. The native receiver remains the
+original GameManager root 0x4A7D90; mode/difficulty/flags and both character
+coordinates are statically checked. This repairs four undefined method facades,
+without establishing complete storage ownership or portable object lifetime.
+
+The prior adoption verifier incorrectly compared `.sxdata` symbol-table indices
+as raw bytes. The resumed private verifier resolves every index and requires a
+defined code section, identical section/value/type/storage/aux identity, matching
+handler code, entry count and section flags. Canonical/staged indices 120/303
+versus 126/309 identify the same two `.text$x` handlers. Other nondebug section
+bytes and effective relocation identities remain unchanged. Invalid indices,
+a different valid handler, changed handler code and changed SafeSEH section
+flags are independently rejected. This is object preservation, not proof that
+retail EH metadata is exact. Failed historical verification is retained.
+
+Fresh canonical EH and no-EH Replay builds plus the native mode carrier pass
+16 existing complete exact units, 4150 physical bytes and 232 fields. Both full
+SaveReplay diagnostics retain 1238/53/3 at B7,BB,3F6; both BeginPlaybackStage
+reports retain 538 versus 540 bytes,32 fields,five calls,12 blocks and39 overlap
+differences. Manifest changes are exactly ten API/global symbol strings: no
+private-label renames, target/offset/addend/type/profile changes or new credit.
+Forty focused Replay tests pass, including wrong-mode/receiver/field/addend
+rejections. Source-text snapshot tests from the old proposal are not adopted.
+
+Evidence is `.analysis/gpt-61sol-20261029-replay-mode-adoption/`:
+`verify_current.py` replays all16 canonical units and both full diagnostics
+without compiling; `check_sxdata.py` reproduces the four rejection checks.
+The original H65 packet remains available with its failed gates, frozen sources,
+canonical objects and section observations. Current exact coverage stays
+244917/291883 (83.9093%),1003/1035 functions. RunEcl30 and Enemy13 remain open;
+whole Windows i386 product/runtime, semantic and portability gates remain open.

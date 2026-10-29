@@ -2036,6 +2036,12 @@ Documentation, tracking, open build graph, progress and whitespace gates pass.
 
 ## H65: real Replay GameManager mode APIs — neutral, not adopted
 
+October 29 successor: the exact preserved source is now adopted after corrected
+SafeSEH index verification and fresh canonical-profile replay. See the active
+RE_HANDOFF.md checkpoint and the dated knowledge-base entry. The stopped-run
+results and failed verification below remain historical evidence. No new exact
+owner or byte credit is claimed.
+
 Packet: .analysis/th09-replay-native-mode-api-20261024-v01/. Root compiled
 five isolated jobs serially: native leaves plus control/candidate EH/no-EH.
 All four native bodies (14/15/13/15 bytes), 24 canonical Replay comparisons,

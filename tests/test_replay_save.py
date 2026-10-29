@@ -17,7 +17,7 @@ def binding_rows():
     for off, kind, destination in audit.TARGET_FIELDS:
         choices = [(symbol, 0) for symbol, va in audit.REFERENTS.items() if va == destination]
         if not choices:
-            choices = [('?g_GameManager@@3UGameManagerReplayView@@A', destination-0x4A7D90)]
+            choices = [('?g_GameManager@@3UGameManagerModeView@@A', destination-0x4A7D90)]
         symbol, addend = choices[0]
         result.append({'offset': off, 'type': kind, 'symbol': symbol, 'addend': addend})
     return result

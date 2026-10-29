@@ -12,6 +12,7 @@
 #include "Lzss.hpp"
 #include "ReplayRuntimeLeaves.hpp"
 #include "ReplayInputState.hpp"
+#include "GameManagerMode.hpp"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -60,15 +61,19 @@ struct GameManagerReplayView
     u8 unknown120[0x10];
     i32 replayPauseRecorded;
     u32 flags;
-    int IsPlaybackStateZero();
-    int IsPlaybackStateOne();
-    int IsReplayNeutral();
-    int IsReplayStateTwo();
 };
 
 typedef char GameManagerInputGateAtE8[(offsetof(GameManagerReplayView, inputGate) == 0xE8) ? 1 : -1];
 typedef char GameManagerReplayPauseAt130[(offsetof(GameManagerReplayView, replayPauseRecorded) == 0x130) ? 1 : -1];
 typedef char GameManagerReplayFlagsAt134[(offsetof(GameManagerReplayView, flags) == 0x134) ? 1 : -1];
+
+
+// Same original manager base: data overlay and native method receiver do not move it.
+typedef char ReplayNativeModeOffset118[(offsetof(GameManagerReplayView, playbackState118) == offsetof(GameManagerModeView, gameMode)) ? 1 : -1];
+typedef char ReplayNativeDifficultyOffset11C[(offsetof(GameManagerReplayView, difficulty11C) == offsetof(GameManagerModeView, difficulty)) ? 1 : -1];
+typedef char ReplayNativeFlagsOffset134[(offsetof(GameManagerReplayView, flags) == offsetof(GameManagerModeView, flags134)) ? 1 : -1];
+typedef char ReplayNativeCharacter0Offset20[(offsetof(GameManagerReplayView, sides) + offsetof(GameManagerReplaySideView, character) == offsetof(GameManagerModeView, side0Character)) ? 1 : -1];
+typedef char ReplayNativeCharacter1Offset58[(offsetof(GameManagerReplayView, sides) + sizeof(GameManagerReplaySideView) + offsetof(GameManagerReplaySideView, character) == offsetof(GameManagerModeView, side1Character)) ? 1 : -1];
 
 struct ReplayUserDataHeaderView
 {
@@ -83,7 +88,6 @@ typedef char ReplayUserDataHeaderSizeIs0C[(sizeof(ReplayUserDataHeaderView) == 0
 
 extern Chain g_Chain;
 extern ReplayRngView g_ReplayRng;
-extern GameManagerReplayView g_GameManager;
 extern SupervisorReplayView g_Supervisor;
 extern i32 g_ReplayStageIndex;
 extern u8 *g_ReplayConfigSnapshot;
@@ -133,7 +137,7 @@ unsigned char *OpenFile(const char *path, int *fileSize, int isExternalResource)
 
 int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
 {
-    if ((g_GameManager.flags & 4) != 0 && (g_GameManager.flags & 0x200) == 0)
+    if ((reinterpret_cast<GameManagerReplayView &>(g_GameManager).flags & 4) != 0 && (reinterpret_cast<GameManagerReplayView &>(g_GameManager).flags & 0x200) == 0)
     {
         g_ReplayInputStates[0].historyPrevious = g_ReplayInputStates[0].historyCurrent;
         g_ReplayInputStates[1].historyPrevious = g_ReplayInputStates[1].historyCurrent;
@@ -147,7 +151,7 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
         g_ReplayInputStates[1].Update();
         g_ReplayInputStates[2].Update();
 
-        u8 *sideMode = g_GameManager.inputGate->sideMode;
+        u8 *sideMode = reinterpret_cast<GameManagerReplayView &>(g_GameManager).inputGate->sideMode;
         for (int side = 0; side < 2; side++, sideMode++)
         {
             if (*sideMode == 1)
@@ -293,7 +297,7 @@ void ReplayInputState::Update()
 
 int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
 {
-    u32 flags = g_GameManager.flags;
+    u32 flags = reinterpret_cast<GameManagerReplayView &>(g_GameManager).flags;
 
     if ((flags & 4) != 0 && !g_Supervisor.IsSpeedhackDetected())
     {
@@ -304,9 +308,9 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
             replayManager->inputDelay++;
         }
 
-        if (g_GameManager.sides[0].selector == 0)
+        if (reinterpret_cast<GameManagerReplayView &>(g_GameManager).sides[0].selector == 0)
             *replayManager->inputCursor0 = g_ReplayInputStates[0].historyCurrent;
-        if (g_GameManager.sides[1].selector == 0)
+        if (reinterpret_cast<GameManagerReplayView &>(g_GameManager).sides[1].selector == 0)
             *replayManager->inputCursor1 = g_ReplayInputStates[1].historyCurrent;
         *replayManager->inputCursor2 = g_ReplayInputStates[2].historyCurrent;
 
@@ -486,7 +490,7 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     if (replayManager->replayData == NULL)
     {
         replayManager->replayData = (ReplayDataView *)FileSystem::OpenFile(
-            replayManager->replayPath, &fileSize, (g_GameManager.flags & 2) == 0);
+            replayManager->replayPath, &fileSize, (reinterpret_cast<GameManagerReplayView &>(g_GameManager).flags & 2) == 0);
         replayManager->replayData = LoadReplayData(replayManager->replayData, fileSize);
         if (replayManager->replayData == NULL)
             return -1;
@@ -498,7 +502,7 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     if ((u8 *)replayManager->replayData + offsetof(ReplayDataView, frameStart) +
         stage * sizeof(replayManager->replayData->frameStart[0]) == NULL)
         return -1;
-    if ((g_GameManager.IsPlaybackStateZero() || g_GameManager.IsPlaybackStateOne()) && stage > 0)
+    if ((g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1()) && stage > 0)
     {
         for (i32 i = 0; i < stage; i++)
             g_ReplayStageSeen[replayManager->replayData->frameStart[1][i]->value06] = 1;
@@ -549,13 +553,13 @@ int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
     replayManager->frameRngSeed = g_ReplayRng.GetSeed();
     g_ReplayRng.ResetGenerationCount();
 
-    if (g_GameManager.replayPauseRecorded != 0)
+    if (reinterpret_cast<GameManagerReplayView &>(g_GameManager).replayPauseRecorded != 0)
         replayManager->frameEventFlags |= 0x100;
 
     g_ReplayInputStates[0].historyPrevious = g_ReplayInputStates[0].historyCurrent;
     g_ReplayInputStates[0].historyCurrent = g_ReplayInputStates[0].currentInput;
     g_ReplayInputStates[1].historyPrevious = g_ReplayInputStates[1].historyCurrent;
-    g_GameManager.replayPauseRecorded = 0;
+    reinterpret_cast<GameManagerReplayView &>(g_GameManager).replayPauseRecorded = 0;
     g_ReplayInputStates[1].historyCurrent = g_ReplayInputStates[1].currentInput;
     g_ReplayInputStates[2].historyPrevious = g_ReplayInputStates[2].historyCurrent;
     g_ReplayInputStates[2].historyCurrent = g_ReplayInputStates[2].currentInput;
@@ -565,7 +569,7 @@ int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
     g_ReplayInputStates[2].Update();
 
     int side = 0;
-    ReplayInputGateView *inputGate = g_GameManager.inputGate;
+    ReplayInputGateView *inputGate = reinterpret_cast<GameManagerReplayView &>(g_GameManager).inputGate;
     for (; side < 2; side++)
     {
         if (inputGate != NULL && inputGate->sideMode[side] == 1)
@@ -786,21 +790,21 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     char *infoCursor = infoBuffer;
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoPlayerNameFormat, replayName);
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoPlayTimeFormat, g_ReplayPlayTimeText);
-    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoDifficultyFormat, g_ReplayDifficultyNames[g_GameManager.difficulty11C]);
-    int mode = g_GameManager.playbackState118;
+    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoDifficultyFormat, g_ReplayDifficultyNames[reinterpret_cast<GameManagerReplayView &>(g_GameManager).difficulty11C]);
+    int mode = reinterpret_cast<GameManagerReplayView &>(g_GameManager).playbackState118;
     if (mode == 2)
-        mode = g_GameManager.mode114 + 2;
+        mode = reinterpret_cast<GameManagerReplayView &>(g_GameManager).mode114 + 2;
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoModeFormat, g_ReplayModeNames[mode]);
-    if (!g_GameManager.IsReplayStateTwo())
+    if (!g_GameManager.IsGameMode2())
     {
         infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoCharacterFormat,
-            g_ReplayCharacterNames[g_GameManager.sides[0].character]);
+            g_ReplayCharacterNames[reinterpret_cast<GameManagerReplayView &>(g_GameManager).sides[0].character]);
     }
     else
     {
         infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoVersusCharactersFormat,
-            g_ReplayCharacterNames[g_GameManager.sides[0].character],
-            g_ReplayCharacterNames[g_GameManager.sides[1].character]);
+            g_ReplayCharacterNames[reinterpret_cast<GameManagerReplayView &>(g_GameManager).sides[0].character],
+            g_ReplayCharacterNames[reinterpret_cast<GameManagerReplayView &>(g_GameManager).sides[1].character]);
     }
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoInitialHealthFormat,
         g_ReplayInitialHealth0 * 0.5f, g_ReplayInitialHealth1 * 0.5f);
