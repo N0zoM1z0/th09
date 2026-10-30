@@ -138,6 +138,17 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   helper. All five keep75 exact siblings and RunEcl30/Enemy13. Eighty-input
   Git/EOL recovery and one independent cold whole-object replay pass.
   Records/recipes:ecl-native-initializer/;no source/TU/ABI adoption or credit.
+- A separately compiled const periodic predicate remains original33/0. Its
+  opaque declaration preserves all138 regular raw bodies and Enemy13;the same
+  real definition visible gives Enemy45,with only Enemy raw code changed.
+  Five native names use private reviewed interface views;production identities
+  reject both alternatives. All75 sibling payloads pass per context,including
+  four reviewed interface views. Independent whole-object replay passes.
+  A real timeout function-pointer call instead emits15560/599 with an unbound
+  16-byte helper reference;RunEcl and dependent Enemy coverage reject it.
+  All137 other raw bodies and75 siblings remain. Its independent replay repeats
+  the rejection. Research routes:enemy-const-periodic/ and ecl-timeout-callable/;
+  no production source,qualifier,manifest,profile or exactness credit changes.
 - Two whole-ECL native-side-type controls retain75 exact siblings each.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`

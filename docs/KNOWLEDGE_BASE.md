@@ -26708,3 +26708,81 @@ identity and Replay input/body audits pass. ScoreData baseline/proposal each
 has exactly seven regular bodies and no extra executable compiler contribution.
 Documentation,tracking,progress and whitespace checks pass. The local source
 checkpoint and later research/documentation checkpoint do not imply publication.
+
+## October 31: opaque readonly periodic declarations and actual timeout callable
+
+Recovery at373864e6 is clean. The preceding turn corrected ScoreData's native
+RNG declaration;game source remainsf424b1ac. Original Japanese1.50a disk,
+tracking and live progress pass. Direct Ghidra reuses the verified project and
+attests all685056 mapped file-backed bytes before exporting4086C0/410730 and
+404920. Complete original comparisons govern the results,not inferred names.
+Current complete ECL baseline is reused by actual source/profile/object pins.
+
+The earlier visible const-periodic and Timer member-pointer records are read
+before selecting a distinct opaque declaration experiment. The actual signed-
+remainder predicate becomes a const member in both its declaration and actual
+definition. It compiles independently to all33 original bytes,zero fields and
+the same EAX0/1,ECX receiver,RET4 transport. The original body reads only previous/
+current storage;this supports the readonly hypothesis but proves no original
+qualifier or nominal class. No fabricated register-preservation promise is added.
+
+The matching real definition is then either separate from the ECL caller or
+included before Enemy. In both cases all five actual predicate references have
+the correct native signature,REL32,zero addend/value and the expected external
+or positive same-object relation. Staged header/definition hashes match the
+independent native producer. Both production Enemy identity diagnostics reject
+the new const name. Private views bind it only after the actual33-byte proof;
+no production unit,alias registry,extent or acceptance guard is broadened.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-CONST-PERIODIC-001 | native complete comparison | Actual const predicate equals all33 original bytes with zero fields and unchanged physical argument/result transport. | enemy-const-periodic/native.json |
+| ENEMY-CONST-PERIODIC-002 | byte-neutral opaque context | All138 common raw bodies remain equal;five actual interface names change. Whole RunEcl30/Enemy13 remain. | opaque.json;audit.json |
+| ENEMY-CONST-PERIODIC-003 | rejected visible context | Predicate becomes genuinely co-visible;only Enemy's raw body changes among138 common definitions,adding one actual33-byte definition. RunEcl30/Enemy45 remain. | visible.json;actual-contributions.json |
+| ECL-TIMEOUT-CALLABLE-001 | rejected original coverage | A genuinely consumed typed fastcall function pointer invokes the existing timeout-word operation. RunEcl emits15560 bytes/599 fields with one positive reference to its16-byte helper. | ecl-timeout-callable/callable.json |
+
+The visible const context restores all13 old mismatches but damages45 previously
+equal positions. This reproduces the earlier visible-definition class while the
+opaque const declaration alone is raw-neutral. All97 Enemy fields,69 calls,
+170 blocks and598 RunEcl fields/tables remain checked. Each context compares
+71 sibling units through unchanged canonical names and four through the
+explicitly reviewed const-interface view. Every75 complete payload/field/literal
+comparison passes;these are revalidations,not newly accepted owners. The common
+38-byte compiler contribution,zero fields and one entry also stays unchanged.
+
+The separate RunEcl callable model uses the actual existing unsigned-word/byte
+operation and its real fastcall type. VC7.1 emits a call instead of expanding it.
+The helper remains16 bytes/zero fields,with exactly one actual positive
+same-object reference in RunEcl. It has no established original address;none is
+assigned. Complete interpreter input/coverage rejects15560/599 against15564/598,
+and Enemy refuses the incomplete RunEcl definition before giving a whole-owner
+score. Its own raw body is unchanged,as are all137 non-RunEcl regular bodies and
+their effective fields,all75 exact siblings and the38-byte compiler contribution.
+No partial interpreter or raw-equal dependent caller is promoted as exact.
+
+Both packets preserve source/input/target/tool hashes,commands,full actual raw
+bodies/fields,actual callee relations and the original coverage rejections.
+enemy-const-periodic/audit.py reconstructs all three immutable Git/EOL input sets
+at373864e6;its independent visible cold replay repeats all139 regular bodies,
+actual fields/contribution,75 sibling comparisons,the native33-byte definition
+and complete RunEcl30/Enemy45. ecl-timeout-callable/audit.py --cold reproduces
+all138 definitions,75 complete siblings and both strict coverage rejections.
+Temporary replay outputs self-clean. The final periodic proof guard is tightened
+after primary production without changing any staged C++ input;all hashes
+regenerate. Six serial source/profile compiler jobs run,no full cold cohort.
+
+Maintained source,headers,ABI declarations,profiles,manifests and coverage remain
+unchanged. Current258 proof inputs remain reusable. Exact stays1004/1035 and
+246651/291883 authored bytes(84.5034%);98%,Windows product/runtime,dual-Oracle
+semantics and portability remain unfinished. These bounded models do not close
+either priority function or establish an original source/TU impossibility.
+
+Every owned producer is terminal before cleanup deletes eight ignored trial/
+debug files,1661398 logical bytes. All955 protected deletion-time hashes remain
+equal,including the current258 proof objects,service,tracked source,original
+target,working Ghidra and both packets' research records. Unchanged258 source/
+profile/object pins are explicitly rechecked;this is proof reuse,not a new cold
+cohort or a fresh258-comparison claim. Both independent output sets self-clean.
+No source tree or archive is added. Post-cleanup input/body/native-relation and
+strict-rejection audits pass. Documentation,tracking,progress and whitespace
+checks close this research-only checkpoint;public validation/CI code stays.
