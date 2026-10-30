@@ -19,67 +19,60 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current game source — native GameManager registration
+## Current game source — real charge configuration
 
-Following7ecfd7f9, Supervisor's three GameManager registration calls use the
-actual GameManagerSetupLayout::RegisterChain definition at41B9D0. The prior
-free GameManager_RegisterChain alias had no implementation. The existing setup
-layout and side declarations move unchanged into GameManagerSetupView.hpp;
-this exposes the maintained owner instead of introducing another facade.
-Original nominal C++ ownership and complete product/link closure stay unproved.
+Following01d7e6b6, Player charge uses the actual GameConfiguration pointer at
+GameManager+E8 and its byte array at+B4. Its two old local views are replaced
+by one uniquely named data projection. This removes this caller's conflicting
+GameManagerReplayView definition; ReplayInput.cpp had used that same global
+name for a different larger layout. Other partial views and original nominal
+C++ ownership remain open. The original setup worker allocatesCC bytes,
+initializes through41A8A2 and copies33 DWORDs into the pointer at4A7E78.
 
-Three affected source/profile carriers preserve11 existing canonical owners/
-2991 complete bytes/243 fields, plus every one of25 emitted regular body
-payloads. Three real external call names change;52 private labels retain their
-actual owner-relative coordinates. All canonical manifest entries are unchanged.
-The complete Supervisor remains952/996 physical bytes,92 fields,27 calls,
-791 overlap differences and44 missing. Its actual version literal still passes.
+One maintained pinned-profile cold build preserves both complete emitted
+bodies/1217 bytes and all eight nondebug sections/1281 bytes/70 fields. Charge
+remains1197/1210 bytes,70 fields,58 ordered calls,1160 overlap differences and
+13 missing. Its five actual scalar definitions pass; the actual co-visible
+20-byte Timer comparison retains its original bytes. This alternate carrier
+proof adds no canonical unit or exactness credit.
 
-Three further unavailable current callee carriers are cold-built under their
-own pinned profiles, protecting25 existing canonical siblings/5216 bytes/
-201 fields. In total36 existing canonical owners retain8207 bytes/444 fields
-across six carriers. Three compiler contributions/74 bytes/eight fields/five
-entries are inventoried without original-address or authored credit.
-429 unchanged canonical proofs/118600 bytes/6611 fields from104 carriers reuse
-source/profile/object/provider and unchanged-unit inputs. No full1003 cold
-replay is run. Other538 canonical units receive no new compile/literal audit.
+Current packet: `.analysis/gpt-61sol-20261030-charge-configuration/`.
+Use current.py verify for current source/profile/provider/object-bound replay,
+reuse.py for465 unchanged canonical proof inputs/126807 bytes/7055 fields from
+103 carriers, and verify_saved.py for recorded controls/source reproduction.
+effect_callees.py separately rechecks three unchanged native Effect owners/282
+bytes/15 fields from their actual source/profile/object-bound carrier.
+No full1003 cold replay is run. Other535 canonical units receive no new compile
+or literal audit. The ledger changes only Charge's notes cell to update the
+current route; all other CSV cells are independently unchanged from01d7e6b6.
 
-Current packet: `.analysis/gpt-61sol-20261030-supervisor-registration/`.
-Run family.py verify for the three changed carriers, callees.py verify for the
-three additional carriers and reuse.py for unchanged proof inputs. These need
-current objects and records, not historical C++ copies or retired old objects.
-The public supervisor focus now protects10 real dependencies, including the
-actual127-byte GameManager registrar and its original /Os profile. Old undefined
-alias objects are rejected rather than numerically normalized.
-The Supervisor ledger note now describes10 dependencies/1285 bytes/114 fields;
-all other CSV cells stay unchanged. This notes-only migration is checked when
-rebinding the unchanged proofs, without recompilation.
+Native GameManager registration, previous literal fixes and other dependency
+corrections remain in source. The unchanged Supervisor/RunEcl/Enemy observations
+remain source/profile/object bound; detailed prior reviews live in the existing
+archive and KB.10 focused charge tests pass; public tooling is unchanged and
+no new full CI is claimed. Exact remains1003/83.9093%;98% remains unfinished.
+Cleanup removes11 ignored files/443722 bytes: four trial objects, two replaced
+old charge objects and five PDBs. All138 protected files retain their hashes;
+current, native-callee, reuse, saved-control and prefix replays pass afterward.
+Documentation/research records remain, without a new source archive; build/
+is absent.
 
-16 focused tests and full public CI(1036 tests/29 skipped) pass. Exact remains
-1003 and244917/291883 bytes(83.9093%);98% and later gates remain unfinished.
-Prior literal, native menu/Supervisor and other dependency fixes remain in source.
-After producer termination, cleanup removes440 disposable files/8131930 bytes
-(about7.8MiB): three replaced old objects, two trial objects, eight PDBs and427
-CI caches. All150 protected files keep their hashes, including six current and
-104 reused objects. Current family/callee/reuse/saved-control checks pass again;
-build/ is absent. Documentation and research records remain; no code archive.
+## Latest large-function review — floating branch identity
 
-## Latest large-function review — Supervisor startup dispatch
+Four source-cold charge controls cover baseline, real configuration type,
+lower-first clamp and negated less-than clamp. Configuration is wholly raw/field
+neutral. Lower-first changes the physical referent order and is rejected before
+scoring; negation retains the same1160 count/13 missing but changes raw code.
+Both floating alternatives choose a different branch for NaN in the bounded
+actual-byte experiment and are not adopted. Equal mismatch counts or an inverted
+decompiler condition do not establish floating semantic equivalence.
 
-Direct cached Ghidra exports Enemy410730, Supervisor431110 and registrar41B9D0
-after checking all685056 mapped file bytes. Two complete startup dispatch
-controls use the maintained native call: a switch retains952/92/205 instructions/
-791 differences with the same mismatch positions but different raw bytes;
-failure-first dispatch retains952/92/205 but damages two old matches(793).
-Both preserve27 calls/four switch tables and restore no old mismatch. Neither
-is adopted. verify_controls.py reconstructs their source hashes and saved full
-raw/field/linked observations without pretending a new compile or acceptance.
-
-Fresh inspection of the unchanged source/profile/object-bound ECL carrier keeps
-RunEcl15564/598/30 with zero field/table differences and Enemy3900/97/13 with69
-calls. The earlier RunEcl input and Enemy ownership experiments remain bounded
-records, not proof of source-model exhaustion. Prioritize these owners and their
-dependencies; native product/runtime, semantics and portability remain later gates.
+Five recorded streams/three distinct61-byte growth prefixes execute11 fixtures
+each(55 emulator runs), with no calls. Framerate1/rate0, prior integer result0,
+FPCW037F and fixture-owned memory/stack bound this diagnostic. It checks only
+the stated prefix/store/branch observations, not all floats, full charge logic,
+original nominal types or whole-game runtime. fp_prefix.py can replay after
+trial-object cleanup; stored-control replay is not new compilation/acceptance.
 
 ## Earlier dependency corrections
 

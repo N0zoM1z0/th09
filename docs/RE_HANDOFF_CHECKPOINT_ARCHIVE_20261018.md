@@ -2814,3 +2814,72 @@ seven trial objects/2117299 bytes(about2.0MiB); all45 protected files retain
 their hashes and stored-record verification passes again. All76 baseline input
 hashes are reproduced from03462e4f with recorded Git/EOL rules. build/ is absent.
 The98% milestone remains unfinished.
+
+## October 30: superseded native-registration handoff
+
+Historical checkpoint01d7e6b6. Subsequent charge notes-only ledger changes can
+make its strict aggregate provider verifier reject; current proof-input reuse
+is routed through the active handoff. Original source and observations remain
+scoped to that checkpoint.
+
+### Historical game source — native GameManager registration
+
+Following7ecfd7f9, Supervisor's three GameManager registration calls use the
+actual GameManagerSetupLayout::RegisterChain definition at41B9D0. The prior
+free GameManager_RegisterChain alias had no implementation. The existing setup
+layout and side declarations move unchanged into GameManagerSetupView.hpp;
+this exposes the maintained owner instead of introducing another facade.
+Original nominal C++ ownership and complete product/link closure stay unproved.
+
+Three affected source/profile carriers preserve11 existing canonical owners/
+2991 complete bytes/243 fields, plus every one of25 emitted regular body
+payloads. Three real external call names change;52 private labels retain their
+actual owner-relative coordinates. All canonical manifest entries are unchanged.
+The complete Supervisor remains952/996 physical bytes,92 fields,27 calls,
+791 overlap differences and44 missing. Its actual version literal still passes.
+
+Three further unavailable current callee carriers are cold-built under their
+own pinned profiles, protecting25 existing canonical siblings/5216 bytes/
+201 fields. In total36 existing canonical owners retain8207 bytes/444 fields
+across six carriers. Three compiler contributions/74 bytes/eight fields/five
+entries are inventoried without original-address or authored credit.
+429 unchanged canonical proofs/118600 bytes/6611 fields from104 carriers reuse
+source/profile/object/provider and unchanged-unit inputs. No full1003 cold
+replay is run. Other538 canonical units receive no new compile/literal audit.
+
+Current packet: `.analysis/gpt-61sol-20261030-supervisor-registration/`.
+Run family.py verify for the three changed carriers, callees.py verify for the
+three additional carriers and reuse.py for unchanged proof inputs. These need
+current objects and records, not historical C++ copies or retired old objects.
+The public supervisor focus now protects10 real dependencies, including the
+actual127-byte GameManager registrar and its original /Os profile. Old undefined
+alias objects are rejected rather than numerically normalized.
+The Supervisor ledger note now describes10 dependencies/1285 bytes/114 fields;
+all other CSV cells stay unchanged. This notes-only migration is checked when
+rebinding the unchanged proofs, without recompilation.
+
+16 focused tests and full public CI(1036 tests/29 skipped) pass. Exact remains
+1003 and244917/291883 bytes(83.9093%);98% and later gates remain unfinished.
+Prior literal, native menu/Supervisor and other dependency fixes remain in source.
+After producer termination, cleanup removes440 disposable files/8131930 bytes
+(about7.8MiB): three replaced old objects, two trial objects, eight PDBs and427
+CI caches. All150 protected files keep their hashes, including six current and
+104 reused objects. Current family/callee/reuse/saved-control checks pass again;
+build/ is absent. Documentation and research records remain; no code archive.
+
+### Historical large-function review — Supervisor startup dispatch
+
+Direct cached Ghidra exports Enemy410730, Supervisor431110 and registrar41B9D0
+after checking all685056 mapped file bytes. Two complete startup dispatch
+controls use the maintained native call: a switch retains952/92/205 instructions/
+791 differences with the same mismatch positions but different raw bytes;
+failure-first dispatch retains952/92/205 but damages two old matches(793).
+Both preserve27 calls/four switch tables and restore no old mismatch. Neither
+is adopted. verify_controls.py reconstructs their source hashes and saved full
+raw/field/linked observations without pretending a new compile or acceptance.
+
+Fresh inspection of the unchanged source/profile/object-bound ECL carrier keeps
+RunEcl15564/598/30 with zero field/table differences and Enemy3900/97/13 with69
+calls. The earlier RunEcl input and Enemy ownership experiments remain bounded
+records, not proof of source-model exhaustion. Prioritize these owners and their
+dependencies; native product/runtime, semantics and portability remain later gates.

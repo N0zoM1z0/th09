@@ -2404,3 +2404,29 @@ project remain. Deletion/protection hashes and current routes are under
 The final notes-only function-ledger correction rebinds current proof metadata
 after checking that every other CSV cell is unchanged. Prior receipts remain;
 deliberate post-cleanup record edits have separate before/after hash records.
+
+## 2026-10-30: charge configuration and x87 branch review cleanup
+
+Charge now uses actual GameConfiguration through a unique+E8 projection,
+removing its conflicting local GameManagerReplayView type. Complete charge
+remains1197/1210 bytes,70 fields,58 ordered calls,1160 overlap differences+13
+missing. Both emitted bodies/1217 bytes and all eight nondebug sections/1281
+bytes/70 fields preserve their baseline payloads. The two float-branch controls
+remain rejected; actual prefix observations distinguish their NaN branches.
+
+After producer termination, cleanup deletes11 regular ignored files/443722
+logical bytes: four trial objects, the two replaced current charge objects and
+five PDBs. Both retired objects have identical full code/field definitions to
+the retained current object. All138 protected files keep their hashes, including
+103 canonical proof carriers, the actual state-effect carrier, current charge
+object, records/recipes and original target.465 unchanged canonical proofs and
+three native Effect owners retain their source/profile/object/unit bindings.
+
+Current, native-callee, reuse, saved-control and prefix replays pass afterward.
+All13 baseline input hashes and four candidate hashes reproduce from01d7e6b6
+Git/EOL inputs in memory. Documentation/research records, current source,
+target/toolchains and working Ghidra project remain. No historical C++ copies
+or new archive are created; build/ is absent.10 focused tests pass; public
+tooling is unchanged and no new full CI is claimed. Records remain under
+`.analysis/gpt-61sol-20261030-charge-configuration/`. Exact stays1003 and
+244917/291883(83.9093%);98% and later gates remain open.

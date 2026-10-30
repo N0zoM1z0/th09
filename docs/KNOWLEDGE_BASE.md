@@ -24051,3 +24051,74 @@ Only that row's notes cell changes; all addresses, extents, names, statuses and
 other cells are independently equal to7ecfd7f9. The migration preserves prior
 receipts and rebinds the current verifier/proof metadata without compilation.
 Post-cleanup record updates are distinguished from deletion-time protected hashes.
+
+## October 30: charge configuration type and x87 branch audit
+
+From clean01d7e6b6, direct Ghidra reuses the target project and rechecks all
+685056 mapped bytes before exporting charge41F810, setup41AF2D and configuration
+initializer41A8A2. The original setup allocatesCC bytes, initializes through the
+actual233-byte initializer and copies33 DWORDs from the Supervisor configuration
+into pointer4A7E78. Charge reads that pointer at GameManager+E8 and bytes+B4/B5.
+
+Charge's ReplayInputGateView and GameManagerReplayView are replaced with a
+unique GameManagerChargeConfigurationView pointing to the existing full
+GameConfiguration. The broader ReplayInput.cpp definition had used the same
+GameManagerReplayView name for a different layout; this particular conflict is
+removed without changing Replay. Assertions preserve+E8 and+B4. No qualifier,
+ABI, register hint, profile or runtime effect is added. Original nominal class
+identity and wider product/ODR closure remain unproved.
+
+Four complete controls compile serially on one allowed CPU at nice10/180s,
+with13 original input hashes. Baseline and native configuration type preserve
+all raw bytes/fields of both emitted functions. The maintained-source cold build
+also preserves those1217 code bytes and all eight nondebug sections/1281 bytes/
+70 fields. Charge stays1197/1210,342/350 instructions,70 fields,58 ordered calls,
+1160 overlap differences+13 missing. All five actual scalar definitions pass
+for each control, including the strict rejected model. The genuine co-visible
+Timer comparison retains20 original bytes/zero fields on all five compiles;
+this is not new acceptance of its canonical BackgroundStageScript carrier.
+
+Lower-first clamp changes physical callee order and is rejected by the unchanged
+full auditor before scoring. Negated less-than keeps the1160 mismatch count but
+changes raw bytes. Actual closed growth prefixes expose the distinction: five
+streams/three distinct61-byte prefixes execute11 fixtures each(55 Unicorn1.0.2
+runs). Original/baseline/configuration select the reset branch on three quiet-NaN
+fixtures; both alternatives select the clamp/increment branch. Ordinary ordered fixtures
+agree. Neither alternative is adopted. Ghidra's inverted float condition is
+provisional; equal mismatch counts do not establish semantic equality.
+
+The prefix runs no callee, uses framerate1/rate0/prior conversion integer0 and
+FPCW037F, and stops at the first conditional successor. It observes one charge
+store and a classified next timer operation. Stack argument writes stay inside
+fixture memory. This answers only the specific branch-identity question, not
+all32-bit float patterns, unmasked exceptions, original FP environment, complete
+charge semantics, product/runtime closure or new defensive game behavior.
+
+An initial batch stopped at the strict lower-first rejection after three real
+compiles. Those completed objects were recovered from their terminal attempt;
+only the pending fourth control was compiled afterward. The prefix harness's
+initial four-tail-instruction assumption was corrected to actual FNSTSW/TEST/Jcc
+before execution results were recorded. Setup/recorder errors are not credited
+as negative game-source results. All13 Git/EOL inputs and four candidate hashes
+reproduce in memory from01d7e6b6; no historical C++ copy or archive is needed.
+
+10 focused charge tests pass.465 unchanged canonical proofs/126807 bytes/7055
+fields from103 carriers retain current source/profile/object/provider and unit
+bindings. Three native Effect owners additionally recheck282 bytes/15 fields
+from an unchanged actual carrier after all seven source hashes, profile, toolchain
+pin and unit entries agree. This is cached proof replay, not new compilation.
+Other535 receive no new compile/literal audit. Only Charge's ledger
+notes change to the current verifier route; every other CSV cell stays equal to
+01d7e6b6. No full1003 cold replay or new full CI is claimed. Source, full raw/COFF,
+scalar/prefix observations and current replay routes remain in
+`.analysis/gpt-61sol-20261030-charge-configuration/`. Exact stays1003 and
+244917/291883(83.9093%);98% and later phase gates stay open.
+
+After all producer handles terminate, cleanup deletes11 regular ignored files/
+443722 logical bytes: four control objects, two superseded current charge
+objects and five PDBs. Both old objects have exactly the same complete emitted
+code/field definitions as the retained current object. All138 protected files
+keep their hashes, including current/cached proof objects and the original
+target. Current, three native-callee, unchanged-proof, saved-control and prefix
+replays pass afterward. All documentation/research records remain; no historical
+C++ copy or new archive is retained, and build/ is absent.

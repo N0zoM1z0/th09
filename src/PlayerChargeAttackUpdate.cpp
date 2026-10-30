@@ -4,6 +4,7 @@
 #include "PlayerStateEffectView.hpp"
 #include "ReplayInputState.hpp"
 #include "ZunTimer.hpp"
+#include "GameConfiguration.hpp"
 // Only the native global identity is needed here.
 struct AsciiGameManagerView;
 extern AsciiGameManagerView g_GameManager;
@@ -14,19 +15,16 @@ extern AsciiGameManagerView g_GameManager;
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-struct ReplayInputGateView
-{
-    u8 unknown000[0xB4];
-    u8 sideMode[2];
-};
-
-struct GameManagerReplayView
+// Observed GameManager +E8 points to the current GameConfiguration.
+struct GameManagerChargeConfigurationView
 {
     u8 unknown000[0xE8];
-    ReplayInputGateView *inputGateE8;
+    GameConfiguration *configurationE8;
 };
-typedef char PlayerChargeInputGateAtE8[
-    (offsetof(GameManagerReplayView, inputGateE8) == 0xE8) ? 1 : -1];
+typedef char PlayerChargeConfigurationAtE8[
+    (offsetof(GameManagerChargeConfigurationView, configurationE8) == 0xE8) ? 1 : -1];
+typedef char PlayerChargeConfigurationModeAtB4[
+    (offsetof(GameConfiguration, sideFocusMode) == 0xB4) ? 1 : -1];
 
 struct PlayerChargeShtView
 {
@@ -104,9 +102,9 @@ int PlayerChargeAttackView::UpdateChargeAttack()
     u8 sideMode;
 
     if ((g_ReplayInputStates[side].WasPressed(1) &&
-         (reinterpret_cast<const GameManagerReplayView *>(&g_GameManager)->inputGateE8->sideMode[side] != 1 ||
+         (reinterpret_cast<const GameManagerChargeConfigurationView *>(&g_GameManager)->configurationE8->sideFocusMode[side] != 1 ||
           !g_ReplayInputStates[side].IsHeld(4))) ||
-        ((sideMode = reinterpret_cast<const GameManagerReplayView *>(&g_GameManager)->inputGateE8->sideMode[side]) == 1 &&
+        ((sideMode = reinterpret_cast<const GameManagerChargeConfigurationView *>(&g_GameManager)->configurationE8->sideFocusMode[side]) == 1 &&
          g_ReplayInputStates[side].IsHeld(1) &&
          !g_ReplayInputStates[side].IsHeld(4)))
     {
@@ -133,7 +131,7 @@ int PlayerChargeAttackView::UpdateChargeAttack()
 
         // The post-timer gate reloads the player side; the initial input
         // disjunction intentionally keeps its entry-side snapshot.
-        if (reinterpret_cast<const GameManagerReplayView *>(&g_GameManager)->inputGateE8->sideMode[sideIndex] == 1)
+        if (reinterpret_cast<const GameManagerChargeConfigurationView *>(&g_GameManager)->configurationE8->sideFocusMode[sideIndex] == 1)
             goto resolveAttack;
         goto afterCharge;
     }
