@@ -50,7 +50,7 @@ DESTINATIONS = {
     '?g_GameConfiguration@@3PAUGameConfiguration@@A': 0x4A7E78,
     '?g_GameManager@@3UAsciiGameManagerView@@A': 0x4A7D90,
     '?g_ReplayPlayTimeText@@3PADA': 0x4AC879,
-    '?g_SetupSeedSource@@3GA': 0x4ACE0C,
+    '?g_Rng@@3URngRuntimeView@@A': 0x4ACE0C,
     '?g_SetupStatus@@3HA': 0x4AC884,
     '?g_Supervisor@@3VSupervisor@@A': 0x4B3100,
     '__imp__Sleep@4': 0x48E058,

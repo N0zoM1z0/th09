@@ -2784,3 +2784,27 @@ observations,current Type3 and75 unchanged source/profile-bound ECL owners,
 including full RunEcl30/Enemy13.23 focused Type3 unit tests pass. Per-file deletion
 and protected-hash receipt:
 `.analysis/gpt-61sol-20261030-type3-whole-context/cleanup.json`.
+
+
+## 2026-10-30: GameManager shared native interfaces
+
+GameManager now shares native RNG,sound,ANM and enemy-spawn declarations;the six
+CardAttack begin callbacks use the existing spawn header. Correct old sprite/
+lifetime labels to life830/score10000.31 strict current caller/callee comparisons
+preserve5891 bytes/352 fields,and75 unchanged ECL proofs are reused. The106-unit
+combined check covers28354 bytes/1342 fields. GameplaySetup904,RunEcl30 and
+Enemy13 remain nonexact;no new exact credit is granted.
+
+After all producers terminate and full CI passes1055 tests/29 skips in106.846s,
+cleanup removes152 ignored files/3332676 logical bytes:three trial objects,two
+08197db6 GameManager objects superseded by the native-interface source,eleven
+PDBs and136 CI bytecode files. Retain eight current caller/callee objects,active
+ECL,32 Git/EOL input recipes,all raw/COFF/literal/failure records and all docs.
+Old GameManager raw/field/source bindings are preserved before their binary
+removal;they remain historical observations rather than current-source credit.
+
+All892 deletion-time protected hashes agree. Original target,toolchains and
+working Ghidra remain. After cleanup verify.py repeats106 strict comparisons,
+full RunEcl30/Enemy13 and source/Git/EOL checks. Build/ is absent,and no old CPP
+tree or source compression is added. Receipt:
+`.analysis/gpt-61sol-20261030-game-manager-native-entrypoints/cleanup-applied.json`.

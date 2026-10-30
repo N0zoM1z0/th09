@@ -1,23 +1,7 @@
 #include "CardAttack.hpp"
 #include "ZunMemory.hpp"
 
-struct CardAttackSpawnPosition
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct EnemyManagerCardAttackSpawnView
-{
-    void *SpawnFromCardAttack(
-        int subroutine,
-        CardAttackSpawnPosition *position,
-        int valueA,
-        int valueB,
-        int valueC,
-        int mirrored);
-};
+#include "EnemyManagerCardAttackSpawn.hpp"
 
 struct CardAttackBeginSideView
 {

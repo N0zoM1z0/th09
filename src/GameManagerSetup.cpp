@@ -3,6 +3,9 @@
 #include "EnemyManager.hpp"
 #include "BulletManager.hpp"
 #include "ExAttackController.hpp"
+#include "RngRuntimeLeaves.hpp"
+#include "SoundPlayer.hpp"
+#include "EnemyManagerCardAttackSpawn.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "PlayerRegisterChain.hpp"
 // Partial target-facing reconstruction of the TH09 gameplay setup thread.
@@ -76,13 +79,6 @@ struct SpawnedSideObjectView
     unsigned int flags3380;
 };
 
-struct SideSpawnerSetupView
-{
-    SpawnedSideObjectView *Spawn(
-        short type, SetupLoadingPosition *position, int sprite, signed char variant,
-        int lifetime, int mirror, int unknown);
-};
-
 struct SideAuxSetupView
 {
     void Trigger(int index);
@@ -93,16 +89,6 @@ struct GameSubsystemSetupView
     int IsActive();
 };
 
-
-struct SetupRngView
-{
-    int Next();
-};
-
-struct AnmManagerOnUpdateView
-{
-    void ReleaseSurface(int index);
-};
 
 struct SetupScoreRecordView
 {
@@ -126,13 +112,6 @@ typedef char SetupScoreRecordViewSizeCheck[
     (sizeof(SetupScoreRecordView) == 0x2C) ? 1 : -1];
 
 #include "GameManagerSetupView.hpp"
-
-struct SoundPlayerSetupView
-{
-    void QueueCommand(int opcode, int argument, char *path);
-    void PlaySoundByIdx(int soundIndex, int pan);
-    int ProcessQueues();
-};
 
 struct SupervisorSetupLayout
 {
@@ -184,14 +163,14 @@ extern ChainElem g_GameManagerDrawChain;
 extern GameConfiguration *g_GameConfiguration;
 extern char g_ReplayPlayTimeText[];
 extern int g_SetupStatus;
-extern unsigned short g_SetupSeedSource;
-extern SoundPlayerSetupView g_SoundPlayer;
+extern RngRuntimeView g_Rng;
+
 extern AsciiManager g_AsciiManager;
 extern AnmVm g_SupervisorLoadingVms[3];
 extern SetupScoreRecordView g_DeletedScoreRecord;
 extern unsigned char g_DeletedScratch[0x2BC0];
 extern int g_GameManagerChainState;
-extern SetupRngView g_SetupRng;
+
 extern int g_LastSpawnLane;
 extern void __fastcall ReleaseGameSubsystem(void *object);
 extern void __fastcall ReleaseSecondarySubsystem(void *object);
@@ -262,7 +241,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 
     if (globalManager.stageStartupMode != 0)
     {
-        reinterpret_cast<AnmManagerOnUpdateView *>(g_AnmManager)->ReleaseSurface(8);
+        g_AnmManager->ReleaseSurface(8);
         supervisor->loadingVmsHaveBeenSetup = 0;
         if (globalManager.stageStartupMode == 1)
             supervisor->StartStageAudio(0, 0);
@@ -359,7 +338,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         {
             // Sample an unsigned four-lane value before the later int adjustment.
             unsigned short laneSample =
-                static_cast<unsigned short>(g_SetupRng.Next()) % 4;
+                g_Rng.NextU16() % 4;
             int lane = laneSample;
             if (lane == g_LastSpawnLane)
             {
@@ -369,21 +348,23 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
             }
 
             globalManager.valueCC -= 10000;
-            SetupLoadingPosition position;
+            CardAttackSpawnPosition position;
             position.x = 0.0f;
             position.z = 0.0f;
             g_LastSpawnLane = lane;
             position.y = -32.0f;
 
             SpawnedSideObjectView *object =
-                reinterpret_cast<SideSpawnerSetupView *>(globalManager.sides[0].subsystem4)
-                    ->Spawn(19, &position, 830, -2, 10000, 0, 0);
+                static_cast<SpawnedSideObjectView *>(
+                    reinterpret_cast<EnemyManagerCardAttackSpawnView *>(globalManager.sides[0].subsystem4)
+                        ->SpawnEnemyRecord(19, &position, 830, -2, 10000, 0, 0));
             object->selector335C = lane;
             object->flags3380 |= 0x2000u;
 
             object =
-                reinterpret_cast<SideSpawnerSetupView *>(globalManager.sides[1].subsystem4)
-                    ->Spawn(19, &position, 830, -2, 10000, 0, 0);
+                static_cast<SpawnedSideObjectView *>(
+                    reinterpret_cast<EnemyManagerCardAttackSpawnView *>(globalManager.sides[1].subsystem4)
+                        ->SpawnEnemyRecord(19, &position, 830, -2, 10000, 0, 0));
             object->flags3380 |= 0x2000u;
             object->selector335C = lane;
 
@@ -858,7 +839,7 @@ mode_ready:
 
         if ((manager->flags & 8) == 0)
         {
-            manager->seedCopy346 = g_SetupSeedSource;
+            manager->seedCopy346 = g_Rng.seed;
             reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
                 ->SelectOpponentConfiguration();
             manager->stageObject = ReplayManagerView::Create(0, NULL);
@@ -890,7 +871,7 @@ mode_ready:
 
         if ((manager->flags & 8) == 0)
         {
-            manager->seedCopy346 = g_SetupSeedSource;
+            manager->seedCopy346 = g_Rng.seed;
             reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
                 ->SelectOpponentConfiguration();
             DispatchReplayStage(

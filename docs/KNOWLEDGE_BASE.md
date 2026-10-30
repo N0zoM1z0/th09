@@ -25347,3 +25347,68 @@ objects,original/providers and working Ghidra stay. Empty test build directories
 are removed;build/ is absent. verify.py rechecks83 Git/EOL inputs,four saved
 models,284 successful observations,75 current strict owners and Type315 after
 cleanup. No old CPP source tree,compressed archive or new exact credit remains.
+
+
+## October30: GameManager uses its actual shared RNG, sound and spawn interfaces
+
+The complete caller audit finds real source-interface debt rather than a new
+code-byte discrepancy. GameManagerSetup.cpp declared a SetupRngView::Next
+returning int and a separate ushort g_SetupSeedSource at the same4ACE0C base.
+It now uses canonical RngRuntimeView g_Rng,NextU16 and seed+0. The caller's original
+lane operation consumes the low16 bits before modulo4;its1230-byte complete
+OnUpdate remains exact. Native RNG is compiled under its own existing no-Oi
+profile,not migrated to the caller profile. All8 native leaves remain exact.
+
+SoundPlayerSetupView and AnmManagerOnUpdateView are removed in favor of their
+existing shared definitions. The two side spawns use the actual shared
+EnemyManagerCardAttackSpawnView::SpawnEnemyRecord with CardAttackSpawnPosition,
+removing the short/signed-char private Spawn facade. Six CardAttack begin
+callbacks remove their duplicate position/manager class declarations and include
+the existing native header. No new game header or compatibility layer is added.
+
+A concrete semantic-label correction accompanies this:the old facade called830
+sprite and10000 lifetime. The original364-byte callee assigns its third argument
+to Enemy+2E48 when nonnegative,so830 is life;the shared implementation identifies
+10000 as score. Calls remain subroutine19,life830,token argument-2,score10000,
+mirror0 and opposing-ECL0. This does not prove a unique original class spelling
+or first-argument C++ width;it makes the maintained definition and callers agree.
+
+Three maintained caller profiles pass17 complete comparisons,and five native
+profiles independently pass14 actual callee comparisons. All31 strict public
+units retain5891 physical bytes/352 fields. GameManager's two old source-bound
+objects verify24 regular observations before supersession;all raw function
+payloads,field positions,kinds and addends stay equal. The two profiles correct
+16/17 actual native identities;14 occur in canonical manifests. Twelve private
+label names change only in the staged alternate context at equal coordinates;
+the maintained path needs no private manifest refresh.
+
+GameplaySetupThread remains1689 bytes/171 source fields versus172 original and
+904 complete differences,with both seed reads now using g_Rng.seed. Unchanged
+ECL source/profile/object proofs are reused for75 strict units and full RunEcl30/
+Enemy13. Combined current public verification covers106 units/28354 bytes/1342
+fields. No all1004-owner cold replay,new exact bytes or accepted receipt is claimed.
+
+Fresh direct Ghidra reuses12.1.4 and compares all685056 mapped bytes for41AA5F,
+41AF2D,40F1D0 and42AE20. Its NextU16 pseudocode is misleadingly void even though
+OnUpdate consumes the returned low word. Native39-byte source comparison and
+actual caller use take precedence over that provisional signature.
+
+Packet `.analysis/gpt-61sol-20261030-game-manager-native-entrypoints/` retains
+self-contained recipes,32 Git/EOL input bindings,all actual COFF/literal/function
+records and failures. An independent selected source-cold compile recovers all32
+inputs and repeats12 complete regular bodies/10 strict units. The renderer first
+rejected two local SetupLoadingPosition declarations before compilation;it was
+then scoped to OnUpdate,keeping the separate loading callback's type intact.
+A neutrality recorder's old schema lacked the redundant bytes key;actual raw/
+field evidence was compared explicitly. Two verifier import errors also occurred
+before compilation and were fixed without rerunning completed producers.
+
+Full public CI passes1055 tests/29 skips in106.846s with all837 tracked inputs
+unchanged. After terminal producers,cleanup removes152 files/3332676 logical
+bytes:three proposal objects,two superseded GameManager objects,eleven PDBs and
+136 CI bytecode files. All892 deletion-time protected hashes agree. Eight
+current caller/callee objects,active ECL,all records/docs and original/providers/
+working Ghidra remain;build/ is absent. Post-cleanup verify.py repeats106 strict
+current comparisons and source/Git/EOL checks. Exact stays1004/84.5034%,with the
+98% milestone unfinished. Per-file deletion/protection:cleanup-applied.json in
+the packet;no old CPP copy tree or compressed source archive is added.

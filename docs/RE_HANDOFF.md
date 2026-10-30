@@ -22,57 +22,51 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current audit — Type3 complete ECL context and actual helper visibility
+## Current audit — GameManager native RNG, sound and enemy creation
 
-Game source remains08197db6;this batch changes research/documentation only.
-Exact remains1004/84.5034%,with31 nonexact source owners and98% unfinished.
-Fresh direct Ghidra reuses the working12.1.4 project,checks all685056 mapped
-bytes and exports Type3 at0x00442750,inverse transforms0x00442420/0x00442450 and
-collision callee0x0041DFF0. Names/decompilation remain provisional;physical comparison decides.
+GameManagerSetup.cpp now uses the shared RngRuntimeView,SoundPlayer,AnmManager
+and EnemyManagerCardAttackSpawnView interfaces. One g_Rng supplies both its
+seed field and NextU16,removing two private aliases and their int-return facade.
+Six CardAttack begin callbacks also use the existing shared spawn header.
+No new game header,helper function,storage or compiler profile is introduced.
 
-Four complete ECL carriers append the unchanged Type3 owner,with actual
-coordinate definitions,actual pointer conversions,both or neither visible:
+The old lane-spawn declaration mislabeled830 as sprite and10000 as lifetime.
+Fresh target-bound Ghidra and the complete364-byte native callee prove the
+third argument writes Enemy life+2E48. Both calls preserve subroutine19,life830,
+defeat-token argument-2,score10000,mirror0 and opposing-ECL0. Original C++ naming
+and short-versus-int declaration uniqueness remain unknown;the current shared
+implementation/interface is now consistent.
 
-| Actual context | Complete Type3 result | Canonical observations | Enemy result |
-| --- | --- | --- | --- |
-| ECL plus Type3 | 780/38 fields/15 differences | 75 pass,0 reject | 3900/97/13 |
-| Plus four coordinate bodies | 765/35/405 overlap differences plus15 missing | 65 pass,14 reject | 3900/97/13 |
-| Plus two pointer bodies | 780/38/15 | 77 pass,0 reject | 3876/96;extent rejected |
-| Both body groups | 765/35/405 plus15 missing | 67 pass,14 reject | 3876/96;extent rejected |
+Three fresh maintained caller carriers preserve17 canonical comparisons;
+five independently compiled native carriers preserve14 callee comparisons.
+All31 strict public units retain5891 physical bytes/352 fields. GameManager's
+24 regular function observations across two profiles are byte-identical to its
+source-bound previous objects. Fourteen canonical fields use native names at
+unchanged targets/offsets/addends. The full GameplaySetupThread stays1689 bytes,
+171 source versus172 original fields and904 differences. No new exact credit.
 
-RunEcl stays15564/598/30 in all four. All24 Type3 calls remain present even in
-765-byte models:the lost fields are three GameManager receiver loads,not calls.
-All4 actual coordinate bodies and both3-byte pointer bodies are independently
-original-equal. Making coordinate definitions visible nevertheless regresses14
-existing ECL owners. These bounded ordinary source contexts do not establish a
-unique original TU partition and are not adopted. No body,ABI or profile changes.
+Packet: `.analysis/gpt-61sol-20261030-game-manager-native-entrypoints/`.
+verify.py checks32 Git/EOL inputs,the31 current caller/callee units,and75
+unchanged source/profile-bound ECL units:106 comparisons/28354 bytes/1342 fields.
+RunEcl30/Enemy13 remain unchanged. reproduce.py --group 0 independently recovers
+all32 inputs and repeats12 regular bodies/10 exact units. Current GameManager
+objects supersede the two08197db6 source-bound objects;dated records remain.
 
-The complete-ECL control preserves all138 existing regular ECL payloads and
-matches a fresh maintained standalone Type3 object's raw bytes and all38 field
-identities/addends. Owner/literal section numbers differ across the two TUs;
-they are not compared as global identities. All284 successful model observations
-also pass the strict public Oracle. They span81 existing comparison units,
-including two excluded folded identities;they are not284 new exact functions.
+Direct Ghidra reuses12.1.4 and checks all685056 mapped bytes for OnUpdate41AA5F,
+GameplaySetup41AF2D,SpawnEnemyRecord40F1D0 and NextU1642AE20. NextU16's provisional
+void decompilation is not used as a return declaration;the native body and caller
+low-word use constrain this shared interface. Other unrelated private facades
+remain separate debt. Full public CI passes1055 tests/29 skips in106.846s,with
+all837 tracked inputs unchanged during the run. Final docs/tracking/progress and
+whitespace checks pass separately.
 
-The original collision callee has277 instructions/862 bytes. Its direct EBP-
-relative argument operands use+0x08/+0x10,with no+0x0C reference;Ghidra also
-reports that second stack argument unused. This supports the existing declaration
-without proving universal argument liveness or an original nominal vector type.
-
-Packet: `.analysis/gpt-61sol-20261030-type3-whole-context/`.
-reproduce.py --case both recovers83 Git/EOL inputs,145 regular definitions and67
-strict comparisons in a separate source-cold compile. verify.py rechecks all4
-saved recipes/284 observations,current standalone Type3 and75 unchanged source/
-profile-bound ECL proofs,including complete RunEcl30/Enemy13. There is no new ECL
-baseline compile or full1004-owner replay.23 focused Type3 tests pass;no shared
-tool/test/game source changes require another full public CI run.
-
-Cleanup removes9 superseded objects/PDBs,2217282 logical bytes;all873 protected
-hashes agree afterward. Current Type3 and active ECL objects,original,target
-providers,working Ghidra and every research/doc/failure record remain. Empty test
-build directories are removed;build/ is absent. No old CPP tree or archive is
-created. The native deallocation checkpoint08197db6 is preserved in the handoff
-archive;its69-owner proof remains scoped to that unchanged game source.
+After terminal producers,cleanup removes152 files/3332676 logical bytes:three
+trial objects,two superseded GameManager objects,eleven PDBs and136 CI bytecode
+files. All892 deletion-time protected hashes agree afterward. Eight current
+caller/callee objects,active ECL,original/providers,working Ghidra and all
+research/documentation remain. verify.py passes again after cleanup;build/ is
+absent. No old CPP tree or compressed source archive is added.
+Exact remains1004/84.5034%;the98% milestone remains unfinished.
 
 ## Previous dependency checkpoint — shared vectors and Front contracts
 
