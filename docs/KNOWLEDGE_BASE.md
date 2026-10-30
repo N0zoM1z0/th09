@@ -25576,3 +25576,96 @@ packet PDBs are disposable after verification. No old source tree or archive is
 created. Target,tracking,documentation and whitespace checks pass;no full cold
 cohort or public CI is run for this documentation-only checkpoint. Exact remains
 1004/1035 and246651/291883(84.5034%);98% and later phases remain unfinished.
+
+## October31: Charge caller identity and real Timer/input context audit
+
+Recovery after the intentional interruption is clean at cd321bba. No compiler
+or headless Ghidra process remains live. The preceding turn is progress: the
+complete Etama constraints were committed. The operator resumes the same active
+reconstruction goal. Original Japanese1.50a target/tracking pass. Direct Ghidra
+reuses12.1.4,verifies all685056 mapped file bytes,and exports complete Charge
+41F810,Timer401520 and input415CB0/415CD0. A later requested41E900 export is
+rejected because the cached Program has no function at that entry;this is not a
+changed target or a successful Ghidra caller export. The original caller is
+instead bound by its complete522-byte canonical PE/COFF comparison and the
+actual relative call at41EABD to41F810. A separate Sound43E2F0 export succeeds.
+
+Twelve source-cold models combine the existing,external-only or ordinary-defined
+Timer greater-equal with opaque/visible held/pressed/both native input leaves.
+All declarations retain their real interfaces;no new inline directive,register
+hint,qualifier,padding,assembly or profile change is introduced. Removing the
+header definition or its noinline/inline spelling alone preserves every1197
+Charge byte/70 fields/58 calls/53 blocks and1160 overlaps plus13 missing bytes.
+Actual WasPressed visibility alone is likewise neutral. Actual IsHeld visibility
+shortens the caller to1188 bytes/69 fields;both inputs give1189/69. All58 native
+call identities/order remain present,but a GameManager+E8 data reload disappears.
+The strict70-field diagnostic correctly rejects these contexts before a score.
+All20 repeated native body checks pass:Timer20 bytes and input18/18 bytes.
+
+Six genuine ECX entry-parameter models use free/native-base,free/current-view
+or static/native-base forms,with the Timer definition visible or external.
+They all retain every baseline1197 byte and effective field,including53 blocks,
+1160 overlaps and13 missing. These are physical entry-ABI controls,not proof of
+original member/static ownership;none is adopted. Four consumed input-pointer/
+mode or side/pointer/mode snapshots,with/without ordinary query members,all
+produce1195/70/58/53 with1153 overlaps plus15 missing. The original byte home
+atEBP-1 remains absent in every model. All four members actually inline;no
+extra target call is invented. Seven additional native Timer body checks pass
+across these two groups. These results bound the tested source contexts only.
+
+Following the real call edge finds an actual reconstructed-linkage defect:
+exact PlayerLifecycleView::OnUpdate called an undefined void UpdateHeavyState
+member,while the maintained complete target owner defines int-returning
+PlayerChargeAttackView::UpdateChargeAttack. The shared PlayerChargeAttackView.hpp
+now exposes that same existing interface to both sources,asserting no additional
+Player storage. The original caller ignores EAX;the native ECX call and its
+field+1BE still resolve41F810. No Charge instruction,return,branch or profile
+changes. The old declaration is no longer an active caller reference;original
+C++ class spelling remains unknown.
+
+The same Runtime source still declared g_SoundPlayer under a private
+PlayerSoundRuntimeView,creating incompatible global/member link names. It now
+uses the actual SoundPlayer.hpp interface already consumed by Charge. Five
+canonical external-symbol fields change their spelling only:two native sound
+receiver/member pairs and the Charge call. Complete original destinations,
+field offsets,kinds and addends remain fixed. The actual140-byte Sound callee
+and its one field are independently rechecked from unchanged source/profile/
+object pins. No whole-product linkage or runtime claim follows.
+
+Two first joined-TU compiles fail because Runtime's unused AsciiManager header
+imports an incompatible AnmVm alongside Charge's lifecycle declaration. Removing
+only that unused include resolves the setup failure without pretending to unify
+all AnmVm projections. Both actual caller/Charge source orders then compile and
+retain complete1197/70/58/1160+13 Charge plus20 exact Runtime siblings each.
+Both genuine Charge references point to the same-object defined owner. The
+unchanged already compiled standalone Charge proposal is reused;only the
+changed Runtime profiles and joined controls are rebuilt. Seven integration
+compiles succeed and two fail;combined source orders remain controls,not an
+adopted or uniquely established original TU partition.
+
+Three adopted current objects and unchanged source-bound reuse pass106 strict
+public canonical checks/31889 complete physical bytes/1455 fields:21 Runtime
+owners,the140-byte Sound callee and84 unchanged units. The additional genuine
+20-byte Timer body under the Charge profile remains exact. All46 regular bodies
+across Runtime main/Ob0 and Charge preserve raw bytes and effective fields;
+11 private labels are refreshed only after actual identical owner-relative
+positions and complete original equality. Complete reused RunEcl15564/598/30
+and Enemy3900/97/13 remain unchanged. No exact function or byte is added.
+
+`.analysis/gpt-61sol-20261031-charge-timer-context/` keeps current.py,source/
+profile/object/Git-EOL bindings,original caller bytes,complete raw/COFF reports,
+all22 controls and integration/failure recipes. reproduce.py cold-regenerates
+one external-Timer model from immutable cd321bba inputs and reproduces every
+regular raw body/field and complete Charge report after source adoption. Ten
+focused Charge tests pass;tracking,progress,documentation,match graph and
+whitespace checks pass. Compilers run serially on one allowed CPU at nice10
+with180-second bounds. No full1004-unit cold replay or full public CI is run.
+
+After terminal producers,cleanup removes61 rejected/superseded/regenerated
+objects and packet PDBs,total4317995 logical bytes,including the two superseded
+optional Runtime objects in the tracking packet. All122 protected files retain
+their hashes. Full observations and immutable Git/EOL recipes remain. Three
+current carrier objects,seven reused tracking objects,the unchanged native Sound
+proof object,research/source recipes,target/toolchains and working Ghidra remain.
+No source archive is created. Coverage remains1004/1035 and246651/291883 bytes
+(84.5034%);98%,native product/runtime and later semantic/port phases remain open.

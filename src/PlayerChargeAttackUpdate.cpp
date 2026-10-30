@@ -1,3 +1,4 @@
+#include "PlayerChargeAttackView.hpp"
 #include "EnemyManager.hpp"
 #include "FrontSide.hpp"
 #include "PlayerLifecycleView.hpp"
@@ -82,11 +83,6 @@ struct PlayerResourceSubtractView
 struct PlayerSpawnShotsView
 {
     void __fastcall SpawnShots(int value, int powerLevel);
-};
-
-struct PlayerChargeAttackView : PlayerLifecycleView
-{
-    int UpdateChargeAttack();
 };
 
 int PlayerChargeAttackView::UpdateChargeAttack()

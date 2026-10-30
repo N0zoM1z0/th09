@@ -9,10 +9,11 @@ without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affect
 sources/profiles. Preserve research records;delete unused old code/build copies.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Current game-source checkpoint: **a6419813**. It shares actual Player target-tracking
-storage across Enemy update/cleanup,Player reset and three shot consumers,and
-replaces Type7's private angle-method declaration with the real native interface.
-No compiler profile,physical extent,origin or exact credit changes.
+Previous game-source checkpoint: **a6419813**. This checkpoint connects the
+exact Player update caller to the maintained Charge interface,uses real native
+SoundPlayer names,and removes an unused conflicting ANM include. Charge keeps
+its complete1197/1210-byte nonexact frontier. No profile,extent,origin or exact
+credit changes. The earlier target-tracking storage repair remains in place.
 
 ## Source and evidence routing
 
@@ -27,10 +28,16 @@ No compiler profile,physical extent,origin or exact credit changes.
   only the position;it does not reset that pointer. The intervening12 bytes have
   a separate vector reset,their role remains unknown. Type7 calls the existing
   `PlayerAngleView::AngleToPoint` at41BB00.
-- `.analysis/gpt-61sol-20261031-player-enemy-tracking/current.py` verifies nine
-  current source/profile objects and105 strict existing units/31749 physical
-  bytes/1454 fields. All138 regular main-ECL raw bodies/effective fields remain
-  unchanged;complete RunEcl stays15564/598/30 and Enemy3900/97/13.
+- `.analysis/gpt-61sol-20261031-charge-timer-context/current.py` verifies three
+  current carrier objects plus unchanged source-bound reuse:106 strict existing
+  units/31889 physical bytes/1455 fields. This includes21 Runtime owners,native
+  Sound140 and84 unchanged tracking/ECL units. Charge stays1197/70/58 with1160
+  overlaps+13 missing;RunEcl15564/598/30 and Enemy3900/97/13 are unchanged.
+- Player OnUpdate's field+1BE now references the defined int-returning
+  `PlayerChargeAttackView::UpdateChargeAttack`,through its shared header.
+  PlayerRuntime uses the actual SoundPlayer API. Both current Runtime profiles
+  and Charge retain all46 regular raw bodies/effective fields. Genuine joined
+  caller/Charge controls in both orders remain nonexact;no TU claim is adopted.
 - Two whole-ECL native-side-type controls retain75 exact siblings each.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`
@@ -43,13 +50,15 @@ No compiler profile,physical extent,origin or exact credit changes.
 - `.analysis/gpt-61sol-20261030-type3-whole-context/current-type3.json` binds the
   Type3 cache to current source/profile. The complete inspector remains
   `scripts/inspect-exattack-type3-schedule.py`;Type3 stays780/38/15.
-- The tracking packet retains nine current objects. After one committed-source
-  cold regeneration,the two rejected trial objects,the regeneration object and
-  their disposable PDBs are removed;all observations,recipes and logs remain.
+- The charge packet retains three current objects and the tracking packet
+  retains seven unchanged objects. Superseded Runtime objects,trial/regenerated
+  compiler objects and disposable PDBs are removed after verification;all
+  observations,immutable Git/EOL source recipes and logs remain. Old combined
+  packet verifiers include superseded Runtime bindings;use current.py above.
 - `.analysis/gpt-61sol-20261031-etama-laser/` retains the600/27/268 current
   baseline and ten native-callee/VM-array controls. Coordinates co-visible with
   the caller shrink it to584/25 and damage DrawSingleBullet;no candidate is
-  adopted. The unchanged105-unit tracking packet remains current.
+  adopted. Its two draw siblings remain source-unchanged.
 - Other dated packet verifiers are historical research tools. Old compiler
   objects have been cleared;rebuild from current source and the configured
   profile when needed. Their absence is expected,not lost canonical evidence.

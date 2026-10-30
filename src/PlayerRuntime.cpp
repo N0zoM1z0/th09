@@ -1,9 +1,10 @@
+#include "PlayerChargeAttackView.hpp"
+#include "SoundPlayer.hpp"
 #include "PlayerState4OpsView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "FileSystem.hpp"
 #include "ZunMemory.hpp"
 #include "ZunTimer.hpp"
-#include "AsciiManager.hpp"
 #include "EffectManager.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "PlayerEnemyTrackingStateView.hpp"
@@ -437,11 +438,6 @@ struct PlayerMetricRuntimeView
     int GetValue();
 };
 
-struct PlayerSoundRuntimeView
-{
-    void PlaySoundByIdx(int soundIndex, int pan);
-};
-extern PlayerSoundRuntimeView g_SoundPlayer;
 
 extern unsigned int g_PlayerUpdateGateFlags;
 extern int g_PlayerTimingTable[][7];
@@ -851,7 +847,7 @@ afterTransition:
         }
 
         if (g_PlayerSharedRuntime->updateBlock1095C == 0)
-            player->UpdateHeavyState();
+            reinterpret_cast<PlayerChargeAttackView *>(player)->UpdateChargeAttack();
     }
 
     if ((player->sideState->flags34 & 1) == 0 &&
