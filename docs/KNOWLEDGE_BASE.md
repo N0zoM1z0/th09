@@ -24587,3 +24587,79 @@ target/toolchains and working Ghidra remain; no old source tree or archive is
 added, and build/ is absent. Recipes, raw/field/literal findings and cleanup pins
 live in `.analysis/gpt-61sol-20261030-enemy-child-contract/`. Exact remains
 1003 and 244917/291883 (83.9093%); the 98% goal and later phases stay unfinished.
+
+## October 30: RunEcl operand lvalues, formal flags and direct native Timer assignment
+
+Recovery begins clean at 135e62ce. The preceding turn corrected the child-ECL
+interface and committed its complete native/caller proof. Disk/tracking checks
+and direct Ghidra's cached Program, i386/base/entry and all 685056 file-backed
+mapped bytes pass. Fresh RunEcl export independently confirms opcode4's early
+ECX argument push and opcode155's wire MOVZX/ESI old word/EAX result. The current
+source/profile/object-bound main baseline is reused without a baseline compile.
+
+Twelve main-carrier source models use the same pinned /O2/Ob1 profile, one
+allowed CPU at nice10 and 180-second bounds. Every model preserves 75 existing
+canonical owners/22463 complete bytes/990 fields. Six actual RunEcl literal
+definitions per object are independently checked against the original. Source
+models preserve the actual one-byte flag and four-byte time reads. In particular,
+u16 capture converts one byte; it does not memcpy two bytes from the instruction.
+No new volatile, forced inline, register/variable-order hint, dummy effect,
+assembly, profile sweep, padding or target-byte modification is introduced.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-OPERAND-REF-001 | compiler observation | Two actual references to old word and wire byte outline an18-byte/zero-field source helper and15560-byte/599-field caller; rejected original coverage. | timeout-references.json |
+| ECL-OPERAND-REF-002 | compiler observation | Byte-valued wire record passed by value outlines a23-byte/zero-field source helper and15576/599 caller; rejected coverage. | timeout-wire-record.json |
+| ECL-OPERAND-REF-003 | compiler observation | Four-byte time wire record,formal Enemy DWORD,direct native Timer and helper-only u16 each reproduce every baseline15564-byte raw RunEcl byte and30 differences,zero field/table drift. | Four complete reports and actual raw/COFF records. |
+| ECL-OPERAND-REF-004 | rejected source model | Consumed four-byte time object with actual implicit int conversion gives15564/598 with42 ordinary differences,zero field/table drift; rejected byte frontier. | jump-implicit-value.json |
+| ECL-OPERAND-REF-005 | rejected source models | Formal Enemy native bitfield,direct/copied byte,gives2258/2140 total differences:2019/1938 ordinary and239/202 field bytes;26 table bytes are subsets of those field counts. | formal-bitfield.json and formal-bitfield-copy.json |
+| ECL-OPERAND-REF-006 | compiler observation | Two actual reference snapshots,old word only or both inputs,each still outline an18-byte helper and15560/599 caller; rejected before a complete linked score. | reference-word-snapshot.json and reference-input-snapshots.json |
+| ECL-OPERAND-REF-007 | rejected source model | One-byte input converted to u16 with genuine u16 helper formal gives15564/598 with2290 total differences:2048 ordinary/242 field bytes,including26 table bytes. | capture-helper-u16.json |
+
+Formal flag controls add only the independently size/offset-asserted four-byte
+union to the actual EnemyView declaration and address its real337C member.
+They do not prove original union spelling. Outlined helpers have exactly one
+positive same-object REL32 in the caller and no assigned original address.
+Full raw/COFF and helper definitions are retained even when strict geometry
+rejects; no truncated-body score is manufactured. The first private recorder
+raised after a successful compile when the strict audit rejected its shape.
+That same object is recovered, all75 siblings proved, and the failure recorded;
+no compiler restart occurs. The lost temporary command path is explicitly unknown.
+
+Only the neutral direct native Timer simplification is adopted. The context's
+time008 is already typedef ZunTimer; remove the redundant reinterpret_cast and
+temporary reference, then assign context->time008=value. The actual compiled
+control's complete staged input hashes equal current source, so it becomes the
+maintained main object without another compile. Ob0 is cold-built once. Both
+profiles preserve all138 regular raw bodies/50066 and46862 bytes,2097 and2235
+effective fields, and the full38-byte compiler contribution. Each profile has
+184 actual-position-proved private renames; eight canonical names in two units
+are refreshed with original positions, addends, destinations and profiles fixed.
+
+The real25-byte SetCurrent and9-byte assignment wrapper replay from unchanged
+source/profile/object pins; no fresh Timer compile is claimed. All81 existing
+owners pass the unchanged strict public compare_unit:25249 physical bytes/1127
+fields. Other922 canonical units receive no new replay. Thirteen actual serial
+builds total are twelve controls plus Ob0. RunEcl15564/598/30,Enemy3900/97/13 and
+Effect34 draw946/53/74 remain unchanged. Source cleanup earns no exact credit.
+
+Saved verification reconstructs78 baseline Git/EOL inputs at135e62ce and all
+twelve model graphs. Eight complete records retain independent call/data
+bindings, all598 fields, actual local table destinations and943 paired blocks;
+four records remain explicit added-call/coverage rejections. All72 saved actual
+literal payloads are checked. No synthetic COFF object is made. The fresh
+rebuild.py entrypoint cold-reproduces one selected model into a new directory
+from immutable Git inputs. Public tools stay unchanged;32 focused Timer/timeout/
+byte-frontier tests pass, with no new full CI or runtime/product claim.
+
+After all producers terminate, cleanup deletes27 ignored files/6900221 logical
+bytes:eleven trial and two superseded ECL objects,thirteen PDBs and one cache.
+All279 protected files retain their hashes, including two maintained ECL objects,
+the actual cached Timer carrier and other reused proofs. Post-cleanup current/
+strict and saved-source/observation replays pass. Documentation/research,current
+game source,target/toolchains and working Ghidra remain; no old C++ tree or
+archive is added and build/ is absent. Current receipts, twelve source recipes,
+actual raw/field/literal records, recorder recovery and deletion/protection pins
+are under `.analysis/gpt-61sol-20261030-ecl-operand-references/`. Previous full
+RunEcl ledger wording is retained in ledger-migration.json; its dated current
+claims are replaced. Exact stays1003 and244917/291883(83.9093%);98% remains open.

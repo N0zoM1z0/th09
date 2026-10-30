@@ -3164,3 +3164,52 @@ current/update/strict-Oracle,saved-source and72-fixture replays pass. The privat
 receipt verifier now normalizes tuple calls to JSON arrays before comparison;
 metadata-only recapture preserves every source/profile/object and full result.
 Before/after pins distinguish that recipe correction from deletion-time hashes.
+
+
+## October30 child-ECL contract checkpoint 135e62ce
+
+## Current game source — shared child-ECL release contract
+
+Following e26062f7, the child-ECL release helper and all three caller sources
+share EnemyChildEclBlocks.hpp. The explicit fastcall interface takes EnemyView*,
+while the helper uses its own EnemyChildEclBlocksView projection. Its previous
+EnemyCoreView definition conflicted with the complete 0x5430 update view. The
+helper's actual 48 bytes/two fields and ECX/no-stack-argument ABI remain exact;
+original member/free spelling and nominal class ownership remain unknown.
+
+Current packet: `.analysis/gpt-61sol-20261030-enemy-child-contract/`.
+Run maintained.py verify for five actual source/profile carriers and the unchanged
+strict public Oracle: 84 existing exact owners, 25,766 physical bytes/1,156 fields.
+Both ECL profiles retain all 138 regular raw bodies and effective field identities;
+each changes one child-release symbol and nine position-proved private names.
+Only four canonical child-release identities and two table-base spellings change.
+Targets, addends, extents, layouts and compiler profiles stay fixed. Other 919
+canonical units receive no new replay. RunEcl remains 15564/598/30, Enemy
+3900/97/13 and Effect34 draw 946/53/74; no new exact credit follows.
+
+Five whole-ECL controls examine actual callee contexts. Visible child release,
+child plus actual cleanup, and a genuine member spelling each retain the same
+13 Enemy differences. Child/free and member forms combined with the real
+33-byte periodic Timer body both regress to 45 differences, restoring the old
+13 but damaging 45 equal positions. Every native definition is checked before
+caller scoring; each control preserves 75 same-profile exact siblings. The
+member body's actual 48-byte equality proves no unique original source ownership.
+No control is adopted. Ten actual serial one-CPU/nice10 builds include the five
+controls, maintained main/Ob0 and the three small-source carriers.
+
+verify_saved.py reproduces 80 baseline Git/EOL inputs and six current/control
+source graphs, then replays saved complete raw/COFF/call/graph/literal observations
+without manufacturing objects. Actual Enemy scalar definitions are independently
+checked in all six main-profile objects. These are codegen observations, not
+native product/runtime or semantic-phase acceptance. Direct Ghidra exports
+reverify all 685056 file-backed mapped bytes for the update, release and cleanup.
+64 focused Enemy tests pass with three skips; public tooling is unchanged, so
+no new full CI is claimed. The successful 1036-test CI belongs to e26062f7.
+
+After all producers terminate, cleanup removes 18 ignored regular files/3858679
+logical bytes: five trial and two superseded ECL objects, ten PDBs and one cache.
+All 212 protected files retain their hashes. Five maintained objects, the prior
+unchanged Type34 update proof, other reused carriers, documentation/research,
+target/toolchains and working Ghidra remain. Post-cleanup maintained/strict and
+saved-source/observation replays pass. No old C++ tree or archive is added;
+build/ is absent. Exact stays 1003/83.9093%; the 98% goal remains unfinished.

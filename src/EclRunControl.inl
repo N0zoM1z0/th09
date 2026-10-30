@@ -217,8 +217,7 @@ __forceinline float *WriteFloat(
         // Use the already-exact operator=(int) target at 0x00401500 rather
         // than any source-only timer method symbol. The shared timer context
         // is the genuine ZunTimer type throughout the ECL layout.
-        ZunTimer &timer = *reinterpret_cast<ZunTimer *>(&context->time008);
-        timer = value;
+        context->time008 = value;
     }
         instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
             reinterpret_cast<unsigned char *>(instruction) +

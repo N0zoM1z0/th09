@@ -2562,3 +2562,28 @@ Oracle on retained actual objects,with no new compilation. The two earlier
 current/callee receipts remain; deliberate post-cleanup manifest/provider
 recapture has separately recorded before/after hashes. The143 protected hashes
 refer to deletion time; later metadata updates are distinguished.
+
+## 2026-10-30: RunEcl operand models and native Timer cleanup
+
+Opcode4 now assigns its existing real ZunTimer member directly. Both maintained
+ECL profiles preserve all138 raw bodies/effective fields. Main reuses the actual
+source-identical control,Ob0 builds once,and the real25+9 Timer pair replays from
+unchanged pins. All81 strict existing canonical owners retain25249 bytes/1127
+fields. Twelve complete source controls add no exact credit;RunEcl30/Enemy13 and
+Effect34 draw74 remain unchanged.
+
+After terminal producers,cleanup deletes27 ignored regular files/6900221 logical
+bytes:eleven trial objects,two superseded child-contract ECL objects,thirteen
+PDBs and one bytecode cache. All279 protected files retain their hashes. Complete
+raw/COFF/helper/literal findings,source recipes and the first recorder's recovered
+failure remain. Two actual current ECL objects,the cached native Timer carrier
+and other reused current/canonical proofs are retained.
+
+Post-cleanup current/strict-public and saved-source/observation replays pass.
+Seventy-eight baseline Git/EOL inputs and twelve models reproduce without old
+C++ copies;rebuild.py supports one fresh source-cold model from immutable Git.
+Documentation/research,current source,target/toolchains and working Ghidra are
+preserved;no archive is added and build/ is absent.32 focused tests pass;public
+tooling is unchanged and no new full CI is claimed. Records:
+`.analysis/gpt-61sol-20261030-ecl-operand-references/`. Exact stays1003/83.9093%;
+98% and later product/runtime phases remain unfinished.
