@@ -2300,3 +2300,32 @@ rerun exits zero. Both source/provider-bound verification and the standard
 Full deletion/protection hashes and source/object/profile-bound proofs are under
 `.analysis/gpt-61sol-20261030-supervisor-device/`. The current verifier uses
 local packet helpers and maintained tools, without historical C++ dependencies.
+
+## 2026-10-30: Pause transition and native Supervisor reader cleanup
+
+Starting clean at4d83270e, six full Pause controls test result-first state9,
+shared time, confirm reset order and canonical Supervisor readers. The branch
+model recovers two physical timeGetTime sites and original state sharing but
+still emits1732/1776 bytes,1459 overlap differences and44 missing; it damages54
+old matches while restoring48 and is not adopted. Canonical reader adoption
+alone preserves every complete emitted code payload and11 existing exact
+owners/2448 bytes/158 fields.428 unchanged canonical proofs from105 source/
+profile/object/provider-bound carriers are reused. No new exact credit is added.
+
+After all compiler/Ghidra/CI handles terminate and a live-producer scan passes,
+cleanup deletes144 regular ignored files/2393619 logical bytes(about2.3MiB).
+These comprise six reproducible trial COFF objects, the replaced4d83270e menu
+object, current PDB and Python caches. Current current.obj and every log, raw/
+COFF/diagnostic JSON, recipe, original input/hash binding, documentation and
+research record remain. All148 protected files, including105 reused objects,
+retain their hashes. Empty generated directories are removed; build/ is absent.
+No new source archive or historical C++ snapshot is created.
+
+The14 original Git/EOL inputs, six candidate-source hashes and eight original
+public-provider hashes are reproduced in memory from4d83270e. Complete current
+verification is self-contained and needs no old C++ snapshots or retired object.
+24 focused Pause tests and full public CI(1036 tests/29 skipped) pass; the
+one-carrier complete-body/standard-gate/native-field verifier passes again after
+cleanup. Exact remains1003 and244917/291883 bytes(83.9093%);98% and later phases
+remain open. Deletion/protection hashes and receipts are in
+`.analysis/gpt-61sol-20261030-pause-transition-review/`.

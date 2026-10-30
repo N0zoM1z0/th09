@@ -19,67 +19,68 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current game source — native Supervisor D3D and original literals
+## Current game source — native Supervisor readers in menu updates
 
-This checkpoint supersedes game source4dd2212d. The canonical Supervisor now
-exposes the observed IDirect3D8* at+4 and IDirect3DDevice8* at+8. Direct3D creation,
-device setup, Effect34, ExAttack14/22 and TextHelper use that declaration.
-Four redundant local views are removed. The startup helper's former private
-`g_Supervisor` type produced a different native C++ global identity; its operand
-now names the canonical global. Offsets, allocation, branches and SDK calls stay
-unchanged. Original nominal C++ types and complete native linkage remain open.
+This checkpoint follows4d83270e. Menu code now reads the existing canonical
+Supervisor flags5D4 and framerateMultiplier5B8 fields. The old partial view
+exposed flags without the maintained volatile qualifier and duplicated the
+framerate field; those declarations and redundant offset guards are removed.
+The existing native qualifiers are reused, not newly introduced. Other partial
+fields retain their original offsets and remain provisional. Original nominal
+C++ types/qualifiers and complete product/runtime closure are unproved.
 
-A wider dependency audit finds two real old source errors: MIDI's English error
-message and Ending's truncated ASCII error prefix differ from original CP932
-literals. Both full original payloads, including MIDI's observed control bytes,
-are restored. Historical instruction-only matches did not establish those data
-payloads. The standard match-unit Oracle now checks actual read-only COFF
-literal definitions against every original referent, including four/eight-byte
-scalars and bounded narrow/UTF-16 strings. Matching symbol names alone cannot
-pass this check.
+One affected source/profile carrier preserves **11 canonical exact owners /
+2448 physical bytes /158 fields** and all13 complete emitted body payloads.
+Eight compiler-private fields in AsciiMenuState4 change spelling only at
+independently verified identical owner-relative coordinates. Native identities,
+profiles, addresses, addends, extents and match rows do not change. Complete
+Pause remains1732/1776 bytes,107 fields,1453 overlap differences plus44 missing;
+its three static timestamp calls still differ from the original two.
 
-The106 affected source/profile carriers protect **439 canonical authored exact
-owners /121391 physical bytes /6843 fields**, plus three unknown-origin units
-and one folded-reader alias. All443 configured comparisons total121489 bytes/
-6851 fields; the extra units and repeated profiles earn no new credit. All857
-emitted regular body/profile comparisons preserve code bytes;32 compiler COMDATs
-retain962 bytes/49 fields/49 entry symbols. Three reviewed external/literal
-identities and124 position-proven private fields are the only manifest changes.
-The standard gate also rejects three actual old COFF objects: the false startup
-global identity and both wrong literal payloads. All original sizes, target
-addresses, profiles and match rows remain unchanged.
+The current source/provider-bound verifier is
+`.analysis/gpt-61sol-20261030-pause-transition-review/current.py verify`;
+`build` cold-compiles only this one carrier, serially at lowered priority.
+It checks every emitted body/field, all11 complete original matches and actual
+literal definitions through the standard Oracle. Current verification needs
+maintained tools, local packet helpers/records and current.obj; no historical
+C++ source copies.428 other canonical proofs from105 unaffected carriers remain
+source/profile/object/provider and unchanged-unit bound in
+`unaffected-proof-reuse.json`. The other564 canonical rows receive no new cold
+compile or literal audit. Exact credit stays1003;98% remains unfinished.
 
-Current replay is `.analysis/gpt-61sol-20261030-supervisor-device/device.py verify`;
-`build` serially rebuilds the106 carriers. `canonical_gate.py` runs the standard
-Oracle and the three real negatives. Current verification uses maintained tools,
-local packet helpers and current objects, without historical C++ copies.
-Another564 canonical rows have unchanged source/profile/unit inputs; this batch
-does not claim a new compile or literal audit for them. Earlier replay commands
-below are dated evidence and may reject the newer shared header or Oracle.
+## Latest large-function review
 
-Complete RunEcl15564/598/30, Enemy3900/97/13, biased517/516 with28 fields/148
-overlaps and Effect34 draw946/53/78 remain unchanged. Exact credit stays1003;
-the98% milestone and later product/runtime/semantic/port gates remain open.
+Fresh cached direct Ghidra exports Enemy410730 and Pause434740 after checking
+all685056 mapped file bytes. Enemy's complete3900/97/13 result is rechecked;
+prior constructor/periodic controls are not assumed to prove unique source/TU
+ownership. No new Enemy model is adopted. RunEcl15564/598/30 and the other
+unchanged frontiers retain their source-bound proofs.
 
-## Latest review and cleanup
+Six complete Pause controls test result-first state9, an explicit shared clock,
+confirm-frame reset chronology and native Supervisor readers. Result-first
+alone reaches the original two-call state-sharing pattern and two-byte tail
+alignment, with106 fields, but still1732 bytes/1459 overlap differences/44
+missing. It restores48 old mismatches and damages54 old matches; no branch
+reordering is adopted. The explicit clock label returns to the existing
+three-call/1453 result. Confirm reset order is raw-neutral in both contexts;
+canonical readers are likewise neutral in each context. These finite models
+do not establish exhaustion or the original source spelling.
 
-Direct cached Ghidra checks all685056 file-backed bytes before exporting the
-Effect34 draw/angle helper and Direct3D creation/device setup. Draw's ignored
-angle-normalization return is original behavior. An initial combined export
-fails because the initializer has no Ghidra function; successful follow-up
-exports and the failed request are both retained. Ghidra's provisional draw
-body excludes three internal alignment bytes; the complete946-byte Oracle
-comparison still includes them.
+All six controls preserve the11 exact siblings. Maintained native-reader
+adoption is separately cold-compiled and standard-gate checked.24 focused tests
+pass. The diagnostic generator's strict source-preimage hash is refreshed for
+the reviewed native-field substitution; the two initial stale-preimage failures
+and a pre-compiler text-anchor setup failure are recorded separately. These
+input guards do not grant exactness or replace the complete byte/field Oracle.
 
-The11 focused literal tests and full public CI pass:1036 tests/29 skipped.
-Actual old-source failures, complete positive comparisons, payload facts,
-rejected intermediate captures,
-recipes and cleanup hashes remain in the packet. Documentation and research
-records are preserved; disposable baselines, duplicate proposals and compiler
-PDB/cache files are removed after terminal checks. Cleanup deletes385 files/
-19811875 logical bytes(about18.9MiB); all431 protected files retain their hashes.
-Current106 objects and three actual negatives remain, and build/ is absent.
-No new code archive is made.
+Documentation, research records, complete positive/negative comparisons and
+recipes remain in the packet. Full public CI passes1036 tests/29 skipped.
+After producer termination, cleanup removes144 files/2393619 logical bytes
+(about2.3MiB): six disposable trial objects, the replaced old menu object,
+PDB and Python caches. All148 protected files, including105 reused objects,
+retain their hashes. The current one-carrier verifier passes after cleanup;
+build/ is absent. No new code archive is made. Later product/runtime/semantic/
+port gates remain open.
 
 ## Earlier dependency corrections
 
@@ -103,6 +104,7 @@ and source-interface cleanup earn no partial exact credit.
 
 | Source checkpoint | Maintained change | Local evidence below `.analysis/` |
 | --- | --- | --- |
+| 4d83270e | Native D3D root and restored MIDI/Ending literals;439 existing canonical owners retain121391 bytes/6843 fields. | `gpt-61sol-20261030-supervisor-device/` (dated records;105 carriers reused) |
 | 4dd2212d | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/` (dated records) |
 | 17a11669 | Native Type6/7/8/9 setup and EffectManager contracts;219 existing exact owners preserved. | `gpt-61sol-20261030-runecl-formal-state/` (dated records) |
 | 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |

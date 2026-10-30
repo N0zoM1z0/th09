@@ -63,7 +63,7 @@ def definition(text, marker):
 def control_context(source, case):
     """Move the real common exit or traverse the same seven native VMs."""
     body = definition(source, 'int PauseMenu::OnUpdate()')
-    if digest(body.encode()) != '95f6eeaa91e3d6ac8a8dda6e313d1c019e0206584f6031c96be96a4d12442790':
+    if digest(body.encode()) != 'ec5f87654382973c656a9998764576d5f76d3d50a6af9aa78d903a31f53ba68d':
         raise ValueError('reviewed Pause control-flow source changed')
     original = body
     loop = ('    for (i = 0; i < 7; i++) {\n'

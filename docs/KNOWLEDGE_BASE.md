@@ -23711,3 +23711,98 @@ Python caches. All431 protected packet files retain their SHA256 values, includi
 106 current objects and three actual negative objects. Post-cleanup focused and
 standard-gate replays pass again; build/ is absent. No documentation, research
 record, target, toolchain or working Ghidra project is removed.
+
+## October 30: Pause transitions and native Supervisor readers
+
+Recovery starts clean at4d83270e, with1003 canonical exact authored functions and
+244917/291883 bytes(83.9093%). The previous goal turn is progress: it corrected
+the native D3D root and two wrong literal payloads and committed those changes.
+Original disk identity and cached Ghidra pass architecture/base/entry/SHA and
+all685056 file-backed mapped bytes. No IDA, REA or Factory MCP is used.
+
+Enemy's complete3900-byte baseline is source/profile/object bound to the current
+ECL carrier and retains all97 fields and13 residuals at+19C,+1A3,+252,+263,
++26D,+272,+294,+29A,+29C,+2A5,+2A9,+2B7,+2BD. Original direct Ghidra confirms
+the periodic/threshold/descriptor flow. Existing co-visible periodic and native
+constructor models are read before declining to repeat their unchanged forms.
+This does not prove that all natural Enemy models or TU ownerships are exhausted.
+Its new binding/export records live in
+`.analysis/gpt-61sol-20261030-enemy-periodic-dataflow/`.
+
+The bounded compiler work targets the1776-byte PauseMenu owner434740. Current
+native-source baseline is1732 physical bytes/1692 code/no alignment/107 fields/
+454 instructions/46 direct calls/three timestamp sites; overlap differences are
+1453 plus44 missing bytes. Original1734 code+two alignment+40 table bytes has
+106 fields,449 instructions and two timeGetTime calls at+3C1/+6B2. States3/8
+reach the first call and state9 can reach both in the decoded unconstrained CFG.
+These are static reachability facts, not runtime multiplicity or condition proofs.
+
+The original's result-return arm of state9 precedes its ordinary transition to
+the shared clock. A natural inverse branch preserves all actual effects and
+returns while matching that arm order. Complete compilation emits1732 physical
+bytes/1690 code/two-byte8BFF alignment/106 fields/457 instructions,46 direct
+calls and two timestamp sites at+3A8/+686. Per-state timestamp reachability now
+has the original sharing topology. Nevertheless,1459 original-linked bytes
+differ and44 physical bytes remain missing:48 old mismatches are restored but54
+previous equal positions are damaged. The complete owner is not improved or
+credited. Adding an explicit shared clock label reproduces every maintained
+1732/107/1453 byte and three timestamp sites instead. Original source-level
+call count or preferred label spelling cannot be inferred from physical sharing.
+
+Two further controls put confirm-frame reset before action-state selection,
+as seen in the original dataflow. They are wholly raw-neutral in baseline and
+inverse-branch contexts. No chronology rearrangement is adopted. Two native
+Supervisor-reader controls are likewise raw-neutral in those respective contexts.
+The six complete trial compiles each preserve11 exact menu siblings/2448 bytes/
+158 fields and all other emitted bodies/field identities. No profile changes,
+register hints, dummy effects or new qualifiers are used.
+
+The native reader change is independently useful and adopted. The private
+AsciiSupervisorView declared unsigned flags5D4, dropping the existing canonical
+Supervisor member's volatile qualifier, and duplicated float frameScalar5B8.
+Both flags reads and the framerate read now use g_Supervisor's existing members.
+The duplicate fields and their redundant guards become an opaque5A8..79B range;
+state590,field5A4 and systemTime79C retain their observed offsets. The canonical
+header already fixes+5B8/+5D4 and marks flags volatile, with original-bound
+Supervisor constructor and Timer proofs; no new volatile annotation is added.
+This reconciles the maintained declaration contract without claiming unique
+original nominal types, original volatility or a change to the residual codegen.
+
+A separate cold compile of maintained source preserves all13 full regular
+functions and all11 canonical matches/2448 physical bytes/158 fields, actual
+literal definitions and complete Pause1732/1776/107/1453+44. No auxiliary-less
+compiler code is present. Eight actual owner-local label fields in the exact
+AsciiMenuState4 owner change spelling only after full byte and independent
+coordinate proof; no other manifest value changes. The standard public Oracle
+also passes all11 units.428 unchanged canonical proofs/118943 physical bytes/
+6685 fields are reused from105 per-source/profile/object/provider-bound carriers
+with unchanged unit metadata. Another564 canonical rows receive no new cold
+compile or literal audit. Repeated units earn no new credit.
+
+The old diagnostic generator's source-preimage guard rejects the intentional
+native-field spelling change in two focused tests. Its preimage is refreshed
+only after complete code/field/literal checks; all24 focused Pause tests then
+pass. A preparation anchor initially assumed a blank line that was absent and
+fails before any compiler invocation; the corrected recipe and the failure log
+both remain. These are source-transform input guards and failed preparations,
+not behavioral acceptance criteria or positive compilation evidence.
+
+Current proof is the self-contained current.py in
+`.analysis/gpt-61sol-20261030-pause-transition-review/`; it uses local receipt
+primitives and maintained public tools without old C++ snapshots. It can rebuild
+only the affected carrier. Dated control recipes retain their4d83270e source
+hashes and use Git/EOL reconstruction if rerun after adoption. Full raw/COFF,
+complete diagnostics, target observations, failures, provenance and cleanup
+hashes stay as research records. Unused trial objects and PDBs are removed
+without a new source archive. Exact total remains1003 and83.9093%;98% and the
+later product/runtime/semantic/portability gates remain unfinished.
+
+The complete public CI passes1036 tests/29 skipped in102.865s. All producer
+handles terminate before cleanup. Exactly144 ignored regular files/2393619
+logical bytes(about2.3MiB) are deleted: six trial COFF objects, the superseded
+4d83270e menu object, current PDB and Python caches. All148 protected files,
+including the105 reused objects, retain their SHA256 values. Complete current
+11-unit/native-field/Pause verification passes after cleanup; build/ is absent.
+All14 original Git/EOL inputs, six candidate hashes and eight original public
+provider hashes are reconstructed in memory. No historical C++ source copy,
+new source archive, documentation or research-record deletion is needed.

@@ -2580,3 +2580,71 @@ inputs and all candidate hashes without old C++ copies. Three stale-input guard
 checks pass. Cleanup deletes12 fully recorded control/debug files,1118106
 logical bytes(about1.1MiB), retaining all40 records and current canonical proofs.
 No code archive is created; the98% goal is unfinished.
+
+## October 30: superseded Supervisor D3D and original-literal handoff
+
+Historical source4d83270e. The following replay is source/provider scoped;
+current menu readers and its one affected carrier are described in the active
+handoff. The remaining105 carrier proofs are reused after per-carrier checks.
+
+## Current game source — native Supervisor D3D and original literals
+
+This checkpoint supersedes game source4dd2212d. The canonical Supervisor now
+exposes the observed IDirect3D8* at+4 and IDirect3DDevice8* at+8. Direct3D creation,
+device setup, Effect34, ExAttack14/22 and TextHelper use that declaration.
+Four redundant local views are removed. The startup helper's former private
+`g_Supervisor` type produced a different native C++ global identity; its operand
+now names the canonical global. Offsets, allocation, branches and SDK calls stay
+unchanged. Original nominal C++ types and complete native linkage remain open.
+
+A wider dependency audit finds two real old source errors: MIDI's English error
+message and Ending's truncated ASCII error prefix differ from original CP932
+literals. Both full original payloads, including MIDI's observed control bytes,
+are restored. Historical instruction-only matches did not establish those data
+payloads. The standard match-unit Oracle now checks actual read-only COFF
+literal definitions against every original referent, including four/eight-byte
+scalars and bounded narrow/UTF-16 strings. Matching symbol names alone cannot
+pass this check.
+
+The106 affected source/profile carriers protect **439 canonical authored exact
+owners /121391 physical bytes /6843 fields**, plus three unknown-origin units
+and one folded-reader alias. All443 configured comparisons total121489 bytes/
+6851 fields; the extra units and repeated profiles earn no new credit. All857
+emitted regular body/profile comparisons preserve code bytes;32 compiler COMDATs
+retain962 bytes/49 fields/49 entry symbols. Three reviewed external/literal
+identities and124 position-proven private fields are the only manifest changes.
+The standard gate also rejects three actual old COFF objects: the false startup
+global identity and both wrong literal payloads. All original sizes, target
+addresses, profiles and match rows remain unchanged.
+
+Current replay is `.analysis/gpt-61sol-20261030-supervisor-device/device.py verify`;
+`build` serially rebuilds the106 carriers. `canonical_gate.py` runs the standard
+Oracle and the three real negatives. Current verification uses maintained tools,
+local packet helpers and current objects, without historical C++ copies.
+Another564 canonical rows have unchanged source/profile/unit inputs; this batch
+does not claim a new compile or literal audit for them. Earlier replay commands
+below are dated evidence and may reject the newer shared header or Oracle.
+
+Complete RunEcl15564/598/30, Enemy3900/97/13, biased517/516 with28 fields/148
+overlaps and Effect34 draw946/53/78 remain unchanged. Exact credit stays1003;
+the98% milestone and later product/runtime/semantic/port gates remain open.
+
+## Latest review and cleanup
+
+Direct cached Ghidra checks all685056 file-backed bytes before exporting the
+Effect34 draw/angle helper and Direct3D creation/device setup. Draw's ignored
+angle-normalization return is original behavior. An initial combined export
+fails because the initializer has no Ghidra function; successful follow-up
+exports and the failed request are both retained. Ghidra's provisional draw
+body excludes three internal alignment bytes; the complete946-byte Oracle
+comparison still includes them.
+
+The11 focused literal tests and full public CI pass:1036 tests/29 skipped.
+Actual old-source failures, complete positive comparisons, payload facts,
+rejected intermediate captures,
+recipes and cleanup hashes remain in the packet. Documentation and research
+records are preserved; disposable baselines, duplicate proposals and compiler
+PDB/cache files are removed after terminal checks. Cleanup deletes385 files/
+19811875 logical bytes(about18.9MiB); all431 protected files retain their hashes.
+Current106 objects and three actual negatives remain, and build/ is absent.
+No new code archive is made.

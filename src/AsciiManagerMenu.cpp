@@ -19,11 +19,7 @@ struct AsciiSupervisorView
     int state590;
     unsigned char unknown594[0x10];
     int field5A4;
-    unsigned char unknown5A8[0x10];
-    float frameScalar5B8;
-    unsigned char unknown5BC[0x18];
-    unsigned int flags5D4;
-    unsigned char unknown5D8[0x1C4];
+    unsigned char unknown5A8[0x79C - 0x5A8];
     unsigned int systemTime79C;
 
     int FinalizeResultScreen();
@@ -31,10 +27,6 @@ struct AsciiSupervisorView
 
 typedef char AsciiSupervisorField5A4[
     (offsetof(AsciiSupervisorView, field5A4) == 0x5A4) ? 1 : -1];
-typedef char AsciiSupervisorFrameScalarAt5B8[
-    (offsetof(AsciiSupervisorView, frameScalar5B8) == 0x5B8) ? 1 : -1];
-typedef char AsciiSupervisorFlagsAt5D4[
-    (offsetof(AsciiSupervisorView, flags5D4) == 0x5D4) ? 1 : -1];
 typedef char AsciiSupervisorSystemTimeAt79C[
     (offsetof(AsciiSupervisorView, systemTime79C) == 0x79C) ? 1 : -1];
 
@@ -317,7 +309,7 @@ int PauseMenu::OnUpdate()
     for (i = 0; i < 7; i++) {
         g_AnmManager->ExecuteScript(&this->menuSprites[i]);
     }
-    if (AsciiSupervisor()->flags5D4 & 2) {
+    if (g_Supervisor.flags5D4 & 2) {
         g_AnmManager->ExecuteScript(&this->menuBackground);
     }
     this->frames++;
@@ -490,7 +482,7 @@ int AsciiManager::OnUpdate(AsciiManager *ascii)
                     if (!popup->inUse) {
                         continue;
                     }
-                    popup->position.y -= AsciiSupervisor()->frameScalar5B8 * 0.2f;
+                    popup->position.y -= g_Supervisor.framerateMultiplier5B8 * 0.2f;
                     popup->timer++;
                     if (popup->timer > 60) {
                         popup->inUse = 0;
@@ -525,7 +517,7 @@ void AsciiMenuState5::OnDraw()
 
     g_AnmManager->FlushVertexBuffer();
     g_Supervisor.ConfigureGameplayViewport(2);
-    if ((AsciiSupervisor()->flags5D4 & 2) && (this->state != 0 || this->frames > 2)) {
+    if ((g_Supervisor.flags5D4 & 2) && (this->state != 0 || this->frames > 2)) {
         g_AnmManager->DrawNoRotation(&this->menuBackground);
     }
     for (i = 0; i < 5; i++) {
