@@ -1,17 +1,18 @@
 # TH09 reconstruction — current handoff
 
-## Operator status — maintenance
+## Operator status — reconstruction resumed
 
-The operator cleared the active reconstruction goal on October30 and requested
-code/documentation cleanup. The98% milestone remains unfinished;it is not an
-active autonomous task. Resume reconstruction when requested. Preserve all
-documentation and research records;delete unused code/build copies rather than
-creating another archive. Use direct local Ghidra only,no IDA,REA or Factory MCP.
+The operator explicitly resumed reconstruction on October31. Continue the98%
+reviewed-authored-byte milestone,prioritizing complete RunEcl and Enemy while
+keeping big functions and small leaves in scope. Use direct local Ghidra only,
+without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affected
+sources/profiles. Preserve research records;delete unused old code/build copies.
 
-Latest game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Maintenance changes no game behavior,compiler profile,extent,origin or exact
-credit. There is no unfinished game-source patch to recover at this checkpoint.
-The earlier restart atcc19b484 and subsequent experiments remain historical.
+Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
+Recovery at964ac44b was clean. This checkpoint shares actual Player target-tracking
+storage across Enemy update/cleanup,Player reset and three shot consumers,and
+replaces Type7's private angle-method declaration with the real native interface.
+No compiler profile,physical extent,origin or exact credit changes.
 
 ## Source and evidence routing
 
@@ -21,18 +22,30 @@ The earlier restart atcc19b484 and subsequent experiments remain historical.
 - Original input is ignored `resources/th09.exe`,Japanese1.50a,SHA-256
   `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
   Target/toolchains and the working Ghidra project are preserved.
-- The latest source repair shares native RNG,sound,ANM and enemy-spawn interfaces.
-  Spawn arguments830/10000 mean life/score,not sprite/lifetime. The31 affected
-  caller/callee comparisons preserved5891 physical bytes/352 fields. ECL source
-  stayed unchanged;75 strict proofs retained22463 bytes/990 fields and complete
-  RunEcl30/Enemy13. These are existing comparisons,not new exact credit.
-- `.analysis/gpt-61sol-20261030-game-manager-native-entrypoints/` contains current
-  source/profile/object bindings,proofs and recipes. Its `verify.py` rechecks106
-  units/28354 bytes/1342 fields. Ten optional current objects are retained:
-  eight native-interface objects,the active ECL object and standalone Type3.
+- `src/PlayerEnemyTrackingStateView.hpp` represents Player+30364..3037F:
+  nearest-position storage and the separate +3037C homing pointer. Stage D resets
+  only the position;it does not reset that pointer. The intervening12 bytes have
+  a separate vector reset,their role remains unknown. Type7 calls the existing
+  `PlayerAngleView::AngleToPoint` at41BB00.
+- `.analysis/gpt-61sol-20261031-player-enemy-tracking/current.py` verifies nine
+  current source/profile objects and105 strict existing units/31749 physical
+  bytes/1454 fields. All138 regular main-ECL raw bodies/effective fields remain
+  unchanged;complete RunEcl stays15564/598/30 and Enemy3900/97/13.
+- Two whole-ECL native-side-type controls retain75 exact siblings each.
+  Native shared side storage alone retains Enemy13;adding the genuine periodic
+  Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`
+  retain bounded recipes/full observations,without old source trees.
+- The previous native RNG/sound/ANM/spawn repair remains. Spawn arguments830/
+  10000 mean life/score. Its31-unit native proofs remain source-unchanged in
+  `.analysis/gpt-61sol-20261030-game-manager-native-entrypoints/`;that packet's
+  old106-unit verifier includes a superseded ECL binding. Use the new105-unit
+  verifier for the current affected closure,not the old combined verifier.
 - `.analysis/gpt-61sol-20261030-type3-whole-context/current-type3.json` binds the
   Type3 cache to current source/profile. The complete inspector remains
   `scripts/inspect-exattack-type3-schedule.py`;Type3 stays780/38/15.
+- The tracking packet retains nine current objects. After one committed-source
+  cold regeneration,the two rejected trial objects,the regeneration object and
+  their disposable PDBs are removed;all observations,recipes and logs remain.
 - Other dated packet verifiers are historical research tools. Old compiler
   objects have been cleared;rebuild from current source and the configured
   profile when needed. Their absence is expected,not lost canonical evidence.
@@ -122,7 +135,7 @@ repeating them. Historical assumptions remain hypotheses.
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Remaining receiver/allocation scheduling. Preserve43 matching bytes and genuine AnmLoaded/Chain interfaces. `--owner effect`. |
 | **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Packed input/seed16-bit store order. Preserve178 matching physical bytes and both exact queue members. `--owner queue`. |
 
-## Restart when reconstruction is requested
+## Continuing reconstruction
 
 Read [AGENTS.md](../AGENTS.md),[RE_WORKFLOW.md](RE_WORKFLOW.md),
 [ORACLES.md](ORACLES.md),the affected rows and relevant KB findings. Recover all
@@ -184,4 +197,4 @@ git diff --check
 Use full public CI for shared validation/tooling changes;documentation alone
 needs no compiler or Ghidra replay. English local commits use `gpt-6.1-sol:` and
 the identity/trailer in AGENTS.md. A local checkpoint does not prove remote
-publication. The current task is maintenance,not a resumed reconstruction goal.
+publication. The October30 maintenance report above is historical;reconstruction is now active.

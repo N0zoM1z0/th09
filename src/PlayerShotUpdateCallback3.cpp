@@ -1,3 +1,4 @@
+#include "PlayerEnemyTrackingStateView.hpp"
 #include <math.h>
 
 float AddNormalizeAngle(float angle, float delta);
@@ -26,7 +27,7 @@ struct PlayerShotUpdate3TimerView
 struct PlayerShotUpdate3PlayerView
 {
     unsigned char unknown0000[0x30364];
-    PlayerShotUpdate3Vec3 trackedEnemyPosition30364;
+    PlayerEnemyTrackingStateView tracking30364;
 };
 
 struct PlayerShotUpdate3ShotView
@@ -52,13 +53,13 @@ int __fastcall PlayerShotUpdateCallbackType3(
     {
         float angle;
 
-        if (player->trackedEnemyPosition30364.x >= -144.0f)
+        if (player->tracking30364.trackedEnemyPosition00.x >= -144.0f)
         {
             float xDelta =
-                player->trackedEnemyPosition30364.x -
+                player->tracking30364.trackedEnemyPosition00.x -
                 shot->position2A4.x;
             float yDelta =
-                player->trackedEnemyPosition30364.y -
+                player->tracking30364.trackedEnemyPosition00.y -
                 shot->position2A4.y;
 
             if (yDelta == 0.0f && xDelta == 0.0f)

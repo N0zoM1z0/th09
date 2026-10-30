@@ -1,13 +1,14 @@
 #include "EnemyManager.hpp"
 #include "EnemyChildEclBlocks.hpp"
+#include "PlayerEnemyTrackingStateView.hpp"
 
 #include <stddef.h>
 
 struct EnemyView;
 struct EnemyCleanupPlayerView
 {
-    unsigned char unknown00000[0x3037C];
-    EnemyView *homingTarget3037C;
+    unsigned char unknown00000[0x30364];
+    PlayerEnemyTrackingStateView tracking30364;
 };
 struct EnemyCleanupSideView
 {
@@ -91,6 +92,6 @@ void EnemyView::CleanupAfterDeactivation()
 
     EnemyCleanupPlayerView *player =
         enemy->manager00->sideState320->player04;
-    if (player->homingTarget3037C == this)
-        player->homingTarget3037C = 0;
+    if (player->tracking30364.homingTarget18 == this)
+        player->tracking30364.homingTarget18 = 0;
 }

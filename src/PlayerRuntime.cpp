@@ -6,6 +6,7 @@
 #include "AsciiManager.hpp"
 #include "EffectManager.hpp"
 #include "RngRuntimeLeaves.hpp"
+#include "PlayerEnemyTrackingStateView.hpp"
 
 #include <stddef.h>
 
@@ -736,8 +737,9 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
 
 static void PlayerUpdateStageD(PlayerLifecycleView *player)
 {
-    *reinterpret_cast<Float3 *>(
-        reinterpret_cast<unsigned char *>(player) + 0x30364) =
+    reinterpret_cast<PlayerEnemyTrackingStateView *>(
+        reinterpret_cast<unsigned char *>(player) + 0x30364)
+        ->trackedEnemyPosition00 =
         Float3(-999.0f, -999.0f, 0.0f);
     *reinterpret_cast<Float3 *>(
         reinterpret_cast<unsigned char *>(player) + 0x30370) =

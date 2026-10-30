@@ -18,6 +18,7 @@
 #include "AnmManager.hpp"
 #include "AsciiBossMarkerVmView.hpp"
 #include "ZunMemory.hpp"
+#include "PlayerEnemyTrackingStateView.hpp"
 
 #include <math.h>
 #include <stddef.h>
@@ -166,9 +167,7 @@ struct EnemyCorePlayerView
     unsigned char unknown00368[0x1B88 - 0x368];
     Float3 position1B88;
     unsigned char unknown01B94[0x30364 - 0x1B94];
-    Float3 trackedEnemyPosition30364;
-    unsigned char unknown30370[0x3037C - 0x30370];
-    EnemyCoreView *homingTarget3037C;
+    PlayerEnemyTrackingStateView tracking30364;
     unsigned char unknown30380[0x303C8 - 0x30380];
     ZunTimer stateTimer303C8;
 
@@ -178,7 +177,8 @@ typedef char EnemyCorePlayerFocusAt364[
 typedef char EnemyCorePlayerPositionAt1B88[
     (offsetof(EnemyCorePlayerView, position1B88) == 0x1B88) ? 1 : -1];
 typedef char EnemyCorePlayerHomingAt3037C[
-    (offsetof(EnemyCorePlayerView, homingTarget3037C) == 0x3037C) ? 1 : -1];
+    (offsetof(EnemyCorePlayerView, tracking30364) +
+     offsetof(PlayerEnemyTrackingStateView, homingTarget18) == 0x3037C) ? 1 : -1];
 
 // The reset copy and the native Etama call use the same 0x214-byte payload.
 // Keep the independently reviewed offsets without a second descriptor class.
@@ -449,8 +449,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
         if ((flags & ENEMY_CORE_ACTIVE) == 0)
         {
-            if (manager->sideState320->player04->homingTarget3037C == enemy)
-                manager->sideState320->player04->homingTarget3037C = 0;
+            if (manager->sideState320->player04->tracking30364.homingTarget18 ==
+                    reinterpret_cast<EnemyView *>(enemy))
+                manager->sideState320->player04->tracking30364.homingTarget18 = 0;
             continue;
         }
 
@@ -743,7 +744,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
                     EnemyCoreSideStateView *side = manager->sideState320;
                     Float3 oldTargetDelta =
-                        side->player04->trackedEnemyPosition30364 -
+                        side->player04->tracking30364.trackedEnemyPosition00 -
                         side->player04->position1B88;
                     EnemyCorePlayerView *player = side->player04;
                     Float3 newTargetDelta =
@@ -753,7 +754,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                         newTargetDelta.x * newTargetDelta.x +
                             newTargetDelta.y * newTargetDelta.y)
                     {
-                        player->trackedEnemyPosition30364 =
+                        player->tracking30364.trackedEnemyPosition00 =
                             enemy->worldPosition2DD4;
                     }
 
@@ -762,11 +763,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                             enemy->worldPosition2DD4.x -
                             player->position1B88.x)) < 64.0f)
                     {
-                        EnemyCoreView *homing = player->homingTarget3037C;
+                        EnemyCoreView *homing = reinterpret_cast<EnemyCoreView *>(
+                            player->tracking30364.homingTarget18);
                         if (homing == 0 ||
                             homing->position2D74.y > enemy->worldPosition2DD4.y)
                         {
-                            player->homingTarget3037C = enemy;
+                            player->tracking30364.homingTarget18 =
+                                reinterpret_cast<EnemyView *>(enemy);
                         }
                     }
                 }

@@ -25457,3 +25457,70 @@ CI1055 tests/29 skips in110.109s pass;832 tracked input hashes remain stable dur
 the final run. Original failure log and all protection/deletion receipts are in
 `.analysis/maintenance-20261030-final/`. Current106 strict comparisons and complete
 Type3780/38/15 also pass after the compiler-output cleanup.
+
+## October31: resumed reconstruction and shared Player target-tracking storage
+
+The operator explicitly resumes reconstruction after the October30 maintenance
+checkpoint. Recovery at964ac44b is clean; the previous maintenance turn is progress.
+Original Japanese1.50a target/tracking checks pass. Direct Ghidra reuses12.1.4,
+verifies disk/Program identity,i386/base/entry and all685056 mapped file bytes,
+and exports complete RunEcl4086C0/Enemy410730,Player stage D41BA80,Enemy cleanup
+410110 and shot callbacks4415E0/443150/44AB90. A preparatory batch requested
+41E7D0 inside another function and is rejected for an absent entry;its partial
+40F160 export is not used as evidence for these owners. No IDA,REA or Factory
+MCP is used.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| PLAYER-ENEMY-TRACKING-001 | original observations | Stage D41BA80 copies(-999,-999,0) to30364 and separately30370,clears30380 and restores1CE8/1CE4 to1. It does not clear3037C. | Complete original Ghidra export and121-byte canonical comparison. |
+| PLAYER-ENEMY-TRACKING-002 | original observations | Enemy410730 compares old/new target XY squared distances and publishes the closer world-position vector at30364. Its independent homing selection uses horizontal distance<64 and a smaller enemy Y,storing the Enemy pointer at3037C. Inactive records and cleanup410110 clear only a matching pointer. | Full3900-byte/97-field noncrediting Enemy diagnostic and184-byte/two-field exact cleanup. |
+| PLAYER-ENEMY-TRACKING-003 | original observations | Shot type1 reads30364/30368 with sentinel gate X>-900;type3 gates X>=-144. Type7 passes30364 to real41BB00 and then tests X<-144. | Complete471/248/139-byte canonical callbacks,actual scalar payloads and call identities. |
+| PLAYER-ENEMY-TRACKING-004 | maintained source repair | One1C-byte PlayerEnemyTrackingStateView now shares the observed position and EnemyView pointer across these six sources. The intervening12 bytes retain unknown semantics;no full-record reset,constructor or new target boundary is introduced. | Native i386 size/offset assertions and current.py's105 strict complete existing owners. |
+| PLAYER-ENEMY-TRACKING-005 | native interface repair | Type7 removes its undefined private AngleFromPlayerToPoint declaration and calls existing PlayerAngleView::AngleToPoint. Its field+1F still resolves41BB00;the actual101-byte callee independently remains exact. | One native symbol migration,unchanged field offset/type/addend/address and full caller/callee comparisons. |
+
+The shared state is a maintained projection,not proof of original C++ class
+ownership. It deliberately does not infer the role of the separately reset30370
+vector or30380 scalar. No defensive gameplay behavior,register/variable-order
+hint,padding,assembly,profile change or target-byte patch is introduced.
+
+Two source-cold whole-ECL controls then replace the private side declaration
+with the existing AsciiGameManagerSideView,explicitly projecting the same Player
+storage at every actual access. The first keeps every3900 Enemy byte/97 fields/
+13 residuals. The second also exposes the genuinely exact33-byte HasTickedEvery
+body and retains3900/97/45. Both preserve RunEcl15564/598/30,all69 ordered Enemy
+calls,170 blocks and75 existing same-profile exact siblings/22463 physical bytes/
+990 fields per model. These are bounded shared-type/TU observations,not proof
+that original side ownership is uniquely known. Neither candidate is adopted.
+
+Nine current source/profile objects pass105 strict public canonical comparisons:
+31749 complete physical bytes/1454 fields. ECL main is compiled once for the
+shared-state change and reused thereafter;the other eight carriers are cold.
+All138 regular main-ECL raw bodies and effective fields are independently equal
+to the source-bound pre-resumption object. Thirteen private labels in three
+canonical owners are refreshed only after actual identical owner-relative
+positions and complete original equality pass. No destination,field kind,addend,
+physical extent or exact ledger row changes. An initial strict replay rejects
+old literal label spellings;the existing objects are rechecked after the proved
+label migration,without recompilation or comparator relaxation.
+
+Packet `.analysis/gpt-61sol-20261031-player-enemy-tracking/` retains current.py,
+actual source/profile/object bindings,complete raw/COFF observations,native literal
+proofs and the two probe.py recipes. reproduce.py regenerates a selected control
+from committed Git/EOL inputs into a new analysis directory;no old source tree
+is required. A preparatory source replacement count expects17 accesses but finds
+12 and stops before compiling;the corrected recipe records the actual12.
+Compilers run serially on one allowed CPU at nice10 with180-second bounds.
+
+Focused Enemy tests pass65 with three skips. Tracking,documentation,generated
+progress,match-unit graph and whitespace checks pass. No full1004-unit cold
+replay or full public CI is needed for this source/manifest checkpoint. Coverage
+remains1004/1035 and246651/291883 bytes(84.5034%);RunEcl30/Enemy13,98%,native
+Windows product/runtime and later semantic/portability work remain unfinished.
+
+After the local source checkpoint,one native-side control is cold-regenerated
+from that immutable commit and checked against every saved regular raw/COFF
+body,all75 canonical siblings and complete RunEcl/Enemy reports. The two rejected
+trial objects,the regeneration object and disposable packet PDBs are then
+removed. Nine current verification objects,all full observations,source recipes,
+compiler/failure logs,target/toolchains and working Ghidra are retained;no old
+source tree or archive is created.

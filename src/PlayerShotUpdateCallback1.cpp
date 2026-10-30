@@ -1,4 +1,5 @@
 #include "ZunTimer.hpp"
+#include "PlayerEnemyTrackingStateView.hpp"
 #include <math.h>
 
 namespace Th09EclRunControl
@@ -27,7 +28,7 @@ struct PlayerShotUpdate1TimerView
 struct PlayerShotUpdate1PlayerView
 {
     unsigned char unknown0000[0x30364];
-    PlayerShotUpdate1Vec3 trackedEnemyPosition30364;
+    PlayerEnemyTrackingStateView tracking30364;
 };
 
 struct PlayerShotUpdate1ShotView
@@ -57,11 +58,11 @@ int __fastcall PlayerShotUpdateCallbackType1(
         shot->timer454.GetCurrent() >= 40 &&
         reinterpret_cast<ZunTimer *>(&shot->timer454)->HasTicked())
     {
-        if (player->trackedEnemyPosition30364.x > -900.0f)
+        if (player->tracking30364.trackedEnemyPosition00.x > -900.0f)
         {
             float *position = shot->position2A4.operator float *();
-            xDelta = player->trackedEnemyPosition30364.x - position[0];
-            yDelta = player->trackedEnemyPosition30364.y - position[1];
+            xDelta = player->tracking30364.trackedEnemyPosition00.x - position[0];
+            yDelta = player->tracking30364.trackedEnemyPosition00.y - position[1];
 
             magnitude =
                 sqrtf(xDelta * xDelta + yDelta * yDelta) /
