@@ -26554,3 +26554,70 @@ no old source tree or archive is added. The post-cleanup immutable-input and
 complete-record audit passes. Documentation, tracking, current progress and
 whitespace checks pass; no public validation
 implementation changes and no full CI/canonical cold cohort is required.
+
+## October 31: actual ECL initializer closure and returned XOR masks
+
+Recovery at310510f6 is clean. The preceding Supervisor turn supplied new bounded
+compiler evidence,not an exact owner. Original Japanese1.50a disk/tracking/status
+pass. Direct Ghidra reuses the working project and attests all685056 mapped
+file-backed bytes before exporting4086C0/410730 and the native initializer406850.
+Current source/profile/object-bound ECL baseline is reused without a cold build.
+
+The actual EclInitializeSubroutine.cpp definition is included before all callers,
+before RunEcl or after the complete carrier under the existing pinned profile. Its73
+bytes and both Timer assignment fields match the original first. Four actual
+references then change from external to positive same-object definition:one in
+CallSubroutine,one in Enemy OnUpdate and two in RunEcl. Their names,offsets,kinds,
+addends and original destinations remain unchanged. The relation change is
+recorded explicitly,not represented as identical physical COFF metadata.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-NATIVE-INIT-001 | byte-neutral actual context | Initializer before RunEcl retains all138 common regular raw bodies/effective fields;RunEcl30/Enemy13. | initializer-before.json |
+| ECL-NATIVE-INIT-002 | byte-neutral actual context | Initializer after the whole carrier gives the same complete common output and four positive native references. | initializer-after.json |
+| ECL-NATIVE-INIT-003 | byte-neutral caller model | Real byte-valued input feeds a returned masked XOR difference,consumed by the existing flag word's compound XOR assignment;137 common bodies stay unchanged. | initializer-delta-byte.json |
+| ECL-NATIVE-INIT-004 | byte-neutral caller model | Widen only that pure difference helper's formal to unsigned32,still reading exactly the original one wire byte;same complete caller output. | initializer-delta-word.json |
+| ECL-NATIVE-INIT-005 | byte-neutral actual context | Initializer before all callers,including CallSubroutine,also retains all138 common bodies and the same four actual definition transitions. | initializer-first.json |
+
+The two difference models keep the genuine initializer-before context. They
+return `(old ^ (value << 24)) & 0x01000000`,then consume that value in the real
+word update. No additional store,volatile access,dummy clobber,forced inline,
+variable/register-order directive,profile change or target patch is introduced.
+Both helper operations actually inline. The baseline's unbound16-byte emitted
+whole-word helper is replaced by an unreferenced14-byte byte-input or13-byte
+word-input mask helper. These distinct definitions are preserved as observations;
+neither receives an original address,nominal ownership or authored credit.
+
+Each object has139 regular definitions. The unchanged38-byte compiler
+contribution,zero fields and one entry are also completely compared. Every
+object retains all75 existing same-profile canonical bodies plus the actual
+73-byte native initializer:380 repeated complete original comparisons. All598
+RunEcl fields/tables and all97 Enemy fields,69 calls and170 blocks remain.
+The two complete owners retain exactly30 and13 differences. These measurements
+bound the tested native visibility and value/update separation,not all possible
+original TU boundaries or a unique original source/ABI declaration.
+
+The packet .analysis/gpt-61sol-20261031-ecl-native-initializer/ retains five
+complete records,commands,logs,provenance and recipes. audit.py regenerates all
+five80-input sets from immutable310510f6 Git/EOL hashes and compares every common
+raw body/effective field against the still-current baseline. Its optional cold
+initializer-delta-word replay independently reproduces all139 definitions,the
+compiler contribution,all76 complete native/canonical bodies and the complete
+RunEcl/Enemy findings;temporary outputs self-clean. Six serial compiler jobs
+and456 repeated original function comparisons earn no new exact credit. No
+complete cold cohort or unrelated source/profile is rebuilt.
+
+Maintained source,headers,qualifiers,profiles,manifests and ledgers stay unchanged.
+The current251-unit proof inputs remain reusable by their actual source/profile/
+object hashes. Exact remains1004/1035 and246651/291883 authored bytes(84.5034%);
+98%,native Windows product/runtime,dual-Oracle semantics and portability remain
+unfinished. Neither a native definition nor a matching helper-sized prefix is
+treated as completion of either large owner.
+
+All owned compiler/headless/replay handles are terminal before cleanup removes
+ten trial/debug files,2680948 logical bytes. All946 protected deletion-time hashes
+remain equal,including current251 proof objects,the unchanged service,tracked
+source,original and working Ghidra. Trial sources were temporary;no source tree
+or archive is added. Post-cleanup input/common-body/native-relation audits pass.
+Documentation,tracking,progress and whitespace checks close this research-only
+checkpoint. Public validation implementation and CI remain unchanged.

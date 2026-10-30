@@ -118,6 +118,15 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   Recipe/full observations:supervisor-state-branches/ below the October31
   analysis prefix. Its audit.py checks stored records after trial cleanup;
   baseline.obj is the retained source-bound current Supervisor diagnostic.
+- Actual ECL InitializeSubroutine visibility is also bounded at310510f6:
+  before all callers,before RunEcl or after the whole carrier,its73 bytes/two fields
+  remain original-equal and all138 common regular bodies retain raw/effective
+  fields. Four caller references become genuinely same-object-defined. Two
+  returned-XOR-mask/compound-assignment contexts retain137 common bodies;
+  only the unbound16-byte helper is replaced by an unreferenced14/13-byte
+  helper. All five keep75 exact siblings and RunEcl30/Enemy13. Eighty-input
+  Git/EOL recovery and one independent cold whole-object replay pass.
+  Records/recipes:ecl-native-initializer/;no source/TU/ABI adoption or credit.
 - Two whole-ECL native-side-type controls retain75 exact siblings each.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`
