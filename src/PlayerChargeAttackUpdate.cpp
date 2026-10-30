@@ -1,4 +1,7 @@
 #include "PlayerChargeAttackView.hpp"
+#include "CardAttackStartView.hpp"
+#include "PlayerResourceSubtractView.hpp"
+#include "PlayerSpawnShotsView.hpp"
 #include "EnemyManager.hpp"
 #include "FrontSide.hpp"
 #include "PlayerLifecycleView.hpp"
@@ -68,22 +71,6 @@ struct PlayerChargeSideView
 };
 typedef char PlayerChargeSideSizeIs38[
     (sizeof(PlayerChargeSideView) == 0x38) ? 1 : -1];
-
-struct CardAttackStartView
-{
-    void StartAttack(
-        int callbackRow, int attackClass, int value, const char *text);
-};
-
-struct PlayerResourceSubtractView
-{
-    void SubtractResourceClamped(float amount);
-};
-
-struct PlayerSpawnShotsView
-{
-    void __fastcall SpawnShots(int value, int powerLevel);
-};
 
 int PlayerChargeAttackView::UpdateChargeAttack()
 {

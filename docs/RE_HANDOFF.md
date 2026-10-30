@@ -9,11 +9,12 @@ without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affect
 sources/profiles. Preserve research records;delete unused old code/build copies.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Previous game-source checkpoint: **a6419813**. This checkpoint connects the
-exact Player update caller to the maintained Charge interface,uses real native
-SoundPlayer names,and removes an unused conflicting ANM include. Charge keeps
-its complete1197/1210-byte nonexact frontier. No profile,extent,origin or exact
-credit changes. The earlier target-tracking storage repair remains in place.
+Previous game-source checkpoint: **d15c833c**. This checkpoint replaces Charge's
+three divergent callee-class copies with shared CardAttackStart/ResourceSubtract
+declarations and the existing SpawnShots header. The923/51/190-byte callees stay
+exact;Charge keeps its complete1197/1210-byte nonexact frontier. No profile,
+extent,origin or exact credit changes. The earlier caller/Sound and target-
+tracking repairs remain in place.
 
 ## Source and evidence routing
 
@@ -28,16 +29,29 @@ credit changes. The earlier target-tracking storage repair remains in place.
   only the position;it does not reset that pointer. The intervening12 bytes have
   a separate vector reset,their role remains unknown. Type7 calls the existing
   `PlayerAngleView::AngleToPoint` at41BB00.
-- `.analysis/gpt-61sol-20261031-charge-timer-context/current.py` verifies three
-  current carrier objects plus unchanged source-bound reuse:106 strict existing
-  units/31889 physical bytes/1455 fields. This includes21 Runtime owners,native
-  Sound140 and84 unchanged tracking/ECL units. Charge stays1197/70/58 with1160
-  overlaps+13 missing;RunEcl15564/598/30 and Enemy3900/97/13 are unchanged.
+- `.analysis/gpt-61sol-20261031-charge-shared-callee-types/current.py` verifies
+  current carrier objects plus unchanged source-bound reuse:109 strict existing
+  units/33053 physical bytes/1486 fields. This includes21 Runtime owners,the
+  three923/51/190-byte callees,native Sound140 and84 unchanged tracking/ECL
+  units. Charge stays1197/70/58 with1160 overlaps+13 missing;RunEcl15564/598/30
+  and Enemy3900/97/13 are unchanged.
 - Player OnUpdate's field+1BE now references the defined int-returning
   `PlayerChargeAttackView::UpdateChargeAttack`,through its shared header.
   PlayerRuntime uses the actual SoundPlayer API. Both current Runtime profiles
   and Charge retain all46 regular raw bodies/effective fields. Genuine joined
   caller/Charge controls in both orders remain nonexact;no TU claim is adopted.
+- Charge and the actual CardAttackStart/ResourceSubtract implementations now
+  consume identical complete class definitions. SpawnShots uses its existing
+  shared header. All1197 Charge raw bytes/fields remain identical. Actual
+  resource-callee visibility shortens Charge to1195/1162+15,while SpawnShots
+  visibility is raw-neutral;neither context is adopted as an original TU claim.
+- `.analysis/gpt-61sol-20261031-ecl-word-results/` retains thirteen complete
+  ECL controls and all75 exact siblings per control. POD word-result/native
+  bits/wide-intermediate controls remain30;constructed/by-value-input/wide-
+  return models add an unbound helper and are rejected. Existing integer
+  workspace reuse gives42/2290/2302 differences;draw-index reuse is neutral.
+  Enemy's own3900 raw bytes/effective97 fields stay unchanged in all thirteen;
+  a rejected RunEcl callee still prevents a complete Enemy diagnostic score.
 - Two whole-ECL native-side-type controls retain75 exact siblings each.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`
@@ -45,16 +59,17 @@ credit changes. The earlier target-tracking storage repair remains in place.
 - The previous native RNG/sound/ANM/spawn repair remains. Spawn arguments830/
   10000 mean life/score. Its31-unit native proofs remain source-unchanged in
   `.analysis/gpt-61sol-20261030-game-manager-native-entrypoints/`;that packet's
-  old106-unit verifier includes a superseded ECL binding. Use the new105-unit
+  old106-unit verifier includes a superseded ECL binding. Use the new109-unit
   verifier for the current affected closure,not the old combined verifier.
 - `.analysis/gpt-61sol-20261030-type3-whole-context/current-type3.json` binds the
   Type3 cache to current source/profile. The complete inspector remains
   `scripts/inspect-exattack-type3-schedule.py`;Type3 stays780/38/15.
-- The charge packet retains three current objects and the tracking packet
-  retains seven unchanged objects. Superseded Runtime objects,trial/regenerated
-  compiler objects and disposable PDBs are removed after verification;all
-  observations,immutable Git/EOL source recipes and logs remain. Old combined
-  packet verifiers include superseded Runtime bindings;use current.py above.
+- The shared-callee packet retains four current objects,the previous Charge
+  packet retains two unchanged Runtime objects,and the tracking packet retains
+  seven unchanged objects. Superseded/trial/regenerated compiler objects and
+  disposable PDBs are removed after verification;observations,immutable Git/EOL
+  source recipes and logs remain. Old combined packet verifiers include
+  superseded Charge/Runtime bindings;use current.py above.
 - `.analysis/gpt-61sol-20261031-etama-laser/` retains the600/27/268 current
   baseline and ten native-callee/VM-array controls. Coordinates co-visible with
   the caller shrink it to584/25 and damage DrawSingleBullet;no candidate is

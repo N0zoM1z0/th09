@@ -25669,3 +25669,122 @@ current carrier objects,seven reused tracking objects,the unchanged native Sound
 proof object,research/source recipes,target/toolchains and working Ghidra remain.
 No source archive is created. Coverage remains1004/1035 and246651/291883 bytes
 (84.5034%);98%,native product/runtime and later semantic/port phases remain open.
+
+## October31: complete ECL value transport and shared Charge callee types
+
+Recovery at d15c833c is clean;the same explicitly resumed98% goal remains
+active. Original Japanese1.50a target/tracking pass. Direct Ghidra reuses the
+verified12.1.4 project and exports complete4086C0/410730 after comparing all
+685056 file-backed mapped bytes. No tracked source candidate is lost or hidden.
+
+Thirteen serial full-ECL controls examine actual values and existing integer
+workspaces,without changing the pinned profile,known ABIs,read widths or adding
+register hints,assembly,padding,dummy storage or forced expansion:
+
+- A primitive-input helper returning a genuine four-byte POD word record fully
+  inlines. Returning the native four-byte bits through the existing word/bit
+  interpretation,or widening only the actual unsigned arithmetic intermediate,
+  likewise preserves every RunEcl15564 raw byte and all598 effective fields.
+  Each retains30 ordinary differences,zero field/table differences. This is
+  bounded evidence against those particular value-transport models;it also
+  disproves any blanket claim that VC7.1 cannot inline an aggregate return.
+- Adding a real value constructor to the returned record emits15576 bytes/599
+  fields. Giving the word record a genuine by-value input,with either scalar
+  or record return,or using an actual64-bit return gives15560/599. These four
+  contexts outline an additional helper absent from the original owner. The
+  complete RunEcl inspector rejects them before a score;the dependent Enemy
+  inspector rejects the changed native RunEcl inventory. Independently,Enemy's
+  own3900 raw bytes and97 effective fields are baseline-identical in all four;
+  the dependent rejection is not evidence of an Enemy instruction regression.
+- Reusing existing lhsInt for opcode4's four-byte time copy leaves that opcode's
+  seven differences and opcode155's23 unchanged,but adds12 wrong positions in
+  the integer-store region:42 ordinary differences,total15564/598,zero field/
+  table drift. Reusing lhsInt for the original one-byte opcode155 read gives
+  2290 differences:2048 ordinary plus242 field bytes,including26 table bytes.
+  Combining both gives2302:2060 ordinary plus242 field bytes. The table counts
+  are subsets of field counts. No lower local score overrides the whole owner.
+- Reusing the already dead per-iteration flags workspace for the first,last or
+  both actual Enemy draw indices leaves both complete owner bodies/effective
+  fields unchanged. All three retain RunEcl30/Enemy13. No model is adopted.
+
+Each of the thirteen actual carriers independently preserves all75 same-profile
+canonical exact ECL siblings. Those975 repeated checks add no coverage. Two
+Charge controls reuse its real entry-side integer for the later previous/current
+level value;both preserve all1197 raw bytes/70 fields/58 calls/53 blocks and
+1160 overlap differences plus13 missing. The byte home at EBP-1 remains absent;
+the actual20-byte Timer greater-equal stays exact in both controls.
+
+A specific source-initialization question is resolved against the original,
+without adding game behavior. Forced death can bypass the hitKind assignment,
+but original4113A8 reads Enemy+337C,4113AE tests bit100 and4113B1 skips the
+4113B9 reward call when that bit is set. Only the guarded path pushes hitKind
+from EBP-10 and calls canonical4102B0. This call-window observation supplies
+no general uninitialized-state or runtime-safety claim.
+
+The Charge dependency audit finds three same-name class-definition conflicts:
+its local method-only CardAttackStartView,PlayerResourceSubtractView and
+PlayerSpawnShotsView differ from their actual implementations' full layouts.
+CardAttackStartView.hpp now carries the existing1368-byte definition and its
+1328/1348/size assertions;PlayerResourceSubtractView.hpp carries the existing
+resource-at30388 declaration/assertion. Both implementations and Charge consume
+these shared declarations. SpawnShots uses its existing shared header. Method
+names,return types,argument transport and target calls remain unchanged. This
+repairs those source contracts,not all remaining projected game types or product
+linkage. It makes no claim about the original nominal C++ class names.
+
+Six source-cold dependency controls cover shared-type Charge,the three real
+callees and actual ResourceSubtract/SpawnShots bodies co-visible with Charge.
+The shared-type Charge retains both emitted regular bodies and all1197 owner
+raw bytes/effective fields exactly. The actual callees independently retain
+923/29,51/1 and190/1 original-bound bytes/fields. Visible ResourceSubtract still
+emits the exact51-byte callee,but shortens Charge to1195/70/58/53 with1162
+unlike overlaps plus15 missing. Visible SpawnShots retains its exact190-byte
+callee and every baseline Charge byte. Neither joined context is adopted or
+establishes a unique original TU partition.
+
+The current source-bound verifier is now
+.analysis/gpt-61sol-20261031-charge-shared-callee-types/current.py:
+109 strict existing units,33053 complete physical bytes,1486 actual fields.
+It combines the three native callee proofs with21 unchanged Runtime owners,
+Sound140 and84 unchanged tracking/ECL units. Only affected sources and the
+actual SpawnShots dependency are source-cold built;unchanged source/profile/
+object/provider pins authorize reuse. No canonical symbol,private label,extent,
+profile,origin or match-ledger update is necessary. Current complete RunEcl30,
+Enemy13 and Charge1197/1160+13 remain nonexact.
+
+The ecl-word-results,charge-integer-lifetimes and charge-shared-callee-types
+packets retain full raw/COFF observations,failures,logs and immutable d15c833c
+Git/EOL source recipes. All21 controls' frozen inputs reproduce in memory.
+Three independent source-cold regenerations reproduce the POD ECL,integer
+Charge and shared-type Charge observations,including all138/two/two regular
+bodies and effective fields;the ECL regeneration repeats all75 exact siblings.
+Early recipes' recorded hashes are preserved alongside final reconstruction
+recipe hashes;no old source tree is archived. Compiler work is serial,one
+allowed CPU,nice10 and180-second bounded. Ten existing Charge tests pass.
+Tracking,documentation,open match graph and whitespace checks pass;no whole1004
+cold replay or full public CI is required for this bounded source/header change.
+Exact coverage stays1004/1035 and246651/291883(84.5034%). The98%,Windows
+product/runtime,semantic reconstruction and portability gates remain open.
+
+After all compiler producers terminate,cleanup deletes48 disposable/superseded
+object,debug and bytecode files,total8609226 logical bytes. All588 protected
+files retain their hashes at deletion,including current proof objects,maintained
+source,research records and original target. Four shared-callee objects,two
+unchanged Runtime objects and seven reused tracking objects remain. The input
+verifier initially mistakes a generated replay receipt for an original control;
+its selection now explicitly requires original source_hashes. Rechecking all21
+frozen controls succeeds after that record-classification repair,without another
+compile or a changed target/comparator. No archival source copy is created.
+
+The staged whitespace check catches an extra EOF blank in the new resource
+header. The initial commit command incorrectly continues after that failed
+check;the same local checkpoint is amended after removing the blank. Only the
+two header consumers are rebuilt. Charge's two regular bodies/fields and the
+51-byte resource callee remain identical;the final109-unit source-bound verifier
+is refreshed. finalize.py and eof-source-recipe.json recover this exact cleanup
+from d15c833c Git/EOL inputs plus the retained shared-type recipe. No gameplay behavior changes.
+The final cleanup removes four superseded objects/debug files,190826 bytes,
+with all547 files protected for that pass unchanged. Total deletion for this
+bounded unit is52 files/8800052 logical bytes. The four current carrier objects
+are final-charge.obj,card.obj,final-resource.obj and spawn.obj;research and the
+unchanged proof objects remain preserved.
