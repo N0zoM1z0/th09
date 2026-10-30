@@ -48,39 +48,51 @@ source/profile/object/provider and unchanged-unit bound in
 `unaffected-proof-reuse.json`. The other564 canonical rows receive no new cold
 compile or literal audit. Exact credit stays1003;98% remains unfinished.
 
-## Latest large-function review
+## Latest large-function review — RunEcl input contracts
 
-Fresh cached direct Ghidra exports Enemy410730 and Pause434740 after checking
-all685056 mapped file bytes. Enemy's complete3900/97/13 result is rechecked;
-prior constructor/periodic controls are not assumed to prove unique source/TU
-ownership. No new Enemy model is adopted. RunEcl15564/598/30 and the other
-unchanged frontiers retain their source-bound proofs.
+Game source remains03462e4f. Direct cached Ghidra rechecks all685056 mapped
+file bytes before exporting RunEcl4086C0 and the real Timer assignment401500.
+Current complete RunEcl remains15564 physical bytes/598 fields/30 differences;
+its75 same-profile canonical units pass the standard Oracle again from the
+source/profile/object-bound unchanged carrier, without a new baseline compile.
+The actual unchanged Timer setter/assignment pair also retains25+9 exact bytes.
 
-Six complete Pause controls test result-first state9, an explicit shared clock,
-confirm-frame reset chronology and native Supervisor readers. Result-first
-alone reaches the original two-call state-sharing pattern and two-byte tail
-alignment, with106 fields, but still1732 bytes/1459 overlap differences/44
-missing. It restores48 old mismatches and damages54 old matches; no branch
-reordering is adopted. The explicit clock label returns to the existing
-three-call/1453 result. Confirm reset order is raw-neutral in both contexts;
-canonical readers are likewise neutral in each context. These finite models
-do not establish exhaustion or the original source spelling.
+Seven complete main-carrier compiles test signed-byte input, promoted helper
+input, promoted byte capture, long/unsigned four-byte time captures, and native
+flag-struct value/reference inputs returning a real u32 result. Each preserves
+75 existing exact units/22463 bytes/990 fields, plus136 other regular bodies
+and the38-byte compiler contribution.525 repeated unit comparisons earn no new
+credit. No profile, native ABI, production code or ledger changes are adopted.
 
-All six controls preserve the11 exact siblings. Maintained native-reader
-adoption is separately cold-compiled and standard-gate checked.24 focused tests
-pass. The diagnostic generator's strict source-preimage hash is refreshed for
-the reviewed native-field substitution; the two initial stale-preimage failures
-and a pre-compiler text-anchor setup failure are recorded separately. These
-input guards do not grant exactness or replace the complete byte/field Oracle.
+The signed byte changes MOVZX to MOVSX inside the existing mismatch set:30
+unequal offsets remain, but the raw stream is not identical. Helper-formal-only
+promotion and both time captures are raw-neutral. Promoted byte capture emits a
+43-byte handler instead of45, despite retaining15564 total bytes; it produces
+2048 ordinary+242 field-byte differences, with26 table differences included in
+those242. Native flag-struct inputs outline actual25/18-byte helpers, add one
+unbound call and emit15560/599. Full-owner inspection rejects both shapes
+before assigning helper addresses or giving an incomplete similarity score.
 
-Documentation, research records, complete positive/negative comparisons and
-recipes remain in the packet. Full public CI passes1036 tests/29 skipped.
-After producer termination, cleanup removes144 files/2393619 logical bytes
-(about2.3MiB): six disposable trial objects, the replaced old menu object,
-PDB and Python caches. All148 protected files, including105 reused objects,
-retain their hashes. The current one-carrier verifier passes after cleanup;
-build/ is absent. No new code archive is made. Later product/runtime/semantic/
-port gates remain open.
+Actual x86 execution checks four distinct closed flag-store prefixes: original,
+maintained, signed and promoted capture. Each executes3072 fixtures covering
+all256 wire bytes and12 representative words. All12288 executions preserve
+other bits and perform one byte read, one word read and one word store. Equal
+prefixes reuse this evidence. This is a flag-prefix diagnostic, not whole-owner,
+whole-runtime, original nominal-type or original-helper ownership proof.
+
+Source/input/provider hashes, all raw/COFF and complete diagnostics, positive
+native references, actual machine-prefix observations and recipes remain in
+`.analysis/gpt-61sol-20261030-runecl-byte-contract/`.
+`verify_saved.py` checks the stored observations and reproduces all seven source
+hashes without compilation or new acceptance. Current cached main-object
+inspection uses the normal tracked ECL tools; deleted trial objects must be
+rebuilt with their recorded two/three-case producer before a new comparison.
+No old C++ copies or source archive are needed.28 focused tests pass; unchanged
+public tooling needs no new full CI. After producer termination, cleanup removes
+seven trial objects/2117299 bytes(about2.0MiB); all45 protected files retain
+their hashes and stored-record verification passes again. All76 baseline input
+hashes are reproduced from03462e4f with recorded Git/EOL rules. build/ is absent.
+The98% milestone remains unfinished.
 
 ## Earlier dependency corrections
 

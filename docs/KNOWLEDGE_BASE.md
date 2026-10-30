@@ -23806,3 +23806,108 @@ including the105 reused objects, retain their SHA256 values. Complete current
 All14 original Git/EOL inputs, six candidate hashes and eight original public
 provider hashes are reconstructed in memory. No historical C++ source copy,
 new source archive, documentation or research-record deletion is needed.
+
+## October 30: RunEcl scalar capture and native flag-input boundaries
+
+Recovery begins clean at03462e4f. The preceding goal turn is progress: it
+corrected menu readers to use existing Supervisor members and committed the
+source/record checkpoint. Current game source is unchanged in this review.
+Original Japanese1.50a disk identity, cached Program identity, i386/base/entry
+and all685056 mapped file bytes pass. Direct Ghidra exports RunEcl4086C0 and
+Timer assignment401500. Source/provider/object-bound current main code is
+reused from the unchanged carrier; no whole1003-function cold replay is run.
+
+Original opcode4 remains29 bytes. It loads/pushes the time before acquiring the
+Timer receiver; source transports the same four-byte value through EAX and
+pushes later. Opcode155 remains45 bytes/12 instructions: MOVZX ECX from the
+wire byte, flags word in ESI and final word in EAX. Current source loads CL,
+loads old word into EAX, then extends CL, and publishes from ECX. Whole RunEcl
+remains15564/598/30 ordinary differences with zero field/table differences.
+Prior signed-bitfield, forced-reference, formal-Timer and aggregate-return
+records are inspected before selecting the distinct current primitive-return
+input questions below. They do not prove original spelling or exhaust types.
+
+Seven complete source-cold main-carrier controls use the unchanged pinned
+/O2/Ob1 profile, serially on one allowed CPU at nice10 with180-second timeouts.
+All76 quoted inputs are staged before their first declarations and shared body
+includes. No new qualifier, forced inline, ABI alias, register/variable-order
+hint, dummy consumer, padding or target-byte change is introduced.
+
+Signed-byte capture changes both the real captured object's type and the
+helper's byte formal, retaining unsigned promotion before shifting. It changes
+one actual extension opcode from MOVZX to MOVSX, wholly within the same30
+mismatch offsets; equal counts do not establish raw equality. Promoting only
+the helper formal to u32 preserves the complete maintained RunEcl raw stream.
+Its source-only helper definition shrinks from16 to15 bytes and changes native
+mangling, but is unused as a call in the compiled carrier. No original boundary
+or new authored credit is assigned to that emitted helper.
+
+Promoting the local capture as well uses a genuine one-byte read converted to
+u32. This restores direct MOVZX from the wire but emits a43-byte/11-instruction
+handler instead of original45/12. The old word remains EAX and final result ECX;
+it omits the original extra old-word copy into EAX. The complete15564-byte total
+is not equality:2048 ordinary+242 relocation-field bytes differ, including26
+table bytes inside those242.17 old mismatches are restored but2277 previously
+equal positions are damaged. Actual local label positions are never moved to
+original positions. No normalized handler score becomes exactness credit.
+
+Two opcode4 controls capture exactly four bytes into long or unsigned int,
+retaining the actual int assignment API and existing publication. Both are
+entirely raw-neutral at15564/598/30. The original25-byte SetCurrent and9-byte
+assignment wrapper are independently rechecked from their actual unchanged
+source/profile/object carrier,34 original bytes/one field. Incidental EAX
+postconditions do not establish a non-void return; no Timer ABI change is made.
+
+The final pair accepts the existing four-byte native flag struct by value or
+const reference, assigns its actual timeoutSpell24 bit, and memcpy-returns the
+real updated u32. This differs from previous primitive-input/aggregate-return
+models. Both emit15560-byte callers/599 fields and actually outline a25-byte
+value-input or18-byte reference-input helper, each with zero fields and one
+positive same-object native call reference. Full RunEcl rejects the unknown
+extra call/shape before a linked score. No original address is invented for a
+helper or found by fitting bytes. These failures bound these source contexts;
+they do not prove that native struct inputs are universally impossible.
+
+Every control retains75 canonical exact units/22463 complete physical bytes/
+990 fields and136 other unchanged regular body/field payloads after separately
+accounting for RunEcl and the changed helper definition. The actual38-byte
+compiler COMDAT/zero fields/one entry remains unchanged.525 repeated canonical
+comparisons are recorded without new credit. The actual current cached carrier
+also passes75 standard original-bound Oracle checks, including referenced literal
+definitions; its138 regular definitions and source/profile/object pins remain.
+
+A bounded Unicorn1.0.2 diagnostic executes the actual original and compiler
+flag-store prefixes without unknown calls, relocations, stack accesses or
+memory effects. It checks all256 wire values against12 representative full words,
+3072 executions per distinct prefix. Original, maintained, signed-byte and
+promoted-capture prefixes are four distinct streams;12288 actual executions
+all produce the original low-bit transition and perform exactly one BYTE read,
+one DWORD read and one DWORD store at the observed locations. Equal prefixes
+in formal/time controls reuse recorded execution. The promoted prefix is29
+bytes versus31 for the others. The outlined native-input callers are outside
+this closed prefix; their helpers receive no original address or runtime claim.
+This establishes only the stated flag-prefix observables, not all2^32 words,
+whole-function semantics, native-product/runtime closure or original nominal
+byte signedness. Original MOVZX and equal final flags do not resolve C++ types.
+
+All actual raw/COFF/definitions, original-linked differences, six full identity
+audits, emitted helper bodies/references, input/profile/provider hashes and
+machine-prefix records are retained under
+`.analysis/gpt-61sol-20261030-runecl-byte-contract/`. The source transforms stay
+in three bounded producer scripts and reproduce seven candidate hashes from
+current Git/EOL inputs. verify_saved.py checks saved diagnostics and source
+reproducibility without pretending a new compile or acceptance.28 focused
+complete-extent/callsite/timeout tests pass. Public code is unchanged, so no new
+full CI is claimed. Disposable trial binaries are deleted after terminal checks;
+no historical C++ snapshots or new source archive are retained. Maintained
+RunEcl30/Enemy13 and1003 exact/83.9093% remain unchanged;98% and later gates stay
+open. These measured interfaces provide no justified source adoption.
+
+After all producer handles terminate and a repository compiler/Ghidra scan
+finds none active, cleanup deletes exactly seven regular ignored trial objects,
+2117299 logical bytes(about2.0MiB). All45 protected files keep their hashes,
+including the active main and Timer objects; the original target is unchanged.
+The stored-record verifier passes again without trial objects. All76 original
+input hashes are reconstructed from03462e4f using recorded Git/EOL rules, with
+no retained old C++ copies. Documentation and research records remain; build/
+is absent. cleanup.json records every deletion and protected hash.

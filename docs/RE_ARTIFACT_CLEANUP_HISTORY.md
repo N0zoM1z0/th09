@@ -2329,3 +2329,27 @@ one-carrier complete-body/standard-gate/native-field verifier passes again after
 cleanup. Exact remains1003 and244917/291883 bytes(83.9093%);98% and later phases
 remain open. Deletion/protection hashes and receipts are in
 `.analysis/gpt-61sol-20261030-pause-transition-review/`.
+
+## 2026-10-30: RunEcl byte and flag-input contract cleanup
+
+Game source remains03462e4f. Seven complete main-carrier controls test actual
+byte/time captures and native flag-struct inputs. They preserve75 existing
+exact units each(525 repeated comparisons), without a source adoption or new
+credit.28 focused tests pass.12288 actual x86 executions check four distinct
+closed flag-store prefixes; this is a bounded prefix diagnostic, not a full
+function or product/runtime validation.
+
+After all producer handles terminate and a compiler/Ghidra scan finds none
+active, cleanup deletes seven regular ignored trial objects/2117299 logical
+bytes(about2.0MiB). All45 protected files retain their hashes, including active
+main/Timer proof objects and all research records/recipes. Target identity is
+unchanged. The saved-record/source-reproducibility verifier passes after cleanup
+without trial objects; a new binary comparison requires rebuilding its bounded
+producer. All76 baseline input hashes are reproduced from03462e4f with recorded
+Git/EOL rules. No old C++ copies or new source archive are retained, documentation
+and records are preserved, and build/ is absent.
+
+Exact deletion/protection hashes, raw/COFF records, diagnostics, prefix execution
+observations and recipes remain in
+`.analysis/gpt-61sol-20261030-runecl-byte-contract/`. Exact totals remain1003 and
+244917/291883 bytes(83.9093%);98% and later phase gates remain open.

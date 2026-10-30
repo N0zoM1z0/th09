@@ -2648,3 +2648,42 @@ PDB/cache files are removed after terminal checks. Cleanup deletes385 files/
 19811875 logical bytes(about18.9MiB); all431 protected files retain their hashes.
 Current106 objects and three actual negatives remain, and build/ is absent.
 No new code archive is made.
+
+## October 30: superseded Pause transition review
+
+Historical review at03462e4f. Game source remains at that checkpoint; the active
+large-function review now covers RunEcl byte/word input contracts.
+
+## Latest large-function review
+
+Fresh cached direct Ghidra exports Enemy410730 and Pause434740 after checking
+all685056 mapped file bytes. Enemy's complete3900/97/13 result is rechecked;
+prior constructor/periodic controls are not assumed to prove unique source/TU
+ownership. No new Enemy model is adopted. RunEcl15564/598/30 and the other
+unchanged frontiers retain their source-bound proofs.
+
+Six complete Pause controls test result-first state9, an explicit shared clock,
+confirm-frame reset chronology and native Supervisor readers. Result-first
+alone reaches the original two-call state-sharing pattern and two-byte tail
+alignment, with106 fields, but still1732 bytes/1459 overlap differences/44
+missing. It restores48 old mismatches and damages54 old matches; no branch
+reordering is adopted. The explicit clock label returns to the existing
+three-call/1453 result. Confirm reset order is raw-neutral in both contexts;
+canonical readers are likewise neutral in each context. These finite models
+do not establish exhaustion or the original source spelling.
+
+All six controls preserve the11 exact siblings. Maintained native-reader
+adoption is separately cold-compiled and standard-gate checked.24 focused tests
+pass. The diagnostic generator's strict source-preimage hash is refreshed for
+the reviewed native-field substitution; the two initial stale-preimage failures
+and a pre-compiler text-anchor setup failure are recorded separately. These
+input guards do not grant exactness or replace the complete byte/field Oracle.
+
+Documentation, research records, complete positive/negative comparisons and
+recipes remain in the packet. Full public CI passes1036 tests/29 skipped.
+After producer termination, cleanup removes144 files/2393619 logical bytes
+(about2.3MiB): six disposable trial objects, the replaced old menu object,
+PDB and Python caches. All148 protected files, including105 reused objects,
+retain their hashes. The current one-carrier verifier passes after cleanup;
+build/ is absent. No new code archive is made. Later product/runtime/semantic/
+port gates remain open.
