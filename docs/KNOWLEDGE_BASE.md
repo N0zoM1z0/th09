@@ -26329,3 +26329,144 @@ deletion-time hashes,including the50 current carriers,unchanged proof/service
 objects,tracked source,private target and research records/recipes. No old source
 copy or archive is created. Complete controls,Git/EOL inputs,current strict
 verification,tracking/docs/progress and whitespace pass after cleanup.
+
+## October31: Replay buffer lifetimes,queue owner and coherent signed counters
+
+Recovery at2b990254 is clean;the preceding SHT contract source repair is progress
+without exact credit. Original Japanese1.50a disk/tracking/live status pass.
+Direct Ghidra12.1.4 reuses the working project and verifies all685056 mapped
+file-backed bytes before complete420C60/420840 and42E9E0 exports. Complete PE/
+COFF comparisons remain independent of decompiler names and provisional types.
+This batch changes no maintained source,profile,ABI,extent,manifest or ledger.
+
+### Complete Replay state-record models
+
+The current1238-byte SaveReplay baseline independently reproduces380 instructions,
+53 actual original-bound fields,23 ordered call operands,49 direct blocks and
+three unequal positions B7/BB/3F6. Prior cursor methods,read-only byte views,
+copy returns,reference slots,native constructor/encoder/allocator visibility,
+packing and byte traversal models are reviewed before these distinct full-life
+POD state records. No old source experiment is assumed exhaustive.
+
+Payload-record groups the actual allocated byte pointer with its real file
+position,used by every frame/FPS copy and the eventual compression input. Field
+initialization stays at the original points:allocation before replay copy,file
+position after it. Compressed-record groups the returned pointer with the copied
+compressed length across checksum,obfuscation,header size,WriteFile and GlobalFree.
+The pointer is assigned on Encode return and length only after raw-buffer Free,
+matching the original snapshots. The combined model uses both. These are plain
+consumed fields,without constructors,methods,inert storage,ownership destructors,
+new calls or fake returns. The original uninitialized pre-copy table scan and
+all original error behavior remain;no defensive branch is added.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| REPLAY-BUFFER-LIFE-001 | complete baseline |1238/380/53/23 calls/49 blocks;three old differences. | replay-buffer-lifetimes/baseline.json |
+| REPLAY-BUFFER-LIFE-002 | rejected full owner | Payload pointer/file-position record:1238 bytes,31 differences;old3 remain and28 equal positions are damaged. | payload-record.json |
+| REPLAY-BUFFER-LIFE-003 | rejected full owner | Mutable compressed pointer/length record:1238 bytes,63 differences;old3 remain and60 equal positions are damaged. | compressed-record.json |
+| REPLAY-BUFFER-LIFE-004 | rejected full owner | Both records:1238 bytes,75 differences;old3 remain and72 equal positions are damaged. | both-records.json |
+
+Every model retains the same complete instruction/field/call/block dimensions
+and passes the independently read actual literal payloads. The compressed and
+combined records grow the actual stack allocation618 to61C;the baseline and
+payload-only case keep618. This is observed compiler spilling,not inserted
+padding or evidence for an original extra local. All four preserve
+the two no-EH canonical siblings,BeginRecordingStage1323/82 and Create361/28:
+eight repeated original-bound comparisons. No other unchanged Replay profile
+or the current251-unit closure is cold-built. Plain records differ from the old
+Address/Advance cursor and checksum-only read-only At view,but still fail the
+unchanged whole-owner guard. No type or source is adopted merely for cleanliness.
+
+### Complete queue-method ownership views
+
+Fresh213-byte target decoding confirms the last-received prefix already has the
+maintained frame,input,seed order. Its input word store precedes the record-base
+LEA;that fact does not authorize permuting source statements to steer registers.
+The0x0C records,20-entry twin range and two last-received records through584 are
+already target-reviewed. The new view model attaches exactly that existing
+storage prefix as a nonvirtual base of the existing queue-method view. One uses
+the genuine base conversion for the existing layout pointer;the other accesses
+the inherited fields directly. No frame width,parameter,scan limit,last-slot
+access,copy operation or predicted flag changes. Original class identity and
+inheritance remain hypotheses,not target facts or a new product-layout claim.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| QUEUE-COMPLETE-OWNER-001 | complete baseline | Insert213/67 instructions/zero fields/nine blocks/RET16,35 differences. | queue-complete-owner/baseline-0.json |
+| QUEUE-COMPLETE-OWNER-002 | byte-neutral whole-owner model | Existing584-byte storage as base plus standard base conversion retains every insert/ops raw byte and effective field. | complete-owner-0/-1.json |
+| QUEUE-COMPLETE-OWNER-003 | byte-neutral whole-owner model | Direct inherited field ownership and removal of the layout local are also wholly neutral. | direct-owner-0/-1.json |
+
+Both already-exact Ops siblings remain original191/119 bytes under all three
+contexts:six repeated complete comparisons. The separate sync owner is not
+changed or freshly compiled. No complete-view/inheritance model is adopted;
+the source/ABI stays the independently maintained existing view contract.
+
+### Coherent Win32-long counter and actual pointer contract
+
+Original timer observations establish signed32-bit arithmetic and physical
+0/4/8 fields,not a unique C++ int versus Win32-long spelling. A new hypothesis
+changes both previous/current fields to signed long,retaining float subFrame and
+asserting long/int widths4 and total size12. This also requires a consistent
+Supervisor::TickTimer(long*,float*) declaration and actual definition:leaving
+an int* updater would make the native implementation ill-typed. There is no
+cast to hide that disagreement. Function arguments/returns elsewhere stay at
+their established declarations,and all target-observed physical widths remain.
+
+The real71-byte Supervisor updater compiles first and compares original-equal
+under its actual discovered new C++ name. Only after that independent callee
+proof may the caller's one TickTimer reference bind to its existing original
+42F4F0 entry. The actual28-byte Timer::Tick and all16 other configured Timer
+bodies also compare fully original-equal. The native33-byte periodic body is
+separately original-equal. These19 observations establish this bounded private
+model's emitted ABI/code,not an original nominal declaration or canonical
+metadata migration. Production int fields,int* API and all match units stay.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| TIMER-COUNTER-LONG-001 | native complete comparison | Actual long* updater71 and17 native Timer bodies preserve complete target bytes/fields with consistent declarations. | timer-counter-contract/native-supervisor.json;native-timer.json |
+| TIMER-COUNTER-LONG-002 | native complete comparison | Actual signed-remainder periodic predicate remains33 bytes/zero fields. | native-periodic.json |
+| TIMER-COUNTER-LONG-003 | rejected whole-ECL type hypothesis | Long counter storage with periodic opaque preserves all138 regular raw bodies/effective fields;RunEcl30/Enemy13. | ecl-opaque.json |
+| TIMER-COUNTER-LONG-004 | rejected visible context | Genuine predicate visibility leaves RunEcl30 and changes Enemy13 to45,just as the earlier int-storage context. All75 canonical ECL siblings still pass. | ecl-visible.json |
+
+Visible context restores all13 old Enemy positions but damages45 previously
+equal positions. Raw code changes only in Enemy among the138 common bodies;the
+33-byte predicate is newly defined. Four other existing callsites change their
+actual COFF relation from external to same-object-defined without changing raw
+bytes,offsets,kinds,addends,names or original targets. This is verified against
+the actual positive callee definition,not silently normalized away as identical
+object metadata. No source/qualifier/register hint,variable-order directive,
+profile search,dummy clobber,assembly,byte patch or inert member is introduced.
+The first CLI attempt stops on a missing argparse import before any compiler;
+it is corrected and all five actual compiler jobs succeed.
+
+Across all15 successful compiler records,184 complete original comparisons are
+revalidations,not new functions or partial authored credit. All15 staged input
+sets reproduce from immutable2b990254 Git/EOL hashes. A separate cold visible-ECL
+reconstruction repeats every regular raw body/effective field,all75 existing
+siblings,the actual33-byte predicate and complete RunEcl30/Enemy45 findings.
+That adds76 repeated function comparisons;temporary object/PDB self-clean.
+No unchanged complete cohort is rebuilt. Current251-unit source/profile/object
+pins and the current service object remain unchanged and are checked explicitly.
+
+Complete records,commands,logs,Git/EOL recipes and audit/reproduce scripts remain
+under .analysis/gpt-61sol-20261031-replay-buffer-lifetimes/,
+queue-complete-owner/ and timer-counter-contract/. audit.py distinguishes retained
+actual COFF from recorded full observations after cleanup;reproduce.py regenerates
+all15 input sets and optionally the independent selected cold object. Tracking,
+progress,documentation and whitespace close this research-only checkpoint.
+Public validators/CI and maintained game code do not change. Exact remains
+1004/1035 and246651/291883 bytes(84.5034%);98%,Windows product/runtime,dual-Oracle
+semantics and portability remain unachieved. Pure state-record/owner/signed-counter
+changes do not resolve these measured frontiers;no impossibility claim follows.
+
+Read-only adjacent TH08 Supervisor.hpp and TH095 ZunTimer.hpp retain signed32
+previous/current fields;TH095 i32 aliases int. Their declarations are provisional
+hypothesis material and do not establish TH09's unique nominal counter type,
+ABI or source ownership. Actual source hashes/HEADs are retained in provenance.
+
+All owned compiler/headless/replay handles are observed terminal before bounded
+cleanup removes30 ignored trial/debug files,2113272 logical bytes. All954 protected
+files keep their deletion-time hashes,including current251-unit proof objects,
+the service object,tracked source,private target and all research records/recipes.
+The independent cold outputs already self-clean. No old source tree or archive
+is added. Post-cleanup complete-record/pin and immutable-input audits pass.

@@ -9,8 +9,8 @@ without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affect
 sources/profiles. Preserve research records;delete unused old code/build copies.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Current game source contains the **shared SHT speed contract checkpoint**
-(parent9aed1f24);the previous game-source checkpoint is **43f491a7**. Loader,
+Current game-source checkpoint: **2b990254**;the previous checkpoint is
+**43f491a7**. The latest research-only checkpoint leaves its inputs unchanged. Loader,
 pattern-offset resolver and both movement switches now share PlayerShtFileView's
 four target-observed axis/diagonal speed fields. Two private SHT classes and
 one cast helper are removed. All representations,ABIs and compiler profiles stay.
@@ -96,6 +96,17 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   One invalid cross-family RHS scope fails compilation;the corrected shared
   function-scope model compiles and stays30/13. Immutable Git/EOL reconstruction
   and one independent cold whole-object replay pass. No source/type/ABI adoption.
+- Three new representation packets remain negative at2b990254. Replay plain
+  payload/compressed/both lifetime records retain1238 bytes but give31/63/75
+  differences;all old3 remain. Complete queue-owner/base/direct-field views
+  preserve every213-byte/35-difference insert and both exact queue siblings.
+  A coherent Win32-long counter model updates both fields and the actual
+  TickTimer pointer API;all19 native bodies compare original-equal. Whole ECL
+  remains30/13 with periodic opaque and30/45 with the real body visible. All75
+  exact ECL siblings pass in both models;no type/ABI/source adoption follows.
+  Full15-input Git/EOL reconstruction and an independent cold visible-ECL
+  replay pass. Current251-unit proof pins remain unchanged. Research routing:
+  replay-buffer-lifetimes/,queue-complete-owner/,timer-counter-contract/.
 - Two whole-ECL native-side-type controls retain75 exact siblings each.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`
