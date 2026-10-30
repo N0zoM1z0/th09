@@ -2430,3 +2430,27 @@ or new archive are created; build/ is absent.10 focused tests pass; public
 tooling is unchanged and no new full CI is claimed. Records remain under
 `.analysis/gpt-61sol-20261030-charge-configuration/`. Exact stays1003 and
 244917/291883(83.9093%);98% and later gates remain open.
+
+## 2026-10-30: weighted Front scan checkpoint cleanup
+
+A maintained cold source build now emits the full693-byte Front weighted
+picker with15 fields/six calls,351 differences and no missing/excess bytes.
+It remains nonexact. Four related exact Front owners retain2386 bytes/144
+fields. The duplicate private GameManager views and uncalled six-byte helper
+are removed from maintained source; no old C++ copy or new archive is retained.
+
+After all producers terminate, cleanup deletes38 regular ignored files/
+1540890 logical bytes:10 superseded baseline/trial objects,15 PDBs and13
+bytecode caches. All62 protected files keep their deletion-time hashes,
+including the maintained object,four exact Front objects,raw/COFF and prefix
+records,recipes and original target. The trial source trees were temporary
+and removed by their producers. Documentation and research records remain.
+
+Current whole-owner,four exact Front,saved-control and original/maintained
+prefix replays pass afterward. Nine candidate source hashes and10 baseline
+input hashes reproduce in memory from6c5a019a Git/EOL inputs. Current proofs,
+cleanup deletion/protection hashes and findings live under
+`.analysis/gpt-61sol-20261030-front-weighted/`. Current game source,target,
+toolchains and working Ghidra project remain; build/ is absent. Seven focused
+tests pass; public tooling is unchanged and no new full CI is claimed.
+Exact stays1003/83.9093%;98% and later phases remain unfinished.

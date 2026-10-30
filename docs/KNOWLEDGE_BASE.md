@@ -24122,3 +24122,93 @@ keep their hashes, including current/cached proof objects and the original
 target. Current, three native-callee, unchanged-proof, saved-control and prefix
 replays pass afterward. All documentation/research records remain; no historical
 C++ copy or new archive is retained, and build/ is absent.
+
+## October 30: Front weighted scan extent and a corrected historical negative
+
+From clean6c5a019a, the verified original Japanese1.50a target and direct local
+Ghidra export at4162D0 retain the complete693-byte owner SHA256
+915acb9e918496d6397b6fe577ae5250628892741d94a8961c3555b7ab94ddda.
+The reused project passes all685056 mapped-byte comparisons before export.
+Original206 instructions,15 independently identified fields,six ordered calls,
+40 direct blocks and ret4 remain the comparison boundary. Ghidra's provisional
+int-pointer/source names establish no unique C++ type or ownership.
+
+Re-reading October20 refine.py exposes an invalid negative: weight-explicit-miss
+retains the successful loop break and inserts unconditional goto fallback_default
+after that loop. Both success and exhaustion consequently reach default. That
+record remains historical, but it cannot reject a correct explicit-success/
+exhaustion hypothesis. Correct new indexed/typed/weight-cursor goto forms emit
+547/536/537 bytes with15 fields and fail the unchanged whole-owner guard.
+Their saved reports remain unscored; prefix equivalence cannot waive the
+complete physical comparison. This also corrects the interpretation of the
+older six-control blanket rejection, without rewriting the original records.
+
+A natural signed weight-field cursor in both scans and a for/break fallback
+reproduces the earlier promising693-byte candidate under current inputs:
+205 instructions,15 fields,six correctly ordered calls,41 blocks,118 normalized
+aligned instructions,351 linked differences and no missing/excess bytes.
+The real GameManager side declaration replaces private root/side projections and
+an uncalled six-byte accessor, while the full main raw bytes/fields are equal.
+The +11 field still binds actual GameManager4A7D90+58; local opponentSelector
+avoids promoting the private shotType name to a stronger semantic fact.
+
+One maintained-source cold build independently reproduces that complete main
+body. It restores255 original physical positions and changes25 previously
+matching positions compared with681 bytes/569 differences+12 missing. The
+entire tail from416469(offset199,284 bytes) matches the original. This is a
+whole nonexact-owner improvement, not preservation of every old fragment or
+new partial exact credit. There is no canonical unit in this source. Original
+successes join416437; exhaustion bypasses that guard to416446. The maintained
+common-guard edge still differs and no full CFG or exact-source claim is made.
+Eight-byte raw entry traversal is the current projection; flexible storage,
+original nominal classes, source lifetime and wider runtime domains remain open.
+
+Alternative controls are bounded negatives: a typed-entry break emits696 bytes/
+204 instructions/635 differences+3 excess, while a shared helper outlines an
+unbound56-byte function and shrinks the caller to546 bytes. Neither is adopted.
+Capturing the instruction pointer, resetting both VMs and then publishing it
+keeps the old681/569 frontier but gives693/350 with only115 aligned instructions
+on the weight model. The latter fails the unchanged118 alignment guard, so no
+guard is relaxed. Machine store order alone does not prove original C++ order.
+All11 actual weighted carriers independently define the original two-byte space
+literal with both correct references; symbol spelling alone is not that proof.
+
+The specific selection/exhaustion question additionally uses actual-byte
+initialization prefixes. Six streams(original,baseline,three correct goto
+models,weight-break) execute120 fixtures each:720 Unicorn1.0.2 runs. A second
+record executes original and maintained streams on the same120 fixtures:240
+runs. Fifteen templates cover primary slots0/5/9,all fallback slots210..219,
+a balanced fallback and exhaustion; two seeds,two sides and two opponent
+selectors produce120 fixtures,with count220 and actual backing for220 entries.
+Synthetic instruction pointer tokens are never executed. Code execution is
+limited to the reviewed caller prefix and original GetRange4048B0/41 bytes and
+Next42AE20/39 bytes; no RNG or ANM stub substitutes for those original effects.
+
+All streams match the complete1D70 runtime after its original-sized memset,
+RNG seed/count/preserved padding and next SetAndExecuteScriptIdx receiver plus
+two arguments. Execution stops before that first ANM call. A separate simple
+weighted reference also checks selected entry and actual RNG transition. The
+experiment observes finite declared initialization states, not ANM/DrawText
+behavior, all table counts/weights, full original/native runtime, nominal type
+identity or exactness. Only the stated reconstruction question is tested;
+no new defensive game behavior or general fault campaign is introduced.
+
+Four related exact Front owners are cold-compiled serially at nice10 on one
+allowed CPU: callback1491/107 fields,setup357/10,loader405/18 and runtime
+initialization133/9,total2386 bytes/144 fields. All complete bodies and actual
+referents/literals match. Other999 canonical units receive no new compile
+or literal audit; no full1003 replay is run. Seven focused tests pass:five original/COFF corruption cases and two existing
+whole-owner guard cases. Function-ledger changes are only this owner's evidence and notes;
+all other cells are independently equal to6c5a019a. Current scripts,raw/COFF
+records,controls and bounded prefix observations are under
+`.analysis/gpt-61sol-20261030-front-weighted/`. Exact stays1003 and
+244917/291883(83.9093%);98% and later phases remain unfinished.
+
+After producer termination, cleanup removes38 regular ignored files/1540890
+logical bytes(about1.47MiB):10 superseded baseline/trial objects,15 PDBs and13
+bytecode caches. All62 protected files retain their deletion-time hashes,
+including the current owner,four exact Front objects,records/recipes and
+original target. Current,all four exact Front,saved-control and current-prefix
+verification pass after cleanup. Documentation/research records,current source,
+target/toolchains and Ghidra working state remain. No old C++ snapshot or new
+source archive is kept; build/ is absent.

@@ -2883,3 +2883,60 @@ RunEcl15564/598/30 with zero field/table differences and Enemy3900/97/13 with69
 calls. The earlier RunEcl input and Enemy ownership experiments remain bounded
 records, not proof of source-model exhaustion. Prioritize these owners and their
 dependencies; native product/runtime, semantics and portability remain later gates.
+
+## October30 charge-configuration checkpoint6c5a019a
+
+## Current game source — real charge configuration
+
+Following01d7e6b6, Player charge uses the actual GameConfiguration pointer at
+GameManager+E8 and its byte array at+B4. Its two old local views are replaced
+by one uniquely named data projection. This removes this caller's conflicting
+GameManagerReplayView definition; ReplayInput.cpp had used that same global
+name for a different larger layout. Other partial views and original nominal
+C++ ownership remain open. The original setup worker allocatesCC bytes,
+initializes through41A8A2 and copies33 DWORDs into the pointer at4A7E78.
+
+One maintained pinned-profile cold build preserves both complete emitted
+bodies/1217 bytes and all eight nondebug sections/1281 bytes/70 fields. Charge
+remains1197/1210 bytes,70 fields,58 ordered calls,1160 overlap differences and
+13 missing. Its five actual scalar definitions pass; the actual co-visible
+20-byte Timer comparison retains its original bytes. This alternate carrier
+proof adds no canonical unit or exactness credit.
+
+Current packet: `.analysis/gpt-61sol-20261030-charge-configuration/`.
+Use current.py verify for current source/profile/provider/object-bound replay,
+reuse.py for465 unchanged canonical proof inputs/126807 bytes/7055 fields from
+103 carriers, and verify_saved.py for recorded controls/source reproduction.
+effect_callees.py separately rechecks three unchanged native Effect owners/282
+bytes/15 fields from their actual source/profile/object-bound carrier.
+No full1003 cold replay is run. Other535 canonical units receive no new compile
+or literal audit. The ledger changes only Charge's notes cell to update the
+current route; all other CSV cells are independently unchanged from01d7e6b6.
+
+Native GameManager registration, previous literal fixes and other dependency
+corrections remain in source. The unchanged Supervisor/RunEcl/Enemy observations
+remain source/profile/object bound; detailed prior reviews live in the existing
+archive and KB.10 focused charge tests pass; public tooling is unchanged and
+no new full CI is claimed. Exact remains1003/83.9093%;98% remains unfinished.
+Cleanup removes11 ignored files/443722 bytes: four trial objects, two replaced
+old charge objects and five PDBs. All138 protected files retain their hashes;
+current, native-callee, reuse, saved-control and prefix replays pass afterward.
+Documentation/research records remain, without a new source archive; build/
+is absent.
+
+## Latest large-function review — floating branch identity
+
+Four source-cold charge controls cover baseline, real configuration type,
+lower-first clamp and negated less-than clamp. Configuration is wholly raw/field
+neutral. Lower-first changes the physical referent order and is rejected before
+scoring; negation retains the same1160 count/13 missing but changes raw code.
+Both floating alternatives choose a different branch for NaN in the bounded
+actual-byte experiment and are not adopted. Equal mismatch counts or an inverted
+decompiler condition do not establish floating semantic equivalence.
+
+Five recorded streams/three distinct61-byte growth prefixes execute11 fixtures
+each(55 emulator runs), with no calls. Framerate1/rate0, prior integer result0,
+FPCW037F and fixture-owned memory/stack bound this diagnostic. It checks only
+the stated prefix/store/branch observations, not all floats, full charge logic,
+original nominal types or whole-game runtime. fp_prefix.py can replay after
+trial-object cleanup; stored-control replay is not new compilation/acceptance.

@@ -18,23 +18,6 @@ struct FrontMessageRandomTableView
     FrontMessageRandomEntryView entries04[1];
 };
 
-struct FrontMessageRandomSideView
-{
-    unsigned char unknown00[0x20];
-    int shotType20;
-    unsigned char unknown24[0x38 - 0x24];
-};
-
-typedef char FrontMessageRandomSideStrideIs38[
-    (sizeof(FrontMessageRandomSideView) == sizeof(AsciiGameManagerSideView)) ? 1 : -1];
-typedef char FrontMessageRandomShotTypeAt20[
-    (offsetof(FrontMessageRandomSideView, shotType20) == 0x20) ? 1 : -1];
-
-struct FrontMessageRandomGameManagerView
-{
-    FrontMessageRandomSideView sides[2];
-};
-
 struct FrontMessageRandomView
 {
     FrontMessageRandomTableView *primary00;
@@ -70,15 +53,10 @@ typedef char FrontMessageRandomSizeIs1D70[
 extern AnmLoaded *g_FrontMessageAnm;
 extern RngRuntimeView g_Rng;
 
-static __inline FrontMessageRandomGameManagerView *FrontMessageRandomGameManager()
-{
-    return reinterpret_cast<FrontMessageRandomGameManagerView *>(&g_GameManager);
-}
-
 void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
 {
-    int opponentShotType =
-        FrontMessageRandomGameManager()->sides[1 - sideIndex].shotType20;
+    int opponentSelector =
+        g_GameManager.sides[1 - sideIndex].character20;
     FrontMessageRandomTableView *primary = primary00;
     FrontMessageRandomTableView *secondary = secondary0C;
 
@@ -87,8 +65,7 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
     primary00 = primary;
     secondary0C = secondary;
 
-    // Save the opponent shot window end while the weighted-table state is local.
-    int end = opponentShotType * 10 + 10;
+    opponentSelector *= 10;
 
     FrontMessageRandomTableView *table = primary;
     if (sideIndex == 1)
@@ -96,21 +73,21 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
 
     side10 = sideIndex;
 
-    int selected = opponentShotType * 10;
+    int selected = opponentSelector;
     int randomValue = g_Rng.GetRandomU16InRange(0x100);
+    int end = opponentSelector + 10;
 
-    FrontMessageRandomEntryView *entry = &table->entries04[selected];
+    int *entryWeight = &table->entries04[selected].weight04;
     while (selected < end)
     {
-        if (entry->instructions00 != 0)
+        if (*reinterpret_cast<void **>(entryWeight - 1) != 0)
         {
-            if (randomValue < entry->weight04)
+            if (randomValue < *entryWeight)
                 break;
-            randomValue -= entry->weight04;
+            randomValue -= *entryWeight;
         }
-
         ++selected;
-        ++entry;
+        entryWeight += 2;
     }
 
     if (selected >= end)
@@ -118,71 +95,20 @@ void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
         randomValue = g_Rng.GetRandomU16InRange(0x100);
         selected = 210;
 
-        FrontMessageRandomEntryView *group = &table->entries04[selected];
-        for (int groupMid = 212; groupMid < 222; groupMid += 5)
+        int *weight = &table->entries04[selected].weight04;
+        for (; selected < 220; ++selected, weight += 2)
         {
-            if (group[0].instructions00 != 0 &&
-                selected < table->count00)
+            if (*reinterpret_cast<void **>(weight - 1) != 0 && selected < table->count00)
             {
-                if (randomValue < group[0].weight04)
-                    goto fallback_complete;
-                randomValue -= group[0].weight04;
+                if (randomValue < *weight)
+                    break;
+                randomValue -= *weight;
             }
-
-            if (group[1].instructions00 != 0 &&
-                groupMid - 1 < table->count00)
-            {
-                if (randomValue < group[1].weight04)
-                {
-                    selected += 1;
-                    goto fallback_complete;
-                }
-                randomValue -= group[1].weight04;
-            }
-
-            if (group[2].instructions00 != 0 &&
-                groupMid < table->count00)
-            {
-                if (randomValue < group[2].weight04)
-                {
-                    selected += 2;
-                    goto fallback_complete;
-                }
-                randomValue -= group[2].weight04;
-            }
-
-            if (group[3].instructions00 != 0 &&
-                groupMid + 1 < table->count00)
-            {
-                if (randomValue < group[3].weight04)
-                {
-                    selected += 3;
-                    goto fallback_complete;
-                }
-                randomValue -= group[3].weight04;
-            }
-
-            if (group[4].instructions00 != 0 &&
-                groupMid + 2 < table->count00)
-            {
-                if (randomValue < group[4].weight04)
-                {
-                    selected += 4;
-                    goto fallback_complete;
-                }
-                randomValue -= group[4].weight04;
-            }
-
-            selected += 5;
-            group += 5;
         }
-
-fallback_complete:
         if (selected >= 220 || selected >= table->count00)
             selected = 210;
     }
 
-selected_entry:
     current04 = table->entries04[selected].instructions00;
 
     textVmA1534.scriptIndex = -1;
