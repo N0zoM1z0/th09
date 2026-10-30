@@ -1,4 +1,6 @@
 #include "Supervisor.hpp"
+#include "RngRuntimeLeaves.hpp"
+#include "ReplayRuntimeLeaves.hpp"
 #include "AnmManager.hpp"
 #include "Controller.hpp"
 #include "SupervisorNetworkState.hpp"
@@ -11,16 +13,6 @@
 
 namespace
 {
-struct ReplayRngNetworkView
-{
-    unsigned short seed;
-    unsigned short unknown02;
-    int generationCount;
-
-    unsigned short GetSeed();
-    unsigned int GetRandomU32InRange(unsigned int max);
-};
-
 struct NetworkHandshakePacket
 {
     unsigned char type;
@@ -96,7 +88,13 @@ typedef char SupervisorNetworkFlagsAt5D4[
     (offsetof(SupervisorNetworkView, flags5D4) == 0x5D4) ? 1 : -1];
 }
 
-extern ReplayRngNetworkView g_ReplayRng;
+typedef char NetworkNativeRngSize[
+    (sizeof(ReplayRngView) == 8 && sizeof(RngRuntimeView) == 8) ? 1 : -1];
+typedef char NetworkNativeRngSeed[
+    (offsetof(ReplayRngView, seed) == offsetof(RngRuntimeView, seed)) ? 1 : -1];
+typedef char NetworkNativeRngCount[
+    (offsetof(ReplayRngView, generationCount) == offsetof(RngRuntimeView, generationCount)) ? 1 : -1];
+extern RngRuntimeView g_ReplayRng;
 extern NetworkFramePacket g_NetworkFramePacket;
 extern NetworkHandshakePacket g_NetworkHandshakePacket;
 extern const char g_NetworkDisconnectedMessage[];
@@ -195,6 +193,9 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         s->connectionTime = timeGetTime();
     }
 
+    // Prefill and the first prediction retain this session across queue/seed calls.
+    SupervisorNetworkState *frameNetwork = g_SupervisorNetworkState;
+
     if (s->frameMode == 0 || s->frameMode == 2)
     {
         unsigned int frame = s->frameCounter;
@@ -203,42 +204,46 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             frame % (60 / g_SupervisorNetworkState->syncRate) != 0)
         {
             frameQueues->InsertPredictedFrame(
-                g_SupervisorNetworkState->localSide, frame, (short)g_ReplayRng.GetSeed());
+                frameNetwork->localSide, frame,
+                (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
             frameQueues->InsertPredictedFrame(
                 1 - g_SupervisorNetworkState->localSide, s->frameCounter,
-                (short)g_ReplayRng.GetSeed());
+                (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
             s->frameCounter++;
         }
         else
         {
             if (s->frameMode == 0)
             {
-                if (g_SupervisorNetworkState->initialFramesQueued == 0)
+                if (frameNetwork->initialFramesQueued == 0)
                 {
-                    if (g_SupervisorNetworkState->localSide == 0 &&
-                        60 / g_SupervisorNetworkState->syncRate - 1 > 0)
+                    if (frameNetwork->localSide == 0 &&
+                        60 / frameNetwork->syncRate - 1 > 0)
                     {
                         int queuedFrame = -9998;
                         do
                         {
                             reinterpret_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
                                 0, queuedFrame, 0,
-                                (short)g_ReplayRng.GetSeed());
+                                (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
                             reinterpret_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
                                 1, queuedFrame++, 0,
-                                (short)g_ReplayRng.GetSeed());
+                                (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
                         } while (queuedFrame + 9998 <
-                                 60 / g_SupervisorNetworkState->syncRate - 1);
+                                 60 / frameNetwork->syncRate - 1);
                     }
 
-                    g_SupervisorNetworkState->packetReady = 0;
+                    frameNetwork->packetReady = 0;
+                    // Retain the selected receiver across GetSeed.
+                    SupervisorNetworkState *handshakeNetwork = g_SupervisorNetworkState;
                     g_NetworkHandshakePacket.type = 2;
                     g_NetworkHandshakePacket.side =
                         (unsigned char)g_SupervisorNetworkState->localSide;
                     g_NetworkHandshakePacket.syncRate = g_SupervisorNetworkState->syncRate;
                     g_NetworkHandshakePacket.syncValue = g_SupervisorNetworkState->syncValue;
-                    g_NetworkHandshakePacket.seed = g_ReplayRng.GetSeed();
-                    g_SupervisorNetworkState->SendPacket(
+                    g_NetworkHandshakePacket.seed =
+                        reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed();
+                    handshakeNetwork->SendPacket(
                         &g_NetworkHandshakePacket,
                         sizeof(g_NetworkHandshakePacket));
 
@@ -270,22 +275,26 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
             s->lastFrameTime = timeGetTime();
             g_SupervisorNetworkState->packetReady = 0;
+            SupervisorNetworkState *packetNetwork = g_SupervisorNetworkState;
             g_NetworkFramePacket.type = 0;
-            g_NetworkFramePacket.side = (signed char)g_SupervisorNetworkState->localSide;
+            // The checksum uses the side captured before GetSeed.
+            signed char packetSide = (signed char)g_SupervisorNetworkState->localSide;
+            g_NetworkFramePacket.side = packetSide;
             g_NetworkFramePacket.frame =
                 60 / g_SupervisorNetworkState->syncRate +
                 s->frameCounter - 1;
-            g_NetworkFramePacket.seed = g_ReplayRng.GetSeed();
+            g_NetworkFramePacket.seed =
+                reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed();
 
             unsigned int checksum =
-                g_NetworkFramePacket.packedInput +
-                g_NetworkFramePacket.seed +
+                static_cast<unsigned int>(packetSide) +
                 g_NetworkFramePacket.frame +
-                g_NetworkFramePacket.side;
+                g_NetworkFramePacket.seed +
+                g_NetworkFramePacket.packedInput;
             g_NetworkFramePacket.words.checksum =
                 (unsigned short)checksum;
 
-            g_SupervisorNetworkState->SendPacket(
+            packetNetwork->SendPacket(
                 &g_NetworkFramePacket, sizeof(g_NetworkFramePacket));
             s->frameMode = 1;
             frameQueues->InsertReceivedFrame(

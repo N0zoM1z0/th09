@@ -25965,3 +25965,135 @@ files retain their hashes at deletion,including the24 current proof objects,
 maintained source and original target. Full research records and recipes remain;
 no old source copy or new archive is created. Documentation,tracking,progress
 and whitespace checks pass for this research-only checkpoint.
+
+## October31: Supervisor network dataflow and native RNG connection
+
+This is a source-fidelity checkpoint,not a new exact owner. Recovery starts at
+86ad97e3 with clean tracked state and the unchanged aefb9493 game source. Disk
+identity,tracking and live progress pass for original Japanese1.50a. Direct
+Ghidra12.1.4 reuses the working project and attests all685056 file-backed mapped
+bytes before exporting complete430AA0 and adjacent431110. The complete service
+extent remains430AA0..431100,1633 bytes/417 instructions/106 external operands.
+The previous current baseline freshly reproduces1632/418/108,1395 unequal
+linked overlaps plus1 absent byte. All bounds and profiles remain unchanged.
+
+Target observations,independent of the proposed source:
+
+- At430CE1..430D34 the session pointer survives GetSeed into the first predicted
+  frame's side read. The second prediction reads a fresh global after its seed
+  call. The prefill loop also retains its session through both queue/seed calls,
+  then clears packetReady through that same pointer at430DFF.430E09 reacquires
+  the global for handshake construction.
+- At430E09..430E52 retains the selected handshake receiver through GetSeed;430F00..
+  430F6D does the same for the frame packet. These are actual EDI lifetimes,
+  rather than a new claim that the native seed accessor changes global state.
+- At430F0D saves the signed side byte in BL before seed retrieval.430F47 sign-
+  extends that saved value for the checksum;there is no post-seed packet-side
+  reload. The checksum still reads the old packed dword,including its previous
+  high word,before replacing the checksum word. Publishing input remains a
+  low-word store. All packet sizes/offsets stay unchanged.
+- Baseline's extra references are three session-pointer DIR32 operands and one
+  packet-side operand;the target instead has two additional clock-IAT operands.
+  Each operand comes from complete decoded instructions and independent actual
+  COFF bindings,not a remapping chosen to minimize differences.
+
+The source adopts those pointer/value lifetimes and unsigned checksum addition,
+with an explicit unsigned conversion of the signed side to retain defined
+modular arithmetic. This restores the complete106/106 external-identity
+multiplicities. It does not claim identical operand order or CFG. The known
+normal-state callbacks/clock do not demonstrate a runtime defect in the previous
+source;this is original dataflow recovery rather than a defensive behavior fix.
+
+The anonymous ReplayRngNetworkView only declared undefined methods and a global
+type different from the existing native owner. Source now uses the actual
+RngRuntimeView global/range method and the existing ReplayRngView::GetSeed
+projection,with eight-byte/seed/count layout checks. A separate native-interface-
+only control preserves every1632 baseline raw byte and each field destination;
+its16 symbol migrations are eight global and eight method references. Current
+production retains the same native connections in the adopted dataflow model.
+This repairs those interfaces,not whole-product data/link/runtime closure.
+
+The compiler controls all use the same pinned existing /O2/Ob1 service profile,
+serially on one allowed CPU,nice10,timeout180s. No profile sweep,assembly,register
+hint,dummy storage,forced return or byte patch is used. The table gives complete
+owner bytes/fields/unequal linked overlapping bytes;missing/excess extents are
+separate from these overlap counts.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| SUP-NET-DATAFLOW-001 | compiler observation | baseline: 1632 bytes/108 fields/1395 unequal overlaps. | baseline.json |
+| SUP-NET-DATAFLOW-002 | compiler observation | native-rng: 1632 bytes/108 fields/1395 unequal overlaps. | native-rng.json |
+| SUP-NET-DATAFLOW-003 | compiler observation | native-flow: 1632 bytes/109 fields/1394 unequal overlaps. | native-flow.json |
+| SUP-NET-DATAFLOW-004 | compiler observation | native-switch: 1637 bytes/109 fields/1492 unequal overlaps. | native-switch.json |
+| SUP-NET-DATAFLOW-005 | compiler observation | native-visible: 1639 bytes/105 fields/1474 unequal overlaps. | native-visible.json |
+| SUP-NET-DATAFLOW-006 | compiler observation | flow-visible: 1625 bytes/106 fields/1429 unequal overlaps. | flow-visible.json |
+| SUP-NET-DATAFLOW-007 | compiler observation | native-wait-guard: 1632 bytes/108 fields/1395 unequal overlaps. | native-wait-guard.json |
+| SUP-NET-DATAFLOW-008 | compiler observation | flow-wait-guard: 1632 bytes/109 fields/1394 unequal overlaps. | flow-wait-guard.json |
+| SUP-NET-DATAFLOW-009 | compiler observation | seed-visible: 1639 bytes/105 fields/1474 unequal overlaps. | seed-visible.json |
+| SUP-NET-DATAFLOW-010 | compiler observation | generator-visible: 1632 bytes/108 fields/1395 unequal overlaps. | generator-visible.json |
+| SUP-NET-DATAFLOW-011 | compiler observation | packet-side: 1638 bytes/110 fields/1505 unequal overlaps. | packet-side.json |
+| SUP-NET-DATAFLOW-012 | compiler observation | packet-receivers: 1627 bytes/106 fields/1433 unequal overlaps. | packet-receivers.json |
+| SUP-NET-DATAFLOW-013 | compiler observation | packet-ownership: 1631 bytes/107 fields/1427 unequal overlaps. | packet-ownership.json |
+| SUP-NET-DATAFLOW-014 | compiler observation | packet-ownership-flow: 1642 bytes/107 fields/1484 unequal overlaps. | packet-ownership-flow.json |
+| SUP-NET-DATAFLOW-015 | compiler observation | ownership-complete: 1626 bytes/106 fields/1376 unequal overlaps. | ownership-complete.json |
+| SUP-NET-DATAFLOW-016 | compiler observation | ownership-scoped: 1629 bytes/106 fields/1450 unequal overlaps. | ownership-scoped.json |
+| SUP-NET-DATAFLOW-017 | compiler observation | uniform-session: 1627 bytes/106 fields/1494 unequal overlaps. | uniform-session.json |
+| SUP-NET-DATAFLOW-018 | compiler observation | uniform-session-flow: 1641 bytes/106 fields/1490 unequal overlaps. | uniform-session-flow.json |
+| SUP-NET-DATAFLOW-019 | compiler observation | unified-status: 1632 bytes/108 fields/1395 unequal overlaps. | unified-status.json |
+| SUP-NET-DATAFLOW-020 | compiler observation | ownership-unified-status: 1626 bytes/106 fields/1376 unequal overlaps. | ownership-unified-status.json |
+| SUP-NET-DATAFLOW-021 | compiler observation | ownership-input-cast: 1626 bytes/106 fields/1376 unequal overlaps. | ownership-input-cast.json |
+| SUP-NET-DATAFLOW-022 | compiler observation | ownership-input-mask: 1627 bytes/106 fields/1375 unequal overlaps. | ownership-input-mask.json |
+
+These22 controls all retain the full51 call-identity multiplicities,including
+41 direct and10 indirect calls. An all-path decoder resolves the cached clock
+IAT while killing caller-saved registers on calls. Physical call order remains
+unequal:the wait-path unlock moves past other calls in the candidate. Seed
+visibility changes the caller and removes its original post-seed frame reload;
+all12 co-visible native bodies independently compare exact,but this does not
+establish original TU ownership. Seed-only4 and generator-only8 bodies also
+compare fully. Host/guard/status/source-layout experiments remain negative.
+The actual alignment LEA EBX,[EBX+0] in a visibility control is retained in the
+complete comparison;the local all-path decoder recognizes it as alignment,
+without waiving a byte or changing a production comparator.
+
+Adoption is the complete ownership model,with comments,wrapping,CRLF and explicit
+eight-byte assertions only. A production cold build reproduces every regular
+raw body and actual field after anonymous-namespace suffix normalization for
+source-path spelling alone. Public inspect-supervisor-service.py still binds
+every real field and compares the complete owner;it needs no changes. Current
+source is1626 bytes/420 instructions/106 fields,1376 unequal linked overlaps
+plus7 absent bytes. Original0x14 versus candidate0x0C stack,status storage,
+wait-block position and word/dword input transport remain unresolved. In
+particular,word-cast and mask controls do not resolve packet-input scheduling.
+The established int/int ApplyNetworkInput ABI remains unchanged.
+
+Canonical native validation cold-builds ReplayRuntimeLeaves.cpp and compares
+all4 units;the unchanged source/profile/object-bound RngRuntimeLeaves object
+is reused for8. All12 strict manifest comparisons pass:283 physical bytes/
+13 fields.141 previous shot-chain/Charge/Runtime/ECL/Sound exact proofs remain
+source/profile/object-bound and are reused without a full cold cohort. The new
+current.py covers153 existing exact units;neither the12 native checks nor the
+reference/call census add exactness credit. Ledger stays1004/1035 and246651/
+291883 authored bytes(84.5034%). The98% milestone and later Windows/native,
+runtime,dual-Oracle semantic and portability phases remain open.
+
+All22 staged inputs reproduce from immutable86ad97e3 Git/EOL hashes,including
+original recipe hashes and the final reconstruction hash. A separate cold
+ownership-complete regeneration reproduces all regular raw/COFF observations;
+the current source cold build independently agrees. The packet retains full
+records,logs,recipes and actual target/candidate disassembly below
+.analysis/gpt-61sol-20261031-network-native-rng/. Its current.py is the current
+source-bound verifier;the previous shot-chain verifier remains valid for its
+unchanged141-unit scope. Research-only objects/debug files are disposable once
+these records and recipes are verified. Documentation/tracking/progress and
+whitespace checks close the checkpoint;no unrelated public CI/full cold replay
+is needed because no shared validator or CI implementation changes.
+
+After all owned compiler/headless/replay handles are terminal,two bounded cleanup
+passes remove50 trial/reproduction/debug files,2803353 logical bytes;866 protected
+files keep their hashes at deletion,including current/reused proof objects,
+tracked source and the original target. Current service/seed objects,all research
+records and recipes remain. Inputs-only and cold-reproduction receipts now use
+separate files so the former cannot replace the latter;the cold receipt is
+regenerated and checked before its disposable files are removed. No old source
+copy or archive is made.

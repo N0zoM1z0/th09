@@ -9,15 +9,16 @@ without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affect
 sources/profiles. Preserve research records;delete unused old code/build copies.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Current game-source checkpoint: **aefb9493**;the latest research-only checkpoint
-does not change its compiler inputs or exactness credit.
-Previous game-source checkpoint: **19569217**. Current source connects the
-default shot dispatcher and six spawn callbacks to the defined309-byte shot
-initializer through shared interfaces. The initializer uses native Float3,
-ZunTimer,SoundPlayer and AnmLoaded calls. All affected exact bodies remain exact;
-Charge keeps its1197/1210-byte nonexact frontier. No profile,extent,origin or
-exact credit changes. Earlier caller/shared-type and target-tracking repairs
-remain in place.
+Current game source includes the **October31 network-dataflow repair** in this
+checkpoint(parent86ad97e3);the previous game-source checkpoint is **aefb9493**.
+SupervisorServiceUpdate now calls the defined native RNG APIs and retains the
+original prefill/prediction session,pre-seed send receivers and signed packet
+side. All106 external-reference identities now match the target's multiplicities,
+alongside all51 calls. The complete owner remains nonexact at1626/1633 bytes,
+1376 unequal overlaps plus7 absent bytes;this is no new exactness credit.
+The previous shot initializer/callback chain,shared Charge types and Runtime
+repairs remain source-unchanged. No compiler profile,extent,origin or exact
+ledger changes.
 
 ## Source and evidence routing
 
@@ -32,8 +33,20 @@ remain in place.
   only the position;it does not reset that pointer. The intervening12 bytes have
   a separate vector reset,their role remains unknown. Type7 calls the existing
   `PlayerAngleView::AngleToPoint` at41BB00.
-- `.analysis/gpt-61sol-20261031-shot-initialize-chain/current.py` verifies current
-  carriers plus unchanged source-bound reuse:141 strict existing units/34700
+- `.analysis/gpt-61sol-20261031-network-native-rng/current.py` is the current
+  verifier:the complete1626-byte service,12 canonical RNG/replay units(283 bytes/
+  13 fields),and141 unchanged source/profile/object-bound proofs. This gives153
+  existing exact units,zero new credit. Only Network and ReplayRuntimeLeaves
+  were cold-built for adoption;the unchanged canonical RNG object is reused.
+  Both pre-seed send receivers,first-prediction/prefill session and signed side
+  follow fresh target dataflow. Source-only global/side references disappear;
+  target clock-IAT multiplicities return. WAIT placement,stack/status and input
+  transport remain open.22 complete controls and immutable Git/EOL recipes are
+  retained;one independent cold model plus the production cold build reproduce
+  all regular raw bytes/actual COFF fields. No target-byte or ABI workaround.
+- `.analysis/gpt-61sol-20261031-shot-initialize-chain/current.py` verifies the
+  source-unchanged previous141-unit closure and remains valid on its inputs.
+  Its carriers plus unchanged source-bound reuse cover141 strict units/34700
   physical bytes/1529 fields. This includes the native shot chain,its Timer/ANM/
   pointer dependencies,both Sound140/153 callees and unchanged Runtime/ECL
   proofs. Charge stays1197/70/58 with1160 overlaps+13 missing;RunEcl15564/598/30
