@@ -6,6 +6,7 @@
 #include "Lzss.hpp"
 #include "PlayStats.hpp"
 #include "ScoreFileView.hpp"
+#include "TitleScoreRecordView.hpp"
 #include "ZunMemory.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
@@ -26,35 +27,18 @@ extern "C" void *__cdecl memcpy(void *, const void *, size_t);
 
 extern GameErrorContext g_GameErrorContext;
 
-struct ScoreRecordView {
-    u32 magic;
-    u16 chapterSize;
-    u16 chapterSizeCopy;
-    u8 version;
-    u8 runtimeMarker;
-    u8 unknown0A[2];
-    u32 score;
-    float value10;
-    u8 category0;
-    u8 category1;
-    u8 rank;
-    u8 zero17;
-    char name[9];
-    char date[6];
-    u8 unknown27[4];
-    u8 value2B;
-};
 
-typedef char ScoreRecordSizeIs2C[(sizeof(ScoreRecordView) == 0x2C) ? 1 : -1];
-typedef char ScoreRecordChapterSizeAt04[(offsetof(ScoreRecordView, chapterSize) == 0x04) ? 1 : -1];
-typedef char ScoreRecordVersionAt08[(offsetof(ScoreRecordView, version) == 0x08) ? 1 : -1];
-typedef char ScoreRecordScoreAt0C[(offsetof(ScoreRecordView, score) == 0x0C) ? 1 : -1];
-typedef char ScoreRecordCategory0At14[(offsetof(ScoreRecordView, category0) == 0x14) ? 1 : -1];
-typedef char ScoreRecordCategory1At15[(offsetof(ScoreRecordView, category1) == 0x15) ? 1 : -1];
-typedef char ScoreRecordRankAt16[(offsetof(ScoreRecordView, rank) == 0x16) ? 1 : -1];
-typedef char ScoreRecordNameAt18[(offsetof(ScoreRecordView, name) == 0x18) ? 1 : -1];
-typedef char ScoreRecordDateAt21[(offsetof(ScoreRecordView, date) == 0x21) ? 1 : -1];
-typedef char ScoreRecordValue2BAt2B[(offsetof(ScoreRecordView, value2B) == 0x2B) ? 1 : -1];
+
+typedef char ScoreRecordSizeIs2C[(sizeof(TitleScoreRecordView) == 0x2C) ? 1 : -1];
+typedef char ScoreRecordChapterSizeAt04[(offsetof(TitleScoreRecordView, chapterSize) == 0x04) ? 1 : -1];
+typedef char ScoreRecordVersionAt08[(offsetof(TitleScoreRecordView, version) == 0x08) ? 1 : -1];
+typedef char ScoreRecordScoreAt0C[(offsetof(TitleScoreRecordView, score) == 0x0C) ? 1 : -1];
+typedef char ScoreRecordCategory0At14[(offsetof(TitleScoreRecordView, category0) == 0x14) ? 1 : -1];
+typedef char ScoreRecordCategory1At15[(offsetof(TitleScoreRecordView, category1) == 0x15) ? 1 : -1];
+typedef char ScoreRecordRankAt16[(offsetof(TitleScoreRecordView, rank) == 0x16) ? 1 : -1];
+typedef char ScoreRecordNameAt18[(offsetof(TitleScoreRecordView, name) == 0x18) ? 1 : -1];
+typedef char ScoreRecordDateAt21[(offsetof(TitleScoreRecordView, date) == 0x21) ? 1 : -1];
+typedef char ScoreRecordValue2BAt2B[(offsetof(TitleScoreRecordView, scoreDigit) == 0x2B) ? 1 : -1];
 
 struct LastNameRecordView {
     u32 magic;
@@ -105,8 +89,6 @@ typedef char ScoreSupervisorExeChecksumAt7A0[(offsetof(ScoreSupervisorView, exeC
 
 extern RngRuntimeView g_ReplayRng;
 
-extern ScoreRecordView g_ScoreTable[16][5][5];
-extern ScoreRecordView g_CurrentScoreRecord;
 extern LastNameRecordView g_LastNameRecord;
 
 void ScoreSupervisorView::UpdatePlayTime()
@@ -195,8 +177,8 @@ int SaveTitleScoreData()
         u32 recordType = g_ReplayRng.GetRandomU32InRange(3);
         if ((pendingMask & 1) && recordType == 0)
         {
-            memcpy(scoreData + currentOffset, g_ScoreTable, sizeof(g_ScoreTable));
-            currentOffset += sizeof(g_ScoreTable);
+            memcpy(scoreData + currentOffset, g_TitleScoreTable, sizeof(g_TitleScoreTable));
+            currentOffset += sizeof(g_TitleScoreTable);
             pendingMask ^= 1;
         }
         else if ((pendingMask & 2) && recordType == 1)
@@ -420,52 +402,52 @@ int ScoreFileView::LoadScoreRecords()
         {
             for (rank = 0; rank < 5; rank++)
             {
-                g_ScoreTable[category0][category1][rank].score = 100000 - 20000 * rank;
-                g_ScoreTable[category0][category1][rank].value10 = 0.0f;
-                g_ScoreTable[category0][category1][rank].category0 = (u8)category0;
-                g_ScoreTable[category0][category1][rank].category1 = (u8)category1;
-                g_ScoreTable[category0][category1][rank].rank = (u8)rank;
-                g_ScoreTable[category0][category1][rank].zero17 = 0;
-                g_ScoreTable[category0][category1][rank].magic = 0x52435348u;
-                g_ScoreTable[category0][category1][rank].chapterSizeCopy = sizeof(ScoreRecordView);
-                g_ScoreTable[category0][category1][rank].chapterSize = sizeof(ScoreRecordView);
-                g_ScoreTable[category0][category1][rank].version = 2;
-                g_ScoreTable[category0][category1][rank].runtimeMarker = 0;
-                strcpy(g_ScoreTable[category0][category1][rank].name, "No Name ");
-                strcpy(g_ScoreTable[category0][category1][rank].date, "--/--");
-                g_ScoreTable[category0][category1][rank].value2B = 0;
+                g_TitleScoreTable[category0][category1][rank].score = 100000 - 20000 * rank;
+                g_TitleScoreTable[category0][category1][rank].value10 = 0.0f;
+                g_TitleScoreTable[category0][category1][rank].category0 = (u8)category0;
+                g_TitleScoreTable[category0][category1][rank].category1 = (u8)category1;
+                g_TitleScoreTable[category0][category1][rank].rank = (u8)rank;
+                g_TitleScoreTable[category0][category1][rank].unknown17 = 0;
+                g_TitleScoreTable[category0][category1][rank].magic = 0x52435348u;
+                g_TitleScoreTable[category0][category1][rank].chapterSizeCopy = sizeof(TitleScoreRecordView);
+                g_TitleScoreTable[category0][category1][rank].chapterSize = sizeof(TitleScoreRecordView);
+                g_TitleScoreTable[category0][category1][rank].version = 2;
+                g_TitleScoreTable[category0][category1][rank].runtimeMarker = 0;
+                strcpy(g_TitleScoreTable[category0][category1][rank].name, "No Name ");
+                strcpy(g_TitleScoreTable[category0][category1][rank].date, "--/--");
+                g_TitleScoreTable[category0][category1][rank].scoreDigit = 0;
             }
         }
     }
 
-    ScoreRecordView *inputRecord =
-        reinterpret_cast<ScoreRecordView *>(reinterpret_cast<u8 *>(this) + headerSize);
+    TitleScoreRecordView *inputRecord =
+        reinterpret_cast<TitleScoreRecordView *>(reinterpret_cast<u8 *>(this) + headerSize);
     i32 bytesToRead = (i32)(totalSize - headerSize);
     while (bytesToRead > 0)
     {
         if (inputRecord->magic == 0x52435348u && inputRecord->version == 2)
         {
-            g_ScoreTable[inputRecord->category0][inputRecord->category1][inputRecord->rank] =
+            g_TitleScoreTable[inputRecord->category0][inputRecord->category1][inputRecord->rank] =
                 *inputRecord;
         }
 
         u16 chapterSize = inputRecord->chapterSize;
         bytesToRead -= chapterSize;
-        inputRecord = reinterpret_cast<ScoreRecordView *>(
+        inputRecord = reinterpret_cast<TitleScoreRecordView *>(
             reinterpret_cast<u8 *>(inputRecord) + chapterSize);
     }
 
-    g_CurrentScoreRecord.chapterSizeCopy = sizeof(ScoreRecordView);
-    g_CurrentScoreRecord.chapterSize = sizeof(ScoreRecordView);
-    strcpy(g_CurrentScoreRecord.name, "No Name ");
-    g_CurrentScoreRecord.value10 = 0.0f;
-    g_CurrentScoreRecord.category0 = 0;
-    g_CurrentScoreRecord.category1 = 0;
-    g_CurrentScoreRecord.magic = 0;
-    g_CurrentScoreRecord.zero17 = 0;
-    g_CurrentScoreRecord.version = 2;
-    g_CurrentScoreRecord.runtimeMarker = 0;
-    strcpy(g_CurrentScoreRecord.date, "--/--");
+    g_TitleScoreRecord.chapterSizeCopy = sizeof(TitleScoreRecordView);
+    g_TitleScoreRecord.chapterSize = sizeof(TitleScoreRecordView);
+    strcpy(g_TitleScoreRecord.name, "No Name ");
+    g_TitleScoreRecord.value10 = 0.0f;
+    g_TitleScoreRecord.category0 = 0;
+    g_TitleScoreRecord.category1 = 0;
+    g_TitleScoreRecord.magic = 0;
+    g_TitleScoreRecord.unknown17 = 0;
+    g_TitleScoreRecord.version = 2;
+    g_TitleScoreRecord.runtimeMarker = 0;
+    strcpy(g_TitleScoreRecord.date, "--/--");
 
     return 0;
 }

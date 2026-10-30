@@ -1,4 +1,5 @@
 #include "EffectManager.hpp"
+#include "TitleScoreRecordView.hpp"
 #include "FrontMessageOwnerView.hpp"
 #include "EnemyManager.hpp"
 #include "BulletManager.hpp"
@@ -90,26 +91,10 @@ struct GameSubsystemSetupView
 };
 
 
-struct SetupScoreRecordView
-{
-    unsigned int magic;
-    unsigned short chapterSize;
-    unsigned short chapterSizeCopy;
-    unsigned char version;
-    unsigned char runtimeMarker;
-    unsigned char unknown0A[2];
-    int value0C;
-    float value10;
-    unsigned char sideValue14;
-    unsigned char setupMode15;
-    unsigned char unknown16;
-    unsigned char zero17;
-    unsigned char unknown18[0x13];
-    unsigned char stateValue2B;
-};
+
 
 typedef char SetupScoreRecordViewSizeCheck[
-    (sizeof(SetupScoreRecordView) == 0x2C) ? 1 : -1];
+    (sizeof(TitleScoreRecordView) == 0x2C) ? 1 : -1];
 
 #include "GameManagerSetupView.hpp"
 
@@ -167,7 +152,7 @@ extern RngRuntimeView g_Rng;
 
 extern AsciiManager g_AsciiManager;
 extern AnmVm g_SupervisorLoadingVms[3];
-extern SetupScoreRecordView g_DeletedScoreRecord;
+
 extern unsigned char g_DeletedScratch[0x2BC0];
 extern int g_GameManagerChainState;
 
@@ -567,19 +552,19 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
         reinterpret_cast<SetupStateBuffer *>(globalManager.sides[0].state);
     if (state != NULL)
     {
-        g_DeletedScoreRecord.value0C = state->value08;
-        g_DeletedScoreRecord.sideValue14 =
+        g_TitleScoreRecord.score = state->value08;
+        g_TitleScoreRecord.category0 =
             static_cast<unsigned char>(globalManager.sides[0].value20);
-        g_DeletedScoreRecord.setupMode15 =
+        g_TitleScoreRecord.category1 =
             static_cast<unsigned char>(globalManager.setupMode);
-        g_DeletedScoreRecord.stateValue2B = state->value14;
-        g_DeletedScoreRecord.value10 = 0.0f;
-        g_DeletedScoreRecord.magic = 0x52435348u;
-        g_DeletedScoreRecord.zero17 = 0;
-        g_DeletedScoreRecord.chapterSizeCopy = sizeof(g_DeletedScoreRecord);
-        g_DeletedScoreRecord.chapterSize = sizeof(g_DeletedScoreRecord);
-        g_DeletedScoreRecord.version = 2;
-        g_DeletedScoreRecord.runtimeMarker = 0;
+        g_TitleScoreRecord.scoreDigit = state->value14;
+        g_TitleScoreRecord.value10 = 0.0f;
+        g_TitleScoreRecord.magic = 0x52435348u;
+        g_TitleScoreRecord.unknown17 = 0;
+        g_TitleScoreRecord.chapterSizeCopy = sizeof(g_TitleScoreRecord);
+        g_TitleScoreRecord.chapterSize = sizeof(g_TitleScoreRecord);
+        g_TitleScoreRecord.version = 2;
+        g_TitleScoreRecord.runtimeMarker = 0;
     }
 
     if ((globalManager.flags & 8u) != 0 && supervisor->value598 != 0)

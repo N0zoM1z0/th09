@@ -8,15 +8,21 @@
 // The names below are source-facing roles, not claimed original identifiers.
 struct TitleScoreRecordView
 {
-    unsigned char unknown00[0x0C];
+    unsigned int magic;
+    unsigned short chapterSize;
+    unsigned short chapterSizeCopy;
+    unsigned char version;
+    unsigned char runtimeMarker;
+    unsigned char unknown0A[2];
     unsigned int score;
-    unsigned char unknown10[4];
+    float value10;
     unsigned char category0;
     unsigned char category1;
     unsigned char rank;
     unsigned char unknown17;
     char name[9];
-    unsigned char unknown21[0x0A];
+    char date[6];
+    unsigned char unknown27[4];
     char scoreDigit;
 
     int InsertIntoTable();
@@ -36,6 +42,21 @@ typedef char TitleScoreRecordNameAt18[
     (offsetof(TitleScoreRecordView, name) == 0x18) ? 1 : -1];
 typedef char TitleScoreRecordDigitAt2B[
     (offsetof(TitleScoreRecordView, scoreDigit) == 0x2B) ? 1 : -1];
+
+typedef char SharedScoreMagicAt00[
+    (offsetof(TitleScoreRecordView, magic) == 0x00) ? 1 : -1];
+typedef char SharedScoreChapterSizeAt04[
+    (offsetof(TitleScoreRecordView, chapterSize) == 0x04) ? 1 : -1];
+typedef char SharedScoreChapterSizeCopyAt06[
+    (offsetof(TitleScoreRecordView, chapterSizeCopy) == 0x06) ? 1 : -1];
+typedef char SharedScoreVersionAt08[
+    (offsetof(TitleScoreRecordView, version) == 0x08) ? 1 : -1];
+typedef char SharedScoreRuntimeMarkerAt09[
+    (offsetof(TitleScoreRecordView, runtimeMarker) == 0x09) ? 1 : -1];
+typedef char SharedScoreValueAt10[
+    (offsetof(TitleScoreRecordView, value10) == 0x10) ? 1 : -1];
+typedef char SharedScoreDateAt21[
+    (offsetof(TitleScoreRecordView, date) == 0x21) ? 1 : -1];
 
 // Both producer and renderer resolve to these very same external names.
 // Declaration-only; storage/constructors still require independent native
