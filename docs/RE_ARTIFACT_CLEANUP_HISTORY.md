@@ -2894,3 +2894,24 @@ All956 deletion-time protected hashes agree. Temporary source/OBJ/PDB outputs
 already self-clean. Post-cleanup saved/input/layout audits pass. No source
 archive or old C++ tree is added. Receipt:
 `.analysis/gpt-61sol-20261031-ecl-flagpair-storage/cleanup.json`.
+
+## 2026-10-31: paired native network input and service status controls
+
+Game source remains4502c056. Int/int and private u16/u16 input producers both
+match the complete131-byte target. Six whole-service models retain106 field
+and51 call-identity multiplicities but remain nonexact;no API/source is adopted.
+One independent producer/caller pair repeats full native and caller observations.
+The unchanged original int/int unit also passes the strict public comparator.
+
+After all owned producers terminate,remove15 ignored files/768195 logical bytes:
+seven trial objects and eight PDBs. Preserve native-int.obj with its consumed
+source/profile/public proof,current296 carriers/service,complete raw/field/
+all-path/stack records,all Git/EOL recipes and original target/working Ghidra.
+All984 deletion-time protected hashes agree. Independent temporary source/OBJ/
+PDB outputs already self-clean;no old source tree or archive is introduced.
+Post-cleanup input/native/visibility audits pass. Receipt:
+`.analysis/gpt-61sol-20261031-network-input-contract/cleanup.json`.
+
+The separate packet-cache cleanup removes4 bytecode files/47138 bytes;native
+producer,service,source and original-target hashes remain equal. Receipt:
+network-input-contract/cleanup-cache.json under the October31 analysis prefix.

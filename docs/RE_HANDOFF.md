@@ -160,6 +160,16 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   All137 other raw bodies and75 siblings remain. Its independent replay repeats
   the rejection. Research routes:enemy-const-periodic/ and ecl-timeout-callable/;
   no production source,qualifier,manifest,profile or exactness credit changes.
+- Current network transport is rechecked against actual paired input bodies in
+  network-input-contract/ below the October31 analysis prefix. The int/int and
+  u16/u16 producers both equal all131 original bytes/one field;this does not
+  identify the original source widths. Opaque/visible narrow service controls
+  give1628 bytes/106 fields/1372 unequal overlaps+5 missing,with the target's
+  WORD stores/DWORD loads and0x14 stack frame but no status home. Shared-exit
+  and real workspace controls remain1638/1640,with wrong status homes/order.
+  Every model retains106 field and51 call-identity multiplicities. No API or
+  source is adopted. Independent cold caller/producer replay passes;retain
+  native-int.obj and use verify-native.py for that unchanged131-byte owner.
 - Adjacent flag-pair controls are bounded in ecl-flagpair-storage/ below the
   October31 analysis prefix. A continuous eight-byte group of two unsigned-int
   allocation units preserves all138 regular bodies and RunEcl30/Enemy13.
@@ -182,8 +192,9 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   current-type3.json binding is historical. Use this packet's maintained-path
   current-ExAttackUpdateType3-0.obj with inspect-exattack-type3-schedule.py.
   Fresh complete validation retains780/38/15 and the unresolved middle-Z order.
-- Current proof objects are the six shared-score proposal carriers,the68
-  unchanged objects in its current.json,and the unchanged service object.
+- Current296 proof objects are the six shared-score proposal carriers and68
+  unchanged objects in its current.json. The service object and the separately
+  revalidated network-input-contract/native-int.obj are retained alongside them.
   Cleanup removes15 ignored baseline/superseded/debug files only after complete
   controls,reconstruction and1130 protected-hash checks. Records,source recipes,
   original target/toolchains and working Ghidra remain;build/ may be absent.

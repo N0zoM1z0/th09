@@ -26960,3 +26960,109 @@ Recipes,compiler failures,full comparisons and cleanup receipt live under
 is created. Target-required tracking,documentation,progress and whitespace
 checks close this research checkpoint;no game-source or public-validator change
 requires a canonical/full-CI replay. All checkpoints are local.
+
+## October31: actual paired network input contracts and service status homes
+
+Recovery at214cc082 is clean;the previous goal turn supplies bounded whole-ECL
+storage/alignment evidence. Game source remains4502c056. Original Japanese1.50a,
+tracking and live progress pass. Fresh direct Ghidra12.1.4 reuses the working
+project and checks all685056 mapped file-backed bytes before exporting complete
+SupervisorServiceUpdate430AA0 under ghidra-direct/export-20261030T230834-823677.
+Current service source/profile/object hashes match the retained1626-byte baseline;
+no baseline compile or full canonical cold cohort is needed.
+
+The original success tail stores two AX values at EBP-14/-12(hex),then loads
+DWORDs from those exact homes into EDI/EBX for three ApplyNetworkInput calls.
+Current int/int source instead zero-extends register-held words. Target's frame
+is14(hex);it initializes result at EBP-4 and reloads that home after unlock.
+The old paired u16/u16 observation predates the adopted packet/session lifetime
+repairs. Packet464's unique-full-width inference was already corrected by775;
+this batch rechecks the actual native bodies and current whole caller without
+assuming either nominal source contract is uniquely original.
+
+Both actual maintained ApplyNetworkInput bodies are compiled under the existing
+pinned profile:unchanged int return/int input,or unsigned-short return/input
+with the same int index. Each independently matches all131 original bytes and
+its one native global field;their raw payloads/fields are identical. The narrow
+model changes the actual definition and caller declaration together,not just a
+convenient prototype. All three service calls ignore EAX until the next call,
+independently checked against original decoded instructions. This bounds the
+observed consumers,not every possible external caller or a whole runtime proof.
+Neither original nominal widths nor full-product ABI closure follows.
+
+The production service inspector first rejects the new narrow decorated name.
+Only a private view adds its original address after proving the complete real
+native definition. Three actual REL32 fields must use that same native symbol,
+zero addend/value,and either genuinely external or genuinely same-object
+relations. No canonical registry,manifest,identity guard or acceptance threshold
+is relaxed. The opaque and visible models have identical complete1628-byte
+caller payloads/effective fields;only the three positive definition relations
+change. Absolute COFF owner sections change3 to5 when the body is added,and are
+checked as owner coordinates rather than confused with effective destinations.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| SERVICE-INPUT-PAIR-001 | native complete comparison | Existing int/int and private u16/u16 actual definitions both reproduce131 original bytes/one field;source-width uniqueness remains unknown. | network-input-contract/native-int.json;native-u16.json;strict current-native.json |
+| SERVICE-INPUT-PAIR-002 | rejected complete caller contexts | Opaque/visible narrow input retains1628 bytes/106 fields/1372 unequal overlaps plus5 missing. Target-like WORD stores/DWORD loads and frame14(hex) return,but the result home does not. | narrow-opaque.json;narrow-visible.json;visibility-audit.json;analysis.json |
+| SERVICE-INPUT-PAIR-003 | rejected complete exit contexts | Sharing the actual success/wait unlock produces1638(int) or1640(narrow) bytes. Result is genuinely stored/reloaded at EBP-C,with frames10/18(hex),not the original EBP-4/frame14. | int-shared-exit.json;narrow-shared-exit.json;actual stack instructions |
+| SERVICE-INPUT-PAIR-004 | rejected complete workspace contexts | One used output/status record with narrow input gives1640 bytes,or1638 with shared exit;both frame14(hex) but result EBP-8 and different input reload chronology. | narrow-workspace.json;narrow-shared-workspace.json;analysis.json |
+
+The workspace groups only the actual two popped inputs,two seed outputs,one
+predicted output and result. Both handshake-drain and success calls consume
+those same fields;every member is genuinely used. Its result initialization
+replaces the existing one,and actual wait-state publication remains1. No extra
+storage for padding,dummy clobber,volatile/register/variable-order directive,
+allocation-failure behavior,return fiction or profile change is introduced.
+The shared-exit controls perform the same genuine unlock and return operation.
+Their regressions do not justify keeping an equal-size or smaller local fragment.
+
+Every service model retains all106 original field-identity multiplicities and
+all51 call identities(41 direct/10 indirect),including an all-path cached-clock
+IAT proof that kills caller-saved registers on calls. Physical call order still
+differs. Complete comparisons retain each unlike overlap and missing/excess
+byte separately;none of the six models is exact. Actual stack stores,loads,
+initialization and result publication distinguish transport recovery from
+unrecovered status allocation/control flow. The three external Japanese message
+payloads are independently checked by the unchanged public inspector.
+
+All nine input sets recover from immutable214cc082 Git/EOL content:13 local
+files for the reused baseline and14 staged files per producer/caller control.
+The native producer actually consumes only its one maintained source;the larger
+staging union is not claimed as its include closure. Two independent cold jobs
+rebuild an actual narrow producer and opaque caller,checking all raw bodies,
+actual fields,complete native131 equality,1628/106/1372+5 caller diagnostic and
+empty extra executable-contribution inventories. Temporary source/OBJ/PDB
+outputs self-clean. Eight primary plus two independent compiler jobs run serially
+on one allowed CPU at nice10 with180-second bounds. Private recorders' missing
+decoder globals/owner-section normalization are corrected against the already
+produced objects;no compiler restart or production comparator change follows.
+
+The original int/int producer also passes the unchanged strict public unit.
+Retain its source-bound native-int.obj with current-native.json and
+verify-native.py;it is separate from the existing296-unit proof subset and adds
+no exactness credit. The service,its int/int API,all other source/headers,
+profiles and exact ledgers remain unchanged. The functions.csv evidence/notes
+for42ACE0 drop the stale unique-int claim;its current signature,status,address,
+extent and exact credit stay fixed. Current service stays1626/1633,
+106 fields,1376 unequal overlaps+7 missing. RunEcl30/Enemy13 and current296 pins
+remain. Exact authored coverage is1004/1035 and246651/291883(84.5034%);98% and
+later native/runtime/semantic/port gates stay open. The new bounded conclusion
+is that a paired narrow native contract can explain the input transport,while
+that observation alone cannot recover the complete service or its original API.
+
+All owned compiler/headless handles are terminal before cleanup deletes15
+ignored files/768195 logical bytes:seven trial objects and eight PDBs. All984
+deletion-time protected hashes agree,including current296 carriers/service,
+new native-int producer,tracked source,target,working Ghidra and research records.
+Native-int and the original service remain;no rejected narrow caller is promoted.
+Both independent output sets already self-clean. Post-cleanup immutable-input,
+strict native-unit and visibility audits pass;full recorded all-path/body/stack
+checks remain reproducible without old C++ copies. Recipes,full raw/field/native
+records,production-name rejections and cleanup receipt are below
+.analysis/gpt-61sol-20261031-network-input-contract/. No source archive or old
+code tree is created. Documentation,target-required tracking,progress and
+whitespace checks close this local research checkpoint.
+
+The separate packet-cache cleanup removes4 bytecode files/47138 bytes;native
+producer,service,source and original-target hashes remain equal. Receipt:
+network-input-contract/cleanup-cache.json under the October31 analysis prefix.
