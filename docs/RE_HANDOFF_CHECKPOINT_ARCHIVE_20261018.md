@@ -3322,3 +3322,48 @@ recorded; the six public-workflow calls were serial but lacked the private
 runner's priority/CPU wrapper.
 RunEcl15564/598/30,Enemy3900/97/13 and Effect34 draw946/53/74 stay unchanged.
 The98% goal remains active with31 nonexact authored owners.
+
+## 2026-10-30 checkpoint6688a777: ECL value boundaries and rejection attribution
+
+Preserved from the active handoff before the native ANM contract correction.
+Source and tooling checkpoint:6688a7777f543b08b08b6bd74bba640b141d2af5.
+
+### Recorded checkpoint
+
+Game source remains at a6ecf771; exact stays1004/84.5034%. Five new complete ECL
+controls reuse the unchanged pinned profile and protect all75 same-profile exact
+siblings per object. The two real Float3 pointer-body contexts retain RunEcl30
+and emit Enemy3876 bytes/96 fields/68 direct sites; both actual zero callbacks
+still equal the original three-byte leaf. Pointer visibility alone keeps biased
+movement517/28/148; the combined actual Y-subobject cursor gives518/28 and fails
+its complete extent gate. Neither source family is adopted.
+
+Three native timeout controls compare the existing word,an actual nested two-
+word flag record and a flat u32-bitfield record spanning the same eight bytes.
+All three RunEcl raw bodies are identical:15564/598 with1938 ordinary and202
+field differences. No width/access/packing hint or new qualifier is introduced.
+These controls do not repair opcode4/155 or prove an original declared type.
+
+The Enemy inspector previously called a changed candidate extent an original
+callback failure. It now separates original-target/body rejection from the
+candidate length rejection,without admitting a new extent or changing any
+acceptance guard. A regression and actual-object reinspection preserve the
+3876-byte rejection while independently retaining both real callback proofs.
+The old selected-manager debt note is also marked superseded: f595786d already
+corrected selectedManager000 and its users; current source keeps that repair.
+
+Packet: `.analysis/gpt-61sol-20261030-ecl-native-pointer-context/`.
+Six callback tests and full public CI pass:1038 tests/29 skips,200.493s.
+current.py verify reuses the active source/profile-bound ECL object and passes
+75 unchanged strict public checks/22463 physical bytes/990 fields. verify_saved.py
+recovers79 Git/EOL inputs and checks all five full RunEcl observations plus375
+existing canonical comparisons; reproduce.py can cold-build one model anew.
+A private recorder initially compared verbose and compact explanatory metadata;
+its captured failure and correction change no source/object/profile or byte gate.
+
+After terminal producers,cleanup removes146 ignored files/4706969 logical bytes:
+five unadopted objects,five PDBs and136 bytecode caches. All395 protected hashes
+retain their deletion-time values; current and saved-record checks pass afterward.
+The active ECL object,all documents/research,source,target/tools and Ghidra remain;
+build/ is absent. No old C++ copies,archive,whole1004-owner cold replay or new
+exact credit is introduced.

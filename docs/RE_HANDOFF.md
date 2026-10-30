@@ -9,8 +9,9 @@ without assuming earlier notes are conclusive. The98% milestone is unfinished.
 
 The restart game-source baseline is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
 (Controller axis ranges); maintenance checkpoint7bc3b956 adds no game-source
-change. The shared-vector/Front audit, complete Pause update, native Timer cleanup, child-ECL interface, Effect34, weighted-message, Player contract, charge, RunEcl, instruction-mask and
-callback corrections are described below. Use
+change. The native ANM/RNG interfaces,shared-vector/Front audit,complete Pause update,
+native Timer cleanup,child-ECL interface,Effect34,weighted-message,Player contract,
+charge,RunEcl,instruction-mask and callback corrections are described below. Use
 live Git status and ledgers before dated measurements. Compiler profiles remain
 unchanged; Pause previously added1734 exact authored bytes at cda7574c. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
 local commits do not establish remote publication.
@@ -20,47 +21,56 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current audit — RunEcl value boundaries and Enemy rejection attribution
+## Current audit — native ANM dependencies and shared RNG identity
 
-Game source remains at a6ecf771; exact stays1004/84.5034%. Five new complete ECL
-controls reuse the unchanged pinned profile and protect all75 same-profile exact
-siblings per object. The two real Float3 pointer-body contexts retain RunEcl30
-and emit Enemy3876 bytes/96 fields/68 direct sites; both actual zero callbacks
-still equal the original three-byte leaf. Pointer visibility alone keeps biased
-movement517/28/148; the combined actual Y-subobject cursor gives518/28 and fails
-its complete extent gate. Neither source family is adopted.
+The ANM interpreter now uses the existing AnmManager,AnmLoaded,
+AnmLoadedSprite,Supervisor and RngRuntimeView interfaces. The old private RNG
+facade named two different callees GetRandomF32InRange: GetFloatVar10010 actually
+calls the signed-range wrapper406200,while FSetRand calls404910. The source now
+uses GetRandomF32SignedInRange(pi) for10010 and the ordinary range method for
+FSetRand. Direct Ghidra reuses the verified project and rechecks all685056 mapped
+file bytes. This repairs a cross-owner source/linkage inconsistency; the prior
+per-owner target comparisons did not establish one coherent external identity.
 
-Three native timeout controls compare the existing word,an actual nested two-
-word flag record and a flat u32-bitfield record spanning the same eight bytes.
-All three RunEcl raw bodies are identical:15564/598 with1938 ordinary and202
-field differences. No width/access/packing hint or new qualifier is introduced.
-These controls do not repair opcode4/155 or prove an original declared type.
+Two fresh current ANM profile objects and one RNG object preserve13 strict
+canonical units/10740 physical bytes/434 fields. All24 prior ANM regular raw
+bodies and two38-byte compiler contributions remain unchanged. The manifest
+updates15 native external identities and148 independently position-proved
+private labels; no target,addend,extent,profile or exact credit changes. The
+interpreter still compares all9776 physical bytes/368 fields. A distinct counter
+prefix at+10 replaces its incompatible private AnmManager class. Separate AnmVm
+projections/inheritance remain an open shared-layout question,not solved here.
 
-The Enemy inspector previously called a changed candidate extent an original
-callback failure. It now separates original-target/body rejection from the
-candidate length rejection,without admitting a new extent or changing any
-acceptance guard. A regression and actual-object reinspection preserve the
-3876-byte rejection while independently retaining both real callback proofs.
-The old selected-manager debt note is also marked superseded: f595786d already
-corrected selectedManager000 and its users; current source keeps that repair.
+Packet: `.analysis/gpt-61sol-20261030-anm-native-contracts/`.
+current.py verify also reuses the unchanged Background/Front objects:15 strict
+units/17108 bytes/756 fields in total. verify_ecl_reuse.py protects75 unchanged
+strict ECL owners/22463 bytes/990 fields and complete RunEcl15564/598/30,
+Enemy3900/97/13. No ECL recompile or whole1004-owner replay is needed for this
+ANM-only source change.27 focused target-independent tests,tracking,docs,
+progress and match-unit graph checks pass; public validation tooling is unchanged.
+The last full CI remains1038 tests/29 skips at6688a777.
 
-Packet: `.analysis/gpt-61sol-20261030-ecl-native-pointer-context/`.
-Six callback tests and full public CI pass:1038 tests/29 skips,200.493s.
-current.py verify reuses the active source/profile-bound ECL object and passes
-75 unchanged strict public checks/22463 physical bytes/990 fields. verify_saved.py
-recovers79 Git/EOL inputs and checks all five full RunEcl observations plus375
-existing canonical comparisons; reproduce.py can cold-build one model anew.
-A private recorder initially compared verbose and compact explanatory metadata;
-its captured failure and correction change no source/object/profile or byte gate.
+The preceding callback-receiver packet tests actual instance/free receiver
+forms:both keep Enemy13 and RunEcl30. Mutable-only Float3 addition fails real
+const consumers; retaining both genuine54-byte overloads keeps Enemy13,or45
+with the actual33-byte periodic Timer body visible. All four successful controls
+protect75 existing exact siblings each. None is adopted. Saved Git/EOL recipes,
+300 canonical raw/field comparisons and a selected fresh periodic dual-overload
+reproduction are retained in enemy-callback-receiver/. Timer return-type controls
+were already tested on October21 and are reused rather than rerun.
 
-After terminal producers,cleanup removes146 ignored files/4706969 logical bytes:
-five unadopted objects,five PDBs and136 bytecode caches. All395 protected hashes
-retain their deletion-time values; current and saved-record checks pass afterward.
-The active ECL object,all documents/research,source,target/tools and Ghidra remain;
-build/ is absent. No old C++ copies,archive,whole1004-owner cold replay or new
-exact credit is introduced.
+A manifest-only external-name census leaves three unrelated multi-address cases:
+ANM texture error text,Background quad storage and CRT free/forwarding entries.
+Their actual data definitions/addends/product identities need separate review;
+this census alone proves no additional source bug or exactness change.
 
-## Current game source — shared vectors and Front native contracts
+After terminal producers,cleanup deletes14 ignored files/2489226 logical bytes:
+four rejected objects,eight PDBs and two superseded ANM objects. All435 protected
+hashes retain their deletion-time values. Current objects,all docs/research,
+source,target/tools and working Ghidra remain;build/ is absent. No old C++ tree
+or archive is added. Exact stays1004/84.5034%;98% remains unfinished.
+
+## Previous dependency checkpoint — shared vectors and Front contracts
 
 AnmManagerExecuteScript.cpp,BackgroundRender.cpp and FrontSideDraw.cpp now use
 Float3.hpp rather than three incompatible same-named Float3 declarations. The
@@ -72,7 +82,7 @@ included directly: the compatibility AsciiGameManagerView.hpp header would
 also import a conflicting AnmVm projection. That failed preparation and its
 no-object compiler result are preserved; no macro hides the conflict.
 
-Four focused current source/profile objects preserve all7 canonical owners/
+At source checkpointa6ecf771,four focused source/profile objects preserve all7 canonical owners/
 16864 physical bytes/743 fields,including the complete9776-byte ANM interpreter,
 3274-byte background renderer and3094-byte Front draw. All28 regular raw bodies
 and effective field identities remain unchanged,as do two38-byte compiler
@@ -90,8 +100,9 @@ model pass; all137 other regular bodies remain raw-identical. RunEcl stays
 negatives do not exhaust other natural source families.
 
 Packet: `.analysis/gpt-61sol-20261030-shared-vector-contracts/`.
-Use current.py verify for the7 current canonical units and verify_saved.py for
-immutable Git/EOL input recipes and full saved controls. reproduce.py can build
+The two ANM objects and their current.py source binding are now superseded;use
+the native-ANM packet above for current ANM and unchanged Background/Front proofs.
+verify_saved.py remains the historical Git/EOL input and saved-control check. reproduce.py can build
 one model into a new output directory without old C++ copies.64 Enemy tests
 (three skips),11 literal-definition tests and the manifest graph check pass.
 After terminal producers,cleanup deletes20 ignored files/2914480 logical bytes:

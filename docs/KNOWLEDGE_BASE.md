@@ -586,7 +586,7 @@ name into a TH09 fact without target-local evidence.
 | TITLE-005 | exact / authored-game / embedded MusicRoom | `TitleScreenView::OnUpdateMusicRoom @ 0x00426E05-0x004276D6` is the TH09 TitleScreen-owned MusicRoom state machine and is now canonical exact at 2,258/2,258 bytes with all 74 reviewed relocations. TH09 embeds the 32 music descriptors and the selection/listing/description state inside TitleScreen; adjacent-game layouts remain hypothesis material only. Final exact closure uses the descriptor-row `vmIndex` as the guarded loop induction variable plus explicit 0x2A4 VM-stride traversal for the hidden prefix. | Current function/match ledgers; canonical `title-screen-music-room` replay; maintained `src/TitleScreenMusicRoom.cpp`. |
 | BOUNDARY-114 | reviewed / authored-only | The MusicRoom update owns exactly `0x00426E05-0x004276D6` (0x8D2 / 2,258 logical bytes). Fresh native IDA independently identifies `TitleScreen_UpdateMenuSelection @ 0x004276D7` as the next 20-byte function, so there is no alignment/padding/table tail between them and no byte after `0x004276D6` is charged to MusicRoom. | Fresh attested function objects for both addresses plus the target-sized MusicRoom body and direct seam review. |
 | TOOLCHAIN-117 | source-present / stable non-exact / adjacent-migration | Natural TH08-family source under the established TitleScreen pinned VC7.1 `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Gr /O1 /Ob1 /Oy- /I src` converges from 1,861 bytes to a stable 2,208-byte object against the 2,258-byte target without codegen forcing. The largest causal correction is structural and source-backed: replacing one abstract description-index block with the eight explicit fixed-offset description cases used by the adjacent family moves 1,855 to 2,210 bytes. Reordering active/init states to match target physical order reaches 2,213. Fresh target evidence then corrects a more important semantic/owner mistake: song-script setup uses `this +0x11B90`, not the global description-script owner, and the song script index is the live 159-based domain; retaining those target-correct facts yields final 2,208 bytes. A final equivalent loop-bound probe (`i < trackCount + 159`) improves the target-correct form by 20 bytes but leaves a 50-byte residual and a 0x20 object frame versus the target 0x1C frame. Two cold final builds have byte-identical `.text` SHA-256 `ee895dfc1ee196ca7483637fd4eaa10656a887e78e83cd8d5a4cda22333c14df`. Exact chasing stops before declaration-order, register/volatile, padding, pragma, assembly, or broad flag search. | Packet-126 v1-v6 focused compiler feedback, target/object control-flow alignment, two cold final negative controls, and exact regressions for the three existing `src/TitleScreen.cpp` canonical units. No canonical match row is added. |
-| ANM-017 | exact / authored-game / reusable-module | Packet 127 reconstructs the TH09 ANM script-execution seam around `AnmManager::ExecuteScript @ 0x00436F30`. TH09-local evidence fixes the old-engine 0x2A4 `AnmVm` layout, the 90-opcode dispatch domain (`opcode + 1 <= 0x5A`), the out-of-line ZunTimer integer conversion and comparison operators, and four operand helpers: `GetIntVar @ 0x00436B80`, `GetFloatVarPtr @ 0x00436C40`, `GetIntVarPtr @ 0x00436CD0`, and `GetFloatVar @ 0x00436E30`. Clean committed TH08 supplies the closest source family; committed-only TH095 is a later 17 KiB interpreter family and is not transferred as TH09 source. TH09 float-variable IDs 10010/10011/10012 select pi-range, unit random-float, and signed-random-float respectively. Packet789 corrects the former source-label order and a manifest-local-label validation gap; the earlier replay alone did not establish this routing. The four operand helpers and the complete 9,358-byte interpreter are canonical exact. | Fresh target callers/decompilation/stack evidence, target disassembly, exact-caller relocation manifests, clean committed TH08 `a45e99fb1942714e6edded20847e32a654d56f97`, target-specific RNG correction, and target-bound canonical replay. |
+| ANM-017 | exact / authored-game / reusable-module | Packet 127 reconstructs the TH09 ANM script-execution seam around `AnmManager::ExecuteScript @ 0x00436F30`. TH09-local evidence fixes the old-engine 0x2A4 `AnmVm` layout, the 90-opcode dispatch domain (`opcode + 1 <= 0x5A`), the out-of-line ZunTimer integer conversion and comparison operators, and four operand helpers: `GetIntVar @ 0x00436B80`, `GetFloatVarPtr @ 0x00436C40`, `GetIntVarPtr @ 0x00436CD0`, and `GetFloatVar @ 0x00436E30`. Clean committed TH08 supplies the closest source family; committed-only TH095 is a later 17 KiB interpreter family and is not transferred as TH09 source. TH09 float-variable IDs 10010/10011/10012 select signed pi-range, unit random-float, and signed-random-float respectively. The October30 native ANM correction replaces the misleading GetRandomF32InRange facade for10010 with the real GetRandomF32SignedInRange method. Packet789 corrects the former source-label order and a manifest-local-label validation gap; the earlier replay alone did not establish this routing. The four operand helpers and the complete 9,358-byte interpreter are canonical exact. | Fresh target callers/decompilation/stack evidence, target disassembly, exact-caller relocation manifests, clean committed TH08 `a45e99fb1942714e6edded20847e32a654d56f97`, target-specific RNG correction, and target-bound canonical replay. |
 | BOUNDARY-115 | exact / reviewed compiler-artifact ownership | ANM operand helpers have smaller IDA logical authored bodies than their VC7.1 symbols because the compiler appends switch tables: `GetIntVar` is 144 authored / 184 compared bytes, `GetFloatVarPtr` 116 / 132, `GetIntVarPtr` 106 / 148, and `GetFloatVar` 203 / 256. Complete physical comparisons including tables/alignment are zero-difference and relocation-complete. `ExecuteScript` owns logical authored code `0x00436F30-0x004393BD` (0x248E / 9,358 bytes), followed by two compiler alignment bytes and 416 bytes of compiler tables from `0x004393C0` through `0x0043955F`; independent `ExecuteScriptArray` begins at `0x00439560`. The canonical comparison therefore covers 9,776 physical bytes while authored progress counts only the 9,358-byte code body. | Fresh target bytes/disassembly across every seam, target-bound exact replay of the four helpers, and complete 9,776/9,776 interpreter replay with all 368 relocations. |
 | TOOLCHAIN-118 | exact / split ANM execution profile | The four ANM operand helpers remain exact under pinned VC7.1 `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src`. The complete `ExecuteScript` owner requires the same profile with `/Ob0`: this retains the target's out-of-line math wrappers, while the source-local `ZunTimer` view must declare comparison operators out of line to retain the target calls in Wait and the interpolation loop. That natural TU boundary produces 9,358/9,358 logical and 9,776/9,776 physical bytes with 368 relocations. TH08's historical `#pragma var_order` is still not transferred; no declaration-order, register/volatile, padding, assembly, fake return, or target-byte shaping is used. | Focused `/Ob1` plateau analysis, opcode-entry relocation alignment, `/Ob0` falsification/confirmation, and repeated canonical exact replay. |
 | ANM-018 | exact / authored-game / reusable runtime module | Packet 128 closes the TH09 ANM runtime entry/dispatch seam around the Packet-127 interpreter: `AnmVm::SetInterrupt @ 0x00406790`, `AnmManager::SpriteHasTexture @ 0x00423469`, `DrawPlayerBullet @ 0x00436D70`, `SetInterruptArray @ 0x00436DE0`, `ExecuteScriptArray @ 0x00439560`, `AnmLoaded::SetAndExecuteScript @ 0x004395A0`, and `ExecuteAnmIdxArray @ 0x00439630`. TH09 independently fixes the 0x2A4 VM stride, pending-interrupt field `+0x1FE`, draw selector `+0x200`, sprite/script fields `+0x214/+0x218/+0x21A/+0x224`, loaded-file slot base/stride `+0x38/0x120`, and the execution/interrupt caller graph. Clean committed TH08 supplies the direct natural source family only after those TH09 facts are fixed; committed TH095 is later-family corroboration only. All seven functions are repository-canonical exact. | Fresh passed native-IDA callers/decompilation/raw bytes, existing exact caller relocation manifests, clean committed TH08 `a45e99fb1942714e6edded20847e32a654d56f97`, committed-only TH095 snapshot, two genuine cold A/B unit passes, and a 58-unit affected-header/connected regression. |
@@ -5180,7 +5180,7 @@ this document. The current canonical unit is controller-get-input.
 
 ## Packet 789 ANM random-variable routing and local-label proof repair
 
-- A strict same-section COFF check during the RunEcl timer-visibility cohort exposed a pre-existing source error in AnmVm::GetFloatVar at0x00436E30. The target's thirteen-entry switch table routes ID10010 to436EDF (GetRandomF32InRange(pi)),10011 to436EC1 (GetRandomF32), and10012 to436ED0 (GetRandomF32Signed). The maintained source had cyclically assigned those three labels to the wrong bodies.
+- A strict same-section COFF check during the RunEcl timer-visibility cohort exposed a pre-existing source error in AnmVm::GetFloatVar at0x00436E30. The target's thirteen-entry switch table routes ID10010 to436EDF (the old facade name GetRandomF32InRange(pi); corrected October30 to native GetRandomF32SignedInRange(pi)),10011 to436EC1 (GetRandomF32), and10012 to436ED0 (GetRandomF32Signed). The maintained source had cyclically assigned those three labels to the wrong bodies.
 - The former manifest contained the right target addresses but assigned them to the wrong actual COFF labels at fieldsF4/F8/FC. Because canonical replay trusted those destinations, it concealed three table-byte differences. The old exact claim was therefore not justified by a faithful local-label binding. This packet repairs that claim; it is not a coverage gain.
 - Source correction changes only the three numeric case labels, preserving physical body order and all203 authored /256 physical raw bytes. Manifest refresh changes only the corresponding three private symbols, deriving every destination from its actual owner-relative COFF position. No target destination, ABI, compiler profile, random helper or denominator changes.
 - Two maintained cold builds of each existing ANM profile reproduce all five owners and complete relocation records. Full target comparisons pass GetFloatVar256/21fields, GetIntVar184/15, GetFloatVarPtr132/6, GetIntVarPtr148/11, and ExecuteScript9776/368. This includes physical tables/alignment. Independent review verifies the target case semantics and the complete strict-local replay; accepted final-snapshot Factory replay remains required separately.
@@ -24922,3 +24922,102 @@ source recipes,the active current ECL object,target/toolchains and working Ghidr
 remain;build/ is absent. No source archive is created. Exact remains1004/1035
 and246651/291883 bytes(84.5034%);98%,native-product/runtime
 and later semantic/port phases stay unfinished.
+
+
+## October30: native ANM contracts and a misleading signed-range facade
+
+The operator's earlier-dependency audit finds a concrete cross-owner defect:
+AnmManagerExecuteScript.cpp declares a private ReplayRngAnmView and uses one
+GetRandomF32InRange member symbol for two different native functions. Its
+GetFloatVar10010 field+BA points to406200; FSetRand field+18CE points to404910.
+Per-owner exact comparisons can bind these independently and therefore did not
+establish a coherent common C++ interface. This does not invalidate their raw
+per-owner target equality; it does require correcting the source identities.
+
+Fresh direct Ghidra exports436E30,436F30,404910 and406200 reuse the verified12.1.4
+project and compare all685056 mapped file-backed bytes. Original variable10010
+calls406200 with pi,10011 calls42AE70 and10012 calls42AEA0. The406200 wrapper
+calls signed42AEA0,whereas404910 calls unit42AE70. The existing independently
+exact RngRuntimeView provides the two actual range methods and eight native
+leaves. No adjacent-game semantic name is promoted as TH09 evidence.
+
+Maintained ANM now calls g_Rng.GetRandomF32SignedInRange(pi) for10010 and ordinary
+GetRandomF32InRange for FSetRand. It uses the real shared AnmManager,AnmLoaded,
+AnmLoadedSprite and Supervisor declarations. Five incompatible private class/
+facade definitions are removed; only a distinct counter prefix at+10 remains.
+The full local AnmVm projection is retained: unifying its other projections and
+lifecycle inheritance requires independent constructor/layout proof. No original
+C++ class identity or whole-product closure is inferred from matching offsets.
+
+Three serial one-CPU/nice10/180-second canonical compiles preserve13 strict
+public owners/10740 physical bytes/434 fields. ExecuteScript remains9776/368;
+four operand owners remain720/53; eight RNG leaves remain244/13. All24 regular
+raw ANM bodies,21170 bytes over both profiles,and two38-byte compiler
+contributions are unchanged. The manifest corrects15 native identities and148
+actual-position-proved local labels,without changing a destination,field kind,
+addend,compiler profile,physical extent or exact-credit row.
+
+current.py verify also reuses unchanged hash-bound Background and Front objects:
+15 strict owners/17108 bytes/756 fields. verify_ecl_reuse.py reuses the unchanged
+actual ECL source/profile object for75 strict owners/22463 bytes/990 fields and
+complete RunEcl30/Enemy13. No whole1004-owner replay or ECL compile is claimed.
+27 focused tests pass:real ANM5,Enemy native managers6,literal definitions11 and
+local destinations5. Tracking,documentation,progress and match-unit graph pass.
+Public tooling/tests are unchanged;the last full CI is1038/29 at6688a777.
+
+A private recorder initially compares historical label-renaming metadata to the
+new canonical no-rename metadata after all actual byte proofs passed. Its
+failure and correction are preserved; only that explanatory metadata comparison
+is normalized. No object recompile or target/field/size guard changes. Compiler
+records bind actual working-tree hashes; checkpoint.json subsequently binds the
+committed game source. The initial capture recipe is recoverable by its recorded
+hash and unified diff,without another old C++ source copy.
+
+A bounded manifest external-name census now leaves ANM external-text literals,
+Background quad storage and CRT free/forwarding entries as separate review
+questions. It is not an actual-object addend audit or proof that all three are
+wrong. Do not rename symbols or normalize offsets before checking their source,
+native data/entry definitions and complete affected owners.
+
+Packet `.analysis/gpt-61sol-20261030-anm-native-contracts/` retains complete
+raw/COFF/literal observations,source/provider hashes,current objects and failure
+records; Ghidra output is in ghidra-direct/anm-native-rng-20261030/. After all
+producers terminate,cleanup deletes14 ignored files/2489226 logical bytes:four
+rejected receiver objects,eight PDBs and two superseded ANM objects. All435
+protected hashes retain deletion-time values;one previously protected manifest
+hash changes deliberately in this reviewed batch. All docs/research,current
+source,active proof objects,target/toolchains and working Ghidra remain;build/
+is absent. No source archive is created. Current and saved-record checks pass
+again afterward. Exact stays1004 and246651/291883 authored bytes(84.5034%);
+98%,Windows product/runtime and later semantic/port gates remain unfinished.
+
+## October30: Enemy callback receivers and genuine Float3 overload controls
+
+Fresh direct target-bound Ghidra rereads410730. Native ECX/no-stack transport
+supports testing receiver forms but does not prove an original C++ member type
+or authorize member-pointer erasure. Two complete diagnostic ECL carriers use
+an actual no-argument instance method or ordinary fastcall free function. Each
+retains Enemy3900/97/13,RunEcl15564/598/30 and75 existing exact siblings. The
+maintained static callback and registration remain unchanged.
+
+Replacing Float3's const addition receiver outright fails C2678 at actual const
+consumers in EffectDoubleFanFamily.inl:72/125. There is no object and no periodic
+repeat of the invalid API. A coherent dual-overload family retains the real
+const API and adds an ordinary mutable receiver; both actual addition bodies
+independently equal the original54 bytes before either call identity is bound.
+The normal carrier keeps Enemy13;including the actual original33-byte periodic
+Timer body yields45. Both retain all97 original field destinations,69 calls,
+170 blocks and75 exact siblings;RunEcl stays30. These are finite rejected
+hypotheses,not proof of original overloads,qualifiers or TU ownership,and earn
+no new exact credit. Previously recorded October21 native Timer return-type
+controls are read and reused rather than repeated.
+
+Packet `.analysis/gpt-61sol-20261030-enemy-callback-receiver/` preserves79
+immutable Git/EOL inputs,recipes,raw/COFF/literal results and the compiler failure.
+verify_saved.py checks300 saved canonical comparisons and four complete Enemy
+raw/field observations;RunEcl raw hashes/598 fields are preserved. reproduce.py
+--case dual-add-periodic cold-rebuilds140 identical definitions,75 exact siblings,
+both native54-byte additions,the native33-byte periodic leaf and full strict
+RunEcl30/Enemy45 observations. Its temporary source/OBJ/PDB self-clean. The
+cleanup above removes unused trial binaries while retaining these records. No
+callback/interface or speculative qualifier change is adopted.

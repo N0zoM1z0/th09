@@ -3,6 +3,9 @@
 // VM layout, opcode domain, out-of-line operand helpers, and physical boundary.
 
 #include "Float3.hpp"
+#include "AnmManager.hpp"
+#include "RngRuntimeLeaves.hpp"
+#include "Supervisor.hpp"
 
 #include <math.h>
 #include <stddef.h>
@@ -28,8 +31,6 @@ struct AnmMatrix { float m[4][4]; };
 
 #include "ZunTimer.hpp"
 
-class AnmLoaded;
-struct AnmLoadedSprite;
 enum AnmVariable
 {
     AnmVariable_I0 = 10000,
@@ -177,13 +178,6 @@ struct AnmRawInstr
     };
 };
 
-class AnmLoaded {
-public:
-    int SetSprite(struct AnmVm *vm, int spriteIndex);
-};
-
-struct AnmLoadedSprite { unsigned char opaque[0x44]; };
-
 struct AnmVm {
     Float3 rotation;                    // +0x000
     Float3 angleVel;                    // +0x00C
@@ -281,28 +275,18 @@ typedef char AnmExecAnmFileAt204[(offsetof(AnmVm,anmFile)==0x204)?1:-1];
 typedef char AnmExecCurrentInstructionAt220[(offsetof(AnmVm,currentInstruction)==0x220)?1:-1];
 typedef char AnmExecLastSpriteTimeAt294[(offsetof(AnmVm,timeOfLastSpriteSet)==0x294)?1:-1];
 
-struct ReplayRngAnmView {
-    u32 GetRandomU32InRange(u32 max);
-    f32 GetRandomF32();
-    f32 GetRandomF32Signed();
-    f32 GetRandomF32InRange(f32 max);
-};
-extern ReplayRngAnmView g_ReplayRng;
-
-struct SupervisorAnmExecutionView {
-    unsigned char unknown000[0x5B8];
-    float framerateMultiplier;
-};
-extern SupervisorAnmExecutionView g_Supervisor;
+extern RngRuntimeView g_Rng;
 
 float AddNormalizeAngle(float value, float base);
 
-class AnmManager {
-public:
+// Only this target-observed counter prefix is needed by the interpreter.
+// Use the shared AnmManager declaration for the callable interface.
+struct AnmScriptExecutionCountersView {
     unsigned char unknown000[0x10];
     int scriptsExecutedThisFrame;
-    int ExecuteScript(AnmVm *vm);
 };
+typedef char AnmScriptExecutionCounterAt10[
+    (offsetof(AnmScriptExecutionCountersView, scriptsExecutedThisFrame) == 0x10) ? 1 : -1];
 
 
 i32 AnmVm::GetIntVar(i32 varId)
@@ -361,11 +345,11 @@ f32 AnmVm::GetFloatVar(f32 varId)
     case AnmVariable_F3: return floatVar3;
     case AnmVariable_IC0: return (f32)counterVar0;
     case AnmVariable_IC1: return (f32)counterVar1;
-    // TH09 variable IDs select range(pi), unit, and signed RNG respectively.
+    // TH09 variable IDs select signed range(pi), unit, and signed RNG.
     // Keep the switch labels faithful; relocation tables cannot remap cases.
-    case 10011: return g_ReplayRng.GetRandomF32();
-    case 10012: return g_ReplayRng.GetRandomF32Signed();
-    case 10010: return g_ReplayRng.GetRandomF32InRange(3.1415927f);
+    case 10011: return g_Rng.GetRandomF32();
+    case 10012: return g_Rng.GetRandomF32Signed();
+    case 10010: return g_Rng.GetRandomF32SignedInRange(3.1415927f);
     default: return varId;
     }
 }
@@ -816,10 +800,10 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             *GET_FLOAT_VAR_PTR(0) = fmodf(GET_FLOAT_VAR(0), GET_FLOAT_VAR(1));
             break;
         case AnmOpcode_ISetRand:
-            *GET_INT_VAR_PTR(0) = g_ReplayRng.GetRandomU32InRange(GET_INT_VAR(1));
+            *GET_INT_VAR_PTR(0) = g_Rng.GetRandomU32InRange(GET_INT_VAR(1));
             break;
         case AnmOpcode_FSetRand:
-            *GET_FLOAT_VAR_PTR(0) = g_ReplayRng.GetRandomF32InRange(GET_FLOAT_VAR(1));
+            *GET_FLOAT_VAR_PTR(0) = g_Rng.GetRandomF32InRange(GET_FLOAT_VAR(1));
             break;
         case AnmOpcode_FSin:
             *GET_FLOAT_VAR_PTR(0) = sinf(GET_FLOAT_VAR(1));
@@ -931,19 +915,19 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 stop:
     if (vm->angleVel.x != 0.0f)
     {
-        vm->rotation.x = AddNormalizeAngle(vm->rotation.x, g_Supervisor.framerateMultiplier * vm->angleVel.x);
+        vm->rotation.x = AddNormalizeAngle(vm->rotation.x, g_Supervisor.framerateMultiplier5B8 * vm->angleVel.x);
         vm->updateRotation = true;
     }
 
     if (vm->angleVel.y != 0.0f)
     {
-        vm->rotation.y = AddNormalizeAngle(vm->rotation.y, g_Supervisor.framerateMultiplier * vm->angleVel.y);
+        vm->rotation.y = AddNormalizeAngle(vm->rotation.y, g_Supervisor.framerateMultiplier5B8 * vm->angleVel.y);
         vm->updateRotation = true;
     }
 
     if (vm->angleVel.z != 0.0f)
     {
-        vm->rotation.z = AddNormalizeAngle(vm->rotation.z, g_Supervisor.framerateMultiplier * vm->angleVel.z);
+        vm->rotation.z = AddNormalizeAngle(vm->rotation.z, g_Supervisor.framerateMultiplier5B8 * vm->angleVel.z);
         vm->updateRotation = true;
     }
 
@@ -1044,13 +1028,13 @@ stop:
 
     if (vm->scaleGrowth.y != 0.0f)
     {
-        vm->scale.y += g_Supervisor.framerateMultiplier * vm->scaleGrowth.y;
+        vm->scale.y += g_Supervisor.framerateMultiplier5B8 * vm->scaleGrowth.y;
         vm->updateScale = true;
     }
 
     if (vm->scaleGrowth.x != 0.0f)
     {
-        vm->scale.x += g_Supervisor.framerateMultiplier * vm->scaleGrowth.x;
+        vm->scale.x += g_Supervisor.framerateMultiplier5B8 * vm->scaleGrowth.x;
         vm->updateScale = true;
         vm->updateRotation = true;
     }
@@ -1083,7 +1067,7 @@ stop:
     }
 
     vm->currentTimeInScript++;
-    this->scriptsExecutedThisFrame++;
+    reinterpret_cast<AnmScriptExecutionCountersView *>(this)->scriptsExecutedThisFrame++;
 
     return FALSE;
 }

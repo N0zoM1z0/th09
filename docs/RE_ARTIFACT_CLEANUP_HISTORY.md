@@ -2661,3 +2661,31 @@ separately and corrected without another compile. Full public CI passes1038
 tests/29 skips in200.493s. Exact stays1004/84.5034%;98% remains unfinished.
 Packet and deletion/protection hashes:
 `.analysis/gpt-61sol-20261030-ecl-native-pointer-context/`.
+
+
+## 2026-10-30: native ANM contracts and callback receiver controls
+
+The ANM RNG facade conflated signed406200 and ordinary404910 range methods.
+Source now uses the existing native RNG,Supervisor and ANM interfaces;13 fresh
+strict owners/10740 physical bytes/434 fields remain exact. Two unchanged
+Background/Front objects extend current proof to15 owners/17108/756;75 unchanged
+ECL proofs are reused. Four successful receiver/overload controls and one real
+const-consumer compiler failure stay unadopted. Exact remains1004/84.5034%.
+
+After all producers terminate and actual raw/COFF/contribution records are read
+back,cleanup deletes14 ignored files/2489226 logical bytes:four rejected objects,
+eight PDBs and two superseded ANM objects. All435 protected hashes retain their
+deletion-time values;the earlier protected manifest hash deliberately changes
+for the reviewed ANM identities/local labels. Three new current objects replace
+the two superseded ANM objects and add the native RNG proof. Current ECL,
+Background/Front proofs,all docs/research/recipes/failure logs,source,target,
+toolchains and working Ghidra are kept. No old C++ tree,archive or build/ is added.
+
+Current strict-public and saved-record verification pass after cleanup.79 Git/EOL
+inputs and300 saved canonical comparisons replay;one selected cold receiver
+control reproduces140 identical definitions and all native leaves/full callers
+before its temporary outputs self-clean.27 focused tests and tracking/docs/
+progress/manifest checks pass;public tools/tests are unchanged,so no new full CI
+is claimed. Packets: `.analysis/gpt-61sol-20261030-anm-native-contracts/` and
+`.analysis/gpt-61sol-20261030-enemy-callback-receiver/`. Per-file deletion and
+protection hashes are in the former packet's cleanup-applied.json.
