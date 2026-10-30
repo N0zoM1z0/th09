@@ -2808,3 +2808,48 @@ working Ghidra remain. After cleanup verify.py repeats106 strict comparisons,
 full RunEcl30/Enemy13 and source/Git/EOL checks. Build/ is absent,and no old CPP
 tree or source compression is added. Receipt:
 `.analysis/gpt-61sol-20261030-game-manager-native-entrypoints/cleanup-applied.json`.
+
+
+## 2026-10-30: maintenance after clearing the active reconstruction goal
+
+Current game source remains71246812. The operator cleared the active goal and
+requested code/documentation housekeeping. AGENTS,README,workflow and tool
+routing now describe maintenance. The concise handoff routes current source,
+ledgers,frontiers and restart commands;the full preceding handoff is retained
+in the checkpoint archive. Fix the opposing-ECL wrapper's stale claim that its
+373-byte canonical SpawnEnemy callee was nonexact,and replace obsolete95-percent
+current-status wording. No codegen,origin,boundary or exact-credit change occurs.
+
+Remove the isolated five-file IDA/MCP client and bootstrap chain,531 lines/
+19760 bytes,with no remaining production/test/config importers. Their source
+remains in Git at71246812;no replacement archive or historical dependency is
+introduced. Direct Ghidra,target validation and compiler tools are unchanged.
+
+The reviewed compiler-only plan removes774 ignored objects/60883031 logical
+bytes and six empty directories. Retain ten explicitly routed current objects:
+eight current native-interface carriers,the ECL main object and Type3. All33246
+protected files,including every retained analysis record,have identical hashes
+after deletion. JSON,logs,configuration records,patches,recipes,mixed evidence
+archives,original input,toolchains and working Ghidra stay. There were no loose
+old C++ copies. Existing mixed archives contain research records and are retained
+intact;no new source archive or compression is made. Most remaining storage is
+research evidence retained at the operator's request.
+
+Inventories and full protection receipts are below
+`.analysis/maintenance-20261030-final/`:cleanup-plan.json,cleanup-applied.json and
+obsolete-tools.json. The106 current strict comparisons and source bindings pass
+after deletion;the retained complete Type3 comparison also passes at780/38/15.
+The first full CI attempt failed only an exact Markdown link-label assertion,
+with1055 tests/29 skips in113.463s. The existing routing test now checks the
+parsed archive target rather than a heading or display label;the archive's
+canonical receipt/owner validation is unchanged. All26 focused documentation
+tests pass. The failed log is preserved;no codegen acceptance gate is relaxed.
+
+Final full CI passes1055 tests/29 skips in110.109s with832 tracked inputs stable.
+The final CI-cache cleanup removes131 bytecode files/2043010 bytes. Combined
+compiler/cache deletion is905 files/62926041 logical bytes,plus the five retired
+tracked tool files. All32413 original retained analysis files have unchanged
+hashes after final CI and cleanup,as do the ten retained current objects. Build/
+is absent. Additional receipts:cleanup-ci.json,ci-final-inputs-stable.json and
+ci-final.log in the maintenance packet. No game-source compiler/Ghidra rerun was
+needed;current106 comparisons and Type3 cache were verified directly.

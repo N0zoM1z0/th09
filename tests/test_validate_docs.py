@@ -202,10 +202,9 @@ class AcceptedReceiptArchiveRoutingTests(unittest.TestCase):
             receipt_text, VALIDATE_DOCS.rows("matches.csv"), units
         )
         handoff = VALIDATE_DOCS.HANDOFF.read_text(encoding="utf-8")
-        self.assertNotIn(
-            "## Closed codegen landmarks and accepted receipts", handoff
+        self.assertIn(
+            "RE_ACCEPTED_RECEIPTS.md", VALIDATE_DOCS.prose_link_targets(handoff)
         )
-        self.assertIn("[the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md)", handoff)
 
     def test_historical_receipts_do_not_transmute_into_new_exact_credit(self) -> None:
         handoff = VALIDATE_DOCS.HANDOFF.read_text(encoding="utf-8")

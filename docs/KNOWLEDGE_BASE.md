@@ -25412,3 +25412,48 @@ working Ghidra remain;build/ is absent. Post-cleanup verify.py repeats106 strict
 current comparisons and source/Git/EOL checks. Exact stays1004/84.5034%,with the
 98% milestone unfinished. Per-file deletion/protection:cleanup-applied.json in
 the packet;no old CPP copy tree or compressed source archive is added.
+
+
+## October30: maintenance after the active goal was cleared
+
+The operator cleared the reconstruction goal and requested housekeeping. Current
+game source remains71246812. The unfinished98% milestone is a project target,
+not authorization for an autonomous reconstruction campaign. Current routing
+remains direct local Ghidra,without IDA,REA or Factory MCP. No game code,profile,
+boundary,origin or exact credit changes during this maintenance batch.
+
+Correct an inconsistent live ledger note:SpawnEnemyUsingOpposingEcl4417C0 said
+its underlying SpawnEnemy40F340 was nonexact,although that owner's live canonical
+row and configured complete comparison are exact373 bytes. This is a status-note
+repair,not new exact credit or native-product closure. The older95-percent gate
+wording in the current ScreenEffect notes is replaced by the unfinished98%
+project milestone. Historical measurements in dated notes remain unchanged.
+
+Source naming caveat for future work:GameManager's older g_LastSpawnLane and
+selector335C names are provisional. The shared Enemy source calls+335C
+"defeatTokenType",and its0x2000 reward branch passes it to SpawnDefeatToken.
+Those old names alone do not prove a spatial lane role. No new target/type or
+runtime conclusion is asserted by this source cross-reference.
+
+The isolated five-file IDA/MCP client,inventory initializer and Python bootstrap
+have no remaining production/test/config importers and are removed. Git at
+71246812 retains their historical source;receipts and research records stay.
+The Ghidra runner and target/compiler gates are unchanged. Active handoff routing
+now points to current code/configuration and one recent verification packet,
+rather than requiring old dated verifier chains. Full prior handoff text is
+preserved in the checkpoint archive.
+
+Maintenance completes with905 removed compiler/CI artifacts,62926041 logical
+bytes,and five removed legacy tool files. Ten current objects are retained.
+All33246 deletion-time protected files agree immediately after the first cleanup;
+all32413 original retained analysis files also agree after final CI/cache cleanup.
+Every document,research/configuration/log/patch record and mixed evidence archive
+remains. Build/ is absent;no game source,profile or exact-credit change occurs.
+
+The initial full CI failed one obsolete exact-link-label assertion. That existing
+test now checks the parsed accepted-archive target,retaining its full canonical
+owner/receipt validation.26 focused documentation tests and final full public
+CI1055 tests/29 skips in110.109s pass;832 tracked input hashes remain stable during
+the final run. Original failure log and all protection/deletion receipts are in
+`.analysis/maintenance-20261030-final/`. Current106 strict comparisons and complete
+Type3780/38/15 also pass after the compiler-output cleanup.

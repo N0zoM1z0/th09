@@ -1,7 +1,8 @@
 # Tool routing
 
 Analysis uses **direct local Ghidra**, repository Bash and the pinned VC7.1
-compiler. The operator requires no IDA, REA or Factory MCP. Reconstruction resumed after the October30 maintenance checkpoint; see
+compiler. The operator requires no IDA, REA or Factory MCP. The active goal was
+cleared on October30;current work is maintenance. See
 [RE_HANDOFF.md](RE_HANDOFF.md) for current status and later restart scope.
 
 | Need | Command | Claim established |
@@ -29,9 +30,11 @@ on every export. Metadata hashes alone are insufficient. Ghidra's inferred
 names, types and boundaries remain provisional and do not establish exactness
 or unique source ownership. Keep reviewed physical tails/tables for comparison.
 
-Legacy `ida-mcp-call.py` and `check-ida-mcp.py` scripts remain for historical
-receipts. Their presence does not select them for this session. Do not change
-or delete operator-managed analysis databases as part of ordinary cache cleanup.
+The unused IDA/MCP clients,inventory initializer and Python MCP bootstrap were
+removed during maintenance. Historical code is recoverable from Git at71246812;
+historical receipts remain records,not current commands. The Ghidra runner has
+no dependency on those clients or their MCP Python package. Preserve the working
+Ghidra project and operator-managed analysis databases during cache cleanup.
 
 Rebuild the relevant canonical unit before comparing an object. For the main
 ECL/Enemy profile, `exattack-type21-update` builds `build/matching/EclManager.obj`;
@@ -53,7 +56,7 @@ game directory, or commit original game files, databases, tools or decompiler
 exports. Keep generated analysis below `.analysis/`, builds below `build/` and
 downloaded tools below `.tools/`. The generic cleaner's apply scope includes
 `.analysis/` compiler objects, which can be unique proof: use the reviewed
-scope and archive restoration instructions in
+scope and retained-evidence notes in
 [RE_ARTIFACT_CLEANUP_HISTORY.md](RE_ARTIFACT_CLEANUP_HISTORY.md).
 
 TH08 and TH095 remain read-only hypothesis sources. Only TH09-local target,

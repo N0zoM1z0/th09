@@ -1,195 +1,47 @@
-# TH09 reconstruction — active handoff
+# TH09 reconstruction — current handoff
 
-## Operator status — October 30
+## Operator status — maintenance
 
-The operator explicitly resumed reconstruction after maintenance checkpoint
-7bc3b956, with the98% goal active. Audit dependencies, shared declarations, ABI
-and layouts as well as the large-function bodies; correct tested discrepancies
-without assuming earlier notes are conclusive. The98% milestone is unfinished.
+The operator cleared the active reconstruction goal on October30 and requested
+code/documentation cleanup. The98% milestone remains unfinished;it is not an
+active autonomous task. Resume reconstruction when requested. Preserve all
+documentation and research records;delete unused code/build copies rather than
+creating another archive. Use direct local Ghidra only,no IDA,REA or Factory MCP.
 
-The restart game-source baseline is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
-(Controller axis ranges); maintenance checkpoint7bc3b956 adds no game-source
-change. The quad/literal/deallocation corrections,native ANM/RNG interfaces,
-shared-vector/Front audit,complete Pause update,
-native Timer cleanup,child-ECL interface,Effect34,weighted-message,Player contract,
-charge,RunEcl,instruction-mask and callback corrections are described below. Use
-live Git status and ledgers before dated measurements. Compiler profiles remain
-unchanged; Pause previously added1734 exact authored bytes at cda7574c. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
-local commits do not establish remote publication.
+Latest game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
+Maintenance changes no game behavior,compiler profile,extent,origin or exact
+credit. There is no unfinished game-source patch to recover at this checkpoint.
+The earlier restart atcc19b484 and subsequent experiments remain historical.
 
-Analysis routing is **direct local Ghidra only**, without IDA, REA or Factory
-MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
-`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Do not substitute another executable or search Windows mounts.
+## Source and evidence routing
 
-## Current audit — GameManager native RNG, sound and enemy creation
+- Current game code is in `src/`;the authoritative state is in
+  `config/functions.csv`,`config/function-origins.csv`,`config/matches.csv` and
+  `config/match-units.toml`. Use the live report rather than dated measurements.
+- Original input is ignored `resources/th09.exe`,Japanese1.50a,SHA-256
+  `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+  Target/toolchains and the working Ghidra project are preserved.
+- The latest source repair shares native RNG,sound,ANM and enemy-spawn interfaces.
+  Spawn arguments830/10000 mean life/score,not sprite/lifetime. The31 affected
+  caller/callee comparisons preserved5891 physical bytes/352 fields. ECL source
+  stayed unchanged;75 strict proofs retained22463 bytes/990 fields and complete
+  RunEcl30/Enemy13. These are existing comparisons,not new exact credit.
+- `.analysis/gpt-61sol-20261030-game-manager-native-entrypoints/` contains current
+  source/profile/object bindings,proofs and recipes. Its `verify.py` rechecks106
+  units/28354 bytes/1342 fields. Ten optional current objects are retained:
+  eight native-interface objects,the active ECL object and standalone Type3.
+- `.analysis/gpt-61sol-20261030-type3-whole-context/current-type3.json` binds the
+  Type3 cache to current source/profile. The complete inspector remains
+  `scripts/inspect-exattack-type3-schedule.py`;Type3 stays780/38/15.
+- Other dated packet verifiers are historical research tools. Old compiler
+  objects have been cleared;rebuild from current source and the configured
+  profile when needed. Their absence is expected,not lost canonical evidence.
 
-GameManagerSetup.cpp now uses the shared RngRuntimeView,SoundPlayer,AnmManager
-and EnemyManagerCardAttackSpawnView interfaces. One g_Rng supplies both its
-seed field and NextU16,removing two private aliases and their int-return facade.
-Six CardAttack begin callbacks also use the existing shared spawn header.
-No new game header,helper function,storage or compiler profile is introduced.
-
-The old lane-spawn declaration mislabeled830 as sprite and10000 as lifetime.
-Fresh target-bound Ghidra and the complete364-byte native callee prove the
-third argument writes Enemy life+2E48. Both calls preserve subroutine19,life830,
-defeat-token argument-2,score10000,mirror0 and opposing-ECL0. Original C++ naming
-and short-versus-int declaration uniqueness remain unknown;the current shared
-implementation/interface is now consistent.
-
-Three fresh maintained caller carriers preserve17 canonical comparisons;
-five independently compiled native carriers preserve14 callee comparisons.
-All31 strict public units retain5891 physical bytes/352 fields. GameManager's
-24 regular function observations across two profiles are byte-identical to its
-source-bound previous objects. Fourteen canonical fields use native names at
-unchanged targets/offsets/addends. The full GameplaySetupThread stays1689 bytes,
-171 source versus172 original fields and904 differences. No new exact credit.
-
-Packet: `.analysis/gpt-61sol-20261030-game-manager-native-entrypoints/`.
-verify.py checks32 Git/EOL inputs,the31 current caller/callee units,and75
-unchanged source/profile-bound ECL units:106 comparisons/28354 bytes/1342 fields.
-RunEcl30/Enemy13 remain unchanged. reproduce.py --group 0 independently recovers
-all32 inputs and repeats12 regular bodies/10 exact units. Current GameManager
-objects supersede the two08197db6 source-bound objects;dated records remain.
-
-Direct Ghidra reuses12.1.4 and checks all685056 mapped bytes for OnUpdate41AA5F,
-GameplaySetup41AF2D,SpawnEnemyRecord40F1D0 and NextU1642AE20. NextU16's provisional
-void decompilation is not used as a return declaration;the native body and caller
-low-word use constrain this shared interface. Other unrelated private facades
-remain separate debt. Full public CI passes1055 tests/29 skips in106.846s,with
-all837 tracked inputs unchanged during the run. Final docs/tracking/progress and
-whitespace checks pass separately.
-
-After terminal producers,cleanup removes152 files/3332676 logical bytes:three
-trial objects,two superseded GameManager objects,eleven PDBs and136 CI bytecode
-files. All892 deletion-time protected hashes agree afterward. Eight current
-caller/callee objects,active ECL,original/providers,working Ghidra and all
-research/documentation remain. verify.py passes again after cleanup;build/ is
-absent. No old CPP tree or compressed source archive is added.
-Exact remains1004/84.5034%;the98% milestone remains unfinished.
-
-## Previous dependency checkpoint — shared vectors and Front contracts
-
-AnmManagerExecuteScript.cpp,BackgroundRender.cpp and FrontSideDraw.cpp now use
-Float3.hpp rather than three incompatible same-named Float3 declarations. The
-shared Float2 declaration also replaces the two local copies. Front draw uses
-the existing full Supervisor and GameManagerRuntimeView declarations instead
-of redefining those classes; only its F0-byte viewport prefix remains private,
-with the original+160 shake offset asserted. GameManagerRuntimeView.hpp is
-included directly: the compatibility AsciiGameManagerView.hpp header would
-also import a conflicting AnmVm projection. That failed preparation and its
-no-object compiler result are preserved; no macro hides the conflict.
-
-At source checkpointa6ecf771,four focused source/profile objects preserve all7 canonical owners/
-16864 physical bytes/743 fields,including the complete9776-byte ANM interpreter,
-3274-byte background renderer and3094-byte Front draw. All28 regular raw bodies
-and effective field identities remain unchanged,as do two38-byte compiler
-contributions. The unchanged strict public Oracle passes after148 actual-position-
-proved private ANM label spellings are refreshed. No target,offset,addend,
-profile,extent,status or authored exact credit changes. Other997 canonical
-source/profile proofs remain unchanged; no whole-tree cold replay is run.
-
-Enemy's13 residuals are independently reread against direct Ghidra. Four new
-whole-carrier hypotheses test byte and real bitfield-shaped side flags,each
-with opaque or genuine co-visible33-byte HasTickedEvery. They retain13/13/45/45
-Enemy differences. All97 fields,69 calls,170 blocks and75 exact siblings per
-model pass; all137 other regular bodies remain raw-identical. RunEcl stays
-15564/598/30. No flag-type or visibility hypothesis is adopted. These finite
-negatives do not exhaust other natural source families.
-
-Packet: `.analysis/gpt-61sol-20261030-shared-vector-contracts/`.
-The two ANM objects and their current.py source binding are now superseded;use
-the native-ANM packet above for current ANM and unchanged Background/Front proofs.
-verify_saved.py remains the historical Git/EOL input and saved-control check. reproduce.py can build
-one model into a new output directory without old C++ copies.64 Enemy tests
-(three skips),11 literal-definition tests and the manifest graph check pass.
-After terminal producers,cleanup deletes20 ignored files/2914480 logical bytes:
-eight superseded/trial objects and12 PDBs. All365 protected hashes retain their
-deletion-time values; both current and saved-record checks pass afterward. Four
-current objects,all documents/research,current source,target/tools and working
-Ghidra remain;build/ is absent. No source archive or old C++ tree is retained.
-Eleven successful game compiles and one failed Front preparation are recorded,
-all serial on one CPU at nice10 with180-second bounds.
-Public validation tooling/tests are unchanged; no new full CI is claimed.
-
-Previous source checkpoint cda7574c accepted the complete Pause update:1734
-new authored bytes,1776 physical bytes/106 fields. Its five actual current
-objects and current.py receipt remain in pause-vm-boundaries/. Its full handoff
-is preserved in the checkpoint archive. The shared-vector batch adds no credit;
-1004 exact/84.5034% and the unfinished98% goal remain unchanged. Whole Windows
-product/runtime and later semantic/port gates stay open.
-
-## Earlier dependency corrections
-
-Player charge's three state-effect return contracts now use actual Effect*
-methods. RunEcl calls actual Enemy clamp, Etama transition and Background spell
-members. ECL, timeline and setup share GameManager+120 instruction-mask storage
-while retaining original DWORD/BYTE accesses. Detailed evidence is in the KB and
-dated packets; the predecessor handoff is preserved in the checkpoint archive.
-Older source-bound captures may reject newer global ledger hashes. They are
-historical evidence, not dependencies for the current affected-family replay.
-
-Opcode148's shared storage was corrected at f74444dc. Its+380
-member remains semantically unknown; the TH08 marker analogue and an unrelated
-library's based+380 access establish no additional TH09 meaning or ownership.
-
-## Source changes and retained current proofs
-
-All listed improvements remain nonexact where stated. Full code/table/field
-comparisons and actual literal definitions govern acceptance; matching fragments
-and source-interface cleanup earn no partial exact credit.
-
-| Source checkpoint | Maintained change | Local evidence below `.analysis/` |
-| --- | --- | --- |
-| 4d83270e | Native D3D root and restored MIDI/Ending literals;439 existing canonical owners retain121391 bytes/6843 fields. | `gpt-61sol-20261030-supervisor-device/` (dated records; changed carriers have newer replacements) |
-| 4dd2212d | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/` (dated records) |
-| 17a11669 | Native Type6/7/8/9 setup and EffectManager contracts;219 existing exact owners preserved. | `gpt-61sol-20261030-runecl-formal-state/` (dated records) |
-| 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |
-| cda7574c | Complete Pause update adds1734 exact authored bytes;16 canonical owners preserve5720 physical bytes/353 fields. | `gpt-61sol-20261030-pause-vm-boundaries/current.py verify` (global manifest changes can require metadata refresh) |
-| 10ab57e0 | RunEcl uses its native Timer member directly;12 operand models leave30 differences;81 existing strict owners retain25249 bytes/1127 fields. | `gpt-61sol-20261030-ecl-operand-references/` (dated records) |
-| 135e62ce | Shared child-ECL release removes a conflicting private class and repeated interfaces;84 existing strict owners retain25766 bytes/1156 fields. | `gpt-61sol-20261030-enemy-child-contract/` (dated records; ECL carriers now replaced) |
-| e26062f7 | Effect34 inner jitter indexing restores four radius operand bytes without damaging equal positions; 80 existing exact owners retain25423 bytes/1137 fields. | `gpt-61sol-20261030-effect34-consumed-fields/` (dated source-bound records; ECL carriers now replaced) |
-| 252e8ea2 | Weighted-message caller uses its actual member/shared table;693/351 remains nonexact,and five strict Front owners retain2657 bytes/158 fields. | `gpt-61sol-20261030-front-loop-exits/` (dated source-bound records) |
-| 49cf85ba | Shared Player Timer/Sound/angle declarations and actual GameManager registration root;86 existing strict canonical proofs retain25979 bytes/1176 fields. | `gpt-61sol-20261030-native-player-contracts/` (dated source-bound records) |
-| be7c4658 | Natural signed weighted Front scans recover693 bytes with351 differences/no missing; remains nonexact. | `gpt-61sol-20261030-front-weighted/` (dated source-bound records; use the public inspector for live diagnostics) |
-| 6c5a019a | Charge uses actual GameConfiguration through a unique+E8 view; complete1197/70/1160+13 is unchanged. | `gpt-61sol-20261030-charge-configuration/current.py verify` |
-| e73311d9 | Charge uses actual Effect* state-effect methods;1197/70/1160 plus13 missing remains nonexact. | `gpt-61sol-20261030-charge-native-effects/verify_current.py` |
-| 4514216e | RunEcl uses actual Enemy/Etama/Background members; complete RunEcl/Enemy remain30/13 differences. | `gpt-61sol-20261030-ecl-native-calls/verify_current.py` |
-| f74444dc | Opcode148/reset share real GameManager+380 storage;92 existing owners retain29274 bytes/1411 fields. | `gpt-61sol-20261030-ecl-manager380/verify_current.py` |
-| 8866e604 | Enemy Core storage aligns with129 constructed records; actual folded callbacks checked;85 existing owners retain27307 bytes/1201 fields. | `gpt-61sol-20261030-enemy-formal-storage/verify_current.py` |
-| cbb6e3d5 | Twelve native extended callbacks share a real typed table;91 existing owners retain26545 bytes/1176 fields. | `gpt-61sol-20261030-ecl-global-storage/verify_current.py` |
-| 760f01a1 | Shared GameManager instruction-mask storage;92 existing owners preserve29274 bytes/1411 fields. | `gpt-61sol-20261030-ecl-difficulty-data/verify_current.py` |
-| 962ddb20 | Replay uses native GameManager mode predicates; 16 affected exact owners retain4,150 bytes/232 fields. | `gpt-61sol-20261029-replay-mode-adoption/verify_current.py` |
-| a4a3cd13 | Enemy uses native Front indicator; ECL/Front profiles preserve80 exact owners/25,428 bytes/1,136 fields. | `gpt-61sol-20261029-enemy-periodic-selection/verify_adoption.py` |
-| 6bc1377b | Replay uses native RNG; five carriers retain25 exact owners/4,553 bytes/257 fields. | `gpt-61sol-20261029-replay-native-rng/verify_current.py` |
-| 015588e0 | Player cancel branches restore five original bytes:849/862 bytes,799 differences and13 missing. Five exact siblings retain1,220 bytes/32 fields. | `gpt-61sol-20261029-collision-workspaces/verify_current.py` |
-| cc19b484 | Controller range views restore30 positions without damaging694 prior matches.810/808 bytes,84 differences and2 excess; two helpers retain37+47 exact bytes. | `gpt-61sol-20261029-controller-accumulation/verify_adoption.py` |
-
-These paths locate dated source/profile/provider-bound evidence, not mandatory
-restart dependencies. Strict verifiers can reject newer source/ledger inputs or
-removed experiment copies. Use tracked build/inspection commands below to
-replay the current source; historical captures grant no new acceptance.
-Historical maintenance checkpoint7bc3b956 passed public CI:1008 tests/29 skips in127.352s.
-The obsolete README Factory/IDA requirement is removed from documentation
-validation; canonical-target-path checks remain. Controller and Player proofs
-passed after source-copy cleanup, before build-cache removal. Controller's saved
-object still replays; Player's verifier needs --build now that build/ is absent.
-Those maintenance results are historical. Current affected-source replay is
-described above; native product/runtime remain open.
-
-RunEcl and Enemy remain15564/598/30 and3900/97/13. The October30 bounded fresh
-main carrier again preserves all75 same-profile exact owners. Direct Ghidra
-exports for both are in `ghidra-direct/ecl-enemy-20261030/`; Pause's export is in
-`ghidra-direct/pause-update-20261030/`. That initial measurement preceded the operator’s dependency-audit request;
-subsequent source adoption and controls are described in the current checkpoint.
-
-Recent rejected controls remain recorded in the dated KB and packets:
-`gpt-61sol-20261029-effect29-witness/`, `...-replay-byte-addresses/`,
-`...-queue-representation/`, `...-chain-callback-context/`, and the Controller
-packet above. Some unused frozen source copies are deleted. Their negative
-results constrain those concrete models, not all natural source forms; an old
-replay may require regenerating its recorded source inputs. Actual COFF, findings,
-failures and recipes remain as research records.
+The complete previous handoff is preserved in
+[the checkpoint archive](RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md).
+[KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) retains all findings and failed models;
+[accepted receipts](RE_ACCEPTED_RECEIPTS.md) remain immutable source-commit-bound
+history. Current exactness does not establish a complete Windows product.
 
 ## Live ledger snapshot
 
@@ -270,13 +122,13 @@ repeating them. Historical assumptions remain hypotheses.
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Remaining receiver/allocation scheduling. Preserve43 matching bytes and genuine AnmLoaded/Chain interfaces. `--owner effect`. |
 | **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Packed input/seed16-bit store order. Preserve178 matching physical bytes and both exact queue members. `--owner queue`. |
 
-## Restart after a new reconstruction request
+## Restart when reconstruction is requested
 
-Read [AGENTS.md](../AGENTS.md), [RE_WORKFLOW.md](RE_WORKFLOW.md),
-[ORACLES.md](ORACLES.md), affected ledger rows and the relevant dated KB entry.
-Recover staged, unstaged and untracked work first. Prioritize complete RunEcl
-and Enemy, including whole-function dataflow, shared types and real TU boundaries;
-small leaves and the other large owners remain in scope.
+Read [AGENTS.md](../AGENTS.md),[RE_WORKFLOW.md](RE_WORKFLOW.md),
+[ORACLES.md](ORACLES.md),the affected rows and relevant KB findings. Recover all
+tracked/untracked work first. Prioritize complete RunEcl and Enemy,including
+shared layouts,dependencies and translation-unit boundaries;old hypotheses are
+not conclusive. The other big functions and small leaves remain in scope.
 
 ```bash
 export PYTHONDONTWRITEBYTECODE=1
@@ -286,58 +138,50 @@ git diff --cached
 python3 -B scripts/verify-target.py
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
-# Analysis: cached direct Ghidra; every mapped file byte is checked.
 python3 -B scripts/ghidra-analysis.py --function 0x004086c0 --function 0x00410730
-# After relevant source changes, choose the affected owner only:
-nice -n 10 python3 -B scripts/check-boss-frontiers.py --owner runecl
-# Documentation/status checkpoint checks:
+# Build only the affected canonical source/profile before its comparison.
+python3 -B scripts/build-match-unit.py --unit NAME
+python3 -B scripts/compare-coff-function.py --unit NAME --json
+```
+
+Ghidra12.1.4 uses `.tools/ghidra` and reuses
+`.analysis/ghidra-direct/243bffea8dcbe99a/th09.gpr`. The runner checks disk/Program
+identity,i386 language,base/entry and all685056 mapped file-backed bytes on every
+export. Ghidra names,types and decompilation remain provisional. It is not an
+exactness Oracle. The obsolete IDA/MCP client chain and its bootstrap are removed.
+
+For source changes,protect complete owners,tails/tables,callees and affected
+exact siblings under pinned VC7.1 profiles. Compile serially at lowered priority
+on one CPU with bounded resources,and reuse unchanged source/profile proofs.
+Do not run all1004 cold units for a local edit. Windows product/runtime,dual-
+Oracle semantics and portability remain later phases. No new defensive gameplay
+behavior or routine fuzz/null tests belong in an exact-source checkpoint.
+
+## Maintenance and validation
+
+This cleanup preserves current source,ten optional proof objects,all records,
+original/tools and working Ghidra. It removes unused compiler outputs and the
+unreferenced five-file IDA/MCP implementation chain. Mixed historical archives
+contain research records and are retained intact;no new source archive is made.
+Per-file inventories are below `.analysis/maintenance-20261030-final/`;see
+[cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for final counts and checks.
+The larger space occupied by JSON/log/configuration evidence is intentional.
+
+Final public CI passes1055 tests/29 skips in110.109s;all832 tracked input hashes
+were stable during the run. The old exact-link-label assertion is now a semantic
+link-target check;26 focused documentation tests pass. In total905 compiler/CI
+artifacts,62926041 logical bytes,and five obsolete tools were removed. All32413
+original retained analysis files are byte-identical after final CI/cleanup.
+The106 current comparisons and complete Type3 check passed;build/ is absent.
+
+```bash
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/validate-docs.py
 python3 -B scripts/progress.py --check
 git diff --check
 ```
 
-Ghidra12.1.4 is reached through `.tools/ghidra`. The runner imports once and
-reuses `.analysis/ghidra-direct/243bffea8dcbe99a/th09.gpr` with
-`-noanalysis -readOnly`. It checks disk/Program identity, language, entry and all
-685056 file-backed mapped bytes before each export. Metadata hashes alone are
-insufficient. Types and boundaries remain provisional; preserve reviewed physical
-owners, including alignment and tables, for the pinned VC7.1 Oracle.
-
-Build only affected canonical units/profiles and protect complete exact siblings
-and callees; reuse unchanged source/profile-bound proofs. Missing `build/` objects
-are expected after cleanup: run the configured build before comparing. Full CI
-is needed for shared validator/CI changes, not ordinary docs or exact checkpoints.
-No generic runtime hardening or product build is required for each exact edit.
-
-## Evidence, archives and cleanup
-
-The October24 stop/Factory session, H01–H66 narratives and older CI counts have
-moved out of this active handoff to
-[the checkpoint archive](RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md#october-30-archival-of-the-cc19b484-handoff).
-[The October24 hypothesis checklist](TH09_BOSS_HYPOTHESES_20261024.md) is historical;
-its old source SHA and queued language do not authorize work.
-The records in [the accepted-receipts archive](RE_ACCEPTED_RECEIPTS.md) remain immutable source-commit-bound
-history, not current-source credit. [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) retains
-TH09 facts and measured models. For short owners use
-[SMALL_FUNCTION_FRONTIER.md](SMALL_FUNCTION_FRONTIER.md).
-
-October30 cleanup deletes unused experimental C++ copies, compiler debug/bytecode
-caches and source-only archives:67,225 files/758,909,554 logical bytes, plus7,349
-empty directories. `.analysis/` falls from about2GiB to1.2GiB. Documentation,
-JSON/configuration records, logs, patches, COFF evidence and the working Ghidra project remain. No new old-code
-archive is retained. `build/` is cleared after validation and can be rebuilt.
-
-Use [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for exact retained/deleted
-scopes and measured storage savings. Keep needed ignored research records with
-this worktree when transferring local evidence. Deleted code snapshots are not
-restart prerequisites; rebuild current source with the pinned configuration.
-
-Original executable/game data, toolchains, SDK/Wine/provider state, Ghidra
-projects, unique objects and current source-bound proofs are retained. The generic
-cleaner previews a broader scope, including retained `.analysis/` objects:
-review its paths and do not run `--apply` wholesale or `git clean -X`.
-
-Native Windows i386 compile/link/runtime closure is open. Semantic reconstruction
-with both original and native-product runtime Oracles, then portability, comes
-later. Exact functions and this cleanup do not establish a runnable product.
+Use full public CI for shared validation/tooling changes;documentation alone
+needs no compiler or Ghidra replay. English local commits use `gpt-6.1-sol:` and
+the identity/trailer in AGENTS.md. A local checkpoint does not prove remote
+publication. The current task is maintenance,not a resumed reconstruction goal.

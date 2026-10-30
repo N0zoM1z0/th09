@@ -54,7 +54,9 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-The operator resumed reconstruction after the October30 housekeeping checkpoint.
+The operator cleared the active reconstruction goal on October30 and requested
+housekeeping. Current game source is checkpoint `71246812`; reconstruction is
+not an active autonomous task.
 The **98% exact reviewed-authored
 byte** milestone remains unfinished. Use [the handoff](docs/RE_HANDOFF.md) for the
 current code map, remaining large functions, restart commands and retained
@@ -96,7 +98,7 @@ cleanup with `python3 scripts/clean-generated-artifacts.py`. Its `--apply`
 scope also includes compiler objects throughout `.analysis/`, which may be
 essential source-bound evidence; review each path and retain unique proofs.
 Use [`docs/RE_ARTIFACT_CLEANUP_HISTORY.md`](docs/RE_ARTIFACT_CLEANUP_HISTORY.md)
-for the actual cleaned scopes and archive recovery instructions.
+for the actual cleaned scopes and retained evidence.
 
 ## Required phase order
 
