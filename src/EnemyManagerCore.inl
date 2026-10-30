@@ -8,6 +8,7 @@
 // Lexical member of EclManager.cpp; reuses Th09EclRunState::ManagerStateView.
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
+#include "EnemyChildEclBlocks.hpp"
 #include "EnemyAttachedEffectStateView.hpp"
 #include "BulletManager.hpp"
 #include "EnemyAppendCollisionView.hpp"
@@ -352,7 +353,6 @@ int EnemyCoreRunTimerCallback(EnemyCoreView *enemy)
 {
     return 0;
 }
-extern void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
 // Use the actual Th09EclRunState release API declared by EclRunState.inl.
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
 
@@ -867,7 +867,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 for (int callbackIndex = 0; callbackIndex < 4; ++callbackIndex)
                     enemy->lifeCallbackThresholds33B0[callbackIndex] = -1;
                 enemy->timerCallbackThreshold33D0 = -1;
-                EnemyCoreReleaseChildEclBlocks(enemy);
+                EnemyCoreReleaseChildEclBlocks(
+                    reinterpret_cast<EnemyView *>(enemy));
                 EnemyManagerCoreView *owner =
                     reinterpret_cast<EnemyManagerCoreView *>(enemy->manager00);
                 // Copy only the target-observed 0x214 descriptor, not the

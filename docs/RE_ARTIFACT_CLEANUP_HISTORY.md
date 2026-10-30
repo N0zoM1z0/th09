@@ -2482,13 +2482,6 @@ cleanup hashes and reconstruction notes are in
 `.analysis/gpt-61sol-20261030-native-player-contracts/`. Exact remains1003/
 83.9093%;98% and later phases remain unfinished.
 
-Final review refreshes20 position-proved private label names in two exact ECL
-units for the unchanged strict public Oracle. All86 units then pass that public
-Oracle on retained actual objects,with no new compilation. The two earlier
-current/callee receipts remain; deliberate post-cleanup manifest/provider
-recapture has separately recorded before/after hashes. The143 protected hashes
-refer to deletion time; later metadata updates are distinguished.
-
 ## 2026-10-30: weighted-message caller/shared-table cleanup
 
 FrontCalc now calls the actual FrontMessageRandomView implementation through
@@ -2539,3 +2532,33 @@ No source archive is added;build/ is absent.14 focused tests and full public CI
 pass:1036 tests,29 skips,124.327s. Records and deletion/protection hashes:
 `.analysis/gpt-61sol-20261030-effect34-consumed-fields/`. Exact stays1003/
 83.9093%;98% and later phases remain unfinished.
+
+## 2026-10-30: shared child-ECL contract cleanup
+
+The child-release helper and all callers now share an explicit EnemyView-pointer
+fastcall interface. Its private projection no longer conflicts with the update's
+complete EnemyCoreView type. Five maintained source/profile carriers preserve
+84 strict canonical owners/25766 bytes/1156 fields. Five actual whole-ECL native
+context controls remain unadopted; Enemy13/RunEcl30/Effect34 draw74 are unchanged.
+
+After all producers terminate, cleanup deletes 18 ignored regular files/3858679
+logical bytes: five trial and two superseded e26062f7 ECL objects, ten PDBs and
+one bytecode cache. All 212 protected files retain their hashes. The replaced
+objects' complete raw/field records remain; five maintained actual objects and
+the prior unchanged Type34 update proof support current replay.
+
+Post-cleanup maintained/strict-public and saved-source/observation verification
+passes. Eighty baseline Git/EOL inputs and six current/control graphs reproduce
+without an old C++ tree or archive. Complete raw/COFF/native/literal findings,
+recipes and deletion/protection pins remain under
+`.analysis/gpt-61sol-20261030-enemy-child-contract/`. Documentation/research,
+current source, target/toolchains and working Ghidra are preserved; build/ is
+absent. 64 focused Enemy tests pass with three skips. Public tooling is unchanged;
+no new full CI is claimed. Exact stays1003/83.9093%;98% remains unfinished.
+
+Final review refreshes20 position-proved private label names in two exact ECL
+units for the unchanged strict public Oracle. All86 units then pass that public
+Oracle on retained actual objects,with no new compilation. The two earlier
+current/callee receipts remain; deliberate post-cleanup manifest/provider
+recapture has separately recorded before/after hashes. The143 protected hashes
+refer to deletion time; later metadata updates are distinguished.

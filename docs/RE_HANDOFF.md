@@ -9,7 +9,7 @@ without assuming earlier notes are conclusive. The98% milestone is unfinished.
 
 The restart game-source baseline is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
 (Controller axis ranges); maintenance checkpoint7bc3b956 adds no game-source
-change. The Effect34, weighted-message, Player contract, charge, RunEcl, instruction-mask and
+change. The child-ECL interface, Effect34, weighted-message, Player contract, charge, RunEcl, instruction-mask and
 callback corrections are described below. Use
 live Git status and ledgers before dated measurements. Exactness credit and
 compiler profiles remain unchanged. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
@@ -20,60 +20,51 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current game source — Effect34 ordered radius operands
+## Current game source — shared child-ECL release contract
 
-Following252e8ea2, Effect34 reads jitterCE8[layer][i] with its existing inner
-index instead of advancing a separate float pointer. Both maintained ECL
-profiles change exactly four raw draw bytes at+247..24A. The complete946-byte
-main draw now has74 differences instead of78,with no previously equal position
-damaged. Original FLD jitter/FADD width order is restored; the frame1C,286
-instructions,53 bound fields,four actual scalar definitions,20 direct/12 COM
-calls and16 physical blocks remain. Entry65 and color/layer stores9 remain
-nonexact; no exact or partial-byte credit is added.
+Following e26062f7, the child-ECL release helper and all three caller sources
+share EnemyChildEclBlocks.hpp. The explicit fastcall interface takes EnemyView*,
+while the helper uses its own EnemyChildEclBlocksView projection. Its previous
+EnemyCoreView definition conflicted with the complete 0x5430 update view. The
+helper's actual 48 bytes/two fields and ECX/no-stack-argument ABI remain exact;
+original member/free spelling and nominal class ownership remain unknown.
 
-Current packet: `.analysis/gpt-61sol-20261030-effect34-consumed-fields/`.
-Run current.py verify for both maintained profiles,update_owner.py verify for
-the actual detached208-byte Type34 update,and standard_gate.py for the unchanged
-strict public canonical Oracle. All80 existing exact owners pass25423 bytes/
-1137 fields. Each ECL profile also retains its137 other complete raw bodies
-and all actual field identities/destinations,with five position-proved private
-spellings per profile. Only two canonical label names need manifest refresh;
-no target,offset,addend,extent,profile or ABI changes. RunEcl15564/598/30 and
-Enemy3900/97/13 remain unchanged. Other923 canonical units get no new replay.
+Current packet: `.analysis/gpt-61sol-20261030-enemy-child-contract/`.
+Run maintained.py verify for five actual source/profile carriers and the unchanged
+strict public Oracle: 84 existing exact owners, 25,766 physical bytes/1,156 fields.
+Both ECL profiles retain all 138 regular raw bodies and effective field identities;
+each changes one child-release symbol and nine position-proved private names.
+Only four canonical child-release identities and two table-base spellings change.
+Targets, addends, extents, layouts and compiler profiles stay fixed. Other 919
+canonical units receive no new replay. RunEcl remains 15564/598/30, Enemy
+3900/97/13 and Effect34 draw 946/53/74; no new exact credit follows.
 
-Seven whole-carrier controls distinguish real dataflow. Jitter indexing gives
-74 with four restored/no damaged positions. SDK center/all-color and intrinsic
-center-copy forms reproduce that entire draw stream. Color-at-store/combined
-and fan-derived color give357/346 differences and15 blocks,so are rejected.
-Only jitter indexing is adopted. The earlier full indexed-point control had
-changed both vertex and jitter access; it did not rule out jitter-only indexing.
-No register/declaration-order hint,volatile,assembly or profile sweep is used.
+Five whole-ECL controls examine actual callee contexts. Visible child release,
+child plus actual cleanup, and a genuine member spelling each retain the same
+13 Enemy differences. Child/free and member forms combined with the real
+33-byte periodic Timer body both regress to 45 differences, restoring the old
+13 but damaging 45 equal positions. Every native definition is checked before
+caller scoring; each control preserves 75 same-profile exact siblings. The
+member body's actual 48-byte equality proves no unique original source ownership.
+No control is adopted. Ten actual serial one-CPU/nice10 builds include the five
+controls, maintained main/Ob0 and the three small-source carriers.
 
-A bounded emulator compares original and maintained bodies on72 fixtures/144
-executions with masked extended-precision FPCW037F. Actual original arithmetic
-and shared-getter helpers execute; ANM/COM calls are explicit synthetic
-intercepts. Full EF8 buffers,fixture RAM,draw/call traces,EAX,stack and saved
-registers agree;285 of286 instructions on each side execute. The sole physical
-padding instruction remains unreachable. All executed code is restricted to
-reviewed caller/helper extents and intercepts. This is finite synthetic evidence,
-not full runtime,Windows renderer closure or semantic-phase acceptance.
+verify_saved.py reproduces 80 baseline Git/EOL inputs and six current/control
+source graphs, then replays saved complete raw/COFF/call/graph/literal observations
+without manufacturing objects. Actual Enemy scalar definitions are independently
+checked in all six main-profile objects. These are codegen observations, not
+native product/runtime or semantic-phase acceptance. Direct Ghidra exports
+reverify all 685056 file-backed mapped bytes for the update, release and cleanup.
+64 focused Enemy tests pass with three skips; public tooling is unchanged, so
+no new full CI is claimed. The successful 1036-test CI belongs to e26062f7.
 
-The public frontier now protects all872 equal original bytes,including the four
-recovered radius bytes. Existing regression cases reject reintroducing any of
-those positions with an unchanged difference count.14 focused tests pass.
-Full public CI passes1036 tests with29 skips in124.327s. Function ledger
-changes are limited to this draw owner's evidence/notes; exact stays1003/
-83.9093%,with98% unfinished.
-
-After producer termination,cleanup removes447 ignored regular files/11845408
-logical bytes:seven trial objects,two replaced ECL objects,ten PDBs and428
-bytecode caches. All173 protected files retain deletion-time hashes; three
-current objects,documentation,research records,target/tools and working Ghidra
-remain. No old C++ tree or archive is added;build/ is absent. Post-cleanup
-current/update/strict-Oracle,saved-source and72-fixture replays pass. The private
-receipt verifier now normalizes tuple calls to JSON arrays before comparison;
-metadata-only recapture preserves every source/profile/object and full result.
-Before/after pins distinguish that recipe correction from deletion-time hashes.
+After all producers terminate, cleanup removes 18 ignored regular files/3858679
+logical bytes: five trial and two superseded ECL objects, ten PDBs and one cache.
+All 212 protected files retain their hashes. Five maintained objects, the prior
+unchanged Type34 update proof, other reused carriers, documentation/research,
+target/toolchains and working Ghidra remain. Post-cleanup maintained/strict and
+saved-source/observation replays pass. No old C++ tree or archive is added;
+build/ is absent. Exact stays 1003/83.9093%; the 98% goal remains unfinished.
 
 ## Earlier dependency corrections
 
@@ -101,6 +92,7 @@ and source-interface cleanup earn no partial exact credit.
 | 4dd2212d | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/` (dated records) |
 | 17a11669 | Native Type6/7/8/9 setup and EffectManager contracts;219 existing exact owners preserved. | `gpt-61sol-20261030-runecl-formal-state/` (dated records) |
 | 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |
+| e26062f7 | Effect34 inner jitter indexing restores four radius operand bytes without damaging equal positions; 80 existing exact owners retain25423 bytes/1137 fields. | `gpt-61sol-20261030-effect34-consumed-fields/` (dated source-bound records; ECL carriers now replaced) |
 | 252e8ea2 | Weighted-message caller uses its actual member/shared table;693/351 remains nonexact,and five strict Front owners retain2657 bytes/158 fields. | `gpt-61sol-20261030-front-loop-exits/` (dated source-bound records) |
 | 49cf85ba | Shared Player Timer/Sound/angle declarations and actual GameManager registration root;86 existing strict canonical proofs retain25979 bytes/1176 fields. | `gpt-61sol-20261030-native-player-contracts/` (dated source-bound records) |
 | be7c4658 | Natural signed weighted Front scans recover693 bytes with351 differences/no missing; remains nonexact. | `gpt-61sol-20261030-front-weighted/` (dated source-bound records; use the public inspector for live diagnostics) |

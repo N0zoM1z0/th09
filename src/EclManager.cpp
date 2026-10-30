@@ -808,7 +808,8 @@ th09_ecl_select_next_context:
     return 0;
 }
 
-// These lexical fragments are target-proven members of the same VC7.1 TU.
+// These lexical groups preserve the reviewed VC7.1 compiler context;
+// their unique original translation-unit partition remains unknown.
 #include "EclPostRuntime.inl"
 #include "ExAttackInitType8.inl"
 #include "ExAttackUpdateType8Type9.inl"

@@ -3106,3 +3106,61 @@ their hashes. Current,strict public,saved-source and all1440 prefix replays
 pass afterward. Documentation/research records,current source,target/toolchains
 and working Ghidra state remain. No old C++ tree or new archive is retained;
 build/ is absent.
+
+
+## October30 Effect34 checkpoint e26062f7
+
+## Current game source — Effect34 ordered radius operands
+
+Following252e8ea2, Effect34 reads jitterCE8[layer][i] with its existing inner
+index instead of advancing a separate float pointer. Both maintained ECL
+profiles change exactly four raw draw bytes at+247..24A. The complete946-byte
+main draw now has74 differences instead of78,with no previously equal position
+damaged. Original FLD jitter/FADD width order is restored; the frame1C,286
+instructions,53 bound fields,four actual scalar definitions,20 direct/12 COM
+calls and16 physical blocks remain. Entry65 and color/layer stores9 remain
+nonexact; no exact or partial-byte credit is added.
+
+Current packet: `.analysis/gpt-61sol-20261030-effect34-consumed-fields/`.
+Run current.py verify for both maintained profiles,update_owner.py verify for
+the actual detached208-byte Type34 update,and standard_gate.py for the unchanged
+strict public canonical Oracle. All80 existing exact owners pass25423 bytes/
+1137 fields. Each ECL profile also retains its137 other complete raw bodies
+and all actual field identities/destinations,with five position-proved private
+spellings per profile. Only two canonical label names need manifest refresh;
+no target,offset,addend,extent,profile or ABI changes. RunEcl15564/598/30 and
+Enemy3900/97/13 remain unchanged. Other923 canonical units get no new replay.
+
+Seven whole-carrier controls distinguish real dataflow. Jitter indexing gives
+74 with four restored/no damaged positions. SDK center/all-color and intrinsic
+center-copy forms reproduce that entire draw stream. Color-at-store/combined
+and fan-derived color give357/346 differences and15 blocks,so are rejected.
+Only jitter indexing is adopted. The earlier full indexed-point control had
+changed both vertex and jitter access; it did not rule out jitter-only indexing.
+No register/declaration-order hint,volatile,assembly or profile sweep is used.
+
+A bounded emulator compares original and maintained bodies on72 fixtures/144
+executions with masked extended-precision FPCW037F. Actual original arithmetic
+and shared-getter helpers execute; ANM/COM calls are explicit synthetic
+intercepts. Full EF8 buffers,fixture RAM,draw/call traces,EAX,stack and saved
+registers agree;285 of286 instructions on each side execute. The sole physical
+padding instruction remains unreachable. All executed code is restricted to
+reviewed caller/helper extents and intercepts. This is finite synthetic evidence,
+not full runtime,Windows renderer closure or semantic-phase acceptance.
+
+The public frontier now protects all872 equal original bytes,including the four
+recovered radius bytes. Existing regression cases reject reintroducing any of
+those positions with an unchanged difference count.14 focused tests pass.
+Full public CI passes1036 tests with29 skips in124.327s. Function ledger
+changes are limited to this draw owner's evidence/notes; exact stays1003/
+83.9093%,with98% unfinished.
+
+After producer termination,cleanup removes447 ignored regular files/11845408
+logical bytes:seven trial objects,two replaced ECL objects,ten PDBs and428
+bytecode caches. All173 protected files retain deletion-time hashes; three
+current objects,documentation,research records,target/tools and working Ghidra
+remain. No old C++ tree or archive is added;build/ is absent. Post-cleanup
+current/update/strict-Oracle,saved-source and72-fixture replays pass. The private
+receipt verifier now normalizes tuple calls to JSON arrays before comparison;
+metadata-only recapture preserves every source/profile/object and full result.
+Before/after pins distinguish that recipe correction from deletion-time hashes.

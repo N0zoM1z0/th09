@@ -24514,3 +24514,76 @@ preserve both metadata recaptures and distinguish them from deletion-time
 protection hashes. No new compiler invocation occurs. Current/update/80-owner
 strict replay and seven saved controls/source reproduction pass afterward;
 all72 original/maintained emulator fixtures reproduce the prior JSON exactly.
+
+## October 30: shared child-ECL release interface and complete Enemy context checks
+
+Recovery begins clean at e26062f7. The preceding turn is progress: four Effect34
+radius bytes are restored and committed. Original Japanese 1.50a target/tracking
+checks pass. Direct Ghidra reuses the verified project and checks all 685056
+file-backed mapped bytes before exporting Enemy update 410730, child release
+4100E0 and cleanup 410110. No IDA, REA or Factory MCP is used.
+
+The actual child-release code visits four pointers at Enemy+33D8, frees each
+non-null pointer through ZunMemory::Free and then clears that slot. Its complete
+48-byte body, two fields and ECX/no-stack-argument ABI are independently exact.
+The reconstruction nevertheless defined EnemyCoreView twice: the update's
+complete 0x5430 object and a different partial layout in the release source.
+Update, cleanup and manager release also carried separate declarations. These
+conflicting source types are an actual shared-contract defect, even though the
+old numerical call destinations and bytes matched.
+
+EnemyChildEclBlocks.hpp now declares one explicit fastcall free-function interface
+taking the existing EnemyView pointer. The release source gives its private
+projection the distinct EnemyChildEclBlocksView name. Cleanup passes this;
+manager release passes its existing EnemyView pointers; update projects its Core
+pointer to the actual shared API. No wrapper, extra call, field, allocation,
+branch or target byte is introduced. Original member/free spelling and nominal
+retail class ownership remain unknown. The misleading EclManager comment that
+called the lexical fragments target-proven original TU members is also corrected:
+these compiler contexts reproduce reviewed owners, but unique TU partition is
+not proven.
+
+Ten actual serial one-CPU/nice10 compiles use the existing pinned profiles and
+180-second bounds. Maintained main/Ob0 plus child release, cleanup and manager
+release form five actual source/profile carriers. The unchanged strict public
+compare_unit checks all 84 existing exact owners: 25766 physical bytes/1156
+fields, including actual literal definitions. Other 919 canonical units receive
+no new replay. Each ECL profile preserves all 138 regular raw bodies, with
+50066/46862 bytes and 2097/2235 actual fields. One child-release reference and
+nine private-label spellings per profile change only identity, with actual
+owner-relative coordinates checked. The manifest refreshes four native symbols
+and two table-base names; no position, addend, destination, profile or extent
+changes. RunEcl remains 15564/598/30 with zero field/table drift, Enemy remains
+3900/97/13, and Effect34 draw remains 946/53/74. No new exact credit follows.
+
+Five whole-ECL controls test actual native contexts rather than declaration or
+register-order requests. Visible child release, child plus actual cleanup, and
+an actual Enemy member spelling retain the complete 13-difference caller. The
+member method itself first reproduces all 48 original bytes/two fields, with
+one positive same-object native call. Child/free and member forms combined with
+the actual 33-byte periodic Timer body both give 45 differences: all old 13
+positions recover, but 45 equal positions are damaged. Full 3900-byte/97-field/
+69-call/170-block comparisons and unchanged guards reject these combinations.
+All five controls preserve 75 same-profile exact siblings; no trial is adopted.
+These finite contexts do not prove that other natural source models are exhausted.
+
+All six main-profile current/control objects independently verify five actual
+Enemy scalar definitions. Saved verification reproduces 80 baseline Git/EOL
+inputs from e26062f7 and every current/control source graph. It links the saved
+actual raw/COFF records through the maintained independent binding rules, then
+checks every byte, all 97 fields, 69 ordered calls, 170 blocks, switch table and
+actual scalar payload records. No synthetic COFF object or new acceptance is
+manufactured. 64 focused Enemy tests pass with three skips; no public tool or
+test changes require another full CI. This batch supplies no game-runtime,
+native-product or later semantic acceptance.
+
+After producer termination, cleanup deletes 18 ignored files/3858679 logical
+bytes: five trial objects, two superseded e26062f7 ECL objects, ten PDBs and one
+bytecode cache. All 212 protected files retain their hashes, including five
+maintained objects, the prior unchanged Type34 update object and other reused
+canonical/current carriers. Post-cleanup maintained/strict and saved-source/
+observation verification passes. Documentation/research, current source,
+target/toolchains and working Ghidra remain; no old source tree or archive is
+added, and build/ is absent. Recipes, raw/field/literal findings and cleanup pins
+live in `.analysis/gpt-61sol-20261030-enemy-child-contract/`. Exact remains
+1003 and 244917/291883 (83.9093%); the 98% goal and later phases stay unfinished.

@@ -1,4 +1,5 @@
 #include "EnemyManager.hpp"
+#include "EnemyChildEclBlocks.hpp"
 
 #include <stddef.h>
 
@@ -55,9 +56,6 @@ namespace Th09EclRunState
 void __fastcall ReleaseAttachedEffects(EnemyView *enemy);
 }
 
-struct EnemyCoreView;
-void __fastcall EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
-
 void EnemyView::CleanupAfterDeactivation()
 {
     EnemyCleanupView *enemy = reinterpret_cast<EnemyCleanupView *>(this);
@@ -89,7 +87,7 @@ void EnemyView::CleanupAfterDeactivation()
 
     int *timerThreshold = &enemy->timerCallbackThreshold33D0;
     *timerThreshold = -1;
-    EnemyCoreReleaseChildEclBlocks(reinterpret_cast<EnemyCoreView *>(enemy));
+    EnemyCoreReleaseChildEclBlocks(this);
 
     EnemyCleanupPlayerView *player =
         enemy->manager00->sideState320->player04;

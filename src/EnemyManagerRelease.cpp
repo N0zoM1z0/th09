@@ -1,4 +1,5 @@
 #include "EnemyManager.hpp"
+#include "EnemyChildEclBlocks.hpp"
 
 #include "AnmManager.hpp"
 #include "Chain.hpp"
@@ -7,17 +8,13 @@
 
 extern Chain g_Chain;
 
-struct EnemyCoreView;
-extern void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy);
-
 static int EnemyManagerReleaseCore(EnemyManagerView *manager)
 {
     EnemyView *enemy = &manager->enemies5758[0];
     int remaining = 128;
     do
     {
-        EnemyCoreReleaseChildEclBlocks(
-            reinterpret_cast<EnemyCoreView *>(enemy));
+        EnemyCoreReleaseChildEclBlocks(enemy);
         ++enemy;
         --remaining;
     } while (remaining != 0);
@@ -55,8 +52,7 @@ void EnemyManagerView::ResetForGameplayCleanup()
     int remaining = 128;
     do
     {
-        EnemyCoreReleaseChildEclBlocks(
-            reinterpret_cast<EnemyCoreView *>(enemy));
+        EnemyCoreReleaseChildEclBlocks(enemy);
         enemy->flags337C &= ~1u;
         ++enemy;
         --remaining;

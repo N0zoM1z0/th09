@@ -1,18 +1,21 @@
+#include "EnemyChildEclBlocks.hpp"
 #include "ZunMemory.hpp"
 
 #include <stddef.h>
 
-struct EnemyCoreView
+struct EnemyChildEclBlocksView
 {
     unsigned char unknown000[0x33D8];
     void *childEclBlocks33D8[4];
 };
 
 typedef char EnemyCoreReleaseChildrenAt33D8[
-    (offsetof(EnemyCoreView, childEclBlocks33D8) == 0x33D8) ? 1 : -1];
+    (offsetof(EnemyChildEclBlocksView, childEclBlocks33D8) == 0x33D8) ? 1 : -1];
 
-void EnemyCoreReleaseChildEclBlocks(EnemyCoreView *enemy)
+void __fastcall EnemyCoreReleaseChildEclBlocks(EnemyView *enemyObject)
 {
+    EnemyChildEclBlocksView *enemy =
+        reinterpret_cast<EnemyChildEclBlocksView *>(enemyObject);
     for (int childIndex = 0; childIndex < 4; childIndex++)
     {
         if (enemy->childEclBlocks33D8[childIndex] != 0)
