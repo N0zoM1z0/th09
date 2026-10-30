@@ -26786,3 +26786,85 @@ cohort or a fresh258-comparison claim. Both independent output sets self-clean.
 No source tree or archive is added. Post-cleanup input/body/native-relation and
 strict-rejection audits pass. Documentation,tracking,progress and whitespace
 checks close this research-only checkpoint;public validation/CI code stays.
+
+## October 31: one native score record across producer, file and Title paths
+
+Recovery at5209eb9e is clean;original Japanese1.50a,target/tracking and live
+progress pass. This batch follows the complete1939-byte DrawResult dataflow
+through the actual record producer,loader,saver and exact insertion function.
+Direct Ghidra reuses the verified project and checks all685056 mapped file-
+backed bytes before each export. DrawResult423D16,insertion421800,loader4218E0,
+saver421F10 and finalization41B82A refer to the same0x2C record/table storage.
+An initial mistaken loader address421BC0 is rejected by the runner;only the
+corrected manifest-bound4218E0 export is used as loader evidence.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| SHARED-SCORE-001 | target / native field identity | ScoreData's table and current record,GameManager finalization's current record and Title's insertion/draw declarations resolve to table4A8380 and singleton4AC858. | Corrected direct exports;actual baseline/proposal COFF fields;strict public original comparisons |
+| SHARED-SCORE-002 | adopted source / complete comparison | All four paths now consume TitleScoreRecordView and the same two native external names. Known chapter prefix/name/date fields retain their offsets and size2C;the final char at2B preserves signed renderer reads. | Shared header;all56 affected existing exact owners;unchanged full DrawResult diagnostic |
+| SHARED-SCORE-003 | unchanged complete frontier | All123 paired emitted regular bodies and effective fields remain equal across six source/profile carriers;DrawResult stays1939 bytes/82 fields/22 differences. | shared-score-record/audit.json;actual-contributions.json;baseline/proposal records |
+
+The previous private ScoreRecordView had the same full prefix,name/date and
+unknown bytes;SetupScoreRecordView represented the same current record with
+other names. Keeping independent C++ globals gave distinct native external
+symbols for storage already established as identical in the original. Remove
+both private structures and their three global aliases. Loader/saver now use
+Title's existing table/current declarations,and DeletedCallback writes the same
+current record used by insertion. The callback's score input is unsigned32;
+its final byte assignment preserves the same stored bits. Existing float value10
+is retained;zero stores alone do not prove a unique original C++ type or its
+semantic role. Unknown0A,17 and27 remain unknown. No storage definition,global
+constructor,packing directive,defensive game branch or nominal original TU claim
+is manufactured. Native product closure remains a separate gate.
+
+The public dependency scan finds exactly five affected configured source/profile
+groups:Title O1/O2,ScoreData O2,and GameManagerSetup Os/O2. DrawResult is the
+sixth diagnostic carrier. Three fresh baseline builds plus six proposal builds
+run serially on one allowed CPU at nice10;ScoreData and both GameManager
+baselines reuse unchanged prior object/source/profile pins. All123 paired
+regular definitions preserve complete raw bytes,field multiplicity,kinds,
+addends,local coordinates and effective native referents. This count includes
+repeated bodies across profiles,not123 distinct original functions. All compiler
+contributions are separately inventoried:Title O1 has74 bytes/six fields/five
+entries;Title O2 has80/six/five;the other four have none.
+
+Only29 canonical global-reference names change. StartMenu's nine private label
+names also refresh after their actual owner-relative coordinates reproduce all
+original addresses. Entire parsed manifest comparison confirms that all other
+metadata,profiles,field values,extents and acceptance guards stay unchanged.
+Strict unchanged public compare_unit verifies all56 affected existing owners,
+including their physical tails/tables,23974 bytes and1355 fields. No helper or
+callee body is changed. The proposal carriers are promoted only after all
+actually consumed staged input hashes equal maintained source.
+
+All12 baseline/proposal input sets reconstruct from immutable5209eb9e Git
+content with recorded line endings. Two additional independent cold replays
+cover Title O1 and GameManager Os,checking all57 emitted regular bodies,all
+compiler contributions and47 complete existing exact owners. Temporary source,
+OBJ and PDB outputs self-clean. Thirty focused original-field,destination,
+local-coordinate and literal-definition tests pass. No public validation/CI
+implementation changes or unrelated cold replay occurs.
+
+Source checkpoint4502c056547312a635d859e88f299d4f5bfadf77 supersedesf424b1ac.
+Current proof route is .analysis/gpt-61sol-20261031-shared-score-record/current.py:
+296 distinct existing units/87451 physical bytes/4177 fields,comprising56 strict
+affected owners and240 unchanged source/profile/object reuses. The old ScoreData
+258-unit and SHT251-unit whole verifiers are historical because seven ScoreData
+and eleven GameManagerSetup inputs changed;the unaffected240 pins remain valid
+and are explicitly reused. RunEcl30,Enemy13,Movement129,Type3-15,Charge1197 and
+the native service stay unchanged. Exact authored coverage remains1004/1035 and
+246651/291883 bytes(84.5034%);this repairs a real shared declaration but adds no
+exact owner. The98% milestone,Windows product,semantics and port remain open.
+
+After all owned compiler/analysis handles terminate,cleanup removes15 ignored
+files/1425917 logical bytes:three disposable baseline objects,three superseded
+ScoreData/GameManager objects and nine PDBs. All1130 deletion-time protected
+hashes stay equal,including current296 carriers,service,tracked source,original
+target,working Ghidra and retained research records. Six proposal objects remain;
+full raw/field/contribution records and Git recipes preserve the old observations
+without retaining old source copies. Research,commands,exports and cleanup
+receipt stay under shared-score-record/;no archive or old C++ tree is added.
+Post-cleanup strict56-owner comparison,240 unchanged pin checks,all123 paired
+body/contribution audits and12 immutable input reconstructions pass. Target,
+tracking,progress,documentation and whitespace checks pass;the worktree is
+checkpointed locally without any inferred remote publication.

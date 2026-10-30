@@ -2853,3 +2853,26 @@ hashes after final CI and cleanup,as do the ten retained current objects. Build/
 is absent. Additional receipts:cleanup-ci.json,ci-final-inputs-stable.json and
 ci-final.log in the maintenance packet. No game-source compiler/Ghidra rerun was
 needed;current106 comparisons and Type3 cache were verified directly.
+
+## 2026-10-31: shared native score record
+
+Game-source checkpoint4502c056 unifies score-file loading/saving,GameManager
+finalization and Title insertion/drawing through the same0x2C record and native
+global names. All56 affected existing owners remain exact;240 unchanged pins
+are reused. Current296-unit proof is in shared-score-record/current.py under
+the October31 analysis prefix. DrawResult22 and authored exact coverage stay.
+
+After all owned producers terminate,twelve immutable input reconstructions and
+two selected independent cold replays pass. Remove15 ignored files/1425917
+logical bytes:three disposable baseline objects,three superseded ScoreData/
+GameManager objects and nine PDBs. Preserve six new proposal carriers,68 unchanged
+proof objects,service,full raw/field/contribution records and immutable recipes.
+All1130 deletion-time protected hashes agree,including target,tracked source,
+working Ghidra and retained research records. Temporary replay source/OBJ/PDB
+outputs already self-clean;no source archive or old C++ tree is added.
+
+Old258-unit ScoreData and251-unit SHT whole verifiers are historical after
+source-pin changes. Their unaffected240 individual proofs are reused by the
+current296-unit verifier;the removed carriers' complete observations and Git
+inputs remain reproducible. Per-file deletion/protection receipt:
+`.analysis/gpt-61sol-20261031-shared-score-record/cleanup.json`.
