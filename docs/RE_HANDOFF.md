@@ -9,7 +9,9 @@ without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affect
 sources/profiles. Preserve research records;delete unused old code/build copies.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Previous game-source checkpoint: **19569217**. This checkpoint connects the
+Current game-source checkpoint: **aefb9493**;the latest research-only checkpoint
+does not change its compiler inputs or exactness credit.
+Previous game-source checkpoint: **19569217**. Current source connects the
 default shot dispatcher and six spawn callbacks to the defined309-byte shot
 initializer through shared interfaces. The initializer uses native Float3,
 ZunTimer,SoundPlayer and AnmLoaded calls. All affected exact bodies remain exact;
@@ -63,6 +65,13 @@ remain in place.
 - A control-family rhsInt time capture in `ecl-control-workspace/` retains
  15564/598 but regresses30 to42 ordinary differences,with no field/table drift.
   All75 exact siblings and Enemy13 remain;the source model is rejected.
+- `.analysis/gpt-61sol-20261031-ecl-update-objects/` retains seven further
+  complete controls. Four full-operation object/proxy models add a genuine
+  unbound helper call and fail the whole owner. Small value accessors and a
+  real word conversion inline but preserve30. Tiny reference accessors inline,
+  leave opcode155 unchanged and shorten opcode157160 to158,giving2153 total
+  differences. All75 exact siblings pass per model;none is adopted. Immutable
+  Git/EOL reproduction and complete raw/COFF records remain after trial cleanup.
 - Two whole-ECL native-side-type controls retain75 exact siblings each.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`

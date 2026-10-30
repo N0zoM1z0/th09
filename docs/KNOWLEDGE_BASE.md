@@ -25891,3 +25891,77 @@ tracking objects and native Sound proof remain;the obsolete Charge,dispatcher
 and Type7 objects are removed. Full raw/COFF observations,all source recipes,
 logs and mapped Ghidra exports remain. No old source tree or new archive is
 created. Eight provider/Oracle inputs remain byte/EOL-bound to19569217.
+
+## October31: complete RunEcl update-object and proxy controls
+
+Recovery at aefb9493 is clean;the previous native shot-chain source checkpoint
+is progress,not98% completion. Original Japanese1.50a disk/tracking/live status
+pass. Direct Ghidra reuses12.1.4 and verifies all685056 mapped file bytes before
+exporting complete4086C0/410730. Historical shared-scalar,bool,SDK/vector,
+draw-list and constructor models are read before avoiding their duplicate
+compiler runs. This bounded batch tests actual masked-word update objects.
+
+All seven controls preserve the original one-byte wire capture and four-byte
+flags storage,mask01000000 and unsigned shift/XOR meaning. Every object field
+participates in the computation or denotes the real destination. No new target
+boundary,return contract,qualifier,forced inline,register hint,assembly,padding
+member or compiler profile is introduced. The new object methods are fully
+defined source hypotheses;they are never assigned guessed target addresses.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-UPDATE-OBJECT-001 | compiler observation | Old word/input aggregate with Value():15576/599;actual19-byte Value call outlines. | old-byte-value.json |
+| ECL-UPDATE-OBJECT-002 | compiler observation | Mask/shifted-value patch with Apply(old):15592/599;actual23-byte Apply call outlines. | mask-value-patch.json |
+| ECL-UPDATE-OBJECT-003 | compiler observation | Owned word with Assign(byte):15576/599;actual28-byte Assign call outlines. | word-operation.json |
+| ECL-UPDATE-OBJECT-004 | compiler observation | Reference proxy with operator=(byte):15568/599;actual30-byte assignment call outlines;14-byte constructor is also emitted. | reference-proxy.json |
+| ECL-UPDATE-OBJECT-005 | compiler observation | Four-byte returned word with real unsigned conversion:15564/598;16-byte factory/3-byte conversion inline;all baseline raw bytes/effective fields remain. | converted-word-result.json |
+| ECL-UPDATE-OBJECT-006 | compiler observation | Old/input aggregate with Old()/Shifted():15564/598;actual3/8-byte accessors inline;all baseline raw bytes/effective fields remain. | accessor-value.json |
+| ECL-UPDATE-OBJECT-007 | compiler observation | Reference proxy with Get()/Store():15564/598;actual5/14-byte accessors inline;2153 complete linked differences. | accessor-reference.json |
+
+Each of the first four has one positive same-object REL32 reference to its
+actual update method. The full original-bound inspector rejects its unreviewed
+input shape/coverage;the dependent Enemy diagnostic rejects the changed native
+RunEcl inventory. These are real source results,not setup failures or permission
+to score a shorter head. Independently,Enemy's own3900 raw bytes and97 effective
+fields are baseline-identical in every one of the seven controls. A rejected
+callee inventory does not establish an Enemy instruction regression.
+
+The two neutral value models retain exactly30 ordinary differences,zero field/
+table drift,and Enemy13. They show that real small class operations can inline
+in this context;the outlined models do not justify a blanket class-inlining
+claim or changing the compiler profile. The reference-accessor model has1925
+ordinary plus228 field-byte differences,total2153;24 table bytes are a subset
+of those228. It retains the original30 wrong positions unchanged. Actual
+opcode155 remains45 bytes/twelve instructions with the baseline allocation;
+opcode157 instead shrinks160 to158 bytes and45 to44 instructions,including a
+missing MOV ECX,EAX and changed stride-result transport. The full normalized
+handler audit reports145/148 versus baseline146/148. No normalized byte or
+alignment is waived by the complete Oracle. This is observed nonlocal codegen,
+not proof of a particular compiler-internal explanation.
+
+Every control independently preserves all75 canonical same-profile siblings:
+525 repeated complete comparisons,zero new credit. All seven staged input
+sets recreate from immutable aefb9493 Git/EOL hashes. An independent cold
+accessor-value regeneration reproduces all139 regular bodies/actual COFF fields,
+all75 exact siblings and complete RunEcl30/Enemy13 observations. Earlier recipe
+hashes remain alongside the final reconstruction hash;no source tree is saved.
+The first shape-report invocation combines unsupported --explain/--json flags
+and stops before analysis;the corrected human-readable invocation succeeds.
+No compiler failure or changed target is inferred from that CLI error.
+
+The maintained source,profiles,manifest and ledgers remain unchanged. Existing
+source/profile/object pins for24 groups authorize reuse of the previous141-unit,
+34700-byte/1529-field closure,including both native Sound owners. No full cold
+cohort or unrelated public CI is run. The eight compiler runs are serial,one
+allowed CPU,nice10 and180-second bounded. Full raw/COFF records,actual helper
+inventory,normalized opcode157 explanation,logs and probe.py/reproduce.py remain
+in .analysis/gpt-61sol-20261031-ecl-update-objects/. Production source checkpoint
+stays aefb9493;exact stays1004/1035 and246651/291883 bytes(84.5034%). The98%,
+Windows product/runtime,dual-Oracle semantics and portability remain unfinished.
+
+After all owned compiler,headless and replay handles are terminal,cleanup
+removes16 disposable object/debug files,4255125 logical bytes. All561 protected
+files retain their hashes at deletion,including the24 current proof objects,
+maintained source and original target. Full research records and recipes remain;
+no old source copy or new archive is created. Documentation,tracking,progress
+and whitespace checks pass for this research-only checkpoint.
