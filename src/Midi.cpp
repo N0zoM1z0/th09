@@ -239,7 +239,7 @@ ZunResult MidiOutput::ReadFileData(int idx, LPCSTR path)
     this->fileData[idx] = FileSystem::OpenFile((LPSTR)path, NULL, false);
     if (this->fileData[idx] == NULL)
     {
-        g_GameErrorContext.Log("error : MIDI File could not be read %s\r\n", path);
+        g_GameErrorContext.Log("error : MIDI File \x82\xAA\x93\xC7\x82\xDD\x8D\x9E\x82\xDF\x82\xC8\x82\xA2 %s \rv\r\n", path);
         return ZUN_ERROR;
     }
 

@@ -4,6 +4,9 @@
 
 #include <stddef.h>
 
+struct IDirect3D8;
+struct IDirect3DDevice8;
+
 struct SupervisorCtorArrayElement
 {
     unsigned char unknown000[0xF0];
@@ -53,7 +56,10 @@ class Supervisor
     void EnterCriticalSectionWrapper(int id);
     void LeaveCriticalSectionWrapper(int id);
 
-    unsigned char unknown000[0x78];
+    unsigned char unknown000[0x04];
+    IDirect3D8 *d3d04;
+    IDirect3DDevice8 *d3dDevice08;
+    unsigned char unknown00C[0x78 - 0x0C];
     SupervisorCtorArrayElement ctorArray078[3];
     unsigned char unknown348[0x40];
     GameConfiguration config388;
@@ -64,6 +70,10 @@ class Supervisor
     unsigned char unknown5D8[0x1D8];
 };
 
+typedef char SupervisorD3DAt04[
+    (offsetof(Supervisor, d3d04) == 0x04) ? 1 : -1];
+typedef char SupervisorDeviceAt08[
+    (offsetof(Supervisor, d3dDevice08) == 0x08) ? 1 : -1];
 typedef char SupervisorCtorArrayAt078[
     (offsetof(Supervisor, ctorArray078) == 0x78) ? 1 : -1];
 typedef char SupervisorConfigAt388[

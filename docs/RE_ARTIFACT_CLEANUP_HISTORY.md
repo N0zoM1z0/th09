@@ -2269,3 +2269,34 @@ Exact inventory and hashes are in
 .analysis/gpt-61sol-20261030-runecl-receiver/cleanup.json. These finite controls
 are historical compiler evidence; current game-source replay continues through
 the attached-effect family's six-carrier verifier in the active handoff.
+
+## 2026-10-30: Supervisor D3D prefix and original literal cleanup
+
+From9c5c9733/game source4dd2212d, the native Supervisor declaration and two
+incorrect original-message reconstructions are corrected.106 current carriers
+protect439 canonical authored exact owners/121391 physical bytes/6843 fields,
+plus three unknown-origin units and a folded-reader alias. All443 configured
+comparisons total121489 bytes/6851 fields.857 emitted body/profile comparisons
+and32 compiler COMDATs/962 bytes/49 fields/49 entries preserve code. The public
+match-unit gate now checks actual local literal definitions; three genuine old
+COFF objects remain as runnable negative controls. This earns no new exact credit.
+
+After all compiler, Ghidra and CI handles reach terminal state, a repository
+producer scan finds none active. Cleanup removes385 regular ignored files,
+19811875 logical bytes(about18.9MiB): obsolete baseline/proposal objects,
+compiler PDBs and generated build/ Python caches. The only old objects kept
+are the three actual negative controls.106 current proof objects, all records,
+recipes, target and Ghidra working state remain. All431 protected packet files
+pass SHA256 equality before and after deletion. Empty generated directories are
+removed and build/ is absent. No new source archive or historical C++ snapshot
+is created; documentation and research records are preserved.
+
+The focused literal suite passes11 tests; full public CI passes1036 tests with
+29 skips. An intermediate whitespace-only CI failure is fixed and the complete
+rerun exits zero. Both source/provider-bound verification and the standard
+443-unit/three-negative gate pass again after cleanup. Exact totals remain
+1003 and244917/291883 bytes(83.9093%);98% and later phase gates stay open.
+
+Full deletion/protection hashes and source/object/profile-bound proofs are under
+`.analysis/gpt-61sol-20261030-supervisor-device/`. The current verifier uses
+local packet helpers and maintained tools, without historical C++ dependencies.

@@ -91,7 +91,7 @@ class CoffLiteralDefinitionTests(unittest.TestCase):
         for destinations in ({}, {self.scalar: 0x101, self.string: 0x104}):
             with self.assertRaises(ValueError):
                 self.check(destinations=destinations)
-        rows = [dict(self.rows[0], symbol='__real@3ff0000000000000')]
+        rows = [dict(self.rows[0], symbol='__real@3ff000000000')]
         with self.assertRaisesRegex(ValueError, 'scalar literal type'):
             self.check(rows=rows, destinations={rows[0]['symbol']: 0x100})
         for row in (dict(self.rows[0], addend=1), dict(self.rows[0], addend=-1),
@@ -100,6 +100,127 @@ class CoffLiteralDefinitionTests(unittest.TestCase):
                 self.check(rows=[row])
         with self.assertRaises(ValueError):
             self.check(rows=[self.rows[0], dict(self.rows[0], symbol_value=4)])
+
+    def test_double_requires_all_eight_source_and_original_bytes(self):
+        symbol = '__real@3f91111111111111'
+        payload = struct.pack('<Q', 0x3F91111111111111)
+        data = bytearray(self.object)
+        data[80:88] = payload
+        image = self.image[:0x100] + payload + bytes(256)
+        row = dict(self.rows[0], symbol=symbol)
+        result = self.check(data=data, image=image, rows=[row],
+                            destinations={symbol: 0x100})
+        self.assertEqual(result[0]['size'], 8)
+        for offset in range(8):
+            changed = bytearray(data)
+            changed[80+offset] ^= 1
+            with self.subTest(source_byte=offset), self.assertRaisesRegex(
+                    ValueError, 'literal definition differs'):
+                self.check(data=changed, image=image, rows=[row],
+                           destinations={symbol: 0x100})
+            changed = bytearray(image)
+            changed[0x100+offset] ^= 1
+            with self.subTest(target_byte=offset), self.assertRaisesRegex(
+                    ValueError, 'scalar value differs'):
+                self.check(data=data, image=changed, rows=[row],
+                           destinations={symbol: 0x100})
+
+    def test_double_cannot_use_four_byte_section_or_interior_reference(self):
+        symbol = '__real@0000000000000000'
+        data = bytearray(self.object)
+        data[80:88] = bytes(8)
+        image = self.image[:0x100] + bytes(264)
+        row = dict(self.rows[0], symbol=symbol)
+        short = bytearray(data)
+        struct.pack_into('<I', short, 36, 4)
+        for invalid_data, invalid_row in ((short, row),
+                                          (data, dict(row, addend=4))):
+            with self.assertRaises(ValueError):
+                self.check(data=invalid_data, image=image, rows=[invalid_row],
+                           destinations={symbol: 0x100})
+
+    def test_wide_string_checks_past_embedded_zero_bytes_and_terminator(self):
+        symbol = '??_C@_1test'
+        payload = 'AB'.encode('utf-16le') + bytes(2)
+        data = bytearray(self.object)
+        data[80:80+len(payload)] = payload
+        image = self.image[:0x100] + payload + bytes(256)
+        row = dict(self.rows[0], symbol=symbol)
+        result = self.check(data=data, image=image, rows=[row],
+                            destinations={symbol: 0x100})
+        self.assertEqual(result[0]['size'], 6)
+        for offset in range(len(payload)):
+            changed = bytearray(data)
+            changed[80+offset] ^= 1
+            with self.subTest(offset=offset), self.assertRaises(ValueError):
+                self.check(data=changed, image=image, rows=[row],
+                           destinations={symbol: 0x100})
+
+    def test_standard_match_unit_checker_rejects_same_named_changed_payload(self):
+        import tempfile
+        spec = importlib.util.spec_from_file_location(
+            'literal_match_unit', ROOT/'scripts/compare-coff-function.py')
+        compare = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(compare)
+        compare.pe_bytes_at = self.pe_bytes_at
+        expected = [dict(offset=row['offset'], target=self.destinations[row['symbol']])
+                    for row in self.rows]
+        with tempfile.TemporaryDirectory() as folder:
+            obj = Path(folder)/'literal.obj'
+            obj.write_bytes(self.object)
+            result = compare.validate_literal_definitions(
+                obj, self.rows, self.image, expected)
+            self.assertEqual(len(result), 2)
+            changed = bytearray(self.object)
+            changed[85] ^= 1
+            obj.write_bytes(changed)
+            with self.assertRaisesRegex(ValueError, 'literal definition differs'):
+                compare.validate_literal_definitions(obj, self.rows, self.image, expected)
+
+    def test_exact_instruction_and_relocation_replay_requires_literal_payload(self):
+        import json
+        import tempfile
+        from unittest import mock
+        spec = importlib.util.spec_from_file_location(
+            'literal_complete_unit', ROOT/'scripts/compare-coff-function.py')
+        compare = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(compare)
+        code = bytearray(16)
+        original = bytearray(code)
+        for row in self.rows:
+            struct.pack_into('<I', original, row['offset'],
+                             self.destinations[row['symbol']])
+        image = bytearray(0x300)
+        image[0x100:0x100+len(self.payload)] = self.payload
+        image[0x200:0x210] = original
+        rows = [dict(row, type='DIR32', type_id=6, owner_section=2,
+                     owner_value=0) for row in self.rows]
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root/'scripts').mkdir()
+            (root/'scripts/coff_literal_definitions.py').write_bytes(
+                (ROOT/'scripts/coff_literal_definitions.py').read_bytes())
+            obj = root/'literal.obj'
+            obj.write_bytes(self.object)
+            manifest = root/'units.toml'
+            fields = ',\n'.join(
+                '{offset='+str(row['offset'])+', type="DIR32", symbol='+
+                json.dumps(row['symbol'])+', target='+
+                str(self.destinations[row['symbol']])+'}' for row in self.rows)
+            manifest.write_text('[units.literal]\nsymbol="test"\n'
+                                'object="literal.obj"\nsize=16\n'
+                                'target_address=512\nrelocations=['+fields+']\n')
+            with mock.patch.multiple(
+                    compare, ROOT=root, UNITS_MANIFEST=manifest,
+                    verified_target=lambda: bytes(image),
+                    pe_bytes_at=self.pe_bytes_at,
+                    object_function=lambda *a, **k: (bytearray(code), rows)):
+                self.assertEqual(compare.compare_unit('literal')['result'], 'exact')
+                changed = bytearray(self.object)
+                changed[85] ^= 1
+                obj.write_bytes(changed)
+                with self.assertRaisesRegex(ValueError, 'literal definition differs'):
+                    compare.compare_unit('literal')
 
 
 if __name__ == '__main__':

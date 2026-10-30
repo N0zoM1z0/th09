@@ -1,13 +1,7 @@
 #include "GameErrorContext.hpp"
+#include "Supervisor.hpp"
 #include <d3d8.h>
 
-struct SupervisorD3DCreateView
-{
-    unsigned char unknown00[0x04];
-    IDirect3D8 *d3d04;
-};
-
-extern SupervisorD3DCreateView g_Supervisor;
 extern GameErrorContext g_GameErrorContext;
 
 int SupervisorInitializeD3D()

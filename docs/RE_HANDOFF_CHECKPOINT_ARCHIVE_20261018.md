@@ -2512,3 +2512,71 @@ Cleanup removes220 superseded binary/debug/cache files,12349457 logical bytes
 (about11.8MiB), preserving documentation/research and65 necessary current proof
 or actual-counterexample objects. No new code archive is created; build/ is
 absent. The98% milestone and later phase gates remain open.
+
+
+## October 30: superseded attached-effect and receiver-control handoff
+
+The following handoff is historical, superseded by the native Supervisor D3D
+prefix and literal audit. Its receipts remain bound to their recorded inputs.
+
+## Current game-source checkpoint — 4dd2212d
+
+ECL, Enemy Core and release consumers now share the observed0x68-byte state at
+Enemy+53B4:24 Effect* slots, signed count+60 and float distance+64. The source
+reuses the existing Effect interface; original C++ storage/nominal types remain
+unproved. Core's unused2A4-byte effect facade/method is removed. Unreviewed+541C
+becomes four opaque bytes, without asserting its original role. No runtime
+branch, bound, allocation or field offset changes. Original opcode128 establishes
+the distance write and count increment; additional gameplay meaning stays open.
+
+Six affected canonical source/profile carriers preserve84 existing exact owners,
+26006 physical bytes/1146 fields and actual literals. All282 emitted regular
+body/profile comparisons and two whole compiler COMDATs/76 bytes/zero fields
+keep their raw bytes and identities. Twenty private names in two units change
+only at actual identical coordinates; every other manifest value/profile stays.
+Another140 existing proofs are reused from61 unaffected carriers after current
+source/profile/object/provider and unchanged unit-metadata checks. No new exact
+credit or full1003-owner cold replay. Complete RunEcl15564/598/30,
+Enemy3900/97/13 and biased517/516 with28 fields/148 overlaps remain unchanged.
+
+The already-documented private EDI entry of the151-byte attached-effect update
+is rechecked at the actual original caller/callee. A genuine ordinary external
+companion emits152 bytes and fails that complete native proof before any Enemy
+score or target binding. The74 other canonical ECL bodies pass and RunEcl stays30.
+An invalid qualified-declaration scaffold and a duplicate Timer-body scaffold
+are recorded separately from the corrected single-definition result. No public
+fastcall ABI, register hint or unique original TU is inferred.
+
+Current source/profile/provider-bound replay is
+.analysis/gpt-61sol-20261030-enemy-dependency-review/family.py verify;
+build mode serially rebuilds only these six carriers. Existing Git17a11669 plus
+recorded EOL rules reproduces79 baseline input hashes and the private proposal
+without retained old C++ copies. Ghidra checks685056 mapped file bytes while
+reusing the working project. Thirty-three focused tests pass. Dated older
+verifiers may reject newer headers/ledgers; they are evidence, not restart
+requirements. Cleanup deletes24 replaced baseline/control/debug/cache files,
+3011745 logical bytes(about2.9MiB); all314 protected files and six current
+objects retain their hashes. Documentation/research stay and no code archive
+is created; build/ is absent.
+The98% milestone and later product/runtime/semantic/port gates remain open.
+
+## Latest review — receiver and Replay record controls
+
+Game source remains4dd2212d. A const RunEcl receiver preserves all138 emitted
+ECL body/field payloads,75 existing exact siblings and complete RunEcl30/Enemy13.
+Original entry tracing confirms ECX is overwritten before use; original C++
+constness/ownership is still unproved. No qualifier is adopted.
+
+A genuine Replay header/payload member composition preserves12 authored exact
+owners and both15/18-byte unknown-origin constructor bodies. Read-only manager
+and whole-record memcpy controls are also neutral. SaveReplay stays1238/53/3
+atB7,BB,3F6 and playback538/540 with39 overlaps plus2 missing. Across six control
+objects,109 repeated complete comparisons protect87 unique authored units plus
+two unknown-origin constructors; repeated bytes receive no new credit.
+
+The source/provider-bound observations and recipes are in
+.analysis/gpt-61sol-20261030-runecl-receiver/. Existing Git/EOL rules reproduce83
+inputs and all candidate hashes without old C++ copies. Three stale-input guard
+checks pass. Cleanup deletes12 fully recorded control/debug files,1118106
+logical bytes(about1.1MiB), retaining all40 records and current canonical proofs.
+No code archive is created; the98% goal is unfinished.

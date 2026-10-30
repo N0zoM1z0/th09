@@ -11,10 +11,12 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import struct
 import tomllib
+from types import SimpleNamespace
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -272,6 +274,28 @@ def validate_owner_local_destinations(
             )
 
 
+def validate_literal_definitions(path: Path, actual: list[dict], image: bytes,
+                                 expected: list[dict]) -> list[dict]:
+    rows = [row for row in actual
+            if row["symbol"].startswith(("__real@", "??_C@"))]
+    if not rows:
+        return []
+    spec = importlib.util.spec_from_file_location(
+        "match_unit_literals", ROOT / "scripts/coff_literal_definitions.py")
+    literals = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(literals)
+    by_offset = {row["offset"]: row for row in expected}
+    data = path.read_bytes()
+    definitions = []
+    for row in rows:
+        destination = by_offset[row["offset"]]
+        definitions.extend(literals.check_literal_definitions(
+            data, [row], image,
+            SimpleNamespace(pe_bytes_at=pe_bytes_at),
+            {row["symbol"]: destination["target"]}))
+    return definitions
+
+
 def compare_unit(name: str) -> dict[str, object]:
     with UNITS_MANIFEST.open("rb") as stream:
         manifest = tomllib.load(stream)
@@ -299,7 +323,8 @@ def compare_unit(name: str) -> dict[str, object]:
             f"object function size {len(code):#x} differs from manifest "
             f"comparison extent {compare_size:#x}"
         )
-    target = pe_bytes_at(verified_target(), address, compare_size)
+    image = verified_target()
+    target = pe_bytes_at(image, address, compare_size)
 
     expected = list(unit.get("relocations", []))
     normalized_expected = []
@@ -328,6 +353,8 @@ def compare_unit(name: str) -> dict[str, object]:
         raise ValueError(f"COFF relocations differ from manifest: actual={actual_key!r} expected={expected_key!r}")
 
     validate_owner_local_destinations(actual, normalized_expected, address, compare_size)
+    literal_definitions = validate_literal_definitions(
+        object_path, actual, image, normalized_expected)
 
     replay = []
     for relocation in normalized_expected:
@@ -364,6 +391,7 @@ def compare_unit(name: str) -> dict[str, object]:
         "matched_compared_bytes": compare_size - len(differences),
         "object": str(object_path.relative_to(ROOT)),
         "relocations": replay,
+        "literal_definitions": literal_definitions,
         "first_differences": differences[:32],
     }
 

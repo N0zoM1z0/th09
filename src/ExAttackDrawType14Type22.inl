@@ -17,20 +17,9 @@
 typedef char ExAttackDrawVmColorAt1F0[
     (offsetof(AnmVm, color1) == 0x1F0) ? 1 : -1];
 
-struct ExAttackType1422DrawSupervisorView
-{
-    unsigned char unknown00[0x08];
-    IDirect3DDevice8 *d3dDevice08;
-};
-
-// Device access projects +8 of the genuine Supervisor object.
-typedef char ExAttackDrawDeviceAt08[
-    (offsetof(ExAttackType1422DrawSupervisorView, d3dDevice08) == 8) ? 1 : -1];
-
 static __inline IDirect3DDevice8 *ExAttackDrawDevice()
 {
-    return reinterpret_cast<ExAttackType1422DrawSupervisorView *>(
-        &g_Supervisor)->d3dDevice08;
+    return g_Supervisor.d3dDevice08;
 }
 
 int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)

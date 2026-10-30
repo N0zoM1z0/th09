@@ -46,19 +46,22 @@ def check_literal_definitions(data, rows, image, coff, destinations):
             raise ValueError('unreviewed literal target: ' + symbol)
         target = destinations[symbol]
         if symbol.startswith('__real@'):
-            if re.fullmatch(r'__real@[0-9a-fA-F]{8}', symbol) is None:
+            if re.fullmatch(r'__real@(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{16})', symbol) is None:
                 raise ValueError('unreviewed scalar literal type: ' + symbol)
-            expected = struct.pack('<I', int(symbol[7:], 16))
-            if coff.pe_bytes_at(image, target, 4) != expected:
+            width = (len(symbol) - 7) // 2
+            expected = int(symbol[7:], 16).to_bytes(width, 'little')
+            if coff.pe_bytes_at(image, target, width) != expected:
                 raise ValueError('literal name/original scalar value differs: ' + symbol)
         else:
-            # These reviewed Title format/heading literals are short, narrow,
-            # NUL-terminated strings. Do not infer arbitrary object extents.
+            # Bound the terminator search; wide literals end on a UTF-16 unit,
+            # rather than the first zero byte in an ASCII-range character.
             original = coff.pe_bytes_at(image, target, 256)
-            end = original.find(b'\0')
+            width = 2 if symbol.startswith('??_C@_1') else 1
+            end = next((offset for offset in range(0, len(original), width)
+                        if original[offset:offset+width] == bytes(width)), -1)
             if end < 0:
                 raise ValueError('unbounded original C-string literal: ' + symbol)
-            expected = original[:end + 1]
+            expected = original[:end + width]
         if literal_payload(data, row, len(expected)) != expected:
             raise ValueError('source/original literal definition differs: ' + symbol)
         addend = row.get('addend')

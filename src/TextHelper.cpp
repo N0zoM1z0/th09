@@ -3,14 +3,6 @@
 
 #include <string.h>
 
-struct TextHelperSupervisorView
-{
-    unsigned char unknown00[0x08];
-    IDirect3DDevice8 *d3dDevice;
-};
-
-typedef char TextHelperSupervisorDeviceAt08[(offsetof(TextHelperSupervisorView, d3dDevice) == 0x08) ? 1 : -1];
-
 struct TextHelperBitmapInfo
 {
     BITMAPINFOHEADER bmiHeader;
@@ -141,7 +133,7 @@ bool TextHelper::IsAllocated() { return this->gdiObj2 != NULL; }
 
 void TextHelper::CreateTextBuffer()
 {
-    reinterpret_cast<TextHelperSupervisorView *>(&g_Supervisor)->d3dDevice->CreateImageSurface(
+    g_Supervisor.d3dDevice08->CreateImageSurface(
         1024, 64, D3DFMT_A1R5G5B5, &g_TextBufferSurface);
 }
 

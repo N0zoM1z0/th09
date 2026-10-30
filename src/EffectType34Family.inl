@@ -23,11 +23,6 @@ struct EffectType34SetupView
     unsigned char unknown84[4];
     float parameter88;
 };
-struct SupervisorType34DeviceView
-{
-    unsigned char unknown00[8];
-    IDirect3DDevice8 *device;
-};
 extern AnmManager *g_AnmManager;
 
 int __fastcall EffectInitializeCallbackType34(Effect *effect)
@@ -93,13 +88,13 @@ int __fastcall EffectDrawCallbackType34(Effect *effect)
     }
     g_AnmManager->DrawTriangleFan(reinterpret_cast<AnmVm *>(effect->vms), vertices->fan54, 33);
     g_AnmManager->FlushVertexBuffer();
-    SupervisorType34DeviceView *supervisor = reinterpret_cast<SupervisorType34DeviceView *>(&g_Supervisor);
-    supervisor->device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-    supervisor->device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-    supervisor->device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-    supervisor->device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-    supervisor->device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    supervisor->device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    Supervisor *supervisor = &g_Supervisor;
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+    supervisor->d3dDevice08->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    supervisor->d3dDevice08->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
     const unsigned long lineColor = (static_cast<unsigned long>(alpha) << 24) | 0x00FFFFFF;
     int layer = 0;
     do
@@ -121,8 +116,8 @@ int __fastcall EffectDrawCallbackType34(Effect *effect)
             ++vertex;
             ++offset;
         }
-        supervisor->device->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
-        supervisor->device->DrawPrimitiveUP(D3DPT_LINESTRIP, 31, vertices->lines2E8[layer], sizeof(VertexDiffuseXyzrhw));
+        supervisor->d3dDevice08->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+        supervisor->d3dDevice08->DrawPrimitiveUP(D3DPT_LINESTRIP, 31, vertices->lines2E8[layer], sizeof(VertexDiffuseXyzrhw));
         if (vertices->state00 == 0)
             break;
         angle += 0.05067085f;
@@ -134,10 +129,10 @@ int __fastcall EffectDrawCallbackType34(Effect *effect)
     g_AnmManager->ClearColorOp();
     g_AnmManager->ClearBlendMode();
     g_AnmManager->ClearZWrite();
-    supervisor->device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-    supervisor->device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-    supervisor->device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    supervisor->device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
     vertices->unknown4C = 0;
     return 1;
 }

@@ -158,10 +158,7 @@ typedef char D3DInitViewportConfigurationSizeIsF0[
 
 struct SupervisorD3DInitView
 {
-    unsigned char unknown000[0x04];
-    IDirect3D8 *d3dIface04;
-    IDirect3DDevice8 *d3dDevice08;
-    unsigned char unknown00C[0x78 - 0x0C];
+    unsigned char unknown000[0x78];
     D3DInitViewportConfiguration viewports078[3];
     D3DInitViewportConfiguration *current348;
     int currentIndex34C;
@@ -177,10 +174,6 @@ struct SupervisorD3DInitView
     D3DCAPS8 d3dCaps5D8;
 };
 
-typedef char SupervisorD3DInitIfaceAt04[
-    (offsetof(SupervisorD3DInitView, d3dIface04) == 0x04) ? 1 : -1];
-typedef char SupervisorD3DInitDeviceAt08[
-    (offsetof(SupervisorD3DInitView, d3dDevice08) == 0x08) ? 1 : -1];
 typedef char SupervisorD3DInitViewportsAt078[
     (offsetof(SupervisorD3DInitView, viewports078) == 0x78) ? 1 : -1];
 typedef char SupervisorD3DInitPresentAt350[
@@ -224,7 +217,7 @@ int InitializeD3DRendering()
 
     usingHardwareRenderer = 1;
     memset(&presentParameters, 0, sizeof(presentParameters));
-    supervisor->d3dIface04->GetAdapterDisplayMode(
+    g_Supervisor.d3d04->GetAdapterDisplayMode(
         D3DADAPTER_DEFAULT, &displayMode);
 
     if (!supervisor->config388.windowed)
@@ -295,36 +288,36 @@ int InitializeD3DRendering()
         }
         else
         {
-            if (supervisor->d3dIface04->CreateDevice(
+            if (g_Supervisor.d3d04->CreateDevice(
                     D3DADAPTER_DEFAULT,
                     D3DDEVTYPE_HAL,
                     gameWindow->window00,
                     D3DCREATE_HARDWARE_VERTEXPROCESSING,
                     &presentParameters,
-                    &supervisor->d3dDevice08) < 0)
+                    &g_Supervisor.d3dDevice08) < 0)
             {
                 if (failedToSetFramerate)
                     g_GameErrorContext.Log(sD3DTlHalUnavailable);
 
-                if (supervisor->d3dIface04->CreateDevice(
+                if (g_Supervisor.d3d04->CreateDevice(
                         D3DADAPTER_DEFAULT,
                         D3DDEVTYPE_HAL,
                         gameWindow->window00,
                         D3DCREATE_SOFTWARE_VERTEXPROCESSING,
                         &presentParameters,
-                        &supervisor->d3dDevice08) < 0)
+                        &g_Supervisor.d3dDevice08) < 0)
                 {
                     if (failedToSetFramerate)
                         g_GameErrorContext.Log(sD3DHalUnavailable);
 
                 REFERENCE_RASTERIZER_MODE:
-                    if (supervisor->d3dIface04->CreateDevice(
+                    if (g_Supervisor.d3d04->CreateDevice(
                             D3DADAPTER_DEFAULT,
                             D3DDEVTYPE_REF,
                             gameWindow->window00,
                             D3DCREATE_SOFTWARE_VERTEXPROCESSING,
                             &presentParameters,
-                            &supervisor->d3dDevice08) < 0)
+                            &g_Supervisor.d3dDevice08) < 0)
                     {
                         if (!supervisor->disableVsync5AC)
                         {
@@ -353,10 +346,10 @@ int InitializeD3DRendering()
                             else
                             {
                                 g_GameErrorContext.Fatal(sD3DInitFailed);
-                                if (supervisor->d3dIface04 != NULL)
+                                if (g_Supervisor.d3d04 != NULL)
                                 {
-                                    supervisor->d3dIface04->Release();
-                                    supervisor->d3dIface04 = NULL;
+                                    g_Supervisor.d3d04->Release();
+                                    g_Supervisor.d3d04 = NULL;
                                 }
                                 return 1;
                             }
@@ -436,7 +429,7 @@ int InitializeD3DRendering()
     supervisor->viewports078[1].viewportModeE4 = 1;
 
     g_Supervisor.ConfigureScreenViewport(2);
-    supervisor->d3dDevice08->GetDeviceCaps(&supervisor->d3dCaps5D8);
+    g_Supervisor.d3dDevice08->GetDeviceCaps(&supervisor->d3dCaps5D8);
 
     if (supervisor->d3dCaps5D8.MaxTextureWidth <= 256)
         g_GameErrorContext.Log(sD3DMaxTextureTooSmall);
@@ -447,7 +440,7 @@ int InitializeD3DRendering()
 
     if (!g_Supervisor.Is16BitTexturesForced() && usingHardwareRenderer)
     {
-        if (supervisor->d3dIface04->CheckDeviceFormat(
+        if (g_Supervisor.d3d04->CheckDeviceFormat(
                 D3DADAPTER_DEFAULT,
                 D3DDEVTYPE_HAL,
                 presentParameters.BackBufferFormat,

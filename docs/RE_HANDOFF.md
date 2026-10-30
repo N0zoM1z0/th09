@@ -19,67 +19,67 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current game-source checkpoint — 4dd2212d
+## Current game source — native Supervisor D3D and original literals
 
-ECL, Enemy Core and release consumers now share the observed0x68-byte state at
-Enemy+53B4:24 Effect* slots, signed count+60 and float distance+64. The source
-reuses the existing Effect interface; original C++ storage/nominal types remain
-unproved. Core's unused2A4-byte effect facade/method is removed. Unreviewed+541C
-becomes four opaque bytes, without asserting its original role. No runtime
-branch, bound, allocation or field offset changes. Original opcode128 establishes
-the distance write and count increment; additional gameplay meaning stays open.
+This checkpoint supersedes game source4dd2212d. The canonical Supervisor now
+exposes the observed IDirect3D8* at+4 and IDirect3DDevice8* at+8. Direct3D creation,
+device setup, Effect34, ExAttack14/22 and TextHelper use that declaration.
+Four redundant local views are removed. The startup helper's former private
+`g_Supervisor` type produced a different native C++ global identity; its operand
+now names the canonical global. Offsets, allocation, branches and SDK calls stay
+unchanged. Original nominal C++ types and complete native linkage remain open.
 
-Six affected canonical source/profile carriers preserve84 existing exact owners,
-26006 physical bytes/1146 fields and actual literals. All282 emitted regular
-body/profile comparisons and two whole compiler COMDATs/76 bytes/zero fields
-keep their raw bytes and identities. Twenty private names in two units change
-only at actual identical coordinates; every other manifest value/profile stays.
-Another140 existing proofs are reused from61 unaffected carriers after current
-source/profile/object/provider and unchanged unit-metadata checks. No new exact
-credit or full1003-owner cold replay. Complete RunEcl15564/598/30,
-Enemy3900/97/13 and biased517/516 with28 fields/148 overlaps remain unchanged.
+A wider dependency audit finds two real old source errors: MIDI's English error
+message and Ending's truncated ASCII error prefix differ from original CP932
+literals. Both full original payloads, including MIDI's observed control bytes,
+are restored. Historical instruction-only matches did not establish those data
+payloads. The standard match-unit Oracle now checks actual read-only COFF
+literal definitions against every original referent, including four/eight-byte
+scalars and bounded narrow/UTF-16 strings. Matching symbol names alone cannot
+pass this check.
 
-The already-documented private EDI entry of the151-byte attached-effect update
-is rechecked at the actual original caller/callee. A genuine ordinary external
-companion emits152 bytes and fails that complete native proof before any Enemy
-score or target binding. The74 other canonical ECL bodies pass and RunEcl stays30.
-An invalid qualified-declaration scaffold and a duplicate Timer-body scaffold
-are recorded separately from the corrected single-definition result. No public
-fastcall ABI, register hint or unique original TU is inferred.
+The106 affected source/profile carriers protect **439 canonical authored exact
+owners /121391 physical bytes /6843 fields**, plus three unknown-origin units
+and one folded-reader alias. All443 configured comparisons total121489 bytes/
+6851 fields; the extra units and repeated profiles earn no new credit. All857
+emitted regular body/profile comparisons preserve code bytes;32 compiler COMDATs
+retain962 bytes/49 fields/49 entry symbols. Three reviewed external/literal
+identities and124 position-proven private fields are the only manifest changes.
+The standard gate also rejects three actual old COFF objects: the false startup
+global identity and both wrong literal payloads. All original sizes, target
+addresses, profiles and match rows remain unchanged.
 
-Current source/profile/provider-bound replay is
-.analysis/gpt-61sol-20261030-enemy-dependency-review/family.py verify;
-build mode serially rebuilds only these six carriers. Existing Git17a11669 plus
-recorded EOL rules reproduces79 baseline input hashes and the private proposal
-without retained old C++ copies. Ghidra checks685056 mapped file bytes while
-reusing the working project. Thirty-three focused tests pass. Dated older
-verifiers may reject newer headers/ledgers; they are evidence, not restart
-requirements. Cleanup deletes24 replaced baseline/control/debug/cache files,
-3011745 logical bytes(about2.9MiB); all314 protected files and six current
-objects retain their hashes. Documentation/research stay and no code archive
-is created; build/ is absent.
-The98% milestone and later product/runtime/semantic/port gates remain open.
+Current replay is `.analysis/gpt-61sol-20261030-supervisor-device/device.py verify`;
+`build` serially rebuilds the106 carriers. `canonical_gate.py` runs the standard
+Oracle and the three real negatives. Current verification uses maintained tools,
+local packet helpers and current objects, without historical C++ copies.
+Another564 canonical rows have unchanged source/profile/unit inputs; this batch
+does not claim a new compile or literal audit for them. Earlier replay commands
+below are dated evidence and may reject the newer shared header or Oracle.
 
-## Latest review — receiver and Replay record controls
+Complete RunEcl15564/598/30, Enemy3900/97/13, biased517/516 with28 fields/148
+overlaps and Effect34 draw946/53/78 remain unchanged. Exact credit stays1003;
+the98% milestone and later product/runtime/semantic/port gates remain open.
 
-Game source remains4dd2212d. A const RunEcl receiver preserves all138 emitted
-ECL body/field payloads,75 existing exact siblings and complete RunEcl30/Enemy13.
-Original entry tracing confirms ECX is overwritten before use; original C++
-constness/ownership is still unproved. No qualifier is adopted.
+## Latest review and cleanup
 
-A genuine Replay header/payload member composition preserves12 authored exact
-owners and both15/18-byte unknown-origin constructor bodies. Read-only manager
-and whole-record memcpy controls are also neutral. SaveReplay stays1238/53/3
-atB7,BB,3F6 and playback538/540 with39 overlaps plus2 missing. Across six control
-objects,109 repeated complete comparisons protect87 unique authored units plus
-two unknown-origin constructors; repeated bytes receive no new credit.
+Direct cached Ghidra checks all685056 file-backed bytes before exporting the
+Effect34 draw/angle helper and Direct3D creation/device setup. Draw's ignored
+angle-normalization return is original behavior. An initial combined export
+fails because the initializer has no Ghidra function; successful follow-up
+exports and the failed request are both retained. Ghidra's provisional draw
+body excludes three internal alignment bytes; the complete946-byte Oracle
+comparison still includes them.
 
-The source/provider-bound observations and recipes are in
-.analysis/gpt-61sol-20261030-runecl-receiver/. Existing Git/EOL rules reproduce83
-inputs and all candidate hashes without old C++ copies. Three stale-input guard
-checks pass. Cleanup deletes12 fully recorded control/debug files,1118106
-logical bytes(about1.1MiB), retaining all40 records and current canonical proofs.
-No code archive is created; the98% goal is unfinished.
+The11 focused literal tests and full public CI pass:1036 tests/29 skipped.
+Actual old-source failures, complete positive comparisons, payload facts,
+rejected intermediate captures,
+recipes and cleanup hashes remain in the packet. Documentation and research
+records are preserved; disposable baselines, duplicate proposals and compiler
+PDB/cache files are removed after terminal checks. Cleanup deletes385 files/
+19811875 logical bytes(about18.9MiB); all431 protected files retain their hashes.
+Current106 objects and three actual negatives remain, and build/ is absent.
+No new code archive is made.
 
 ## Earlier dependency corrections
 
@@ -103,7 +103,7 @@ and source-interface cleanup earn no partial exact credit.
 
 | Source checkpoint | Maintained change | Local evidence below `.analysis/` |
 | --- | --- | --- |
-| 4dd2212d | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/family.py verify` |
+| 4dd2212d | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/` (dated records) |
 | 17a11669 | Native Type6/7/8/9 setup and EffectManager contracts;219 existing exact owners preserved. | `gpt-61sol-20261030-runecl-formal-state/` (dated records) |
 | 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |
 | e73311d9 | Charge uses actual Effect* state-effect methods;1197/70/1160 plus13 missing remains nonexact. | `gpt-61sol-20261030-charge-native-effects/verify_current.py` |

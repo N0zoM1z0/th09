@@ -23621,3 +23621,93 @@ full1003-owner cold replay is required for this documentation/probe checkpoint.
 The87 unchanged authored proofs remain independent of any constructor-origin
 claim. Canonical244917/291883 bytes(83.9093%),1003 exact/32 nonexact and the98%
 goal remain unchanged and unfinished; product/runtime/semantic/port gates stay open.
+
+
+## October 30: native Supervisor D3D prefix and complete literal payloads
+
+The dependency audit resumes from clean9c5c9733, game source4dd2212d. The original
+Japanese v1.50a disk and cached Ghidra Program pass SHA/architecture/base/entry
+and all685056 mapped file bytes. Initial Effect34 draw export succeeds but its
+combined request fails because0x00444960 has no Ghidra function. Draw/angle and
+Direct3D setup follow-ups complete. Ghidra's943-byte draw body omits the three
+internal alignment bytes at+CD; the original complete physical owner remains
+946 bytes. Ghidra does not define the exactness boundary.
+
+Target observations: Direct3DCreate8's result is stored at0x004B3104 by the
+46-byte0x0042CD10 startup helper. The1561-byte device setup at0x0042DD90 uses
+that interface's CreateDevice slot+3C on all three paths, each receiving the
+address0x004B3108 as output; GetDeviceCaps then reads that device. Effect34's
+original twelve COM calls use the same device. Source now exposes these two
+pointers at canonical Supervisor+4/+8, with unchanged0x7B0 size and other offsets.
+The creation helper formerly declared a distinct SupervisorD3DCreateView global:
+its source root mangled differently despite being manually bound to the same
+numeric target. It now uses the actual maintained Supervisor declaration.
+Initializer, device setup, Effect34, ExAttack14/22 and TextHelper consume that
+prefix. Four unused local facades and the device-setup duplicate prefix fields
+are removed; other partial Supervisor views and full native closure stay open.
+
+The expanded literal audit uncovers two old source errors. MidiOutput::ReadFileData
+at0x0043E0D0/94 bytes refers to the41-byte original error literal at0x00491118;
+source had substituted an English translation. Its original CP932 data and
+unusual CR-v-CR-LF suffix are restored exactly, without inferring their intent.
+Ending::LoadEndingScript at0x0040E4F0/133 bytes refers to the73-byte CP932 failure
+message at0x0048E4C8; source had kept only the nine-byte ASCII prefix. Complete
+original messages now match the actual COFF section definitions. Code and
+relocation-address equality alone had missed both wrong payloads.
+
+The public match-unit Oracle now independently verifies every referenced local
+scalar/C-string definition before returning exact. Source names and manifest
+addresses do not substitute for actual initialized read-only section bytes.
+Four/eight-byte scalar widths and bounded narrow/UTF-16 terminators are checked;
+each reference uses its own target. GameWindow's double1/60 and Draw3D's double
+zero already have correct eight-byte definitions; the old generic helper's
+four-byte-only guard had rejected their literal type. New tests mutate every
+source/target byte of a double, truncate its section, shift its reference, damage
+wide characters/terminator and alter literal bytes while keeping a complete
+instruction/relocation replay exact.
+
+Compiler observations:106 affected source/profile carriers protect439 canonical
+authored owners/121391 complete physical bytes/6843 fields, plus18/75/1-byte
+unknown-origin Chain constructor/destructor/MIDI callback and a four-byte folded
+Timer alias. All443 configured comparisons total121489 bytes/6851 fields, without
+crediting those four extras. All857 regular emitted body/profile payloads stay
+raw-identical.32 actual compiler COMDATs retain962 bytes/49 fields/49 entry
+coordinates and private EH data. Exactly127 manifest fields change spelling:
+one canonical Supervisor root, two corrected literal identities and124 private
+fields at independently checked identical owner-relative positions in13 units.
+No target address, addend, code extent, profile or match row changes. Three note
+rows now describe the maintained root and restored literals accurately.
+
+All443 comparisons also pass through the standard public match-unit gate with
+552 literal references checked. Actual original COFF negatives fail on the wrong
+startup global or wrong literal definition; legacy literal identities are used
+to ensure those two failures test payloads rather than just renamed symbols.
+An initial capture is rejected when a comparison-provider edit changes its hash;
+unchanged compiler/game inputs and every producer source/profile/object hash are
+rechecked before recapture. The standard gate also rejects a cascading private
+label substitution. Final names are repaired separately by field offset and
+verified actual owner coordinates, and the strict current verifier permits no
+unrecorded label mismatch. Failed preparations/captures remain research records,
+not credited compiler trials or accepted proofs.
+
+Full RunEcl15564/598/30, Enemy3900/97/13, biased517vs516/28/148 and Effect34
+946/53/78 remain unchanged. Native device declarations do not close Effect34's
+entry65/store-order9/radius4 residual; the ignored initial angle result is original.
+Another564 canonical rows have unchanged source/profile/unit metadata but receive
+no new compile or literal-payload claim. Authored exact credit stays1003 and
+244917/291883 bytes(83.9093%);98% remains unfinished. Product/runtime/semantics/
+portability are independent and open. Durable receipts, current objects, actual
+negative objects and self-contained recipes are in
+`.analysis/gpt-61sol-20261030-supervisor-device/`; current verification needs no
+historical C++ source copies. Documentation and research records stay; disposable
+baseline/proposal/PDB/cache files are removed without a new source archive.
+
+The11 focused literal tests and full public CI(1036 tests,29 skipped) pass.
+One intermediate CI invocation passes tests/ledgers/docs/progress but rejects a
+trailing blank line in the handoff archive; the corrected full rerun exits zero.
+After all producers terminate, cleanup removes385 ignored files/19811875 logical
+bytes(about18.9MiB), including superseded baseline/proposal objects, PDBs and
+Python caches. All431 protected packet files retain their SHA256 values, including
+106 current objects and three actual negative objects. Post-cleanup focused and
+standard-gate replays pass again; build/ is absent. No documentation, research
+record, target, toolchain or working Ghidra project is removed.
