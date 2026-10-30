@@ -2636,3 +2636,28 @@ tests (three skips),11 literal tests and the manifest graph check pass. Public
 validation tools/tests are unchanged;no new full CI is claimed. Packet and
 per-file deletion/protection hashes:
 `.analysis/gpt-61sol-20261030-shared-vector-contracts/`.
+
+## 2026-10-30: RunEcl value contexts and Enemy rejection attribution
+
+Five whole-ECL controls preserve75 same-profile exact owners each but earn no
+new credit. Pointer visibility retains RunEcl30 while shortening Enemy to3876
+bytes; both real zero callbacks remain original-equal. Three native timeout
+record representations are raw-identical at1938 ordinary/202 field differences.
+The inspector now attributes the shorter caller to candidate extent rather than
+an original callback change,with the same rejected inputs. An old selected-
+manager debt description is explicitly marked resolved by f595786d.
+
+After terminal producers,cleanup deletes146 ignored files/4706969 logical bytes:
+five unadopted objects,five PDBs and136 bytecode caches. All395 protected hashes
+retain their deletion-time values. The active source/profile-bound ECL object,
+all research/raw/COFF/literal observations,source recipes and documentation
+remain. No old C++ source tree or archive is added. Original target/toolchains
+and working Ghidra stay;build/ is absent.
+
+Current strict-public and saved-record checks pass afterward:75 canonical units/
+22463 physical bytes/990 fields,and79 immutable Git/EOL inputs with375 existing
+canonical comparisons. A private recorder verbosity/key-recovery failure is kept
+separately and corrected without another compile. Full public CI passes1038
+tests/29 skips in200.493s. Exact stays1004/84.5034%;98% remains unfinished.
+Packet and deletion/protection hashes:
+`.analysis/gpt-61sol-20261030-ecl-native-pointer-context/`.

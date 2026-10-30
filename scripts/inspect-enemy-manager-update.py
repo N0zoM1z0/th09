@@ -55,9 +55,11 @@ def require_folded_callback_definitions(fields, source, target, original_body, d
     genuinely external call needs an explicitly supplied companion object.
     These aliases establish no unique original C++ owner or additional credit.
     """
-    if (len(source) != OWNER_SIZE or len(target) != OWNER_SIZE
-            or original_body != FOLDED_CALLBACK_BODY):
+    if (len(target) != OWNER_SIZE or original_body != FOLDED_CALLBACK_BODY):
         raise ValueError('original shared zero callback body/owner changed')
+    if len(source) != OWNER_SIZE:
+        raise ValueError('Enemy candidate physical extent differs: '
+                         f'{len(source)} bytes; expected {OWNER_SIZE}')
     symbols = {symbol for _, symbol in FOLDED_CALLBACK_CALLS}
     calls = [row for row in fields if row['symbol'] in symbols]
     if len(calls) != 2 or set(definitions) != symbols:

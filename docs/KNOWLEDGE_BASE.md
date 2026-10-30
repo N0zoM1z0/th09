@@ -19698,8 +19698,8 @@ A genuine source-owner debt remains unresolved: InitializeSubroutine at406850
 stores its receiver into context+0 at40688E. SpawnEnemy calls it on both manager+0
 and manager+188 at40F3D2/40F419; CallSubroutine obtains that receiver from context+0
 at407ACC. Thus the context header owns the selected EnemyEclManagerView pointer,
-not necessarily an EnemyManager root. Current ManagerStateView and the two
-private spawn declarations still conflate that owner, while context+0 is opaque.
+not necessarily an EnemyManager root. At that October22 checkpoint, ManagerStateView and the two
+private spawn declarations conflated that owner, while context+0 was opaque.
 The October20 RunEcl linkage correction explicitly left these aliases open.
 A narrow genuine-owner correction is likely byte-neutral if operations, layouts
 and definition visibility stay unchanged; that is an untested prediction, not
@@ -19707,6 +19707,16 @@ an adopted repair or matching gain. Its conservative public-header review surfac
 is 140 canonical units across 29 source files, plus the affected complete
 nonexact owners. It supplies no evidence-based explanation for opcode4/155 or
 the remaining Enemy draw/special-attack register choices, so no probe follows.
+
+
+
+**Historical debt resolved:** f595786dc50122f264fa3fa42faa69ceadcf9a89
+(`restore selected ECL manager ownership without codegen regression`) subsequently
+introduced selectedManager000 in Th09EclContextView and corrected its native
+initializer/CallSubroutine and spawn users. October30 source reinspection at
+a6ecf771 confirms those typed paths remain. The preceding debt description is
+a dated observation,not current missing work; it supplies no new opcode4/155
+explanation.
 
 Opcode155 input-bitfield syntax is not a new lead. Original40B770 establishes a
 BYTE read at instruction+0C and low-bit semantics, not a packed C++ declaration.
@@ -24837,3 +24847,78 @@ is added;build/ is absent. Current/strict-public and saved-source/observation
 checks pass afterward. Eleven successful game compiler calls and one failed
 Front preparation run serially on one allowed CPU at nice10 with180-second
 bounds. The unchanged ECL current object and older unaffected proofs are reused.
+
+## October 30: RunEcl pointer/flag record contexts and honest Enemy rejection
+
+Recovery starts clean at a6ecf771; the previous source/type checkpoint is
+progress. Current target/tracking checks pass. Direct Ghidra reuses the working
+project and verifies disk/Program SHA,i386/base/entry and all685056 mapped-file
+bytes before exporting RunEcl4086C0,biased movement407E30 and folded4343D0.
+No IDA,REA or Factory MCP is used. Source/profile/object pins rebind the unchanged
+current ECL carrier rather than recompiling a baseline or all1004 exact owners.
+
+Original opcode4 uses ECX for its raw time and pushes before acquiring the real
+Timer receiver. Opcode155 uses fused MOVZX ECX,ESI old word and EAX publication.
+Current masked-XOR semantics and the seven/twenty-three byte residuals remain.
+Read-only TH08/TH095 source suggests only already-provisional operand/TU families;
+no adjacent addresses,layouts,source claims or exactness become TH09 evidence.
+
+Five successful source-cold controls use the same /O2/Ob1 profile,serially on one
+allowed CPU at nice10 with180-second bounds. All75 same-profile canonical siblings
+retain22463 physical bytes/990 fields per model:375 comparisons with no new credit.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-POINTER-FLAG-001 | rejected visibility context | The actual Float3 pointer body remains original-equal3 bytes; its co-visible ECL carrier keeps RunEcl15564/598/30 but emits Enemy3876/96/68 direct sites and leaves biased movement517/28/148. | native-pointer.json |
+| ECL-POINTER-FLAG-002 | rejected combined context | Add the genuinely consumed Y-subobject cursor to that native pointer context. Biased movement becomes518 bytes/28 fields and fails its extent gate; RunEcl30 and the shortened Enemy remain. | native-pointer-y.json |
+| ECL-POINTER-FLAG-003 | native store control | Direct one-byte input to the existing native timeout field emits15564/598 with1938 ordinary and202 field differences,including26 table bytes inside the202. | single-native-word.json |
+| ECL-POINTER-FLAG-004 | rejected natural record hypothesis | An eight-byte nested primary-bitfield/secondary-word record preserves that entire native-control RunEcl raw body. | nested-native-pair.json |
+| ECL-POINTER-FLAG-005 | rejected natural record hypothesis | A flat eight-byte record of u32 bitfields spanning the same observed word pair is likewise raw-identical to the native control. | flat-native-pair.json |
+
+The flag records add no allocation,new packing,qualifier,register/variable-order
+hint,clobber or wider source read. Candidate bytes/fields determine acceptance;
+matching total15564 does not waive shifted labels or changed field encodings.
+Their shared raw SHA256 is9885da1c9ea499fced3b36b9886fc1ba39f147b133053403eec41a850df84ffc.
+All three retain the full13-difference Enemy caller. No model is adopted.
+
+The pointer controls' initial Enemy diagnostic said 'original shared zero
+callback body/owner changed'. Actual object reinspection proves both callback
+bodies still equal33C0C3 and both native same-object call identities survive.
+The caller instead shrank3900 to3876 bytes,97 to96 fields and69 to68 static call
+sites. One CleanupAfterDeactivation site is absent after source sharing; no
+runtime multiplicity conclusion follows. This is an extent failure,not evidence
+that the original target or callback changed. The inspector now checks original
+identity and candidate extent separately,retaining the identical rejection set.
+A target-independent regression checks the actual3876-byte failure category and
+keeps wrong-original evidence distinct. Six focused callback tests pass; both
+real objects still reject with the corrected candidate-length reason.
+
+A historical root-owner warning is independently closed by current source and
+Git: f595786dc50122f264fa3fa42faa69ceadcf9a89 introduced the selected ECL manager
+slot and corrected its initializer/CallSubroutine/spawn users. The old dated
+entry now explicitly states that resolution. It is not a new game-source repair
+or an explanation for the current opcode residuals.
+
+Full observations,actual native bodies,source recipes,rejection before/after
+hashes and failures live in `.analysis/gpt-61sol-20261030-ecl-native-pointer-context/`.
+Full public CI passes1038 tests/29 skips in200.493s with all tracked inputs
+stable during execution. Current source/profile/object-bound reuse passes75
+unchanged strict public units/22463 physical bytes/990 fields; no new baseline
+compile is needed. Saved verification reproduces79 Git/EOL inputs and five full
+15564-byte/598-field observations,plus375 existing canonical raw/field proofs.
+reproduce.py supports one fresh model in a new directory without old C++ copies.
+
+A private current recorder initially compared a compact report against historical
+explain=True metadata,then its first recovery indexed the absent optional key.
+Those failed metadata checks are recorded separately; the corrected recorder
+passes on the same source/profile/object and strict byte proofs. No compiler
+repeat or acceptance relaxation occurs.
+
+After all producers terminate,cleanup removes146 ignored regular files/4706969
+logical bytes:five trial objects,five PDBs and136 bytecode caches. All395 protected
+hashes retain their deletion-time values. Current/strict-public and saved-source/
+record checks pass afterward. All documentation,research/raw/COFF/literal records,
+source recipes,the active current ECL object,target/toolchains and working Ghidra
+remain;build/ is absent. No source archive is created. Exact remains1004/1035
+and246651/291883 bytes(84.5034%);98%,native-product/runtime
+and later semantic/port phases stay unfinished.

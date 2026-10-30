@@ -51,6 +51,17 @@ class EnemyFoldedCallbackTests(TestCase):
         self.assertFalse(proof['callbacks'][0]['same_object_definition'])
         self.assertTrue(proof['callbacks'][1]['same_object_definition'])
 
+    def test_changed_candidate_extent_is_distinct_from_wrong_original_evidence(self):
+        # A real pointer-visibility control emitted3876 bytes while keeping
+        # both genuine three-byte callbacks. Its rejection is about the caller.
+        with self.assertRaisesRegex(ValueError, 'candidate physical extent differs: 3876 bytes; expected 3900'):
+            self.check(source=self.target[:3876])
+        for edits in ({'target': self.target[:-1]},
+                      {'original': b'\x33\xc9\xc3'}):
+            with self.subTest(edits=edits.keys()), self.assertRaisesRegex(
+                    ValueError, 'original shared zero callback body/owner changed'):
+                self.check(source=self.target[:3876], **edits)
+
     def test_real_shifted_call_is_reported_without_deriving_its_identity_from_target(self):
         rows = copy.deepcopy(self.rows)
         source = self.target.copy()
