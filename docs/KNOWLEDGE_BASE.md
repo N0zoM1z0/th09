@@ -19638,8 +19638,9 @@ Ending::RegisterChain symbols instead of numeric-only free aliases. The undefine
 g_VersionString becomes the actual original six-byte "0150a\0" literal at
 0x48F1C4, already used by exact version/replay/score owners. Source SHA-256 is
 `359207988da834facd5f10439a9cabb2f27266d45549fd55e8b31a371ebc2145`.
-GameManager_RegisterChain remains explicit nominal linkage debt to the private
-GameManagerSetupLayout member; no dummy class or complete-link claim is added.
+At that checkpoint GameManager_RegisterChain remained nominal linkage debt to
+the private GameManagerSetupLayout member. The October30 shared registration
+declaration below resolves that alias; complete-link closure remains open.
 
 A frozen 14-input trial and fresh maintained-tree rebuild preserve every one of
 952 raw/linked owner bytes, all 92 actual fields after precisely these three
@@ -23964,3 +23965,89 @@ reused objects, the current/actual-negative proof pair and original target.
 Current complete verification, actual-negative replay and unchanged-proof-input
 reuse pass again afterward. Documentation, all research records/recipes and the
 Ghidra project are preserved; build/ is absent and no source archive is created.
+
+## October 30: expose the actual GameManager registrar to Supervisor
+
+Recovery at7ecfd7f9 is clean; the preceding turn corrected actual literal data
+and committed the evidence. Current target/tracking checks pass. Direct cached
+Ghidra exports Enemy410730, Supervisor431110 and registrar41B9D0 after verifying
+all685056 file-backed mapped bytes. Earlier Enemy13 and Supervisor dispatch
+records are reviewed before selecting distinct work; they are not assumed to
+exhaust natural source or establish unique original translation units.
+
+Supervisor still called an unimplemented GameManager_RegisterChain free alias
+at three sites despite the maintained127-byte GameManagerSetupLayout::RegisterChain
+at the same original address. The original registrar sets the actual calc/draw
+callbacks and GameManager argument, returns-1 on failed calc-chain insertion,
+and0 on success. Actual caller fields/target instructions support all three
+calls and their full-EAX result checks. The native /O2/Os/Ob1 body passes the
+standard complete byte/relocation/literal Oracle.
+
+GameManagerSetupView.hpp now shares the existing SetupSideState and complete
+maintained setup-view declarations verbatim, with the same fields, methods and
+side-size guard. The setup source consumes this declaration and Supervisor
+calls the actual static method. No facade, fake return, alternate ABI, new
+runtime effect, register hint, profile change or original-byte patch is used.
+Original nominal types, complete object ownership and full product remain open.
+
+Three affected carrier/profile builds protect11 existing exact owners/2991
+physical bytes/243 fields. All25 emitted regular body payloads stay raw-equal;
+three native external names change, while52 private fields change spelling only
+at independently checked equal owner-relative coordinates. Canonical units and
+profiles need no edit. Complete Supervisor remains952/996 bytes,92 fields,
+27 calls,205 versus217 instructions,791 overlap differences and44 missing;
+its actual six-byte version definition is still checked against original data.
+
+Three unchanged native callee carriers lack a reusable current object in the
+existing scoped packet. They are cold-built under their actual profiles and
+protect all25 same-profile canonical siblings/5216 bytes/201 fields. In total
+36 existing canonical owners retain8207 bytes/444 fields across six carriers.
+Their53 emitted regular bodies are inventoried; raw preservation is claimed
+only for the25 changed-carrier bodies with a bound baseline. Three whole
+compiler contributions/74 bytes/eight fields/five entries are recorded with
+no invented original address, individual boundary or authored exactness credit.
+429 other canonical proofs/118600 bytes/6611 fields reuse104 unchanged carriers
+with source/profile/object/provider and individual-unit pins. No full1003 cold
+replay is performed; other538 canonical rows receive no new compile/literal audit.
+
+Two distinct complete startup controls test a switch and a failure-first gate.
+Both produce952 bytes/92 fields/205 instructions/27 calls and the original
+four switch-table shapes. Switch retains the same791 mismatch positions but
+is not raw-neutral. Failure-first has793 differences: no old mismatch is restored
+and two old matches are damaged. Neither is adopted. Stored raw/COFF, native
+references, actual literal checks and complete linked diagnostics remain.
+Saved-record verification reproduces both candidate hashes and every linked
+observation without counting a new compile or new acceptance.
+
+The public Supervisor inspector rejects the obsolete alias and binds only the
+actual registrar. Its focused gate now covers10 real dependencies, checking the
+registrar's source, symbol, address,127-byte extent and unchanged /Os profile.
+Existing tests now reject all five corresponding substitutions and the old alias;
+16 focused tests and full public CI(1036 tests/29 skipped,106.455s) pass.
+A fresh inspection of the unchanged ECL carrier retains complete RunEcl15564/
+598/30 with zero field/table differences and Enemy3900/97/13 with69 calls.
+Exact stays1003 and244917/291883(83.9093%);98% and later gates remain unfinished.
+
+Records and current family.py/callees.py/reuse.py routes remain under
+`.analysis/gpt-61sol-20261030-supervisor-registration/`. All31 baseline input
+hashes reproduce in memory from7ecfd7f9 Git/EOL rules; no old C++ tree or new
+source archive is required. The active proof objects and records replace the
+three superseded GameManager/Supervisor objects as restart inputs.
+
+After all producer handles terminate, cleanup removes440 regular ignored files/
+8131930 logical bytes(about7.8MiB): three replaced old objects, two startup trial
+objects, eight PDBs and427 CI Python caches. All150 protected files retain
+their hashes, including six current and104 reused proof objects. Complete
+family/callee verification, unchanged-proof reuse and saved startup replay pass
+again afterward. build/ is absent; documentation/research records, current game
+source, target/toolchains and Ghidra working state remain. No old C++ snapshot
+or new source archive is kept. A private preflight correction prevents initial
+build commands from overwriting existing proof objects; the original receipt
+and provider-only recapture are recorded without claiming another compile.
+
+Final review also corrects Supervisor's old function-ledger note from seven
+dependencies to10/1285 bytes/114 fields and records the real registrar calls.
+Only that row's notes cell changes; all addresses, extents, names, statuses and
+other cells are independently equal to7ecfd7f9. The migration preserves prior
+receipts and rebinds the current verifier/proof metadata without compilation.
+Post-cleanup record updates are distinguished from deletion-time protected hashes.

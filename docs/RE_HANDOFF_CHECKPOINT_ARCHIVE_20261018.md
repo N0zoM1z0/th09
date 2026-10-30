@@ -2723,3 +2723,94 @@ C++ source copies.428 other canonical proofs from105 unaffected carriers remain
 source/profile/object/provider and unchanged-unit bound in
 `unaffected-proof-reuse.json`. The other564 canonical rows receive no new cold
 compile or literal audit. Exact credit stays1003;98% remains unfinished.
+
+## October 30: superseded network literal and RunEcl handoff
+
+Historical source/checkpoints through7ecfd7f9. The current registration-header
+checkpoint supersedes these current-proof routes; original observations remain
+source/provider scoped.
+
+### Historical game source — complete network reset diagnostic
+
+Following0358e69b, SupervisorNetworkState::ResetSession restores the missing
+CP93289 C2 bytes for the final character in `CLSID_DP8SP_TCPIP 使用不可\r\n`.
+The old source defined27 bytes including NUL versus the original29 at490E24;
+its actual cold-built COFF fails the standard literal gate. Earlier200-byte
+code/relocation comparisons had missed this local data defect.
+
+One affected carrier is cold-built serially with the unchanged pinned profile.
+The complete200 original bytes/11 fields and both actual string definitions
+(37 and29 bytes including NUL) now pass the standard Oracle. Code bytes,
+relocation coordinates/addends and native call boundaries do not change; one
+literal symbol in the manifest changes to the actual new compiler identity.
+No new exact credit is claimed. Direct cached Ghidra verifies all685056 mapped
+file bytes and exports reset432F70/provider432770. Actual instructions support
+the existing full-EAX0/1 return and one stack argument; no ABI change is made.
+
+Current proof: `.analysis/gpt-61sol-20261030-network-literal-review/current.py verify`.
+The small old object is retained as a runnable negative through negative.py,
+which reconstructs its three source hashes from0358e69b Git/EOL inputs.
+reuse.py checks439 unchanged canonical proof inputs/121391 bytes/6843 fields
+from106 carriers, including the current native-reader menu carrier. It checks
+individual unchanged unit records across the manifest edit rather than ignoring
+a stale aggregate hash. No full1003-function cold replay is run. Other canonical
+carriers receive no new literal-data or compile coverage.
+
+A name/original census of237 C-string references/138 distinct destinations
+finds this one length/prefix discrepancy before correction and none afterward.
+This is negative triage only; names do not prove actual source definitions.
+11 focused literal tests pass. Exact remains1003/83.9093%;98% and later gates
+remain open. Native menu, Supervisor D3D and earlier dependency corrections
+remain in source, with detailed records in the KB and prior handoff archive.
+Cleanup removes two disposable PDBs/172032 bytes; all127 protected files keep
+their hashes, including106 reused objects. Current positive, actual negative
+and unchanged-proof verification pass afterward. build/ is absent.
+
+### Historical large-function review — RunEcl input contracts
+
+Reviewed at03462e4f/0358e69b; the later network correction leaves this carrier
+unchanged. Direct cached Ghidra rechecks all685056 mapped
+file bytes before exporting RunEcl4086C0 and the real Timer assignment401500.
+Current complete RunEcl remains15564 physical bytes/598 fields/30 differences;
+its75 same-profile canonical units pass the standard Oracle again from the
+source/profile/object-bound unchanged carrier, without a new baseline compile.
+The actual unchanged Timer setter/assignment pair also retains25+9 exact bytes.
+
+Seven complete main-carrier compiles test signed-byte input, promoted helper
+input, promoted byte capture, long/unsigned four-byte time captures, and native
+flag-struct value/reference inputs returning a real u32 result. Each preserves
+75 existing exact units/22463 bytes/990 fields, plus136 other regular bodies
+and the38-byte compiler contribution.525 repeated unit comparisons earn no new
+credit. No profile, native ABI, production code or ledger changes are adopted.
+
+The signed byte changes MOVZX to MOVSX inside the existing mismatch set:30
+unequal offsets remain, but the raw stream is not identical. Helper-formal-only
+promotion and both time captures are raw-neutral. Promoted byte capture emits a
+43-byte handler instead of45, despite retaining15564 total bytes; it produces
+2048 ordinary+242 field-byte differences, with26 table differences included in
+those242. Native flag-struct inputs outline actual25/18-byte helpers, add one
+unbound call and emit15560/599. Full-owner inspection rejects both shapes
+before assigning helper addresses or giving an incomplete similarity score.
+
+Actual x86 execution checks four distinct closed flag-store prefixes: original,
+maintained, signed and promoted capture. Each executes3072 fixtures covering
+all256 wire bytes and12 representative words. All12288 executions preserve
+other bits and perform one byte read, one word read and one word store. Equal
+prefixes reuse this evidence. This is a flag-prefix diagnostic, not whole-owner,
+whole-runtime, original nominal-type or original-helper ownership proof.
+
+Source/input/provider hashes, all raw/COFF and complete diagnostics, positive
+native references, actual machine-prefix observations and recipes remain in
+`.analysis/gpt-61sol-20261030-runecl-byte-contract/`.
+`verify_saved.py` is dated to0358e69b provider pins and can reject later manifest
+edits. It checks stored observations and reproduces seven source hashes without
+new compilation or acceptance. Current unchanged proof inputs are checked by
+the network packet's reuse.py. Current cached main-object
+inspection uses the normal tracked ECL tools; deleted trial objects must be
+rebuilt with their recorded two/three-case producer before a new comparison.
+No old C++ copies or source archive are needed.28 focused tests pass; unchanged
+public tooling needs no new full CI. After producer termination, cleanup removes
+seven trial objects/2117299 bytes(about2.0MiB); all45 protected files retain
+their hashes and stored-record verification passes again. All76 baseline input
+hashes are reproduced from03462e4f with recorded Git/EOL rules. build/ is absent.
+The98% milestone remains unfinished.

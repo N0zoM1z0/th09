@@ -2376,3 +2376,31 @@ validation code is unchanged and no new full CI is claimed.
 Full records and deletion/protection hashes remain under
 `.analysis/gpt-61sol-20261030-network-literal-review/`. Totals remain1003 and
 244917/291883 bytes(83.9093%);98% and later gates remain open.
+
+## 2026-10-30: native GameManager registration and startup controls
+
+Supervisor now calls the actual GameManagerSetupLayout::RegisterChain through
+the shared existing layout declaration. Six current carrier/profile objects
+protect36 existing canonical units/8207 bytes/444 fields;429 unchanged canonical
+proofs/118600 bytes/6611 fields reuse104 carriers. Two complete startup controls
+remain nonexact and are not adopted. Current Supervisor remains952/996 with791
+overlap differences+44 missing; RunEcl30/Enemy13 and1003 exact remain unchanged.
+
+After all producers terminate, cleanup deletes440 regular ignored files/
+8131930 logical bytes(about7.8MiB): the three superseded GameManager/Supervisor
+objects, two startup trial objects, eight PDBs and427 CI Python caches. All150
+protected files retain their hashes, including six current and104 reused proof
+objects. Full raw/COFF/linked records and recipes remain; all31 baseline input
+hashes reproduce from7ecfd7f9 Git/EOL inputs without old C++ copies. No new
+source archive is created, and build/ is absent. Current family/callee, reuse
+and saved-control verification pass after deletion.
+
+16 focused tests and full public CI(1036 tests/29 skipped) pass. Documentation,
+research records, current game source, target/toolchains and working Ghidra
+project remain. Deletion/protection hashes and current routes are under
+`.analysis/gpt-61sol-20261030-supervisor-registration/`. Exact stays1003 and
+244917/291883(83.9093%);98% and later gates remain open.
+
+The final notes-only function-ledger correction rebinds current proof metadata
+after checking that every other CSV cell is unchanged. Prior receipts remain;
+deliberate post-cleanup record edits have separate before/after hash records.

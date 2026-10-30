@@ -1455,6 +1455,8 @@ SUPERVISOR_UPDATE_CALLEES = (
      '?RegisterTitleScreen@@YIHH@Z', 0x0042AB13, 201),
     ('ending-register-chain', 'src/Ending.cpp',
      '?RegisterChain@Ending@@SIHXZ', 0x0040F080, 223),
+    ('game-manager-register-chain', 'src/GameManagerSetup.cpp',
+     '?RegisterChain@GameManagerSetupLayout@@SIHXZ', 0x0041B9D0, 127),
 )
 
 
@@ -1513,6 +1515,8 @@ def run_supervisor_update(*, protect_exact: bool) -> tuple[dict, list[dict]]:
             if name == 'title-screen-register':
                 # The actual Title registrar retains its separately proven /O1 profile.
                 profile[profile.index('/O2')] = '/O1'
+            if name == 'game-manager-register-chain':
+                profile.insert(profile.index('/Ob1'), '/Os')
             if (unit['source'] != source or unit['symbol'] != symbol or
                     unit['target_address'] != address or unit['size'] != size or
                     unit['profile'] != profile):

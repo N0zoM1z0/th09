@@ -25,13 +25,12 @@ OWNED_SHA256 = "c3ccfdefb056e202f64d3f31a313e200b1494fa49184d0fcd5ea3c6de248327c
 
 # TH09-local identities reviewed through callback registration, target operands
 # and callee/global evidence. Source aliases and view names remain provisional.
-# Title and Ending references use their maintained native owner symbols.
-# GameManager_RegisterChain remains an explicit unresolved nominal alias for
-# the private GameManagerSetupLayout member; this map is not link-closure proof.
+# Title, Ending and GameManager references use their maintained native symbols.
+# Their shared declarations do not prove complete product/link closure.
 DESTINATIONS = {
     "?CheckVersion@SupervisorVersionView@@QAEHPBDHH@Z": 0x00430150,
     "?GameManager_CutChain@@YIXXZ": 0x0041A827,
-    "?GameManager_RegisterChain@@YIHXZ": 0x0041B9D0,
+    "?RegisterChain@GameManagerSetupLayout@@SIHXZ": 0x0041B9D0,
     "?RegisterChain@Ending@@SIHXZ": 0x0040F080,
     "?RegisterTitleScreen@@YIHH@Z": 0x0042AB13,
     "?ResetForSupervisorFrame@AnmManager@@QAEXXZ": 0x0042F770,

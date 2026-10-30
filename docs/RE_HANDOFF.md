@@ -19,90 +19,67 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current game source — complete network reset diagnostic
+## Current game source — native GameManager registration
 
-Following0358e69b, SupervisorNetworkState::ResetSession restores the missing
-CP93289 C2 bytes for the final character in `CLSID_DP8SP_TCPIP 使用不可\r\n`.
-The old source defined27 bytes including NUL versus the original29 at490E24;
-its actual cold-built COFF fails the standard literal gate. Earlier200-byte
-code/relocation comparisons had missed this local data defect.
+Following7ecfd7f9, Supervisor's three GameManager registration calls use the
+actual GameManagerSetupLayout::RegisterChain definition at41B9D0. The prior
+free GameManager_RegisterChain alias had no implementation. The existing setup
+layout and side declarations move unchanged into GameManagerSetupView.hpp;
+this exposes the maintained owner instead of introducing another facade.
+Original nominal C++ ownership and complete product/link closure stay unproved.
 
-One affected carrier is cold-built serially with the unchanged pinned profile.
-The complete200 original bytes/11 fields and both actual string definitions
-(37 and29 bytes including NUL) now pass the standard Oracle. Code bytes,
-relocation coordinates/addends and native call boundaries do not change; one
-literal symbol in the manifest changes to the actual new compiler identity.
-No new exact credit is claimed. Direct cached Ghidra verifies all685056 mapped
-file bytes and exports reset432F70/provider432770. Actual instructions support
-the existing full-EAX0/1 return and one stack argument; no ABI change is made.
+Three affected source/profile carriers preserve11 existing canonical owners/
+2991 complete bytes/243 fields, plus every one of25 emitted regular body
+payloads. Three real external call names change;52 private labels retain their
+actual owner-relative coordinates. All canonical manifest entries are unchanged.
+The complete Supervisor remains952/996 physical bytes,92 fields,27 calls,
+791 overlap differences and44 missing. Its actual version literal still passes.
 
-Current proof: `.analysis/gpt-61sol-20261030-network-literal-review/current.py verify`.
-The small old object is retained as a runnable negative through negative.py,
-which reconstructs its three source hashes from0358e69b Git/EOL inputs.
-reuse.py checks439 unchanged canonical proof inputs/121391 bytes/6843 fields
-from106 carriers, including the current native-reader menu carrier. It checks
-individual unchanged unit records across the manifest edit rather than ignoring
-a stale aggregate hash. No full1003-function cold replay is run. Other canonical
-carriers receive no new literal-data or compile coverage.
+Three further unavailable current callee carriers are cold-built under their
+own pinned profiles, protecting25 existing canonical siblings/5216 bytes/
+201 fields. In total36 existing canonical owners retain8207 bytes/444 fields
+across six carriers. Three compiler contributions/74 bytes/eight fields/five
+entries are inventoried without original-address or authored credit.
+429 unchanged canonical proofs/118600 bytes/6611 fields from104 carriers reuse
+source/profile/object/provider and unchanged-unit inputs. No full1003 cold
+replay is run. Other538 canonical units receive no new compile/literal audit.
 
-A name/original census of237 C-string references/138 distinct destinations
-finds this one length/prefix discrepancy before correction and none afterward.
-This is negative triage only; names do not prove actual source definitions.
-11 focused literal tests pass. Exact remains1003/83.9093%;98% and later gates
-remain open. Native menu, Supervisor D3D and earlier dependency corrections
-remain in source, with detailed records in the KB and prior handoff archive.
-Cleanup removes two disposable PDBs/172032 bytes; all127 protected files keep
-their hashes, including106 reused objects. Current positive, actual negative
-and unchanged-proof verification pass afterward. build/ is absent.
+Current packet: `.analysis/gpt-61sol-20261030-supervisor-registration/`.
+Run family.py verify for the three changed carriers, callees.py verify for the
+three additional carriers and reuse.py for unchanged proof inputs. These need
+current objects and records, not historical C++ copies or retired old objects.
+The public supervisor focus now protects10 real dependencies, including the
+actual127-byte GameManager registrar and its original /Os profile. Old undefined
+alias objects are rejected rather than numerically normalized.
+The Supervisor ledger note now describes10 dependencies/1285 bytes/114 fields;
+all other CSV cells stay unchanged. This notes-only migration is checked when
+rebinding the unchanged proofs, without recompilation.
 
-## Latest large-function review — RunEcl input contracts
+16 focused tests and full public CI(1036 tests/29 skipped) pass. Exact remains
+1003 and244917/291883 bytes(83.9093%);98% and later gates remain unfinished.
+Prior literal, native menu/Supervisor and other dependency fixes remain in source.
+After producer termination, cleanup removes440 disposable files/8131930 bytes
+(about7.8MiB): three replaced old objects, two trial objects, eight PDBs and427
+CI caches. All150 protected files keep their hashes, including six current and
+104 reused objects. Current family/callee/reuse/saved-control checks pass again;
+build/ is absent. Documentation and research records remain; no code archive.
 
-Reviewed at03462e4f/0358e69b; the later network correction leaves this carrier
-unchanged. Direct cached Ghidra rechecks all685056 mapped
-file bytes before exporting RunEcl4086C0 and the real Timer assignment401500.
-Current complete RunEcl remains15564 physical bytes/598 fields/30 differences;
-its75 same-profile canonical units pass the standard Oracle again from the
-source/profile/object-bound unchanged carrier, without a new baseline compile.
-The actual unchanged Timer setter/assignment pair also retains25+9 exact bytes.
+## Latest large-function review — Supervisor startup dispatch
 
-Seven complete main-carrier compiles test signed-byte input, promoted helper
-input, promoted byte capture, long/unsigned four-byte time captures, and native
-flag-struct value/reference inputs returning a real u32 result. Each preserves
-75 existing exact units/22463 bytes/990 fields, plus136 other regular bodies
-and the38-byte compiler contribution.525 repeated unit comparisons earn no new
-credit. No profile, native ABI, production code or ledger changes are adopted.
+Direct cached Ghidra exports Enemy410730, Supervisor431110 and registrar41B9D0
+after checking all685056 mapped file bytes. Two complete startup dispatch
+controls use the maintained native call: a switch retains952/92/205 instructions/
+791 differences with the same mismatch positions but different raw bytes;
+failure-first dispatch retains952/92/205 but damages two old matches(793).
+Both preserve27 calls/four switch tables and restore no old mismatch. Neither
+is adopted. verify_controls.py reconstructs their source hashes and saved full
+raw/field/linked observations without pretending a new compile or acceptance.
 
-The signed byte changes MOVZX to MOVSX inside the existing mismatch set:30
-unequal offsets remain, but the raw stream is not identical. Helper-formal-only
-promotion and both time captures are raw-neutral. Promoted byte capture emits a
-43-byte handler instead of45, despite retaining15564 total bytes; it produces
-2048 ordinary+242 field-byte differences, with26 table differences included in
-those242. Native flag-struct inputs outline actual25/18-byte helpers, add one
-unbound call and emit15560/599. Full-owner inspection rejects both shapes
-before assigning helper addresses or giving an incomplete similarity score.
-
-Actual x86 execution checks four distinct closed flag-store prefixes: original,
-maintained, signed and promoted capture. Each executes3072 fixtures covering
-all256 wire bytes and12 representative words. All12288 executions preserve
-other bits and perform one byte read, one word read and one word store. Equal
-prefixes reuse this evidence. This is a flag-prefix diagnostic, not whole-owner,
-whole-runtime, original nominal-type or original-helper ownership proof.
-
-Source/input/provider hashes, all raw/COFF and complete diagnostics, positive
-native references, actual machine-prefix observations and recipes remain in
-`.analysis/gpt-61sol-20261030-runecl-byte-contract/`.
-`verify_saved.py` is dated to0358e69b provider pins and can reject later manifest
-edits. It checks stored observations and reproduces seven source hashes without
-new compilation or acceptance. Current unchanged proof inputs are checked by
-the network packet's reuse.py. Current cached main-object
-inspection uses the normal tracked ECL tools; deleted trial objects must be
-rebuilt with their recorded two/three-case producer before a new comparison.
-No old C++ copies or source archive are needed.28 focused tests pass; unchanged
-public tooling needs no new full CI. After producer termination, cleanup removes
-seven trial objects/2117299 bytes(about2.0MiB); all45 protected files retain
-their hashes and stored-record verification passes again. All76 baseline input
-hashes are reproduced from03462e4f with recorded Git/EOL rules. build/ is absent.
-The98% milestone remains unfinished.
+Fresh inspection of the unchanged source/profile/object-bound ECL carrier keeps
+RunEcl15564/598/30 with zero field/table differences and Enemy3900/97/13 with69
+calls. The earlier RunEcl input and Enemy ownership experiments remain bounded
+records, not proof of source-model exhaustion. Prioritize these owners and their
+dependencies; native product/runtime, semantics and portability remain later gates.
 
 ## Earlier dependency corrections
 
@@ -126,7 +103,7 @@ and source-interface cleanup earn no partial exact credit.
 
 | Source checkpoint | Maintained change | Local evidence below `.analysis/` |
 | --- | --- | --- |
-| 4d83270e | Native D3D root and restored MIDI/Ending literals;439 existing canonical owners retain121391 bytes/6843 fields. | `gpt-61sol-20261030-supervisor-device/` (dated records;105 carriers reused) |
+| 4d83270e | Native D3D root and restored MIDI/Ending literals;439 existing canonical owners retain121391 bytes/6843 fields. | `gpt-61sol-20261030-supervisor-device/` (dated records; changed carriers have newer replacements) |
 | 4dd2212d | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/` (dated records) |
 | 17a11669 | Native Type6/7/8/9 setup and EffectManager contracts;219 existing exact owners preserved. | `gpt-61sol-20261030-runecl-formal-state/` (dated records) |
 | 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |
@@ -243,7 +220,7 @@ repeating them. Historical assumptions remain hypotheses.
 | **Controller input** | 0x0042B410 | **808 / 810**, 32 fields; **84** overlap differences /2 excess bytes | Both midpoint evaluations per axis are restored; register scheduling and two excess bytes remain. Preserve all694 old matches plus30 restored positions,32 fields and native globals. |
 | **Supervisor network HandleMessage** | 0x00432B70 | **768 authored /808 physical bytes**, 46 fields, 17 direct +2 virtual calls, 34 matching blocks; **105 differences** (125→111→105) | Packed-input/frame scheduling. Keep all six switch targets, map bytes and703 matching physical bytes. `--owner netmessage`. |
 | **Supervisor network service** | 0x00430AA0 | **1,633 / 1,632**, 108 source fields | Queue ownership and1395 overlapping differences. Keep original referents and exact queue siblings independent. `--owner network`. |
-| **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | Whole-owner physical deficit, startup chronology and remaining GameManager registration alias debt. Keep real Title/Ending symbols and version data. `--owner supervisor`. |
+| **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | Whole-owner physical deficit and startup chronology. Keep native GameManager/Title/Ending symbols and actual version data. `--owner supervisor`. |
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Y-pointer LEA versus MOV alias after actual Float3 conversion. Keep complete owner, fields, branches and exact ECL cohort. `--owner runecl`. |
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Remaining receiver/allocation scheduling. Preserve43 matching bytes and genuine AnmLoaded/Chain interfaces. `--owner effect`. |
 | **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Packed input/seed16-bit store order. Preserve178 matching physical bytes and both exact queue members. `--owner queue`. |

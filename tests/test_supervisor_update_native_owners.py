@@ -77,12 +77,13 @@ class SupervisorNativeOwnerTests(unittest.TestCase):
                      symbol_section=1, symbol_value=24, owner_section=1, owner_value=0)
         field = dict(local, offset=12, symbol_section=0, symbol_value=0)
         for old in ('?RegisterStateObject@@YIHH@Z', '?RegisterState9Object@@YIHXZ',
-                    '?g_VersionString@@3PADA'):
+                    '?g_VersionString@@3PADA', '?GameManager_RegisterChain@@YIHXZ'):
             self.assertNotIn(old, DIAGNOSTIC.DESTINATIONS)
             with self.subTest(old=old), self.assertRaisesRegex(ValueError, 'unreviewed external'):
                 DIAGNOSTIC.bind(bytes(32), [local, dict(field, symbol=old)])
         self.assertEqual(DIAGNOSTIC.DESTINATIONS['?RegisterTitleScreen@@YIHH@Z'], 0x0042AB13)
         self.assertEqual(DIAGNOSTIC.DESTINATIONS['?RegisterChain@Ending@@SIHXZ'], 0x0040F080)
+        self.assertEqual(DIAGNOSTIC.DESTINATIONS['?RegisterChain@GameManagerSetupLayout@@SIHXZ'], 0x0041B9D0)
 
 
 if __name__ == '__main__':

@@ -146,7 +146,7 @@ class SupervisorFrontierTests(unittest.TestCase):
         row['candidate_instructions'] = 217
         self.assertEqual(BOSS.guard_supervisor_update(row)['exactness_credit'], 'none')
 
-    def test_focused_owner_replays_all_nine_actual_dependencies(self):
+    def test_focused_owner_replays_actual_dependencies(self):
         with patch.object(BOSS, 'build_nonexact') as build_nonexact, \
                 patch.object(BOSS, 'parsed', return_value=self.fixture()), \
                 patch.object(BOSS, 'build') as build, \
@@ -154,12 +154,13 @@ class SupervisorFrontierTests(unittest.TestCase):
             _, exact = BOSS.run_supervisor_update(protect_exact=True)
         build_nonexact.assert_called_once_with('src/SupervisorUpdate.cpp',
             'build/matching/SupervisorUpdate.obj', reference_unit='supervisor-register-chain')
-        self.assertEqual(build.call_count, 9)
+        self.assertEqual(build.call_count, 10)
         self.assertEqual({x['unit'] for x in exact}, {
             'supervisor-subthread-is-running', 'supervisor-check-version',
             'supervisor-load-version-data', 'anm-manager-execute-script-array',
             'anm-manager-service-preloaded-anims', 'soundplayer-update-fades',
-            'supervisor-register-chain', 'title-screen-register', 'ending-register-chain'})
+            'supervisor-register-chain', 'title-screen-register', 'ending-register-chain',
+            'game-manager-register-chain'})
 
     def test_native_symbol_source_address_and_profile_substitution_fail(self):
         with (ROOT/'config/match-units.toml').open('rb') as stream:
@@ -181,7 +182,12 @@ class SupervisorFrontierTests(unittest.TestCase):
                 ('ending-register-chain', 'source', 'src/Other.cpp'),
                 ('ending-register-chain', 'target_address', 0x0040F081),
                 ('ending-register-chain', 'size', 222),
-                ('ending-register-chain', 'profile', units['title-screen-register']['profile'])):
+                ('ending-register-chain', 'profile', units['title-screen-register']['profile']),
+                ('game-manager-register-chain', 'symbol', '?GameManager_RegisterChain@@YIHXZ'),
+                ('game-manager-register-chain', 'source', 'src/Other.cpp'),
+                ('game-manager-register-chain', 'target_address', 0x0041B9D1),
+                ('game-manager-register-chain', 'size', 126),
+                ('game-manager-register-chain', 'profile', units['ending-register-chain']['profile'])):
             changed = copy.deepcopy(units)
             changed[name][field] = bad
             with self.subTest(name=name), patch.object(BOSS.tomllib, 'load', return_value={'units': changed}), \

@@ -6,6 +6,7 @@
 #include "SupervisorVersionView.hpp"
 #include "SoundPlayer.hpp"
 #include "Ending.hpp"
+#include "GameManagerSetupView.hpp"
 
 #include <d3d8.h>
 
@@ -97,7 +98,6 @@ extern void __fastcall SupervisorNetworkMarkInactive(void *state);
 extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 extern int __fastcall SupervisorServiceUpdate(Supervisor *supervisor);
 extern void __fastcall GameManager_CutChain();
-extern int __fastcall GameManager_RegisterChain();
 extern int __fastcall RegisterTitleScreen(int mode);
 
 int Supervisor::OnUpdate(Supervisor *supervisor)
@@ -194,7 +194,7 @@ UPDATE_FRAME:
             case SUPERVISOR_STATE_NEG1:
                 return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
             case SUPERVISOR_STATE_2:
-                if (GameManager_RegisterChain() != 0)
+                if (GameManagerSetupLayout::RegisterChain() != 0)
                     return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
                 break;
             case SUPERVISOR_STATE_4:
@@ -222,7 +222,7 @@ UPDATE_FRAME:
             case SUPERVISOR_STATE_3:
             REREGISTER_GAME_MANAGER:
                 GameManager_CutChain();
-                if (GameManager_RegisterChain() != 0)
+                if (GameManagerSetupLayout::RegisterChain() != 0)
                     return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
             SET_GAME_MANAGER_STATE2:
                 s->curState = SUPERVISOR_STATE_2;
@@ -243,7 +243,7 @@ UPDATE_FRAME:
             case SUPERVISOR_STATE_10:
             case SUPERVISOR_STATE_13:
                 GameManager_CutChain();
-                if (GameManager_RegisterChain() != 0)
+                if (GameManagerSetupLayout::RegisterChain() != 0)
                     return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
                 goto SET_GAME_MANAGER_STATE2;
 
