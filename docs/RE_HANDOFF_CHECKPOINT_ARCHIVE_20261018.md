@@ -3367,3 +3367,57 @@ retain their deletion-time values; current and saved-record checks pass afterwar
 The active ECL object,all documents/research,source,target/tools and Ghidra remain;
 build/ is absent. No old C++ copies,archive,whole1004-owner cold replay or new
 exact credit is introduced.
+
+## 2026-10-30 checkpoint107a7760: native ANM interfaces and receiver controls
+
+Preserved from source checkpoint107a77600f204768975fed983168c93791e8ba1d.
+The external-name census is superseded by the next original-bound audit.
+
+### Recorded checkpoint
+
+The ANM interpreter now uses the existing AnmManager,AnmLoaded,
+AnmLoadedSprite,Supervisor and RngRuntimeView interfaces. The old private RNG
+facade named two different callees GetRandomF32InRange: GetFloatVar10010 actually
+calls the signed-range wrapper406200,while FSetRand calls404910. The source now
+uses GetRandomF32SignedInRange(pi) for10010 and the ordinary range method for
+FSetRand. Direct Ghidra reuses the verified project and rechecks all685056 mapped
+file bytes. This repairs a cross-owner source/linkage inconsistency; the prior
+per-owner target comparisons did not establish one coherent external identity.
+
+Two fresh current ANM profile objects and one RNG object preserve13 strict
+canonical units/10740 physical bytes/434 fields. All24 prior ANM regular raw
+bodies and two38-byte compiler contributions remain unchanged. The manifest
+updates15 native external identities and148 independently position-proved
+private labels; no target,addend,extent,profile or exact credit changes. The
+interpreter still compares all9776 physical bytes/368 fields. A distinct counter
+prefix at+10 replaces its incompatible private AnmManager class. Separate AnmVm
+projections/inheritance remain an open shared-layout question,not solved here.
+
+Packet: `.analysis/gpt-61sol-20261030-anm-native-contracts/`.
+current.py verify also reuses the unchanged Background/Front objects:15 strict
+units/17108 bytes/756 fields in total. verify_ecl_reuse.py protects75 unchanged
+strict ECL owners/22463 bytes/990 fields and complete RunEcl15564/598/30,
+Enemy3900/97/13. No ECL recompile or whole1004-owner replay is needed for this
+ANM-only source change.27 focused target-independent tests,tracking,docs,
+progress and match-unit graph checks pass; public validation tooling is unchanged.
+The last full CI remains1038 tests/29 skips at6688a777.
+
+The preceding callback-receiver packet tests actual instance/free receiver
+forms:both keep Enemy13 and RunEcl30. Mutable-only Float3 addition fails real
+const consumers; retaining both genuine54-byte overloads keeps Enemy13,or45
+with the actual33-byte periodic Timer body visible. All four successful controls
+protect75 existing exact siblings each. None is adopted. Saved Git/EOL recipes,
+300 canonical raw/field comparisons and a selected fresh periodic dual-overload
+reproduction are retained in enemy-callback-receiver/. Timer return-type controls
+were already tested on October21 and are reused rather than rerun.
+
+A manifest-only external-name census leaves three unrelated multi-address cases:
+ANM texture error text,Background quad storage and CRT free/forwarding entries.
+Their actual data definitions/addends/product identities need separate review;
+this census alone proves no additional source bug or exactness change.
+
+After terminal producers,cleanup deletes14 ignored files/2489226 logical bytes:
+four rejected objects,eight PDBs and two superseded ANM objects. All435 protected
+hashes retain their deletion-time values. Current objects,all docs/research,
+source,target/tools and working Ghidra remain;build/ is absent. No old C++ tree
+or archive is added. Exact stays1004/84.5034%;98% remains unfinished.

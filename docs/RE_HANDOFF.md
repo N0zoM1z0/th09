@@ -9,7 +9,8 @@ without assuming earlier notes are conclusive. The98% milestone is unfinished.
 
 The restart game-source baseline is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
 (Controller axis ranges); maintenance checkpoint7bc3b956 adds no game-source
-change. The native ANM/RNG interfaces,shared-vector/Front audit,complete Pause update,
+change. The quad/literal/deallocation corrections,native ANM/RNG interfaces,
+shared-vector/Front audit,complete Pause update,
 native Timer cleanup,child-ECL interface,Effect34,weighted-message,Player contract,
 charge,RunEcl,instruction-mask and callback corrections are described below. Use
 live Git status and ledgers before dated measurements. Compiler profiles remain
@@ -21,54 +22,50 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current audit — native ANM dependencies and shared RNG identity
+## Current audit — corrected quad storage, literals and deallocation
 
-The ANM interpreter now uses the existing AnmManager,AnmLoaded,
-AnmLoadedSprite,Supervisor and RngRuntimeView interfaces. The old private RNG
-facade named two different callees GetRandomF32InRange: GetFloatVar10010 actually
-calls the signed-range wrapper406200,while FSetRand calls404910. The source now
-uses GetRandomF32SignedInRange(pi) for10010 and the ordinary range method for
-FSetRand. Direct Ghidra reuses the verified project and rechecks all685056 mapped
-file bytes. This repairs a cross-owner source/linkage inconsistency; the prior
-per-owner target comparisons did not establish one coherent external identity.
+The external-name audit confirms two source defects. SetupVertexBuffer's
+Background quad actually uses24-byte vertices with UV at+10;the old20-byte type
+was concealed by five different manifest bases for one symbol. Source now has
+one4DC628 base and20 native member/stride addends. Its separate20-byte upload
+vertices now use real Float2 UV storage and aggregate copies rather than naming
+UV bits rhw/diffuse. The two texture errors at490F88/491090 contain different
+CP932 read/create messages;both are now actual independently verified67-byte
+source literals instead of one external array assigned two addresses.
 
-Two fresh current ANM profile objects and one RNG object preserve13 strict
-canonical units/10740 physical bytes/434 fields. All24 prior ANM regular raw
-bodies and two38-byte compiler contributions remain unchanged. The manifest
-updates15 native external identities and148 independently position-proved
-private labels; no target,addend,extent,profile or exact credit changes. The
-interpreter still compares all9776 physical bytes/368 fields. A distinct counter
-prefix at+10 replaces its incompatible private AnmManager class. Separate AnmVm
-projections/inheritance remain an open shared-layout question,not solved here.
+The new canonical comparison guard rejects multiple bases for one COFF symbol
+inside an owner,before adding source operands. Seven tests include a forged
+comparison whose bytes otherwise agree;the actual old quad object also rejects.
+Distinct symbols may still share folded addresses. The guard exposes the same
+old defect in Title Release: replay allocations use CRT free47B163,whereas VM
+arrays use scalar-delete entry47B249. Title now uses delete[] for its two VM
+array releases and delete for its allocated object. Actual VC7.1 emission uses
+??3 at all three sites. Pinned libcmt.lib delete.obj independently proves the
+complete5-byte entry/one free field. A9-byte game-profile wrapper is rejected;
+no compiler profile is changed to fit the library. Other across-unit free/
+forwarder aliases remain a separate product-identity question.
 
-Packet: `.analysis/gpt-61sol-20261030-anm-native-contracts/`.
-current.py verify also reuses the unchanged Background/Front objects:15 strict
-units/17108 bytes/756 fields in total. verify_ecl_reuse.py protects75 unchanged
-strict ECL owners/22463 bytes/990 fields and complete RunEcl15564/598/30,
-Enemy3900/97/13. No ECL recompile or whole1004-owner replay is needed for this
-ANM-only source change.27 focused target-independent tests,tracking,docs,
-progress and match-unit graph checks pass; public validation tooling is unchanged.
-The last full CI remains1038 tests/29 skips at6688a777.
+Packet: `.analysis/gpt-61sol-20261030-anm-external-identity/`.
+current.py verifies67 complete strict owners/23432 physical bytes/1166 fields
+from five current source/profile objects. All150 regular bodies retain every
+nonfield byte;17 quad addends change correctly. Eight compiler contributions/
+230 bytes and private EH data preserve their coordinate-checked identities.
+verify_records.py recovers22 Git/EOL inputs and67 historical per-owner byte
+observations;old inconsistent bindings are explicitly not current credit.
 
-The preceding callback-receiver packet tests actual instance/free receiver
-forms:both keep Enemy13 and RunEcl30. Mutable-only Float3 addition fails real
-const consumers; retaining both genuine54-byte overloads keeps Enemy13,or45
-with the actual33-byte periodic Timer body visible. All four successful controls
-protect75 existing exact siblings each. None is adopted. Saved Git/EOL recipes,
-300 canonical raw/field comparisons and a selected fresh periodic dual-overload
-reproduction are retained in enemy-callback-receiver/. Timer return-type controls
-were already tested on October21 and are reused rather than rerun.
+Unchanged native-ANM current.py verify protects15 owners/17108 bytes/756 fields;
+its verify_ecl_reuse.py protects75/22463/990 and complete RunEcl30/Enemy13.
+No whole1004-owner cold replay is run. Full public CI passes1045 tests/29 skips;
+tracking,documentation,progress and whitespace pass. Direct Ghidra reuses the
+verified project and all685056 mapped bytes. An initial request included two
+incorrect function selectors and failed closed;only the corrected exports and
+raw operands support this audit. Compiler/source/profiles and failures remain
+in the packet;checkpoint.json binds the committed source.
 
-A manifest-only external-name census leaves three unrelated multi-address cases:
-ANM texture error text,Background quad storage and CRT free/forwarding entries.
-Their actual data definitions/addends/product identities need separate review;
-this census alone proves no additional source bug or exactness change.
-
-After terminal producers,cleanup deletes14 ignored files/2489226 logical bytes:
-four rejected objects,eight PDBs and two superseded ANM objects. All435 protected
-hashes retain their deletion-time values. Current objects,all docs/research,
-source,target/tools and working Ghidra remain;build/ is absent. No old C++ tree
-or archive is added. Exact stays1004/84.5034%;98% remains unfinished.
+After terminal producers,cleanup removes157 ignored files/4085294 logical bytes:
+eight superseded/diagnostic objects,thirteen PDBs and136 CI bytecode files. Five
+current objects,all docs/research/recipes,the original/toolchains and working
+Ghidra remain;build/ is absent. Exact stays1004 and84.5034%;98% remains unfinished.
 
 ## Previous dependency checkpoint — shared vectors and Front contracts
 

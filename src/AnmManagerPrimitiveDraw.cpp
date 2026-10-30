@@ -31,9 +31,18 @@ struct VertexTex1Xyz
     Float2 textureUV;
 };
 
+struct BackgroundQuadVertexView
+{
+    Float3 pos;
+    unsigned char unknown0C[4];
+    Float2 textureUV;
+};
+
 typedef char PrimitiveTexturedVertexSizeIs1C[(sizeof(VertexTex1DiffuseXyzrhw) == 0x1C) ? 1 : -1];
 typedef char PrimitiveDiffuseVertexSizeIs14[(sizeof(VertexDiffuseXyzrhw) == 0x14) ? 1 : -1];
 typedef char PrimitiveXyzTex1VertexSizeIs14[(sizeof(VertexTex1Xyz) == 0x14) ? 1 : -1];
+typedef char PrimitiveXyzrhwTex1VertexSizeIs18[(sizeof(BackgroundQuadVertexView) == 0x18) ? 1 : -1];
+typedef char PrimitiveXyzrhwTex1UvAt10[(offsetof(BackgroundQuadVertexView, textureUV) == 0x10) ? 1 : -1];
 
 struct AnmVmPrimitiveView
 {
@@ -66,7 +75,7 @@ struct AnmManagerPrimitiveView
     unsigned char unknown12888[0x1288C - 0x12888];
     void *currentSprite;
     IDirect3DVertexBuffer8 *quadVertexBuffer;
-    VertexDiffuseXyzrhw untexturedVector[4];
+    VertexTex1Xyz untexturedVector[4];
     int spritesToDraw;
 };
 
@@ -80,7 +89,7 @@ typedef char PrimitiveVertexBufferAt12890[(offsetof(AnmManagerPrimitiveView, qua
 typedef char PrimitiveSoftwareVerticesAt12894[(offsetof(AnmManagerPrimitiveView, untexturedVector) == 0x12894) ? 1 : -1];
 typedef char PrimitiveSpritesToDrawAt128E4[(offsetof(AnmManagerPrimitiveView, spritesToDraw) == 0x128E4) ? 1 : -1];
 
-extern VertexTex1Xyz g_BackgroundQuadVertices[4];
+extern BackgroundQuadVertexView g_BackgroundQuadVertices[4];
 
 static __inline AnmManagerPrimitiveView *PrimitiveManager(AnmManager *manager)
 {
@@ -238,35 +247,23 @@ void AnmManager::SetupVertexBuffer()
     anm->untexturedVector[2].pos.z = 0.0f;
     anm->untexturedVector[1].pos.z = 0.0f;
     anm->untexturedVector[0].pos.z = 0.0f;
-    anm->untexturedVector[2].rhw = 0.0f;
-    anm->untexturedVector[0].rhw = 0.0f;
-    anm->untexturedVector[3].rhw = 1.0f;
-    anm->untexturedVector[1].rhw = 1.0f;
-    anm->untexturedVector[1].diffuse = 0;
-    anm->untexturedVector[0].diffuse = 0;
-    anm->untexturedVector[3].diffuse = 0x3f800000;
-    anm->untexturedVector[2].diffuse = 0x3f800000;
+    anm->untexturedVector[2].textureUV.x = 0.0f;
+    anm->untexturedVector[0].textureUV.x = 0.0f;
+    anm->untexturedVector[3].textureUV.x = 1.0f;
+    anm->untexturedVector[1].textureUV.x = 1.0f;
+    anm->untexturedVector[1].textureUV.y = 0.0f;
+    anm->untexturedVector[0].textureUV.y = 0.0f;
+    anm->untexturedVector[3].textureUV.y = 1.0f;
+    anm->untexturedVector[2].textureUV.y = 1.0f;
 
     g_BackgroundQuadVertices[0].pos = anm->untexturedVector[0].pos;
     g_BackgroundQuadVertices[1].pos = anm->untexturedVector[1].pos;
     g_BackgroundQuadVertices[2].pos = anm->untexturedVector[2].pos;
     g_BackgroundQuadVertices[3].pos = anm->untexturedVector[3].pos;
-    *reinterpret_cast<unsigned long *>(&g_BackgroundQuadVertices[0].textureUV.x) =
-        *reinterpret_cast<unsigned long *>(&anm->untexturedVector[0].rhw);
-    *reinterpret_cast<unsigned long *>(&g_BackgroundQuadVertices[0].textureUV.y) =
-        anm->untexturedVector[0].diffuse;
-    *reinterpret_cast<unsigned long *>(&g_BackgroundQuadVertices[1].textureUV.x) =
-        *reinterpret_cast<unsigned long *>(&anm->untexturedVector[1].rhw);
-    *reinterpret_cast<unsigned long *>(&g_BackgroundQuadVertices[1].textureUV.y) =
-        anm->untexturedVector[1].diffuse;
-    *reinterpret_cast<unsigned long *>(&g_BackgroundQuadVertices[2].textureUV.x) =
-        *reinterpret_cast<unsigned long *>(&anm->untexturedVector[2].rhw);
-    *reinterpret_cast<unsigned long *>(&g_BackgroundQuadVertices[2].textureUV.y) =
-        anm->untexturedVector[2].diffuse;
-    *reinterpret_cast<unsigned long *>(&g_BackgroundQuadVertices[3].textureUV.x) =
-        *reinterpret_cast<unsigned long *>(&anm->untexturedVector[3].rhw);
-    *reinterpret_cast<unsigned long *>(&g_BackgroundQuadVertices[3].textureUV.y) =
-        anm->untexturedVector[3].diffuse;
+    g_BackgroundQuadVertices[0].textureUV = anm->untexturedVector[0].textureUV;
+    g_BackgroundQuadVertices[1].textureUV = anm->untexturedVector[1].textureUV;
+    g_BackgroundQuadVertices[2].textureUV = anm->untexturedVector[2].textureUV;
+    g_BackgroundQuadVertices[3].textureUV = anm->untexturedVector[3].textureUV;
 
     PrimitiveSupervisor()->d3dDevice->CreateVertexBuffer(
         sizeof(anm->untexturedVector), 0, D3DFVF_XYZ | D3DFVF_TEX1,
@@ -276,5 +273,5 @@ void AnmManager::SetupVertexBuffer()
     anm->quadVertexBuffer->Unlock();
     PrimitiveSupervisor()->d3dDevice->SetStreamSource(
         0, PrimitiveManager(g_AnmManager)->quadVertexBuffer,
-        sizeof(VertexDiffuseXyzrhw));
+        sizeof(VertexTex1Xyz));
 }

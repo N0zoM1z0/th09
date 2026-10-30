@@ -2689,3 +2689,26 @@ progress/manifest checks pass;public tools/tests are unchanged,so no new full CI
 is claimed. Packets: `.analysis/gpt-61sol-20261030-anm-native-contracts/` and
 `.analysis/gpt-61sol-20261030-enemy-callback-receiver/`. Per-file deletion and
 protection hashes are in the former packet's cleanup-applied.json.
+
+
+## 2026-10-30: consistent quad, literal and Title deallocation identities
+
+Correct the24-byte Background quad stride/UV offsets concealed by per-reference
+bases,the two distinct texture-error literals and Title's new[]/delete storage
+contracts. The public Oracle now rejects multiple bases for one symbol inside
+an owner.67 complete strict owners/23432 bytes/1166 fields remain exact;new
+exact credit is zero. Native ANM15 and ECL75 unchanged proofs are reused.
+
+After all producers terminate,cleanup deletes157 ignored files/4085294 logical
+bytes:eight superseded/diagnostic objects,thirteen PDBs and136 CI bytecode files.
+Five current objects replace the unused baselines and intermediate models.
+Actual raw/COFF/literal/EH observations,source/provider recipes,all research and
+failure records stay. Original target,toolchains,working Ghidra and unrelated
+active proof objects are preserved;build/ is absent. No old C++ copy tree or
+archive is added. Per-file deletion and protection receipts are in
+`.analysis/gpt-61sol-20261030-anm-external-identity/cleanup-applied.json`.
+
+Current strict-public and saved-record checks pass afterward;22 Git/EOL inputs
+recover67 historical comparisons,with the old incoherent bindings explicitly
+rejected by the new guard. Full public CI passes1045 tests/29 skips. Exact stays
+1004/84.5034%,and98% remains unfinished.

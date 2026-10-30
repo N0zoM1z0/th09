@@ -246,6 +246,27 @@ def compare(path: Path, symbol: str, address: int, expected_size: int) -> dict[s
     }
 
 
+def validate_symbol_destinations(expected: list[dict[str, object]]) -> None:
+    """One COFF symbol has one base, before each reference's addend is applied.
+
+    Per-reference bases can otherwise conceal a wrong source array stride or
+    member offset while still reproducing every linked operand independently.
+    Distinct symbols may share a destination, for example after code folding.
+    """
+    bindings: dict[str, tuple[int, int]] = {}
+    for row in expected:
+        symbol = str(row["symbol"])
+        target, offset = int(row["target"]), int(row["offset"])
+        if symbol in bindings and bindings[symbol][0] != target:
+            previous, first_offset = bindings[symbol]
+            raise ValueError(
+                f"one COFF symbol has multiple manifest destinations: {symbol}, "
+                f"field {first_offset:#x} -> {previous:#x}, "
+                f"field {offset:#x} -> {target:#x}"
+            )
+        bindings[symbol] = (target, offset)
+
+
 def validate_owner_local_destinations(
     actual: list[dict[str, object]], expected: list[dict[str, object]],
     target_address: int, owner_size: int,
@@ -352,6 +373,7 @@ def compare_unit(name: str) -> dict[str, object]:
     if actual_key != expected_key:
         raise ValueError(f"COFF relocations differ from manifest: actual={actual_key!r} expected={expected_key!r}")
 
+    validate_symbol_destinations(normalized_expected)
     validate_owner_local_destinations(actual, normalized_expected, address, compare_size)
     literal_definitions = validate_literal_definitions(
         object_path, actual, image, normalized_expected)

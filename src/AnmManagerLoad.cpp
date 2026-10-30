@@ -188,7 +188,6 @@ extern VertexTex1XyzrhwLoadView g_AnmUntexturedQuad[4];
 extern const char g_AnmNoTextureStorageMessage[];
 extern const char g_AnmCorruptedMessage[];
 extern const char g_AnmWrongVersionMessage[];
-extern const char g_AnmExternalTextureMessage[];
 extern const char g_AnmTextureMessage[];
 
 HRESULT WINAPI D3DXCreateTextureFromFileInMemoryEx(
@@ -332,7 +331,14 @@ int AnmManager::LoadExternalTextureData(
             unsigned char *fileData = FileSystem::OpenFile(path, &fileSize, 1);
             if (fileData == NULL)
             {
-                g_GameErrorContext.Fatal(g_AnmExternalTextureMessage, path);
+                // Texture file read failure (original CP932 text).
+                g_GameErrorContext.Fatal(
+                    "\x83\x65\x83\x4e\x83\x58\x83\x60\x83\x83\x20\x25\x73\x20\x82\xaa"
+                    "\x93\xc7\x82\xdd\x8d\x9e\x82\xdf\x82\xdc\x82\xb9\x82\xf1\x81\x42"
+                    "\x83\x66\x81\x5b\x83\x5e\x82\xaa\x8e\xb8\x82\xed\x82\xea\x82\xc4"
+                    "\x82\xe9\x82\xa9\x89\xf3\x82\xea\x82\xc4\x82\xa2\x82\xdc\x82\xb7"
+                    "\x0d\x0a",
+                    path);
                 return -1;
             }
             anmLoaded->textures[entryNumber].size = fileSize;
@@ -414,7 +420,14 @@ int AnmManager::LoadTextureData(
         else if (this->CreateTextureFromFile(&anmLoaded->textures[entryNumber],
                                           rawEntry->format, rawEntry->colorKey) != 0)
         {
-            g_GameErrorContext.Fatal(g_AnmExternalTextureMessage, path);
+            // Texture creation failure (original CP932 text).
+            g_GameErrorContext.Fatal(
+                "\x83\x65\x83\x4e\x83\x58\x83\x60\x83\x83\x20\x25\x73\x20\x82\xaa"
+                "\x8d\xec\x90\xac\x82\xc5\x82\xab\x82\xdc\x82\xb9\x82\xf1\x81\x42"
+                "\x83\x66\x81\x5b\x83\x5e\x82\xaa\x8e\xb8\x82\xed\x82\xea\x82\xc4"
+                "\x82\xe9\x82\xa9\x89\xf3\x82\xea\x82\xc4\x82\xa2\x82\xdc\x82\xb7"
+                "\x0d\x0a",
+                path);
             return -1;
         }
     }

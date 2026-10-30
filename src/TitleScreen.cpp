@@ -647,7 +647,7 @@ int TitleScreenView::Release()
 
     if (vms != 0)
     {
-        free(vms);
+        delete[] vms;
         vms = 0;
     }
 
@@ -669,7 +669,7 @@ int TitleScreenView::DeletedCallback(TitleScreenView *titleScreen)
     g_Chain.Cut(titleScreen->drawChain);
     titleScreen->drawChain = 0;
     titleScreen->Release();
-    free(titleScreen);
+    delete titleScreen;
     return 0;
 }
 
@@ -3413,7 +3413,7 @@ int TitleScreenView::OnUpdateStartMenu()
     case 2:
         if (stateTimer >= 60)
         {
-            free(vms);
+            delete[] vms;
             vms = 0;
             vmCount = 0;
             stateTimer2 = 0;

@@ -25021,3 +25021,102 @@ both native54-byte additions,the native33-byte periodic leaf and full strict
 RunEcl30/Enemy45 observations. Its temporary source/OBJ/PDB self-clean. The
 cleanup above removes unused trial binaries while retaining these records. No
 callback/interface or speculative qualifier change is adopted.
+
+
+## October30: one physical symbol base exposes quad and allocation source defects
+
+Continuation107a7760 starts clean. Target,tracking and progress pass. The prior
+turn is substantive progress: it corrected native ANM RNG/interface identities.
+This batch follows its unresolved external-name census,without treating that
+census or historical exact receipts as source/layout proof.
+
+Original SetupVertexBuffer43B9C0 writes XYZ at4DC628/640/658/670 and UV at
+4DC638/650/668/680 plus the following dword. These are four24-byte records with
+UV+10,not four20-byte records. Its old source used20-byte VertexTex1Xyz and the
+manifest compensated with five bases4DC628..638 for the same symbol. Although
+individual operands replayed,the source did not establish coherent data
+identity. The maintained BackgroundQuadVertexView fixes the stride and leaves+0C
+as an unknown four-byte field;that gap is not written by this owner. Neither
+rhw nor diffuse semantics are inferred for it. The separate source upload buffer is20-byte XYZ/UV,
+confirmed by original FVF102,80-byte creation/copy and20-byte stream stride.
+Its source now uses Float2 UV fields and ordinary aggregate copies rather than
+rhw/diffuse names,integer color bit patterns or scalar pointer reinterpretation.
+The complete472-byte owner/23 fields remains exact with one4DC628 base and20
+explicit native addends;17 of the old source's addends change. No register,
+assignment-order,packing or compiler-profile hint is introduced.
+
+Two different original67-byte CP932 strings distinguish texture read failure
+at490F88 from texture creation failure at491090. LoadExternalTextureData43BBE0
+and LoadTextureData43C800 previously referenced one external character array
+whose manifest address changed between owners. Direct escaped source literals
+now preserve both messages including CRLF/NUL. Public actual-section payload
+checks compare both full strings,not just their decorated names or references.
+
+compare-coff-function.py now rejects two manifest symbol bases for one actual
+COFF name within the same owner,independently of each unchanged object addend.
+Seven target-independent tests cover data strides,nonzero addends,mixed direct/
+address references,folded distinct symbols and an otherwise byte-equal forged
+canonical replay. Actual old SetupVertexBuffer rejects before byte replay.
+The scan of all1036 units also finds TitleScreen Release424D4B mixing free47B163
+and47B249 under one _free name. CurrentReplay and replay-header storage use the
+former;VM storage was allocated by new AnmVmView[]. Title now uses delete[] in
+Release and StartMenu,and delete for the allocated Title object in DeletedCallback.
+All three actual VC7.1 fields emit ??3@YAXPAX@Z and retain47B249;the compiler's
+actual emitted symbol governs the binding rather than a guessed array-delete
+mangling. Replay CRT frees remain47B163.
+
+The exact stock libcmt.lib member build\intel\mt_obj\delete.obj from pinned
+provider2932d76fe417b0bc49010b26d4be2e5b743cc4be proves the original5-byte scalar
+operator-delete jump with its one actual _free47B163 field. The disk library
+also equals its pinned Git blob;hashes/member/raw/COFF are retained. A private
+wrapper under the unchanged game /Oy- profile emits9 bytes and fails extent;
+it is not accepted and no alternate profile is tried. Ghidra may decompile a
+forwarder through its destination and display both calls as free;raw original
+call destinations and the CRT member distinguish them. Cross-unit uses of the
+old _free name at different entry addresses still need separate review;the new
+per-owner guard does not claim native-product linkage closure.
+
+Three ANM profiles and two Title profiles preserve67 strict canonical owners/
+23432 physical bytes/1166 fields,including38 Title owners/18411 bytes/943 fields.
+All150 regular compiler bodies keep every nonfield byte. Eight actual compiler
+contributions/230 bytes and their private EH nodes are unchanged modulo proven
+section/name coordinates. A first private comparison treated section numbers/
+private labels as semantic changes;the corrected node comparison checks every
+raw byte,field identity and node coordinate,without recompilation or weakening
+any original-bound canonical guard. The manifest updates20 quad identities/
+bases/addends,two message identities,three delete identities and nine actual-
+position-proved Title labels. No code extent,profile,coverage or origin changes.
+
+Thirteen serial one-CPU/nice10/180-second C++ compiles succeed:twelve complete
+carriers and the rejected9-byte library-wrapper model. Five current objects
+are retained. The unchanged native-ANM15-owner and ECL75-owner receipts replay
+under the stronger public guard. Complete RunEcl15564/598/30 and Enemy3900/97/13
+remain unchanged;no whole1004-owner cold replay is claimed.
+
+Direct Ghidra exports reuse the verified12.1.4 project and compare all685056
+mapped file-backed bytes. The first request included43BB60/43C780 instead of
+the actual function entries and failed closed. Corrected selections43B9C0,
+43BBE0,43C800,47B249 and the separate Title/CRT export support this audit. The
+failed request is preserved as a failed selection,not original-owner evidence.
+A private CRT import initially omitted dataclass module registration;its loader
+is fixed without changing/recompiling the library. A premature reader then
+expected a wrapper receipt that had not been written after the rejected extent;
+the actual object/source/log are recovered into a rejection record. These
+failures grant no native proof or exact credit.
+
+Packet `.analysis/gpt-61sol-20261030-anm-external-identity/` retains source/profile/
+provider hashes,actual observations,failures and current objects. verify_records.py
+recovers22 immutable Git/EOL baseline inputs and67 old per-owner observations;
+the old quad and Title Release bindings are explicitly invalid under the new
+guard,not current-source acceptance. checkpoint.json supplies the subsequent
+committed source binding. Full public CI passes1045 tests/29 skips;tracking,
+documentation,progress,manifest and whitespace checks pass.
+
+After terminal producers,cleanup deletes157 ignored files/4085294 logical bytes:
+eight superseded/diagnostic objects,thirteen PDBs and136 CI bytecode files. All
+research/docs/source recipes,actual raw/COFF/literal/EH findings and failure logs
+remain. Five current objects,unaffected active proofs,the target/toolchains and
+working Ghidra are retained;build/ is absent. No old C++ tree or source archive
+is made. Current and saved-record verification pass after cleanup. Exact remains
+1004 and246651/291883 authored bytes(84.5034%);98%,Windows product/runtime and
+later semantic/port gates remain unfinished.
