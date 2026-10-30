@@ -2915,3 +2915,21 @@ Post-cleanup input/native/visibility audits pass. Receipt:
 The separate packet-cache cleanup removes4 bytecode files/47138 bytes;native
 producer,service,source and original-target hashes remain equal. Receipt:
 network-input-contract/cleanup-cache.json under the October31 analysis prefix.
+
+## 2026-10-31: actual Enemy playfield/periodic visibility
+
+Game source remains4502c056. Canonical native playfield116/6 stays exact,but its
+actual same-object definition under the existing ECL profile emits118/6 and
+Enemy3884/97. Joint periodic visibility repeats both strict extent rejections;
+all75 existing siblings per model and RunEcl30 remain. The target's flag reload
+at Enemy+67A disappears. No source/profile or partial-credit change is adopted.
+
+After terminal producers and independent joint cold reproduction,cleanup removes
+10 ignored files/1693808 logical bytes:three trial objects,four PDBs and three
+packet bytecode files. All961 deletion-time protected hashes agree. Preserve
+native-playfield.obj and its strict current proof,current296/service/input
+carriers,complete raw/COFF/delta/failure records and immutable Git/EOL recipes.
+Original target,tracked source and working Ghidra remain;temporary source/OBJ/
+PDB outputs self-clean. No source archive or old C++ tree is added. Post-cleanup
+input/body/native audits pass. Receipt:
+`.analysis/gpt-61sol-20261031-enemy-playfield-context/cleanup.json`.

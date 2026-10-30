@@ -27066,3 +27066,86 @@ whitespace checks close this local research checkpoint.
 The separate packet-cache cleanup removes4 bytecode files/47138 bytes;native
 producer,service,source and original-target hashes remain equal. Receipt:
 network-input-contract/cleanup-cache.json under the October31 analysis prefix.
+
+## October31: complete Enemy/native playfield visibility and a removed flag reload
+
+Recovery atd8c44317 is clean. The preceding turn corrects unsupported input-width
+certainty and provides full network caller/producer controls;game source remains
+4502c056. Original Japanese1.50a,target-required tracking and live status pass.
+Direct Ghidra12.1.4 reuses the working project and checks all685056 mapped file-
+backed bytes before exporting Enemy410730 and playfield41A6EB under
+.analysis/ghidra-direct/export-20261030T233035-876092.
+Current ECL source/profile/object pins agree,so its baseline is reused.
+
+This batch follows the actual four IsWithinPlayfield calls through the existing
+shared GameManager declaration and real maintained definition. Earlier native
+receiver controls and standalone116-byte comparisons did not answer current
+same-object compiler visibility. Existing raw-byte/Timer/member-pointer negatives
+are reviewed before this different native boundary. No new opaque clobber promise,
+register/variable-order directive,volatile qualification,inline attribute,profile
+sweep,padding or target patch is introduced.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-PLAYFIELD-CONTEXT-001 | native complete comparison | The real standalone playfield source under its existing canonical O2/Os/Ob1 profile reproduces116 original bytes and six fields,including all five float payloads. | enemy-playfield-context/native-playfield.json;current-native.json;strict public unit |
+| ENEMY-PLAYFIELD-CONTEXT-002 | rejected complete native context | The same actual definition before Enemy under its existing ECL O2/Ob1 profile emits118 bytes/six fields;Enemy emits3884 bytes/97 fields against3900. Both original extent gates reject. | playfield-visible.json;actual complete raw/COFF records |
+| ENEMY-PLAYFIELD-CONTEXT-003 | rejected joint native context | Adding the real33-byte periodic definition alongside playfield repeats118/3884;the native periodic body stays original-equal. | joint-visible.json;independent-reproduction.json |
+| ENEMY-PLAYFIELD-CONTEXT-004 | measured periodic control | Real periodic visibility alone retains3900/97 with45 differences,while RunEcl stays15564/598/30. | periodic-visible.json;full unchanged production diagnostics |
+
+Target observations distinguish this failure from removed native calls. The
+original and current baseline read Enemy+53A0 at owner offsets423,646,67A,7BB
+and test it at7F5(hex). The playfield-visible and joint carriers retain only
+four accesses:the read at646 becomes MOV DL,[EBX+53A0],and the later67A reload
+is absent. After the first boundary call,TEST DL,DL consumes the retained value.
+There are further loaded-sprite/argument/register changes and alignment changes;
+none is masked from the complete saved owner. All four actual playfield REL32
+calls remain,genuinely referencing its positive same-object definition. The
+five periodic references have the expected opaque/defined relations per model.
+Actual call-symbol multiplicities remain equal,as do all97 field counts;this is
+not an assertion of original operand positions or complete equality.
+
+Inference:visibility of the actual native body is consistent with the compiler
+retaining values across the call that the target reloads. This constrains the
+maintained source/profile context,not a unique original TU partition,qualifier
+or universal compiler rule. The separate116-byte proof does not license treating
+the118-byte same-object definition as exact. The unchanged production Enemy
+inspector rejects3884 before any favorable scalar score;the native comparator
+independently rejects118. No private positive-definition view is used after
+those failures,and no native address is fitted to caller bytes.
+
+All three ECL controls preserve75 existing complete siblings/22463 physical
+bytes/990 fields each,with actual local positions and literal definitions.
+Only Enemy's raw body changes among138 common regular bodies;the other137
+retain raw/effective fields. Real native definitions add one or two functions.
+The full38-byte/zero-field compiler contribution and its one entry stay.
+RunEcl retains all15564 bytes/598 fields and30 differences. Current maintained
+Enemy stays3900/97/13;no shorter candidate or matching fragment is adopted.
+
+All five input sets reconstruct from immutabled8c44317 Git/EOL content:79 local
+files for the reused baseline and81 staged files per control. Actual include
+closures differ from that staging union;the standalone playfield consumes seven
+local source/header files. One independent joint cold replay reproduces every
+one of140 regular bodies/actual fields,all75 siblings,the exact33-byte periodic
+body,the complete native/caller rejection records and compiler contribution.
+Five actual serial one-CPU/nice10 compiler jobs comprise standalone native,three
+caller controls and that independent replay. No full canonical cold cohort runs.
+Temporary source/OBJ/PDB outputs self-clean;records preserve full rejected bodies.
+
+The native116-byte owner also passes the unchanged strict public unit;retain
+native-playfield.obj,current-native.json and verify-native.py as a separate
+source/profile-bound current proof,without expanding the296-unit subset or
+adding exact credit. Current296,service and the separate131-byte input producer
+pins remain unchanged. Source,headers,profiles,manifests,ledgers and boundaries
+stay. Exact authored coverage remains1004/1035 and246651/291883(84.5034%);the98%
+objective and later native/runtime/semantic/port gates remain unfinished.
+
+After all owned producer handles terminate,cleanup removes10 ignored files/
+1693808 logical bytes:three trial objects,four PDBs and three private bytecode
+files. All961 deletion-time protected hashes agree,including current296 objects,
+service,both separate native producers,tracked source,target,working Ghidra and
+research records. Post-cleanup immutable/body/native checks pass. Recipes,
+complete actual raw/COFF,flag-access and instruction-delta observations,failure
+records and cleanup receipt remain under
+.analysis/gpt-61sol-20261031-enemy-playfield-context/. No old source tree or
+archive is created. Documentation,tracking,progress and whitespace checks close
+this local research checkpoint;public validation/CI implementation stays.

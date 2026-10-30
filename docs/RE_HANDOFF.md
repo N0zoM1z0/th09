@@ -170,6 +170,16 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   Every model retains106 field and51 call-identity multiplicities. No API or
   source is adopted. Independent cold caller/producer replay passes;retain
   native-int.obj and use verify-native.py for that unchanged131-byte owner.
+- Actual playfield/periodic definition visibility is bounded in
+  enemy-playfield-context/ under the October31 analysis prefix. Standalone
+  canonical playfield116/6 remains exact;the same source under the existing
+  ECL profile emits118/6 and shortens Enemy3900 to3884 with all97 fields and
+  four real playfield calls retained. A target flag reload at Enemy+67A is
+  absent;the old value survives in DL. Joint periodic visibility repeats both
+  strict extent rejections. Three controls and an independent joint replay
+  preserve75 siblings each and RunEcl30. No positive-definition view is used
+  after the native rejection. Keep native-playfield.obj/current-native.json
+  for the separate116-byte proof;no source/profile/credit change follows.
 - Adjacent flag-pair controls are bounded in ecl-flagpair-storage/ below the
   October31 analysis prefix. A continuous eight-byte group of two unsigned-int
   allocation units preserves all138 regular bodies and RunEcl30/Enemy13.
@@ -194,7 +204,8 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   Fresh complete validation retains780/38/15 and the unresolved middle-Z order.
 - Current296 proof objects are the six shared-score proposal carriers and68
   unchanged objects in its current.json. The service object and the separately
-  revalidated network-input-contract/native-int.obj are retained alongside them.
+  revalidated network-input-contract/native-int.obj and enemy-playfield-context/
+  native-playfield.obj are retained alongside them.
   Cleanup removes15 ignored baseline/superseded/debug files only after complete
   controls,reconstruction and1130 protected-hash checks. Records,source recipes,
   original target/toolchains and working Ghidra remain;build/ may be absent.
