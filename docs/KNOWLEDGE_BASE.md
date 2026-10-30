@@ -24212,3 +24212,102 @@ original target. Current,all four exact Front,saved-control and current-prefix
 verification pass after cleanup. Documentation/research records,current source,
 target/toolchains and Ghidra working state remain. No old C++ snapshot or new
 source archive is kept; build/ is absent.
+
+## October 30: shared Player native contracts and actual registration global
+
+Recovery starts clean atbe7c4658; the preceding weighted-Front source commit
+is progress. Original Japanese1.50a disk identity and direct Ghidra cached
+Program/i386/base/entry/all685056 mapped bytes pass. Fresh RunEcl4086C0 and
+Enemy410730 exports reconfirm their30/13 residuals. A second bounded export
+covers actual PlayerRegisterChain41F170,Sound PlaySoundByIdx43E2F0,Player
+AngleToPoint41BB70 and Timer assignment401500. Ghidra types are provisional;
+complete target/COFF/ABI observations govern the changes below.
+
+The declaration audit distinguishes duplication from incompatible definitions.
+ECL's two Player angle definitions already agree with PlayerAngleView.hpp;
+importing that existing header removes repetition and shares its+1B88 assertion.
+PlayerLifecycle.cpp instead declares a one-byte ZunTimer while the actual class
+has12 bytes; charge likewise declares a one-byte SoundPlayer instead of the
+existing class with0x6224 bytes and real sound queue fields. Replace both local
+classes with existing headers. The old callers did not allocate those fake
+classes,so no observed runtime failure is inferred from their incompatible
+source definitions. No original nominal class or general ODR closure is claimed.
+
+Registration has a separate actual linkage mismatch: its extern byte array
+emits ?g_GameManager@@3PAEA rather than the established native object symbol.
+Use GameManagerRuntimeView.hpp and &g_GameManager.sides[sideIndex] /
+&g_GameManager.sides[1-sideIndex]. Original target independently publishes
+4A7D90+side*38 and4A7DC8-side*38. Native-root control and maintained-path cold
+build each retain all328 registrar bytes and29 fields,plus86-byte release/
+eight fields and75-byte resource helper/six fields. The manifest changes only
+the two symbol names at+90/+95,with root4A7D90 and addends0/38 unchanged.
+No target address is fitted and no whole-product link/runtime proof follows.
+
+Eight serial pinned-profile compiles run at nice10 on one allowed CPU with
+180-second bounds: one lifecycle baseline,four header controls,native-root
+control,maintained native lifecycle and actual angle callee. Three unchanged
+baseline carriers are reused after complete source/profile/object hashes agree.
+Both affected ECL profiles are compiled and every same-profile canonical member
+is checked. The final four carriers preserve82 existing exact owners/25704
+complete physical bytes/1169 fields. The actual101-byte/five-field angle owner
+is cold exact; actual25-byte Timer SetCurrent,nine-byte assignment and140-byte
+PlaySoundByIdx reuse unchanged source/profile/object proofs,174 bytes/two fields.
+Thus86 distinct existing exact owners/25979 bytes/1176 fields are checked;
+other917 receive no new compile or native-callee replay. No full1003 cold
+replay or new acceptance is claimed.
+
+All281 regular emitted contributions across the four final profiles retain
+98634 raw bytes/4445 fields. Only the two GameManager field names and440 private
+label spellings across the two ECL profiles change. Every private rename has
+the same actual field offset,kind,addend and owner-relative destination;
+no label is moved to a target position. Separate compiler contributions also
+retain their full payloads/fields. Complete RunEcl15564/598/30 has zero field/
+table drift; Enemy3900/97/13 and charge1197/1210,70 fields,58 calls,1160 overlap
+differences+13 missing remain nonexact. Both charge definitions retain1217
+bytes,including its actual20-byte Timer comparison. These shared declarations
+do not explain the residual allocation choices in this source context.
+
+The initial recorder mistakenly expected including ZunTimer.hpp to emit an
+unused comparator in lifecycle. The actual compiler emits no added body there.
+The recorder stops after three successful compiles; all three terminal objects
+are recovered and only pending charge is compiled. Its corrected record does
+not count a new compile or a failed source hypothesis. Source/profile/object
+recovery and the exact correction remain in attempt-recovery.json. Baseline
+82 Git/EOL inputs,one newly consumed shared header and all header/native-root
+source hashes reproduce in memory without retaining old C++ copies.
+
+31 focused complete-byte,COFF/literal and tracking tests pass. Public tools and
+compiler profiles remain fixed. Function-ledger changes are only notes for
+RunEcl,registration and charge; all other cells equalbe7c4658. Manifest changes also refresh20 private label spellings in two exact ECL
+units,after actual owner-relative COFF destinations are independently proved.
+All addresses,offsets,kinds and addends stay fixed. Current
+routes,complete raw/COFF records,source reproduction and caller/callee proofs
+are under `.analysis/gpt-61sol-20261030-native-player-contracts/`. Exact remains
+1003 and244917/291883(83.9093%);98% and later product/runtime/semantic/port
+phases remain unfinished.
+
+After all producer handles terminate, cleanup removes15 regular ignored files/
+1447529 logical bytes(about1.38MiB):six obsolete objects,eight PDBs and one
+bytecode cache. The retired objects comprise three trial/baseline lifecycle
+carriers and three superseded current ECL/charge carriers. Their complete
+emitted definitions are replaced by the final maintained source/profile proofs;
+all raw/COFF observations and recipes remain as records. All143 protected files,
+including seven actual current/native-callee objects and other reused proof
+carriers,retain deletion-time hashes. Final caller/callee and in-memory source
+reproduction replays pass afterward. Current source,documentation,research
+records,target/toolchains and working Ghidra project remain. No old C++ source
+copy or new archive is retained,and build/ is absent.
+
+Final strict-Oracle review finds that the public compare_unit checks private
+label spellings as well as actual destinations. Refresh20 such names in exactly
+two canonical units(ecl-post-update-movement seven,ecl-compare-operands13),using
+the already-proved original positions; every other field/target is unchanged.
+The public tool is kept strict. All86 existing units then pass the unchanged
+public compare_unit on their actual objects,25979 complete physical bytes/1176
+fields. A temporary manifest changes only object paths to those existing
+carriers. This is object reuse,no new compile or acceptance. Current/callee
+metadata is deliberately recaptured after this narrow manifest change; prior
+receipts and before/after hashes remain. Cleanup's143 deletion-time protection
+hashes are unaffected by the deletion operation; later metadata updates have a
+separate record. No old source tree or removed object is needed for current
+verification.

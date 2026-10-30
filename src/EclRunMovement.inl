@@ -23,20 +23,7 @@
 #include "AnmManager.hpp"
 #include "EclRunControl.inl"
 
-struct PlayerAngleFloat3View
-{
-    float x;
-    float y;
-    float z;
-    operator float *();
-};
-
-struct PlayerAngleView
-{
-    unsigned char unknown000[0x1B88];
-    PlayerAngleFloat3View position1B88;
-    float AngleToPoint(PlayerAngleFloat3View *position);
-};
+#include "PlayerAngleView.hpp"
 
 namespace Th09EclRunMovement
 {

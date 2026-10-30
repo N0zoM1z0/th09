@@ -2454,3 +2454,37 @@ cleanup deletion/protection hashes and findings live under
 toolchains and working Ghidra project remain; build/ is absent. Seven focused
 tests pass; public tooling is unchanged and no new full CI is claimed.
 Exact stays1003/83.9093%;98% and later phases remain unfinished.
+
+## 2026-10-30: shared Player native-contract cleanup
+
+Player registration now consumes the shared ZunTimer and actual GameManager
+object/side declaration. Charge shares SoundPlayer; ECL shares Player angle
+views. Two registration DIR32 symbols now use the real GameManager identity,
+with original addresses/addends fixed. Four final carriers preserve82 existing
+exact owners/25704 bytes/1169 fields. Actual native callee verification adds
+four existing owners/275 bytes/seven fields. RunEcl/Enemy remain30/13 differences;
+charge remains1197/1210 bytes/1160 overlap differences+13 missing.
+
+After producer termination, cleanup deletes15 regular ignored files/1447529
+logical bytes:six obsolete objects,eight PDBs and one bytecode cache. Three
+removed objects are lifecycle baseline/control captures; three are replaced
+current ECL/charge carriers. Complete emitted definitions remain in research
+records and are reproduced by the retained final source/profile-bound objects.
+All143 protected files retain deletion-time hashes,including seven actual
+current/native-callee objects and all other reused proof carriers.
+
+Final caller/callee and source reproduction replays pass after deletion.82
+baseline Git/EOL inputs,one added shared header and header/native-root source
+hashes reproduce without old C++ copies. Documentation,research records,
+current game source,target/toolchains and Ghidra working state remain;no new
+archive is created and build/ is absent.31 focused tests pass. Current proofs,
+cleanup hashes and reconstruction notes are in
+`.analysis/gpt-61sol-20261030-native-player-contracts/`. Exact remains1003/
+83.9093%;98% and later phases remain unfinished.
+
+Final review refreshes20 position-proved private label names in two exact ECL
+units for the unchanged strict public Oracle. All86 units then pass that public
+Oracle on retained actual objects,with no new compilation. The two earlier
+current/callee receipts remain; deliberate post-cleanup manifest/provider
+recapture has separately recorded before/after hashes. The143 protected hashes
+refer to deletion time; later metadata updates are distinguished.

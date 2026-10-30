@@ -4,6 +4,7 @@
 #include "PlayerStateEffectView.hpp"
 #include "ReplayInputState.hpp"
 #include "ZunTimer.hpp"
+#include "SoundPlayer.hpp"
 #include "GameConfiguration.hpp"
 // Only the native global identity is needed here.
 struct AsciiGameManagerView;
@@ -82,14 +83,6 @@ struct PlayerSpawnShotsView
 {
     void __fastcall SpawnShots(int value, int powerLevel);
 };
-
-class SoundPlayer
-{
-  public:
-    void PlaySoundByIdx(int soundIndex, int pan);
-};
-
-extern SoundPlayer g_SoundPlayer;
 
 struct PlayerChargeAttackView : PlayerLifecycleView
 {

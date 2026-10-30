@@ -1,17 +1,12 @@
 #include "PlayerLifecycleView.hpp"
 #include "PlayerRegisterChain.hpp"
 #include "ZunMemory.hpp"
+#include "ZunTimer.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 #include <stdlib.h>
 #include <string.h>
 
-class ZunTimer
-{
-  public:
-    void operator=(int value);
-};
-
-extern unsigned char g_GameManager[];
 extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
 
@@ -25,9 +20,9 @@ PlayerLifecycleView *__fastcall PlayerRegisterChain(unsigned char playerType, in
     *reinterpret_cast<ZunTimer *>(reinterpret_cast<unsigned char *>(player) + 0x303C8) = 0;
     player->InitializeType(playerType);
 
-    player->sideState = reinterpret_cast<PlayerSideStateView *>(g_GameManager + sideIndex * 0x38);
+    player->sideState = reinterpret_cast<PlayerSideStateView *>(&g_GameManager.sides[sideIndex]);
     player->sideIndex = sideIndex;
-    player->opponentState = reinterpret_cast<PlayerSideStateView *>(g_GameManager + 0x38 - sideIndex * 0x38);
+    player->opponentState = reinterpret_cast<PlayerSideStateView *>(&g_GameManager.sides[1 - sideIndex]);
     player->selector = selector;
 
     player->calcChain = g_Chain.CreateElem(

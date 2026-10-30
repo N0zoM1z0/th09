@@ -2940,3 +2940,57 @@ FPCW037F and fixture-owned memory/stack bound this diagnostic. It checks only
 the stated prefix/store/branch observations, not all floats, full charge logic,
 original nominal types or whole-game runtime. fp_prefix.py can replay after
 trial-object cleanup; stored-control replay is not new compilation/acceptance.
+
+## October30 weighted Front checkpointbe7c4658
+
+## Current game source — complete weighted message scan extent
+
+Following6c5a019a, Front weighted selection uses natural signed weight-field
+cursors and a for/break fallback instead of manually spelling two five-entry
+groups. The maintained cold build now emits the complete693-byte extent:
+205/206 instructions,15 independently bound fields,six original ordered calls,
+41/40 blocks,118 aligned instructions and351 linked differences,with zero
+missing/excess bytes. Before this change:681 bytes,569 differences+12 missing.
+It restores255 original positions while changing25 previously equal positions;
+this nonexact owner has no separately credited fragments. No exactness credit
+or compiler-profile change is made; the extra CFG edge remains unresolved.
+
+The caller directly reads the existing GameManager side declaration. Its private
+root/side projections and uncalled six-byte getter are removed; the emitted main
+body is raw/field-identical to the native-root control and now stands alone.
+The same original +0x11 field binds native root4A7D90+58. The field at side+20
+selects an opponent window; this does not prove original nominal C++ ownership.
+
+Current packet: `.analysis/gpt-61sol-20261030-front-weighted/`.
+Run current.py verify for maintained source/profile/provider/object bindings,
+callees.py verify for four related exact Front owners/2386 bytes/144 fields,
+and verify_saved.py for nine saved control hashes/reports and10 Git/EOL inputs.
+All four related owners were cold-compiled; no full1003 replay is run. The
+actual two-byte space definition and both references pass on all11 compiled
+weighted carriers. Other999 canonical units receive no new compile audit.
+
+Correct explicit-success/exhaustion loops emit536-547 bytes and fail the
+unchanged whole-owner guard; a typed break emits696 bytes/635 differences.
+Publication reordering gives350 differences but falls below the118 alignment
+guard and is not adopted. A historical weight-explicit-miss trial incorrectly
+sent successful break paths to default: its negative result cannot rule out
+correct separate exits. Original exhaustion bypasses the success guard; the
+maintained common-guard edge is still nonexact.
+
+Actual initialization prefixes agree across120 declared fixtures: the first
+record covers six streams/720 executions, and a second adds original versus
+maintained source/240 executions. Both use original RNG bodies and compare all
+1D70 runtime bytes,RNG state and next ANM receiver/arguments,stopping before
+that call. They do not prove full runtime or untested table domains. Details
+and the corrected historical interpretation are in the KB; previous charge
+checkpoint details remain in the existing handoff archive.
+
+Seven focused tests pass:five original/COFF corruption cases and two existing
+whole-owner guard cases. Public tooling and exact
+ledgers are unchanged; exact remains1003/83.9093%,with98% unfinished. Current
+function-ledger changes are confined to this owner's evidence and notes cells.
+Cleanup removes38 ignored files/1540890 logical bytes:10 superseded
+baseline/trial objects,15 PDBs and13 bytecode caches. All62 protected files
+retain their deletion-time hashes. Current, four exact Front, saved-control
+and current-prefix verification pass afterward. Research records and recipes
+remain; no old C++ copy or new source archive is kept, and build/ is absent.
