@@ -443,11 +443,11 @@ name into a TH09 fact without target-local evidence.
 | LZSS-013 | target-observed / semantic-owner-closed | TH09 has one shared LZSS mutable-state family. The tree occupies `0x004B4420-0x004CC42B`: 0x2001 records at 12-byte stride (`0x1800C` bytes). Four bytes of alignment separate it from the 0x2000-byte dictionary at `0x004CC430-0x004CE42F`. Fresh target xrefs to `0x004B4420` are confined to InitTree and the encoder tree helpers; fresh xrefs to `0x004CC430` are confined to Decode, InitEncoderState, AddString, and Encode. Decode's target callers are replay load, score load, PbgArchive ReadDecompressEntry, and PbgArchive ParseHeader; Encode's are replay save and score save. This closes the semantic owner as the LZSS compression subsystem and proves encoder/decoder dictionary identity, but it does not establish the original source-file, COFF object, or complete BSS/link owner. | Passed native-ID A target xrefs/call graphs, target address geometry, and exact relocation manifests for the eight zero-difference LZSS units. |
 | TOOLCHAIN-083 | negative-oracle / codegen-open | The committed TH095 encoder suggested one natural lifetime hypothesis: keep `dictHead` in the outer function and restrict `bitfieldMask` to one nested token-writing block. Applying only that lexical-lifetime change to TH09, without TH095's identifier-bucket macros or any register forcing, leaves the stock VC7.1 body unchanged at 570 bytes versus the 571-byte target. Target/object alignment confirms the persistent coloring difference: TH09 target keeps `outBitMask` in BL and `outBits` at `[ebp-4]`, while the natural object keeps the 32-bit accumulator in EBX and the bit mask in a stack byte. Earlier declaration-order, checksum, and optimized-profile probes were likewise negative. No pragma, volatile/register hint, assembly, inert storage, or target-specific forcing is introduced; `Lzss::Encode` remains source-present/non-exact. | Packet-92 baseline/nested probes under pinned VC7.1 `/O2 /Ob1 /Oy- /Gr + /Oi`, full target/object disassembly alignment, and Packet-80 prior negative probes. |
 | ANM-001 | exact / authored-game | `AnmVm::IsVisible @ 0x00434370-0x00434379` returns bit 0 of the VM flag word at `+0x1F8`, while `AnmVm::SetInvisible @ 0x00434380-0x00434387` clears the same bit. The first helper is followed by six unowned `CC` bytes through `0x0043437F`; the second is followed by eight unowned `CC` bytes through `0x0043438F` before independent code at `0x00434390`. Both helpers are repeatably target-exact under the established AsciiManager VC7.1 profile and are classified `authored_game / AnmManager / high`. | Fresh attested TH09 bytes and helper semantics plus two independent cold canonical replays: 10/10 and 8/8 bytes, no relocations. Clean committed TH08 source corroborates only the semantic method family. |
-| ASCII-028 | source-present / authored-game / codegen-blocked | `PauseMenu::OnUpdate @ 0x00434740-0x00434E05` operates on the embedded `AsciiManager +0x82A0` subobject. TH09 fixes its size at `0x1528`: state and frame counter followed by seven `0x2A4` menu VMs and one background VM. The target state machine spans states 0-9, including two top-level choices, paired confirmation states, close/resume handling, and two delayed action paths. The maintained source corrects the state-9 split: the ordinary branch resets to Supervisor state 10 and rejoins common VM updating, while the result-screen branch calls the target-observed audio stop, sets Supervisor state 11, timestamps, and returns directly (October 9 canonical call correction below). | Fresh attested TH09 decompilation/disassembly/call/dataflow and target-bound VC7.1 probes. Clean committed TH08 `PauseMenu::OnUpdate` supplies source-shape and naming hypotheses only; TH09 independently determines VM count, offsets, script/sprite values, flags, input paths, and action semantics. |
+| ASCII-028 | exact / authored-game | `PauseMenu::OnUpdate @ 0x00434740-0x00434E05` reproduces all1776 owned physical bytes,including two-byte alignment and the ten-entry table. Its1528-byte subobject holds state/frames,seven2A4-byte menu VMs and one background VM. Separately compiled real VM visibility methods,uniform input traversal and result-first state9 together recover the original449 instructions,106 fields and both timestamp sites. | Two independent source-cold builds and canonical pause-menu-update; all11 prior siblings remain exact. Original spelling/TU partition and full product/runtime are unknown. |
 | BOUNDARY-083 | observed / compiler-artifact-owned | `PauseMenu::OnUpdate` owns code `0x00434740-0x00434E05` ending in `ret`. Bytes `0x00434E06-0x00434E07` are two-byte alignment, followed by the method's ten-entry switch table at `0x00434E08-0x00434E2F`; independent code begins at `0x00434E30`. The reviewed physical packet is therefore 1734 code bytes plus 2 alignment bytes plus 40 switch-table bytes. | Full target disassembly, attested target-byte reads, and all ten switch destinations. |
 | ASCII-029 | exact / authored-game / AsciiManager update | `AsciiManager::OnUpdate @ 0x00435B00-0x00435BFC` is canonical exact at 253/253 bytes with 14 reviewed relocations. The former single-byte branch residual closes when the target-observed sideFlags/end addresses are compared as signed 32-bit integers, yielding `JL` instead of pointer-order `JB`. | Current function/match ledgers; canonical `ascii-manager-on-update` replay. |
 | TOOLCHAIN-171 | exact / superseded plateau | `AsciiManager::OnUpdate @ 0x00435B00` is now canonical exact at 253/253 bytes with all 14 reviewed relocations. The former single-byte `JB`/`JL` plateau was closed by preserving the target-observed signed 32-bit address comparison; the old near-match conclusion is superseded. | Current function/match ledgers and canonical `ascii-manager-on-update` replay. |
-| TOOLCHAIN-084 | unresolved-codegen | Packet 93 reuses the established same-module VC7.1 `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src` profile. The small visibility helpers reproduce exactly, and existing AsciiManager Reset/AddedCallback/DrawStrings/CreateScorePopup remain exact after the layout refinements. `PauseMenu::OnUpdate` remains non-exact because the natural object hoists zero into EBX and selects materially different register/basic-block/switch-table layout from the target; the apparent total-size proximity before semantic correction was therefore not evidence of near equality. No `var_order`, register hint, volatile forcing, padding, assembly, target bytes, or fake return is retained. | Repository-defined cold match units, connected exact regressions, target/object instruction alignment, and the rejected natural signed-index experiment. |
+| TOOLCHAIN-084 | exact / compiler-observed source family | The established pinned VC7.1 /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- profile now reproduces the complete Pause owner. Its two real10/8-byte VM methods are opaque to this caller; matching index loops and the result-first action branch jointly restore the original. Earlier isolated helper/loop/branch negatives do not exclude this combination. | Complete1776-byte/106-field trial and independent canonical cold equality; unchanged strict public Oracle and --owner pause pass. No variable/register hint,volatile addition,padding,assembly or target patch. |
 
 | ASCII-019 | exact / authored-game | `AsciiMenuState5::OnUpdate @ 0x00434E90..0x0043534C` owns the five-VM menu state embedded at AsciiManager +0x97C8. Natural per-arm mode/reset ordering and target-backed opaque SetInvisible calls close all1213 authored bytes. The original menu name and config-pointer storage owner remain unresolved. | Packet772: two cold builds, full86-field canonical replay across1236 physical bytes and all11 existing menu-TU exact regressions. |
 | BOUNDARY-084 | exact / compiler-artifact-owned | AsciiMenuState5::OnUpdate has1213 code bytes ending0x0043534C, three alignment bytes through0x0043534F and five switch entries through0x00435363. Following CC through0x0043536F is unowned. | Packet772 compares all1236 owned physical bytes while crediting only1213 authored bytes. |
@@ -24663,3 +24663,97 @@ actual raw/field/literal records, recorder recovery and deletion/protection pins
 are under `.analysis/gpt-61sol-20261030-ecl-operand-references/`. Previous full
 RunEcl ledger wording is retained in ledger-migration.json; its dated current
 claims are replaced. Exact stays1003 and244917/291883(83.9093%);98% remains open.
+
+## October 30: complete PauseMenu update exact through real VM call boundaries
+
+Recovery begins clean at10ab57e0. Prior RunEcl controls are bounded evidence,
+not proof that all source families fail. This batch returns to the1776-byte
+Pause boss. Original Japanese1.50a disk/tracking and direct local Ghidra verify
+Program identity,i386/base/entry and all685056 mapped-file bytes. The original
+Pause code has1734 bytes,8BFF alignment and ten table words; SHA256 is
+ a4cee1fd2b347628d97a2786ccc238b87e21489ab440c9d0b2f0e27d41f7f9b7.
+
+Original opening loops carry a field cursor and seven-count in preserved
+registers across the real IsVisible call. Baseline co-visible VM definitions let
+VC7.1 keep cursors in caller-saved registers and hoist zero/two values across
+other work. Older individual visibility,loop and timestamp controls did not
+prove that their combination was exhausted. The first-loop pointer workaround
+was specifically useful only in its old visible-helper context.
+
+The two actual AnmVm methods first independently reproduce their original10/8
+bytes with no fields. Four whole-carrier controls keep the established profile
+and every source operation,with no variable/register hint,profile sweep,new
+qualifier,padding,assembly,fake ABI or target-byte patch:
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| PAUSE-VM-BOUNDARY-001 | rejected source context | Both VM bodies opaque,otherwise unchanged source:1788 physical bytes/107 fields/1608 overlap differences plus12 excess;three timestamp sites. | both-opaque.json |
+| PAUSE-VM-BOUNDARY-002 | rejected source context | Same opaque boundary and matching index traversal in both input arms:1772/107/1131 overlap differences plus4 missing;three timestamp sites. | both-opaque-uniform.json |
+| PAUSE-VM-BOUNDARY-003 | exact / authored-game | Add the original result-first state9 branch:all1776 physical bytes/106 fields match,including449 instructions,46 direct calls,two IAT calls and every table word. | both-opaque-uniform-result.json;independent canonical-build.json and pause-menu-update |
+| PAUSE-VM-BOUNDARY-004 | rejected source context | Keep SetInvisible co-visible with that loop/branch combination:1776/106 but339 complete differences remain. | visible-opaque-uniform-result.json |
+
+Every control proves all11 existing canonical menu owners,using actual external
+VM companion definitions when absent from its caller. All12 non-Pause raw bodies
+stay unchanged across the final split. The accepted source moves the unchanged
+IsVisible and SetInvisible definitions to AnmVmVisibility.cpp,restores the first
+input arm's ordinary index loop to match the second,and places the result-screen
+branch before the ordinary state9 continuation. The full source-cold trial and
+a fresh canonical menu/helper pair are independently exact. Neither a local
+loop,an opaque boundary nor timestamp sharing alone established this result.
+This proves a reproducible source family,not unique original TU partition.
+
+The unchanged strict public compare_unit verifies12 owners/4224 physical bytes/
+264 fields,including the new Pause unit and all11 prior siblings. Pause's106
+actual fields comprise46 REL32 and60 DIR32; original-backed external identities
+and actual owner-relative local positions bind them independently. Its1734-byte
+logical extent,2-byte alignment and40-byte table are all compared. No bytes are
+masked or graph-rebased. Existing VM owners retain their credit;only1734 authored
+Pause bytes are newly accepted. The physical42-byte tail earns no extra authored
+credit. The first native preparation used an incomplete AnmVm declaration and
+emitted no object;the corrected real header and that failure are both recorded.
+
+The public --owner pause workflow now builds pause-menu-update and the separate
+VM object,then protects all siblings and genuine audio paths. All16 canonical
+checks pass,including actual UnPause bytes. The guard requires zero differences,
+exact106 fields,449 instructions,original table/branch/call order and both real
+IAT offsets;the former1732-byte plateau is rejected. Diagnostic metadata still
+grants no credit by itself. The native-audio transformation keeps the early
+result timestamp immediate when deferring ordinary transitions under the new
+branch order.24 focused Pause tests and64 RunEcl tests pass. Full public CI
+passes1037 tests/29 skips in141.772s. Its first attempt failed six stale
+Timer-cast assertions left by10ab57e0's already proven native-member cleanup.
+The corrected tests preserve the unselected native assignment/redispatch and
+independently exact assignment-to-setter identity,without requiring the old
+cast spelling. The operand diagnostic handles the adopted member assignment.
+The failed first CI and preparation logs remain;no whole1004-owner cold replay
+is run.
+
+The ledger now has1004 exact/1035 source-present authored functions,31 nonexact
+owners/45232 bytes,and246651/291883 reviewed-authored bytes=84.5034%. Another
+39395 complete authored bytes are required to reach98% of the current denominator.
+RunEcl30,Enemy13 and Effect34 draw74 remain unchanged. Whole executable inventory,
+Windows i386 product/runtime and later semantic/port gates remain open.
+Source/profile/object proofs,actual source recipes,native preparations,full
+COFF/original observations and canonical unit draft live in
+`.analysis/gpt-61sol-20261030-pause-vm-boundaries/`. Previous current knowledge
+rows and function notes are preserved in migration records and Git history.
+
+The final current.py verifier redirects only object paths in the final manifest
+and passes16 strict public canonical checks/5720 physical bytes/353 fields on
+five retained actual objects. Source/profile/provider pins,actual literals and
+all12 other raw bodies are checked. The original canonical-build.json predates
+the reviewed manifest migration;use current.py verify for the current state.
+verify_saved.py recovers14 immutable Git/EOL inputs,regenerates four recipe
+hashes and checks their full preserved raw bytes/fields against the original.
+reproduce.py can build one historical model into a new directory without an
+old C++ source tree. Saved-record replay is not a new compiler/acceptance claim.
+
+After all producers terminate,cleanup removes163 ignored regular files/3618381
+logical bytes:four trial objects,the preparatory native object,the superseded
+old menu object,six public build objects,14 PDBs and137 bytecode caches. All328
+protected hashes retain their deletion-time values. The five current objects,
+all research/documents,current source,target/toolchains and working Ghidra are
+preserved;no archive is created and build/ is absent. Both current/strict-public
+and saved-record verification pass afterward. This unit records13 successful
+game compiler calls and one failed preparation;the six public-workflow calls
+were serial but did not use the private runner's lowered priority/CPU wrapper.

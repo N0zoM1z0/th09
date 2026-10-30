@@ -63,7 +63,7 @@ def definition(text, marker):
 def control_context(source, case):
     """Move the real common exit or traverse the same seven native VMs."""
     body = definition(source, 'int PauseMenu::OnUpdate()')
-    if digest(body.encode()) != 'ec5f87654382973c656a9998764576d5f76d3d50a6af9aa78d903a31f53ba68d':
+    if digest(body.encode()) != '13460fb9dbe5ee8e73675604e80de437c1ca704bfc810082691d173fde5d54c7':
         raise ValueError('reviewed Pause control-flow source changed')
     original = body
     loop = ('    for (i = 0; i < 7; i++) {\n'
@@ -93,7 +93,15 @@ def control_context(source, case):
                 or 'refreshTimestamp' in body):
             raise ValueError('reviewed Pause timestamp decisions changed')
         body = body.replace(anchor, anchor+'\n    bool refreshTimestamp = false;', 1)
-        body = body.replace(clock, 'refreshTimestamp = true;', 3)
+        result_begin = body.index('g_Supervisor.StopAudio();')
+        result_end = body.index('return 0;', result_begin)
+        result_arm = body[result_begin:result_end]
+        if result_arm.count(clock) != 1:
+            raise ValueError('reviewed result-only timestamp changed')
+        body = body[:result_begin] + result_arm.replace(
+            clock, 'PAUSE_RESULT_TIMESTAMP') + body[result_end:]
+        body = body.replace(clock, 'refreshTimestamp = true;')
+        body = body.replace('PAUSE_RESULT_TIMESTAMP', clock)
         body = body.replace(loop,
             '    if (refreshTimestamp) {\n        '+clock+'\n    }\n\n'+loop, 1)
         if body.count(clock) != 2 or body.count('refreshTimestamp = true;') != 3:
@@ -102,9 +110,11 @@ def control_context(source, case):
         raise ValueError('unreviewed Pause control context')
     result = source.replace(original, body)
     if case == 'deferred-time-opaque':
-        for marker in ('int AnmVm::IsVisible()', 'void AnmVm::SetInvisible()',
-                       'int AsciiGameManagerView::HasFlagBit0()'):
-            result = result.replace(definition(result, marker), '', 1)
+        if any(marker in result for marker in
+               ('int AnmVm::IsVisible()', 'void AnmVm::SetInvisible()')):
+            raise ValueError('native VM visibility methods must stay external')
+        marker = 'int AsciiGameManagerView::HasFlagBit0()'
+        result = result.replace(definition(result, marker), '', 1)
     return result
 
 

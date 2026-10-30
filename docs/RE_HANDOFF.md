@@ -9,10 +9,10 @@ without assuming earlier notes are conclusive. The98% milestone is unfinished.
 
 The restart game-source baseline is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
 (Controller axis ranges); maintenance checkpoint7bc3b956 adds no game-source
-change. The native Timer cleanup, child-ECL interface, Effect34, weighted-message, Player contract, charge, RunEcl, instruction-mask and
+change. The complete Pause update, native Timer cleanup, child-ECL interface, Effect34, weighted-message, Player contract, charge, RunEcl, instruction-mask and
 callback corrections are described below. Use
-live Git status and ledgers before dated measurements. Exactness credit and
-compiler profiles remain unchanged. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
+live Git status and ledgers before dated measurements. Compiler profiles remain
+unchanged; Pause adds1734 exact authored bytes. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
 local commits do not establish remote publication.
 
 Analysis routing is **direct local Ghidra only**, without IDA, REA or Factory
@@ -20,53 +20,61 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current game source — direct native Timer assignment and operand models
+## Current game source — complete PauseMenu update exact
 
-Following 135e62ce, opcode4 assigns context->time008 directly. EclOpcodes.hpp
-already defines this member as the actual ZunTimer; the same-type reinterpretation
-and temporary reference were redundant. All 138 regular bodies in both ECL
-profiles remain raw-identical, with effective fields fixed. RunEcl remains
-15564/598/30, Enemy3900/97/13 and Effect34 draw946/53/74; this simplification
-adds no exactness credit and does not solve the remaining register schedules.
+PauseMenu::OnUpdate at434740 now matches all1776 physical bytes:1734 code,
+two-byte8BFF alignment and its ten-entry table. Both the source-cold model and
+an independent canonical-source cold build reproduce449 instructions,106 fields
+(46 REL32/60 DIR32),46 direct calls and two original timestamp IAT sites.
+Canonical unit: pause-menu-update. This adds1734 authored exact bytes; the two
+10/8-byte VM methods were already exact and earn no new credit.
 
-Current packet: `.analysis/gpt-61sol-20261030-ecl-operand-references/`.
-Run current.py verify for both maintained profiles and the actual unchanged
-25+9-byte Timer pair, using the unchanged strict public Oracle. All 81 existing
-exact owners retain 25249 physical bytes/1127 fields. Main reuses its actual
-source-identical compiled control; only Ob0 is freshly built for adoption.
-All 184 private renames per ECL profile have unchanged actual owner-relative
-destinations; eight canonical names in two units are refreshed. No offset,
-addend, target, extent, ABI or compiler profile changes. Other 922 canonical
-units receive no new replay.
+The accepted source family compiles IsVisible and SetInvisible separately in
+src/AnmVmVisibility.cpp,uses matching index traversals for both opening input
+paths,and places state9's result arm before its ordinary shared-clock exit.
+Neither an opaque boundary nor loop/branch syntax alone is sufficient. Current
+source preserves all12 other raw bodies across the menu/helper split; existing
+field identities and actual literal definitions stay fixed. Original unique TU
+partition and source spelling remain unknown; this is exact reconstruction,
+not Windows product/runtime closure.
 
-Twelve complete main-carrier models test actual lvalues, consumed operand
-objects, formal Enemy flag storage and input snapshots. Four reproduce every
-baseline RunEcl byte: four-byte time record, formal Enemy word, direct native
-Timer and helper-only u16. Only the smaller direct Timer form is adopted.
-Implicit time conversion gives42 ordinary differences; three native/promoted
-flag forms give2258/2140/2290 total differences, including239/202/242 field bytes
-and26 table bytes within those field counts. Two-reference and two consumed
-reference-snapshot helpers outline18 bytes; a byte-record helper outlines23.
-Their15560/15576-byte callers have599 fields and fail the original coverage
-check before any complete-owner score. Added helpers receive no invented target.
+Current packet: `.analysis/gpt-61sol-20261030-pause-vm-boundaries/`.
+The independent canonical build passes the unchanged strict public Oracle on
+12 owners/4224 physical bytes/264 fields,including all11 prior siblings. The
+public --owner pause workflow cold-builds the accepted owner,its separate VM
+object and unchanged real audio carriers;all16 canonical checks pass. Its actual
+UnPause data also passes. Four controls give1788/107/1608,1772/107/1131+4,
+1776/106/0 and1776/106/339; only the complete zero-difference family is adopted.
+A failed native preparation included only a forward declaration and emitted no
+object; it is recorded separately from successful native/compiler evidence.
 
-All twelve models preserve75 same-profile exact siblings and six actual RunEcl
-literal definitions each. Thirteen actual serial one-CPU/nice10 builds cover
-the twelve models and one maintained Ob0. No new baseline, main-adoption or
-Timer-pair compile is claimed. verify_saved.py reproduces78 baseline Git/EOL
-inputs and all models, then replays eight complete raw/field/943-block records
-and four explicit outlined-call rejections. rebuild.py CASE --output FRESH_DIR
-cold-reproduces one model from immutable Git inputs without old C++ copies.
-The first recorder's postcompile coverage exception is recovered from the same
-actual object; no compile is restarted.32 focused tests pass; no new full CI.
+The public Pause guard now requires complete equality and rejects the old
+1732/1453+44 plateau. The audio diagnostic preserves the result-only immediate
+timestamp after the source branch change.24 focused Pause tests and64 RunEcl
+tests pass. Public CI passes1037 tests/29 skips in141.772s. Its first attempt
+exposed six stale Timer-cast assertions from10ab57e0; the tests now preserve the
+native assignment boundary and check its independently exact setter contract.
+The operand diagnostic also accepts the already adopted native assignment.
+Both CI attempts and the initial preparation failure remain recorded.
 
-Cleanup removes27 ignored files/6900221 logical bytes: eleven trial objects,
-two superseded ECL objects,thirteen PDBs and one cache. All279 protected files
-retain their hashes. Two maintained ECL objects,the native Timer carrier,other
-reused carriers,documentation/research,target/tools and working Ghidra remain.
-Current/strict and saved-source/observation replays pass afterward. No archive
-or old source tree is added;build/ is absent. Exact remains1003/83.9093%; the98%
-goal,original source spelling/TU ownership and later product/runtime stay open.
+Final `current.py verify` replays the unchanged strict public Oracle on16 units/
+5720 physical bytes/353 fields using five retained actual objects; it also
+checks source/profile/provider pins,literal definitions and the other12 raw
+bodies. `verify_saved.py` recovers14 baseline Git/EOL inputs and checks all four
+saved controls without old C++ copies; `reproduce.py` can cold-build one model
+into a new output directory. The original pre-migration canonical-build capture
+is historical; use current.py for the final manifest.
+
+After all producers terminate,cleanup removes163 ignored files/3618381 logical
+bytes:12 objects,14 PDBs and137 bytecode caches. All328 protected hashes remain
+unchanged at deletion time. Five current objects,all research/documents,original
+target,toolchains and working Ghidra stay; build/ is absent. Both current and
+saved-record checks pass after cleanup. No archive or whole1004-unit cold replay
+is made. The13 successful game compiler calls plus one failed preparation are
+recorded; the six public-workflow calls were serial but lacked the private
+runner's priority/CPU wrapper.
+RunEcl15564/598/30,Enemy3900/97/13 and Effect34 draw946/53/74 stay unchanged.
+The98% goal remains active with31 nonexact authored owners.
 
 ## Earlier dependency corrections
 
@@ -94,6 +102,7 @@ and source-interface cleanup earn no partial exact credit.
 | 4dd2212d | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/` (dated records) |
 | 17a11669 | Native Type6/7/8/9 setup and EffectManager contracts;219 existing exact owners preserved. | `gpt-61sol-20261030-runecl-formal-state/` (dated records) |
 | 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |
+| 10ab57e0 | RunEcl uses its native Timer member directly;12 operand models leave30 differences;81 existing strict owners retain25249 bytes/1127 fields. | `gpt-61sol-20261030-ecl-operand-references/` (dated records) |
 | 135e62ce | Shared child-ECL release removes a conflicting private class and repeated interfaces;84 existing strict owners retain25766 bytes/1156 fields. | `gpt-61sol-20261030-enemy-child-contract/` (dated records; ECL carriers now replaced) |
 | e26062f7 | Effect34 inner jitter indexing restores four radius operand bytes without damaging equal positions; 80 existing exact owners retain25423 bytes/1137 fields. | `gpt-61sol-20261030-effect34-consumed-fields/` (dated source-bound records; ECL carriers now replaced) |
 | 252e8ea2 | Weighted-message caller uses its actual member/shared table;693/351 remains nonexact,and five strict Front owners retain2657 bytes/158 fields. | `gpt-61sol-20261030-front-loop-exits/` (dated source-bound records) |
@@ -144,8 +153,8 @@ failures and recipes remain as research records.
 The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
-`python3 scripts/validate-docs.py`. The current restart summary is
-**1035 source-present / 1003 exact / 32 non-exact**; earlier operator notes
+`python3 scripts/validate-docs.py`. The current ledger summary is
+**1035 source-present / 1004 exact / 31 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -156,19 +165,19 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 1,035 |
 | Classified exclusions | 1,176 |
 | Source-present authored mappings | 1,035 |
-| Canonical exact functions | 1,003 |
-| Source-present non-exact functions | 32 |
-| Source-present non-exact bytes | 46,966 |
+| Canonical exact functions | 1,004 |
+| Source-present non-exact functions | 31 |
+| Source-present non-exact bytes | 45,232 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 244,917 |
+| Canonical exact authored bytes | 246,651 |
 
-**244,917 / 291,883 reviewed-authored bytes = 83.9093% exact**. To reach
-98% of the *currently classified* denominator, another **41,129 bytes**
+**246,651 / 291,883 reviewed-authored bytes = 84.5034% exact**. To reach
+98% of the *currently classified* denominator, another **39,395 bytes**
 must become complete original-bound exact owners, reaching at least **286,046
 exact authored bytes**. The 37 origin-unresolved functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
-The manifests govern **1003 exact** functions.
+The manifests govern **1004 exact** functions.
 
 The catalog is not proof of complete executable-code inventory. The formerly
 uncatalogued **0x0040D677 /0x00444A78** Timer references now belong to the exact
@@ -180,7 +189,7 @@ Do not silently treat uncatalogued code as excluded.
 
 ## Reconstruction frontiers
 
-These are routing measurements, not exactness credit. The ledgers list all32
+These are routing measurements, not exactness credit. The ledgers list all31
 nonexact functions. The opcode4 setter/assignment visibility and whole Enemy
 storage controls are already measured; consult their actual frozen inputs before
 repeating them. Historical assumptions remain hypotheses.
@@ -192,7 +201,6 @@ repeating them. Historical assumptions remain hypotheses.
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Main/satellite fan chronology, polar receiver reloads and ordinal graph. Bounded emulator fixtures are not whole-runtime or exactness proof. `--owner effect29`. |
 | **Effect 34 draw** | 0x00444AF0 | **946/946 physical**,53 original referents,20 direct +12 COM calls,286 instructions,16 blocks; **74 linked differences** | Entry65 and store order9 remain; radius operands now match. Preserve872 matching bytes, all53 fields, actual float data and full physical extent. `--owner effect34`. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor. Preserve332 matching bytes and the genuine final DrawBulletLayerEffects member identity. `--owner etama`. |
-| **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 direct calls plus 2/3 original/candidate timestamp calls; 10-way switch; **1,453** overlapping differences + 44 missing | Share timestamp tail for states3/8/9 and recover branch/VM scheduling. Keep real UnPause and existing exact siblings. `--owner pause`. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Lower-bound EAX/EDX transport and encoding cascade. Native framerate/coordinate owners are corrected; preserve1771 matching bytes and both tables. `--owner movement`. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Recover source chronology and missing13 bytes; preserve repaired SpawnShots transport and actual call/field identities. |
 | **Front weighted message RNG** | 0x004162D0 | **693 target / 693 candidate**, 15 fields, 6 calls, **351** differences, zero missing/excess | Remaining source lifetime and CFG(41/40); four exact Front family owners remain protected. `--owner front`. |

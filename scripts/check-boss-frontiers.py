@@ -4411,7 +4411,7 @@ PAUSE_EXACT_SIBLINGS = (
 
 
 def guard_pause_menu(result: dict) -> dict:
-    """Noncrediting cold audit of code, alignment and 10-table physical owner."""
+    """Protect the accepted complete owner; supplied diagnostics grant no credit."""
     target, source = result.get('target'), result.get('candidate')
     if (result.get('diagnostic_only') is not True or
             result.get('exactness_credit') != 'none' or
@@ -4450,6 +4450,21 @@ def guard_pause_menu(result: dict) -> dict:
             result.get('excess_bytes') != 0 or
             result.get('complete_equal') is not (diffs == 0 and missing == 0)):
         raise RuntimeError('PauseMenu source code/table/field/call frontier regressed')
+    timestamps = [dict(offset=offset, iat=0x48E238,
+                       symbol='__imp__timeGetTime@0')
+                  for offset in (0x3C1, 0x6B2)]
+    if (physical != 1776 or missing != 0 or diffs != 0 or
+            result.get('complete_equal') is not True or
+            source.get('code_bytes') != 1734 or
+            source.get('alignment_hex') != '8bff' or
+            source.get('instructions') != 449 or
+            len(result['fields']) != 106 or
+            table != list(PAUSE_TARGET_TABLE) or
+            source.get('ordered_direct_calls') != calls or
+            source.get('internal_branches') != target.get('internal_branches') or
+            source.get('imported_calls') != timestamps or
+            target.get('imported_calls') != timestamps):
+        raise RuntimeError('PauseMenu accepted complete original equality regressed')
     # Unlike an aggregate similarity score, every linked physical byte
     # residual must refer to a distinct location in the compared owner.
     residual = result.get('differences')
@@ -4589,11 +4604,15 @@ def run_pause(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     with (ROOT/'config/match-units.toml').open('rb') as stream:
         validate_pause_real_sound(tomllib.load(stream)['units'])
     obj = 'build/matching/AsciiManagerMenu.obj'
-    build_nonexact('src/AsciiManagerMenu.cpp', obj,
-                   reference_unit='ascii-manager-on-update')
+    build('pause-menu-update')
     report = parsed(['scripts/inspect-pause-menu.py', '--json', obj])
-    exact = [canonical(u) for u in PAUSE_EXACT_SIBLINGS] if protect_exact else []
+    exact = []
     if protect_exact:
+        # These two real methods share a separate canonical object. Their
+        # opaque call boundary is part of the accepted Pause source family.
+        build('anm-vm-is-visible')
+        exact = [canonical('pause-menu-update')]
+        exact.extend(canonical(u) for u in PAUSE_EXACT_SIBLINGS)
         exact.extend(replay_pause_real_sound_exact())
     return {'pause_menu_update': guard_pause_menu(report)}, exact
 

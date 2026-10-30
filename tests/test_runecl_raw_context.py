@@ -74,9 +74,25 @@ class RunEclRawContextTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             probe.render('jump-native-time', inputs)
 
+    def test_adopted_native_timer_context_is_a_noop_and_typed_wire_still_renders(self):
+        inputs = probe.collect_inputs()
+        before = dict(inputs)
+        self.assertEqual(probe.render('jump-native-time', inputs), {})
+        text = probe.render('jump-typed-wire', inputs)['EclRunControl.inl'].decode()
+        self.assertIn('memcpy(&value, &wire.time0C, sizeof(value));', text)
+        self.assertEqual(inputs, before)
+
     def test_scalar_return_contexts_preserve_width_and_unselected_copy(self):
         inputs = probe.collect_inputs()
         before = dict(inputs)
+        control = inputs['EclRunControl.inl'].decode().replace('\r\n', '\n')
+        # Each operand recipe must preserve the complete remainder of opcode4,
+        # including its native Timer assignment and instruction redispatch.
+        jump_end = control.index('    case TH09_ECL_OPCODE_SET_INT:')
+        timer_and_redispatch = control.split(
+            'memcpy(&value, &Th09EclRunControl::RawInt(instruction, 0), sizeof(value));',
+            1)[1].split('    case TH09_ECL_OPCODE_SET_INT:', 1)[0]
+        self.assertLess(control.index(timer_and_redispatch), jump_end)
         for case in ('wire-template-jump', 'wire-template-byte',
                      'wire-template-both', 'wire-fixed-both', 'wire-reference-both'):
             changed = probe.render(case, inputs)
@@ -85,7 +101,7 @@ class RunEclRawContextTests(unittest.TestCase):
                 self.assertEqual(set(changed), {'EclRunControl.inl'} if
                                  case == 'wire-template-jump' else
                                  {'EclRunControl.inl', 'EclRunState.inl'})
-                self.assertIn(probe.TIMER, changed['EclRunControl.inl'].decode())
+                self.assertIn(timer_and_redispatch, changed['EclRunControl.inl'].decode())
                 self.assertIn('memcpy(&value, ', changed['EclRunControl.inl'].decode())
                 self.assertIn('sizeof(value)', changed['EclRunControl.inl'].decode())
         byte_only = probe.render('wire-template-byte', inputs)

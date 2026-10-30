@@ -14,20 +14,18 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class RealTimerOpcode4Binding(TestCase):
-    def test_actual_zuntimer_assignment_not_fictitious_second_callee(self):
-        text = (ROOT / 'src/EclRunControl.inl').read_text()
-        self.assertIn('#include "ZunTimer.hpp"', text)
-        start = text.index('case TH09_ECL_OPCODE_JUMP:')
-        end = text.index('case TH09_ECL_OPCODE_SET_INT:', start)
-        opcode = text[start:end]
-        self.assertNotIn('volatile', opcode)
-        self.assertIn('int value;', opcode)
-        self.assertIn('memcpy(&value, &Th09EclRunControl::RawInt(instruction, 0), sizeof(value));', opcode)
-        self.assertIn('ZunTimer &timer = *reinterpret_cast<ZunTimer *>(&context->time008);', opcode)
-        self.assertIn('timer = value;', opcode)
-        self.assertNotIn('context->time008 = value;', opcode)
-        self.assertIn('th09_ecl_redispatch_instruction', opcode)
-        self.assertIn('TH09_ECL_OPCODE_SET_TIMEOUT_SPELL', (ROOT/'src/EclRunState.inl').read_text())
+    def test_assignment_calls_the_independently_exact_native_setter(self):
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            units = tomllib.load(f)['units']
+        assignment = units['zun-timer-assign-int']
+        setter = units['zun-timer-set-current']
+        self.assertEqual(setter['target_address'], 0x004014D0)
+        self.assertEqual(setter['size'], 25)
+        self.assertEqual(setter['source'], assignment['source'])
+        self.assertEqual(setter['profile'], assignment['profile'])
+        self.assertEqual(assignment['relocations'], [dict(
+            offset=5, type='REL32', symbol=setter['symbol'],
+            target=setter['target_address'])])
 
     def test_timeout_reads_one_wire_byte_without_qualified_access(self):
         text = (ROOT/'src/EclRunState.inl').read_text()

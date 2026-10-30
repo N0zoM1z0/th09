@@ -2587,3 +2587,28 @@ preserved;no archive is added and build/ is absent.32 focused tests pass;public
 tooling is unchanged and no new full CI is claimed. Records:
 `.analysis/gpt-61sol-20261030-ecl-operand-references/`. Exact stays1003/83.9093%;
 98% and later product/runtime phases remain unfinished.
+
+## 2026-10-30: complete Pause update exact
+
+PauseMenu::OnUpdate now matches1734 code bytes plus its42-byte physical tail,
+including all106 relocation fields. The two already exact VM bodies move to
+AnmVmVisibility.cpp. The final unchanged public Oracle protects16 canonical
+units/5720 physical bytes/353 fields from five actual current objects;all12
+other menu/helper raw bodies remain unchanged. New credit is1734 authored
+bytes,bringing the ledger to1004 exact/84.5034%;98% remains unfinished.
+
+After terminal producers,cleanup deletes163 ignored files/3618381 logical
+bytes:four caller trials,one native preparation object,one superseded old menu
+object,six public build objects,14 PDBs and137 bytecode caches. All328 protected
+hashes remain unchanged at deletion time. The four deliberate ledger/guard
+updates to earlier protected inputs have separately checked Git preimages.
+Both successful and failed preparations/CI logs,full raw/COFF research records,
+source recipes and five current objects remain. No old C++ copies or archives
+are needed;14 baseline inputs regenerate from immutable Git/EOL hashes.
+
+Post-cleanup current/strict-public and saved-source/record verification pass.
+Documentation/research,current source,original target/toolchains and working
+Ghidra are preserved;build/ is absent. Public CI passes1037 tests/29 skips in
+141.772s after correcting six stale Timer-cast assertions discovered on its
+first attempt. Both CI attempts remain recorded. Packet and deletion/protection
+hashes: `.analysis/gpt-61sol-20261030-pause-vm-boundaries/`.

@@ -121,7 +121,11 @@ def render(case, inputs):
         return render_wire_return(case[5:], inputs)
     if case.startswith('jump-'):
         name = 'EclRunControl.inl'
-        source = replace_once(inputs[name].decode(), TIMER, DIRECT_TIMER)
+        source = inputs[name].decode()
+        if TIMER in source:
+            source = replace_once(source, TIMER, DIRECT_TIMER)
+        elif source.count(DIRECT_TIMER) + source.count('context->time008 = value;') != 1:
+            raise ValueError('reviewed native Timer assignment boundary changed')
         if case == 'jump-typed-wire':
             begin = source.index('    case TH09_ECL_OPCODE_JUMP:\n')
             end = source.index('    case TH09_ECL_OPCODE_SET_INT:\n', begin)
@@ -137,7 +141,7 @@ def render(case, inputs):
             source = source[:begin]+jump+source[end:]
             source = replace_once(source, 'namespace Th09EclRunControl\n{\n',
                                   'namespace Th09EclRunControl\n{\n\n'+JUMP_WIRE)
-        return {name: source.encode()}
+        return {name: source.encode()} if source.encode() != inputs[name] else {}
     use_int = case in ('raw-int-macro', 'raw-family-macros')
     use_byte = case in ('raw-byte-macro', 'raw-family-macros')
     if use_int and inputs['EclRunControl.inl'].decode().count(RAW_INT) != 1:

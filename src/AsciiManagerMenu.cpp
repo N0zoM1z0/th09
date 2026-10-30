@@ -79,15 +79,9 @@ static const unsigned int COLOR_WHITE = 0xFFFFFFFFu;
 static const unsigned int COLOR_MENU_ITEM_SELECTED = 0xFFFF8080u;
 static const unsigned int COLOR_MENU_ITEM_NORMAL = 0xFF505050u;
 
-int AnmVm::IsVisible()
-{
-    return this->flagsWord & 1;
-}
 
-void AnmVm::SetInvisible()
-{
-    this->flagsWord &= ~1u;
-}
+
+
 
 int AsciiGameManagerView::HasFlagBit0()
 {
@@ -101,11 +95,9 @@ int PauseMenu::OnUpdate()
     if (g_AsciiInput.WasPressed(8) && this->state != PAUSE_MENU_STATE_CLOSING) {
         g_SoundPlayer.PlaySoundByIdx(10, 0);
         this->state = PAUSE_MENU_STATE_CLOSING;
-        // Walk the original seven menu VMs and preserve their ordering.
-        AnmVm *end = &this->menuSprites[7];
-        for (AnmVm *vm = &this->menuSprites[0]; vm != end; ++vm) {
-            if (vm->IsVisible()) {
-                vm->pendingInterrupt = ASCII_INTERRUPT_HIDE;
+        for (i = 0; i < 7; i++) {
+            if (this->menuSprites[i].IsVisible()) {
+                this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
             }
         }
         this->frames = 0;
@@ -289,19 +281,18 @@ int PauseMenu::OnUpdate()
 
     case PAUSE_MENU_STATE_ACTION_B:
         if (this->frames >= 20) {
-            if (!g_GameManager.HasFlagBit0() && g_GameManager.difficulty != 4) {
-                this->state = PAUSE_MENU_STATE_INIT;
-                AsciiSupervisor()->state590 = 10;
+            if (g_GameManager.HasFlagBit0() || g_GameManager.difficulty == 4) {
+                g_Supervisor.StopAudio();
+                AsciiSupervisor()->state590 = 11;
                 g_GameManager.inGameMenu = 0;
                 AsciiSupervisor()->systemTime79C = timeGetTime();
-                break;
+                return 0;
             }
 
-            g_Supervisor.StopAudio();
-            AsciiSupervisor()->state590 = 11;
+            this->state = PAUSE_MENU_STATE_INIT;
+            AsciiSupervisor()->state590 = 10;
             g_GameManager.inGameMenu = 0;
             AsciiSupervisor()->systemTime79C = timeGetTime();
-            return 0;
         }
         break;
     }

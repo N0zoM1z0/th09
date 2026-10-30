@@ -3213,3 +3213,54 @@ unchanged Type34 update proof, other reused carriers, documentation/research,
 target/toolchains and working Ghidra remain. Post-cleanup maintained/strict and
 saved-source/observation replays pass. No old C++ tree or archive is added;
 build/ is absent. Exact stays 1003/83.9093%; the 98% goal remains unfinished.
+
+
+## October30 direct Timer checkpoint 10ab57e0
+
+## Current game source — direct native Timer assignment and operand models
+
+Following 135e62ce, opcode4 assigns context->time008 directly. EclOpcodes.hpp
+already defines this member as the actual ZunTimer; the same-type reinterpretation
+and temporary reference were redundant. All 138 regular bodies in both ECL
+profiles remain raw-identical, with effective fields fixed. RunEcl remains
+15564/598/30, Enemy3900/97/13 and Effect34 draw946/53/74; this simplification
+adds no exactness credit and does not solve the remaining register schedules.
+
+Current packet: `.analysis/gpt-61sol-20261030-ecl-operand-references/`.
+Run current.py verify for both maintained profiles and the actual unchanged
+25+9-byte Timer pair, using the unchanged strict public Oracle. All 81 existing
+exact owners retain 25249 physical bytes/1127 fields. Main reuses its actual
+source-identical compiled control; only Ob0 is freshly built for adoption.
+All 184 private renames per ECL profile have unchanged actual owner-relative
+destinations; eight canonical names in two units are refreshed. No offset,
+addend, target, extent, ABI or compiler profile changes. Other 922 canonical
+units receive no new replay.
+
+Twelve complete main-carrier models test actual lvalues, consumed operand
+objects, formal Enemy flag storage and input snapshots. Four reproduce every
+baseline RunEcl byte: four-byte time record, formal Enemy word, direct native
+Timer and helper-only u16. Only the smaller direct Timer form is adopted.
+Implicit time conversion gives42 ordinary differences; three native/promoted
+flag forms give2258/2140/2290 total differences, including239/202/242 field bytes
+and26 table bytes within those field counts. Two-reference and two consumed
+reference-snapshot helpers outline18 bytes; a byte-record helper outlines23.
+Their15560/15576-byte callers have599 fields and fail the original coverage
+check before any complete-owner score. Added helpers receive no invented target.
+
+All twelve models preserve75 same-profile exact siblings and six actual RunEcl
+literal definitions each. Thirteen actual serial one-CPU/nice10 builds cover
+the twelve models and one maintained Ob0. No new baseline, main-adoption or
+Timer-pair compile is claimed. verify_saved.py reproduces78 baseline Git/EOL
+inputs and all models, then replays eight complete raw/field/943-block records
+and four explicit outlined-call rejections. rebuild.py CASE --output FRESH_DIR
+cold-reproduces one model from immutable Git inputs without old C++ copies.
+The first recorder's postcompile coverage exception is recovered from the same
+actual object; no compile is restarted.32 focused tests pass; no new full CI.
+
+Cleanup removes27 ignored files/6900221 logical bytes: eleven trial objects,
+two superseded ECL objects,thirteen PDBs and one cache. All279 protected files
+retain their hashes. Two maintained ECL objects,the native Timer carrier,other
+reused carriers,documentation/research,target/tools and working Ghidra remain.
+Current/strict and saved-source/observation replays pass afterward. No archive
+or old source tree is added;build/ is absent. Exact remains1003/83.9093%; the98%
+goal,original source spelling/TU ownership and later product/runtime stay open.

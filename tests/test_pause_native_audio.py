@@ -32,27 +32,26 @@ class PauseNativeAudioTests(unittest.TestCase):
         clock = 'AsciiSupervisor()->systemTime79C = timeGetTime();'
         self.assertEqual(body.count(clock), 2)
         self.assertEqual(body.count('refreshTimestamp = true;'), 3)
+        statements = '\n'.join(line.strip() for line in body.splitlines())
         self.assertIn('g_Supervisor.StopAudio();\n'
-                      '            AsciiSupervisor()->state590 = 11;\n'
-                      '            g_GameManager.inGameMenu = 0;\n'
-                      '            '+clock+'\n            return 0;', body)
+                      'AsciiSupervisor()->state590 = 11;\n'
+                      'g_GameManager.inGameMenu = 0;\n'
+                      +clock+'\nreturn 0;', statements)
         self.assertIn('if (refreshTimestamp) {\n        '+clock+'\n    }\n\n'
                       '    for (i = 0; i < 7; i++) {\n'
                       '        g_AnmManager->ExecuteScript', body)
         original = PROBE.definition(source, 'int PauseMenu::OnUpdate()')
         self.assertEqual(rendered.replace(body, original), source)
 
-    def test_opaque_context_removes_only_the_three_real_definitions(self):
+    def test_opaque_context_keeps_vm_methods_external_and_removes_game_flag_body(self):
         source = (ROOT/'src/AsciiManagerMenu.cpp').read_text()
         visible = PROBE.control_context(source, 'deferred-time')
         expected = visible
-        for marker in ('int AnmVm::IsVisible()', 'void AnmVm::SetInvisible()',
-                       'int AsciiGameManagerView::HasFlagBit0()'):
-            expected = expected.replace(PROBE.definition(expected, marker), '', 1)
+        marker = 'int AsciiGameManagerView::HasFlagBit0()'
+        expected = expected.replace(PROBE.definition(expected, marker), '', 1)
         self.assertEqual(PROBE.control_context(source, 'deferred-time-opaque'), expected)
         with self.assertRaises(ValueError):
-            PROBE.control_context(source.replace('int AnmVm::IsVisible()',
-                                                'int AnmVm::OtherMethod()'),
+            PROBE.control_context(source+'\nint AnmVm::IsVisible() { return 1; }\n',
                                   'deferred-time-opaque')
 
     def setUp(self):
