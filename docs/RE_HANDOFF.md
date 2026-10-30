@@ -9,8 +9,8 @@ without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affect
 sources/profiles. Preserve research records;delete unused old code/build copies.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Current game source includes the **October31 network-dataflow repair** in this
-checkpoint(parent86ad97e3);the previous game-source checkpoint is **aefb9493**.
+Current game-source checkpoint: **43f491a7**;the previous checkpoint is
+**aefb9493**. The latest research-only checkpoint leaves these inputs unchanged.
 SupervisorServiceUpdate now calls the defined native RNG APIs and retains the
 original prefill/prediction session,pre-seed send receivers and signed packet
 side. All106 external-reference identities now match the target's multiplicities,
@@ -82,9 +82,18 @@ ledger changes.
   complete controls. Four full-operation object/proxy models add a genuine
   unbound helper call and fail the whole owner. Small value accessors and a
   real word conversion inline but preserve30. Tiny reference accessors inline,
-  leave opcode155 unchanged and shorten opcode157160 to158,giving2153 total
+  leave opcode155 unchanged and shorten opcode157 from160 to158,giving2153 total
   differences. All75 exact siblings pass per model;none is adopted. Immutable
   Git/EOL reproduction and complete raw/COFF records remain after trial cleanup.
+- `.analysis/gpt-61sol-20261031-ecl-native-vectors/` bounds nine complete
+  vector/workspace/head-reset models,with675 existing exact sibling comparisons.
+  Movement/trail native vectors and real word workspaces leave all138 regular
+  bodies unchanged. A genuine inline reset adds an unused27-byte body but keeps
+  the caller unchanged;ascending reset adds four differences(Enemy17),and memset
+  shortens the whole owner to3892,so is rejected. RunEcl stays30 in every model.
+  One invalid cross-family RHS scope fails compilation;the corrected shared
+  function-scope model compiles and stays30/13. Immutable Git/EOL reconstruction
+  and one independent cold whole-object replay pass. No source/type/ABI adoption.
 - Two whole-ECL native-side-type controls retain75 exact siblings each.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`
@@ -191,7 +200,7 @@ repeating them. Historical assumptions remain hypotheses.
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | EDI/ESI owner allocation. Preserve310 matching bytes; timer-float visibility regresses physical size and x87 lifetime. |
 | **Controller input** | 0x0042B410 | **808 / 810**, 32 fields; **84** overlap differences /2 excess bytes | Both midpoint evaluations per axis are restored; register scheduling and two excess bytes remain. Preserve all694 old matches plus30 restored positions,32 fields and native globals. |
 | **Supervisor network HandleMessage** | 0x00432B70 | **768 authored /808 physical bytes**, 46 fields, 17 direct +2 virtual calls, 34 matching blocks; **105 differences** (125→111→105) | Packed-input/frame scheduling. Keep all six switch targets, map bytes and703 matching physical bytes. `--owner netmessage`. |
-| **Supervisor network service** | 0x00430AA0 | **1,633 / 1,632**, 108 source fields | Queue ownership and1395 overlapping differences. Keep original referents and exact queue siblings independent. `--owner network`. |
+| **Supervisor network service** | 0x00430AA0 | **1,633 target /1,626 candidate**,106 source fields;51 call-identity multiplicities agree |1376 unequal overlaps plus7 missing. Native RNG and observed packet/session lifetimes are repaired;wait/stack/input transport remain open. `--owner network`. |
 | **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | Whole-owner physical deficit and startup chronology. Keep native GameManager/Title/Ending symbols and actual version data. `--owner supervisor`. |
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Y-pointer LEA versus MOV alias after actual Float3 conversion. Keep complete owner, fields, branches and exact ECL cohort. `--owner runecl`. |
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Remaining receiver/allocation scheduling. Preserve43 matching bytes and genuine AnmLoaded/Chain interfaces. `--owner effect`. |

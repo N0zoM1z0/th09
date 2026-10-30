@@ -26097,3 +26097,116 @@ records and recipes remain. Inputs-only and cold-reproduction receipts now use
 separate files so the former cannot replace the latter;the cold receipt is
 regenerated and checked before its disposable files are removed. No old source
 copy or archive is made.
+
+## October31: whole ECL vector, word-workspace and collection-reset controls
+
+Recovery is clean at43f491a7. The prior goal turn is progress:it restores the
+network service's actual session/side lifetimes and native RNG interface,without
+exact credit. Original Japanese1.50a disk identity,tracking and live status pass.
+Fresh direct Ghidra12.1.4 reuses the verified project and attests all685056 mapped
+file-backed bytes before exporting complete Enemy410730. Complete raw target
+RunEcl/Enemy comparisons reuse the unchanged source/profile/object-bound ECL
+carrier,not a fresh baseline or the full canonical cold cohort. No game source,
+profile,header,manifest,ABI,extent or exactness ledger is changed in this batch.
+
+Original RunEcl differences remain exactly seven opcode4 time/receiver transport
+bytes and23 opcode155 flag-update bytes. The actual latter handler first MOVZX-
+loads the wire byte into ECX,loads old flags into ESI,and publishes via EAX.
+The candidate first loads CL,loads old flags into EAX,extends CL and publishes
+via ECX. Enemy retains all97 bound operands,69 ordered calls and170 reviewed
+blocks,with13 register/copy differences. These are direct complete byte/field
+observations;Ghidra scratch types and adjacent-game names remain provisional.
+
+Three vector models test the meaningful type distinction between the existing
+POD EnemyFloat3 and real Float3. The movement view's seven vectors and actual
+ConfigureRelativeMotion/BoundaryMove/MoveRandomBiased typed uses become Float3,
+with redundant same-type casts removed. A separate model changes the two real
+trail-history vectors;the combined model does both. No external signature or
+read/write width changes. Existing asserted twelve-byte vector widths,field
+positions,history stride and array extents remain. All three reproduce every
+one of138 regular raw bodies and every effective actual field. Both big owners
+stay30/13. This bounds whole-field sharing,not just the previously tested
+opcode94 temporary,and supplies no basis to adopt a nominal type or original TU.
+
+Three valid word models reuse the real existing interpreter integer workspace
+for the old word,the updated result,or old/result separately. memcpy captures
+exactly four representation bytes;the unsigned publication keeps all bits and
+the original one-byte input/unsigned shift/mask. Every definition is consumed
+by the actual RMW. No register/variable-order hint,dummy clobber,new qualifier,
+padding,force-inline or compiler-profile change is introduced. All three retain
+all138 complete bodies/effective fields and RunEcl30/Enemy13. One initial two-
+workspace model fails C2065/C2070/C3861 because rhsInt is actually scoped within
+the control-family block. Its failed recipe/log is retained without an owner
+score. The corrected model moves that existing declaration to function scope,
+where both actual control operands and the state-word result consume it;it
+compiles fully but remains byte-neutral. Do not treat the invalid attempt as a
+codegen result,or the corrected one as evidence that scopes are always neutral.
+
+Three Enemy head-reset models test the actual four-pointer collection operation.
+The original prefix clears slots3,2,1,0 with four six-byte stores. Ascending
+source iteration unrolls into0,1,2,3 and changes only four displacement bytes
+at+58/+5E/+64/+6A. Its complete3900-byte/97-field owner has17 differences;the old
+13 are all still present. memset emits a real base-address LEA plus four short
+stores through that base,no new clear call. It shortens the complete owner to
+3892 bytes while retaining97 actual fields;the strict inspector rejects the
+physical extent before any whole-owner score. It is not an exact shorter head.
+An ordinary ResetDrawGroups member performs the original four writes and really
+inlines. Its complete caller and all138 baseline bodies/fields stay unchanged;
+a separate27-byte/zero-field definition is emitted with zero nondebug references.
+Its original ownership is unknown and no target address is invented for it.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-NATIVE-VECTOR-001 | compiler observation | Movement native vectors retain138 complete bodies,RunEcl30/Enemy13. | movement-vectors.json |
+| ECL-NATIVE-VECTOR-002 | compiler observation | Trail native vectors likewise retain all baseline bodies/fields. | trail-vectors.json |
+| ECL-NATIVE-VECTOR-003 | compiler observation | Combined native vector fields remain raw/effective-field neutral. | shared-vectors.json |
+| ECL-WORD-WORKSPACE-001 | compiler observation | Existing lhsInt captures the old flags word;all138 bodies/fields unchanged. | flag-old-lhs.json |
+| ECL-WORD-WORKSPACE-002 | compiler observation | Existing lhsInt carries the updated unsigned word;all138 bodies/fields unchanged. | flag-result-lhs.json |
+| ECL-WORD-WORKSPACE-003 | invalid source model | rhsInt is outside the state-family scope;compiler rejects before producing an object. | flag-old-lhs-result-rhs.json/.log |
+| ECL-WORD-WORKSPACE-004 | compiler observation | Actual function-scope shared RHS repairs that scope,retains all138 bodies/fields. | flag-old-result-shared-rhs.json |
+| ENEMY-HEAD-RESET-001 | rejected whole owner | memset gives3892 bytes/97 fields;physical extent fails. | heads-memset.json |
+| ENEMY-HEAD-RESET-002 | compiler observation | Ascending loop gives3900/97/17,with four newly wrong clear displacements. | heads-loop.json |
+| ENEMY-HEAD-RESET-003 | compiler observation | Ordinary meaningful reset operation keeps3900/97/13 and adds an unreferenced27-byte emitted body. | heads-operation.json |
+
+Every one of the nine successful complete ECL objects retains all75 canonical
+same-profile siblings:675 repeated complete original-byte/field comparisons,
+not new authored credit. Every RunEcl stays15564 bytes/598 fields/30 ordinary
+and zero field/table differences. The137 other common bodies also retain their
+raw bytes/effective fields in both changed-Enemy cases. Raw records distinguish
+actual section ordinals from identity;only real owner-local coordinates and
+anonymous source-path suffixes normalize for whole-object reproduction. No byte
+is normalized in an original-bound exact comparison. The public inspectors and
+acceptance guards remain unchanged. An attempted unsupported --explain flag on
+the ECL CLI stops at argument parsing;the supported report API supplies the
+complete30-offset target comparison instead.
+
+Read-only adjacent sources at observed TH08 HEAD049a4a26 and TH095 HEAD72409b73
+both already spell the four descending head clears. TH08's timeout setter also
+shows the previously explored bitfield family. Their source hashes/HEADs are
+recorded only as hypothesis material;neither game's types,addresses,ownership,
+exactness or source-hint techniques are TH09 evidence. No adjacent source or
+forbidden register/identifier hint is imported into a TH09 model.
+
+All10 staged input sets,including the failed model,reconstruct from immutable
+43f491a7 Git/EOL hashes. A separate cold corrected-workspace build reproduces
+all138 complete raw bodies/effective fields,all75 existing exact siblings,and
+RunEcl30/Enemy13. Its object/PDB live only in a self-cleaning temporary directory.
+All11 compiler calls are serial,one allowed CPU,nice10,timeout180s. The current
+network packet's153 existing exact-unit source/profile/object pins remain
+unchanged;no unrelated cold build or public CI is needed for research/docs only.
+Full records,commands,logs,source recipes,provenance and replay scripts remain in
+.analysis/gpt-61sol-20261031-ecl-native-vectors/. audit.py rechecks complete saved
+records/current proof inputs;reproduce.py supports one fresh immutable cold case.
+
+The handoff now names43f491a7 as the game-source checkpoint and corrects its
+stale network frontier row from1632/108/1395 to1626/106/1376+7 missing. That row
+had lagged behind the already-correct header/source evidence. Tracking and exact
+credit remain1004/1035 and246651/291883 authored bytes(84.5034%). No evidence here
+closes98%,native product/runtime,dual-Oracle semantics or portability.
+
+After terminal producers,bounded cleanup removes20 trial/debug/bytecode files,
+4839178 logical bytes. All896 protected files retain their deletion-time hashes,
+including current/reused proof objects,tracked source,original target and this
+packet's research records/recipes. The independent replay's temporary object/PDB
+were already self-removed. No old C++ tree or new archive is created. Post-cleanup
+record/recipe audits,documentation/tracking/progress and whitespace pass.
