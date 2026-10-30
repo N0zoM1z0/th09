@@ -2488,3 +2488,30 @@ Oracle on retained actual objects,with no new compilation. The two earlier
 current/callee receipts remain; deliberate post-cleanup manifest/provider
 recapture has separately recorded before/after hashes. The143 protected hashes
 refer to deletion time; later metadata updates are distinguished.
+
+## 2026-10-30: weighted-message caller/shared-table cleanup
+
+FrontCalc now calls the actual FrontMessageRandomView implementation through
+its full shared header. Selector,loader and release share the same eight-byte
+wire entry; its signed+4 DWORD is weight04. Random's complete693-byte raw body/
+15 fields remains unchanged at351 differences. Added remains706/37/222.
+Three affected cold exact owners plus two unchanged setup/initializer proofs
+pass the strict public Oracle:2657 bytes/158 fields. Eight loop controls remain
+rejected; actual initialization prefixes agree across120 declared fixtures.
+
+After all producers terminate,cleanup deletes29 regular ignored files/981471
+logical bytes:14 obsolete objects,14 PDBs and one bytecode cache. Nine objects
+are trials;five are replaced current Front carriers,including one redundant
+older loader object. Their full raw/field definitions and recipes remain as
+records; retained maintained objects replace their source/profile proofs.
+All169 protected files retain their hashes,including seven current/cached Front
+objects,actual native Player carriers,other reused proof objects and target.
+Previously retired ECL carriers are separately accounted for,no longer current.
+
+Current five-carrier,strict public,saved-source and all1440 initialization-prefix
+observations pass after deletion.23 Git/EOL inputs,nine control hashes and four
+maintained file recipes reproduce without old C++ copies. Documentation/research
+records,current source,target/toolchains and Ghidra working state remain.
+No new source archive is created;build/ is absent.19 focused tests pass. Records:
+`.analysis/gpt-61sol-20261030-front-loop-exits/`. Exact stays1003/83.9093%;98%
+and later phases remain unfinished.

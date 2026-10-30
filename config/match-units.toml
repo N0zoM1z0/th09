@@ -22133,7 +22133,7 @@ relocations = [
   { offset = 0x4e0, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x4a7e90 },
   { offset = 0x4e6, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x4a7e90 },
   { offset = 0x4ee, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x4a7e90 },
-  { offset = 0x4fe, type = "REL32", symbol = "?SetupRandomForSide@FrontCalcMessageRuntimeView@@QAEXH@Z", target = 0x4162d0 },
+  { offset = 0x4fe, type = "REL32", symbol = "?SetupRandomForSide@FrontMessageRandomView@@QAEXH@Z", target = 0x4162d0 },
   { offset = 0x51e, type = "DIR32", symbol = "?g_GameManager@@3UFrontCalcGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x523, type = "REL32", symbol = "?BeginAuxTransition@FrontCalcFrontSideView@@QAEXXZ", target = 0x415d50 },
   { offset = 0x529, type = "DIR32", symbol = "?g_GameManager@@3UFrontCalcGameManagerView@@A", target = 0x4a7d90 },

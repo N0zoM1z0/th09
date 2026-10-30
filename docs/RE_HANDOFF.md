@@ -9,7 +9,7 @@ without assuming earlier notes are conclusive. The98% milestone is unfinished.
 
 The restart game-source baseline is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
 (Controller axis ranges); maintenance checkpoint7bc3b956 adds no game-source
-change. The Player contract, weighted Front, charge, RunEcl, instruction-mask and
+change. The weighted-message, Player contract, charge, RunEcl, instruction-mask and
 callback corrections are described below. Use
 live Git status and ledgers before dated measurements. Exactness credit and
 compiler profiles remain unchanged. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
@@ -20,59 +20,57 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current game source — shared Player native contracts
+## Current game source — native weighted-message caller and shared table
 
-Followingbe7c4658, Player registration uses the existing12-byte ZunTimer and
-real GameManager declaration. Side pointers address the native sides array.
-Two DIR32 symbols at registration+90/+95 change from the incompatible byte-array
-name to ?g_GameManager@@3UAsciiGameManagerView@@A; original root4A7D90 and
-addends0/38 remain fixed. The complete328-byte registrar and its86/75-byte
-lifecycle siblings remain exact in both the native-root control and maintained
-cold build:489 bytes/43 fields. This does not establish whole-product linkage.
+Following49cf85ba, the reviewed FrontCalc caller uses the actual
+FrontMessageRandomView::SetupRandomForSide member through its shared full
+1D70 runtime header. Its previous FrontCalcMessageRuntimeView declaration had
+no matching implementation. Caller+4FE remains REL32 to4162D0/addend0; only
+the C++ identity changes. All1491 caller bytes/107 fields remain exact.
+Other message facades and original nominal C++ ownership remain open.
 
-Charge imports the actual SoundPlayer.hpp instead of defining a one-byte class
-with that same name. ECL movement imports PlayerAngleView.hpp instead of
-repeating both angle types. The actual existing Timer,Sound and angle bodies
-support these interfaces; original nominal classes remain provisional. No
-shared header,calling convention,compiler profile or game branch is changed.
+Random selection,loading and release now share FrontMessageTableView. The
+file entry's offset/instruction-pointer union stays at+0 and its signed weight
+at+4,with eight-byte stride. The old unknown04 name is replaced by weight04
+from the original signed comparison/subtraction. Private random table/entry
+copies are removed. The class body moves from the CPP into the shared header,
+without a new runtime wrapper,inheritance,field or call. Original object/wire
+lifetime and wider runtime domains remain provisional.
 
-Current packet: `.analysis/gpt-61sol-20261030-native-player-contracts/`.
-Run verify_current.py for maintained source/profile/provider/object-bound
-replay,callees.py verify for actual native callees,standard_gate.py for86
-unchanged strict public Oracle checks,and verify_saved.py for
-82 baseline Git/EOL inputs and the one added shared header. Current proofs
-need no old C++ source tree or superseded binary. Four affected carriers retain
-82 existing exact owners/25704 complete bytes/1169 fields. Both ECL profiles
-are checked,not just the main profile. The actual angle callee adds a cold
-101-byte/five-field proof; three unchanged Timer/Sound proofs reuse174 bytes/
-two fields. Total distinct existing exact owners checked:86/25979 bytes/1176
-fields. Other917 get no new compile or native-callee replay; no full1003 cold
-replay or new exact credit is claimed.
+Current packet: `.analysis/gpt-61sol-20261030-front-loop-exits/`.
+Run current.py verify for all five affected maintained carriers,standard_gate.py
+for the unchanged strict public Oracle,and verify_saved.py for23 baseline
+Git/EOL inputs,nine control sources/reports and four maintained file recipes.
+Three affected exact owners are cold:callback1491,loader405 and release271;
+two unchanged setup/initializer proofs reuse357/133 bytes. All five pass the
+strict public Oracle:2657 original bytes/158 fields. No full1003 replay or new
+exact credit is claimed. The random owner remains wholly raw/field-equal at
+693 bytes/15 fields/six calls/41 blocks/351 differences,zero missing/excess.
+Front Added remains706 bytes/37 fields/21 calls/19 equal blocks/222 differences,
+passing its unchanged residual guard. Its actual front.anm definition passes.
 
-All281 regular emitted bodies retain their98634 raw bytes and4445 fields,
-except two native global symbol corrections and440 independently position-
-proved private label spellings across the two ECL profiles. Separate compiler
-contributions remain unchanged. RunEcl stays15564/598/30 with zero field/table
-differences; Enemy3900/97/13; charge1197/1210,70 fields,58 calls,1160 overlap
-differences+13 missing. Charge's co-visible20-byte Timer also stays exact.
-The missing original source relationships are still open.
+Eight new natural exit/index/counter controls are rejected. Three distinct
+exit forms each emit537 bytes/15 fields and fail the fixed extent guard.
+Record indexing gives687/549 differences+6 missing/42 blocks; typed cursor
+696/634+3 excess; offset/remaining counters723/584+30 excess and724/595+31.
+Correct exits alone do not establish original codegen; no guard is weakened.
+A separate real shared-wire type control is entirely raw/field neutral.
 
-31 focused complete-byte,COFF/literal and tracking tests pass. Public tools
-are unchanged. The manifest refreshes two registration global symbols and20 position-proved
-private label spellings in two ECL units. Only three function notes cells
-change; all extents,targets,addends,statuses and other unit content remain fixed.
-The current ledger remains1003 exact/83.9093%;98% is unfinished. The previous
-Front improvement remains693/351 with no missing/excess bytes; its detailed
-checkpoint is preserved in the existing archive and KB.
+Actual initialization-prefix diagnostics cover12 streams/eight distinct linked
+streams on120 fixtures:1440 executions. Original RNG bodies execute; all1D70
+runtime bytes,RNG state and next ANM receiver/arguments agree. Execution stops
+before the first ANM call. This bounded question does not prove full runtime,
+all table domains or exactness.19 focused tests pass; public tools/profiles
+are unchanged. Only one canonical caller symbol and four function notes cells
+change; extents,addresses,addends,statuses and other unit content remain fixed.
+Exact remains1003/83.9093%;98% remains unfinished.
 
-Cleanup removes15 ignored files/1447529 logical bytes:six superseded objects,
-eight PDBs and one bytecode cache. All143 protected files retain their deletion-
-time hashes. Three retired current ECL/charge carriers are replaced by the
-complete maintained proofs above; no old C++ copy or new archive is kept.
-Current caller/callee,strict public Oracle and source reproduction replays
-pass after cleanup. Final metadata recapture is separately recorded; deletion-
-time protection hashes are retained.
-Documentation,research records,target/toolchains and Ghidra state remain;
+After producer termination,cleanup removes29 ignored files/981471 logical
+bytes:14 obsolete objects,14 PDBs and one bytecode cache. Five retired current
+carriers are replaced by maintained proofs; all169 protected files retain
+their hashes. Current,strict public,saved-source and all1440 prefix replays
+pass afterward. Documentation/research records,current source,target/toolchains
+and working Ghidra state remain. No old C++ tree or new archive is retained;
 build/ is absent.
 
 ## Earlier dependency corrections
@@ -101,6 +99,7 @@ and source-interface cleanup earn no partial exact credit.
 | 4dd2212d | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/` (dated records) |
 | 17a11669 | Native Type6/7/8/9 setup and EffectManager contracts;219 existing exact owners preserved. | `gpt-61sol-20261030-runecl-formal-state/` (dated records) |
 | 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |
+| 49cf85ba | Shared Player Timer/Sound/angle declarations and actual GameManager registration root;86 existing strict canonical proofs retain25979 bytes/1176 fields. | `gpt-61sol-20261030-native-player-contracts/` (dated source-bound records) |
 | be7c4658 | Natural signed weighted Front scans recover693 bytes with351 differences/no missing; remains nonexact. | `gpt-61sol-20261030-front-weighted/` (dated source-bound records; use the public inspector for live diagnostics) |
 | 6c5a019a | Charge uses actual GameConfiguration through a unique+E8 view; complete1197/70/1160+13 is unchanged. | `gpt-61sol-20261030-charge-configuration/current.py verify` |
 | e73311d9 | Charge uses actual Effect* state-effect methods;1197/70/1160 plus13 missing remains nonexact. | `gpt-61sol-20261030-charge-native-effects/verify_current.py` |

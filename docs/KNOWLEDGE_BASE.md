@@ -24311,3 +24311,105 @@ receipts and before/after hashes remain. Cleanup's143 deletion-time protection
 hashes are unaffected by the deletion operation; later metadata updates have a
 separate record. No old source tree or removed object is needed for current
 verification.
+
+## October 30: weighted-message native caller,shared wire table and exit controls
+
+Recovery begins clean at49cf85ba; the preceding shared Player contract commit
+is progress. Original Japanese1.50a disk identity and direct Ghidra cached
+Program/i386/base/entry/all685056 mapped bytes pass. Fresh exports cover the
+complete weighted picker4162D0 and its reviewed caller417630. Original picker
+still has693 bytes/206 instructions/15 independently bound fields/six calls/
+40 blocks. Its complete original SHA256 remains
+915acb9e918496d6397b6fe577ae5250628892741d94a8961c3555b7ab94ddda.
+
+Eight natural current-source controls ask why original exhaustion bypasses the
+success guard. Tail-exhaustion,loop-head transfer and bounded-do success each
+emit537 bytes/15 fields and fail the unchanged full-extent guard. Their shorter
+code is not proof of missing semantic work; their limited initialization states
+are checked separately below. Record indexing in fallback,with or without
+indexing the primary scan,emits687 bytes/203 instructions/42 blocks/104 aligned
+instructions/549 differences+6 missing. Fallback-only typed-record cursor emits
+696/204/41/118/634 differences+3 excess. Distinct consumed offset/remaining
+window counters emit723/216/43/126/584+30 excess and724/217/43/125/595+31.
+These source models regress the complete frontier and are not adopted. More
+aligned instructions or one correct branch destination does not establish
+whole-owner equality. No register/declaration-order hint,volatile,assembly,
+profile sweep,target patch,dummy effect or new helper boundary is introduced.
+
+Following the real call reveals a separate contract mismatch: FrontCalc declares
+SetupRandomForSide on FrontCalcMessageRuntimeView,while the implementation is
+FrontMessageRandomView::SetupRandomForSide. Publish the actual full1D70 runtime
+projection in FrontMessageRandomView.hpp and cast the existing embedded runtime
+at+E944 to that actual interface at its reviewed call. Remove only the fake
+random method declaration. All1491 caller raw bytes/107 fields stay fixed except
+the native method symbol at+4FE; target4162D0 and addend0 are unchanged. Other
+Setup/Update facades and original nominal class identity remain unresolved.
+
+The actual loader/releaser already share FrontMessageTableView. Weighted
+selection now consumes that same view instead of its two private table/entry
+copies. Original table+4+index*8 points to an offset converted into an instruction
+pointer by the loader; the following signed DWORD is the random weight. Rename
+unknown04 to weight04 and preserve the union,width and offset assertions. A
+separate actual shared-table control preserves every emitted raw byte/field.
+Maintained header extraction also retains exactly one693-byte body,205
+instructions,15 fields,six ordered calls,41 blocks,118 aligned instructions,
+351 differences and zero missing/excess. No original C++ object/wire lifetime
+or fixed220-entry allocation is inferred from the bounded projection.
+
+Fourteen compiles run serially at nice10 on one allowed CPU with180-second
+bounds: eight loop models,one shared-table control and five maintained carriers.
+The unchanged source/profile/object-bound693-byte baseline is reused. Maintained
+callback1491/107 fields,loader405/18 and release271/14 are exact. Unchanged setup
+357/10 and initializer133/9 reuse their actual source/profile/object proofs.
+All five pass the unchanged public strict compare_unit on actual objects:
+2657 bytes/158 fields,using a temporary manifest that changes only object paths.
+Other998 canonical units receive no new comparison or compilation. No full1003
+cold replay or new acceptance is claimed. Maintained Front Added stays706/37/
+21 calls/19 equal blocks/222 differences and passes its unchanged protected
+residual mask; the actual front.anm resource definition matches the target.
+
+All ten actual weighted carriers independently define the original two-byte
+space and both references,including rejected short bodies. Whole raw/COFF
+captures and guard rejections remain.19 focused original-operand,loader,
+release and shared-owner tests pass. Only one canonical caller symbol and
+four function notes cells change; all other unit content/CSV cells remain
+independently equal to49cf85ba. Public validation tools and profiles stay fixed.
+
+A specific actual-byte prefix diagnostic checks the exit models rather than
+assuming their source spelling is semantically valid. Original,baseline,eight
+loop models,shared-wire and maintained sources form12 named/eight distinct
+linked streams. Each executes120 fixtures:1440 Unicorn1.0.2 runs. Fifteen
+templates cover primary slots0/5/9,all fallback slots210..219,balanced fallback
+and exhaustion; two seeds,two sides and two opponent selectors give120 fixtures,
+with count220/backing220 entries. Synthetic instruction tokens are not executed.
+Original GetRange4048B0/41 bytes and Next42AE20/39 bytes execute at their actual
+addresses; the runner permits only reviewed caller/helper extents. All complete
+1D70 runtime bytes,RNG seed/count/padding and next ANM receiver/two arguments
+agree,also matching a separate weighted-selection/RNG reference. Execution
+stops before first ANM call,no ANM/DrawText stub or whole-runtime/untested-domain
+claim. Equivalent tested prefixes cannot waive whole-byte comparisons.
+
+The maintained producer initially calls the wrong private recorder entrypoint
+for Front Added after all five actual compiles succeed. Its terminal objects
+are recovered,then the recorder uses the real inspect entrypoint/differences
+key without recompiling. This is a recorder correction,not a failed game-source
+hypothesis.23 baseline Git/EOL inputs,nine control hashes and all four maintained
+file recipes reproduce in memory; no old C++ tree is retained. Current/source,
+full raw/COFF,strict public gate,control and prefix records are under
+`.analysis/gpt-61sol-20261030-front-loop-exits/`. Exact stays1003 and
+244917/291883(83.9093%);98% and later phases remain unfinished.
+
+After all producer handles terminate,cleanup removes29 regular ignored files/
+981471 logical bytes(about0.94MiB):14 obsolete objects,14 PDBs and one bytecode
+cache. Nine objects are trial captures; five are superseded current Front
+carriers,including the redundant older loader carrier. Complete emitted
+body/field records remain and current objects replace the source/profile proofs.
+All169 protected files retain their hashes,including seven current/cached Front
+objects,existing native Player proof objects,other reused carriers and original
+target. Current five-carrier,strict public,saved-source and all1440 prefix
+observations pass after cleanup. Two already-retired ECL objects in the older
+reuse inventory are explicitly accounted for by their prior replacement record;
+no missing carrier is silently counted as a current proof. Documentation and
+research records remain,with no old C++ source tree or new archive;build/ is
+absent. The only game-source adoption is actual caller/table sharing;none of
+the eight rejected loop bodies is promoted.

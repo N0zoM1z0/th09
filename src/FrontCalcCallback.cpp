@@ -4,6 +4,7 @@
 #include "FrontSupport.hpp"
 #include "ScreenEffect.hpp"
 #include "ZunTimer.hpp"
+#include "FrontMessageRandomView.hpp"
 
 #include <stddef.h>
 
@@ -24,7 +25,6 @@ struct FrontCalcMessageRuntimeView
 
     int Update();
     void Setup(int index, int unused);
-    void SetupRandomForSide(int sideIndex);
 };
 
 typedef char FrontCalcMessageSizeIs1D70[
@@ -372,8 +372,9 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 g_FrontRuntimeValues90[2] >= g_FrontRuntimeValues90[1] ||
                 g_FrontRuntimeValues90[3] >= g_FrontRuntimeValues90[1])
             {
-                front->messageRuntimeE944.SetupRandomForSide(
-                    front->transitionSide10964);
+                reinterpret_cast<FrontMessageRandomView *>(
+                    &front->messageRuntimeE944)->SetupRandomForSide(
+                        front->transitionSide10964);
             }
             else
             {

@@ -2994,3 +2994,60 @@ baseline/trial objects,15 PDBs and13 bytecode caches. All62 protected files
 retain their deletion-time hashes. Current, four exact Front, saved-control
 and current-prefix verification pass afterward. Research records and recipes
 remain; no old C++ copy or new source archive is kept, and build/ is absent.
+
+## October30 shared Player checkpoint49cf85ba
+
+## Current game source — shared Player native contracts
+
+Followingbe7c4658, Player registration uses the existing12-byte ZunTimer and
+real GameManager declaration. Side pointers address the native sides array.
+Two DIR32 symbols at registration+90/+95 change from the incompatible byte-array
+name to ?g_GameManager@@3UAsciiGameManagerView@@A; original root4A7D90 and
+addends0/38 remain fixed. The complete328-byte registrar and its86/75-byte
+lifecycle siblings remain exact in both the native-root control and maintained
+cold build:489 bytes/43 fields. This does not establish whole-product linkage.
+
+Charge imports the actual SoundPlayer.hpp instead of defining a one-byte class
+with that same name. ECL movement imports PlayerAngleView.hpp instead of
+repeating both angle types. The actual existing Timer,Sound and angle bodies
+support these interfaces; original nominal classes remain provisional. No
+shared header,calling convention,compiler profile or game branch is changed.
+
+Current packet: `.analysis/gpt-61sol-20261030-native-player-contracts/`.
+Run verify_current.py for maintained source/profile/provider/object-bound
+replay,callees.py verify for actual native callees,standard_gate.py for86
+unchanged strict public Oracle checks,and verify_saved.py for
+82 baseline Git/EOL inputs and the one added shared header. Current proofs
+need no old C++ source tree or superseded binary. Four affected carriers retain
+82 existing exact owners/25704 complete bytes/1169 fields. Both ECL profiles
+are checked,not just the main profile. The actual angle callee adds a cold
+101-byte/five-field proof; three unchanged Timer/Sound proofs reuse174 bytes/
+two fields. Total distinct existing exact owners checked:86/25979 bytes/1176
+fields. Other917 get no new compile or native-callee replay; no full1003 cold
+replay or new exact credit is claimed.
+
+All281 regular emitted bodies retain their98634 raw bytes and4445 fields,
+except two native global symbol corrections and440 independently position-
+proved private label spellings across the two ECL profiles. Separate compiler
+contributions remain unchanged. RunEcl stays15564/598/30 with zero field/table
+differences; Enemy3900/97/13; charge1197/1210,70 fields,58 calls,1160 overlap
+differences+13 missing. Charge's co-visible20-byte Timer also stays exact.
+The missing original source relationships are still open.
+
+31 focused complete-byte,COFF/literal and tracking tests pass. Public tools
+are unchanged. The manifest refreshes two registration global symbols and20 position-proved
+private label spellings in two ECL units. Only three function notes cells
+change; all extents,targets,addends,statuses and other unit content remain fixed.
+The current ledger remains1003 exact/83.9093%;98% is unfinished. The previous
+Front improvement remains693/351 with no missing/excess bytes; its detailed
+checkpoint is preserved in the existing archive and KB.
+
+Cleanup removes15 ignored files/1447529 logical bytes:six superseded objects,
+eight PDBs and one bytecode cache. All143 protected files retain their deletion-
+time hashes. Three retired current ECL/charge carriers are replaced by the
+complete maintained proofs above; no old C++ copy or new archive is kept.
+Current caller/callee,strict public Oracle and source reproduction replays
+pass after cleanup. Final metadata recapture is separately recorded; deletion-
+time protection hashes are retained.
+Documentation,research records,target/toolchains and Ghidra state remain;
+build/ is absent.

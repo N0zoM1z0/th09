@@ -23,14 +23,15 @@ struct FrontMessageTableEntryView
         unsigned int offset00;
         FrontMessageInstructionView *instructions00;
     };
-    int unknown04;
+    // Weighted random message selection consumes this signed weight.
+    int weight04;
 };
 typedef char FrontMessageTableEntrySizeIs08[
     (sizeof(FrontMessageTableEntryView) == 0x08) ? 1 : -1];
 typedef char FrontMessageTableEntryOffsetAt00[
     (offsetof(FrontMessageTableEntryView, offset00) == 0) ? 1 : -1];
-typedef char FrontMessageTableEntryUnknownAt04[
-    (offsetof(FrontMessageTableEntryView, unknown04) == 0x04) ? 1 : -1];
+typedef char FrontMessageTableEntryWeightAt04[
+    (offsetof(FrontMessageTableEntryView, weight04) == 0x04) ? 1 : -1];
 
 struct FrontMessageTableView
 {
