@@ -25524,3 +25524,55 @@ trial objects,the regeneration object and disposable packet PDBs are then
 removed. Nine current verification objects,all full observations,source recipes,
 compiler/failure logs,target/toolchains and working Ghidra are retained;no old
 source tree or archive is created.
+
+## October31: Etama native-coordinate visibility and two-VM representation
+
+Recovery at a6419813 is clean;the previous turn is progress. Target/tracking pass.
+Direct Ghidra reuses12.1.4 and verifies all685056 mapped file bytes before complete
+RunEcl/Enemy/Etama exports. Unchanged RunEcl30/Enemy13 source-bound proofs are
+reused. Etama's fresh baseline retains600 physical bytes,27 fields,13 calls,
+17 blocks and268 linked differences;both same-TU exact siblings retain1064
+physical bytes/46 fields. No game source or exact ledger changes here.
+
+Ten successful serial one-CPU/nice10/180-second source-cold models test actual
+native coordinate/viewport definitions,two-VM storage and cap-alpha ownership:
+
+- Both real coordinate definitions,with/without actual SupervisorViewport.cpp,
+  shorten OnDraw to584 bytes/25 fields while retaining all13 actual call
+  symbols/order. Two global GameManager receiver reloads disappear;not the calls.
+  DrawSingleBullet also regresses232/16 to228/15. All four actual46-byte
+  coordinate leaves remain exact. These contexts are rejected,not accepted
+  evidence of original TU ownership. They establish a bounded callee-visibility
+  constraint independently of the prior Float3/Effect visibility controls.
+- Actual viewport visibility alone is raw-neutral600/268 and preserves all
+  eight independently exact viewport members plus both Etama siblings. This
+  repeats the older bounded viewport negative in the current source context.
+- A native byte-alpha store in the coordinate context keeps584/25. An ordinary
+  inline start-cap operation plus the same observed byte store gives594 bytes,
+  27 fields,19 blocks and323 overlap differences. Neither closes the600-byte
+  owner or preserves its already matching bytes.
+- Two existing native AnmVm subobjects represented as vms[2] retain every
+  baseline raw byte at600/27/268. Array plus alpha gives594/27/323/19 blocks;
+  direct cap members give578/27/519 with17 blocks,or18 with byte alpha.
+  The private header asserts the same real field offsets;no array or byte-store
+  model is adopted. Existing body/start-cap ownership remains provisional.
+
+All45 passing repeated canonical body comparisons check full original bytes,
+actual field identities and literals;three DrawSingleBullet rejections remain
+explicit. Four preparatory array compiles fail because an overbroad replacement
+renames a local identifier and makes the offsetof expression invalid. Corrected
+member-only replacement compiles all four models. A separate immutable Git/EOL
+regeneration reproduces the array's complete regular raw bodies/field geometry,
+600/268 owner and both exact siblings. Its first metadata comparison needs the
+actual source-path hash in anonymous-namespace names accounted for;the next
+needs JSON tuple/list normalization. These are verifier-record issues;the one
+already produced object passes after those fixes without recompilation or a
+production-comparator change.
+
+`.analysis/gpt-61sol-20261031-etama-laser/` retains complete raw/COFF reports,
+source/profile/Git/EOL bindings,compiler/failure logs and probe.py/reproduce.py.
+Only the current baseline object is kept;rejected/regenerated objects and
+packet PDBs are disposable after verification. No old source tree or archive is
+created. Target,tracking,documentation and whitespace checks pass;no full cold
+cohort or public CI is run for this documentation-only checkpoint. Exact remains
+1004/1035 and246651/291883(84.5034%);98% and later phases remain unfinished.

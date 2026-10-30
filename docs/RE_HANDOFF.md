@@ -9,7 +9,7 @@ without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affect
 sources/profiles. Preserve research records;delete unused old code/build copies.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Recovery at964ac44b was clean. This checkpoint shares actual Player target-tracking
+Current game-source checkpoint: **a6419813**. It shares actual Player target-tracking
 storage across Enemy update/cleanup,Player reset and three shot consumers,and
 replaces Type7's private angle-method declaration with the real native interface.
 No compiler profile,physical extent,origin or exact credit changes.
@@ -46,6 +46,10 @@ No compiler profile,physical extent,origin or exact credit changes.
 - The tracking packet retains nine current objects. After one committed-source
   cold regeneration,the two rejected trial objects,the regeneration object and
   their disposable PDBs are removed;all observations,recipes and logs remain.
+- `.analysis/gpt-61sol-20261031-etama-laser/` retains the600/27/268 current
+  baseline and ten native-callee/VM-array controls. Coordinates co-visible with
+  the caller shrink it to584/25 and damage DrawSingleBullet;no candidate is
+  adopted. The unchanged105-unit tracking packet remains current.
 - Other dated packet verifiers are historical research tools. Old compiler
   objects have been cleared;rebuild from current source and the configured
   profile when needed. Their absence is expected,not lost canonical evidence.
