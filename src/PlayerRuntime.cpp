@@ -142,9 +142,9 @@ static int LoadPlayerShtFile(PlayerShtFileView **header, const char *path)
 
     PlayerShtFileView *shtFile = *header;
     float sine = PlayerSin(0.7853981852531433f);
-    shtFile->sizeDerived0 = static_cast<float>(sine * shtFile->sizeSource0);
-    (*header)->sizeDerived1 =
-        static_cast<float>(sine * (*header)->sizeSource1);
+    shtFile->normalDiagonalSpeed1C = static_cast<float>(sine * shtFile->normalAxisSpeed14);
+    (*header)->focusedDiagonalSpeed20 =
+        static_cast<float>(sine * (*header)->focusedAxisSpeed18);
 
     for (i = 0; i < (*header)->shotPowerLevelCount; ++i)
     {

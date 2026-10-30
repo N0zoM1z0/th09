@@ -24,17 +24,6 @@ typedef char PlayerMovementSideEffectAt0C[
 typedef char PlayerMovementSideShotAt20[
     (offsetof(PlayerMovementSideView, shotType20) == 0x20) ? 1 : -1];
 
-struct PlayerMovementShtView
-{
-    unsigned char unknown00[0x14];
-    float normalAxisSpeed14;
-    float focusedAxisSpeed18;
-    float normalDiagonalSpeed1C;
-    float focusedDiagonalSpeed20;
-};
-typedef char PlayerMovementShtFocusedAxisAt18[
-    (offsetof(PlayerMovementShtView, focusedAxisSpeed18) == 0x18) ? 1 : -1];
-
 struct PlayerMovementFields
 {
     PlayerPositionView velocity1CCC;
@@ -124,12 +113,6 @@ static __inline PlayerMovementOptionView *PlayerMovementOptions(
         reinterpret_cast<unsigned char *>(player) + 0x1CEC);
 }
 
-static __inline PlayerMovementShtView *PlayerMovementSht(
-    PlayerLifecycleView *player)
-{
-    return reinterpret_cast<PlayerMovementShtView *>(player->primaryShtFile);
-}
-
 static __inline PlayerMovementSideView *PlayerMovementSide(
     PlayerLifecycleView *player)
 {
@@ -210,35 +193,35 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         {
         case 4:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = 0.0f;
             horizontalSpeed = sht->focusedAxisSpeed18;
             break;
         }
         case 3:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = 3.1415927f;
             horizontalSpeed = -sht->focusedAxisSpeed18;
             break;
         }
         case 1:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = -1.5707964f;
             verticalSpeed = -sht->focusedAxisSpeed18;
             break;
         }
         case 2:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = 1.5707964f;
             verticalSpeed = sht->focusedAxisSpeed18;
             break;
         }
         case 5:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = -2.3561945f;
             horizontalSpeed = -sht->focusedDiagonalSpeed20;
             verticalSpeed = horizontalSpeed;
@@ -246,7 +229,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         }
         case 7:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = 2.3561945f;
             verticalSpeed = sht->focusedDiagonalSpeed20;
             horizontalSpeed = -verticalSpeed;
@@ -254,7 +237,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         }
         case 6:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = -0.7853982f;
             horizontalSpeed = sht->focusedDiagonalSpeed20;
             verticalSpeed = -horizontalSpeed;
@@ -262,7 +245,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         }
         case 8:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = 0.7853982f;
             horizontalSpeed = sht->focusedDiagonalSpeed20;
             verticalSpeed = horizontalSpeed;
@@ -288,35 +271,35 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         {
         case 4:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = 0.0f;
             horizontalSpeed = sht->normalAxisSpeed14;
             break;
         }
         case 3:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = 3.1415927f;
             horizontalSpeed = -sht->normalAxisSpeed14;
             break;
         }
         case 1:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = -1.5707964f;
             verticalSpeed = -sht->normalAxisSpeed14;
             break;
         }
         case 2:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = 1.5707964f;
             verticalSpeed = sht->normalAxisSpeed14;
             break;
         }
         case 5:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = -2.3561945f;
             horizontalSpeed = -sht->normalDiagonalSpeed1C;
             verticalSpeed = horizontalSpeed;
@@ -324,7 +307,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         }
         case 7:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = 2.3561945f;
             verticalSpeed = sht->normalDiagonalSpeed1C;
             horizontalSpeed = -verticalSpeed;
@@ -332,7 +315,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         }
         case 6:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = -0.7853982f;
             horizontalSpeed = sht->normalDiagonalSpeed1C;
             verticalSpeed = -horizontalSpeed;
@@ -340,7 +323,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         }
         case 8:
         {
-            PlayerMovementShtView *sht = PlayerMovementSht(player);
+            PlayerShtFileView *sht = player->primaryShtFile;
             runtime->movementAngle1CD8 = 0.7853982f;
             horizontalSpeed = sht->normalDiagonalSpeed1C;
             verticalSpeed = horizontalSpeed;

@@ -53,10 +53,10 @@ struct PlayerShtFileView
     float grazeBoxSize;
     unsigned char unknown0C[0x04];
     float itemCollectionBoxSize;
-    float sizeSource0;
-    float sizeSource1;
-    float sizeDerived0;
-    float sizeDerived1;
+    float normalAxisSpeed14;
+    float focusedAxisSpeed18;
+    float normalDiagonalSpeed1C;
+    float focusedDiagonalSpeed20;
     unsigned char unknown24[0x08];
     char modePath0[0x40];
     char modePath1[0x40];
@@ -64,6 +64,13 @@ struct PlayerShtFileView
     unsigned char unknownEC[0x42C - 0xEC];
     PlayerShtPowerLevelView shotPowerLevels[1];
 };
+
+// Loader and both movement consumers share these four target-observed speeds.
+typedef char PlayerShtMovementSpeedsAt14[
+    (offsetof(PlayerShtFileView, normalAxisSpeed14) == 0x14 &&
+     offsetof(PlayerShtFileView, focusedAxisSpeed18) == 0x18 &&
+     offsetof(PlayerShtFileView, normalDiagonalSpeed1C) == 0x1C &&
+     offsetof(PlayerShtFileView, focusedDiagonalSpeed20) == 0x20) ? 1 : -1];
 
 typedef char PlayerShtModePath0At2C[(offsetof(PlayerShtFileView, modePath0) == 0x2C) ? 1 : -1];
 typedef char PlayerShtModePath1At6C[(offsetof(PlayerShtFileView, modePath1) == 0x6C) ? 1 : -1];

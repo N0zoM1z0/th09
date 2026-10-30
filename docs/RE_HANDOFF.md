@@ -9,16 +9,17 @@ without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affect
 sources/profiles. Preserve research records;delete unused old code/build copies.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Current game-source checkpoint: **43f491a7**;the previous checkpoint is
-**aefb9493**. The latest research-only checkpoint leaves these inputs unchanged.
-SupervisorServiceUpdate now calls the defined native RNG APIs and retains the
-original prefill/prediction session,pre-seed send receivers and signed packet
-side. All106 external-reference identities now match the target's multiplicities,
-alongside all51 calls. The complete owner remains nonexact at1626/1633 bytes,
-1376 unequal overlaps plus7 absent bytes;this is no new exactness credit.
-The previous shot initializer/callback chain,shared Charge types and Runtime
-repairs remain source-unchanged. No compiler profile,extent,origin or exact
-ledger changes.
+Current game source contains the **shared SHT speed contract checkpoint**
+(parent9aed1f24);the previous game-source checkpoint is **43f491a7**. Loader,
+pattern-offset resolver and both movement switches now share PlayerShtFileView's
+four target-observed axis/diagonal speed fields. Two private SHT classes and
+one cast helper are removed. All representations,ABIs and compiler profiles stay.
+The affected200 existing units and51 unchanged reused units pass the strict
+Oracle;48 compiler-private label names refresh at unchanged actual coordinates.
+There is no new exactness credit. Movement1900/66/23/129,RunEcl30,Enemy13,
+Charge1197 and Type3-15 remain unchanged. The prior network-dataflow,shot-chain,
+Charge and tracking repairs remain;network service stays1626/1633 bytes with
+all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absent.
 
 ## Source and evidence routing
 
@@ -33,24 +34,25 @@ ledger changes.
   only the position;it does not reset that pointer. The intervening12 bytes have
   a separate vector reset,their role remains unknown. Type7 calls the existing
   `PlayerAngleView::AngleToPoint` at41BB00.
-- `.analysis/gpt-61sol-20261031-network-native-rng/current.py` is the current
-  verifier:the complete1626-byte service,12 canonical RNG/replay units(283 bytes/
-  13 fields),and141 unchanged source/profile/object-bound proofs. This gives153
-  existing exact units,zero new credit. Only Network and ReplayRuntimeLeaves
-  were cold-built for adoption;the unchanged canonical RNG object is reused.
-  Both pre-seed send receivers,first-prediction/prefill session and signed side
-  follow fresh target dataflow. Source-only global/side references disappear;
-  target clock-IAT multiplicities return. WAIT placement,stack/status and input
-  transport remain open.22 complete controls and immutable Git/EOL recipes are
-  retained;one independent cold model plus the production cold build reproduce
-  all regular raw bytes/actual COFF fields. No target-byte or ABI workaround.
-- `.analysis/gpt-61sol-20261031-shot-initialize-chain/current.py` verifies the
-  source-unchanged previous141-unit closure and remains valid on its inputs.
-  Its carriers plus unchanged source-bound reuse cover141 strict units/34700
-  physical bytes/1529 fields. This includes the native shot chain,its Timer/ANM/
-  pointer dependencies,both Sound140/153 callees and unchanged Runtime/ECL
-  proofs. Charge stays1197/70/58 with1160 overlaps+13 missing;RunEcl15564/598/30
-  and Enemy3900/97/13 are unchanged.
+- `.analysis/gpt-61sol-20261031-player-sht-speed-contract/current.py` is the
+  current source-bound verifier:251 existing units/66468 physical bytes/3065
+  fields. The public-header dependency set is47 configured source/profile
+  groups(200 units),plus Movement,Charge and standalone Type3 diagnostics.50
+  current objects are cold-built serially;51 unchanged units reuse their source/
+  profile/object pins. Complete controls preserve366 regular bodies/actual
+  effective fields across13 before/after groups. Git/EOL reconstruction covers
+  ten trials and all50 current input sets. One independent Runtime cold replay
+  checks every body/field and20 existing siblings. No full canonical cold cohort.
+- Loader41BBE0 scales normal/focused axis speeds+14/+18 into diagonal+1C/+20;
+  exact resolver404710 and movement41C170 read the same loaded SHT pointer at
+  Player+30338. The shared field names/offset checks describe these TH09 facts,
+  without claiming original class names,full file format or TU ownership.
+- Previous network153-unit and shot-chain141-unit combined verifiers are
+  historical at43f491a7 because this shared header changes their source pins.
+  Their exact owners remain covered by the new251-unit verifier. Network's
+  service object itself remains source-unchanged and is checked there. Charge
+  stays1197/70/58 with1160 overlaps+13 missing;RunEcl15564/598/30 and Enemy3900/
+  97/13 stay. The native Init309,Type7-139 and Sound140/153 owners remain exact.
 - Player OnUpdate's field+1BE now references the defined int-returning
   `PlayerChargeAttackView::UpdateChargeAttack`,through its shared header.
   PlayerRuntime uses the actual SoundPlayer API. Both current Runtime profiles
@@ -98,25 +100,20 @@ ledger changes.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`
   retain bounded recipes/full observations,without old source trees.
-- The previous native RNG/sound/ANM/spawn repair remains. Spawn arguments830/
-  10000 mean life/score. Its31-unit native proofs remain source-unchanged in
-  `.analysis/gpt-61sol-20261030-game-manager-native-entrypoints/`;that packet's
-  old106-unit verifier includes a superseded ECL binding. Use the new141-unit
-  verifier for the current affected closure,not the old combined verifier.
-- `.analysis/gpt-61sol-20261030-type3-whole-context/current-type3.json` binds the
-  Type3 cache to current source/profile. The complete inspector remains
-  `scripts/inspect-exattack-type3-schedule.py`;Type3 stays780/38/15.
-- The shot-chain packet retains thirteen current objects,the shared-callee
-  packet two unchanged Card/Resource objects,the previous Charge packet two
-  Runtime objects,and the tracking packet six unchanged objects. The native
-  Sound object is also reused. Superseded/trial/regenerated objects and disposable
-  PDBs are removed after verification;observations,immutable Git/EOL source
-  recipes and logs remain. Older combined verifiers contain superseded source
-  bindings;use current.py above.
-- `.analysis/gpt-61sol-20261031-etama-laser/` retains the600/27/268 current
-  baseline and ten native-callee/VM-array controls. Coordinates co-visible with
-  the caller shrink it to584/25 and damage DrawSingleBullet;no candidate is
-  adopted. Its two draw siblings remain source-unchanged.
+- The previous native RNG/sound/ANM/spawn repairs remain. Spawn arguments830/
+  10000 mean life/score. The older31/106-unit combined packets are historical
+  source epochs;use the251-unit verifier above for the current closure. Reuse
+  individual older proofs only when their actual source/profile/object pins
+  remain current;this shared-header change invalidates several old bundles.
+- The standalone Type3 source also includes the changed header;its old
+  current-type3.json binding is historical. Use this packet's maintained-path
+  current-ExAttackUpdateType3-0.obj with inspect-exattack-type3-schedule.py.
+  Fresh complete validation retains780/38/15 and the unresolved middle-Z order.
+- Current proof objects comprise the50 new source/profile carriers,the
+  source-bound reused objects listed in current.json,and the unchanged service
+  object. Superseded/trial objects and debug files are removed only after full
+  controls,reconstruction and protected-hash checks. Records,source recipes,
+  original target/toolchains and working Ghidra remain;build/ may be absent.
 - Other dated packet verifiers are historical research tools. Old compiler
   objects have been cleared;rebuild from current source and the configured
   profile when needed. Their absence is expected,not lost canonical evidence.
@@ -181,7 +178,7 @@ repeating them. Historical assumptions remain hypotheses.
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Main/satellite fan chronology, polar receiver reloads and ordinal graph. Bounded emulator fixtures are not whole-runtime or exactness proof. `--owner effect29`. |
 | **Effect 34 draw** | 0x00444AF0 | **946/946 physical**,53 original referents,20 direct +12 COM calls,286 instructions,16 blocks; **74 linked differences** | Entry65 and store order9 remain; radius operands now match. Preserve872 matching bytes, all53 fields, actual float data and full physical extent. `--owner effect34`. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor. Preserve332 matching bytes and the genuine final DrawBulletLayerEffects member identity. `--owner etama`. |
-| **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Lower-bound EAX/EDX transport and encoding cascade. Native framerate/coordinate owners are corrected; preserve1771 matching bytes and both tables. `--owner movement`. |
+| **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Lower-bound EAX/EDX transport and encoding cascade. Native framerate/coordinate owners and the shared SHT speed type are corrected;preserve1771 matching bytes and both tables. `--owner movement`. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Recover source chronology and missing13 bytes; preserve repaired SpawnShots transport and actual call/field identities. |
 | **Front weighted message RNG** | 0x004162D0 | **693 target / 693 candidate**, 15 fields, 6 calls, **351** differences, zero missing/excess | Remaining source lifetime and CFG(41/40); four exact Front family owners remain protected. `--owner front`. |
 | **Front added initialization** | 0x00418480 | **706/706**, 37 original fields, 21 calls, 19 equal blocks; **222 differences** (236→222) | Receiver and panel-store scheduling; preserve484 matching bytes and all native GameManager/ANM identities. `--owner frontadded`. |

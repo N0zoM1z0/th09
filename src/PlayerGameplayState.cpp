@@ -77,15 +77,6 @@ struct PlayerGameplayMethods
     int GetUpdateState();
 };
 
-struct PlayerPatternOffsetShtView
-{
-    unsigned char unknown00[0x14];
-    float normalAxisSpeed14;
-    float focusedAxisSpeed18;
-    float normalDiagonalSpeed1C;
-    float focusedDiagonalSpeed20;
-};
-
 struct PlayerPatternOffsetView
 {
     unsigned char unknown0000[0x1CDC];
@@ -94,7 +85,7 @@ struct PlayerPatternOffsetView
     float speedMultiplier1CE4;
     float speedMultiplier1CE8;
     unsigned char unknown1CEC[0x30338 - 0x1CEC];
-    PlayerPatternOffsetShtView *primaryShtFile30338;
+    PlayerShtFileView *primaryShtFile30338;
 };
 
 float *PlayerGameplayMethods::ResolvePatternOffset(

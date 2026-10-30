@@ -26210,3 +26210,122 @@ including current/reused proof objects,tracked source,original target and this
 packet's research records/recipes. The independent replay's temporary object/PDB
 were already self-removed. No old C++ tree or new archive is created. Post-cleanup
 record/recipe audits,documentation/tracking/progress and whitespace pass.
+
+## October31: one Player SHT speed contract across loader and movement consumers
+
+Recovery at9aed1f24 is clean. The preceding goal turn supplies bounded new
+negative whole-ECL evidence;the98% goal remains active. Japanese1.50a disk,
+tracking and progress pass. Direct Ghidra12.1.4 reuses the working project and
+attests all685056 mapped PE bytes per export,before complete4162D0/41C170 and
+41BBE0/404710 exports. No target byte or analysis database memory is patched.
+
+TH09 observations:the172-byte41BBE0 loader calls the independently identified
+401070 sine wrapper with pi/4,then writes file+1C from file+14 and file+20 from
+file+18,preserving its actual pointer reload between stores. The346-byte exact
+404710 pattern-offset resolver reads the Player+30338 SHT pointer,uses+14/+1C
+for normal axial/diagonal motion and+18/+20 for alternate motion. The complete
+1900-byte41C170 movement owner independently uses those same fields for normal
+and focused direction switches. These are local instruction/ABI/complete-byte
+facts,not an inference from adjacent game layouts or Ghidra nominal types.
+
+The existing public PlayerShtFileView called those floats sizeSource0/1 and
+sizeDerived0/1. Two consumers separately redefined their0..23 prefix with the
+accurate speed names. Source now represents them once in PlayerShtFileView as
+normalAxisSpeed14,focusedAxisSpeed18,normalDiagonalSpeed1C and
+focusedDiagonalSpeed20,with a combined four-offset compile-time check. Runtime's
+loader uses those names. Movement directly uses its already-typed primaryShtFile;
+the private PlayerMovementShtView and its projection helper disappear. The exact
+pattern resolver's pointer also uses the same existing public type,removing
+PlayerPatternOffsetShtView. Every existing read,write,reload,scalar width,field
+position,record/path/descriptor extent and ABI remains. Unique original class
+identity and the complete variable-length SHT format remain unknown.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| PLAYER-SHT-CONTRACT-001 | target/compiler observation | Loader172/6 derives diagonal+1C/+20 from axis+14/+18 with the actual sine wrapper;current complete native bytes/fields stay exact. | 41BBE0 direct export;current-PlayerRuntime-0.json |
+| PLAYER-SHT-CONTRACT-002 | target/compiler observation | Exact resolver346 plus owned alignment/tables reads the same four speeds through Player+30338;both configured Gameplay profiles retain their complete target owners. | 404710 direct export;current-PlayerGameplayState-0/-1.json |
+| PLAYER-SHT-CONTRACT-003 | source repair | Loader and both consumers share one existing SHT view,removing two partial classes and one cast helper;four speed offsets are asserted. | PlayerLifecycleView.hpp,PlayerRuntime.cpp,PlayerMovement.cpp,PlayerGameplayState.cpp |
+| PLAYER-SHT-CONTRACT-004 | complete compiler observation | Movement preserves every1900 raw byte/actual field and all129 original residuals;no exact or partial credit. | before/shared/current-PlayerMovement-0.json |
+| PLAYER-SHT-CONTRACT-005 | complete compiler observation | Strict public Oracle passes251 existing units/66468 bytes/3065 fields,using200 affected units and51 source/profile/object-bound reuses. | current.json;current.py |
+
+Dependency discovery initially groups all configured units including the public
+header:47 distinct source/profile pairs and200 units. Movement and Charge are
+additional nonexact sources. A second census over every maintained ledger source
+finds standalone Type3,which has no canonical unit and must also be rebuilt;
+it is added before closure. This gives50 current maintained-path objects,not an
+assumption that the canonical manifest inventories every maintained source.
+Every compile is serial,one allowed CPU,nice10 and180-second bounded. Only the
+actual header-dependent scope is cold-built;the other51 existing units reuse
+unchanged source/profile/object pins. No full1004-function cold cohort is run.
+
+Current exact20-function Runtime and the two configured Gameplay owners pass
+before and after adoption. Initial staged Gameplay proofs reject only anonymous-
+namespace source-path suffixes:the two compilers succeed and emit complete
+objects. A reviewed suffix-only binding preserves every class/method spelling,
+field offset/type/addend and independently known target destination;the complete
+bodies compare exact. Their initial rejection strings remain in the observations.
+Canonical-path production builds retain the existing namespace identities,so the
+canonical metadata requires zero anonymous or external symbol migrations.
+
+Adding the offset check changes48 compiler-private label spellings. Every new
+symbol is read from actual COFF,has positive same-owner section membership and
+an unchanged owner-relative destination,and its whole unit already compares
+original-equal. Only those48 symbol strings change in match-units.toml;complete
+parsed before/after dictionaries prove all offsets,kinds,addends,targets,extents,
+profiles and origins stay. An initial label updater handles inline relocation
+rows but safely stops before writing on a multiline relocation table. The
+corrected parser supports both forms. A strict comparison with stale old labels
+rejects them;after the verified name refresh the unchanged public strict Oracle
+passes all251 units. No validator or acceptance rule is weakened or edited.
+
+Thirteen before/after source/profile controls preserve366 complete regular raw
+bodies and effective fields,including every affected nonexact owner. Section
+ordinals,actual owner-local coordinates and staged anonymous suffixes are
+separated;instruction bytes are never normalized for exactness. RunEcl remains
+15564/598/30 ordinary differences,Enemy3900/97/13,Movement1900/66/23/129 and
+Charge1197/70/58 with1160 unequal overlaps+13 absent bytes. Standalone Type3 is
+freshly revalidated780/38/15,24 calls and17 matching blocks,with its old middle-Z
+ordering still wrong. GameManager setup,Player collision and remaining ECL draw
+owners retain their whole raw/effective-field frontiers. Existing exact bytes
+are preserved rather than traded for cleaner source names or a shorter owner.
+
+Read-only TH08/TH095 Player.hpp files corroborate the four semantic speed roles,
+but use24/28/2C/30 rather than TH09's14/18/1C/20. Their observed HEAD/file hashes
+are retained only as hypothesis evidence. No adjacent address,layout,ownership,
+exactness or original-source claim enters a TH09 proof. The TH09 conclusions
+above stand on its own loader/consumer code and pinned compiler observations.
+
+All ten initial before/shared input sets and50 current source closures recover
+from immutable9aed1f24 Git/EOL hashes plus the one final transformation recipe.
+An independent Runtime cold reconstruction compares every regular raw body/
+effective field and all20 existing exact siblings;its temporary object/PDB
+self-clean. Input-only and cold receipts use separate files. Fifty production,
+ten initial control and one reconstructed compiler calls total61 successes;
+the staged proof/path and TOML preparation errors are not compiler failures.
+There is no assembly,register/variable-order hint,dummy storage,profile sweep,
+ABI fiction,padding,new defensive branch or runtime-hardening test.
+
+Twenty movement diagnostics/identity tests,seventeen COFF symbol/local-target
+checks and eleven literal-definition corruption tests pass:48 focused tests.
+Public validation/CI code stays unchanged;no unrelated full public CI is run.
+Tracking/progress/docs/whitespace close the bounded batch. Exact credit remains
+1004/1035 and246651/291883 authored bytes(84.5034%);98%,native Windows product/
+runtime,dual-Oracle semantics and portability remain unfinished.
+
+The packet .analysis/gpt-61sol-20261031-player-sht-speed-contract/ retains full
+observations,actual definitions,compiler logs,source recipes,provenance,private-
+name migrations and current/reconstruction scripts. current.py is the new
+source-bound251-unit route. The earlier153/141-unit combined verifiers and
+standalone old Type3 binding are source-epoch history at43f491a7;their changed
+header pins are not current proof. Their actual old raw/effective controls are
+recorded before superseded objects are considered disposable. Current service,
+unaffected objects,original target/toolchains and Ghidra remain preserved.
+
+After all owned compiler/headless/replay handles are observed terminal,cleanup
+removes77 ignored trial/debug/superseded files,5783390 logical bytes. The seven
+superseded objects have full raw/effective records and original source closures
+recovered from9aed1f24 before deletion. All1051 protected files retain their
+deletion-time hashes,including the50 current carriers,unchanged proof/service
+objects,tracked source,private target and research records/recipes. No old source
+copy or archive is created. Complete controls,Git/EOL inputs,current strict
+verification,tracking/docs/progress and whitespace pass after cleanup.
