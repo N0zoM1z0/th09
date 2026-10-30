@@ -22,50 +22,57 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current audit — native deallocation identities across complete owners
+## Current audit — Type3 complete ECL context and actual helper visibility
 
-Eleven source carriers now call native operator delete instead of declaring the
-47B249 thunk as CRT free. Fixed-provider libcmt.lib delete.obj independently
-reproduces all5 thunk bytes and its actual _free47B163 relocation. Explicit
-cleanup chronology is retained; opaque storage is released through the actual
-low-level operator delete interface without inventing a destructor or array type.
-Fourteen canonical fields in12 owners and GameplaySetupThread's two calls use
-??3@YAXPAX@Z at47B249. Their destinations,addends and profiles are unchanged.
+Game source remains08197db6;this batch changes research/documentation only.
+Exact remains1004/84.5034%,with31 nonexact source owners and98% unfinished.
+Fresh direct Ghidra reuses the working12.1.4 project,checks all685056 mapped
+bytes and exports Type3 at0x00442750,inverse transforms0x00442420/0x00442450 and
+collision callee0x0041DFF0. Names/decompilation remain provisional;physical comparison decides.
 
-Fifteen fixed-profile before/after groups retain122 regular function observations
-across those profiles. Fresh maintained-path builds pass69 strict public comparisons:
-18486 physical bytes and1186 fields. No private manifest labels change.
-GameplaySetupThread remains1689/171 source fields/904 differences against172
-original fields;SaveReplay remains1238/53/3;BeginPlaybackStage remains538/540,
-32 fields,39 overlap differences and2 missing bytes. These observations grant
-no new exact credit. Exact remains1004/84.5034%;98% is unfinished.
+Four complete ECL carriers append the unchanged Type3 owner,with actual
+coordinate definitions,actual pointer conversions,both or neither visible:
 
-The public Oracle now rejects _free bound anywhere except47B163 and scalar
-operator delete anywhere except47B249,even if fitted bytes would agree. Twelve
-focused symbol-identity tests cover the reviewed CRT entries,wrong single-site
-bindings,addends,forged complete equality and all canonical manifests. Full
-public CI passes1055 tests/29 skips in121.830s with837 tracked inputs unchanged.
-Final documentation/tracking/progress and whitespace checks pass separately.
+| Actual context | Complete Type3 result | Canonical observations | Enemy result |
+| --- | --- | --- | --- |
+| ECL plus Type3 | 780/38 fields/15 differences | 75 pass,0 reject | 3900/97/13 |
+| Plus four coordinate bodies | 765/35/405 overlap differences plus15 missing | 65 pass,14 reject | 3900/97/13 |
+| Plus two pointer bodies | 780/38/15 | 77 pass,0 reject | 3876/96;extent rejected |
+| Both body groups | 765/35/405 plus15 missing | 67 pass,14 reject | 3876/96;extent rejected |
 
-Direct Ghidra reuses the working12.1.4 project and verifies all685056 mapped
-bytes. Its provisional name at47B249 is _free,and its decompiler expands the
-callee despite reporting a5-byte body. The actual CRT object and raw JMP decide
-the native identity;neither that name nor expanded pseudocode is an exact proof.
-Unchanged source/profile-bound ECL proofs still cover75 exact owners and full
-RunEcl30/Enemy13. The preceding expression audit is preserved in the handoff
-archive at checkpoint415ef52a.
+RunEcl stays15564/598/30 in all four. All24 Type3 calls remain present even in
+765-byte models:the lost fields are three GameManager receiver loads,not calls.
+All4 actual coordinate bodies and both3-byte pointer bodies are independently
+original-equal. Making coordinate definitions visible nevertheless regresses14
+existing ECL owners. These bounded ordinary source contexts do not establish a
+unique original TU partition and are not adopted. No body,ABI or profile changes.
 
-Packet: `.analysis/gpt-61sol-20261030-delete-owner-contracts/`.
-current.json binds all15 current objects,complete definitions,profiles and source
-hashes;crt.py reproduces the provider member. reproduce.py --group 0 recovers25
-Git/EOL inputs and repeats12 regular bodies/10 exact owners with self-cleaning
-temporary source/OBJ/PDB. Cleanup keeps current objects and all research/docs;
-cleanup removes213 disposable objects/PDBs/CI bytecode files,6898406 logical
-bytes. Initial cleanup confirms943 protected hashes;after removing a duplicate
-Ending header,two fresh profiles preserve10 exact owners and a supplemental
-two-PDB cleanup preserves all15 current-object hashes. Build/ is absent.
-verify.py rechecks52 Git/EOL inputs,15 recipes and69 current strict owners after
-cleanup. No old CPP tree or source archive is added.
+The complete-ECL control preserves all138 existing regular ECL payloads and
+matches a fresh maintained standalone Type3 object's raw bytes and all38 field
+identities/addends. Owner/literal section numbers differ across the two TUs;
+they are not compared as global identities. All284 successful model observations
+also pass the strict public Oracle. They span81 existing comparison units,
+including two excluded folded identities;they are not284 new exact functions.
+
+The original collision callee has277 instructions/862 bytes. Its direct EBP-
+relative argument operands use+0x08/+0x10,with no+0x0C reference;Ghidra also
+reports that second stack argument unused. This supports the existing declaration
+without proving universal argument liveness or an original nominal vector type.
+
+Packet: `.analysis/gpt-61sol-20261030-type3-whole-context/`.
+reproduce.py --case both recovers83 Git/EOL inputs,145 regular definitions and67
+strict comparisons in a separate source-cold compile. verify.py rechecks all4
+saved recipes/284 observations,current standalone Type3 and75 unchanged source/
+profile-bound ECL proofs,including complete RunEcl30/Enemy13. There is no new ECL
+baseline compile or full1004-owner replay.23 focused Type3 tests pass;no shared
+tool/test/game source changes require another full public CI run.
+
+Cleanup removes9 superseded objects/PDBs,2217282 logical bytes;all873 protected
+hashes agree afterward. Current Type3 and active ECL objects,original,target
+providers,working Ghidra and every research/doc/failure record remain. Empty test
+build directories are removed;build/ is absent. No old CPP tree or archive is
+created. The native deallocation checkpoint08197db6 is preserved in the handoff
+archive;its69-owner proof remains scoped to that unchanged game source.
 
 ## Previous dependency checkpoint — shared vectors and Front contracts
 

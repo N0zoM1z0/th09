@@ -3518,3 +3518,50 @@ the active current object,original/toolchains and working Ghidra remain;build/
 is absent. No old C++ tree or source archive is added. Native ANM/quad/Title
 corrections remain in8daa7625 and107a7760;their durable detail is archived and
 the current proof packets remain usable under their source/provider scopes.
+
+## October30 checkpoint08197db6: native deallocation contracts
+
+### Audit — native deallocation identities across complete owners
+
+Eleven source carriers now call native operator delete instead of declaring the
+47B249 thunk as CRT free. Fixed-provider libcmt.lib delete.obj independently
+reproduces all5 thunk bytes and its actual _free47B163 relocation. Explicit
+cleanup chronology is retained; opaque storage is released through the actual
+low-level operator delete interface without inventing a destructor or array type.
+Fourteen canonical fields in12 owners and GameplaySetupThread's two calls use
+??3@YAXPAX@Z at47B249. Their destinations,addends and profiles are unchanged.
+
+Fifteen fixed-profile before/after groups retain122 regular function observations
+across those profiles. Fresh maintained-path builds pass69 strict public comparisons:
+18486 physical bytes and1186 fields. No private manifest labels change.
+GameplaySetupThread remains1689/171 source fields/904 differences against172
+original fields;SaveReplay remains1238/53/3;BeginPlaybackStage remains538/540,
+32 fields,39 overlap differences and2 missing bytes. These observations grant
+no new exact credit. Exact remains1004/84.5034%;98% is unfinished.
+
+The public Oracle now rejects _free bound anywhere except47B163 and scalar
+operator delete anywhere except47B249,even if fitted bytes would agree. Twelve
+focused symbol-identity tests cover the reviewed CRT entries,wrong single-site
+bindings,addends,forged complete equality and all canonical manifests. Full
+public CI passes1055 tests/29 skips in121.830s with837 tracked inputs unchanged.
+Final documentation/tracking/progress and whitespace checks pass separately.
+
+Direct Ghidra reuses the working12.1.4 project and verifies all685056 mapped
+bytes. Its provisional name at47B249 is _free,and its decompiler expands the
+callee despite reporting a5-byte body. The actual CRT object and raw JMP decide
+the native identity;neither that name nor expanded pseudocode is an exact proof.
+Unchanged source/profile-bound ECL proofs still cover75 exact owners and full
+RunEcl30/Enemy13. The preceding expression audit is preserved in the handoff
+archive at checkpoint415ef52a.
+
+Packet: `.analysis/gpt-61sol-20261030-delete-owner-contracts/`.
+current.json binds all15 current objects,complete definitions,profiles and source
+hashes;crt.py reproduces the provider member. reproduce.py --group 0 recovers25
+Git/EOL inputs and repeats12 regular bodies/10 exact owners with self-cleaning
+temporary source/OBJ/PDB. Cleanup keeps current objects and all research/docs;
+cleanup removes213 disposable objects/PDBs/CI bytecode files,6898406 logical
+bytes. Initial cleanup confirms943 protected hashes;after removing a duplicate
+Ending header,two fresh profiles preserve10 exact owners and a supplemental
+two-PDB cleanup preserves all15 current-object hashes. Build/ is absent.
+verify.py rechecks52 Git/EOL inputs,15 recipes and69 current strict owners after
+cleanup. No old CPP tree or source archive is added.

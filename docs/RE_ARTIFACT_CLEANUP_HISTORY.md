@@ -2761,3 +2761,26 @@ build/ is absent. Current69 strict comparisons and saved recipe/record checks
 pass again afterward. Per-file deletion/protection receipt:
 `.analysis/gpt-61sol-20261030-delete-owner-contracts/cleanup-applied.json` and
 `cleanup-header.json` in that packet.
+
+
+## 2026-10-30: Type3 complete ECL-context evidence
+
+Game source remains08197db6. Four complete-carrier controls test actual ECL
+context,coordinate bodies and pointer bodies. Type3 remains780/38/15 without
+coordinate visibility;coordinate contexts765/35/405 plus15 missing regress14
+existing owners. Pointer contexts shorten Enemy to3876/96 and fail full-extent
+validation. No model is adopted and exact stays1004/84.5034%.
+
+After all producers and a selected source-cold reproduction terminate,cleanup
+removes9 ignored files/2217282 logical bytes:four trial objects and five PDBs.
+All873 protected hashes agree afterward. Retain the fresh current Type3 object,
+unchanged active ECL object,83 Git/EOL inputs/recipes,all raw/COFF/literal and
+failure records,original/providers,working Ghidra and all documentation/research.
+Temporary cold source/OBJ/PDB self-clean;empty test build directories are removed.
+Build/ is absent;no source archive or old CPP tree is created.
+
+After cleanup,verify.py rechecks all4 saved models/284 successful comparison
+observations,current Type3 and75 unchanged source/profile-bound ECL owners,
+including full RunEcl30/Enemy13.23 focused Type3 unit tests pass. Per-file deletion
+and protected-hash receipt:
+`.analysis/gpt-61sol-20261030-type3-whole-context/cleanup.json`.

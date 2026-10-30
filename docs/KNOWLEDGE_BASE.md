@@ -25275,3 +25275,75 @@ removes a duplicated existing Ending header;two fresh profiles preserve10 exact
 owners,and supplemental PDB cleanup preserves all15 current-object hashes.
 Saved verification recovers52 Git/EOL inputs,15 recipes and69 current strict
 owners after cleanup;all docs,research and failure records remain.
+
+
+## October30: Type3 complete ECL carrier and real helper visibility
+
+Game-source checkpoint08197db6 remains unchanged. The new question is actual
+whole-carrier visibility,not another isolated source-order control:Type3 is
+compiled after the complete maintained ECL/ExAttack/Effect carrier under the
+unchanged shared /O2 /Ob1 profile. The two factors add the real four coordinate
+bodies and the real Float3/PlayerPositionView pointer bodies. Nothing is declared
+pure,preserving,volatile or forced inline;no original ABI or helper is invented.
+
+Bare ECL plus Type3 retains780 bytes/240 instructions/38 fields/24 calls/15
+complete differences. All138 existing regular ECL payloads equal the current
+source/profile-bound object's bytes. A separately fresh maintained standalone
+Type3 matches its entire raw780 bytes and all38 actual field offsets/kinds/names/
+addends,with independent actual literal checks. Literal and owner COFF section
+numbers naturally differ across those carriers;they are not symbol identities.
+
+Coordinate visibility,alone or with pointer visibility,gives765 bytes/237
+instructions/35 fields/405 overlap differences plus15 missing. All24 calls stay;
+the three missing fields are GameManager4A7D90 receiver loads. This is compiler
+caller register knowledge,not call inlining. All four actual native coordinate
+bodies remain separately original-equal. Fourteen existing ECL owners regress:
+Type8/Type9 initialization,player-offset fan,and Effect draw types16,18,10,24,33,
+26,28,17,30,32,37. Exact leaf bytes do not establish a safe complete caller carrier.
+
+Pointer visibility alone keeps Type3's complete baseline. In the full ECL
+carrier it shortens Enemy3900/97 to3876/96;the strict complete-extent Oracle
+rejects it. The combined context has the same Enemy rejection. This independently
+confirms the prior pointer-visibility constraint in a different complete context;
+it is not attributed to a callback ABI. RunEcl remains15564/598/30 for all four.
+
+Successful strict public observations are75/65/77/67,284 total over81 comparison
+units,including two excluded3-byte folded identities. Physical totals across
+these repeated observations are78798 bytes and3358 fields. The two coordinate
+contexts each have14 explicit canonical rejections;they are never silently
+counted as accepted siblings. Original layouts,names and TU uniqueness remain
+unknown. No game-source,ledger,profile,exact-credit or compiler setting changes.
+
+Fresh direct Ghidra reuses12.1.4 and checks all685056 mapped file-backed bytes.
+Type3 at0x00442750,inverse0x00442420/0x00442450 and collision0x0041DFF0
+exports are retained. Full
+collision disassembly contains277 instructions over862 bytes;direct EBP-relative
+argument references use+0x08/+0x10 and none+0x0C. EBP writes are the prologue
+and three epilogues. Ghidra likewise reports the second stack argument unused.
+This is bounded target support for the existing unused declaration,not proof of
+universal liveness or unique original vector/class types.
+
+Six serial one-CPU/nice10/bounded compiles cover four complete contexts,one
+maintained Type3 baseline and one selected independent source-cold reproduction.
+The latter recovers83 Git/EOL inputs and matches all145 regular definitions,
+the entire Type3 report and67 complete canonical comparisons. Current ECL is
+reused only after matching all source/profile/object inputs and75 strict public
+comparisons,with full RunEcl30/Enemy13. No unrelated cold cohort is rebuilt.
+23 focused Type3 unit tests pass;shared validators/tests/game source are unchanged.
+
+The first coordinate recorder stopped on a real Type8 canonical rejection;its
+completed object was recovered and all successes/failures recorded without a
+second compile. One batch-launch import failed before compilation and was fixed
+by setting the packet import path. The standalone recorder first compared full
+COFF section numbers across distinct TUs;it then retained only raw/code-field
+identity equality alongside independent original-bound checks. These recorder
+corrections never relax a byte,extent,callee,literal or source hash guard.
+
+Packet `.analysis/gpt-61sol-20261030-type3-whole-context/` retains every actual
+raw/COFF/literal/failure observation and self-contained recipes importing only
+maintained public tools. Cleanup removes9 disposable objects/PDBs,2217282 bytes,
+after producers terminate;all873 protected hashes agree. Current Type3/active ECL
+objects,original/providers and working Ghidra stay. Empty test build directories
+are removed;build/ is absent. verify.py rechecks83 Git/EOL inputs,four saved
+models,284 successful observations,75 current strict owners and Type315 after
+cleanup. No old CPP source tree,compressed archive or new exact credit remains.
