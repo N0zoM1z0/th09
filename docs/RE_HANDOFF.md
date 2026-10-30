@@ -107,6 +107,17 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   Full15-input Git/EOL reconstruction and an independent cold visible-ECL
   replay pass. Current251-unit proof pins remain unchanged. Research routing:
   replay-buffer-lifetimes/,queue-complete-owner/,timer-counter-contract/.
+- Supervisor's fresh current baseline retains952/996 physical bytes and every
+  prior raw byte/COFF field. Seven complete state-branch controls show that
+  genuinely repeated registration bodies restore target EDI=2 and its delayed
+  save. A combined volatile close-bit model reproduces MOV AL/TEST AL/JNS and
+  the first197 bytes, but remains1000/996 with493 unequal overlaps:375 old
+  positions recover while33 old matches break, plus4 excess bytes. No source,
+  qualifier or exactness credit is adopted. All seven immutable input sets and
+  one independent cold whole-object replay pass;current251 proofs remain.
+  Recipe/full observations:supervisor-state-branches/ below the October31
+  analysis prefix. Its audit.py checks stored records after trial cleanup;
+  baseline.obj is the retained source-bound current Supervisor diagnostic.
 - Two whole-ECL native-side-type controls retain75 exact siblings each.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`

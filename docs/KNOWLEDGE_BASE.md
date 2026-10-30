@@ -26470,3 +26470,87 @@ files keep their deletion-time hashes,including current251-unit proof objects,
 the service object,tracked source,private target and all research records/recipes.
 The independent cold outputs already self-clean. No old source tree or archive
 is added. Post-cleanup complete-record/pin and immutable-input audits pass.
+
+## October 31: complete Supervisor state-branch and close-bit contexts
+
+Recovery at d36dbdd4 is clean. The private Japanese v1.50a target, tracking and
+progress pass. Direct Ghidra12.1.4 reuses the working project and verifies all
+685056 mapped file-backed bytes before exporting the complete431110 callback.
+The reviewed owner remains844 code plus152 switch bytes,996 physical bytes.
+A fresh current-input baseline reproduces the previous952 raw/linked bytes
+and every actual COFF field exactly, including the native registration symbols
+and six-byte version definition. It is205 instructions/92 fields/27 calls,
+791 unequal overlaps and44 missing bytes; no previously exact owner changes.
+
+The new question is whether explicit common source labels conceal meaningful
+compiler context from naturally repeated state-registration branches. Read-only
+TH08 Supervisor.cpp has complete repeated transition bodies and a startup
+structure, and Supervisor.hpp has a bit7 close-message field. These suggest
+controls only: neither TH08's nominal types, qualifiers, states, ownership nor
+code are accepted as TH09 facts. Original TH09 instructions independently show
+EDI=2 saved after the startup-state load, separate failure returns and a byte
+MOV AL/TEST AL/JNS close check. The earlier generic syntax/flag controls are
+reviewed before selecting these complete branch contexts.
+
+Every control uses the same pinned Supervisor VC7.1 profile. Repeated bodies
+perform only the existing CutChain, native RegisterChain, result check and
+state2 publication on the same branches. There is no new operation, artificial
+clobber, variable/register-order hint, assembly, ABI fiction or flag search.
+Moving existing shared registration tails into their actual transition cases
+does not change the repeated-registration object's raw code or effective fields.
+The source-order control follows the adjacent transition grouping as a bounded
+source hypothesis; it does not establish original TH09 source ordering.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| SUPERVISOR-STATE-BRANCH-001 | fresh complete baseline | 952 physical bytes/205 instructions/92 fields/27 calls;791 unequal overlaps +44 missing. | baseline.json |
+| SUPERVISOR-STATE-BRANCH-002 | rejected repeated state2 assignment | 968/196/92/27;812 unequal overlaps +28 missing. | repeated-state-assignment.json |
+| SUPERVISOR-STATE-BRANCH-003 | rejected repeated complete registration | 1008/214/92/27;737 unequal overlaps +12 excess. | repeated-registration.json |
+| SUPERVISOR-STATE-BRANCH-004 | byte-neutral tail localization | 1008/214/92/27;complete raw/field output equals the preceding control. | local-state-tails.json |
+| SUPERVISOR-STATE-BRANCH-005 | rejected adjacent-style grouping | 1000/214/92/27;730 unequal overlaps +4 excess. | local-state-order.json |
+| SUPERVISOR-STATE-BRANCH-006 | rejected volatile bit7 model | 1000/215/92/27;493 unequal overlaps +4 excess. | volatile-close-bit.json |
+| SUPERVISOR-STATE-BRANCH-007 | rejected shared restart reasons | 972/199/90/25;601 unequal overlaps +24 missing;loses one CutChain and one RegisterChain site. | shared-restart-reasons.json |
+
+Full repeated registration restores the actual target EDI=2 use and delayed
+save without a register directive. This falsifies the stronger assumption that
+manually sharing equivalent source tails is always codegen-neutral. In the
+grouped context, a volatile unsigned32 bitfield view recovers the target byte
+MOV AL/TEST AL/JNS and the first197 physical bytes exactly. It restores375 old
+baseline mismatch positions but damages33 previously equal positions, with four
+additional bytes beyond the owner. It therefore fails the existing whole-owner
+frontier. All other controls also fail; no local prefix earns authored-byte
+credit or proves an original volatile qualifier, complete flags class or TU.
+
+All seven retain four switch-table entry counts10/4/6/15 and the original
+case-index bytes. The final control additionally fails original external call
+multiplicity. Full target bytes, every actual relocation, version-literal
+definition, calls and tables are inspected, rather than scoring selected ranges.
+One regular owner and no additional executable contribution are emitted in each
+object. Target block placement, return sharing and the complete callback remain
+unresolved; these experiments do not establish semantic/runtime validation.
+
+The packet .analysis/gpt-61sol-20261031-supervisor-state-branches/ retains all
+seven complete records, commands, logs, provenance and recipes. audit.py
+reconstructs every staged input from immutable d36dbdd4 Git/EOL hashes and
+independently re-decodes each stored complete raw/COFF observation. A separate
+cold reconstruction of the close-bit model repeats every regular raw byte,
+actual field, literal and complete original diagnostic, then deletes its own
+temporary outputs. Eight successful serial compiler jobs are confined to this
+single callback and its selected reconstruction; no complete cohort is rebuilt.
+The current251 strict units/66468 physical bytes/3065 fields pass by unchanged
+source/profile/object reuse. RunEcl30, Enemy13, movement129 and Type3-15 remain.
+
+Maintained source, qualifiers, ABI, profiles, manifests and credit are unchanged:
+1004/1035 exact and246651/291883 authored bytes(84.5034%). The98% milestone and
+later product/runtime, semantic and portability gates remain open. The fresh
+baseline object is retained as a current source-bound diagnostic; superseded
+trial objects/debug files are disposable after complete capture and replay.
+
+After every owned producer is terminal, cleanup removes13 trial/debug files,
+1112557 logical bytes, and preserves all948 protected deletion-time hashes.
+The retained baseline, current exact proofs, original, toolchains, Ghidra project
+and research records remain. The independent cold outputs already self-clean;
+no old source tree or archive is added. The post-cleanup immutable-input and
+complete-record audit passes. Documentation, tracking, current progress and
+whitespace checks pass; no public validation
+implementation changes and no full CI/canonical cold cohort is required.
