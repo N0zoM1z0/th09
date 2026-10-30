@@ -2876,3 +2876,21 @@ source-pin changes. Their unaffected240 individual proofs are reused by the
 current296-unit verifier;the removed carriers' complete observations and Git
 inputs remain reproducible. Per-file deletion/protection receipt:
 `.analysis/gpt-61sol-20261031-shared-score-record/cleanup.json`.
+
+## 2026-10-31: ECL adjacent flag allocation-unit controls
+
+Game source remains4502c056. Three complete ECL controls retain75 existing
+sibling comparisons each;the continuous unsigned-int pair preserves RunEcl30/
+Enemy13,while direct native timeout assignment repeats2140/13. An unsigned-
+__int64 group fails real layout assertions before byte comparison;actual compiler
+data shows default alignment moving primary337C to3380. No model is adopted.
+
+After all owned producers and one selected independent cold replay terminate,
+cleanup removes seven ignored files/1649463 logical bytes:three trial objects
+and four PDBs,including the failed layout compile's PDB. Preserve the current
+source-bound ECL baseline,current296 proof objects/service,full raw/field/
+contribution/diagnostic records,all immutable recipes and compiler-failure logs.
+All956 deletion-time protected hashes agree. Temporary source/OBJ/PDB outputs
+already self-clean. Post-cleanup saved/input/layout audits pass. No source
+archive or old C++ tree is added. Receipt:
+`.analysis/gpt-61sol-20261031-ecl-flagpair-storage/cleanup.json`.

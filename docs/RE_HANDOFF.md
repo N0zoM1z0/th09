@@ -160,6 +160,15 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   All137 other raw bodies and75 siblings remain. Its independent replay repeats
   the rejection. Research routes:enemy-const-periodic/ and ecl-timeout-callable/;
   no production source,qualifier,manifest,profile or exactness credit changes.
+- Adjacent flag-pair controls are bounded in ecl-flagpair-storage/ below the
+  October31 analysis prefix. A continuous eight-byte group of two unsigned-int
+  allocation units preserves all138 regular bodies and RunEcl30/Enemy13.
+  Native timeout assignment repeats2140/13 whether its group is four or eight
+  bytes. All75 siblings per successful model and one independent replay pass.
+  A genuine unsigned-__int64 group fails original layout assertions;compiler
+  data confirms its default alignment moves primary337C to3380. No packing,
+  source/type/profile adoption or exact credit follows;packed alternatives and
+  unique original grouping remain unknown. Current296 pins remain unchanged.
 - Two whole-ECL native-side-type controls retain75 exact siblings each.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`

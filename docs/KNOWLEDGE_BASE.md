@@ -26868,3 +26868,95 @@ Post-cleanup strict56-owner comparison,240 unchanged pin checks,all123 paired
 body/contribution audits and12 immutable input reconstructions pass. Target,
 tracking,progress,documentation and whitespace checks pass;the worktree is
 checkpointed locally without any inferred remote publication.
+
+## October31: adjacent ECL flag allocation units and default alignment
+
+Recovery at0d3e9975 is clean. The previous turn is progress through the shared
+score-record source repair;game source remains4502c056. Original Japanese1.50a,
+tracking and live status pass. Direct Ghidra12.1.4 reuses the verified project,
+checks all685056 mapped file-backed bytes,and exports complete RunEcl4086C0
+and Enemy410730 under ghidra-direct/export-20261030T225809-787565. No Program
+metadata or target bytes change. The current complete ECL object is reused only
+after its source/profile/object pins agree,without a new baseline compile.
+
+The remaining30 RunEcl differences are independently rechecked:seven in
+opcode4's timer transport and23 in opcode155's flag update. All598 fields and
+complete physical tables still agree. The previous scalar/reference/return/
+proxy,word-storage and actual Timer/member-pointer records are reviewed before
+selecting a different storage question:could adjacent primary337C/secondary3380
+belong to a continuous native bitfield group? TH08/TH095 unsigned32 flag names
+are hypothesis material only;they establish no TH09 layout or source grouping.
+
+A native unsigned-__int64 group is initially staged without packing or changed
+compiler options. It fails the existing full EnemyState size/member-offset
+assertions,including the explicit original primary/secondary/draw-group guards.
+The compiler returns2 with C2118;no complete object or original-byte score is
+reported. The runner does not relax guards or repeatedly compile the same bad
+layout with a different consumer. A separate compiler-layout data probe then
+isolates the cause using the same real preceding337C-byte extent and raw-word
+union. The pinned i386 compiler emits32 relocation-free data bytes describing
+both candidates:
+
+- Two unsigned-int units:group size8,primary337C,secondary3380,probe owner3384.
+- Unsigned-__int64 unit:group size8,primary3380,secondary3384,probe owner3388.
+
+These are compiler observations,not original nominal-type evidence. In
+particular,default64-bit alignment contradicts the maintained target-bound
+view;this does not exclude an independently evidenced packed source model.
+No packing directive,compiler-profile sweep or padding is added to force it.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-FLAGPAIR-001 | compiler layout observation | Default unsigned-__int64 bitfields move the original337C primary position to3380;the real owner guards reject the model before native comparison. | ecl-flagpair-storage/pair64-helper.log;layout.json;32 actual COFF data bytes |
+| ECL-FLAGPAIR-002 | byte-neutral complete context | A single eight-byte group composed of two unsigned-int allocation units preserves both raw-word offsets and every138 regular raw body/effective field. RunEcl stays15564/598/30;Enemy3900/97/13. | pair32-helper.json;baseline.json;audit.py |
+| ECL-FLAGPAIR-003 | rejected complete context | Native timeout bit assignment produces the same137 bodies in the four-byte and continuous-eight-byte groups. RunEcl has2140 total differences,not an improvement. | native32.json;pair32-native.json;independent-reproduction.json |
+
+The unsigned-int pair adds only an unnamed-in-role32-bit secondary range to
+the existing native primary-bit description;raw primary/secondary members
+remain in a common union. Other known first-word bit setters consume the same
+expanded type,so this is an actual view-wide representation control,not an
+unused declaration. All asserted size/offsets and unrelated scalar fields stay.
+It leaves every one of138 regular definitions raw-equal under the existing
+masked-XOR helper. For direct timeout writes,the known native32 control and
+continuous-pair model are completely raw/effective-field equal:RunEcl retains
+15564 physical bytes/598 fields but1938 ordinary plus202 field-byte differences,
+with26 table bytes included in202. Its one-byte shorter timeout handler shifts
+later instruction/field coordinates;no graph-paired target addresses replace
+actual emitted positions. Every136 other common regular bodies,including all
+3900 Enemy bytes,remains unchanged. Only the unused16-byte source helper is
+not emitted;no original address is invented for it.
+
+All three successful models preserve75 existing complete sibling comparisons,
+22463 physical bytes/990 fields per model,including literal payloads. Changed
+private names are accepted in these private views only at independently equal
+actual owner-local positions;none is promoted into the canonical manifest.
+The entire38-byte/zero-field compiler contribution and its one entry also stay.
+Baseline plus four primary input sets recover all79 consumed files each from
+immutable0d3e9975 Git/EOL hashes. One independent continuous-pair/native-write
+cold replay repeats all137 raw bodies/effective fields,all75 complete siblings,
+compiler contribution and full2140/13 original diagnostics. A separate actual
+COFF data record preserves the alignment values. Six serial one-CPU/nice10
+compiler jobs total include one expected layout failure,three main controls,
+one layout-only data probe and one independent replay. Temporary source/OBJ/
+PDB outputs self-clean. No full canonical cold cohort is run.
+
+All game source,headers,ABIs,profiles,manifests and exact credit remain unchanged.
+Current296 source/profile/object pins and the native service are reused as
+recorded proofs,not newly compared296 functions. Exact authored coverage stays
+1004/1035 and246651/291883 bytes(84.5034%). Neither priority owner nor the98%
+milestone is closed. The bounded new conclusion is that field-group continuity
+alone does not repair this full interpreter,and default64-bit allocation fails
+the current target-bound geometry. Unique original grouping remains unknown.
+
+After all owned producer handles terminate,cleanup deletes seven ignored trial/
+debug files,1649463 logical bytes. All956 deletion-time protected hashes remain
+equal,including current296 objects/service,tracked source,target,working Ghidra
+and packet research records. The current ECL baseline stays;three trial objects
+and four PDBs are removed only after full raw/field/contribution capture and
+immutable input recovery. Both temporary replay and layout outputs self-clean.
+Post-cleanup saved full-body/original-diagnostic/input/layout audits pass.
+Recipes,compiler failures,full comparisons and cleanup receipt live under
+.analysis/gpt-61sol-20261031-ecl-flagpair-storage/. No old source tree or archive
+is created. Target-required tracking,documentation,progress and whitespace
+checks close this research checkpoint;no game-source or public-validator change
+requires a canonical/full-CI replay. All checkpoints are local.
