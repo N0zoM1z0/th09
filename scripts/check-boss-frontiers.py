@@ -4816,11 +4816,11 @@ def run_player_type11(*, protect_exact: bool,
 EFFECT34_DRAW_SHA256 = 'd32652c2e08ffbd02a103e379724cde773716f964bbb962e9e4cbd12f58c88a2'
 # Indexed layer access restores the original946-byte/0x1C-frame geometry.
 # It restores517 old mismatches and changes two old coincidental byte matches
-# in the displaced entry. Pin the reviewed78 residuals; protect868 equal bytes.
+# in the displaced entry. Inner jitter indexing restores four radius bytes;
+# pin the remaining74 residuals and protect872 equal original bytes.
 EFFECT34_DRAW_RESIDUAL_RUNS = (
     (0x00A, 0x00B), (0x00C, 0x00D), (0x01C, 0x01D),
     (0x02F, 0x06D), (0x1F9, 0x1FF), (0x200, 0x203),
-    (0x247, 0x24B),
 )
 
 def guard_effect_type34_draw(result: dict) -> dict:
@@ -4854,7 +4854,7 @@ def guard_effect_type34_draw(result: dict) -> dict:
     if (not isinstance(offsets, list) or len(offsets) != len(set(offsets)) or
             any(not isinstance(i, int) or i not in known for i in offsets) or
             offsets != sorted(offsets) or
-            result.get('overlapping_differences') != len(offsets) or len(offsets) > 78):
+            result.get('overlapping_differences') != len(offsets) or len(offsets) > 74):
         raise RuntimeError('Effect 34 changed an already equal original byte')
     equal = not offsets
     if result.get('complete_bytes_agree') is not equal:

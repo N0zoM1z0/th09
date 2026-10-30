@@ -2515,3 +2515,27 @@ records,current source,target/toolchains and Ghidra working state remain.
 No new source archive is created;build/ is absent.19 focused tests pass. Records:
 `.analysis/gpt-61sol-20261030-front-loop-exits/`. Exact stays1003/83.9093%;98%
 and later phases remain unfinished.
+
+## 2026-10-30: Effect34 ordered-radius cleanup
+
+Effect34's inner jitter index restores four original radius operand bytes on
+both maintained ECL profiles:946-byte draw differences78->74,with no damaged
+prior matches. Two profiles plus the actual detached update preserve80 existing
+strict canonical owners/25423 bytes/1137 fields; no new exact credit follows.
+
+After all producers terminate,cleanup deletes447 ignored regular files/
+11845408 logical bytes:seven trial objects,two superseded native-Player ECL
+objects,ten PDBs and428 bytecode caches. All173 protected files retain their
+deletion-time hashes,including three current objects,other reused proof
+carriers and target. Complete control/raw/field records and recipes remain;
+the two removed current ECL objects have complete maintained replacements.
+
+Current/update/strict public Oracle,saved-source and72-fixture original/current
+replays pass afterward. A private tuple-versus-JSON-array receipt comparison
+is corrected with separately pinned metadata recapture; all source/profile/
+object hashes and per-profile results remain identical. Documentation,research
+records,current source,target/toolchains and working Ghidra are preserved.
+No source archive is added;build/ is absent.14 focused tests and full public CI
+pass:1036 tests,29 skips,124.327s. Records and deletion/protection hashes:
+`.analysis/gpt-61sol-20261030-effect34-consumed-fields/`. Exact stays1003/
+83.9093%;98% and later phases remain unfinished.

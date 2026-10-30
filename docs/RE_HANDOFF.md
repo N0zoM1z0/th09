@@ -9,7 +9,7 @@ without assuming earlier notes are conclusive. The98% milestone is unfinished.
 
 The restart game-source baseline is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
 (Controller axis ranges); maintenance checkpoint7bc3b956 adds no game-source
-change. The weighted-message, Player contract, charge, RunEcl, instruction-mask and
+change. The Effect34, weighted-message, Player contract, charge, RunEcl, instruction-mask and
 callback corrections are described below. Use
 live Git status and ledgers before dated measurements. Exactness credit and
 compiler profiles remain unchanged. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
@@ -20,58 +20,60 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current game source — native weighted-message caller and shared table
+## Current game source — Effect34 ordered radius operands
 
-Following49cf85ba, the reviewed FrontCalc caller uses the actual
-FrontMessageRandomView::SetupRandomForSide member through its shared full
-1D70 runtime header. Its previous FrontCalcMessageRuntimeView declaration had
-no matching implementation. Caller+4FE remains REL32 to4162D0/addend0; only
-the C++ identity changes. All1491 caller bytes/107 fields remain exact.
-Other message facades and original nominal C++ ownership remain open.
+Following252e8ea2, Effect34 reads jitterCE8[layer][i] with its existing inner
+index instead of advancing a separate float pointer. Both maintained ECL
+profiles change exactly four raw draw bytes at+247..24A. The complete946-byte
+main draw now has74 differences instead of78,with no previously equal position
+damaged. Original FLD jitter/FADD width order is restored; the frame1C,286
+instructions,53 bound fields,four actual scalar definitions,20 direct/12 COM
+calls and16 physical blocks remain. Entry65 and color/layer stores9 remain
+nonexact; no exact or partial-byte credit is added.
 
-Random selection,loading and release now share FrontMessageTableView. The
-file entry's offset/instruction-pointer union stays at+0 and its signed weight
-at+4,with eight-byte stride. The old unknown04 name is replaced by weight04
-from the original signed comparison/subtraction. Private random table/entry
-copies are removed. The class body moves from the CPP into the shared header,
-without a new runtime wrapper,inheritance,field or call. Original object/wire
-lifetime and wider runtime domains remain provisional.
+Current packet: `.analysis/gpt-61sol-20261030-effect34-consumed-fields/`.
+Run current.py verify for both maintained profiles,update_owner.py verify for
+the actual detached208-byte Type34 update,and standard_gate.py for the unchanged
+strict public canonical Oracle. All80 existing exact owners pass25423 bytes/
+1137 fields. Each ECL profile also retains its137 other complete raw bodies
+and all actual field identities/destinations,with five position-proved private
+spellings per profile. Only two canonical label names need manifest refresh;
+no target,offset,addend,extent,profile or ABI changes. RunEcl15564/598/30 and
+Enemy3900/97/13 remain unchanged. Other923 canonical units get no new replay.
 
-Current packet: `.analysis/gpt-61sol-20261030-front-loop-exits/`.
-Run current.py verify for all five affected maintained carriers,standard_gate.py
-for the unchanged strict public Oracle,and verify_saved.py for23 baseline
-Git/EOL inputs,nine control sources/reports and four maintained file recipes.
-Three affected exact owners are cold:callback1491,loader405 and release271;
-two unchanged setup/initializer proofs reuse357/133 bytes. All five pass the
-strict public Oracle:2657 original bytes/158 fields. No full1003 replay or new
-exact credit is claimed. The random owner remains wholly raw/field-equal at
-693 bytes/15 fields/six calls/41 blocks/351 differences,zero missing/excess.
-Front Added remains706 bytes/37 fields/21 calls/19 equal blocks/222 differences,
-passing its unchanged residual guard. Its actual front.anm definition passes.
+Seven whole-carrier controls distinguish real dataflow. Jitter indexing gives
+74 with four restored/no damaged positions. SDK center/all-color and intrinsic
+center-copy forms reproduce that entire draw stream. Color-at-store/combined
+and fan-derived color give357/346 differences and15 blocks,so are rejected.
+Only jitter indexing is adopted. The earlier full indexed-point control had
+changed both vertex and jitter access; it did not rule out jitter-only indexing.
+No register/declaration-order hint,volatile,assembly or profile sweep is used.
 
-Eight new natural exit/index/counter controls are rejected. Three distinct
-exit forms each emit537 bytes/15 fields and fail the fixed extent guard.
-Record indexing gives687/549 differences+6 missing/42 blocks; typed cursor
-696/634+3 excess; offset/remaining counters723/584+30 excess and724/595+31.
-Correct exits alone do not establish original codegen; no guard is weakened.
-A separate real shared-wire type control is entirely raw/field neutral.
+A bounded emulator compares original and maintained bodies on72 fixtures/144
+executions with masked extended-precision FPCW037F. Actual original arithmetic
+and shared-getter helpers execute; ANM/COM calls are explicit synthetic
+intercepts. Full EF8 buffers,fixture RAM,draw/call traces,EAX,stack and saved
+registers agree;285 of286 instructions on each side execute. The sole physical
+padding instruction remains unreachable. All executed code is restricted to
+reviewed caller/helper extents and intercepts. This is finite synthetic evidence,
+not full runtime,Windows renderer closure or semantic-phase acceptance.
 
-Actual initialization-prefix diagnostics cover12 streams/eight distinct linked
-streams on120 fixtures:1440 executions. Original RNG bodies execute; all1D70
-runtime bytes,RNG state and next ANM receiver/arguments agree. Execution stops
-before the first ANM call. This bounded question does not prove full runtime,
-all table domains or exactness.19 focused tests pass; public tools/profiles
-are unchanged. Only one canonical caller symbol and four function notes cells
-change; extents,addresses,addends,statuses and other unit content remain fixed.
-Exact remains1003/83.9093%;98% remains unfinished.
+The public frontier now protects all872 equal original bytes,including the four
+recovered radius bytes. Existing regression cases reject reintroducing any of
+those positions with an unchanged difference count.14 focused tests pass.
+Full public CI passes1036 tests with29 skips in124.327s. Function ledger
+changes are limited to this draw owner's evidence/notes; exact stays1003/
+83.9093%,with98% unfinished.
 
-After producer termination,cleanup removes29 ignored files/981471 logical
-bytes:14 obsolete objects,14 PDBs and one bytecode cache. Five retired current
-carriers are replaced by maintained proofs; all169 protected files retain
-their hashes. Current,strict public,saved-source and all1440 prefix replays
-pass afterward. Documentation/research records,current source,target/toolchains
-and working Ghidra state remain. No old C++ tree or new archive is retained;
-build/ is absent.
+After producer termination,cleanup removes447 ignored regular files/11845408
+logical bytes:seven trial objects,two replaced ECL objects,ten PDBs and428
+bytecode caches. All173 protected files retain deletion-time hashes; three
+current objects,documentation,research records,target/tools and working Ghidra
+remain. No old C++ tree or archive is added;build/ is absent. Post-cleanup
+current/update/strict-Oracle,saved-source and72-fixture replays pass. The private
+receipt verifier now normalizes tuple calls to JSON arrays before comparison;
+metadata-only recapture preserves every source/profile/object and full result.
+Before/after pins distinguish that recipe correction from deletion-time hashes.
 
 ## Earlier dependency corrections
 
@@ -99,6 +101,7 @@ and source-interface cleanup earn no partial exact credit.
 | 4dd2212d | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/` (dated records) |
 | 17a11669 | Native Type6/7/8/9 setup and EffectManager contracts;219 existing exact owners preserved. | `gpt-61sol-20261030-runecl-formal-state/` (dated records) |
 | 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |
+| 252e8ea2 | Weighted-message caller uses its actual member/shared table;693/351 remains nonexact,and five strict Front owners retain2657 bytes/158 fields. | `gpt-61sol-20261030-front-loop-exits/` (dated source-bound records) |
 | 49cf85ba | Shared Player Timer/Sound/angle declarations and actual GameManager registration root;86 existing strict canonical proofs retain25979 bytes/1176 fields. | `gpt-61sol-20261030-native-player-contracts/` (dated source-bound records) |
 | be7c4658 | Natural signed weighted Front scans recover693 bytes with351 differences/no missing; remains nonexact. | `gpt-61sol-20261030-front-weighted/` (dated source-bound records; use the public inspector for live diagnostics) |
 | 6c5a019a | Charge uses actual GameConfiguration through a unique+E8 view; complete1197/70/1160+13 is unchanged. | `gpt-61sol-20261030-charge-configuration/current.py verify` |
@@ -192,7 +195,7 @@ repeating them. Historical assumptions remain hypotheses.
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode4 timer transport and opcode155 flag update. Keep all598 fields/tables and complete15564 bytes; actual Timer ABI and RNG ownership are already corrected. `--owner runecl`. |
 | **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Draw index2, side/threshold4, descriptor-position copy7. Keep real20-byte Timer greater co-visible, all97 fields and3887 matching physical bytes. |
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Main/satellite fan chronology, polar receiver reloads and ordinal graph. Bounded emulator fixtures are not whole-runtime or exactness proof. `--owner effect29`. |
-| **Effect 34 draw** | 0x00444AF0 | **946/946 physical**,53 original referents,20 direct +12 COM calls,286 instructions,16 blocks; **78 linked differences** | Entry65, store order9 and radius operands4 remain. Preserve868 matching bytes, all53 fields, actual float data and full physical extent. `--owner effect34`. |
+| **Effect 34 draw** | 0x00444AF0 | **946/946 physical**,53 original referents,20 direct +12 COM calls,286 instructions,16 blocks; **74 linked differences** | Entry65 and store order9 remain; radius operands now match. Preserve872 matching bytes, all53 fields, actual float data and full physical extent. `--owner effect34`. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor. Preserve332 matching bytes and the genuine final DrawBulletLayerEffects member identity. `--owner etama`. |
 | **PauseMenu::OnUpdate** | 0x00434740 | **1,776 original physical / 1,732 candidate**; 46 direct calls plus 2/3 original/candidate timestamp calls; 10-way switch; **1,453** overlapping differences + 44 missing | Share timestamp tail for states3/8/9 and recover branch/VM scheduling. Keep real UnPause and existing exact siblings. `--owner pause`. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Lower-bound EAX/EDX transport and encoding cascade. Native framerate/coordinate owners are corrected; preserve1771 matching bytes and both tables. `--owner movement`. |

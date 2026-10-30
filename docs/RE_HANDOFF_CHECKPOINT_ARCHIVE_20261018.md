@@ -3051,3 +3051,58 @@ pass after cleanup. Final metadata recapture is separately recorded; deletion-
 time protection hashes are retained.
 Documentation,research records,target/toolchains and Ghidra state remain;
 build/ is absent.
+
+## October30 weighted-message checkpoint252e8ea2
+
+## Current game source — native weighted-message caller and shared table
+
+Following49cf85ba, the reviewed FrontCalc caller uses the actual
+FrontMessageRandomView::SetupRandomForSide member through its shared full
+1D70 runtime header. Its previous FrontCalcMessageRuntimeView declaration had
+no matching implementation. Caller+4FE remains REL32 to4162D0/addend0; only
+the C++ identity changes. All1491 caller bytes/107 fields remain exact.
+Other message facades and original nominal C++ ownership remain open.
+
+Random selection,loading and release now share FrontMessageTableView. The
+file entry's offset/instruction-pointer union stays at+0 and its signed weight
+at+4,with eight-byte stride. The old unknown04 name is replaced by weight04
+from the original signed comparison/subtraction. Private random table/entry
+copies are removed. The class body moves from the CPP into the shared header,
+without a new runtime wrapper,inheritance,field or call. Original object/wire
+lifetime and wider runtime domains remain provisional.
+
+Current packet: `.analysis/gpt-61sol-20261030-front-loop-exits/`.
+Run current.py verify for all five affected maintained carriers,standard_gate.py
+for the unchanged strict public Oracle,and verify_saved.py for23 baseline
+Git/EOL inputs,nine control sources/reports and four maintained file recipes.
+Three affected exact owners are cold:callback1491,loader405 and release271;
+two unchanged setup/initializer proofs reuse357/133 bytes. All five pass the
+strict public Oracle:2657 original bytes/158 fields. No full1003 replay or new
+exact credit is claimed. The random owner remains wholly raw/field-equal at
+693 bytes/15 fields/six calls/41 blocks/351 differences,zero missing/excess.
+Front Added remains706 bytes/37 fields/21 calls/19 equal blocks/222 differences,
+passing its unchanged residual guard. Its actual front.anm definition passes.
+
+Eight new natural exit/index/counter controls are rejected. Three distinct
+exit forms each emit537 bytes/15 fields and fail the fixed extent guard.
+Record indexing gives687/549 differences+6 missing/42 blocks; typed cursor
+696/634+3 excess; offset/remaining counters723/584+30 excess and724/595+31.
+Correct exits alone do not establish original codegen; no guard is weakened.
+A separate real shared-wire type control is entirely raw/field neutral.
+
+Actual initialization-prefix diagnostics cover12 streams/eight distinct linked
+streams on120 fixtures:1440 executions. Original RNG bodies execute; all1D70
+runtime bytes,RNG state and next ANM receiver/arguments agree. Execution stops
+before the first ANM call. This bounded question does not prove full runtime,
+all table domains or exactness.19 focused tests pass; public tools/profiles
+are unchanged. Only one canonical caller symbol and four function notes cells
+change; extents,addresses,addends,statuses and other unit content remain fixed.
+Exact remains1003/83.9093%;98% remains unfinished.
+
+After producer termination,cleanup removes29 ignored files/981471 logical
+bytes:14 obsolete objects,14 PDBs and one bytecode cache. Five retired current
+carriers are replaced by maintained proofs; all169 protected files retain
+their hashes. Current,strict public,saved-source and all1440 prefix replays
+pass afterward. Documentation/research records,current source,target/toolchains
+and working Ghidra state remain. No old C++ tree or new archive is retained;
+build/ is absent.

@@ -24413,3 +24413,104 @@ no missing carrier is silently counted as a current proof. Documentation and
 research records remain,with no old C++ source tree or new archive;build/ is
 absent. The only game-source adoption is actual caller/table sharing;none of
 the eight rejected loop bodies is promoted.
+
+## October 30: Effect34 inner-index dataflow recovers ordered radius operands
+
+Recovery begins clean at252e8ea2; the prior Front caller/table commit is progress.
+Original Japanese1.50a disk identity and direct Ghidra cached Program/i386/base/
+entry/all685056 mapped bytes pass. Fresh export covers complete draw444AF0..444EA1,
+946 bytes,original SHA256
+d32652c2e08ffbd02a103e379724cde773716f964bbb962e9e4cbd12f58c88a2.
+The source/profile/object-bound main baseline is reused from the unchanged
+current native-Player carrier,not freshly compiled or inferred from an old score.
+
+Original/source disassembly isolates65 entry bytes,nine color/layer-store bytes
+and four radius operand bytes. Original radius reads jitter with FLD [EBX],then
+FADD [EDI+50]; source loads width first then adds jitter. Moving declarations to
+request registers is not used. Instead,the actual existing inner i now selects
+jitterCE8[layer][i],removing the separate offset cursor/increment. Both maintained
+profiles change exactly+247,+248,+249,+24A and nothing else in the raw draw body.
+This restores all four original bytes without damaging any previously equal
+position:78->74 differences,868->872 equal original bytes. No partial exactness
+credit follows; complete946-byte draw remains nonexact.
+
+The result retains frame1C,286 instructions,53 original referents,four actual
+scalar definitions,20 direct plus12 COM calls,16 physical blocks,original ordinal
+branch/call graph and all SDK immediate arguments. The timer call is still at
+candidate+3D versus original+40; the entry65 and store-order9 remain open. No
+ABI,layout,branch,qualifier,profile,register-order hint,padding or target byte is
+changed. The full indexed-point negative had changed both vertex and jitter
+accesses; it was not a negative for isolated jitter indexing. Adjacent trail
+source was inspected but supplies no adopted TH09 layout,ownership or exactness.
+
+Seven whole main-carrier controls use frozen quoted inputs,the same pinned
+/O2/Ob1 profile,one allowed CPU at nice10 and180-second bounds. Direct color
+at its store and that form combined with jitter indexing both emit946/53/357
+and15 blocks. Deriving line color from fan color on the indexed-jitter source
+gives946/53/346 and15 blocks. These lose the original physical skip-padding
+block; no missing rendering algorithm is inferred. Each regresses previously
+matching bytes and is rejected by the unchanged whole-owner shape protection.
+
+Jitter-only indexing emits946/53/74 with zero damaged positions. Actual SDK
+D3DCOLOR_ARGB construction of center alpha/4,all three colors,and an intrinsic
+12-byte center copy each reproduce the same improved draw stream. The center
+channel identity is independently checked for all256 unsigned-byte alpha values.
+Only the smaller direct-index source is adopted; no neutral color/copy form is
+introduced. The raw draw SHA256 is
+e63812b4c87a29e17098cd8285e0ef85a027bd81c08adfe13e664ce22134ba81.
+
+Two maintained ECL profiles then cold-build once each,with a separate actual
+Type34 update cold build:ten actual serial compiles total,including the seven
+controls. All79 affected existing canonical owners retain25215 complete bytes/
+1126 fields; the unchanged actual update adds208/11. All80 pass the unchanged
+public compare_unit with25423 bytes/1137 fields,using a temporary manifest that
+changes only actual object paths. Other923 canonical units receive no new
+comparison or compilation. No full1003 cold replay or new acceptance is claimed.
+Each profile's137 other raw bodies and all2044/2182 fields stay unchanged except
+five actual-position-proved private label spellings. The two canonical table-base
+names are refreshed only after full byte/COFF destination proof,with original
+positions/targets fixed. Other spellings remain diagnostic,not target-fitted.
+RunEcl stays15564/598/30 with zero field/table drift;Enemy3900/97/13 is unchanged.
+
+A new bounded actual-machine countercheck executes original and maintained draws
+on72 declared fixtures(144 executions):state0/1/2,timer-1/0/1/10/25/49/50/51 and
+three finite radius/jitter pairs,with nonzero XYZ,signed origins/offsets and
+FPCW037F. Six actual original math/shared-getter bodies execute within reviewed
+extents; the four-byte getter's original nominal ownership is not inferred.
+ANM/COM effects are explicit synthetic intercepts with real stack cleanup and
+volatile-register clobbers. Full EF8 buffers,draw/call traces,fixture RAM,EAX,
+stack balance and saved nonvolatile registers agree. All285 statically reachable
+original and candidate instructions execute;one physical alignment instruction
+remains unexecuted. A code guard rejects execution outside reviewed caller/helper
+extents and intercepts. This is finite synthetic evidence,not universal floating
+behavior,actual Windows renderer/runtime,product or later semantic acceptance.
+
+The public Effect34 guard shrinks the allowed residual set and maximum78->74,
+protecting all872 equal bytes. Same-count regression cases now include each
+recovered+247..24A position.14 focused tests pass. Public validation therefore
+receives one full CI run:1036 tests,29 skips,terminal success in124.327s with
+all inputs unchanged. Current two-profile/update/strict-Oracle,controls,actual scalar and
+emulator evidence live in
+`.analysis/gpt-61sol-20261030-effect34-consumed-fields/`. Metadata-only recapture
+after the two label updates and stronger guard preserves original receipts,
+source/profile/object hashes and compiler counts. Exact stays1003 and
+244917/291883(83.9093%);98% and later phase gates remain unfinished.
+
+After all producers terminate,cleanup deletes447 ignored regular files/
+11845408 logical bytes:seven trial objects,two superseded native-Player ECL
+profile objects,ten PDBs and428 bytecode caches. All173 protected files retain
+deletion-time hashes,including three maintained objects and the other reused
+canonical/current Front/native-Player carriers. Replacements preserve complete
+raw/field records; no missing old carrier is counted as a current dependency.
+Documentation,research records,current game source,target/toolchains and working
+Ghidra remain;build/ is absent and no old C++ tree or archive is introduced.
+
+Post-cleanup current verification exposes a private receipt serialization bug:
+computed call tuples were compared directly with JSON-decoded arrays. Normalize
+the computed row through JSON before comparison. All per-profile records,
+source/profile/object hashes,bytes,fields and strict outcomes are identical;
+only the private recipe provider hash changes. Before/after receipts and pins
+preserve both metadata recaptures and distinguish them from deletion-time
+protection hashes. No new compiler invocation occurs. Current/update/80-owner
+strict replay and seven saved controls/source reproduction pass afterward;
+all72 original/maintained emulator fixtures reproduce the prior JSON exactly.

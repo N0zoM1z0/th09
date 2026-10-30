@@ -100,13 +100,12 @@ int __fastcall EffectDrawCallbackType34(Effect *effect)
     do
     {
         vertex = vertices->lines2E8[layer];
-        float *offset = vertices->jitterCE8[layer];
         for (int i = 0; i < 32; ++i)
         {
             if (angle >= 3.1415927f)
                 angle -= 6.2831855f;
             vertex->pos.z = 0.0f;
-            vertex->pos.FromAngleMagnitude(angle, *offset + vertices->width50);
+            vertex->pos.FromAngleMagnitude(angle, vertices->jitterCE8[layer][i] + vertices->width50);
             vertex->pos += *position;
             vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);
             vertex->pos.y = g_GameManager.TransformPopupY(vertex->pos.y);
@@ -114,7 +113,6 @@ int __fastcall EffectDrawCallbackType34(Effect *effect)
             vertex->rhw = 1.0f;
             angle += 0.2026834f;
             ++vertex;
-            ++offset;
         }
         supervisor->d3dDevice08->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
         supervisor->d3dDevice08->DrawPrimitiveUP(D3DPT_LINESTRIP, 31, vertices->lines2E8[layer], sizeof(VertexDiffuseXyzrhw));

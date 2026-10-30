@@ -30,7 +30,7 @@ BASE = {'role': 'draw',
  'candidate_blocks': 16,
  'missing_bytes': 0,
  'extra_bytes': 0,
- 'overlapping_differences': 78,
+ 'overlapping_differences': 74,
  'ordinal_graphs_agree': True,
  'complete_bytes_agree': False,
  'target_calls': [['direct', 4370128],
@@ -103,8 +103,8 @@ class Effect34FrontierTests(TestCase):
         with self.assertRaisesRegex(RuntimeError, 'already equal'):
             boss.guard_effect_type34_draw(result)
 
-    def test_recovered_frame_and_loop_bytes_are_now_protected(self):
-        for offset in (0x005, 0x01D, 0x020, 0x14D, 0x21B, 0x3B1):
+    def test_recovered_frame_loop_and_radius_bytes_are_now_protected(self):
+        for offset in (0x005, 0x01D, 0x020, 0x14D, 0x21B, 0x247, 0x248, 0x249, 0x24A, 0x3B1):
             with self.subTest(offset=hex(offset)):
                 result = baseline()
                 self.assertNotIn(offset, result['difference_offsets'])
