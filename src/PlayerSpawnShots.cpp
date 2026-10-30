@@ -1,4 +1,5 @@
 #include "PlayerSpawnShotsView.hpp"
+#include "PlayerSpawnFrameView.hpp"
 
 void __fastcall PlayerSpawnShotsView::SpawnShots(int value, int powerLevel)
 {
@@ -16,7 +17,10 @@ processEntry:
         if (entry->spawnCallback28 != 0)
             result = entry->spawnCallback28(this, shot, value, entry);
         else
-            result = SpawnShotWhenFrameMatches(shot, value, entry);
+            result = reinterpret_cast<PlayerSpawnFrameView *>(this)
+                ->SpawnShotWhenFrameMatches(
+                    reinterpret_cast<PlayerShotInitShotView *>(shot), value,
+                    reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
 
         if (result == 1)
         {

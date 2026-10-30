@@ -1,3 +1,4 @@
+#include "PlayerShotInitializeView.hpp"
 struct PlayerShotSpawn6Vec3
 {
     float x;
@@ -48,9 +49,6 @@ struct PlayerShotSpawn6PlayerView
     unsigned char unknown0000[0x0C];
     PlayerShotSpawn6SideView *sideState0C;
 
-    void __fastcall InitializeShot(
-        PlayerShotSpawn6ShotView *shot,
-        PlayerShotSpawn6DescriptorView *entry);
 };
 
 int __fastcall PlayerShotSpawnCallbackType6(
@@ -61,7 +59,9 @@ int __fastcall PlayerShotSpawnCallbackType6(
 {
     if (value == entry->scheduleValue00)
     {
-        player->InitializeShot(shot, entry);
+        reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
+            reinterpret_cast<PlayerShotInitShotView *>(shot),
+            reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
         shot->position2A4 =
             player->sideState0C->effectManager0C->GetFixedSlotEffect(5)
                 ->position0C;

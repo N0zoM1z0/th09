@@ -1,3 +1,4 @@
+#include "PlayerShotInitializeView.hpp"
 struct PlayerShotSpawnPlayerView;
 struct PlayerShotSpawnShotView;
 struct PlayerShotSpawnDescriptorView;
@@ -57,9 +58,6 @@ struct PlayerShotSpawnPlayerView
     unsigned char unknown0010[0x1B88 - 0x10];
     PlayerShotSpawnVec3 position1B88;
 
-    void __fastcall InitializeShot(
-        PlayerShotSpawnShotView *shot,
-        PlayerShotSpawnDescriptorView *entry);
 };
 
 int __fastcall PlayerShotSpawnCallbackType2(
@@ -70,7 +68,9 @@ int __fastcall PlayerShotSpawnCallbackType2(
 {
     if (value == entry->scheduleValue00)
     {
-        player->InitializeShot(shot, entry);
+        reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
+            reinterpret_cast<PlayerShotInitShotView *>(shot),
+            reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
         shot->velocity43C.x = 0.0f;
         shot->velocity43C.y = 0.0f;
         shot->angle450 = entry->angle14;
@@ -107,7 +107,9 @@ int __fastcall PlayerShotSpawnCallbackType5(
     if (effect->activeC4 == 0 &&
         value == entry->scheduleValue00)
     {
-        player->InitializeShot(shot, entry);
+        reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
+            reinterpret_cast<PlayerShotInitShotView *>(shot),
+            reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
         return 1;
     }
 

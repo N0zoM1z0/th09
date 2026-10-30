@@ -9,12 +9,13 @@ without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affect
 sources/profiles. Preserve research records;delete unused old code/build copies.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Previous game-source checkpoint: **d15c833c**. This checkpoint replaces Charge's
-three divergent callee-class copies with shared CardAttackStart/ResourceSubtract
-declarations and the existing SpawnShots header. The923/51/190-byte callees stay
-exact;Charge keeps its complete1197/1210-byte nonexact frontier. No profile,
-extent,origin or exact credit changes. The earlier caller/Sound and target-
-tracking repairs remain in place.
+Previous game-source checkpoint: **19569217**. This checkpoint connects the
+default shot dispatcher and six spawn callbacks to the defined309-byte shot
+initializer through shared interfaces. The initializer uses native Float3,
+ZunTimer,SoundPlayer and AnmLoaded calls. All affected exact bodies remain exact;
+Charge keeps its1197/1210-byte nonexact frontier. No profile,extent,origin or
+exact credit changes. Earlier caller/shared-type and target-tracking repairs
+remain in place.
 
 ## Source and evidence routing
 
@@ -29,11 +30,11 @@ tracking repairs remain in place.
   only the position;it does not reset that pointer. The intervening12 bytes have
   a separate vector reset,their role remains unknown. Type7 calls the existing
   `PlayerAngleView::AngleToPoint` at41BB00.
-- `.analysis/gpt-61sol-20261031-charge-shared-callee-types/current.py` verifies
-  current carrier objects plus unchanged source-bound reuse:109 strict existing
-  units/33053 physical bytes/1486 fields. This includes21 Runtime owners,the
-  three923/51/190-byte callees,native Sound140 and84 unchanged tracking/ECL
-  units. Charge stays1197/70/58 with1160 overlaps+13 missing;RunEcl15564/598/30
+- `.analysis/gpt-61sol-20261031-shot-initialize-chain/current.py` verifies current
+  carriers plus unchanged source-bound reuse:141 strict existing units/34700
+  physical bytes/1529 fields. This includes the native shot chain,its Timer/ANM/
+  pointer dependencies,both Sound140/153 callees and unchanged Runtime/ECL
+  proofs. Charge stays1197/70/58 with1160 overlaps+13 missing;RunEcl15564/598/30
   and Enemy3900/97/13 are unchanged.
 - Player OnUpdate's field+1BE now references the defined int-returning
   `PlayerChargeAttackView::UpdateChargeAttack`,through its shared header.
@@ -45,6 +46,13 @@ tracking repairs remain in place.
   shared header. All1197 Charge raw bytes/fields remain identical. Actual
   resource-callee visibility shortens Charge to1195/1162+15,while SpawnShots
   visibility is raw-neutral;neither context is adopted as an original TU claim.
+- `PlayerShotInitializeView.hpp` and `PlayerSpawnFrameView.hpp` replace seven
+  undefined initializer references and the generic dispatcher's undefined frame
+  helper reference. All13 changed fields retain their original offsets,kinds,
+  addends and targets;the frame owner's symbol also follows its shared types.
+  Init309 and Type7-139 keep their distinct canonical /Ob0 profiles. Default
+  chain visibility leaves Charge1197;full visibility under Charge's /Ob1 makes
+  Init301/5 instead of309/7 and is rejected as original callee closure.
 - `.analysis/gpt-61sol-20261031-ecl-word-results/` retains thirteen complete
   ECL controls and all75 exact siblings per control. POD word-result/native
   bits/wide-intermediate controls remain30;constructed/by-value-input/wide-
@@ -52,6 +60,9 @@ tracking repairs remain in place.
   workspace reuse gives42/2290/2302 differences;draw-index reuse is neutral.
   Enemy's own3900 raw bytes/effective97 fields stay unchanged in all thirteen;
   a rejected RunEcl callee still prevents a complete Enemy diagnostic score.
+- A control-family rhsInt time capture in `ecl-control-workspace/` retains
+ 15564/598 but regresses30 to42 ordinary differences,with no field/table drift.
+  All75 exact siblings and Enemy13 remain;the source model is rejected.
 - Two whole-ECL native-side-type controls retain75 exact siblings each.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`
@@ -59,17 +70,18 @@ tracking repairs remain in place.
 - The previous native RNG/sound/ANM/spawn repair remains. Spawn arguments830/
   10000 mean life/score. Its31-unit native proofs remain source-unchanged in
   `.analysis/gpt-61sol-20261030-game-manager-native-entrypoints/`;that packet's
-  old106-unit verifier includes a superseded ECL binding. Use the new109-unit
+  old106-unit verifier includes a superseded ECL binding. Use the new141-unit
   verifier for the current affected closure,not the old combined verifier.
 - `.analysis/gpt-61sol-20261030-type3-whole-context/current-type3.json` binds the
   Type3 cache to current source/profile. The complete inspector remains
   `scripts/inspect-exattack-type3-schedule.py`;Type3 stays780/38/15.
-- The shared-callee packet retains four current objects,the previous Charge
-  packet retains two unchanged Runtime objects,and the tracking packet retains
-  seven unchanged objects. Superseded/trial/regenerated compiler objects and
-  disposable PDBs are removed after verification;observations,immutable Git/EOL
-  source recipes and logs remain. Old combined packet verifiers include
-  superseded Charge/Runtime bindings;use current.py above.
+- The shot-chain packet retains thirteen current objects,the shared-callee
+  packet two unchanged Card/Resource objects,the previous Charge packet two
+  Runtime objects,and the tracking packet six unchanged objects. The native
+  Sound object is also reused. Superseded/trial/regenerated objects and disposable
+  PDBs are removed after verification;observations,immutable Git/EOL source
+  recipes and logs remain. Older combined verifiers contain superseded source
+  bindings;use current.py above.
 - `.analysis/gpt-61sol-20261031-etama-laser/` retains the600/27/268 current
   baseline and ten native-callee/VM-array controls. Coordinates co-visible with
   the caller shrink it to584/25 and damage DrawSingleBullet;no candidate is

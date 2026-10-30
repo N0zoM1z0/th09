@@ -63,11 +63,6 @@ struct PlayerSpawnShotsView
     unsigned char unknown3031C[0x30338 - 0x3031C];
     PlayerSpawnShotsShtFileView *primaryShtFile30338;
 
-    int __fastcall SpawnShotWhenFrameMatches(
-        PlayerSpawnShotsShotView *shot,
-        int value,
-        PlayerSpawnShotsDescriptorView *entry);
-
     void __fastcall SpawnShots(int value, int powerLevel);
 };
 

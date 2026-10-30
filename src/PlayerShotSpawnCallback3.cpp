@@ -1,3 +1,4 @@
+#include "PlayerShotInitializeView.hpp"
 struct PlayerShotSpawn3DescriptorView
 {
     short scheduleValue00;
@@ -18,9 +19,6 @@ struct PlayerShotSpawn3PlayerView
     float speedMultiplier1CDC;
     float speedMultiplier1CE0;
 
-    void __fastcall InitializeShot(
-        PlayerShotSpawn3ShotView *shot,
-        PlayerShotSpawn3DescriptorView *entry);
 };
 
 int __fastcall PlayerShotSpawnCallbackType3(
@@ -31,7 +29,9 @@ int __fastcall PlayerShotSpawnCallbackType3(
 {
     if (value == entry->scheduleValue00)
     {
-        player->InitializeShot(shot, entry);
+        reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
+            reinterpret_cast<PlayerShotInitShotView *>(shot),
+            reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
         shot->velocityX43C = 0.0f;
         shot->velocityY440 = -24.0f;
         player->speedMultiplier1CE0 = 0.5f;

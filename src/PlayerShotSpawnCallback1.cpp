@@ -1,3 +1,4 @@
+#include "PlayerShotInitializeView.hpp"
 #include "ZunTimer.hpp"
 
 struct PlayerShotSpawn1Vec3
@@ -46,9 +47,6 @@ struct PlayerShotSpawn1PlayerView
     unsigned char unknown0000[0x3031C];
     PlayerShotSpawn1StateView state3031C;
 
-    void __fastcall InitializeShot(
-        PlayerShotSpawn1ShotView *shot,
-        PlayerShotSpawn1DescriptorView *entry);
 };
 
 int __fastcall PlayerShotSpawnCallbackType1(
@@ -68,7 +66,9 @@ int __fastcall PlayerShotSpawnCallbackType1(
     shot->auxiliary448 = entry->value08;
     shot->field46A = 15;
 
-    player->InitializeShot(shot, entry);
+    reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
+            reinterpret_cast<PlayerShotInitShotView *>(shot),
+            reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
     shot->shotType464 = 2;
 
     for (int i = 31; i >= 0; --i)

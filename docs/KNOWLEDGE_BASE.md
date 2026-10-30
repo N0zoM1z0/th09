@@ -25788,3 +25788,106 @@ with all547 files protected for that pass unchanged. Total deletion for this
 bounded unit is52 files/8800052 logical bytes. The four current carrier objects
 are final-charge.obj,card.obj,final-resource.obj and spawn.obj;research and the
 unchanged proof objects remain preserved.
+
+## October31: native shot initialization chain and complete Charge context
+
+Continuation from19569217 is clean. The preceding shared-callee checkpoint is
+substantive progress,not completion of98%. Disk target,tracking and live report
+pass. Direct Ghidra reuses12.1.4 and rechecks all685056 mapped file bytes before
+exporting complete RunEcl4086C0/Enemy410730 and shot41F350/41F490/41F4C0.
+
+A control-family RHS workspace hypothesis uses the actual existing rhsInt for
+opcode4's four-byte time copy and real Timer assignment. The complete carrier
+retains15564 bytes/598 original fields but regresses30 to42 ordinary differences;
+zero field/table drift. All75 exact ECL siblings pass and Enemy stays3900/97/13.
+No source change is adopted. Its immutable19569217 inputs,recipe,raw/COFF and
+full observations remain in ecl-control-workspace. This bounds that actual
+control-family lifetime,not every interpreter source organization.
+
+Following Charge's real shot-dispatch edge finds unresolved source identities:
+SpawnShots declared an undefined private SpawnShotWhenFrameMatches member,and
+that maintained37-byte helper plus six shot callbacks declared seven references
+to undefined private InitializeShot methods. All seven original calls reach the
+already maintained309-byte41F350 owner. Its own interface still named private
+Timer,Sound,ANM and float-pointer methods rather than their defined counterparts.
+The original call transports,field offsets and full target comparisons establish
+these edges;Ghidra's incidental types do not establish original class names.
+
+PlayerShotInitializeView.hpp now shares the existing actual shot/descriptor/
+Player projections and initializer declaration. It uses the existing Float3 and
+ZunTimer types and actual AnmLoaded pointer;the implementation calls native
+SoundPlayer and AnmLoaded interfaces. PlayerSpawnFrameView.hpp exposes the real
+37-byte frame helper using those same initializer argument types. SpawnShots
+and all six applicable callbacks project their real receivers/arguments into
+these declarations. Private method-only aliases are removed. Original value
+comparisons,copies,math,timer assignments,sounds,animations and returns remain.
+No defensive branch,register hint,assembly,padding or compiler-profile change
+is introduced. Other projected game types,original class names,C++ whole-game
+object lifetime and product closure remain separate open work.
+
+The manifest migration changes exactly14 symbol records:the frame owner plus
+13 actual fields. These are seven initializer callsites,one default-frame call
+and five native dependency fields in the initializer. Every field retains its
+original target,offset,kind and addend;all unit source paths,profiles,extents,
+function mappings and counts remain unchanged. The ledger changes only the
+frame helper's signature to the shared argument types. No matches.csv update
+or new exact credit is made. An independent parent/current metadata comparison
+checks these constraints against immutable19569217.
+
+The adopted source/profile groups preserve12 strict existing shot-chain/effect
+units,plus21 native Timer/ANM/pointer units. Init stays309/7,frame37/1 and
+SpawnShots190/1. All six initializer-using callbacks and the unaffected Type4
+callback remain complete exact. Type7's canonical /Ob0 retains139/5;an initially
+selected /Ob1 diagnostic produces135/3 and is explicitly not a canonical proof.
+Its correct configured profile is separately built. Init's configured /Ob0 also
+stays unchanged. Four actual compiler math-wrapper bodies,12 bytes each,match
+original401060/401070 under Init/Type7;they are existing excluded compiler code,
+not authored-byte credit. Native positioned Sound153/3 is independently proved
+from its unchanged source/profile/object binding;native Sound140 is retained.
+
+Shared declaration visibility leaves all1197 Charge raw bytes and effective
+fields baseline-equal:70 fields,58 ordered calls,53 blocks,1160 unlike overlaps
+plus13 missing bytes. Co-visible actual SpawnShots190 and frame37 also retain
+those complete Charge observations and independently match both native callees.
+Adding actual initialization source under Charge's /Ob1 still leaves Charge
+1197,but emits Init301 bytes/five fields instead of309/seven. That context lacks
+original complete callee closure and is rejected,not adopted as an original TU
+partition or solved boss. The actual Init301 raw/COFF and full rejection remain;
+no wrong-size head is given the309-byte target address for similarity scoring.
+
+The final source-bound current.py proves141 strict existing units,34700 complete
+physical bytes and1529 fields. Thirteen current source/profile carrier objects
+are combined with unchanged Card/Resource,Runtime,tracking/ECL and native Sound
+proofs only after their actual source/profile/object pins pass. The changed
+Type7 object is excluded from reuse. RunEcl15564/598/30 and Enemy3900/97/13 stay
+unchanged. No whole1004-unit cold replay is run;compiler work is serial,one
+allowed CPU,nice10,180-second bounded and limited to the affected chain and its
+actual native dependencies.
+
+All16 source-control inputs reproduce from immutable19569217 Git/EOL bindings.
+Two independent cold regenerations reproduce all three Init definitions and
+all four default-chain definitions,full actual fields,one/ two canonical callee
+proofs and complete Charge observations. Early recording recipe hashes remain
+alongside the final reconstruction hash. The first Init staging contains an
+unused Frame member spelling,corrected before the Frame compiler runs;that file
+is outside Init's actual include closure and its initial full staged hash is
+still reproducible. The adoption writer initially uses a nonexistent prototype
+CSV column after source/manifest writes. Recovery verifies those dirty files
+against the immutable proposal,uses the actual signature column and finishes
+without reset or losing work. Neither setup issue is target counterevidence.
+
+Ten focused Charge tests and four pointer-view tests pass. Target-required
+tracking,documentation,generated progress,match graph and whitespace checks pass.
+No shared validator is changed and no full public CI is required. Exact remains
+1004/1035 and246651/291883 authored bytes(84.5034%);98%,native product/runtime,
+dual-Oracle semantics and portability remain unfinished. Research records,
+source recipes,target/toolchains and the working Ghidra project are preserved.
+
+After every compiler/replay/headless producer is terminal,cleanup removes28
+trial,regenerated and superseded object/debug files,1961812 logical bytes.
+All588 protected files retain their hashes at deletion. The thirteen current
+carrier objects,four unchanged Card/Resource/Runtime objects,six unchanged
+tracking objects and native Sound proof remain;the obsolete Charge,dispatcher
+and Type7 objects are removed. Full raw/COFF observations,all source recipes,
+logs and mapped Ghidra exports remain. No old source tree or new archive is
+created. Eight provider/Oracle inputs remain byte/EOL-bound to19569217.
