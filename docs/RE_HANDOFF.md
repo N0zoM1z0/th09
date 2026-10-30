@@ -9,12 +9,15 @@ without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affect
 sources/profiles. Preserve research records;delete unused old code/build copies.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Current game-source checkpoint: **2b990254**;the previous checkpoint is
-**43f491a7**. The latest research-only checkpoint leaves its inputs unchanged. Loader,
-pattern-offset resolver and both movement switches now share PlayerShtFileView's
-four target-observed axis/diagonal speed fields. Two private SHT classes and
-one cast helper are removed. All representations,ABIs and compiler profiles stay.
-The affected200 existing units and51 unchanged reused units pass the strict
+Current game-source checkpoint: **f424b1ac**;the previous checkpoint is
+**2b990254**. ScoreData now consumes the actual RngRuntimeView declaration and
+unsigned-short range result,removing its undefined private RNG methods. All
+seven existing ScoreData owners remain exact;only six native field names change.
+The combined current proof covers258 existing units,including251 reused units.
+The preceding SHT checkpoint unified the loader,pattern-offset resolver and both
+movement switches through PlayerShtFileView's four observed speed fields. It
+removed two private SHT classes and one cast helper,without changing SHT
+representations,ABIs or compiler profiles. Its200 affected and51 reused units pass the strict
 Oracle;48 compiler-private label names refresh at unchanged actual coordinates.
 There is no new exactness credit. Movement1900/66/23/129,RunEcl30,Enemy13,
 Charge1197 and Type3-15 remain unchanged. The prior network-dataflow,shot-chain,
@@ -23,6 +26,14 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
 
 ## Source and evidence routing
 
+- `.analysis/gpt-61sol-20261031-score-native-rng/combined.py` verifies258 existing
+  exact units/69040 physical bytes/3234 fields. Its current.py checks the seven
+  affected ScoreData owners/2572 bytes/169 fields through the strict public
+  comparator;the unchanged251-unit subset below is reused without cold builds.
+  The two actual RNG callee bodies/75 bytes are separately source/profile/object
+  bound. Baseline,proposal and independent ScoreData builds pass;no new credit.
+  The source-cold proposal.obj is retained after all staged inputs are proven
+  equal to maintained source. No header,profile,extent or target value changes.
 - Current game code is in `src/`;the authoritative state is in
   `config/functions.csv`,`config/function-origins.csv`,`config/matches.csv` and
   `config/match-units.toml`. Use the live report rather than dated measurements.
@@ -35,10 +46,10 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   a separate vector reset,their role remains unknown. Type7 calls the existing
   `PlayerAngleView::AngleToPoint` at41BB00.
 - `.analysis/gpt-61sol-20261031-player-sht-speed-contract/current.py` is the
-  current source-bound verifier:251 existing units/66468 physical bytes/3065
+  current source-bound dependency subset:251 units/66468 physical bytes/3065
   fields. The public-header dependency set is47 configured source/profile
   groups(200 units),plus Movement,Charge and standalone Type3 diagnostics.50
-  current objects are cold-built serially;51 unchanged units reuse their source/
+  current objects were cold-built serially;51 unchanged units reuse their source/
   profile/object pins. Complete controls preserve366 regular bodies/actual
   effective fields across13 before/after groups. Git/EOL reconstruction covers
   ten trials and all50 current input sets. One independent Runtime cold replay

@@ -26621,3 +26621,90 @@ source,original and working Ghidra. Trial sources were temporary;no source tree
 or archive is added. Post-cleanup input/common-body/native-relation audits pass.
 Documentation,tracking,progress and whitespace checks close this research-only
 checkpoint. Public validation implementation and CI remain unchanged.
+
+## October 31: score serialization uses its actual native RNG interface
+
+Recovery atd4105587 is clean;original Japanese1.50a disk,tracking and live status
+pass. Direct Ghidra verifies all685056 mapped file-backed bytes before exporting
+SaveReplay420C60,BeginPlayback420840,Lzss434020,score writer421F10 and both RNG
+range bodies4048B0/4048E0. Names and inferred types remain provisional. Complete
+PE/COFF comparisons and actual shared declarations govern the change below.
+
+ScoreData.cpp still declared its own ReplayRngView with two undefined range
+methods. In particular,its U16 method returned int,while the existing native
+RngRuntimeView method returns unsigned short. The writer invokes that method
+twice and consumes only its low byte. It now includes RngRuntimeLeaves.hpp,
+declares the existing replay RNG using that shared type and removes the private
+class. The U32 method likewise references the implemented native member. No new
+facade,cast,caller effect or fabricated callee is introduced. Other Replay RNG
+views and complete global-definition/product ownership remain separate work.
+
+The actual shared41-byte U16 and34-byte U32 definitions pass complete original
+comparisons using unchanged source/profile/object pins before their caller
+identities are migrated. The writer's three global references still bind4ACE0C;
+its one U32 and two U16 calls still bind4048E0/4048B0. Only their six actual COFF
+names change in the canonical manifest. Every offset,kind,addend,target,profile,
+extent,other unit property and literal remains fixed. No private-label refresh
+is needed. The native return declaration follows the existing implementation;
+it does not establish an original nominal C++ class name.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| SCORE-NATIVE-RNG-001 | native complete comparison | Existing U16-41 and U32-34 bodies retain all original bytes/fields under current pins. | score-native-rng/baseline.json and proposal.json native proofs |
+| SCORE-NATIVE-RNG-002 | exact source repair | All seven ScoreData regular bodies remain raw-equal and all2572 physical bytes/169 fields remain exact;only six native names change. | field-changes.json;current.json;canonical manifest |
+| SCORE-NATIVE-RNG-003 | strict negative observation | The old baseline object has identical raw function bytes but is rejected by the current strict comparator for its obsolete RNG references. | old-alias-rejection.json |
+| SCORE-NATIVE-RNG-004 | independent cold comparison | Git/EOL reconstruction atd4105587 reproduces every proposed raw body/actual field and all seven complete original comparisons. | independent-reproduction.json |
+
+Baseline and proposal compile serially under the unchanged ScoreData no-/Oi
+profile. After complete proof,the proposal's ten staged input hashes equal
+maintained source exactly,so its actual object is promoted without a redundant
+compile. The independent cold comparison supplies a third compiler execution.
+Seven strict public compare_unit checks protect current source;26 focused
+symbol-destination,literal-definition and native-RNG tests pass. No public
+validation implementation changes or full CI/cold cohort is needed.
+
+The code checkpoint isf424b1acc987b53029426b06e787c61312755935. Current combined
+verification is .analysis/gpt-61sol-20261031-score-native-rng/combined.py:
+258 distinct existing units/69040 physical bytes/3234 fields,comprising seven
+affected owners and251 unchanged source/profile/object-bound reuses. Native RNG
+callees already occur in that reused subset and are not double-counted. The
+previous251-unit verifier remains current for its subset. RunEcl30,Enemy13,
+movement129,Type3-15 and the network service remain unchanged.
+
+### Replay allocation and compressed-output type boundaries
+
+Three independent whole-SaveReplay controls address the actual allocation
+boundaries:GlobalAlloc's compressed output is held as HGLOBAL,Alloc's temporary
+workspace as void*,or both. Byte consumers make ordinary typed projections;
+WriteFile,GlobalFree,Free and the native Lzss interface stay unchanged. The
+original encoder uses GlobalAlloc(0,size*2),and the writer later uses its result
+as data and passes it to GlobalFree. Ghidra's provisional void return for the
+encoder is not used to alter its existing pointer-return API. Neither original
+source type nor nominal handle ownership is inferred from this local model.
+
+All three preserve every one of14 regular raw bodies and actual COFF fields,
+both no-EH exact siblings and the full1238-byte SaveReplay frontier:53 fields,
+23 ordered calls,49 blocks,three residual bytes atB7/BB/3F6. One independent
+cold combined-buffer replay repeats those complete observations and actual
+literal definitions;temporary outputs self-clean. The pre-copy uninitialized
+header scan,live link reads,allocation/copy timing and original failure paths
+remain. No type model is adopted merely for neutrality. Records and recipes
+live in .analysis/gpt-61sol-20261031-replay-opaque-buffers/.
+
+These two packets use seven actual serial compiler jobs:three ScoreData and
+four Replay,without rebuilding other source/profile groups. Both independent
+replays regenerate staged inputs from immutable Git/EOL hashes. Exact authored
+coverage stays1004/1035 and246651/291883 bytes(84.5034%). The native interface
+repair supplies no new authored-byte credit or full Windows product/runtime
+claim;98%,dual-Oracle semantics and portability remain unfinished.
+
+All owned producer handles are terminal before cleanup deletes nine ignored
+baseline/trial/debug files,591957 logical bytes. All960 protected deletion-time
+hashes stay equal,including current258 proof objects,the service,tracked source,
+target,working Ghidra and all research records. The promoted ScoreData object
+remains;both independent cold output sets already self-clean. No source tree
+or archive is added. Post-cleanup strict seven-owner,saved whole-object/native-
+identity and Replay input/body audits pass. ScoreData baseline/proposal each
+has exactly seven regular bodies and no extra executable compiler contribution.
+Documentation,tracking,progress and whitespace checks pass. The local source
+checkpoint and later research/documentation checkpoint do not imply publication.
