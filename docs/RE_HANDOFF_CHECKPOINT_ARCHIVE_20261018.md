@@ -3421,3 +3421,52 @@ four rejected objects,eight PDBs and two superseded ANM objects. All435 protecte
 hashes retain their deletion-time values. Current objects,all docs/research,
 source,target/tools and working Ghidra remain;build/ is absent. No old C++ tree
 or archive is added. Exact stays1004/84.5034%;98% remains unfinished.
+
+## 2026-10-30 checkpoint8daa7625: quad, literal and deallocation corrections
+
+Source/validation checkpoint8daa7625a2313ca33490883e17e551b44778886c.
+
+### Recorded checkpoint
+
+The external-name audit confirms two source defects. SetupVertexBuffer's
+Background quad actually uses24-byte vertices with UV at+10;the old20-byte type
+was concealed by five different manifest bases for one symbol. Source now has
+one4DC628 base and20 native member/stride addends. Its separate20-byte upload
+vertices now use real Float2 UV storage and aggregate copies rather than naming
+UV bits rhw/diffuse. The two texture errors at490F88/491090 contain different
+CP932 read/create messages;both are now actual independently verified67-byte
+source literals instead of one external array assigned two addresses.
+
+The new canonical comparison guard rejects multiple bases for one COFF symbol
+inside an owner,before adding source operands. Seven tests include a forged
+comparison whose bytes otherwise agree;the actual old quad object also rejects.
+Distinct symbols may still share folded addresses. The guard exposes the same
+old defect in Title Release: replay allocations use CRT free47B163,whereas VM
+arrays use scalar-delete entry47B249. Title now uses delete[] for its two VM
+array releases and delete for its allocated object. Actual VC7.1 emission uses
+??3 at all three sites. Pinned libcmt.lib delete.obj independently proves the
+complete5-byte entry/one free field. A9-byte game-profile wrapper is rejected;
+no compiler profile is changed to fit the library. Other across-unit free/
+forwarder aliases remain a separate product-identity question.
+
+Packet: `.analysis/gpt-61sol-20261030-anm-external-identity/`.
+current.py verifies67 complete strict owners/23432 physical bytes/1166 fields
+from five current source/profile objects. All150 regular bodies retain every
+nonfield byte;17 quad addends change correctly. Eight compiler contributions/
+230 bytes and private EH data preserve their coordinate-checked identities.
+verify_records.py recovers22 Git/EOL inputs and67 historical per-owner byte
+observations;old inconsistent bindings are explicitly not current credit.
+
+Unchanged native-ANM current.py verify protects15 owners/17108 bytes/756 fields;
+its verify_ecl_reuse.py protects75/22463/990 and complete RunEcl30/Enemy13.
+No whole1004-owner cold replay is run. Full public CI passes1045 tests/29 skips;
+tracking,documentation,progress and whitespace pass. Direct Ghidra reuses the
+verified project and all685056 mapped bytes. An initial request included two
+incorrect function selectors and failed closed;only the corrected exports and
+raw operands support this audit. Compiler/source/profiles and failures remain
+in the packet;checkpoint.json binds the committed source.
+
+After terminal producers,cleanup removes157 ignored files/4085294 logical bytes:
+eight superseded/diagnostic objects,thirteen PDBs and136 CI bytecode files. Five
+current objects,all docs/research/recipes,the original/toolchains and working
+Ghidra remain;build/ is absent. Exact stays1004 and84.5034%;98% remains unfinished.

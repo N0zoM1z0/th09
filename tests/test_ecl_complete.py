@@ -10,7 +10,7 @@ SPEC.loader.exec_module(MODULE)
 
 
 def field(offset=0, kind='DIR32', local=False):
-    return dict(offset=offset, type=kind, symbol_section=1 if local else 0,
+    return dict(offset=offset, type=kind, symbol='external', symbol_section=1 if local else 0,
                 owner_section=1, symbol_value=8, owner_value=0, addend=0)
 
 
@@ -39,6 +39,40 @@ class CompleteEclLinkTests(unittest.TestCase):
         row['symbol_value'] = 16
         with self.assertRaisesRegex(ValueError, 'outside owner'):
             MODULE.link_owner(bytes(16), [row], {0: 123})
+
+    def test_array_fields_share_one_base_before_addends(self):
+        second = field(offset=4)
+        second['addend'] = 24
+        linked, _ = MODULE.link_owner(
+            bytes(16), [field(), second], {0: 0x400020, 4: 0x400038})
+        self.assertEqual(struct.unpack_from('<II', linked), (0x400020, 0x400038))
+
+    def test_fitted_array_base_cannot_hide_wrong_source_stride(self):
+        second = field(offset=4)
+        second['addend'] = 20
+        with self.assertRaisesRegex(ValueError, 'inconsistent external COFF symbol base'):
+            MODULE.link_owner(
+                bytes(16), [field(), second], {0: 0x400020, 4: 0x400038})
+
+    def test_distinct_folded_symbols_can_share_a_destination(self):
+        second = field(offset=4)
+        second['symbol'] = 'folded_alias'
+        linked, _ = MODULE.link_owner(
+            bytes(16), [field(), second], {0: 0x400020, 4: 0x400020})
+        self.assertEqual(struct.unpack_from('<II', linked), (0x400020, 0x400020))
+
+    def test_relative_reference_uses_wrapping_addend_without_changing_base(self):
+        second = field(offset=4, kind='REL32')
+        second['addend'] = 0xFFFFFFFC
+        linked, _ = MODULE.link_owner(
+            bytes(16), [field(), second], {0: 0x400020, 4: 0x40001C}, base=0x400000)
+        self.assertEqual(struct.unpack_from('<II', linked), (0x400020, 0x14))
+
+    def test_missing_external_symbol_fails_closed(self):
+        row = field()
+        del row['symbol']
+        with self.assertRaisesRegex(ValueError, 'lacks a COFF symbol'):
+            MODULE.link_owner(bytes(16), [row], {0: 0x400020})
 
 
 if __name__ == '__main__':

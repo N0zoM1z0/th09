@@ -22,50 +22,51 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current audit — corrected quad storage, literals and deallocation
+## Current audit — RunEcl dependency identity and expression boundaries
 
-The external-name audit confirms two source defects. SetupVertexBuffer's
-Background quad actually uses24-byte vertices with UV at+10;the old20-byte type
-was concealed by five different manifest bases for one symbol. Source now has
-one4DC628 base and20 native member/stride addends. Its separate20-byte upload
-vertices now use real Float2 UV storage and aggregate copies rather than naming
-UV bits rhw/diffuse. The two texture errors at490F88/491090 contain different
-CP932 read/create messages;both are now actual independently verified67-byte
-source literals instead of one external array assigned two addresses.
+Game source remains8daa7625;this batch changes diagnostic validation/tests and
+research records only. Exact stays1004/84.5034%. Direct Ghidra reuses the verified
+project for RunEcl4086C0,Enemy410730 and native Timer greater403DE0,comparing all
+685056 mapped bytes. RunEcl's375 direct calls and30 external data fields imply
+consistent bases for all405 actual symbols/references;Enemy's97 bindings also
+have no per-symbol contradiction. Neither observation proves original C++ types.
 
-The new canonical comparison guard rejects multiple bases for one COFF symbol
-inside an owner,before adding source operands. Seven tests include a forged
-comparison whose bytes otherwise agree;the actual old quad object also rejects.
-Distinct symbols may still share folded addresses. The guard exposes the same
-old defect in Title Release: replay allocations use CRT free47B163,whereas VM
-arrays use scalar-delete entry47B249. Title now uses delete[] for its two VM
-array releases and delete for its allocated object. Actual VC7.1 emission uses
-??3 at all three sites. Pinned libcmt.lib delete.obj independently proves the
-complete5-byte entry/one free field. A9-byte game-profile wrapper is rejected;
-no compiler profile is changed to fit the library. Other across-unit free/
-forwarder aliases remain a separate product-identity question.
+Complete RunEcl linking now independently rejects inconsistent external bases
+before relocation encoding:effective value minus actual COFF addend must give
+one32-bit base per symbol. Actual local labels remain owner-relative. Five new
+regressions cover a fitted stride,valid offsets,folded distinct names,wrapping
+REL32 addends and missing names. No comparison byte,field or table is masked.
+Full public CI passes1050 tests/29 skips in118.966s;final docs/tracking/progress
+and whitespace checks pass separately after documentation is updated.
 
-Packet: `.analysis/gpt-61sol-20261030-anm-external-identity/`.
-current.py verifies67 complete strict owners/23432 physical bytes/1166 fields
-from five current source/profile objects. All150 regular bodies retain every
-nonfield byte;17 quad addends change correctly. Eight compiler contributions/
-230 bytes and private EH data preserve their coordinate-checked identities.
-verify_records.py recovers22 Git/EOL inputs and67 historical per-owner byte
-observations;old inconsistent bindings are explicitly not current credit.
+Four native comparison signature controls use signed return or const receiver,
+each with opaque or actual co-visible periodic Timer. All first prove the real
+20-byte greater body;all75 existing siblings pass per model. Enemy stays13/13/
+45/45 and RunEcl stays30. No new signature is adopted. Expression controls find
+that rewriting only int or float reads gives the same2153-byte residual;global
+int rewriting additionally damages two exact polar helpers. Owner-local changes
+keep all75 exact siblings. Together,int+float reads,or all four operand families,
+restore the baseline30-byte RunEcl stream. EOL-only is also baseline-identical.
+Natural direct jump/native bitfield consumers in that context retain42/2258/2270
+whole-owner differences,not improvements. These finite interactions do not prove
+original macro spelling or unique TU boundaries;all game source stays unchanged.
 
-Unchanged native-ANM current.py verify protects15 owners/17108 bytes/756 fields;
-its verify_ecl_reuse.py protects75/22463/990 and complete RunEcl30/Enemy13.
-No whole1004-owner cold replay is run. Full public CI passes1045 tests/29 skips;
-tracking,documentation,progress and whitespace pass. Direct Ghidra reuses the
-verified project and all685056 mapped bytes. An initial request included two
-incorrect function selectors and failed closed;only the corrected exports and
-raw operands support this audit. Compiler/source/profiles and failures remain
-in the packet;checkpoint.json binds the committed source.
+Packet: `.analysis/gpt-61sol-20261030-ecl-dependency-contracts/`.
+current.py verifies the unchanged active object with75 strict public units/
+22463 physical bytes/990 fields and full RunEcl15564/598/30,Enemy3900/97/13.
+reinspect.py checks all14 actual model observations under the stronger gate;
+verify_saved.py recovers79 Git/EOL inputs,14 recipes and1048 saved canonical
+comparisons. One fresh owner-int reproduction matches all138 regular definitions,
+all75 siblings and complete RunEcl2153/Enemy13;temporary inputs/objects self-clean.
+No whole1004-owner cold replay is run. Source/type ownership remains unknown
+where stated,and98% remains unfinished.
 
-After terminal producers,cleanup removes157 ignored files/4085294 logical bytes:
-eight superseded/diagnostic objects,thirteen PDBs and136 CI bytecode files. Five
-current objects,all docs/research/recipes,the original/toolchains and working
-Ghidra remain;build/ is absent. Exact stays1004 and84.5034%;98% remains unfinished.
+After terminal producers,cleanup removes164 ignored files/9474447 logical bytes:
+14 rejected objects,14 PDBs and136 CI bytecode files. All research/docs/recipes,
+the active current object,original/toolchains and working Ghidra remain;build/
+is absent. No old C++ tree or source archive is added. Native ANM/quad/Title
+corrections remain in8daa7625 and107a7760;their durable detail is archived and
+the current proof packets remain usable under their source/provider scopes.
 
 ## Previous dependency checkpoint — shared vectors and Front contracts
 

@@ -33,6 +33,7 @@ def link_owner(raw, rows, external_values, base=BASE):
     """
     linked = bytearray(raw)
     occupied = set()
+    external_bases = {}
     for row in rows:
         offset = row['offset']
         field = set(range(offset, offset + 4))
@@ -50,6 +51,13 @@ def link_owner(raw, rows, external_values, base=BASE):
             value = external_values.get(offset)
             if value is None:
                 raise ValueError(f'unbound external field at {offset:#x}')
+            symbol = row.get('symbol')
+            if not isinstance(symbol, str) or not symbol:
+                raise ValueError('external field lacks a COFF symbol')
+            symbol_base = (value - row['addend']) & 0xFFFFFFFF
+            if symbol in external_bases and external_bases[symbol] != symbol_base:
+                raise ValueError('inconsistent external COFF symbol base: ' + symbol)
+            external_bases[symbol] = symbol_base
         if row['type'] == 'REL32':
             value -= base + offset + 4
         struct.pack_into('<I', linked, offset, value & 0xFFFFFFFF)

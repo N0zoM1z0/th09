@@ -25120,3 +25120,94 @@ working Ghidra are retained;build/ is absent. No old C++ tree or source archive
 is made. Current and saved-record verification pass after cleanup. Exact remains
 1004 and246651/291883 authored bytes(84.5034%);98%,Windows product/runtime and
 later semantic/port gates remain unfinished.
+
+
+## October30: complete ECL symbol bases and owner-local operand contexts
+
+Recovery at clean8daa7625 passes original target,tracking and progress. The
+preceding turn is progress:it repaired quad/literal/deallocation source identities
+and canonical validation. This batch returns to both large owners and reuses the
+unchanged source/profile-bound active ECL object. Current game source remains
+8daa7625;no Timer signature or expression hypothesis below is adopted.
+
+Fresh direct Ghidra403DE0,4086C0 and410730 exports reuse the verified12.1.4
+project and compare all685056 mapped file-backed bytes. Native greater reads
+signed Timer current+8,compares the signed argument and returns a full word0/1.
+That does not identify signed/unsigned nominal return type or original constness.
+Read-only TH095 currently uses unsigned comparison returns;this is hypothesis
+material,not TH09 evidence. The real TH09 declarations remain unchanged.
+
+RunEcl's independent identity audit covers all598 fields:375 direct calls,30
+body data fields and193 real owner-relative table fields. Subtracting actual
+object addends from the405 external values produces no conflicting base for
+any actual COFF name. All97 Enemy bindings also have consistent symbol bases.
+A private recorder initially attempted a nonexistent load_module helper after
+the audit succeeded;direct COFF loading fixes the recorder without source,
+compiler,target or acceptance changes. The complete audit is retained.
+
+inspect-ecl-complete.py now enforces the same external identity rule inside
+link_owner:one actual name has one32-bit base after subtracting its source
+addend. It rejects missing names and inconsistent field-wise bases before
+writing operands. Actual owner-local label coordinates remain authoritative;
+paired original label positions never replace them. Five new target-independent
+regressions exercise fitted array stride,valid member addends,distinct folded
+names,wrapping REL32 addends and missing symbol metadata. Ten focused tests pass.
+All14 actual model observations remain byte-for-byte unchanged after adding the
+gate. It supplies no new exactness or original ABI/semantic credit.
+
+Four complete main-carrier controls change genuine operator>(int) to signed
+return or const receiver,with or without the actual33-byte periodic body. Each
+first proves all20 native greater bytes/zero fields,then privately binds only
+its actually emitted C++ symbol. All75 existing canonical siblings remain exact
+per object. Enemy stays3900/97 with13,13,45,45 differences;all69 ordered calls,
+170 blocks and original tables agree. Complete RunEcl stays15564/598/30 with
+zero field/table differences. Machine-compatible bodies do not justify changing
+the maintained C++ declaration or adopting a byte-neutral API.
+
+Two whole-TU expression models expand only the existing ReadInt157 or ReadFloat116
+calls,with stable enemy/instruction/literal0..7 arguments. Both RunEcl raw hashes
+are92b73f9c169731913a75ff0d045ab8352b747db8ea0cc714437d60636913d3b9:
+15564/598 and2153 differences(1925 ordinary/228 field,24 table subset). Global
+int rewriting loses ecl-start-timed-polar and ecl-configure-polar-motion exactness,
+leaving73 protected siblings;float keeps75. Enemy remains13. These controls
+cannot stand in for an owner-local source experiment.
+
+Five owner-local controls keep every real helper definition and genuine outside
+caller intact. Only gated switch fragments and the RunEcl body change. Its source
+contains123 ReadInt,87 ReadFloat,16 WriteInt and24 WriteFloat sites. Int-only and
+float-only produce the same2153-byte residual as above,but now preserve all75
+canonical siblings. Int+float together,or all four operand families,repeat every
+baseline RunEcl raw byte,hashc75cba181146e9c7ffbadf2f98434ed546d77098d4d8209083443571aa0f8fff,
+and30 differences. A pure LF-normalization control repeats that same baseline;
+line endings are not the cause. Consistent source families and mixed families
+interact nonlinearly here;this is not evidence of an original macro implementation,
+unique TU partition or register-allocation directive.
+
+Three further complete owner-expression contexts use direct native raw jump
+assignment,native timeoutSpell24 byte assignment,or both. They retain42 ordinary/
+zero field differences,2258(2019 ordinary/239 field,26 table subset),and2270
+(2031/239,26 table subset),respectively. All75 exact siblings and complete Enemy13
+remain. These replace real consumers without new qualifiers,register/declaration-
+order hints,ABI aliases,helper padding or compiler-profile changes. No partial
+opcode window or equal total size earns exact credit;all three are rejected.
+
+Packet `.analysis/gpt-61sol-20261030-ecl-dependency-contracts/` retains complete
+raw/COFF/literal observations,source/profile/provider hashes,recipes and failures.
+Fourteen serial one-CPU/nice10/180-second main compiles succeed. One selected cold
+owner-int reproduction additionally repeats138 actual definitions,75 existing
+exact owners and the full2153/13 observations under the stronger gate;temporary
+source/OBJ/PDB self-clean. verify_saved.py recovers79 immutable Git/EOL inputs,
+14 staged recipes and1048 saved canonical comparisons,plus14 complete Enemy
+raw/field observations. RunEcl raw hashes and full actual reinspection are retained
+separately;the saved-record check is not a fresh compilation or new acceptance.
+
+The unchanged current object passes75 strict public comparisons/22463 physical
+bytes/990 fields,complete RunEcl30 and Enemy13. Full public CI passes1050 tests/
+29 skips in118.966s with public inputs stable during execution;final updated
+documentation/tracking/progress and whitespace pass separately. No whole1004-owner
+cold replay is claimed. After all producers terminate,cleanup deletes164 ignored
+files/9474447 logical bytes:14 rejected objects,14 PDBs and136 CI bytecode files.
+All research/docs/source recipes,the active original-source object,target/tools
+and working Ghidra remain;build/ is absent. No old C++ tree or archive is made.
+Current and saved checks pass after cleanup. Exact stays1004 and246651/291883
+bytes(84.5034%);98%,native-product/runtime and later semantic/port gates remain open.

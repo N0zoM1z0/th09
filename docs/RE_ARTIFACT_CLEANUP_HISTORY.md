@@ -2712,3 +2712,26 @@ Current strict-public and saved-record checks pass afterward;22 Git/EOL inputs
 recover67 historical comparisons,with the old incoherent bindings explicitly
 rejected by the new guard. Full public CI passes1045 tests/29 skips. Exact stays
 1004/84.5034%,and98% remains unfinished.
+
+
+## 2026-10-30: complete ECL dependency and operand-context audit
+
+Game source stays8daa7625. Four native comparison controls and ten whole-function
+operand/consumer controls do not improve RunEcl30/Enemy13. Actual RunEcl405 external
+fields and Enemy97 bindings imply consistent symbol bases. Complete RunEcl linking
+now rejects inconsistent external bases or missing names;five regressions pass.
+All14 actual model observations are unchanged under the stronger gate.
+
+After terminal producers and a selected source-cold recipe reproduction,cleanup
+removes164 ignored files/9474447 logical bytes:14 trial objects,14 PDBs and136 CI
+bytecode files. Complete raw/COFF/literal observations,failures,all documentation,
+79 Git/EOL input recipes and1048 saved canonical comparisons remain. Temporary
+cold source/OBJ/PDB self-clean. The active source/profile-bound ECL object,
+unaffected current proofs,original/toolchains and working Ghidra stay;build/ is
+absent. No old C++ tree or source archive is created.
+
+Current75 strict owners/22463 bytes/990 fields and full RunEcl30/Enemy13 pass
+again afterward,as do saved recipe/record checks. Full public CI passes1050 tests/
+29 skips in118.966s;final docs/tracking/progress and whitespace pass separately.
+Exact remains1004/84.5034%;98% remains unfinished. Per-file deletion/protection
+receipts: `.analysis/gpt-61sol-20261030-ecl-dependency-contracts/cleanup-applied.json`.
