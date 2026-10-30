@@ -7,6 +7,7 @@
 #include "PlayStats.hpp"
 #include "ScoreFileView.hpp"
 #include "ZunMemory.hpp"
+#include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 
 #include <windows.h>
@@ -88,14 +89,6 @@ struct ScoreVersionRecordView {
 
 typedef char ScoreVersionRecordSizeIs1C[(sizeof(ScoreVersionRecordView) == 0x1C) ? 1 : -1];
 
-struct ReplayRngView {
-    u16 seed;
-    u16 unknown02;
-    i32 generationCount;
-    int GetRandomU16InRange(u16 max);
-    u32 GetRandomU32InRange(u32 max);
-};
-
 struct ScoreSupervisorView {
     u8 unknown000[0x798];
     u32 totalPlayTime;
@@ -110,7 +103,7 @@ typedef char ScoreSupervisorTotalPlayTimeAt798[(offsetof(ScoreSupervisorView, to
 typedef char ScoreSupervisorSystemTimeAt79C[(offsetof(ScoreSupervisorView, systemTime) == 0x79C) ? 1 : -1];
 typedef char ScoreSupervisorExeChecksumAt7A0[(offsetof(ScoreSupervisorView, exeChecksum) == 0x7A0) ? 1 : -1];
 
-extern ReplayRngView g_ReplayRng;
+extern RngRuntimeView g_ReplayRng;
 
 extern ScoreRecordView g_ScoreTable[16][5][5];
 extern ScoreRecordView g_CurrentScoreRecord;
