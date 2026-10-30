@@ -1,5 +1,8 @@
 #include "FrontSide.hpp"
 #include "AnmManager.hpp"
+#include "GameManagerRuntimeView.hpp"
+#include "Float3.hpp"
+#include "Supervisor.hpp"
 
 #include <d3d8.h>
 #include <stddef.h>
@@ -7,13 +10,6 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-struct Float3
-{
-    Float3(float x, float y, float z);
-    float x;
-    float y;
-    float z;
-};
 typedef char FrontSideDrawFloat3SizeIs0C[
     (sizeof(Float3) == 0x0C) ? 1 : -1];
 
@@ -43,41 +39,22 @@ struct FrontSideDrawSideView
 typedef char FrontSideDrawSidePlayerAt04[
     (offsetof(FrontSideDrawSideView, player04) == 0x04) ? 1 : -1];
 
-struct FrontSideDrawFloat2
-{
-    float x;
-    float y;
-};
-
 struct FrontSideDrawViewportConfiguration
 {
     u8 unknown000[0xE8];
-    FrontSideDrawFloat2 screenShakeOffsetE8;
+    Float2 screenShakeOffsetE8;
 };
 typedef char FrontSideDrawViewportSizeIsF0[
     (sizeof(FrontSideDrawViewportConfiguration) == 0xF0) ? 1 : -1];
 
-class Supervisor
-{
-  public:
-    void ConfigureScreenViewport(int index);
-    void SetRenderState(int state, int value);
-
-    u8 unknown000[0x08];
-    IDirect3DDevice8 *d3dDevice08;
-    u8 unknown00C[0x78 - 0x0C];
-    FrontSideDrawViewportConfiguration viewports78[3];
-};
 typedef char FrontSideDrawSupervisorDeviceAt08[
     (offsetof(Supervisor, d3dDevice08) == 0x08) ? 1 : -1];
 typedef char FrontSideDrawSupervisorViewportsAt78[
-    (offsetof(Supervisor, viewports78) == 0x78) ? 1 : -1];
-
-struct AsciiGameManagerView
-{
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-};
+    (offsetof(Supervisor, ctorArray078) == 0x78) ? 1 : -1];
+typedef char FrontSideDrawShakeAt160[
+    (offsetof(Supervisor, ctorArray078) +
+     offsetof(FrontSideDrawViewportConfiguration, screenShakeOffsetE8) ==
+     0x160) ? 1 : -1];
 
 struct FrontSideDrawVertex
 {
@@ -88,9 +65,6 @@ struct FrontSideDrawVertex
 };
 typedef char FrontSideDrawVertexSizeIs14[
     (sizeof(FrontSideDrawVertex) == 0x14) ? 1 : -1];
-
-extern Supervisor g_Supervisor;
-extern AsciiGameManagerView g_GameManager;
 
 // These are layout casts, not calls in the target. Keep the expressions visible
 // even when diagnosing the target's non-inlined vertex-array construction.
@@ -105,8 +79,12 @@ int FrontSide::OnDraw(FrontSide *frontSide)
 {
     int i;
 
-    g_Supervisor.viewports78[frontSide->sideIndexA66C].screenShakeOffsetE8.x = 0.0f;
-    g_Supervisor.viewports78[frontSide->sideIndexA66C].screenShakeOffsetE8.y = 0.0f;
+    reinterpret_cast<FrontSideDrawViewportConfiguration *>(
+        g_Supervisor.ctorArray078)[frontSide->sideIndexA66C]
+        .screenShakeOffsetE8.x = 0.0f;
+    reinterpret_cast<FrontSideDrawViewportConfiguration *>(
+        g_Supervisor.ctorArray078)[frontSide->sideIndexA66C]
+        .screenShakeOffsetE8.y = 0.0f;
     g_Supervisor.ConfigureScreenViewport(frontSide->sideIndexA66C);
 
     FrontSideDrawVmCursor *cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->statusVms0000[0]);

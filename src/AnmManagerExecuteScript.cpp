@@ -2,6 +2,8 @@
 // The TH08 family supplies source shape; TH09 target evidence fixes the ABI,
 // VM layout, opcode domain, out-of-line operand helpers, and physical boundary.
 
+#include "Float3.hpp"
+
 #include <math.h>
 #include <stddef.h>
 
@@ -18,11 +20,6 @@ typedef int ZunBool;
 #define FALSE 0
 #endif
 
-struct Float2 { float x; float y; };
-struct Float3 {
-    Float3(float x, float y, float z);
-    float x; float y; float z;
-};
 union ZunColor {
     u32 d3dColor;
     struct { u8 b; u8 g; u8 r; u8 a; };

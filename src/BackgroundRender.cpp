@@ -2,6 +2,7 @@
 #include "AnmManager.hpp"
 #include "AnmMatrixRuntime.hpp"
 #include "Supervisor.hpp"
+#include "Float3.hpp"
 
 #include <windows.h>
 #include <d3d8.h>
@@ -11,26 +12,6 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-
-struct Float2
-{
-    float x;
-    float y;
-};
-
-struct Float3
-{
-    Float3() {}
-    Float3(float x, float y, float z);
-    Float3 operator+(const Float3 &other) const;
-    Float3 operator-(const Float3 &other) const;
-    Float3 *operator/=(float scalar);
-    operator float *();
-
-    float x;
-    float y;
-    float z;
-};
 
 typedef char BackgroundRenderFloat2SizeIs08[
     (sizeof(Float2) == 0x08) ? 1 : -1];

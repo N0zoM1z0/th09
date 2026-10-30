@@ -3264,3 +3264,61 @@ reused carriers,documentation/research,target/tools and working Ghidra remain.
 Current/strict and saved-source/observation replays pass afterward. No archive
 or old source tree is added;build/ is absent. Exact remains1003/83.9093%; the98%
 goal,original source spelling/TU ownership and later product/runtime stay open.
+
+## October30 cda7574c — complete Pause update checkpoint
+
+### Previous current game-source section
+
+PauseMenu::OnUpdate at434740 now matches all1776 physical bytes:1734 code,
+two-byte8BFF alignment and its ten-entry table. Both the source-cold model and
+an independent canonical-source cold build reproduce449 instructions,106 fields
+(46 REL32/60 DIR32),46 direct calls and two original timestamp IAT sites.
+Canonical unit: pause-menu-update. This adds1734 authored exact bytes; the two
+10/8-byte VM methods were already exact and earn no new credit.
+
+The accepted source family compiles IsVisible and SetInvisible separately in
+src/AnmVmVisibility.cpp,uses matching index traversals for both opening input
+paths,and places state9's result arm before its ordinary shared-clock exit.
+Neither an opaque boundary nor loop/branch syntax alone is sufficient. Current
+source preserves all12 other raw bodies across the menu/helper split; existing
+field identities and actual literal definitions stay fixed. Original unique TU
+partition and source spelling remain unknown; this is exact reconstruction,
+not Windows product/runtime closure.
+
+Current packet: `.analysis/gpt-61sol-20261030-pause-vm-boundaries/`.
+The independent canonical build passes the unchanged strict public Oracle on
+12 owners/4224 physical bytes/264 fields,including all11 prior siblings. The
+public --owner pause workflow cold-builds the accepted owner,its separate VM
+object and unchanged real audio carriers;all16 canonical checks pass. Its actual
+UnPause data also passes. Four controls give1788/107/1608,1772/107/1131+4,
+1776/106/0 and1776/106/339; only the complete zero-difference family is adopted.
+A failed native preparation included only a forward declaration and emitted no
+object; it is recorded separately from successful native/compiler evidence.
+
+The public Pause guard now requires complete equality and rejects the old
+1732/1453+44 plateau. The audio diagnostic preserves the result-only immediate
+timestamp after the source branch change.24 focused Pause tests and64 RunEcl
+tests pass. Public CI passes1037 tests/29 skips in141.772s. Its first attempt
+exposed six stale Timer-cast assertions from10ab57e0; the tests now preserve the
+native assignment boundary and check its independently exact setter contract.
+The operand diagnostic also accepts the already adopted native assignment.
+Both CI attempts and the initial preparation failure remain recorded.
+
+Final `current.py verify` replays the unchanged strict public Oracle on16 units/
+5720 physical bytes/353 fields using five retained actual objects; it also
+checks source/profile/provider pins,literal definitions and the other12 raw
+bodies. `verify_saved.py` recovers14 baseline Git/EOL inputs and checks all four
+saved controls without old C++ copies; `reproduce.py` can cold-build one model
+into a new output directory. The original pre-migration canonical-build capture
+is historical; use current.py for the final manifest.
+
+After all producers terminate,cleanup removes163 ignored files/3618381 logical
+bytes:12 objects,14 PDBs and137 bytecode caches. All328 protected hashes remain
+unchanged at deletion time. Five current objects,all research/documents,original
+target,toolchains and working Ghidra stay; build/ is absent. Both current and
+saved-record checks pass after cleanup. No archive or whole1004-unit cold replay
+is made. The13 successful game compiler calls plus one failed preparation are
+recorded; the six public-workflow calls were serial but lacked the private
+runner's priority/CPU wrapper.
+RunEcl15564/598/30,Enemy3900/97/13 and Effect34 draw946/53/74 stay unchanged.
+The98% goal remains active with31 nonexact authored owners.

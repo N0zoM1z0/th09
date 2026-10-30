@@ -9,10 +9,10 @@ without assuming earlier notes are conclusive. The98% milestone is unfinished.
 
 The restart game-source baseline is **cc19b4848a6f3401d66b4034eb37dec6a2f74799**
 (Controller axis ranges); maintenance checkpoint7bc3b956 adds no game-source
-change. The complete Pause update, native Timer cleanup, child-ECL interface, Effect34, weighted-message, Player contract, charge, RunEcl, instruction-mask and
+change. The shared-vector/Front audit, complete Pause update, native Timer cleanup, child-ECL interface, Effect34, weighted-message, Player contract, charge, RunEcl, instruction-mask and
 callback corrections are described below. Use
 live Git status and ledgers before dated measurements. Compiler profiles remain
-unchanged; Pause adds1734 exact authored bytes. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
+unchanged; Pause previously added1734 exact authored bytes at cda7574c. New commits use `gpt-6.1-sol:` and the identity/trailer in AGENTS.md;
 local commits do not establish remote publication.
 
 Analysis routing is **direct local Ghidra only**, without IDA, REA or Factory
@@ -20,61 +20,55 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current game source — complete PauseMenu update exact
+## Current game source — shared vectors and Front native contracts
 
-PauseMenu::OnUpdate at434740 now matches all1776 physical bytes:1734 code,
-two-byte8BFF alignment and its ten-entry table. Both the source-cold model and
-an independent canonical-source cold build reproduce449 instructions,106 fields
-(46 REL32/60 DIR32),46 direct calls and two original timestamp IAT sites.
-Canonical unit: pause-menu-update. This adds1734 authored exact bytes; the two
-10/8-byte VM methods were already exact and earn no new credit.
+AnmManagerExecuteScript.cpp,BackgroundRender.cpp and FrontSideDraw.cpp now use
+Float3.hpp rather than three incompatible same-named Float3 declarations. The
+shared Float2 declaration also replaces the two local copies. Front draw uses
+the existing full Supervisor and GameManagerRuntimeView declarations instead
+of redefining those classes; only its F0-byte viewport prefix remains private,
+with the original+160 shake offset asserted. GameManagerRuntimeView.hpp is
+included directly: the compatibility AsciiGameManagerView.hpp header would
+also import a conflicting AnmVm projection. That failed preparation and its
+no-object compiler result are preserved; no macro hides the conflict.
 
-The accepted source family compiles IsVisible and SetInvisible separately in
-src/AnmVmVisibility.cpp,uses matching index traversals for both opening input
-paths,and places state9's result arm before its ordinary shared-clock exit.
-Neither an opaque boundary nor loop/branch syntax alone is sufficient. Current
-source preserves all12 other raw bodies across the menu/helper split; existing
-field identities and actual literal definitions stay fixed. Original unique TU
-partition and source spelling remain unknown; this is exact reconstruction,
-not Windows product/runtime closure.
+Four focused current source/profile objects preserve all7 canonical owners/
+16864 physical bytes/743 fields,including the complete9776-byte ANM interpreter,
+3274-byte background renderer and3094-byte Front draw. All28 regular raw bodies
+and effective field identities remain unchanged,as do two38-byte compiler
+contributions. The unchanged strict public Oracle passes after148 actual-position-
+proved private ANM label spellings are refreshed. No target,offset,addend,
+profile,extent,status or authored exact credit changes. Other997 canonical
+source/profile proofs remain unchanged; no whole-tree cold replay is run.
 
-Current packet: `.analysis/gpt-61sol-20261030-pause-vm-boundaries/`.
-The independent canonical build passes the unchanged strict public Oracle on
-12 owners/4224 physical bytes/264 fields,including all11 prior siblings. The
-public --owner pause workflow cold-builds the accepted owner,its separate VM
-object and unchanged real audio carriers;all16 canonical checks pass. Its actual
-UnPause data also passes. Four controls give1788/107/1608,1772/107/1131+4,
-1776/106/0 and1776/106/339; only the complete zero-difference family is adopted.
-A failed native preparation included only a forward declaration and emitted no
-object; it is recorded separately from successful native/compiler evidence.
+Enemy's13 residuals are independently reread against direct Ghidra. Four new
+whole-carrier hypotheses test byte and real bitfield-shaped side flags,each
+with opaque or genuine co-visible33-byte HasTickedEvery. They retain13/13/45/45
+Enemy differences. All97 fields,69 calls,170 blocks and75 exact siblings per
+model pass; all137 other regular bodies remain raw-identical. RunEcl stays
+15564/598/30. No flag-type or visibility hypothesis is adopted. These finite
+negatives do not exhaust other natural source families.
 
-The public Pause guard now requires complete equality and rejects the old
-1732/1453+44 plateau. The audio diagnostic preserves the result-only immediate
-timestamp after the source branch change.24 focused Pause tests and64 RunEcl
-tests pass. Public CI passes1037 tests/29 skips in141.772s. Its first attempt
-exposed six stale Timer-cast assertions from10ab57e0; the tests now preserve the
-native assignment boundary and check its independently exact setter contract.
-The operand diagnostic also accepts the already adopted native assignment.
-Both CI attempts and the initial preparation failure remain recorded.
+Packet: `.analysis/gpt-61sol-20261030-shared-vector-contracts/`.
+Use current.py verify for the7 current canonical units and verify_saved.py for
+immutable Git/EOL input recipes and full saved controls. reproduce.py can build
+one model into a new output directory without old C++ copies.64 Enemy tests
+(three skips),11 literal-definition tests and the manifest graph check pass.
+After terminal producers,cleanup deletes20 ignored files/2914480 logical bytes:
+eight superseded/trial objects and12 PDBs. All365 protected hashes retain their
+deletion-time values; both current and saved-record checks pass afterward. Four
+current objects,all documents/research,current source,target/tools and working
+Ghidra remain;build/ is absent. No source archive or old C++ tree is retained.
+Eleven successful game compiles and one failed Front preparation are recorded,
+all serial on one CPU at nice10 with180-second bounds.
+Public validation tooling/tests are unchanged; no new full CI is claimed.
 
-Final `current.py verify` replays the unchanged strict public Oracle on16 units/
-5720 physical bytes/353 fields using five retained actual objects; it also
-checks source/profile/provider pins,literal definitions and the other12 raw
-bodies. `verify_saved.py` recovers14 baseline Git/EOL inputs and checks all four
-saved controls without old C++ copies; `reproduce.py` can cold-build one model
-into a new output directory. The original pre-migration canonical-build capture
-is historical; use current.py for the final manifest.
-
-After all producers terminate,cleanup removes163 ignored files/3618381 logical
-bytes:12 objects,14 PDBs and137 bytecode caches. All328 protected hashes remain
-unchanged at deletion time. Five current objects,all research/documents,original
-target,toolchains and working Ghidra stay; build/ is absent. Both current and
-saved-record checks pass after cleanup. No archive or whole1004-unit cold replay
-is made. The13 successful game compiler calls plus one failed preparation are
-recorded; the six public-workflow calls were serial but lacked the private
-runner's priority/CPU wrapper.
-RunEcl15564/598/30,Enemy3900/97/13 and Effect34 draw946/53/74 stay unchanged.
-The98% goal remains active with31 nonexact authored owners.
+Previous source checkpoint cda7574c accepted the complete Pause update:1734
+new authored bytes,1776 physical bytes/106 fields. Its five actual current
+objects and current.py receipt remain in pause-vm-boundaries/. Its full handoff
+is preserved in the checkpoint archive. The shared-vector batch adds no credit;
+1004 exact/84.5034% and the unfinished98% goal remain unchanged. Whole Windows
+product/runtime and later semantic/port gates stay open.
 
 ## Earlier dependency corrections
 
@@ -102,6 +96,7 @@ and source-interface cleanup earn no partial exact credit.
 | 4dd2212d | Shared attached-effect state;84 affected exact owners retain26006 bytes/1146 fields,140 unchanged proofs reused. | `gpt-61sol-20261030-enemy-dependency-review/` (dated records) |
 | 17a11669 | Native Type6/7/8/9 setup and EffectManager contracts;219 existing exact owners preserved. | `gpt-61sol-20261030-runecl-formal-state/` (dated records) |
 | 8d05fa6a | Shared mode/global declarations, runtime header and vector extraction;217 existing exact owners preserved. | `gpt-61sol-20261030-game-manager-mode-owner/` (dated records) |
+| cda7574c | Complete Pause update adds1734 exact authored bytes;16 canonical owners preserve5720 physical bytes/353 fields. | `gpt-61sol-20261030-pause-vm-boundaries/current.py verify` (global manifest changes can require metadata refresh) |
 | 10ab57e0 | RunEcl uses its native Timer member directly;12 operand models leave30 differences;81 existing strict owners retain25249 bytes/1127 fields. | `gpt-61sol-20261030-ecl-operand-references/` (dated records) |
 | 135e62ce | Shared child-ECL release removes a conflicting private class and repeated interfaces;84 existing strict owners retain25766 bytes/1156 fields. | `gpt-61sol-20261030-enemy-child-contract/` (dated records; ECL carriers now replaced) |
 | e26062f7 | Effect34 inner jitter indexing restores four radius operand bytes without damaging equal positions; 80 existing exact owners retain25423 bytes/1137 fields. | `gpt-61sol-20261030-effect34-consumed-fields/` (dated source-bound records; ECL carriers now replaced) |

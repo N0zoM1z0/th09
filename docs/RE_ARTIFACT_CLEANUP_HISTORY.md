@@ -2612,3 +2612,27 @@ Ghidra are preserved;build/ is absent. Public CI passes1037 tests/29 skips in
 141.772s after correcting six stale Timer-cast assertions discovered on its
 first attempt. Both CI attempts remain recorded. Packet and deletion/protection
 hashes: `.analysis/gpt-61sol-20261030-pause-vm-boundaries/`.
+
+## 2026-10-30: shared vector and Front contract correction
+
+ANM,Background and Front draw now share Float3/Float2 declarations;Front also
+uses the native Supervisor and GameManager runtime declarations. Four current
+objects preserve7 canonical owners/16864 physical bytes/743 fields,all28 prior
+regular raw bodies/effective fields and two38-byte compiler contributions.
+Four whole-ECL side-flag controls retain Enemy13/13/45/45 and stay unadopted.
+Exact credit remains1004/84.5034%;98% remains unfinished.
+
+After terminal producers,cleanup deletes20 ignored files/2914480 logical bytes:
+four trial Enemy objects,three vector baseline objects,the replaced Background
+current-085 object and12 PDBs. All365 protected hashes retain their deletion-time
+values. The four current vector objects and unchanged current ECL proof remain.
+All documentation,research records,raw/COFF/literal findings,source recipes and
+failure logs are kept. The target/toolchains and working Ghidra are preserved;
+no old C++ tree or archive is added and build/ is absent.
+
+Current strict-public and saved-source/observation verification pass after
+cleanup.85 baseline Git/EOL inputs regenerate without source copies.64 Enemy
+tests (three skips),11 literal tests and the manifest graph check pass. Public
+validation tools/tests are unchanged;no new full CI is claimed. Packet and
+per-file deletion/protection hashes:
+`.analysis/gpt-61sol-20261030-shared-vector-contracts/`.

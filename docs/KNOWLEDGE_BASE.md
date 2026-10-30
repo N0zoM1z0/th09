@@ -24757,3 +24757,83 @@ preserved;no archive is created and build/ is absent. Both current/strict-public
 and saved-record verification pass afterward. This unit records13 successful
 game compiler calls and one failed preparation;the six public-workflow calls
 were serial but did not use the private runner's lowered priority/CPU wrapper.
+
+## October 30: shared vector and Front native-contract audit
+
+Recovery starts clean at cda7574c. The preceding turn is progress: complete
+PauseMenu update becomes exact. The current target/ledger checks pass. Direct
+Ghidra reuses the working project,verifies architecture/base/entry and all685056
+file-backed bytes,and exports Enemy410730,periodic Timer404920 and descriptor
+constructor40D500. An earlier request mistakenly selected408FC0 instead of an
+entry; the exporter rejects that batch. Its failure record is preserved and is
+not treated as a successful analysis. No IDA,REA or Factory MCP is used.
+
+The thirteen current Enemy differences remain two draw-index bytes,four
+side/threshold transport bytes and seven descriptor-copy bytes. Four whole-ECL
+controls test natural side-state storage widths and the existing genuine Timer
+context,without variable/register hints,extra clobbers,profile changes or byte
+patches. Their entire physical owners,actual fields and callees are checked.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-SIDE-FLAGS-001 | compiler observation | A byte flags34 plus three reserved bytes preserves the38-byte side view and all3900 Enemy bytes/97 fields/13 differences. | byte-side.json; all75 existing same-profile exact siblings pass. |
+| ENEMY-SIDE-FLAGS-002 | compiler observation | The real opcode1 writer's bit0/remaining bitfield shape also leaves the complete13-difference caller unchanged. | bitfield-side.json; source type remains a hypothesis. |
+| ENEMY-SIDE-FLAGS-003 | rejected combined context | Byte-side storage plus actual33-byte HasTickedEvery emits3900/97/45,matching the previous periodic context. | byte-side-periodic.json; complete native predicate independently exact. |
+| ENEMY-SIDE-FLAGS-004 | rejected combined context | Bitfield-side storage plus that predicate likewise retains45 differences. | bitfield-side-periodic.json; no source adoption or new credit. |
+
+Every control retains97 original field encodings,69 ordered calls,170 blocks,
+all switch destinations and137 other regular raw bodies. RunEcl stays15564/598/
+30 ordinary differences with zero field differences. The four controls provide
+300 existing canonical comparisons,not new authored credit or proof that the
+side flag's original C++ declared type is known. They do not exhaust other
+natural ownership/type/dataflow combinations.
+
+The source audit finds real cross-TU declaration conflicts. FrontSideDraw.cpp,
+BackgroundRender.cpp and AnmManagerExecuteScript.cpp define different member
+sets under the same Float3 name. Two also repeat Float2. All now use the existing
+Float3.hpp declaration,which itself is unchanged. Front draw additionally
+redefines a partial Supervisor and an empty AsciiGameManagerView. It now uses
+the full Supervisor and GameManagerRuntimeView declarations,while retaining only
+its distinct F0-byte viewport projection and asserting shake storage at+160.
+The symbols,ABIs and actual field accesses remain unchanged. These changes
+remove those particular conflicting type definitions; other historical private
+projection families are not claimed consolidated.
+
+The first Front preparation includes AsciiGameManagerView.hpp,whose compatibility
+include imports an incompatible AsciiManager AnmVm alongside the lifecycle view.
+Compilation fails and emits no object. The actual standalone runtime header
+GameManagerRuntimeView.hpp resolves that dependency without suppressing either
+AnmVm definition. Three already successful cold objects are recovered and reused;
+only the failed Front preparation is compiled again. The failure log and source
+binding remain research records. Remaining AnmVm projection conflicts are open.
+
+Four current source/profile objects pass the unchanged strict public Oracle for
+all7 canonical owners/16864 physical bytes/743 fields. This includes the complete
+9776-byte ANM interpreter,3274-byte background renderer and3094-byte Front draw.
+All28 regular raw bodies and effective fields are unchanged from the baseline,
+as are two38-byte compiler contributions.148 compiler-private ANM spellings are
+refreshed only after actual identical owner-relative destinations and complete
+original equality pass; no relocation offset,type,addend,target,extent or profile
+changes. Baseline Background reuses its actual pinned current-085 object; three
+other baseline objects are cold. No full1036-unit cold replay is performed.
+
+The packet is `.analysis/gpt-61sol-20261030-shared-vector-contracts/`.
+current.py verifies the four retained current carriers with the final manifest.
+verify_saved.py recovers85 immutable Git/EOL inputs and checks all four preserved
+whole-Enemy observations and300 existing canonical byte comparisons,without old
+C++ copies or synthetic COFF. reproduce.py supports one fresh historical model
+in a new output directory.64 Enemy tests pass with three skips;11 actual-literal
+regressions and the manifest graph check pass. Public tools/tests are unchanged;
+no new full CI is claimed. Exact coverage stays1004/1035 and246651/291883 bytes
+(84.5034%);98%,product/runtime,semantic and portability gates remain unfinished.
+
+After terminal producers,cleanup removes20 ignored regular files/2914480 logical
+bytes:eight objects (four unadopted Enemy controls,three superseded vector
+baselines and the replaced current-085 Background carrier) plus12 PDBs. All365
+protected hashes retain their deletion-time values. Four actual current vector
+objects,all raw/COFF findings,source recipes,failure logs,documentation/current
+source,target/toolchains and working Ghidra remain. No archive or old C++ tree
+is added;build/ is absent. Current/strict-public and saved-source/observation
+checks pass afterward. Eleven successful game compiler calls and one failed
+Front preparation run serially on one allowed CPU at nice10 with180-second
+bounds. The unchanged ECL current object and older unaffected proofs are reused.
