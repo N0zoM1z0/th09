@@ -267,6 +267,23 @@ def validate_symbol_destinations(expected: list[dict[str, object]]) -> None:
         bindings[symbol] = (target, offset)
 
 
+def validate_native_crt_destinations(expected: list[dict[str, object]]) -> None:
+    """Keep the original CRT free entry distinct from its scalar-delete thunk.
+
+    The pinned libcmt.lib delete.obj defines ??3 as a five-byte JMP to _free.
+    Binding a game's _free reference to that thunk can yield identical linked
+    bytes while misrepresenting the actual source interface across owners.
+    These are reviewed identities in the one supported Japanese v1.50a target.
+    """
+    native = {"_free": 0x0047B163, "??3@YAXPAX@Z": 0x0047B249}
+    for row in expected:
+        symbol = str(row["symbol"])
+        if symbol in native and int(row["target"]) != native[symbol]:
+            raise ValueError(f"native CRT destination differs: {symbol}, "
+                             f"expected {native[symbol]:#x}, "
+                             f"manifest {int(row['target']):#x}")
+
+
 def validate_owner_local_destinations(
     actual: list[dict[str, object]], expected: list[dict[str, object]],
     target_address: int, owner_size: int,
@@ -374,6 +391,7 @@ def compare_unit(name: str) -> dict[str, object]:
         raise ValueError(f"COFF relocations differ from manifest: actual={actual_key!r} expected={expected_key!r}")
 
     validate_symbol_destinations(normalized_expected)
+    validate_native_crt_destinations(normalized_expected)
     validate_owner_local_destinations(actual, normalized_expected, address, compare_size)
     literal_definitions = validate_literal_definitions(
         object_path, actual, image, normalized_expected)

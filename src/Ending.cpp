@@ -429,7 +429,7 @@ int Ending::DeletedCallback(Ending *ending)
     g_ZunMemory.Free(ending->scriptData);
     g_Chain.Cut(ending->drawChain);
     ending->drawChain = NULL;
-    free(ending);
+    operator delete(ending);
     g_EndingLifecycleFlags &= ~0x400u;
     g_EndingActive = 0;
     return 0;

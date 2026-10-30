@@ -4,6 +4,7 @@
 #include "ZunTimer.hpp"
 #include "GameManagerRuntimeView.hpp"
 
+#include <new>
 #include <stdlib.h>
 #include <string.h>
 
@@ -78,6 +79,6 @@ void __fastcall PlayerRelease(PlayerLifecycleView *player)
         player->drawChainLowPrio = NULL;
         g_Chain.Cut(player->calcChain);
         player->calcChain = NULL;
-        free(player);
+        operator delete(player);
     }
 }

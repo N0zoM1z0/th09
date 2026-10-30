@@ -2,6 +2,7 @@
 #include "StageResourcePolicy.hpp"
 
 #include <stddef.h>
+#include <new>
 #include <stdlib.h>
 
 extern Chain g_Chain;
@@ -52,6 +53,6 @@ void __fastcall ReleaseGameSubsystem(void *object)
         front->ReleaseCore();
         g_Chain.Cut(front->drawChain04);
         g_Chain.Cut(front->calcChain00);
-        free(front);
+        operator delete(front);
     }
 }

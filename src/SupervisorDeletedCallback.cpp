@@ -5,6 +5,7 @@
 #include "ZunMemory.hpp"
 
 #include <stddef.h>
+#include <new>
 #include <stdlib.h>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
@@ -106,16 +107,16 @@ int SupervisorDeletedCallback(Supervisor *supervisor)
     }
 
     if (g_GameManager.heap1C != NULL)
-        free(g_GameManager.heap1C);
+        operator delete(g_GameManager.heap1C);
     g_GameManager.heap1C = NULL;
 
     if (g_GameManager.heap54 != NULL)
-        free(g_GameManager.heap54);
+        operator delete(g_GameManager.heap54);
     g_GameManager.heap54 = NULL;
 
     if (globalSupervisor->startupVm != NULL)
     {
-        free(globalSupervisor->startupVm);
+        operator delete(globalSupervisor->startupVm);
         globalSupervisor->startupVm = NULL;
     }
 

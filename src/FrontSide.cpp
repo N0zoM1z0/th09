@@ -5,6 +5,7 @@
 #include "AnmManager.hpp"
 #include "ZunMemory.hpp"
 
+#include <new>
 #include <stdlib.h>
 #include <string.h>
 
@@ -261,7 +262,7 @@ void FrontSide::Destroy(FrontSide *frontSide)
     ReleaseOptionalAnm(frontSide);
     g_Chain.Cut(frontSide->drawChainA664);
     g_Chain.Cut(frontSide->calcChainA660);
-    free(frontSide);
+    operator delete(frontSide);
 }
 
 void FrontSide::LoadScript67()

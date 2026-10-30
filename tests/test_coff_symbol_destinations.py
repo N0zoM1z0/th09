@@ -3,6 +3,7 @@ import importlib.util
 from pathlib import Path
 import struct
 import tempfile
+import tomllib
 import unittest
 from unittest import mock
 
@@ -45,6 +46,51 @@ class SymbolDestinationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             coff.validate_symbol_destinations([
                 self.row(addend=4), self.row(offset=0xB9, addend=0, target=0x4DC62C)])
+
+    def test_reviewed_crt_entries_are_distinct(self):
+        coff.validate_native_crt_destinations([
+            self.row(symbol="_free", target=0x47B163),
+            self.row(symbol="??3@YAXPAX@Z", target=0x47B249)])
+
+    def test_all_canonical_units_keep_reviewed_crt_entries(self):
+        root = Path(__file__).resolve().parents[1]
+        units = tomllib.loads((root / "config/match-units.toml").read_text())["units"]
+        for name, unit in units.items():
+            with self.subTest(unit=name):
+                coff.validate_native_crt_destinations(unit.get("relocations", []))
+
+    def test_free_cannot_be_rebound_to_delete_even_at_one_field(self):
+        with self.assertRaisesRegex(ValueError, "native CRT destination differs"):
+            coff.validate_native_crt_destinations([
+                self.row(symbol="_free", target=0x47B249)])
+
+    def test_addend_cannot_move_the_reviewed_delete_base(self):
+        with self.assertRaises(ValueError):
+            coff.validate_native_crt_destinations([
+                self.row(symbol="??3@YAXPAX@Z", target=0x47B245, addend=4)])
+
+    def test_canonical_replay_rejects_false_free_identity_despite_equal_bytes(self):
+        field = dict(offset=0, type_id=6, type="DIR32", symbol="_free",
+                     addend=0, symbol_section=0, symbol_value=0,
+                     owner_section=1, owner_value=0)
+        manifest = '''[units.false_free]
+object = "build/unused.obj"
+symbol = "owner"
+size = 4
+target_address = 4198400
+relocations = [
+  { offset = 0, type = "DIR32", symbol = "_free", target = 4698697 },
+]
+'''
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "units.toml"
+            path.write_text(manifest)
+            with mock.patch.object(coff, "UNITS_MANIFEST", path), \
+                    mock.patch.object(coff, "object_function", return_value=(bytearray(4), [field])), \
+                    mock.patch.object(coff, "verified_target", return_value=b"verified"), \
+                    mock.patch.object(coff, "pe_bytes_at", return_value=struct.pack("<I", 0x47B249)), \
+                    self.assertRaisesRegex(ValueError, "native CRT destination differs"):
+                coff.compare_unit("false_free")
 
     def test_canonical_replay_rejects_fitted_bases_even_when_bytes_would_match(self):
         code = bytearray(struct.pack("<II", 0, 0x14))

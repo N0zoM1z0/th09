@@ -2735,3 +2735,29 @@ again afterward,as do saved recipe/record checks. Full public CI passes1050 test
 29 skips in118.966s;final docs/tracking/progress and whitespace pass separately.
 Exact remains1004/84.5034%;98% remains unfinished. Per-file deletion/protection
 receipts: `.analysis/gpt-61sol-20261030-ecl-dependency-contracts/cleanup-applied.json`.
+
+
+## 2026-10-30: native deallocation identities across complete owners
+
+Eleven sources replace old _free aliases of47B249 with the actual native scalar
+operator delete interface. Fourteen canonical fields in12 owners and two large
+GameplaySetupThread fields now name the fixed-provider CRT function correctly.
+Fifteen current profile objects preserve69 strict owners/18486 physical bytes/
+1186 fields. GameplaySetupThread904,SaveReplay3 and playback39+2 remain nonexact;
+no exact credit is added. ECL source/profile-bound75 strict proofs are reused.
+
+After all producers terminate and full CI passes1055 tests/29 skips in121.830s,
+cleanup removes213 ignored files/6898406 logical bytes:30 superseded stage
+objects,47 PDBs and136 CI bytecode files. Retain15 current objects,all actual
+raw/COFF/literal and failure observations,52 Git/EOL input recipes,selected cold
+reproduction records and all documentation/research. Temporary source/CRT
+extraction/OBJ/PDB self-clean;no old CPP tree or compression is introduced.
+
+Initial cleanup confirms all943 protected hashes. Final review removes a
+duplicate Ending include;two fresh profiles preserve10 exact owners,then two
+new PDBs are removed with all15 current-object hashes unchanged. The original
+executable,current source/proofs,toolchains and working Ghidra are retained;
+build/ is absent. Current69 strict comparisons and saved recipe/record checks
+pass again afterward. Per-file deletion/protection receipt:
+`.analysis/gpt-61sol-20261030-delete-owner-contracts/cleanup-applied.json` and
+`cleanup-header.json` in that packet.

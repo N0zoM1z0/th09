@@ -24,6 +24,7 @@
 
 #include <windows.h>
 #include <mmsystem.h>
+#include <new>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -636,7 +637,7 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
 
     if (gameManager->heapE8 != NULL)
     {
-        free(gameManager->heapE8);
+        operator delete(gameManager->heapE8);
         gameManager->heapE8 = NULL;
     }
 
@@ -815,7 +816,7 @@ void __fastcall GameplaySetupThread(void *unused)
 mode_ready:
     if (g_GameConfiguration != NULL)
     {
-        free(g_GameConfiguration);
+        operator delete(g_GameConfiguration);
         g_GameConfiguration = NULL;
     }
 
@@ -838,7 +839,7 @@ mode_ready:
         {
             if (manager->sides[sideIndex].state != NULL)
             {
-                free(manager->sides[sideIndex].state);
+                operator delete(manager->sides[sideIndex].state);
                 manager->sides[sideIndex].state = NULL;
             }
             manager->sides[sideIndex].state = static_cast<SetupStateBuffer *>(operator new(0xA0));

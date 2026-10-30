@@ -22,51 +22,50 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current audit — RunEcl dependency identity and expression boundaries
+## Current audit — native deallocation identities across complete owners
 
-Game source remains8daa7625;this batch changes diagnostic validation/tests and
-research records only. Exact stays1004/84.5034%. Direct Ghidra reuses the verified
-project for RunEcl4086C0,Enemy410730 and native Timer greater403DE0,comparing all
-685056 mapped bytes. RunEcl's375 direct calls and30 external data fields imply
-consistent bases for all405 actual symbols/references;Enemy's97 bindings also
-have no per-symbol contradiction. Neither observation proves original C++ types.
+Eleven source carriers now call native operator delete instead of declaring the
+47B249 thunk as CRT free. Fixed-provider libcmt.lib delete.obj independently
+reproduces all5 thunk bytes and its actual _free47B163 relocation. Explicit
+cleanup chronology is retained; opaque storage is released through the actual
+low-level operator delete interface without inventing a destructor or array type.
+Fourteen canonical fields in12 owners and GameplaySetupThread's two calls use
+??3@YAXPAX@Z at47B249. Their destinations,addends and profiles are unchanged.
 
-Complete RunEcl linking now independently rejects inconsistent external bases
-before relocation encoding:effective value minus actual COFF addend must give
-one32-bit base per symbol. Actual local labels remain owner-relative. Five new
-regressions cover a fitted stride,valid offsets,folded distinct names,wrapping
-REL32 addends and missing names. No comparison byte,field or table is masked.
-Full public CI passes1050 tests/29 skips in118.966s;final docs/tracking/progress
-and whitespace checks pass separately after documentation is updated.
+Fifteen fixed-profile before/after groups retain122 regular function observations
+across those profiles. Fresh maintained-path builds pass69 strict public comparisons:
+18486 physical bytes and1186 fields. No private manifest labels change.
+GameplaySetupThread remains1689/171 source fields/904 differences against172
+original fields;SaveReplay remains1238/53/3;BeginPlaybackStage remains538/540,
+32 fields,39 overlap differences and2 missing bytes. These observations grant
+no new exact credit. Exact remains1004/84.5034%;98% is unfinished.
 
-Four native comparison signature controls use signed return or const receiver,
-each with opaque or actual co-visible periodic Timer. All first prove the real
-20-byte greater body;all75 existing siblings pass per model. Enemy stays13/13/
-45/45 and RunEcl stays30. No new signature is adopted. Expression controls find
-that rewriting only int or float reads gives the same2153-byte residual;global
-int rewriting additionally damages two exact polar helpers. Owner-local changes
-keep all75 exact siblings. Together,int+float reads,or all four operand families,
-restore the baseline30-byte RunEcl stream. EOL-only is also baseline-identical.
-Natural direct jump/native bitfield consumers in that context retain42/2258/2270
-whole-owner differences,not improvements. These finite interactions do not prove
-original macro spelling or unique TU boundaries;all game source stays unchanged.
+The public Oracle now rejects _free bound anywhere except47B163 and scalar
+operator delete anywhere except47B249,even if fitted bytes would agree. Twelve
+focused symbol-identity tests cover the reviewed CRT entries,wrong single-site
+bindings,addends,forged complete equality and all canonical manifests. Full
+public CI passes1055 tests/29 skips in121.830s with837 tracked inputs unchanged.
+Final documentation/tracking/progress and whitespace checks pass separately.
 
-Packet: `.analysis/gpt-61sol-20261030-ecl-dependency-contracts/`.
-current.py verifies the unchanged active object with75 strict public units/
-22463 physical bytes/990 fields and full RunEcl15564/598/30,Enemy3900/97/13.
-reinspect.py checks all14 actual model observations under the stronger gate;
-verify_saved.py recovers79 Git/EOL inputs,14 recipes and1048 saved canonical
-comparisons. One fresh owner-int reproduction matches all138 regular definitions,
-all75 siblings and complete RunEcl2153/Enemy13;temporary inputs/objects self-clean.
-No whole1004-owner cold replay is run. Source/type ownership remains unknown
-where stated,and98% remains unfinished.
+Direct Ghidra reuses the working12.1.4 project and verifies all685056 mapped
+bytes. Its provisional name at47B249 is _free,and its decompiler expands the
+callee despite reporting a5-byte body. The actual CRT object and raw JMP decide
+the native identity;neither that name nor expanded pseudocode is an exact proof.
+Unchanged source/profile-bound ECL proofs still cover75 exact owners and full
+RunEcl30/Enemy13. The preceding expression audit is preserved in the handoff
+archive at checkpoint415ef52a.
 
-After terminal producers,cleanup removes164 ignored files/9474447 logical bytes:
-14 rejected objects,14 PDBs and136 CI bytecode files. All research/docs/recipes,
-the active current object,original/toolchains and working Ghidra remain;build/
-is absent. No old C++ tree or source archive is added. Native ANM/quad/Title
-corrections remain in8daa7625 and107a7760;their durable detail is archived and
-the current proof packets remain usable under their source/provider scopes.
+Packet: `.analysis/gpt-61sol-20261030-delete-owner-contracts/`.
+current.json binds all15 current objects,complete definitions,profiles and source
+hashes;crt.py reproduces the provider member. reproduce.py --group 0 recovers25
+Git/EOL inputs and repeats12 regular bodies/10 exact owners with self-cleaning
+temporary source/OBJ/PDB. Cleanup keeps current objects and all research/docs;
+cleanup removes213 disposable objects/PDBs/CI bytecode files,6898406 logical
+bytes. Initial cleanup confirms943 protected hashes;after removing a duplicate
+Ending header,two fresh profiles preserve10 exact owners and a supplemental
+two-PDB cleanup preserves all15 current-object hashes. Build/ is absent.
+verify.py rechecks52 Git/EOL inputs,15 recipes and69 current strict owners after
+cleanup. No old CPP tree or source archive is added.
 
 ## Previous dependency checkpoint — shared vectors and Front contracts
 

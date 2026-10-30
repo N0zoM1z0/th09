@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <string.h>
+#include <new>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -700,7 +701,7 @@ void ReplayManagerView::Release()
 
     ReleaseReplayManagerCore(this);
     g_Chain.Cut(this->mainChain);
-    free(this);
+    operator delete(this);
 }
 
 
@@ -711,7 +712,7 @@ void __fastcall ReleaseStageObject(void *object)
     {
         ReleaseReplayManagerCore(replayManager);
         g_Chain.Cut(replayManager->mainChain);
-        free(replayManager);
+        operator delete(replayManager);
     }
 }
 

@@ -5,6 +5,7 @@
 #include "Background.hpp"
 #include "ZunMemory.hpp"
 
+#include <new>
 #include <stdlib.h>
 #include <string.h>
 
@@ -193,7 +194,7 @@ void CardAttack::Destroy(CardAttack *cardAttack)
     RunEndCallbacks(cardAttack);
     g_Chain.Cut(cardAttack->calcChain0C);
     g_Chain.Cut(cardAttack->drawChain10);
-    free(cardAttack);
+    operator delete(cardAttack);
 }
 
 CardAttack *CardAttack::Create(int sideIndex)

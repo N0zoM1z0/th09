@@ -4,6 +4,7 @@
 #include "AnmManager.hpp"
 #include "Chain.hpp"
 
+#include <new>
 #include <stdlib.h>
 
 extern Chain g_Chain;
@@ -34,7 +35,7 @@ void __fastcall ReleaseSubsystem4(void *object)
         g_Chain.Cut(manager->calcChain310);
         g_Chain.Cut(manager->drawHighChain314);
         g_Chain.Cut(manager->drawLowChain318);
-        free(manager);
+        operator delete(manager);
     }
 }
 

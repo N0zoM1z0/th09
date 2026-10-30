@@ -17,6 +17,7 @@
 #include <objbase.h>
 #include <d3d8.h>
 #include <string.h>
+#include <new>
 #include <stdlib.h>
 
 extern "C" BOOL WINAPI WINNLSEnableIME(HWND, BOOL);
@@ -382,7 +383,7 @@ stop:
     {
         g_SupervisorNetworkState->ResetSession();
         g_SupervisorNetworkState->ReleaseDirectPlayResources();
-        free(g_SupervisorNetworkState);
+        operator delete(g_SupervisorNetworkState);
         g_SupervisorNetworkState = NULL;
     }
 

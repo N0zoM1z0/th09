@@ -56,7 +56,7 @@ DESTINATIONS = {
     '__imp__Sleep@4': 0x48E058,
     '__imp__timeGetTime@0': 0x48E238,
     '__real@40000000': 0x48EF5C,
-    '_free': 0x47B249,
+    '??3@YAXPAX@Z': 0x47B249,
     '??2@YAPAXI@Z': 0x47B24E,
     '?Release@ReplayManagerView@@QAEXXZ': 0x420AD0,
     '?InitializeViewports@Supervisor@@QAEXXZ': 0x4307C0,

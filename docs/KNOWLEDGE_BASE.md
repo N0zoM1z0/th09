@@ -25211,3 +25211,67 @@ All research/docs/source recipes,the active original-source object,target/tools
 and working Ghidra remain;build/ is absent. No old C++ tree or archive is made.
 Current and saved checks pass after cleanup. Exact stays1004 and246651/291883
 bytes(84.5034%);98%,native-product/runtime and later semantic/port gates remain open.
+
+
+## October30: deallocation identity audit across complete carriers
+
+A global manifest observation finds one nonliteral/nonlocal source symbol with
+multiple physical bases:_free at47B163 and47B249. This is a candidate-finding
+observation,not a universal rule for static symbols or a proof of native C++
+ownership. The fixed actual libcmt.lib member build\intel\mt_obj\delete.obj
+independently proves ??3@YAXPAX@Z at47B249:five bytes with one REL32 JMP to the
+actual _free47B163. The member bytes equal the pinned Git provider,not a game-
+profile wrapper or a fitted replacement.
+
+Eleven maintained sources now use the actual low-level operator delete entry
+for these explicit-cleanup paths:GameManagerSetup,SupervisorDeletedCallback,
+ReplayInput,PlayerLifecycle,FrontRelease,Ending,EnemyManagerRelease,CardAttack,
+FrontSide,BackgroundRelease and WinMain. Fourteen canonical fields in12 owners
+and two nonexact GameplaySetupThread fields receive the correct native symbol.
+No unknown destructor or array element type is inferred. Fifteen staged profile
+pairs keep122 regular function observations across those profiles and every field position/kind/addend
+unchanged. Separate maintained-path cold builds pass69 strict public owners,
+18486 complete bytes and1186 fields. Private canonical labels remain unchanged.
+
+Full GameplaySetupThread remains1689 bytes/171 source versus172 original fields/
+904 ordinary differences. SaveReplay remains1238/53/3,and BeginPlaybackStage
+538 versus540/32 fields/39 overlap differences plus2 missing. These finite
+comparisons refute this identity correction as an explanation of those residuals;
+they do not invalidate the correction. Unchanged ECL source/profile proofs are
+reused for75 exact owners and complete RunEcl30/Enemy13. No all1004-owner cold
+replay or new exact credit is claimed.
+
+The canonical Oracle now separately constrains the two reviewed CRT bases.
+Single-site misbinding and a compensating addend fail before byte acceptance;
+a synthetic complete byte-equal false _free binding also fails. Tests audit
+all current canonical manifests. Distinct symbols may still fold to one body
+where independently proved;no generic global-name uniqueness rule is invented.
+
+Fresh direct Ghidra exports reuse12.1.4 and compare all685056 file-backed mapped
+bytes. A particularly misleading result is preserved:47B249 is auto-named _free,
+reports body47B249..47B24D,but exports the expanded free implementation. Its
+name/signature/pseudocode must not overrule the5-byte physical body or CRT
+provider. ExAttack14/22 and VM constructor exports were inspected earlier in
+this batch;their existing prior hypothesis families supply no new source change.
+
+Evidence and recipes live at
+`.analysis/gpt-61sol-20261030-delete-owner-contracts/`. The initial staged
+Supervisor check rejected its TU-path anonymous namespace stamp;the private
+recipe then allowed only that compiler stamp with the remaining mangled identity
+unchanged. A later staged CleanupGameplayState comparison rejected renumbered
+private labels;the recipe then proved equal section/value/owner coordinates.
+Neither issue relaxed target bytes or external destinations. One adoption script
+stopped before writing the manifest because two old address literals used lower-
+case hex;all14 fields were then updated with case-independent numeric checking.
+All failure observations,raw/COFF records and docs remain;old CPP trees are not
+kept. A selected Git/EOL source-cold reproduction repeats the saved main
+GameManager proposal independently of retained objects.
+
+Full public CI passes1055 tests/29 skips in121.830s with837 tracked inputs
+unchanged during the run. Final docs/tracking/progress/whitespace checks follow
+the result updates. Terminal-producer cleanup deletes213 files/6898406 bytes
+and leaves no build/. Initial cleanup confirms943 protected hashes. Final review
+removes a duplicated existing Ending header;two fresh profiles preserve10 exact
+owners,and supplemental PDB cleanup preserves all15 current-object hashes.
+Saved verification recovers52 Git/EOL inputs,15 recipes and69 current strict
+owners after cleanup;all docs,research and failure records remain.

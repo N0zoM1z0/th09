@@ -1,6 +1,7 @@
 #include "Background.hpp"
 #include "Chain.hpp"
 
+#include <new>
 #include <stdlib.h>
 
 extern Chain g_Chain;
@@ -13,6 +14,6 @@ void __fastcall ReleaseSubsystem0(void *object)
         g_Chain.Cut(background->calcChain);
         g_Chain.Cut(background->drawHighChain);
         g_Chain.Cut(background->drawLowChain);
-        free(background);
+        operator delete(background);
     }
 }
