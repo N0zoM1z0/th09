@@ -1,7 +1,7 @@
 schema_version = 1
 target_sha256 = "10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822"
 
-# Add a unit only after its IDA candidate boundary is reconciled against the
+# Add a unit only after its target-bound Ghidra boundary is reconciled against the
 # exact target control flow and a reproducible VC7.1 COFF object exists.
 
 [units.game-error-context-reset]
@@ -13855,7 +13855,7 @@ relocations = [
   { offset = 0x81, type = "REL32", symbol = "?ReportDirectPlayError@@YIXJ@Z", target = 0x00432410 },
   { offset = 0x8F, type = "DIR32", symbol = "_CLSID_DP8SP_TCPIP", target = 0x00495290 },
   { offset = 0x96, type = "REL32", symbol = "?IsServiceProviderAvailable@SupervisorNetworkState@@QAEHPBX@Z", target = 0x00432770 },
-  { offset = 0x9F, type = "DIR32", symbol = "??_C@_0BL@EGDPPLCB@CLSID_DP8SP_TCPIP?5?$IOg?$JHp?$JFs?$AN?6?$AA@", target = 0x00490E24 },
+  { offset = 0x9F, type = "DIR32", symbol = "??_C@_0BN@KDFINDCK@CLSID_DP8SP_TCPIP?5?$IOg?$JHp?$JFs?$IJ?B?$AN?6?$AA@", target = 0x00490E24 },
   { offset = 0xA4, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
   { offset = 0xA9, type = "REL32", symbol = "?Fatal@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C660 },
 ]

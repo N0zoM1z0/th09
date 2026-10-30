@@ -2353,3 +2353,26 @@ Exact deletion/protection hashes, raw/COFF records, diagnostics, prefix executio
 observations and recipes remain in
 `.analysis/gpt-61sol-20261030-runecl-byte-contract/`. Exact totals remain1003 and
 244917/291883 bytes(83.9093%);98% and later phase gates remain open.
+
+## 2026-10-30: network reset literal correction cleanup
+
+One cold carrier fixes the missing CP932 character in ResetSession's original
+diagnostic. Complete200 bytes/11 fields and actual37/29-byte string definitions
+pass the standard gate. The small actual old object(10064 bytes) remains as a
+runnable negative: its27-byte truncated definition fails at the actual section
+boundary.439 unchanged canonical proofs/121391 bytes/6843 fields from106
+carriers are reused with source/profile/object/provider and individual-unit
+checks; no new credit or whole1003 cold replay is claimed.
+
+After producer termination, cleanup deletes exactly two regular ignored PDBs,
+172032 logical bytes. All127 protected files keep their hashes, including the
+current10032-byte object, actual negative,106 reused objects and original target.
+Documentation, research records, recipes, target/toolchains and working Ghidra
+project remain; no historical C++ snapshot or new archive is created. build/
+is absent. Current complete verification, actual-negative replay and unchanged
+proof-input reuse pass after cleanup.11 focused literal tests pass; public
+validation code is unchanged and no new full CI is claimed.
+
+Full records and deletion/protection hashes remain under
+`.analysis/gpt-61sol-20261030-network-literal-review/`. Totals remain1003 and
+244917/291883 bytes(83.9093%);98% and later gates remain open.

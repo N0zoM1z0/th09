@@ -1842,7 +1842,7 @@ name into a TH09 fact without target-local evidence.
 
 - `SupervisorNetworkState::ResetSession @ 0x00432F70-0x00433037` is repository-canonical exact at 200 bytes. Five TH09 callers independently bind the role: WinMain invokes it before final DirectPlay resource release, `SupervisorServiceUpdate` invokes it on both connection-reset paths, and `Supervisor::OnUpdate` invokes it on both gameplay reset paths.
 - The method cancels all DirectPlay async operations with `DPNCANCEL_ALL_OPERATIONS`, closes the peer, Release/nulls COM address slots `+0x04/+0x0C/+0x10`, sleeps 100 ms, and reinitializes the same peer with exact `SupervisorNetworkMessageThunk @ 0x00432EA0`. Initialization failure reports the target Japanese diagnostic, calls exact `ReportDirectPlayError @ 0x00432410`, and returns 1.
-- After successful Initialize, the method calls maintained `IsServiceProviderAvailable @ 0x00432770` with `CLSID_DP8SP_TCPIP`. Provider failure emits the target `CLSID_DP8SP_TCPIP 使用不可\r\n` Fatal and returns 1; success clears both peer-id slots `+0x1C/+0x20` and returns 1. The provider helper remains independently source-present/non-exact; this caller receives exactness only from its own target-bound relocation.
+- After successful Initialize, the method calls maintained `IsServiceProviderAvailable @ 0x00432770` with `CLSID_DP8SP_TCPIP`. The target provider-failure path emits `CLSID_DP8SP_TCPIP 使用不可\r\n` Fatal and returns 1; success clears both peer-id slots `+0x1C/+0x20` and returns 1. The original source packet accidentally omitted the final CP932 character from that message; the October30 literal review below corrects it. Historical200-byte/relocation equality did not verify this local data definition. The provider helper remains independently source-present/non-exact; this caller receives no exactness credit for its callee.
 - Natural source closure required two semantic/control-flow corrections, not encoding steering: do not cache `this->peer` across the early COM calls because target reloads it, and express provider failure as a guard-return so the failure block precedes peer-id clearing. With those forms, two cold canonical rounds reproduce 200/200 bytes and all eleven relocations; exact message-thunk and error-reporter regressions also remain exact. The SDK callback is adapted with an ABI-neutral function-pointer cast so the relocation resolves to the repository's existing `int`-return exact thunk symbol.
 
 ## Packet 343 Supervisor D3D capability-line private ABI negative
@@ -23911,3 +23911,56 @@ The stored-record verifier passes again without trial objects. All76 original
 input hashes are reconstructed from03462e4f using recorded Git/EOL rules, with
 no retained old C++ copies. Documentation and research records remain; build/
 is absent. cleanup.json records every deletion and protected hash.
+
+## October 30: network reset literal-data correction
+
+After0358e69b, a bounded negative census compares237 configured C-string
+references/138 distinct symbol destinations with the original target. Only
+ResetSession's failure message has unequal encoded length/prefix: its manifest
+names27 bytes but the original at490E24 is29 including NUL. Such names can
+identify suspicious inputs but cannot establish positive source-data equality.
+No uncold carrier receives new credit from this census.
+
+A fresh pinned one-carrier compile confirms the actual defect: its defined
+read-only string contains `CLSID_DP8SP_TCPIP 使用不\r\n`, omitting89 C2 before
+CRLF. The complete200-byte code and11 relocation identities still match the
+original, but the current standard gate rejects the literal at its actual
+27-byte section boundary. The initial local producer assertion expected a
+payload-difference message rather than this earlier bounds rejection; it fails
+after recording the negative, not during compilation. The actual rejected
+object and all observations remain. No code-only success overrides this failure.
+
+Maintained source restores89 C2. The actual new compiler symbol replaces only
+the old message symbol in the canonical manifest. Fresh complete200-byte/
+11-field comparison passes, as do both actual local literal definitions: the
+other37-byte Initialize error and corrected29-byte provider error. Every raw
+instruction byte, field offset/type/addend and other symbol stays unchanged.
+There is one emitted regular function and no aux-less compiler contribution.
+This corrects a previously credited source/data detail without adding exact
+rows or bytes; totals remain1003 and244917/291883(83.9093%).
+
+Direct Ghidra exports reset432F70 and provider432770 from the reused project
+with all685056 file-backed mapped bytes checked. Original provider epilogues
+XOR EAX,EAX before SETGE AL and RET4; reset passes the GUID and tests the full
+EAX. The existing int-return/one-stack-argument interface is supported. Ghidra's
+inferred bool return is provisional, and no type change is justified here.
+Provider199 versus current206 bytes remains independently nonexact; these
+caller/data checks do not validate the entire provider reconstruction.
+
+The source/profile/object/provider-bound current verifier and actual-negative
+replay are in `.analysis/gpt-61sol-20261030-network-literal-review/`. The latter
+reproduces all three old source input hashes in memory from0358e69b Git/EOL
+variants; no C++ copy is retained.439 unchanged canonical proofs from106
+carriers/121391 bytes/6843 fields are reused after checking actual objects,
+source closures, profiles, public providers and each unchanged unit record.
+That includes the current menu carrier and excludes its retired object.
+Only the reset carrier is cold-built; no full1003 cold replay is run.
+11 focused actual-literal tests pass; shared validation code is unchanged and
+no new full CI is claimed.98% and product/runtime/semantic/port gates stay open.
+
+After all producer handles terminate, cleanup deletes only two disposable PDBs,
+172032 logical bytes. All127 protected files retain their hashes, including106
+reused objects, the current/actual-negative proof pair and original target.
+Current complete verification, actual-negative replay and unchanged-proof-input
+reuse pass again afterward. Documentation, all research records/recipes and the
+Ghidra project are preserved; build/ is absent and no source archive is created.

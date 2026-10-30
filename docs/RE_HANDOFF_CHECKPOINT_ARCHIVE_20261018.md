@@ -2687,3 +2687,39 @@ PDB and Python caches. All148 protected files, including105 reused objects,
 retain their hashes. The current one-carrier verifier passes after cleanup;
 build/ is absent. No new code archive is made. Later product/runtime/semantic/
 port gates remain open.
+
+## October 30: superseded menu native-reader handoff
+
+Historical source at03462e4f, superseded by the network reset literal correction.
+The following provider-bound replay command is dated; later global manifest
+edits can make it reject. Current unchanged proofs are routed through the active
+handoff.
+
+### Historical game source — native Supervisor readers in menu updates
+
+This checkpoint follows4d83270e. Menu code now reads the existing canonical
+Supervisor flags5D4 and framerateMultiplier5B8 fields. The old partial view
+exposed flags without the maintained volatile qualifier and duplicated the
+framerate field; those declarations and redundant offset guards are removed.
+The existing native qualifiers are reused, not newly introduced. Other partial
+fields retain their original offsets and remain provisional. Original nominal
+C++ types/qualifiers and complete product/runtime closure are unproved.
+
+One affected source/profile carrier preserves **11 canonical exact owners /
+2448 physical bytes /158 fields** and all13 complete emitted body payloads.
+Eight compiler-private fields in AsciiMenuState4 change spelling only at
+independently verified identical owner-relative coordinates. Native identities,
+profiles, addresses, addends, extents and match rows do not change. Complete
+Pause remains1732/1776 bytes,107 fields,1453 overlap differences plus44 missing;
+its three static timestamp calls still differ from the original two.
+
+The current source/provider-bound verifier is
+`.analysis/gpt-61sol-20261030-pause-transition-review/current.py verify`;
+`build` cold-compiles only this one carrier, serially at lowered priority.
+It checks every emitted body/field, all11 complete original matches and actual
+literal definitions through the standard Oracle. Current verification needs
+maintained tools, local packet helpers/records and current.obj; no historical
+C++ source copies.428 other canonical proofs from105 unaffected carriers remain
+source/profile/object/provider and unchanged-unit bound in
+`unaffected-proof-reuse.json`. The other564 canonical rows receive no new cold
+compile or literal audit. Exact credit stays1003;98% remains unfinished.

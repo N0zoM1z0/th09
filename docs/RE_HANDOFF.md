@@ -19,38 +19,46 @@ MCP. The original Japanese v1.50a input is ignored `resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Do not substitute another executable or search Windows mounts.
 
-## Current game source — native Supervisor readers in menu updates
+## Current game source — complete network reset diagnostic
 
-This checkpoint follows4d83270e. Menu code now reads the existing canonical
-Supervisor flags5D4 and framerateMultiplier5B8 fields. The old partial view
-exposed flags without the maintained volatile qualifier and duplicated the
-framerate field; those declarations and redundant offset guards are removed.
-The existing native qualifiers are reused, not newly introduced. Other partial
-fields retain their original offsets and remain provisional. Original nominal
-C++ types/qualifiers and complete product/runtime closure are unproved.
+Following0358e69b, SupervisorNetworkState::ResetSession restores the missing
+CP93289 C2 bytes for the final character in `CLSID_DP8SP_TCPIP 使用不可\r\n`.
+The old source defined27 bytes including NUL versus the original29 at490E24;
+its actual cold-built COFF fails the standard literal gate. Earlier200-byte
+code/relocation comparisons had missed this local data defect.
 
-One affected source/profile carrier preserves **11 canonical exact owners /
-2448 physical bytes /158 fields** and all13 complete emitted body payloads.
-Eight compiler-private fields in AsciiMenuState4 change spelling only at
-independently verified identical owner-relative coordinates. Native identities,
-profiles, addresses, addends, extents and match rows do not change. Complete
-Pause remains1732/1776 bytes,107 fields,1453 overlap differences plus44 missing;
-its three static timestamp calls still differ from the original two.
+One affected carrier is cold-built serially with the unchanged pinned profile.
+The complete200 original bytes/11 fields and both actual string definitions
+(37 and29 bytes including NUL) now pass the standard Oracle. Code bytes,
+relocation coordinates/addends and native call boundaries do not change; one
+literal symbol in the manifest changes to the actual new compiler identity.
+No new exact credit is claimed. Direct cached Ghidra verifies all685056 mapped
+file bytes and exports reset432F70/provider432770. Actual instructions support
+the existing full-EAX0/1 return and one stack argument; no ABI change is made.
 
-The current source/provider-bound verifier is
-`.analysis/gpt-61sol-20261030-pause-transition-review/current.py verify`;
-`build` cold-compiles only this one carrier, serially at lowered priority.
-It checks every emitted body/field, all11 complete original matches and actual
-literal definitions through the standard Oracle. Current verification needs
-maintained tools, local packet helpers/records and current.obj; no historical
-C++ source copies.428 other canonical proofs from105 unaffected carriers remain
-source/profile/object/provider and unchanged-unit bound in
-`unaffected-proof-reuse.json`. The other564 canonical rows receive no new cold
-compile or literal audit. Exact credit stays1003;98% remains unfinished.
+Current proof: `.analysis/gpt-61sol-20261030-network-literal-review/current.py verify`.
+The small old object is retained as a runnable negative through negative.py,
+which reconstructs its three source hashes from0358e69b Git/EOL inputs.
+reuse.py checks439 unchanged canonical proof inputs/121391 bytes/6843 fields
+from106 carriers, including the current native-reader menu carrier. It checks
+individual unchanged unit records across the manifest edit rather than ignoring
+a stale aggregate hash. No full1003-function cold replay is run. Other canonical
+carriers receive no new literal-data or compile coverage.
+
+A name/original census of237 C-string references/138 distinct destinations
+finds this one length/prefix discrepancy before correction and none afterward.
+This is negative triage only; names do not prove actual source definitions.
+11 focused literal tests pass. Exact remains1003/83.9093%;98% and later gates
+remain open. Native menu, Supervisor D3D and earlier dependency corrections
+remain in source, with detailed records in the KB and prior handoff archive.
+Cleanup removes two disposable PDBs/172032 bytes; all127 protected files keep
+their hashes, including106 reused objects. Current positive, actual negative
+and unchanged-proof verification pass afterward. build/ is absent.
 
 ## Latest large-function review — RunEcl input contracts
 
-Game source remains03462e4f. Direct cached Ghidra rechecks all685056 mapped
+Reviewed at03462e4f/0358e69b; the later network correction leaves this carrier
+unchanged. Direct cached Ghidra rechecks all685056 mapped
 file bytes before exporting RunEcl4086C0 and the real Timer assignment401500.
 Current complete RunEcl remains15564 physical bytes/598 fields/30 differences;
 its75 same-profile canonical units pass the standard Oracle again from the
@@ -83,8 +91,10 @@ whole-runtime, original nominal-type or original-helper ownership proof.
 Source/input/provider hashes, all raw/COFF and complete diagnostics, positive
 native references, actual machine-prefix observations and recipes remain in
 `.analysis/gpt-61sol-20261030-runecl-byte-contract/`.
-`verify_saved.py` checks the stored observations and reproduces all seven source
-hashes without compilation or new acceptance. Current cached main-object
+`verify_saved.py` is dated to0358e69b provider pins and can reject later manifest
+edits. It checks stored observations and reproduces seven source hashes without
+new compilation or acceptance. Current unchanged proof inputs are checked by
+the network packet's reuse.py. Current cached main-object
 inspection uses the normal tracked ECL tools; deleted trial objects must be
 rebuilt with their recorded two/three-case producer before a new comparison.
 No old C++ copies or source archive are needed.28 focused tests pass; unchanged
