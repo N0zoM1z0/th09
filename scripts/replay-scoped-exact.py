@@ -61,6 +61,7 @@ def resolve_changed_sources(changed: list[str], *, root: Path = ROOT) -> set[str
     .hpp hops. It never guesses original translation-unit ownership or omits an
     actual textual reverse edge merely because the old ledger ignored it.
     """
+    root = Path(root).resolve()
     source_root = (root / 'src').resolve()
     available = {}
     for path in source_root.rglob('*'):
@@ -184,7 +185,7 @@ def main() -> int:
     parser.add_argument('--unit', action='append', default=[],
                         help='canonical unit; expands to ALL exact same-source profiles')
     parser.add_argument('--changed-file', action='append', default=[],
-                        help='changed tracked src .cpp/.hpp/.inl; walk literal include consumers')
+                        help='changed tracked src .cpp/.h/.hpp/.inl; walk literal include consumers')
     parser.add_argument('--max-carriers', type=int, default=8,
                         help='cap actual physical compiler jobs per selection (default 8)')
     parser.add_argument('--dry-run', action='store_true',

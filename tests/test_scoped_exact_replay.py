@@ -92,6 +92,22 @@ size=20
                 with self.subTest(bad=bad),self.assertRaisesRegex(ValueError,'absent or unsafe'):
                     scoped.resolve_changed_sources([bad],root=root)
 
+    def test_changed_file_resolution_accepts_a_symlinked_repository_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            parent = Path(tmp)
+            root = parent / 'repo'
+            root.mkdir()
+            (root / 'src').mkdir()
+            (root / 'src' / 'Owner.cpp').write_text('#include "Shared.inl"\n')
+            (root / 'src' / 'Shared.inl').write_text('int shared;\n')
+            alias = parent / 'alias'
+            try:
+                alias.symlink_to(root, target_is_directory=True)
+            except OSError as error:
+                self.skipTest('directory symlinks unavailable: ' + str(error))
+            self.assertEqual(scoped.resolve_changed_sources(
+                ['src/Shared.inl'], root=alias), {'src/Owner.cpp'})
+
     def test_changed_header_with_no_real_cpp_consumer_is_not_assumed_safe(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
