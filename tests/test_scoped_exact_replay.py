@@ -108,6 +108,34 @@ size=20
             self.assertEqual(scoped.resolve_changed_sources(
                 ['src/Shared.inl'], root=alias), {'src/Owner.cpp'})
 
+    def test_changed_file_resolves_source_root_fallback_and_nested_subdirectory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            src=root/'src'
+            (src/'nested').mkdir(parents=True)
+            (src/'Owner.cpp').write_text('#include "nested/Bridge.inl"\n')
+            (src/'nested'/'Bridge.inl').write_text('#include "Shared.inl"\n')
+            (src/'Shared.inl').write_text('int shared;\n')
+            (src/'Fallback.cpp').write_text('#include "Shared.inl"\n')
+            self.assertEqual(scoped.resolve_changed_sources(['src/Shared.inl'],root=root),
+                             {'src/Owner.cpp','src/Fallback.cpp'})
+            self.assertEqual(scoped.resolve_changed_sources(['src/nested/Bridge.inl'],root=root),
+                             {'src/Owner.cpp'})
+
+    def test_symlinked_changed_path_outside_source_tree_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            src=root/'src';src.mkdir()
+            external=root/'outside.inl';external.write_text('int external;\n')
+            (src/'Alias.inl').symlink_to(external)
+            (src/'Owner.cpp').write_text('#include "Alias.inl"\n')
+            with self.assertRaisesRegex(ValueError,'absent or unsafe'):
+                scoped.resolve_changed_sources(['src/Alias.inl'],root=root)
+            # An explicitly changed .cpp is itself a selected compiler source;
+            # its external symlink include does not create a false src edge.
+            self.assertEqual(scoped.resolve_changed_sources(['src/Owner.cpp'],root=root),
+                             {'src/Owner.cpp'})
+
     def test_changed_header_with_no_real_cpp_consumer_is_not_assumed_safe(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
