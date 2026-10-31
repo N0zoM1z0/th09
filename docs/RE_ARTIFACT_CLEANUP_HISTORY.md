@@ -3022,3 +3022,25 @@ recipes remain. Temporary source/OBJ/PDB trees already self-clean;no old source
 tree or archive is added and build/ is absent. Post-cleanup input/body/current338
 checks pass without cold jobs. Receipt:
 `.analysis/gpt-61sol-20261031-effect-closed-anm-types/cleanup.json`.
+
+
+## 2026-10-31: retained Replay research and maintenance cleanup
+
+The current operator instruction is maintenance. Already-completed SaveReplay
+STL,complete runtime/file slots,pointer-interface and address-word controls are
+recorded without further compiler or Ghidra jobs. No game-source or exact-credit
+change is adopted;SaveReplay remains1238/53/three. A record audit corrects the
+payload-address controls' byte-neutral assumption:their+BB SIB differs from the
+baseline while remaining unlike target.
+
+Cleanup removes31 ignored compiler binaries/2100887 logical bytes:fifteen
+rejected model objects and sixteen PDBs. Keep baseline.obj,which supplies two
+existing strict no-EH owners/1684 bytes/110 fields and the complete nonexact
+SaveReplay diagnostic. Together with338 unchanged pins it forms the retained340
+subset. All1041 deletion-time protected hashes agree. Original target/toolchains,
+current source,working Ghidra,existing proof carriers,raw/COFF/contribution data,
+compiler logs,immutable recipes and independent replay records are preserved.
+The receipt separately records five pre-existing changes since the earlier
+Effect deletion-time inventory;it does not claim those historical hashes stayed
+current forever. No source archive is introduced. Receipt:
+`.analysis/gpt-61sol-20261031-replay-standard-algorithms/cleanup.json`.

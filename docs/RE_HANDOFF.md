@@ -1,12 +1,13 @@
 # TH09 reconstruction — current handoff
 
-## Operator status — reconstruction resumed
+## Operator status — maintenance
 
-The operator explicitly resumed reconstruction on October31. Continue the98%
-reviewed-authored-byte milestone,prioritizing complete RunEcl and Enemy while
-keeping big functions and small leaves in scope. Use direct local Ghidra only,
-without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affected
-sources/profiles. Preserve research records;delete unused old code/build copies.
+The current operator instruction supersedes the earlier October31 resumption:
+work is maintenance, and the unfinished98% milestone does not authorize further
+reconstruction. Preserve the later local source and research checkpoints below.
+The current maintenance batch records already-completed Replay experiments and
+removes their unused compiler outputs; it starts no new compiler or Ghidra jobs.
+Explicit reconstruction resumption is required before further investigation.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
 Current game-source checkpoint: **eedcea20**;the previous source wasa4bba8ec.
@@ -37,8 +38,22 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
 
 ## Source and evidence routing
 
+- `.analysis/gpt-61sol-20261031-replay-standard-algorithms/current.py` is the
+  retained source-bound subset:340 existing units/100007 compared physical bytes/
+  4757 fields. Two original no-EH Replay owners/1684 bytes/110 fields pass strict
+  comparisons;338 unchanged pins are reused. This adds no exactness credit.
+  SaveReplay remains1238/53/three at+B7,+BB,+3F6. Sixteen completed compiler
+  controls plus two selected independent rebuilds are recorded,without adopting
+  source,types,profiles or TU ownership. STL copy adds memmove;accumulate changes
+  the complete extent. Full pointer/slot interfaces do not resolve the residual.
+  Payload-address controls change only the SaveReplay SIB byte+BB from19 to0B
+  versus baseline,still unlike target;they are not byte-neutral. Frame-only slots
+  change one LoadReplayData SIB byte+E2. Actual formatter45/1 and loader591/14
+  context proofs stay distinct from their configured EH-profile replays.
+  Maintenance removes31 disposable binaries/2100887 bytes after1041 protected
+  hash checks. Keep baseline.obj,recipes and all raw/COFF/proof records.
 - `.analysis/gpt-61sol-20261031-effect-closed-anm-types/current.py` is the
-  current source-bound subset:338 existing units/98323 compared physical bytes/
+  unchanged source-bound subset:338 existing units/98323 compared physical bytes/
   4647 fields. It strictly compares15 unchanged Effect owners/2530 bytes/100
   fields and reuses323 unchanged pins. Its retained baseline.obj also checks
   AddedCallback51/4/8. Game source remains eedcea20;no type model is adopted.
@@ -343,7 +358,7 @@ repeating them. Historical assumptions remain hypotheses.
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Remaining receiver/allocation scheduling. Preserve43 matching bytes and genuine AnmLoaded/Chain interfaces. `--owner effect`. |
 | **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Packed input/seed16-bit store order. Preserve178 matching physical bytes and both exact queue members. `--owner queue`. |
 
-## Continuing reconstruction
+## Reconstruction procedure — requires explicit resumption
 
 Read [AGENTS.md](../AGENTS.md),[RE_WORKFLOW.md](RE_WORKFLOW.md),
 [ORACLES.md](ORACLES.md),the affected rows and relevant KB findings. Recover all
@@ -405,4 +420,6 @@ git diff --check
 Use full public CI for shared validation/tooling changes;documentation alone
 needs no compiler or Ghidra replay. English local commits use `gpt-6.1-sol:` and
 the identity/trailer in AGENTS.md. A local checkpoint does not prove remote
-publication. The October30 maintenance report above is historical;reconstruction is now active.
+publication. The October30 cleanup counts above are historical;the current operator
+instruction is maintenance. Later research checkpoints are retained without
+authorizing further reconstruction.

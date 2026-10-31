@@ -27522,3 +27522,59 @@ Reviewed-authored exactness remains1004/1035 functions and246651/291883 bytes
 (84.5034%). Effect AddedCallback remains nonexact51/eight;RunEcl30 and Enemy13
 remain active large fronts. The98% objective and later native/runtime/semantic/
 port gates are unfinished.
+
+
+## 2026-10-31: completed Replay compiler controls retained during maintenance
+
+Game source remains eedcea20. The retained original SaveReplay baseline is1238
+bytes/53 fields/380 instructions/49 blocks,with three linked differences at+B7,
++BB and+3F6. Sixteen primary controls and two selected independent rebuilds were
+completed before this maintenance recovery;no further compiler jobs are run.
+The packet is `.analysis/gpt-61sol-20261031-replay-standard-algorithms/`.
+
+Actual pinned VC7.1 scalar-pointer std::copy calls memmove. Replacing the32-byte
+frame-header copy produces1258 bytes/54 fields;combining it with std::accumulate
+produces1247/54. Both fail the fixed53-field original inventory. Accumulate alone
+produces1223/53,313 unequal overlaps and15 missing target bytes,with50 blocks.
+The shorter extent does not repair the original three differences. Twenty-six
+conservative reachable standard-header hashes and immutable Git/EOL recipes bind
+the inputs;this is not a complete preprocessor include trace.
+
+Four-byte runtime-pointer/file-offset slots preserve all layout assertions and
+SaveReplay raw bytes for frame-only,FPS-only and complete-slot models. Frame-only
+slots change LoadReplayData+E2 from1A to13 within LEA:the same effective address
+uses a different SIB encoding. Complete slots and FPS-only slots retain all14
+baseline regular bodies. A separate full-lifetime four-byte compressed-pointer
+interface produces1268/57 with four real calls when its class is local;the actual
+method definitions are retained without assigning invented original targets.
+The three namespace-scope counterparts inline naturally and retain all14 bodies.
+These differ from earlier checksum-only two-field span controls.
+
+Explicit32-bit address-word storage of the compressed buffer is byte-neutral.
+Payload-only and combined address-word storage change exactly SaveReplay+BB
+from19 to0B relative to baseline,leaving the same three original-bound residual
+positions. Both encode LEA EDI with the same ECX+EBX sum in reversed base/index
+roles;neither equals target. The initial assumption that every address control
+was byte-neutral failed the saved-record audit and was corrected before cleanup.
+The other13 baseline regular bodies and all53 referent fields stay unchanged.
+Actual allocator/encoder interfaces,live buffer chains,pre-copy scan,header
+layout,failure cleanup and byte-access widths are preserved. No profile or
+register hints,forced inline,assembly,padding or defensive behavior are adopted.
+
+Each primary control preserves the two configured no-EH exact owners,1684 bytes/
+110 fields. Ten other same-source owners use configured EH profiles and were
+not cold-replayed. The actual same-object formatter45/1 and original baseline
+loader591/14 are separately target-checked context proofs,not EH-profile replays.
+Independent accumulate and complete-slot rebuilds reproduce their recorded full
+outputs. The current340 verifier checks the retained original baseline and338
+unchanged source/profile/object pins,100007 summed physical bytes/4757 fields.
+This is retained existing coverage,not340 newly reconstructed functions.
+
+Maintenance removes fifteen rejected model objects and sixteen PDBs,31 files/
+2100887 logical bytes,after1041 deletion-time protected-hash checks. Preserve
+baseline.obj,current proof carriers,original target/toolchains,working Ghidra,
+all source and research records. Post-cleanup audits use retained records and
+objects without compiler replay. Cleanup receipt:packet cleanup.json.
+Reviewed-authored exactness remains1004/1035 and246651/291883 bytes(84.5034%);
+RunEcl30 and Enemy13 remain unresolved. Further reconstruction requires explicit
+operator resumption.
