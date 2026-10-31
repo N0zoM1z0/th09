@@ -3182,3 +3182,23 @@ Independent temporary outputs already self-clean;no source archive is introduced
 and build/ is absent. Post-cleanup complete saved-record/native re-link audits
 pass without compiler jobs. Receipt:
 `.analysis/gpt-61sol-20261031-supervisor-native-frame-context/cleanup.json`.
+
+## 2026-10-31: actual startup seed dependency and Replay frame-copy controls
+
+Complete WinMain/window-helper proofs pass1636 bytes/171 fields,with only two
+native RNG reference names changed and both compiler contributions/66 bytes/
+four fields preserved. The actual14-byte setter and its unchanged source/object
+pins pass first. An independent cold proposed-source replay repeats all outputs;
+three complete Replay frame-copy controls preserve both no-EH exact siblings
+but do not improve SaveReplay. Full Git/EOL,raw/COFF/literal/COMDAT records and
+recipes are audited before deleting disposable binaries.
+
+Cleanup removes nine files/674662 logical bytes:the obsolete WinMain object,
+three Replay trial objects,and five PDBs. All998 deletion-time protected hashes
+agree,including89 primary proof/diagnostic objects,all other retained objects,
+source,research,original target/toolchains and working Ghidra. Retain the adopted
+startup proposal object and original Replay baseline;independent temporary
+outputs already self-clean. No source archive is added and build/ is absent.
+Post-cleanup current359 and both complete saved-record/input audits pass without
+compiler jobs. Receipt:
+`.analysis/gpt-61sol-20261031-winmain-native-seed/cleanup.json`.

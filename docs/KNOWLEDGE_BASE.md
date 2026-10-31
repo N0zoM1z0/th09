@@ -28290,3 +28290,79 @@ Game source remains0bf38400. Supervisor952/996,RunEcl30 and Enemy13 remain open;
 exactness stays1004/1035 and246651/291883 reviewed-authored bytes(84.5034%). The
 98% objective and later Windows product/runtime,semantic and portability gates
 remain unfinished.
+
+## 2026-10-31: actual startup RNG seed dependency and Replay frame-value copies
+
+Clean686fc5bb recovery passes original Japanese1.50a disk,tracking and progress.
+The preceding goal turn is progress through new complete Supervisor constraints;
+it changes no game code. Direct Ghidra reuses the verified project and attests
+all685056 mapped file bytes before SaveReplay420C60 export071603-2194498 and
+WinMain42E3B0/SetSeed420160 export072257-2219902. Decompiler names/types remain
+provisional;complete target/COFF comparisons independently bind the results.
+
+Three complete SaveReplay models test the existing32-byte frame record as the
+actual copy unit. Typed aggregate assignment and a typed memcpy destination
+both preserve every14 baseline regular raw body/effective field and the full
+1238-byte/380-instruction/53-field/23-call/49-block owner,including the same
+three differences B7/BB/3F6. Capturing the real frame value before memcpy emits
+1254 bytes/384 instructions/53 fields/49 blocks,1030 unequal overlaps and16
+excess. Its stack allocation grows618->638(hex);all13 other raw bodies remain.
+All three preserve the two configured no-EH exact siblings,1684 bytes/110 fields
+per object. Actual literals and full owners are checked;no frame model is
+adopted,original record spelling/lifetime is not established,and no partial
+credit is assigned. Adjacent TH08's cursor loop remains hypothesis material;
+its ordering directives are not copied. Packet:
+`.analysis/gpt-61sol-20261031-replay-frame-value-copy/`.
+
+The source audit finds a separate concrete startup dependency gap. WinMain
+declares MainReplayRngView::SetSeed without an implementation and calls a private
+g_MainReplayRng projection. Original WinMain calls420160 after timeGetTime with
+ECX=4ACE0C and the existing stack seed argument. Maintained ReplayRuntimeLeaves
+already implements the complete14-byte ReplayRngView setter at that address.
+WinMain now includes its existing header,declares the existing replay RNG seed
+projection and calls that actual method. The private class/global aliases are
+removed. Seed narrowing,call order,ABI and state effects remain. Other startup
+projections,global-definition closure and original nominal RNG class remain
+open;this repairs this native dependency without inferring a full product.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| WINMAIN-NATIVE-SEED-001 | complete source preservation | WinMain1351 bytes/152 fields and its real same-TU window helper285/19 stay original-equal. Only the two RNG global/method symbols change at existing offsets1C0/1C5. | baseline.json;proposal.json;field-migrations.json;strict public comparison |
+| WINMAIN-NATIVE-SEED-002 | actual native producer proof | The implemented setter reproduces all14 original bytes/zero fields. Its unchanged four-owner native carrier totals39 bytes/zero fields and is reused after source/profile/object binding. | native_seed_proof;existing ReplayRuntimeLeaves source/object |
+| WINMAIN-NATIVE-SEED-003 | compiler contribution preservation | Both emitted compiler COMDATs retain66 complete bytes/four fields/two entries and their private data. No extra authored boundary or credit is inferred. | compiler-contributions.json;independent-reproduction.json |
+| WINMAIN-NATIVE-SEED-004 | actual obsolete-reference rejection | The old object has identical code bytes but the strict current comparator rejects its two private native references. | old-alias-rejection.json |
+
+One pre-edit and one proposed WinMain carrier are cold-built under its existing
+Ob0 profile. All seven quoted inputs reproduce from immutable686fc5bb Git/EOL
+bytes plus the small source transform. The proposal's staged bytes equal the
+adopted source,so its object becomes current without a redundant build. One
+independent Git/EOL cold replay repeats both regular bodies,all171 fields,the
+compiler contributions and complete original equality. No private label is
+renamed;the manifest otherwise preserves every target,offset,type,addend,extent,
+profile and credit property. Three Replay and three startup compiler jobs run
+serially,on one CPU,nice10,with180-second bounds. No forced inline,new qualifier,
+register/variable-order hint,assembly,padding or profile search is used.
+
+Current proof:`.analysis/gpt-61sol-20261031-winmain-native-seed/current.py`.
+It strictly verifies two affected existing units/1636 physical bytes/171 fields
+and reuses357 unchanged source/profile/object-bound units,combining359 units/
+109976 summed physical bytes/5388 fields. These include excluded units and add
+no authored credit;the four native leaves already occur in the reused subset.
+The previous parameter-field357 verifier remains current for its subset. All15
+focused Replay seed/save tests pass. Public tracking,documentation,generated
+progress and whitespace checks apply;shared validation code is unchanged.
+
+After all producers terminate,cleanup removes nine files/674662 logical bytes:
+the old WinMain object,three completed Replay objects,and five PDBs. All998
+deletion-time protected hashes agree,including89 primary proof/diagnostic objects,
+all other retained objects,source,research,target/toolchains and working Ghidra.
+Keep the adopted startup object,original Replay baseline,immutable recipes,
+full raw/COFF/literal/COMDAT records and logs. Independent temporary outputs
+already self-clean;no source archive is added and build/ is absent. Post-cleanup
+359 checks and both saved-input/complete-code audits pass without compiler jobs.
+Cleanup receipt:winmain-native-seed/cleanup.json under.analysis/.
+
+SaveReplay stays three differences,RunEcl30 and Enemy13 remain unresolved,and
+authored exactness stays1004/1035 and246651/291883 bytes(84.5034%). The98%
+objective and later Windows product/runtime,semantic and portability gates
+remain unfinished.

@@ -11,6 +11,7 @@
 #include "Midi.hpp"
 #include "SupervisorNetworkState.hpp"
 #include "ZunMemory.hpp"
+#include "ReplayRuntimeLeaves.hpp"
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -46,12 +47,6 @@ class MainChainReleaseView
 {
   public:
     void Release();
-};
-
-class MainReplayRngView
-{
-  public:
-    void SetSeed(unsigned short seed);
 };
 
 #pragma pack(push, 4)
@@ -111,7 +106,7 @@ extern MainSoundPlayer g_MainSoundPlayer;
 extern MainAnmManager *g_MainAnmManager;
 extern MidiOutput *g_MainMidiOutput;
 extern MainChainReleaseView g_MainChain;
-extern MainReplayRngView g_MainReplayRng;
+extern ReplayRngView g_ReplayRng;
 extern ZunMemory g_ZunMemory;
 extern GameErrorContext g_GameErrorContext;
 
@@ -277,7 +272,7 @@ restart:
     g_MainAnmManager = (MainAnmManager *)g_ZunMemory.AddToRegistry(
         new MainAnmManager, sizeof(MainAnmManager), (char *)"SprtCtrlInf");
 
-    g_MainReplayRng.SetSeed((unsigned short)timeGetTime());
+    g_ReplayRng.SetSeed((unsigned short)timeGetTime());
     CoInitializeEx(NULL, 0);
 
     g_SupervisorNetworkState =

@@ -7,23 +7,28 @@ checkpoint559ccf7c. Continue the unfinished98% reviewed-authored-byte milestone,
 prioritizing complete RunEcl and Enemy update while keeping small leaves in
 scope. Earlier maintenance and stop instructions are historical checkpoints.
 
-Current game-source checkpoint **0bf38400** recovers the interpolation slot's
-callbackIndex14 and four float parameters1C from the native installer and both
-native consumers. EclManager and EclHelpers now access that shared array directly;
-the source-only SlotParameters pointer adapter is removed. The slot0x30/context0x22C
-layouts remain. Preceding game-source checkpoint **35d9d780** defines the eight
-native callback slots;**c0e8a0b9** shares Charge SHT fields;a3e4aaee unified LZSS.
+Current game-source change: WinMain now calls the existing ReplayRngView::SetSeed
+implementation and uses its existing replay RNG projection at4ACE0C. The undefined
+MainReplayRngView method/private global declarations are removed. The14-byte native
+setter is separately original-equal;both actual field migrations preserve the
+same addresses,addends,offsets and transport. Other startup/global projections
+and full product linkage remain open.
 
-Strict affected replay passes87 existing code units/31660 physical bytes/1520
-fields across six configured source/profile carriers;270 unchanged pins are
-reused. The combined subset remains357 units/108340 bytes/5217 fields,including
-excluded units. All284 retained regular bodies/103373 bytes/4726 effective fields
-preserve their code and referent identities. Only311 verified private labels
-rename at unchanged destinations. The discarded four-byte adapter has no
-nondebug incoming field and no original owner. No authored credit is added.
-RunEcl remains15564/598/30 and Enemy3900/97/13. The32-byte table prefix/eight
-same-object fields and Linear74/3,Hermite188/9 remain original-equal.
-Current proof: `.analysis/gpt-61sol-20261031-ecl-interpolation-parameters/`.
+Strict affected replay preserves two existing units/1636 bytes/171 fields:
+WinMain1351/152 and CreateGameWindow285/19. Their raw bytes remain identical;
+two complete compiler contributions/66 bytes/four fields also remain. Four
+unchanged native leaves/39 bytes pass without cold compilation.357 unchanged
+source/profile/object pins produce359 combined units/109976 bytes/5388 fields,
+including excluded units;no new authored credit is added.
+Current proof: `.analysis/gpt-61sol-20261031-winmain-native-seed/`.
+
+Preceding game-source checkpoint **0bf38400** recovers the interpolation slot's
+callbackIndex14 and four float parameters1C. Installer and both native consumers
+share that array directly;slot0x30/context0x22C remain. Its357-unit proof remains
+current for its subset and feeds this checkpoint. Earlier35d9d780 defines the
+eight native callbacks,c0e8a0b9 shares SHT Charge fields,and a3e4aaee unified LZSS.
+RunEcl stays15564/598/30 and Enemy3900/97/13;the interpolation table prefix and
+both native functions remain original-equal.
 
 Two complete actual EclHelpers-before/after-EclManager contexts at088f04ac also
 preserve all138 baseline bodies/50066 bytes/2097 effective fields,75 existing
@@ -57,6 +62,14 @@ but emit1000 bytes versus996,with562 unequal overlaps and51 damaged prior
 matches. The other restart/result graphs also fail. No source or credit changes.
 Packet: `.analysis/gpt-61sol-20261031-supervisor-native-frame-context/`.
 
+Latest complete SaveReplay data-copy controls: typed32-byte frame assignment
+and typed memcpy destination preserve every14 baseline regular body and the
+1238/53/three-difference owner. Capturing the actual frame value first emits
+1254 bytes/384 instructions/53 fields/49 blocks,1030 unequal overlaps and16
+excess;other13 bodies remain raw-equal. Both no-EH exact siblings pass in all
+three models. None is adopted. Research:
+`.analysis/gpt-61sol-20261031-replay-frame-value-copy/`.
+
 ## Source and evidence routing
 
 Start with the live manifests and current proof subset,not a dated experiment's
@@ -65,15 +78,16 @@ object path. Proof reuse requires matching source,profile and object hashes.
 - Canonical inventory: `config/functions.csv`,`config/function-origins.csv`,
   `config/matches.csv` and `config/match-units.toml`.
 - Current retained subset:
-  `.analysis/gpt-61sol-20261031-ecl-interpolation-parameters/current.py` checks357 units/
-  108340 summed physical bytes/5217 fields. It strictly compares87 affected
-  units/31660 bytes/1520 fields and reuses270 unchanged source/profile/object pins.
-  These357 include excluded units;they are not the1004 authored exact ledger
-  entries. Its `current.json` identifies87 retained proof objects,including
-  auxiliary owners. Its extra_diagnostics also pins the unchanged Front baseline;
-  nine additional historical/diagnostic objects remain.
-- The preceding interpolation-table packet's `current.json` supplies the unchanged
-  270 pins;earlier357/353/344/323/297/251 combined verifiers are historical bundles.
+  `.analysis/gpt-61sol-20261031-winmain-native-seed/current.py` checks359 units/
+  109976 summed physical bytes/5388 fields. It strictly compares two affected
+  units/1636 bytes/171 fields and reuses357 unchanged source/profile/object pins.
+  These359 include excluded units;they are not the1004 authored exact ledger
+  entries. Its current.json identifies88 retained proof objects including
+  auxiliary owners,and also pins the unchanged standalone Front diagnostic.
+  Nine additional historical/diagnostic objects remain.
+- The preceding parameter-field packet's current.json supplies357 unchanged pins
+  and remains current for that subset. Older357/353/344/323/297/251 bundles are
+  source-scoped historical verifiers.
   Their unchanged individual groups may feed current pins,but a historical
   whole verifier is not automatically current. Missing discarded trial objects
   are expected;rebuild a needed candidate from its recipe before comparison.
@@ -92,9 +106,9 @@ object path. Proof reuse requires matching source,profile and object hashes.
   at+30364..3036F from the homing pointer at+3037C;Stage D resets only the
   position. The intervening twelve bytes have a separate reset and an unknown
   role. Consult the source and KB for the bounded layouts and exact ABIs.
-- The standalone Front weighted baseline is additional to the87 canonical proof
-  objects;the current357-unit receipt also records its unchanged source/object pins.
-- Native source-bound diagnostics outside the current357 remain useful:
+- The standalone Front weighted baseline is additional to the88 canonical proof
+  objects;the current359-unit receipt also records its unchanged source/object pins.
+- Native source-bound diagnostics outside the current359 remain useful:
   network input131/1 in `network-input-contract/native-int.obj`,playfield116/6
   in `enemy-playfield-context/native-playfield.obj`,and Supervisor's952-byte
   baseline in `supervisor-state-branches/baseline.obj`. Packet names here use
@@ -247,6 +261,14 @@ behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 ## Maintenance and validation
 
 Latest cleanup receipt:
+`.analysis/gpt-61sol-20261031-winmain-native-seed/cleanup.json`.
+Nine completed compiler files/674662 logical bytes are removed:the obsolete
+WinMain baseline object,three rejected Replay objects,and five PDBs. All998
+protected hashes remain equal;89 primary proof/diagnostic objects,other retained
+objects,source,research,target/toolchains and working Ghidra remain. Build/ is
+absent. The selected independent startup replay already self-cleans.
+
+Preceding Supervisor cleanup receipt:
 `.analysis/gpt-61sol-20261031-supervisor-native-frame-context/cleanup.json`.
 Twenty completed trial OBJ/PDB files/1623510 logical bytes are removed after
 ten full controls and one selected independent cold replay. All997 protected
@@ -307,7 +329,7 @@ validation of this checkout.
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/validate-docs.py
 python3 -B scripts/progress.py --check
-python3 -B .analysis/gpt-61sol-20261031-ecl-interpolation-parameters/current.py
+python3 -B .analysis/gpt-61sol-20261031-winmain-native-seed/current.py
 git diff --check
 ```
 
