@@ -28078,3 +28078,63 @@ stale carriers and six current PDBs. All982 deletion-time protected hashes remai
 equal. No source archive is created and build/ remains absent. Use current.py for current source bindings,
 audit.py for Git/EOL reproduction,and the public table inspector for the bounded
 source-table/native-body comparison. Older whole verifiers remain source-scoped.
+
+## 2026-10-31: Front selected-value publication and full scan-operation controls
+
+Recovery at35d9d780 is clean;the preceding turn is progress through the adopted
+native ECL interpolation table. Original Japanese1.50a target,tracking and status
+pass. Direct Ghidra reuses the working project and attests all685056 file-backed
+mapped bytes before exporting complete Front4162D0 at
+export-20261031T062554-1996519. Its original693-byte extent,206 instructions,
+15 fields,six calls and40 blocks remain. Game source and public tools do not change.
+
+Historical entry-predicate/loop-exit controls are reviewed before testing the
+actual selected value's publication and full scanning operation. The previous
+weighted baseline object is absent after cleanup;one fresh pinned build restores
+a source/profile/object-bound current diagnostic,not a claim of lost canonical
+proof. It reproduces693 bytes,205 instructions,15 fields,six original calls,
+41 blocks,351 unequal linked bytes and no missing/excess bytes. Unchanged357
+canonical source/profile/object pins remain valid without cold compilation.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| FRONT-PUBLICATION-001 | byte-neutral complete control | Selecting the fallback index with a conditional expression preserves all693 raw bytes and15 actual field identities. | conditional-index.json;baseline.json |
+| FRONT-PUBLICATION-002 | rejected complete controls | Positive-validity and inverted split pointer publication both emit the same718-byte body/15 fields/45 blocks with605 linked differences and25 excess bytes. | positive-validity-fixed.json;split-publication-fixed.json |
+| FRONT-PUBLICATION-003 | rejected complete control | Conditional pointer publication emits729/15/45,607 linked differences and36 excess bytes. | conditional-publication.json |
+| FRONT-SCAN-OPERATION-001 | rejected full-owner extents | One shared ordinary inline scan or two distinct scans both produce542-byte roots/15 original fields/six native calls. Actual helper uses inline;57-byte or43/47-byte unused definitions are emitted without assigning original owners. | shared-scan-operation.json;distinct-scan-operations.json |
+| FRONT-SCAN-OPERATION-002 | rejected extra boundary | A fixed210..219 fallback operation emits500 bytes/16 fields and adds one actual positive same-object call to a53-byte source-only helper. No original address is invented for it. | fixed-fallback-operation.json;audit.json |
+
+The generic operations consume the table,bounds and random value and return the
+selected index;they preserve RNG placement and pointer-before-count predicate
+order. Neither a missing helper call nor a smaller root is treated as exactness.
+The original and baseline fallback windows contain five repeated pointer tests;
+the two542-byte roots contain one. Saved actual instruction windows bound that
+observation. These do not establish a universal compiler pass ordering or the
+original API. The unmodified public inspector rejects all542/500-byte roots at
+its complete-body/field gate;no full linked score or partial credit is assigned.
+
+There are ten serial,single-CPU,nice10,180-second-bounded compiler jobs:eight
+successful captures including baseline,and two renderer failures. An unanchored
+publication replacement also inserts a label inside an if/else,causing C2181
+or duplicate-label C2045 before any object comparison. Corrected cases anchor
+only the common publication;the invalid source renderings remain reproducible
+and are not negative game-source observations. All12 quoted inputs and each
+staged source hash reproduce from immutable35d9d780 Git/EOL bytes. Literal
+payloads,actual native field order and helper-reference provenance are audited.
+No qualifier,forced inline,register/variable-order hint,padding,profile search,
+assembly,target patch or acceptance-rule change is introduced.
+
+Packet: `.analysis/gpt-61sol-20261031-front-selected-publication/`. `current.py`
+checks the retained693-byte baseline and unchanged357 proof pins;`audit.py`
+checks immutable inputs and complete saved observations. Only the baseline
+object is retained;the cleanup receipt removes17 completed compiler files/599480
+logical bytes:seven rejected objects and ten PDBs. All979 deletion-time protected
+hashes remain equal,including88 current proof/diagnostic objects. Research,source,target/toolchains and
+working Ghidra remain;no old source tree or archive is created. Public tracking,
+documentation,progress and whitespace checks close this research checkpoint.
+No runtime/prefix matrix is repeated or new whole-runtime claim made.
+
+The tested models are finite negatives,not evidence that all natural source
+models are exhausted. Front remains351,RunEcl30 and Enemy13;authored exactness
+remains1004/1035 and246651/291883 bytes(84.5034%). The98% objective and later
+native-product/runtime/semantic/portability gates remain unfinished.

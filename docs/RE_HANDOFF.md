@@ -29,6 +29,14 @@ bindings. Their unaffected individual proofs may be reused;their whole current
 verifiers are not current after the ECL header update. See the KB for observations,
 immutable-input recipes and preserved limitations.
 
+Latest bounded Front result: complete selected-index/publication and whole-scan
+controls retain or regress the693-byte weighted picker;none is adopted. Current
+source remains at35d9d780. The new standalone baseline in
+`.analysis/gpt-61sol-20261031-front-selected-publication/` is693/15/6 with351
+linked differences and41 versus40 blocks. Its current.py verifies source/profile/
+object bindings and reuses the unchanged357 code-unit pins. See the latest KB
+note for measured boundaries;this does not change exactness credit.
+
 ## Source and evidence routing
 
 Start with the live manifests and current proof subset,not a dated experiment's
@@ -63,6 +71,8 @@ object path. Proof reuse requires matching source,profile and object hashes.
   at+30364..3036F from the homing pointer at+3037C;Stage D resets only the
   position. The intervening twelve bytes have a separate reset and an unknown
   role. Consult the source and KB for the bounded layouts and exact ABIs.
+- The standalone Front weighted baseline above is additional to the87 objects
+  listed by the357-unit receipt;keep both its object and source-bound record.
 - Native source-bound diagnostics outside the current357 remain useful:
   network input131/1 in `network-input-contract/native-int.obj`,playfield116/6
   in `enemy-playfield-context/native-playfield.obj`,and Supervisor's952-byte
@@ -216,6 +226,13 @@ behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 ## Maintenance and validation
 
 Latest cleanup receipt:
+`.analysis/gpt-61sol-20261031-front-selected-publication/cleanup.json`.
+Seventeen completed compiler files/599480 logical bytes are removed:seven
+rejected objects and ten PDBs. All979 deletion-time protected hashes remain equal.
+The new standalone Front baseline plus87 prior proof objects remain,along with
+source,research,target/toolchains and the working Ghidra project.
+
+Preceding interpolation-table cleanup receipt:
 `.analysis/gpt-61sol-20261031-ecl-interpolation-table/cleanup.json`.
 Nine compiler files/1416445 logical bytes are removed after complete proofs:
 three superseded carriers and six generated PDBs. All982 deletion-time protected
