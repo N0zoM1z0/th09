@@ -3853,14 +3853,12 @@ def run_exattack_controller(*, protect_exact: bool,
 
 
 TITLE_DRAW_RESULT_SHA256 = '92279dc6d2b9ad5051fb902e6172d88eb7f9febe460d44459f16af0f45c74b0a'
-TITLE_DRAW_RESULT_RESIDUAL_WINDOWS = ((0x0E, 0x25, 21), (0x39, 0x3A, 1))
+TITLE_DRAW_RESULT_RESIDUAL_WINDOWS = ((0x1D, 0x1E, 1), (0x23, 0x24, 1),
+                                       (0x39, 0x3A, 1))
 # Complete SHA-pinned 1,939-byte DrawResult PE/COFF physical residuals.
-# +0x13 and +0x18 were ALREADY equal inside the first residual window.
-# The other 1,917 bytes (including both positions) cannot regress.
-TITLE_DRAW_RESULT_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
-    0x0E, 0x0F, 0x10, 0x11, 0x12, 0x14, 0x15, 0x16, 0x17, 0x19, 0x1A,
-    0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24, 0x39,
-))
+# The original 22-byte entry/snapshot ordering residual has narrowed to three
+# register-encoding bytes. Preserve the other 1,936 physical bytes.
+TITLE_DRAW_RESULT_ORIGINAL_RESIDUAL_OFFSETS = frozenset((0x1D, 0x23, 0x39))
 
 
 def guard_title_draw_result(result: dict) -> None:
@@ -3894,7 +3892,7 @@ def guard_title_draw_result(result: dict) -> None:
             result.get('paired_branch_conflicts') != [] or
             result.get('unpaired_branch_destinations', 2) > 1 or
             type(result.get('complete_differences')) is not int or
-            not 0 <= result['complete_differences'] <= 22):
+            not 0 <= result['complete_differences'] <= 3):
         raise RuntimeError('Title DrawResult 1939-byte/82-field/16-call/92-block frontier drifted')
     # Noncrediting future narrowing is allowed only within these *actual*
     # unbound source-mismatched original byte positions. Preserve the entire

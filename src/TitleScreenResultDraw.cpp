@@ -3,6 +3,9 @@
 
 #include <stddef.h>
 
+extern "C" void __cdecl _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int i32;
@@ -102,6 +105,9 @@ int TitleScreenView::DrawResult()
     u32 alphaColor;
 
     scoreGroup = g_TitleScoreTable[nameBankIndex];
+    // Keep the following screen snapshot after the score-table pointer store.
+    // VC7.1 emits no machine instruction for this compiler-only memory barrier.
+    _ReadWriteBarrier();
 
     if (currentScreen == 13)
     {
