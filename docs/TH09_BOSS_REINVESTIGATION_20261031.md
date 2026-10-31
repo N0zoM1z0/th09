@@ -22,10 +22,36 @@ will reproduce VC7.1's global register allocation. The current maintained
 JUMP bytes and 23 timeout-opcode bytes. The behavior guards remain
 non-crediting and cover 90 JUMP combinations and 3,072 timeout-bit cases.
 
-Rejected direct-operand and direct masked-XOR source variants caused large
-owner-wide changes (one IDA-shaped combined trial produced 2,060 ordinary
-bytes, 242 relocation-field bytes, and 26 table bytes of difference). They
-were restored rather than weakening the checker or retaining a regression.
+### Isolated source-shape trials (all rejected and restored)
+
+The opcode 4 target sequence is `mov ecx,[ebx+0x0C]; push ecx; mov
+ec x,[edi+0x2CE0]; add ecx,8; call 0x00401500`. The maintained C++ form
+emits the same call and timer semantics, but allocates the argument in EAX and
+orders the push after loading the timer object. Testing `register int value`
+did not change the 30-byte residual. Replacing the `memcpy` load with a direct
+operand expression, or initializing from `RawInt`, increased the residual to
+42 ordinary bytes; neither was retained.
+
+For opcode 155, the target loads the byte with `movzx ecx,[ebx+0x0C]`, keeps
+the old flags in ESI, performs the masked XOR, and stores the result through
+EDI. The following experiments did not preserve the owner:
+
+- A direct `RawByte` expression with explicit shifted-value/old-flags locals
+  produced 2,048 ordinary differences, 242 relocation-field differences, and
+  26 switch-table differences.
+- A combined IDA-shaped direct-operand trial produced 2,060 ordinary, 242
+  relocation-field, and 26 switch-table differences.
+- Inline assembly and `_emit` raw bytes both produced 1,901 ordinary, 201
+  relocation-field, and 25 switch-table differences. The opcode-specific
+  semantic audit correctly refused to run because the original full RunEcl
+  owner layout was no longer present.
+- A pre-shifted helper signature and explicit new/old flag locals retained the
+  baseline 30-byte residual without reducing it.
+
+All such experiments were restored. The owner inspector and semantic guards
+were not weakened. These results indicate that the remaining mismatch is
+coupled to VC7.1's whole-switch register allocation and local ownership, not
+just the arithmetic expression in either case.
 
 ## EnemyManager::OnUpdate: independently rechecked special attack branch
 
@@ -51,7 +77,10 @@ with three explicit scalar locals moved the native RunEcl call relocation in
 the shared object from candidate offset `0x397` to `0x399`; the owner inspector
 correctly rejected that layout. Replacing the duplicate manager view with the
 public `EnemyManagerView` type, and testing a separate TU, did not reduce the
-13-byte residual. Those experiments were restored.
+13-byte residual. Removing the local descriptor alias and writing directly
+through `storage.descriptor` produced an OnUpdate object byte-identical to the
+baseline (3,900/3,900 bytes), so it was not a codegen improvement. Those
+experiments were restored.
 
 ## Restored live baseline
 
