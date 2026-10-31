@@ -37,6 +37,20 @@ constructors and0x228/0x2A4 extents remain. Its189 affected builds and519 proved
 private labels are source-scoped history;all but its two Setup carriers feed the
 current receipt. Original nominal classes and full product closure remain open.
 
+Latest complete ECL/Enemy source-context batch uses the real descriptor
+constructor,Effect InitializeEffect/SpawnEffect,Etama primary/single-bullet/copy
+path and actual Float3 multiply/subtract-assignment definitions. Seven valid
+contexts preserve all138 baseline bodies/50066 bytes/2097 effective fields and
+RunEcl30/Enemy13. Three periodic joint contexts preserve137 bodies and every
+baseline field but retain Enemy45. All ten keep75 exact siblings and prove their
+one-to-nine added complete native owners plus positive same-object edges.
+Two selected independent joint replays reproduce both outcomes;no context is
+adopted.85 main inputs plus one math input bind df05447b. Research:
+`.analysis/gpt-61sol-20261031-ecl-spawn-producer-graph/`.
+The completed batch deletes only ten trial objects and16 PDBs,5640493 bytes;
+all1135 deletion-time protected hashes agree. Its frozen-input post-cleanup
+audit passes and the current679-unit receipt is unchanged. Build/ stays absent.
+
 Preceding game-source checkpoint **e07e24a5** connects RunEcl's clear operation
 to the implemented392-byte/six-field shared-manager method. Its full before/
 after-main clear visibility controls remain30/13. **4de82bfe** is a subsequent

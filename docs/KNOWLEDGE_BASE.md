@@ -28751,3 +28751,100 @@ research,recipes,40 immutable inputs,complete raw/COFF/compiler records,logs,
 new attested export,original target/tools and working Ghidra. No source archive
 is added;build/ is absent. Post-cleanup immutable-input and current679 checks
 pass without compiler jobs.
+
+
+## October 31: complete ECL/Enemy spawn-producer and vector-consumer contexts
+
+Recovery starts clean atdf05447b. The preceding goal turn is progress:three
+cleanup aliases become implemented native methods while retaining all11 affected
+exact units. Original Japanese v1.50a disk/tracking/status pass. Fresh direct
+Ghidra reuses the project and attests all685056 file-backed mapped bytes before
+exporting complete RunEcl4086C0 and Enemy410730. No database or target patch is
+made. The current source/profile/object-bound ECL baseline is reused,not cold-
+rebuilt:138 regular bodies/50066 physical bytes/2097 effective fields.
+
+The new models expose complete actual producer definitions,not declarations or
+invented wrappers:the28-byte descriptor constructor;Effect InitializeEffect407
+and SpawnEffect184;Etama primary203,single-bullet1893 code/1932 complete physical
+bytes and VM-copy16;then actual Float3 multiply52/subtract-assignment36. The
+single-bullet physical proof includes its alignment and nine-entry table.
+The real33-byte periodic predicate supplies the final joint controls. Every
+new native definition and positive same-object edge is verified. No profile,
+ABI,source operation,variable/register-order hint,qualifier,forced inline,
+assembly,padding or native data layout is changed. Complete helper bodies are
+hypotheses about co-visibility;they do not establish original TU ownership.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-SPAWN-GRAPH-001 | compiler observation | Descriptor constructor before main retains RunEcl30/Enemy13. | One build;one added native owner/28 physical bytes/zero fields. |
+| ECL-SPAWN-GRAPH-002 | compiler observation | Effect initializer and spawn before main retain30/13. | One build;two native owners/591 bytes/19 fields. |
+| ECL-SPAWN-GRAPH-003 | compiler observation | Etama primary,single and VM copy before main retain30/13. | One build;three native owners/2151 bytes/51 fields. |
+| ECL-SPAWN-GRAPH-004 | compiler observation | Joint producer graph before/after main retains30/13. | Two builds;six native owners/2770 bytes/70 fields in each. |
+| ECL-SPAWN-GRAPH-005 | compiler observation | Joint graph plus multiply/subtract assignment before/after main retains30/13. | Two builds;eight native owners/2858 bytes/71 fields in each. |
+| ECL-SPAWN-GRAPH-006 | rejected caller context | Joint graph plus periodic predicate before/after main retains30/45. | Two builds;seven native owners/2803 bytes/70 fields in each. |
+| ECL-SPAWN-GRAPH-007 | rejected caller context | Joint graph plus both vector consumers and periodic predicate retains30/45. | One build;nine native owners/2891 bytes/71 fields. |
+
+All ten valid contexts retain75 existing complete canonical siblings,22463
+physical bytes/990 fields per build. Seven preserve every138 baseline regular
+body and effective field. The three periodic contexts change only Enemy's raw
+body;its complete3900 bytes/97 fields/69 calls/170 blocks and all baseline
+binding identities remain. All other137 bodies stay equal. RunEcl remains
+15564/598/30 with zero field/table drift in every context. No missing or shifted
+producer extent is accepted,none of the models is adopted,and no partial-owner
+or additional authored exactness credit is created.
+
+In the extracted single-bullet body,four DIR32 fields at2C7/2F9/307/361 naturally
+refer to compiler __real constants instead of native private kTwoPi/kPi symbols.
+The review first verifies the original data cells' exact40C90FDB/40490FDB float
+payloads and the actual compiler symbol identities,then runs the complete1932-
+byte/47-field comparison and literal-definition checker. Every code byte,table,
+field position,kind,addend and target referent remains bound. This private data-
+symbol adaptation does not change canonical manifests or permit arbitrary alias
+mapping. Ordinary public exact acceptance remains unchanged.
+
+Eight constructor-containing contexts also emit an aux-less,three-byte default
+constructor for the real descriptor payload,raw8BC1C3,with zero fields and zero
+nondebug references. It has no assigned original address or ownership. This is
+recorded separately from the regular source bodies;the preexisting38-byte/zero-
+field compiler contribution remains unchanged. An initial overly strict audit
+expected identical contribution sets and stops before any cold compile;its
+failure record remains. The corrected audit checks the complete additional
+contribution and its absent references rather than dropping it from coverage.
+
+Six initial before-context stages fail compiler exit2 because extraction first
+omits the real global RNG declaration,then the original RuntimeAngleMath header
+(three stages each). Their original sources,hashes and logs remain reproducible;
+they are stage failures,not negative code-generation results. The final closed
+prelude uses those exact existing declarations and yields the valid controls
+above. A first independent run passes all actual definitions,75 siblings and
+eight native proofs but its report comparison includes the different temporary
+object pathname;its log/failure record remain. The corrected audit validates
+each actual path separately and compares every other diagnostic field.
+
+Two completed independent frozen-input cold replays reproduce joint-math and
+joint-periodic-math completely:146/147 regular bodies,all actual fields,8/9
+complete added native owners,both original-bound diagnostics and both compiler
+contributions. The unchanged production Enemy guard accepts the13-difference
+control and rejects45;the regression is never recast as success. This batch
+uses19 actual compiler executions:ten valid controls,six failed extraction
+stages,one initial audit compile and two completed independent replays. All
+are serial,nice10,on one allowed CPU with180-second bounds. No full cold cohort
+runs. Evidence:.analysis/gpt-61sol-20261031-ecl-spawn-producer-graph/ retains85
+immutable main inputs plus one math input bound todf05447b via Git/EOL records,
+recipes,full raw/COFF/literal/edge/compiler records and all logs. The complete
+spawn graph and tested vector consumers do not explain the remaining transport
+and descriptor-copy choices;this is bounded evidence,not an impossibility claim.
+
+Game source,headers,profiles,manifests and ledgers remain unchanged. Current
+679-unit source/profile/object proof reuse stays valid. Authored exactness
+remains1004/1035 and246651/291883 bytes(84.5034%);98% and the later Windows
+product/runtime,semantic and port gates remain unfinished.
+
+After all owned producers terminate,the bounded cleanup deletes26 compiler
+files/5640493 logical bytes:ten reviewed model objects and16 PDBs. All1135
+deletion-time protected hashes remain equal. Keep all231 current primary proof
+objects,nine additional historical/diagnostic objects,all research,recipes,
+86 immutable input bindings,full raw/COFF/literal/edge/compiler records,logs,
+the new attested export,original target/tools and working Ghidra. No source
+archive is added;build/ remains absent. The post-cleanup model audit passes
+without another compiler run;the current679-unit receipt also remains valid.
