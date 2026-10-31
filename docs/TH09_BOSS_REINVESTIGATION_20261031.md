@@ -24,8 +24,8 @@ non-crediting and cover 90 JUMP combinations and 3,072 timeout-bit cases.
 
 ### Isolated source-shape trials (all rejected and restored)
 
-The opcode 4 target sequence is `mov ecx,[ebx+0x0C]; push ecx; mov
-ec x,[edi+0x2CE0]; add ecx,8; call 0x00401500`. The maintained C++ form
+The opcode 4 target sequence is `mov ecx,[ebx+0x0C]; push ecx;
+mov ecx,[edi+0x2CE0]; add ecx,8; call 0x00401500`. The maintained C++ form
 emits the same call and timer semantics, but allocates the argument in EAX and
 orders the push after loading the timer object. Testing `register int value`
 did not change the 30-byte residual. Replacing the `memcpy` load with a direct
