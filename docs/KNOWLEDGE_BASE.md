@@ -27331,3 +27331,93 @@ Global exactness remains1004/1035 reviewed authored functions and
 246651/291883 bytes (84.5034%). RunEcl30 and Enemy13 remain the priority unresolved
 large owners for the98% objective; this interface repair does not reduce those
 differences. Product/runtime/dual-Oracle semantics/port gates remain unfinished.
+
+
+## 2026-10-31: finish the packed64 Enemy flag-pair layout question
+
+Game source remains **eedcea204af5cc97bcc3820a28ac0e10666f3033**. The preceding
+Bullet source/diagnostic checkpoint is progress. Recovery is clean. Original
+Japanese1.50a identity, direct local Ghidra Program/i386/base/entry and all685056
+file-backed mapped bytes pass before exporting4086C0 and410730. Export:
+`.analysis/ghidra-direct/export-20261031T003240-994546/`. No Program metadata or
+target bytes are written. Actual current ECL baseline source/profile/object pins
+match the current323 packet; its15564/598/30 RunEcl and3900/97/13 Enemy results
+are reused without cold-building the whole historical cohort.
+
+An earlier unsigned-__int64 flag-pair model failed layout assertions because
+its default alignment moved the original337C field to3380. That was no codegen
+result for a layout-compatible64-bit allocation. Four new controls explicitly
+limit the flag-pair type's alignment to four bytes, then restore the surrounding
+packing. This is a private data-representation hypothesis, not evidence of an
+original packing directive or a compiler-profile change. The existing sizes and
+all original field offsets remain compile-time gates, including5430-byte Enemy,
+primary337C, secondary3380 and draw-group3387. All four compile successfully.
+
+The type covers an eight-byte container over the real adjacent primary/secondary
+DWORDs. Two variants leave the upper half as allocation padding; two explicitly
+name the upper32 bits as unknown. In each pair the existing unsigned-word timeout
+helper is retained or its actual byte input is assigned to the native timeout
+bitfield. All other state bitfields use this actual64-bit allocation. The input
+remains a one-byte read, other flags are preserved, and the genuine timer ABI,
+source operations and canonical ECL profile stay. No inert code/storage,
+register/variable-order hint, fake return, assembly or target patch is added.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-PACKED-FLAGPAIR-001 | rejected complete control | Helper:15624 bytes/598 fields;75 exact siblings;full extent/input shape rejects. | packed64-helper.json |
+| ECL-PACKED-FLAGPAIR-002 | rejected complete control | Native:15612 bytes/598 fields;75 exact siblings;full extent/input shape rejects. | packed64-native.json |
+| ECL-PACKED-FLAGPAIR-003 | compiler observation | Named upper half with helper:15624/598;75 siblings;all regular raw bodies equal helper. | packed64-full-helper.json |
+| ECL-PACKED-FLAGPAIR-004 | compiler observation | Named upper half with native:15612/598;75 siblings;all regular raw bodies equal native. | packed64-full-native.json |
+
+The baseline is15564 bytes. Only RunEcl raw code changes among common regular
+bodies. Helper controls retain all138 regular definitions; native controls omit
+the unused16-byte AssignTimeoutSpellBit definition and retain137. No original
+boundary or authored credit is assigned to that source-only helper. Enemy's
+complete3900 raw bytes and all97 effective fields remain unchanged, including
+actual local-label destinations despite spelling/section-number drift. Its
+public dependent diagnostic correctly rejects the incomplete native RunEcl
+inventory; no positive candidate Enemy score is manufactured from raw equality.
+Compiler contributions remain unchanged. Four controls each preserve75 exact
+same-profile siblings/22463 physical bytes/990 fields.
+
+The new codegen result is distinct from the earlier layout failure. Native
+bitfield updates read/write the adjacent secondary DWORD at Enemy+3380 while
+updating the primary+337C word. For example, the native timeout physical span
+is64 versus original45 bytes and includes both a read and write of+3380; the
+helper timeout span remains45, but other native flag updates still enlarge the
+complete owner by60 bytes. Original corresponding flag updates do not perform
+those secondary-word accesses. Defining versus leaving unknown the upper half
+is raw-neutral within each pair. These facts reject these four tested models;
+they do not prove all64-bit representations impossible or identify original types.
+
+The private audit binds external symbols only from the independently audited
+baseline's original destinations, verifies complete external multiplicities and
+ordered direct-call symbols, checks actual literal payloads, decodes the entire
+actual code extent and resolves every table destination from its real COFF
+section/value/addend. The contiguous193-entry run is six easing entries followed
+by187 opcode entries (opcodes1..187), not193 opcodes. Candidate labels are never
+rebased to original positions. Recorded entry-to-next-entry spans are physical
+ranges and may share execution tails; they are not separate owned functions or
+acceptance scores. Strict public complete-owner guards are unchanged.
+
+All four source input sets reproduce from immutable ad5f4fce Git/EOL inputs plus
+the recorded transformation. One independent packed64-full-native cold rebuild
+repeats all regular raw bodies, actual fields, compiler contributions,75 sibling
+proofs and both strict rejections. Five lowered-priority single-CPU serial jobs
+are used in total. Unchanged proofs are reused; no full cold cohort, public CI
+or unrelated runtime/hardening tests are run. No game source, header, manifest,
+ledger, ABI or public validator is adopted or changed.
+
+After all owned jobs terminate, cleanup removes eight ignored compiler files/
+2135912 logical bytes:four trial objects and four PDBs. Independent temporary
+source/OBJ/PDB outputs already self-clean. All957 deletion-time protected hashes
+agree, including current323 carriers, current ECL baseline, native service/input/
+playfield, original target, tracked source, working Ghidra and research records.
+All full raw/COFF/contribution and decoded observations, logs and immutable
+recipes remain. Post-cleanup saved-record/input audits pass without cold jobs;
+no old source tree or archive is created and build/ is absent. Packet:
+`.analysis/gpt-61sol-20261031-ecl-packed-flag-pair/`.
+
+Exactness remains1004/1035 authored functions and246651/291883 reviewed bytes
+(84.5034%). RunEcl30 and Enemy13 remain active unresolved fronts. The98% goal,
+Windows i386 product/runtime, dual-Oracle semantic and port gates are unfinished.

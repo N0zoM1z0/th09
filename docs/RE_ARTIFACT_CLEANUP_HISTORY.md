@@ -2981,3 +2981,22 @@ recipes remain. Temporary source/OBJ/PDB trees already self-clean. No old source
 tree or archive is added; build/ is absent. Post-cleanup body/input/current323
 and complete Etama diagnostic checks pass without cold jobs. Receipt:
 `.analysis/gpt-61sol-20261031-bullet-native-rng-supervisor/cleanup.json`.
+
+
+## 2026-10-31: layout-compatible64-bit Enemy flag allocation controls
+
+Game source remains eedcea20. Four explicitly four-byte-aligned flag-pair models
+pass all real layout assertions and75 exact siblings each, but enlarge complete
+RunEcl to15624 or15612 bytes versus15564. Their added secondary-word accesses
+and strict dependent Enemy rejection are recorded. One independent full-native
+cold replay agrees; no source, packing, profile or credit is adopted.
+
+After all five serial jobs terminate, cleanup removes eight ignored files/
+2135912 logical bytes:four rejected trial objects and four PDBs. All957 deletion-
+time protected hashes agree. Preserve current323 and the current ECL baseline,
+native service/input131/playfield116, tracked source, original target/toolchains,
+working Ghidra, complete raw/COFF/contribution/decoded records, compiler logs and
+immutable Git/EOL recipes. Independent temporary source/OBJ/PDB outputs already
+self-clean. Post-cleanup saved-record/input audits pass without cold jobs;
+no old source tree or archive is added and build/ is absent. Receipt:
+`.analysis/gpt-61sol-20261031-ecl-packed-flag-pair/cleanup.json`.

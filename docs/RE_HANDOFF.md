@@ -200,10 +200,20 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   allocation units preserves all138 regular bodies and RunEcl30/Enemy13.
   Native timeout assignment repeats2140/13 whether its group is four or eight
   bytes. All75 siblings per successful model and one independent replay pass.
-  A genuine unsigned-__int64 group fails original layout assertions;compiler
-  data confirms its default alignment moves primary337C to3380. No packing,
-  source/type/profile adoption or exact credit follows;packed alternatives and
-  unique original grouping remain unknown. Current296 pins remain unchanged.
+  The default-aligned unsigned-__int64 group fails layout assertions,moving
+  primary337C to3380. The new packed controls below address that untested gate;
+  the older then-current296 pins were unchanged. No original grouping is proved.
+- ecl-packed-flag-pair/ now bounds four target-compatible four-byte-aligned
+  unsigned-__int64 allocation models. All layout assertions and75 siblings pass
+  per model,but helper/native RunEcl grows to15624/15612 bytes with598 fields.
+  Extra +3380 reads/writes accompany low-word bitfield updates;native timeout's
+  physical table-entry span grows45->64 bytes. Full raw/COFF and all193 actual
+  table destinations are retained without moving candidate labels. Strict
+  complete-owner rejection remains;dependent Enemy scoring is withheld even
+  though its3900 raw bytes/97 effective fields stay. One independent cold replay
+  passes. No source,packing,profile or credit is adopted. Five serial jobs and
+  post-cleanup input/body audits leave all current323 pins unchanged;8 trial/
+  PDB files(2135912 bytes) are removed after957 protected-hash checks.
 - Two whole-ECL native-side-type controls retain75 exact siblings each.
   Native shared side storage alone retains Enemy13;adding the genuine periodic
   Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`
