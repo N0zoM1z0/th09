@@ -34,6 +34,21 @@ ledger or a fresh full cold replay.231 distinct primary proof/diagnostic objects
 and nine additional historical/diagnostic objects remain. Current-source RunEcl
 stays15564/598/30,Enemy3900/97/13,and Setup1689/171/35/77/904.
 
+## Latest resumed-work checkpoint — Title DrawResult narrowed to 3 bytes
+
+The newest gpt-web code/test commit is 80313a4f. The 1,939-byte
+TitleScreenView::DrawResult big owner is now 1,939/1,939 bytes with 577
+instructions, 82 fields, 16 ordered calls and 92 CFG blocks; its physical
+residual has narrowed from 22 bytes to exactly +0x1D, +0x23 and +0x39.
+A no-code _ReadWriteBarrier() keeps the currentScreen read after the
+scoreGroup pointer store. The complete owner gate passed after rebuilding
+only TitleScreenResultDraw.cpp; the residual guard now protects only those
+three bytes and rejects movement into previously matched code. This is still
+non-exact and grants no canonical credit. Target-independent CI passed 1,104
+tests (29 optional skips), tracking validation, documentation validation and
+generated-progress checks. Details and rejected experiments are in
+docs/TH09_GPT_WEB_CONTINUED_20261031.md. No full cold replay was run.
+
 ## Latest resumed-work checkpoint — Title replay menu provenance
 
 The newest `gpt-web:` commit is `0332496c`. The separate 1,280-byte
