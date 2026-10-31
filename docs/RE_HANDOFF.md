@@ -37,8 +37,25 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
 
 ## Source and evidence routing
 
-- `.analysis/gpt-61sol-20261031-bullet-native-rng-supervisor/current.py` is the
-  current source-bound subset:323 existing units/95793 physical bytes/4547 fields.
+- `.analysis/gpt-61sol-20261031-effect-closed-anm-types/current.py` is the
+  current source-bound subset:338 existing units/98323 compared physical bytes/
+  4647 fields. It strictly compares15 unchanged Effect owners/2530 bytes/100
+  fields and reuses323 unchanged pins. Its retained baseline.obj also checks
+  AddedCallback51/4/8. Game source remains eedcea20;no type model is adopted.
+- Separating the lifecycle VM storage projection privately makes full ANM loader
+  co-location with Effect valid C++,resolving the earlier redefinition rejection.
+  Complete manager data,loader-before/after and whole-object int/void operation
+  contexts all keep the callback51/4/8 and all16 baseline Effect raw bodies.
+  Thirty-nine existing units pass at their configured profiles;16 co-visible
+  loader bodies also match original under the fixed Effect profile. The mixed
+  manager constructor remains296/25 versus341/29. VM base is75/4 under Ob1,
+  versus62/6 under Ob0;the derived45/2 is neutral between those two profiles.
+  These are context constraints,not original class/TU or product closure claims.
+  One independent loader-after replay passes;12 serial jobs,not a full cohort.
+  Cleanup removes21 model/debug files/1222104 bytes after984 protected-hash
+  checks. Keep the actual baseline/current338;recipes and all observations remain.
+- `.analysis/gpt-61sol-20261031-bullet-native-rng-supervisor/current.py` remains
+  an unchanged subset:323 existing units/95793 physical bytes/4547 fields.
   It strictly compares26 Bullet/native viewport owners/8241 bytes/365 fields,
   reuses297 unchanged source/profile/object pins and rechecks all eight actual
   RNG owners. Only21 native reference names and16 compiler-private spellings
@@ -227,9 +244,10 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   current-type3.json binding is historical. Use this packet's maintained-path
   current-ExAttackUpdateType3-0.obj with inspect-exattack-type3-schedule.py.
   Fresh complete validation retains780/38/15 and the unresolved middle-Z order.
-- Current323 proof carriers are bullet-native-rng-supervisor/proposal.obj and
-  viewport.obj plus the unchanged297 pins in its current.json. The Type7
-  maintained objects and native service/input131/playfield116 remain bound.
+- Current338 retains effect-closed-anm-types/baseline.obj plus the unchanged323
+  carriers:bullet-native-rng-supervisor/proposal.obj,viewport.obj and the297
+  preceding pins. The Type7 maintained objects and native service/input131/
+  playfield116 remain bound.
   The Bullet batch removes four ignored files/407431 bytes:one old baseline
   object and three PDBs. All961 deletion-time protected hashes agree;
   post-cleanup immutable/body/current323/diagnostic checks pass. Recipes,

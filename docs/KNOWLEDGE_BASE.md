@@ -27421,3 +27421,104 @@ no old source tree or archive is created and build/ is absent. Packet:
 Exactness remains1004/1035 authored functions and246651/291883 reviewed bytes
 (84.5034%). RunEcl30 and Enemy13 remain active unresolved fronts. The98% goal,
 Windows i386 product/runtime, dual-Oracle semantic and port gates are unfinished.
+
+
+## 2026-10-31: compatible ANM type projections and full Effect loader contexts
+
+Game source remains **eedcea204af5cc97bcc3820a28ac0e10666f3033**. Recovery at
+aaacd1ee is clean; the preceding packed64 checkpoint is progress through new
+layout/codegen constraints. Target identity and target-required tracking pass.
+The current complete Effect AddedCallback target40D1C0 is51 bytes/19 instructions,
+four fields,two calls and three physical blocks. Its maintained baseline still
+has eight differences at3,4,5,6,7,8,9,D;the original saves the global ANM pointer
+before the callback receiver,while source saves the receiver first. No local
+register/order hint,forced inline,ABI change,profile search or target patch is used.
+
+Direct Ghidra first rejects the three-function request because its current
+Program has no function at40D1C0. The partial report and failure remain under
+`.analysis/ghidra-direct/export-20261031T004531-1018897/`;no successful callback
+pseudocode is claimed. A native-only request succeeds for GetAnm401660 and
+PreloadAnm43C7A0,with original disk/Program identity,i386/base/entry and all685056
+file-backed mapped bytes checked. Successful export:
+`.analysis/ghidra-direct/export-20261031T005137-1025482/`. Callback entry/extent,
+complete instructions and all four original referents are independently bound
+by the SHA-attested PE/COFF inspector. No Ghidra metadata or target bytes change.
+
+The earlier full-loader co-location failure was a C++ type conflict,not a
+measurement of that caller context. AnmManager.hpp conditionally includes the
+lifecycle AnmVm definition and its full manager data under
+TH09_ANM_MANAGER_LIFECYCLE_LAYOUT;AsciiManager.hpp separately defines the same
+AnmVm name for render/script fields. The private model names only the derived
+lifecycle storage AnmVmLifecycleStorageView and changes the manager's embedded
+VM member to that view. Its constructor definition is renamed coherently;the
+AnmVmBase constructor stays. Render-method parameter types remain AnmVm. The
+existing228/2A4-byte VM and2B2934-byte manager assertions remain active. This is
+a projection split for a bounded source hypothesis,not proof of original separate
+classes,inheritance or TU grouping. No shared header or canonical symbol changes.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| EFFECT-ANM-TYPES-001 | compiler observation | The complete manager type alone preserves all16 baseline Effect regular raw bodies/effective fields and callback51/4/8. | complete-type.json |
+| EFFECT-ANM-TYPES-002 | whole-context observation | Actual full loader before or after Effect now compiles;all15 Effect canonical owners and16 co-visible loader bodies remain original-equal. Callback remains51/4/8. | load-before.json;load-after.json |
+| EFFECT-ANM-TYPES-003 | rejected complete context | The mixed-profile manager constructor is296 bytes/25 fields;its configured Ob0 object independently verifies341/29. | native_context_rejections;native-constructor.json |
+| EFFECT-ANM-TYPES-004 | profile-bound observation | Base VM constructor is62/6 at Ob0 and75/4 at Ob1;derived constructor45/2 is raw/field-neutral between the two profiles. | native-vm-base.json;native-vm.json;vm-base-context.json |
+| EFFECT-ANM-TYPES-005 | operation boundary control | Real whole-object int/void initialization methods actually inline into the unchanged callback signature,retaining51/4/8. Uncalled emitted methods are51/4 and49/4 with no original boundary assigned. | operation-int.json;operation-void.json |
+| EFFECT-ANM-TYPES-006 | current source proof | Original Effect baseline15/2530/100 plus323 unchanged prior pins give338 existing units/98323 compared physical bytes/4647 fields. No source/credit change. | current.py;current.json |
+
+Six callback contexts cover baseline,complete type,loader-before,loader-after
+and the two whole-operation boundaries. Every one preserves all16 baseline
+regular bodies and effective fields,including all51 callback bytes and the
+same eight original mismatches. Ordinary methods perform the actual lookup,
+conditional preload and publication;the void form leaves the existing zero
+callback return in the wrapper. They really inline,while their emitted extra
+method definitions have zero incoming nondebug field references. Neither an
+unreferenced helper nor an implicit-this diagnostic is assigned an original
+function address or authored exactness credit. The emitted int method itself
+also has51/eight;entry spelling does not resolve this measured model.
+
+Five native producer carriers validate the type projection at their existing
+configured profiles:16 loader owners/2917 bytes/104 fields,manager constructor
+341/29,VM base62/6,VM constructor45/2,and five background methods96/2. Together
+with the15 Effect owners/2530/100 these are39 unique existing configured units,
+5991 summed physical bytes/243 fields. The eleven primary source-cold cases
+perform114 configured-profile comparisons plus32 extra co-visible definition
+comparisons;these repeats add no coverage or exactness credit. The co-visible
+loader proofs use the fixed Effect profile,which differs from their producer
+EH profile;they are recorded separately from configured-profile replay.
+PreloadAnm's actual90-byte positive definition passes before comparing its caller.
+
+Complete native object closure remains separate. The manager constructor in the
+Effect profile fails its original full extent. The derived VM's Ob1 object also
+contains a75-byte base constructor,which cannot reuse the62-byte proof. A later
+record audit explicitly catches that difference. Under the base's Ob0 profile,
+the actual derived45-byte body and every effective field equal its separate
+Ob1 proof,so the two constructor bodies together match107 bytes/eight fields in
+that observed context. This does not change canonical profile metadata or prove
+original profile uniqueness,complete link selection,full object ownership or
+whole-product closure. No source/TU model is adopted from isolated matching bodies.
+
+All eleven staged input sets reproduce from immutable aaacd1ee Git/EOL inputs
+plus small source transforms. One independent loader-after cold rebuild repeats
+all actual outputs,15 Effect proofs,16 native context proofs,the constructor
+rejection and callback diagnostic. There are12 serial single-CPU nice10 jobs in
+total:eleven primary builds and that selected independent replay. Unchanged
+proofs are reused;no whole historical cold cohort or public CI is repeated.
+Public validators and game source stay unchanged. The new338 verifier strictly
+checks the original,unmodified Effect baseline carrier,not a private type model.
+It also rechecks the separate native service/input/playfield source/object pins.
+
+After every owned producer terminates,cleanup removes21 ignored compiler files/
+1222104 logical bytes:ten private model objects and eleven PDBs. Retain the
+original baseline.obj as the current15-owner carrier and51-byte diagnostic,
+all323 prior carriers,native service/input131/playfield116,target/toolchains,
+tracked source,working Ghidra,both partial/successful export records,all actual
+raw/COFF/contribution/failure observations and immutable recipes. All984 deletion-
+time protected hashes agree. Post-cleanup eleven-input/body audits and current338
+checks pass without cold jobs. No old source tree or archive is introduced;
+build/ is absent. Packet and cleanup receipt:
+`.analysis/gpt-61sol-20261031-effect-closed-anm-types/`.
+
+Reviewed-authored exactness remains1004/1035 functions and246651/291883 bytes
+(84.5034%). Effect AddedCallback remains nonexact51/eight;RunEcl30 and Enemy13
+remain active large fronts. The98% objective and later native/runtime/semantic/
+port gates are unfinished.

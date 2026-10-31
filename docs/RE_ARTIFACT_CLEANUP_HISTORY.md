@@ -3000,3 +3000,25 @@ immutable Git/EOL recipes. Independent temporary source/OBJ/PDB outputs already
 self-clean. Post-cleanup saved-record/input audits pass without cold jobs;
 no old source tree or archive is added and build/ is absent. Receipt:
 `.analysis/gpt-61sol-20261031-ecl-packed-flag-pair/cleanup.json`.
+
+
+## 2026-10-31: compatible ANM types and complete Effect loader contexts
+
+Game source remains eedcea20. A private lifecycle/render VM projection split
+makes whole-loader co-location valid C++;six callback contexts remain51/4/eight.
+Thirty-nine existing units pass at configured profiles;co-visible constructor
+extent/profile failures stay explicit. One independent loader-after replay
+agrees. No type/profile/source or exactness-credit change is adopted.
+
+After all12 serial jobs terminate,cleanup removes21 ignored files/1222104
+logical bytes:ten private model objects and eleven PDBs. Preserve the original
+Effect baseline.obj,which supplies15 existing strict units/2530 bytes/100 fields
+and the51-byte nonexact diagnostic. Together with323 unchanged prior pins it
+forms the current338 subset. All984 deletion-time protected hashes agree,
+including current carriers,native service/input131/playfield116,tracked source,
+original target/toolchains,working Ghidra and research. Full raw/COFF/contribution/
+failed-context records,partial/successful Ghidra exports,compiler logs and immutable
+recipes remain. Temporary source/OBJ/PDB trees already self-clean;no old source
+tree or archive is added and build/ is absent. Post-cleanup input/body/current338
+checks pass without cold jobs. Receipt:
+`.analysis/gpt-61sol-20261031-effect-closed-anm-types/cleanup.json`.
