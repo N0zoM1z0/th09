@@ -28209,3 +28209,84 @@ and Enemy13 remain unresolved. The source now represents the observed native
 interpolation data directly;neither that repair nor the finite context negatives
 grant new exact bytes or complete the98% and later product/runtime/semantic/port
 gates.
+
+## 2026-10-31: complete Supervisor native-frame and registration-result contexts
+
+Recovery at0bf38400 is clean;the preceding goal turn makes progress through
+the committed native interpolation fields. Original Japanese1.50a identity,
+tracking and status pass. Direct Ghidra reuses the verified project and checks
+all685056 mapped file bytes before exports20261031T070310-2146902(Enemy410730)
+and20261031T070402-2151148(Supervisor431110). Earlier Enemy descriptor/vector/
+constructor and Supervisor branch/return controls are inspected before selecting
+these different complete source contexts. No old assumption is promoted to fact.
+
+Supervisor's unchanged source-bound baseline is reused after its source/profile/
+object hashes and full original diagnostic agree:952 physical bytes,205
+instructions,92 fields,27 calls,791 unequal overlaps and44 missing bytes.
+The original remains996 bytes,217 instructions,92 fields,27 calls. Correct call
+multiplicity alone does not explain its physical code and branch placement.
+
+Six models concatenate actual SupervisorSubthread.cpp and/or actual
+AnmManagerSupervisorReset.cpp before/after the complete callback. Every actual
+co-visible native body independently reproduces its full original:Subthread14
+bytes/zero fields,ResetFrame74/nine fields. All two predicate calls and the one
+frame-reset call have positive same-object native references where expected.
+The six models supply eight repeated native proofs/352 bytes/36 fields,not new
+owners or credit. No source statement,signature,profile or clobber contract is
+invented. Frame visibility is raw/field-neutral;predicate visibility removes
+MOV ECX,ESI before the service call and changes an alignment instruction. The
+full callback has204 instructions/793 unequal overlaps,restores no original
+positions and damages only+123/+12D(hex) of the maintained equal positions.
+This bounds actual visibility in this pinned context;it does not prove a unique
+original TU partition or a universal compiler rule.
+
+The next four full-source controls start from the earlier natural repeated
+registration/grouped-state model. DirectTitle writes RegisterTitleScreen(0/1)
+after each existing COM discard and checks each real result. CapturedResult
+instead publishes those actual results to a shared failure check. Two further
+models restore the original previous-state3/11/12 restart join,separately with
+the state2-publication join. These preserve source effects and genuine native
+interfaces;physical branch/call topology is measured,not assumed equivalent.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| SUPERVISOR-NATIVE-FRAME-001 | rejected complete context | Predicate before/after and both-native before/after give952/204/92/27 with793 unequal overlaps,44 missing and two damaged old matches. | thread-*.json;both-*.json;native complete proofs |
+| SUPERVISOR-NATIVE-FRAME-002 | byte-neutral complete context | Frame reset before/after retains952/205/92/27 and791 unequal overlaps,44 missing. | frame-*.json;actual74-byte/nine-field native proof |
+| SUPERVISOR-TITLE-RESULT-001 | rejected complete context | DirectTitle reaches the original217 instruction count and one physical title call,but emits1000 bytes/92 fields/27 calls with562 unequal overlaps and four excess bytes. It restores324 old mismatches but damages51 prior matches. | direct-title-calls.json;audit.json |
+| SUPERVISOR-TITLE-RESULT-002 | rejected complete context | CapturedResult emits1000/214/92/27 with730 unequal overlaps and four excess;161 restored positions,56 damaged prior matches. | captured-title-results.json |
+| SUPERVISOR-TITLE-RESULT-003 | rejected restart context | Restored3/11/12 restart sharing emits980/198/92/27 with813 unequal overlaps and16 missing. | shared-restart-title-calls.json |
+| SUPERVISOR-TITLE-RESULT-004 | rejected extra-call context | Adding the state2-publication join emits972/216/93/28 with801 unequal overlaps,24 missing and two physical title calls. Original external multiplicity fails. | shared-restart-state-title-calls.json |
+
+All ten retain four switch-table counts10/4/6/15 and the original case-index
+bytes. Whole original code/tables,actual COFF fields,native definitions and the
+six-byte version-literal definition are checked. The direct-result model shows
+that in this repeated-branch context ordinary per-branch source calls can merge
+to the original one physical title call. It does not validate the whole CFG,
+recover the complete owner or justify replacing maintained source. No qualifier,
+register/variable-order hint,padding,assembly,forced inline,profile search or
+acceptance-rule relaxation is used. No partial byte credit is granted.
+
+Packet:`.analysis/gpt-61sol-20261031-supervisor-native-frame-context/`.
+All staged inputs reproduce from immutable0bf38400 Git/EOL bytes and saved
+recipes. A selected independent DirectTitle cold replay repeats every complete
+raw body,actual field,version payload and original diagnostic. Eleven serial
+single-CPU,nice10,180-second-bounded compiler jobs cover ten primary models and
+that replay;the existing baseline and unchanged357-unit subset are reused.
+The latter passes87 strict existing units/31660 bytes/1520 fields plus270 pins,
+with no canonical cold cohort. Saved-record audit independently re-links native
+and callback bytes and re-decodes every complete owner after cleanup. All11
+focused Supervisor diagnostic tests and public tracking/docs/progress/whitespace
+checks close the research checkpoint;no runtime trace matrix or whole-product
+claim is added.
+
+After every producer terminates,cleanup removes20 trial OBJ/PDB files/1623510
+logical bytes. All997 deletion-time protected hashes agree,including88 primary
+proof/diagnostic objects,all other retained objects,current source,research,
+target/toolchains and working Ghidra. Keep the existing Supervisor baseline in
+supervisor-state-branches,immutable recipes,full raw/COFF/native/data reports,
+compiler logs and deletion receipt. No source archive is added;build/ is absent.
+
+Game source remains0bf38400. Supervisor952/996,RunEcl30 and Enemy13 remain open;
+exactness stays1004/1035 and246651/291883 reviewed-authored bytes(84.5034%). The
+98% objective and later Windows product/runtime,semantic and portability gates
+remain unfinished.

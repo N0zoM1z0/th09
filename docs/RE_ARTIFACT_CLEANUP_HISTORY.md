@@ -3163,3 +3163,22 @@ target/toolchains and working Ghidra. No source archive is introduced;build/ is
 absent. Post-cleanup current357 and both saved-input audits need no cold jobs.
 Receipt:`.analysis/gpt-61sol-20261031-ecl-interpolation-parameters/cleanup.json`.
 Context research:`.analysis/gpt-61sol-20261031-ecl-interpolation-context/`.
+
+## 2026-10-31: complete Supervisor native-frame and title-result controls
+
+Ten complete Supervisor source models and one selected independent cold replay
+are terminal. Actual co-visible predicate14/0 and frame-reset74/9 bodies remain
+exact wherever present in the six contexts;four result/restart graphs remain
+nonexact.
+All immutable Git/EOL inputs,complete raw/COFF/native/version reports and recipes
+are audited before cleanup. No game source or exactness credit changes.
+
+Cleanup removes20 trial OBJ/PDB files/1623510 logical bytes. All997 deletion-time
+protected hashes agree,including88 primary proof/diagnostic objects,all other
+retained objects,tracked source,research,original target/toolchains and working
+Ghidra. Retain the existing source-bound Supervisor baseline in
+supervisor-state-branches,the complete records,logs and immutable recipes.
+Independent temporary outputs already self-clean;no source archive is introduced
+and build/ is absent. Post-cleanup complete saved-record/native re-link audits
+pass without compiler jobs. Receipt:
+`.analysis/gpt-61sol-20261031-supervisor-native-frame-context/cleanup.json`.

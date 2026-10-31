@@ -7,7 +7,7 @@ checkpoint559ccf7c. Continue the unfinished98% reviewed-authored-byte milestone,
 prioritizing complete RunEcl and Enemy update while keeping small leaves in
 scope. Earlier maintenance and stop instructions are historical checkpoints.
 
-Current game-source change: this checkpoint recovers the interpolation slot's
+Current game-source checkpoint **0bf38400** recovers the interpolation slot's
 callbackIndex14 and four float parameters1C from the native installer and both
 native consumers. EclManager and EclHelpers now access that shared array directly;
 the source-only SlotParameters pointer adapter is removed. The slot0x30/context0x22C
@@ -46,6 +46,16 @@ linked differences and41 versus40 blocks. The current parameter-field packet
 verifies its unchanged source/profile/object pins alongside357 code units;
 its older whole current.py is source-scoped. See the latest KB note for measured
 boundaries;this does not change exactness credit.
+
+Latest bounded Supervisor result: six actual subthread/frame-reset source
+contexts and four complete title-result/restart graphs do not improve the
+maintained952/92/27 callback. Native Subthread14/0 and ResetFrame74/9 remain
+original-equal. Subthread visibility removes a receiver reload and damages two
+old equal positions;frame reset visibility is raw-neutral. Direct per-branch
+Title calls naturally merge to one physical call and reach217 instructions,
+but emit1000 bytes versus996,with562 unequal overlaps and51 damaged prior
+matches. The other restart/result graphs also fail. No source or credit changes.
+Packet: `.analysis/gpt-61sol-20261031-supervisor-native-frame-context/`.
 
 ## Source and evidence routing
 
@@ -237,6 +247,14 @@ behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 ## Maintenance and validation
 
 Latest cleanup receipt:
+`.analysis/gpt-61sol-20261031-supervisor-native-frame-context/cleanup.json`.
+Twenty completed trial OBJ/PDB files/1623510 logical bytes are removed after
+ten full controls and one selected independent cold replay. All997 protected
+hashes remain equal,including88 primary objects,other retained objects,research,
+source,target/toolchains and working Ghidra. The existing source-bound Supervisor
+baseline in supervisor-state-branches remains;no new baseline is cold-built.
+
+Preceding parameter-field cleanup receipt:
 `.analysis/gpt-61sol-20261031-ecl-interpolation-parameters/cleanup.json`.
 Sixteen completed compiler files/2527800 logical bytes are removed:six replaced
 source-stale carriers,two rejected complete-context objects,and eight PDBs.
