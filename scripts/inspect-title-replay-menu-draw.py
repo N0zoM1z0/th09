@@ -67,6 +67,52 @@ DESTINATIONS = {
 }
 
 
+TITLE_MENU_LITERAL_REFERENCES = {
+    '??_C@_08FLEDHNDO@?9?9?1?9?9?1?9?9?$AA@': 4,
+    '??_C@_08GGNFKEJM@?9?9?9?9?9?9?9?9?$AA@': 4,
+    '??_C@_0BA@KHLACNNE@No?4?$CF?42d?5?$CF8s?5?$CF8s?$AA@': 2,
+    '??_C@_0BC@JOBPAHOE@?$CFc?$CFc?$CFc?$CFc?5?5?$CF8s?5?$CF8s?$AA@': 2,
+    '??_C@_08ODHOLODL@?$CFs?5?5?9?$CFs?9?$AA@': 2,
+    '??_C@_02DKCKIIND@?$CFs?$AA@': 1,
+    '??_C@_0N@HFEJOOOP@?$CF?48s?5vs?5?$CF?48s?$AA@': 1,
+    '__real@41500000': 3,
+    '__real@42b40000': 1,
+    '__real@43588000': 1,
+    '__real@43200000': 1,
+    '__real@00000000': 1,
+    '__real@3dcccccd': 1,
+    '__real@4f800000': 2,
+    '__real@40900000': 2,
+    '__real@43a00000': 2,
+}
+
+
+def verify_title_menu_literal_definitions(object_data: bytes, rows: list[dict],
+                                          image, coff) -> list[dict]:
+    """Verify all 16 real read-only literal definitions behind 30 fields."""
+    from collections import Counter
+    observed = Counter(row['symbol'] for row in rows
+                       if row['symbol'].startswith(('??_C@', '__real@')))
+    if observed != Counter(TITLE_MENU_LITERAL_REFERENCES):
+        raise ValueError('DrawReplayMenu actual literal symbol/reference inventory changed')
+    spec = importlib.util.spec_from_file_location(
+        'title_menu_coff_literals', ROOT/'scripts/coff_literal_definitions.py')
+    if spec is None or spec.loader is None:
+        raise ValueError('cannot load actual COFF literal definition auditor')
+    audit = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(audit)
+    destinations = {symbol: DESTINATIONS[symbol]
+                    for symbol in TITLE_MENU_LITERAL_REFERENCES}
+    definitions = audit.check_literal_definitions(
+        object_data, rows, image, coff, destinations)
+    by_symbol = {item['symbol']: item for item in definitions}
+    if (len(definitions) != 16 or set(by_symbol) != set(TITLE_MENU_LITERAL_REFERENCES) or
+            any(len(by_symbol[symbol]['references']) != count
+                for symbol, count in TITLE_MENU_LITERAL_REFERENCES.items())):
+        raise ValueError('DrawReplayMenu actual literal definitions/references incomplete')
+    return definitions
+
+
 def complete_instructions(bytecode: bytes, *, capstone, base: int = BASE):
     md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
     md.detail = True
@@ -151,7 +197,9 @@ def diagnose(path: Path) -> dict:
     target_fields = original_address_fields(ti, capstone=capstone)
     if len(ti) != ORIGINAL_INSTRUCTIONS or len(target_fields) != ORIGINAL_FIELDS:
         raise ValueError('DrawReplayMenu original instruction/field census changed')
-    source, rows = tool.object_function(path, SYMBOL)
+    source, rows = tool.object_function(path, SYMBOL, include_symbol_locations=True)
+    literal_definitions = verify_title_menu_literal_definitions(
+        path.read_bytes(), rows, pe, tool)
     linked = bind_candidate(source, rows, target_fields, target=target)
     ci = complete_instructions(linked, capstone=capstone)
     source_fields = original_address_fields(ci, capstone=capstone)
@@ -178,6 +226,9 @@ def diagnose(path: Path) -> dict:
         'target_bytes': SIZE, 'candidate_bytes':len(linked),
         'target_instructions':len(ti), 'candidate_instructions':len(ci),
         'original_fields':len(target_fields), 'bound_fields':len(rows),
+        'literal_definitions_checked':len(literal_definitions),
+        'literal_references_checked':sum(len(item['references']) for item in literal_definitions),
+        'literal_definitions':literal_definitions,
         'original_calls':len(tc), 'candidate_calls':len(cc),
         'ordered_calls_agree':tc==cc,
         'original_blocks':len(tgraph), 'candidate_blocks':len(cgraph),

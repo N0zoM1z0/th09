@@ -4087,6 +4087,8 @@ def guard_title_replay_menu(result: dict) -> None:
             type(result.get('candidate_instructions')) is not int or
             result['candidate_instructions'] != 376 or
             result.get('original_fields') != 57 or
+            result.get('literal_definitions_checked') != 16 or
+            result.get('literal_references_checked') != 30 or
             result.get('original_calls') != 13 or
             result.get('candidate_calls') != 13 or
             result.get('ordered_calls_agree') is not True or
@@ -4119,6 +4121,8 @@ def run_title_replay_menu() -> dict:
     return {'title_draw_replay_menu': {
         'target_bytes': 1280, 'candidate_bytes': menu['candidate_bytes'],
         'bound_fields': menu['bound_fields'],
+        'literal_definitions_checked': menu['literal_definitions_checked'],
+        'literal_references_checked': menu['literal_references_checked'],
         'ordered_calls': menu['candidate_calls'],
         'original_blocks': menu['original_blocks'],
         'candidate_blocks': menu['candidate_blocks'],

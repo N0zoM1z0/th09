@@ -35,6 +35,7 @@ def current():
         'target_bytes': 1280, 'candidate_bytes': 1280,
         'target_instructions': 376, 'candidate_instructions': 376,
         'original_fields': 57, 'bound_fields': 57,
+        'literal_definitions_checked': 16, 'literal_references_checked': 30,
         'original_calls': 13, 'candidate_calls': 13,
         'ordered_calls_agree': True, 'original_blocks': 72,
         'candidate_blocks': 72, 'direct_graphs_agree': True,
@@ -57,6 +58,73 @@ class TitleReplayMenuOriginalFrontierTests(TestCase):
         cpp = (ROOT / 'src/TitleScreenReplayMenuDraw.cpp').read_text()
         self.assertIn('#include "ReplayDataOriginalView.hpp"', cpp)
         self.assertIn('ReplayDataView replays[50]', cpp)
+
+    def test_actual_coff_literal_payloads_are_verified_independently_of_symbol_names(self):
+        import struct
+
+        strings = {
+            '??_C@_08FLEDHNDO@?9?9?1?9?9?1?9?9?$AA@': b'--/--/--\0',
+            '??_C@_08GGNFKEJM@?9?9?9?9?9?9?9?9?$AA@': b'--------\0',
+            '??_C@_0BA@KHLACNNE@No?4?$CF?42d?5?$CF8s?5?$CF8s?$AA@': b'No.%.2d %8s %8s\0',
+            '??_C@_0BC@JOBPAHOE@?$CFc?$CFc?$CFc?$CFc?5?5?$CF8s?5?$CF8s?$AA@': b'%c%c%c%c  %8s %8s\0',
+            '??_C@_08ODHOLODL@?$CFs?5?5?9?$CFs?9?$AA@': b'%s  -%s-\0',
+            '??_C@_02DKCKIIND@?$CFs?$AA@': b'%s\0',
+            '??_C@_0N@HFEJOOOP@?$CF?48s?5vs?5?$CF?48s?$AA@': b'%.8s vs %.8s\0',
+        }
+        symbols = list(original.TITLE_MENU_LITERAL_REFERENCES)
+        payloads = {symbol: (strings[symbol] if symbol in strings else
+                             bytes.fromhex(symbol[7:])[::-1]) for symbol in symbols}
+        pe = bytearray(0x500000)
+        object_data = bytearray(20 + 40 * len(symbols) + sum(map(len, payloads.values())))
+        struct.pack_into('<HH', object_data, 0, 0x14C, len(symbols))
+        payload_offset = 20 + 40 * len(symbols)
+        rows = []
+        for index, symbol in enumerate(symbols, 1):
+            address = original.DESTINATIONS[symbol]
+            payload = payloads[symbol]
+            pe[address:address + len(payload)] = payload
+            section_header = 20 + (index - 1) * 40
+            struct.pack_into('<II', object_data, section_header + 16,
+                             len(payload), payload_offset)
+            struct.pack_into('<I', object_data, section_header + 36, 0x40000040)
+            object_data[payload_offset:payload_offset + len(payload)] = payload
+            for ref in range(original.TITLE_MENU_LITERAL_REFERENCES[symbol]):
+                rows.append(dict(symbol=symbol, symbol_section=index,
+                                 symbol_value=0, offset=4 * len(rows), addend=0))
+            payload_offset += len(payload)
+
+        class FakeCoff:
+            @staticmethod
+            def pe_bytes_at(image, address, size):
+                return image[address:address + size]
+
+        result = original.verify_title_menu_literal_definitions(
+            bytes(object_data), rows, bytes(pe), FakeCoff())
+        self.assertEqual(len(result), 16)
+        self.assertEqual(sum(len(item['references']) for item in result), 30)
+        self.assertEqual({item['symbol'] for item in result}, set(symbols))
+
+        # Keep every relocation/symbol row unchanged and mutate only the real
+        # initialized COFF bytes. The name must not authenticate its payload.
+        for symbol in (symbols[0], symbols[-1]):
+            index = symbols.index(symbol)
+            offset = 20 + 40 * len(symbols) + sum(
+                len(payloads[name]) for name in symbols[:index])
+            damaged = bytearray(object_data)
+            damaged[offset] ^= 1
+            with self.subTest(symbol=symbol), self.assertRaisesRegex(
+                    ValueError, 'literal definition differs'):
+                original.verify_title_menu_literal_definitions(
+                    bytes(damaged), rows, bytes(pe), FakeCoff())
+
+        damaged_flags = bytearray(object_data)
+        struct.pack_into('<I', damaged_flags, 20 + 36, 0xC0000040)
+        with self.assertRaisesRegex(ValueError, 'initialized read-only'):
+            original.verify_title_menu_literal_definitions(
+                bytes(damaged_flags), rows, bytes(pe), FakeCoff())
+        with self.assertRaisesRegex(ValueError, 'inventory changed'):
+            original.verify_title_menu_literal_definitions(
+                bytes(object_data), rows[:-1], bytes(pe), FakeCoff())
 
     def test_reviewed_independently_original_addresses_not_candidate_guesses(self):
         symbols = {
@@ -129,6 +197,8 @@ class TitleReplayMenuOriginalFrontierTests(TestCase):
             {'target_instructions': 375},
             {'candidate_instructions': 375}, {'candidate_instructions': 377},
             {'original_fields': 56}, {'bound_fields': 56},
+            {'literal_definitions_checked': 15},
+            {'literal_references_checked': 29},
             {'original_calls': 12}, {'candidate_calls': 14},
             {'ordered_calls_agree': False}, {'original_blocks': 71},
             {'candidate_blocks': 71}, {'candidate_blocks': 73},
