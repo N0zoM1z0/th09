@@ -82,6 +82,23 @@ through `storage.descriptor` produced an OnUpdate object byte-identical to the
 baseline (3,900/3,900 bytes), so it was not a codegen improvement. Those
 experiments were restored.
 
+Further isolated register-pressure trials also failed to reduce the residual:
+
+- A registered draw-group index and an equivalent base-plus-index pointer form
+  retained all 13 differences.
+- A registered side-state local, a registered special-attack threshold, and
+  both together retained all 13 differences.
+- A registered pointer to the enemy position retained all 13 differences.
+- Replacing the aggregate position assignment with three direct scalar field
+  assignments moved the RunEcl call relocation from candidate offset `0x397`
+  to `0x399`; the owner inspector rejected that layout.
+- Correcting the overlapping storage-view pointer types to the public
+  `EnemyView *` types (draw-group heads, priority pointers, and the draw-list
+  next pointer) compiled successfully, but the complete `OnUpdate` and
+  `RunEcl` bodies were byte-identical to the baseline. The correction was
+  restored because it did not advance the codegen match and the shared view
+  is included by several translation units.
+
 ## Restored live baseline
 
 After all rejected trials, the live worktree is clean and only the two
