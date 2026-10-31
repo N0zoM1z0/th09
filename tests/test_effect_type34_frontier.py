@@ -1,4 +1,4 @@
-"""Fail-closed tests for the original-bound Effect 34 draw frontier."""
+"""Fail-closed tests for the exact original-bound Effect 34 draw owner."""
 from copy import deepcopy
 import importlib.util
 from pathlib import Path
@@ -30,9 +30,9 @@ BASE = {'role': 'draw',
  'candidate_blocks': 16,
  'missing_bytes': 0,
  'extra_bytes': 0,
- 'overlapping_differences': 74,
+ 'overlapping_differences': 0,
  'ordinal_graphs_agree': True,
- 'complete_bytes_agree': False,
+ 'complete_bytes_agree': True,
  'target_calls': [['direct', 4370128],
                   ['direct', 4415232],
                   ['direct', 4200064],
@@ -83,8 +83,10 @@ def baseline():
     result = deepcopy(BASE)
     result['candidate_calls'] = deepcopy(result['target_calls'])
     result['candidate_COM_arguments'] = deepcopy(result['target_COM_arguments'])
-    result['difference_offsets'] = [i for a, b in boss.EFFECT34_DRAW_RESIDUAL_RUNS
-                                    for i in range(a, b)]
+    result['difference_offsets'] = []
+    result['resolved_sha256'] = boss.EFFECT34_DRAW_SHA256
+    result['all_original_fields_agree'] = True
+    result['direct_graphs_agree'] = True
     return result
 
 
@@ -96,21 +98,13 @@ class Effect34FrontierTests(TestCase):
         with self.assertRaisesRegex(RuntimeError, 'call trace'):
             boss.guard_effect_type34_draw(result)
 
-    def test_same_count_byte_exchange_cannot_damage_an_old_match(self):
-        result = baseline()
-        old = set(result['difference_offsets'])
-        result['difference_offsets'][-1] = next(i for i in range(946) if i not in old)
-        with self.assertRaisesRegex(RuntimeError, 'already equal'):
-            boss.guard_effect_type34_draw(result)
-
-    def test_recovered_frame_loop_and_radius_bytes_are_now_protected(self):
-        for offset in (0x005, 0x01D, 0x020, 0x14D, 0x21B, 0x247, 0x248, 0x249, 0x24A, 0x3B1):
+    def test_any_new_byte_difference_is_rejected(self):
+        for offset in (0x00A, 0x01F9, 0x0200, 0x0247, 0x03B1):
             with self.subTest(offset=hex(offset)):
                 result = baseline()
-                self.assertNotIn(offset, result['difference_offsets'])
-                result['difference_offsets'][-1] = offset
-                result['difference_offsets'].sort()
-                with self.assertRaisesRegex(RuntimeError, 'already equal'):
+                result.update(difference_offsets=[offset], overlapping_differences=1,
+                              complete_bytes_agree=False)
+                with self.assertRaisesRegex(RuntimeError, 'byte equality'):
                     boss.guard_effect_type34_draw(result)
 
     def test_old_extent_or_changed_block_graph_cannot_inherit_new_frontier(self):
@@ -120,19 +114,16 @@ class Effect34FrontierTests(TestCase):
             with self.subTest(change=change), self.assertRaises(RuntimeError):
                 boss.guard_effect_type34_draw({**baseline(), **change})
 
-    def test_full_equality_requires_whole_bytes_fields_and_graph(self):
+    def test_exact_result_requires_full_bytes_fields_and_graph(self):
         result = baseline()
-        result.update(difference_offsets=[], overlapping_differences=0)
-        with self.assertRaisesRegex(RuntimeError, 'contradictory'):
-            boss.guard_effect_type34_draw(result)
-        result.update(complete_bytes_agree=True,
-                      resolved_sha256=boss.EFFECT34_DRAW_SHA256,
-                      all_original_fields_agree=True, direct_graphs_agree=True)
         boss.guard_effect_type34_draw(result)
         for change in ({'resolved_sha256': '0'*64},
                        {'all_original_fields_agree': False},
-                       {'direct_graphs_agree': False}):
-            with self.subTest(change=change), self.assertRaisesRegex(RuntimeError, 'full-equality'):
+                       {'direct_graphs_agree': False},
+                       {'complete_bytes_agree': False},
+                       {'overlapping_differences': 1},
+                       {'difference_offsets': [0x1f9]}):
+            with self.subTest(change=change), self.assertRaisesRegex(RuntimeError, 'byte equality'):
                 boss.guard_effect_type34_draw({**result, **change})
 
     def test_reordered_native_calls_are_rejected_with_unchanged_counts(self):

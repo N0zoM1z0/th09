@@ -92,7 +92,7 @@ def run_network_message() -> dict:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 75,
+    'build/matching/EclManager.obj': 76,
     'build/matching/EclManager-Type11.obj': 4,
 }
 TITLE_EXACT_CARRIERS = {
@@ -800,8 +800,8 @@ def validate_runecl_real_angle_owners(units: dict) -> None:
                     ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
                 raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
             exact_ref_count += 1
-    if exact_ref_count != 39:
-        raise RuntimeError('ECL/Enemy/position/Effect 39 exact C++ angle callsites missing')
+    if exact_ref_count != 40:
+        raise RuntimeError('ECL/Enemy/position/Effect 40 exact C++ angle callsites missing')
 
 
 def guard_runecl_real_angle_callsite_report(report: dict) -> dict:
@@ -4836,15 +4836,10 @@ def run_player_type11(*, protect_exact: bool,
 
 
 EFFECT34_DRAW_SHA256 = 'd32652c2e08ffbd02a103e379724cde773716f964bbb962e9e4cbd12f58c88a2'
-# Indexed layer access restores the original946-byte/0x1C-frame geometry.
-# It restores517 old mismatches and changes two old coincidental byte matches
-# in the displaced entry. Inner jitter indexing restores four radius bytes;
-# pin the remaining74 residuals and protect872 equal original bytes.
-EFFECT34_DRAW_RESIDUAL_RUNS = (
-    (0x00A, 0x00B), (0x00C, 0x00D), (0x01C, 0x01D),
-    (0x02F, 0x06D), (0x1F9, 0x1FF), (0x200, 0x203),
-)
-
+# Effect34 draw was promoted to a canonical exact unit after recovering the
+# actual fan-cursor lifetime and the layer/lineColor initialization order.
+# The inspector is non-crediting; the canonical 53-field match unit supplies
+# separate complete PE/COFF exactness proof. Do not allow any residual bytes.
 def guard_effect_type34_draw(result: dict) -> dict:
     noncrediting(result, name='Effect 34 draw', target_size=946,
                  fields=53, fields_key='fields')
@@ -4871,20 +4866,13 @@ def guard_effect_type34_draw(result: dict) -> dict:
             len(result.get('target_COM_arguments', [])) != 12 or
             result.get('candidate_COM_arguments') != result.get('target_COM_arguments')):
         raise RuntimeError('Effect 34 original direct/COM call trace changed')
-    offsets = result.get('difference_offsets', [])
-    known = {i for a, b in EFFECT34_DRAW_RESIDUAL_RUNS for i in range(a, b)}
-    if (not isinstance(offsets, list) or len(offsets) != len(set(offsets)) or
-            any(not isinstance(i, int) or i not in known for i in offsets) or
-            offsets != sorted(offsets) or
-            result.get('overlapping_differences') != len(offsets) or len(offsets) > 74):
-        raise RuntimeError('Effect 34 changed an already equal original byte')
-    equal = not offsets
-    if result.get('complete_bytes_agree') is not equal:
-        raise RuntimeError('Effect 34 contradictory complete-byte equality')
-    if equal and (result.get('resolved_sha256') != EFFECT34_DRAW_SHA256 or
-                  result.get('all_original_fields_agree') is not True or
-                  result.get('direct_graphs_agree') is not True):
-        raise RuntimeError('Effect 34 incomplete full-equality evidence')
+    offsets = result.get('difference_offsets')
+    if (offsets != [] or result.get('overlapping_differences') != 0 or
+            result.get('complete_bytes_agree') is not True or
+            result.get('resolved_sha256') != EFFECT34_DRAW_SHA256 or
+            result.get('all_original_fields_agree') is not True or
+            result.get('direct_graphs_agree') is not True):
+        raise RuntimeError('Effect 34 lost complete original-bound byte equality')
     return {'target_bytes': 946, 'candidate_bytes': result['candidate_bytes'],
             'fields': 53, 'ordinary_differences': len(offsets),
             'extra_bytes': result['extra_bytes']}

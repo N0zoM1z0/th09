@@ -1,5 +1,5 @@
 // Effect template 34 callbacks; lexical member of the real ECL/math carrier.
-// The initializer is exact. The complete 946-byte draw owner is still nonexact.
+// Both initializer and 946-byte draw owner are exact against Japanese TH09 1.50a.
 #include "EffectManager.hpp"
 #include "EffectType34RuntimeView.hpp"
 #include "AsciiGameManagerView.hpp"
@@ -95,8 +95,8 @@ int __fastcall EffectDrawCallbackType34(Effect *effect)
     supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
     supervisor->d3dDevice08->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
     supervisor->d3dDevice08->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-    const unsigned long lineColor = (static_cast<unsigned long>(alpha) << 24) | 0x00FFFFFF;
     int layer = 0;
+    const unsigned long lineColor = (static_cast<unsigned long>(alpha) << 24) | 0x00FFFFFF;
     do
     {
         vertex = vertices->lines2E8[layer];

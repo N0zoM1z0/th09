@@ -19,10 +19,10 @@ import sys
 import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
-COUNTS = {'src/EclManager.cpp': 79, 'src/PlayerRuntime.cpp': 21,
+COUNTS = {'src/EclManager.cpp': 80, 'src/PlayerRuntime.cpp': 21,
           'src/PlayerSetUpdateState.cpp': 1, 'src/PlayerState3EffectSetup.cpp': 3}
 SCOPES = {'state': (COUNTS, 6),
-          'damage': ({'src/EclManager.cpp': 79, 'src/PlayerDamage.cpp': 2}, 3)}
+          'damage': ({'src/EclManager.cpp': 80, 'src/PlayerDamage.cpp': 2}, 3)}
 
 
 def module(name, filename):

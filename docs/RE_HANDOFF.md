@@ -27,26 +27,27 @@ ledger or a fresh full cold replay.231 distinct primary proof/diagnostic objects
 and nine additional historical/diagnostic objects remain. Current-source RunEcl
 stays15564/598/30,Enemy3900/97/13,and Setup1689/171/35/77/904.
 
-## Effect34 cursor-lifetime reconstruction — adopted source checkpoint
+## Effect34 draw — complete 946-byte canonical match
 
-The earlier unadopted `early-cursor` experiment from
-`.analysis/gpt-61sol-20261031-effect34-cursor-lifetimes/` was independently
-recompiled against the **current** source and adopted as the natural source
-ordering in `src/EffectType34Family.inl`. Computing the fan cursor directly
-after `AddNormalizeAngle` but before the alpha branch preserves the original
-vertex lifetime and reduces the complete 946-byte draw from 74 to **9**
-differences (offsets 505–510, 512–514). All 53 independently bound relocation
-fields, 286 decoded instructions, 16 CFG blocks, 32 calls and COM immediate
-arguments agree. The 80 current-source canonical sibling units across both
-ECL compiler profiles and the separate Type34 update carrier remain exact;
-RunEcl 30 / Enemy 13 / Effect29 1170+15 remain unchanged. Reproduction:
-`python3 scripts/check-boss-frontiers.py --owner effect34`.
+The complete draw callback at `0x00444AF0` is now exact in the pinned VC7.1
+source/profile, with all **53 independently verified original relocations**
+bound at their actual instruction offsets. Reconstructing the fan-cursor live
+range before the alpha branch recovered 65 bytes (74→9); initializing the
+actual `layer` loop counter *before* declaring `lineColor` recovered the final
+nine bytes. No code patches, fake source, synthetic targets, or compiler flags
+were used. The target is the complete original 946-byte owner, not a matching
+substring; all 286 instructions, 32 ordered calls (including 12 COM) and
+16 control-flow blocks agree. The canonical `effect-draw-callback-type34`
+unit is in `config/match-units.toml` with the original 53 referents.
 
-This is a **non-exact** source improvement with zero new accepted exactness
-credit. The former source/epoch packet remains a historical candidate record;
-the fresh check is recorded in `docs/TH09_GPT_WEB_20261031.md`. The nine
-remaining bytes concern store/order scheduling; do not infer the entire
-function is matched from the large byte improvement.
+Re-run `python3 scripts/build-match-unit.py --unit effect-draw-callback-type34`
+and `python3 scripts/compare-coff-function.py --unit effect-draw-callback-type34 --json`.
+The focused `--owner effect34` boss checker protects the native ECL carrier
+and the separate Type11 profile and Effect34 update. The older source-scoped
+`.analysis/gpt-61sol-20261031-effect34-cursor-lifetimes/` records remain
+historical experiments, not current-source proof; fresh tests and receipts are
+recorded in `docs/TH09_GPT_WEB_20261031.md`. Whole-product closure, unique
+original source/TU ownership, runtime and portability remain unproven.
 
 ## Historical research and removed copies
 
@@ -155,7 +156,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current ledger summary is
-**1035 source-present / 1004 exact / 31 non-exact**; earlier operator notes
+**1035 source-present / 1005 exact / 30 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -166,19 +167,19 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 1,035 |
 | Classified exclusions | 1,176 |
 | Source-present authored mappings | 1,035 |
-| Canonical exact functions | 1,004 |
-| Source-present non-exact functions | 31 |
-| Source-present non-exact bytes | 45,232 |
+| Canonical exact functions | 1,005 |
+| Source-present non-exact functions | 30 |
+| Source-present non-exact bytes | 44,286 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 246,651 |
+| Canonical exact authored bytes | 247,597 |
 
-**246,651 / 291,883 reviewed-authored bytes = 84.5034% exact**. To reach
-98% of the *currently classified* denominator, another **39,395 bytes**
+**247,597 / 291,883 reviewed-authored bytes = 84.8275% exact**. To reach
+98% of the *currently classified* denominator, another **38,449 bytes**
 must become complete original-bound exact owners, reaching at least **286,046
 exact authored bytes**. The 37 origin-unresolved functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
-The manifests govern **1004 exact** functions.
+The manifests govern **1005 exact** functions.
 
 The catalog is not proof of complete executable-code inventory. The formerly
 uncatalogued **0x0040D677 /0x00444A78** Timer references now belong to the exact
@@ -190,7 +191,7 @@ Do not silently treat uncatalogued code as excluded.
 
 ## Reconstruction frontiers
 
-These are routing measurements, not exactness credit. The ledgers list all31
+These are routing measurements, not exactness credit. The ledgers list all30
 nonexact functions. The opcode4 setter/assignment visibility and whole Enemy
 storage controls are already measured; consult their actual frozen inputs before
 repeating them. Historical assumptions remain hypotheses.
@@ -200,7 +201,6 @@ repeating them. Historical assumptions remain hypotheses.
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode4 timer transport and opcode155 flag update. Keep all598 fields/tables and complete15564 bytes; actual Timer ABI and RNG ownership are already corrected. `--owner runecl`. |
 | **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Draw index2, side/threshold4, descriptor-position copy7. Keep real20-byte Timer greater co-visible, all97 fields and3887 matching physical bytes. |
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Main/satellite fan chronology, polar receiver reloads and ordinal graph. Bounded emulator fixtures are not whole-runtime or exactness proof. `--owner effect29`. |
-| **Effect 34 draw** | 0x00444AF0 | **946/946 physical**,53 original referents,20 direct +12 COM calls,286 instructions,16 blocks; **9 linked differences** | Only the remaining store-order span at offsets 505–510, 512–514 is open. Preserve937 matching bytes, all53 fields, actual float data and full physical extent. `--owner effect34`. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor. Preserve332 matching bytes and the genuine final DrawBulletLayerEffects member identity. `--owner etama`. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Lower-bound EAX/EDX transport and encoding cascade. Native framerate/coordinate owners and the shared SHT speed type are corrected;preserve1771 matching bytes and both tables. `--owner movement`. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Recover source chronology and missing13 bytes; preserve repaired SpawnShots transport and actual call/field identities. |
