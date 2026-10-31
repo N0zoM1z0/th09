@@ -31,34 +31,6 @@ typedef char PlayerChargeConfigurationAtE8[
 typedef char PlayerChargeConfigurationModeAtB4[
     (offsetof(GameConfiguration, sideFocusMode) == 0xB4) ? 1 : -1];
 
-struct PlayerChargeShtView
-{
-    u8 unknown00[0x24];
-    float chargeRate24;
-    float shotDuration28;
-    // StartAttack receives addresses inside the SHT record, not stored pointers.
-    char modePath2C[0x40];
-    char modePath6C[0x40];
-    char modePathAC[0x40];
-};
-typedef char PlayerChargeShtPath0At2C[
-    (offsetof(PlayerChargeShtView, modePath2C) == 0x2C) ? 1 : -1];
-typedef char PlayerChargeShtPath1At6C[
-    (offsetof(PlayerChargeShtView, modePath6C) == 0x6C) ? 1 : -1];
-typedef char PlayerChargeShtPath2AtAC[
-    (offsetof(PlayerChargeShtView, modePathAC) == 0xAC) ? 1 : -1];
-
-typedef char PlayerChargeShtTextWidths[
-    (sizeof(((PlayerChargeShtView *)0)->modePath2C) == 0x40 &&
-     sizeof(((PlayerChargeShtView *)0)->modePath6C) == 0x40 &&
-     sizeof(((PlayerChargeShtView *)0)->modePathAC) == 0x40) ? 1 : -1];
-typedef char PlayerChargeShtChargeRateAt24[
-    (offsetof(PlayerChargeShtView, chargeRate24) == 0x24) ? 1 : -1];
-typedef char PlayerChargeShtShotDurationAt28[
-    (offsetof(PlayerChargeShtView, shotDuration28) == 0x28) ? 1 : -1];
-typedef char PlayerChargeShtPrefixSizeEC[
-    (sizeof(PlayerChargeShtView) == 0xEC) ? 1 : -1];
-
 struct PlayerChargeSideView
 {
     void *state00;
@@ -139,8 +111,7 @@ int PlayerChargeAttackView::UpdateChargeAttack()
 
     {
         int previousLevel = static_cast<int>(scalar30384) / 100;
-        PlayerChargeShtView *sht =
-            reinterpret_cast<PlayerChargeShtView *>(primaryShtFile);
+        PlayerShtFileView *sht = primaryShtFile;
 
         scalar30384 +=
             g_Supervisor.framerateMultiplier5B8 *
@@ -184,8 +155,7 @@ resolveAttack:
                 reinterpret_cast<PlayerChargeSideView *>(opponentState)
                     ->attackOwner14)->StartAttack(
                         2, 2, 0,
-                        reinterpret_cast<PlayerChargeShtView *>(primaryShtFile)
-                            ->modePathAC);
+                        primaryShtFile->modePath2);
             reinterpret_cast<PlayerResourceSubtractView *>(this)
                 ->SubtractResourceClamped(300.0f);
             *reinterpret_cast<ZunTimer *>(&timer1B74) = 8;
@@ -198,8 +168,7 @@ resolveAttack:
                 reinterpret_cast<PlayerChargeSideView *>(opponentState)
                     ->attackOwner14)->StartAttack(
                         1, 1, 0,
-                        reinterpret_cast<PlayerChargeShtView *>(primaryShtFile)
-                            ->modePath6C);
+                        primaryShtFile->modePath1);
             reinterpret_cast<PlayerResourceSubtractView *>(this)
                 ->SubtractResourceClamped(200.0f);
             *reinterpret_cast<ZunTimer *>(&timer1B74) = 8;
@@ -212,8 +181,7 @@ resolveAttack:
                 reinterpret_cast<PlayerChargeSideView *>(opponentState)
                     ->attackOwner14)->StartAttack(
                         0, 0, 0,
-                        reinterpret_cast<PlayerChargeShtView *>(primaryShtFile)
-                            ->modePath2C);
+                        primaryShtFile->modePath0);
             *reinterpret_cast<ZunTimer *>(&timer1B74) = 8;
             reinterpret_cast<PlayerResourceSubtractView *>(this)
                 ->SubtractResourceClamped(100.0f);
@@ -247,8 +215,7 @@ shooting:
         // Finish the timer conversion before reacquiring the SHT record.
         // This preserves the target's load order across the out-of-line call.
         float shotTime = static_cast<float>(*shotTimer);
-        PlayerChargeShtView *sht =
-            reinterpret_cast<PlayerChargeShtView *>(primaryShtFile);
+        PlayerShtFileView *sht = primaryShtFile;
         if (shotTime >= sht->shotDuration28)
         {
             *shotTimer = 0;

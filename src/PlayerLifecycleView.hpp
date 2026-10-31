@@ -57,7 +57,8 @@ struct PlayerShtFileView
     float focusedAxisSpeed18;
     float normalDiagonalSpeed1C;
     float focusedDiagonalSpeed20;
-    unsigned char unknown24[0x08];
+    float chargeRate24;
+    float shotDuration28;
     char modePath0[0x40];
     char modePath1[0x40];
     char modePath2[0x40];
@@ -71,6 +72,14 @@ typedef char PlayerShtMovementSpeedsAt14[
      offsetof(PlayerShtFileView, focusedAxisSpeed18) == 0x18 &&
      offsetof(PlayerShtFileView, normalDiagonalSpeed1C) == 0x1C &&
      offsetof(PlayerShtFileView, focusedDiagonalSpeed20) == 0x20) ? 1 : -1];
+
+// The charge update reads the same SHT object published by the loader.
+typedef char PlayerShtChargeFields[
+    (offsetof(PlayerShtFileView, chargeRate24) == 0x24 &&
+     offsetof(PlayerShtFileView, shotDuration28) == 0x28 &&
+     sizeof(((PlayerShtFileView *)0)->modePath0) == 0x40 &&
+     sizeof(((PlayerShtFileView *)0)->modePath1) == 0x40 &&
+     sizeof(((PlayerShtFileView *)0)->modePath2) == 0x40) ? 1 : -1];
 
 typedef char PlayerShtModePath0At2C[(offsetof(PlayerShtFileView, modePath0) == 0x2C) ? 1 : -1];
 typedef char PlayerShtModePath1At6C[(offsetof(PlayerShtFileView, modePath1) == 0x6C) ? 1 : -1];

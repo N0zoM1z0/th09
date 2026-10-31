@@ -5,8 +5,9 @@
 The operator explicitly resumed reconstruction on October31 after maintenance
 checkpoint559ccf7c. Prioritize complete RunEcl and EnemyManager::OnUpdate toward
 the unfinished98% reviewed-authored-byte milestone; both large owners and small
-leaves remain in scope. Latest game-source checkpoint is a3e4aaee (unified LZSS
-codec). The earlier maintenance/stop instructions are historical evidence.
+leaves remain in scope. Latest game-source work shares Charge SHT fields with the
+loader/movement type; a3e4aaee (unified LZSS codec) is the preceding checkpoint.
+The earlier maintenance/stop instructions are historical evidence.
 Preserve documentation, research records, current game source, target/toolchains
 and the working Ghidra project. Delete unused old code copies and compiler
 artifacts instead of archiving them.

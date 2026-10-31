@@ -27937,3 +27937,67 @@ Recipes,full raw/COFF reports,logs and deletion receipt remain.
 No old source tree or archive is created. Reviewed-authored exactness remains
 1004/1035 functions and246651/291883 bytes(84.5034%). The98% objective,whole Windows
 product and later runtime/semantic/port gates remain unfinished.
+
+## 2026-10-31: shared SHT charge fields and complete affected-owner preservation
+
+Recovery at a5c5ff9a is clean. The preceding turn is progress through completed
+native Enemy context constraints. Original Japanese 1.50a identity, tracking and
+live status pass. Direct Ghidra 12.1.4 reuses the working project and attests all
+685056 file-backed mapped bytes before exporting Charge41F810 and the two native
+input leaves415CB0/415CD0; export-20261031T055508-1861570 completes successfully.
+No target bytes or database metadata change. The unified codec's complete
+SaveReplay contexts were already measured; they are reviewed without repetition.
+
+Charge reads the SHT pointer from Player+30338, multiplies its float+24 by the
+native Supervisor frame multiplier, and adds that to charge+30384. Its later
+Timer float conversion is compared with SHT float+28. The three attack calls
+pass addresses at SHT+2C/+6C/+AC. The existing loader already publishes the same
+PlayerShtFileView pointer, whose inline path arrays occupy those exact offsets.
+These are TH09 target/source-interface observations; original nominal class,
+unique TU partition and on-disk values are not inferred from adjacent games.
+
+PlayerShtFileView now exposes chargeRate24 and shotDuration28 in the former eight
+opaque bytes, with offset and path-width assertions. Charge uses that existing
+pointer directly and removes its independent PlayerChargeShtView and five casts.
+The shared paths retain their existing three 0x40-byte arrays. No object size,
+alignment, branch, call, storage lifetime, ABI or compiler profile is changed.
+A staged Charge probe first reproduces both baseline regular bodies, including
+all1197 update bytes/70 fields and the independently exact20-byte Timer body.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| CHARGE-SHT-001 | target/source contract | Charge consumes float fields+24/+28 and three inline paths of the loader's actual SHT pointer. | complete target export; PlayerLifecycleView.hpp; PlayerChargeAttackUpdate.cpp |
+| CHARGE-SHT-002 | complete compiler observation | All454 regular bodies/154977 bytes/7418 effective fields across50 affected carriers remain raw/field equal. | plan.json; current-*.json; current.py |
+| CHARGE-SHT-003 | exact preservation | Strict public original-byte/relocation replay passes200 existing units/62097 bytes/2937 fields;153 unchanged source/profile/object pins give353 combined units/107613 bytes/5197 fields. | current.json; current.py |
+| CHARGE-SHT-004 | unresolved original difference | Charge stays1197/1210 bytes,342/350 instructions,70 fields,58 ordered calls,53 blocks,1160 unlike overlaps+13 missing. Its original EBP-1 mode store+55 and reads+1C7/+1DB are still absent from the candidate. | complete Charge diagnostic in current.json |
+
+Fresh manifest and maintained-source dependency censuses identify46 sources,
+47 configured source/profile pairs with200 canonical owners, and three additional
+nonexact carriers: Movement, Charge and Type3. Only these50 current carriers and
+one preliminary Charge proposal are compiled, serially on one CPU at nice10 with
+180-second bounds. No full1004-function cold replay is performed. Historical
+speed-packet GameManager and callback inputs are superseded by the current proof
+subset before baseline reuse; stale source hashes are never silently accepted.
+All20 initial quoted inputs reproduce from immutable a5c5ff9a Git bytes plus
+recorded LF/CRLF line positions, and the two-file transform reproduces the adopted
+source exactly. There is no independent second cold campaign or runtime claim.
+
+The header assertions shift48 compiler-private label names. Each name is read
+from actual COFF, proven at its unchanged owner-relative destination, and updated
+only after whole-unit byte/relocation equality. The manifest's parsed dictionaries
+otherwise remain unchanged: no field offset, kind, addend, destination, extent,
+profile, external symbol, origin or credit migration. Tracking updates only
+Charge's stale evidence routing. RunEcl remains15564/598/30, Enemy3900/97/13,
+Movement1900/66/129 and Type3-780/38/15. No new function or fractional byte credit
+is claimed; reviewed-authored exactness stays1004/1035 and246651/291883(84.5034%).
+
+Current source/profile/object verifier and immutable-input audit:
+`.analysis/gpt-61sol-20261031-charge-shared-sht/current.py` and `audit.py`.
+Retain the50 new proof objects,34 unchanged proof/auxiliary objects, all research,
+recipes, target/toolchains and working Ghidra. Superseded compiler objects and
+PDBs are removed only after the replacement and complete observation checks.
+Cleanup removes102 files/5087131 logical bytes:50 superseded source-stale objects,
+50 current PDBs,and the preliminary proposal OBJ/PDB pair. All1059 deletion-time
+protected hashes remain equal;the receipt records individual paths and hashes.
+No source archive is created. The98% goal and later Windows product/runtime,
+semantic and portability phases remain unfinished.

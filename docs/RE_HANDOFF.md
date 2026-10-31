@@ -7,22 +7,25 @@ checkpoint559ccf7c. Continue the unfinished98% reviewed-authored-byte milestone,
 prioritizing complete RunEcl and Enemy update while keeping small leaves in
 scope. Earlier maintenance and stop instructions are historical checkpoints.
 
-Current game-source checkpoint: **a3e4aaeea6e4ea651a171bc019a7d556cb09f61f**.
-It unifies the native LZSS codec in `src/Lzss.cpp`; four superseded implementation
-files are deleted. All nine excluded third-party codec units compare1888 bytes/
-66 fields,including newly exact Encode571/8. This adds no reviewed-authored
-credit. The preceding game-source checkpoint is6c8ccca9;71246812 is historical.
-The current native-reward context checkpoint changes no game source,compiler
-profile or ledger.
+Current game-source change: this checkpoint unifies Charge's SHT fields with
+`PlayerShtFileView`, shared by the loader and movement. It exposes the observed
+charge rate at+24 and shot duration at+28, reuses the three inline attack paths,
+and removes the private Charge SHT projection. The preceding game-source commit
+is **a3e4aaeea6e4ea651a171bc019a7d556cb09f61f** (unified LZSS codec).
 
-Latest bounded result: six complete Enemy/ECL contexts place the actual death-
-reward and descriptor-constructor definitions before/after the current carrier.
-All138 baseline regular bodies/50066 bytes/2097 effective fields are unchanged;
-RunEcl stays15564/598/30 and Enemy3900/97/13. All75 existing same-profile exact
-siblings pass in each build; the added1142/39 reward and28/0 constructor also
-match completely. An immutable-Git/EOL combined cold replay agrees. No context
-is adopted and no exact credit is added. Research,recipes and full observations:
-`.analysis/gpt-61sol-20261031-enemy-native-reward-context/`;see the latest KB note.
+All50 affected source/profile carriers preserve454 regular raw bodies/154977
+physical bytes/7418 effective fields. Complete strict replay passes200 existing
+canonical units/62097 bytes/2937 fields;153 unchanged source/profile/object pins
+are reused. RunEcl stays15564/598/30, Enemy3900/97/13, Movement1900/66/129,
+Type3-780/38/15 and Charge1197/70/58/1160 overlap differences+13 missing.
+Only48 compiler-private label spellings migrate at proven unchanged destinations;
+no profile, extent, target, external identity or exactness credit changes.
+Current proof and research: `.analysis/gpt-61sol-20261031-charge-shared-sht/`.
+
+The preceding native-reward context checkpoint a5c5ff9a remains a bounded
+negative: six full Enemy/ECL contexts and an immutable-input replay preserve
+Enemy13 and RunEcl30. Its old source/header epoch is historical after this
+checkpoint. See the KB for the individual observations and reproduction recipes.
 
 ## Source and evidence routing
 
@@ -32,23 +35,23 @@ object path. Proof reuse requires matching source,profile and object hashes.
 - Canonical inventory: `config/functions.csv`,`config/function-origins.csv`,
   `config/matches.csv` and `config/match-units.toml`.
 - Current retained subset:
-  `.analysis/gpt-61sol-20261031-lzss-encode-context/current.py` checks353 units/
-  107613 summed physical bytes/5197 fields. It strictly compares nine codec
-  units/1888 bytes/66 fields and reuses344 unchanged source/profile/object pins.
+  `.analysis/gpt-61sol-20261031-charge-shared-sht/current.py` checks353 units/
+  107613 summed physical bytes/5197 fields. It strictly compares200 affected
+  units/62097 bytes/2937 fields and reuses153 unchanged source/profile/object pins.
   These353 include excluded units;they are not the1004 authored exact ledger
   entries. Its `current.json` identifies84 retained proof objects,including
   auxiliary owners. Nine additional historical/diagnostic objects also remain.
-- The preceding ECL native-angle packet's `current.json` supplies the344 pins;
-  earlier323/297/251 and other combined verifiers are historical bundles.
+- The preceding LZSS packet's `current.json` supplies the unchanged153 pins;
+  earlier344/323/297/251 and other combined verifiers are historical bundles.
   Their unchanged individual groups may feed current pins,but a historical
   whole verifier is not automatically current. Missing discarded trial objects
   are expected;rebuild a needed candidate from its recipe before comparison.
 - `src/EclOperands.cpp` uses the actual opposite-angle PlayerAngleView producer
   at41BB70. The four resolvers remain5718 complete physical bytes/374 fields.
   Type7 uses the separate forward producer41BB00. Never rebind one to the other.
-- BulletManager uses native RNG/Supervisor declarations. Player movement and
-  SHT loading share PlayerShtFileView's four observed speed fields. ScoreData,
-  finalization,insertion and result drawing share TitleScoreRecordView. These
+- BulletManager uses native RNG/Supervisor declarations. Player movement,
+  SHT loading and Charge share PlayerShtFileView's observed speed/charge fields.
+  ScoreData,finalization,insertion and result drawing share TitleScoreRecordView. These
   interface repairs preserve the current large-owner residuals below.
 - Player shot/Charge declarations use the actual initializer,frame,resource,
   SoundPlayer and SpawnShots producers. Enemy tracking separates the position
@@ -69,7 +72,7 @@ rejects ten existing owners. Other existing units absent from each partition
 are explicitly outside its proof scope,not passes. No split is adopted.
 All79 immutable Git/EOL inputs,recipes,raw/COFF records and logs were audited
 before disposing the twelve trial OBJ/PDB files. Maintenance adds no compiler
-jobs or independent cold replay. See the latest KB note for the complete table.
+jobs or independent cold replay. See the source-partition KB note for the complete table.
 
 Other completed context controls are indexed by findings in
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md). Important bounded negatives include
@@ -208,11 +211,16 @@ behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 ## Maintenance and validation
 
 Latest cleanup receipt:
-`.analysis/gpt-61sol-20261031-enemy-native-reward-context/cleanup.json`.
-Fourteen completed trial OBJ/PDB files/3781088 logical bytes are removed after
-all compiler handles terminate;965 protected hashes remain equal. Preserve the
-current canonical baseline,all353 retained proof pins,target/toolchains,working
-Ghidra,recipes,full raw/COFF observations and logs. No game source is changed.
+`.analysis/gpt-61sol-20261031-charge-shared-sht/cleanup.json`.
+After complete replacement proofs,102 superseded OBJ/PDB files/5087131 logical
+bytes are removed. All1059 deletion-time protected hashes remain equal;84 current
+proof objects,tracked source,research,target/toolchains and working Ghidra remain.
+Each of the50 superseded carriers has complete before/after raw/COFF observations
+and reproducible source inputs. No source archive is created;build/ is absent.
+
+Preceding native-reward receipt:
+`.analysis/gpt-61sol-20261031-enemy-native-reward-context/cleanup.json` removed14
+completed trial OBJ/PDB files/3781088 bytes with965 protected hashes unchanged.
 
 Preceding maintenance receipt: `.analysis/maintenance-20261031/cleanup.json`.
 Eighteen ignored files/2336422 logical bytes were deleted:twelve completed
@@ -235,7 +243,7 @@ validation of this checkout.
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/validate-docs.py
 python3 -B scripts/progress.py --check
-python3 -B .analysis/gpt-61sol-20261031-lzss-encode-context/current.py
+python3 -B .analysis/gpt-61sol-20261031-charge-shared-sht/current.py
 git diff --check
 ```
 
