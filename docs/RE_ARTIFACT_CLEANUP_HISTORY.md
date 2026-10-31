@@ -3202,3 +3202,24 @@ outputs already self-clean. No source archive is added and build/ is absent.
 Post-cleanup current359 and both complete saved-record/input audits pass without
 compiler jobs. Receipt:
 `.analysis/gpt-61sol-20261031-winmain-native-seed/cleanup.json`.
+
+## 2026-10-31: shared ECL and Enemy observed storage
+
+Four complete whole-type models and five adopted source/profile carriers are
+terminal. The adopted common data views preserve83 existing exact units and
+all280 regular body/profile payloads;the native timeout model is rejected.
+Two independent main compiler executions precede cleanup:the first audit fails
+only on temporary object-path metadata,the corrected second audit passes all
+complete code/field/report comparisons. Immutable6ee0e0db Git/EOL inputs,
+recipes,full raw/COFF/COMDAT reports and both audit outcomes remain.
+
+Cleanup removes18 completed compiler files/3470227 logical bytes:five replaced
+source-stale carriers,four trial objects and nine PDBs. All1010 deletion-time
+protected hashes agree,including89 primary proof/diagnostic objects,all other
+retained objects,source/research,original target/toolchains and working Ghidra.
+Retain the five adopted objects and both fresh mapped-byte-attested exports.
+Independent temporary outputs already self-clean;no source archive is added
+and build/ is absent. Post-cleanup current359 verifies83 strict affected units/
+25942 bytes/1146 fields plus276 unchanged pins,109976 summed physical bytes/
+5388 fields;the saved-input audit also passes without further compiler jobs.
+Receipt:`.analysis/gpt-61sol-20261031-ecl-enemy-shared-owner/cleanup.json`.

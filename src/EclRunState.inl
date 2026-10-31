@@ -54,53 +54,46 @@ typedef Th09EclEnemyPrimaryFlagBits EnemyStateFlagBits;
 typedef char Th09EclStateFlagBitsSizeIs04[
     (sizeof(EnemyStateFlagBits) == 0x04) ? 1 : -1];
 
-struct SideStateView
+} // namespace Th09EclRunState
+
+// Shared observed storage used by ECL state handlers and Enemy update.
+// Roles and offsets are target-bound; original nominal C++ classes remain unknown.
+struct EnemyManagerCoreView;
+struct EnemyCorePlayerView;
+struct EnemyCoreView;
+struct EnemyCoreSideStateView
 {
     unsigned char *background00;
-    unsigned char unknown04[0x08];
+    EnemyCorePlayerView *player04;
+    EtamaController *etama08;
     EffectManager *effectManager0C;
-};
-typedef char Th09EclStateSideEffectAt0C[
-    (offsetof(SideStateView, effectManager0C) == 0x0C) ? 1 : -1];
+    EnemyManagerView *enemyManager10;
+    unsigned char unknown14[0x0C];
+    int characterIndex20;
+    unsigned char unknown24[0x10];
+    unsigned int flags34;
 
-struct ManagerStateView
-{
-    EnemyEclManagerView primaryEcl000;
-    EnemyEclManagerView opposingEcl188;
-    unsigned char unknown310[0x0320 - 0x0310];
-    SideStateView *sideState320;
 };
-typedef char Th09EclStateManagerSideAt320[
-    (offsetof(ManagerStateView, sideState320) == 0x0320) ? 1 : -1];
-
-struct TrailSampleView
+struct EnemyCoreTrailSampleView
 {
-    EnemyFloat3 position00;
-    EnemyFloat3 velocity0C;
+    Float3 position00;
+    Float3 velocity0C;
     float angle18;
 };
-typedef char Th09EclStateTrailSampleSizeIs1C[
-    (sizeof(TrailSampleView) == 0x1C) ? 1 : -1];
-
-struct TrailVertexView
+struct EnemyCoreTrailVertexView
 {
-    float x;
-    float y;
-    float z;
-    float rhw;
-    unsigned long diffuse;
-    float u;
-    float v;
+    Float3 position00;
+    float rhw0C;
+    unsigned long diffuse10;
+    float u14;
+    float v18;
 };
-typedef char Th09EclStateTrailVertexSizeIs1C[
-    (sizeof(TrailVertexView) == 0x1C) ? 1 : -1];
-
-struct EnemyStateView
+struct EnemyCoreView
 {
-    ManagerStateView *manager0000;
-    unsigned char unknown0004[0x0008 - 0x0004];
-    AnmVm primaryVm0008;
-    AnmVm secondaryVms02AC[2];
+    EnemyManagerCoreView *manager0000;
+    EnemyCoreView *nextInDrawGroup04;
+    AnmVm primaryVm008;
+    AnmVm secondaryVms2AC[2];
     Th09EclContextView mainContext07F4;
     Th09EclContextView mainCallStack0A20[TH09_ECL_MAIN_CALL_STACK_CAPACITY];
     Th09EclContextView *activeContext2CE0;
@@ -116,7 +109,11 @@ struct EnemyStateView
     Float3 position2D74;
     Float3 positionOffset2D80;
     Float3 velocity2D8C;
-    unsigned char unknown2D98[0x2DD4 - 0x2D98];
+    unsigned char unknown2D98[0x2DA4 - 0x2D98];
+    Float3 previousPosition2DA4;
+    Float3 displacement2DB0;
+    Float3 hitbox2DBC;
+    Float3 secondaryHitbox2DC8;
     Float3 worldPosition2DD4;
     float movementAngle2DE0;
     unsigned char unknown2DE4[0x2E38 - 0x2DE4];
@@ -129,21 +126,28 @@ struct EnemyStateView
     int life2E48;
     int maxLife2E4C;
     int phaseStartingLife2E50;
-    unsigned char unknown2E54[0x2E64 - 0x2E54];
+    int score2E54;
+    int sequenceIndex2E58;
+    int primaryDamageAccumulator2E5C;
+    int secondaryDamageAccumulator2E60;
     Th09EclTimerStorageView bossTimer2E64;
-    unsigned char unknown2E70[0x32D8 - 0x2E70];
+    unsigned int displayColor2E70;
+    unsigned char bulletState2E74[0x30B4 - 0x2E74];
+    int shootInterval30B4;
+    unsigned char unknown30B8[0x32D8 - 0x30B8];
     Laser *laserSlots32D8[32];
     int selectedLaserSlot3358;
     int itemDropType335C;
     int itemDropCount3360;
     int itemDropExtraCount3364;
-    unsigned char deathAnmScripts3368[3];
+    signed char deathAnmScripts3368[3];
     unsigned char bossSlot336B;
-    unsigned char unknown336C[0x337C - 0x336C];
+    unsigned char damageFlashTimer336C;
+    unsigned char unknown336D[0x337C - 0x336D];
     union
     {
         unsigned int primaryFlags337C;
-        EnemyStateFlagBits primaryFlagBits337C;
+        Th09EclRunState::EnemyStateFlagBits primaryFlagBits337C;
     };
     unsigned int secondaryFlags3380;
     unsigned char unknown3384[0x03];
@@ -157,8 +161,8 @@ struct EnemyStateView
     int timerCallbackThreshold33D0;
     int timerCallbackSubId33D4;
     void *childEclBlocks33D8[4];
-    TrailSampleView trailSamples33E8[96];
-    TrailVertexView trailVertices3E68[192];
+    EnemyCoreTrailSampleView trailSamples33E8[96];
+    EnemyCoreTrailVertexView trailVertices3E68[192];
     unsigned char unknown5368[0x53A0 - 0x5368];
     unsigned char trailFlags53A0;
     unsigned char unknown53A1;
@@ -167,12 +171,56 @@ struct EnemyStateView
     short trailSampleStride53A6;
     Th09EclTimerStorageView damageReductionTimer53A8;
     EnemyAttachedEffectStateView attachedEffectState53B4;
-    unsigned char unknown541C[0x5430 - 0x541C];
+    unsigned char unknown541C[4];
+    int phaseEndSeconds5420;
+    ZunTimer specialAttackTimer5424;
 };
+struct EnemyManagerCoreView
+{
+    EnemyEclManagerView primaryEclManager000;
+    EnemyEclManagerView opposingEclManager188;
+    unsigned char unknown310[0x0C];
+    int sideIndex31C;
+    EnemyCoreSideStateView *sideState320;
+    EnemyCoreSideStateView *opposingSideState324;
+    EnemyCoreView spawnTemplate328;
+    EnemyCoreView enemies5758[129];
+    unsigned char unknown2AC388[0x2AC3AC - 0x2AC388];
+    int activeEnemyCount2AC3AC;
+    int normalEnemyCount2AC3B0;
+    int specialEnemyCount2AC3B4;
+    int rewardEnemyCount2AC3B8;
+    unsigned char unknown2AC3BC[0x2AC3C8 - 0x2AC3BC];
+    ZunTimer sideTimer2AC3C8;
+    unsigned char scheduleIndex2AC3D4;
+    unsigned char unknown2AC3D5[0x2AC3E0 - 0x2AC3D5];
+    EnemyScheduleRuntimeView scheduleRuntime2AC3E0;
+    int scheduleHighBit2AC3F8;
+    unsigned char unknown2AC3FC[0x04];
+    void *scheduleObject2AC400;
+    ZunTimer frameTimer2AC404;
+    EnemyCoreView *drawGroupHeads2AC410[4];
+    unsigned char unknown2AC420[0x24];
+    EnemyCoreView *priorityEnemy2AC444;
+    EnemyCoreView *firstActiveEnemy2AC448;
+    int specialAttackThreshold2AC44C;
+};
+
+namespace Th09EclRunState
+{
+typedef ::EnemyCoreSideStateView SideStateView;
+typedef ::EnemyManagerCoreView ManagerStateView;
+typedef ::EnemyCoreTrailSampleView TrailSampleView;
+typedef ::EnemyCoreTrailVertexView TrailVertexView;
+typedef ::EnemyCoreView EnemyStateView;
+typedef char Th09EclStateSideEffectAt0C[(offsetof(SideStateView, effectManager0C) == 0x0C) ? 1 : -1];
+typedef char Th09EclStateManagerSideAt320[(offsetof(ManagerStateView, sideState320) == 0x320) ? 1 : -1];
+typedef char Th09EclStateTrailSampleSizeIs1C[(sizeof(TrailSampleView) == 0x1C) ? 1 : -1];
+typedef char Th09EclStateTrailVertexSizeIs1C[(sizeof(TrailVertexView) == 0x1C) ? 1 : -1];
 typedef char Th09EclStateEnemySizeIs5430[
     (sizeof(EnemyStateView) == 0x5430) ? 1 : -1];
 typedef char Th09EclStatePrimaryVmAt008[
-    (offsetof(EnemyStateView, primaryVm0008) == 0x0008) ? 1 : -1];
+    (offsetof(EnemyStateView, primaryVm008) == 0x0008) ? 1 : -1];
 typedef char Th09EclStateMainContextAt07F4[
     (offsetof(EnemyStateView, mainContext07F4) == 0x07F4) ? 1 : -1];
 typedef char Th09EclStateMainCallStackAt0A20[
@@ -445,7 +493,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
             Th09EclRunState::View(enemy)->
                 childEclBlocks33D8[stateIndex])->subroutineId00 =
                     Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        Th09EclRunState::View(enemy)->manager0000->primaryEcl000.InitializeSubroutine(
+        Th09EclRunState::View(enemy)->manager0000->primaryEclManager000.InitializeSubroutine(
             &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
                 Th09EclRunState::View(enemy)->childEclBlocks33D8[stateIndex])->
                     context08,
@@ -557,14 +605,14 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     }
 
     case TH09_ECL_OPCODE_INTERRUPT_MAIN_ANM:
-        Th09EclRunState::View(enemy)->primaryVm0008.pendingInterrupt =
+        Th09EclRunState::View(enemy)->primaryVm008.pendingInterrupt =
             static_cast<short>(
                 Th09EclRunControl::ReadInt(enemy, instruction, 0));
         break;
 
     case TH09_ECL_OPCODE_INTERRUPT_SECONDARY_ANM:
         stateIndex = Th09EclRunControl::RawInt(instruction, 0);
-        Th09EclRunState::View(enemy)->secondaryVms02AC[stateIndex].
+        Th09EclRunState::View(enemy)->secondaryVms2AC[stateIndex].
             pendingInterrupt = Th09EclRunState::RawShort(instruction, 4);
         break;
 
@@ -662,7 +710,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
              Th09EclRunState::TRAIL_BUILD_GEOMETRY) != 0)
         {
             g_AnmManager->InitializeHorizontalTextureStrip(
-                &Th09EclRunState::View(enemy)->primaryVm0008,
+                &Th09EclRunState::View(enemy)->primaryVm008,
                 reinterpret_cast<VertexTex1DiffuseXyzrhw *>(
                     Th09EclRunState::View(enemy)->trailVertices3E68),
                 2 * (Th09EclRunState::View(enemy)->trailHistoryLength53A2 /

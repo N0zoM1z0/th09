@@ -7,25 +7,33 @@ checkpoint559ccf7c. Continue the unfinished98% reviewed-authored-byte milestone,
 prioritizing complete RunEcl and Enemy update while keeping small leaves in
 scope. Earlier maintenance and stop instructions are historical checkpoints.
 
-Current game-source change: WinMain now calls the existing ReplayRngView::SetSeed
-implementation and uses its existing replay RNG projection at4ACE0C. The undefined
-MainReplayRngView method/private global declarations are removed. The14-byte native
-setter is separately original-equal;both actual field migrations preserve the
-same addresses,addends,offsets and transport. Other startup/global projections
-and full product linkage remain open.
+Current game-source change: ECL state handlers and Enemy update share observed
+Enemy,manager,side-state and trail storage in EclRunState.inl. Enemy update uses
+the typed main ECL context directly. Offset/size guards remain;public EnemyView
+and other partial projections,original nominal classes,lifetimes and TU boundaries
+remain open. Four whole-source models retain the30/13 boss residuals or regress;
+only the byte-preserving shared-storage model is adopted.
 
-Strict affected replay preserves two existing units/1636 bytes/171 fields:
-WinMain1351/152 and CreateGameWindow285/19. Their raw bytes remain identical;
-two complete compiler contributions/66 bytes/four fields also remain. Four
-unchanged native leaves/39 bytes pass without cold compilation.357 unchanged
-source/profile/object pins produce359 combined units/109976 bytes/5388 fields,
-including excluded units;no new authored credit is added.
-Current proof: `.analysis/gpt-61sol-20261031-winmain-native-seed/`.
+Strict affected replay preserves83 existing units/25942 bytes/1146 fields across
+five source/profile carriers. All280 regular body/profile payloads retain97655
+bytes/4352 effective fields after proving two source-only projection-name
+migrations,including19 actual Ob0 internal references. Twenty canonical compiler-
+private label names change at proven identical destinations. Two compiler
+contributions retain76 bytes/zero fields.276 unchanged source/profile/object pins
+produce359 combined units/109976 bytes/5388 fields,including excluded units;no
+new authored credit is added. Current proof:
+`.analysis/gpt-61sol-20261031-ecl-enemy-shared-owner/`.
+
+Preceding game-source checkpoint **6ee0e0db** connects WinMain to the implemented
+ReplayRngView::SetSeed and existing replay RNG projection at4ACE0C. Its two exact
+startup owners and native14-byte setter remain unchanged and are reused. Other
+startup/global projections and full product linkage remain open.
 
 Preceding game-source checkpoint **0bf38400** recovers the interpolation slot's
 callbackIndex14 and four float parameters1C. Installer and both native consumers
-share that array directly;slot0x30/context0x22C remain. Its357-unit proof remains
-current for its subset and feeds this checkpoint. Earlier35d9d780 defines the
+share that array directly;slot0x30/context0x22C remain. Its affected carriers are
+replaced by the current packet;unchanged individual proofs feed this checkpoint.
+Earlier35d9d780 defines the
 eight native callbacks,c0e8a0b9 shares SHT Charge fields,and a3e4aaee unified LZSS.
 RunEcl stays15564/598/30 and Enemy3900/97/13;the interpolation table prefix and
 both native functions remain original-equal.
@@ -45,10 +53,10 @@ immutable-input recipes and preserved limitations.
 
 Latest bounded Front result: complete selected-index/publication and whole-scan
 controls retain or regress the693-byte weighted picker;none is adopted. Current
-Front source remains unchanged. The new standalone baseline in
+Front source remains unchanged. The standalone baseline in
 `.analysis/gpt-61sol-20261031-front-selected-publication/` is693/15/6 with351
-linked differences and41 versus40 blocks. The current parameter-field packet
-verifies its unchanged source/profile/object pins alongside357 code units;
+linked differences and41 versus40 blocks. The current shared-storage packet
+verifies its unchanged source/profile/object pins alongside359 code units;
 its older whole current.py is source-scoped. See the latest KB note for measured
 boundaries;this does not change exactness credit.
 
@@ -78,16 +86,17 @@ object path. Proof reuse requires matching source,profile and object hashes.
 - Canonical inventory: `config/functions.csv`,`config/function-origins.csv`,
   `config/matches.csv` and `config/match-units.toml`.
 - Current retained subset:
-  `.analysis/gpt-61sol-20261031-winmain-native-seed/current.py` checks359 units/
-  109976 summed physical bytes/5388 fields. It strictly compares two affected
-  units/1636 bytes/171 fields and reuses357 unchanged source/profile/object pins.
+  `.analysis/gpt-61sol-20261031-ecl-enemy-shared-owner/current.py` checks359 units/
+  109976 summed physical bytes/5388 fields. It strictly compares83 affected
+  units/25942 bytes/1146 fields and reuses276 unchanged source/profile/object pins.
   These359 include excluded units;they are not the1004 authored exact ledger
   entries. Its current.json identifies88 retained proof objects including
   auxiliary owners,and also pins the unchanged standalone Front diagnostic.
   Nine additional historical/diagnostic objects remain.
-- The preceding parameter-field packet's current.json supplies357 unchanged pins
-  and remains current for that subset. Older357/353/344/323/297/251 bundles are
-  source-scoped historical verifiers.
+- The preceding startup and parameter-field whole verifiers are source-stale
+  after the shared-storage change. Their unaffected individual groups supply
+  the276 reused pins. Older357/353/344/323/297/251 bundles are source-scoped
+  historical verifiers.
   Their unchanged individual groups may feed current pins,but a historical
   whole verifier is not automatically current. Missing discarded trial objects
   are expected;rebuild a needed candidate from its recipe before comparison.
@@ -261,6 +270,14 @@ behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 ## Maintenance and validation
 
 Latest cleanup receipt:
+`.analysis/gpt-61sol-20261031-ecl-enemy-shared-owner/cleanup.json`.
+Eighteen completed compiler files/3470227 logical bytes are removed:five replaced
+source-stale carriers,four completed whole-type controls,and nine PDBs. All1010
+deletion-time protected hashes remain equal;89 primary proof/diagnostic objects,
+other retained objects,source,research,target/toolchains and working Ghidra remain.
+Both independent temporary compiler outputs self-clean. Build/ is absent.
+
+Preceding startup cleanup receipt:
 `.analysis/gpt-61sol-20261031-winmain-native-seed/cleanup.json`.
 Nine completed compiler files/674662 logical bytes are removed:the obsolete
 WinMain baseline object,three rejected Replay objects,and five PDBs. All998
@@ -329,7 +346,7 @@ validation of this checkout.
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/validate-docs.py
 python3 -B scripts/progress.py --check
-python3 -B .analysis/gpt-61sol-20261031-winmain-native-seed/current.py
+python3 -B .analysis/gpt-61sol-20261031-ecl-enemy-shared-owner/current.py
 git diff --check
 ```
 

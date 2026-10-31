@@ -28366,3 +28366,79 @@ SaveReplay stays three differences,RunEcl30 and Enemy13 remain unresolved,and
 authored exactness stays1004/1035 and246651/291883 bytes(84.5034%). The98%
 objective and later Windows product/runtime,semantic and portability gates
 remain unfinished.
+
+## 2026-10-31: shared ECL and Enemy observed storage
+
+Dirty source is recovered from the complete whole-type experiment packet,not
+discarded. Baseline6ee0e0db supplies immutable Git/EOL inputs. Direct Ghidra
+exports073245-2257937 and074433-2303291 reuse the verified project and attest
+disk/Program identity,i386,base/entry and all685056 mapped file bytes. Original
+SpawnEnemy40F340 copies0x5430 bytes,scans128 slots and routes both ECL managers
+through the same Enemy main context at7F4. Manager constructor4121D0 initializes
+ECL managers0/188,template328 and129 records of stride5430 at5758. Enemy
+constructor412100 initializes the main context7F4 and16 contexts of stride22C
+atA20. These are target observations;original C++ class spelling,lifetime and
+unique nominal ownership are not established.
+
+The same constructor passes194 records of stride1C starting3E68 to the vector
+iterator,ending53A0. Existing State/Core/draw views expose192 vertex records
+through5368 and56 opaque bytes. The common view preserves that partial
+projection. The folded callback at4343D0 is a three-byte pointer-return body;
+count/stride alone do not establish an original vertex type or declared array
+extent. Original iterator call windows are separately decoded from PE bytes in
+constructor-iterator-windows.json;no constructor exactness credit is claimed.
+
+Four complete source models test shared Enemy only,shared manager/side only,
+both,and both with a native timeout bitfield assignment. The first three
+preserve all138 main-carrier regular bodies/50066 bytes/2097 effective fields,
+75 existing exact owners,and RunEcl15564/598/30 plus Enemy3900/97/13. The native
+timeout model changes only RunEcl among common definitions:1938 ordinary plus
+202 field bytes differ,2140 total,including26 table bytes. Its unused masked-
+assignment helper disappears. All75 exact siblings still pass;the timeout
+model is rejected without partial credit. These bounds do not exhaust natural
+source hypotheses.
+
+The adopted shared-storage model places EnemyCoreView,EnemyManagerCoreView,
+side-state and trail views in EclRunState.inl;State role names become aliases.
+Existing Core fields fill previously opaque State regions. Enemy update now
+passes its typed mainContext07F4 directly rather than casting raw ECL storage.
+Death-script byte0 preserves its actual signed read. Neither this declaration
+nor byte-neutral compilation proves unique original signedness. Size/offset
+guards,statement order,branches,native producers and the maintained masked
+timeout update remain. Public EnemyView and other partial projections remain
+separate;native product closure and original TU boundaries remain open.
+
+Five affected source/profile carriers cold-build83 existing exact units:
+main Ob1/75,main Ob0/4,Helpers/2,InitializeSubroutine/1 and ManagerClear/1.
+EclOperands is source-independent of State and reuses its four proofs. Complete
+comparison retains280 regular body/profile payloads/97655 bytes/4352 fields and
+two compiler COMDATs/76 bytes/zero fields. Two projection helper return-type
+names migrate in each main profile. Ob1 emits two unreferenced three-byte
+bodies;Ob0 emits three-/five-byte bodies with19 actual nondebug internal
+references. Every edge retains its positive same-object destination coordinates,
+kind and complete body. These are source-only definitions without new original
+addresses or credit. Separately,the manifest updates20 compiler-private label
+spellings after full owner-relative destination proof;canonical offsets,types,
+addends,targets,extents and profiles remain.
+
+Packet:`.analysis/gpt-61sol-20261031-ecl-enemy-shared-owner/`. All83 immutable
+inputs reproduce the adopted source. Eleven serial,single-CPU,nice10,bounded
+compiler executions comprise four controls,five adopted carriers and two
+independent main replays. The first cold build passed code comparison but its
+audit mistakenly compared a temporary object path;that failure remains recorded.
+The corrected second audit compares all substantive reports and passes. No
+public acceptance rule or compiler profile changes. current.py strictly proves
+83 units/25942 bytes/1146 fields and reuses276 unchanged pins,combining359 units/
+109976 summed physical bytes/5388 fields. The prior whole startup/parameter
+verifiers are source-stale;only unaffected individual groups feed this receipt.
+Focused tests run243 cases and all pass. Tracking,documentation,
+generated progress and whitespace checks apply;public validation code is unchanged.
+
+After producers terminate,cleanup removes18 files/3470227 logical bytes:five
+replaced carriers,four completed trial objects and nine PDBs. All1010 protected
+hashes agree. Retain89 primary proof/diagnostic objects,other objects,immutable
+inputs,recipes,full code/COFF/data observations,logs,research,source,target/tools
+and working Ghidra. Both independent temporary outputs self-clean. Post-cleanup
+current359 and saved-input audits pass without compiler jobs. No source archive
+is added;build/ is absent. RunEcl30,Enemy13 and authored exactness1004/1035,
+246651/291883 bytes(84.5034%) remain unchanged;the98% objective is unfinished.

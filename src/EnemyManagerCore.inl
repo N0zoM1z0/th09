@@ -119,44 +119,20 @@ typedef char EnemyCoreNativeVmFlags[offsetof(AnmVm, flagsWord) == 0x1F8 ? 1 : -1
 typedef char EnemyCoreNativeVmScript[offsetof(AnmVm, scriptIndex) == 0x21A ? 1 : -1];
 typedef char EnemyCoreNativeVmSprite[offsetof(AnmVm, loadedSprite) == 0x224 ? 1 : -1];
 
-struct EnemyCoreTrailSampleView
-{
-    Float3 position00;
-    Float3 velocity0C;
-    float angle18;
-};
+
 typedef char EnemyCoreTrailSampleSizeIs1C[
     (sizeof(EnemyCoreTrailSampleView) == 0x1C) ? 1 : -1];
 
 // ECL's trail writer and the exact draw owner both use a separate vertex
 // array at +0x3E68. It is not an extension of the 96 history records.
-struct EnemyCoreTrailVertexView
-{
-    Float3 position00;
-    float rhw0C;
-    unsigned long diffuse10;
-    float u14;
-    float v18;
-};
+
 typedef char EnemyCoreTrailVertexSizeIs1C[
     (sizeof(EnemyCoreTrailVertexView) == 0x1C) ? 1 : -1];
 
 struct EnemyCorePlayerView;
 struct EnemyCoreView;
 
-struct EnemyCoreSideStateView
-{
-    unsigned char unknown00[0x04];
-    EnemyCorePlayerView *player04;
-    EtamaController *etama08;
-    EffectManager *effectManager0C;
-    EnemyManagerView *enemyManager10;
-    unsigned char unknown14[0x0C];
-    int characterIndex20;
-    unsigned char unknown24[0x10];
-    unsigned int flags34;
 
-};
 typedef char EnemyCoreSideStateSizeIs38[
     (sizeof(EnemyCoreSideStateView) == 0x38) ? 1 : -1];
 
@@ -198,78 +174,13 @@ typedef char EnemyCoreBulletDescriptorMatchesEtamaFields[
      offsetof(BulletSpawnDescriptor, transformFlags) == 0x1FC &&
      offsetof(BulletSpawnDescriptor, templateSprites) == 0x210) ? 1 : -1];
 
-struct EnemyCoreView
-{
-    EnemyManagerView *manager00;
-    EnemyCoreView *nextInDrawGroup04;
-    AnmVm primaryVm008;
-    AnmVm secondaryVms2AC[2];
-    unsigned char eclStorage7F4[0x2D2A - 0x7F4];
-    short eclCallStackDepth2D2A;
-    unsigned char unknown2D2C[0x02];
-    short deathCallbackSubId2D2E;
-    unsigned char unknown2D30[0x2D74 - 0x2D30];
-    Float3 position2D74;
-    Float3 positionOffset2D80;
-    Float3 velocity2D8C;
-    unsigned char unknown2D98[0x2DA4 - 0x2D98];
-    Float3 previousPosition2DA4;
-    Float3 displacement2DB0;
-    Float3 hitbox2DBC;
-    Float3 secondaryHitbox2DC8;
-    Float3 worldPosition2DD4;
-    float movementAngle2DE0;
-    unsigned char unknown2DE4[0x2E48 - 0x2DE4];
-    int life2E48;
-    int maxLife2E4C;
-    int phase2E50;
-    int score2E54;
-    int sequenceIndex2E58;
-    int primaryDamageAccumulator2E5C;
-    int secondaryDamageAccumulator2E60;
-    ZunTimer bossTimer2E64;
-    unsigned int displayColor2E70;
-    unsigned char bulletState2E74[0x30B4 - 0x2E74];
-    int shootInterval30B4;
-    unsigned char unknown30B8[0x335C - 0x30B8];
-    unsigned int defeatTokenType335C;
-    unsigned char unknown3360[0x08];
-    signed char deathEffectVariant3368;
-    unsigned char unknown3369[0x02];
-    unsigned char bossSlot336B;
-    unsigned char damageFlashTimer336C;
-    unsigned char unknown336D[0x337C - 0x336D];
-    unsigned int flags337C;
-    unsigned int flags3380;
-    unsigned char unknown3384[0x03];
-    unsigned char drawGroup3387;
-    unsigned char unknown3388[0x33AC - 0x3388];
-    int lastDamage33AC;
-    int lifeCallbackThresholds33B0[4];
-    int lifeCallbackSubIds33C0[4];
-    int timerCallbackThreshold33D0;
-    int timerCallbackSubId33D4;
-    void *childEclBlocks33D8[4];
-    EnemyCoreTrailSampleView trailSamples33E8[96];
-    EnemyCoreTrailVertexView trailVertices3E68[192];
-    unsigned char unknown5368[0x53A0 - 0x5368];
-    unsigned char trailFlags53A0;
-    unsigned char unknown53A1;
-    short trailHistoryLength53A2;
-    short trailCollisionLength53A4;
-    short trailSampleStride53A6;
-    ZunTimer damageReductionTimer53A8;
-    EnemyAttachedEffectStateView attachedEffectState53B4;
-    unsigned char unknown541C[4];
-    int phaseEndSeconds5420;
-    ZunTimer specialAttackTimer5424;
-};
+
 typedef char EnemyCoreViewSizeIs5430[
     (sizeof(EnemyCoreView) == 0x5430) ? 1 : -1];
 typedef char EnemyCoreWorldAt2DD4[
     (offsetof(EnemyCoreView, worldPosition2DD4) == 0x2DD4) ? 1 : -1];
 typedef char EnemyCoreFlagsAt337C[
-    (offsetof(EnemyCoreView, flags337C) == 0x337C) ? 1 : -1];
+    (offsetof(EnemyCoreView, primaryFlags337C) == 0x337C) ? 1 : -1];
 typedef char EnemyCoreTrailAt33E8[
     (offsetof(EnemyCoreView, trailSamples33E8) == 0x33E8) ? 1 : -1];
 typedef char EnemyCoreTrailVerticesAt3E68[
@@ -291,36 +202,7 @@ typedef char EnemyCorePhaseEndSecondsAt5420[
 typedef char EnemyCoreDamageTimerAt53A8[
     (offsetof(EnemyCoreView, damageReductionTimer53A8) == 0x53A8) ? 1 : -1];
 
-struct EnemyManagerCoreView
-{
-    EnemyEclManagerView primaryEclManager000;
-    EnemyEclManagerView opposingEclManager188;
-    unsigned char unknown310[0x0C];
-    int sideIndex31C;
-    EnemyCoreSideStateView *sideState320;
-    EnemyCoreSideStateView *opposingSideState324;
-    EnemyCoreView spawnTemplate328;
-    EnemyCoreView enemies5758[129];
-    unsigned char unknown2AC388[0x2AC3AC - 0x2AC388];
-    int activeEnemyCount2AC3AC;
-    int normalEnemyCount2AC3B0;
-    int specialEnemyCount2AC3B4;
-    int rewardEnemyCount2AC3B8;
-    unsigned char unknown2AC3BC[0x2AC3C8 - 0x2AC3BC];
-    ZunTimer sideTimer2AC3C8;
-    unsigned char scheduleIndex2AC3D4;
-    unsigned char unknown2AC3D5[0x2AC3E0 - 0x2AC3D5];
-    EnemyScheduleRuntimeView scheduleRuntime2AC3E0;
-    int scheduleHighBit2AC3F8;
-    unsigned char unknown2AC3FC[0x04];
-    void *scheduleObject2AC400;
-    ZunTimer frameTimer2AC404;
-    EnemyCoreView *drawGroupHeads2AC410[4];
-    unsigned char unknown2AC420[0x24];
-    EnemyCoreView *priorityEnemy2AC444;
-    EnemyCoreView *firstActiveEnemy2AC448;
-    int specialAttackThreshold2AC44C;
-};
+
 typedef char EnemyManagerCoreSizeIs2AC450[
     (sizeof(EnemyManagerCoreView) == 0x2AC450) ? 1 : -1];
 typedef char EnemyManagerCoreEnemiesAt5758[
@@ -445,7 +327,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     for (enemyIndex = 0; enemyIndex < 128; ++enemyIndex, ++enemy)
     {
         EnemyCoreView **drawHead;
-        unsigned int flags = enemy->flags337C;
+        unsigned int flags = enemy->primaryFlags337C;
 
         if ((flags & ENEMY_CORE_ACTIVE) == 0)
         {
@@ -456,8 +338,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         }
 
         if ((manager->sideState320->flags34 & 1) != 0 &&
-            ((enemy->flags3380 >> 10) & 3) != 1 &&
-            ((enemy->flags3380 >> 10) & 3) != 2)
+            ((enemy->secondaryFlags3380 >> 10) & 3) != 1 &&
+            ((enemy->secondaryFlags3380 >> 10) & 3) != 2)
         {
             if ((flags & ENEMY_CORE_NO_SPRITE) == 0)
             {
@@ -480,14 +362,14 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             }
 
             ++manager->activeEnemyCount2AC3AC;
-            if ((enemy->flags3380 & 0x4DC0) == 0)
+            if ((enemy->secondaryFlags3380 & 0x4DC0) == 0)
                 ++manager->normalEnemyCount2AC3B0;
-            if ((enemy->flags3380 & 0x0C00) != 0)
+            if ((enemy->secondaryFlags3380 & 0x0C00) != 0)
                 ++manager->specialEnemyCount2AC3B4;
-            if ((enemy->flags3380 & 0x01C0) != 0)
+            if ((enemy->secondaryFlags3380 & 0x01C0) != 0)
                 ++manager->rewardEnemyCount2AC3B8;
 
-            if ((enemy->flags3380 & 0x1000) != 0)
+            if ((enemy->secondaryFlags3380 & 0x1000) != 0)
             {
                 if (enemy->specialAttackTimer5424.HasTickedEvery(2))
                 {
@@ -521,15 +403,15 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     descriptor.color = 2;
                     spawnSide->etama08->SpawnBulletPatternPrimary(
                         &descriptor);
-                    enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
+                    enemy->primaryFlags337C &= ~ENEMY_CORE_ACTIVE;
                     reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
                     continue;
                 }
             }
 
-            if (((enemy->flags337C & ENEMY_CORE_PAUSE_WITH_PLAYER) != 0 &&
+            if (((enemy->primaryFlags337C & ENEMY_CORE_PAUSE_WITH_PLAYER) != 0 &&
                  reinterpret_cast<PlayerLifecycleView *>(manager->sideState320->player04)->GetUpdateState() != 0) ||
-                (enemy->flags3380 & 0x10) != 0)
+                (enemy->secondaryFlags3380 & 0x10) != 0)
             {
                 enemy->bossTimer2E64--;
                 goto update_damage_flash;
@@ -539,12 +421,12 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             if (manager->primaryEclManager000.RunEcl(
                     reinterpret_cast<EnemyView *>(enemy)) == -1)
             {
-                enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
+                enemy->primaryFlags337C &= ~ENEMY_CORE_ACTIVE;
                 reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
                 continue;
             }
 
-            if ((enemy->flags337C & ENEMY_CORE_SKIP_MOVEMENT) == 0)
+            if ((enemy->primaryFlags337C & ENEMY_CORE_SKIP_MOVEMENT) == 0)
             {
                 reinterpret_cast<EnemyView *>(enemy)->ClampPositionToMovementBounds();
                 reinterpret_cast<EnemyView *>(enemy)->IntegrateMotion();
@@ -581,11 +463,11 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             EnemyCoreLoadedSpriteView *loadedSprite =
                 reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite);
             if (loadedSprite == 0)
-                enemy->flags337C |= ENEMY_CORE_NO_SPRITE;
+                enemy->primaryFlags337C |= ENEMY_CORE_NO_SPRITE;
 
             const Float3 *worldPosition;
-            if ((enemy->flags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
-                (enemy->flags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) == 0 &&
+            if ((enemy->primaryFlags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
+                (enemy->primaryFlags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) == 0 &&
                 (worldPosition = reinterpret_cast<const Float3 *>(
                      enemy->worldPosition2DD4.operator float *()),
                  g_GameManager.IsWithinPlayfield(
@@ -594,10 +476,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     loadedSprite->extent34,
                     loadedSprite->extent30)))
             {
-                enemy->flags337C |= ENEMY_CORE_HAS_BEEN_IN_BOUNDS;
+                enemy->primaryFlags337C |= ENEMY_CORE_HAS_BEEN_IN_BOUNDS;
             }
-            else if ((enemy->flags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) != 0 &&
-                     (enemy->flags337C & ENEMY_CORE_ALLOW_OFFSCREEN) == 0)
+            else if ((enemy->primaryFlags337C & ENEMY_CORE_HAS_BEEN_IN_BOUNDS) != 0 &&
+                     (enemy->primaryFlags337C & ENEMY_CORE_ALLOW_OFFSCREEN) == 0)
             {
                 if ((enemy->trailFlags53A0 == 0 &&
                      !g_GameManager.IsWithinPlayfield(
@@ -619,7 +501,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                         reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent34,
                         reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent30)))
                 {
-                    enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
+                    enemy->primaryFlags337C &= ~ENEMY_CORE_ACTIVE;
                     reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();
                     continue;
                 }
@@ -645,11 +527,11 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             }
 
             hitKind = 0;
-            if ((enemy->flags337C &
+            if ((enemy->primaryFlags337C &
                  (ENEMY_CORE_NO_SPRITE | ENEMY_CORE_HIDE_PRIMARY)) == 0)
             {
-                if ((enemy->flags337C & ENEMY_CORE_COLLISION) != 0 &&
-                    ((enemy->flags3380 & 0x01C0) == 0 ||
+                if ((enemy->primaryFlags337C & ENEMY_CORE_COLLISION) != 0 &&
+                    ((enemy->secondaryFlags3380 & 0x01C0) == 0 ||
                      manager->sideState320->characterIndex20 != 11))
                 {
                     reinterpret_cast<EnemyAppendCollisionView *>(enemy)
@@ -681,7 +563,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 }
 
                 enemy->lastDamage33AC = 0;
-                if ((enemy->flags337C & ENEMY_CORE_ACCEPTS_DAMAGE) != 0)
+                if ((enemy->primaryFlags337C & ENEMY_CORE_ACCEPTS_DAMAGE) != 0)
                 {
                     int damage = reinterpret_cast<PlayerDamagePlayerView *>(
                         manager->sideState320->player04)->CalcDamageToEnemy(
@@ -707,11 +589,11 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
                     if (damage > 0)
                     {
-                        if ((enemy->flags337C & ENEMY_CORE_DAMAGEABLE) != 0)
+                        if ((enemy->primaryFlags337C & ENEMY_CORE_DAMAGEABLE) != 0)
                         {
                             if (enemy->damageReductionTimer53A8 > 0)
                             {
-                                if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
+                                if ((enemy->primaryFlags337C & ENEMY_CORE_BOSS) != 0)
                                     damage /= 9;
                                 else
                                     damage = 0;
@@ -722,12 +604,12 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                             if (damage == enemy->secondaryDamageAccumulator2E60)
                                 hitKind = 2;
 
-                            if ((enemy->flags3380 & 0x01C0) != 0)
+                            if ((enemy->secondaryFlags3380 & 0x01C0) != 0)
                             {
                                 int secondaryPart =
                                     damage - enemy->primaryDamageAccumulator2E5C;
                                 int primaryPart;
-                                if ((enemy->flags3380 & 0x1000) == 0)
+                                if ((enemy->secondaryFlags3380 & 0x1000) == 0)
                                     primaryPart =
                                         enemy->primaryDamageAccumulator2E5C / 4;
                                 else
@@ -775,13 +657,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 }
             }
 
-            if ((enemy->flags3380 & 1) != 0 && enemy->life2E48 > 0)
-                enemy->flags3380 &= ~1u;
-            if (enemy->life2E48 > 0 || (enemy->flags3380 & 9) != 0)
+            if ((enemy->secondaryFlags3380 & 1) != 0 && enemy->life2E48 > 0)
+                enemy->secondaryFlags3380 &= ~1u;
+            if (enemy->life2E48 > 0 || (enemy->secondaryFlags3380 & 9) != 0)
                 goto update_damage_flash;
 
         process_enemy_death:
-            enemy->flags3380 |= 1;
+            enemy->secondaryFlags3380 |= 1;
             enemy->phaseEndSeconds5420 =
                 (enemy->timerCallbackThreshold33D0 -
                  static_cast<int>(enemy->bossTimer2E64)) / 60;
@@ -797,28 +679,28 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 }
             }
 
-            switch ((enemy->flags337C >> 17) & 7)
+            switch ((enemy->primaryFlags337C >> 17) & 7)
             {
             case 3:
             {
-                enemy->flags337C &= 0xFFF1FFF7;
+                enemy->primaryFlags337C &= 0xFFF1FFF7;
                 enemy->life2E48 = 1;
-                if (enemy->deathEffectVariant3368 >= 0)
+                if (enemy->deathAnmScripts3368[0] >= 0)
                 {
                     manager->sideState320->effectManager0C->SpawnEffect(
-                        enemy->deathEffectVariant3368 + 20,
+                        enemy->deathAnmScripts3368[0] + 20,
                         reinterpret_cast<EffectFloat3 *>(
                             &enemy->worldPosition2DD4),
                         1,
                         static_cast<unsigned int>(-1));
                     manager->sideState320->effectManager0C->SpawnEffect(
-                        enemy->deathEffectVariant3368 + 20,
+                        enemy->deathAnmScripts3368[0] + 20,
                         reinterpret_cast<EffectFloat3 *>(
                             &enemy->worldPosition2DD4),
                         1,
                         static_cast<unsigned int>(-1));
                     manager->sideState320->effectManager0C->SpawnEffect(
-                        enemy->deathEffectVariant3368 + 20,
+                        enemy->deathAnmScripts3368[0] + 20,
                         reinterpret_cast<EffectFloat3 *>(
                             &enemy->worldPosition2DD4),
                         1,
@@ -830,24 +712,24 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                     player->stateTimer303C8 = 90;
                     reinterpret_cast<PlayerState4OpsView *>(manager->sideState320->player04)->SetUpdateState(3);
                 }
-                enemy->flags337C &= 0xE7FFFFFF;
+                enemy->primaryFlags337C &= 0xE7FFFFFF;
                 break;
             }
 
             case 1:
                 reinterpret_cast<GameManagerSideStateView *>(
                     manager->sideState320)->AddScore(enemy->score2E54);
-                enemy->flags337C =
-                    (enemy->flags337C & 0xFFEFFFB3) |
+                enemy->primaryFlags337C =
+                    (enemy->primaryFlags337C & 0xFFEFFFB3) |
                     ENEMY_CORE_PERSIST_AFTER_DEATH;
                 goto release_death_effects;
 
             case 0:
                 reinterpret_cast<GameManagerSideStateView *>(
                     manager->sideState320)->AddScore(enemy->score2E54);
-                enemy->flags337C &= ~ENEMY_CORE_ACTIVE;
+                enemy->primaryFlags337C &= ~ENEMY_CORE_ACTIVE;
             release_death_effects:
-                if ((enemy->flags337C & ENEMY_CORE_BOSS) != 0)
+                if ((enemy->primaryFlags337C & ENEMY_CORE_BOSS) != 0)
                     Th09EclRunState::ReleaseAttachedEffects(
                         reinterpret_cast<EnemyView *>(enemy));
             case 2:
@@ -858,7 +740,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 break;
             }
 
-            if ((enemy->flags337C & ENEMY_CORE_FORCE_DEATH) == 0)
+            if ((enemy->primaryFlags337C & ENEMY_CORE_FORCE_DEATH) == 0)
             {
                 reinterpret_cast<EnemyView *>(enemy)->HandleDeathRewards(hitKind);
             }
@@ -866,14 +748,14 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             if (enemy->deathCallbackSubId2D2E >= 0)
             {
                 reinterpret_cast<EnemyView *>(enemy)->ResetBulletRankInfluence();
-                enemy->eclCallStackDepth2D2A = 0;
+                enemy->activeCallDepth2D2A = 0;
                 for (int callbackIndex = 0; callbackIndex < 4; ++callbackIndex)
                     enemy->lifeCallbackThresholds33B0[callbackIndex] = -1;
                 enemy->timerCallbackThreshold33D0 = -1;
                 EnemyCoreReleaseChildEclBlocks(
                     reinterpret_cast<EnemyView *>(enemy));
                 EnemyManagerCoreView *owner =
-                    reinterpret_cast<EnemyManagerCoreView *>(enemy->manager00);
+                    reinterpret_cast<EnemyManagerCoreView *>(enemy->manager0000);
                 // Copy only the target-observed 0x214 descriptor, not the
                 // remaining unknown bytes in the 0x240 bullet-state region.
                 *reinterpret_cast<BulletSpawnDescriptor *>(
@@ -882,8 +764,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                         owner->spawnTemplate328.bulletState2E74);
                 enemy->shootInterval30B4 = 0;
                 manager->primaryEclManager000.InitializeSubroutine(
-                        reinterpret_cast<Th09EclContextView *>(
-                            enemy->eclStorage7F4),
+                        &enemy->mainContext07F4,
                         enemy->deathCallbackSubId2D2E);
                 enemy->deathCallbackSubId2D2E = -1;
             }
@@ -896,7 +777,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             }
             else if (damageOccurred)
             {
-                if ((enemy->flags3380 & 6) < 4)
+                if ((enemy->secondaryFlags3380 & 6) < 4)
                     g_SoundPlayer.PlaySoundPositionedByIdx(20, enemy->worldPosition2DD4.x);
                 else
                     g_SoundPlayer.PlaySoundPositionedByIdx(37, enemy->worldPosition2DD4.x);
@@ -917,11 +798,11 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
             // The target retains this boss-kind limit even though the observed
             // TH09 field is one bit. The adjacent TH08 source has the same check.
-            unsigned int boss = (enemy->flags337C >> 1) & 1;
+            unsigned int boss = (enemy->primaryFlags337C >> 1) & 1;
             if (boss != 0 && boss < 4)
             {
                 Float3 markerPosition;
-                if ((enemy->flags337C & ENEMY_CORE_NO_SPRITE) == 0)
+                if ((enemy->primaryFlags337C & ENEMY_CORE_NO_SPRITE) == 0)
                     markerPosition.x = enemy->worldPosition2DD4.x + 32.0f;
                 else
                     markerPosition.x = -999.0f;
@@ -929,7 +810,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 markerPosition.z = 0.0f;
                 reinterpret_cast<AsciiBossMarkerVmView *>(&g_AsciiManager)->SetBossMarkerPosition(enemy->bossSlot336B,
                                                    &markerPosition);
-                int markerState = (enemy->flags3380 >> 1) & 3;
+                int markerState = (enemy->secondaryFlags3380 >> 1) & 3;
                 if (markerState == 0)
                     g_AsciiManager.SetBossMarkerState(enemy->bossSlot336B,
                         (enemy->primaryVm008.flagsWord >> 17) & 1);
@@ -938,21 +819,21 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                                                     markerState + 1);
             }
 
-            if (((enemy->flags3380 & 0x200) != 0 &&
+            if (((enemy->secondaryFlags3380 & 0x200) != 0 &&
                  manager->priorityEnemy2AC444 == 0) ||
-                (enemy->flags3380 & 0x1000) != 0)
+                (enemy->secondaryFlags3380 & 0x1000) != 0)
             {
                 manager->priorityEnemy2AC444 = enemy;
             }
             if (manager->firstActiveEnemy2AC448 == 0)
                 manager->firstActiveEnemy2AC448 = enemy;
-            if ((enemy->flags3380 & 0x0C00) == 0x0C00)
+            if ((enemy->secondaryFlags3380 & 0x0C00) == 0x0C00)
             {
                 reinterpret_cast<FrontEnemyIndicatorView *>(g_PlayerSharedRuntime)->SetSideEnemyIndicatorPosition(
                     manager->sideIndex31C, &enemy->position2D74);
                 manager->priorityEnemy2AC444 = enemy;
             }
-            else if ((enemy->flags3380 & 0x2000) != 0)
+            else if ((enemy->secondaryFlags3380 & 0x2000) != 0)
             {
                 manager->priorityEnemy2AC444 = enemy;
             }
@@ -963,8 +844,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 enemy->damageReductionTimer53A8--;
         }
 
-        if ((enemy->flags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
-            (enemy->flags337C & ENEMY_CORE_ACTIVE) != 0)
+        if ((enemy->primaryFlags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
+            (enemy->primaryFlags337C & ENEMY_CORE_ACTIVE) != 0)
         {
             drawHead =
                 &manager->drawGroupHeads2AC410[enemy->drawGroup3387];

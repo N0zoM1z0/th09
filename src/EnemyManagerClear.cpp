@@ -90,7 +90,7 @@ int Th09EclRunRemote::ManagerClearView::KillAllNonBossEnemies(
         if (enemy->deathCallbackSubId2D2E >= 0)
         {
             reinterpret_cast<Th09EclRunState::ManagerStateView *>(this)
-                ->primaryEcl000.InitializeSubroutine(
+                ->primaryEclManager000.InitializeSubroutine(
                     &enemy->mainContext07F4,
                     enemy->deathCallbackSubId2D2E);
             enemy->deathCallbackSubId2D2E = -1;

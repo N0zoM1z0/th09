@@ -570,7 +570,7 @@ th09_ecl_enter_pending_subroutine:
             sizeof(Th09EclContextView));
     }
 
-    enemyState->manager0000->primaryEcl000.InitializeSubroutine(
+    enemyState->manager0000->primaryEclManager000.InitializeSubroutine(
         savedMainContext,
         enemyState->subroutineSlots2D30[
             enemyState->pendingSubroutineId2D70]);

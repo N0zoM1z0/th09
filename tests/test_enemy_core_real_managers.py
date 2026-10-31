@@ -18,6 +18,7 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.enemy = (ROOT/'src/EnemyManagerCore.inl').read_text()
+        cls.storage = (ROOT/'src/EclRunState.inl').read_text()
         cls.ascii_marker = (ROOT/'src/AsciiBossMarkerVm.cpp').read_text()
         cls.marker_header = (ROOT/'src/AsciiBossMarkerVmView.hpp').read_text()
         cls.sound_header = (ROOT/'src/SoundPlayer.hpp').read_text()
@@ -49,9 +50,9 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
         self.assertNotIn('g_EnemyCoreAnmManager', self.enemy)
         self.assertIn('extern AnmManager *g_AnmManager;', self.anm_header)
         self.assertIn('int ExecuteScript(AnmVm *vm);', self.anm_header)
-        self.assertIn('AnmVm primaryVm008;', self.enemy)
-        self.assertIn('AnmVm secondaryVms2AC[2];', self.enemy)
-        self.assertNotIn('struct EnemyCoreAnmVmView', self.enemy)
+        self.assertIn('AnmVm primaryVm008;', self.storage)
+        self.assertIn('AnmVm secondaryVms2AC[2];', self.storage)
+        self.assertNotIn('struct EnemyCoreAnmVmView', self.enemy+self.storage)
         self.assertNotIn('reinterpret_cast<AnmVm *>(&enemy->', self.enemy)
         self.assertIn('sizeof(AnmVm) == 0x2A4', self.enemy)
         unit = self.units['anm-manager-execute-script']
