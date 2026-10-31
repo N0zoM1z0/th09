@@ -28138,3 +28138,74 @@ The tested models are finite negatives,not evidence that all natural source
 models are exhausted. Front remains351,RunEcl30 and Enemy13;authored exactness
 remains1004/1035 and246651/291883 bytes(84.5034%). The98% objective and later
 native-product/runtime/semantic/portability gates remain unfinished.
+
+## 2026-10-31: native interpolation parameters and complete caller contexts
+
+Recovery at088f04ac is clean. The immediately preceding status-only goal turn
+adds no reconstruction evidence;the explicit continuation resumes the full98%
+objective. Disk target,tracking and progress pass. Direct Ghidra reuses the
+verified project with all685056 mapped file bytes checked. Exports
+20261031T064804-2077072 and20261031T065558-2117103 cover RunEcl,the installer
+407600 and native interpolators407450/4074A0. Decompiled types remain provisional;
+the maintained exact bodies and original bytes independently bind the accesses.
+
+Two full-source contexts concatenate actual EclHelpers before or after actual
+EclManager,using unchanged statements,ABIs and the main pinned profile. Both
+retain every baseline138 regular function/50066 physical bytes/2097 effective
+fields,all75 configured main exact units,and RunEcl15564/598/30,Enemy3900/97/13.
+The only baseline external-to-defined field is the installer+8D reference to
+the actual callback table;its symbol,addend and original destination stay fixed.
+Both complete native interpolators and the32-byte/eight-field table prefix also
+pass. Only anonymous namespace source-path suffixes are privately adapted after
+actual same-object definitions and full bodies are identified. The unchanged
+public table inspector rejects these different canonical namespace names;
+its acceptance rules are not relaxed. SlotParameters is additionally emitted
+but has no original owner assigned. This bounds two genuine source contexts,
+not the unique original TU or all possible compiler contexts. No split is adopted.
+Packet:`.analysis/gpt-61sol-20261031-ecl-interpolation-context/`;its81 Git/EOL
+inputs,staged hashes,complete raw/field reports and immutable recipe are retained.
+
+The actual producer/consumer chain establishes source data previously left
+opaque. Installer407600 stores resolved integer operand2 at slot+14 and uses
+it as the index into4A0AF4. It stores four resolved float operands4..7 at
+slot+1C,+20,+24,+28. Linear reads the first two through ResolveFloat;Hermite
+reads all four through that same native resolver. EclOpcodes now names
+callbackIndex14 and float parameters1C[4],with offset guards. Installer and both
+native consumers access the shared fields directly. The source-only pointer
+adapter is removed;its emitted four-byte definition has zero nondebug incoming
+fields and no reviewed original owner. Slot0x30/context0x22C,access width/order,
+resolver calls,arithmetic grouping and table extent remain unchanged. These
+roles do not establish original field spelling,class declaration or aliasing
+semantics outside the observed native paths.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-INTERPOLATION-PARAMETERS-001 | original-bound source data | Native installer and both consumers share a four-float block at slot+1C..+2B;slot+14 selects the existing callback table. | source offset guards;attested native exports;complete installer255/9,Linear74/3,Hermite188/9 proofs |
+| ECL-INTERPOLATION-PARAMETERS-002 | complete affected preservation | Six pinned configured builds preserve87 existing exact units/31660 bytes/1520 fields.270 unchanged pins retain357 combined units/108340 bytes/5217 fields,including excluded units. | interpolation-parameters/current.py;current.json |
+| ECL-INTERPOLATION-PARAMETERS-003 | complete regular-body preservation | All284 retained regular bodies/103373 bytes/4726 effective fields preserve raw bytes and referents. Only311 private labels rename at unchanged owner-relative destinations. | plan.json;current-*.json;private-label-migrations.json |
+
+The six builds are serial,on one CPU,nice10,with180-second bounds. Their84
+quoted inputs reproduce from immutable088f04ac Git/EOL bytes plus the three-file
+transform. The87 affected code units pass the strict public comparator after
+only verified private-label spelling refreshes;external symbols,targets,offsets,
+extents,profiles and credit remain unchanged. The dedicated public table inspector
+also verifies the unchanged prefix and both actual same-object native functions.
+All112 focused ECL tests pass under Python-S. No full cold cohort,compiler-profile
+search,new forced inline,register hint,assembly,padding or target patch is used.
+The previous interpolation-table whole verifier is now source-stale;its270
+unaffected individual pins remain reusable. The unchanged standalone Front
+baseline and its own source/object pins are carried in extra_diagnostics.
+
+Current packet:`.analysis/gpt-61sol-20261031-ecl-interpolation-parameters/`.
+After all owned producers terminate,cleanup removes16 files/2527800 logical
+bytes:six replaced carriers,two rejected context objects,and eight PDBs.
+All995 deletion-time protected hashes remain equal,including88 current proof/
+diagnostic objects,source,research,original target,toolchains and working Ghidra.
+Immutable recipes and full raw/COFF records remain;build/ is absent. Current
+proofs and both saved-input audits run without compiler jobs after cleanup.
+
+Authored exactness remains1004/1035 and246651/291883 bytes(84.5034%). RunEcl30
+and Enemy13 remain unresolved. The source now represents the observed native
+interpolation data directly;neither that repair nor the finite context negatives
+grant new exact bytes or complete the98% and later product/runtime/semantic/port
+gates.

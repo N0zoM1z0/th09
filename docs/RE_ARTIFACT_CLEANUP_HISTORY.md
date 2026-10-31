@@ -3144,3 +3144,22 @@ physical bytes/5197 fields. Documentation/tracking/progress and whitespace check
 apply;there is no new full CI or reconstruction claim. Audit,per-file deletion
 list and retained-file hashes are below `.analysis/maintenance-20261031/`:
 `partition-audit.json`,`cleanup.json` and `protected-sha256.json`.
+
+## 2026-10-31: shared native interpolation parameters
+
+Six source/profile builds replace the six interpolation-table proof carriers
+after recovering the native callback index and four-float parameter block.
+All87 affected existing units remain original-equal;270 unchanged pins and the
+standalone Front baseline are reused. Complete regular-body comparison preserves
+284 retained functions/103373 bytes/4726 effective fields. The removed four-byte
+source-only pointer adapter has no nondebug incoming reference or original owner.
+The two completed full helper/main context controls remain RunEcl30/Enemy13.
+
+Cleanup removes16 files/2527800 logical bytes:six replaced source-stale objects,
+two rejected full-context objects,and eight PDBs. All995 deletion-time protected
+hashes agree. Retain88 current proof/diagnostic objects,all immutable Git/EOL
+inputs,recipes,raw/COFF/data reports,compiler logs,research,tracked source,original
+target/toolchains and working Ghidra. No source archive is introduced;build/ is
+absent. Post-cleanup current357 and both saved-input audits need no cold jobs.
+Receipt:`.analysis/gpt-61sol-20261031-ecl-interpolation-parameters/cleanup.json`.
+Context research:`.analysis/gpt-61sol-20261031-ecl-interpolation-context/`.

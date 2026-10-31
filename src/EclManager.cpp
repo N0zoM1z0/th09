@@ -467,16 +467,16 @@ static void InstallInterpolationSlot(
         slot->timer04 = 0;
         slot->affectedVariable2C = RawFloat(instruction, 0);
         slot->duration10 = ReadInt(enemy, instruction, 1);
-        slot->unknown14 = ReadInt(enemy, instruction, 2);
+        slot->callbackIndex14 = ReadInt(enemy, instruction, 2);
         slot->easing18 = ReadInt(enemy, instruction, 3);
-        slot->callback00 = g_EclInterpolationCallbacks[slot->unknown14];
-        reinterpret_cast<float *>(slot->unknown1C)[0] =
+        slot->callback00 = g_EclInterpolationCallbacks[slot->callbackIndex14];
+        slot->parameters1C[0] =
             ReadFloat(enemy, instruction, 4);
-        reinterpret_cast<float *>(slot->unknown1C)[1] =
+        slot->parameters1C[1] =
             ReadFloat(enemy, instruction, 5);
-        reinterpret_cast<float *>(slot->unknown1C)[2] =
+        slot->parameters1C[2] =
             ReadFloat(enemy, instruction, 6);
-        reinterpret_cast<float *>(slot->unknown1C)[3] =
+        slot->parameters1C[3] =
             ReadFloat(enemy, instruction, 7);
         break;
     }

@@ -269,13 +269,17 @@ struct Th09EclInterpolationSlotView
     Th09EclInterpolationCallback callback00;
     Th09EclTimerStorageView timer04;
     int duration10;
-    int unknown14;
+    int callbackIndex14;
     int easing18;
-    unsigned char unknown1C[0x10];
+    float parameters1C[4];
     float affectedVariable2C;
 };
 typedef char Th09EclInterpolationSlotSizeIs30[
     (sizeof(Th09EclInterpolationSlotView) == 0x30) ? 1 : -1];
+typedef char Th09EclInterpolationCallbackIndexAt14[
+    (offsetof(Th09EclInterpolationSlotView, callbackIndex14) == 0x14) ? 1 : -1];
+typedef char Th09EclInterpolationParametersAt1C[
+    (offsetof(Th09EclInterpolationSlotView, parameters1C) == 0x1C) ? 1 : -1];
 typedef char Th09EclInterpolationEasingAt18[
     (offsetof(Th09EclInterpolationSlotView, easing18) == 0x18) ? 1 : -1];
 typedef char Th09EclInterpolationVariableAt2C[

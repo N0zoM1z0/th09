@@ -85,16 +85,11 @@ inline EclHelperEnemyView *HelperView(EnemyView *enemy)
     return reinterpret_cast<EclHelperEnemyView *>(enemy);
 }
 
-inline float *SlotParameters(Th09EclInterpolationSlotView *slot)
-{
-    return reinterpret_cast<float *>(slot->unknown1C);
-}
-
 void __fastcall InterpolateLinear(
     EnemyView *enemy, Th09EclInterpolationSlotView *slot, float progress)
 {
-    float start = enemy->ResolveFloat(SlotParameters(slot)[0]);
-    float end = enemy->ResolveFloat(SlotParameters(slot)[1]);
+    float start = enemy->ResolveFloat(slot->parameters1C[0]);
+    float end = enemy->ResolveFloat(slot->parameters1C[1]);
     *Th09EclRunControl::ResolveFloatLValue(
         enemy, &slot->affectedVariable2C, 0, -1) =
         (end - start) * progress + start;
@@ -103,10 +98,10 @@ void __fastcall InterpolateLinear(
 void __fastcall InterpolateHermite(
     EnemyView *enemy, Th09EclInterpolationSlotView *slot, float progress)
 {
-    float parameter0 = enemy->ResolveFloat(SlotParameters(slot)[0]);
-    float parameter1 = enemy->ResolveFloat(SlotParameters(slot)[1]);
-    float parameter2 = enemy->ResolveFloat(SlotParameters(slot)[2]);
-    float parameter3 = enemy->ResolveFloat(SlotParameters(slot)[3]);
+    float parameter0 = enemy->ResolveFloat(slot->parameters1C[0]);
+    float parameter1 = enemy->ResolveFloat(slot->parameters1C[1]);
+    float parameter2 = enemy->ResolveFloat(slot->parameters1C[2]);
+    float parameter3 = enemy->ResolveFloat(slot->parameters1C[3]);
     float twice = progress + progress;
     float minusOne = progress - 1.0f;
     float inverse = 1.0f - progress;

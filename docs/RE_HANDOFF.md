@@ -7,22 +7,31 @@ checkpoint559ccf7c. Continue the unfinished98% reviewed-authored-byte milestone,
 prioritizing complete RunEcl and Enemy update while keeping small leaves in
 scope. Earlier maintenance and stop instructions are historical checkpoints.
 
-Current game-source change: this checkpoint defines the eight reviewed native
-ECL interpolation callback slots at4A0AF4 in `src/EclHelpers.cpp`. Seven entries
-point to InterpolateLinear and one to InterpolateHermite. The table,slot storage
-and RunEcl indirect caller now share `EclInterpolationCallbacks.hpp`;the void*
-slot and function-pointer reinterpretation are removed. The preceding game-source
-commit is **c0e8a0b9** (shared Charge SHT fields);a3e4aaee unified the LZSS codec.
+Current game-source change: this checkpoint recovers the interpolation slot's
+callbackIndex14 and four float parameters1C from the native installer and both
+native consumers. EclManager and EclHelpers now access that shared array directly;
+the source-only SlotParameters pointer adapter is removed. The slot0x30/context0x22C
+layouts remain. Preceding game-source checkpoint **35d9d780** defines the eight
+native callback slots;**c0e8a0b9** shares Charge SHT fields;a3e4aaee unified LZSS.
 
-The table's complete32-byte reviewed prefix/eight DIR32 fields and both native
-helper bodies pass the dedicated original-bound inspector. Original declared
-array extent and unique retail TU remain unknown. Strict affected replay passes
-87 existing code units/31660 bytes/1520 fields;270 unchanged source/profile/object
-pins are reused. No authored-function or byte credit is added. RunEcl remains
-15564/598/30 and Enemy3900/97/13. Main/Ob0/operand controls retain280 complete
-regular bodies/102646 physical bytes/4706 effective fields. Only311 verified
-compiler-private label names migrate at unchanged destinations.
-Current proof/research: `.analysis/gpt-61sol-20261031-ecl-interpolation-table/`.
+Strict affected replay passes87 existing code units/31660 physical bytes/1520
+fields across six configured source/profile carriers;270 unchanged pins are
+reused. The combined subset remains357 units/108340 bytes/5217 fields,including
+excluded units. All284 retained regular bodies/103373 bytes/4726 effective fields
+preserve their code and referent identities. Only311 verified private labels
+rename at unchanged destinations. The discarded four-byte adapter has no
+nondebug incoming field and no original owner. No authored credit is added.
+RunEcl remains15564/598/30 and Enemy3900/97/13. The32-byte table prefix/eight
+same-object fields and Linear74/3,Hermite188/9 remain original-equal.
+Current proof: `.analysis/gpt-61sol-20261031-ecl-interpolation-parameters/`.
+
+Two complete actual EclHelpers-before/after-EclManager contexts at088f04ac also
+preserve all138 baseline bodies/50066 bytes/2097 effective fields,75 existing
+exact units,both native interpolators and the reviewed table prefix. RunEcl30
+and Enemy13 do not improve. Anonymous namespace source-path names are adapted
+only in private native-body proofs;the unchanged public table inspector rejects
+the different canonical names. No original TU partition is inferred or adopted.
+Research: `.analysis/gpt-61sol-20261031-ecl-interpolation-context/`.
 
 The preceding shared-SHT and native-reward checkpoints remain historical source
 bindings. Their unaffected individual proofs may be reused;their whole current
@@ -31,11 +40,12 @@ immutable-input recipes and preserved limitations.
 
 Latest bounded Front result: complete selected-index/publication and whole-scan
 controls retain or regress the693-byte weighted picker;none is adopted. Current
-source remains at35d9d780. The new standalone baseline in
+Front source remains unchanged. The new standalone baseline in
 `.analysis/gpt-61sol-20261031-front-selected-publication/` is693/15/6 with351
-linked differences and41 versus40 blocks. Its current.py verifies source/profile/
-object bindings and reuses the unchanged357 code-unit pins. See the latest KB
-note for measured boundaries;this does not change exactness credit.
+linked differences and41 versus40 blocks. The current parameter-field packet
+verifies its unchanged source/profile/object pins alongside357 code units;
+its older whole current.py is source-scoped. See the latest KB note for measured
+boundaries;this does not change exactness credit.
 
 ## Source and evidence routing
 
@@ -45,14 +55,15 @@ object path. Proof reuse requires matching source,profile and object hashes.
 - Canonical inventory: `config/functions.csv`,`config/function-origins.csv`,
   `config/matches.csv` and `config/match-units.toml`.
 - Current retained subset:
-  `.analysis/gpt-61sol-20261031-ecl-interpolation-table/current.py` checks357 units/
+  `.analysis/gpt-61sol-20261031-ecl-interpolation-parameters/current.py` checks357 units/
   108340 summed physical bytes/5217 fields. It strictly compares87 affected
   units/31660 bytes/1520 fields and reuses270 unchanged source/profile/object pins.
   These357 include excluded units;they are not the1004 authored exact ledger
   entries. Its `current.json` identifies87 retained proof objects,including
-  auxiliary owners. Nine additional historical/diagnostic objects also remain.
-- The preceding shared-SHT packet's `current.json` supplies the unchanged270 pins;
-  earlier353/344/323/297/251 and other combined verifiers are historical bundles.
+  auxiliary owners. Its extra_diagnostics also pins the unchanged Front baseline;
+  nine additional historical/diagnostic objects remain.
+- The preceding interpolation-table packet's `current.json` supplies the unchanged
+  270 pins;earlier357/353/344/323/297/251 combined verifiers are historical bundles.
   Their unchanged individual groups may feed current pins,but a historical
   whole verifier is not automatically current. Missing discarded trial objects
   are expected;rebuild a needed candidate from its recipe before comparison.
@@ -71,8 +82,8 @@ object path. Proof reuse requires matching source,profile and object hashes.
   at+30364..3036F from the homing pointer at+3037C;Stage D resets only the
   position. The intervening twelve bytes have a separate reset and an unknown
   role. Consult the source and KB for the bounded layouts and exact ABIs.
-- The standalone Front weighted baseline above is additional to the87 objects
-  listed by the357-unit receipt;keep both its object and source-bound record.
+- The standalone Front weighted baseline is additional to the87 canonical proof
+  objects;the current357-unit receipt also records its unchanged source/object pins.
 - Native source-bound diagnostics outside the current357 remain useful:
   network input131/1 in `network-input-contract/native-int.obj`,playfield116/6
   in `enemy-playfield-context/native-playfield.obj`,and Supervisor's952-byte
@@ -226,6 +237,14 @@ behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 ## Maintenance and validation
 
 Latest cleanup receipt:
+`.analysis/gpt-61sol-20261031-ecl-interpolation-parameters/cleanup.json`.
+Sixteen completed compiler files/2527800 logical bytes are removed:six replaced
+source-stale carriers,two rejected complete-context objects,and eight PDBs.
+All995 protected hashes remain equal;88 current proof/diagnostic objects,immutable
+inputs,recipes,raw/COFF records,research,target/toolchains and Ghidra remain.
+Build/ is absent. Earlier cleanup counts below are historical receipts.
+
+Preceding Front cleanup receipt:
 `.analysis/gpt-61sol-20261031-front-selected-publication/cleanup.json`.
 Seventeen completed compiler files/599480 logical bytes are removed:seven
 rejected objects and ten PDBs. All979 deletion-time protected hashes remain equal.
@@ -270,7 +289,7 @@ validation of this checkout.
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/validate-docs.py
 python3 -B scripts/progress.py --check
-python3 -B .analysis/gpt-61sol-20261031-ecl-interpolation-table/current.py
+python3 -B .analysis/gpt-61sol-20261031-ecl-interpolation-parameters/current.py
 git diff --check
 ```
 
