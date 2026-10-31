@@ -1,14 +1,15 @@
 # TH09 focused Factory replay receipts — 2026-10-31
 
-Twenty-five individually submitted, forced-recompile function-exact replay
+Thirty-four individually submitted, forced-recompile function-exact replay
 jobs completed. The first fifteen were bound to clean commit
 `9048c2c0fd2084b1dfd6345d30f6dfe150a54036`; the next five were bound to clean
-commit `3d91c2dd9b54f27d4c5cbc4f49eba6c2e9ec18a4`; the final five were bound to
-clean commit `66fbdb6610e8fbb2a2fef8aaf9b48f121c8466d2`. Only documentation
-files changed between these bindings; no source files changed. Every job
-returned `receipt_verdict=pass` and `acceptance_decision=accepted`; every
-retained native report returned `result=exact`, matched the full compared
-size, and had an empty `first_differences` list.
+commit `3d91c2dd9b54f27d4c5cbc4f49eba6c2e9ec18a4`; the next five were bound to
+clean commit `66fbdb6610e8fbb2a2fef8aaf9b48f121c8466d2`; the final nine were
+bound to clean commit `4d720d24042d2006b5754ac4971cff3406b9e5fe`. Only
+documentation files changed between these bindings; no source files changed.
+Every job returned `receipt_verdict=pass` and `acceptance_decision=accepted`;
+every retained native report returned `result=exact`, matched the full
+compared size, and had an empty `first_differences` list.
 
 These are targeted function replays, not a whole-project cold replay.
 
@@ -46,7 +47,17 @@ These are targeted function replays, not a whole-project cold replay.
 | `Float3::operator/` | `0x0040F5A0` | 56 | `002595b8749e37b5af7039c1c6fafa66d4109596ab80ce611ed62bc03a956777` |
 | `Float3::FromAngleMagnitude` | `0x00441890` | 32 | `40811bf5f9c93508ffb3e786e008b3662378a2ff1b1cd8b512dc30a84a0852e7` |
 
-**Total: 2,238 bytes across 25 exact function reports.**
+| `Float3::operator+` | `0x00401100` | 54 | `ec9435aa993a45042da4fefa5af8bc2faa9028cabe99be7b481d9f3574202497` |
+| `Float3::operator-` | `0x00401140` | 54 | `b37708e238bbb90b258ce509cbad738bb3f436ec17cc90653ce732e776431bcc` |
+| `ZunTimer::operator>` | `0x00403DE0` | 20 | `c5b50148d8639a9c0cb26f5c8d1ee8102b2345cac5f37c175e2d62b972e22b75` |
+| `EnemyEclManagerView::ReleaseRawFile` | `0x00406830` | 28 | `131ddaae42d157c5e3487960b49c2034b2b3be6ca0a1dfcd5f1ebc09c2f5dc50` |
+| `EnemyEclOpcode1` | `0x0040C3F0` | 76 | `96cecb6bc7118df1add92f23ba65904146ee41c9b73d1208fdbea8b7bf4ed2f6` |
+| `EffectPolarView::SetFromAngleAxes` | `0x0040D4D0` | 32 | `8e2835a345e7d90a0c3594a0069651525ee9e4ff5517839f02d5bf5e96bfe242` |
+| `EnemyEclManagerView::ReleaseAttachedEffects` | `0x0040F560` | 64 | `77b7de521534f8ff577a0647705f418011ba649c133f3e5449aae97a9db9fe3b` |
+| `EnemyView::DrawInterpolateWrappedAngle` | `0x0040F5E0` | 91 | `584ab53bfe9d2b14e0195a8809253dfdcd339b69be276baefe15c48939daaa85` |
+| `EnemyCoreReleaseChildEclBlocks` | `0x004100E0` | 48 | `0f5e861e85a020d8862e019a73eb6ddb936467848325d35cc966296f767e60b6` |
+
+**Total: 2,705 bytes across 34 exact function reports.**
 
 ## Scope and limitations
 
