@@ -1,6 +1,6 @@
 # TH09 focused Factory replay receipts — 2026-10-31
 
-Seventy-four individually submitted, forced-recompile function-exact replay
+Eighty-five individually submitted, forced-recompile function-exact replay
 jobs completed. The first fifteen were bound to clean commit
 `9048c2c0fd2084b1dfd6345d30f6dfe150a54036`; the next five were bound to clean
 commit `3d91c2dd9b54f27d4c5cbc4f49eba6c2e9ec18a4`; the next five were bound to
@@ -9,8 +9,10 @@ bound to clean commit `4d720d24042d2006b5754ac4971cff3406b9e5fe`; the next
 ten were bound to clean commit `a809cf68230bad4bb36148b96c8315c497d06df9`;
 the next twelve were bound to clean commit
 `5507bb9892f30e1af6b5a1eac80cf5e048f14e9e`; the final eighteen were bound to
-clean commit `186b0654e377ac633013cd9e66f7931d4daa3823`. Only documentation
-files changed between these bindings; no source files changed. Every job returned
+clean commit `186b0654e377ac633013cd9e66f7931d4daa3823`; the final eleven
+were bound to clean commit `c2bc4e3f4ab646cc9bd7d6bba2d81984eb38b981`. Only
+documentation files changed between these bindings; no source files changed.
+Every job returned
 `receipt_verdict=pass` and `acceptance_decision=accepted`; every retained
 native report returned `result=exact`, matched the full compared size, and
 had an empty `first_differences` list.
@@ -104,7 +106,19 @@ These are targeted function replays, not a whole-project cold replay.
 | `EffectManager::InitializeEffect` | `0x0040CA60` | 407 | `a65da7f976d661af2062b0e41b4c7289190c83f9f35428d6653daaf28af190ef` |
 | `Th09EclRunMovement::StartTimedPolarDisplacement` | `0x00407200` | 288 | `c2b83575054d53cef77788e46e4c1bc589833676c3bf92f671df65cb9974ddf3` |
 
-**Total: 31,554 bytes across 74 exact function reports.**
+| `BackgroundRenderObjects` | `0x004026C0` | 3,274 | `02a37c9d48c089124b4b41b815614bcfeb63e70450b190af6222b9c85ed20f60` |
+| `PlayerUpdateSelectorState` | `0x004049A0` | 3,238 | `29c5075fd2270d483e648360b00e4badacd24e17c3f83cb35c23205573617861` |
+| `FrontSideDraw` | `0x004193E0` | 3,094 | `ffa808e7279ec3fe39fcc4dbc02ff52329884a619370f31528d2fa8bcafdbcdc` |
+| `FrontMessageUpdate` | `0x00416590` | 2,852 | `b48656207a30cd857b112c24881297f0a06f0707c0e9653dbd9a6da863f4e415` |
+| `BackgroundRunStageScript` | `0x004018F0` | 2,472 | `622eef847f201f9e44589926cb14773241fff6052d239396ffad97f30d5520ab` |
+| `FrontSideOnUpdate` | `0x00418A90` | 2,381 | `84d337a7859f8e1fd34d12f1e495a2c617814a690ff110af5711333a1009ed1b` |
+| `PlayerOwnerApplyReward` | `0x0041D150` | 1,519 | `5b203095626a3ba79db088da692981941fac93936e303c8530108a7c28b3911a` |
+| `GameManagerOnUpdate` | `0x0041AA5F` | 1,230 | `137d11cb942ae5ccdacec1e66608da1dd8137acfde225f461a5283428eb0b1f5` |
+| `FrontCalcCallback` | `0x00417630` | 1,491 | `adb0879d489528e36655e0a1dd351ee1d30e49542f953fc045169f0c6768d59d` |
+| `FrontDrawCallback` | `0x00417C10` | 1,474 | `192452ffe9a247680878e4d48f19cf85942262f1e78a8febb2c62d5dbf8b0431` |
+| `PlayerEnterDeathState` | `0x0041E420` | 753 | `899de5fd0ab1a7ce1771392073e1c01fe28d20083d63d36fb776ff93ade33da4` |
+
+**Total: 55,332 bytes across 85 exact function reports.**
 
 ## Scope and limitations
 
