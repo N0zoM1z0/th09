@@ -203,9 +203,9 @@ SaveReplay owner and **12** actual canonical same-source exact siblings:
 
 Seventeen natural pointer constness, receiver declaration/lifetime, cached ANM
 lookup, resource view and conditional-expression models were compiled with the
-real EffectManager carrier. Fifteen preserve the original **8** residual byte
-positions, while the two classes of cached first-call receiver produce **11**
-differences. The only maintained shape remains **51/51 physical, 19 machine
+real EffectManager carrier. **Twelve** preserve the original **8** residual
+byte positions; **five** variants routing the first GetAnm call through a
+cached receiver produce **11** differences. The only maintained shape remains **51/51 physical, 19 machine
 instructions, four original-bound fields and two ordered calls**, with eight
 unlike bytes at `+0x03..+0x09` and `+0x0D`. The current source was independently
 rebuilt by `build-match-unit.py --unit effect-manager-clear`, followed by
