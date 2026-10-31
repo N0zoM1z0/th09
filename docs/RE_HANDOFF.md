@@ -1,12 +1,19 @@
 # TH09 reconstruction — current handoff
 
-## Operator status — maintenance;reconstruction goal cleared
+## Operator status — reconstruction explicitly resumed
 
-The operator cleared the reconstruction goal on October31 and requested code,
-documentation and storage housekeeping. Do not automatically resume the unfinished
-98% milestone. No target bytes or game source are changed during this maintenance.
-Latest game-source checkpoint is **1c371cf7**. Local checkpoints are not proof of
-remote publication. Earlier resumes and source-scoped experiments are historical.
+The operator explicitly resumed TH09 reconstruction and requires work on both
+complete large bosses and leaf functions, with `gpt-web:` Git commits after
+reviewable progress and **only focused carrier replays**. This supersedes the
+October 31 maintenance-only instruction retained in older records. The 98%
+reviewed-authored-byte goal remains open; canonical codegen, whole-product
+linking, runtime semantics and ports remain separate milestones. Preserve
+incoming dirty changes and inspect them rather than cleaning them by default.
+
+The last adopted gameplay source change was the complete canonical exact Type34
+draw promotion in `2d6303de`. The earlier gameplay release checkpoint
+`1c371cf7` is still historical provenance, not current HEAD. Local commits
+are checkpoints rather than proof of remote publication or Factory acceptance.
 
 ## Current source and proof
 
@@ -22,7 +29,7 @@ Current retained proof:
 `.analysis/gpt-61sol-20261031-setup-native-releases/current.py` and current.json.
 It strictly compares14 affected units/3480 physical bytes/286 fields and reuses
 665 unchanged source/profile/object pins:679 combined units/202200 summed physical
-bytes/10472 fields,including excluded units. This is not the1004-authored-unit
+bytes/10472 fields,including excluded units. This is not the1005-authored-unit
 ledger or a fresh full cold replay.231 distinct primary proof/diagnostic objects
 and nine additional historical/diagnostic objects remain. Current-source RunEcl
 stays15564/598/30,Enemy3900/97/13,and Setup1689/171/35/77/904.
@@ -86,7 +93,7 @@ object path. Proof reuse requires matching source,profile and object hashes.
   `.analysis/gpt-61sol-20261031-setup-native-releases/current.py` checks679 units/
   202200 summed physical bytes/10472 fields. It strictly compares14 affected
   units/3480 bytes/286 fields and reuses665 unchanged source/profile/object pins.
-  These679 include excluded units;they are not the1004 authored exact ledger
+  These679 include excluded units;they are not the1005 authored exact ledger
   entries. Its current.json identifies231 distinct primary proof/diagnostic
   objects,including the two new Setup carriers and Player lifecycle carrier.
   Nine additional historical/diagnostic objects remain.
@@ -190,8 +197,9 @@ The catalog is not proof of complete executable-code inventory. The formerly
 uncatalogued **0x0040D677 /0x00444A78** Timer references now belong to the exact
 Effect 1/2 and Effect 34 updates. All **203** captured assignment callsites have
 catalogued owners; that bounded census proves neither complete executable
-coverage nor a return ABI. The Effect 34 **178-byte initializer at 0x00444960** is now exact; its
-**946-byte draw at 0x00444AF0** is a maintained, explicitly nonexact frontier.
+coverage nor a return ABI. The Effect 34 **178-byte initializer at 0x00444960** and **946-byte draw
+at 0x00444AF0** are both canonical exact in their pinned source/profile.
+The separate Effect29 draw remains nonexact.
 Do not silently treat uncatalogued code as excluded.
 
 ## Reconstruction frontiers
@@ -268,7 +276,7 @@ provisional;Ghidra is not an exactness Oracle. No IDA,REA or Factory MCP routing
 For source changes,protect complete owners,tails/tables,callees and affected
 exact siblings under pinned VC7.1 profiles. Compile serially at lowered priority
 on one CPU with bounded resources,and reuse unchanged source/profile proofs.
-Do not run all1004 cold units for a local edit. Windows product/runtime,dual-
+Do not run all1005 cold units for a local edit. Windows product/runtime,dual-
 Oracle semantics and portability remain later phases. No new defensive gameplay
 behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 
