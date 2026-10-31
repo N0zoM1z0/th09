@@ -3243,3 +3243,24 @@ working Ghidra. Independent temporary outputs self-clean;no source archive is
 added and build/ is absent. Post-cleanup strict83/25942/1146 plus276 unchanged
 pins,current359/109976/5388,and the saved-input audit pass without compiler jobs.
 Receipt:.analysis/gpt-61sol-20261031-ecl-native-clear-context/cleanup.json.
+
+## 2026-10-31: complete Charge branch organization controls
+
+Five valid complete Charge source models and one invalid held-path renderer
+are terminal,along with one independent corrected-model cold replay. Four valid
+graphs preserve all1217 regular-body bytes/70 fields and1197/1210 Charge with
+1160 overlap differences plus13 missing. The mode switch loses an actual
+IsHeld call and is rejected at69 fields/57 calls. No game source/profile or
+canonical exactness claim changes.
+
+Cleanup removes11 compiler files/722386 logical bytes:five trial objects and
+six PDBs,including output from the failed C2181 renderer. A separate pass removes
+one12787-byte Python cache,with985 other hashes unchanged. All986 deletion-time
+protected hashes agree. Retain89 current primary objects,all other retained
+objects,the source-bound Charge baseline,immutable20-input e07e24a5 Git/EOL
+recipes,full code/COFF/literal/native records and logs,the new attested export,
+source,target/toolchains and working Ghidra. Independent temporary files self-
+clean;no source archive is added and build/ is absent. Post-cleanup immutable-
+input/baseline audit passes without compiler jobs. Current359 source/profile/
+object pins are unchanged and reused. Receipt:
+.analysis/gpt-61sol-20261031-charge-whole-branches/cleanup.json.

@@ -78,6 +78,15 @@ but emit1000 bytes versus996,with562 unequal overlaps and51 damaged prior
 matches. The other restart/result graphs also fail. No source or credit changes.
 Packet: `.analysis/gpt-61sol-20261031-supervisor-native-frame-context/`.
 
+Latest bounded Charge result:four complete positive/negative/nested held-path
+graphs reproduce both baseline bodies and all actual fields. Charge stays
+1197/70/58/53,1160 overlap differences plus13 missing;the target mode-byte home
+is still absent. A mode switch emits1181 bytes/69 fields/57 calls by merging
+two IsHeld sites;the complete auditor rejects it before scoring. No source is
+adopted. One corrected held-path capture independently cold-reproduces every
+body,field and full diagnostic. Research:
+`.analysis/gpt-61sol-20261031-charge-whole-branches/`.
+
 Latest complete SaveReplay data-copy controls: typed32-byte frame assignment
 and typed memcpy destination preserve every14 baseline regular body and the
 1238/53/three-difference owner. Capturing the actual frame value first emits
@@ -278,6 +287,15 @@ behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 ## Maintenance and validation
 
 Latest cleanup receipt:
+`.analysis/gpt-61sol-20261031-charge-whole-branches/cleanup.json`.
+Eleven completed compiler files/722386 logical bytes are removed:five branch-
+model objects and six PDBs,including the failed source renderer's PDB. One
+12787-byte Python cache is also removed with985 other hashes unchanged. Current
+89 primary proof/diagnostic objects,other retained objects,source/research,
+target/toolchains and working Ghidra remain. No game source or current code
+receipt changes;the selected independent replay self-cleans. Build/ is absent.
+
+Preceding native-clear cleanup receipt:
 `.analysis/gpt-61sol-20261031-ecl-native-clear-context/cleanup.json`.
 Twenty-four completed compiler files/3810833 logical bytes are removed:twelve
 replaced/trial/first-proposal objects and twelve PDBs. All1015 deletion-time

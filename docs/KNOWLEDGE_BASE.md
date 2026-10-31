@@ -28519,3 +28519,69 @@ recipes,complete raw/COFF/native/compiler records and failed-proposal evidence.
 Post-cleanup current359 and saved-input audits pass without compiler jobs. No
 source archive is added;build/ is absent. Authored exactness stays1004/1035 and
 246651/291883 bytes(84.5034%);the98% goal and full RunEcl/Enemy remain unfinished.
+
+## 2026-10-31: complete Charge branch organization controls
+
+Recovery at cleane07e24a5 verifies target,tracking and progress. The previous
+turn is source progress through the implemented clear receiver,not new exact
+bytes. The canonical ledger already lists camera projection as exact;earlier
+four-byte camera notes do not describe this checkpoint. Current work returns
+to the complete1210-byte Charge owner rather than rerunning those old controls.
+Direct Ghidra export083140-2470262 reuses the project and attests all685056
+mapped file bytes. Original Charge has350 instructions,70 fields,58 ordered
+calls,53 direct blocks,and a mode-byte store at+55/read at+1C7/+1DB inEBP-1.
+Names and decompiler structure remain provisional.
+
+The current Charge carrier is reused only after all20 source hashes,profile
+and object hash agree. Complete public comparison repeats1197 bytes,342
+instructions,70 fields,58 calls,53 blocks,1160 overlap differences and13 missing.
+The mode-byte home is absent. This is a whole-owner/code-field baseline,not
+acceptance based on the seven older region checks. Its two regular definitions
+are Charge1197 and the actual co-visible Timer greater-equal20/zero fields.
+
+Four valid complete source models place the delay/held paths in a positive
+if/else,in a negated root,in explicit De Morgan form following the original
+observed branch logic,and in a positive held-successor block. They preserve
+short-circuit input-call timing,conditional mode capture,all attack/shoot tails,
+actual interfaces and the existing float clamp branch. Every one emits all
+1217 baseline regular-body bytes and all70 effective fields identically. Whole
+Charge reports remain1197/70/58/53/1160+13 with no mode-byte stack access. Thus
+these complete root/held branch organizations do not explain the missing home
+under this source/profile;they do not establish the unique original source.
+
+An actual mode switch for modes1/0/default compiles to1181 bytes,341 decoded
+instructions,69 fields and57 direct calls. VC7.1 merges the two IsHeld sites
+into one;that is the sole missing symbolic field. The unchanged complete
+70-field auditor rejects it before a full original-bound score. A shorter
+owner is not adopted or credited. All five valid models retain the complete
+original-equal20-byte Timer body. Each model and the baseline separately verify
+all five actual scalar definitions against the original PE,including the
+rejected switch's literals.
+
+The first held-successor renderer stops at an inner goto and produces invalid
+C++(C2181 illegal else). Its log and immutable recipe remain;it is not negative
+game-code evidence. The corrected renderer captures the full held block,then
+compiles successfully and is the selected independent cold replay. That replay
+reproduces both complete bodies,all actual COFF rows,literals and the entire
+Charge diagnostic. Temporary files self-clean. Seven compiler executions run
+serially,on one allowed CPU,nice10,with180-second bounds:six primary attempts
+including the invalid renderer,and one independent replay. No new assembly,
+qualification,register/variable-order hint,storage or compiler profile is used.
+
+Packet:.analysis/gpt-61sol-20261031-charge-whole-branches/. All20 Git/EOL inputs
+reproduce frome07e24a5. Source and canonical manifest remain unchanged. All89
+primary current proof/diagnostic objects and their source/profile/object pins
+are unchanged;the current359 subset is reused without a cold canonical cohort.
+All10 focused Charge tests pass. Tracking,docs,generated progress and whitespace
+checks apply;public comparators and acceptance guards are unchanged.
+
+After producers terminate,cleanup removes11 files/722386 logical bytes:five
+trial objects and six PDBs,including the invalid renderer's output. A separate
+pass removes one12787-byte Python cache,with985 other hashes unchanged. Retain the
+source-bound baseline,current89 objects,other retained objects,immutable inputs,
+recipes,complete raw/COFF/literal/native reports,logs,the new attested export,
+original target/toolchains and working Ghidra. Deletion-time protected hashes
+remain equal. Post-cleanup saved-input/baseline audits pass without compiling;
+no source archive is added and build/ is absent. Game source remainse07e24a5,
+RunEcl30/Enemy13 remain open,and authored exactness stays1004/1035,
+246651/291883 bytes(84.5034%). The98% goal remains unfinished.
