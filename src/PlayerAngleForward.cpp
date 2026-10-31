@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include "PlayerForwardAngleView.hpp"
 
 typedef float f32;
 
@@ -6,26 +6,6 @@ namespace Th09EclRunControl
 {
 f32 __stdcall VectorAngle(f32 y, f32 x);
 }
-
-struct PlayerForwardAngleFloat3View
-{
-    f32 x;
-    f32 y;
-    f32 z;
-
-    operator f32 *();
-};
-
-struct PlayerForwardAngleView
-{
-    unsigned char unknown000[0x1B88];
-    PlayerForwardAngleFloat3View position1B88;
-
-    f32 AngleFromPlayerToPoint(PlayerForwardAngleFloat3View *position);
-};
-
-typedef char PlayerForwardAnglePositionAt1B88[
-    (offsetof(PlayerForwardAngleView, position1B88) == 0x1B88) ? 1 : -1];
 
 f32 PlayerForwardAngleView::AngleFromPlayerToPoint(PlayerForwardAngleFloat3View *position)
 {

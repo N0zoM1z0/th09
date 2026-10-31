@@ -12830,7 +12830,7 @@ symbol = "?PlayerShotSpawnCallbackType7@@YIHPAUPlayerShotSpawn7PlayerView@@PAUPl
 target_address = 0x0044AB90
 size = 0x8B
 relocations = [
-  { offset = 0x1F, type = "REL32", symbol = "?AngleToPoint@PlayerAngleView@@QAEMPAUPlayerAngleFloat3View@@@Z", target = 0x0041BB00 },
+  { offset = 0x1F, type = "REL32", symbol = "?AngleFromPlayerToPoint@PlayerForwardAngleView@@QAEMPAUPlayerForwardAngleFloat3View@@@Z", target = 0x0041BB00 },
   { offset = 0x31, type = "DIR32", symbol = "__real@c3100000", target = 0x0048E808 },
   { offset = 0x49, type = "REL32", symbol = "?InitializeShot@PlayerShotInitPlayerView@@QAIXPAUPlayerShotInitShotView@@PAUPlayerShotInitDescriptorView@@@Z", target = 0x0041F350 },
   { offset = 0x52, type = "REL32", symbol = "@cosf@4", target = 0x00401060 },

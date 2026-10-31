@@ -1,6 +1,6 @@
 #include "PlayerShotInitializeView.hpp"
 #include "PlayerEnemyTrackingStateView.hpp"
-#include "PlayerAngleView.hpp"
+#include "PlayerForwardAngleView.hpp"
 #include <math.h>
 
 struct PlayerShotSpawn7DescriptorView
@@ -37,8 +37,8 @@ int __fastcall PlayerShotSpawnCallbackType7(
     if (value == entry->scheduleValue00)
     {
         float angle =
-            reinterpret_cast<PlayerAngleView *>(player)->AngleToPoint(
-                reinterpret_cast<PlayerAngleFloat3View *>(
+            reinterpret_cast<PlayerForwardAngleView *>(player)->AngleFromPlayerToPoint(
+                reinterpret_cast<PlayerForwardAngleFloat3View *>(
                     &player->tracking30364.trackedEnemyPosition00)) +
             entry->angle14;
 

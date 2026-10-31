@@ -10,6 +10,7 @@ reviewed relocation manifest and a replayable match unit.
 from __future__ import annotations
 
 import argparse
+from functools import lru_cache
 import hashlib
 import importlib.util
 import json
@@ -246,17 +247,34 @@ def compare(path: Path, symbol: str, address: int, expected_size: int) -> dict[s
     }
 
 
+@lru_cache(maxsize=2)
+def canonical_function_destinations(manifest_text: str) -> dict[str, frozenset[int]]:
+    owners: dict[str, set[int]] = {}
+    for unit in tomllib.loads(manifest_text)["units"].values():
+        owners.setdefault(unit["symbol"], set()).add(int(unit["target_address"]))
+    return {symbol: frozenset(addresses) for symbol, addresses in owners.items()}
+
+
 def validate_symbol_destinations(expected: list[dict[str, object]]) -> None:
     """One COFF symbol has one base, before each reference's addend is applied.
 
     Per-reference bases can otherwise conceal a wrong source array stride or
     member offset while still reproducing every linked operand independently.
     Distinct symbols may share a destination, for example after code folding.
+    A reference cannot redirect a symbol with a canonical function owner to
+    another entry, even when that reference would reproduce its target bytes.
     """
+    owners = canonical_function_destinations(UNITS_MANIFEST.read_text()) if expected else {}
     bindings: dict[str, tuple[int, int]] = {}
     for row in expected:
         symbol = str(row["symbol"])
         target, offset = int(row["target"]), int(row["offset"])
+        if symbol in owners and target not in owners[symbol]:
+            raise ValueError(
+                f"canonical function owner destination differs: {symbol}, "
+                f"field {offset:#x} -> {target:#x}; owners "
+                + ", ".join(f"{address:#x}" for address in sorted(owners[symbol]))
+            )
         if symbol in bindings and bindings[symbol][0] != target:
             previous, first_offset = bindings[symbol]
             raise ValueError(

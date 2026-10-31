@@ -47,6 +47,76 @@ class SymbolDestinationTests(unittest.TestCase):
             coff.validate_symbol_destinations([
                 self.row(addend=4), self.row(offset=0xB9, addend=0, target=0x4DC62C)])
 
+    def test_known_function_owner_overrides_a_callers_single_binding(self):
+        manifest = '[units.callee]\nsymbol = "callee"\ntarget_address = 4198400\n'
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "units.toml"
+            path.write_text(manifest)
+            with mock.patch.object(coff, "UNITS_MANIFEST", path):
+                for kind in ("REL32", "DIR32"):
+                    with self.subTest(kind=kind):
+                        coff.validate_symbol_destinations([
+                            self.row(symbol="callee", type=kind, target=0x401000, addend=4)])
+                        with self.assertRaisesRegex(ValueError, "canonical function owner"):
+                            coff.validate_symbol_destinations([
+                                self.row(symbol="callee", type=kind, target=0x401004)])
+
+    def test_changed_manifest_content_cannot_reuse_an_old_owner_index(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "units.toml"
+            with mock.patch.object(coff, "UNITS_MANIFEST", path):
+                path.write_text('[units.callee]\nsymbol = "callee"\ntarget_address = 4198400\n')
+                coff.validate_symbol_destinations([self.row(symbol="callee", target=0x401000)])
+                path.write_text('[units.callee]\nsymbol = "callee"\ntarget_address = 4198404\n')
+                with self.assertRaisesRegex(ValueError, "canonical function owner"):
+                    coff.validate_symbol_destinations([self.row(symbol="callee", target=0x401000)])
+
+    def test_reviewed_multiple_owners_are_allowed_without_fitting_a_new_base(self):
+        manifest = '''[units.first]
+symbol = "callee"
+target_address = 4198400
+[units.second]
+symbol = "callee"
+target_address = 4202496
+'''
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "units.toml"
+            path.write_text(manifest)
+            with mock.patch.object(coff, "UNITS_MANIFEST", path):
+                for address in (0x401000, 0x402000):
+                    coff.validate_symbol_destinations([self.row(symbol="callee", target=address)])
+                with self.assertRaisesRegex(ValueError, "canonical function owner"):
+                    coff.validate_symbol_destinations([self.row(symbol="callee", target=0x401004)])
+
+    def test_all_manifest_references_keep_canonical_function_owner_bases(self):
+        units = tomllib.loads(coff.UNITS_MANIFEST.read_text())["units"]
+        for name, unit in units.items():
+            with self.subTest(unit=name):
+                coff.validate_symbol_destinations(unit.get("relocations", []))
+
+    def test_equal_linked_bytes_cannot_redirect_a_canonical_callee(self):
+        field = dict(offset=0, type_id=6, type="DIR32", symbol="callee", addend=0,
+                     symbol_section=0, symbol_value=0, owner_section=1, owner_value=0)
+        manifest = '''[units.callee]
+symbol = "callee"
+target_address = 4198400
+[units.caller]
+object = "build/unused.obj"
+symbol = "caller"
+size = 4
+target_address = 4202496
+relocations = [{ offset = 0, type = "DIR32", symbol = "callee", target = 4198512 }]
+'''
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "units.toml"
+            path.write_text(manifest)
+            with mock.patch.object(coff, "UNITS_MANIFEST", path), \
+                    mock.patch.object(coff, "object_function", return_value=(bytearray(4), [field])), \
+                    mock.patch.object(coff, "verified_target", return_value=b"verified"), \
+                    mock.patch.object(coff, "pe_bytes_at", return_value=struct.pack("<I", 0x401070)), \
+                    self.assertRaisesRegex(ValueError, "canonical function owner"):
+                coff.compare_unit("caller")
+
     def test_reviewed_crt_entries_are_distinct(self):
         coff.validate_native_crt_destinations([
             self.row(symbol="_free", target=0x47B163),

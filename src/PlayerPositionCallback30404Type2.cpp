@@ -1,4 +1,5 @@
 #include "PlayerLifecycleView.hpp"
+#include "PlayerForwardAngleView.hpp"
 
 #include <stddef.h>
 
@@ -16,21 +17,6 @@ struct PlayerPositionCallbackType2View
     PlayerType2RangeSourceView *rangeSource368;
     unsigned char unknown0036C[0x1B88 - 0x36C];
     PlayerPositionView position1B88;
-};
-
-struct PlayerForwardAngleFloat3View
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct PlayerForwardAngleView
-{
-    unsigned char unknown000[0x1B88];
-    PlayerForwardAngleFloat3View position1B88;
-
-    float AngleFromPlayerToPoint(PlayerForwardAngleFloat3View *position);
 };
 
 long double __stdcall AnmProjectionAbs(float value);
