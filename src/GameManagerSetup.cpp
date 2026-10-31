@@ -155,14 +155,8 @@ extern int g_GameManagerChainState;
 
 extern int g_LastSpawnLane;
 extern void __fastcall ReleaseGameSubsystem(void *object);
-extern void __fastcall ReleaseSecondarySubsystem(void *object);
 extern void __fastcall ReleaseSubsystem0(void *object);
-extern void __fastcall ReleaseSubsystem1(void *object);
-extern void __fastcall ReleaseSubsystem2(void *object);
-extern void __fastcall ReleaseSubsystem3(void *object);
 extern void __fastcall ReleaseSubsystem4(void *object);
-extern void __fastcall ReleaseSubsystem5(void *object);
-extern void __fastcall ReleaseSubsystem6(void *object);
 
 extern void __fastcall ResetGameManager(GameManagerSetupLayout *manager);
 extern void __fastcall FormatCurrentDateString(char *buffer);
@@ -573,26 +567,26 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
     {
         ReleaseSubsystem0(side->subsystem0);
         side->subsystem0 = NULL;
-        ReleaseSubsystem1(side->subsystem1);
+        PlayerRelease(static_cast<PlayerLifecycleView *>(side->subsystem1));
         side->subsystem1 = NULL;
-        ReleaseSubsystem2(side->subsystem2);
+        EtamaController::Release(static_cast<EtamaController *>(side->subsystem2));
         side->subsystem2 = NULL;
-        ReleaseSubsystem3(side->subsystem3);
+        EffectManager::Release(static_cast<EffectManager *>(side->subsystem3));
         side->subsystem3 = NULL;
         ReleaseSubsystem4(side->subsystem4);
         side->subsystem4 = NULL;
-        ReleaseSubsystem5(side->subsystem5);
+        CardAttack::Destroy(static_cast<CardAttack *>(side->subsystem5));
         side->subsystem5 = NULL;
-        ReleaseSubsystem6(side->subsystem6);
+        FrontSide::Destroy(static_cast<FrontSide *>(side->subsystem6));
         side->subsystem6 = NULL;
         side++;
     } while (--sideCount != 0);
 
     ReleaseGameSubsystem(gameManager->gameSubsystem);
     gameManager->gameSubsystem = NULL;
-    ReleaseSecondarySubsystem(gameManager->secondarySubsystem);
+    ExAttackController::Release(static_cast<ExAttackController *>(gameManager->secondarySubsystem));
     gameManager->secondarySubsystem = NULL;
-    ReleaseSubsystem3(gameManager->sharedSubsystem);
+    EffectManager::Release(static_cast<EffectManager *>(gameManager->sharedSubsystem));
     gameManager->sharedSubsystem = NULL;
 
     if (gameManager->heapE8 != NULL)

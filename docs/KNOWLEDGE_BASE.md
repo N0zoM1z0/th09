@@ -28848,3 +28848,87 @@ objects,nine additional historical/diagnostic objects,all research,recipes,
 the new attested export,original target/tools and working Ghidra. No source
 archive is added;build/ remains absent. The post-cleanup model audit passes
 without another compiler run;the current679-unit receipt also remains valid.
+
+
+## October 31: implemented gameplay teardown contracts and complete release graph
+
+Recovery starts clean at11ec17cd. The preceding goal turn is progress:ten whole
+ECL/Enemy producer contexts yield bounded,fully reproduced negative evidence.
+Original Japanese v1.50a disk/tracking/status pass. Fresh direct Ghidra exports
+SaveReplay420C60/Enemy410730,then DeletedCallback41B82A and all six implemented
+release entries,after verifying every685056 file-backed mapped byte against the
+original. Source-bound SaveReplay reuse independently reconfirms1238 bytes/53
+fields and the sameB7/BB/3F6 differences;no redundant historical cursor/copy
+model is compiled and no new Replay progress is claimed.
+
+The DeletedCallback audit distinguishes six undefined aliases from four real
+neutral-named implementations. BackgroundRelease,EnemyManagerRelease,FrontRelease
+and the Replay stage release genuinely define ReleaseSubsystem0,ReleaseSubsystem4,
+ReleaseGameSubsystem and ReleaseStageObject;those calls remain. The other six
+aliases have no matching implementations. Their seven physical call sites now
+use actual PlayerRelease,EtamaController::Release,EffectManager::Release twice,
+CardAttack::Destroy,FrontSide::Destroy and ExAttackController::Release. The
+known creator return types and side slots agree with these maintained views.
+PlayerRegisterChain.hpp supplies the real shared PlayerRelease declaration,
+checked by both its defining source and its caller. Native class spelling,
+complete data ownership and whole-product closure are still not established.
+
+The original422-byte DeletedCallback CALL fields at10B,115,11F,135,140,167,171
+are independently read from the verified PE. Every new actual native symbol,
+fastcall ABI,zero addend and destination remains bound to its complete existing
+original owner. All seven manifest changes are only symbol names;no target,
+position,kind,addend,profile,boundary,origin or exactness row changes. The two
+Setup profiles make14 actual COFF name migrations while retaining every raw
+instruction byte and effective field. No new helper,wrapper,assembly,qualifier,
+variable/register-order hint,forced inline,padding or compiler profile is added.
+
+The live include/profile census finds two Setup carriers and one Player
+lifecycle carrier,three rather than the historical four assumed initially.
+The initial planning assertion stops before mutation or compiler work;the live
+manifest shows all three Player units now share one profile. All14 affected
+canonical units replay3480 physical bytes/286 fields. The three actual source-
+path builds preserve27 regular body/profile payloads/10259 bytes/906 fields.
+The six native release producers separately pass365 bytes/39 fields using the
+new Player object and five unchanged source/profile/object-bound objects.
+PlayerRegisterChain's21-byte compiler contribution,its two entry coordinates,
+three fields and private data remain unchanged;the two Setup carriers have no
+aux-less compiler contributions.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| SETUP-RELEASE-001 | complete source preservation | DeletedCallback remains422 original-equal bytes with seven genuine release references across six implemented contracts. | Three actual-path carriers;strict14-unit replay;independent original CALL fields. |
+| SETUP-RELEASE-002 | rejected complete native context | All11 actual release/helper definitions before Setup,after Setup,or before DeletedCallback preserve the12 old /Os bodies and worker1689/171/35/77/904. Ten native bodies fail complete equality;only CardAttack's31-byte end helper passes. | Three23-body contexts;5253 bytes/453 fields each;before/after effective payload equality. |
+| SETUP-RELEASE-003 | complete native comparison | The existing no-/Os context preserves12 old bodies and its exact loading sibling and reproduces all11 added native owners. |23 regular bodies/5844 bytes/510 fields;added690 bytes/55 fields. |
+| SETUP-RELEASE-004 | independent reproduction | Frozen-source /Os actual caller and no-/Os complete release graph reproduce every body,field,literal and compiler contribution. | Two independent compiles;ten exact caller siblings and eleven native owners plus loading sibling. |
+
+These are actual complete entry points and helper bodies,not declaration-only
+callee hypotheses. The /Os contexts are not adopted despite their unchanged
+worker,as their native producers fail complete equality. The no-/Os result
+validates the measured native definitions without changing the worker profile
+or proving original TU ownership. Source-before-worker and before-DeletedCaller
+positions are recorded separately. This batch uses nine serial compiler jobs:
+three actual affected carriers,four complete release contexts and two selected
+independent replays. All use one allowed CPU,nice10 and180-second bounds.
+
+Evidence:.analysis/gpt-61sol-20261031-setup-native-releases/. All44 quoted inputs
+reconstruct from11ec17cd Git/EOL bindings. current.py strictly checks14 affected
+units and reuses665 unchanged source/profile/object pins,679 combined units/
+202200 summed physical bytes/10472 fields,including excluded units,across231
+primary objects. The prior setup-native-context whole verifier is source-stale
+for Setup and Player after the header change;its unaffected groups remain valid.
+The shared-VM and still older whole verifiers stay historical. No full cold
+cohort or full public CI runs;validation code is unchanged. All35 focused
+GameManager/setup tests pass,including native release identity/field joins;
+tracking,documentation,generated progress and whitespace checks apply.
+Authored exactness remains1004/1035 and246651/291883 bytes(84.5034%). RunEcl30,
+Enemy13 and Setup904 remain unresolved. The98% goal and later Windows product/
+runtime,semantic and port gates remain unfinished.
+
+After all owned producers terminate,cleanup removes14 files/1291387 logical
+bytes:three replaced source-stale objects,four completed context objects and
+seven PDBs. All1113 deletion-time protected hashes agree. Preserve231 current
+primary objects,nine additional historical/diagnostic objects,44 immutable input
+bindings,all recipes,full raw/COFF/literal/compiler/ABI records,logs,both new
+attested exports,original target/toolchains and working Ghidra. No source archive
+is created;build/ stays absent. Post-cleanup immutable-input and current679
+verification pass without further compiler jobs.

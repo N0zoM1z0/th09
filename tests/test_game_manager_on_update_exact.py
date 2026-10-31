@@ -51,6 +51,35 @@ class GameManagerExactSource(unittest.TestCase):
         self.assertIn('/Os', unit['profile'])
         self.assertIn('/Oy-', unit['profile'])
 
+    def test_deleted_callback_uses_the_six_implemented_release_contracts(self):
+        rows = self.units['game-manager-deleted-callback']['relocations']
+        contracts = (
+            ('player-release', '?PlayerRelease@@YIXPAUPlayerLifecycleView@@@Z',
+             0x41CED0, 86, [0x10B]),
+            ('etama-controller-release', '?Release@EtamaController@@SIXPAU1@@Z',
+             0x414180, 52, [0x115]),
+            ('effect-manager-release', '?Release@EffectManager@@SIXPAU1@@Z',
+             0x40D280, 51, [0x11F, 0x171]),
+            ('card-attack-destroy', '?Destroy@CardAttack@@SIXPAU1@@Z',
+             0x404570, 51, [0x135]),
+            ('front-side-destroy', '?Destroy@FrontSide@@SIXPAU1@@Z',
+             0x41A1D0, 59, [0x140]),
+            ('exattack-release', '?Release@ExAttackController@@SIXPAU1@@Z',
+             0x4156A0, 66, [0x167]),
+        )
+        for name, symbol, address, size, offsets in contracts:
+            native = self.units[name]
+            self.assertEqual((native['symbol'], native['target_address'], native['size']),
+                             (symbol, address, size))
+            actual = [r for r in rows if r['symbol'] == symbol]
+            self.assertTrue(all(type(r.get('addend', 0)) is int for r in actual))
+            self.assertEqual([(r['offset'], r['type'], r['target'], r.get('addend', 0))
+                              for r in actual],
+                             [(off, 'REL32', address, 0) for off in offsets])
+        unresolved = {'?ReleaseSubsystem'+n+'@@YIXPAX@Z' for n in ('1','2','3','5','6')}
+        unresolved.add('?ReleaseSecondarySubsystem@@YIXPAX@Z')
+        self.assertFalse(unresolved.intersection(r['symbol'] for r in rows))
+
     def test_original_three_disjoint_input_state_regions(self):
         rows = self.unit['relocations']
         symbol = '?g_ReplayInputStates@@3PAUReplayInputState@@A'

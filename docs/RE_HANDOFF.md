@@ -7,20 +7,36 @@ checkpoint559ccf7c. Continue the unfinished98% reviewed-authored-byte milestone,
 prioritizing complete RunEcl and Enemy update while keeping small leaves in
 scope. Earlier maintenance and stop instructions are historical checkpoints.
 
-Current game-source change:Gameplay cleanup calls the implemented Background::
-ClearSpellBackgroundState,CardAttack::RefreshResource and FrontSide::
-ResetTransitionState directly. Three undefined reset-view classes are removed.
-The complete425-byte/43-field cleanup and all other affected exact owners remain
-original-equal. Native reset producers11/12/51 bytes retain complete proofs.
-Only three caller symbol names change in the manifest;all other metadata agrees.
+Current game-source change:Gameplay teardown calls actual PlayerRelease,
+EtamaController::Release,EffectManager::Release,CardAttack::Destroy,
+FrontSide::Destroy and ExAttackController::Release. Six undefined aliases are
+removed;the shared Player lifecycle header declares its implemented release ABI.
+The422-byte DeletedCallback stays exact. Seven manifest caller symbols change;
+all other metadata agrees. Four neutral-named release functions already have
+implementations and remain. Prior df05447b also connected the three real cleanup
+methods,whose425-byte/43-field caller remains exact.
 
-Two affected actual Setup carriers preserve24 complete body/profile payloads/
-9770 bytes/863 effective fields after six actual reset-name migrations. Strict
-replay passes11 units/2991 physical bytes/243 fields;668 unchanged source/profile/
-object pins give679 combined units/202200 summed physical bytes/10472 fields,
-including excluded units.231 distinct primary objects remain. RunEcl30,Enemy13
-and Setup1689/171/35/77/904 stay unchanged;no new authored credit is added.
-Current proof:`.analysis/gpt-61sol-20261031-setup-native-context/`.
+Three affected source/profile carriers preserve27 complete body/profile payloads/
+10259 bytes/906 effective fields after14 actual release-name migrations in two
+Setup profiles. Strict replay passes14 units/3480 physical bytes/286 fields;
+665 unchanged source/profile/object pins give679 combined units/202200 summed
+physical bytes/10472 fields,including excluded units.231 distinct primary objects
+remain. The six native release producers pass365 bytes/39 fields;unchanged
+callee objects are reused. RunEcl30,Enemy13 and Setup1689/171/35/77/904 stay
+unchanged;no new authored credit is added. Current proof:
+`.analysis/gpt-61sol-20261031-setup-native-releases/`.
+
+Complete release definitions before the worker,after the carrier,and before
+their actual DeletedCallback caller preserve all12 Setup bodies. All three /Os
+contexts retain the same904 worker differences,but ten of eleven native bodies
+fail their original extents or bytes;only the31-byte CardAttack end helper passes.
+The existing no-/Os context reproduces all11 complete native bodies/690 bytes/
+55 fields and the exact loading sibling. Neither context is adopted. Two
+independent replays reproduce the actual /Os caller and full no-/Os native graph.
+Cleanup removes three replaced objects,four completed model objects and seven
+PDBs:14 files/1291387 bytes. All1113 deletion-time protected hashes agree. Keep
+all current objects,44 immutable inputs,recipes,complete records,logs and both
+new attested exports. Post-cleanup audits pass;build/ remains absent.
 
 Complete real Background/CardAttack/FrontSide factory definitions before and
 after the Setup worker preserve all12 old bodies and10 same-profile exact
@@ -135,23 +151,25 @@ object path. Proof reuse requires matching source,profile and object hashes.
 - Canonical inventory: `config/functions.csv`,`config/function-origins.csv`,
   `config/matches.csv` and `config/match-units.toml`.
 - Current retained subset:
-  `.analysis/gpt-61sol-20261031-setup-native-context/current.py` checks679 units/
-  202200 summed physical bytes/10472 fields. It strictly compares11 affected
-  units/2991 bytes/243 fields and reuses668 unchanged source/profile/object pins.
+  `.analysis/gpt-61sol-20261031-setup-native-releases/current.py` checks679 units/
+  202200 summed physical bytes/10472 fields. It strictly compares14 affected
+  units/3480 bytes/286 fields and reuses665 unchanged source/profile/object pins.
   These679 include excluded units;they are not the1004 authored exact ledger
   entries. Its current.json identifies231 distinct primary proof/diagnostic
-  objects,including the two newly compiled Setup carriers.
+  objects,including the two new Setup carriers and Player lifecycle carrier.
   Nine additional historical/diagnostic objects remain.
-- The preceding shared-VM whole verifier is source-stale after the Setup reset
-  change. Its unaffected individual groups feed current pins. Its two replaced
-  Setup objects have been removed after full records and compiler contributions
-  were audited;absence after cleanup is expected. The current packet's cleanup
-  removes440 files/8345647 bytes with1113 deletion-time protected hashes unchanged.
-  Recipes,40 immutable inputs,raw/COFF records,logs and the attested Ghidra export
-  remain;build/ is absent. Post-cleanup audits require no compiler jobs.
+- The preceding setup-native-context whole verifier is source-stale after the
+  teardown/header changes. Its unaffected individual groups feed665 current pins.
+  The actual current impact is three carriers,not the historical four-profile
+  October22 scope. Use the live manifest and source hashes for replay planning.
+- The shared-VM whole verifier is source-stale after later Setup/Player header
+  changes. Its unaffected individual groups may feed current pins. Replaced
+  objects are removed after complete records and compiler contributions are
+  audited;absence after cleanup is expected. Historical cleanup details remain
+  in the knowledge-base checkpoint records.
 - The preceding native-clear,shared-storage,startup and parameter-field whole
   verifiers are source-stale after the common VM header change. Their unaffected
-  individual groups supply117 reused pins. Older359/357/353/344/323/297/251 bundles are source-scoped
+  individual groups may feed current pins. Older359/357/353/344/323/297/251 bundles are source-scoped
   historical verifiers.
   Their unchanged individual groups may feed current pins,but a historical
   whole verifier is not automatically current. Missing discarded trial objects
