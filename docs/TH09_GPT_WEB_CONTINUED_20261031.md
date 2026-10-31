@@ -80,3 +80,43 @@ natural GameManager/side pointer, descriptor position and index-local source
 models: all survivors at best remain 3,900/97/13; a reordered side-state
 producer breaks original fields/extent. These are negative bounded evidence,
 not proof that the original source had one unique variable spelling.
+
+## EnemyManager 3,900-byte original-bound scalar definitions
+
+The maintained `EnemyManagerView::OnUpdate` still has **13 physical byte
+mismatches** in its complete original 3,900-byte owner (3,883 code bytes,
+one alignment byte and four switch-table pointers). It retains all 97
+source-to-original field identities, 1,026 decoded instructions, 69 ordered
+calls, 170 control-flow blocks and four exact switch destinations. This is
+**not** a new exact function.
+
+A fresh complete original/COFF check exposed a proof gap distinct from the
+remaining register differences: the original field binder checked `__real@`
+name bits and the original PE value, but not that the **source COFF actually
+contained** the corresponding float constant in initialized read-only data.
+The new scalar audit now binds each literal's independent physical offset,
+actual source section/value, and original PE value. The five source/target
+pairs are:
+
+| Owner offset | Scalar symbol | Original destination |
+| --- | --- | --- |
+| `0x2A0` | `__real@3dcccccd` | `0x0048E4B0` |
+| `0x2AF` | `__real@3f800000` | `0x0048E2A4` |
+| `0x8CB` | `__real@00000000` | `0x0048E314` |
+| `0xA55` | `__real@42800000` | `0x0048E4A8` |
+| `0xD61` | `__real@42000000` | `0x0048E5E0` |
+
+The target-independent tests in `test_enemy_manager_update_bindings.py`
+change each scalar's actual COFF bytes, source-section identity and read-only
+flags without changing the linker symbol. All fail the new audit; the current
+pinned VC7.1 owner passes. This is stricter evidence about the **full big
+boss**, not an instruction-only similarity metric and not exactness credit.
+No gameplay C++ source or canonical ledger is changed.
+
+Focused reproduction:
+
+```sh
+python3 scripts/build-match-unit.py --unit ecl-pop-context
+python3 scripts/inspect-enemy-manager-update.py build/matching/EclManager.obj --json
+python3 scripts/check-boss-frontiers.py --owner enemy --skip-exact-siblings
+```
