@@ -1,13 +1,14 @@
 # TH09 focused Factory replay receipts — 2026-10-31
 
-Twenty individually submitted, forced-recompile function-exact replay jobs
-completed. The first fifteen were bound to clean commit
-`9048c2c0fd2084b1dfd6345d30f6dfe150a54036`; five additional jobs were bound
-to clean commit `3d91c2dd9b54f27d4c5cbc4f49eba6c2e9ec18a4` after documentation-only
-commits. No source files changed between these bindings. Every job returned
-`receipt_verdict=pass` and `acceptance_decision=accepted`; every retained native
-report returned `result=exact`, matched the full compared size, and had an
-empty `first_differences` list.
+Twenty-five individually submitted, forced-recompile function-exact replay
+jobs completed. The first fifteen were bound to clean commit
+`9048c2c0fd2084b1dfd6345d30f6dfe150a54036`; the next five were bound to clean
+commit `3d91c2dd9b54f27d4c5cbc4f49eba6c2e9ec18a4`; the final five were bound to
+clean commit `66fbdb6610e8fbb2a2fef8aaf9b48f121c8466d2`. Only documentation
+files changed between these bindings; no source files changed. Every job
+returned `receipt_verdict=pass` and `acceptance_decision=accepted`; every
+retained native report returned `result=exact`, matched the full compared
+size, and had an empty `first_differences` list.
 
 These are targeted function replays, not a whole-project cold replay.
 
@@ -35,7 +36,17 @@ These are targeted function replays, not a whole-project cold replay.
 | `ReleaseSubsystem4` | `0x00411F80` | 74 | `87a6db2576edd83a127e77897217e12a2b78a603221324c2c05488b20a451c97` |
 | `Th09EclRunMovement::SetPrimaryAnmScripts` | `0x00406740` | 80 | `e5cc112485003e90338aeebc3fa772e85f04f3591b0803d5680645d0b893cdd7` |
 
-**Total: 2,036 bytes across 20 exact function reports.**
+### Five further receipts
+
+| Function | Target VA | Bytes | Receipt |
+|---|---:|---:|---|
+| `EnemyManagerView::OnDrawLowPrio` | `0x00411D80` | 38 | `1ad5d2ad5921bebab12f242349b23a623a9e12d1e16245c2e394398a593aa795` |
+| `EnemyManagerView::SpawnEnemyUsingOpposingEcl` | `0x004417C0` | 38 | `fc59668ddf878ba0d053762aa2436d3ba9a75f97e31a9ac84740ad162847f97b` |
+| `EnemyManagerCardAttackSpawnView::SpawnFromCardAttack` | `0x00440C80` | 38 | `05039e2882ac575152559710b10515cb745479a4e809e9351b8cf943db322cb3` |
+| `Float3::operator/` | `0x0040F5A0` | 56 | `002595b8749e37b5af7039c1c6fafa66d4109596ab80ce611ed62bc03a956777` |
+| `Float3::FromAngleMagnitude` | `0x00441890` | 32 | `40811bf5f9c93508ffb3e786e008b3662378a2ff1b1cd8b512dc30a84a0852e7` |
+
+**Total: 2,238 bytes across 25 exact function reports.**
 
 ## Scope and limitations
 
