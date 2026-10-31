@@ -1,15 +1,16 @@
 # TH09 focused Factory replay receipts — 2026-10-31
 
-Fifty-six individually submitted, forced-recompile function-exact replay
+Seventy-four individually submitted, forced-recompile function-exact replay
 jobs completed. The first fifteen were bound to clean commit
 `9048c2c0fd2084b1dfd6345d30f6dfe150a54036`; the next five were bound to clean
 commit `3d91c2dd9b54f27d4c5cbc4f49eba6c2e9ec18a4`; the next five were bound to
 clean commit `66fbdb6610e8fbb2a2fef8aaf9b48f121c8466d2`; the next nine were
 bound to clean commit `4d720d24042d2006b5754ac4971cff3406b9e5fe`; the next
 ten were bound to clean commit `a809cf68230bad4bb36148b96c8315c497d06df9`;
-the final twelve were bound to clean commit
-`5507bb9892f30e1af6b5a1eac80cf5e048f14e9e`. Only documentation files changed
-between these bindings; no source files changed. Every job returned
+the next twelve were bound to clean commit
+`5507bb9892f30e1af6b5a1eac80cf5e048f14e9e`; the final eighteen were bound to
+clean commit `186b0654e377ac633013cd9e66f7931d4daa3823`. Only documentation
+files changed between these bindings; no source files changed. Every job returned
 `receipt_verdict=pass` and `acceptance_decision=accepted`; every retained
 native report returned `result=exact`, matched the full compared size, and
 had an empty `first_differences` list.
@@ -84,7 +85,26 @@ These are targeted function replays, not a whole-project cold replay.
 | `Th09EclRunMovement::ConfigurePolarMotion` | `0x004070A0` | 346 | `d1cb663e9f1529231c3851e9928c46df7c4e693f66a177d92d59c4967219ab97` |
 | `Th09EclRunBullet::DispatchShotInstruction` | `0x00408040` | 315 | `9a3c753ebdc678c302d6dc95c0c9d66fd177ef918245cc0e08a8d694cdf624fe` |
 
-**Total: 21,498 bytes across 56 exact function reports.**
+| `EffectDrawCallbackType37` | `0x0044C790` | 972 | `2d4fea3f44359570cac9721faf041df07c9e31a45e14caa6e07b6e7bf7804e04` |
+| `EffectDrawCallbackType31` | `0x0044A780` | 921 | `c5273a6833796c84c4b9f8285e950318a7a423f6fe3c5faeab30a4488330cb76` |
+| `PlayerDamagePlayerView::CalcDamageToEnemy` | `0x0041FCD0` | 996 | `2180df39546b9d2d3c2d70ce2b434360328f2e8dd1617494712ef8948af7bf86` |
+| `EffectDrawCallbackRing` | `0x0040DC70` | 1,028 | `855aa8f9495a2c679acca23c4d7659a8dd71c7ec4afef568483d1ce69254fb07` |
+| `BulletAdvanceTransformProgram` | `0x004141C0` | 1,236 | `58c4f2eb9c8e118659aaf75ab695db26dab730a1a19a6d4593f4bf5e9395ce3f` |
+| `EffectUpdateCallbackType1Type2` | `0x0040D600` | 775 | `07a69ef8c302b9db5a80e71a32da75f2e855e9a65717ca548ac59d942c58226e` |
+| `EffectDrawCallbackType36` | `0x0044C090` | 506 | `d56e7f585e0a171661f8591a3b431e3e968a811ddbb63adc3a9dae8a14dcf272` |
+| `EffectUpdateCallbackType3Type4` | `0x0040D9E0` | 464 | `7dd13bcb538a63a04075826fdf79698d97015a0da8aacb245f639692145a851d` |
+| `EffectDrawCallbackType27` | `0x00445A40` | 491 | `068f3285006f2a33d953f9ed89142f8ba799027d35d1de1ab5dc5cc91009d68b` |
+| `EtamaControllerView::AddedCallback` | `0x00413E40` | 598 | `ea971893afe5229016eeb4bbfa23521e36ffb159075df6064b260fabbc3ccce8` |
+| `Th09EclRunMovement::ConfigureRelativeMotion` | `0x00407320` | 296 | `96a48bebd97a33890a1d63de39c8cbfea324176cfa2848d0ff26e2ce47301e9d` |
+| `EffectManager::EffectManager` | `0x0040D320` | 327 | `6e94850cdb373d289d27664c2dc011f6c11522c4c00984e56482e68f71bd76fb` |
+| `EffectFollowPlayerUpdate` | `0x0040C960` | 38 | `982f0c946ca2a0336f6104a55f0deda134705574aa2c8f38471e14543abf6319` |
+| `EffectInitializeCallbackType1Type2` | `0x0040D520` | 210 | `67b42cf6c34c29911d1b066bbbdb4350435e9861fd87fdb6a44effe087d249d5` |
+| `EffectManager::SpawnEffectWithVelocity` | `0x0040CCC0` | 175 | `278712e4f1359229384575b96125b908849eec6a178cdf135396feca0116a607` |
+| `EnemyManagerView::Create` | `0x00412240` | 328 | `285c36addec99601fdcc0407a7a0c74bf872fcc6f945d9bc0174fbde14569827` |
+| `EffectManager::InitializeEffect` | `0x0040CA60` | 407 | `a65da7f976d661af2062b0e41b4c7289190c83f9f35428d6653daaf28af190ef` |
+| `Th09EclRunMovement::StartTimedPolarDisplacement` | `0x00407200` | 288 | `c2b83575054d53cef77788e46e4c1bc589833676c3bf92f671df65cb9974ddf3` |
+
+**Total: 31,554 bytes across 74 exact function reports.**
 
 ## Scope and limitations
 
