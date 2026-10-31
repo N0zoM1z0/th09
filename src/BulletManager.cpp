@@ -3,6 +3,8 @@
 #include "SoundPlayer.hpp"
 #include "RuntimeAngleMath.hpp"
 #include "AnmManager.hpp"
+#include "RngRuntimeLeaves.hpp"
+#include "Supervisor.hpp"
 
 #include <math.h>
 #include <new>
@@ -22,19 +24,7 @@ struct BulletLoadedSpriteView
     float heightPx;
 };
 
-struct BulletRngView
-{
-    float GetRandomF32InRange(float maximum);
-};
-extern BulletRngView g_Rng;
-
-struct BulletSupervisorView
-{
-    void SelectSide(int sideIndex);
-    unsigned char unknown000[0x5B8];
-    float framerateMultiplier;
-};
-extern BulletSupervisorView g_Supervisor;
+extern RngRuntimeView g_Rng;
 
 struct BulletCancelCollisionView
 {
@@ -192,7 +182,7 @@ static void UpdateBulletDeceleration(Bullet *bullet)
     {
         magnitude = 5.0f - (float)state.timer * (5.0f / 16.0f);
         bullet->velocity.FromAngleMagnitude(
-            bullet->angle, (magnitude + bullet->speed) * g_Supervisor.framerateMultiplier);
+            bullet->angle, (magnitude + bullet->speed) * g_Supervisor.framerateMultiplier5B8);
     }
     else
     {
@@ -210,7 +200,7 @@ static void UpdateBulletVectorAcceleration(Bullet *bullet)
     }
     else
     {
-        bullet->velocity += bullet->exStates[1].vector * g_Supervisor.framerateMultiplier;
+        bullet->velocity += bullet->exStates[1].vector * g_Supervisor.framerateMultiplier5B8;
         if ((float)AnmProjectionAbs(bullet->velocity.x) > 0.0001f ||
             (float)AnmProjectionAbs(bullet->velocity.y) > 0.0001f)
             bullet->angle = Th09EclRunControl::VectorAngle(
@@ -230,11 +220,11 @@ static void UpdateBulletPolarAcceleration(Bullet *bullet)
     {
         bullet->angle = AddNormalizeAngle(
             bullet->angle,
-            g_Supervisor.framerateMultiplier * bullet->exStates[2].angleDelta);
+            g_Supervisor.framerateMultiplier5B8 * bullet->exStates[2].angleDelta);
         bullet->speed +=
-            g_Supervisor.framerateMultiplier * bullet->exStates[2].speedDelta;
+            g_Supervisor.framerateMultiplier5B8 * bullet->exStates[2].speedDelta;
         bullet->velocity.FromAngleMagnitude(
-            bullet->angle, g_Supervisor.framerateMultiplier * bullet->speed);
+            bullet->angle, g_Supervisor.framerateMultiplier5B8 * bullet->speed);
     }
     state.timer++;
 }
@@ -263,7 +253,7 @@ static void UpdateBulletRelativeDirectionChange(Bullet *bullet)
                     ((float)state.timer * bullet->speed) / interval;
     }
     bullet->velocity.FromAngleMagnitude(
-        bullet->angle, magnitude * g_Supervisor.framerateMultiplier);
+        bullet->angle, magnitude * g_Supervisor.framerateMultiplier5B8);
     state.timer++;
 }
 
@@ -291,7 +281,7 @@ static void UpdateBulletAbsoluteDirectionChange(Bullet *bullet)
                     ((float)state.timer * bullet->speed) / interval;
     }
     bullet->velocity.FromAngleMagnitude(
-        bullet->angle, magnitude * g_Supervisor.framerateMultiplier);
+        bullet->angle, magnitude * g_Supervisor.framerateMultiplier5B8);
     state.timer++;
 }
 
@@ -321,7 +311,7 @@ static void UpdateBulletAimedDirectionChange(Bullet *bullet)
                     ((float)state.timer * bullet->speed) / interval;
     }
     bullet->velocity.FromAngleMagnitude(
-        bullet->angle, magnitude * g_Supervisor.framerateMultiplier);
+        bullet->angle, magnitude * g_Supervisor.framerateMultiplier5B8);
     state.timer++;
 }
 
@@ -348,7 +338,7 @@ static void UpdateBulletBoundaryBounce(Bullet *bullet)
         bullet->speed = bullet->exStates[4].bounceSpeed;
         magnitude = bullet->speed;
         bullet->velocity.FromAngleMagnitude(
-            bullet->angle, magnitude * g_Supervisor.framerateMultiplier);
+            bullet->angle, magnitude * g_Supervisor.framerateMultiplier5B8);
         bullet->exStates[4].bouncesCompleted += 1;
         if (bullet->exStates[4].bouncesCompleted >= bullet->exStates[4].bounceLimit)
             bullet->activeTransformFlags &=
@@ -484,7 +474,7 @@ Bullet *EtamaController::SpawnSingleBullet(
     float *bulletPosition = bullet->position;
     bulletPosition[2] = 0.1f;
     bullet->velocity.FromAngleMagnitude(
-        angle, speed * g_Supervisor.framerateMultiplier);
+        angle, speed * g_Supervisor.framerateMultiplier5B8);
     bullet->activeTransformFlags = descriptor->transformFlags;
     bullet->color = descriptor->color;
     bullet->zoneTransitionCooldownFrames = 0;
@@ -839,7 +829,7 @@ updateTimers:
         float laserCenter[3];
         float laserSize[3];
 
-        laser->endOffset += g_Supervisor.framerateMultiplier * laser->speed;
+        laser->endOffset += g_Supervisor.framerateMultiplier5B8 * laser->speed;
         if (laser->endOffset - laser->startOffset > laser->startLength)
             laser->startOffset = laser->endOffset - laser->startLength;
         if (laser->startOffset < 0.0f)

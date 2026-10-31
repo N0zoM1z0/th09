@@ -4,6 +4,7 @@ import importlib.util
 from pathlib import Path
 import subprocess
 import sys
+import tomllib
 import unittest
 
 
@@ -29,6 +30,18 @@ def private_row(label="$L9999", *, offset=0x0D0, value=0x894, section=7):
 
 
 class PrivateLabelTests(unittest.TestCase):
+    def test_external_bindings_agree_with_complete_canonical_owner(self):
+        with (ROOT / "config/match-units.toml").open("rb") as stream:
+            unit = tomllib.load(stream)["units"]["etama-controller-update"]
+        for row in unit["relocations"]:
+            if row["offset"] in INSPECT.PRIVATE_FIELDS:
+                continue
+            with self.subTest(offset=row["offset"], symbol=row["symbol"]):
+                self.assertEqual(
+                    INSPECT.relocation_destination(dict(row, addend=row.get("addend", 0))),
+                    row["target"] + row.get("addend", 0),
+                )
+
     def test_help_requires_no_optional_decoder(self):
         result = subprocess.run(
             [sys.executable, "-S", str(ROOT / "scripts/inspect-etama-update.py"), "--help"],

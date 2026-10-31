@@ -16,7 +16,7 @@ PHYSICAL_SIZE = 2216  # body, one alignment byte, five switch-table DWORDs
 SYMBOL = '?OnUpdate@EtamaController@@SIHPAU1@@Z'
 
 # TH09 direct call destinations, checked against the complete physical call
-# order and direct IDA callees; these are not inferred from candidate bytes.
+# order and target-bound Ghidra callees; these are not inferred from candidate bytes.
 DESTINATIONS = {
     '??4ZunTimer@@QAEXH@Z': 0x401500,
     '??BFloat3@@QAEPAMXZ': 0x4343D0,
@@ -36,10 +36,10 @@ DESTINATIONS = {
     '?CheckGrazeCollision@BulletPlayerView@@QAEHPAUFloat3@@0PAUBullet@@@Z': 0x41E350,
     '?ClearDrawBuckets@EtamaController@@QAEHXZ': 0x412390,
     '?Deactivate@Bullet@@QAEXXZ': 0x412930,
-    '?ExecuteScript@BulletAnmManagerView@@QAEHPAUAnmVm@@@Z': 0x436F30,
+    '?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z': 0x436F30,
     '?GetCurrent@BulletTimerCurrentView@@QAEHXZ': 0x435F00,
     '?IsWithinPlayfield@BulletGameManagerView@@QAEHMMMM@Z': 0x41A6EB,
-    '?SelectSide@BulletSupervisorView@@QAEXH@Z': 0x401440,
+    '?SelectSide@Supervisor@@QAEXH@Z': 0x401440,
     '?SetZRotation@AnmVm@@QAEXM@Z': 0x40F840,
     '?UpdateBulletAbsoluteDirectionChange@@YIXPAUBullet@@@Z': 0x413700,
     '?UpdateBulletAimedDirectionChange@@YIXPAUBullet@@@Z': 0x4137D0,
@@ -53,9 +53,9 @@ DESTINATIONS = {
     '__ftol2': 0x47B1D4,
     # Globals and target literal cells. Compiler-private labels are verified
     # below by their section-relative location, not their unstable spelling.
-    '?g_AnmManager@@3PAUBulletAnmManagerView@@A': 0x4DC550,
+    '?g_AnmManager@@3PAVAnmManager@@A': 0x4DC550,
     '?g_GameManager@@3UBulletGameManagerView@@A': 0x4A7D90,
-    '?g_Supervisor@@3UBulletSupervisorView@@A': 0x4B3100,
+    '?g_Supervisor@@3VSupervisor@@A': 0x4B3100,
     '__real@00000000': 0x48E314,
     '__real@3d800000': 0x48E828,
     '__real@3f000000': 0x490F54,
