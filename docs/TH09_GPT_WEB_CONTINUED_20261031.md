@@ -120,3 +120,37 @@ python3 scripts/build-match-unit.py --unit ecl-pop-context
 python3 scripts/inspect-enemy-manager-update.py build/matching/EclManager.obj --json
 python3 scripts/check-boss-frontiers.py --owner enemy --skip-exact-siblings
 ```
+
+## EnemyManager::OnUpdate — verified actual scalar definitions
+
+The non-exact 3,900-byte `OnUpdate @ 0x00410730` remains 13 different bytes,
+97 independently bound source/original address fields, 1,026 decoded x86
+instructions, 69 ordered direct calls, 170 original/source CFG blocks and
+four matching switch-table destinations. The five scalar references at
+`+0x2A0`, `+0x2AF`, `+0x8CB`, `+0xA55`, and `+0xD61` were formerly accepted
+on source COFF *names* and matching PE contents without checking that the
+compiler object really defined the expected scalar bytes. This source/object
+proof was incomplete despite its correct per-field PE operand binding.
+
+The inspector now validates all five real read-only VC7.1 COFF definitions,
+including their initialized section flags, source section/value boundaries,
+original PE scalar payloads, 32-bit literal names, and unique references.
+They are 0.1f, 1.0f, 0.0f, 64.0f, and 32.0f with actual PE destinations
+`0x48E4B0`, `0x48E2A4`, `0x48E314`, `0x48E4A8`, and `0x48E5E0` respectively.
+The boss guard independently enforces this five-entry inventory; the test
+suite mutates every COFF scalar payload while leaving all relocation metadata
+unchanged and rejects missing, reordered, mislocated or writable definitions.
+No additional original gameplay behavior or compiler target boundary was
+inferred, and **no new exactness credit** is assigned. Reproducer:
+`python3 scripts/check-boss-frontiers.py --owner enemy` (scoped carrier and
+actual native callee/sibling proof only), with the receipt under
+`.analysis/gpt-web-enemy-scalars-20261031.json`.
+
+Independent whole-`EclManager.cpp` original-bound probes tried genuine draw
+index widths, pointers and references, descriptor/position copies, side-state
+receiver lifetimes, and real `SpawnEffect` owner/argument locals. Byte-neutral
+valid forms retained all 13 residuals; moving the side-state reception before
+the constructor altered owner size or field identities, and was rejected.
+The unreplaced current RunEcl 15,564-byte owner remains 30 differences.
+All candidate source and COFF outputs are retained under ignored
+`.analysis/gpt-web-enemy-probes-20261031/` for falsifiable review.
