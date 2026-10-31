@@ -239,3 +239,38 @@ negative-source-candidate batch. The 1,005 exact/1,035 source-present ledger
 and 247,597/291,883 reviewed-authored exact bytes remain unchanged. The source
 code, original bytes, canonical match units and existing exact owners were
 preserved, with trial source/COFF and JSON retained for further investigation.
+
+### Controller::GetControllerInput — complete 808-byte target, guarded regression
+
+A new independent Japanese 1.50a PE/pinned VC7.1 replay recovers the current
+**808-byte original / 810-byte source** input function, 32 independently
+verified data/IAT/callee relocations, eight matching direct branch edges and
+246 target / 247 candidate decoded instructions. The first **674** physical
+original bytes match; the full body has **84** unlike byte positions, so
+**724 original bytes** are already equal and the two extra candidate bytes
+remain unresolved. This is NON-EXACT and receives zero additional credit.
+
+The original complete owner is now independently SHA-pinned (`330dd80689d71209f29e54d2e21ade7d039c53d99e1643ba799788d6c7f135ff`)
+inside `scripts/inspect-controller-input.py`, which emits every full-owner
+mismatch offset instead of only a first-difference sample. A new strict
+`--owner controller` entry verifies all 724 previously equal original byte
+positions and the 32 target fields, nine native field identities, return/call
+and complete CFG requirements. It rejects the same mismatch count moved to
+new original bytes or a candidate physical extent/proof regression. The
+independent original zero-result `exact` status is never inferred from an
+aligned score. Pure regression tests cover physical positions and rejection
+of missing fields/changed stack cleanup/branches. The actual focused
+`python3 scripts/check-boss-frontiers.py --owner controller` builds **one**
+ControllerInput TU, original-binds all 808 target bytes and separately
+replays both existing canonical helper siblings: **37 + 47 = 84 physical exact
+bytes, zero relocations**. Receipt:
+`.analysis/gpt-web-controller-focused-20261031.json`.
+
+A separate 19-model genuine source-cold matrix tested a whole eight-byte
+JOYCAPSA axis-range snapshot, unsigned midpoint/quarter width algebra,
+comparison statement order, and register lifetimes. None improved the complete
+84 unequal-byte target frontier without regression; whole-object observations
+and compiler-hash receipts remain under
+`.analysis/gpt-web-controllerinput-20261031/`. Actual TH08/TH095 controller
+sources were reviewed only for possible C++ idioms, not as proof of TH09
+addresses, layout, ownership or original body behavior.

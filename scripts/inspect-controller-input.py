@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x0042B410
 SIZE = 808
 SYMBOL = '?GetControllerInput@Controller@@YIGHHG@Z'
+TARGET_SHA256 = '330dd80689d71209f29e54d2e21ade7d039c53d99e1643ba799788d6c7f135ff'
 DESTINATIONS = {
     '?g_Supervisor@@3VSupervisor@@A': 0x004B3100,
     '?g_ReplayInputStates@@3PAUReplayInputState@@A': 0x004ACE18,
@@ -180,6 +181,8 @@ def diagnose(obj: Path):
     coff = importlib.util.module_from_spec(sp)
     sp.loader.exec_module(coff)
     target = coff.pe_bytes_at(coff.verified_target(), BASE, SIZE)
+    if hashlib.sha256(target).hexdigest() != TARGET_SHA256:
+        raise ValueError('Controller original 808-byte full owner digest changed')
     target_fields, t_ins, t_calls = decode_fields(target)
     if target_fields != list(TARGET_FIELDS) or len(t_ins) != 246:
         raise ValueError('verified target Controller fields/instructions disagree')
@@ -208,7 +211,7 @@ def diagnose(obj: Path):
     differences = [i for i, (a, b) in enumerate(zip(target, linked)) if a != b]
     return dict(
         diagnostic_only=True, exactness_credit='none',
-        target_bytes=SIZE, candidate_bytes=len(linked),
+        target_bytes=SIZE, candidate_bytes=len(linked), target_sha256=TARGET_SHA256,
         target_instructions=len(t_ins), candidate_instructions=len(c_ins),
         target_fields=len(TARGET_FIELDS), bound_candidate_fields=len(candidate_fields),
         native_global_fields_checked=validate_native_globals(rows),
@@ -219,6 +222,7 @@ def diagnose(obj: Path):
         target_direct_branches=len(td), candidate_direct_branches=len(cd),
         complete_direct_branch_graphs_agree=td == cd,
         overlapping_differences=len(differences),
+        difference_offsets=differences,
         missing_bytes=max(0, SIZE-len(linked)),
         excess_bytes=max(0, len(linked)-SIZE),
         first_difference_offset=hex(differences[0]) if differences else None,

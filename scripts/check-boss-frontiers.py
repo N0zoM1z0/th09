@@ -76,6 +76,74 @@ def build(unit: str) -> None:
     execute(['scripts/build-match-unit.py', '--unit', unit])
 
 
+# The live 808-byte original Control input owner has an 810-byte maintained
+# source. Exactly 84 target-relative positions differ; these 17 mask bytes
+# protect the other 724 physical target bytes, including all 674 matching prefix
+# bytes. No aligned-instruction comparison, field rebinding or padding credit.
+CONTROLLER_INPUT_SHA256 = '330dd80689d71209f29e54d2e21ade7d039c53d99e1643ba799788d6c7f135ff'
+CONTROLLER_INPUT_MASK_BASE = 674
+CONTROLLER_INPUT_RESIDUAL_MASK = bytes.fromhex('0000c1570955293488ffffffffffffff3f')
+CONTROLLER_INPUT_RESIDUAL_OFFSETS = frozenset(
+    CONTROLLER_INPUT_MASK_BASE + offset for offset in range(808 - CONTROLLER_INPUT_MASK_BASE)
+    if CONTROLLER_INPUT_RESIDUAL_MASK[offset // 8] & (1 << (offset % 8)))
+if len(CONTROLLER_INPUT_RESIDUAL_OFFSETS) != 84:
+    raise RuntimeError('Controller original-bound residual mask is malformed')
+
+
+def guard_controller_input(report: dict) -> dict:
+    """Prevent regression of every previously equal original Controller byte.
+
+    Always diagnostic-only: the extra two bytes and 84 unequal bytes block
+    canonical exactness until a complete independent PE/COFF replay succeeds.
+    """
+    noncrediting(report, name='Controller GetControllerInput', target_size=808,
+                 fields=32, fields_key='bound_candidate_fields')
+    offsets = report.get('difference_offsets')
+    if (report.get('target_sha256') != CONTROLLER_INPUT_SHA256 or
+            report.get('candidate_bytes') not in (808, 809, 810) or
+            report.get('target_instructions') != 246 or
+            report.get('candidate_instructions') not in (246, 247) or
+            report.get('target_fields') != 32 or
+            report.get('native_global_fields_checked') != 9 or
+            report.get('controller_slot_fields') != 4 or
+            report.get('ordered_direct_calls_agree') is not True or
+            report.get('target_direct_branches') != 8 or
+            report.get('candidate_direct_branches') != 8 or
+            report.get('complete_direct_branch_graphs_agree') is not True or
+            report.get('prefix_674_equal') is not True or
+            report.get('missing_bytes') != 0 or
+            report.get('excess_bytes') != report.get('candidate_bytes') - 808 or
+            not isinstance(offsets, list) or
+            offsets != sorted(set(offsets)) or
+            any(type(i) is not int or i not in CONTROLLER_INPUT_RESIDUAL_OFFSETS
+                for i in offsets) or
+            report.get('overlapping_differences') != len(offsets) or
+            report.get('complete_exact') is not
+                (len(offsets) == 0 and report['candidate_bytes'] == 808)):
+        raise RuntimeError('Controller 808-byte original-bound byte/field/CFG frontier regressed')
+    return report
+
+
+def run_controller_input(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """Compile the actual whole Controller TU once, not a 674-byte fragment."""
+    build('controller-set-button-directinput')
+    current = parsed(['scripts/inspect-controller-input.py',
+                      'build/matching/ControllerInput.obj', '--json'], diagnostic=True)
+    guard_controller_input(current)
+    exact = []
+    if protect_exact:
+        exact = [canonical('controller-set-button-directinput'),
+                 canonical('controller-set-button-joystick')]
+    return {'controller_input': {
+        'target_bytes': 808, 'candidate_bytes': current['candidate_bytes'],
+        'unlike_bytes': current['overlapping_differences'],
+        'matched_original_bytes': 808 - current['overlapping_differences'],
+        'excess_bytes': current['excess_bytes'],
+        'bound_fields': current['bound_candidate_fields'],
+        'full_branch_graph_agrees': current['complete_direct_branch_graphs_agree'],
+        'exactness_credit': 'none'}}, exact
+
+
 def run_network_message() -> dict:
     # This standalone source has no canonical exact siblings. The producer
     # binds its live project inputs before/after one low-priority compile.
@@ -5070,7 +5138,7 @@ def run_effect_type34(*, protect_exact: bool,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'resultdraw', 'replaymenu', 'anm', 'network', 'netmessage', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'replaysave', 'pause', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'resultdraw', 'replaymenu', 'anm', 'network', 'netmessage', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'replaysave', 'pause', 'controller', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -5130,6 +5198,11 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('crypto', 'all'):
             owners, exact = run_decrypt_table(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner == 'controller':
+            owners, exact = run_controller_input(
+                protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner in ('queue', 'network', 'all'):
