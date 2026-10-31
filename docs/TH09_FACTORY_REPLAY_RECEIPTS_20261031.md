@@ -1,17 +1,18 @@
 # TH09 focused Factory replay receipts — 2026-10-31
 
-Forty-four individually submitted, forced-recompile function-exact replay
+Fifty-six individually submitted, forced-recompile function-exact replay
 jobs completed. The first fifteen were bound to clean commit
 `9048c2c0fd2084b1dfd6345d30f6dfe150a54036`; the next five were bound to clean
 commit `3d91c2dd9b54f27d4c5cbc4f49eba6c2e9ec18a4`; the next five were bound to
 clean commit `66fbdb6610e8fbb2a2fef8aaf9b48f121c8466d2`; the next nine were
-bound to clean commit `4d720d24042d2006b5754ac4971cff3406b9e5fe`; the final
-ten were bound to clean commit `a809cf68230bad4bb36148b96c8315c497d06df9`.
-Only documentation files changed between these bindings; no source files
-changed. Every job returned `receipt_verdict=pass` and
-`acceptance_decision=accepted`; every retained native report returned
-`result=exact`, matched the full compared size, and had an empty
-`first_differences` list.
+bound to clean commit `4d720d24042d2006b5754ac4971cff3406b9e5fe`; the next
+ten were bound to clean commit `a809cf68230bad4bb36148b96c8315c497d06df9`;
+the final twelve were bound to clean commit
+`5507bb9892f30e1af6b5a1eac80cf5e048f14e9e`. Only documentation files changed
+between these bindings; no source files changed. Every job returned
+`receipt_verdict=pass` and `acceptance_decision=accepted`; every retained
+native report returned `result=exact`, matched the full compared size, and
+had an empty `first_differences` list.
 
 These are targeted function replays, not a whole-project cold replay.
 
@@ -70,7 +71,20 @@ These are targeted function replays, not a whole-project cold replay.
 | `EnemyManagerView::Initialize` | `0x0040FA70` | 554 | `65aed519f9b67c89f43447031c9ad5573bb821fb6ff187da6d572a68f3098284` |
 | `EnemyManagerView::SpawnEnemy` | `0x0040F340` | 373 | `e6df96ae3829c9519fd586c4bffa7997331c703d3eef6b502c49902ec543904c` |
 
-**Total: 15,766 bytes across 44 exact function reports.**
+| `Th09EclRunControl::CompareOperands` | `0x00407700` | 842 | `34733b62fb1ac7f90cc3664817c3ffe4a835882c0728e1c31c9077960ddbc194` |
+| `Th09EclRunControl::ResolveFloatLValue` | `0x00406210` | 702 | `1e0bb98c74a61676888aafc1fdf30f550b6cd7b2d311c64be7f69713295d900d` |
+| `EnemyEclExInstruction2` | `0x0040C530` | 574 | `c4f9ee96f92e67137665902f27f75759236456fd9a000e57f707b43a3d4d8b04` |
+| `Th09EclRunMovement::BeginBoundaryAwareMove` | `0x00407C30` | 510 | `ce3eb7d95fd26bb6afe99032cd06f8d103900082eaf0cd43cb495024f8e93018` |
+| `Th09EclRunControl::ResolveIntLValue` | `0x00405F20` | 491 | `615f08ab2cd165306108a76896fdcb864a66823f2caccd3dc4d8af44c35efc85` |
+| `EffectManager::OnUpdate` | `0x0040CDD0` | 475 | `5c25796618401c8d5eafbd6e36a436e3832d829529b432725db6d9ccbe73e3d0` |
+| `EnemyManagerCoreView::KillAllNonBossEnemies` | `0x0040F640` | 392 | `80517922151a059cda207a2f808b28b97a6a54baca534d395010c10b5e4ebcc6` |
+| `EnemyManagerView::AddedCallback` | `0x00411DB0` | 372 | `adfdb1f5b8eac2bba8fee2d7fe048157daca3cea1238fa3b0937c818544cdb4d` |
+| `EnemyManagerCardAttackSpawnView::SpawnEnemyRecord` | `0x0040F1D0` | 364 | `6bdf8f810b10af713fb1251a994e169e943f04bc6109ae57a81237dc96cdb6e2` |
+| `EnemyPostEclUpdateShotAndAnm` | `0x00408560` | 349 | `814a28d5ad788f86176e1a225b07b18c9db6b79c8d40140472249810d5ddbb3c` |
+| `Th09EclRunMovement::ConfigurePolarMotion` | `0x004070A0` | 346 | `d1cb663e9f1529231c3851e9928c46df7c4e693f66a177d92d59c4967219ab97` |
+| `Th09EclRunBullet::DispatchShotInstruction` | `0x00408040` | 315 | `9a3c753ebdc678c302d6dc95c0c9d66fd177ef918245cc0e08a8d694cdf624fe` |
+
+**Total: 21,498 bytes across 56 exact function reports.**
 
 ## Scope and limitations
 
