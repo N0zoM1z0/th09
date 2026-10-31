@@ -99,6 +99,48 @@ Further isolated register-pressure trials also failed to reduce the residual:
   restored because it did not advance the codegen match and the shared view
   is included by several translation units.
 
+### Additional isolated register and type trials (31 October)
+
+The 13-byte `OnUpdate` frontier was rechecked with several narrower source
+shapes. All were restored because they did not reduce the owner difference:
+
+- Moving `drawHead` from loop scope to function scope retained the same 13
+  offsets.
+- Changing the descriptor's `Float3` position copy to an intrinsic `memcpy`
+  retained the same 13 offsets.
+- Replacing the descriptor reference with a pointer local, and using a
+  registered pointer to the enemy position, did not reduce the residual.
+- Casting the side-state accesses through the public `EnemySideStateView`
+  (with the observed Etama and flags fields added temporarily) retained the
+  same owner bytes.
+- Sharing one side-state local across both the effect-tick and bullet-spawn
+  branches changed the physical owner extent from 3,900 to 3,852 bytes. That
+  is a 48-byte owner regression, not a local improvement, and was restored.
+
+The 30-byte `RunEcl` frontier was also tested without relaxing its switch,
+relocation, or semantic checks:
+
+- Direct `RawInt` assignment, an explicit `ZunTimer::operator=` call, a
+  pointer-to-timer local, and a named operand-overlay field all increased the
+  JUMP residual to 42 ordinary bytes. The maintained `memcpy` form was
+  restored.
+- Assigning the timeout flag through a local bitfield overlay produced a
+  much larger owner change (1,938 ordinary bytes, 202 relocation-field bytes,
+  and 26 switch-table bytes). Moving the bitfield operation into the inline
+  helper or using a second operand overlay did not preserve the owner.
+- Reordering the existing timeout helper arguments to `(value, oldFlags)`
+  retained the 15,564-byte owner and its zero relocation/table differences,
+  but still left 30 ordinary bytes. The candidate then loads the wire byte
+  through `CL`, zero-extends it, keeps the old flags in EAX, and writes through
+  ECX; the target directly zero-extends the memory byte into ECX, keeps old
+  flags in ESI, and writes the result through EAX. This is a register-allocation
+  clue, not an exact match. The original helper order was restored.
+
+These experiments reinforce that a locally equivalent expression is not
+sufficient: the entire switch and owner layout must remain intact. No inline
+assembly, raw-byte emission, dummy padding, checker relaxation, or partial
+exactness credit was retained.
+
 ## Restored live baseline
 
 After all rejected trials, the live worktree is clean and only the two
