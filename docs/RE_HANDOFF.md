@@ -9,8 +9,12 @@ historical assumptions,and use direct local Ghidra without IDA,REA or Factory
 MCP. Compile only affected sources/profiles;reuse unchanged proofs.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Current game-source checkpoint is **6c8ccca9**,the native ECL-angle interface;
-its previous game-source checkpoint is **eedcea20** (before that,a4bba8ec).
+Current game source is the unified LZSS codec checkpoint described below;
+its previous game-source checkpoint is **6c8ccca9** (before that,eedcea20).
+The real codec implementations now share `src/Lzss.cpp`. Encode becomes complete
+original-equal571 bytes/eight fields,with all eight existing codec units retained.
+The nine excluded third-party units compare1888 bytes/66 fields. This adds no
+reviewed-authored credit. Four superseded implementation files are removed.
 EclOperands now calls the real opposite-angle producer through PlayerAngleView,
 removing its undefined private member declaration. All four resolvers retain
 5718 complete physical bytes/374 fields,including tables. Two native names and
@@ -42,8 +46,25 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
 
 ## Source and evidence routing
 
+- `.analysis/gpt-61sol-20261031-lzss-encode-context/current.py` is the current
+  source-bound subset:353 units/107613 compared physical bytes/5197 fields.
+  It strictly checks all nine codec units/1888 bytes/66 fields,including the new
+  excluded lzss-encode,and reuses344 unchanged source/profile/object pins.
+  Earlier isolated Encode remains570/538 overlap differences plus one missing
+  byte. Real init/tree definitions before or after it instead produce571/zero,
+  with all seven native helpers exact. Full decoder/init/tree/encoder and the
+  maintained single-file implementation retain all nine complete target bodies.
+  One independent immutable-Git/EOL replay and the canonical build agree.
+  Both real-codec SaveReplay contexts retain all14 common bodies,all nine native
+  codec bodies and the same three Save differences;their no-EH context proofs
+  are not canonical EH-profile replays. Eight old units change only source/object
+  routing;the new native unit keeps third_party/excluded origin. Data-definition
+  and original TU ownership,whole product and runtime remain unproven.
+  Nine serial bounded jobs suffice;no profile/variable-order directive is added.
+  Cleanup removes15 binaries/879638 bytes after1178 protected-hash checks. Keep
+  current.obj,current353,all observations/recipes and the working Ghidra project.
 - `.analysis/gpt-61sol-20261031-ecl-native-angle-callee/current.py` is the
-  current source-bound subset:344 existing units/105725 compared physical bytes/
+  unchanged source-bound subset:344 existing units/105725 compared physical bytes/
   5131 fields. Four resolvers pass strict canonical comparison;340 unchanged
   source/profile/object pins are reused. Original calls at405D42 and406E06 both
   target41BB70,which remains distinct from forward41BB00. The shared native
@@ -91,7 +112,8 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   unchanged source-bound subset:338 existing units/98323 compared physical bytes/
   4647 fields. It strictly compares15 unchanged Effect owners/2530 bytes/100
   fields and reuses323 unchanged pins. Its retained baseline.obj also checks
-  AddedCallback51/4/8. Game source remains eedcea20;no type model is adopted.
+  AddedCallback51/4/8. Effect source remains unchanged from eedcea20;no private
+  type model is adopted.
 - Separating the lifecycle VM storage projection privately makes full ANM loader
   co-location with Effect valid C++,resolving the earlier redefinition rejection.
   Complete manager data,loader-before/after and whole-object int/void operation

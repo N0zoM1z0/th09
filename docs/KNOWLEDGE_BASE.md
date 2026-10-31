@@ -177,7 +177,7 @@ and fresh codegen replays before copying a number into the live handoff.
 | BOUNDARY-024 | observed | Tree-helper gaps are `0x00433D33-0x00433D3F` (13 CC bytes), `0x00433DB3-0x00433DBF` (13), `0x00433DF1-0x00433DFF` (15), `0x00433FB6-0x00433FBF` (10), and `0x00434013-0x0043401F` (13). Physical ownership remains unassigned. | Attested TH09 target bytes and reviewed function returns |
 | TOOLCHAIN-019 | compiler-observed | Natural ContractNode, ReplaceNode, FindNextNode, AddString, and DeleteString sources are all structurally exact under tested `/O2 /Ob0 /Oy-`, `/O2 /Ob1 /Oy-`, and `/Ox /Ob1 /Oy-`. `/O1 /Ob1` emits 58/97/29/183/79 bytes and `/Od /Ob0` emits 132/183/63/280/134 respectively, so the exact tree-helper family is constrained to the tested optimized profile family without a project-wide flag claim. | Focused pinned-VC7.1 build-3077 matrix plus five relocation-aware exact replays |
 | LZSS-011 | source-present / codegen-blocked / origin-unknown | `0x00434020-0x0043425A` is reconstructed semantically as `Lzss::Encode(unsigned char *in, int inSize, int *outSize)`: ECX carries input, EDX input size, one stack argument receives compressed size, output is allocated with `GlobalAlloc(0, inSize * 2)`, the exact-codegen LZSS initialization/tree helpers drive lookahead and match maintenance, literal or offset/length tokens are packed MSB-first, a zero-offset terminator is emitted, and the final output length is stored through the caller pointer. The maintained source is intentionally noncanonical because stock VC7.1 does not yet reproduce the target register allocation. | Attested target caller/callee/dataflow evidence plus maintained source and focused compiler probes |
-| TOOLCHAIN-020 | unresolved-codegen | The natural Encode source is 570 bytes under tested `/O2 /Ob0 /Oy-`, `/O2 /Ob1 /Oy-`, `/O2 /Ob2 /Oy-`, and `/Ox /Ob1 /Oy-`, versus target 571; `/O1 /Ob1` emits 469 and `/Od /Ob0` 965. The optimized candidate has the correct eight-dependency relocation graph but assigns `outBits` to EBX and `outBitMask` to a stack byte, while the target keeps the bit mask in BL and the 32-bit output accumulator at `[ebp-4]`, with related input-size/cursor homes shifted. Reordering C++ declarations according to the adjacent TH08 `var_order` list and deleting the dead checksum both leave the 570-byte stock-compiler body unchanged. TH08's `#pragma var_order` support is implemented by that reconstruction repository's replacement `C1XX.DLL` wrapper, so it is not introduced into TH09 merely to force equality. | Pinned VC7.1 matrix, target/probe instruction alignment, and committed TH08 `scripts/pragma_var_order.cpp` / `create_devenv.py` evidence |
+| TOOLCHAIN-020 | historical standalone result / now resolved | The earlier isolated Encode source is 570 bytes under tested `/O2 /Ob0 /Oy-`, `/O2 /Ob1 /Oy-`, `/O2 /Ob2 /Oy-`, and `/Ox /Ob1 /Oy-`, versus target 571; `/O1 /Ob1` emits 469 and `/Od /Ob0` 965. The optimized candidate has the correct eight-dependency relocation graph but assigns `outBits` to EBX and `outBitMask` to a stack byte, while the target keeps the bit mask in BL and the 32-bit output accumulator at `[ebp-4]`, with related input-size/cursor homes shifted. Reordering C++ declarations according to the adjacent TH08 `var_order` list and deleting the dead checksum both leave the 570-byte stock-compiler body unchanged. TH08's `#pragma var_order` support is implemented by that reconstruction repository's replacement `C1XX.DLL` wrapper, so it is not introduced into TH09 merely to force equality. Current actual init/tree co-visibility resolves Encode at571 bytes/eight fields under the unchanged stock profile;unified src/Lzss.cpp preserves all nine codec bodies. No variable-order hint or compiler replacement is used. | Pinned VC7.1 matrix, target/probe instruction alignment, and committed TH08 `scripts/pragma_var_order.cpp` / `create_devenv.py` evidence |
 | BOUNDARY-025 | observed | The Encode candidate ends with `ret 4` at `0x00434258-0x0043425A`; `0x0043425B-0x0043425F` is five bytes of `CC` before the separate candidate at `0x00434260`. Physical ownership of the gap remains unassigned. | Attested TH09 target bytes and reviewed function extent |
 | ASCII-001 | exact | `AsciiManager::DeletedCallback @ 0x00434260-0x0043427C` is the calc-chain deleted callback for the TH09 AsciiManager lifecycle. It ignores its callback argument, calls `AnmManager::ReleaseAnm` for slots 1 and 3 through `g_AnmManager @ 0x004DC550`, and returns success. | Canonical pinned-VC7.1 match unit replays all 29 bytes with four relocations; TH09 `AsciiManager` added-callback code independently loads `"ascii.anm"` in slot 1 and `"capture.anm"` in slot 3, and the chain-registration routine stores this function at the calc ChainElem deleted-callback field. |
 | ASCII-002 | exact | `AsciiManager::CutChain @ 0x00434280-0x0043429E` cuts the calc ChainElem at `0x004DC504` and the low-priority draw ChainElem at `0x004CE438` through exact `Chain::Cut`; it does not cut the high-priority draw ChainElem at `0x004DC524`. | Canonical pinned-VC7.1 match unit replays all 31 bytes with six relocations to the two ChainElem objects, `g_Chain @ 0x004ACFC8`, and exact `Chain::Cut @ 0x0042C8C0`; the broad shutdown caller at `0x00431B70` invokes this helper. |
@@ -441,7 +441,7 @@ name into a TH09 fact without target-local evidence.
 | BOUNDARY-082 | exact / mixed-origin | Reviewed PbgFile extents remain separate from padding: Close `0x004336A0-0x004336C1` then 14 `CC`; Read `0x004336D0-0x0043370C` then 3 `CC`; Write `0x00433710-0x00433751` then 14 `CC`; Tell `0x00433760-0x00433778` then 7 `CC`; GetSize `0x00433780-0x00433794` then 11 `CC`; Seek `0x004337A0-0x004337C7` then 8 `CC`; ReadWholeFile `0x004337D0-0x00433861` then 14 `CC`; GetFullFilePath `0x00433870-0x004338E8` then 7 `CC`; base ctor `0x004338F0-0x004338F8`, base dtor `0x00433900-0x00433906`, compiler-generated base scalar deleting destructor `0x00433910-0x00433930`, concrete ctor `0x00433940-0x0043395F`, concrete dtor `0x00433960-0x00433975`, Open `0x00433980-0x00433A61`, and compiler-generated concrete scalar deleting destructor `0x00433A70-0x00433A90`. Padding is never assigned to authored source. | Target bytes/objdump across every seam, provisional IDA extents, concrete vtable binding, and exact compiler replay. |
 | LZSS-012 | third-party / provenance-closed | The TH09 compression cohort `0x00433AA0-0x0043425A` is derived from the published `LZSS.C` family in Mark Nelson and Jean-loup Gailly, *The Data Compression Book*, 2nd ed., Chapter 8, rather than being Touhou-authored game code. The provenance match is structural and specific: the published source uses the same `InitTree`, `ContractNode`, `ReplaceNode`, `FindNextNode`, `DeleteString`, and `AddString` helper family, the same `{parent, smaller_child, larger_child}` three-integer binary-tree representation, the same circular-window/tree algorithm, and explicitly documents an `Index/Length = 13/4` LZSS.C configuration. TH09 independently supplies its addresses, 13-bit/4-bit stream format, 0x2000-byte dictionary, 0x2001-node tree, allocation wrappers, callers, extents, and compiler behavior. All nine tracked LZSS candidates are therefore classified `third_party / exclude / high`; this supersedes only the earlier origin-unknown status and does not convert diagnostic codegen equality into authored exact credit. | TH09 target bodies, xrefs, extents and cold VC7.1 replays; bibliographic provenance from *The Data Compression Book*, 2nd ed., Chapter 8 LZSS.C and its published 13/4 configuration; committed TH08/TH095 source/history as non-authoritative corroboration. |
 | LZSS-013 | target-observed / semantic-owner-closed | TH09 has one shared LZSS mutable-state family. The tree occupies `0x004B4420-0x004CC42B`: 0x2001 records at 12-byte stride (`0x1800C` bytes). Four bytes of alignment separate it from the 0x2000-byte dictionary at `0x004CC430-0x004CE42F`. Fresh target xrefs to `0x004B4420` are confined to InitTree and the encoder tree helpers; fresh xrefs to `0x004CC430` are confined to Decode, InitEncoderState, AddString, and Encode. Decode's target callers are replay load, score load, PbgArchive ReadDecompressEntry, and PbgArchive ParseHeader; Encode's are replay save and score save. This closes the semantic owner as the LZSS compression subsystem and proves encoder/decoder dictionary identity, but it does not establish the original source-file, COFF object, or complete BSS/link owner. | Passed native-ID A target xrefs/call graphs, target address geometry, and exact relocation manifests for the eight zero-difference LZSS units. |
-| TOOLCHAIN-083 | negative-oracle / codegen-open | The committed TH095 encoder suggested one natural lifetime hypothesis: keep `dictHead` in the outer function and restrict `bitfieldMask` to one nested token-writing block. Applying only that lexical-lifetime change to TH09, without TH095's identifier-bucket macros or any register forcing, leaves the stock VC7.1 body unchanged at 570 bytes versus the 571-byte target. Target/object alignment confirms the persistent coloring difference: TH09 target keeps `outBitMask` in BL and `outBits` at `[ebp-4]`, while the natural object keeps the 32-bit accumulator in EBX and the bit mask in a stack byte. Earlier declaration-order, checksum, and optimized-profile probes were likewise negative. No pragma, volatile/register hint, assembly, inert storage, or target-specific forcing is introduced; `Lzss::Encode` remains source-present/non-exact. | Packet-92 baseline/nested probes under pinned VC7.1 `/O2 /Ob1 /Oy- /Gr + /Oi`, full target/object disassembly alignment, and Packet-80 prior negative probes. |
+| TOOLCHAIN-083 | historical negative control / now resolved | The committed TH095 encoder suggested one natural lifetime hypothesis: keep `dictHead` in the outer function and restrict `bitfieldMask` to one nested token-writing block. Applying only that lexical-lifetime change to TH09, without TH095's identifier-bucket macros or any register forcing, leaves the stock VC7.1 body unchanged at 570 bytes versus the 571-byte target. Target/object alignment confirms the persistent coloring difference: TH09 target keeps `outBitMask` in BL and `outBits` at `[ebp-4]`, while the natural object keeps the 32-bit accumulator in EBX and the bit mask in a stack byte. Earlier declaration-order, checksum, and optimized-profile probes were likewise negative. No pragma, volatile/register hint, assembly, inert storage, or target-specific forcing is introduced; that isolated context remains nonexact. The October31 full native source context now gives complete571-byte equality;see lzss-encode and the unified-codec checkpoint below. | Packet-92 baseline/nested probes under pinned VC7.1 `/O2 /Ob1 /Oy- /Gr + /Oi`, full target/object disassembly alignment, and Packet-80 prior negative probes. |
 | ANM-001 | exact / authored-game | `AnmVm::IsVisible @ 0x00434370-0x00434379` returns bit 0 of the VM flag word at `+0x1F8`, while `AnmVm::SetInvisible @ 0x00434380-0x00434387` clears the same bit. The first helper is followed by six unowned `CC` bytes through `0x0043437F`; the second is followed by eight unowned `CC` bytes through `0x0043438F` before independent code at `0x00434390`. Both helpers are repeatably target-exact under the established AsciiManager VC7.1 profile and are classified `authored_game / AnmManager / high`. | Fresh attested TH09 bytes and helper semantics plus two independent cold canonical replays: 10/10 and 8/8 bytes, no relocations. Clean committed TH08 source corroborates only the semantic method family. |
 | ASCII-028 | exact / authored-game | `PauseMenu::OnUpdate @ 0x00434740-0x00434E05` reproduces all1776 owned physical bytes,including two-byte alignment and the ten-entry table. Its1528-byte subobject holds state/frames,seven2A4-byte menu VMs and one background VM. Separately compiled real VM visibility methods,uniform input traversal and result-first state9 together recover the original449 instructions,106 fields and both timestamp sites. | Two independent source-cold builds and canonical pause-menu-update; all11 prior siblings remain exact. Original spelling/TU partition and full product/runtime are unknown. |
 | BOUNDARY-083 | observed / compiler-artifact-owned | `PauseMenu::OnUpdate` owns code `0x00434740-0x00434E05` ending in `ret`. Bytes `0x00434E06-0x00434E07` are two-byte alignment, followed by the method's ten-entry switch table at `0x00434E08-0x00434E2F`; independent code begins at `0x00434E30`. The reviewed physical packet is therefore 1734 code bytes plus 2 alignment bytes plus 40 switch-table bytes. | Full target disassembly, attested target-byte reads, and all ten switch destinations. |
@@ -27736,3 +27736,83 @@ No source archive is created and build/ is absent. Packet and deletion receipt:
 `.analysis/gpt-61sol-20261031-ecl-native-xor-fields/` and cleanup.json.
 Reviewed-authored exactness remains1004/1035 and246651/291883 bytes(84.5034%);
 RunEcl30,Enemy13 and the98% objective remain unfinished.
+
+
+## 2026-10-31: complete native LZSS source context resolves Encode
+
+Recovery at60a1388b is clean. The previous large-owner field models are retained
+as bounded negative evidence. Original Japanese1.50a identity,tracking and live
+status pass. Direct Ghidra12.1.4 reuses the project and attests all685056 mapped
+file-backed bytes before exporting Encode434020 and SaveReplay420C60 at
+export-20261031T023444-1257371. No metadata or target bytes change.
+
+The old isolated LzssEncode.cpp is freshly compiled under the configured native
+/O2/Ob1 profile:570 bytes/eight fields,538 unequal linked overlaps and one missing
+original byte. This reproduces the historical stock-compiler observation rather
+than treating it as a general compiler limitation. The original Encode owner
+is571 bytes through43425A;following CC bytes remain unowned padding.
+
+Two genuine native contexts place the complete initialization/tree functions
+before or after Encode. The duplicate identical LzssTreeNode declaration is
+consolidated so all functions consume one real three-int type;per-file macros
+are scoped without changing their values or algorithm statements. Both contexts
+produce complete571-byte/eight-field Encode equality and preserve all seven
+native helpers,847 bytes/54 fields. The full decoder/init/tree/encoder context
+also preserves Decode470/4,giving nine complete functions/1888 bytes/66 fields.
+Every Encoder field is independently bound to existing native function/global/
+GlobalAlloc identities before full comparison. Actual positive same-object
+callee bodies are checked,not replaced with diagnostic aliases. This establishes
+sufficient source context,not a unique original file partition or an inferred
+register-preservation promise.
+
+The maintained implementation now lives in src/Lzss.cpp,with one set of constants
+and the single real node definition plus its12-byte assertion. Function bodies,
+algorithms,scalar declarations,API signatures and data roots are retained.
+Four superseded implementation files are deleted,not archived. The merged source
+contains all nine real target owners;no dummy code,register/variable-order hint,
+new qualifier,forced inline,assembly,padding,fake return,profile search or target
+patch is introduced. TH08/TH095 whole-family source is hypothesis material only.
+TH08's var_order/compiler wrapper and adjacent addresses/layouts are not used.
+
+One independent cold replay reconstructs immutable60a1388b Git/EOL inputs and
+merges them deterministically. It repeats all nine raw bodies/actual fields,
+all eight existing native proofs and the complete new Encoder proof. The fresh
+maintained-path canonical build then passes all nine strict public comparisons.
+The eight prior units change only source/object routing;profiles,functions,
+symbols,extents,relocations,targets and addends stay fixed. New unit lzss-encode
+covers the exact571-byte owner and eight fields. All nine origin rows remain
+third_party/high/exclude and their authored percentages stay excluded. No
+matches.csv authored credit or denominator change is made.
+
+Two further complete Replay carriers include the real unified codec before or
+after SaveReplay. All nine actual codec bodies remain original-equal1888/66
+under the caller's configured no-EH profile. Those are explicit context proofs,
+not canonical EH-profile replays or proof of original flag uniqueness. Both
+existing no-EH Replay units retain1684 bytes/110 fields;all14 common regular
+Replay bodies and the compiler contribution remain raw/effective-field equal.
+SaveReplay's Encoder+3A2 reference becomes positive same-object while retaining
+434020 and zero addend. The whole Save owner stays1238/53/three at+B7,+BB,+3F6.
+The now-exact producer does not resolve the caller's residual;no Replay source
+or original TU claim is adopted from these controls.
+
+The source-bound current353 verifier checks nine native codec units/1888/66 and
+reuses344 unchanged source/profile/object pins,107613 summed compared physical
+bytes/5197 fields. These counts include existing excluded units and the newly
+exact excluded Encoder;they are not newly authored exact functions. Reviewed-
+authored exactness remains1004/1035 and246651/291883 bytes(84.5034%). RunEcl30,
+Enemy13 and98% remain open. Tree/dictionary data-definition ownership and the
+faithful Windows i386 product,runtime,semantic and port gates remain unproven.
+
+Nine compiler jobs run serially at nice10 on one allowed CPU with180-second
+bounds:five native source contexts,two Replay contexts,the independent merged
+replay and the canonical build. No whole historical cold cohort is rebuilt.
+Seven complete staged input sets reproduce from immutable Git/EOL bytes and
+small recipes. After every producer terminates,cleanup removes15 ignored
+compiler files/879638 logical bytes:seven trial/caller objects,seven PDBs and
+the canonical PDB. The maintained current.obj and every current proof carrier
+remain;all1178 deletion-time protected hashes agree. Four deleted tracked source
+files are separately hash-bound to the merged source and immutable Git. All
+research,raw/COFF/literal/proof/context records,compiler logs,original/toolchains
+and working Ghidra remain. No source archive is created and build/ is absent.
+Post-cleanup saved-input/body/current353 audits pass without cold jobs. Packet:
+`.analysis/gpt-61sol-20261031-lzss-encode-context/`;receipt cleanup.json.

@@ -3087,3 +3087,26 @@ local transition records,compiler logs and immutable Git/EOL recipes. Independen
 temporary sources/OBJ/PDBs already self-clean. No source archive is introduced;
 post-cleanup saved-record and current344 checks pass without cold jobs. Receipt:
 `.analysis/gpt-61sol-20261031-ecl-native-xor-fields/cleanup.json`.
+
+
+## 2026-10-31: exact native Encoder and unified codec source
+
+Actual helper co-visibility resolves Lzss::Encode from the isolated570-byte
+candidate to all571 original bytes/eight fields. All eight previous native codec
+units remain exact,1317 bytes/58 fields. Their single maintained implementation
+is src/Lzss.cpp. Four superseded tracked .cpp files are deleted after their
+immutable input hashes,merge recipe and nine complete proofs agree. No source
+archive is created;all original algorithms and shared declarations are preserved.
+Third-party origin/exclusion and reviewed-authored exactness remain unchanged.
+
+After nine serial compiler jobs terminate,cleanup removes15 ignored compiler
+files/879638 logical bytes:seven model/caller objects,seven PDBs and the canonical
+PDB. Preserve current.obj,the source-bound353 subset and all344 prior carriers,
+original target/toolchains,working Ghidra,exports,raw/COFF/field/proof records,
+compiler logs and immutable source recipes. All1178 protected hashes agree at
+deletion time. The four superseded source hashes/sizes are recorded separately
+with their Git binding,not silently dropped from the protection inventory.
+Both full-codec SaveReplay controls remain1238/53/three with all14 Replay bodies
+unchanged. Post-cleanup saved-record/current353 checks pass without cold jobs;
+build/ is absent. Receipt:
+`.analysis/gpt-61sol-20261031-lzss-encode-context/cleanup.json`.

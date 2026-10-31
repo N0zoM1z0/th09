@@ -759,8 +759,8 @@ relocations = [
 ]
 
 [units.lzss-decode]
-source = "src/LzssDecode.cpp"
-object = "build/matching/LzssDecode.obj"
+source = "src/Lzss.cpp"
+object = "build/matching/Lzss.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Lzss::Decode"]
 symbol = "?Decode@Lzss@@SIPAEPAEH0H@Z"
@@ -774,8 +774,8 @@ relocations = [
 ]
 
 [units.lzss-init-tree]
-source = "src/LzssInit.cpp"
-object = "build/matching/LzssInit.obj"
+source = "src/Lzss.cpp"
+object = "build/matching/Lzss.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Lzss::InitTree"]
 symbol = "?InitTree@Lzss@@SIXH@Z"
@@ -789,8 +789,8 @@ relocations = [
 ]
 
 [units.lzss-init-encoder-state]
-source = "src/LzssInit.cpp"
-object = "build/matching/LzssInit.obj"
+source = "src/Lzss.cpp"
+object = "build/matching/Lzss.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Lzss::InitEncoderState"]
 symbol = "?InitEncoderState@Lzss@@SIXXZ"
@@ -803,8 +803,8 @@ relocations = [
 ]
 
 [units.lzss-contract-node]
-source = "src/LzssTree.cpp"
-object = "build/matching/LzssTree.obj"
+source = "src/Lzss.cpp"
+object = "build/matching/Lzss.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Lzss::ContractNode"]
 symbol = "?ContractNode@Lzss@@SIXHH@Z"
@@ -822,8 +822,8 @@ relocations = [
 ]
 
 [units.lzss-replace-node]
-source = "src/LzssTree.cpp"
-object = "build/matching/LzssTree.obj"
+source = "src/Lzss.cpp"
+object = "build/matching/Lzss.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Lzss::ReplaceNode"]
 symbol = "?ReplaceNode@Lzss@@SIXHH@Z"
@@ -842,8 +842,8 @@ relocations = [
 ]
 
 [units.lzss-find-next-node]
-source = "src/LzssTree.cpp"
-object = "build/matching/LzssTree.obj"
+source = "src/Lzss.cpp"
+object = "build/matching/Lzss.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Lzss::FindNextNode"]
 symbol = "?FindNextNode@Lzss@@SIHH@Z"
@@ -856,8 +856,8 @@ relocations = [
 ]
 
 [units.lzss-add-string]
-source = "src/LzssTree.cpp"
-object = "build/matching/LzssTree.obj"
+source = "src/Lzss.cpp"
+object = "build/matching/Lzss.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Lzss::AddString"]
 symbol = "?AddString@Lzss@@SIHHPAH@Z"
@@ -886,8 +886,8 @@ relocations = [
 ]
 
 [units.lzss-delete-string]
-source = "src/LzssTree.cpp"
-object = "build/matching/LzssTree.obj"
+source = "src/Lzss.cpp"
+object = "build/matching/Lzss.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Lzss::DeleteString"]
 symbol = "?DeleteString@Lzss@@SIXH@Z"
@@ -24319,4 +24319,23 @@ relocations = [
   { offset = 0x6E4, type = "DIR32", symbol = "$L58247", target = 0x00434C58 },
   { offset = 0x6E8, type = "DIR32", symbol = "$L58261", target = 0x00434D74 },
   { offset = 0x6EC, type = "DIR32", symbol = "$L58263", target = 0x00434D9A },
+]
+
+[units.lzss-encode]
+source = "src/Lzss.cpp"
+object = "build/matching/Lzss.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["Lzss::Encode"]
+symbol = "?Encode@Lzss@@SIPAEPAEHPAH@Z"
+target_address = 0x00434020
+size = 0x23B
+relocations = [
+  { offset = 0x24, type = "DIR32", symbol = "__imp__GlobalAlloc@8", target = 0x0048E0C4 },
+  { offset = 0x47, type = "REL32", symbol = "?InitEncoderState@Lzss@@SIXXZ", target = 0x00433CB0 },
+  { offset = 0x76, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430, addend = 1 },
+  { offset = 0x8B, type = "REL32", symbol = "?InitTree@Lzss@@SIXH@Z", target = 0x00433C80 },
+  { offset = 0xDA, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0x19F, type = "REL32", symbol = "?DeleteString@Lzss@@SIXH@Z", target = 0x00433FC0 },
+  { offset = 0x1C8, type = "DIR32", symbol = "?g_LzssDictionary@@3PAEA", target = 0x004CC430 },
+  { offset = 0x1E4, type = "REL32", symbol = "?AddString@Lzss@@SIHHPAH@Z", target = 0x00433E00 },
 ]
