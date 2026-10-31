@@ -54,9 +54,9 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-The operator cleared the active reconstruction goal on October30 and requested
-housekeeping. Current game source is checkpoint `71246812`; reconstruction is
-not an active autonomous task.
+The operator cleared the reconstruction goal on October31 and requested
+housekeeping. Current game source is checkpoint `a3e4aaee` (unified LZSS codec);
+`71246812` is an earlier checkpoint. Reconstruction requires an explicit restart.
 The **98% exact reviewed-authored
 byte** milestone remains unfinished. Use [the handoff](docs/RE_HANDOFF.md) for the
 current code map, remaining large functions, restart commands and retained

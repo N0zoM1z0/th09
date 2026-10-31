@@ -27816,3 +27816,62 @@ research,raw/COFF/literal/proof/context records,compiler logs,original/toolchain
 and working Ghidra remain. No source archive is created and build/ is absent.
 Post-cleanup saved-input/body/current353 audits pass without cold jobs. Packet:
 `.analysis/gpt-61sol-20261031-lzss-encode-context/`;receipt cleanup.json.
+
+
+## Maintenance checkpoint — October31 goal cleared and completed ECL records recovered
+
+The operator cleared the reconstruction goal and requested code/documentation
+housekeeping and storage cleanup. This supersedes the preceding resumption as
+an instruction to act;the unfinished98% milestone grants no ongoing authority.
+Game source remains a3e4aaee,the unified LZSS codec checkpoint. Earlier71246812
+and d332bec4 are historical checkpoints,not the current source. AGENTS,README,
+workflow,tools and handoff now distinguish current maintenance from a future
+explicit restart. The full previous handoff remains in immutable Git at
+`a3e4aaee:docs/RE_HANDOFF.md`;its detailed experiments also remain in this KB.
+
+Six already-completed ECL source-partition jobs were recovered after the prior
+output was truncated. All had exited successfully before this maintenance
+request. No further compiler or Ghidra job is run. Each private source keeps the
+original statements,declarations,ABI and profile,selecting actual footer include
+families in their original order. The source-reference closure is compiler
+source evidence,not evidence of original translation-unit ownership. Complete
+RunEcl retains15564 bytes/598 fields/30 ordinary differences in all six contexts;
+no field or table differences are hidden. Only core-enemy emits the full Enemy,
+which retains3900/97/13. No partition is adopted and no exactness credit changes.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-PARTITION-CORE-POST | compiler context rejected | 63 regular bodies;13 present existing units pass,one rejects,61 are absent. Post-movement emits996 bytes/41 fields and fails its existing complete proof. RunEcl stays30. | ecl-source-partitions/core-post.json |
+| ECL-PARTITION-CORE-VECTORS | compiler context rejected | 66 regular bodies;16 present units pass,one rejects,58 are absent. Real Float3 core definitions alone do not restore post-movement;RunEcl stays30. | ecl-source-partitions/core-vectors.json |
+| ECL-PARTITION-CORE-POLAR | bounded compiler observation | 71 regular bodies;22 present units pass,53 are absent. Actual polar-producing fragment restores the present movement proof,but RunEcl stays30. | ecl-source-partitions/core-polar.json |
+| ECL-PARTITION-CORE-ENEMY | bounded compiler observation | 80 regular bodies;27 present units pass,48 are absent. RunEcl stays30 and the actual emitted Enemy stays13;all97 Enemy fields agree. | ecl-source-partitions/core-enemy.json |
+| ECL-PARTITION-ATTACK | bounded compiler observation | 84 regular bodies;30 present units pass,45 are absent. All original ExAttack footer groups leave RunEcl30;Enemy is absent. | ecl-source-partitions/attack-family.json |
+| ECL-PARTITION-EFFECT | compiler context rejected | 109 regular bodies;45 present units pass,ten reject,20 are absent. Post-movement and nine fan-draw owners fail complete comparisons;RunEcl stays30. | ecl-source-partitions/effect-family.json |
+
+All packet paths in this table have prefix
+`.analysis/gpt-61sol-20261031-`. The pass/rejection/absence counts partition the
+75 existing Main-profile units. Absent units are not passes,and no independent
+cold replay or companion-product build is claimed. The maintenance audit
+reconstructs all79 pinned inputs from immutable a3e4aaee Git/EOL bytes,repeats
+the staged-input hashes and checks all stored regular raw bodies/COFF fields,
+compiler contributions and object hashes before deletion. Recipes,full failed
+proofs,logs and records remain in the packet. Recovery audit and EOL map:
+`.analysis/maintenance-20261031/partition-audit.json`.
+
+Cleanup deletes twelve private trial OBJ/PDB files and six ignored Python
+bytecode files,18 files/2336422 logical bytes. All34945 deletion-time retained
+file hashes agree,including current source,research,target/toolchains and the
+working Ghidra project. All84 objects referenced by current353 and nine further
+historical/diagnostic objects remain. Mixed historical ZIPs and unreproduced
+research are retained;no source archive or copied source tree is introduced.
+No disposable backup source is found in src/,scripts/ or tests/. The generic
+cleaner's full apply selection includes these unique proof objects and is
+therefore not used. Receipt and complete hash inventory:
+`.analysis/maintenance-20261031/cleanup.json` and `protected-sha256.json`.
+
+The current353 verifier passes from retained objects after deletion:strict nine
+codec units/1888 bytes/66 fields plus344 unchanged pins,107613 summed physical
+bytes/5197 fields. Ledger state remains1004/1035 authored functions and246651/
+291883 reviewed-authored bytes,84.5034%. Documentation/tracking/progress checks
+and whitespace validation govern this maintenance checkpoint;historical full
+CI counts are not reported as a fresh run. No game-source or ledger edit occurs.

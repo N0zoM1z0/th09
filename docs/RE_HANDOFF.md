@@ -1,340 +1,80 @@
 # TH09 reconstruction — current handoff
 
-## Operator status — reconstruction resumed
+## Operator status — maintenance
 
-The operator explicitly continued the reconstruction goal after maintenance
-checkpoint d332bec4. Continue toward98% reviewed-authored bytes,including both
-large owners and small leaves. Prioritize complete RunEcl and Enemy,challenge
-historical assumptions,and use direct local Ghidra without IDA,REA or Factory
-MCP. Compile only affected sources/profiles;reuse unchanged proofs.
+The operator cleared the reconstruction goal on October31 and requested code,
+documentation and storage housekeeping. Do not automatically continue the
+unfinished98% milestone. Reconstruction needs an explicit operator restart.
+The earlier October31 resumption and d332bec4 stop are historical instructions.
 
-Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Current game source is the unified LZSS codec checkpoint described below;
-its previous game-source checkpoint is **6c8ccca9** (before that,eedcea20).
-The real codec implementations now share `src/Lzss.cpp`. Encode becomes complete
-original-equal571 bytes/eight fields,with all eight existing codec units retained.
-The nine excluded third-party units compare1888 bytes/66 fields. This adds no
-reviewed-authored credit. Four superseded implementation files are removed.
-EclOperands now calls the real opposite-angle producer through PlayerAngleView,
-removing its undefined private member declaration. All four resolvers retain
-5718 complete physical bytes/374 fields,including tables. Two native names and
-291 actual-position-proved private labels refresh; no exactness credit changes.
-BulletManager now uses the actual RngRuntimeView and Supervisor declarations.
-All18 existing Bullet owners retain6711 physical bytes/259 fields,including
-SpawnSingleBullet1932/47 and Etama OnUpdate2216/88. Eight native viewport owners
-also pass strict comparisons;297 unchanged units are reused,for323 current units.
-All19 paired regular Bullet bodies retain raw bytes. No new exactness credit.
-The Etama diagnostic's stale ANM names are fixed;23 focused tests pass.
-
-The preceding Type7 repair routes its forward angle call to41BB00 through one
-shared producer/Type2 declaration. The opposite helper41BB70 remains separate.
-The canonical-owner guard rejects the earlier incorrect name/address rebinding.
-That checkpoint's three strict owners and294 reused units remain unchanged.
-The previous score checkpoint unified ScoreData,GameManager finalization,
-insertion and result drawing through TitleScoreRecordView and native table/
-current-record names. Its known0x2C layout and signed final byte remain;DrawResult
-stays1939/82/22. The prior ScoreData native RNG repair remains.
-The preceding SHT checkpoint unified the loader,pattern-offset resolver and both
-movement switches through PlayerShtFileView's four observed speed fields. It
-removed two private SHT classes and one cast helper,without changing SHT
-representations,ABIs or compiler profiles. Its200 affected and51 reused units pass the strict
-Oracle;48 compiler-private label names refresh at unchanged actual coordinates.
-There is no new exactness credit. Movement1900/66/23/129,RunEcl30,Enemy13,
-Charge1197 and Type3-15 remain unchanged. The prior network-dataflow,shot-chain,
-Charge and tracking repairs remain;network service stays1626/1633 bytes with
-all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absent.
+Current game-source checkpoint: **a3e4aaeea6e4ea651a171bc019a7d556cb09f61f**.
+It unifies the native LZSS codec in `src/Lzss.cpp`; four superseded implementation
+files are deleted. All nine excluded third-party codec units compare1888 bytes/
+66 fields,including newly exact Encode571/8. This adds no reviewed-authored
+credit. The preceding game-source checkpoint is6c8ccca9;71246812 is historical.
+This maintenance checkpoint changes no game source,compiler profile or ledger.
 
 ## Source and evidence routing
 
-- `.analysis/gpt-61sol-20261031-lzss-encode-context/current.py` is the current
-  source-bound subset:353 units/107613 compared physical bytes/5197 fields.
-  It strictly checks all nine codec units/1888 bytes/66 fields,including the new
-  excluded lzss-encode,and reuses344 unchanged source/profile/object pins.
-  Earlier isolated Encode remains570/538 overlap differences plus one missing
-  byte. Real init/tree definitions before or after it instead produce571/zero,
-  with all seven native helpers exact. Full decoder/init/tree/encoder and the
-  maintained single-file implementation retain all nine complete target bodies.
-  One independent immutable-Git/EOL replay and the canonical build agree.
-  Both real-codec SaveReplay contexts retain all14 common bodies,all nine native
-  codec bodies and the same three Save differences;their no-EH context proofs
-  are not canonical EH-profile replays. Eight old units change only source/object
-  routing;the new native unit keeps third_party/excluded origin. Data-definition
-  and original TU ownership,whole product and runtime remain unproven.
-  Nine serial bounded jobs suffice;no profile/variable-order directive is added.
-  Cleanup removes15 binaries/879638 bytes after1178 protected-hash checks. Keep
-  current.obj,current353,all observations/recipes and the working Ghidra project.
-- `.analysis/gpt-61sol-20261031-ecl-native-angle-callee/current.py` is the
-  unchanged source-bound subset:344 existing units/105725 compared physical bytes/
-  5131 fields. Four resolvers pass strict canonical comparison;340 unchanged
-  source/profile/object pins are reused. Original calls at405D42 and406E06 both
-  target41BB70,which remains distinct from forward41BB00. The shared native
-  producer retains101 bytes/five fields. Real caller/callee co-location and its
-  independent rebuild also preserve all four resolvers and that whole producer.
-  Four whole ECL visibility controls instead leave RunEcl15564/598 with42
-  ordinary differences,while the two value resolvers grow16 bytes each. All75
-  existing ECL siblings pass per control;Enemy stays3900/97/13. These contexts
-  are rejected,not adopted as original TU ownership. Nine bounded serial jobs
-  include the canonical affected build and one independent positive replay.
-  Cleanup removes15 files/2623324 bytes after1093 protected-hash checks. Keep
-  native.obj,all prior carriers,raw/COFF records,recipes and rejection evidence.
-- `.analysis/gpt-61sol-20261031-ecl-native-xor-fields/` bounds twelve more
-  complete Main-profile controls without changing game source. Native one-bit
-  compound XOR,explicit XOR,primitive-input/local native flag values,argument
-  order and logical-word formal controls all give the same15564/598/2140 owner:
-  1938 ordinary plus202 field differences,including26 table differences. Their
-  opcode155 is44 bytes versus original45. Three complete draw-group bitfield
-  views(1/2/4-byte allocation units) retain all138 regular raw bodies and actual
-  fields;RunEcl30/Enemy13 remain. The combined field model is also negative.
-  Two native flag-value helpers retain the exact same16 emitted source-only
-  bytes as the masked-XOR helper while their inlined caller differs. Helper
-  bytes alone therefore do not determine caller codegen. Every model keeps75
-  existing exact siblings;one independent combined replay agrees. Twelve primary
-  jobs plus that selected replay are serial and bounded;no baseline cold build.
-  Actual jump-table roots bound each flag handler;decoded-prefix transition
-  checks are local semantic evidence,not runtime or exactness credit. Cleanup
-  removes24 binaries/6420821 bytes after1137 protected-hash checks. All recipes,
-  raw/COFF/proof records and current344 carriers remain;no field model is adopted.
-- `.analysis/gpt-61sol-20261031-replay-standard-algorithms/current.py` is the
-  retained source-bound subset:340 existing units/100007 compared physical bytes/
-  4757 fields. Two original no-EH Replay owners/1684 bytes/110 fields pass strict
-  comparisons;338 unchanged pins are reused. This adds no exactness credit.
-  SaveReplay remains1238/53/three at+B7,+BB,+3F6. Sixteen completed compiler
-  controls plus two selected independent rebuilds are recorded,without adopting
-  source,types,profiles or TU ownership. STL copy adds memmove;accumulate changes
-  the complete extent. Full pointer/slot interfaces do not resolve the residual.
-  Payload-address controls change only the SaveReplay SIB byte+BB from19 to0B
-  versus baseline,still unlike target;they are not byte-neutral. Frame-only slots
-  change one LoadReplayData SIB byte+E2. Actual formatter45/1 and loader591/14
-  context proofs stay distinct from their configured EH-profile replays.
-  Maintenance removes31 disposable binaries/2100887 bytes after1041 protected
-  hash checks. Keep baseline.obj,recipes and all raw/COFF/proof records.
-- `.analysis/gpt-61sol-20261031-effect-closed-anm-types/current.py` is the
-  unchanged source-bound subset:338 existing units/98323 compared physical bytes/
-  4647 fields. It strictly compares15 unchanged Effect owners/2530 bytes/100
-  fields and reuses323 unchanged pins. Its retained baseline.obj also checks
-  AddedCallback51/4/8. Effect source remains unchanged from eedcea20;no private
-  type model is adopted.
-- Separating the lifecycle VM storage projection privately makes full ANM loader
-  co-location with Effect valid C++,resolving the earlier redefinition rejection.
-  Complete manager data,loader-before/after and whole-object int/void operation
-  contexts all keep the callback51/4/8 and all16 baseline Effect raw bodies.
-  Thirty-nine existing units pass at their configured profiles;16 co-visible
-  loader bodies also match original under the fixed Effect profile. The mixed
-  manager constructor remains296/25 versus341/29. VM base is75/4 under Ob1,
-  versus62/6 under Ob0;the derived45/2 is neutral between those two profiles.
-  These are context constraints,not original class/TU or product closure claims.
-  One independent loader-after replay passes;12 serial jobs,not a full cohort.
-  Cleanup removes21 model/debug files/1222104 bytes after984 protected-hash
-  checks. Keep the actual baseline/current338;recipes and all observations remain.
-- `.analysis/gpt-61sol-20261031-bullet-native-rng-supervisor/current.py` remains
-  an unchanged subset:323 existing units/95793 physical bytes/4547 fields.
-  It strictly compares26 Bullet/native viewport owners/8241 bytes/365 fields,
-  reuses297 unchanged source/profile/object pins and rechecks all eight actual
-  RNG owners. Only21 native reference names and16 compiler-private spellings
-  change;all target addresses,offsets,kinds,addends,profiles and extents stay.
-  One independent cold Bullet replay passes. Four serial jobs suffice;no full
-  historical cold cohort or repeated public CI is used. The diagnostic checks
-  all2216 bytes,88 fields and62 ordered calls,with zero differences.
-- `.analysis/gpt-61sol-20261031-type7-forward-angle/current.py` remains an
-  unchanged source-bound subset:297 existing units/87552 physical bytes/4182 fields.
-  Three affected owners/433 bytes/19 fields pass the strict public comparator;
-  294 unchanged source/profile/object proofs are reused. The backward101-byte
-  helper remains independently source-bound. Only Type7 field+1F changes its
-  native symbol;target41BB00,kind,addend,extent and profiles remain fixed.
-  All five paired regular bodies/actual fields remain equal apart from that
-  one symbol. Independent cold forward-producer and Type7 replays pass. Three
-  further maintained-path builds after EOF cleanup retain all outputs;the
-  immutable input audit binds them to source checkpoint a4bba8ec.
-- Shared-score296 and SHT251 whole verifiers are historical after this change:
-  Type7 and Type2 inputs changed,and the old Type7 native binding is rejected.
-  Their unaffected individual groups feed the current294 reuses. Source recipes
-  and actual raw/field records preserve the old observations without granting
-  current-source identity credit to the rejected mapping. Earlier258/153/141
-  whole verifiers also remain historical;use current pins above.
-- Current game code is in `src/`;the authoritative state is in
-  `config/functions.csv`,`config/function-origins.csv`,`config/matches.csv` and
-  `config/match-units.toml`. Use the live report rather than dated measurements.
-- Original input is ignored `resources/th09.exe`,Japanese1.50a,SHA-256
-  `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-  Target/toolchains and the working Ghidra project are preserved.
-- `src/PlayerEnemyTrackingStateView.hpp` represents Player+30364..3037F:
-  nearest-position storage and the separate +3037C homing pointer. Stage D resets
-  only the position;it does not reset that pointer. The intervening12 bytes have
-  a separate vector reset,their role remains unknown. Type7 calls the existing
-  `PlayerForwardAngleView::AngleFromPlayerToPoint` at41BB00.
-- `.analysis/gpt-61sol-20261031-player-sht-speed-contract/` retains the
-  preceding SHT dependency proof:251 units/66468 physical bytes/3065 fields
-  at2b990254. Its original scope was47 configured source/profile groups(200
-  units),plus Movement,Charge and Type3 diagnostics,with51 unchanged reuses.
-  Fifty carriers were cold-built then;366 paired regular bodies/effective
-  fields and an independent Runtime replay passed. Its current GameManager
-  objects are now superseded;use the297-unit verifier above for current pins.
-- Loader41BBE0 scales normal/focused axis speeds+14/+18 into diagonal+1C/+20;
-  exact resolver404710 and movement41C170 read the same loaded SHT pointer at
-  Player+30338. The shared field names/offset checks describe these TH09 facts,
-  without claiming original class names,full file format or TU ownership.
-- Previous network153-unit and shot-chain141-unit combined verifiers are
-  historical at43f491a7 because this shared header changes their source pins.
-  Their exact owners remain covered by the current297-unit verifier. Network's
-  service object itself remains source-unchanged and is checked there. Charge
-  stays1197/70/58 with1160 overlaps+13 missing;RunEcl15564/598/30 and Enemy3900/
-  97/13 stay. The native Init309,Type7-139 and Sound140/153 owners remain exact.
-- Player OnUpdate's field+1BE now references the defined int-returning
-  `PlayerChargeAttackView::UpdateChargeAttack`,through its shared header.
-  PlayerRuntime uses the actual SoundPlayer API. Both current Runtime profiles
-  and Charge retain all46 regular raw bodies/effective fields. Genuine joined
-  caller/Charge controls in both orders remain nonexact;no TU claim is adopted.
-- Charge and the actual CardAttackStart/ResourceSubtract implementations now
-  consume identical complete class definitions. SpawnShots uses its existing
-  shared header. All1197 Charge raw bytes/fields remain identical. Actual
-  resource-callee visibility shortens Charge to1195/1162+15,while SpawnShots
-  visibility is raw-neutral;neither context is adopted as an original TU claim.
-- `PlayerShotInitializeView.hpp` and `PlayerSpawnFrameView.hpp` replace seven
-  undefined initializer references and the generic dispatcher's undefined frame
-  helper reference. All13 changed fields retain their original offsets,kinds,
-  addends and targets;the frame owner's symbol also follows its shared types.
-  Init309 and Type7-139 keep their distinct canonical /Ob0 profiles. Default
-  chain visibility leaves Charge1197;full visibility under Charge's /Ob1 makes
-  Init301/5 instead of309/7 and is rejected as original callee closure.
-- `.analysis/gpt-61sol-20261031-ecl-word-results/` retains thirteen complete
-  ECL controls and all75 exact siblings per control. POD word-result/native
-  bits/wide-intermediate controls remain30;constructed/by-value-input/wide-
-  return models add an unbound helper and are rejected. Existing integer
-  workspace reuse gives42/2290/2302 differences;draw-index reuse is neutral.
-  Enemy's own3900 raw bytes/effective97 fields stay unchanged in all thirteen;
-  a rejected RunEcl callee still prevents a complete Enemy diagnostic score.
-- A control-family rhsInt time capture in `ecl-control-workspace/` retains
- 15564/598 but regresses30 to42 ordinary differences,with no field/table drift.
-  All75 exact siblings and Enemy13 remain;the source model is rejected.
-- `.analysis/gpt-61sol-20261031-ecl-update-objects/` retains seven further
-  complete controls. Four full-operation object/proxy models add a genuine
-  unbound helper call and fail the whole owner. Small value accessors and a
-  real word conversion inline but preserve30. Tiny reference accessors inline,
-  leave opcode155 unchanged and shorten opcode157 from160 to158,giving2153 total
-  differences. All75 exact siblings pass per model;none is adopted. Immutable
-  Git/EOL reproduction and complete raw/COFF records remain after trial cleanup.
-- `.analysis/gpt-61sol-20261031-ecl-native-vectors/` bounds nine complete
-  vector/workspace/head-reset models,with675 existing exact sibling comparisons.
-  Movement/trail native vectors and real word workspaces leave all138 regular
-  bodies unchanged. A genuine inline reset adds an unused27-byte body but keeps
-  the caller unchanged;ascending reset adds four differences(Enemy17),and memset
-  shortens the whole owner to3892,so is rejected. RunEcl stays30 in every model.
-  One invalid cross-family RHS scope fails compilation;the corrected shared
-  function-scope model compiles and stays30/13. Immutable Git/EOL reconstruction
-  and one independent cold whole-object replay pass. No source/type/ABI adoption.
-- Three new representation packets remain negative at2b990254. Replay plain
-  payload/compressed/both lifetime records retain1238 bytes but give31/63/75
-  differences;all old3 remain. Complete queue-owner/base/direct-field views
-  preserve every213-byte/35-difference insert and both exact queue siblings.
-  A coherent Win32-long counter model updates both fields and the actual
-  TickTimer pointer API;all19 native bodies compare original-equal. Whole ECL
-  remains30/13 with periodic opaque and30/45 with the real body visible. All75
-  exact ECL siblings pass in both models;no type/ABI/source adoption follows.
-  Full15-input Git/EOL reconstruction and an independent cold visible-ECL
-  replay pass. The then-current251-unit proof pins remained unchanged. Routing:
-  replay-buffer-lifetimes/,queue-complete-owner/,timer-counter-contract/.
-- Supervisor's fresh current baseline retains952/996 physical bytes and every
-  prior raw byte/COFF field. Seven complete state-branch controls show that
-  genuinely repeated registration bodies restore target EDI=2 and its delayed
-  save. A combined volatile close-bit model reproduces MOV AL/TEST AL/JNS and
-  the first197 bytes, but remains1000/996 with493 unequal overlaps:375 old
-  positions recover while33 old matches break, plus4 excess bytes. No source,
-  qualifier or exactness credit is adopted. All seven immutable input sets and
-  one independent cold whole-object replay pass;the then-current251 pins remained.
-  Recipe/full observations:supervisor-state-branches/ below the October31
-  analysis prefix. Its audit.py checks stored records after trial cleanup;
-  baseline.obj is the retained source-bound current Supervisor diagnostic.
-- Actual ECL InitializeSubroutine visibility is also bounded at310510f6:
-  before all callers,before RunEcl or after the whole carrier,its73 bytes/two fields
-  remain original-equal and all138 common regular bodies retain raw/effective
-  fields. Four caller references become genuinely same-object-defined. Two
-  returned-XOR-mask/compound-assignment contexts retain137 common bodies;
-  only the unbound16-byte helper is replaced by an unreferenced14/13-byte
-  helper. All five keep75 exact siblings and RunEcl30/Enemy13. Eighty-input
-  Git/EOL recovery and one independent cold whole-object replay pass.
-  Records/recipes:ecl-native-initializer/;no source/TU/ABI adoption or credit.
-- A separately compiled const periodic predicate remains original33/0. Its
-  opaque declaration preserves all138 regular raw bodies and Enemy13;the same
-  real definition visible gives Enemy45,with only Enemy raw code changed.
-  Five native names use private reviewed interface views;production identities
-  reject both alternatives. All75 sibling payloads pass per context,including
-  four reviewed interface views. Independent whole-object replay passes.
-  A real timeout function-pointer call instead emits15560/599 with an unbound
-  16-byte helper reference;RunEcl and dependent Enemy coverage reject it.
-  All137 other raw bodies and75 siblings remain. Its independent replay repeats
-  the rejection. Research routes:enemy-const-periodic/ and ecl-timeout-callable/;
-  no production source,qualifier,manifest,profile or exactness credit changes.
-- Current network transport is rechecked against actual paired input bodies in
-  network-input-contract/ below the October31 analysis prefix. The int/int and
-  u16/u16 producers both equal all131 original bytes/one field;this does not
-  identify the original source widths. Opaque/visible narrow service controls
-  give1628 bytes/106 fields/1372 unequal overlaps+5 missing,with the target's
-  WORD stores/DWORD loads and0x14 stack frame but no status home. Shared-exit
-  and real workspace controls remain1638/1640,with wrong status homes/order.
-  Every model retains106 field and51 call-identity multiplicities. No narrow
-  input API or source model is adopted. Independent cold caller/producer replay passes;retain
-  native-int.obj and use verify-native.py for that unchanged131-byte owner.
-- Actual playfield/periodic definition visibility is bounded in
-  enemy-playfield-context/ under the October31 analysis prefix. Standalone
-  canonical playfield116/6 remains exact;the same source under the existing
-  ECL profile emits118/6 and shortens Enemy3900 to3884 with all97 fields and
-  four real playfield calls retained. A target flag reload at Enemy+67A is
-  absent;the old value survives in DL. Joint periodic visibility repeats both
-  strict extent rejections. Three controls and an independent joint replay
-  preserve75 siblings each and RunEcl30. No positive-definition view is used
-  after the native rejection. Keep native-playfield.obj/current-native.json
-  for the separate116-byte proof;no source/profile/credit change follows.
-- Adjacent flag-pair controls are bounded in ecl-flagpair-storage/ below the
-  October31 analysis prefix. A continuous eight-byte group of two unsigned-int
-  allocation units preserves all138 regular bodies and RunEcl30/Enemy13.
-  Native timeout assignment repeats2140/13 whether its group is four or eight
-  bytes. All75 siblings per successful model and one independent replay pass.
-  The default-aligned unsigned-__int64 group fails layout assertions,moving
-  primary337C to3380. The new packed controls below address that untested gate;
-  the older then-current296 pins were unchanged. No original grouping is proved.
-- ecl-packed-flag-pair/ now bounds four target-compatible four-byte-aligned
-  unsigned-__int64 allocation models. All layout assertions and75 siblings pass
-  per model,but helper/native RunEcl grows to15624/15612 bytes with598 fields.
-  Extra +3380 reads/writes accompany low-word bitfield updates;native timeout's
-  physical table-entry span grows45->64 bytes. Full raw/COFF and all193 actual
-  table destinations are retained without moving candidate labels. Strict
-  complete-owner rejection remains;dependent Enemy scoring is withheld even
-  though its3900 raw bytes/97 effective fields stay. One independent cold replay
-  passes. No source,packing,profile or credit is adopted. Five serial jobs and
-  post-cleanup input/body audits leave all current323 pins unchanged;8 trial/
-  PDB files(2135912 bytes) are removed after957 protected-hash checks.
-- Two whole-ECL native-side-type controls retain75 exact siblings each.
-  Native shared side storage alone retains Enemy13;adding the genuine periodic
-  Timer body gives45. Neither candidate is adopted. `probe.py` and `reproduce.py`
-  retain bounded recipes/full observations,without old source trees.
-- The previous native RNG/sound/ANM/spawn repairs remain. Spawn arguments830/
-  10000 mean life/score. The older31/106-unit combined packets are historical
-  source epochs;use the297-unit verifier above for the current closure. Reuse
-  individual older proofs only when their actual source/profile/object pins
-  remain current;this shared-header change invalidates several old bundles.
-- The standalone Type3 source also includes the changed header;its old
-  current-type3.json binding is historical. Use this packet's maintained-path
-  current-ExAttackUpdateType3-0.obj with inspect-exattack-type3-schedule.py.
-  Fresh complete validation retains780/38/15 and the unresolved middle-Z order.
-- Current338 retains effect-closed-anm-types/baseline.obj plus the unchanged323
-  carriers:bullet-native-rng-supervisor/proposal.obj,viewport.obj and the297
-  preceding pins. The Type7 maintained objects and native service/input131/
-  playfield116 remain bound.
-  The Bullet batch removes four ignored files/407431 bytes:one old baseline
-  object and three PDBs. All961 deletion-time protected hashes agree;
-  post-cleanup immutable/body/current323/diagnostic checks pass. Recipes,
-  research records,target/toolchains and working Ghidra remain;build/ is absent.
-  The preceding Type7 batch removed462 outputs/8119161 bytes and ran public CI
-  with1060 tests,29 skipped. Current diagnostic/name changes use23 focused tests.
-- Other dated packet verifiers are historical research tools. Old compiler
-  objects have been cleared;rebuild from current source and the configured
-  profile when needed. Their absence is expected,not lost canonical evidence.
+Start with the live manifests and current proof subset,not a dated experiment's
+object path. Proof reuse requires matching source,profile and object hashes.
 
-The complete previous handoff is preserved in
-[the checkpoint archive](RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md).
-[KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) retains all findings and failed models;
-[accepted receipts](RE_ACCEPTED_RECEIPTS.md) remain immutable source-commit-bound
-history. Current exactness does not establish a complete Windows product.
+- Canonical inventory: `config/functions.csv`,`config/function-origins.csv`,
+  `config/matches.csv` and `config/match-units.toml`.
+- Current retained subset:
+  `.analysis/gpt-61sol-20261031-lzss-encode-context/current.py` checks353 units/
+  107613 summed physical bytes/5197 fields. It strictly compares nine codec
+  units/1888 bytes/66 fields and reuses344 unchanged source/profile/object pins.
+  These353 include excluded units;they are not the1004 authored exact ledger
+  entries. Its `current.json` identifies84 retained proof objects,including
+  auxiliary owners. Nine additional historical/diagnostic objects also remain.
+- The preceding ECL native-angle packet's `current.json` supplies the344 pins;
+  earlier323/297/251 and other combined verifiers are historical bundles.
+  Their unchanged individual groups may feed current pins,but a historical
+  whole verifier is not automatically current. Missing discarded trial objects
+  are expected;rebuild a needed candidate from its recipe before comparison.
+- `src/EclOperands.cpp` uses the actual opposite-angle PlayerAngleView producer
+  at41BB70. The four resolvers remain5718 complete physical bytes/374 fields.
+  Type7 uses the separate forward producer41BB00. Never rebind one to the other.
+- BulletManager uses native RNG/Supervisor declarations. Player movement and
+  SHT loading share PlayerShtFileView's four observed speed fields. ScoreData,
+  finalization,insertion and result drawing share TitleScoreRecordView. These
+  interface repairs preserve the current large-owner residuals below.
+- Player shot/Charge declarations use the actual initializer,frame,resource,
+  SoundPlayer and SpawnShots producers. Enemy tracking separates the position
+  at+30364..3036F from the homing pointer at+3037C;Stage D resets only the
+  position. The intervening twelve bytes have a separate reset and an unknown
+  role. Consult the source and KB for the bounded layouts and exact ABIs.
+- Native source-bound diagnostics outside the current353 remain useful:
+  network input131/1 in `network-input-contract/native-int.obj`,playfield116/6
+  in `enemy-playfield-context/native-playfield.obj`,and Supervisor's952-byte
+  baseline in `supervisor-state-branches/baseline.obj`. Packet names here use
+  the prefix `.analysis/gpt-61sol-20261031-`.
+
+Latest completed ECL source-partition records are in
+`.analysis/gpt-61sol-20261031-ecl-source-partitions/`. Six actual footer groups
+all leave RunEcl15564/598/30;the only Enemy-emitting group keeps3900/97/13.
+Core-post/core-vectors each reject an existing movement owner;effect-family
+rejects ten existing owners. Other existing units absent from each partition
+are explicitly outside its proof scope,not passes. No split is adopted.
+All79 immutable Git/EOL inputs,recipes,raw/COFF records and logs were audited
+before disposing the twelve trial OBJ/PDB files. Maintenance adds no compiler
+jobs or independent cold replay. See the latest KB note for the complete table.
+
+Other completed context controls are indexed by findings in
+[KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md). Important bounded negatives include
+native timeout-field updates,draw-group/packed-flag views,whole ECL operand and
+initializer visibility,Enemy vector/periodic/playfield contexts,closed Effect
+ANM types,and SaveReplay algorithm/slot/codec contexts. Failed controls do not
+prove all natural source models exhausted. Never adopt their types,profiles or
+original TU claims merely because a leaf or local byte range matches.
+
+The previous full handoff is recoverable with
+`git show a3e4aaee:docs/RE_HANDOFF.md`. The
+[October18 checkpoint archive](RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md) and
+[accepted receipts](RE_ACCEPTED_RECEIPTS.md) are historical;accepted receipts
+retain immutable source-commit bindings. Current exactness does not establish a
+complete Windows product.
 
 ## Live ledger snapshot
 
@@ -417,11 +157,13 @@ repeating them. Historical assumptions remain hypotheses.
 
 ## Continuing reconstruction
 
-Read [AGENTS.md](../AGENTS.md),[RE_WORKFLOW.md](RE_WORKFLOW.md),
-[ORACLES.md](ORACLES.md),the affected rows and relevant KB findings. Recover all
-tracked/untracked work first. Prioritize complete RunEcl and Enemy,including
-shared layouts,dependencies and translation-unit boundaries;old hypotheses are
-not conclusive. The other big functions and small leaves remain in scope.
+This section is a restart procedure,not authorization to resume. After an
+explicit restart,read [AGENTS.md](../AGENTS.md),[RE_WORKFLOW.md](RE_WORKFLOW.md),
+[ORACLES.md](ORACLES.md),the affected ledger rows and relevant KB findings.
+Recover tracked and untracked work first. Prioritize complete RunEcl and Enemy,
+including shared layouts,dependencies and actual translation-unit boundaries.
+Other large functions and small leaves remain in scope;old hypotheses are not
+conclusive.
 
 ```bash
 export PYTHONDONTWRITEBYTECODE=1
@@ -437,11 +179,14 @@ python3 -B scripts/build-match-unit.py --unit NAME
 python3 -B scripts/compare-coff-function.py --unit NAME --json
 ```
 
+The original ignored input is `resources/th09.exe`,Japanese1.50a,SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+Do not search Windows mounts or set TH09_TARGET_PATH during normal work.
 Ghidra12.1.4 uses `.tools/ghidra` and reuses
-`.analysis/ghidra-direct/243bffea8dcbe99a/th09.gpr`. The runner checks disk/Program
-identity,i386 language,base/entry and all685056 mapped file-backed bytes on every
-export. Ghidra names,types and decompilation remain provisional. It is not an
-exactness Oracle. The obsolete IDA/MCP client chain and its bootstrap are removed.
+`.analysis/ghidra-direct/243bffea8dcbe99a/th09.gpr`. The direct runner checks
+disk/Program identity,i386 language,base/entry and all685056 file-backed mapped
+bytes before every analysis/export. Its names,types and decompilation remain
+provisional;Ghidra is not an exactness Oracle. No IDA,REA or Factory MCP routing.
 
 For source changes,protect complete owners,tails/tables,callees and affected
 exact siblings under pinned VC7.1 profiles. Compile serially at lowered priority
@@ -452,30 +197,33 @@ behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 
 ## Maintenance and validation
 
-This cleanup preserves current source,ten optional proof objects,all records,
-original/tools and working Ghidra. It removes unused compiler outputs and the
-unreferenced five-file IDA/MCP implementation chain. Mixed historical archives
-contain research records and are retained intact;no new source archive is made.
-Per-file inventories are below `.analysis/maintenance-20261030-final/`;see
-[cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for final counts and checks.
-The larger space occupied by JSON/log/configuration evidence is intentional.
+Latest cleanup receipt: `.analysis/maintenance-20261031/cleanup.json`.
+Eighteen ignored files/2336422 logical bytes were deleted:twelve completed
+partition OBJ/PDB files and six Python bytecode caches. All34945 retained file
+hashes agree across deletion,including current source,research,proof objects,
+original target/toolchains and working Ghidra. All other OBJ files and mixed
+historical archives remain. No source archive or old code copy was created;
+no disposable source backup was found in src/,scripts/ or tests/. Build/ is absent.
 
-Final public CI passes1055 tests/29 skips in110.109s;all832 tracked input hashes
-were stable during the run. The old exact-link-label assertion is now a semantic
-link-target check;26 focused documentation tests pass. In total905 compiler/CI
-artifacts,62926041 logical bytes,and five obsolete tools were removed. All32413
-original retained analysis files are byte-identical after final CI/cleanup.
-The106 current comparisons and complete Type3 check passed;build/ is absent.
+The generic `scripts/clean-generated-artifacts.py` previews safely,but its
+`--apply` includes retained proof objects under .analysis/. Do not apply that
+whole selection blindly. Review paths and retain current or unreproduced
+proofs. JSON/log/configuration research occupies most remaining analysis space;
+its size does not make it disposable. Use
+[cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for deletion inventories and
+historical checks. Earlier CI and cleanup counts are dated observations,not
+validation of this checkout.
 
 ```bash
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/validate-docs.py
 python3 -B scripts/progress.py --check
+python3 -B .analysis/gpt-61sol-20261031-lzss-encode-context/current.py
 git diff --check
 ```
 
-Use full public CI for shared validation/tooling changes;documentation alone
-needs no compiler or Ghidra replay. English local commits use `gpt-6.1-sol:` and
-the identity/trailer in AGENTS.md. A local checkpoint does not prove remote
-publication. The October30 cleanup counts above and d332bec4 maintenance stop are
-historical;the operator has explicitly continued reconstruction.
+The retained subset command reads existing proof objects;it does not cold-build
+them. Documentation changes need no compiler or Ghidra replay. Use full public
+CI for shared validation/tooling changes. English local commits use
+`gpt-6.1-sol:` and the identity/trailer in AGENTS.md. A local checkpoint alone
+does not establish remote publication.

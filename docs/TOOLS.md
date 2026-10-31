@@ -2,7 +2,7 @@
 
 Analysis uses **direct local Ghidra**, repository Bash and the pinned VC7.1
 compiler. The operator requires no IDA, REA or Factory MCP. The active goal was
-cleared on October30;current work is maintenance. See
+cleared again on October31;current work is maintenance. See
 [RE_HANDOFF.md](RE_HANDOFF.md) for current status and later restart scope.
 
 | Need | Command | Claim established |
@@ -31,7 +31,7 @@ names, types and boundaries remain provisional and do not establish exactness
 or unique source ownership. Keep reviewed physical tails/tables for comparison.
 
 The unused IDA/MCP clients,inventory initializer and Python MCP bootstrap were
-removed during maintenance. Historical code is recoverable from Git at71246812;
+removed during maintenance. Historical code is recoverable from Git history;
 historical receipts remain records,not current commands. The Ghidra runner has
 no dependency on those clients or their MCP Python package. Preserve the working
 Ghidra project and operator-managed analysis databases during cache cleanup.

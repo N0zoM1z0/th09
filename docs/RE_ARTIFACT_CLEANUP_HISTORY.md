@@ -3110,3 +3110,37 @@ Both full-codec SaveReplay controls remain1238/53/three with all14 Replay bodies
 unchanged. Post-cleanup saved-record/current353 checks pass without cold jobs;
 build/ is absent. Receipt:
 `.analysis/gpt-61sol-20261031-lzss-encode-context/cleanup.json`.
+
+
+## 2026-10-31: goal cleared, status correction and completed partition cleanup
+
+The operator cleared reconstruction and requested code/documentation and storage
+housekeeping. Current game source remains a3e4aaee;71246812 and d332bec4 are
+historical. Corrected entry documents consistently require an explicit restart.
+The active handoff is shortened around current353,live ledgers,remaining owners,
+proof reuse and restart gates. Detailed prior findings remain in the KB and
+immutable a3e4aaee handoff;no documentation archive is added.
+
+Six completed ECL source-partition jobs are recovered without further compiler
+or Ghidra work. All leave RunEcl30;the Enemy-emitting context leaves13. Three
+contexts reject present existing exact owners;absent units are explicitly not
+passes. All79 immutable Git/EOL inputs,staged hashes,object hashes,regular raw
+bodies/fields and compiler contributions agree with the stored records. No
+private split,source type,profile or new exactness credit is adopted.
+
+Cleanup removes18 ignored files/2336422 logical bytes:twelve partition OBJ/PDB
+files and six Python bytecode caches. All34945 deletion-time protected file hashes
+agree. Preserve all research records and mixed archives,current source,original
+target/toolchains,working Ghidra and all93 other OBJ files. Those include84
+current353 proof objects and nine historical/diagnostic objects. Build/ is
+absent. No disposable source backup is found in src/,scripts/ or tests/;no old
+source copy or new archive is introduced. Most remaining .analysis/ space is
+JSON/configuration/log evidence;the generic cleaner's full apply selection
+would destroy retained proof objects and is not applied.
+
+Post-cleanup current353 passes without cold builds:strict nine codec units/
+1888 bytes/66 fields plus344 unchanged source/profile/object pins,107613 summed
+physical bytes/5197 fields. Documentation/tracking/progress and whitespace checks
+apply;there is no new full CI or reconstruction claim. Audit,per-file deletion
+list and retained-file hashes are below `.analysis/maintenance-20261031/`:
+`partition-audit.json`,`cleanup.json` and `protected-sha256.json`.
