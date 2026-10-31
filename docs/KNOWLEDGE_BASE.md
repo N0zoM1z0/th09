@@ -27649,3 +27649,90 @@ full actual raw/COFF/contribution/context-failure records and immutable recipes.
 Post-cleanup seven-input saved-record audit and current344 checks pass without
 cold jobs. No source archive is added;build/ is absent. Packet and receipt:
 `.analysis/gpt-61sol-20261031-ecl-native-angle-callee/` and cleanup.json.
+
+
+## 2026-10-31: native timeout expressions and complete draw-group field views
+
+Recovery at6c8ccca9 is clean. The preceding native ECL-angle interface is retained;
+all game source,profiles and manifests remain unchanged in this bounded batch.
+Original target,tracking and live status pass. Direct Ghidra reuses12.1.4 and
+attests all685056 mapped file-backed bytes before exporting Enemy410730 at
+export-20261031T020544-1204740. RunEcl target bytes and the previous attested
+export remain bound to the same original. No metadata or target bytes change.
+Historical shared-scalar,whole-wire,scope,periodic and constructor controls were
+read first;their negative results are not general impossibility proofs.
+
+Four complete source controls express timeoutSpell24 as native bitfield XOR:
+field ^= field ^ value,or field = field ^ (field ^ value),with the existing copied
+BYTE or a genuine one-byte read promoted to u32. Both algebraic forms preserve
+the previous single-bit write for every wire byte;they do not widen the wire
+read. All four produce identical complete native-field RunEcl bytes. The owner
+remains15564/598 but has2140 differences:1938 ordinary and202 field bytes,with26
+table bytes included in202. Enemy stays3900/97/13. The old uncalled source-only
+16-byte masked helper is no longer emitted;no original boundary is assigned to
+that source utility.
+
+Two further controls keep primitive scalar inputs and a primitive u32 result,
+performing the actual native field update inside a four-byte local union or
+through the existing bitfield view of the old scalar. They inline without an
+extra call and reproduce the same2140-difference whole owner. Their separately
+emitted16-byte helper bodies are identical to the original source-only masked-
+XOR helper,despite the changed inline caller. A consistent value-first signature/
+call and a u32 logical-value formal also reproduce the same caller. Their actual
+unused helper definitions and decorated names remain recorded,without inventing
+target addresses. The logical-word control still copies exactly one wire byte.
+This is a concrete compiler counterexample to predicting caller codegen from
+identical separately emitted helper bytes;it establishes no original inline API.
+
+Three shared draw-group models replace only the existing four-byte3384..3387
+view in both EnemyStateView and EnemyCoreView. Each retains raw aliases for the
+three unknown bytes and known draw byte,plus an eight-bit logical value in an
+unsigned-char,unsigned-short or unsigned-int bitfield allocation unit. Group
+sizes1/2/4 and actual complete-owner layout assertions pass. Both ECL writes
+and both Enemy draw-head reads consume the new member;these are not unused type
+declarations. No new persistent bytes,packing,qualifier or compiler profile is
+introduced. Every one of138 regular bodies and effective fields stays baseline-
+equal,including actual BYTE accesses. RunEcl stays15564/598/30 and Enemy3900/97/13.
+The original C++ allocation unit and meaning of the lower unknown bytes remain
+unknown;the raw-byte model is retained.
+
+A complete combined model uses the local native flag union and shared word
+allocation-unit draw view together. It reproduces the same2140/13 result. One
+independent immutable-Git/EOL cold replay repeats every actual body/field,
+compiler contribution,all75 exact sibling proofs and both complete diagnostics.
+Both adjacent reconstructions currently spell drawGroup as u8 and timeoutSpell
+as a u32 one-bit field. Their live header hashes/status are recorded as source
+hypotheses only;TH095 names/ownership are provisional. No adjacent layout,address,
+behavior or exactness claim is transferred to TH09.
+
+The flag-handler audit reads ordinal154 from the actual final187-entry COFF
+jump table and derives its full interval from actual owner-local destinations.
+It does not relocate a candidate label to the target. Original opcode155 is45
+bytes;all nine native-field controls produce44 bytes. Native old flags use ESI,
+but input/result use EAX/ECX instead of original ECX/EAX. AND EAX,imm32 is one
+byte shorter than the target's AND ECX,imm32;the resulting field/table drift is
+retained in the full comparison. Draw-view controls keep the baseline45-byte
+handler. The existing restricted instruction interpreter checks each actual
+compiled flag prefix against the original over256 wire bytes and12 prior words,
+3072 local transition cases per control. This supports only that isolated bit
+transition,not whole-interpreter/runtime behavior or exactness credit.
+
+Twelve primary builds plus one selected independent joint replay run serially,
+at nice10 on one allowed CPU with180-second bounds. Every build preserves75
+existing complete siblings,22463 physical bytes/990 fields per build. The current
+source/profile/object-bound Main baseline is reused without cold compilation.
+All twelve sets of79 quoted inputs reproduce from immutable6c8ccca9 Git/EOL bytes and the
+small recipes. The common38-byte/zero-field compiler contribution remains equal.
+No forced inline,register/variable-order hint,dummy consumer,assembly,padding,
+fake return,profile search or target patch is added. None of the models is adopted.
+
+After all owned producers terminate,cleanup deletes24 rejected-model compiler
+files/6420821 logical bytes:twelve objects and twelve PDBs. All1137 protected
+hashes agree at deletion time. Keep current344 carriers,the unchanged Main
+baseline,source,original target/toolchains,working Ghidra,exports and all source
+recipes/full raw/COFF/literal/proof/rejection observations. Post-cleanup saved
+input/body/transition audit and the current344 verifier pass without cold jobs.
+No source archive is created and build/ is absent. Packet and deletion receipt:
+`.analysis/gpt-61sol-20261031-ecl-native-xor-fields/` and cleanup.json.
+Reviewed-authored exactness remains1004/1035 and246651/291883 bytes(84.5034%);
+RunEcl30,Enemy13 and the98% objective remain unfinished.

@@ -3066,3 +3066,24 @@ compiler logs,immutable recipes,exports,tracked source,target/toolchains and
 working Ghidra remain. Post-cleanup saved-record/current344 checks pass without
 cold jobs. No source archive is introduced and build/ is absent. Receipt:
 `.analysis/gpt-61sol-20261031-ecl-native-angle-callee/cleanup.json`.
+
+
+## 2026-10-31: native ECL field-operation and draw-group controls
+
+Game source remains6c8ccca9. Twelve complete controls test native timeout-field
+compound/explicit XOR,primitive-input/local native flag values and three consumed
+draw-group bitfield allocation units. Nine native-field models give the same
+15564/598/2140 RunEcl;three draw views retain all138 baseline bodies and30.
+Enemy remains13 throughout. All75 exact siblings pass per model;one independent
+joint replay agrees. Source-only identical16-byte helpers can still produce
+different inlined caller bytes. No model or new exactness credit is adopted.
+
+After all thirteen serial jobs terminate,cleanup removes24 ignored compiler
+files/6420821 logical bytes:twelve rejected trial objects and twelve PDBs. All1137
+deletion-time protected hashes agree. Preserve the original source-bound Main
+baseline,current344 carriers,native service/input/playfield proofs,tracked source,
+original target/toolchains,working Ghidra,full raw/COFF/contribution/diagnostic and
+local transition records,compiler logs and immutable Git/EOL recipes. Independent
+temporary sources/OBJ/PDBs already self-clean. No source archive is introduced;
+post-cleanup saved-record and current344 checks pass without cold jobs. Receipt:
+`.analysis/gpt-61sol-20261031-ecl-native-xor-fields/cleanup.json`.

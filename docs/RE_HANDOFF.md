@@ -9,7 +9,7 @@ historical assumptions,and use direct local Ghidra without IDA,REA or Factory
 MCP. Compile only affected sources/profiles;reuse unchanged proofs.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Current game source is the native ECL-angle interface checkpoint described below;
+Current game-source checkpoint is **6c8ccca9**,the native ECL-angle interface;
 its previous game-source checkpoint is **eedcea20** (before that,a4bba8ec).
 EclOperands now calls the real opposite-angle producer through PlayerAngleView,
 removing its undefined private member declaration. All four resolvers retain
@@ -56,6 +56,23 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   include the canonical affected build and one independent positive replay.
   Cleanup removes15 files/2623324 bytes after1093 protected-hash checks. Keep
   native.obj,all prior carriers,raw/COFF records,recipes and rejection evidence.
+- `.analysis/gpt-61sol-20261031-ecl-native-xor-fields/` bounds twelve more
+  complete Main-profile controls without changing game source. Native one-bit
+  compound XOR,explicit XOR,primitive-input/local native flag values,argument
+  order and logical-word formal controls all give the same15564/598/2140 owner:
+  1938 ordinary plus202 field differences,including26 table differences. Their
+  opcode155 is44 bytes versus original45. Three complete draw-group bitfield
+  views(1/2/4-byte allocation units) retain all138 regular raw bodies and actual
+  fields;RunEcl30/Enemy13 remain. The combined field model is also negative.
+  Two native flag-value helpers retain the exact same16 emitted source-only
+  bytes as the masked-XOR helper while their inlined caller differs. Helper
+  bytes alone therefore do not determine caller codegen. Every model keeps75
+  existing exact siblings;one independent combined replay agrees. Twelve primary
+  jobs plus that selected replay are serial and bounded;no baseline cold build.
+  Actual jump-table roots bound each flag handler;decoded-prefix transition
+  checks are local semantic evidence,not runtime or exactness credit. Cleanup
+  removes24 binaries/6420821 bytes after1137 protected-hash checks. All recipes,
+  raw/COFF/proof records and current344 carriers remain;no field model is adopted.
 - `.analysis/gpt-61sol-20261031-replay-standard-algorithms/current.py` is the
   retained source-bound subset:340 existing units/100007 compared physical bytes/
   4757 fields. Two original no-EH Replay owners/1684 bytes/110 fields pass strict
