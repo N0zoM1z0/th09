@@ -2961,3 +2961,23 @@ a child interpreter. A separate reviewed cleanup removes it and the empty build
 directories;all987 deletion-time protected hashes agree. Final checks propagate
 PYTHONDONTWRITEBYTECODE=1. Combined removal is462 files/8119161 bytes. Receipt:
 `.analysis/gpt-61sol-20261031-type7-forward-angle/cleanup-final-cache.json`.
+
+
+## 2026-10-31: native Bullet RNG/Supervisor closure
+
+Source eedcea20 binds BulletManager to the maintained RNG/Supervisor declarations
+without changing any of its19 regular raw bodies. All18 existing Bullet owners
+and eight native viewport owners pass strict comparisons;297 unchanged prior
+pins remain, for323 current units. An independent immutable-Git cold Bullet
+replay and23 focused tests pass; there is no new exact credit.
+
+After all four serial compiler jobs terminate, cleanup removes four ignored
+files/407431 logical bytes:one superseded baseline object and three PDBs. All961
+deletion-time protected hashes agree. Preserve proposal.obj, viewport.obj,
+current297 carriers, actual RNG, service/input131/playfield116, tracked source,
+target/toolchains, working Ghidra and all research records. Full raw/COFF and
+contribution data, the old diagnostic failure, compiler logs and immutable input
+recipes remain. Temporary source/OBJ/PDB trees already self-clean. No old source
+tree or archive is added; build/ is absent. Post-cleanup body/input/current323
+and complete Etama diagnostic checks pass without cold jobs. Receipt:
+`.analysis/gpt-61sol-20261031-bullet-native-rng-supervisor/cleanup.json`.

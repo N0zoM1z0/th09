@@ -27244,3 +27244,90 @@ a child interpreter. A separate reviewed cleanup removes it and the empty build
 directories;all987 deletion-time protected hashes agree. Final checks propagate
 PYTHONDONTWRITEBYTECODE=1. Combined removal is462 files/8119161 bytes. Receipt:
 `.analysis/gpt-61sol-20261031-type7-forward-angle/cleanup-final-cache.json`.
+
+
+## 2026-10-31: real Bullet RNG and Supervisor interfaces, complete owner closure
+
+Source checkpoint **eedcea204af5cc97bcc3820a28ac0e10666f3033** replaces two
+undefined Bullet-local interface classes with the maintained RngRuntimeView and
+Supervisor declarations. The original SpawnSingleBullet calls404910 four times
+with the RNG object and float maximum; the actual exact callee multiplies its
+GetRandomF32 result by that maximum. Original Etama OnUpdate calls401440 with its
+side index; the actual exact Supervisor::SelectSide sets Supervisor+348 to
+this+78+index*F0. The shared Supervisor declaration exposes the already observed
+framerate multiplier at+5B8. These are TH09 target/callee facts, not proof of
+original C++ names or translation-unit ownership.
+
+Direct local Ghidra reuses the existing verified project and exports4146F0,
+404910 and401440, checking all685056 file-backed mapped bytes, i386/base/entry
+and both disk/Program identities. Export:
+`.analysis/ghidra-direct/export-20261031T002552-981396/`. Complete target/VC7.1
+comparisons independently establish exactness; Ghidra alone does not.
+
+The source includes the two real headers, removes BulletRngView and
+BulletSupervisorView, and reads Supervisor::framerateMultiplier5B8. The four
+RNG method references, four RNG global references, one SelectSide reference and
+twelve Supervisor global references now name real maintained definitions or
+object declarations. All21 fields keep offsets, kinds, addends and original
+addresses. Sixteen private switch-label spellings refresh only after matching
+the actual same-owner section-relative coordinates. No bytes, layout, compiler
+profile, extent, boundary, authored denominator or game behavior is adjusted.
+
+A fresh old Bullet baseline and candidate both reproduce all18 existing canonical
+owners/6711 physical bytes/259 fields. All19 paired emitted regular bodies retain
+raw bytes and effective fields apart from the reviewed native names and private
+spellings. The complete compiler contribution is unchanged too. In particular,
+SpawnSingleBullet retains1893 logical/1932 physical bytes and47 fields, including
+the three-byte LEA NOP and nine-entry switch table. Etama OnUpdate retains2195
+logical/2216 physical bytes,88 fields, the body/alignment/table boundary and all62
+ordered direct calls. Its raw SHA256 remains
+77548a5e8ca584300226c4f44991e95c299130349a68b520c31a9a2d3651d339.
+All18 are existing exact owners; there is no new exactness credit.
+
+A fresh native SupervisorViewport object strictly verifies all eight configured
+owners/1530 bytes/106 fields, including the actual26-byte SelectSide. The eight
+actual RNG units reuse unchanged source/profile/object pins and are rechecked
+against the original. One independent Bullet rebuild from immutable99f67803
+Git/EOL inputs plus the recorded source transform repeats all complete outputs.
+There are four serial lowered-priority compiler jobs in total: old Bullet,
+viewport, candidate Bullet and independent Bullet. Their temporary source/OBJ/
+PDB trees self-clean. The candidate consumed input hashes equal maintained
+source; no extra maintained-path compile or whole historical cohort is needed.
+
+The retained Etama diagnostic had become unusable: an actual run on the fresh,
+existing exact baseline rejects the current AnmManager symbol because it still
+expected the retired BulletAnmManagerView names. Preserve that failure record.
+The tool now names the real ANM method/global and real Supervisor method/global,
+without changing destinations or comparison scope. One new target-independent
+test checks every external binding against the complete canonical manifest;
+the pre-existing coordinate guards remain. Six diagnostic, two canonical-call
+and fifteen Bullet ABI tests pass (23 total). The repaired real-object diagnostic
+reports zero complete differences and all553 decoded instructions/62 calls.
+Shared comparator/CI implementation stays unchanged; this bounded diagnostic
+change does not repeat the previous full public CI or any full cold cohort.
+
+Current routing is `.analysis/gpt-61sol-20261031-bullet-native-rng-supervisor/current.py`.
+It strictly verifies26 Bullet/native viewport owners/8241 physical bytes/365
+fields, reuses all297 unchanged prior pins and rechecks the actual eight RNG
+callees. Combined coverage is323 existing units/95793 physical bytes/4547 fields.
+The previous Type7-forward-angle297 verifier remains a valid unchanged subset;
+its source inputs and objects are not superseded here. The manifest audit allows
+only the37 recorded name changes. Separate network-service/input131/playfield116
+pins remain unchanged. This is partial dependency closure, not a complete
+Windows product or runtime acceptance claim. Other Bullet-local helper views
+remain separate reconstruction questions.
+
+After every owned producer terminates, cleanup removes four ignored compiler
+files/407431 logical bytes: the old Bullet baseline object and three PDBs.
+Preserve proposal.obj, viewport.obj, every current297 carrier, service/input/
+playfield objects, target/toolchains, tracked source, working Ghidra, failure
+records, full raw/COFF/contribution observations and immutable recipes. All961
+deletion-time protected hashes agree. Post-cleanup immutable/body/current323 and
+complete Etama diagnostic checks pass without new cold jobs. No old source tree
+or archive is added; build/ is absent. Full records and receipt:
+`.analysis/gpt-61sol-20261031-bullet-native-rng-supervisor/`.
+
+Global exactness remains1004/1035 reviewed authored functions and
+246651/291883 bytes (84.5034%). RunEcl30 and Enemy13 remain the priority unresolved
+large owners for the98% objective; this interface repair does not reduce those
+differences. Product/runtime/dual-Oracle semantics/port gates remain unfinished.
