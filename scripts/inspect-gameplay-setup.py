@@ -34,9 +34,9 @@ DESTINATIONS = {
     '?FormatCurrentDateString@@YIXPAD@Z': 0x41A796,
     '?Initialize@GameConfiguration@@QAEXXZ': 0x41A8A2,
     '?InitializeGameSubsystems@@YIXXZ': 0x41CDE0,
-    '?RegisterSubsystem0@@YIPAXH@Z': 0x403AE0,
-    '?RegisterSubsystem5@@YIPAXH@Z': 0x404600,
-    '?RegisterSubsystem6@@YIPAXH@Z': 0x41A5D0,
+    '?Create@Background@@SIPAU1@H@Z': 0x403AE0,
+    '?Create@CardAttack@@SIPAU1@H@Z': 0x404600,
+    '?Create@FrontSide@@SIPAU1@H@Z': 0x41A5D0,
     '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z': 0x41F170,
     '?Register@EtamaController@@SIPAU1@H@Z': 0x4150D0,
     '?Create@EffectManager@@SIPAU1@HHH@Z': 0x40D320,
@@ -65,16 +65,19 @@ DESTINATIONS = {
 
 
 NATIVE_CREATORS = (
+    ('background-create', '?Create@Background@@SIPAU1@H@Z', 0x403AE0, 307, 1),
     ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z', 0x41F170, 328, 1),
     ('etama-controller-register', '?Register@EtamaController@@SIPAU1@H@Z', 0x4150D0, 283, 1),
     ('effect-manager-create', '?Create@EffectManager@@SIPAU1@HHH@Z', 0x40D320, 327, 2),
     ('enemy-manager-create', '?Create@EnemyManagerView@@SIPAU1@H@Z', 0x412240, 328, 1),
+    ('card-attack-create', '?Create@CardAttack@@SIPAU1@H@Z', 0x404600, 264, 1),
+    ('front-side-create', '?Create@FrontSide@@SIPAU1@H@Z', 0x41A5D0, 283, 1),
     ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 264, 1),
 )
 
 
 def require_native_creators(rows, original_fields, units):
-    """Six actual caller references must use independently canonical interfaces."""
+    """Nine actual caller references must use independently canonical interfaces."""
     result = []
     for name, symbol, address, size, count in NATIVE_CREATORS:
         unit = units.get(name)

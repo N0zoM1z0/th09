@@ -7,22 +7,28 @@ checkpoint559ccf7c. Continue the unfinished98% reviewed-authored-byte milestone,
 prioritizing complete RunEcl and Enemy update while keeping small leaves in
 scope. Earlier maintenance and stop instructions are historical checkpoints.
 
-Current game-source change: RunEcl's clear operation calls the implemented
-EnemyManagerCoreView::KillAllNonBossEnemies on the shared observed manager.
-The empty ManagerClearView receiver and duplicate clear-only manager layout are
-removed. The native392-byte/six-field method remains original-equal. Complete
-before/after-main clear-body visibility controls do not improve RunEcl30/Enemy13;
-no original TU or nominal-class ownership is inferred.
+Current game-source change:rendering and lifecycle consumers share one AnmVmBase/
+AnmVm definition in AnmVmLifecycle.hpp;AsciiManager imports it. Native62/45-byte
+constructors and0x228/0x2A4 extents remain. GameplaySetupThread now includes the
+real Background,CardAttack and FrontSide headers and calls their implemented
+Create methods. All eight creator contracts/nine physical references are bound.
+The former header/type conflict and three undefined factory aliases are removed;
+original nominal class/TU ownership and full product closure remain open.
 
-Strict affected replay preserves83 existing units/25942 bytes/1146 fields across
-five source/profile carriers. All280 regular body/profile payloads retain97655
-bytes/4352 effective fields after proving the implemented method rename and two
-actual caller reference migrations. Twenty canonical compiler-
-private label names change at proven identical destinations. Two compiler
-contributions retain76 bytes/zero fields.276 unchanged source/profile/object pins
-produce359 combined units/109976 bytes/5388 fields,including excluded units;no
-new authored credit is added. Current proof:
-`.analysis/gpt-61sol-20261031-ecl-native-clear-context/`.
+Strict affected replay preserves562 existing units/179117 bytes/9302 fields in
+183 canonical carriers plus six affected diagnostic carriers. All530 retained
+regular body/profile payloads remain198603 bytes/9636 effective fields,after six
+actual factory-reference name migrations across two Setup profiles.519 canonical
+private labels retain proven destinations;12 compiler contributions retain348
+bytes/18 fields.117 unchanged pins give679 combined units/202200 summed physical
+bytes/10472 fields,including excluded units;no new authored credit is added.
+RunEcl30,Enemy13 and Setup1689/171/35/77/904 remain. Current proof:
+`.analysis/gpt-61sol-20261031-setup-shared-vm/`.
+
+Preceding game-source checkpoint **e07e24a5** connects RunEcl's clear operation
+to the implemented392-byte/six-field shared-manager method. Its full before/
+after-main clear visibility controls remain30/13. **4de82bfe** is a subsequent
+research-only Charge checkpoint. Their source-scoped histories remain in the KB.
 
 Preceding game-source checkpoint **3719c0ed** shares observed Enemy,manager,
 side-state and trail storage between ECL state handlers and Enemy update,which
@@ -63,8 +69,8 @@ Latest bounded Front result: complete selected-index/publication and whole-scan
 controls retain or regress the693-byte weighted picker;none is adopted. Current
 Front source remains unchanged. The standalone baseline in
 `.analysis/gpt-61sol-20261031-front-selected-publication/` is693/15/6 with351
-linked differences and41 versus40 blocks. The current native-clear packet
-verifies its unchanged source/profile/object pins alongside359 code units;
+linked differences and41 versus40 blocks. The current shared-VM packet pins a
+fresh affected Front carrier with identical code alongside679 code units;
 its older whole current.py is source-scoped. See the latest KB note for measured
 boundaries;this does not change exactness credit.
 
@@ -103,16 +109,16 @@ object path. Proof reuse requires matching source,profile and object hashes.
 - Canonical inventory: `config/functions.csv`,`config/function-origins.csv`,
   `config/matches.csv` and `config/match-units.toml`.
 - Current retained subset:
-  `.analysis/gpt-61sol-20261031-ecl-native-clear-context/current.py` checks359 units/
-  109976 summed physical bytes/5388 fields. It strictly compares83 affected
-  units/25942 bytes/1146 fields and reuses276 unchanged source/profile/object pins.
-  These359 include excluded units;they are not the1004 authored exact ledger
-  entries. Its current.json identifies88 retained proof objects including
-  auxiliary owners,and also pins the unchanged standalone Front diagnostic.
+  `.analysis/gpt-61sol-20261031-setup-shared-vm/current.py` checks679 units/
+  202200 summed physical bytes/10472 fields. It strictly compares562 affected
+  units/179117 bytes/9302 fields and reuses117 unchanged source/profile/object pins.
+  These679 include excluded units;they are not the1004 authored exact ledger
+  entries. Its current.json identifies231 distinct primary proof/diagnostic
+  objects,including the newly compiled affected diagnostic carriers.
   Nine additional historical/diagnostic objects remain.
-- The preceding shared-storage,startup and parameter-field whole verifiers are
-  source-stale after the native-clear change. Their unaffected individual groups supply
-  the276 reused pins. Older357/353/344/323/297/251 bundles are source-scoped
+- The preceding native-clear,shared-storage,startup and parameter-field whole
+  verifiers are source-stale after the common VM header change. Their unaffected
+  individual groups supply117 reused pins. Older359/357/353/344/323/297/251 bundles are source-scoped
   historical verifiers.
   Their unchanged individual groups may feed current pins,but a historical
   whole verifier is not automatically current. Missing discarded trial objects
@@ -132,9 +138,9 @@ object path. Proof reuse requires matching source,profile and object hashes.
   at+30364..3036F from the homing pointer at+3037C;Stage D resets only the
   position. The intervening twelve bytes have a separate reset and an unknown
   role. Consult the source and KB for the bounded layouts and exact ABIs.
-- The standalone Front weighted baseline is additional to the88 canonical proof
-  objects;the current359-unit receipt also records its unchanged source/object pins.
-- Native source-bound diagnostics outside the current359 remain useful:
+- The current679-unit receipt includes a fresh affected Front weighted carrier;
+  the former standalone object's source-scoped observations remain historical.
+- Historical diagnostics outside the current679 remain source-commit scoped:
   network input131/1 in `network-input-contract/native-int.obj`,playfield116/6
   in `enemy-playfield-context/native-playfield.obj`,and Supervisor's952-byte
   baseline in `supervisor-state-branches/baseline.obj`. Packet names here use
@@ -287,6 +293,14 @@ behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 ## Maintenance and validation
 
 Latest cleanup receipt:
+`.analysis/gpt-61sol-20261031-setup-shared-vm/cleanup.json`.
+314 files/18379487 logical bytes are removed:47 replaced objects,four trial
+objects,194 PDBs and69 Python caches. All1525 deletion-time protected hashes
+agree;231 primary objects,other retained objects,source/research,target/toolchains
+and working Ghidra remain. Two independent cold replays self-clean. Final full
+public CI runs1066 tests,1037 passes/29 optional skips. Build/ is absent.
+
+Preceding Charge-branch cleanup receipt:
 `.analysis/gpt-61sol-20261031-charge-whole-branches/cleanup.json`.
 Eleven completed compiler files/722386 logical bytes are removed:five branch-
 model objects and six PDBs,including the failed source renderer's PDB. One
@@ -380,7 +394,7 @@ validation of this checkout.
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/validate-docs.py
 python3 -B scripts/progress.py --check
-python3 -B .analysis/gpt-61sol-20261031-ecl-native-clear-context/current.py
+python3 -B .analysis/gpt-61sol-20261031-setup-shared-vm/current.py
 git diff --check
 ```
 

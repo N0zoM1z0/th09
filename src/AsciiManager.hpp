@@ -9,50 +9,7 @@ class AnmLoadedSprite;
 
 #include "Float3.hpp"
 
-struct AnmVm
-{
-    unsigned char unknown_0000[0x18];
-    Float2 scale;
-    unsigned char unknown_0020[8];
-    Float2 spriteSize;
-    Float2 uvScrollPos;
-    unsigned char unknown_0038[0x1F0 - 0x38];
-    unsigned long color1;
-    unsigned long color2;
-    union {
-        unsigned int flagsWord;
-        struct {
-            unsigned int visible : 1;
-            unsigned int drawEnabled : 1;
-            unsigned int unknownFlags2_3 : 2;
-            unsigned int blendMode : 2;
-            unsigned int unknownFlags6_10 : 5;
-            unsigned int anchor : 2;
-            unsigned int disableZWrite : 1;
-            unsigned int unknownFlags14 : 18;
-        };
-    };
-    unsigned char unknown_01FC[2];
-    short pendingInterrupt;
-    unsigned char unknown_0200[4];
-    AnmLoaded *anmFile;
-    Float3 pos;
-    short activeSpriteIndex;
-    unsigned char unknown_0216[4];
-    short scriptIndex;
-    unsigned char unknown_021C[4];
-    void *currentInstruction;
-    AnmLoadedSprite *loadedSprite;
-    unsigned char unknown_0228[0x60];
-    Float3 pos2;
-    unsigned char unknown_0294[0x10];
-
-    void Initialize();
-    void SetInterrupt(short interrupt);
-    int IsVisible();
-    void SetInvisible();
-    void SetZRotation(float angle);
-};
+#include "AnmVmLifecycle.hpp"
 
 typedef char AnmVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
 typedef char AnmVmSpriteSizeAt28[(offsetof(AnmVm, spriteSize) == 0x28) ? 1 : -1];

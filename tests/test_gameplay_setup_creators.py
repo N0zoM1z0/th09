@@ -25,11 +25,11 @@ def fixture():
 
 
 class GameplaySetupCreatorContracts(unittest.TestCase):
-    def test_six_calls_use_five_distinct_complete_native_contracts(self):
+    def test_nine_calls_use_eight_distinct_complete_native_contracts(self):
         rows, original, units = fixture()
         result = audit.require_native_creators(rows, original, units)
-        self.assertEqual(len(result), 5)
-        self.assertEqual(sum(row['count'] for row in result), 6)
+        self.assertEqual(len(result), 8)
+        self.assertEqual(sum(row['count'] for row in result), 9)
 
     def test_original_call_census_is_independent_of_source_counts(self):
         rows, original, units = fixture()
@@ -50,7 +50,8 @@ class GameplaySetupCreatorContracts(unittest.TestCase):
         for changed in (rows[:-1], rows+rows[:1]):
             with self.assertRaises(ValueError):
                 audit.require_native_creators(changed, original, units)
-        for alias in ('?RegisterSubsystem1@@YIPAXHHH@Z', '?RegisterSubsystem2@@YIPAXH@Z',
+        for alias in ('?RegisterSubsystem0@@YIPAXH@Z', '?RegisterSubsystem5@@YIPAXH@Z',
+                      '?RegisterSubsystem6@@YIPAXH@Z', '?RegisterSubsystem1@@YIPAXHHH@Z', '?RegisterSubsystem2@@YIPAXH@Z',
                       '?RegisterSubsystem3@@YIPAXHHH@Z', '?RegisterSubsystem4@@YIPAXH@Z',
                       '?RegisterSharedSubsystem@@YIPAXHHH@Z', '?RegisterSecondarySubsystem@@YIPAXXZ'):
             self.assertNotIn(alias, audit.DESTINATIONS)

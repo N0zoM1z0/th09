@@ -113,10 +113,13 @@ class GameManagerColdRegression(unittest.TestCase):
             'native_creator_calls': [
                 dict(unit=unit, symbol=symbol, target=target, count=count)
                 for unit, symbol, target, count in (
+                    ('background-create', '?Create@Background@@SIPAU1@H@Z', 0x403AE0, 1),
                     ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z', 0x41F170, 1),
                     ('etama-controller-register', '?Register@EtamaController@@SIPAU1@H@Z', 0x4150D0, 1),
                     ('effect-manager-create', '?Create@EffectManager@@SIPAU1@HHH@Z', 0x40D320, 2),
                     ('enemy-manager-create', '?Create@EnemyManagerView@@SIPAU1@H@Z', 0x412240, 1),
+                    ('card-attack-create', '?Create@CardAttack@@SIPAU1@H@Z', 0x404600, 1),
+                    ('front-side-create', '?Create@FrontSide@@SIPAU1@H@Z', 0x41A5D0, 1),
                     ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 1))],
             'original_blocks': 78, 'candidate_blocks': 77,
             'direct_graphs_agree': False,

@@ -3264,3 +3264,25 @@ clean;no source archive is added and build/ is absent. Post-cleanup immutable-
 input/baseline audit passes without compiler jobs. Current359 source/profile/
 object pins are unchanged and reused. Receipt:
 .analysis/gpt-61sol-20261031-charge-whole-branches/cleanup.json.
+
+## 2026-10-31: common lifecycle/render VM and eight gameplay creator contracts
+
+The common observed VM definition removes the native-header conflict and lets
+Setup use Background,CardAttack and FrontSide's actual Create methods. All562
+affected existing units pass,all530 retained body/profile payloads stay equal,
+and RunEcl30/Enemy13/Setup904 remain. Five initial compiler attempts include one
+recorded staging C2011 failure;189 actual affected carriers and two independent
+replays finish. Final full CI1066 runs1037 passes/29 optional skips.
+
+Cleanup removes314 files/18379487 logical bytes:47 replaced old carriers,four
+completed trial objects,194 PDBs and69 Python caches. The245 compiler files
+account for17180018 bytes;cache files account for1199469. All1525 deletion-time
+protected hashes agree,including231 primary proof/diagnostic objects,all other
+retained objects,current source/research,original target/toolchains and working
+Ghidra. Keep both new attested exports,299 immutable Git/EOL inputs,all recipes,
+full raw/COFF/native/compiler reports,logs and the initial staging/fixture error
+records. Independent temporary outputs already self-clean;no source archive is
+added and build/ is absent. Post-cleanup current679 strictly compares562 affected
+units/179117 bytes/9302 fields and reuses117 unchanged pins;the immutable-input
+audit also passes without compiler jobs. Receipt:
+.analysis/gpt-61sol-20261031-setup-shared-vm/cleanup.json.

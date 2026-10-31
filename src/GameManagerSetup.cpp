@@ -1,4 +1,7 @@
 #include "EffectManager.hpp"
+#include "Background.hpp"
+#include "CardAttack.hpp"
+#include "FrontSide.hpp"
 #include "TitleScoreRecordView.hpp"
 #include "FrontMessageOwnerView.hpp"
 #include "EnemyManager.hpp"
@@ -175,9 +178,6 @@ extern void __fastcall DispatchReplayStage(ReplayStageDispatchView *manager, int
 extern void __fastcall FinishLoading(Supervisor *supervisor);
 extern void *__fastcall CreateGameSubsystem();
 extern int __fastcall PreloadPlayerAnmResources();
-extern void *__fastcall RegisterSubsystem0(int side);
-extern void *__fastcall RegisterSubsystem5(int side);
-extern void *__fastcall RegisterSubsystem6(int side);
 extern void __fastcall SupervisorCalculateFps(int shouldDraw);
 extern void __fastcall GameplaySetupThread(void *unused);
 int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
@@ -890,7 +890,7 @@ mode_ready:
             g_GameConfiguration->sideFocusMode[sideIndex] = 0;
         side->flags &= ~1u;
 
-        side->subsystem0 = RegisterSubsystem0(sideIndex);
+        side->subsystem0 = Background::Create(sideIndex);
         if (side->subsystem0 == NULL)
             goto setup_failed;
         side->subsystem1 = PlayerRegisterChain(0, sideIndex, side->selector);
@@ -905,10 +905,10 @@ mode_ready:
         side->subsystem4 = EnemyManagerView::Create(sideIndex);
         if (side->subsystem4 == NULL)
             goto setup_failed;
-        side->subsystem5 = RegisterSubsystem5(sideIndex);
+        side->subsystem5 = CardAttack::Create(sideIndex);
         if (side->subsystem5 == NULL)
             goto setup_failed;
-        side->subsystem6 = RegisterSubsystem6(sideIndex);
+        side->subsystem6 = FrontSide::Create(sideIndex);
         if (side->subsystem6 == NULL)
             goto setup_failed;
     }

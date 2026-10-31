@@ -28585,3 +28585,92 @@ remain equal. Post-cleanup saved-input/baseline audits pass without compiling;
 no source archive is added and build/ is absent. Game source remainse07e24a5,
 RunEcl30/Enemy13 remain open,and authored exactness stays1004/1035,
 246651/291883 bytes(84.5034%). The98% goal remains unfinished.
+
+## 2026-10-31: one VM layout unblocks the remaining gameplay creators
+
+Clean4de82bfe recovery verifies the original target,tracking and progress. The
+preceding turn is bounded Charge research,without game-source changes. Direct
+Ghidra exports084638-2525872 and085316-2552393 reuse the verified project and
+attest all685056 mapped file bytes before Setup,VM constructors and the three
+remaining creator exports. Ghidra names/types remain provisional. Independent
+original-bound complete comparisons govern every retained exact claim.
+
+The source audit finds two incompatible global AnmVm definitions:AsciiManager's
+render view and AnmVmLifecycle's constructed base/tail. That prevents including
+Background,CardAttack and FrontSide headers in GameManagerSetup and leaves
+three caller-only RegisterSubsystem aliases without implementations. The native
+factories already have complete source and exact contracts:Background307 bytes
+at403AE0,CardAttack264 at404600 and FrontSide283 at41A5D0. Their returned objects
+occupy the same actual side slots0/14/18 observed in Setup;no wrapper,guessed
+original helper,changed argument or broader class-ownership claim is needed.
+
+AnmVmLifecycle.hpp now supplies the one observed AnmVmBase/AnmVm definition.
+The base retains two leading timers and two seven-timer arrays at38/44/50/A4,
+with the existing render fields filling the previously opaque prefix/tail.
+Color1F0,flags1F8,position208 and loaded-sprite224 retain their offsets;the
+trailing timer starts228 and secondary position remains288. Base228/VM2A4
+sizes and all existing render offset guards remain. AsciiManager imports this
+same definition. Both complete native constructors remain62/45 bytes exact,
+including their actual constructor/helper references. Ordinary Float3 position
+members introduce no extra constructor calls in these measured native bodies.
+This is a coherent compatible source view,not proof of unique original nominal
+classes or a complete VM semantic reconstruction.
+
+GameManagerSetup now imports the three real headers and calls their existing
+Create methods. Six actual caller fields across the two maintained Setup
+profiles migrate from private aliases to implemented canonical symbols;offsets,
+kinds,addends and destinations stay fixed. Its complete worker remains1689
+bytes/171 fields/35 calls/77 blocks/904 differences versus target172 fields/
+78 blocks. All785 already matching physical positions remain. Eight native
+creator contracts cover nine physical references,including two Effect calls.
+The public inspector/guard now require all eight and reject each old alias;
+the source-stale old worker fails the current public identity check. Original
+side-cursor anchoring and limit/rate branch sharing remain unresolved.
+
+Five initial compiler executions test both VM constructor profiles,ECL and
+Setup. The first Setup stage omits newly imported headers from its frozen
+closure,falls back to original-path headers and fails C2011. Its numeric exit2,
+input set and log remain;this is a staging error,not a negative VM model.
+Adding all three native-header roots closes the stage and preserves all ten
+same-profile exact siblings. Both constructor and full ECL controls likewise
+pass. No target bytes,assembly,qualifier,register/variable-order hint,dummy
+storage,forced inline or compiler profile is introduced.
+
+The actual impact census is183 canonical carriers/562 existing units plus six
+retained diagnostic carriers. All189 affected source/profile objects are built
+serially,on one allowed CPU,nice10,with180-second bounds. Every562 complete
+unit passes179117 physical bytes/9302 fields. All47 previously retained affected
+carriers preserve530 regular body/profile payloads/198603 bytes/9636 effective
+fields,apart from the six proven factory names. Twelve complete compiler
+contributions retain348 bytes/18 fields/18 entries and their private data.
+All519 canonical private labels in23 units retain independently proven owner-
+relative destinations. Every other manifest property stays unchanged;this
+includes mixed inline/multiline relocation tables,handled by field offset.
+
+Current proof:.analysis/gpt-61sol-20261031-setup-shared-vm/current.py. Together
+with117 unchanged source/profile/object pins,the receipt covers679 units/
+202200 summed physical bytes/10472 fields,including excluded units,across231
+primary proof/diagnostic objects. These are existing units,not new authored
+exactness. The old359 whole verifiers are source-stale after the common header
+change;only unaffected individual groups feed the new receipt. RunEcl15564/598/
+30,Enemy3900/97/13 and every retained diagnostic's raw body remain unchanged.
+
+All299 Git/EOL inputs reproduce from4de82bfe. Two independent frozen-source cold
+replays repeat Setup's complete bodies/fields/full904 report and the native
+base profile,including both62/45-byte constructors and compiler contributions.
+Their temporary outputs self-clean. This totals196 compiler executions:five
+initial probes,189 affected carriers and two independent replays. Initial public
+CI reports three errors from a mock fixture still listing five creator
+contracts;updating that fixture preserves the stricter eight-contract guard.
+Final full public CI runs1066 tests:1037 pass,29 optional skips;tracking,docs,
+progress and whitespace checks pass. No unrelated1004-unit cold cohort runs.
+
+After producers terminate,cleanup removes314 files/18379487 logical bytes:
+47 replaced source-stale objects,four completed trial objects,194 PDBs and69
+Python caches. All1525 deletion-time protected hashes agree. Retain231 primary
+objects,all other unreproduced/historical objects,research,immutable inputs,
+recipes,complete raw/COFF/literal/compiler records,logs,both new attested exports,
+original target/toolchains and working Ghidra. Post-cleanup299-input audit and
+current679 pass without compiler jobs. No source archive is added;build/ is
+absent. Authored exactness remains1004/1035 and246651/291883 bytes(84.5034%).
+The98% goal and later Windows product/runtime,semantic and port gates remain open.
