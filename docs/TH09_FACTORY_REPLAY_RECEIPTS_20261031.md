@@ -1,9 +1,11 @@
 # TH09 focused Factory replay receipts — 2026-10-31
 
-Fifteen individually submitted, forced-recompile function-exact replay jobs
-completed against the clean live source binding at commit
-`9048c2c0fd2084b1dfd6345d30f6dfe150a54036`. Each job returned
-`receipt_verdict=pass` and `acceptance_decision=accepted`; its retained native
+Twenty individually submitted, forced-recompile function-exact replay jobs
+completed. The first fifteen were bound to clean commit
+`9048c2c0fd2084b1dfd6345d30f6dfe150a54036`; five additional jobs were bound
+to clean commit `3d91c2dd9b54f27d4c5cbc4f49eba6c2e9ec18a4` after documentation-only
+commits. No source files changed between these bindings. Every job returned
+`receipt_verdict=pass` and `acceptance_decision=accepted`; every retained native
 report returned `result=exact`, matched the full compared size, and had an
 empty `first_differences` list.
 
@@ -27,7 +29,13 @@ These are targeted function replays, not a whole-project cold replay.
 | `EnemyManagerView::ResetForGameplayCleanup` | `0x00411FD0` | 177 | `27578cc36f52fbb37a0946e2da878669f0dbf1121d4a26903be3d2ece39aae20` |
 | `EnemyManagerView::EnemyManagerView` | `0x004121D0` | 101 | `1fdef9aebbf265619b655e8191aaad70da77f8fc1e45c6fe110b3cba69efb1c6` |
 
-**Total: 1,625 bytes across 15 exact function reports.**
+| `EnemyEclManagerView::Load` | `0x00405660` | 154 | `e540ef77539e2350266440f9eb2d3cf31b4c61d5e9f7eba35bffe2cad7c9dfad` |
+| `EnemyManagerView::OnDrawHighPrio` | `0x00411D50` | 35 | `77ca5d767a294e0048c787790e2eb8bcd39d8a9aad8d4a81d5b257cb25a71b` |
+| `EnemyManagerReleaseCore` | `0x00411F30` | 68 | `64a6726daf7458db275322a5ca34b69710a042232e7f482d9c9dad9602541bab` |
+| `ReleaseSubsystem4` | `0x00411F80` | 74 | `87a6db2576edd83a127e77897217e12a2b78a603221324c2c05488b20a451c97` |
+| `Th09EclRunMovement::SetPrimaryAnmScripts` | `0x00406740` | 80 | `e5cc112485003e90338aeebc3fa772e85f04f3591b0803d5680645d0b893cdd7` |
+
+**Total: 2,036 bytes across 20 exact function reports.**
 
 ## Scope and limitations
 
