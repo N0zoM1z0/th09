@@ -28001,3 +28001,80 @@ Cleanup removes102 files/5087131 logical bytes:50 superseded source-stale object
 protected hashes remain equal;the receipt records individual paths and hashes.
 No source archive is created. The98% goal and later Windows product/runtime,
 semantic and portability phases remain unfinished.
+
+## 2026-10-31: native interpolation table source and typed RunEcl callback slots
+
+Recovery at c0e8a0b9 is clean. The preceding shared-SHT turn is progress through
+an adopted target-backed layout and complete affected-owner preservation. The
+original Japanese1.50a identity,tracking and status pass. Fresh direct Ghidra
+exports RunEcl4086C0 and Effect29-448750 after reusing the working project and
+attesting all685056 mapped file-backed bytes. Successful exports are
+export-20261031T060514-1906946 and export-20261031T060639-1911256. Historical
+residual/source-context results are inspected without rerunning those matrices.
+No target bytes or database metadata change.
+
+The native interpolation path exposes a concrete missing source definition:
+g_EclInterpolationCallbacks had only an extern declaration. Its actual consumer,
+InstallInterpolationSlot407600, loads from4A0AF4 and publishes to slot+0. The
+verified original32-byte prefix contains seven407450 Linear pointers followed
+by one4074A0 Hermite pointer. The following DWORD begins the separately reviewed
+ex-instruction table at4A0B14,pointing to40C3C0. This bounds the reviewed prefix;
+it does not identify the original declared array length or unique source TU.
+
+EclHelpers.cpp now defines those eight entries using its actual maintained native
+functions. EclInterpolationCallbacks.hpp shares their void fastcall signature:
+Enemy in ECX,slot in EDX,one float stack argument. The ECL slot stores that
+function pointer directly, and RunEcl no longer needs a void*-to-function-pointer
+cast. The existing slot0x30/context0x22C layouts remain;no branch,timer behavior,
+call transport,profile,padding or register hint is added. The original numerical
+table symbol and both helper identities stay fixed.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ECL-INTERPOLATION-TABLE-001 | original-bound data/source | Eight reviewed slots reproduce32 bytes and eight actual zero-addend DIR32 fields:seven Linear and one Hermite. Original prefix SHA256 e7dc5fcf71f55100a679788e8e51ad25317c1b53e8bc34fcd950eca63fb85b2b. | EclHelpers.cpp; inspect-ecl-interpolation-table.py; table.json |
+| ECL-INTERPOLATION-TABLE-002 | native definition proof | All slots reference real same-object definitions. Linear74 bytes/3 fields and Hermite188 bytes/9 fields remain complete original-equal,including literal payloads. | table inspector native_bodies; current.json |
+| ECL-INTERPOLATION-TABLE-003 | complete affected replay | Six configured source/profile carriers preserve87 existing exact units/31660 physical bytes/1520 fields.270 unchanged source/profile/object pins produce357 combined units/108340 bytes/5217 fields. | current.py; current.json |
+| ECL-INTERPOLATION-TABLE-004 | complete nonexact preservation | Main/Ob0/operand profiles preserve280 complete regular bodies/102646 bytes/4706 effective fields. Complete RunEcl15564/598/30 and Enemy3900/97/13 remain unchanged. | plan.json; current-*.json; current.json |
+
+A fresh dependency census limits cold compilation to EclManager main/Ob0,
+EclHelpers,EclOperands,EclInitializeSubroutine and EnemyManagerClear: six jobs,
+serially on one CPU,nice10,with180-second bounds. Four existing exact functions
+newly retained in the combined subset are not newly reconstructed credit. The
+83 pre-edit quoted inputs reproduce from immutable c0e8a0b9 Git/EOL bytes;the
+four-file transform reproduces the adopted source,including the new header.
+A renderer initially also matches a namespace name inside a closing comment;
+its precompile guard rejects before staging or compiling. The corrected anchor
+selects only the actual namespace declaration. No failed setup is scored.
+
+The new dedicated inspector checks actual writable COFF data,all eight slots,
+known native function identities,their positive same-object definitions,and both
+complete code/relocation/literal payloads. An initial storage-class assumption
+is rejected against actual COFF: VC7.1 marks these anonymous-namespace functions
+with storage2,not3. The corrected rule requires that observed class and the full
+native signature;it does not allow arbitrary same-address aliases. Five pure
+regressions reject missing/extra/shifted fields,wrong native identity or ABI,
+external/unsupported provenance,nonzero bytes/addends,and changed original order.
+An actual object mutation keeps every table field but changes one Linear code
+byte;the inspector rejects its complete native body. The original EXE is never
+modified. All112 focused ECL tests pass under Python-S. No shared comparator,
+CI implementation or acceptance rule changes;no full canonical cold replay runs.
+
+Only311 compiler-private label names migrate in the canonical manifest. Each
+actual owner-relative destination and full unit equality is checked first;
+parsed manifest dictionaries otherwise retain every offset,kind,addend,target,
+profile,extent and external identity. Source tracking refreshes the installer
+and RunEcl evidence;the original authored count and denominator do not change.
+The data prefix is separate from function exactness and adds no32-byte authored
+credit. Current reviewed-authored state remains1004/1035 and246651/291883 bytes
+(84.5034%). The98% objective and later product/runtime/semantic/port gates remain
+unfinished. This repairs one undefined global,not complete product linkage.
+
+Packet: `.analysis/gpt-61sol-20261031-ecl-interpolation-table/`. Keep its six new
+carrier objects,the81 reused proof/auxiliary objects,complete native/data reports,
+immutable recipes,research,target/toolchains and working Ghidra. Superseded
+carrier objects and generated PDBs are individually removed only after their
+replacements pass. Cleanup removes nine files/1416445 logical bytes:three source-
+stale carriers and six current PDBs. All982 deletion-time protected hashes remain
+equal. No source archive is created and build/ remains absent. Use current.py for current source bindings,
+audit.py for Git/EOL reproduction,and the public table inspector for the bounded
+source-table/native-body comparison. Older whole verifiers remain source-scoped.

@@ -122,6 +122,26 @@ void __fastcall InterpolateHermite(
 
 } // namespace
 
+namespace Th09EclRunControl
+{
+
+// Eight reviewed callable slots at 0x004A0AF4; the next DWORD begins the
+// separate ECL ex-instruction table. Original declared array extent is unknown.
+Th09EclInterpolationCallback g_EclInterpolationCallbacks[8] =
+{
+    InterpolateLinear,
+    InterpolateLinear,
+    InterpolateLinear,
+    InterpolateLinear,
+    InterpolateLinear,
+    InterpolateLinear,
+    InterpolateLinear,
+    InterpolateHermite
+};
+
+} // namespace Th09EclRunControl
+
+
 namespace Th09EclRunMovement
 {
 

@@ -14,16 +14,6 @@ static void EnemyPostEclUpdateShotAndAnm(EnemyView *enemy);
 // below describe target-observed helper roles; their independent source and
 // exact calling conventions remain separate reconstruction work.
 
-namespace Th09EclRunOwner
-{
-
-typedef void (__fastcall *InterpolationCallback)(
-    EnemyView *enemy,
-    Th09EclInterpolationSlotView *slot,
-    float progress);
-
-} // namespace Th09EclRunOwner
-
 namespace Th09EclRunControl
 {
 
@@ -450,8 +440,6 @@ comparison_succeeded:
         reinterpret_cast<unsigned char *>(instruction) + RawInt(instruction, 3));
 }
 
-extern Th09EclRunOwner::InterpolationCallback g_EclInterpolationCallbacks[];
-
 static void ApplyInterpolationOperation(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
@@ -539,7 +527,7 @@ int EclManager::RunEcl(EnemyView *enemy)
     Float3 *position;
     Float3 *positionOffset;
     EnemyEclExInstruction perFrameCallback;
-    Th09EclRunOwner::InterpolationCallback interpolationCallback;
+    Th09EclInterpolationCallback interpolationCallback;
     unsigned int executionMask;
     unsigned int affectedVariableBits;
     int childIndex;
@@ -735,9 +723,7 @@ th09_ecl_after_dispatch:
             default:
                 break;
             }
-            interpolationCallback =
-                reinterpret_cast<Th09EclRunOwner::InterpolationCallback>(
-                    slot->callback00);
+            interpolationCallback = slot->callback00;
             interpolationCallback(enemy, slot, progress);
 
             if (reinterpret_cast<ZunTimer *>(&slot->timer04)->operator>=(slot->duration10))

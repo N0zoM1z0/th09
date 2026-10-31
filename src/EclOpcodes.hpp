@@ -2,6 +2,7 @@
 
 #include <stddef.h>
 #include "ZunTimer.hpp"
+#include "EclInterpolationCallbacks.hpp"
 
 struct EnemyEclManagerView;
 
@@ -265,7 +266,7 @@ typedef char Th09EclTimerCurrentAt08[
 
 struct Th09EclInterpolationSlotView
 {
-    void *callback00;
+    Th09EclInterpolationCallback callback00;
     Th09EclTimerStorageView timer04;
     int duration10;
     int unknown14;
