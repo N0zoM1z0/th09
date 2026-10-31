@@ -36,12 +36,6 @@
 #include <string.h>
 #include <time.h>
 
-// Call-facing reset views keep lifecycle and render AnmVm layouts separate.
-// They introduce no helper bodies and do not claim native owner unification.
-struct SetupBackgroundResetView { void ClearSpellBackgroundState(); };
-struct SetupCardAttackResetView { void RefreshResource(); };
-struct SetupFrontSideResetView { void ResetTransitionState(); };
-
 void __fastcall ResetExAttackRecords(ExAttackController *controller);
 
 
@@ -661,13 +655,13 @@ void GameManagerSetupLayout::CleanupGameplayState()
     {
         SetupSideState *side = &globalManager.sides[sideIndex];
         side->flags &= ~1u;
-        static_cast<SetupBackgroundResetView *>(side->subsystem0)->ClearSpellBackgroundState();
+        static_cast<Background *>(side->subsystem0)->ClearSpellBackgroundState();
         static_cast<PlayerLifecycleView *>(side->subsystem1)->InitializeAddedState();
         static_cast<EtamaController *>(side->subsystem2)->ResetProjectiles();
         static_cast<EffectManager *>(side->subsystem3)->ResetPool();
         static_cast<EnemyManagerView *>(side->subsystem4)->ResetForGameplayCleanup();
-        static_cast<SetupCardAttackResetView *>(side->subsystem5)->RefreshResource();
-        static_cast<SetupFrontSideResetView *>(side->subsystem6)->ResetTransitionState();
+        static_cast<CardAttack *>(side->subsystem5)->RefreshResource();
+        static_cast<FrontSide *>(side->subsystem6)->ResetTransitionState();
     }
 
     static_cast<EffectManager *>(globalManager.sharedSubsystem)->ResetPool();

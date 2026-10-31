@@ -17,6 +17,7 @@ import json
 from pathlib import Path
 import struct
 import sys
+import tomllib
 
 ROOT=Path(__file__).resolve().parents[1]
 BASE,SIZE=0x0041B5C6,425
@@ -29,14 +30,37 @@ SOURCES={
  '?Reset@AsciiManager@@QAEXXZ':0x004343E0,
  '?InitializeMessageRuntime@FrontMessageOwnerView@@QAEXXZ':0x004181E0,
  '?ResetExAttackRecords@@YIXPAUExAttackController@@@Z':0x004156F0,
- '?ClearSpellBackgroundState@SetupBackgroundResetView@@QAEXXZ':0x004011C0,
+ '?ClearSpellBackgroundState@Background@@QAEXXZ':0x004011C0,
  '?InitializeAddedState@PlayerLifecycleView@@QAEXXZ':0x0041EBC0,
  '?ResetProjectiles@EtamaController@@QAEXXZ':0x00412470,
  '?ResetPool@EffectManager@@QAEXXZ':0x0040C990,
  '?ResetForGameplayCleanup@EnemyManagerView@@QAEXXZ':0x00411FD0,
- '?RefreshResource@SetupCardAttackResetView@@QAEXXZ':0x00403D80,
- '?ResetTransitionState@SetupFrontSideResetView@@QAEXXZ':0x0041A230,
+ '?RefreshResource@CardAttack@@QAEXXZ':0x00403D80,
+ '?ResetTransitionState@FrontSide@@QAEXXZ':0x0041A230,
 }
+
+NATIVE_RESETS=(
+ ('background-clear-spell-state','?ClearSpellBackgroundState@Background@@QAEXXZ',0x4011C0,11,0x37),
+ ('card-attack-refresh-resource','?RefreshResource@CardAttack@@QAEXXZ',0x403D80,12,0x5F),
+ ('front-side-reset-transition-state','?ResetTransitionState@FrontSide@@QAEXXZ',0x41A230,51,0x67),
+)
+
+
+def require_native_resets(rows, original_fields, units):
+    """Bind actual caller records and independent PE fields to complete owners."""
+    result=[]
+    for name,symbol,address,size,offset in NATIVE_RESETS:
+        unit=units.get(name,{})
+        if (unit.get('symbol'),unit.get('target_address'),unit.get('size'))!=(symbol,address,size):
+            raise ValueError('Cleanup native reset owner identity changed')
+        original=[r for r in original_fields if r[1:] == ('REL32',address)]
+        actual=[r for r in rows if r['symbol']==symbol]
+        if (original!=[(offset,'REL32',address)] or len(actual)!=1
+                or actual[0]['offset']!=offset or actual[0]['type']!='REL32'
+                or type(actual[0]['addend']) is not int or actual[0]['addend']!=0):
+            raise ValueError('Cleanup native reset call/field identity changed')
+        result.append(dict(unit=name,symbol=symbol,target=address,count=1,offset=offset))
+    return result
 
 
 def complete_decode(code: bytes):
@@ -179,6 +203,8 @@ def diagnose(path: Path):
     limit_target_trace=validate_original_limit_trace(cleanup_limit_trace(ti))
     raw,rr=coff.object_function(path,SYMBOL)
     linked,expected_fields=link_coff(raw,rr)
+    units=tomllib.loads((ROOT/'config/match-units.toml').read_text())['units']
+    native_resets=require_native_resets(rr,tf,units)
     ci=complete_decode(linked)
     cf,cc=physical_fields(ci)
     if cf!=expected_fields:
@@ -202,6 +228,7 @@ def diagnose(path: Path):
         'target_instructions':len(ti),'candidate_instructions':len(ci),
         'original_fields':len(tf),'bound_fields':len(cf),
         'ordered_calls':len(tc),'ordered_calls_agree':tc==cc,
+        'native_reset_calls':native_resets,
         'original_blocks':len(tg),'candidate_blocks':len(cg),
         'direct_graphs_agree':tg==cg,
         'aligned_field_identities':align['paired_field_identities'],

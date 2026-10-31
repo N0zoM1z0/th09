@@ -6,7 +6,9 @@ The operator explicitly resumed reconstruction on October31 after maintenance
 checkpoint559ccf7c. Prioritize complete RunEcl and EnemyManager::OnUpdate toward
 the unfinished98% reviewed-authored-byte milestone; both large owners and small
 leaves remain in scope. Current game-source work shares one lifecycle/rendering
-AnmVm layout and uses all eight implemented gameplay-setup creator contracts. See docs/RE_HANDOFF.md
+AnmVm layout and uses all eight implemented gameplay-setup creator contracts.
+Gameplay cleanup also calls the actual Background,CardAttack and FrontSide reset
+methods. See docs/RE_HANDOFF.md
 for current source/profile proofs and unresolved full-owner residuals.
 The earlier maintenance/stop instructions are historical evidence.
 Preserve documentation, research records, current game source, target/toolchains

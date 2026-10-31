@@ -61,7 +61,7 @@ and fresh codegen replays before copying a number into the live handoff.
 | --- | --- | --- | --- |
 | ECL-ALIGNMENT-SELF-MOV-001 | compiler observation / diagnostic boundary | Pinned VC7.1 read-by-value ECL controls emit14790 code bytes plus exact8B FF post-RET alignment before the two tables. Both independent extent classifiers now recognize this observed MOV EDI,EDI without excluding any owner byte from comparison. The unchanged production guard still requires14792 code bytes and zero field/table differences. | Actual full compiler raw/COFF and selected identical-raw replay; new full diagnostic yields2048 ordinary/242 field differences, including26 table bytes, and fails the production frontier. Normal decoder regression assertions reject non-self/16-bit moves and branches into padding. Maintained15564/598/30 and75 exact units remain unchanged. |
 | TITLE-SCORE-CONTEXT-001 | source-context counterevidence / nonexact | Actual score-table storage and the genuine zeroing constructor source, separately or together, preserve all1939 DrawResult caller bytes and its22 residuals. Under the unchanged Title /O1 profile that constructor emits20 bytes /one memset field, so it is not the original18-byte /zero-field native body. | Public probe-title-score-context.py checks the complete original caller, actual local definitions and separate constructor raw/COFF; independent canonical /O2 constructor replay is18/18, with its24-byte sibling exact. Class/TU/storage ownership remain unproven. |
-| SETUP-NATIVE-001 | source interface correction / nonexact frontier | GameplaySetupThread @0x0041AF2D now uses canonical Player, Etama, Effect (twice), Enemy and ExAttack creators; six real references replace six aliases. The byte Player parameter changes only candidate+0x304 from XOR ECX to XOR CL, already unlike the original; all785 equal physical bytes and904 residual offsets survive. Background/CardAttack/FrontSide complete headers collide on AnmVm and remain unresolved. | Independent original PE call census and actual COFF checks;14 affected complete canonical units /3480 bytes /four profiles replay exact; new creator/guard rejection tests; source-scoped controls and full failed-header evidence in the October22 setup packet. No additional exact credit. |
+| SETUP-NATIVE-001 | source interface correction / nonexact frontier | GameplaySetupThread uses eight implemented native creators/nine references. Shared VM headers remove the former three-header conflict. Gameplay cleanup now calls actual Background,CardAttack and FrontSide reset methods;its complete425 bytes/43 fields stay exact. Two full factory-body /Os contexts remain1689/171/904 and fail native factory extents;the existing non-Os profile reproduces all three factories. | Current40 immutable-input packet: .analysis/gpt-61sol-20261031-setup-native-context/. Eleven affected canonical units/2991 bytes/243 fields replay;668 unchanged pins retain679 combined units. No additional exact credit or original TU claim. October22 and shared-VM evidence remains source-scoped history. |
 | TARGET-001 | observed / corroborated | The supported executable is original Japanese TH09 v1.50a, size 685,056, SHA-256 `10350095...fce6822`. | Direct hash/PE inspection plus pinned thcrap version database |
 | PE-001 | observed | The target is relocation-stripped PE32 i386 at image base `0x00400000`, entry `0x0047D45F`, with five sections. | `scripts/verify-target.py`; `config/target.toml` |
 | TOOLCHAIN-001 | observed / corroborated | The target belongs to the VC7.1 build-3077 family. | PE linker 7.10 and Rich-header product/build records; TH095 provider-family comparison |
@@ -28674,3 +28674,80 @@ original target/toolchains and working Ghidra. Post-cleanup299-input audit and
 current679 pass without compiler jobs. No source archive is added;build/ is
 absent. Authored exactness remains1004/1035 and246651/291883 bytes(84.5034%).
 The98% goal and later Windows product/runtime,semantic and port gates remain open.
+
+
+## October 31: real setup factory contexts and native cleanup methods
+
+Starting source36ac3f69,clean main,original Japanese v1.50a disk/tracking pass.
+Fresh direct Ghidra reuses the verified project and attests all685056 file-backed
+mapped bytes before exporting cleanup41B5C6 and native reset entries4011C0,
+403D80,41A230. These reset the Background+CCC field,copy resource+8 to
+CardAttack+14,and reset the FrontSide timers/transition state. Their existing
+complete VC7.1 owners are11/12/51 bytes,with0/1/2 fields respectively.
+
+GameManagerSetup now casts its actual side slots0/14/18 to Background,CardAttack
+and FrontSide and calls those real methods. Three unimplemented reset-view
+classes and their stale separate-VM explanation are removed. Each side still
+executes the same original sequence. The canonical425-byte cleanup has43 fields,
+117 instructions,12 calls and24 blocks,all original-equal. Two actual source-path
+Setup profiles preserve all24 old body/profile payloads/9770 physical bytes/863
+effective fields after the six actual method-name migrations. The manifest
+changes only those three /Os caller symbols at37/5F/67;offsets,kinds,addends,
+physical bounds,profiles and targets stay fixed. No private labels change.
+
+The public cleanup inspector independently binds each decoded original CALL
+field and actual COFF record to its complete native owner,canonical symbol,
+extent,zero integer addend and field position. Both cleanup auditors reject the
+old aliases. Four new target-independent tests exercise wrong producer identity,
+ABI,extent,offset,kind,addend,bool addend,missing/duplicate calls and independent
+original geometry. The complete generic comparer remains the acceptance gate.
+
+The new common VM headers also permit a genuine complete factory-context test.
+Three actual Create definitions are extracted from their maintained sources;
+only their known side-state pointer projections are adapted to the Setup
+manager view. No guessed helper,wrapper,calling convention,assembly,qualifier,
+variable/register-order hint or new compiler profile is introduced. Complete
+before-worker and after-worker /Os contexts both preserve all12 baseline bodies,
+all10 exact siblings and the entire1689/171/35/77/904 worker report. Their15
+regular bodies retain5308 bytes/467 actual fields with identical effective
+payloads. However,the factories become257/211/224 bytes,shorter than the native
+307/264/283 extents by50/53/59. They are not complete original matches and
+neither context is adopted. In Setup's existing no-/Os loading profile,the old
+12 bodies remain5154 bytes/455 fields and the exact loading sibling passes;
+all three adapted factory bodies also match their complete307/264/283 targets.
+This validates the measured projection without proving original class/TU identity
+or explaining the /Os worker's cursor/branch-sharing gap. Merely exposing these
+three bodies in either tested position does not close it.
+
+Evidence:.analysis/gpt-61sol-20261031-setup-native-context/. All40 quoted-include
+inputs reproduce from36ac3f69 with raw Git/EOL bindings. Two selected independent
+frozen-source cold replays reproduce all15 native-profile bodies/531 fields and
+its three complete factories,then all12 current /Os bodies/408 fields,the ten
+exact siblings and both full public diagnostics. An initial audit report had a
+Path/string expression error after two successful compiles;its failure record
+and original logs remain. The corrected two reproductions pass. This totals10
+compiler executions:three initial controls,one genuine non-Os context,two
+actual-path affected carriers,two initial audit runs and two completed independent
+runs. All are serial,one allowed CPU,nice10 and180-second bounded.
+
+Current current.py strictly compares11 affected existing units/2991 bytes/243
+fields and reuses668 unchanged source/profile/object pins. Combined679 units/
+202200 summed physical bytes/10472 fields include excluded units and231 primary
+objects;this is not new authored credit. All three unchanged native reset
+producers also pass complete original comparisons from their bound objects.
+Neither affected Setup profile emits an aux-less compiler function contribution.
+Old shared-VM whole verification is now source-stale only for its Setup carriers;
+other source-bound groups remain valid. Full public CI passes1070 tests:1041
+pass,29 optional skips. Tracking,documentation,progress and whitespace pass.
+Authored exactness stays1004/1035 and246651/291883 bytes(84.5034%);RunEcl30,
+Enemy13 and Setup904 remain. The98% goal and later product/runtime,semantic
+and port gates remain unfinished.
+
+After owned producers terminate,the bounded cleanup removes440 files/8345647
+logical bytes:two replaced Setup objects,four completed model objects,six PDBs
+and428 CI Python caches. All1113 deletion-time protected hashes agree. Keep231
+current primary objects,nine additional historical/diagnostic objects,all
+research,recipes,40 immutable inputs,complete raw/COFF/compiler records,logs,
+new attested export,original target/tools and working Ghidra. No source archive
+is added;build/ is absent. Post-cleanup immutable-input and current679 checks
+pass without compiler jobs.

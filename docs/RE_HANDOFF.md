@@ -7,23 +7,35 @@ checkpoint559ccf7c. Continue the unfinished98% reviewed-authored-byte milestone,
 prioritizing complete RunEcl and Enemy update while keeping small leaves in
 scope. Earlier maintenance and stop instructions are historical checkpoints.
 
-Current game-source change:rendering and lifecycle consumers share one AnmVmBase/
-AnmVm definition in AnmVmLifecycle.hpp;AsciiManager imports it. Native62/45-byte
-constructors and0x228/0x2A4 extents remain. GameplaySetupThread now includes the
-real Background,CardAttack and FrontSide headers and calls their implemented
-Create methods. All eight creator contracts/nine physical references are bound.
-The former header/type conflict and three undefined factory aliases are removed;
-original nominal class/TU ownership and full product closure remain open.
+Current game-source change:Gameplay cleanup calls the implemented Background::
+ClearSpellBackgroundState,CardAttack::RefreshResource and FrontSide::
+ResetTransitionState directly. Three undefined reset-view classes are removed.
+The complete425-byte/43-field cleanup and all other affected exact owners remain
+original-equal. Native reset producers11/12/51 bytes retain complete proofs.
+Only three caller symbol names change in the manifest;all other metadata agrees.
 
-Strict affected replay preserves562 existing units/179117 bytes/9302 fields in
-183 canonical carriers plus six affected diagnostic carriers. All530 retained
-regular body/profile payloads remain198603 bytes/9636 effective fields,after six
-actual factory-reference name migrations across two Setup profiles.519 canonical
-private labels retain proven destinations;12 compiler contributions retain348
-bytes/18 fields.117 unchanged pins give679 combined units/202200 summed physical
-bytes/10472 fields,including excluded units;no new authored credit is added.
-RunEcl30,Enemy13 and Setup1689/171/35/77/904 remain. Current proof:
-`.analysis/gpt-61sol-20261031-setup-shared-vm/`.
+Two affected actual Setup carriers preserve24 complete body/profile payloads/
+9770 bytes/863 effective fields after six actual reset-name migrations. Strict
+replay passes11 units/2991 physical bytes/243 fields;668 unchanged source/profile/
+object pins give679 combined units/202200 summed physical bytes/10472 fields,
+including excluded units.231 distinct primary objects remain. RunEcl30,Enemy13
+and Setup1689/171/35/77/904 stay unchanged;no new authored credit is added.
+Current proof:`.analysis/gpt-61sol-20261031-setup-native-context/`.
+
+Complete real Background/CardAttack/FrontSide factory definitions before and
+after the Setup worker preserve all12 old bodies and10 same-profile exact
+siblings. Both /Os contexts emit identical effective15 bodies/5308 bytes/467
+fields and the same904 worker differences,but their factories shrink to257/
+211/224 bytes instead of307/264/283. The existing no-/Os profile preserves its
+old12 bodies and exact loading sibling and reproduces all three complete native
+factory targets using the shared manager projection. These bounded contexts
+are not adopted;original TU ownership and Setup branch sharing remain open.
+
+Preceding36ac3f69 unified rendering/lifecycle AnmVmBase/AnmVm and connected all
+eight implemented creator contracts/nine physical references. Native62/45-byte
+constructors and0x228/0x2A4 extents remain. Its189 affected builds and519 proved
+private labels are source-scoped history;all but its two Setup carriers feed the
+current receipt. Original nominal classes and full product closure remain open.
 
 Preceding game-source checkpoint **e07e24a5** connects RunEcl's clear operation
 to the implemented392-byte/six-field shared-manager method. Its full before/
@@ -109,13 +121,20 @@ object path. Proof reuse requires matching source,profile and object hashes.
 - Canonical inventory: `config/functions.csv`,`config/function-origins.csv`,
   `config/matches.csv` and `config/match-units.toml`.
 - Current retained subset:
-  `.analysis/gpt-61sol-20261031-setup-shared-vm/current.py` checks679 units/
-  202200 summed physical bytes/10472 fields. It strictly compares562 affected
-  units/179117 bytes/9302 fields and reuses117 unchanged source/profile/object pins.
+  `.analysis/gpt-61sol-20261031-setup-native-context/current.py` checks679 units/
+  202200 summed physical bytes/10472 fields. It strictly compares11 affected
+  units/2991 bytes/243 fields and reuses668 unchanged source/profile/object pins.
   These679 include excluded units;they are not the1004 authored exact ledger
   entries. Its current.json identifies231 distinct primary proof/diagnostic
-  objects,including the newly compiled affected diagnostic carriers.
+  objects,including the two newly compiled Setup carriers.
   Nine additional historical/diagnostic objects remain.
+- The preceding shared-VM whole verifier is source-stale after the Setup reset
+  change. Its unaffected individual groups feed current pins. Its two replaced
+  Setup objects have been removed after full records and compiler contributions
+  were audited;absence after cleanup is expected. The current packet's cleanup
+  removes440 files/8345647 bytes with1113 deletion-time protected hashes unchanged.
+  Recipes,40 immutable inputs,raw/COFF records,logs and the attested Ghidra export
+  remain;build/ is absent. Post-cleanup audits require no compiler jobs.
 - The preceding native-clear,shared-storage,startup and parameter-field whole
   verifiers are source-stale after the common VM header change. Their unaffected
   individual groups supply117 reused pins. Older359/357/353/344/323/297/251 bundles are source-scoped
