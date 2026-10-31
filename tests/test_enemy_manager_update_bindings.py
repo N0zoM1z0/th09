@@ -24,6 +24,48 @@ class TargetPayload:
 
 
 class EnemyUpdateBindingTests(TestCase):
+    def test_all_five_real_scalar_definitions_and_source_bytes_fail_closed(self):
+        """No executable required: mutate actual scalar COFF payloads."""
+        from unittest.mock import Mock
+        spec = inspector.ENEMY_LITERAL_FIELDS
+        data = bytearray(100)
+        struct.pack_into('<HH', data, 0, 0x14C, 1)
+        struct.pack_into('<II', data, 36, 20, 80)
+        struct.pack_into('<I', data, 56, 0x40000040)
+        fields = []
+        originals = {}
+        for i, (offset, symbol, address) in enumerate(spec):
+            literal = bytes.fromhex(symbol[7:])[::-1]
+            self.assertEqual(len(literal), 4)
+            data[80+4*i:84+4*i] = literal
+            originals[address] = literal
+            fields.append(dict(offset=offset, symbol=symbol, addend=0,
+                               symbol_section=1, symbol_value=4*i))
+        mock = Mock()
+        mock.pe_bytes_at.side_effect = lambda _image, address, size: originals[address][:size]
+        report = inspector.verify_enemy_literal_definitions(bytes(data), fields, None, mock)
+        self.assertEqual([(r['references'],r['size']) for r in report],
+                         [([offset],4) for offset,_,_ in spec])
+        for i in range(5):
+            bad = bytearray(data)
+            bad[80+4*i] ^= 1
+            with self.subTest(i=i), self.assertRaisesRegex(
+                    ValueError, 'literal definition differs'):
+                inspector.verify_enemy_literal_definitions(bytes(bad), fields, None, mock)
+            changed = [dict(r) for r in fields]
+            changed[i]['symbol_section'] = 0
+            with self.subTest(section=i), self.assertRaisesRegex(
+                    ValueError, 'literal lacks'):
+                inspector.verify_enemy_literal_definitions(bytes(data), changed, None, mock)
+        for changed in (fields[::-1], fields[:-1],
+                        [dict(fields[0], offset=0x2A1)] + fields[1:]):
+            with self.assertRaisesRegex(ValueError, 'positions/symbol'):
+                inspector.verify_enemy_literal_definitions(bytes(data), changed, None, mock)
+        bad_flags = bytearray(data)
+        struct.pack_into('<I', bad_flags, 56, 0xC0000040)
+        with self.assertRaisesRegex(ValueError, 'not initialized read-only'):
+            inspector.verify_enemy_literal_definitions(bytes(bad_flags), fields, None, mock)
+
     def test_front_indicator_uses_implemented_member_and_shared_global(self):
         units, functions, registry = inspector.reference_index()
         cases = (

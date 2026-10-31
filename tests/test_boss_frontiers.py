@@ -321,6 +321,14 @@ class BossFrontierChecks(TestCase):
             'target_instructions': 1026, 'candidate_instructions': 1026,
             'complete_bytes_agree': False,
             'relocations': 97, 'relocation_fields_agree': 97,
+            'literal_definitions': [
+                dict(symbol=symbol, target=target, size=4, references=[offset])
+                for offset, symbol, target in (
+                    (0x2A0, '__real@3dcccccd', 0x0048E4B0),
+                    (0x2AF, '__real@3f800000', 0x0048E2A4),
+                    (0x8CB, '__real@00000000', 0x0048E314),
+                    (0xA55, '__real@42800000', 0x0048E4A8),
+                    (0xD61, '__real@42000000', 0x0048E5E0))],
             'target_calls': 69, 'candidate_calls': 69,
             'ordered_calls_agree': True, 'target_direct_blocks': 170,
             'candidate_direct_blocks': 170,
@@ -450,7 +458,13 @@ class BossFrontierChecks(TestCase):
 
     def test_enemy_original_digest_windows_and_count_fail_closed(self):
         main, leaf = self.enemy_evidence()
-        for change in ({'target_sha256': '0' * 64},
+        for change in ({'literal_definitions': []},
+                       {'literal_definitions': [dict(x, size=8) for x in main['literal_definitions']]},
+                       {'literal_definitions': [dict(x) for x in reversed(main['literal_definitions'])]},
+                       {'literal_definitions': [dict(x, references=[0x2A1])
+                                                if i == 0 else x
+                                                for i, x in enumerate(main['literal_definitions'])]},
+                       {'target_sha256': '0' * 64},
                        {'code_bytes': 3882}, {'candidate_instructions': 1025},
                        {'relocation_fields_agree': 96},
                        {'difference_offsets': main['difference_offsets'][:-1]},
