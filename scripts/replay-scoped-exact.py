@@ -3,10 +3,12 @@
 
 Never scans or builds every source automatically. A requested exact unit expands
 into the full same-source canonical exact cohort, including alternate VC7.1
-profiles. The caller must separately identify/include changed header or .inl
-consumers; this is not a whole-product dependency graph or an exactness oracle
-for nonmatching bosses. The canonical comparator independently checks original
-PE bytes, physical tails/tables and each manifest relocation.
+profiles. --changed-file also conservatively follows literal source-local
+#include edges (including .inl/.hpp chains), capped at eight compiler carriers
+by default. Nonliteral/generated includes remain the caller's responsibility;
+this is not a whole-product dependency graph or an exactness oracle for
+nonmatching bosses. The comparator independently checks original PE bytes,
+physical tails/tables and each manifest relocation.
 """
 from __future__ import annotations
 
@@ -15,6 +17,7 @@ from collections import defaultdict
 import csv
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import tomllib
@@ -42,6 +45,66 @@ def load_carriers(root: Path = ROOT) -> tuple[dict, dict[str, str]]:
     if not chosen:
         raise ValueError('there are no canonical exact units')
     return units, chosen
+
+
+# Only source-local quoted literal includes are assumed. Build-system macro
+# includes, generated headers and external SDK transitive dependencies require
+# the operator to specify the affected .cpp units explicitly.
+LOCAL_INCLUDE = re.compile(r'^\s*#\s*include\s*"([^"\n]+)"', re.MULTILINE)
+SOURCE_SUFFIXES = {'.cpp', '.hpp', '.h', '.inl'}
+
+
+def resolve_changed_sources(changed: list[str], *, root: Path = ROOT) -> set[str]:
+    """Conservative reverse traversal of existing quoted src/ include edges.
+
+    Tracks all actual source-file include spellings even through nested .inl and
+    .hpp hops. It never guesses original translation-unit ownership or omits an
+    actual textual reverse edge merely because the old ledger ignored it.
+    """
+    source_root = (root / 'src').resolve()
+    available = {}
+    for path in source_root.rglob('*'):
+        if not path.is_file() or path.suffix not in SOURCE_SUFFIXES or path.is_symlink():
+            continue
+        resolved = path.resolve()
+        if not resolved.is_relative_to(source_root):
+            raise ValueError('source include leaves the trusted src root: '+str(path))
+        available[path.relative_to(root).as_posix()] = path
+    reverse: dict[str, set[str]] = defaultdict(set)
+    for owner, path in available.items():
+        content = path.read_text(encoding='utf-8', errors='replace')
+        for name in LOCAL_INCLUDE.findall(content):
+            # Includers can share a directory or use a source-root-relative path.
+            for candidate in (path.parent / name, source_root / name):
+                try:
+                    full = candidate.resolve(strict=True)
+                except (OSError, RuntimeError):
+                    continue
+                if full.is_relative_to(source_root):
+                    resolved_key = 'src/' + full.relative_to(source_root).as_posix()
+                    if resolved_key in available:
+                        reverse[resolved_key].add(owner)
+                    break
+    selected = set()
+    visited = set()
+    queue = []
+    for filename in changed:
+        rel = Path(filename)
+        if (rel.is_absolute() or '..' in rel.parts or rel.suffix not in SOURCE_SUFFIXES
+                or not filename.startswith('src/') or filename not in available):
+            raise ValueError('changed source/header path is absent or unsafe: '+filename)
+        queue.append(filename)
+    while queue:
+        current = queue.pop()
+        if current in visited:
+            continue
+        visited.add(current)
+        if current.endswith('.cpp'):
+            selected.add(current)
+        queue.extend(reverse.get(current, ()))
+    if not selected:
+        raise ValueError('changed files have no lexical .cpp consumers in src')
+    return selected
 
 
 def plan(units: dict, matched: dict[str, str], sources: list[str], units_requested: list[str]) -> list[dict]:
@@ -73,6 +136,12 @@ def plan(units: dict, matched: dict[str, str], sources: list[str], units_request
         carriers[(source, obj, profile)].append(name)
     return [dict(source=source, object=obj, profile=list(profile), units=sorted(names))
             for (source, obj, profile), names in sorted(carriers.items())]
+
+
+def enforce_carrier_budget(groups: list[dict], maximum: int) -> None:
+    """Fail closed instead of unexpectedly replaying dozens of TU profiles."""
+    if not 1 <= maximum <= 64 or len(groups) > maximum:
+        raise ValueError(f'refusing {len(groups)} carrier jobs under --max-carriers={maximum}; narrow scope or explicitly raise cap')
 
 
 def command(argv: list[str], *, cwd: Path = ROOT, timeout: int = 300) -> str:
@@ -114,12 +183,20 @@ def main() -> int:
                         help='exact source file; may be repeated')
     parser.add_argument('--unit', action='append', default=[],
                         help='canonical unit; expands to ALL exact same-source profiles')
+    parser.add_argument('--changed-file', action='append', default=[],
+                        help='changed tracked src .cpp/.hpp/.inl; walk literal include consumers')
+    parser.add_argument('--max-carriers', type=int, default=8,
+                        help='cap actual physical compiler jobs per selection (default 8)')
     parser.add_argument('--dry-run', action='store_true',
                         help='show plan without compiler or comparator calls')
     args = parser.parse_args()
     try:
         units, matches = load_carriers()
-        cohorts = plan(units, matches, args.source, args.unit)
+        sources = list(args.source)
+        if args.changed_file:
+            sources.extend(sorted(resolve_changed_sources(args.changed_file)))
+        cohorts = plan(units, matches, sources, args.unit)
+        enforce_carrier_budget(cohorts, args.max_carriers)
         if args.dry_run:
             print(json.dumps(dict(selected_sources=sorted({x['source'] for x in cohorts}),
                                   carriers=cohorts, exact_units=sum(len(x['units']) for x in cohorts),

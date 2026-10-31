@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import Mock
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('scoped_exact_replay', ROOT/'scripts/replay-scoped-exact.py')
@@ -72,6 +71,45 @@ size=20
                 (cfg/'matches.csv').write_text(bad)
                 with self.subTest(bad=bad[-45:]),self.assertRaises(ValueError):
                     scoped.load_carriers(root)
+
+    def test_changed_header_follows_reverse_local_includes_transitively(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            src=root/'src'
+            src.mkdir()
+            (src/'Owner.cpp').write_text('#include "Inner.hpp"\n')
+            (src/'Nested.cpp').write_text('#include "Shared.inl"\n')
+            (src/'Inner.hpp').write_text('#include "Shared.inl"\n')
+            (src/'Shared.inl').write_text('#include "Inner.hpp"\n')  # cycle
+            (src/'Independent.cpp').write_text('#include "Independent.hpp"\n')
+            (src/'Independent.hpp').write_text('int value;\n')
+            expected={'src/Owner.cpp','src/Nested.cpp'}
+            self.assertEqual(scoped.resolve_changed_sources(['src/Shared.inl'],root=root),expected)
+            self.assertEqual(scoped.resolve_changed_sources(['src/Inner.hpp'],root=root),expected)
+            self.assertEqual(scoped.resolve_changed_sources(['src/Owner.cpp'],root=root),{'src/Owner.cpp'})
+            for bad in ('../src/Shared.inl','/tmp/Shared.inl','src/none.inl',
+                        'src/Independent.svg'):
+                with self.subTest(bad=bad),self.assertRaisesRegex(ValueError,'absent or unsafe'):
+                    scoped.resolve_changed_sources([bad],root=root)
+
+    def test_changed_header_with_no_real_cpp_consumer_is_not_assumed_safe(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            src=root/'src'
+            src.mkdir()
+            (src/'Unused.inl').write_text('int unused;\n')
+            (src/'Visible.cpp').write_text('int visible;\n')
+            with self.assertRaisesRegex(ValueError,'no lexical .cpp consumers'):
+                scoped.resolve_changed_sources(['src/Unused.inl'],root=root)
+
+    def test_default_budget_prevents_accidental_broad_cold_replay(self):
+        scoped.enforce_carrier_budget([{}]*5,8)
+        with self.assertRaisesRegex(ValueError,'refusing 9 carrier jobs'):
+            scoped.enforce_carrier_budget([{}]*9,8)
+        with self.assertRaises(ValueError):
+            scoped.enforce_carrier_budget([{}],0)
+        with self.assertRaises(ValueError):
+            scoped.enforce_carrier_budget([{}],65)
 
     def test_one_compile_per_real_carrier_all_exact_references_checked(self):
         groups=scoped.plan(self.units,self.matched,[],['one'])
