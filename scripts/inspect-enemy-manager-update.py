@@ -29,6 +29,17 @@ OWNER_SIZE = 3900  # 3883 instructions + one alignment + four-entry table
 CODE_SIZE = 3883
 TARGET_SHA256 = "a7f01c2ff0bda79d1fd17ac9170dc3560d4089457455d7928776df8556f1bc75"
 SYMBOL = '?OnUpdate@EnemyManagerView@@SIHPAU1@@Z'
+
+# Independent complete 1.50a absolute scalar operands in the 3,900-byte
+# Enemy owner. Each must be backed by an *actual* initialized read-only COFF
+# definition, not merely a C++ symbol name resolving to the right PE address.
+ENEMY_LITERAL_FIELDS = (
+    (0x2A0, '__real@3dcccccd', 0x0048E4B0),
+    (0x2AF, '__real@3f800000', 0x0048E2A4),
+    (0x8CB, '__real@00000000', 0x0048E314),
+    (0xA55, '__real@42800000', 0x0048E4A8),
+    (0xD61, '__real@42000000', 0x0048E5E0),
+)
 RUNECL_SYMBOL = '?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z'
 PLAYER_STATE_CALLS = (
     (0x36B, '?GetUpdateState@PlayerLifecycleView@@QAEHXZ', 0x00435EC0),
@@ -364,6 +375,32 @@ def bind_field(row, units, functions, registry, compare, target):
     return value & 0xFFFFFFFF, destination, basis
 
 
+def verify_enemy_literal_definitions(object_data, fields, image, coff):
+    """Verify actual scalar bytes, initialized read-only sections and PE roots.
+
+    The real target stores five independently reviewed scalar operands with
+    five real COFF read-only definitions. Complete owner matching alone cannot
+    tell whether the source object supplied those identical *values*.
+    """
+    actual = [(row['offset'], row['symbol']) for row in fields
+              if row['symbol'].startswith('__real@')]
+    required = [(offset, symbol) for offset, symbol, _ in ENEMY_LITERAL_FIELDS]
+    if actual != required:
+        raise ValueError('Enemy literal field positions/symbol identity changed')
+    spec = importlib.util.spec_from_file_location(
+        'enemy_coff_literals', ROOT / 'scripts/coff_literal_definitions.py')
+    audit = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(audit)
+    roots = {symbol: address for _, symbol, address in ENEMY_LITERAL_FIELDS}
+    results = audit.check_literal_definitions(object_data, fields, image, coff, roots)
+    if (len(results) != len(ENEMY_LITERAL_FIELDS) or
+            [(entry['symbol'], entry['target'], entry['size'], entry['references'])
+             for entry in results] !=
+            [(symbol, address, 4, [offset]) for offset, symbol, address in ENEMY_LITERAL_FIELDS]):
+        raise ValueError('Enemy actual COFF scalar definition provenance incomplete')
+    return results
+
+
 def diagnose(path, *, explain=False, folded_callback_object=None):
     return _diagnose(path, explain=explain, external_runecl=False,
                      folded_callback_object=folded_callback_object)
@@ -384,6 +421,8 @@ def _diagnose(path, *, explain, external_runecl, folded_callback_object):
         raise ValueError("original EnemyManager full-owner SHA changed")
     source, relocations = compare.object_function(
         path, SYMBOL, include_symbol_locations=True)
+    literal_definitions = verify_enemy_literal_definitions(
+        path.read_bytes(), relocations, target_file, compare)
     definitions = {}
     for _, symbol in FOLDED_CALLBACK_CALLS:
         calls = [row for row in relocations if row['symbol'] == symbol]
@@ -478,6 +517,7 @@ def _diagnose(path, *, explain, external_runecl, folded_callback_object):
         'candidate_bytes': len(source),
         'code_bytes': CODE_SIZE,
         'relocations': len(relocations),
+        'literal_definitions': literal_definitions,
         'relocation_fields_agree': sum(r['target_field_agrees'] for r in bindings),
         'target_instructions': len(target_instructions),
         'candidate_instructions': len(candidate_instructions),

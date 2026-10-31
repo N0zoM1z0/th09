@@ -53,3 +53,30 @@ other forms become 695–727 bytes with 593–613 overlapping differences. The
 serial pinned VC7.1 source candidates and independent whole-owner reports are
 under `.analysis/gpt-web-front-reordering-20261031/`. Equal-result candidates
 were not promoted merely because their C++ spelling differed.
+
+## Enemy OnUpdate boss: independent source-literal proof
+
+A fresh pinned VC7.1 compile and complete original PE audit still finds the
+3,900-byte EnemyManager::OnUpdate owner **nonexact, with 13 differing bytes**.
+All 97 original PE fields, 69 ordered calls, 1,026 decoded instructions, 170
+CFG blocks and four switch entries remain unchanged. Separate complete-owner
+`RunEcl` remains 15,564 bytes/598 fields/30 different bytes.
+
+The previous Enemy inspector checked floating-point address referents and
+original target payloads but **not the COFF-defined literal payloads**. It now
+independently validates five actual four-byte read-only scalar definitions at
+owner offsets `+0x2A0`, `+0x2AF`, `+0x8CB`, `+0xA55`, `+0xD61`, including
+source symbol/section/value, literal bits, original independently reviewed PE
+address, initialized read-only data section, and exactly one reviewed original
+code-field reference each. Target-independent adversarial tests mutate every
+source scalar, the original values, section flags, and relocation metadata;
+they fail closed where the previous code-operand-only inspector did not.
+
+Fresh focused `--owner enemy --skip-exact-siblings` checks both the complete
+Enemy update and separate exact Enemy collision wrapper without touching
+unrelated carriers. It does **not** credit the 3,900-byte nonexact owner.
+Experiment logs under `.analysis/gpt-web-enemy-probes-20261031/` also show
+natural GameManager/side pointer, descriptor position and index-local source
+models: all survivors at best remain 3,900/97/13; a reordered side-state
+producer breaks original fields/extent. These are negative bounded evidence,
+not proof that the original source had one unique variable spelling.

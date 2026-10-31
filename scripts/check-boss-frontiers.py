@@ -2542,6 +2542,19 @@ def guard_enemy_update(result: dict) -> dict:
             result.get('reviewed_control_flow_agrees') is not True or
             result.get('switch_table_destinations_agree') is not True):
         raise RuntimeError('EnemyManager 3900-byte original/COFF/call/graph changed')
+    definitions = result.get('literal_definitions')
+    expected_literals = (
+        (0x2A0, '__real@3dcccccd', 0x0048E4B0),
+        (0x2AF, '__real@3f800000', 0x0048E2A4),
+        (0x8CB, '__real@00000000', 0x0048E314),
+        (0xA55, '__real@42800000', 0x0048E4A8),
+        (0xD61, '__real@42000000', 0x0048E5E0),
+    )
+    if (not isinstance(definitions, list) or len(definitions) != 5 or
+            [(item.get('references'), item.get('symbol'), item.get('target'),
+              item.get('size')) for item in definitions] !=
+            [([off], sym, va, 4) for off, sym, va in expected_literals]):
+        raise RuntimeError('Enemy original/source scalar definition inventory regressed')
     checked = physical_difference_windows(result, count_key='complete_differences',
                                           windows=ENEMY_UPDATE_WINDOWS)
     actual = {int(x, 16) for x in result['difference_offsets']}
