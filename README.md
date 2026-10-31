@@ -55,8 +55,10 @@ downloaded tools are private and never committed.
 ## Current status
 
 The operator cleared the reconstruction goal on October31 and requested
-housekeeping. Current game source is checkpoint `a3e4aaee` (unified LZSS codec);
-`71246812` is an earlier checkpoint. Reconstruction requires an explicit restart.
+housekeeping. Current game source is checkpoint `1c371cf7` (implemented gameplay teardown
+contracts);the unified LZSS checkpoint `a3e4aaee` is historical. Reconstruction requires an explicit restart.
+An unadopted Effect34 candidate reduces its74 current-source differences to9;
+its object and recipe are preserved in the handoff,without exactness credit.
 The **98% exact reviewed-authored
 byte** milestone remains unfinished. Use [the handoff](docs/RE_HANDOFF.md) for the
 current code map, remaining large functions, restart commands and retained
@@ -94,9 +96,11 @@ Canonical
 build caches may be absent after reviewed cleanup; replay a function by
 running `python3 scripts/build-match-unit.py --unit NAME` before its
 corresponding comparison or non-crediting inspector. Preview disposable-cache
-cleanup with `python3 scripts/clean-generated-artifacts.py`. Its `--apply`
-scope also includes compiler objects throughout `.analysis/`, which may be
-essential source-bound evidence; review each path and retain unique proofs.
+cleanup with `python3 scripts/clean-generated-artifacts.py`. Analysis objects
+are preserved by default;`--reviewed-objects` accepts an explicit path/SHA-256
+list for obsolete objects. Changed files invalidate the reviewed plan.
+Git-backed old source/config/doc copies can be restored with
+`scripts/restore-analysis-snapshots.py`;the handoff names the recovery manifest.
 Use [`docs/RE_ARTIFACT_CLEANUP_HISTORY.md`](docs/RE_ARTIFACT_CLEANUP_HISTORY.md)
 for the actual cleaned scopes and retained evidence.
 

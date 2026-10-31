@@ -20,7 +20,8 @@ cleared again on October31;current work is maintenance. See
 | Check product graph | `python3 scripts/build.py --check` | explicit open/closed graph state |
 | Validate documentation | `python3 scripts/validate-docs.py` | ledger-derived totals, links and frontier consistency |
 | Run public checks | `python3 scripts/ci.py` | target-independent repository consistency; required for shared validation/CI changes |
-| Preview cache cleanup | `python3 scripts/clean-generated-artifacts.py` | deletion proposal only; review paths before applying |
+| Preview cache cleanup | `python3 scripts/clean-generated-artifacts.py` | objects kept by default;explicit path/SHA-256 review required for OBJ deletion |
+| Recover old Git-backed copies | `python3 scripts/restore-analysis-snapshots.py MANIFEST --prefix .analysis/PACKET` | preview original bytes/EOL recovery;add --apply for absent files |
 
 The installed Ghidra12.1.4 is available via the ignored `.tools/ghidra` symlink;
 `--ghidra-dir` accepts another explicit installation. The runner imports once

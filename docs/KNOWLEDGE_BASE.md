@@ -8,6 +8,9 @@ current ownership and exactness in `config/functions.csv`, `config/matches.csv`
 and `config/match-units.toml`; use a fresh reconstruction report for totals.
 `docs/RE_HANDOFF.md` routes the active work; compiler object caches are
 not authoritative and may be absent after a deliberate cleanup.
+The operator cleared reconstruction on October31;the current task is maintenance.
+An unadopted Effect34 nine-difference candidate is preserved separately from the
+maintained74-difference source. See the handoff before continuing any old campaign.
 
 On October30 the operator requested that documentation and research records
 remain while unused old code copies, source-only archives and build caches are
@@ -28932,3 +28935,63 @@ bindings,all recipes,full raw/COFF/literal/compiler/ABI records,logs,both new
 attested exports,original target/toolchains and working Ghidra. No source archive
 is created;build/ stays absent. Post-cleanup immutable-input and current679
 verification pass without further compiler jobs.
+
+
+## October31 maintenance after the operator clears reconstruction
+
+The operator clears the reconstruction goal and requests code,documentation and
+storage housekeeping during the already-running Effect34 four-control batch.
+The batch finishes serially;no subsequent compiler trial,independent cold replay
+or source adoption starts. Current game source stays1c371cf7 and authored exactness
+stays1004/1035,246651/291883 bytes(84.5034%). RunEcl30/Enemy13/Setup904 remain.
+
+The saved Effect34 models bind80 immutable Git/EOL inputs and the original946-
+byte owner. Every control passes75 same-profile exact siblings/22463 bytes/990
+fields. Early fan-cursor acquisition,before the alpha branch,reproduces nine
+remaining differences,restoring65 current-source mismatches with zero damaged
+matches. Its complete53 physical fields,286 instructions,32 ordered calls,
+16 blocks,COM arguments and all137 other regular bodies remain checked.
+The other results are trailing-fan225 differences,early-angle74,and joint160;
+trailing/joint each damage151 previously equal positions. No model is adopted.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| EFFECT34-CURSOR-PENDING-001 | unadopted candidate | early-cursor.obj has946 bytes/53 fields/nine differences;the maintained source still has74. No independent cold replay or other affected-profile replay has run. | .analysis/gpt-61sol-20261031-effect34-cursor-lifetimes/:probe.py,inputs.json,early-cursor.json,maintenance-preserved.json and retained object. |
+| MAINT-OBJ-REVIEW-001 | cleanup correction | Analysis OBJ files are kept by default;only explicit path/SHA-256 reviews select obsolete objects. File changes,parent symlink swaps,changed build contents or invalid audit data reject deletion before any removal. | clean-generated-artifacts.py;eight focused tests;full public CI. |
+| MAINT-GIT-RECOVERY-001 | recoverable copies removed |141 old source/config/doc copies,72888814 logical bytes,match reachable blobs in1c371cf7 history. Original path/hash/EOL bindings remain;unique variants are not selected. | maintenance-20261031-handoff-1c371cf7/git-backed-copy-plan.json;restore-analysis-snapshots.py;four focused tests and real temporary recovery test. |
+
+Maintenance corrects AGENTS,README,RE_WORKFLOW and RE_HANDOFF so historical
+resumption text does not authorize automatic reconstruction. README's obsolete
+a3e4aaee source checkpoint becomes the real1c371cf7 checkpoint. The active
+handoff separates the pending nine-difference object from current74-difference
+source and replaces outdated cleanup totals/source-proof routes. Historical
+knowledge and immutable receipts keep their original epoch scope.
+
+The cleanup tool's previous extension-only selection would have removed every
+analysis OBJ,including current proof and unresolved candidates. Default selection
+now retains them. Explicit review manifests bind each obsolete object's path and
+SHA-256;apply rechecks fingerprints and build contents. Cleanup audit destinations
+and old audit data are validated before removal. The recovery helper previews by
+default,checks reachable Git blob bytes and original line endings,and never
+overwrites different later work or follows a symlink destination. No source
+archive is created as a replacement for removed copies.
+
+After all owned producers terminate,cleanup deletes584 files/81954293 logical
+bytes:141 Git-backed copies/72888814 bytes and443 compiler/debug/bytecode files/
+9065479 bytes. The latter are428 build caches plus15 analysis caches(three
+rejected objects,four PDBs,eight Python caches). The pending early-cursor object
+is explicitly excluded. All36112 deletion-time protected file/link fingerprints
+remain equal,including all unique research,current tracked source,the private
+target,working Ghidra project,tool links,231 primary proof objects,nine additional
+historical objects and the pending candidate. Toolchain targets are never
+traversed or selected. Build/ is absent after cleanup.
+
+Full target-independent CI passes1080 tests:1051 pass,29 optional skips. The
+current679-unit receipt,80-input saved-candidate audit,tracking,documentation,
+generated progress and whitespace pass afterward without any new compiler job.
+Recovery preview identifies exactly141 absent copies,all original SHA-256 values
+verify from Git,and the actual recovery writer restores a selected sample into a
+self-cleaning temporary analysis folder. Receipts:
+.analysis/maintenance-20261031-handoff-1c371cf7/cleanup.json and ci.log.
+The98% milestone remains unfinished;only an explicit operator restart resumes
+reconstruction. Windows product/runtime,semantic and portability gates stay open.

@@ -1,147 +1,75 @@
 # TH09 reconstruction — current handoff
 
-## Operator status — reconstruction resumed
+## Operator status — maintenance;reconstruction goal cleared
 
-The operator explicitly resumed reconstruction on October31 after maintenance
-checkpoint559ccf7c. Continue the unfinished98% reviewed-authored-byte milestone,
-prioritizing complete RunEcl and Enemy update while keeping small leaves in
-scope. Earlier maintenance and stop instructions are historical checkpoints.
+The operator cleared the reconstruction goal on October31 and requested code,
+documentation and storage housekeeping. Do not automatically resume the unfinished
+98% milestone. No target bytes or game source are changed during this maintenance.
+Latest game-source checkpoint is **1c371cf7**. Local checkpoints are not proof of
+remote publication. Earlier resumes and source-scoped experiments are historical.
 
-Current game-source change:Gameplay teardown calls actual PlayerRelease,
-EtamaController::Release,EffectManager::Release,CardAttack::Destroy,
-FrontSide::Destroy and ExAttackController::Release. Six undefined aliases are
-removed;the shared Player lifecycle header declares its implemented release ABI.
-The422-byte DeletedCallback stays exact. Seven manifest caller symbols change;
-all other metadata agrees. Four neutral-named release functions already have
-implementations and remain. Prior df05447b also connected the three real cleanup
-methods,whose425-byte/43-field caller remains exact.
+## Current source and proof
 
-Three affected source/profile carriers preserve27 complete body/profile payloads/
-10259 bytes/906 effective fields after14 actual release-name migrations in two
-Setup profiles. Strict replay passes14 units/3480 physical bytes/286 fields;
-665 unchanged source/profile/object pins give679 combined units/202200 summed
-physical bytes/10472 fields,including excluded units.231 distinct primary objects
-remain. The six native release producers pass365 bytes/39 fields;unchanged
-callee objects are reused. RunEcl30,Enemy13 and Setup1689/171/35/77/904 stay
-unchanged;no new authored credit is added. Current proof:
-`.analysis/gpt-61sol-20261031-setup-native-releases/`.
+Gameplay setup uses all eight implemented creator contracts/nine references.
+Lifecycle/rendering consumers share one AnmVmBase/AnmVm definition. Cleanup calls
+the real Background,CardAttack and FrontSide methods;its425-byte/43-field owner
+remains exact. Teardown calls six implemented release contracts at seven sites;
+the422-byte DeletedCallback remains exact. Four neutral-named release functions
+already have implementations and remain. PlayerRelease's shared declaration is
+checked against both caller and defining source. Full product linkage remains open.
 
-Complete release definitions before the worker,after the carrier,and before
-their actual DeletedCallback caller preserve all12 Setup bodies. All three /Os
-contexts retain the same904 worker differences,but ten of eleven native bodies
-fail their original extents or bytes;only the31-byte CardAttack end helper passes.
-The existing no-/Os context reproduces all11 complete native bodies/690 bytes/
-55 fields and the exact loading sibling. Neither context is adopted. Two
-independent replays reproduce the actual /Os caller and full no-/Os native graph.
-Cleanup removes three replaced objects,four completed model objects and seven
-PDBs:14 files/1291387 bytes. All1113 deletion-time protected hashes agree. Keep
-all current objects,44 immutable inputs,recipes,complete records,logs and both
-new attested exports. Post-cleanup audits pass;build/ remains absent.
+Current retained proof:
+`.analysis/gpt-61sol-20261031-setup-native-releases/current.py` and current.json.
+It strictly compares14 affected units/3480 physical bytes/286 fields and reuses
+665 unchanged source/profile/object pins:679 combined units/202200 summed physical
+bytes/10472 fields,including excluded units. This is not the1004-authored-unit
+ledger or a fresh full cold replay.231 distinct primary proof/diagnostic objects
+and nine additional historical/diagnostic objects remain. Current-source RunEcl
+stays15564/598/30,Enemy3900/97/13,and Setup1689/171/35/77/904.
 
-Complete real Background/CardAttack/FrontSide factory definitions before and
-after the Setup worker preserve all12 old bodies and10 same-profile exact
-siblings. Both /Os contexts emit identical effective15 bodies/5308 bytes/467
-fields and the same904 worker differences,but their factories shrink to257/
-211/224 bytes instead of307/264/283. The existing no-/Os profile preserves its
-old12 bodies and exact loading sibling and reproduces all three complete native
-factory targets using the shared manager projection. These bounded contexts
-are not adopted;original TU ownership and Setup branch sharing remain open.
+## Pending Effect34 candidate — preserved,not adopted
 
-Preceding36ac3f69 unified rendering/lifecycle AnmVmBase/AnmVm and connected all
-eight implemented creator contracts/nine physical references. Native62/45-byte
-constructors and0x228/0x2A4 extents remain. Its189 affected builds and519 proved
-private labels are source-scoped history;all but its two Setup carriers feed the
-current receipt. Original nominal classes and full product closure remain open.
+The already-running four-control serial compiler batch finished while the operator switched
+to maintenance. Their source baseline is1c371cf7;no further compiler trial or
+independent cold reproduction is started. Packet:
+`.analysis/gpt-61sol-20261031-effect34-cursor-lifetimes/`.
 
-Latest complete ECL/Enemy source-context batch uses the real descriptor
-constructor,Effect InitializeEffect/SpawnEffect,Etama primary/single-bullet/copy
-path and actual Float3 multiply/subtract-assignment definitions. Seven valid
-contexts preserve all138 baseline bodies/50066 bytes/2097 effective fields and
-RunEcl30/Enemy13. Three periodic joint contexts preserve137 bodies and every
-baseline field but retain Enemy45. All ten keep75 exact siblings and prove their
-one-to-nine added complete native owners plus positive same-object edges.
-Two selected independent joint replays reproduce both outcomes;no context is
-adopted.85 main inputs plus one math input bind df05447b. Research:
-`.analysis/gpt-61sol-20261031-ecl-spawn-producer-graph/`.
-The completed batch deletes only ten trial objects and16 PDBs,5640493 bytes;
-all1135 deletion-time protected hashes agree. Its frozen-input post-cleanup
-audit passes and the current679-unit receipt is unchanged. Build/ stays absent.
+`early-cursor.obj` and early-cursor.json preserve a946-byte/53-field candidate
+with **nine differences**,restoring65 of the current74 without damaging any
+existing match. All53 physical fields,286 instructions,16 blocks,32 ordered
+calls and COM arguments remain checked;all75 same-profile exact siblings pass.
+All137 other regular bodies remain unchanged. The actual fan pointer is computed
+before the alpha branch,matching the target's observed live cursor. See probe.py,
+80 immutable Git/EOL inputs and maintenance-preserved.json. RunEcl30/Enemy13 remain.
 
-Preceding game-source checkpoint **e07e24a5** connects RunEcl's clear operation
-to the implemented392-byte/six-field shared-manager method. Its full before/
-after-main clear visibility controls remain30/13. **4de82bfe** is a subsequent
-research-only Charge checkpoint. Their source-scoped histories remain in the KB.
+**Current src/EffectType34Family.inl is unchanged and still has74 differences.**
+The candidate is not an accepted unit and earns no partial credit. It has no
+independent cold replay or affected-other-profile replay yet. On an explicit
+restart,review the complete owner and affected source/profile scope before any
+adoption. Do not treat the candidate report as a current-source exact receipt.
+Other completed controls remain recorded:trailing-fan225,early-angle74,joint160.
+Their disposable objects may be absent;the nine-difference object is retained.
 
-Preceding game-source checkpoint **3719c0ed** shares observed Enemy,manager,
-side-state and trail storage between ECL state handlers and Enemy update,which
-uses the typed main context directly. Its two projection helper name migrations
-and19 actual Ob0 internal references remain unchanged historical evidence.
-Public EnemyView and other partial projections,original classes/lifetimes and
-TU boundaries remain open. The constructor's194-row stride1C span at3E68 does
-not establish an original vertex array declaration;see the KB caveat.
+## Historical research and removed copies
 
-Preceding game-source checkpoint **6ee0e0db** connects WinMain to the implemented
-ReplayRngView::SetSeed and existing replay RNG projection at4ACE0C. Its two exact
-startup owners and native14-byte setter remain unchanged and are reused. Other
-startup/global projections and full product linkage remain open.
+Durable findings and bounded negatives are indexed in KNOWLEDGE_BASE.md;dated
+sections retain their original source/epoch scope. In particular,the constructor's
+194-row stride1C initialization span at Enemy+3E68 does not establish an original
+vertex-array declaration. Current source still exposes192 rows plus an opaque tail.
+Old359/357/353 and shared-VM whole verifiers are historical;only hash-matched
+individual groups can feed current proof reuse. Full factory/release/producer
+contexts do not prove original nominal classes or unique translation units.
 
-Preceding game-source checkpoint **0bf38400** recovers the interpolation slot's
-callbackIndex14 and four float parameters1C. Installer and both native consumers
-share that array directly;slot0x30/context0x22C remain. Its affected carriers are
-replaced by the current packet;unchanged individual proofs feed this checkpoint.
-Earlier35d9d780 defines the
-eight native callbacks,c0e8a0b9 shares SHT Charge fields,and a3e4aaee unified LZSS.
-RunEcl stays15564/598/30 and Enemy3900/97/13;the interpolation table prefix and
-both native functions remain original-equal.
+Some byte-identical old src/docs/config snapshots are removed from ignored
+analysis packets. Every removed copy has a reachable Git blob,original SHA-256,
+path and line-ending map in:
+`.analysis/maintenance-20261031-handoff-1c371cf7/git-backed-copy-plan.json`.
+Historical replay tools may require these copies. Preview recovery for one packet:
 
-Two complete actual EclHelpers-before/after-EclManager contexts at088f04ac also
-preserve all138 baseline bodies/50066 bytes/2097 effective fields,75 existing
-exact units,both native interpolators and the reviewed table prefix. RunEcl30
-and Enemy13 do not improve. Anonymous namespace source-path names are adapted
-only in private native-body proofs;the unchanged public table inspector rejects
-the different canonical names. No original TU partition is inferred or adopted.
-Research: `.analysis/gpt-61sol-20261031-ecl-interpolation-context/`.
-
-The preceding shared-SHT and native-reward checkpoints remain historical source
-bindings. Their unaffected individual proofs may be reused;their whole current
-verifiers are not current after the ECL header update. See the KB for observations,
-immutable-input recipes and preserved limitations.
-
-Latest bounded Front result: complete selected-index/publication and whole-scan
-controls retain or regress the693-byte weighted picker;none is adopted. Current
-Front source remains unchanged. The standalone baseline in
-`.analysis/gpt-61sol-20261031-front-selected-publication/` is693/15/6 with351
-linked differences and41 versus40 blocks. The current shared-VM packet pins a
-fresh affected Front carrier with identical code alongside679 code units;
-its older whole current.py is source-scoped. See the latest KB note for measured
-boundaries;this does not change exactness credit.
-
-Latest bounded Supervisor result: six actual subthread/frame-reset source
-contexts and four complete title-result/restart graphs do not improve the
-maintained952/92/27 callback. Native Subthread14/0 and ResetFrame74/9 remain
-original-equal. Subthread visibility removes a receiver reload and damages two
-old equal positions;frame reset visibility is raw-neutral. Direct per-branch
-Title calls naturally merge to one physical call and reach217 instructions,
-but emit1000 bytes versus996,with562 unequal overlaps and51 damaged prior
-matches. The other restart/result graphs also fail. No source or credit changes.
-Packet: `.analysis/gpt-61sol-20261031-supervisor-native-frame-context/`.
-
-Latest bounded Charge result:four complete positive/negative/nested held-path
-graphs reproduce both baseline bodies and all actual fields. Charge stays
-1197/70/58/53,1160 overlap differences plus13 missing;the target mode-byte home
-is still absent. A mode switch emits1181 bytes/69 fields/57 calls by merging
-two IsHeld sites;the complete auditor rejects it before scoring. No source is
-adopted. One corrected held-path capture independently cold-reproduces every
-body,field and full diagnostic. Research:
-`.analysis/gpt-61sol-20261031-charge-whole-branches/`.
-
-Latest complete SaveReplay data-copy controls: typed32-byte frame assignment
-and typed memcpy destination preserve every14 baseline regular body and the
-1238/53/three-difference owner. Capturing the actual frame value first emits
-1254 bytes/384 instructions/53 fields/49 blocks,1030 unequal overlaps and16
-excess;other13 bodies remain raw-equal. Both no-EH exact siblings pass in all
-three models. None is adopted. Research:
-`.analysis/gpt-61sol-20261031-replay-frame-value-copy/`.
+```bash
+python3 -B scripts/restore-analysis-snapshots.py .analysis/maintenance-20261031-handoff-1c371cf7/git-backed-copy-plan.json --prefix .analysis/PACKET
+# Add --apply to restore absent files. Existing different files are never overwritten.
+```
 
 ## Source and evidence routing
 
@@ -303,7 +231,7 @@ repeating them. Historical assumptions remain hypotheses.
 
 ## Continuing reconstruction
 
-The current operator restart authorizes this workflow. Read
+When the operator explicitly resumes reconstruction,read
 [AGENTS.md](../AGENTS.md),[RE_WORKFLOW.md](RE_WORKFLOW.md),
 [ORACLES.md](ORACLES.md),the affected ledger rows and relevant KB findings.
 Recover tracked and untracked work first. Prioritize complete RunEcl and Enemy,
@@ -343,114 +271,28 @@ behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 
 ## Maintenance and validation
 
-Latest cleanup receipt:
-`.analysis/gpt-61sol-20261031-setup-shared-vm/cleanup.json`.
-314 files/18379487 logical bytes are removed:47 replaced objects,four trial
-objects,194 PDBs and69 Python caches. All1525 deletion-time protected hashes
-agree;231 primary objects,other retained objects,source/research,target/toolchains
-and working Ghidra remain. Two independent cold replays self-clean. Final full
-public CI runs1066 tests,1037 passes/29 optional skips. Build/ is absent.
+Current maintenance receipt:
+`.analysis/maintenance-20261031-handoff-1c371cf7/cleanup.json`.
+584 files/81954293 logical bytes are removed:141 Git-backed source/config/doc
+copies and443 reviewed compiler/debug/bytecode cache files. All36112 protected
+file/link fingerprints agree across deletion. Recovery from Git is hash-checked,
+and the real recovery writer passes a self-cleaning temporary test. Full public
+CI runs1080 tests:1051 pass/29 optional skips. Current679 and saved candidate
+verification pass without new compiler jobs. Build/ is absent.
+The original target,toolchains,working Ghidra project,current source,research
+records,current proof objects and pending nine-difference object are preserved.
+No source archive is added. Final deletion totals and checks are recorded in the
+receipt and the latest knowledge-base maintenance entry.
 
-Preceding Charge-branch cleanup receipt:
-`.analysis/gpt-61sol-20261031-charge-whole-branches/cleanup.json`.
-Eleven completed compiler files/722386 logical bytes are removed:five branch-
-model objects and six PDBs,including the failed source renderer's PDB. One
-12787-byte Python cache is also removed with985 other hashes unchanged. Current
-89 primary proof/diagnostic objects,other retained objects,source/research,
-target/toolchains and working Ghidra remain. No game source or current code
-receipt changes;the selected independent replay self-cleans. Build/ is absent.
+`clean-generated-artifacts.py` previews by default and preserves analysis OBJ
+files. To remove a reviewed obsolete object,use --reviewed-objects with JSON:
+`{"objects":[{"path":".analysis/PACKET/file.obj","sha256":"64 lowercase hex digits"}]}`.
+Inspect the plan before --apply and wait for producers to terminate. Changed
+files or build-tree contents invalidate the plan. Do not delete the preserved
+candidate or current proof cohort merely because the extension is.obj.
 
-Preceding native-clear cleanup receipt:
-`.analysis/gpt-61sol-20261031-ecl-native-clear-context/cleanup.json`.
-Twenty-four completed compiler files/3810833 logical bytes are removed:twelve
-replaced/trial/first-proposal objects and twelve PDBs. All1015 deletion-time
-protected hashes remain equal;89 primary proof/diagnostic objects,other retained
-objects,source/research,target/toolchains and working Ghidra remain. The selected
-independent adopted-source replay self-cleans. Build/ is absent.
-
-Preceding shared-storage cleanup receipt:
-`.analysis/gpt-61sol-20261031-ecl-enemy-shared-owner/cleanup.json`.
-Eighteen completed compiler files/3470227 logical bytes are removed:five replaced
-source-stale carriers,four completed whole-type controls,and nine PDBs. All1010
-deletion-time protected hashes remain equal;89 primary proof/diagnostic objects,
-other retained objects,source,research,target/toolchains and working Ghidra remain.
-Both independent temporary compiler outputs self-clean. Build/ is absent.
-
-Preceding startup cleanup receipt:
-`.analysis/gpt-61sol-20261031-winmain-native-seed/cleanup.json`.
-Nine completed compiler files/674662 logical bytes are removed:the obsolete
-WinMain baseline object,three rejected Replay objects,and five PDBs. All998
-protected hashes remain equal;89 primary proof/diagnostic objects,other retained
-objects,source,research,target/toolchains and working Ghidra remain. Build/ is
-absent. The selected independent startup replay already self-cleans.
-
-Preceding Supervisor cleanup receipt:
-`.analysis/gpt-61sol-20261031-supervisor-native-frame-context/cleanup.json`.
-Twenty completed trial OBJ/PDB files/1623510 logical bytes are removed after
-ten full controls and one selected independent cold replay. All997 protected
-hashes remain equal,including88 primary objects,other retained objects,research,
-source,target/toolchains and working Ghidra. The existing source-bound Supervisor
-baseline in supervisor-state-branches remains;no new baseline is cold-built.
-
-Preceding parameter-field cleanup receipt:
-`.analysis/gpt-61sol-20261031-ecl-interpolation-parameters/cleanup.json`.
-Sixteen completed compiler files/2527800 logical bytes are removed:six replaced
-source-stale carriers,two rejected complete-context objects,and eight PDBs.
-All995 protected hashes remain equal;88 current proof/diagnostic objects,immutable
-inputs,recipes,raw/COFF records,research,target/toolchains and Ghidra remain.
-Build/ is absent. Earlier cleanup counts below are historical receipts.
-
-Preceding Front cleanup receipt:
-`.analysis/gpt-61sol-20261031-front-selected-publication/cleanup.json`.
-Seventeen completed compiler files/599480 logical bytes are removed:seven
-rejected objects and ten PDBs. All979 deletion-time protected hashes remain equal.
-The new standalone Front baseline plus87 prior proof objects remain,along with
-source,research,target/toolchains and the working Ghidra project.
-
-Preceding interpolation-table cleanup receipt:
-`.analysis/gpt-61sol-20261031-ecl-interpolation-table/cleanup.json`.
-Nine compiler files/1416445 logical bytes are removed after complete proofs:
-three superseded carriers and six generated PDBs. All982 deletion-time protected
-hashes remain equal;87 current proof objects,research,tracked/new source,target/
-toolchains and working Ghidra remain. No source archive is created;build/ is absent.
-
-Preceding shared-SHT receipt:
-`.analysis/gpt-61sol-20261031-charge-shared-sht/cleanup.json` removed102 superseded
-OBJ/PDB files/5087131 bytes with1059 protected hashes unchanged at that checkpoint.
-Its three ECL-header-dependent carriers are replaced by the current packet;
-individual remaining source/profile/object pins retain their own bindings.
-
-Preceding native-reward receipt:
-`.analysis/gpt-61sol-20261031-enemy-native-reward-context/cleanup.json` removed14
-completed trial OBJ/PDB files/3781088 bytes with965 protected hashes unchanged.
-
-Preceding maintenance receipt: `.analysis/maintenance-20261031/cleanup.json`.
-Eighteen ignored files/2336422 logical bytes were deleted:twelve completed
-partition OBJ/PDB files and six Python bytecode caches. All34945 retained file
-hashes agree across deletion,including current source,research,proof objects,
-original target/toolchains and working Ghidra. All other OBJ files and mixed
-historical archives remain. No source archive or old code copy was created;
-no disposable source backup was found in src/,scripts/ or tests/. Build/ is absent.
-
-The generic `scripts/clean-generated-artifacts.py` previews safely,but its
-`--apply` includes retained proof objects under .analysis/. Do not apply that
-whole selection blindly. Review paths and retain current or unreproduced
-proofs. JSON/log/configuration research occupies most remaining analysis space;
-its size does not make it disposable. Use
-[cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for deletion inventories and
-historical checks. Earlier CI and cleanup counts are dated observations,not
-validation of this checkout.
-
-```bash
-python3 -B scripts/validate-tracking.py --require-target
-python3 -B scripts/validate-docs.py
-python3 -B scripts/progress.py --check
-python3 -B .analysis/gpt-61sol-20261031-setup-shared-vm/current.py
-git diff --check
-```
-
-The retained subset command reads existing proof objects;it does not cold-build
-them. Documentation changes need no compiler or Ghidra replay. Use full public
-CI for shared validation/tooling changes. English local commits use
-`gpt-6.1-sol:` and the identity/trailer in AGENTS.md. A local checkpoint alone
-does not establish remote publication.
+Documentation-only housekeeping needs no compiler or Ghidra replay. Run
+validate-docs.py,tracking/progress and git diff --check;run relevant tooling tests
+and public CI when shared cleanup/recovery tooling changes. Accepted receipts
+remain source-commit scoped. Whole Windows i386 compile/link/runtime,dual-Oracle
+semantics and portability are later phases and remain unfinished.

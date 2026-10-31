@@ -2,9 +2,11 @@
 
 The project milestone is at least **98% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The operator explicitly resumed reconstruction on October31 after maintenance
-checkpoint559ccf7c. The milestone remains unfinished. Audit earlier dependency/
-interface details as well as big-function bodies during the loop below. The
+The operator cleared reconstruction on October31 and requested housekeeping.
+Current work is maintenance. The unfinished milestone is not permission to
+resume;the workflow below applies after an explicit reconstruction restart.
+Audit earlier dependency/interface details as well as big-function bodies.
+The
 selected analysis route is direct local Ghidra, without IDA, REA or Factory MCP.
 Use repository Bash,
 `scripts/ghidra-analysis.py` and pinned VC7.1 tools.
@@ -168,8 +170,10 @@ merely because its files look generated: first verify how to reproduce the
 original trial and whether its negative result was recorded. The handoff must
 state exactly what was removed and what large scratch archives remain.
 `python3 scripts/clean-generated-artifacts.py` is dry-run by default and
-cleans the ignored `build/` tree plus compiler binaries under `.analysis/`
-only when called with `--apply`. Ambiguous `.idb` files are preserved because
+cleans the ignored `build/` tree plus debug/bytecode caches under `.analysis/`
+only when called with `--apply`. Analysis objects remain unless an explicit
+`--reviewed-objects` path/SHA-256 manifest selects them. Changed files or build
+contents invalidate the plan before deletion. Ambiguous `.idb` files are preserved because
 they may be IDA databases. It intentionally leaves copied experiment sources,
 JSON evidence, and original/IDA inputs intact until separately audited. Classify deletion by reproducibility, tracked
 references, and whether the useful fact has been promoted. Do not blindly
@@ -180,3 +184,10 @@ Never bulk-delete `.analysis/` or remove unclassified legacy artifacts, provider
 databases, toolchains, or Wine prefixes. Record the paths, classification,
 reproducibility and retained evidence in `docs/RE_HANDOFF.md` so future agents
 can distinguish deliberately cleaned outputs from missing canonical evidence.
+
+When old copies are byte-recoverable from reachable Git blobs,retain their
+original SHA-256,path and checkout line endings in a recovery manifest before
+deletion. `scripts/restore-analysis-snapshots.py MANIFEST --prefix .analysis/PACKET`
+previews recovery;`--apply` restores absent files without overwriting later work.
+Unique research variants and pending candidates do not qualify merely because
+some of their dependencies are Git-backed.

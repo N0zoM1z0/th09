@@ -1,6 +1,8 @@
 """Safety gates for TH09's optional ignored-build handoff cleanup."""
 
 import importlib.util
+import hashlib
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -35,12 +37,12 @@ class GeneratedArtifactCleanupTests(unittest.TestCase):
                 path.write_bytes(content)
             plan = CLEAN.inspect(root)
             self.assertEqual(plan.summary()['build_files'], 2)
-            self.assertEqual(plan.summary()['analysis_compiler_files'], 2)
+            self.assertEqual(plan.summary()['analysis_compiler_files'], 1)
             self.assertTrue((root / 'build/matching/candidate.obj').exists())
             summary = CLEAN.apply(plan)
-            self.assertEqual(summary['total_files'], 4)
+            self.assertEqual(summary['total_files'], 3)
             self.assertFalse((root / 'build').exists())
-            self.assertFalse((root / '.analysis/probe/result.obj').exists())
+            self.assertEqual((root / '.analysis/probe/result.obj').read_bytes(), b'OBJ')
             self.assertFalse((root / '.analysis/probe/result.pdb').exists())
             self.assertEqual((root / '.analysis/probe/probe.py').read_bytes(), b'print(1)')
             self.assertEqual((root / '.analysis/probe/result.json').read_bytes(), b'{"exact": false}')
@@ -51,7 +53,7 @@ class GeneratedArtifactCleanupTests(unittest.TestCase):
             import json
             audit = root / CLEAN.MANIFEST
             before = audit.read_bytes()
-            self.assertEqual(json.loads(before)['summary']['total_files'], 4)
+            self.assertEqual(json.loads(before)['summary']['total_files'], 3)
             CLEAN.apply(CLEAN.inspect(root))
             self.assertEqual(audit.read_bytes(), before)  # No-op must not erase audit.
             regenerated = root / 'build/again.obj'
@@ -59,7 +61,7 @@ class GeneratedArtifactCleanupTests(unittest.TestCase):
             regenerated.write_bytes(b'NEXT')
             CLEAN.apply(CLEAN.inspect(root))
             after = json.loads(audit.read_text())
-            self.assertEqual(after['summary']['total_files'], 5)
+            self.assertEqual(after['summary']['total_files'], 4)
             self.assertEqual(len(after['runs']), 2)
             self.assertFalse(regenerated.exists())
 
@@ -86,6 +88,90 @@ class GeneratedArtifactCleanupTests(unittest.TestCase):
             plan = CLEAN.inspect(root)
             self.assertEqual(plan.summary()['analysis_compiler_files'], 0)
             CLEAN.apply(plan)
+            self.assertEqual(item.read_bytes(), b'KEEP')
+
+    def test_only_hash_reviewed_objects_are_deleted(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            folder = root / '.analysis/probe'
+            folder.mkdir(parents=True)
+            approved, pending = folder / 'completed.obj', folder / 'candidate.obj'
+            approved.write_bytes(b'DONE')
+            pending.write_bytes(b'PENDING')
+            manifest = folder / 'review.json'
+            manifest.write_text(json.dumps({'objects': [dict(path='.analysis/probe/completed.obj',
+                sha256=hashlib.sha256(b'DONE').hexdigest())]}))
+            plan = CLEAN.inspect(root, object_review=manifest)
+            self.assertEqual(plan.analysis_files, (approved,))
+            CLEAN.apply(plan)
+            self.assertFalse(approved.exists())
+            self.assertEqual(pending.read_bytes(), b'PENDING')
+
+    def test_invalid_review_cannot_select_outside_wrong_hash_or_duplicate(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            folder = root / '.analysis/probe'
+            folder.mkdir(parents=True)
+            item = folder / 'candidate.obj'
+            item.write_bytes(b'KEEP')
+            manifest = folder / 'review.json'
+            valid = dict(path='.analysis/probe/candidate.obj', sha256=hashlib.sha256(b'KEEP').hexdigest())
+            for rows in ([dict(valid, path='../outside.obj')], [dict(valid, path='src/a.obj')],
+                         [dict(valid, sha256='0'*64)], [valid, valid],
+                         [dict(valid, path='.analysis/probe/original.idb')]):
+                manifest.write_text(json.dumps({'objects': rows}))
+                with self.subTest(rows=rows), self.assertRaises(ValueError):
+                    CLEAN.inspect(root, object_review=manifest)
+                self.assertEqual(item.read_bytes(), b'KEEP')
+
+    def test_changed_reviewed_file_aborts_before_any_delete(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            build = root / 'build/first.obj'
+            build.parent.mkdir()
+            build.write_bytes(b'BUILD')
+            item = root / '.analysis/probe/result.pdb'
+            item.parent.mkdir(parents=True)
+            item.write_bytes(b'OLD')
+            plan = CLEAN.inspect(root)
+            item.write_bytes(b'NEW')
+            with self.assertRaisesRegex(ValueError, 'changed after inspection'):
+                CLEAN.apply(plan)
+            self.assertEqual(build.read_bytes(), b'BUILD')
+            self.assertEqual(item.read_bytes(), b'NEW')
+
+    def test_parent_symlink_swap_cannot_remove_external_file(self):
+        with tempfile.TemporaryDirectory() as temporary, tempfile.TemporaryDirectory() as outside:
+            root = Path(temporary)
+            folder = root / '.analysis/probe'
+            folder.mkdir(parents=True)
+            (folder / 'result.pdb').write_bytes(b'KEEP')
+            plan = CLEAN.inspect(root)
+            folder.rename(folder.with_name('original'))
+            external = Path(outside) / 'result.pdb'
+            external.write_bytes(b'KEEP')
+            folder.symlink_to(Path(outside), target_is_directory=True)
+            with self.assertRaisesRegex(ValueError, 'symlink cache parent'):
+                CLEAN.apply(plan)
+            self.assertEqual(external.read_bytes(), b'KEEP')
+
+    def test_new_build_file_or_invalid_audit_aborts_before_deletion(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            item = root / 'build/result.obj'
+            item.parent.mkdir()
+            item.write_bytes(b'KEEP')
+            plan = CLEAN.inspect(root)
+            added = root / 'build/new.obj'
+            added.write_bytes(b'NEW')
+            with self.assertRaisesRegex(ValueError, 'build tree changed'):
+                CLEAN.apply(plan)
+            added.unlink()
+            audit = root / CLEAN.MANIFEST
+            audit.parent.mkdir(parents=True)
+            audit.write_text('{"runs": ["invalid"]}')
+            with self.assertRaisesRegex(ValueError, 'invalid earlier'):
+                CLEAN.apply(plan)
             self.assertEqual(item.read_bytes(), b'KEEP')
 
 

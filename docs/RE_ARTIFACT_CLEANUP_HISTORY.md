@@ -3286,3 +3286,35 @@ added and build/ is absent. Post-cleanup current679 strictly compares562 affecte
 units/179117 bytes/9302 fields and reuses117 unchanged pins;the immutable-input
 audit also passes without compiler jobs. Receipt:
 .analysis/gpt-61sol-20261031-setup-shared-vm/cleanup.json.
+
+
+## October31: maintenance after goal clearance at source1c371cf7
+
+The operator clears reconstruction and requests housekeeping. The already-running
+four-control Effect34 batch finishes,but no new trial or source adoption starts.
+Keep its unadopted early-cursor.obj:946 bytes/53 fields/nine differences versus
+current source74. Its80 immutable inputs,recipe,full comparisons and75 exact
+sibling proofs remain. No independent cold replay or exactness credit is claimed.
+
+The audited cleanup removes584 files/81954293 logical bytes:141 byte-recoverable
+Git source/config/doc copies(72888814 bytes),428 build bytecode caches,and15
+analysis compiler/cache files(three rejected objects,four PDBs,eight Python
+caches). Compiler/cache removal totals9065479 bytes. Original Git blob IDs,
+paths,SHA-256 values and checkout line endings remain in the recovery manifest.
+No unique source variant or research JSON/log is removed;no new archive is made.
+
+All36112 deletion-time protected file/link fingerprints agree. Preserve current
+source and all research,original target/toolchains,working Ghidra,231 primary
+proof objects,nine additional historical/diagnostic objects and the pending
+candidate. The recovery helper's real writer passes a temporary sample restore;
+preview then reports exactly141 absent copies. Build/ is absent. Current679 and
+saved-candidate audits pass without new compiler jobs. Full public CI1080 tests
+passes1051/29 optional skips;documentation/tracking/progress/whitespace pass.
+
+The cleanup helper now preserves analysis OBJ files by default,requiring explicit
+path/SHA-256 review before deletion,and rejects stale plans or symlink parent
+changes. scripts/restore-analysis-snapshots.py provides selective Git/EOL recovery
+without overwriting later candidate edits. The active handoff names all current
+paths;earlier packet snapshots may require this recovery before historical replay.
+Receipt:.analysis/maintenance-20261031-handoff-1c371cf7/cleanup.json.
+Recovery manifest:git-backed-copy-plan.json in the same directory.

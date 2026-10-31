@@ -2,18 +2,15 @@
 
 ## Current operator status
 
-The operator explicitly resumed reconstruction on October31 after maintenance
-checkpoint559ccf7c. Prioritize complete RunEcl and EnemyManager::OnUpdate toward
-the unfinished98% reviewed-authored-byte milestone; both large owners and small
-leaves remain in scope. Current game-source work shares one lifecycle/rendering
-AnmVm layout and uses all eight implemented gameplay-setup creator contracts.
-Gameplay cleanup also calls the actual Background,CardAttack and FrontSide reset
-methods;teardown uses six implemented native release contracts. See docs/RE_HANDOFF.md
-for current source/profile proofs and unresolved full-owner residuals.
-The earlier maintenance/stop instructions are historical evidence.
-Preserve documentation, research records, current game source, target/toolchains
-and the working Ghidra project. Delete unused old code copies and compiler
-artifacts instead of archiving them.
+The operator cleared the reconstruction goal on October31 and requested code,
+documentation and storage housekeeping. Current work is maintenance;the
+unfinished98% milestone does not authorize automatic reconstruction. Latest
+game-source checkpoint is1c371cf7 (implemented gameplay teardown contracts).
+The11ec17cd research checkpoint and earlier resumes/stops remain historical.
+Preserve documentation,research records,current game source,target/toolchains,
+the working Ghidra project and the unadopted Effect34 nine-difference candidate.
+Delete unused old code copies and compiler artifacts instead of archiving them.
+Read docs/RE_HANDOFF.md for current proof and candidate routing.
 
 On October 29 the operator resumed reconstruction with direct local tools.
 The current explicit routing is **Ghidra directly, without IDA, REA or Factory
@@ -21,7 +18,7 @@ MCP**. Use `scripts/ghidra-analysis.py` and the local `analyzeHeadless` executab
 reuse the verified project instead of importing the target for every query.
 The October 24 stop and earlier tool routing are historical checkpoints.
 
-Prioritize complete RunEcl and EnemyManager::OnUpdate
+When reconstruction is explicitly resumed,prioritize complete RunEcl and EnemyManager::OnUpdate
 exactness toward the unfinished 98% reviewed-authored-byte milestone. Explore
 whole-function dataflow, shared types and real translation-unit boundaries as
 well as local source models; historical assumptions are not conclusive.
@@ -169,7 +166,9 @@ analysis database is working state; mirror durable conclusions into the repo.
   only evidence needed to reproduce an unresolved claim, turn reusable work
   into a script or durable note, and remove superseded disposable artifacts.
 - `scripts/clean-generated-artifacts.py` previews by default; `--apply`
-  removes ignored `build/` and disposable compiler binaries under `.analysis/`.
+  removes ignored `build/` and disposable debug/bytecode caches under `.analysis/`.
+  Analysis OBJ files are preserved unless `--reviewed-objects` supplies an explicit
+  path/SHA-256 list. A file or build-tree change after inspection rejects cleanup.
   **After a clean handoff, `build/` may be absent**. Build each exact unit and
   diagnostic object afresh before comparing; do not treat the absence of an
   old `.obj`/`.pdb` as lost canonical evidence. Preserve original executable,
