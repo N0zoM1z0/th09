@@ -3044,3 +3044,25 @@ The receipt separately records five pre-existing changes since the earlier
 Effect deletion-time inventory;it does not claim those historical hashes stayed
 current forever. No source archive is introduced. Receipt:
 `.analysis/gpt-61sol-20261031-replay-standard-algorithms/cleanup.json`.
+
+
+## 2026-10-31: native ECL opposite-angle caller closure
+
+The resumed reconstruction fixes two undefined private angle-member references
+in EclOperands by using the maintained producer's actual shared declarations.
+Four complete existing resolver units retain5718 physical bytes/374 fields.
+The real101-byte/five-field producer also remains exact in a co-visible context;
+one independent cold replay agrees. Four complete RunEcl visibility controls
+regress30 to42 and grow two actual resolvers;none is adopted. Nine serial jobs
+include seven primary controls,the canonical affected build and one replay.
+
+After all owned producers terminate,cleanup removes15 ignored compiler files/
+2623324 logical bytes:six disposable primary objects,seven PDBs and a duplicate
+canonical OBJ/PDB. Preserve native.obj,the separate native angle producer and
+all340 previous carriers. They supply the current344 existing-unit subset,
+105725 compared physical bytes/5131 fields,without new exactness credit. All1093
+protected deletion-time hashes agree. Full raw/COFF/contribution/failure records,
+compiler logs,immutable recipes,exports,tracked source,target/toolchains and
+working Ghidra remain. Post-cleanup saved-record/current344 checks pass without
+cold jobs. No source archive is introduced and build/ is absent. Receipt:
+`.analysis/gpt-61sol-20261031-ecl-native-angle-callee/cleanup.json`.

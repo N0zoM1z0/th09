@@ -1,6 +1,7 @@
 #include "EclRunControl.inl"
 #include "AsciiGameManagerView.hpp"
 #include "AsciiManager.hpp"
+#include "PlayerAngleView.hpp"
 
 struct D3DXVECTOR3;
 float __fastcall D3DXVec3Length(const D3DXVECTOR3 *value);
@@ -45,7 +46,6 @@ struct EclOperandPlayerView
     unsigned char unknown00A8[0x1B88 - 0x00A8];
     EclOperandFloat3View position1B88;
 
-    float AngleToPoint(EclOperandFloat3View *point);
 };
 typedef char EclOperandPlayerValueA0[
     (offsetof(EclOperandPlayerView, operandValueA0) == 0x00A0) ? 1 : -1];
@@ -270,7 +270,8 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
                    : TH09_ECL_OPERAND_OPPOSING_PLAYER(enemy)->operandValueA4;
 
     case 0x2740:
-        return static_cast<int>(TH09_ECL_OPERAND_PLAYER(enemy)->AngleToPoint(&TH09_ECL_OPERAND_ENEMY(enemy)->worldPosition2DD4));
+        return static_cast<int>(reinterpret_cast<PlayerAngleView *>(TH09_ECL_OPERAND_PLAYER(enemy))->AngleToPoint(
+            reinterpret_cast<PlayerAngleFloat3View *>(&TH09_ECL_OPERAND_ENEMY(enemy)->worldPosition2DD4)));
 
     case 0x2742:
     {
@@ -515,7 +516,8 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x276B: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->lifeCallbackThresholds33B0[3]);
 
     case 0x2740:
-        return TH09_ECL_OPERAND_PLAYER(this)->AngleToPoint(&TH09_ECL_OPERAND_ENEMY(this)->worldPosition2DD4);
+        return reinterpret_cast<PlayerAngleView *>(TH09_ECL_OPERAND_PLAYER(this))->AngleToPoint(
+            reinterpret_cast<PlayerAngleFloat3View *>(&TH09_ECL_OPERAND_ENEMY(this)->worldPosition2DD4));
 
     case 0x2755: return TH09_ECL_OPERAND_ENEMY(this)->movementAngle2DE0;
     case 0x2756: return TH09_ECL_OPERAND_ENEMY(this)->angularVelocity2DE4;

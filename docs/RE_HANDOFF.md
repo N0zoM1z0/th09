@@ -1,16 +1,20 @@
 # TH09 reconstruction — current handoff
 
-## Operator status — maintenance
+## Operator status — reconstruction resumed
 
-The current operator instruction supersedes the earlier October31 resumption:
-work is maintenance, and the unfinished98% milestone does not authorize further
-reconstruction. Preserve the later local source and research checkpoints below.
-The current maintenance batch records already-completed Replay experiments and
-removes their unused compiler outputs; it starts no new compiler or Ghidra jobs.
-Explicit reconstruction resumption is required before further investigation.
+The operator explicitly continued the reconstruction goal after maintenance
+checkpoint d332bec4. Continue toward98% reviewed-authored bytes,including both
+large owners and small leaves. Prioritize complete RunEcl and Enemy,challenge
+historical assumptions,and use direct local Ghidra without IDA,REA or Factory
+MCP. Compile only affected sources/profiles;reuse unchanged proofs.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Current game-source checkpoint: **eedcea20**;the previous source wasa4bba8ec.
+Current game source is the native ECL-angle interface checkpoint described below;
+its previous game-source checkpoint is **eedcea20** (before that,a4bba8ec).
+EclOperands now calls the real opposite-angle producer through PlayerAngleView,
+removing its undefined private member declaration. All four resolvers retain
+5718 complete physical bytes/374 fields,including tables. Two native names and
+291 actual-position-proved private labels refresh; no exactness credit changes.
 BulletManager now uses the actual RngRuntimeView and Supervisor declarations.
 All18 existing Bullet owners retain6711 physical bytes/259 fields,including
 SpawnSingleBullet1932/47 and Etama OnUpdate2216/88. Eight native viewport owners
@@ -38,6 +42,20 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
 
 ## Source and evidence routing
 
+- `.analysis/gpt-61sol-20261031-ecl-native-angle-callee/current.py` is the
+  current source-bound subset:344 existing units/105725 compared physical bytes/
+  5131 fields. Four resolvers pass strict canonical comparison;340 unchanged
+  source/profile/object pins are reused. Original calls at405D42 and406E06 both
+  target41BB70,which remains distinct from forward41BB00. The shared native
+  producer retains101 bytes/five fields. Real caller/callee co-location and its
+  independent rebuild also preserve all four resolvers and that whole producer.
+  Four whole ECL visibility controls instead leave RunEcl15564/598 with42
+  ordinary differences,while the two value resolvers grow16 bytes each. All75
+  existing ECL siblings pass per control;Enemy stays3900/97/13. These contexts
+  are rejected,not adopted as original TU ownership. Nine bounded serial jobs
+  include the canonical affected build and one independent positive replay.
+  Cleanup removes15 files/2623324 bytes after1093 protected-hash checks. Keep
+  native.obj,all prior carriers,raw/COFF records,recipes and rejection evidence.
 - `.analysis/gpt-61sol-20261031-replay-standard-algorithms/current.py` is the
   retained source-bound subset:340 existing units/100007 compared physical bytes/
   4757 fields. Two original no-EH Replay owners/1684 bytes/110 fields pass strict
@@ -358,7 +376,7 @@ repeating them. Historical assumptions remain hypotheses.
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Remaining receiver/allocation scheduling. Preserve43 matching bytes and genuine AnmLoaded/Chain interfaces. `--owner effect`. |
 | **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Packed input/seed16-bit store order. Preserve178 matching physical bytes and both exact queue members. `--owner queue`. |
 
-## Reconstruction procedure — requires explicit resumption
+## Continuing reconstruction
 
 Read [AGENTS.md](../AGENTS.md),[RE_WORKFLOW.md](RE_WORKFLOW.md),
 [ORACLES.md](ORACLES.md),the affected rows and relevant KB findings. Recover all
@@ -420,6 +438,5 @@ git diff --check
 Use full public CI for shared validation/tooling changes;documentation alone
 needs no compiler or Ghidra replay. English local commits use `gpt-6.1-sol:` and
 the identity/trailer in AGENTS.md. A local checkpoint does not prove remote
-publication. The October30 cleanup counts above are historical;the current operator
-instruction is maintenance. Later research checkpoints are retained without
-authorizing further reconstruction.
+publication. The October30 cleanup counts above and d332bec4 maintenance stop are
+historical;the operator has explicitly continued reconstruction.

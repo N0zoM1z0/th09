@@ -27578,3 +27578,74 @@ objects without compiler replay. Cleanup receipt:packet cleanup.json.
 Reviewed-authored exactness remains1004/1035 and246651/291883 bytes(84.5034%);
 RunEcl30 and Enemy13 remain unresolved. Further reconstruction requires explicit
 operator resumption.
+
+
+## 2026-10-31: native opposite-angle interface in ECL operand resolution
+
+The operator explicitly continues reconstruction after maintenance d332bec4.
+Recovery is clean. Japanese1.50a disk identity,tracking and live status pass.
+Direct Ghidra12.1.4 reuses the working project and checks all685056 mapped
+file-backed bytes. RunEcl/Enemy export:export-20261031T015244-1169739;resolver/
+opposite-angle export:export-20261031T015451-1174800. No metadata or target bytes
+are changed. Historical scope-flattening and whole-wire storage trials were
+reviewed rather than repeated.
+
+Original integer and float resolver calls at405D42 and406E06 both target41BB70.
+Their argument is Enemy+2DD4,and the receiver follows manager->side320->player04.
+The actual101-byte/five-field producer subtracts the argument from player+1B88
+and calls VectorAngle;it is the opposite of the distinct forward helper41BB00.
+The old EclOperandPlayerView::AngleToPoint private declaration had the correct
+numeric target but no real C++ definition and a different point type. This is
+an interface-closure repair,not a newly discovered wrong original destination.
+
+EclOperands now includes PlayerAngleView.hpp,removes that private method,and
+uses the producer's actual shared class and point declarations at both calls.
+Its separate storage projection remains for the observed A0/A4/1B88 fields.
+All four regular resolver bodies retain raw bytes;only two external COFF names
+change. The four configured units remain1980/165,726/39,968/49 and2044/121
+(physical bytes/fields),5718/374 in total,including full switch data and literals.
+A cold canonical affected-carrier build and strict public comparisons pass.
+The native opposite-angle producer is separately source/profile/object-bound
+and completely original-equal101/5. No ABI,width,offset,profile or callee address
+changes. Canonical manifests refresh291 private spellings only at their actual
+unchanged owner-relative destinations,plus the two real external names. The
+existing canonical-owner guard rejects rebinding the new native name to41BB00.
+
+One natural source context places the real opposite-angle definition with all
+four resolver definitions. Every resolver and the whole101-byte producer still
+matches original;the two actual calls become positive same-object references.
+One independent immutable-Git/EOL cold replay reproduces all five actual bodies,
+all fields,compiler contributions and complete target proofs. This does not
+establish original TU ownership or whole-product closure.
+
+Four further controls put the complete real resolvers before/after the complete
+EclManager carrier,with and without the real angle producer. All75 configured
+ECL owners remain exact per control,22463 physical bytes/990 fields. Among138
+common main-carrier bodies,only RunEcl changes:15564/598 remains,but differences
+increase from30 to42 ordinary bytes,with zero field/table drift. Enemy stays
+3900/97/13. The same contexts grow ResolveInt1980 to1996 and ResolveFloat2044
+to2060 physical bytes,each losing one field(165->164 and121->120);these fail
+complete callee extents. The two lvalue resolvers still match original726/39 and
+968/49. The real angle producer remains101/5 when present. Thus matching sibling
+callers does not justify adopting a visibility model whose real callees fail.
+The added real context is rejected without inventing boundaries or fake native
+bindings. No forced-inline,register/variable-order hint,qualifier,padding,asm,
+profile sweep or target patch is introduced.
+
+There are nine serial one-CPU nice10/180-second-bound compiler jobs:seven primary
+controls,the canonical affected build and one independent replay. No cold ECL
+baseline or full historical cohort is rebuilt. The retained344 verifier strictly
+checks four existing resolver units and reuses340 unchanged source/profile/object
+pins,105725 summed compared physical bytes/5131 fields. It also rechecks the
+actual native angle producer and complete unchanged RunEcl30/Enemy13 diagnostics.
+Global exactness remains1004/1035 functions and246651/291883 bytes(84.5034%).
+The98% objective and native/runtime/semantic/port phases remain unfinished.
+
+After all owned producers terminate,cleanup removes15 compiler files/2623324
+logical bytes:six disposable primary objects,seven PDBs and the duplicate
+canonical OBJ/PDB. All1093 deletion-time protected hashes agree. Keep native.obj,
+all current proof carriers,source,original/toolchains,working Ghidra,exports,
+full actual raw/COFF/contribution/context-failure records and immutable recipes.
+Post-cleanup seven-input saved-record audit and current344 checks pass without
+cold jobs. No source archive is added;build/ is absent. Packet and receipt:
+`.analysis/gpt-61sol-20261031-ecl-native-angle-callee/` and cleanup.json.

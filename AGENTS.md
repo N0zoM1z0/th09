@@ -2,14 +2,13 @@
 
 ## Current operator status
 
-The current operator instruction is maintenance. The unfinished98%
-reviewed-authored-byte milestone does not authorize continuing reconstruction
-automatically. The October30 maintenance checkpoint is71246812; later local
-source and research checkpoints are preserved and routed through
-`docs/RE_HANDOFF.md`. Do not revert those checkpoints to restore an older state.
-Preserve documentation, research records, current game source, target/toolchains
-and the working Ghidra project. Delete unused old code copies and compiler
-artifacts instead of archiving them.
+The operator explicitly continued reconstruction on October31 after the local
+maintenance checkpoint d332bec4. The unfinished98% reviewed-authored-byte
+milestone is active again. The October30 maintenance checkpoint71246812 and
+later source/research checkpoints remain historical evidence; route current
+source and proofs through `docs/RE_HANDOFF.md`. Preserve documentation, research
+records, current game source, target/toolchains and the working Ghidra project.
+Delete unused old code copies and compiler artifacts instead of archiving them.
 
 On October 29 the operator resumed reconstruction with direct local tools.
 The current explicit routing is **Ghidra directly, without IDA, REA or Factory
