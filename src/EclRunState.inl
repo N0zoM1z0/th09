@@ -177,6 +177,8 @@ struct EnemyCoreView
 };
 struct EnemyManagerCoreView
 {
+    int KillAllNonBossEnemies(int transitionValue, int startingValue);
+
     EnemyEclManagerView primaryEclManager000;
     EnemyEclManagerView opposingEclManager188;
     unsigned char unknown310[0x0C];

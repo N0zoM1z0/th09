@@ -101,13 +101,6 @@ __forceinline void ResolveSpawnPosition(
                       : packet.position04.z;
 }
 
-// Role names for real target boundaries.  Final source TU/internal ABI remains
-// open until the complete interpreter and its dependencies are compiled.
-struct ManagerClearView
-{
-    int KillAllNonBossEnemies(int transitionValue, int startingValue);
-};
-
 } // namespace Th09EclRunRemote
 
 #endif // TH09_ECL_RUN_REMOTE_DECLARATIONS
@@ -285,7 +278,7 @@ th09_ecl_store_int_result:
         break;
 
     case TH09_ECL_OPCODE_KILL_ALL_NON_BOSS_ENEMIES:
-        reinterpret_cast<Th09EclRunRemote::ManagerClearView *>(
+        reinterpret_cast<EnemyManagerCoreView *>(
             enemy->manager00)->KillAllNonBossEnemies(8000, 0);
         break;
 

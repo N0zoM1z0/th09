@@ -3223,3 +3223,23 @@ and build/ is absent. Post-cleanup current359 verifies83 strict affected units/
 25942 bytes/1146 fields plus276 unchanged pins,109976 summed physical bytes/
 5388 fields;the saved-input audit also passes without further compiler jobs.
 Receipt:`.analysis/gpt-61sol-20261031-ecl-enemy-shared-owner/cleanup.json`.
+
+## 2026-10-31: native clear method and complete visibility controls
+
+Four primary native-clear/main/visibility controls,five final source/profile
+carriers and one independent adopted-main replay are terminal. Three first-
+proposal carriers are also retained as records:all83 exact siblings pass,but
+the full Ob0 RunEcl payload grows12820 to12824 through an extra View call and
+is rejected. The adopted direct manager projection preserves all280 baseline
+body/profile payloads and the complete392-byte native clear method. Original
+class and TU ownership remain unknown;no exactness credit changes.
+
+Cleanup removes24 compiler files/3810833 logical bytes:twelve replaced/trial/
+first-proposal objects and twelve PDBs. All1015 deletion-time protected hashes
+agree. Retain89 primary proof/diagnostic objects,all other retained objects,
+source/research,immutable3719c0ed Git/EOL inputs,recipes,complete raw/COFF/native/
+compiler reports,two new attested Ghidra exports,original target/toolchains and
+working Ghidra. Independent temporary outputs self-clean;no source archive is
+added and build/ is absent. Post-cleanup strict83/25942/1146 plus276 unchanged
+pins,current359/109976/5388,and the saved-input audit pass without compiler jobs.
+Receipt:.analysis/gpt-61sol-20261031-ecl-native-clear-context/cleanup.json.

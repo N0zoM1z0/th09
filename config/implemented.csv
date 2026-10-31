@@ -736,7 +736,7 @@ EnemyEclExInstruction2
 Th09EclRunState::ReleaseAttachedEffects
 EnemyDrawInterpolateWrappedAngle
 EnemyEclManagerView::InitializeSubroutine
-Th09EclRunRemote::ManagerClearView::KillAllNonBossEnemies
+EnemyManagerCoreView::KillAllNonBossEnemies
 AsciiBossMarkerVmView::SetBossMarkerInterrupt
 AsciiBossMarkerVmView::SetBossMarkerPosition
 BackgroundSpellStateView::BeginSpellBackground

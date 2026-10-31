@@ -4,29 +4,12 @@
 
 #include <stddef.h>
 
-namespace
-{
-struct EnemyManagerClearLayout
-{
-    unsigned char unknown0000[0x31C];
-    int sideIndex31C;
-    unsigned char unknown0320[0x5758 - 0x320];
-    Th09EclRunState::EnemyStateView enemies5758[128];
-};
-
-typedef char EnemyManagerClearSideAt31C[
-    (offsetof(EnemyManagerClearLayout, sideIndex31C) == 0x31C) ? 1 : -1];
-typedef char EnemyManagerClearEnemiesAt5758[
-    (offsetof(EnemyManagerClearLayout, enemies5758) == 0x5758) ? 1 : -1];
-}
-
 extern AsciiManager g_AsciiManager;
 
-int Th09EclRunRemote::ManagerClearView::KillAllNonBossEnemies(
+int EnemyManagerCoreView::KillAllNonBossEnemies(
     int transitionValue, int startingValue)
 {
-    EnemyManagerClearLayout *manager =
-        reinterpret_cast<EnemyManagerClearLayout *>(this);
+    EnemyManagerCoreView *manager = this;
     int totalValue = startingValue;
     int popupValue = 2000;
     Th09EclRunState::EnemyStateView *enemy = manager->enemies5758;
@@ -89,8 +72,7 @@ int Th09EclRunRemote::ManagerClearView::KillAllNonBossEnemies(
 
         if (enemy->deathCallbackSubId2D2E >= 0)
         {
-            reinterpret_cast<Th09EclRunState::ManagerStateView *>(this)
-                ->primaryEclManager000.InitializeSubroutine(
+            manager->primaryEclManager000.InitializeSubroutine(
                     &enemy->mainContext07F4,
                     enemy->deathCallbackSubId2D2E);
             enemy->deathCallbackSubId2D2E = -1;

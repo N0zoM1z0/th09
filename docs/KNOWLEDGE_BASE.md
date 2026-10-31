@@ -28442,3 +28442,80 @@ and working Ghidra. Both independent temporary outputs self-clean. Post-cleanup
 current359 and saved-input audits pass without compiler jobs. No source archive
 is added;build/ is absent. RunEcl30,Enemy13 and authored exactness1004/1035,
 246651/291883 bytes(84.5034%) remain unchanged;the98% objective is unfinished.
+
+## 2026-10-31: native clear method on the shared observed manager
+
+Clean3719c0ed recovery,original Japanese1.50a target,tracking and progress pass.
+The preceding turn is source progress:shared observed ECL/Enemy storage,without
+new exact credit. Fresh direct Ghidra exports081501-2424993 and081744-2433604
+reuse the verified project and attest all685056 mapped file bytes. RunEcl's
+clear call passes the existing Enemy manager receiver,8000 and0 to40F640.
+The native method traverses128 records of stride5430 from5758,reads manager
+sideIndex31C and calls its primary ECL manager on the same Enemy context7F4.
+These observations support the shared storage projection;Ghidra's nominal
+classes,parameter types and inferred boundaries remain provisional.
+
+The old empty Th09EclRunRemote::ManagerClearView supplied only a method name;
+its implementation separately cast this to another partial manager layout.
+The implemented KillAllNonBossEnemies now belongs to EnemyManagerCoreView,
+using the existing shared fields and typed Enemy contexts. RunEcl projects its
+existing EnemyManagerView pointer to that same observed manager and calls the
+implemented method. The empty receiver and duplicate layout disappear. Shared
+size/offset guards remain;scan128,trail stepping by6,popup accumulation,callback
+chronology and the native thiscall ABI remain. Public EnemyManagerView and other
+partial projections are not globally unified;original class/lifetime and full
+Windows product closure remain open.
+
+Four frozen primary controls compile the native clear leaf,the changed complete
+main caller,and the real clear body before/after the complete main source.
+The leaf retains every392 original byte and all six fields. Each main model
+retains every138 baseline body/50066 bytes/2097 effective fields after binding
+the one clear-method name migration. Both co-visible contexts additionally
+emit the complete original-equal392-byte definition;their real caller reference
+is positive to that definition. All75 same-profile existing exact units pass;
+RunEcl remains15564/598/30 and Enemy3900/97/13. No body is forced inline,no
+additional original helper is invented,and neither source ordering is adopted
+as an original TU claim.
+
+An important additional whole-payload rejection precedes final adoption. The
+first caller uses State::View(enemy) to obtain its manager. Ob1 is neutral,but
+Ob0 gains an actual source-only projection call:nonexact RunEcl grows12820 to
+12824 physical bytes while its four canonical exact siblings still pass. The
+complete regular-body audit rejects it. Directly projecting the existing
+manager pointer removes that extra operation and preserves the full Ob0
+baseline. All five final affected carriers are rebuilt under their unchanged
+profiles;EclOperands includes only Control and remains source-independent.
+An initial six-carrier estimate is rejected before mutation;the actual census
+is five carriers/83 existing units.
+
+Current proof:.analysis/gpt-61sol-20261031-ecl-native-clear-context/current.py.
+Strict83 units retain25942 bytes/1146 fields;276 unchanged source/profile/object
+pins give359 combined units/109976 summed physical bytes/5388 fields,including
+excluded units. All280 regular body/profile payloads retain97655 bytes/4352
+fields;two compiler contributions retain76 bytes/zero fields. Two external
+caller fields at MainOb1+2E74 and MainOb0+2447 change only to the implemented
+clear member's canonical symbol,both still binding40F640. Twenty compiler-
+private canonical labels change only after owner-relative destination proof.
+All original addresses,field kinds/addends/offsets,profiles,extents and credit
+remain. The previous whole shared-storage verifier is now source-stale;only
+unaffected individual pins feed this receipt.
+
+All83 frozen Git/EOL inputs reproduce from3719c0ed. Thirteen compiler executions
+run serially on one CPU,nice10,with180-second bounds:four primary models,three
+remaining first-proposal carriers,five final carriers and one independent
+adopted-main replay. The last repeats all138 raw bodies/actual fields,75 exact
+siblings,compiler contribution and full30/13 reports. Temporary outputs self-
+clean. Private audit assumptions about a nonexistent Enemy raw-hash key and
+cascading label strings fail before acceptance;the corrected audit uses actual
+complete difference offsets and field-offset-keyed label updates. Public
+comparators/guards are unchanged. All243 focused tests pass;tracking,docs,
+generated progress and whitespace checks apply without a full cold cohort.
+
+After producers terminate,cleanup removes24 files/3810833 logical bytes:twelve
+old/trial/first-proposal objects and twelve PDBs. All1015 deletion-time protected
+hashes agree,including89 primary objects,other retained objects,source/research,
+original target/tools and working Ghidra. Keep both new exports,immutable inputs,
+recipes,complete raw/COFF/native/compiler records and failed-proposal evidence.
+Post-cleanup current359 and saved-input audits pass without compiler jobs. No
+source archive is added;build/ is absent. Authored exactness stays1004/1035 and
+246651/291883 bytes(84.5034%);the98% goal and full RunEcl/Enemy remain unfinished.
