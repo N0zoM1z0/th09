@@ -172,3 +172,70 @@ bytes and 1,179 original-bound relocation fields**. This is existing exact
 sibling regression evidence, not a new exact match, and does not certify the
 nonexact 15,564-byte RunEcl interpreter. The `src/EclRunState.inl` five-carrier
 plan remains dry-run only; no full cold replay was launched.
+
+## Late focused source-cold bosses and leaf trials — 2026-10-31
+
+The current source tree was clean before this batch. All experiments below
+were compiled serially with the configured VC7.1 source profile into ignored
+`.analysis/` objects and checked against complete original-PE owner extents.
+The source/profile manifests, game source and target executable were never
+modified to accommodate a losing candidate. The original Japanese 1.50a SHA
+and canonical tracking were revalidated. No all-source cold replay was run.
+
+### ReplayManager::SaveReplay, 1,238-byte big owner
+
+Seventeen new real read-only pointer, byte-reference, local checksum sample,
+addition/parenthesization, C++ aggregate-copy, destination-cast and source
+pointer variants all compile to **1,238 physical bytes, 380 instructions, 53
+original-bound relocation fields, 23 same call operands and 49 matching CFG
+blocks**. Every variant retains exactly three mismatched original bytes:
+`+0xB7`, `+0xBB` (copy destination register) and `+0x3F6` (checksum SIB).
+Thus these compile-backed rewrites prove **no** improvement, not that a matching
+original source is impossible. Evidence:
+`.analysis/gpt-web-save-readalias-20261031/` (17 compiled reports, source and
+object SHA-256s). A new maintained-source focused
+`check-boss-frontiers.py --owner replaysave` independently replays the full
+SaveReplay owner and **12** actual canonical same-source exact siblings:
+**4,093 physical bytes and 232 verified fields**. Receipt:
+`.analysis/gpt-web-save-final-20261031.json`. No exact credit was added.
+
+### EffectManager::AddedCallback, 51-byte leaf
+
+Seventeen natural pointer constness, receiver declaration/lifetime, cached ANM
+lookup, resource view and conditional-expression models were compiled with the
+real EffectManager carrier. Fifteen preserve the original **8** residual byte
+positions, while the two classes of cached first-call receiver produce **11**
+differences. The only maintained shape remains **51/51 physical, 19 machine
+instructions, four original-bound fields and two ordered calls**, with eight
+unlike bytes at `+0x03..+0x09` and `+0x0D`. The current source was independently
+rebuilt by `build-match-unit.py --unit effect-manager-clear`, followed by
+`inspect-effect-added.py --json`. This diagnostic exits nonzero when a genuine
+non-exact owner is found; its complete JSON is preserved under
+`.analysis/gpt-web-effect-added-final-20261031.json`. The bounded trial
+recipes and linked-object reports remain in
+`.analysis/gpt-web-added-lifetime-20261031/`.
+
+### ECL MoveRandomBiased, 516-byte target leaf, and true RunEcl boss
+
+Twelve real Float3/Y-cursor acquisition variants were compiled against the
+whole actual `EclManager.cpp` carrier; eight pass the complete original-bound
+28-field oracle and stay **517-byte candidate vs 516-byte original, with 148
+overlapping differences and 24 matching CFG blocks**. Two other compilable
+forms change the physical extent and are rejected by the oracle; two do not
+compile under pinned VC7.1. No apparent local register resemblance was allowed
+to waive physical extent, field or call requirements. Trial evidence:
+`.analysis/gpt-web-biased-y-view-20261031/`.
+
+The same current-source big-owner `--owner runecl --skip-exact-siblings`
+recompilation verifies **15,564 physical bytes, 598 source/original referents,
+zero field or switch-table differences and 30 ordinary differences**, localized
+to original wire opcode 4 (**7**) and opcode 155 (**23**). The two bounded
+non-crediting semantic probes cover 90 timer/jump and 3,072 timeout-bit
+cases; these do not constitute whole-game runtime proof. Receipt:
+`.analysis/gpt-web-runecl-final-20261031.json`.
+
+**Outcome:** no additional exact function or authored byte is claimed in this
+negative-source-candidate batch. The 1,005 exact/1,035 source-present ledger
+and 247,597/291,883 reviewed-authored exact bytes remain unchanged. The source
+code, original bytes, canonical match units and existing exact owners were
+preserved, with trial source/COFF and JSON retained for further investigation.
