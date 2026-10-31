@@ -58,14 +58,18 @@ class BossFrontierChecks(TestCase):
     def front_random_evidence():
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
-            'target_bytes': 693, 'candidate_bytes': 681,
-            'target_instructions': 206, 'candidate_instructions': 201,
+            'target_bytes': 693, 'candidate_bytes': 693,
+            'target_instructions': 206, 'candidate_instructions': 205,
             'original_fields': 15, 'bound_fields': 15,
             'ordered_calls': 6, 'ordered_calls_agree': True,
             'target_blocks': 40, 'candidate_blocks': 41,
             'direct_graphs_agree': False, 'aligned_instructions': 118,
-            'overlap_differences': 569,
-            'missing_target_bytes': 12, 'extra_candidate_bytes': 0,
+            'overlap_differences': 351,
+            'difference_offsets': sorted(frontiers.FRONT_RANDOM_SOURCE_RESIDUALS),
+            'literal_definitions': [dict(symbol='??_C@_01CLKCMJKC@?5?$AA@',
+                                         target=0x0048EE7C, size=2,
+                                         references=[0x274, 0x29C])],
+            'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
             'complete_bytes_equal': False,
         }
 
@@ -79,7 +83,7 @@ class BossFrontierChecks(TestCase):
             'build/matching/FrontMessageRandomSetup.obj', reference_unit='front-message-setup')
         oracle.assert_called_once_with(['scripts/inspect-front-message-random.py',
             'build/matching/FrontMessageRandomSetup.obj', '--json'])
-        self.assertEqual(owners['front_random_setup']['overlap_differences'], 569)
+        self.assertEqual(owners['front_random_setup']['overlap_differences'], 351)
         self.assertEqual(owners['front_random_setup']['target_blocks'], 40)
         self.assertEqual(owners['front_random_setup']['candidate_blocks'], 41)
         self.assertEqual([x['unit'] for x in exact],
@@ -88,19 +92,34 @@ class BossFrontierChecks(TestCase):
         self.assertEqual(build.call_count, 4)
 
     def test_front_random_wrong_original_operand_or_codegen_fails_closed(self):
-        wrong = ({'target_bytes': 692}, {'candidate_bytes': 680},
-                 {'target_instructions': 205}, {'candidate_instructions': 200},
+        wrong = ({'target_bytes': 692}, {'candidate_bytes': 692},
+                 {'target_instructions': 205}, {'candidate_instructions': 204},
                  {'original_fields': 14}, {'bound_fields': 14},
                  {'ordered_calls': 5}, {'ordered_calls_agree': False},
                  {'target_blocks': 39}, {'candidate_blocks': 42},
                  {'direct_graphs_agree': True}, {'aligned_instructions': 117},
-                 {'overlap_differences': 570}, {'missing_target_bytes': 13},
+                 {'overlap_differences': 352}, {'missing_target_bytes': 1},
                  {'extra_candidate_bytes': 1}, {'complete_bytes_equal': True},
+                 {'literal_definitions': []},
+                 {'literal_definitions': [dict(symbol='??_C@wrong',
+                                               target=0x0048EE7C, size=2,
+                                               references=[0x274, 0x29C])]},
                  {'exactness_credit': 'accepted'}, {'diagnostic_only': False})
         for change in wrong:
             with self.subTest(change=change), patch.object(frontiers, 'build_nonexact'), patch.object(
                     frontiers, 'parsed', return_value={**self.front_random_evidence(), **change}), self.assertRaises(RuntimeError):
                 frontiers.run_front_random(protect_exact=False)
+
+    def test_front_equal_byte_cannot_regress_at_same_count(self):
+        report = self.front_random_evidence()
+        old = set(report['difference_offsets'])
+        self.assertEqual(len(old), 351)
+        new = next(i for i in range(693) if i not in old)
+        modified = sorted([*list(old - {max(old)}), new])
+        self.assertEqual(len(modified), len(old))
+        with patch.object(frontiers, 'build_nonexact'), patch.object(
+                frontiers, 'parsed', return_value={**report, 'difference_offsets': modified}),                 self.assertRaisesRegex(RuntimeError, 'frontier regressed'):
+            frontiers.run_front_random(protect_exact=False)
 
     @staticmethod
     def player_movement_evidence():

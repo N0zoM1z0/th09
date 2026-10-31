@@ -35,6 +35,40 @@ class FrontRandomOriginalTests(unittest.TestCase):
                          'symbol': symbol, 'addend': addend})
         return rows
 
+    def test_real_string_definition_and_both_callsite_refs_required(self):
+        """The candidate's COFF literal bytes matter, not just its symbol."""
+        from unittest.mock import Mock
+        object_data = bytearray(82)
+        struct.pack_into('<HH', object_data, 0, 0x14C, 1)
+        struct.pack_into('<II', object_data, 36, 2, 80)
+        struct.pack_into('<I', object_data, 56, 0x40000040)
+        object_data[80:82] = b' \0'
+        rows = [dict(symbol=front.FRONT_SPACE_LITERAL_SYMBOL,
+                     symbol_section=1, symbol_value=0, addend=0, offset=off)
+                for off in (0x274, 0x29C)]
+        original_data = b' \0' + bytes(254)
+        mock = Mock()
+        def original(_image, address, size):
+            if address != front.FRONT_SPACE_LITERAL_VA or size > len(original_data):
+                raise ValueError('fake original location')
+            return original_data[:size]
+        mock.pe_bytes_at.side_effect = original
+        actual = front.verify_actual_space_literal(bytes(object_data), rows, None, mock)
+        self.assertEqual(len(actual), 1)
+        self.assertEqual(actual[0]['size'], 2)
+        self.assertEqual(actual[0]['references'], [0x274, 0x29C])
+        for index in (80, 81):
+            damaged = bytearray(object_data)
+            damaged[index] ^= 1
+            with self.subTest(index=index), self.assertRaisesRegex(
+                    ValueError, 'literal definition differs'):
+                front.verify_actual_space_literal(bytes(damaged), rows, None, mock)
+        for fields in (rows[:-1], rows + rows[-1:],
+                       [dict(rows[0], offset=0x275), rows[1:][0]],
+                       [dict(rows[0], symbol_section=0), rows[1]]):
+            with self.subTest(fields=fields), self.assertRaises(ValueError):
+                front.verify_actual_space_literal(bytes(object_data), fields, None, mock)
+
     def test_target_manifest_checks_sha256_and_all_15_occupied_operands(self):
         self.assertEqual(len(front.ORIGINAL_FIELDS), 15)
         self.assertEqual(len(front.CALL_ORDER), 6)

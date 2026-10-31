@@ -44,6 +44,9 @@ ORIGINAL_FIELDS = (
 CALL_ORDER = (0x004048B0, 0x004048B0, 0x00403E00, 0x00403E00,
               0x0043BDC0, 0x0043BDC0)
 
+FRONT_SPACE_LITERAL_SYMBOL = '??_C@_01CLKCMJKC@?5?$AA@'
+FRONT_SPACE_LITERAL_VA = 0x0048EE7C
+
 # Actual VC7.1 COFF symbols and original referents; the GameManager offset
 # is a verified +0x58 member of the already-mapped global, not a new global.
 REFERENTS = {
@@ -99,6 +102,30 @@ def bind_candidate(raw: bytes, rows: list[dict]) -> tuple[bytes, list[tuple]]:
     if [(k, d) for _, k, d in bound] != [(k, d) for _, k, d in ORIGINAL_FIELDS]:
         raise ValueError('Front random source fields differ from independent target identities/order')
     return bytes(linked), bound
+
+
+def verify_actual_space_literal(object_data: bytes, rows: list[dict],
+                                image, coff) -> list[dict]:
+    """Require the actual read-only COFF definition at both original callsites.
+
+    A relocation named for the correct constant is insufficient: the object
+    could define different data under the same symbol and code bytes would
+    still appear to match. Inspect the actual i386 section/data payload.
+    """
+    spec = importlib.util.spec_from_file_location(
+        'front_coff_literals', ROOT / 'scripts/coff_literal_definitions.py')
+    audit = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(audit)
+    definitions = audit.check_literal_definitions(
+        object_data, rows, image, coff,
+        {FRONT_SPACE_LITERAL_SYMBOL: FRONT_SPACE_LITERAL_VA})
+    if (len(definitions) != 1 or
+            definitions[0]['symbol'] != FRONT_SPACE_LITERAL_SYMBOL or
+            definitions[0]['target'] != FRONT_SPACE_LITERAL_VA or
+            definitions[0]['size'] != 2 or
+            definitions[0]['references'] != [0x274, 0x29C]):
+        raise ValueError('Front literal source definition/references changed')
+    return definitions
 
 
 def decode(code: bytes):
@@ -165,7 +192,8 @@ def diagnose(path: Path) -> dict:
     if (len(original_ins) != 206 or original_fields != list(ORIGINAL_FIELDS) or
             tuple(original_calls) != CALL_ORDER):
         raise ValueError('Front random original instruction/field/call census changed')
-    raw, rows = coff.object_function(path, SYMBOL)
+    raw, rows = coff.object_function(path, SYMBOL, include_symbol_locations=True)
+    verified_literals = verify_actual_space_literal(path.read_bytes(), rows, pe, coff)
     linked, bound = bind_candidate(raw, rows)
     candidate_ins, candidate_fields, candidate_calls = decode(linked)
     if candidate_fields != bound or candidate_calls != original_calls:
@@ -184,11 +212,14 @@ def diagnose(path: Path) -> dict:
         'target_instructions': len(original_ins), 'candidate_instructions': len(candidate_ins),
         'original_fields': len(original_fields), 'bound_fields': len(bound),
         'ordered_calls': len(original_calls), 'ordered_calls_agree': candidate_calls == original_calls,
+        'literal_definitions': verified_literals,
         'target_blocks': len(original_graph), 'candidate_blocks': len(candidate_graph),
         'direct_graphs_agree': original_graph == candidate_graph,
         'normalized_aligned_instructions': sum(block.size for block in aligned),
         'aligned_instructions': sum(block.size for block in aligned),
         'overlap_differences': sum(a != b for a, b in zip(original, linked)),
+        'difference_offsets': [i for i, (left, right) in enumerate(zip(original, linked))
+                               if left != right],
         'missing_target_bytes': max(0, SIZE - len(linked)),
         'extra_candidate_bytes': max(0, len(linked) - SIZE),
         'complete_bytes_equal': linked == original,

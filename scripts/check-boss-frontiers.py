@@ -1573,6 +1573,19 @@ def run_front_added(*, protect_exact: bool, shared_callees_prechecked: bool = Fa
     return {'front_added_callback': result}, exact
 
 
+# Current Japanese 1.50a / actual 693-byte VC7.1 Front picker source frontier.
+# Each bit marks a truly unequal full-owner byte, not an instruction-alignment
+# score. All other 342 already equal original bytes must remain protected.
+FRONT_RANDOM_SOURCE_DIFFERENCES = bytes.fromhex(
+    '000000c07f00f8fffaeffffffffffbfffffff7ffffe7ffffffff7ffffffffffffbffefffeffdeffff7ffff' +
+    'ffffffffbffdffff010000000000000000000000000000000000000000000000000000000000000000000000')
+FRONT_RANDOM_SOURCE_RESIDUALS = frozenset(
+    offset for offset in range(693)
+    if FRONT_RANDOM_SOURCE_DIFFERENCES[offset // 8] & (1 << (offset % 8)))
+if len(FRONT_RANDOM_SOURCE_RESIDUALS) != 351:
+    raise RuntimeError('Front original-bound residual mask is malformed')
+
+
 def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     """Cold original-backed 693-byte Front weighted picker and exact family."""
     obj='build/matching/FrontMessageRandomSetup.obj'
@@ -1580,25 +1593,33 @@ def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                    reference_unit='front-message-setup')
     owner=noncrediting(parsed(['scripts/inspect-front-message-random.py',obj,'--json']),
                        name='Front weighted random setup',target_size=693,fields=15)
-    if (owner.get('candidate_bytes',0) < 681 or
-            owner['candidate_bytes'] > 693 or
+    differences = owner.get('difference_offsets')
+    literals = owner.get('literal_definitions')
+    if (owner.get('candidate_bytes') != 693 or
             owner.get('target_instructions') != 206 or
-            not isinstance(owner.get('candidate_instructions'),int) or
-            not 201 <= owner['candidate_instructions'] <= 206 or
+            owner.get('candidate_instructions') != 205 or
             owner.get('original_fields') != 15 or
             owner.get('ordered_calls') != 6 or
             owner.get('ordered_calls_agree') is not True or
             owner.get('target_blocks') != 40 or
-            owner.get('candidate_blocks') not in (40,41) or
-            owner.get('direct_graphs_agree') is not (owner['candidate_blocks']==40) or
-            not isinstance(owner.get('aligned_instructions'),int) or
+            owner.get('candidate_blocks') not in (40, 41) or
+            owner.get('direct_graphs_agree') is not (owner['candidate_blocks'] == 40) or
+            type(owner.get('aligned_instructions')) is not int or
             owner['aligned_instructions'] < 118 or
-            not isinstance(owner.get('overlap_differences'),int) or
-            owner['overlap_differences'] > 569 or
-            owner.get('missing_target_bytes',99) > 12 or
+            not isinstance(differences, list) or
+            differences != sorted(set(differences)) or
+            any(type(i) is not int or i not in FRONT_RANDOM_SOURCE_RESIDUALS
+                for i in differences) or
+            owner.get('overlap_differences') != len(differences) or
+            owner.get('missing_target_bytes') != 0 or
             owner.get('extra_candidate_bytes') != 0 or
-            owner.get('complete_bytes_equal') is not False):
-        raise RuntimeError('Front random 693-byte/15-field/6-call original-bound frontier regressed')
+            owner.get('complete_bytes_equal') is not (len(differences) == 0) or
+            not isinstance(literals, list) or len(literals) != 1 or
+            literals[0].get('symbol') != '??_C@_01CLKCMJKC@?5?$AA@' or
+            literals[0].get('target') != 0x0048EE7C or
+            literals[0].get('size') != 2 or
+            literals[0].get('references') != [0x274, 0x29C]):
+        raise RuntimeError('Front random 693-byte/15-field/6-call current full-owner frontier regressed')
     exact=[]
     if protect_exact:
         for unit in ('front-calc-callback', 'front-message-setup',
