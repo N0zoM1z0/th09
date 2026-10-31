@@ -43,7 +43,12 @@ unit is in `config/match-units.toml` with the original 53 referents.
 Re-run `python3 scripts/build-match-unit.py --unit effect-draw-callback-type34`
 and `python3 scripts/compare-coff-function.py --unit effect-draw-callback-type34 --json`.
 The focused `--owner effect34` boss checker protects the native ECL carrier
-and the separate Type11 profile and Effect34 update. The older source-scoped
+and the separate Type11 profile and Effect34 update. A single-function Factory replay at source commit `2d6303de` returned
+`pass/accepted` on completion, but the *current* registry later marked that
+receipt stale (`invocation-plan-stale`, `toolchain-environment-stale`). Do not
+count it as a live Factory-admitted exact fact; see
+`docs/TH09_GPT_WEB_20261031.md` for the job and receipt identities.
+The older source-scoped
 `.analysis/gpt-61sol-20261031-effect34-cursor-lifetimes/` records remain
 historical experiments, not current-source proof; fresh tests and receipts are
 recorded in `docs/TH09_GPT_WEB_20261031.md`. Whole-product closure, unique

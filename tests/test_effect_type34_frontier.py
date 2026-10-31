@@ -1,5 +1,7 @@
 """Fail-closed tests for the exact original-bound Effect 34 draw owner."""
 from copy import deepcopy
+import csv
+import tomllib
 import importlib.util
 from pathlib import Path
 import sys
@@ -91,6 +93,58 @@ def baseline():
 
 
 class Effect34FrontierTests(TestCase):
+    def test_promoted_canonical_unit_preserves_real_53_field_owner(self):
+        """No private PE or toolchain: pin the reviewed manifest/ledger contract."""
+        root = SOURCE.parent.parent
+        with (root / 'config/match-units.toml').open('rb') as handle:
+            units = tomllib.load(handle)['units']
+        draw = units['effect-draw-callback-type34']
+        ecl = units['ecl-pop-context']
+        self.assertEqual(draw['source'], 'src/EclManager.cpp')
+        self.assertEqual(draw['object'], ecl['object'])
+        self.assertEqual(draw['profile'], ecl['profile'])
+        self.assertEqual(draw['functions'], ['EffectDrawCallbackType34'])
+        self.assertEqual(draw['symbol'], '?EffectDrawCallbackType34@@YIHPAUEffect@@@Z')
+        self.assertEqual((draw['target_address'], draw['size']), (0x444AF0, 946))
+        rows = draw['relocations']
+        self.assertEqual(len(rows), 53)
+        offsets = [r['offset'] for r in rows]
+        self.assertEqual(offsets, sorted(offsets))
+        self.assertEqual(len(offsets), len(set(offsets)))
+        for i, row in enumerate(rows):
+            with self.subTest(i=i, offset=hex(row['offset'])):
+                self.assertIn(row['type'], ('DIR32', 'REL32'))
+                self.assertTrue(0 <= row['offset'] <= draw['size'] - 4)
+                self.assertTrue(row['symbol'])
+                self.assertTrue(0x400000 <= row['target'] < 0x500000)
+                if i + 1 < len(rows):
+                    self.assertLessEqual(row['offset'] + 4, rows[i + 1]['offset'])
+        # Retain distinct genuine imported referents, not a count of 53 fake fields.
+        self.assertEqual((rows[0]['offset'], rows[0]['symbol'], rows[0]['target']),
+                         (0x26, '?AddNormalizeAngle@@YIMMM@Z', 0x42AED0))
+        self.assertEqual((rows[-1]['offset'], rows[-1]['symbol'],
+                          rows[-1]['target'], rows[-1]['addend']),
+                         (0x38C, '?g_Supervisor@@3VSupervisor@@A', 0x4B3100, 8))
+        floats = [r for r in rows if r['symbol'].startswith('__real@')]
+        self.assertEqual(len(floats), 7)
+        self.assertEqual(len({r['symbol'] for r in floats}), 4)
+
+        with (root / 'config/matches.csv').open(newline='') as handle:
+            matching = [r for r in csv.DictReader(handle)
+                        if r['address'].lower() == '0x00444af0']
+        self.assertEqual(len(matching), 1)
+        match = matching[0]
+        self.assertEqual((match['unit'], match['status'], match['size'],
+                          match['match_percent']),
+                         ('effect-draw-callback-type34', 'matching', '946', '100.00'))
+        with (root / 'config/functions.csv').open(newline='') as handle:
+            annotated = [r for r in csv.DictReader(handle)
+                         if r['address'].lower() == '0x00444af0']
+        self.assertEqual(len(annotated), 1)
+        self.assertEqual((annotated[0]['status'], annotated[0]['match_percent'],
+                          annotated[0]['owner'], annotated[0]['source_file']),
+                         ('matching', '100.00', 'authored', 'src/EclManager.cpp'))
+
     def test_changed_sdk_argument_is_rejected_with_unchanged_counts(self):
         result = baseline()
         boss.guard_effect_type34_draw(result)
