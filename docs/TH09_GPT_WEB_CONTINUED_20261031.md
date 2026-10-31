@@ -274,3 +274,63 @@ and compiler-hash receipts remain under
 `.analysis/gpt-web-controllerinput-20261031/`. Actual TH08/TH095 controller
 sources were reviewed only for possible C++ idioms, not as proof of TH09
 addresses, layout, ownership or original body behavior.
+
+## Title DrawReplayMenu — actual COFF literal provenance and new boss trials
+
+The complete `TitleScreenView::DrawReplayMenu` at `0x004234F6` remains a
+**1,280-byte non-exact big owner**: 376/376 decoded instructions, 57/57
+original-bound fields, 13 ordered calls, 72/72 CFG blocks and **29 unequal
+bytes** at the original-relative offsets already protected by the existing
+1,251-matched-byte frontier. No candidate C++ rewrite was adopted.
+
+A new proof gap was found in `inspect-title-replay-menu-draw.py`: its 57-field
+binder authenticated every source relocation's symbol and target address,
+but did not read the source object's actual data behind the 30 references to
+string and scalar literals. The updated inspector now verifies all **16
+actual initialized read-only COFF definitions**, their original retail PE
+payloads, and the full **30-reference** inventory. The inventory consists of
+seven strings and nine scalar constants; repeated references must resolve to
+the same section/value/content. The boss gate requires both the 16-definition
+and 30-reference counts. A target-independent synthetic COFF test proves that
+changing a real payload byte, a section's read-only flags, or one reference
+while keeping the symbol metadata fixed is rejected.
+
+The fresh `--owner replaymenu --skip-exact-siblings` run rebuilt only
+`TitleScreenReplayMenuDraw.cpp` and passed the complete-owner gate: 1,280 bytes,
+29 differences, 57 fields, 16 literal definitions, 30 literal references,
+13 calls and 72 blocks. It reused no exact siblings in this run. This is
+stronger source-data provenance, **not a byte-match improvement or exactness
+credit**. The complete report is
+`.analysis/gpt-web-title-replay-menu-literal-guard-20261031.json`.
+
+### Bounded non-adopted source experiments
+
+- `SaveReplay` received 18 further pinned-compiler trials covering `void*`,
+  `char*`, `u32*`, references, volatile/const aliases, byte-load variants and
+  five inline-assembly load forms. Natural pointer/qualifier variants remain
+  1,238/1,238 with exactly three differences at `+0xB7`, `+0xBB`, `+0x3F6`;
+  the inline-assembly and volatile forms expand the owner or produce hundreds
+  of differences. None was adopted.
+- Title reverse/inactive cursor received seven pointer-loop forms. They
+  produce 155–169-byte owners and 145–155 differences, worse than the
+  maintained 175-byte/38-difference functions. The previous count/end,
+  declaration-order and VM-stride probes likewise do not improve them.
+- `DrawReplayMenu` received selected-index declaration/initialization-order,
+  register/const/volatile, stack-home, and timer-declaration lifetime trials.
+  The natural forms retain the same 1,280/29 frontier; reversing actual data
+  dependencies expands to 1,271-byte owners with over 850 differences.
+
+All probes live under `.analysis/gpt-web-20261031-save-trials/`,
+`.analysis/gpt-web-title-cursor-guard-20261031/`, and
+`.analysis/gpt-web-title-replay-menu-20261031/`. No losing source variant was
+copied into maintained game sources. No all-source cold replay was run.
+
+### Validation and commit
+
+`python3 scripts/ci.py` passed **1,104 target-independent tests** (29 optional
+skips), tracking validation (**2,248 candidates, 1,035 mappings, 1,005 exact**),
+documentation validation, generated-progress checks and whitespace checks.
+The code/test checkpoint is `0332496c` —
+`gpt-web: verify real Title replay menu literal definitions`.
+The new literal audit changes no canonical match unit, exact ledger row,
+gameplay source byte or exactness total.

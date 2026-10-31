@@ -34,6 +34,20 @@ ledger or a fresh full cold replay.231 distinct primary proof/diagnostic objects
 and nine additional historical/diagnostic objects remain. Current-source RunEcl
 stays15564/598/30,Enemy3900/97/13,and Setup1689/171/35/77/904.
 
+## Latest resumed-work checkpoint — Title replay menu provenance
+
+The newest `gpt-web:` commit is `0332496c`. The separate 1,280-byte
+`TitleScreenView::DrawReplayMenu` remains non-exact at 29 physical differences,
+but its source oracle now verifies all 16 real initialized read-only COFF
+literal definitions behind 30 relocation references, including actual payload
+bytes and the original PE values. The focused
+`python3 scripts/check-boss-frontiers.py --owner replaymenu --skip-exact-siblings`
+rebuilds only `TitleScreenReplayMenuDraw.cpp`; it passes the complete 57-field,
+13-call, 72-block owner and the literal provenance gate. This adds no exact
+credit. The latest public CI passed 1,104 tests (29 optional skips). Detailed
+proof, residual offsets and losing source trials are recorded in
+`docs/TH09_GPT_WEB_CONTINUED_20261031.md`. No full cold replay was run.
+
 ## Effect34 draw — complete 946-byte canonical match
 
 The complete draw callback at `0x00444AF0` is now exact in the pinned VC7.1
