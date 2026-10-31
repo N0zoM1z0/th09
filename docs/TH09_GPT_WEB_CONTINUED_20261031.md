@@ -154,3 +154,21 @@ the constructor altered owner size or field identities, and was rejected.
 The unreplaced current RunEcl 15,564-byte owner remains 30 differences.
 All candidate source and COFF outputs are retained under ignored
 `.analysis/gpt-web-enemy-probes-20261031/` for falsifiable review.
+
+## Scoped changed-header exact replay smoke after include-graph checkpoint
+
+The current HEAD `19d82edb` was inspected after it advanced from the prior
+Front checkpoint. Its new include resolver canonicalizes the repository root,
+walks reverse literal quoted include edges transitively, and refuses symlinked
+changed paths outside `src/`. The new root-fallback/nested-subdirectory and
+outside-symlink tests are target-independent; all **11** scoped-replay tests
+pass.
+
+A live `--changed-file src/EffectType34Family.inl` run selected only the actual
+`src/EclManager.cpp` include consumer, then compiled its **two** real VC7.1
+profiles and compared all **80** canonical exact siblings: 4 Type11 carrier
+units and 76 main ECL carrier units. All passed: **26,161 complete physical
+bytes and 1,179 original-bound relocation fields**. This is existing exact
+sibling regression evidence, not a new exact match, and does not certify the
+nonexact 15,564-byte RunEcl interpreter. The `src/EclRunState.inl` five-carrier
+plan remains dry-run only; no full cold replay was launched.
