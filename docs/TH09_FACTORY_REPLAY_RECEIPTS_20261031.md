@@ -1,15 +1,17 @@
 # TH09 focused Factory replay receipts — 2026-10-31
 
-Thirty-four individually submitted, forced-recompile function-exact replay
+Forty-four individually submitted, forced-recompile function-exact replay
 jobs completed. The first fifteen were bound to clean commit
 `9048c2c0fd2084b1dfd6345d30f6dfe150a54036`; the next five were bound to clean
 commit `3d91c2dd9b54f27d4c5cbc4f49eba6c2e9ec18a4`; the next five were bound to
-clean commit `66fbdb6610e8fbb2a2fef8aaf9b48f121c8466d2`; the final nine were
-bound to clean commit `4d720d24042d2006b5754ac4971cff3406b9e5fe`. Only
-documentation files changed between these bindings; no source files changed.
-Every job returned `receipt_verdict=pass` and `acceptance_decision=accepted`;
-every retained native report returned `result=exact`, matched the full
-compared size, and had an empty `first_differences` list.
+clean commit `66fbdb6610e8fbb2a2fef8aaf9b48f121c8466d2`; the next nine were
+bound to clean commit `4d720d24042d2006b5754ac4971cff3406b9e5fe`; the final
+ten were bound to clean commit `a809cf68230bad4bb36148b96c8315c497d06df9`.
+Only documentation files changed between these bindings; no source files
+changed. Every job returned `receipt_verdict=pass` and
+`acceptance_decision=accepted`; every retained native report returned
+`result=exact`, matched the full compared size, and had an empty
+`first_differences` list.
 
 These are targeted function replays, not a whole-project cold replay.
 
@@ -57,7 +59,18 @@ These are targeted function replays, not a whole-project cold replay.
 | `EnemyView::DrawInterpolateWrappedAngle` | `0x0040F5E0` | 91 | `584ab53bfe9d2b14e0195a8809253dfdcd339b69be276baefe15c48939daaa85` |
 | `EnemyCoreReleaseChildEclBlocks` | `0x004100E0` | 48 | `0f5e861e85a020d8862e019a73eb6ddb936467848325d35cc966296f767e60b6` |
 
-**Total: 2,705 bytes across 34 exact function reports.**
+| `EnemyManagerView::DrawImpl` | `0x00411670` | 1,758 | `50195a68273e92fb0ed1026aaf5b558589714e08f64d8b89fadf461272137567` |
+| `EclResolveFloat` | `0x004068A0` | 1,633 | `891884069a4002b649337421e38e89f33abade97a2793e3ea22022f38b96f3f7` |
+| `EclResolveInt` | `0x00405760` | 1,572 | `6102ced8582565eeaac3c97c753e90dc000332681808107649c4410d1fb7c7fc` |
+| `EnemyHandleDeathRewards` | `0x004102B0` | 1,142 | `ed8b323eea0ffa447d10a6f0e2a7603702977037b09f9b5377a52ac220ad8ef2` |
+| `EnemyScheduleRuntimeRun` | `0x0040FCC0` | 974 | `6f15721406d0c5b49b6235c357101ee202033b3ca37564e18c213e76c5561098` |
+| `EclPostUpdateMovement` | `0x00408180` | 967 | `ad22885ee620e15b9ee23a90edb39fd53053304d1e2d11a1ec242032cf8dead2` |
+| `EtamaControllerView::Update` | `0x004146F0` | 2,195 | `fc78f5ca0b231706013a4ca7e9099e0f97f206132fc849d81b20821f8b445c5c` |
+| `EtamaControllerView::SpawnSingleBullet` | `0x00412960` | 1,893 | `a365fc18c2b3b753d9767df1ddfb0ca33d3bf767b7d25be380cdee6e59532d07` |
+| `EnemyManagerView::Initialize` | `0x0040FA70` | 554 | `65aed519f9b67c89f43447031c9ad5573bb821fb6ff187da6d572a68f3098284` |
+| `EnemyManagerView::SpawnEnemy` | `0x0040F340` | 373 | `e6df96ae3829c9519fd586c4bffa7997331c703d3eef6b502c49902ec543904c` |
+
+**Total: 15,766 bytes across 44 exact function reports.**
 
 ## Scope and limitations
 
