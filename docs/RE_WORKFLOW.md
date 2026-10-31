@@ -2,11 +2,11 @@
 
 The project milestone is at least **98% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The operator cleared the reconstruction goal on October31 and requested
-maintenance. The milestone remains unfinished; the loop below applies only
-after an explicit restart. Audit earlier dependency/interface details as well
-as big-function bodies when reconstruction resumes. The selected analysis route
-is direct local Ghidra, without IDA, REA or Factory MCP. Use repository Bash,
+The operator explicitly resumed reconstruction on October31 after maintenance
+checkpoint559ccf7c. The milestone remains unfinished. Audit earlier dependency/
+interface details as well as big-function bodies during the loop below. The
+selected analysis route is direct local Ghidra, without IDA, REA or Factory MCP.
+Use repository Bash,
 `scripts/ghidra-analysis.py` and pinned VC7.1 tools.
 New English commits use `gpt-6.1-sol:` and the AGENTS.md identity/trailer. Compile
 serially at lowered priority and preserve complete affected-owner/callee proofs.

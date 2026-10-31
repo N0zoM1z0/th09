@@ -1,18 +1,28 @@
 # TH09 reconstruction — current handoff
 
-## Operator status — maintenance
+## Operator status — reconstruction resumed
 
-The operator cleared the reconstruction goal on October31 and requested code,
-documentation and storage housekeeping. Do not automatically continue the
-unfinished98% milestone. Reconstruction needs an explicit operator restart.
-The earlier October31 resumption and d332bec4 stop are historical instructions.
+The operator explicitly resumed reconstruction on October31 after maintenance
+checkpoint559ccf7c. Continue the unfinished98% reviewed-authored-byte milestone,
+prioritizing complete RunEcl and Enemy update while keeping small leaves in
+scope. Earlier maintenance and stop instructions are historical checkpoints.
 
 Current game-source checkpoint: **a3e4aaeea6e4ea651a171bc019a7d556cb09f61f**.
 It unifies the native LZSS codec in `src/Lzss.cpp`; four superseded implementation
 files are deleted. All nine excluded third-party codec units compare1888 bytes/
 66 fields,including newly exact Encode571/8. This adds no reviewed-authored
 credit. The preceding game-source checkpoint is6c8ccca9;71246812 is historical.
-This maintenance checkpoint changes no game source,compiler profile or ledger.
+The current native-reward context checkpoint changes no game source,compiler
+profile or ledger.
+
+Latest bounded result: six complete Enemy/ECL contexts place the actual death-
+reward and descriptor-constructor definitions before/after the current carrier.
+All138 baseline regular bodies/50066 bytes/2097 effective fields are unchanged;
+RunEcl stays15564/598/30 and Enemy3900/97/13. All75 existing same-profile exact
+siblings pass in each build; the added1142/39 reward and28/0 constructor also
+match completely. An immutable-Git/EOL combined cold replay agrees. No context
+is adopted and no exact credit is added. Research,recipes and full observations:
+`.analysis/gpt-61sol-20261031-enemy-native-reward-context/`;see the latest KB note.
 
 ## Source and evidence routing
 
@@ -157,8 +167,8 @@ repeating them. Historical assumptions remain hypotheses.
 
 ## Continuing reconstruction
 
-This section is a restart procedure,not authorization to resume. After an
-explicit restart,read [AGENTS.md](../AGENTS.md),[RE_WORKFLOW.md](RE_WORKFLOW.md),
+The current operator restart authorizes this workflow. Read
+[AGENTS.md](../AGENTS.md),[RE_WORKFLOW.md](RE_WORKFLOW.md),
 [ORACLES.md](ORACLES.md),the affected ledger rows and relevant KB findings.
 Recover tracked and untracked work first. Prioritize complete RunEcl and Enemy,
 including shared layouts,dependencies and actual translation-unit boundaries.
@@ -197,7 +207,14 @@ behavior or routine fuzz/null tests belong in an exact-source checkpoint.
 
 ## Maintenance and validation
 
-Latest cleanup receipt: `.analysis/maintenance-20261031/cleanup.json`.
+Latest cleanup receipt:
+`.analysis/gpt-61sol-20261031-enemy-native-reward-context/cleanup.json`.
+Fourteen completed trial OBJ/PDB files/3781088 logical bytes are removed after
+all compiler handles terminate;965 protected hashes remain equal. Preserve the
+current canonical baseline,all353 retained proof pins,target/toolchains,working
+Ghidra,recipes,full raw/COFF observations and logs. No game source is changed.
+
+Preceding maintenance receipt: `.analysis/maintenance-20261031/cleanup.json`.
 Eighteen ignored files/2336422 logical bytes were deleted:twelve completed
 partition OBJ/PDB files and six Python bytecode caches. All34945 retained file
 hashes agree across deletion,including current source,research,proof objects,

@@ -27875,3 +27875,65 @@ bytes/5197 fields. Ledger state remains1004/1035 authored functions and246651/
 291883 reviewed-authored bytes,84.5034%. Documentation/tracking/progress checks
 and whitespace validation govern this maintenance checkpoint;historical full
 CI counts are not reported as a fresh run. No game-source or ledger edit occurs.
+
+## 2026-10-31: complete Enemy native reward and descriptor contexts
+
+The operator explicitly resumes reconstruction after559ccf7c maintenance. Recovery
+is clean;the interrupted preceding turn supplies fresh target-bound Ghidra
+observations,not a compiler result. Original Japanese1.50a identity,tracking and
+live status pass. Direct Ghidra12.1.4 reuses the working project,verifies disk/
+Program identity,i386/base/entry and all685056 file-backed mapped bytes,then exports
+complete RunEcl4086C0 and Enemy410730. Export-20261031T054622-1816453 ends with
+exit0. No target bytes or Ghidra metadata are modified.
+
+The current Main carrier is reused only after all79 source hashes,the configured
+profile and retained object hash agree. Its complete original-bound diagnostics
+remain RunEcl15564/598/30 and Enemy3900/97/13. All75 same-profile existing exact
+siblings pass22463 physical bytes/990 fields. Current353 source/profile/object
+pins also pass their retained verifier;no full canonical cold replay is run.
+
+Six natural whole-source controls combine the unchanged actual
+EnemyView::HandleDeathRewards and BulletSpawnDescriptorCtorView constructor
+with the complete ECL carrier. Reward-only,constructor-only and both-definition
+contexts each test definitions before and after the carrier. These are real
+native definitions and genuine positive same-object references,without a fake
+helper,ABI/profile change,register/variable-order hint,forced inline or padding.
+The earlier constructor/periodic/effect visibility negatives were inspected;
+constructor-only is a current-epoch control,not a claim of an unprecedented model.
+
+| ID | State | Fact | Evidence |
+| --- | --- | --- | --- |
+| ENEMY-NATIVE-REWARD-001 | compiler observation | Reward before/after preserves every baseline raw body/effective field and Enemy13/RunEcl30. | reward-before.json;reward-after.json |
+| ENEMY-NATIVE-REWARD-002 | compiler observation | Constructor before/after likewise preserves the full baseline. | ctor-before.json;ctor-after.json |
+| ENEMY-NATIVE-REWARD-003 | compiler observation | Both definitions before/after remain byte/field neutral across138 baseline bodies,50066 physical bytes/2097 fields. | both-before.json;both-after.json;audit.json |
+
+Each of the six builds preserves75 existing ECL exact units. The co-visible
+reward definition independently matches1142 bytes/39 fields;the constructor
+matches28 bytes/zero fields. There are458 complete existing exact comparisons
+across the six primary objects,including eight added native-definition checks;
+these are repeated proofs,not new exact units. Enemy retains all3900 bytes,
+97 fields,69 ordered calls,170 blocks and the same13 residual offsets. RunEcl
+retains all15564 bytes/598 fields with30 ordinary and zero field/table differences.
+No tested context is adopted;unique original TU ownership remains unknown.
+
+Every staged input set is reproduced from82 immutable559ccf7c Git inputs plus
+recorded LF/CRLF line positions and a small concatenation recipe. Raw Git and
+checkout-filter output each initially fail a precompile input check because
+this worktree mixes both EOL styles. Explicit per-line reconstruction resolves
+the discrepancy without changing any production file. One independent combined-
+after cold replay repeats all140 actual regular bodies/effective fields,77
+complete exact checks and both original-bound diagnostics. Seven compiler jobs
+run serially,single-CPU,nice10 with180-second bounds. The public inspectors,
+canonical manifests,game source and compiler profiles remain unchanged.
+
+Packet: `.analysis/gpt-61sol-20261031-enemy-native-reward-context/`. `audit.py`
+checks immutable inputs,saved complete observations and native positive references;
+`replay.py --case both-after --output .analysis/enemy-native-context-cold` rebuilds
+that selected model in a fresh directory. The current canonical baseline remains
+in its existing retained carrier. After all producer handles terminate,cleanup
+removes14 completed trial OBJ/PDB files/3781088 logical bytes. All965 protected hashes remain equal,including tracked
+files,current proof objects,target,compiler components,working Ghidra and research.
+Recipes,full raw/COFF reports,logs and deletion receipt remain.
+No old source tree or archive is created. Reviewed-authored exactness remains
+1004/1035 functions and246651/291883 bytes(84.5034%). The98% objective,whole Windows
+product and later runtime/semantic/port gates remain unfinished.

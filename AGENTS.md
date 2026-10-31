@@ -2,14 +2,14 @@
 
 ## Current operator status
 
-The operator cleared the reconstruction goal on October31 and requested code,
-documentation and storage housekeeping. Current work is maintenance; the
-unfinished98% milestone does not authorize automatic reconstruction. Latest
-game-source checkpoint is a3e4aaee (unified LZSS codec). The earlier71246812
-maintenance checkpoint, d332bec4 stop, and intervening reconstruction remain
-historical evidence. Preserve documentation, research records, current game
-source, target/toolchains and the working Ghidra project. Delete unused old code
-copies and compiler artifacts instead of archiving them.
+The operator explicitly resumed reconstruction on October31 after maintenance
+checkpoint559ccf7c. Prioritize complete RunEcl and EnemyManager::OnUpdate toward
+the unfinished98% reviewed-authored-byte milestone; both large owners and small
+leaves remain in scope. Latest game-source checkpoint is a3e4aaee (unified LZSS
+codec). The earlier maintenance/stop instructions are historical evidence.
+Preserve documentation, research records, current game source, target/toolchains
+and the working Ghidra project. Delete unused old code copies and compiler
+artifacts instead of archiving them.
 
 On October 29 the operator resumed reconstruction with direct local tools.
 The current explicit routing is **Ghidra directly, without IDA, REA or Factory
@@ -17,7 +17,7 @@ MCP**. Use `scripts/ghidra-analysis.py` and the local `analyzeHeadless` executab
 reuse the verified project instead of importing the target for every query.
 The October 24 stop and earlier tool routing are historical checkpoints.
 
-When reconstruction is explicitly resumed, prioritize complete RunEcl and EnemyManager::OnUpdate
+Prioritize complete RunEcl and EnemyManager::OnUpdate
 exactness toward the unfinished 98% reviewed-authored-byte milestone. Explore
 whole-function dataflow, shared types and real translation-unit boundaries as
 well as local source models; historical assumptions are not conclusive.
