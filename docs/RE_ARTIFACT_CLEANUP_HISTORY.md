@@ -2933,3 +2933,31 @@ Original target,tracked source and working Ghidra remain;temporary source/OBJ/
 PDB outputs self-clean. No source archive or old C++ tree is added. Post-cleanup
 input/body/native audits pass. Receipt:
 `.analysis/gpt-61sol-20261031-enemy-playfield-context/cleanup.json`.
+
+
+## 2026-10-31: Type7 canonical forward-angle repair
+
+Game-source checkpoint a4bba8ec corrects Type7's native symbol to the actual
+forward helper41BB00 and shares its declaration with producer and Type2. All
+three existing complete owners remain exact; canonical-owner validation now
+rejects the old AngleToPoint41BB70 symbol rebound to41BB00. Current297 uses
+three maintained-path objects and294 unchanged proof reuses. No new exact credit.
+
+After all nine owned serial compiler jobs terminate, cleanup removes461 ignored
+files/8110315 logical bytes:13 compiler binaries and448 bytecode caches. The
+compiler files are the baseline forward object, three superseded proposal
+objects, two old caller proof objects and seven PDBs. Preserve all three final
+maintained objects, the opposite-angle object, current294 reuses and separate
+service/input131/playfield116 carriers. All987 deletion-time protected hashes
+agree, including tracked source, original target, working Ghidra and research.
+Complete raw/COFF/source/profile records, failure logs and immutable input
+recipes remain. Independent temporary inputs/OBJ/PDB outputs already self-clean;
+no old source tree or archive is created. Post-cleanup input/body/current297
+checks pass without cold jobs. build/ is absent. Receipt:
+`.analysis/gpt-61sol-20261031-type7-forward-angle/cleanup.json`.
+
+Final tracking validation regenerated one8846-byte target-identity bytecode through
+a child interpreter. A separate reviewed cleanup removes it and the empty build
+directories;all987 deletion-time protected hashes agree. Final checks propagate
+PYTHONDONTWRITEBYTECODE=1. Combined removal is462 files/8119161 bytes. Receipt:
+`.analysis/gpt-61sol-20261031-type7-forward-angle/cleanup-final-cache.json`.

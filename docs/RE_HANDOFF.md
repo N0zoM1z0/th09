@@ -9,15 +9,15 @@ without IDA,REA or Factory MCP;reuse unchanged proofs and cold-build only affect
 sources/profiles. Preserve research records;delete unused old code/build copies.
 
 Pre-resumption game-source checkpoint: **712468128d5d9c8510c3cfe43786811901db4832**.
-Current game-source checkpoint: **4502c056**;the previous checkpoint is
-**f424b1ac**. ScoreData,GameManager finalization,insertion and result drawing
-now share TitleScoreRecordView and the same native table/current-record names.
-The known chapter prefix and date fields join the existing0x2C view;unknown
-bytes remain unknown and the renderer's signed final byte is preserved. All56
-affected existing exact owners pass the strict Oracle;240 unchanged units are
-reused,for296 current units. DrawResult remains1939/82/22;no new exact credit.
-The previous ScoreData checkpoint replaced its undefined private RNG methods
-with the actual RngRuntimeView declaration and unsigned-short range result.
+Current game-source checkpoint: **a4bba8ec**;the previous source was4502c056.
+Type7 now calls the actual forward angle helper41BB00 through one declaration shared with its producer and Type2.
+The opposite helper41BB70 keeps its separate declaration. A canonical-owner
+check now rejects the earlier incorrect caller-local name/address rebinding. Three affected existing owners pass strict comparisons;
+294 unchanged units are reused,for297 current units. No new exact credit.
+The previous score checkpoint unified ScoreData,GameManager finalization,
+insertion and result drawing through TitleScoreRecordView and native table/
+current-record names. Its known0x2C layout and signed final byte remain;DrawResult
+stays1939/82/22. The prior ScoreData native RNG repair remains.
 The preceding SHT checkpoint unified the loader,pattern-offset resolver and both
 movement switches through PlayerShtFileView's four observed speed fields. It
 removed two private SHT classes and one cast helper,without changing SHT
@@ -30,23 +30,22 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
 
 ## Source and evidence routing
 
-- `.analysis/gpt-61sol-20261031-shared-score-record/current.py` is the current
-  source-bound subset:296 existing units/87451 physical bytes/4177 fields.
-  It strictly compares56 affected owners/23974 bytes/1355 fields across five
-  configured source/profile groups,and reuses240 unchanged source/profile/
-  object-bound owners. A sixth retained carrier checks DrawResult22. All123
-  paired emitted regular bodies/effective fields and complete compiler
-  contributions remain equal. Twenty-nine global reference names now identify
-  the shared declarations;nine StartMenu private labels refresh only at proven
-  unchanged coordinates. Profiles,extents,field targets and exact credit stay.
-  All12 baseline/proposal input sets recover from immutable Git/EOL inputs;
-  independent Title-O1 and GameManager-Os cold replays pass. Six source-cold
-  proposal objects are current after their consumed input hashes equal source.
-- Old ScoreData258-unit and SHT251-unit whole verifiers are historical after
-  this change:ScoreData's seven and GameManagerSetup's eleven source pins
-  changed. Only the unaffected240 SHT units are reused by the current verifier.
-  Their records and recipes remain;three superseded current objects are removed
-  after complete before/after recording and immutable input reconstruction.
+- `.analysis/gpt-61sol-20261031-type7-forward-angle/current.py` is the current
+  source-bound subset:297 existing units/87552 physical bytes/4182 fields.
+  Three affected owners/433 bytes/19 fields pass the strict public comparator;
+  294 unchanged source/profile/object proofs are reused. The backward101-byte
+  helper remains independently source-bound. Only Type7 field+1F changes its
+  native symbol;target41BB00,kind,addend,extent and profiles remain fixed.
+  All five paired regular bodies/actual fields remain equal apart from that
+  one symbol. Independent cold forward-producer and Type7 replays pass. Three
+  further maintained-path builds after EOF cleanup retain all outputs;the
+  immutable input audit binds them to source checkpoint a4bba8ec.
+- Shared-score296 and SHT251 whole verifiers are historical after this change:
+  Type7 and Type2 inputs changed,and the old Type7 native binding is rejected.
+  Their unaffected individual groups feed the current294 reuses. Source recipes
+  and actual raw/field records preserve the old observations without granting
+  current-source identity credit to the rejected mapping. Earlier258/153/141
+  whole verifiers also remain historical;use current pins above.
 - Current game code is in `src/`;the authoritative state is in
   `config/functions.csv`,`config/function-origins.csv`,`config/matches.csv` and
   `config/match-units.toml`. Use the live report rather than dated measurements.
@@ -57,21 +56,21 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   nearest-position storage and the separate +3037C homing pointer. Stage D resets
   only the position;it does not reset that pointer. The intervening12 bytes have
   a separate vector reset,their role remains unknown. Type7 calls the existing
-  `PlayerAngleView::AngleToPoint` at41BB00.
+  `PlayerForwardAngleView::AngleFromPlayerToPoint` at41BB00.
 - `.analysis/gpt-61sol-20261031-player-sht-speed-contract/` retains the
   preceding SHT dependency proof:251 units/66468 physical bytes/3065 fields
   at2b990254. Its original scope was47 configured source/profile groups(200
   units),plus Movement,Charge and Type3 diagnostics,with51 unchanged reuses.
   Fifty carriers were cold-built then;366 paired regular bodies/effective
   fields and an independent Runtime replay passed. Its current GameManager
-  objects are now superseded;use the296-unit verifier above for current pins.
+  objects are now superseded;use the297-unit verifier above for current pins.
 - Loader41BBE0 scales normal/focused axis speeds+14/+18 into diagonal+1C/+20;
   exact resolver404710 and movement41C170 read the same loaded SHT pointer at
   Player+30338. The shared field names/offset checks describe these TH09 facts,
   without claiming original class names,full file format or TU ownership.
 - Previous network153-unit and shot-chain141-unit combined verifiers are
   historical at43f491a7 because this shared header changes their source pins.
-  Their exact owners remain covered by the current296-unit verifier. Network's
+  Their exact owners remain covered by the current297-unit verifier. Network's
   service object itself remains source-unchanged and is checked there. Charge
   stays1197/70/58 with1160 overlaps+13 missing;RunEcl15564/598/30 and Enemy3900/
   97/13 stay. The native Init309,Type7-139 and Sound140/153 owners remain exact.
@@ -167,8 +166,8 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   give1628 bytes/106 fields/1372 unequal overlaps+5 missing,with the target's
   WORD stores/DWORD loads and0x14 stack frame but no status home. Shared-exit
   and real workspace controls remain1638/1640,with wrong status homes/order.
-  Every model retains106 field and51 call-identity multiplicities. No API or
-  source is adopted. Independent cold caller/producer replay passes;retain
+  Every model retains106 field and51 call-identity multiplicities. No narrow
+  input API or source model is adopted. Independent cold caller/producer replay passes;retain
   native-int.obj and use verify-native.py for that unchanged131-byte owner.
 - Actual playfield/periodic definition visibility is bounded in
   enemy-playfield-context/ under the October31 analysis prefix. Standalone
@@ -195,20 +194,21 @@ all106 referent and51 call-identity multiplicities,1376 unequal overlaps+7 absen
   retain bounded recipes/full observations,without old source trees.
 - The previous native RNG/sound/ANM/spawn repairs remain. Spawn arguments830/
   10000 mean life/score. The older31/106-unit combined packets are historical
-  source epochs;use the296-unit verifier above for the current closure. Reuse
+  source epochs;use the297-unit verifier above for the current closure. Reuse
   individual older proofs only when their actual source/profile/object pins
   remain current;this shared-header change invalidates several old bundles.
 - The standalone Type3 source also includes the changed header;its old
   current-type3.json binding is historical. Use this packet's maintained-path
   current-ExAttackUpdateType3-0.obj with inspect-exattack-type3-schedule.py.
   Fresh complete validation retains780/38/15 and the unresolved middle-Z order.
-- Current296 proof objects are the six shared-score proposal carriers and68
-  unchanged objects in its current.json. The service object and the separately
-  revalidated network-input-contract/native-int.obj and enemy-playfield-context/
-  native-playfield.obj are retained alongside them.
-  Cleanup removes15 ignored baseline/superseded/debug files only after complete
-  controls,reconstruction and1130 protected-hash checks. Records,source recipes,
-  original target/toolchains and working Ghidra remain;build/ may be absent.
+- Current297 proof carriers are the three forward-angle maintained-path objects
+  and the unchanged objects listed in its current.json. The native service,input131
+  and playfield116 objects remain separately source/profile-bound. Recipes,
+  research records,target/toolchains and working Ghidra remain;build/ is absent.
+  This batch removed462 ignored files/8119161 bytes:13 superseded compiler
+  binaries and449 bytecode cache outputs,including one regenerated by validation. All987 deletion-time protected hashes agree;
+  post-cleanup current297 and immutable input/body audits pass. Full public CI
+  passes1060 tests,29 skipped;final EOF cleanup has three fresh equivalent builds.
 - Other dated packet verifiers are historical research tools. Old compiler
   objects have been cleared;rebuild from current source and the configured
   profile when needed. Their absence is expected,not lost canonical evidence.

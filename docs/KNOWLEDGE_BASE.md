@@ -25476,7 +25476,7 @@ MCP is used.
 | PLAYER-ENEMY-TRACKING-002 | original observations | Enemy410730 compares old/new target XY squared distances and publishes the closer world-position vector at30364. Its independent homing selection uses horizontal distance<64 and a smaller enemy Y,storing the Enemy pointer at3037C. Inactive records and cleanup410110 clear only a matching pointer. | Full3900-byte/97-field noncrediting Enemy diagnostic and184-byte/two-field exact cleanup. |
 | PLAYER-ENEMY-TRACKING-003 | original observations | Shot type1 reads30364/30368 with sentinel gate X>-900;type3 gates X>=-144. Type7 passes30364 to real41BB00 and then tests X<-144. | Complete471/248/139-byte canonical callbacks,actual scalar payloads and call identities. |
 | PLAYER-ENEMY-TRACKING-004 | maintained source repair | One1C-byte PlayerEnemyTrackingStateView now shares the observed position and EnemyView pointer across these six sources. The intervening12 bytes retain unknown semantics;no full-record reset,constructor or new target boundary is introduced. | Native i386 size/offset assertions and current.py's105 strict complete existing owners. |
-| PLAYER-ENEMY-TRACKING-005 | native interface repair | Type7 removes its undefined private AngleFromPlayerToPoint declaration and calls existing PlayerAngleView::AngleToPoint. Its field+1F still resolves41BB00;the actual101-byte callee independently remains exact. | One native symbol migration,unchanged field offset/type/addend/address and full caller/callee comparisons. |
+| PLAYER-ENEMY-TRACKING-005 | corrected native identity | Type7 field+1F calls PlayerForwardAngleView::AngleFromPlayerToPoint at41BB00. The earlier migration to the opposite AngleToPoint symbol was incorrect and is superseded by a shared declaration and canonical-owner-checked comparison. | Type7-forward-angle current.py;native101/Type7-139/Type2-193 strict proofs;canonical owner guard rejects the old mapping. |
 
 The shared state is a maintained projection,not proof of original C++ class
 ownership. It deliberately does not infer the role of the separately reset30370
@@ -27149,3 +27149,98 @@ records and cleanup receipt remain under
 .analysis/gpt-61sol-20261031-enemy-playfield-context/. No old source tree or
 archive is created. Documentation,tracking,progress and whitespace checks close
 this local research checkpoint;public validation/CI implementation stays.
+
+
+## 2026-10-31: correct Type7 forward-angle identity and enforce canonical owners
+
+Source checkpoint **a4bba8ecbb4eb5ed73c64b259e82842c37e891e3** repairs an
+incorrect earlier native-interface migration. The complete original Type7 at
+44AB90 calls41BB00 at field+1F; Type2 at442480 calls the same destination at+47.
+The original101-byte41BB00 helper subtracts the player's position from the
+argument position. The distinct101-byte41BB70 helper subtracts in the opposite
+direction. Direct target instructions, existing complete native implementations
+and the verified Ghidra export agree. The maintained names describe those roles;
+they do not establish original C++ names or class/TU ownership. Export:
+`.analysis/ghidra-direct/export-20261030T235446-935025/`, with all685056
+file-backed mapped bytes verified against the original Japanese1.50a target.
+
+The previous Type7 declaration called PlayerAngleView::AngleToPoint, whose
+canonical owner is41BB70, while its caller manifest incorrectly rebound that
+symbol to41BB00. Thus a local operand replay could reproduce the target even
+though linking the maintained source would call the wrong helper. Existing
+canonical-call-identity CI caught this error: the baseline reported one failure
+among1055 tests,29 skipped. The accidental invocation used --help, which ci.py
+does not implement; its shell pipeline returned zero while CI itself failed.
+The failure is preserved explicitly, not accepted as a passing baseline.
+
+PlayerForwardAngleView.hpp now shares the real forward declaration among
+PlayerAngleForward.cpp, Type2 and Type7. The opposite helper remains separate.
+Only Type7's native relocation symbol changes; its original41BB00 address,
+field+1F, REL32 kind, addend, extent and compiler profile stay fixed. Type2's
+previous duplicate declaration also omitted a member of the producer's float3
+view; the shared complete declaration removes that inconsistency. The
+maintained source still does not imply full product link/runtime closure.
+
+The public COFF comparator now rejects a reference to a known canonical function
+symbol at a different owner base, including single references and DIR32 function
+pointers. Its owner index is cached by manifest content, so editing a manifest
+at the same path cannot reuse stale bindings. Reviewed multiple owner bases
+remain allowed; each caller still obeys the existing one-symbol/one-base rule.
+Five new tests exercise wrong owner identity despite equal linked operands,
+manifest changes, function pointers, legitimate multiple owners and the full
+manifest. Seventeen symbol-destination tests and both call-identity tests pass.
+
+Three complete affected owners pass the strict public comparison: forward101/5,
+Type2-193/9 and Type7-139/5, totaling433 physical bytes/19 fields. All five paired
+regular bodies, including Type7's two12-byte trigonometric wrappers, retain raw
+bytes and effective fields apart from the one corrected native symbol. Literal
+payloads and compiler contributions stay equal. The opposite101-byte helper's
+unchanged source/profile/object proof also passes. This is an existing-owner
+source and validation repair, with no new exactness credit.
+
+The batch used nine serial compiler jobs: one old forward baseline, three
+candidate builds, two independent immutable-Git forward/caller reproductions,
+and three final maintained-path builds after removing an EOF blank line in the
+new header. The first staged whitespace check had failed without stopping its
+shell; the local source commit was amended after that correction and successful
+replays. The final three consumed input sets are reconstructed from reachable
+7744e035 inputs plus the recorded source transformation and EOF correction, and
+are independently bound to a4bba8ec. All outputs equal the original proposals.
+No full historical cold cohort was run.
+
+Current routing is `.analysis/gpt-61sol-20261031-type7-forward-angle/current.py`:
+three strict owners plus294 unchanged source/profile/object-bound reuses give
+297 existing units/87552 physical bytes/4182 fields. Its three maintained-path
+objects are retained. The old shared-score296 and SHT251 whole verifiers are
+historical after the Type2/Type7 input change; the old Type7 binding is explicitly
+rejected. Their unchanged individual groups supply the294 reuses. Separate
+network service, native input131 and native playfield116 pins remain unchanged.
+Full public CI after the functional repair passes1060 tests,29 skipped, plus
+tracking, documentation, progress and whitespace checks. The subsequent header
+EOF cleanup changes no tokens and is covered by the three fresh complete builds;
+it does not trigger another full public run.
+
+Global reviewed-authored exactness stays1004/1035 functions and
+246651/291883 bytes (84.5034%). RunEcl30 and Enemy13 remain unresolved; the98%
+objective, Windows i386 product, runtime, semantic and port gates remain open.
+The initially inspected Bullet RNG/Supervisor private views and stale Etama ANM
+inspector names are recorded in deferred-bullet-findings.json, without adopting
+source or tool changes for that separate bounded question.
+
+After every owned producer terminates, cleanup removes461 ignored files/
+8110315 logical bytes:13 compiler binaries and448 generated bytecode caches.
+These include the superseded baseline/proposal objects, old Type2/Type7 proof
+objects and seven PDBs. All987 deletion-time protected hashes agree. Preserve
+current297 carriers, the opposite helper, service/input/playfield objects,
+tracked source, target/toolchains, working Ghidra, compiler/failure logs,
+complete raw/COFF records and immutable recipes. Post-cleanup maintained input,
+original candidate/body, opposite-helper and current297 checks pass without new
+cold jobs. No old source tree or archive is added; build/ is absent. Full local
+records and cleanup receipt remain under
+`.analysis/gpt-61sol-20261031-type7-forward-angle/`.
+
+Final tracking validation regenerated one8846-byte target-identity bytecode through
+a child interpreter. A separate reviewed cleanup removes it and the empty build
+directories;all987 deletion-time protected hashes agree. Final checks propagate
+PYTHONDONTWRITEBYTECODE=1. Combined removal is462 files/8119161 bytes. Receipt:
+`.analysis/gpt-61sol-20261031-type7-forward-angle/cleanup-final-cache.json`.
