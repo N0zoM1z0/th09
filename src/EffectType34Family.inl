@@ -58,12 +58,12 @@ int __fastcall EffectDrawCallbackType34(Effect *effect)
     EffectType34VerticesView *vertices = static_cast<EffectType34VerticesView *>(effect->vertices);
     float angle = -3.1415927f;
     AddNormalizeAngle(angle, -1.5707964f);
+    VertexDiffuseXyzrhw *vertex = vertices->fan54;
     unsigned char alpha;
     if (vertices->state00 == 0)
         alpha = 255;
     else
         alpha = static_cast<unsigned char>(255 - static_cast<int>(effect->timer) * 255 / 50);
-    VertexDiffuseXyzrhw *vertex = vertices->fan54;
     const Float3 *position = reinterpret_cast<const Float3 *>(&effect->position);
     vertex->pos = *position;
     vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);

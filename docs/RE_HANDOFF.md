@@ -27,28 +27,26 @@ ledger or a fresh full cold replay.231 distinct primary proof/diagnostic objects
 and nine additional historical/diagnostic objects remain. Current-source RunEcl
 stays15564/598/30,Enemy3900/97/13,and Setup1689/171/35/77/904.
 
-## Pending Effect34 candidate — preserved,not adopted
+## Effect34 cursor-lifetime reconstruction — adopted source checkpoint
 
-The already-running four-control serial compiler batch finished while the operator switched
-to maintenance. Their source baseline is1c371cf7;no further compiler trial or
-independent cold reproduction is started. Packet:
-`.analysis/gpt-61sol-20261031-effect34-cursor-lifetimes/`.
+The earlier unadopted `early-cursor` experiment from
+`.analysis/gpt-61sol-20261031-effect34-cursor-lifetimes/` was independently
+recompiled against the **current** source and adopted as the natural source
+ordering in `src/EffectType34Family.inl`. Computing the fan cursor directly
+after `AddNormalizeAngle` but before the alpha branch preserves the original
+vertex lifetime and reduces the complete 946-byte draw from 74 to **9**
+differences (offsets 505–510, 512–514). All 53 independently bound relocation
+fields, 286 decoded instructions, 16 CFG blocks, 32 calls and COM immediate
+arguments agree. The 80 current-source canonical sibling units across both
+ECL compiler profiles and the separate Type34 update carrier remain exact;
+RunEcl 30 / Enemy 13 / Effect29 1170+15 remain unchanged. Reproduction:
+`python3 scripts/check-boss-frontiers.py --owner effect34`.
 
-`early-cursor.obj` and early-cursor.json preserve a946-byte/53-field candidate
-with **nine differences**,restoring65 of the current74 without damaging any
-existing match. All53 physical fields,286 instructions,16 blocks,32 ordered
-calls and COM arguments remain checked;all75 same-profile exact siblings pass.
-All137 other regular bodies remain unchanged. The actual fan pointer is computed
-before the alpha branch,matching the target's observed live cursor. See probe.py,
-80 immutable Git/EOL inputs and maintenance-preserved.json. RunEcl30/Enemy13 remain.
-
-**Current src/EffectType34Family.inl is unchanged and still has74 differences.**
-The candidate is not an accepted unit and earns no partial credit. It has no
-independent cold replay or affected-other-profile replay yet. On an explicit
-restart,review the complete owner and affected source/profile scope before any
-adoption. Do not treat the candidate report as a current-source exact receipt.
-Other completed controls remain recorded:trailing-fan225,early-angle74,joint160.
-Their disposable objects may be absent;the nine-difference object is retained.
+This is a **non-exact** source improvement with zero new accepted exactness
+credit. The former source/epoch packet remains a historical candidate record;
+the fresh check is recorded in `docs/TH09_GPT_WEB_20261031.md`. The nine
+remaining bytes concern store/order scheduling; do not infer the entire
+function is matched from the large byte improvement.
 
 ## Historical research and removed copies
 
@@ -202,7 +200,7 @@ repeating them. Historical assumptions remain hypotheses.
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode4 timer transport and opcode155 flag update. Keep all598 fields/tables and complete15564 bytes; actual Timer ABI and RNG ownership are already corrected. `--owner runecl`. |
 | **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Draw index2, side/threshold4, descriptor-position copy7. Keep real20-byte Timer greater co-visible, all97 fields and3887 matching physical bytes. |
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Main/satellite fan chronology, polar receiver reloads and ordinal graph. Bounded emulator fixtures are not whole-runtime or exactness proof. `--owner effect29`. |
-| **Effect 34 draw** | 0x00444AF0 | **946/946 physical**,53 original referents,20 direct +12 COM calls,286 instructions,16 blocks; **74 linked differences** | Entry65 and store order9 remain; radius operands now match. Preserve872 matching bytes, all53 fields, actual float data and full physical extent. `--owner effect34`. |
+| **Effect 34 draw** | 0x00444AF0 | **946/946 physical**,53 original referents,20 direct +12 COM calls,286 instructions,16 blocks; **9 linked differences** | Only the remaining store-order span at offsets 505–510, 512–514 is open. Preserve937 matching bytes, all53 fields, actual float data and full physical extent. `--owner effect34`. |
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor. Preserve332 matching bytes and the genuine final DrawBulletLayerEffects member identity. `--owner etama`. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Lower-bound EAX/EDX transport and encoding cascade. Native framerate/coordinate owners and the shared SHT speed type are corrected;preserve1771 matching bytes and both tables. `--owner movement`. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Recover source chronology and missing13 bytes; preserve repaired SpawnShots transport and actual call/field identities. |
