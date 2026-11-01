@@ -1,5 +1,8 @@
 # TH09 enemy/ECL leaf cold replays — 2026-10-31
 
+> Historical source/profile-bound leaf replay inventory (2026-10-31). These are local comparison receipts from that source snapshot, not a current-source blanket pass or accepted Factory receipt. Rebuild affected units before relying on them; see docs/RE_HANDOFF.md.
+
+
 This inventory records focused source-cold builds and original-bound canonical
 comparisons made during the TH09 restart. Every row below returned
 `result: exact`, `matched_bytes == compared_size == target size`, and an empty

@@ -1,5 +1,8 @@
 # Historical TH09 boss-function experiment checklist — October 24
 
+> Historical hypothesis archive (2026-10-24). These are dated research notes, not current owner status; verify every hypothesis against fresh TH09 evidence and use docs/RE_HANDOFF.md for current routing.
+
+
 This is the independent working checklist requested on October 24, 2026.
 It records that source epoch only. Later October29 source adoptions supersede
 its maintained-source and Replay-unadopted statements; use [RE_HANDOFF.md](RE_HANDOFF.md)

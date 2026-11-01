@@ -1,5 +1,8 @@
 # TH09 focused reconstruction — continuation, 2026-10-31
 
+> Historical focused-work continuation (2026-10-31), with the later DrawResult update appended. Counts and negative trials are source-snapshot scoped; docs/RE_HANDOFF.md is authoritative for current status. Several disposable probe directories were pruned during the 2026-11-01 handoff cleanup; summaries remain here and the deletion manifest is .analysis/maintenance-20261101/scratch-prune-manifest.json.
+
+
 This live checkpoint uses Japanese TH09 1.50a, PE SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 It distinguishes observed complete original/COFF comparisons from canonical
@@ -75,11 +78,13 @@ they fail closed where the previous code-operand-only inspector did not.
 Fresh focused `--owner enemy --skip-exact-siblings` checks both the complete
 Enemy update and separate exact Enemy collision wrapper without touching
 unrelated carriers. It does **not** credit the 3,900-byte nonexact owner.
-Experiment logs under `.analysis/gpt-web-enemy-probes-20261031/` also show
-natural GameManager/side pointer, descriptor position and index-local source
-models: all survivors at best remain 3,900/97/13; a reordered side-state
-producer breaks original fields/extent. These are negative bounded evidence,
-not proof that the original source had one unique variable spelling.
+The now-pruned enemy probe batch tested natural GameManager/side pointers,
+descriptor position copies and index-local source models: all byte-neutral
+survivors remained 3,900/97/13; a reordered side-state producer broke original
+fields/extent. These are bounded negative results, not proof that the original
+source had one unique variable spelling. Raw scratch files were removed during
+the 2026-11-01 handoff cleanup; the per-file deletion hashes are in the
+maintenance manifest.
 
 ## EnemyManager 3,900-byte original-bound scalar definitions
 
@@ -152,8 +157,9 @@ receiver lifetimes, and real `SpawnEffect` owner/argument locals. Byte-neutral
 valid forms retained all 13 residuals; moving the side-state reception before
 the constructor altered owner size or field identities, and was rejected.
 The unreplaced current RunEcl 15,564-byte owner remains 30 differences.
-All candidate source and COFF outputs are retained under ignored
-`.analysis/gpt-web-enemy-probes-20261031/` for falsifiable review.
+The candidate source/COFF scratch outputs were removed during the 2026-11-01
+handoff cleanup after the negative result was summarized here. Rebuild fresh
+candidates from the maintained source if new evidence justifies another trial.
 
 ## Scoped changed-header exact replay smoke after include-graph checkpoint
 
@@ -320,9 +326,10 @@ credit**. The complete report is
   The natural forms retain the same 1,280/29 frontier; reversing actual data
   dependencies expands to 1,271-byte owners with over 850 differences.
 
-All probes live under `.analysis/gpt-web-20261031-save-trials/`,
-`.analysis/gpt-web-title-cursor-guard-20261031/`, and
-`.analysis/gpt-web-title-replay-menu-20261031/`. No losing source variant was
+The SaveReplay and cursor probe directories were removed during the
+2026-11-01 handoff cleanup after the negative results were summarized here.
+The separate Title replay-menu literal-provenance packet remains retained under
+.analysis/gpt-web-title-replay-menu-20261031/. No losing source variant was
 copied into maintained game sources. No all-source cold replay was run.
 
 ### Validation and commit
@@ -385,3 +392,38 @@ run_title_result() path; no full cold replay was run.
 
 Code/test commit: 80313a4f — gpt-web: narrow Title DrawResult residual to three bytes.
 This remains a non-exact owner with three explicitly guarded residual bytes.
+
+
+## 2026-11-01 additional probes and artifact cleanup
+
+The current Title OnUpdateOptions diagnostic is 2,045 target / 2,048 candidate
+bytes, 551/554 instructions, 135 original-bound fields, 51 ordered calls and
+121 matching direct CFG blocks. It has 610 unequal overlapping bytes and three
+extra candidate bytes; the extra length is not a three-byte residual. No
+TitleOptions source rewrite was adopted.
+
+The active Title character cursor is 211 target / 215 candidate bytes with
+185 unequal overlapping bytes and four extra bytes. A parameter-end/VM-stride
+rewrite reduced the overlapping difference count to 122 but changed the CFG
+from five blocks to four and was rejected. Reverse and Inactive remain 175/175
+bytes with 38 differences and a four-versus-five CFG mismatch; equal length is
+not exactness.
+
+SaveReplay remains 1,238/1,238 bytes with three differences at +0xB7, +0xBB
+and +0x3F6. The additional no-code compiler-barrier placements did not improve
+those bytes: barriers after replay-data copy or offset initialization kept
+the same three differences; placements around allocation, copy loops or
+checksum setup expanded the owner or changed its CFG. No barrier trial was
+adopted. Enemy side-state/descriptor/draw-index trials likewise left the
+3,900-byte OnUpdate at 13 differences or regressed its physical owner/fields.
+
+For handoff, the disposable raw scratch directories for Title options,
+Title DrawResult probes, Title cursors, EnemyManager probes and SaveReplay
+trials were removed after their conclusions were summarized. Their original
+file paths, sizes and SHA-256 values are retained in
+.analysis/maintenance-20261101/scratch-prune-manifest.json. Build and generated
+compiler caches were also cleaned; the exact cleanup report is
+.analysis/maintenance-20261101/generated-cache-cleanup.json. Compact diagnostic
+owner reports remain in .analysis/maintenance-20261101/owner-snapshots/.
+No source or canonical ledger change was made by this cleanup, and no full
+cold replay was run.

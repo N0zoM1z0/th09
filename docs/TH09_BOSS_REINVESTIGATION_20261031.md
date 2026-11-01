@@ -1,5 +1,8 @@
 # TH09 boss re-investigation — 2026-10-31
 
+> Historical investigation snapshot (2026-10-31). The decompiler/tool observations and source trials below are epoch-specific hypotheses; re-attest them against the current target and Ghidra project before reuse. Current routing is in docs/RE_HANDOFF.md.
+
+
 This checkpoint records independent native IDA decompilation and rejected
 source-shape experiments. The purpose is to keep the current hypotheses
 falsifiable; none of these diagnostics grants byte exactness.

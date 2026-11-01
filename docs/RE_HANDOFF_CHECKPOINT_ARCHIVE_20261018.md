@@ -1,5 +1,8 @@
 # TH09 — archived checkpoint details
 
+> Frozen historical handoff archive. Its current-status language, tool routes, commit conventions and residual counts describe their original checkpoints only; use docs/RE_HANDOFF.md, AGENTS.md and fresh ledgers for current instructions.
+
+
 > **Historical source/experiment notes, NOT a live handoff and NOT a new
 > codegen acceptance receipt.** Frozen from the previous long-form
 > `docs/RE_HANDOFF.md` at repository baseline `0df4c1d`. These notes retain

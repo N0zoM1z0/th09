@@ -1,5 +1,8 @@
 # TH09 historical Factory acceptance receipts
 
+> Immutable historical receipt archive. Each verdict is bound to the source commit and invocation recorded with it; older residual counts (including the former 22-byte DrawResult residual) are not current-source measurements. Current acceptance is determined only by the live registry and docs/RE_HANDOFF.md.
+
+
 > **Historical source-commit-bound evidence, NOT the active exactness ledger.**
 > These originally accepted exact-sibling regressions belong only to their
 > specified gameplay-source commits. Later docs/source commits do not

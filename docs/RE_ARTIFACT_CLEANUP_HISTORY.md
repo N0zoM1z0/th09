@@ -1,5 +1,8 @@
 # TH09 artifact cleanup history and preservation review
 
+> Historical cleanup audit. Each entry records a past maintenance scope and must not be read as the current operator status; the newest cleanup entry is at the end of this file.
+
+
 > For current cache state, use the [active handoff](RE_HANDOFF.md).
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
@@ -3318,3 +3321,47 @@ without overwriting later candidate edits. The active handoff names all current
 paths;earlier packet snapshots may require this recovery before historical replay.
 Receipt:.analysis/maintenance-20261031-handoff-1c371cf7/cleanup.json.
 Recovery manifest:git-backed-copy-plan.json in the same directory.
+
+
+## 2026-11-01: resumed-agent handoff cleanup
+
+The October 31 entry above correctly records the maintenance-only checkpoint
+at that time, but it is no longer the active operator status: the operator
+explicitly resumed TH09 reconstruction and requested this handoff cleanup.
+The active instructions now use gpt-web: commits, require serious work on
+large bosses and leaf functions, and use focused affected-owner replays rather
+than a full cold replay. See docs/RE_HANDOFF.md and AGENTS.md.
+
+The cleanup retained tracked source, ledgers, target, Ghidra project, toolchain,
+accepted receipt history, source-bound proof packets and the separate
+Title replay-menu literal-provenance packet. It also retained compact
+diagnostic-only snapshots for Title DrawResult, Title OnUpdateOptions,
+Title cursors, EnemyManager::OnUpdate and ReplayManager::SaveReplay under
+.analysis/maintenance-20261101/owner-snapshots/. These snapshots grant no
+exactness credit.
+
+Five non-adopted scratch directories were removed after their negative
+results were summarized in docs/TH09_GPT_WEB_CONTINUED_20261031.md:
+- gpt-web-title-options-20261031
+- gpt-web-title-result-scoregroup-20261031
+- gpt-web-title-cursor-guard-20261031
+- gpt-web-enemy-probes-20261031
+- gpt-web-20261031-save-trials
+
+The pre-deletion manifest records 2,660 files and 122,459,798 bytes with
+per-file SHA-256 values. The generated-cache cleaner had already removed
+573 PDB/bytecode cache files (61,093,719 bytes) from these directories; the
+remaining 2,087 scratch files (61,366,079 bytes) were removed after their
+surviving hashes were checked. The five directory trees are absent.
+
+The reviewed scripts/clean-generated-artifacts.py --apply run also removed
+1,599 generated files totaling 123,065,862 bytes: the ignored build tree
+(600 files / 16,282,379 bytes) and generated compiler/bytecode caches
+(999 files / 106,783,483 bytes). Counting those cache files once, together
+with the remaining scratch files, this handoff reclaimed 184,431,941 bytes.
+The audit is .analysis/maintenance-20261101/generated-cache-cleanup.json;
+the scratch manifest is .analysis/maintenance-20261101/scratch-prune-manifest.json.
+The ignored build/ directory is now absent and must be recreated only for the
+next focused unit. The Ghidra project and original target were not touched.
+No full cold replay, compiler replay or canonical ledger change was performed
+for this documentation/artifact cleanup.

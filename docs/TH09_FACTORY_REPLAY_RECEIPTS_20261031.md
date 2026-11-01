@@ -1,5 +1,8 @@
 # TH09 focused Factory replay receipts — 2026-10-31
 
+> Historical Factory receipt archive (2026-10-31). Receipt facts remain bound to their recorded source commits and must not be treated as accepted facts for current HEAD unless the live acceptance registry says so. See docs/RE_HANDOFF.md.
+
+
 Eighty-five individually submitted, forced-recompile function-exact replay
 jobs completed. The first fifteen were bound to clean commit
 `9048c2c0fd2084b1dfd6345d30f6dfe150a54036`; the next five were bound to clean
