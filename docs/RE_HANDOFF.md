@@ -2,18 +2,24 @@
 
 ## Operator status — reconstruction explicitly resumed
 
-The operator explicitly resumed TH09 reconstruction and requires work on both
-complete large bosses and leaf functions, with `gpt-web:` Git commits after
-reviewable progress and **only focused carrier replays**. This supersedes the
-October 31 maintenance-only instruction retained in older records. The 98%
-reviewed-authored-byte goal remains open; canonical codegen, whole-product
-linking, runtime semantics and ports remain separate milestones. Preserve
-incoming dirty changes and inspect them rather than cleaning them by default.
+The operator explicitly resumed TH09 reconstruction and requires serious work
+on both complete large bosses and leaf functions. Re-investigate source and
+target evidence rather than trusting old notes or previous attempts. Commit
+reviewable progress with commit subjects prefixed gpt-web:; create multiple coherent
+commits in a session when there are multiple substantive advances. Use only
+focused complete-owner/carrier replays for changed units and dependencies; do
+not run a full cold replay for routine iteration. Preserve incoming dirty work
+and inspect it before changing or cleaning it.
 
-The last adopted gameplay source change was the complete canonical exact Type34
-draw promotion in `2d6303de`. The earlier gameplay release checkpoint
-`1c371cf7` is still historical provenance, not current HEAD. Local commits
-are checkpoints rather than proof of remote publication or Factory acceptance.
+The latest source-changing checkpoint is 80313a4f
+(gpt-web: narrow Title DrawResult residual to three bytes). The following
+31496c4a commit records that source checkpoint. The most recent gameplay
+exactness promotion remains the Effect34 draw at 2d6303de; 1c371cf7 and the
+October 31 maintenance-only state are historical, not the current operator
+instruction. Local commits are checkpoints, not proof of remote publication or
+Factory acceptance. The 98% reviewed-authored-byte goal remains open;
+canonical codegen, whole-product linking, runtime semantics and ports remain
+separate milestones.
 
 ## Current source and proof
 
@@ -34,6 +40,49 @@ ledger or a fresh full cold replay.231 distinct primary proof/diagnostic objects
 and nine additional historical/diagnostic objects remain. Current-source RunEcl
 stays15564/598/30,Enemy3900/97/13,and Setup1689/171/35/77/904.
 
+## 2026-11-01 handoff refresh — current non-exact frontiers
+
+The live ledgers remain authoritative: 2,248 candidates, 1,035 authored
+mappings, 1,005 exact functions, and 30 source-present non-exact functions /
+44,286 bytes. Reviewed authored coverage is 247,597 / 291,883 bytes (84.8275%);
+the 98% goal is not met. Whole-product linking, runtime semantics and
+portability are not started.
+
+Fresh diagnostic-only owner reports were captured under
+.analysis/maintenance-20261101/owner-snapshots/ before build-cache cleanup:
+
+- Title DrawResult: 1,939/1,939 bytes, 577 instructions, 82 fields, 16 calls,
+  92 CFG blocks; three residual bytes at +0x1D, +0x23 and +0x39.
+- Replay SaveReplay: 1,238/1,238 bytes, 380 instructions, 53 fields, 23 call
+  operands and 49 blocks; three residual bytes at +0xB7, +0xBB and +0x3F6.
+- EnemyManager::OnUpdate: 3,900/3,900 bytes, 97 relocation fields, 1,026
+  instructions, 69 calls and 170 blocks; 13 residual bytes at
+  +0x19C, +0x1A3, +0x252, +0x263, +0x26D, +0x272, +0x294, +0x29A,
+  +0x29C, +0x2A5, +0x2A9, +0x2B7 and +0x2BD.
+- Title OnUpdateOptions: 2,045 target / 2,048 candidate bytes, 551/554
+  instructions, 135 fields, 51 calls and 121 blocks; 610 unequal overlapping
+  bytes plus three extra candidate bytes. Fields, ordered calls and direct CFG
+  agree; this is a large non-exact owner, not a 3-byte residual.
+- Title active cursor: 211 target / 215 candidate bytes, 185 unequal overlapping
+  bytes plus four extra candidate bytes. Reverse and Inactive are each
+  175/175 bytes but have 38 differences and a 4-versus-5 block CFG mismatch;
+  equal physical size is not exactness.
+
+The SaveReplay barrier/type/address trials did not improve its three residuals.
+A barrier after the replay-data copy or offset initialization preserved the
+same three bytes; barriers around allocation, copy loops or checksum setup
+changed the owner/CFG and were rejected. Enemy side-state/descriptor lifetime
+and draw-index probes did not improve its 13 bytes. Title cursor and options
+lifetime/zero-initialization probes were also not adopted. Their disposable raw
+source/object/log directories were removed after these results were summarized
+in the continuation note; the deletion manifest is
+.analysis/maintenance-20261101/scratch-prune-manifest.json.
+
+The owner snapshots are diagnostic only and grant no exactness credit. Build
+and compiler caches were removed after capture; rebuild only the relevant
+translation unit with scripts/build-match-unit.py before a fresh comparison.
+No full cold replay was run.
+
 ## Latest resumed-work checkpoint — Title DrawResult narrowed to 3 bytes
 
 The newest gpt-web code/test commit is 80313a4f. The 1,939-byte
@@ -49,7 +98,7 @@ tests (29 optional skips), tracking validation, documentation validation and
 generated-progress checks. Details and rejected experiments are in
 docs/TH09_GPT_WEB_CONTINUED_20261031.md. No full cold replay was run.
 
-## Latest resumed-work checkpoint — Title replay menu provenance
+## Previous code checkpoint — Title replay menu provenance
 
 The newest `gpt-web:` commit is `0332496c`. The separate 1,280-byte
 `TitleScreenView::DrawReplayMenu` remains non-exact at 29 physical differences,
@@ -251,14 +300,14 @@ repeating them. Historical assumptions remain hypotheses.
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Character snapshot and remaining control-flow/byte deficit. Keep the exact Title setup siblings. |
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280/1,280 bytes**,376/376 instructions,57 original-bound fields,13 ordered calls,72 matching direct blocks; **29 differences** | Menu bank/record chronology. Preserve all57 fields,13 calls,72 blocks and the full original-bound residual guard. `--owner replaymenu`. |
 | **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | VM/bank transport and scheduling. Keep245 instructions,41 fields and28 physical blocks. |
-| **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 82 fields, 16 calls, 92 blocks; **22** differences | Record/bank/currentScreen lifetimes. Existing source/visibility models are bounded negatives; all1917 matching bytes remain protected. `--owner title`. |
-| **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 / 2,048**, 135 fields, 51 calls, 121 blocks | Options-menu loop and missing bytes; keep complete original-bound field/call/graph checks. `--owner title`. |
-| **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active target/candidate **211/215**; Reverse/Inactive **175/175** | Active cursor size and cursor state/transport; all three remain nonexact despite Reverse/Inactive having equal physical lengths. `--owner title`. |
+| **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 577 instructions, 82 fields, 16 calls, 92 blocks; **3** differences at +0x1D/+0x23/+0x39 | The no-code _ReadWriteBarrier() preserves the scoreGroup-store/currentScreen-read order; the remaining three bytes are register choice. Keep the full owner gate and all 1,936 matched bytes protected. Still non-exact. --owner title. |
+| **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 target / 2,048 candidate**, 551/554 instructions, 135 fields, 51 calls, 121 blocks; **610 unequal overlaps + 3 extra bytes** | Options-menu loop, register lifetime and physical excess; fields/calls/direct CFG agree. Do not mistake the three-byte size excess for a three-byte residual. --owner title. |
+| **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active **211 target / 215 candidate**, 185 unequal overlaps + 4 extra; Reverse/Inactive **175/175** but 38 differences and 4/5 CFG blocks | Active cursor state/transport remains open. Reverse/Inactive equal sizes do not mean exact code or matching CFG. --owner title. |
 | **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | Middle-Z chronology; preserve765 matching bytes. Actual Timer visibility and native vector interfaces do not resolve15. `--owner type3`. |
 | **ExAttack Type14/22 draw** | 0x00444130 | **959/959**,53 original referents,20 direct +12 COM calls,290/291 instructions; **525 linked differences** | Frame20 versus1C, polar/store scheduling and physical jumps9/10. Preserve434 matching bytes,53 fields and actual scalar/helper payloads. `--owner exattack`. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **904 differing bytes** (911→904, no damaged matches) | Side registration and shared limit/rate publication. Keep native creator calls and164 aligned identities; B4 multiplicity reflects branch sharing. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **799** overlap + 13 missing | Region producer, activeB100 pool and missing physical bytes. Preserve five same-source exact helpers and separate CalcItemBox/FindCollision proofs. `--owner player`. |
-| **Replay SaveReplay** | 0x00420C60 | **1,238/1,238 bytes**, 380 instructions, 53 fields, 23 call operands, 49 matching blocks; **3 differences** (152→3) | Frame-destination register at+B7/+BB and checksum SIB at+3F6. Preserve1235 matching bytes and all12 exact same-source siblings. `--owner replaysave`. |
+| **Replay SaveReplay** | 0x00420C60 | **1,238/1,238 bytes**, 380 instructions, 53 fields, 23 call operands, 49 matching blocks; **3 differences at +0xB7/+0xBB/+0x3F6 (152→3)** | Frame-destination register at+B7/+BB and checksum SIB at+3F6. Preserve1235 matching bytes and all12 exact same-source siblings. `--owner replaysave`. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Seed/tail chronology and two missing bytes. All32 ordered referents and first30 physical field positions are already restored. `--owner replay`. |
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | EDI/ESI owner allocation. Preserve310 matching bytes; timer-float visibility regresses physical size and x87 lifetime. |
 | **Controller input** | 0x0042B410 | **808 / 810**, 32 fields; **84** overlap differences /2 excess bytes | Both midpoint evaluations per axis are restored; register scheduling and two excess bytes remain. Preserve all724 currently matching original byte positions,32 fields and native globals using the new focused `--owner controller` non-crediting original-PE/COFF guard and two exact helper siblings. |

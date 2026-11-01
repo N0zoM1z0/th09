@@ -2,17 +2,19 @@
 
 The project milestone is at least **98% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The operator cleared reconstruction on October31 and requested housekeeping.
-Current work is maintenance. The unfinished milestone is not permission to
-resume;the workflow below applies after an explicit reconstruction restart.
-Audit earlier dependency/interface details as well as big-function bodies.
-The
-selected analysis route is direct local Ghidra, without IDA, REA or Factory MCP.
-Use repository Bash,
-`scripts/ghidra-analysis.py` and pinned VC7.1 tools.
-New English commits use `gpt-6.1-sol:` and the AGENTS.md identity/trailer. Compile
-serially at lowered priority and preserve complete affected-owner/callee proofs.
-See RE_HANDOFF.md for current source map, preserved archives and baseline.
+The operator has explicitly resumed reconstruction and requests serious work
+on complete large bosses as well as leaf functions. Re-investigate old claims
+against current source/target evidence. Use focused complete-owner builds and
+replays only; no full cold replay for routine iteration.
+
+Use the live registered repository worktree for source and Git operations,
+`scripts/ghidra-analysis.py` for target-attested local Ghidra analysis, and the
+pinned VC7.1 compiler for byte-exact comparisons. These are separate evidence
+sources. New English commits use `gpt-web: <concise summary>`; checkpoint every
+substantive advance and create multiple commits when a session has multiple
+reviewable advances. Compile serially at lowered priority and preserve complete
+affected-owner/callee proofs. See `RE_HANDOFF.md` for the current source map,
+residuals, retained evidence and next-agent routing.
 
 Historical negative results are bounded measurements, not proof that all natural
 source models are exhausted. Exact code, the authored denominator, the Windows
@@ -28,7 +30,7 @@ the Program identity and every file-backed mapped PE byte before analysis and
 each export. Documentation/test-only changes need no compiler or Ghidra replay.
 See `AGENTS.md` for commands and target identity.
 
-Run `python3 -B scripts/ghidra-analysis.py --function 0x004086c0` for a bounded
+Run `python3 -B `scripts/ghidra-analysis.py` --function 0x004086c0` for a bounded
 export. The first invocation imports the original into an ignored local project;
 subsequent invocations use `-noanalysis -readOnly` after rechecking the target
 and every file-backed memory range. Supply `--ghidra-dir` or the ignored
@@ -182,7 +184,7 @@ has no tracked consumers and every still-useful unresolved fact is recorded in
 tracked source/ledgers/docs, remove only individually reviewed scratch paths.
 Never bulk-delete `.analysis/` or remove unclassified legacy artifacts, provider
 databases, toolchains, or Wine prefixes. Record the paths, classification,
-reproducibility and retained evidence in `docs/RE_HANDOFF.md` so future agents
+reproducibility and retained evidence in docs/RE_HANDOFF.md so future agents
 can distinguish deliberately cleaned outputs from missing canonical evidence.
 
 When old copies are byte-recoverable from reachable Git blobs,retain their

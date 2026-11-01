@@ -54,30 +54,29 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-The operator cleared the reconstruction goal on October31 and requested
-housekeeping. Current game source is checkpoint `1c371cf7` (implemented gameplay teardown
-contracts);the unified LZSS checkpoint `a3e4aaee` is historical. Reconstruction requires an explicit restart.
-An unadopted Effect34 candidate reduces its74 current-source differences to9;
-its object and recipe are preserved in the handoff,without exactness credit.
-The **98% exact reviewed-authored
-byte** milestone remains unfinished. Use [the handoff](docs/RE_HANDOFF.md) for the
-current code map, remaining large functions, restart commands and retained
-local evidence. [PROGRESS.md](docs/PROGRESS.md) is generated from the live ledgers;
-historical knowledge-base measurements do not replace them. Exact authored-byte
-coverage does not establish a complete executable or runnable product.
+TH09 reconstruction is active on explicit operator request. Work both complete
+large owners and leaf functions; historical hypotheses and experiment notes are
+not authoritative over fresh source/target evidence. The canonical ledger
+currently reports **2,248 candidates, 1,035 authored mappings, 1,005 exact
+functions and 30 non-exact functions / 44,286 bytes**. Exact authored-byte
+coverage is **247,597 / 291,883 (84.8275%)**; the 98% milestone remains open.
+Whole-product linking, runtime semantics and portability are separate,
+unstarted gates.
 
-When reconstruction resumes, prioritize complete RunEcl and EnemyManager,
-followed by other large functions. Use direct local Ghidra, repository Bash and
-the pinned VC7.1 compiler, compile serially at lowered priority, and reuse
-unchanged source/profile-bound proofs. New English commits use `gpt-6.1-sol: ...`
-with the identity/trailer in [AGENTS.md](AGENTS.md).
+The latest source-changing checkpoint is `80313a4f`
+(`gpt-web: narrow Title DrawResult residual to three bytes`). It narrowed the
+complete 1,939-byte TitleScreenView::DrawResult residual from 22 bytes to
+three (+0x1D, +0x23, +0x39) without claiming exactness. Other high-value open
+bosses include RunEcl (30 bytes), EnemyManager::OnUpdate (13 bytes), and
+ReplayManager::SaveReplay (three bytes). `docs/RE_HANDOFF.md` is the single
+active source map and records the current Title/options/cursor fronts, proof
+reuse, retained evidence and handoff commands.
 
-Attest the target before target-dependent work and mapped Program bytes before Ghidra
-analysis. Documentation/test-only edits do not need those checks. Current
-exact/non-exact state comes from `config/functions.csv`,
-`config/matches.csv`, `config/match-units.toml`, and a fresh status report.
-`docs/KNOWLEDGE_BASE.md` indexes durable evidence and bounded investigation
-notes; historical measurements do not replace the live ledgers.
+Use focused complete-owner builds/replays for the changed units only. Do not
+run a full cold replay for routine iteration. Commits use
+`gpt-web: <concise English summary>` after each substantive checkpoint; keep
+code and documentation commits coherent and make multiple checkpoints when a
+session produces multiple reviewable advances.
 
 The PE and Rich header identify Microsoft Visual C++ .NET 2003 build 3077.
 Some runtime-library contributions and compiler-generated helpers are proven,
@@ -91,18 +90,17 @@ Run `python3 scripts/progress.py` to regenerate the status card,
 `python3 scripts/ci.py` for the full target-independent validation set when
 changing shared validation/CI tooling. Ordinary exact checkpoints use affected
 complete-owner comparisons and checks relevant to the diff; see
-[the validation scope](docs/RE_WORKFLOW.md#checks-during-the-exact-phase).
-Canonical
-build caches may be absent after reviewed cleanup; replay a function by
-running `python3 scripts/build-match-unit.py --unit NAME` before its
+the validation scope in `docs/RE_WORKFLOW.md`.
+Canonical build caches may be absent after reviewed cleanup; replay a function
+by running `python3 scripts/build-match-unit.py --unit NAME` before its
 corresponding comparison or non-crediting inspector. Preview disposable-cache
 cleanup with `python3 scripts/clean-generated-artifacts.py`. Analysis objects
-are preserved by default;`--reviewed-objects` accepts an explicit path/SHA-256
+are preserved by default; `--reviewed-objects` accepts an explicit path/SHA-256
 list for obsolete objects. Changed files invalidate the reviewed plan.
 Git-backed old source/config/doc copies can be restored with
-`scripts/restore-analysis-snapshots.py`;the handoff names the recovery manifest.
-Use [`docs/RE_ARTIFACT_CLEANUP_HISTORY.md`](docs/RE_ARTIFACT_CLEANUP_HISTORY.md)
-for the actual cleaned scopes and retained evidence.
+`scripts/restore-analysis-snapshots.py`; the handoff names the recovery
+manifest. Use `docs/RE_ARTIFACT_CLEANUP_HISTORY.md` for the actual cleaned
+scopes and retained evidence.
 
 ## Required phase order
 

@@ -6,17 +6,22 @@ promotion is a later Factory review, never an automatic action here.
 The evidence index describes the state at its last substantive edit. Confirm
 current ownership and exactness in `config/functions.csv`, `config/matches.csv`
 and `config/match-units.toml`; use a fresh reconstruction report for totals.
+Current supersession: Title DrawResult's former 22-byte residual in older
+packets was narrowed to three bytes by source commit 80313a4f
+(+0x1D, +0x23 and +0x39). All older 22-byte packet measurements remain valid
+only for their recorded source snapshots, not for the current source.
 `docs/RE_HANDOFF.md` routes the active work; compiler object caches are
 not authoritative and may be absent after a deliberate cleanup.
-The operator cleared reconstruction on October31;the current task is maintenance.
-An unadopted Effect34 nine-difference candidate is preserved separately from the
-maintained74-difference source. See the handoff before continuing any old campaign.
+TH09 reconstruction is active on explicit operator request. The 2026-10-31
+maintenance-only state is historical and does not block the current campaign.
+Use docs/RE_HANDOFF.md for the live owner map, commit convention and focused
+replay scope; current exactness comes only from the ledgers and fresh reports.
 
-On October30 the operator requested that documentation and research records
-remain while unused old code copies, source-only archives and build caches are
-deleted. Packet paths below record their original capture locations; source
-snapshots may no longer exist. Current reconstruction restarts from tracked
-source/config and the pinned tools, without restoring old experiment code.
+The October 30/31 cleanup requests and packet-specific deletion records below
+are historical. Packet paths record original capture locations; source
+snapshots and ignored objects may no longer exist. Rebuild from tracked
+source/config, the verified target and pinned tools rather than restoring old
+experiment code as current source.
 
 Later packets are **historical, source-commit-scoped hypotheses and results**.
 They can contain superseded compiler shapes, errors, outdated 'current' counts
@@ -63,7 +68,7 @@ and fresh codegen replays before copying a number into the live handoff.
 | ID | Recorded state | Fact | Evidence |
 | --- | --- | --- | --- |
 | ECL-ALIGNMENT-SELF-MOV-001 | compiler observation / diagnostic boundary | Pinned VC7.1 read-by-value ECL controls emit14790 code bytes plus exact8B FF post-RET alignment before the two tables. Both independent extent classifiers now recognize this observed MOV EDI,EDI without excluding any owner byte from comparison. The unchanged production guard still requires14792 code bytes and zero field/table differences. | Actual full compiler raw/COFF and selected identical-raw replay; new full diagnostic yields2048 ordinary/242 field differences, including26 table bytes, and fails the production frontier. Normal decoder regression assertions reject non-self/16-bit moves and branches into padding. Maintained15564/598/30 and75 exact units remain unchanged. |
-| TITLE-SCORE-CONTEXT-001 | source-context counterevidence / nonexact | Actual score-table storage and the genuine zeroing constructor source, separately or together, preserve all1939 DrawResult caller bytes and its22 residuals. Under the unchanged Title /O1 profile that constructor emits20 bytes /one memset field, so it is not the original18-byte /zero-field native body. | Public probe-title-score-context.py checks the complete original caller, actual local definitions and separate constructor raw/COFF; independent canonical /O2 constructor replay is18/18, with its24-byte sibling exact. Class/TU/storage ownership remain unproven. |
+| TITLE-SCORE-CONTEXT-001 | source-context counterevidence / nonexact | Actual score-table storage and the genuine zeroing constructor source, separately or together, preserve all1939 DrawResult caller bytes and its22 residuals at that source snapshot; superseded on 2026-11-01 by the current three-byte residual at +0x1D/+0x23/+0x39. Under the unchanged Title /O1 profile that constructor emits20 bytes /one memset field, so it is not the original18-byte /zero-field native body. | Public probe-title-score-context.py checks the complete original caller, actual local definitions and separate constructor raw/COFF; independent canonical /O2 constructor replay is18/18, with its24-byte sibling exact. Class/TU/storage ownership remain unproven. |
 | SETUP-NATIVE-001 | source interface correction / nonexact frontier | GameplaySetupThread uses eight implemented native creators/nine references. Shared VM headers remove the former three-header conflict. Gameplay cleanup now calls actual Background,CardAttack and FrontSide reset methods;its complete425 bytes/43 fields stay exact. Two full factory-body /Os contexts remain1689/171/904 and fail native factory extents;the existing non-Os profile reproduces all three factories. | Current40 immutable-input packet: .analysis/gpt-61sol-20261031-setup-native-context/. Eleven affected canonical units/2991 bytes/243 fields replay;668 unchanged pins retain679 combined units. No additional exact credit or original TU claim. October22 and shared-VM evidence remains source-scoped history. |
 | TARGET-001 | observed / corroborated | The supported executable is original Japanese TH09 v1.50a, size 685,056, SHA-256 `10350095...fce6822`. | Direct hash/PE inspection plus pinned thcrap version database |
 | PE-001 | observed | The target is relocation-stripped PE32 i386 at image base `0x00400000`, entry `0x0047D45F`, with five sections. | `scripts/verify-target.py`; `config/target.toml` |
@@ -4723,7 +4728,7 @@ this document. The current canonical unit is controller-get-input.
 - Matching local packed-color type to the actual AsciiManager unsigned-long field is neutral; changing the raw signed 32-bit fade value to long is neutral. These observations do not identify original author types. An 8-bit alpha-channel hypothesis emits 1944 bytes /577 instructions, raw 5ce2b1499b33a6d286173d9b49273bbeea3c8df902d837a87c946b789d7f3330. Although it recovers bank/screen load order, it loses the target shared EDX=255 definition, introduces OR AL,FF and MOVZX ECX,AL, and shifts/stores color via ECX. Full graph agreement does not waive those byte/data-flow differences. The narrower type is not retained.
 - Initializing raw alpha=255 before score-group/screen selection, then overriding only for timer<30, is a real default-opacity hypothesis distinct from Packet 731's later default. It emits 1944 bytes /578 instructions, raw cb33451225d2dc5bb1c919e970323343fda42b2ae20e8412df870b0363ca8a0a, with 91 versus target92 direct blocks and much broader scheduling differences. It is rejected. No inert local, ABI/header change, type/name search, volatile/register directive, padding, fake return or compiler-profile search is retained.
 - Fresh adjacent source inspection corrects Packet 731's shorthand ResultsOnDraw: the TH08 keyboard family is actually ResultScreen::OnDraw. Its five-heading/alpha family is not TH09's, and its reconstruction-only var_order plus different geometry/glyph values remain inadmissible TH09 premises. TH095's ResultScreen::Draw is also a different draw family with provisional source/storage abstractions. Neither supplies missing TH09 original TU/alias context.
-- This bounded alpha-staging/type route is exhausted under current evidence, not a proof of backend impossibility or a blocker. DrawResult stays non-exact with the 22 initial differences and the diagnostic-only equal suffix. Reopen it only with new target/TU/value evidence rather than repeating controls. Next rotate to independently bounded TitleScreenView::DrawReplaySave at 0x004239F6..0x00423D15 (800 target bytes): recover its complete current target and cold baseline before applying any shared keyboard/position hypothesis. It has no exactness credit from DrawResult's recovered loop.
+- This bounded alpha-staging/type route is exhausted under current evidence, not a proof of backend impossibility or a blocker. DrawResult remained non-exact with 22 initial differences in this source snapshot; the 2026-11-01 source checkpoint later narrowed the current residual to three bytes. Reopen it only with new target/TU/value evidence rather than repeating controls. Next rotate to independently bounded TitleScreenView::DrawReplaySave at 0x004239F6..0x00423D15 (800 target bytes): recover its complete current target and cold baseline before applying any shared keyboard/position hypothesis. It has no exactness credit from DrawResult's recovered loop.
 - Focused complete replay, neutral full-record comparisons, target-required tracking, generated progress, CI (25 tests) and diff checks close this batch. Only DrawResult is compiled here. All producers are terminal before auditing/removing this packet's six disposable probes and fourteen object/PDB files. Maintained source, diagnostic and compact negative evidence remain reproducible; legacy scratch/private inputs are preserved. Coverage remains 894 exact /182191 of275669 authored bytes (66.09%), with 85 nonexact /93478 bytes. The >95% objective and all later gates stay active-incomplete.
 
 ## Packet 733 DrawReplaySave value lifetimes and complete diagnostic

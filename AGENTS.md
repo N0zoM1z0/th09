@@ -2,78 +2,67 @@
 
 ## Current operator status
 
-The operator cleared the reconstruction goal on October31 and requested code,
-documentation and storage housekeeping. Current work is maintenance;the
-unfinished98% milestone does not authorize automatic reconstruction. Latest
-game-source checkpoint is1c371cf7 (implemented gameplay teardown contracts).
-The11ec17cd research checkpoint and earlier resumes/stops remain historical.
-Preserve documentation,research records,current game source,target/toolchains,
-the working Ghidra project and the unadopted Effect34 nine-difference candidate.
-Delete unused old code copies and compiler artifacts instead of archiving them.
-Read docs/RE_HANDOFF.md for current proof and candidate routing.
+TH09 reconstruction is active on explicit operator request. The operator
+requires serious work on both complete large bosses and leaf functions,
+source/target re-investigation rather than trusting old notes, and English
+commit subjects of the form `gpt-web: <summary>` after each substantive checkpoint. Make multiple coherent
+commits when a session produces multiple reviewable advances; do not stop after
+the first useful commit. Routine iteration must rebuild/replay only affected
+owners and dependencies; do not run a full cold replay unless explicitly
+requested.
 
-On October 29 the operator resumed reconstruction with direct local tools.
-The current explicit routing is **Ghidra directly, without IDA, REA or Factory
-MCP**. Use `scripts/ghidra-analysis.py` and the local `analyzeHeadless` executable;
-reuse the verified project instead of importing the target for every query.
-The October 24 stop and earlier tool routing are historical checkpoints.
+The latest source-changing checkpoint is 80313a4f
+(gpt-web: narrow Title DrawResult residual to three bytes). The previous
+31496c4a handoff-only commit recorded that source checkpoint; the current
+handoff refresh supersedes it. Read docs/RE_HANDOFF.md for current
+owner residuals, proof scopes, retained artifacts and next-agent routing.
+These hashes are checkpoints, not exactness proof or remote-publication claims.
 
-When reconstruction is explicitly resumed,prioritize complete RunEcl and EnemyManager::OnUpdate
-exactness toward the unfinished 98% reviewed-authored-byte milestone. Explore
-whole-function dataflow, shared types and real translation-unit boundaries as
-well as local source models; historical assumptions are not conclusive.
-Preserve existing exact matches and validate complete owners and affected callees.
-
-Use repository Bash, target-bound local Ghidra analysis and pinned VC7.1 Oracles.
-Compile serially at lowered priority, bound resources and reuse unchanged proofs.
-Recover dirty work rather than discarding or hiding it.
-Use English commits prefixed `gpt-6.1-sol:`, author
-`N0zoM1z0 <1705004398@qq.com>`, and trailer
-`Co-authored-by: gensokyo-dev <342580529+gensokyo-dev@users.noreply.github.com>`.
-Create local checkpoints; do not infer remote publication from local state.
-Read docs/RE_HANDOFF.md for source and evidence routing.
+Use the live registered repository worktree exposed to the current agent for
+Git, source and build operations; do not switch to an arbitrary checkout or
+assume a previous session's working directory. For static analysis use the
+target-attested local Ghidra runner and pinned VC7.1 compiler Oracles. Direct
+Ghidra analysis is distinct from the compiler/byte-exact Oracle. Compile
+serially at lowered priority, bound resources and reuse unchanged
+source/profile/object proofs. Recover dirty work rather than discarding or
+hiding it.
 
 This repository targets only the original Japanese TH09 version 1.50a
 executable identified by SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 Never substitute a localized, modified, Steam, trial, or earlier executable.
 
-The canonical private game file is
-`/home/pentester/coding/codex_ida/th09-reconstruction/th09/resources/th09.exe`
-(`resources/th09.exe` from the repository root). It is a read-only, ignored
-operator input copied into WSL from the Windows game directory; it must never be
-committed. Repository tools use this path by default. Do not search `/mnt`, add
-a Windows game-directory mount, or set `TH09_TARGET_PATH` during normal reconstruction
-work. That environment variable is only an explicit local override.
+The canonical private game file is resources/th09.exe from the repository root.
+It is read-only, ignored operator input and must never be committed. Repository
+tools use this path by default. Do not search /mnt, add a Windows game-directory
+mount, or set TH09_TARGET_PATH during normal work; that variable is only an
+explicit local override.
 
 ## Mandatory session recovery
 
 Before changing anything:
 
-1. Read the current `docs/RE_HANDOFF.md` checkpoint and the instructions relevant
-   to the change. For reconstruction, also read `docs/RE_WORKFLOW.md`,
-   `docs/ORACLES.md`, and the affected source or ledger rows.
-2. Run `git status --short --branch`, inspect tracked and untracked work, and
-   review the diff. A previous Web session may have disconnected while leaving
-   valuable dirty work. Understand, recover, finish, or deliberately supersede
-   it; do not silently work around it.
-3. In the repository shell, run `python3 scripts/verify-target.py`,
-   `python3 scripts/validate-tracking.py --require-target`, and
-   `python3 scripts/report-reconstruction-status.py` before target-dependent
-   work. Before Ghidra analysis, verify the disk and Program SHA-256, i386
-   language, image base and entry, and compare every file-backed PE header and
-   section against mapped Ghidra memory. The direct runner checks these before
-   analysis and every export. Metadata hashes alone do not prove an unmodified
-   mapped database. Ghidra is not an exactness Oracle.
-4. Work on one bounded unit or one coherent infrastructure batch and leave a
-   reviewable local checkpoint.
+1. Read docs/RE_HANDOFF.md and the instructions relevant to the change. For
+   reconstruction also read docs/RE_WORKFLOW.md, docs/ORACLES.md and affected
+   source/ledger rows.
+2. Run git status --short --branch. Inspect tracked, staged, dirty and untracked
+   work; review diffs and recover/supersede valuable interrupted work rather
+   than silently working around it.
+3. Before target-dependent work, run python3 scripts/verify-target.py,
+   python3 scripts/validate-tracking.py --require-target and
+   python3 scripts/report-reconstruction-status.py. Before Ghidra analysis,
+   attest disk and Program SHA-256, i386 language, image base, entry point and
+   every file-backed PE byte mapped into the Program. Metadata hashes alone do
+   not prove the mapped database is unchanged. Ghidra is not an exactness
+   Oracle. Documentation-only work does not need compiler/Ghidra replay.
+4. Work on one bounded owner or coherent maintenance batch and leave a
+   reviewable local checkpoint. Rebuild/replay affected owners only; no full
+   cold replay for routine iteration.
 
-Consult the Factory guidance when the task needs it:
-`/home/pentester/coding/codex_ida/touhou-reconstruction-factory/docs/ontology.md`,
-`docs/semantic-reconstruction.md`, `docs/agent-autonomy.md`, and
-`docs/worktree-recovery-and-analysis-artifacts.md` below that Factory root.
-These explicit paths are authoritative even when a client does not inject a
-plugin skill.
+Consult the Factory ontology, semantic-reconstruction, agent-autonomy and
+worktree-recovery guidance when those documents are available in the current
+agent environment. Adjacent TH08/TH095 repositories are read-only hypothesis
+sources only; they never provide TH09 byte/layout/ownership evidence.
 
 ## Adjacent-game hypothesis sources
 
@@ -106,6 +95,13 @@ differ or the comparison is inconclusive, keep the TH09 fact unknown.
   inert padding, lie about the ABI, or patch target code to force equality.
   Do not introduce assembly, register/variable-order hints, dummy clobbers or
   compiler-profile roulette to force a match.
+- One current source-specific exception is the no-code VC7.1
+  _ReadWriteBarrier() in TitleScreenResultDraw.cpp: it preserves the reviewed
+  ordering of the scoreGroup store and subsequent currentScreen snapshot and
+  emits no runtime instruction. It remains a non-exact, source-specific
+  compiler scheduling constraint, not semantic evidence or a reusable
+  matching trick. Re-evaluate it only with a complete-owner proof; do not add
+  new barriers/assembly/register hints as a generic codegen tactic.
 - Record durable TH09 facts in `docs/KNOWLEDGE_BASE.md`. Cross-game promotion
   belongs to a later Factory review and is not performed by a game session.
 
@@ -149,9 +145,10 @@ analysis database is working state; mirror durable conclusions into the repo.
 
 ## Checkpoints and artifacts
 
-- For the current local campaign, use concise, coherent local commits
-  prefixed **`gpt-6.1-sol: ...`**, with the author and co-author trailer above.
-  Report local checkpoints separately from independently verified remote state.
+- Use concise, coherent local commits prefixed **gpt-web: ...**. Commit after
+  each substantive advance and create multiple commits in a session when there
+  are multiple reviewable checkpoints. Report local checkpoints separately
+  from independently verified remote state.
 - Route current work through `docs/RE_HANDOFF.md`; original-bound
   accepted receipts now live in `docs/RE_ACCEPTED_RECEIPTS.md` with
   immutable source commit bindings. Superseded long-form checkpoint details
