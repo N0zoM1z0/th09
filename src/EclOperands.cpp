@@ -31,17 +31,11 @@ typedef Float3 EclOperandFloat3View;
 typedef char EclOperandFloat3SizeIs0C[
     (sizeof(EclOperandFloat3View) == 0x0C) ? 1 : -1];
 
-struct EclOperandPlayerView
-{
-    unsigned char unknown0000[0x00A0];
-    int operandValueA0;
-    int operandValueA4;
-    unsigned char unknown00A8[0x1B88 - 0x00A8];
-    EclOperandFloat3View position1B88;
-
-};
+// One actual TH09 Player allocation supplies the main and opposing side;
+// exact resolver inputs at +0xA0/+0xA4 were also observed in AddedState.
+typedef EnemyRewardPlayerView EclOperandPlayerView;
 typedef char EclOperandPlayerValueA0[
-    (offsetof(EclOperandPlayerView, operandValueA0) == 0x00A0) ? 1 : -1];
+    (offsetof(EclOperandPlayerView, initialStateA0) == 0x00A0) ? 1 : -1];
 typedef char EclOperandPlayerPositionAt1B88[
     (offsetof(EclOperandPlayerView, position1B88) == 0x1B88) ? 1 : -1];
 
@@ -258,8 +252,8 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
 
     case 0x2775:
         return (TH09_ECL_OPERAND_ENEMY(enemy)->secondaryFlags3380 & 0x0C00) < 0x0C00
-                   ? TH09_ECL_OPERAND_OPPOSING_PLAYER(enemy)->operandValueA0
-                   : TH09_ECL_OPERAND_OPPOSING_PLAYER(enemy)->operandValueA4;
+                   ? TH09_ECL_OPERAND_OPPOSING_PLAYER(enemy)->initialStateA0[0]
+                   : TH09_ECL_OPERAND_OPPOSING_PLAYER(enemy)->initialStateA0[1];
 
     case 0x2740:
         return static_cast<int>(reinterpret_cast<PlayerAngleView *>(TH09_ECL_OPERAND_PLAYER(enemy))->AngleToPoint(
@@ -526,10 +520,10 @@ float EnemyView::ResolveFloat(float rawValue)
         if ((secondaryFlags & 0x0C00) < 0x0C00)
         {
             return static_cast<float>(
-                TH09_ECL_OPERAND_OPPOSING_PLAYER(this)->operandValueA0);
+                TH09_ECL_OPERAND_OPPOSING_PLAYER(this)->initialStateA0[0]);
         }
         return static_cast<float>(
-            TH09_ECL_OPERAND_OPPOSING_PLAYER(this)->operandValueA4);
+            TH09_ECL_OPERAND_OPPOSING_PLAYER(this)->initialStateA0[1]);
     }
 
     case 0x2764: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->bossSlot336B);

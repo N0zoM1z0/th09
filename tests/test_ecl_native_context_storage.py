@@ -44,6 +44,20 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('offsetof(Th09EclContextView, intVariables1C)', state)
         self.assertNotIn('view->activeContext2CE0->unknown01C', manager)
 
+    def test_opposing_player_initial_state_and_position_use_native_view(self):
+        player=(ROOT/'src/EnemyManager.hpp').read_text()
+        resolver=(ROOT/'src/EclOperands.cpp').read_text()
+        added=(ROOT/'src/PlayerAddedState.cpp').read_text()
+        self.assertIn('EnemyRewardPlayerNativeInitialStateAtA0',player)
+        self.assertIn('int initialStateA0[2];',player)
+        self.assertIn('typedef EnemyRewardPlayerView EclOperandPlayerView;',resolver)
+        self.assertNotIn('struct EclOperandPlayerView\n{',resolver)
+        self.assertIn('initialStateA0[0]',resolver)
+        self.assertIn('initialStateA0[1]',resolver)
+        self.assertIn('position1B88',resolver)
+        self.assertIn('player->initialStateA0[0] = initialState;',added)
+        self.assertIn('player->initialStateA0[1] = initialState;',added)
+
     def test_manager_timeline_is_one_native_owner_for_interpreter_and_leaves(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         operand=(ROOT/'src/EclOperands.cpp').read_text()

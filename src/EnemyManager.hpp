@@ -36,7 +36,11 @@ typedef char EnemyRewardAttackStateSizeIs44[
 
 struct EnemyRewardPlayerView
 {
-    unsigned char unknown00000[0x364];
+    unsigned char unknown00000[0xA0];
+    // PlayerAddedState initializes both words; the exact ECL operand
+    // resolvers read the opposing Player's two native initial-state slots.
+    int initialStateA0[2];
+    unsigned char unknown000A8[0x364 - 0xA8];
     Effect *focusEffect364;
     unsigned char unknown00368[0x1B88 - 0x368];
     Float3 position1B88;
@@ -54,6 +58,9 @@ struct EnemyRewardPlayerView
     void AccumulateDefeatValue(float amount);
     void SpawnDefeatToken(unsigned int tokenType, EnemyFloat3 *position);
 };
+typedef char EnemyRewardPlayerNativeInitialStateAtA0[
+    (offsetof(EnemyRewardPlayerView, initialStateA0) == 0xA0 &&
+     sizeof(((EnemyRewardPlayerView *)0)->initialStateA0) == 8) ? 1 : -1];
 typedef char EnemyRewardPlayerFocusAt364[
     (offsetof(EnemyRewardPlayerView, focusEffect364) == 0x364) ? 1 : -1];
 typedef char EnemyRewardPlayerHomingAt3037C[
