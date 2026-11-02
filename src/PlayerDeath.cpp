@@ -205,27 +205,23 @@ void PlayerLifecycleView::EnterDeathState()
     reinterpret_cast<PlayerDeathTimerView *>(&timer303C8)->operator=(0);
 
     float angle = g_PlayerDeathReplayRng.GetRandomF32InRange(3.1415927f);
-    *reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(this) + 0x1CD8) = angle;
-    reinterpret_cast<Float3 *>(
-        reinterpret_cast<unsigned char *>(this) + 0x1CCC)->FromAngleMagnitude(angle, 1.0f);
+    movementFields1CCC.movementAngle1CD8 = angle;
+    reinterpret_cast<Float3 *>(&movementFields1CCC.velocity1CCC)
+        ->FromAngleMagnitude(angle, 1.0f);
 
     g_PlayerDeathShared->transitionFramesE93C[sideIndex] = 60;
     g_PlayerDeathShared->transitionColorE934[sideIndex] = 0x80FF0000u;
 
     PlayerDeathVmHandleView *vmHandle =
-        *reinterpret_cast<PlayerDeathVmHandleView **>(
-            reinterpret_cast<unsigned char *>(this) + 0x364);
+        reinterpret_cast<PlayerDeathVmHandleView *>(focusEffect364);
     if (vmHandle != NULL)
     {
         reinterpret_cast<PlayerDeathInterruptView *>(vmHandle->vm04)->SetInterrupt(1);
         PlayerDeathActiveView *active =
-            *reinterpret_cast<PlayerDeathActiveView **>(
-                reinterpret_cast<unsigned char *>(this) + 0x368);
-        *reinterpret_cast<PlayerDeathVmHandleView **>(
-            reinterpret_cast<unsigned char *>(this) + 0x364) = NULL;
+            reinterpret_cast<PlayerDeathActiveView *>(secondaryEffect368);
+        focusEffect364 = NULL;
         active->activeC4 = 0;
-        *reinterpret_cast<PlayerDeathActiveView **>(
-            reinterpret_cast<unsigned char *>(this) + 0x368) = NULL;
+        secondaryEffect368 = NULL;
     }
 
     g_PlayerDeathCounterState.Add(1500);
