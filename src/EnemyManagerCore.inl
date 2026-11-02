@@ -230,14 +230,14 @@ int EnemyCoreRunTimerCallback(EnemyCoreView *enemy)
 // Use the actual Th09EclRunState release API declared by EclRunState.inl.
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
 
-struct EnemyAttachedEffectUpdateView
-{
-    unsigned char unknown000[0x48];
-    Float3 position48;
-    unsigned char unknown054[0x7C - 0x54];
-    float distance7C;
-    float angle80;
-};
+// This exact Enemy effect updater and the Effect ring/fan callbacks touch
+// the same physical per-effect origin, radius and phase. Keep one shared
+// bounded runtime view, while leaving the unknown original C++ type open.
+#include "EffectRingRuntimeView.hpp"
+typedef char EnemyCoreAttachedEffectNativeOffsets[
+    (offsetof(EffectRingRuntimeView, origin48) == 0x48 &&
+     offsetof(EffectRingRuntimeView, radius7C) == 0x7C &&
+     offsetof(EffectRingRuntimeView, angle80) == 0x80) ? 1 : -1];
 
 #include "RuntimeAngleMath.hpp"
 extern long double __stdcall AnmProjectionAbs(float value);
@@ -246,16 +246,16 @@ static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy)
 {
     for (int i = 0; i < enemy->attachedEffectState53B4.count60; ++i)
     {
-        EnemyAttachedEffectUpdateView *effect =
-            reinterpret_cast<EnemyAttachedEffectUpdateView *>(
+        EffectRingRuntimeView *effect =
+            reinterpret_cast<EffectRingRuntimeView *>(
                 enemy->attachedEffectState53B4.effects00[i]);
         if (effect != 0)
         {
-            effect->position48 = enemy->position2D74;
-            if (effect->distance7C < enemy->attachedEffectState53B4.distance64)
-                effect->distance7C += 0.3f;
+            effect->origin48 = enemy->position2D74;
+            if (effect->radius7C < enemy->attachedEffectState53B4.distance64)
+                effect->radius7C += 0.3f;
             else
-                effect->distance7C = enemy->attachedEffectState53B4.distance64;
+                effect->radius7C = enemy->attachedEffectState53B4.distance64;
             effect->angle80 =
                 AddNormalizeAngle(effect->angle80, 0.031415928f);
         }
