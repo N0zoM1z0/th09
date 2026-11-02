@@ -1,4 +1,5 @@
 #include "Supervisor.hpp"
+#include "AnmVmLifecycle.hpp"
 #include "GameErrorContext.hpp"
 #include "ZunMemory.hpp"
 
@@ -8,18 +9,17 @@
 #include <dinput.h>
 #include <string.h>
 
-struct StartupAnmVm
+// Preserve the original StartupAnmVm constructor C++ symbol while using
+// the same 0x2A4-byte native ANM VM as the full ExecuteScript interpreter.
+// Its +0x208 XYZ words are already the target-observed AnmVmBase::pos.
+struct StartupAnmVm : AnmVm
 {
-    unsigned char unknown000[0x208];
-    float x;
-    float y;
-    float z;
-    unsigned char unknown214[0x2A4 - 0x214];
-
     StartupAnmVm();
 };
 
-typedef char StartupAnmVmSizeCheck[(sizeof(StartupAnmVm) == 0x2A4) ? 1 : -1];
+typedef char StartupAnmVmSizeCheck[
+    (sizeof(StartupAnmVm) == 0x2A4 &&
+     offsetof(AnmVmBase, pos) == 0x208) ? 1 : -1];
 
 struct StartupAnmLoaded
 {
@@ -254,9 +254,9 @@ void Supervisor::StartupThread(Supervisor *unused)
     StartupLayout()->startupVm584 = static_cast<StartupAnmVm *>(
         g_ZunMemory.AddToRegistry(new StartupAnmVm, sizeof(StartupAnmVm), "SprtInf"));
     StartupLayout()->textAnm5CC->InitializeAndSetSprite(StartupLayout()->startupVm584, 31);
-    StartupLayout()->startupVm584->x = 320.0f;
-    StartupLayout()->startupVm584->y = 240.0f;
-    StartupLayout()->startupVm584->z = 0.0f;
+    StartupLayout()->startupVm584->pos.x = 320.0f;
+    StartupLayout()->startupVm584->pos.y = 240.0f;
+    StartupLayout()->startupVm584->pos.z = 0.0f;
 
     if (RegisterAsciiManagerStartup() != 0)
     {
