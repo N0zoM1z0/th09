@@ -1,5 +1,19 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 four exact ExAttack context/burst callbacks: native Enemy and ECL
+
+Further reconstructed `EnemyEclExInstruction6/7/8/9`, including the full
+226-byte triple-burst callback. Removed duplicate
+`EnemyExAttackMoreView`/`EnemyExAttackContextValuesView` structures:
++0x2CE0 now uses native `EnemyView::activeContext2CE0`, its +0x3C float
+and +0x6C/+0x70 float pair are exactly the `Th09EclContextView`
+operand banks already present in four original-exact ECL resolvers.
+The original Enemy +0x2D74 position and Manager +0x31C side are
+also native, with explicit Float3 cast only for the real controller ABI.
+All four complete VC7.1 owners remain **70/70, 69/69, 69/69 and
+226/226 bytes exact**. The reviewed 12-entry ExAttack callback table
+remains original-bound and no new exactness credit was added.
+
 ## 2026-11-02 six native Enemy ExAttack spawn wrappers (complete exact units)
 
 The six reviewed 41-byte `EnemyEclExInstruction0/3/4/5/10/11`

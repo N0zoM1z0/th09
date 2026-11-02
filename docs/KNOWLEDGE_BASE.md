@@ -10,6 +10,20 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 ExAttack ECL context floats and 226-byte burst use native allocation
+
+The four ECL ExAttack wrappers at original type 10/11/12 and 22 previously
+carried a private `EnemyExAttackContextValuesView` layout for context
++0x3C, +0x6C and +0x70 floats and a second Enemy layout for +0x2CE0/
++0x2D74. `Th09EclContextView::floatVariables3C[0]` and
+`floatVariables6C[0..1]` have exact independent operand resolver proof;
+`EnemyView` owns the context pointer, position and manager. Replaced
+all accesses with those native fields, preserving Float3 controller
+ABI via explicit same-address casts. Three complete callbacks retain
+**70/70, 69/69 and 69/69** TH09 original bytes, and the separate
+triple-shot callback retains **226/226 bytes exact**. No original
+nominal class names inferred or additional exact owners credited.
+
 ### 2026-11-02 six ExAttack prefix callbacks share native Enemy state
 
 The six 41-byte ECL ExAttack wrapper owners carry true `EnemyView *`
