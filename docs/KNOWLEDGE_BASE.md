@@ -10,6 +10,21 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 native Enemy position clamp flag bit; complete 127-byte exact replay
+
+TH09's position clamp reads the low bit of the byte at Enemy +0x337E,
+independently decoded as `Th09EclEnemyPrimaryFlagBits::clampPosition16` in
+the native 32-bit flag word +0x337C. `EnemyView` now exposes this shared
+bitfield as a union view, replacing a 0x33A8-byte duplicate private
+`EnemyClampPositionView` in `EnemyClampPosition.cpp`. The leaf uses the
+native `position2D74`, `movementLowerBounds3398` and
+`movementUpperBounds33A0`, with one typed `Float3` vector-operator bridge.
+Natural bitfield/reference and bitfield/pointer trial forms reproduced
+all **127/127** original bytes; a direct 32-bit flag mask would generate
+130 bytes instead and was rejected. Original-bound scoped RunEcl, Enemy
+calc, operand leaf and Enemy draw checks remain valid; no new canonical
+exactness is awarded.
+
 ### 2026-11-02 Enemy 188-byte IntegrateMotion leaf shares native ECL displacement
 
 Reconstructed three consecutive native Enemy 0x0C vectors at +0x2D98,

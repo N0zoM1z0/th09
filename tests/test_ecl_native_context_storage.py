@@ -156,6 +156,24 @@ class NativeEclContextStorage(unittest.TestCase):
                 self.assertNotIn('Th09EclRunState::View(enemy)->'+f,core)
         self.assertIn('trailVertices3E68',draw)
 
+    def test_exact_enemy_clamp_uses_native_primary_flag_bit_and_bounds(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        flags=(ROOT/'src/EclEnemyPrimaryFlags.hpp').read_text()
+        state=(ROOT/'src/EclRunState.inl').read_text()
+        leaf=(ROOT/'src/EnemyClampPosition.cpp').read_text()
+        self.assertIn('EnemyViewNativePrimaryFlagBitsAt337C',native)
+        self.assertIn('Th09EclEnemyPrimaryFlagBits primaryFlagBits337C;',native)
+        self.assertIn('unsigned int clampPosition16 : 1;',flags)
+        self.assertIn('this->primaryFlagBits337C.clampPosition16',leaf)
+        self.assertNotIn('EnemyClampPositionView',leaf)
+        self.assertNotIn('movementFlags337E',leaf)
+        self.assertIn('this->movementLowerBounds3398.x',leaf)
+        self.assertIn('this->movementUpperBounds33A0.y',leaf)
+        self.assertIn('this->position2D74',leaf)
+        self.assertIn('enemy->primaryFlagBits337C.boss01',state)
+        self.assertIn('enemy->primaryFlagBits337C.deathMode17',state)
+        self.assertIn('enemy->primaryFlagBits337C.callStackDisabled23',state)
+
     def test_exact_enemy_motion_leaf_uses_one_native_previous_and_displacement(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         ecl=(ROOT/'src/EclRunState.inl').read_text()

@@ -422,7 +422,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         {
             Th09EclRunState::BossSlots(enemy)[
                 Th09EclRunControl::ReadInt(enemy, instruction, 0)] = enemy;
-            Th09EclRunState::View(enemy)->primaryFlagBits337C.boss01 = 1;
+            enemy->primaryFlagBits337C.boss01 = 1;
             Th09EclRunState::View(enemy)->bossSlot336B =
                 static_cast<unsigned char>(
                     Th09EclRunControl::ReadInt(enemy, instruction, 0));
@@ -438,7 +438,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         {
             Th09EclRunState::BossSlots(enemy)[
                 Th09EclRunState::View(enemy)->bossSlot336B] = 0;
-            Th09EclRunState::View(enemy)->primaryFlagBits337C.boss01 = 0;
+            enemy->primaryFlagBits337C.boss01 = 0;
             reinterpret_cast<AsciiBossMarkerVmView *>(&::g_AsciiManager)->SetBossMarkerInterrupt(
                 Th09EclRunState::View(enemy)->bossSlot336B,
                 2);
@@ -470,7 +470,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_SET_DEATH_MODE:
-        Th09EclRunState::View(enemy)->primaryFlagBits337C.deathMode17 =
+        enemy->primaryFlagBits337C.deathMode17 =
             Th09EclRunState::RawByte(instruction, 0);
         break;
 
@@ -604,7 +604,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_SET_ANM_ROTATION_ENABLED:
-        Th09EclRunState::View(enemy)->primaryFlagBits337C.anmRotation22 =
+        enemy->primaryFlagBits337C.anmRotation22 =
             Th09EclRunState::RawByte(instruction, 0);
         break;
 
@@ -674,7 +674,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     }
 
     case TH09_ECL_OPCODE_SET_CALL_STACK_DISABLED:
-        Th09EclRunState::View(enemy)->primaryFlagBits337C.callStackDisabled23 =
+        enemy->primaryFlagBits337C.callStackDisabled23 =
             Th09EclRunState::RawByte(instruction, 0);
         break;
 
@@ -721,7 +721,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     {
         Th09EclRunState::EnemyStateView &state =
             *Th09EclRunState::View(enemy);
-        state.primaryFlagBits337C.specialInteraction07 =
+        enemy->primaryFlagBits337C.specialInteraction07 =
             Th09EclRunState::RawByte(instruction, 0);
         state.drawGroup3387 = 2;
         break;

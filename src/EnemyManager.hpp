@@ -3,6 +3,7 @@
 #include "EffectManager.hpp"
 #include "BulletManager.hpp"
 #include "EclOpcodes.hpp"
+#include "EclEnemyPrimaryFlags.hpp"
 #include "EnemyAttachedEffectStateView.hpp"
 #include "PlayerEnemyTrackingStateView.hpp"
 #include "ZunTimer.hpp"
@@ -293,6 +294,7 @@ struct EnemyView
     {
         unsigned int flags337C;
         unsigned int primaryFlags337C;
+        Th09EclEnemyPrimaryFlagBits primaryFlagBits337C;
     };
     union {
         unsigned int rewardFlags3380;
@@ -430,6 +432,10 @@ typedef char EnemyViewMovementGeometryAt2DBC[
      offsetof(EnemyView, movementDelta2E10) == 0x2E10 &&
      offsetof(EnemyView, movementTimer2E28) == 0x2E28 &&
      offsetof(EnemyView, movementDuration2E34) == 0x2E34) ? 1 : -1];
+typedef char EnemyViewNativePrimaryFlagBitsAt337C[
+    (offsetof(EnemyView, primaryFlags337C) == 0x337C &&
+     offsetof(EnemyView, primaryFlagBits337C) == 0x337C &&
+     sizeof(((EnemyView *)0)->primaryFlagBits337C) == 4) ? 1 : -1];
 typedef char EnemyViewMovementScriptsAndBoundsAt3386[
     (offsetof(EnemyView, primaryFlags337C) == 0x337C &&
      offsetof(EnemyView, anmDirection3386) == 0x3386 &&

@@ -1,5 +1,20 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 exact 127-byte Enemy position clamp: native flag bit
+
+`EnemyView::ClampPositionToMovementBounds` originally carried a second large
+private `EnemyClampPositionView` to read the `+0x337E` byte and two XY limit
+vectors. The +0x337E low bit is exactly bit 16 of the native Enemy
+`primaryFlags337C` shared with RunEcl. The native `EnemyView` now exposes a
+`Th09EclEnemyPrimaryFlagBits` union projection at +0x337C; the 127-byte
+exact leaf reads `.clampPosition16` and the real Enemy bound fields and
+no longer uses any private layout. Fifteen real source codegen variations
+were compiled; the native bitfield form preserves the full **127/127**
+original bytes and one call relocation. 96 RunEcl exact dependencies and
+88 Enemy calc exact dependencies pass, while the two large functions stay
+15,564/30 and 3,900/13. Four ECL operand owners, 5,718 bytes, remain exact.
+This checkpoint is native source recovery, not newly counted exactness.
+
 ## 2026-11-02 current native Enemy IntegrateMotion leaf proof
 
 The 188-byte original-bound `EnemyView::IntegrateMotion` uses `+0x2D98`
