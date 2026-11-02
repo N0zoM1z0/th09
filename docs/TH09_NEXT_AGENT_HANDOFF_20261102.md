@@ -1,5 +1,22 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 exact Enemy cleanup leaf, one native allocation
+
+The actual 184-byte `EnemyView::CleanupAfterDeactivation` previously
+implemented the Enemy/Manager/Side/Player relationships using four
+independent private layouts with hand-typed +0x336B, +0x337C, +0x33B0,
++0x33D0, +0x5414 and Player +0x3037C offsets. All are already observable
+in the native `EnemyView`, `EnemyManagerView`, `EnemySideStateView` and
+`EnemyRewardPlayerView`; the full four private structures were deleted.
+The replacement accesses real typed members, including the four child
+ECL context slots, boss-owner slots and native attached-effect count;
+compile-time asserts pin all six original offset obligations. Five
+separately compiled source variants all reproduce the full **184/184**
+retail bytes. Target-exact dependency replays: child ECL release 48/48,
+attached effects release 64/64, manager reset 177/177, release core
+68/68 and subsystem release 74/74. The physical 3,900-byte Enemy update
+retains 13 residual bytes and 88 exact siblings. No new exact credit.
+
 ## 2026-11-02 native late RunEcl owner, opcode 158..187
 
 Fresh full original PE/COFF source-cold comparisons of the TH09 v1.50a

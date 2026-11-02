@@ -4,53 +4,19 @@
 
 #include <stddef.h>
 
-struct EnemyView;
-struct EnemyCleanupPlayerView
-{
-    unsigned char unknown00000[0x30364];
-    PlayerEnemyTrackingStateView tracking30364;
-};
-struct EnemyCleanupSideView
-{
-    unsigned char unknown00[4];
-    EnemyCleanupPlayerView *player04;
-};
-struct EnemyCleanupManagerView
-{
-    unsigned char unknown000000[0x320];
-    EnemyCleanupSideView *sideState320;
-    unsigned char unknown000324[0x2AC388 - 0x324];
-    EnemyView *remoteSlots2AC388[9];
-};
-typedef char EnemyCleanupManagerSideAt320[
-    (offsetof(EnemyCleanupManagerView, sideState320)==0x320)?1:-1];
-typedef char EnemyCleanupManagerRemoteAt2AC388[
-    (offsetof(EnemyCleanupManagerView, remoteSlots2AC388)==0x2AC388)?1:-1];
-
-struct EnemyCleanupView
-{
-    EnemyCleanupManagerView *manager00;
-    unsigned char unknown0004[0x336B - 0x04];
-    unsigned char bossSlot336B;
-    unsigned char unknown336C[0x10];
-    unsigned int flags337C;
-    unsigned char unknown3380[0x30];
-    int lifeCallbackThresholds33B0[4];
-    unsigned char unknown33C0[0x10];
-    int timerCallbackThreshold33D0;
-    unsigned char unknown33D4[0x2040];
-    int attachedEffectCount5414;
-};
-typedef char EnemyCleanupBossSlotAt336B[
-    (offsetof(EnemyCleanupView,bossSlot336B)==0x336B)?1:-1];
-typedef char EnemyCleanupFlagsAt337C[
-    (offsetof(EnemyCleanupView,flags337C)==0x337C)?1:-1];
-typedef char EnemyCleanupLifeAt33B0[
-    (offsetof(EnemyCleanupView,lifeCallbackThresholds33B0)==0x33B0)?1:-1];
-typedef char EnemyCleanupTimerAt33D0[
-    (offsetof(EnemyCleanupView,timerCallbackThreshold33D0)==0x33D0)?1:-1];
-typedef char EnemyCleanupEffectCountAt5414[
-    (offsetof(EnemyCleanupView,attachedEffectCount5414)==0x5414)?1:-1];
+// TH09 original-bound cleanup fields now point into the same native Enemy,
+// manager and player allocations used by the full 3,900-byte Enemy update.
+typedef char EnemyCleanupNativeSharedFields[
+    (offsetof(EnemyView, bossSlot336B) == 0x336B &&
+     offsetof(EnemyView, flags337C) == 0x337C &&
+     offsetof(EnemyView, lifeCallbackThresholds33B0) == 0x33B0 &&
+     offsetof(EnemyView, timerCallbackThreshold33D0) == 0x33D0 &&
+     offsetof(EnemyView, attachedEffectState53B4) +
+         offsetof(EnemyAttachedEffectStateView, count60) == 0x5414 &&
+     offsetof(EnemyManagerView, remoteSlots2AC388) == 0x2AC388 &&
+     offsetof(EnemyRewardPlayerView, tracking30364) +
+         offsetof(PlayerEnemyTrackingStateView, homingTarget18) == 0x3037C)
+         ? 1 : -1];
 
 namespace Th09EclRunState
 {
@@ -59,7 +25,7 @@ void __fastcall ReleaseAttachedEffects(EnemyView *enemy);
 
 void EnemyView::CleanupAfterDeactivation()
 {
-    EnemyCleanupView *enemy = reinterpret_cast<EnemyCleanupView *>(this);
+    EnemyView *enemy = this;
 
     unsigned int flags = enemy->flags337C;
     if ((flags & 0x000E0000u) == 0)
@@ -75,7 +41,7 @@ void EnemyView::CleanupAfterDeactivation()
         }
     }
 
-    if (enemy->attachedEffectCount5414 != 0)
+    if (enemy->attachedEffectState53B4.count60 != 0)
         Th09EclRunState::ReleaseAttachedEffects(this);
 
     if ((enemy->flags337C & 2u) != 0)
@@ -90,7 +56,7 @@ void EnemyView::CleanupAfterDeactivation()
     *timerThreshold = -1;
     EnemyCoreReleaseChildEclBlocks(this);
 
-    EnemyCleanupPlayerView *player =
+    EnemyRewardPlayerView *player =
         enemy->manager00->sideState320->player04;
     if (player->tracking30364.homingTarget18 == this)
         player->tracking30364.homingTarget18 = 0;

@@ -10,6 +10,22 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 native Enemy deactivation cleanup, exact 184-byte proof
+
+Original TH09 v1.50a's 184-byte `EnemyView::CleanupAfterDeactivation`
+clears active flags, boss slot owners, attached effects, callback thresholds,
+child ECL allocations and the Player homing target. The maintained source
+previously used four private length-coded Enemy/Manager/Side/Player
+projections for those same offsets. These were removed, leaving only
+native `EnemyView *enemy = this` and `EnemyRewardPlayerView *player`.
+Additional C++ layout assertions prove original fields and +0x5414
+attached-effect count via the nested shared view. Five natural source
+forms compile **184/184 bytes** exact against the pinned original,
+with 48-, 64-, 68-, 74- and 177-byte exact companion routines.
+The entire 3,900-byte Enemy main remains 13 unlike bytes with 88 exact
+siblings. This is genuine source consolidation, not an exactness ledger
+promotion or game runtime claim.
+
 ### 2026-11-02 late ECL opcode family uses native EnemyManager / EnemyView
 
 The remaining late ECL opcode family (158..187) used a parallel
