@@ -125,12 +125,19 @@ specific snapshots, not current-source specifications.
 
 `.analysis/` holds ignored experiment scripts, candidate sources and
 original-bound JSON results. `build/` and analysis .obj/.pdb/.pyc are
-generated compiler caches; see `scripts/clean-generated-artifacts.py` for
-preview, SHA256 review and apply. The dated cleanup summary is in
+generated compiler caches. This handoff removed **1,395 generated files /
+175,672,705 deleted bytes** (~167.5 MiB), including 528 hash-reviewed
+old variant objects; the net logical reduction after writing audit records
+was ~167.1 MiB. **755** unreviewed analysis objects remain deliberately.
+For a new preview use `python3 -B scripts/clean-generated-artifacts.py`
+without the already-consumed `--reviewed-objects` manifest. The dated cleanup summary is in
 `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`, and the actual reviewed-path audit
 is under ignored `.analysis/handoff-cleanup-20261013/`. The original target,
 Git-tracked source/ledgers, unreproducible analysis evidence, native Ghidra
-projects and the installed toolchain were preserved. Do **not** delete the
+projects and the installed toolchain were preserved. This work never called
+`git push`. The local `origin/main` tracking ref was observed equal to
+the docs HEAD after the prior commit; tracking refs are **not independent
+evidence** that a remote branch was published. Do **not** delete the
 remaining JSON source/provenance packets or `.analysis/` en masse merely
 because earlier diagnostics were nonexact. Some historical paths named by
 old reports were already cleaned and must be rebuilt or recovered via their

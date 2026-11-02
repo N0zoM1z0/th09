@@ -3365,3 +3365,65 @@ The ignored build/ directory is now absent and must be recreated only for the
 next focused unit. The Ghidra project and original target were not touched.
 No full cold replay, compiler replay or canonical ledger change was performed
 for this documentation/artifact cleanup.
+
+### 2026-11-02: next-agent reviewed compiler-cache cleanup (gpt-web)
+
+The operator requested source/documentation correction, a small actionable
+handoff, and storage savings before transferring TH09 work to another agent.
+The source checkpoint was `e4ea703b`; the new active handoff is
+`docs/TH09_NEXT_AGENT_HANDOFF_20261102.md`, committed as `b2c2d16c`.
+No production source, canonical function ledger, pinned original PE, native
+Ghidra database or installed compiler/toolchain was deleted or modified by
+the cleanup. No complete all-owner cold replay was performed.
+
+**Disposition, selected by a dry run and inspected before deletion:**
+
+| Cache class | Deleted files | Logical bytes |
+| --- | ---: | ---: |
+| Fully ignored `build/` tree | 144 | 8,460,723 |
+| Ignored `.analysis/` compiler caches | 1,251 | 167,211,982 |
+| **Total** | **1,395** | **175,672,705** |
+
+Among the 1,251 analysis files, **528 `.obj`** files (63,264,243 bytes)
+were explicitly approved **by their original relative paths and SHA-256**.
+Eligibility was limited to old `variant`/`trial`/`probe` directories with
+a nearby retained C++/`.inl` candidate **and** a retained JSON/log/text
+diagnostic. Excluded baselines/adopted/production candidates and unclassified
+or source-less objects were intentionally not selected. The other **723**
+analysis items (103,947,739 bytes) were the disposable `.pdb`/`.pyc`
+and related compiler caches admitted by the pre-existing safe cleaner. Its
+built-in fingerprint and symlink/tracked-file guards passed without bypass.
+
+Ignored audit and reviewed SHA-256 manifest (same live repo):
+
+- `.analysis/handoff-cleanup-20261102/reviewed-variant-objects.json`
+  SHA-256 `e1f0178804c6c521a5e06acccdd7f2649687c17e86b960a47651b005908586f6`
+- `.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`
+  SHA-256 `71cef57ca78b6230f24f4291346a03681ab647f74a1bf16739477559ed6f9d49`
+  (the most recent `runs[-1]` records each deleted path/fingerprint).
+
+The `.analysis/` file-byte total fell from **1,788,964,457** to
+**1,622,169,272**; the former `build/` also contained **8,460,723** bytes.
+Thus **175,255,908 net logical bytes** (~167.1 MiB) were saved after allowing
+for the larger post-cleanup audit manifest, versus **175,672,705 deleted bytes**
+(~167.5 MiB). The safe cleaner's **subsequent dry run returned zero files**.
+
+**Deliberately retained:** **755** other `.analysis/*.obj` files lacking
+specific approval; uncompressed/archived JSON and disassemblies, original
+experiment source, unique Ghidra/IDA work, original `resources/th09.exe`,
+`.tools/`, Git history and all tracked source/tests/docs. About 40 MB of
+byte-identical JSON research observations were also left alone because old
+evidence references their individual paths. Do not erase or retarget those
+paths without reviewing and preserving the specific provenance.
+
+The next agent must **rebuild** an affected object under its pinned original
+compiler profile before replay; do not interpret a missing `build/matching`
+object or a deleted experimental PDB as lost canonical evidence. The reviewed
+`--reviewed-objects` manifest is a record of already removed objects, **not**
+a reusable apply list (its hashes can no longer be checked against absent
+files). For another ordinary preview, run
+`python3 -B scripts/clean-generated-artifacts.py` **without** that manifest.
+This cleanup did not run `git push`. A local `origin/main` tracking reference
+was observed equal to the docs HEAD after the preceding commit, but that
+alone does **not** establish remote publication; verify remote separately
+before making any claims about pushed state.
