@@ -1,6 +1,5 @@
 #include "BulletManager.hpp"
 #include "AnmManager.hpp"
-#include "AnmLoadedResidentView.hpp"
 #include "EffectManager.hpp"
 #include "RuntimeAngleMath.hpp"
 #include "AsciiGameManagerView.hpp"
@@ -175,7 +174,7 @@ int EtamaController::AddedCallback(EtamaController *controller)
     {
         AnmManager *anmManager = g_AnmManager;
         AnmLoaded *anm = anmManager->GetAnm(8);
-        if (reinterpret_cast<AnmLoadedResidentView *>(anm)->resident04 == NULL)
+        if (anm->rawData04 == NULL)
             anm = anmManager->PreloadAnm(8, const_cast<char *>("etama.anm"));
         controller->bulletAnm = anm;
         if (anm == NULL)
