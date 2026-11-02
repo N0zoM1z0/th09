@@ -35,14 +35,22 @@ typedef char EnemyRewardAttackStateSizeIs44[
 
 struct EnemyRewardPlayerView
 {
-    unsigned char unknown00000[0x30388];
+    unsigned char unknown00000[0x1B88];
+    EnemyFloat3 position1B88;
+    unsigned char unknown1B94[0x30388 - 0x1B94];
     float accumulatedDefeatValue30388;
-    unsigned char unknown3038C[0x30410 - 0x3038C];
+    unsigned char unknown3038C[0x303F4 - 0x3038C];
+    int tableValue303F4;
+    unsigned char unknown303F8[0x30410 - 0x303F8];
     EnemyRewardAttackStateView rewardAttack30410;
 
     void AccumulateDefeatValue(float amount);
     void SpawnDefeatToken(unsigned int tokenType, EnemyFloat3 *position);
 };
+typedef char EnemyRewardPlayerPositionAt1B88[
+    (offsetof(EnemyRewardPlayerView, position1B88) == 0x1B88) ? 1 : -1];
+typedef char EnemyRewardPlayerSideTableAt303F4[
+    (offsetof(EnemyRewardPlayerView, tableValue303F4) == 0x303F4) ? 1 : -1];
 typedef char EnemyRewardPlayerAttackAt30410[
     (offsetof(EnemyRewardPlayerView, rewardAttack30410) == 0x30410) ? 1 : -1];
 typedef char EnemyRewardPlayerLevelAt30448[
@@ -53,24 +61,34 @@ typedef char EnemyRewardPlayerLevelAt30448[
 class ChainElem;
 class AnmLoaded;
 class EtamaController;
+class Background;
+struct EnemyCoreSideOwnerView;
 struct EnemyManagerView;
 struct EnemyView;
 
 struct EnemySideStateView
 {
-    unsigned char unknown00[0x04];
+    Background *background00;
     EnemyRewardPlayerView *player04;
     EtamaController *etama08;
     EffectManager *effectManager0C;
     EnemyManagerView *enemyManager10;
-    unsigned char unknown14[0x0C];
+    EnemyCoreSideOwnerView *owner14;
+    unsigned char unknown18[0x08];
     int characterIndex20;
-    unsigned char unknown24[0x14];
+    unsigned char unknown24[0x10];
+    unsigned int flags34;
 };
 typedef char EnemySideStateSizeIs38[
     (sizeof(EnemySideStateView) == 0x38) ? 1 : -1];
 typedef char EnemySideStateEtamaAt08[
     (offsetof(EnemySideStateView, etama08) == 0x08) ? 1 : -1];
+typedef char EnemySideStateBackgroundAt00[
+    (offsetof(EnemySideStateView, background00) == 0x00) ? 1 : -1];
+typedef char EnemySideStateOwnerAt14[
+    (offsetof(EnemySideStateView, owner14) == 0x14) ? 1 : -1];
+typedef char EnemySideStateFlagsAt34[
+    (offsetof(EnemySideStateView, flags34) == 0x34) ? 1 : -1];
 typedef char EnemySideStateCharacterAt20[
     (offsetof(EnemySideStateView, characterIndex20) == 0x20) ? 1 : -1];
 
@@ -176,7 +194,8 @@ struct EnemyManagerView
     unsigned char unknown2AC3BC[0x0C];
     ZunTimer sideTimer2AC3C8;
     unsigned char scheduleIndex2AC3D4;
-    unsigned char unknown2AC3D5[0x0B];
+    unsigned char unknown2AC3D5[0x2AC3DC - 0x2AC3D5];
+    int protocolValue2AC3DC;
     EnemyScheduleRuntimeView scheduleRuntime2AC3E0;
     int unknown2AC3F8;
     EnemyManagerView *selfPointer2AC3FC;
@@ -187,7 +206,7 @@ struct EnemyManagerView
     AnmLoaded *opposingEnemyAnm2AC424;
     unsigned char unknown2AC428[0x08];
     int timelineEventSlots2AC430[4];
-    unsigned char unknown2AC440[0x04];
+    int timelineSpawnsSuppressed2AC440;
     EnemyView *priorityEnemy2AC444;
     EnemyView *firstActiveEnemy2AC448;
     int specialAttackThreshold2AC44C;
@@ -253,5 +272,9 @@ typedef char EnemyManagerTemplateAt328[
     (offsetof(EnemyManagerView, spawnTemplate328) == 0x328) ? 1 : -1];
 typedef char EnemyManagerEnemiesAt5758[
     (offsetof(EnemyManagerView, enemies5758) == 0x5758) ? 1 : -1];
+typedef char EnemyManagerProtocolAt2AC3DC[
+    (offsetof(EnemyManagerView, protocolValue2AC3DC) == 0x2AC3DC) ? 1 : -1];
+typedef char EnemyManagerTimelineAt2AC440[
+    (offsetof(EnemyManagerView, timelineSpawnsSuppressed2AC440) == 0x2AC440) ? 1 : -1];
 typedef char EnemyManagerRewardCountAt2AC3B8[
     (offsetof(EnemyManagerView, rewardEnemyCount2AC3B8) == 0x2AC3B8) ? 1 : -1];

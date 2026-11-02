@@ -466,7 +466,7 @@ static void DispatchShotInstruction(
         break;
 
     case TH09_ECL_OPCODE_SET_MANAGER_PROTOCOL_VALUE:
-        Th09EclRunLate::Manager(enemy)->protocolValue2AC3DC =
+        enemy->manager00->protocolValue2AC3DC =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 

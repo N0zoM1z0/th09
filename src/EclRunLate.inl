@@ -68,6 +68,25 @@ typedef char Th09EclLateSideBulletAt08[
     (offsetof(SideStateView, etama08) == 0x08) ? 1 : -1];
 typedef char Th09EclLateSideOwnerAt14[
     (offsetof(SideStateView, owner14) == 0x14) ? 1 : -1];
+// The late-opcode side/controller access is the same concrete 0x38-byte
+// object used by the native EnemyManager and all other ECL families.  The
+// private Core view is kept only where its wider Player semantics are needed.
+typedef char Th09EclLateSharedNativeSideLayout[
+    (offsetof(EnemySideStateView, background00) ==
+         offsetof(SideStateView, background00) &&
+     offsetof(EnemySideStateView, player04) ==
+         offsetof(SideStateView, player04) &&
+     offsetof(EnemySideStateView, etama08) ==
+         offsetof(SideStateView, etama08) &&
+     offsetof(EnemySideStateView, owner14) ==
+         offsetof(SideStateView, owner14) &&
+     offsetof(EnemySideStateView, flags34) ==
+         offsetof(SideStateView, flags34)) ? 1 : -1];
+typedef char Th09EclLateSharedPlayerWindow[
+    (offsetof(EnemyRewardPlayerView, position1B88) ==
+         offsetof(PlayerLateView, position1B88) &&
+     offsetof(EnemyRewardPlayerView, tableValue303F4) ==
+         offsetof(PlayerLateView, tableValue303F4)) ? 1 : -1];
 
 // The late opcode family runs against the same actual Enemy manager record as
 // EnemyManager::OnUpdate. Its two side protocol fields now live in that
@@ -79,6 +98,11 @@ typedef char Th09EclLateManagerTimelineAt2AC440[
     (offsetof(ManagerLateView, timelineSpawnsSuppressed2AC440) == 0x2AC440)
         ? 1
         : -1];
+typedef char Th09EclLateSharedNativeManagerFields[
+    (offsetof(EnemyManagerView, protocolValue2AC3DC) ==
+         offsetof(ManagerLateView, protocolValue2AC3DC) &&
+     offsetof(EnemyManagerView, timelineSpawnsSuppressed2AC440) ==
+         offsetof(ManagerLateView, timelineSpawnsSuppressed2AC440)) ? 1 : -1];
 
 inline Th09EclRunState::EnemyStateView *View(EnemyView *enemy)
 {
@@ -162,7 +186,7 @@ static void MoveRandomBiased(
         break;
 
     case TH09_ECL_OPCODE_RANDOM_HORIZONTAL_ANGLE:
-        if ((Th09EclRunLate::Manager(enemy)->sideState320->
+        if ((enemy->manager00->sideState320->
                  player04->position1B88.x <
                  Th09EclRunLate::View(enemy)->position2D74.x &&
              Th09EclRunLate::View(enemy)->position2D74.x > 96.0f) ||
@@ -212,7 +236,7 @@ static void MoveRandomBiased(
         break;
 
     case TH09_ECL_OPCODE_SET_TIMELINE_SPAWNS_SUPPRESSED:
-        Th09EclRunLate::Manager(enemy)->timelineSpawnsSuppressed2AC440 =
+        enemy->manager00->timelineSpawnsSuppressed2AC440 =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
@@ -242,37 +266,37 @@ static void MoveRandomBiased(
             (Th09EclRunLate::View(enemy)->secondaryFlags3380 >> 10) & 3;
         if (lateCategory < 3)
         {
-            if (Th09EclRunLate::Manager(enemy)->sideState320->
+            if (enemy->manager00->sideState320->
                     owner14->primaryStateA4 == 0)
                 break;
-            Th09EclRunLate::Manager(enemy)->sideState320->
+            enemy->manager00->sideState320->
                 owner14->primaryStateA4 = 2;
         }
         else if (lateCategory == 3)
         {
-            if (Th09EclRunLate::Manager(enemy)->sideState320->
+            if (enemy->manager00->sideState320->
                     owner14->alternateStateA8 == 0)
                 break;
-            Th09EclRunLate::Manager(enemy)->sideState320->
+            enemy->manager00->sideState320->
                 owner14->alternateStateA8 = 2;
             reinterpret_cast<BackgroundSpellStateView *>(
-                Th09EclRunLate::Manager(enemy)->sideState320->background00)
+                enemy->manager00->sideState320->background00)
                 ->BeginSpellBackground();
             for (lateIndex = 0;
                  lateIndex <
-                     Th09EclRunLate::Manager(enemy)->sideState320->
+                     enemy->manager00->sideState320->
                          background00->spellVmCount;
                  ++lateIndex)
             {
                 lateScript = lateIndex +
-                    Th09EclRunLate::Manager(enemy)->opposingSideState324->
+                    enemy->manager00->opposingSideState324->
                         background00->spellVmScriptBase +
-                    Th09EclRunLate::Manager(enemy)->opposingSideState324->
+                    enemy->manager00->opposingSideState324->
                         player04->tableValue303F4;
                 Th09EclRunMovement::SetAndExecuteAnmScript(
-                    Th09EclRunLate::Manager(enemy)->opposingSideState324->
+                    enemy->manager00->opposingSideState324->
                         background00->sideAnm,
-                    &Th09EclRunLate::Manager(enemy)->sideState320->
+                    &enemy->manager00->sideState320->
                         background00->spellVms[lateIndex],
                     lateScript);
             }
