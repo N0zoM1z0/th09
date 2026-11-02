@@ -186,13 +186,29 @@ struct EnemyView
     unsigned char unknown2D72[0x02];
     EnemyFloat3 position2D74;
     EnemyFloat3 positionOffset2D80;
-    unsigned char unknown2D8C[0x2DD4 - 0x2D8C];
+    unsigned char unknown2D8C[0x2DB0 - 0x2D8C];
+    float floatVariables2DB0[3];
+    unsigned char unknown2DBC[0x2DD4 - 0x2DBC];
     EnemyFloat3 worldPosition2DD4;
-    unsigned char unknown2DE0[0x2E48 - 0x2DE0];
+    float movementAngle2DE0;
+    float angularVelocity2DE4;
+    float orbitAngle2DE8;
+    float orbitAngularVelocity2DEC;
+    unsigned char unknown2DF0[0x2DF4 - 0x2DF0];
+    float speed2DF4;
+    float acceleration2DF8;
+    float orbitRadius2DFC;
+    unsigned char unknown2E00[0x2E10 - 0x2E00];
+    float floatVariables2E10[3];
+    EnemyFloat3 movementOrigin2E1C;
+    unsigned char unknown2E28[0x2E48 - 0x2E28];
     int life2E48;
-    unsigned char unknown2E4C[0x2E58 - 0x2E4C];
+    unsigned char unknown2E4C[0x2E54 - 0x2E4C];
+    int operandValue2E54;
     int sequenceIndex2E58;
-    unsigned char unknown2E5C[0x32D8 - 0x2E5C];
+    unsigned char unknown2E5C[0x2E6C - 0x2E5C];
+    int bossTimerCurrent2E6C;
+    unsigned char unknown2E70[0x32D8 - 0x2E70];
     Laser *laserSlots32D8[32];
     int selectedLaserSlot3358;
     unsigned int defeatTokenType335C;
@@ -228,6 +244,14 @@ typedef char EnemyViewPositionAt2D74[
     (offsetof(EnemyView, position2D74) == 0x2D74) ? 1 : -1];
 typedef char EnemyViewWorldPositionAt2DD4[
     (offsetof(EnemyView, worldPosition2DD4) == 0x2DD4) ? 1 : -1];
+typedef char EnemyViewNativeMovementOperands[
+    (offsetof(EnemyView, floatVariables2DB0) == 0x2DB0 &&
+     offsetof(EnemyView, movementAngle2DE0) == 0x2DE0 &&
+     offsetof(EnemyView, speed2DF4) == 0x2DF4 &&
+     offsetof(EnemyView, floatVariables2E10) == 0x2E10 &&
+     offsetof(EnemyView, movementOrigin2E1C) == 0x2E1C &&
+     offsetof(EnemyView, operandValue2E54) == 0x2E54 &&
+     offsetof(EnemyView, bossTimerCurrent2E6C) == 0x2E6C) ? 1 : -1];
 typedef char EnemyViewLaserSlotsAt32D8[
     (offsetof(EnemyView, laserSlots32D8) == 0x32D8 &&
      sizeof(((EnemyView *)0)->laserSlots32D8) == 0x80) ? 1 : -1];

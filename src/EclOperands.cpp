@@ -178,7 +178,7 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
 
     case 0x2738: return g_GameManager.difficulty;
     case 0x2739: return TH09_ECL_OPERAND_GAME_MANAGER_B4;
-    case 0x2741: return TH09_ECL_OPERAND_ENEMY(enemy)->bossTimerCurrent2E6C;
+    case 0x2741: return enemy->bossTimerCurrent2E6C;
     case 0x2743: return TH09_ECL_OPERAND_ENEMY(enemy)->life2E48;
     case 0x2744: return TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sideState320->characterIndex20;
 
@@ -224,31 +224,31 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x273E: return static_cast<int>(TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.y);
     case 0x273F: return static_cast<int>(TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.z);
 
-    case 0x275A: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->movementOrigin2E1C.x);
-    case 0x275B: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->movementOrigin2E1C.y);
-    case 0x275C: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->movementOrigin2E1C.z);
+    case 0x275A: return static_cast<int>(enemy->movementOrigin2E1C.x);
+    case 0x275B: return static_cast<int>(enemy->movementOrigin2E1C.y);
+    case 0x275C: return static_cast<int>(enemy->movementOrigin2E1C.z);
 
-    case 0x2765: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->floatVariables2DB0[0]);
-    case 0x2766: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->floatVariables2DB0[1]);
-    case 0x2767: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->floatVariables2DB0[2]);
+    case 0x2765: return static_cast<int>(enemy->floatVariables2DB0[0]);
+    case 0x2766: return static_cast<int>(enemy->floatVariables2DB0[1]);
+    case 0x2767: return static_cast<int>(enemy->floatVariables2DB0[2]);
 
     case 0x2768: return TH09_ECL_OPERAND_ENEMY(enemy)->lifeCallbackThresholds33B0[0];
     case 0x2769: return TH09_ECL_OPERAND_ENEMY(enemy)->lifeCallbackThresholds33B0[1];
     case 0x276A: return TH09_ECL_OPERAND_ENEMY(enemy)->lifeCallbackThresholds33B0[2];
     case 0x276B: return TH09_ECL_OPERAND_ENEMY(enemy)->lifeCallbackThresholds33B0[3];
 
-    case 0x2755: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->movementAngle2DE0);
-    case 0x2756: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->angularVelocity2DE4);
-    case 0x2757: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->speed2DF4);
-    case 0x2758: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->acceleration2DF8);
-    case 0x2759: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->orbitRadius2DFC);
-    case 0x275D: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->orbitAngle2DE8);
-    case 0x275E: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->orbitAngularVelocity2DEC);
+    case 0x2755: return static_cast<int>(enemy->movementAngle2DE0);
+    case 0x2756: return static_cast<int>(enemy->angularVelocity2DE4);
+    case 0x2757: return static_cast<int>(enemy->speed2DF4);
+    case 0x2758: return static_cast<int>(enemy->acceleration2DF8);
+    case 0x2759: return static_cast<int>(enemy->orbitRadius2DFC);
+    case 0x275D: return static_cast<int>(enemy->orbitAngle2DE8);
+    case 0x275E: return static_cast<int>(enemy->orbitAngularVelocity2DEC);
 
     case 0x2763: return TH09_ECL_OPERAND_ENEMY(enemy)->lastDamage33AC;
     case 0x2764: return TH09_ECL_OPERAND_ENEMY(enemy)->bossSlot336B;
     case 0x276C: return TH09_ECL_OPERAND_ENEMY(enemy)->itemDropType335C;
-    case 0x276D: return TH09_ECL_OPERAND_ENEMY(enemy)->operandValue2E54;
+    case 0x276D: return enemy->operandValue2E54;
 
     case 0x2775:
         return (TH09_ECL_OPERAND_ENEMY(enemy)->secondaryFlags3380 & 0x0C00) < 0x0C00
@@ -310,10 +310,10 @@ int *__fastcall ResolveIntLValue(
 
     case 0x2738: return &g_GameManager.difficulty;
     case 0x2739: return &TH09_ECL_OPERAND_GAME_MANAGER_B4;
-    case 0x2741: return &TH09_ECL_OPERAND_ENEMY(enemy)->bossTimerCurrent2E6C;
+    case 0x2741: return &enemy->bossTimerCurrent2E6C;
     case 0x2743: return &TH09_ECL_OPERAND_ENEMY(enemy)->life2E48;
     case 0x276C: return &TH09_ECL_OPERAND_ENEMY(enemy)->itemDropType335C;
-    case 0x276D: return &TH09_ECL_OPERAND_ENEMY(enemy)->operandValue2E54;
+    case 0x276D: return &enemy->operandValue2E54;
 
     case 0x274D: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedInts160[0];
     case 0x274E: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedInts160[1];
@@ -373,22 +373,22 @@ float *__fastcall ResolveFloatLValue(
     case 0x2753: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[2];
     case 0x2754: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[3];
 
-    case 0x275A: return &TH09_ECL_OPERAND_ENEMY(enemy)->movementOrigin2E1C.x;
-    case 0x275B: return &TH09_ECL_OPERAND_ENEMY(enemy)->movementOrigin2E1C.y;
-    case 0x275C: return &TH09_ECL_OPERAND_ENEMY(enemy)->movementOrigin2E1C.z;
+    case 0x275A: return &enemy->movementOrigin2E1C.x;
+    case 0x275B: return &enemy->movementOrigin2E1C.y;
+    case 0x275C: return &enemy->movementOrigin2E1C.z;
 
-    case 0x275F: return &TH09_ECL_OPERAND_ENEMY(enemy)->floatVariables2E10[0];
-    case 0x2760: return &TH09_ECL_OPERAND_ENEMY(enemy)->floatVariables2E10[1];
-    case 0x2761: return &TH09_ECL_OPERAND_ENEMY(enemy)->floatVariables2E10[2];
+    case 0x275F: return &enemy->floatVariables2E10[0];
+    case 0x2760: return &enemy->floatVariables2E10[1];
+    case 0x2761: return &enemy->floatVariables2E10[2];
 
-    case 0x2755: return &TH09_ECL_OPERAND_ENEMY(enemy)->movementAngle2DE0;
-    case 0x2756: return &TH09_ECL_OPERAND_ENEMY(enemy)->angularVelocity2DE4;
-    case 0x2757: return &TH09_ECL_OPERAND_ENEMY(enemy)->speed2DF4;
-    case 0x2758: return &TH09_ECL_OPERAND_ENEMY(enemy)->acceleration2DF8;
-    case 0x2759: return &TH09_ECL_OPERAND_ENEMY(enemy)->orbitRadius2DFC;
+    case 0x2755: return &enemy->movementAngle2DE0;
+    case 0x2756: return &enemy->angularVelocity2DE4;
+    case 0x2757: return &enemy->speed2DF4;
+    case 0x2758: return &enemy->acceleration2DF8;
+    case 0x2759: return &enemy->orbitRadius2DFC;
 
-    case 0x275D: return &TH09_ECL_OPERAND_ENEMY(enemy)->orbitAngle2DE8;
-    case 0x275E: return &TH09_ECL_OPERAND_ENEMY(enemy)->orbitAngularVelocity2DEC;
+    case 0x275D: return &enemy->orbitAngle2DE8;
+    case 0x275E: return &enemy->orbitAngularVelocity2DEC;
 
     default: return rawValue;
     }
@@ -436,11 +436,11 @@ float EnemyView::ResolveFloat(float rawValue)
 
     case 0x2738: return static_cast<float>(g_GameManager.difficulty);
     case 0x2739: return static_cast<float>(TH09_ECL_OPERAND_GAME_MANAGER_B4);
-    case 0x2741: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->bossTimerCurrent2E6C);
+    case 0x2741: return static_cast<float>(this->bossTimerCurrent2E6C);
     case 0x2743: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->life2E48);
     case 0x2744: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager0000->sideState320->characterIndex20);
     case 0x276C: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->itemDropType335C);
-    case 0x276D: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->operandValue2E54);
+    case 0x276D: return static_cast<float>(this->operandValue2E54);
 
     case 0x274D: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager0000->primaryEclManager000.timelineState08.sharedInts160[0]);
     case 0x274E: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager0000->primaryEclManager000.timelineState08.sharedInts160[1]);
@@ -484,17 +484,17 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x276E: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables6C[0];
     case 0x276F: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables6C[1];
 
-    case 0x275A: return TH09_ECL_OPERAND_ENEMY(this)->movementOrigin2E1C.x;
-    case 0x275B: return TH09_ECL_OPERAND_ENEMY(this)->movementOrigin2E1C.y;
-    case 0x275C: return TH09_ECL_OPERAND_ENEMY(this)->movementOrigin2E1C.z;
+    case 0x275A: return this->movementOrigin2E1C.x;
+    case 0x275B: return this->movementOrigin2E1C.y;
+    case 0x275C: return this->movementOrigin2E1C.z;
 
-    case 0x275F: return TH09_ECL_OPERAND_ENEMY(this)->floatVariables2E10[0];
-    case 0x2760: return TH09_ECL_OPERAND_ENEMY(this)->floatVariables2E10[1];
-    case 0x2761: return TH09_ECL_OPERAND_ENEMY(this)->floatVariables2E10[2];
+    case 0x275F: return this->floatVariables2E10[0];
+    case 0x2760: return this->floatVariables2E10[1];
+    case 0x2761: return this->floatVariables2E10[2];
 
-    case 0x2765: return TH09_ECL_OPERAND_ENEMY(this)->floatVariables2DB0[0];
-    case 0x2766: return TH09_ECL_OPERAND_ENEMY(this)->floatVariables2DB0[1];
-    case 0x2767: return TH09_ECL_OPERAND_ENEMY(this)->floatVariables2DB0[2];
+    case 0x2765: return this->floatVariables2DB0[0];
+    case 0x2766: return this->floatVariables2DB0[1];
+    case 0x2767: return this->floatVariables2DB0[2];
 
     case 0x2768: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->lifeCallbackThresholds33B0[0]);
     case 0x2769: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->lifeCallbackThresholds33B0[1]);
@@ -505,13 +505,13 @@ float EnemyView::ResolveFloat(float rawValue)
         return reinterpret_cast<PlayerAngleView *>(TH09_ECL_OPERAND_PLAYER(this))->AngleToPoint(
             reinterpret_cast<PlayerAngleFloat3View *>(&TH09_ECL_OPERAND_ENEMY(this)->worldPosition2DD4));
 
-    case 0x2755: return TH09_ECL_OPERAND_ENEMY(this)->movementAngle2DE0;
-    case 0x2756: return TH09_ECL_OPERAND_ENEMY(this)->angularVelocity2DE4;
-    case 0x2757: return TH09_ECL_OPERAND_ENEMY(this)->speed2DF4;
-    case 0x2758: return TH09_ECL_OPERAND_ENEMY(this)->acceleration2DF8;
-    case 0x2759: return TH09_ECL_OPERAND_ENEMY(this)->orbitRadius2DFC;
-    case 0x275D: return TH09_ECL_OPERAND_ENEMY(this)->orbitAngle2DE8;
-    case 0x275E: return TH09_ECL_OPERAND_ENEMY(this)->orbitAngularVelocity2DEC;
+    case 0x2755: return this->movementAngle2DE0;
+    case 0x2756: return this->angularVelocity2DE4;
+    case 0x2757: return this->speed2DF4;
+    case 0x2758: return this->acceleration2DF8;
+    case 0x2759: return this->orbitRadius2DFC;
+    case 0x275D: return this->orbitAngle2DE8;
+    case 0x275E: return this->orbitAngularVelocity2DEC;
 
     case 0x2775:
     {

@@ -37,6 +37,22 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('EnemyEclNativeLaserSlotsAt32D8', state)
         self.assertIn('enemy->laserSlots32D8[laserIndex]', bullet)
 
+    def test_movement_and_boss_timer_operands_use_native_enemy_fields(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        resolver=(ROOT/'src/EclOperands.cpp').read_text()
+        self.assertIn('EnemyViewNativeMovementOperands',native)
+        for name in ('floatVariables2DB0','movementAngle2DE0',
+                     'angularVelocity2DE4','orbitAngle2DE8',
+                     'orbitAngularVelocity2DEC','speed2DF4',
+                     'acceleration2DF8','orbitRadius2DFC',
+                     'floatVariables2E10','movementOrigin2E1C',
+                     'operandValue2E54','bossTimerCurrent2E6C'):
+            with self.subTest(field=name):
+                self.assertIn(name, native)
+                self.assertIn('->'+name, resolver)
+                self.assertNotIn(f'TH09_ECL_OPERAND_ENEMY(enemy)->{name}',resolver)
+                self.assertNotIn(f'TH09_ECL_OPERAND_ENEMY(this)->{name}',resolver)
+
     def test_enemy_operand_banks_use_real_native_enemy_fields(self):
         enemy = (ROOT/'src/EnemyManager.hpp').read_text()
         resolver = (ROOT/'src/EclOperands.cpp').read_text()
