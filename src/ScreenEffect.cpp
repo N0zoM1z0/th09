@@ -40,20 +40,15 @@ struct ScreenEffectAnmManagerView
     float shakeY;
 };
 
-struct ScreenEffectSupervisorShakeView
-{
-    unsigned char unknown000[0x160];
-    float side0ShakeX;
-    float side0ShakeY;
-    unsigned char unknown168[0xF0 - 8];
-    float side1ShakeX;
-    float side1ShakeY;
-};
-
-typedef char ScreenEffectSupervisorSide0ShakeAt160[
-    (offsetof(ScreenEffectSupervisorShakeView, side0ShakeX) == 0x160) ? 1 : -1];
-typedef char ScreenEffectSupervisorSide1ShakeAt250[
-    (offsetof(ScreenEffectSupervisorShakeView, side1ShakeX) == 0x250) ? 1 : -1];
+// TH09's two gameplay shake records live in the genuine 0xF0 Supervisor
+// constructor-array elements, at +0x160/+0x164 and +0x250/+0x254.
+// Do not carry a parallel 0x250-byte Supervisor memory projection here.
+typedef char ScreenEffectNativeSupervisorShakeOffsets[
+    (offsetof(Supervisor, ctorArray078) +
+         offsetof(SupervisorCtorArrayElement, frameOffsetX) == 0x160 &&
+     offsetof(Supervisor, ctorArray078) +
+         offsetof(SupervisorCtorArrayElement, frameOffsetY) == 0x164 &&
+     sizeof(SupervisorCtorArrayElement) == 0xF0) ? 1 : -1];
 
 struct VertexDiffuseXyzrhw
 {
@@ -70,11 +65,6 @@ typedef char VertexDiffuseXyzrhwSizeIs14[
 static __inline ScreenEffectSupervisorView *ScreenEffectSupervisor()
 {
     return reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor);
-}
-
-static __inline ScreenEffectSupervisorShakeView *ScreenEffectSupervisorShake()
-{
-    return reinterpret_cast<ScreenEffectSupervisorShakeView *>(&g_Supervisor);
 }
 
 static __inline ScreenEffectAnmManagerView *ScreenEffectAnmManager()
@@ -240,32 +230,26 @@ int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
     switch (g_ReplayRng.GetRandomU32InRange(3))
     {
     case 0:
-        *reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(&g_Supervisor) +
-            0x160 + screenEffect->contextIndex * 0xF0) = 0.0f;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetX = 0.0f;
         break;
     case 1:
-        *reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(&g_Supervisor) +
-            0x160 + screenEffect->contextIndex * 0xF0) = shakeAmount;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetX = shakeAmount;
         break;
     case 2:
-        *reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(&g_Supervisor) +
-            0x160 + screenEffect->contextIndex * 0xF0) = -shakeAmount;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetX = -shakeAmount;
         break;
     }
 
     switch (g_ReplayRng.GetRandomU32InRange(3))
     {
     case 0:
-        *reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(&g_Supervisor) +
-            0x164 + screenEffect->contextIndex * 0xF0) = 0.0f;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetY = 0.0f;
         break;
     case 1:
-        *reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(&g_Supervisor) +
-            0x164 + screenEffect->contextIndex * 0xF0) = shakeAmount;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetY = shakeAmount;
         break;
     case 2:
-        *reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(&g_Supervisor) +
-            0x164 + screenEffect->contextIndex * 0xF0) = -shakeAmount;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetY = -shakeAmount;
         break;
     }
 
