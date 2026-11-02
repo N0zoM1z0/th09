@@ -63,14 +63,18 @@ coverage is **247,597 / 291,883 (84.8275%)**; the 98% milestone remains open.
 Whole-product linking, runtime semantics and portability are separate,
 unstarted gates.
 
-The latest source-changing checkpoint is `80313a4f`
-(`gpt-web: narrow Title DrawResult residual to three bytes`). It narrowed the
-complete 1,939-byte TitleScreenView::DrawResult residual from 22 bytes to
-three (+0x1D, +0x23, +0x39) without claiming exactness. Other high-value open
-bosses include RunEcl (30 bytes), EnemyManager::OnUpdate (13 bytes), and
-ReplayManager::SaveReplay (three bytes). `docs/RE_HANDOFF.md` is the single
-active source map and records the current Title/options/cursor fronts, proof
-reuse, retained evidence and handoff commands.
+At the 2026-11-02 source handoff, the latest **source-changing**
+commit was `e4ea703b`, which unified original ThreadClose receiver views
+with the native Supervisor. The earlier `80313a4f` Title DrawResult
+checkpoint is **historical**: the 1,939-byte nonexact owner still has
+three residual bytes (+0x1D/+0x23/+0x39). High-value open bosses include
+`RunEcl` (30 bytes), `EnemyManager::OnUpdate` (13 bytes),
+`ReplayManager::SaveReplay` (three bytes), the 1,689-byte
+`GameplaySetupThread` (904 differences), and the Supervisor OnUpdate
+(996 original /952 candidate bytes, 791 overlapping differences plus
+44 absent). Start from [the current next-agent handoff](docs/TH09_NEXT_AGENT_HANDOFF_20261102.md);
+`docs/RE_HANDOFF.md` retains detailed dated background. Confirm Git status
+and fresh PE/COFF evidence before relying on any old claim.
 
 Use focused complete-owner builds/replays for the changed units only. Do not
 run a full cold replay for routine iteration. Commits use

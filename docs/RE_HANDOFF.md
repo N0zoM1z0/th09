@@ -1,5 +1,14 @@
 # TH09 reconstruction — current handoff
 
+> **CURRENT next-agent handoff (2026-11-02):**
+> [TH09_NEXT_AGENT_HANDOFF_20261102.md](TH09_NEXT_AGENT_HANDOFF_20261102.md)
+> is the short verified resume guide and supersedes dated "current/latest"
+> assertions below. Current Git status, ledgers and original PE still
+> take priority over every document. The sections below preserve evidence
+> for their **historical source checkpoints**; do not restore superseded views
+> or count previous exact sibling replays as new exact functions.
+
+
 ## Operator status — reconstruction explicitly resumed
 
 The operator explicitly resumed TH09 reconstruction and requires serious work
@@ -191,7 +200,7 @@ python3 -B scripts/check-boss-frontiers.py --owner runecl and/or
 run all-owner cold replay for routine work. The large-boss opcode 4/155,
 Enemy register/copy scheduling, and all other nonexact owners remain open.
 
-## Current source and proof
+## 2026-10-31 source and proof snapshot (historical)
 
 Gameplay setup uses all eight implemented creator contracts/nine references.
 Lifecycle/rendering consumers share one AnmVmBase/AnmVm definition. Cleanup calls
@@ -210,7 +219,7 @@ ledger or a fresh full cold replay.231 distinct primary proof/diagnostic objects
 and nine additional historical/diagnostic objects remain. Current-source RunEcl
 stays15564/598/30,Enemy3900/97/13,and Setup1689/171/35/77/904.
 
-## 2026-11-01 handoff refresh — current non-exact frontiers
+## 2026-11-01 handoff refresh — historical non-exact snapshots
 
 The live ledgers remain authoritative: 2,248 candidates, 1,035 authored
 mappings, 1,005 exact functions, and 30 source-present non-exact functions /
@@ -253,9 +262,9 @@ and compiler caches were removed after capture; rebuild only the relevant
 translation unit with scripts/build-match-unit.py before a fresh comparison.
 No full cold replay was run.
 
-## Latest resumed-work checkpoint — Title DrawResult narrowed to 3 bytes
+## Historical 2026-10-31 checkpoint — Title DrawResult narrowed to 3 bytes
 
-The newest gpt-web code/test commit is 80313a4f. The 1,939-byte
+At this historical checkpoint, the gpt-web code/test commit was 80313a4f. The 1,939-byte
 TitleScreenView::DrawResult big owner is now 1,939/1,939 bytes with 577
 instructions, 82 fields, 16 ordered calls and 92 CFG blocks; its physical
 residual has narrowed from 22 bytes to exactly +0x1D, +0x23 and +0x39.
@@ -268,9 +277,9 @@ tests (29 optional skips), tracking validation, documentation validation and
 generated-progress checks. Details and rejected experiments are in
 docs/TH09_GPT_WEB_CONTINUED_20261031.md. No full cold replay was run.
 
-## Previous code checkpoint — Title replay menu provenance
+## Earlier code checkpoint — Title replay menu provenance (historical)
 
-The newest `gpt-web:` commit is `0332496c`. The separate 1,280-byte
+At that earlier checkpoint, the newest `gpt-web:` commit was `0332496c`. The separate 1,280-byte
 `TitleScreenView::DrawReplayMenu` remains non-exact at 29 physical differences,
 but its source oracle now verifies all 16 real initialized read-only COFF
 literal definitions behind 30 relocation references, including actual payload

@@ -11,12 +11,15 @@ the first useful commit. Routine iteration must rebuild/replay only affected
 owners and dependencies; do not run a full cold replay unless explicitly
 requested.
 
-The latest source-changing checkpoint is 80313a4f
-(gpt-web: narrow Title DrawResult residual to three bytes). The previous
-31496c4a handoff-only commit recorded that source checkpoint; the current
-handoff refresh supersedes it. Read docs/RE_HANDOFF.md for current
-owner residuals, proof scopes, retained artifacts and next-agent routing.
-These hashes are checkpoints, not exactness proof or remote-publication claims.
+At the 2026-11-02 handoff the latest **source-changing** commit is
+`e4ea703b` (`gpt-web: unify both Supervisor ThreadClose receivers with native
+runtime`). Earlier `80313a4f` (Title DrawResult) and `31496c4a`
+(handoff-only) were dated snapshots, **not** the current source head.
+Review `git log -1 --oneline` and `git status` on each new session; a
+documentation or cleanup commit can advance HEAD without changing source.
+Read `docs/TH09_NEXT_AGENT_HANDOFF_20261102.md` first, then
+`docs/RE_HANDOFF.md` for historical details. Commit hashes are not Factory
+acceptance, original-byte, or remote-publication proofs.
 
 Use the live registered repository worktree exposed to the current agent for
 Git, source and build operations; do not switch to an arbitrary checkout or
