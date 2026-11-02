@@ -57,14 +57,10 @@ typedef char Th09EclLatePlayerPositionAt1B88[
 typedef char Th09EclLatePlayerTableAt303F4[
     (offsetof(PlayerLateView, tableValue303F4) == 0x303F4) ? 1 : -1];
 
-struct SideOwnerView
-{
-    unsigned char unknown000[0xA4];
-    int primaryStateA4;
-    int alternateStateA8;
-};
+typedef ::EnemyCoreSideOwnerView SideOwnerView;
 typedef char Th09EclLateOwnerPrimaryAtA4[
-    (offsetof(SideOwnerView, primaryStateA4) == 0xA4) ? 1 : -1];
+    (offsetof(SideOwnerView, primaryStateA4) == 0xA4 &&
+     offsetof(SideOwnerView, alternateStateA8) == 0xA8) ? 1 : -1];
 
 struct SideStateView
 {

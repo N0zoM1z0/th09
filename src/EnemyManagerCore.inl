@@ -134,7 +134,10 @@ struct EnemyCoreView;
 
 
 typedef char EnemyCoreSideStateSizeIs38[
-    (sizeof(EnemyCoreSideStateView) == 0x38) ? 1 : -1];
+    (sizeof(EnemyCoreSideStateView) == 0x38 &&
+     offsetof(EnemyCoreSideStateView, owner14) == 0x14 &&
+     offsetof(EnemyCoreSideStateView, characterIndex20) == 0x20 &&
+     offsetof(EnemyCoreSideStateView, flags34) == 0x34) ? 1 : -1];
 
 struct EnemyCorePlayerView
 {

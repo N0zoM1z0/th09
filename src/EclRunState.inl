@@ -62,6 +62,20 @@ typedef char Th09EclStateFlagBitsSizeIs04[
 struct EnemyManagerCoreView;
 struct EnemyCorePlayerView;
 struct EnemyCoreView;
+
+// The side owner's two observed control dwords are consumed by the late ECL
+// opcode family.  Its complete nominal class and lifetime are not asserted.
+struct EnemyCoreSideOwnerView
+{
+    unsigned char unknown000[0xA4];
+    int primaryStateA4;
+    int alternateStateA8;
+};
+typedef char EnemyCoreSideOwnerPrimaryAtA4[
+    (offsetof(EnemyCoreSideOwnerView, primaryStateA4) == 0xA4) ? 1 : -1];
+typedef char EnemyCoreSideOwnerAlternateAtA8[
+    (offsetof(EnemyCoreSideOwnerView, alternateStateA8) == 0xA8) ? 1 : -1];
+
 struct EnemyCoreSideStateView
 {
     Background *background00;
@@ -69,7 +83,8 @@ struct EnemyCoreSideStateView
     EtamaController *etama08;
     EffectManager *effectManager0C;
     EnemyManagerView *enemyManager10;
-    unsigned char unknown14[0x0C];
+    EnemyCoreSideOwnerView *owner14;
+    unsigned char unknown18[0x08];
     int characterIndex20;
     unsigned char unknown24[0x10];
     unsigned int flags34;
