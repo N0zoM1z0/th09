@@ -7,44 +7,35 @@
 
 namespace
 {
-struct SupervisorEnumControllerLayout
-{
-    unsigned char unknown000[0x0C];
-    IDirectInput8A *directInput;
-    IDirectInputDevice8A *keyboard;
-    IDirectInputDevice8A *controller0;
-    IDirectInputDevice8A *controller1;
-};
-
+// The enumeration callbacks write the same native Supervisor devices as
+// the original 882-byte StartupThread and 405-byte DeletedCallback.
 typedef char SupervisorEnumController0At14[
-    (offsetof(SupervisorEnumControllerLayout, controller0) == 0x14) ? 1 : -1];
+    (offsetof(Supervisor, controller014) == 0x14) ? 1 : -1];
 typedef char SupervisorEnumController1At18[
-    (offsetof(SupervisorEnumControllerLayout, controller1) == 0x18) ? 1 : -1];
+    (offsetof(Supervisor, controller118) == 0x18) ? 1 : -1];
 }
 
 BOOL CALLBACK StartupEnumControllers(const DIDEVICEINSTANCEA *instance, void *unused)
 {
-    SupervisorEnumControllerLayout *supervisor =
-        reinterpret_cast<SupervisorEnumControllerLayout *>(&g_Supervisor);
+    Supervisor *supervisor = &g_Supervisor;
 
-    if (supervisor->controller0 == NULL)
+    if (supervisor->controller014 == NULL)
     {
-        supervisor->directInput->CreateDevice(
-            instance->guidInstance, &supervisor->controller0, NULL);
+        supervisor->directInput0C->CreateDevice(
+            instance->guidInstance, &supervisor->controller014, NULL);
         return TRUE;
     }
 
-    if (supervisor->controller1 != NULL)
+    if (supervisor->controller118 != NULL)
         return TRUE;
 
-    return supervisor->directInput->CreateDevice(
-               instance->guidInstance, &supervisor->controller1, NULL) < 0;
+    return supervisor->directInput0C->CreateDevice(
+               instance->guidInstance, &supervisor->controller118, NULL) < 0;
 }
 
 BOOL CALLBACK StartupEnumObjects0(const DIDEVICEOBJECTINSTANCEA *instance, void *unused)
 {
-    SupervisorEnumControllerLayout *supervisor =
-        reinterpret_cast<SupervisorEnumControllerLayout *>(&g_Supervisor);
+    Supervisor *supervisor = &g_Supervisor;
 
     if ((instance->dwType & DIDFT_AXIS) != 0)
     {
@@ -55,7 +46,7 @@ BOOL CALLBACK StartupEnumObjects0(const DIDEVICEOBJECTINSTANCEA *instance, void 
         range.diph.dwHow = DIPH_BYID;
         range.lMin = -1000;
         range.lMax = 1000;
-        if (supervisor->controller0->SetProperty(DIPROP_RANGE, &range.diph) < 0)
+        if (supervisor->controller014->SetProperty(DIPROP_RANGE, &range.diph) < 0)
             return FALSE;
     }
 
@@ -64,8 +55,7 @@ BOOL CALLBACK StartupEnumObjects0(const DIDEVICEOBJECTINSTANCEA *instance, void 
 
 BOOL CALLBACK StartupEnumObjects1(const DIDEVICEOBJECTINSTANCEA *instance, void *unused)
 {
-    SupervisorEnumControllerLayout *supervisor =
-        reinterpret_cast<SupervisorEnumControllerLayout *>(&g_Supervisor);
+    Supervisor *supervisor = &g_Supervisor;
 
     if ((instance->dwType & DIDFT_AXIS) != 0)
     {
@@ -76,7 +66,7 @@ BOOL CALLBACK StartupEnumObjects1(const DIDEVICEOBJECTINSTANCEA *instance, void 
         range.diph.dwHow = DIPH_BYID;
         range.lMin = -1000;
         range.lMax = 1000;
-        if (supervisor->controller1->SetProperty(DIPROP_RANGE, &range.diph) < 0)
+        if (supervisor->controller118->SetProperty(DIPROP_RANGE, &range.diph) < 0)
             return FALSE;
     }
 
