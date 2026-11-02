@@ -45,28 +45,25 @@ struct DeletedSupervisorThreadView
     void ThreadClose();
 };
 
-struct SupervisorDeletedGlobalLayout
-{
-    unsigned char unknown000[0x384];
-    DeletedDummyMidiTimerView *dummyMidiTimer;
-    unsigned char unknown388[0x436 - 0x388];
-    unsigned char musicMode;
-    unsigned char unknown437[0x584 - 0x437];
-    void *startupVm;
-    unsigned char unknown588[0x5BC - 0x588];
-    DeletedMidiOutputView *midiOutput;
-    unsigned char unknown5C0[0x7AC - 0x5C0];
-    void *versionData;
-};
-
-struct SupervisorDeletedArgumentLayout
-{
-    unsigned char unknown000[0x0C];
-    IDirectInput8A *directInput;
-    IDirectInputDevice8A *keyboard;
-    IDirectInputDevice8A *controller0;
-    IDirectInputDevice8A *controller1;
-};
+// Both the exact startup caller and this full 405-byte delete callback
+// own the same original Supervisor device, MIDI, startup VM and version
+// fields. Keep the separate MIDI/ThreadClose method identities below.
+typedef char DeletedDummyTimerAt384[
+    (offsetof(Supervisor, dummyMidiTimer384) == 0x384) ? 1 : -1];
+typedef char DeletedMusicModeAt436[
+    (offsetof(Supervisor, config388) +
+         offsetof(GameConfiguration, musicMode) == 0x436) ? 1 : -1];
+typedef char DeletedStartupVmAt584[
+    (offsetof(Supervisor, startupVm584) == 0x584) ? 1 : -1];
+typedef char DeletedMidiAt5BC[
+    (offsetof(Supervisor, midiOutput5BC) == 0x5BC) ? 1 : -1];
+typedef char DeletedVersionAt7AC[
+    (offsetof(Supervisor, versionData7AC) == 0x7AC) ? 1 : -1];
+typedef char DeletedDevicesAt0C[
+    (offsetof(Supervisor, directInput0C) == 0x0C &&
+     offsetof(Supervisor, keyboard10) == 0x10 &&
+     offsetof(Supervisor, controller014) == 0x14 &&
+     offsetof(Supervisor, controller118) == 0x18) ? 1 : -1];
 
 struct DeletedGameManagerLayout
 {
@@ -76,11 +73,7 @@ struct DeletedGameManagerLayout
     void *heap54;
 };
 
-typedef char DeletedDummyTimerAt384[(offsetof(SupervisorDeletedGlobalLayout, dummyMidiTimer) == 0x384) ? 1 : -1];
-typedef char DeletedMusicModeAt436[(offsetof(SupervisorDeletedGlobalLayout, musicMode) == 0x436) ? 1 : -1];
-typedef char DeletedStartupVmAt584[(offsetof(SupervisorDeletedGlobalLayout, startupVm) == 0x584) ? 1 : -1];
-typedef char DeletedMidiAt5BC[(offsetof(SupervisorDeletedGlobalLayout, midiOutput) == 0x5BC) ? 1 : -1];
-typedef char DeletedVersionAt7AC[(offsetof(SupervisorDeletedGlobalLayout, versionData) == 0x7AC) ? 1 : -1];
+
 }
 
 extern DeletedGameManagerLayout g_GameManager;
@@ -94,16 +87,14 @@ extern void SupervisorDeletedReleaseSubsystemC();
 
 int SupervisorDeletedCallback(Supervisor *supervisor)
 {
-    SupervisorDeletedGlobalLayout *globalSupervisor =
-        reinterpret_cast<SupervisorDeletedGlobalLayout *>(&g_Supervisor);
-    SupervisorDeletedArgumentLayout *callbackSupervisor =
-        reinterpret_cast<SupervisorDeletedArgumentLayout *>(supervisor);
+    Supervisor *globalSupervisor = &g_Supervisor;
+    Supervisor *callbackSupervisor = supervisor;
     reinterpret_cast<DeletedSupervisorThreadView *>(&g_Supervisor)->ThreadClose();
 
-    if (globalSupervisor->versionData != NULL)
+    if (globalSupervisor->versionData7AC != NULL)
     {
-        g_ZunMemory.Free(globalSupervisor->versionData);
-        globalSupervisor->versionData = NULL;
+        g_ZunMemory.Free(globalSupervisor->versionData7AC);
+        globalSupervisor->versionData7AC = NULL;
     }
 
     if (g_GameManager.heap1C != NULL)
@@ -114,10 +105,10 @@ int SupervisorDeletedCallback(Supervisor *supervisor)
         operator delete(g_GameManager.heap54);
     g_GameManager.heap54 = NULL;
 
-    if (globalSupervisor->startupVm != NULL)
+    if (globalSupervisor->startupVm584 != NULL)
     {
-        operator delete(globalSupervisor->startupVm);
-        globalSupervisor->startupVm = NULL;
+        operator delete(globalSupervisor->startupVm584);
+        globalSupervisor->startupVm584 = NULL;
     }
 
     reinterpret_cast<DeletedAnmManagerView *>(g_AnmManager)->ReleaseVertexBuffer();
@@ -128,49 +119,49 @@ int SupervisorDeletedCallback(Supervisor *supervisor)
     AsciiManager::CutChain();
     g_SoundPlayer.QueueCommand(4, 0, "dummy");
 
-    if (globalSupervisor->musicMode == 2 && globalSupervisor->midiOutput != NULL)
-        globalSupervisor->midiOutput->PlayFile(30);
+    if (globalSupervisor->config388.musicMode == 2 && globalSupervisor->midiOutput5BC != NULL)
+        reinterpret_cast<DeletedMidiOutputView *>(globalSupervisor->midiOutput5BC)->PlayFile(30);
 
     g_DeletedReplayState->Release();
     g_DeletedReplayState = NULL;
     SupervisorDeletedReleaseTextBuffer();
 
-    if (callbackSupervisor->keyboard != NULL)
-        callbackSupervisor->keyboard->Unacquire();
-    if (callbackSupervisor->keyboard != NULL)
+    if (callbackSupervisor->keyboard10 != NULL)
+        callbackSupervisor->keyboard10->Unacquire();
+    if (callbackSupervisor->keyboard10 != NULL)
     {
-        callbackSupervisor->keyboard->Release();
-        callbackSupervisor->keyboard = NULL;
+        callbackSupervisor->keyboard10->Release();
+        callbackSupervisor->keyboard10 = NULL;
     }
 
-    if (callbackSupervisor->controller0 != NULL)
-        callbackSupervisor->controller0->Unacquire();
-    if (callbackSupervisor->controller1 != NULL)
-        callbackSupervisor->controller1->Unacquire();
-    if (callbackSupervisor->controller0 != NULL)
+    if (callbackSupervisor->controller014 != NULL)
+        callbackSupervisor->controller014->Unacquire();
+    if (callbackSupervisor->controller118 != NULL)
+        callbackSupervisor->controller118->Unacquire();
+    if (callbackSupervisor->controller014 != NULL)
     {
-        callbackSupervisor->controller0->Release();
-        callbackSupervisor->controller0 = NULL;
+        callbackSupervisor->controller014->Release();
+        callbackSupervisor->controller014 = NULL;
     }
-    if (callbackSupervisor->controller1 != NULL)
+    if (callbackSupervisor->controller118 != NULL)
     {
-        callbackSupervisor->controller1->Release();
-        callbackSupervisor->controller1 = NULL;
+        callbackSupervisor->controller118->Release();
+        callbackSupervisor->controller118 = NULL;
     }
-    if (callbackSupervisor->directInput != NULL)
+    if (callbackSupervisor->directInput0C != NULL)
     {
-        callbackSupervisor->directInput->Release();
-        callbackSupervisor->directInput = NULL;
+        callbackSupervisor->directInput0C->Release();
+        callbackSupervisor->directInput0C = NULL;
     }
 
     g_PbgArchive.Release();
 
-    if (globalSupervisor->dummyMidiTimer != NULL)
+    if (globalSupervisor->dummyMidiTimer384 != NULL)
     {
-        globalSupervisor->dummyMidiTimer->StopTimer();
-        if (globalSupervisor->dummyMidiTimer != NULL)
-            globalSupervisor->dummyMidiTimer->DeleteObject(1);
-        globalSupervisor->dummyMidiTimer = NULL;
+        reinterpret_cast<DeletedDummyMidiTimerView *>(globalSupervisor->dummyMidiTimer384)->StopTimer();
+        if (globalSupervisor->dummyMidiTimer384 != NULL)
+            reinterpret_cast<DeletedDummyMidiTimerView *>(globalSupervisor->dummyMidiTimer384)->DeleteObject(1);
+        globalSupervisor->dummyMidiTimer384 = NULL;
     }
 
     SaveTitleScoreData();

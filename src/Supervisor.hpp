@@ -120,7 +120,8 @@ class Supervisor
     unsigned int systemTime;
     int exeChecksum7A0;
     int exeSize7A4;
-    unsigned char unknown7A8[0x7B0 - 0x7A8];
+    unsigned char unknown7A8[0x7AC - 0x7A8];
+    void *versionData7AC;
 };
 
 typedef char SupervisorD3DAt04[
@@ -136,6 +137,13 @@ typedef char SupervisorFrameMultiplierAt5B8[
 typedef char SupervisorFlagsAt5D4[
     (offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
 typedef char SupervisorSizeIs7B0[(sizeof(Supervisor) == 0x7B0) ? 1 : -1];
+// Original deleted-callback tail and config music mode are also part of this
+// same global Supervisor, not a separate +0x7AC lifetime view.
+typedef char SupervisorNativeDeletedFields[
+    (offsetof(Supervisor, versionData7AC) == 0x7AC &&
+     offsetof(Supervisor, config388) +
+        offsetof(GameConfiguration, musicMode) == 0x436) ? 1 : -1];
+
 typedef char SupervisorNativeDInputFields[
     (offsetof(Supervisor, directInput0C) == 0x0C &&
      offsetof(Supervisor, keyboard10) == 0x10 &&
