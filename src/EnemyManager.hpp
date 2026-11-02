@@ -152,7 +152,11 @@ typedef char EnemyScheduleRuntimeTimer0C[
 struct EnemyView
 {
     EnemyManagerView *manager00;
-    unsigned char unknown0004[0x2D74 - 0x0004];
+    // The original Enemy/ECL activation pointer lives inside the common
+    // Enemy allocation, not in a separate late-opcode-only byte view.
+    unsigned char unknown0004[0x2CE0 - 0x0004];
+    Th09EclContextView *activeContext2CE0;
+    unsigned char unknown2CE4[0x2D74 - 0x2CE4];
     EnemyFloat3 position2D74;
     EnemyFloat3 positionOffset2D80;
     unsigned char unknown2D8C[0x2DD4 - 0x2D8C];
@@ -177,6 +181,8 @@ struct EnemyView
     void CleanupAfterDeactivation();
 };
 typedef char EnemyViewSizeIs5430[(sizeof(EnemyView) == 0x5430) ? 1 : -1];
+typedef char EnemyViewActiveContextAt2CE0[
+    (offsetof(EnemyView, activeContext2CE0) == 0x2CE0) ? 1 : -1];
 typedef char EnemyViewPositionAt2D74[
     (offsetof(EnemyView, position2D74) == 0x2D74) ? 1 : -1];
 typedef char EnemyViewWorldPositionAt2DD4[

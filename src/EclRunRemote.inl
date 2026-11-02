@@ -60,8 +60,7 @@ inline EnemyView *&RemoteEnemy(EnemyView *enemy, int slot)
 
 inline Th09EclContextView *ActiveContext(EnemyView *enemy)
 {
-    return *reinterpret_cast<Th09EclContextView **>(
-        Bytes(enemy) + ENEMY_ACTIVE_CONTEXT);
+    return enemy->activeContext2CE0;
 }
 
 inline short &PendingSubroutine(EnemyView *enemy)

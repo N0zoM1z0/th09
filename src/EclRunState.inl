@@ -180,6 +180,12 @@ struct EnemyCoreView
     int phaseEndSeconds5420;
     ZunTimer specialAttackTimer5424;
 };
+// The original +0x2CE0 pointer is shared by every lexical ECL family;
+// the public Enemy lifetime and the complete ECL Core owner must agree.
+typedef char EnemyEclNativeActiveContextAt2CE0[
+    (offsetof(EnemyView, activeContext2CE0) ==
+     offsetof(EnemyCoreView, activeContext2CE0)) ? 1 : -1];
+
 struct EnemyManagerCoreView
 {
     int KillAllNonBossEnemies(int transitionValue, int startingValue);

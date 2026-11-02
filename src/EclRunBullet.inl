@@ -103,9 +103,7 @@ inline EtamaController *Controller(EnemyView *enemy)
 
 inline Th09EclContextView *ActiveContext(EnemyView *enemy)
 {
-    return *reinterpret_cast<Th09EclContextView **>(
-        reinterpret_cast<unsigned char *>(enemy) +
-        TH09_ECL_ENEMY_ACTIVE_CONTEXT);
+    return enemy->activeContext2CE0;
 }
 
 inline int &ConditionResult(EnemyView *enemy)
