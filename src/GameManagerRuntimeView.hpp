@@ -7,6 +7,7 @@
 struct EffectManager;
 class EtamaController;
 struct PlayerLifecycleView;
+struct ReplayInputGateView;
 
 struct AsciiPlayerPopupPositionView
 {
@@ -38,7 +39,9 @@ struct AsciiGameManagerSideView
     unsigned char unknown10[0x0C];
     AsciiGameSideRuntimeView *runtime;
     int character20;
-    unsigned char unknown24[0x10];
+    unsigned char unknown24[4];
+    int replaySelector28;
+    unsigned char unknown2C[8];
     unsigned int flags;
 };
 
@@ -50,17 +53,20 @@ struct AsciiGameManagerView
     AsciiGameManagerSideView sides[2];
     unsigned char unknown070[0x44];
     int valueB4;
-    unsigned char unknown0B8[0x34];
+    unsigned char unknown0B8[0x30];
+    ReplayInputGateView *replayInputGateE8;
     float speedEC;
     unsigned char unknown0F0[0x0C];
     int field0FC;
     unsigned char unknown100[8];
     int field108;
     int field10C;
-    unsigned char unknown110[8];
+    unsigned char unknown110[4];
+    int replayMode114;
     int gameMode;
     union { int difficulty; int difficulty11C; };
-    unsigned char unknown120[0x14];
+    unsigned char unknown120[0x10];
+    int replayPauseRecorded130;
     unsigned int flags;
     unsigned char unknown138[4];
     unsigned char inGameMenu;
@@ -109,6 +115,11 @@ typedef char AsciiGameManagerDifficultyAt11C[
     (offsetof(AsciiGameManagerView, difficulty) == 0x11C) ? 1 : -1];
 typedef char AsciiGameManagerFlagsAt134[
     (offsetof(AsciiGameManagerView, flags) == 0x134) ? 1 : -1];
+typedef char AsciiGameManagerReplayStateOffsets[
+    (offsetof(AsciiGameManagerView, replayInputGateE8) == 0xE8 &&
+     offsetof(AsciiGameManagerView, replayMode114) == 0x114 &&
+     offsetof(AsciiGameManagerView, replayPauseRecorded130) == 0x130 &&
+     offsetof(AsciiGameManagerSideView, replaySelector28) == 0x28) ? 1 : -1];
 typedef char AsciiGameManagerMenuAt13C[
     (offsetof(AsciiGameManagerView, inGameMenu) == 0x13C) ? 1 : -1];
 typedef char AsciiGameManagerValue348At348[
