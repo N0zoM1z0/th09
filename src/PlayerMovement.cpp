@@ -57,15 +57,13 @@ extern AnmManager *g_AnmManager;
 static __inline Effect *&PlayerMovementFocusEffect(
     PlayerLifecycleView *player)
 {
-    return *reinterpret_cast<Effect **>(
-        reinterpret_cast<unsigned char *>(player) + 0x364);
+    return player->focusEffect364;
 }
 
 static __inline Effect *&PlayerMovementSecondaryEffect(
     PlayerLifecycleView *player)
 {
-    return *reinterpret_cast<Effect **>(
-        reinterpret_cast<unsigned char *>(player) + 0x368);
+    return player->secondaryEffect368;
 }
 
 static __inline PlayerMovementFields *PlayerMovementRuntime(

@@ -8,6 +8,7 @@
 
 struct Bullet;
 struct EffectManager;
+struct Effect;
 
 struct PlayerSideStateView
 {
@@ -354,7 +355,8 @@ struct PlayerLifecycleView
     int selector;
     PlayerHeaderStateView header24;
     PlayerAnmVmView mainVm;
-    unsigned char unknown0364[0x08];
+    Effect *focusEffect364;
+    Effect *secondaryEffect368;
     PlayerCollisionQueryStateView collisionQuery36C;
     PlayerTimerCtorView timer1B74;
     unsigned int flags1B80;
@@ -450,6 +452,10 @@ typedef char PlayerLifecycleTypeAt04[
 typedef char PlayerLifecycleSideIndexAt08[(offsetof(PlayerLifecycleView, sideIndex) == 0x08) ? 1 : -1];
 typedef char PlayerLifecycleHeaderAt24[(offsetof(PlayerLifecycleView, header24) == 0x24) ? 1 : -1];
 typedef char PlayerLifecycleMainVmAtC0[(offsetof(PlayerLifecycleView, mainVm) == 0xC0) ? 1 : -1];
+typedef char PlayerLifecycleFocusEffectAt364[
+    (offsetof(PlayerLifecycleView, focusEffect364) == 0x364 &&
+     offsetof(PlayerLifecycleView, secondaryEffect368) == 0x368 &&
+     offsetof(PlayerLifecycleView, collisionQuery36C) == 0x36C) ? 1 : -1];
 typedef char PlayerLifecycleCollisionQueryAt36C[
     (offsetof(PlayerLifecycleView, collisionQuery36C) == 0x36C) ? 1 : -1];
 typedef char PlayerLifecycleTimerAt1B74[
