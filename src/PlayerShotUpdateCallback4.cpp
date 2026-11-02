@@ -15,18 +15,14 @@ struct PlayerShotUpdate4RegionPointView
     float z;
 };
 
-struct PlayerShotUpdate4ShotView
-{
-    unsigned char unknown000[0x2A4];
-    PlayerShotUpdate4Vec3 position2A4;
-    unsigned char unknown2B0[0x43C - 0x2B0];
-    float velocityX43C;
-    float velocityY440;
-    unsigned char unknown444[0x454 - 0x444];
-    ZunTimer timer454;
-    unsigned char unknown460[2];
-    short state462;
-};
+// Preserve the canonical callback's parameter type in its mangled ABI.
+// The actual shot record used by this callback is PlayerShotCtorView.
+struct PlayerShotUpdate4ShotView;
+typedef char PlayerShotUpdate4NativeShotOffsets[
+    (offsetof(PlayerShotCtorView, position2A4) == 0x2A4 &&
+     offsetof(PlayerShotCtorView, velocity43C) == 0x43C &&
+     offsetof(PlayerShotCtorView, timer454) == 0x454 &&
+     offsetof(PlayerShotCtorView, state462) == 0x462) ? 1 : -1];
 
 // The recorded C++ symbol for the rectangle-making helpers is kept for
 // genuine call identity; the callback's Player position/speed storage
@@ -47,20 +43,27 @@ int __fastcall PlayerShotUpdateCallbackType4(
 {
     PlayerLifecycleView *lifecycle =
         reinterpret_cast<PlayerLifecycleView *>(player);
-    PlayerShotUpdate4Vec3 *position = &shot->position2A4;
+    PlayerShotCtorView *nativeShot =
+        reinterpret_cast<PlayerShotCtorView *>(shot);
+    PlayerShotUpdate4Vec3 *position =
+        reinterpret_cast<PlayerShotUpdate4Vec3 *>(&nativeShot->position2A4);
     *position = *reinterpret_cast<const PlayerShotUpdate4Vec3 *>(
         &lifecycle->position1B88);
-    shot->position2A4.y += shot->velocityY440;
-    shot->velocityY440 -= 1.0f;
+    // Retain the target's FLD position.y / FADD velocity.y order on VC7.1.
+    // The temporary also keeps this 249-byte callback's exact x87 schedule
+    // while the shot storage belongs to the native PlayerShotCtorView.
+    float velocityY = nativeShot->velocity43C.y;
+    nativeShot->position2A4.y += velocityY;
+    nativeShot->velocity43C.y -= 1.0f;
 
-    ZunTimer *timer = &shot->timer454;
+    ZunTimer *timer = reinterpret_cast<ZunTimer *>(&nativeShot->timer454);
     if (*timer >= 15)
     {
         lifecycle->movementFields1CCC.speedMultiplier1CE0 = 1.0f;
         lifecycle->movementFields1CCC.speedMultiplier1CDC = 1.0f;
     }
 
-    if (shot->state462 == 1)
+    if (nativeShot->state462 == 1)
     {
         float width = (float)*timer + 80.0f;
         PlayerShotUpdate4RegionPointView center =
