@@ -149,19 +149,12 @@ static void StartTimedPolarDisplacement(
         0x400U;
 }
 
-struct BoundaryMovePlayerView
-{
-    unsigned char unknown0000[0x1B88];
-    EnemyFloat3 position1B88;
-};
-
 static void BeginBoundaryAwareMove(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
 {
     EnemyMovementView *view = View(enemy);
-    BoundaryMovePlayerView *player =
-        reinterpret_cast<BoundaryMovePlayerView *>(Player(enemy));
+    EnemyRewardPlayerView *player = Player(enemy);
     float angle;
     if (player->position1B88.x < view->position2D74.x)
         angle = Th09EclRunControl::AddNormalizeAngle(
@@ -228,18 +221,13 @@ static void MoveRandomBiased(
 
     if (Th09EclRunControl::g_Rng.GetRandomU32InRange(4) != 0)
     {
-        if (reinterpret_cast<Th09EclRunMovement::BoundaryMovePlayerView *>(
-                Th09EclRunMovement::Player(enemy))
+        if (Th09EclRunMovement::Player(enemy)
                 ->position1B88.x < view->position2D74.x)
         {
             if (view->position2D74.x -
-                    reinterpret_cast<
-                        Th09EclRunMovement::BoundaryMovePlayerView *>(
-                        Th09EclRunMovement::Player(enemy))
+                    Th09EclRunMovement::Player(enemy)
                         ->position1B88.x <
-                reinterpret_cast<
-                    Th09EclRunMovement::BoundaryMovePlayerView *>(
-                    Th09EclRunMovement::Player(enemy))
+                Th09EclRunMovement::Player(enemy)
                         ->position1B88.x +
                     384.0f - view->position2D74.x)
             {
@@ -258,15 +246,11 @@ static void MoveRandomBiased(
         }
         else
         {
-            if (reinterpret_cast<
-                    Th09EclRunMovement::BoundaryMovePlayerView *>(
-                    Th09EclRunMovement::Player(enemy))
+            if (Th09EclRunMovement::Player(enemy)
                         ->position1B88.x -
                     view->position2D74.x <
                 view->position2D74.x -
-                    (reinterpret_cast<
-                         Th09EclRunMovement::BoundaryMovePlayerView *>(
-                         Th09EclRunMovement::Player(enemy))
+                    (Th09EclRunMovement::Player(enemy)
                          ->position1B88.x -
                      384.0f))
             {

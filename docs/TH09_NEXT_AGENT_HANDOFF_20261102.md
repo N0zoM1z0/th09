@@ -1,5 +1,21 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 native Player boundary in 15,564-byte RunEcl boss
+
+Independently checked `RunEcl`'s random boundary movement and biased
+random movement code generation against the original Japanese v1.50a PE.
+Removed its duplicated `BoundaryMovePlayerView` projection containing an
+opaque 0x1B88-byte prefix and an EnemyFloat3 position. The movement
+helper now receives the real `EnemyRewardPlayerView` from
+`Th09EclRunMovement::Player(enemy)`, and five repeated side-Player casts
+in the biased movement implementation now use this same typed pointer.
+The complete 15,564-byte RunEcl owner retains its **30** original-byte
+residuals (opcode 4: 7, opcode 155: 23), zero changed relocation fields,
+and all **96** exact siblings. Enemy main remains 3,900/13 with **88**
+exact siblings. Local COFF label spellings were rebound only after the
+actual main-profile object resolved to unchanged original PE destinations.
+No new exact-owner credit or Windows runtime result is claimed.
+
 ## 2026-11-02 exact 1,758-byte Enemy draw boss uses native trail allocation
 
 The 1,758-byte `EnemyManagerDrawImpl` previously carried a second

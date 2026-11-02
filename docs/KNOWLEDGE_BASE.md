@@ -10,6 +10,21 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 RunEcl random movement uses real Enemy Player position
+
+The full 15,564-byte ECL interpreter previously contained a private
+`BoundaryMovePlayerView` prefix through Player +0x1B88 despite the exact
+Enemy/ECL operand owners independently proving the native
+`EnemyRewardPlayerView::position1B88`. Replaced that projection in the
+boundary-aware branch and five repeated biased-random branch casts with
+native `Th09EclRunMovement::Player(enemy)` reads. The first partial
+transformation was rejected because it left obsolete references; the
+complete source compiles and original-bounds all fields/control flow.
+RunEcl remains 15,564 physical bytes/30 ordinary mismatches with 96
+exact siblings. Enemy manager update remains 3,900/13 and 88 exact
+siblings. This is real large-boss type unification without new exact
+machine code credit or a claim of original nominal type identity.
+
 ### 2026-11-02 exact 1,758-byte Enemy draw boss native trail ownership
 
 Independent TH09 source-cold PE/COFF comparison proves that the real

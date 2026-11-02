@@ -32,6 +32,18 @@ class NativeEnemyEclPlayerStorage(unittest.TestCase):
         self.assertIn('EnemyCorePlayerHomingAt3037C', player)
         self.assertIn('Th09EclLateSharedPlayerWindow', late)
 
+    def test_run_ecl_random_movement_uses_shared_native_player_position(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        movement=(ROOT/'src/EclRunMovement.inl').read_text()
+        ecl=(ROOT/'src/EclManager.cpp').read_text()
+        self.assertIn('EnemyRewardPlayerPositionAt1B88',native)
+        self.assertIn('EnemyRewardPlayerView *Player(EnemyView *enemy)',movement)
+        self.assertIn('EnemyRewardPlayerView *player = Player(enemy);',ecl)
+        self.assertGreaterEqual(ecl.count('Th09EclRunMovement::Player(enemy)'),5)
+        self.assertNotIn('struct BoundaryMovePlayerView',ecl)
+        self.assertNotIn('Th09EclRunMovement::BoundaryMovePlayerView',ecl)
+        self.assertIn('player->position1B88.x',ecl)
+
     def test_side_state_has_one_native_etama_owner(self):
         state = (ROOT/'src/EclRunState.inl').read_text()
         late = (ROOT/'src/EclRunLate.inl').read_text()
