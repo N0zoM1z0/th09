@@ -33,22 +33,17 @@ enum EnemyLateFlag
     ENEMY_LATE_SECONDARY_FLAG_4000 = 0x00004000
 };
 
-struct BackgroundLateView
-{
-    unsigned char unknown000[0x818];
-    void *stageAnm818;
-    void *sideAnm81C;
-    unsigned char unknown820[0xCD8 - 0x820];
-    int spellVmCountCD8;
-    int spellVmScriptBaseCDC;
-    AnmVm spellVmsCE0[32];
-};
+// These ECL late-script operands refer to the same concrete Background
+// instance that runs the independently reconstructed stage script. Do not
+// create a second 0xCE0-sized background layout in this lexical switch.
 typedef char Th09EclLateBackgroundSideAnmAt81C[
-    (offsetof(BackgroundLateView, sideAnm81C) == 0x81C) ? 1 : -1];
+    (offsetof(Background, sideAnm) == 0x81C) ? 1 : -1];
 typedef char Th09EclLateBackgroundCountAtCD8[
-    (offsetof(BackgroundLateView, spellVmCountCD8) == 0xCD8) ? 1 : -1];
+    (offsetof(Background, spellVmCount) == 0xCD8) ? 1 : -1];
+typedef char Th09EclLateBackgroundScriptAtCDC[
+    (offsetof(Background, spellVmScriptBase) == 0xCDC) ? 1 : -1];
 typedef char Th09EclLateBackgroundVmsAtCE0[
-    (offsetof(BackgroundLateView, spellVmsCE0) == 0xCE0) ? 1 : -1];
+    (offsetof(Background, spellVms) == 0xCE0) ? 1 : -1];
 
 struct PlayerLateView
 {
@@ -73,7 +68,7 @@ typedef char Th09EclLateOwnerPrimaryAtA4[
 
 struct SideStateView
 {
-    BackgroundLateView *background00;
+    Background *background00;
     PlayerLateView *player04;
     EtamaController *bulletController08;
     EffectManager *effectManager0C;
@@ -282,19 +277,19 @@ static void MoveRandomBiased(
             for (lateIndex = 0;
                  lateIndex <
                      Th09EclRunLate::Manager(enemy)->sideState320->
-                         background00->spellVmCountCD8;
+                         background00->spellVmCount;
                  ++lateIndex)
             {
                 lateScript = lateIndex +
                     Th09EclRunLate::Manager(enemy)->opposingSideState324->
-                        background00->spellVmScriptBaseCDC +
+                        background00->spellVmScriptBase +
                     Th09EclRunLate::Manager(enemy)->opposingSideState324->
                         player04->tableValue303F4;
                 Th09EclRunMovement::SetAndExecuteAnmScript(
                     Th09EclRunLate::Manager(enemy)->opposingSideState324->
-                        background00->sideAnm81C,
+                        background00->sideAnm,
                     &Th09EclRunLate::Manager(enemy)->sideState320->
-                        background00->spellVmsCE0[lateIndex],
+                        background00->spellVms[lateIndex],
                     lateScript);
             }
         }

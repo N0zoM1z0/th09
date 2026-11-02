@@ -24,6 +24,7 @@
 #include "AsciiBossMarkerVmView.hpp"
 #include "SoundPlayer.hpp"
 #include "GameManagerEclStateView.hpp"
+#include "Background.hpp"
 #include "ZunMemory.hpp"
 
 #include "EclEnemyPrimaryFlags.hpp"
@@ -63,7 +64,7 @@ struct EnemyCorePlayerView;
 struct EnemyCoreView;
 struct EnemyCoreSideStateView
 {
-    unsigned char *background00;
+    Background *background00;
     EnemyCorePlayerView *player04;
     EtamaController *etama08;
     EffectManager *effectManager0C;
@@ -313,8 +314,7 @@ inline EnemyView **BossSlots(EnemyView *enemy)
 
 inline int &BackgroundScriptLabel(EnemyView *enemy)
 {
-    return *reinterpret_cast<int *>(
-        View(enemy)->manager0000->sideState320->background00 + 0x18);
+    return View(enemy)->manager0000->sideState320->background00->pendingStageLabel18;
 }
 
 inline unsigned char &RawByte(
