@@ -1,5 +1,19 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 original-exact 76-byte ECL opcode1 uses native Side flag bit
+
+The original 76-byte `EnemyEclExInstruction1` writes the low bit of both
+side-state +0x34 flags words and optionally plays sound 0x34. Removed
+both the private ECL-only 0x38-byte Side projection and private bitfield;
+one `EnemySideFlagBits34` overlays the native `EnemySideStateView` flags
+word, retaining all other 31 bits unnamed. Both writes now access
+`enemy->manager00->(opposing)sideState->flagBits34.bit0` directly.
+Full VC7.1 original PE byte/relocation replay remains **76/76 exact**.
+Because the shared header changed, independently replayed 96 ECL exact
+siblings and the 15,564-byte RunEcl (30 residuals), 88 Enemy main
+siblings and the 3,900-byte calc boss (13 residuals), plus scoped exact
+574/226/70/41-byte ExAttack callbacks. No new canonical exact credit.
+
 ## 2026-11-02 exact 574-byte ECL opcode2 uses native Side and context
 
 `EnemyEclExInstruction2` is one full original-bound 574-byte callback.

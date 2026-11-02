@@ -10,6 +10,20 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 original exact ECL opcode1, two native Side bit-0 writes
+
+The 76-byte original `EnemyEclExInstruction1` changes bit 0 of the
+`EnemySideStateView` +0x34 flags word for both sides. Its source
+previously defined two unrelated synthetic EnemyEclOpcode1 flag/Side
+views; now the shared native Side stores the same `flags34` DWORD and
+`EnemySideFlagBits34::bit0` union projection, retaining all unknown
+bits. Both instructions access the genuine native members and the
+complete **76/76 original PE bytes** replay exact. The 15,564-byte
+RunEcl and 3,900-byte Enemy update retain 30/13 ordinary differences,
+with all 96+88 same-source exact siblings and 574-byte opcode2 plus
+other selected ExAttack owner dependencies still exact. No global cold
+replay or Windows-runtime validation performed.
+
 ### 2026-11-02 ECL opcode2 574-byte bullet reset callback and native side
 
 The complete 574-byte TH09 `EnemyEclExInstruction2` resets the 536

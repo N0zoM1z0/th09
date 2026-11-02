@@ -118,6 +118,16 @@ struct EnemyCoreSideOwnerView;
 struct EnemyManagerView;
 struct EnemyView;
 
+// TH09 side +0x34 low bit is modified by the exact opcode-1 callback.
+// Preserve all other side protocol bits without assigning speculative names.
+struct EnemySideFlagBits34
+{
+    unsigned int bit0 : 1;
+    unsigned int unknown01_31 : 31;
+};
+typedef char EnemySideFlagBitsSizeIs04[
+    (sizeof(EnemySideFlagBits34) == sizeof(unsigned int)) ? 1 : -1];
+
 struct EnemySideStateView
 {
     Background *background00;
@@ -129,8 +139,11 @@ struct EnemySideStateView
     unsigned char unknown18[0x08];
     int characterIndex20;
     unsigned char unknown24[0x10];
-    unsigned int flags34;
+    union { unsigned int flags34; EnemySideFlagBits34 flagBits34; };
 };
+typedef char EnemySideNativeFlagBitAt34[
+    (offsetof(EnemySideStateView, flags34) == 0x34 &&
+     offsetof(EnemySideStateView, flagBits34) == 0x34) ? 1 : -1];
 typedef char EnemySideStateSizeIs38[
     (sizeof(EnemySideStateView) == 0x38) ? 1 : -1];
 typedef char EnemySideStateEtamaAt08[
