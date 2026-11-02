@@ -7,6 +7,70 @@ project is the original Japanese TH09 **v1.50a**, with ignored local
 This is a **local source checkpoint**, not a pushed branch, a Factory-accepted
 current-source receipt, a completed Windows executable, or a runtime proof.
 
+## 2026-11-02 newest exact-source Enemy/ECL integration (live verified)
+
+The following five `gpt-web:` source checkpoints succeeded in **the real TH09
+worktree** after a fresh Japanese v1.50a SHA-pinned target check. Read the
+actual current Git tree before applying this snapshot: private compiler label
+names, local branch ahead/behind state, and dirty state change between builds.
+
+- `9bc9f45b`: The exact ECL operand resolvers now share the real
+  `EnemyRewardPlayerView` for both Player position and the `initialStateA0`
+  two-word array populated by `PlayerAddedState`; removed their second
+  `EclOperandPlayerView` record.
+- `24967f6e`: All remote ECL opcode slots use the real
+  `EnemyManagerView::remoteSlots2AC388[index]`, instead of a raw byte offset,
+  cast, and duplicated remote-table constant. Repeated effectful resolver
+  calls and original call order are retained.
+- `15de80ee`: Added the genuinely observed per-Enemy +0x2CE4 context-stack
+  pointer and +0x2CE8/+0x2D08 integer/float banks to `EnemyView`; 48 operand
+  reads/writes now address the real native object.
+- `d2688ee1`: The remaining independently observed Enemy motion scalars,
+  vector components, +0x2E54 value and +0x2E6C boss timer value now have
+  native fields; 48 more exact-resolver reads/writes moved to them.
+- `b734c68f`: Removed the **entire duplicate** `EclOperandEnemyView` layout.
+  ECL's signed +0x335C item-drop interpretation and the original unsigned
+  reward token share a typed union; +0x336B boss slot, +0x3380 flags, +0x33AC
+  damage and +0x33B0 life thresholds share their original native EnemyView.
+  The two Float3 differences retain explicitly reviewed 12-byte geometry
+  reinterpretation without replacing the original TH09 vector call ABI.
+
+Independent source-cold PE/COFF evidence **after the final source change**:
+
+| Actual source original-bound unit | Complete physical bytes | Fields | Verdict |
+| --- | ---: | ---: | --- |
+| `ecl-resolve-int` | 1,980 | 165 | exact |
+| `ecl-resolve-int-lvalue` | 726 | 39 | exact |
+| `ecl-resolve-float-lvalue` | 968 | 49 | exact |
+| `ecl-resolve-float` | 2,044 | 121 | exact |
+
+All four are **previously exact functions**, not four new ledger matches.
+The 15,564-byte RunEcl remains 30 ordinary differences (7 at opcode 4,
+23 at opcode 155), 598 bound fields, no table drift, **96 exact dependency
+replays passed**. The 3,900-byte Enemy OnUpdate remains 13 differences,
+97 fields and 69 calls, **88 exact dependency replays passed**. Source-local
+compiler-generated label renamings in the four leaf units and EclManager
+carriers were admitted only after checking the actual COFF same-owner label
+position against **the unchanged original PE destination**. No field
+retargeting, relocation offsets/kinds, or masked code bytes were allowed.
+
+Focused checks: `python3 -B scripts/check-boss-frontiers.py --owner runecl`,
+`--owner enemy`, `python3 -B scripts/build-match-unit.py --unit ecl-resolve-int`,
+and `python3 -B scripts/compare-coff-function.py --unit ecl-resolve-int --json`
+(and the other three resolver units). Targeted native storage and related ECL
+tests: **32 passed** after the final edit; `validate-tracking.py
+--require-target` reports **1,005/1,035** authored exact. No all-owner cold
+replay, whole-image link, accepted factory receipt, runtime validation, or
+push was attempted in this checkpoint.
+
+**Rejected hypotheses, not adopted:** eleven bounded opcode-155 timeout flag
+source expressions either left the same 30-byte whole-RunEcl residual, or
+changed 2,290 physical bytes. The current maintained source was restored and
+rechecked; local ignored evidence resides under
+`.analysis/20261102-runEcl-opcode155-results.json`. The next difficulty is
+**new original-informed codegen evidence**, not repeating old compiler hints
+or assuming these historical negative trials settle every possible model.
+
 ## 2026-11-02 live continuation: four new local commits (read before dated notes)
 
 These results were checked against a newly verified original v1.50a PE and
