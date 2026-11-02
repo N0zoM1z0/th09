@@ -177,6 +177,19 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('return rawFile00->resolvedSubroutines[index];',leaves)
         self.assertNotIn('reinterpret_cast<unsigned char *>(rawFile00)',leaves)
 
+    def test_exact_ecl_subroutine_initializer_uses_native_instruction_pointer_table(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        loader=(ROOT/'src/EnemyEclLoad.cpp').read_text()
+        initialize=(ROOT/'src/EclInitializeSubroutine.cpp').read_text()
+        self.assertIn('Th09EclRawInstructionHeaderView **subroutineTable04;',native)
+        self.assertIn('EnemyEclManagerNativeInstructionTableAt04',native)
+        self.assertIn('&raw->subroutineOffsets[raw->subroutineCount]',loader)
+        self.assertIn('reinterpret_cast<Th09EclRawInstructionHeaderView **>',loader)
+        self.assertIn('subroutineTable04[subroutineId]',initialize)
+        self.assertNotIn('reinterpret_cast<Th09EclRawInstructionHeaderView **>',initialize)
+        self.assertIn('context->selectedManager000 = this;',initialize)
+        self.assertIn('context->time008 = 0;',initialize)
+
     def test_card_attack_exact_spawn_uses_native_flags_and_enemy_storage(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         flags=(ROOT/'src/EclEnemyPrimaryFlags.hpp').read_text()

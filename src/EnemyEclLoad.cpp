@@ -33,7 +33,8 @@ int EnemyEclManagerView::Load(char *path)
     }
 
     EnemyEclRawFileView *raw = this->rawFile00;
-    this->subroutineTable04 = &raw->subroutineOffsets[raw->subroutineCount];
+    this->subroutineTable04 = reinterpret_cast<Th09EclRawInstructionHeaderView **>(
+        &raw->subroutineOffsets[raw->subroutineCount]);
 
     for (int i = 0;
          i < this->rawFile00->secondaryTableCount;

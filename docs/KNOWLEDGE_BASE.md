@@ -10,6 +10,21 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 ECL typed subroutine table through exact initializer
+
+Original TH09's 73-byte `EnemyEclManagerView::InitializeSubroutine`
+reads a relocated ECL instruction pointer from manager +0x04 and installs
+it in `Th09EclContextView::currentInstruction004`. The previously opaque
+`void *subroutineTable04` is now a native
+`Th09EclRawInstructionHeaderView **`; the real 154-byte ECL loader casts
+only when publishing the loaded file's array into that typed member.
+The initializer's direct `subroutineTable04[subroutineId]` access reproduces
+**73/73** original PE bytes, and the loader + both subroutine query leaves
+keep **154/154**, **7/7**, **16/16** byte-exact. Verified 96+88 exact
+siblings of the RunEcl/Enemy main bosses and 5,718 ECL operand bytes
+remained exact. This confirms source typing/offsets, not a new canonical
+exactness grant or original nominal declaration.
+
 ### 2026-11-02 ECL raw file load and lookup share original 0x0C header
 
 Original TH09's ECL loader (154 byte exact unit) opens an ECL blob,

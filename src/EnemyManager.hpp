@@ -165,7 +165,7 @@ struct Th09EclContextView;
 struct EnemyEclManagerView
 {
     EnemyEclRawFileView *rawFile00;
-    void *subroutineTable04;
+    Th09EclRawInstructionHeaderView **subroutineTable04;
     EnemyEclTimelineStateView timelineState08;
 
     EnemyEclManagerView();
@@ -176,6 +176,9 @@ struct EnemyEclManagerView
     int InitializeSubroutine(Th09EclContextView *context, short subroutineId);
     void ReleaseRawFile();
 };
+typedef char EnemyEclManagerNativeInstructionTableAt04[
+    (offsetof(EnemyEclManagerView, subroutineTable04) == 0x04 &&
+     sizeof(((EnemyEclManagerView *)0)->subroutineTable04) == 4) ? 1 : -1];
 typedef char EnemyEclManagerViewSizeIs188[
     (sizeof(EnemyEclManagerView) == 0x188) ? 1 : -1];
 typedef char EnemyEclManagerNativeSharedAt168[

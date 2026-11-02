@@ -1,5 +1,21 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 exact ECL subroutine initializer uses typed ECL instruction table
+
+The real 73-byte `EnemyEclManagerView::InitializeSubroutine` previously
+cast its `subroutineTable04` opaque pointer back to `Th09EclRawInstructionHeaderView **`.
+The shared native ECL manager now declares that exact pointer-to-pointer type
+at +0x04. The 154-byte loader converts its original file-relative offset
+array at +0x08 into the typed secondary instruction table; initializer
+reads `subroutineTable04[subroutineId]` directly without another cast.
+Two C++ source forms (typed local pointer / direct member indexing) independently
+replayed the complete **73/73** bytes; loader **154/154**, GetSubroutineCount
+**7/7**, GetSubroutine **16/16**, all original bound. The full 15,564-byte
+RunEcl remains 30 ordinary differences with 96 exact siblings and the
+3,900-byte Enemy update remains 13 with 88 exact siblings. Four original-bound
+ECL operand functions remain **5,718/5,718** bytes exact. This changes
+source ownership, not the 1,005 exact-unit count.
+
 ## 2026-11-02 native ECL file header and exact load/lookup leaves
 
 The ECL file loader originally declared its private `EnemyEclRawFileView`
