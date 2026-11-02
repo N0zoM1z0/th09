@@ -23,7 +23,13 @@ class EnemyAttachedEffectRingStorage(unittest.TestCase):
             self.assertIn('offsetof(EffectRingRuntimeView, '+field+') == '+offset,enemy)
         self.assertNotIn('struct EnemyAttachedEffectUpdateView',enemy)
         self.assertIn('EffectRingRuntimeView *effect =',enemy)
-        self.assertIn('effect->origin48 = enemy->position2D74;',enemy)
+        self.assertIn('effect->origin48 =',enemy)
+        self.assertIn('reinterpret_cast<const Float3 &>(nativeEnemy->position2D74)',enemy)
+        self.assertIn('EnemyView *nativeEnemy = reinterpret_cast<EnemyView *>(enemy);',enemy)
+        self.assertIn('nativeEnemy->attachedEffectState53B4.effects00[i]',enemy)
+        self.assertIn('nativeEnemy->attachedEffectState53B4.count60',enemy)
+        self.assertIn('nativeEnemy->attachedEffectState53B4.distance64',enemy)
+        self.assertNotIn('enemy->attachedEffectState53B4.distance64',enemy)
         self.assertIn('effect->radius7C += 0.3f;',enemy)
         self.assertIn('AddNormalizeAngle(effect->angle80, 0.031415928f);',enemy)
 
@@ -34,8 +40,8 @@ class EnemyAttachedEffectRingStorage(unittest.TestCase):
         self.assertEqual((u['target_address'],u['size'],len(u['relocations'])),(0x0040F4C0,151,2))
         source=(ROOT/'src/EnemyManagerCore.inl').read_text()
         self.assertIn('static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy)',source)
-        self.assertIn('enemy->attachedEffectState53B4.effects00[i]',source)
-        self.assertIn('enemy->attachedEffectState53B4.distance64',source)
+        self.assertIn('nativeEnemy->attachedEffectState53B4.effects00[i]',source)
+        self.assertIn('nativeEnemy->attachedEffectState53B4.distance64',source)
         self.assertNotIn('EnemyAttachedEffectUpdateView *',source)
 
 

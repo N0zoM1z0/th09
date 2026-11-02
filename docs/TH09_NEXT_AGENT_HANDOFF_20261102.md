@@ -1,5 +1,21 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 native Enemy attached-effect ring helper in large update owner
+
+The actual exact `EnemyCoreUpdateAttachedEffects` helper (151 original
+bytes) and full physical Enemy `OnUpdate` (3,900 bytes) live in the
+same `EclManager.cpp` compiler carrier. Preserved the exact original
+helper's `EnemyCoreView *` call ABI and external symbol; inside the
+helper, the 24-slot effect array and distance/ring fields now access
+`EnemyView::attachedEffectState53B4` directly through a typed native
+pointer, and the float position goes through its observed `Float3`
+operator bridge. Seven tested natural source arrangements all reproduce
+**151/151** exact helper bytes while preserving the full boss's **13**
+ordinary differences, **97** bound fields and **69** original calls.
+Cold scoped PE/COFF replay of **88 exact Enemy siblings** and **96 exact
+RunEcl siblings** passes; RunEcl stays 15,564/30. The source uses real
+shared Enemy/Effect state, but no new exact-unit credit is awarded.
+
 ## 2026-11-02 full-size ECL context stack and Enemy death descriptor proof
 
 Two continued changes to the real shared `src/EclManager.cpp` compiler

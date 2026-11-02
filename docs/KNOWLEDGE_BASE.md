@@ -10,6 +10,21 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 exact 151-byte Enemy attached effect helper, native source
+
+The helper `EnemyCoreUpdateAttachedEffects` is a separately exact
+151-byte function embedded in the same VC7.1 carrier as the 3,900-byte
+Enemy manager update boss. Its nominal callable identity remains
+`EnemyCoreView *`, but the actual ring count, pointers and distance now
+come from the shared native `EnemyView::attachedEffectState53B4`, and
+its position is passed as the corresponding `Float3` ABI view. Seven
+source-cold alternatives reproduced **151/151** bytes exact, and the
+complete containing Enemy boss remains **3,900/13 ordinary differences**,
+with 97 real relocation fields and 69 calls in original order.
+The shared ECL 15,564-byte interpreter remains 30 ordinary differences.
+Original-bound replay passes 88 exact Enemy siblings and 96 exact
+RunEcl siblings. This is no new canonical exact function or runtime proof.
+
 ### 2026-11-02 native ECL stack and Enemy death descriptor in both large bosses
 
 `EclManager::RunEcl` shares its actual 15,564-byte original physical

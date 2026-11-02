@@ -250,18 +250,22 @@ extern long double __stdcall AnmProjectionAbs(float value);
 
 static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy)
 {
-    for (int i = 0; i < enemy->attachedEffectState53B4.count60; ++i)
+    // Preserve the original, independently exact helper symbol while
+    // accessing the same native Enemy effect slots used by ECL and cleanup.
+    EnemyView *nativeEnemy = reinterpret_cast<EnemyView *>(enemy);
+    for (int i = 0; i < nativeEnemy->attachedEffectState53B4.count60; ++i)
     {
         EffectRingRuntimeView *effect =
             reinterpret_cast<EffectRingRuntimeView *>(
-                enemy->attachedEffectState53B4.effects00[i]);
+                nativeEnemy->attachedEffectState53B4.effects00[i]);
         if (effect != 0)
         {
-            effect->origin48 = enemy->position2D74;
-            if (effect->radius7C < enemy->attachedEffectState53B4.distance64)
+            effect->origin48 =
+                reinterpret_cast<const Float3 &>(nativeEnemy->position2D74);
+            if (effect->radius7C < nativeEnemy->attachedEffectState53B4.distance64)
                 effect->radius7C += 0.3f;
             else
-                effect->radius7C = enemy->attachedEffectState53B4.distance64;
+                effect->radius7C = nativeEnemy->attachedEffectState53B4.distance64;
             effect->angle80 =
                 AddNormalizeAngle(effect->angle80, 0.031415928f);
         }
