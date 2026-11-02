@@ -518,10 +518,10 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     g_ReplaySideState0->value00 = (float)frame0->value08;
     g_ReplaySideState1->value00 = (float)frame1->value08;
     g_ReplaySideState0->value10 = frame0->value10;
-    replayManager->inputCursor1 = (u16 *)((u8 *)frame1 + 0x20);
+    replayManager->inputCursor1 = reinterpret_cast<u16 *>(frame1 + 1);
     replayManager->fpsCursor = fpsStart;
-    replayManager->inputCursor0 = (u16 *)((u8 *)frame0 + 0x20);
-    replayManager->inputCursor2 = (u16 *)((u8 *)frame2 + 0x20);
+    replayManager->inputCursor0 = reinterpret_cast<u16 *>(frame0 + 1);
+    replayManager->inputCursor2 = reinterpret_cast<u16 *>(frame2 + 1);
     memcpy(g_ReplayConfigSnapshot, &replayManager->replayData->configSnapshot, 0xCC);
     reinterpret_cast<ReplayRngView &>(g_ReplayRng).SetSeed(frame0->stageSeed);
     replayManager->inputDelay = 0;
