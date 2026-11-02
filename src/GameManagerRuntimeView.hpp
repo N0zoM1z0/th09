@@ -76,10 +76,19 @@ typedef char AsciiGameManagerNativeSetupSideOffsets[
 struct AsciiGameManagerView
 {
     AsciiGameManagerSideView sides[2];
-    unsigned char unknown070[0x44];
-    int valueB4;
-    unsigned char unknown0B8[0x30];
-    ReplayInputGateView *replayInputGateE8;
+    unsigned char unknown070[0x40];
+    unsigned int valueB0;
+    union { int valueB4; int limitB4; };
+    int valueB8;
+    unsigned char unknownBC[4];
+    unsigned int valueC0;
+    unsigned int valueC4;
+    int valueC8;
+    int valueCC;
+    int valueD0;
+    void *stageObjectD4;
+    unsigned char clearD8[0x10];
+    union { ReplayInputGateView *replayInputGateE8; void *heapE8; };
     float speedEC;
     unsigned char unknown0F0[0x0C];
     int field0FC;
@@ -132,6 +141,18 @@ typedef char AsciiGameManagerField0FC[
     (offsetof(AsciiGameManagerView, field0FC) == 0x0FC) ? 1 : -1];
 typedef char AsciiGameManagerValueAtB4[
     (offsetof(AsciiGameManagerView, valueB4) == 0xB4) ? 1 : -1];
+typedef char AsciiGameManagerSetupCountersAtB0[
+    (offsetof(AsciiGameManagerView, valueB0) == 0xB0 &&
+     offsetof(AsciiGameManagerView, limitB4) == 0xB4 &&
+     offsetof(AsciiGameManagerView, valueB8) == 0xB8 &&
+     offsetof(AsciiGameManagerView, valueC0) == 0xC0 &&
+     offsetof(AsciiGameManagerView, valueC4) == 0xC4 &&
+     offsetof(AsciiGameManagerView, valueC8) == 0xC8 &&
+     offsetof(AsciiGameManagerView, valueCC) == 0xCC &&
+     offsetof(AsciiGameManagerView, valueD0) == 0xD0 &&
+     offsetof(AsciiGameManagerView, stageObjectD4) == 0xD4 &&
+     offsetof(AsciiGameManagerView, clearD8) == 0xD8 &&
+     offsetof(AsciiGameManagerView, heapE8) == 0xE8) ? 1 : -1];
 typedef char AsciiGameManagerSpeedAtEC[
     (offsetof(AsciiGameManagerView, speedEC) == 0xEC) ? 1 : -1];
 typedef char AsciiGameManagerGameModeAt118[

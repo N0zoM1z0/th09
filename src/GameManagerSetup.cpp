@@ -265,19 +265,19 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 
     if (!reinterpret_cast<GameSubsystemSetupView *>(globalManager.gameSubsystem)->IsActive())
     {
-        globalManager.valueD0++;
+        g_GameManager.valueD0++;
 
-        if (++globalManager.valueB0 % globalManager.valueC4 ==
-            globalManager.valueC4 - 1 &&
-            ++globalManager.limitB4 > globalManager.valueC8)
+        if (++g_GameManager.valueB0 % g_GameManager.valueC4 ==
+            g_GameManager.valueC4 - 1 &&
+            ++g_GameManager.limitB4 > g_GameManager.valueC8)
         {
-            globalManager.limitB4 = globalManager.valueC8;
+            g_GameManager.limitB4 = g_GameManager.valueC8;
         }
 
-        globalManager.valueC0++;
+        g_GameManager.valueC0++;
         // These difficulty counters belong to each side's subsystem1 object;
         // the separate state buffer is allocated as 0xA0 bytes.
-        if (globalManager.valueB0 % 3600u == 3599u)
+        if (g_GameManager.valueB0 % 3600u == 3599u)
         {
             if (static_cast<PlayerLifecycleView *>(globalManager.sides[0].subsystem1)->header24.state7C < 16)
                 static_cast<PlayerLifecycleView *>(globalManager.sides[0].subsystem1)->header24.state7C++;
@@ -289,10 +289,10 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
                 static_cast<PlayerLifecycleView *>(globalManager.sides[1].subsystem1)->header24.state80++;
         }
 
-        if (globalManager.valueB8 < 6 &&
-            globalManager.valueC0 % 720u == 719u)
+        if (g_GameManager.valueB8 < 6 &&
+            g_GameManager.valueC0 % 720u == 719u)
         {
-            globalManager.valueB8++;
+            g_GameManager.valueB8++;
         }
 
         if ((globalManager.flags & 0x1800u) == 0 &&
@@ -306,10 +306,10 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
                 increase = 4;
             else
                 increase = elapsed < 5400u ? 6 : 7;
-            globalManager.valueCC += increase;
+            g_GameManager.valueCC += increase;
         }
 
-        if (globalManager.valueCC > 10000)
+        if (g_GameManager.valueCC > 10000)
         {
             // Sample an unsigned four-lane value before the later int adjustment.
             unsigned short laneSample =
@@ -322,7 +322,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
                     lane = 0;
             }
 
-            globalManager.valueCC -= 10000;
+            g_GameManager.valueCC -= 10000;
             CardAttackSpawnPosition position;
             position.x = 0.0f;
             position.z = 0.0f;
