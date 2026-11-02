@@ -38,51 +38,13 @@ typedef char EnemyEclPlayerCallbackAt30408[
         ? 1
         : -1];
 
-struct EnemyPostEclRuntimeView
-{
-    EnemyManagerView *manager0000;
-    unsigned char unknown0004[0x0008 - 0x0004];
-    AnmVm primaryAnmVm0008;
-    unsigned char unknown02AC[0x2D74 - 0x02AC];
-    Float3 position2D74;
-    Float3 positionOffset2D80;
-    Float3 velocity2D8C;
-    unsigned char unknown2D98[0x2DE0 - 0x2D98];
-    float movementAngle2DE0;
-    float angularVelocity2DE4;
-    float orbitAngle2DE8;
-    float orbitAngularVelocity2DEC;
-    unsigned char unknown2DF0[0x2DF4 - 0x2DF0];
-    float speed2DF4;
-    float acceleration2DF8;
-    float orbitRadius2DFC;
-    float radialVelocity2E00;
-    unsigned char unknown2E04[0x2E10 - 0x2E04];
-    Float3 movementDelta2E10;
-    Float3 movementOrigin2E1C;
-    ZunTimer movementTimer2E28;
-    int movementDuration2E34;
-    unsigned char unknown2E38[0x2E48 - 0x2E38];
-    int life2E48;
-    unsigned char unknown2E4C[0x3088 - 0x2E4C];
-    unsigned char pendingShotInstruction3088[0x2C];
-    int shootIntervalFrames30B4;
-    ZunTimer shootIntervalTimer30B8;
-    unsigned char unknown30C4[0x337C - 0x30C4];
-    unsigned int primaryFlags337C;
-    unsigned int secondaryFlags3380;
-    unsigned char unknown3384[0x3386 - 0x3384];
-    unsigned char anmDirection3386;
-    unsigned char unknown3387[0x338A - 0x3387];
-    short idleInitialAnm338A;
-    short idleFromLeftAnm338C;
-    short idleFromRightAnm338E;
-    short moveLeftAnm3390;
-    short moveRightAnm3392;
-};
+// Exact Enemy OnUpdate and the two post-ECL callbacks walk the same
+// 0x5430-byte Enemy allocation. Reuse the existing fully typed Float3 and
+// Timer core view instead of a second private post-ECL byte projection.
+typedef EnemyCoreView EnemyPostEclRuntimeView;
 
 typedef char EnemyPostEclPrimaryVmAt0008[
-    (offsetof(EnemyPostEclRuntimeView, primaryAnmVm0008) == 0x0008)
+    (offsetof(EnemyPostEclRuntimeView, primaryVm008) == 0x0008)
         ? 1
         : -1];
 typedef char EnemyPostEclPositionAt2D74[

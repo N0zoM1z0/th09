@@ -37,6 +37,19 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('EnemyEclNativeLaserSlotsAt32D8', state)
         self.assertIn('enemy->laserSlots32D8[laserIndex]', bullet)
 
+    def test_post_ecl_movement_shares_enemy_update_core_record(self):
+        core=(ROOT/'src/EclRunState.inl').read_text()
+        post=(ROOT/'src/EclPostRuntime.inl').read_text()
+        self.assertIn('typedef EnemyCoreView EnemyPostEclRuntimeView;',post)
+        self.assertNotIn('struct EnemyPostEclRuntimeView\n{',post)
+        for field in ('movementTimer2E28','movementDuration2E34',
+                      'pendingShotInstruction3088','shootIntervalTimer30B8',
+                      'movementDelta2E10','radialVelocity2E00',
+                      'anmDirection3386','moveLeftAnm3390'):
+            self.assertIn(field,core)
+            self.assertIn(field,post)
+        self.assertIn('sizeof(EnemyStateView) == 0x5430',core)
+
     def test_post_ecl_anm_vm_and_script_slots_are_native_enemy_fields(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         post=(ROOT/'src/EclPostRuntime.inl').read_text()
