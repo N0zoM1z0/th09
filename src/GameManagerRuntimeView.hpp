@@ -8,6 +8,7 @@ struct EffectManager;
 class EtamaController;
 struct PlayerLifecycleView;
 struct ReplayInputGateView;
+struct SetupStateBuffer;
 
 struct AsciiPlayerPopupPositionView
 {
@@ -27,26 +28,42 @@ struct AsciiGameSideRuntimeView
 
 struct AsciiGameManagerSideView
 {
-    unsigned char unknown00[4];
-    // Existing caller sees the player as the known popup-position prefix;
-    // ECL/ExAttack reads the same +0x04 pointer as the full player runtime.
+    union { unsigned char unknown00[4]; void *subsystem0; };
+    // The same original +0x04..+0x1C gameplay side controllers are consumed
+    // by GameManager setup, ECL/Enemy and the replay/ASCII owners.
     union {
         AsciiPlayerPopupPositionView *player;
         PlayerLifecycleView *player04;
+        void *subsystem1;
     };
-    EtamaController *etama08;
-    EffectManager *effectManager0C;
-    unsigned char unknown10[0x0C];
-    AsciiGameSideRuntimeView *runtime;
-    int character20;
-    unsigned char unknown24[4];
-    int replaySelector28;
+    union { EtamaController *etama08; void *subsystem2; };
+    union { EffectManager *effectManager0C; void *subsystem3; };
+    void *subsystem4;
+    void *subsystem5;
+    void *subsystem6;
+    union { AsciiGameSideRuntimeView *runtime; SetupStateBuffer *state; };
+    union { int character20; int value20; };
+    union { unsigned char unknown24[4]; int value24; };
+    union { int replaySelector28; int selector; };
     unsigned char unknown2C[8];
     unsigned int flags;
 };
 
 typedef char AsciiGameManagerSideViewSizeIs38[
     (sizeof(AsciiGameManagerSideView) == 0x38) ? 1 : -1];
+typedef char AsciiGameManagerNativeSetupSideOffsets[
+    (offsetof(AsciiGameManagerSideView, subsystem0) == 0x00 &&
+     offsetof(AsciiGameManagerSideView, subsystem1) == 0x04 &&
+     offsetof(AsciiGameManagerSideView, subsystem2) == 0x08 &&
+     offsetof(AsciiGameManagerSideView, subsystem3) == 0x0C &&
+     offsetof(AsciiGameManagerSideView, subsystem4) == 0x10 &&
+     offsetof(AsciiGameManagerSideView, subsystem5) == 0x14 &&
+     offsetof(AsciiGameManagerSideView, subsystem6) == 0x18 &&
+     offsetof(AsciiGameManagerSideView, state) == 0x1C &&
+     offsetof(AsciiGameManagerSideView, value20) == 0x20 &&
+     offsetof(AsciiGameManagerSideView, value24) == 0x24 &&
+     offsetof(AsciiGameManagerSideView, selector) == 0x28 &&
+     offsetof(AsciiGameManagerSideView, flags) == 0x34) ? 1 : -1];
 
 struct AsciiGameManagerView
 {

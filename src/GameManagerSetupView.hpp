@@ -1,26 +1,13 @@
 #pragma once
+#include "GameManagerRuntimeView.hpp"
 
 // Shared declaration of the maintained setup owner. Fields remain partial
 // target-backed views; original nominal C++ ownership is still provisional.
 struct SetupStateBuffer;
 
-struct SetupSideState
-{
-    void *subsystem0;
-    void *subsystem1;
-    void *subsystem2;
-    void *subsystem3;
-    void *subsystem4;
-    void *subsystem5;
-    void *subsystem6;
-    SetupStateBuffer *state;
-    int value20;
-    int value24;
-    int selector;
-    unsigned char unknown_2C[8];
-    unsigned int flags;
-};
-
+// The 0x38-byte GameManager side record has one physical original identity.
+// Keep the existing setup-facing alias without redefining a second structure.
+typedef AsciiGameManagerSideView SetupSideState;
 typedef char SetupSideStateSizeCheck[(sizeof(SetupSideState) == 0x38) ? 1 : -1];
 
 struct GameManagerSetupLayout
