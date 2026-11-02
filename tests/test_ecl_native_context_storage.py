@@ -51,7 +51,16 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('int lastDamage33AC;',native)
         self.assertIn('int lifeCallbackThresholds33B0[4];',native)
         self.assertIn('reinterpret_cast<const EclOperandFloat3View &>',resolver)
-        self.assertIn('TH09_ECL_OPERAND_ENEMY(enemy)->secondaryFlags3380',resolver)
+        self.assertIn('enemy->secondaryFlags3380',resolver)
+
+    def test_exact_resolvers_use_native_enemy_and_player_receivers(self):
+        resolver=(ROOT/'src/EclOperands.cpp').read_text()
+        self.assertNotIn('TH09_ECL_OPERAND_ENEMY(',resolver)
+        self.assertNotIn('reinterpret_cast<EclOperandEnemyView *>',resolver)
+        self.assertIn('enemy->secondaryFlags3380',resolver)
+        self.assertIn('this->lifeCallbackThresholds33B0[0]',resolver)
+        self.assertIn('((owner)->activeContext2CE0)',resolver)
+        self.assertIn('((owner)->manager00->sideState320->player04)',resolver)
 
     def test_movement_and_boss_timer_operands_use_native_enemy_fields(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()

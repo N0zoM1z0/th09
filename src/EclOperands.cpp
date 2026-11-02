@@ -82,16 +82,14 @@ typedef char EclOperandEnemyLastDamageAt33AC[
 typedef char EclOperandEnemyLifeThresholdsAt33B0[
     (offsetof(EclOperandEnemyView, lifeCallbackThresholds33B0) == 0x33B0) ? 1 : -1];
 
-#define TH09_ECL_OPERAND_ENEMY(owner) \
-    reinterpret_cast<EclOperandEnemyView *>(owner)
+// The owner and both side Players are already the native C++ source types.
+// Keep only the short lexical aliases for the actual context/side records.
 #define TH09_ECL_OPERAND_CONTEXT(owner) \
-    (TH09_ECL_OPERAND_ENEMY(owner)->activeContext2CE0)
+    ((owner)->activeContext2CE0)
 #define TH09_ECL_OPERAND_PLAYER(owner) \
-    reinterpret_cast<EclOperandPlayerView *>( \
-        TH09_ECL_OPERAND_ENEMY(owner)->manager00->sideState320->player04)
+    ((owner)->manager00->sideState320->player04)
 #define TH09_ECL_OPERAND_OPPOSING_PLAYER(owner) \
-    reinterpret_cast<EclOperandPlayerView *>( \
-        TH09_ECL_OPERAND_ENEMY(owner)->manager00->opposingSideState324->player04)
+    ((owner)->manager00->opposingSideState324->player04)
 #define TH09_ECL_OPERAND_GAME_MANAGER_B4 \
     (*reinterpret_cast<int *>( \
         reinterpret_cast<unsigned char *>(&g_GameManager) + 0x00B4))
@@ -141,8 +139,8 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x2738: return g_GameManager.difficulty;
     case 0x2739: return TH09_ECL_OPERAND_GAME_MANAGER_B4;
     case 0x2741: return enemy->bossTimerCurrent2E6C;
-    case 0x2743: return TH09_ECL_OPERAND_ENEMY(enemy)->life2E48;
-    case 0x2744: return TH09_ECL_OPERAND_ENEMY(enemy)->manager00->sideState320->characterIndex20;
+    case 0x2743: return enemy->life2E48;
+    case 0x2744: return enemy->manager00->sideState320->characterIndex20;
 
     case 0x276E: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables6C[0]);
     case 0x276F: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables6C[1]);
@@ -170,18 +168,18 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x274B: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[2]);
     case 0x274C: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[3]);
 
-    case 0x274D: return TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedInts160[0];
-    case 0x274E: return TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedInts160[1];
-    case 0x274F: return TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedInts160[2];
-    case 0x2750: return TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedInts160[3];
-    case 0x2751: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedFloats170[0]);
-    case 0x2752: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedFloats170[1]);
-    case 0x2753: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedFloats170[2]);
-    case 0x2754: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedFloats170[3]);
+    case 0x274D: return enemy->manager00->primaryEclManager000.timelineState08.sharedInts160[0];
+    case 0x274E: return enemy->manager00->primaryEclManager000.timelineState08.sharedInts160[1];
+    case 0x274F: return enemy->manager00->primaryEclManager000.timelineState08.sharedInts160[2];
+    case 0x2750: return enemy->manager00->primaryEclManager000.timelineState08.sharedInts160[3];
+    case 0x2751: return static_cast<int>(enemy->manager00->primaryEclManager000.timelineState08.sharedFloats170[0]);
+    case 0x2752: return static_cast<int>(enemy->manager00->primaryEclManager000.timelineState08.sharedFloats170[1]);
+    case 0x2753: return static_cast<int>(enemy->manager00->primaryEclManager000.timelineState08.sharedFloats170[2]);
+    case 0x2754: return static_cast<int>(enemy->manager00->primaryEclManager000.timelineState08.sharedFloats170[3]);
 
-    case 0x273A: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->worldPosition2DD4.x);
-    case 0x273B: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->worldPosition2DD4.y);
-    case 0x273C: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->worldPosition2DD4.z);
+    case 0x273A: return static_cast<int>(enemy->worldPosition2DD4.x);
+    case 0x273B: return static_cast<int>(enemy->worldPosition2DD4.y);
+    case 0x273C: return static_cast<int>(enemy->worldPosition2DD4.z);
     case 0x273D: return static_cast<int>(TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.x);
     case 0x273E: return static_cast<int>(TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.y);
     case 0x273F: return static_cast<int>(TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.z);
@@ -194,10 +192,10 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x2766: return static_cast<int>(enemy->floatVariables2DB0[1]);
     case 0x2767: return static_cast<int>(enemy->floatVariables2DB0[2]);
 
-    case 0x2768: return TH09_ECL_OPERAND_ENEMY(enemy)->lifeCallbackThresholds33B0[0];
-    case 0x2769: return TH09_ECL_OPERAND_ENEMY(enemy)->lifeCallbackThresholds33B0[1];
-    case 0x276A: return TH09_ECL_OPERAND_ENEMY(enemy)->lifeCallbackThresholds33B0[2];
-    case 0x276B: return TH09_ECL_OPERAND_ENEMY(enemy)->lifeCallbackThresholds33B0[3];
+    case 0x2768: return enemy->lifeCallbackThresholds33B0[0];
+    case 0x2769: return enemy->lifeCallbackThresholds33B0[1];
+    case 0x276A: return enemy->lifeCallbackThresholds33B0[2];
+    case 0x276B: return enemy->lifeCallbackThresholds33B0[3];
 
     case 0x2755: return static_cast<int>(enemy->movementAngle2DE0);
     case 0x2756: return static_cast<int>(enemy->angularVelocity2DE4);
@@ -207,23 +205,23 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x275D: return static_cast<int>(enemy->orbitAngle2DE8);
     case 0x275E: return static_cast<int>(enemy->orbitAngularVelocity2DEC);
 
-    case 0x2763: return TH09_ECL_OPERAND_ENEMY(enemy)->lastDamage33AC;
-    case 0x2764: return TH09_ECL_OPERAND_ENEMY(enemy)->bossSlot336B;
-    case 0x276C: return TH09_ECL_OPERAND_ENEMY(enemy)->itemDropType335C;
+    case 0x2763: return enemy->lastDamage33AC;
+    case 0x2764: return enemy->bossSlot336B;
+    case 0x276C: return enemy->itemDropType335C;
     case 0x276D: return enemy->operandValue2E54;
 
     case 0x2775:
-        return (TH09_ECL_OPERAND_ENEMY(enemy)->secondaryFlags3380 & 0x0C00) < 0x0C00
+        return (enemy->secondaryFlags3380 & 0x0C00) < 0x0C00
                    ? TH09_ECL_OPERAND_OPPOSING_PLAYER(enemy)->initialStateA0[0]
                    : TH09_ECL_OPERAND_OPPOSING_PLAYER(enemy)->initialStateA0[1];
 
     case 0x2740:
         return static_cast<int>(reinterpret_cast<PlayerAngleView *>(TH09_ECL_OPERAND_PLAYER(enemy))->AngleToPoint(
-            reinterpret_cast<PlayerAngleFloat3View *>(&TH09_ECL_OPERAND_ENEMY(enemy)->worldPosition2DD4)));
+            reinterpret_cast<PlayerAngleFloat3View *>(&enemy->worldPosition2DD4)));
 
     case 0x2742:
     {
-        EclOperandFloat3View delta = TH09_ECL_OPERAND_PLAYER(enemy)->position1B88 - reinterpret_cast<const EclOperandFloat3View &>(TH09_ECL_OPERAND_ENEMY(enemy)->worldPosition2DD4);
+        EclOperandFloat3View delta = TH09_ECL_OPERAND_PLAYER(enemy)->position1B88 - reinterpret_cast<const EclOperandFloat3View &>(enemy->worldPosition2DD4);
         return static_cast<int>(D3DXVec3Length(reinterpret_cast<const D3DXVECTOR3 *>(&delta)));
     }
 
@@ -273,14 +271,14 @@ int *__fastcall ResolveIntLValue(
     case 0x2738: return &g_GameManager.difficulty;
     case 0x2739: return &TH09_ECL_OPERAND_GAME_MANAGER_B4;
     case 0x2741: return &enemy->bossTimerCurrent2E6C;
-    case 0x2743: return &TH09_ECL_OPERAND_ENEMY(enemy)->life2E48;
-    case 0x276C: return &TH09_ECL_OPERAND_ENEMY(enemy)->itemDropType335C;
+    case 0x2743: return &enemy->life2E48;
+    case 0x276C: return &enemy->itemDropType335C;
     case 0x276D: return &enemy->operandValue2E54;
 
-    case 0x274D: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedInts160[0];
-    case 0x274E: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedInts160[1];
-    case 0x274F: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedInts160[2];
-    case 0x2750: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedInts160[3];
+    case 0x274D: return &enemy->manager00->primaryEclManager000.timelineState08.sharedInts160[0];
+    case 0x274E: return &enemy->manager00->primaryEclManager000.timelineState08.sharedInts160[1];
+    case 0x274F: return &enemy->manager00->primaryEclManager000.timelineState08.sharedInts160[2];
+    case 0x2750: return &enemy->manager00->primaryEclManager000.timelineState08.sharedInts160[3];
 
     default: return rawValue;
     }
@@ -320,9 +318,9 @@ float *__fastcall ResolveFloatLValue(
     case 0x274B: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[2];
     case 0x274C: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[3];
 
-    case 0x273A: return &TH09_ECL_OPERAND_ENEMY(enemy)->position2D74.x;
-    case 0x273B: return &TH09_ECL_OPERAND_ENEMY(enemy)->position2D74.y;
-    case 0x273C: return &TH09_ECL_OPERAND_ENEMY(enemy)->position2D74.z;
+    case 0x273A: return &enemy->position2D74.x;
+    case 0x273B: return &enemy->position2D74.y;
+    case 0x273C: return &enemy->position2D74.z;
     case 0x273D: return &TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.x;
     case 0x273E: return &TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.y;
     case 0x273F: return &TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.z;
@@ -330,10 +328,10 @@ float *__fastcall ResolveFloatLValue(
     case 0x276E: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables6C[0];
     case 0x276F: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables6C[1];
 
-    case 0x2751: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedFloats170[0];
-    case 0x2752: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedFloats170[1];
-    case 0x2753: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedFloats170[2];
-    case 0x2754: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager00->primaryEclManager000.timelineState08.sharedFloats170[3];
+    case 0x2751: return &enemy->manager00->primaryEclManager000.timelineState08.sharedFloats170[0];
+    case 0x2752: return &enemy->manager00->primaryEclManager000.timelineState08.sharedFloats170[1];
+    case 0x2753: return &enemy->manager00->primaryEclManager000.timelineState08.sharedFloats170[2];
+    case 0x2754: return &enemy->manager00->primaryEclManager000.timelineState08.sharedFloats170[3];
 
     case 0x275A: return &enemy->movementOrigin2E1C.x;
     case 0x275B: return &enemy->movementOrigin2E1C.y;
@@ -399,19 +397,19 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x2738: return static_cast<float>(g_GameManager.difficulty);
     case 0x2739: return static_cast<float>(TH09_ECL_OPERAND_GAME_MANAGER_B4);
     case 0x2741: return static_cast<float>(this->bossTimerCurrent2E6C);
-    case 0x2743: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->life2E48);
-    case 0x2744: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager00->sideState320->characterIndex20);
-    case 0x276C: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->itemDropType335C);
+    case 0x2743: return static_cast<float>(this->life2E48);
+    case 0x2744: return static_cast<float>(this->manager00->sideState320->characterIndex20);
+    case 0x276C: return static_cast<float>(this->itemDropType335C);
     case 0x276D: return static_cast<float>(this->operandValue2E54);
 
-    case 0x274D: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager00->primaryEclManager000.timelineState08.sharedInts160[0]);
-    case 0x274E: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager00->primaryEclManager000.timelineState08.sharedInts160[1]);
-    case 0x274F: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager00->primaryEclManager000.timelineState08.sharedInts160[2]);
-    case 0x2750: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager00->primaryEclManager000.timelineState08.sharedInts160[3]);
-    case 0x2751: return TH09_ECL_OPERAND_ENEMY(this)->manager00->primaryEclManager000.timelineState08.sharedFloats170[0];
-    case 0x2752: return TH09_ECL_OPERAND_ENEMY(this)->manager00->primaryEclManager000.timelineState08.sharedFloats170[1];
-    case 0x2753: return TH09_ECL_OPERAND_ENEMY(this)->manager00->primaryEclManager000.timelineState08.sharedFloats170[2];
-    case 0x2754: return TH09_ECL_OPERAND_ENEMY(this)->manager00->primaryEclManager000.timelineState08.sharedFloats170[3];
+    case 0x274D: return static_cast<float>(this->manager00->primaryEclManager000.timelineState08.sharedInts160[0]);
+    case 0x274E: return static_cast<float>(this->manager00->primaryEclManager000.timelineState08.sharedInts160[1]);
+    case 0x274F: return static_cast<float>(this->manager00->primaryEclManager000.timelineState08.sharedInts160[2]);
+    case 0x2750: return static_cast<float>(this->manager00->primaryEclManager000.timelineState08.sharedInts160[3]);
+    case 0x2751: return this->manager00->primaryEclManager000.timelineState08.sharedFloats170[0];
+    case 0x2752: return this->manager00->primaryEclManager000.timelineState08.sharedFloats170[1];
+    case 0x2753: return this->manager00->primaryEclManager000.timelineState08.sharedFloats170[2];
+    case 0x2754: return this->manager00->primaryEclManager000.timelineState08.sharedFloats170[3];
 
     case 0x2720: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[0];
     case 0x2721: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[1];
@@ -436,9 +434,9 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x274B: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables84[2];
     case 0x274C: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables84[3];
 
-    case 0x273A: return TH09_ECL_OPERAND_ENEMY(this)->worldPosition2DD4.x;
-    case 0x273B: return TH09_ECL_OPERAND_ENEMY(this)->worldPosition2DD4.y;
-    case 0x273C: return TH09_ECL_OPERAND_ENEMY(this)->worldPosition2DD4.z;
+    case 0x273A: return this->worldPosition2DD4.x;
+    case 0x273B: return this->worldPosition2DD4.y;
+    case 0x273C: return this->worldPosition2DD4.z;
     case 0x273D: return TH09_ECL_OPERAND_PLAYER(this)->position1B88.x;
     case 0x273E: return TH09_ECL_OPERAND_PLAYER(this)->position1B88.y;
     case 0x273F: return TH09_ECL_OPERAND_PLAYER(this)->position1B88.z;
@@ -458,14 +456,14 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x2766: return this->floatVariables2DB0[1];
     case 0x2767: return this->floatVariables2DB0[2];
 
-    case 0x2768: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->lifeCallbackThresholds33B0[0]);
-    case 0x2769: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->lifeCallbackThresholds33B0[1]);
-    case 0x276A: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->lifeCallbackThresholds33B0[2]);
-    case 0x276B: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->lifeCallbackThresholds33B0[3]);
+    case 0x2768: return static_cast<float>(this->lifeCallbackThresholds33B0[0]);
+    case 0x2769: return static_cast<float>(this->lifeCallbackThresholds33B0[1]);
+    case 0x276A: return static_cast<float>(this->lifeCallbackThresholds33B0[2]);
+    case 0x276B: return static_cast<float>(this->lifeCallbackThresholds33B0[3]);
 
     case 0x2740:
         return reinterpret_cast<PlayerAngleView *>(TH09_ECL_OPERAND_PLAYER(this))->AngleToPoint(
-            reinterpret_cast<PlayerAngleFloat3View *>(&TH09_ECL_OPERAND_ENEMY(this)->worldPosition2DD4));
+            reinterpret_cast<PlayerAngleFloat3View *>(&this->worldPosition2DD4));
 
     case 0x2755: return this->movementAngle2DE0;
     case 0x2756: return this->angularVelocity2DE4;
@@ -478,7 +476,7 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x2775:
     {
         unsigned int secondaryFlags =
-            TH09_ECL_OPERAND_ENEMY(this)->secondaryFlags3380;
+            this->secondaryFlags3380;
         if ((secondaryFlags & 0x0C00) < 0x0C00)
         {
             return static_cast<float>(
@@ -488,12 +486,12 @@ float EnemyView::ResolveFloat(float rawValue)
             TH09_ECL_OPERAND_OPPOSING_PLAYER(this)->initialStateA0[1]);
     }
 
-    case 0x2764: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->bossSlot336B);
-    case 0x2763: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->lastDamage33AC);
+    case 0x2764: return static_cast<float>(this->bossSlot336B);
+    case 0x2763: return static_cast<float>(this->lastDamage33AC);
 
     case 0x2742:
     {
-        EclOperandFloat3View delta = TH09_ECL_OPERAND_PLAYER(this)->position1B88 - reinterpret_cast<const EclOperandFloat3View &>(TH09_ECL_OPERAND_ENEMY(this)->worldPosition2DD4);
+        EclOperandFloat3View delta = TH09_ECL_OPERAND_PLAYER(this)->position1B88 - reinterpret_cast<const EclOperandFloat3View &>(this->worldPosition2DD4);
         return D3DXVec3Length(reinterpret_cast<const D3DXVECTOR3 *>(&delta));
     }
 
@@ -505,4 +503,3 @@ float EnemyView::ResolveFloat(float rawValue)
 #undef TH09_ECL_OPERAND_OPPOSING_PLAYER
 #undef TH09_ECL_OPERAND_PLAYER
 #undef TH09_ECL_OPERAND_CONTEXT
-#undef TH09_ECL_OPERAND_ENEMY
