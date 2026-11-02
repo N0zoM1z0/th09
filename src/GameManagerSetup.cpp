@@ -178,7 +178,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
     SupervisorSetupLayout *supervisor =
         reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
 
-    globalManager.playtimeFrames++;
+    g_GameManager.playtimeFrames12C++;
 
     if (g_GameManager.gameMode != 2 ||
         g_GameManager.sides[0].replaySelector28 != 0 ||
@@ -206,9 +206,9 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 
     }
 
-    if (globalManager.gameplaySetupState != 0)
+    if (g_GameManager.gameplaySetupState124 != 0)
     {
-        if (globalManager.gameplaySetupState == 2)
+        if (g_GameManager.gameplaySetupState124 == 2)
             return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
         gameManager->gameplaySetupWaitFrames++;
         return CHAIN_CALLBACK_RESULT_BREAK;
@@ -279,14 +279,14 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         // the separate state buffer is allocated as 0xA0 bytes.
         if (g_GameManager.valueB0 % 3600u == 3599u)
         {
-            if (static_cast<PlayerLifecycleView *>(globalManager.sides[0].subsystem1)->header24.state7C < 16)
-                static_cast<PlayerLifecycleView *>(globalManager.sides[0].subsystem1)->header24.state7C++;
-            if (static_cast<PlayerLifecycleView *>(globalManager.sides[0].subsystem1)->header24.state80 < 16)
-                static_cast<PlayerLifecycleView *>(globalManager.sides[0].subsystem1)->header24.state80++;
-            if (static_cast<PlayerLifecycleView *>(globalManager.sides[1].subsystem1)->header24.state7C < 16)
-                static_cast<PlayerLifecycleView *>(globalManager.sides[1].subsystem1)->header24.state7C++;
-            if (static_cast<PlayerLifecycleView *>(globalManager.sides[1].subsystem1)->header24.state80 < 16)
-                static_cast<PlayerLifecycleView *>(globalManager.sides[1].subsystem1)->header24.state80++;
+            if (globalManager.sides[0].player04->header24.state7C < 16)
+                globalManager.sides[0].player04->header24.state7C++;
+            if (globalManager.sides[0].player04->header24.state80 < 16)
+                globalManager.sides[0].player04->header24.state80++;
+            if (globalManager.sides[1].player04->header24.state7C < 16)
+                globalManager.sides[1].player04->header24.state7C++;
+            if (globalManager.sides[1].player04->header24.state80 < 16)
+                globalManager.sides[1].player04->header24.state80++;
         }
 
         if (g_GameManager.valueB8 < 6 &&
@@ -567,20 +567,20 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
     int sideCount = 2;
     do
     {
-        ReleaseSubsystem0(side->subsystem0);
-        side->subsystem0 = NULL;
-        PlayerRelease(static_cast<PlayerLifecycleView *>(side->subsystem1));
-        side->subsystem1 = NULL;
-        EtamaController::Release(static_cast<EtamaController *>(side->subsystem2));
-        side->subsystem2 = NULL;
-        EffectManager::Release(static_cast<EffectManager *>(side->subsystem3));
-        side->subsystem3 = NULL;
-        ReleaseSubsystem4(side->subsystem4);
-        side->subsystem4 = NULL;
-        CardAttack::Destroy(static_cast<CardAttack *>(side->subsystem5));
-        side->subsystem5 = NULL;
-        FrontSide::Destroy(static_cast<FrontSide *>(side->subsystem6));
-        side->subsystem6 = NULL;
+        ReleaseSubsystem0(side->background00);
+        side->background00 = NULL;
+        PlayerRelease(static_cast<PlayerLifecycleView *>(side->player04));
+        side->player04 = NULL;
+        EtamaController::Release(static_cast<EtamaController *>(side->etama08));
+        side->etama08 = NULL;
+        EffectManager::Release(static_cast<EffectManager *>(side->effectManager0C));
+        side->effectManager0C = NULL;
+        ReleaseSubsystem4(side->enemyManager10);
+        side->enemyManager10 = NULL;
+        CardAttack::Destroy(static_cast<CardAttack *>(side->cardAttack14));
+        side->cardAttack14 = NULL;
+        FrontSide::Destroy(static_cast<FrontSide *>(side->frontSide18));
+        side->frontSide18 = NULL;
         side++;
     } while (--sideCount != 0);
 
@@ -651,13 +651,13 @@ void GameManagerSetupLayout::CleanupGameplayState()
     {
         SetupSideState *side = &globalManager.sides[sideIndex];
         side->flags &= ~1u;
-        static_cast<Background *>(side->subsystem0)->ClearSpellBackgroundState();
-        static_cast<PlayerLifecycleView *>(side->subsystem1)->InitializeAddedState();
-        static_cast<EtamaController *>(side->subsystem2)->ResetProjectiles();
-        static_cast<EffectManager *>(side->subsystem3)->ResetPool();
-        static_cast<EnemyManagerView *>(side->subsystem4)->ResetForGameplayCleanup();
-        static_cast<CardAttack *>(side->subsystem5)->RefreshResource();
-        static_cast<FrontSide *>(side->subsystem6)->ResetTransitionState();
+        static_cast<Background *>(side->background00)->ClearSpellBackgroundState();
+        static_cast<PlayerLifecycleView *>(side->player04)->InitializeAddedState();
+        static_cast<EtamaController *>(side->etama08)->ResetProjectiles();
+        static_cast<EffectManager *>(side->effectManager0C)->ResetPool();
+        static_cast<EnemyManagerView *>(side->enemyManager10)->ResetForGameplayCleanup();
+        static_cast<CardAttack *>(side->cardAttack14)->RefreshResource();
+        static_cast<FrontSide *>(side->frontSide18)->ResetTransitionState();
     }
 
     static_cast<EffectManager *>(globalManager.sharedSubsystem)->ResetPool();
@@ -880,26 +880,26 @@ mode_ready:
             g_GameConfiguration->sideFocusMode[sideIndex] = 0;
         side->flags &= ~1u;
 
-        side->subsystem0 = Background::Create(sideIndex);
-        if (side->subsystem0 == NULL)
+        side->background00 = Background::Create(sideIndex);
+        if (side->background00 == NULL)
             goto setup_failed;
-        side->subsystem1 = PlayerRegisterChain(0, sideIndex, side->selector);
-        if (side->subsystem1 == NULL)
+        side->player04 = PlayerRegisterChain(0, sideIndex, side->selector);
+        if (side->player04 == NULL)
             goto setup_failed;
-        side->subsystem2 = EtamaController::Register(sideIndex);
-        if (side->subsystem2 == NULL)
+        side->etama08 = EtamaController::Register(sideIndex);
+        if (side->etama08 == NULL)
             goto setup_failed;
-        side->subsystem3 = EffectManager::Create(sideIndex, 0x100, 7);
-        if (side->subsystem3 == NULL)
+        side->effectManager0C = EffectManager::Create(sideIndex, 0x100, 7);
+        if (side->effectManager0C == NULL)
             goto setup_failed;
-        side->subsystem4 = EnemyManagerView::Create(sideIndex);
-        if (side->subsystem4 == NULL)
+        side->enemyManager10 = EnemyManagerView::Create(sideIndex);
+        if (side->enemyManager10 == NULL)
             goto setup_failed;
-        side->subsystem5 = CardAttack::Create(sideIndex);
-        if (side->subsystem5 == NULL)
+        side->cardAttack14 = CardAttack::Create(sideIndex);
+        if (side->cardAttack14 == NULL)
             goto setup_failed;
-        side->subsystem6 = FrontSide::Create(sideIndex);
-        if (side->subsystem6 == NULL)
+        side->frontSide18 = FrontSide::Create(sideIndex);
+        if (side->frontSide18 == NULL)
             goto setup_failed;
     }
 
@@ -915,20 +915,20 @@ mode_ready:
     {
     case 4:
         manager->limitB4 = 18;
-        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state7C = 10;
-        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state80 = 10;
-        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state7C = 10;
-        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state80 = 10;
+        manager->sides[0].player04->header24.state7C = 10;
+        manager->sides[0].player04->header24.state80 = 10;
+        manager->sides[1].player04->header24.state7C = 10;
+        manager->sides[1].player04->header24.state80 = 10;
         manager->valueC4 = 600;
         manager->valueC8 = 22;
         break;
 
     case 3:
         manager->limitB4 = 8;
-        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state7C = 8;
-        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state80 = 8;
-        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state7C = 8;
-        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state80 = 8;
+        manager->sides[0].player04->header24.state7C = 8;
+        manager->sides[0].player04->header24.state80 = 8;
+        manager->sides[1].player04->header24.state7C = 8;
+        manager->sides[1].player04->header24.state80 = 8;
         if (manager->gameMode == 2)
         {
             manager->valueC4 = 900;
@@ -944,10 +944,10 @@ mode_ready:
 
     case 2:
         manager->limitB4 = 6;
-        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state7C = 4;
-        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state80 = 4;
-        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state7C = 4;
-        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state80 = 4;
+        manager->sides[0].player04->header24.state7C = 4;
+        manager->sides[0].player04->header24.state80 = 4;
+        manager->sides[1].player04->header24.state7C = 4;
+        manager->sides[1].player04->header24.state80 = 4;
         if (manager->gameMode == 2)
         {
             manager->valueC4 = 720;
@@ -963,10 +963,10 @@ mode_ready:
 
     case 1:
         manager->limitB4 = 1;
-        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state7C = 1;
-        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state80 = 1;
-        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state7C = 1;
-        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state80 = 1;
+        manager->sides[0].player04->header24.state7C = 1;
+        manager->sides[0].player04->header24.state80 = 1;
+        manager->sides[1].player04->header24.state7C = 1;
+        manager->sides[1].player04->header24.state80 = 1;
         if (manager->gameMode == 2)
         {
             manager->valueC4 = 900;
@@ -982,10 +982,10 @@ mode_ready:
 
     case 0:
         manager->limitB4 = 1;
-        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state7C = 1;
-        static_cast<PlayerLifecycleView *>(manager->sides[0].subsystem1)->header24.state80 = 1;
-        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state7C = 1;
-        static_cast<PlayerLifecycleView *>(manager->sides[1].subsystem1)->header24.state80 = 1;
+        manager->sides[0].player04->header24.state7C = 1;
+        manager->sides[0].player04->header24.state80 = 1;
+        manager->sides[1].player04->header24.state7C = 1;
+        manager->sides[1].player04->header24.state80 = 1;
         manager->valueC4 = 1800;
         // For every gameMode other than 2, keep the counter-derived limits
         // and leave this switch immediately. The fixed mode-2 rate follows

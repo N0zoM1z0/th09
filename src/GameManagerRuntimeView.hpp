@@ -8,6 +8,10 @@ struct EffectManager;
 class EtamaController;
 struct PlayerLifecycleView;
 struct ReplayInputGateView;
+struct Background;
+struct EnemyManagerView;
+struct CardAttack;
+struct FrontSide;
 
 struct AsciiPlayerPopupPositionView
 {
@@ -36,7 +40,7 @@ typedef char AsciiGameSideNativeScoreSizeIsA0[
 
 struct AsciiGameManagerSideView
 {
-    union { unsigned char unknown00[4]; void *subsystem0; };
+    union { unsigned char unknown00[4]; void *subsystem0; Background *background00; };
     // The same original +0x04..+0x1C gameplay side controllers are consumed
     // by GameManager setup, ECL/Enemy and the replay/ASCII owners.
     union {
@@ -46,9 +50,9 @@ struct AsciiGameManagerSideView
     };
     union { EtamaController *etama08; void *subsystem2; };
     union { EffectManager *effectManager0C; void *subsystem3; };
-    void *subsystem4;
-    void *subsystem5;
-    void *subsystem6;
+    union { void *subsystem4; EnemyManagerView *enemyManager10; };
+    union { void *subsystem5; CardAttack *cardAttack14; };
+    union { void *subsystem6; FrontSide *frontSide18; };
     union { AsciiGameSideRuntimeView *runtime; SetupStateBuffer *state; };
     union { int character20; int value20; };
     union { unsigned char unknown24[4]; int value24; };
@@ -59,6 +63,17 @@ struct AsciiGameManagerSideView
 
 typedef char AsciiGameManagerSideViewSizeIs38[
     (sizeof(AsciiGameManagerSideView) == 0x38) ? 1 : -1];
+// Genuine Create/Register call targets independently identify these side
+// subsystems; the aliases do not change the 0x38-byte i386 storage record.
+typedef char AsciiGameManagerTypedSubsystemsAtOffsets[
+    (offsetof(AsciiGameManagerSideView, background00) == 0x00 &&
+     offsetof(AsciiGameManagerSideView, player04) == 0x04 &&
+     offsetof(AsciiGameManagerSideView, etama08) == 0x08 &&
+     offsetof(AsciiGameManagerSideView, effectManager0C) == 0x0C &&
+     offsetof(AsciiGameManagerSideView, enemyManager10) == 0x10 &&
+     offsetof(AsciiGameManagerSideView, cardAttack14) == 0x14 &&
+     offsetof(AsciiGameManagerSideView, frontSide18) == 0x18) ? 1 : -1];
+
 typedef char AsciiGameManagerNativeSetupSideOffsets[
     (offsetof(AsciiGameManagerSideView, subsystem0) == 0x00 &&
      offsetof(AsciiGameManagerSideView, subsystem1) == 0x04 &&
@@ -90,24 +105,35 @@ struct AsciiGameManagerView
     unsigned char clearD8[0x10];
     union { ReplayInputGateView *replayInputGateE8; void *heapE8; };
     float speedEC;
-    unsigned char unknown0F0[0x0C];
-    int field0FC;
-    unsigned char unknown100[8];
+    unsigned char unknown0F0[4];
+    int valueF4;
+    int valueF8;
+    union { int field0FC; int counterFC; };
+    int value100;
+    int value104;
     int field108;
     int field10C;
     unsigned char unknown110[4];
     int replayMode114;
     int gameMode;
-    union { int difficulty; int difficulty11C; };
-    unsigned char unknown120[0x10];
+    union { int difficulty; int difficulty11C; int setupMode11C; };
+    unsigned int instructionMask120;
+    int gameplaySetupState124;
+    int gameplaySetupWaitFrames128;
+    int playtimeFrames12C;
     int replayPauseRecorded130;
     unsigned int flags;
     unsigned char unknown138[4];
     unsigned char inGameMenu;
-    unsigned char menuState97C8Active;
-    unsigned char menuStateA7A8Active;
+    union { unsigned char menuState97C8Active; unsigned char menuBlock13D; };
+    union { unsigned char menuStateA7A8Active; unsigned char menuBlock13E; };
     unsigned char unknown13F;
-    unsigned char unknown140[0x348 - 0x140];
+    int demoFrameCount140;
+    unsigned char unknown144;
+    unsigned char modeByte145;
+    unsigned short seed146;
+    unsigned char unknown148[0x346 - 0x148];
+    unsigned short seedCopy346;
     // Original TH09 ScreenEffect::CalcShakeEnvelope reads this i32 counter.
     int value348;
     unsigned char unknown34C[0x350 - 0x34C];
@@ -157,6 +183,23 @@ typedef char AsciiGameManagerSpeedAtEC[
     (offsetof(AsciiGameManagerView, speedEC) == 0xEC) ? 1 : -1];
 typedef char AsciiGameManagerGameModeAt118[
     (offsetof(AsciiGameManagerView, gameMode) == 0x118) ? 1 : -1];
+typedef char AsciiGameManagerNativeSetupControlOffsets[
+    (offsetof(AsciiGameManagerView, valueF4) == 0xF4 &&
+     offsetof(AsciiGameManagerView, valueF8) == 0xF8 &&
+     offsetof(AsciiGameManagerView, counterFC) == 0xFC &&
+     offsetof(AsciiGameManagerView, value100) == 0x100 &&
+     offsetof(AsciiGameManagerView, value104) == 0x104 &&
+     offsetof(AsciiGameManagerView, setupMode11C) == 0x11C &&
+     offsetof(AsciiGameManagerView, instructionMask120) == 0x120 &&
+     offsetof(AsciiGameManagerView, gameplaySetupState124) == 0x124 &&
+     offsetof(AsciiGameManagerView, gameplaySetupWaitFrames128) == 0x128 &&
+     offsetof(AsciiGameManagerView, playtimeFrames12C) == 0x12C &&
+     offsetof(AsciiGameManagerView, menuBlock13D) == 0x13D &&
+     offsetof(AsciiGameManagerView, menuBlock13E) == 0x13E &&
+     offsetof(AsciiGameManagerView, demoFrameCount140) == 0x140 &&
+     offsetof(AsciiGameManagerView, modeByte145) == 0x145 &&
+     offsetof(AsciiGameManagerView, seed146) == 0x146 &&
+     offsetof(AsciiGameManagerView, seedCopy346) == 0x346) ? 1 : -1];
 typedef char AsciiGameManagerDifficultyAt11C[
     (offsetof(AsciiGameManagerView, difficulty) == 0x11C) ? 1 : -1];
 typedef char AsciiGameManagerFlagsAt134[
