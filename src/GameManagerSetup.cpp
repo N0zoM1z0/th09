@@ -539,7 +539,7 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
     memset(g_DeletedScratch, 0, sizeof(g_DeletedScratch));
 
     SetupStateBuffer *state =
-        reinterpret_cast<SetupStateBuffer *>(globalManager.sides[0].state);
+        globalManager.sides[0].state;
     if (state != NULL)
     {
         g_TitleScoreRecord.score = state->value08;
@@ -612,19 +612,19 @@ void GameManagerSetupLayout::AdvanceTimedState()
         *reinterpret_cast<GameManagerSetupLayout *>(&g_GameManager);
 
     SetupStateBuffer *state =
-        reinterpret_cast<SetupStateBuffer *>(globalManager.sides[0].state);
+        globalManager.sides[0].state;
 
     if (state->value00 < 7.0f)
     {
         state->value00 += 1.0f;
         g_SoundPlayer.PlaySoundByIdx(0x1C, 0);
-        state = reinterpret_cast<SetupStateBuffer *>(globalManager.sides[0].state);
+        state = globalManager.sides[0].state;
     }
 
     state->phase10++;
 
     SetupStateBuffer *thresholdState =
-        reinterpret_cast<SetupStateBuffer *>(globalManager.sides[0].state);
+        globalManager.sides[0].state;
     if (globalManager.gameMode == 1)
     {
         if (thresholdState->phase10 >= 8)
@@ -803,10 +803,10 @@ mode_ready:
         }
 
         if (manager->gameMode == 0)
-            reinterpret_cast<SetupStateBuffer *>(manager->sides[0].state)->value00 =
+            manager->sides[0].state->value00 =
                 static_cast<float>(g_GameConfiguration->valueAC) + 2.0f;
         else
-            reinterpret_cast<SetupStateBuffer *>(manager->sides[0].state)->value00 = 0.0f;
+            manager->sides[0].state->value00 = 0.0f;
 
         reinterpret_cast<ReplayManagerView *>(manager->stageObject)
             ->Release();
@@ -832,14 +832,14 @@ mode_ready:
         if (manager->gameMode == 0)
         {
             SetupStateBuffer *state =
-                reinterpret_cast<SetupStateBuffer *>(manager->sides[0].state);
+                manager->sides[0].state;
             if (state->value04 >= 2000000u * state->phase10 + 1000000u)
                 globalManager.AdvanceTimedState();
         }
         if (manager->gameMode == 1)
         {
             SetupStateBuffer *state =
-                reinterpret_cast<SetupStateBuffer *>(manager->sides[0].state);
+                manager->sides[0].state;
             if (state->value04 >= 500000u * (state->phase10 + 1))
                 globalManager.AdvanceTimedState();
         }
