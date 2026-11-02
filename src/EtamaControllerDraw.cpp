@@ -145,11 +145,12 @@ int EtamaController::OnDraw(EtamaController *controller)
 namespace
 {
 
-struct EtamaLoadedSpriteView
-{
-    unsigned char unknown00[0x30];
-    float height30;
-};
+// This is the native 0x44-byte sprite owned by the ANM loader, not an
+// Etama-only 0x34-byte approximation. The exact sprite-assignment leaf and
+// Enemy's 3,900-byte OnUpdate independently bind this height at +0x30.
+typedef char EtamaNativeSpriteHeightAt30[
+    (sizeof(AnmLoadedSprite) == 0x44 &&
+     offsetof(AnmLoadedSprite, heightPx) == 0x30) ? 1 : -1];
 
 static const int kBulletSpriteScripts[23][5] = {
     {0, 18, 19, 20, 15}, {1, 21, 22, 23, 16}, {2, 21, 22, 23, 16},
@@ -168,9 +169,9 @@ inline short &BaseSpriteIndex(AnmVm *vm)
         reinterpret_cast<unsigned char *>(vm) + 0x218);
 }
 
-inline EtamaLoadedSpriteView *LoadedSprite(AnmVm *vm)
+inline AnmLoadedSprite *LoadedSprite(AnmVm *vm)
 {
-    return reinterpret_cast<EtamaLoadedSpriteView *>(vm->loadedSprite);
+    return vm->loadedSprite;
 }
 
 } // namespace
@@ -210,15 +211,15 @@ int EtamaController::AddedCallback(EtamaController *controller)
         sprites->unknownD44 = sprites->bulletVm.activeSpriteIndex;
         BaseSpriteIndex(&sprites->bulletVm) = sprites->bulletVm.activeSpriteIndex;
         sprites->spriteHeightPx =
-            static_cast<unsigned char>(LoadedSprite(&sprites->bulletVm)->height30);
+            static_cast<unsigned char>(LoadedSprite(&sprites->bulletVm)->heightPx);
 
-        if (LoadedSprite(&sprites->bulletVm)->height30 <= 8.0f)
+        if (LoadedSprite(&sprites->bulletVm)->heightPx <= 8.0f)
         {
             sprites->collisionSize.x = 4.0f;
             sprites->collisionSize.y = 4.0f;
             sprites->drawBucketIndex = 5;
         }
-        else if (LoadedSprite(&sprites->bulletVm)->height30 <= 16.0f)
+        else if (LoadedSprite(&sprites->bulletVm)->heightPx <= 16.0f)
         {
             switch (kBulletSpriteScripts[i][0])
             {
@@ -244,7 +245,7 @@ int EtamaController::AddedCallback(EtamaController *controller)
                 break;
             }
         }
-        else if (LoadedSprite(&sprites->bulletVm)->height30 <= 32.0f)
+        else if (LoadedSprite(&sprites->bulletVm)->heightPx <= 32.0f)
         {
             switch (kBulletSpriteScripts[i][0])
             {
