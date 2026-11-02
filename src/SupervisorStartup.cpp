@@ -1,5 +1,8 @@
 #include "Supervisor.hpp"
 #include "AnmVmLifecycle.hpp"
+#define TH09_GAME_MANAGER_TYPES_ONLY
+#include "GameManagerRuntimeView.hpp"
+#undef TH09_GAME_MANAGER_TYPES_ONLY
 #include "GameErrorContext.hpp"
 #include "ZunMemory.hpp"
 
@@ -92,17 +95,17 @@ struct SupervisorThreadCloseView
     void ThreadClose();
 };
 
-struct StartupGameManagerSide
+// The exact startup owner consumes the same two native 0x38-byte
+// GameManager sides as the 1,230-byte game manager update and replay owners.
+// Keep StartupGameManager's original external C++ symbol identity while
+// recovering the actual shared offset-backed side records.
+struct StartupGameManager : AsciiGameManagerView
 {
-    unsigned char unknown000[0x20];
-    int value20;
-    unsigned char unknown024[0x38 - 0x24];
 };
-
-struct StartupGameManager
-{
-    StartupGameManagerSide sides[2];
-};
+typedef char StartupNativeGameSideAt20[
+    (sizeof(AsciiGameManagerSideView) == 0x38 &&
+     offsetof(AsciiGameManagerSideView, value20) == 0x20 &&
+     offsetof(AsciiGameManagerView, sides) == 0) ? 1 : -1];
 
 extern StartupAnmManager *g_AnmManager;
 extern SoundPlayerStartup g_SoundPlayer;

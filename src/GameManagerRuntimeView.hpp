@@ -222,7 +222,12 @@ typedef char AsciiGameManagerCoordinateXAt350[
 typedef char AsciiGameManagerCoordinateYAt354[
     (offsetof(AsciiGameManagerView, coordinateOffsetY) == 0x354) ? 1 : -1];
 
+// StartupThread needs only the shared layout while retaining its original
+// StartupGameManager-typed external symbol (the type participates in MSVC's
+// decorated name). Ordinary owners keep the canonical runtime declaration.
+#ifndef TH09_GAME_MANAGER_TYPES_ONLY
 extern AsciiGameManagerView g_GameManager;
+#endif
 
 struct RenderCoordinateOriginView
 {

@@ -26,6 +26,24 @@ class NativeSupervisorStartupAdded(unittest.TestCase):
                      'StartupLayout()->startupThreadState'):
             self.assertIn(term,startup)
         self.assertIn('struct StartupAnmVm',startup)
+        self.assertIn('#include "AnmVmLifecycle.hpp"',startup)
+        self.assertIn('struct StartupAnmVm : AnmVm',startup)
+        self.assertIn('offsetof(AnmVmBase, pos) == 0x208',startup)
+        self.assertNotIn('unsigned char unknown000[0x208]',startup)
+        for axis,value in (('x','320.0f'),('y','240.0f'),('z','0.0f')):
+            self.assertIn('startupVm584->pos.'+axis+' = '+value+';',startup)
+        self.assertIn('#define TH09_GAME_MANAGER_TYPES_ONLY',startup)
+        self.assertIn('#undef TH09_GAME_MANAGER_TYPES_ONLY',startup)
+        self.assertIn('struct StartupGameManager : AsciiGameManagerView',startup)
+        self.assertIn('StartupNativeGameSideAt20',startup)
+        self.assertIn('extern StartupGameManager g_GameManager;',startup)
+        self.assertNotIn('struct StartupGameManagerSide',startup)
+        self.assertIn('g_GameManager.sides[0].value20 = 0;',startup)
+        self.assertIn('g_GameManager.sides[1].value20 = 1;',startup)
+        types=(ROOT/'src/GameManagerRuntimeView.hpp').read_text()
+        self.assertIn('#ifndef TH09_GAME_MANAGER_TYPES_ONLY',types)
+        self.assertIn('extern AsciiGameManagerView g_GameManager;',types)
+        self.assertIn('AsciiGameManagerSideViewSizeIs38',types)
         self.assertIn('struct StartupAnmLoaded',startup)
         for member,offset in (
             ('dummyMidiTimer384','0x384'),('startupVm584','0x584'),
