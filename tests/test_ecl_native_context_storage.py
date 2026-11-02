@@ -37,6 +37,17 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('EnemyEclNativeLaserSlotsAt32D8', state)
         self.assertIn('enemy->laserSlots32D8[laserIndex]', bullet)
 
+    def test_remote_slot_uses_real_enemy_manager_array(self):
+        remote=(ROOT/'src/EclRunRemote.inl').read_text()
+        manager=(ROOT/'src/EnemyManager.hpp').read_text()
+        self.assertIn('EnemyView *remoteSlots2AC388[9];',manager)
+        self.assertIn('((owner)->manager00->remoteSlots2AC388[(index)])',remote)
+        self.assertIn('return enemy->manager00->remoteSlots2AC388[slot];',remote)
+        self.assertNotIn('ENEMY_MANAGER_REMOTE_TABLE',remote)
+        self.assertNotIn('struct EnemyRemoteOffset',remote)
+        self.assertNotIn('reinterpret_cast<EnemyView **>',remote)
+        self.assertIn('TH09_ECL_REMOTE_SLOT(enemy, remoteIndex)',remote)
+
     def test_native_subroutine_copy_uses_same_context_fields(self):
         manager = (ROOT/'src/EclManager.cpp').read_text()
         state = (ROOT/'src/EclRunState.inl').read_text()

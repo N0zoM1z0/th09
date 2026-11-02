@@ -27,12 +27,6 @@
 namespace Th09EclRunRemote
 {
 
-enum EnemyRemoteOffset
-{
-    ENEMY_ACTIVE_CONTEXT = 0x2CE0,
-    ENEMY_MANAGER_REMOTE_TABLE = 0x2AC388
-};
-
 struct SpawnPacket
 {
     int eclSubroutineId00;
@@ -45,11 +39,6 @@ typedef char Th09EclSpawnPacketSizeIs1C[
     (sizeof(SpawnPacket) == 0x1C) ? 1 : -1];
 typedef char Th09EclSpawnPacketPositionAt04[
     (offsetof(SpawnPacket, position04) == 0x04) ? 1 : -1];
-
-inline unsigned char *Bytes(void *value)
-{
-    return reinterpret_cast<unsigned char *>(value);
-}
 
 inline EnemyView *&RemoteEnemy(EnemyView *enemy, int slot)
 {
@@ -112,9 +101,7 @@ __forceinline void ResolveSpawnPosition(
 // expressions below preserve the original call-before-lookup sequencing;
 // repeated conditional lookups still resolve their operand again.
 #define TH09_ECL_REMOTE_SLOT(owner, index) \
-    (static_cast<EnemyView *&>(*reinterpret_cast<EnemyView **>( \
-        reinterpret_cast<unsigned char *>((owner)->manager00) + \
-        Th09EclRunRemote::ENEMY_MANAGER_REMOTE_TABLE + (index) * 4)))
+    ((owner)->manager00->remoteSlots2AC388[(index)])
 
     int remoteIndex;
     int remoteValue;
