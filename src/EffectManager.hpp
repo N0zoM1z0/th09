@@ -2,6 +2,7 @@
 
 #include "Chain.hpp"
 #include "ZunTimer.hpp"
+#include "Float3.hpp"
 
 #include <stddef.h>
 
@@ -41,16 +42,23 @@ struct Effect
     int vmCount;
     EffectFloat3 position;
     EffectFloat3 velocity;
-    unsigned char unknown024[0x7C - 0x24];
-    int value7C;
-    int value80;
+    // Recovered shared effect-geometry state. Ring/fan callbacks interpret
+    // these slots as floats; the general Effect manager also writes the
+    // exact same words through its VM-snapshot integer transfer.
+    unsigned char unknown024[0x48 - 0x24];
+    Float3 origin48;
+    Float3 axis54;
+    Float3 axis60;
+    unsigned char unknown06C[0x7C - 0x6C];
+    union { int value7C; float radius7C; };
+    union { int value80; float angle80; };
     unsigned char unknown084[0x88 - 0x84];
-    int value88;
-    int value8C;
+    union { int value88; float thickness88; };
+    union { int value8C; int segments8C; };
     int fixedSlotIndex;
-    int value94;
-    int value98;
-    float value9C;
+    union { int value94; float ellipseY94; };
+    union { int value98; float rotation98; };
+    union { float value9C; float frequency9C; };
     unsigned char unknown0A0[0xAC - 0xA0];
     ZunTimer timer;
     unsigned char unknown0B8[0xBC - 0xB8];
@@ -69,6 +77,12 @@ struct Effect
     Effect *nextInDrawGroup;
 };
 typedef char EffectSizeIsD8[(sizeof(Effect) == 0xD8) ? 1 : -1];
+typedef char EffectOriginAt48[(offsetof(Effect, origin48) == 0x48) ? 1 : -1];
+typedef char EffectAxis54At54[(offsetof(Effect, axis54) == 0x54) ? 1 : -1];
+typedef char EffectAxis60At60[(offsetof(Effect, axis60) == 0x60) ? 1 : -1];
+typedef char EffectRadiusAt7C[(offsetof(Effect, radius7C) == 0x7C) ? 1 : -1];
+typedef char EffectAngleAt80[(offsetof(Effect, angle80) == 0x80) ? 1 : -1];
+typedef char EffectSegmentsAt8C[(offsetof(Effect, segments8C) == 0x8C) ? 1 : -1];
 typedef char EffectValue7CAt7C[(offsetof(Effect, value7C) == 0x7C) ? 1 : -1];
 typedef char EffectFixedSlotIndexAt90[(offsetof(Effect, fixedSlotIndex) == 0x90) ? 1 : -1];
 typedef char EffectValue9CAt9C[(offsetof(Effect, value9C) == 0x9C) ? 1 : -1];

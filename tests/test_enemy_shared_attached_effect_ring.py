@@ -14,9 +14,11 @@ class EnemyAttachedEffectRingStorage(unittest.TestCase):
     def test_one_observed_origin_radius_and_angle_view(self):
         header=(ROOT/'src/EffectRingRuntimeView.hpp').read_text()
         enemy=(ROOT/'src/EnemyManagerCore.inl').read_text()
-        self.assertIn('struct EffectRingRuntimeView',header)
+        native=(ROOT/'src/EffectManager.hpp').read_text()
+        self.assertIn('typedef Effect EffectRingRuntimeView;',header)
+        self.assertNotIn('struct EffectRingRuntimeView\n{',header)
         for field in ('Float3 origin48;','float radius7C;','float angle80;'):
-            self.assertIn(field,header)
+            self.assertIn(field,native)
         for field,offset in (('origin48','0x48'),('radius7C','0x7C'),('angle80','0x80')):
             self.assertIn('offsetof(EffectRingRuntimeView, '+field+') == '+offset,enemy)
         self.assertNotIn('struct EnemyAttachedEffectUpdateView',enemy)
