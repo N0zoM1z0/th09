@@ -3,6 +3,7 @@
 #include "EffectManager.hpp"
 #include "BulletManager.hpp"
 #include "EclOpcodes.hpp"
+#include "EnemyEclRawFileView.hpp"
 #include "EclEnemyPrimaryFlags.hpp"
 #include "EnemyAttachedEffectStateView.hpp"
 #include "PlayerEnemyTrackingStateView.hpp"
@@ -163,7 +164,7 @@ struct Th09EclContextView;
 
 struct EnemyEclManagerView
 {
-    void *rawFile00;
+    EnemyEclRawFileView *rawFile00;
     void *subroutineTable04;
     EnemyEclTimelineStateView timelineState08;
 

@@ -156,6 +156,27 @@ class NativeEclContextStorage(unittest.TestCase):
                 self.assertNotIn('Th09EclRunState::View(enemy)->'+f,core)
         self.assertIn('trailVertices3E68',draw)
 
+    def test_ecl_load_and_exact_subroutine_leaves_share_native_raw_file(self):
+        header=(ROOT/'src/EnemyEclRawFileView.hpp').read_text()
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        loader=(ROOT/'src/EnemyEclLoad.cpp').read_text()
+        leaves=(ROOT/'src/EnemySmallLeaves.cpp').read_text()
+        self.assertIn('struct EnemyEclRawFileView',header)
+        self.assertIn('EnemyEclRawFileHeaderSizeIs0C',header)
+        self.assertIn('EnemyEclRawFileSubroutineCountAt06',header)
+        self.assertIn('EnemyEclRawFileSubroutineTableAt08',header)
+        self.assertIn('unsigned int subroutineOffsets[1];',header)
+        self.assertIn('void *resolvedSubroutines[1];',header)
+        self.assertIn('EnemyEclRawFileView *rawFile00;',native)
+        self.assertNotIn('struct EnemyEclRawFileView',loader)
+        self.assertIn('this->rawFile00->subroutineCount',loader)
+        self.assertIn('this->rawFile00->subroutineOffsets[i]',loader)
+        self.assertIn('this->rawFile00->secondaryTableCount',loader)
+        self.assertIn('&raw->subroutineOffsets[raw->subroutineCount]',loader)
+        self.assertIn('return rawFile00->subroutineCount;',leaves)
+        self.assertIn('return rawFile00->resolvedSubroutines[index];',leaves)
+        self.assertNotIn('reinterpret_cast<unsigned char *>(rawFile00)',leaves)
+
     def test_card_attack_exact_spawn_uses_native_flags_and_enemy_storage(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         flags=(ROOT/'src/EclEnemyPrimaryFlags.hpp').read_text()

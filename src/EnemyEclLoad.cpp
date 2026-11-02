@@ -6,17 +6,6 @@ extern GameErrorContext g_GameErrorContext;
 extern const char g_EnemyEclLoadError[];
 extern const char g_EnemyEclVersionError[];
 
-namespace
-{
-struct EnemyEclRawFileView
-{
-    int version;
-    short secondaryTableCount;
-    short subroutineCount;
-    unsigned int subroutineOffsets[1];
-};
-}
-
 int EnemyEclManagerView::Load(char *path)
 {
     EnemyEclRawFileView *file =
@@ -36,26 +25,18 @@ int EnemyEclManagerView::Load(char *path)
     }
 
     for (int i = 0;
-         i < reinterpret_cast<EnemyEclRawFileView *>(this->rawFile00)
-                 ->subroutineCount;
+         i < this->rawFile00->subroutineCount;
          ++i)
     {
-        unsigned int *offset =
-            reinterpret_cast<unsigned int *>(
-                reinterpret_cast<unsigned char *>(this->rawFile00) + 0x08) +
-            i;
+        unsigned int *offset = &this->rawFile00->subroutineOffsets[i];
         *offset += reinterpret_cast<unsigned int>(this->rawFile00);
     }
 
-    EnemyEclRawFileView *raw =
-        reinterpret_cast<EnemyEclRawFileView *>(this->rawFile00);
-    this->subroutineTable04 =
-        reinterpret_cast<unsigned char *>(this->rawFile00) +
-        raw->subroutineCount * 4 + 0x08;
+    EnemyEclRawFileView *raw = this->rawFile00;
+    this->subroutineTable04 = &raw->subroutineOffsets[raw->subroutineCount];
 
     for (int i = 0;
-         i < reinterpret_cast<EnemyEclRawFileView *>(this->rawFile00)
-                 ->secondaryTableCount;
+         i < this->rawFile00->secondaryTableCount;
          ++i)
     {
         unsigned int *offset =

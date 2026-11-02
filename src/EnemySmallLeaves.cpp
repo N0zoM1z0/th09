@@ -2,14 +2,12 @@
 
 int EnemyEclManagerView::GetSubroutineCount()
 {
-    return *reinterpret_cast<short *>(
-        reinterpret_cast<unsigned char *>(rawFile00) + 0x06);
+    return rawFile00->subroutineCount;
 }
 
 void *EnemyEclManagerView::GetSubroutine(int index)
 {
-    return *reinterpret_cast<void **>(
-        reinterpret_cast<unsigned char *>(rawFile00) + 0x08 + index * 4);
+    return rawFile00->resolvedSubroutines[index];
 }
 
 void EnemyView::ResetBulletRankInfluence()

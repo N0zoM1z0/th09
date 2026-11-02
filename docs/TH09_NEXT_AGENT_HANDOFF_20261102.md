@@ -1,5 +1,22 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 native ECL file header and exact load/lookup leaves
+
+The ECL file loader originally declared its private `EnemyEclRawFileView`
+with a +0x06 subroutine count and flexible array of +0x08 offsets. Two
+separately exact lookup leaves previously recovered those fields by casting
+raw addresses. Now one shared `EnemyEclRawFileView.hpp` declares an
+original-size 0x0C header with a typed union of `subroutineOffsets[1]` and
+`resolvedSubroutines[1]`: Load relocates each 32-bit offset in place,
+thereby publishing actual pointers at exactly the addresses read by the
+lookup leaves. `EnemyEclManagerView::rawFile00` uses this type and Load
+indexes it directly. Fresh original PE/COFF proof: `Load` **154/154**,
+`GetSubroutineCount` **7/7**, `GetSubroutine` **16/16** exact, plus the
+51-byte rank-reset sibling, 28-byte ECL release leaf and both Enemy spawn
+paths exact. RunEcl (15,564/30, 96 exact siblings), Enemy calc (3,900/13,
+88 exact siblings) and four 5,718-byte ECL resolver units are protected.
+Only the *source representation* advanced; no new exactness count.
+
 ## 2026-11-02 exact 364-byte CardAttack SpawnEnemyRecord, native mirror flag
 
 The CardAttack variant's original 364-byte `SpawnEnemyRecord` independently

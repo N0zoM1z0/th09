@@ -10,6 +10,24 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 ECL raw file load and lookup share original 0x0C header
+
+Original TH09's ECL loader (154 byte exact unit) opens an ECL blob,
+checks version 0x900, reads 16-bit counts at +0x04 and +0x06 and
+relocates the +0x08 subroutine offset array in place before publishing
+the secondary table. The 7-byte exact `GetSubroutineCount` leaf reads
+that same +0x06 halfword, and the 16-byte exact `GetSubroutine` leaf
+indexes the now-resolved pointer array at +0x08. The shared bounded
+`EnemyEclRawFileView` stores both original raw u32 offsets and resolved
+native pointers as one union, with compile-time size/offset assertions.
+`EnemyEclManagerView::rawFile00` now has the correct typed pointer instead
+of `void *`, the loader no longer duplicates a private struct, and both
+lookup leaves no longer construct naked byte offsets. Independently
+source-cold complete PE/COFF checks confirm 154/154, 7/7, 16/16 bytes
+remain exact, with the full RunEcl/Enemy calc and their exact dependencies
+preserved. This original-backed source unification neither expands the
+1,005-owner exact ledger nor proves runtime/port behavior.
+
 ### 2026-11-02 exact CardAttack 364-byte spawn shares native Enemy mirror flag
 
 TH09's exact `EnemyManagerCardAttackSpawnView::SpawnEnemyRecord` is a
