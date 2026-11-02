@@ -65,15 +65,21 @@ struct EnemyDrawVertex
     Float2 textureUV;
 };
 typedef char EnemyDrawVertexSizeIs1C[(sizeof(EnemyDrawVertex) == 0x1C) ? 1 : -1];
+// Both caller ABI layouts use the same physical 192-record vertex buffer.
+// Preserve the DrawVertices parameter class spelling while sourcing storage
+// exclusively from the native EnemyView rather than a second 0x1500 array.
+typedef char EnemyDrawNativeVertexLayoutAt3E68[
+    (offsetof(EnemyView, trailVertices3E68) == 0x3E68 &&
+     sizeof(EnemyTrailVertexView) == sizeof(EnemyDrawVertex) &&
+     offsetof(EnemyTrailVertexView, position00) == offsetof(EnemyDrawVertex, pos) &&
+     offsetof(EnemyTrailVertexView, rhw0C) == offsetof(EnemyDrawVertex, rhw) &&
+     offsetof(EnemyTrailVertexView, diffuse10) == offsetof(EnemyDrawVertex, diffuse) &&
+     offsetof(EnemyTrailVertexView, u14) == offsetof(EnemyDrawVertex, textureUV) &&
+     offsetof(EnemyTrailVertexView, v18) ==
+         offsetof(EnemyDrawVertex, textureUV) + sizeof(float)) ? 1 : -1];
 
-struct EnemyDrawTrailSampleView
-{
-    Float3 position00;
-    Float3 velocity0C;
-    float angle18;
-};
 typedef char EnemyDrawTrailSampleSizeIs1C[
-    (sizeof(EnemyDrawTrailSampleView) == 0x1C) ? 1 : -1];
+    (sizeof(EnemyTrailSampleView) == 0x1C) ? 1 : -1];
 
 struct EnemyDrawView
 {
@@ -87,24 +93,17 @@ struct EnemyDrawView
     unsigned char unknown2DE4[0x337C - 0x2DE4];
     unsigned int flags337C;
     unsigned int flags3380;
-    unsigned char unknown3384[0x33E8 - 0x3384];
-    EnemyDrawTrailSampleView trailSamples33E8[96];
-    EnemyDrawVertex trailVertices3E68[192];
-    unsigned char unknown5368[0x53A0 - 0x5368];
-    unsigned char trailFlags53A0;
-    unsigned char unknown53A1;
-    short trailHistoryLength53A2;
-    short trailCollisionLength53A4;
-    short trailSampleStride53A6;
-    unsigned char unknown53A8[0x5430 - 0x53A8];
+    // ECL and Enemy calc own trail history, strip vertices and timers on
+    // the native EnemyView; this draw-only legacy VM overlay stays opaque.
+    unsigned char unknown3384[0x5430 - 0x3384];
 };
 typedef char EnemyDrawViewSizeIs5430[(sizeof(EnemyDrawView) == 0x5430) ? 1 : -1];
 typedef char EnemyDrawSecondaryAt2AC[(offsetof(EnemyDrawView, secondaryVms2AC) == 0x2AC) ? 1 : -1];
 typedef char EnemyDrawWorldAt2DD4[(offsetof(EnemyDrawView, worldPosition2DD4) == 0x2DD4) ? 1 : -1];
 typedef char EnemyDrawFlagsAt337C[(offsetof(EnemyDrawView, flags337C) == 0x337C) ? 1 : -1];
-typedef char EnemyDrawTrailAt33E8[(offsetof(EnemyDrawView, trailSamples33E8) == 0x33E8) ? 1 : -1];
-typedef char EnemyDrawVerticesAt3E68[(offsetof(EnemyDrawView, trailVertices3E68) == 0x3E68) ? 1 : -1];
-typedef char EnemyDrawTrailFlagsAt53A0[(offsetof(EnemyDrawView, trailFlags53A0) == 0x53A0) ? 1 : -1];
+typedef char EnemyDrawTrailAt33E8[(offsetof(EnemyView, trailSamples33E8) == 0x33E8) ? 1 : -1];
+typedef char EnemyDrawVerticesAt3E68[(offsetof(EnemyView, trailVertices3E68) == 0x3E68) ? 1 : -1];
+typedef char EnemyDrawTrailFlagsAt53A0[(offsetof(EnemyView, trailFlags53A0) == 0x53A0) ? 1 : -1];
 
 struct EnemyDrawAnmManagerView
 {
@@ -186,39 +185,39 @@ static int EnemyManagerDrawImpl(
             enemy->vm008.pos208.y = g_GameManager.TransformPopupY(enemy->vm008.pos208.y);
             enemy->vm008.pos208.z = 0.25f;
 
-            if (enemy->trailFlags53A0 != 0)
+            if (reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 != 0)
             {
                 int k;
                 // The two scale components are one snapshot of the actual Float2 field.
                 Float2 savedScale = enemy->vm008.scale18;
                 unsigned long savedColor = enemy->vm008.color1F0;
 
-                if ((enemy->trailFlags53A0 & ENEMY_TRAIL_RENDER_AS_STRIP) == 0)
+                if ((reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_RENDER_AS_STRIP) == 0)
                 {
-                    for (k = enemy->trailHistoryLength53A2 - 1; k > 0;
-                         k -= enemy->trailSampleStride53A6)
+                    for (k = reinterpret_cast<EnemyView *>(enemy)->trailHistoryLength53A2 - 1; k > 0;
+                         k -= reinterpret_cast<EnemyView *>(enemy)->trailSampleStride53A6)
                     {
-                        if (enemy->trailSamples33E8[k].position00.x < -990.0f)
+                        if (reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].position00.x < -990.0f)
                             continue;
 
                         if ((enemy->flags337C & ENEMY_DRAW_ROTATE_WITH_MOVEMENT) != 0)
                             enemy->vm008.SetZRotation(
-                                enemy->trailSamples33E8[k].angle18);
+                                reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].angle18);
 
-                        if ((enemy->trailFlags53A0 & ENEMY_TRAIL_TAPER) != 0)
+                        if ((reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_TAPER) != 0)
                             enemy->vm008.scale18.x =
                                 savedScale.x -
                                 static_cast<float>(k) * savedScale.x /
-                                    static_cast<float>(enemy->trailHistoryLength53A2);
+                                    static_cast<float>(reinterpret_cast<EnemyView *>(enemy)->trailHistoryLength53A2);
 
-                        if ((enemy->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
+                        if ((reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
                             reinterpret_cast<unsigned char *>(&enemy->vm008.color1F0)[3] =
                                 reinterpret_cast<unsigned char *>(&savedColor)[3] -
                                 reinterpret_cast<unsigned char *>(&savedColor)[3] * k /
-                                    enemy->trailHistoryLength53A2;
+                                    reinterpret_cast<EnemyView *>(enemy)->trailHistoryLength53A2;
 
                         enemy->vm008.pos208 =
-                            enemy->trailSamples33E8[k].position00 + enemy->vm008.pos2_288;
+                            reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].position00 + enemy->vm008.pos2_288;
                         enemy->vm008.pos208.z = 0.3f;
                         enemy->vm008.pos208.x =
                             g_GameManager.TransformPopupX(enemy->vm008.pos208.x);
@@ -230,10 +229,10 @@ static int EnemyManagerDrawImpl(
                 else
                 {
                     int vertexCount = 0;
-                    for (k = 0; k < enemy->trailHistoryLength53A2;
-                         k += enemy->trailSampleStride53A6)
+                    for (k = 0; k < reinterpret_cast<EnemyView *>(enemy)->trailHistoryLength53A2;
+                         k += reinterpret_cast<EnemyView *>(enemy)->trailSampleStride53A6)
                     {
-                        if (enemy->trailSamples33E8[k].position00.x < -990.0f)
+                        if (reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].position00.x < -990.0f)
                             break;
                         vertexCount += 2;
                     }
@@ -244,35 +243,36 @@ static int EnemyManagerDrawImpl(
                         float uvSpan = sprite->uvEndX28 - sprite->uvStartX20;
                         float uvStep = uvSpan / ((vertexCount + 1) / 2 - 1);
                         float uv = sprite->uvEndX28 + enemy->vm008.uvScrollPos30.x;
-                        EnemyDrawVertex *vertices = enemy->trailVertices3E68;
+                        EnemyDrawVertex *vertices = reinterpret_cast<EnemyDrawVertex *>(
+                            reinterpret_cast<EnemyView *>(enemy)->trailVertices3E68);
                         float previousAngle;
 
-                        for (k = 0; k < enemy->trailHistoryLength53A2;
-                             k += enemy->trailSampleStride53A6, uv -= uvStep)
+                        for (k = 0; k < reinterpret_cast<EnemyView *>(enemy)->trailHistoryLength53A2;
+                             k += reinterpret_cast<EnemyView *>(enemy)->trailSampleStride53A6, uv -= uvStep)
                         {
-                            if (enemy->trailSamples33E8[k].position00.x < -990.0f)
+                            if (reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].position00.x < -990.0f)
                                 break;
 
                             float angle;
                             if (k == 0)
                             {
-                                angle = enemy->trailSamples33E8[0].angle18;
+                                angle = reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[0].angle18;
                             }
                             else
                             {
                                 angle = EnemyDrawInterpolateWrappedAngle(
-                                    enemy->trailSamples33E8[k - 1].angle18,
-                                    enemy->trailSamples33E8[k].angle18, 0.5f);
+                                    reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k - 1].angle18,
+                                    reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].angle18, 0.5f);
                             }
 
                             unsigned char taperFlag =
-                                enemy->trailFlags53A0 & ENEMY_TRAIL_TAPER;
+                                reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_TAPER;
                             if (taperFlag != 0 && k > 0)
                             {
                                 // Both indices survive the first absolute-value call in TH09.
-                                int sampleStride = enemy->trailSampleStride53A6;
+                                int sampleStride = reinterpret_cast<EnemyView *>(enemy)->trailSampleStride53A6;
                                 int nextSample = k + sampleStride;
-                                if (nextSample < enemy->trailHistoryLength53A2)
+                                if (nextSample < reinterpret_cast<EnemyView *>(enemy)->trailHistoryLength53A2)
                                 {
                                     // Preserve strict short-circuit sampling, including NaNs.
                                     if (static_cast<float>(EnemyDrawAbs(previousAngle - angle)) <
@@ -282,8 +282,8 @@ static int EnemyManagerDrawImpl(
                                         // then the distinct long-double difference lifetime.
                                         const float interpolated =
                                             EnemyDrawInterpolateWrappedAngle(
-                                                enemy->trailSamples33E8[nextSample - 1].angle18,
-                                                enemy->trailSamples33E8[sampleStride].angle18,
+                                                reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[nextSample - 1].angle18,
+                                                reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[sampleStride].angle18,
                                                 0.5f);
                                         long double delta = angle - interpolated;
                                         if (static_cast<float>(EnemyDrawAbs(
@@ -307,24 +307,24 @@ static int EnemyManagerDrawImpl(
                             {
                                 float taper = 1.0f -
                                     static_cast<float>(k) /
-                                        static_cast<float>(enemy->trailHistoryLength53A2);
+                                        static_cast<float>(reinterpret_cast<EnemyView *>(enemy)->trailHistoryLength53A2);
                                 halfCenter *= taper;
                                 halfWidth *= taper;
                             }
 
                             vertices[1].diffuse = enemy->vm008.color1F0;
                             vertices[0].diffuse = vertices[1].diffuse;
-                            if ((enemy->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
+                            if ((reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
                             {
                                 reinterpret_cast<unsigned char *>(&vertices[1].diffuse)[3] =
                                     reinterpret_cast<unsigned char *>(&savedColor)[3] -
                                     reinterpret_cast<unsigned char *>(&savedColor)[3] * k /
-                                        enemy->trailHistoryLength53A2;
+                                        reinterpret_cast<EnemyView *>(enemy)->trailHistoryLength53A2;
                                 reinterpret_cast<unsigned char *>(&vertices[0].diffuse)[3] =
                                     reinterpret_cast<unsigned char *>(&vertices[1].diffuse)[3];
                             }
 
-                            vertices[0].pos = enemy->trailSamples33E8[k].position00;
+                            vertices[0].pos = reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].position00;
                             vertices[0].pos.x +=
                                 cosAngle * halfCenter - sinAngle * halfWidth + 32.0f;
                             vertices[0].pos.y +=
@@ -335,7 +335,7 @@ static int EnemyManagerDrawImpl(
                                 enemy->vm008.uvScrollPos30.y;
                             ++vertices;
 
-                            vertices[0].pos = enemy->trailSamples33E8[k].position00;
+                            vertices[0].pos = reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].position00;
                             vertices[0].pos.x +=
                                 cosAngle * halfCenter + sinAngle * halfWidth + 32.0f;
                             vertices[0].pos.y +=
@@ -350,7 +350,8 @@ static int EnemyManagerDrawImpl(
                         if (vertexCount > 2)
                             g_AnmManager->DrawVertices(
                                 &enemy->vm008,
-                                enemy->trailVertices3E68,
+                                reinterpret_cast<EnemyDrawVertex *>(
+                                    reinterpret_cast<EnemyView *>(enemy)->trailVertices3E68),
                                 vertexCount);
                     }
                 }
@@ -360,7 +361,7 @@ static int EnemyManagerDrawImpl(
                 enemy->vm008.color1F0 = savedColor;
             }
 
-            if ((enemy->trailFlags53A0 & ENEMY_TRAIL_HIDE_HEAD) == 0 &&
+            if ((reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_HIDE_HEAD) == 0 &&
                 (enemy->flags337C & ENEMY_DRAW_HIDE_PRIMARY) == 0)
             {
                 g_AnmManager->Draw2D(&enemy->vm008);

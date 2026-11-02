@@ -10,6 +10,21 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 exact 1,758-byte Enemy draw boss native trail ownership
+
+Independent TH09 source-cold PE/COFF comparison proves that the real
+1,758-byte Enemy draw owner can read all 96 trail samples, 192 strip
+vertices and trail flags/length/stride fields through the native
+`EnemyView`, not a separate copy of those fields in `EnemyDrawView`.
+The necessary draw VM projection retains its ABI and opaque tail
+`+0x3384..+0x5430`; exact compiler behavior requires direct native
+access instead of a long-lived local native pointer (20 differing bytes).
+The native `EnemyTrailVertexView` and original `EnemyDrawVertex` are
+checked at position, RHW, color, UV offsets and full 0x1C size before
+reinterpreting the draw ABI. The actual 1,758/1,758 target bytes and
+three draw companion leaves (35/38/91 bytes) replay exact. This source
+restoration does not promote any additional canonical exact code.
+
 ### 2026-11-02 exact 151-byte Enemy attached effect helper, native source
 
 The helper `EnemyCoreUpdateAttachedEffects` is a separately exact

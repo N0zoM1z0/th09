@@ -1,5 +1,23 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 exact 1,758-byte Enemy draw boss uses native trail allocation
+
+The 1,758-byte `EnemyManagerDrawImpl` previously carried a second
+private 0x5430-byte Enemy projection with named `trailSamples33E8[96]`,
+`trailVertices3E68[192]`, trail flags and history/stride lengths.
+Its draw-only VM ABI still requires that projection, but the trailing
+allocation `+0x3384..+0x542F` is now opaque there; accesses go to real
+`EnemyView::trailSamples33E8`, `trailVertices3E68`, flags and count fields.
+The original 0x1C vertex ABI is protected by size and per-member offset
+assertions against the native `EnemyTrailVertexView`; existing DrawVertices
+function identity stays unchanged. Eight complete-owner source trials
+show that direct native access preserves all **1,758/1,758** original bytes.
+Capturing a long-lived native pointer instead regresses 20 bytes, and
+wrapping those accesses in an inline helper changed the function extent;
+those candidates were rejected. The three exact draw companion leaves
+(35, 38 and 91 bytes) were also replayed. No newly exact owner or
+Windows runtime proof is claimed.
+
 ## 2026-11-02 native Enemy attached-effect ring helper in large update owner
 
 The actual exact `EnemyCoreUpdateAttachedEffects` helper (151 original
