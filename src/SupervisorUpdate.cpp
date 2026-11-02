@@ -31,11 +31,12 @@ enum SupervisorUpdateState
     SUPERVISOR_STATE_13 = 13,
 };
 
-struct SupervisorUpdateLayout
+// Only the three frame offsets live inside the independently constructed
+// three-element 0xF0 Supervisor ctor array at +0x78. Everything else in
+// OnUpdate belongs directly to the native Supervisor runtime class.
+struct SupervisorUpdateFrameOffsetsView
 {
-    unsigned char unknown000[0x08];
-    IDirect3DDevice8 *d3dDevice;
-    unsigned char unknown00C[0x160 - 0x0C];
+    unsigned char unknown000[0x160];
     float frameOffsetX160;
     float frameOffsetY164;
     unsigned char unknown168[0x250 - 0x168];
@@ -44,49 +45,17 @@ struct SupervisorUpdateLayout
     unsigned char unknown258[0x340 - 0x258];
     float frameOffsetX340;
     float frameOffsetY344;
-    unsigned char unknown348[0x454 - 0x348];
-    int calcCount;
-    unsigned char unknown458[0x478 - 0x458];
-    int field478;
-    SupervisorFrameEntryStorageView entries47C[20];
-    SupervisorFrameEntryStorageView lastReceived56C[2];
-    unsigned char unknown584[0x58C - 0x584];
-    int wantedState;
-    int curState;
-    int wantedState2;
-    int value598;
-    int value59C;
-    unsigned char unknown5A0[0x5D4 - 0x5A0];
-    signed char flags5D4;
-    unsigned char unknown5D5[0x6AC - 0x5D5];
-    int runningSubthreadHandle;
-    unsigned char unknown6B0[8];
-    int subthreadActive;
-    int startupThreadState;
-    unsigned char unknown6C0[0x794 - 0x6C0];
-    int frameState794;
-    unsigned char unknown798[8];
-    int exeChecksum;
-    int exeSize;
 };
-
-typedef char SupervisorUpdateLayoutSizeCheck[
-    (sizeof(SupervisorUpdateLayout) == 0x7A8) ? 1 : -1];
-typedef char SupervisorUpdateQueuesAt47C[
-    (offsetof(SupervisorUpdateLayout, entries47C) == 0x47C) ? 1 : -1];
-typedef char SupervisorUpdateLastReceivedAt56C[
-    (offsetof(SupervisorUpdateLayout, lastReceived56C) == 0x56C) ? 1 : -1];
-typedef char SupervisorUpdateAfterQueuesAt584[
-    (offsetof(SupervisorUpdateLayout, unknown584) == 0x584) ? 1 : -1];
 typedef char SupervisorUpdateFrameOffsetsAt160[
-    (offsetof(SupervisorUpdateLayout, frameOffsetX160) == 0x160 &&
-     offsetof(SupervisorUpdateLayout, frameOffsetY164) == 0x164 &&
-     offsetof(SupervisorUpdateLayout, frameOffsetX250) == 0x250 &&
-     offsetof(SupervisorUpdateLayout, frameOffsetY254) == 0x254 &&
-     offsetof(SupervisorUpdateLayout, frameOffsetX340) == 0x340 &&
-     offsetof(SupervisorUpdateLayout, frameOffsetY344) == 0x344) ? 1 : -1];
-typedef char SupervisorUpdateFrameStateAt794[
-    (offsetof(SupervisorUpdateLayout, frameState794) == 0x794) ? 1 : -1];
+    (offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetX160) == 0x160 &&
+     offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetY164) == 0x164 &&
+     offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetX250) == 0x250 &&
+     offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetY254) == 0x254 &&
+     offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetX340) == 0x340 &&
+     offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetY344) == 0x344) ? 1 : -1];
+typedef char SupervisorUpdateNativeQueueAt47C[
+    (offsetof(Supervisor, entries47C) == 0x47C &&
+     offsetof(Supervisor, lastReceived56C) == 0x56C) ? 1 : -1];
 
 }
 
@@ -102,10 +71,10 @@ extern int __fastcall RegisterTitleScreen(int mode);
 
 int Supervisor::OnUpdate(Supervisor *supervisor)
 {
-    SupervisorUpdateLayout *s =
-        reinterpret_cast<SupervisorUpdateLayout *>(supervisor);
-    SupervisorUpdateLayout *globalSupervisor =
-        reinterpret_cast<SupervisorUpdateLayout *>(&g_Supervisor);
+    Supervisor *s = supervisor;
+    Supervisor *globalSupervisor = &g_Supervisor;
+    SupervisorUpdateFrameOffsetsView *frameOffsets =
+        reinterpret_cast<SupervisorUpdateFrameOffsetsView *>(&g_Supervisor);
     int registrationContext;
 
     s->field478 = 0;
@@ -132,7 +101,7 @@ int Supervisor::OnUpdate(Supervisor *supervisor)
                 g_SupervisorNetworkState->ResetSession();
                 SupervisorNetworkMarkInactive(g_SupervisorNetworkState);
                 g_SupervisorNetworkState->connectionState = 0;
-                s->curState = SUPERVISOR_STATE_1;
+                s->curState590 = SUPERVISOR_STATE_1;
                 goto UPDATE_FRAME;
 
             case 4:
@@ -146,45 +115,45 @@ int Supervisor::OnUpdate(Supervisor *supervisor)
     }
 
 UPDATE_FRAME:
-    if (s->flags5D4 < 0 && !SupervisorSubthreadIsRunning(supervisor))
+    if (s->flagsLow5D4 < 0 && !SupervisorSubthreadIsRunning(supervisor))
         return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
 
     globalSupervisor->frameState794 = 0xff;
     g_AnmManager->ResetForSupervisorFrame();
-    globalSupervisor->frameOffsetX160 = 0.0f;
-    globalSupervisor->frameOffsetY164 = 0.0f;
-    globalSupervisor->frameOffsetX250 = 0.0f;
-    globalSupervisor->frameOffsetY254 = 0.0f;
-    globalSupervisor->frameOffsetX340 = 0.0f;
-    globalSupervisor->frameOffsetY344 = 0.0f;
+    frameOffsets->frameOffsetX160 = 0.0f;
+    frameOffsets->frameOffsetY164 = 0.0f;
+    frameOffsets->frameOffsetX250 = 0.0f;
+    frameOffsets->frameOffsetY254 = 0.0f;
+    frameOffsets->frameOffsetX340 = 0.0f;
+    frameOffsets->frameOffsetY344 = 0.0f;
     g_AnmManager->ExecuteScriptArray(g_SupervisorLoadingVms, 3);
     if (g_AnmManager->ServicePreloadedAnims() != 0)
     {
         return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
     }
 
-    if (s->startupThreadState != 0)
+    if (s->startupThreadState6BC != 0)
     {
-        if (s->startupThreadState == 2)
+        if (s->startupThreadState6BC == 2)
             return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
         if (s->subthreadActive != 0)
             return CHAIN_CALLBACK_RESULT_CONTINUE;
-        s->startupThreadState = 0;
+        s->startupThreadState6BC = 0;
     }
 
     g_SoundPlayer.UpdateFades();
 
-    if (s->wantedState != s->curState)
+    if (s->wantedState58C != s->curState590)
     {
-        int previousState = s->curState;
-        s->wantedState2 = s->wantedState;
+        int previousState = s->curState590;
+        s->wantedState2 = s->wantedState58C;
 
-        switch (s->wantedState)
+        switch (s->wantedState58C)
         {
         case SUPERVISOR_STATE_0:
         REGISTER_MODE0:
-            s->curState = SUPERVISOR_STATE_1;
-            globalSupervisor->d3dDevice->ResourceManagerDiscardBytes(0);
+            s->curState590 = SUPERVISOR_STATE_1;
+            globalSupervisor->d3dDevice08->ResourceManagerDiscardBytes(0);
             registrationContext = 0;
             goto REGISTER_TITLE_MODE;
 
@@ -216,7 +185,7 @@ UPDATE_FRAME:
 
             case SUPERVISOR_STATE_1:
                 GameManager_CutChain();
-                s->curState = SUPERVISOR_STATE_0;
+                s->curState590 = SUPERVISOR_STATE_0;
                 goto REGISTER_MODE0;
 
             case SUPERVISOR_STATE_3:
@@ -225,7 +194,7 @@ UPDATE_FRAME:
                 if (GameManagerSetupLayout::RegisterChain() != 0)
                     return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
             SET_GAME_MANAGER_STATE2:
-                s->curState = SUPERVISOR_STATE_2;
+                s->curState590 = SUPERVISOR_STATE_2;
                 break;
 
             case SUPERVISOR_STATE_6:
@@ -252,7 +221,7 @@ UPDATE_FRAME:
                 goto REREGISTER_GAME_MANAGER;
 
             case SUPERVISOR_STATE_12:
-                globalSupervisor->curState = SUPERVISOR_STATE_3;
+                globalSupervisor->curState590 = SUPERVISOR_STATE_3;
                 goto REREGISTER_GAME_MANAGER;
 
             default:
@@ -267,7 +236,7 @@ UPDATE_FRAME:
                 return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
             if (previousState == SUPERVISOR_STATE_1)
             {
-                s->curState = SUPERVISOR_STATE_0;
+                s->curState590 = SUPERVISOR_STATE_0;
                 goto REGISTER_MODE0;
             }
             break;
@@ -278,7 +247,7 @@ UPDATE_FRAME:
             case SUPERVISOR_STATE_NEG1:
                 return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
             case SUPERVISOR_STATE_1:
-                s->curState = SUPERVISOR_STATE_0;
+                s->curState590 = SUPERVISOR_STATE_0;
                 goto REGISTER_MODE0;
             case SUPERVISOR_STATE_6:
                 goto REGISTER_MODE1_B;
@@ -293,12 +262,12 @@ UPDATE_FRAME:
     }
 
 TRANSITION_DONE:
-    s->wantedState = s->curState;
-    s->calcCount++;
-    if (s->calcCount % 4000 == 3999 &&
+    s->wantedState58C = s->curState590;
+    s->calcCount454++;
+    if (s->calcCount454 % 4000 == 3999 &&
         reinterpret_cast<SupervisorVersionView *>(globalSupervisor)->CheckVersion(
-            "0150a", globalSupervisor->exeSize,
-            globalSupervisor->exeChecksum) != 0)
+            "0150a", globalSupervisor->exeSize7A4,
+            globalSupervisor->exeChecksum7A0) != 0)
     {
         return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
     }
@@ -308,14 +277,14 @@ TRANSITION_DONE:
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 
 REGISTER_MODE1_A:
-    s->curState = SUPERVISOR_STATE_1;
-    globalSupervisor->d3dDevice->ResourceManagerDiscardBytes(0);
+    s->curState590 = SUPERVISOR_STATE_1;
+    globalSupervisor->d3dDevice08->ResourceManagerDiscardBytes(0);
     registrationContext = 1;
     goto REGISTER_TITLE_MODE;
 
 REGISTER_MODE1_B:
-    s->curState = SUPERVISOR_STATE_1;
-    globalSupervisor->d3dDevice->ResourceManagerDiscardBytes(0);
+    s->curState590 = SUPERVISOR_STATE_1;
+    globalSupervisor->d3dDevice08->ResourceManagerDiscardBytes(0);
     registrationContext = 1;
 REGISTER_TITLE_MODE:
     if (RegisterTitleScreen(registrationContext) != 0)

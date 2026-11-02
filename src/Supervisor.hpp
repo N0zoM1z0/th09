@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameConfiguration.hpp"
+#include "SupervisorFrameQueueStorageView.hpp"
 
 #include <stddef.h>
 
@@ -66,9 +67,18 @@ class Supervisor
     GameConfiguration config388;
     // These slots are independently observed by the original 1,230-byte
     // GameManager callback and the 214-byte Supervisor loading-VM owner.
-    unsigned char unknown454[0x590 - 0x454];
-    int state590;
-    int value594;
+    // Twenty frame queue records plus two last-received entries have their
+    // own exact original-bound push/pop owners. The complete Supervisor
+    // OnUpdate boss also reads these same +0x47C/+0x56C arrays.
+    int calcCount454;
+    unsigned char unknown458[0x478 - 0x458];
+    int field478;
+    SupervisorFrameEntryStorageView entries47C[20];
+    SupervisorFrameEntryStorageView lastReceived56C[2];
+    unsigned char unknown584[0x58C - 0x584];
+    int wantedState58C;
+    union { int state590; int curState590; };
+    union { int value594; int wantedState2; };
     int value598;
     int value59C;
     unsigned char unknown5A0[4];
@@ -77,18 +87,22 @@ class Supervisor
     float framerateMultiplier5B8;
     unsigned char unknown5BC[0x5D0 - 0x5BC];
     AnmLoaded *loadingAnm5D0;
-    union { volatile unsigned int flags5D4; unsigned int flags; };
+    union { volatile unsigned int flags5D4; unsigned int flags; signed char flagsLow5D4; };
     unsigned char unknown5D8[0x6AC - 0x5D8];
     int runningSubthreadHandle;
     unsigned char unknown6B0[4];
     int subthreadCloseRequestActive;
     int subthreadActive;
-    unsigned char unknown6BC[0x740 - 0x6BC];
+    int startupThreadState6BC;
+    unsigned char unknown6C0[0x740 - 0x6C0];
     int loadingVmsHaveBeenSetup;
-    unsigned char unknown744[0x798 - 0x744];
+    unsigned char unknown744[0x794 - 0x744];
+    int frameState794;
     unsigned int totalPlayTime;
     unsigned int systemTime;
-    unsigned char unknown7A0[0x7B0 - 0x7A0];
+    int exeChecksum7A0;
+    int exeSize7A4;
+    unsigned char unknown7A8[0x7B0 - 0x7A8];
 };
 
 typedef char SupervisorD3DAt04[
@@ -104,6 +118,20 @@ typedef char SupervisorFrameMultiplierAt5B8[
 typedef char SupervisorFlagsAt5D4[
     (offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
 typedef char SupervisorSizeIs7B0[(sizeof(Supervisor) == 0x7B0) ? 1 : -1];
+typedef char SupervisorNativeUpdateFields[
+    (offsetof(Supervisor, calcCount454) == 0x454 &&
+     offsetof(Supervisor, field478) == 0x478 &&
+     offsetof(Supervisor, entries47C) == 0x47C &&
+     offsetof(Supervisor, lastReceived56C) == 0x56C &&
+     offsetof(Supervisor, wantedState58C) == 0x58C &&
+     offsetof(Supervisor, curState590) == 0x590 &&
+     offsetof(Supervisor, wantedState2) == 0x594 &&
+     offsetof(Supervisor, flagsLow5D4) == 0x5D4 &&
+     offsetof(Supervisor, startupThreadState6BC) == 0x6BC &&
+     offsetof(Supervisor, frameState794) == 0x794 &&
+     offsetof(Supervisor, exeChecksum7A0) == 0x7A0 &&
+     offsetof(Supervisor, exeSize7A4) == 0x7A4) ? 1 : -1];
+
 typedef char SupervisorNativeSetupFields[
     (offsetof(Supervisor, state590) == 0x590 &&
      offsetof(Supervisor, value598) == 0x598 &&
