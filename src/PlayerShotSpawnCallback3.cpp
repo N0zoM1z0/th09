@@ -5,13 +5,12 @@ struct PlayerShotSpawn3DescriptorView
     unsigned char unknown02[0x36];
 };
 
-struct PlayerShotSpawn3ShotView
-{
-    unsigned char unknown000[0x43C];
-    float velocityX43C;
-    float velocityY440;
-    float velocityZ444;
-};
+// Preserve the original shot callback parameter's ABI spelling.  Its
+// physical +0x43C..+0x448 velocity fields are PlayerShotCtorView's
+// native Float3, already used by movement and the exact update callback.
+struct PlayerShotSpawn3ShotView;
+typedef char PlayerShotSpawn3NativeVelocityAt43C[
+    (offsetof(PlayerShotCtorView, velocity43C) == 0x43C) ? 1 : -1];
 
 // Keep the recorded function-pointer ABI symbol; its receiver is the real
 // PlayerLifecycleView, not an independent 0x1CE4-byte player model.
@@ -28,8 +27,10 @@ int __fastcall PlayerShotSpawnCallbackType3(
         reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
             reinterpret_cast<PlayerShotInitShotView *>(shot),
             reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
-        shot->velocityX43C = 0.0f;
-        shot->velocityY440 = -24.0f;
+        PlayerShotCtorView *nativeShot =
+            reinterpret_cast<PlayerShotCtorView *>(shot);
+        nativeShot->velocity43C.x = 0.0f;
+        nativeShot->velocity43C.y = -24.0f;
         PlayerLifecycleView *lifecycle =
             reinterpret_cast<PlayerLifecycleView *>(player);
         lifecycle->movementFields1CCC.speedMultiplier1CE0 = 0.5f;
