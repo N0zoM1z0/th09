@@ -33,13 +33,6 @@ typedef char ScreenEffectSupervisorDeviceAt08[
 typedef char ScreenEffectSupervisorPresentAt350[
     (offsetof(ScreenEffectSupervisorView, presentParameters) == 0x350) ? 1 : -1];
 
-struct ScreenEffectAnmManagerView
-{
-    unsigned char unknown000[0x1C];
-    float shakeX;
-    float shakeY;
-};
-
 // TH09's two gameplay shake records live in the genuine 0xF0 Supervisor
 // constructor-array elements, at +0x160/+0x164 and +0x250/+0x254.
 // Do not carry a parallel 0x250-byte Supervisor memory projection here.
@@ -65,11 +58,6 @@ typedef char VertexDiffuseXyzrhwSizeIs14[
 static __inline ScreenEffectSupervisorView *ScreenEffectSupervisor()
 {
     return reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor);
-}
-
-static __inline ScreenEffectAnmManagerView *ScreenEffectAnmManager()
-{
-    return reinterpret_cast<ScreenEffectAnmManagerView *>(g_AnmManager);
 }
 
 ScreenEffect::ScreenEffect()
@@ -301,26 +289,26 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
     switch (g_ReplayRng.GetRandomU32InRange(3))
     {
     case 0:
-        ScreenEffectAnmManager()->shakeX = 0.0f;
+        g_AnmManager->frameShakeX1C = 0.0f;
         break;
     case 1:
-        ScreenEffectAnmManager()->shakeX = shakeAmount;
+        g_AnmManager->frameShakeX1C = shakeAmount;
         break;
     case 2:
-        ScreenEffectAnmManager()->shakeX = -shakeAmount;
+        g_AnmManager->frameShakeX1C = -shakeAmount;
         break;
     }
 
     switch (g_ReplayRng.GetRandomU32InRange(3))
     {
     case 0:
-        ScreenEffectAnmManager()->shakeY = 0.0f;
+        g_AnmManager->frameShakeY20 = 0.0f;
         break;
     case 1:
-        ScreenEffectAnmManager()->shakeY = shakeAmount;
+        g_AnmManager->frameShakeY20 = shakeAmount;
         break;
     case 2:
-        ScreenEffectAnmManager()->shakeY = -shakeAmount;
+        g_AnmManager->frameShakeY20 = -shakeAmount;
         break;
     }
 

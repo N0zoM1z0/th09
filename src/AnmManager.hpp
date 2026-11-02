@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stddef.h>
+
 #if defined(TH09_ANM_MANAGER_LIFECYCLE_LAYOUT)
 #include "AnmVmLifecycle.hpp"
 #else
@@ -153,6 +155,12 @@ class AnmManager
         VertexTex1DiffuseXyzrhw *vertices,
         int vertexCount);
 
+    // Original ScreenEffect::CalcShakeEnvelope writes these two ANM manager
+    // scalars at +0x1C/+0x20. Preserve the full loader class offset map.
+    unsigned char unknown000000[0x1C];
+    float frameShakeX1C;
+    float frameShakeY20;
+
 #if defined(TH09_ANM_MANAGER_LIFECYCLE_LAYOUT)
   private:
     struct ManagerDiffuseVertexStorage
@@ -182,7 +190,7 @@ class AnmManager
     typedef char ManagerTexturedVertexStorageSizeIs1C[
         (sizeof(ManagerTexturedVertexStorage) == 0x1C) ? 1 : -1];
 
-    unsigned char unknown000000[0x12064];
+    unsigned char unknown000024[0x12064 - 0x24];
     AnmVm managerVm12064;
     unsigned char unknown12308[0x12894 - 0x12308];
     ManagerDiffuseVertexStorage untexturedVertices12894[4];
@@ -194,6 +202,10 @@ class AnmManager
     unsigned char unknown2B28F4[0x2B2934 - 0x2B28F4];
 #endif
 };
+
+typedef char AnmManagerNativeScreenShakeAt1C[
+    (offsetof(AnmManager, frameShakeX1C) == 0x1C &&
+     offsetof(AnmManager, frameShakeY20) == 0x20) ? 1 : -1];
 
 #if defined(TH09_ANM_MANAGER_LIFECYCLE_LAYOUT)
 typedef char AnmManagerSizeIs2B2934[
