@@ -8,6 +8,10 @@
 struct IDirect3D8;
 struct IDirect3DDevice8;
 struct AnmLoaded;
+struct StartupAnmVm;
+struct StartupAnmLoaded;
+struct MidiOutputStartup;
+struct DummyMidiTimerStartup;
 
 struct SupervisorCtorArrayElement
 {
@@ -63,7 +67,8 @@ class Supervisor
     IDirect3DDevice8 *d3dDevice08;
     unsigned char unknown00C[0x78 - 0x0C];
     SupervisorCtorArrayElement ctorArray078[3];
-    unsigned char unknown348[0x40];
+    unsigned char unknown348[0x384 - 0x348];
+    DummyMidiTimerStartup *dummyMidiTimer384;
     GameConfiguration config388;
     // These slots are independently observed by the original 1,230-byte
     // GameManager callback and the 214-byte Supervisor loading-VM owner.
@@ -75,25 +80,30 @@ class Supervisor
     int field478;
     SupervisorFrameEntryStorageView entries47C[20];
     SupervisorFrameEntryStorageView lastReceived56C[2];
-    unsigned char unknown584[0x58C - 0x584];
+    StartupAnmVm *startupVm584;
+    unsigned char unknown588[0x58C - 0x588];
     int wantedState58C;
     union { int state590; int curState590; };
     union { int value594; int wantedState2; };
     int value598;
     int value59C;
     unsigned char unknown5A0[4];
-    int screenTransitionCountdown;
-    unsigned char unknown5A8[0x5B8 - 0x5A8];
-    float framerateMultiplier5B8;
-    unsigned char unknown5BC[0x5D0 - 0x5BC];
-    AnmLoaded *loadingAnm5D0;
+    union { int screenTransitionCountdown; int startupField5A4; };
+    union { int startupField5A8; int suppressFpsDisplay; };
+    int disableVsync;
+    unsigned char unknown5B0[0x5B8 - 0x5B0];
+    union { float framerateMultiplier5B8; float gameSpeed; };
+    MidiOutputStartup *midiOutput5BC;
+    unsigned char unknown5C0[0x5CC - 0x5C0];
+    StartupAnmLoaded *textAnm5CC;
+    union { AnmLoaded *loadingAnm5D0; void *loadingAnm; };
     union { volatile unsigned int flags5D4; unsigned int flags; signed char flagsLow5D4; };
     unsigned char unknown5D8[0x6AC - 0x5D8];
     int runningSubthreadHandle;
     unsigned char unknown6B0[4];
     int subthreadCloseRequestActive;
     int subthreadActive;
-    int startupThreadState6BC;
+    union { int startupThreadState6BC; int startupThreadState; };
     unsigned char unknown6C0[0x740 - 0x6C0];
     int loadingVmsHaveBeenSetup;
     unsigned char unknown744[0x794 - 0x744];
@@ -118,6 +128,19 @@ typedef char SupervisorFrameMultiplierAt5B8[
 typedef char SupervisorFlagsAt5D4[
     (offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
 typedef char SupervisorSizeIs7B0[(sizeof(Supervisor) == 0x7B0) ? 1 : -1];
+typedef char SupervisorNativeStartupAndAddedFields[
+    (offsetof(Supervisor, dummyMidiTimer384) == 0x384 &&
+     offsetof(Supervisor, startupVm584) == 0x584 &&
+     offsetof(Supervisor, startupField5A4) == 0x5A4 &&
+     offsetof(Supervisor, startupField5A8) == 0x5A8 &&
+     offsetof(Supervisor, suppressFpsDisplay) == 0x5A8 &&
+     offsetof(Supervisor, disableVsync) == 0x5AC &&
+     offsetof(Supervisor, gameSpeed) == 0x5B8 &&
+     offsetof(Supervisor, midiOutput5BC) == 0x5BC &&
+     offsetof(Supervisor, textAnm5CC) == 0x5CC &&
+     offsetof(Supervisor, loadingAnm) == 0x5D0 &&
+     offsetof(Supervisor, startupThreadState) == 0x6BC) ? 1 : -1];
+
 typedef char SupervisorNativeUpdateFields[
     (offsetof(Supervisor, calcCount454) == 0x454 &&
      offsetof(Supervisor, field478) == 0x478 &&

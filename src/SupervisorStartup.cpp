@@ -61,32 +61,10 @@ struct SoundPlayerStartup
     void StartBGM(const char *filename);
 };
 
-struct SupervisorStartupLayout
-{
-    unsigned char unknown000[0x384];
-    DummyMidiTimerStartup *dummyMidiTimer;
-    unsigned char unknown388[0x442 - 0x388];
-    unsigned char musicVolume;
-    unsigned char sfxVolume;
-    unsigned char unknown444[0x584 - 0x444];
-    StartupAnmVm *startupVm;
-    unsigned char unknown588[0x5A4 - 0x588];
-    int startupField5A4;
-    int startupField5A8;
-    unsigned char unknown5AC[0x5B8 - 0x5AC];
-    float gameSpeed;
-    MidiOutputStartup *midiOutput;
-    unsigned char unknown5C0[0x5CC - 0x5C0];
-    StartupAnmLoaded *textAnm;
-    unsigned char unknown5D0[4];
-    unsigned int flags;
-    unsigned char unknown5D8[0x6B4 - 0x5D8];
-    int subthreadCloseRequestActive;
-    int subthreadActive;
-    int startupThreadState;
-    unsigned char unknown6C0[0x798 - 0x6C0];
-    DWORD totalPlayTime;
-};
+// Startup and the unsplit Supervisor::OnUpdate share the same native 0x7B0
+// object. The external StartupAnmVm/StartupAnmLoaded method symbols remain
+// distinct and are not falsely renamed to unrelated runtime methods.
+typedef Supervisor SupervisorStartupLayout;
 
 typedef char SupervisorStartupFlagsAt5D4[
     (offsetof(SupervisorStartupLayout, flags) == 0x5D4) ? 1 : -1];
@@ -243,7 +221,7 @@ static int SetupDInputInternal(Supervisor *supervisor)
 
 static inline SupervisorStartupLayout *StartupLayout()
 {
-    return reinterpret_cast<SupervisorStartupLayout *>(&g_Supervisor);
+    return &g_Supervisor;
 }
 
 static inline void CloseStartupThread()
@@ -259,26 +237,26 @@ void Supervisor::StartupThread(Supervisor *unused)
     StartupLayout()->totalPlayTime = timeGetTime();
     SetupDInputInternal(&g_Supervisor);
 
-    if (StartupLayout()->midiOutput == NULL)
+    if (StartupLayout()->midiOutput5BC == NULL)
     {
-        StartupLayout()->midiOutput = static_cast<MidiOutputStartup *>(
+        StartupLayout()->midiOutput5BC = static_cast<MidiOutputStartup *>(
             g_ZunMemory.AddToRegistry(new MidiOutputStartup, sizeof(MidiOutputStartup),
                                       "MidiSysInf"));
     }
-    if (StartupLayout()->midiOutput != NULL)
-        StartupLayout()->midiOutput->ReadFileData(30, "bgm/init.mid");
+    if (StartupLayout()->midiOutput5BC != NULL)
+        StartupLayout()->midiOutput5BC->ReadFileData(30, "bgm/init.mid");
 
     g_SoundPlayer.InitSoundBuffers();
-    StartupLayout()->textAnm = g_AnmManager->PreloadAnm(0, "text.anm");
-    if (StartupLayout()->textAnm == NULL)
+    StartupLayout()->textAnm5CC = g_AnmManager->PreloadAnm(0, "text.anm");
+    if (StartupLayout()->textAnm5CC == NULL)
         goto error;
 
-    StartupLayout()->startupVm = static_cast<StartupAnmVm *>(
+    StartupLayout()->startupVm584 = static_cast<StartupAnmVm *>(
         g_ZunMemory.AddToRegistry(new StartupAnmVm, sizeof(StartupAnmVm), "SprtInf"));
-    StartupLayout()->textAnm->InitializeAndSetSprite(StartupLayout()->startupVm, 31);
-    StartupLayout()->startupVm->x = 320.0f;
-    StartupLayout()->startupVm->y = 240.0f;
-    StartupLayout()->startupVm->z = 0.0f;
+    StartupLayout()->textAnm5CC->InitializeAndSetSprite(StartupLayout()->startupVm584, 31);
+    StartupLayout()->startupVm584->x = 320.0f;
+    StartupLayout()->startupVm584->y = 240.0f;
+    StartupLayout()->startupVm584->z = 0.0f;
 
     if (RegisterAsciiManagerStartup() != 0)
     {
@@ -312,8 +290,8 @@ void Supervisor::StartupThread(Supervisor *unused)
         goto error;
     }
 
-    g_SoundPlayer.bgmVolume = static_cast<signed char>(StartupLayout()->musicVolume);
-    g_SoundPlayer.sfxVolume = static_cast<signed char>(StartupLayout()->sfxVolume);
+    g_SoundPlayer.bgmVolume = static_cast<signed char>(StartupLayout()->config388.musicVolume);
+    g_SoundPlayer.sfxVolume = static_cast<signed char>(StartupLayout()->config388.sfxVolume);
 
     float bgmVolume = g_SoundPlayer.bgmVolume * 0.01f;
     if (g_SoundPlayer.sfxVolume != 0)
@@ -349,12 +327,12 @@ void Supervisor::StartupThread(Supervisor *unused)
 
     if ((StartupLayout()->flags & 0x40u) != 0)
     {
-        StartupLayout()->dummyMidiTimer = static_cast<DummyMidiTimerStartup *>(
+        StartupLayout()->dummyMidiTimer384 = static_cast<DummyMidiTimerStartup *>(
             g_ZunMemory.AddToRegistry(new DummyMidiTimerStartup,
                                       sizeof(DummyMidiTimerStartup),
                                       "DummyTimerSysInf"));
-        if (StartupLayout()->dummyMidiTimer != NULL)
-            StartupLayout()->dummyMidiTimer->StartTimer();
+        if (StartupLayout()->dummyMidiTimer384 != NULL)
+            StartupLayout()->dummyMidiTimer384->StartTimer();
     }
 
     CloseStartupThread();

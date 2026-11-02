@@ -17,18 +17,12 @@ struct SupervisorAddedAnmManagerView
     int SetupVertexBuffer();
 };
 
-struct SupervisorAddedLayout
+// The original 238-byte Supervisor AddedCallback uses the same physical
+// Supervisor as StartupThread and the unsplit OnUpdate state machine.
+// Preserve the separate original SupervisorAddedLayout C++ callee identities
+// through a nonvirtual zero-offset derived interface.
+struct SupervisorAddedLayout : Supervisor
 {
-    unsigned char unknown000[0x5A8];
-    int suppressFpsDisplay;
-    int disableVsync;
-    unsigned char unknown5B0[0x5B8 - 0x5B0];
-    float gameSpeed;
-    unsigned char unknown5BC[0x5D0 - 0x5BC];
-    void *loadingAnm;
-    unsigned char unknown5D4[0x6BC - 0x5D4];
-    int startupThreadState;
-
     void SetupLoadingVms(Float3 *position);
     int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);
 };
