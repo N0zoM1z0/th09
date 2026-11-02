@@ -18,12 +18,18 @@ struct DummyMidiTimerStartup;
 
 struct SupervisorCtorArrayElement
 {
-    unsigned char unknown000[0xF0];
+    unsigned char unknown000[0xE8];
+    float frameOffsetX;
+    float frameOffsetY;
 
     // Declaration only: the target callback is a shared/folded three-byte
     // constructor whose original owner and source mapping remain unresolved.
     SupervisorCtorArrayElement();
 };
+
+typedef char SupervisorCtorFrameOffsetsAtE8[
+    (offsetof(SupervisorCtorArrayElement, frameOffsetX) == 0xE8 &&
+     offsetof(SupervisorCtorArrayElement, frameOffsetY) == 0xEC) ? 1 : -1];
 
 typedef char SupervisorCtorArrayElementSizeCheck[
     (sizeof(SupervisorCtorArrayElement) == 0xF0) ? 1 : -1];

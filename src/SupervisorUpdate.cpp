@@ -31,28 +31,14 @@ enum SupervisorUpdateState
     SUPERVISOR_STATE_13 = 13,
 };
 
-// Only the three frame offsets live inside the independently constructed
-// three-element 0xF0 Supervisor ctor array at +0x78. Everything else in
-// OnUpdate belongs directly to the native Supervisor runtime class.
-struct SupervisorUpdateFrameOffsetsView
-{
-    unsigned char unknown000[0x160];
-    float frameOffsetX160;
-    float frameOffsetY164;
-    unsigned char unknown168[0x250 - 0x168];
-    float frameOffsetX250;
-    float frameOffsetY254;
-    unsigned char unknown258[0x340 - 0x258];
-    float frameOffsetX340;
-    float frameOffsetY344;
-};
-typedef char SupervisorUpdateFrameOffsetsAt160[
-    (offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetX160) == 0x160 &&
-     offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetY164) == 0x164 &&
-     offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetX250) == 0x250 &&
-     offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetY254) == 0x254 &&
-     offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetX340) == 0x340 &&
-     offsetof(SupervisorUpdateFrameOffsetsView, frameOffsetY344) == 0x344) ? 1 : -1];
+// Each original 0xF0 Supervisor ctor-array element owns its two trailing
+// frame-offset floats. Their three instances are the +0x160/+0x250/+0x340
+// words used by the full OnUpdate callback.
+typedef char SupervisorUpdateNativeFrameOffsets[
+    (sizeof(SupervisorCtorArrayElement) == 0xF0 &&
+     offsetof(SupervisorCtorArrayElement, frameOffsetX) == 0xE8 &&
+     offsetof(SupervisorCtorArrayElement, frameOffsetY) == 0xEC &&
+     offsetof(Supervisor, ctorArray078) == 0x78) ? 1 : -1];
 typedef char SupervisorUpdateNativeQueueAt47C[
     (offsetof(Supervisor, entries47C) == 0x47C &&
      offsetof(Supervisor, lastReceived56C) == 0x56C) ? 1 : -1];
@@ -73,8 +59,6 @@ int Supervisor::OnUpdate(Supervisor *supervisor)
 {
     Supervisor *s = supervisor;
     Supervisor *globalSupervisor = &g_Supervisor;
-    SupervisorUpdateFrameOffsetsView *frameOffsets =
-        reinterpret_cast<SupervisorUpdateFrameOffsetsView *>(&g_Supervisor);
     int registrationContext;
 
     s->field478 = 0;
@@ -120,12 +104,12 @@ UPDATE_FRAME:
 
     globalSupervisor->frameState794 = 0xff;
     g_AnmManager->ResetForSupervisorFrame();
-    frameOffsets->frameOffsetX160 = 0.0f;
-    frameOffsets->frameOffsetY164 = 0.0f;
-    frameOffsets->frameOffsetX250 = 0.0f;
-    frameOffsets->frameOffsetY254 = 0.0f;
-    frameOffsets->frameOffsetX340 = 0.0f;
-    frameOffsets->frameOffsetY344 = 0.0f;
+    globalSupervisor->ctorArray078[0].frameOffsetX = 0.0f;
+    globalSupervisor->ctorArray078[0].frameOffsetY = 0.0f;
+    globalSupervisor->ctorArray078[1].frameOffsetX = 0.0f;
+    globalSupervisor->ctorArray078[1].frameOffsetY = 0.0f;
+    globalSupervisor->ctorArray078[2].frameOffsetX = 0.0f;
+    globalSupervisor->ctorArray078[2].frameOffsetY = 0.0f;
     g_AnmManager->ExecuteScriptArray(g_SupervisorLoadingVms, 3);
     if (g_AnmManager->ServicePreloadedAnims() != 0)
     {
