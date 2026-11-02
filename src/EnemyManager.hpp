@@ -229,12 +229,20 @@ struct EnemyView
     EnemyFloat3 movementOrigin2E1C;
     unsigned char movementTimer2E28[0x0C];
     int movementDuration2E34;
-    unsigned char unknown2E38[0x2E48 - 0x2E38];
+    float bulletRankSpeedLow2E38;
+    float bulletRankSpeedHigh2E3C;
+    short bulletRankCount1Low2E40;
+    short bulletRankCount1High2E42;
+    short bulletRankCount2Low2E44;
+    short bulletRankCount2High2E46;
     int life2E48;
-    unsigned char unknown2E4C[0x2E54 - 0x2E4C];
+    int maxLife2E4C;
+    int phaseStartingLife2E50;
     int operandValue2E54;
     int sequenceIndex2E58;
-    unsigned char unknown2E5C[0x2E6C - 0x2E5C];
+    int primaryDamageAccumulator2E5C;
+    int secondaryDamageAccumulator2E60;
+    unsigned char unknown2E64[0x2E6C - 0x2E64];
     int bossTimerCurrent2E6C;
     unsigned char unknown2E70[0x2E74 - 0x2E70];
     // Original 0x214-byte bullet and laser descriptors are contiguous with
@@ -252,7 +260,8 @@ struct EnemyView
         unsigned int defeatTokenType335C;
         int itemDropType335C;
     };
-    unsigned char unknown3360[0x3368 - 0x3360];
+    int itemDropCount3360;
+    int itemDropExtraCount3364;
     signed char deathEffectVariant3368;
     unsigned char unknown3369[0x336B - 0x3369];
     unsigned char bossSlot336B;
@@ -328,6 +337,19 @@ typedef char EnemyViewNativeEclCallDepthAndSubroutines[
      offsetof(EnemyView, pendingSubroutineId2D70) == 0x2D70) ? 1 : -1];
 typedef char EnemyViewPendingSubroutineAt2D70[
     (offsetof(EnemyView, pendingSubroutineId2D70) == 0x2D70) ? 1 : -1];
+// ECL rank, life and reward fields have independently observable 0x10,
+// 0x18 and 0x08 byte extents; the timer's unknown first two dwords remain
+// separate from the exact resolver's +0x2E6C current-frame member.
+typedef char EnemyViewNativeEclLifeRankAndDrops[
+    (offsetof(EnemyView, bulletRankSpeedLow2E38) == 0x2E38 &&
+     offsetof(EnemyView, bulletRankCount1Low2E40) == 0x2E40 &&
+     offsetof(EnemyView, bulletRankCount2High2E46) == 0x2E46 &&
+     offsetof(EnemyView, maxLife2E4C) == 0x2E4C &&
+     offsetof(EnemyView, phaseStartingLife2E50) == 0x2E50 &&
+     offsetof(EnemyView, primaryDamageAccumulator2E5C) == 0x2E5C &&
+     offsetof(EnemyView, secondaryDamageAccumulator2E60) == 0x2E60 &&
+     offsetof(EnemyView, itemDropCount3360) == 0x3360 &&
+     offsetof(EnemyView, itemDropExtraCount3364) == 0x3364) ? 1 : -1];
 typedef char EnemyViewLifeAt2E48[
     (offsetof(EnemyView, life2E48) == 0x2E48) ? 1 : -1];
 typedef char EnemyViewPositionAt2D74[

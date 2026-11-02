@@ -497,9 +497,9 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
 
     case TH09_ECL_OPCODE_SET_LIFE:
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::View(enemy)->maxLife2E4C = stateInt;
-        Th09EclRunState::View(enemy)->life2E48 = stateInt;
-        Th09EclRunState::View(enemy)->phaseStartingLife2E50 = stateInt;
+        enemy->maxLife2E4C = stateInt;
+        enemy->life2E48 = stateInt;
+        enemy->phaseStartingLife2E50 = stateInt;
         break;
 
     case TH09_ECL_OPCODE_SET_BOSS_TIMER:
@@ -510,7 +510,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     case TH09_ECL_OPCODE_SET_LIFE_CALLBACK:
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::View(enemy)->lifeCallbackThresholds33B0[stateIndex] =
+        enemy->lifeCallbackThresholds33B0[stateIndex] =
             stateInt;
         stateCallback = Th09EclRunControl::ReadInt(enemy, instruction, 2);
         stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
@@ -600,9 +600,9 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_SET_ITEM_DROP_COUNTS:
-        Th09EclRunState::View(enemy)->itemDropCount3360 =
+        enemy->itemDropCount3360 =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::View(enemy)->itemDropExtraCount3364 =
+        enemy->itemDropExtraCount3364 =
             Th09EclRunControl::ReadInt(enemy, instruction, 1);
         break;
 
@@ -682,20 +682,20 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_SET_BULLET_RANK_INFLUENCE:
-        Th09EclRunState::View(enemy)->bulletRankSpeedLow2E38 =
+        enemy->bulletRankSpeedLow2E38 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        Th09EclRunState::View(enemy)->bulletRankSpeedHigh2E3C =
+        enemy->bulletRankSpeedHigh2E3C =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        Th09EclRunState::View(enemy)->bulletRankCount1Low2E40 =
+        enemy->bulletRankCount1Low2E40 =
             static_cast<short>(
                 Th09EclRunControl::ReadInt(enemy, instruction, 2));
-        Th09EclRunState::View(enemy)->bulletRankCount1High2E42 =
+        enemy->bulletRankCount1High2E42 =
             static_cast<short>(
                 Th09EclRunControl::ReadInt(enemy, instruction, 3));
-        Th09EclRunState::View(enemy)->bulletRankCount2Low2E44 =
+        enemy->bulletRankCount2Low2E44 =
             static_cast<short>(
                 Th09EclRunControl::ReadInt(enemy, instruction, 4));
-        Th09EclRunState::View(enemy)->bulletRankCount2High2E46 =
+        enemy->bulletRankCount2High2E46 =
             static_cast<short>(
                 Th09EclRunControl::ReadInt(enemy, instruction, 5));
         break;

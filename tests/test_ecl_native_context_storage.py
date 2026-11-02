@@ -123,6 +123,35 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('(&(owner)->secondaryFlags3380)',movement)
         self.assertNotIn('reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>(',movement)
 
+    def test_ecl_life_rank_and_drop_fields_have_native_enemy_ownership(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        state=(ROOT/'src/EclRunState.inl').read_text()
+        self.assertIn('EnemyViewNativeEclLifeRankAndDrops',native)
+        for field,offset in (('bulletRankSpeedLow2E38','0x2E38'),
+                             ('bulletRankCount1Low2E40','0x2E40'),
+                             ('bulletRankCount2High2E46','0x2E46'),
+                             ('maxLife2E4C','0x2E4C'),
+                             ('phaseStartingLife2E50','0x2E50'),
+                             ('primaryDamageAccumulator2E5C','0x2E5C'),
+                             ('secondaryDamageAccumulator2E60','0x2E60'),
+                             ('itemDropCount3360','0x3360'),
+                             ('itemDropExtraCount3364','0x3364')):
+            with self.subTest(field=field):
+                self.assertIn('offsetof(EnemyView, '+field+') == '+offset,native)
+        for field in ('life2E48','maxLife2E4C','phaseStartingLife2E50',
+                      'bulletRankSpeedLow2E38','bulletRankSpeedHigh2E3C',
+                      'bulletRankCount1Low2E40','bulletRankCount1High2E42',
+                      'bulletRankCount2Low2E44','bulletRankCount2High2E46',
+                      'lifeCallbackThresholds33B0','itemDropCount3360',
+                      'itemDropExtraCount3364'):
+            with self.subTest(source_field=field):
+                self.assertIn('enemy->'+field,state)
+                self.assertNotIn('Th09EclRunState::View(enemy)->'+field,state)
+        # EclOperands' independently exact +0x2E6C current-frame accessor
+        # must survive until the complete timer class can be proved.
+        self.assertIn('int bossTimerCurrent2E6C;',native)
+        self.assertIn('unsigned char unknown2E64[0x2E6C - 0x2E64];',native)
+
     def test_ecl_callback_and_child_context_fields_share_native_enemy(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         core=(ROOT/'src/EclRunState.inl').read_text()
