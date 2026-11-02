@@ -21,8 +21,8 @@ class NativePlayerFocusEffects(unittest.TestCase):
         for field,offset in (('focusEffect364','0x364'),('secondaryEffect368','0x368'),('collisionQuery36C','0x36C')):
             self.assertIn('offsetof(PlayerLifecycleView, '+field+') == '+offset,header)
         self.assertNotIn('unknown0364[0x08]',header)
-        self.assertIn('return player->focusEffect364;',movement)
-        self.assertIn('return player->secondaryEffect368;',movement)
+        self.assertIn('player->focusEffect364',movement)
+        self.assertIn('player->secondaryEffect368',movement)
         self.assertNotIn('reinterpret_cast<unsigned char *>(player) + 0x364',movement)
         self.assertNotIn('reinterpret_cast<unsigned char *>(player) + 0x368',movement)
         # Independent Enemy calc observes the identical physical focus pointer.
@@ -32,8 +32,8 @@ class NativePlayerFocusEffects(unittest.TestCase):
 
     def test_effect_allocation_is_real_and_original_callee_is_preserved(self):
         source=(ROOT/'src/PlayerMovement.cpp').read_text()
-        self.assertIn('PlayerMovementFocusEffect(player) =',source)
-        self.assertIn('PlayerMovementSecondaryEffect(player) =',source)
+        self.assertIn('player->focusEffect364 =',source)
+        self.assertIn('player->secondaryEffect368 =',source)
         self.assertIn('SpawnEffectInFixedSlot(',source)
         with (ROOT/'config/match-units.toml').open('rb') as f:
             u=tomllib.load(f)['units']

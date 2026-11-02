@@ -400,6 +400,24 @@ Enemy leaf functions and four exact Enemy draw units (including 1,758-byte
 in spelling after actual COFF-to-original-VA destination proofs. None of
 this grants new exactness credit or proves Windows runtime semantics.
 
+### 2026-11-02 native focus pair and typed replay input in Player Movement
+
+The true 1,900-byte Player movement boss used two unnecessary inline
+reference wrappers to access its already native effect pointers at Player
++0x364/+0x368. Both have been removed; the PlayerLifecycleView fields
+now directly govern focus effect spawn, interrupt and deactivation.
+The 0x8E-byte `g_ReplayInputStates[3]` allocation is independently
+identified by the input header and now supplies the primary per-side
+input pointer through typed `[sideIndex]` indexing. The second
+`auxiliary2A` read remains a separate byte-offset reload because trying
+to merge or reindex it caused the original bound operand census to
+fail. Of 13 trial variants, direct focus accesses and typed first input
+reproduce the complete physical 1,900-byte owner with **122** residual
+bytes (no newly unequal locations), all 66 relocation fields, 23 calls
+and 435 aligned instruction identities. Both exact dependencies and
+85-byte exact EffectManager fixed-slot spawn callee pass. This does
+not increase the canonical exact count.
+
 ### 2026-11-02 native GameManager playfield in 3,238-byte exact Player selector
 
 Independently reconstructed the original field relationship between

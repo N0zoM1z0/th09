@@ -26,8 +26,8 @@ class PlayerMovementNativeSideEffect(unittest.TestCase):
 
     def test_player_movement_calls_genuine_effect_manager_spawn(self):
         source=(ROOT/'src/PlayerMovement.cpp').read_text()
-        for token in ('PlayerMovementFocusEffect(player) =',
-                      'PlayerMovementSecondaryEffect(player) =',
+        for token in ('player->focusEffect364 =',
+                      'player->secondaryEffect368 =',
                       'effectManager0C->SpawnEffectInFixedSlot('):
             self.assertIn(token,source)
         with (ROOT/'config/match-units.toml').open('rb') as f:

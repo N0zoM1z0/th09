@@ -45,18 +45,6 @@ typedef char PlayerMovementPlayfieldHeightAt36C[
 extern int g_PlayerFocusEffectIds[];
 extern AnmManager *g_AnmManager;
 
-static __inline Effect *&PlayerMovementFocusEffect(
-    PlayerLifecycleView *player)
-{
-    return player->focusEffect364;
-}
-
-static __inline Effect *&PlayerMovementSecondaryEffect(
-    PlayerLifecycleView *player)
-{
-    return player->secondaryEffect368;
-}
-
 int PlayerLifecycleView::UpdateMovementAndOptions()
 {
     PlayerLifecycleView *player = this;
@@ -67,9 +55,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         return 0;
 
     int inputOffset = player->sideIndex * sizeof(ReplayInputState);
-    ReplayInputState *input =
-        reinterpret_cast<ReplayInputState *>(
-            reinterpret_cast<unsigned char *>(g_ReplayInputStates) + inputOffset);
+    ReplayInputState *input = &g_ReplayInputStates[player->sideIndex];
 
     if (input->IsHeld(0x50) == 0x50)
         player->movementDirection30358 = 5;
@@ -106,20 +92,20 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
 
     if ((player->flags1B80 & 3u) != 0)
     {
-        if (PlayerMovementFocusEffect(player) == NULL)
+        if (player->focusEffect364 == NULL)
         {
             EffectFloat3 *effectPosition =
                 reinterpret_cast<EffectFloat3 *>(&player->position1B88);
             // Preserve the first call's side argument before evaluating its
             // manager receiver. The second call still reloads the side slot.
             int spawnSide = player->sideIndex;
-            PlayerMovementFocusEffect(player) =
+            player->focusEffect364 =
                 player->sideState->effectManager0C->SpawnEffectInFixedSlot(
                     7,
                     effectPosition,
                     spawnSide,
                     static_cast<unsigned int>(-1));
-            PlayerMovementSecondaryEffect(player) =
+            player->secondaryEffect368 =
                 player->sideState->effectManager0C->SpawnEffectInFixedSlot(
                     g_PlayerFocusEffectIds[player->sideState->shotType20],
                     effectPosition,
@@ -195,14 +181,14 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     }
     else
     {
-        if (PlayerMovementFocusEffect(player) != NULL)
+        if (player->focusEffect364 != NULL)
         {
             reinterpret_cast<AnmVm *>(
-                PlayerMovementFocusEffect(player)->vms)
+                player->focusEffect364->vms)
                 ->SetInterrupt(1);
-            PlayerMovementFocusEffect(player) = NULL;
-            PlayerMovementSecondaryEffect(player)->active = 0;
-            PlayerMovementSecondaryEffect(player) = NULL;
+            player->focusEffect364 = NULL;
+            player->secondaryEffect368->active = 0;
+            player->secondaryEffect368 = NULL;
         }
 
         switch (player->movementDirection30358)

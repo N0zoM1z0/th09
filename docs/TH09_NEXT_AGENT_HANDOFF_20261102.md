@@ -1,5 +1,23 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 native Player Movement effect/input receiver (1,900-byte boss)
+
+Continued directly on the actual **1,900-byte**
+`PlayerLifecycleView::UpdateMovementAndOptions` nonexact owner. Removed two
+private trivial `PlayerMovementFocusEffect`/`PlayerMovementSecondaryEffect`
+reference wrappers and made each focus-effect lifecycle access an explicit
+native `PlayerLifecycleView::focusEffect364` or `secondaryEffect368` field.
+The first input owner is now the genuine `g_ReplayInputStates[sideIndex]`
+entry (0x8E-byte original record); the *second* focus-dependent auxiliary
+read retains its independent original `inputOffset` reload because
+rewriting it regressed original operand identity. Thirteen VC7.1 source
+trials were checked against the **full** boss: accepted forms preserve all
+1,900 candidate bytes, **122** ordinary residuals, 66 relocation fields,
+23 calls, 435 aligned instructions and both exact sibling replays.
+The exact 85-byte `EffectManager::SpawnEffectInFixedSlot` callee also
+replayed **85/85**. This is source state/ownership cleanup, not an
+exactness promotion or proof of runtime equality.
+
 ## 2026-11-02 exact Player selector 3,238 bytes: one native playfield
 
 Fresh original Japanese TH09 v1.50a PE/COFF evidence establishes all
