@@ -45,17 +45,9 @@ struct PlayerMovementTailFields
 typedef char PlayerMovementTailFieldsSize0C[
     (sizeof(PlayerMovementTailFields) == 0x0C) ? 1 : -1];
 
-typedef int (__fastcall *PlayerMovementOptionCallback)(
-    PlayerLifecycleView *player, void *option);
-
-struct PlayerMovementOptionView
-{
-    unsigned char vm00[0x2A4];
-    unsigned char unknown2A4[0x3C];
-    ZunTimer timer2E0;
-    PlayerMovementOptionCallback updateCallback2EC;
-    unsigned char unknown2F0[4];
-};
+// Consume the actual Player option record at +0x1CEC; do not maintain a
+// second unrelated 0x2F4-byte view for the movement interpreter.
+typedef PlayerOptionStateCtorView PlayerMovementOptionView;
 typedef char PlayerMovementOptionSizeIs2F4[
     (sizeof(PlayerMovementOptionView) == 0x2F4) ? 1 : -1];
 typedef char PlayerMovementOptionTimerAt2E0[
@@ -109,8 +101,7 @@ static __inline PlayerMovementTailFields *PlayerMovementTail(
 static __inline PlayerMovementOptionView *PlayerMovementOptions(
     PlayerLifecycleView *player)
 {
-    return reinterpret_cast<PlayerMovementOptionView *>(
-        reinterpret_cast<unsigned char *>(player) + 0x1CEC);
+    return player->optionStates;
 }
 
 static __inline PlayerMovementSideView *PlayerMovementSide(
