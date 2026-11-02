@@ -1,5 +1,25 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 native Enemy trail and ECL state proof (newer checkpoint)
+
+Independently compared original v1.50a PE and current pinned VC7.1 COFF
+for three further native Enemy integration steps. `EnemyView` now owns
+callback thresholds/IDs and four child-context pointers at +0x33C0..0x33E7,
+rank/life/damage/drop fields at +0x2E38..0x2E63 and +0x3360..0x3367,
+then 96 original-size `0x1C` trail samples at +0x33E8, 192 `0x1C`
+strip vertices at +0x3E68, and timer/attached-effect fields through
++0x542F. ECL script handlers use the native fields rather than the private
+`EnemyCoreView` projection; both share exactly the same trail sample/vertex
+C++ types. The complete 15,564-byte `RunEcl` still differs in 30 ordinary
+bytes; 96 exact siblings pass. The 3,900-byte Enemy calc boss still differs
+in 13 bytes; 88 exact siblings pass. Independently exact ECL operand owners
+1980+726+968+2044 bytes, nine Enemy leaf functions and four Enemy draw
+owners (including the full 1,758-byte draw callback) all replay exact.
+Only 1,005 canonical exact functions are currently credited. These are
+source-layout advances, **not** new byte-exact owner credits or whole-program
+runtime tests. The private compiler labels were rebound only after auditing
+actual COFF-local destinations against unchanged original PE addresses.
+
 ## Current original-backed improvement: Player movement
 
 A November 2 local `gpt-web:` source checkpoint updated the complete

@@ -79,20 +79,10 @@ typedef char EnemyCoreSideOwnerAlternateAtA8[
 // The ECL interpreter and Enemy calc traverse the same native side object.
 // Keep one source layout and one field authority rather than a copy of 0x38.
 typedef EnemySideStateView EnemyCoreSideStateView;
-struct EnemyCoreTrailSampleView
-{
-    Float3 position00;
-    Float3 velocity0C;
-    float angle18;
-};
-struct EnemyCoreTrailVertexView
-{
-    Float3 position00;
-    float rhw0C;
-    unsigned long diffuse10;
-    float u14;
-    float v18;
-};
+// Both lexical ECL and Enemy update use native Enemy's actual samples and
+// vertices, rather than private lookalikes at the same constant offsets.
+typedef EnemyTrailSampleView EnemyCoreTrailSampleView;
+typedef EnemyTrailVertexView EnemyCoreTrailVertexView;
 struct EnemyCoreView
 {
     EnemyManagerCoreView *manager0000;
@@ -453,10 +443,10 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_ATTACH_SPELL_EFFECT:
-        Th09EclRunState::View(enemy)->attachedEffectState53B4.distance64 =
+        enemy->attachedEffectState53B4.distance64 =
             Th09EclRunControl::RawFloat(instruction, 4);
-        Th09EclRunState::View(enemy)->attachedEffectState53B4.count60 =
-            Th09EclRunState::View(enemy)->attachedEffectState53B4.count60 + 1;
+        enemy->attachedEffectState53B4.count60 =
+            enemy->attachedEffectState53B4.count60 + 1;
         break;
 
     case TH09_ECL_OPCODE_SET_DRAW_GROUP:
@@ -736,37 +726,37 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
             reinterpret_cast<Th09EclRunState::TrailInstructionArgs *>(
                 reinterpret_cast<unsigned char *>(instruction) + 0x0C);
 
-        Th09EclRunState::View(enemy)->trailFlags53A0 = trailArgs->flags00;
+        enemy->trailFlags53A0 = trailArgs->flags00;
 
         int historyLength =
             (instruction->parameterMask0A & (1U << 1))
                 ? Th09EclRunControl::ResolveInt(enemy, trailArgs->historyLength04)
                 : trailArgs->historyLength04;
-        Th09EclRunState::View(enemy)->trailHistoryLength53A2 =
+        enemy->trailHistoryLength53A2 =
             static_cast<short>(historyLength);
 
         int collisionLength =
             (instruction->parameterMask0A & (1U << 2))
                 ? Th09EclRunControl::ResolveInt(enemy, trailArgs->collisionLength08)
                 : trailArgs->collisionLength08;
-        Th09EclRunState::View(enemy)->trailCollisionLength53A4 =
+        enemy->trailCollisionLength53A4 =
             static_cast<short>(collisionLength);
 
         int sampleStride =
             (instruction->parameterMask0A & (1U << 3))
                 ? Th09EclRunControl::ResolveInt(enemy, trailArgs->sampleStride0C)
                 : trailArgs->sampleStride0C;
-        Th09EclRunState::View(enemy)->trailSampleStride53A6 =
+        enemy->trailSampleStride53A6 =
             static_cast<short>(sampleStride);
 
-        if ((Th09EclRunState::View(enemy)->trailFlags53A0 &
+        if ((enemy->trailFlags53A0 &
              Th09EclRunState::TRAIL_BUILD_GEOMETRY) != 0)
         {
             g_AnmManager->InitializeHorizontalTextureStrip(
-                &Th09EclRunState::View(enemy)->primaryVm008,
+                &enemy->primaryAnmVm0008,
                 reinterpret_cast<VertexTex1DiffuseXyzrhw *>(
-                    Th09EclRunState::View(enemy)->trailVertices3E68),
-                2 * (Th09EclRunState::View(enemy)->trailHistoryLength53A2 /
+                    enemy->trailVertices3E68),
+                2 * (enemy->trailHistoryLength53A2 /
                      static_cast<short>(sampleStride)));
         }
         break;

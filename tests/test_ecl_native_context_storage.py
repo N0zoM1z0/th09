@@ -123,6 +123,39 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('(&(owner)->secondaryFlags3380)',movement)
         self.assertNotIn('reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>(',movement)
 
+    def test_trail_and_attached_effect_region_is_native_enemy_storage(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        core=(ROOT/'src/EclRunState.inl').read_text()
+        draw=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
+        self.assertIn('EnemyViewNativeTrailAndAttachedEffectOwnership',native)
+        self.assertIn('EnemyTrailSampleView trailSamples33E8[96];',native)
+        self.assertIn('EnemyTrailVertexView trailVertices3E68[192];',native)
+        self.assertIn('typedef EnemyTrailSampleView EnemyCoreTrailSampleView;',core)
+        self.assertIn('typedef EnemyTrailVertexView EnemyCoreTrailVertexView;',core)
+        self.assertIn('EnemyCoreTrailSampleView trailSamples33E8[96];',core)
+        self.assertIn('EnemyCoreTrailVertexView trailVertices3E68[192];',core)
+        self.assertIn('enemy->trailVertices3E68',core)
+        self.assertIn('&enemy->primaryAnmVm0008',core)
+        for f,offset in (('trailSamples33E8','0x33E8'),
+                         ('trailVertices3E68','0x3E68'),
+                         ('trailFlags53A0','0x53A0'),
+                         ('trailHistoryLength53A2','0x53A2'),
+                         ('trailCollisionLength53A4','0x53A4'),
+                         ('trailSampleStride53A6','0x53A6'),
+                         ('damageReductionTimer53A8','0x53A8'),
+                         ('attachedEffectState53B4','0x53B4'),
+                         ('phaseEndSeconds5420','0x5420'),
+                         ('specialAttackTimer5424','0x5424')):
+            with self.subTest(field=f):
+                self.assertIn('offsetof(EnemyView, '+f+') == '+offset,native)
+        for f in ('attachedEffectState53B4','trailFlags53A0',
+                  'trailHistoryLength53A2','trailCollisionLength53A4',
+                  'trailSampleStride53A6','trailVertices3E68'):
+            with self.subTest(source_field=f):
+                self.assertIn('enemy->'+f,core)
+                self.assertNotIn('Th09EclRunState::View(enemy)->'+f,core)
+        self.assertIn('trailVertices3E68',draw)
+
     def test_ecl_life_rank_and_drop_fields_have_native_enemy_ownership(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         state=(ROOT/'src/EclRunState.inl').read_text()

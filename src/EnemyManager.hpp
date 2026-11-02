@@ -3,6 +3,7 @@
 #include "EffectManager.hpp"
 #include "BulletManager.hpp"
 #include "EclOpcodes.hpp"
+#include "EnemyAttachedEffectStateView.hpp"
 #include "PlayerEnemyTrackingStateView.hpp"
 #include "ZunTimer.hpp"
 
@@ -23,6 +24,24 @@ struct EnemyFloat2
     float x;
     float y;
 };
+// Original 0x1C trail sample and the ANM texture-strip vertex are exactly
+// sized; Enemy calc, ECL opcode 157 and draw all share their allocation.
+struct EnemyTrailSampleView
+{
+    Float3 position00;
+    Float3 velocity0C;
+    float angle18;
+};
+struct EnemyTrailVertexView
+{
+    Float3 position00;
+    float rhw0C;
+    unsigned long diffuse10;
+    float u14;
+    float v18;
+};
+typedef char EnemyTrailSampleSizeIs1C[(sizeof(EnemyTrailSampleView) == 0x1C) ? 1 : -1];
+typedef char EnemyTrailVertexSizeIs1C[(sizeof(EnemyTrailVertexView) == 0x1C) ? 1 : -1];
 typedef char EnemyFloat3SizeIs0C[(sizeof(EnemyFloat3) == 0x0C) ? 1 : -1];
 typedef char EnemyFloat2SizeIs08[(sizeof(EnemyFloat2) == 0x08) ? 1 : -1];
 
@@ -298,7 +317,19 @@ struct EnemyView
     int timerCallbackThreshold33D0;
     int timerCallbackSubId33D4;
     void *childEclBlocks33D8[4];
-    unsigned char unknown33E8[0x5430 - 0x33E8];
+    EnemyTrailSampleView trailSamples33E8[96];
+    EnemyTrailVertexView trailVertices3E68[192];
+    unsigned char unknown5368[0x53A0 - 0x5368];
+    unsigned char trailFlags53A0;
+    unsigned char unknown53A1;
+    short trailHistoryLength53A2;
+    short trailCollisionLength53A4;
+    short trailSampleStride53A6;
+    ZunTimer damageReductionTimer53A8;
+    EnemyAttachedEffectStateView attachedEffectState53B4;
+    unsigned char unknown541C[4];
+    int phaseEndSeconds5420;
+    ZunTimer specialAttackTimer5424;
 
     EnemyView();
     float ResolveFloat(float rawValue);
@@ -412,6 +443,19 @@ typedef char EnemyViewNativeEclCallbacksAndChildren[
      offsetof(EnemyView, timerCallbackSubId33D4) == 0x33D4 &&
      offsetof(EnemyView, childEclBlocks33D8) == 0x33D8 &&
      sizeof(((EnemyView *)0)->childEclBlocks33D8) == 0x10) ? 1 : -1];
+typedef char EnemyViewNativeTrailAndAttachedEffectOwnership[
+    (offsetof(EnemyView, trailSamples33E8) == 0x33E8 &&
+     sizeof(((EnemyView *)0)->trailSamples33E8) == 0x0A80 &&
+     offsetof(EnemyView, trailVertices3E68) == 0x3E68 &&
+     sizeof(((EnemyView *)0)->trailVertices3E68) == 0x1500 &&
+     offsetof(EnemyView, trailFlags53A0) == 0x53A0 &&
+     offsetof(EnemyView, trailHistoryLength53A2) == 0x53A2 &&
+     offsetof(EnemyView, trailCollisionLength53A4) == 0x53A4 &&
+     offsetof(EnemyView, trailSampleStride53A6) == 0x53A6 &&
+     offsetof(EnemyView, damageReductionTimer53A8) == 0x53A8 &&
+     offsetof(EnemyView, attachedEffectState53B4) == 0x53B4 &&
+     offsetof(EnemyView, phaseEndSeconds5420) == 0x5420 &&
+     offsetof(EnemyView, specialAttackTimer5424) == 0x5424) ? 1 : -1];
 typedef char EnemyViewRewardFlagsAt3380[
     (offsetof(EnemyView, rewardFlags3380) == 0x3380) ? 1 : -1];
 

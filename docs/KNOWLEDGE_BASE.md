@@ -10,6 +10,26 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 native ECL and Enemy trail allocation (fresh scoped proof)
+
+Verified against SHA-256-pinned TH09 Japanese v1.50a: the one native
+`EnemyView` now holds ECL ANM VMs (+0x08/+0x2AC), complete main context
+(+0x07F4), 16 context stack frames (+0x0A20), call depth/32 subroutine
+slots (+0x2D28..+0x2D70), life/rank/callback/drop state, and the actual
+post-`+0x33E8` trail history and vertex storage. The 96 history records
+(`0xA80` bytes) and 192 vertex records (`0x1500` bytes) are *separate*, not a
+290-element history array; both have `0x1C`-byte records and now share
+C++ type identity between ECL and Enemy core. Native flags/timers/attached
+ring effects end precisely at the `EnemyView` size +0x5430.
+
+Full scoped PE/COFF replays: `RunEcl` 15,564 bytes with 30 residuals,
+96 exact dependencies; `EnemyManager::OnUpdate` 3,900 bytes with 13 residuals,
+88 exact dependencies; four exact 5,718-byte ECL operand owners, nine exact
+Enemy leaf functions and four exact Enemy draw units (including 1,758-byte
+`EnemyManagerDrawImpl`). The required compiler-private labels changed solely
+in spelling after actual COFF-to-original-VA destination proofs. None of
+this grants new exactness credit or proves Windows runtime semantics.
+
 ### 2026-11-02 original-bound Player movement 129 -> 122-byte advance
 
 Original Japanese 1.50a owner `0x0041C170` owns **1,900 physical bytes**
