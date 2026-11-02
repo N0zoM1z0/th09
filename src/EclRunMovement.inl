@@ -134,16 +134,14 @@ inline EnemyMovementView *View(EnemyView *enemy)
     return reinterpret_cast<EnemyMovementView *>(enemy);
 }
 
-inline void *PrimaryAnm(EnemyView *enemy)
+inline AnmLoaded *PrimaryAnm(EnemyView *enemy)
 {
-    return *reinterpret_cast<void **>(
-        reinterpret_cast<unsigned char *>(enemy->manager00) + 0x2AC420);
+    return enemy->manager00->enemyAnm2AC420;
 }
 
-inline void *AlternateAnm(EnemyView *enemy)
+inline AnmLoaded *AlternateAnm(EnemyView *enemy)
 {
-    return *reinterpret_cast<void **>(
-        reinterpret_cast<unsigned char *>(enemy->manager00) + 0x2AC424);
+    return enemy->manager00->opposingEnemyAnm2AC424;
 }
 
 inline void *PrimaryAnmVm(EnemyView *enemy)
@@ -151,11 +149,9 @@ inline void *PrimaryAnmVm(EnemyView *enemy)
     return reinterpret_cast<unsigned char *>(enemy) + 0x0008;
 }
 
-inline void *Player(EnemyView *enemy)
+inline EnemyRewardPlayerView *Player(EnemyView *enemy)
 {
-    unsigned char *side = *reinterpret_cast<unsigned char **>(
-        reinterpret_cast<unsigned char *>(enemy->manager00) + 0x0320);
-    return *reinterpret_cast<void **>(side + 0x0004);
+    return enemy->manager00->sideState320->player04;
 }
 
 inline EnemyPrimaryFlagBits *PrimaryFlagBits(EnemyView *enemy)
