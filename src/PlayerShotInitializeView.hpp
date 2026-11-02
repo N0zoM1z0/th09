@@ -2,6 +2,7 @@
 
 #include "Float3.hpp"
 #include "ZunTimer.hpp"
+#include "PlayerLifecycleView.hpp"
 #include <stddef.h>
 
 class AnmLoaded;
@@ -66,15 +67,13 @@ struct PlayerShotInitDescriptorView
 typedef char PlayerShotInitDescriptorSizeIs38[
     (sizeof(PlayerShotInitDescriptorView) == 0x38) ? 1 : -1];
 
-struct PlayerShotInitOptionView
-{
-    unsigned char unknown000[0x2A4];
-    PlayerShotInitFloat3 position2A4;
-    unsigned char unknown2B0[0x2F4 - 0x2B0];
-};
+// Shot initialization consumes the same source-native options as the
+// unsplit 1,900-byte movement boss; their +0x2A4 position has one owner.
+typedef PlayerOptionStateCtorView PlayerShotInitOptionView;
 
 typedef char PlayerShotInitOptionSizeIs2F4[
-    (sizeof(PlayerShotInitOptionView) == 0x2F4) ? 1 : -1];
+    (sizeof(PlayerShotInitOptionView) == 0x2F4 &&
+     offsetof(PlayerShotInitOptionView, position2A4) == 0x2A4) ? 1 : -1];
 
 
 

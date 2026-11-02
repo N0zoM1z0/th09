@@ -2,16 +2,19 @@
 
 #include "Chain.hpp"
 #include "ZunTimer.hpp"
+#include "Float3.hpp"
 
 #include <stddef.h>
 
 struct Bullet;
+struct EffectManager;
 
 struct PlayerSideStateView
 {
     unsigned char unknown00[0x04];
     void *manager04;
-    unsigned char unknown08[0x08];
+    unsigned char unknown08[0x04];
+    EffectManager *effectManager0C;
     void *attackTarget10;
     void *attackOwner14;
     void *frontSide18;
@@ -25,6 +28,7 @@ struct PlayerSideStateView
 };
 
 typedef char PlayerSideStateSizeIs38[(sizeof(PlayerSideStateView) == 0x38) ? 1 : -1];
+typedef char PlayerSideEffectAt0C[(offsetof(PlayerSideStateView, effectManager0C) == 0x0C) ? 1 : -1];
 
 struct PlayerShtDescriptorView
 {
@@ -231,7 +235,8 @@ typedef int (__fastcall *PlayerOptionUpdateCallback)(
 struct PlayerOptionStateCtorView
 {
     unsigned char vm00[0x2A4];
-    unsigned char unknown2A4[0x3C];
+    Float3 position2A4;
+    unsigned char unknown2B0[0x2E0 - 0x2B0];
     ZunTimer timer2E0;
     PlayerOptionUpdateCallback updateCallback2EC;
     unsigned char unknown2F0[4];
@@ -239,6 +244,8 @@ struct PlayerOptionStateCtorView
     PlayerOptionStateCtorView();
 };
 typedef char PlayerOptionStateCtorSizeIs2F4[(sizeof(PlayerOptionStateCtorView) == 0x2F4) ? 1 : -1];
+typedef char PlayerOptionStatePositionAt2A4[
+    (offsetof(PlayerOptionStateCtorView, position2A4) == 0x2A4) ? 1 : -1];
 typedef char PlayerOptionStateTimerAt2E0[
     (offsetof(PlayerOptionStateCtorView, timer2E0) == 0x2E0) ? 1 : -1];
 typedef char PlayerOptionStateUpdateAt2EC[

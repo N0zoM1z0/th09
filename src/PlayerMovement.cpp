@@ -12,13 +12,9 @@
 
 typedef unsigned short u16;
 
-struct PlayerMovementSideView
-{
-    unsigned char unknown00[0x0C];
-    EffectManager *effectManager0C;
-    unsigned char unknown10[0x10];
-    int shotType20;
-};
+// The Player side-state +0x0C effect owner is the same 0x38-byte
+// GameManager side slot used by the lifecycle and death controllers.
+typedef PlayerSideStateView PlayerMovementSideView;
 typedef char PlayerMovementSideEffectAt0C[
     (offsetof(PlayerMovementSideView, effectManager0C) == 0x0C) ? 1 : -1];
 typedef char PlayerMovementSideShotAt20[
@@ -107,7 +103,7 @@ static __inline PlayerMovementOptionView *PlayerMovementOptions(
 static __inline PlayerMovementSideView *PlayerMovementSide(
     PlayerLifecycleView *player)
 {
-    return reinterpret_cast<PlayerMovementSideView *>(player->sideState);
+    return player->sideState;
 }
 
 int PlayerLifecycleView::UpdateMovementAndOptions()
