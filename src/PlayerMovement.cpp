@@ -20,18 +20,6 @@ typedef char PlayerMovementSideEffectAt0C[
 typedef char PlayerMovementSideShotAt20[
     (offsetof(PlayerMovementSideView, shotType20) == 0x20) ? 1 : -1];
 
-struct PlayerMovementFields
-{
-    PlayerPositionView velocity1CCC;
-    float movementAngle1CD8;
-    float speedMultiplier1CDC;
-    float speedMultiplier1CE0;
-    float speedMultiplier1CE4;
-    float speedMultiplier1CE8;
-};
-typedef char PlayerMovementFieldsSize20[
-    (sizeof(PlayerMovementFields) == 0x20) ? 1 : -1];
-
 struct PlayerMovementTailFields
 {
     int movementDirection30358;
@@ -83,8 +71,7 @@ static __inline Effect *&PlayerMovementSecondaryEffect(
 static __inline PlayerMovementFields *PlayerMovementRuntime(
     PlayerLifecycleView *player)
 {
-    return reinterpret_cast<PlayerMovementFields *>(
-        reinterpret_cast<unsigned char *>(player) + 0x1CCC);
+    return &player->movementFields1CCC;
 }
 
 static __inline PlayerMovementTailFields *PlayerMovementTail(

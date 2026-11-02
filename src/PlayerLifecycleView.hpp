@@ -321,6 +321,25 @@ struct PlayerTailStateCtorView
 };
 typedef char PlayerTailStateCtorSizeIs2C4[(sizeof(PlayerTailStateCtorView) == 0x2C4) ? 1 : -1];
 
+// Original Player movement writes these 0x20 bytes between the item-box
+// half size and four option records. AddedState and gameplay pattern code
+// independently read the same angle/speed fields at +0x1CD8..+0x1CE8.
+struct PlayerMovementFields
+{
+    PlayerPositionView velocity1CCC;
+    float movementAngle1CD8;
+    float speedMultiplier1CDC;
+    float speedMultiplier1CE0;
+    float speedMultiplier1CE4;
+    float speedMultiplier1CE8;
+};
+typedef char PlayerMovementFieldsSize20[
+    (sizeof(PlayerMovementFields) == 0x20) ? 1 : -1];
+typedef char PlayerMovementAngleAt0C[
+    (offsetof(PlayerMovementFields, movementAngle1CD8) == 0x0C) ? 1 : -1];
+typedef char PlayerMovementScaleLastAt1C[
+    (offsetof(PlayerMovementFields, speedMultiplier1CE8) == 0x1C) ? 1 : -1];
+
 struct PlayerLifecycleView
 {
     int updateState00;
@@ -352,7 +371,7 @@ struct PlayerLifecycleView
     PlayerHalfSizeView hurtboxHalfSize;
     PlayerHalfSizeView grazeHalfSize;
     PlayerHalfSizeView itemCollectionHalfSize;
-    unsigned char unknown1CCC[0x1CEC - 0x1CCC];
+    PlayerMovementFields movementFields1CCC;
     PlayerOptionStateCtorView optionStates[4];
     unsigned char unknown28BC[0xC11C - 0x28BC];
     PlayerShotCtorView shots[128];
@@ -447,6 +466,20 @@ typedef char PlayerLifecycleGrazeHalfSizeAt1CB4[
     (offsetof(PlayerLifecycleView, grazeHalfSize) == 0x1CB4) ? 1 : -1];
 typedef char PlayerLifecycleFlagsAt1B80[(offsetof(PlayerLifecycleView, flags1B80) == 0x1B80) ? 1 : -1];
 typedef char PlayerLifecyclePositionAt1B88[(offsetof(PlayerLifecycleView, position1B88) == 0x1B88) ? 1 : -1];
+typedef char PlayerLifecycleMovementAt1CCC[
+    (offsetof(PlayerLifecycleView, movementFields1CCC) == 0x1CCC &&
+     offsetof(PlayerLifecycleView, movementFields1CCC) +
+         offsetof(PlayerMovementFields, velocity1CCC) == 0x1CCC &&
+     offsetof(PlayerLifecycleView, movementFields1CCC) +
+         offsetof(PlayerMovementFields, movementAngle1CD8) == 0x1CD8 &&
+     offsetof(PlayerLifecycleView, movementFields1CCC) +
+         offsetof(PlayerMovementFields, speedMultiplier1CDC) == 0x1CDC &&
+     offsetof(PlayerLifecycleView, movementFields1CCC) +
+         offsetof(PlayerMovementFields, speedMultiplier1CE0) == 0x1CE0 &&
+     offsetof(PlayerLifecycleView, movementFields1CCC) +
+         offsetof(PlayerMovementFields, speedMultiplier1CE4) == 0x1CE4 &&
+     offsetof(PlayerLifecycleView, movementFields1CCC) +
+         offsetof(PlayerMovementFields, speedMultiplier1CE8) == 0x1CE8) ? 1 : -1];
 typedef char PlayerLifecycleOptionsAt1CEC[(offsetof(PlayerLifecycleView, optionStates) == 0x1CEC) ? 1 : -1];
 typedef char PlayerLifecycleShotsAtC11C[(offsetof(PlayerLifecycleView, shots) == 0xC11C) ? 1 : -1];
 typedef char PlayerLifecycleState3031CAt3031C[(offsetof(PlayerLifecycleView, state3031C) == 0x3031C) ? 1 : -1];
