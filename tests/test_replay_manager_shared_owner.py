@@ -38,14 +38,15 @@ class ReplayManagerSharedOriginalOwner(unittest.TestCase):
         self.assertIn('ReplayBufferLinkSizeIs18', self.header)
         self.assertIn('ReplayBufferLinkNextAt14', self.header)
 
-    def test_gameplay_calls_real_release_with_no_fake_overlaid_abi(self):
+    def test_gameplay_calls_real_stage_release_without_fake_overlaid_abi(self):
         self.assertNotIn('ReplayManagerSetupReleaseView',self.game+self.inspector)
-        self.assertIn('reinterpret_cast<ReplayManagerView *>(manager->stageObject)',
-                      self.game)
-        self.assertIn('->Release();', self.game)
-        self.assertIn("'?Release@ReplayManagerView@@QAEXXZ': 0x420AD0",self.inspector)
+        # The actual GameManager stage teardown is the separate 42-byte helper;
+        # it must not be mislabeled as ReplayManagerView::Release (318 bytes).
+        self.assertIn('ReleaseStageObject(gameManager->stageObject);',self.game)
+        self.assertIn('extern void __fastcall ReleaseStageObject(void *object);',self.game)
+        self.assertIn("'?ReleaseStageObject@@YIXPAX@Z': 0x420C10",self.inspector)
         self.assertIn('void ReplayManagerView::Release()',self.replay)
-        self.assertIn('void Release();', self.header)
+        self.assertIn('void Release();',self.header)
         self.assertNotIn('void Release();',self.game)
 
     def test_full_release_and_alternate_teardown_are_not_conflated(self):

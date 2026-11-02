@@ -201,7 +201,9 @@ class EnemyUpdateBindingTests(TestCase):
         text = (SOURCE.parents[1] / 'src/EnemyManagerCore.inl').read_text()
         storage = (SOURCE.parents[1] / 'src/EclRunState.inl').read_text()
         self.assertIn('#include "BulletManager.hpp"', text)
-        self.assertIn('EtamaController *etama08;', storage)
+        self.assertIn('typedef EnemySideStateView EnemyCoreSideStateView;', storage)
+        self.assertIn('EtamaController *etama08;',
+                      (SOURCE.parents[1] / 'src/EnemyManager.hpp').read_text())
         self.assertIn('EnemyCoreBulletDescriptorMatchesEtamaFields', text)
         self.assertIn('sizeof(BulletSpawnDescriptor) == 0x214', text)
         self.assertNotIn('struct EnemyCoreBulletSpawnDescriptorView', text)

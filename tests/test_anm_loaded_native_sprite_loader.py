@@ -26,19 +26,19 @@ class NativeLoadedSpriteResourceLayout(unittest.TestCase):
                 self.assertIn(field,header)
         self.assertIn('AnmLoadedSprite loadedSprite;',loader)
         self.assertIn('AnmLoadedSprite *source = loadedSprite;',loader)
-        self.assertIn('anm->sprites[spriteIndex] = *source;',loader)
+        self.assertIn('anm->sprites0C[spriteIndex] = *source;',loader)
         self.assertIn('anmLoadedObject->LoadSprite(currentSpriteNumber, &loadedSprite);',loader)
         self.assertNotIn('textureHeader->textureHeight18',loader)
 
     def test_uv_and_physical_extents_use_native_fields(self):
         loader=(ROOT/'src/AnmManagerLoad.cpp').read_text()
         for statement in (
-            'anm->sprites[spriteIndex].uvStartX =',
-            'anm->sprites[spriteIndex].uvEndX =',
-            'anm->sprites[spriteIndex].uvStartY =',
-            'anm->sprites[spriteIndex].uvEndY =',
-            'anm->sprites[spriteIndex].textureWidth1C;',
-            'anm->sprites[spriteIndex].textureHeight18;',
+            'anm->sprites0C[spriteIndex].uvStartX =',
+            'anm->sprites0C[spriteIndex].uvEndX =',
+            'anm->sprites0C[spriteIndex].uvStartY =',
+            'anm->sprites0C[spriteIndex].uvEndY =',
+            'anm->sprites0C[spriteIndex].textureWidth1C;',
+            'anm->sprites0C[spriteIndex].textureHeight18;',
             'loadedSprite.startPixelX08 =',
             'loadedSprite.startPixelY0C =',
             'loadedSprite.endPixelX10 =',

@@ -18,12 +18,16 @@ class NativeSupervisorUpdateOwner(unittest.TestCase):
         self.assertNotIn('reinterpret_cast<SupervisorUpdateLayout *>(',source)
         self.assertIn('Supervisor *s = supervisor;',source)
         self.assertIn('Supervisor *globalSupervisor = &g_Supervisor;',source)
-        self.assertIn('struct SupervisorUpdateFrameOffsetsView',source)
-        self.assertIn('SupervisorUpdateFrameOffsetsAt160',source)
+        self.assertIn('SupervisorUpdateNativeFrameOffsets',source)
+        self.assertIn('SupervisorCtorArrayElement',source)
         self.assertIn('SupervisorUpdateNativeQueueAt47C',source)
-        for name in ('frameOffsetX160','frameOffsetY164','frameOffsetX250',
-                     'frameOffsetY254','frameOffsetX340','frameOffsetY344'):
-            self.assertIn('frameOffsets->'+name,source)
+        for index in range(3):
+            for component in ('frameOffsetX','frameOffsetY'):
+                with self.subTest(index=index,component=component):
+                    self.assertIn('globalSupervisor->ctorArray078[%d].%s = 0.0f;'
+                                  % (index, component),source)
+        self.assertIn('offsetof(SupervisorCtorArrayElement, frameOffsetX) == 0xE8',source)
+        self.assertIn('offsetof(SupervisorCtorArrayElement, frameOffsetY) == 0xEC',source)
         self.assertIn('sizeof(SupervisorFrameEntryStorageView)', (ROOT/'src/SupervisorFrameQueueStorageView.hpp').read_text())
         for name,off in (
             ('calcCount454','0x454'),('field478','0x478'),('entries47C','0x47C'),

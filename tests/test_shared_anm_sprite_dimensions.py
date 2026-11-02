@@ -27,14 +27,16 @@ class SharedAnmSpriteDimensions(unittest.TestCase):
     def test_native_set_sprite_leaf_uses_exact_loaded_sprite_owner(self):
         source = (ROOT/'src/AnmLoadedSetSprite.cpp').read_text()
         self.assertNotIn('struct AnmSetSpriteLoadedSpriteView', source)
-        self.assertIn('AnmLoadedSprite *sprites0C;', source)
-        self.assertIn('AnmLoadedSprite *loadedSprite224;', source)
+        self.assertIn('AnmLoadedSprite *sprites0C;', (ROOT/'src/AnmManager.hpp').read_text())
+        self.assertIn('AnmSetSpriteNativeLoadedFields', source)
+        self.assertIn('AnmVm *target = vm;', source)
+        self.assertIn('target->loadedSprite = &self->sprites0C[spriteIndex];', source)
         self.assertIn('offsetof(AnmLoadedSprite, textureHeight18) == 0x18', source)
         self.assertIn('offsetof(AnmLoadedSprite, textureWidth1C) == 0x1C', source)
         self.assertIn('offsetof(AnmLoadedSprite, heightPx) == 0x30', source)
         self.assertIn('offsetof(AnmLoadedSprite, widthPx) == 0x34', source)
-        self.assertIn('target->loadedSprite224->heightPx;', source)
-        self.assertIn('target->loadedSprite224->widthPx;', source)
+        self.assertIn('target->loadedSprite->heightPx;', source)
+        self.assertIn('target->loadedSprite->widthPx;', source)
 
         with (ROOT/'config/match-units.toml').open('rb') as stream:
             unit=tomllib.load(stream)['units']['anm-loaded-set-sprite']
