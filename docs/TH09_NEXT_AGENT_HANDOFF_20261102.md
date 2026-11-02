@@ -1,5 +1,20 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## Current original-backed improvement: Player movement
+
+A November 2 local `gpt-web:` source checkpoint updated the complete
+`PlayerLifecycleView::UpdateMovementAndOptions` boss at `0x0041C170`.
+Direct native side-state accesses remove seven previously different physical
+bytes at offsets `0x186/0x187/0x188/0x18A/0x18C/0x18D/0x18E` without
+changing any previously equal byte. The fresh full-source comparison has
+**1,900 physical bytes, 66 fields, 23 calls and 122 remaining differences**,
+not the 129 at the earlier handoff. Both exact dependent owners and the
+focused gate pass. `scripts/check-boss-frontiers.py` now rejects regression
+at those seven offsets. The source tree and target remain authoritative;
+this is not a new exact owner or accepted Factory replay. No full all-owner
+cold replay was run; target-independent public CI passed after related source
+assertions were updated.
+
 **Read this first**, then inspect the actual Git worktree. The authoritative
 project is the original Japanese TH09 **v1.50a**, with ignored local
 `resources/th09.exe` SHA-256

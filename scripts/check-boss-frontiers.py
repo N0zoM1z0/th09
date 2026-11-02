@@ -1113,11 +1113,24 @@ PLAYER_MOVEMENT_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
 ))
 
 
+# New original-PE-bound source convergence: the three focus-effect side-state
+# uses now compile through the native PlayerSideStateView receiver. The seven
+# physical bytes below were mismatched in the historical 129-byte candidate
+# and are now *equal* to the original Japanese v1.50a 1900-byte owner.
+PLAYER_MOVEMENT_NATIVE_SIDE_FIXED_OFFSETS = frozenset((
+    0x186, 0x187, 0x188, 0x18A, 0x18C, 0x18D, 0x18E,
+))
+PLAYER_MOVEMENT_CURRENT_RESIDUAL_OFFSETS = (
+    PLAYER_MOVEMENT_ORIGINAL_RESIDUAL_OFFSETS -
+    PLAYER_MOVEMENT_NATIVE_SIDE_FIXED_OFFSETS
+)
+
+
 def guard_player_movement(result: dict) -> dict:
     """Check the complete 1,900-byte Player boss, not an aligned excerpt.
 
     This non-crediting bound preserves all original relocation/table identities
-    and the source's verified 144 -> 129 byte improvement. Source-cold work
+    and the source's verified 144 -> 129 -> 122 byte improvement. Source-cold work
     may narrow the residual further, but similarity does not confer exactness.
     """
     noncrediting(result, name='Player movement boss', target_size=1835,
@@ -1139,16 +1152,20 @@ def guard_player_movement(result: dict) -> dict:
             result.get('field_identity_occurrences_agree') is not True or
             not isinstance(result.get('normalized_aligned_instructions'), int) or
             result['normalized_aligned_instructions'] < 433 or
-            type(count) is not int or not 0 <= count <= 129 or
+            type(count) is not int or not 0 <= count <= 122 or
             not isinstance(changed, list) or len(changed) != count or
             any(type(x) is not int or not 0 <= x < 1900 for x in changed) or
             changed != sorted(set(changed)) or
             len(PLAYER_MOVEMENT_ORIGINAL_RESIDUAL_OFFSETS) != 129 or
-            not set(changed).issubset(PLAYER_MOVEMENT_ORIGINAL_RESIDUAL_OFFSETS) or
+            len(PLAYER_MOVEMENT_NATIVE_SIDE_FIXED_OFFSETS) != 7 or
+            not PLAYER_MOVEMENT_NATIVE_SIDE_FIXED_OFFSETS.issubset(
+                PLAYER_MOVEMENT_ORIGINAL_RESIDUAL_OFFSETS) or
+            len(PLAYER_MOVEMENT_CURRENT_RESIDUAL_OFFSETS) != 122 or
+            not set(changed).issubset(PLAYER_MOVEMENT_CURRENT_RESIDUAL_OFFSETS) or
             result.get('missing_target_bytes') != 0 or
             result.get('extra_candidate_bytes') != 0 or
             result.get('full_byte_agreement') is not (count == 0)):
-        raise RuntimeError('Player movement complete physical owner, 66 fields or 129-byte frontier regressed')
+        raise RuntimeError('Player movement complete physical owner, 66 fields or 122-byte frontier regressed')
     return {'target_bytes': 1900, 'candidate_bytes': 1900,
             'ordinary_differences': count, 'fields': 66,
             'calls': 23, 'aligned_instructions': result['normalized_aligned_instructions']}

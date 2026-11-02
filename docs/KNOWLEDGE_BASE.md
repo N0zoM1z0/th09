@@ -10,6 +10,20 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 original-bound Player movement 129 -> 122-byte advance
+
+Original Japanese 1.50a owner `0x0041C170` owns **1,900 physical bytes**
+(including its original switch tables). Comparing fresh VC7.1 COFF from
+`src/PlayerMovement.cpp` against the SHA-verified original, replacing the
+three `PlayerMovementSide(player)` Effect-manager/shot-type receiver paths
+with `player->sideState` removes mismatches at **+0x186, +0x187, +0x188,
++0x18A, +0x18C, +0x18D, +0x18E** and introduces **no new differing byte**.
+The complete current residual is **122 bytes**, 66 real fields, 23 calls;
+the two relevant exact callees still replay independently. The original
+129-byte positions are retained as historical provenance, while the narrowed
+122-byte set is the live non-crediting source guard. No new exact-function
+credit, full cold replay or runtime evidence follows from this improvement.
+
 This file stores durable TH09 facts and useful negative results. Cross-game
 promotion is a later Factory review, never an automatic action here.
 

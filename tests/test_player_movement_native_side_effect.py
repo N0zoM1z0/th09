@@ -20,8 +20,9 @@ class PlayerMovementNativeSideEffect(unittest.TestCase):
         self.assertIn('PlayerSideStateSizeIs38',header)
         self.assertIn('typedef PlayerSideStateView PlayerMovementSideView;',source)
         self.assertNotIn('struct PlayerMovementSideView',source)
-        self.assertIn('return player->sideState;',source)
-        self.assertIn('PlayerMovementSide(player)->effectManager0C->SpawnEffectInFixedSlot(',source)
+        self.assertIn('player->sideState->effectManager0C->SpawnEffectInFixedSlot(',source)
+        self.assertIn('g_PlayerFocusEffectIds[player->sideState->shotType20]',source)
+        self.assertNotIn('PlayerMovementSide(player)->',source)
 
     def test_player_movement_calls_genuine_effect_manager_spawn(self):
         source=(ROOT/'src/PlayerMovement.cpp').read_text()

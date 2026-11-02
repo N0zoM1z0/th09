@@ -20,15 +20,6 @@ typedef char PlayerMovementSideEffectAt0C[
 typedef char PlayerMovementSideShotAt20[
     (offsetof(PlayerMovementSideView, shotType20) == 0x20) ? 1 : -1];
 
-struct PlayerMovementTailFields
-{
-    int movementDirection30358;
-    float horizontalSpeed3035C;
-    float verticalSpeed30360;
-};
-typedef char PlayerMovementTailFieldsSize0C[
-    (sizeof(PlayerMovementTailFields) == 0x0C) ? 1 : -1];
-
 // Consume the actual Player option record at +0x1CEC; do not maintain a
 // second unrelated 0x2F4-byte view for the movement interpreter.
 typedef PlayerOptionStateCtorView PlayerMovementOptionView;
@@ -64,31 +55,6 @@ static __inline Effect *&PlayerMovementSecondaryEffect(
     PlayerLifecycleView *player)
 {
     return player->secondaryEffect368;
-}
-
-static __inline PlayerMovementFields *PlayerMovementRuntime(
-    PlayerLifecycleView *player)
-{
-    return &player->movementFields1CCC;
-}
-
-static __inline PlayerMovementTailFields *PlayerMovementTail(
-    PlayerLifecycleView *player)
-{
-    return reinterpret_cast<PlayerMovementTailFields *>(
-        reinterpret_cast<unsigned char *>(player) + 0x30358);
-}
-
-static __inline PlayerMovementOptionView *PlayerMovementOptions(
-    PlayerLifecycleView *player)
-{
-    return player->optionStates;
-}
-
-static __inline PlayerMovementSideView *PlayerMovementSide(
-    PlayerLifecycleView *player)
-{
-    return player->sideState;
 }
 
 int PlayerLifecycleView::UpdateMovementAndOptions()
@@ -136,7 +102,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     player->flags1B80 ^=
         (player->flags1B80 ^ static_cast<unsigned int>(focused)) & 3u;
 
-    PlayerMovementFields *runtime = PlayerMovementRuntime(player);
+    PlayerMovementFields *runtime = &player->movementFields1CCC;
 
     if ((player->flags1B80 & 3u) != 0)
     {
@@ -148,14 +114,14 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
             // manager receiver. The second call still reloads the side slot.
             int spawnSide = player->sideIndex;
             PlayerMovementFocusEffect(player) =
-                PlayerMovementSide(player)->effectManager0C->SpawnEffectInFixedSlot(
+                player->sideState->effectManager0C->SpawnEffectInFixedSlot(
                     7,
                     effectPosition,
                     spawnSide,
                     static_cast<unsigned int>(-1));
             PlayerMovementSecondaryEffect(player) =
-                PlayerMovementSide(player)->effectManager0C->SpawnEffectInFixedSlot(
-                    g_PlayerFocusEffectIds[PlayerMovementSide(player)->shotType20],
+                player->sideState->effectManager0C->SpawnEffectInFixedSlot(
+                    g_PlayerFocusEffectIds[player->sideState->shotType20],
                     effectPosition,
                     player->sideIndex + 2,
                     static_cast<unsigned int>(-1));
@@ -367,7 +333,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     player->unknownBoundsMax1C9C =
         player->position1B88 + player->itemCollectionHalfSize;
 
-    PlayerMovementOptionView *option = PlayerMovementOptions(player);
+    PlayerMovementOptionView *option = player->optionStates;
     for (int optionCount = 4; optionCount != 0; --optionCount, ++option)
     {
         if (option->updateCallback2EC != NULL)
