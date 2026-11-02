@@ -14,11 +14,10 @@ void *EnemyEclManagerView::GetSubroutine(int index)
 
 void EnemyView::ResetBulletRankInfluence()
 {
-    unsigned char *self = reinterpret_cast<unsigned char *>(this);
-    *reinterpret_cast<float *>(self + 0x2E38) = -0.5f;
-    *reinterpret_cast<float *>(self + 0x2E3C) = 0.5f;
-    *reinterpret_cast<short *>(self + 0x2E40) = 0;
-    *reinterpret_cast<short *>(self + 0x2E42) = 0;
-    *reinterpret_cast<short *>(self + 0x2E44) = 0;
-    *reinterpret_cast<short *>(self + 0x2E46) = 0;
+    bulletRankSpeedLow2E38 = -0.5f;
+    bulletRankSpeedHigh2E3C = 0.5f;
+    bulletRankCount1Low2E40 = 0;
+    bulletRankCount1High2E42 = 0;
+    bulletRankCount2Low2E44 = 0;
+    bulletRankCount2High2E46 = 0;
 }

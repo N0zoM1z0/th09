@@ -10,6 +10,17 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 Enemy rank-reset exact leaf, native field ownership
+
+The complete 51-byte `EnemyView::ResetBulletRankInfluence` writes two float
+speed ranks at +0x2E38/+0x2E3C and four short count ranks at
++0x2E40/+0x2E42/+0x2E44/+0x2E46. Its source previously used six casts
+from raw offsets. These have been replaced by direct field writes on the
+already-original-bound `EnemyView`, with a fresh **51/51 byte-exact**
+original PE/COFF replay. Adjacent 7-byte subroutine count and 16-byte
+subroutine lookup leaves in the same source remain exact. This was not an
+additional original-byte exactness promotion; owner and ledger are unchanged.
+
 ### 2026-11-02 native Enemy movement timer: one typed target allocation
 
 The +0x2E28..+0x2E33 movement timer is confirmed by TH09 ECL movement

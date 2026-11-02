@@ -1,5 +1,15 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 exact bullet-rank reset leaf uses native Enemy members
+
+`EnemyView::ResetBulletRankInfluence` previously wrote six offsets through
+`reinterpret_cast<unsigned char *>(this)`. It now initializes the six
+original-bound float/short members in `EnemyView` directly at +0x2E38..+0x2E46.
+Source-cold PE/COFF proves this complete 51-byte leaf remains **51/51 exact**;
+its exact same-translation-unit `GetSubroutineCount` (7 bytes) and
+`GetSubroutine` (16 bytes) also replay exact. This is native source recovery,
+not a new exactness-ledger entry.
+
 ## 2026-11-02 native Enemy movement ZunTimer and 11 ECL writes
 
 Fresh verified TH09 source/target code comparison: `EnemyView` now declares

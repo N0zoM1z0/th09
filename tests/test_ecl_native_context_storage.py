@@ -156,6 +156,19 @@ class NativeEclContextStorage(unittest.TestCase):
                 self.assertNotIn('Th09EclRunState::View(enemy)->'+f,core)
         self.assertIn('trailVertices3E68',draw)
 
+    def test_exact_bullet_rank_reset_leaf_uses_native_enemy_fields(self):
+        leaf=(ROOT/'src/EnemySmallLeaves.cpp').read_text()
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        body=leaf[leaf.index('void EnemyView::ResetBulletRankInfluence()'):]
+        for field in ('bulletRankSpeedLow2E38','bulletRankSpeedHigh2E3C',
+                      'bulletRankCount1Low2E40','bulletRankCount1High2E42',
+                      'bulletRankCount2Low2E44','bulletRankCount2High2E46'):
+            with self.subTest(field=field):
+                self.assertIn('    '+field+' = ',body)
+                self.assertIn(field,native)
+        self.assertNotIn('reinterpret_cast<unsigned char *>(this)',body)
+        self.assertNotIn('self + 0x2E38',body)
+
     def test_ecl_life_rank_and_drop_fields_have_native_enemy_ownership(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         state=(ROOT/'src/EclRunState.inl').read_text()
