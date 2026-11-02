@@ -10,6 +10,22 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 Enemy 188-byte IntegrateMotion leaf shares native ECL displacement
+
+Reconstructed three consecutive native Enemy 0x0C vectors at +0x2D98,
++0x2DA4 and +0x2DB0 from the separately exact 188-byte integration
+routine. The +0x2DB0 vector is a POD-union overlay of the three float
+operands used independently in four exact ECL operand resolver functions,
+not a new unrelated buffer. Removed the leaf's entire duplicated 0x3384-byte
+`EnemyIntegrateMotionPrivateView`; the method now reads and writes actual
+`EnemyView` members, casting only the `Float3` operator- ABI. Sixteen
+natural source variants preserved the full 188-byte original body. The
+adopted source independently replays 188/188 with all referenced PE/COFF
+fields. RunEcl 15,564 bytes/30 ordinary residuals plus 96 exact siblings;
+Enemy calc 3,900/13 plus 88 siblings; operand family 5,718 bytes exact,
+and 15 checked enemy/render/leaf owners exact. This advances native source
+ownership without increasing the 1005 canonically exact owner count.
+
 ### 2026-11-02 Enemy rank-reset exact leaf, native field ownership
 
 The complete 51-byte `EnemyView::ResetBulletRankInfluence` writes two float

@@ -4,56 +4,36 @@
 
 #include <stddef.h>
 
-namespace
-{
-struct EnemyIntegrateMotionPrivateView
-{
-    unsigned char unknown0000[0x2D74];
-    Float3 position2D74;
-    unsigned char unknown2D80[0x2D8C - 0x2D80];
-    Float3 velocity2D8C;
-    Float3 alternateVelocity2D98;
-    Float3 previousPosition2DA4;
-    Float3 displacement2DB0;
-    unsigned char unknown2DBC[0x337C - 0x2DBC];
-    unsigned int flags337C;
-    unsigned int flags3380;
-};
-typedef char EnemyMotionPositionAt2D74[
-    (offsetof(EnemyIntegrateMotionPrivateView, position2D74) == 0x2D74) ? 1 : -1];
-typedef char EnemyMotionFlagsAt337C[
-    (offsetof(EnemyIntegrateMotionPrivateView, flags337C) == 0x337C) ? 1 : -1];
-}
-
 void EnemyView::IntegrateMotion()
 {
-    EnemyIntegrateMotionPrivateView *view =
-        reinterpret_cast<EnemyIntegrateMotionPrivateView *>(this);
+    // Float3's exact original operator- takes typed vector operands; both
+    // source buffers and the destination now belong to the real EnemyView.
 
-    view->displacement2DB0 =
-        view->position2D74 - view->previousPosition2DA4;
-    view->previousPosition2DA4 = view->position2D74;
+    reinterpret_cast<Float3 &>(this->displacement2DB0) =
+        reinterpret_cast<const Float3 &>(this->position2D74) -
+        reinterpret_cast<const Float3 &>(this->previousPosition2DA4);
+    this->previousPosition2DA4 = this->position2D74;
 
-    if ((view->flags3380 & 0x1000U) != 0)
+    if ((this->secondaryFlags3380 & 0x1000U) != 0)
     {
-        view->position2D74.x +=
+        this->position2D74.x +=
             g_Supervisor.framerateMultiplier5B8 *
-            view->alternateVelocity2D98.x;
-        view->position2D74.y +=
+            this->alternateVelocity2D98.x;
+        this->position2D74.y +=
             g_Supervisor.framerateMultiplier5B8 *
-            view->alternateVelocity2D98.y;
+            this->alternateVelocity2D98.y;
     }
     else
     {
-        if ((view->flags337C & 0x8000U) == 0)
-            view->position2D74.x +=
+        if ((this->primaryFlags337C & 0x8000U) == 0)
+            this->position2D74.x +=
                 g_Supervisor.framerateMultiplier5B8 *
-                view->velocity2D8C.x;
+                this->velocity2D8C.x;
         else
-            view->position2D74.x -=
+            this->position2D74.x -=
                 g_Supervisor.framerateMultiplier5B8 *
-                view->velocity2D8C.x;
-        view->position2D74.y +=
-            g_Supervisor.framerateMultiplier5B8 * view->velocity2D8C.y;
+                this->velocity2D8C.x;
+        this->position2D74.y +=
+            g_Supervisor.framerateMultiplier5B8 * this->velocity2D8C.y;
     }
 }

@@ -1,5 +1,19 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 current native Enemy IntegrateMotion leaf proof
+
+The 188-byte original-bound `EnemyView::IntegrateMotion` uses `+0x2D98`
+(0x0C alternate velocity), `+0x2DA4` (0x0C previous position) and `+0x2DB0`
+(0x0C displacement). These now belong to the same native `EnemyView` used
+by ECL and Enemy calc. A POD union preserves three exact ECL float operands
+at +0x2DB0 as the same physical displacement. The 188-byte exact motion
+leaf no longer maintains its second 0x3384-byte private struct; 16 tested
+natural native-source variants all replayed 188/188 bytes exact. Fresh
+checks of the final direct-native source show 188/188 exact, 15 exact
+Enemy/graphics/leaf dependencies, 5,718-byte exact operand family, 96
+exact ECL siblings and 88 exact Enemy-calc siblings. Both big-boss residuals
+remain 30 and 13 respectively; no new canonical exactness promotion.
+
 ## 2026-11-02 exact bullet-rank reset leaf uses native Enemy members
 
 `EnemyView::ResetBulletRankInfluence` previously wrote six offsets through

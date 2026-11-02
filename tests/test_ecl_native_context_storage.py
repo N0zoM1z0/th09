@@ -156,6 +156,28 @@ class NativeEclContextStorage(unittest.TestCase):
                 self.assertNotIn('Th09EclRunState::View(enemy)->'+f,core)
         self.assertIn('trailVertices3E68',draw)
 
+    def test_exact_enemy_motion_leaf_uses_one_native_previous_and_displacement(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        ecl=(ROOT/'src/EclRunState.inl').read_text()
+        operands=(ROOT/'src/EclOperands.cpp').read_text()
+        leaf=(ROOT/'src/EnemyIntegrateMotion.cpp').read_text()
+        self.assertIn('EnemyViewNativePreviousMotionAt2D98',native)
+        self.assertIn('EnemyEclNativePreviousAndDisplacementAt2DA4',ecl)
+        self.assertIn('EnemyFloat3 alternateVelocity2D98;',native)
+        self.assertIn('EnemyFloat3 previousPosition2DA4;',native)
+        self.assertIn('EnemyFloat3 displacement2DB0;',native)
+        self.assertIn('float floatVariables2DB0[3];',native)
+        self.assertIn('enemy->floatVariables2DB0[0]',operands)
+        self.assertIn('this->floatVariables2DB0[2]',operands)
+        self.assertNotIn('EnemyIntegrateMotionPrivateView',leaf)
+        self.assertNotIn('reinterpret_cast<EnemyIntegrateMotionPrivateView',leaf)
+        self.assertIn('reinterpret_cast<Float3 &>(this->displacement2DB0)',leaf)
+        self.assertIn('reinterpret_cast<const Float3 &>(this->previousPosition2DA4)',leaf)
+        self.assertIn('this->previousPosition2DA4 = this->position2D74;',leaf)
+        self.assertIn('this->alternateVelocity2D98.x',leaf)
+        self.assertIn('this->primaryFlags337C',leaf)
+        self.assertIn('this->secondaryFlags3380',leaf)
+
     def test_exact_bullet_rank_reset_leaf_uses_native_enemy_fields(self):
         leaf=(ROOT/'src/EnemySmallLeaves.cpp').read_text()
         native=(ROOT/'src/EnemyManager.hpp').read_text()

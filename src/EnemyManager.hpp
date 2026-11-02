@@ -223,8 +223,13 @@ struct EnemyView
     EnemyFloat3 position2D74;
     EnemyFloat3 positionOffset2D80;
     EnemyFloat3 velocity2D8C;
-    unsigned char unknown2D98[0x2DB0 - 0x2D98];
-    float floatVariables2DB0[3];
+    EnemyFloat3 alternateVelocity2D98;
+    EnemyFloat3 previousPosition2DA4;
+    union
+    {
+        float floatVariables2DB0[3];
+        EnemyFloat3 displacement2DB0;
+    };
     EnemyFloat2 hitboxDimensions2DBC;
     unsigned char unknown2DC4[0x2DC8 - 0x2DC4];
     EnemyFloat2 secondaryHitboxDimensions2DC8;
@@ -392,6 +397,15 @@ typedef char EnemyViewPositionAt2D74[
     (offsetof(EnemyView, position2D74) == 0x2D74) ? 1 : -1];
 typedef char EnemyViewWorldPositionAt2DD4[
     (offsetof(EnemyView, worldPosition2DD4) == 0x2DD4) ? 1 : -1];
+// Exact 188-byte IntegrateMotion leaf and the ECL operand resolvers share
+// this entire physical velocity/history/delta region. The three float
+// operands remain an alias of the displacement vector at +0x2DB0.
+typedef char EnemyViewNativePreviousMotionAt2D98[
+    (offsetof(EnemyView, alternateVelocity2D98) == 0x2D98 &&
+     offsetof(EnemyView, previousPosition2DA4) == 0x2DA4 &&
+     offsetof(EnemyView, displacement2DB0) == 0x2DB0 &&
+     offsetof(EnemyView, floatVariables2DB0) == 0x2DB0 &&
+     sizeof(((EnemyView *)0)->displacement2DB0) == 0x0C) ? 1 : -1];
 typedef char EnemyViewNativeMovementOperands[
     (offsetof(EnemyView, floatVariables2DB0) == 0x2DB0 &&
      offsetof(EnemyView, movementAngle2DE0) == 0x2DE0 &&

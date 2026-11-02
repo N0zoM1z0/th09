@@ -204,6 +204,13 @@ typedef char EnemyEclNativeOperandBanks[
 typedef char EnemyEclNativePendingSubroutineAt2D70[
     (offsetof(EnemyView, pendingSubroutineId2D70) ==
      offsetof(EnemyCoreView, pendingSubroutineId2D70)) ? 1 : -1];
+typedef char EnemyEclNativePreviousAndDisplacementAt2DA4[
+    (offsetof(EnemyView, previousPosition2DA4) ==
+         offsetof(EnemyCoreView, previousPosition2DA4) &&
+     offsetof(EnemyView, displacement2DB0) ==
+         offsetof(EnemyCoreView, displacement2DB0) &&
+     offsetof(EnemyView, floatVariables2DB0) ==
+         offsetof(EnemyCoreView, displacement2DB0)) ? 1 : -1];
 typedef char EnemyEclNativeLifeAt2E48[
     (offsetof(EnemyView, life2E48) ==
      offsetof(EnemyCoreView, life2E48)) ? 1 : -1];
