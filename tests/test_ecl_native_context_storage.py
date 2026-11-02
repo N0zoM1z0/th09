@@ -37,6 +37,22 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('EnemyEclNativeLaserSlotsAt32D8', state)
         self.assertIn('enemy->laserSlots32D8[laserIndex]', bullet)
 
+    def test_no_duplicate_enemy_resolver_owner(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        resolver=(ROOT/'src/EclOperands.cpp').read_text()
+        self.assertIn('typedef EnemyView EclOperandEnemyView;',resolver)
+        self.assertNotIn('struct EclOperandEnemyView\n{',resolver)
+        self.assertIn('EnemyViewNativeEclRewardAndDamageFields',native)
+        self.assertIn('int itemDropType335C;',native)
+        self.assertIn('unsigned int defeatTokenType335C;',native)
+        self.assertIn('unsigned char bossSlot336B;',native)
+        self.assertIn('unsigned int secondaryFlags3380;',native)
+        self.assertIn('unsigned int rewardFlags3380;',native)
+        self.assertIn('int lastDamage33AC;',native)
+        self.assertIn('int lifeCallbackThresholds33B0[4];',native)
+        self.assertIn('reinterpret_cast<const EclOperandFloat3View &>',resolver)
+        self.assertIn('TH09_ECL_OPERAND_ENEMY(enemy)->secondaryFlags3380',resolver)
+
     def test_movement_and_boss_timer_operands_use_native_enemy_fields(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         resolver=(ROOT/'src/EclOperands.cpp').read_text()

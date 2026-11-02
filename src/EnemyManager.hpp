@@ -211,13 +211,26 @@ struct EnemyView
     unsigned char unknown2E70[0x32D8 - 0x2E70];
     Laser *laserSlots32D8[32];
     int selectedLaserSlot3358;
-    unsigned int defeatTokenType335C;
+    // ECL reads the signed item-drop code; reward processing writes the
+    // same 32-bit field through the original unsigned token API.
+    union {
+        unsigned int defeatTokenType335C;
+        int itemDropType335C;
+    };
     unsigned char unknown3360[0x3368 - 0x3360];
     signed char deathEffectVariant3368;
-    unsigned char unknown3369[0x337C - 0x3369];
+    unsigned char unknown3369[0x336B - 0x3369];
+    unsigned char bossSlot336B;
+    unsigned char unknown336C[0x337C - 0x336C];
     unsigned int flags337C;
-    unsigned int rewardFlags3380;
-    unsigned char unknown3384[0x5430 - 0x3384];
+    union {
+        unsigned int rewardFlags3380;
+        unsigned int secondaryFlags3380;
+    };
+    unsigned char unknown3384[0x33AC - 0x3384];
+    int lastDamage33AC;
+    int lifeCallbackThresholds33B0[4];
+    unsigned char unknown33C0[0x5430 - 0x33C0];
 
     EnemyView();
     float ResolveFloat(float rawValue);
@@ -257,6 +270,12 @@ typedef char EnemyViewLaserSlotsAt32D8[
      sizeof(((EnemyView *)0)->laserSlots32D8) == 0x80) ? 1 : -1];
 typedef char EnemyViewSelectedLaserAt3358[
     (offsetof(EnemyView, selectedLaserSlot3358) == 0x3358) ? 1 : -1];
+typedef char EnemyViewNativeEclRewardAndDamageFields[
+    (offsetof(EnemyView, itemDropType335C) == 0x335C &&
+     offsetof(EnemyView, bossSlot336B) == 0x336B &&
+     offsetof(EnemyView, secondaryFlags3380) == 0x3380 &&
+     offsetof(EnemyView, lastDamage33AC) == 0x33AC &&
+     offsetof(EnemyView, lifeCallbackThresholds33B0) == 0x33B0) ? 1 : -1];
 typedef char EnemyViewRewardFlagsAt3380[
     (offsetof(EnemyView, rewardFlags3380) == 0x3380) ? 1 : -1];
 
