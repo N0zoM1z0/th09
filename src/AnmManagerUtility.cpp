@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "AnmVmLifecycle.hpp"
 #include "Supervisor.hpp"
 #include "ZunMemory.hpp"
 #include "TextHelper.hpp"
@@ -11,54 +12,19 @@
 #include <d3d8.h>
 
 
-struct Float2UtilityView
-{
-    float x;
-    float y;
-};
-
-struct AnmLoadedSpriteUtilityView
-{
-    int anmIndex;
-    IDirect3DTexture8 *texture;
-    Float2UtilityView startPixelInclusive;
-    Float2UtilityView endPixelInclusive;
-    float height;
-    float width;
-    Float2UtilityView uvStart;
-    Float2UtilityView uvEnd;
-    float heightPx;
-    float widthPx;
-    Float2UtilityView scaleFactor;
-    unsigned int unknown40;
-};
-
-typedef char AnmUtilitySpriteSizeIs44[
-    (sizeof(AnmLoadedSpriteUtilityView) == 0x44) ? 1 : -1];
-typedef char AnmUtilitySpriteWidthPxAt34[
-    (offsetof(AnmLoadedSpriteUtilityView, widthPx) == 0x34) ? 1 : -1];
-typedef char AnmUtilitySpriteScaleAt38[
-    (offsetof(AnmLoadedSpriteUtilityView, scaleFactor) == 0x38) ? 1 : -1];
-
-struct AnmTextVmView
-{
-    unsigned char unknown000[0x1F8];
-    unsigned int flagsWord;
-    unsigned char unknown1FC[0x224 - 0x1FC];
-    AnmLoadedSprite *loadedSprite;
-    unsigned char unknown228[0x298 - 0x228];
-    unsigned char fontWidth;
-    unsigned char fontHeight;
-};
-
-typedef char AnmTextFlagsAt1F8[
-    (offsetof(AnmTextVmView, flagsWord) == 0x1F8) ? 1 : -1];
-typedef char AnmTextSpriteAt224[
-    (offsetof(AnmTextVmView, loadedSprite) == 0x224) ? 1 : -1];
-typedef char AnmTextFontWidthAt298[
-    (offsetof(AnmTextVmView, fontWidth) == 0x298) ? 1 : -1];
-typedef char AnmTextFontHeightAt299[
-    (offsetof(AnmTextVmView, fontHeight) == 0x299) ? 1 : -1];
+// DrawTextLeft/Centered traverse the same 0x2A4 ANM VM and 0x44 sprite
+// that the exact 9776-byte interpreter, loader and SetSprite already use.
+typedef char AnmNativeTextSpriteAndVmOffsets[
+    (sizeof(AnmVm) == 0x2A4 &&
+     sizeof(AnmLoadedSprite) == 0x44 &&
+     offsetof(AnmVm, flagsWord) == 0x1F8 &&
+     offsetof(AnmVm, loadedSprite) == 0x224 &&
+     offsetof(AnmVm, fontWidth) == 0x298 &&
+     offsetof(AnmVm, fontHeight) == 0x299 &&
+     offsetof(AnmLoadedSprite, startPixelX08) == 0x08 &&
+     offsetof(AnmLoadedSprite, textureWidth1C) == 0x1C &&
+     offsetof(AnmLoadedSprite, widthPx) == 0x34 &&
+     offsetof(AnmLoadedSprite, scaleX38) == 0x38) ? 1 : -1];
 
 struct AnmSurfaceInfoView
 {
@@ -178,7 +144,7 @@ void AnmManager::DrawTextLeft(
     const char *format, ...)
 {
     char buffer[128];
-    AnmTextVmView *vm = reinterpret_cast<AnmTextVmView *>(vmObject);
+    AnmVm *vm = vmObject;
     int fontWidth = vm->fontWidth;
     va_list args;
 
@@ -186,13 +152,12 @@ void AnmManager::DrawTextLeft(
     vsprintf(buffer, format, args);
     va_end(args);
 
-    AnmLoadedSpriteUtilityView *sprite =
-        reinterpret_cast<AnmLoadedSpriteUtilityView *>(vm->loadedSprite);
+    AnmLoadedSprite *sprite = vm->loadedSprite;
     this->DrawTextInner(
-        sprite->texture, sprite->startPixelInclusive.x,
-        sprite->startPixelInclusive.y, sprite->width, sprite->height,
+        static_cast<IDirect3DTexture8 *>(sprite->texture), sprite->startPixelX08,
+        sprite->startPixelY0C, sprite->textureWidth1C, sprite->textureHeight18,
         fontWidth, vm->fontHeight, textColor, shadowColor, buffer,
-        sprite->scaleFactor.x, sprite->scaleFactor.y);
+        sprite->scaleX38, sprite->scaleY3C);
     vm->flagsWord |= 1;
 }
 
@@ -201,7 +166,7 @@ void AnmManager::DrawTextCentered(
     const char *format, ...)
 {
     char buffer[68];
-    AnmTextVmView *vm = reinterpret_cast<AnmTextVmView *>(vmObject);
+    AnmVm *vm = vmObject;
     int fontWidth = vm->fontWidth <= 0 ? 15 : vm->fontWidth;
     va_list args;
 
@@ -210,17 +175,16 @@ void AnmManager::DrawTextCentered(
     va_end(args);
 
     unsigned int textLength = strlen(buffer);
-    AnmLoadedSpriteUtilityView *sprite =
-        reinterpret_cast<AnmLoadedSpriteUtilityView *>(vm->loadedSprite);
-    int x = sprite->startPixelInclusive.x +
-        sprite->widthPx * sprite->scaleFactor.x / 2.0f -
+    AnmLoadedSprite *sprite = vm->loadedSprite;
+    int x = sprite->startPixelX08 +
+        sprite->widthPx * sprite->scaleX38 / 2.0f -
         static_cast<float>(textLength) * fontWidth *
-            sprite->scaleFactor.x / 4.0f;
+            sprite->scaleX38 / 4.0f;
     this->DrawTextInner(
-        sprite->texture, x, sprite->startPixelInclusive.y,
-        sprite->width, sprite->height, fontWidth, vm->fontHeight,
-        textColor, shadowColor, buffer, sprite->scaleFactor.x,
-        sprite->scaleFactor.y);
+        static_cast<IDirect3DTexture8 *>(sprite->texture), x, sprite->startPixelY0C,
+        sprite->textureWidth1C, sprite->textureHeight18, fontWidth, vm->fontHeight,
+        textColor, shadowColor, buffer, sprite->scaleX38,
+        sprite->scaleY3C);
     vm->flagsWord |= 1;
 }
 
