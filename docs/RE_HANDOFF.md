@@ -21,6 +21,70 @@ Factory acceptance. The 98% reviewed-authored-byte goal remains open;
 canonical codegen, whole-product linking, runtime semantics and ports remain
 separate milestones.
 
+## 2026-11-02 continued checkpoint — native Player and shot callbacks
+
+**Verify live source, original TH09 1.50a PE, fresh COFF and Git state rather
+than trusting an earlier handoff.** Source commits are local checkpoints, not
+proof of remote push or accepted whole-game replay. No all-owner cold replay
+was performed for this work.
+
+Five source commits, in order, after the earlier Enemy/ECL work:
+
+- `6b90c045` recovers real Player +0x364/+0x368 focus/secondary Effect
+  pointers. The full 1,900-byte movement owner still preserves all 66 fields,
+  23 calls and the 129 known mismatch positions. Exact 572-byte
+  PlayerAddedState and 243-byte Player constructor remain unchanged.
+- `953720eb` drops the separate PlayerPatternOffsetView and directly reads
+  PlayerLifecycleView movement multipliers +0x1CDC..+0x1CE8 and primary SHT at
+  +0x30338. Original 412 physical bytes/18 relocation fields of the resolver
+  remain exact; the separate 3,238-byte/136-field selector boss is also exact.
+  All 18 compiler-private switch-label renames were proved using actual COFF
+  section-relative addresses and unchanged original target destinations.
+- `0635fc93` unifies two original-exact Player shot callbacks with native
+  Player movement state, retaining their real callback and rectangle-member
+  ABI identities.
+- `84086f55` deletes the independent Type4 shot storage overlay and uses
+  PlayerShotCtorView position +0x2A4, velocity +0x43C, timer +0x454 and state
+  +0x462. A natural local velocity snapshot fixes an initial four-byte x87
+  operand-order mismatch: the full Type4 callback is **249/249 bytes exact**
+  with 9 original relocation fields. Twelve source-cold expression trials
+  independently identified the equivalent codegen choice.
+- `448cf6ba` replaces Type3's private shot velocity view with native
+  PlayerShotCtorView::velocity43C. Type3 stays **86/86 bytes exact**, with
+  its genuine one relocation. Its real InitializeShot callee remains
+  **309/309 exact**, with 7 original fields.
+
+**Current reviewed owners**: focused --owner movement: 1,900 physical bytes,
+1,835 code bytes, 66 fields, 23 calls, 129 mismatching ordinary physical
+positions and 2 exact siblings. Focused --owner added: 572-byte exact
+PlayerAddedState, 25 fields, 4 exact siblings. Player constructor:
+243 bytes/21 fields exact. Focused Enemy: 3,900 bytes/97 fields/69 calls,
+13 mismatches. RunEcl continues at 15,564 physical bytes/598 fields/30
+ordinary mismatches, all confined to opcode 4 (7) and 155 (23), with its
+96 exact sibling checks previously replayed in this continuation. The
+authored-function exact ledger remains **1,005**; no new exactness credit
+follows merely from recovered data structures or diagnostic similarity.
+
+Discarded source-cold probes are only ignored diagnostics in
+`.analysis/current-session-runecl/`: twelve opcode 155 bit-form spellings
+left 30 RunEcl bytes (or regressed), ten movement config-read spellings left
+129 bytes (or regressed), and fifteen Effect AddedCallback register-order
+spellings did not close its eight residual bytes. Do not misinterpret
+these experiments as established semantic facts or promote them as exact.
+
+Next machine-code targets include the lower-clamp EAX/EDX transport around
+Player movement physical +0x533, RunEcl opcode 4/155 register/wire scheduling,
+Enemy OnUpdate's 13 residual bytes, and SaveReplay's three residual bytes.
+Keep reviewing both big functions and exact leaf callers, not only the latter.
+
+Use narrowly scoped source-cold verification: `python3 -B
+scripts/check-boss-frontiers.py --owner movement` (or `--owner added`,
+`--owner enemy`, `--owner runecl`), and the affected individual
+`build-match-unit.py --unit ...` then `compare-coff-function.py --unit ...
+--json`. Never use --owner all as routine validation. Keep original frozen
+offsets/kinds/destinations unchanged; renaming a private COFF label requires
+proving its actual source location still targets the exact original VA.
+
 ## 2026-11-02 source checkpoint — shared Enemy/ECL storage
 
 The latest focused work made several **source/ABI representation** corrections
