@@ -12,6 +12,8 @@ struct Background;
 struct EnemyManagerView;
 struct CardAttack;
 struct FrontSide;
+struct ReplayManagerView;
+struct ReplayStageDispatchView;
 
 struct AsciiPlayerPopupPositionView
 {
@@ -101,7 +103,7 @@ struct AsciiGameManagerView
     int valueC8;
     int valueCC;
     int valueD0;
-    void *stageObjectD4;
+    union { void *stageObjectD4; ReplayManagerView *replayManagerD4; ReplayStageDispatchView *replayDispatchD4; };
     unsigned char clearD8[0x10];
     union { ReplayInputGateView *replayInputGateE8; void *heapE8; };
     float speedEC;
@@ -177,6 +179,8 @@ typedef char AsciiGameManagerSetupCountersAtB0[
      offsetof(AsciiGameManagerView, valueCC) == 0xCC &&
      offsetof(AsciiGameManagerView, valueD0) == 0xD0 &&
      offsetof(AsciiGameManagerView, stageObjectD4) == 0xD4 &&
+     offsetof(AsciiGameManagerView, replayManagerD4) == 0xD4 &&
+     offsetof(AsciiGameManagerView, replayDispatchD4) == 0xD4 &&
      offsetof(AsciiGameManagerView, clearD8) == 0xD8 &&
      offsetof(AsciiGameManagerView, heapE8) == 0xE8) ? 1 : -1];
 typedef char AsciiGameManagerSpeedAtEC[

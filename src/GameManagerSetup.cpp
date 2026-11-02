@@ -808,8 +808,7 @@ mode_ready:
         else
             manager->sides[0].state->value00 = 0.0f;
 
-        reinterpret_cast<ReplayManagerView *>(manager->stageObject)
-            ->Release();
+        manager->replayManagerD4->Release();
         manager->stageObject = NULL;
 
         if ((manager->flags & 8) == 0)
@@ -817,11 +816,11 @@ mode_ready:
             manager->seedCopy346 = g_Rng.seed;
             reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
                 ->SelectOpponentConfiguration();
-            manager->stageObject = ReplayManagerView::Create(0, NULL);
+            manager->replayManagerD4 = ReplayManagerView::Create(0, NULL);
         }
         else
         {
-            manager->stageObject = ReplayManagerView::Create(
+            manager->replayManagerD4 = ReplayManagerView::Create(
                 1, reinterpret_cast<const char *>(&manager->modeByte145));
             reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
                 ->SelectOpponentConfiguration();
@@ -850,12 +849,12 @@ mode_ready:
             reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
                 ->SelectOpponentConfiguration();
             DispatchReplayStage(
-                static_cast<ReplayStageDispatchView *>(manager->stageObject), 0);
+                manager->replayDispatchD4, 0);
         }
         else
         {
             DispatchReplayStage(
-                static_cast<ReplayStageDispatchView *>(manager->stageObject), 1);
+                manager->replayDispatchD4, 1);
             reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
                 ->SelectOpponentConfiguration();
         }

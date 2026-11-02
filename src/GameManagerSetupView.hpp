@@ -6,6 +6,8 @@
 
 // The 0x38-byte GameManager side record has one physical original identity.
 // Keep the existing setup-facing alias without redefining a second structure.
+struct ReplayManagerView;
+struct ReplayStageDispatchView;
 typedef AsciiGameManagerSideView SetupSideState;
 typedef char SetupSideStateSizeCheck[(sizeof(SetupSideState) == 0x38) ? 1 : -1];
 
@@ -26,7 +28,7 @@ struct GameManagerSetupLayout
     int valueC8;
     int valueCC;
     int valueD0;
-    void *stageObject;
+    union { void *stageObject; ReplayManagerView *replayManagerD4; ReplayStageDispatchView *replayDispatchD4; };
     unsigned char clearD8[0x10];
     void *heapE8;
     float speedEC;
