@@ -77,16 +77,15 @@ struct PlayerGameplayMethods
     int GetUpdateState();
 };
 
-struct PlayerPatternOffsetView
-{
-    unsigned char unknown0000[0x1CDC];
-    float speedMultiplier1CDC;
-    float speedMultiplier1CE0;
-    float speedMultiplier1CE4;
-    float speedMultiplier1CE8;
-    unsigned char unknown1CEC[0x30338 - 0x1CEC];
-    PlayerShtFileView *primaryShtFile30338;
-};
+// The original Player selector's offset resolver traverses the same native
+// PlayerLifecycleView as the 1,900-byte movement boss.  Its scale dwords and
+// SHT receiver are independently pinned by both source consumers.
+typedef char PlayerPatternNativeMovementAndShtOffsets[
+    (offsetof(PlayerLifecycleView, movementFields1CCC) +
+         offsetof(PlayerMovementFields, speedMultiplier1CDC) == 0x1CDC &&
+     offsetof(PlayerLifecycleView, movementFields1CCC) +
+         offsetof(PlayerMovementFields, speedMultiplier1CE8) == 0x1CE8 &&
+     offsetof(PlayerLifecycleView, primaryShtFile) == 0x30338) ? 1 : -1];
 
 float *PlayerGameplayMethods::ResolvePatternOffset(
     int pattern,
@@ -94,8 +93,8 @@ float *PlayerGameplayMethods::ResolvePatternOffset(
     float *offsetX,
     float *offsetY)
 {
-    PlayerPatternOffsetView *player =
-        reinterpret_cast<PlayerPatternOffsetView *>(this);
+    PlayerLifecycleView *player =
+        reinterpret_cast<PlayerLifecycleView *>(this);
 
     *offsetY = 0.0f;
     *offsetX = 0.0f;
@@ -105,31 +104,31 @@ float *PlayerGameplayMethods::ResolvePatternOffset(
         switch (pattern)
         {
         case 4:
-            *offsetX = player->primaryShtFile30338->focusedAxisSpeed18;
+            *offsetX = player->primaryShtFile->focusedAxisSpeed18;
             break;
         case 3:
-            *offsetX = -player->primaryShtFile30338->focusedAxisSpeed18;
+            *offsetX = -player->primaryShtFile->focusedAxisSpeed18;
             break;
         case 1:
-            *offsetY = -player->primaryShtFile30338->focusedAxisSpeed18;
+            *offsetY = -player->primaryShtFile->focusedAxisSpeed18;
             break;
         case 2:
-            *offsetY = player->primaryShtFile30338->focusedAxisSpeed18;
+            *offsetY = player->primaryShtFile->focusedAxisSpeed18;
             break;
         case 5:
-            *offsetX = -player->primaryShtFile30338->focusedDiagonalSpeed20;
+            *offsetX = -player->primaryShtFile->focusedDiagonalSpeed20;
             *offsetY = *offsetX;
             break;
         case 7:
-            *offsetY = player->primaryShtFile30338->focusedDiagonalSpeed20;
+            *offsetY = player->primaryShtFile->focusedDiagonalSpeed20;
             *offsetX = -*offsetY;
             break;
         case 6:
-            *offsetX = player->primaryShtFile30338->focusedDiagonalSpeed20;
+            *offsetX = player->primaryShtFile->focusedDiagonalSpeed20;
             *offsetY = -*offsetX;
             break;
         case 8:
-            *offsetX = player->primaryShtFile30338->focusedDiagonalSpeed20;
+            *offsetX = player->primaryShtFile->focusedDiagonalSpeed20;
             *offsetY = *offsetX;
             break;
         default:
@@ -141,31 +140,31 @@ float *PlayerGameplayMethods::ResolvePatternOffset(
         switch (pattern)
         {
         case 4:
-            *offsetX = player->primaryShtFile30338->normalAxisSpeed14;
+            *offsetX = player->primaryShtFile->normalAxisSpeed14;
             break;
         case 3:
-            *offsetX = -player->primaryShtFile30338->normalAxisSpeed14;
+            *offsetX = -player->primaryShtFile->normalAxisSpeed14;
             break;
         case 1:
-            *offsetY = -player->primaryShtFile30338->normalAxisSpeed14;
+            *offsetY = -player->primaryShtFile->normalAxisSpeed14;
             break;
         case 2:
-            *offsetY = player->primaryShtFile30338->normalAxisSpeed14;
+            *offsetY = player->primaryShtFile->normalAxisSpeed14;
             break;
         case 5:
-            *offsetX = -player->primaryShtFile30338->normalDiagonalSpeed1C;
+            *offsetX = -player->primaryShtFile->normalDiagonalSpeed1C;
             *offsetY = *offsetX;
             break;
         case 7:
-            *offsetY = player->primaryShtFile30338->normalDiagonalSpeed1C;
+            *offsetY = player->primaryShtFile->normalDiagonalSpeed1C;
             *offsetX = -*offsetY;
             break;
         case 6:
-            *offsetX = player->primaryShtFile30338->normalDiagonalSpeed1C;
+            *offsetX = player->primaryShtFile->normalDiagonalSpeed1C;
             *offsetY = -*offsetX;
             break;
         case 8:
-            *offsetX = player->primaryShtFile30338->normalDiagonalSpeed1C;
+            *offsetX = player->primaryShtFile->normalDiagonalSpeed1C;
             *offsetY = *offsetX;
             break;
         default:
@@ -174,12 +173,12 @@ float *PlayerGameplayMethods::ResolvePatternOffset(
     }
 
     *offsetX =
-        player->speedMultiplier1CE4 *
-        player->speedMultiplier1CDC *
+        player->movementFields1CCC.speedMultiplier1CE4 *
+        player->movementFields1CCC.speedMultiplier1CDC *
         *offsetX;
     *offsetY =
-        player->speedMultiplier1CE8 *
-        player->speedMultiplier1CE0 *
+        player->movementFields1CCC.speedMultiplier1CE8 *
+        player->movementFields1CCC.speedMultiplier1CE0 *
         *offsetY;
     return offsetY;
 }
