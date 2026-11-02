@@ -28,7 +28,10 @@ class NativeSupervisorFrameQueues(unittest.TestCase):
         self.assertIn('Supervisor *view = reinterpret_cast<Supervisor *>(this);',received)
         self.assertNotIn('SupervisorFrameQueueOpsLayout *view =',source)
         self.assertNotIn('SupervisorFrameQueueInsertLayout *view =',received)
-        self.assertIn('offsetof(Supervisor, entries47C)',received)
+        self.assertIn('int *targetFrame = &view->entries47C[flatIndex].frame04;',received)
+        self.assertIn('SupervisorFrameEntryView *dst = &view->entries47C[side * 10 + 9];',received)
+        self.assertIn('SupervisorFrameEntryView *scan = &view->entries47C[side * 10];',received)
+        self.assertNotIn('unsigned char *sideBase =',received)
         self.assertIn('view->lastReceived56C[side]',source)
         self.assertIn('view->lastReceived56C[side]',received)
 

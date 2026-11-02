@@ -14,8 +14,6 @@ void SupervisorFrameQueueView::InsertReceivedFrame(
     view->lastReceived56C[side].packedInput00 = (short)packedInput;
     view->lastReceived56C[side].seed02 = seed;
 
-    unsigned char *sideBase =
-        reinterpret_cast<unsigned char *>(view) + side * 0x78;
     // The two 10-record side queues are actual elements of the same
     // 20-entry array. Keep the scan rooted at that array rather than
     // constructing a pointer from an unrelated byte-offset view.
@@ -29,16 +27,11 @@ void SupervisorFrameQueueView::InsertReceivedFrame(
     }
 
     int flatIndex = side * 10 + index;
-    int *targetFrame = reinterpret_cast<int *>(
-        reinterpret_cast<unsigned char *>(view) +
-        offsetof(Supervisor, entries47C) +
-        flatIndex * sizeof(SupervisorFrameEntryView) +
-        offsetof(SupervisorFrameEntryView, frame04));
+    int *targetFrame = &view->entries47C[flatIndex].frame04;
 
     if (*targetFrame != 0 && index < 9)
     {
-        SupervisorFrameEntryView *dst =
-            reinterpret_cast<SupervisorFrameEntryView *>(sideBase + 0x4E8);
+        SupervisorFrameEntryView *dst = &view->entries47C[side * 10 + 9];
         int count = 9 - index;
         do
         {
