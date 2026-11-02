@@ -37,6 +37,20 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('EnemyEclNativeLaserSlotsAt32D8', state)
         self.assertIn('enemy->laserSlots32D8[laserIndex]', bullet)
 
+    def test_bullet_and_laser_opcode_family_uses_real_enemy_descriptors(self):
+        manager = (ROOT/'src/EnemyManager.hpp').read_text()
+        bullet = (ROOT/'src/EclRunBullet.inl').read_text()
+        post = (ROOT/'src/EclPostRuntime.inl').read_text()
+        self.assertIn('typedef ::EnemyView EnemyBulletView;', bullet)
+        self.assertNotIn('struct EnemyBulletView\n{', bullet)
+        self.assertIn('EnemyViewBulletAndLaserDescriptors', manager)
+        self.assertIn('BulletSpawnDescriptor bulletDescriptor2E74;', manager)
+        self.assertIn('BulletSpawnDescriptor laserDescriptor30C4;', manager)
+        self.assertIn('ZunTimer shootIntervalTimer30B8;', manager)
+        self.assertIn('pendingShotInstruction3088[0x2C]', manager)
+        self.assertIn('Th09EclRunBullet::View(enemy)->bulletDescriptor2E74', bullet)
+        self.assertIn('reinterpret_cast<const Float3 &>(view->worldPosition2DD4)', post)
+
     def test_no_duplicate_enemy_resolver_owner(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         resolver=(ROOT/'src/EclOperands.cpp').read_text()
