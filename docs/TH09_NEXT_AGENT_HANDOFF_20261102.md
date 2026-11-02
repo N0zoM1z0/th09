@@ -1,5 +1,25 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 exact Player selector 3,238 bytes: one native playfield
+
+Fresh original Japanese TH09 v1.50a PE/COFF evidence establishes all
+four `PlayerGameplayState.cpp` selector playfield scalars as native
+`GameManager` +0x360/+0x364/+0x368/+0x36C fields. The exact
+3,238-byte `PlayerUpdateSelectorState` previously declared four independent
+`g_PlayerPlayfield*` floats and used them in its collision/clamp search;
+it now accesses the same typed `GameManagerResetView` fields consumed by
+the 1,900-byte Player movement boss. All 34 affected COFF relocations
+were checked against actual original target operand *values* before
+rebinding their one real GameManager base at 0x004A7D90 with member
+addends 0x360..0x36C: **0 ordinary byte differences**, 136 original
+field offsets and **3,238/3,238 exact**. The same-TU `ResolvePatternOffset`
+leaf retains **412/412 complete physical bytes exact** (346 canonical
+bytes) after 18 source-verified COFF-local labels were rebound to their
+unchanged original PE destinations. The independent 1,900-byte movement
+boss remains 122 ordinary differences with both exact siblings; no new
+exact owner is credited. This is source/owner restoration, not a new
+native Windows runtime proof.
+
 ## 2026-11-02 original-exact 76-byte ECL opcode1 uses native Side flag bit
 
 The original 76-byte `EnemyEclExInstruction1` writes the low bit of both

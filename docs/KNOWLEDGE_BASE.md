@@ -400,6 +400,27 @@ Enemy leaf functions and four exact Enemy draw units (including 1,758-byte
 in spelling after actual COFF-to-original-VA destination proofs. None of
 this grants new exactness credit or proves Windows runtime semantics.
 
+### 2026-11-02 native GameManager playfield in 3,238-byte exact Player selector
+
+Independently reconstructed the original field relationship between
+`PlayerUpdateSelectorState` and `PlayerLifecycleView::UpdateMovementAndOptions`:
+retail PE data operands in the selector at 34 locations point to
+0x004A80F0/+F4/+F8/+FC, which are exactly
+`g_GameManager @ 0x004A7D90 +0x360/+0x364/+0x368/+0x36C`.
+The selector previously modeled these as four separate TU-private float
+globals; it now projects the native GameManagerResetView on the same
+`g_GameManager` object used by its mode calls. Actual COFF member addends
+were checked independently against every original PE displacement:
+34 matched original values with zero non-relocation differences across
+the whole 3,238-byte target owner. Canonical match relocations now bind
+the *one true symbol base*, not four different synthetic symbol bases.
+The 3,238/3,238 source-cold exact selector and same-source 412/412
+physical exact offset resolver retain their complete functions; the 18
+compiler-private switch labels were rebound only after the actual local
+COFF section-relative values proved their unchanged original VA.
+The distinct 1,900-byte Player movement boss retains 122 residual bytes
+and two exact dependencies. No canonical exact-function increase.
+
 ### 2026-11-02 original-bound Player movement 129 -> 122-byte advance
 
 Original Japanese 1.50a owner `0x0041C170` owns **1,900 physical bytes**

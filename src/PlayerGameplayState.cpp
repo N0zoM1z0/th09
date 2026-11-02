@@ -1,4 +1,5 @@
 #include "GameManagerRuntimeView.hpp"
+#include "GameManagerResetView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "ZunTimer.hpp"
 
@@ -212,10 +213,10 @@ extern int g_PlayerPatternFlags[];
 extern int g_PlayerPatternAlternates[];
 extern int g_PlayerPatternProtocolValue;
 extern PlayerGameplayRngView g_PlayerGameplayRng;
-extern float g_PlayerPlayfieldMinX;
-extern float g_PlayerPlayfieldMinY;
-extern float g_PlayerPlayfieldWidth;
-extern float g_PlayerPlayfieldHeight;
+
+
+
+
 
 struct PlayerSharedRuntimeView
 {
@@ -365,14 +366,14 @@ void __fastcall PlayerUpdateSelectorState(void *state)
                     candidate = candidatePlayer->position1B88;
                     candidate.x += offsetX;
                     candidate.y += offsetY;
-                    if (candidate.x < g_PlayerPlayfieldMinX)
-                        candidate.x = g_PlayerPlayfieldMinX;
-                    else if (candidate.x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
-                        candidate.x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
-                    if (candidate.y < g_PlayerPlayfieldMinY)
-                        candidate.y = g_PlayerPlayfieldMinY;
-                    else if (candidate.y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
-                        candidate.y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+                    if (candidate.x < reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360)
+                        candidate.x = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360;
+                    else if (candidate.x > reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate368)
+                        candidate.x = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate368;
+                    if (candidate.y < reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364)
+                        candidate.y = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364;
+                    else if (candidate.y > reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate36C)
+                        candidate.y = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate36C;
                 }
                 if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, halfSizes[halfSizeIndex], radii[halfSizeIndex]) != NULL))
                     goto pattern_selected;
@@ -398,14 +399,14 @@ void __fastcall PlayerUpdateSelectorState(void *state)
                         candidate = candidatePlayer->position1B88;
                         candidate.x += offsetX;
                         candidate.y += offsetY;
-                        if (candidate.x < g_PlayerPlayfieldMinX)
-                            candidate.x = g_PlayerPlayfieldMinX;
-                        else if (candidate.x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
-                            candidate.x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
-                        if (candidate.y < g_PlayerPlayfieldMinY)
-                            candidate.y = g_PlayerPlayfieldMinY;
-                        else if (candidate.y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
-                            candidate.y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+                        if (candidate.x < reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360)
+                            candidate.x = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360;
+                        else if (candidate.x > reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate368)
+                            candidate.x = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate368;
+                        if (candidate.y < reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364)
+                            candidate.y = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364;
+                        else if (candidate.y > reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate36C)
+                            candidate.y = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate36C;
                     }
                     if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, *gridHalfSize, *gridRadius) != NULL))
                         goto pattern_selected;
@@ -478,14 +479,14 @@ pattern_selected:
                     candidate = candidatePlayer->position1B88;
                     candidate.x += offsetX;
                     candidate.y += offsetY;
-                    if (candidate.x < g_PlayerPlayfieldMinX)
-                        candidate.x = g_PlayerPlayfieldMinX;
-                    else if (candidate.x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
-                        candidate.x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
-                    if (candidate.y < g_PlayerPlayfieldMinY)
-                        candidate.y = g_PlayerPlayfieldMinY;
-                    else if (candidate.y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
-                        candidate.y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+                    if (candidate.x < reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360)
+                        candidate.x = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360;
+                    else if (candidate.x > reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate368)
+                        candidate.x = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate368;
+                    if (candidate.y < reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364)
+                        candidate.y = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364;
+                    else if (candidate.y > reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate36C)
+                        candidate.y = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate36C;
                 }
                 int testHalfSize = halfSizeIndex < 2
                 ? halfSizeIndex + 1
@@ -571,14 +572,14 @@ pattern_selected:
                                     pattern, alternate, &offsetX, &offsetY);
                                 candidate.x += offsetX;
                                 candidate.y += offsetY;
-                                if (candidate.x < g_PlayerPlayfieldMinX)
-                                    candidate.x = g_PlayerPlayfieldMinX;
-                                else if (candidate.x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
-                                    candidate.x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
-                                if (candidate.y < g_PlayerPlayfieldMinY)
-                                    candidate.y = g_PlayerPlayfieldMinY;
-                                else if (candidate.y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
-                                    candidate.y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+                                if (candidate.x < reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360)
+                                    candidate.x = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360;
+                                else if (candidate.x > reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate368)
+                                    candidate.x = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate368;
+                                if (candidate.y < reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364)
+                                    candidate.y = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364;
+                                else if (candidate.y > reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate36C)
+                                    candidate.y = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate36C;
                             }
                             if (trackingPlayer->collisionQuery36C.FindCollision(candidate, halfSizes[1], 0.0f) == NULL)
                                 g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
@@ -599,14 +600,14 @@ pattern_selected:
                                     selectedPattern, alternate, &offsetX, &offsetY);
                                 candidate.x += offsetX;
                                 candidate.y += offsetY;
-                                if (candidate.x < g_PlayerPlayfieldMinX)
-                                    candidate.x = g_PlayerPlayfieldMinX;
-                                else if (candidate.x > g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth)
-                                    candidate.x = g_PlayerPlayfieldMinX + g_PlayerPlayfieldWidth;
-                                if (candidate.y < g_PlayerPlayfieldMinY)
-                                    candidate.y = g_PlayerPlayfieldMinY;
-                                else if (candidate.y > g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight)
-                                    candidate.y = g_PlayerPlayfieldMinY + g_PlayerPlayfieldHeight;
+                                if (candidate.x < reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360)
+                                    candidate.x = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360;
+                                else if (candidate.x > reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate368)
+                                    candidate.x = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate360 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate368;
+                                if (candidate.y < reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364)
+                                    candidate.y = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364;
+                                else if (candidate.y > reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate36C)
+                                    candidate.y = reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate364 + reinterpret_cast<GameManagerResetView *>(&g_GameManager)->coordinate36C;
                             }
                             if (trackingPlayer->collisionQuery36C.FindCollision(candidate, halfSizes[1], 0.0f) == NULL)
                                 g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
