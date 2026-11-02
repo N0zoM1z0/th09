@@ -294,7 +294,12 @@ struct Th09EclContextView
     Th09EclTimerStorageView time008;
     void *perFrameCallback014;
     void *perFrameInstruction018;
-    unsigned char unknown01C[0x94 - 0x1C];
+    int intVariables1C[8];
+    float floatVariables3C[8];
+    int intVariables5C[4];
+    float floatVariables6C[2];
+    int intVariables74[4];
+    float floatVariables84[4];
     Th09EclTimerStorageView secondaryTime094;
     Th09EclInterpolationSlotView interpolationSlots0A0[8];
     unsigned char unknown220[0x04];
@@ -306,6 +311,13 @@ typedef char Th09EclContextSizeIs22C[
     (sizeof(Th09EclContextView) == 0x22C) ? 1 : -1];
 typedef char Th09EclContextCurrentInstructionAt004[
     (offsetof(Th09EclContextView, currentInstruction004) == 0x04) ? 1 : -1];
+typedef char Th09EclContextNativeVariableFields[
+    (offsetof(Th09EclContextView, intVariables1C) == 0x1C &&
+     offsetof(Th09EclContextView, floatVariables3C) == 0x3C &&
+     offsetof(Th09EclContextView, intVariables5C) == 0x5C &&
+     offsetof(Th09EclContextView, floatVariables6C) == 0x6C &&
+     offsetof(Th09EclContextView, intVariables74) == 0x74 &&
+     offsetof(Th09EclContextView, floatVariables84) == 0x84) ? 1 : -1];
 typedef char Th09EclContextSecondaryTimeAt094[
     (offsetof(Th09EclContextView, secondaryTime094) == 0x94) ? 1 : -1];
 typedef char Th09EclContextInterpolationsAt0A0[

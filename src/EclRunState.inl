@@ -191,6 +191,11 @@ typedef char EnemyEclNativePendingSubroutineAt2D70[
 typedef char EnemyEclNativeLifeAt2E48[
     (offsetof(EnemyView, life2E48) ==
      offsetof(EnemyCoreView, life2E48)) ? 1 : -1];
+typedef char EnemyEclNativeLaserSlotsAt32D8[
+    (offsetof(EnemyView, laserSlots32D8) ==
+         offsetof(EnemyCoreView, laserSlots32D8) &&
+     offsetof(EnemyView, selectedLaserSlot3358) ==
+         offsetof(EnemyCoreView, selectedLaserSlot3358)) ? 1 : -1];
 
 struct EnemyManagerCoreView
 {
@@ -312,7 +317,7 @@ typedef char Th09EclStateChildBlockSizeIs24F4[
     (sizeof(ChildEclBlock) == 0x24F4) ? 1 : -1];
 typedef char Th09EclStateChildVariablesAt24[
     (offsetof(ChildEclBlock, context08) +
-         offsetof(Th09EclContextView, unknown01C) == 0x24) ? 1 : -1];
+         offsetof(Th09EclContextView, intVariables1C) == 0x24) ? 1 : -1];
 typedef char Th09EclStateChildDepthAt06[
     (offsetof(ChildEclBlock, callStackDepth06) == 0x06) ? 1 : -1];
 typedef char Th09EclStateChildCallStackAt234[

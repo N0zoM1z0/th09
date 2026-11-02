@@ -73,7 +73,7 @@ inline int Life(EnemyView *enemy)
 
 inline int *ActiveIntVariables(EnemyView *enemy)
 {
-    return reinterpret_cast<int *>(Bytes(ActiveContext(enemy)) + 0x1C);
+    return ActiveContext(enemy)->intVariables1C;
 }
 
 // Both spawn handlers inline the three mask tests and keep only the float

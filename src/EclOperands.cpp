@@ -11,16 +11,9 @@ float __fastcall D3DXVec3Length(const D3DXVECTOR3 *value);
 namespace
 {
 
-struct EclOperandContextView
-{
-    unsigned char unknown000[0x1C];
-    int intVariables1C[8];
-    float floatVariables3C[8];
-    int intVariables5C[4];
-    float floatVariables6C[2];
-    int intVariables74[4];
-    float floatVariables84[4];
-};
+// The four exact ECL operand resolvers read the very same 0x22C
+// interpreter context copied by RunEcl, not an invented context prefix.
+typedef Th09EclContextView EclOperandContextView;
 typedef char EclOperandContextInt1C[
     (offsetof(EclOperandContextView, intVariables1C) == 0x1C) ? 1 : -1];
 typedef char EclOperandContextFloat3C[

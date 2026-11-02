@@ -503,7 +503,7 @@ static void CallSubroutine(
             view->activeContext2CE0,
             static_cast<short>(rawSubroutineId));
 
-    memcpy(view->activeContext2CE0->unknown01C + (0x74 - 0x1C),
+    memcpy(&view->activeContext2CE0->intVariables74[0],
            reinterpret_cast<unsigned char *>(
                view->activeContext2CE0->selectedManager000) + 0x168,
            0x20);

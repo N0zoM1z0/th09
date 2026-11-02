@@ -75,6 +75,7 @@ typedef char EnemyRewardPlayerLevelAt30448[
 class ChainElem;
 class AnmLoaded;
 class EtamaController;
+struct Laser;
 class Background;
 struct EnemyCoreSideOwnerView;
 struct EnemyManagerView;
@@ -167,7 +168,9 @@ struct EnemyView
     int life2E48;
     unsigned char unknown2E4C[0x2E58 - 0x2E4C];
     int sequenceIndex2E58;
-    unsigned char unknown2E5C[0x335C - 0x2E5C];
+    unsigned char unknown2E5C[0x32D8 - 0x2E5C];
+    Laser *laserSlots32D8[32];
+    int selectedLaserSlot3358;
     unsigned int defeatTokenType335C;
     unsigned char unknown3360[0x3368 - 0x3360];
     signed char deathEffectVariant3368;
@@ -195,6 +198,11 @@ typedef char EnemyViewPositionAt2D74[
     (offsetof(EnemyView, position2D74) == 0x2D74) ? 1 : -1];
 typedef char EnemyViewWorldPositionAt2DD4[
     (offsetof(EnemyView, worldPosition2DD4) == 0x2DD4) ? 1 : -1];
+typedef char EnemyViewLaserSlotsAt32D8[
+    (offsetof(EnemyView, laserSlots32D8) == 0x32D8 &&
+     sizeof(((EnemyView *)0)->laserSlots32D8) == 0x80) ? 1 : -1];
+typedef char EnemyViewSelectedLaserAt3358[
+    (offsetof(EnemyView, selectedLaserSlot3358) == 0x3358) ? 1 : -1];
 typedef char EnemyViewRewardFlagsAt3380[
     (offsetof(EnemyView, rewardFlags3380) == 0x3380) ? 1 : -1];
 
