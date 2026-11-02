@@ -163,12 +163,6 @@ static const int kBulletSpriteScripts[23][5] = {
     {106, 21, 22, 23, 16}, {107, 24, 24, 24, 17},
 };
 
-inline short &BaseSpriteIndex(AnmVm *vm)
-{
-    return *reinterpret_cast<short *>(
-        reinterpret_cast<unsigned char *>(vm) + 0x218);
-}
-
 inline AnmLoadedSprite *LoadedSprite(AnmVm *vm)
 {
     return vm->loadedSprite;
@@ -209,7 +203,7 @@ int EtamaController::AddedCallback(EtamaController *controller)
         sprites->despawnVm.flagsWord |= 0x2000;
 
         sprites->unknownD44 = sprites->bulletVm.activeSpriteIndex;
-        BaseSpriteIndex(&sprites->bulletVm) = sprites->bulletVm.activeSpriteIndex;
+        sprites->bulletVm.baseSpriteIndex = sprites->bulletVm.activeSpriteIndex;
         sprites->spriteHeightPx =
             static_cast<unsigned char>(LoadedSprite(&sprites->bulletVm)->heightPx);
 

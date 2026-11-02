@@ -43,13 +43,19 @@ struct AnmVmBase
     AnmLoaded *anmFile;
     Float3 pos;
     short activeSpriteIndex;
-    unsigned char unknown_0216[4];
+    short anmFileIndex;
+    short baseSpriteIndex;
     short scriptIndex;
     unsigned char unknown_021C[4];
     void *currentInstruction;
     AnmLoadedSprite *loadedSprite;
 };
 typedef char AnmVmBaseSizeIs228[(sizeof(AnmVmBase) == 0x228) ? 1 : -1];
+typedef char AnmVmNativeFileIndexAt216[
+    (offsetof(AnmVmBase, anmFileIndex) == 0x216) ? 1 : -1];
+typedef char AnmVmNativeBaseSpriteAt218[
+    (offsetof(AnmVmBase, baseSpriteIndex) == 0x218) ? 1 : -1];
+
 
 struct AnmVm : AnmVmBase
 {
