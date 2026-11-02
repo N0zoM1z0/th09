@@ -1,4 +1,9 @@
 #include "Supervisor.hpp"
+// This TU preserves the original DeletedGameManagerLayout global symbol type.
+// Import only the native side layout, without redeclaring the other global.
+#define TH09_GAME_MANAGER_TYPES_ONLY
+#include "GameManagerRuntimeView.hpp"
+#undef TH09_GAME_MANAGER_TYPES_ONLY
 #include "SoundPlayer.hpp"
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
@@ -65,13 +70,16 @@ typedef char DeletedDevicesAt0C[
      offsetof(Supervisor, controller014) == 0x14 &&
      offsetof(Supervisor, controller118) == 0x18) ? 1 : -1];
 
-struct DeletedGameManagerLayout
+// The deleted callback releases the +0x1C score/phase allocations from
+// each original 0x38 GameManager side, as used by the exact replay owners.
+// Retain the original DeletedGameManagerLayout C++ global symbol identity.
+struct DeletedGameManagerLayout : AsciiGameManagerView
 {
-    unsigned char unknown000[0x1C];
-    void *heap1C;
-    unsigned char unknown020[0x54 - 0x20];
-    void *heap54;
 };
+typedef char DeletedGameManagerNativeSideAllocationOffsets[
+    (offsetof(AsciiGameManagerSideView, runtime) == 0x1C &&
+     offsetof(AsciiGameManagerView, sides) == 0 &&
+     sizeof(AsciiGameManagerSideView) == 0x38) ? 1 : -1];
 
 
 }
@@ -97,13 +105,13 @@ int SupervisorDeletedCallback(Supervisor *supervisor)
         globalSupervisor->versionData7AC = NULL;
     }
 
-    if (g_GameManager.heap1C != NULL)
-        operator delete(g_GameManager.heap1C);
-    g_GameManager.heap1C = NULL;
+    if (g_GameManager.sides[0].runtime != NULL)
+        operator delete(g_GameManager.sides[0].runtime);
+    g_GameManager.sides[0].runtime = NULL;
 
-    if (g_GameManager.heap54 != NULL)
-        operator delete(g_GameManager.heap54);
-    g_GameManager.heap54 = NULL;
+    if (g_GameManager.sides[1].runtime != NULL)
+        operator delete(g_GameManager.sides[1].runtime);
+    g_GameManager.sides[1].runtime = NULL;
 
     if (globalSupervisor->startupVm584 != NULL)
     {
