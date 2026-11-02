@@ -3,7 +3,6 @@
 
 // Shared declaration of the maintained setup owner. Fields remain partial
 // target-backed views; original nominal C++ ownership is still provisional.
-struct SetupStateBuffer;
 
 // The 0x38-byte GameManager side record has one physical original identity.
 // Keep the existing setup-facing alias without redefining a second structure.

@@ -40,16 +40,8 @@
 void __fastcall ResetExAttackRecords(ExAttackController *controller);
 
 
-struct SetupStateBuffer
-{
-    float value00;
-    unsigned int value04;
-    unsigned int value08;
-    unsigned int value0C;
-    int phase10;
-    unsigned char value14;
-    unsigned char unknown_15[0x8B];
-};
+// The 0xA0 score/phase buffer is the same concrete side-runtime object
+// already carried by the 0x38-byte native GameManager side owner.
 
 typedef char SetupStateBufferSizeIsA0[
     (sizeof(SetupStateBuffer) == 0xA0) ? 1 : -1];

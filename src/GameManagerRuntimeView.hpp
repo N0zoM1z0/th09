@@ -8,7 +8,6 @@ struct EffectManager;
 class EtamaController;
 struct PlayerLifecycleView;
 struct ReplayInputGateView;
-struct SetupStateBuffer;
 
 struct AsciiPlayerPopupPositionView
 {
@@ -16,15 +15,24 @@ struct AsciiPlayerPopupPositionView
     Float3 position;
 };
 
+// This is the target-backed 0xA0-byte side score/phase buffer, allocated
+// from GameManager setup and read from the ASCII side runtime at +0x1C.
 struct AsciiGameSideRuntimeView
 {
     float value00;
-    int value04;
-    int value08;
-    int value0C;
-    unsigned char unknown10[4];
-    unsigned char counter14;
+    unsigned int value04;
+    unsigned int value08;
+    unsigned int value0C;
+    union { unsigned char unknown10[4]; int phase10; };
+    union { unsigned char counter14; unsigned char value14; };
+    unsigned char unknown15[0x8B];
 };
+
+typedef AsciiGameSideRuntimeView SetupStateBuffer;
+typedef char AsciiGameSideNativeScoreSizeIsA0[
+    (sizeof(AsciiGameSideRuntimeView) == 0xA0 &&
+     offsetof(AsciiGameSideRuntimeView, phase10) == 0x10 &&
+     offsetof(AsciiGameSideRuntimeView, value14) == 0x14) ? 1 : -1];
 
 struct AsciiGameManagerSideView
 {
