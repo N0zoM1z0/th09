@@ -1,5 +1,16 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 six native Enemy ExAttack spawn wrappers (complete exact units)
+
+The six reviewed 41-byte `EnemyEclExInstruction0/3/4/5/10/11`
+callbacks (type 1/7/9/8/23/24) previously used a duplicate
+`EnemyExAttackView` prefix to read Enemy +0x2D74 position and manager
++0x31C side. Replaced it with the native EnemyView fields and the
+exact ExAttackController Float3 calling ABI. All six independently
+compiled callbacks still replay **41/41 bytes exact**, and the real
+12-entry ExAttack callback table is re-checked against the 48-byte
+original target prefix. No additional exact owner is claimed.
+
 ## 2026-11-02 exact Enemy cleanup leaf, one native allocation
 
 The actual 184-byte `EnemyView::CleanupAfterDeactivation` previously

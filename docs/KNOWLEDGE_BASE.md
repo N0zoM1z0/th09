@@ -10,6 +10,19 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 six ExAttack prefix callbacks share native Enemy state
+
+The six 41-byte ECL ExAttack wrapper owners carry true `EnemyView *`
+fastcall receivers and only read Enemy +0x2D74 and the manager side
+at +0x31C. The source previously created a second fake Enemy prefix
+struct with `Float3` at +0x2D74; the native Enemy field uses an
+`EnemyFloat3` of the same proven 12-byte extent and an explicit
+`const Float3 *` bridge at the genuine controller call. Recompiling
+all six separately with VC7.1 gives six **41/41 complete exact**
+original-PE matches, and the independently reviewed 12-slot ExAttack
+callback prefix remains in canonical order. This improves source
+ownership but does not change the exactness ledger.
+
 ### 2026-11-02 native Enemy deactivation cleanup, exact 184-byte proof
 
 Original TH09 v1.50a's 184-byte `EnemyView::CleanupAfterDeactivation`

@@ -3,24 +3,19 @@
 #include "ExAttackController.hpp"
 #include <stddef.h>
 
-struct EnemyExAttackView
-{
-    EnemyManagerView *manager00;
-    unsigned char unknown0004[0x2D74 - 0x0004];
-    Float3 position2D74;
-};
-
-typedef char EnemyExAttackPositionAt2D74[
-    (offsetof(EnemyExAttackView, position2D74) == 0x2D74) ? 1 : -1];
+typedef char EnemyExAttackNativePositionAt2D74[
+    (offsetof(EnemyView, position2D74) == 0x2D74 &&
+     offsetof(EnemyView, manager00) == 0x00 &&
+     sizeof(((EnemyView *)0)->position2D74) == sizeof(Float3)) ? 1 : -1];
 
 extern ExAttackController *g_ExAttackController;
 
 #define DEFINE_EXATTACK_WRAPPER(name, typeValue) \
 void __fastcall name(EnemyView *enemy, EnemyEclExInstructionView *) \
 { \
-    EnemyExAttackView *view = reinterpret_cast<EnemyExAttackView *>(enemy); \
     g_ExAttackController->Spawn( \
-        typeValue, &view->position2D74, 1 - view->manager00->sideIndex31C, 0); \
+        typeValue, reinterpret_cast<const Float3 *>(&enemy->position2D74), \
+        1 - enemy->manager00->sideIndex31C, 0); \
 }
 
 DEFINE_EXATTACK_WRAPPER(EnemyEclExInstruction0, 1)
