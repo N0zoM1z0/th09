@@ -2,18 +2,12 @@
 
 #include <stddef.h>
 
-struct SupervisorSubthreadView
-{
-    unsigned char unknown000[0x6AC];
-    int runningSubthreadHandle;
-};
-
+// The exact 14-byte subthread predicate belongs to the same Supervisor
+// +0x6AC thread-handle storage as the complete gameplay setup owner.
 typedef char SupervisorSubthreadHandleAt6AC[
-    (offsetof(SupervisorSubthreadView, runningSubthreadHandle) == 0x6AC) ? 1 : -1];
+    (offsetof(Supervisor, runningSubthreadHandle) == 0x6AC) ? 1 : -1];
 
 int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor)
 {
-    SupervisorSubthreadView *view =
-        reinterpret_cast<SupervisorSubthreadView *>(supervisor);
-    return view->runningSubthreadHandle != 0;
+    return supervisor->runningSubthreadHandle != 0;
 }
