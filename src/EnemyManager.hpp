@@ -2,6 +2,7 @@
 
 #include "EffectManager.hpp"
 #include "BulletManager.hpp"
+#include "EclOpcodes.hpp"
 #include "PlayerEnemyTrackingStateView.hpp"
 #include "ZunTimer.hpp"
 
@@ -185,7 +186,8 @@ struct EnemyView
     unsigned char unknown0004[0x0008 - 0x0004];
     AnmVm primaryAnmVm0008;
     AnmVm secondaryVms2AC[2];
-    unsigned char unknown07F4[0x2CE0 - 0x07F4];
+    Th09EclContextView mainContext07F4;
+    Th09EclContextView mainCallStack0A20[TH09_ECL_MAIN_CALL_STACK_CAPACITY];
     Th09EclContextView *activeContext2CE0;
     Th09EclContextView *activeCallStack2CE4;
     // The genuine per-Enemy operand banks are read and written by four
@@ -296,6 +298,11 @@ typedef char EnemyViewPrimaryAnmVmAt008[
 typedef char EnemyViewSecondaryAnmVmsAt2AC[
     (offsetof(EnemyView, secondaryVms2AC) == 0x2AC &&
      sizeof(((EnemyView *)0)->secondaryVms2AC) == 0x548) ? 1 : -1];
+typedef char EnemyViewMainContextAndStackAt07F4[
+    (offsetof(EnemyView, mainContext07F4) == 0x07F4 &&
+     offsetof(EnemyView, mainCallStack0A20) == 0x0A20 &&
+     offsetof(EnemyView, activeContext2CE0) == 0x2CE0 &&
+     sizeof(((EnemyView *)0)->mainCallStack0A20) == 0x22C0) ? 1 : -1];
 typedef char EnemyViewActiveContextAt2CE0[
     (offsetof(EnemyView, activeContext2CE0) == 0x2CE0) ? 1 : -1];
 typedef char EnemyViewNativeOperandBanks[

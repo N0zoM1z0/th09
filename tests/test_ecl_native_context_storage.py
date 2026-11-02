@@ -123,6 +123,22 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('(&(owner)->secondaryFlags3380)',movement)
         self.assertNotIn('reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>(',movement)
 
+    def test_native_main_context_and_sixteen_entry_call_stack(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        interpreter=(ROOT/'src/EclManager.cpp').read_text()
+        core=(ROOT/'src/EclRunState.inl').read_text()
+        protocol=(ROOT/'src/EclOpcodes.hpp').read_text()
+        self.assertIn('#include "EclOpcodes.hpp"',native)
+        self.assertIn('EnemyViewMainContextAndStackAt07F4',native)
+        self.assertIn('Th09EclContextView mainContext07F4;',native)
+        self.assertIn('Th09EclContextView mainCallStack0A20[TH09_ECL_MAIN_CALL_STACK_CAPACITY];',native)
+        self.assertIn('TH09_ECL_MAIN_CALL_STACK_CAPACITY = 16',protocol)
+        self.assertIn('sizeof(Th09EclContextView) == 0x22C',protocol)
+        self.assertIn('enemy->mainCallStack0A20',interpreter)
+        self.assertIn('&enemy->mainContext07F4',interpreter)
+        self.assertIn('mainContext07F4',core)
+        self.assertNotIn('enemyState->mainCallStack0A20',interpreter)
+
     def test_main_and_secondary_enemy_anm_vms_share_one_native_owner(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         movement=(ROOT/'src/EclRunMovement.inl').read_text()

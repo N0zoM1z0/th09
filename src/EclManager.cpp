@@ -27,8 +27,8 @@ static int PopContext(EnemyView *enemy)
         if (view->childEclBlocks33D8[childIndex] != NULL)
             g_ZunMemory.Free(view->childEclBlocks33D8[childIndex]);
         view->childEclBlocks33D8[childIndex] = NULL;
-        view->activeCallStack2CE4 = view->mainCallStack0A20;
-        view->activeContext2CE0 = &view->mainContext07F4;
+        view->activeCallStack2CE4 = enemy->mainCallStack0A20;
+        view->activeContext2CE0 = &enemy->mainContext07F4;
         view->activeCallDepth2D2A = view->mainCallDepth2D28;
         return 1;
     }
@@ -533,9 +533,9 @@ int EclManager::RunEcl(EnemyView *enemy)
     float deltaY;
 
     enemyState = Th09EclRunState::View(enemy);
-    savedMainCallStack = enemyState->mainCallStack0A20;
+    savedMainCallStack = enemy->mainCallStack0A20;
     enemyState->activeCallStack2CE4 = savedMainCallStack;
-    savedMainContext = &enemyState->mainContext07F4;
+    savedMainContext = &enemy->mainContext07F4;
     enemyState->activeContext2CE0 = savedMainContext;
     childIndex = -1;
     enemyState->activeCallDepth2D2A = enemyState->mainCallDepth2D28;
