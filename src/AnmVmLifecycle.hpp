@@ -8,23 +8,50 @@ class AnmLoaded;
 class AnmLoadedSprite;
 struct AnmRawInstr;
 
+// Four byte original sprite-script channel view.  The native ANM and Etama
+// renderers also consume the same dword as an integral color, so both
+// interpretations must address the same physical +0x1F0/+0x1F4 words.
+struct AnmVmScriptColor
+{
+    union {
+        unsigned int d3dColor;
+        struct { unsigned char b, g, r, a; };
+    };
+};
+typedef char AnmVmScriptColorSizeIs4[
+    (sizeof(AnmVmScriptColor) == 4) ? 1 : -1];
+
+struct AnmVmScriptMatrix
+{
+    float m[4][4];
+};
+typedef char AnmVmScriptMatrixSizeIs40[
+    (sizeof(AnmVmScriptMatrix) == 0x40) ? 1 : -1];
+
 // One target-observed base prefix and VM tail;original nominal classes are unknown.
 struct AnmVmBase
 {
     AnmVmBase();
 
-    unsigned char unknown_0000[0x18];
+    Float3 rotation;
+    Float3 angleVel;
     Float2 scale;
-    unsigned char unknown_0020[8];
+    Float2 scaleGrowth;
     Float2 spriteSize;
     Float2 uvScrollPos;
     ZunTimer currentTimeInScript;
     ZunTimer waitTimer;
-    ZunTimer interpolationCurrentTimers[7];
-    ZunTimer interpolationEndTimers[7];
-    unsigned char unknown0F8[0x1F0 - 0x0F8];
-    unsigned long color1;
-    unsigned long color2;
+    ZunTimer interpCurrentTimers[7];
+    ZunTimer interpEndTimers[7];
+    unsigned char interpModes[7];
+    unsigned char interpPadding;
+    int intVar0, intVar1, intVar2, intVar3;
+    float floatVar0, floatVar1, floatVar2, floatVar3;
+    int counterVar0, counterVar1;
+    Float2 uvScrollVel;
+    AnmVmScriptMatrix matrix1, matrix2, matrix3;
+    union { unsigned long color1; AnmVmScriptColor color1Script; };
+    union { unsigned long color2; AnmVmScriptColor color2Script; };
     union {
         unsigned int flagsWord;
         struct {
@@ -48,7 +75,7 @@ struct AnmVmBase
             unsigned int unknownFlags20_31 : 12;
         };
     };
-    unsigned char unknown_01FC[2];
+    union { unsigned char unknown_01FC[2]; short type; };
     short pendingInterrupt;
     int playerBulletHitAnimationType;
     AnmLoaded *anmFile;
@@ -58,7 +85,7 @@ struct AnmVmBase
     short baseSpriteIndex;
     short scriptIndex;
     AnmRawInstr *beginningOfScript;
-    void *currentInstruction;
+    AnmRawInstr *currentInstruction;
     AnmLoadedSprite *loadedSprite;
 };
 typedef char AnmVmBaseSizeIs228[(sizeof(AnmVmBase) == 0x228) ? 1 : -1];
@@ -81,9 +108,33 @@ struct AnmVm : AnmVmBase
     void SetInvisible();
     void SetZRotation(float angle);
 
+    float GetFloatVar(float varId);
+    int GetIntVar(int varId);
+    float *GetFloatVarPtr(float *varPtr, unsigned short varMask, unsigned int variableNumber);
+    int *GetIntVarPtr(int *varPtr, unsigned short varMask, unsigned int variableNumber);
+
     ZunTimer interruptReturnTime;
-    unsigned char unknown234[0x288 - 0x234];
+    AnmRawInstr *interruptReturnInstruction;
+    Float3 posInitial, posFinal;
+    Float3 rotateInitial, rotateFinal;
+    Float2 scaleInitial, scaleFinal;
+    AnmVmScriptColor color1Initial, color1Final;
+    AnmVmScriptColor color2Initial, color2Final;
     Float3 pos2;
-    unsigned char unknown_0294[0x10];
+    int timeOfLastSpriteSet;
+    unsigned char fontWidth, fontHeight;
+    unsigned char unknown29A[0x0A];
 };
 typedef char AnmVmLifecycleSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
+typedef char AnmVmScriptScalarsAt100[
+    (offsetof(AnmVmBase, intVar0) == 0x100 &&
+     offsetof(AnmVmBase, uvScrollVel) == 0x128 &&
+     offsetof(AnmVmBase, matrix1) == 0x130 &&
+     offsetof(AnmVmBase, color1) == 0x1F0 &&
+     offsetof(AnmVmBase, color2) == 0x1F4) ? 1 : -1];
+typedef char AnmVmScriptTailAt294[
+    (offsetof(AnmVm, interruptReturnInstruction) == 0x234 &&
+     offsetof(AnmVm, posInitial) == 0x238 &&
+     offsetof(AnmVm, color1Initial) == 0x278 &&
+     offsetof(AnmVm, pos2) == 0x288 &&
+     offsetof(AnmVm, timeOfLastSpriteSet) == 0x294) ? 1 : -1];

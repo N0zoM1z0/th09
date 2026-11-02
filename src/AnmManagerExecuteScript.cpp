@@ -4,6 +4,7 @@
 
 #include "Float3.hpp"
 #include "AnmManager.hpp"
+#include "AnmVmLifecycle.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 
@@ -22,12 +23,6 @@ typedef int ZunBool;
 #define TRUE 1
 #define FALSE 0
 #endif
-
-union ZunColor {
-    u32 d3dColor;
-    struct { u8 b; u8 g; u8 r; u8 a; };
-};
-struct AnmMatrix { float m[4][4]; };
 
 #include "ZunTimer.hpp"
 
@@ -178,93 +173,9 @@ struct AnmRawInstr
     };
 };
 
-struct AnmVm {
-    Float3 rotation;                    // +0x000
-    Float3 angleVel;                    // +0x00C
-    Float2 scale;                       // +0x018
-    Float2 scaleGrowth;                 // +0x020
-    Float2 spriteSize;                  // +0x028
-    Float2 uvScrollPos;                 // +0x030
-    ZunTimer currentTimeInScript;       // +0x038
-    ZunTimer waitTimer;                 // +0x044
-    ZunTimer interpCurrentTimers[AnmInterp_Last]; // +0x050
-    ZunTimer interpEndTimers[AnmInterp_Last];     // +0x0A4
-    u8 interpModes[AnmInterp_Last];     // +0x0F8
-    u8 interpPadding;                   // +0x0FF
-    i32 intVar0;                        // +0x100
-    i32 intVar1;
-    i32 intVar2;
-    i32 intVar3;
-    f32 floatVar0;                      // +0x110
-    f32 floatVar1;
-    f32 floatVar2;
-    f32 floatVar3;
-    i32 counterVar0;                    // +0x120
-    i32 counterVar1;
-    Float2 uvScrollVel;                 // +0x128
-    AnmMatrix matrix1;                  // +0x130
-    AnmMatrix matrix2;                  // +0x170
-    AnmMatrix matrix3;                  // +0x1B0
-    ZunColor color1;                    // +0x1F0
-    ZunColor color2;                    // +0x1F4
-    union {
-        u32 flagsWord;
-        struct {
-            u32 visible : 1;
-            u32 flag1 : 1;
-            u32 updateRotation : 1;
-            u32 updateScale : 1;
-            u32 blendMode : 2;
-            u32 flag6 : 1;
-            u32 flag7 : 1;
-            u32 usePosOffset : 1;
-            u32 flip : 2;
-            u32 anchor : 2;
-            u32 zWriteDisabled : 1;
-            u32 stopped : 1;
-            u32 flag15 : 1;
-            u32 flag16 : 1;
-            u32 flag17 : 1;
-            u32 flag18 : 1;
-            u32 flag19 : 1;
-            u32 unknownFlags20_31 : 12;
-        };
-    };                                  // +0x1F8
-    short type;                         // +0x1FC
-    short pendingInterrupt;             // +0x1FE
-    i32 playerBulletHitAnimationType;   // +0x200
-    AnmLoaded *anmFile;                 // +0x204
-    Float3 pos;                         // +0x208
-    short activeSpriteIndex;            // +0x214
-    short anmFileIndex;                 // +0x216
-    short baseSpriteIndex;              // +0x218
-    short scriptIndex;                  // +0x21A
-    AnmRawInstr *beginningOfScript;     // +0x21C
-    AnmRawInstr *currentInstruction;    // +0x220
-    AnmLoadedSprite *loadedSprite;      // +0x224
-    ZunTimer interruptReturnTime;       // +0x228
-    AnmRawInstr *interruptReturnInstruction; // +0x234
-    Float3 posInitial;                  // +0x238
-    Float3 posFinal;                    // +0x244
-    Float3 rotateInitial;               // +0x250
-    Float3 rotateFinal;                 // +0x25C
-    Float2 scaleInitial;                // +0x268
-    Float2 scaleFinal;                  // +0x270
-    ZunColor color1Initial;             // +0x278
-    ZunColor color1Final;               // +0x27C
-    ZunColor color2Initial;             // +0x280
-    ZunColor color2Final;               // +0x284
-    Float3 pos2;                        // +0x288
-    i32 timeOfLastSpriteSet;            // +0x294
-    u8 fontWidth;                       // +0x298
-    u8 fontHeight;                      // +0x299
-    u8 unknown29A[0x0A];
-
-    f32 GetFloatVar(f32 varId);
-    i32 GetIntVar(i32 varId);
-    f32 *GetFloatVarPtr(f32 *varPtr, u16 varMask, u32 variableNumber);
-    i32 *GetIntVarPtr(i32 *varPtr, u16 varMask, u32 variableNumber);
-};
+// This 9,358-byte original-bound interpreter consumes the same native
+// 0x2A4-byte AnmVm whose constructor, runtime and Etama owners are rebuilt
+// independently. Only field spellings below change; physical offsets do not.
 
 typedef char AnmExecVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
 typedef char AnmExecCurrentTimeAt38[(offsetof(AnmVm,currentTimeInScript)==0x38)?1:-1];
@@ -410,20 +321,20 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->updateScale = true;
             break;
         case AnmOpcode_Alpha:
-            vm->color1.a = GET_INT_VAR(0);
+            vm->color1Script.a = GET_INT_VAR(0);
             break;
         case AnmOpcode_Color:
-            vm->color1.r = GET_INT_VAR(0);
-            vm->color1.g = GET_INT_VAR(1);
-            vm->color1.b = GET_INT_VAR(2);
+            vm->color1Script.r = GET_INT_VAR(0);
+            vm->color1Script.g = GET_INT_VAR(1);
+            vm->color1Script.b = GET_INT_VAR(2);
             break;
         case AnmOpcode_Alpha2:
-            vm->color2.a = GET_INT_VAR(0);
+            vm->color2Script.a = GET_INT_VAR(0);
             break;
         case AnmOpcode_Color2:
-            vm->color2.r = GET_INT_VAR(0);
-            vm->color2.g = GET_INT_VAR(1);
-            vm->color2.b = GET_INT_VAR(2);
+            vm->color2Script.r = GET_INT_VAR(0);
+            vm->color2Script.g = GET_INT_VAR(1);
+            vm->color2Script.b = GET_INT_VAR(2);
             break;
         case AnmOpcode_Jmp:
             vm->currentTimeInScript = instruction->intArgs[1];
@@ -482,7 +393,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->scaleFinal.y = GET_FLOAT_VAR(1);
             break;
         case AnmOpcode_AlphaTimeLinear:
-            vm->color1Initial.a = vm->color1.a;
+            vm->color1Initial.a = vm->color1Script.a;
             vm->color1Final.a = instruction->intArgs[0];
 
             vm->interpCurrentTimers[AnmInterp_Alpha1] = 0;
@@ -638,7 +549,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->uvScrollVel.y = GET_FLOAT_VAR(0);
             break;
         case AnmOpcode_ZWriteDisable:
-            vm->zWriteDisabled = instruction->intArgs[0];
+            vm->disableZWrite = instruction->intArgs[0];
             break;
         case AnmOpcode_Ins31:
             vm->flag15 = instruction->intArgs[0];
@@ -667,9 +578,9 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->interpEndTimers[AnmInterp_RGB1] = GET_INT_VAR(0);
 
             vm->interpModes[AnmInterp_RGB1] = instruction->intArgs[1];
-            vm->color1Initial.r = vm->color1.r;
-            vm->color1Initial.g = vm->color1.g;
-            vm->color1Initial.b = vm->color1.b;
+            vm->color1Initial.r = vm->color1Script.r;
+            vm->color1Initial.g = vm->color1Script.g;
+            vm->color1Initial.b = vm->color1Script.b;
 
             vm->color1Final.r = GET_INT_VAR(2);
             vm->color1Final.g = GET_INT_VAR(3);
@@ -680,7 +591,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->interpEndTimers[AnmInterp_Alpha1] = GET_INT_VAR(0);
             vm->interpModes[AnmInterp_Alpha1] = instruction->intArgs[1];
 
-            vm->color1Initial.a = vm->color1.a;
+            vm->color1Initial.a = vm->color1Script.a;
             vm->color1Final.a = GET_INT_VAR(2);
             break;
         case AnmOpcode_Color2Time:
@@ -689,9 +600,9 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->interpEndTimers[AnmInterp_RGB2] = GET_INT_VAR(0);
 
             vm->interpModes[AnmInterp_RGB2] = instruction->intArgs[1];
-            vm->color2Initial.r = vm->color2.r;
-            vm->color2Initial.g = vm->color2.g;
-            vm->color2Initial.b = vm->color2.b;
+            vm->color2Initial.r = vm->color2Script.r;
+            vm->color2Initial.g = vm->color2Script.g;
+            vm->color2Initial.b = vm->color2Script.b;
 
             vm->color2Final.r = GET_INT_VAR(2);
             vm->color2Final.g = GET_INT_VAR(3);
@@ -702,7 +613,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->interpEndTimers[AnmInterp_Alpha2] = GET_INT_VAR(0);
             vm->interpModes[AnmInterp_Alpha2] = instruction->intArgs[1];
 
-            vm->color2Initial.a = vm->color2.a;
+            vm->color2Initial.a = vm->color2Script.a;
             vm->color2Final.a = GET_INT_VAR(2);
             break;
         case AnmOpcode_RotateTime:
@@ -993,20 +904,20 @@ stop:
                 }
                 break;
             case AnmInterp_RGB1:
-                vm->color1.r = interp * ((float)vm->color1Final.r - vm->color1Initial.r) + vm->color1Initial.r;
-                vm->color1.g = interp * ((float)vm->color1Final.g - vm->color1Initial.g) + vm->color1Initial.g;
-                vm->color1.b = interp * ((float)vm->color1Final.b - vm->color1Initial.b) + vm->color1Initial.b;
+                vm->color1Script.r = interp * ((float)vm->color1Final.r - vm->color1Initial.r) + vm->color1Initial.r;
+                vm->color1Script.g = interp * ((float)vm->color1Final.g - vm->color1Initial.g) + vm->color1Initial.g;
+                vm->color1Script.b = interp * ((float)vm->color1Final.b - vm->color1Initial.b) + vm->color1Initial.b;
                 break;
             case AnmInterp_Alpha1:
-                vm->color1.a = interp * ((float)vm->color1Final.a - vm->color1Initial.a) + vm->color1Initial.a;
+                vm->color1Script.a = interp * ((float)vm->color1Final.a - vm->color1Initial.a) + vm->color1Initial.a;
                 break;
             case AnmInterp_RGB2:
-                vm->color2.r = interp * ((float)vm->color2Final.r - vm->color2Initial.r) + vm->color2Initial.r;
-                vm->color2.g = interp * ((float)vm->color2Final.g - vm->color2Initial.g) + vm->color2Initial.g;
-                vm->color2.b = interp * ((float)vm->color2Final.b - vm->color2Initial.b) + vm->color2Initial.b;
+                vm->color2Script.r = interp * ((float)vm->color2Final.r - vm->color2Initial.r) + vm->color2Initial.r;
+                vm->color2Script.g = interp * ((float)vm->color2Final.g - vm->color2Initial.g) + vm->color2Initial.g;
+                vm->color2Script.b = interp * ((float)vm->color2Final.b - vm->color2Initial.b) + vm->color2Initial.b;
                 break;
             case AnmInterp_Alpha2:
-                vm->color2.a = interp * ((float)vm->color2Final.a - vm->color2Initial.a) + vm->color2Initial.a;
+                vm->color2Script.a = interp * ((float)vm->color2Final.a - vm->color2Initial.a) + vm->color2Initial.a;
                 break;
             case AnmInterp_Rotate:
                 vm->rotation.x =
