@@ -112,6 +112,28 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
             (0x0040F560, 64,
              '?ReleaseAttachedEffects@Th09EclRunState@@YIXPAUEnemyView@@@Z'))
 
+    def test_native_descriptor_reset_inside_full_enemy_boss(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        self.assertIn('EnemyCoreNativeDescriptorResetAt2E74',self.enemy)
+        self.assertIn('sizeof(((EnemyView *)0)->bulletDescriptor2E74) == 0x214',self.enemy)
+        self.assertIn('EnemyView *nativeEnemy = reinterpret_cast<EnemyView *>(enemy);',self.enemy)
+        self.assertIn('EnemyManagerView *nativeManager = nativeEnemy->manager00;',self.enemy)
+        self.assertIn('nativeEnemy->bulletDescriptor2E74 =',self.enemy)
+        self.assertIn('nativeManager->spawnTemplate328.bulletDescriptor2E74;',self.enemy)
+        self.assertIn('BulletSpawnDescriptor bulletDescriptor2E74;',native)
+        self.assertNotIn('owner->spawnTemplate328.bulletState2E74',self.enemy)
+
+    def test_runecl_context_calls_use_native_enemy_stack_and_context(self):
+        caller=(ROOT/'src/EclManager.cpp').read_text()
+        self.assertIn('enemy->activeCallStack2CE4 = enemy->mainCallStack0A20;',caller)
+        self.assertIn('enemy->activeContext2CE0 = &enemy->mainContext07F4;',caller)
+        self.assertIn('*enemy->activeContext2CE0 =',caller)
+        self.assertIn('enemy->activeCallStack2CE4[enemy->activeCallDepth2D2A]',caller)
+        self.assertIn('enemy->activeContext2CE0->selectedManager000->InitializeSubroutine(',caller)
+        self.assertIn('enemy->activeContext2CE0->intVariables74[0]',caller)
+        self.assertIn('enemy->activeContext2CE0->selectedManager000->timelineState08.sharedInts160[0]',caller)
+        self.assertNotIn('view->activeCallStack2CE4',caller)
+
     def test_boss_remains_nonexact_and_source_present_only(self):
         row = self.functions['0x00410730']
         self.assertEqual((row['owner'],row['status'],row['source_file'],int(row['size'])),

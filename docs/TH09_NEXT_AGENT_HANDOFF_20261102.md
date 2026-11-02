@@ -1,5 +1,24 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 full-size ECL context stack and Enemy death descriptor proof
+
+Two continued changes to the real shared `src/EclManager.cpp` compiler
+carrier, not miniature standalone substitutes: `PopContext` and
+`CallSubroutine` now read/write `EnemyView::activeContext2CE0` and
+`activeCallStack2CE4` directly, including the main-context fallback,
+selected ECL manager and 0x20-byte operand bank publication. The physical
+3,900-byte `EnemyManager::OnUpdate` death-callback descriptor reset now
+uses the native 0x214-byte `EnemyView::bulletDescriptor2E74` and the
+native `EnemyManagerView::spawnTemplate328`, instead of two raw
+`EnemyCoreView::bulletState2E74` casts. Nine original-bound C++ copy
+models were trialled; direct native assignment retains the 13-byte
+non-exact residual, while memcpy regresses to 27 and extra reference
+locals to 59. Full SHA-verified source-cold RunEcl still owns 15,564
+bytes with 30 ordinary differences and **96 canonical exact siblings**.
+Enemy update remains 3,900 bytes, 97 original-bound fields, 69 ordered
+calls, 13 ordinary differences and **88 exact siblings**. These changes
+advance actual large-boss source ownership, not new exact-unit credits.
+
 ## 2026-11-02 RunEcl 15,564-byte boss: 25 native state sites
 
 Independently source-cold rebuilt the full TH09 1.50a `RunEcl`

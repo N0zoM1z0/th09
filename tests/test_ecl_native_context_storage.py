@@ -525,7 +525,7 @@ class NativeEclContextStorage(unittest.TestCase):
     def test_native_subroutine_copy_uses_same_context_fields(self):
         manager = (ROOT/'src/EclManager.cpp').read_text()
         state = (ROOT/'src/EclRunState.inl').read_text()
-        self.assertIn('&view->activeContext2CE0->intVariables74[0]', manager)
+        self.assertIn('&enemy->activeContext2CE0->intVariables74[0]', manager)
         self.assertIn('offsetof(Th09EclContextView, intVariables1C)', state)
         self.assertNotIn('view->activeContext2CE0->unknown01C', manager)
 

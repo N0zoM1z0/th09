@@ -10,6 +10,25 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 native ECL stack and Enemy death descriptor in both large bosses
+
+`EclManager::RunEcl` shares its actual 15,564-byte original physical
+owner with context helpers. The `PopContext` and `CallSubroutine`
+source now access one native `EnemyView` context pointer, context-stack
+pointer, call-depth fields and selected subroutine manager; formerly the
+same target offsets were reached through a private `EnemyCoreView` cast.
+The 3,900-byte Enemy update's post-death callback copies one real
+0x214-byte `BulletSpawnDescriptor` between the active Enemy and
+`EnemyManagerView::spawnTemplate328` via native members, not via raw
+private-view `bulletState2E74` byte pointers. Tested nine codegen forms:
+several typed assignments retain all previously matching bytes and the
+13-byte residual, `memcpy` yields 27 differences, and an extra reference
+alias 59; rejected forms were restored. The complete original-bound
+ECL and Enemy owners preserve 598/97 field contracts, ordered call and
+switch graph, with **96+88 canonical exact sibling replays**. Current
+non-exact residuals remain 30 and 13, respectively; no runtime or
+canonical exactness promotion is claimed.
+
 ### 2026-11-02 RunEcl state opcode family uses native Enemy state (15,564-byte full proof)
 
 Retested seven source-comparison variants against the original complete

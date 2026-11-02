@@ -138,6 +138,12 @@ typedef char EnemyCoreSideStateSizeIs38[
 
 // The reset copy and the native Etama call use the same 0x214-byte payload.
 // Keep the independently reviewed offsets without a second descriptor class.
+typedef char EnemyCoreNativeDescriptorResetAt2E74[
+    (offsetof(EnemyCoreView, bulletState2E74) ==
+         offsetof(EnemyView, bulletDescriptor2E74) &&
+     offsetof(EnemyManagerCoreView, spawnTemplate328) ==
+         offsetof(EnemyManagerView, spawnTemplate328) &&
+     sizeof(((EnemyView *)0)->bulletDescriptor2E74) == 0x214) ? 1 : -1];
 typedef char EnemyCoreBulletDescriptorMatchesEtamaFields[
     (sizeof(BulletSpawnDescriptor) == 0x214 &&
      offsetof(BulletSpawnDescriptor, bulletType) == 0x00 &&
@@ -746,14 +752,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 enemy->timerCallbackThreshold33D0 = -1;
                 EnemyCoreReleaseChildEclBlocks(
                     reinterpret_cast<EnemyView *>(enemy));
-                EnemyManagerCoreView *owner =
-                    reinterpret_cast<EnemyManagerCoreView *>(enemy->manager0000);
-                // Copy only the target-observed 0x214 descriptor, not the
-                // remaining unknown bytes in the 0x240 bullet-state region.
-                *reinterpret_cast<BulletSpawnDescriptor *>(
-                    enemy->bulletState2E74) =
-                    *reinterpret_cast<const BulletSpawnDescriptor *>(
-                        owner->spawnTemplate328.bulletState2E74);
+                // The death callback resets exactly the native 0x214-byte
+                // bullet descriptor from the manager's spawn template, not
+                // the neighboring pending-shot/timer fields.
+                EnemyView *nativeEnemy = reinterpret_cast<EnemyView *>(enemy);
+                EnemyManagerView *nativeManager = nativeEnemy->manager00;
+                nativeEnemy->bulletDescriptor2E74 =
+                    nativeManager->spawnTemplate328.bulletDescriptor2E74;
                 enemy->shootInterval30B4 = 0;
                 manager->primaryEclManager000.InitializeSubroutine(
                         &enemy->mainContext07F4,

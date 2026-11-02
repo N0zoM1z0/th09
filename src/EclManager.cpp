@@ -19,21 +19,20 @@ namespace Th09EclRunControl
 
 static int PopContext(EnemyView *enemy)
 {
-    Th09EclRunState::EnemyStateView *view = Th09EclRunState::View(enemy);
     --enemy->activeCallDepth2D2A;
     if (enemy->activeCallDepth2D2A < 0)
     {
-        int childIndex = view->activeContext2CE0->contextOrdinal224 - 1;
+        int childIndex = enemy->activeContext2CE0->contextOrdinal224 - 1;
         if (enemy->childEclBlocks33D8[childIndex] != NULL)
             g_ZunMemory.Free(enemy->childEclBlocks33D8[childIndex]);
         enemy->childEclBlocks33D8[childIndex] = NULL;
-        view->activeCallStack2CE4 = enemy->mainCallStack0A20;
-        view->activeContext2CE0 = &enemy->mainContext07F4;
+        enemy->activeCallStack2CE4 = enemy->mainCallStack0A20;
+        enemy->activeContext2CE0 = &enemy->mainContext07F4;
         enemy->activeCallDepth2D2A = enemy->mainCallDepth2D28;
         return 1;
     }
-    *view->activeContext2CE0 =
-        view->activeCallStack2CE4[enemy->activeCallDepth2D2A];
+    *enemy->activeContext2CE0 =
+        enemy->activeCallStack2CE4[enemy->activeCallDepth2D2A];
     return 0;
 }
 
@@ -476,27 +475,25 @@ static void CallSubroutine(
     Th09EclRawInstructionHeaderView *instruction,
     int rawSubroutineId)
 {
-    Th09EclRunState::EnemyStateView *view =
-        Th09EclRunState::View(enemy);
-    view->activeContext2CE0->currentInstruction004 =
+    enemy->activeContext2CE0->currentInstruction004 =
         reinterpret_cast<Th09EclRawInstructionHeaderView *>(
             reinterpret_cast<unsigned char *>(instruction) +
             static_cast<short>(instruction->nextOffset06));
 
-    if ((view->primaryFlags337C &
+    if ((enemy->primaryFlags337C &
          Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
-        view->activeCallStack2CE4[enemy->activeCallDepth2D2A] =
-            *view->activeContext2CE0;
+        enemy->activeCallStack2CE4[enemy->activeCallDepth2D2A] =
+            *enemy->activeContext2CE0;
 
-    view->activeContext2CE0->selectedManager000->InitializeSubroutine(
-            view->activeContext2CE0,
+    enemy->activeContext2CE0->selectedManager000->InitializeSubroutine(
+            enemy->activeContext2CE0,
             static_cast<short>(rawSubroutineId));
 
-    memcpy(&view->activeContext2CE0->intVariables74[0],
-           &view->activeContext2CE0->selectedManager000->timelineState08.sharedInts160[0],
+    memcpy(&enemy->activeContext2CE0->intVariables74[0],
+           &enemy->activeContext2CE0->selectedManager000->timelineState08.sharedInts160[0],
            0x20);
 
-    if ((view->primaryFlags337C &
+    if ((enemy->primaryFlags337C &
          Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0 &&
         enemy->activeCallDepth2D2A < TH09_ECL_MAIN_CALL_STACK_CAPACITY - 1)
         ++enemy->activeCallDepth2D2A;
