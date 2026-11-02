@@ -20,15 +20,13 @@ typedef char AnmRuntimeActiveSpriteAt214[(offsetof(AnmVm, activeSpriteIndex) == 
 typedef char AnmRuntimeScriptAt21A[(offsetof(AnmVm, scriptIndex) == 0x21A) ? 1 : -1];
 typedef char AnmRuntimeLoadedSpriteAt224[(offsetof(AnmVm, loadedSprite) == 0x224) ? 1 : -1];
 
-struct AnmLoadedRuntimeView
-{
-    short anmIdx;
-    unsigned char unknown002[0x0E];
-    AnmRawInstr **scripts;
-    unsigned char unknown014[0x04];
-    int numberEntriesToBeLoaded;
-};
-typedef char AnmLoadedRuntimeSizeIs1C[(sizeof(AnmLoadedRuntimeView) == 0x1C) ? 1 : -1];
+// The 0x1C-byte loaded resource is shared with original-exact SetSprite and
+// AnmManagerLoad, rather than a second runtime-only prefix projection.
+typedef char AnmRuntimeNativeLoadedFields[
+    (sizeof(AnmLoaded) == 0x1C &&
+     offsetof(AnmLoaded, anmIdx) == 0x00 &&
+     offsetof(AnmLoaded, scripts10) == 0x10 &&
+     offsetof(AnmLoaded, numberEntriesToBeLoaded18) == 0x18) ? 1 : -1];
 
 struct AnmFileRuntimeSlot
 {
@@ -117,16 +115,16 @@ void AnmManager::ExecuteScriptArray(AnmVm *vm, int count)
 
 void AnmLoaded::SetAndExecuteScript(AnmVm *vm, AnmRawInstr *beginningOfScript)
 {
-    AnmLoadedRuntimeView *self = reinterpret_cast<AnmLoadedRuntimeView *>(this);
+    AnmLoaded *self = this;
 
-    if (beginningOfScript == NULL || self->numberEntriesToBeLoaded != 0)
+    if (beginningOfScript == NULL || self->numberEntriesToBeLoaded18 != 0)
     {
         memset(vm, 0, sizeof(AnmVm));
     }
     else
     {
         vm->Initialize();
-        vm->anmFileIndex = self->anmIdx;
+        vm->anmFileIndex = static_cast<short>(self->anmIdx);
         vm->anmFile = this;
         vm->flip = 0;
         vm->beginningOfScript = beginningOfScript;
