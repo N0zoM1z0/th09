@@ -45,7 +45,9 @@ struct DeletedReplayStateView
     void Release();
 };
 
-struct DeletedSupervisorThreadView
+// The deleted callback's distinct ThreadClose symbol also receives the
+// same original Supervisor object; no separate receiver layout exists.
+struct DeletedSupervisorThreadView : Supervisor
 {
     void ThreadClose();
 };

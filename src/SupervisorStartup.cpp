@@ -82,7 +82,9 @@ typedef char SupervisorDirectInputWindowAt74[
     (offsetof(Supervisor, window74) == 0x74 &&
      sizeof(DIDEVCAPS) == 0x2C) ? 1 : -1];
 
-struct SupervisorThreadCloseView
+// Preserve the original helper's decorated method name while making its
+// receiver a zero-offset view of the real Supervisor object.
+struct SupervisorThreadCloseView : Supervisor
 {
     void ThreadClose();
 };
