@@ -62,6 +62,13 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('((owner)->activeContext2CE0)',resolver)
         self.assertIn('((owner)->manager00->sideState320->player04)',resolver)
 
+    def test_movement_opcode_reads_direct_native_flags(self):
+        movement=(ROOT/'src/EclRunMovement.inl').read_text()
+        self.assertIn('#define TH09_EXPR_MOVEMENT_VIEW(owner) ((owner))',movement)
+        self.assertIn('(&(owner)->primaryFlags337C)',movement)
+        self.assertIn('(&(owner)->secondaryFlags3380)',movement)
+        self.assertNotIn('reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>(',movement)
+
     def test_movement_family_owns_one_native_enemy_geometry(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         movement=(ROOT/'src/EclRunMovement.inl').read_text()

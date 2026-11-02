@@ -167,8 +167,7 @@ static void BeginBoundaryAwareMove(
 // Each argument is evaluated once; loaded pointer values are not cached.
 // The explicit pointer value casts preserve the helper return categories.
 // This is an empirically checked VC7.1 source form, not proof of original macros.
-#define TH09_EXPR_MOVEMENT_VIEW(owner) \
-    (static_cast<Th09EclRunMovement::EnemyMovementView *>(reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>((owner))))
+#define TH09_EXPR_MOVEMENT_VIEW(owner) ((owner))
 #define TH09_EXPR_MOVEMENT_PRIMARY_ANM(owner) \
     (static_cast<void *>((owner)->manager00->enemyAnm2AC420))
 #define TH09_EXPR_MOVEMENT_ALTERNATE_ANM(owner) \
@@ -178,9 +177,9 @@ static void BeginBoundaryAwareMove(
 #define TH09_EXPR_MOVEMENT_PLAYER(owner) \
     (static_cast<void *>((owner)->manager00->sideState320->player04))
 #define TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(owner) \
-    (static_cast<Th09EclRunMovement::EnemyPrimaryFlagBits *>(reinterpret_cast<Th09EclRunMovement::EnemyPrimaryFlagBits *>(&(reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>((owner)))->primaryFlags337C)))
+    (reinterpret_cast<Th09EclRunMovement::EnemyPrimaryFlagBits *>(&(owner)->primaryFlags337C))
 #define TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(owner) \
-    (static_cast<Th09EclRunMovement::EnemySecondaryFlagBits *>(reinterpret_cast<Th09EclRunMovement::EnemySecondaryFlagBits *>(&(reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>((owner)))->secondaryFlags3380)))
+    (reinterpret_cast<Th09EclRunMovement::EnemySecondaryFlagBits *>(&(owner)->secondaryFlags3380))
 
     int movementInt;
     float aimedAngleOffset;
