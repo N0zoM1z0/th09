@@ -5,17 +5,12 @@
 #include "AnmManager.hpp"
 #include "RngRuntimeLeaves.hpp"
 
-struct EnemyEclOpcode2ContextView
-{
-    unsigned char unknown00[0x3C];
-    float accelerationMagnitude3C;
-};
-
-struct EnemyEclOpcode2SideView
-{
-    unsigned char unknown00[0x08];
-    EtamaController *etama08;
-};
+typedef char EnemyEclOpcode2NativeContextAndSideAt3C[
+    (offsetof(EnemyView, activeContext2CE0) == 0x2CE0 &&
+     offsetof(Th09EclContextView, floatVariables3C) == 0x3C &&
+     offsetof(EnemyManagerView, sideState320) == 0x320 &&
+     offsetof(EnemyManagerView, opposingSideState324) == 0x324 &&
+     offsetof(EnemySideStateView, etama08) == 0x08) ? 1 : -1];
 
 struct BulletTransformResetView
 {
@@ -27,9 +22,7 @@ extern RngRuntimeView g_Rng;
 void __fastcall EnemyEclExInstruction2(
     EnemyView *enemy, EnemyEclExInstructionView *)
 {
-    EnemyEclOpcode2SideView *side =
-        reinterpret_cast<EnemyEclOpcode2SideView *>(
-            enemy->manager00->sideState320);
+    EnemySideStateView *side = enemy->manager00->sideState320;
 
     Bullet *bullet = side->etama08->primaryBullets;
     int remaining = 536;
@@ -61,9 +54,7 @@ void __fastcall EnemyEclExInstruction2(
             bullet->InstallWaitTransform(0, 0, 60);
             bullet->InstallVectorAccelerationTransform(
                 1, 0, 60,
-                (*reinterpret_cast<EnemyEclOpcode2ContextView **>(
-                    reinterpret_cast<unsigned char *>(enemy) + 0x2CE0))
-                    ->accelerationMagnitude3C,
+                enemy->activeContext2CE0->floatVariables3C[0],
                 -999.0f);
         }
 
@@ -71,9 +62,7 @@ void __fastcall EnemyEclExInstruction2(
     }
     while (--remaining != 0);
 
-    EnemyEclOpcode2SideView *opposing =
-        reinterpret_cast<EnemyEclOpcode2SideView *>(
-            enemy->manager00->opposingSideState324);
+    EnemySideStateView *opposing = enemy->manager00->opposingSideState324;
 
     bullet = opposing->etama08->primaryBullets;
     for (int i = 0; i < 536; ++i, ++bullet)
@@ -110,9 +99,7 @@ void __fastcall EnemyEclExInstruction2(
                 bullet->InstallWaitTransform(1, 0, 60);
                 bullet->InstallVectorAccelerationTransform(
                     2, 0, 60,
-                    (*reinterpret_cast<EnemyEclOpcode2ContextView **>(
-                        reinterpret_cast<unsigned char *>(enemy) + 0x2CE0))
-                        ->accelerationMagnitude3C,
+                    enemy->activeContext2CE0->floatVariables3C[0],
                     -999.0f);
             }
             else
@@ -120,9 +107,7 @@ void __fastcall EnemyEclExInstruction2(
                 bullet->InstallWaitTransform(0, 0, 60);
                 bullet->InstallVectorAccelerationTransform(
                     1, 0, 60,
-                    (*reinterpret_cast<EnemyEclOpcode2ContextView **>(
-                        reinterpret_cast<unsigned char *>(enemy) + 0x2CE0))
-                        ->accelerationMagnitude3C,
+                    enemy->activeContext2CE0->floatVariables3C[0],
                     -999.0f);
             }
         }

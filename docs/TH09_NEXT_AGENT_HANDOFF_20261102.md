@@ -1,5 +1,17 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 exact 574-byte ECL opcode2 uses native Side and context
+
+`EnemyEclExInstruction2` is one full original-bound 574-byte callback.
+The source no longer defines private ECL-context or 0x08-byte Side
+prefix structures: the paired primary/opposing `EnemySideStateView`
+instances already provide genuine Etama controllers at +0x08, while
+`EnemyView::activeContext2CE0->floatVariables3C[0]` provides the
+original three scalar reads (also proven by exact ECL operand resolvers).
+The separate `BulletTransformResetView` retains its original independent
+method identity. Full pinned VC7.1 PE comparison remains **574/574 exact**.
+No new canonical function is promoted.
+
 ## 2026-11-02 native RunEcl core receiver and death ANM opcode
 
 Recompiled the *complete* original-bound 15,564-byte ECL boss after

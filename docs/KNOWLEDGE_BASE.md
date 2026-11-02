@@ -10,6 +10,20 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 ECL opcode2 574-byte bullet reset callback and native side
+
+The complete 574-byte TH09 `EnemyEclExInstruction2` resets the 536
+primary and 536 opposing bullet slots, installs wait/acceleration
+transforms and reads three ECL +0x3C acceleration magnitudes. The
+source used independent `EnemyEclOpcode2SideView` and
+`EnemyEclOpcode2ContextView` overlays; replaced with real
+`EnemySideStateView::etama08` and
+`EnemyView::activeContext2CE0->floatVariables3C[0]`, which shares
+the independently exact ECL operand bank. Full original PE/COFF replay
+still matches **574/574 bytes** with natural native source and exact
+original field/call relocations. This removes duplicate storage models;
+no new exactness credit.
+
 ### 2026-11-02 RunEcl 15K core native receiver and three death ANM bytes
 
 The true complete 15,564-byte `EclManager::RunEcl` now keeps

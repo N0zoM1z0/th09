@@ -6,6 +6,22 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]
 
 class EnemyExAttackNativeStorage(unittest.TestCase):
+    def test_exact_opcode2_bullet_transform_uses_native_side_and_context(self):
+        src=(ROOT/'src/EnemyEclOpcode2.cpp').read_text()
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        ecl=(ROOT/'src/EclOpcodes.hpp').read_text()
+        self.assertIn('EnemyEclOpcode2NativeContextAndSideAt3C',src)
+        self.assertNotIn('struct EnemyEclOpcode2SideView',src)
+        self.assertNotIn('struct EnemyEclOpcode2ContextView',src)
+        self.assertIn('EnemySideStateView *side = enemy->manager00->sideState320;',src)
+        self.assertIn('EnemySideStateView *opposing = enemy->manager00->opposingSideState324;',src)
+        self.assertEqual(src.count('enemy->activeContext2CE0->floatVariables3C[0]'),3)
+        self.assertIn('float floatVariables3C[8];',ecl)
+        self.assertIn('EtamaController *etama08;',native)
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            unit=tomllib.load(f)['units']['enemy-ecl-opcode2']
+        self.assertEqual((unit['size'],unit['source']),(574,'src/EnemyEclOpcode2.cpp'))
+
     def test_four_exact_context_and_burst_callbacks_share_native_ecl_context(self):
         src=(ROOT/'src/EnemyExAttackMoreLeaves.cpp').read_text()
         ecl=(ROOT/'src/EclOpcodes.hpp').read_text()
