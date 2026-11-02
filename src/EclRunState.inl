@@ -493,7 +493,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_SET_BOSS_TIMER:
-        Th09EclRunState::View(enemy)->bossTimer2E64 =
+        enemy->bossTimer2E64 =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
@@ -695,7 +695,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
             enemy->deathCallbackSubId2D2E;
     th09_ecl_install_timer_callback:
         enemy->timerCallbackSubId33D4 = stateCallback;
-        Th09EclRunState::View(enemy)->bossTimer2E64 = 0;
+        enemy->bossTimer2E64 = 0;
         break;
 
     case TH09_ECL_OPCODE_SET_TIMEOUT_SPELL:

@@ -10,6 +10,22 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 native Enemy boss ZunTimer (current exact-resolver proof)
+
+The TH09 +0x2E64..+0x2E6F region previously split into anonymous
+`unknown2E64[8]` and a raw `int bossTimerCurrent2E6C` in the native
+`EnemyView`. It is the same target-bound 0x0C `ZunTimer` already used
+by `EclRunState`'s boss timer write and `EnemyManagerCore`'s countdown.
+Original-bound COFF replays prove replacing those with one native
+`ZunTimer bossTimer2E64` and changing the exact operand resolvers to
+`.bossTimer2E64.current` maintains **all 5,718 of 5,718 original bytes**
+across four separate resolver functions. The complete 15,564-byte RunEcl
+still has 30 ordinary differences and its 96 exact siblings survive;
+EnemyManager::OnUpdate remains 3,900 bytes / 13 differences with 88 exact
+siblings and nine selected Enemy leaves exact. The old scalar name in
+historical evidence is superseded by this *source* fact; no credit for
+new exact owner or runtime proof is claimed.
+
 ### 2026-11-02 native ECL and Enemy trail allocation (fresh scoped proof)
 
 Verified against SHA-256-pinned TH09 Japanese v1.50a: the one native

@@ -261,8 +261,7 @@ struct EnemyView
     int sequenceIndex2E58;
     int primaryDamageAccumulator2E5C;
     int secondaryDamageAccumulator2E60;
-    unsigned char unknown2E64[0x2E6C - 0x2E64];
-    int bossTimerCurrent2E6C;
+    ZunTimer bossTimer2E64;
     unsigned char unknown2E70[0x2E74 - 0x2E70];
     // Original 0x214-byte bullet and laser descriptors are contiguous with
     // the 44-byte pending instruction, interval and timer region.
@@ -381,6 +380,12 @@ typedef char EnemyViewNativeEclLifeRankAndDrops[
      offsetof(EnemyView, secondaryDamageAccumulator2E60) == 0x2E60 &&
      offsetof(EnemyView, itemDropCount3360) == 0x3360 &&
      offsetof(EnemyView, itemDropExtraCount3364) == 0x3364) ? 1 : -1];
+// The original exact ECL operand @0x2741 reads the current dword of the
+// same target-observed 0x0C ZunTimer updated by the ECL/Enemy boss.
+typedef char EnemyViewNativeBossTimerAt2E64[
+    (offsetof(EnemyView, bossTimer2E64) == 0x2E64 &&
+     offsetof(EnemyView, bossTimer2E64) + offsetof(ZunTimer, current) == 0x2E6C &&
+     sizeof(((EnemyView *)0)->bossTimer2E64) == 0x0C) ? 1 : -1];
 typedef char EnemyViewLifeAt2E48[
     (offsetof(EnemyView, life2E48) == 0x2E48) ? 1 : -1];
 typedef char EnemyViewPositionAt2D74[
@@ -394,7 +399,7 @@ typedef char EnemyViewNativeMovementOperands[
      offsetof(EnemyView, floatVariables2E10) == 0x2E10 &&
      offsetof(EnemyView, movementOrigin2E1C) == 0x2E1C &&
      offsetof(EnemyView, operandValue2E54) == 0x2E54 &&
-     offsetof(EnemyView, bossTimerCurrent2E6C) == 0x2E6C) ? 1 : -1];
+     offsetof(EnemyView, bossTimer2E64) + offsetof(ZunTimer, current) == 0x2E6C) ? 1 : -1];
 // Full movement/ANM opcode geometry now uses this same native Enemy allocation.
 typedef char EnemyViewMovementGeometryAt2DBC[
     (offsetof(EnemyView, velocity2D8C) == 0x2D8C &&

@@ -72,7 +72,7 @@ typedef char EclOperandEnemyMovementAt2DE0[
 typedef char EclOperandEnemyLifeAt2E48[
     (offsetof(EclOperandEnemyView, life2E48) == 0x2E48) ? 1 : -1];
 typedef char EclOperandEnemyTimerCurrentAt2E6C[
-    (offsetof(EclOperandEnemyView, bossTimerCurrent2E6C) == 0x2E6C) ? 1 : -1];
+    (offsetof(EclOperandEnemyView, bossTimer2E64) + offsetof(ZunTimer, current) == 0x2E6C) ? 1 : -1];
 typedef char EclOperandEnemyBossSlotAt336B[
     (offsetof(EclOperandEnemyView, bossSlot336B) == 0x336B) ? 1 : -1];
 typedef char EclOperandEnemyFlagsAt3380[
@@ -138,7 +138,7 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
 
     case 0x2738: return g_GameManager.difficulty;
     case 0x2739: return TH09_ECL_OPERAND_GAME_MANAGER_B4;
-    case 0x2741: return enemy->bossTimerCurrent2E6C;
+    case 0x2741: return enemy->bossTimer2E64.current;
     case 0x2743: return enemy->life2E48;
     case 0x2744: return enemy->manager00->sideState320->characterIndex20;
 
@@ -270,7 +270,7 @@ int *__fastcall ResolveIntLValue(
 
     case 0x2738: return &g_GameManager.difficulty;
     case 0x2739: return &TH09_ECL_OPERAND_GAME_MANAGER_B4;
-    case 0x2741: return &enemy->bossTimerCurrent2E6C;
+    case 0x2741: return &enemy->bossTimer2E64.current;
     case 0x2743: return &enemy->life2E48;
     case 0x276C: return &enemy->itemDropType335C;
     case 0x276D: return &enemy->operandValue2E54;
@@ -396,7 +396,7 @@ float EnemyView::ResolveFloat(float rawValue)
 
     case 0x2738: return static_cast<float>(g_GameManager.difficulty);
     case 0x2739: return static_cast<float>(TH09_ECL_OPERAND_GAME_MANAGER_B4);
-    case 0x2741: return static_cast<float>(this->bossTimerCurrent2E6C);
+    case 0x2741: return static_cast<float>(this->bossTimer2E64.current);
     case 0x2743: return static_cast<float>(this->life2E48);
     case 0x2744: return static_cast<float>(this->manager00->sideState320->characterIndex20);
     case 0x276C: return static_cast<float>(this->itemDropType335C);

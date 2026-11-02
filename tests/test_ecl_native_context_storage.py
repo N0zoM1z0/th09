@@ -182,8 +182,15 @@ class NativeEclContextStorage(unittest.TestCase):
                 self.assertNotIn('Th09EclRunState::View(enemy)->'+field,state)
         # EclOperands' independently exact +0x2E6C current-frame accessor
         # must survive until the complete timer class can be proved.
-        self.assertIn('int bossTimerCurrent2E6C;',native)
-        self.assertIn('unsigned char unknown2E64[0x2E6C - 0x2E64];',native)
+        self.assertIn('ZunTimer bossTimer2E64;',native)
+        self.assertIn('EnemyViewNativeBossTimerAt2E64',native)
+        resolver=(ROOT/'src/EclOperands.cpp').read_text()
+        self.assertIn('offsetof(EclOperandEnemyView, bossTimer2E64) + offsetof(ZunTimer, current)',resolver)
+        self.assertIn('enemy->bossTimer2E64.current',resolver)
+        self.assertIn('this->bossTimer2E64.current',resolver)
+        self.assertIn('enemy->bossTimer2E64 =',state)
+        self.assertNotIn('bossTimerCurrent2E6C',native)
+        self.assertNotIn('Th09EclRunState::View(enemy)->bossTimer2E64',state)
 
     def test_ecl_callback_and_child_context_fields_share_native_enemy(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
@@ -281,12 +288,23 @@ class NativeEclContextStorage(unittest.TestCase):
                      'orbitAngularVelocity2DEC','speed2DF4',
                      'acceleration2DF8','orbitRadius2DFC',
                      'floatVariables2E10','movementOrigin2E1C',
-                     'operandValue2E54','bossTimerCurrent2E6C'):
+                     'operandValue2E54'):
             with self.subTest(field=name):
                 self.assertIn(name, native)
                 self.assertIn('->'+name, resolver)
                 self.assertNotIn(f'TH09_ECL_OPERAND_ENEMY(enemy)->{name}',resolver)
                 self.assertNotIn(f'TH09_ECL_OPERAND_ENEMY(this)->{name}',resolver)
+
+    def test_boss_timer_shared_with_exact_ecl_operands(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        resolver=(ROOT/'src/EclOperands.cpp').read_text()
+        state=(ROOT/'src/EclRunState.inl').read_text()
+        self.assertIn('ZunTimer bossTimer2E64;',native)
+        self.assertIn('EnemyViewNativeBossTimerAt2E64',native)
+        self.assertIn('offsetof(EnemyView, bossTimer2E64) + offsetof(ZunTimer, current) == 0x2E6C',native)
+        self.assertEqual(resolver.count('bossTimer2E64.current'),3)
+        self.assertIn('enemy->bossTimer2E64 =',state)
+        self.assertNotIn('bossTimerCurrent2E6C',resolver)
 
     def test_enemy_operand_banks_use_real_native_enemy_fields(self):
         enemy = (ROOT/'src/EnemyManager.hpp').read_text()

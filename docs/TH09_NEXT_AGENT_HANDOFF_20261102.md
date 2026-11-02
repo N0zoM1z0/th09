@@ -1,5 +1,21 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 current source checkpoint: native Enemy boss timer
+
+The source present `EnemyView` at `+0x2E64` now declares the actual
+`ZunTimer bossTimer2E64` instead of eight opaque bytes and a redundant
+`bossTimerCurrent2E6C` scalar. The original +0x2E6C ECL operand reads
+address `bossTimer2E64.current`, consistently with ECL's boss timer
+assignments and the independently rebuilt Enemy manager update/initialize.
+Fresh complete original-PE comparison shows four canonical ECL operand
+functions remain **1,980 + 726 + 968 + 2,044 = 5,718** bytes exact.
+`RunEcl` is still 15,564 physical bytes with 30 unlike bytes and 96 exact
+siblings; the 3,900-byte Enemy calc owner is still 13 unlike with 88 exact
+siblings. Nine selected Enemy leaf units replay exact, and 45 targeted
+unit tests pass. This changes native source representation, **not** the
+1005 canonical exactness total; no all-owner cold replay or game runtime
+validation was performed.
+
 ## 2026-11-02 native Enemy trail and ECL state proof (newer checkpoint)
 
 Independently compared original v1.50a PE and current pinned VC7.1 COFF
