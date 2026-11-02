@@ -27,27 +27,17 @@ typedef char AnmSetSpriteNativeVmOffsets[
      offsetof(AnmVm, activeSpriteIndex) == 0x214 &&
      offsetof(AnmVm, loadedSprite) == 0x224) ? 1 : -1];
 
-struct AnmSetSpriteLoadedView
-{
-    unsigned char unknown00[4];
-    void *rawData04;
-    unsigned char unknown08[4];
-    AnmLoadedSprite *sprites0C;
-    unsigned char unknown10[8];
-    int numberEntriesToBeLoaded18;
-};
-
-typedef char AnmSetSpriteLoadedRawDataAt04[
-    (offsetof(AnmSetSpriteLoadedView, rawData04) == 0x04) ? 1 : -1];
-typedef char AnmSetSpriteLoadedSpritesAt0C[
-    (offsetof(AnmSetSpriteLoadedView, sprites0C) == 0x0C) ? 1 : -1];
-typedef char AnmSetSpriteLoadedPendingAt18[
-    (offsetof(AnmSetSpriteLoadedView, numberEntriesToBeLoaded18) == 0x18) ? 1 : -1];
+// The native 0x1C-byte AnmLoaded class is the same original slot used
+// by the separate LoadAnm and SetAndExecuteScript exact owners.
+typedef char AnmSetSpriteNativeLoadedFields[
+    (sizeof(AnmLoaded) == 0x1C &&
+     offsetof(AnmLoaded, rawData04) == 0x04 &&
+     offsetof(AnmLoaded, sprites0C) == 0x0C &&
+     offsetof(AnmLoaded, numberEntriesToBeLoaded18) == 0x18) ? 1 : -1];
 
 int AnmLoaded::SetSprite(AnmVm *vm, int spriteIndex)
 {
-    AnmSetSpriteLoadedView *self =
-        reinterpret_cast<AnmSetSpriteLoadedView *>(this);
+    AnmLoaded *self = this;
     AnmVm *target = vm;
 
     if (self->rawData04 == NULL || self->numberEntriesToBeLoaded18 != 0)
