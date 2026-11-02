@@ -68,16 +68,10 @@ typedef char Th09EclLateSideBulletAt08[
 typedef char Th09EclLateSideOwnerAt14[
     (offsetof(SideStateView, owner14) == 0x14) ? 1 : -1];
 
-struct ManagerLateView
-{
-    unsigned char unknown000000[0x000320];
-    SideStateView *sideState320;
-    SideStateView *opposingSideState324;
-    unsigned char unknown000328[0x2AC3DC - 0x000328];
-    int protocolValue2AC3DC;
-    unsigned char unknown2AC3E0[0x2AC440 - 0x2AC3E0];
-    int timelineSpawnsSuppressed2AC440;
-};
+// The late opcode family runs against the same actual Enemy manager record as
+// EnemyManager::OnUpdate. Its two side protocol fields now live in that
+// shared record rather than in a second almost-empty 2.8 MiB overlay.
+typedef ::EnemyManagerCoreView ManagerLateView;
 typedef char Th09EclLateManagerProtocolAt2AC3DC[
     (offsetof(ManagerLateView, protocolValue2AC3DC) == 0x2AC3DC) ? 1 : -1];
 typedef char Th09EclLateManagerTimelineAt2AC440[
@@ -92,7 +86,7 @@ inline Th09EclRunState::EnemyStateView *View(EnemyView *enemy)
 
 inline ManagerLateView *Manager(EnemyView *enemy)
 {
-    return reinterpret_cast<ManagerLateView *>(View(enemy)->manager0000);
+    return View(enemy)->manager0000;
 }
 
 inline EtamaController *BulletController(EnemyView *enemy)

@@ -197,6 +197,12 @@ typedef char EnemyManagerCoreBossSlotsAt2AC388[
          sizeof(((EnemyManagerCoreView *)0)->bossSlots2AC388)) ? 1 : -1];
 typedef char EnemyManagerCoreDrawHeadsAt2AC410[
     (offsetof(EnemyManagerCoreView, drawGroupHeads2AC410) == 0x2AC410) ? 1 : -1];
+typedef char EnemyManagerCoreLateProtocolAt2AC3DC[
+    (offsetof(EnemyManagerCoreView, protocolValue2AC3DC) == 0x2AC3DC &&
+     offsetof(EnemyManagerCoreView, scheduleRuntime2AC3E0) == 0x2AC3E0) ? 1 : -1];
+typedef char EnemyManagerCoreTimelineAt2AC440[
+    (offsetof(EnemyManagerCoreView, timelineSpawnsSuppressed2AC440) == 0x2AC440 &&
+     offsetof(EnemyManagerCoreView, priorityEnemy2AC444) == 0x2AC444) ? 1 : -1];
 
 struct EnemyCoreFrontView
 {

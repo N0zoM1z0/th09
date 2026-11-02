@@ -213,14 +213,16 @@ struct EnemyManagerCoreView
     unsigned char unknown2AC3BC[0x2AC3C8 - 0x2AC3BC];
     ZunTimer sideTimer2AC3C8;
     unsigned char scheduleIndex2AC3D4;
-    unsigned char unknown2AC3D5[0x2AC3E0 - 0x2AC3D5];
+    unsigned char unknown2AC3D5[0x2AC3DC - 0x2AC3D5];
+    int protocolValue2AC3DC;
     EnemyScheduleRuntimeView scheduleRuntime2AC3E0;
     int scheduleHighBit2AC3F8;
     unsigned char unknown2AC3FC[0x04];
     void *scheduleObject2AC400;
     ZunTimer frameTimer2AC404;
     EnemyCoreView *drawGroupHeads2AC410[4];
-    unsigned char unknown2AC420[0x24];
+    unsigned char unknown2AC420[0x20];
+    int timelineSpawnsSuppressed2AC440;
     EnemyCoreView *priorityEnemy2AC444;
     EnemyCoreView *firstActiveEnemy2AC448;
     int specialAttackThreshold2AC44C;
