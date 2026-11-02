@@ -19,6 +19,7 @@
 
 #include "AnmCaptureRequest.hpp"
 #include "AsciiManager.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "AnmManager.hpp"
 #include "Chain.hpp"
 #include "GameConfiguration.hpp"
@@ -138,6 +139,15 @@ typedef char SupervisorSetupLayoutLoadingFlagAt740[
 typedef char SetupGameManagerInstructionMaskAt120[
     (offsetof(GameManagerSetupLayout, instructionMask120) ==
      offsetof(GameManagerEclStateView, instructionMask120)) ? 1 : -1];
+// OnUpdate's replay mode, selectors and pause flag are the same original
+// manager words read by the independent replay recording/playback owners.
+typedef char SetupGameManagerNativeReplayOffsets[
+    (offsetof(GameManagerSetupLayout, gameMode) ==
+         offsetof(AsciiGameManagerView, gameMode) &&
+     offsetof(GameManagerSetupLayout, replayPauseRecorded) ==
+         offsetof(AsciiGameManagerView, replayPauseRecorded130) &&
+     offsetof(SetupSideState, selector) ==
+         offsetof(AsciiGameManagerSideView, replaySelector28)) ? 1 : -1];
 
 extern Chain g_Chain;
 extern ChainElem g_GameManagerCalcChain;
@@ -178,9 +188,9 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 
     globalManager.playtimeFrames++;
 
-    if (globalManager.gameMode != 2 ||
-        globalManager.sides[0].selector != 0 ||
-        globalManager.sides[1].selector != 0)
+    if (g_GameManager.gameMode != 2 ||
+        g_GameManager.sides[0].replaySelector28 != 0 ||
+        g_GameManager.sides[1].replaySelector28 != 0)
     {
         // The source is the distinct third ReplayInputState: its five word
         // members cannot alias either destination [0] or [1]. Bind each real
@@ -228,7 +238,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         (g_ReplayInputStates[2].word06 & 8u) != 0)
     {
         gameManager->inGameMenu = 1;
-        gameManager->replayPauseRecorded = 1;
+        reinterpret_cast<AsciiGameManagerView *>(gameManager)->replayPauseRecorded130 = 1;
         g_SoundPlayer.QueueCommand(6, 0, "Pause");
         g_SoundPlayer.PlaySoundByIdx(0x22, 0);
         supervisor->UpdateGameTime();
@@ -393,7 +403,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         }
     }
 
-    if (globalManager.gameMode == 0)
+    if (g_GameManager.gameMode == 0)
     {
         if (globalManager.sides[0].state->value04 >=
             2000000u * globalManager.sides[0].state->phase10 + 1000000u)
@@ -401,7 +411,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
             globalManager.AdvanceTimedState();
         }
     }
-    if (globalManager.gameMode == 1 &&
+    if (g_GameManager.gameMode == 1 &&
         globalManager.sides[0].state->value04 >=
             500000u * (globalManager.sides[0].state->phase10 + 1))
     {
