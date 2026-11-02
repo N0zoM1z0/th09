@@ -514,30 +514,30 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
             stateInt;
         stateCallback = Th09EclRunControl::ReadInt(enemy, instruction, 2);
         stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::View(enemy)->lifeCallbackSubIds33C0[stateIndex] =
+        enemy->lifeCallbackSubIds33C0[stateIndex] =
             stateCallback;
         break;
 
     case TH09_ECL_OPCODE_SET_TIMER_CALLBACK:
-        Th09EclRunState::View(enemy)->timerCallbackThreshold33D0 =
+        enemy->timerCallbackThreshold33D0 =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         stateCallback = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         goto th09_ecl_install_timer_callback;
 
     case TH09_ECL_OPCODE_SET_CHILD_ECL:
         stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (Th09EclRunState::View(enemy)->childEclBlocks33D8[stateIndex])
+        if (enemy->childEclBlocks33D8[stateIndex])
         {
             g_ZunMemory.Free(
-                Th09EclRunState::View(enemy)->childEclBlocks33D8[stateIndex]);
+                enemy->childEclBlocks33D8[stateIndex]);
         }
-        Th09EclRunState::View(enemy)->childEclBlocks33D8[stateIndex] = 0;
+        enemy->childEclBlocks33D8[stateIndex] = 0;
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         if (stateInt < 0)
             break;
         childEcl = static_cast<Th09EclRunState::ChildEclBlock *>(
             g_ZunMemory.Alloc(sizeof(*childEcl), "ECLInt"));
-        Th09EclRunState::View(enemy)->childEclBlocks33D8[stateIndex] =
+        enemy->childEclBlocks33D8[stateIndex] =
             childEcl;
         if (!childEcl)
             break;
@@ -548,7 +548,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
                     Th09EclRunControl::ReadInt(enemy, instruction, 1);
         Th09EclRunState::View(enemy)->manager0000->primaryEclManager000.InitializeSubroutine(
             &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-                Th09EclRunState::View(enemy)->childEclBlocks33D8[stateIndex])->
+                enemy->childEclBlocks33D8[stateIndex])->
                     context08,
             static_cast<short>(
                 reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
@@ -704,7 +704,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         stateCallback =
             enemy->deathCallbackSubId2D2E;
     th09_ecl_install_timer_callback:
-        Th09EclRunState::View(enemy)->timerCallbackSubId33D4 = stateCallback;
+        enemy->timerCallbackSubId33D4 = stateCallback;
         Th09EclRunState::View(enemy)->bossTimer2E64 = 0;
         break;
 

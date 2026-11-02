@@ -123,6 +123,27 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('(&(owner)->secondaryFlags3380)',movement)
         self.assertNotIn('reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>(',movement)
 
+    def test_ecl_callback_and_child_context_fields_share_native_enemy(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        core=(ROOT/'src/EclRunState.inl').read_text()
+        interpreter=(ROOT/'src/EclManager.cpp').read_text()
+        self.assertIn('EnemyViewNativeEclCallbacksAndChildren',native)
+        for field,offset in (('lifeCallbackSubIds33C0','0x33C0'),
+                             ('timerCallbackThreshold33D0','0x33D0'),
+                             ('timerCallbackSubId33D4','0x33D4'),
+                             ('childEclBlocks33D8','0x33D8')):
+            with self.subTest(field=field):
+                self.assertIn('offsetof(EnemyView, '+field+') == '+offset,native)
+                self.assertIn(field,core)
+        self.assertIn('void *childEclBlocks33D8[4];',native)
+        self.assertIn('enemy->lifeCallbackSubIds33C0[stateIndex]',core)
+        self.assertIn('enemy->timerCallbackThreshold33D0',core)
+        self.assertIn('enemy->timerCallbackSubId33D4',core)
+        self.assertIn('enemy->childEclBlocks33D8',core)
+        self.assertIn('enemy->childEclBlocks33D8',interpreter)
+        self.assertNotIn('enemyState->childEclBlocks33D8',interpreter)
+        self.assertNotIn('view->childEclBlocks33D8',interpreter)
+
     def test_ecl_call_depth_and_subroutines_are_native_enemy_members(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         core=(ROOT/'src/EclRunState.inl').read_text()

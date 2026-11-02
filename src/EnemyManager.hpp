@@ -285,7 +285,11 @@ struct EnemyView
     float minimumPlayerDistanceSquared33A8;
     int lastDamage33AC;
     int lifeCallbackThresholds33B0[4];
-    unsigned char unknown33C0[0x5430 - 0x33C0];
+    int lifeCallbackSubIds33C0[4];
+    int timerCallbackThreshold33D0;
+    int timerCallbackSubId33D4;
+    void *childEclBlocks33D8[4];
+    unsigned char unknown33E8[0x5430 - 0x33E8];
 
     EnemyView();
     float ResolveFloat(float rawValue);
@@ -380,6 +384,12 @@ typedef char EnemyViewNativeEclRewardAndDamageFields[
      offsetof(EnemyView, secondaryFlags3380) == 0x3380 &&
      offsetof(EnemyView, lastDamage33AC) == 0x33AC &&
      offsetof(EnemyView, lifeCallbackThresholds33B0) == 0x33B0) ? 1 : -1];
+typedef char EnemyViewNativeEclCallbacksAndChildren[
+    (offsetof(EnemyView, lifeCallbackSubIds33C0) == 0x33C0 &&
+     offsetof(EnemyView, timerCallbackThreshold33D0) == 0x33D0 &&
+     offsetof(EnemyView, timerCallbackSubId33D4) == 0x33D4 &&
+     offsetof(EnemyView, childEclBlocks33D8) == 0x33D8 &&
+     sizeof(((EnemyView *)0)->childEclBlocks33D8) == 0x10) ? 1 : -1];
 typedef char EnemyViewRewardFlagsAt3380[
     (offsetof(EnemyView, rewardFlags3380) == 0x3380) ? 1 : -1];
 

@@ -24,9 +24,9 @@ static int PopContext(EnemyView *enemy)
     if (enemy->activeCallDepth2D2A < 0)
     {
         int childIndex = view->activeContext2CE0->contextOrdinal224 - 1;
-        if (view->childEclBlocks33D8[childIndex] != NULL)
-            g_ZunMemory.Free(view->childEclBlocks33D8[childIndex]);
-        view->childEclBlocks33D8[childIndex] = NULL;
+        if (enemy->childEclBlocks33D8[childIndex] != NULL)
+            g_ZunMemory.Free(enemy->childEclBlocks33D8[childIndex]);
+        enemy->childEclBlocks33D8[childIndex] = NULL;
         view->activeCallStack2CE4 = enemy->mainCallStack0A20;
         view->activeContext2CE0 = &enemy->mainContext07F4;
         enemy->activeCallDepth2D2A = enemy->mainCallDepth2D28;
@@ -754,7 +754,7 @@ th09_ecl_after_dispatch:
     else
     {
         child = reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-            enemyState->childEclBlocks33D8[childIndex]);
+            enemy->childEclBlocks33D8[childIndex]);
         child->callStackDepth06 = enemy->activeCallDepth2D2A;
     }
 
@@ -766,10 +766,10 @@ th09_ecl_select_next_context:
          next < TH09_ECL_CHILD_CONTEXT_COUNT;
          ++next)
     {
-        if (enemyState->childEclBlocks33D8[next] != NULL)
+        if (enemy->childEclBlocks33D8[next] != NULL)
         {
             child = reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-                enemyState->childEclBlocks33D8[next]);
+                enemy->childEclBlocks33D8[next]);
             enemyState->activeCallStack2CE4 = child->callStack0234;
             enemyState->activeContext2CE0 = &child->context08;
             instruction = enemyState->activeContext2CE0->currentInstruction004;
