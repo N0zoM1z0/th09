@@ -156,6 +156,25 @@ class NativeEclContextStorage(unittest.TestCase):
                 self.assertNotIn('Th09EclRunState::View(enemy)->'+f,core)
         self.assertIn('trailVertices3E68',draw)
 
+    def test_card_attack_exact_spawn_uses_native_flags_and_enemy_storage(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        flags=(ROOT/'src/EclEnemyPrimaryFlags.hpp').read_text()
+        card=(ROOT/'src/EnemyManagerSpawnRecord.cpp').read_text()
+        self.assertNotIn('struct EnemySpawnRecordView',card)
+        self.assertNotIn('struct EnemySpawnRecordManagerView',card)
+        self.assertNotIn('struct EnemySpawnRecordFlagBits',card)
+        self.assertIn('unsigned int mirrorMovementX15 : 1;',flags)
+        self.assertIn('unsigned int unknown08_14 : 7;',flags)
+        self.assertIn('enemy->primaryFlagBits337C.mirrorMovementX15 = mirrorMovementX;',card)
+        self.assertIn('EnemyManagerView *manager = reinterpret_cast<EnemyManagerView *>(this);',card)
+        self.assertIn('EnemyView *enemy;',card)
+        self.assertIn('enemy->mainContext07F4',card)
+        self.assertIn('enemy->primaryAnmVm0008.color1',card)
+        self.assertIn('enemy->displayColor2E70',card)
+        self.assertIn('enemy->phaseStartingLife2E50',card)
+        self.assertIn('manager->spawnFailure2AC42C',card)
+        self.assertIn('EnemyManagerNativeSpawnFailureAt2AC42C',native)
+
     def test_exact_spawn_enemy_uses_native_manager_and_enemy_allocation(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         spawn=(ROOT/'src/EnemyManagerSpawnEnemy.cpp').read_text()

@@ -1,5 +1,22 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 exact 364-byte CardAttack SpawnEnemyRecord, native mirror flag
+
+The CardAttack variant's original 364-byte `SpawnEnemyRecord` independently
+matches the verified TH09 PE. Its source formerly defined a third private
+0x5430 Enemy record, a second 0x2AC450 manager projection and a private
+32-bit flags bitfield. It now shares actual `EnemyView`, `EnemyManagerView`,
+`mainContext07F4`, `primaryAnmVm0008.color1`, spawn template/enemy array
+and real `spawnFailure2AC42C` with the 373-byte main SpawnEnemy owner.
+The original mirror flag is **Enemy primaryFlags337C bit 15**, now declared
+as `Th09EclEnemyPrimaryFlagBits::mirrorMovementX15` instead of assuming
+that the entire bit 8..15 range is unknown. Three natural position-copy
+source variants each replayed the complete **364/364** bytes exact;
+source now uses the native flag without a private bitfield. Complete
+RunEcl 15,564/30 and Enemy calc 3,900/13 checks preserve 96 and 88 exact
+siblings. All four 5,718-byte ECL resolver owners remain exact. Native
+source integration does not credit a new exact function or confirm runtime.
+
 ## 2026-11-02 exact 373-byte native SpawnEnemy and VM color correction
 
 Original TH09 `EnemyManagerView::SpawnEnemy` is a complete 373-byte exact

@@ -12,7 +12,8 @@ struct Th09EclEnemyPrimaryFlagBits
     unsigned int unknown05 : 1;
     unsigned int acceptsDamage06 : 1;
     unsigned int specialInteraction07 : 1;
-    unsigned int unknown08_15 : 8;
+    unsigned int unknown08_14 : 7;
+    unsigned int mirrorMovementX15 : 1;
     unsigned int clampPosition16 : 1;
     unsigned int deathMode17 : 3;
     unsigned int unknown20_21 : 2;

@@ -10,6 +10,24 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 exact CardAttack 364-byte spawn shares native Enemy mirror flag
+
+TH09's exact `EnemyManagerCardAttackSpawnView::SpawnEnemyRecord` is a
+separate complete 364-byte callable owner but uses the same native
+0x5430-byte records and 0x2AC450 manager allocation as ordinary Enemy
+spawn. The private `EnemySpawnRecordFlagBits` established one previously
+unknown original bit: primary flags at Enemy +0x337C **bit 15** mirrors
+horizontal movement (`mirrorMovementX15`). Replacing `unknown08_15` with
+seven unknown bits and that named bit preserves the original bitfield
+representation. The source now uses native `EnemyView`'s mirror flag,
+VM-relative `color1` at +0x1F0, main ECL context and direct manager
+arrays, removing duplicated full Enemy and Manager projections.
+Native pointer/reference position assignment candidates reproduced
+**364/364** original bytes. The 373-byte regular spawn remains exact;
+RunEcl/Enemy calc retain 30/13 residuals and 96/88 exact siblings,
+with four original-bound ECL resolver owners still 5,718/5,718 exact.
+This is a native source ownership improvement, not a new exactness entry.
+
 ### 2026-11-02 native 373-byte SpawnEnemy and verified VM color displacement
 
 The true 373-byte `EnemyManagerView::SpawnEnemy` originally used a private
