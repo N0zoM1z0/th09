@@ -11,15 +11,75 @@ focused complete-owner/carrier replays for changed units and dependencies; do
 not run a full cold replay for routine iteration. Preserve incoming dirty work
 and inspect it before changing or cleaning it.
 
-The latest source-changing checkpoint is 80313a4f
-(gpt-web: narrow Title DrawResult residual to three bytes). The following
-31496c4a commit records that source checkpoint. The most recent gameplay
-exactness promotion remains the Effect34 draw at 2d6303de; 1c371cf7 and the
-October 31 maintenance-only state are historical, not the current operator
+The former October source-changing checkpoint was 80313a4f
+(gpt-web: narrow Title DrawResult residual to three bytes). Newer November 2
+source changes are described below and tracked by the live Git log. The most
+recent gameplay exactness promotion remains the Effect34 draw at 2d6303de.
+The October 31 maintenance-only state is historical, not the current operator
 instruction. Local commits are checkpoints, not proof of remote publication or
 Factory acceptance. The 98% reviewed-authored-byte goal remains open;
 canonical codegen, whole-product linking, runtime semantics and ports remain
 separate milestones.
+
+## 2026-11-02 source checkpoint — shared Enemy/ECL storage
+
+The latest focused work made several **source/ABI representation** corrections
+across the unsplit 15,564-physical-byte RunEcl boss and 3,900-byte Enemy
+OnUpdate boss. The 0x2AC388 manager prefix now contains nine typed Enemy boss
+slots instead of a 0x24-byte anonymous field. ECL state and late handlers use
+the actual Background members at +0x18, +0x81C, +0xCD8, +0xCDC and +0xCE0
+rather than duplicate private layouts. The side-state owner pointer at +0x14
+and its two state dwords at owner +0xA4/+0xA8 share one source view.
+The ECL late manager now also uses EnemyManagerCoreView directly instead of
+a separate multi-megabyte mock layout; the actual protocol value at
++0x2AC3DC and the spawn-suppression dword at +0x2AC440 are bound by
+offset assertions at their observed adjacent fields.
+
+A new bounded native EnemyCorePlayerView.hpp is used by both ECL late
+instructions and Enemy OnUpdate. It retains the separately observed
+Player fields at +0x364 (effect), +0x1B88 (position), +0x30364/+0x3037C
+(tracking/homing), +0x303C8 (state timer) and +0x303F4 (late side-table
+value). ECL late instructions now use the same 0x38-byte
+EnemyCoreSideStateView and genuine EtamaController* at +0x08 rather
+than a second side-state struct. The original nominal C++ owner/lifetime
+of unknown Player bytes is not asserted.
+
+After each shared-source change, the original-pinned VC7.1 complete owner
+frontiers were rebuilt locally, not from a historical object. The latest
+focused --owner runecl replay passed 96 canonical exact sibling
+comparisons, including literal/COFF checks, while preserving RunEcl
+15,564 bytes/598 fields/30 ordinary differences (opcode 4: 7;
+opcode 155: 23). Focused --owner enemy passed 88 exact sibling checks;
+Enemy remains 3,900 bytes/97 fields/69 calls/13 ordinary differences.
+The private label updates in two exact ECL siblings are backed by their
+actual unchanged COFF section positions and original PE destinations;
+the relocation offsets, kinds, targets and ordinary code remain fixed.
+The five real Etama owner tests and four shared Player/SideState tests
+pass. The checked target and tracking inventory remain at 1,005 exact
+authored functions; there is no new exact-function or byte credit.
+
+Rejected *source-cold* experiments are not silently adopted: opcode 4/155
+RunEcl scheduling variants failed full-owner field/layout checks; six
+Enemy draw-index and eight descriptor/source lifetime forms failed to
+reduce 13 residuals; fifteen Replay SaveReplay frame/checksum forms
+left its three original physical differences; twelve Title DrawResult
+entry forms and eight MoveRandomBiased Y-alias forms were neutral or
+regressive. A few ScreenEffect timer/envelope changes also regressed the
+complete 336-byte owner. Reproducible scratch results, where retained,
+are in ignored .analysis/current-session-runecl/. They are *not* canonical
+receipts or a reason to relax the documented original-bound guards.
+
+These source commits are local checkpoints: 39fd5e8b (typed boss slots),
+b4c35604 (native Background fields), d1db50d1 (side-owner state),
+f8d297ce (shared Player and side storage), and 333198b5 (native late
+manager protocol). They do not imply remote publication or executable
+runtime acceptance.
+
+For continued work, run only the relevant focused commands,
+python3 -B scripts/check-boss-frontiers.py --owner runecl and/or
+--owner enemy, plus matching target-independent regression tests; never
+run all-owner cold replay for routine work. The large-boss opcode 4/155,
+Enemy register/copy scheduling, and all other nonexact owners remain open.
 
 ## Current source and proof
 
