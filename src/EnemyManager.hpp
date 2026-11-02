@@ -176,7 +176,12 @@ struct EnemyView
     // Enemy allocation, not in a separate late-opcode-only byte view.
     unsigned char unknown0004[0x2CE0 - 0x0004];
     Th09EclContextView *activeContext2CE0;
-    unsigned char unknown2CE4[0x2D70 - 0x2CE4];
+    Th09EclContextView *activeCallStack2CE4;
+    // The genuine per-Enemy operand banks are read and written by four
+    // exact ECL resolvers at +0x2CE8 and +0x2D08.
+    int intVariables2CE8[8];
+    float floatVariables2D08[8];
+    unsigned char unknown2D28[0x2D70 - 0x2D28];
     short pendingSubroutineId2D70;
     unsigned char unknown2D72[0x02];
     EnemyFloat3 position2D74;
@@ -209,6 +214,12 @@ struct EnemyView
 typedef char EnemyViewSizeIs5430[(sizeof(EnemyView) == 0x5430) ? 1 : -1];
 typedef char EnemyViewActiveContextAt2CE0[
     (offsetof(EnemyView, activeContext2CE0) == 0x2CE0) ? 1 : -1];
+typedef char EnemyViewNativeOperandBanks[
+    (offsetof(EnemyView, activeCallStack2CE4) == 0x2CE4 &&
+     offsetof(EnemyView, intVariables2CE8) == 0x2CE8 &&
+     offsetof(EnemyView, floatVariables2D08) == 0x2D08 &&
+     sizeof(((EnemyView *)0)->intVariables2CE8) == 0x20 &&
+     sizeof(((EnemyView *)0)->floatVariables2D08) == 0x20) ? 1 : -1];
 typedef char EnemyViewPendingSubroutineAt2D70[
     (offsetof(EnemyView, pendingSubroutineId2D70) == 0x2D70) ? 1 : -1];
 typedef char EnemyViewLifeAt2E48[

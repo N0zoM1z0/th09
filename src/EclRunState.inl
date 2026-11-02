@@ -185,6 +185,11 @@ struct EnemyCoreView
 typedef char EnemyEclNativeActiveContextAt2CE0[
     (offsetof(EnemyView, activeContext2CE0) ==
      offsetof(EnemyCoreView, activeContext2CE0)) ? 1 : -1];
+typedef char EnemyEclNativeOperandBanks[
+    (offsetof(EnemyView, intVariables2CE8) == 0x2CE8 &&
+     offsetof(EnemyView, floatVariables2D08) == 0x2D08 &&
+     offsetof(EnemyView, activeCallStack2CE4) ==
+         offsetof(EnemyCoreView, activeCallStack2CE4)) ? 1 : -1];
 typedef char EnemyEclNativePendingSubroutineAt2D70[
     (offsetof(EnemyView, pendingSubroutineId2D70) ==
      offsetof(EnemyCoreView, pendingSubroutineId2D70)) ? 1 : -1];

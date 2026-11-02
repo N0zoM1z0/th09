@@ -37,6 +37,19 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('EnemyEclNativeLaserSlotsAt32D8', state)
         self.assertIn('enemy->laserSlots32D8[laserIndex]', bullet)
 
+    def test_enemy_operand_banks_use_real_native_enemy_fields(self):
+        enemy = (ROOT/'src/EnemyManager.hpp').read_text()
+        resolver = (ROOT/'src/EclOperands.cpp').read_text()
+        state = (ROOT/'src/EclRunState.inl').read_text()
+        self.assertIn('EnemyViewNativeOperandBanks',enemy)
+        self.assertIn('int intVariables2CE8[8];',enemy)
+        self.assertIn('float floatVariables2D08[8];',enemy)
+        self.assertIn('EnemyEclNativeOperandBanks',state)
+        self.assertIn('enemy->intVariables2CE8[0]',resolver)
+        self.assertIn('this->floatVariables2D08[7]',resolver)
+        self.assertNotIn('TH09_ECL_OPERAND_ENEMY(enemy)->intVariables2CE8',resolver)
+        self.assertNotIn('TH09_ECL_OPERAND_ENEMY(this)->floatVariables2D08',resolver)
+
     def test_remote_slot_uses_real_enemy_manager_array(self):
         remote=(ROOT/'src/EclRunRemote.inl').read_text()
         manager=(ROOT/'src/EnemyManager.hpp').read_text()
