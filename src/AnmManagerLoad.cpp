@@ -10,12 +10,6 @@
 #include <windows.h>
 #include <d3d8.h>
 
-struct Float2LoadView
-{
-    float x;
-    float y;
-};
-
 struct AnmEntry
 {
     IDirect3DTexture8 *texture;
@@ -74,23 +68,16 @@ struct AnmRawSpriteView
 
 typedef char AnmRawSpriteSizeIs14[(sizeof(AnmRawSpriteView) == 0x14) ? 1 : -1];
 
-struct AnmLoadedSpriteLoadView
-{
-    int anmIdx;
-    IDirect3DTexture8 *texture;
-    Float2LoadView startPixelInclusive;
-    Float2LoadView endPixelInclusive;
-    float height;
-    float width;
-    Float2LoadView uvStart;
-    Float2LoadView uvEnd;
-    float heightPx;
-    float widthPx;
-    Float2LoadView scaleFactor;
-    unsigned int unknown40;
-};
-
-typedef char AnmLoadedSpriteLoadSizeIs44[(sizeof(AnmLoadedSpriteLoadView) == 0x44) ? 1 : -1];
+// The native ANM resource loader owns this same 0x44-byte sprite consumed
+// by exact SetSprite, Etama and Enemy. Avoid a second per-TU layout.
+typedef char AnmLoadedSpriteLoadNativeOffsets[
+    (sizeof(AnmLoadedSprite) == 0x44 &&
+     offsetof(AnmLoadedSprite, startPixelX08) == 0x08 &&
+     offsetof(AnmLoadedSprite, endPixelY14) == 0x14 &&
+     offsetof(AnmLoadedSprite, textureWidth1C) == 0x1C &&
+     offsetof(AnmLoadedSprite, heightPx) == 0x30 &&
+     offsetof(AnmLoadedSprite, widthPx) == 0x34 &&
+     offsetof(AnmLoadedSprite, scaleX38) == 0x38) ? 1 : -1];
 
 struct AnmLoadedLoadView
 {
@@ -362,29 +349,29 @@ void AnmManager::ReleaseAnmEntry(AnmEntry *entry)
 void AnmLoaded::LoadSprite(int spriteIndex, AnmLoadedSprite *loadedSprite)
 {
     AnmLoadedLoadView *anm = reinterpret_cast<AnmLoadedLoadView *>(this);
-    AnmLoadedSpriteLoadView *source = reinterpret_cast<AnmLoadedSpriteLoadView *>(loadedSprite);
-    reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex] = *source;
+    AnmLoadedSprite *source = loadedSprite;
+    anm->sprites[spriteIndex] = *source;
 
-    reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].uvStart.x =
-        reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].startPixelInclusive.x /
-        reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].width;
-    reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].uvEnd.x =
-        reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].endPixelInclusive.x /
-        reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].width;
-    reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].uvStart.y =
-        reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].startPixelInclusive.y /
-        reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].height;
-    reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].uvEnd.y =
-        reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].endPixelInclusive.y /
-        reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].height;
-    reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].widthPx =
-        (reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].endPixelInclusive.x -
-         reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].startPixelInclusive.x) /
-        source->scaleFactor.x;
-    reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].heightPx =
-        (reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].endPixelInclusive.y -
-         reinterpret_cast<AnmLoadedSpriteLoadView *>(anm->sprites)[spriteIndex].startPixelInclusive.y) /
-        source->scaleFactor.y;
+    anm->sprites[spriteIndex].uvStartX =
+        anm->sprites[spriteIndex].startPixelX08 /
+        anm->sprites[spriteIndex].textureWidth1C;
+    anm->sprites[spriteIndex].uvEndX =
+        anm->sprites[spriteIndex].endPixelX10 /
+        anm->sprites[spriteIndex].textureWidth1C;
+    anm->sprites[spriteIndex].uvStartY =
+        anm->sprites[spriteIndex].startPixelY0C /
+        anm->sprites[spriteIndex].textureHeight18;
+    anm->sprites[spriteIndex].uvEndY =
+        anm->sprites[spriteIndex].endPixelY14 /
+        anm->sprites[spriteIndex].textureHeight18;
+    anm->sprites[spriteIndex].widthPx =
+        (anm->sprites[spriteIndex].endPixelX10 -
+         anm->sprites[spriteIndex].startPixelX08) /
+        source->scaleX38;
+    anm->sprites[spriteIndex].heightPx =
+        (anm->sprites[spriteIndex].endPixelY14 -
+         anm->sprites[spriteIndex].startPixelY0C) /
+        source->scaleY3C;
 }
 
 int AnmManager::LoadTextureData(
@@ -395,7 +382,7 @@ int AnmManager::LoadTextureData(
     int i;
     const char *path;
     D3DSURFACE_DESC surfaceDesc;
-    AnmLoadedSpriteLoadView loadedSprite;
+    AnmLoadedSprite loadedSprite;
     unsigned int *currentOffset;
 
     if (rawEntry == NULL)
@@ -453,16 +440,15 @@ int AnmManager::LoadTextureData(
             reinterpret_cast<unsigned char *>(rawEntry) + *currentOffset);
         loadedSprite.anmIdx = anmLoaded->anmIdx;
         loadedSprite.texture = anmLoaded->textures[entryNumber].texture;
-        loadedSprite.scaleFactor.x = surfaceDesc.Width / static_cast<float>(rawEntry->width);
-        loadedSprite.scaleFactor.y = surfaceDesc.Height / static_cast<float>(rawEntry->height);
-        loadedSprite.startPixelInclusive.x = rawSprite->x * loadedSprite.scaleFactor.x;
-        loadedSprite.startPixelInclusive.y = rawSprite->y * loadedSprite.scaleFactor.y;
-        loadedSprite.endPixelInclusive.x = (rawSprite->x + rawSprite->width) * loadedSprite.scaleFactor.x;
-        loadedSprite.endPixelInclusive.y = (rawSprite->y + rawSprite->height) * loadedSprite.scaleFactor.y;
-        loadedSprite.width = static_cast<float>(surfaceDesc.Width);
-        loadedSprite.height = static_cast<float>(surfaceDesc.Height);
-        reinterpret_cast<AnmLoaded *>(anmLoaded)->LoadSprite(
-            currentSpriteNumber, reinterpret_cast<AnmLoadedSprite *>(&loadedSprite));
+        loadedSprite.scaleX38 = surfaceDesc.Width / static_cast<float>(rawEntry->width);
+        loadedSprite.scaleY3C = surfaceDesc.Height / static_cast<float>(rawEntry->height);
+        loadedSprite.startPixelX08 = rawSprite->x * loadedSprite.scaleX38;
+        loadedSprite.startPixelY0C = rawSprite->y * loadedSprite.scaleY3C;
+        loadedSprite.endPixelX10 = (rawSprite->x + rawSprite->width) * loadedSprite.scaleX38;
+        loadedSprite.endPixelY14 = (rawSprite->y + rawSprite->height) * loadedSprite.scaleY3C;
+        loadedSprite.textureWidth1C = static_cast<float>(surfaceDesc.Width);
+        loadedSprite.textureHeight18 = static_cast<float>(surfaceDesc.Height);
+        anmLoadedObject->LoadSprite(currentSpriteNumber, &loadedSprite);
         currentSpriteNumber++;
     }
 
