@@ -24073,14 +24073,14 @@ relocations = [
   { offset = 0x186, type = "DIR32", symbol = "?g_PlayerAddedSideTable@@3PAHA", target = 0x4a8108 },
   { offset = 0x191, type = "DIR32", symbol = "?g_PlayerAddedClampValue@@3HA", target = 0x4a7e90 },
   { offset = 0x1a1, type = "DIR32", symbol = "?g_PlayerAddedModeSelector@@3HA", target = 0x4a7eac },
-  { offset = 0x1ad, type = "DIR32", symbol = "$L1701", target = 0x41ede8 },
+  { offset = 0x1ad, type = "DIR32", symbol = "$L1685", target = 0x41ede8 },
   { offset = 0x1f6, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x401500 },
   { offset = 0x20e, type = "REL32", symbol = "?Reset@PlayerAddedHeaderResetView@@QAEXXZ", target = 0x41bdc0 },
-  { offset = 0x228, type = "DIR32", symbol = "$L1655", target = 0x41ed71 },
-  { offset = 0x22c, type = "DIR32", symbol = "$L1655", target = 0x41ed71 },
-  { offset = 0x230, type = "DIR32", symbol = "$L1657", target = 0x41ed74 },
-  { offset = 0x234, type = "DIR32", symbol = "$L1659", target = 0x41ed79 },
-  { offset = 0x238, type = "DIR32", symbol = "$L1661", target = 0x41ed7e },
+  { offset = 0x228, type = "DIR32", symbol = "$L1639", target = 0x41ed71 },
+  { offset = 0x22c, type = "DIR32", symbol = "$L1639", target = 0x41ed71 },
+  { offset = 0x230, type = "DIR32", symbol = "$L1641", target = 0x41ed74 },
+  { offset = 0x234, type = "DIR32", symbol = "$L1643", target = 0x41ed79 },
+  { offset = 0x238, type = "DIR32", symbol = "$L1645", target = 0x41ed7e },
 ]
 
 # Complete constructor-byte replays only. Both original owners retain unknown

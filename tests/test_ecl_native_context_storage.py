@@ -559,8 +559,8 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('initialStateA0[0]',resolver)
         self.assertIn('initialStateA0[1]',resolver)
         self.assertIn('position1B88',resolver)
-        self.assertIn('player->initialStateA0[0] = initialState;',added)
-        self.assertIn('player->initialStateA0[1] = initialState;',added)
+        self.assertIn('this->header24.state7C = initialState;',added)
+        self.assertIn('this->header24.state80 = initialState;',added)
 
     def test_manager_timeline_is_one_native_owner_for_interpreter_and_leaves(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()

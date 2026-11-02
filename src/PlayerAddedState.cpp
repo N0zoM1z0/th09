@@ -70,14 +70,6 @@ struct PlayerAddedOwnerStateView
 typedef char PlayerAddedOwnerStateSizeIs44[
     (sizeof(PlayerAddedOwnerStateView) == 0x44) ? 1 : -1];
 
-struct PlayerAddedShotView
-{
-    unsigned char unknown000[0x462];
-    short state462;
-    unsigned char unknown464[0x20];
-};
-typedef char PlayerAddedShotSizeIs484[(sizeof(PlayerAddedShotView) == 0x484) ? 1 : -1];
-
 struct PlayerAddedStateLayout
 {
     int state00;
@@ -100,11 +92,7 @@ struct PlayerAddedStateLayout
     unsigned char unknown1B94[0x1BA0 - 0x1B94];
     PlayerPositionView positionHistory1BA0[16];
     unsigned char unknown1C60[0x1CD8 - 0x1C60];
-    float baseShotAngle1CD8;
-    float speedMultiplier1CDC;
-    float speedMultiplier1CE0;
-    float speedMultiplier1CE4;
-    float speedMultiplier1CE8;
+    unsigned char unknown1CD8[0x1CEC - 0x1CD8];
     unsigned char unknown1CEC[0x28BC - 0x1CEC];
     PlayerAddedCollisionRegionView collisionRegions28BC[512];
     unsigned char embeddedCollisionB0BC[0x44];
@@ -113,7 +101,7 @@ struct PlayerAddedStateLayout
     int activeRegionCountC110;
     int releasedRegionCountC114;
     unsigned char unknownC118[0xC11C - 0xC118];
-    PlayerAddedShotView shotsC11C[128];
+    unsigned char unknownC11C[0x3031C - 0xC11C];
     unsigned char unknown3031C[0x30358 - 0x3031C];
     int field30358;
     unsigned char unknown3035C[0x30384 - 0x3035C];
@@ -150,7 +138,7 @@ typedef char PlayerAddedActiveAtB100[
 typedef char PlayerAddedReleasedAtB908[
     (offsetof(PlayerAddedStateLayout, releasedRegionsB908) == 0xB908) ? 1 : -1];
 typedef char PlayerAddedShotsAtC11C[
-    (offsetof(PlayerAddedStateLayout, shotsC11C) == 0xC11C) ? 1 : -1];
+    (offsetof(PlayerLifecycleView, shots) == 0xC11C) ? 1 : -1];
 typedef char PlayerAddedOwnerAt30410[
     (offsetof(PlayerAddedStateLayout, ownerState30410) == 0x30410) ? 1 : -1];
 typedef char PlayerAddedTailAt30454[
@@ -195,7 +183,7 @@ void PlayerLifecycleView::InitializeAddedState()
     player->anmFileBC->SetAndExecuteScriptIdx(&player->mainVmC0, 0);
 
     PlayerPositionView *position = reinterpret_cast<PlayerPositionView *>(
-        player->position1B88.operator float *());
+        this->position1B88.operator float *());
     position->x = -160.0f;
     // Preserve the two original scalar publications in this preheader.
     // Access qualification stays local to the actual Y and Z stores.
@@ -218,21 +206,21 @@ void PlayerLifecycleView::InitializeAddedState()
     player->addedMarker1B84 = 1;
 
     for (i = 0; i < 128; ++i)
-        player->shotsC11C[i].state462 = 0;
+        this->shots[i].state462 = 0;
 
-    player->speedMultiplier1CE0 = 1.0f;
-    player->speedMultiplier1CDC = 1.0f;
-    player->speedMultiplier1CE8 = 1.0f;
-    player->speedMultiplier1CE4 = 1.0f;
+    this->movementFields1CCC.speedMultiplier1CE0 = 1.0f;
+    this->movementFields1CCC.speedMultiplier1CDC = 1.0f;
+    this->movementFields1CCC.speedMultiplier1CE8 = 1.0f;
+    this->movementFields1CCC.speedMultiplier1CE4 = 1.0f;
 
     for (i = 0; i < 16; ++i)
         player->positionHistory1BA0[i] = player->position1B88;
 
-    unsigned int addedFlags = player->flags1B80;
+    unsigned int addedFlags = this->flags1B80;
     addedFlags &= ~1u;
     addedFlags |= 2u;
     player->field303E8 = 0;
-    player->flags1B80 = addedFlags;
+    this->flags1B80 = addedFlags;
     player->timer303B0 = 6;
 
     float randomValue = g_PlayerAddedRng.SampleRange(400.0f) + 100.0f;
@@ -242,9 +230,9 @@ void PlayerLifecycleView::InitializeAddedState()
 
     player->ownerState30410.Reset();
     player->timer1B74 = 0;
-    player->scalar30384 = 0.0f;
+    this->scalar30384 = 0.0f;
 
-    player->sideStateA8 = g_PlayerAddedSideTable[player->sideIndex08];
+    this->header24.state84 = g_PlayerAddedSideTable[this->sideIndex];
     int value = g_PlayerAddedClampValue;
     if (value > 2)
         value = 2;
@@ -254,40 +242,40 @@ void PlayerLifecycleView::InitializeAddedState()
     case 1:
         {
             const int initialState = value + 1;
-            player->initialStateA0[0] = initialState;
-            player->initialStateA0[1] = initialState;
+            this->header24.state7C = initialState;
+            this->header24.state80 = initialState;
         }
         break;
     case 2:
         {
             const int initialState = value + 4;
-            player->initialStateA0[0] = initialState;
-            player->initialStateA0[1] = initialState;
+            this->header24.state7C = initialState;
+            this->header24.state80 = initialState;
         }
         break;
     case 3:
         {
             const int initialState = value + 8;
-            player->initialStateA0[0] = initialState;
-            player->initialStateA0[1] = initialState;
+            this->header24.state7C = initialState;
+            this->header24.state80 = initialState;
         }
         break;
     case 4:
         {
             const int initialState = value + 12;
-            player->sideStateA8 = 1;
-            player->scalar30388 = 400.0f;
-            player->initialStateA0[0] = initialState;
-            player->initialStateA0[1] = initialState;
+            this->header24.state84 = 1;
+            this->scalar30388 = 400.0f;
+            this->header24.state7C = initialState;
+            this->header24.state80 = initialState;
         }
         break;
     }
-    if (player->sideStateA8 == 1)
-        player->flags1B80 |= 8u;
+    if (this->header24.state84 == 1)
+        this->flags1B80 |= 8u;
 
     player->timer303A4 = -1;
-    player->baseShotAngle1CD8 = -1.57079637f;
-    player->field364 = 0;
+    this->movementFields1CCC.movementAngle1CD8 = -1.57079637f;
+    this->focusEffect364 = NULL;
     reinterpret_cast<PlayerAddedHeaderResetView *>(
         reinterpret_cast<unsigned char *>(player) + 0x24)->Reset();
     memset(player->tailStates30454, 0, sizeof(player->tailStates30454));

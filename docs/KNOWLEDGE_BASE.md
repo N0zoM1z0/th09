@@ -400,6 +400,25 @@ Enemy leaf functions and four exact Enemy draw units (including 1,758-byte
 in spelling after actual COFF-to-original-VA destination proofs. None of
 this grants new exactness credit or proves Windows runtime semantics.
 
+### 2026-11-02 Player AddedState 572-byte exact owner uses native shots/movement
+
+Original-bound compilation of `PlayerLifecycleView::InitializeAddedState`
+proves a shared native Player state contract across initialization and
+movement: speed multipliers +0x1CDC/+0x1CE0/+0x1CE4/+0x1CE8, movement angle
++0x1CD8, Player initial state at +0xA0/+0xA4, side mode at +0xA8,
+focus effect pointer +0x364, and all 128 `PlayerShotCtorView` states in
+the +0xC11C region. Previous source used private `PlayerAddedStateLayout`
+scalar/shot projections; new source directly writes `this->` fields,
+removing the redundant `PlayerAddedShotView` and private speed region
+while retaining exact original offsets and unknown regions as opaque.
+The complete physical owner still compiles **572/572 bytes exact**
+(552 canonically credited bytes plus 20 reviewed tail bytes) with the same
+25 relocation fields; the compiler renamed 6 local switch labels, whose
+true COFF target positions were checked independently against immutable
+original addresses. Three same-TU independent exact functions remain
+**23/23, 29/29, 41/41**, and movement/selector source storage now shares
+the original native object. No exactness promotion or Windows runtime proof.
+
 ### 2026-11-02 native focus pair and typed replay input in Player Movement
 
 The true 1,900-byte Player movement boss used two unnecessary inline

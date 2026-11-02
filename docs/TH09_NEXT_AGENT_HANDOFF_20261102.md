@@ -1,5 +1,26 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 exact 572-byte Player AddedState uses native shots and movement
+
+`PlayerLifecycleView::InitializeAddedState` previously accessed four Player
+movement speed multipliers, the base angle, 128 shot states, first two
+initial state values and the active side state through the 0x30F70-byte
+`PlayerAddedStateLayout` projection, duplicating already original-proven
+native Player fields. The whole 572-byte owner now uses
+`PlayerLifecycleView::movementFields1CCC`, `shots[128]`, native focus
+pointer, `header24.state7C/state80/state84`, position and flags directly.
+Removed the separate `PlayerAddedShotView` private record and its 128-item
+copy, plus the redundant private speed/angle region; those source-only
+private layout ranges are now opaque. Local compile tests preserve the
+entire **572/572-byte PE physical comparison** (552 canonical bytes plus
+20 reviewed tail bytes). All 25 field locations remain verified;
+6 changed compiler-private switch labels were independently resolved
+against the unchanged original PE addresses and rebound by name only.
+Three exact same-TU leaf functions (`Reset` 23/29/41 bytes) also replay
+byte-identically. The separate 1,900-byte Player movement boss retains
+122 residuals and the 3,238-byte selector remains exact. This is
+native storage unification, not newly credited original code.
+
 ## 2026-11-02 native Player Movement effect/input receiver (1,900-byte boss)
 
 Continued directly on the actual **1,900-byte**
