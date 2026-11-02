@@ -1,5 +1,19 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 native Enemy movement ZunTimer and 11 ECL writes
+
+Fresh verified TH09 source/target code comparison: `EnemyView` now declares
+`ZunTimer movementTimer2E28` at +0x2E28, matching the already-typed
+`EnemyCoreView` and the exact timer ABI. Five ECL movement helpers and
+six opcode sites in `EclRunMovement.inl` now assign the native timer
+without `reinterpret_cast<Th09EclTimerStorageView *>` against an opaque
+12-byte array. Complete 15,564-byte `RunEcl` retains 30 ordinary byte
+differences with 96 exact siblings; the 3,900-byte Enemy calc boss retains
+13 with 88 exact siblings. Four operand resolver owners retain 5,718
+original bytes, 13 selected Enemy and draw units all replay exact,
+including the 1,758-byte complete draw function. No new canonical exact
+owners are credited; no full cold replay or runtime tests ran.
+
 ## 2026-11-02 current source checkpoint: native Enemy boss timer
 
 The source present `EnemyView` at `+0x2E64` now declares the actual

@@ -273,7 +273,8 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('typedef ::EnemyFloat2 EnemyFloat2;',movement)
         self.assertIn('EnemyViewMovementGeometryAt2DBC',native)
         self.assertIn('EnemyViewMovementScriptsAndBoundsAt3386',native)
-        self.assertIn('movementTimer2E28[0x0C]',native)
+        self.assertIn('ZunTimer movementTimer2E28;',native)
+        self.assertIn('EnemyViewMovementTimerIsNativeZunTimer',native)
         self.assertIn('EnemyFloat2 movementLowerBounds3398;',native)
         self.assertIn('EnemyFloat2 movementUpperBounds33A0;',native)
         self.assertIn('unsigned int primaryFlags337C;',native)
@@ -294,6 +295,21 @@ class NativeEclContextStorage(unittest.TestCase):
                 self.assertIn('->'+name, resolver)
                 self.assertNotIn(f'TH09_ECL_OPERAND_ENEMY(enemy)->{name}',resolver)
                 self.assertNotIn(f'TH09_ECL_OPERAND_ENEMY(this)->{name}',resolver)
+
+    def test_movement_timer_is_native_zuntimer_across_ecl_and_enemy_update(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        movement=(ROOT/'src/EclRunMovement.inl').read_text()
+        interpreter=(ROOT/'src/EclManager.cpp').read_text()
+        runtime=(ROOT/'src/EclPostRuntime.inl').read_text()
+        core=(ROOT/'src/EclRunState.inl').read_text()
+        self.assertIn('ZunTimer movementTimer2E28;',native)
+        self.assertIn('EnemyViewMovementTimerIsNativeZunTimer',native)
+        self.assertIn('ZunTimer movementTimer2E28;',core)
+        self.assertIn('enemy->movementTimer2E28',runtime)
+        self.assertIn('view->movementTimer2E28 = duration;',interpreter)
+        self.assertIn('TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28 =',movement)
+        self.assertNotIn('reinterpret_cast<Th09EclTimerStorageView *>(\n',interpreter)
+        self.assertNotIn('reinterpret_cast<Th09EclTimerStorageView *>(\n',movement)
 
     def test_boss_timer_shared_with_exact_ecl_operands(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()

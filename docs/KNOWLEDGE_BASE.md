@@ -10,6 +10,20 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 native Enemy movement timer: one typed target allocation
+
+The +0x2E28..+0x2E33 movement timer is confirmed by TH09 ECL movement
+assignment sites and the post-ECL update using the genuine 0x0C
+`ZunTimer` ABI; the main `EnemyView` previously modeled it as
+`unsigned char[0x0C]`. The source now exposes `ZunTimer movementTimer2E28`
+and ECL helper/opcode writers use direct typed assignment, eleven sites
+in total. Complete source-cold PE/COFF checks retain `RunEcl` 15,564
+physical bytes/30 ordinary residuals, 96 exact dependencies, Enemy calc
+3,900 bytes/13 residuals and 88 exact dependencies. Four ECL resolver
+owners 5,718 bytes and 13 selected Enemy/Enemy draw units remain exact.
+This is a semantic-source type consolidation, not an exact owner promotion
+or confirmed Windows product behavior.
+
 ### 2026-11-02 native Enemy boss ZunTimer (current exact-resolver proof)
 
 The TH09 +0x2E64..+0x2E6F region previously split into anonymous

@@ -246,7 +246,7 @@ struct EnemyView
         EnemyFloat3 movementDelta2E10;
     };
     EnemyFloat3 movementOrigin2E1C;
-    unsigned char movementTimer2E28[0x0C];
+    ZunTimer movementTimer2E28;
     int movementDuration2E34;
     float bulletRankSpeedLow2E38;
     float bulletRankSpeedHigh2E3C;
@@ -401,6 +401,12 @@ typedef char EnemyViewNativeMovementOperands[
      offsetof(EnemyView, operandValue2E54) == 0x2E54 &&
      offsetof(EnemyView, bossTimer2E64) + offsetof(ZunTimer, current) == 0x2E6C) ? 1 : -1];
 // Full movement/ANM opcode geometry now uses this same native Enemy allocation.
+// The 0x0C movement timer is the native ZunTimer read by the post-ECL
+// movement tick and assigned by all ECL movement opcode families.
+typedef char EnemyViewMovementTimerIsNativeZunTimer[
+    (offsetof(EnemyView, movementTimer2E28) == 0x2E28 &&
+     sizeof(((EnemyView *)0)->movementTimer2E28) == sizeof(ZunTimer) &&
+     offsetof(EnemyView, movementDuration2E34) == 0x2E34) ? 1 : -1];
 typedef char EnemyViewMovementGeometryAt2DBC[
     (offsetof(EnemyView, velocity2D8C) == 0x2D8C &&
      offsetof(EnemyView, hitboxDimensions2DBC) == 0x2DBC &&

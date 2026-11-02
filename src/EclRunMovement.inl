@@ -303,8 +303,7 @@ static void BeginBoundaryAwareMove(
              ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
             Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
         TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = 0;
-        *reinterpret_cast<Th09EclTimerStorageView *>(
-            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) = 0;
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28 = 0;
         break;
 
     case TH09_ECL_OPCODE_MOVE_IN_DIRECTION:
@@ -320,8 +319,7 @@ static void BeginBoundaryAwareMove(
                  ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
                 Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
             TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = 0;
-            *reinterpret_cast<Th09EclTimerStorageView *>(
-                TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) = 0;
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28 = 0;
         }
         else
         {
@@ -370,8 +368,7 @@ static void BeginBoundaryAwareMove(
                 Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
             movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
             TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = movementInt;
-            *reinterpret_cast<Th09EclTimerStorageView *>(
-                TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) =
+            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28 =
                 movementInt;
         }
         else
@@ -401,8 +398,7 @@ static void BeginBoundaryAwareMove(
     case TH09_ECL_OPCODE_ORBIT_AROUND_POINT:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = movementInt;
-        *reinterpret_cast<Th09EclTimerStorageView *>(
-            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28 =
             movementInt;
         TH09_EXPR_MOVEMENT_VIEW(enemy)->movementOrigin2E1C.x =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
@@ -423,8 +419,7 @@ static void BeginBoundaryAwareMove(
     case TH09_ECL_OPCODE_ORBIT_AROUND_CURRENT_POSITION:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = movementInt;
-        *reinterpret_cast<Th09EclTimerStorageView *>(
-            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28 =
             movementInt;
         TH09_EXPR_MOVEMENT_VIEW(enemy)->movementOrigin2E1C =
             TH09_EXPR_MOVEMENT_VIEW(enemy)->position2D74;
@@ -442,8 +437,7 @@ static void BeginBoundaryAwareMove(
     case TH09_ECL_OPCODE_SET_ORBIT_VELOCITIES:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = movementInt;
-        *reinterpret_cast<Th09EclTimerStorageView *>(
-            TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28) =
+        TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28 =
             movementInt;
         TH09_EXPR_MOVEMENT_VIEW(enemy)->orbitAngularVelocity2DEC =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);

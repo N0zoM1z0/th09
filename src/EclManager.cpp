@@ -83,8 +83,7 @@ static void ConfigurePolarMotion(
 
     int duration = Th09EclRunControl::ReadInt(enemy, instruction, 0);
     view->movementDuration2E34 = duration;
-    *reinterpret_cast<Th09EclTimerStorageView *>(
-        view->movementTimer2E28) = duration;
+    view->movementTimer2E28 = duration;
     view->primaryFlags337C =
         (view->primaryFlags337C & ~0x3A00U) |
         ((Th09EclRunControl::ReadInt(enemy, instruction, 1) & 7) << 11) |
@@ -110,8 +109,7 @@ static void ConfigureRelativeMotion(
 
     int duration = Th09EclRunControl::ReadInt(enemy, instruction, 0);
     view->movementDuration2E34 = duration;
-    *reinterpret_cast<Th09EclTimerStorageView *>(
-        view->movementTimer2E28) = duration;
+    view->movementTimer2E28 = duration;
     unsigned int movementFlags =
         (view->primaryFlags337C & ~0x3A00U) |
         ((Th09EclRunControl::ReadInt(enemy, instruction, 1) & 7) << 11);
@@ -145,8 +143,7 @@ static void StartTimedPolarDisplacement(
 
     int duration = Th09EclRunControl::ReadInt(enemy, instruction, 0);
     view->movementDuration2E34 = duration;
-    *reinterpret_cast<Th09EclTimerStorageView *>(
-        view->movementTimer2E28) = duration;
+    view->movementTimer2E28 = duration;
     view->primaryFlags337C =
         (view->primaryFlags337C & ~0x3A00U) |
         ((Th09EclRunControl::ReadInt(enemy, instruction, 1) & 7) << 11) |
@@ -209,8 +206,7 @@ static void BeginBoundaryAwareMove(
             (view->primaryFlags337C & ~ENEMY_MOVEMENT_MODE_MASK) |
             ENEMY_MOVEMENT_MODE_POLAR;
         view->movementDuration2E34 = 0;
-        *reinterpret_cast<Th09EclTimerStorageView *>(
-            view->movementTimer2E28) = 0;
+        view->movementTimer2E28 = 0;
     }
     else
     {
@@ -313,8 +309,7 @@ static void MoveRandomBiased(
              ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
             Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
         view->movementDuration2E34 = 0;
-        *reinterpret_cast<Th09EclTimerStorageView *>(
-            view->movementTimer2E28) = 0;
+        view->movementTimer2E28 = 0;
     }
     else
     {
