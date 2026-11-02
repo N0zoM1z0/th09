@@ -62,13 +62,30 @@ class NativeEnemyEclPlayerStorage(unittest.TestCase):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         state=(ROOT/'src/EclRunState.inl').read_text()
         late=(ROOT/'src/EclRunLate.inl').read_text()
-        self.assertIn('typedef ::EnemyManagerCoreView ManagerLateView;', late)
+        self.assertIn('typedef ::EnemyManagerView ManagerLateView;', late)
         for member in ('protocolValue2AC3DC','timelineSpawnsSuppressed2AC440'):
             self.assertIn(member, native)
             self.assertIn(member, state)
         self.assertIn('Th09EclLateSharedNativeManagerFields', late)
         self.assertIn('EnemyManagerProtocolAt2AC3DC', native)
         self.assertIn('EnemyManagerTimelineAt2AC440', native)
+
+    def test_late_run_ecl_opcodes_use_native_enemy_and_manager(self):
+        late=(ROOT/'src/EclRunLate.inl').read_text()
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        self.assertNotIn('Th09EclRunLate::View(enemy)->',late)
+        self.assertNotIn('inline Th09EclRunState::EnemyStateView *View(',late)
+        self.assertIn('typedef ::EnemyManagerView ManagerLateView;',late)
+        self.assertIn('return enemy->manager00;',late)
+        self.assertIn('return Manager(enemy)->sideState320->etama08;',late)
+        self.assertIn('&enemy->primaryAnmVm0008)->rotationZ08;',late)
+        self.assertIn('sizeof(ManagerLateView) == 0x2AC450',late)
+        for field in ('damageReductionTimer53A8','worldPosition2DD4',
+                      'position2D74','primaryFlags337C',
+                      'phaseStartingLife2E50','secondaryFlags3380'):
+            with self.subTest(field=field):
+                self.assertIn('enemy->'+field,late)
+                self.assertIn(field,native)
 
     def test_reuse_retains_bounded_fields_not_a_claim_of_full_player_identity(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()

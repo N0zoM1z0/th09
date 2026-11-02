@@ -1,5 +1,22 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 native late RunEcl owner, opcode 158..187
+
+Fresh full original PE/COFF source-cold comparisons of the TH09 v1.50a
+15,564-byte `RunEcl` verify the late opcode family now reads/writes
+native `EnemyView` fields directly (position, timer, primary/secondary
+flags, phase life) rather than invoking a private `EnemyStateView` for
+each use. `Th09EclRunLate::Manager` now returns the native 0x2AC450-byte
+`EnemyManagerView`, `BulletController` retains the authentic side Etama
+pointer, and the primary ANM rotation lvalue now refers to the real
+`EnemyView::primaryAnmVm0008` at +0x08. The private `View` helper was
+removed. Four natural source trials showed a partial helper-only rewrite
+cannot compile unless the manager type is reconciled. The adopted fully
+native source preserves all 15,564 original-owner byte positions except
+the previously known 30 residuals and replays 96 exact ECL siblings.
+Enemy update 3,900/13 and 88 exact siblings also pass. This is source
+recovery, not a newly byte-exact 15K boss or Windows runtime proof.
+
 ## 2026-11-02 native Enemy primary/secondary ECL bitfield owners
 
 The movement opcode family `SET_INTERACTION_FLAGS`, `DISABLE_INTERACTION_FLAGS`

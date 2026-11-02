@@ -91,7 +91,7 @@ typedef char Th09EclLateSharedPlayerWindow[
 // The late opcode family runs against the same actual Enemy manager record as
 // EnemyManager::OnUpdate. Its two side protocol fields now live in that
 // shared record rather than in a second almost-empty 2.8 MiB overlay.
-typedef ::EnemyManagerCoreView ManagerLateView;
+typedef ::EnemyManagerView ManagerLateView;
 typedef char Th09EclLateManagerProtocolAt2AC3DC[
     (offsetof(ManagerLateView, protocolValue2AC3DC) == 0x2AC3DC) ? 1 : -1];
 typedef char Th09EclLateManagerTimelineAt2AC440[
@@ -99,19 +99,15 @@ typedef char Th09EclLateManagerTimelineAt2AC440[
         ? 1
         : -1];
 typedef char Th09EclLateSharedNativeManagerFields[
-    (offsetof(EnemyManagerView, protocolValue2AC3DC) ==
-         offsetof(ManagerLateView, protocolValue2AC3DC) &&
-     offsetof(EnemyManagerView, timelineSpawnsSuppressed2AC440) ==
-         offsetof(ManagerLateView, timelineSpawnsSuppressed2AC440)) ? 1 : -1];
-
-inline Th09EclRunState::EnemyStateView *View(EnemyView *enemy)
-{
-    return Th09EclRunState::View(enemy);
-}
+    (sizeof(ManagerLateView) == 0x2AC450 &&
+     offsetof(ManagerLateView, sideState320) == 0x320 &&
+     offsetof(ManagerLateView, protocolValue2AC3DC) == 0x2AC3DC &&
+     offsetof(ManagerLateView, timelineSpawnsSuppressed2AC440) == 0x2AC440)
+        ? 1 : -1];
 
 inline ManagerLateView *Manager(EnemyView *enemy)
 {
-    return View(enemy)->manager0000;
+    return enemy->manager00;
 }
 
 inline EtamaController *BulletController(EnemyView *enemy)
@@ -120,13 +116,13 @@ inline EtamaController *BulletController(EnemyView *enemy)
 }
 
 typedef char Th09EclLateMainVmRotationAt10[
-    (offsetof(Th09EclRunState::EnemyStateView, primaryVm008) +
+    (offsetof(EnemyView, primaryAnmVm0008) +
      offsetof(AnmVmRotationFieldView, rotationZ08) == 0x0010) ? 1 : -1];
 
 inline float &MainAnmRotation(EnemyView *enemy)
 {
     return reinterpret_cast<AnmVmRotationFieldView *>(
-        &View(enemy)->primaryVm008)->rotationZ08;
+        &enemy->primaryAnmVm0008)->rotationZ08;
 }
 
 static void MoveRandomBiased(
@@ -153,7 +149,7 @@ static void MoveRandomBiased(
     Laser *lateLaser;
 
     case TH09_ECL_OPCODE_SET_DAMAGE_REDUCTION_TIMER:
-        Th09EclRunLate::View(enemy)->damageReductionTimer53A8 =
+        enemy->damageReductionTimer53A8 =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
@@ -161,7 +157,7 @@ static void MoveRandomBiased(
         lateMagnitude = Th09EclRunControl::ReadFloat(enemy, instruction, 0);
         Th09EclRunLate::BulletController(enemy)->RemoveBulletsInRadius(
             reinterpret_cast<const Float3 *>(
-                &Th09EclRunLate::View(enemy)->worldPosition2DD4),
+                &enemy->worldPosition2DD4),
             lateMagnitude);
         break;
 
@@ -188,9 +184,9 @@ static void MoveRandomBiased(
     case TH09_ECL_OPCODE_RANDOM_HORIZONTAL_ANGLE:
         if ((enemy->manager00->sideState320->
                  player04->position1B88.x <
-                 Th09EclRunLate::View(enemy)->position2D74.x &&
-             Th09EclRunLate::View(enemy)->position2D74.x > 96.0f) ||
-            Th09EclRunLate::View(enemy)->position2D74.x > 288.0f)
+                 enemy->position2D74.x &&
+             enemy->position2D74.x > 96.0f) ||
+            enemy->position2D74.x > 288.0f)
         {
             lateFloatResult = Th09EclRunControl::WriteFloat(
                 enemy,
@@ -216,7 +212,7 @@ static void MoveRandomBiased(
     case TH09_ECL_OPCODE_SET_TIMER_PAUSED:
         lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         Th09EclRunState::AssignFlagField(
-            Th09EclRunLate::View(enemy)->primaryFlags337C,
+            enemy->primaryFlags337C,
             Th09EclRunLate::ENEMY_LATE_TIMER_PAUSED,
             static_cast<unsigned int>(lateInt) << 27);
         break;
@@ -224,7 +220,7 @@ static void MoveRandomBiased(
     case TH09_ECL_OPCODE_SET_NO_DAMAGE_DURING_STOP:
         lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         Th09EclRunState::AssignFlagField(
-            Th09EclRunLate::View(enemy)->primaryFlags337C,
+            enemy->primaryFlags337C,
             Th09EclRunLate::ENEMY_LATE_NO_DAMAGE_DURING_STOP,
             static_cast<unsigned int>(lateInt) << 28);
         break;
@@ -241,14 +237,14 @@ static void MoveRandomBiased(
         break;
 
     case TH09_ECL_OPCODE_SET_PHASE_STARTING_LIFE:
-        Th09EclRunLate::View(enemy)->phaseStartingLife2E50 =
+        enemy->phaseStartingLife2E50 =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
     case TH09_ECL_OPCODE_SET_EXTRA_ANM_FIXED_OFFSET:
         lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         Th09EclRunState::AssignFlagField(
-            Th09EclRunLate::View(enemy)->secondaryFlags3380,
+            enemy->secondaryFlags3380,
             Th09EclRunLate::ENEMY_LATE_EXTRA_ANM_FIXED_OFFSET,
             static_cast<unsigned int>(lateInt) << 5);
         break;
@@ -256,14 +252,14 @@ static void MoveRandomBiased(
     case TH09_ECL_OPCODE_SET_SIDE_CATEGORY:
         lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         Th09EclRunState::AssignFlagField(
-            Th09EclRunLate::View(enemy)->secondaryFlags3380,
+            enemy->secondaryFlags3380,
             Th09EclRunLate::ENEMY_LATE_SIDE_CATEGORY_MASK,
             static_cast<unsigned int>(lateInt) << 10);
         break;
 
     case TH09_ECL_OPCODE_TRIGGER_SIDE_OWNER_STATE:
         lateCategory =
-            (Th09EclRunLate::View(enemy)->secondaryFlags3380 >> 10) & 3;
+            (enemy->secondaryFlags3380 >> 10) & 3;
         if (lateCategory < 3)
         {
             if (enemy->manager00->sideState320->
@@ -306,7 +302,7 @@ static void MoveRandomBiased(
     case TH09_ECL_OPCODE_SET_SECONDARY_FLAG_4000:
         lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         Th09EclRunState::AssignFlagField(
-            Th09EclRunLate::View(enemy)->secondaryFlags3380,
+            enemy->secondaryFlags3380,
             Th09EclRunLate::ENEMY_LATE_SECONDARY_FLAG_4000,
             static_cast<unsigned int>(lateInt) << 14);
         break;

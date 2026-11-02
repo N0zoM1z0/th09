@@ -10,6 +10,22 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 late ECL opcode family uses native EnemyManager / EnemyView
+
+The remaining late ECL opcode family (158..187) used a parallel
+`Th09EclRunLate::View(enemy)` projection to reference positions, boss
+and damage timers, flags and phase life. The typed `EnemyView` already
+owns those original-bound fields. Direct source substitutions reproduce
+the complete 15,564-byte ECL interpreter with the original 30 ordinary
+mismatch positions unchanged. The late `Manager` helper now returns
+the actual native `EnemyManagerView` (+0x320 side-state, +0x2AC3DC
+protocol, +0x2AC440 timeline), avoiding a second private 2.8 MiB
+manager type for this handler family. ANM rotation uses
+`EnemyView::primaryAnmVm0008` plus VM-relative +0x08, the same
+original Enemy +0x10 coordinate. Scoped original PE/COFF checks replay
+96 ECL and 88 Enemy exact dependents. Canonical exact total remains
+1,005; all unknown member roles are still unproven.
+
 ### 2026-11-02 native Enemy movement flags bitfield, original-bound ECL proof
 
 The TH09 interaction opcode family writes individually mapped bits of
