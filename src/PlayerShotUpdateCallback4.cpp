@@ -1,4 +1,5 @@
 #include "ZunTimer.hpp"
+#include "PlayerLifecycleView.hpp"
 
 struct PlayerShotUpdate4Vec3
 {
@@ -27,14 +28,11 @@ struct PlayerShotUpdate4ShotView
     short state462;
 };
 
+// The recorded C++ symbol for the rectangle-making helpers is kept for
+// genuine call identity; the callback's Player position/speed storage
+// itself comes from the native PlayerLifecycleView.
 struct PlayerShotUpdate4PlayerView
 {
-    unsigned char unknown0000[0x1B88];
-    PlayerShotUpdate4Vec3 position1B88;
-    unsigned char unknown1B94[0x1CDC - 0x1B94];
-    float speedMultiplier1CDC;
-    float speedMultiplier1CE0;
-
     void *CreateRectType1(
         const PlayerShotUpdate4RegionPointView *center,
         float width, float height, int lifetime, int delay);
@@ -47,16 +45,19 @@ int __fastcall PlayerShotUpdateCallbackType4(
     PlayerShotUpdate4PlayerView *player,
     PlayerShotUpdate4ShotView *shot)
 {
+    PlayerLifecycleView *lifecycle =
+        reinterpret_cast<PlayerLifecycleView *>(player);
     PlayerShotUpdate4Vec3 *position = &shot->position2A4;
-    *position = player->position1B88;
+    *position = *reinterpret_cast<const PlayerShotUpdate4Vec3 *>(
+        &lifecycle->position1B88);
     shot->position2A4.y += shot->velocityY440;
     shot->velocityY440 -= 1.0f;
 
     ZunTimer *timer = &shot->timer454;
     if (*timer >= 15)
     {
-        player->speedMultiplier1CE0 = 1.0f;
-        player->speedMultiplier1CDC = 1.0f;
+        lifecycle->movementFields1CCC.speedMultiplier1CE0 = 1.0f;
+        lifecycle->movementFields1CCC.speedMultiplier1CDC = 1.0f;
     }
 
     if (shot->state462 == 1)

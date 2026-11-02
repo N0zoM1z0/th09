@@ -13,13 +13,9 @@ struct PlayerShotSpawn3ShotView
     float velocityZ444;
 };
 
-struct PlayerShotSpawn3PlayerView
-{
-    unsigned char unknown0000[0x1CDC];
-    float speedMultiplier1CDC;
-    float speedMultiplier1CE0;
-
-};
+// Keep the recorded function-pointer ABI symbol; its receiver is the real
+// PlayerLifecycleView, not an independent 0x1CE4-byte player model.
+struct PlayerShotSpawn3PlayerView;
 
 int __fastcall PlayerShotSpawnCallbackType3(
     PlayerShotSpawn3PlayerView *player,
@@ -34,8 +30,10 @@ int __fastcall PlayerShotSpawnCallbackType3(
             reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
         shot->velocityX43C = 0.0f;
         shot->velocityY440 = -24.0f;
-        player->speedMultiplier1CE0 = 0.5f;
-        player->speedMultiplier1CDC = 0.5f;
+        PlayerLifecycleView *lifecycle =
+            reinterpret_cast<PlayerLifecycleView *>(player);
+        lifecycle->movementFields1CCC.speedMultiplier1CE0 = 0.5f;
+        lifecycle->movementFields1CCC.speedMultiplier1CDC = 0.5f;
         return 1;
     }
 
