@@ -10,6 +10,25 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 native 373-byte SpawnEnemy and verified VM color displacement
+
+The true 373-byte `EnemyManagerView::SpawnEnemy` originally used a private
+full-sized `EnemySpawnRecordView` and manager projection, although the
+native `EnemyManagerView` already owns 0x5430-byte `spawnTemplate328` and
+129 `enemies5758` records. Removed both duplicated classes and switched
+all active-subroutine context and variable-copy paths to real
+`Th09EclContextView` fields. Independent original instruction comparison
+caught a rejected source misinterpretation: the copied `vmColor1F8`
+word at Enemy +0x1F8 is the **VM-relative +0x1F0 `color1`**, not the
+VM-relative +0x1F8 flags word. The latter generated exactly two incorrect
+instruction displacement bytes. With `primaryAnmVm0008.color1`, the
+full 373/373 bytes and relocations match; normal assignment and several
+bytewise copies all compile identically. Native `displayColor2E70` and
+`EnemyManagerView::spawnFailure2AC42C` are now field-owned and asserted
+at their target offsets. Full RunEcl and Enemy calc checks remain at
+30/13 ordinary differences; 96/88 original-bound exact siblings and
+four 5,718-byte ECL resolver owners pass. This does not add an exact row.
+
 ### 2026-11-02 exact 554-byte EnemyManager Initialize, native state
 
 Original-bound 554-byte `EnemyManagerView::Initialize` previously used a

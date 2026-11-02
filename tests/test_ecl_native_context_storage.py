@@ -156,6 +156,23 @@ class NativeEclContextStorage(unittest.TestCase):
                 self.assertNotIn('Th09EclRunState::View(enemy)->'+f,core)
         self.assertIn('trailVertices3E68',draw)
 
+    def test_exact_spawn_enemy_uses_native_manager_and_enemy_allocation(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        spawn=(ROOT/'src/EnemyManagerSpawnEnemy.cpp').read_text()
+        self.assertIn('EnemyViewNativeSpawnFields',native)
+        self.assertIn('EnemyManagerNativeSpawnFailureAt2AC42C',native)
+        self.assertNotIn('struct EnemySpawnRecordView',spawn)
+        self.assertNotIn('struct EnemySpawnManagerView',spawn)
+        self.assertIn('EnemyManagerView *manager = this;',spawn)
+        self.assertIn('EnemyView *enemy = &manager->enemies5758[0];',spawn)
+        self.assertIn('*enemy = manager->spawnTemplate328;',spawn)
+        self.assertIn('enemy->mainContext07F4',spawn)
+        self.assertIn('enemy->mainContext07F4.intVariables1C[0]',spawn)
+        self.assertIn('enemy->primaryAnmVm0008.color1',spawn)
+        self.assertNotIn('enemy->primaryAnmVm0008.flagsWord',spawn)
+        self.assertIn('enemy->displayColor2E70',spawn)
+        self.assertIn('manager->spawnFailure2AC42C = enemyIndex == 128;',spawn)
+
     def test_exact_enemy_initialize_uses_native_spawn_template_and_descriptor(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         lifecycle=(ROOT/'src/EnemyManagerLifecycle.cpp').read_text()

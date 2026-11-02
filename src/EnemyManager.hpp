@@ -268,7 +268,7 @@ struct EnemyView
     int primaryDamageAccumulator2E5C;
     int secondaryDamageAccumulator2E60;
     ZunTimer bossTimer2E64;
-    unsigned char unknown2E70[0x2E74 - 0x2E70];
+    unsigned int displayColor2E70;
     // Original 0x214-byte bullet and laser descriptors are contiguous with
     // the 44-byte pending instruction, interval and timer region.
     BulletSpawnDescriptor bulletDescriptor2E74;
@@ -464,6 +464,13 @@ typedef char EnemyViewLaserSlotsAt32D8[
      sizeof(((EnemyView *)0)->laserSlots32D8) == 0x80) ? 1 : -1];
 typedef char EnemyViewSelectedLaserAt3358[
     (offsetof(EnemyView, selectedLaserSlot3358) == 0x3358) ? 1 : -1];
+typedef char EnemyViewNativeSpawnFields[
+    (offsetof(EnemyView, primaryAnmVm0008) +
+         offsetof(AnmVm, color1) == 0x1F8 &&
+     offsetof(EnemyView, mainContext07F4) == 0x7F4 &&
+     offsetof(EnemyView, displayColor2E70) == 0x2E70 &&
+     offsetof(EnemyView, defeatTokenType335C) == 0x335C &&
+     sizeof(EnemyView) == 0x5430) ? 1 : -1];
 typedef char EnemyViewNativeInitializeFields[
     (offsetof(EnemyView, score2E54) == 0x2E54 &&
      offsetof(EnemyView, bulletDescriptor2E74) +
@@ -537,7 +544,8 @@ struct EnemyManagerView
     EnemyView *drawGroupHeads2AC410[4];
     AnmLoaded *enemyAnm2AC420;
     AnmLoaded *opposingEnemyAnm2AC424;
-    unsigned char unknown2AC428[0x08];
+    unsigned char unknown2AC428[0x04];
+    int spawnFailure2AC42C;
     int timelineEventSlots2AC430[4];
     int timelineSpawnsSuppressed2AC440;
     EnemyView *priorityEnemy2AC444;
@@ -573,6 +581,10 @@ struct EnemyManagerView
 };
 typedef char EnemyManagerViewSizeIs2AC450[
     (sizeof(EnemyManagerView) == 0x2AC450) ? 1 : -1];
+typedef char EnemyManagerNativeSpawnFailureAt2AC42C[
+    (offsetof(EnemyManagerView, spawnTemplate328) == 0x328 &&
+     offsetof(EnemyManagerView, enemies5758) == 0x5758 &&
+     offsetof(EnemyManagerView, spawnFailure2AC42C) == 0x2AC42C) ? 1 : -1];
 typedef char EnemyManagerRemoteSlotsAt2AC388[
     (offsetof(EnemyManagerView, remoteSlots2AC388) == 0x2AC388) ? 1 : -1];
 typedef char EnemyManagerPrimaryEclAt000[

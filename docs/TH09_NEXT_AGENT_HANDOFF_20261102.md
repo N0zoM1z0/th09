@@ -1,5 +1,22 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 exact 373-byte native SpawnEnemy and VM color correction
+
+Original TH09 `EnemyManagerView::SpawnEnemy` is a complete 373-byte exact
+owner. Removed its duplicate 0x5430-byte Enemy record and duplicate
+EnemyManager header. Now the 129-slot native `enemies5758` array, native
+`spawnTemplate328` copy, full `mainContext07F4`, packed integer operand
+initialization, and canonical `RunEcl` call all use their actual classes.
+A first natural candidate matched 371/373 bytes: the private
+`vmColor1F8` at Enemy +0x1F8 is `primaryAnmVm0008.color1` (VM-relative
++0x1F0), **not** `flagsWord` (which would mean Enemy +0x200).
+Correcting that exact original displacement yielded **373/373** with
+all relocations, and four natural copy variants also match. The native
+manager now names its real +0x2AC42C spawn failure flag. Full scoped
+RunEcl/Enemy/operand comparisons retain 30/13 residuals and 96/88 exact
+siblings; the 364-byte card-attack spawn sibling and sixteen more selected
+Enemy/render owner units replay exact. No new canonical exactness credit.
+
 ## 2026-11-02 native Enemy Initialize complete original owner
 
 `EnemyManagerView::Initialize` is a 554-byte exact constructor-side state
