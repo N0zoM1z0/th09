@@ -76,20 +76,9 @@ typedef char EnemyCoreSideOwnerPrimaryAtA4[
 typedef char EnemyCoreSideOwnerAlternateAtA8[
     (offsetof(EnemyCoreSideOwnerView, alternateStateA8) == 0xA8) ? 1 : -1];
 
-struct EnemyCoreSideStateView
-{
-    Background *background00;
-    EnemyCorePlayerView *player04;
-    EtamaController *etama08;
-    EffectManager *effectManager0C;
-    EnemyManagerView *enemyManager10;
-    EnemyCoreSideOwnerView *owner14;
-    unsigned char unknown18[0x08];
-    int characterIndex20;
-    unsigned char unknown24[0x10];
-    unsigned int flags34;
-
-};
+// The ECL interpreter and Enemy calc traverse the same native side object.
+// Keep one source layout and one field authority rather than a copy of 0x38.
+typedef EnemySideStateView EnemyCoreSideStateView;
 struct EnemyCoreTrailSampleView
 {
     Float3 position00;

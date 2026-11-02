@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EffectManager.hpp"
+#include "PlayerEnemyTrackingStateView.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
@@ -35,11 +36,17 @@ typedef char EnemyRewardAttackStateSizeIs44[
 
 struct EnemyRewardPlayerView
 {
-    unsigned char unknown00000[0x1B88];
-    EnemyFloat3 position1B88;
-    unsigned char unknown1B94[0x30388 - 0x1B94];
+    unsigned char unknown00000[0x364];
+    Effect *focusEffect364;
+    unsigned char unknown00368[0x1B88 - 0x368];
+    Float3 position1B88;
+    unsigned char unknown1B94[0x30364 - 0x1B94];
+    PlayerEnemyTrackingStateView tracking30364;
+    unsigned char unknown30380[0x30388 - 0x30380];
     float accumulatedDefeatValue30388;
-    unsigned char unknown3038C[0x303F4 - 0x3038C];
+    unsigned char unknown3038C[0x303C8 - 0x3038C];
+    ZunTimer stateTimer303C8;
+    unsigned char unknown303D4[0x303F4 - 0x303D4];
     int tableValue303F4;
     unsigned char unknown303F8[0x30410 - 0x303F8];
     EnemyRewardAttackStateView rewardAttack30410;
@@ -47,6 +54,13 @@ struct EnemyRewardPlayerView
     void AccumulateDefeatValue(float amount);
     void SpawnDefeatToken(unsigned int tokenType, EnemyFloat3 *position);
 };
+typedef char EnemyRewardPlayerFocusAt364[
+    (offsetof(EnemyRewardPlayerView, focusEffect364) == 0x364) ? 1 : -1];
+typedef char EnemyRewardPlayerHomingAt3037C[
+    (offsetof(EnemyRewardPlayerView, tracking30364) +
+         offsetof(PlayerEnemyTrackingStateView, homingTarget18) == 0x3037C) ? 1 : -1];
+typedef char EnemyRewardPlayerStateTimerAt303C8[
+    (offsetof(EnemyRewardPlayerView, stateTimer303C8) == 0x303C8) ? 1 : -1];
 typedef char EnemyRewardPlayerPositionAt1B88[
     (offsetof(EnemyRewardPlayerView, position1B88) == 0x1B88) ? 1 : -1];
 typedef char EnemyRewardPlayerSideTableAt303F4[

@@ -13,7 +13,8 @@ class NativePlayerFocusEffects(unittest.TestCase):
     def test_two_effect_pointers_share_player_storage_boundary(self):
         header=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
         movement=(ROOT/'src/PlayerMovement.cpp').read_text()
-        enemy=(ROOT/'src/EnemyCorePlayerView.hpp').read_text()
+        enemy=(ROOT/'src/EnemyManager.hpp').read_text()
+        shared=(ROOT/'src/EnemyCorePlayerView.hpp').read_text()
         self.assertIn('Effect *focusEffect364;',header)
         self.assertIn('Effect *secondaryEffect368;',header)
         self.assertIn('PlayerLifecycleFocusEffectAt364',header)
@@ -26,7 +27,8 @@ class NativePlayerFocusEffects(unittest.TestCase):
         self.assertNotIn('reinterpret_cast<unsigned char *>(player) + 0x368',movement)
         # Independent Enemy calc observes the identical physical focus pointer.
         self.assertIn('Effect *focusEffect364;',enemy)
-        self.assertIn('EnemyCorePlayerFocusAt364',enemy)
+        self.assertIn('EnemyRewardPlayerFocusAt364',enemy)
+        self.assertIn('typedef EnemyRewardPlayerView EnemyCorePlayerView;',shared)
 
     def test_effect_allocation_is_real_and_original_callee_is_preserved(self):
         source=(ROOT/'src/PlayerMovement.cpp').read_text()
