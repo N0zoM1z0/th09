@@ -1,5 +1,6 @@
 #include "SupervisorFrameQueueView.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
+#include "Supervisor.hpp"
 #include <stddef.h>
 
 struct SupervisorReplayInputHeadOpsView
@@ -13,8 +14,7 @@ extern SupervisorReplayInputHeadOpsView g_ReplayInputStates[3];
 void SupervisorFrameQueueView::InsertPredictedFrame(
     int side, int frame, short seed)
 {
-    SupervisorFrameQueueOpsLayout *view =
-        reinterpret_cast<SupervisorFrameQueueOpsLayout *>(this);
+    Supervisor *view = reinterpret_cast<Supervisor *>(this);
 
     unsigned char *scanCursor =
         reinterpret_cast<unsigned char *>(this) + side * 0x78;

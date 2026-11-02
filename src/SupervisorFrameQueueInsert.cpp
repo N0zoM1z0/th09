@@ -1,12 +1,14 @@
 #include "SupervisorFrameQueueView.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
+#include "Supervisor.hpp"
 #include <stddef.h>
 
 void SupervisorFrameQueueView::InsertReceivedFrame(
     int side, int frame, int packedInput, short seed)
 {
-    SupervisorFrameQueueInsertLayout *view =
-        reinterpret_cast<SupervisorFrameQueueInsertLayout *>(this);
+    // The producer writes the same native +0x47C/+0x56C queue arrays as
+    // the full Supervisor::OnUpdate owner and two exact consumer leaves.
+    Supervisor *view = reinterpret_cast<Supervisor *>(this);
 
     view->lastReceived56C[side].frame04 = frame;
     view->lastReceived56C[side].packedInput00 = (short)packedInput;
@@ -29,7 +31,7 @@ void SupervisorFrameQueueView::InsertReceivedFrame(
     int flatIndex = side * 10 + index;
     int *targetFrame = reinterpret_cast<int *>(
         reinterpret_cast<unsigned char *>(view) +
-        offsetof(SupervisorFrameQueueInsertLayout, entries47C) +
+        offsetof(Supervisor, entries47C) +
         flatIndex * sizeof(SupervisorFrameEntryView) +
         offsetof(SupervisorFrameEntryView, frame04));
 
