@@ -187,7 +187,9 @@ struct EnemyManagerCoreView
     EnemyCoreSideStateView *opposingSideState324;
     EnemyCoreView spawnTemplate328;
     EnemyCoreView enemies5758[129];
-    unsigned char unknown2AC388[0x2AC3AC - 0x2AC388];
+    // Nine four-byte boss-owner slots. RunEcl SET_BOSS writes an EnemyView*
+    // here; the next independently observed count starts at +0x2AC3AC.
+    EnemyView *bossSlots2AC388[9];
     int activeEnemyCount2AC3AC;
     int normalEnemyCount2AC3B0;
     int specialEnemyCount2AC3B4;
@@ -306,9 +308,7 @@ inline EnemyStateView *View(EnemyView *enemy)
 
 inline EnemyView **BossSlots(EnemyView *enemy)
 {
-    return reinterpret_cast<EnemyView **>(
-        reinterpret_cast<unsigned char *>(View(enemy)->manager0000) +
-        0x2AC388);
+    return View(enemy)->manager0000->bossSlots2AC388;
 }
 
 inline int &BackgroundScriptLabel(EnemyView *enemy)
