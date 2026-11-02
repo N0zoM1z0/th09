@@ -7,6 +7,76 @@ project is the original Japanese TH09 **v1.50a**, with ignored local
 This is a **local source checkpoint**, not a pushed branch, a Factory-accepted
 current-source receipt, a completed Windows executable, or a runtime proof.
 
+## 2026-11-02 live continuation: four new local commits (read before dated notes)
+
+These results were checked against a newly verified original v1.50a PE and
+fresh source-compiled VC7.1 COFF objects, **not** assumed from this handoff's
+older notes. The worktree was clean on entry; the following four changes were
+committed in order, all using the required `gpt-web:` prefix:
+
+1. `b9695ed8` — `PlayerLifecycleView::EnterDeathState` now accesses actual
+   `movementFields1CCC`, `focusEffect364` and `secondaryEffect368` instead of
+   raw pointer arithmetic. The **complete 753-byte** original comparison
+   remains exact with **38 original relocation fields**.
+2. `0c445c52` — the 15,564-byte `RunEcl` bullet/movement families now use
+   native `EnemyManagerView` ANM pointers, the actual side `player04`, and
+   the actual `etama08` controller. The source-facing `EnemySideStateView`
+   gained a typed, offset-asserted +0x08 controller field. Rebound 20 VC7.1
+   compiler-private labels, verifying **each actual COFF-local destination**
+   equals the unchanged original PE destination, never editing target VAs.
+3. `19bde0be` — restored **107** generated label bindings for the separate
+   `AnmManager::ExecuteScript` original-bound /Ob0 object. All 107 independently
+   checked actual same-owner COFF label definitions, unchanged 368-field
+   identities and original target VAs. Its entire **9,776 / 9,776-byte**
+   physical range is still exact. `--owner anm` cold-replayed **17** exact
+   siblings and `--owner enemy` replayed **88**, all passing.
+4. `73870b62` — finished native late-`RunEcl` source integration: original
+   `EnemyManagerView` now exposes +0x2AC3DC protocol and +0x2AC440 timeline
+   values; the shared +0x38 side record exposes background00, owner14,
+   flags34, and the native Player window exposes position1B88/tableValue303F4.
+   **Eleven** late-ECL accesses moved from the duplicate Core manager to the
+   shared native owner; compile-time asserts check native-vs-Core offsets.
+   Reverified 20 newly generated private labels by target-correct COFF-local
+   definitions before changing only their manifest spellings.
+
+**Final focused source-cold gates after these changes:**
+
+```sh
+python3 -B scripts/check-boss-frontiers.py --owner runecl   # 96 exact siblings
+python3 -B scripts/check-boss-frontiers.py --owner enemy    # 88 exact siblings
+python3 -B scripts/check-boss-frontiers.py --owner anm      # 17 exact siblings
+python3 -B scripts/build-match-unit.py --unit player-enter-death-state
+python3 -B scripts/compare-coff-function.py --unit player-enter-death-state --json
+python3 -B scripts/validate-tracking.py --require-target
+python3 -B scripts/validate-docs.py
+```
+
+`RunEcl` still has **30 ordinary mismatch bytes**, zero field/table mismatch
+bytes and 146/148 matching opcode shapes; `EnemyManager::OnUpdate` still has
+**13 mismatch bytes**, with all 97 fields/69 calls and full block graph intact.
+These structural source changes and exact sibling proofs earn **no new exact
+function count**: the canonical ledger remains **1,005 / 1,035** authored
+functions exact. No all-owner cold replay, link/whole-image replay, or `git
+push` was attempted; accepted Factory receipts and runtime validation remain
+separate requirements.
+
+**Negative counterchecks, restored rather than adopted:** the complete
+1,238-byte `SaveReplay` still has the same 3 mismatches at +0xB7/+0xBB/+0x3F6
+after eight bounded frame-copy/checksum C++ variants. `TitleScreenView::DrawResult`
+was tested in six more natural screen-snapshot/alias/switch forms: explicit
+member syntax remains 1,939 bytes with the same 3 register-byte differences;
+three snapshot variants and the boolean-local variant emitted 1,941 bytes,
+and the switch experiment emitted 1,964 bytes with a changed CFG. Recompiling
+the unchanged source restored the original **1,939-byte/82-field/16-call**
+guard result. Trial inputs/reports are ignored under `.analysis/20261102-*`;
+none is an accepted original-source hypothesis or a Git-tracked source edit.
+
+The local `main` and `origin/main` relationship should always be read freshly
+via `git status --short --branch`; old counts and literal private `$L` names
+in earlier handoffs are snapshot-specific and can become stale after shared
+header changes. Do not discard dirty incoming changes, overwrite matching
+manifest targets, or treat byte-neutral typed-source work as a new exact match.
+
 ## Git and ledger at the handoff snapshot
 
 The last **source-changing** commit before this handoff was `e4ea703b`
