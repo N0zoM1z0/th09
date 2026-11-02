@@ -177,6 +177,17 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('return rawFile00->resolvedSubroutines[index];',leaves)
         self.assertNotIn('reinterpret_cast<unsigned char *>(rawFile00)',leaves)
 
+    def test_exact_child_ecl_free_leaf_uses_real_native_enemy_slot_array(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        free=(ROOT/'src/EnemyCoreReleaseChildEclBlocks.cpp').read_text()
+        interface=(ROOT/'src/EnemyChildEclBlocks.hpp').read_text()
+        self.assertIn('void *childEclBlocks33D8[4];',native)
+        self.assertIn('offsetof(EnemyView, childEclBlocks33D8) == 0x33D8',native)
+        self.assertIn('EnemyView *enemyObject',free)
+        self.assertIn('enemyObject->childEclBlocks33D8[childIndex]',free)
+        self.assertNotIn('EnemyChildEclBlocksView',free)
+        self.assertIn('EnemyCoreReleaseChildEclBlocks(EnemyView *enemy)',interface)
+
     def test_exact_ecl_subroutine_initializer_uses_native_instruction_pointer_table(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         loader=(ROOT/'src/EnemyEclLoad.cpp').read_text()

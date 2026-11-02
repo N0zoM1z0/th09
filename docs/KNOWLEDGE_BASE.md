@@ -10,6 +10,17 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 native child-ECL release reuses original Enemy storage
+
+Original TH09 48-byte `EnemyCoreReleaseChildEclBlocks` frees the four
+`Enemy +0x33D8` child context slots (and clears them) using the same
+0x10-byte native array declared by `EnemyView`. Removed the separate
+layout-only `EnemyChildEclBlocksView` from its TU; direct member accesses
+replay the entire **48/48 bytes** of original code, with the exact
+177-byte manager reset, 68-byte release core and 74-byte subsystem
+teardown dependents preserved. This is source owner consolidation;
+no new exact function is counted or Windows runtime test claimed.
+
 ### 2026-11-02 ECL typed subroutine table through exact initializer
 
 Original TH09's 73-byte `EnemyEclManagerView::InitializeSubroutine`

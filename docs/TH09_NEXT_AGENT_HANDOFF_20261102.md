@@ -1,5 +1,17 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 exact 48-byte Enemy child-ECL release uses native storage
+
+The real `EnemyCoreReleaseChildEclBlocks` at `0x004100E0` walks exactly four
+slots in `EnemyView::childEclBlocks33D8` and frees/rezeros nonnull entries.
+Removed the separately declared 0x33D8-byte `EnemyChildEclBlocksView`
+private owner; the leaf now uses `enemyObject->childEclBlocks33D8`
+directly, with three alternative natural source forms independently
+replaying the full **48/48** original bytes. The 177-byte gameplay reset,
+68-byte release core and 74-byte subsystem release dependencies are
+also fresh original-byte exact. The real nominal historical C++ owner name
+remains unproven and this does not change canonical exactness.
+
 ## 2026-11-02 exact ECL subroutine initializer uses typed ECL instruction table
 
 The real 73-byte `EnemyEclManagerView::InitializeSubroutine` previously
