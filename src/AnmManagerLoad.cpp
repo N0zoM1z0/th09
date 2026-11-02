@@ -79,23 +79,21 @@ typedef char AnmLoadedSpriteLoadNativeOffsets[
      offsetof(AnmLoadedSprite, widthPx) == 0x34 &&
      offsetof(AnmLoadedSprite, scaleX38) == 0x38) ? 1 : -1];
 
-struct AnmLoadedLoadView
-{
-    int anmIdx;
-    AnmRawEntry *rawData;
-    int totalEntries;
-    AnmLoadedSprite *sprites;
-    AnmRawInstr **scripts;
-    AnmEntry *textures;
-    int postloadEntryNumber;
-};
-
-typedef char AnmLoadedLoadSizeIs1C[(sizeof(AnmLoadedLoadView) == 0x1C) ? 1 : -1];
+// All sixteen exact ANM loader owners traverse this same 0x1C resource
+// record as SetSprite, runtime scripting and the 9776-byte interpreter.
+typedef char AnmLoadedLoadSizeIs1C[
+    (sizeof(AnmLoaded) == 0x1C &&
+     offsetof(AnmLoaded, rawData04) == 0x04 &&
+     offsetof(AnmLoaded, totalEntries08) == 0x08 &&
+     offsetof(AnmLoaded, sprites0C) == 0x0C &&
+     offsetof(AnmLoaded, scripts10) == 0x10 &&
+     offsetof(AnmLoaded, textures14) == 0x14 &&
+     offsetof(AnmLoaded, postloadEntryNumber18) == 0x18) ? 1 : -1];
 
 struct AnmManagerLoadSlotView
 {
     unsigned char unknown000[0x24];
-    AnmLoadedLoadView loaded;
+    AnmLoaded loaded;
     int releasePending;
     char path[0xDC];
 };
@@ -108,7 +106,7 @@ typedef char AnmManagerLoadPathAt44[(offsetof(AnmManagerLoadSlotView, path) == 0
 // ReadAnmEntries target layout: manager prefix +0x24, then 0x120-byte file slots.
 struct AnmManagerReadSlotView
 {
-    AnmLoadedLoadView loaded;
+    AnmLoaded loaded;
     int releasePending;
     char path[0x100];
 };
@@ -298,7 +296,7 @@ int AnmManager::LoadExternalTextureData(
     AnmLoaded *anmLoadedObject, int entryNumber, int *, int *,
     AnmRawEntry *rawEntry)
 {
-    AnmLoadedLoadView *anmLoaded = reinterpret_cast<AnmLoadedLoadView *>(anmLoadedObject);
+    AnmLoaded *anmLoaded = reinterpret_cast<AnmLoaded *>(anmLoadedObject);
     if (rawEntry == NULL)
     {
         g_GameErrorContext.Fatal(g_AnmCorruptedMessage);
@@ -328,8 +326,8 @@ int AnmManager::LoadExternalTextureData(
                     path);
                 return -1;
             }
-            anmLoaded->textures[entryNumber].size = fileSize;
-            anmLoaded->textures[entryNumber].rawData = fileData;
+            anmLoaded->textures14[entryNumber].size = fileSize;
+            anmLoaded->textures14[entryNumber].rawData = fileData;
         }
     }
     return 1;
@@ -348,29 +346,29 @@ void AnmManager::ReleaseAnmEntry(AnmEntry *entry)
 
 void AnmLoaded::LoadSprite(int spriteIndex, AnmLoadedSprite *loadedSprite)
 {
-    AnmLoadedLoadView *anm = reinterpret_cast<AnmLoadedLoadView *>(this);
+    AnmLoaded *anm = reinterpret_cast<AnmLoaded *>(this);
     AnmLoadedSprite *source = loadedSprite;
-    anm->sprites[spriteIndex] = *source;
+    anm->sprites0C[spriteIndex] = *source;
 
-    anm->sprites[spriteIndex].uvStartX =
-        anm->sprites[spriteIndex].startPixelX08 /
-        anm->sprites[spriteIndex].textureWidth1C;
-    anm->sprites[spriteIndex].uvEndX =
-        anm->sprites[spriteIndex].endPixelX10 /
-        anm->sprites[spriteIndex].textureWidth1C;
-    anm->sprites[spriteIndex].uvStartY =
-        anm->sprites[spriteIndex].startPixelY0C /
-        anm->sprites[spriteIndex].textureHeight18;
-    anm->sprites[spriteIndex].uvEndY =
-        anm->sprites[spriteIndex].endPixelY14 /
-        anm->sprites[spriteIndex].textureHeight18;
-    anm->sprites[spriteIndex].widthPx =
-        (anm->sprites[spriteIndex].endPixelX10 -
-         anm->sprites[spriteIndex].startPixelX08) /
+    anm->sprites0C[spriteIndex].uvStartX =
+        anm->sprites0C[spriteIndex].startPixelX08 /
+        anm->sprites0C[spriteIndex].textureWidth1C;
+    anm->sprites0C[spriteIndex].uvEndX =
+        anm->sprites0C[spriteIndex].endPixelX10 /
+        anm->sprites0C[spriteIndex].textureWidth1C;
+    anm->sprites0C[spriteIndex].uvStartY =
+        anm->sprites0C[spriteIndex].startPixelY0C /
+        anm->sprites0C[spriteIndex].textureHeight18;
+    anm->sprites0C[spriteIndex].uvEndY =
+        anm->sprites0C[spriteIndex].endPixelY14 /
+        anm->sprites0C[spriteIndex].textureHeight18;
+    anm->sprites0C[spriteIndex].widthPx =
+        (anm->sprites0C[spriteIndex].endPixelX10 -
+         anm->sprites0C[spriteIndex].startPixelX08) /
         source->scaleX38;
-    anm->sprites[spriteIndex].heightPx =
-        (anm->sprites[spriteIndex].endPixelY14 -
-         anm->sprites[spriteIndex].startPixelY0C) /
+    anm->sprites0C[spriteIndex].heightPx =
+        (anm->sprites0C[spriteIndex].endPixelY14 -
+         anm->sprites0C[spriteIndex].startPixelY0C) /
         source->scaleY3C;
 }
 
@@ -378,7 +376,7 @@ int AnmManager::LoadTextureData(
     AnmLoaded *anmLoadedObject, int entryNumber, int currentSpriteNumber,
     int currentScriptNumber, AnmRawEntry *rawEntry)
 {
-    AnmLoadedLoadView *anmLoaded = reinterpret_cast<AnmLoadedLoadView *>(anmLoadedObject);
+    AnmLoaded *anmLoaded = reinterpret_cast<AnmLoaded *>(anmLoadedObject);
     int i;
     const char *path;
     D3DSURFACE_DESC surfaceDesc;
@@ -401,10 +399,10 @@ int AnmManager::LoadTextureData(
         path = reinterpret_cast<const char *>(rawEntry) + rawEntry->nameOffset;
         if (path[0] == '@')
         {
-            this->CreateEmptyTexture(&anmLoaded->textures[entryNumber].texture,
+            this->CreateEmptyTexture(&anmLoaded->textures14[entryNumber].texture,
                                   rawEntry->width, rawEntry->height, rawEntry->format);
         }
-        else if (this->CreateTextureFromFile(&anmLoaded->textures[entryNumber],
+        else if (this->CreateTextureFromFile(&anmLoaded->textures14[entryNumber],
                                           rawEntry->format, rawEntry->colorKey) != 0)
         {
             // Texture creation failure (original CP932 text).
@@ -419,7 +417,7 @@ int AnmManager::LoadTextureData(
         }
     }
     else if (this->CreateTextureFromAnm(
-                 &anmLoaded->textures[entryNumber].texture,
+                 &anmLoaded->textures14[entryNumber].texture,
                  reinterpret_cast<AnmTextureHeader *>(
                      reinterpret_cast<unsigned char *>(rawEntry) + rawEntry->textureOffset),
                  rawEntry->format) != 0)
@@ -428,9 +426,9 @@ int AnmManager::LoadTextureData(
         return -1;
     }
 
-    anmLoaded->textures[entryNumber].texture->SetPriority(rawEntry->priority);
-    anmLoaded->textures[entryNumber].texture->PreLoad();
-    anmLoaded->textures[entryNumber].texture->GetLevelDesc(0, &surfaceDesc);
+    anmLoaded->textures14[entryNumber].texture->SetPriority(rawEntry->priority);
+    anmLoaded->textures14[entryNumber].texture->PreLoad();
+    anmLoaded->textures14[entryNumber].texture->GetLevelDesc(0, &surfaceDesc);
 
     currentOffset = reinterpret_cast<unsigned int *>(
         reinterpret_cast<unsigned char *>(rawEntry) + sizeof(AnmRawEntry));
@@ -439,7 +437,7 @@ int AnmManager::LoadTextureData(
         AnmRawSpriteView *rawSprite = reinterpret_cast<AnmRawSpriteView *>(
             reinterpret_cast<unsigned char *>(rawEntry) + *currentOffset);
         loadedSprite.anmIdx = anmLoaded->anmIdx;
-        loadedSprite.texture = anmLoaded->textures[entryNumber].texture;
+        loadedSprite.texture = anmLoaded->textures14[entryNumber].texture;
         loadedSprite.scaleX38 = surfaceDesc.Width / static_cast<float>(rawEntry->width);
         loadedSprite.scaleY3C = surfaceDesc.Height / static_cast<float>(rawEntry->height);
         loadedSprite.startPixelX08 = rawSprite->x * loadedSprite.scaleX38;
@@ -454,7 +452,7 @@ int AnmManager::LoadTextureData(
 
     for (i = 0; i < rawEntry->numScripts; i++, currentOffset += 2)
     {
-        anmLoaded->scripts[currentScriptNumber] = reinterpret_cast<AnmRawInstr *>(
+        anmLoaded->scripts10[currentScriptNumber] = reinterpret_cast<AnmRawInstr *>(
             reinterpret_cast<unsigned char *>(rawEntry) + currentOffset[1]);
         currentScriptNumber++;
     }
@@ -471,7 +469,7 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
 
     AnmManagerReadView *manager =
         reinterpret_cast<AnmManagerReadView *>(this);
-    if (manager->slots[anmIdx].loaded.rawData != NULL)
+    if (manager->slots[anmIdx].loaded.rawData04 != NULL)
     {
         manager->slots[anmIdx].releasePending = 1;
         while (manager->slots[anmIdx].releasePending != 0 &&
@@ -482,12 +480,12 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
     AnmRawEntry *entry = reinterpret_cast<AnmRawEntry *>(
         FileSystem::OpenFile(filename, NULL, 0));
     int currentEntryNumber = 0;
-    AnmLoadedLoadView *anmLoaded = &manager->slots[anmIdx].loaded;
+    AnmLoaded *anmLoaded = &manager->slots[anmIdx].loaded;
     if (entry == NULL)
         return NULL;
 
     anmLoaded->anmIdx = anmIdx;
-    anmLoaded->rawData = entry;
+    anmLoaded->rawData04 = entry;
     strcpy(reinterpret_cast<char *>(anmLoaded) + 0x20, filename);
 
     int totalEntries = 1;
@@ -503,13 +501,13 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
         totalSprites += currentEntry->numSprites;
     }
 
-    anmLoaded->totalEntries = totalEntries;
-    anmLoaded->textures = static_cast<AnmEntry *>(
+    anmLoaded->totalEntries08 = totalEntries;
+    anmLoaded->textures14 = static_cast<AnmEntry *>(
         g_ZunMemory.Alloc(totalEntries * sizeof(AnmEntry), "./system\\global.h"));
-    memset(anmLoaded->textures, 0, totalEntries * sizeof(AnmEntry));
-    anmLoaded->sprites = static_cast<AnmLoadedSprite *>(
+    memset(anmLoaded->textures14, 0, totalEntries * sizeof(AnmEntry));
+    anmLoaded->sprites0C = static_cast<AnmLoadedSprite *>(
         g_ZunMemory.Alloc(totalSprites * sizeof(AnmLoadedSprite), "./system\\global.h"));
-    anmLoaded->scripts = static_cast<AnmRawInstr **>(
+    anmLoaded->scripts10 = static_cast<AnmRawInstr **>(
         g_ZunMemory.Alloc(totalScripts * sizeof(AnmRawInstr *), "./system\\global.h"));
 
     currentEntry = entry;
@@ -536,17 +534,17 @@ AnmLoaded *AnmManager::PreloadAnm(int anmIdx, const char *filename)
     if (anmLoaded == NULL)
         return NULL;
 
-    AnmLoadedLoadView *view = reinterpret_cast<AnmLoadedLoadView *>(anmLoaded);
-    view->postloadEntryNumber = 1;
-    while (view->postloadEntryNumber != 0 && !AnmSupervisor()->subthreadCloseRequestActive)
+    AnmLoaded *view = reinterpret_cast<AnmLoaded *>(anmLoaded);
+    view->postloadEntryNumber18 = 1;
+    while (view->postloadEntryNumber18 != 0 && !AnmSupervisor()->subthreadCloseRequestActive)
         Sleep(1);
     return AnmSupervisor()->subthreadCloseRequestActive ? NULL : anmLoaded;
 }
 
 AnmLoaded *AnmManager::PostloadAnmEntry(AnmLoaded *anmLoadedObject)
 {
-    AnmLoadedLoadView *anmLoaded = reinterpret_cast<AnmLoadedLoadView *>(anmLoadedObject);
-    AnmRawEntry *rawEntry = anmLoaded->rawData;
+    AnmLoaded *anmLoaded = reinterpret_cast<AnmLoaded *>(anmLoadedObject);
+    AnmRawEntry *rawEntry = anmLoaded->rawData04;
     int entryLoadNumber = 0;
     int currentNumScripts = 0;
     int currentNumSprites = 0;
@@ -554,11 +552,11 @@ AnmLoaded *AnmManager::PostloadAnmEntry(AnmLoaded *anmLoadedObject)
 
     while (true)
     {
-        if (entryLoadNumber == anmLoaded->postloadEntryNumber - 1 &&
+        if (entryLoadNumber == anmLoaded->postloadEntryNumber18 - 1 &&
             this->LoadTextureData(anmLoadedObject, currentEntryNumber, currentNumSprites,
                                currentNumScripts, rawEntry) < 0)
         {
-            anmLoaded->postloadEntryNumber = 0;
+            anmLoaded->postloadEntryNumber18 = 0;
             return NULL;
         }
         currentNumSprites += rawEntry->numSprites;
@@ -569,13 +567,13 @@ AnmLoaded *AnmManager::PostloadAnmEntry(AnmLoaded *anmLoadedObject)
         rawEntry = reinterpret_cast<AnmRawEntry *>(
             reinterpret_cast<unsigned char *>(rawEntry) + rawEntry->nextOffset);
         entryLoadNumber++;
-        if (entryLoadNumber == anmLoaded->postloadEntryNumber)
+        if (entryLoadNumber == anmLoaded->postloadEntryNumber18)
         {
-            anmLoaded->postloadEntryNumber++;
+            anmLoaded->postloadEntryNumber18++;
             return anmLoadedObject;
         }
     }
-    anmLoaded->postloadEntryNumber = 0;
+    anmLoaded->postloadEntryNumber18 = 0;
     return anmLoadedObject;
 }
 
@@ -584,12 +582,12 @@ AnmLoaded *AnmManager::LoadAnm(int anmIdx, const char *filename)
     AnmLoaded *anmLoaded = this->ReadAnmEntries(anmIdx, filename);
     if (anmLoaded != NULL)
     {
-        AnmLoadedLoadView *view = reinterpret_cast<AnmLoadedLoadView *>(anmLoaded);
-        view->postloadEntryNumber = 1;
-        while (view->postloadEntryNumber != 0)
+        AnmLoaded *view = reinterpret_cast<AnmLoaded *>(anmLoaded);
+        view->postloadEntryNumber18 = 1;
+        while (view->postloadEntryNumber18 != 0)
         {
             anmLoaded = this->PostloadAnmEntry(anmLoaded);
-            view = reinterpret_cast<AnmLoadedLoadView *>(anmLoaded);
+            view = reinterpret_cast<AnmLoaded *>(anmLoaded);
         }
     }
     return anmLoaded;
@@ -600,15 +598,15 @@ void AnmManager::ReleaseAnm(int anmIdx)
     if (anmIdx < 0 || static_cast<unsigned int>(anmIdx) >= 0x100)
         return;
 
-    if (AnmLoadSlot(this, anmIdx)->loaded.rawData != NULL)
+    if (AnmLoadSlot(this, anmIdx)->loaded.rawData04 != NULL)
     {
         AnmManagerLoadSlotView *slot = AnmLoadSlot(this, anmIdx);
-        for (int i = 0; i < slot->loaded.totalEntries; i++)
-            this->ReleaseAnmEntry(&slot->loaded.textures[i]);
-        g_ZunMemory.Free(slot->loaded.textures);
-        g_ZunMemory.Free(slot->loaded.sprites);
-        g_ZunMemory.Free(slot->loaded.scripts);
-        g_ZunMemory.Free(slot->loaded.rawData);
+        for (int i = 0; i < slot->loaded.totalEntries08; i++)
+            this->ReleaseAnmEntry(&slot->loaded.textures14[i]);
+        g_ZunMemory.Free(slot->loaded.textures14);
+        g_ZunMemory.Free(slot->loaded.sprites0C);
+        g_ZunMemory.Free(slot->loaded.scripts10);
+        g_ZunMemory.Free(slot->loaded.rawData04);
         memset(&slot->loaded, 0, 0x120);
     }
 }
@@ -623,7 +621,7 @@ int AnmManager::ServicePreloadedAnims()
             this->ReleaseAnm(i);
             slot->releasePending = 0;
         }
-        else if (slot->loaded.postloadEntryNumber != 0 &&
+        else if (slot->loaded.postloadEntryNumber18 != 0 &&
                  this->PostloadAnmEntry(
                      reinterpret_cast<AnmLoaded *>(&slot->loaded)) == NULL)
         {
