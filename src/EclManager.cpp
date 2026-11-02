@@ -504,8 +504,7 @@ static void CallSubroutine(
             static_cast<short>(rawSubroutineId));
 
     memcpy(&view->activeContext2CE0->intVariables74[0],
-           reinterpret_cast<unsigned char *>(
-               view->activeContext2CE0->selectedManager000) + 0x168,
+           &view->activeContext2CE0->selectedManager000->timelineState08.sharedInts160[0],
            0x20);
 
     if ((view->primaryFlags337C &

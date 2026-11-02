@@ -44,6 +44,21 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('offsetof(Th09EclContextView, intVariables1C)', state)
         self.assertNotIn('view->activeContext2CE0->unknown01C', manager)
 
+    def test_manager_timeline_is_one_native_owner_for_interpreter_and_leaves(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        operand=(ROOT/'src/EclOperands.cpp').read_text()
+        interpreter=(ROOT/'src/EclManager.cpp').read_text()
+        self.assertIn('typedef EnemyManagerView EclOperandManagerView;', operand)
+        self.assertNotIn('struct EclOperandManagerView\n{', operand)
+        self.assertIn('EnemyEclTimelineNativeSharedStorage', native)
+        self.assertIn('EnemyEclManagerNativeSharedAt168', native)
+        self.assertIn('int sharedInts160[4];', native)
+        self.assertIn('float sharedFloats170[4];', native)
+        self.assertIn('timelineState08.sharedInts160[', operand)
+        self.assertIn('timelineState08.sharedFloats170[', operand)
+        self.assertIn('selectedManager000->timelineState08.sharedInts160[0]', interpreter)
+        self.assertIn('(sizeof(EnemyEclTimelineStateView) == 0x180)', native)
+
     def test_four_exact_operand_owners_remain_registered(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:
             units=tomllib.load(f)['units']

@@ -45,19 +45,18 @@ typedef char EclOperandPlayerValueA0[
 typedef char EclOperandPlayerPositionAt1B88[
     (offsetof(EclOperandPlayerView, position1B88) == 0x1B88) ? 1 : -1];
 
-struct EclOperandManagerView
-{
-    unsigned char unknown000[0x0168];
-    int sharedInts168[4];
-    float sharedFloats178[4];
-    unsigned char unknown188[0x0320 - 0x0188];
-    EnemySideStateView *sideState320;
-    EnemySideStateView *opposingSideState324;
-};
+// The exact operand resolver's +0x168/+0x178 values are the actual ECL
+// timeline subobject of its native 0x2AC450 EnemyManager, not a second
+// 0x328-byte manager prefix copied into this source translation unit.
+typedef EnemyManagerView EclOperandManagerView;
 typedef char EclOperandManagerSharedIntsAt168[
-    (offsetof(EclOperandManagerView, sharedInts168) == 0x0168) ? 1 : -1];
+    (offsetof(EclOperandManagerView, primaryEclManager000) +
+     offsetof(EnemyEclManagerView, timelineState08) +
+     offsetof(EnemyEclTimelineStateView, sharedInts160) == 0x0168) ? 1 : -1];
 typedef char EclOperandManagerSharedFloatsAt178[
-    (offsetof(EclOperandManagerView, sharedFloats178) == 0x0178) ? 1 : -1];
+    (offsetof(EclOperandManagerView, primaryEclManager000) +
+     offsetof(EnemyEclManagerView, timelineState08) +
+     offsetof(EnemyEclTimelineStateView, sharedFloats170) == 0x0178) ? 1 : -1];
 typedef char EclOperandManagerSideAt320[
     (offsetof(EclOperandManagerView, sideState320) == 0x0320) ? 1 : -1];
 
@@ -215,14 +214,14 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x274B: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[2]);
     case 0x274C: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[3]);
 
-    case 0x274D: return TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedInts168[0];
-    case 0x274E: return TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedInts168[1];
-    case 0x274F: return TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedInts168[2];
-    case 0x2750: return TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedInts168[3];
-    case 0x2751: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedFloats178[0]);
-    case 0x2752: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedFloats178[1]);
-    case 0x2753: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedFloats178[2]);
-    case 0x2754: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedFloats178[3]);
+    case 0x274D: return TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedInts160[0];
+    case 0x274E: return TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedInts160[1];
+    case 0x274F: return TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedInts160[2];
+    case 0x2750: return TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedInts160[3];
+    case 0x2751: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[0]);
+    case 0x2752: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[1]);
+    case 0x2753: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[2]);
+    case 0x2754: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[3]);
 
     case 0x273A: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->worldPosition2DD4.x);
     case 0x273B: return static_cast<int>(TH09_ECL_OPERAND_ENEMY(enemy)->worldPosition2DD4.y);
@@ -322,10 +321,10 @@ int *__fastcall ResolveIntLValue(
     case 0x276C: return &TH09_ECL_OPERAND_ENEMY(enemy)->itemDropType335C;
     case 0x276D: return &TH09_ECL_OPERAND_ENEMY(enemy)->operandValue2E54;
 
-    case 0x274D: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedInts168[0];
-    case 0x274E: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedInts168[1];
-    case 0x274F: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedInts168[2];
-    case 0x2750: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedInts168[3];
+    case 0x274D: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedInts160[0];
+    case 0x274E: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedInts160[1];
+    case 0x274F: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedInts160[2];
+    case 0x2750: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedInts160[3];
 
     default: return rawValue;
     }
@@ -375,10 +374,10 @@ float *__fastcall ResolveFloatLValue(
     case 0x276E: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables6C[0];
     case 0x276F: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables6C[1];
 
-    case 0x2751: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedFloats178[0];
-    case 0x2752: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedFloats178[1];
-    case 0x2753: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedFloats178[2];
-    case 0x2754: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->sharedFloats178[3];
+    case 0x2751: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[0];
+    case 0x2752: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[1];
+    case 0x2753: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[2];
+    case 0x2754: return &TH09_ECL_OPERAND_ENEMY(enemy)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[3];
 
     case 0x275A: return &TH09_ECL_OPERAND_ENEMY(enemy)->movementOrigin2E1C.x;
     case 0x275B: return &TH09_ECL_OPERAND_ENEMY(enemy)->movementOrigin2E1C.y;
@@ -449,14 +448,14 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x276C: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->itemDropType335C);
     case 0x276D: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->operandValue2E54);
 
-    case 0x274D: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager0000->sharedInts168[0]);
-    case 0x274E: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager0000->sharedInts168[1]);
-    case 0x274F: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager0000->sharedInts168[2]);
-    case 0x2750: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager0000->sharedInts168[3]);
-    case 0x2751: return TH09_ECL_OPERAND_ENEMY(this)->manager0000->sharedFloats178[0];
-    case 0x2752: return TH09_ECL_OPERAND_ENEMY(this)->manager0000->sharedFloats178[1];
-    case 0x2753: return TH09_ECL_OPERAND_ENEMY(this)->manager0000->sharedFloats178[2];
-    case 0x2754: return TH09_ECL_OPERAND_ENEMY(this)->manager0000->sharedFloats178[3];
+    case 0x274D: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager0000->primaryEclManager000.timelineState08.sharedInts160[0]);
+    case 0x274E: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager0000->primaryEclManager000.timelineState08.sharedInts160[1]);
+    case 0x274F: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager0000->primaryEclManager000.timelineState08.sharedInts160[2]);
+    case 0x2750: return static_cast<float>(TH09_ECL_OPERAND_ENEMY(this)->manager0000->primaryEclManager000.timelineState08.sharedInts160[3]);
+    case 0x2751: return TH09_ECL_OPERAND_ENEMY(this)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[0];
+    case 0x2752: return TH09_ECL_OPERAND_ENEMY(this)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[1];
+    case 0x2753: return TH09_ECL_OPERAND_ENEMY(this)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[2];
+    case 0x2754: return TH09_ECL_OPERAND_ENEMY(this)->manager0000->primaryEclManager000.timelineState08.sharedFloats170[3];
 
     case 0x2720: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[0];
     case 0x2721: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[1];

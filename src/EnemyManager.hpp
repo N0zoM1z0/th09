@@ -109,10 +109,17 @@ typedef char EnemySideStateCharacterAt20[
 
 struct EnemyEclTimelineStateView
 {
-    unsigned char storage000[0x180];
+    // These words are shared by exact ECL operand resolvers and the
+    // 0x20-byte RunEcl subroutine variable publication at +0x168.
+    unsigned char storage000[0x160];
+    int sharedInts160[4];
+    float sharedFloats170[4];
 
     EnemyEclTimelineStateView();
 };
+typedef char EnemyEclTimelineNativeSharedStorage[
+    (offsetof(EnemyEclTimelineStateView, sharedInts160) == 0x160 &&
+     offsetof(EnemyEclTimelineStateView, sharedFloats170) == 0x170) ? 1 : -1];
 typedef char EnemyEclTimelineStateViewSizeIs180[
     (sizeof(EnemyEclTimelineStateView) == 0x180) ? 1 : -1];
 
@@ -134,6 +141,11 @@ struct EnemyEclManagerView
 };
 typedef char EnemyEclManagerViewSizeIs188[
     (sizeof(EnemyEclManagerView) == 0x188) ? 1 : -1];
+typedef char EnemyEclManagerNativeSharedAt168[
+    (offsetof(EnemyEclManagerView, timelineState08) +
+         offsetof(EnemyEclTimelineStateView, sharedInts160) == 0x168 &&
+     offsetof(EnemyEclManagerView, timelineState08) +
+         offsetof(EnemyEclTimelineStateView, sharedFloats170) == 0x178) ? 1 : -1];
 typedef char EnemyEclManagerTimelineAt08[
     (offsetof(EnemyEclManagerView, timelineState08) == 0x08) ? 1 : -1];
 
