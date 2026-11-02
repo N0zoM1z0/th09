@@ -102,7 +102,7 @@ inline AnmLoaded *AlternateAnm(EnemyView *enemy)
 
 inline void *PrimaryAnmVm(EnemyView *enemy)
 {
-    return reinterpret_cast<unsigned char *>(enemy) + 0x0008;
+    return &enemy->primaryAnmVm0008;
 }
 
 inline EnemyRewardPlayerView *Player(EnemyView *enemy)
@@ -173,7 +173,7 @@ static void BeginBoundaryAwareMove(
 #define TH09_EXPR_MOVEMENT_ALTERNATE_ANM(owner) \
     (static_cast<void *>((owner)->manager00->opposingEnemyAnm2AC424))
 #define TH09_EXPR_MOVEMENT_PRIMARY_ANM_VM(owner) \
-    (static_cast<void *>(reinterpret_cast<unsigned char *>((owner)) + 0x0008))
+    (static_cast<void *>(&(owner)->primaryAnmVm0008))
 #define TH09_EXPR_MOVEMENT_PLAYER(owner) \
     (static_cast<void *>((owner)->manager00->sideState320->player04))
 #define TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(owner) \

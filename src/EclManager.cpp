@@ -342,29 +342,23 @@ static void SetExtraAnmScript(
         {
             reinterpret_cast<AnmLoaded *>(AlternateAnm(enemy))->
                 SetAndExecuteScriptIdx(
-                    reinterpret_cast<AnmVm *>(
-                        reinterpret_cast<unsigned char *>(enemy) + 0x2AC +
-                        Th09EclRunControl::ReadInt(enemy, instruction, 0) *
-                            sizeof(AnmVm)),
+                    &enemy->secondaryVms2AC[
+                        Th09EclRunControl::ReadInt(enemy, instruction, 0)],
                     Th09EclRunControl::ReadInt(enemy, instruction, 1));
         }
         else
         {
             reinterpret_cast<AnmLoaded *>(PrimaryAnm(enemy))->
                 SetAndExecuteScriptIdx(
-                    reinterpret_cast<AnmVm *>(
-                        reinterpret_cast<unsigned char *>(enemy) + 0x2AC +
-                        Th09EclRunControl::ReadInt(enemy, instruction, 0) *
-                            sizeof(AnmVm)),
+                    &enemy->secondaryVms2AC[
+                        Th09EclRunControl::ReadInt(enemy, instruction, 0)],
                     Th09EclRunControl::ReadInt(enemy, instruction, 1));
         }
     }
     else
     {
-        reinterpret_cast<AnmVm *>(
-            reinterpret_cast<unsigned char *>(enemy) + 0x2AC +
-            Th09EclRunControl::ReadInt(enemy, instruction, 0) *
-                sizeof(AnmVm))->scriptIndex = -1;
+        enemy->secondaryVms2AC[
+            Th09EclRunControl::ReadInt(enemy, instruction, 0)].scriptIndex = -1;
     }
     (void)unusedIndex;
 }

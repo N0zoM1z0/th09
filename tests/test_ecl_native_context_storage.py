@@ -123,6 +123,21 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('(&(owner)->secondaryFlags3380)',movement)
         self.assertNotIn('reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>(',movement)
 
+    def test_main_and_secondary_enemy_anm_vms_share_one_native_owner(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        movement=(ROOT/'src/EclRunMovement.inl').read_text()
+        interpreter=(ROOT/'src/EclManager.cpp').read_text()
+        core=(ROOT/'src/EclRunState.inl').read_text()
+        self.assertIn('EnemyViewSecondaryAnmVmsAt2AC',native)
+        self.assertIn('AnmVm primaryAnmVm0008;',native)
+        self.assertIn('AnmVm secondaryVms2AC[2];',native)
+        self.assertIn('AnmVm secondaryVms2AC[2];',core)
+        self.assertIn('&enemy->primaryAnmVm0008',movement)
+        self.assertIn('(&(owner)->primaryAnmVm0008)',movement)
+        self.assertIn('&enemy->secondaryVms2AC[',interpreter)
+        self.assertIn('enemy->secondaryVms2AC[',interpreter)
+        self.assertNotIn('reinterpret_cast<unsigned char *>(enemy) + 0x2AC',interpreter)
+
     def test_movement_family_owns_one_native_enemy_geometry(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         movement=(ROOT/'src/EclRunMovement.inl').read_text()

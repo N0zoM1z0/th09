@@ -184,7 +184,8 @@ struct EnemyView
     // Enemy allocation, not in a separate late-opcode-only byte view.
     unsigned char unknown0004[0x0008 - 0x0004];
     AnmVm primaryAnmVm0008;
-    unsigned char unknown02AC[0x2CE0 - 0x02AC];
+    AnmVm secondaryVms2AC[2];
+    unsigned char unknown07F4[0x2CE0 - 0x07F4];
     Th09EclContextView *activeContext2CE0;
     Th09EclContextView *activeCallStack2CE4;
     // The genuine per-Enemy operand banks are read and written by four
@@ -292,6 +293,9 @@ typedef char EnemyViewSizeIs5430[(sizeof(EnemyView) == 0x5430) ? 1 : -1];
 typedef char EnemyViewPrimaryAnmVmAt008[
     (offsetof(EnemyView, primaryAnmVm0008) == 0x0008 &&
      sizeof(((EnemyView *)0)->primaryAnmVm0008) == 0x2A4) ? 1 : -1];
+typedef char EnemyViewSecondaryAnmVmsAt2AC[
+    (offsetof(EnemyView, secondaryVms2AC) == 0x2AC &&
+     sizeof(((EnemyView *)0)->secondaryVms2AC) == 0x548) ? 1 : -1];
 typedef char EnemyViewActiveContextAt2CE0[
     (offsetof(EnemyView, activeContext2CE0) == 0x2CE0) ? 1 : -1];
 typedef char EnemyViewNativeOperandBanks[
