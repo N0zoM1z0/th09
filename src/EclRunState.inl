@@ -478,19 +478,19 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_SET_DEATH_CALLBACK:
-        Th09EclRunState::View(enemy)->deathCallbackSubId2D2E =
+        enemy->deathCallbackSubId2D2E =
             Th09EclRunState::RawShort(instruction, 0);
         break;
 
     case TH09_ECL_OPCODE_SET_SUBROUTINE_SLOT:
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        Th09EclRunState::View(enemy)->subroutineSlots2D30[stateIndex] =
+        enemy->subroutineSlots2D30[stateIndex] =
             static_cast<short>(stateInt);
         break;
 
     case TH09_ECL_OPCODE_CALL_SUBROUTINE_SLOT:
-        Th09EclRunState::View(enemy)->pendingSubroutineId2D70 =
+        enemy->pendingSubroutineId2D70 =
             static_cast<short>(
                 Th09EclRunControl::ReadInt(enemy, instruction, 0));
         goto th09_ecl_enter_pending_subroutine;
@@ -702,7 +702,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
 
     case TH09_ECL_OPCODE_RESET_BOSS_TIMER_CALLBACK:
         stateCallback =
-            Th09EclRunState::View(enemy)->deathCallbackSubId2D2E;
+            enemy->deathCallbackSubId2D2E;
     th09_ecl_install_timer_callback:
         Th09EclRunState::View(enemy)->timerCallbackSubId33D4 = stateCallback;
         Th09EclRunState::View(enemy)->bossTimer2E64 = 0;

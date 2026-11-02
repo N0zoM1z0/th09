@@ -123,6 +123,27 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('(&(owner)->secondaryFlags3380)',movement)
         self.assertNotIn('reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>(',movement)
 
+    def test_ecl_call_depth_and_subroutines_are_native_enemy_members(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        core=(ROOT/'src/EclRunState.inl').read_text()
+        interpreter=(ROOT/'src/EclManager.cpp').read_text()
+        self.assertIn('EnemyViewNativeEclCallDepthAndSubroutines',native)
+        for field,off in (('mainCallDepth2D28','0x2D28'),
+                          ('activeCallDepth2D2A','0x2D2A'),
+                          ('deathCallbackSubId2D2E','0x2D2E'),
+                          ('subroutineSlots2D30','0x2D30'),
+                          ('pendingSubroutineId2D70','0x2D70')):
+            with self.subTest(field=field):
+                self.assertIn(field,native)
+                self.assertIn('offsetof(EnemyView, '+field+') == '+off,native)
+                self.assertIn(field,core)
+        self.assertIn('short subroutineSlots2D30[32];',native)
+        self.assertIn('enemy->activeCallDepth2D2A',interpreter)
+        self.assertIn('enemy->subroutineSlots2D30[',interpreter)
+        self.assertIn('enemy->pendingSubroutineId2D70',interpreter)
+        self.assertNotIn('enemyState->mainCallDepth2D28',interpreter)
+        self.assertIn('enemy->deathCallbackSubId2D2E',core)
+
     def test_native_main_context_and_sixteen_entry_call_stack(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         interpreter=(ROOT/'src/EclManager.cpp').read_text()

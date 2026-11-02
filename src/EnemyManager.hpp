@@ -194,7 +194,11 @@ struct EnemyView
     // exact ECL resolvers at +0x2CE8 and +0x2D08.
     int intVariables2CE8[8];
     float floatVariables2D08[8];
-    unsigned char unknown2D28[0x2D70 - 0x2D28];
+    short mainCallDepth2D28;
+    short activeCallDepth2D2A;
+    unsigned char unknown2D2C[0x2D2E - 0x2D2C];
+    short deathCallbackSubId2D2E;
+    short subroutineSlots2D30[32];
     short pendingSubroutineId2D70;
     unsigned char unknown2D72[0x02];
     EnemyFloat3 position2D74;
@@ -311,6 +315,13 @@ typedef char EnemyViewNativeOperandBanks[
      offsetof(EnemyView, floatVariables2D08) == 0x2D08 &&
      sizeof(((EnemyView *)0)->intVariables2CE8) == 0x20 &&
      sizeof(((EnemyView *)0)->floatVariables2D08) == 0x20) ? 1 : -1];
+typedef char EnemyViewNativeEclCallDepthAndSubroutines[
+    (offsetof(EnemyView, mainCallDepth2D28) == 0x2D28 &&
+     offsetof(EnemyView, activeCallDepth2D2A) == 0x2D2A &&
+     offsetof(EnemyView, deathCallbackSubId2D2E) == 0x2D2E &&
+     offsetof(EnemyView, subroutineSlots2D30) == 0x2D30 &&
+     sizeof(((EnemyView *)0)->subroutineSlots2D30) == 0x40 &&
+     offsetof(EnemyView, pendingSubroutineId2D70) == 0x2D70) ? 1 : -1];
 typedef char EnemyViewPendingSubroutineAt2D70[
     (offsetof(EnemyView, pendingSubroutineId2D70) == 0x2D70) ? 1 : -1];
 typedef char EnemyViewLifeAt2E48[

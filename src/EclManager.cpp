@@ -20,8 +20,8 @@ namespace Th09EclRunControl
 static int PopContext(EnemyView *enemy)
 {
     Th09EclRunState::EnemyStateView *view = Th09EclRunState::View(enemy);
-    --view->activeCallDepth2D2A;
-    if (view->activeCallDepth2D2A < 0)
+    --enemy->activeCallDepth2D2A;
+    if (enemy->activeCallDepth2D2A < 0)
     {
         int childIndex = view->activeContext2CE0->contextOrdinal224 - 1;
         if (view->childEclBlocks33D8[childIndex] != NULL)
@@ -29,11 +29,11 @@ static int PopContext(EnemyView *enemy)
         view->childEclBlocks33D8[childIndex] = NULL;
         view->activeCallStack2CE4 = enemy->mainCallStack0A20;
         view->activeContext2CE0 = &enemy->mainContext07F4;
-        view->activeCallDepth2D2A = view->mainCallDepth2D28;
+        enemy->activeCallDepth2D2A = enemy->mainCallDepth2D28;
         return 1;
     }
     *view->activeContext2CE0 =
-        view->activeCallStack2CE4[view->activeCallDepth2D2A];
+        view->activeCallStack2CE4[enemy->activeCallDepth2D2A];
     return 0;
 }
 
@@ -490,7 +490,7 @@ static void CallSubroutine(
 
     if ((view->primaryFlags337C &
          Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
-        view->activeCallStack2CE4[view->activeCallDepth2D2A] =
+        view->activeCallStack2CE4[enemy->activeCallDepth2D2A] =
             *view->activeContext2CE0;
 
     view->activeContext2CE0->selectedManager000->InitializeSubroutine(
@@ -503,8 +503,8 @@ static void CallSubroutine(
 
     if ((view->primaryFlags337C &
          Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0 &&
-        view->activeCallDepth2D2A < TH09_ECL_MAIN_CALL_STACK_CAPACITY - 1)
-        ++view->activeCallDepth2D2A;
+        enemy->activeCallDepth2D2A < TH09_ECL_MAIN_CALL_STACK_CAPACITY - 1)
+        ++enemy->activeCallDepth2D2A;
 }
 
 } // namespace Th09EclRunControl
@@ -538,11 +538,11 @@ int EclManager::RunEcl(EnemyView *enemy)
     savedMainContext = &enemy->mainContext07F4;
     enemyState->activeContext2CE0 = savedMainContext;
     childIndex = -1;
-    enemyState->activeCallDepth2D2A = enemyState->mainCallDepth2D28;
+    enemy->activeCallDepth2D2A = enemy->mainCallDepth2D28;
 
 th09_ecl_restart_context:
     instruction = enemyState->activeContext2CE0->currentInstruction004;
-    if (enemyState->pendingSubroutineId2D70 >= 0)
+    if (enemy->pendingSubroutineId2D70 >= 0)
         goto th09_ecl_enter_pending_subroutine;
     positionOffset = &enemyState->positionOffset2D80;
     position = &enemyState->position2D74;
@@ -558,21 +558,21 @@ th09_ecl_enter_pending_subroutine:
          Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
     {
         memcpy(
-            &enemyState->activeCallStack2CE4[enemyState->activeCallDepth2D2A],
+            &enemyState->activeCallStack2CE4[enemy->activeCallDepth2D2A],
             savedMainContext,
             sizeof(Th09EclContextView));
     }
 
     enemyState->manager0000->primaryEclManager000.InitializeSubroutine(
         savedMainContext,
-        enemyState->subroutineSlots2D30[
-            enemyState->pendingSubroutineId2D70]);
-    if (enemyState->activeCallDepth2D2A <
+        enemy->subroutineSlots2D30[
+            enemy->pendingSubroutineId2D70]);
+    if (enemy->activeCallDepth2D2A <
         TH09_ECL_MAIN_CALL_STACK_CAPACITY - 1)
     {
-        ++enemyState->activeCallDepth2D2A;
+        ++enemy->activeCallDepth2D2A;
     }
-    enemyState->pendingSubroutineId2D70 = -1;
+    enemy->pendingSubroutineId2D70 = -1;
     goto th09_ecl_restart_context;
 
 th09_ecl_instruction_loop:
@@ -749,13 +749,13 @@ th09_ecl_after_dispatch:
 
     if (childIndex == -1)
     {
-        enemyState->mainCallDepth2D28 = enemyState->activeCallDepth2D2A;
+        enemy->mainCallDepth2D28 = enemy->activeCallDepth2D2A;
     }
     else
     {
         child = reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
             enemyState->childEclBlocks33D8[childIndex]);
-        child->callStackDepth06 = enemyState->activeCallDepth2D2A;
+        child->callStackDepth06 = enemy->activeCallDepth2D2A;
     }
 
     enemyState->activeContext2CE0->currentInstruction004 = instruction;
@@ -774,7 +774,7 @@ th09_ecl_select_next_context:
             enemyState->activeContext2CE0 = &child->context08;
             instruction = enemyState->activeContext2CE0->currentInstruction004;
             enemyState->activeContext2CE0->contextOrdinal224 = next + 1;
-            enemyState->activeCallDepth2D2A = child->callStackDepth06;
+            enemy->activeCallDepth2D2A = child->callStackDepth06;
             childIndex = next;
             goto th09_ecl_instruction_loop;
         }
