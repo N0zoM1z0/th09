@@ -21,6 +21,52 @@ Factory acceptance. The 98% reviewed-authored-byte goal remains open;
 canonical codegen, whole-product linking, runtime semantics and ports remain
 separate milestones.
 
+## 2026-11-02 continuation — native AnmLoaded and ANM owners
+
+The **live Git tree and original PE/COFF replays**, not prior handoff text,
+govern current state. These are local source checkpoints, not a remote push or
+accepted whole-game replay. No full all-owner cold replay was run.
+
+- `182071b3` established one original-backed 0x1C `AnmLoaded` class, with
+  resource record offsets +0x04, +0x08, +0x0C, +0x10, +0x14, +0x18,
+  eliminating a private SetSprite resource overlay.
+- `707e9616` eliminated the runtime-only 0x1C projection from the exact
+  143-byte `AnmLoaded::SetAndExecuteScript`, keeping the original signed
+  short VM file index and every original call/field.
+- `1bcbf9d1` removed the full loader-only 0x1C projection, binding the real
+  resource record into every native ANM load/release/texture owner, including
+  `LoadTextureData` (558 bytes/16 fields), `ReadAnmEntries` (390/17), and
+  `AnmManager` ctor (341/29). All 16 source-cold loader exact units survived.
+- `4e9b0ca3` converts both Etama's exact
+  832-byte `AddedCallback` and Effect's 51-byte nonexact `AddedCallback` to
+  `AnmLoaded::rawData04`. Etama's four exact siblings, including 2216-byte
+  `OnUpdate`, remain exact; Effect's sixteen exact siblings remain exact.
+  Effect AddedCallback still has eight ordinary byte differences; never
+  promote it as exact without new independent evidence.
+
+The **old** Knowledge Base note near ANM resident callback history describes
+the now-obsolete eight-byte `AnmLoadedResidentView.hpp` as the single current
+view. That statement was accurate for its earlier checkpoint only. The live
+class is now the independently verified 0x1C native resource record; do not
+restore the obsolete view because of historical text.
+
+The large `AnmManager::ExecuteScript` source-cold original extent is still
+9776 bytes/368 relocations, **exact**, and its four independent variable
+helpers remain exact. Focused `--owner anm` protects 17 exact siblings and
+the 622-byte camera projection; `--owner runecl` preserves 96 exact
+siblings and the unsplit 15564-byte/598-field interpreter, still with 30
+ordinary mismatch bytes (opcode 4: seven; opcode 155: 23). Etama OnDraw
+still has 268 differences in its 600 bytes. Source-level type recovery does
+not add to the **1005 exact functions** in tracking.
+
+Compiler-private `$L` names can change when shared headers alter compile
+order. They were reviewed against **actual** current COFF section-relative
+definitions and each immutable original PE target; only proven label
+spellings were changed, not relocation targets/kinds/offsets or ordinary
+original code. Re-run only the touched focused original-bound owners:
+`--owner effect`, `--owner etama`, `--owner anm`, and any directly
+affected individual match units. Never run `--owner all` merely as a check.
+
 ## 2026-11-02 continued checkpoint — native Player and shot callbacks
 
 **Verify live source, original TH09 1.50a PE, fresh COFF and Git state rather
