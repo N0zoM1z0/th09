@@ -185,6 +185,12 @@ struct EnemyCoreView
 typedef char EnemyEclNativeActiveContextAt2CE0[
     (offsetof(EnemyView, activeContext2CE0) ==
      offsetof(EnemyCoreView, activeContext2CE0)) ? 1 : -1];
+typedef char EnemyEclNativePendingSubroutineAt2D70[
+    (offsetof(EnemyView, pendingSubroutineId2D70) ==
+     offsetof(EnemyCoreView, pendingSubroutineId2D70)) ? 1 : -1];
+typedef char EnemyEclNativeLifeAt2E48[
+    (offsetof(EnemyView, life2E48) ==
+     offsetof(EnemyCoreView, life2E48)) ? 1 : -1];
 
 struct EnemyManagerCoreView
 {

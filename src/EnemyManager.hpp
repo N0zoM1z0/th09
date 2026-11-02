@@ -156,12 +156,16 @@ struct EnemyView
     // Enemy allocation, not in a separate late-opcode-only byte view.
     unsigned char unknown0004[0x2CE0 - 0x0004];
     Th09EclContextView *activeContext2CE0;
-    unsigned char unknown2CE4[0x2D74 - 0x2CE4];
+    unsigned char unknown2CE4[0x2D70 - 0x2CE4];
+    short pendingSubroutineId2D70;
+    unsigned char unknown2D72[0x02];
     EnemyFloat3 position2D74;
     EnemyFloat3 positionOffset2D80;
     unsigned char unknown2D8C[0x2DD4 - 0x2D8C];
     EnemyFloat3 worldPosition2DD4;
-    unsigned char unknown2DE0[0x2E58 - 0x2DE0];
+    unsigned char unknown2DE0[0x2E48 - 0x2DE0];
+    int life2E48;
+    unsigned char unknown2E4C[0x2E58 - 0x2E4C];
     int sequenceIndex2E58;
     unsigned char unknown2E5C[0x335C - 0x2E5C];
     unsigned int defeatTokenType335C;
@@ -183,6 +187,10 @@ struct EnemyView
 typedef char EnemyViewSizeIs5430[(sizeof(EnemyView) == 0x5430) ? 1 : -1];
 typedef char EnemyViewActiveContextAt2CE0[
     (offsetof(EnemyView, activeContext2CE0) == 0x2CE0) ? 1 : -1];
+typedef char EnemyViewPendingSubroutineAt2D70[
+    (offsetof(EnemyView, pendingSubroutineId2D70) == 0x2D70) ? 1 : -1];
+typedef char EnemyViewLifeAt2E48[
+    (offsetof(EnemyView, life2E48) == 0x2E48) ? 1 : -1];
 typedef char EnemyViewPositionAt2D74[
     (offsetof(EnemyView, position2D74) == 0x2D74) ? 1 : -1];
 typedef char EnemyViewWorldPositionAt2DD4[

@@ -30,8 +30,6 @@ namespace Th09EclRunRemote
 enum EnemyRemoteOffset
 {
     ENEMY_ACTIVE_CONTEXT = 0x2CE0,
-    ENEMY_PENDING_SUBROUTINE = 0x2D70,
-    ENEMY_LIFE = 0x2E48,
     ENEMY_MANAGER_REMOTE_TABLE = 0x2AC388
 };
 
@@ -65,12 +63,12 @@ inline Th09EclContextView *ActiveContext(EnemyView *enemy)
 
 inline short &PendingSubroutine(EnemyView *enemy)
 {
-    return *reinterpret_cast<short *>(Bytes(enemy) + ENEMY_PENDING_SUBROUTINE);
+    return enemy->pendingSubroutineId2D70;
 }
 
 inline int Life(EnemyView *enemy)
 {
-    return *reinterpret_cast<int *>(Bytes(enemy) + ENEMY_LIFE);
+    return enemy->life2E48;
 }
 
 inline int *ActiveIntVariables(EnemyView *enemy)
