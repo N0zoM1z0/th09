@@ -35,6 +35,15 @@ class NativeSupervisorFrameQueues(unittest.TestCase):
         self.assertIn('view->lastReceived56C[side]',source)
         self.assertIn('view->lastReceived56C[side]',received)
 
+    def test_exact_consumer_reads_original_native_queue_elements(self):
+        consumer=(ROOT/'src/SupervisorFrameQueueOps.cpp').read_text()
+        self.assertIn('entries47C[side * 10].predicted08',consumer)
+        self.assertIn('entries47C[side * 10].packedInput00',consumer)
+        self.assertIn('entries47C[side * 10].seed02',consumer)
+        self.assertIn('&reinterpret_cast<Supervisor *>(this)->entries47C[side * 10]',consumer)
+        self.assertNotIn('side * 0x78 + 0x47C',consumer)
+        self.assertNotIn('side * 0x78 + 0x484',consumer)
+
     def test_exact_canonical_queue_methods_remain_frozen(self):
         with (ROOT/'config/match-units.toml').open('rb') as fd:
             units=tomllib.load(fd)['units']
