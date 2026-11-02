@@ -10,6 +10,22 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 RunEcl 15K core native receiver and three death ANM bytes
+
+The true complete 15,564-byte `EclManager::RunEcl` now keeps
+`EnemyView *enemyState = enemy` for its main state machine, replacing
+the previously duplicate `Th09EclRunState::EnemyStateView *` private
+projection in that method. At three true Float3 arithmetic sites,
+`EnemyFloat3` members are viewed at their already verified +0x2D74,
++0x2D80 and +0x2DD4 offsets. ECL compare and interpolation helpers
+now also read real active context members. The opcode for three
+consecutive death animation scripts uses original-bound native Enemy
+bytes +0x3368..+0x336A also initialized by the 554-byte exact Enemy
+manager template. Original complete owner comparison and 96 exact
+same-source ECL siblings prove no new mismatches (30 residuals, 7 in
+opcode 4 and 23 in opcode 155); Enemy main 3,900/13 and 88 exact
+siblings unchanged. No claim of full binary or runtime completion.
+
 ### 2026-11-02 ExAttack ECL context floats and 226-byte burst use native allocation
 
 The four ECL ExAttack wrappers at original type 10/11/12 and 22 previously

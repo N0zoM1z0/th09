@@ -49,6 +49,12 @@ typedef char Th09EclLaserSlotsAt32D8[
     (offsetof(EnemyBulletView, laserSlots32D8) == 0x32D8) ? 1 : -1];
 typedef char Th09EclSelectedLaserAt3358[
     (offsetof(EnemyBulletView, selectedLaserSlot3358) == 0x3358) ? 1 : -1];
+// Same original +0x3368..+0x336A three-byte ANM/death-mode window
+// initialized by the 554-byte exact EnemyManager template owner.
+typedef char Th09EclBulletNativeDeathAnmScriptsAt3368[
+    (offsetof(EnemyView, deathEffectVariant3368) == 0x3368 &&
+     offsetof(EnemyView, deathEffectVariant3369) == 0x3369 &&
+     offsetof(EnemyView, deathEffectVariant336A) == 0x336A) ? 1 : -1];
 typedef char Th09EclBulletFlagsAt337C[
     (offsetof(EnemyBulletView, primaryFlags337C) == 0x337C) ? 1 : -1];
 
@@ -224,11 +230,11 @@ static void DispatchShotInstruction(
         break;
 
     case TH09_ECL_OPCODE_SET_DEATH_ANM_SCRIPTS:
-        Th09EclRunState::View(enemy)->deathAnmScripts3368[0] =
+        enemy->deathEffectVariant3368 =
             Th09EclRunState::RawByte(instruction, 0);
-        Th09EclRunState::View(enemy)->deathAnmScripts3368[1] =
+        enemy->deathEffectVariant3369 =
             Th09EclRunState::RawByte(instruction, 1);
-        Th09EclRunState::View(enemy)->deathAnmScripts3368[2] =
+        enemy->deathEffectVariant336A =
             Th09EclRunState::RawByte(instruction, 2);
         break;
 

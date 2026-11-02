@@ -1,5 +1,21 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 native RunEcl core receiver and death ANM opcode
+
+Recompiled the *complete* original-bound 15,564-byte ECL boss after
+converting its central `enemyState` receiver from a parallel
+`EnemyStateView *` to the real `EnemyView *`. Only the observed Float3
+add/assignment ABI needs `reinterpret_cast<Float3 *>`/reference bridges
+around native EnemyFloat3 position, offset and world position.
+`CompareOperands` and `InstallInterpolationSlot` now use the same
+native context. Three opcode 96..123 death-ANM byte stores now target
+native `deathEffectVariant3368/3369/336A`, shared with the
+**554-byte exact** Enemy initializer. Four independent source profile
+trials confirm **15,564 physical bytes**, **30 ordinary mismatches**,
+zero relocation/table mismatches; **96** exact ECL carrier dependents
+and **88** exact Enemy update dependents pass. Full original machine
+code not yet exact, so no new canonical credit.
+
 ## 2026-11-02 four exact ExAttack context/burst callbacks: native Enemy and ECL
 
 Further reconstructed `EnemyEclExInstruction6/7/8/9`, including the full

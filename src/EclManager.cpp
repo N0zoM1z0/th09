@@ -406,7 +406,7 @@ static Th09EclRawInstructionHeaderView *CompareOperands(
     }
 
 comparison_succeeded:
-    Th09EclRunState::View(enemy)->activeContext2CE0->time008.current =
+    enemy->activeContext2CE0->time008.current =
         RawInt(instruction, 2);
     return reinterpret_cast<Th09EclRawInstructionHeaderView *>(
         reinterpret_cast<unsigned char *>(instruction) + RawInt(instruction, 3));
@@ -428,7 +428,7 @@ static void InstallInterpolationSlot(
     Th09EclRawInstructionHeaderView *instruction)
 {
     Th09EclInterpolationSlotView *slot =
-        Th09EclRunState::View(enemy)->activeContext2CE0->interpolationSlots0A0;
+        enemy->activeContext2CE0->interpolationSlots0A0;
     for (int index = 0; index < TH09_ECL_INTERPOLATION_SLOT_COUNT;
          ++index, ++slot)
     {
@@ -487,7 +487,7 @@ static void CallSubroutine(
 
 int EclManager::RunEcl(EnemyView *enemy)
 {
-    Th09EclRunState::EnemyStateView *enemyState;
+    EnemyView *enemyState;
     Th09EclContextView *savedMainContext;
     Th09EclContextView *savedMainCallStack;
     Th09EclRawInstructionHeaderView *instruction;
@@ -508,7 +508,7 @@ int EclManager::RunEcl(EnemyView *enemy)
     float deltaX;
     float deltaY;
 
-    enemyState = Th09EclRunState::View(enemy);
+    enemyState = enemy;
     savedMainCallStack = enemy->mainCallStack0A20;
     enemyState->activeCallStack2CE4 = savedMainCallStack;
     savedMainContext = &enemy->mainContext07F4;
@@ -520,8 +520,8 @@ th09_ecl_restart_context:
     instruction = enemyState->activeContext2CE0->currentInstruction004;
     if (enemy->pendingSubroutineId2D70 >= 0)
         goto th09_ecl_enter_pending_subroutine;
-    positionOffset = &enemyState->positionOffset2D80;
-    position = &enemyState->position2D74;
+    positionOffset = reinterpret_cast<Float3 *>(&enemyState->positionOffset2D80);
+    position = reinterpret_cast<Float3 *>(&enemyState->position2D74);
     goto th09_ecl_instruction_loop;
 
 th09_ecl_enter_pending_subroutine:
@@ -539,7 +539,7 @@ th09_ecl_enter_pending_subroutine:
             sizeof(Th09EclContextView));
     }
 
-    enemyState->manager0000->primaryEclManager000.InitializeSubroutine(
+    enemyState->manager00->primaryEclManager000.InitializeSubroutine(
         savedMainContext,
         enemy->subroutineSlots2D30[
             enemy->pendingSubroutineId2D70]);
@@ -552,7 +552,7 @@ th09_ecl_enter_pending_subroutine:
     goto th09_ecl_restart_context;
 
 th09_ecl_instruction_loop:
-    enemyState->worldPosition2DD4 = *position + *positionOffset;
+    reinterpret_cast<Float3 &>(enemyState->worldPosition2DD4) = *position + *positionOffset;
 
     for (;;)
     {
