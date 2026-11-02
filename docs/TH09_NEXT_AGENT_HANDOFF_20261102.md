@@ -1,5 +1,21 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 native Enemy primary/secondary ECL bitfield owners
+
+The movement opcode family `SET_INTERACTION_FLAGS`, `DISABLE_INTERACTION_FLAGS`
+and `ENABLE_INTERACTION_FLAGS` formerly used ECL-only casts of original
+Enemy primary +0x337C and secondary +0x3380 DWORDs. One verified shared
+`Th09EclEnemySecondaryFlagBits` now overlays the **same** native
+`EnemyView::secondaryFlags3380` DWORD, naming the independent
+`noDeath03` bit without inventing the other 31 bits. ECL movement's
+primary flags macros and secondary no-death setter/readers now use direct
+native member addresses, with no duplicate private secondary bitfield.
+Original-bound complete 15,564-byte `RunEcl` retains 30 ordinary byte
+residuals (opcode 4 7, opcode 155 23) and 96 exact siblings; the
+3,900-byte Enemy calc remains 13 unlike with 88 exact siblings.
+All 97 Enemy relocations and 69 ordered direct calls remain valid.
+Changes are source storage/ABI improvements, not new exact-unit credits.
+
 ## 2026-11-02 native Player boundary in 15,564-byte RunEcl boss
 
 Independently checked `RunEcl`'s random boundary movement and biased

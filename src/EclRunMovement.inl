@@ -35,12 +35,7 @@ typedef ::EnemyFloat2 EnemyFloat2;
 
 typedef Th09EclEnemyPrimaryFlagBits EnemyPrimaryFlagBits;
 
-struct EnemySecondaryFlagBits
-{
-    unsigned int unknown00 : 3;
-    unsigned int noDeath03 : 1;
-    unsigned int unknown04 : 28;
-};
+typedef Th09EclEnemySecondaryFlagBits EnemySecondaryFlagBits;
 
 typedef char Th09EclEnemyPrimaryFlagBitsSizeIs04[
     (sizeof(EnemyPrimaryFlagBits) == 0x04) ? 1 : -1];
@@ -112,14 +107,12 @@ inline EnemyRewardPlayerView *Player(EnemyView *enemy)
 
 inline EnemyPrimaryFlagBits *PrimaryFlagBits(EnemyView *enemy)
 {
-    return reinterpret_cast<EnemyPrimaryFlagBits *>(
-        &View(enemy)->primaryFlags337C);
+    return &enemy->primaryFlagBits337C;
 }
 
 inline EnemySecondaryFlagBits *SecondaryFlagBits(EnemyView *enemy)
 {
-    return reinterpret_cast<EnemySecondaryFlagBits *>(
-        &View(enemy)->secondaryFlags3380);
+    return &enemy->secondaryFlagBits3380;
 }
 
 // Target-facing helper boundaries. Source ownership and private/public ABI are
@@ -177,9 +170,9 @@ static void BeginBoundaryAwareMove(
 #define TH09_EXPR_MOVEMENT_PLAYER(owner) \
     (static_cast<void *>((owner)->manager00->sideState320->player04))
 #define TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(owner) \
-    (reinterpret_cast<Th09EclRunMovement::EnemyPrimaryFlagBits *>(&(owner)->primaryFlags337C))
+    (&(owner)->primaryFlagBits337C)
 #define TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(owner) \
-    (reinterpret_cast<Th09EclRunMovement::EnemySecondaryFlagBits *>(&(owner)->secondaryFlags3380))
+    (&(owner)->secondaryFlagBits3380)
 
     int movementInt;
     float aimedAngleOffset;

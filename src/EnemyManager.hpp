@@ -305,6 +305,7 @@ struct EnemyView
     union {
         unsigned int rewardFlags3380;
         unsigned int secondaryFlags3380;
+        Th09EclEnemySecondaryFlagBits secondaryFlagBits3380;
     };
     unsigned char unknown3384[0x3386 - 0x3384];
     signed char anmDirection3386;
@@ -511,6 +512,10 @@ typedef char EnemyViewNativeTrailAndAttachedEffectOwnership[
      offsetof(EnemyView, attachedEffectState53B4) == 0x53B4 &&
      offsetof(EnemyView, phaseEndSeconds5420) == 0x5420 &&
      offsetof(EnemyView, specialAttackTimer5424) == 0x5424) ? 1 : -1];
+typedef char EnemyViewSecondaryFlagBitsAt3380[
+    (offsetof(EnemyView, secondaryFlags3380) == 0x3380 &&
+     offsetof(EnemyView, secondaryFlagBits3380) == 0x3380 &&
+     sizeof(((EnemyView *)0)->secondaryFlagBits3380) == 4) ? 1 : -1];
 typedef char EnemyViewRewardFlagsAt3380[
     (offsetof(EnemyView, rewardFlags3380) == 0x3380) ? 1 : -1];
 

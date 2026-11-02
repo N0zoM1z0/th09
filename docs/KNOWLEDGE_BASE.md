@@ -10,6 +10,21 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 native Enemy movement flags bitfield, original-bound ECL proof
+
+The TH09 interaction opcode family writes individually mapped bits of
+`Enemy +0x337C` and `+0x3380`. The native `EnemyView` had already proven
+`Th09EclEnemyPrimaryFlagBits` at +0x337C; the ECL movement parser still
+constructed cast pointers to both flag words and redeclared a separate
+secondary 32-bit bitfield. The secondary type is now shared through the
+native `EnemyView` union at +0x3380: `noDeath03` is the independently
+observed bit 3; the other bits remain unnamed. All ECL movement flag
+accessors and lexical macros use typed native addresses, including both
+primary and secondary flags. Fresh complete original PE/COFF checks keep
+RunEcl 15,564 bytes with 30 differences/96 exact siblings and Enemy
+OnUpdate 3,900 bytes with 13 differences/88 exact siblings, unchanged
+switch tables and target-bound relocations. No new canonical exactness.
+
 ### 2026-11-02 RunEcl random movement uses real Enemy Player position
 
 The full 15,564-byte ECL interpreter previously contained a private

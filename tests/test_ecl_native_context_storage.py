@@ -119,8 +119,8 @@ class NativeEclContextStorage(unittest.TestCase):
     def test_movement_opcode_reads_direct_native_flags(self):
         movement=(ROOT/'src/EclRunMovement.inl').read_text()
         self.assertIn('#define TH09_EXPR_MOVEMENT_VIEW(owner) ((owner))',movement)
-        self.assertIn('(&(owner)->primaryFlags337C)',movement)
-        self.assertIn('(&(owner)->secondaryFlags3380)',movement)
+        self.assertIn('(&(owner)->primaryFlagBits337C)',movement)
+        self.assertIn('(&(owner)->secondaryFlagBits3380)',movement)
         self.assertNotIn('reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>(',movement)
 
     def test_trail_and_attached_effect_region_is_native_enemy_storage(self):
@@ -471,6 +471,25 @@ class NativeEclContextStorage(unittest.TestCase):
                 self.assertIn('->'+name, resolver)
                 self.assertNotIn(f'TH09_ECL_OPERAND_ENEMY(enemy)->{name}',resolver)
                 self.assertNotIn(f'TH09_ECL_OPERAND_ENEMY(this)->{name}',resolver)
+
+    def test_movement_protocol_primary_and_secondary_bits_are_native_enemy(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        shared=(ROOT/'src/EclEnemyPrimaryFlags.hpp').read_text()
+        move=(ROOT/'src/EclRunMovement.inl').read_text()
+        self.assertIn('struct Th09EclEnemySecondaryFlagBits',shared)
+        self.assertIn('unsigned int noDeath03 : 1;',shared)
+        self.assertIn('Th09EclEnemySecondaryFlagsSizeIs4',shared)
+        self.assertIn('Th09EclEnemySecondaryFlagBits secondaryFlagBits3380;',native)
+        self.assertIn('EnemyViewSecondaryFlagBitsAt3380',native)
+        self.assertIn('offsetof(EnemyView, secondaryFlagBits3380) == 0x3380',native)
+        self.assertIn('typedef Th09EclEnemySecondaryFlagBits EnemySecondaryFlagBits;',move)
+        self.assertNotIn('struct EnemySecondaryFlagBits',move)
+        self.assertIn('return &enemy->primaryFlagBits337C;',move)
+        self.assertIn('return &enemy->secondaryFlagBits3380;',move)
+        self.assertIn('(&(owner)->primaryFlagBits337C)',move)
+        self.assertIn('(&(owner)->secondaryFlagBits3380)',move)
+        self.assertIn('TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(enemy)->noDeath03',move)
+        self.assertNotIn('reinterpret_cast<Th09EclRunMovement::EnemySecondaryFlagBits',move)
 
     def test_movement_timer_is_native_zuntimer_across_ecl_and_enemy_update(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
