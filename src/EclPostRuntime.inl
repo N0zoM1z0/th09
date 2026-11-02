@@ -268,10 +268,10 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
             {
                 enemy->secondaryFlags3380 |= ENEMY_INTERACTION_TRIGGERED;
                 enemy->manager0000->enemyAnm2AC420->SetAndExecuteScriptIdx(
-                    &enemy->primaryAnmVm0008,
+                    &thisEnemy->primaryAnmVm0008,
                     ((enemy->secondaryFlags3380 >>
                       ENEMY_INTERACTION_KIND_SHIFT) & 7) + 22);
-                enemy->moveLeftAnm3390 = -1;
+                thisEnemy->moveLeftAnm3390 = -1;
                 g_SoundPlayer.PlaySoundByIdx(
                     47, enemy->manager0000->sideIndex31C != 0 ? 500 : -500);
             }
@@ -309,7 +309,7 @@ static void EnemyPostEclUpdateShotAndAnm(EnemyView *thisEnemy)
         }
     }
 
-    if (enemy->moveLeftAnm3390 < 0)
+    if (thisEnemy->moveLeftAnm3390 < 0)
         return;
 
     direction = 0;
@@ -334,28 +334,28 @@ static void EnemyPostEclUpdateShotAndAnm(EnemyView *thisEnemy)
         if (enemy->anmDirection3386 == 0xFF)
         {
             anm->SetAndExecuteScriptIdx(
-                &enemy->primaryAnmVm0008, enemy->idleInitialAnm338A);
+                &thisEnemy->primaryAnmVm0008, thisEnemy->idleInitialAnm338A);
         }
         else if (enemy->anmDirection3386 == 1)
         {
             anm->SetAndExecuteScriptIdx(
-                &enemy->primaryAnmVm0008, enemy->idleFromLeftAnm338C);
+                &thisEnemy->primaryAnmVm0008, thisEnemy->idleFromLeftAnm338C);
         }
         else
         {
             anm->SetAndExecuteScriptIdx(
-                &enemy->primaryAnmVm0008, enemy->idleFromRightAnm338E);
+                &thisEnemy->primaryAnmVm0008, thisEnemy->idleFromRightAnm338E);
         }
         break;
 
     case 1:
         anm->SetAndExecuteScriptIdx(
-            &enemy->primaryAnmVm0008, enemy->moveLeftAnm3390);
+            &thisEnemy->primaryAnmVm0008, thisEnemy->moveLeftAnm3390);
         break;
 
     case 2:
         anm->SetAndExecuteScriptIdx(
-            &enemy->primaryAnmVm0008, enemy->moveRightAnm3392);
+            &thisEnemy->primaryAnmVm0008, thisEnemy->moveRightAnm3392);
         break;
 
     default:

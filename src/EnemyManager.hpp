@@ -182,7 +182,9 @@ struct EnemyView
     EnemyManagerView *manager00;
     // The original Enemy/ECL activation pointer lives inside the common
     // Enemy allocation, not in a separate late-opcode-only byte view.
-    unsigned char unknown0004[0x2CE0 - 0x0004];
+    unsigned char unknown0004[0x0008 - 0x0004];
+    AnmVm primaryAnmVm0008;
+    unsigned char unknown02AC[0x2CE0 - 0x02AC];
     Th09EclContextView *activeContext2CE0;
     Th09EclContextView *activeCallStack2CE4;
     // The genuine per-Enemy operand banks are read and written by four
@@ -262,11 +264,13 @@ struct EnemyView
     unsigned char drawGroup3387;
     unsigned char difficultyOverride3388;
     unsigned char unknown3389[0x338A - 0x3389];
-    short primaryAnmScript0338A;
-    short primaryAnmScript3338C;
-    short primaryAnmScript4338E;
-    short primaryAnmScript13390;
-    short primaryAnmScript23392;
+    // ECL movement installs these five script slots; the exact post-ECL
+    // animation selector interprets the same words as idle/left/right.
+    union { short primaryAnmScript0338A; short idleInitialAnm338A; };
+    union { short primaryAnmScript3338C; short idleFromLeftAnm338C; };
+    union { short primaryAnmScript4338E; short idleFromRightAnm338E; };
+    union { short primaryAnmScript13390; short moveLeftAnm3390; };
+    union { short primaryAnmScript23392; short moveRightAnm3392; };
     short specialAnmScript3394;
     unsigned char unknown3396[0x3398 - 0x3396];
     EnemyFloat2 movementLowerBounds3398;
@@ -285,6 +289,9 @@ struct EnemyView
     void CleanupAfterDeactivation();
 };
 typedef char EnemyViewSizeIs5430[(sizeof(EnemyView) == 0x5430) ? 1 : -1];
+typedef char EnemyViewPrimaryAnmVmAt008[
+    (offsetof(EnemyView, primaryAnmVm0008) == 0x0008 &&
+     sizeof(((EnemyView *)0)->primaryAnmVm0008) == 0x2A4) ? 1 : -1];
 typedef char EnemyViewActiveContextAt2CE0[
     (offsetof(EnemyView, activeContext2CE0) == 0x2CE0) ? 1 : -1];
 typedef char EnemyViewNativeOperandBanks[
@@ -334,6 +341,12 @@ typedef char EnemyViewBulletAndLaserDescriptors[
      offsetof(EnemyView, laserDescriptor30C4) == 0x30C4 &&
      sizeof(((EnemyView *)0)->bulletDescriptor2E74) == 0x214 &&
      sizeof(((EnemyView *)0)->laserDescriptor30C4) == 0x214) ? 1 : -1];
+typedef char EnemyViewSharedMovementAndPostAnmSlots[
+    (offsetof(EnemyView, idleInitialAnm338A) == 0x338A &&
+     offsetof(EnemyView, idleFromLeftAnm338C) == 0x338C &&
+     offsetof(EnemyView, idleFromRightAnm338E) == 0x338E &&
+     offsetof(EnemyView, moveLeftAnm3390) == 0x3390 &&
+     offsetof(EnemyView, moveRightAnm3392) == 0x3392) ? 1 : -1];
 typedef char EnemyViewLaserSlotsAt32D8[
     (offsetof(EnemyView, laserSlots32D8) == 0x32D8 &&
      sizeof(((EnemyView *)0)->laserSlots32D8) == 0x80) ? 1 : -1];

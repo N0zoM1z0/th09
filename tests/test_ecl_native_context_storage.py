@@ -37,6 +37,18 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('EnemyEclNativeLaserSlotsAt32D8', state)
         self.assertIn('enemy->laserSlots32D8[laserIndex]', bullet)
 
+    def test_post_ecl_anm_vm_and_script_slots_are_native_enemy_fields(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        post=(ROOT/'src/EclPostRuntime.inl').read_text()
+        self.assertIn('EnemyViewPrimaryAnmVmAt008',native)
+        self.assertIn('AnmVm primaryAnmVm0008;',native)
+        self.assertIn('EnemyViewSharedMovementAndPostAnmSlots',native)
+        for member in ('idleInitialAnm338A','idleFromLeftAnm338C',
+                       'idleFromRightAnm338E','moveLeftAnm3390','moveRightAnm3392'):
+            self.assertIn('thisEnemy->'+member,post)
+            self.assertIn(member,native)
+        self.assertIn('&thisEnemy->primaryAnmVm0008',post)
+
     def test_bullet_and_laser_opcode_family_uses_real_enemy_descriptors(self):
         manager = (ROOT/'src/EnemyManager.hpp').read_text()
         bullet = (ROOT/'src/EclRunBullet.inl').read_text()
