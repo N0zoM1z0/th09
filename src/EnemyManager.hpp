@@ -15,7 +15,14 @@ struct EnemyFloat3
     float y;
     float z;
 };
+// Native 8-byte XY window shared by movement limits and hitbox dimensions.
+struct EnemyFloat2
+{
+    float x;
+    float y;
+};
 typedef char EnemyFloat3SizeIs0C[(sizeof(EnemyFloat3) == 0x0C) ? 1 : -1];
+typedef char EnemyFloat2SizeIs08[(sizeof(EnemyFloat2) == 0x08) ? 1 : -1];
 
 struct EnemyRewardAttackStateView
 {
@@ -186,9 +193,13 @@ struct EnemyView
     unsigned char unknown2D72[0x02];
     EnemyFloat3 position2D74;
     EnemyFloat3 positionOffset2D80;
-    unsigned char unknown2D8C[0x2DB0 - 0x2D8C];
+    EnemyFloat3 velocity2D8C;
+    unsigned char unknown2D98[0x2DB0 - 0x2D98];
     float floatVariables2DB0[3];
-    unsigned char unknown2DBC[0x2DD4 - 0x2DBC];
+    EnemyFloat2 hitboxDimensions2DBC;
+    unsigned char unknown2DC4[0x2DC8 - 0x2DC4];
+    EnemyFloat2 secondaryHitboxDimensions2DC8;
+    unsigned char unknown2DD0[0x2DD4 - 0x2DD0];
     EnemyFloat3 worldPosition2DD4;
     float movementAngle2DE0;
     float angularVelocity2DE4;
@@ -198,10 +209,17 @@ struct EnemyView
     float speed2DF4;
     float acceleration2DF8;
     float orbitRadius2DFC;
-    unsigned char unknown2E00[0x2E10 - 0x2E00];
-    float floatVariables2E10[3];
+    float radialVelocity2E00;
+    EnemyFloat3 shootOffset2E04;
+    union
+    {
+        float floatVariables2E10[3];
+        EnemyFloat3 movementDelta2E10;
+    };
     EnemyFloat3 movementOrigin2E1C;
-    unsigned char unknown2E28[0x2E48 - 0x2E28];
+    unsigned char movementTimer2E28[0x0C];
+    int movementDuration2E34;
+    unsigned char unknown2E38[0x2E48 - 0x2E38];
     int life2E48;
     unsigned char unknown2E4C[0x2E54 - 0x2E4C];
     int operandValue2E54;
@@ -222,12 +240,30 @@ struct EnemyView
     unsigned char unknown3369[0x336B - 0x3369];
     unsigned char bossSlot336B;
     unsigned char unknown336C[0x337C - 0x336C];
-    unsigned int flags337C;
+    union
+    {
+        unsigned int flags337C;
+        unsigned int primaryFlags337C;
+    };
     union {
         unsigned int rewardFlags3380;
         unsigned int secondaryFlags3380;
     };
-    unsigned char unknown3384[0x33AC - 0x3384];
+    unsigned char unknown3384[0x3386 - 0x3384];
+    signed char anmDirection3386;
+    unsigned char drawGroup3387;
+    unsigned char difficultyOverride3388;
+    unsigned char unknown3389[0x338A - 0x3389];
+    short primaryAnmScript0338A;
+    short primaryAnmScript3338C;
+    short primaryAnmScript4338E;
+    short primaryAnmScript13390;
+    short primaryAnmScript23392;
+    short specialAnmScript3394;
+    unsigned char unknown3396[0x3398 - 0x3396];
+    EnemyFloat2 movementLowerBounds3398;
+    EnemyFloat2 movementUpperBounds33A0;
+    float minimumPlayerDistanceSquared33A8;
     int lastDamage33AC;
     int lifeCallbackThresholds33B0[4];
     unsigned char unknown33C0[0x5430 - 0x33C0];
@@ -265,6 +301,23 @@ typedef char EnemyViewNativeMovementOperands[
      offsetof(EnemyView, movementOrigin2E1C) == 0x2E1C &&
      offsetof(EnemyView, operandValue2E54) == 0x2E54 &&
      offsetof(EnemyView, bossTimerCurrent2E6C) == 0x2E6C) ? 1 : -1];
+// Full movement/ANM opcode geometry now uses this same native Enemy allocation.
+typedef char EnemyViewMovementGeometryAt2DBC[
+    (offsetof(EnemyView, velocity2D8C) == 0x2D8C &&
+     offsetof(EnemyView, hitboxDimensions2DBC) == 0x2DBC &&
+     offsetof(EnemyView, secondaryHitboxDimensions2DC8) == 0x2DC8 &&
+     offsetof(EnemyView, radialVelocity2E00) == 0x2E00 &&
+     offsetof(EnemyView, shootOffset2E04) == 0x2E04 &&
+     offsetof(EnemyView, movementDelta2E10) == 0x2E10 &&
+     offsetof(EnemyView, movementTimer2E28) == 0x2E28 &&
+     offsetof(EnemyView, movementDuration2E34) == 0x2E34) ? 1 : -1];
+typedef char EnemyViewMovementScriptsAndBoundsAt3386[
+    (offsetof(EnemyView, primaryFlags337C) == 0x337C &&
+     offsetof(EnemyView, anmDirection3386) == 0x3386 &&
+     offsetof(EnemyView, specialAnmScript3394) == 0x3394 &&
+     offsetof(EnemyView, movementLowerBounds3398) == 0x3398 &&
+     offsetof(EnemyView, movementUpperBounds33A0) == 0x33A0 &&
+     offsetof(EnemyView, minimumPlayerDistanceSquared33A8) == 0x33A8) ? 1 : -1];
 typedef char EnemyViewLaserSlotsAt32D8[
     (offsetof(EnemyView, laserSlots32D8) == 0x32D8 &&
      sizeof(((EnemyView *)0)->laserSlots32D8) == 0x80) ? 1 : -1];

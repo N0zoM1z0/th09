@@ -62,6 +62,20 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('((owner)->activeContext2CE0)',resolver)
         self.assertIn('((owner)->manager00->sideState320->player04)',resolver)
 
+    def test_movement_family_owns_one_native_enemy_geometry(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        movement=(ROOT/'src/EclRunMovement.inl').read_text()
+        self.assertIn('typedef ::EnemyView EnemyMovementView;',movement)
+        self.assertNotIn('struct EnemyMovementView\n{', movement)
+        self.assertIn('typedef ::EnemyFloat2 EnemyFloat2;',movement)
+        self.assertIn('EnemyViewMovementGeometryAt2DBC',native)
+        self.assertIn('EnemyViewMovementScriptsAndBoundsAt3386',native)
+        self.assertIn('movementTimer2E28[0x0C]',native)
+        self.assertIn('EnemyFloat2 movementLowerBounds3398;',native)
+        self.assertIn('EnemyFloat2 movementUpperBounds33A0;',native)
+        self.assertIn('unsigned int primaryFlags337C;',native)
+        self.assertIn('unsigned int secondaryFlags3380;',native)
+
     def test_movement_and_boss_timer_operands_use_native_enemy_fields(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         resolver=(ROOT/'src/EclOperands.cpp').read_text()

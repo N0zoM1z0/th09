@@ -2,8 +2,9 @@
 //
 // This is a lexical switch fragment, not a callable subowner.  The target
 // keeps these handlers inside the shared EclManager::RunEcl physical owner and
-// stack frame. The family-local Enemy overlay avoids taking ownership of the
-// AnmManager interface and does not overstate the incomplete public Enemy layout.
+// stack frame. The Enemy movement window now uses the same native EnemyView
+// storage as the exact operands and EnemyManager update; ANM managers remain
+// separately observed pointer owners.
 //
 // Target evidence:
 //   family entries: opcodes 54..82 (all 29 active)
@@ -28,11 +29,9 @@
 namespace Th09EclRunMovement
 {
 
-struct EnemyFloat2
-{
-    float x;
-    float y;
-};
+// The exact TH09 XY bounds are owned by native EnemyView, not a private
+// movement-only float-pair projection.
+typedef ::EnemyFloat2 EnemyFloat2;
 
 typedef Th09EclEnemyPrimaryFlagBits EnemyPrimaryFlagBits;
 
@@ -48,52 +47,9 @@ typedef char Th09EclEnemyPrimaryFlagBitsSizeIs04[
 typedef char Th09EclEnemySecondaryFlagBitsSizeIs04[
     (sizeof(EnemySecondaryFlagBits) == 0x04) ? 1 : -1];
 
-// Partial target-facing overlay used only by this opcode family.
-struct EnemyMovementView
-{
-    void *manager0000;
-    unsigned char unknown0004[0x0008 - 0x0004];
-    unsigned char primaryAnmVm0008[0x2D74 - 0x0008];
-    EnemyFloat3 position2D74;
-    EnemyFloat3 positionOffset2D80;
-    EnemyFloat3 velocity2D8C;
-    unsigned char unknown2D98[0x2DBC - 0x2D98];
-    EnemyFloat2 hitboxDimensions2DBC;
-    unsigned char unknown2DC4[0x2DC8 - 0x2DC4];
-    EnemyFloat2 secondaryHitboxDimensions2DC8;
-    unsigned char unknown2DD0[0x2DD4 - 0x2DD0];
-    EnemyFloat3 worldPosition2DD4;
-    float movementAngle2DE0;
-    float angularVelocity2DE4;
-    float orbitAngle2DE8;
-    float orbitAngularVelocity2DEC;
-    unsigned char unknown2DF0[0x2DF4 - 0x2DF0];
-    float speed2DF4;
-    float acceleration2DF8;
-    float orbitRadius2DFC;
-    float radialVelocity2E00;
-    EnemyFloat3 shootOffset2E04;
-    EnemyFloat3 movementDelta2E10;
-    EnemyFloat3 movementOrigin2E1C;
-    unsigned char movementTimer2E28[0x0C];
-    int movementDuration2E34;
-    unsigned char unknown2E38[0x337C - 0x2E38];
-    unsigned int primaryFlags337C;
-    unsigned int secondaryFlags3380;
-    unsigned char unknown3384[0x02];
-    signed char anmDirection3386;
-    unsigned char unknown3387[0x03];
-    short primaryAnmScript0338A;
-    short primaryAnmScript3338C;
-    short primaryAnmScript4338E;
-    short primaryAnmScript13390;
-    short primaryAnmScript23392;
-    short specialAnmScript3394;
-    unsigned char unknown3396[0x3398 - 0x3396];
-    EnemyFloat2 movementLowerBounds3398;
-    EnemyFloat2 movementUpperBounds33A0;
-    float minimumPlayerDistanceSquared33A8;
-};
+// Movement/ANM, the exact operand leaves and the large Enemy update all
+// traverse one TH09 EnemyView allocation with the same typed field offsets.
+typedef ::EnemyView EnemyMovementView;
 
 typedef char Th09EclEnemyMovementAngleAt2DE0[
     (offsetof(EnemyMovementView, movementAngle2DE0) == 0x2DE0) ? 1 : -1];
@@ -131,7 +87,7 @@ enum EclInteractionFlag
 
 inline EnemyMovementView *View(EnemyView *enemy)
 {
-    return reinterpret_cast<EnemyMovementView *>(enemy);
+    return enemy;
 }
 
 inline AnmLoaded *PrimaryAnm(EnemyView *enemy)
