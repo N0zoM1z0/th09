@@ -156,6 +156,26 @@ class NativeEclContextStorage(unittest.TestCase):
                 self.assertNotIn('Th09EclRunState::View(enemy)->'+f,core)
         self.assertIn('trailVertices3E68',draw)
 
+    def test_exact_enemy_initialize_uses_native_spawn_template_and_descriptor(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        lifecycle=(ROOT/'src/EnemyManagerLifecycle.cpp').read_text()
+        self.assertNotIn('struct EnemyLifecycleInitView',lifecycle)
+        self.assertNotIn('struct EnemyLifecycleVmView',lifecycle)
+        self.assertNotIn('struct EnemyLifecycleTrailSampleView',lifecycle)
+        self.assertIn('EnemyView *enemy = &this->spawnTemplate328;',lifecycle)
+        self.assertIn('enemy->secondaryVms2AC[i].scriptIndex = -1',lifecycle)
+        self.assertIn('enemy->trailSamples33E8[i].position00.x = -999.0f',lifecycle)
+        self.assertIn('enemy->bossTimer2E64 = 0',lifecycle)
+        self.assertIn('enemy->bulletDescriptor2E74.spawnSound = 7',lifecycle)
+        self.assertIn('enemy->bulletDescriptor2E74.transformSound = 25',lifecycle)
+        self.assertIn('enemy->attachedEffectState53B4.count60 = 0',lifecycle)
+        self.assertIn('EnemyViewNativeInitializeFields',native)
+        for member in ('score2E54','deathEffectVariant3369',
+                       'deathEffectVariant336A','damageFlashTimer336C'):
+            with self.subTest(member=member):
+                self.assertIn('enemy->'+member,lifecycle)
+                self.assertIn('offsetof(EnemyView, '+member+')',native)
+
     def test_exact_enemy_clamp_uses_native_primary_flag_bit_and_bounds(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         flags=(ROOT/'src/EclEnemyPrimaryFlags.hpp').read_text()

@@ -263,7 +263,7 @@ struct EnemyView
     int life2E48;
     int maxLife2E4C;
     int phaseStartingLife2E50;
-    int operandValue2E54;
+    union { int operandValue2E54; int score2E54; };
     int sequenceIndex2E58;
     int primaryDamageAccumulator2E5C;
     int secondaryDamageAccumulator2E60;
@@ -287,9 +287,11 @@ struct EnemyView
     int itemDropCount3360;
     int itemDropExtraCount3364;
     signed char deathEffectVariant3368;
-    unsigned char unknown3369[0x336B - 0x3369];
+    unsigned char deathEffectVariant3369;
+    unsigned char deathEffectVariant336A;
     unsigned char bossSlot336B;
-    unsigned char unknown336C[0x337C - 0x336C];
+    unsigned char damageFlashTimer336C;
+    unsigned char unknown336D[0x337C - 0x336D];
     union
     {
         unsigned int flags337C;
@@ -462,6 +464,17 @@ typedef char EnemyViewLaserSlotsAt32D8[
      sizeof(((EnemyView *)0)->laserSlots32D8) == 0x80) ? 1 : -1];
 typedef char EnemyViewSelectedLaserAt3358[
     (offsetof(EnemyView, selectedLaserSlot3358) == 0x3358) ? 1 : -1];
+typedef char EnemyViewNativeInitializeFields[
+    (offsetof(EnemyView, score2E54) == 0x2E54 &&
+     offsetof(EnemyView, bulletDescriptor2E74) +
+         offsetof(BulletSpawnDescriptor, spawnSound) == 0x3074 &&
+     offsetof(EnemyView, bulletDescriptor2E74) +
+         offsetof(BulletSpawnDescriptor, transformSound) == 0x3078 &&
+     offsetof(EnemyView, deathEffectVariant3369) == 0x3369 &&
+     offsetof(EnemyView, deathEffectVariant336A) == 0x336A &&
+     offsetof(EnemyView, damageFlashTimer336C) == 0x336C &&
+     offsetof(EnemyView, attachedEffectState53B4) +
+         offsetof(EnemyAttachedEffectStateView, count60) == 0x5414) ? 1 : -1];
 typedef char EnemyViewNativeEclRewardAndDamageFields[
     (offsetof(EnemyView, itemDropType335C) == 0x335C &&
      offsetof(EnemyView, bossSlot336B) == 0x336B &&

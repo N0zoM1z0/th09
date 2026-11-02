@@ -1,5 +1,22 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 native Enemy Initialize complete original owner
+
+`EnemyManagerView::Initialize` is a 554-byte exact constructor-side state
+initializer. Its previous private `EnemyLifecycleInitView` redefined almost
+the whole 0x5430-byte Enemy allocation, with separate VM and trail sample
+projections. The live source now initializes `EnemyView *enemy =
+&this->spawnTemplate328` directly, using the real two secondary ANM VMs,
+96 trail samples, the ECL timer, native bullet descriptor sounds,
+attached-effect count, 0x2E54 score/operand union and three proven byte
+fields. The remaining Float3 casts preserve original full-width vector
+writes without inventing unknown fields. Four candidate source models
+replayed the complete **554/554-byte** original function exact. Scoped
+complete RunEcl and Enemy update remain 30 and 13 residuals with 96/88
+exact dependencies; four exact ECL operand units and 16 selected Enemy,
+life, movement and draw units remain byte-identical. This advances source
+layout, not the 1,005-function exactness ledger.
+
 ## 2026-11-02 exact 127-byte Enemy position clamp: native flag bit
 
 `EnemyView::ClampPositionToMovementBounds` originally carried a second large

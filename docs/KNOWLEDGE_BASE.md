@@ -10,6 +10,23 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 exact 554-byte EnemyManager Initialize, native state
+
+Original-bound 554-byte `EnemyManagerView::Initialize` previously used a
+private 0x5430-byte `EnemyLifecycleInitView` to populate the same
+`spawnTemplate328` already declared as native `EnemyView`. The source now
+uses `EnemyView` directly: the existing 2-VM/96-trail storage, native
+boss and shot timers, ECL call-depth fields, bullet descriptor spawn and
+transform sounds at +0x3074/+0x3078 and attached effect count at +0x5414.
+The +0x2E54 score integer aliases the exact ECL operand scalar, and
++0x3369/+0x336A/+0x336C use bounded byte fields instead of opaque ranges.
+Four independently tested native source forms all reproduced the complete
+**554/554 PE bytes**; exact dependent owner proof continues to cover
+RunEcl 15,564/30 with 96 exact siblings and Enemy calc 3,900/13 with
+88 exact siblings. Four ECL operand functions totaling 5,718 bytes and
+16 selected Enemy/graphics owner units remain exact. This is original-
+bound source consolidation, not a new exact owner.
+
 ### 2026-11-02 native Enemy position clamp flag bit; complete 127-byte exact replay
 
 TH09's position clamp reads the low bit of the byte at Enemy +0x337E,
