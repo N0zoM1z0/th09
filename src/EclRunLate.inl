@@ -45,13 +45,9 @@ typedef char Th09EclLateBackgroundScriptAtCDC[
 typedef char Th09EclLateBackgroundVmsAtCE0[
     (offsetof(Background, spellVms) == 0xCE0) ? 1 : -1];
 
-struct PlayerLateView
-{
-    unsigned char unknown00000[0x1B88];
-    EnemyFloat3 position1B88;
-    unsigned char unknown01B94[0x303F4 - 0x1B94];
-    int tableValue303F4;
-};
+// Reuse Enemy's concrete Player window, rather than an independent ECL-only
+// reconstruction of +0x1B88 and +0x303F4.
+typedef ::EnemyCorePlayerView PlayerLateView;
 typedef char Th09EclLatePlayerPositionAt1B88[
     (offsetof(PlayerLateView, position1B88) == 0x1B88) ? 1 : -1];
 typedef char Th09EclLatePlayerTableAt303F4[
@@ -62,20 +58,13 @@ typedef char Th09EclLateOwnerPrimaryAtA4[
     (offsetof(SideOwnerView, primaryStateA4) == 0xA4 &&
      offsetof(SideOwnerView, alternateStateA8) == 0xA8) ? 1 : -1];
 
-struct SideStateView
-{
-    Background *background00;
-    PlayerLateView *player04;
-    EtamaController *bulletController08;
-    EffectManager *effectManager0C;
-    EnemyManagerView *enemyManager10;
-    SideOwnerView *owner14;
-    unsigned char unknown18[0x20];
-};
+// ECL late instructions and Enemy calc both traverse the same side-state
+// object.  Keep the canonical offsets in the shared native struct.
+typedef ::EnemyCoreSideStateView SideStateView;
 typedef char Th09EclLateSideSizeIs38[
     (sizeof(SideStateView) == 0x38) ? 1 : -1];
 typedef char Th09EclLateSideBulletAt08[
-    (offsetof(SideStateView, bulletController08) == 0x08) ? 1 : -1];
+    (offsetof(SideStateView, etama08) == 0x08) ? 1 : -1];
 typedef char Th09EclLateSideOwnerAt14[
     (offsetof(SideStateView, owner14) == 0x14) ? 1 : -1];
 
@@ -108,7 +97,7 @@ inline ManagerLateView *Manager(EnemyView *enemy)
 
 inline EtamaController *BulletController(EnemyView *enemy)
 {
-    return Manager(enemy)->sideState320->bulletController08;
+    return Manager(enemy)->sideState320->etama08;
 }
 
 inline float &MainAnmRotation(EnemyView *enemy)

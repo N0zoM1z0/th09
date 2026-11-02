@@ -129,7 +129,6 @@ typedef char EnemyCoreTrailSampleSizeIs1C[
 typedef char EnemyCoreTrailVertexSizeIs1C[
     (sizeof(EnemyCoreTrailVertexView) == 0x1C) ? 1 : -1];
 
-struct EnemyCorePlayerView;
 struct EnemyCoreView;
 
 
@@ -138,26 +137,6 @@ typedef char EnemyCoreSideStateSizeIs38[
      offsetof(EnemyCoreSideStateView, owner14) == 0x14 &&
      offsetof(EnemyCoreSideStateView, characterIndex20) == 0x20 &&
      offsetof(EnemyCoreSideStateView, flags34) == 0x34) ? 1 : -1];
-
-struct EnemyCorePlayerView
-{
-    unsigned char unknown00000[0x364];
-    Effect *focusEffect364;
-    unsigned char unknown00368[0x1B88 - 0x368];
-    Float3 position1B88;
-    unsigned char unknown01B94[0x30364 - 0x1B94];
-    PlayerEnemyTrackingStateView tracking30364;
-    unsigned char unknown30380[0x303C8 - 0x30380];
-    ZunTimer stateTimer303C8;
-
-};
-typedef char EnemyCorePlayerFocusAt364[
-    (offsetof(EnemyCorePlayerView, focusEffect364) == 0x364) ? 1 : -1];
-typedef char EnemyCorePlayerPositionAt1B88[
-    (offsetof(EnemyCorePlayerView, position1B88) == 0x1B88) ? 1 : -1];
-typedef char EnemyCorePlayerHomingAt3037C[
-    (offsetof(EnemyCorePlayerView, tracking30364) +
-     offsetof(PlayerEnemyTrackingStateView, homingTarget18) == 0x3037C) ? 1 : -1];
 
 // The reset copy and the native Etama call use the same 0x214-byte payload.
 // Keep the independently reviewed offsets without a second descriptor class.

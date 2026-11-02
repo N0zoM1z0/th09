@@ -27,9 +27,11 @@ class RealEtamaRemoveCallees(unittest.TestCase):
     def test_ecl_late_controller_uses_real_side_etama_owner_and_two_callees(self):
         late=(ROOT/'src/EclRunLate.inl').read_text()
         audit=(ROOT/'scripts/audit-ecl-callsite-identities.py').read_text()
-        self.assertIn('EtamaController *bulletController08;',late)
+        side=(ROOT/'src/EclRunState.inl').read_text()
+        self.assertIn('typedef ::EnemyCoreSideStateView SideStateView;',late)
+        self.assertIn('EtamaController *etama08;',side)
         self.assertIn('inline EtamaController *BulletController(',late)
-        self.assertIn('return Manager(enemy)->sideState320->bulletController08;',late)
+        self.assertIn('return Manager(enemy)->sideState320->etama08;',late)
         self.assertIn('->RemoveAllBullets(',late)
         self.assertIn('->RemoveBulletsInRadius(',late)
         self.assertNotIn('BulletControllerLateView',late)

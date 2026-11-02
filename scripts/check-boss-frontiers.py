@@ -768,9 +768,12 @@ RUNECL_REAL_ETAMA_REMOVE_CALLEES = (
 
 def validate_runecl_real_etama_callees(units: dict) -> None:
     fragment = (ROOT/'src/EclRunLate.inl').read_text()
+    shared = (ROOT/'src/EclRunState.inl').read_text()
     audit = (ROOT/'scripts/audit-ecl-callsite-identities.py').read_text()
-    if (fragment.count('EtamaController *bulletController08;') != 1 or
+    if (fragment.count('typedef ::EnemyCoreSideStateView SideStateView;') != 1 or
+            shared.count('EtamaController *etama08;') != 1 or
             fragment.count('inline EtamaController *BulletController(') != 1 or
+            fragment.count('return Manager(enemy)->sideState320->etama08;') != 1 or
             'struct BulletControllerLateView' in fragment or
             'BulletControllerLateView@Th09EclRunLate' in audit or
             fragment.count('->RemoveAllBullets(') != 1 or

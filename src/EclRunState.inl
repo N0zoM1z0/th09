@@ -25,6 +25,7 @@
 #include "SoundPlayer.hpp"
 #include "GameManagerEclStateView.hpp"
 #include "Background.hpp"
+#include "EnemyCorePlayerView.hpp"
 #include "ZunMemory.hpp"
 
 #include "EclEnemyPrimaryFlags.hpp"
@@ -60,7 +61,6 @@ typedef char Th09EclStateFlagBitsSizeIs04[
 // Shared observed storage used by ECL state handlers and Enemy update.
 // Roles and offsets are target-bound; original nominal C++ classes remain unknown.
 struct EnemyManagerCoreView;
-struct EnemyCorePlayerView;
 struct EnemyCoreView;
 
 // The side owner's two observed control dwords are consumed by the late ECL
