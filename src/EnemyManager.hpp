@@ -52,6 +52,7 @@ typedef char EnemyRewardPlayerLevelAt30448[
 
 class ChainElem;
 class AnmLoaded;
+class EtamaController;
 struct EnemyManagerView;
 struct EnemyView;
 
@@ -59,7 +60,7 @@ struct EnemySideStateView
 {
     unsigned char unknown00[0x04];
     EnemyRewardPlayerView *player04;
-    unsigned char unknown08[0x04];
+    EtamaController *etama08;
     EffectManager *effectManager0C;
     EnemyManagerView *enemyManager10;
     unsigned char unknown14[0x0C];
@@ -68,6 +69,8 @@ struct EnemySideStateView
 };
 typedef char EnemySideStateSizeIs38[
     (sizeof(EnemySideStateView) == 0x38) ? 1 : -1];
+typedef char EnemySideStateEtamaAt08[
+    (offsetof(EnemySideStateView, etama08) == 0x08) ? 1 : -1];
 typedef char EnemySideStateCharacterAt20[
     (offsetof(EnemySideStateView, characterIndex20) == 0x20) ? 1 : -1];
 

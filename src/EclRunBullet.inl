@@ -98,9 +98,7 @@ inline EnemyBulletView *View(EnemyView *enemy)
 
 inline EtamaController *Controller(EnemyView *enemy)
 {
-    unsigned char *side = *reinterpret_cast<unsigned char **>(
-        reinterpret_cast<unsigned char *>(enemy->manager00) + 0x0320);
-    return *reinterpret_cast<EtamaController **>(side + 0x0008);
+    return enemy->manager00->sideState320->etama08;
 }
 
 inline Th09EclContextView *ActiveContext(EnemyView *enemy)

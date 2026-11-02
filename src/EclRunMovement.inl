@@ -218,13 +218,13 @@ static void BeginBoundaryAwareMove(
 #define TH09_EXPR_MOVEMENT_VIEW(owner) \
     (static_cast<Th09EclRunMovement::EnemyMovementView *>(reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>((owner))))
 #define TH09_EXPR_MOVEMENT_PRIMARY_ANM(owner) \
-    (static_cast<void *>(*reinterpret_cast<void **>(reinterpret_cast<unsigned char *>((owner)->manager00) + 0x2AC420)))
+    (static_cast<void *>((owner)->manager00->enemyAnm2AC420))
 #define TH09_EXPR_MOVEMENT_ALTERNATE_ANM(owner) \
-    (static_cast<void *>(*reinterpret_cast<void **>(reinterpret_cast<unsigned char *>((owner)->manager00) + 0x2AC424)))
+    (static_cast<void *>((owner)->manager00->opposingEnemyAnm2AC424))
 #define TH09_EXPR_MOVEMENT_PRIMARY_ANM_VM(owner) \
     (static_cast<void *>(reinterpret_cast<unsigned char *>((owner)) + 0x0008))
 #define TH09_EXPR_MOVEMENT_PLAYER(owner) \
-    (static_cast<void *>(*reinterpret_cast<void **>((*reinterpret_cast<unsigned char **>(reinterpret_cast<unsigned char *>((owner)->manager00) + 0x0320)) + 0x0004)))
+    (static_cast<void *>((owner)->manager00->sideState320->player04))
 #define TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(owner) \
     (static_cast<Th09EclRunMovement::EnemyPrimaryFlagBits *>(reinterpret_cast<Th09EclRunMovement::EnemyPrimaryFlagBits *>(&(reinterpret_cast<Th09EclRunMovement::EnemyMovementView *>((owner)))->primaryFlags337C)))
 #define TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(owner) \
