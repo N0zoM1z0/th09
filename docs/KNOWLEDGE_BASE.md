@@ -10,6 +10,24 @@ share one **0x38-byte** native layout. Consult
 [the active handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-02 RunEcl state opcode family uses native Enemy state (15,564-byte full proof)
+
+Retested seven source-comparison variants against the original complete
+`RunEcl` owner, not only one individual opcode. **25** private ECL state
+field sites were replaced by native Enemy/Manager members: boss slot,
+manager `remoteSlots2AC388` Boss owner array, current context, position,
+minimum player distance, drop code, draw group, secondary ANM VMs,
+primary VM, child contexts and effect manager. The formerly unused
+`Th09EclRunState::BossSlots` private projection was eliminated; the
+nonexact 15,564-byte interpreter's full 598-field and switch-table
+contracts remain intact. Fresh source-cold PE/COFF comparison reports
+30 ordinary bytes differing (7 opcode 4; 23 opcode 155), **no new
+mismatch locations**, all **96 exact ECL source siblings**, and
+all **88 exact Enemy main siblings** still identical. Four independent
+ECL operand resolver owners retain **5,718/5,718** original bytes.
+Nominal class ownership and full Windows runtime remain open, so this is
+not a new byte-exact owner credit.
+
 ### 2026-11-02 native child-ECL release reuses original Enemy storage
 
 Original TH09 48-byte `EnemyCoreReleaseChildEclBlocks` frees the four

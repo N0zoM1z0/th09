@@ -177,6 +177,28 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('return rawFile00->resolvedSubroutines[index];',leaves)
         self.assertNotIn('reinterpret_cast<unsigned char *>(rawFile00)',leaves)
 
+    def test_runecl_boss_state_opcodes_use_real_native_enemy_fields(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        state=(ROOT/'src/EclRunState.inl').read_text()
+        self.assertIn('EnemyManagerRemoteSlotsAt2AC388',native)
+        self.assertIn('enemy->manager00->remoteSlots2AC388[',state)
+        self.assertNotIn('Th09EclRunState::BossSlots(enemy)',state)
+        self.assertNotIn('inline EnemyView **BossSlots(',state)
+        for field in ('bossSlot336B','activeContext2CE0',
+                      'position2D74','minimumPlayerDistanceSquared33A8',
+                      'itemDropType335C','drawGroup3387',
+                      'secondaryVms2AC','childEclBlocks33D8'):
+            with self.subTest(field=field):
+                self.assertIn('enemy->'+field,state)
+                self.assertIn(field,native)
+                self.assertNotIn('Th09EclRunState::View(enemy)->'+field,state)
+        self.assertIn('enemy->primaryAnmVm0008.pendingInterrupt',state)
+        self.assertIn('enemy->manager00->primaryEclManager000.InitializeSubroutine',state)
+        self.assertIn('enemy->manager00->sideState320->',state)
+        self.assertNotIn('Th09EclRunState::View(enemy)->manager0000',state)
+        self.assertIn('enemy->primaryFlagBits337C.specialInteraction07',state)
+        self.assertIn('enemy->drawGroup3387 = 2;',state)
+
     def test_exact_child_ecl_free_leaf_uses_real_native_enemy_slot_array(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         free=(ROOT/'src/EnemyCoreReleaseChildEclBlocks.cpp').read_text()

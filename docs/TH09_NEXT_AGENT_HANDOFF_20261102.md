@@ -1,5 +1,24 @@
 # TH09 next-agent handoff — 2026-11-02
 
+## 2026-11-02 RunEcl 15,564-byte boss: 25 native state sites
+
+Independently source-cold rebuilt the full TH09 1.50a `RunEcl`
+interpreter and replaced **25** target-bound ECL state reads/writes
+formerly routed through `Th09EclRunState::EnemyStateView`, plus one
+private temporary draw-group receiver, with actual `EnemyView`/
+`EnemyManagerView` members. The Boss binding is the same reviewed
+nine-slot `remoteSlots2AC388` array as remote ECL opcodes; the main
+and secondary ANM interrupt sites, child contexts, callback context,
+item drop, boss slot, position and effect manager now use native fields.
+Removed the unused private BossSlots projection. Seven incremental
+real VC7.1 trials reproduced the full **15,564-byte** physical owner,
+**30** ordinary residual bytes (opcode 4: 7; opcode 155: 23), zero
+field/table differences; all **96** canonical exact ECL siblings pass.
+The 3,900-byte Enemy main retains **13** differences with all **88**
+exact siblings passing; four ECL operand owners **5,718/5,718** exact.
+This is substantial large-source ownership progress, not newly exact
+machine code or a Windows runtime claim.
+
 ## 2026-11-02 exact 48-byte Enemy child-ECL release uses native storage
 
 The real `EnemyCoreReleaseChildEclBlocks` at `0x004100E0` walks exactly four

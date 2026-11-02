@@ -355,11 +355,6 @@ inline EnemyStateView *View(EnemyView *enemy)
     return reinterpret_cast<EnemyStateView *>(enemy);
 }
 
-inline EnemyView **BossSlots(EnemyView *enemy)
-{
-    return View(enemy)->manager0000->bossSlots2AC388;
-}
-
 inline int &BackgroundScriptLabel(EnemyView *enemy)
 {
     return View(enemy)->manager0000->sideState320->background00->pendingStageLabel18;
@@ -420,31 +415,31 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         if (stateInt >= 0)
         {
-            Th09EclRunState::BossSlots(enemy)[
+            enemy->manager00->remoteSlots2AC388[
                 Th09EclRunControl::ReadInt(enemy, instruction, 0)] = enemy;
             enemy->primaryFlagBits337C.boss01 = 1;
-            Th09EclRunState::View(enemy)->bossSlot336B =
+            enemy->bossSlot336B =
                 static_cast<unsigned char>(
                     Th09EclRunControl::ReadInt(enemy, instruction, 0));
             // Retail calls exact SetBossMarkerInterrupt @0x4067D0 here,
             // not the distinct AsciiManager::SetBossMarkerState @0x40F890.
             reinterpret_cast<AsciiBossMarkerVmView *>(&::g_AsciiManager)->SetBossMarkerInterrupt(
-                Th09EclRunState::View(enemy)->bossSlot336B,
+                enemy->bossSlot336B,
                 1);
-            Th09EclRunState::View(enemy)->minimumPlayerDistanceSquared33A8 =
+            enemy->minimumPlayerDistanceSquared33A8 =
                 0.0f;
         }
         else
         {
-            Th09EclRunState::BossSlots(enemy)[
-                Th09EclRunState::View(enemy)->bossSlot336B] = 0;
+            enemy->manager00->remoteSlots2AC388[
+                enemy->bossSlot336B] = 0;
             enemy->primaryFlagBits337C.boss01 = 0;
             reinterpret_cast<AsciiBossMarkerVmView *>(&::g_AsciiManager)->SetBossMarkerInterrupt(
-                Th09EclRunState::View(enemy)->bossSlot336B,
+                enemy->bossSlot336B,
                 2);
             Th09EclRunState::ReleaseAttachedEffects(enemy);
             reinterpret_cast<AsciiBossMarkerVmView *>(&::g_AsciiManager)->SetBossMarkerPosition(
-                Th09EclRunState::View(enemy)->bossSlot336B,
+                enemy->bossSlot336B,
                 &Float3(-999.0f, -999.0f, 0.0f));
         }
         break;
@@ -457,7 +452,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_SET_DRAW_GROUP:
-        Th09EclRunState::View(enemy)->drawGroup3387 =
+        enemy->drawGroup3387 =
             static_cast<unsigned char>(
                 Th09EclRunControl::ReadInt(enemy, instruction, 0));
         break;
@@ -466,7 +461,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         ::g_SoundPlayer.PlaySoundPositionedByIdx(
             stateInt,
-            Th09EclRunState::View(enemy)->position2D74.x);
+            enemy->position2D74.x);
         break;
 
     case TH09_ECL_OPCODE_SET_DEATH_MODE:
@@ -540,34 +535,31 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
             break;
         memset(childEcl, 0, sizeof(*childEcl));
         reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-            Th09EclRunState::View(enemy)->
-                childEclBlocks33D8[stateIndex])->subroutineId00 =
+            enemy->childEclBlocks33D8[stateIndex])->subroutineId00 =
                     Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        Th09EclRunState::View(enemy)->manager0000->primaryEclManager000.InitializeSubroutine(
+        enemy->manager00->primaryEclManager000.InitializeSubroutine(
             &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
                 enemy->childEclBlocks33D8[stateIndex])->
                     context08,
             static_cast<short>(
                 reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-                    Th09EclRunState::View(enemy)->
-                        childEclBlocks33D8[stateIndex])->subroutineId00));
+                    enemy->childEclBlocks33D8[stateIndex])->subroutineId00));
         memcpy(
             reinterpret_cast<unsigned char *>(
                 &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-                    Th09EclRunState::View(enemy)->
-                        childEclBlocks33D8[stateIndex])->context08) +
+                    enemy->childEclBlocks33D8[stateIndex])->context08) +
                 0x1C,
             reinterpret_cast<unsigned char *>(
-                Th09EclRunState::View(enemy)->activeContext2CE0) + 0x1C,
+                enemy->activeContext2CE0) + 0x1C,
             0x78);
         break;
 
     case TH09_ECL_OPCODE_SPAWN_EFFECT:
-        Th09EclRunState::View(enemy)->manager0000->sideState320->
+        enemy->manager00->sideState320->
             effectManager0C->SpawnEffect(
                 Th09EclRunControl::ReadInt(enemy, instruction, 0),
                 reinterpret_cast<const EffectFloat3 *>(
-                    &Th09EclRunState::View(enemy)->position2D74),
+                    &enemy->position2D74),
                 Th09EclRunControl::ReadInt(enemy, instruction, 1),
                 static_cast<unsigned int>(
                     *Th09EclRunControl::WriteInt(enemy, instruction, 2)));
@@ -579,11 +571,11 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         effectVelocity.x = Th09EclRunControl::ReadFloat(enemy, instruction, 3);
         effectVelocity.y = Th09EclRunControl::ReadFloat(enemy, instruction, 4);
         effectVelocity.z = Th09EclRunControl::ReadFloat(enemy, instruction, 5);
-        Th09EclRunState::View(enemy)->manager0000->sideState320->
+        enemy->manager00->sideState320->
             effectManager0C->SpawnEffectWithVelocity(
                 Th09EclRunControl::ReadInt(enemy, instruction, 0),
                 reinterpret_cast<const EffectFloat3 *>(
-                    &Th09EclRunState::View(enemy)->position2D74),
+                    &enemy->position2D74),
                 &effectVelocity,
                 Th09EclRunControl::ReadInt(enemy, instruction, 1),
                 static_cast<unsigned int>(
@@ -592,7 +584,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     }
 
     case TH09_ECL_OPCODE_SET_ITEM_DROP_TYPE:
-        Th09EclRunState::View(enemy)->itemDropType335C =
+        enemy->itemDropType335C =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
@@ -621,21 +613,21 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         {
             stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
             reinterpret_cast<EnemyEclCallbackContextView *>(
-                Th09EclRunState::View(enemy)->activeContext2CE0)->callback014 =
+                enemy->activeContext2CE0)->callback014 =
                     g_EnemyEclExInstructions[stateIndex];
             reinterpret_cast<EnemyEclCallbackContextView *>(
-                Th09EclRunState::View(enemy)->activeContext2CE0)->instruction018 =
+                enemy->activeContext2CE0)->instruction018 =
                     reinterpret_cast<EnemyEclExInstructionView *>(instruction);
         }
         else
         {
             reinterpret_cast<EnemyEclCallbackContextView *>(
-                Th09EclRunState::View(enemy)->activeContext2CE0)->callback014 = 0;
+                enemy->activeContext2CE0)->callback014 = 0;
         }
         break;
 
     case TH09_ECL_OPCODE_ADD_TIME:
-        Th09EclRunState::View(enemy)->activeContext2CE0->time008 +=
+        enemy->activeContext2CE0->time008 +=
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
         break;
 
@@ -655,14 +647,14 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     }
 
     case TH09_ECL_OPCODE_INTERRUPT_MAIN_ANM:
-        Th09EclRunState::View(enemy)->primaryVm008.pendingInterrupt =
+        enemy->primaryAnmVm0008.pendingInterrupt =
             static_cast<short>(
                 Th09EclRunControl::ReadInt(enemy, instruction, 0));
         break;
 
     case TH09_ECL_OPCODE_INTERRUPT_SECONDARY_ANM:
         stateIndex = Th09EclRunControl::RawInt(instruction, 0);
-        Th09EclRunState::View(enemy)->secondaryVms2AC[stateIndex].
+        enemy->secondaryVms2AC[stateIndex].
             pendingInterrupt = Th09EclRunState::RawShort(instruction, 4);
         break;
 
@@ -719,11 +711,9 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
 
     case TH09_ECL_OPCODE_SET_SPECIAL_INTERACTION:
     {
-        Th09EclRunState::EnemyStateView &state =
-            *Th09EclRunState::View(enemy);
         enemy->primaryFlagBits337C.specialInteraction07 =
             Th09EclRunState::RawByte(instruction, 0);
-        state.drawGroup3387 = 2;
+        enemy->drawGroup3387 = 2;
         break;
     }
 
