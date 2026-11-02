@@ -76,19 +76,11 @@ typedef char SupervisorStartupStateAt6BC[
 typedef char SupervisorStartupTimeAt798[
     (offsetof(SupervisorStartupLayout, totalPlayTime) == 0x798) ? 1 : -1];
 
-struct SupervisorDirectInputPrefix
-{
-    unsigned char unknown000[0x0C];
-    IDirectInput8A *directInput;
-    IDirectInputDevice8A *keyboard;
-    IDirectInputDevice8A *controller0;
-    IDirectInputDevice8A *controller1;
-    DIDEVCAPS controllerCaps[2];
-    HWND window;
-};
-
+// The same native Supervisor owns DirectInput devices at +0x0C..+0x18,
+// two 0x2C DIDEVCAPS at +0x1C and the real HWND at +0x74.
 typedef char SupervisorDirectInputWindowAt74[
-    (offsetof(SupervisorDirectInputPrefix, window) == 0x74) ? 1 : -1];
+    (offsetof(Supervisor, window74) == 0x74 &&
+     sizeof(DIDEVCAPS) == 0x2C) ? 1 : -1];
 
 struct SupervisorThreadCloseView
 {
@@ -137,85 +129,84 @@ extern const char g_StartupErrorBgm[];
 
 static int SetupDInputInternal(Supervisor *supervisor)
 {
-    SupervisorDirectInputPrefix *s =
-        reinterpret_cast<SupervisorDirectInputPrefix *>(supervisor);
-    HINSTANCE instance = (HINSTANCE)GetWindowLongA(s->window, GWL_HINSTANCE);
+    Supervisor *s = supervisor;
+    HINSTANCE instance = (HINSTANCE)GetWindowLongA(s->window74, GWL_HINSTANCE);
 
     if (supervisor->IsDirectInputDisabled())
         return -1;
 
     if (DirectInput8Create(instance, 0x800, IID_IDirectInput8A,
-                           (void **)&s->directInput, NULL) < 0)
+                           (void **)&s->directInput0C, NULL) < 0)
     {
-        s->directInput = NULL;
+        s->directInput0C = NULL;
         g_GameErrorContext.Log(g_DirectInputCreateError);
         return -1;
     }
 
-    if (s->directInput->CreateDevice(g_KeyboardDeviceGuid, &s->keyboard, NULL) < 0)
+    if (s->directInput0C->CreateDevice(g_KeyboardDeviceGuid, &s->keyboard10, NULL) < 0)
     {
-        if (s->directInput != NULL)
+        if (s->directInput0C != NULL)
         {
-            s->directInput->Release();
-            s->directInput = NULL;
+            s->directInput0C->Release();
+            s->directInput0C = NULL;
         }
         g_GameErrorContext.Log(g_DirectInputCreateError);
         return -1;
     }
 
-    if (s->keyboard->SetDataFormat(&g_KeyboardDataFormat) < 0)
+    if (s->keyboard10->SetDataFormat(&g_KeyboardDataFormat) < 0)
     {
-        if (s->keyboard != NULL)
+        if (s->keyboard10 != NULL)
         {
-            s->keyboard->Release();
-            s->keyboard = NULL;
+            s->keyboard10->Release();
+            s->keyboard10 = NULL;
         }
-        if (s->directInput != NULL)
+        if (s->directInput0C != NULL)
         {
-            s->directInput->Release();
-            s->directInput = NULL;
+            s->directInput0C->Release();
+            s->directInput0C = NULL;
         }
         g_GameErrorContext.Log(g_DirectInputSetFormatError);
         return -1;
     }
 
-    if (s->keyboard->SetCooperativeLevel(s->window, 0x16) < 0)
+    if (s->keyboard10->SetCooperativeLevel(s->window74, 0x16) < 0)
     {
-        if (s->keyboard != NULL)
+        if (s->keyboard10 != NULL)
         {
-            s->keyboard->Release();
-            s->keyboard = NULL;
+            s->keyboard10->Release();
+            s->keyboard10 = NULL;
         }
-        if (s->directInput != NULL)
+        if (s->directInput0C != NULL)
         {
-            s->directInput->Release();
-            s->directInput = NULL;
+            s->directInput0C->Release();
+            s->directInput0C = NULL;
         }
         g_GameErrorContext.Log(g_DirectInputCooperativeError);
         return -1;
     }
 
-    s->keyboard->Acquire();
+    s->keyboard10->Acquire();
     g_GameErrorContext.Log(g_DirectInputAcquireMessage);
-    s->directInput->EnumDevices(4, StartupEnumControllers, NULL, 1);
+    s->directInput0C->EnumDevices(4, StartupEnumControllers, NULL, 1);
 
-    if (s->controller0 != NULL)
+    if (s->controller014 != NULL)
     {
-        s->controller0->SetDataFormat(&g_ControllerDataFormat);
-        s->controller0->SetCooperativeLevel(s->window, 10);
-        reinterpret_cast<SupervisorDirectInputPrefix *>(&g_Supervisor)->controllerCaps[0].dwSize = sizeof(DIDEVCAPS);
-        s->controller0->GetCapabilities(&reinterpret_cast<SupervisorDirectInputPrefix *>(&g_Supervisor)->controllerCaps[0]);
-        s->controller0->EnumObjects(StartupEnumObjects0, NULL, 0);
+        s->controller014->SetDataFormat(&g_ControllerDataFormat);
+        s->controller014->SetCooperativeLevel(s->window74, 10);
+        (*reinterpret_cast<DIDEVCAPS *>(&g_Supervisor.controllerCaps1C[0])).dwSize = sizeof(DIDEVCAPS);
+        s->controller014->GetCapabilities(&(*reinterpret_cast<DIDEVCAPS *>(&g_Supervisor.controllerCaps1C[0])));
+        s->controller014->EnumObjects(StartupEnumObjects0, NULL, 0);
         g_GameErrorContext.Log(g_Controller0ConfiguredMessage);
     }
 
-    if (s->controller1 != NULL)
+    if (s->controller118 != NULL)
     {
-        s->controller1->SetDataFormat(&g_ControllerDataFormat);
-        s->controller1->SetCooperativeLevel(s->window, 10);
-        reinterpret_cast<SupervisorDirectInputPrefix *>(&g_Supervisor)->controllerCaps[1].dwSize = sizeof(DIDEVCAPS);
-        s->controller1->GetCapabilities(&reinterpret_cast<SupervisorDirectInputPrefix *>(&g_Supervisor)->controllerCaps[1]);
-        s->controller1->EnumObjects(StartupEnumObjects1, NULL, 0);
+        s->controller118->SetDataFormat(&g_ControllerDataFormat);
+        s->controller118->SetCooperativeLevel(s->window74, 10);
+        (*reinterpret_cast<DIDEVCAPS *>(&g_Supervisor.controllerCaps1C[1])).dwSize = sizeof(DIDEVCAPS);
+        s->controller118->GetCapabilities(&(*reinterpret_cast<DIDEVCAPS *>(&g_Supervisor.controllerCaps1C[1])));
+        s->controller118->EnumObjects(StartupEnumObjects1, NULL, 0);
         g_GameErrorContext.Log(g_Controller1ConfiguredMessage);
     }
 

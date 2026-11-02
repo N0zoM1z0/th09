@@ -7,6 +7,9 @@
 
 struct IDirect3D8;
 struct IDirect3DDevice8;
+struct IDirectInput8A;
+struct IDirectInputDevice8A;
+struct HWND__;
 struct AnmLoaded;
 struct StartupAnmVm;
 struct StartupAnmLoaded;
@@ -65,7 +68,12 @@ class Supervisor
     unsigned char unknown000[0x04];
     IDirect3D8 *d3d04;
     IDirect3DDevice8 *d3dDevice08;
-    unsigned char unknown00C[0x78 - 0x0C];
+    IDirectInput8A *directInput0C;
+    IDirectInputDevice8A *keyboard10;
+    IDirectInputDevice8A *controller014;
+    IDirectInputDevice8A *controller118;
+    unsigned char controllerCaps1C[2][0x2C];
+    HWND__ *window74;
     SupervisorCtorArrayElement ctorArray078[3];
     unsigned char unknown348[0x384 - 0x348];
     DummyMidiTimerStartup *dummyMidiTimer384;
@@ -128,6 +136,16 @@ typedef char SupervisorFrameMultiplierAt5B8[
 typedef char SupervisorFlagsAt5D4[
     (offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
 typedef char SupervisorSizeIs7B0[(sizeof(Supervisor) == 0x7B0) ? 1 : -1];
+typedef char SupervisorNativeDInputFields[
+    (offsetof(Supervisor, directInput0C) == 0x0C &&
+     offsetof(Supervisor, keyboard10) == 0x10 &&
+     offsetof(Supervisor, controller014) == 0x14 &&
+     offsetof(Supervisor, controller118) == 0x18 &&
+     offsetof(Supervisor, controllerCaps1C) == 0x1C &&
+     sizeof(((Supervisor *)0)->controllerCaps1C[0]) == 0x2C &&
+     offsetof(Supervisor, window74) == 0x74 &&
+     offsetof(Supervisor, ctorArray078) == 0x78) ? 1 : -1];
+
 typedef char SupervisorNativeStartupAndAddedFields[
     (offsetof(Supervisor, dummyMidiTimer384) == 0x384 &&
      offsetof(Supervisor, startupVm584) == 0x584 &&
