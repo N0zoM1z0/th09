@@ -17,14 +17,23 @@ class AnmLoadedSprite
   public:
     int anmIdx;
     void *texture;
-    unsigned char unknown008[0x18];
+    // This storage is shared by the exact native ANM resource loader,
+    // sprite assignment and the Enemy boss's visible-size checks.
+    float startPixelX08;
+    float startPixelY0C;
+    float endPixelX10;
+    float endPixelY14;
+    float textureHeight18;
+    float textureWidth1C;
     float uvStartX;
     float uvStartY;
     float uvEndX;
     float uvEndY;
-    unsigned char unknown030[0x04];
+    float heightPx;
     float widthPx;
-    unsigned char unknown038[0x0C];
+    float scaleX38;
+    float scaleY3C;
+    unsigned int unknown40;
 };
 
 typedef char AnmLoadedSpriteSizeIs44[(sizeof(AnmLoadedSprite) == 0x44) ? 1 : -1];

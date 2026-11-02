@@ -103,12 +103,10 @@ enum EnemyCoreFlags
     ENEMY_CORE_PAUSE_WITH_PLAYER = 0x08000000
 };
 
-struct EnemyCoreLoadedSpriteView
-{
-    unsigned char unknown00[0x30];
-    float extent30;
-    float extent34;
-};
+typedef char EnemyCoreLoadedSpriteNativeDimensions[
+    (sizeof(AnmLoadedSprite) == 0x44 &&
+     offsetof(AnmLoadedSprite, heightPx) == 0x30 &&
+     offsetof(AnmLoadedSprite, widthPx) == 0x34) ? 1 : -1];
 
 // Shared maintained ANM layout at the three target-observed VM slots.
 // Nominal original class identity and complete product ownership remain open.
@@ -454,8 +452,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                 enemy->trailSamples33E8[0].angle18 = enemy->movementAngle2DE0;
             }
 
-            EnemyCoreLoadedSpriteView *loadedSprite =
-                reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite);
+            AnmLoadedSprite *loadedSprite =
+                enemy->primaryVm008.loadedSprite;
             if (loadedSprite == 0)
                 enemy->primaryFlags337C |= ENEMY_CORE_NO_SPRITE;
 
@@ -467,8 +465,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                  g_GameManager.IsWithinPlayfield(
                     worldPosition->x,
                     worldPosition->y,
-                    loadedSprite->extent34,
-                    loadedSprite->extent30)))
+                    loadedSprite->widthPx,
+                    loadedSprite->heightPx)))
             {
                 enemy->primaryFlags337C |= ENEMY_CORE_HAS_BEEN_IN_BOUNDS;
             }
@@ -479,21 +477,21 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                      !g_GameManager.IsWithinPlayfield(
                          enemy->worldPosition2DD4.x,
                          enemy->worldPosition2DD4.y,
-                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent34,
-                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent30)) ||
+                        enemy->primaryVm008.loadedSprite->widthPx,
+                        enemy->primaryVm008.loadedSprite->heightPx)) ||
                     (enemy->trailFlags53A0 != 0 &&
                      !g_GameManager.IsWithinPlayfield(
                          enemy->worldPosition2DD4.x,
                          enemy->worldPosition2DD4.y,
-                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent34,
-                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent30) &&
+                        enemy->primaryVm008.loadedSprite->widthPx,
+                        enemy->primaryVm008.loadedSprite->heightPx) &&
                      !g_GameManager.IsWithinPlayfield(
                         enemy->trailSamples33E8[
                             enemy->trailHistoryLength53A2 - 1].position00.x,
                         enemy->trailSamples33E8[
                             enemy->trailHistoryLength53A2 - 1].position00.y,
-                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent34,
-                        reinterpret_cast<EnemyCoreLoadedSpriteView *>(enemy->primaryVm008.loadedSprite)->extent30)))
+                        enemy->primaryVm008.loadedSprite->widthPx,
+                        enemy->primaryVm008.loadedSprite->heightPx)))
                 {
                     enemy->primaryFlags337C &= ~ENEMY_CORE_ACTIVE;
                     reinterpret_cast<EnemyView *>(enemy)->CleanupAfterDeactivation();

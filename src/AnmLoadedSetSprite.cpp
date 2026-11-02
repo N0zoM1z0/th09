@@ -9,21 +9,16 @@ struct AnmSetSpriteFloat2
     float y;
 };
 
-struct AnmSetSpriteLoadedSpriteView
-{
-    unsigned char unknown00[0x18];
-    float textureHeight18;
-    float textureWidth1C;
-    unsigned char unknown20[0x10];
-    float spriteHeight30;
-    float spriteWidth34;
-    float scaleX38;
-    float scaleY3C;
-    unsigned char unknown40[4];
-};
-
+// Use the genuine AnmLoadedSprite owner, also used by Enemy OnUpdate,
+// rather than a second 0x44-byte loader projection.
 typedef char AnmSetSpriteLoadedSpriteSizeIs44[
-    (sizeof(AnmSetSpriteLoadedSpriteView) == 0x44) ? 1 : -1];
+    (sizeof(AnmLoadedSprite) == 0x44 &&
+     offsetof(AnmLoadedSprite, textureHeight18) == 0x18 &&
+     offsetof(AnmLoadedSprite, textureWidth1C) == 0x1C &&
+     offsetof(AnmLoadedSprite, heightPx) == 0x30 &&
+     offsetof(AnmLoadedSprite, widthPx) == 0x34 &&
+     offsetof(AnmLoadedSprite, scaleX38) == 0x38 &&
+     offsetof(AnmLoadedSprite, scaleY3C) == 0x3C) ? 1 : -1];
 
 struct AnmSetSpriteVmView
 {
@@ -38,7 +33,7 @@ struct AnmSetSpriteVmView
     unsigned char unknown208[0x214 - 0x208];
     short activeSpriteIndex214;
     unsigned char unknown216[0x224 - 0x216];
-    AnmSetSpriteLoadedSpriteView *loadedSprite224;
+    AnmLoadedSprite *loadedSprite224;
     unsigned char unknown228[0x2A4 - 0x228];
 };
 
@@ -62,7 +57,7 @@ struct AnmSetSpriteLoadedView
     unsigned char unknown00[4];
     void *rawData04;
     unsigned char unknown08[4];
-    AnmSetSpriteLoadedSpriteView *sprites0C;
+    AnmLoadedSprite *sprites0C;
     unsigned char unknown10[8];
     int numberEntriesToBeLoaded18;
 };
@@ -87,8 +82,8 @@ int AnmLoaded::SetSprite(AnmVm *vm, int spriteIndex)
     target->activeSpriteIndex214 = (short)spriteIndex;
     target->anmFile204 = this;
     target->loadedSprite224 = &self->sprites0C[spriteIndex];
-    target->spriteSize28.x = target->loadedSprite224->spriteWidth34;
-    target->spriteSize28.y = target->loadedSprite224->spriteHeight30;
+    target->spriteSize28.x = target->loadedSprite224->widthPx;
+    target->spriteSize28.y = target->loadedSprite224->heightPx;
 
     target->matrix1.SetIdentity();
     target->matrix3.SetIdentity();
