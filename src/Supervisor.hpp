@@ -6,6 +6,7 @@
 
 struct IDirect3D8;
 struct IDirect3DDevice8;
+struct AnmLoaded;
 
 struct SupervisorCtorArrayElement
 {
@@ -63,11 +64,31 @@ class Supervisor
     SupervisorCtorArrayElement ctorArray078[3];
     unsigned char unknown348[0x40];
     GameConfiguration config388;
-    unsigned char unknown454[0x164];
+    // These slots are independently observed by the original 1,230-byte
+    // GameManager callback and the 214-byte Supervisor loading-VM owner.
+    unsigned char unknown454[0x590 - 0x454];
+    int state590;
+    int value594;
+    int value598;
+    int value59C;
+    unsigned char unknown5A0[4];
+    int screenTransitionCountdown;
+    unsigned char unknown5A8[0x5B8 - 0x5A8];
     float framerateMultiplier5B8;
-    unsigned char unknown5BC[0x18];
-    volatile unsigned int flags5D4;
-    unsigned char unknown5D8[0x1D8];
+    unsigned char unknown5BC[0x5D0 - 0x5BC];
+    AnmLoaded *loadingAnm5D0;
+    union { volatile unsigned int flags5D4; unsigned int flags; };
+    unsigned char unknown5D8[0x6AC - 0x5D8];
+    int runningSubthreadHandle;
+    unsigned char unknown6B0[4];
+    int subthreadCloseRequestActive;
+    int subthreadActive;
+    unsigned char unknown6BC[0x740 - 0x6BC];
+    int loadingVmsHaveBeenSetup;
+    unsigned char unknown744[0x798 - 0x744];
+    unsigned int totalPlayTime;
+    unsigned int systemTime;
+    unsigned char unknown7A0[0x7B0 - 0x7A0];
 };
 
 typedef char SupervisorD3DAt04[
@@ -83,5 +104,17 @@ typedef char SupervisorFrameMultiplierAt5B8[
 typedef char SupervisorFlagsAt5D4[
     (offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
 typedef char SupervisorSizeIs7B0[(sizeof(Supervisor) == 0x7B0) ? 1 : -1];
+typedef char SupervisorNativeSetupFields[
+    (offsetof(Supervisor, state590) == 0x590 &&
+     offsetof(Supervisor, value598) == 0x598 &&
+     offsetof(Supervisor, screenTransitionCountdown) == 0x5A4 &&
+     offsetof(Supervisor, loadingAnm5D0) == 0x5D0 &&
+     offsetof(Supervisor, flags) == 0x5D4 &&
+     offsetof(Supervisor, runningSubthreadHandle) == 0x6AC &&
+     offsetof(Supervisor, subthreadCloseRequestActive) == 0x6B4 &&
+     offsetof(Supervisor, subthreadActive) == 0x6B8 &&
+     offsetof(Supervisor, loadingVmsHaveBeenSetup) == 0x740 &&
+     offsetof(Supervisor, totalPlayTime) == 0x798 &&
+     offsetof(Supervisor, systemTime) == 0x79C) ? 1 : -1];
 
 extern Supervisor g_Supervisor;

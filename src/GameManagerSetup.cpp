@@ -88,31 +88,11 @@ typedef char SetupScoreRecordViewSizeCheck[
 
 #include "GameManagerSetupView.hpp"
 
-struct SupervisorSetupLayout
+// Preserve the established Setup-specific original method symbol identities,
+ // while reusing the real 0x7B0-byte Supervisor storage as a zero-offset base.
+ // No distinct SupervisorSetupLayout object is ever allocated by this TU.
+struct SupervisorSetupLayout : Supervisor
 {
-    unsigned char unknown_000[0x388];
-    GameConfiguration config;
-    unsigned char unknown_454[0x13C];
-    int state590;
-    int value594;
-    int value598;
-    int value59C;
-    unsigned char unknown_5A0[4];
-    int screenTransitionCountdown;
-    unsigned char unknown_5A8[0x28];
-    AnmLoaded *loadingAnm5D0;
-    unsigned int flags;
-    unsigned char unknown_5D8[0xD4];
-    int runningSubthreadHandle;
-    unsigned char unknown_6B0[4];
-    int subthreadCloseRequestActive;
-    int subthreadActive;
-    unsigned char unknown_6BC[0x84];
-    int loadingVmsHaveBeenSetup;
-    unsigned char unknown_744[0x54];
-    unsigned int totalPlayTime;
-    unsigned int systemTime;
-
     void SetupLoadingVmsAndInitCapture(SetupLoadingPosition *position);
     void StartEffect(int index);
     int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);
@@ -121,7 +101,6 @@ struct SupervisorSetupLayout
     void UpdatePlayTime();
     void UpdateGameTime();
 };
-
 
 typedef char SupervisorSetupLayoutLoadingAnmAt5D0[
     (offsetof(SupervisorSetupLayout, loadingAnm5D0) == 0x5D0) ? 1 : -1];
@@ -784,7 +763,7 @@ mode_ready:
     else
         newConfiguration = NULL;
     g_GameConfiguration = newConfiguration;
-    *g_GameConfiguration = supervisor->config;
+    *g_GameConfiguration = supervisor->config388;
     manager->speedEC = 1.0f;
 
     if (supervisor->flags & 0x200)
