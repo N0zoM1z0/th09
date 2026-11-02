@@ -390,7 +390,11 @@ static void DispatchShotInstruction(
         reinterpret_cast<unsigned char *>(instruction) + 0x0C);
     BulletSpawnDescriptor *descriptor = &view->bulletDescriptor2E74;
 
-    descriptor->position = view->worldPosition2DD4 + view->shootOffset2E04;
+    // The native Enemy fields are POD XYZ storage; the exact bullet math
+    // still uses the real Float3 addition contract on those same bytes.
+    descriptor->position =
+        reinterpret_cast<const Float3 &>(view->worldPosition2DD4) +
+        reinterpret_cast<const Float3 &>(view->shootOffset2E04);
     int bulletType = args->bulletType00;
     descriptor->bulletType = static_cast<short>(
         (instruction->parameterMask0A & 1)

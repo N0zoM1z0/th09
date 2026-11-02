@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EffectManager.hpp"
+#include "BulletManager.hpp"
 #include "PlayerEnemyTrackingStateView.hpp"
 #include "ZunTimer.hpp"
 
@@ -226,7 +227,14 @@ struct EnemyView
     int sequenceIndex2E58;
     unsigned char unknown2E5C[0x2E6C - 0x2E5C];
     int bossTimerCurrent2E6C;
-    unsigned char unknown2E70[0x32D8 - 0x2E70];
+    unsigned char unknown2E70[0x2E74 - 0x2E70];
+    // Original 0x214-byte bullet and laser descriptors are contiguous with
+    // the 44-byte pending instruction, interval and timer region.
+    BulletSpawnDescriptor bulletDescriptor2E74;
+    unsigned char pendingShotInstruction3088[0x2C];
+    int shootIntervalFrames30B4;
+    ZunTimer shootIntervalTimer30B8;
+    BulletSpawnDescriptor laserDescriptor30C4;
     Laser *laserSlots32D8[32];
     int selectedLaserSlot3358;
     // ECL reads the signed item-drop code; reward processing writes the
@@ -318,6 +326,14 @@ typedef char EnemyViewMovementScriptsAndBoundsAt3386[
      offsetof(EnemyView, movementLowerBounds3398) == 0x3398 &&
      offsetof(EnemyView, movementUpperBounds33A0) == 0x33A0 &&
      offsetof(EnemyView, minimumPlayerDistanceSquared33A8) == 0x33A8) ? 1 : -1];
+typedef char EnemyViewBulletAndLaserDescriptors[
+    (offsetof(EnemyView, bulletDescriptor2E74) == 0x2E74 &&
+     offsetof(EnemyView, pendingShotInstruction3088) == 0x3088 &&
+     offsetof(EnemyView, shootIntervalFrames30B4) == 0x30B4 &&
+     offsetof(EnemyView, shootIntervalTimer30B8) == 0x30B8 &&
+     offsetof(EnemyView, laserDescriptor30C4) == 0x30C4 &&
+     sizeof(((EnemyView *)0)->bulletDescriptor2E74) == 0x214 &&
+     sizeof(((EnemyView *)0)->laserDescriptor30C4) == 0x214) ? 1 : -1];
 typedef char EnemyViewLaserSlotsAt32D8[
     (offsetof(EnemyView, laserSlots32D8) == 0x32D8 &&
      sizeof(((EnemyView *)0)->laserSlots32D8) == 0x80) ? 1 : -1];

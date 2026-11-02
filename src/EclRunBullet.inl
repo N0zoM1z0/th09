@@ -32,29 +32,10 @@ enum EnemyBulletFlag
     ENEMY_DEFER_BULLET_PATTERN = 0x00004000
 };
 
-// The two descriptors exactly tile the target ranges around the deferred
-// instruction and interval timer: 0x2E74 + 0x214 == 0x3088 and
-// 0x30C4 + 0x214 == 0x32D8.
-struct EnemyBulletView
-{
-    EnemyManagerView *manager0000;
-    unsigned char unknown0004[0x2DD4 - 0x0004];
-    Float3 worldPosition2DD4;
-    unsigned char unknown2DE0[0x2E04 - 0x2DE0];
-    Float3 shootOffset2E04;
-    unsigned char unknown2E10[0x2E48 - 0x2E10];
-    int life2E48;
-    unsigned char unknown2E4C[0x2E74 - 0x2E4C];
-    BulletSpawnDescriptor bulletDescriptor2E74;
-    unsigned char pendingShotInstruction3088[0x2C];
-    int shootIntervalFrames30B4;
-    Th09EclTimerStorageView shootIntervalTimer30B8;
-    BulletSpawnDescriptor laserDescriptor30C4;
-    Laser *laserSlots32D8[32];
-    int selectedLaserSlot3358;
-    unsigned char unknown335C[0x337C - 0x335C];
-    unsigned int primaryFlags337C;
-};
+// The target's two 0x214-byte descriptor records and shot state are the
+// same EnemyView allocation used by Movement, Enemy update and the exact
+// operand leaves, not a second private 0x337C-byte Enemy projection.
+typedef ::EnemyView EnemyBulletView;
 
 typedef char Th09EclBulletDescriptorAt2E74[
     (offsetof(EnemyBulletView, bulletDescriptor2E74) == 0x2E74) ? 1 : -1];
@@ -93,7 +74,7 @@ typedef char Th09EclLaserArgsSizeIs34[
 
 inline EnemyBulletView *View(EnemyView *enemy)
 {
-    return reinterpret_cast<EnemyBulletView *>(enemy);
+    return enemy;
 }
 
 inline EtamaController *Controller(EnemyView *enemy)
@@ -282,7 +263,8 @@ static void DispatchShotInstruction(
 
     case TH09_ECL_OPCODE_SHOOT_NOW:
         Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.position =
-            *position + Th09EclRunBullet::View(enemy)->shootOffset2E04;
+            *position + reinterpret_cast<const Float3 &>(
+                Th09EclRunBullet::View(enemy)->shootOffset2E04);
         Th09EclRunBullet::Controller(enemy)->SpawnBulletPatternSecondary(
             &Th09EclRunBullet::View(enemy)->bulletDescriptor2E74);
         break;
@@ -302,8 +284,10 @@ static void DispatchShotInstruction(
         laserDescriptor =
             &Th09EclRunBullet::View(enemy)->laserDescriptor30C4;
         laserDescriptor->position =
-            Th09EclRunBullet::View(enemy)->worldPosition2DD4 +
-            Th09EclRunBullet::View(enemy)->shootOffset2E04;
+            reinterpret_cast<const Float3 &>(
+                Th09EclRunBullet::View(enemy)->worldPosition2DD4) +
+            reinterpret_cast<const Float3 &>(
+                Th09EclRunBullet::View(enemy)->shootOffset2E04);
         laserDescriptor->bulletType = laserArgs->bulletType00;
         {
             // Keep both paths signed-int width; narrow only at the descriptor field.

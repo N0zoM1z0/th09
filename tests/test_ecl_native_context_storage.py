@@ -62,6 +62,21 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('((owner)->activeContext2CE0)',resolver)
         self.assertIn('((owner)->manager00->sideState320->player04)',resolver)
 
+    def test_bullet_laser_family_shares_native_enemy_descriptors(self):
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        bullet=(ROOT/'src/EclRunBullet.inl').read_text()
+        post=(ROOT/'src/EclPostRuntime.inl').read_text()
+        self.assertIn('#include "BulletManager.hpp"',native)
+        self.assertIn('EnemyViewBulletAndLaserDescriptors',native)
+        self.assertIn('BulletSpawnDescriptor bulletDescriptor2E74;',native)
+        self.assertIn('BulletSpawnDescriptor laserDescriptor30C4;',native)
+        self.assertIn('pendingShotInstruction3088[0x2C]',native)
+        self.assertIn('ZunTimer shootIntervalTimer30B8;',native)
+        self.assertIn('typedef ::EnemyView EnemyBulletView;',bullet)
+        self.assertNotIn('struct EnemyBulletView\n{',bullet)
+        self.assertIn('return enemy;',bullet)
+        self.assertIn('reinterpret_cast<const Float3 &>(view->worldPosition2DD4)',post)
+
     def test_movement_opcode_reads_direct_native_flags(self):
         movement=(ROOT/'src/EclRunMovement.inl').read_text()
         self.assertIn('#define TH09_EXPR_MOVEMENT_VIEW(owner) ((owner))',movement)
