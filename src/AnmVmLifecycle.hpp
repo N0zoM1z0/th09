@@ -6,6 +6,7 @@
 
 class AnmLoaded;
 class AnmLoadedSprite;
+struct AnmRawInstr;
 
 // One target-observed base prefix and VM tail;original nominal classes are unknown.
 struct AnmVmBase
@@ -29,28 +30,42 @@ struct AnmVmBase
         struct {
             unsigned int visible : 1;
             unsigned int drawEnabled : 1;
-            unsigned int unknownFlags2_3 : 2;
+            unsigned int updateRotation : 1;
+            unsigned int updateScale : 1;
             unsigned int blendMode : 2;
-            unsigned int unknownFlags6_10 : 5;
+            unsigned int flag6 : 1;
+            unsigned int flag7 : 1;
+            unsigned int usePosOffset : 1;
+            unsigned int flip : 2;
             unsigned int anchor : 2;
             unsigned int disableZWrite : 1;
-            unsigned int unknownFlags14 : 18;
+            unsigned int stopped : 1;
+            unsigned int flag15 : 1;
+            unsigned int flag16 : 1;
+            unsigned int flag17 : 1;
+            unsigned int flag18 : 1;
+            unsigned int flag19 : 1;
+            unsigned int unknownFlags20_31 : 12;
         };
     };
     unsigned char unknown_01FC[2];
     short pendingInterrupt;
-    unsigned char unknown_0200[4];
+    int playerBulletHitAnimationType;
     AnmLoaded *anmFile;
     Float3 pos;
     short activeSpriteIndex;
     short anmFileIndex;
     short baseSpriteIndex;
     short scriptIndex;
-    unsigned char unknown_021C[4];
+    AnmRawInstr *beginningOfScript;
     void *currentInstruction;
     AnmLoadedSprite *loadedSprite;
 };
 typedef char AnmVmBaseSizeIs228[(sizeof(AnmVmBase) == 0x228) ? 1 : -1];
+typedef char AnmVmNativeDrawTypeAt200[
+    (offsetof(AnmVmBase, playerBulletHitAnimationType) == 0x200) ? 1 : -1];
+typedef char AnmVmNativeBeginningOfScriptAt21C[
+    (offsetof(AnmVmBase, beginningOfScript) == 0x21C) ? 1 : -1];
 typedef char AnmVmNativeFileIndexAt216[
     (offsetof(AnmVmBase, anmFileIndex) == 0x216) ? 1 : -1];
 typedef char AnmVmNativeBaseSpriteAt218[

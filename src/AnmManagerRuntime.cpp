@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "AnmVmLifecycle.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
@@ -7,51 +8,9 @@
 typedef unsigned int u32;
 typedef short i16;
 
-struct AnmVm
-{
-    unsigned char unknown000[0x38];
-    ZunTimer currentTimeInScript;
-    unsigned char unknown044[0x1B4];
-    union {
-        u32 flagsWord;
-        struct {
-            u32 visible : 1;
-            u32 flag1 : 1;
-            u32 updateRotation : 1;
-            u32 updateScale : 1;
-            u32 blendMode : 2;
-            u32 flag6 : 1;
-            u32 flag7 : 1;
-            u32 usePosOffset : 1;
-            u32 flip : 2;
-            u32 anchor : 2;
-            u32 zWriteDisabled : 1;
-            u32 stopped : 1;
-            u32 flag15 : 1;
-            u32 flag16 : 1;
-            u32 flag17 : 1;
-            u32 flag18 : 1;
-            u32 flag19 : 1;
-            u32 unknownFlags20_31 : 12;
-        };
-    };
-    short type;
-    short pendingInterrupt;
-    int playerBulletHitAnimationType;
-    AnmLoaded *anmFile;
-    unsigned char unknown208[0x0C];
-    short activeSpriteIndex;
-    short anmFileIndex;
-    short baseSpriteIndex;
-    short scriptIndex;
-    AnmRawInstr *beginningOfScript;
-    AnmRawInstr *currentInstruction;
-    AnmLoadedSprite *loadedSprite;
-    unsigned char unknown228[0x7C];
-
-    void Initialize();
-    void SetInterrupt(i16 interrupt);
-};
+// Use the single original-offset ANM VM base/tail instead of a second
+// incompatible local 0x2A4-byte class. Runtime method signatures and
+// compiler-visible loaded-VM ownership remain unchanged.
 
 typedef char AnmRuntimeVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
 typedef char AnmRuntimeFlagsAt1F8[(offsetof(AnmVm, flagsWord) == 0x1F8) ? 1 : -1];
