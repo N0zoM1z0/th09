@@ -1,7 +1,7 @@
 #include "EclManager.hpp"
 #include "EclRunLate.inl"
 #include "ExAttackType8GameManagerView.hpp"
-#include "GameManagerEclStateView.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 #include <string.h>
 
@@ -571,8 +571,7 @@ th09_ecl_instruction_loop:
             enemyState->activeContext2CE0;
         if (comparisonContext->time008 == instructionTime)
         {
-            executionMask = reinterpret_cast<const GameManagerEclStateView *>(
-                &g_GameManager)->instructionMask120 |
+            executionMask = g_GameManager.instructionMask120 |
                             enemyState->difficultyOverride3388;
             if ((instruction->difficultyMask09 & executionMask) != executionMask)
                 goto th09_ecl_advance_instruction;

@@ -30704,3 +30704,28 @@ remains exact. Source-cold recompilation renumbered nineteen private
 actual COFF owner-section definition against the immutable original PE
 operand before modifying manifest symbols alone. No numeric target, jump
 entry or authored exactness count was changed; no all-owner cold replay.
+
+## 2026-11-03 main RunEcl word-mask reader uses native GameManager and retires private ECL header
+
+The final production ECL interpreter use of the duplicate
+`GameManagerEclStateView` is retired: `EclManager.cpp` now directly reads
+`g_GameManager.instructionMask120` (32-bit word at original +0x120) when
+combining the instruction difficulty mask with the Enemy override. The
+schedule producer separately reads the genuine low byte of the same native
+word, and opcode 148 updates the same native +0x380 word reset by the exact
+100-byte GameManager reset. The former private `src/GameManagerEclStateView.hpp`
+no longer has production consumers and has been removed; the attested
+ECL callsite inspector now fingerprints the actual
+`src/GameManagerRuntimeView.hpp` source owner instead. No field moved in the
+original 0x390-byte allocation or was split into an independent global.
+
+The unchanged Japanese TH09 1.50a original plus pinned VC7.1 local
+`--owner runecl` replay again confirms that the complete 15,564-byte boss
+has **598 bound address fields, 30 ordinary differences** only in opcode
+4 (7) and opcode 155 (23), and identical target switch table destinations.
+The full scope protects **96 original-exact siblings** after the migration,
+including the full source-cold exact post-movement and operand-compare
+owners. Its 20 renumbered `$L` jump-table symbols were independently proven
+using actual COFF section definitions against original PE operand words
+before updating only their manifest spellings. No exactness credit was
+promoted, and no full all-owner cold replay or linked-game runtime is claimed.

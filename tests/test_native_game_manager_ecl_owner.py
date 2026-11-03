@@ -35,6 +35,17 @@ class NativeGameManagerEclOwner(unittest.TestCase):
                           for r in unit['relocations'] if 'g_GameManager' in r['symbol']],
                          [(0x6C,'DIR32','?g_GameManager@@3UAsciiGameManagerView@@A',0x004A7D90,0x120)])
 
+    def test_main_ecl_interpreter_reads_native_word_and_duplicate_header_is_retired(self):
+        source=(ROOT/'src/EclManager.cpp').read_text()
+        self.assertIn('#include "GameManagerRuntimeView.hpp"',source)
+        self.assertNotIn('#include "GameManagerEclStateView.hpp"',source)
+        self.assertIn('executionMask = g_GameManager.instructionMask120 |',source)
+        self.assertNotIn('reinterpret_cast<const GameManagerEclStateView *>(',source)
+        self.assertFalse((ROOT/'src/GameManagerEclStateView.hpp').exists())
+        audit=(ROOT/'scripts/audit-ecl-callsite-identities.py').read_text()
+        self.assertIn("'src/GameManagerRuntimeView.hpp'",audit)
+        self.assertNotIn("'src/GameManagerEclStateView.hpp'",audit)
+
     def test_unified_mask_word_still_has_an_unmodified_low_byte(self):
         native = (ROOT/'src/GameManagerRuntimeView.hpp').read_text()
         self.assertIn('union { unsigned int instructionMask120; unsigned char instructionMaskLowByte120; };', native)

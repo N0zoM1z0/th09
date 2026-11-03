@@ -592,7 +592,7 @@ def audit(object_path):
     if accounted != set(by_offset):
         failures.append('incomplete_relocation_accounting')
     source_paths = ['src/EclManager.cpp', 'src/EclOpcodes.hpp',
-                    'src/BackgroundSpellStateView.hpp', 'src/GameManagerEclStateView.hpp',
+                    'src/BackgroundSpellStateView.hpp', 'src/GameManagerRuntimeView.hpp',
                     'src/EnemyEclExInstructions.hpp', 'src/EnemyExAttackLeaves.cpp']
     source_paths += [str(path.relative_to(ROOT)) for path in sorted((ROOT / 'src').glob('EclRun*.inl'))]
     source_paths += ['config/match-units.toml', 'config/functions.csv']
