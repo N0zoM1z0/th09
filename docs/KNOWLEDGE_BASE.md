@@ -29582,3 +29582,19 @@ hashes, with their original 106 and 46 bound fields respectively. The
 still-unmatched 1,633-byte service and 808-byte complete message owners remain
 non-exact. Neither byte-neutral field unification nor a shared header proves
 original nominal packet inheritance or an exact new owner.
+
+The tiny, original-exact message thunk supplies a further physical-owner
+proof: `SupervisorNetworkMessageThunk` at `0x00432EA0` has a 15-byte stdcall
+body whose actual source/global field `+0x05` addresses native
+`g_SupervisorNetworkState` at `0x004B42D0`, and whose relative call `+0x0B`
+reaches `HandleMessage` at `0x00432B70`. These two PE operand words were
+validated independently of the current source; fourteen other already-exact
+manifest owners also reference the same native global address. The formerly
+inconsistent `SupervisorNetworkMessageView` definitions in the exact thunk
+and the non-exact message callback now share a single declaration inheriting
+the native 0xD4-byte `SupervisorNetworkState` storage. The thunk uses the
+native global type and a zero-offset derived view to call the same original
+member. Its entire 15-byte body and two original address fields remain
+**exact**, while the message callback still emits its previous 808-byte
+physical, 105-difference candidate. Original C++ class authorship remains
+unproved; no new exactness credit was added.

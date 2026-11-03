@@ -2,6 +2,7 @@
 #include "Supervisor.hpp"
 #include "SupervisorFrameQueueView.hpp"
 #include "SupervisorNetworkState.hpp"
+#include "SupervisorNetworkMessageView.hpp"
 #include "SupervisorNetworkPackets.hpp"
 
 #include <dplay8.h>
@@ -27,18 +28,6 @@ struct NetworkAckPacketView
     unsigned short value02;
     unsigned int value04;
 };
-
-// Preserve the original target-bound callback's decorated method signature.
-// In TH09 it operates on the genuine 0xD4-byte network session allocation.
-struct SupervisorNetworkMessageView : SupervisorNetworkState
-{
-    int HandleMessage(void *userContext, unsigned long messageId, void *message);
-};
-typedef char SupervisorNetworkMessageNativeStorage[
-    (sizeof(SupervisorNetworkMessageView) == sizeof(SupervisorNetworkState) &&
-     offsetof(SupervisorNetworkMessageView, lastReceivedC8) == 0xC8 &&
-     offsetof(SupervisorNetworkMessageView, peer) == 0 &&
-     offsetof(SupervisorNetworkMessageView, localSide) == 0xAC) ? 1 : -1];
 
 extern ReplayRngView g_ReplayRng;
 extern int g_NetworkHandshakeToken;

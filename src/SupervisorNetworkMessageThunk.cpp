@@ -1,18 +1,11 @@
-struct SupervisorNetworkMessageView
-{
-    int HandleMessage(
-        void *userContext,
-        unsigned long messageId,
-        void *message);
-};
-
-extern SupervisorNetworkMessageView *g_SupervisorNetworkState;
+#include "SupervisorNetworkMessageView.hpp"
 
 int __stdcall SupervisorNetworkMessageThunk(
     void *userContext,
     unsigned long messageId,
     void *message)
 {
-    return g_SupervisorNetworkState->HandleMessage(
-        userContext, messageId, message);
+    return static_cast<SupervisorNetworkMessageView *>(
+        g_SupervisorNetworkState)->HandleMessage(
+            userContext, messageId, message);
 }

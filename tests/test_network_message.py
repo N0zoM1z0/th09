@@ -6,6 +6,7 @@ import struct
 import tempfile
 from types import SimpleNamespace
 import unittest
+import tomllib
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,8 +42,15 @@ class NetworkMessageAuditTests(unittest.TestCase):
     def test_callback_uses_native_session_and_packet_storage(self):
         header = (ROOT / 'src/SupervisorNetworkState.hpp').read_text()
         source = (ROOT / 'src/SupervisorNetworkMessageHandler.cpp').read_text()
-        self.assertIn('struct SupervisorNetworkMessageView : SupervisorNetworkState', source)
-        self.assertIn('SupervisorNetworkMessageNativeStorage', source)
+        owner = (ROOT / 'src/SupervisorNetworkMessageView.hpp').read_text()
+        thunk = (ROOT / 'src/SupervisorNetworkMessageThunk.cpp').read_text()
+        self.assertIn('struct SupervisorNetworkMessageView : SupervisorNetworkState', owner)
+        self.assertIn('SupervisorNetworkMessageNativeStorage', owner)
+        self.assertIn('#include "SupervisorNetworkMessageView.hpp"', source)
+        self.assertIn('#include "SupervisorNetworkMessageView.hpp"', thunk)
+        self.assertNotIn('struct SupervisorNetworkMessageView', source)
+        self.assertNotIn('struct SupervisorNetworkMessageView', thunk)
+        self.assertIn('g_SupervisorNetworkState)->HandleMessage(', thunk)
         self.assertNotIn('unsigned char unknown008[0x04];', source)
         self.assertIn('SupervisorNetworkLastFrameAtC8', header)
         self.assertIn('offsetof(SupervisorNetworkState, lastReceivedC8) == 0xC8',
@@ -54,6 +62,16 @@ class NetworkMessageAuditTests(unittest.TestCase):
         self.assertIn('lastReceivedC8 = *packet;', source)
         self.assertIn('static_cast<IDirectPlay8Peer *>(peer)->GetPeerInfo(', source)
         self.assertNotIn('struct SupervisorNetworkMessageView\n{', source)
+        with (ROOT / 'config/match-units.toml').open('rb') as stream:
+            exact = tomllib.load(stream)['units']['supervisor-network-message-thunk']
+        self.assertEqual((exact['target_address'], exact['size']),
+                         (0x00432EA0, 15))
+        self.assertEqual([(row['offset'], row['type'], row['symbol'], row['target'])
+                          for row in exact['relocations']], [
+            (5, 'DIR32', '?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A',
+             0x004B42D0),
+            (11, 'REL32', '?HandleMessage@SupervisorNetworkMessageView@@QAEHPAXK0@Z',
+             0x00432B70)])
 
     def test_complete_fields_and_real_section_relative_labels(self):
         linked, fields = audit.bind_candidate(bytes(audit.SIZE), rows())
