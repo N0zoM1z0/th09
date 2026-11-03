@@ -10,7 +10,7 @@ void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
     int mirrorMovementX,
     int useOpposingEclManager)
 {
-    EnemyManagerView *manager = reinterpret_cast<EnemyManagerView *>(this);
+    EnemyManagerView *manager = static_cast<EnemyManagerView *>(this);
     int enemyIndex;
     EnemyView *enemy;
 

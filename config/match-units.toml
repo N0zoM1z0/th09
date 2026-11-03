@@ -12970,7 +12970,7 @@ relocations = [
   { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@JBHFMKNH@?4?2pl?2pl00?4cpp?$AA@", target = 0x004915AC },
   { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
-  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
   { offset = 0x40, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
 ]
 
@@ -12986,7 +12986,7 @@ relocations = [
   { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@JBHFMKNH@?4?2pl?2pl00?4cpp?$AA@", target = 0x004915AC },
   { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
-  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
   { offset = 0x40, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
 ]
 
@@ -13002,7 +13002,7 @@ relocations = [
   { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@JBHFMKNH@?4?2pl?2pl00?4cpp?$AA@", target = 0x004915AC },
   { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
-  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
   { offset = 0x43, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
 ]
 
@@ -13018,7 +13018,7 @@ relocations = [
   { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@FKCJBJHC@?4?2pl?2pl01?4cpp?$AA@", target = 0x004915CC },
   { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
-  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
   { offset = 0x40, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
 ]
 
@@ -13034,7 +13034,7 @@ relocations = [
   { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@FKCJBJHC@?4?2pl?2pl01?4cpp?$AA@", target = 0x004915CC },
   { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
-  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
   { offset = 0x40, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
 ]
 
@@ -13050,7 +13050,7 @@ relocations = [
   { offset = 0x08, type = "DIR32", symbol = "??_C@_0O@FKCJBJHC@?4?2pl?2pl01?4cpp?$AA@", target = 0x004915CC },
   { offset = 0x14, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x19, type = "REL32", symbol = "?Alloc@ZunMemory@@QAEPAXIPBD@Z", target = 0x00401340 },
-  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UCardAttackBeginGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
+  { offset = 0x33, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
   { offset = 0x43, type = "REL32", symbol = "?SpawnFromCardAttack@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHH@Z", target = 0x00440C80 },
 ]
 
@@ -20696,7 +20696,7 @@ relocations = [
   { offset = 0x3C, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
   { offset = 0x5E, type = "REL32", symbol = "??8ZunTimer@@QAEHH@Z", target = 0x00404950 },
   { offset = 0x6C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x120 },
-  { offset = 0x89, type = "DIR32", symbol = "$L3839", target = 0x00410090 },
+  { offset = 0x89, type = "DIR32", symbol = "$L3848", target = 0x00410090 },
   { offset = 0x8F, type = "DIR32", symbol = "?g_FrontMode0Done@@3EA", target = 0x004A7ECD },
   { offset = 0xCA, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyTimelineSpawnManagerView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHHH@Z", target = 0x0040F1D0 },
   { offset = 0x104, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyTimelineSpawnManagerView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHHH@Z", target = 0x0040F1D0 },
@@ -20713,24 +20713,24 @@ relocations = [
   { offset = 0x392, type = "REL32", symbol = "??MZunTimer@@QAEIH@Z", target = 0x00401540 },
   { offset = 0x3BC, type = "DIR32", symbol = "?g_EnemyTimelineStep@@3MA", target = 0x004A7E7C },
   { offset = 0x3C2, type = "REL32", symbol = "??YZunTimer@@QAEXM@Z", target = 0x00406650 },
-  { offset = 0x3D0, type = "DIR32", symbol = "$L3696", target = 0x0040FD59 },
-  { offset = 0x3D4, type = "DIR32", symbol = "$L3696", target = 0x0040FD59 },
-  { offset = 0x3D8, type = "DIR32", symbol = "$L3742", target = 0x0040FE69 },
-  { offset = 0x3DC, type = "DIR32", symbol = "$L3753", target = 0x0040FEBE },
-  { offset = 0x3E0, type = "DIR32", symbol = "$L3741", target = 0x0040FE62 },
-  { offset = 0x3E4, type = "DIR32", symbol = "$L3752", target = 0x0040FEB7 },
-  { offset = 0x3E8, type = "DIR32", symbol = "$L3833", target = 0x0041005E },
-  { offset = 0x3EC, type = "DIR32", symbol = "$L3833", target = 0x0041005E },
-  { offset = 0x3F0, type = "DIR32", symbol = "$L3760", target = 0x0040FF04 },
-  { offset = 0x3F4, type = "DIR32", symbol = "$L3833", target = 0x0041005E },
-  { offset = 0x3F8, type = "DIR32", symbol = "$L3765", target = 0x0040FF21 },
-  { offset = 0x3FC, type = "DIR32", symbol = "$L3723", target = 0x0040FE18 },
-  { offset = 0x400, type = "DIR32", symbol = "$L3722", target = 0x0040FE11 },
-  { offset = 0x404, type = "DIR32", symbol = "$L3772", target = 0x0040FF74 },
-  { offset = 0x408, type = "DIR32", symbol = "$L3783", target = 0x0040FFEB },
-  { offset = 0x40C, type = "DIR32", symbol = "$L3714", target = 0x0040FDD7 },
-  { offset = 0x410, type = "DIR32", symbol = "$L3695", target = 0x0040FD4D },
-  { offset = 0x414, type = "DIR32", symbol = "$L3704", target = 0x0040FD93 },
+  { offset = 0x3D0, type = "DIR32", symbol = "$L3705", target = 0x0040FD59 },
+  { offset = 0x3D4, type = "DIR32", symbol = "$L3705", target = 0x0040FD59 },
+  { offset = 0x3D8, type = "DIR32", symbol = "$L3751", target = 0x0040FE69 },
+  { offset = 0x3DC, type = "DIR32", symbol = "$L3762", target = 0x0040FEBE },
+  { offset = 0x3E0, type = "DIR32", symbol = "$L3750", target = 0x0040FE62 },
+  { offset = 0x3E4, type = "DIR32", symbol = "$L3761", target = 0x0040FEB7 },
+  { offset = 0x3E8, type = "DIR32", symbol = "$L3842", target = 0x0041005E },
+  { offset = 0x3EC, type = "DIR32", symbol = "$L3842", target = 0x0041005E },
+  { offset = 0x3F0, type = "DIR32", symbol = "$L3769", target = 0x0040FF04 },
+  { offset = 0x3F4, type = "DIR32", symbol = "$L3842", target = 0x0041005E },
+  { offset = 0x3F8, type = "DIR32", symbol = "$L3774", target = 0x0040FF21 },
+  { offset = 0x3FC, type = "DIR32", symbol = "$L3732", target = 0x0040FE18 },
+  { offset = 0x400, type = "DIR32", symbol = "$L3731", target = 0x0040FE11 },
+  { offset = 0x404, type = "DIR32", symbol = "$L3781", target = 0x0040FF74 },
+  { offset = 0x408, type = "DIR32", symbol = "$L3792", target = 0x0040FFEB },
+  { offset = 0x40C, type = "DIR32", symbol = "$L3723", target = 0x0040FDD7 },
+  { offset = 0x410, type = "DIR32", symbol = "$L3704", target = 0x0040FD4D },
+  { offset = 0x414, type = "DIR32", symbol = "$L3713", target = 0x0040FD93 },
 ]
 
 [units.game-manager-select-opponent]

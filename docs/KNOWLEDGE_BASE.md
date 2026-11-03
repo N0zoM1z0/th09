@@ -30759,3 +30759,48 @@ checks preserve the 15,564-byte RunEcl boss's 30 residual bytes/zero
 field differences, and 3,900-byte Enemy OnUpdate's 13 residual bytes,
 97 fields and 69 original calls. This is already-exact source owner
 recovery, not a newly exact function or runtime proof.
+
+## 2026-11-03 original Enemy spawn source receiver and six CardAttack start callbacks
+
+`EnemyManagerCardAttackSpawnView::SpawnEnemyRecord @0x0040F1D0` (364 bytes)
+and `SpawnFromCardAttack @0x00440C80` (38 bytes) operate on the actual
+0x2AC450-byte `EnemyManagerView` instance. Their separately decorated
+source receiver is now a **zero-extra-storage, nonvirtual derived role**
+over native `EnemyManagerView`; the exact spawn-record implementation uses a
+true `static_cast` to the native base instead of pretending to reinterpret
+unrelated storage. The original ABI/nominal class hierarchy remains unproven.
+Both complete member bodies and all original call/data relocation fields
+remain exact under pinned VC7.1.
+
+The six `CardAttackBeginPl00/Pl01Type0..2` callbacks previously carried
+another private `CardAttackBeginGameManagerView` global of their own. They
+now read the real `g_GameManager.sides[side].enemyManager10` pointer at
+native per-side +0x10 and call the above source receiver via the zero-offset
+cast. The source-cold 75/75-byte, 75/75-byte and 78/78-byte bodies for each
+of the two characters stay **completely original-byte exact** (five original
+relocations each). In all six actual COFF fields, the native global has the
+same original base `0x004A7D90`, addend +0x10, and unmodified **effective
+original PE operand `0x004A7DA0`**; the direct call target remains exact
+`SpawnFromCardAttack @0x00440C80`. Only decorated C++ global names changed.
+
+Complete local profile cohorts preserve **10 + 1** exact GameManagerSetup
+functions across its two profiles, **2** exact EnemySchedule functions,
+**6** exact CardAttack callbacks, **1** exact EffectUpdateEnemyTrail and
+**2** exact spawn functions. The still-nonexact 1,689-byte GameManager setup
+thread remains at 904 ordinary differences and 171 of 172 bound fields;
+the 425-byte cleanup owner remains byte exact. The 974 logical/1,048
+physical byte Enemy schedule remains original-exact with 42 relocation
+fields; 19 compiler-private jump-table label spellings were independently
+rechecked against original PE operands after the header change.
+
+**Open caller ABI issue, do not paper it over:** the original exact Enemy
+timeline callsites push the defeat-token argument as an untruncated 32-bit
+word, whereas the separately exact callee's declared source ABI is a
+`char` defeat-token parameter. Replacing the exact timeline caller's
+source-only `int` prototype with the native callee's `char` signature made
+VC7.1 emit byte-load/extension operations; the physical timeline grew
+from **1,048 to 1,056 bytes**, so that trial was rejected and restored.
+An equal numeric call destination cannot establish identical retail
+C++ declarations or permit a knowingly nonexact schedule promotion.
+No all-owner cold replay, new canonical authored exactness credit, native
+product closure or gameplay runtime proof is claimed.
