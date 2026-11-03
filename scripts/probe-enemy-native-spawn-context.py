@@ -171,8 +171,7 @@ def scalar_copy_context(text, case):
         raise ValueError('unknown Enemy scalar-copy context')
     case = case.removeprefix('standalone-scalar-')
     if case in ('draw', 'all'):
-        old = '''                drawHead =
-                    &manager->drawGroupHeads2AC410[enemy->drawGroup3387];'''
+        old = '''                drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];'''
         new = '''                unsigned char drawGroup;
                 memcpy(&drawGroup, &enemy->drawGroup3387, sizeof(drawGroup));
                 drawHead = &manager->drawGroupHeads2AC410[drawGroup];'''
@@ -202,22 +201,22 @@ def scalar_copy_context(text, case):
 
 def packed_vm_color(source):
     """A consumed whole-word color model, retaining native VM ownership."""
-    first = '                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[2] = 0xFF;'
-    after = '                enemy->primaryVm008.flagsWord |= 0x20000;'
+    first = '                reinterpret_cast<unsigned char *>(&enemy->primaryAnmVm0008.color2)[2] = 0xFF;'
+    after = '                enemy->primaryAnmVm0008.flagsWord |= 0x20000;'
     if source.count(first) != 1 or source.count(after) != 1:
         raise ValueError('native VM color source contract changed')
     start, end = source.index(first), source.index(after)
-    expected = '''                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[2] = 0xFF;
-                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[1] = 0x60;
-                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[0] = 0x80;
-                reinterpret_cast<unsigned char *>(&enemy->primaryVm008.color2)[3] =
+    expected = '''                reinterpret_cast<unsigned char *>(&enemy->primaryAnmVm0008.color2)[2] = 0xFF;
+                reinterpret_cast<unsigned char *>(&enemy->primaryAnmVm0008.color2)[1] = 0x60;
+                reinterpret_cast<unsigned char *>(&enemy->primaryAnmVm0008.color2)[0] = 0x80;
+                reinterpret_cast<unsigned char *>(&enemy->primaryAnmVm0008.color2)[3] =
                     static_cast<unsigned char>(
-                        enemy->primaryVm008.color1 >> 24);
+                        enemy->primaryAnmVm0008.color1 >> 24);
 '''
     if source[start:end] != expected:
         raise ValueError('native VM byte values/order changed')
-    replacement = '''                enemy->primaryVm008.color2 =
-                    (enemy->primaryVm008.color1 & 0xFF000000UL) | 0x00FF6080UL;
+    replacement = '''                enemy->primaryAnmVm0008.color2 =
+                    (enemy->primaryAnmVm0008.color1 & 0xFF000000UL) | 0x00FF6080UL;
 '''
     return source[:start]+replacement+source[end:]
 

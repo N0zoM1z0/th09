@@ -29622,3 +29622,34 @@ Two private ECL `$L` labels changed only their compiler spelling; each new
 source COFF definition was verified in its actual owner section against the
 identical original PE word at its unchanged target address. The authored
 exactness ledger remains 1,005/1,035; no whole-game cold replay was run.
+
+## 2026-11-03 native ECL manager behind exact mass-clear receiver
+
+The independently exact `EnemyManagerCoreView::KillAllNonBossEnemies`
+requires its own original source/mangled method name, but its entire
+0x2AC450-byte `this` allocation aliases native `EnemyManagerView`. The
+formerly duplicated private `EnemyManagerCoreView` record in lexical
+`EclRunState.inl` has been replaced by a zero-extra-storage derived receiver
+sharing the native manager fields, while retaining the exact callee symbol.
+This is a maintained-source ABI representation, **not** proof of original
+inheritance authorship. Native pool/manager aliases at +0x000/+0x320/+0x328/
++0x5758/+0x2AC388/+0x2AC3E0/+0x2AC410/+0x2AC444 are statically checked.
+The exact leaf now performs a genuine base-class `static_cast` for its manager
+instead of a private reinterpretation.
+
+The SHA-pinned Japanese TH09 1.50a original and fixed-profile VC7.1 prove
+that the 392-byte mass-clear leaf still matches **every byte and six
+relocations**, while the 15,564-byte `RunEcl` retains 30 ordinary differing
+bytes in only opcodes 4 and 155, with no field/table differences, and the
+3,900-byte Enemy calc still has 13 differences, 97 fields, 69 ordered calls.
+The full focused `runecl` and `enemy` cohorts preserve respectively **96**
+and **88** original-exact sibling functions. Twenty compiler-private `$L`
+label spellings were independently resolved to their defined COFF section
+coordinates and **unchanged original PE operand destinations** before
+refreshing only the manifest symbols. The original exact ledger remains
+1,005/1,035; no all-owner cold replay, native product or runtime proof.
+
+The standalone Enemy scalar and packed-color experiments were updated to
+locate the actual new native Enemy field names. Their source-input guards
+still fail closed on missing or multiply-defined source landmarks; no
+rejected probe model was promoted into production source.

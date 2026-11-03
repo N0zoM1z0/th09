@@ -26,7 +26,7 @@ typedef char EnemyClearNativeLayout[
 int EnemyManagerCoreView::KillAllNonBossEnemies(
     int transitionValue, int startingValue)
 {
-    EnemyManagerView *manager = reinterpret_cast<EnemyManagerView *>(this);
+    EnemyManagerView *manager = static_cast<EnemyManagerView *>(this);
     int totalValue = startingValue;
     int popupValue = 2000;
     EnemyView *enemy = manager->enemies5758;

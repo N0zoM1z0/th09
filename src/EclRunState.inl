@@ -220,44 +220,24 @@ typedef char EnemyEclNativeLaserSlotsAt32D8[
      offsetof(EnemyView, selectedLaserSlot3358) ==
          offsetof(EnemyCoreView, selectedLaserSlot3358)) ? 1 : -1];
 
-struct EnemyManagerCoreView
+// The exact mass-clear leaf owns this distinct C++ receiver name.  Its
+// physical state, however, is the same native EnemyManagerView allocation
+// used by the ECL interpreter and 3,900-byte Enemy calc.  Preserve the
+// original target-linked member name without duplicating 0x2AC450 bytes.
+struct EnemyManagerCoreView : EnemyManagerView
 {
     int KillAllNonBossEnemies(int transitionValue, int startingValue);
-
-    EnemyEclManagerView primaryEclManager000;
-    EnemyEclManagerView opposingEclManager188;
-    unsigned char unknown310[0x0C];
-    int sideIndex31C;
-    EnemyCoreSideStateView *sideState320;
-    EnemyCoreSideStateView *opposingSideState324;
-    EnemyCoreView spawnTemplate328;
-    EnemyCoreView enemies5758[129];
-    // Nine four-byte boss-owner slots. RunEcl SET_BOSS writes an EnemyView*
-    // here; the next independently observed count starts at +0x2AC3AC.
-    EnemyView *bossSlots2AC388[9];
-    int activeEnemyCount2AC3AC;
-    int normalEnemyCount2AC3B0;
-    int specialEnemyCount2AC3B4;
-    int rewardEnemyCount2AC3B8;
-    unsigned char unknown2AC3BC[0x2AC3C8 - 0x2AC3BC];
-    ZunTimer sideTimer2AC3C8;
-    unsigned char scheduleIndex2AC3D4;
-    unsigned char unknown2AC3D5[0x2AC3DC - 0x2AC3D5];
-    int protocolValue2AC3DC;
-    EnemyScheduleRuntimeView scheduleRuntime2AC3E0;
-    int scheduleHighBit2AC3F8;
-    unsigned char unknown2AC3FC[0x04];
-    void *scheduleObject2AC400;
-    ZunTimer frameTimer2AC404;
-    EnemyCoreView *drawGroupHeads2AC410[4];
-    AnmLoaded *enemyAnm2AC420;
-    AnmLoaded *opposingEnemyAnm2AC424;
-    unsigned char unknown2AC428[0x2AC440 - 0x2AC428];
-    int timelineSpawnsSuppressed2AC440;
-    EnemyCoreView *priorityEnemy2AC444;
-    EnemyCoreView *firstActiveEnemy2AC448;
-    int specialAttackThreshold2AC44C;
 };
+typedef char EnemyCoreNativeManagerIdentity[
+    (sizeof(EnemyManagerCoreView) == sizeof(EnemyManagerView) &&
+     offsetof(EnemyManagerCoreView, primaryEclManager000) == 0 &&
+     offsetof(EnemyManagerCoreView, sideState320) == 0x320 &&
+     offsetof(EnemyManagerCoreView, spawnTemplate328) == 0x328 &&
+     offsetof(EnemyManagerCoreView, enemies5758) == 0x5758 &&
+     offsetof(EnemyManagerCoreView, remoteSlots2AC388) == 0x2AC388 &&
+     offsetof(EnemyManagerCoreView, scheduleRuntime2AC3E0) == 0x2AC3E0 &&
+     offsetof(EnemyManagerCoreView, drawGroupHeads2AC410) == 0x2AC410 &&
+     offsetof(EnemyManagerCoreView, priorityEnemy2AC444) == 0x2AC444) ? 1 : -1];
 
 namespace Th09EclRunState
 {

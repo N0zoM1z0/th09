@@ -194,11 +194,11 @@ typedef char EnemyManagerCoreSizeIs2AC450[
 typedef char EnemyManagerCoreEnemiesAt5758[
     (offsetof(EnemyManagerCoreView, enemies5758) == 0x5758) ? 1 : -1];
 typedef char EnemyManagerCoreBossSlotsAt2AC388[
-    (offsetof(EnemyManagerCoreView, bossSlots2AC388) == 0x2AC388 &&
-     sizeof(((EnemyManagerCoreView *)0)->bossSlots2AC388) == 0x24 &&
+    (offsetof(EnemyManagerCoreView, remoteSlots2AC388) == 0x2AC388 &&
+     sizeof(((EnemyManagerCoreView *)0)->remoteSlots2AC388) == 0x24 &&
      offsetof(EnemyManagerCoreView, activeEnemyCount2AC3AC) ==
-         offsetof(EnemyManagerCoreView, bossSlots2AC388) +
-         sizeof(((EnemyManagerCoreView *)0)->bossSlots2AC388)) ? 1 : -1];
+         offsetof(EnemyManagerCoreView, remoteSlots2AC388) +
+         sizeof(((EnemyManagerCoreView *)0)->remoteSlots2AC388)) ? 1 : -1];
 typedef char EnemyManagerCoreDrawHeadsAt2AC410[
     (offsetof(EnemyManagerCoreView, drawGroupHeads2AC410) == 0x2AC410) ? 1 : -1];
 typedef char EnemyManagerCoreLateProtocolAt2AC3DC[
