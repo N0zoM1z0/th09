@@ -4,6 +4,7 @@
 
 #include "EnemyManager.hpp"
 #include "AnmManager.hpp"
+#include "Supervisor.hpp"
 #include "AsciiManager.hpp"
 
 #include <stddef.h>
@@ -38,26 +39,18 @@ typedef char EnemyDrawVmPosAt208[(offsetof(AnmVmBase, pos) == 0x208) ? 1 : -1];
 typedef char EnemyDrawVmSpriteAt224[(offsetof(AnmVmBase, loadedSprite) == 0x224) ? 1 : -1];
 typedef char EnemyDrawVmPos2At288[(offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
-struct EnemyDrawVertex
-{
-    Float3 pos;
-    float rhw;
-    unsigned long diffuse;
-    Float2 textureUV;
-};
-typedef char EnemyDrawVertexSizeIs1C[(sizeof(EnemyDrawVertex) == 0x1C) ? 1 : -1];
-// Both caller ABI layouts use the same physical 192-record vertex buffer.
-// Preserve the DrawVertices parameter class spelling while sourcing storage
-// exclusively from the native EnemyView rather than a second 0x1500 array.
+// All 192 textured trail vertices live in the native EnemyView array.
+// The original ANM draw primitive consumes its identical 0x1C-byte records.
+typedef EnemyTrailVertexView EnemyDrawVertex;
+typedef char EnemyDrawVertexSizeIs1C[(sizeof(EnemyTrailVertexView) == 0x1C) ? 1 : -1];
 typedef char EnemyDrawNativeVertexLayoutAt3E68[
     (offsetof(EnemyView, trailVertices3E68) == 0x3E68 &&
-     sizeof(EnemyTrailVertexView) == sizeof(EnemyDrawVertex) &&
-     offsetof(EnemyTrailVertexView, position00) == offsetof(EnemyDrawVertex, pos) &&
-     offsetof(EnemyTrailVertexView, rhw0C) == offsetof(EnemyDrawVertex, rhw) &&
-     offsetof(EnemyTrailVertexView, diffuse10) == offsetof(EnemyDrawVertex, diffuse) &&
-     offsetof(EnemyTrailVertexView, u14) == offsetof(EnemyDrawVertex, textureUV) &&
-     offsetof(EnemyTrailVertexView, v18) ==
-         offsetof(EnemyDrawVertex, textureUV) + sizeof(float)) ? 1 : -1];
+     sizeof(((EnemyView *)0)->trailVertices3E68) == 192 * 0x1C &&
+     offsetof(EnemyTrailVertexView, position00) == 0x00 &&
+     offsetof(EnemyTrailVertexView, rhw0C) == 0x0C &&
+     offsetof(EnemyTrailVertexView, diffuse10) == 0x10 &&
+     offsetof(EnemyTrailVertexView, u14) == 0x14 &&
+     offsetof(EnemyTrailVertexView, v18) == 0x18) ? 1 : -1];
 
 typedef char EnemyDrawTrailSampleSizeIs1C[
     (sizeof(EnemyTrailSampleView) == 0x1C) ? 1 : -1];
@@ -83,13 +76,8 @@ typedef char EnemyDrawNativeGameManagerCoordinates[
     (offsetof(AsciiGameManagerView, coordinateOffsetX) == 0x350 &&
      offsetof(AsciiGameManagerView, coordinateOffsetY) == 0x354) ? 1 : -1];
 
-struct EnemyDrawSupervisorView
-{
-    int PrepareEnemyDraw(int sideIndex);
-};
-
-extern EnemyDrawSupervisorView g_Supervisor;
-
+// Both native draw-chain callbacks call the independently exact 71-byte
+// Supervisor::ConfigureScreenViewport, not a standalone Enemy-only method.
 // Independent target helpers.  Source ownership/names remain review.
 extern long double __stdcall EnemyDrawAbs(float value);
 extern float __stdcall EnemyDrawCos(float angle);
@@ -206,8 +194,7 @@ static int EnemyManagerDrawImpl(
                         float uvSpan = sprite->uvEndX - sprite->uvStartX;
                         float uvStep = uvSpan / ((vertexCount + 1) / 2 - 1);
                         float uv = sprite->uvEndX + enemy->primaryAnmVm0008.uvScrollPos.x;
-                        EnemyDrawVertex *vertices = reinterpret_cast<EnemyDrawVertex *>(
-                            enemy->trailVertices3E68);
+                        EnemyDrawVertex *vertices = enemy->trailVertices3E68;
                         float previousAngle;
 
                         for (k = 0; k < enemy->trailHistoryLength53A2;
@@ -275,36 +262,36 @@ static int EnemyManagerDrawImpl(
                                 halfWidth *= taper;
                             }
 
-                            vertices[1].diffuse = enemy->primaryAnmVm0008.color1;
-                            vertices[0].diffuse = vertices[1].diffuse;
+                            vertices[1].diffuse10 = enemy->primaryAnmVm0008.color1;
+                            vertices[0].diffuse10 = vertices[1].diffuse10;
                             if ((enemy->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
                             {
-                                reinterpret_cast<unsigned char *>(&vertices[1].diffuse)[3] =
+                                reinterpret_cast<unsigned char *>(&vertices[1].diffuse10)[3] =
                                     reinterpret_cast<unsigned char *>(&savedColor)[3] -
                                     reinterpret_cast<unsigned char *>(&savedColor)[3] * k /
                                         enemy->trailHistoryLength53A2;
-                                reinterpret_cast<unsigned char *>(&vertices[0].diffuse)[3] =
-                                    reinterpret_cast<unsigned char *>(&vertices[1].diffuse)[3];
+                                reinterpret_cast<unsigned char *>(&vertices[0].diffuse10)[3] =
+                                    reinterpret_cast<unsigned char *>(&vertices[1].diffuse10)[3];
                             }
 
-                            vertices[0].pos = enemy->trailSamples33E8[k].position00;
-                            vertices[0].pos.x +=
+                            vertices[0].position00 = enemy->trailSamples33E8[k].position00;
+                            vertices[0].position00.x +=
                                 cosAngle * halfCenter - sinAngle * halfWidth + 32.0f;
-                            vertices[0].pos.y +=
+                            vertices[0].position00.y +=
                                 sinAngle * halfCenter + cosAngle * halfWidth + 16.0f;
-                            vertices[0].textureUV.x = uv;
-                            vertices[0].textureUV.y =
+                            vertices[0].u14 = uv;
+                            vertices[0].v18 =
                                 enemy->primaryAnmVm0008.loadedSprite->uvStartY +
                                 enemy->primaryAnmVm0008.uvScrollPos.y;
                             ++vertices;
 
-                            vertices[0].pos = enemy->trailSamples33E8[k].position00;
-                            vertices[0].pos.x +=
+                            vertices[0].position00 = enemy->trailSamples33E8[k].position00;
+                            vertices[0].position00.x +=
                                 cosAngle * halfCenter + sinAngle * halfWidth + 32.0f;
-                            vertices[0].pos.y +=
+                            vertices[0].position00.y +=
                                 sinAngle * halfCenter - cosAngle * halfWidth + 16.0f;
-                            vertices[0].textureUV.x = uv;
-                            vertices[0].textureUV.y =
+                            vertices[0].u14 = uv;
+                            vertices[0].v18 =
                                 enemy->primaryAnmVm0008.loadedSprite->uvEndY +
                                 enemy->primaryAnmVm0008.uvScrollPos.y;
                             ++vertices;
@@ -358,12 +345,12 @@ static int EnemyManagerDrawImpl(
 
 int __fastcall EnemyManagerView::OnDrawHighPrio(EnemyManagerView *enemyManager)
 {
-    g_Supervisor.PrepareEnemyDraw(enemyManager->sideIndex31C);
+    g_Supervisor.ConfigureScreenViewport(enemyManager->sideIndex31C);
     return EnemyManagerDrawImpl(enemyManager, 0, 2);
 }
 
 int __fastcall EnemyManagerView::OnDrawLowPrio(EnemyManagerView *enemyManager)
 {
-    g_Supervisor.PrepareEnemyDraw(enemyManager->sideIndex31C);
+    g_Supervisor.ConfigureScreenViewport(enemyManager->sideIndex31C);
     return EnemyManagerDrawImpl(enemyManager, 2, 4);
 }

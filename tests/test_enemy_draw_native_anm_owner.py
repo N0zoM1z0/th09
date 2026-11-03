@@ -62,6 +62,28 @@ class EnemyDrawNativeAnm(unittest.TestCase):
         self.assertIn('EnemyView *nextInDrawGroup04;',native)
         self.assertIn('AnmVm secondaryVms2AC[2];',native)
 
+    def test_native_screen_viewport_on_both_exact_draw_wrappers(self):
+        source=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
+        self.assertIn('#include "Supervisor.hpp"',source)
+        self.assertNotIn('struct EnemyDrawSupervisorView',source)
+        self.assertNotIn('PrepareEnemyDraw(',source)
+        self.assertEqual(source.count('g_Supervisor.ConfigureScreenViewport('),2)
+        with (ROOT/'config/match-units.toml').open('rb') as stream:
+            units=tomllib.load(stream)['units']
+        callee=units['supervisor-configure-screen-viewport']
+        self.assertEqual((callee['target_address'],callee['size'],callee['symbol']),
+                         (0x403D90,71,'?ConfigureScreenViewport@Supervisor@@QAEXH@Z'))
+        for name,logical in (('enemy-manager-draw-high-prio',35),
+                             ('enemy-manager-draw-low-prio',38)):
+            with self.subTest(owner=name):
+                u=units[name]
+                self.assertEqual(u['size'],logical)
+                fields=u['relocations']
+                self.assertEqual(len(fields),3)
+                self.assertEqual([(r['offset'],r['symbol'],r['target']) for r in fields[:2]],[
+                    (0x0B,'?g_Supervisor@@3VSupervisor@@A',0x4B3100),
+                    (0x10,'?ConfigureScreenViewport@Supervisor@@QAEXH@Z',0x403D90)])
+
     def test_large_render_owner_has_exact_native_anm_call_targets(self):
         source=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
         self.assertIn('#include "AnmManager.hpp"',source)

@@ -9223,8 +9223,8 @@ symbol = "?OnDrawHighPrio@EnemyManagerView@@SIHPAU1@@Z"
 target_address = 0x00411D50
 size = 0x23
 relocations = [
-  { offset = 0x0B, type = "DIR32", symbol = "?g_Supervisor@@3UEnemyDrawSupervisorView@@A", target = 0x004B3100 },
-  { offset = 0x10, type = "REL32", symbol = "?PrepareEnemyDraw@EnemyDrawSupervisorView@@QAEHH@Z", target = 0x00403D90 },
+  { offset = 0x0B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x10, type = "REL32", symbol = "?ConfigureScreenViewport@Supervisor@@QAEXH@Z", target = 0x00403D90 },
   { offset = 0x1F, type = "REL32", symbol = "?EnemyManagerDrawImpl@@YIHPAUEnemyManagerView@@HH@Z", target = 0x00411670 },
 ]
 
@@ -9237,8 +9237,8 @@ symbol = "?OnDrawLowPrio@EnemyManagerView@@SIHPAU1@@Z"
 target_address = 0x00411D80
 size = 0x26
 relocations = [
-  { offset = 0x0B, type = "DIR32", symbol = "?g_Supervisor@@3UEnemyDrawSupervisorView@@A", target = 0x004B3100 },
-  { offset = 0x10, type = "REL32", symbol = "?PrepareEnemyDraw@EnemyDrawSupervisorView@@QAEHH@Z", target = 0x00403D90 },
+  { offset = 0x0B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x10, type = "REL32", symbol = "?ConfigureScreenViewport@Supervisor@@QAEXH@Z", target = 0x00403D90 },
   { offset = 0x22, type = "REL32", symbol = "?EnemyManagerDrawImpl@@YIHPAUEnemyManagerView@@HH@Z", target = 0x00411670 },
 ]
 

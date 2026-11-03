@@ -30037,3 +30037,27 @@ priority callbacks and 91-byte wrapped-angle helper. The source no longer
 reinterprets an independent Enemy projection in the large draw loop.
 Both the underlying 3,900-byte Enemy calc boss and 15,564-byte RunEcl are
 independent source owners and are not awarded new exactness by this change.
+
+## 2026-11-03 native Enemy trail vertices and exact screen viewport in draw owner
+
+`EnemyManagerDrawImpl` now constructs the physical 192-element trail strip
+using `EnemyTrailVertexView` from the native `EnemyView::trailVertices3E68`
+pool, rather than duplicating a 0x1C-byte draw-only textured vertex type.
+The real source fields are position +0, reciprocal-w +0x0C, diffuse +0x10,
+texture U +0x14, texture V +0x18. Explicit compile-time array/field layout
+checks and complete original-bound VC7.1 codegen prove this refactor preserves
+**1,758/1,758 exact bytes and all 53 relocations**. All three other
+same-carrier exact Enemy draw functions also remain exact.
+
+Both `EnemyManagerView::OnDrawHighPrio` (35 bytes) and `OnDrawLowPrio`
+(38 bytes) previously declared a fake `EnemyDrawSupervisorView` with
+`PrepareEnemyDraw(int)`, even though their original PE call operands at
++0x10 identify the *independently exact* 71-byte native
+`Supervisor::ConfigureScreenViewport @0x00403D90` (not the similarly named
+`ConfigureGameplayViewport @0x00401390`). They now call the native method
+and use the actual Supervisor global. Each of the four changed original
+COFF symbol identities was independently verified against the SHA-attested
+physical PE operand word with unchanged relocation kind, addend and target
+address. Both 35/38-byte owners and the 71-byte callee compile byte-exact
+under their pinned profiles; no new exactness, Windows-product or runtime
+credit is claimed.

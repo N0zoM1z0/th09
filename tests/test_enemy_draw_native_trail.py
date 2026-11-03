@@ -11,6 +11,13 @@ class EnemyDrawNativeTrail(unittest.TestCase):
         draw=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         self.assertIn('EnemyDrawNativeVertexLayoutAt3E68',draw)
+        self.assertIn('typedef EnemyTrailVertexView EnemyDrawVertex;',draw)
+        self.assertNotIn('struct EnemyDrawVertex',draw)
+        self.assertIn('EnemyDrawVertex *vertices = enemy->trailVertices3E68;',draw)
+        self.assertIn('vertices[0].position00',draw)
+        self.assertIn('vertices[0].u14',draw)
+        self.assertIn('vertices[0].v18',draw)
+        self.assertIn('vertices[1].diffuse10',draw)
         self.assertIn('typedef EnemyView EnemyDrawView;', draw)
         self.assertNotIn('struct EnemyDrawView\n{', draw)
         self.assertIn('EnemyDrawViewSizeIs5430', draw)
@@ -29,6 +36,24 @@ class EnemyDrawNativeTrail(unittest.TestCase):
                 self.assertNotIn('reinterpret_cast<EnemyView *>(enemy)->'+name,draw)
         for field in ('position00','rhw0C','diffuse10','u14','v18'):
             self.assertIn('offsetof(EnemyTrailVertexView, '+field+')',draw)
+
+    def test_native_viewport_wrapper_calls_and_original_target_fields(self):
+        draw=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
+        self.assertIn('#include "Supervisor.hpp"',draw)
+        self.assertNotIn('EnemyDrawSupervisorView',draw)
+        self.assertEqual(draw.count('g_Supervisor.ConfigureScreenViewport('),2)
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            units=tomllib.load(f)['units']
+        callee=units['supervisor-configure-screen-viewport']
+        self.assertEqual((callee['target_address'],callee['size'],callee['symbol']),
+                         (0x403D90,71,'?ConfigureScreenViewport@Supervisor@@QAEXH@Z'))
+        for name in ('enemy-manager-draw-high-prio','enemy-manager-draw-low-prio'):
+            with self.subTest(owner=name):
+                fields=units[name]['relocations']
+                self.assertEqual((fields[0]['offset'],fields[0]['symbol'],fields[0]['target']),
+                                 (0x0B,'?g_Supervisor@@3VSupervisor@@A',0x4B3100))
+                self.assertEqual((fields[1]['offset'],fields[1]['symbol'],fields[1]['target']),
+                                 (0x10,'?ConfigureScreenViewport@Supervisor@@QAEXH@Z',0x403D90))
 
     def test_original_bound_draw_owner_is_not_relabelled(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:
