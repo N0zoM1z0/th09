@@ -97,7 +97,7 @@ static __forceinline EnemyEclPlayerView *PostEclPlayer(
     EnemyPostEclRuntimeView *enemy)
 {
     return reinterpret_cast<EnemyEclPlayerView *>(
-        enemy->manager0000->sideState320->player04);
+        enemy->manager00->sideState320->player04);
 }
 
 static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
@@ -229,13 +229,13 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
                     reinterpret_cast<EnemyFloat3 *>(&enemy->position2D74)))
             {
                 enemy->secondaryFlags3380 |= ENEMY_INTERACTION_TRIGGERED;
-                enemy->manager0000->enemyAnm2AC420->SetAndExecuteScriptIdx(
+                enemy->manager00->enemyAnm2AC420->SetAndExecuteScriptIdx(
                     &thisEnemy->primaryAnmVm0008,
                     ((enemy->secondaryFlags3380 >>
                       ENEMY_INTERACTION_KIND_SHIFT) & 7) + 22);
                 thisEnemy->moveLeftAnm3390 = -1;
                 g_SoundPlayer.PlaySoundByIdx(
-                    47, enemy->manager0000->sideIndex31C != 0 ? 500 : -500);
+                    47, enemy->manager00->sideIndex31C != 0 ? 500 : -500);
             }
         }
 
@@ -287,8 +287,8 @@ static void EnemyPostEclUpdateShotAndAnm(EnemyView *thisEnemy)
         return;
 
     anm = (enemy->primaryFlags337C & ENEMY_ALTERNATE_ANM_BANK) != 0
-        ? enemy->manager0000->opposingEnemyAnm2AC424
-        : enemy->manager0000->enemyAnm2AC420;
+        ? enemy->manager00->opposingEnemyAnm2AC424
+        : enemy->manager00->enemyAnm2AC420;
 
     switch (direction)
     {

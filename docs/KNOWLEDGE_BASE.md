@@ -29653,3 +29653,24 @@ The standalone Enemy scalar and packed-color experiments were updated to
 locate the actual new native Enemy field names. Their source-input guards
 still fail closed on missing or multiply-defined source landmarks; no
 rejected probe model was promoted into production source.
+
+## 2026-11-03 native manager and draw-link transport across post-ECL owners
+
+The remaining lexical `EnemyCoreView` has its first two pointer fields at
++0x00 and +0x04 typed to the independently defined native
+`EnemyManagerView *manager00` and `EnemyView *nextInDrawGroup04`. The
+underlying source record is still 0x5430 bytes; its other lexical view
+members remain provisional. The original-bound ECL background-script-label
+handler now follows the native `enemy->manager00->sideState320` path, and
+the two original-exact post-ECL movement/shot-and-ANM owners use the same
+real manager pointer for Player, ANM-file, and side-index reads. The former
+private `manager0000` pointer spelling is absent from these paths.
+
+Full scoped compiler replays leave RunEcl's 15,564 physical bytes, 30
+mismatches/zero field+table differences, and 96 exact sibling owners
+unchanged. The 3,900-byte Enemy calc retains 13 mismatches and 88 exact
+siblings. All 20 compiler-private label renumberings were verified against
+actual COFF section-relative definitions and unchanged original PE operand
+addresses before updating only their names in the unit manifest. The
+fixed-target exact ledger remains 1,005 / 1,035, without a whole cold replay
+or claim about the original C++ class spelling.

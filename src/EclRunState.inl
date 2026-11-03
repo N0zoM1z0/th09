@@ -85,8 +85,8 @@ typedef EnemyTrailSampleView EnemyCoreTrailSampleView;
 typedef EnemyTrailVertexView EnemyCoreTrailVertexView;
 struct EnemyCoreView
 {
-    EnemyManagerCoreView *manager0000;
-    EnemyCoreView *nextInDrawGroup04;
+    EnemyManagerView *manager00;
+    EnemyView *nextInDrawGroup04;
     AnmVm primaryVm008;
     AnmVm secondaryVms2AC[2];
     Th09EclContextView mainContext07F4;
@@ -191,6 +191,13 @@ struct EnemyCoreView
     int phaseEndSeconds5420;
     ZunTimer specialAttackTimer5424;
 };
+// The front of the lexical ECL Enemy alias refers to exactly the native
+// Enemy manager and draw-link fields; neither owns a separate allocation.
+typedef char EnemyEclNativeManagerAndDrawLinkAt000[
+    (offsetof(EnemyCoreView, manager00) == offsetof(EnemyView, manager00) &&
+     offsetof(EnemyCoreView, nextInDrawGroup04) ==
+         offsetof(EnemyView, nextInDrawGroup04)) ? 1 : -1];
+
 // The original +0x2CE0 pointer is shared by every lexical ECL family;
 // the public Enemy lifetime and the complete ECL Core owner must agree.
 typedef char EnemyEclNativeActiveContextAt2CE0[
@@ -337,7 +344,7 @@ inline EnemyStateView *View(EnemyView *enemy)
 
 inline int &BackgroundScriptLabel(EnemyView *enemy)
 {
-    return View(enemy)->manager0000->sideState320->background00->pendingStageLabel18;
+    return enemy->manager00->sideState320->background00->pendingStageLabel18;
 }
 
 inline unsigned char &RawByte(

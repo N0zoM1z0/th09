@@ -21,6 +21,19 @@ class RunEclNativeCoreOwner(unittest.TestCase):
         for field in ('positionOffset2D80','position2D74','worldPosition2DD4'):
             self.assertIn('EnemyFloat3 '+field+';',native)
 
+    def test_post_ecl_native_manager_and_draw_link(self):
+        state=(ROOT/'src/EclRunState.inl').read_text()
+        post=(ROOT/'src/EclPostRuntime.inl').read_text()
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        self.assertIn('EnemyManagerView *manager00;', state)
+        self.assertIn('EnemyView *nextInDrawGroup04;', state)
+        self.assertIn('EnemyEclNativeManagerAndDrawLinkAt000', state)
+        self.assertNotIn('manager0000', state + post)
+        self.assertIn('return enemy->manager00->sideState320->background00->pendingStageLabel18;', state)
+        self.assertIn('enemy->manager00->enemyAnm2AC420->SetAndExecuteScriptIdx(', post)
+        self.assertIn('enemy->manager00->opposingEnemyAnm2AC424', post)
+        self.assertIn('EnemyManagerView *manager00;', native)
+
     def test_death_animation_byte_opcodes_share_native_enemy_initializer(self):
         bullet=(ROOT/'src/EclRunBullet.inl').read_text()
         init=(ROOT/'src/EnemyManagerLifecycle.cpp').read_text()
