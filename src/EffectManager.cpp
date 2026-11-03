@@ -35,8 +35,9 @@ Effect::Effect() {}
 // The 0x2A4-byte native animation VM is already recovered for the ANM
 // renderer and script executor.  This Effect callback reads the same VM
 // slots as raw bit patterns, not a second unrelated 0x290-byte layout.
+typedef char EffectNativeVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
 typedef char EffectUpdateVmNativeCoordinates[
-    (sizeof(EffectVmView) == sizeof(AnmVm) &&
+    (sizeof(AnmVm) == 0x2A4 &&
      offsetof(AnmVmBase, rotation) == 0x00 &&
      offsetof(AnmVmBase, scale) == 0x18 &&
      offsetof(AnmVmBase, intVar0) == 0x100 &&
@@ -104,7 +105,7 @@ Effect *EffectManager::InitializeEffect(
     effect->manager = this;
     if (effect->vmCount != 0)
     {
-        effect->vms = static_cast<EffectVmView *>(
+        effect->vms = static_cast<AnmVm *>(
             g_ZunMemory.Alloc(
                 sizeof(AnmVm) * g_EffectTemplates[effectId].vmCount,
                 "./system\\global.h"));

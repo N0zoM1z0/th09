@@ -4,7 +4,7 @@
 #include "AnmVmLifecycle.hpp"
 
 typedef char EffectBulletLayerNativeVmCoordinates[
-    (sizeof(AnmVm) == sizeof(EffectVmView) &&
+    (sizeof(AnmVm) == 0x2A4 &&
      offsetof(AnmVm, pos) == 0x208 &&
      offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 

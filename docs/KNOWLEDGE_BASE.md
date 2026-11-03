@@ -29749,3 +29749,37 @@ therefore rejected; the natural indexed access at the actual call site
 preserves all **475/475 target bytes**, including original operands and
 control-flow. The full Effect cohort retains 16 exact sibling functions and
 the independent nonexact 51-byte AddedCallback stays at eight differences.
+
+## 2026-11-03 Effect allocation now has one native VM pointer type
+
+After independently preserving the original TH09 Effect Type35, ordinary
+and bullet-layer update/draw paths, the shared `EffectManager.hpp` no longer
+defines the duplicate 0x2A4-byte private `EffectVmView` record. Its actual
+`Effect::vms` member is an `AnmVm *` at +0x04; the header keeps only a
+forward declaration. The one native `AnmVm` in `AnmVmLifecycle.hpp` owns
+its true 0x2A4-byte array stride, flag/color and position fields; the
+allocating `EffectManager` validates that size and allocates the genuine type.
+The direct clients' local checks also pin the same native VM size and
+coordinates. This changes C++ storage identity, not the target program's
+array layout or an ABI callback signature.
+
+The fixed-profile VC7.1 compiler was cold-run only for the directly affected
+sources and their concrete dependent owners. All **47 original-exact directly
+including** clients passed their complete configured PE/COFF match units.
+Focused original-bound source replays separately preserved the 16 exact
+Effect sibling functions, 96 RunEcl siblings and 88 Enemy update siblings;
+`RunEcl` remains nonexact at 15,564 physical bytes/598 fields/30 ordinary
+differences (opcode 4 seven, 155 twenty-three), the Enemy OnUpdate boss at
+3,900 bytes/97 fields/69 calls/13 differences, and the Effect AddedCallback
+at 51 bytes/eight differences. This wide type reconciliation provides **no
+new exactness credit** and no whole-game build/runtime result.
+
+The native alias changed compiler-private `$L` spellings in four additional
+original-exact clients (Player pre-state, Etama bullet draw and added callback,
+Player reward), and two ECL helper owners. The **32 + 20** local COFF-label
+changes were each checked against the actual current COFF same-section
+`symbol_value - owner_value`, the original physical owner range, the
+unchanged PE target operand and existing relocation offset/kind. Only the
+manifest's source symbol names were refreshed: no target VA, field offset,
+field kind, size, compiler profile, or equality criterion was altered.
+The count remains 1,005 exact of 1,035 authored source owners.

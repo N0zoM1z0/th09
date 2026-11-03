@@ -20,19 +20,9 @@ struct EffectFloat3
 };
 typedef char EffectFloat3SizeIs0C[(sizeof(EffectFloat3) == 0x0C) ? 1 : -1];
 
-struct EffectVmView
-{
-    unsigned char unknown000[0x1F0];
-    unsigned int color;
-    unsigned char unknown1F4[0x1F8 - 0x1F4];
-    unsigned int flags;
-    unsigned char unknown1FC[0x208 - 0x1FC];
-    EffectFloat3 position;
-    unsigned char unknown214[0x288 - 0x214];
-    EffectFloat3 pos2;
-    unsigned char unknown294[0x2A4 - 0x294];
-};
-typedef char EffectVmViewSizeIs2A4[(sizeof(EffectVmView) == 0x2A4) ? 1 : -1];
+// The actual effect VM allocation uses native 0x2A4-byte AnmVm records,
+// shared with the ANM script executor and all Effect draw callbacks.
+struct AnmVm;
 
 struct EffectRewardPayloadA0
 {
@@ -75,7 +65,7 @@ struct Effect
 {
     Effect();
     EffectManager *manager;
-    EffectVmView *vms;
+    AnmVm *vms;
     int vmCount;
     EffectFloat3 position;
     EffectFloat3 velocity;

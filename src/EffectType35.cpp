@@ -6,7 +6,7 @@
 // The native animation VM shares the exact 0x2A4-byte Effect VM stride;
 // Type35 mutates real +0x1F8 flags and +0x288..+0x290 secondary position.
 typedef char EffectType35NativeVmSlots[
-    (sizeof(EffectVmView) == sizeof(AnmVm) &&
+    (sizeof(AnmVm) == 0x2A4 &&
      offsetof(AnmVmBase, flagsWord) == 0x1F8 &&
      offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
