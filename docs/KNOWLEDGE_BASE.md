@@ -30138,3 +30138,33 @@ existing exact siblings remained byte-identical. Eleven VC7.1 compiler-private
 against their **defined COFF section coordinates and original PE words**;
 only manifest symbol spellings changed, never target VAs or relocation kinds.
 No additional canonical exactness or whole-product/runtime acceptance follows.
+
+## 2026-11-03 native Player ZunTimer constructor and owned timer storage
+
+The Player native class formerly carried a private opaque 0x0C-byte
+`PlayerTimerCtorView` with separate ctor and postincrement symbol spellings.
+Direct original TH09 1.50a i386 PE inspection at `0x00403390` confirms a
+12-byte `ZunTimer::ZunTimer` body (`push esi; mov esi,ecx; call Initialize;
+mov eax,esi; pop esi; ret`) whose sole call reaches independent exact
+`ZunTimer::Initialize @0x004014A0` (15 bytes). All **eight** embedded Player
+constructor call sites at +0x28,+0x86,+0x91,+0x9C,+0xA7,+0xB2,+0xBD,+0xC8
+address that exact **same original native timer constructor**, not another
+unimplemented PlayerTimerCtorView function. The native 0x0C-byte
+`ZunTimer` type now owns the Player fields at +0x1B74 and
++0x3038C..+0x303D4; the source alias is zero extra storage with
+compile-time checks of `previous/subFrame/current` at +0x00/+0x04/+0x08.
+
+The `PlayerLifecycleView` 243-byte original-exact constructor retains all
+21 target-bound fields after only eight verified COFF symbol updates; the
+251-byte exact `UpdateShots` uses the genuine 8-byte
+`ZunTimer::operator++(int) @0x00401510`, with its original REL32 operand at
++0xDD unchanged. Pinned VC7.1 source-cold replay protects all **21** exact
+PlayerRuntime units across five profiles, plus targeted movement and
+collision cohorts. Eleven private Player pre-state `$L` spellings were
+rebound from the actual defined COFF label offsets and original PE operands,
+without moving any address or changing instruction bytes. The source-only
+native type correction leaves the 1,210-byte original ChargeAttack boss's
+1,197-byte candidate **raw SHA-256 unchanged** (70 fields, 58 calls,
+1,160 overlapping differences, 13 absent bytes), and 1,900-byte movement
+still differs by 122 bytes. This does not count as newly exact source or
+native-product/runtime verification.

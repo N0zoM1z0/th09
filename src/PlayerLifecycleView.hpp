@@ -205,13 +205,15 @@ typedef char PlayerCollisionQueryStateSizeIs1808[
 typedef char PlayerCollisionQueryCountAt1804[
     (offsetof(PlayerCollisionQueryStateView, count1804) == 0x1804) ? 1 : -1];
 
-struct PlayerTimerCtorView
-{
-    unsigned char storage[0x0C];
-    PlayerTimerCtorView();
-    void operator++(int);
-};
+// The original Player constructor calls the independently exact 12-byte
+// ZunTimer::ZunTimer @0x403390 for every embedded +0x0C-byte timer.
+// This alias names the genuine timer, not a second opaque ctor class.
+typedef ZunTimer PlayerTimerCtorView;
 typedef char PlayerTimerCtorSizeIsC[(sizeof(PlayerTimerCtorView) == 0x0C) ? 1 : -1];
+typedef char PlayerTimerCtorNativeFields[
+    (offsetof(PlayerTimerCtorView, previous) == 0x00 &&
+     offsetof(PlayerTimerCtorView, subFrame) == 0x04 &&
+     offsetof(PlayerTimerCtorView, current) == 0x08) ? 1 : -1];
 
 struct PlayerConstructedVector3View
 {
