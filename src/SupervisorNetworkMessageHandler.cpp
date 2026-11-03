@@ -2,6 +2,7 @@
 #include "Supervisor.hpp"
 #include "SupervisorFrameQueueView.hpp"
 #include "SupervisorNetworkState.hpp"
+#include "SupervisorNetworkPackets.hpp"
 
 #include <dplay8.h>
 #include <new>
@@ -14,15 +15,8 @@ typedef SupervisorNetworkState::LastReceivedFramePacketView NetworkFramePacketVi
 typedef char NetworkFramePacketViewSizeIs0C[
     (sizeof(NetworkFramePacketView) == 0x0C) ? 1 : -1];
 
-struct NetworkHandshakePacketView
-{
-    unsigned char type;
-    signed char side;
-    unsigned short seed;
-    unsigned char syncRate;
-    unsigned char unknown05[3];
-    unsigned int syncValue;
-};
+// The receiver reads exactly the same twelve-byte packet as the sender.
+typedef SupervisorNetworkHandshakeWire NetworkHandshakePacketView;
 typedef char NetworkHandshakePacketViewSizeIs0C[
     (sizeof(NetworkHandshakePacketView) == 0x0C) ? 1 : -1];
 

@@ -29568,3 +29568,17 @@ and its independently verified original PE operand. No original VA,
 relocation position/kind or physical code bytes were altered to mask a
 failure. The current exact ledger remains 1,005 authored functions; no full
 cold replay, Windows whole-product build or runtime claim follows here.
+
+The second DirectPlay packet overlap is the **12-byte handshake**: type at
++0, signed incoming side at +1 (original receive handler sign-extension),
+seed at +2, sync-rate at +4, unused bytes +5..+7 and sync-value at +8.
+The native sender writes only side 0/1 and keeps its independent anonymous
+`NetworkHandshakePacket` global symbol, while the receiver reads the same
+`SupervisorNetworkHandshakeWire` layout through a source-facing alias.
+The new shared wire header has compile-time full-size and field-offset
+assertions. Fresh original-bound source-cold recompilation reproduces the
+*unchanged* 1,626-byte network-service and 808-byte network-message raw
+hashes, with their original 106 and 46 bound fields respectively. The
+still-unmatched 1,633-byte service and 808-byte complete message owners remain
+non-exact. Neither byte-neutral field unification nor a shared header proves
+original nominal packet inheritance or an exact new owner.

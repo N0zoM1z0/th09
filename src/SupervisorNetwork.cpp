@@ -4,6 +4,7 @@
 #include "AnmManager.hpp"
 #include "Controller.hpp"
 #include "SupervisorNetworkState.hpp"
+#include "SupervisorNetworkPackets.hpp"
 #include "SupervisorFrameQueueView.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
 
@@ -13,15 +14,8 @@
 
 namespace
 {
-struct NetworkHandshakePacket
-{
-    unsigned char type;
-    unsigned char side;
-    unsigned short seed;
-    unsigned char syncRate;
-    unsigned char unknown05[3];
-    unsigned int syncValue;
-};
+// Keep the physical sender's original global symbol identity intact.
+struct NetworkHandshakePacket : SupervisorNetworkHandshakeWire {};
 
 // Preserve the original named packet symbol, while sharing its actual
 // 12-byte wire payload with the native receive-message state allocation.
