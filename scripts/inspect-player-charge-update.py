@@ -46,6 +46,7 @@ REFERENTS = {
     '?SubtractResourceClamped@PlayerResourceSubtractView@@QAEXM@Z': 0x0041F310,
     '?WasPressed@ReplayInputState@@QAEGG@Z': 0x00415CD0,
     '?g_GameManager@@3UAsciiGameManagerView@@A': 0x004A7D90,
+    '?g_GameConfiguration@@3PAUGameConfiguration@@A': 0x004A7E78,
     '?g_ReplayInputStates@@3PAUReplayInputState@@A': 0x004ACE18,
     '?g_SoundPlayer@@3VSoundPlayer@@A': 0x004DC698,
     '?g_Supervisor@@3VSupervisor@@A': 0x004B3100,
@@ -188,8 +189,33 @@ def source_addend(symbol):
     return 0
 
 
+def require_configuration_alias():
+    """Anchor the alternate +E8 pointer spelling in an existing exact owner.
+
+    The PE field at GameManager+E8 is also the independent
+    g_GameConfiguration global. Original x86 addressing alone cannot prove
+    which C++ spelling the retail source used; the 0x415E50 source/COFF unit
+    supplies a separately reviewed named reference instead of guessing.
+    """
+    import tomllib
+    with (ROOT / 'config/match-units.toml').open('rb') as stream:
+        units = tomllib.load(stream)['units']
+    native = units['front-result-initialize-bonus']
+    found = [row for row in native['relocations']
+             if row.get('offset') == 0x1D4]
+    if (native['target_address'] != 0x00415E50 or
+            native['symbol'] != '?InitializeResultBonus@FrontResultBonusView@@QAEXXZ' or
+            len(found) != 1 or found[0].get('type') != 'DIR32' or
+            found[0].get('symbol') != '?g_GameConfiguration@@3PAUGameConfiguration@@A' or
+            found[0].get('target') != 0x004A7E78 or
+            REFERENTS['?g_GameConfiguration@@3PAUGameConfiguration@@A'] !=
+                REFERENTS['?g_GameManager@@3UAsciiGameManagerView@@A'] + 0xE8):
+        raise ValueError('charge native configuration global has no independent binding')
+
+
 def bind_candidate(raw, rows, target):
     require_original(target)
+    require_configuration_alias()
     if not 0 < len(raw) <= SIZE * 2 or len(rows) != len(TARGET_FIELDS):
         raise ValueError('charge requires the complete 70-field candidate')
     linked = bytearray(raw)

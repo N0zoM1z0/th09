@@ -19,8 +19,14 @@ class ChargeCompleteTests(unittest.TestCase):
         for off, kind, destination in oracle.TARGET_FIELDS:
             names = [name for name, root in oracle.REFERENTS.items()
                      if root + oracle.source_addend(name) == destination]
-            self.assertEqual(len(names), 1)
-            name = names[0]
+            # Both original-PE spellings legitimately reach +0xE8; choose
+            # the separately original-bound global for this source fixture.
+            if destination == 0x004A7E78:
+                name = '?g_GameConfiguration@@3PAUGameConfiguration@@A'
+                self.assertIn(name, names)
+            else:
+                self.assertEqual(len(names), 1)
+                name = names[0]
             addend = oracle.source_addend(name)
             value = destination - (oracle.BASE + off + 4 if kind == 'REL32' else 0)
             struct.pack_into('<I', target, off, value & 0xFFFFFFFF)

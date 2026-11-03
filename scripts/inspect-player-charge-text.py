@@ -19,9 +19,14 @@ REGIONS = ((0xAC, 0x41F999, 0x41F9B1),
            (0x2C, 0x41FBA1, 0x41FBB7))
 
 
+NATIVE_CONFIGURATION = '?g_GameConfiguration@@3PAUGameConfiguration@@A'
+# Charge reads the independently addressed global pointer at 0x004A7E78.
+# This is also the +0xE8 member of g_GameManager, but the maintained source
+# intentionally uses the canonical global instead of a duplicate fake view.
 NATIVE_GAME_MANAGER = '?g_GameManager@@3UAsciiGameManagerView@@A'
 NATIVE_SUPERVISOR = '?g_Supervisor@@3VSupervisor@@A'
 GLOBAL_ROOTS = {
+    NATIVE_CONFIGURATION: 0x4A7E78,
     NATIVE_GAME_MANAGER: 0x4A7D90,
     '?g_GameManager@@3UGameManagerReplayView@@A': 0x4A7D90,
     NATIVE_SUPERVISOR: 0x4B3100,
@@ -30,7 +35,7 @@ GLOBAL_ROOTS = {
 
 
 def require_native_globals(fields):
-    expected = [(NATIVE_GAME_MANAGER, 'DIR32', 0x4A7D90, 0xE8, 0x4A7E78)] * 3
+    expected = [(NATIVE_CONFIGURATION, 'DIR32', 0x4A7E78, 0, 0x4A7E78)] * 3
     expected += [(NATIVE_SUPERVISOR, 'DIR32', 0x4B3100, 0x5B8, 0x4B36B8)]
     keys = ('symbol', 'type', 'target', 'addend', 'effective_target')
     if (len(fields) != 4 or len({r['offset'] for r in fields}) != 4 or
@@ -70,23 +75,21 @@ def inspect(path):
                         "candidate_offset": hex(offset), "bytes": len(replay),
                         "region_agrees": replay == expected})
     # The final input-gate read follows all initial timer branches. Bind its
-    # independently known GameManager +0xE8 field; compare the complete side
+    # independently known GameConfiguration global, aliased at +0xE8; compare the complete side
     # reload, gate reload and byte comparison against the target window.
-    gates = [r for r in relocations
-             if r["symbol"] in (NATIVE_GAME_MANAGER,
-                                   "?g_GameManager@@3UGameManagerReplayView@@A")]
+    gates = [r for r in relocations if r["symbol"] == NATIVE_CONFIGURATION]
     if len(gates) != 3:
         raise ValueError("expected three input-gate accesses")
     gate = gates[-1]
     begin = gate["offset"] - 5
-    if (gate["type"] != "DIR32" or gate["addend"] != 0xE8 or
+    if (gate["type"] != "DIR32" or gate["addend"] != 0 or
             begin < 0 or begin + 17 > len(code)):
         raise ValueError("unexpected post-timer gate relocation or extent")
     fields = [r for r in relocations if begin <= r["offset"] < begin + 17]
     gate_region = bytearray(code[begin:begin + 17])
     gate_agrees = False
     if fields == [gate]:
-        struct.pack_into("<I", gate_region, 5, 0x4A7D90 + 0xE8)
+        struct.pack_into("<I", gate_region, 5, 0x4A7E78)
         gate_agrees = gate_region == coff.pe_bytes_at(target, 0x41F914, 17)
 
     # No spill is allowed between this conversion and the SHT-duration compare.

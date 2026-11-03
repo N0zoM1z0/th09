@@ -10,9 +10,10 @@
 #include "ZunTimer.hpp"
 #include "SoundPlayer.hpp"
 #include "GameConfiguration.hpp"
-// Only the native global identity is needed here.
-struct AsciiGameManagerView;
-extern AsciiGameManagerView g_GameManager;
+// The original g_GameConfiguration pointer has its own canonical symbol at
+// 0x004A7E78, the same address as the GameManager's +0xE8 pointer field.
+// Its independent FrontResultBonus caller binds this actual global directly.
+extern GameConfiguration *g_GameConfiguration;
 #include "Supervisor.hpp"
 
 #include <stddef.h>
@@ -20,14 +21,6 @@ extern AsciiGameManagerView g_GameManager;
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-// Observed GameManager +E8 points to the current GameConfiguration.
-struct GameManagerChargeConfigurationView
-{
-    u8 unknown000[0xE8];
-    GameConfiguration *configurationE8;
-};
-typedef char PlayerChargeConfigurationAtE8[
-    (offsetof(GameManagerChargeConfigurationView, configurationE8) == 0xE8) ? 1 : -1];
 typedef char PlayerChargeConfigurationModeAtB4[
     (offsetof(GameConfiguration, sideFocusMode) == 0xB4) ? 1 : -1];
 
@@ -50,9 +43,9 @@ int PlayerChargeAttackView::UpdateChargeAttack()
     u8 sideMode;
 
     if ((g_ReplayInputStates[side].WasPressed(1) &&
-         (reinterpret_cast<const GameManagerChargeConfigurationView *>(&g_GameManager)->configurationE8->sideFocusMode[side] != 1 ||
+         (g_GameConfiguration->sideFocusMode[side] != 1 ||
           !g_ReplayInputStates[side].IsHeld(4))) ||
-        ((sideMode = reinterpret_cast<const GameManagerChargeConfigurationView *>(&g_GameManager)->configurationE8->sideFocusMode[side]) == 1 &&
+        ((sideMode = g_GameConfiguration->sideFocusMode[side]) == 1 &&
          g_ReplayInputStates[side].IsHeld(1) &&
          !g_ReplayInputStates[side].IsHeld(4)))
     {
@@ -79,7 +72,7 @@ int PlayerChargeAttackView::UpdateChargeAttack()
 
         // The post-timer gate reloads the player side; the initial input
         // disjunction intentionally keeps its entry-side snapshot.
-        if (reinterpret_cast<const GameManagerChargeConfigurationView *>(&g_GameManager)->configurationE8->sideFocusMode[sideIndex] == 1)
+        if (g_GameConfiguration->sideFocusMode[sideIndex] == 1)
             goto resolveAttack;
         goto afterCharge;
     }
