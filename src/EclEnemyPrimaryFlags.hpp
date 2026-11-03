@@ -29,7 +29,11 @@ struct Th09EclEnemySecondaryFlagBits
 {
     unsigned int unknown00_02 : 3;
     unsigned int noDeath03 : 1;
-    unsigned int unknown04_31 : 28;
+    unsigned int unknown04_05 : 2;
+    // The exact Effect trail callback writes its 3-bit category to +0x3380
+    // bits 6..8 of the same native Enemy secondary flag word.
+    unsigned int effectCategory06_08 : 3;
+    unsigned int unknown09_31 : 23;
 };
 typedef char Th09EclEnemySecondaryFlagsSizeIs4[
     sizeof(Th09EclEnemySecondaryFlagBits) == 4 ? 1 : -1];

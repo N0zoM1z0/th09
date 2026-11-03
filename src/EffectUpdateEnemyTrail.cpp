@@ -10,36 +10,23 @@ struct PlayerSharedRuntimeView;
 extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 extern RngRuntimeView g_Rng;
 
-struct EffectTrailEnemyFlags
-{
-    unsigned int unknown00_05 : 6;
-    unsigned int category : 3;
-    unsigned int unknown09_31 : 23;
-};
+// The target callback operates on the actual 0x5430-byte Enemy pool.
+// Its old private +0x2DF8 field called "speed" is the native acceleration
+// member. The original bitfield at +0x3380 bits 6..8 shares the native
+// secondary flag allocation without changing the other protocol bits.
+typedef char EffectTrailNativeEnemyStorage[
+    (sizeof(EnemyView) == 0x5430 &&
+     offsetof(EnemyView, worldPosition2DD4) == 0x2DD4 &&
+     offsetof(EnemyView, movementAngle2DE0) == 0x2DE0 &&
+     offsetof(EnemyView, acceleration2DF8) == 0x2DF8 &&
+     offsetof(EnemyView, secondaryFlags3380) == 0x3380 &&
+     sizeof(Th09EclEnemySecondaryFlagBits) == 4 &&
+     sizeof(PlayerAngleFloat3View) == sizeof(EnemyFloat3)) ? 1 : -1];
 
-struct EffectTrailEnemyView
+static inline AsciiGameManagerSideView *EffectTrailOpponent(
+    EffectRandomAxesRuntimeView *state)
 {
-    unsigned char unknown0000[0x2DD4];
-    PlayerAngleFloat3View worldPosition2DD4;
-    float movementAngle2DE0;
-    unsigned char unknown2DE4[0x2DF8 - 0x2DE4];
-    float speed2DF8;
-    unsigned char unknown2DFC[0x3380 - 0x2DFC];
-    EffectTrailEnemyFlags flags3380;
-};
-
-typedef char EffectTrailEnemyWorldPositionAt2DD4[
-    (offsetof(EffectTrailEnemyView, worldPosition2DD4) == 0x2DD4) ? 1 : -1];
-typedef char EffectTrailEnemySpeedAt2DF8[
-    (offsetof(EffectTrailEnemyView, speed2DF8) == 0x2DF8) ? 1 : -1];
-typedef char EffectTrailEnemyFlagsAt3380[
-    (offsetof(EffectTrailEnemyView, flags3380) == 0x3380 &&
-     sizeof(EffectTrailEnemyFlags) == 4) ? 1 : -1];
-
-static inline EnemySideStateView *EffectTrailOpponent(EffectRandomAxesRuntimeView *state)
-{
-    return reinterpret_cast<EnemySideStateView *>(
-        &g_GameManager.sides[1 - state->sideIndexA8]);
+    return &g_GameManager.sides[1 - state->sideIndexA8];
 }
 
 int __fastcall EffectUpdateCallbackType3Type4(Effect *effect)
@@ -67,15 +54,15 @@ int __fastcall EffectUpdateCallbackType3Type4(Effect *effect)
             ->GetTransitionBlockFlag() == 0 &&
         EffectTrailOpponent(state)->enemyManager10->rewardEnemyCount2AC3B8 < 10)
     {
-        EffectTrailEnemyView *enemy = reinterpret_cast<EffectTrailEnemyView *>(
-            reinterpret_cast<EnemyManagerCardAttackSpawnView *>(
+        EnemyView *enemy = reinterpret_cast<EnemyView *>(
+            static_cast<EnemyManagerCardAttackSpawnView *>(
                 EffectTrailOpponent(state)->enemyManager10)->SpawnEnemyRecord(
                     state->subroutineA4,
                     reinterpret_cast<CardAttackSpawnPosition *>(&state->velocity18),
                     20, -2, 1000, 0, 0));
-        enemy->flags3380.category = state->colorA6;
-        enemy->speed2DF8 += state->speedA0;
-        int range = EffectTrailOpponent(state)->characterIndex20 != 7 ? 5 : 4;
+        enemy->secondaryFlagBits3380.effectCategory06_08 = state->colorA6;
+        enemy->acceleration2DF8 += state->speedA0;
+        int range = EffectTrailOpponent(state)->character20 != 7 ? 5 : 4;
         if (g_Rng.GetRandomU32InRange(range) != 0)
         {
             enemy->movementAngle2DE0 =
@@ -85,7 +72,7 @@ int __fastcall EffectUpdateCallbackType3Type4(Effect *effect)
         {
             float angle = reinterpret_cast<PlayerAngleView *>(
                 EffectTrailOpponent(state)->player04)->AngleToPoint(
-                    &enemy->worldPosition2DD4);
+                    reinterpret_cast<PlayerAngleFloat3View *>(&enemy->worldPosition2DD4));
             enemy->movementAngle2DE0 =
                 angle + g_Rng.GetRandomF32SignedInRange(0.3926991f);
         }

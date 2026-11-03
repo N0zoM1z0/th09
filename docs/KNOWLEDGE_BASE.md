@@ -30804,3 +30804,34 @@ An equal numeric call destination cannot establish identical retail
 C++ declarations or permit a knowingly nonexact schedule promotion.
 No all-owner cold replay, new canonical authored exactness credit, native
 product closure or gameplay runtime proof is claimed.
+
+## 2026-11-03 native Enemy trail source in 464-byte exact Effect callback
+
+The original `EffectUpdateCallbackType3Type4 @0x0040D9E0` (464 bytes) now
+uses the actual `EnemyView` for the Enemy spawned by native
+`EnemyManagerCardAttackSpawnView::SpawnEnemyRecord`, instead of another
+padded `EffectTrailEnemyView` that duplicated Enemy+0x2DD4..+0x3380.
+Its world position is at +0x2DD4, angle at +0x2DE0 and the scalar
+modified at +0x2DF8 is the **native acceleration** member, not the
+previously misleading `speed2DF8` label. The original category writer
+sets exactly bits 6..8 of the secondary flags at +0x3380; the native
+`Th09EclEnemySecondaryFlagBits` now exposes those three bits while
+preserving the bits 0..5 and 9..31 without assigning unverified meanings.
+The exact callback also uses the canonical GameManager opposing-side
+object rather than a separate side projection, and the verified native
+zero-extra-storage Enemy spawn method receiver.
+
+Pinned original-PE/VC7.1 source-cold comparison proves **464/464 original
+physical bytes and all 20 relocation fields exact**. Local `--owner
+runecl` retains the 15,564-byte boss with its 30 unlike bytes and **96
+exact siblings**; `--owner enemy` retains the 3,900-byte boss with 13
+unlike bytes and **88 exact siblings**; `--owner effect` preserves **16
+exact siblings** and its still-nonexact 51-byte AddedCallback baseline
+at eight unlike bytes. The 9,776-byte physical ANM ExecuteScript source
+carrier also remains completely exact with **368 original relocation
+fields**. Source-cold rebuild re-numbered 107 compiler-private ANM table
+`$L` symbols and 20 ECL private label symbols, each independently checked
+against actual COFF section-local definitions and the immutable original
+PE operand words before updating only manifest symbol spellings. No
+numeric destinations, original byte matches or canonical exactness credit
+were invented. There was no all-unit cold replay or gameplay runtime test.
