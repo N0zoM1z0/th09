@@ -49,15 +49,6 @@ struct PlayerRewardTimerCurrentView
     int GetCurrent();
 };
 
-struct PlayerRewardEffectView
-{
-    unsigned char unknown000[0xA0];
-    float scaleA0;
-    short valueA4;
-    short valueA6;
-    short sideA8;
-};
-
 typedef int (__fastcall *PlayerOwnerRewardCallback)(
     PlayerOwnerStateView *state, PlayerPositionView *position);
 
@@ -218,20 +209,19 @@ void PlayerOwnerStateView::ApplyReward(
                 velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
                 velocity.z = 0.0f;
 
-                PlayerRewardEffectView *effect =
-                    reinterpret_cast<PlayerRewardEffectView *>(
-                        g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                            state->owner00->sideIndex + 3, &effectPosition, &velocity,
-                            1, static_cast<unsigned int>(-1)));
+                Effect *effect =
+                    g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
+                        state->owner00->sideIndex + 3, &effectPosition, &velocity,
+                        1, static_cast<unsigned int>(-1));
 
                 g_PlayerSupervisorRuntime.SelectSide(state->owner00->sideIndex);
-                effect->valueA4 = 0;
-                effect->valueA6 = 1;
-                effect->scaleA0 =
+                effect->playerReward.valueA4 = 0;
+                effect->playerReward.valueA6 = 1;
+                effect->playerReward.scale =
                     g_ReplayRng.GetRandomF32InRange(0.5f) *
                         0.016666668f +
                     g_PlayerRewardBaseValue * 0.0016666667f;
-                effect->sideA8 = static_cast<short>(state->owner00->sideIndex);
+                effect->playerReward.side = static_cast<short>(state->owner00->sideIndex);
             }
 
             state->spawnCounter30 += 2 * g_PlayerRewardBaseValue - 60;
@@ -258,42 +248,41 @@ void PlayerOwnerStateView::ApplyReward(
             velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
             velocity.z = 0.0f;
 
-            PlayerRewardEffectView *effect =
-                reinterpret_cast<PlayerRewardEffectView *>(
-                    g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                        state->owner00->sideIndex + 1, &effectPosition, &velocity,
-                        1, static_cast<unsigned int>(-1)));
+            Effect *effect =
+                g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
+                    state->owner00->sideIndex + 1, &effectPosition, &velocity,
+                    1, static_cast<unsigned int>(-1));
 
             g_PlayerSupervisorRuntime.SelectSide(state->owner00->sideIndex);
-            effect->valueA4 = 0;
-            effect->valueA6 = 4;
+            effect->playerReward.valueA4 = 0;
+            effect->playerReward.valueA6 = 4;
 
             switch (g_PlayerRewardModeValue)
             {
             case 0:
-                effect->scaleA0 =
+                effect->playerReward.scale =
                     g_PlayerRewardBaseValue * 0.04f + 0.9f;
                 break;
             case 1:
-                effect->scaleA0 =
+                effect->playerReward.scale =
                     g_PlayerRewardBaseValue * 0.05f + 1.1f;
                 break;
             case 2:
-                effect->scaleA0 =
+                effect->playerReward.scale =
                     g_PlayerRewardBaseValue * 0.08f + 1.3f;
                 break;
             case 3:
-                effect->scaleA0 =
+                effect->playerReward.scale =
                     g_PlayerRewardBaseValue * 0.11f + 1.3f;
                 break;
             case 4:
-                effect->scaleA0 =
+                effect->playerReward.scale =
                     g_PlayerRewardBaseValue * 0.04f + 1.6f;
                 break;
             default:
                 break;
             }
-            effect->sideA8 = static_cast<short>(state->owner00->sideIndex);
+            effect->playerReward.side = static_cast<short>(state->owner00->sideIndex);
 
             state->rewardMeter2C +=
                 4 * g_PlayerRewardBaseValue - 120;

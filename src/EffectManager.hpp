@@ -58,6 +58,19 @@ struct EffectCancelPayloadA0
 typedef char EffectCancelPayloadSizeIs0C[
     (sizeof(EffectCancelPayloadA0) == 0x0C) ? 1 : -1];
 
+// Player score/reward effects share +0xA0..+0xAB but assign their own
+// meaning to the short slots; do not unify these with Enemy tier fields.
+struct EffectPlayerRewardPayloadA0
+{
+    float scale;
+    short valueA4;
+    short valueA6;
+    short side;
+    short unknownAA;
+};
+typedef char EffectPlayerRewardPayloadSizeIs0C[
+    (sizeof(EffectPlayerRewardPayloadA0) == 0x0C) ? 1 : -1];
+
 struct Effect
 {
     Effect();
@@ -90,6 +103,7 @@ struct Effect
         unsigned char unknown0A0[0xAC - 0xA0];
         EffectRewardPayloadA0 reward;
         EffectCancelPayloadA0 cancel;
+        EffectPlayerRewardPayloadA0 playerReward;
     };
     ZunTimer timer;
     unsigned char unknown0B8[0xBC - 0xB8];
@@ -121,6 +135,8 @@ typedef char EffectRewardPayloadAtA0[
     (offsetof(Effect, reward) == 0xA0) ? 1 : -1];
 typedef char EffectCancelPayloadAtA0[
     (offsetof(Effect, cancel) == 0xA0) ? 1 : -1];
+typedef char EffectPlayerRewardPayloadAtA0[
+    (offsetof(Effect, playerReward) == 0xA0) ? 1 : -1];
 typedef char EffectTimerAtAC[(offsetof(Effect, timer) == 0xAC) ? 1 : -1];
 typedef char EffectUpdateAtBC[(offsetof(Effect, updateCallback) == 0xBC) ? 1 : -1];
 typedef char EffectActiveAtC4[(offsetof(Effect, active) == 0xC4) ? 1 : -1];
