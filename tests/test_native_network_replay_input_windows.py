@@ -43,6 +43,26 @@ class NativeNetworkReplayInputWindows(unittest.TestCase):
         self.assertEqual((r['offset'],r['symbol'],r['target']),
                          (0x1F,'?g_ReplayInputStates@@3PAUReplayInputState@@A',0x4ACE18))
 
+    def test_native_supervisor_owns_keyboard_and_controller_mapping_bits(self):
+        source=(ROOT/'src/SampleNetworkInput.cpp').read_text()
+        self.assertIn('#include "Supervisor.hpp"',source)
+        self.assertNotIn('struct SampleNetworkInputSupervisorView',source)
+        self.assertNotIn('extern SampleNetworkInputSupervisorView g_Supervisor;',source)
+        self.assertIn('SampleNetworkNativeSupervisorOwner',source)
+        self.assertIn('offsetof(Supervisor, keyboard10) == 0x10',source)
+        self.assertIn('offsetof(Supervisor, config388) == 0x388',source)
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            units=tomllib.load(f)['units']
+        u=units['sample-network-input']
+        fields=[r for r in u['relocations']
+                if r['symbol']=='?g_Supervisor@@3VSupervisor@@A']
+        self.assertEqual(len(fields),8)
+        self.assertEqual([(r['offset'],r['target']) for r in fields],
+                         [(0x2C,0x4B3100),(0x57,0x4B3100),
+                          (0x2A7,0x4B3100),(0x2BB,0x4B3100),
+                          (0x2DC,0x4B3100),(0x519,0x4B3100),
+                          (0x537,0x4B3100),(0x54C,0x4B3100)])
+
     def test_original_network_apply_global_address_is_true_replay_global(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:
             units=tomllib.load(f)['units']

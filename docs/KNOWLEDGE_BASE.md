@@ -30439,3 +30439,28 @@ fields in original order, and no missing/trailing bytes. This is an
 already-exact owner source recovery, not new exactness credit. The
 independent Supervisor keyboard/configuration projection in the same
 function remains a separately bounded source/layout question.
+
+## 2026-11-03 native Supervisor keyboard/configuration in exact 1507-byte network sampler
+
+The independently exact `SampleNetworkInput @0x0042B850` previously used a
+private `SampleNetworkInputSupervisorView` duplicate for its keyboard
+DirectInput device at `Supervisor+0x10` and the configuration bytes at
+`Supervisor+0x388+0xB7/0xB8`. The canonical class now exposes those same
+fields directly; `SampleNetworkInput.cpp` imports native `Supervisor.hpp`
+with static assertions covering the complete 0x7B0-byte Supervisor owner,
+`keyboard10`, `config388`, `valueB7` and `valueB8`.
+
+All **eight** current native-Supervisor COFF fields were checked against the
+independent original TH09 1.50a PE operand words: three fields address
+**0x004B3110** (keyboard +0x10), four address **0x004B353F** (config +0x43F),
+and one addresses **0x004B3540** (config +0x440). The COFF base target
+continues to be `g_Supervisor @0x004B3100`; addends, field positions, DIR32
+kinds and all original effective destinations are unchanged. Only the false
+private C++ symbol spellings changed to `?g_Supervisor@@3VSupervisor@@A`.
+Original-bound pinned VC7.1 comparison proves the full **1,507/1,507-byte
+sampled input owner and 13 fields exact**. The independently exact 517-byte
+Supervisor DirectInput initialization remains unchanged, as do both exact
+Controller helper siblings; the 808-byte Controller polling boss remains
+nonexact at an 810-byte candidate with 84 unlike bytes and two excess bytes.
+This storage/ABI recovery provides no new accepted function, product-link
+proof or runtime simulation.

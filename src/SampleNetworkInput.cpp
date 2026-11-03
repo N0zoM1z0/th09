@@ -1,6 +1,7 @@
 #include "Controller.hpp"
 #include "GameConfiguration.hpp"
 #include "ReplayInputState.hpp"
+#include "Supervisor.hpp"
 
 #include <windows.h>
 #define DIRECTINPUT_VERSION 0x0800
@@ -41,15 +42,16 @@ typedef char SampleNetworkNativeReplayInput[
      offsetof(ReplayInputState, networkHeldFrames0A) == 0x0A &&
      offsetof(ReplayInputState, heldFrames) == 0x38) ? 1 : -1];
 
-struct SampleNetworkInputSupervisorView
-{
-    u8 unknown000[0x10];
-    IDirectInputDevice8A *keyboard10;
-    u8 unknown014[0x388 - 0x14];
-    GameConfiguration config388;
-};
+// The original keyboard pointer and controller mappings are native
+// Supervisor fields (+0x10 keyboard; +0x388 GameConfiguration), already
+// established by exact DirectInput setup and controller poll source.
+typedef char SampleNetworkNativeSupervisorOwner[
+    (sizeof(Supervisor) == 0x7B0 &&
+     offsetof(Supervisor, keyboard10) == 0x10 &&
+     offsetof(Supervisor, config388) == 0x388 &&
+     offsetof(Supervisor, config388) + offsetof(GameConfiguration, valueB7) == 0x43F &&
+     offsetof(Supervisor, config388) + offsetof(GameConfiguration, valueB8) == 0x440) ? 1 : -1];
 
-extern SampleNetworkInputSupervisorView g_Supervisor;
 extern int g_WindowActivateWParam;
 
 #define KEYBOARD_KEY_PRESSED(button, key) \
