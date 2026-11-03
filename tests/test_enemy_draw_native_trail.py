@@ -57,5 +57,21 @@ class EnemyDrawNativeTrail(unittest.TestCase):
             self.assertEqual(units[name]['size'], 46)
 
 
+    def test_exact_draw_uses_one_native_sprite_record_with_original_uv_fields(self):
+        draw=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
+        owner=(ROOT/'src/AnmManager.hpp').read_text()
+        self.assertIn('EnemyDrawNativeLoadedSpriteAt0x44',draw)
+        self.assertNotIn('struct EnemyDrawSpriteView',draw)
+        self.assertIn('AnmLoadedSprite *loadedSprite224;',draw)
+        for field,offset in [('uvStartX','0x20'),('uvStartY','0x24'),
+                             ('uvEndX','0x28'),('uvEndY','0x2C'),
+                             ('heightPx','0x30'),('widthPx','0x34')]:
+            with self.subTest(field=field):
+                self.assertIn('offsetof(AnmLoadedSprite, '+field+') == '+offset,draw)
+                self.assertIn('float '+field+';',owner)
+        self.assertIn('sprite->uvEndX - sprite->uvStartX',draw)
+        self.assertIn('enemy->vm008.loadedSprite224->heightPx * 0.5f;',draw)
+
+
 if __name__=='__main__':
     unittest.main()

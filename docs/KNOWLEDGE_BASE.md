@@ -29978,3 +29978,19 @@ high-priority and 38-byte low-priority callbacks, 91-byte wrapped-angle
 helper, and independently exact 189-byte native ANM sprite-assignment
 leaf. No source-commit-bound Factory acceptance or whole-game runtime is
 claimed, and the existing 1,005 exact functions retain their tally.
+
+## 2026-11-03 native ANM sprite record in exact Enemy trail renderer
+
+The original-bound 1,758-byte `EnemyManagerDrawImpl` reads the same
+0x44-byte `AnmLoadedSprite` allocation as the native ANM loader and Etama
+sprite owners. The last private `EnemyDrawSpriteView` projection has been
+removed; the draw-only VM's +0x224 loaded-sprite pointer now refers to native
+`AnmLoadedSprite*`. UV start/end at +0x20/+0x24/+0x28/+0x2C and physical
+sprite height at +0x30 are tied to native offsets by compile-time assertions.
+The unchanged rendering computations use actual `uvEndX - uvStartX`,
+`uvStartY`, `uvEndY` and `heightPx` members, not independently invented
+sprite storage. Original TH09 v1.50a versus cold pinned VC7.1 proves the
+complete draw body **1,758/1,758 bytes, 53 authentic fields**, plus three
+other original exact same-source functions (35/38/91 bytes) have not
+regressed. These are source-owner advances, not additional counted matches
+or proof of original nominal C++ inheritance.
