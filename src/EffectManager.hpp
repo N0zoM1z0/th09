@@ -34,6 +34,17 @@ struct EffectVmView
 };
 typedef char EffectVmViewSizeIs2A4[(sizeof(EffectVmView) == 0x2A4) ? 1 : -1];
 
+struct EffectRewardPayloadA0
+{
+    float angularStep;
+    unsigned short tier;
+    unsigned short tierLimit;
+    unsigned short side;
+    unsigned short unknown0AA;
+};
+typedef char EffectRewardPayloadSizeIs0C[
+    (sizeof(EffectRewardPayloadA0) == 0x0C) ? 1 : -1];
+
 struct Effect
 {
     Effect();
@@ -59,7 +70,13 @@ struct Effect
     union { int value94; float ellipseY94; };
     union { int value98; float rotation98; };
     union { float value9C; float frequency9C; };
-    unsigned char unknown0A0[0xAC - 0xA0];
+    // Typed 12-byte death-reward payload, overlaid with the original
+    // type-dependent storage used by other effect variants.
+    union
+    {
+        unsigned char unknown0A0[0xAC - 0xA0];
+        EffectRewardPayloadA0 reward;
+    };
     ZunTimer timer;
     unsigned char unknown0B8[0xBC - 0xB8];
     EffectCallback updateCallback;
@@ -86,6 +103,8 @@ typedef char EffectSegmentsAt8C[(offsetof(Effect, segments8C) == 0x8C) ? 1 : -1]
 typedef char EffectValue7CAt7C[(offsetof(Effect, value7C) == 0x7C) ? 1 : -1];
 typedef char EffectFixedSlotIndexAt90[(offsetof(Effect, fixedSlotIndex) == 0x90) ? 1 : -1];
 typedef char EffectValue9CAt9C[(offsetof(Effect, value9C) == 0x9C) ? 1 : -1];
+typedef char EffectRewardPayloadAtA0[
+    (offsetof(Effect, reward) == 0xA0) ? 1 : -1];
 typedef char EffectTimerAtAC[(offsetof(Effect, timer) == 0xAC) ? 1 : -1];
 typedef char EffectUpdateAtBC[(offsetof(Effect, updateCallback) == 0xBC) ? 1 : -1];
 typedef char EffectActiveAtC4[(offsetof(Effect, active) == 0xC4) ? 1 : -1];

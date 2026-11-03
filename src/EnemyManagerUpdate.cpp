@@ -7,15 +7,6 @@
 
 // Target-facing death/reward dispatcher called by EnemyManager::OnUpdate.
 
-struct EnemyRewardEffectView
-{
-    unsigned char unknown000[0xA0];
-    float angularStepA0;
-    unsigned short tierA4;
-    unsigned short tierLimitA6;
-    unsigned short sideA8;
-};
-
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_SharedEffectManager;
 extern float g_GameplayRegionWidth;
@@ -186,16 +177,14 @@ void EnemyView::HandleDeathRewards(int hitKind)
 
     g_Supervisor.SelectSide(this->manager00->sideIndex31C);
 
-    EnemyRewardEffectView *rewardEffect =
-        reinterpret_cast<EnemyRewardEffectView *>(effect);
     unsigned int effectTier = (this->rewardFlags3380 >> 6) & 7;
-    rewardEffect->tierA4 =
+    effect->reward.tier =
         static_cast<unsigned short>(effectTier > 2 ? 2 : effectTier);
     effectTier = ((this->rewardFlags3380 >> 6) & 7) + 1;
-    rewardEffect->tierLimitA6 =
+    effect->reward.tierLimit =
         static_cast<unsigned short>(effectTier > 3 ? 3 : effectTier);
-    rewardEffect->angularStepA0 =
+    effect->reward.angularStep =
         g_ReplayRng.GetRandomF32InRange(0.5f) * 0.016666668f;
-    rewardEffect->sideA8 =
+    effect->reward.side =
         static_cast<unsigned short>(this->manager00->sideIndex31C);
 }
