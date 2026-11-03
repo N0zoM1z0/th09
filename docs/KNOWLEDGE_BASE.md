@@ -30417,3 +30417,25 @@ leaves its 540-byte BeginPlaybackStage boss at a 538-byte, 39-overlap-
 difference candidate with two absent bytes. This is a typed storage/
 ABI recovery, not a new exactness promotion, full cold replay or runtime
 validation.
+
+## 2026-11-03 exact 1,507-byte sampled network input uses native ReplayInputState
+
+The complete original `SampleNetworkInput @0x0042B850` (1,507 bytes,
+13 external relocation fields) no longer maintains a parallel
+`SampleNetworkInputState` 0x8E-byte projection. It indexes the same actual
+`ReplayInputState g_ReplayInputStates[3]` record as exact ApplyNetworkInput,
+Replay playback and Supervisor frame pop. Source writes use native
+`currentInput`, the network-specific previous/repeat/pressed/released
+aliases at +0x02/+0x04/+0x06/+0x08 and the **network**
+`networkHeldFrames0A[16]` window, not the separate ordinary Replay
+`heldFrames[16]` at +0x38. The source-global's actual original PE field
+at owner +0x1F remains **`0x004ACE18`**; only its C++ decorated struct
+name changed from the private sample view to the canonical native Replay
+input class, with the original DIR32 kind and offset unchanged.
+
+Pinned VC7.1 source-cold, original TH09 PE/COFF comparison proves the
+**full 1,507-byte sampled input body exact**, all 13 actual external
+fields in original order, and no missing/trailing bytes. This is an
+already-exact owner source recovery, not new exactness credit. The
+independent Supervisor keyboard/configuration projection in the same
+function remains a separately bounded source/layout question.

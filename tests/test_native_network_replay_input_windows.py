@@ -24,6 +24,25 @@ class NativeNetworkReplayInputWindows(unittest.TestCase):
         self.assertIn('unsigned short networkHeldFrames0A[16];',native)
         self.assertIn('unsigned short heldFrames[16];',native)
 
+    def test_exact_1507_byte_sample_owner_reads_same_native_network_words(self):
+        source=(ROOT/'src/SampleNetworkInput.cpp').read_text()
+        self.assertIn('#include "ReplayInputState.hpp"',source)
+        self.assertNotIn('struct SampleNetworkInputState',source)
+        self.assertNotIn('extern SampleNetworkInputState g_ReplayInputStates[3];',source)
+        self.assertIn('ReplayInputState *inputState = &g_ReplayInputStates[side];',source)
+        self.assertIn('SampleNetworkNativeReplayInput',source)
+        for name in ('currentInput','networkPrevious02','networkRepeat04',
+                     'networkPressed06','networkReleased08','networkHeldFrames0A'):
+            with self.subTest(field=name):
+                self.assertIn('inputState->'+name,source)
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            u=tomllib.load(f)['units']['sample-network-input']
+        self.assertEqual((u['target_address'],u['size'],len(u['relocations'])),
+                         (0x42B850,1507,13))
+        r=u['relocations'][1]
+        self.assertEqual((r['offset'],r['symbol'],r['target']),
+                         (0x1F,'?g_ReplayInputStates@@3PAUReplayInputState@@A',0x4ACE18))
+
     def test_original_network_apply_global_address_is_true_replay_global(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:
             units=tomllib.load(f)['units']

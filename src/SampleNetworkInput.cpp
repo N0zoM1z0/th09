@@ -1,5 +1,6 @@
 #include "Controller.hpp"
 #include "GameConfiguration.hpp"
+#include "ReplayInputState.hpp"
 
 #include <windows.h>
 #define DIRECTINPUT_VERSION 0x0800
@@ -32,20 +33,13 @@ enum TouhouButton
     TH_BUTTON_DOWN_RIGHT = TH_BUTTON_DOWN | TH_BUTTON_RIGHT
 };
 
-struct SampleNetworkInputState
-{
-    u16 current00;
-    u16 previous02;
-    u16 repeat04;
-    u16 pressed06;
-    u16 released08;
-    u16 heldFrames0A[16];
-    u8 unknown2A[0x2E];
-    short mappings58[27];
-};
-
-typedef char SampleNetworkInputStateSizeIs8E[
-    (sizeof(SampleNetworkInputState) == 0x8E) ? 1 : -1];
+// This original 0x8E-byte input array is the same ReplayInputState
+// allocation used by exact network ApplyInput, PopFrame and playback.
+// Its networkHeldFrames0A are separate from replay heldFrames at +0x38.
+typedef char SampleNetworkNativeReplayInput[
+    (sizeof(ReplayInputState) == 0x8E &&
+     offsetof(ReplayInputState, networkHeldFrames0A) == 0x0A &&
+     offsetof(ReplayInputState, heldFrames) == 0x38) ? 1 : -1];
 
 struct SampleNetworkInputSupervisorView
 {
@@ -55,7 +49,6 @@ struct SampleNetworkInputSupervisorView
     GameConfiguration config388;
 };
 
-extern SampleNetworkInputState g_ReplayInputStates[3];
 extern SampleNetworkInputSupervisorView g_Supervisor;
 extern int g_WindowActivateWParam;
 
@@ -66,7 +59,7 @@ short __fastcall SampleNetworkInput(int side)
 {
     u8 keyboardState[256];
     u16 buttons = 0;
-    SampleNetworkInputState *inputState = &g_ReplayInputStates[side];
+    ReplayInputState *inputState = &g_ReplayInputStates[side];
 
     if (g_WindowActivateWParam != 0)
     {
@@ -267,13 +260,13 @@ short __fastcall SampleNetworkInput(int side)
             buttons = Controller::GetControllerInput(side, assignment != 0, buttons);
     }
 
-    inputState->previous02 = inputState->current00;
-    inputState->current00 = buttons;
+    inputState->networkPrevious02 = inputState->currentInput;
+    inputState->currentInput = buttons;
 
     u16 repeatBit = 1;
     u16 currentBits = buttons;
-    inputState->repeat04 = 0;
-    u16 *held = inputState->heldFrames0A;
+    inputState->networkRepeat04 = 0;
+    u16 *held = inputState->networkHeldFrames0A;
     int remaining = 16;
     do
     {
@@ -282,7 +275,7 @@ short __fastcall SampleNetworkInput(int side)
             (*held)++;
             if (*held >= 26)
             {
-                inputState->repeat04 |= repeatBit;
+                inputState->networkRepeat04 |= repeatBit;
                 *held -= 8;
             }
         }
@@ -296,9 +289,9 @@ short __fastcall SampleNetworkInput(int side)
         remaining--;
     } while (remaining != 0);
 
-    u16 changed = inputState->current00 ^ inputState->previous02;
-    inputState->pressed06 = changed & inputState->current00;
-    inputState->released08 = changed & ~inputState->current00;
+    u16 changed = inputState->currentInput ^ inputState->networkPrevious02;
+    inputState->networkPressed06 = changed & inputState->currentInput;
+    inputState->networkReleased08 = changed & ~inputState->currentInput;
     return buttons;
 }
 
