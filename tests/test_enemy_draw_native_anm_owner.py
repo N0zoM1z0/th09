@@ -7,6 +7,24 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 class EnemyDrawNativeAnm(unittest.TestCase):
+    def test_original_sprite_uv_and_dimensions_use_native_loaded_record(self):
+        source=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
+        self.assertNotIn('struct EnemyDrawSpriteView',source)
+        self.assertIn('EnemyDrawNativeLoadedSpriteAt0x44',source)
+        self.assertIn('AnmLoadedSprite *loadedSprite224;',source)
+        self.assertIn('AnmLoadedSprite *sprite =',source)
+        for member,offset in (('uvStartX','0x20'),('uvStartY','0x24'),
+                              ('uvEndX','0x28'),('uvEndY','0x2C'),
+                              ('heightPx','0x30'),('widthPx','0x34')):
+            with self.subTest(member=member):
+                self.assertIn('offsetof(AnmLoadedSprite, '+member+') == '+offset,source)
+        self.assertIn('sprite->uvEndX - sprite->uvStartX',source)
+        self.assertIn('->heightPx * 0.5f',source)
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            units=tomllib.load(f)['units']
+        self.assertEqual((units['anm-loaded-set-sprite']['target_address'],
+                          units['anm-loaded-set-sprite']['size']),(0x436AC0,189))
+
     def test_large_render_owner_has_exact_native_anm_call_targets(self):
         source=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
         self.assertIn('#include "AnmManager.hpp"',source)

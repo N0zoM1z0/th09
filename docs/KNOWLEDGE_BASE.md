@@ -29959,3 +29959,22 @@ wrapped-angle helper. The two native callee complete bodies are also exact.
 The remaining private Enemy draw VM field view is still a separate source
 question; this call-interface recovery does not invent a new exact unit or
 prove the whole Windows product links and runs.
+
+## 2026-11-03 Enemy draw strip uses native ANM sprite UV and dimensions
+
+The original SHA-bound 1,758-byte Enemy draw function formerly maintained a
+private 0x44-byte `EnemyDrawSpriteView`, even though all its UV and size
+fields belong to the same native `AnmLoadedSprite` that the exact resource
+loader and `AnmLoaded::SetSprite` use. The draw strip's VM pointer at
++0x224 now addresses `AnmLoadedSprite` directly. Its exact original physical
+word locations remain +0x20/+0x24 for UV start, +0x28/+0x2C for UV end,
+and +0x30/+0x34 for native height and width. The extra draw-only projection
+has been removed. This is target-backed shared record storage, not proof of
+the game's original nominal class declaration.
+
+Fixed-profile VC7.1 source-cold replay verifies **all 1,758 bytes and 53
+relocations** of EnemyManagerDrawImpl unchanged, plus the exact 35-byte
+high-priority and 38-byte low-priority callbacks, 91-byte wrapped-angle
+helper, and independently exact 189-byte native ANM sprite-assignment
+leaf. No source-commit-bound Factory acceptance or whole-game runtime is
+claimed, and the existing 1,005 exact functions retain their tally.

@@ -11,20 +11,16 @@
 // Target-facing rendering views for the TH09 EnemyManager draw seam.  These
 // names describe observed roles; they do not claim original identifiers.
 
-struct EnemyDrawSpriteView
-{
-    int anmIdx00;
-    void *texture04;
-    unsigned char unknown008[0x18];
-    float uvStartX20;
-    float uvStartY24;
-    float uvEndX28;
-    float uvEndY2C;
-    float heightPx30;
-    float widthPx34;
-    unsigned char unknown038[0x0C];
-};
-typedef char EnemyDrawSpriteSizeIs44[(sizeof(EnemyDrawSpriteView) == 0x44) ? 1 : -1];
+// TH09's exact ANM loader and SetSprite leaf own these original UV
+// coordinates and physical sprite dimensions, not a second draw-only object.
+typedef char EnemyDrawNativeLoadedSpriteAt0x44[
+    (sizeof(AnmLoadedSprite) == 0x44 &&
+     offsetof(AnmLoadedSprite, uvStartX) == 0x20 &&
+     offsetof(AnmLoadedSprite, uvStartY) == 0x24 &&
+     offsetof(AnmLoadedSprite, uvEndX) == 0x28 &&
+     offsetof(AnmLoadedSprite, uvEndY) == 0x2C &&
+     offsetof(AnmLoadedSprite, heightPx) == 0x30 &&
+     offsetof(AnmLoadedSprite, widthPx) == 0x34) ? 1 : -1];
 
 struct EnemyDrawVmView
 {
@@ -45,7 +41,7 @@ struct EnemyDrawVmView
     unsigned char unknown216[0x04];
     short scriptIndex21A;
     unsigned char unknown21C[0x08];
-    EnemyDrawSpriteView *loadedSprite224;
+    AnmLoadedSprite *loadedSprite224;
     unsigned char unknown228[0x60];
     Float3 pos2_288;
     unsigned char unknown294[0x10];
@@ -236,10 +232,10 @@ static int EnemyManagerDrawImpl(
 
                     if (vertexCount > 2)
                     {
-                        EnemyDrawSpriteView *sprite = enemy->vm008.loadedSprite224;
-                        float uvSpan = sprite->uvEndX28 - sprite->uvStartX20;
+                        AnmLoadedSprite *sprite = enemy->vm008.loadedSprite224;
+                        float uvSpan = sprite->uvEndX - sprite->uvStartX;
                         float uvStep = uvSpan / ((vertexCount + 1) / 2 - 1);
-                        float uv = sprite->uvEndX28 + enemy->vm008.uvScrollPos30.x;
+                        float uv = sprite->uvEndX + enemy->vm008.uvScrollPos30.x;
                         EnemyDrawVertex *vertices = reinterpret_cast<EnemyDrawVertex *>(
                             reinterpret_cast<EnemyView *>(enemy)->trailVertices3E68);
                         float previousAngle;
@@ -299,7 +295,7 @@ static int EnemyManagerDrawImpl(
                             float halfCenter = 0.0f;
                             float halfWidth =
                                 savedScale.y *
-                                enemy->vm008.loadedSprite224->heightPx30 * 0.5f;
+                                enemy->vm008.loadedSprite224->heightPx * 0.5f;
                             if (taperFlag != 0)
                             {
                                 float taper = 1.0f -
@@ -328,7 +324,7 @@ static int EnemyManagerDrawImpl(
                                 sinAngle * halfCenter + cosAngle * halfWidth + 16.0f;
                             vertices[0].textureUV.x = uv;
                             vertices[0].textureUV.y =
-                                enemy->vm008.loadedSprite224->uvStartY24 +
+                                enemy->vm008.loadedSprite224->uvStartY +
                                 enemy->vm008.uvScrollPos30.y;
                             ++vertices;
 
@@ -339,7 +335,7 @@ static int EnemyManagerDrawImpl(
                                 sinAngle * halfCenter - cosAngle * halfWidth + 16.0f;
                             vertices[0].textureUV.x = uv;
                             vertices[0].textureUV.y =
-                                enemy->vm008.loadedSprite224->uvEndY2C +
+                                enemy->vm008.loadedSprite224->uvEndY +
                                 enemy->vm008.uvScrollPos30.y;
                             ++vertices;
                         }
