@@ -15,23 +15,6 @@ void RotatePlayerCollisionVector(
     float angle);
 
 
-struct PlayerCancelEffectView
-{
-    unsigned char unknown000[0xA0];
-    float valueA0;
-    short bulletTypeA4;
-    short colorA6;
-    short sideA8;
-    short extraAA;
-};
-
-typedef char PlayerCancelEffectValueA0[
-    (offsetof(PlayerCancelEffectView, valueA0) == 0xA0) ? 1 : -1];
-typedef char PlayerCancelEffectTypeA4[
-    (offsetof(PlayerCancelEffectView, bulletTypeA4) == 0xA4) ? 1 : -1];
-typedef char PlayerCancelEffectExtraAA[
-    (offsetof(PlayerCancelEffectView, extraAA) == 0xAA) ? 1 : -1];
-
 typedef char PlayerCancelGameManagerCoordinateAt358[
     (offsetof(GameManagerResetView, coordinate358) == 0x358) ? 1 : -1];
 
@@ -151,20 +134,18 @@ hit:
             velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
             velocity.z = 0.0f;
 
-            Effect *effectBase =
+            Effect *effect =
                 g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
                     player->sideIndex + 1, &effectPosition, &velocity,
                     1, static_cast<unsigned int>(-1));
             g_Supervisor.SelectSide(player->sideIndex);
 
-            PlayerCancelEffectView *effect =
-                reinterpret_cast<PlayerCancelEffectView *>(effectBase);
-            effect->bulletTypeA4 = currentBullet->bulletType;
-            effect->colorA6 = currentBullet->color;
-            effect->valueA0 = currentBullet->speed;
-            effect->sideA8 =
+            effect->cancel.bulletType = currentBullet->bulletType;
+            effect->cancel.color = currentBullet->color;
+            effect->cancel.bulletSpeed = currentBullet->speed;
+            effect->cancel.side =
                 static_cast<short>(currentBullet->controller->sideIndex);
-            effect->extraAA = currentBullet->extraAttribute10BD;
+            effect->cancel.extraAttribute = currentBullet->extraAttribute10BD;
 
             reinterpret_cast<PlayerCancelState4OpsView *>(player)
                 ->AddRespawnResource(0.2f);

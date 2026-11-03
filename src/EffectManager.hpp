@@ -45,6 +45,19 @@ struct EffectRewardPayloadA0
 typedef char EffectRewardPayloadSizeIs0C[
     (sizeof(EffectRewardPayloadA0) == 0x0C) ? 1 : -1];
 
+// Bullet-cancellation effects interpret the same twelve bytes as projectile
+// metadata; this is a variant overlay, not an extra allocation.
+struct EffectCancelPayloadA0
+{
+    float bulletSpeed;
+    short bulletType;
+    short color;
+    short side;
+    short extraAttribute;
+};
+typedef char EffectCancelPayloadSizeIs0C[
+    (sizeof(EffectCancelPayloadA0) == 0x0C) ? 1 : -1];
+
 struct Effect
 {
     Effect();
@@ -76,6 +89,7 @@ struct Effect
     {
         unsigned char unknown0A0[0xAC - 0xA0];
         EffectRewardPayloadA0 reward;
+        EffectCancelPayloadA0 cancel;
     };
     ZunTimer timer;
     unsigned char unknown0B8[0xBC - 0xB8];
@@ -105,6 +119,8 @@ typedef char EffectFixedSlotIndexAt90[(offsetof(Effect, fixedSlotIndex) == 0x90)
 typedef char EffectValue9CAt9C[(offsetof(Effect, value9C) == 0x9C) ? 1 : -1];
 typedef char EffectRewardPayloadAtA0[
     (offsetof(Effect, reward) == 0xA0) ? 1 : -1];
+typedef char EffectCancelPayloadAtA0[
+    (offsetof(Effect, cancel) == 0xA0) ? 1 : -1];
 typedef char EffectTimerAtAC[(offsetof(Effect, timer) == 0xAC) ? 1 : -1];
 typedef char EffectUpdateAtBC[(offsetof(Effect, updateCallback) == 0xBC) ? 1 : -1];
 typedef char EffectActiveAtC4[(offsetof(Effect, active) == 0xC4) ? 1 : -1];
