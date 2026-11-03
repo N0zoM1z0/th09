@@ -3,6 +3,7 @@
 #include "EnemyDrawMath.inl"
 
 #include "EnemyManager.hpp"
+#include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 
 #include <stddef.h>
@@ -105,12 +106,10 @@ typedef char EnemyDrawTrailAt33E8[(offsetof(EnemyView, trailSamples33E8) == 0x33
 typedef char EnemyDrawVerticesAt3E68[(offsetof(EnemyView, trailVertices3E68) == 0x3E68) ? 1 : -1];
 typedef char EnemyDrawTrailFlagsAt53A0[(offsetof(EnemyView, trailFlags53A0) == 0x53A0) ? 1 : -1];
 
-struct EnemyDrawAnmManagerView
-{
-    int Draw2D(EnemyDrawVmView *vm);
-    int DrawVertices(EnemyDrawVmView *vm, EnemyDrawVertex *vertices, int vertexCount);
-};
-
+// All ANM rendering methods in this 1,758-byte owner use the exact
+// native AnmManager receiver and its true Draw2D/DrawVertices ABI.
+// The remaining EnemyDrawVmView is a lexical field view only, explicitly
+// converted at the native callee boundary without changing physical bytes.
 // Enemy rendering uses the same native GameManager instance and exact
 // popup coordinate helpers as the bullet and Effect renderers.
 typedef char EnemyDrawNativeGameManagerCoordinates[
@@ -122,7 +121,6 @@ struct EnemyDrawSupervisorView
     int PrepareEnemyDraw(int sideIndex);
 };
 
-extern EnemyDrawAnmManagerView *g_AnmManager;
 extern EnemyDrawSupervisorView g_Supervisor;
 
 // Independent target helpers.  Source ownership/names remain review.
@@ -172,7 +170,7 @@ static int EnemyManagerDrawImpl(
                     vm->pos208.z = 0.3f;
                     vm->pos208.x = g_GameManager.TransformPopupX(vm->pos208.x);
                     vm->pos208.y = g_GameManager.TransformPopupY(vm->pos208.y);
-                    g_AnmManager->Draw2D(vm);
+                    g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
                 }
             }
 
@@ -222,7 +220,7 @@ static int EnemyManagerDrawImpl(
                             g_GameManager.TransformPopupX(enemy->vm008.pos208.x);
                         enemy->vm008.pos208.y =
                             g_GameManager.TransformPopupY(enemy->vm008.pos208.y);
-                        g_AnmManager->Draw2D(&enemy->vm008);
+                        g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(&enemy->vm008));
                     }
                 }
                 else
@@ -348,8 +346,8 @@ static int EnemyManagerDrawImpl(
 
                         if (vertexCount > 2)
                             g_AnmManager->DrawVertices(
-                                &enemy->vm008,
-                                reinterpret_cast<EnemyDrawVertex *>(
+                                reinterpret_cast<AnmVm *>(&enemy->vm008),
+                                reinterpret_cast<VertexTex1DiffuseXyzrhw *>(
                                     reinterpret_cast<EnemyView *>(enemy)->trailVertices3E68),
                                 vertexCount);
                     }
@@ -363,7 +361,7 @@ static int EnemyManagerDrawImpl(
             if ((reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_HIDE_HEAD) == 0 &&
                 (enemy->flags337C & ENEMY_DRAW_HIDE_PRIMARY) == 0)
             {
-                g_AnmManager->Draw2D(&enemy->vm008);
+                g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(&enemy->vm008));
             }
 
             for (int k = 1; k < 2; ++k, ++vm)
@@ -381,7 +379,7 @@ static int EnemyManagerDrawImpl(
                     vm->pos208.z = 0.3f;
                     vm->pos208.x = g_GameManager.TransformPopupX(vm->pos208.x);
                     vm->pos208.y = g_GameManager.TransformPopupY(vm->pos208.y);
-                    g_AnmManager->Draw2D(vm);
+                    g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
                 }
             }
 

@@ -29934,3 +29934,28 @@ all ten scoped exact Supervisor siblings and the 952/996-byte still-nonexact
 Supervisor OnUpdate boss remain at their baselines. The native array proves
 one memory window, not original nominal class syntax or a newly exact boss;
 no full all-unit cold replay, whole-game build or runtime claim is made.
+
+## 2026-11-03 original exact 1758-byte Enemy renderer uses native ANM method ABI
+
+The full original `EnemyManagerDrawImpl @0x00411670` renders the true Enemy
+pool through the same ANM manager as the other native draw paths. Its old
+private `EnemyDrawAnmManagerView` declaration had renamed all method/global
+COFF symbols even though their numeric addresses coincided with real ANM.
+The lexical draw owner now includes `AnmManager.hpp` and calls native
+`AnmManager::Draw2D(AnmVm *)` and
+`AnmManager::DrawVertices(AnmVm *, VertexTex1DiffuseXyzrhw *, int)`
+with explicit zero-offset views only at the still-open VM/vertex source
+boundary. The original 53 field sites include five global ANM reads, four
+Draw2D calls and one DrawVertices call. Every one of those **ten** source
+COFF symbol identities, position, relocation kind, addend and original PE
+operand word was independently verified against the native exact 491-byte
+Draw2D and 238-byte DrawVertices owners before refreshing only manifest
+symbol spellings. No target address was redirected.
+
+A fresh fixed-profile VC7.1 source build matches the **complete 1,758-byte
+physical EnemyDrawImpl and its 53 original relocation fields**, plus the
+35-byte high-priority and 38-byte low-priority wrappers and the 91-byte
+wrapped-angle helper. The two native callee complete bodies are also exact.
+The remaining private Enemy draw VM field view is still a separate source
+question; this call-interface recovery does not invent a new exact unit or
+prove the whole Windows product links and runs.
