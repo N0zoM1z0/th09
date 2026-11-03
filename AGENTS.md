@@ -173,6 +173,11 @@ analysis database is working state; mirror durable conclusions into the repo.
   diagnostic object afresh before comparing; do not treat the absence of an
   old `.obj`/`.pdb` as lost canonical evidence. Preserve original executable,
   tracked source and unreproduced analysis/experiment evidence.
+- The 2026-11-03 local archive of unreferenced old experiments is a
+  **lossless, per-file SHA-verified ignored tar.zst**, not a deletion of
+  original evidence; see `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`. Referenced
+  analysis directories and both Ghidra projects remain unpacked. Restore
+  selected old packets when required before trying historical scripts.
 - Never commit the original executable, game archives/data, IDA databases,
   Ghidra projects, toolchains, generated decompiler text, credentials, or private endpoints.
 - Finish with `git diff --check` and the checks required by the change: the

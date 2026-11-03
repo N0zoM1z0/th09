@@ -106,7 +106,13 @@ are preserved by default; `--reviewed-objects` accepts an explicit path/SHA-256
 list for obsolete objects. Changed files invalidate the reviewed plan.
 Git-backed old source/config/doc copies can be restored with
 `scripts/restore-analysis-snapshots.py`; the handoff names the recovery
-manifest. Use `docs/RE_ARTIFACT_CLEANUP_HISTORY.md` for the actual cleaned
+manifest. The 2026-11-03 handoff includes a **locally retained, verified lossless
+archive of unreferenced historical experiments** and reviewed `build/`
+cache cleanup; about **590.5 MiB of net logical file bytes** were reclaimed.
+See `docs/RE_ARTIFACT_CLEANUP_HISTORY.md` for archive SHA-256, protected
+scopes and selective restoration. The archive is ignored and not cloned.
+
+Use `docs/RE_ARTIFACT_CLEANUP_HISTORY.md` for the actual cleaned
 scopes and retained evidence.
 
 ## Required phase order

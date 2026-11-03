@@ -136,17 +136,24 @@ are **not** disposable. Current analyses/source experiments under
 `.analysis/20261102-*` and all historical directories directly referenced
 by tracked source/docs have intentionally been left accessible.
 
-Old, **unreferenced** `gpt-*` / `th09-*` experiment directories can be
-losslessly packed into the ignored `.analysis/handoff-archive-20261103/`
-archive to reclaim space; this is **local-only, not pushed to Git**.
-The archive manifest and restoration instructions are in
-[the cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md). If that local archive
-is absent in another checkout, redo the experiment from maintained sources
-and the original PE; no archive path is canonical acceptance evidence.
-Preview reproducible cache deletion with
-`python3 -B scripts/clean-generated-artifacts.py` and run `--apply` only
-after reviewing the dry run. **Do not** delete `.analysis/*.obj` or an
-original/Ghidra/IDA database without an explicit provenance/hash review.
+On 2026-11-03, **1,038** historical `gpt-*` / `th09-*` directories
+with no direct references in tracked source/docs were first archived to
+`.analysis/handoff-archive-20261103/legacy-unreferenced-experiments.tar.zst`
+and **all 18,452 files reverified by SHA-256** before unpacked copies were
+removed. The 608.35 MiB of loose files compress to 28.94 MiB. The archive
+SHA-256 is `1c287d8f1190692966b568a6ebfa62d6f3995dd6873b5782248dbdd2353a2223`.
+This archive and the full path/hash manifest are **local-only, not pushed**.
+See [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for a per-directory
+restoration command and the precise **590.5 MiB combined net logical savings**.
+
+The built-in reviewed cleaner additionally removed 605 build-cache files
+(16,093,238 bytes); its dry run now returns zero. Therefore `build/` is
+absent, **not** a source/Oracle loss. Rebuild an affected original-bound
+unit before comparing. Do not delete remaining `.analysis/*.obj` without a
+separate path/SHA-256 review; original, Ghidra and operator-managed
+databases remain protected. If the archive is absent in another checkout,
+redo old experiments from maintained sources and the original PE; an
+archive is not canonical acceptance evidence.
 
 Read [AGENTS.md](../AGENTS.md), [RE_WORKFLOW.md](RE_WORKFLOW.md),
 [ORACLES.md](ORACLES.md), and affected source + manifest rows for policy.

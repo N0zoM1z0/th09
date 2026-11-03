@@ -3,7 +3,8 @@
 > Historical cleanup audit. Each entry records a past maintenance scope and must not be read as the current operator status; the newest cleanup entry is at the end of this file.
 
 
-> For current cache state, use the [active handoff](RE_HANDOFF.md).
+> For current cache state, use the
+> [2026-11-03 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261103.md).
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 > October30 clarification: documentation and research records stay; unused
@@ -3427,3 +3428,82 @@ This cleanup did not run `git push`. A local `origin/main` tracking reference
 was observed equal to the docs HEAD after the preceding commit, but that
 alone does **not** establish remote publication; verify remote separately
 before making any claims about pushed state.
+
+
+## 2026-11-03: lossless legacy-experiment archive and reproducible cache cleanup
+
+**Purpose:** hand off a usable repo without carrying every rejected
+historical codegen matrix unpacked. This is a **local storage operation**,
+not a new original-byte match, not a deletion of tracked research and not a
+remote Git publication. Scope was selected and SHA-reviewed **before**
+removing any file.
+
+1. Enumerated every immediate directory below ignored `.analysis/` with
+   an `gpt-*` or `th09-*` name. Excluded every directory **directly named**
+   via `.analysis/NAME` in any Git-tracked text file, all other names,
+   current 2026-11-02 source/replay inputs, and especially all direct Ghidra
+   projects, raw `resources/th09.exe` and compiler/toolchain installations.
+   This does **not** prove the old experiments are never useful to an agent:
+   the lossless archive is kept for selective recovery.
+2. Hashed each of **18,452 regular files** (637,896,038 bytes; **608.35
+   MiB**) in the **1,038 selected directories**. No selected path was a
+   symlink. Archived them with `tar` + multithreaded `zstd` to **30,345,309
+   bytes** (about **28.94 MiB**). The compressed stream passed `zstd -t`.
+   A second independent sequential read of the archive checked **every
+   member's size and SHA-256** against its pre-archive manifest: all 18,452
+   files and the entire 637,896,038-byte input passed. Only then were those
+   1,038 unpacked directories removed; the original sources can be restored.
+3. Previewed `python3 -B scripts/clean-generated-artifacts.py`, then used
+   its built-in `--apply` fingerprint/symlink/tracked-file guards to remove
+   **605 ignored `build/` files, 16,093,238 bytes**. Did not approve any
+   additional `.analysis/*.obj` deletion. Its subsequent dry run returned
+   **zero** candidates. Original game file, data, native toolchains, stored
+   Ghidra projects, referenced experiments, and tracked sources were retained.
+
+| Item | Logical bytes |
+| --- | ---: |
+| Legacy experiment files removed from loose directories | 637,896,038 |
+| Lossless archive retained | 30,345,309 |
+| Local selection/hashes/audit/list retained | 4,458,105 |
+| **Net analysis-file logical bytes reclaimed** | **603,092,624 (575.2 MiB)** |
+| Rebuildable `build/` bytes also reclaimed | 16,093,238 |
+| **Combined net logical savings** | **619,185,862 (590.5 MiB)** |
+
+**Local retained archive (ignored, not in Git):**
+
+- `.analysis/handoff-archive-20261103/legacy-unreferenced-experiments.tar.zst`
+- Archive SHA-256:
+  `1c287d8f1190692966b568a6ebfa62d6f3995dd6873b5782248dbdd2353a2223`
+- `.analysis/handoff-archive-20261103/legacy-unreferenced-selection.json`
+  lists every original path, byte length, SHA-256 and original mtime.
+- `.analysis/handoff-archive-20261103/legacy-unreferenced-verification.json`
+  and `legacy-unreferenced-deletion.json` record the full hash verification
+  and the exact cleanup selection. The official reproducible cache receipt
+  remains `.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`
+  (most recent run in `runs[-1]`).
+
+From the repository root, **verify before extracting**:
+
+```bash
+sha256sum -c .analysis/handoff-archive-20261103/legacy-unreferenced-experiments.tar.zst.sha256
+# List or restore a SINGLE desired original experiment directory:
+tar --zstd -tf .analysis/handoff-archive-20261103/legacy-unreferenced-experiments.tar.zst
+# Restore selectively only after ensuring the target directory is absent:
+tar --zstd -xf .analysis/handoff-archive-20261103/legacy-unreferenced-experiments.tar.zst -C . -- .analysis/gpt-web-20261101-final-rebaseline
+# To recover all old directories, omit the final directory selector.
+```
+
+**Restoration smoke test passed:** the archived
+`.analysis/gpt-6-astra-medium-20261022-handoff` directory was selectively
+extracted to a separate temporary tree, and all four files matched their
+pre-archive SHA-256 values. That temporary extraction was removed without
+touching the archive or current source.
+
+This ignored archive will **not** follow a Git clone; on another machine,
+rerun the original experiments or transport the archive separately with the
+operator's approval. No unique target or maintained source was moved. No
+cold all-owner replay was run for this documentation/storage task. If an
+old ignored experiment script depended on another removed historical
+unreferenced directory, restore that directory from the archive too.
+Current `.analysis/ghidra-direct/` evidence, all tracking manifests and
+new `TH09_NEXT_AGENT_HANDOFF_20261103.md` remain immediately accessible.
