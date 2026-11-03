@@ -141,6 +141,18 @@ struct AsciiGameManagerView
     unsigned char unknown34C[0x350 - 0x34C];
     float coordinateOffsetX;
     float coordinateOffsetY;
+    // Same original eight-float playfield record initialized by the
+    // independently exact GameManager coordinate-bound initializer.
+    float coordinate358;
+    float coordinate35C;
+    float coordinate360;
+    float coordinate364;
+    float coordinate368;
+    float coordinate36C;
+    unsigned char unknown370[0x378 - 0x370];
+    int value378;
+    int value37C;
+    unsigned char unknown380[0x390 - 0x380];
 
     int IsWithinPlayfield(float x, float y, float width, float height);
     float TransformPopupX(float value);
@@ -221,6 +233,18 @@ typedef char AsciiGameManagerCoordinateXAt350[
     (offsetof(AsciiGameManagerView, coordinateOffsetX) == 0x350) ? 1 : -1];
 typedef char AsciiGameManagerCoordinateYAt354[
     (offsetof(AsciiGameManagerView, coordinateOffsetY) == 0x354) ? 1 : -1];
+// This native allocation, the previously separate 0x390-byte reset view
+// and the exact 79-byte coordinate initializer cover the same byte owner.
+typedef char AsciiGameManagerNativePlayfieldBounds[
+    (offsetof(AsciiGameManagerView, coordinate358) == 0x358 &&
+     offsetof(AsciiGameManagerView, coordinate35C) == 0x35C &&
+     offsetof(AsciiGameManagerView, coordinate360) == 0x360 &&
+     offsetof(AsciiGameManagerView, coordinate364) == 0x364 &&
+     offsetof(AsciiGameManagerView, coordinate368) == 0x368 &&
+     offsetof(AsciiGameManagerView, coordinate36C) == 0x36C &&
+     offsetof(AsciiGameManagerView, value378) == 0x378 &&
+     offsetof(AsciiGameManagerView, value37C) == 0x37C &&
+     sizeof(AsciiGameManagerView) == 0x390) ? 1 : -1];
 
 // StartupThread needs only the shared layout while retaining its original
 // StartupGameManager-typed external symbol (the type participates in MSVC's

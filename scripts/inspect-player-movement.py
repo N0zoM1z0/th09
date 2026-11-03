@@ -34,6 +34,7 @@ DESTINATIONS = {
     "?g_PlayerFocusEffectIds@@3PAHA": 0x004A1A10,
     "__real@00000000": 0x0048E314,
     "?g_GameManager@@3UGameManagerResetView@@A": 0x004A7D90,
+    "?g_GameManager@@3UAsciiGameManagerView@@A": 0x004A7D90,
     "?g_Supervisor@@3VSupervisor@@A": 0x004B3100,
     "?g_AnmManager@@3PAVAnmManager@@A": 0x004DC550,
     "?IsHeld@PlayerMovementReplayInputState@@QAEGG@Z": 0x00415CB0,

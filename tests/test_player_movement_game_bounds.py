@@ -1,4 +1,4 @@
-"""Player movement reads the true 0x390-byte GameManager coordinate owner.
+"""Player movement reads native GameManager shared 0x390-byte coordinate owner.
 
 An independent already-exact GameManager coordinate initializer sets the same
 four values; original whole boss bytes and all 66 bound fields are replayed in
@@ -17,10 +17,12 @@ inspector=importlib.util.module_from_spec(spec);spec.loader.exec_module(inspecto
 class RealPlayerGameBounds(TestCase):
     def test_gamemanager_four_playfield_bounds_are_actual_fields(self):
         cpp=(ROOT/'src/PlayerMovement.cpp').read_text()
-        header=(ROOT/'src/GameManagerResetView.hpp').read_text()
-        self.assertIn('#include "GameManagerResetView.hpp"',cpp)
-        self.assertIn('extern GameManagerResetView g_GameManager;',cpp)
-        self.assertIn('GameManagerResetSize390',header)
+        header=(ROOT/'src/GameManagerRuntimeView.hpp').read_text()
+        self.assertIn('#include "GameManagerRuntimeView.hpp"',cpp)
+        self.assertNotIn('extern GameManagerResetView g_GameManager;',cpp)
+        self.assertIn('extern AsciiGameManagerView g_GameManager;',header)
+        self.assertIn('AsciiGameManagerNativePlayfieldBounds',header)
+        self.assertIn('sizeof(AsciiGameManagerView) == 0x390',header)
         for field,offset,uses in (
             ('coordinate360',0x360,4),('coordinate364',0x364,4),
             ('coordinate368',0x368,2),('coordinate36C',0x36C,2)):
@@ -33,12 +35,13 @@ class RealPlayerGameBounds(TestCase):
             self.assertNotIn(legacy,cpp)
 
     def test_same_original_gamemanager_global_for_all_four_real_boundaries(self):
-        self.assertEqual(inspector.DESTINATIONS['?g_GameManager@@3UGameManagerResetView@@A'],
+        self.assertEqual(inspector.DESTINATIONS['?g_GameManager@@3UAsciiGameManagerView@@A'],
                          0x004A7D90)
         for offset,address in (
             (0x360,0x004A80F0),(0x364,0x004A80F4),
             (0x368,0x004A80F8),(0x36C,0x004A80FC)):
-            self.assertEqual(inspector.DESTINATIONS['?g_GameManager@@3UGameManagerResetView@@A'] + offset,address)
+            self.assertEqual(inspector.DESTINATIONS['?g_GameManager@@3UAsciiGameManagerView@@A'] + offset,address)
+        self.assertEqual(inspector.DESTINATIONS['?g_GameManager@@3UGameManagerResetView@@A'], 0x004A7D90)
         self.assertEqual(inspector.PHYSICAL_SIZE,1900)
         self.assertEqual(inspector.CODE_SIZE,1835)
         for fake in ('?g_PlayerPlayfieldMinX@@3MA','?g_PlayerPlayfieldMinY@@3MA',

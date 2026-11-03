@@ -5,7 +5,7 @@
 #include "AnmVmLifecycle.hpp"
 #include "ZunTimer.hpp"
 #include "Supervisor.hpp"
-#include "GameManagerResetView.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "ReplayInputState.hpp"
 
 #include <stddef.h>
@@ -31,17 +31,17 @@ typedef char PlayerMovementOptionCallbackAt2EC[
     (offsetof(PlayerMovementOptionView, updateCallback2EC) == 0x2EC) ? 1 : -1];
 
 extern GameConfiguration *g_GameConfiguration;
-extern GameManagerResetView g_GameManager;
+
 // Actual playfield bounds are four fields within the exact GameManager
 // coordinate initializer owner, not four independent retail globals.
 typedef char PlayerMovementPlayfieldMinXAt360[
-    (offsetof(GameManagerResetView, coordinate360) == 0x360) ? 1 : -1];
+    (offsetof(AsciiGameManagerView, coordinate360) == 0x360) ? 1 : -1];
 typedef char PlayerMovementPlayfieldMinYAt364[
-    (offsetof(GameManagerResetView, coordinate364) == 0x364) ? 1 : -1];
+    (offsetof(AsciiGameManagerView, coordinate364) == 0x364) ? 1 : -1];
 typedef char PlayerMovementPlayfieldWidthAt368[
-    (offsetof(GameManagerResetView, coordinate368) == 0x368) ? 1 : -1];
+    (offsetof(AsciiGameManagerView, coordinate368) == 0x368) ? 1 : -1];
 typedef char PlayerMovementPlayfieldHeightAt36C[
-    (offsetof(GameManagerResetView, coordinate36C) == 0x36C) ? 1 : -1];
+    (offsetof(AsciiGameManagerView, coordinate36C) == 0x36C) ? 1 : -1];
 extern int g_PlayerFocusEffectIds[];
 extern AnmManager *g_AnmManager;
 

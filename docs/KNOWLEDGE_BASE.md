@@ -30203,3 +30203,29 @@ immutable original PE operand and unchanged destination before updating only
 manifest symbol spellings. None of these already exact functions has been
 newly promoted; this is a typed-source/ABI recovery with no whole-product
 runtime claim.
+
+## 2026-11-03 native GameManager playfield bounds in 1900-byte Player movement boss
+
+The independently original-exact `GameManagerResetView::InitializeCoordinateBounds`
+(79 bytes at 0x0041A9B8) writes the native GameManager's full eight-float
+screen/playfield sequence at +0x350..+0x36C. The canonical
+`AsciiGameManagerView` previously stopped at +0x358 and `PlayerMovement.cpp`
+used a second `GameManagerResetView` source global to access the last four
+bounds. The native class now exposes +0x358/+0x35C/+0x360/+0x364/+0x368/+0x36C,
+with the original +0x378/+0x37C counters and the complete 0x390-byte extent.
+The 1,900-byte `PlayerLifecycleView::UpdateMovementAndOptions` reads
+`g_GameManager.coordinate360/364/368/36C` directly through the native class,
+not a private second GameManager variable/type. The independently decoded
+original PE and current COFF confirm all **eight** actual absolute field
+relocations address 0x004A80F0/0x004A80F4/0x004A80F8/0x004A80FC via the
+native global at 0x004A7D90; there are 12 source-side textual accesses, but
+only eight physical compiled relocation fields (the compiler folds some
+arithmetic uses). The remaining 58 original address operands are unchanged.
+
+Fresh pinned VC7.1 source-cold `--owner movement` replay retains the complete
+1,900-byte nonexact owner, 66 real address fields, 23 original-ordered calls,
+435 normalized aligned instructions and exactly 122 overlapping unlike bytes.
+Both related original-exact siblings remain exact. The independent 79-byte
+coordinate initializer, 47-byte reset function and 553-byte front result
+initializer also independently compare exact. This type/store reconciliation
+is not an exactness promotion, whole-product build or runtime claim.
