@@ -23,7 +23,6 @@
 #include "EnemyAttachedEffectStateView.hpp"
 #include "AsciiBossMarkerVmView.hpp"
 #include "SoundPlayer.hpp"
-#include "GameManagerEclStateView.hpp"
 #include "Background.hpp"
 #include "EnemyCorePlayerView.hpp"
 #include "ZunMemory.hpp"
@@ -624,7 +623,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_ADD_GAME_MANAGER_VALUE380:
-        reinterpret_cast<GameManagerEclStateView *>(&g_GameManager)->value380 += 1800;
+        g_GameManager.value380 += 1800;
         break;
 
     {

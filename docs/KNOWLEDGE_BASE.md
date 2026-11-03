@@ -30649,3 +30649,35 @@ zero relocations**, and the native 45-byte `AnmVm::AnmVm` remains exact.
 The scoped Player collision boss keeps its prior 862-byte target/
 849-byte candidate and seven exact siblings. The source-type correction
 does not create a newly counted authored match or claim whole-game runtime.
+
+## 2026-11-03 native GameManager +0x380 source owner in RunEcl opcode 148 and reset
+
+The 15,564-byte original-bound `EclManager::RunEcl` opcode 148 and the
+separately exact 100-byte `ResetGameManager @0x0041A7C3` both address the
+same four-byte word **`g_GameManager @0x004A7D90 +0x380`**. Opcode 148 adds
+**1,800** to the word; `ResetGameManager` clears it. Earlier code still
+cast both uses to a separate padded `GameManagerEclStateView`, although
+`AsciiGameManagerView` now owns the original complete 0x390-byte allocation.
+The canonical class therefore exposes `int value380` at +0x380, and
+its original +0x120 instruction-mask DWORD has a low-byte alias at the
+same physical offset. Runtime interpretation of value380 beyond its
+observed increment/reset is **unknown**; neither member's declaration is
+proof of the original C++ class composition or gameplay meaning.
+
+Actual source now edits native `g_GameManager.value380` in the 148 handler
+and the native manager's +0x380 word in the reset member. The reset function
+remains **100/100 physical bytes exact**, with the unchanged established
+GameManager setup source/ABI. The full pinned VC7.1 original-PE RunEcl owner
+still matches its **15,564-byte target extent, 598 reviewed relocation fields,
+all 148 handler shapes, and the same 30 differing bytes confined to opcode
+4 (7 bytes) and opcode 155 (23 bytes)**. The complete scoped `runecl` replay
+preserved **96 already exact siblings**. The focused GameManager cohort
+preserved **16 exact siblings**, and the independent 3,900-byte Enemy calc
+boss retained 13 ordinary differences, 97 fields and 69 calls. This source
+normalization does **not** claim a newly exact RunEcl or product runtime.
+
+Twenty VC7.1 private `$L` names in the exact ECL post-movement and operand
+compare owners were re-numbered by this source-cold rebuild. Every one was
+verified from its current COFF definition and immutable original PE operand;
+only the original-address-preserving manifest symbol spellings were updated.
+No all-unit cold replay was run.

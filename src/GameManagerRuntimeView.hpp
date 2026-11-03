@@ -119,7 +119,9 @@ struct AsciiGameManagerView
     int replayMode114;
     int gameMode;
     union { int difficulty; int difficulty11C; int setupMode11C; };
-    unsigned int instructionMask120;
+    // Native ECL and exact enemy-timeline instruction dispatch share the
+    // +0x120 word/byte owner, never a second GameManager projection.
+    union { unsigned int instructionMask120; unsigned char instructionMaskLowByte120; };
     int gameplaySetupState124;
     int gameplaySetupWaitFrames128;
     int playtimeFrames12C;
@@ -152,7 +154,10 @@ struct AsciiGameManagerView
     unsigned char unknown370[0x378 - 0x370];
     int value378;
     int value37C;
-    unsigned char unknown380[0x390 - 0x380];
+    // Original RunEcl opcode 148 adds 1800 here; the GameManager reset
+    // clears exactly the same physical four-byte word at +0x380.
+    int value380;
+    unsigned char unknown384[0x390 - 0x384];
 
     int IsWithinPlayfield(float x, float y, float width, float height);
     float TransformPopupX(float value);
@@ -166,6 +171,11 @@ struct AsciiGameManagerView
     int HasFlagBit0();
 };
 
+typedef char AsciiGameManagerNativeEclStorage[
+    (offsetof(AsciiGameManagerView, instructionMask120) == 0x120 &&
+     offsetof(AsciiGameManagerView, instructionMaskLowByte120) == 0x120 &&
+     offsetof(AsciiGameManagerView, value380) == 0x380 &&
+     sizeof(AsciiGameManagerView) == 0x390) ? 1 : -1];
 typedef char AsciiGameManagerSideCharacterAt20[
     (offsetof(AsciiGameManagerSideView, character20) == 0x20) ? 1 : -1];
 

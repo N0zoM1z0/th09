@@ -24,7 +24,6 @@
 #include "Chain.hpp"
 #include "GameConfiguration.hpp"
 #include "GameManagerOpponentSelectionView.hpp"
-#include "GameManagerEclStateView.hpp"
 #include "ScreenEffect.hpp"
 #include "ReplayInputState.hpp"
 #include "ReplayManagerRuntimeView.hpp"
@@ -109,7 +108,7 @@ typedef char SupervisorSetupLayoutLoadingFlagAt740[
 
 typedef char SetupGameManagerInstructionMaskAt120[
     (offsetof(GameManagerSetupLayout, instructionMask120) ==
-     offsetof(GameManagerEclStateView, instructionMask120)) ? 1 : -1];
+     offsetof(AsciiGameManagerView, instructionMask120)) ? 1 : -1];
 // OnUpdate's replay mode, selectors and pause flag are the same original
 // manager words read by the independent replay recording/playback owners.
 typedef char SetupGameManagerNativeReplayOffsets[
@@ -1082,7 +1081,7 @@ void __fastcall ResetGameManager(GameManagerSetupLayout *manager)
     view->value13C = 0;
     view->value13D = 0;
     view->value13E = 0;
-    reinterpret_cast<GameManagerEclStateView *>(manager)->value380 = 0;
+    reinterpret_cast<AsciiGameManagerView *>(manager)->value380 = 0;
 }
 
 namespace
