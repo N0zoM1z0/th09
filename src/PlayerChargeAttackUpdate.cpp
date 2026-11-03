@@ -10,6 +10,7 @@
 #include "ZunTimer.hpp"
 #include "SoundPlayer.hpp"
 #include "GameConfiguration.hpp"
+#include "GameManagerRuntimeView.hpp"
 // The original g_GameConfiguration pointer has its own canonical symbol at
 // 0x004A7E78, the same address as the GameManager's +0xE8 pointer field.
 // Its independent FrontResultBonus caller binds this actual global directly.
@@ -24,18 +25,17 @@ typedef unsigned short u16;
 typedef char PlayerChargeConfigurationModeAtB4[
     (offsetof(GameConfiguration, sideFocusMode) == 0xB4) ? 1 : -1];
 
-struct PlayerChargeSideView
-{
-    void *state00;
-    void *player04;
-    u8 unknown08[8];
-    EnemyManagerView *enemyManager10;
-    void *attackOwner14;
-    FrontSide *frontSide18;
-    u8 unknown1C[0x1C];
-};
-typedef char PlayerChargeSideSizeIs38[
-    (sizeof(PlayerChargeSideView) == 0x38) ? 1 : -1];
+// The live 0x38-byte gameplay side is the very same GameManager side
+// allocation used by Enemy/ECL and the original game setup factories.
+// Preserve the existing Player-facing field names without a second struct.
+typedef char PlayerChargeNativeSideStorage[
+    (sizeof(PlayerSideStateView) == sizeof(AsciiGameManagerSideView) &&
+     offsetof(PlayerSideStateView, attackTarget10) ==
+         offsetof(AsciiGameManagerSideView, enemyManager10) &&
+     offsetof(PlayerSideStateView, attackOwner14) ==
+         offsetof(AsciiGameManagerSideView, cardAttack14) &&
+     offsetof(PlayerSideStateView, frontSide18) ==
+         offsetof(AsciiGameManagerSideView, frontSide18)) ? 1 : -1];
 
 int PlayerChargeAttackView::UpdateChargeAttack()
 {
@@ -98,7 +98,7 @@ int PlayerChargeAttackView::UpdateChargeAttack()
     {
         g_SoundPlayer.PlaySoundByIdx(
             43, sideIndex != 0 ? 500 : -500);
-        reinterpret_cast<PlayerChargeSideView *>(sideState)
+        reinterpret_cast<AsciiGameManagerSideView *>(sideState)
             ->frontSide18->ActivateMeterVms();
     }
 
@@ -141,12 +141,12 @@ resolveAttack:
         *reinterpret_cast<ZunTimer *>(&timer1B74) = 8;
 
         if (scalar30384 >= 400.0f &&
-            reinterpret_cast<PlayerChargeSideView *>(opponentState)
+            reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
                 ->enemyManager10->FindActiveEnemyBySideCategory(3) == 0)
         {
             reinterpret_cast<CardAttackStartView *>(
-                reinterpret_cast<PlayerChargeSideView *>(opponentState)
-                    ->attackOwner14)->StartAttack(
+                reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
+                    ->cardAttack14)->StartAttack(
                         2, 2, 0,
                         primaryShtFile->modePath2);
             reinterpret_cast<PlayerResourceSubtractView *>(this)
@@ -158,8 +158,8 @@ resolveAttack:
         else if (scalar30384 >= 300.0f)
         {
             reinterpret_cast<CardAttackStartView *>(
-                reinterpret_cast<PlayerChargeSideView *>(opponentState)
-                    ->attackOwner14)->StartAttack(
+                reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
+                    ->cardAttack14)->StartAttack(
                         1, 1, 0,
                         primaryShtFile->modePath1);
             reinterpret_cast<PlayerResourceSubtractView *>(this)
@@ -171,8 +171,8 @@ resolveAttack:
         else if (scalar30384 >= 200.0f)
         {
             reinterpret_cast<CardAttackStartView *>(
-                reinterpret_cast<PlayerChargeSideView *>(opponentState)
-                    ->attackOwner14)->StartAttack(
+                reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
+                    ->cardAttack14)->StartAttack(
                         0, 0, 0,
                         primaryShtFile->modePath0);
             *reinterpret_cast<ZunTimer *>(&timer1B74) = 8;
@@ -183,7 +183,7 @@ resolveAttack:
         }
     }
 
-    reinterpret_cast<PlayerChargeSideView *>(sideState)
+    reinterpret_cast<AsciiGameManagerSideView *>(sideState)
         ->frontSide18->DeactivateMeterVms();
     *reinterpret_cast<ZunTimer *>(&timer303BC) = -1;
     scalar30384 = 0.0f;
