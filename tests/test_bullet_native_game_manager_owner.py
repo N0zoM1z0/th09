@@ -39,5 +39,31 @@ class BulletNativeGameManagerOwner(unittest.TestCase):
                                   if 'GameManager' in r['symbol']], names)
 
 
+    def test_native_side_storage_and_original_bullet_player_receiver(self):
+        header = (ROOT/'src/BulletManager.hpp').read_text()
+        source = (ROOT/'src/BulletManager.cpp').read_text()
+        laser = (ROOT/'src/BulletLaserSpawn.cpp').read_text()
+        self.assertIn('#include "GameManagerRuntimeView.hpp"', header)
+        self.assertIn('typedef AsciiGameManagerSideView BulletSideStateView;', header)
+        self.assertNotIn('struct BulletSideStateView\n{', header)
+        self.assertIn('BulletSideStateSizeIs38', header)
+        self.assertIn('BulletSideEffectManagerAt0C', header)
+        self.assertIn('controller->sideState = &g_GameManager.sides[sideIndex];', source)
+        self.assertIn('controller->opponentSideState = &g_GameManager.sides[1 - sideIndex];', source)
+        self.assertIn('reinterpret_cast<BulletPlayerView *>(this->sideState->player04)', source)
+        self.assertIn('reinterpret_cast<BulletPlayerView *>(this->sideState->player04)', laser)
+        self.assertNotIn('struct BulletGameManagerView', source)
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            units = tomllib.load(f)['units']
+        for name, address, logical, physical in (
+                ('etama-controller-update',0x004146F0,2195,2216),
+                ('etama-spawn-single-bullet',0x00412960,1893,1932),
+                ('etama-spawn-laser-pattern',0x00413290,450,450)):
+            with self.subTest(unit=name):
+                u=units[name]
+                self.assertEqual((u['target_address'],u['size'],u.get('compare_size',u['size'])),
+                                 (address,logical,physical))
+
+
 if __name__ == '__main__':
     unittest.main()

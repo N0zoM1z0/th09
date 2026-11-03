@@ -29837,3 +29837,30 @@ functions** passes, and its complete Bullet owner cohort protects 28
 exact siblings. The neighboring Etama owner scope protects four exact
 siblings; its 600-byte OnDraw remains non-exact with 268 unlike bytes.
 The original source- and exactness-ledger status remains unchanged.
+
+## 2026-11-03 Etama side ownership unified with native GameManager.sides
+
+The exact `EtamaController::Register` and its 2,216-byte `OnUpdate`
+confirm the owner side pointers at controller +0x25E190/+0x25E194 are
+exactly GameManager's 0x38-byte side objects. The private
+`BulletSideStateView` byte projection in `BulletManager.hpp` is now a
+zero-extra-storage alias of the previously verified
+`AsciiGameManagerSideView`. Source `Register` assigns the original
+`g_GameManager.sides[sideIndex]` and opponent member directly, without
+reinterpreting an unrelated side layout. Gameplay calls retain the
+independent original `BulletPlayerView` method ABI by a source-only cast
+of the same native +0x04 player pointer; the original C++ nominal
+inheritance remains unknown. `EtamaController::OnDraw` continues reading
+the same native +0x0C Effect manager without extra code.
+
+The pinned VC7.1 original-PE replay preserves 2,216-byte Etama `OnUpdate`,
+1,932-byte SpawnSingleBullet, 283-byte Register, 295-byte boundary-bounce,
+and 450-byte laser spawn exactly. The full Bullet/Etama scoped checks
+protect **28** and **4** original-exact functions respectively; the
+separate 600-byte Etama draw boss still differs in 268 bytes with its
+27 target-bound fields, unchanged direct-flow graph and no exactness
+promotion. Twenty-three compiler-private `$L` labels in BulletManager
+and AdvanceTransformProgram were verified against their actual defined
+COFF section coordinates and unchanged original PE word operands before
+updating only manifest symbol names. The authored exact tally remains
+1,005/1,035; no all-unit cold replay or native game link/runtime test.

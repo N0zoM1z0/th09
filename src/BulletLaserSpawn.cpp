@@ -49,7 +49,7 @@ Laser *EtamaController::SpawnLaserPattern(BulletSpawnDescriptor *descriptor)
         if (descriptor->aimMode == 0)
         {
             laser->angle +=
-                this->sideState->player->AngleToPoint(&descriptor->position);
+                reinterpret_cast<BulletPlayerView *>(this->sideState->player04)->AngleToPoint(&descriptor->position);
         }
 
         laser->flags =

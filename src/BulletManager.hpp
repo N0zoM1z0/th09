@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AsciiManager.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "Chain.hpp"
 #include "ZunTimer.hpp"
 
@@ -267,16 +268,10 @@ typedef char BulletColorAt10C2[(offsetof(Bullet, color) == 0x10C2) ? 1 : -1];
 
 struct BulletPlayerView;
 
-struct BulletSideStateView
-{
-    void *unknown00;
-    BulletPlayerView *player;
-    unsigned char unknown08[0x04];
-    EffectManager *effectManager0C;
-    unsigned char unknown10[0x24];
-    unsigned int flags;
-};
-
+// The EtamaController side points into the genuine GameManager.sides[2]
+// allocation (0x38 bytes per side); do not carry a second private shape.
+// BulletPlayerView is a lexical method receiver, not a separate allocation.
+typedef AsciiGameManagerSideView BulletSideStateView;
 typedef char BulletSideEffectManagerAt0C[
     (offsetof(BulletSideStateView, effectManager0C) == 0x0C) ? 1 : -1];
 typedef char BulletSideStateSizeIs38[(sizeof(BulletSideStateView) == 0x38) ? 1 : -1];

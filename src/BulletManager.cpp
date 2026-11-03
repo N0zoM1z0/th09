@@ -303,7 +303,7 @@ static void UpdateBulletAimedDirectionChange(Bullet *bullet)
             bullet->exStates[3].directionChangeRepeatCount)
             bullet->activeTransformFlags &= ~BULLET_TRANSFORM_CHANGE_DIRECTION_AIMED;
         bullet->angle = AddNormalizeAngle(
-            bullet->controller->sideState->player->AngleToPoint(&bullet->position),
+            reinterpret_cast<BulletPlayerView *>(bullet->controller->sideState->player04)->AngleToPoint(&bullet->position),
             bullet->exStates[3].directionChangeAngle);
         bullet->speed = bullet->exStates[3].directionChangeSpeed;
         magnitude = bullet->speed;
@@ -579,7 +579,7 @@ Bullet *EtamaController::SpawnBulletPatternPrimary(BulletSpawnDescriptor *descri
     int index2;
     Bullet *result;
     descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
-    angleToPlayer = this->sideState->player->AngleToPoint(&descriptor->position);
+    angleToPlayer = reinterpret_cast<BulletPlayerView *>(this->sideState->player04)->AngleToPoint(&descriptor->position);
     for (index2 = 0; index2 < descriptor->count2; ++index2)
     {
         for (index1 = 0; index1 < descriptor->count1; ++index1)
@@ -602,7 +602,7 @@ Bullet *EtamaController::SpawnBulletPatternSecondary(BulletSpawnDescriptor *desc
     int index2;
     Bullet *result;
     descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
-    angleToPlayer = this->sideState->player->AngleToPoint(&descriptor->position);
+    angleToPlayer = reinterpret_cast<BulletPlayerView *>(this->sideState->player04)->AngleToPoint(&descriptor->position);
     for (index2 = 0; index2 < descriptor->count2; ++index2)
     {
         for (index1 = 0; index1 < descriptor->count1; ++index1)
@@ -769,7 +769,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
                 int collisionResult;
                 if (bullet->isGrazed == 0)
                 {
-                    collisionResult = controller->sideState->player->CheckGrazeCollision(
+                    collisionResult = reinterpret_cast<BulletPlayerView *>(controller->sideState->player04)->CheckGrazeCollision(
                         &bullet->position, &bullet->sprites.collisionSize, bullet);
                     if (collisionResult == 1)
                     {
@@ -784,7 +784,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
                     }
                 }
 
-                collisionResult = controller->sideState->player->CheckBulletCollision(
+                collisionResult = reinterpret_cast<BulletPlayerView *>(controller->sideState->player04)->CheckBulletCollision(
                     &bullet->position, &bullet->sprites.collisionSize, bullet);
                 if (collisionResult != 0 &&
                     (collisionResult != 2 ||
@@ -795,7 +795,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
                 else
                 {
                     reinterpret_cast<PlayerCollisionQueryStateView *>(
-                        reinterpret_cast<unsigned char *>(controller->sideState->player) + 0x36C)
+                        reinterpret_cast<unsigned char *>(controller->sideState->player04) + 0x36C)
                         ->AppendBoxRecord(
                             reinterpret_cast<PlayerPositionView *>(&bullet->position),
                             reinterpret_cast<PlayerPositionView *>(
@@ -873,7 +873,7 @@ updateTimers:
             }
             if (laser->timer >= laser->hitboxStartTime)
                 reinterpret_cast<PlayerCollisionQueryStateView *>(
-                    reinterpret_cast<unsigned char *>(controller->sideState->player) + 0x36C)
+                    reinterpret_cast<unsigned char *>(controller->sideState->player04) + 0x36C)
                     ->AppendLaserRecord(
                         reinterpret_cast<PlayerPositionView *>(laserCenter),
                         reinterpret_cast<PlayerPositionView *>(laserSize),
@@ -887,7 +887,7 @@ updateTimers:
             laser->currentWidth = laser->width;
         case 1:
             reinterpret_cast<PlayerCollisionQueryStateView *>(
-                    reinterpret_cast<unsigned char *>(controller->sideState->player) + 0x36C)
+                    reinterpret_cast<unsigned char *>(controller->sideState->player04) + 0x36C)
                     ->AppendLaserRecord(
                         reinterpret_cast<PlayerPositionView *>(laserCenter),
                         reinterpret_cast<PlayerPositionView *>(laserSize),
@@ -924,7 +924,7 @@ updateTimers:
             }
             if (laser->timer < laser->hitboxEndDelay)
                 reinterpret_cast<PlayerCollisionQueryStateView *>(
-                    reinterpret_cast<unsigned char *>(controller->sideState->player) + 0x36C)
+                    reinterpret_cast<unsigned char *>(controller->sideState->player04) + 0x36C)
                     ->AppendLaserRecord(
                         reinterpret_cast<PlayerPositionView *>(laserCenter),
                         reinterpret_cast<PlayerPositionView *>(laserSize),
@@ -965,11 +965,9 @@ EtamaController *EtamaController::Register(int sideIndex)
     controller = static_cast<EtamaController *>(g_ZunMemory.AddToRegistry(
         controller, sizeof(EtamaController), const_cast<char *>("EtamaCtrlInf")));
     controller->Initialize();
-    controller->sideState = reinterpret_cast<BulletSideStateView *>(
-        &g_GameManager.sides[sideIndex]);
+    controller->sideState = &g_GameManager.sides[sideIndex];
     controller->sideIndex = sideIndex;
-    controller->opponentSideState = reinterpret_cast<BulletSideStateView *>(
-        &g_GameManager.sides[1 - sideIndex]);
+    controller->opponentSideState = &g_GameManager.sides[1 - sideIndex];
 
     controller->calcChain = g_Chain.CreateElem(
         reinterpret_cast<ChainCallback>(EtamaController::OnUpdate));
