@@ -91,7 +91,7 @@ def bullet_primary_body(data):
     selected = []
     boundaries = (
         ('struct BulletCancelCollisionView', 'struct BulletTimerCurrentView'),
-        ('struct BulletPlayerView\n', 'struct BulletGameManagerView'),
+        ('struct BulletPlayerView\n', 'typedef char BulletNativeGameManagerOwner['),
         ('enum BulletTransformFlags', None),
         ('Bullet *EtamaController::SpawnBulletPatternPrimary(',
          'Bullet *EtamaController::SpawnBulletPatternSecondary('),

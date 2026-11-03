@@ -3,6 +3,7 @@
 #include "SoundPlayer.hpp"
 #include "RuntimeAngleMath.hpp"
 #include "AnmManager.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 
@@ -68,15 +69,17 @@ struct BulletPlayerView
         Float3 *center, Float3 *size, Float3 *origin, float angle, int pulse);
 };
 
-struct BulletGameManagerView
-{
-    BulletSideStateView sides[2];
-    unsigned char unknown070[0x134 - 0x70];
-    unsigned int flags;
-
-    int IsWithinPlayfield(float x, float y, float height, float width);
-};
-extern BulletGameManagerView g_GameManager;
+// The retained Bullet side subview is physically one native GameManager
+// side slot; the original world flags and playfield callee belong to the
+// canonical 0x4A7D90 AsciiGameManagerView allocation, not a second root.
+typedef char BulletNativeGameManagerOwner[
+    (offsetof(AsciiGameManagerView, sides) == 0 &&
+     sizeof(AsciiGameManagerSideView) == 0x38 &&
+     offsetof(AsciiGameManagerView, flags) == 0x134 &&
+     offsetof(AsciiGameManagerSideView, player04) == 0x04 &&
+     offsetof(AsciiGameManagerSideView, effectManager0C) == 0x0C &&
+     offsetof(BulletSideStateView, player) == 0x04 &&
+     offsetof(BulletSideStateView, effectManager0C) == 0x0C) ? 1 : -1];
 
 extern int g_BulletSpriteOffsetSmall[];
 extern int g_BulletSpriteOffsetMedium[];
@@ -962,9 +965,11 @@ EtamaController *EtamaController::Register(int sideIndex)
     controller = static_cast<EtamaController *>(g_ZunMemory.AddToRegistry(
         controller, sizeof(EtamaController), const_cast<char *>("EtamaCtrlInf")));
     controller->Initialize();
-    controller->sideState = &g_GameManager.sides[sideIndex];
+    controller->sideState = reinterpret_cast<BulletSideStateView *>(
+        &g_GameManager.sides[sideIndex]);
     controller->sideIndex = sideIndex;
-    controller->opponentSideState = &g_GameManager.sides[1 - sideIndex];
+    controller->opponentSideState = reinterpret_cast<BulletSideStateView *>(
+        &g_GameManager.sides[1 - sideIndex]);
 
     controller->calcChain = g_Chain.CreateElem(
         reinterpret_cast<ChainCallback>(EtamaController::OnUpdate));

@@ -60,7 +60,10 @@ class EnemyNativeSpawnContext(unittest.TestCase):
         self.assertNotIn('Bullet *EtamaController::SpawnBulletPatternSecondary(', selected)
         self.assertIn('struct BulletCancelCollisionView', selected)
         self.assertIn('struct BulletPlayerView', selected)
+        self.assertNotIn('typedef char BulletNativeGameManagerOwner[', selected)
+        self.assertIn('typedef char BulletNativeGameManagerOwner[', source.decode())
         for marker in (b'struct BulletPlayerView\n',
+                       b'typedef char BulletNativeGameManagerOwner[',
                        b'Bullet *EtamaController::SpawnBulletPatternSecondary('):
             for changed in (source.replace(marker, b'changed marker'), source+marker):
                 with self.subTest(marker=marker), self.assertRaises(ValueError):

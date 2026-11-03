@@ -29808,3 +29808,32 @@ changes in the Etama source/Advance carrier was verified using actual COFF
 section-local label coordinates and unchanged original PE operand words
 before updating only the manifest symbol names. There was no new exactness
 credit, full cold replay, or whole-Windows-product acceptance claim.
+
+## 2026-11-03 native GameManager and playfield caller in 2,216-byte Etama update
+
+TH09's entire `BulletGameManagerView` duplicate root in the genuine
+`BulletManager.cpp` source has been replaced by the already recovered
+`AsciiGameManagerView` at original global `0x004A7D90`. The Etama register
+owner reads two native 0x38-byte side slots through narrow Bullet-side
+projections, while the big `EtamaController::OnUpdate` uses the native
++0x134 flags word and the original exact `IsWithinPlayfield` member at
+`0x0041A6EB` (116 bytes). The 295-byte boundary bounce leaf also calls
+that same genuine member instead of a fake class symbol. The native side
+owner positions +0x04 (Player) and +0x0C (EffectManager) are asserted.
+
+Seven changed GameManager source relocation *identities* across
+`bullet-update-boundary-bounce`, `etama-controller-register` and
+`etama-controller-update` were independently checked with the current
+COFF real addends and the original Japanese PE operand words. In
+particular, the register source has a +0x38 native side-slot addend,
+and the big update has a +0x134 native flags addend. Sixteen concurrent
+compiler-private `$L` label spelling changes likewise reproduce the
+original section-relative target addresses. Only proven symbol names,
+never target VAs, field offsets, kinds or byte masks, changed in the
+corresponding canonical match-unit manifests.
+
+Cold focused replay of **all eighteen exact native BulletManager.cpp
+functions** passes, and its complete Bullet owner cohort protects 28
+exact siblings. The neighboring Etama owner scope protects four exact
+siblings; its 600-byte OnDraw remains non-exact with 268 unlike bytes.
+The original source- and exactness-ledger status remains unchanged.
