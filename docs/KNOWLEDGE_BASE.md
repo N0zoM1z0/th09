@@ -30061,3 +30061,28 @@ physical PE operand word with unchanged relocation kind, addend and target
 address. Both 35/38-byte owners and the 71-byte callee compile byte-exact
 under their pinned profiles; no new exactness, Windows-product or runtime
 credit is claimed.
+
+## 2026-11-03 native Enemy trail vertices and Supervisor viewport draw callbacks
+
+The complete original-bound `EnemyManagerDrawImpl` vertex strip path now
+writes the native `EnemyTrailVertexView` records in
+`EnemyView::trailVertices3E68[192]` instead of a second draw-only vertex
+struct. Each element is 0x1C bytes, with position +0x00, RHW +0x0C,
+diffuse +0x10, U +0x14 and V +0x18, identically consumed by exact
+`AnmManager::DrawVertices` at `0x0043B4D0`. Compile-time offset/extent
+assertions preserve the original 192-record allocation and byte footprint.
+
+The exact high/low-priority Enemy draw wrappers now call the real
+`Supervisor::ConfigureScreenViewport(int)` at original `0x00403D90` on
+native `g_Supervisor @0x004B3100` instead of the private
+`EnemyDrawSupervisorView::PrepareEnemyDraw` prototype. Both wrapper
+COFF global/callee fields at +0x0B/+0x10 were resolved against unchanged
+original PE operand words and an independently original-exact 71-byte
+Supervisor viewport callee; only target-preserving C++ symbol names in the
+manifest changed.
+
+Fixed-profile VC7.1 replays show the full 1,758-byte Enemy draw owner and
+all 53 relocations, its exact 35/38-byte wrappers, the exact 91-byte wrapped
+angle helper, 238-byte ANM vertex callee and 71-byte Supervisor viewport
+callee remain exact. Neither source normalization introduces a new accepted
+function or claims a whole-product/gameplay runtime result.
