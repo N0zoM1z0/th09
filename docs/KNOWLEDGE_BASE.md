@@ -30388,3 +30388,32 @@ Original-bound VC7.1 compiler comparison confirms **119/119 physical bytes
 exact, one true relocation**, and the related 191-byte predicted-frame
 insertion remains exact. The separate 213-byte received-frame producer
 stays non-exact at 35 different bytes; no new exactness credit is taken.
+
+## 2026-11-03 shared ReplayInputState owns a separate network repeat window
+
+The exact network frontend function `ApplyNetworkInput @0x0042ACE0`
+(131 bytes) previously defined another complete 0x8E-byte
+`ReplayInputFrontState` with an independently mangled global. The original
+unmodified PE contains its sole absolute data operand at `ApplyNetworkInput
++0x0C`, pointing to **`0x004ACE18`**, the same actual
+`g_ReplayInputStates[3]` that the independent exact Replay playback and
+Supervisor PopFrame functions read. Its source now uses the canonical
+`ReplayInputState` instead of a private duplicate; the one original COFF
+data field retains its position, DIR32 kind, addend zero and original address.
+
+**Important field distinction:** network input updates `networkHeldFrames0A`
+(16 halfwords at +0x0A..+0x29), while the separately declared replay
+`heldFrames[16]` is at **+0x38**. These are *different* native storage
+windows in the same 0x8E-byte Replay record, not synonyms for each other;
+old private input structs made the distinction easy to miss. The canonical
+struct now overlays the formerly unknown first window and exposes the
+network-mode previous/repeat/pressed/released aliases at +0x02/+0x04/
++0x06/+0x08 without changing either existing field or stride.
+
+Original-bound VC7.1 comparison confirms **131/131 bytes exact** for
+ApplyNetworkInput and the separately exact 111-byte ReplayInputState update.
+The full replay focused local audit protects **15 exact siblings** and
+leaves its 540-byte BeginPlaybackStage boss at a 538-byte, 39-overlap-
+difference candidate with two absent bytes. This is a typed storage/
+ABI recovery, not a new exactness promotion, full cold replay or runtime
+validation.

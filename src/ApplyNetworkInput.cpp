@@ -3,32 +3,25 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-struct ReplayInputFrontState
-{
-    u16 current00;
-    u16 previous02;
-    u16 repeat04;
-    u16 pressed06;
-    u16 released08;
-    u16 heldFrames0A[16];
-    u8 unknown2A[0x8E - 0x2A];
-};
+#include "ReplayInputState.hpp"
 
-typedef char ReplayInputFrontStateSizeIs8E[
-    (sizeof(ReplayInputFrontState) == 0x8E) ? 1 : -1];
-
-extern ReplayInputFrontState g_ReplayInputStates[3];
+// This source callback writes the original native ReplayInputState's
+// network-specific counter window at +0x0A, not Replay heldFrames at +0x38.
+typedef char ApplyNetworkInputNativeOwner[
+    (sizeof(ReplayInputState) == 0x8E &&
+     offsetof(ReplayInputState, networkHeldFrames0A) == 0x0A &&
+     offsetof(ReplayInputState, heldFrames) == 0x38) ? 1 : -1];
 
 int __fastcall ApplyNetworkInput(int stateIndex, int input)
 {
-    ReplayInputFrontState *state = &g_ReplayInputStates[stateIndex];
-    state->previous02 = state->current00;
-    state->current00 = (u16)input;
+    ReplayInputState *state = &g_ReplayInputStates[stateIndex];
+    state->networkPrevious02 = state->currentInput;
+    state->currentInput = (u16)input;
 
     u16 repeatBit = 1;
     u16 shifted = (u16)input;
-    state->repeat04 = 0;
-    u16 *held = state->heldFrames0A;
+    state->networkRepeat04 = 0;
+    u16 *held = state->networkHeldFrames0A;
     int remaining = 16;
 
     do
@@ -38,7 +31,7 @@ int __fastcall ApplyNetworkInput(int stateIndex, int input)
             ++*held;
             if (*held >= 26)
             {
-                state->repeat04 |= repeatBit;
+                state->networkRepeat04 |= repeatBit;
                 *held -= 8;
             }
         }
@@ -54,9 +47,9 @@ int __fastcall ApplyNetworkInput(int stateIndex, int input)
     }
     while (remaining != 0);
 
-    state->pressed06 =
-        (state->current00 ^ state->previous02) & state->current00;
-    state->released08 =
-        (state->current00 ^ state->previous02) & ~state->current00;
+    state->networkPressed06 =
+        (state->currentInput ^ state->networkPrevious02) & state->currentInput;
+    state->networkReleased08 =
+        (state->currentInput ^ state->networkPrevious02) & ~state->currentInput;
     return input;
 }

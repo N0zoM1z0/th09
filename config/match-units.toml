@@ -16950,7 +16950,7 @@ symbol = "?ApplyNetworkInput@@YIHHH@Z"
 target_address = 0x0042ACE0
 size = 0x83
 relocations = [
-  { offset = 0x0C, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputFrontState@@A", target = 0x004ACE18 },
+  { offset = 0x0C, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
 ]
 
 [units.ecl-post-update-movement]
