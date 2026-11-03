@@ -43,6 +43,20 @@ class NativePlayerOptionPosition(unittest.TestCase):
         self.assertEqual((u['zun-timer-constructor']['target_address'],
                           u['zun-timer-constructor']['size']),(0x403390,12))
 
+    def test_shot_has_32_native_constructed_vectors_then_hitbox(self):
+        owner=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
+        init=(ROOT/'src/PlayerShotInitializeView.hpp').read_text()
+        self.assertIn('PlayerConstructedVector3View trailVectors2B0[32];',owner)
+        self.assertIn('PlayerPositionView hitbox430;',owner)
+        self.assertNotIn('unknown2B0[0x43C - 0x2B0]',owner)
+        self.assertIn('PlayerShotNativeConstructedVectors',owner)
+        self.assertIn('sizeof(((PlayerShotCtorView *)0)->trailVectors2B0) == 0x180',owner)
+        self.assertIn('sizeof(((PlayerShotCtorView *)0)->trailVectors2B0[0]) == 0x0C',owner)
+        self.assertIn('offsetof(PlayerShotCtorView, hitbox430) == 0x430',owner)
+        self.assertIn('offsetof(PlayerShotCtorView, velocity43C) == 0x43C',owner)
+        self.assertIn('PlayerShotInitFloat3 hitbox430;',init)
+        self.assertIn('PlayerShotInitFloat3 velocity43C;',init)
+
     def test_exact_shot_initializer_consumes_same_option_instance(self):
         shot=(ROOT/'src/PlayerShotInitializeView.hpp').read_text()
         body=(ROOT/'src/PlayerInitializeShot.cpp').read_text()

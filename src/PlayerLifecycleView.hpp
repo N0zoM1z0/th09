@@ -271,7 +271,11 @@ struct PlayerShotCtorView
 {
     PlayerAnmVmView vm;
     PlayerPositionView position2A4;
-    unsigned char unknown2B0[0x43C - 0x2B0];
+    // Original shot ctor at 0x41F030 passes this +0x2B0 allocation to
+    // __ehvec_ctor with 0x20 entries of 0x0C bytes, followed by +0x430
+    // collision half-size and the independently observed +0x43C velocity.
+    PlayerConstructedVector3View trailVectors2B0[32];
+    PlayerPositionView hitbox430;
     PlayerPositionView velocity43C;
     float auxiliary448;
     float speed44C;
@@ -291,6 +295,11 @@ struct PlayerShotCtorView
 };
 typedef char PlayerShotCtorSizeIs484[(sizeof(PlayerShotCtorView) == 0x484) ? 1 : -1];
 typedef char PlayerShotPositionAt2A4[(offsetof(PlayerShotCtorView, position2A4) == 0x2A4) ? 1 : -1];
+typedef char PlayerShotNativeConstructedVectors[
+    (offsetof(PlayerShotCtorView, trailVectors2B0) == 0x2B0 &&
+     sizeof(((PlayerShotCtorView *)0)->trailVectors2B0) == 0x180 &&
+     sizeof(((PlayerShotCtorView *)0)->trailVectors2B0[0]) == 0x0C &&
+     offsetof(PlayerShotCtorView, hitbox430) == 0x430) ? 1 : -1];
 typedef char PlayerShotVelocityAt43C[(offsetof(PlayerShotCtorView, velocity43C) == 0x43C) ? 1 : -1];
 typedef char PlayerShotTimerAt454[(offsetof(PlayerShotCtorView, timer454) == 0x454) ? 1 : -1];
 typedef char PlayerShotStateAt462[(offsetof(PlayerShotCtorView, state462) == 0x462) ? 1 : -1];

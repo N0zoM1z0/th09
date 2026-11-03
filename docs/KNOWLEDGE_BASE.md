@@ -30498,3 +30498,34 @@ compiler spelling; their current section-local definitions were checked
 against every original PE data operand before refreshing solely those
 manifest symbols, with unchanged target addresses and kinds. No whole-game
 cold replay, native product link or gameplay runtime claim follows.
+
+## 2026-11-03 32 native constructed vectors in the Player shot record
+
+Original TH09 PE at `0x0041F030` (44-byte, complete terminal-ret extent)
+constructs the Player shot's ANM VM via original `0x00403A10`, then passes
+**element count 0x20, stride 0x0C and array address `this+0x2B0`** to the
+array-constructor helper at `0x00401470`, supplying a 3-byte
+constructor-compatible callback address `0x004343D0`. It subsequently
+constructs a native timer at `this+0x454`, calling exact
+`ZunTimer::ZunTimer @0x00403390`. The callback bytes at 0x004343D0
+are shared by several short methods with distinct decorated symbols;
+this proves the actual element count/stride and use of a constructor-like
+callback, **not** one uniquely original nominal C++ class name.
+
+The actual `PlayerShotCtorView` record now exposes its prior private
+0x2B0..0x43B byte range as
+`PlayerConstructedVector3View trailVectors2B0[32]` (0x180 bytes) followed
+by `PlayerPositionView hitbox430` (0x0C bytes), with velocity still at
++0x43C and timer at +0x454. The existing Player shot initializer independently
+uses those same hitbox and velocity positions; the exact Player constructor
+also already binds `PlayerConstructedVector3View` to the same original
+3-byte callback address. Native static checks constrain all of these
+physical boundaries without claiming authorship of the two currently
+unclassified special members `0x0041F010` and `0x0041F030`.
+
+Fixed-profile original-bound local replays preserve exact complete
+243-byte Player constructor, 309-byte shot initializer, 249-byte shot
+update type 4, 86-byte shot spawn type 3, and the existing Player movement
+boss's nonexact 1,900-byte candidate with 122 unlike bytes/66 fields/23
+calls. No new exactness credit, product link, whole-game cold replay or
+runtime confirmation is claimed.
