@@ -30288,3 +30288,28 @@ were checked from *defined* COFF section-local offsets against the original
 PE words, then updated in the manifest with original target VAs untouched.
 All four same-source canonical exact siblings and 15 focused inspector/tests
 pass. No newly exact credit, full cold replay or native game runtime claim.
+
+## 2026-11-03 reset source owner shares complete native GameManager allocation
+
+Two independently original-exact GameManager member owners expose a repeated
+0x390-byte private `GameManagerResetView` record: 79-byte
+`InitializeCoordinateBounds @0x0041A9B8` and 47-byte
+`ResetForSupervisorAdded @0x0041BA4F`. The latter entry is
+**0x0041BA4F in the current original-bound manifest**; a historical
+0x0041E900 assumption is not its function boundary. The two methods retain
+their original `GameManagerResetView` C++ method symbols but now use a
+zero-extra-storage derived source receiver over the true 0x390-byte
+`AsciiGameManagerView` allocation, with no second padded field definition.
+The original reset's +0x13F byte is exposed as the native `resetFlag13F`
+alias (same storage as prior `unknown13F`); the coordinate initializer
+writes native `coordinateOffsetX/Y` at +0x350/+0x354, followed by the six
+native playfield fields at +0x358..+0x36C, while both reset counters at
++0x378/+0x37C retain their original offsets.
+
+Fresh pinned VC7.1 source-cold original-PE comparisons give **79/79 bytes
+exact** and **47/47 bytes exact**, preserving the latter's original field
+and call to the coordinate initializer. The focused `--owner gamemgr` replay
+also preserves all **16 exact siblings**, its still-unmatched 1,689-byte
+setup thread baseline and the 425-byte exact-candidate cleanup boss.
+This derived source layout proves equal physical storage and method ABI, not
+the game's original inheritance syntax, product link or runtime behavior.

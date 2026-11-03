@@ -129,7 +129,7 @@ struct AsciiGameManagerView
     unsigned char inGameMenu;
     union { unsigned char menuState97C8Active; unsigned char menuBlock13D; };
     union { unsigned char menuStateA7A8Active; unsigned char menuBlock13E; };
-    unsigned char unknown13F;
+    union { unsigned char unknown13F; unsigned char resetFlag13F; };
     int demoFrameCount140;
     unsigned char unknown144;
     unsigned char modeByte145;
