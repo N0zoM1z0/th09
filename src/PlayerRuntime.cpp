@@ -848,6 +848,13 @@ PlayerLifecycleView::PlayerLifecycleView()
 {
 }
 
+// The exact physical shot special-member body is generated in this same
+// PlayerRuntime translation unit from native VM + 32 constructed vectors +
+// native timer. Its explicit-vs-implicit original authorship is unresolved.
+PlayerShotCtorView::PlayerShotCtorView()
+{
+}
+
 void PlayerLifecycleView::UpdateBeforeState()
 {
     PlayerRewardTailStateView *state =

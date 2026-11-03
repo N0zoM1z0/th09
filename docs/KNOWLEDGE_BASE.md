@@ -30558,3 +30558,42 @@ credit. Repository tracking validation still reads 2,248 candidates,
 44-byte Player shot constructor remains unclassified and has **not** been
 represented by the current source; an attempted ordinary empty body emitted
 an unlike 51-byte loop and was not adopted.
+
+## 2026-11-03 recovered complete Player shot special member through actual TU visibility
+
+The 44-byte terminal-ret original Player shot constructor at
+`0x0041F030` is now represented in the maintained PlayerRuntime source
+carrier as the natural empty body `PlayerShotCtorView::PlayerShotCtorView()`.
+This is **not** a manually written array-constructor helper call: C++
+member construction of the native shot VM, 32 constructed three-float
+records at +0x2B0, and native timer at +0x454 generates the four original
+fields automatically. The fixed-profile VC7.1 compilation context matters:
+the same empty source method in a separate small translation unit emitted an
+unlike 51-byte inline loop, whereas compiling it in `PlayerRuntime.cpp`
+alongside the real 243-byte Player constructor emitted the **exact original
+44-byte `__ehvec_ctor` code** and all four original relocation fields.
+This demonstrates a concrete compiler/source-visibility hypothesis, not
+unique proof of the retail C++ source-file partition.
+
+A new source-bound read-only inspector,
+`scripts/inspect-player-shot-constructor.py`, pins the immutable original
+44-byte SHA-256
+`df4c963a7df2a31c0e3c526668b0d0d0ee1ec89f4d2c3177df9364b392de307e`
+and confirms every actual PE operand independently: native VM constructor
+at 0x00403A10 (+0x04 REL32), vector constructor-compatible pointer at
+0x004343D0 (+0x09 DIR32), original `??_H` vector-constructor iterator at
+0x00401470 (+0x19 REL32), and native timer constructor at 0x00403390
+(+0x24 REL32). The complete current COFF candidate links to all **44/44
+original bytes with four original fields**. The 23-byte option constructor
+remains source-cold and original-byte exact independently.
+
+Both special-member rows remain **unclassified** as to explicit developer
+source versus compiler-emitted function. The 44-byte owner now references
+`src/PlayerRuntime.cpp` in `config/functions.csv`, with no fabricated
+reccmp/implemented/matches row or newly counted authored exactness. All **21
+canonical PlayerRuntime exact units across five pinned profiles** remain
+exact after source cold rebuild. The sole 11 `$L` label spelling changes
+in its 814-byte pre-state owner were independently resolved from current
+COFF definitions to unchanged original PE jump-table words before refreshing
+only manifest symbol text. No whole-game cold replay, linked-product
+acceptance or runtime behavior evidence is implied.
