@@ -1,32 +1,19 @@
 #include "SupervisorFrameQueueView.hpp"
+#include "Supervisor.hpp"
 #include <stddef.h>
 
-struct NetworkFrameQueueHeadView
-{
-    int frame00;
-    unsigned char unknown04[0x74];
-};
-
-struct SupervisorNetworkQueueSyncLayout
-{
-    unsigned char unknown000[0x480];
-    NetworkFrameQueueHeadView queues480[2];
-};
-
-typedef char NetworkFrameQueueHeadSizeIs78[
-    (sizeof(NetworkFrameQueueHeadView) == 0x78) ? 1 : -1];
-typedef char SupervisorNetworkQueuesAt480[
-    (offsetof(SupervisorNetworkQueueSyncLayout, queues480) == 0x480) ? 1 : -1];
+// The two side heads at Supervisor +0x480/+0x4F8 are the frame fields
+// of entries[0] and entries[10] within the original twenty 0x0C records.
+// No separate 0x78-stride view is needed for this exact short predicate.
+typedef char SupervisorNativeSyncQueues[
+    (offsetof(Supervisor, entries47C) == 0x47C &&
+     sizeof(((Supervisor *)0)->entries47C[0]) == 0x0C) ? 1 : -1];
 
 int SupervisorFrameQueueView::AreFrameQueuesSynchronized(int side)
 {
-    SupervisorNetworkQueueSyncLayout *view =
-        reinterpret_cast<SupervisorNetworkQueueSyncLayout *>(this);
-
-    if (view->queues480[side].frame00 != 0 &&
-        view->queues480[1].frame00 == view->queues480[0].frame00)
-    {
+    Supervisor *view = reinterpret_cast<Supervisor *>(this);
+    if (view->entries47C[side * 10].frame04 != 0 &&
+        view->entries47C[10].frame04 == view->entries47C[0].frame04)
         return 1;
-    }
     return 0;
 }

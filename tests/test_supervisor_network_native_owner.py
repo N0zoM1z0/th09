@@ -46,6 +46,13 @@ class SupervisorNetworkNativeOwnerTests(unittest.TestCase):
                 self.assertEqual(units[name]['size'], size)
         self.assertIn('void SupervisorFrameQueueView::InsertReceivedFrame(',
                       (ROOT / 'src/SupervisorFrameQueueInsert.cpp').read_text())
+        synchronized = (ROOT / 'src/SupervisorNetworkQueue.cpp').read_text()
+        self.assertNotIn('struct SupervisorNetworkQueueSyncLayout', synchronized)
+        self.assertIn('Supervisor *view = reinterpret_cast<Supervisor *>(this);',
+                      synchronized)
+        self.assertIn('view->entries47C[side * 10].frame04', synchronized)
+        self.assertIn('view->entries47C[10].frame04 == view->entries47C[0].frame04',
+                      synchronized)
 
 
 if __name__ == '__main__':
