@@ -24058,7 +24058,7 @@ compare_size = 0x23c
 relocations = [
   { offset = 0x19, type = "REL32", symbol = "?SetAndExecuteScriptIdx@PlayerAddedAnmLoadedView@@QAEXPAUPlayerAnmVmView@@H@Z", target = 0x403e00 },
   { offset = 0x24, type = "REL32", symbol = "??BPlayerPositionView@@QAEPAMXZ", target = 0x4343d0 },
-  { offset = 0x30, type = "DIR32", symbol = "?g_GameManager@@3UGameManagerResetView@@A", target = 0x4a7d90, addend = 0x35c },
+  { offset = 0x30, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90, addend = 0x35c },
   { offset = 0x36, type = "DIR32", symbol = "__real@42800000", target = 0x48e4a8 },
   { offset = 0x5a, type = "REL32", symbol = "?Reset@PlayerAddedCollisionRegionView@@QAEHXZ", target = 0x41bda0 },
   { offset = 0x9c, type = "REL32", symbol = "?SetState@PlayerAddedStateSetterView@@QAEHH@Z", target = 0x403c20 },
@@ -24073,14 +24073,14 @@ relocations = [
   { offset = 0x186, type = "DIR32", symbol = "?g_PlayerAddedSideTable@@3PAHA", target = 0x4a8108 },
   { offset = 0x191, type = "DIR32", symbol = "?g_PlayerAddedClampValue@@3HA", target = 0x4a7e90 },
   { offset = 0x1a1, type = "DIR32", symbol = "?g_PlayerAddedModeSelector@@3HA", target = 0x4a7eac },
-  { offset = 0x1ad, type = "DIR32", symbol = "$L1685", target = 0x41ede8 },
+  { offset = 0x1ad, type = "DIR32", symbol = "$L2126", target = 0x41ede8 },
   { offset = 0x1f6, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x401500 },
   { offset = 0x20e, type = "REL32", symbol = "?Reset@PlayerAddedHeaderResetView@@QAEXXZ", target = 0x41bdc0 },
-  { offset = 0x228, type = "DIR32", symbol = "$L1639", target = 0x41ed71 },
-  { offset = 0x22c, type = "DIR32", symbol = "$L1639", target = 0x41ed71 },
-  { offset = 0x230, type = "DIR32", symbol = "$L1641", target = 0x41ed74 },
-  { offset = 0x234, type = "DIR32", symbol = "$L1643", target = 0x41ed79 },
-  { offset = 0x238, type = "DIR32", symbol = "$L1645", target = 0x41ed7e },
+  { offset = 0x228, type = "DIR32", symbol = "$L2080", target = 0x41ed71 },
+  { offset = 0x22c, type = "DIR32", symbol = "$L2080", target = 0x41ed71 },
+  { offset = 0x230, type = "DIR32", symbol = "$L2082", target = 0x41ed74 },
+  { offset = 0x234, type = "DIR32", symbol = "$L2084", target = 0x41ed79 },
+  { offset = 0x238, type = "DIR32", symbol = "$L2086", target = 0x41ed7e },
 ]
 
 # Complete constructor-byte replays only. Both original owners retain unknown

@@ -30265,3 +30265,26 @@ candidate, 26 bound fields, 12 original-ordered calls, 799 unequal overlap
 bytes and 13 missing target bytes**. All seven exact siblings, including
 the original-exact **204-byte CheckGrazeCollision** caller, remain unchanged.
 This is a real data-owner improvement, not a newly exact collision boss.
+
+## 2026-11-03 exact Player initialization uses native GameManager +0x35C
+
+The original `PlayerLifecycleView::InitializeAddedState @0x0041EBC0`
+receives its starting Y height from the original global operand
+`0x004A80EC`, exactly `g_GameManager @0x004A7D90 +0x35C`. It previously
+used a duplicated `GameManagerResetView` source-global declaration.
+Following independent original-exact native GameManager playfield recovery,
+this exact owner now imports `GameManagerRuntimeView.hpp`, asserts
+`offsetof(AsciiGameManagerView, coordinate35C) == 0x35C` and reads the
+canonical `AsciiGameManagerView g_GameManager` global directly.
+
+Pinned VC7.1 original-bound source-cold compilation compares the **entire
+572-byte physical owner (552 bytes code plus five-entry, 20-byte switch
+table) exact**, with 25 relocation records and 11 original ordered calls.
+The global's source COFF symbol changes only from the private reset view to
+the real native GameManager class; the +0x30 original absolute operand is
+independently checked in the immutable PE to remain `0x004A80EC`.
+Six compiler-private `$L` label spellings for the switch root and data
+were checked from *defined* COFF section-local offsets against the original
+PE words, then updated in the manifest with original target VAs untouched.
+All four same-source canonical exact siblings and 15 focused inspector/tests
+pass. No newly exact credit, full cold replay or native game runtime claim.

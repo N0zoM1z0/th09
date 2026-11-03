@@ -1,5 +1,5 @@
 #include "PlayerLifecycleView.hpp"
-#include "GameManagerResetView.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
@@ -144,8 +144,7 @@ typedef char PlayerAddedOwnerAt30410[
 typedef char PlayerAddedTailAt30454[
     (offsetof(PlayerAddedStateLayout, tailStates30454) == 0x30454) ? 1 : -1];
 
-extern GameManagerResetView g_GameManager;
-typedef char PlayerAddedStartYAt35C[(offsetof(GameManagerResetView, coordinate35C)==0x35C)?1:-1];
+typedef char PlayerAddedStartYAt35C[(offsetof(AsciiGameManagerView, coordinate35C)==0x35C)?1:-1];
 extern int g_PlayerAddedSideTable[];
 extern int g_PlayerAddedClampValue;
 extern int g_PlayerAddedModeSelector;

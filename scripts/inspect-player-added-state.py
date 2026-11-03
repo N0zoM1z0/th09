@@ -34,6 +34,7 @@ EXTERNALS = {
     '??4PlayerAddedTimerView@@QAEXH@Z': 0x00401500,
     '??4ZunTimer@@QAEXH@Z': 0x00401500,
     '?g_GameManager@@3UGameManagerResetView@@A': 0x004A7D90,
+    '?g_GameManager@@3UAsciiGameManagerView@@A': 0x004A7D90,
     '?g_PlayerAddedRng@@3UPlayerAddedRngView@@A': 0x004ACE0C,
     '?SampleRange@PlayerAddedRngView@@QAEMM@Z': 0x00404910,
     '__real@42c80000': 0x0048E3C8,
@@ -73,8 +74,9 @@ def field_destination(row):
     symbol = row['symbol']
     # Historical objects used a standalone float alias. Current source reads
     # the coordinate owner's independently observed +0x35C field instead.
-    expected_addend = (0x35C if symbol ==
-                       '?g_GameManager@@3UGameManagerResetView@@A' else 0)
+    expected_addend = (0x35C if symbol in
+                       ('?g_GameManager@@3UAsciiGameManagerView@@A',
+                        '?g_GameManager@@3UGameManagerResetView@@A') else 0)
     if (row['addend'] != expected_addend or
             expected_addend and off != 0x30):
         raise ValueError('Player added-state native field/addend changed')

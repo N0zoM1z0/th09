@@ -48,7 +48,7 @@ def evidence():
         complete_differences=0,
         native_owner_fields=[
             dict(offset=0x30, type='DIR32',
-                 symbol='?g_GameManager@@3UGameManagerResetView@@A',
+                 symbol='?g_GameManager@@3UAsciiGameManagerView@@A',
                  target=0x004A7D90, addend=0x35C, effective_target=0x004A80EC),
             *[dict(offset=off, type='REL32', symbol='??4ZunTimer@@QAEXH@Z',
                    target=0x00401500, addend=0, effective_target=0x00401500)
@@ -62,7 +62,7 @@ class PlayerAddedInspectorTests(TestCase):
         raw = bytearray(572)
         for row in rows:
             if row['offset'] == 0x30:
-                row.update(symbol='?g_GameManager@@3UGameManagerResetView@@A', addend=0x35C)
+                row.update(symbol='?g_GameManager@@3UAsciiGameManagerView@@A', addend=0x35C)
                 struct.pack_into('<I', raw, 0x30, 0x35C)
             if row['offset'] in (0xA9, 0x136, 0x176, 0x1F6):
                 row['symbol'] = '??4ZunTimer@@QAEXH@Z'

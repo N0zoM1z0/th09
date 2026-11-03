@@ -1177,7 +1177,7 @@ PLAYER_ADDED_SHA256 = 'b9b3e4115f8fb3857c373215f960b8eb0a73967cb33d581bb19d0cc8e
 def guard_player_added_native_owners(result: dict) -> None:
     expected = [
         {'offset': 0x30, 'type': 'DIR32',
-         'symbol': '?g_GameManager@@3UGameManagerResetView@@A',
+         'symbol': '?g_GameManager@@3UAsciiGameManagerView@@A',
          'target': 0x004A7D90, 'addend': 0x35C,
          'effective_target': 0x004A80EC},
         *[{'offset': offset, 'type': 'REL32',
