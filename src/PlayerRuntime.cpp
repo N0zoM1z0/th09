@@ -412,7 +412,7 @@ typedef char PlayerRuntimeNativeBulletSpriteDimensions[
     (sizeof(AnmLoadedSprite) == 0x44 &&
      offsetof(AnmLoadedSprite, heightPx) == 0x30 &&
      offsetof(AnmLoadedSprite, widthPx) == 0x34 &&
-     offsetof(PlayerAnmVmView, loadedSprite224) == 0x224) ? 1 : -1];
+     offsetof(PlayerAnmVmView, loadedSprite) == 0x224) ? 1 : -1];
 
 struct PlayerGameManagerRuntimeView
 {
@@ -627,7 +627,7 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
             }
             reinterpret_cast<PlayerState4OpsView *>(player)->SetUpdateState(0);
             player->timer303C8 = 0;
-            reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+            reinterpret_cast<unsigned int &>(player->mainVm.color1) =
                 0xFFFFFFFFu;
         }
         else
@@ -635,7 +635,7 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
             int current =
                 reinterpret_cast<PlayerState4TimerCurrentView *>(
                     &player->timer303C8)->GetCurrent();
-            reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+            reinterpret_cast<unsigned int &>(player->mainVm.color1) =
                 current % 8 < 2 ? 0xFFF02020u : 0xFFFFFFFFu;
         }
     }
@@ -650,17 +650,17 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
             reinterpret_cast<PlayerState4TimerCurrentView *>(
                 &player->timer303C8)->GetCurrent();
         if (current % 4 < 2)
-            reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+            reinterpret_cast<unsigned int &>(player->mainVm.color1) =
                 0xFFF02020u;
         else
-            reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+            reinterpret_cast<unsigned int &>(player->mainVm.color1) =
                 0xFFFFFFFFu;
 
         player->timer1B74.operator--(0);
         if (player->timer1B74.operator<=(0))
         {
             player->timer1B74 = 0;
-            reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+            reinterpret_cast<unsigned int &>(player->mainVm.color1) =
                 0xFFFFFFFFu;
         }
     }
@@ -692,7 +692,7 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
 
         int timerCurrent =
             reinterpret_cast<PlayerState4TimerCurrentView *>(timer)->GetCurrent();
-        reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
+        reinterpret_cast<unsigned int &>(player->mainVm.color1) =
             ((255 * timerCurrent / 10) << 24) | 0x00FFFFFF;
         return 0;
     }
@@ -1022,11 +1022,11 @@ void PlayerLifecycleView::DrawTailStates()
     {
         if (state->active18 == NULL)
             continue;
-        state->vm1C.position208.x =
+        state->vm1C.pos.x =
             g_PlayerGameManagerRuntime.TransformPopupX(state->position00.x);
-        state->vm1C.position208.y =
+        state->vm1C.pos.y =
             g_PlayerGameManagerRuntime.TransformPopupY(state->position00.y);
-        state->vm1C.position208.z = 0.15f;
+        state->vm1C.pos.z = 0.15f;
         g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(&state->vm1C));
     }
 }
@@ -1048,9 +1048,9 @@ int __fastcall PlayerLifecycleView::OnDrawHighPrio(PlayerLifecycleView *player)
 
     if (g_PlayerGameManagerRuntime.suppressPlayerDraw13D == 0)
     {
-        player->mainVm.position208.x = g_PlayerGameManagerRuntime.TransformPopupX(player->position1B88.x);
-        player->mainVm.position208.y = g_PlayerGameManagerRuntime.TransformPopupY(player->position1B88.y);
-        player->mainVm.position208.z = 0.1f;
+        player->mainVm.pos.x = g_PlayerGameManagerRuntime.TransformPopupX(player->position1B88.x);
+        player->mainVm.pos.y = g_PlayerGameManagerRuntime.TransformPopupY(player->position1B88.y);
+        player->mainVm.pos.z = 0.1f;
         g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(&player->mainVm));
     }
 
@@ -1090,8 +1090,8 @@ void PlayerLifecycleView::UpdateShots()
 
         if (shot->shotType464 != 2 &&
             !g_PlayerGameManagerRuntime.IsWithinPlayfield(
-                position[0], position[1], shot->vm.loadedSprite224->widthPx,
-                shot->vm.loadedSprite224->heightPx))
+                position[0], position[1], shot->vm.loadedSprite->widthPx,
+                shot->vm.loadedSprite->heightPx))
             shot->state462 = 0;
 
         if (g_AnmManager->ExecuteScript(reinterpret_cast<AnmVm *>(&shot->vm)) != 0)
@@ -1107,17 +1107,17 @@ void PlayerLifecycleView::DrawActiveShots()
     {
         if (shot->state462 != 1)
             continue;
-        if (shot->vm.type1FC != 0)
+        if (shot->vm.type != 0)
             shot->vm.SetZRotation(shot->angle450);
 
-        shot->vm.position208.x = g_PlayerGameManagerRuntime.TransformPopupX(shot->position2A4.x);
-        shot->vm.position208.y = g_PlayerGameManagerRuntime.TransformPopupY(shot->position2A4.y);
-        shot->vm.position208.z = 0.4f;
+        shot->vm.pos.x = g_PlayerGameManagerRuntime.TransformPopupX(shot->position2A4.x);
+        shot->vm.pos.y = g_PlayerGameManagerRuntime.TransformPopupY(shot->position2A4.y);
+        shot->vm.pos.z = 0.4f;
         if (shot->tintFlag46E != 0)
         {
-            shot->vm.color1F0.red = 0xff;
-            shot->vm.color1F0.green = 0x40;
-            shot->vm.color1F0.blue = 0x40;
+            shot->vm.color1Script.r = 0xff;
+            shot->vm.color1Script.g = 0x40;
+            shot->vm.color1Script.b = 0x40;
         }
 
         if (shot->drawCallback478 != NULL)
@@ -1134,17 +1134,17 @@ void PlayerLifecycleView::DrawHitShots()
     {
         if (shot->state462 != 2)
             continue;
-        if (shot->vm.type1FC != 0)
+        if (shot->vm.type != 0)
             shot->vm.SetZRotation(shot->angle450);
 
-        shot->vm.position208.x = g_PlayerGameManagerRuntime.TransformPopupX(shot->position2A4.x);
-        shot->vm.position208.y = g_PlayerGameManagerRuntime.TransformPopupY(shot->position2A4.y);
-        shot->vm.position208.z = 0.2f;
+        shot->vm.pos.x = g_PlayerGameManagerRuntime.TransformPopupX(shot->position2A4.x);
+        shot->vm.pos.y = g_PlayerGameManagerRuntime.TransformPopupY(shot->position2A4.y);
+        shot->vm.pos.z = 0.2f;
         if (shot->tintFlag46E != 0)
         {
-            shot->vm.color1F0.red = 0xff;
-            shot->vm.color1F0.green = 0x40;
-            shot->vm.color1F0.blue = 0x40;
+            shot->vm.color1Script.r = 0xff;
+            shot->vm.color1Script.g = 0x40;
+            shot->vm.color1Script.b = 0x40;
         }
         g_AnmManager->DrawPlayerBullet(reinterpret_cast<AnmVm *>(&shot->vm));
     }

@@ -30597,3 +30597,41 @@ in its 814-byte pre-state owner were independently resolved from current
 COFF definitions to unchanged original PE jump-table words before refreshing
 only manifest symbol text. No whole-game cold replay, linked-product
 acceptance or runtime behavior evidence is implied.
+
+## 2026-11-03 native AnmVm source receiver throughout Player main and shot VMs
+
+The 0x2A4-byte `PlayerAnmVmView` formerly repeated a byte-padded ANM VM
+record with source-only fields at +0x1F0, +0x1FC, +0x208 and +0x224.
+The original Player and shot special-member constructor operands at
+0x0041F070 and 0x0041F030 both address the independently original-exact
+native ANM constructor @0x00403A10; the native 0x2A4 ANM owner and its
+sprite/script/rotation consumers provide independent field offsets.
+The Player-specific method receiver now derives with **zero extra storage**
+from the genuine `AnmVm` source layout, preserving its original decorated
+`PlayerAnmVmView` constructor and `SetZRotation` method ABI. Its main and
+shot VM members directly read native `color1`/`color1Script` at +0x1F0,
+`type` at +0x1FC, `pos` at +0x208, `loadedSprite` at +0x224, and `pos2`
+at +0x288; the exact source-facing byte-channel fields match the native
+original BGRA order. This inheritance is a maintained-source ABI model,
+**not proof that the retail C++ source used inheritance**.
+
+Fresh fixed-profile VC7.1 source-cold replays preserve **all 21 exact
+PlayerRuntime units** across five source profiles, the independent
+20-byte Player `SetZRotation`, 243-byte Player parent constructor,
+251-byte `UpdateShots`, 309-byte shot initializer, the independently
+source-proven 44-byte shot special member and 23-byte option special member.
+The 572-byte PlayerAddedState owner remains exact with 25 original fields
+and four exact siblings, and the 862-byte Player bullet collision owner
+retains its 849-byte / 799-overlap-difference candidate. The full
+1,900-byte movement boss remains at 122 mismatched bytes. The complete
+1,210-byte ChargeAttack target retains the **identical 1,197-byte candidate
+raw SHA** `2c4eef18310c89f977e6c13d7c22863279ed171c8820b23fe02695484e1129b0`,
+70 relocations, 58 calls, and all seven original-backed text regions.
+
+Changing the native Player header re-numbered eleven private `$L` names in
+the exact 814-byte pre-state owner and six in the exact 572-byte AddedState
+owner. Their actual COFF section-local definitions were independently
+checked against the unchanged original PE jump table operands before
+updating **only** manifest symbol spellings, never numeric target values
+or relocation kinds. Original special-member authorship remains unresolved;
+no new authored exactness credit, full cold replay or runtime claim follows.

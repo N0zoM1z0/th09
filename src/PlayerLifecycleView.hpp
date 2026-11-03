@@ -142,26 +142,23 @@ struct PlayerHeaderStateView
 typedef char PlayerHeaderStateSizeIs9C[(sizeof(PlayerHeaderStateView) == 0x9C) ? 1 : -1];
 typedef char PlayerHeaderNativeAnmAt98[(offsetof(PlayerHeaderStateView, anmFile98) == 0x98) ? 1 : -1];
 
-struct PlayerAnmVmView
+// Preserve the original Player-specific ctor/rotation method symbols but
+// consume exactly the same 0x2A4-byte native VM storage that those methods
+// and all original AnmManager interpreters address. No extra instance data.
+struct PlayerAnmVmView : AnmVm
 {
-    unsigned char unknown000[0x1F0];
-    PlayerColorBgraView color1F0;
-    unsigned char unknown1F4[0x1FC - 0x1F4];
-    short type1FC;
-    unsigned char unknown1FE[0x208 - 0x1FE];
-    PlayerPositionView position208;
-    unsigned char unknown214[0x224 - 0x214];
-    AnmLoadedSprite *loadedSprite224;
-    unsigned char unknown228[0x2A4 - 0x228];
-
     PlayerAnmVmView();
     void SetZRotation(float angle);
 };
-typedef char PlayerAnmVmSizeIs2A4[(sizeof(PlayerAnmVmView) == 0x2A4) ? 1 : -1];
-typedef char PlayerAnmVmTypeAt1FC[(offsetof(PlayerAnmVmView, type1FC) == 0x1FC) ? 1 : -1];
-typedef char PlayerAnmVmPositionAt208[(offsetof(PlayerAnmVmView, position208) == 0x208) ? 1 : -1];
-typedef char PlayerAnmVmLoadedSpriteAt224[
-    (offsetof(PlayerAnmVmView, loadedSprite224) == 0x224) ? 1 : -1];
+typedef char PlayerAnmVmSizeIs2A4[
+    (sizeof(PlayerAnmVmView) == sizeof(AnmVm) &&
+     sizeof(PlayerAnmVmView) == 0x2A4) ? 1 : -1];
+typedef char PlayerAnmVmNativeMembers[
+    (offsetof(PlayerAnmVmView, color1Script) == 0x1F0 &&
+     offsetof(PlayerAnmVmView, type) == 0x1FC &&
+     offsetof(PlayerAnmVmView, pos) == 0x208 &&
+     offsetof(PlayerAnmVmView, loadedSprite) == 0x224 &&
+     offsetof(PlayerAnmVmView, pos2) == 0x288) ? 1 : -1];
 
 struct PlayerLifecycleView;
 

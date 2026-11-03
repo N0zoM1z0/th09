@@ -59,13 +59,14 @@ class SharedAnmSpriteDimensions(unittest.TestCase):
         player=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
         update=(ROOT/'src/PlayerRuntime.cpp').read_text()
         self.assertNotIn('struct PlayerLoadedSpriteView',player)
-        self.assertIn('AnmLoadedSprite *loadedSprite224;',player)
+        self.assertIn('struct PlayerAnmVmView : AnmVm',player)
+        self.assertIn('AnmLoadedSprite *loadedSprite;', (ROOT/'src/AnmVmLifecycle.hpp').read_text())
         self.assertIn('PlayerRuntimeNativeBulletSpriteDimensions',update)
         self.assertIn('offsetof(AnmLoadedSprite, heightPx) == 0x30',update)
         self.assertIn('offsetof(AnmLoadedSprite, widthPx) == 0x34',update)
-        self.assertIn('shot->vm.loadedSprite224->widthPx,',update)
-        self.assertIn('shot->vm.loadedSprite224->heightPx))',update)
-        self.assertNotIn('shot->vm.loadedSprite224->extent34',update)
+        self.assertIn('shot->vm.loadedSprite->widthPx,',update)
+        self.assertIn('shot->vm.loadedSprite->heightPx))',update)
+        self.assertNotIn('shot->vm.loadedSprite224',update)
         with (ROOT/'config/match-units.toml').open('rb') as f:
             unit=tomllib.load(f)['units']['player-update-shots']
         self.assertEqual(unit['size'],251)
