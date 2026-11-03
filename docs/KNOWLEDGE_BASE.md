@@ -30866,3 +30866,38 @@ bytes at 0xB7, 0xBB and 0x3F6, with 53 fields, 23 ordered calls and equal
 49-block graphs. Replay's **15 exact siblings** pass the scoped cold
 verification. This is a native memory-owner and type-recovery improvement,
 not new exactness credit, an all-unit replay, or a linked-runtime claim.
+
+## 2026-11-03 replay directly consumes GameManager.sides[].runtime pointers
+
+The prior Replay restoration established the native 0xA0-byte side
+score/phase buffer but still expressed its two storage pointers as alias
+source globals `g_ReplaySideState0/1`. Those original absolute words
+**0x004A7DAC** and **0x004A7DE4** are not distinct allocations: they
+are exactly `g_GameManager.sides[0].runtime` and
+`g_GameManager.sides[1].runtime` (manager root 0x004A7D90,
+side stride 0x38, member offset +0x1C). The Replay source now reads and
+writes the **real GameManager side members directly**, including native
+value00/value04/value08/phase10 fields of each 0xA0-byte pointee, with
+no `ReplaySideStateView` type and no `g_ReplaySideState0/1` global
+declarations. In BeginPlaybackStage, the original distinct early side-0
+pointer load is retained through an explicit volatile pointer access to
+the native side member, rather than a fabricated global. This is observed
+source scheduling, not a claim that the retail source used volatile.
+
+Three different natural VC7.1 expressions for the true member pointers
+were separately compiled under the pinned ReplayInput profile, and every
+one reproduced **all 1,323 original bytes and 82 exact original
+relocations** of `ReplayManagerView::BeginRecordingStage` when linked
+against the original verified field destinations. The retained source uses
+the explicit original-load expression. The five original absolute data
+operands at owner +0x373/+0x383/+0x393/+0x39E/+0x3BA now bind the true
+`?g_GameManager@@3UAsciiGameManagerView@@A` at +0x1C/+0x54, not the old
+private globals. Original PE operands, offset positions and DIR32 kinds
+remain unchanged. The separate 540-byte BeginPlaybackStage source inspector
+recognizes the same native root and addends without changing the original
+field census; its 538-byte candidate remains at 39 overlap differences,
+32 aligned fields, two absent bytes and the original CFG. The 1,238-byte
+SaveReplay remains at its three real byte differences (0xB7/0xBB/0x3F6),
+53 fields, 23 calls and equal 49-block graph. All **15** independently
+exact replay siblings pass source-cold scoped regression. No new authored
+exact credit or whole-product/runtime claim is made.

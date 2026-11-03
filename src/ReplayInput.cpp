@@ -27,13 +27,12 @@ typedef int i32;
 // Replay side pointers at 0x4A7DAC/0x4A7DE4 alias the true
 // GameManager.sides[0/1].runtime fields (+0x1C per 0x38-byte side).
 // Their pointee is the native 0xA0-byte side score/phase buffer.
-typedef AsciiGameSideRuntimeView ReplaySideStateView;
 typedef char ReplayNativeSideRuntimeFields[
-    (sizeof(ReplaySideStateView) == 0xA0 &&
-     offsetof(ReplaySideStateView, value00) == 0x00 &&
-     offsetof(ReplaySideStateView, value04) == 0x04 &&
-     offsetof(ReplaySideStateView, value08) == 0x08 &&
-     offsetof(ReplaySideStateView, phase10) == 0x10 &&
+    (sizeof(AsciiGameSideRuntimeView) == 0xA0 &&
+     offsetof(AsciiGameSideRuntimeView, value00) == 0x00 &&
+     offsetof(AsciiGameSideRuntimeView, value04) == 0x04 &&
+     offsetof(AsciiGameSideRuntimeView, value08) == 0x08 &&
+     offsetof(AsciiGameSideRuntimeView, phase10) == 0x10 &&
      offsetof(AsciiGameManagerSideView, runtime) == 0x1C) ? 1 : -1];
 
 // +0xE8 in the GameManager is the separately source-bound
@@ -94,8 +93,6 @@ extern u32 g_ReplayFrame0Value07;
 extern u32 g_ReplayFrame1Value07;
 extern u32 g_ReplayFrame0Value0A;
 extern u32 g_ReplayFrame1Value0A;
-extern ReplaySideStateView *g_ReplaySideState0;
-extern ReplaySideStateView *g_ReplaySideState1;
 extern u32 g_ReplayFrame0Value0C;
 extern i32 g_ReplayFrame0Value09;
 extern u8 g_ReplayStageSeen[];
@@ -421,13 +418,13 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
     frame1->value07 = g_ReplayFrame1Value07;
     frame0->value0A = g_ReplayFrame0Value0A;
     frame1->value0A = g_ReplayFrame1Value0A;
-    frame0->value08 = (u8)g_ReplaySideState0->value00;
-    frame1->value08 = (u8)g_ReplaySideState1->value00;
-    frame0->value00 = g_ReplaySideState0->value08;
-    frame1->value00 = g_ReplaySideState1->value08;
+    frame0->value08 = (u8)g_GameManager.sides[0].runtime->value00;
+    frame1->value08 = (u8)g_GameManager.sides[1].runtime->value00;
+    frame0->value00 = g_GameManager.sides[0].runtime->value08;
+    frame1->value00 = g_GameManager.sides[1].runtime->value08;
     frame0->value0C = g_ReplayFrame0Value0C;
     frame0->value09 = g_ReplayFrame0Value09;
-    frame0->value10 = g_ReplaySideState0->phase10;
+    frame0->value10 = g_GameManager.sides[0].runtime->phase10;
 
     replayManager->inputCursor0 = (u16 *)g_ZunMemory.Alloc(0x1C20, "rep data");
     replayManager->inputCursor1 = (u16 *)g_ZunMemory.Alloc(0x1C20, "rep data");
@@ -513,17 +510,18 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     // once before publishing 1E8. Preserve that distinct global pointer
     // read: an ordinary C++ alias gets hoisted ahead of the 1E7 store by
     // VC7.1. Later side-0 fields intentionally read the global again.
-    ReplaySideStateView *firstSide0 =
-        *reinterpret_cast<ReplaySideStateView *volatile *>(&g_ReplaySideState0);
+    AsciiGameSideRuntimeView *firstSide0 =
+        *reinterpret_cast<AsciiGameSideRuntimeView *volatile *>(
+            &g_GameManager.sides[0].runtime);
     g_ReplayHeaderValue1E8 = replayManager->replayData->value1E8;
     g_ReplayHeaderValue1E9 = replayManager->replayData->value1E9;
     firstSide0->value08 = frame0->value00;
-    g_ReplaySideState1->value08 = frame1->value00;
-    g_ReplaySideState0->value04 = frame0->value00;
-    g_ReplaySideState1->value04 = frame1->value00;
-    g_ReplaySideState0->value00 = (float)frame0->value08;
-    g_ReplaySideState1->value00 = (float)frame1->value08;
-    g_ReplaySideState0->phase10 = frame0->value10;
+    g_GameManager.sides[1].runtime->value08 = frame1->value00;
+    g_GameManager.sides[0].runtime->value04 = frame0->value00;
+    g_GameManager.sides[1].runtime->value04 = frame1->value00;
+    g_GameManager.sides[0].runtime->value00 = (float)frame0->value08;
+    g_GameManager.sides[1].runtime->value00 = (float)frame1->value08;
+    g_GameManager.sides[0].runtime->phase10 = frame0->value10;
     replayManager->inputCursor1 = reinterpret_cast<u16 *>(frame1 + 1);
     replayManager->fpsCursor = fpsStart;
     replayManager->inputCursor0 = reinterpret_cast<u16 *>(frame0 + 1);
