@@ -249,7 +249,7 @@ TRANSITION_DONE:
     s->wantedState58C = s->curState590;
     s->calcCount454++;
     if (s->calcCount454 % 4000 == 3999 &&
-        reinterpret_cast<SupervisorVersionView *>(globalSupervisor)->CheckVersion(
+        static_cast<SupervisorVersionView *>(globalSupervisor)->CheckVersion(
             "0150a", globalSupervisor->exeSize7A4,
             globalSupervisor->exeChecksum7A0) != 0)
     {

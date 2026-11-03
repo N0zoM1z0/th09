@@ -30901,3 +30901,29 @@ SaveReplay remains at its three real byte differences (0xB7/0xBB/0x3F6),
 53 fields, 23 calls and equal 49-block graph. All **15** independently
 exact replay siblings pass source-cold scoped regression. No new authored
 exact credit or whole-product/runtime claim is made.
+
+## 2026-11-03 exact Supervisor version subsystem uses the genuine 0x7B0-byte owner
+
+The original exact version loader `SupervisorAddedLoadDat @0x0042F100`
+(145 bytes), the version comparator `SupervisorVersionView::CheckVersion
+@0x00430150` (199 bytes), and the 996-byte original Supervisor OnUpdate
+all read or write the same native Supervisor allocation. The version-data
+length at Supervisor+0x7A8 is now a **native 32-bit member** and the
+version-data pointer at +0x7AC is the existing `Supervisor::versionData7AC`,
+independently used by the exact 405-byte deleted callback. The prior
+separately padded 0x7B0-byte `SupervisorVersionView` is now only a
+zero-extra-storage source-method receiver over the canonical Supervisor;
+its original separately decorated `CheckVersion` symbol is retained,
+without claiming this exact inheritance syntax existed in the retail C++.
+
+The exact loader now publishes `g_Supervisor.versionDataSize7A8` and
+`versionData7AC` through this native receiver; the checker consumes the
+same words. The large `Supervisor::OnUpdate` invokes that same receiver
+through an explicit zero-offset cast, preserving the target's method call.
+Pinned VC7.1 original PE/COFF builds match **199/199 and 145/145 bytes
+with all 8 and 14 original relocation fields**, and the 405-byte deleted
+callback remains exact. The full scoped Supervisor replay protects its
+**10 exact siblings**, while the still-open 996-byte OnUpdate owner retains
+its **952-byte candidate, 92 fields, 27 calls, 791 overlapping unlike
+bytes and 44 absent bytes**. No new exactness promotion, whole-product
+runtime claim or all-unit cold replay is made.

@@ -156,7 +156,9 @@ class Supervisor
     unsigned int systemTime;
     int exeChecksum7A0;
     int exeSize7A4;
-    unsigned char unknown7A8[0x7AC - 0x7A8];
+    // The exact version-data loader publishes the length at +0x7A8;
+    // the exact version checker consumes that same native four-byte slot.
+    union { unsigned char unknown7A8[4]; unsigned int versionDataSize7A8; };
     void *versionData7AC;
 };
 
@@ -175,6 +177,12 @@ typedef char SupervisorFlagsAt5D4[
 typedef char SupervisorSizeIs7B0[(sizeof(Supervisor) == 0x7B0) ? 1 : -1];
 // Original deleted-callback tail and config music mode are also part of this
 // same global Supervisor, not a separate +0x7AC lifetime view.
+typedef char SupervisorNativeVersionSuffix[
+    (sizeof(Supervisor) == 0x7B0 &&
+     offsetof(Supervisor, versionDataSize7A8) == 0x7A8 &&
+     offsetof(Supervisor, versionData7AC) == 0x7AC &&
+     offsetof(Supervisor, exeSize7A4) == 0x7A4 &&
+     offsetof(Supervisor, exeChecksum7A0) == 0x7A0) ? 1 : -1];
 typedef char SupervisorNativeDeletedFields[
     (offsetof(Supervisor, versionData7AC) == 0x7AC &&
      offsetof(Supervisor, config388) +

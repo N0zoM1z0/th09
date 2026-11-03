@@ -1,21 +1,14 @@
 #pragma once
-
+#include "Supervisor.hpp"
 #include <stddef.h>
 
-// Reviewed version-data suffix of the Supervisor object; other fields remain
-// opaque here. This is a storage view, not a second global object.
-struct SupervisorVersionView
+// Original CheckVersion symbol retains its standalone nominal C++ receiver;
+// it operates on exactly the existing 0x7B0-byte Supervisor allocation.
+struct SupervisorVersionView : Supervisor
 {
-    unsigned char unknown000[0x7A8];
-    unsigned int versionDataSize;
-    char *versionData;
-
     int CheckVersion(const char *version, int exeSize, int exeChecksum);
 };
-
-typedef char VersionDataSizeAt7A8[
-    (offsetof(SupervisorVersionView, versionDataSize) == 0x7A8) ? 1 : -1];
-typedef char VersionDataAt7AC[
-    (offsetof(SupervisorVersionView, versionData) == 0x7AC) ? 1 : -1];
-typedef char SupervisorVersionViewSizeIs7B0[
-    (sizeof(SupervisorVersionView) == 0x7B0) ? 1 : -1];
+typedef char SupervisorNativeVersionReceiver[
+    (sizeof(SupervisorVersionView) == sizeof(Supervisor) &&
+     offsetof(SupervisorVersionView, versionDataSize7A8) == 0x7A8 &&
+     offsetof(SupervisorVersionView, versionData7AC) == 0x7AC) ? 1 : -1];

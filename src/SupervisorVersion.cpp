@@ -23,16 +23,16 @@ extern const char g_DatVersionError[];
 int SupervisorAddedLoadDat()
 {
     SupervisorVersionView *versionState =
-        reinterpret_cast<SupervisorVersionView *>(&g_Supervisor);
+        static_cast<SupervisorVersionView *>(&g_Supervisor);
     if (g_PbgArchive.Load("th09.dat"))
     {
         int fileSize;
         char versionFileName[128];
         sprintf(versionFileName, "th09_%.4x%c.ver", 0x150, 'a');
-        versionState->versionData = reinterpret_cast<char *>(
+        versionState->versionData7AC = reinterpret_cast<char *>(
             FileSystem::OpenFile(versionFileName, &fileSize, 0));
-        versionState->versionDataSize = fileSize;
-        if (versionState->versionData == NULL)
+        versionState->versionDataSize7A8 = fileSize;
+        if (versionState->versionData7AC == NULL)
         {
             g_GameErrorContext.Fatal(g_DatVersionError);
             return -1;
@@ -53,11 +53,11 @@ int SupervisorVersionView::CheckVersion(const char *version, i32 exeSize, i32 ex
     i32 versionDataExeSize;
     i32 versionDataExeChecksum;
 
-    if (this->versionData == NULL)
+    if (this->versionData7AC == NULL)
         return 0;
 
-    versionData = this->versionData;
-    versionDataSize = this->versionDataSize;
+    versionData = reinterpret_cast<const char *>(this->versionData7AC);
+    versionDataSize = this->versionDataSize7A8;
 
     if (strncmp(version, "debug", 5) == 0)
         return 0;
