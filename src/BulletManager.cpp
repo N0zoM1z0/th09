@@ -17,12 +17,13 @@ namespace Th09EclRunControl
 float __stdcall VectorAngle(float y, float x);
 }
 
-struct BulletLoadedSpriteView
-{
-    unsigned char unknown00[0x30];
-    float widthPx;
-    float heightPx;
-};
+// The source's old private sprite view misnamed two original fields.
+// The original +0x30 belongs to native heightPx and +0x34 to widthPx;
+// preserve observed PE displacement addresses when adopting the native type.
+typedef char BulletNativeAnmLoadedSpriteDimensions[
+    (sizeof(AnmLoadedSprite) == 0x44 &&
+     offsetof(AnmLoadedSprite, heightPx) == 0x30 &&
+     offsetof(AnmLoadedSprite, widthPx) == 0x34) ? 1 : -1];
 
 extern RngRuntimeView g_Rng;
 
@@ -128,9 +129,9 @@ enum BulletAimMode
     BULLET_AIM_RANDOM = 8,
 };
 
-static BulletLoadedSpriteView *GetLoadedSprite(const AnmVm *vm)
+static AnmLoadedSprite *GetLoadedSprite(const AnmVm *vm)
 {
-    return reinterpret_cast<BulletLoadedSpriteView *>(vm->loadedSprite);
+    return vm->loadedSprite;
 }
 
 static const AnmVm *CopyBulletAnmVmCore(const AnmVm *src, AnmVm *dst)
@@ -145,15 +146,15 @@ void EtamaController::SelectBulletSprite(
     int baseSprite = base->activeSpriteIndex;
     if (dst->activeSpriteIndex != baseSprite + offset)
     {
-        BulletLoadedSpriteView *sprite =
-            reinterpret_cast<BulletLoadedSpriteView *>(sizeSource->loadedSprite);
-        if (sprite->widthPx <= 16.0f)
+        AnmLoadedSprite *sprite =
+            sizeSource->loadedSprite;
+        if (sprite->heightPx <= 16.0f)
         {
             this->bulletAnm->SetSprite(
                 dst, baseSprite + g_BulletSpriteOffsetSmall[offset]);
             return;
         }
-        else if (sprite->widthPx <= 32.0f)
+        else if (sprite->heightPx <= 32.0f)
         {
             this->bulletAnm->SetSprite(
                 dst, baseSprite + g_BulletSpriteOffsetMedium[offset]);
@@ -318,11 +319,10 @@ static void UpdateBulletAimedDirectionChange(Bullet *bullet)
 static void UpdateBulletBoundaryBounce(Bullet *bullet)
 {
     float magnitude;
-    BulletLoadedSpriteView *sprite = reinterpret_cast<BulletLoadedSpriteView *>(
-        bullet->sprites.bulletVm.loadedSprite);
+    AnmLoadedSprite *sprite = bullet->sprites.bulletVm.loadedSprite;
     float *position = bullet->position.operator float *();
     if (!g_GameManager.IsWithinPlayfield(
-            position[0], position[1], sprite->heightPx, sprite->widthPx))
+            position[0], position[1], sprite->widthPx, sprite->heightPx))
     {
         if (bullet->transformSound >= 0)
             g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
@@ -503,16 +503,14 @@ Bullet *EtamaController::SpawnSingleBullet(
     if (bullet->sprites.despawnVm.activeSpriteIndex !=
         descriptor->templateSprites->despawnVm.activeSpriteIndex + descriptor->color)
     {
-        if (reinterpret_cast<BulletLoadedSpriteView *>(
-                bullet->sprites.bulletVm.loadedSprite)->widthPx <= 16.0f)
+        if (bullet->sprites.bulletVm.loadedSprite->heightPx <= 16.0f)
         {
             this->bulletAnm->SetSprite(
                 &bullet->sprites.despawnVm,
                 despawnBaseSprite +
                     g_BulletSpriteOffsetSmall[descriptor->color]);
         }
-        else if (reinterpret_cast<BulletLoadedSpriteView *>(
-                     bullet->sprites.bulletVm.loadedSprite)->widthPx <= 32.0f)
+        else if (bullet->sprites.bulletVm.loadedSprite->heightPx <= 32.0f)
         {
             this->bulletAnm->SetSprite(
                 &bullet->sprites.despawnVm,
@@ -733,12 +731,10 @@ int EtamaController::OnUpdate(EtamaController *controller)
 
             if (bullet->offscreenCullDelayFrames == 0)
             {
-                BulletLoadedSpriteView *sprite =
-                    reinterpret_cast<BulletLoadedSpriteView *>(
-                        bullet->sprites.bulletVm.loadedSprite);
+                AnmLoadedSprite *sprite = bullet->sprites.bulletVm.loadedSprite;
                 float *position = bullet->position.operator float *();
                 if (!g_GameManager.IsWithinPlayfield(
-                        position[0], position[1], sprite->heightPx, sprite->widthPx))
+                        position[0], position[1], sprite->widthPx, sprite->heightPx))
                 {
                     if ((bullet->activeTransformFlags & 0xDC0) != 0)
                     {
@@ -841,11 +837,10 @@ updateTimers:
             ((laser->endOffset - laser->startOffset) / 2.0f + laser->startOffset) +
             laser->position.x;
         laserCenter[1] = laser->position.y;
-        BulletLoadedSpriteView *laserSprite =
-            reinterpret_cast<BulletLoadedSpriteView *>(laser->bodyVm.loadedSprite);
-        laser->bodyVm.scale.x = laser->width / laserSprite->heightPx;
+        AnmLoadedSprite *laserSprite = laser->bodyVm.loadedSprite;
+        laser->bodyVm.scale.x = laser->width / laserSprite->widthPx;
         float currentLength = laser->endOffset - laser->startOffset;
-        laser->bodyVm.scale.y = currentLength / laserSprite->widthPx;
+        laser->bodyVm.scale.y = currentLength / laserSprite->heightPx;
         laser->bodyVm.SetZRotation(AddNormalizeAngle(kPi / 2.0f + laser->angle, 0.0f));
 
         switch (laser->state)

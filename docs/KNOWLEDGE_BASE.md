@@ -29783,3 +29783,28 @@ unchanged PE target operand and existing relocation offset/kind. Only the
 manifest's source symbol names were refreshed: no target VA, field offset,
 field kind, size, compiler profile, or equality criterion was altered.
 The count remains 1,005 exact of 1,035 authored source owners.
+
+## 2026-11-03 native bullet and Etama sprite dimensions with corrected field identity
+
+The TH09 original and already exact ANM loader/set-sprite owners independently
+fix `AnmLoadedSprite` height at +0x30 and width at +0x34 within its 0x44
+record. `BulletManager.cpp` previously had a private eight-byte projection
+with those *names reversed*: its field named width at +0x30 physically reads
+native **height**, and its field named height at +0x34 reads native **width**.
+The old spelling was not an independently verified width/height interpretation.
+All Etama/laser renderer paths now read the actual `AnmLoadedSprite` object,
+preserving the PE's old memory operands while correcting the semantic labels:
+small/medium animation selection tests native height, boundary playfield
+queries pass native width then native height, and laser stretch uses its
+true height and width in their original observed scalar positions.
+
+Pinned VC7.1 original-bound source-cold replays preserve the exact 2,216-byte
+Etama OnUpdate physical extent (2,195 logical), 1,932-byte SpawnSingleBullet,
+295-byte boundary-bounce helper and 161-byte SelectBulletSprite function.
+The complete affected Bullet family protects **28 exact siblings**, while
+Etama's separate 600-byte OnDraw boss remains non-exact at 268 unlike bytes
+with four other exact siblings. Every one of 23 private `$L` symbol spelling
+changes in the Etama source/Advance carrier was verified using actual COFF
+section-local label coordinates and unchanged original PE operand words
+before updating only the manifest symbol names. There was no new exactness
+credit, full cold replay, or whole-Windows-product acceptance claim.

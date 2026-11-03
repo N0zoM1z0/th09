@@ -55,5 +55,19 @@ class SharedAnmSpriteDimensions(unittest.TestCase):
         self.assertIn('g_GameManager.IsWithinPlayfield(', source)
 
 
+    def test_etama_native_sprite_dimensions_preserve_original_physical_reads(self):
+        source = (ROOT/'src/BulletManager.cpp').read_text()
+        self.assertIn('BulletNativeAnmLoadedSpriteDimensions', source)
+        self.assertNotIn('struct BulletLoadedSpriteView', source)
+        self.assertIn('offsetof(AnmLoadedSprite, heightPx) == 0x30', source)
+        self.assertIn('offsetof(AnmLoadedSprite, widthPx) == 0x34', source)
+        self.assertIn('sizeSource->loadedSprite;', source)
+        self.assertIn('sprite->heightPx <= 16.0f', source)
+        self.assertIn('sprite->heightPx <= 32.0f', source)
+        self.assertIn('position[0], position[1], sprite->widthPx, sprite->heightPx)', source)
+        self.assertIn('laser->width / laserSprite->widthPx;', source)
+        self.assertIn('currentLength / laserSprite->heightPx;', source)
+
+
 if __name__ == '__main__':
     unittest.main()
