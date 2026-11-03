@@ -42,26 +42,6 @@ struct NetworkFramePacket
     };
 };
 
-struct SupervisorNetworkView
-{
-    unsigned char unknown000[0x458];
-    int frameCounter;
-    int confirmedFrame;
-    int frameMode;
-    unsigned int frameStartTime;
-    unsigned int lastFrameTime;
-    unsigned int waitTime;
-    unsigned char unknown470[0x04];
-    unsigned int connectionTime;
-    int networkBusy;
-    SupervisorFrameEntryStorageView entries47C[20];
-    SupervisorFrameEntryStorageView lastReceived56C[2];
-    AnmVm *messageVm;
-    unsigned int connectStartTime;
-    unsigned char unknown58C[0x5D4 - 0x58C];
-    signed char flags5D4;
-};
-
 typedef char NetworkHandshakePacketSizeIs0C[
     (sizeof(NetworkHandshakePacket) == 0x0C) ? 1 : -1];
 typedef char NetworkFramePacketSizeIs0C[
@@ -72,20 +52,7 @@ typedef char NetworkFramePacketChecksumAt0A[
     (offsetof(NetworkFramePacket, words.checksum) == 0x0A) ? 1 : -1];
 typedef char NetworkFramePacketPackedInputAt08[
     (offsetof(NetworkFramePacket, packedInput) == 0x08) ? 1 : -1];
-typedef char SupervisorNetworkFrameAt458[
-    (offsetof(SupervisorNetworkView, frameCounter) == 0x458) ? 1 : -1];
-typedef char SupervisorNetworkQueuesAt47C[
-    (offsetof(SupervisorNetworkView, entries47C) == 0x47C) ? 1 : -1];
-typedef char SupervisorNetworkLastReceivedAt56C[
-    (offsetof(SupervisorNetworkView, lastReceived56C) == 0x56C) ? 1 : -1];
-typedef char SupervisorNetworkQueueBytesAreF0[
-    (sizeof(((SupervisorNetworkView *)0)->entries47C) == 0xF0) ? 1 : -1];
-typedef char SupervisorNetworkLastReceivedBytesAre18[
-    (sizeof(((SupervisorNetworkView *)0)->lastReceived56C) == 0x18) ? 1 : -1];
-typedef char SupervisorNetworkMessageAt584[
-    (offsetof(SupervisorNetworkView, messageVm) == 0x584) ? 1 : -1];
-typedef char SupervisorNetworkFlagsAt5D4[
-    (offsetof(SupervisorNetworkView, flags5D4) == 0x5D4) ? 1 : -1];
+
 }
 
 typedef char NetworkNativeRngSize[
@@ -106,8 +73,7 @@ extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 
 int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
-    SupervisorNetworkView *s =
-        reinterpret_cast<SupervisorNetworkView *>(supervisor);
+    Supervisor *s = supervisor;
     SupervisorFrameQueueView *frameQueues =
         reinterpret_cast<SupervisorFrameQueueView *>(supervisor);
     int result = 0;
@@ -124,11 +90,11 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             g_SupervisorNetworkState->CreateDeviceAddress();
             g_SupervisorNetworkState->CreateHostAddress();
             g_SupervisorNetworkState->ConnectSession();
-            s->connectStartTime = timeGetTime();
+            s->networkConnectStartTime588 = timeGetTime();
             g_SupervisorNetworkState->connectionState = 1;
-            s->networkBusy = 1;
+            s->networkBusy478 = 1;
             g_AnmManager->DrawTextCentered(
-                s->messageVm, 0xFFFFFF, 0,
+                s->networkMessageVm584, 0xFFFFFF, 0,
                 g_NetworkSearchingMessage);
         }
         else
@@ -139,21 +105,21 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             g_SupervisorNetworkState->CreateDeviceAddress();
             g_SupervisorNetworkState->HostSession();
             g_AnmManager->DrawTextCentered(
-                s->messageVm, 0xFFFFFF, 0,
+                s->networkMessageVm584, 0xFFFFFF, 0,
                 g_NetworkWaitingMessage);
             g_SupervisorNetworkState->connectionState = 2;
-            s->connectionTime = timeGetTime();
+            s->networkTiming458.connectionTime = timeGetTime();
         }
     }
 
     if (g_SupervisorNetworkState->connectionState == 1)
     {
         now = timeGetTime();
-        s->networkBusy = 1;
-        if (now < s->connectStartTime)
-            s->connectStartTime = now;
+        s->networkBusy478 = 1;
+        if (now < s->networkConnectStartTime588)
+            s->networkConnectStartTime588 = now;
 
-        if (now - s->connectStartTime <
+        if (now - s->networkConnectStartTime588 <
                 g_ReplayRng.GetRandomU32InRange(4000) + 4000 ||
             g_SupervisorNetworkState->joinMode == 1)
         {
@@ -168,37 +134,37 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
     {
         if (g_SupervisorNetworkState->GetRemotePeerId() == 0)
         {
-            if (s->frameCounter != 0)
+            if (s->networkTiming458.frameCounter != 0)
             {
                 returnState = 3;
                 goto RETURN_STATE;
             }
 
-            s->networkBusy = 1;
+            s->networkBusy478 = 1;
             now = timeGetTime();
-            if (now < s->connectionTime)
-                s->connectionTime = now;
+            if (now < s->networkTiming458.connectionTime)
+                s->networkTiming458.connectionTime = now;
 
-            if (now - s->connectionTime >
+            if (now - s->networkTiming458.connectionTime >
                 g_ReplayRng.GetRandomU32InRange(4000) + 6000)
             {
                 g_SupervisorNetworkState->ResetSession();
                 g_SupervisorNetworkState->connectionState = 0;
-                s->connectionTime = timeGetTime();
+                s->networkTiming458.connectionTime = timeGetTime();
             }
             goto NETWORK_WAIT;
         }
 
-        s->networkBusy = 0;
-        s->connectionTime = timeGetTime();
+        s->networkBusy478 = 0;
+        s->networkTiming458.connectionTime = timeGetTime();
     }
 
     // Prefill and the first prediction retain this session across queue/seed calls.
     SupervisorNetworkState *frameNetwork = g_SupervisorNetworkState;
 
-    if (s->frameMode == 0 || s->frameMode == 2)
+    if (s->networkTiming458.frameMode == 0 || s->networkTiming458.frameMode == 2)
     {
-        unsigned int frame = s->frameCounter;
+        unsigned int frame = s->networkTiming458.frameCounter;
 
         if (frame != 0 &&
             frame % (60 / g_SupervisorNetworkState->syncRate) != 0)
@@ -207,13 +173,13 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 frameNetwork->localSide, frame,
                 (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
             frameQueues->InsertPredictedFrame(
-                1 - g_SupervisorNetworkState->localSide, s->frameCounter,
+                1 - g_SupervisorNetworkState->localSide, s->networkTiming458.frameCounter,
                 (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
-            s->frameCounter++;
+            s->networkTiming458.frameCounter++;
         }
         else
         {
-            if (s->frameMode == 0)
+            if (s->networkTiming458.frameMode == 0)
             {
                 if (frameNetwork->initialFramesQueued == 0)
                 {
@@ -269,11 +235,11 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             HAVE_PACKET:
                 g_NetworkFramePacket.words.input =
                     (unsigned short)Controller::GetInput(g_SupervisorNetworkState->localSide);
-                s->frameCounter++;
-                s->frameStartTime = timeGetTime();
+                s->networkTiming458.frameCounter++;
+                s->networkTiming458.frameStartTime = timeGetTime();
             }
 
-            s->lastFrameTime = timeGetTime();
+            s->networkTiming458.lastFrameTime = timeGetTime();
             g_SupervisorNetworkState->packetReady = 0;
             SupervisorNetworkState *packetNetwork = g_SupervisorNetworkState;
             g_NetworkFramePacket.type = 0;
@@ -282,7 +248,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             g_NetworkFramePacket.side = packetSide;
             g_NetworkFramePacket.frame =
                 60 / g_SupervisorNetworkState->syncRate +
-                s->frameCounter - 1;
+                s->networkTiming458.frameCounter - 1;
             g_NetworkFramePacket.seed =
                 reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed();
 
@@ -296,7 +262,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
             packetNetwork->SendPacket(
                 &g_NetworkFramePacket, sizeof(g_NetworkFramePacket));
-            s->frameMode = 1;
+            s->networkTiming458.frameMode = 1;
             frameQueues->InsertReceivedFrame(
                 g_SupervisorNetworkState->localSide,
                 g_NetworkFramePacket.frame,
@@ -308,22 +274,22 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
     if (!frameQueues->AreFrameQueuesSynchronized(1 - g_SupervisorNetworkState->localSide))
     {
         now = timeGetTime();
-        s->waitTime = now;
-        if (now < s->frameStartTime)
-            s->frameStartTime = now;
+        s->networkTiming458.waitTime = now;
+        if (now < s->networkTiming458.frameStartTime)
+            s->networkTiming458.frameStartTime = now;
 
-        if (now - s->frameStartTime <= 20000)
+        if (now - s->networkTiming458.frameStartTime <= 20000)
             goto WAIT_FOR_FRAME;
 
-        if (now - s->frameStartTime > 60000)
+        if (now - s->networkTiming458.frameStartTime > 60000)
         {
             returnState = 3;
             goto RETURN_STATE;
         }
 
-        s->networkBusy = 1;
+        s->networkBusy478 = 1;
         g_AnmManager->DrawTextCentered(
-            s->messageVm, 0xFFFFFF, 0,
+            s->networkMessageVm584, 0xFFFFFF, 0,
             g_NetworkDisconnectedMessage);
 
     NETWORK_WAIT:
@@ -333,7 +299,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         supervisor->LeaveCriticalSectionWrapper(4);
         if ((Controller::GetInput(2) & 2) != 0)
             return 3;
-        if (s->flags5D4 >= 0 || SupervisorSubthreadIsRunning(supervisor))
+        if (s->flagsLow5D4 >= 0 || SupervisorSubthreadIsRunning(supervisor))
             return returnState;
         return 4;
     }
@@ -344,8 +310,8 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         unsigned short seed1;
         unsigned int predicted;
 
-        s->confirmedFrame = s->frameCounter;
-        s->frameMode = 0;
+        s->networkTiming458.confirmedFrame = s->networkTiming458.frameCounter;
+        s->networkTiming458.frameMode = 0;
         inputs[0] = (unsigned short)frameQueues->PopFrame(0, &seed0, &predicted);
         inputs[1] = (unsigned short)frameQueues->PopFrame(1, &seed1, &predicted);
         ApplyNetworkInput(0, inputs[0]);

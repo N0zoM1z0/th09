@@ -12,6 +12,7 @@ struct IDirectInputDevice8A;
 struct HWND__;
 struct AnmLoaded;
 struct StartupAnmVm;
+struct AnmVm;
 struct StartupAnmLoaded;
 struct MidiOutputStartup;
 struct DummyMidiTimerStartup;
@@ -33,6 +34,22 @@ typedef char SupervisorCtorFrameOffsetsAtE8[
 
 typedef char SupervisorCtorArrayElementSizeCheck[
     (sizeof(SupervisorCtorArrayElement) == 0xF0) ? 1 : -1];
+
+// Original network service code reads this contiguous eight-dword interval
+// from the shared Supervisor, directly before the native frame queues.
+struct SupervisorNetworkFrameTimingView
+{
+    int frameCounter;
+    int confirmedFrame;
+    int frameMode;
+    unsigned int frameStartTime;
+    unsigned int lastFrameTime;
+    unsigned int waitTime;
+    unsigned char unknown470[4];
+    unsigned int connectionTime;
+};
+typedef char SupervisorNetworkFrameTimingSizeIs20[
+    (sizeof(SupervisorNetworkFrameTimingView) == 0x20) ? 1 : -1];
 
 class Supervisor
 {
@@ -90,12 +107,15 @@ class Supervisor
     // own exact original-bound push/pop owners. The complete Supervisor
     // OnUpdate boss also reads these same +0x47C/+0x56C arrays.
     int calcCount454;
-    unsigned char unknown458[0x478 - 0x458];
-    int field478;
+    union {
+        unsigned char unknown458[0x478 - 0x458];
+        SupervisorNetworkFrameTimingView networkTiming458;
+    };
+    union { int field478; int networkBusy478; };
     SupervisorFrameEntryStorageView entries47C[20];
     SupervisorFrameEntryStorageView lastReceived56C[2];
-    StartupAnmVm *startupVm584;
-    unsigned char unknown588[0x58C - 0x588];
+    union { StartupAnmVm *startupVm584; AnmVm *networkMessageVm584; };
+    union { unsigned char unknown588[0x58C - 0x588]; unsigned int networkConnectStartTime588; };
     int wantedState58C;
     union { int state590; int curState590; };
     union { int value594; int wantedState2; };
@@ -172,6 +192,23 @@ typedef char SupervisorNativeStartupAndAddedFields[
      offsetof(Supervisor, textAnm5CC) == 0x5CC &&
      offsetof(Supervisor, loadingAnm) == 0x5D0 &&
      offsetof(Supervisor, startupThreadState) == 0x6BC) ? 1 : -1];
+
+// Assert the entire network service's recovered slot ownership, including
+// the two 0x0C*10 side queues and two published last-received records.
+typedef char SupervisorNativeNetworkServiceFields[
+    (offsetof(Supervisor, networkTiming458) == 0x458 &&
+     offsetof(Supervisor, networkTiming458) +
+         offsetof(SupervisorNetworkFrameTimingView, frameMode) == 0x460 &&
+     offsetof(Supervisor, networkTiming458) +
+         offsetof(SupervisorNetworkFrameTimingView, connectionTime) == 0x474 &&
+     offsetof(Supervisor, networkBusy478) == 0x478 &&
+     offsetof(Supervisor, entries47C) == 0x47C &&
+     sizeof(((Supervisor *)0)->entries47C) == 0xF0 &&
+     offsetof(Supervisor, lastReceived56C) == 0x56C &&
+     sizeof(((Supervisor *)0)->lastReceived56C) == 0x18 &&
+     offsetof(Supervisor, networkMessageVm584) == 0x584 &&
+     offsetof(Supervisor, networkConnectStartTime588) == 0x588 &&
+     offsetof(Supervisor, flagsLow5D4) == 0x5D4) ? 1 : -1];
 
 typedef char SupervisorNativeUpdateFields[
     (offsetof(Supervisor, calcCount454) == 0x454 &&
