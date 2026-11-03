@@ -62,7 +62,7 @@ int SupervisorNetworkMessageView::HandleMessage(
                 int receivedFrame = static_cast<volatile int &>(packet->frame);
                 unsigned short receivedSeed = packet->seed;
                 int receivedInput = static_cast<volatile unsigned short &>(packet->input);
-                reinterpret_cast<SupervisorFrameQueueView *>(&g_Supervisor)
+                static_cast<SupervisorFrameQueueView *>(&g_Supervisor)
                     ->InsertReceivedFrame(packet->side, receivedFrame, receivedInput,
                         static_cast<short>(receivedSeed));
             }
@@ -99,13 +99,13 @@ int SupervisorNetworkMessageView::HandleMessage(
                 {
                     for (int index = 0; index < 60 / syncRate - 1; ++index)
                     {
-                        reinterpret_cast<SupervisorFrameQueueView *>(
+                        static_cast<SupervisorFrameQueueView *>(
                             &g_Supervisor)->InsertReceivedFrame(
                                 0,
                                 index - 9998,
                                 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
-                        reinterpret_cast<SupervisorFrameQueueView *>(
+                        static_cast<SupervisorFrameQueueView *>(
                             &g_Supervisor)->InsertReceivedFrame(
                                 1,
                                 index - 9998,

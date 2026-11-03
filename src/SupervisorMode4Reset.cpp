@@ -11,7 +11,7 @@
 // Keep the existing target-bound function argument and global symbol name,
 // but share the real Supervisor's 0x7B0 storage.  No alternate 0x584-byte
 // network/queue object is allocated in TH09.
-struct TitleSupervisorView : Supervisor {};
+struct TitleSupervisorView : SupervisorFrameQueueView {};
 typedef char TitleResetNativeSupervisorState[
     (sizeof(TitleSupervisorView) == sizeof(Supervisor) &&
      offsetof(TitleSupervisorView, networkTiming458) == 0x458 &&
@@ -41,7 +41,7 @@ void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor)
     memset(supervisor->lastReceived56C, 0, sizeof(supervisor->lastReceived56C));
 
     SupervisorFrameQueueView *frameQueues =
-        reinterpret_cast<SupervisorFrameQueueView *>(&g_TitleSupervisor);
+        static_cast<SupervisorFrameQueueView *>(&g_TitleSupervisor);
 
     frameQueues->InsertReceivedFrame(
         0, -9999, 0, (short)g_ReplayRng.GetSeed());

@@ -30346,3 +30346,25 @@ from the before-change baseline. Its ordered direct-call evidence remains
 non-equal in both baselines; do not retroactively claim otherwise.
 No all-unit cold replay, new canonical exactness credit, product link or
 runtime test follows from the source alias recovery.
+
+The original-bound network service and network message callback now invoke
+`SupervisorFrameQueueView::InsertReceivedFrame` through the zero-offset
+native Supervisor/queue source relationship. All four call sites in
+`SupervisorServiceUpdate` and three in the 808-byte message receiver use
+`static_cast<SupervisorFrameQueueView *>` from canonical `Supervisor*`
+instead of an unrelated queue-owner reinterpretation. The 177-byte mode-4
+reset callback's `TitleSupervisorView` is likewise a zero-extra-storage
+derived receiver over the same canonical queue role; it keeps the original
+separately decorated method/global symbol identity and its original two
+frame queue calls. This retained nominal hierarchy is a source/ABI model,
+not proof of original C++ inheritance.
+
+Fresh original PE/VC7.1 comparison confirms the network service's full
+1,626-byte candidate raw SHA
+`703e0714550a63ef51783e49a6dab875770d7f0316bce18914e47bd2ae759dc8`
+remains identical to its before-change baseline: 106 relocations and 1,376
+overlap byte differences against its 1,633-byte target. The network message
+owner retains its complete 808-byte extent, 46 fields and 105 unlike bytes.
+The original 177-byte mode-4 reset body remains byte exact. The queue
+source and receiver changes do not silently convert either still-unmatched
+large function into an exact match or imply runtime validation.

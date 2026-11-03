@@ -32,6 +32,9 @@ class SupervisorNetworkNativeOwnerTests(unittest.TestCase):
         self.assertIn('s->networkMessageVm584', network)
         self.assertIn('s->flagsLow5D4', network)
         self.assertIn('SupervisorFrameQueueView *frameQueues', network)
+        self.assertIn('static_cast<SupervisorFrameQueueView *>(supervisor)', network)
+        self.assertEqual(network.count('static_cast<SupervisorFrameQueueView *>(&g_Supervisor)'), 2)
+        self.assertNotIn('reinterpret_cast<SupervisorFrameQueueView *>(', network)
 
     def test_true_queue_producers_and_consumers_remain_independently_mapped(self):
         with (ROOT / 'config/match-units.toml').open('rb') as stream:
@@ -45,7 +48,7 @@ class SupervisorNetworkNativeOwnerTests(unittest.TestCase):
             with self.subTest(unit=name):
                 self.assertEqual(units[name]['size'], size)
         reset = (ROOT / 'src/SupervisorMode4Reset.cpp').read_text()
-        self.assertIn('struct TitleSupervisorView : Supervisor {};', reset)
+        self.assertIn('struct TitleSupervisorView : SupervisorFrameQueueView {};', reset)
         self.assertIn('TitleResetNativeSupervisorState', reset)
         self.assertNotIn('unsigned char unknown000[0x458];', reset)
         for field in ('frameCounter', 'confirmedFrame', 'frameMode',
@@ -53,6 +56,8 @@ class SupervisorNetworkNativeOwnerTests(unittest.TestCase):
             with self.subTest(mode4_field=field):
                 self.assertIn('supervisor->networkTiming458.' + field, reset)
         self.assertIn('memset(supervisor->entries47C, 0,', reset)
+        self.assertIn('static_cast<SupervisorFrameQueueView *>(&g_TitleSupervisor)', reset)
+        self.assertNotIn('reinterpret_cast<SupervisorFrameQueueView *>(', reset)
         self.assertIn('void SupervisorFrameQueueView::InsertReceivedFrame(',
                       (ROOT / 'src/SupervisorFrameQueueInsert.cpp').read_text())
         synchronized = (ROOT / 'src/SupervisorNetworkQueue.cpp').read_text()

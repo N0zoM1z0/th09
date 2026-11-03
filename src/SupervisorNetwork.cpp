@@ -54,7 +54,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
     Supervisor *s = supervisor;
     SupervisorFrameQueueView *frameQueues =
-        reinterpret_cast<SupervisorFrameQueueView *>(supervisor);
+        static_cast<SupervisorFrameQueueView *>(supervisor);
     int result = 0;
     DWORD now;
     int returnState;
@@ -168,10 +168,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                         int queuedFrame = -9998;
                         do
                         {
-                            reinterpret_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
+                            static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
                                 0, queuedFrame, 0,
                                 (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
-                            reinterpret_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
+                            static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
                                 1, queuedFrame++, 0,
                                 (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
                         } while (queuedFrame + 9998 <
