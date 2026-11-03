@@ -29912,3 +29912,25 @@ complete local original-bound equality. The larger Enemy calc update
 remains non-exact at 3,900 bytes/13 unlike bytes/97 bound fields, and the
 RunEcl interpreter remains at 15,564 bytes/30 residual differences.
 No new exactness credit or whole-product linking claim is implied.
+
+## 2026-11-03 native DirectInput controller window in Controller boss
+
+`Controller::GetControllerInput @0x0042B410` no longer uses a padded,
+independently named `ControllerSupervisorDevicesView`. The true `Supervisor`
+allocation now overlays the independently established pointer members
+`controller014` and `controller118` with the native 2-element
+`IDirectInputDevice8A *controllers14[2]` array at +0x14..+0x1B.
+Controller polling and re-acquisition reference this same original global
+allocation directly while preserving the target's dynamic device reloads.
+The exact Supervisor DirectInput setup owner continues reading the existing
+per-member fields, and compile-time checks assert complete array extent,
+individual offsets and the next capabilities field at +0x1C.
+
+Fresh pinned VC7.1 original-bound local replays preserve the complete
+808-byte original Controller owner as its existing **810-byte candidate,
+32 fields, 84 overlapping unlike bytes, 2 excess bytes and equal original
+control-flow graph**. Both original-exact Controller button helper leaves,
+all ten scoped exact Supervisor siblings and the 952/996-byte still-nonexact
+Supervisor OnUpdate boss remain at their baselines. The native array proves
+one memory window, not original nominal class syntax or a newly exact boss;
+no full all-unit cold replay, whole-game build or runtime claim is made.

@@ -93,8 +93,18 @@ class Supervisor
     IDirect3DDevice8 *d3dDevice08;
     IDirectInput8A *directInput0C;
     IDirectInputDevice8A *keyboard10;
-    IDirectInputDevice8A *controller014;
-    IDirectInputDevice8A *controller118;
+    // Two independent exact DirectInput owners bind the same original
+    // +0x14/+0x18 controller window. The indexed controller polling path
+    // consumes these records as one native 2-element i386 pointer array.
+    union
+    {
+        struct
+        {
+            IDirectInputDevice8A *controller014;
+            IDirectInputDevice8A *controller118;
+        };
+        IDirectInputDevice8A *controllers14[2];
+    };
     unsigned char controllerCaps1C[2][0x2C];
     HWND__ *window74;
     SupervisorCtorArrayElement ctorArray078[3];
@@ -175,6 +185,8 @@ typedef char SupervisorNativeDInputFields[
      offsetof(Supervisor, keyboard10) == 0x10 &&
      offsetof(Supervisor, controller014) == 0x14 &&
      offsetof(Supervisor, controller118) == 0x18 &&
+     offsetof(Supervisor, controllers14) == 0x14 &&
+     sizeof(((Supervisor *)0)->controllers14) == 8 &&
      offsetof(Supervisor, controllerCaps1C) == 0x1C &&
      sizeof(((Supervisor *)0)->controllerCaps1C[0]) == 0x2C &&
      offsetof(Supervisor, window74) == 0x74 &&

@@ -14,27 +14,19 @@ typedef signed short i16;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-// The shared Supervisor keeps its device prefix opaque; the published slots
-// are independently observed at +0x14/+0x18 in TH09.
-struct ControllerSupervisorDevicesView
-{
-    u8 unknown000[0x14];
-    IDirectInputDevice8A *controllers14[2];
-};
-
-typedef char ControllerDevicesAt14[
-    (offsetof(ControllerSupervisorDevicesView, controllers14) == 0x14) ? 1 : -1];
+// The two original DirectInput device pointers reside in the native
+// Supervisor's contiguous +0x14..+0x1B controller array.
+typedef char ControllerNativeDeviceSlotsAt14[
+    (offsetof(Supervisor, controllers14) == 0x14 &&
+     sizeof(((Supervisor *)0)->controllers14) == 8 &&
+     offsetof(Supervisor, controller014) == 0x14 &&
+     offsetof(Supervisor, controller118) == 0x18) ? 1 : -1];
 typedef char ControllerMappingsAt58[
     (offsetof(ReplayInputState, keyCodes58) == 0x58) ? 1 : -1];
 typedef char ControllerThresholdXAt430[
     (offsetof(Supervisor, config388) + offsetof(GameConfiguration, padXAxis) == 0x430) ? 1 : -1];
 typedef char ControllerThresholdYAt432[
     (offsetof(Supervisor, config388) + offsetof(GameConfiguration, padYAxis) == 0x432) ? 1 : -1];
-
-static inline ControllerSupervisorDevicesView &ControllerDevices()
-{
-    return *reinterpret_cast<ControllerSupervisorDevicesView *>(&g_Supervisor);
-}
 
 namespace Controller
 {
@@ -99,8 +91,8 @@ u16 __fastcall GetControllerInput(
     ReplayInputState *inputSlot =
         &g_ReplayInputStates[controllerIndex];
 
-    if (ControllerDevices().controllers14[0] == NULL ||
-        ControllerDevices().controllers14[1] == NULL)
+    if (g_Supervisor.controllers14[0] == NULL ||
+        g_Supervisor.controllers14[1] == NULL)
     {
         memset(&joystickInfo, 0, sizeof(joystickInfo));
         joystickInfo.dwSize = sizeof(joystickInfo);
@@ -139,15 +131,15 @@ u16 __fastcall GetControllerInput(
 
     // Poll and Acquire may change the published device slot. The target
     // reloads it for every call, then retains it only for GetDeviceState.
-    if (ControllerDevices().controllers14[savedJoystickIndex]->Poll() < 0)
+    if (g_Supervisor.controllers14[savedJoystickIndex]->Poll() < 0)
     {
         int acquireAttempts = 0;
-        HRESULT result = ControllerDevices().controllers14[savedJoystickIndex]->Acquire();
+        HRESULT result = g_Supervisor.controllers14[savedJoystickIndex]->Acquire();
         if (result == DIERR_INPUTLOST)
         {
             do
             {
-                result = ControllerDevices().controllers14[savedJoystickIndex]->Acquire();
+                result = g_Supervisor.controllers14[savedJoystickIndex]->Acquire();
                 ++acquireAttempts;
                 if (acquireAttempts >= 400)
                     return buttons;
@@ -158,7 +150,7 @@ u16 __fastcall GetControllerInput(
     }
 
     IDirectInputDevice8A *device =
-        ControllerDevices().controllers14[savedJoystickIndex];
+        g_Supervisor.controllers14[savedJoystickIndex];
     memset(&joystickState, 0, sizeof(joystickState));
     if (device->GetDeviceState(sizeof(joystickState), &joystickState) < 0)
         return buttons;
