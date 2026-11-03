@@ -68,10 +68,13 @@ runtime behavior, remote publication or a new accepted Factory receipt.
 | `EffectManager::AddedCallback` (`--owner effect`) | 51 / 51 | 8 unlike bytes; no exact credit |
 | `TitleScreenView::DrawResult` (`--owner resultdraw`) | 1,939 / 1,939 | 3 unlike bytes; no exact credit |
 
-`movement`, `replaysave` and `supervisor` were newly rechecked on
-2026-11-03 with **owner-scoped diagnostics only**; the other rows are
-last verified at their preceding source checkpoints, not re-run as a whole
-in this housekeeping session. Rebuild before making a new exactness claim.
+At subsequent 2026-11-03 source checkpoints, **full scoped** `runecl`,
+`enemy` and `movement` owner checks were repeated with their exact siblings;
+`resultdraw`, `replaysave` and `supervisor` have owner-scoped diagnostics at
+their stated source epochs, not fresh complete sibling certificates. The
+`Effect` cohort was also checked with its exact siblings. None of these
+non-exact owners has been promoted. Rebuild the affected scope before any new
+exactness claim.
 
 ## Recent source changes worth preserving
 
@@ -93,6 +96,64 @@ in this housekeeping session. Rebuild before making a new exactness claim.
   They **did not** reduce the 30/13 big-boss residuals or increase 1,005.
 - The currently observed pre-handoff source commit was `a5dbf3b9`;
   **do not use this line to identify HEAD** after documentation/cleanup commits.
+
+## Subsequent 2026-11-03 source/ABI checkpoints (newer than the historical list)
+
+The following are **local Git source checkpoints**, not Factory acceptance or
+proof of a runnable native TH09 game. `git log` and current manifests are still
+more authoritative than this dated routing note.
+
+- `81f8b75b` and `ff2acddc`: the native `Effect` now overlays separate
+  12-byte enemy-reward and bullet-cancellation payloads at `+0xA0..+0xAB`.
+  `HandleDeathRewards` stays **1,142/1,142 exact**. The still-open 862-byte
+  Player bullet-collision owner retains its 849-byte natural candidate,
+  26 source/target fields and 12 calls; its exact siblings were verified.
+- `4fa96ff2`: the **3,900-byte** Enemy `OnUpdate` uses the real
+  `EnemyManagerView` rather than a parallel manager object. Its full scoped
+  check is still **13** differing bytes / 97 bound fields / 69 calls;
+  **88** related canonical exact replays pass. Twenty re-numbered private
+  `$L` references were independently validated using actual COFF definitions
+  and the original PE destination words before updating only their spellings.
+- `13374255` and `8797af99`: Player owner-reward and
+  `UpdateBeforeState` store typed `Effect` payloads (including +0x98 delay),
+  not parallel private reward-effect objects. The large **1,519 logical /
+  1,540 physical byte** reward owner and **814 logical / 852 physical byte**
+  Player pre-state owner remain complete exact. Both have target-bound label
+  renaming evidence; 17 Player runtime same-carrier exact owners were replayed.
+- `b40efda2`: the **392-byte** exact `KillAllNonBossEnemies` scans the
+  real native `EnemyManagerView::enemies5758[129]` and native `EnemyView`
+  layout, with six actual relocation fields. The method's original source
+  provenance remains provisional.
+- `53d75b8b`: the **15,564-byte** `RunEcl` opcode-155 handler uses the
+  real native `EnemyView::primaryFlags337C`; the full 598-field owner remains
+  at 30 ordinary differing bytes (opcode 4: 7; opcode 155: 23), and **96**
+  exact source/dependency siblings pass. The 20 compiler-private label names
+  changed only after same-section definition/target-address verification.
+  Native Enemy `OnUpdate` and the 392-byte clear leaf remain unchanged.
+- `d84a4644`: Player `header24.anmFile98` is a native `AnmLoaded *` and
+  its runtime draws / movement use the real `AnmManager` service instead of
+  duplicated void-pointer interfaces. Seventeen exact Player runtime owners
+  replayed **4,368 physical bytes / 243 COFF fields**. The four other
+  Player runtime compiler profiles and the independent exact 20-byte
+  `AnmManager::GetAnm` leaf pass. The 1,900-byte movement boss stays at
+  **122** differences, 66 fields and 23 calls; both movement siblings pass.
+
+**Newly probed, not adopted:** fourteen natural score-bank/screen-read
+source models for the 1,939-byte `DrawResult` kept its three register-choice
+mismatches at `+0x1D`, `+0x23`, `+0x39` or regressed size/control flow.
+The original full owner still has 82 independent fields and sixteen ordered
+calls. Likewise, six native timeout-flag variants (plus the baseline) left `RunEcl` at 30
+mismatches. The independently recompiled 1,238-byte `SaveReplay` still has
+three differences (`+0xB7`, `+0xBB`, `+0x3F6`), with all 53 fields and 23
+calls accounted for. All rejected source probes were restored. Their local
+ignored observations remain under `.analysis/gpt-web-resultdraw-*`,
+`.analysis/gpt-web-runecl-native-timeout-*` and
+`.analysis/gpt-web-replay-save-*`; these files are not source acceptance.
+
+**Ledger unchanged at these checkpoints:** 1,005 canonical exact of 1,035
+authored functions; 30 source-present non-exact. Source-normalization and
+successful local commits are useful preservation, but are not new exact
+credit, whole-product build closure, runtime equivalence, or remote push.
 
 ## Efficient next work / replay commands
 

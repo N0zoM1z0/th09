@@ -29480,3 +29480,59 @@ self-cleaning temporary analysis folder. Receipts:
 .analysis/maintenance-20261031-handoff-1c371cf7/cleanup.json and ci.log.
 The98% milestone remains unfinished;only an explicit operator restart resumes
 reconstruction. Windows product/runtime,semantic and portability gates stay open.
+
+
+## 2026-11-03 later-session TH09 native owners and complete-owner negative evidence
+
+This is a later source checkpoint than the dated material above. At the
+verified Japanese 1.50a executable (SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`),
+`81f8b75b`, `ff2acddc`, `13374255` and `8797af99` converge three disjoint
+interpretations of Effect+0xA0..+0xAB (enemy reward, cancelled bullet and
+player reward) into **one physical Effect** with type-dependent union views.
+The Player reward delay at +0x98 is another observed native Effect slot.
+The independent target-bound exact checks remain: Enemy death reward
+1,142/1,142; Player owner reward 1,519 logical / 1,540 physical; Player
+pre-state update 814 logical / 852 physical. The 862-byte Player
+CheckBulletCollision remains non-exact at 849 emitted bytes, with 26 linked
+fields and 12 ordered calls; its native effect change was byte-neutral.
+
+`4fa96ff2` eliminates the private manager pointer in 3,900-byte Enemy
+`OnUpdate` without changing its 13 residual bytes, 97 fields, 69 calls or
+complete switch destinations; 88 associated exact siblings pass. `b40efda2`
+converts the independently **392/392 exact** mass-clear leaf to native
+EnemyManager/Enemy[129] record iteration while preserving its distinct
+source-level method identity and six fields. `53d75b8b` reads the actual
+Enemy primary flag word directly in 15,564-byte RunEcl opcode 155: 598
+fields, 30 total ordinary differences (7 at opcode 4, 23 at opcode 155),
+96 exact siblings and both decoded-opcode semantic audits pass. These are
+source ownership improvements, not 30-to-zero or 13-to-zero codegen closure.
+
+`d84a4644` replaces PlayerRuntime's duplicate ANM singleton/getter/render
+interfaces with the already exact AnmManager methods and types the Player
+resource at header+0x98 as `AnmLoaded *`, consumed by movement. All 17
+same-profile PlayerRuntime functions remain exact over 4,368 full physical
+bytes / 243 fields; four other independent source-profile owners, exact
+20-byte GetAnm and the movement sibling checks also pass. The movement
+owner is still 1,900 physical/66 fields/23 calls/122 different bytes.
+
+The compiler re-numbered private labels in exact source peers. Every adopted
+new `$L` *spelling* was checked against current actual same-section COFF
+`symbol_value - owner_value`, original owner base, unchanged original PE
+operand word, type, addend and target address. Native ANM callee identities
+were instead grounded in their separate complete exact owner functions and
+the original singleton global. No target VA, owner size, profile, byte mask,
+return ABI or non-exact status was changed to manufacture a pass.
+
+New bounded negative compiler observations: fourteen DrawResult screen
+snapshot, compare, switch, pointer, bank-initialization and declaration
+variants failed to improve the current 1,939/82-field **three byte**
+residual at +0x1D/+0x23/+0x39 (EAX vs ECX at the first current-screen
+check); six native timeout-flag access source variants (plus baseline) were full-owner
+byte-identical to the RunEcl 30-difference baseline. Fresh SaveReplay
+maintains 1,238/53-field/23-call and three register/encoding differences.
+All rejected source variants were restored; the experiment scripts and
+complete PE/COFF audits are preserved ignored under `.analysis/gpt-web-*`.
+Canonical 1,005 / 1,035 authored exact units, native product closure and
+later runtime/semantic/portability gates remain **unchanged**. No Factory
+exactness receipt or whole cold replay is implied.
