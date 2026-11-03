@@ -1,15 +1,15 @@
 #include "SupervisorFrameQueueView.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
 #include "Supervisor.hpp"
+#include "ReplayInputState.hpp"
 #include <stddef.h>
 
-struct SupervisorReplayInputHeadOpsView
-{
-    unsigned short currentInput00;
-    unsigned char unknown02[0x8E - 2];
-};
-
-extern SupervisorReplayInputHeadOpsView g_ReplayInputStates[3];
+// PopFrame reads the first word of the actual 0x8E-byte Replay input
+// state. The original global array and stride are shared with Player,
+// Replay playback and GameManager. This is not another private input type.
+typedef char SupervisorNativeFrameInputState[
+    (sizeof(ReplayInputState) == 0x8E &&
+     offsetof(ReplayInputState, currentInput) == 0x00) ? 1 : -1];
 
 void SupervisorFrameQueueView::InsertPredictedFrame(
     int side, int frame, short seed)
@@ -67,7 +67,7 @@ unsigned short SupervisorFrameQueueView::PopFrame(
     if (static_cast<Supervisor *>(this)->entries47C[side * 10].predicted08 == 0)
         input = static_cast<Supervisor *>(this)->entries47C[side * 10].packedInput00;
     else
-        input = g_ReplayInputStates[side].currentInput00;
+        input = g_ReplayInputStates[side].currentInput;
 
     *seed = static_cast<Supervisor *>(this)->entries47C[side * 10].seed02;
     *predicted = static_cast<Supervisor *>(this)->entries47C[side * 10].predicted08;

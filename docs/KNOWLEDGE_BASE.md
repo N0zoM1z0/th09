@@ -30368,3 +30368,23 @@ owner retains its complete 808-byte extent, 46 fields and 105 unlike bytes.
 The original 177-byte mode-4 reset body remains byte exact. The queue
 source and receiver changes do not silently convert either still-unmatched
 large function into an exact match or imply runtime validation.
+
+## 2026-11-03 exact Supervisor PopFrame uses the native ReplayInputState array
+
+The original i386 queue consumer `SupervisorFrameQueueView::PopFrame`
+(119 bytes at `0x0042EB80`) reads replay input directly from the
+canonical `g_ReplayInputStates[side].currentInput` word. The private
+`SupervisorReplayInputHeadOpsView` copy of an 0x8E-byte record and its
+separately mangled global are retired. The canonical source now uses
+`ReplayInputState.hpp`, whose exact other owners establish the same
+0x8E-byte stride and `currentInput` at +0x00. The independent original-
+exact `ReplayManagerView::PlaybackInput` caller binds the native global to
+`0x004ACE18`; the immutable original PE word at `PopFrame+0x29` is
+**also `0x004ACE18`**. Only the C++ symbol spelling at this one source
+COFF relocation changed; the original PE target, location, kind and addend
+remain unmodified.
+
+Original-bound VC7.1 compiler comparison confirms **119/119 physical bytes
+exact, one true relocation**, and the related 191-byte predicted-frame
+insertion remains exact. The separate 213-byte received-frame producer
+stays non-exact at 35 different bytes; no new exactness credit is taken.

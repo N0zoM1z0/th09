@@ -51,6 +51,28 @@ class NativeSupervisorFrameQueues(unittest.TestCase):
         self.assertNotIn('side * 0x78 + 0x47C',consumer)
         self.assertNotIn('side * 0x78 + 0x484',consumer)
 
+    def test_pop_frame_uses_the_exact_native_replay_input_array(self):
+        source=(ROOT/'src/SupervisorFrameQueueOps.cpp').read_text()
+        header=(ROOT/'src/ReplayInputState.hpp').read_text()
+        self.assertIn('#include "ReplayInputState.hpp"',source)
+        self.assertNotIn('struct SupervisorReplayInputHeadOpsView',source)
+        self.assertNotIn('currentInput00',source)
+        self.assertIn('g_ReplayInputStates[side].currentInput;',source)
+        self.assertIn('SupervisorNativeFrameInputState',source)
+        self.assertIn('sizeof(ReplayInputState) == 0x8E',source)
+        self.assertIn('offsetof(ReplayInputState, currentInput) == 0x00',source)
+        self.assertIn('extern ReplayInputState g_ReplayInputStates[3];',header)
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            units=tomllib.load(f)['units']
+        original=units['supervisor-frame-queue-pop-frame']
+        self.assertEqual((original['target_address'],original['size']),(0x42EB80,119))
+        self.assertEqual([(r['offset'],r['type'],r['symbol'],r['target'])
+                          for r in original['relocations']],
+                         [(0x29,'DIR32','?g_ReplayInputStates@@3PAUReplayInputState@@A',0x4ACE18)])
+        replay=units['replay-manager-playback-input']
+        self.assertTrue(any(r['symbol']=='?g_ReplayInputStates@@3PAUReplayInputState@@A'
+                            and r['target']==0x4ACE18 for r in replay['relocations']))
+
     def test_exact_canonical_queue_methods_remain_frozen(self):
         with (ROOT/'config/match-units.toml').open('rb') as fd:
             units=tomllib.load(fd)['units']
