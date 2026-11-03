@@ -1,6 +1,12 @@
 #include "EffectManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "AnmManager.hpp"
+#include "AnmVmLifecycle.hpp"
+
+typedef char EffectBulletLayerNativeVmCoordinates[
+    (sizeof(AnmVm) == sizeof(EffectVmView) &&
+     offsetof(AnmVm, pos) == 0x208 &&
+     offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
 int EffectManager::DrawBulletLayerEffects()
 {
@@ -16,20 +22,19 @@ int EffectManager::DrawBulletLayerEffects()
         else
         {
             int vmCount = effect->vmCount;
-            EffectVmView *vm = effect->vms;
+            AnmVm *vm = reinterpret_cast<AnmVm *>(effect->vms);
             if (vmCount > 0)
             {
                 int remaining = vmCount;
                 do
                 {
-                    vm->position.x =
+                    vm->pos.x =
                         g_GameManager.TransformPopupX(effect->position.x);
-                    vm->position.y =
+                    vm->pos.y =
                         g_GameManager.TransformPopupY(effect->position.y);
-                    vm->position.z = 0.08f;
-                    *reinterpret_cast<Float3 *>(&vm->position) +=
-                        *reinterpret_cast<const Float3 *>(&vm->pos2);
-                    g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
+                    vm->pos.z = 0.08f;
+                    vm->pos += vm->pos2;
+                    g_AnmManager->Draw2D(vm);
                     ++vm;
                 }
                 while (--remaining != 0);

@@ -29703,3 +29703,11 @@ hints or fake layout were introduced. The full affected Effect carrier
 replayed **16 exact functions (2,571 logical bytes)** without regression.
 Its separate 51-byte `EffectManager::AddedCallback` remains non-exact with
 8 ordinary residual bytes, so no additional matching credit is claimed.
+
+The separately compiled 169-byte `EffectManager::DrawBulletLayerEffects`
+now walks the same native 0x2A4-byte `AnmVm*` and modifies native
+`pos`/+0x208 and `pos2`/+0x288 through its real `Float3::operator+=`
+before calling `AnmManager::Draw2D` on the original VM pointer. Fresh
+VC7.1 original-bound comparison is **169/169 bytes exact**, including all
+seven genuine relocation fields. This source-only type migration does not
+change the already-exact matching ledger or establish whole-game linkage.
