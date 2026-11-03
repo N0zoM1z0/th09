@@ -275,8 +275,7 @@ static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy)
 
 int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 {
-    EnemyManagerCoreView *manager =
-        reinterpret_cast<EnemyManagerCoreView *>(enemyManager);
+    EnemyManagerView *manager = enemyManager;
     int bombHit = 0;
     int damageOccurred;
     int trailIndex;
@@ -297,7 +296,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
     if (!reinterpret_cast<EnemyCoreFrontView *>(g_PlayerSharedRuntime)->scriptedUpdateFreeze1095C)
     {
-        if (manager->scheduleObject2AC400 != 0)
+        if (manager->scheduledSubroutine2AC400 != 0)
         {
             manager->scheduleRuntime2AC3E0.Run();
         }
@@ -306,7 +305,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         {
             manager->scheduleHighBit2AC3F8 =
                 g_EnemyCoreSchedule[manager->scheduleIndex2AC3D4] >> 7;
-            manager->scheduleObject2AC400 =
+            manager->scheduledSubroutine2AC400 =
                 manager->primaryEclManager000.GetSubroutine(
                     g_EnemyCoreSchedule[manager->scheduleIndex2AC3D4++] & 0x7F);
             manager->scheduleRuntime2AC3E0.timer00 = 0;
@@ -320,7 +319,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     manager->specialEnemyCount2AC3B4 = 0;
     manager->rewardEnemyCount2AC3B8 = 0;
 
-    EnemyCoreView *enemy = manager->enemies5758;
+    EnemyCoreView *enemy = reinterpret_cast<EnemyCoreView *>(manager->enemies5758);
     if (manager->sideState320->player04->focusEffect364 != 0)
         manager->sideTimer2AC3C8 = 0;
     else
@@ -345,8 +344,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         {
             if ((flags & ENEMY_CORE_NO_SPRITE) == 0)
             {
-                drawHead =
-                    &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
+                drawHead = reinterpret_cast<EnemyCoreView **>(
+                    &manager->drawGroupHeads2AC410[enemy->drawGroup3387]);
                 goto append_enemy_to_draw_group;
             }
             continue;
@@ -824,19 +823,19 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                  manager->priorityEnemy2AC444 == 0) ||
                 (enemy->secondaryFlags3380 & 0x1000) != 0)
             {
-                manager->priorityEnemy2AC444 = enemy;
+                manager->priorityEnemy2AC444 = reinterpret_cast<EnemyView *>(enemy);
             }
             if (manager->firstActiveEnemy2AC448 == 0)
-                manager->firstActiveEnemy2AC448 = enemy;
+                manager->firstActiveEnemy2AC448 = reinterpret_cast<EnemyView *>(enemy);
             if ((enemy->secondaryFlags3380 & 0x0C00) == 0x0C00)
             {
                 reinterpret_cast<FrontEnemyIndicatorView *>(g_PlayerSharedRuntime)->SetSideEnemyIndicatorPosition(
                     manager->sideIndex31C, &enemy->position2D74);
-                manager->priorityEnemy2AC444 = enemy;
+                manager->priorityEnemy2AC444 = reinterpret_cast<EnemyView *>(enemy);
             }
             else if ((enemy->secondaryFlags3380 & 0x2000) != 0)
             {
-                manager->priorityEnemy2AC444 = enemy;
+                manager->priorityEnemy2AC444 = reinterpret_cast<EnemyView *>(enemy);
             }
 
             EnemyCoreUpdateAttachedEffects(enemy);
@@ -849,7 +848,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             (enemy->primaryFlags337C & ENEMY_CORE_ACTIVE) != 0)
         {
             drawHead =
-                &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
+                reinterpret_cast<EnemyCoreView **>(
+                        &manager->drawGroupHeads2AC410[enemy->drawGroup3387]);
         }
         else
             continue;

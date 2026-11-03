@@ -559,7 +559,9 @@ struct EnemyManagerView
     unsigned char unknown2AC3D5[0x2AC3DC - 0x2AC3D5];
     int protocolValue2AC3DC;
     EnemyScheduleRuntimeView scheduleRuntime2AC3E0;
-    int unknown2AC3F8;
+    // Schedule high-bit published by the original Enemy calc callback;
+    // preserve the previous unknown-word spelling for other ECL owners.
+    union { int scheduleHighBit2AC3F8; int unknown2AC3F8; };
     EnemyManagerView *selfPointer2AC3FC;
     void *scheduledSubroutine2AC400;
     ZunTimer frameTimer2AC404;
