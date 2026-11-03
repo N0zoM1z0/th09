@@ -30927,3 +30927,42 @@ callback remains exact. The full scoped Supervisor replay protects its
 its **952-byte candidate, 92 fields, 27 calls, 791 overlapping unlike
 bytes and 44 absent bytes**. No new exactness promotion, whole-product
 runtime claim or all-unit cold replay is made.
+
+## 2026-11-03 native CardAttack VM and GameManager transition bits in three large owners
+
+The original exact CardAttack `OnUpdate` (536 bytes) and `OnDraw`
+(334 bytes) already contain true native `AnmVm` main/secondary arrays at
+CardAttack+0x0AC/+0x5F4. Their source previously reinterpreted each
+VM through a separate padded `CardAttackVmView` of identical 0x2A4-byte
+size. That duplicate is retired: the VM accessor now returns its native
+`AnmVm*`, and accesses native scale +0x18, color +0x1F0, flags +0x1F8,
+position +0x208 and position offset +0x288 directly, with static
+physical-offset assertions. The original **536/536-byte `OnUpdate`,
+334/334-byte `OnDraw` and 264/264-byte `Create`** are complete
+original-PE/VC7.1 exact, including their 22/17/23 original relocation
+fields respectively.
+
+The exact 923-byte `CardAttackStartView::StartAttack` source had an
+obsolete `CardAttackStartGameManagerView` global declaration which
+conflicted with the now-canonical `AsciiGameManagerView` from the Enemy
+manager headers. The real canonical GameManager now exposes the actual
+2-bit CardAttack transition field at **bits 11..12 of +0x134** without
+moving its 0x390-byte allocation. The exact start function directly
+reads/writes that native field, and calls the original independent
+`CardAttackStartValueCCView::SubtractSaturating` receiver at the genuine
+`g_GameManager.valueB0` address; the helper's +0x1C word is precisely
+native GameManager+0xCC. The three relevant original PE data operands
+are **0x004A7E40** at owner+0x2B and **0x004A7EC4** at +0x2D4/+0x2F7;
+new source COFF relocations bind the same native global root +0xB0/+0x134
+and preserve the original 0x00403E30 helper call symbol and destination.
+Full **923/923 original bytes and all 29 fields** remain exact.
+
+Separate pinned-profile source rebuilds protect five additional CardAttack
+constructor/resource/lifecycle leaves (66,12,8,51,31 bytes), six
+original-exact CardAttack begin callbacks (75/75/78 bytes per side),
+and the exact 923-byte `StartAttack` plus `OnUpdate`, `OnDraw` and
+`Create`. The focused GameManager replay protects **16 exact sibling
+functions** and its still-unmatched 1,689-byte setup thread remains
+at 904 unlike bytes with its former 171/172 field coverage. Source
+representation of the +0xB0 helper receiver does not determine the
+retail C++ hierarchy. No additional authored exactness is claimed.

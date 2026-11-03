@@ -34,31 +34,17 @@ struct CardAttackFloat3
     float z;
 };
 
-struct CardAttackVmView
-{
-    unsigned char unknown000[0x18];
-    CardAttackFloat2 scale18;
-    unsigned char unknown020[0x1F0 - 0x20];
-    unsigned long color1F0;
-    unsigned long color1F4;
-    unsigned int flags1F8;
-    unsigned char unknown1FC[0x208 - 0x1FC];
-    CardAttackFloat3 position208;
-    unsigned char unknown214[0x288 - 0x214];
-    CardAttackFloat3 offset288;
-    unsigned char unknown294[0x2A4 - 0x294];
-};
-
-typedef char CardAttackVmSizeIs2A4[
-    (sizeof(CardAttackVmView) == 0x2A4) ? 1 : -1];
-typedef char CardAttackVmColorAt1F0[
-    (offsetof(CardAttackVmView, color1F0) == 0x1F0) ? 1 : -1];
-typedef char CardAttackVmFlagsAt1F8[
-    (offsetof(CardAttackVmView, flags1F8) == 0x1F8) ? 1 : -1];
-typedef char CardAttackVmPositionAt208[
-    (offsetof(CardAttackVmView, position208) == 0x208) ? 1 : -1];
-typedef char CardAttackVmOffsetAt288[
-    (offsetof(CardAttackVmView, offset288) == 0x288) ? 1 : -1];
+// CardAttack already owns genuine AnmVm main/secondary arrays at +0x0AC
+// and +0x5F4. Their sprite/matrix/position words are the same native
+// 0x2A4-byte ANM VM, not a private draw-only structure.
+typedef AnmVm CardAttackVmView;
+typedef char CardAttackVmNativeStorage[
+    (sizeof(CardAttackVmView) == 0x2A4 &&
+     offsetof(CardAttackVmView, scale) == 0x18 &&
+     offsetof(CardAttackVmView, color1) == 0x1F0 &&
+     offsetof(CardAttackVmView, flagsWord) == 0x1F8 &&
+     offsetof(CardAttackVmView, pos) == 0x208 &&
+     offsetof(CardAttackVmView, pos2) == 0x288) ? 1 : -1];
 
 struct CardAttack;
 typedef int (*CardAttackUpdateCallback)(CardAttack *cardAttack);

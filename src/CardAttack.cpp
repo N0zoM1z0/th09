@@ -49,7 +49,7 @@ extern unsigned int g_CardAttackInputFlags;
 
 static __forceinline CardAttackVmView *CardAttackVm(AnmVm *vm)
 {
-    return reinterpret_cast<CardAttackVmView *>(vm);
+    return vm;
 }
 
 CardAttack::CardAttack()
@@ -67,8 +67,8 @@ static __forceinline void PrepareCardAttackPresentation(CardAttack *cardAttack)
         &cardAttack->mainVms0AC[0], cardAttack->sideIndex00 + 18);
     g_CardAttackTextAnm->SetSprite(
         &cardAttack->mainVms0AC[1], cardAttack->sideIndex00 + 4);
-    CardAttackVm(cardAttack->mainVms0AC + 1)->scale18.x = 1.0f;
-    CardAttackVm(cardAttack->mainVms0AC + 1)->scale18.y = 1.0f;
+    CardAttackVm(cardAttack->mainVms0AC + 1)->scale.x = 1.0f;
+    CardAttackVm(cardAttack->mainVms0AC + 1)->scale.y = 1.0f;
     g_AnmManager->DrawTextCentered(
         &cardAttack->mainVms0AC[1], 0x00FFFFFE, 0, cardAttack->text18);
 }
@@ -100,7 +100,7 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
         cardAttack->primaryUpdate1328(cardAttack) != 0)
     {
         if (cardAttack->secondaryUpdate1334 == NULL)
-            CardAttackVm(&cardAttack->mainVms0AC[0])->flags1F8 &= ~2U;
+            CardAttackVm(&cardAttack->mainVms0AC[0])->flagsWord &= ~2U;
         cardAttack->primaryEnd1330(cardAttack);
         cardAttack->primaryUpdate1328 = NULL;
         cardAttack->primaryDraw132C = NULL;
@@ -110,7 +110,7 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
     if (cardAttack->secondaryUpdate1334 != NULL &&
         cardAttack->secondaryUpdate1334(cardAttack) != 0)
     {
-        CardAttackVm(&cardAttack->mainVms0AC[0])->flags1F8 &= ~2U;
+        CardAttackVm(&cardAttack->mainVms0AC[0])->flagsWord &= ~2U;
         cardAttack->secondaryEnd133C(cardAttack);
         cardAttack->secondaryUpdate1334 = NULL;
         cardAttack->secondaryDraw1338 = NULL;
@@ -120,12 +120,12 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
     }
 
     if (g_AnmManager->ExecuteScript(&cardAttack->mainVms0AC[0]) != 0)
-        CardAttackVm(&cardAttack->mainVms0AC[0])->flags1F8 &= ~2U;
+        CardAttackVm(&cardAttack->mainVms0AC[0])->flagsWord &= ~2U;
 
     for (int i = 0; i < 5; ++i)
     {
         if (g_AnmManager->ExecuteScript(&cardAttack->secondaryVms5F4[i]) != 0)
-            CardAttackVm(&cardAttack->secondaryVms5F4[i])->flags1F8 &= ~2U;
+            CardAttackVm(&cardAttack->secondaryVms5F4[i])->flagsWord &= ~2U;
     }
 
     cardAttack->timer98++;
@@ -142,18 +142,18 @@ int CardAttack::OnDraw(CardAttack *cardAttack)
         cardAttack->secondaryDraw1338(cardAttack);
 
     CardAttackVmView *main = CardAttackVm(&cardAttack->mainVms0AC[0]);
-    if ((main->flags1F8 & 2) != 0)
+    if ((main->flagsWord & 2) != 0)
     {
-        main->position208.x = g_GameManager.TransformPopupX(main->offset288.x);
-        main->position208.y = g_GameManager.TransformPopupY(main->offset288.y);
-        main->position208.z = 0.0f;
+        main->pos.x = g_GameManager.TransformPopupX(main->pos2.x);
+        main->pos.y = g_GameManager.TransformPopupY(main->pos2.y);
+        main->pos.z = 0.0f;
         g_AnmManager->DrawNoRotation(&cardAttack->mainVms0AC[0]);
 
-        CardAttackVm(cardAttack->mainVms0AC + 1)->position208 =
-            main->position208;
-        CardAttackVm(cardAttack->mainVms0AC + 1)->position208.y += 10.0f;
-        CardAttackVm(cardAttack->mainVms0AC + 1)->color1F0 = main->color1F0;
-        CardAttackVm(cardAttack->mainVms0AC + 1)->flags1F8 = main->flags1F8;
+        CardAttackVm(cardAttack->mainVms0AC + 1)->pos =
+            main->pos;
+        CardAttackVm(cardAttack->mainVms0AC + 1)->pos.y += 10.0f;
+        CardAttackVm(cardAttack->mainVms0AC + 1)->color1 = main->color1;
+        CardAttackVm(cardAttack->mainVms0AC + 1)->flagsWord = main->flagsWord;
         g_AnmManager->DrawNoRotation(&cardAttack->mainVms0AC[1]);
     }
 
@@ -161,11 +161,11 @@ int CardAttack::OnDraw(CardAttack *cardAttack)
     for (int i = 0; i < 5; ++i, ++secondaryVm)
     {
         CardAttackVmView *vm = CardAttackVm(secondaryVm);
-        if ((vm->flags1F8 & 2) == 0)
+        if ((vm->flagsWord & 2) == 0)
             continue;
-        vm->position208.x = g_GameManager.TransformPopupX(vm->offset288.x);
-        vm->position208.y = g_GameManager.TransformPopupY(vm->offset288.y);
-        vm->position208.z = 0.0f;
+        vm->pos.x = g_GameManager.TransformPopupX(vm->pos2.x);
+        vm->pos.y = g_GameManager.TransformPopupY(vm->pos2.y);
+        vm->pos.z = 0.0f;
         g_AnmManager->DrawNoRotation(secondaryVm);
     }
     return 1;

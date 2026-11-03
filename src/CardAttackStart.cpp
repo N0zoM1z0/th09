@@ -62,27 +62,15 @@ struct CardAttackStartValueCCView
     void SubtractSaturating(int amount);
 };
 
-struct CardAttackStartGameManagerView
-{
-    unsigned char unknown000[0xB0];
-    CardAttackStartValueCCView valueCCB0;
-    unsigned char unknown0D0[0x134 - 0xD0];
-    union
-    {
-        unsigned int flags134;
-        struct
-        {
-            unsigned int lowFlags134 : 11;
-            unsigned int transitionBits134 : 2;
-            unsigned int highFlags134 : 19;
-        };
-    };
-};
-
-typedef char CardAttackStartValueCCAtB0[
-    (offsetof(CardAttackStartGameManagerView, valueCCB0) == 0xB0) ? 1 : -1];
-typedef char CardAttackStartFlagsAt134[
-    (offsetof(CardAttackStartGameManagerView, flags134) == 0x134) ? 1 : -1];
+// The original 0x20-byte value helper starts at the native GameManager
+// valueB0, whose +0x1C member is precisely canonical GameManager.valueCC.
+// Its original method name/ABI are retained without a second GameManager.
+typedef char CardAttackStartNativeManagerFields[
+    (offsetof(AsciiGameManagerView, valueB0) == 0xB0 &&
+     offsetof(AsciiGameManagerView, valueCC) == 0xCC &&
+     offsetof(AsciiGameManagerView, flags) == 0x134 &&
+     sizeof(AsciiGameManagerView) == 0x390 &&
+     offsetof(CardAttackStartValueCCView, value1C) == 0x1C) ? 1 : -1];
 
 typedef int (*CardAttackBeginCallback)(CardAttack *cardAttack);
 
@@ -94,7 +82,6 @@ struct CardAttackCallbackRow
     CardAttackEndCallback end;
 };
 
-extern CardAttackStartGameManagerView g_GameManager;
 extern CardAttackCallbackRow g_CardAttackCallbackRows[];
 
 
@@ -107,7 +94,8 @@ void CardAttackStartView::StartAttack(
     else
         displayValue = otherSideState08->player04->valueA4;
 
-    g_GameManager.valueCCB0.SubtractSaturating(500);
+    reinterpret_cast<CardAttackStartValueCCView *>(
+        &g_GameManager.valueB0)->SubtractSaturating(500);
 
     if (attackClass == 2)
     {

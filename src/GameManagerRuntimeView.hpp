@@ -126,7 +126,16 @@ struct AsciiGameManagerView
     int gameplaySetupWaitFrames128;
     int playtimeFrames12C;
     int replayPauseRecorded130;
-    unsigned int flags;
+    // CardAttack::OnUpdate and StartAttack consume exactly the original
+    // two-bit transition window in the native +0x134 GameManager flags.
+    union {
+        unsigned int flags;
+        struct {
+            unsigned int lowFlags134 : 11;
+            unsigned int transitionBits134 : 2;
+            unsigned int highFlags134 : 19;
+        };
+    };
     unsigned char unknown138[4];
     unsigned char inGameMenu;
     union { unsigned char menuState97C8Active; unsigned char menuBlock13D; };
@@ -175,6 +184,9 @@ typedef char AsciiGameManagerNativeEclStorage[
     (offsetof(AsciiGameManagerView, instructionMask120) == 0x120 &&
      offsetof(AsciiGameManagerView, instructionMaskLowByte120) == 0x120 &&
      offsetof(AsciiGameManagerView, value380) == 0x380 &&
+     sizeof(AsciiGameManagerView) == 0x390) ? 1 : -1];
+typedef char AsciiGameManagerNativeCardAttackTransitionFlags[
+    (offsetof(AsciiGameManagerView, flags) == 0x134 &&
      sizeof(AsciiGameManagerView) == 0x390) ? 1 : -1];
 typedef char AsciiGameManagerSideCharacterAt20[
     (offsetof(AsciiGameManagerSideView, character20) == 0x20) ? 1 : -1];
