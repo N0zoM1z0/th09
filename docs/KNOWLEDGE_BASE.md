@@ -29687,3 +29687,19 @@ and the genuine one-call relocation with the canonical pinned compiler
 profile. The accompanying 38-byte Type35 update and both its relocations
 also remain exact. No ABI or compiler profile was changed and no additional
 exactness credit is claimed for an already exact function.
+
+## 2026-11-03 native VM storage in exact Effect manager initialization/draw
+
+The independently original-bound 407-byte `EffectManager::InitializeEffect`
+now allocates its VM array using the actual 0x2A4-byte native `AnmVm`
+stride, and uses native `flagsWord` (+0x1F8), `color1` (+0x1F0) and
+`pos2` (+0x288) members while retaining the real `AnmLoaded` script call.
+The 183-byte `OnDraw` and 146-byte `OnDrawShared` traverse `AnmVm*`
+directly, use `vm->pos += vm->pos2` through the native `Float3`
+operator, and pass the real VM pointer to `AnmManager::Draw2D`.
+All three owners and their existing original-linked relocations remain
+complete byte-exact under the same pinned VC7.1 profile; no register
+hints or fake layout were introduced. The full affected Effect carrier
+replayed **16 exact functions (2,571 logical bytes)** without regression.
+Its separate 51-byte `EffectManager::AddedCallback` remains non-exact with
+8 ordinary residual bytes, so no additional matching credit is claimed.

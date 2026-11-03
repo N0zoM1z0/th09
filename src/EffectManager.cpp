@@ -106,7 +106,7 @@ Effect *EffectManager::InitializeEffect(
     {
         effect->vms = static_cast<EffectVmView *>(
             g_ZunMemory.Alloc(
-                sizeof(EffectVmView) * g_EffectTemplates[effectId].vmCount,
+                sizeof(AnmVm) * g_EffectTemplates[effectId].vmCount,
                 "./system\\global.h"));
         int scriptIndex = g_EffectTemplates[effectId].scriptIndex;
         for (int i = 0; i < g_EffectTemplates[effectId].vmCount; ++i)
@@ -114,11 +114,11 @@ Effect *EffectManager::InitializeEffect(
             this->effectAnm->SetAndExecuteScriptIdx(
                     reinterpret_cast<AnmVm *>(&effect->vms[i]), scriptIndex);
             scriptIndex += g_EffectTemplates[effectId].scriptStep;
-            effect->vms[i].flags |= 0x2000;
-            effect->vms[i].color = color;
-            effect->vms[i].pos2.x = 0.0f;
-            effect->vms[i].pos2.y = 0.0f;
-            effect->vms[i].pos2.z = 0.0f;
+            reinterpret_cast<AnmVm *>(&effect->vms[i])->flagsWord |= 0x2000;
+            reinterpret_cast<AnmVm *>(&effect->vms[i])->color1 = color;
+            reinterpret_cast<AnmVm *>(&effect->vms[i])->pos2.x = 0.0f;
+            reinterpret_cast<AnmVm *>(&effect->vms[i])->pos2.y = 0.0f;
+            reinterpret_cast<AnmVm *>(&effect->vms[i])->pos2.z = 0.0f;
         }
     }
     effect->updateCallback = g_EffectTemplates[effectId].updateCallback;
@@ -304,18 +304,17 @@ int EffectManager::OnDraw(EffectManager *effectManager)
         }
         else
         {
-            EffectVmView *vm = effect->vms;
+            AnmVm *vm = reinterpret_cast<AnmVm *>(effect->vms);
             if (effect->vmCount > 0)
             {
                 int vmCount = effect->vmCount;
                 do
                 {
-                    vm->position.x = g_GameManager.TransformPopupX(effect->position.x);
-                    vm->position.y = g_GameManager.TransformPopupY(effect->position.y);
-                    vm->position.z = 0.08f;
-                    *reinterpret_cast<Float3 *>(&vm->position) +=
-                        *reinterpret_cast<const Float3 *>(&vm->pos2);
-                    g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
+                    vm->pos.x = g_GameManager.TransformPopupX(effect->position.x);
+                    vm->pos.y = g_GameManager.TransformPopupY(effect->position.y);
+                    vm->pos.z = 0.08f;
+                    vm->pos += vm->pos2;
+                    g_AnmManager->Draw2D(vm);
                     ++vm;
                 } while (--vmCount != 0);
             }
@@ -337,17 +336,16 @@ int EffectManager::OnDrawShared(EffectManager *effectManager)
         else
         {
             int vmCount = effect->vmCount;
-            EffectVmView *vm = effect->vms;
+            AnmVm *vm = reinterpret_cast<AnmVm *>(effect->vms);
             if (vmCount > 0)
             {
                 do
                 {
-                    vm->position.x = effect->position.x;
-                    vm->position.y = effect->position.y;
-                    vm->position.z = 0.0f;
-                    *reinterpret_cast<Float3 *>(&vm->position) +=
-                        *reinterpret_cast<const Float3 *>(&vm->pos2);
-                    g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
+                    vm->pos.x = effect->position.x;
+                    vm->pos.y = effect->position.y;
+                    vm->pos.z = 0.0f;
+                    vm->pos += vm->pos2;
+                    g_AnmManager->Draw2D(vm);
                     ++vm;
                 } while (--vmCount != 0);
             }
