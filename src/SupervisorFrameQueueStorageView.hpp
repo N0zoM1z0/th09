@@ -28,21 +28,8 @@ typedef char SupervisorFrameEntryFrameAt04[
 typedef char SupervisorFrameEntryFlagsAt08[
     (offsetof(SupervisorFrameEntryStorageView, predicted08) == 0x08) ? 1 : -1];
 
-struct SupervisorFrameQueueStorageView
-{
-    unsigned char unknown000[0x47C];
-    SupervisorFrameEntryStorageView entries47C[20];
-    SupervisorFrameEntryStorageView lastReceived56C[2];
-};
-typedef char SupervisorFrameQueueEntriesAt47C[
-    (offsetof(SupervisorFrameQueueStorageView, entries47C) == 0x47C) ? 1 : -1];
-typedef char SupervisorFrameQueueLastReceivedAt56C[
-    (offsetof(SupervisorFrameQueueStorageView, lastReceived56C) == 0x56C) ? 1 : -1];
-typedef char SupervisorFrameQueueStorageSizeIs584[
-    (sizeof(SupervisorFrameQueueStorageView) == 0x584) ? 1 : -1];
-
-// Source-only role names retained for the two independently compiled bodies.
+// The owning +0x47C..+0x584 array is declared only in Supervisor.hpp.
+// Do not manufacture another 0x584-byte queue-owner overlay here.
+// Keep the exact element names for original method source ABI.
 typedef SupervisorFrameEntryStorageView SupervisorFrameEntryView;
 typedef SupervisorFrameEntryStorageView SupervisorFrameEntryOpsView;
-typedef SupervisorFrameQueueStorageView SupervisorFrameQueueInsertLayout;
-typedef SupervisorFrameQueueStorageView SupervisorFrameQueueOpsLayout;

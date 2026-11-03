@@ -30313,3 +30313,36 @@ also preserves all **16 exact siblings**, its still-unmatched 1,689-byte
 setup thread baseline and the 425-byte exact-candidate cleanup boss.
 This derived source layout proves equal physical storage and method ABI, not
 the game's original inheritance syntax, product link or runtime behavior.
+
+## 2026-11-03 native Supervisor queue method receiver and elimination of duplicate queue owner
+
+The separately decorated `SupervisorFrameQueueView` queue methods are
+not separate queue allocations. The actual `this` pointer addresses the
+0x7B0-byte native `Supervisor`, with two ten-record queues rooted at
++0x47C, two last-received records at +0x56C, and 0x0C-byte elements.
+The method-receiver role now derives without additional members from
+`Supervisor`, so method bodies use an authentic `static_cast` to the
+underlying native allocation instead of pretending to reinterpret an
+unrelated type. The prior padded 0x584-byte
+`SupervisorFrameQueueStorageView` duplicate has been retired; only the
+native 0x0C-byte entry shape is retained in the shared storage header.
+The original separate C++ queue method names stay unchanged; source
+inheritance is a maintained ABI representation, not proof of original
+source-class authorship.
+
+Fresh fixed-profile source-cold original TH09 PE/COFF comparisons protect
+191-byte `InsertPredictedFrame`, 119-byte `PopFrame`, 49-byte
+`AreFrameQueuesSynchronized` and the related 177-byte mode-4 reset owner,
+all exactly. The 213-byte `InsertReceivedFrame` remains intentionally
+**non-exact with 35 differing bytes**, same length, zero relocation
+records and identical direct graph. Full original-bound 996-byte
+`Supervisor::OnUpdate` retains its 952-byte / 791-overlap-difference
+candidate and ten exact siblings. The 808-byte message receiver keeps
+105 differences and all 46 fields; the 1,633-byte network service
+still emits 1,626 bytes, has 106 relocations and 1,376 overlapping
+byte differences, with the **identical raw object-owner SHA-256**
+`703e0714550a63ef51783e49a6dab875770d7f0316bce18914e47bd2ae759dc8`
+from the before-change baseline. Its ordered direct-call evidence remains
+non-equal in both baselines; do not retroactively claim otherwise.
+No all-unit cold replay, new canonical exactness credit, product link or
+runtime test follows from the source alias recovery.

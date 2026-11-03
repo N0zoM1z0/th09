@@ -57,7 +57,7 @@ class SupervisorNetworkNativeOwnerTests(unittest.TestCase):
                       (ROOT / 'src/SupervisorFrameQueueInsert.cpp').read_text())
         synchronized = (ROOT / 'src/SupervisorNetworkQueue.cpp').read_text()
         self.assertNotIn('struct SupervisorNetworkQueueSyncLayout', synchronized)
-        self.assertIn('Supervisor *view = reinterpret_cast<Supervisor *>(this);',
+        self.assertIn('Supervisor *view = static_cast<Supervisor *>(this);',
                       synchronized)
         self.assertIn('view->entries47C[side * 10].frame04', synchronized)
         self.assertIn('view->entries47C[10].frame04 == view->entries47C[0].frame04',

@@ -14,7 +14,7 @@ extern SupervisorReplayInputHeadOpsView g_ReplayInputStates[3];
 void SupervisorFrameQueueView::InsertPredictedFrame(
     int side, int frame, short seed)
 {
-    Supervisor *view = reinterpret_cast<Supervisor *>(this);
+    Supervisor *view = static_cast<Supervisor *>(this);
 
     unsigned char *scanCursor =
         reinterpret_cast<unsigned char *>(this) + side * 0x78;
@@ -64,16 +64,16 @@ unsigned short SupervisorFrameQueueView::PopFrame(
     int side, unsigned short *seed, unsigned int *predicted)
 {
     unsigned short input;
-    if (reinterpret_cast<Supervisor *>(this)->entries47C[side * 10].predicted08 == 0)
-        input = reinterpret_cast<Supervisor *>(this)->entries47C[side * 10].packedInput00;
+    if (static_cast<Supervisor *>(this)->entries47C[side * 10].predicted08 == 0)
+        input = static_cast<Supervisor *>(this)->entries47C[side * 10].packedInput00;
     else
         input = g_ReplayInputStates[side].currentInput00;
 
-    *seed = reinterpret_cast<Supervisor *>(this)->entries47C[side * 10].seed02;
-    *predicted = reinterpret_cast<Supervisor *>(this)->entries47C[side * 10].predicted08;
+    *seed = static_cast<Supervisor *>(this)->entries47C[side * 10].seed02;
+    *predicted = static_cast<Supervisor *>(this)->entries47C[side * 10].predicted08;
 
     SupervisorFrameEntryOpsView *entry =
-        &reinterpret_cast<Supervisor *>(this)->entries47C[side * 10];
+        &static_cast<Supervisor *>(this)->entries47C[side * 10];
     int count = 9;
     do
     {

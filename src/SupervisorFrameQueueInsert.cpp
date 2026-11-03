@@ -8,7 +8,7 @@ void SupervisorFrameQueueView::InsertReceivedFrame(
 {
     // The producer writes the same native +0x47C/+0x56C queue arrays as
     // the full Supervisor::OnUpdate owner and two exact consumer leaves.
-    Supervisor *view = reinterpret_cast<Supervisor *>(this);
+    Supervisor *view = static_cast<Supervisor *>(this);
 
     view->lastReceived56C[side].frame04 = frame;
     view->lastReceived56C[side].packedInput00 = (short)packedInput;

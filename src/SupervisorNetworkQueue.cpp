@@ -11,7 +11,7 @@ typedef char SupervisorNativeSyncQueues[
 
 int SupervisorFrameQueueView::AreFrameQueuesSynchronized(int side)
 {
-    Supervisor *view = reinterpret_cast<Supervisor *>(this);
+    Supervisor *view = static_cast<Supervisor *>(this);
     if (view->entries47C[side * 10].frame04 != 0 &&
         view->entries47C[10].frame04 == view->entries47C[0].frame04)
         return 1;
