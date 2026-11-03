@@ -30017,3 +30017,23 @@ only their manifest spellings. The Etama family still preserves four exact
 siblings and its 600-byte separate nonexact `OnDraw` remains at 268 physical
 differences. This is an already-exact source-layout recovery, not four new
 accepted functions or whole-product/runtime evidence.
+
+## 2026-11-03 original 1,758-byte draw boss walks native EnemyView directly
+
+The Enemy draw group chain starts at native
+`EnemyManagerView::drawGroupHeads2AC410[group]`, and each node is a real
+0x5430-byte `EnemyView`, not a separate padded `EnemyDrawView` allocation.
+The large drawing owner now uses a type alias, rather than a duplicate
+0x5430-byte record, for its main draw cursor, native primary and secondary
+ANM VM storage at +0x08/+0x2AC, native draw link at +0x04, flags at
++0x337C/+0x3380 and all historical trail/vertex pools at +0x33E8/+0x3E68.
+The native `EnemyFloat3` world position at +0x2DD4 is viewed as the
+three-word `Float3` only for authentic original vector-operator calls.
+
+Fresh fixed-profile VC7.1 and original TH09 1.50a PE/COFF comparison
+prove the **complete 1,758-byte EnemyManagerDrawImpl and all 53 reviewed
+relocation fields** remain exact, together with the 35/38-byte draw
+priority callbacks and 91-byte wrapped-angle helper. The source no longer
+reinterprets an independent Enemy projection in the large draw loop.
+Both the underlying 3,900-byte Enemy calc boss and 15,564-byte RunEcl are
+independent source owners and are not awarded new exactness by this change.

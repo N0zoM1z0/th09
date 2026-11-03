@@ -48,6 +48,20 @@ class EnemyDrawNativeAnm(unittest.TestCase):
         self.assertTrue(any(f['symbol']==native and f['target']==0x40F840
                             for f in units['bullet-draw-single']['relocations']))
 
+    def test_draw_uses_native_enemy_pool_and_preserves_float3_math(self):
+        source=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
+        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        self.assertIn('typedef EnemyView EnemyDrawView;',source)
+        self.assertNotIn('struct EnemyDrawView\n{',source)
+        self.assertIn('enemyManager->drawGroupHeads2AC410[group];',source)
+        self.assertNotIn('reinterpret_cast<EnemyView *>(enemy)',source)
+        self.assertIn('enemy->nextInDrawGroup04;',source)
+        self.assertIn('enemy->secondaryFlags3380',source)
+        self.assertIn('enemy->primaryAnmVm0008.pos',source)
+        self.assertIn('reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4)',source)
+        self.assertIn('EnemyView *nextInDrawGroup04;',native)
+        self.assertIn('AnmVm secondaryVms2AC[2];',native)
+
     def test_large_render_owner_has_exact_native_anm_call_targets(self):
         source=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
         self.assertIn('#include "AnmManager.hpp"',source)
@@ -55,7 +69,7 @@ class EnemyDrawNativeAnm(unittest.TestCase):
         self.assertNotIn('extern EnemyDrawAnmManagerView *g_AnmManager;',source)
         self.assertEqual(source.count('g_AnmManager->Draw2D('),4)
         self.assertEqual(source.count('g_AnmManager->DrawVertices('),1)
-        self.assertIn('reinterpret_cast<AnmVm *>(&enemy->vm008)',source)
+        self.assertIn('reinterpret_cast<AnmVm *>(&enemy->primaryAnmVm0008)',source)
         self.assertIn('reinterpret_cast<VertexTex1DiffuseXyzrhw *>(',source)
         with (ROOT/'config/match-units.toml').open('rb') as f:
             u=tomllib.load(f)['units']

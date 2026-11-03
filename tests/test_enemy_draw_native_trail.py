@@ -11,18 +11,22 @@ class EnemyDrawNativeTrail(unittest.TestCase):
         draw=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         self.assertIn('EnemyDrawNativeVertexLayoutAt3E68',draw)
-        self.assertIn('unsigned char unknown3384[0x5430 - 0x3384];',draw)
+        self.assertIn('typedef EnemyView EnemyDrawView;', draw)
+        self.assertNotIn('struct EnemyDrawView\n{', draw)
+        self.assertIn('EnemyDrawViewSizeIs5430', draw)
+        self.assertIn('EnemyDrawSecondaryAt2AC', draw)
+        self.assertIn('EnemyDrawWorldAt2DD4', draw)
         self.assertNotIn('struct EnemyDrawTrailSampleView',draw)
         self.assertNotIn('EnemyDrawTrailSampleView trailSamples33E8[96];',draw)
         self.assertNotIn('EnemyDrawVertex trailVertices3E68[192];',draw)
         self.assertIn('EnemyTrailSampleView trailSamples33E8[96];',native)
         self.assertIn('EnemyTrailVertexView trailVertices3E68[192];',native)
-        self.assertIn('reinterpret_cast<EnemyView *>(enemy)->trailVertices3E68',draw)
+        self.assertIn('enemy->trailVertices3E68',draw)
         for name in ('trailSamples33E8','trailFlags53A0','trailHistoryLength53A2',
                      'trailSampleStride53A6'):
             with self.subTest(name=name):
-                self.assertIn('reinterpret_cast<EnemyView *>(enemy)->'+name,draw)
-                self.assertNotIn('enemy->'+name,draw)
+                self.assertIn('enemy->'+name,draw)
+                self.assertNotIn('reinterpret_cast<EnemyView *>(enemy)->'+name,draw)
         for field in ('position00','rhw0C','diffuse10','u14','v18'):
             self.assertIn('offsetof(EnemyTrailVertexView, '+field+')',draw)
 
@@ -70,7 +74,7 @@ class EnemyDrawNativeTrail(unittest.TestCase):
                 self.assertIn('offsetof(AnmLoadedSprite, '+field+') == '+offset,draw)
                 self.assertIn('float '+field+';',owner)
         self.assertIn('sprite->uvEndX - sprite->uvStartX',draw)
-        self.assertIn('enemy->vm008.loadedSprite->heightPx * 0.5f;',draw)
+        self.assertIn('enemy->primaryAnmVm0008.loadedSprite->heightPx * 0.5f;',draw)
 
 
 if __name__=='__main__':
