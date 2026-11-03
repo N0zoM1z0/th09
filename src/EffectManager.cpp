@@ -1,5 +1,6 @@
 #include "EffectManager.hpp"
 #include "AnmManager.hpp"
+#include "AnmVmLifecycle.hpp"
 #include "AsciiManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
@@ -31,37 +32,29 @@ extern ZunMemory g_ZunMemory;
 Effect::Effect() {}
 
 
-struct EffectVmUpdateView
-{
-    unsigned char unknown000[0x04];
-    int value004;
-    int value008;
-    unsigned char unknown00C[0x18 - 0x0C];
-    int value018;
-    unsigned char unknown01C[0x100 - 0x1C];
-    int value100;
-    int value104;
-    unsigned char unknown108[0x288 - 0x108];
-    int value288;
-    int value28C;
-};
-typedef char EffectVmUpdateValue100At100[(offsetof(EffectVmUpdateView, value100) == 0x100) ? 1 : -1];
-typedef char EffectVmUpdateValue288At288[(offsetof(EffectVmUpdateView, value288) == 0x288) ? 1 : -1];
+// The 0x2A4-byte native animation VM is already recovered for the ANM
+// renderer and script executor.  This Effect callback reads the same VM
+// slots as raw bit patterns, not a second unrelated 0x290-byte layout.
+typedef char EffectUpdateVmNativeCoordinates[
+    (sizeof(EffectVmView) == sizeof(AnmVm) &&
+     offsetof(AnmVmBase, rotation) == 0x00 &&
+     offsetof(AnmVmBase, scale) == 0x18 &&
+     offsetof(AnmVmBase, intVar0) == 0x100 &&
+     offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
 int __fastcall EffectUpdateFromVm(Effect *effect)
 {
-    EffectVmUpdateView *vm = reinterpret_cast<EffectVmUpdateView *>(effect->vms);
-    effect->value8C = vm->value100;
-    effect->value9C = static_cast<float>(vm->value104);
-    effect->value88 = vm->value018;
-    effect->value7C = vm->value288;
-    effect->value94 = vm->value28C;
-    effect->value80 = vm->value008;
-    effect->value98 = vm->value004;
+    AnmVm *vm = reinterpret_cast<AnmVm *>(effect->vms);
+    effect->value8C = vm->intVar0;
+    effect->value9C = static_cast<float>(vm->intVar1);
+    memcpy(&effect->value88, &vm->scale.x, sizeof(effect->value88));
+    memcpy(&effect->value7C, &vm->pos2.x, sizeof(effect->value7C));
+    memcpy(&effect->value94, &vm->pos2.y, sizeof(effect->value94));
+    memcpy(&effect->value80, &vm->rotation.z, sizeof(effect->value80));
+    memcpy(&effect->value98, &vm->rotation.y, sizeof(effect->value98));
     effect->unknown0C9 = 1;
     return 1;
 }
-
 
 void EffectManager::Clear()
 {

@@ -23,7 +23,8 @@ class SharedEffectNativeGeometry(unittest.TestCase):
         self.assertIn('Float3 axis60;',header)
         for pair in ('int value7C; float radius7C;', 'int value80; float angle80;',
                      'int value88; float thickness88;', 'int value8C; int segments8C;',
-                     'int value94; float ellipseY94;', 'int value98; float rotation98;',
+                     'int value94; float ellipseY94;',
+                     'int value98; float rotation98; float playerRewardDelay98;',
                      'float value9C; float frequency9C;'):
             self.assertIn('union { '+pair+' };',header)
         for field,offset in (
@@ -54,7 +55,8 @@ class SharedEffectNativeGeometry(unittest.TestCase):
                 self.assertEqual(units[unit]['size'],length)
         source=(ROOT/'src/EnemyManagerCore.inl').read_text()
         self.assertIn('EffectRingRuntimeView *effect =',source)
-        self.assertIn('effect->origin48 = enemy->position2D74;',source)
+        self.assertIn('effect->origin48 =', source)
+        self.assertIn('reinterpret_cast<const Float3 &>(nativeEnemy->position2D74);', source)
 
 
 if __name__=='__main__':
