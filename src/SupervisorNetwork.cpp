@@ -23,24 +23,9 @@ struct NetworkHandshakePacket
     unsigned int syncValue;
 };
 
-struct NetworkFramePacket
-{
-    unsigned char type;
-    signed char side;
-    unsigned short seed;
-    int frame;
-    // The checksum reads the complete word pair, including the previous high
-    // word. Publishing input replaces the low word; checksum replaces the high.
-    union
-    {
-        unsigned int packedInput;
-        struct
-        {
-            unsigned short input;
-            unsigned short checksum;
-        } words;
-    };
-};
+// Preserve the original named packet symbol, while sharing its actual
+// 12-byte wire payload with the native receive-message state allocation.
+struct NetworkFramePacket : SupervisorNetworkState::LastReceivedFramePacketView {};
 
 typedef char NetworkHandshakePacketSizeIs0C[
     (sizeof(NetworkHandshakePacket) == 0x0C) ? 1 : -1];

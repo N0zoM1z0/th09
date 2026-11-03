@@ -29536,3 +29536,35 @@ complete PE/COFF audits are preserved ignored under `.analysis/gpt-web-*`.
 Canonical 1,005 / 1,035 authored exact units, native product closure and
 later runtime/semantic/portability gates remain **unchanged**. No Factory
 exactness receipt or whole cold replay is implied.
+
+## 2026-11-03 native DirectPlay frame packet across send/receive owners
+
+The TH09-local `SupervisorServiceUpdate` and
+`SupervisorNetworkMessageView::HandleMessage` independently use the same
+12-byte wire frame: byte `type`, signed byte `side`, word `seed`, dword
+`frame` and a last dword interpreted either as the complete packed input or
+as the low `input` and high `checksum` words. The network session's
+previously opaque +0xC8..+0xD3 storage is precisely one such received-frame
+record, and its actual native allocation remains 0xD4 bytes. The sending
+TU retains the separate `NetworkFramePacket` global name/ABI but now reuses
+the shared native packet body without a parallel 12-byte definition. This
+is a storage/layout claim, not a claim about original C++ inheritance.
+
+Current pinned /O2 VC7.1 recompilation is byte-neutral for both *non-exact*
+full original physical owners: network service still emits 1,626 of 1,633
+bytes, with 106 bound external fields, 420 instructions and 1,376 unlike
+overlap bytes; the network message remains 808/808 emitted physical bytes
+(768 authored code plus 40 bytes of tables/map), 46 independently checked
+relocations, 34 blocks and 105 unlike bytes. Each candidate's raw SHA-256
+matches the source-before-change baseline. Neither boss receives codegen
+exactness credit.
+
+All 17 relevant original-exact network and GameManager consumers were
+recompiled and compared under their fixed profiles, plus 37 same-carrier
+Title functions and both WinMain functions. The only changed Title COFF
+identifiers were nine compiler-private `$L` names in StartMenu; each was
+resolved using the current *defined* COFF section-relative label address
+and its independently verified original PE operand. No original VA,
+relocation position/kind or physical code bytes were altered to mask a
+failure. The current exact ledger remains 1,005 authored functions; no full
+cold replay, Windows whole-product build or runtime claim follows here.

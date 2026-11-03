@@ -31,8 +31,12 @@ struct SupervisorNetworkState
         signed char side;
         unsigned short seed;
         int frame;
-        unsigned short input;
-        unsigned short checksum;
+        union
+        {
+            struct { unsigned short input; unsigned short checksum; };
+            struct { unsigned short input; unsigned short checksum; } words;
+            unsigned int packedInput;
+        };
     } lastReceivedC8;
 
     SupervisorNetworkState();
