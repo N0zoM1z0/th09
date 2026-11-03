@@ -32,7 +32,12 @@ class NativeReplayGameManagerStorage(unittest.TestCase):
                 self.assertIn('offsetof('+owner+', '+field+') == '+offset,replay)
                 self.assertIn(field,header)
         self.assertIn('g_GameManager.sides[0].replaySelector28',replay)
-        self.assertIn('g_GameManager.replayInputGateE8->sideMode',replay)
+        # The separately source-bound configuration global occupies exactly
+        # GameManager+0xE8; the two replay input bytes are the same +0xB4 pair.
+        self.assertIn('g_GameConfiguration->sideFocusMode',replay)
+        self.assertIn('GameConfiguration *inputGate = g_GameConfiguration',replay)
+        self.assertNotIn('struct ReplayInputGateView',replay)
+        self.assertIn('ReplayNativeInputGateConfigModes',replay)
         self.assertIn('g_GameManager.replayPauseRecorded130',replay)
         self.assertIn('g_GameManager.sides[1].character20',replay)
 
@@ -51,6 +56,15 @@ class NativeReplayGameManagerStorage(unittest.TestCase):
                 u=units[n]
                 self.assertEqual((u['size'],len(u['relocations'])),(size,fields))
                 self.assertEqual(u['source'],'src/ReplayInput.cpp')
+        for name, offset in [('replay-manager-capture-frame-sync-state', 0xAE),
+                             ('replay-manager-playback-input', 0x89)]:
+            with self.subTest(native_configuration=name):
+                fields = [r for r in units[name]['relocations']
+                          if r['offset'] == offset]
+                self.assertEqual(fields, [{
+                    'offset': offset, 'type': 'DIR32',
+                    'symbol': '?g_GameConfiguration@@3PAUGameConfiguration@@A',
+                    'target': 0x004A7E78}])
         source=(ROOT/'src/ReplayInput.cpp').read_text()
         self.assertIn('int ReplayManagerView::SaveReplay(',source)
         self.assertIn('g_GameManager.replayMode114',source)

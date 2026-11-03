@@ -15,6 +15,7 @@
 #include "RngRuntimeLeaves.hpp"
 #include "ReplayInputState.hpp"
 #include "GameManagerRuntimeView.hpp"
+#include "GameConfiguration.hpp"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,11 +33,13 @@ struct ReplaySideStateView
     u32 value10;
 };
 
-struct ReplayInputGateView
-{
-    u8 unknown000[0xB4];
-    u8 sideMode[2];
-};
+// +0xE8 in the GameManager is the separately source-bound
+// g_GameConfiguration pointer at 0x004A7E78. The two side bytes at
+// configuration +0xB4 are the same input-mode bytes Replay uses.
+typedef char ReplayNativeInputGateConfigModes[
+    (offsetof(AsciiGameManagerView, replayInputGateE8) == 0xE8 &&
+     offsetof(GameConfiguration, sideFocusMode) == 0xB4) ? 1 : -1];
+extern GameConfiguration *g_GameConfiguration;
 
 // The two 0x38-byte side records, +0xE8 input gate and +0x114/+0x118
 // replay mode fields are actually part of the original-bound GameManager.
@@ -132,7 +135,7 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
         g_ReplayInputStates[1].Update();
         g_ReplayInputStates[2].Update();
 
-        u8 *sideMode = g_GameManager.replayInputGateE8->sideMode;
+        u8 *sideMode = g_GameConfiguration->sideFocusMode;
         for (int side = 0; side < 2; side++, sideMode++)
         {
             if (*sideMode == 1)
@@ -550,10 +553,10 @@ int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
     g_ReplayInputStates[2].Update();
 
     int side = 0;
-    ReplayInputGateView *inputGate = g_GameManager.replayInputGateE8;
+    GameConfiguration *inputGate = g_GameConfiguration;
     for (; side < 2; side++)
     {
-        if (inputGate != NULL && inputGate->sideMode[side] == 1)
+        if (inputGate != NULL && inputGate->sideFocusMode[side] == 1)
         {
             if (g_ReplayInputStates[side].IsHeld(1))
             {
