@@ -269,17 +269,17 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
 
     // The second transition group reloads the ANM owner after the first call.
     if (horizontalSpeed < 0.0f && player->horizontalSpeed3035C >= 0.0f)
-        reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
+        player->header24.anmFile98->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 1);
     else if (horizontalSpeed == 0.0f && player->horizontalSpeed3035C < 0.0f)
-        reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
+        player->header24.anmFile98->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 2);
 
     if (horizontalSpeed > 0.0f && player->horizontalSpeed3035C <= 0.0f)
-        reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
+        player->header24.anmFile98->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 3);
     else if (horizontalSpeed == 0.0f && player->horizontalSpeed3035C > 0.0f)
-        reinterpret_cast<AnmLoaded *>(player->header24.anmFile98)->SetAndExecuteScriptIdx(
+        player->header24.anmFile98->SetAndExecuteScriptIdx(
             reinterpret_cast<AnmVm *>(&player->mainVm), 4);
 
     player->horizontalSpeed3035C = horizontalSpeed;

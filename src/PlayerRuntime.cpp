@@ -2,6 +2,7 @@
 #include "SoundPlayer.hpp"
 #include "PlayerState4OpsView.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "AnmManager.hpp"
 #include "FileSystem.hpp"
 #include "ZunMemory.hpp"
 #include "ZunTimer.hpp"
@@ -103,16 +104,8 @@ typedef char PlayerOwnerStateTimer14At14[
 typedef char PlayerOwnerStateTimer20At20[
     (offsetof(PlayerOwnerStateUpdateView, timer20) == 0x20) ? 1 : -1];
 
-struct PlayerAnmManagerView
-{
-    void *GetAnm(int anmIdx);
-    int ExecuteScript(void *vm);
-    int DrawNoRotation(void *vm);
-    int Draw2D(void *vm);
-    void DrawPlayerBullet(void *vm);
-};
-
-extern PlayerAnmManagerView *g_AnmManager;
+// The ANM singleton uses the same native interface as the loader.
+extern AnmManager *g_AnmManager;
 extern PlayerShtFileView *g_PlayerShtFilesBySide[2];
 extern PlayerResourcePathView g_PlayerResourcePaths[];
 extern int g_PlayerTable303F0[];
@@ -801,7 +794,7 @@ afterTransition:
         player->GetUpdateState() != 1)
         player->UpdateMovementAndOptions();
 
-    g_AnmManager->ExecuteScript(&player->mainVm);
+    g_AnmManager->ExecuteScript(reinterpret_cast<AnmVm *>(&player->mainVm));
     player->UpdateShots();
 
     if (!g_PlayerSharedRuntime->IsBlocked())
@@ -1021,7 +1014,7 @@ void PlayerLifecycleView::DrawTailStates()
         state->vm1C.position208.y =
             g_PlayerGameManagerRuntime.TransformPopupY(state->position00.y);
         state->vm1C.position208.z = 0.15f;
-        g_AnmManager->DrawNoRotation(&state->vm1C);
+        g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(&state->vm1C));
     }
 }
 
@@ -1045,7 +1038,7 @@ int __fastcall PlayerLifecycleView::OnDrawHighPrio(PlayerLifecycleView *player)
         player->mainVm.position208.x = g_PlayerGameManagerRuntime.TransformPopupX(player->position1B88.x);
         player->mainVm.position208.y = g_PlayerGameManagerRuntime.TransformPopupY(player->position1B88.y);
         player->mainVm.position208.z = 0.1f;
-        g_AnmManager->DrawNoRotation(&player->mainVm);
+        g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(&player->mainVm));
     }
 
 drawOptions:
@@ -1088,7 +1081,7 @@ void PlayerLifecycleView::UpdateShots()
                 shot->vm.loadedSprite224->extent30))
             shot->state462 = 0;
 
-        if (g_AnmManager->ExecuteScript(&shot->vm) != 0)
+        if (g_AnmManager->ExecuteScript(reinterpret_cast<AnmVm *>(&shot->vm)) != 0)
             shot->state462 = 0;
         shot->timer454++;
     }
@@ -1117,7 +1110,7 @@ void PlayerLifecycleView::DrawActiveShots()
         if (shot->drawCallback478 != NULL)
             shot->drawCallback478(this, shot);
         else
-            g_AnmManager->Draw2D(&shot->vm);
+            g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(&shot->vm));
     }
 }
 
@@ -1140,6 +1133,6 @@ void PlayerLifecycleView::DrawHitShots()
             shot->vm.color1F0.green = 0x40;
             shot->vm.color1F0.blue = 0x40;
         }
-        g_AnmManager->DrawPlayerBullet(&shot->vm);
+        g_AnmManager->DrawPlayerBullet(reinterpret_cast<AnmVm *>(&shot->vm));
     }
 }

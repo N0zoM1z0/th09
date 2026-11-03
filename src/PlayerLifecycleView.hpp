@@ -9,6 +9,7 @@
 struct Bullet;
 struct EffectManager;
 struct Effect;
+class AnmLoaded;
 
 struct PlayerSideStateView
 {
@@ -139,11 +140,12 @@ struct PlayerHeaderStateView
     int state8C;
     int state90;
     int state94;
-    void *anmFile98;
+    AnmLoaded *anmFile98;
 
     PlayerHeaderStateView();
 };
 typedef char PlayerHeaderStateSizeIs9C[(sizeof(PlayerHeaderStateView) == 0x9C) ? 1 : -1];
+typedef char PlayerHeaderNativeAnmAt98[(offsetof(PlayerHeaderStateView, anmFile98) == 0x98) ? 1 : -1];
 
 struct PlayerAnmVmView
 {
