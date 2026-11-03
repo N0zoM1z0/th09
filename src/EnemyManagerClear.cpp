@@ -6,13 +6,30 @@
 
 extern AsciiManager g_AsciiManager;
 
+// The ABI owner is still provisional, but both manager and its 129 Enemy
+// records use the independently established native allocations.  A mismatch
+// between ECL and native field coordinates must fail this source build.
+typedef char EnemyClearNativeLayout[
+    (sizeof(EnemyManagerView) == sizeof(EnemyManagerCoreView) &&
+     sizeof(EnemyView) == sizeof(EnemyCoreView) &&
+     offsetof(EnemyManagerView, enemies5758) ==
+         offsetof(EnemyManagerCoreView, enemies5758) &&
+     offsetof(EnemyManagerView, sideIndex31C) ==
+         offsetof(EnemyManagerCoreView, sideIndex31C) &&
+     sizeof(((EnemyManagerView *)0)->enemies5758) ==
+         sizeof(((EnemyManagerCoreView *)0)->enemies5758) &&
+     offsetof(EnemyView, trailSamples33E8) ==
+         offsetof(EnemyCoreView, trailSamples33E8) &&
+     offsetof(EnemyView, deathCallbackSubId2D2E) ==
+         offsetof(EnemyCoreView, deathCallbackSubId2D2E)) ? 1 : -1];
+
 int EnemyManagerCoreView::KillAllNonBossEnemies(
     int transitionValue, int startingValue)
 {
-    EnemyManagerCoreView *manager = this;
+    EnemyManagerView *manager = reinterpret_cast<EnemyManagerView *>(this);
     int totalValue = startingValue;
     int popupValue = 2000;
-    Th09EclRunState::EnemyStateView *enemy = manager->enemies5758;
+    EnemyView *enemy = manager->enemies5758;
 
     for (int i = 0; i < 128; ++i, ++enemy)
     {
@@ -28,12 +45,13 @@ int EnemyManagerCoreView::KillAllNonBossEnemies(
         if ((enemy->primaryFlags337C &
              Th09EclRunState::ENEMY_STATE_SPECIAL_INTERACTION) != 0)
         {
-            enemy->worldPosition2DD4 =
-                enemy->position2D74 + enemy->positionOffset2D80;
+            reinterpret_cast<Float3 &>(enemy->worldPosition2DD4) =
+                reinterpret_cast<const Float3 &>(enemy->position2D74) +
+                reinterpret_cast<const Float3 &>(enemy->positionOffset2D80);
 
             g_AsciiManager.CreateScorePopup(
                 manager->sideIndex31C,
-                &enemy->worldPosition2DD4,
+                reinterpret_cast<Float3 *>(&enemy->worldPosition2DD4),
                 popupValue,
                 popupValue >= transitionValue ? -256 : -1);
 
@@ -47,7 +65,7 @@ int EnemyManagerCoreView::KillAllNonBossEnemies(
                 int sampleIndex = 0;
                 if (sampleIndex < enemy->trailHistoryLength53A2)
                 {
-                    Th09EclRunState::TrailSampleView *sample =
+                    EnemyTrailSampleView *sample =
                         enemy->trailSamples33E8;
                     do
                     {
