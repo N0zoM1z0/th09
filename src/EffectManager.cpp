@@ -258,7 +258,8 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
         int liveVmCount = effect->vmCount;
         for (int vmIndex = 0; vmIndex < effect->vmCount; ++vmIndex)
         {
-            if (g_AnmManager->ExecuteScript(reinterpret_cast<AnmVm *>(&effect->vms[vmIndex])) != 0)
+            if (g_AnmManager->ExecuteScript(
+                    &reinterpret_cast<AnmVm *>(effect->vms)[vmIndex]) != 0)
                 --liveVmCount;
         }
         if (liveVmCount == 0)

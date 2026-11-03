@@ -29740,3 +29740,12 @@ symbol spellings in the two match units were refreshed. The complete
 491-byte/26-relocation and 506-byte/26-relocation draw owners remain exact;
 no numeric target address was rewritten and no function's exactness status
 was newly promoted.
+
+The exact 475-byte `EffectManager::OnUpdate` now indexes its active animation
+VM array as genuine `AnmVm[vmIndex]` when passing the current element to the
+native `AnmManager::ExecuteScript` callee. Source-cold VC7.1 experiments
+show a cached array pointer contracts this function to 472 bytes and is
+therefore rejected; the natural indexed access at the actual call site
+preserves all **475/475 target bytes**, including original operands and
+control-flow. The full Effect cohort retains 16 exact sibling functions and
+the independent nonexact 51-byte AddedCallback stays at eight differences.
