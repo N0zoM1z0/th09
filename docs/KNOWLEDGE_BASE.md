@@ -29864,3 +29864,27 @@ and AdvanceTransformProgram were verified against their actual defined
 COFF section coordinates and unchanged original PE word operands before
 updating only manifest symbol names. The authored exact tally remains
 1,005/1,035; no all-unit cold replay or native game link/runtime test.
+
+## 2026-11-03 native Etama side owner across update, laser, and draw
+
+`EtamaController::sideState` and `opponentSideState` no longer use the old
+private `BulletSideStateView` storage projection. The header's retained
+source-name alias resolves to the fully recovered `AsciiGameManagerSideView`
+(0x38 bytes, real GameManager side slots). Etama Register takes those native
+side addresses without an unrelated pointer cast. Its collision and homing
+callers still invoke the actual `BulletPlayerView` method ABI via the
+native +0x04 Player pointer, while the original effect draw path directly
+uses native +0x0C `EffectManager*` and native +0x34 flags. The laser spawn
+leaf and bullet update owner agree on this storage.
+
+Pinned TH09 1.50a original-bound VC7.1 replays confirm the 2,216-byte
+physical Etama Update, 1,932-byte SpawnSingleBullet and 450-byte SpawnLaser
+owners all remain complete byte-exact. The scoped Bullet regression keeps
+28 original-exact functions; the separately scoped Etama OnDraw boss remains
+600 bytes/268 differences with four exact siblings. Twenty-one changed
+private `$L` names (six update, five draw leaf, ten added callback) were
+resolved from current *real* COFF section offsets to the exact original
+PE operands; only their compiler-generated names were changed in the
+manifest. The canonical 1,005/1,035 exact tally is unmodified. No whole
+cold replay, semantic runtime equivalence or original-class inheritance
+hypothesis is claimed.
