@@ -94,7 +94,7 @@ struct Effect
     union { int value8C; int segments8C; };
     int fixedSlotIndex;
     union { int value94; float ellipseY94; };
-    union { int value98; float rotation98; };
+    union { int value98; float rotation98; float playerRewardDelay98; };
     union { float value9C; float frequency9C; };
     // Typed 12-byte death-reward payload, overlaid with the original
     // type-dependent storage used by other effect variants.
@@ -130,6 +130,8 @@ typedef char EffectAngleAt80[(offsetof(Effect, angle80) == 0x80) ? 1 : -1];
 typedef char EffectSegmentsAt8C[(offsetof(Effect, segments8C) == 0x8C) ? 1 : -1];
 typedef char EffectValue7CAt7C[(offsetof(Effect, value7C) == 0x7C) ? 1 : -1];
 typedef char EffectFixedSlotIndexAt90[(offsetof(Effect, fixedSlotIndex) == 0x90) ? 1 : -1];
+typedef char EffectPlayerRewardDelayAt98[
+    (offsetof(Effect, playerRewardDelay98) == 0x98) ? 1 : -1];
 typedef char EffectValue9CAt9C[(offsetof(Effect, value9C) == 0x9C) ? 1 : -1];
 typedef char EffectRewardPayloadAtA0[
     (offsetof(Effect, reward) == 0xA0) ? 1 : -1];

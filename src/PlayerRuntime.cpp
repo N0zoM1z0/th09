@@ -448,24 +448,6 @@ extern int g_PlayerRewardBaseValue;
 extern int g_PlayerRewardModeValue;
 extern float g_PlayerRewardVelocitySpan;
 
-struct PlayerRewardEffectRuntimeView
-{
-    unsigned char unknown000[0x98];
-    float delay98;
-    unsigned char unknown09C[0x04];
-    float scaleA0;
-    short valueA4;
-    short valueA6;
-    short sideA8;
-};
-
-typedef char PlayerRewardEffectDelayAt98[
-    (offsetof(PlayerRewardEffectRuntimeView, delay98) == 0x98) ? 1 : -1];
-typedef char PlayerRewardEffectScaleAtA0[
-    (offsetof(PlayerRewardEffectRuntimeView, scaleA0) == 0xA0) ? 1 : -1];
-typedef char PlayerRewardEffectValueA4[
-    (offsetof(PlayerRewardEffectRuntimeView, valueA4) == 0xA4) ? 1 : -1];
-
 struct PlayerState4TimerCurrentView
 {
     int GetCurrent();
@@ -933,44 +915,41 @@ void PlayerLifecycleView::UpdateBeforeState()
                     velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
                     velocity.z = 0.0f;
 
-                    Effect *rawEffect =
+                    Effect *effect =
                         g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
                             sideIndex + 1, &position, &velocity, 1,
                             static_cast<unsigned int>(-1));
-                    PlayerRewardEffectRuntimeView *effect =
-                        reinterpret_cast<PlayerRewardEffectRuntimeView *>(
-                            rawEffect);
-                    effect->valueA4 = 3;
-                    effect->valueA6 = 4;
+                    effect->playerReward.valueA4 = 3;
+                    effect->playerReward.valueA6 = 4;
 
                     switch (g_PlayerRewardModeValue)
                     {
                     case 0:
-                        effect->scaleA0 =
+                        effect->playerReward.scale =
                             g_PlayerRewardBaseValue * 0.04f + 0.9f;
                         break;
                     case 1:
-                        effect->scaleA0 =
+                        effect->playerReward.scale =
                             g_PlayerRewardBaseValue * 0.05f + 1.1f;
                         break;
                     case 2:
-                        effect->scaleA0 =
+                        effect->playerReward.scale =
                             g_PlayerRewardBaseValue * 0.08f + 1.3f;
                         break;
                     case 3:
-                        effect->scaleA0 =
+                        effect->playerReward.scale =
                             g_PlayerRewardBaseValue * 0.1f + 1.7f;
                         break;
                     case 4:
-                        effect->scaleA0 =
+                        effect->playerReward.scale =
                             g_PlayerRewardBaseValue * 0.08f + 1.5f;
                         break;
                     default:
                         break;
                     }
 
-                    effect->sideA8 = static_cast<short>(sideIndex);
-                    effect->delay98 = static_cast<float>(i) * 2.0f;
+                    effect->playerReward.side = static_cast<short>(sideIndex);
+                    effect->playerRewardDelay98 = static_cast<float>(i) * 2.0f;
                 }
                 g_PlayerSupervisorRuntime.SelectSide(sideIndex);
                 break;
