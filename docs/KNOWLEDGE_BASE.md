@@ -29727,3 +29727,16 @@ full body and return. The separate GameManager interface in this TU is not
 claimed as native here; that is a distinct source-symbol and callee audit.
 Both functions were exact before this structure recovery, so the canonical
 ledger's count does not change.
+
+The two Effect strip draw owners now also call the original native
+`AsciiGameManagerView` receiver instead of the unrelated private
+`EffectStripGameManagerView` declaration. Target-side X/Y coordinate
+transform calls resolve to 0x00401680 and 0x004016B0, both independently
+canonical-exact 46-byte leaf methods. Across Type27 and Type36, **48 actual
+COFF symbols** changed from the fake GameManager names to the native global
+and method names, but every relocation's physical offset, DIR32/REL32 kind,
+addend and original PE operand word was separately verified before only
+symbol spellings in the two match units were refreshed. The complete
+491-byte/26-relocation and 506-byte/26-relocation draw owners remain exact;
+no numeric target address was rewritten and no function's exactness status
+was newly promoted.

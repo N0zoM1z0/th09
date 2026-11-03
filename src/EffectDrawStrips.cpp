@@ -1,5 +1,6 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "EffectManager.hpp"
 
 struct VertexDiffuseXyzrhw
@@ -11,13 +12,6 @@ struct VertexDiffuseXyzrhw
 typedef char EffectStripVertexSizeIs14[
     (sizeof(VertexDiffuseXyzrhw) == 0x14) ? 1 : -1];
 
-struct EffectStripGameManagerView
-{
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-};
-
-extern EffectStripGameManagerView g_GameManager;
 extern AnmManager *g_AnmManager;
 
 // Type27 and Type36 draw the actual native 0xD8-byte Effect allocation.
