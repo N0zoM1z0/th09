@@ -30529,3 +30529,32 @@ update type 4, 86-byte shot spawn type 3, and the existing Player movement
 boss's nonexact 1,900-byte candidate with 122 unlike bytes/66 fields/23
 calls. No new exactness credit, product link, whole-game cold replay or
 runtime confirmation is claimed.
+
+## 2026-11-03 noncrediting original-byte reconstruction of Player option constructor
+
+The previously unresolved terminal-ret special member at `0x0041F010`
+(23 physical bytes) is now represented by an actual maintained source body,
+`PlayerOptionStateCtorView::PlayerOptionStateCtorView()` in
+`src/PlayerOptionConstructor.cpp`. It uses ordinary C++ member construction
+rather than handwritten calls: native `AnmVm vm00` and `ZunTimer timer2E0`
+produce the original call sequence automatically under the pinned VC7.1
+`/O2 /Ob1 /Oy-` compiler. The new read-only
+`scripts/inspect-player-option-constructor.py` independently checks the
+original SHA-256, **all 23 target bytes and both REL32 call operand
+words**, bound respectively to exact `AnmVm::AnmVm @0x00403A10` and
+`ZunTimer::ZunTimer @0x00403390`. In this session the source-cold object
+reproduced the complete original linked SHA-256
+`eb751682fb036efdc7f0c63d063a5cb4f64ceb3208c1d792c662951944edc92d`.
+
+**Origin remains unresolved:** the original code could be an explicitly
+written empty constructor or the same VC7.1 compiler-generated special
+member; neither the bytes nor the parent constructor callers distinguish
+them. The `config/functions.csv` row records the source for recoverability
+while remaining **status `unclassified`, origin/disposition review and
+absent from reccmp-functions.csv, implemented.csv and matches.csv**.
+This intentional source-presence representation adds zero authored exact
+credit. Repository tracking validation still reads 2,248 candidates,
+1,035 authored mappings and 1,005 authored exact matches. A separate
+44-byte Player shot constructor remains unclassified and has **not** been
+represented by the current source; an attempted ordinary empty body emitted
+an unlike 51-byte loop and was not adopted.
