@@ -30168,3 +30168,18 @@ native type correction leaves the 1,210-byte original ChargeAttack boss's
 1,160 overlapping differences, 13 absent bytes), and 1,900-byte movement
 still differs by 122 bytes. This does not count as newly exact source or
 native-product/runtime verification.
+
+The still-nonexact `PlayerChargeAttackView::UpdateChargeAttack @0x0041F810`
+now accesses the same embedded native ZunTimer members directly instead of
+16 pointless reinterpretations of opaque 0x0C-byte PlayerTimerCtorView
+storage. The source keeps the original charge-delay, normal-shot and
+held-shot timer pointer lifetimes; assignment and decrement use true native
+overloaded operators on the same `this` addresses. Full pinned VC7.1
+source-cold comparison confirms that replacing the casts with native
+addresses/field writes leaves the **entire 1,197-byte candidate SHA-256
+`2c4eef18310c89f977e6c13d7c22863279ed171c8820b23fe02695484e1129b0`**
+unchanged, with the same 70 bound fields, 58 ordered calls, 1,160 overlap
+differences and 13 missing bytes relative to the target's 1,210-byte
+complete extent. All seven independent original SHT text, configuration,
+shot-mode and timer conversion windows remain byte-exact. This is a genuine
+source-ABI recovery, **not** newly exact charge codegen or runtime proof.

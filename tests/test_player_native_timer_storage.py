@@ -21,6 +21,17 @@ class PlayerNativeTimerStorage(unittest.TestCase):
                      'timer303B0','timer303BC','timer303C8','timer303D4'):
             with self.subTest(timer=name):self.assertIn('PlayerTimerCtorView '+name+';',owner)
 
+    def test_complete_charge_owner_uses_direct_native_timer_storage(self):
+        source=(ROOT/'src/PlayerChargeAttackUpdate.cpp').read_text()
+        self.assertNotIn('reinterpret_cast<ZunTimer *>(&timer',source)
+        for f in ('&timer3038C','&timer30398','&timer303A4','&timer303B0','&timer303BC'):
+            with self.subTest(timer=f):self.assertIn(f,source)
+        for f in ('timer1B74 = 8;', 'timer303BC = -1;',
+                  'timer3038C = 0;', 'timer30398 = 0;'):
+            with self.subTest(storage=f):self.assertIn(f,source)
+        self.assertIn('PlayerChargeNativeSideStorage',source)
+        self.assertIn('g_GameConfiguration->sideFocusMode',source)
+
     def test_original_eight_constructor_calls_and_shot_increment(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:
             units=tomllib.load(f)['units']

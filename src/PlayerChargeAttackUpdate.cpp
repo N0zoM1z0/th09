@@ -50,11 +50,11 @@ int PlayerChargeAttackView::UpdateChargeAttack()
          !g_ReplayInputStates[side].IsHeld(4)))
     {
         ZunTimer *chargeDelay =
-            reinterpret_cast<ZunTimer *>(&timer303B0);
+            &timer303B0;
         if (*chargeDelay == 0)
         {
             ZunTimer *normalShotTimer =
-                reinterpret_cast<ZunTimer *>(&timer303A4);
+                &timer303A4;
             if (*normalShotTimer < 0)
                 *normalShotTimer = 0;
             else if (*normalShotTimer >= 10)
@@ -63,7 +63,7 @@ int PlayerChargeAttackView::UpdateChargeAttack()
                 *normalShotTimer -= 5;
 
             *chargeDelay = 3;
-            *reinterpret_cast<ZunTimer *>(&timer303BC) = 1;
+            timer303BC = 1;
         }
         else if (*chargeDelay > 0)
         {
@@ -85,7 +85,7 @@ int PlayerChargeAttackView::UpdateChargeAttack()
 
     {
         ZunTimer *holdTimer =
-            reinterpret_cast<ZunTimer *>(&timer303BC);
+            &timer303BC;
         (*holdTimer)++;
         if (!(*holdTimer >= 10))
             goto afterCharge;
@@ -114,14 +114,14 @@ int PlayerChargeAttackView::UpdateChargeAttack()
         {
             scalar30384 = scalar30388;
             ZunTimer *fullTimer =
-                reinterpret_cast<ZunTimer *>(&timer3038C);
+                &timer3038C;
             (*fullTimer)++;
             if (*fullTimer >= 300)
                 goto resolveAttack;
         }
         else
         {
-            *reinterpret_cast<ZunTimer *>(&timer3038C) = 0;
+            timer3038C = 0;
         }
 
         int currentLevel = static_cast<int>(scalar30384) / 100;
@@ -137,8 +137,8 @@ resolveAttack:
     if (scalar30384 >= 100.0f)
     {
         flags1B80 |= 4u;
-        *reinterpret_cast<ZunTimer *>(&timer30398) = 0;
-        *reinterpret_cast<ZunTimer *>(&timer1B74) = 8;
+        timer30398 = 0;
+        timer1B74 = 8;
 
         if (scalar30384 >= 400.0f &&
             reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
@@ -151,7 +151,7 @@ resolveAttack:
                         primaryShtFile->modePath2);
             reinterpret_cast<PlayerResourceSubtractView *>(this)
                 ->SubtractResourceClamped(300.0f);
-            *reinterpret_cast<ZunTimer *>(&timer1B74) = 8;
+            timer1B74 = 8;
             reinterpret_cast<PlayerStateEffectView *>(this)
                 ->ConfigureState3Effect15();
         }
@@ -164,7 +164,7 @@ resolveAttack:
                         primaryShtFile->modePath1);
             reinterpret_cast<PlayerResourceSubtractView *>(this)
                 ->SubtractResourceClamped(200.0f);
-            *reinterpret_cast<ZunTimer *>(&timer1B74) = 8;
+            timer1B74 = 8;
             reinterpret_cast<PlayerStateEffectView *>(this)
                 ->ConfigureState3Effect14();
         }
@@ -175,7 +175,7 @@ resolveAttack:
                     ->cardAttack14)->StartAttack(
                         0, 0, 0,
                         primaryShtFile->modePath0);
-            *reinterpret_cast<ZunTimer *>(&timer1B74) = 8;
+            timer1B74 = 8;
             reinterpret_cast<PlayerResourceSubtractView *>(this)
                 ->SubtractResourceClamped(100.0f);
             reinterpret_cast<PlayerStateEffectView *>(this)
@@ -185,18 +185,18 @@ resolveAttack:
 
     reinterpret_cast<AsciiGameManagerSideView *>(sideState)
         ->frontSide18->DeactivateMeterVms();
-    *reinterpret_cast<ZunTimer *>(&timer303BC) = -1;
+    timer303BC = -1;
     scalar30384 = 0.0f;
 
-    if (*reinterpret_cast<ZunTimer *>(&timer303B0) > 0)
-        (*reinterpret_cast<ZunTimer *>(&timer303B0))--;
+    if (timer303B0 > 0)
+        (timer303B0)--;
 
 afterCharge:
     if ((flags1B80 & 4u) != 0)
     {
 shooting:
         ZunTimer *shotTimer =
-            reinterpret_cast<ZunTimer *>(&timer30398);
+            &timer30398;
         if (shotTimer->HasTicked())
         {
             reinterpret_cast<PlayerSpawnShotsView *>(this)
@@ -218,7 +218,7 @@ shooting:
 
     {
         ZunTimer *normalShotTimer =
-            reinterpret_cast<ZunTimer *>(&timer303A4);
+            &timer303A4;
         if (*normalShotTimer >= 0)
         {
             if (normalShotTimer->HasTicked())
