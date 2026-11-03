@@ -29711,3 +29711,19 @@ before calling `AnmManager::Draw2D` on the original VM pointer. Fresh
 VC7.1 original-bound comparison is **169/169 bytes exact**, including all
 seven genuine relocation fields. This source-only type migration does not
 change the already-exact matching ledger or establish whole-game linkage.
+
+## 2026-11-03 exact Effect strip draw uses native Effect storage
+
+Type27 and Type36 strip renderers at 0x00445A40 and 0x0044C090 now use
+`Effect *` directly instead of a private padded `EffectStripView` copy.
+The two original paths read the shared native VM pointer (+0x04), position
+(+0x0C), radius (+0x7C), draw-dirty flag (+0xC9) and vertex allocation
+(+0xCC). The source's vertex pointer is cast only to the already observed
+0x14-byte `VertexDiffuseXyzrhw` used by the exact triangle-strip method.
+Fresh pinned-VC7.1 COFF and original PE comparisons are completely exact:
+491/491 bytes/26 original relocation fields for Type27 and
+506/506 bytes/26 original relocation fields for Type36, including their
+full body and return. The separate GameManager interface in this TU is not
+claimed as native here; that is a distinct source-symbol and callee audit.
+Both functions were exact before this structure recovery, so the canonical
+ledger's count does not change.
