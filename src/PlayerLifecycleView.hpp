@@ -3,6 +3,7 @@
 #include "Chain.hpp"
 #include "ZunTimer.hpp"
 #include "Float3.hpp"
+#include "AnmVmLifecycle.hpp"
 
 #include <stddef.h>
 
@@ -228,12 +229,13 @@ struct PlayerLifecycleView;
 typedef int (__fastcall *PlayerOptionUpdateCallback)(
     PlayerLifecycleView *player, void *option);
 
-// Source-present Player movement owns these target-observed option fields.
-// Preserve the independently exact 0x2F4 constructor boundary and avoid
-// inventing the unknown underlying VM/option C++ class.
+// The option's +0x000..+0x2A3 region has the same physical VM extent as
+// the independently exact original AnmVm constructor and script interpreter.
+// Its 0x2F4-byte enclosing option ctor retains its own original method ABI;
+// the original C++ class composition is not asserted beyond this storage.
 struct PlayerOptionStateCtorView
 {
-    unsigned char vm00[0x2A4];
+    AnmVm vm00;
     Float3 position2A4;
     unsigned char unknown2B0[0x2E0 - 0x2B0];
     ZunTimer timer2E0;
@@ -243,6 +245,15 @@ struct PlayerOptionStateCtorView
     PlayerOptionStateCtorView();
 };
 typedef char PlayerOptionStateCtorSizeIs2F4[(sizeof(PlayerOptionStateCtorView) == 0x2F4) ? 1 : -1];
+typedef char PlayerOptionNativeAnmVmAt00[
+    (sizeof(AnmVm) == 0x2A4 &&
+     offsetof(PlayerOptionStateCtorView, vm00) == 0x00 &&
+     offsetof(PlayerOptionStateCtorView, vm00) +
+         offsetof(AnmVm, pos) == 0x208 &&
+     offsetof(PlayerOptionStateCtorView, vm00) +
+         offsetof(AnmVm, loadedSprite) == 0x224 &&
+     offsetof(PlayerOptionStateCtorView, vm00) +
+         offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 typedef char PlayerOptionStatePositionAt2A4[
     (offsetof(PlayerOptionStateCtorView, position2A4) == 0x2A4) ? 1 : -1];
 typedef char PlayerOptionStateTimerAt2E0[

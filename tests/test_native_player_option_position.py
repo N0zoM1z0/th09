@@ -22,6 +22,27 @@ class NativePlayerOptionPosition(unittest.TestCase):
         self.assertIn('offsetof(PlayerOptionStateCtorView, updateCallback2EC) == 0x2EC',owner)
         self.assertIn('PlayerOptionStateCtorSizeIs2F4',owner)
 
+    def test_option_vm_is_real_anm_with_original_2a4_byte_stride(self):
+        owner=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
+        anm=(ROOT/'src/AnmVmLifecycle.hpp').read_text()
+        self.assertIn('#include "AnmVmLifecycle.hpp"',owner)
+        self.assertIn('AnmVm vm00;',owner)
+        self.assertNotIn('unsigned char vm00[0x2A4];',owner)
+        self.assertIn('PlayerOptionNativeAnmVmAt00',owner)
+        for field,offset in (('vm00','0x00'),('position2A4','0x2A4')):
+            with self.subTest(field=field):
+                self.assertIn('offsetof(PlayerOptionStateCtorView, '+field+') == '+offset,owner)
+        for name,offset in (('pos','0x208'),('loadedSprite','0x224'),('pos2','0x288')):
+            with self.subTest(vm_field=name):
+                self.assertIn('offsetof(AnmVm, '+name+') == '+offset,owner)
+        self.assertIn('AnmVmLifecycleSizeIs2A4',anm)
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            u=tomllib.load(f)['units']
+        self.assertEqual((u['anm-vm-constructor']['target_address'],
+                          u['anm-vm-constructor']['size']),(0x403A10,45))
+        self.assertEqual((u['zun-timer-constructor']['target_address'],
+                          u['zun-timer-constructor']['size']),(0x403390,12))
+
     def test_exact_shot_initializer_consumes_same_option_instance(self):
         shot=(ROOT/'src/PlayerShotInitializeView.hpp').read_text()
         body=(ROOT/'src/PlayerInitializeShot.cpp').read_text()

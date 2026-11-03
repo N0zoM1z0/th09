@@ -30464,3 +30464,37 @@ Controller helper siblings; the 808-byte Controller polling boss remains
 nonexact at an 810-byte candidate with 84 unlike bytes and two excess bytes.
 This storage/ABI recovery provides no new accepted function, product-link
 proof or runtime simulation.
+
+## 2026-11-03 native ANM VM storage in four Player option records
+
+The full 1,900-byte Player movement boss and original-exact 309-byte
+Player shot initializer consume the same four `PlayerOptionStateCtorView`
+records at Player+0x1CEC, with a verified 0x2F4-byte stride. The previously
+opaque `vm00[0x2A4]` prefix is now the actual 0x2A4-byte native `AnmVm`
+member, sharing the independently exact ANM constructor and script owners.
+Static layout checks pin native ANM `pos` +0x208, `loadedSprite` +0x224,
+`pos2` +0x288, the enclosing option position +0x2A4, timer +0x2E0 and
+callback +0x2EC, without changing any original option-array offset.
+
+**Direct PE evidence, not a guess from object sizes:** the original
+23-byte special-member code at `0x0041F010` calls native
+`AnmVm::AnmVm @0x00403A10` at its +0x03 call site, then native
+`ZunTimer::ZunTimer @0x00403390` on `this+0x2E0`. The original
+44-byte shot special-member at `0x0041F030` also first calls the same
+ANM constructor. These two complete function boundaries remain
+**unclassified as to explicit authored versus compiler-generated origin**;
+the calls establish physical member construction, not original C++
+authorship, and no extra exactness credit is added here.
+
+Pinned VC7.1 original PE/COFF checks show the complete 243-byte Player
+lifecycle constructor, 309-byte InitializeShot, 45-byte native AnmVm
+constructor, 12-byte timer constructor and all **21** PlayerRuntime
+exact units across five individual profiles remain exact. The complete
+1,900-byte Player movement boss retains its prior 122 unlike bytes,
+66 bound fields and 23 ordered calls. The seven exact siblings of the
+separate still-unmatched Player collision boss also pass. Eleven private
+VC7.1 `$L` labels in the 814-byte pre-state update changed only their
+compiler spelling; their current section-local definitions were checked
+against every original PE data operand before refreshing solely those
+manifest symbols, with unchanged target addresses and kinds. No whole-game
+cold replay, native product link or gameplay runtime claim follows.
