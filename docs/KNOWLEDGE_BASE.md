@@ -30835,3 +30835,34 @@ against actual COFF section-local definitions and the immutable original
 PE operand words before updating only manifest symbol spellings. No
 numeric destinations, original byte matches or canonical exactness credit
 were invented. There was no all-unit cold replay or gameplay runtime test.
+
+## 2026-11-03 replay stage side buffers share native GameManager runtime pointers
+
+The source for the exact `ReplayManagerView::BeginRecordingStage` (1,323
+bytes) and still-unmatched `BeginPlaybackStage` (540-byte original) previously
+carried a separate five-field `ReplaySideStateView` padded to +0x14.
+The two original absolute pointer fields called `g_ReplaySideState0/1` live
+**inside** the genuine `g_GameManager @0x004A7D90` at original addresses
+**0x004A7DAC** and **0x004A7DE4**, exactly the two `0x38`-stride side
+slots' native `runtime` pointer members at local +0x1C. The pointed-to
+objects are genuine 0xA0-byte `AsciiGameSideRuntimeView` score/phase
+buffers, not a second Replay-only structure. The source now aliases this
+single native buffer shape for the still-distinct original per-side pointer
+reads. Its word at +0x04 is native `value04`, and the word at +0x10 is
+native `phase10`, preserving the source-observed physical offsets.
+
+Fixed-profile VC7.1 cold compile and original PE/COFF comparison prove the
+complete **1,323/1,323 bytes exact** for BeginRecordingStage with all
+**82 relocation fields**, including five old Replay-side alias fields now
+carrying the native pointee's C++ symbol. The independently pinned PE words
+at those five source sites still read **0x004A7DAC/0x004A7DE4**, and the
+source's original field position, DIR32 kind and zero addend are unchanged.
+The 540-byte BeginPlaybackStage still emits **538 bytes**, retains **39
+unlike overlap bytes, 32 aligned fields, two missing bytes and identical
+direct graph**; its original-bound inspector was updated to recognize the
+native pointee symbol without altering any original numeric target.
+The 1,238-byte SaveReplay boss independently retains only **three** residual
+bytes at 0xB7, 0xBB and 0x3F6, with 53 fields, 23 ordered calls and equal
+49-block graphs. Replay's **15 exact siblings** pass the scoped cold
+verification. This is a native memory-owner and type-recovery improvement,
+not new exactness credit, an all-unit replay, or a linked-runtime claim.
