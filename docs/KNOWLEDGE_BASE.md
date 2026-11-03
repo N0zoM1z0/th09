@@ -30086,3 +30086,32 @@ all 53 relocations, its exact 35/38-byte wrappers, the exact 91-byte wrapped
 angle helper, 238-byte ANM vertex callee and 71-byte Supervisor viewport
 callee remain exact. Neither source normalization introduces a new accepted
 function or claims a whole-product/gameplay runtime result.
+
+## 2026-11-03 Enemy OnUpdate 13-byte frontier: native draw-head address experiments
+
+Reopened the SHA-pinned Japanese TH09 1.50a original for the 3,900-byte
+`EnemyManagerView::OnUpdate @0x00410730`. The first two of its 13 remaining
+unequal byte positions are the original `movzx eax, [ebx+0x3387]` and
+`lea eax, [esi+eax*4+0x2AC410]` compared with the source VC7.1's
+identical-address `movzx ecx` and ECX-indexed `lea`. The other 11 unequal
+bytes remain in the special-attack Effect/bullet-spawn and three-word
+position-copy register scheduling interval. Ten additional natural C++
+variants (array indexing, pointer addition, unsigned/signed/byte local
+indices, and pointer/reference grouping) were each source-cold compiled
+with the pinned /O2 profile; all kept the same 13 differences, 3,900-byte
+size, 97 reviewed fields, 69 calls and original control-flow graph. The
+baseline source was restored; no forced register hints, fake byte patches or
+partial matching claims were retained.
+
+The final complete source-cold `--owner enemy` check confirms the same 13
+residual bytes and all **88 exact dependencies/siblings**. As a consequence
+of recompiling the real ECL/ANM source carrier, eight and 107 `$L`
+compiler-private labels respectively changed COFF spelling in the ECL
+post-movement/compare functions and full 9,776-byte ANM ExecuteScript
+physical owner. Each replacement was independently checked using the
+**defined local COFF label's section-relative coordinate** and the
+**original PE operand word**. After updating only those manifest spellings,
+the complete 9,776-byte ANM owner still matches exactly with 368 original
+relocations, and no original destination, kind or owned byte changed. The
+canonical authored total remains 1,005/1,035; no all-unit cold replay,
+whole Windows product or runtime claim follows.
