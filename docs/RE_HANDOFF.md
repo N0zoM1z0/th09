@@ -1,12 +1,14 @@
 # TH09 reconstruction — current handoff
 
-> **CURRENT next-agent handoff (2026-11-02):**
-> [TH09_NEXT_AGENT_HANDOFF_20261102.md](TH09_NEXT_AGENT_HANDOFF_20261102.md)
-> is the short verified resume guide and supersedes dated "current/latest"
-> assertions below. Current Git status, ledgers and original PE still
-> take priority over every document. The sections below preserve evidence
-> for their **historical source checkpoints**; do not restore superseded views
-> or count previous exact sibling replays as new exact functions.
+> **Current next-agent restart guide (2026-11-03):**
+> [TH09_NEXT_AGENT_HANDOFF_20261103.md](TH09_NEXT_AGENT_HANDOFF_20261103.md)
+> supersedes "current/latest" claims in this dated research history and
+> the [2026-11-02 handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md).
+> In particular, Player Movement is **122** unlike bytes, not the historical
+> **129** in the earlier 2026-11-02 section below. The live Git tree,
+> ledgers, source/PE and scoped compiler replay remain authoritative.
+> Sections below describe **their own historical source checkpoints**;
+> do not interpret old names or private class layouts as current.
 
 
 ## Operator status — reconstruction explicitly resumed

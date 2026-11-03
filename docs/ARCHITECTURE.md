@@ -52,7 +52,8 @@ Boundary review still does not imply source presence or exact code generation.
 
 ## Maintained source map
 
-Start with [the handoff](RE_HANDOFF.md) and the live manifests. These paths
+Start with [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261103.md)
+and the live manifests; treat [older handoffs](RE_HANDOFF.md) as history. These paths
 describe the current reconstruction organization, not a proven original
 translation-unit or class partition.
 
@@ -69,4 +70,5 @@ Do not split lexical fragments into independent compiler inputs during cleanup:
 definition visibility changes existing exact codegen. Historical experiments
 and their source-bound negative results remain in the knowledge base and local
 archives. Rebuild missing caches from the configured unit/profile, and retain
-the adopted selected-ECL-manager proof objects described in the handoff.
+source/profile/original-address proofs documented in the handoff, not
+old ignored `.obj` files: they can be rebuilt and are not acceptance receipts.

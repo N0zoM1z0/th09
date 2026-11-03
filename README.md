@@ -63,18 +63,21 @@ coverage is **247,597 / 291,883 (84.8275%)**; the 98% milestone remains open.
 Whole-product linking, runtime semantics and portability are separate,
 unstarted gates.
 
-At the 2026-11-02 source handoff, the latest **source-changing**
-commit was `e4ea703b`, which unified original ThreadClose receiver views
-with the native Supervisor. The earlier `80313a4f` Title DrawResult
-checkpoint is **historical**: the 1,939-byte nonexact owner still has
-three residual bytes (+0x1D/+0x23/+0x39). High-value open bosses include
-`RunEcl` (30 bytes), `EnemyManager::OnUpdate` (13 bytes),
-`ReplayManager::SaveReplay` (three bytes), the 1,689-byte
-`GameplaySetupThread` (904 differences), and the Supervisor OnUpdate
-(996 original /952 candidate bytes, 791 overlapping differences plus
-44 absent). Start from [the current next-agent handoff](docs/TH09_NEXT_AGENT_HANDOFF_20261102.md);
-`docs/RE_HANDOFF.md` retains detailed dated background. Confirm Git status
-and fresh PE/COFF evidence before relying on any old claim.
+The **2026-11-03 current next-agent guide** is
+[TH09_NEXT_AGENT_HANDOFF_20261103.md](docs/TH09_NEXT_AGENT_HANDOFF_20261103.md).
+Do not use the old `e4ea703b` Supervisor checkpoint as current HEAD;
+check live `git status` and `git log` instead. Recent verified Player work
+includes the 3,238-byte **exact** selector sharing native GameManager
+bounds (`bc26b958`), the **non-exact** 1,900-byte movement owner with
+**122** residual bytes (`3cd23f37`), and 572-byte **physically exact**
+AddedState initializer with 552 canonical bytes and 20 reviewed tail bytes
+(`a5dbf3b9`). High-value unfinished owners include `RunEcl` (30 unlike
+bytes), `EnemyManager::OnUpdate` (13), `ReplayManager::SaveReplay` (3),
+`TitleScreenView::DrawResult` (3), `GameplaySetupThread` (historical
+1,689-byte /904 unlike), and `Supervisor::OnUpdate` (996 original-owned /
+952 candidate-owned bytes; 791 overlapping differences and 44 absent).
+The older [RE_HANDOFF.md](docs/RE_HANDOFF.md) retains historical evidence.
+Do not confuse structural source recovery with a new exactness receipt.
 
 Use focused complete-owner builds/replays for the changed units only. Do not
 run a full cold replay for routine iteration. Commits use
@@ -128,7 +131,8 @@ not an acceptable shortcut around the native-product stage.
 - [`config/build.toml`](config/build.toml) — whole-product graph and explicit unknowns.
 - [`docs/RE_WORKFLOW.md`](docs/RE_WORKFLOW.md) — bounded reconstruction loop and stage gates.
 - [`docs/ORACLES.md`](docs/ORACLES.md) — what can falsify or accept each claim.
-- [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — current state, retained evidence, and restart checks.
+- [`docs/TH09_NEXT_AGENT_HANDOFF_20261103.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261103.md) — current restart scope, verified owner boundaries, and cleanup guidance.
+- [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — dated historical evidence and ledger-backed tables; use the current restart guide first.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — target facts and maintained source/verification map.
 - [`docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`](docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md) — frozen historical checkpoints; use the active handoff, not this archive, for current facts.
 - [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) — durable TH09-only facts.

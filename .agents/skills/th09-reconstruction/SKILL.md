@@ -13,8 +13,10 @@ Recover the current dirty worktree first. Attest the disk target before
 target-dependent work and the local Ghidra Program before analysis, then work
 on one reviewed extent or coherent infrastructure batch. Documentation/test-only
 changes need neither compiler replay nor Ghidra attestation.
-The operator explicitly requires direct Ghidra: do not use IDA, REA or Factory
-MCP. Use `scripts/ghidra-analysis.py`; its cached exports verify Program identity,
+Use direct local Ghidra for new target analysis, not historical IDA/REA
+exports. A connected Factory repository shell may run commands in the actual
+worktree, but it does not replace the original-binary Oracle or establish
+exactness on its own. `scripts/ghidra-analysis.py` attests Program identity,
 entry, architecture and every file-backed mapped PE byte against the original.
 Keep boundary, origin, source presence, exact codegen, whole-product closure,
 runtime semantics, and port status separate. Use natural source and the pinned

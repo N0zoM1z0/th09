@@ -11,14 +11,14 @@ the first useful commit. Routine iteration must rebuild/replay only affected
 owners and dependencies; do not run a full cold replay unless explicitly
 requested.
 
-At the 2026-11-02 handoff the latest **source-changing** commit is
-`e4ea703b` (`gpt-web: unify both Supervisor ThreadClose receivers with native
-runtime`). Earlier `80313a4f` (Title DrawResult) and `31496c4a`
-(handoff-only) were dated snapshots, **not** the current source head.
-Review `git log -1 --oneline` and `git status` on each new session; a
-documentation or cleanup commit can advance HEAD without changing source.
-Read `docs/TH09_NEXT_AGENT_HANDOFF_20261102.md` first, then
-`docs/RE_HANDOFF.md` for historical details. Commit hashes are not Factory
+The **2026-11-03 current restart guide** is
+`docs/TH09_NEXT_AGENT_HANDOFF_20261103.md`. Earlier source checkpoints
+(`e4ea703b`, `80313a4f` and October/early-November handoffs) are
+historical, not statements about current HEAD. Re-read `git log -1
+--oneline`, the real Git status and the ledgers for each session: a
+handoff/cleanup commit may advance HEAD without modifying source.
+`docs/RE_HANDOFF.md` and `docs/TH09_NEXT_AGENT_HANDOFF_20261102.md`
+retain dated evidence, including superseded "current" claims. Commit hashes are not Factory
 acceptance, original-byte, or remote-publication proofs.
 
 Use the live registered repository worktree exposed to the current agent for

@@ -1,5 +1,11 @@
 # TH09 next-agent handoff — 2026-11-02
 
+> **HISTORICAL CHECKPOINT — SUPERSEDED 2026-11-03.**
+> Resume from [TH09_NEXT_AGENT_HANDOFF_20261103.md](TH09_NEXT_AGENT_HANDOFF_20261103.md).
+> This dated record contains earlier "current" assertions (e.g. Player
+> Movement **129** differences) and old compiler-label names. Preserve it
+> for provenance; do not use it as a current-status or worktree guide.
+
 ## 2026-11-02 exact 572-byte Player AddedState uses native shots and movement
 
 `PlayerLifecycleView::InitializeAddedState` previously accessed four Player

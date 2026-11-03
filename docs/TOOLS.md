@@ -1,9 +1,14 @@
 # Tool routing
 
-Analysis uses **direct local Ghidra**, repository Bash and the pinned VC7.1
-compiler. The operator requires no IDA, REA or Factory MCP. The active goal was
-cleared again on October31;current work is maintenance. See
-[RE_HANDOFF.md](RE_HANDOFF.md) for current status and later restart scope.
+TH09 reconstruction is **active**. Use the live registered worktree
+(via repository shell/connector if available), the pinned VC7.1 compiler
+for codegen, and **direct local Ghidra** for new original-binary analysis.
+A Factory connector can execute repository operations but cannot replace
+attested Ghidra/target bytes or give exactness credit by itself. Do **not**
+substitute historical IDA/REA exports as new original-backed evidence.
+For the current scope, read
+[the 2026-11-03 restart guide](TH09_NEXT_AGENT_HANDOFF_20261103.md);
+[RE_HANDOFF.md](RE_HANDOFF.md) retains dated evidence and ledger tables.
 
 | Need | Command | Claim established |
 | --- | --- | --- |
@@ -31,8 +36,10 @@ on every export. Metadata hashes alone are insufficient. Ghidra's inferred
 names, types and boundaries remain provisional and do not establish exactness
 or unique source ownership. Keep reviewed physical tails/tables for comparison.
 
-The unused IDA/MCP clients,inventory initializer and Python MCP bootstrap were
-removed during maintenance. Historical code is recoverable from Git history;
+Legacy IDA/REA inventory clients and the former Python MCP bootstrap were
+removed from the tracked reconstruction toolchain during historical maintenance.
+This does **not** forbid a connected operator-managed repository shell; it
+means the exactness and original-analysis Oracles are not that shell. Historical code is recoverable from Git history;
 historical receipts remain records,not current commands. The Ghidra runner has
 no dependency on those clients or their MCP Python package. Preserve the working
 Ghidra project and operator-managed analysis databases during cache cleanup.
@@ -55,10 +62,13 @@ Those pins do not prove original retail switches or complete SDK/link ownership.
 Use the ignored `resources/th09.exe`. Do not search `/mnt`, mount a Windows
 game directory, or commit original game files, databases, tools or decompiler
 exports. Keep generated analysis below `.analysis/`, builds below `build/` and
-downloaded tools below `.tools/`. The generic cleaner's apply scope includes
-`.analysis/` compiler objects, which can be unique proof: use the reviewed
-scope and retained-evidence notes in
+downloaded tools below `.tools/`. The cleaner preserves `.analysis/*.obj` by default; any object deletion
+requires an explicit path/SHA-256 review, because old objects may represent
+nonreproducible experimental source. Keep `.analysis/ghidra-direct/` projects.
+Old unreferenced experiments may be losslessly compressed for this local
+handoff, as recorded in
 [RE_ARTIFACT_CLEANUP_HISTORY.md](RE_ARTIFACT_CLEANUP_HISTORY.md).
+Rebuild ignored `build/` objects before every exact comparison.
 
 TH08 and TH095 remain read-only hypothesis sources. Only TH09-local target,
 ABI, compiler, linker or runtime evidence can accept a TH09 claim.

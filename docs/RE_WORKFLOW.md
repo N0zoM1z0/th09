@@ -13,8 +13,9 @@ pinned VC7.1 compiler for byte-exact comparisons. These are separate evidence
 sources. New English commits use `gpt-web: <concise summary>`; checkpoint every
 substantive advance and create multiple commits when a session has multiple
 reviewable advances. Compile serially at lowered priority and preserve complete
-affected-owner/callee proofs. See `RE_HANDOFF.md` for the current source map,
-residuals, retained evidence and next-agent routing.
+affected-owner/callee proofs. See [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261103.md)
+for active source boundaries/residuals, and `RE_HANDOFF.md` for historical
+evidence and validated ledger totals.
 
 Historical negative results are bounded measurements, not proof that all natural
 source models are exhausted. Exact code, the authored denominator, the Windows
@@ -30,7 +31,7 @@ the Program identity and every file-backed mapped PE byte before analysis and
 each export. Documentation/test-only changes need no compiler or Ghidra replay.
 See `AGENTS.md` for commands and target identity.
 
-Run `python3 -B `scripts/ghidra-analysis.py` --function 0x004086c0` for a bounded
+Run `python3 -B scripts/ghidra-analysis.py --function 0x004086c0` for a bounded
 export. The first invocation imports the original into an ignored local project;
 subsequent invocations use `-noanalysis -readOnly` after rechecking the target
 and every file-backed memory range. Supply `--ghidra-dir` or the ignored
@@ -75,7 +76,9 @@ project stay below `.analysis/ghidra-direct/`; no MCP service is needed.
 
 ### What to read at a fresh handoff
 
-Use [RE_HANDOFF.md](RE_HANDOFF.md) for the **current** ledger, unresolved
+Use [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261103.md) for the
+active owner priorities and [RE_HANDOFF.md](RE_HANDOFF.md) for ledger-backed
+historical tables and unresolved
 large/small function fronts, exact-sibling scopes, and restart/cleanup gates.
 The separately preserved [accepted Factory receipts](RE_ACCEPTED_RECEIPTS.md)
 are a **historical source-commit-bound archive**, not a new acceptance claim
