@@ -38,6 +38,23 @@ def frontier():
 
 
 class NetworkMessageAuditTests(unittest.TestCase):
+    def test_callback_uses_native_session_and_packet_storage(self):
+        header = (ROOT / 'src/SupervisorNetworkState.hpp').read_text()
+        source = (ROOT / 'src/SupervisorNetworkMessageHandler.cpp').read_text()
+        self.assertIn('struct SupervisorNetworkMessageView : SupervisorNetworkState', source)
+        self.assertIn('SupervisorNetworkMessageNativeStorage', source)
+        self.assertNotIn('unsigned char unknown008[0x04];', source)
+        self.assertIn('SupervisorNetworkLastFrameAtC8', header)
+        self.assertIn('offsetof(SupervisorNetworkState, lastReceivedC8) == 0xC8',
+                      header)
+        self.assertIn('sizeof(((SupervisorNetworkState *)0)->lastReceivedC8) == 0x0C',
+                      header)
+        self.assertIn('typedef SupervisorNetworkState::LastReceivedFramePacketView '
+                      'NetworkFramePacketView;', source)
+        self.assertIn('lastReceivedC8 = *packet;', source)
+        self.assertIn('static_cast<IDirectPlay8Peer *>(peer)->GetPeerInfo(', source)
+        self.assertNotIn('struct SupervisorNetworkMessageView\n{', source)
+
     def test_complete_fields_and_real_section_relative_labels(self):
         linked, fields = audit.bind_candidate(bytes(audit.SIZE), rows())
         self.assertEqual(tuple(fields), audit.TARGET_FIELDS)
