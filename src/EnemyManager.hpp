@@ -220,7 +220,9 @@ struct EnemyView
     EnemyManagerView *manager00;
     // The original Enemy/ECL activation pointer lives inside the common
     // Enemy allocation, not in a separate late-opcode-only byte view.
-    unsigned char unknown0004[0x0008 - 0x0004];
+    // Linked draw-group heads in the native manager point directly into the
+    // same 129-element Enemy pool; +0x04 is its next-link field.
+    union { unsigned char unknown0004[4]; EnemyView *nextInDrawGroup04; };
     AnmVm primaryAnmVm0008;
     AnmVm secondaryVms2AC[2];
     Th09EclContextView mainContext07F4;
@@ -366,6 +368,8 @@ struct EnemyView
     void CleanupAfterDeactivation();
 };
 typedef char EnemyViewSizeIs5430[(sizeof(EnemyView) == 0x5430) ? 1 : -1];
+typedef char EnemyViewNativeDrawLinkAt004[
+    (offsetof(EnemyView, nextInDrawGroup04) == 0x04) ? 1 : -1];
 typedef char EnemyViewPrimaryAnmVmAt008[
     (offsetof(EnemyView, primaryAnmVm0008) == 0x0008 &&
      sizeof(((EnemyView *)0)->primaryAnmVm0008) == 0x2A4) ? 1 : -1];

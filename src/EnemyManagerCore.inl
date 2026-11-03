@@ -327,7 +327,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
     for (enemyIndex = 0; enemyIndex < 128; ++enemyIndex, ++enemy)
     {
-        EnemyCoreView **drawHead;
+        EnemyView **drawHead;
         unsigned int flags = enemy->primaryFlags337C;
 
         if ((flags & ENEMY_CORE_ACTIVE) == 0)
@@ -344,8 +344,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         {
             if ((flags & ENEMY_CORE_NO_SPRITE) == 0)
             {
-                drawHead = reinterpret_cast<EnemyCoreView **>(
-                    &manager->drawGroupHeads2AC410[enemy->drawGroup3387]);
+                drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
                 goto append_enemy_to_draw_group;
             }
             continue;
@@ -847,16 +846,15 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
         if ((enemy->primaryFlags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
             (enemy->primaryFlags337C & ENEMY_CORE_ACTIVE) != 0)
         {
-            drawHead =
-                reinterpret_cast<EnemyCoreView **>(
-                        &manager->drawGroupHeads2AC410[enemy->drawGroup3387]);
+            drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
         }
         else
             continue;
 
     append_enemy_to_draw_group:
-        enemy->nextInDrawGroup04 = *drawHead;
-        *drawHead = enemy;
+        EnemyView *nativeEnemy = reinterpret_cast<EnemyView *>(enemy);
+        nativeEnemy->nextInDrawGroup04 = *drawHead;
+        *drawHead = nativeEnemy;
     }
 
     manager->frameTimer2AC404++;
