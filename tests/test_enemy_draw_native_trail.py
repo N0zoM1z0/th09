@@ -62,7 +62,7 @@ class EnemyDrawNativeTrail(unittest.TestCase):
         owner=(ROOT/'src/AnmManager.hpp').read_text()
         self.assertIn('EnemyDrawNativeLoadedSpriteAt0x44',draw)
         self.assertNotIn('struct EnemyDrawSpriteView',draw)
-        self.assertIn('AnmLoadedSprite *loadedSprite224;',draw)
+        self.assertIn('AnmLoadedSprite *loadedSprite;', (ROOT/'src/AnmVmLifecycle.hpp').read_text())
         for field,offset in [('uvStartX','0x20'),('uvStartY','0x24'),
                              ('uvEndX','0x28'),('uvEndY','0x2C'),
                              ('heightPx','0x30'),('widthPx','0x34')]:
@@ -70,7 +70,7 @@ class EnemyDrawNativeTrail(unittest.TestCase):
                 self.assertIn('offsetof(AnmLoadedSprite, '+field+') == '+offset,draw)
                 self.assertIn('float '+field+';',owner)
         self.assertIn('sprite->uvEndX - sprite->uvStartX',draw)
-        self.assertIn('enemy->vm008.loadedSprite224->heightPx * 0.5f;',draw)
+        self.assertIn('enemy->vm008.loadedSprite->heightPx * 0.5f;',draw)
 
 
 if __name__=='__main__':

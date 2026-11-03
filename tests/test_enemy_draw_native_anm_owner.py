@@ -11,7 +11,7 @@ class EnemyDrawNativeAnm(unittest.TestCase):
         source=(ROOT/'src/EnemyManagerDraw.cpp').read_text()
         self.assertNotIn('struct EnemyDrawSpriteView',source)
         self.assertIn('EnemyDrawNativeLoadedSpriteAt0x44',source)
-        self.assertIn('AnmLoadedSprite *loadedSprite224;',source)
+        self.assertIn('AnmLoadedSprite *loadedSprite;', (ROOT/'src/AnmVmLifecycle.hpp').read_text())
         self.assertIn('AnmLoadedSprite *sprite =',source)
         for member,offset in (('uvStartX','0x20'),('uvStartY','0x24'),
                               ('uvEndX','0x28'),('uvEndY','0x2C'),
@@ -24,6 +24,29 @@ class EnemyDrawNativeAnm(unittest.TestCase):
             units=tomllib.load(f)['units']
         self.assertEqual((units['anm-loaded-set-sprite']['target_address'],
                           units['anm-loaded-set-sprite']['size']),(0x436AC0,189))
+
+    def test_native_vm_fields_and_four_set_z_rotation_calls(self):
+        src = (ROOT/'src/EnemyManagerDraw.cpp').read_text()
+        self.assertIn('typedef AnmVm EnemyDrawVmView;', src)
+        self.assertNotIn('struct EnemyDrawVmView', src)
+        self.assertIn('EnemyDrawVmSizeIs2A4', src)
+        self.assertIn('EnemyDrawVmNativeBaseState',src)
+        self.assertIn('offsetof(AnmVmBase, flagsWord) == 0x1F8',src)
+        for native_slot in ('scriptIndex','type','pos','pos2','scale',
+                            'color1','uvScrollPos','loadedSprite'):
+            with self.subTest(native_slot=native_slot):
+                self.assertTrue(('->'+native_slot) in src or ('.'+native_slot) in src)
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            units=tomllib.load(f)['units']
+        old='?SetZRotation@EnemyDrawVmView@@QAEXM@Z'
+        native='?SetZRotation@AnmVm@@QAEXM@Z'
+        sites=[f for f in units['enemy-manager-draw-impl']['relocations']
+               if 'SetZRotation' in f['symbol']]
+        self.assertEqual([f['offset'] for f in sites],[0x58,0xFD,0x1DA,0x607])
+        self.assertTrue(all(f['symbol']==native and f['target']==0x40F840 for f in sites))
+        self.assertNotIn(old,src)
+        self.assertTrue(any(f['symbol']==native and f['target']==0x40F840
+                            for f in units['bullet-draw-single']['relocations']))
 
     def test_large_render_owner_has_exact_native_anm_call_targets(self):
         source=(ROOT/'src/EnemyManagerDraw.cpp').read_text()

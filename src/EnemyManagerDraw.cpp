@@ -22,37 +22,21 @@ typedef char EnemyDrawNativeLoadedSpriteAt0x44[
      offsetof(AnmLoadedSprite, heightPx) == 0x30 &&
      offsetof(AnmLoadedSprite, widthPx) == 0x34) ? 1 : -1];
 
-struct EnemyDrawVmView
-{
-    unsigned char unknown000[0x18];
-    Float2 scale18;
-    unsigned char unknown020[0x08];
-    Float2 spriteSize28;
-    Float2 uvScrollPos30;
-    unsigned char unknown038[0x1F0 - 0x38];
-    unsigned long color1F0;
-    unsigned long color2F4;
-    unsigned int flags1F8;
-    short type1FC;
-    short pendingInterrupt1FE;
-    unsigned char unknown200[0x08];
-    Float3 pos208;
-    short activeSprite214;
-    unsigned char unknown216[0x04];
-    short scriptIndex21A;
-    unsigned char unknown21C[0x08];
-    AnmLoadedSprite *loadedSprite224;
-    unsigned char unknown228[0x60];
-    Float3 pos2_288;
-    unsigned char unknown294[0x10];
-
-    void SetZRotation(float angle);
-};
+// The draw VMs are the very same 0x2A4-byte ANM records used by the
+// script executor, Player, Enemy calc and exact ANM rasterizer. Keep the
+// lexical type alias only where it helps describe the surrounding Enemy
+// projection; it owns no separate byte layout or method declaration.
+typedef AnmVm EnemyDrawVmView;
 typedef char EnemyDrawVmSizeIs2A4[(sizeof(EnemyDrawVmView) == 0x2A4) ? 1 : -1];
-typedef char EnemyDrawVmTypeAt1FC[(offsetof(EnemyDrawVmView, type1FC) == 0x1FC) ? 1 : -1];
-typedef char EnemyDrawVmPosAt208[(offsetof(EnemyDrawVmView, pos208) == 0x208) ? 1 : -1];
-typedef char EnemyDrawVmSpriteAt224[(offsetof(EnemyDrawVmView, loadedSprite224) == 0x224) ? 1 : -1];
-typedef char EnemyDrawVmPos2At288[(offsetof(EnemyDrawVmView, pos2_288) == 0x288) ? 1 : -1];
+typedef char EnemyDrawVmNativeBaseState[
+    (offsetof(AnmVmBase, scale) == 0x18 &&
+     offsetof(AnmVmBase, uvScrollPos) == 0x30 &&
+     offsetof(AnmVmBase, color1) == 0x1F0 &&
+     offsetof(AnmVmBase, flagsWord) == 0x1F8) ? 1 : -1];
+typedef char EnemyDrawVmTypeAt1FC[(offsetof(AnmVmBase, type) == 0x1FC) ? 1 : -1];
+typedef char EnemyDrawVmPosAt208[(offsetof(AnmVmBase, pos) == 0x208) ? 1 : -1];
+typedef char EnemyDrawVmSpriteAt224[(offsetof(AnmVmBase, loadedSprite) == 0x224) ? 1 : -1];
+typedef char EnemyDrawVmPos2At288[(offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
 struct EnemyDrawVertex
 {
@@ -104,8 +88,8 @@ typedef char EnemyDrawTrailFlagsAt53A0[(offsetof(EnemyView, trailFlags53A0) == 0
 
 // All ANM rendering methods in this 1,758-byte owner use the exact
 // native AnmManager receiver and its true Draw2D/DrawVertices ABI.
-// The remaining EnemyDrawVmView is a lexical field view only, explicitly
-// converted at the native callee boundary without changing physical bytes.
+// EnemyDrawVmView is now a name-only alias of AnmVm; native callee calls
+// retain explicit pointer views at the original sites without changing code.
 // Enemy rendering uses the same native GameManager instance and exact
 // popup coordinate helpers as the bullet and Effect renderers.
 typedef char EnemyDrawNativeGameManagerCoordinates[
@@ -153,19 +137,19 @@ static int EnemyManagerDrawImpl(
             EnemyDrawVmView *vm = &enemy->secondaryVms2AC[0];
             for (int k = 0; k < 1; ++k, ++vm)
             {
-                if (vm->scriptIndex21A >= 0)
+                if (vm->scriptIndex >= 0)
                 {
-                    if (vm->type1FC != 0)
+                    if (vm->type != 0)
                         vm->SetZRotation(enemy->movementAngle2DE0);
 
                     if ((enemy->flags3380 & ENEMY_DRAW_SECONDARY_FIXED_OFFSET) == 0)
-                        vm->pos208 = enemy->worldPosition2DD4 + vm->pos2_288;
+                        vm->pos = enemy->worldPosition2DD4 + vm->pos2;
                     else
-                        vm->pos208 = enemy->worldPosition2DD4 + enemy->vm008.pos2_288;
+                        vm->pos = enemy->worldPosition2DD4 + enemy->vm008.pos2;
 
-                    vm->pos208.z = 0.3f;
-                    vm->pos208.x = g_GameManager.TransformPopupX(vm->pos208.x);
-                    vm->pos208.y = g_GameManager.TransformPopupY(vm->pos208.y);
+                    vm->pos.z = 0.3f;
+                    vm->pos.x = g_GameManager.TransformPopupX(vm->pos.x);
+                    vm->pos.y = g_GameManager.TransformPopupY(vm->pos.y);
                     g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
                 }
             }
@@ -173,17 +157,17 @@ static int EnemyManagerDrawImpl(
             if ((enemy->flags337C & ENEMY_DRAW_ROTATE_WITH_MOVEMENT) != 0)
                 enemy->vm008.SetZRotation(enemy->movementAngle2DE0);
 
-            enemy->vm008.pos208 = enemy->worldPosition2DD4 + enemy->vm008.pos2_288;
-            enemy->vm008.pos208.x = g_GameManager.TransformPopupX(enemy->vm008.pos208.x);
-            enemy->vm008.pos208.y = g_GameManager.TransformPopupY(enemy->vm008.pos208.y);
-            enemy->vm008.pos208.z = 0.25f;
+            enemy->vm008.pos = enemy->worldPosition2DD4 + enemy->vm008.pos2;
+            enemy->vm008.pos.x = g_GameManager.TransformPopupX(enemy->vm008.pos.x);
+            enemy->vm008.pos.y = g_GameManager.TransformPopupY(enemy->vm008.pos.y);
+            enemy->vm008.pos.z = 0.25f;
 
             if (reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 != 0)
             {
                 int k;
                 // The two scale components are one snapshot of the actual Float2 field.
-                Float2 savedScale = enemy->vm008.scale18;
-                unsigned long savedColor = enemy->vm008.color1F0;
+                Float2 savedScale = enemy->vm008.scale;
+                unsigned long savedColor = enemy->vm008.color1;
 
                 if ((reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_RENDER_AS_STRIP) == 0)
                 {
@@ -198,24 +182,24 @@ static int EnemyManagerDrawImpl(
                                 reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].angle18);
 
                         if ((reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_TAPER) != 0)
-                            enemy->vm008.scale18.x =
+                            enemy->vm008.scale.x =
                                 savedScale.x -
                                 static_cast<float>(k) * savedScale.x /
                                     static_cast<float>(reinterpret_cast<EnemyView *>(enemy)->trailHistoryLength53A2);
 
                         if ((reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
-                            reinterpret_cast<unsigned char *>(&enemy->vm008.color1F0)[3] =
+                            reinterpret_cast<unsigned char *>(&enemy->vm008.color1)[3] =
                                 reinterpret_cast<unsigned char *>(&savedColor)[3] -
                                 reinterpret_cast<unsigned char *>(&savedColor)[3] * k /
                                     reinterpret_cast<EnemyView *>(enemy)->trailHistoryLength53A2;
 
-                        enemy->vm008.pos208 =
-                            reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].position00 + enemy->vm008.pos2_288;
-                        enemy->vm008.pos208.z = 0.3f;
-                        enemy->vm008.pos208.x =
-                            g_GameManager.TransformPopupX(enemy->vm008.pos208.x);
-                        enemy->vm008.pos208.y =
-                            g_GameManager.TransformPopupY(enemy->vm008.pos208.y);
+                        enemy->vm008.pos =
+                            reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].position00 + enemy->vm008.pos2;
+                        enemy->vm008.pos.z = 0.3f;
+                        enemy->vm008.pos.x =
+                            g_GameManager.TransformPopupX(enemy->vm008.pos.x);
+                        enemy->vm008.pos.y =
+                            g_GameManager.TransformPopupY(enemy->vm008.pos.y);
                         g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(&enemy->vm008));
                     }
                 }
@@ -232,10 +216,10 @@ static int EnemyManagerDrawImpl(
 
                     if (vertexCount > 2)
                     {
-                        AnmLoadedSprite *sprite = enemy->vm008.loadedSprite224;
+                        AnmLoadedSprite *sprite = enemy->vm008.loadedSprite;
                         float uvSpan = sprite->uvEndX - sprite->uvStartX;
                         float uvStep = uvSpan / ((vertexCount + 1) / 2 - 1);
-                        float uv = sprite->uvEndX + enemy->vm008.uvScrollPos30.x;
+                        float uv = sprite->uvEndX + enemy->vm008.uvScrollPos.x;
                         EnemyDrawVertex *vertices = reinterpret_cast<EnemyDrawVertex *>(
                             reinterpret_cast<EnemyView *>(enemy)->trailVertices3E68);
                         float previousAngle;
@@ -295,7 +279,7 @@ static int EnemyManagerDrawImpl(
                             float halfCenter = 0.0f;
                             float halfWidth =
                                 savedScale.y *
-                                enemy->vm008.loadedSprite224->heightPx * 0.5f;
+                                enemy->vm008.loadedSprite->heightPx * 0.5f;
                             if (taperFlag != 0)
                             {
                                 float taper = 1.0f -
@@ -305,7 +289,7 @@ static int EnemyManagerDrawImpl(
                                 halfWidth *= taper;
                             }
 
-                            vertices[1].diffuse = enemy->vm008.color1F0;
+                            vertices[1].diffuse = enemy->vm008.color1;
                             vertices[0].diffuse = vertices[1].diffuse;
                             if ((reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
                             {
@@ -324,8 +308,8 @@ static int EnemyManagerDrawImpl(
                                 sinAngle * halfCenter + cosAngle * halfWidth + 16.0f;
                             vertices[0].textureUV.x = uv;
                             vertices[0].textureUV.y =
-                                enemy->vm008.loadedSprite224->uvStartY +
-                                enemy->vm008.uvScrollPos30.y;
+                                enemy->vm008.loadedSprite->uvStartY +
+                                enemy->vm008.uvScrollPos.y;
                             ++vertices;
 
                             vertices[0].pos = reinterpret_cast<EnemyView *>(enemy)->trailSamples33E8[k].position00;
@@ -335,8 +319,8 @@ static int EnemyManagerDrawImpl(
                                 sinAngle * halfCenter - cosAngle * halfWidth + 16.0f;
                             vertices[0].textureUV.x = uv;
                             vertices[0].textureUV.y =
-                                enemy->vm008.loadedSprite224->uvEndY +
-                                enemy->vm008.uvScrollPos30.y;
+                                enemy->vm008.loadedSprite->uvEndY +
+                                enemy->vm008.uvScrollPos.y;
                             ++vertices;
                         }
 
@@ -349,9 +333,9 @@ static int EnemyManagerDrawImpl(
                     }
                 }
 
-                enemy->vm008.scale18.x = savedScale.x;
-                enemy->vm008.scale18.y = savedScale.y;
-                enemy->vm008.color1F0 = savedColor;
+                enemy->vm008.scale.x = savedScale.x;
+                enemy->vm008.scale.y = savedScale.y;
+                enemy->vm008.color1 = savedColor;
             }
 
             if ((reinterpret_cast<EnemyView *>(enemy)->trailFlags53A0 & ENEMY_TRAIL_HIDE_HEAD) == 0 &&
@@ -362,19 +346,19 @@ static int EnemyManagerDrawImpl(
 
             for (int k = 1; k < 2; ++k, ++vm)
             {
-                if (vm->scriptIndex21A >= 0)
+                if (vm->scriptIndex >= 0)
                 {
-                    if (vm->type1FC != 0)
+                    if (vm->type != 0)
                         vm->SetZRotation(-enemy->movementAngle2DE0);
 
                     if ((enemy->flags3380 & ENEMY_DRAW_SECONDARY_FIXED_OFFSET) == 0)
-                        vm->pos208 = enemy->worldPosition2DD4 + vm->pos2_288;
+                        vm->pos = enemy->worldPosition2DD4 + vm->pos2;
                     else
-                        vm->pos208 = enemy->worldPosition2DD4 + enemy->vm008.pos2_288;
+                        vm->pos = enemy->worldPosition2DD4 + enemy->vm008.pos2;
 
-                    vm->pos208.z = 0.3f;
-                    vm->pos208.x = g_GameManager.TransformPopupX(vm->pos208.x);
-                    vm->pos208.y = g_GameManager.TransformPopupY(vm->pos208.y);
+                    vm->pos.z = 0.3f;
+                    vm->pos.x = g_GameManager.TransformPopupX(vm->pos.x);
+                    vm->pos.y = g_GameManager.TransformPopupY(vm->pos.y);
                     g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
                 }
             }

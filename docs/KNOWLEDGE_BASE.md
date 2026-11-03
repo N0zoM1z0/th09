@@ -29994,3 +29994,26 @@ complete draw body **1,758/1,758 bytes, 53 authentic fields**, plus three
 other original exact same-source functions (35/38/91 bytes) have not
 regressed. These are source-owner advances, not additional counted matches
 or proof of original nominal C++ inheritance.
+
+## 2026-11-03 entire Enemy draw VM source uses native 0x2A4-byte AnmVm
+
+The original-bound `EnemyManagerDrawImpl @0x00411670` no longer maintains
+an independent padded `EnemyDrawVmView` class. All three draw VMs inside
+its 0x5430-byte lexical Enemy owner now share the native `AnmVm` body and
+read native `type`, `scriptIndex`, `pos`, `pos2`, `scale`, `uvScrollPos`,
+`color1` and `loadedSprite` fields. Compile-time checks preserve the
+physical +0x18/+0x30/+0x1F0/+0x1F8/+0x1FC/+0x208/+0x21A/+0x224/+0x288
+members. The four actual VM `SetZRotation(float)` source calls are now
+spelled `?SetZRotation@AnmVm@@QAEXM@Z`, independently established by the
+exact `bullet-draw-single` caller at original VA `0x0040F840`.
+
+Pinned VC7.1 cold builds and original TH09 PE/COFF comparisons preserve the
+**entire 1,758-byte Enemy draw body, 53 relocation positions/kinds/targets**,
+plus its high/low-priority wrappers and 91-byte angle helper. Four changed
+ANM method symbols were verified against original PE relative-call words;
+compiler-private Etama local `$L` labels were verified from their actual
+COFF section definitions and the original PE operand words before updating
+only their manifest spellings. The Etama family still preserves four exact
+siblings and its 600-byte separate nonexact `OnDraw` remains at 268 physical
+differences. This is an already-exact source-layout recovery, not four new
+accepted functions or whole-product/runtime evidence.
