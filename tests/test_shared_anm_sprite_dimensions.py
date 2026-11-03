@@ -55,6 +55,21 @@ class SharedAnmSpriteDimensions(unittest.TestCase):
         self.assertIn('g_GameManager.IsWithinPlayfield(', source)
 
 
+    def test_player_bullet_uses_native_sprite_width_and_height(self):
+        player=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
+        update=(ROOT/'src/PlayerRuntime.cpp').read_text()
+        self.assertNotIn('struct PlayerLoadedSpriteView',player)
+        self.assertIn('AnmLoadedSprite *loadedSprite224;',player)
+        self.assertIn('PlayerRuntimeNativeBulletSpriteDimensions',update)
+        self.assertIn('offsetof(AnmLoadedSprite, heightPx) == 0x30',update)
+        self.assertIn('offsetof(AnmLoadedSprite, widthPx) == 0x34',update)
+        self.assertIn('shot->vm.loadedSprite224->widthPx,',update)
+        self.assertIn('shot->vm.loadedSprite224->heightPx))',update)
+        self.assertNotIn('shot->vm.loadedSprite224->extent34',update)
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            unit=tomllib.load(f)['units']['player-update-shots']
+        self.assertEqual(unit['size'],251)
+
     def test_etama_native_sprite_dimensions_preserve_original_physical_reads(self):
         source = (ROOT/'src/BulletManager.cpp').read_text()
         self.assertIn('BulletNativeAnmLoadedSpriteDimensions', source)

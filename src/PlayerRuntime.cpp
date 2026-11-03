@@ -408,10 +408,16 @@ typedef char PlayerSupervisorFramerateAt5B8[
     (offsetof(PlayerSupervisorRuntimeView, framerateMultiplier5B8) == 0x5B8) ? 1 : -1];
 extern PlayerSupervisorRuntimeView g_PlayerSupervisorRuntime;
 
+typedef char PlayerRuntimeNativeBulletSpriteDimensions[
+    (sizeof(AnmLoadedSprite) == 0x44 &&
+     offsetof(AnmLoadedSprite, heightPx) == 0x30 &&
+     offsetof(AnmLoadedSprite, widthPx) == 0x34 &&
+     offsetof(PlayerAnmVmView, loadedSprite224) == 0x224) ? 1 : -1];
+
 struct PlayerGameManagerRuntimeView
 {
     int CheckTimingState();
-    int IsWithinPlayfield(float x, float y, float extent34, float extent30);
+    int IsWithinPlayfield(float x, float y, float spriteWidth, float spriteHeight);
     float TransformPopupX(float value);
     float TransformPopupY(float value);
     unsigned char unknown000[0x13D];
@@ -1077,8 +1083,8 @@ void PlayerLifecycleView::UpdateShots()
 
         if (shot->shotType464 != 2 &&
             !g_PlayerGameManagerRuntime.IsWithinPlayfield(
-                position[0], position[1], shot->vm.loadedSprite224->extent34,
-                shot->vm.loadedSprite224->extent30))
+                position[0], position[1], shot->vm.loadedSprite224->widthPx,
+                shot->vm.loadedSprite224->heightPx))
             shot->state462 = 0;
 
         if (g_AnmManager->ExecuteScript(reinterpret_cast<AnmVm *>(&shot->vm)) != 0)

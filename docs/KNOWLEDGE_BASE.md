@@ -30115,3 +30115,26 @@ the complete 9,776-byte ANM owner still matches exactly with 368 original
 relocations, and no original destination, kind or owned byte changed. The
 canonical authored total remains 1,005/1,035; no all-unit cold replay,
 whole Windows product or runtime claim follows.
+
+## 2026-11-03 Player bullet native AnmLoadedSprite dimensions
+
+The original ANM loader, Enemy and Etama sprite owners independently identify
+`AnmLoadedSprite`'s **heightPx at +0x30** and **widthPx at +0x34**. The
+251-byte `PlayerLifecycleView::UpdateShots` previously addressed the same
+resource through a private padded `PlayerLoadedSpriteView` with opaque
+`extent30` and `extent34` fields. The shared Player VM pointer at +0x224 is
+now a true `AnmLoadedSprite*`; offscreen collision queries explicitly pass
+native `widthPx` then `heightPx`, preserving original physical offsets and
+argument evaluation order. The exact leaf's canonical VC7.1 profile remains
+**251/251 physical bytes, 8 reviewed address fields** with no codegen drift.
+
+This public Player header change was source-cold checked against all **21**
+exact `PlayerRuntime.cpp` match units across five distinct pinned object
+profiles, as well as the Player collision and movement scopes. The 1,900-byte
+movement boss retains 122 unequal bytes and the 862-byte collision boss
+retains its unchanged 849-byte candidate with 799 overlap differences;
+existing exact siblings remained byte-identical. Eleven VC7.1 compiler-private
+`$L` labels in the 814-byte exact Player pre-state update were checked
+against their **defined COFF section coordinates and original PE words**;
+only manifest symbol spellings changed, never target VAs or relocation kinds.
+No additional canonical exactness or whole-product/runtime acceptance follows.

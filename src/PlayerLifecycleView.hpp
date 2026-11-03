@@ -118,16 +118,10 @@ struct PlayerColorBgraView
 };
 typedef char PlayerColorBgraSizeIs4[(sizeof(PlayerColorBgraView) == 4) ? 1 : -1];
 
-struct PlayerLoadedSpriteView
-{
-    unsigned char unknown00[0x30];
-    float extent30;
-    float extent34;
-};
-typedef char PlayerLoadedSpriteExtent30At30[
-    (offsetof(PlayerLoadedSpriteView, extent30) == 0x30) ? 1 : -1];
-typedef char PlayerLoadedSpriteExtent34At34[
-    (offsetof(PlayerLoadedSpriteView, extent34) == 0x34) ? 1 : -1];
+// The original ANM loader, Enemy calc and Etama controller bind +0x30
+// as height and +0x34 as width in the same native 0x44-byte resource.
+// Player VM sprite pointers refer to that shared original allocation.
+class AnmLoadedSprite;
 
 struct PlayerHeaderStateView
 {
@@ -156,7 +150,7 @@ struct PlayerAnmVmView
     unsigned char unknown1FE[0x208 - 0x1FE];
     PlayerPositionView position208;
     unsigned char unknown214[0x224 - 0x214];
-    PlayerLoadedSpriteView *loadedSprite224;
+    AnmLoadedSprite *loadedSprite224;
     unsigned char unknown228[0x2A4 - 0x228];
 
     PlayerAnmVmView();
