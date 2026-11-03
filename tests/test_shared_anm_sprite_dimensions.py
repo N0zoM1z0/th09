@@ -50,8 +50,8 @@ class SharedAnmSpriteDimensions(unittest.TestCase):
         self.assertIn('EnemyCoreLoadedSpriteNativeDimensions', source)
         self.assertIn('offsetof(AnmLoadedSprite, heightPx) == 0x30', source)
         self.assertIn('offsetof(AnmLoadedSprite, widthPx) == 0x34', source)
-        self.assertIn('enemy->primaryVm008.loadedSprite->heightPx', source)
-        self.assertIn('enemy->primaryVm008.loadedSprite->widthPx', source)
+        self.assertIn('enemy->primaryAnmVm0008.loadedSprite->heightPx', source)
+        self.assertIn('enemy->primaryAnmVm0008.loadedSprite->widthPx', source)
         self.assertIn('g_GameManager.IsWithinPlayfield(', source)
 
 

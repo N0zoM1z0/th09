@@ -29598,3 +29598,27 @@ member. Its entire 15-byte body and two original address fields remain
 **exact**, while the message callback still emits its previous 808-byte
 physical, 105-difference candidate. Original C++ class authorship remains
 unproved; no new exactness credit was added.
+
+## 2026-11-03 complete Enemy calc boss walks native 129-slot pool
+
+The original-bound 3,900-byte `EnemyManagerView::OnUpdate` now iterates
+`EnemyView *enemy = manager->enemies5758` directly rather than casting the
+whole array to the distinct 0x5430-byte `EnemyCoreView`. Its native
+`primaryAnmVm0008`, world position, flags, life, signed death-effect variant,
+shot interval, and trail fields are used throughout the actual large loop.
+The old lexical `EnemyCoreView` remains only in other ECL source and
+independently named helper ABIs; it is no longer the loop's storage owner.
+
+This recovery required preserving genuine `Float3` vector-operator calls over
+native POD `EnemyFloat3` storage and the third hitbox vector component at
++0x2DC4, whose nominal meaning remains unknown in the public Enemy class.
+Compile-time checks fix the pool base, 0x5430 stride and nine real member
+addresses. Fresh fixed-profile VC7.1 and the original PE independently check
+all 3,900 bytes, 97 actual relocation fields, 69 ordered calls, complete
+control flow and switch targets: the existing **13 unmatched bytes** remain
+precisely unchanged, so no false exactness credit is claimed. All **88**
+affected already-exact siblings/callees pass the complete owner-scoped replay.
+Two private ECL `$L` labels changed only their compiler spelling; each new
+source COFF definition was verified in its actual owner section against the
+identical original PE word at its unchanged target address. The authored
+exactness ledger remains 1,005/1,035; no whole-game cold replay was run.
