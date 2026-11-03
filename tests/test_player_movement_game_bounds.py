@@ -48,6 +48,15 @@ class RealPlayerGameBounds(TestCase):
                      '?g_PlayerPlayfieldWidth@@3MA','?g_PlayerPlayfieldHeight@@3MA'):
             self.assertNotIn(fake,inspector.DESTINATIONS)
 
+    def test_collision_effect_velocity_uses_the_native_width_at_0x358(self):
+        source=(ROOT/'src/PlayerCollisionHelpers.cpp').read_text()
+        shared=(ROOT/'src/GameManagerRuntimeView.hpp').read_text()
+        self.assertNotIn('#include "GameManagerResetView.hpp"',source)
+        self.assertNotIn('reinterpret_cast<GameManagerResetView *>(&g_GameManager)',source)
+        self.assertIn('offsetof(AsciiGameManagerView, coordinate358) == 0x358',source)
+        self.assertIn('g_GameManager.coordinate358 * 0.5f - 8.0f',source)
+        self.assertIn('float coordinate358;',shared)
+
     def test_exact_coordinate_initializer_writes_same_original_field_values(self):
         with (ROOT/'config/match-units.toml').open('rb') as stream:
             units=tomllib.load(stream)['units']

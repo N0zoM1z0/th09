@@ -30253,3 +30253,15 @@ the immutable original PE destination words before updating only the
 manifest symbol names. All original numeric addresses are unchanged; the
 canonical exact ledger does not gain a new function or imply a linked or
 runtime-correct whole game.
+
+The same native GameManager coordinate projection is now consumed by the
+862-byte target-owned, still-nonexact `PlayerLifecycleView::CheckBulletCollision`
+when it computes the canceled-bullet reward effect's random X velocity.
+Its +0x358 field is `g_GameManager.coordinate358`, proved independently by
+the exact original coordinate initializer; the prior
+`reinterpret_cast<GameManagerResetView *>(&g_GameManager)` has been removed.
+The complete focused Player collision audit preserves its **849-byte
+candidate, 26 bound fields, 12 original-ordered calls, 799 unequal overlap
+bytes and 13 missing target bytes**. All seven exact siblings, including
+the original-exact **204-byte CheckGrazeCollision** caller, remain unchanged.
+This is a real data-owner improvement, not a newly exact collision boss.

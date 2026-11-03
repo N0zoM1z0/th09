@@ -1,7 +1,6 @@
 #include "SoundPlayer.hpp"
 #include "Supervisor.hpp"
 #include "AsciiGameManagerView.hpp"
-#include "GameManagerResetView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "BulletManager.hpp"
 #include "EffectManager.hpp"
@@ -16,7 +15,7 @@ void RotatePlayerCollisionVector(
 
 
 typedef char PlayerCancelGameManagerCoordinateAt358[
-    (offsetof(GameManagerResetView, coordinate358) == 0x358) ? 1 : -1];
+    (offsetof(AsciiGameManagerView, coordinate358) == 0x358) ? 1 : -1];
 
 struct PlayerCancelSideView
 {
@@ -129,8 +128,7 @@ hit:
 
             EffectFloat3 velocity;
             velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
-                reinterpret_cast<GameManagerResetView *>(&g_GameManager)
-                    ->coordinate358 * 0.5f - 8.0f);
+                g_GameManager.coordinate358 * 0.5f - 8.0f);
             velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
             velocity.z = 0.0f;
 
