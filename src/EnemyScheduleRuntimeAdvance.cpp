@@ -18,25 +18,19 @@ struct EnemyTimelineInstructionView
     u8 mask07;
 };
 
-struct EnemyTimelineEnemyView
-{
-    unsigned char unknown0000[0x2D70];
-    short pendingEclSubroutine2D70;
-    unsigned char unknown2D72[0x3360 - 0x2D72];
-    int timelineParam0_3360;
-    int timelineParam1_3364;
-    unsigned char unknown3368[0x337C - 0x3368];
-    unsigned int flags337C;
-    unsigned int flags3380;
-};
-
-struct EnemyTimelineManagerView
-{
-    unsigned char unknown000000[0x2AC388];
-    EnemyTimelineEnemyView *remoteSlots2AC388[9];
-    unsigned char unknown2AC3AC[0x2AC430 - 0x2AC3AC];
-    int timelineEventSlots2AC430[4];
-};
+// Original timeline opcodes address the native Enemy pool/manager. These
+// +0x2D70/+0x3360/+0x3364 Enemy words and manager +0x2AC388/+0x2AC430
+// slots are shared with the exact Enemy spawn and ECL owners, not a second
+// padded 0x2AC430-byte allocation.
+typedef char EnemyTimelineNativePoolAndEvents[
+    (sizeof(EnemyView) == 0x5430 &&
+     offsetof(EnemyView, pendingSubroutineId2D70) == 0x2D70 &&
+     offsetof(EnemyView, itemDropCount3360) == 0x3360 &&
+     offsetof(EnemyView, itemDropExtraCount3364) == 0x3364 &&
+     offsetof(EnemyView, secondaryFlags3380) == 0x3380 &&
+     offsetof(EnemyManagerView, remoteSlots2AC388) == 0x2AC388 &&
+     offsetof(EnemyManagerView, timelineEventSlots2AC430) == 0x2AC430 &&
+     sizeof(EnemyManagerView) == 0x2AC450) ? 1 : -1];
 
 struct EnemyTimelineSpawnManagerView
 {
@@ -60,7 +54,7 @@ struct EnemyScheduleRuntimeAdvanceOverlay
     ZunTimer timer00;
     ZunTimer delayTimer0C;
     int mirrorMovementX18;
-    EnemyTimelineManagerView *manager1C;
+    EnemyManagerView *manager1C;
     EnemyTimelineInstructionView *instruction20;
 };
 
@@ -129,15 +123,15 @@ int EnemyScheduleRuntimeView::Run()
                     position17.x = *reinterpret_cast<float *>(&args17[1]);
                     position17.y = *reinterpret_cast<float *>(&args17[2]);
                     position17.z = 0.0f;
-                    EnemyTimelineEnemyView *enemy17 =
-                        reinterpret_cast<EnemyTimelineEnemyView *>(
+                    EnemyView *enemy17 =
+                        reinterpret_cast<EnemyView *>(
                             reinterpret_cast<EnemyTimelineSpawnManagerView *>(
                                 runtime->manager1C)->SpawnEnemyRecord(
                                     args17[0],
                                     &position17, args17[3],
                                     args17[4], args17[5],
                                     runtime->mirrorMovementX18, 0));
-                    enemy17->flags3380 |= 0x200u;
+                    enemy17->secondaryFlags3380 |= 0x200u;
                     break;
                 }
 
@@ -163,7 +157,7 @@ int EnemyScheduleRuntimeView::Run()
                 {
                     struct SpecialSpawnLocals
                     {
-                        EnemyTimelineEnemyView *enemy;
+                        EnemyView *enemy;
                         int *args;
                     } locals;
                     locals.args = reinterpret_cast<int *>(
@@ -174,14 +168,14 @@ int EnemyScheduleRuntimeView::Run()
                     position11.y =
                         *reinterpret_cast<float *>(&locals.args[2]);
                     position11.z = 0.0f;
-                    locals.enemy = reinterpret_cast<EnemyTimelineEnemyView *>(
+                    locals.enemy = reinterpret_cast<EnemyView *>(
                         reinterpret_cast<EnemyTimelineSpawnManagerView *>(
                             runtime->manager1C)->SpawnEnemyRecord(
                                 locals.args[0],
                                 &position11, locals.args[3], -1,
                                 locals.args[6], runtime->mirrorMovementX18, 0));
-                    locals.enemy->timelineParam0_3360 = locals.args[4];
-                    locals.enemy->timelineParam1_3364 = locals.args[5];
+                    locals.enemy->itemDropCount3360 = locals.args[4];
+                    locals.enemy->itemDropExtraCount3364 = locals.args[5];
                     break;
                 }
 
@@ -231,7 +225,7 @@ int EnemyScheduleRuntimeView::Run()
                     int *args8 = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) + 8);
                     runtime->manager1C->remoteSlots2AC388[args8[0]]
-                        ->pendingEclSubroutine2D70 =
+                        ->pendingSubroutineId2D70 =
                             static_cast<short>(args8[1]);
                     break;
                 }
@@ -241,7 +235,7 @@ int EnemyScheduleRuntimeView::Run()
                     int *args10 = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) + 8);
                     if (runtime->manager1C->remoteSlots2AC388[args10[0]] != 0 &&
-                        (runtime->manager1C->remoteSlots2AC388[args10[0]]->flags337C &
+                        (runtime->manager1C->remoteSlots2AC388[args10[0]]->primaryFlags337C &
                          1u) != 0)
                     {
                         runtime->timer00--;

@@ -30729,3 +30729,33 @@ owners. Its 20 renumbered `$L` jump-table symbols were independently proven
 using actual COFF section definitions against original PE operand words
 before updating only their manifest spellings. No exactness credit was
 promoted, and no full all-owner cold replay or linked-game runtime is claimed.
+
+## 2026-11-03 native Enemy manager pool and event slots in exact 974-byte timeline
+
+The independently exact `EnemyScheduleRuntimeView::Run @0x0040FCC0`
+originally contained a private padded `EnemyTimelineManagerView` with a
+0x2AC388-byte prefix and an unrelated `EnemyTimelineEnemyView` prefix.
+Both private structures are now retired from the source. Its live
+`manager1C` points to the genuine 0x2AC450-byte `EnemyManagerView`
+whose 129-record Enemy pool and original +0x2AC388 remote slots,
++0x2AC430 four event slots are already shared with original-bound
+Enemy update and ECL owners. Remote enemies are true 0x5430-byte
+`EnemyView` records, with original pending subroutine +0x2D70, primary
+flags +0x337C, secondary flags +0x3380, and two source fields at
++0x3360/+0x3364. The latter are also read as item-drop count/extra count
+by the native ECL/Enemy lifetime; their physical overlap is proven, but
+**the intended gameplay semantic interpretation of timeline writes
+remains a separate question**. No second Enemy allocation is needed.
+
+Fresh pinned VC7.1/original PE source-cold comparison is **974/974
+logical bytes and 1,048/1,048 complete physical bytes exact** for the
+timeline owner, including 42 original relocation fields, all switch-table
+entries, and ordered spawn-callee calls. Its 20-byte exact ZunTimer
+equality source also remains exact. Nineteen re-numbered `$L` private
+jump-table symbols were verified from the actual defined COFF
+owner-section values against original PE absolute operands before
+updating only their manifest names. Focused separate nonexact scope
+checks preserve the 15,564-byte RunEcl boss's 30 residual bytes/zero
+field differences, and 3,900-byte Enemy OnUpdate's 13 residual bytes,
+97 fields and 69 original calls. This is already-exact source owner
+recovery, not a newly exact function or runtime proof.
