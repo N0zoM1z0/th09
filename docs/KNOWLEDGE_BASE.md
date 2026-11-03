@@ -30183,3 +30183,23 @@ differences and 13 missing bytes relative to the target's 1,210-byte
 complete extent. All seven independent original SHT text, configuration,
 shot-mode and timer conversion windows remain byte-exact. This is a genuine
 source-ABI recovery, **not** newly exact charge codegen or runtime proof.
+
+The exact Player run/update, collision and gameplay-state source owners now
+consume the native embedded `ZunTimer` members directly, removing 12 remaining
+pointer reinterpretations of Player+0x1B74 and +0x303C8. The native
+`operator++`, `operator--`, comparisons and `operator=(int)` still resolve to
+the same independent target-bound ZunTimer methods; the original calls and
+codegen are unchanged. Focused pinned-VC7.1 source builds protect **21/21**
+exact PlayerRuntime units, **5/5** exact collision helpers, the **3,238-byte
+Player state selector**, and the **346 logical / 412 physical byte**
+pattern-offset helper. The 862-byte original Player collision boss still
+has its former 849-byte candidate, 799 overlapping differences and 13
+absent bytes, with seven exact siblings unaffected.
+
+The compiler re-numbered 11 private `$L` symbols in the 814-byte exact Player
+pre-state update and 18 in the pattern-offset helper; each symbol's actual
+COFF owner-section label definition was independently resolved against the
+immutable original PE operand and unchanged destination before updating only
+manifest symbol spellings. None of these already exact functions has been
+newly promoted; this is a typed-source/ABI recovery with no whole-product
+runtime claim.

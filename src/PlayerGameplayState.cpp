@@ -425,7 +425,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         {
             PlayerLifecycleView *player = header->player78;
             if (reinterpret_cast<PlayerGameplayMethods *>(player)->GetUpdateState() == 0 &&
-                reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator==(0))
+                player->timer1B74.operator==(0))
             {
                 if (header->crossedThreshold0C != 0 &&
                     player->scalar30384 >= 100.0f)

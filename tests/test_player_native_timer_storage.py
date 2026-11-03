@@ -32,6 +32,18 @@ class PlayerNativeTimerStorage(unittest.TestCase):
         self.assertIn('PlayerChargeNativeSideStorage',source)
         self.assertIn('g_GameConfiguration->sideFocusMode',source)
 
+    def test_runtime_collision_and_state_use_direct_timer_receivers(self):
+        for filename in ('PlayerRuntime.cpp','PlayerCollisionHelpers.cpp',
+                         'PlayerGameplayState.cpp'):
+            with self.subTest(source=filename):
+                source=(ROOT/'src'/filename).read_text()
+                self.assertNotIn('reinterpret_cast<ZunTimer *>(&player->timer',source)
+                self.assertIn('player->timer1B74',source)
+        runtime=(ROOT/'src/PlayerRuntime.cpp').read_text()
+        self.assertIn('player->timer303C8.operator--(0)',runtime)
+        self.assertIn('player->timer303C8.operator++(0)',runtime)
+        self.assertIn('player->timer1B74.operator<=(0)',runtime)
+
     def test_original_eight_constructor_calls_and_shot_increment(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:
             units=tomllib.load(f)['units']

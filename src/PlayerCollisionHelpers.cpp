@@ -273,7 +273,7 @@ PlayerCollisionQueryRecordView *PlayerCollisionQueryStateView::FindCollisionAtPl
     PlayerLifecycleView *player = player00;
     if (player->GetUpdateState() != 0)
         return NULL;
-    if (*reinterpret_cast<ZunTimer *>(&player->timer1B74) > 0)
+    if (player->timer1B74 > 0)
         return NULL;
 
     PlayerCollisionQueryRecordView *record = records;

@@ -549,7 +549,7 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
 
     float value =
         1.0f -
-        (float)*reinterpret_cast<ZunTimer *>(&player->timer303C8) *
+        (float)player->timer303C8 *
             0.033333335f;
 
     reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->scaleY1C =
@@ -616,7 +616,7 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
                 *reinterpret_cast<EffectFloat3 *>(&player->position1B88);
         }
 
-        reinterpret_cast<ZunTimer *>(&player->timer303C8)->operator--(0);
+        player->timer303C8.operator--(0);
         if (reinterpret_cast<PlayerState4TimerCurrentView *>(
                 &player->timer303C8)->GetCurrent() <= 0)
         {
@@ -626,7 +626,7 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
                 PlayerStateEffect(player) = NULL;
             }
             reinterpret_cast<PlayerState4OpsView *>(player)->SetUpdateState(0);
-            *reinterpret_cast<ZunTimer *>(&player->timer303C8) = 0;
+            player->timer303C8 = 0;
             reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
                 0xFFFFFFFFu;
         }
@@ -641,10 +641,10 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
     }
     else
     {
-        reinterpret_cast<ZunTimer *>(&player->timer303C8)->operator++(0);
+        player->timer303C8.operator++(0);
     }
 
-    if (reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator>(0))
+    if (player->timer1B74.operator>(0))
     {
         int current =
             reinterpret_cast<PlayerState4TimerCurrentView *>(
@@ -656,10 +656,10 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
             reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
                 0xFFFFFFFFu;
 
-        reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator--(0);
-        if (reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator<=(0))
+        player->timer1B74.operator--(0);
+        if (player->timer1B74.operator<=(0))
         {
-            *reinterpret_cast<ZunTimer *>(&player->timer1B74) = 0;
+            player->timer1B74 = 0;
             reinterpret_cast<unsigned int &>(player->mainVm.color1F0) =
                 0xFFFFFFFFu;
         }
@@ -669,7 +669,7 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
 static int PlayerCheckState4(PlayerLifecycleView *player)
 {
     ZunTimer *timer =
-        reinterpret_cast<ZunTimer *>(&player->timer303C8);
+        &player->timer303C8;
 
     if ((float)*timer < 60.0f)
     {
@@ -734,7 +734,7 @@ static int PlayerUpdateStageC(PlayerLifecycleView *player)
 {
     if (!player->GetUpdateState())
     {
-        if (!reinterpret_cast<ZunTimer *>(&player->timer1B74)->operator>(0))
+        if (!player->timer1B74.operator>(0))
         {
             PlayerCollisionQueryRecordView *record =
                 player->collisionQuery36C.FindCollisionAtPlayer();
