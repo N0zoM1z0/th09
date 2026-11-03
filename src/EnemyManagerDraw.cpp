@@ -111,11 +111,11 @@ struct EnemyDrawAnmManagerView
     int DrawVertices(EnemyDrawVmView *vm, EnemyDrawVertex *vertices, int vertexCount);
 };
 
-struct EnemyDrawGameManagerView
-{
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-};
+// Enemy rendering uses the same native GameManager instance and exact
+// popup coordinate helpers as the bullet and Effect renderers.
+typedef char EnemyDrawNativeGameManagerCoordinates[
+    (offsetof(AsciiGameManagerView, coordinateOffsetX) == 0x350 &&
+     offsetof(AsciiGameManagerView, coordinateOffsetY) == 0x354) ? 1 : -1];
 
 struct EnemyDrawSupervisorView
 {
@@ -123,7 +123,6 @@ struct EnemyDrawSupervisorView
 };
 
 extern EnemyDrawAnmManagerView *g_AnmManager;
-extern EnemyDrawGameManagerView g_GameManager;
 extern EnemyDrawSupervisorView g_Supervisor;
 
 // Independent target helpers.  Source ownership/names remain review.

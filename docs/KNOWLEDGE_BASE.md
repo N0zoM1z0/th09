@@ -29888,3 +29888,27 @@ PE operands; only their compiler-generated names were changed in the
 manifest. The canonical 1,005/1,035 exact tally is unmodified. No whole
 cold replay, semantic runtime equivalence or original-class inheritance
 hypothesis is claimed.
+
+## 2026-11-03 exact 1,758-byte Enemy renderer uses native GameManager
+
+The previously byte-exact `EnemyManagerDrawImpl` was still compiled with the
+invented `EnemyDrawGameManagerView` root and duplicated `g_GameManager`
+source symbol. Unification of the public Bullet side/manager header exposed
+a real C++ ODR failure (`C2371`, followed by undefined global accesses):
+Enemy drawing referenced both a private and the genuine GameManager global.
+The Enemy draw carrier now keeps only the native `AsciiGameManagerView`
+instance, with its +0x350/+0x354 popup coordinate fields verified from
+the native layout. Its 16 GameManager global and popup X/Y call COFF
+relocations now use the same C++ symbols as the independently exact two
+46-byte coordinate leaves. All 16 original PE operand words were verified
+against their canonical numeric target addresses (0x004A7D90, 0x00401680,
+0x004016B0); only manifest symbol identities were changed, never addresses,
+relocation kinds/addends/offsets, code bytes or their masks.
+
+The complete physical `EnemyManagerDrawImpl` remains **1,758/1,758 exact**
+with all 53 original fields. `OnDrawHighPrio` (35 bytes), `OnDrawLowPrio`
+(38 bytes) and `EnemyDrawInterpolateWrappedAngle` (91 bytes) also retain
+complete local original-bound equality. The larger Enemy calc update
+remains non-exact at 3,900 bytes/13 unlike bytes/97 bound fields, and the
+RunEcl interpreter remains at 15,564 bytes/30 residual differences.
+No new exactness credit or whole-product linking claim is implied.

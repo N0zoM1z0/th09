@@ -35,5 +35,27 @@ class EnemyDrawNativeTrail(unittest.TestCase):
         self.assertEqual(units['enemy-manager-draw-impl']['target_address'],0x411670)
 
 
+    def test_exact_draw_uses_real_native_popup_coordinate_owner(self):
+        draw = (ROOT/'src/EnemyManagerDraw.cpp').read_text()
+        self.assertIn('EnemyDrawNativeGameManagerCoordinates', draw)
+        self.assertNotIn('struct EnemyDrawGameManagerView', draw)
+        self.assertNotIn('extern EnemyDrawGameManagerView g_GameManager;', draw)
+        with (ROOT/'config/match-units.toml').open('rb') as stream:
+            units = tomllib.load(stream)['units']
+        fields = units['enemy-manager-draw-impl']['relocations']
+        names = {
+            '?g_GameManager@@3UAsciiGameManagerView@@A': (0x004A7D90, 8),
+            '?TransformPopupX@AsciiGameManagerView@@QAEMM@Z': (0x00401680, 4),
+            '?TransformPopupY@AsciiGameManagerView@@QAEMM@Z': (0x004016B0, 4),
+        }
+        for symbol, (target, count) in names.items():
+            with self.subTest(symbol=symbol):
+                chosen = [r for r in fields if r['symbol'] == symbol]
+                self.assertEqual(len(chosen), count)
+                self.assertTrue(all(r['target'] == target for r in chosen))
+        for name in ('game-manager-transform-popup-x', 'game-manager-transform-popup-y'):
+            self.assertEqual(units[name]['size'], 46)
+
+
 if __name__=='__main__':
     unittest.main()
