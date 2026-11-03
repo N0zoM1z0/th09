@@ -30635,3 +30635,17 @@ checked against the unchanged original PE jump table operands before
 updating **only** manifest symbol spellings, never numeric target values
 or relocation kinds. Original special-member authorship remains unresolved;
 no new authored exactness credit, full cold replay or runtime claim follows.
+
+The independent exact Player-specific `SetZRotation(float)` method at
+`0x0040F840` is now maintained in `PlayerAnmVmRuntime.cpp` using the
+**same native ANM storage** as its Player main/shot VM receivers:
+`rotation.z` at VM+0x08, `flagsWord` at VM+0x1F8, and the same bit-2
+rotation/update flag. The previous `AnmVmRotationFieldView` duplicate
+and raw pointer reinterpretation are unnecessary for this member; the
+original C++ decorated `PlayerAnmVmView::SetZRotation` identity is
+preserved by the zero-extra-storage source-derived receiver. A fresh
+original-PE/pinned-VC7.1 COFF comparison matches all **20/20 bytes with
+zero relocations**, and the native 45-byte `AnmVm::AnmVm` remains exact.
+The scoped Player collision boss keeps its prior 862-byte target/
+849-byte candidate and seven exact siblings. The source-type correction
+does not create a newly counted authored match or claim whole-game runtime.

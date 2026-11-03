@@ -29,6 +29,17 @@ class PlayerNativeAnmVmOwner(unittest.TestCase):
         self.assertNotIn('shot->vm.color1F0',source)
         self.assertNotIn('shot->vm.position208',source)
 
+    def test_rotation_method_mutates_native_vm_words_only(self):
+        source=(ROOT/'src/PlayerAnmVmRuntime.cpp').read_text()
+        self.assertIn('PlayerNativeAnmRotationAndFlags',source)
+        self.assertIn('offsetof(AnmVm, rotation) + offsetof(Float3, z) == 0x08',source)
+        self.assertIn('offsetof(AnmVm, flagsWord) == 0x1F8',source)
+        self.assertIn('void PlayerAnmVmView::SetZRotation(float angle)',source)
+        self.assertIn('rotation.z = angle;',source)
+        self.assertIn('flagsWord |= 4;',source)
+        self.assertNotIn('AnmVmRotationFieldView',source)
+        self.assertNotIn('reinterpret_cast<',source)
+
     def test_constructor_and_rotation_physical_calls_remain_target_backed(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:
             u=tomllib.load(f)['units']
