@@ -29674,3 +29674,16 @@ actual COFF section-relative definitions and unchanged original PE operand
 addresses before updating only their names in the unit manifest. The
 fixed-target exact ledger remains 1,005 / 1,035, without a whole cold replay
 or claim about the original C++ class spelling.
+
+## 2026-11-03 exact Type35 Effect ANM VM owner
+
+The Type35 initializer at 0x00445C30 no longer edits a private 0x2A4-byte
+Effect VM projection.  It reads the original-bound `AnmVm::flagsWord` at
++0x1F8 and `AnmVm::pos2` at +0x288 directly.  VC7.1 source-cold trials
+showed that caching an `AnmVm*` across the `SetAndExecuteScriptIdx` call
+contracted its complete 72-byte owner to 58/65 bytes. Reacquiring the
+actual Effect VM pointer at each field access preserves all 72 target bytes
+and the genuine one-call relocation with the canonical pinned compiler
+profile. The accompanying 38-byte Type35 update and both its relocations
+also remain exact. No ABI or compiler profile was changed and no additional
+exactness credit is claimed for an already exact function.
