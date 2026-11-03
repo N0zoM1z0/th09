@@ -9,8 +9,10 @@ class PlayerGameplayNativePlayfield(unittest.TestCase):
     def test_3238_byte_exact_selector_uses_native_game_manager_bounds(self):
         gameplay=(ROOT/'src/PlayerGameplayState.cpp').read_text()
         movement=(ROOT/'src/PlayerMovement.cpp').read_text()
-        header=(ROOT/'src/GameManagerResetView.hpp').read_text()
-        self.assertIn('#include "GameManagerResetView.hpp"',gameplay)
+        header=(ROOT/'src/GameManagerRuntimeView.hpp').read_text()
+        self.assertNotIn('#include "GameManagerResetView.hpp"',gameplay)
+        self.assertIn('#include "GameManagerRuntimeView.hpp"',gameplay)
+        self.assertIn('PlayerSelectorNativePlayfieldBounds',gameplay)
         for legacy,member,offset in (
             ('g_PlayerPlayfieldMinX','coordinate360','0x360'),
             ('g_PlayerPlayfieldMinY','coordinate364','0x364'),
@@ -18,7 +20,8 @@ class PlayerGameplayNativePlayfield(unittest.TestCase):
             ('g_PlayerPlayfieldHeight','coordinate36C','0x36C')):
             with self.subTest(field=member):
                 self.assertNotIn(legacy,gameplay)
-                self.assertIn('reinterpret_cast<GameManagerResetView *>(&g_GameManager)->'+member,gameplay)
+                self.assertIn('g_GameManager.'+member,gameplay)
+                self.assertNotIn('reinterpret_cast<GameManagerResetView *>(&g_GameManager)',gameplay)
                 self.assertIn('g_GameManager.'+member,movement)
                 self.assertIn('float '+member+';',header)
         with (ROOT/'config/match-units.toml').open('rb') as f:

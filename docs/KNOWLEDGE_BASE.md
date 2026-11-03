@@ -30229,3 +30229,27 @@ Both related original-exact siblings remain exact. The independent 79-byte
 coordinate initializer, 47-byte reset function and 553-byte front result
 initializer also independently compare exact. This type/store reconciliation
 is not an exactness promotion, whole-product build or runtime claim.
+
+## 2026-11-03 native GameManager bounds in exact 3,238-byte Player selector
+
+Following the 1,900-byte Player movement owner's migration, the separate
+`PlayerUpdateSelectorState @0x004049A0` no longer reinterprets the native
+`g_GameManager` global as the private `GameManagerResetView` sixty times.
+The source now directly reads the original +0x360/+0x364/+0x368/+0x36C
+playfield min-X, min-Y, width and height from the complete 0x390-byte
+`AsciiGameManagerView` storage, with static physical-offset assertions.
+The 34 original bounds-related address references in the selector belong to
+the same true `g_GameManager @0x004A7D90` already used by the exact
+GameManager coordinate initializer and by Player movement; no independent
+absolute float global was introduced.
+
+Fixed-profile VC7.1 complete original-PE comparison preserves the selector's
+**3,238/3,238 bytes and all 136 original relocations**. Its same-source
+`ResolvePatternOffset` helper retains all **346 logical / 412 physical
+bytes and 18 original relocations**, including the original suffix/table.
+Eighteen compiler-private `$L` spelling changes in that helper were
+independently validated against COFF label-definition section offsets and
+the immutable original PE destination words before updating only the
+manifest symbol names. All original numeric addresses are unchanged; the
+canonical exact ledger does not gain a new function or imply a linked or
+runtime-correct whole game.
