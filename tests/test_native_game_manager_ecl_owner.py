@@ -21,6 +21,20 @@ class NativeGameManagerEclOwner(unittest.TestCase):
         self.assertNotIn('reinterpret_cast<GameManagerEclStateView *>(manager)',reset)
         self.assertIn('offsetof(AsciiGameManagerView, instructionMask120)',reset)
 
+    def test_exact_974_byte_timeline_reads_native_low_mask_byte(self):
+        source=(ROOT/'src/EnemyScheduleRuntimeAdvance.cpp').read_text()
+        self.assertIn('#include "GameManagerRuntimeView.hpp"',source)
+        self.assertNotIn('#include "GameManagerEclStateView.hpp"',source)
+        self.assertIn('g_GameManager.instructionMaskLowByte120 & instruction->mask07',source)
+        self.assertNotIn('reinterpret_cast<const GameManagerEclStateView *>(',source)
+        with (ROOT/'config/match-units.toml').open('rb') as f:
+            unit=tomllib.load(f)['units']['enemy-schedule-runtime-run']
+        self.assertEqual((unit['target_address'],unit['size'],unit['compare_size'],len(unit['relocations'])),
+                         (0x0040FCC0,974,1048,42))
+        self.assertEqual([(r['offset'],r['type'],r['symbol'],r['target'],r.get('addend'))
+                          for r in unit['relocations'] if 'g_GameManager' in r['symbol']],
+                         [(0x6C,'DIR32','?g_GameManager@@3UAsciiGameManagerView@@A',0x004A7D90,0x120)])
+
     def test_unified_mask_word_still_has_an_unmodified_low_byte(self):
         native = (ROOT/'src/GameManagerRuntimeView.hpp').read_text()
         self.assertIn('union { unsigned int instructionMask120; unsigned char instructionMaskLowByte120; };', native)

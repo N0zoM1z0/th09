@@ -30681,3 +30681,26 @@ compare owners were re-numbered by this source-cold rebuild. Every one was
 verified from its current COFF definition and immutable original PE operand;
 only the original-address-preserving manifest symbol spellings were updated.
 No all-unit cold replay was run.
+
+## 2026-11-03 exact 974-byte Enemy timeline reads native GameManager instruction mask
+
+The original Enemy timeline / ECL schedule owner
+`EnemyScheduleRuntimeView::Run @0x0040FCC0` reads the low byte of the
+true `g_GameManager @0x004A7D90` instruction-mask word at **+0x120**.
+Its earlier source still reinterpreted the global through the retired
+`GameManagerEclStateView` byte projection. The exact owner now directly
+reads canonical `AsciiGameManagerView::instructionMaskLowByte120`, sharing
+the same physical +0x120 word as independently verified RunEcl opcode
+masking and GameManager setup. The actual original PE absolute field at
+owner+0x6C remains **0x004A7EB0**, a DIR32 relocation whose base/global
+address and +0x120 addend were not changed.
+
+Fresh fixed-profile VC7.1 / original Japanese 1.50a COFF comparison
+preserves **974 logical and 1,048 complete physical bytes**, including
+the original jump tables and all **42 original relocation records**.
+The exact 20-byte ZunTimer equality leaf from the same source carrier
+remains exact. Source-cold recompilation renumbered nineteen private
+`$L` labels in the timeline jump tables; each was resolved through its
+actual COFF owner-section definition against the immutable original PE
+operand before modifying manifest symbols alone. No numeric target, jump
+entry or authored exactness count was changed; no all-owner cold replay.
