@@ -8,15 +8,9 @@
 #include <stddef.h>
 #include <string.h>
 
-struct NetworkFramePacketView
-{
-    unsigned char type;
-    signed char side;
-    unsigned short seed;
-    int frame;
-    unsigned short input;
-    unsigned short checksum;
-};
+// The received frame is a field of the native NetworkState, not a second
+// anonymous 0xD4-byte network owner. Packet signedness and size are preserved.
+typedef SupervisorNetworkState::LastReceivedFramePacketView NetworkFramePacketView;
 typedef char NetworkFramePacketViewSizeIs0C[
     (sizeof(NetworkFramePacketView) == 0x0C) ? 1 : -1];
 
@@ -40,36 +34,17 @@ struct NetworkAckPacketView
     unsigned int value04;
 };
 
-struct SupervisorNetworkMessageView
+// Preserve the original target-bound callback's decorated method signature.
+// In TH09 it operates on the genuine 0xD4-byte network session allocation.
+struct SupervisorNetworkMessageView : SupervisorNetworkState
 {
-    IDirectPlay8Peer *peer00;
-    void *deviceAddress04;
-    unsigned char unknown008[0x04];
-    void *unknown00C;
-    void *hostAddress10;
-    unsigned int sendAsyncHandle14;
-    unsigned int connectAsyncHandle18;
-    DPNID peerIds1C[2];
-    char hostname24[0x80];
-    unsigned int portA4;
-    int activeA8;
-    int localSideAC;
-    int packetReadyB0;
-    int initialFramesQueuedB4;
-    int connectionStateB8;
-    int syncValueBC;
-    int joinModeC0;
-    unsigned char syncRateC4;
-    unsigned char unknown0C5[3];
-    NetworkFramePacketView lastReceivedC8;
-
-    int HandleMessage(
-        void *userContext,
-        unsigned long messageId,
-        void *message);
+    int HandleMessage(void *userContext, unsigned long messageId, void *message);
 };
-typedef char SupervisorNetworkMessageViewSizeIsD4[
-    (sizeof(SupervisorNetworkMessageView) == 0xD4) ? 1 : -1];
+typedef char SupervisorNetworkMessageNativeStorage[
+    (sizeof(SupervisorNetworkMessageView) == sizeof(SupervisorNetworkState) &&
+     offsetof(SupervisorNetworkMessageView, lastReceivedC8) == 0xC8 &&
+     offsetof(SupervisorNetworkMessageView, peer) == 0 &&
+     offsetof(SupervisorNetworkMessageView, localSide) == 0xAC) ? 1 : -1];
 
 extern ReplayRngView g_ReplayRng;
 extern int g_NetworkHandshakeToken;
@@ -117,7 +92,7 @@ int SupervisorNetworkMessageView::HandleMessage(
             if (g_NetworkHandshakeToken == static_cast<int>(packet->value04) &&
                 packet->value04 == packet->value02)
             {
-                packetReadyB0 = 1;
+                packetReady = 1;
                 g_NetworkLastReceiveTime = g_NetworkCurrentTime;
                 g_Supervisor.LeaveCriticalSectionWrapper(4);
                 return 0;
@@ -128,18 +103,18 @@ int SupervisorNetworkMessageView::HandleMessage(
             NetworkHandshakePacketView *packet =
                 reinterpret_cast<NetworkHandshakePacketView *>(data);
 
-            if (packet->side == localSideAC)
-                localSideAC = 1 - packet->side;
+            if (packet->side == localSide)
+                localSide = 1 - packet->side;
 
-            if (localSideAC == 1)
+            if (localSide == 1)
             {
                 g_ReplayRng.SetSeed(packet->seed);
-                syncRateC4 = packet->syncRate;
-                syncValueBC = packet->syncValue;
+                syncRate = packet->syncRate;
+                syncValue = packet->syncValue;
 
-                if (60 / syncRateC4 > 1)
+                if (60 / syncRate > 1)
                 {
-                    for (int index = 0; index < 60 / syncRateC4 - 1; ++index)
+                    for (int index = 0; index < 60 / syncRate - 1; ++index)
                     {
                         reinterpret_cast<SupervisorFrameQueueView *>(
                             &g_Supervisor)->InsertReceivedFrame(
@@ -170,7 +145,7 @@ int SupervisorNetworkMessageView::HandleMessage(
             static_cast<DPNMSG_CREATE_PLAYER *>(message);
 
         DWORD size = 0;
-        peer00->GetPeerInfo(msg->dpnidPlayer, 0, &size, 0);
+        static_cast<IDirectPlay8Peer *>(peer)->GetPeerInfo(msg->dpnidPlayer, 0, &size, 0);
 
         DPN_PLAYER_INFO *info =
             static_cast<DPN_PLAYER_INFO *>(::operator new(size));
@@ -178,7 +153,7 @@ int SupervisorNetworkMessageView::HandleMessage(
         info->dwSize = sizeof(DPN_PLAYER_INFO);
 
         HRESULT result =
-            peer00->GetPeerInfo(msg->dpnidPlayer, info, &size, 0);
+            static_cast<IDirectPlay8Peer *>(peer)->GetPeerInfo(msg->dpnidPlayer, info, &size, 0);
         if (result != 0)
         {
             ::operator delete(info);
@@ -187,9 +162,9 @@ int SupervisorNetworkMessageView::HandleMessage(
         }
 
         if ((info->dwPlayerFlags & DPNPLAYER_LOCAL) != 0)
-            peerIds1C[localSideAC] = msg->dpnidPlayer;
+            peerIds[localSide] = msg->dpnidPlayer;
         else
-            peerIds1C[1 - localSideAC] = msg->dpnidPlayer;
+            peerIds[1 - localSide] = msg->dpnidPlayer;
 
         ::operator delete(info);
         g_Supervisor.LeaveCriticalSectionWrapper(4);
@@ -202,17 +177,17 @@ int SupervisorNetworkMessageView::HandleMessage(
         DPNMSG_DESTROY_PLAYER *msg =
             static_cast<DPNMSG_DESTROY_PLAYER *>(message);
 
-        if (peerIds1C[0] == msg->dpnidPlayer)
-            peerIds1C[0] = 0;
-        if (peerIds1C[1] == msg->dpnidPlayer)
-            peerIds1C[1] = 0;
+        if (peerIds[0] == msg->dpnidPlayer)
+            peerIds[0] = 0;
+        if (peerIds[1] == msg->dpnidPlayer)
+            peerIds[1] = 0;
         g_Supervisor.LeaveCriticalSectionWrapper(4);
         return 0;
     }
 
     case DPN_MSGID_SEND_COMPLETE:
         g_Supervisor.EnterCriticalSectionWrapper(4);
-        packetReadyB0 = 1;
+        packetReady = 1;
         g_Supervisor.LeaveCriticalSectionWrapper(4);
         return 0;
 
@@ -221,10 +196,10 @@ int SupervisorNetworkMessageView::HandleMessage(
         g_Supervisor.EnterCriticalSectionWrapper(4);
         DPNMSG_CONNECT_COMPLETE *msg =
             static_cast<DPNMSG_CONNECT_COMPLETE *>(message);
-        if (msg->hResultCode == 0 && connectionStateB8 == 1)
+        if (msg->hResultCode == 0 && connectionState == 1)
         {
-            connectionStateB8 = 3;
-            localSideAC = 1;
+            connectionState = 3;
+            localSide = 1;
         }
         g_Supervisor.LeaveCriticalSectionWrapper(4);
         return 0;

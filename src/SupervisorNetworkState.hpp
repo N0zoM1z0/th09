@@ -22,7 +22,18 @@ struct SupervisorNetworkState
     int syncValue;
     int joinMode;
     unsigned char syncRate;
-    unsigned char unknown0C5[0xD4 - 0x0C5];
+    unsigned char unknown0C5[3];
+    // Native packet image copied by the receive-message callback at +0xC8.
+    // This 12-byte slot already belonged to the 0xD4 NetworkState allocation.
+    struct LastReceivedFramePacketView
+    {
+        unsigned char type;
+        signed char side;
+        unsigned short seed;
+        int frame;
+        unsigned short input;
+        unsigned short checksum;
+    } lastReceivedC8;
 
     SupervisorNetworkState();
     int InitializePeer();
@@ -37,6 +48,9 @@ struct SupervisorNetworkState
     int ResetSession();
 };
 
+typedef char SupervisorNetworkLastFrameAtC8[
+    (offsetof(SupervisorNetworkState, lastReceivedC8) == 0xC8 &&
+     sizeof(((SupervisorNetworkState *)0)->lastReceivedC8) == 0x0C) ? 1 : -1];
 typedef char SupervisorNetworkStateSizeIsD4[(sizeof(SupervisorNetworkState) == 0xD4) ? 1 : -1];
 typedef char SupervisorNetworkStateUnknown00CAt0C[
     (offsetof(SupervisorNetworkState, unknown00C) == 0x0C) ? 1 : -1];
