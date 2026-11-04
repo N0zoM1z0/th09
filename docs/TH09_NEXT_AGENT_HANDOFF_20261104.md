@@ -171,6 +171,71 @@ and **reproducible**, so they may be absent after reviewed cleanup. Rebuild
 needed objects before inspecting them. A historical note saying "build/
 absent" is not a property of every newer checkout.
 
-See [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md) for the latest
-**actually executed**, measured cleanup and recovery instructions; do not
-infer current storage savings from the 2026-11-03 checkpoint.
+### Actual 2026-11-04 local cleanup (not merely a proposal)
+
+The worktree's historical generated JSON was compacted **losslessly**: 1,258
+large old files / **620,291,028** original bytes were packed into
+`.analysis/handoff-archive-20261104/historical-generated-json.tar.zst`
+(**22,176,904 bytes**; net **598,114,124 bytes** saved). **Every** archived
+member was verified against its original SHA-256 and again checked against its
+original on-disk bytes before removal. Its ignored manifest and receipt are
+retained alongside the archive. The local original `resources/th09.exe`,
+**both Ghidra databases**, original older archive and source/negative-test
+scripts were not selected. Recent/small JSON observations remain unpacked.
+
+The guarded cache cleaner removed **252 build files / 15,319,883 bytes**;
+`build/` may now be **absent**. Recompile only the exact source/profile you
+need. Local Git objects were safely repacked with `git gc --prune=never`:
+all branch/tag refs stayed identical; nothing was deliberately pruned.
+Total allocated repository size went from about **1.5 GiB** to approximately
+**533 MiB** at the cleanup checkpoint. These are local-only storage actions,
+**not** a new PE/COFF match, push or Factory acceptance.
+
+Recover one archived historical JSON, safely and on demand:
+
+```bash
+# Preview one original path from the archived SHA-256 manifest:
+python3 -B scripts/restore-analysis-archive.py \
+  --path .analysis/EclManager.c774-base.obj.full.json
+# Restore only that path, after SHA-256 verification and without overwrites:
+python3 -B scripts/restore-analysis-archive.py \
+  --path .analysis/EclManager.c774-base.obj.full.json --apply
+```
+
+The restore helper checks the archive/manifest receipt and the selected
+member SHA, refuses overwrites/unsafe paths and does not automatically unpack
+all 591.56 MiB. On a *different clone*, ignored local-only archives may be
+absent; regenerate evidence from maintained source/target or arrange an
+approved archive transfer. See [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md)
+for the measured audit, full SHA-256 strings and original-path manifest.
+
+### Post-cleanup validation (2026-11-04)
+
+The full **target-independent** public CI was rerun after correcting historical
+Etama GameManager symbol names and a handful of old source-spelling assertions.
+It passed **1,318 unittest cases (29 skipped), no failures**, including the
+script compilation, ledger, documentation, progress and whitespace stages.
+This is **not** a full VC7.1 cold replay or native Windows game build.
+The post-CI cache cleaner removed its newly generated **503 files /
+7,642,130 bytes** from `build/`, and the final clean-cache preview again
+reports zero. Protected original, Ghidra databases and the per-file verified
+JSON archive were untouched. The repository occupies approximately **534 MiB
+of allocated disk blocks** (current checkout) versus about **1.5 GiB** before
+this cleanup; exact logical bytes and SHA-256 totals are retained in the
+[2026-11-04 artifact cleanup audit](RE_ARTIFACT_CLEANUP_HISTORY.md).
+
+The archived JSON package and its SHA-256 receipt live under the **ignored**
+`.analysis/handoff-archive-20261104/` directory; they are local only and
+**do not accompany a normal Git clone**. The tracked restore tool is still
+useful in the same worktree, and the manifest lists the original paths. If
+those ignored archives are missing in another checkout, rebuild historical
+evidence or ask the operator for an explicit archive transfer. The next agent
+should start with `git status` and only rebuild a touched original-bound unit,
+not all compiled objects merely because `build/` is absent.
+
+**Final public CI:** `python3 -B scripts/ci.py` passed **1,318 tests (29
+skipped)** plus the validation and generated-progress checks after correcting
+three obsolete Etama diagnostic referents and five stale native-source test
+assertions. These tests do **not** assert a whole-game runtime or exact-source
+acceptance receipt. The public CI's 505 temporary build/pycache files were
+cleaned after the successful run; the final cache-cleaner preview was zero.

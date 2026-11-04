@@ -3507,3 +3507,171 @@ old ignored experiment script depended on another removed historical
 unreferenced directory, restore that directory from the archive too.
 Current `.analysis/ghidra-direct/` evidence, all tracking manifests and
 new `TH09_NEXT_AGENT_HANDOFF_20261103.md` remain immediately accessible.
+
+## 2026-11-04: verified historical JSON compaction, regenerated-cache cleanup, lossless Git repack
+
+**Executed on the live TH09 worktree; this is a measured result, not a proposed
+cleanup.** The source tree started clean at
+`f2e66154 gpt-web: restore native CardAttack VM and 923-byte StartAttack
+GameManager fields`. The new active handoff and routing documentation were
+committed as `1ffe449c`. The separate SHA-verified recovery utility was
+committed as `9af5662a`. This audit is an additional independent checkpoint.
+
+### Lossless generated JSON archive — 1,258 per-file SHA-256 checks
+
+Only files below the **ignored** `.analysis/` tree were eligible: ordinary
+regular `.json` files at least 128 KiB, modified strictly **before
+2026-11-03**, and outside top-level groups beginning `ghidra-direct`,
+`handoff`, `maintenance`, `20261102-`, or `current-`. Only the old **large
+JSON generated snapshots** were selected. Experimental C/C++, Python probes,
+text disassemblies, local Ghidra databases, the SHA-pinned Japanese original executable,
+existing archives, operator maintenance/cleanup receipts, and tracked data
+were **not selected**. Excluding Ghidra projects is intentional and remains a
+hard restoration/cleanup constraint.
+
+| Audited event | Measured bytes/count |
+| --- | ---: |
+| Old generated `.json` files archived and only then unlinked | **1,258 files** |
+| Sum of original file contents | **620,291,028 bytes (591.56 MiB)** |
+| Resulting `tar.zst` bytes | **22,176,904 bytes (21.15 MiB)** |
+| **Net logical file-content savings from this archive** | **598,114,124 bytes (570.41 MiB)** |
+| Full tar-member SHA-256 verification | **1,258 of 1,258 passed** |
+| Second original-file SHA-256 verification before deletion | **1,258 of 1,258 passed** |
+
+The first complete archive-verification pass streamed every zstd/tar member,
+checking its original relative path, length, SHA-256 and unique membership.
+All source files were then independently rechecked by **size, original
+nanosecond mtime and SHA-256**, and only after that verification were those
+specific files unlinked. The existing
+`.analysis/handoff-archive-20261103/legacy-unreferenced-experiments.tar.zst`
+remains intact, with its previously recorded SHA-256
+`1c287d8f1190692966b568a6ebfa62d6f3995dd6873b5782248dbdd2353a2223`.
+
+**Retained local-only package, intentionally untracked:**
+
+- Archive: `.analysis/handoff-archive-20261104/historical-generated-json.tar.zst`
+- Archive SHA-256:
+  `27eb786dcc791152e18023c727235de94f588fb01ccf2ae6152d94b65a66babd`
+- Original path/size/mtime/SHA-256 for every file:
+  `.analysis/handoff-archive-20261104/historical-generated-json.manifest.json`
+- Manifest SHA-256:
+  `00d50e2fda2a332287d48248c10af65b5968ef8c562e2940f98f18d1b2a70886`
+- Exact cleanup receipt:
+  `.analysis/handoff-archive-20261104/historical-generated-json.receipt.json`
+- Reviewed local selection/packing script:
+  `.analysis/handoff-archive-20261104/compact-old-generated-json.py`
+
+The **tracked** selective restore command validates the local archive and
+manifest against the receipt on every run. It then checks the requested
+member's size and SHA-256 before an exclusive write; an existing divergent
+file, unsafe path, symlink parent or absent archive is rejected without an
+overwrite. The default is a preview. From the registered repository root:
+
+```bash
+# Show package status (no restoration and no compilation):
+python3 -B scripts/restore-analysis-archive.py
+# Preview one known member; --path may be repeated:
+python3 -B scripts/restore-analysis-archive.py \
+  --path .analysis/EclManager.c774-base.obj.full.json
+# Only if that historical JSON is needed for a specific investigation:
+python3 -B scripts/restore-analysis-archive.py \
+  --path .analysis/EclManager.c774-base.obj.full.json --apply
+```
+
+The actual single-member read-only smoke test extracted a 288,328-byte
+archived JSON to stdout and matched its original SHA-256 **without restoring
+it into the worktree**. The recovery utility's isolated integration tests
+also verified exclusive restore, tamper refusal, unknown/unsafe paths and
+read-only previews. This archive **does not accompany an ordinary Git clone**;
+if a different checkout lacks it, rerun historical probes from maintained
+source and the pinned original, or transfer the local archive under explicit
+operator control. A `tar.zst` is not Factory acceptance evidence.
+
+### Disposable build outputs — 252 files
+
+`scripts/clean-generated-artifacts.py` was previewed, then invoked with
+`--apply`. Its guarded plan removed **252 files / 15,319,883 bytes** of
+ignored, regenerable `build/` compiler objects/PDBs. No analysis OBJ was
+selected. The final fresh dry-run returned **zero** remaining disposable
+files and zero bytes. Absence of `build/matching/*.obj` after this cleanup
+is *expected*, **not** loss of canonical source, target or validation
+contracts. Rebuild only the relevant unit/profile before comparing it.
+
+### Git objects — safe `gc --prune=never`, not history rewriting
+
+The repository's loose Git object storage had **3,261 loose objects /
+372.38 MiB** plus 18,558 packed objects (17.46 MiB). Running
+`git gc --prune=never` repacked them to **zero loose objects** and
+21,819 packed objects (22.83 MiB). The current commit hash and the SHA-256
+of the **complete live `git show-ref` list** matched their recorded
+pre-GC values; no branches, tags or historical objects were deliberately
+pruned, and no force push/history rewrite was performed. Some unreachable
+objects remain deliberately retained because pruning was disabled. This
+is ordinary lossless local storage consolidation, not a source commit or
+Factory receipt.
+
+### Final protected state and limits
+
+A final `du -sh .` reported **533 MiB of allocated disk blocks** (the initial
+pre-cleanup observation was about **1.5 GiB**); `du -sb .` reported
+**482,263,612 logical bytes** at that intermediate checkpoint. The physical
+`resources/th09.exe` SHA-256 remains
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+The original/Toolchain symlinks, both Ghidra project databases, old protected
+archive, all source/ledger files and retained small/current ignored analysis
+files were preserved. The complete Git live-ref identity survived the repack.
+Documentation and ledger validation still report **2,248 candidates,
+1,035 authored mappings and 1,005 exact**; no new matching claims, no
+all-unit cold replay, product link or gameplay runtime test was made.
+
+Storage figures in older dated sections are **historical** and must not be
+added to these current cleanup amounts as if they were simultaneously
+recoverable. Only the paths listed in the exact new SHA manifest were removed
+from this handoff's experimental JSON state.
+
+### Final public-CI and second cache clean (2026-11-04)
+
+The first target-independent CI audit exposed **three obsolete Etama
+inspector symbol errors** (old `BulletGameManagerView` identifiers) and
+**five source-spelling assertions** that no longer described native Enemy,
+Player or ECL field owners. The inspector was aligned with canonical manifest
+symbols/unchanged original destinations; affected assertions now test the
+current native owners. No original PE bytes, game source logic or exactness
+manifests were altered to silence the tests. Focused corrected tests passed
+**59/59**. A full **target-independent** `python3 -B scripts/ci.py` then
+passed all **1,318** discovered tests (**29 skipped**), plus script compile,
+tracking, documentation, progress and Git whitespace checks. This is not a
+whole-game cold replay. The CI-created `build/pycache` was inspected and
+removed using the guarded `clean-generated-artifacts.py --apply` script:
+**503 additional reproducible files / 7,642,130 bytes** were cleared.
+A fresh cache-clean preview once again reported **zero files / zero bytes**.
+
+The final `du -sh .` was approximately **534 MiB allocated** and the local
+checkout's `du -sb .` was **482,733,528 logical bytes** (the post-cleanup
+history differs slightly between commits/log output, not between original
+source versions). The SHA-pinned original TH09 executable was reverified,
+Git retained both protected archived datasets and the Ghidra projects; Git
+history was not pruned. Documentation and tracking still report the same
+**2,248 candidates, 1,035 authored mappings, 1,005 exact matches**.
+
+### 2026-11-04 post-cleanup public CI and stale guard reconciliation
+
+The first **target-independent** public CI run (no VC7.1 cold replay) exposed
+**3 stale Etama diagnostic symbol errors and 5 old source-spelling test
+assertions**, not a new target regression. The source had already migrated
+to native GameManager/Enemy/ANM VM/ECL fields. The reviewed update at
+`98bf89e9` refreshed the Etama inspector's two original-backed native
+GameManager referents and the stale tests' native-object assertions;
+original PE target addresses and the exact ledger were **not** changed.
+The 59 affected focused tests passed.
+
+The subsequent full public, target-independent `python3 -B scripts/ci.py`
+completed successfully: **1,318 tests, 29 skipped, zero failures**;
+workflow Python compilation, ledger validation, documentation links,
+generated progress and whitespace checks also passed. The CI's temporary
+`build/pycache` contained **505 rebuildable files / 7,653,878 bytes**;
+the guarded cleaner was applied again after the public CI and a final
+no-op dry run confirmed **zero disposable cache files**. These transient
+CI-created bytes are **not an additional net storage saving** to add to
+this checkpoint's pre-cleanup accounting. The original EXE SHA remained
+unchanged and no all-match-unit codegen replay was run.

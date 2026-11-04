@@ -196,3 +196,15 @@ deletion. `scripts/restore-analysis-snapshots.py MANIFEST --prefix .analysis/PAC
 previews recovery;`--apply` restores absent files without overwriting later work.
 Unique research variants and pending candidates do not qualify merely because
 some of their dependencies are Git-backed.
+
+The 2026-11-04 **reviewed** archive differs from an unsafe JSON deletion:
+1,258 older large generated JSON snapshots were first saved in a local-only
+`tar.zst`, and **every member and original file passed SHA-256 validation**
+before the original duplicate was removed. The new
+`python3 -B scripts/restore-analysis-archive.py --path .analysis/FILE.json`
+previews the selective restore; add `--apply` to restore only an absent,
+manifest-listed file after original content verification. It never overwrites
+operator changes. The manifest/receipt/archive are ignored local state and
+may be absent in a fresh clone. Read the measured cleanup history and
+regenerate a selected match unit when needed; do **not** full-replay all units
+or bulk-delete current source/unique unarchived experiments.

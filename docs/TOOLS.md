@@ -27,6 +27,7 @@ For the current scope, read
 | Run public checks | `python3 scripts/ci.py` | target-independent repository consistency; required for shared validation/CI changes |
 | Preview cache cleanup | `python3 scripts/clean-generated-artifacts.py` | objects kept by default;explicit path/SHA-256 review required for OBJ deletion |
 | Recover old Git-backed copies | `python3 scripts/restore-analysis-snapshots.py MANIFEST --prefix .analysis/PACKET` | preview original bytes/EOL recovery;add --apply for absent files |
+| Restore archived old JSON | `python3 -B scripts/restore-analysis-archive.py --path .analysis/FILE.json` | preview SHA-pinned local tar.zst member; add `--apply` for exclusive, verified restore |
 
 The installed Ghidra12.1.4 is available via the ignored `.tools/ghidra` symlink;
 `--ghidra-dir` accepts another explicit installation. The runner imports once

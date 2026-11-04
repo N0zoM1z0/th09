@@ -36,7 +36,7 @@ class NativeEffectRingGeometry(unittest.TestCase):
         self.assertIn('#include "EffectRingRuntimeView.hpp"', enemy)
         self.assertIn('EffectRingRuntimeView *effect =', enemy)
         self.assertIn('reinterpret_cast<const Float3 &>(nativeEnemy->position2D74);', enemy)
-        self.assertIn('effect->origin48 =',enemy)
+        self.assertIn('effect->origin48 =', enemy)
         self.assertIn('effect->radius7C += 0.3f;', enemy)
         self.assertIn('effect->angle80', enemy)
         self.assertIn('memcpy(&effect->value7C, &vm->pos2.x, sizeof(effect->value7C));', manager)

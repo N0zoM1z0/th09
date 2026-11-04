@@ -178,6 +178,15 @@ analysis database is working state; mirror durable conclusions into the repo.
   original evidence; see `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`. Referenced
   analysis directories and both Ghidra projects remain unpacked. Restore
   selected old packets when required before trying historical scripts.
+- The 2026-11-04 local cleanup additionally archived 1,258 older large
+  generated JSON snapshots with **per-file SHA-256** into a separate ignored
+  `tar.zst`. To restore one original JSON without unpacking the whole archive,
+  preview `python3 -B scripts/restore-analysis-archive.py --path FILE`, then
+  repeat with `--apply`. The helper refuses divergent files, symlinks and
+  unknown paths. `build/` was intentionally cleared, and Git objects were
+  repacked with `git gc --prune=never` while preserving all live refs; neither
+  storage action changes accepted source-exact evidence. See the newest
+  2026-11-04 audit and handoff before deleting any other evidence.
 - Never commit the original executable, game archives/data, IDA databases,
   Ghidra projects, toolchains, generated decompiler text, credentials, or private endpoints.
 - Finish with `git diff --check` and the checks required by the change: the

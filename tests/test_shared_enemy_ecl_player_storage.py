@@ -68,7 +68,7 @@ class NativeEnemyEclPlayerStorage(unittest.TestCase):
             self.assertIn(member, late)
         # State handlers now share the actual native manager layout; the
         # late opcode module contains the explicit protocol field users.
-        self.assertIn('EnemyManager.hpp', state) if False else None
+        self.assertIn('struct EnemyManagerCoreView;', state)
         self.assertIn('Th09EclLateSharedNativeManagerFields', late)
         self.assertIn('EnemyManagerProtocolAt2AC3DC', native)
         self.assertIn('EnemyManagerTimelineAt2AC440', native)
