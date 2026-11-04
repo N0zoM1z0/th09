@@ -1,7 +1,7 @@
 # TH09 reconstruction — current handoff
 
-> **Current next-agent restart guide (2026-11-03):**
-> [TH09_NEXT_AGENT_HANDOFF_20261103.md](TH09_NEXT_AGENT_HANDOFF_20261103.md)
+> **Current next-agent restart guide (2026-11-04):**
+> [TH09_NEXT_AGENT_HANDOFF_20261104.md](TH09_NEXT_AGENT_HANDOFF_20261103.md)
 > supersedes "current/latest" claims in this dated research history and
 > the [2026-11-02 handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md).
 > In particular, Player Movement is **122** unlike bytes, not the historical

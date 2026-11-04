@@ -1,5 +1,10 @@
 # TH09 reconstruction — next-agent restart (2026-11-03)
 
+> **HISTORICAL CHECKPOINT — superseded on 2026-11-04.** Start with
+> [TH09_NEXT_AGENT_HANDOFF_20261104.md](TH09_NEXT_AGENT_HANDOFF_20261104.md).
+> The remarks below about the old HEAD, an absent `build/` tree, and recent
+> source changes describe the **2026-11-03** snapshot only.
+
 **Start here, not with a dated "current" statement deep in an old log.**
 This is a navigation/checkpoint document, **not** an exactness receipt. The
 live Git worktree, tracking manifests, target bytes and freshly compiled

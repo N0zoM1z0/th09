@@ -4,7 +4,7 @@
 
 
 > For current cache state, use the
-> [2026-11-03 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261103.md).
+> [2026-11-04 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261104.md).
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 > October30 clarification: documentation and research records stay; unused

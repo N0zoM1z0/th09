@@ -11,8 +11,8 @@ the first useful commit. Routine iteration must rebuild/replay only affected
 owners and dependencies; do not run a full cold replay unless explicitly
 requested.
 
-The **2026-11-03 current restart guide** is
-`docs/TH09_NEXT_AGENT_HANDOFF_20261103.md`. Earlier source checkpoints
+The **2026-11-04 current restart guide** is
+`docs/TH09_NEXT_AGENT_HANDOFF_20261104.md`. Earlier source checkpoints
 (`e4ea703b`, `80313a4f` and October/early-November handoffs) are
 historical, not statements about current HEAD. Re-read `git log -1
 --oneline`, the real Git status and the ledgers for each session: a

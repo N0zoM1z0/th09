@@ -7,7 +7,7 @@ A Factory connector can execute repository operations but cannot replace
 attested Ghidra/target bytes or give exactness credit by itself. Do **not**
 substitute historical IDA/REA exports as new original-backed evidence.
 For the current scope, read
-[the 2026-11-03 restart guide](TH09_NEXT_AGENT_HANDOFF_20261103.md);
+[the 2026-11-04 restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md);
 [RE_HANDOFF.md](RE_HANDOFF.md) retains dated evidence and ledger tables.
 
 | Need | Command | Claim established |
