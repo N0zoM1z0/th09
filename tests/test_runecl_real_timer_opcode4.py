@@ -35,7 +35,8 @@ class RealTimerOpcode4Binding(TestCase):
         self.assertNotIn('volatile', opcode)
         self.assertIn('unsigned char value;', opcode)
         self.assertIn('memcpy(&value, &Th09EclRunState::RawByte(instruction, 0), sizeof(value));', opcode)
-        self.assertIn('AssignTimeoutSpellBit(state.primaryFlags337C, value)', opcode)
+        self.assertIn('Th09EclRunState::AssignTimeoutSpellBit(enemy->primaryFlags337C, value)', opcode)
+        self.assertIn('enemy->primaryFlags337C =', opcode)
 
     def test_independent_exact_leaf_matches_original_address_and_method(self):
         with (ROOT / 'config/match-units.toml').open('rb') as f:

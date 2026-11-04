@@ -23,10 +23,13 @@ class SharedAnmVmRotationView(unittest.TestCase):
 
     def test_exact_player_leaf_consumes_shared_field_not_a_duplicate(self):
         player = (ROOT / 'src/PlayerAnmVmRuntime.cpp').read_text()
-        self.assertIn('#include "AnmVmRotationFieldView.hpp"', player)
+        self.assertIn('#include "PlayerLifecycleView.hpp"', player)
+        self.assertNotIn('#include "AnmVmRotationFieldView.hpp"', player)
         self.assertNotIn('struct PlayerAnmVmRotationView', player)
-        self.assertIn('vm->rotationZ08 = angle;', player)
-        self.assertIn('vm->flags1F8 |= 4;', player)
+        self.assertIn('PlayerNativeAnmRotationAndFlags', player)
+        self.assertIn('offsetof(AnmVm, flagsWord) == 0x1F8', player)
+        self.assertIn('rotation.z = angle;', player)
+        self.assertIn('flagsWord |= 4;', player)
 
         with (ROOT / 'config/match-units.toml').open('rb') as stream:
             unit = tomllib.load(stream)['units']['player-anm-vm-set-z-rotation']

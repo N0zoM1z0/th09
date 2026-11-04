@@ -233,7 +233,9 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('unsigned int mirrorMovementX15 : 1;',flags)
         self.assertIn('unsigned int unknown08_14 : 7;',flags)
         self.assertIn('enemy->primaryFlagBits337C.mirrorMovementX15 = mirrorMovementX;',card)
-        self.assertIn('EnemyManagerView *manager = reinterpret_cast<EnemyManagerView *>(this);',card)
+        self.assertIn('EnemyManagerView *manager = static_cast<EnemyManagerView *>(this);',card)
+        self.assertIn('struct EnemyManagerCardAttackSpawnView : EnemyManagerView',
+                      (ROOT/'src/EnemyManagerCardAttackSpawn.hpp').read_text())
         self.assertIn('EnemyView *enemy;',card)
         self.assertIn('enemy->mainContext07F4',card)
         self.assertIn('enemy->primaryAnmVm0008.color1',card)

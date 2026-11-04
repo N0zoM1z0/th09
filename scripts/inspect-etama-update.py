@@ -38,7 +38,7 @@ DESTINATIONS = {
     '?Deactivate@Bullet@@QAEXXZ': 0x412930,
     '?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z': 0x436F30,
     '?GetCurrent@BulletTimerCurrentView@@QAEHXZ': 0x435F00,
-    '?IsWithinPlayfield@BulletGameManagerView@@QAEHMMMM@Z': 0x41A6EB,
+    '?IsWithinPlayfield@AsciiGameManagerView@@QAEHMMMM@Z': 0x41A6EB,
     '?SelectSide@Supervisor@@QAEXH@Z': 0x401440,
     '?SetZRotation@AnmVm@@QAEXM@Z': 0x40F840,
     '?UpdateBulletAbsoluteDirectionChange@@YIXPAUBullet@@@Z': 0x413700,
@@ -54,7 +54,7 @@ DESTINATIONS = {
     # Globals and target literal cells. Compiler-private labels are verified
     # below by their section-relative location, not their unstable spelling.
     '?g_AnmManager@@3PAVAnmManager@@A': 0x4DC550,
-    '?g_GameManager@@3UBulletGameManagerView@@A': 0x4A7D90,
+    '?g_GameManager@@3UAsciiGameManagerView@@A': 0x4A7D90,
     '?g_Supervisor@@3VSupervisor@@A': 0x4B3100,
     '__real@00000000': 0x48E314,
     '__real@3d800000': 0x48E828,

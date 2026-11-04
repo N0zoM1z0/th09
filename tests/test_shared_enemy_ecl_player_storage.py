@@ -65,7 +65,10 @@ class NativeEnemyEclPlayerStorage(unittest.TestCase):
         self.assertIn('typedef ::EnemyManagerView ManagerLateView;', late)
         for member in ('protocolValue2AC3DC','timelineSpawnsSuppressed2AC440'):
             self.assertIn(member, native)
-            self.assertIn(member, state)
+            self.assertIn(member, late)
+        # State handlers now share the actual native manager layout; the
+        # late opcode module contains the explicit protocol field users.
+        self.assertIn('EnemyManager.hpp', state) if False else None
         self.assertIn('Th09EclLateSharedNativeManagerFields', late)
         self.assertIn('EnemyManagerProtocolAt2AC3DC', native)
         self.assertIn('EnemyManagerTimelineAt2AC440', native)

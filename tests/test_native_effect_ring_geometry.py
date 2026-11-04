@@ -35,10 +35,12 @@ class NativeEffectRingGeometry(unittest.TestCase):
         enemy = (ROOT / 'src/EnemyManagerCore.inl').read_text()
         self.assertIn('#include "EffectRingRuntimeView.hpp"', enemy)
         self.assertIn('EffectRingRuntimeView *effect =', enemy)
-        self.assertIn('effect->origin48 = enemy->position2D74;', enemy)
+        self.assertIn('reinterpret_cast<const Float3 &>(nativeEnemy->position2D74);', enemy)
+        self.assertIn('effect->origin48 =',enemy)
         self.assertIn('effect->radius7C += 0.3f;', enemy)
         self.assertIn('effect->angle80', enemy)
-        self.assertIn('effect->value7C = vm->value288;', manager)
+        self.assertIn('memcpy(&effect->value7C, &vm->pos2.x, sizeof(effect->value7C));', manager)
+        self.assertIn('offsetof(AnmVm, pos2) == 0x288', manager)
         with (ROOT / 'config/match-units.toml').open('rb') as f:
             units = tomllib.load(f)['units']
         self.assertEqual(units['enemy-attached-effect-update']['target_address'],0x0040F4C0)
