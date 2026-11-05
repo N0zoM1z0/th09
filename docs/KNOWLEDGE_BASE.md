@@ -31139,3 +31139,17 @@ Focused --owner movement cold replay preserves the exact caller and native
 interrupt callee. A direct input-pointer control fails decoded-field/COFF
 coverage and is not adopted. The independent input offset remains. See
 TH09_PLAYER_MOVEMENT_REVIEW_20261105.md for source/hash/target evidence and scope.
+
+## 2026-11-05 Etama private EBX argument and rejected source split
+
+Fresh direct target/Ghidra and cold source controls separate DrawSingleBullet's
+physical EBX Bullet receiver from frontend default fastcall spelling. Entry
+413AF4 reads EBX+DBE; parent413E00 loads the node into EBX,413E06 calls413AF0,
+and413E0B advances through+DC8. Changing the actual static helper into an
+ordinary external fastcall source gives236 physical bytes/16 fields/216 overlap
+differences/four extra; the reference-shaped parent becomes602/600 with68
+mismatches. No split or ABI forcing is adopted. The retained232/16 helper and
+832/30 AddedCallback independently replay exact. The conversion-visibility
+conflict remains unresolved; parent-only equality cannot authorize a helper
+regression. See TH09_ETAMA_PRIVATE_ABI_REVIEW_20261105.md for original hashes,
+complete source controls and the bounded38-row/55-address Effect prefix check.

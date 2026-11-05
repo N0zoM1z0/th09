@@ -11,6 +11,17 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — Etama private argument boundary
+
+Fresh target/control evidence confirms DrawSingleBullet's physical Bullet
+argument in EBX, distinct from a public ECX fastcall. A two-source external
+split changes the helper to236 bytes and the parent to602; it is rejected.
+Retained232/16 helper and832/30 AddedCallback still replay exact. The parent
+remains nonexact; this is ABI evidence, not new function credit. See
+[the bounded review](TH09_ETAMA_PRIVATE_ABI_REVIEW_20261105.md).
+The reviewed38-row Effect prefix's55 non-null callback addresses all have
+authored source mappings; whole-game inventory remains unproven.
+
 ## 2026-11-05 continued main — direct native movement access
 
 Movement uses the vector's real float-pointer result and genuine main/option
