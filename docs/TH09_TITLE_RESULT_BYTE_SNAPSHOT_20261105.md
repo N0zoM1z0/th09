@@ -53,7 +53,7 @@ memcpy call. The strict34-field producer rejects it before comparison. It is
 not normalized, masked or credited.
 
 The same source already has one independent, accepted `/O2` score-record
-carrier. Testing that existing profile changes no compiler flags or presets:
+carrier. The control reuses that profile verbatim, without introducing a new flag combination:
 its genuine216-byte/five-field insertion owner remains exact, but the result
 updater emits533 bytes/33 fields and its actual cursor helper grows to185 bytes
 against175 original. The complete caller/callee context is rejected; no new
@@ -81,3 +81,7 @@ Totals stay1022/1035 exact functions and262049 reviewed-authored exact bytes
 (89.7788%), with13 nonexact owners. This is local original-bound diagnostic
 counterevidence; product/runtime, dual-Oracle semantics, portability and Factory
 acceptance are separate gates.
+
+The retained diagnostic source proof is bound to game-source commit
+`ed3f7c658090eccf09010e6d45384e7363a26a3d`; its SHA-256 is
+`e5cc302ab18c0a8fa2365ff70206354f3a62ef04ec273351eac104022b8d0c13`. This records noncrediting investigation evidence, not an accepted exact owner.

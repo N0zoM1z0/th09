@@ -73,3 +73,7 @@ negative does not exhaust natural source possibilities. Exact totals remain
 1022/1035 and262049 reviewed-authored bytes (89.7788%);13 owners remain nonexact.
 Product/runtime, dual-Oracle semantics, portability and Factory gates remain
 separate.
+
+The retained diagnostic source proof is bound to game-source commit
+`2e706d07ecf9c51f4ef41d860bf2dbc6af7c6365`; its SHA-256 is
+`79191dd7b6cd730fd34da3d63f22044fc774185abac1dcd0201fdd3b012d89ac`. This records noncrediting investigation evidence, not an accepted exact owner.
