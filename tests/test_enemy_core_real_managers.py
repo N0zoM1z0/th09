@@ -118,13 +118,11 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         self.assertIn('EnemyCleanupNativeSharedFields',leaf)
         self.assertIn('EnemyView *enemy = this;',leaf)
-        self.assertIn('EnemyRewardPlayerView *player =',leaf)
         self.assertIn('enemy->manager00->sideState320->player04',leaf)
         self.assertIn('enemy->manager00->remoteSlots2AC388[',leaf)
         self.assertIn('enemy->attachedEffectState53B4.count60',leaf)
         self.assertIn('enemy->lifeCallbackThresholds33B0[0] = -1;',leaf)
         self.assertIn('enemy->timerCallbackThreshold33D0',leaf)
-        self.assertIn('player->tracking30364.homingTarget18 == this',leaf)
         for obsolete in ('EnemyCleanupView','EnemyCleanupPlayerView',
                          'EnemyCleanupManagerView','EnemyCleanupSideView'):
             self.assertNotIn(obsolete,leaf)

@@ -31513,3 +31513,13 @@ spellings preserve actual local definitions and original encoded targets. Eight
 nonexact dependents retain complete bodies/field destinations, including RunEcl 30
 and Enemy 13; SaveReplay retains two unlike bytes and playback 39 plus two missing.
 No new exact/origin or product/runtime credit. See TH09_REPLAY_NATIVE_STATE_20261105.md.
+
+## 2026-11-05 Native Player tracking consumers
+
+SHT Update1/Update3/Spawn7 and Enemy cleanup use the existing native Player
+allocation. Their observed tracking component fits the opaque +30364 region;
+the homing pointer is at+3037C. Retaining that opaque storage avoids introducing
+new Float3 construction. The three actual SHT table cells retain their original
+entries; native nominal parameter changes preserve the fastcall ABI. Four full
+owners pass1042 bytes/35 fields, with all raw bytes and actual referents equal
+to fresh old-source builds. See TH09_NATIVE_PLAYER_TRACKING_20261105.md.

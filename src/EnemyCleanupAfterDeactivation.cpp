@@ -1,6 +1,6 @@
 #include "EnemyManager.hpp"
 #include "EnemyChildEclBlocks.hpp"
-#include "PlayerEnemyTrackingStateView.hpp"
+#include "PlayerEnemyTrackingNative.hpp"
 
 #include <stddef.h>
 
@@ -14,7 +14,7 @@ typedef char EnemyCleanupNativeSharedFields[
      offsetof(EnemyView, attachedEffectState53B4) +
          offsetof(EnemyAttachedEffectStateView, count60) == 0x5414 &&
      offsetof(EnemyManagerView, remoteSlots2AC388) == 0x2AC388 &&
-     offsetof(EnemyRewardPlayerView, tracking30364) +
+     offsetof(PlayerLifecycleView, unknown30364) +
          offsetof(PlayerEnemyTrackingStateView, homingTarget18) == 0x3037C)
          ? 1 : -1];
 
@@ -56,8 +56,10 @@ void EnemyView::CleanupAfterDeactivation()
     *timerThreshold = -1;
     EnemyCoreReleaseChildEclBlocks(this);
 
-    EnemyRewardPlayerView *player =
-        enemy->manager00->sideState320->player04;
-    if (player->tracking30364.homingTarget18 == this)
-        player->tracking30364.homingTarget18 = 0;
+    PlayerLifecycleView *player = reinterpret_cast<PlayerLifecycleView *>(
+        enemy->manager00->sideState320->player04);
+    if (reinterpret_cast<PlayerEnemyTrackingStateView *>(
+        player->unknown30364)->homingTarget18 == this)
+        reinterpret_cast<PlayerEnemyTrackingStateView *>(
+            player->unknown30364)->homingTarget18 = 0;
 }

@@ -1,5 +1,5 @@
 #include "ZunTimer.hpp"
-#include "PlayerEnemyTrackingStateView.hpp"
+#include "PlayerEnemyTrackingNative.hpp"
 #include <math.h>
 
 namespace Th09EclRunControl
@@ -25,12 +25,6 @@ struct PlayerShotUpdate1TimerView
     int GetCurrent();
 };
 
-struct PlayerShotUpdate1PlayerView
-{
-    unsigned char unknown0000[0x30364];
-    PlayerEnemyTrackingStateView tracking30364;
-};
-
 struct PlayerShotUpdate1ShotView
 {
     unsigned char unknown000[0x2A4];
@@ -47,7 +41,7 @@ struct PlayerShotUpdate1ShotView
 };
 
 int __fastcall PlayerShotUpdateCallbackType1(
-    PlayerShotUpdate1PlayerView *player,
+    PlayerLifecycleView *player,
     PlayerShotUpdate1ShotView *shot)
 {
     float xDelta;
@@ -58,11 +52,14 @@ int __fastcall PlayerShotUpdateCallbackType1(
         shot->timer454.GetCurrent() >= 40 &&
         reinterpret_cast<ZunTimer *>(&shot->timer454)->HasTicked())
     {
-        if (player->tracking30364.trackedEnemyPosition00.x > -900.0f)
+        if (reinterpret_cast<PlayerEnemyTrackingStateView *>(
+            player->unknown30364)->trackedEnemyPosition00.x > -900.0f)
         {
             float *position = shot->position2A4.operator float *();
-            xDelta = player->tracking30364.trackedEnemyPosition00.x - position[0];
-            yDelta = player->tracking30364.trackedEnemyPosition00.y - position[1];
+            xDelta = reinterpret_cast<PlayerEnemyTrackingStateView *>(
+                player->unknown30364)->trackedEnemyPosition00.x - position[0];
+            yDelta = reinterpret_cast<PlayerEnemyTrackingStateView *>(
+                player->unknown30364)->trackedEnemyPosition00.y - position[1];
 
             magnitude =
                 sqrtf(xDelta * xDelta + yDelta * yDelta) /

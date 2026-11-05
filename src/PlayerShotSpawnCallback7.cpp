@@ -1,5 +1,5 @@
 #include "PlayerShotInitializeView.hpp"
-#include "PlayerEnemyTrackingStateView.hpp"
+#include "PlayerEnemyTrackingNative.hpp"
 #include "PlayerForwardAngleView.hpp"
 #include <math.h>
 
@@ -21,15 +21,9 @@ struct PlayerShotSpawn7ShotView
     float angle450;
 };
 
-struct PlayerShotSpawn7PlayerView
-{
-    unsigned char unknown0000[0x30364];
-    PlayerEnemyTrackingStateView tracking30364;
-
-};
 
 int __fastcall PlayerShotSpawnCallbackType7(
-    PlayerShotSpawn7PlayerView *player,
+    PlayerLifecycleView *player,
     PlayerShotSpawn7ShotView *shot,
     int value,
     PlayerShotSpawn7DescriptorView *entry)
@@ -39,10 +33,12 @@ int __fastcall PlayerShotSpawnCallbackType7(
         float angle =
             reinterpret_cast<PlayerForwardAngleView *>(player)->AngleFromPlayerToPoint(
                 reinterpret_cast<PlayerForwardAngleFloat3View *>(
-                    &player->tracking30364.trackedEnemyPosition00)) +
+                    &reinterpret_cast<PlayerEnemyTrackingStateView *>(
+                        player->unknown30364)->trackedEnemyPosition00)) +
             entry->angle14;
 
-        if (player->tracking30364.trackedEnemyPosition00.x < -144.0f)
+        if (reinterpret_cast<PlayerEnemyTrackingStateView *>(
+            player->unknown30364)->trackedEnemyPosition00.x < -144.0f)
             angle = -1.5707964f;
 
         reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(

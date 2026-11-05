@@ -11,6 +11,17 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — native Player tracking leaves
+
+Three SHT homing callbacks retire private Player layouts in favor of the existing
+native Player; Enemy cleanup shares that storage. The +30364 component/+3037C
+homing pointer is guarded against the native opaque region, without adding
+construction. Four complete leaves pass1042 bytes/35 fields;22 freshly rebuilt
+callee/sibling units and three unchanged bound callees also pass. Enemy/Player
+tests pass205 with five skips. See [the source review](TH09_NATIVE_PLAYER_TRACKING_20261105.md).
+The full Enemy native-Player trial is separately preserved pending its source
+checkpoint. No new exact/origin credit; totals remain1022 exact/13 nonexact.
+
 ## 2026-11-05 continued main — native replay state and complete affected closure
 
 Replay now retires 18 separate globals in favor of actual GameManager members,
