@@ -3,6 +3,7 @@ resources/private/
 .analysis/
 .tools/
 reference/
+_reference/
 *.exe
 /resources/th09.exe
 *.dll

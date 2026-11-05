@@ -18,6 +18,20 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 independently compiled Cirno-Labs reference sample
+
+The operator-requested ignored `_reference/Cirno-Labs-th09` checkout at
+`d7653152becabb8c86f2f43d49015ecc11bd0652` targets the same original SHA-1.
+Our pinned VC7.1 replay independently matches eight complete external-source
+owners, 6562 physical bytes/351 fields, including actual constant/string
+initializers and Supervisor's full 996-byte extent. All eight are currently
+nonexact in our maintained source; no source/ledger promotion follows from
+this external diagnostic. See [the reproducible audit](CIRNO_LABS_REFERENCE_AUDIT_20261105.md)
+for source pins, commands, limits and candidates. The upstream progress image's
+98.65% function count and 88.11% code-byte coverage have distinct denominators.
+This is bounded TH09-local compiler/PE evidence, not acceptance of upstream's
+entire repository, its nominal types or its separate runtime claims.
+
 ### 2026-11-02 original exact ECL opcode1, two native Side bit-0 writes
 
 The 76-byte original `EnemyEclExInstruction1` changes bit 0 of the

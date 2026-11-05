@@ -1,7 +1,7 @@
 # TH09 reconstruction — current handoff
 
 > **Current next-agent restart guide (2026-11-04):**
-> [TH09_NEXT_AGENT_HANDOFF_20261104.md](TH09_NEXT_AGENT_HANDOFF_20261103.md)
+> [TH09_NEXT_AGENT_HANDOFF_20261104.md](TH09_NEXT_AGENT_HANDOFF_20261104.md)
 > supersedes "current/latest" claims in this dated research history and
 > the [2026-11-02 handoff](TH09_NEXT_AGENT_HANDOFF_20261102.md).
 > In particular, Player Movement is **122** unlike bytes, not the historical
@@ -10,6 +10,24 @@
 > Sections below describe **their own historical source checkpoints**;
 > do not interpret old names or private class layouts as current.
 
+
+## 2026-11-05 external reference audit — no canonical promotion
+
+The operator requested the Cirno-Labs/th09 clone under `_reference/` and a
+check with our Oracle. Read [the bounded audit](CIRNO_LABS_REFERENCE_AUDIT_20261105.md).
+Pinned upstream `d7653152` yields eight complete external-source matches:
+6562 physical bytes, 351 relocation fields, actual literal definitions checked,
+zero unresolved references. These cover currently nonexact Title result,
+options and three cursor owners, Supervisor update/frame insertion and
+controller input. Our source/ledgers remain unchanged at 1005 exact functions;
+this is diagnostic evidence, not canonical acceptance. Upstream's 98.65%
+function count is distinct from its 88.11% game-byte figure.
+
+Reproduce only this bounded sample with `python3 -B
+scripts/audit-cirno-reference.py --group title --group system --build`.
+Ignored checkout, CP932 source mirror, original-bound JSON/build receipts and
+bounded Ghidra exports remain locally available as documented in the audit.
+No full cold replay, source import, game run or push was performed.
 
 ## Operator status — reconstruction explicitly resumed
 
