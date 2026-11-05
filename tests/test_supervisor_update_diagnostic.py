@@ -156,6 +156,7 @@ class SupervisorFrontierTests(unittest.TestCase):
             'build/matching/SupervisorUpdate.obj', reference_unit='supervisor-register-chain')
         self.assertEqual(build.call_count, 10)
         self.assertEqual({x['unit'] for x in exact}, {
+            'supervisor-on-update',
             'supervisor-subthread-is-running', 'supervisor-check-version',
             'supervisor-load-version-data', 'anm-manager-execute-script-array',
             'anm-manager-service-preloaded-anims', 'soundplayer-update-fades',

@@ -24,7 +24,7 @@ class SupervisorCtorFrameOffsets(unittest.TestCase):
         for index in (0,1,2):
             for axis in ('X','Y'):
                 name=f'frameOffset{axis}'
-                self.assertIn(f'globalSupervisor->ctorArray078[{index}].{name}',s)
+                self.assertIn(f'ctorArray078[{index}].{name}',s)
         self.assertIn('SupervisorUpdateNativeFrameOffsets',s)
 
     def test_original_large_supervisor_and_its_exact_siblings_remain_frozen(self):

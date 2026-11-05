@@ -133,7 +133,8 @@ def run_controller_input(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     exact = []
     if protect_exact:
         exact = [canonical('controller-set-button-directinput'),
-                 canonical('controller-set-button-joystick')]
+                 canonical('controller-set-button-joystick'),
+                 canonical('controller-get-controller-input')]
     return {'controller_input': {
         'target_bytes': 808, 'candidate_bytes': current['candidate_bytes'],
         'unlike_bytes': current['overlapping_differences'],
@@ -1595,6 +1596,7 @@ def run_supervisor_update(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     result = guard_supervisor_update(parsed(['scripts/inspect-supervisor-update.py', obj], diagnostic=True))
     exact = []
     if protect_exact:
+        exact.append(canonical('supervisor-on-update'))
         with (ROOT/'config/match-units.toml').open('rb') as stream:
             units = tomllib.load(stream)['units']
         for name, source, symbol, address, size in SUPERVISOR_UPDATE_CALLEES:
@@ -4251,6 +4253,7 @@ def run_title_result() -> dict:
                    reference_unit='title-screen-setup-thread')
     draw = parsed(['scripts/inspect-title-result-draw.py', result_obj, '--json'])
     guard_title_draw_result(draw)
+    canonical('title-screen-draw-result')
     return {'title_draw_result': {
         'target_bytes': 1939, 'candidate_bytes': draw['candidate_bytes'],
         'ordinary_differences': draw['complete_differences'],
@@ -4305,6 +4308,7 @@ def run_title_open() -> dict:
     options = parsed(['scripts/inspect-title-options.py', options_obj,
                       '--require-native-input', '--json'])
     guard_title_options(options)
+    canonical('title-screen-options-update')
     cursor_reports['title_update_options'] = {
         'target_bytes': 2045, 'candidate_bytes': options['candidate_bytes'],
         'literal_definitions_checked': options['literal_definitions_checked'],

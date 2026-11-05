@@ -98,13 +98,11 @@ differ or the comparison is inconclusive, keep the TH09 fact unknown.
   inert padding, lie about the ABI, or patch target code to force equality.
   Do not introduce assembly, register/variable-order hints, dummy clobbers or
   compiler-profile roulette to force a match.
-- One current source-specific exception is the no-code VC7.1
-  _ReadWriteBarrier() in TitleScreenResultDraw.cpp: it preserves the reviewed
-  ordering of the scoreGroup store and subsequent currentScreen snapshot and
-  emits no runtime instruction. It remains a non-exact, source-specific
-  compiler scheduling constraint, not semantic evidence or a reusable
-  matching trick. Re-evaluate it only with a complete-owner proof; do not add
-  new barriers/assembly/register hints as a generic codegen tactic.
+- The former no-code _ReadWriteBarrier() exception in
+  TitleScreenResultDraw.cpp was removed after the Cirno-Labs reference
+  integration reproduced the complete 1939-byte/82-field owner using natural
+  source. Do not restore it or add new barriers/assembly/register hints as a
+  generic codegen tactic. See docs/CIRNO_LABS_INTEGRATION_20261105.md.
 - Record durable TH09 facts in `docs/KNOWLEDGE_BASE.md`. Cross-game promotion
   belongs to a later Factory review and is not performed by a game session.
 

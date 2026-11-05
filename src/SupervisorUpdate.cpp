@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Adapted from Cirno-Labs/th09 src/app.cpp, App::OnUpdate,
+// commit d7653152becabb8c86f2f43d49015ecc11bd0652.
+// Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "Supervisor.hpp"
 #include "Chain.hpp"
 #include "AnmManager.hpp"
@@ -12,25 +16,6 @@
 
 namespace
 {
-enum SupervisorUpdateState
-{
-    SUPERVISOR_STATE_NEG1 = -1,
-    SUPERVISOR_STATE_0 = 0,
-    SUPERVISOR_STATE_1 = 1,
-    SUPERVISOR_STATE_2 = 2,
-    SUPERVISOR_STATE_3 = 3,
-    SUPERVISOR_STATE_4 = 4,
-    SUPERVISOR_STATE_5 = 5,
-    SUPERVISOR_STATE_6 = 6,
-    SUPERVISOR_STATE_7 = 7,
-    SUPERVISOR_STATE_8 = 8,
-    SUPERVISOR_STATE_9 = 9,
-    SUPERVISOR_STATE_10 = 10,
-    SUPERVISOR_STATE_11 = 11,
-    SUPERVISOR_STATE_12 = 12,
-    SUPERVISOR_STATE_13 = 13,
-};
-
 // Each original 0xF0 Supervisor ctor-array element owns its two trailing
 // frame-offset floats. Their three instances are the +0x160/+0x250/+0x340
 // words used by the full OnUpdate callback.
@@ -55,228 +40,225 @@ extern int __fastcall SupervisorServiceUpdate(Supervisor *supervisor);
 extern void __fastcall GameManager_CutChain();
 extern int __fastcall RegisterTitleScreen(int mode);
 
-int Supervisor::OnUpdate(Supervisor *supervisor)
+int Supervisor::OnUpdate(Supervisor *app)
 {
-    Supervisor *s = supervisor;
-    Supervisor *globalSupervisor = &g_Supervisor;
-    int registrationContext;
-
-    s->field478 = 0;
-
+    app->field478 = 0;
     if (g_SupervisorNetworkState->active == 0)
     {
         ResetSupervisorServiceChannels();
-        goto UPDATE_FRAME;
     }
-
-    if (!SupervisorSubthreadIsRunning(supervisor))
+    else if (!SupervisorSubthreadIsRunning(app))
     {
         for (;;)
         {
-            switch (SupervisorServiceUpdate(supervisor))
+            switch (SupervisorServiceUpdate(app))
             {
             case 1:
                 continue;
-
             case 2:
-                return CHAIN_CALLBACK_RESULT_BREAK;
-
+                return 3;
             case 3:
                 g_SupervisorNetworkState->ResetSession();
                 SupervisorNetworkMarkInactive(g_SupervisorNetworkState);
                 g_SupervisorNetworkState->connectionState = 0;
-                s->curState590 = SUPERVISOR_STATE_1;
-                goto UPDATE_FRAME;
-
+                app->curState590 = 1;
+                break;
             case 4:
                 g_SupervisorNetworkState->ResetSession();
-                return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-
-            default:
-                goto UPDATE_FRAME;
+                return 4;
             }
+            break;
         }
     }
-
-UPDATE_FRAME:
-    if (s->flagsLow5D4 < 0 && !SupervisorSubthreadIsRunning(supervisor))
-        return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-
-    globalSupervisor->frameState794 = 0xff;
+    if ((app->flagsLow5D4 >> 7 & 1) && !SupervisorSubthreadIsRunning(app))
+    {
+        return 4;
+    }
+    g_Supervisor.frameState794 = 0xff;
     g_AnmManager->ResetForSupervisorFrame();
-    globalSupervisor->ctorArray078[0].frameOffsetX = 0.0f;
-    globalSupervisor->ctorArray078[0].frameOffsetY = 0.0f;
-    globalSupervisor->ctorArray078[1].frameOffsetX = 0.0f;
-    globalSupervisor->ctorArray078[1].frameOffsetY = 0.0f;
-    globalSupervisor->ctorArray078[2].frameOffsetX = 0.0f;
-    globalSupervisor->ctorArray078[2].frameOffsetY = 0.0f;
+    g_Supervisor.ctorArray078[0].frameOffsetX = 0.0f;
+    g_Supervisor.ctorArray078[0].frameOffsetY = 0.0f;
+    g_Supervisor.ctorArray078[1].frameOffsetX = 0.0f;
+    g_Supervisor.ctorArray078[1].frameOffsetY = 0.0f;
+    g_Supervisor.ctorArray078[2].frameOffsetX = 0.0f;
+    g_Supervisor.ctorArray078[2].frameOffsetY = 0.0f;
     g_AnmManager->ExecuteScriptArray(g_SupervisorLoadingVms, 3);
     if (g_AnmManager->ServicePreloadedAnims() != 0)
     {
-        return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
+        return 4;
     }
-
-    if (s->startupThreadState6BC != 0)
+    if (app->startupThreadState6BC != 0)
     {
-        if (s->startupThreadState6BC == 2)
-            return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-        if (s->subthreadActive != 0)
-            return CHAIN_CALLBACK_RESULT_CONTINUE;
-        s->startupThreadState6BC = 0;
-    }
-
-    g_SoundPlayer.UpdateFades();
-
-    if (s->wantedState58C != s->curState590)
-    {
-        int previousState = s->curState590;
-        s->wantedState2 = s->wantedState58C;
-
-        switch (s->wantedState58C)
+        if (app->startupThreadState6BC == 2)
         {
-        case SUPERVISOR_STATE_0:
-        REGISTER_MODE0:
-            s->curState590 = SUPERVISOR_STATE_1;
-            globalSupervisor->d3dDevice08->ResourceManagerDiscardBytes(0);
-            registrationContext = 0;
-            goto REGISTER_TITLE_MODE;
-
-        case SUPERVISOR_STATE_1:
-            switch (previousState)
+            return 4;
+        }
+        if (app->subthreadActive != 0)
+        {
+            return 1;
+        }
+        app->startupThreadState6BC = 0;
+    }
+    g_SoundPlayer.UpdateFades();
+    if (app->wantedState58C != app->curState590)
+    {
+        app->wantedState2 = app->wantedState58C;
+        switch (app->wantedState58C)
+        {
+        case 0:
+        title:
+            app->curState590 = 1;
+            g_Supervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
+            if (RegisterTitleScreen(0) != 0)
             {
-            case SUPERVISOR_STATE_NEG1:
-                return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-            case SUPERVISOR_STATE_2:
+                return 4;
+            }
+            break;
+        case 1:
+            switch (app->curState590)
+            {
+            case -1:
+                return 4;
+            case 2:
                 if (GameManagerSetupLayout::RegisterChain() != 0)
-                    return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
+                {
+                    return 4;
+                }
                 break;
-            case SUPERVISOR_STATE_4:
-                return CHAIN_CALLBACK_RESULT_EXIT_GAME_ERROR;
-            case SUPERVISOR_STATE_6:
-                goto REGISTER_MODE1_A;
-            case SUPERVISOR_STATE_9:
-                goto REGISTER_STATE9;
-            default:
+            case 4:
+                return 5;
+            case 6:
+                app->curState590 = 1;
+                g_Supervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
+                if (RegisterTitleScreen(1) != 0)
+                {
+                    return 4;
+                }
+                break;
+            case 9:
+                if (Ending::RegisterChain() != 0)
+                {
+                    return 4;
+                }
                 break;
             }
             break;
-
-        case SUPERVISOR_STATE_2:
-            switch (previousState)
+        case 5:
+        case 6:
+        case 8:
+            switch (app->curState590)
             {
-            case SUPERVISOR_STATE_NEG1:
-                return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-
-            case SUPERVISOR_STATE_1:
+            case -1:
+                return 4;
+            case 1:
+                app->curState590 = 0;
+                goto title;
+            }
+            break;
+        case 2:
+            switch (app->curState590)
+            {
+            case -1:
+                return 4;
+            case 1:
                 GameManager_CutChain();
-                s->curState590 = SUPERVISOR_STATE_0;
-                goto REGISTER_MODE0;
-
-            case SUPERVISOR_STATE_3:
-            REREGISTER_GAME_MANAGER:
+                app->curState590 = 0;
+                goto title;
+            case 6:
+                GameManager_CutChain();
+                app->curState590 = 1;
+                g_Supervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
+                if (RegisterTitleScreen(1) != 0)
+                {
+                    return 4;
+                }
+                break;
+            case 10:
+            case 13:
                 GameManager_CutChain();
                 if (GameManagerSetupLayout::RegisterChain() != 0)
-                    return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-            SET_GAME_MANAGER_STATE2:
-                s->curState590 = SUPERVISOR_STATE_2;
+                {
+                    return 4;
+                }
+                app->curState590 = 2;
                 break;
-
-            case SUPERVISOR_STATE_6:
-                GameManager_CutChain();
-                goto REGISTER_MODE1_B;
-
-            case SUPERVISOR_STATE_7:
-                GameManager_CutChain();
-                goto REGISTER_MODE1_A;
-
-            case SUPERVISOR_STATE_9:
-                GameManager_CutChain();
-                goto REGISTER_STATE9;
-
-            case SUPERVISOR_STATE_10:
-            case SUPERVISOR_STATE_13:
+            case 11:
+                g_Supervisor.value59C = 1;
                 GameManager_CutChain();
                 if (GameManagerSetupLayout::RegisterChain() != 0)
-                    return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-                goto SET_GAME_MANAGER_STATE2;
-
-            case SUPERVISOR_STATE_11:
-                globalSupervisor->value59C = 1;
-                goto REREGISTER_GAME_MANAGER;
-
-            case SUPERVISOR_STATE_12:
-                globalSupervisor->curState590 = SUPERVISOR_STATE_3;
-                goto REREGISTER_GAME_MANAGER;
-
-            default:
+                {
+                    return 4;
+                }
+                app->curState590 = 2;
+                break;
+            case 12:
+                g_Supervisor.curState590 = 3;
+                GameManager_CutChain();
+                if (GameManagerSetupLayout::RegisterChain() != 0)
+                {
+                    return 4;
+                }
+                app->curState590 = 2;
+                break;
+            case 3:
+                GameManager_CutChain();
+                if (GameManagerSetupLayout::RegisterChain() != 0)
+                {
+                    return 4;
+                }
+                app->curState590 = 2;
+                break;
+            case 7:
+                GameManager_CutChain();
+                app->curState590 = 0;
+                app->curState590 = 1;
+                g_Supervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
+                if (RegisterTitleScreen(1) != 0)
+                {
+                    return 4;
+                }
+                break;
+            case 9:
+                GameManager_CutChain();
+                if (Ending::RegisterChain() != 0)
+                {
+                    return 4;
+                }
                 break;
             }
             break;
-
-        case SUPERVISOR_STATE_5:
-        case SUPERVISOR_STATE_6:
-        case SUPERVISOR_STATE_8:
-            if (previousState == SUPERVISOR_STATE_NEG1)
-                return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-            if (previousState == SUPERVISOR_STATE_1)
+        case 9:
+            switch (app->curState590)
             {
-                s->curState590 = SUPERVISOR_STATE_0;
-                goto REGISTER_MODE0;
-            }
-            break;
-
-        case SUPERVISOR_STATE_9:
-            switch (previousState)
-            {
-            case SUPERVISOR_STATE_NEG1:
-                return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-            case SUPERVISOR_STATE_1:
-                s->curState590 = SUPERVISOR_STATE_0;
-                goto REGISTER_MODE0;
-            case SUPERVISOR_STATE_6:
-                goto REGISTER_MODE1_B;
-            default:
+            case -1:
+                return 4;
+            case 1:
+                app->curState590 = 0;
+                goto title;
+            case 6:
+                app->curState590 = 1;
+                g_Supervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
+                if (RegisterTitleScreen(1) != 0)
+                {
+                    return 4;
+                }
                 break;
             }
-            break;
-
-        default:
             break;
         }
     }
-
-TRANSITION_DONE:
-    s->wantedState58C = s->curState590;
-    s->calcCount454++;
-    if (s->calcCount454 % 4000 == 3999 &&
-        static_cast<SupervisorVersionView *>(globalSupervisor)->CheckVersion(
-            "0150a", globalSupervisor->exeSize7A4,
-            globalSupervisor->exeChecksum7A0) != 0)
+    app->wantedState58C = app->curState590;
+    app->calcCount454++;
+    if (app->calcCount454 % 4000 == 3999)
     {
-        return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
+        if (static_cast<SupervisorVersionView *>(&g_Supervisor)->CheckVersion("0150a", g_Supervisor.exeSize7A4, g_Supervisor.exeChecksum7A0) != 0)
+        {
+            return 4;
+        }
     }
-
     if (g_ScreenEffectCounter != 0)
+    {
         g_ScreenEffectCounter--;
-    return CHAIN_CALLBACK_RESULT_CONTINUE;
-
-REGISTER_MODE1_A:
-    s->curState590 = SUPERVISOR_STATE_1;
-    globalSupervisor->d3dDevice08->ResourceManagerDiscardBytes(0);
-    registrationContext = 1;
-    goto REGISTER_TITLE_MODE;
-
-REGISTER_MODE1_B:
-    s->curState590 = SUPERVISOR_STATE_1;
-    globalSupervisor->d3dDevice08->ResourceManagerDiscardBytes(0);
-    registrationContext = 1;
-REGISTER_TITLE_MODE:
-    if (RegisterTitleScreen(registrationContext) != 0)
-        return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-    goto TRANSITION_DONE;
-
-REGISTER_STATE9:
-    if (Ending::RegisterChain() != 0)
-        return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-    goto TRANSITION_DONE;
+    }
+    return 1;
 }

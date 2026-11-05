@@ -14,9 +14,13 @@ in [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
 | `0x00424FB0` | Title reverse cursor | 175 | 2 | `title-character-cursor-reverse` |
 | `0x0042505F` | Title inactive cursor | 175 | 2 | `title-character-cursor-inactive` |
 | `0x0042E9E0` | Supervisor received-frame insertion | 213 | 0 | `supervisor-frame-queue-insert-received` |
+| `0x00423D16` | Title result drawing | 1939 | 82 | `title-screen-draw-result` |
+| `0x004276EB` | Title options update | 2045 | 135 | `title-screen-options-update` |
+| `0x0042B410` | Controller input | 808 | 32 | `controller-get-controller-input` |
+| `0x00431110` | Supervisor update | 996 | 92 | `supervisor-on-update` |
 
-All four reproduce every original byte and relocation under the existing
-pinned local compiler profiles: **774 physical bytes, ten fields**. There
+All eight reproduce every original byte and relocation under the existing
+pinned local compiler profiles: **6562 physical bytes, 351 fields**. There
 are no assembly blocks, register hints, dummy effects, added defensive
 branches or fabricated return values. The cursor loops use the existing
 native VM elements and methods; the queue scan and shift use the existing
@@ -43,8 +47,24 @@ new received-frame unit; its frontier now requires zero differences.
 All three queue comparisons pass. Full target-independent CI passes **1329
 tests (29 skipped)**, tracking, documentation, progress and whitespace checks.
 
-The ledger changes from **1005 to 1009 exact functions** and from
-247597 to **248371 exact authored bytes**; the 291883-byte reviewed denominator
+The first four-function checkpoint is `f4b4c902`, independently verified on
+the remote integration branch. The second batch adds result/options, controller
+and Supervisor update. Result drawing removes the old compiler-only barrier;
+the natural ranking/name-keyboard source now reproduces all 1939 original bytes.
+Options includes our real scrolling helper body, visible just as it is in the
+reference: its emitted 42-byte body independently equals the original, and
+the options caller becomes exact without a new ABI or compiler profile.
+Controller preserves the native 0x8E input stride and signed configuration
+threshold reads. Supervisor includes all four switch tables, not only its
+844 authored bytes. Focused controller and Supervisor replays pass three and
+eleven canonical comparisons respectively.
+The eight-owner checkpoint passes full target-independent CI: **1329 tests,
+29 skipped**, plus tracking, documentation, progress and whitespace checks.
+The retained historical nonexact diagnostic envelopes do not grant credit;
+the newly registered canonical units require complete zero-difference replay.
+
+The ledger changes from **1005 to 1013 exact functions** and from
+247597 to **254007 exact authored bytes (87.0236%)**; the 291883-byte reviewed denominator
 is unchanged. Whole-product/native-runtime/Factory acceptance is separate.
 
 ## Reproduction and evidence
@@ -68,9 +88,9 @@ The target is the pinned Japanese v1.50a executable, never an upstream build.
 ## Remaining reference inventory
 
 Address comparison between our 30 initial nonexact owners and the immutable
-upstream progress image found sixteen upstream-positive candidates. The four
-above are adopted. The other candidates are result/options/replay-save draws,
-controller input, Supervisor update and network handler, biased ECL movement,
+upstream progress image found sixteen upstream-positive candidates. The eight
+above are adopted. The other candidates are replay-save drawing,
+Supervisor network handler, biased ECL movement,
 Etama draw, random message setup, Front added callback, ExAttack type3 update
 and the shared ExAttack type14/22 draw. Each needs native source integration
 and its own complete original-bound replay; the upstream image is routing

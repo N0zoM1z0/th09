@@ -57,9 +57,9 @@ downloaded tools are private and never committed.
 TH09 reconstruction is active on explicit operator request. Work both complete
 large owners and leaf functions; historical hypotheses and experiment notes are
 not authoritative over fresh source/target evidence. The canonical ledger
-currently reports **2,248 candidates, 1,035 authored mappings, 1,009 exact
-functions and 26 non-exact functions / 43,512 bytes**. Exact authored-byte
-coverage is **248,371 / 291,883 (85.0927%)**; the 98% milestone remains open.
+currently reports **2,248 candidates, 1,035 authored mappings, 1,013 exact
+functions and 22 non-exact functions / 37,876 bytes**. Exact authored-byte
+coverage is **254,007 / 291,883 (87.0236%)**; the 98% milestone remains open.
 Whole-product linking, runtime semantics and portability are separate,
 unstarted gates.
 

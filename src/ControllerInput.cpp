@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Adapted from Cirno-Labs/th09 src/unsorted.cpp, ReadPad,
+// commit d7653152becabb8c86f2f43d49015ecc11bd0652.
+// Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "Controller.hpp"
 #include "ReplayInputState.hpp"
 #include "Supervisor.hpp"
@@ -55,131 +59,78 @@ static u32 SetButtonFromJoystickButtons(
     return (inputButtons & mask) ? touhouButton : 0;
 }
 
-// Native JOYCAPSA min/max words form one eight-byte range. Keep the
-// low-edge snapshot separate from the source range used for the high edge.
-struct JoystickAxisRangeView
+u16 __fastcall GetControllerInput(int input, int pad, u16 buttons)
 {
-    UINT minimum;
-    UINT maximum;
+    JOYINFOEX joyInfo;
+    DWORD margin;
+    HRESULT hr;
+    DIJOYSTATE2 state;
+    ReplayInputState *playerInput;
+    int retries;
 
-    u32 GetDirectionButtons(DWORD position, u16 lowerBit, u16 upperBit) const
+    playerInput = &g_ReplayInputStates[input];
+    if (g_Supervisor.controllers14[0] == NULL || g_Supervisor.controllers14[1] == NULL)
     {
-        UINT quarterWidth = (maximum - minimum) >> 2;
-        JoystickAxisRangeView lower(*this);
-        UINT lowerThreshold = (lower.maximum + lower.minimum) >> 1;
-        lowerThreshold -= quarterWidth;
-        u32 result = position < lowerThreshold ? lowerBit : 0;
-        UINT upper = (minimum + maximum) >> 1;
-        upper += quarterWidth;
-        return result | (position > upper ? upperBit : 0);
-    }
-};
-
-typedef char JoystickAxisRangeViewSizeIs8[
-    (sizeof(JoystickAxisRangeView) == 8) ? 1 : -1];
-typedef char ControllerAxisNativeXPair[
-    (offsetof(JOYCAPSA, wXmax) - offsetof(JOYCAPSA, wXmin) == sizeof(UINT)) ? 1 : -1];
-typedef char ControllerAxisNativeYPair[
-    (offsetof(JOYCAPSA, wYmax) - offsetof(JOYCAPSA, wYmin) == sizeof(UINT)) ? 1 : -1];
-
-u16 __fastcall GetControllerInput(
-    int controllerIndex, int joystickIndex, u16 buttons)
-{
-    DIJOYSTATE2 joystickState;
-    JOYINFOEX joystickInfo;
-    int savedJoystickIndex = joystickIndex;
-    ReplayInputState *inputSlot =
-        &g_ReplayInputStates[controllerIndex];
-
-    if (g_Supervisor.controllers14[0] == NULL ||
-        g_Supervisor.controllers14[1] == NULL)
-    {
-        memset(&joystickInfo, 0, sizeof(joystickInfo));
-        joystickInfo.dwSize = sizeof(joystickInfo);
-        joystickInfo.dwFlags = JOY_RETURNALL;
-        if (joyGetPosEx(savedJoystickIndex != 0, &joystickInfo) != JOYERR_NOERROR)
+        memset(&joyInfo, 0, sizeof(joyInfo));
+        joyInfo.dwSize = sizeof(joyInfo);
+        joyInfo.dwFlags = JOY_RETURNALL;
+        if (joyGetPosEx(pad != 0, &joyInfo) != JOYERR_NOERROR)
+        {
             return buttons;
-
-        u32 rawButtons = joystickInfo.dwButtons;
-        SetButtonFromJoystickButtons(
-            &buttons, inputSlot->keyCodes58[0], 0x001, rawButtons);
-        SetButtonFromJoystickButtons(
-            &buttons, inputSlot->keyCodes58[1], 0x002, rawButtons);
-        SetButtonFromJoystickButtons(
-            &buttons, inputSlot->keyCodes58[2], 0x004, rawButtons);
-        SetButtonFromJoystickButtons(
-            &buttons, inputSlot->keyCodes58[3], 0x008, rawButtons);
-        SetButtonFromJoystickButtons(
-            &buttons, inputSlot->keyCodes58[4], 0x010, rawButtons);
-        SetButtonFromJoystickButtons(
-            &buttons, inputSlot->keyCodes58[5], 0x020, rawButtons);
-        SetButtonFromJoystickButtons(
-            &buttons, inputSlot->keyCodes58[6], 0x040, rawButtons);
-        SetButtonFromJoystickButtons(
-            &buttons, inputSlot->keyCodes58[7], 0x080, rawButtons);
-        SetButtonFromJoystickButtons(
-            &buttons, inputSlot->keyCodes58[8], 0x100, rawButtons);
-
-        buttons |= reinterpret_cast<const JoystickAxisRangeView *>(
-            &g_JoystickCaps[savedJoystickIndex].wXmin)->GetDirectionButtons(
-                joystickInfo.dwXpos, 0x40, 0x80);
-        buttons |= reinterpret_cast<const JoystickAxisRangeView *>(
-            &g_JoystickCaps[savedJoystickIndex].wYmin)->GetDirectionButtons(
-                joystickInfo.dwYpos, 0x10, 0x20);
+        }
+        SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[0], 1, joyInfo.dwButtons);
+        SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[1], 2, joyInfo.dwButtons);
+        SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[2], 4, joyInfo.dwButtons);
+        SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[3], 8, joyInfo.dwButtons);
+        SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[4], 0x10, joyInfo.dwButtons);
+        SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[5], 0x20, joyInfo.dwButtons);
+        SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[6], 0x40, joyInfo.dwButtons);
+        SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[7], 0x80, joyInfo.dwButtons);
+        SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[8], 0x100, joyInfo.dwButtons);
+        margin = (g_JoystickCaps[pad].wXmax - g_JoystickCaps[pad].wXmin) / 2 / 2;
+        buttons |= ((g_JoystickCaps[pad].wXmin + g_JoystickCaps[pad].wXmax) / 2 + margin < joyInfo.dwXpos) ? 0x80 : 0;
+        buttons |= (joyInfo.dwXpos < (g_JoystickCaps[pad].wXmin + g_JoystickCaps[pad].wXmax) / 2 - margin) ? 0x40 : 0;
+        margin = (g_JoystickCaps[pad].wYmax - g_JoystickCaps[pad].wYmin) / 2 / 2;
+        buttons |= ((g_JoystickCaps[pad].wYmin + g_JoystickCaps[pad].wYmax) / 2 + margin < joyInfo.dwYpos) ? 0x20 : 0;
+        buttons |= (joyInfo.dwYpos < (g_JoystickCaps[pad].wYmin + g_JoystickCaps[pad].wYmax) / 2 - margin) ? 0x10 : 0;
         return buttons;
     }
-
-    // Poll and Acquire may change the published device slot. The target
-    // reloads it for every call, then retains it only for GetDeviceState.
-    if (g_Supervisor.controllers14[savedJoystickIndex]->Poll() < 0)
+    hr = g_Supervisor.controllers14[pad]->Poll();
+    if (FAILED(hr))
     {
-        int acquireAttempts = 0;
-        HRESULT result = g_Supervisor.controllers14[savedJoystickIndex]->Acquire();
-        if (result == DIERR_INPUTLOST)
+        retries = 0;
+        hr = g_Supervisor.controllers14[pad]->Acquire();
+        while (hr == DIERR_INPUTLOST)
         {
-            do
+            hr = g_Supervisor.controllers14[pad]->Acquire();
+            retries++;
+            if (retries >= 400)
             {
-                result = g_Supervisor.controllers14[savedJoystickIndex]->Acquire();
-                ++acquireAttempts;
-                if (acquireAttempts >= 400)
-                    return buttons;
+                return buttons;
             }
-            while (result == DIERR_INPUTLOST);
         }
         return buttons;
     }
-
-    IDirectInputDevice8A *device =
-        g_Supervisor.controllers14[savedJoystickIndex];
-    memset(&joystickState, 0, sizeof(joystickState));
-    if (device->GetDeviceState(sizeof(joystickState), &joystickState) < 0)
+    memset(&state, 0, sizeof(state));
+    hr = g_Supervisor.controllers14[pad]->GetDeviceState(sizeof(DIJOYSTATE2), &state);
+    if (FAILED(hr))
+    {
         return buttons;
-
-    SetButtonFromDirectInputState(
-        &buttons, inputSlot->keyCodes58[0], 0x001, joystickState.rgbButtons);
-    SetButtonFromDirectInputState(
-        &buttons, inputSlot->keyCodes58[1], 0x002, joystickState.rgbButtons);
-    SetButtonFromDirectInputState(
-        &buttons, inputSlot->keyCodes58[2], 0x004, joystickState.rgbButtons);
-    SetButtonFromDirectInputState(
-        &buttons, inputSlot->keyCodes58[3], 0x008, joystickState.rgbButtons);
-    SetButtonFromDirectInputState(
-        &buttons, inputSlot->keyCodes58[4], 0x010, joystickState.rgbButtons);
-    SetButtonFromDirectInputState(
-        &buttons, inputSlot->keyCodes58[5], 0x020, joystickState.rgbButtons);
-    SetButtonFromDirectInputState(
-        &buttons, inputSlot->keyCodes58[6], 0x040, joystickState.rgbButtons);
-    SetButtonFromDirectInputState(
-        &buttons, inputSlot->keyCodes58[7], 0x080, joystickState.rgbButtons);
-    SetButtonFromDirectInputState(
-        &buttons, inputSlot->keyCodes58[8], 0x100, joystickState.rgbButtons);
-
-    // Configuration stores unsigned words; this target path reads signed words.
-    buttons |= joystickState.lX < -static_cast<i16>(g_Supervisor.config388.padXAxis) ? 0x40 : 0;
-    buttons |= joystickState.lY < -static_cast<i16>(g_Supervisor.config388.padYAxis) ? 0x10 : 0;
-    buttons |= joystickState.lX > static_cast<i16>(g_Supervisor.config388.padXAxis) ? 0x80 : 0;
-    buttons |= joystickState.lY > static_cast<i16>(g_Supervisor.config388.padYAxis) ? 0x20 : 0;
+    }
+    SetButtonFromDirectInputState(&buttons, playerInput->keyCodes58[0], 1, state.rgbButtons);
+    SetButtonFromDirectInputState(&buttons, playerInput->keyCodes58[1], 2, state.rgbButtons);
+    SetButtonFromDirectInputState(&buttons, playerInput->keyCodes58[2], 4, state.rgbButtons);
+    SetButtonFromDirectInputState(&buttons, playerInput->keyCodes58[3], 8, state.rgbButtons);
+    SetButtonFromDirectInputState(&buttons, playerInput->keyCodes58[4], 0x10, state.rgbButtons);
+    SetButtonFromDirectInputState(&buttons, playerInput->keyCodes58[5], 0x20, state.rgbButtons);
+    SetButtonFromDirectInputState(&buttons, playerInput->keyCodes58[6], 0x40, state.rgbButtons);
+    SetButtonFromDirectInputState(&buttons, playerInput->keyCodes58[7], 0x80, state.rgbButtons);
+    SetButtonFromDirectInputState(&buttons, playerInput->keyCodes58[8], 0x100, state.rgbButtons);
+    buttons |= (state.lX > static_cast<i16>(g_Supervisor.config388.padXAxis)) ? 0x80 : 0;
+    buttons |= (state.lX < -static_cast<i16>(g_Supervisor.config388.padXAxis)) ? 0x40 : 0;
+    buttons |= (state.lY > static_cast<i16>(g_Supervisor.config388.padYAxis)) ? 0x20 : 0;
+    buttons |= (state.lY < -static_cast<i16>(g_Supervisor.config388.padYAxis)) ? 0x10 : 0;
     return buttons;
-
 }
+
 } // namespace Controller

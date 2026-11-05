@@ -39,7 +39,9 @@ class RealTitleOptionDependencies(TestCase):
             with self.subTest(expected=expected):
                 self.assertIn(expected, s)
         self.assertEqual(s.count('titleAnm->SetSprite('), 8)
-        self.assertEqual(s.count('reinterpret_cast<AnmVm *>(&vms['), 8)
+        unit = manifest()['title-screen-options-update']
+        self.assertEqual(sum(r['type'] == 'REL32' and r['target'] == 0x436AC0
+                             for r in unit['relocations']), 8)
         for legacy in ('struct SoundPlayerView', 'struct TitleAnmView',
                        'struct TitleAnmManagerView {',
                        'extern TitleAnmManagerView *g_TitleAnmManager;'):

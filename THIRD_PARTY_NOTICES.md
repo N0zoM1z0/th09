@@ -15,6 +15,10 @@ adaptations. Original game files and assets are not included or licensed here.
 | `src/TitleScreen.cpp` | `src/mainmenu.cpp`, `MainMenu::SelectEntryStep`, `SelectEntry2`, `SelectEntry3` | Three indexed character-cursor loops, retaining our independently reviewed types, methods and ABI |
 
 | `src/SupervisorFrameQueueInsert.cpp` | `src/app.cpp`, `App::AddRecord` | Indexed native frame scan and shift loops, preserving the independently reviewed void ABI |
+| `src/TitleScreenResultDraw.cpp` | `src/mainmenu.cpp`, `MainMenu::DrawState13` | Ranking/name-keyboard drawing with native score records and Ascii/GameManager identities |
+| `src/TitleScreenOptions.cpp` | `src/mainmenu.cpp`, `MainMenu::UpdateState9` | Options state machine with native Supervisor/input/ANM/sound fields; uses our real scrolling-helper implementation |
+| `src/ControllerInput.cpp` | `src/unsorted.cpp`, `ReadPad` | Native DirectInput/WinMM polling and axis expressions, retaining our shared input/configuration types |
+| `src/SupervisorUpdate.cpp` | `src/app.cpp`, `App::OnUpdate` | Full native scene-transition callback, preserving all original switch tables and native callee identities |
 
 Modified files identify this provenance in their headers. Integration commits
 also identify the upstream repository and revision. Original-byte agreement

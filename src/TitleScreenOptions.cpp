@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Adapted from Cirno-Labs/th09 src/mainmenu.cpp, MainMenu::UpdateState9,
+// commit d7653152becabb8c86f2f43d49015ecc11bd0652.
+// Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 // Target-bound TH09 TitleScreen options reconstruction view.
 // TH08 supplies the natural source family only; TH09 target evidence fixes
 // the embedded owner, layout, menu domain, option globals, and control flow.
@@ -51,7 +55,11 @@ struct InputView {
     u16 previous02;
     u16 repeatOutput04;
     u16 frontState06;
-    u16 IsPressedScrolling(i32 mask);
+    u16 IsPressedScrolling(i32 mask)
+    {
+        u16 pressed = frontState06 & mask;
+        return pressed != 0 || ((pressed = repeatOutput04 & mask) != 0);
+    }
 };
 
 typedef char OptionsInputSizeIs08[(sizeof(InputView) == 8) ? 1 : -1];
@@ -149,339 +157,350 @@ typedef char OptionsTitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) 
 
 int TitleScreenView::OnUpdateOptions()
 {
-    u32 i;
+    int i;
 
-    switch (currentScreenState)
+    switch (this->currentScreenState)
     {
     case 0:
-        if (stateTimer2 == 0)
+        if (this->stateTimer2 == 0)
         {
-            g_AnmManager->SetInterruptArray(reinterpret_cast<AnmVm *>(vms), vmCount, 3);
-            g_AnmManager->ExecuteScriptArray(reinterpret_cast<AnmVm *>(vms), vmCount);
-            currentScreenState = 0;
-            stateTimer = 0;
-            previousCursor = -1;
-            menuVmStart = 9;
-            menuItemCount = 9;
-            UpdateMenuSelection();
-            optionsUiReady = 1;
+            g_AnmManager->SetInterruptArray(reinterpret_cast<AnmVm *>(this->vms), this->vmCount, 3);
+            g_AnmManager->ExecuteScriptArray(reinterpret_cast<AnmVm *>(this->vms), this->vmCount);
+            this->currentScreenState = 0;
+            this->stateTimer = 0;
+            this->previousCursor = -1;
+            this->menuItemCount = this->menuVmStart = 9;
+            this->UpdateMenuSelection();
+            this->optionsUiReady = 1;
         }
-
-        currentScreenState = 1;
-        for (i = 0; i < 9; i++)
-            DrawTitleHelpText(reinterpret_cast<TitleAnmManagerView *>(g_AnmManager), &embeddedVms[i], 0xFFF0E0, 0x300000,
-                              g_TitleOptionsHelpText[i]);
-
+        this->currentScreenState = 1;
+        for (i = 0; i < sizeof(g_TitleOptionsHelpText) / sizeof(g_TitleOptionsHelpText[0]); i++)
+        {
+            DrawTitleHelpText(reinterpret_cast<TitleAnmManagerView *>(g_AnmManager), &this->embeddedVms[i], 0xfff0e0, 0x300000, g_TitleOptionsHelpText[i]);
+        }
     case 1:
-    {
-        // Preserve the target signed-byte view without caching either value.
-        i8 &musicVolume = reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume);
-        i8 &sfxVolume = reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume);
-
-        if (musicVolume >= 100)
+        if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) >= 100)
         {
-            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[26]), vms[26].baseSpriteIndex);
-            vms[26].color1Bytes[3] = 0xFF;
-            vms[26].flags |= 2u;
+            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[26]), this->vms[26].baseSpriteIndex);
+            this->vms[26].color1Bytes[3] = 0xff;
+            this->vms[26].flags |= 2;
         }
         else
         {
-            vms[26].color1Bytes[3] = 0;
-            vms[26].flags &= ~2u;
+            this->vms[26].color1Bytes[3] = 0;
+            this->vms[26].flags &= ~2;
         }
-
-        if (musicVolume >= 10)
+        if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) >= 10)
         {
-            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[27]), vms[27].baseSpriteIndex +
-                                ((musicVolume / 10) % 10) * 2);
-            vms[27].color1Bytes[3] = 0xFF;
-            vms[27].flags |= 2u;
+            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[27]),
+                                 this->vms[27].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) / 10 % 10 * 2);
+            this->vms[27].color1Bytes[3] = 0xff;
+            this->vms[27].flags |= 2;
         }
         else
         {
-            vms[27].color1Bytes[3] = 0;
-            vms[27].flags &= ~2u;
+            this->vms[27].color1Bytes[3] = 0;
+            this->vms[27].flags &= ~2;
         }
-
-        titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[28]), vms[28].baseSpriteIndex + (musicVolume % 10) * 2);
-        titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[29]), vms[29].baseSpriteIndex);
-
-        if (sfxVolume >= 100)
+        this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[28]), this->vms[28].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) % 10 * 2);
+        this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[29]), this->vms[29].baseSpriteIndex);
+        if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) >= 100)
         {
-            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[30]), vms[30].baseSpriteIndex);
-            vms[30].color1Bytes[3] = 0xFF;
-            vms[30].flags |= 2u;
+            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[30]), this->vms[30].baseSpriteIndex);
+            this->vms[30].color1Bytes[3] = 0xff;
+            this->vms[30].flags |= 2;
         }
         else
         {
-            vms[30].color1Bytes[3] = 0;
-            vms[30].flags &= ~2u;
+            this->vms[30].color1Bytes[3] = 0;
+            this->vms[30].flags &= ~2;
         }
-
-        if (sfxVolume >= 10)
+        if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) >= 10)
         {
-            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[31]), vms[31].baseSpriteIndex +
-                                ((sfxVolume / 10) % 10) * 2);
-            vms[31].color1Bytes[3] = 0xFF;
-            vms[31].flags |= 2u;
+            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[31]),
+                                 this->vms[31].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) / 10 % 10 * 2);
+            this->vms[31].color1Bytes[3] = 0xff;
+            this->vms[31].flags |= 2;
         }
         else
         {
-            vms[31].color1Bytes[3] = 0;
-            vms[31].flags &= ~2u;
+            this->vms[31].color1Bytes[3] = 0;
+            this->vms[31].flags &= ~2;
         }
-        if (MoveCursorVertical(9))
-            UpdateMenuSelection();
-
-        if (previousCursor != keyboardSelection)
+        if (this->MoveCursorVertical(9) != 0)
         {
-            currentHelpTextVm = &embeddedVms[keyboardSelection];
-            currentHelpTextVm->pendingInterrupt = 1;
+            this->UpdateMenuSelection();
         }
-        previousCursor = keyboardSelection;
-
-        if (stateTimer2 < 4)
+        if (this->previousCursor != this->keyboardSelection)
+        {
+            this->currentHelpTextVm = &this->embeddedVms[this->keyboardSelection];
+            this->currentHelpTextVm->pendingInterrupt = 1;
+        }
+        this->previousCursor = this->keyboardSelection;
+        if (this->stateTimer2 < 4)
+        {
             break;
-
+        }
         if (reinterpret_cast<InputView *>(&g_ReplayInputStates[2])->IsPressedScrolling(0x40))
         {
-            switch (keyboardSelection)
+            switch (this->keyboardSelection)
             {
             case 0:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 if (g_Supervisor.config388.valueAC == 0)
+                {
                     g_Supervisor.config388.valueAC = 2;
+                }
                 else
+                {
                     g_Supervisor.config388.valueAC--;
-                SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 18, 3);
+                }
+                this->SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 0x12, 3);
                 break;
             case 1:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 if (g_Supervisor.config388.valueAD == 0)
+                {
                     g_Supervisor.config388.valueAD = 1;
+                }
                 else
+                {
                     g_Supervisor.config388.valueAD--;
-                SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 21, 2);
+                }
+                this->SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 0x15, 2);
                 break;
             case 2:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 g_Supervisor.StopAudio();
                 if (g_Supervisor.config388.musicMode == 0)
+                {
                     g_Supervisor.config388.musicMode = 1;
+                }
                 else
+                {
                     g_Supervisor.config388.musicMode--;
+                }
                 g_Supervisor.LoadMusic(0);
                 g_Supervisor.PlayMusic(0, 0);
-                SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 23, 3);
+                this->SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 0x17, 3);
                 break;
             case 5:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 if (g_Supervisor.config388.windowed == 0)
+                {
                     g_Supervisor.config388.windowed = 1;
+                }
                 else
+                {
                     g_Supervisor.config388.windowed--;
-                SetMenuSelectionSprites(g_Supervisor.config388.windowed, 34, 2);
+                }
+                this->SetMenuSelectionSprites(g_Supervisor.config388.windowed, 0x22, 2);
                 break;
             default:
-                goto left_scrolling_done;
+                goto volume;
             }
-            PlayMenuSound(12, 0);
+            this->PlayMenuSound(12, 0);
         }
-    left_scrolling_done:
-
+    volume:
         if (g_ReplayInputStates[2].word06 & 0x40)
         {
-            switch (keyboardSelection)
+            switch (this->keyboardSelection)
             {
-            case 3: {
-                musicVolume -= 4;
-                if (musicVolume < 0)
-                    musicVolume = 0;
+            case 3:
+                reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) -= 4;
+                if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) < 0)
+                {
+                    reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) = 0;
+                }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            }
-            case 4: {
-                sfxVolume -= 4;
-                if (sfxVolume < 0)
-                    sfxVolume = 0;
+            case 4:
+                reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) -= 4;
+                if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) < 0)
+                {
+                    reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) = 0;
+                }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            }
             }
         }
-
         if (g_ReplayInputStates[2].word06 & 0x80)
         {
-            switch (keyboardSelection)
+            switch (this->keyboardSelection)
             {
-            case 3: {
-                musicVolume += 4;
-                if (musicVolume > 100)
-                    musicVolume = 100;
+            case 3:
+                reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) += 4;
+                if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) > 100)
+                {
+                    reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) = 100;
+                }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            }
-            case 4: {
-                sfxVolume += 4;
-                if (sfxVolume > 100)
-                    sfxVolume = 100;
+            case 4:
+                reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) += 4;
+                if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) > 100)
+                {
+                    reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) = 100;
+                }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            }
             }
         }
-
         if (g_ReplayInputStates[2].word06 & 0x40)
         {
-            switch (keyboardSelection)
+            switch (this->keyboardSelection)
             {
-            case 3: {
-                if (musicVolume > 0)
-                    musicVolume--;
+            case 3:
+                if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) > 0)
+                {
+                    reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume)--;
+                }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            }
-            case 4: {
-                if (sfxVolume > 0)
-                    sfxVolume--;
+            case 4:
+                if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) > 0)
+                {
+                    reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume)--;
+                }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            }
             }
         }
-
         if (g_ReplayInputStates[2].word06 & 0x80)
         {
-            switch (keyboardSelection)
+            switch (this->keyboardSelection)
             {
-            case 3: {
-                if (musicVolume < 100)
-                    musicVolume++;
+            case 3:
+                if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) < 100)
+                {
+                    reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume)++;
+                }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            }
-            case 4: {
-                if (sfxVolume < 100)
-                    sfxVolume++;
+            case 4:
+                if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) < 100)
+                {
+                    reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume)++;
+                }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            }
             }
         }
-
-        g_SoundPlayer.bgmVolume = musicVolume;
-        g_SoundPlayer.sfxVolume = sfxVolume;
-
+        g_SoundPlayer.bgmVolume = reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume);
+        g_SoundPlayer.sfxVolume = reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume);
         if (reinterpret_cast<InputView *>(&g_ReplayInputStates[2])->IsPressedScrolling(0x80))
         {
-            switch (keyboardSelection)
+            switch (this->keyboardSelection)
             {
             case 0:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 if (g_Supervisor.config388.valueAC >= 2)
+                {
                     g_Supervisor.config388.valueAC = 0;
+                }
                 else
+                {
                     g_Supervisor.config388.valueAC++;
-                SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 18, 3);
+                }
+                this->SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 0x12, 3);
                 break;
             case 1:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 if (g_Supervisor.config388.valueAD >= 1)
+                {
                     g_Supervisor.config388.valueAD = 0;
+                }
                 else
+                {
                     g_Supervisor.config388.valueAD++;
-                SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 21, 2);
+                }
+                this->SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 0x15, 2);
                 break;
             case 2:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 g_Supervisor.StopAudio();
                 if (g_Supervisor.config388.musicMode >= 1)
+                {
                     g_Supervisor.config388.musicMode = 0;
+                }
                 else
+                {
                     g_Supervisor.config388.musicMode++;
+                }
                 g_Supervisor.LoadMusic(0);
                 g_Supervisor.PlayMusic(0, 0);
-                SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 23, 3);
+                this->SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 0x17, 3);
                 break;
             case 5:
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 if (g_Supervisor.config388.windowed >= 1)
+                {
                     g_Supervisor.config388.windowed = 0;
+                }
                 else
+                {
                     g_Supervisor.config388.windowed++;
-                SetMenuSelectionSprites(g_Supervisor.config388.windowed, 34, 2);
+                }
+                this->SetMenuSelectionSprites(g_Supervisor.config388.windowed, 0x22, 2);
                 break;
             default:
-                goto right_scrolling_done;
+                goto idle;
             }
-            PlayMenuSound(12, 0);
+            this->PlayMenuSound(12, 0);
         }
-    right_scrolling_done:
-
-        if ((keyboardSelection >= 3 && keyboardSelection <= 4) && stateTimer2 % 50 == 0)
-            g_SoundPlayer.PlaySoundByIdx(29, 0);
-
-        optionsFrameCounter = 0;
+    idle:
+        if (this->keyboardSelection >= 3 && this->keyboardSelection <= 4 && this->stateTimer2 % 50 == 0)
+        {
+            g_SoundPlayer.PlaySoundByIdx(0x1d, 0);
+        }
+        this->optionsFrameCounter = 0;
         if (g_ReplayInputStates[2].word06 & 0x1001)
         {
-            switch (keyboardSelection)
+            switch (this->keyboardSelection)
             {
             case 6:
                 g_Supervisor.config388.valueAC = 0;
                 g_Supervisor.config388.musicMode = 1;
                 g_Supervisor.config388.valueAF = 1;
-                PlayMenuSound(10, 0);
-                SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 18, 3);
-                SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 21, 2);
-                SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 23, 3);
-                SetMenuSelectionSprites(g_Supervisor.config388.windowed, 34, 2);
+                this->PlayMenuSound(10, 0);
+                this->SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 0x12, 3);
+                this->SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 0x15, 2);
+                this->SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 0x17, 3);
+                this->SetMenuSelectionSprites(g_Supervisor.config388.windowed, 0x22, 2);
                 break;
             case 7:
-                keyboardSelection = 0;
-                ChangeCurrentScreen(10);
-                PlayMenuSound(10, 0);
+                this->keyboardSelection = 0;
+                this->ChangeCurrentScreen(10);
+                this->PlayMenuSound(10, 0);
                 return 1;
             case 8:
-                goto leave_options;
+                goto leave;
             }
         }
-
-        if (g_ReplayInputStates[2].word06 & 0xA)
+        if (g_ReplayInputStates[2].word06 & 0xa)
         {
-            if (keyboardSelection == 8)
-                goto leave_options;
-
-            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[keyboardSelection + 9]),
-                                vms[keyboardSelection + 9].baseSpriteIndex + 1);
-            keyboardSelection = 8;
-            titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&vms[17]), vms[17].baseSpriteIndex);
-            PlayMenuSound(11, 0);
+            if (this->keyboardSelection == 8)
+            {
+            leave:
+                this->keyboardSelection = 6;
+                this->ChangeCurrentScreen(1);
+                this->OnUpdateStartMenu();
+                this->PlayMenuSound(11, 0);
+                if (this->configSnapshot.valueAD != g_Supervisor.config388.valueAD ||
+                    this->configSnapshot.windowed != g_Supervisor.config388.windowed)
+                {
+                    return 5;
+                }
+                return 1;
+            }
+            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[this->keyboardSelection + 9]), this->vms[this->keyboardSelection + 9].baseSpriteIndex + 1);
+            this->keyboardSelection = 8;
+            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[this->keyboardSelection + 9]), this->vms[this->keyboardSelection + 9].baseSpriteIndex);
+            this->PlayMenuSound(11, 0);
         }
-        break;
     }
-
-    default:
-        break;
-    }
-
-common_tail:
-    optionsFrameCounter++;
-    stateTimer++;
-    stateTimer2++;
+    this->optionsFrameCounter++;
+    this->stateTimer++;
+    this->stateTimer2++;
     return 1;
-
-leave_options:
-    keyboardSelection = 6;
-    ChangeCurrentScreen(1);
-    OnUpdateStartMenu();
-    PlayMenuSound(11, 0);
-    if (configSnapshot.valueAD != g_Supervisor.config388.valueAD || configSnapshot.windowed != g_Supervisor.config388.windowed)
-        return 5;
-    return 1;
-}
-
-int TitleScreenView::PlayMenuSound(i32 soundId, i32 unused)
-{
-    g_SoundPlayer.PlaySoundByIdx(soundId, unused);
-    return g_SoundPlayer.ProcessQueues();
 }
