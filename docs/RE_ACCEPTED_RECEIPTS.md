@@ -12,6 +12,47 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 5: native Player and complete Enemy carrier — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `bfa170c9df714dc0d4bde1600bcaa2c16d778f79`.
+Both affected ECL configurations are freshly rebuilt from86 quoted source
+inputs. All83 units pass29856 complete bytes/1389 fields. Two private label
+spellings preserve actual definitions, addends and original encoded operands.
+Full RunEcl/Enemy raw bodies and actual referents remain unchanged in both
+profiles; their main original-linked frontiers stay30/13 ordinary differences.
+
+The ignored `.analysis/runecl-current-handlers-20261105/boss-source-proof.json`
+is SHA-256 `e52571a93f3b68573aee8cae83b021fe078549efa8133663b5801a93563e5ada`.
+It binds112 tracked inputs/Git blobs,14 actual objects/profiles, eight pinned
+compiler/SDK files, both preserved old ECL objects and full diagnostic reports.
+Its112 current comparisons include the83 ECL units and29 unchanged bound
+leaf/callee/alias proofs:31883 complete bytes/1460 fields. The separate
+`verify-player-receipts.py` validates both source receipts and writes a new
+current replay without modifying the sealed evidence. Enemy/ECL/RunEcl/shared
+tests pass318 with three skips. No new exact/origin credit; totals remain
+1035 source-present/1022 exact/13 nonexact. See
+[the source review](TH09_NATIVE_PLAYER_TRACKING_20261105.md).
+
+## November 5: native Player tracking leaves — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `435ffda07b0ae4416296f23feeb58ed6b4d096ef`.
+Three SHT callbacks remove private Player layouts; Enemy cleanup shares the
+existing native Player's tracking storage. Four complete leaves retain1042
+bytes/35 fields and all actual referents. Three nominal parameter symbols
+change without changing the original fastcall ABI or table destinations.
+Twenty-two callee/sibling units cold-replay870 bytes/34 fields; three unchanged
+bound callee/alias proofs replay115 bytes/two fields. No new match credit.
+
+The ignored `leaf-source-proof.json` in the same packet is SHA-256
+`aa7878f096dab818cf4bdd686b99bbfe4460ae0b6c8a069bbae67ecb0c094c3e`.
+It binds51 tracked inputs/Git blobs,12 objects/profiles, eight compiler/SDK
+files,29 full comparisons/2027 bytes/71 fields and fresh five-function Ghidra
+attestation of all685056 file-backed mapped bytes. Enemy/Player tests pass205
+with five skips. The later Enemy source checkpoint reuses these source/object
+proofs after independently checking all29 unit recipes remain unchanged.
+
 ## November 5: native replay state — local affected-owner Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

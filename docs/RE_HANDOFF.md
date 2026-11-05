@@ -21,6 +21,12 @@ and RunEcl raw bodies/actual referents are unchanged in both profiles; the main
 original-linked frontiers remain3900/97/13 and15564/598/30. Two further RunEcl
 timeout controls fail to improve that frontier and are not adopted. See
 [the source review](TH09_NATIVE_PLAYER_TRACKING_20261105.md).
+Source `bfa170c9`; sealed receipt SHA-256
+`e52571a93f3b68573aee8cae83b021fe078549efa8133663b5801a93563e5ada`.
+The independent verifier checks112 current inputs/14 objects and112 complete
+comparisons, including29 unchanged leaf/callee/alias proofs from `435ffda0`.
+Those combined comparisons pass31883 bytes/1460 fields. The two source
+receipts and their original-bound reports are preserved separately.
 No new exact/origin or product/runtime credit; totals remain1022 exact/13 nonexact.
 
 ## 2026-11-05 continued main — native Player tracking leaves

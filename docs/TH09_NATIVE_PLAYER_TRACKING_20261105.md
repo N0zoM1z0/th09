@@ -101,3 +101,24 @@ owner checkpoint. The earlier leaf/callee objects and source-bound proofs
 remain available for reuse.
 Enemy/ECL/RunEcl/shared-storage tests pass318 with three existing skips.
 Tracking, generated progress, documentation and whitespace checks pass.
+
+## Immutable local source receipts
+
+The leaf source checkpoint is `435ffda07b0ae4416296f23feeb58ed6b4d096ef`.
+`leaf-source-proof.json` binds51 tracked inputs/Git blobs and12 actual objects;
+SHA-256 `aa7878f096dab818cf4bdd686b99bbfe4460ae0b6c8a069bbae67ecb0c094c3e`.
+Its29 leaf/callee/alias comparisons cover2027 bytes/71 fields.
+
+The complete Enemy source checkpoint is `bfa170c9df714dc0d4bde1600bcaa2c16d778f79`.
+`boss-source-proof.json` binds112 current inputs/Git blobs and14 actual objects;
+SHA-256 `e52571a93f3b68573aee8cae83b021fe078549efa8133663b5801a93563e5ada`.
+All112 combined comparisons pass31883 bytes/1460 fields. The29 leaf/callee
+recipes, sources and objects are checked unchanged before their reuse.
+Both receipts also bind the eight pinned compiler/SDK files.
+
+`python3 -B .analysis/runecl-current-handlers-20261105/verify-player-receipts.py`
+independently checks both immutable source/Git/object/report bindings, all112
+current comparisons and both full large bodies in both profiles. It writes
+`current-source-replay.json` and a separate RunEcl diagnostic; it never
+overwrites the sealed source receipts or their reports. These are local
+exact-source receipts, with no Factory or remote-publication claim.
