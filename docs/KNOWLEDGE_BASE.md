@@ -18,6 +18,17 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: shared Enemy collision query storage
+
+The exact82-byte wrapper reaches the existing player collisionQuery36C via the
+shared sideState320->player04 chain, removing two padded private projections.
+Both ECL source/profile carriers replay all81 canonical units. Fresh complete
+Enemy3900/97/13 and RunEcl15564/598/30 diagnostics retain the same residuals;
+actual COFF definitions bind the two renamed private labels to unchanged
+original destinations. Fresh fully mapped Ghidra exports corroborate the
+pointer chain, without granting exactness. See
+[the bounded review](TH09_NATIVE_SOURCE_REVIEW_20261105.md). No extra credit.
+
 ### 2026-11-05 continued main: native MusicRoom and fresh source controls
 
 [The current-source review](TH09_NATIVE_SOURCE_REVIEW_20261105.md) records new

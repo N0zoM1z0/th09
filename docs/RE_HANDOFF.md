@@ -11,6 +11,17 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — shared Enemy collision storage
+
+The82-byte collision wrapper uses the established PlayerLifecycleView query
+field instead of two padded private structures. Fresh target-attested Ghidra
+covers the wrapper, Enemy update and RunEcl. Both ECL carrier profiles rebuild:
+all81 canonical exact units pass; full Enemy3900/97/13 and RunEcl15564/598/30
+frontiers remain unchanged. Only two compiler-private label spellings move,
+with actual COFF definitions proving the same immutable destinations. See
+[the current-source review](TH09_NATIVE_SOURCE_REVIEW_20261105.md).
+No new exact count or product/runtime claim; tracking remains1019/16.
+
 ## 2026-11-05 continued main — native MusicRoom and current-source retries
 
 See [TH09_NATIVE_SOURCE_REVIEW_20261105.md](TH09_NATIVE_SOURCE_REVIEW_20261105.md).

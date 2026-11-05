@@ -65,6 +65,24 @@ high-level rewrite must still pass the complete comparison. Repeated numeric
 results here are newly compiled observations at this HEAD, not borrowed old
 receipts. A failed experiment does not exhaust other natural source models.
 
+## Enemy collision helper: shared player storage
+
+The exact 82-byte collision wrapper now resolves sideState320->player04 through
+the existing PlayerLifecycleView collisionQuery36C field. This removes two
+padded private structures. The shared side pointer and player field offsets
+remain independently asserted; the boundary still bridges the existing
+PlayerPositionView API without changing its signature.
+
+Fresh target-attested Ghidra exports cover410250,410730 and4086C0. Both actual
+ECL carriers are rebuilt with their unchanged profiles: all81 canonical exact
+units pass, including the82-byte wrapper and205-byte collision append callee.
+Two compiler-private label names change; their actual same-section COFF
+definitions prove the unchanged original destinations. No field offset,
+relocation kind or destination is fitted to a candidate. Enemy update remains
+3900 bytes/97 fields/13 unequal bytes; complete RunEcl remains15564 physical
+bytes/598 fields/30 unequal bytes, seven in opcode4 and23 in opcode155.
+This is source cleanup with complete preservation, not new exact credit.
+
 ## Reproduction and local evidence
 
 ```bash
