@@ -11,6 +11,19 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — natural ReplayMenu expressions
+
+ReplayMenu replaces manual component arithmetic and staged character arguments
+with SDK vector expressions and direct format arguments, credited to Cirno-Labs
+DrawState11. Fresh full raw bytes and actual COFF identities remain identical:
+1280 bytes, 57 fields and 29 differences; all 1251 previously equal positions
+survive. The three real-owner contexts agree. Full local CI passes 1330 tests
+with 29 skips, plus tracking/docs/progress and whitespace checks.
+New complete ECL bitfield/jump controls regress and are rejected, while fresh
+Enemy count arithmetic stays at 13 differences. See
+[the current-source review](TH09_NATIVE_SOURCE_REVIEW_20261105.md).
+Tracking remains 1019 exact / 16 nonexact; no new exact credit.
+
 ## 2026-11-05 continued main — shared Enemy collision storage
 
 The82-byte collision wrapper uses the established PlayerLifecycleView query

@@ -41,7 +41,7 @@ def make_contexts(title: str, menu: str, mode: str = 'all') -> dict[str, str]:
                           '    int DrawReplayMenu();\n' + SETUP_DECLARATION, 1)
     boundary = title.index(SETUP_DEFINITION)
     tail = menu[menu.index(MENU_GLOBALS):]
-    prefix = '#include <stdio.h>\n#include <string.h>\n'
+    prefix = '#include <d3dx8math.h>\n#include <stdio.h>\n#include <string.h>\n'
     result = {'standalone': menu}
     if mode in ('declarations', 'all'):
         result['declarations'] = prefix + title[:boundary] + '\n' + tail

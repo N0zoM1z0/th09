@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Native SDK vector/formatting source adapted from Cirno-Labs/th09 d7653152.
+// Original MIT portions retain their grant; see THIRD_PARTY_NOTICES.md.
+#include <d3dx8math.h>
 #include "AsciiManager.hpp"
 
 #include <stddef.h>
@@ -26,6 +30,13 @@ struct TitleScreenView
 
     int DrawReplayMenu();
 };
+
+// The SDK vector crosses the established Float3 text API at a checked layout.
+typedef char ReplayMenuVectorLayoutMatchesFloat3[
+    (sizeof(D3DXVECTOR3) == sizeof(Float3) &&
+     offsetof(D3DXVECTOR3, x) == offsetof(Float3, x) &&
+     offsetof(D3DXVECTOR3, y) == offsetof(Float3, y) &&
+     offsetof(D3DXVECTOR3, z) == offsetof(Float3, z)) ? 1 : -1];
 
 typedef char ReplayMenuStateAt28[
     (offsetof(TitleScreenView, currentScreenState) == 0x28) ? 1 : -1];
@@ -57,7 +68,8 @@ static __inline const char *ReplayMenuPlayerName(ReplayDataView *replay)
 
 int TitleScreenView::DrawReplayMenu()
 {
-    Float3 position;
+    D3DXVECTOR3 position;
+    char buffer[256];
 
     if (currentScreenState == 1)
     {
@@ -79,7 +91,7 @@ int TitleScreenView::DrawReplayMenu()
             if (i < 25)
             {
                 g_AsciiManager.AddFormatText(
-                    &position,
+                    reinterpret_cast<Float3 *>(&position),
                     "No.%.2d %8s %8s",
                     i + 1,
                     (replays[i].magic ? replays[i].playerName : "--------"),
@@ -87,19 +99,14 @@ int TitleScreenView::DrawReplayMenu()
             }
             else
             {
-                // Evaluate the two strings before filename characters 18..15.
-                const char *date = (replays[i].magic ? replays[i].playTime : "--/--/--");
-                const char *name = (replays[i].magic ? replays[i].playerName : "--------");
-                char c3 = replays[i].magic ? replayPaths[i][18] : 'r';
-                char c2 = replays[i].magic ? replayPaths[i][17] : 'e';
-                char c1 = replays[i].magic ? replayPaths[i][16] : 's';
-                char c0 = replays[i].magic ? replayPaths[i][15] : 'u';
                 g_AsciiManager.AddFormatText(
-                    &position,
-                    "%c%c%c%c  %8s %8s",
-                    c0, c1, c2, c3,
-                    name,
-                    date);
+                    reinterpret_cast<Float3 *>(&position), "%c%c%c%c  %8s %8s",
+                    replays[i].magic ? replayPaths[i][15] : 'u',
+                    replays[i].magic ? replayPaths[i][16] : 's',
+                    replays[i].magic ? replayPaths[i][17] : 'e',
+                    replays[i].magic ? replayPaths[i][18] : 'r',
+                    replays[i].magic ? replays[i].playerName : "--------",
+                    replays[i].magic ? replays[i].playTime : "--/--/--");
             }
             position.y += 13.0f;
         }
@@ -114,34 +121,17 @@ int TitleScreenView::DrawReplayMenu()
         position.y = (float)selected * 13.0f + 90.0f;
         position.z = 0.0f;
 
-        Float3 target;
-        target.x = 216.5f;
-        target.y = 160.0f;
-        target.z = 0.0f;
-        // Acquire the interpolation timer after setting up the coordinates.
+        D3DXVECTOR3 target(216.5f, 160.0f, 0.0f);
         i32 frame = stateTimer2;
         if (frame < 10)
-        {
-            Float3 scaled;
-            scaled.x = target.x - position.x;
-            scaled.y = target.y - position.y;
-            scaled.z = target.z - position.z;
-            target.x = scaled.x * (float)frame;
-            target.y = scaled.y * (float)frame;
-            target.z = scaled.z * (float)frame;
-            scaled.x = target.x * 0.1f;
-            scaled.y = target.y * 0.1f;
-            scaled.z = target.z * 0.1f;
-            target.x = scaled.x + position.x;
-            target.y = scaled.y + position.y;
-            target.z = scaled.z + position.z;
-        }
-        position = target;
+            position = position + (target - position) * (float)frame * 0.1f;
+        else
+            position = target;
 
         if (selected < 25)
         {
             g_AsciiManager.AddFormatText(
-                &position,
+                reinterpret_cast<Float3 *>(&position),
                 "No.%.2d %8s %8s",
                 selected + 1,
                 ReplayMenuPlayerName(replay),
@@ -149,18 +139,14 @@ int TitleScreenView::DrawReplayMenu()
         }
         else
         {
-            const char *date = ReplayMenuPlayTime(replay);
-            const char *name = ReplayMenuPlayerName(replay);
-            char c3 = replay->magic ? replayPaths[selected][18] : 'r';
-            char c2 = replay->magic ? replayPaths[selected][17] : 'e';
-            char c1 = replay->magic ? replayPaths[selected][16] : 's';
-            char c0 = replay->magic ? replayPaths[selected][15] : 'u';
             g_AsciiManager.AddFormatText(
-                &position,
-                "%c%c%c%c  %8s %8s",
-                c0, c1, c2, c3,
-                name,
-                date);
+                reinterpret_cast<Float3 *>(&position), "%c%c%c%c  %8s %8s",
+                replay->magic ? replayPaths[selected][15] : 'u',
+                replay->magic ? replayPaths[selected][16] : 's',
+                replay->magic ? replayPaths[selected][17] : 'e',
+                replay->magic ? replayPaths[selected][18] : 'r',
+                replay->magic ? replay->playerName : "--------",
+                replay->magic ? replay->playTime : "--/--/--");
         }
 
         position.x = 221.0f;
@@ -168,30 +154,27 @@ int TitleScreenView::DrawReplayMenu()
 
         if (replays[selected].value1E4 == 0)
         {
-            char buffer[256];
             sprintf(
                 buffer, "%s  -%s-",
                 g_ReplayStoryModeName[0],
                 g_ReplayDifficultyNames[replay->value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
-            g_AsciiManager.AddFormatText(&position, buffer);
+            g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&position), buffer);
         }
         else if (replays[selected].value1E4 == 1)
         {
-            char buffer[256];
             sprintf(buffer, "%s", g_ReplayExtraModeName[0]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
-            g_AsciiManager.AddFormatText(&position, buffer);
+            g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&position), buffer);
         }
         else if (replays[selected].value1E4 == 2)
         {
-            char buffer[256];
             sprintf(
                 buffer, "%s  -%s-",
                 g_ReplayModeNames[replay->value1E5],
                 g_ReplayDifficultyNames[replay->value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
-            g_AsciiManager.AddFormatText(&position, buffer);
+            g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&position), buffer);
         }
 
         position.x = 230.0f;
@@ -204,7 +187,7 @@ int TitleScreenView::DrawReplayMenu()
                 g_AsciiManager.color =
                     (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
                 g_AsciiManager.AddFormatText(
-                    &position,
+                    reinterpret_cast<Float3 *>(&position),
                     "%.8s vs %.8s",
                     g_ReplayCharacterNames[replay->frameStart[0][i]->value06],
                     g_ReplayCharacterNames[replay->frameStart[1][i]->value06]);

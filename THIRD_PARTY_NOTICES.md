@@ -16,6 +16,7 @@ Original game files and assets are outside these licenses.
 | `src/SupervisorUpdate.cpp` | `src/app.cpp`, `App::OnUpdate` | Full native scene-transition callback, preserving all original switch tables and native callee identities |
 | `src/FrontMessageRandomSetup.cpp` | `src/gui.cpp`, `StartRandom` | Native weighted message selection and indexed fallback loops |
 | `src/FrontAddedCallback.cpp` | `src/gui.cpp`, `AddedCallback` | Native vertex and ANM initialization, using the reviewed AnmLoaded record |
+| `src/TitleScreenReplayMenuDraw.cpp` | `src/mainmenu.cpp`, `DrawState11` | Native SDK vector interpolation, shared formatting buffer and direct conditional arguments; retains the nonexact frontier |
 | `src/TitleScreenReplaySaveDraw.cpp` | `src/mainmenu.cpp`, `DrawState15` | Native replay-slot and name-keyboard drawing |
 | `src/ExAttackUpdateType3.cpp` | `src/pl02.cpp`, `UpdateExAttackType3` | Native history shifts, collision positions and VM state transitions |
 | `src/SupervisorNetworkMessageHandler.cpp` | `src/network.cpp`, message handler | Full native packet dispatch, with target-backed unsigned 16-bit frame input ABI |

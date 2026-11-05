@@ -18,6 +18,17 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: native ReplayMenu expressions
+
+The SDK vector/direct-format simplification keeps the complete 1280-byte body
+and all actual COFF identities identical to the fresh baseline, preserving all
+1251 equal positions and 29 unequal ones. Source attribution names Cirno-Labs
+DrawState11. Current-source ECL native-bitfield and direct-timer retries regress;
+Enemy count arithmetic leaves 13 differences. The source review records complete
+ordinary/field/table comparisons, retaining the maintained 30-byte RunEcl frontier.
+No historical negative claim substitutes for these fresh controls. See
+[the bounded review](TH09_NATIVE_SOURCE_REVIEW_20261105.md).
+
 ### 2026-11-05 continued main: shared Enemy collision query storage
 
 The exact82-byte wrapper reaches the existing player collisionQuery36C via the
