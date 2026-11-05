@@ -18,6 +18,15 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: ECL probe header identity
+
+Copying only the lexical fragments mixed staged and live flags headers through
+EnemyManager.hpp, defeating pragma-once file identity and causing a real VC7.1
+duplicate-type error. The variant stager now closes every quoted project include;
+the raw runner verifies the entire observed/staged input hash set. A real macro
+trial completes15564/598/30 with zero field/table differences. See
+[the bounded review](TH09_ECL_WIRE_ARGUMENTS_20261105.md). No exact credit follows.
+
 ### 2026-11-05 continued main: typed ECL instruction operands
 
 TH09's instruction arguments begin at prefix+0x0C and share four-byte integer,

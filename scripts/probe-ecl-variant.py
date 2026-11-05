@@ -14,6 +14,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import tomllib
@@ -62,7 +63,7 @@ def stage_variants(destination: Path, *, state: Path | None = None,
                    control: Path | None = None,
                    primary_flags: Path | None = None,
                    overrides: dict[str, bytes] | None = None) -> dict[str, str]:
-    """Copy the entire first-include path, even when only a helper body changes."""
+    """Copy the first-include path and its complete quoted-header closure."""
     sources = {name: SRC / name for name in FRAGMENTS}
     if state is not None:
         sources['EclRunState.inl'] = state
@@ -83,19 +84,41 @@ def stage_variants(destination: Path, *, state: Path | None = None,
             raise ValueError('conflicting or non-byte ECL fragment override')
         data.update(overrides)
     attested_include_chain(data)
+    # A staged fragment can also be reached through EnemyManager.hpp. Mixing
+    # its live header with a staged copy defeats #pragma once's file identity
+    # and can either duplicate a type or bypass an altered declaration.
+    source_root = SRC.resolve()
+    pending = list(data)
+    while pending:
+        parent = pending.pop()
+        for include in re.findall(rb'^\s*#\s*include\s*"([^"]+)"', data[parent], re.M):
+            include_path = Path(include.decode())
+            if include_path.is_absolute():
+                raise ValueError('absolute ECL include bypasses staged source root')
+            source = SRC / Path(parent).parent / include_path
+            resolved = source.resolve()
+            if not resolved.is_relative_to(source_root):
+                raise ValueError('quoted ECL include escapes source root')
+            if source.is_symlink():
+                raise ValueError('refusing symlinked ECL header input')
+            name = resolved.relative_to(source_root).as_posix()
+            if name not in data:
+                data[name] = source.read_bytes()
+                pending.append(name)
     destination.mkdir(parents=True, exist_ok=True)
     manifest = {}
     for name, content in data.items():
         output = destination / name
-        if output.is_symlink():
+        if output.is_symlink() or not output.resolve().is_relative_to(destination.resolve()):
             raise ValueError('refusing to replace symlink in ECL probe carrier')
+        output.parent.mkdir(parents=True, exist_ok=True)
         output.write_bytes(content)
         if output.read_bytes() != content:
             raise ValueError('ECL variant source carrier copy failed')
         manifest[name] = hashlib.sha256(content).hexdigest()
     # A second, explicit read proves the compiler's *first* relative include
     # resolves locally, rather than to a stale src/EclRunState.inl.
-    if any(not (destination / name).is_file() for name in FRAGMENTS):
+    if any(not (destination / name).is_file() for name in data):
         raise ValueError('first-include ECL chain was not fully staged')
     return manifest
 

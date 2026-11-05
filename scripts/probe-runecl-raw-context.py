@@ -258,6 +258,8 @@ def run(case, output):
         with tempfile.TemporaryDirectory(prefix='runecl-raw-', dir=build_root) as td:
             stage = Path(td)
             report['staged_first_include_sha256'] = variant.stage_variants(stage, overrides=changed)
+            if report['staged_first_include_sha256'] != {n:digest(b) for n,b in staged.items()}:
+                raise ValueError('staged include closure differs from observed compiler inputs')
             try:
                 report['whole_owner'] = variant.replay(stage)
             finally:
@@ -276,7 +278,7 @@ def run(case, output):
                         (stage/'replay-diagnostic.json').read_text())
             if 'raw_hex' not in report or 'runecl' not in report:
                 raise ValueError('completed replay lacks its actual object/whole-owner capture')
-            if any((stage/n).read_bytes() != staged[n] for n in variant.FRAGMENTS):
+            if any((stage/n).read_bytes() != data for n, data in staged.items()):
                 raise ValueError('staged source changed during compilation')
         if any(p.read_bytes() != data for p, data in observed.items()):
             raise ValueError('live source/provider changed during compilation')

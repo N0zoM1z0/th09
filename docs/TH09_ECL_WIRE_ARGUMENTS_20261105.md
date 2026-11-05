@@ -61,6 +61,17 @@ selected representation. Unknown/duplicate accessors and changed typed storage
 are rejected before rewriting. This preserves the rendered representation without
 turning a source-spelling test into game exactness acceptance.
 
+The real probe replay also exposed a separate staging defect: only the lexical
+fragments were copied, so a transitive live `EnemyManager.hpp` included the
+live flags header beside its staged duplicate. VC7.1 rejected the duplicate
+types. The shared variant stager now copies and hashes the complete quoted
+project-header closure. Escaping and absolute includes are rejected before
+writing the carrier. The raw runner compares every staged input hash to its
+observed inputs before compilation and verifies all copied inputs afterward.
+The real typed-integer macro trial now compiles and completes the original-bound
+15564-byte/598-field comparison with the same30 ordinary differences and no
+field/table differences. The original rejected receipt is retained separately.
+
 ## Reproduction and retained evidence
 
 The ignored `.analysis/ecl-arguments-20261105/` holds frozen inputs/hashes,
@@ -75,7 +86,7 @@ hashes. Trial recipes reconstruct their inputs from the preserved frozen set.
 Only hash-identical per-trial source/header duplicates are cleaned, with a
 per-file receipt. Unique controls, original inputs and unreplayed evidence stay.
 
-Target-independent CI passes; target/tracking/status,
+Target-independent CI passes1339 tests with29 skips. Target/tracking/status,
 documentation, generated progress and whitespace checks pass. Whole-product,
 runtime, portability, Factory
 acceptance and remote publication remain separate open claims.

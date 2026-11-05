@@ -3,6 +3,7 @@ from pathlib import Path
 import hashlib
 import importlib.util
 import json
+import re
 import tempfile
 from types import SimpleNamespace
 import unittest
@@ -19,14 +20,35 @@ class EclVariantFirstIncludeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             dst = Path(folder)
             manifest = variant.stage_variants(dst)
-            self.assertEqual(set(manifest), set(variant.FRAGMENTS))
-            self.assertEqual(len(manifest), 8)
-            for name in variant.FRAGMENTS:
+            self.assertTrue(set(variant.FRAGMENTS).issubset(manifest))
+            for name in manifest:
                 original = (ROOT/'src'/name).read_bytes()
                 self.assertEqual((dst/name).read_bytes(), original)
                 self.assertEqual(manifest[name], hashlib.sha256(original).hexdigest())
             self.assertEqual((dst/'EclRunLate.inl').read_text().count('#include "EclRunState.inl"'), 1)
             self.assertIn('#include "EclRunControl.inl"', (dst/'EclRunMovement.inl').read_text())
+            # Every quoted include resolves inside the same staged tree,
+            # including the alternate EnemyManager -> shared flags path.
+            self.assertIn('EnemyManager.hpp', manifest)
+            self.assertIn(b'#include "EclEnemyPrimaryFlags.hpp"',
+                          (dst/'EnemyManager.hpp').read_bytes())
+            for name in manifest:
+                for include in re.findall(rb'^\s*#\s*include\s*"([^"]+)"',
+                                          (dst/name).read_bytes(), re.M):
+                    child = (dst/Path(name).parent/include.decode()).resolve()
+                    self.assertTrue(child.is_relative_to(dst.resolve()))
+                    self.assertIn(child.relative_to(dst).as_posix(), manifest)
+
+    def test_transitive_include_escape_rejected_before_carrier_is_written(self):
+        before = (ROOT/'src/EclRunControl.inl').read_bytes()
+        with tempfile.TemporaryDirectory() as folder:
+            dst = Path(folder)/'carrier'
+            for include, error in (('../outside.hpp', 'escapes source root'),
+                                   (str(ROOT/'src/EnemyManager.hpp'), 'bypasses staged')):
+                with self.subTest(include=include), self.assertRaisesRegex(ValueError, error):
+                    variant.stage_variants(dst, overrides={
+                        'EclRunControl.inl':before+f'\n#include "{include}"\n'.encode()})
+                self.assertFalse(dst.exists())
 
     def test_shared_flags_variant_reaches_both_first_declarations(self):
         original = (ROOT/'src/EclEnemyPrimaryFlags.hpp').read_bytes()

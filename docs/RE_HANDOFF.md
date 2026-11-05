@@ -11,6 +11,16 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — complete ECL probe include closure
+
+The shared variant stager now copies/hashes every quoted project dependency,
+fixing a real duplicate-type compile failure from mixed live/staged headers.
+The raw runner binds the complete observed/staged input set. Its real typed
+integer macro trial completes15564 bytes/598 fields/30 ordinary differences,
+with no field/table differences. CI passes1339 tests with29 skips. Source
+checkpoint `6b07a109` retains90 exact units; totals remain1019/16. See
+[the bounded review](TH09_ECL_WIRE_ARGUMENTS_20261105.md).
+
 ## 2026-11-05 continued main — typed ECL wire operands
 
 The instruction prefix names its four-byte trailing operands; RawInt/RawFloat
