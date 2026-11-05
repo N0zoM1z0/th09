@@ -85,3 +85,7 @@ acceptance are separate gates.
 The retained diagnostic source proof is bound to game-source commit
 `ed3f7c658090eccf09010e6d45384e7363a26a3d`; its SHA-256 is
 `e5cc302ab18c0a8fa2365ff70206354f3a62ef04ec273351eac104022b8d0c13`. This records noncrediting investigation evidence, not an accepted exact owner.
+
+For later checks, `.analysis/replay-recorded-investigation.py --packet NAME`
+writes `source-replay.json` and verifies that the recorded proof stays unchanged;
+the original recipe is retained for provenance.
