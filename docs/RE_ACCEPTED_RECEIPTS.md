@@ -12,6 +12,43 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 5: complete Effect Type29 draw — local canonical Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `b6a9792c2013e67c375799abe9c49c6ab74f3685`.
+Target SHA-256:
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+
+`EffectDrawCallbackType29 @00448750` matches all2220 original bytes,129 fields,
+675 instructions,72 ordered calls and41 physical blocks in the existing
+EclManager Type11 `/O2 /Ob0` profile. Fully linked owner SHA-256:
+`8ecf5d55f2ef0de67316f09b3a6d9422b4475bf9a7fdf1ea9dd10919247a3455`.
+Independent per-fan angle lifetimes and real main-fan snapshot chronology close
+the previous92-byte frontier. Actual same-object polar/SDK bodies retain32/26/36
+original-equal bytes without extra authored/origin credit. The main `/Ob1` copy
+is uncredited; original source names and TU ownership remain unknown.
+
+Both affected canonical profiles pass83 units,29856 physical bytes and1389
+fields, including complete tails/tables. Two private labels retain independently
+proved actual definitions/original operand destinations. The previous48 other
+polar-cohort units reuse unchanged source/profile/object proofs. RunEcl retains
+identical raw/linked hashes and all30 prior differences; Enemy retains13.
+The focused complete-owner driver passes; full public CI passes1351 tests with
+29 skips. Target/tracking, docs/progress and whitespace checks pass, as do the18
+focused Type29 tests after its documentation update.
+
+This adds one exact authored function and2220 bytes, reaching1022/1035 exact
+functions and262049/291883 reviewed-authored bytes (89.7788%);13 remain nonexact.
+The ignored immutable receipt is
+`.analysis/effect29-complete-20261105/canonical-source-proof.json`, SHA-256
+`9382a5f090a48c90fa74b43dc7dc72941bd0257debfad0ac0e189eb74e3275c6`.
+It binds144 raw inputs and normalized Git blobs, both actual objects/profiles,
+pinned compiler/SDK hashes, full Type29/SDK/large-owner reports and the complete
+canonical cohort to the immutable source commit above. Later recipe runs write
+separate replays. See [the complete-source review](TH09_EFFECT29_EXACT_20261105.md).
+Windows product/runtime, dual-Oracle semantics, portability and Factory gates
+remain independent and open.
+
 ## November 5: native polar interface and Type29 extent — local canonical Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

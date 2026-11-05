@@ -116,3 +116,7 @@ generated progress and whitespace checks pass. After its documentation update,
 the18 focused Type29 tests also pass. The first CI run identified old accepted-
 inventory counts; those inventories now include the exact owner and preserve
 all identity/profile/physical-byte checks.
+
+Source checkpoint `b6a9792c2013e67c375799abe9c49c6ab74f3685` and the immutable hashed local proof are
+recorded in [source-bound receipts](RE_ACCEPTED_RECEIPTS.md). Later recipe runs
+write separate replays rather than overwrite that source-bound receipt.

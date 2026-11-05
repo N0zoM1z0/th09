@@ -28,8 +28,9 @@ Canonical totals:1035 source-present /1022 exact /13 nonexact;
 262049 exact reviewed-authored bytes (89.7788%). Original TU ownership,
 Factory acceptance and Windows product/runtime/port closure remain open.
 Full CI passes1351 tests/29 skips; target/tracking, docs/progress and whitespace
-checks pass. The complete source-bound proof is recorded separately from Factory
-acceptance.
+checks pass. Source checkpoint `b6a9792c` and its immutable hashed local
+proof are recorded in [source-bound receipts](RE_ACCEPTED_RECEIPTS.md), separately
+from Factory acceptance.
 
 ## 2026-11-05 continued main — native polar API and complete Type29 extent
 
