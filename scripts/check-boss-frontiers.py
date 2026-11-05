@@ -163,7 +163,7 @@ def run_network_message() -> dict:
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
     'build/matching/EclManager.obj': 77,
-    'build/matching/EclManager-Type11.obj': 4,
+    'build/matching/EclManager-Type11.obj': 5,
 }
 TITLE_OPTIONS_EXACT_CARRIERS = {'build/matching/TitleScreenOptions.obj': 2}
 TITLE_EXACT_CARRIERS = {
@@ -585,6 +585,29 @@ def guard_biased_movement(report: dict) -> dict:
     return report
 
 
+def inspect_selected_biased_movement(*, already_built: bool) -> dict:
+    """Replay the accepted leaf's actual source/profile, with its local callees."""
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        unit = tomllib.load(stream)['units']['ecl-move-random-biased']
+    profile = ['/Ob0' if flag == '/Ob1' else flag for flag in _SCREEN_EFFECT_BASE_PROFILE]
+    if (unit.get('source') != 'src/EclManager.cpp' or
+            unit.get('object') != 'build/matching/EclManager-Type11.obj' or
+            unit.get('profile') != profile or
+            (unit.get('target_address'), unit.get('size')) != (0x00407E30, 516)):
+        raise RuntimeError('accepted biased movement source/profile changed')
+    if not already_built:
+        build('ecl-move-random-biased')
+    result = guard_biased_movement(parsed([
+        'scripts/inspect-ecl-biased-movement.py', '--json', unit['object']], diagnostic=True))
+    sdk = result.get('sdk_vector_callee')
+    polar = result.get('same_object_polar_callee')
+    if (result.get('complete_bytes_equal') is not True or
+            not isinstance(sdk, dict) or sdk.get('same_object_definition') is not True or
+            not isinstance(polar, dict) or polar.get('complete_bytes_equal') is not True):
+        raise RuntimeError('accepted biased movement or its same-object callees regressed')
+    return result
+
+
 def guard_runecl_timeout_semantics(report: dict, *, ordinary_differences: int) -> dict:
     """Reject a missing/spoofed opcode-155 semantic check; never award exact credit.
 
@@ -877,8 +900,8 @@ def validate_runecl_real_angle_owners(units: dict) -> None:
                     ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
                 raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
             exact_ref_count += 1
-    if exact_ref_count != 41:
-        raise RuntimeError('ECL/Enemy/position/Effect 41 exact C++ angle callsites missing')
+    if exact_ref_count != 44:
+        raise RuntimeError('ECL/Enemy/position/Effect 44 exact C++ angle callsites missing')
 
 
 def guard_runecl_real_angle_callsite_report(report: dict) -> dict:
@@ -1015,9 +1038,7 @@ def run_ecl(*, include_trail: bool, include_interpreter: bool,
         timeout_semantics = parsed(['scripts/audit-ecl-timeout-bit.py', object_file])
         timeout_summary = guard_runecl_timeout_semantics(
             timeout_semantics, ordinary_differences=verified_runecl['ordinary_differences'])
-        biased = guard_biased_movement(parsed(
-            ['scripts/inspect-ecl-biased-movement.py', '--json', object_file],
-            diagnostic=True))
+        biased = inspect_selected_biased_movement(already_built=protect_exact)
         diagnostics.update(runecl_timer_jump_semantics=timer_jump_summary,
                            runecl_timeout_bit_semantics=timeout_summary, runecl={
             'physical_bytes': complete['physical_bytes'],
@@ -5268,14 +5289,14 @@ def run_effect_type34(*, protect_exact: bool,
     guard_enemy_update(enemy)
     trail = parsed(['scripts/inspect-exattack-type19.py', obj, '--json'], diagnostic=True)
     guard_exattack_type19_update(trail)
-    biased = parsed(['scripts/inspect-ecl-biased-movement.py', '--json', obj], diagnostic=True)
-    guard_biased_movement(biased)
+    biased_obj = 'build/matching/EclManager-Type11.obj'
+    biased = inspect_selected_biased_movement(already_built=biased_obj in already_built)
     exact = []
     if protect_exact:
         exact.extend(cold_replay_exact_source(
             'src/EclManager.cpp', ECL_EXACT_CARRIERS,
             already_built=tuple(item for item in ECL_EXACT_CARRIERS
-                                if item == obj or item in already_built)))
+                                if item in (obj, biased_obj) or item in already_built)))
         if protect_update_exact:
             update_obj = 'build/matching/EffectUpdateType34.obj'
             if update_obj not in already_built:

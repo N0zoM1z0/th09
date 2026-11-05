@@ -17,12 +17,16 @@ import importlib.util
 import json
 from pathlib import Path
 import struct
+import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x00407E30
 SIZE = 516
 TARGET_SHA256 = 'c7d16fba9a2e0759836560b3977fa5c277966929a33d6183a2bb8672ba5319ab'
 SYMBOL = '?MoveRandomBiased@Th09EclRunLate@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z'
+SDK_POINTER_SYMBOL = '??BD3DXVECTOR3@@QAEPAMXZ'
+LEGACY_POINTER_SYMBOL = '??BFloat3@@QAEPAMXZ'
+POLAR_SYMBOL = '?StartTimedPolarDisplacement@Th09EclRunMovement@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@M@Z'
 
 # Addresses and exact operand offsets read independently from the original
 # Japanese PE: ECL helper/callee boundaries, the RNG global, and literal
@@ -34,6 +38,7 @@ REFERENTS = {
     '?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z': 0x00406200,
     '?AddNormalizeAngle@@YIMMM@Z': 0x0042AED0,
     '??BFloat3@@QAEPAMXZ': 0x004343D0,
+    SDK_POINTER_SYMBOL: 0x004343D0,
     '?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z': 0x00405760,
     '?ResolveFloat@EnemyView@@QAEMM@Z': 0x004068A0,
     '??4ZunTimer@@QAEXH@Z': 0x00401500,
@@ -112,8 +117,11 @@ def bind_candidate(raw, relocations):
     previous_end = -1
     for row, (_, expected_kind, expected_name) in zip(relocations, TARGET_OPERANDS):
         off = int(row['offset'])
-        if (row['type'], row['symbol'], int(row['addend'])) != (
-                expected_kind, expected_name, 0):
+        names = {expected_name}
+        if expected_name == LEGACY_POINTER_SYMBOL:
+            names.add(SDK_POINTER_SYMBOL)
+        if (row['type'] != expected_kind or row['symbol'] not in names or
+                int(row['addend']) != 0):
             raise ValueError('candidate operand identity/type/addend/order drift')
         if off < previous_end or off < 0 or off + 4 > len(linked):
             raise ValueError('candidate operand overlap or out of bounds')
@@ -151,6 +159,13 @@ def address_fields(instructions, capstone):
     return sorted(fields), calls
 
 
+def validate_sdk_pointer_body(body, fields, original):
+    if len(original) != 3 or fields or body != original:
+        raise ValueError('SDK pointer alias lacks its complete same-object original body')
+    return {'bytes': 3, 'fields': 0, 'same_object_definition': True,
+            'sha256': hashlib.sha256(body).hexdigest(), 'exactness_credit': 'none; folded origin unknown'}
+
+
 def inspect(obj):
     import capstone
     from diagnostic_branch_alignment import direct_control_flow
@@ -170,6 +185,39 @@ def inspect(obj):
             raise ValueError('original target address-field encoding differs: ' + name)
 
     raw, rows = coff.object_function(obj, SYMBOL)
+    sdk_body = None
+    polar = None
+    if any(row['symbol'] == SDK_POINTER_SYMBOL for row in rows):
+        body, fields = coff.object_function(obj, SDK_POINTER_SYMBOL)
+        sdk_body = validate_sdk_pointer_body(body, fields, coff.pe_bytes_at(image, 0x004343D0, 3))
+        units = tomllib.loads(coff.UNITS_MANIFEST.read_text())['units']
+        unit = units['ecl-start-timed-polar']
+        if (unit['target_address'], unit['size'], unit['symbol']) != (0x00407200, 288, POLAR_SYMBOL):
+            raise ValueError('original polar callee extent changed')
+        code, actual = coff.object_function(obj, unit['symbol'])
+        expected = unit['relocations']
+        if len(code) != 288 or len(actual) != len(expected):
+            raise ValueError('SDK movement lacks the complete same-object polar callee')
+        code = bytearray(code)
+        original = coff.pe_bytes_at(image, 0x00407200, 288)
+        for a, e in zip(actual, expected):
+            if (a['offset'], a['type'], a['symbol'], a['addend']) != (e['offset'], e['type'], e['symbol'], 0):
+                raise ValueError('same-object polar operand identity differs')
+            value = encoded(e['type'], a['offset'], e['target'])
+            # encoded() uses the movement base; this callee has its own base.
+            if e['type'] == 'REL32':
+                value = (e['target'] - (0x00407200 + a['offset'] + 4)) & 0xffffffff
+            if struct.unpack_from('<I', original, a['offset'])[0] != value:
+                raise ValueError('original polar field differs from its accepted identity')
+            struct.pack_into('<I', code, a['offset'], value)
+        if code != original:
+            raise ValueError('same-object polar callee is not completely original-equal')
+        for name, address in (('@cosf@4', 0x00401060), ('@sinf@4', 0x00401070)):
+            support, fields = coff.object_function(obj, name)
+            if fields or support != coff.pe_bytes_at(image, address, 12):
+                raise ValueError('same-object compiler math support differs: ' + name)
+        polar = {'bytes': 288, 'fields': len(actual), 'complete_bytes_equal': True,
+                 'compiler_math_support_equal': True, 'same_object_definition': True}
     linked, bound = bind_candidate(raw, rows)
     decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
     decoder.detail = True
@@ -224,6 +272,8 @@ def inspect(obj):
         'raw_sha256':hashlib.sha256(raw).hexdigest(),
         'linked_sha256':hashlib.sha256(linked).hexdigest(),
         'target_sha256':TARGET_SHA256,
+        'sdk_vector_callee':sdk_body,
+        'same_object_polar_callee':polar,
     }
 
 

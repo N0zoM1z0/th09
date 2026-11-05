@@ -1,8 +1,12 @@
 # Cirno-Labs integration — 2026-11-05
 
-Later follow-up: [the complete Etama SDK renderer](TH09_ETAMA_SDK_EXACT_20261105.md)
-now matches600 bytes with both exact siblings preserved. The fourteen-owner
-counts and rejected Etama controls below describe the earlier source checkpoint.
+Later follow-ups: [the complete Etama SDK renderer](TH09_ETAMA_SDK_EXACT_20261105.md)
+now matches600 bytes with both exact siblings preserved, and
+[biased ECL movement](TH09_ECL_SDK_MOVEMENT_EXACT_20261105.md) matches516 bytes
+with its actual288-byte callee and all existing ECL units preserved. Both
+remaining routes below have local original-bound exact-source checkpoints.
+The fourteen-owner counts and rejected controls describe the earlier source
+checkpoint; whole-product/runtime and Factory acceptance remain separate.
 
 The operator authorized integrating useful reference implementations, crediting
 them in commits, and pushing progress on `reconstruction/cirno-labs-integration`.

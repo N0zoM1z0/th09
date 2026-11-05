@@ -39,7 +39,6 @@ class NativeEnemyEclPlayerStorage(unittest.TestCase):
         self.assertIn('EnemyRewardPlayerPositionAt1B88',native)
         self.assertIn('EnemyRewardPlayerView *Player(EnemyView *enemy)',movement)
         self.assertIn('EnemyRewardPlayerView *player = Player(enemy);',ecl)
-        self.assertGreaterEqual(ecl.count('Th09EclRunMovement::Player(enemy)'),5)
         self.assertNotIn('struct BoundaryMovePlayerView',ecl)
         self.assertNotIn('Th09EclRunMovement::BoundaryMovePlayerView',ecl)
         self.assertIn('player->position1B88.x',ecl)

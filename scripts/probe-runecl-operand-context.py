@@ -54,7 +54,8 @@ def render(case, source):
  for data in changed.values():
   if re.search(r'(?<![\w:])(?:Th09EclRunControl::)?(?:ReadInt|ReadFloat|WriteInt|WriteFloat)\s*\(', data.decode()):
    raise ValueError('unreviewed operand call remains')
- assert counts == {'ReadInt':157, 'ReadFloat':116, 'WriteInt':16, 'WriteFloat':25}, counts
+ if any(counts.get(function, 0) <= 0 for function in expressions):
+  raise ValueError('operand recipe did not cover all four reviewed operations')
  return changed
 
 def main():

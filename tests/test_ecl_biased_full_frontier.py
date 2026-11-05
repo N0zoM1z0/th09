@@ -8,6 +8,7 @@ import copy
 import importlib.util
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location(
@@ -17,6 +18,22 @@ spec.loader.exec_module(frontier)
 
 
 class BiasedOriginalByteFrontier(unittest.TestCase):
+    def test_selected_replay_uses_accepted_ob0_object_and_requires_callee_proofs(self):
+        report = {**self.baseline(), 'candidate_bytes': 516, 'extra_candidate_bytes': 0,
+                  'overlapping_differences': 0, 'difference_offsets': [],
+                  'normalized_instruction_changes': [], 'complete_bytes_equal': True,
+                  'sdk_vector_callee': {'same_object_definition': True},
+                  'same_object_polar_callee': {'complete_bytes_equal': True}}
+        with patch.object(frontier, 'build') as build, patch.object(frontier, 'parsed', return_value=report) as read:
+            frontier.inspect_selected_biased_movement(already_built=False)
+        build.assert_called_once_with('ecl-move-random-biased')
+        self.assertIn('build/matching/EclManager-Type11.obj', read.call_args.args[0])
+        for extra in ({'sdk_vector_callee': None}, {'same_object_polar_callee': {}},
+                      {'complete_bytes_equal': False}):
+            with patch.object(frontier, 'build') as build, patch.object(frontier, 'parsed', return_value={**report, **extra}), self.assertRaises(RuntimeError):
+                frontier.inspect_selected_biased_movement(already_built=True)
+            build.assert_not_called()
+
     @staticmethod
     def baseline():
         residual = sorted(frontier.BIASED_MOVEMENT_RESIDUAL_OFFSETS)

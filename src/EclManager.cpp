@@ -7,6 +7,14 @@
 #include "GameManagerRuntimeView.hpp"
 
 #include <string.h>
+#include <d3dx8math.h>
+
+// The SDK coordinate conversion and native Enemy position share one storage ABI.
+typedef char EclSdkPositionStorageMatchesNative[
+    (sizeof(D3DXVECTOR3) == sizeof(EnemyFloat3) && sizeof(EnemyFloat3) == 12 &&
+     offsetof(D3DXVECTOR3, x) == offsetof(EnemyFloat3, x) &&
+     offsetof(D3DXVECTOR3, y) == offsetof(EnemyFloat3, y) &&
+     offsetof(D3DXVECTOR3, z) == offsetof(EnemyFloat3, z)) ? 1 : -1];
 
 static void EnemyPostEclUpdateMovement(EnemyView *enemy);
 static void EnemyPostEclUpdateShotAndAnm(EnemyView *enemy);
@@ -130,25 +138,39 @@ static void StartTimedPolarDisplacement(
     Th09EclRawInstructionHeaderView *instruction,
     float angle)
 {
-    EnemyMovementView *view = View(enemy);
+    EnemyMovementView *view = enemy;
+    float (*cosineOperation)(float) = ::cosf;
+    float (*sineOperation)(float) = ::sinf;
 
     view->movementDelta2E10.x =
-        Th09EclRunControl::Cos(angle) *
-        Th09EclRunControl::ReadFloat(enemy, instruction, 2) *
-        Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        cosineOperation(angle) *
+        ((instruction->parameterMask0A & 4U)
+             ? enemy->ResolveFloat(instruction->arguments[2].real)
+             : instruction->arguments[2].real) *
+        ((instruction->parameterMask0A & 1U)
+             ? Th09EclRunControl::ResolveInt(enemy, instruction->arguments[0].integer)
+             : instruction->arguments[0].integer);
     view->movementDelta2E10.y =
-        Th09EclRunControl::Sin(angle) *
-        Th09EclRunControl::ReadFloat(enemy, instruction, 2) *
-        Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        sineOperation(angle) *
+        ((instruction->parameterMask0A & 4U)
+             ? enemy->ResolveFloat(instruction->arguments[2].real)
+             : instruction->arguments[2].real) *
+        ((instruction->parameterMask0A & 1U)
+             ? Th09EclRunControl::ResolveInt(enemy, instruction->arguments[0].integer)
+             : instruction->arguments[0].integer);
     view->movementDelta2E10.z = 0.0f;
     view->movementOrigin2E1C = view->worldPosition2DD4;
 
-    int duration = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+    int duration = ((instruction->parameterMask0A & 1U)
+             ? Th09EclRunControl::ResolveInt(enemy, instruction->arguments[0].integer)
+             : instruction->arguments[0].integer);
     view->movementDuration2E34 = duration;
     view->movementTimer2E28 = duration;
     view->primaryFlags337C =
         (view->primaryFlags337C & ~0x3A00U) |
-        ((Th09EclRunControl::ReadInt(enemy, instruction, 1) & 7) << 11) |
+        ((((instruction->parameterMask0A & 2U)
+             ? Th09EclRunControl::ResolveInt(enemy, instruction->arguments[1].integer)
+             : instruction->arguments[1].integer) & 7) << 11) |
         0x400U;
 }
 
@@ -219,19 +241,16 @@ static void MoveRandomBiased(
     Th09EclRawInstructionHeaderView *instruction)
 {
     Th09EclRunMovement::EnemyMovementView *view =
-        Th09EclRunMovement::View(enemy);
+        enemy;
     float angle;
 
     if (Th09EclRunControl::g_Rng.GetRandomU32InRange(4) != 0)
     {
-        if (Th09EclRunMovement::Player(enemy)
-                ->position1B88.x < view->position2D74.x)
+        if (enemy->manager00->sideState320->player04->position1B88.x < view->position2D74.x)
         {
             if (view->position2D74.x -
-                    Th09EclRunMovement::Player(enemy)
-                        ->position1B88.x <
-                Th09EclRunMovement::Player(enemy)
-                        ->position1B88.x +
+                    enemy->manager00->sideState320->player04->position1B88.x <
+                enemy->manager00->sideState320->player04->position1B88.x +
                     384.0f - view->position2D74.x)
             {
                 angle = Th09EclRunControl::AddNormalizeAngle(
@@ -249,12 +268,10 @@ static void MoveRandomBiased(
         }
         else
         {
-            if (Th09EclRunMovement::Player(enemy)
-                        ->position1B88.x -
+            if (enemy->manager00->sideState320->player04->position1B88.x -
                     view->position2D74.x <
                 view->position2D74.x -
-                    (Th09EclRunMovement::Player(enemy)
-                         ->position1B88.x -
+                    (enemy->manager00->sideState320->player04->position1B88.x -
                      384.0f))
             {
                 angle =
@@ -276,20 +293,22 @@ static void MoveRandomBiased(
             Th09EclRunControl::g_Rng.GetRandomF32SignedInRange(3.1415927f);
     }
 
-    EnemyFloat3 *position = reinterpret_cast<EnemyFloat3 *>(
-        reinterpret_cast<Float3 *>(&view->position2D74)->operator float *());
-    if (position->y < view->movementLowerBounds3398.y + 48.0f &&
-        angle < 0.0f)
+    if (reinterpret_cast<D3DXVECTOR3 &>(view->position2D74)[1] <
+            view->movementLowerBounds3398.y + 48.0f && angle < 0.0f)
         angle = -angle;
-    if (position->y > view->movementUpperBounds33A0.y - 48.0f &&
-        angle > 0.0f)
+    if (reinterpret_cast<D3DXVECTOR3 &>(view->position2D74)[1] >
+            view->movementUpperBounds33A0.y - 48.0f && angle > 0.0f)
         angle = -angle;
 
-    if (Th09EclRunControl::ReadInt(enemy, instruction, 0) <= 0)
+    if (((instruction->parameterMask0A & 1U)
+             ? Th09EclRunControl::ResolveInt(enemy, instruction->arguments[0].integer)
+             : instruction->arguments[0].integer) <= 0)
     {
         view->movementAngle2DE0 = angle;
         view->speed2DF4 =
-            Th09EclRunControl::ReadFloat(enemy, instruction, 2);
+            ((instruction->parameterMask0A & 4U)
+             ? enemy->ResolveFloat(instruction->arguments[2].real)
+             : instruction->arguments[2].real);
         view->primaryFlags337C =
             (view->primaryFlags337C &
              ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |

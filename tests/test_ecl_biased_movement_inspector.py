@@ -20,6 +20,20 @@ def rows():
 
 
 class MoveRandomBiasedOracleTests(unittest.TestCase):
+    def test_sdk_operand_alias_requires_same_complete_body_separately(self):
+        data = rows()
+        entry = next(r for r in data if r['symbol'] == mod.LEGACY_POINTER_SYMBOL)
+        entry['symbol'] = mod.SDK_POINTER_SYMBOL
+        code, bound = mod.bind_candidate(bytes(mod.SIZE), data)
+        self.assertEqual(len(bound), 28)
+        self.assertEqual(struct.unpack_from('<I', code, entry['offset'])[0],
+                         mod.encoded('REL32', entry['offset'], 0x004343D0))
+        proof = mod.validate_sdk_pointer_body(b'abc', [], b'abc')
+        self.assertTrue(proof['same_object_definition'])
+        for body, fields in ((b'ab', []), (b'abcd', []), (b'abx', []), (b'abc', [{}])):
+            with self.subTest(body=body), self.assertRaises(ValueError):
+                mod.validate_sdk_pointer_body(body, fields, b'abc')
+
     def test_manifest_independent_bounds_and_exact_order(self):
         mod.validate_manifest()
         self.assertEqual(len(mod.TARGET_OPERANDS),28)

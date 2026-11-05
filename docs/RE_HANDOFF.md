@@ -11,6 +11,20 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — complete biased ECL movement exact
+
+MoveRandomBiased407E30 now matches all516 bytes/28 fields/14 calls, including
+its same-object288-byte polar callee. Real SDK indexing and native typed operand
+reads preserve the actual compiler-private interfaces without register hints.
+Both rebuilt canonical EclManager profiles retain all82 exact units,27636
+physical bytes and1260 fields. Main RunEcl retains the identical30 unlike
+bytes; Enemy update remains13. The /Ob1 copy of the leaf is uncredited.
+See [the complete-source review](TH09_ECL_SDK_MOVEMENT_EXACT_20261105.md).
+Canonical ledger: 1035 source-present / 1021 exact / 14 non-exact.
+Exact reviewed-authored bytes increase to259829 (89.0182%). Original TU/profile
+closure, product/runtime/port and Factory acceptance remain open. CI passes1343
+tests with29 skips; target/tracking, docs/progress and whitespace checks pass.
+
 ## 2026-11-05 continued main — complete Etama renderer exact
 
 OnDraw413BE0 now matches all600 bytes/27 fields/13 calls/157 instructions.
@@ -727,7 +741,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current ledger summary is
-**1035 source-present / 1020 exact / 15 non-exact**; earlier operator notes
+**1035 source-present / 1021 exact / 14 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -738,19 +752,19 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 1,035 |
 | Classified exclusions | 1,176 |
 | Source-present authored mappings | 1,035 |
-| Canonical exact functions | 1,020 |
-| Source-present non-exact functions | 15 |
-| Source-present non-exact bytes | 32,570 |
+| Canonical exact functions | 1,021 |
+| Source-present non-exact functions | 14 |
+| Source-present non-exact bytes | 32,054 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 259,313 |
+| Canonical exact authored bytes | 259,829 |
 
-**259,313 / 291,883 reviewed-authored bytes = 88.8414% exact**. To reach
-98% of the *currently classified* denominator, another **26,733 bytes**
+**259,829 / 291,883 reviewed-authored bytes = 89.0182% exact**. To reach
+98% of the *currently classified* denominator, another **26,217 bytes**
 must become complete original-bound exact owners, reaching at least **286,046
 exact authored bytes**. The 37 origin-unresolved functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
-The manifests govern **1020 exact** functions.
+The manifests govern **1021 exact** functions.
 
 The catalog is not proof of complete executable-code inventory. The formerly
 uncatalogued **0x0040D677 /0x00444A78** Timer references now belong to the exact
@@ -763,7 +777,7 @@ Do not silently treat uncatalogued code as excluded.
 
 ## Reconstruction frontiers
 
-These are routing measurements, not exactness credit. The ledgers list all16
+These are routing measurements, not exactness credit. The ledgers list all14
 nonexact functions. The opcode4 setter/assignment visibility and whole Enemy
 storage controls are already measured; consult their actual frozen inputs before
 repeating them. Historical assumptions remain hypotheses.
@@ -783,7 +797,6 @@ repeating them. Historical assumptions remain hypotheses.
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Seed/tail chronology and two missing bytes. All32 ordered referents and first30 physical field positions are already restored. `--owner replay`. |
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | EDI/ESI owner allocation. Preserve310 matching bytes; timer-float visibility regresses physical size and x87 lifetime. |
 | **Supervisor network service** | 0x00430AA0 | **1,633 target /1,627 candidate**,106 source fields;51 call-identity multiplicities agree |1381 unequal overlaps plus6 missing after the reviewed unsigned-16 queue API change (previously1376+7). Native RNG and packet lifetimes remain;wait/stack/input transport stay open. `inspect-supervisor-service.py` checks the full compiled owner; `--owner network` checks its queue dependencies. |
-| **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Y-pointer LEA versus MOV alias after actual Float3 conversion. Keep complete owner, fields, branches and exact ECL cohort. `--owner runecl`. |
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Remaining receiver/allocation scheduling. Preserve43 matching bytes and genuine AnmLoaded/Chain interfaces. `--owner effect`. |
 
 ## Continuing reconstruction
