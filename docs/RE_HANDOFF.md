@@ -11,6 +11,21 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — SaveReplay closes the checksum address byte
+
+One shared index across the seven stage/byte loops restores+3F6 in both actual
+ReplayInput profiles. The complete1238-byte owner now has onlytwo differences,
++B7/+BB; raw and resolved bodies otherwise remain unchanged from92ddf9b3.
+All53 actual fields,380 instructions,23 calls and49 blocks survive. Stage-only,
+byte-only and checksum-pair sharing leave the old three differences; sharing
+the chain cursor or copy length adds no benefit. The guard protects1236 equal
+bytes and explicitly rejects a checksum-byte regression. Both affected profiles
+retain12 canonical units/4093 physical bytes/232 fields; seven unchanged callee
+proofs are source/profile/object-bound reuses. See
+[the bounded source review](TH09_REPLAY_SHARED_INDEX_20261105.md). All48 Replay
+tests and full CI1354 tests/29 skips pass. SaveReplay remains nonexact; totals
+remain1022 exact/13 nonexact.
+
 ## 2026-11-05 continued main — Replay uses native GameManager counters
 
 Recording, playback and save metadata now share the actual GameManager
@@ -24,8 +39,8 @@ playback remains538/540 with39 unlike overlaps andtwo missing. Reference chain
 lifetime/checksum controls do not improve it. See
 [the source review](TH09_REPLAY_NATIVE_COUNTERS_20261105.md).
 All47 Replay tests and full CI1353 tests/29 skips pass. No new exact credit;
-totals remain1022 exact/13 nonexact. The source receipt is bound after the
-source checkpoint, independently of Factory acceptance.
+totals remain1022 exact/13 nonexact. Source checkpoint92ddf9b3 and its sealed
+local receipt are recorded in the review, independently of Factory acceptance.
 
 ## 2026-11-05 continued main — shake residual operand classification
 
@@ -937,7 +952,7 @@ repeating them. Historical assumptions remain hypotheses.
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280/1,280 bytes**,376/376 instructions,57 original-bound fields,13 ordered calls,72 matching direct blocks; **29 differences** | Menu bank/record chronology. Preserve all57 fields,13 calls,72 blocks and the full original-bound residual guard. `--owner replaymenu`. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **904 differing bytes** (911→904, no damaged matches) | Side registration and shared limit/rate publication. Keep native creator calls and164 aligned identities; B4 multiplicity reflects branch sharing. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **799** overlap + 13 missing | Region producer, activeB100 pool and missing physical bytes. Preserve five same-source exact helpers and separate CalcItemBox/FindCollision proofs. `--owner player`. |
-| **Replay SaveReplay** | 0x00420C60 | **1,238/1,238 bytes**, 380 instructions, 53 fields, 23 call operands, 49 matching blocks; **3 differences at +0xB7/+0xBB/+0x3F6 (152→3)** | Frame-destination register at+B7/+BB and checksum SIB at+3F6. Preserve1235 matching bytes and all12 exact same-source siblings. `--owner replaysave`. |
+| **Replay SaveReplay** | 0x00420C60 | **1,238/1,238 bytes**, 380 instructions, 53 fields, 23 call operands, 49 matching blocks; **2 differences at +0xB7/+0xBB (152→3→2)** | Frame-destination register remains. Shared full-pipeline index closes checksum SIB+3F6. Preserve1236 matching bytes and all12 exact same-source siblings. `--owner replaysave`. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Seed/tail chronology and two missing bytes. All32 ordered referents and first30 physical field positions are already restored. `--owner replay`. |
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | EDI/ESI owner allocation. Preserve310 matching bytes; timer-float visibility regresses physical size and x87 lifetime. |
 | **Supervisor network service** | 0x00430AA0 | **1,633 target /1,627 candidate**,106 source fields;51 call-identity multiplicities agree |1381 unequal overlaps plus6 missing after the reviewed unsigned-16 queue API change (previously1376+7). Native RNG and packet lifetimes remain;wait/stack/input transport stay open. `inspect-supervisor-service.py` checks the full compiled owner; `--owner network` checks its queue dependencies. |

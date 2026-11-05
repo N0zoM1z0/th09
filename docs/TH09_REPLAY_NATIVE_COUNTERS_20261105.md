@@ -1,5 +1,10 @@
 # Replay uses the native GameManager counter pair
 
+This review records source checkpoint
+`92ddf9b3afdf0ad1219ea01b6ad3aba118196b44`. The later
+[shared-index review](TH09_REPLAY_SHARED_INDEX_20261105.md) supersedes its
+three-byte SaveReplay frontier; the counter ownership remains unchanged.
+
 Replay recording, playback and save metadata now use the existing
 `g_GameManager.value378` and `value37C` members directly. Four independent
 global declarations are removed from `ReplayInput.cpp`. This is a physical
@@ -81,8 +86,13 @@ actual objects/logs, complete comparisons, Ghidra attestations and recipes.
 `scripts/check-boss-frontiers.py --owner replaysave` remains the maintained
 focused replay. Packet `callees.py` rebuilds the five callee carriers;
 `proof.py` checks the complete source/object/profile evidence and binds it to
-the committed source. Its immutable receipt binding is recorded separately
-after the source checkpoint.
+the committed source. Its sealed `canonical-source-proof.json` is SHA-256
+`910e000fd1c47f47eb821e596e78577fbdfd029721127b7b5e7274734f9257ba`,
+bound to source `92ddf9b3`. It records 30 source/tool inputs and normalized
+Git blobs, eight compiler/SDK files, seven actual objects, both profiles,
+twelve canonical units, seven callee bodies, both complete owner diagnostics
+and four source controls. This is a source-scoped local receipt, not current
+HEAD exactness or Factory acceptance.
 
 All 47 Replay tests pass. Full public CI passes 1,353 tests with 29 skips.
 Tracking, progress, documentation and whitespace checks pass. Totals remain

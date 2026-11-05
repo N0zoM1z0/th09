@@ -31434,3 +31434,18 @@ linked1238-byte stream remains identical, still three differences; playback
 retains538/540 and39+2. New guards reject old aliases and swapped native side
 addends.47 Replay tests and CI1353/29 pass. See
 TH09_REPLAY_NATIVE_COUNTERS_20261105.md; no new exact-function credit.
+
+## 2026-11-05 SaveReplay shares the full-pipeline loop index
+
+Sharing one index across the three stage and four byte loops, as hypothesized
+from the pinned reference, closes the original checksum SIB at+3F6 in both
+actual ReplayInput profiles. Raw byte10 becomes02; all53 actual COFF rows and
+every other raw/resolved byte remain identical to92ddf9b3. The full1238-byte
+owner retains380 instructions,23 calls and49 blocks, withtwo unlike bytes at
++B7/+BB. Sharing only stages, only byte loops or only the checksum pair leaves
+the old three residuals; adding a shared chain cursor/copy length yields no
+extra improvement. No declaration-order permutations or compiler hints occur.
+The guard now protects1236 equal bytes, including restored+3F6. Both profiles
+preserve12 canonical units/4093 bytes/232 fields; seven callee proofs are reused
+after source/profile/object checks. See TH09_REPLAY_SHARED_INDEX_20261105.md.
+No partial/exact-function credit or product/runtime conclusion follows.

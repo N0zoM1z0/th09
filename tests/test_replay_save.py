@@ -31,8 +31,8 @@ def frontier():
                 ordered_calls=23, call_operands_agree=True, call_offsets_agree=True,
                 target_blocks=49, candidate_blocks=49, direct_graphs_agree=True,
                 missing_target_bytes=0, extra_candidate_bytes=0,
-                field_offset_deltas=[0]*53, difference_offsets=[0xB7, 0xBB, 0x3F6],
-                overlap_differences=3, complete_bytes_equal=False)
+                field_offset_deltas=[0]*53, difference_offsets=[0xB7, 0xBB],
+                overlap_differences=2, complete_bytes_equal=False)
 
 
 class ReplaySaveTests(unittest.TestCase):
@@ -138,7 +138,7 @@ class ReplaySaveTests(unittest.TestCase):
     def test_same_count_new_mismatch_is_rejected(self):
         original = frontier()
         audit.guard(original)
-        bad = dict(original, difference_offsets=[0xB6, 0xBB, 0x3F6])
+        bad = dict(original, difference_offsets=[0xB6, 0xBB])
         with self.assertRaises(ValueError):
             audit.guard(bad)
         for offsets in ([0xB7], []):
@@ -148,10 +148,16 @@ class ReplaySaveTests(unittest.TestCase):
                         {'literal_definitions': 1}, {'field_offset_deltas': [0]*52+[-1]},
                         {'call_offsets_agree': False}, {'candidate_bytes': 1237},
                         {'diagnostic_only': False}, {'exactness_credit': 'exact'},
-                        {'difference_offsets': [True, 0xBB, 0x3F6]},
-                        {'difference_offsets': [0xB7, 0xB7, 0x3F6]}):
+                        {'difference_offsets': [True, 0xBB]},
+                        {'difference_offsets': [0xB7, 0xB7]}):
             with self.subTest(changes=changes), self.assertRaises(ValueError):
                 audit.guard(dict(original, **changes))
+
+    def test_restored_checksum_address_byte_cannot_regress(self):
+        bad = dict(frontier(), difference_offsets=[0xB7, 0xBB, 0x3F6],
+                   overlap_differences=3)
+        with self.assertRaisesRegex(ValueError, 'outside the two reviewed'):
+            audit.guard(bad)
 
 
 if __name__ == '__main__':

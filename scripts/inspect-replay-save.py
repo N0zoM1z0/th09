@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE, SIZE = 0x00420C60, 1238
 SYMBOL = '?SaveReplay@ReplayManagerView@@SIHPAU1@PBD1@Z'
 TARGET_SHA256 = 'a225c9a1aae3db79d6e31b22e77ccba892b38c44fe9572233cd6df24edb1cef3'
-RESIDUAL_OFFSETS = frozenset((0xB7, 0xBB, 0x3F6))
+RESIDUAL_OFFSETS = frozenset((0xB7, 0xBB))
 
 # SHA-pinned original instructions, not solved from candidate field positions.
 TARGET_FIELDS = (
@@ -309,14 +309,14 @@ def guard(result):
             or count != len(offsets) or offsets != sorted(set(offsets))
             or any(type(i) is not int or i not in RESIDUAL_OFFSETS for i in offsets)
             or result.get('complete_bytes_equal') is not (count == 0)):
-        raise ValueError('SaveReplay mismatch outside the three reviewed residual bytes')
+        raise ValueError('SaveReplay mismatch outside the two reviewed residual bytes')
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
     parser.add_argument('--json', action='store_true')
-    parser.add_argument('--guard', action='store_true', help='protect all 1235 equal bytes')
+    parser.add_argument('--guard', action='store_true', help='protect all 1236 equal bytes')
     args = parser.parse_args()
     try:
         result = diagnose(args.object)

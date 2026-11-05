@@ -708,13 +708,14 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
 
     ReplayDataView replayCopy;
     int allocationSize = 0x101EC;
+    int loopIndex;
     {
-        int stage = 0;
+        loopIndex = 0;
         // Walk the inline stage roots separately from each mutable link chain.
         ReplayBufferLink *stageRoot = &replayManager->stageBuffers[0];
-        for (; stage < 10; stage++, stageRoot++)
+        for (; loopIndex < 10; loopIndex++, stageRoot++)
         {
-            if (replayCopy.frameStart[0][stage] != NULL)
+            if (replayCopy.frameStart[0][loopIndex] != NULL)
             {
                 allocationSize += 0x60;
                 for (ReplayBufferLink *link = stageRoot; link != NULL; link = link->next)
@@ -729,13 +730,13 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
 
     for (int stream = 0; stream < 3; stream++)
     {
-        for (int stage = 0; stage < 10; stage++)
+        for (loopIndex = 0; loopIndex < 10; loopIndex++)
         {
-            if (replayCopy.frameStart[stream][stage] != NULL)
+            if (replayCopy.frameStart[stream][loopIndex] != NULL)
             {
-                ReplayBufferLink *link = &replayManager->stageBuffers[stage];
-                memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), replayCopy.frameStart[stream][stage], sizeof(ReplayFrameDataStartView));
-                replayCopy.frameStart[stream][stage] = (ReplayFrameDataStartView *)currentOffset;
+                ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
+                memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), replayCopy.frameStart[stream][loopIndex], sizeof(ReplayFrameDataStartView));
+                replayCopy.frameStart[stream][loopIndex] = (ReplayFrameDataStartView *)currentOffset;
                 currentOffset += sizeof(ReplayFrameDataStartView);
                 for (; link != NULL; link = link->next)
                 {
@@ -748,12 +749,12 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     }
 
     // Each stage owns a distinct FPS chain; link contents remain live reads.
-    for (int stage = 0; stage < 10; stage++)
+    for (loopIndex = 0; loopIndex < 10; loopIndex++)
     {
-        if (replayCopy.fpsStart[stage] != NULL)
+        if (replayCopy.fpsStart[loopIndex] != NULL)
         {
-            ReplayBufferLink *link = &replayManager->stageBuffers[stage];
-            replayCopy.fpsStart[stage] = (u8 *)currentOffset;
+            ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
+            replayCopy.fpsStart[loopIndex] = (u8 *)currentOffset;
             for (; link != NULL; link = link->next)
             {
                 int fpsSize = link->frameCount / 30;
@@ -809,21 +810,21 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
 
     u32 checksum = 0x3F000318;
     u8 *checksumCursor = &replayCopy.obfuscationKey;
-    for (int i = 0; i < 0xAB; i++, checksumCursor++)
+    for (loopIndex = 0; loopIndex < 0xAB; loopIndex++, checksumCursor++)
         checksum += *checksumCursor;
-    for (int i = 0; i < compressedSize; i++)
-        checksum += compressedData[i];
+    for (loopIndex = 0; loopIndex < compressedSize; loopIndex++)
+        checksum += compressedData[loopIndex];
     replayCopy.checksum = checksum;
 
     u8 obfuscationOffset = replayCopy.obfuscationKey;
     u8 *obfuscationCursor = (u8 *)&replayCopy.compressedSize;
-    for (int i = 0; i < 0xA8; i++, obfuscationCursor++)
+    for (loopIndex = 0; loopIndex < 0xA8; loopIndex++, obfuscationCursor++)
     {
         *obfuscationCursor += obfuscationOffset;
         obfuscationOffset += 7;
     }
     obfuscationCursor = compressedData;
-    for (int i = 0; i < compressedSize; i++, obfuscationCursor++)
+    for (loopIndex = 0; loopIndex < compressedSize; loopIndex++, obfuscationCursor++)
     {
         *obfuscationCursor += obfuscationOffset;
         obfuscationOffset += 7;
