@@ -19,8 +19,15 @@ in [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
 | `0x0042B410` | Controller input | 808 | 32 | `controller-get-controller-input` |
 | `0x00431110` | Supervisor update | 996 | 92 | `supervisor-on-update` |
 
-All eight reproduce every original byte and relocation under the existing
-pinned local compiler profiles: **6562 physical bytes, 351 fields**. There
+| `0x004162D0` | Front weighted random message setup | 693 | 15 | `front-message-random-setup` |
+| `0x00418480` | Front added callback | 706 | 37 | `front-added-callback` |
+| `0x004239F6` | Title replay-save drawing | 800 | 41 | `title-screen-draw-replay-save` |
+| `0x00442750` | ExAttack Type3 update | 780 | 38 | `ex-attack-update-type3` |
+| `0x00432B70` | Supervisor network-message handler | 808 | 46 | `supervisor-network-message-handler` |
+| `0x00444130` | ExAttack Type14/22 drawing | 959 | 53 | `ex-attack-draw-type14-22` |
+
+All fourteen reproduce every original byte and relocation under the existing
+pinned local compiler profiles: **11308 physical bytes, 581 fields**. There
 are no assembly blocks, register hints, dummy effects, added defensive
 branches or fabricated return values. The cursor loops use the existing
 native VM elements and methods; the queue scan and shift use the existing
@@ -63,9 +70,18 @@ The eight-owner checkpoint passes full target-independent CI: **1329 tests,
 The retained historical nonexact diagnostic envelopes do not grant credit;
 the newly registered canonical units require complete zero-difference replay.
 
-The ledger changes from **1005 to 1013 exact functions** and from
-247597 to **254007 exact authored bytes (87.0236%)**; the 291883-byte reviewed denominator
+The ledger changes from **1005 to 1019 exact functions** and from
+247597 to **258713 exact authored bytes (88.6359%)**; the 291883-byte reviewed denominator
 is unchanged. Whole-product/native-runtime/Factory acceptance is separate.
+
+The complete fourteen-owner integration passes full target-independent CI:
+**1329 tests, 29 skipped**, plus target/tracking, documentation, generated
+progress and whitespace checks. The fourteen new canonical units separately
+replay all **11308 physical bytes /581 fields** with zero differences. Restored
+Etama source retains both earlier exact siblings and its 268-byte diagnostic.
+This is a local exact-source checkpoint, not Windows product/runtime or Factory
+acceptance. The first two source checkpoints are `f4b4c902` and `944870a9`;
+Git records the following six-owner checkpoint without a self-referential hash.
 
 ## Reproduction and evidence
 
@@ -85,15 +101,73 @@ compiler logs, label proofs and newly attested Ghidra exports are retained
 below `.analysis/cirno-integration-20261105/`; objects stay below `build/`.
 The target is the pinned Japanese v1.50a executable, never an upstream build.
 
-## Remaining reference inventory
+The third batch's focused Front, Front-added and Type3 runs protect five,
+five and eight canonical units respectively. Title replay again passes 49
+listed canonical siblings and separately requires the new 800-byte save draw.
+Historical word-order/native-context controls now read an explicitly frozen
+pre-Cirno Type3 root from `scripts/fixtures/type3-pre-cirno.cpp.txt`, with its
+immutable source commit and SHA documented beside it. They still hash live
+headers and clearly report historical input provenance. Current Type3 acceptance
+uses its new canonical unit, not those obsolete source hypotheses.
 
-Address comparison between our 30 initial nonexact owners and the immutable
-upstream progress image found sixteen upstream-positive candidates. The eight
-above are adopted. The other candidates are replay-save drawing,
-Supervisor network handler, biased ECL movement,
-Etama draw, random message setup, Front added callback, ExAttack type3 update
-and the shared ExAttack type14/22 draw. Each needs native source integration
-and its own complete original-bound replay; the upstream image is routing
-evidence only. Upstream's nonexact ECL interpreter is not a replacement for
-our stronger maintained source. No assembly or volatile matching tactic will
-be imported from the reference.
+## Third native-source checkpoint and rejected candidates
+
+The latest six owners add 4746 physical bytes and 230 fields. Front weighted
+selection uses real table indices and fallback scans. Front initialization
+uses indexed native vertices and `AnmLoaded::rawData04`, deleting an unused
+private eight-byte resource view. Replay-save drawing uses native replay data
+and SDK vector operations. Type3 keeps three real collision positions in its
+ordinary function scope; the original middle-Y / middle-Z / tail-X chronology
+is recovered, with all 780 bytes and 38 fields equal.
+
+The network handler comparison includes 768 code bytes, all six switch targets
+and the 16-byte switch map: 808 physical bytes in total. Its received-frame
+argument is unsigned 16-bit, as corroborated by the original caller's
+zero-extension of the packet input and the exact callee's low-word stores.
+The seed remains signed short; four physical argument slots and `ret 16`
+are unchanged. Canonical callers retain fixed original target addresses;
+only the target-consistent C++ decorated parameter name changes. Mode4 reset
+(177 bytes) and synchronized-frame query (49 bytes) also replay exact.
+The still-nonexact network service body is unchanged, but the shared narrow
+parameter changes its compiled result from 1626 bytes/1376 unequal overlaps/
+seven missing to 1627/1381/six missing. Eighteen previously equal positions
+change and fourteen unequal positions become equal; all 106 field identities
+and 41 direct-call destination multiplicities remain independently bound.
+This reviewed consequence is not reported as an improvement or exact credit.
+The before/after closure and full COFF comparison are retained in the packet.
+The old two volatile
+load hints in the handler are removed. No original nominal class is claimed.
+
+Type14/22 drawing remains in the real ECL compiler carrier with the existing
+32-byte native polar helper, not the reference's assembly implementation.
+All 959 bytes, 53 operands, 20 direct and 12 COM calls, constant payloads and
+physical jumps are checked. The changed ECL carrier also requires replay of
+all 81 canonical source units across both existing profiles, including this
+new draw owner, plus sixteen affected exact dependencies: **97 canonical
+comparisons pass**. The 15564-byte main
+interpreter remains nonexact; the upstream interpreter is not substituted.
+
+All sixteen upstream-positive routing candidates have now been investigated.
+Fourteen are integrated as canonical exact. Two remain open:
+
+- `MoveRandomBiased @0x00407E30`: both retained native source and the
+  reference-native trial emit 517 candidate bytes against 516 original bytes,
+  with 148 unequal overlapping bytes, 28 fields and 14 calls. No promotion.
+- `Etama OnDraw @0x00413BE0`: the reference-native candidate can reproduce
+  all 600 bytes/27 fields when the real three-byte Float3 conversion body is
+  visible. That same visibility changes instructions in the previously exact
+  232-byte physical `DrawSingleBullet` sibling. Moving the definition later
+  does not solve it; extracting the static helper changes its actual calling
+  context and also fails. A candidate without the visible body fails the
+  independently required field inventory. These attempts are rejected as a
+  complete integration. Original Etama source, vector-body locations and
+  canonical boundaries and targets are retained. Restored-source replay proves
+  both old exact siblings; fifteen stale private label spellings are refreshed
+  only after checking actual unchanged COFF destinations. No context trick, false ABI or helper
+  alias is introduced. Its original 268-byte frontier remains unchanged.
+
+These are bounded negatives, not proof that natural exact source is impossible.
+The retained local packet includes `rejected-etama-context.patch`, the candidate
+logs, the no-visible-body rejection and both biased-movement comparisons.
+The upstream progress image is routing evidence only. Broader subsystem names,
+layouts and still-unmatched code remain hypotheses requiring TH09-local proof.

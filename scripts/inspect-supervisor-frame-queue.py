@@ -20,7 +20,7 @@ SIZE = 213
 TARGET_SHA256 = "c7d33d3a0ca15df698c2c66916c24aa0b0b7527e769c08bbd1d0ed88ac245c17"
 TARGET_INSTRUCTIONS = 67
 TARGET_BLOCKS = 9
-SYMBOL = '?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHHF@Z'
+SYMBOL = '?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHGF@Z'
 
 
 def require_owner(candidate, relocations):

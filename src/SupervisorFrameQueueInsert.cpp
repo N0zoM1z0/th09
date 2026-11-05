@@ -7,7 +7,7 @@
 #include "Supervisor.hpp"
 
 void SupervisorFrameQueueView::InsertReceivedFrame(
-    int side, int frame, int packedInput, short seed)
+    int side, int frame, unsigned short packedInput, short seed)
 {
     int i;
     int j;

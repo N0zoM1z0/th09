@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Adapted from Cirno-Labs/th09 src/gui.cpp Gui::AddedCallback,
+// commit d7653152becabb8c86f2f43d49015ecc11bd0652.
+// Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "FrontSupport.hpp"
@@ -15,12 +19,6 @@ struct FrontAddedVertex
 };
 typedef char FrontAddedVertexSizeIs14[
     (sizeof(FrontAddedVertex) == 0x14) ? 1 : -1];
-
-struct FrontAddedAnmLoadedView
-{
-    unsigned char unknown00[4];
-    void *rawData04;
-};
 
 struct FrontAddedView
 {
@@ -54,112 +52,92 @@ extern const char *g_PlayerResourcePaths[][6];
 
 int FrontAddedCallback(void *frontArg)
 {
-    FrontAddedView *front = static_cast<FrontAddedView *>(frontArg);
+    FrontAddedView *gui = static_cast<FrontAddedView *>(frontArg);
+    int i;
+    int j;
+    AnmManager *se = g_AnmManager;
+    AnmLoaded *anm = se->GetAnm(10);
 
-    AnmManager *anmManager = g_AnmManager;
-    AnmLoaded *frontAnm = anmManager->GetAnm(10);
-    if (reinterpret_cast<FrontAddedAnmLoadedView *>(frontAnm)->rawData04 == 0)
-        frontAnm = anmManager->PreloadAnm(10, "front.anm");
-
-    front->frontAnm08 = frontAnm;
-    if (frontAnm == 0)
-        return -1;
-
-    frontAnm->ExecuteAnmIdx(&front->frontVms00C[0], 0);
-    front->frontAnm08->ExecuteAnmIdx(&front->frontVms00C[1], 1);
-    front->frontAnm08->ExecuteAnmIdx(&front->frontVms00C[2], 2);
-    front->frontAnm08->ExecuteAnmIdx(&front->frontVms00C[3], 3);
-    front->frontAnm08->ExecuteAnmIdx(&front->frontVms00C[4], 4);
-    front->frontAnm08->ExecuteAnmIdx(&front->frontVms00C[5], 5);
-    front->frontAnm08->ExecuteAnmIdx(&front->frontVms00C[6], 6);
-
-    g_AsciiManager.asciiAnm->ExecuteAnmIdx(&front->markerVm123F4, 0);
-    g_AsciiManager.asciiAnm->ExecuteAnmIdx(&front->markerVm12698, 0);
-    reinterpret_cast<unsigned char *>(&front->markerVm123F4)[0x1F3] = 0;
-    reinterpret_cast<unsigned char *>(&front->markerVm12698)[0x1F3] = 0;
-
-    if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
+    if (anm->rawData04 == NULL)
     {
-        front->frontAnm08->ExecuteAnmIdx(&front->resultVm11EAC, 85);
-        front->frontAnm08->ExecuteAnmIdx(&front->resultVm12150, 86);
-        front->frontAnm08->SetSprite(
-            &front->resultVm12150,
-            g_GameManager.field0FC + 73);
-    }
-
-    int panel = 0;
-    do
-    {
-        FrontAddedVertex *vertex = &front->panelVerticesE86C[panel][0];
-        int vertexCount = 5;
-        do
-        {
-            vertex->rhw = 1.0f;
-            (vertex++)->diffuse = 0x80FFFFFFUL;
-        }
-        while (--vertexCount != 0);
-    }
-    while (++panel != 2);
-
-    front->panelVerticesE86C[0][2].pos.x =
-        front->panelVerticesE86C[0][3].pos.x = 304.0f;
-
-    Float3 *leftCorner = &front->panelVerticesE86C[0][4].pos;
-    leftCorner->x = 15.0f;
-    leftCorner->y = 15.0f;
-    front->panelVerticesE86C[1][0].pos.y = 15.0f;
-    leftCorner->z = 0.0f;
-
-    front->panelVerticesE86C[0][0].pos.x =
-        front->panelVerticesE86C[0][0].pos.y =
-        front->panelVerticesE86C[0][1].pos.x =
-        front->panelVerticesE86C[0][3].pos.y =
-        front->panelVerticesE86C[1][3].pos.y = 15.0f;
-
-    front->panelVerticesE86C[0][1].pos.y =
-        front->panelVerticesE86C[0][2].pos.y =
-        front->panelVerticesE86C[1][1].pos.y =
-        front->panelVerticesE86C[1][2].pos.y = 464.0f;
-
-    front->panelVerticesE86C[1][0].pos.x = 335.0f;
-    front->panelVerticesE86C[1][0].pos.z = 0.0f;
-
-    front->panelVerticesE86C[1][2].pos.x =
-        front->panelVerticesE86C[1][3].pos.x = 624.0f;
-    const Float3 &rightCorner = front->panelVerticesE86C[1][0].pos;
-    front->panelVerticesE86C[1][4].pos = rightCorner;
-
-    front->panelVerticesE86C[0][0].pos.z = 0.0f;
-    front->panelVerticesE86C[0][1].pos.z = 0.0f;
-    front->panelVerticesE86C[0][2].pos.z = 0.0f;
-    front->panelVerticesE86C[0][3].pos.z = 0.0f;
-
-    front->panelVerticesE86C[1][1].pos.x = 335.0f;
-    front->panelVerticesE86C[1][1].pos.z = 0.0f;
-    front->panelVerticesE86C[1][2].pos.z = 0.0f;
-    front->panelVerticesE86C[1][3].pos.z = 0.0f;
-
-    reinterpret_cast<FrontMessageRuntimeResetView *>(
-        &front->messageRuntimeE944)->Reset();
-
-    if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
-    {
-        if (front->messageRuntimeE944.LoadForSideCount(
-            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.sides[0].character20][3]),
-            0,
-            10 * g_GameManager.sides[1].character20) != 0)
-            return -1;
+        gui->frontAnm08 = se->PreloadAnm(10, "front.anm");
     }
     else
     {
-        if (front->messageRuntimeE944.LoadForSideCount(
-            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.sides[0].character20][4]),
-            const_cast<char *>(g_PlayerResourcePaths[g_GameManager.sides[1].character20][4]),
-            0) != 0)
-            return -1;
+        gui->frontAnm08 = anm;
     }
-
-    reinterpret_cast<FrontMessageOwnerView *>(front)
-        ->InitializeMessageRuntime();
+    if (gui->frontAnm08 == NULL)
+    {
+        return -1;
+    }
+    gui->frontAnm08->ExecuteAnmIdx(&gui->frontVms00C[0], 0);
+    gui->frontAnm08->ExecuteAnmIdx(&gui->frontVms00C[1], 1);
+    gui->frontAnm08->ExecuteAnmIdx(&gui->frontVms00C[2], 2);
+    gui->frontAnm08->ExecuteAnmIdx(&gui->frontVms00C[3], 3);
+    gui->frontAnm08->ExecuteAnmIdx(&gui->frontVms00C[4], 4);
+    gui->frontAnm08->ExecuteAnmIdx(&gui->frontVms00C[5], 5);
+    gui->frontAnm08->ExecuteAnmIdx(&gui->frontVms00C[6], 6);
+    g_AsciiManager.asciiAnm->ExecuteAnmIdx(&gui->markerVm123F4, 0);
+    g_AsciiManager.asciiAnm->ExecuteAnmIdx(&gui->markerVm12698, 0);
+    reinterpret_cast<unsigned char *>(&gui->markerVm123F4)[0x1F3] = 0;
+    reinterpret_cast<unsigned char *>(&gui->markerVm12698)[0x1F3] = 0;
+    if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
+    {
+        gui->frontAnm08->ExecuteAnmIdx(&gui->resultVm11EAC, 0x55);
+        gui->frontAnm08->ExecuteAnmIdx(&gui->resultVm12150, 0x56);
+        gui->frontAnm08->SetSprite(&gui->resultVm12150, g_GameManager.field0FC + 0x49);
+    }
+    for (i = 0; i < 2; i++)
+    {
+        for (j = 0; j < 5; j++)
+        {
+            gui->panelVerticesE86C[i][j].rhw = 1.0f;
+            gui->panelVerticesE86C[i][j].diffuse = 0x80ffffff;
+        }
+    }
+    gui->panelVerticesE86C[0][0].pos.x = 15.0f;
+    gui->panelVerticesE86C[0][0].pos.y = 15.0f;
+    gui->panelVerticesE86C[0][0].pos.z = 0.0f;
+    gui->panelVerticesE86C[0][1].pos.x = 15.0f;
+    gui->panelVerticesE86C[0][1].pos.y = 464.0f;
+    gui->panelVerticesE86C[0][1].pos.z = 0.0f;
+    gui->panelVerticesE86C[0][2].pos.x = 304.0f;
+    gui->panelVerticesE86C[0][2].pos.y = 464.0f;
+    gui->panelVerticesE86C[0][2].pos.z = 0.0f;
+    gui->panelVerticesE86C[0][3].pos.x = 304.0f;
+    gui->panelVerticesE86C[0][3].pos.y = 15.0f;
+    gui->panelVerticesE86C[0][3].pos.z = 0.0f;
+    gui->panelVerticesE86C[0][4].pos = gui->panelVerticesE86C[0][0].pos;
+    gui->panelVerticesE86C[1][0].pos.x = 335.0f;
+    gui->panelVerticesE86C[1][0].pos.y = 15.0f;
+    gui->panelVerticesE86C[1][0].pos.z = 0.0f;
+    gui->panelVerticesE86C[1][1].pos.x = 335.0f;
+    gui->panelVerticesE86C[1][1].pos.y = 464.0f;
+    gui->panelVerticesE86C[1][1].pos.z = 0.0f;
+    gui->panelVerticesE86C[1][2].pos.x = 624.0f;
+    gui->panelVerticesE86C[1][2].pos.y = 464.0f;
+    gui->panelVerticesE86C[1][2].pos.z = 0.0f;
+    gui->panelVerticesE86C[1][3].pos.x = 624.0f;
+    gui->panelVerticesE86C[1][3].pos.y = 15.0f;
+    gui->panelVerticesE86C[1][3].pos.z = 0.0f;
+    gui->panelVerticesE86C[1][4].pos = gui->panelVerticesE86C[1][0].pos;
+    reinterpret_cast<FrontMessageRuntimeResetView *>(&gui->messageRuntimeE944)->Reset();
+    if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
+    {
+        if (gui->messageRuntimeE944.LoadForSideCount(const_cast<char *>(g_PlayerResourcePaths[g_GameManager.sides[0].character20][3]), NULL,
+                          g_GameManager.sides[1].character20 * 10) != 0)
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        if (gui->messageRuntimeE944.LoadForSideCount(const_cast<char *>(g_PlayerResourcePaths[g_GameManager.sides[0].character20][4]),
+                          const_cast<char *>(g_PlayerResourcePaths[g_GameManager.sides[1].character20][4]), 0) != 0)
+        {
+            return -1;
+        }
+    }
+    reinterpret_cast<FrontMessageOwnerView *>(gui)->InitializeMessageRuntime();
     return 0;
 }

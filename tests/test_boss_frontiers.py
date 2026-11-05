@@ -87,7 +87,7 @@ class BossFrontierChecks(TestCase):
         self.assertEqual(owners['front_random_setup']['target_blocks'], 40)
         self.assertEqual(owners['front_random_setup']['candidate_blocks'], 41)
         self.assertEqual([x['unit'] for x in exact],
-            ['front-calc-callback', 'front-message-setup',
+            ['front-message-random-setup', 'front-calc-callback', 'front-message-setup',
              'front-message-load-for-side-count', 'front-message-initialize-runtime'])
         self.assertEqual(build.call_count, 4)
 
@@ -664,7 +664,7 @@ class BossFrontierChecks(TestCase):
         self.assertEqual(owners['exattack_type3_update']['ordinary_differences'], 15)
         # Six real exact GameManager/Type4/AnmVm owners add regression checks,
         # NOT new canonical exact credit to the still-unmatched Type3 update.
-        self.assertEqual(len(exact), 7)
+        self.assertEqual(len(exact), 8)
         self.assertTrue(all(row['unit'] == 'exact' for row in exact))
 
     @staticmethod

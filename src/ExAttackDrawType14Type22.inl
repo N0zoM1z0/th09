@@ -1,4 +1,8 @@
-// Lexical member of the real ECL/native-polar carrier. Still nonexact.
+// SPDX-License-Identifier: GPL-3.0-only
+// Adapted from Cirno-Labs/th09 src/pl04.cpp DrawExAttackTypes14And22,
+// commit d7653152becabb8c86f2f43d49015ecc11bd0652.
+// Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
+// Reference-adapted lexical member of the real ECL/native-polar carrier.
 #pragma once
 
 #include "AnmManager.hpp"
@@ -24,156 +28,96 @@ static __inline IDirect3DDevice8 *ExAttackDrawDevice()
 
 int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
 {
-    ExAttackType1422DrawRecord *record =
-        reinterpret_cast<ExAttackType1422DrawRecord *>(base);
-    ExAttackType1422DrawExtra *extra = record->extra34;
+    ExAttackType1422DrawRecord *attack = reinterpret_cast<ExAttackType1422DrawRecord *>(base);
+    ExAttackType1422DrawExtra *data = (ExAttackType1422DrawExtra *)attack->extra34;
 
-    if (extra->state00 >= 2)
+    if (data->state00 >= 2)
     {
         float angle = -3.1415927f;
-        AddNormalizeAngle(-3.1415927f, -1.5707964f);
-
-        ExAttackType1422DrawVertex *vertex =
-            &extra->centerFan54[0];
-
+        ExAttackType1422DrawVertex *vtx;
         unsigned char alpha;
-        if (extra->state00 == 2)
+        int i;
+        int j;
+
+        AddNormalizeAngle(angle, -1.5707964f);
+        vtx = data->centerFan54;
+        if (data->state00 == 2)
         {
-            alpha = 0xFF;
+            alpha = 0xff;
         }
         else
         {
-            alpha = static_cast<unsigned char>(
-                0xFF -
-                static_cast<int>(record->timer10) *
-                    0xFF / 30);
+            alpha = 0xff - static_cast<int>(attack->timer10) * 0xff / 30;
         }
-
-        const Float3 *center = &record->position20;
-
-        vertex->pos = *center;
-        vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);
-        vertex->pos.y = g_GameManager.TransformPopupY(vertex->pos.y);
-        vertex->rhw = 1.0f;
-        vertex->diffuse =
-            (static_cast<unsigned long>(alpha) << 23) |
-            0x00FFFFFFUL;
-
-        ++vertex;
-        unsigned long alphaBits =
-            static_cast<unsigned long>(alpha) << 24;
-        unsigned long ringColor =
-            alphaBits | 0x00FF4040UL;
-        int remaining = 32;
-        do
+        vtx->pos = attack->position20;
+        vtx->pos.x = g_GameManager.TransformPopupX(vtx->pos.x);
+        vtx->pos.y = g_GameManager.TransformPopupY(vtx->pos.y);
+        vtx->rhw = 1.0f;
+        vtx->diffuse = (alpha / 2 << 24) | 0xffffff;
+        vtx++;
+        for (i = 0; i < 0x20; i++)
         {
             if (angle >= 3.1415927f)
+            {
                 angle -= 6.2831855f;
-
-            vertex->pos.z = 0.0f;
-            vertex->pos.FromAngleMagnitude(
-                angle, extra->value50);
-            vertex->pos += *center;
-            vertex->pos.x =
-                g_GameManager.TransformPopupX(vertex->pos.x);
-            vertex->pos.y =
-                g_GameManager.TransformPopupY(vertex->pos.y);
-            vertex->rhw = 1.0f;
-            vertex->diffuse = ringColor;
-
-            ++vertex;
+            }
+            vtx->pos.z = 0.0f;
+            vtx->pos.FromAngleMagnitude(angle, data->value50);
+            vtx->pos += attack->position20;
+            vtx->pos.x = g_GameManager.TransformPopupX(vtx->pos.x);
+            vtx->pos.y = g_GameManager.TransformPopupY(vtx->pos.y);
+            vtx->rhw = 1.0f;
+            vtx->diffuse = (alpha << 24) | 0xff4040;
+            vtx++;
             angle += 0.2026834f;
         }
-        while (--remaining != 0);
-
-        record->dynamicData1C->color1 = 0xFFFFFFFFUL;
-        g_AnmManager->DrawTriangleFan(
-            record->dynamicData1C,
-            reinterpret_cast<VertexDiffuseXyzrhw *>(
-                extra->centerFan54),
-            33);
+        attack->dynamicData1C->color1 = 0xffffffff;
+        g_AnmManager->DrawTriangleFan(attack->dynamicData1C, reinterpret_cast<VertexDiffuseXyzrhw *>(data->centerFan54), 0x21);
         g_AnmManager->FlushVertexBuffer();
-
-        ExAttackDrawDevice()->SetTextureStageState(
-            0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-        ExAttackDrawDevice()->SetTextureStageState(
-            0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-        ExAttackDrawDevice()->SetTextureStageState(
-            0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-        ExAttackDrawDevice()->SetTextureStageState(
-            0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-        ExAttackDrawDevice()->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-        ExAttackDrawDevice()->SetRenderState(
-            D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-        unsigned long lineColor =
-            alphaBits | 0x00FFFFFFUL;
-
-        int groupIndex = 0;
-
-        do
+        g_Supervisor.d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+        g_Supervisor.d3dDevice08->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+        g_Supervisor.d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
+        g_Supervisor.d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+        g_Supervisor.d3dDevice08->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+        g_Supervisor.d3dDevice08->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+        for (i = 0; i < 4; i++)
         {
-            ExAttackType1422DrawVertex *lineVertex = extra->fanGroups2E8[groupIndex];
-            float *randomValue = extra->randomD38[groupIndex];
-            int lineRemaining = 32;
-            do
+            vtx = data->fanGroups2E8[i];
+            for (j = 0; j < 0x20; j++)
             {
                 if (angle >= 3.1415927f)
+                {
                     angle -= 6.2831855f;
-
-                lineVertex->pos.z = 0.0f;
-                float radius = *randomValue + extra->value50;
-                lineVertex->pos.FromAngleMagnitude(
-                    angle, radius);
-                lineVertex->pos += *center;
-                lineVertex->pos.x =
-                    g_GameManager.TransformPopupX(
-                        lineVertex->pos.x);
-                lineVertex->pos.y =
-                    g_GameManager.TransformPopupY(
-                        lineVertex->pos.y);
-                lineVertex->diffuse = lineColor;
-                lineVertex->rhw = 1.0f;
-
-                ++lineVertex;
+                }
+                vtx->pos.z = 0.0f;
+                vtx->pos.FromAngleMagnitude(angle, data->randomD38[i][j] + data->value50);
+                vtx->pos += attack->position20;
+                vtx->pos.x = g_GameManager.TransformPopupX(vtx->pos.x);
+                vtx->pos.y = g_GameManager.TransformPopupY(vtx->pos.y);
+                vtx->diffuse = (alpha << 24) | 0xffffff;
+                vtx->rhw = 1.0f;
+                vtx++;
                 angle += 0.2026834f;
-                ++randomValue;
             }
-            while (--lineRemaining != 0);
-
-            ExAttackDrawDevice()->SetVertexShader(
-                D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
-            ExAttackDrawDevice()->DrawPrimitiveUP(
-                D3DPT_LINESTRIP,
-                31,
-                extra->fanGroups2E8[groupIndex],
-                sizeof(ExAttackType1422DrawVertex));
-
-            if (extra->state00 == 1)
+            g_Supervisor.d3dDevice08->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+            g_Supervisor.d3dDevice08->DrawPrimitiveUP(D3DPT_LINESTRIP, 0x1f, data->fanGroups2E8[i], sizeof(ExAttackType1422DrawVertex));
+            if (data->state00 == 1)
+            {
                 break;
-
-            angle += 0.050670851f;
-            ++groupIndex;
+            }
+            angle += 0.05067085f;
         }
-        while (groupIndex < 4);
-
         g_AnmManager->ClearVertexShader();
         g_AnmManager->ClearSprite();
         g_AnmManager->ClearTexture();
         g_AnmManager->ClearColorOp();
         g_AnmManager->ClearBlendMode();
         g_AnmManager->ClearZWrite();
-
-        ExAttackDrawDevice()->SetTextureStageState(
-            0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-        ExAttackDrawDevice()->SetTextureStageState(
-            0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-        ExAttackDrawDevice()->SetTextureStageState(
-            0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-        ExAttackDrawDevice()->SetTextureStageState(
-            0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+        g_Supervisor.d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+        g_Supervisor.d3dDevice08->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+        g_Supervisor.d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+        g_Supervisor.d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
     }
-
-    extra->drawPending4C = 0;
+    data->drawPending4C = 0;
     return 0;
 }

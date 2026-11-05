@@ -47,8 +47,12 @@ class SharedOriginalGameManagerOwner(unittest.TestCase):
     def test_real_side_offsets_and_casts_preserve_observed_player_ABI(self):
         self.assertIn('(offsetof(AsciiGameManagerSideView, player) == 0x04)',self.gm)
         self.assertIn('(sizeof(AsciiGameManagerSideView) == 0x38)',self.gm)
-        self.assertEqual(self.type3.count(
-            'reinterpret_cast<PlayerLifecycleView *>(g_GameManager.sides[record->opponentSide04].player)->CheckBulletCollision('),3)
+        units = tomllib.loads((ROOT/'config/match-units.toml').read_text())['units']
+        calls = [r for r in units['ex-attack-update-type3']['relocations']
+                 if r['target'] == 0x0041DFF0]
+        self.assertEqual(len(calls), 3)
+        self.assertTrue(all('CheckBulletCollision@PlayerLifecycleView' in r['symbol']
+                            and r['type'] == 'REL32' for r in calls))
         self.assertEqual(self.type4.count(
             'reinterpret_cast<ExAttackType4PlayerView *>(g_GameManager.sides[record->side08].player)->anmFileBC'),5)
         self.assertIn('offsetof(ExAttackType4PlayerView, anmFileBC) == 0xBC',self.type4)

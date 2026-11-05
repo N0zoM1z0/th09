@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Adapted from Cirno-Labs/th09 src/pl02.cpp UpdateExAttackType3,
+// commit d7653152becabb8c86f2f43d49015ecc11bd0652.
+// Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "AnmManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "ExAttackController.hpp"
@@ -14,104 +18,71 @@ typedef char ExAttackType3NativeVmInterruptAt1FE[
 
 int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
 {
-    ExAttackType3UpdateRecord *record =
-        reinterpret_cast<ExAttackType3UpdateRecord *>(base);
-    ExAttackType3UpdateExtra *extra = record->extra34;
+    ExAttackType3UpdateRecord *attack = reinterpret_cast<ExAttackType3UpdateRecord *>(base);
+    ExAttackType3UpdateExtra *data = (ExAttackType3UpdateExtra *)attack->extra34;
+    PlayerPositionView pos0;
+    PlayerPositionView pos1;
+    PlayerPositionView pos2;
+    int i;
 
-    switch (extra->state00)
+    switch (data->state00)
     {
-    case 1:
-        if (record->timer10 >= 15)
-            return 1;
-        break;
-
     case 0:
     {
-    for (int i = 31; i != 0; --i)
-        extra->history10[i] = extra->history10[i - 1];
-
-    Float3 *position = &record->position20;
-    extra->history10[0] = *position;
-
-    record->vms1C[1].pos2 =
-        extra->history10[6] - *position;
-    record->vms1C[2].pos2 =
-        extra->history10[12] - *position;
-    record->vms1C[3].pos2 =
-        extra->history10[18] - *position;
-    record->vms1C[4].pos2 =
-        extra->history10[24] - *position;
-
-    PlayerPositionView collisionSize;
-    PlayerPositionView *collision = reinterpret_cast<PlayerPositionView *>(
-        collisionSize.operator float *());
-    collision->x = 12.0f;
-    collision->y = 12.0f;
-    collision->z = 0.0f;
-
-    g_Supervisor.SelectSide(record->opponentSide04);
-
-    PlayerPositionView current;
-    current.x = g_GameManager.InverseTransformPopupX(position->x);
-    current.y = g_GameManager.InverseTransformPopupY(record->position20.y);
-    current.z = 0.0f;
-
-    PlayerPositionView middle;
-    middle.x =
-        g_GameManager.InverseTransformPopupX(extra->history10[12].x);
-    middle.y =
-        g_GameManager.InverseTransformPopupY(extra->history10[12].y);
-    // The original sets middle.z after the Y conversion. VC7.1 currently
-    // delays this store past the following tail-X load; keep that divergence
-    // visible to the complete-owner diagnostic instead of moving it pre-call.
-    middle.z = 0.0f;
-
-    PlayerPositionView tail;
-    tail.x =
-        g_GameManager.InverseTransformPopupX(extra->history10[24].x);
-    tail.y =
-        g_GameManager.InverseTransformPopupY(extra->history10[24].y);
-    tail.z = 0.0f;
-
-    if (reinterpret_cast<PlayerLifecycleView *>(g_GameManager.sides[record->opponentSide04].player)->CheckBulletCollision(
-                    &current,
-                    &collisionSize,
-                    0) == 2 ||
-        reinterpret_cast<PlayerLifecycleView *>(g_GameManager.sides[record->opponentSide04].player)->CheckBulletCollision(
-                    &middle,
-                    &collisionSize,
-                    0) == 2 ||
-        reinterpret_cast<PlayerLifecycleView *>(g_GameManager.sides[record->opponentSide04].player)->CheckBulletCollision(
-                    &tail,
-                    &collisionSize,
-                    0) == 2)
-    {
-        record->timer10 = 0;
-        extra->state00 = 1;
-        record->vms1C[0].SetInterrupt(1);
-        record->vms1C[1].SetInterrupt(1);
-        record->vms1C[2].SetInterrupt(1);
-        record->vms1C[3].SetInterrupt(1);
-        record->vms1C[4].SetInterrupt(1);
+        for (i = 0x1f; i > 0; i--)
+        {
+            data->history10[i] = data->history10[i - 1];
+        }
+        data->history10[0] = attack->position20;
+        attack->vms1C[1].pos2 = data->history10[6] - attack->position20;
+        attack->vms1C[2].pos2 = data->history10[12] - attack->position20;
+        attack->vms1C[3].pos2 = data->history10[18] - attack->position20;
+        attack->vms1C[4].pos2 = data->history10[24] - attack->position20;
+        PlayerPositionView size;
+        float *s = size;
+        s[0] = 12.0f;
+        s[1] = 12.0f;
+        s[2] = 0.0f;
+        g_Supervisor.SelectSide(attack->opponentSide04);
+        pos0.x = g_GameManager.InverseTransformPopupX(attack->position20.x);
+        pos0.y = g_GameManager.InverseTransformPopupY(attack->position20.y);
+        pos0.z = 0.0f;
+        pos1.x = g_GameManager.InverseTransformPopupX(data->history10[12].x);
+        pos1.y = g_GameManager.InverseTransformPopupY(data->history10[12].y);
+        pos1.z = 0.0f;
+        pos2.x = g_GameManager.InverseTransformPopupX(data->history10[24].x);
+        pos2.y = g_GameManager.InverseTransformPopupY(data->history10[24].y);
+        pos2.z = 0.0f;
+        if (reinterpret_cast<PlayerLifecycleView *>(g_GameManager.sides[attack->opponentSide04].player)->CheckBulletCollision(&pos0, &size, NULL) == 2 ||
+            reinterpret_cast<PlayerLifecycleView *>(g_GameManager.sides[attack->opponentSide04].player)->CheckBulletCollision(&pos1, &size, NULL) == 2 ||
+            reinterpret_cast<PlayerLifecycleView *>(g_GameManager.sides[attack->opponentSide04].player)->CheckBulletCollision(&pos2, &size, NULL) == 2)
+        {
+            attack->timer10 = 0;
+            data->state00 = 1;
+            attack->vms1C[0].SetInterrupt(1);
+            attack->vms1C[1].SetInterrupt(1);
+            attack->vms1C[2].SetInterrupt(1);
+            attack->vms1C[3].SetInterrupt(1);
+            attack->vms1C[4].SetInterrupt(1);
+            break;
+        }
+        if (attack->timer10 >= 30)
+        {
+            attack->position20 += data->motion04;
+            if (data->history10[0x1f].x < -32.0f || data->history10[0x1f].x > 672.0f || data->history10[0x1f].y < -32.0f ||
+                data->history10[0x1f].y > 512.0f)
+            {
+                return 1;
+            }
+        }
+        break;
     }
-    else if (record->timer10 >= 30)
-    {
-        *position += extra->motion04;
-
-        if (extra->history10[31].x < -32.0f ||
-            extra->history10[31].x > 672.0f ||
-            extra->history10[31].y < -32.0f ||
-            extra->history10[31].y > 512.0f)
+    case 1:
+        if (attack->timer10 >= 15)
         {
             return 1;
         }
-    }
-    break;
-    }
-
-    default:
         break;
     }
-
     return 0;
 }

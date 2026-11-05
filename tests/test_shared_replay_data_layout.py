@@ -77,13 +77,11 @@ class SharedReplayDataPhysicalLayout(TestCase):
         self.assertIn("ReplayDataFrameCharacterAt06", text)
         self.assertIn("offsetof(ReplayFrameDataStartView, value06) == 6", text)
 
-    def test_two_nonexact_title_bosses_access_identical_playtime_and_frame_schema(self):
+    def test_title_bosses_share_native_replay_data_schema(self):
         save = (ROOT / "src/TitleScreenReplaySaveDraw.cpp").read_text()
         menu = (ROOT / "src/TitleScreenReplayMenuDraw.cpp").read_text()
-        self.assertIn("ReplayDataView *replay = replays;", save)
-        self.assertIn("replay->magic", save)
-        self.assertIn("valid ? replay->playTime", save)
-        self.assertIn("valid ? replay->playerName", save)
+        self.assertIn('#include "ReplayDataOriginalView.hpp"', save)
+        self.assertIn("ReplayDataView replays[50]", save)
         self.assertIn("replays[i].magic", menu)
         self.assertIn("replays[i].playTime", menu)
         self.assertIn("replays[i].playerName", menu)
@@ -135,7 +133,7 @@ class SharedReplayDataPhysicalLayout(TestCase):
                 self.assertEqual(observed[offset]["target"], address)
                 self.assertEqual(observed[offset]["type"], "DIR32")
 
-    def test_nonexact_renderer_boundaries_are_not_promoted_by_type_unification(self):
+    def test_renderer_boundaries_and_matching_state_agree_with_canonical_units(self):
         with (ROOT / "config/functions.csv").open(newline="") as stream:
             entries = {int(row["address"], 16): row for row in csv.DictReader(stream)}
         for address, size, owner in (
@@ -144,6 +142,10 @@ class SharedReplayDataPhysicalLayout(TestCase):
             with self.subTest(owner=owner):
                 self.assertEqual(entries[address]["proposed_name"], owner)
                 self.assertEqual(int(entries[address]["size"]), size)
-                self.assertNotEqual(entries[address]["status"], "matching")
+                units = manifest_units()
+                matching = [u for u in units.values() if u['target_address'] == address]
+                self.assertEqual(entries[address]['status'] == 'matching', bool(matching))
+                if matching:
+                    self.assertEqual(matching[0]['size'], size)
         exact = ROOT / "scripts/check-boss-frontiers.py"
         self.assertIn("guard_title_replay_save(replay)", exact.read_text())

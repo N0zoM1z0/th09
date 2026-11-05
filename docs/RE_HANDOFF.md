@@ -18,9 +18,15 @@ Operator authorized integration, attribution, local commits and push on
 [CIRNO_LABS_INTEGRATION_20261105.md](CIRNO_LABS_INTEGRATION_20261105.md).
 The three native Title cursor owners and Supervisor received-frame insertion
 are now canonical exact: 774 physical bytes and ten relocation fields. Live
-tracking is **1013 exact / 22 nonexact**, 254007/291883 authored bytes.
+tracking is **1019 exact / 16 nonexact**, 258713/291883 authored bytes.
 Result/options drawing and update, controller input and the full Supervisor
 update owner are now also canonical exact; the former result barrier is gone.
+The third batch adds Front random setup/AddedCallback, replay-save drawing,
+ExAttack Type3 update/Type14-22 draw, and the complete network-message owner.
+Etama reference integration was rejected because its helper visibility changed
+the existing exact bullet-draw sibling. Both original source and its 268-byte
+frontier are retained. MoveRandomBiased remains 148 differences plus one extra
+byte even with the reference-native source; neither candidate earns credit.
 The older external-audit section below describes the pre-integration source.
 GPL adaptations and original MIT grants are recorded in THIRD_PARTY_NOTICES.md.
 
@@ -466,7 +472,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current ledger summary is
-**1035 source-present / 1013 exact / 22 non-exact**; earlier operator notes
+**1035 source-present / 1019 exact / 16 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -477,19 +483,19 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 1,035 |
 | Classified exclusions | 1,176 |
 | Source-present authored mappings | 1,035 |
-| Canonical exact functions | 1,013 |
-| Source-present non-exact functions | 22 |
-| Source-present non-exact bytes | 37,876 |
+| Canonical exact functions | 1,019 |
+| Source-present non-exact functions | 16 |
+| Source-present non-exact bytes | 33,170 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 254,007 |
+| Canonical exact authored bytes | 258,713 |
 
-**254,007 / 291,883 reviewed-authored bytes = 87.0236% exact**. To reach
-98% of the *currently classified* denominator, another **32,039 bytes**
+**258,713 / 291,883 reviewed-authored bytes = 88.6359% exact**. To reach
+98% of the *currently classified* denominator, another **27,333 bytes**
 must become complete original-bound exact owners, reaching at least **286,046
 exact authored bytes**. The 37 origin-unresolved functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
-The manifests govern **1013 exact** functions.
+The manifests govern **1019 exact** functions.
 
 The catalog is not proof of complete executable-code inventory. The formerly
 uncatalogued **0x0040D677 /0x00444A78** Timer references now belong to the exact
@@ -502,7 +508,7 @@ Do not silently treat uncatalogued code as excluded.
 
 ## Reconstruction frontiers
 
-These are routing measurements, not exactness credit. The ledgers list all30
+These are routing measurements, not exactness credit. The ledgers list all16
 nonexact functions. The opcode4 setter/assignment visibility and whole Enemy
 storage controls are already measured; consult their actual frozen inputs before
 repeating them. Historical assumptions remain hypotheses.
@@ -515,20 +521,14 @@ repeating them. Historical assumptions remain hypotheses.
 | **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor. Preserve332 matching bytes and the genuine final DrawBulletLayerEffects member identity. `--owner etama`. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Lower-bound EAX/EDX transport and encoding cascade. Native framerate/coordinate owners and the shared SHT speed type are corrected;preserve1771 matching bytes and both tables. `--owner movement`. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Recover source chronology and missing13 bytes; preserve repaired SpawnShots transport and actual call/field identities. |
-| **Front weighted message RNG** | 0x004162D0 | **693 target / 693 candidate**, 15 fields, 6 calls, **351** differences, zero missing/excess | Remaining source lifetime and CFG(41/40); four exact Front family owners remain protected. `--owner front`. |
-| **Front added initialization** | 0x00418480 | **706/706**, 37 original fields, 21 calls, 19 equal blocks; **222 differences** (236→222) | Receiver and panel-store scheduling; preserve484 matching bytes and all native GameManager/ANM identities. `--owner frontadded`. |
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Character snapshot and remaining control-flow/byte deficit. Keep the exact Title setup siblings. |
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280/1,280 bytes**,376/376 instructions,57 original-bound fields,13 ordered calls,72 matching direct blocks; **29 differences** | Menu bank/record chronology. Preserve all57 fields,13 calls,72 blocks and the full original-bound residual guard. `--owner replaymenu`. |
-| **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | VM/bank transport and scheduling. Keep245 instructions,41 fields and28 physical blocks. |
-| **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | Middle-Z chronology; preserve765 matching bytes. Actual Timer visibility and native vector interfaces do not resolve15. `--owner type3`. |
-| **ExAttack Type14/22 draw** | 0x00444130 | **959/959**,53 original referents,20 direct +12 COM calls,290/291 instructions; **525 linked differences** | Frame20 versus1C, polar/store scheduling and physical jumps9/10. Preserve434 matching bytes,53 fields and actual scalar/helper payloads. `--owner exattack`. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **904 differing bytes** (911→904, no damaged matches) | Side registration and shared limit/rate publication. Keep native creator calls and164 aligned identities; B4 multiplicity reflects branch sharing. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **799** overlap + 13 missing | Region producer, activeB100 pool and missing physical bytes. Preserve five same-source exact helpers and separate CalcItemBox/FindCollision proofs. `--owner player`. |
 | **Replay SaveReplay** | 0x00420C60 | **1,238/1,238 bytes**, 380 instructions, 53 fields, 23 call operands, 49 matching blocks; **3 differences at +0xB7/+0xBB/+0x3F6 (152→3)** | Frame-destination register at+B7/+BB and checksum SIB at+3F6. Preserve1235 matching bytes and all12 exact same-source siblings. `--owner replaysave`. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540 / 538**, 152/151 instructions, **32/32 ordered original PE/COFF fields**, 5 calls, 12/12 matching CFG blocks; **39** overlapping unlike bytes + 2 missing (49→39) | Seed/tail chronology and two missing bytes. All32 ordered referents and first30 physical field positions are already restored. `--owner replay`. |
 | **ScreenEffect shake envelope** | 0x004227A0 | **336/336**, 132 instructions, 20 fields, 8 calls, 26 blocks; **26** differences (28→26) | EDI/ESI owner allocation. Preserve310 matching bytes; timer-float visibility regresses physical size and x87 lifetime. |
-| **Supervisor network HandleMessage** | 0x00432B70 | **768 authored /808 physical bytes**, 46 fields, 17 direct +2 virtual calls, 34 matching blocks; **105 differences** (125→111→105) | Packed-input/frame scheduling. Keep all six switch targets, map bytes and703 matching physical bytes. `--owner netmessage`. |
-| **Supervisor network service** | 0x00430AA0 | **1,633 target /1,626 candidate**,106 source fields;51 call-identity multiplicities agree |1376 unequal overlaps plus7 missing. Native RNG and observed packet/session lifetimes are repaired;wait/stack/input transport remain open. `--owner network`. |
+| **Supervisor network service** | 0x00430AA0 | **1,633 target /1,627 candidate**,106 source fields;51 call-identity multiplicities agree |1381 unequal overlaps plus6 missing after the reviewed unsigned-16 queue API change (previously1376+7). Native RNG and packet lifetimes remain;wait/stack/input transport stay open. `inspect-supervisor-service.py` checks the full compiled owner; `--owner network` checks its queue dependencies. |
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Y-pointer LEA versus MOV alias after actual Float3 conversion. Keep complete owner, fields, branches and exact ECL cohort. `--owner runecl`. |
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Remaining receiver/allocation scheduling. Preserve43 matching bytes and genuine AnmLoaded/Chain interfaces. `--owner effect`. |
 

@@ -26,7 +26,7 @@ BYTE_MAP = bytes((0, 5, 1, 5, 2, 5, 5, 5, 5, 5, 5, 5, 3, 5, 5, 4))
 PROFILE = ['/MT', '/EHsc', '/Gs', '/DNDEBUG', '/Zi', '/Gy', '/GF',
            '/Oi', '/Gr', '/O2', '/Ob1', '/Oy-', '/I', 'src']
 SOURCE = 'src/SupervisorNetworkMessageHandler.cpp'
-OBJECT = 'build/diagnostics/SupervisorNetworkMessageHandler.obj'
+OBJECT = 'build/matching/SupervisorNetworkMessageHandler.obj'
 
 TARGET_FIELDS = (
     (0x01C, 'DIR32', 0x00432E88),
@@ -81,7 +81,7 @@ REFERENTS = {
     '?g_Supervisor@@3VSupervisor@@A': 0x004B3100,
     '?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z': 0x0042B130,
     '?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A': 0x004B42D0,
-    '?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHHF@Z': 0x0042E9E0,
+    '?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHGF@Z': 0x0042E9E0,
     '?g_NetworkCurrentTime@@3IA': 0x004B356C,
     '?g_NetworkLastReceiveTime@@3IA': 0x004B3564,
     '?g_NetworkHandshakeToken@@3HA': 0x004B3558,

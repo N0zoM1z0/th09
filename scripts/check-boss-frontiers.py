@@ -146,8 +146,8 @@ def run_controller_input(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 
 def run_network_message() -> dict:
-    # This standalone source has no canonical exact siblings. The producer
-    # binds its live project inputs before/after one low-priority compile.
+    # The diagnostic producer binds live project inputs before/after one
+    # low-priority compile; the caller also checks the canonical exact owner.
     current = noncrediting(parsed(['scripts/inspect-network-message.py',
                                   '--build', '--guard', '--json']),
                            name='Supervisor network message', target_size=808,
@@ -161,7 +161,7 @@ def run_network_message() -> dict:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 76,
+    'build/matching/EclManager.obj': 77,
     'build/matching/EclManager-Type11.obj': 4,
 }
 TITLE_EXACT_CARRIERS = {
@@ -874,8 +874,8 @@ def validate_runecl_real_angle_owners(units: dict) -> None:
                     ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
                 raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
             exact_ref_count += 1
-    if exact_ref_count != 40:
-        raise RuntimeError('ECL/Enemy/position/Effect 40 exact C++ angle callsites missing')
+    if exact_ref_count != 41:
+        raise RuntimeError('ECL/Enemy/position/Effect 41 exact C++ angle callsites missing')
 
 
 def guard_runecl_real_angle_callsite_report(report: dict) -> dict:
@@ -1649,6 +1649,7 @@ def run_front_added(*, protect_exact: bool, shared_callees_prechecked: bool = Fa
     result = guard_front_added(parsed(['scripts/inspect-front-added.py', obj, '--json']))
     exact = []
     if protect_exact:
+        exact.append(canonical('front-added-callback'))
         with (ROOT/'config/match-units.toml').open('rb') as stream:
             units = tomllib.load(stream)['units']
         for name, source, symbol, address, size in FRONT_ADDED_CALLEES:
@@ -1689,7 +1690,7 @@ def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     literals = owner.get('literal_definitions')
     if (owner.get('candidate_bytes') != 693 or
             owner.get('target_instructions') != 206 or
-            owner.get('candidate_instructions') != 205 or
+            owner.get('candidate_instructions') not in (205, 206) or
             owner.get('original_fields') != 15 or
             owner.get('ordered_calls') != 6 or
             owner.get('ordered_calls_agree') is not True or
@@ -1714,6 +1715,7 @@ def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         raise RuntimeError('Front random 693-byte/15-field/6-call current full-owner frontier regressed')
     exact=[]
     if protect_exact:
+        exact.append(canonical('front-message-random-setup'))
         for unit in ('front-calc-callback', 'front-message-setup',
                      'front-message-load-for-side-count',
                      'front-message-initialize-runtime'):
@@ -3584,6 +3586,7 @@ def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     validated = guard_exattack_type3_update(result)
     exact = []
     if protect_exact:
+        exact.append(canonical('ex-attack-update-type3'))
         build('ex-attack-initialize-type3')
         exact.append(canonical('ex-attack-initialize-type3'))
         exact.extend(replay_exattack_type3_native_exact())
@@ -4329,6 +4332,7 @@ def run_title_open() -> dict:
                                   '--json']), name='Title DrawReplaySave',
                           target_size=800, fields=41)
     guard_title_replay_save(replay)
+    canonical('title-screen-draw-replay-save')
     return {**cursor_reports, **menu_report, **draw_report,
             'title_draw_replay_save': {
                 'target_bytes': 800, 'candidate_bytes': replay['candidate_bytes'],
@@ -5261,6 +5265,9 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('netmessage', 'all'):
             report['owners'].update(run_network_message())
+            if not args.skip_exact_siblings:
+                report['canonical_siblings'].append(
+                    canonical('supervisor-network-message-handler'))
         if args.owner in ('replay', 'all'):
             owners, exact = run_replay_playback(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)

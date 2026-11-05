@@ -18,6 +18,28 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 reference integration: fourteen complete native owners
+
+The branch adopts fourteen independently replayed owners from Cirno-Labs/th09
+revision d7653152becabb8c86f2f43d49015ecc11bd0652, with GPL provenance retained.
+Tracking is 1019 exact /16 nonexact, 258713/291883 authored bytes (88.6359%).
+See [the complete integration record](CIRNO_LABS_INTEGRATION_20261105.md).
+The latest six include Front random/AddedCallback, replay-save drawing, Type3
+update, Type14/22 draw and the entire 808-byte network handler. Its frame input
+parameter is unsigned 16-bit: original caller zero-extension and callee low-word
+stores agree; four physical stack slots and ret16 remain unchanged. Actual
+original nominal C++ class identity is still unknown.
+The unchanged nonexact network-service body compiles to1627 bytes/1381 unequal
+overlaps/six missing after the narrow API (previously1626/1376/seven). This
+reviewed consequence retains106 bound fields and original direct-call
+multiplicities; it is not described as a matching improvement. Mode4 reset177
+and synchronized-frame query49 both retain complete exactness.
+The ECL draw uses our real native polar body; no reference assembly is imported.
+Etama's candidate was rejected after its visible vector body changed an already
+exact sibling. No new vector source contexts or aliases were adopted. The biased
+movement trial still has 148 unequal bytes and one excess byte. These are bounded
+negative results, not proof that natural exact reconstruction is impossible.
+
 ### 2026-11-05 independently compiled Cirno-Labs reference sample
 
 Later operator-authorized integration adopts the three typed indexed Title
