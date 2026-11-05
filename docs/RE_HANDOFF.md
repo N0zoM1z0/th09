@@ -11,6 +11,19 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — shake residual operand classification
+
+Fresh target-attested shake work retains336 bytes/20 fields/132 instructions/
+eight ordered calls/26 agreeing blocks and26 unlike bytes. Strictly resolved
+instruction comparison places every difference in a GP register selector;
+all other operands, stack/frame registers and x87 operations agree. This is
+residual classification, not semantic equivalence or exact credit. Original
+volatile qualifiers/local declarations remain unknown. The fresh main object
+passes16 canonical siblings/1555 physical bytes/77 fields, with a separate
+disposable replay of complete bodies and actual COFF rows. See
+[the source-bound review](TH09_SHAKE_REGISTER_RESIDUALS_20261105.md). No source,
+ledger or acceptance change; totals remain1022 exact/13 nonexact.
+
 ## 2026-11-05 continued main — complete Enemy append/count counterevidence
 
 Fresh target-attested Enemy update work retains3900 physical bytes/97 fields/

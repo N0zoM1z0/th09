@@ -31407,3 +31407,15 @@ rejected. Four fresh disposable compiles reproduce full Enemy and RunEcl
 raw/COFF evidence; RunEcl remains15564/598/30. Original declarations and nominal
 vector ownership remain unknown. See TH09_ENEMY_APPEND_COUNT_20261105.md;
 no game source or exact credit changes.
+
+## 2026-11-05 shake envelope residuals select general-purpose registers
+
+Fresh target-attested and VC7.1 main-carrier evidence retains4227A0 at336
+bytes/20 fields/132 instructions/eight calls/26 blocks/26 unlike bytes.
+After strict binding, every unlike byte selects a general-purpose register;
+all instruction positions,lengths,mnemonics,operand widths,immediates,memory
+displacements,EBP/ESP and x87 stack operands agree. This classification is
+not a semantic-equivalence or exactness proof. Original volatile qualifiers
+and declaration order remain unknown despite the legacy source comment.
+The fresh main object preserves16 exact siblings/1555 physical bytes/77 fields.
+See TH09_SHAKE_REGISTER_RESIDUALS_20261105.md; no source or exact credit changes.
