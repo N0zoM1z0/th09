@@ -11,6 +11,17 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — replay copy/checksum controls
+
+Fresh SaveReplay still passes its1238/53/3 whole-owner guard. Three natural
+copy/offset/dereference controls preserve every raw byte and actual COFF field;
+a checksum cursor and combined control regress to1230 bytes/245 overlap
+differences/8 missing and are rejected. Maintained source is retained. See
+[the bounded review](TH09_REPLAY_COPY_CONTROLS_20261105.md).
+Only hashed duplicate per-case inputs were cleaned in this and the preceding
+Enemy packet; shared inputs, changed controls and recovery recipes remain.
+Totals stay1019 exact/16 nonexact; no new exact credit.
+
 ## 2026-11-05 continued main — one native Enemy layout
 
 Both post-ECL callbacks now use EnemyView; the duplicate0x5430 EnemyCoreView

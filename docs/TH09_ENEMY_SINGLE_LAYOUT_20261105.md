@@ -46,3 +46,7 @@ receipts, complete owner diagnostics, direction-byte evidence and test logs.
 `probe.py` and `remove-core.py` reproduce the source controls; `verify.py`
 reuses the freshly built carrier for all its remaining diagnostic owners.
 Generated experiment objects remain below `build/analysis/enemy-native-20261105/`.
+
+A subsequent per-case cleanup removes only SHA-identical input copies, with
+path/SHA/recovery receipts in `duplicate-cleanup.json`. Frozen inputs and
+changed source controls are retained, and the probe recreates the copies.

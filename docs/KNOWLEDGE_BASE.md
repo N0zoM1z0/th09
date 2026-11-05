@@ -31179,3 +31179,16 @@ labels in two functions are verified against actual same-section definitions
 and original operands before manifest spelling updates. Complete nonexact
 frontiers remain unchanged, with82 focused tests passing. See
 TH09_ENEMY_SINGLE_LAYOUT_20261105.md for scoped reproduction and retained proof.
+
+## 2026-11-05 complete SaveReplay copy and checksum controls
+
+Fresh original-bound SaveReplay remains1238 bytes/53 fields/380 instructions/
+23 calls/49 blocks, with+B7,+BB,+3F6 unchanged. Typed32-byte frame assignment,
+parenthesized payload offset and explicit checksum dereference each retain all
+raw bytes and actual COFF identities. A checksum cursor suggested by adjacent
+TH08 source instead emits1230 bytes with245 unequal overlaps and8 missing;
+its combination with typed copying has the same rejection. The maintained
+byte-copy source remains. These are bounded current-source observations, not
+an exhausted-model or cross-game exactness claim. See
+TH09_REPLAY_COPY_CONTROLS_20261105.md for frozen recipes, guards and duplicate
+input cleanup receipts.
