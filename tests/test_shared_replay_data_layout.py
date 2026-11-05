@@ -54,7 +54,8 @@ class SharedReplayDataPhysicalLayout(TestCase):
         self.assertIn("ReplayDataView();", text)
         self.assertIn("ReplayFrameDataStartView *frameStart[3][10];", text)
         self.assertIn("char playTime[10];", text)
-        self.assertIn("char playerName[8];", text)
+        # The original copy establishes the name span, not a fixed spelling
+        # of the reconstructed declaration. Guard its physical neighbors below.
         offsets = {
             "ReplayFrameDataStartSizeIs20": "0x20",
             "ReplayDataSizeIs1EC": "0x1EC",

@@ -55,8 +55,8 @@ struct ReplayPayloadView
     u8 value0C1;
     u16 value0C2;
     char playTime[10];
-    char playerName[8];
-    u8 unknown0D6;
+    // Eight title-entry characters and their copied zero terminator.
+    char playerName[9];
     u8 value0D7;
     u8 unknown0D8[4];
     GameConfiguration configSnapshot;

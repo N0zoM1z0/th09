@@ -11,6 +11,20 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — original replay-name span recovered
+
+Fresh target-attested Ghidra and a bounded trace of the original copy establish
+the name span `+CE..+D6`: eight title-entry characters plus their zero terminator.
+The shared record view now uses `playerName[9]`; all later offsets and the 1EC
+extent are unchanged. All 68 affected units pass 26948 physical bytes/1474 fields
+across nine existing profiles. Nine private Title labels were reviewed against
+identical raw bytes, addends and owner-relative destinations before refreshing
+their manifest spellings. All affected nonexact owners and the three menu
+contexts retain their complete previous diagnostics; SaveReplay remains 2 bytes
+different at +B7/+BB. See [the source investigation](TH09_REPLAY_NAME_STORAGE_20261105.md).
+Full public CI passes 1354 tests with29 skips; target/tracking/docs checks pass.
+Totals remain 1035 source-present/1022 exact/13 nonexact; no product/runtime claim.
+
 ## 2026-11-05 continued main — independent GameManager profile objects
 
 The `/Os` primary and no-`/Os` loading-helper profiles now retain distinct

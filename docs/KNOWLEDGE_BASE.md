@@ -31460,3 +31460,17 @@ all11 configured units now compare2991 physical bytes/243 fields simultaneously.
 The setup worker's complete1689/171/904 diagnostic is unchanged.27 GameManager
 tests pass. This changes cache routing only, not original TU ownership or
 native product closure. See TH09_GAME_MANAGER_PROFILE_OBJECTS_20261105.md.
+
+## 2026-11-05 Replay player-name view includes the copied zero
+
+The original title editor writes at most eight characters at Title+8C, and
+SaveReplay's actual copy writes the terminating zero too. A bounded original
+instruction trace for a valid eight-A name observes nine writes at record+CE..D6,
+with D7 untouched. The shared view now uses playerName[9], replacing the former
+eight-byte field plus opaque D6. Difficulty D7, config DC and total 1EC are unchanged.
+Fresh Ghidra runs attest all 685056 mapped file bytes; the keyboard global 4A1CF4
+points to 48F470, rather than containing the alphabet itself. All 68 affected units
+retain 26948 physical bytes/1474 fields under nine existing profiles; all affected
+nonexact diagnostics, including SaveReplay's two bytes, are unchanged. Private
+composition/helper controls do not prove original class structure and are not
+adopted. See TH09_REPLAY_NAME_STORAGE_20261105.md. No new exact or runtime credit.
