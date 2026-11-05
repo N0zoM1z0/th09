@@ -35,18 +35,6 @@ struct ExAttackType20Record
     ExAttackType20Extra *extra34;
 };
 
-struct ExAttackType20SideView
-{
-    unsigned char unknown00[0x08];
-    EtamaController *etama08;
-    unsigned char unknown0C[0x2C];
-};
-
-struct ExAttackType20GameManagerView
-{
-    ExAttackType20SideView sides[2];
-};
-
 struct ExAttackType20BulletDescriptorStorage
 {
     unsigned char storage[0x214];
@@ -55,7 +43,7 @@ struct ExAttackType20BulletDescriptorStorage
 typedef char ExAttackType20BulletDescriptorStorageSizeIs214[
     (sizeof(ExAttackType20BulletDescriptorStorage) == 0x214) ? 1 : -1];
 
-extern ExAttackType20GameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 
 int __fastcall ExAttackUpdateCallbackType20(ExAttackRecord *base)
 {

@@ -37,20 +37,7 @@ typedef char ExAttackType2PositionAt20[
 typedef char ExAttackType2ExtraAt34[
     (offsetof(ExAttackType2RecordView, extra34) == 0x34) ? 1 : -1];
 
-struct ExAttackType2GameSideView
-{
-    unsigned char unknown00[0x10];
-    EnemyManagerView *enemyManager10;
-    unsigned char unknown14[0x24];
-};
-struct ExAttackType2GameManagerView
-{
-    ExAttackType2GameSideView sides[2];
-};
-typedef char ExAttackType2GameSideSizeIs38[
-    (sizeof(ExAttackType2GameSideView) == 0x38) ? 1 : -1];
-
-extern ExAttackType2GameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 
 int __fastcall ExAttackUpdateCallbackType2(ExAttackRecord *base)
 {

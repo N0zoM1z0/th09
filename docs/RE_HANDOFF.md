@@ -11,6 +11,17 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — six callback native declarations repaired
+
+CardAttack's 24-byte query and ExAttack updates 2/15/20/25/26 now use the
+shared native GameManager. All six old sources reproduce incompatible global
+declarations with the old header; the fixed sources match 1968 complete bytes/
+66 fields in both header contexts, with identical raw bodies and actual COFF.
+Three Player ANM reads use the original +BC through header24.anmFile98. Ten
+native GameManager symbol identities retain original destinations. See
+[the callback review](TH09_CALLBACK_NATIVE_MANAGER_REBUILD_20261105.md).
+No new exact credit. The broader replay/native-header work remains in progress.
+
 ## 2026-11-05 continued main — enemy lifecycle native declaration repaired
 
 The old committed EnemyManagerLifecycle source independently reproduces C2040

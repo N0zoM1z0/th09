@@ -33,25 +33,6 @@ struct ExAttackType25Record
     ExAttackType25Extra *extra34;
 };
 
-struct ExAttackType25PlayerView
-{
-    unsigned char unknown000[0xBC];
-    AnmLoaded *anmFileBC;
-};
-
-struct ExAttackType25SideView
-{
-    unsigned char unknown00[0x04];
-    ExAttackType25PlayerView *player04;
-    EtamaController *etama08;
-    unsigned char unknown0C[0x2C];
-};
-
-struct ExAttackType25GameManagerView
-{
-    ExAttackType25SideView sides[2];
-};
-
 struct ExAttackType25BulletDescriptorStorage
 {
     unsigned char storage[0x214];
@@ -61,7 +42,7 @@ struct ExAttackType25BulletDescriptorStorage
 typedef char ExAttackType25BulletDescriptorStorageSizeIs214[
     (sizeof(ExAttackType25BulletDescriptorStorage) == 0x214) ? 1 : -1];
 
-extern ExAttackType25GameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 extern RngRuntimeView g_ReplayRng;
 
 int __fastcall ExAttackUpdateCallbackType25(ExAttackRecord *base)
@@ -130,7 +111,7 @@ int __fastcall ExAttackUpdateCallbackType25(ExAttackRecord *base)
         if (record->timer10 > 90)
         {
             g_GameManager.sides[record->side08]
-                .player04->anmFileBC->ExecuteAnmIdx(
+                .player04->header24.anmFile98->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C),
                     8);
             ++extra->state00;

@@ -31487,3 +31487,15 @@ root/addend destinations. This repairs current source rebuild evidence without
 new exact/origin or product/runtime credit. Ghidra exports three present entries;
 AddedCallback lacks a database function and is covered by the PE/COFF Oracle.
 See TH09_ENEMY_LIFECYCLE_NATIVE_MANAGER_20261105.md.
+
+## 2026-11-05 Six callbacks rebuild against the actual GameManager
+
+CardAttack's category-3 query and ExAttack updates 2/15/20/25/26 used conflicting
+private global types. All six old sources and the old native header reproduce
+the compiler errors. Removing fake GameManager/side projections and reading
+three Player ANM pointers through header24.anmFile98 restores 1968 complete
+bytes/66 fields. Ten native global identities preserve original member
+destinations. Both header contexts emit identical full bodies and actual COFF.
+Five ExAttack Ghidra exports complete; the CardAttack entry lacks a database
+function and is independently covered by the full PE/COFF comparison. No new
+exact/origin or product/runtime credit. See TH09_CALLBACK_NATIVE_MANAGER_REBUILD_20261105.md.
