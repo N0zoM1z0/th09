@@ -11,6 +11,19 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — result byte snapshot and complete callee context
+
+Fresh Title result work retains484/485 bytes,34 fields/nine calls/147
+instructions and40 agreeing ordinal blocks, with218 unlike overlaps plusone
+missing. Seven scalar/lookup/native-reference forms collapse to the same483-byte
+raw/COFF body and are not adopted. A representation copy adds a call/field and
+is rejected; the existing score /O2 profile retains its exact216-byte score
+owner but rejects533-byte result/185-byte cursor bodies. The actual original
+cursor remains175/2 in every primary-profile trial. All40 current main-profile
+Title witnesses replay18756 physical bytes/948 fields. See
+[the current-source review](TH09_TITLE_RESULT_BYTE_SNAPSHOT_20261105.md).
+No game source/ledger or exact-credit change; totals remain1022 exact/13 nonexact.
+
 ## 2026-11-05 continued main — charge input-mode lifetime counterevidence
 
 Fresh target-attested current-source charge work reproduces1197/1210 bytes,
@@ -877,7 +890,7 @@ repeating them. Historical assumptions remain hypotheses.
 | **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Draw index2, side/threshold4, descriptor-position copy7. Keep real20-byte Timer greater co-visible, all97 fields and3887 matching physical bytes. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Lower-bound EAX/EDX transport and encoding cascade. Native framerate/coordinate owners and the shared SHT speed type are corrected;preserve1771 matching bytes and both tables. `--owner movement`. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Recover source chronology and missing13 bytes; preserve repaired SpawnShots transport and actual call/field identities. |
-| **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Character snapshot and remaining control-flow/byte deficit. Keep the exact Title setup siblings. |
+| **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions,34 fields,nine calls,40 agreeing ordinal blocks; **218** overlap +one missing | Character snapshot and remaining control-flow/byte deficit. Keep the exact Title setup siblings. |
 | **TitleScreen::DrawReplayMenu** | 0x004234F6 | **1,280/1,280 bytes**,376/376 instructions,57 original-bound fields,13 ordered calls,72 matching direct blocks; **29 differences** | Menu bank/record chronology. Preserve all57 fields,13 calls,72 blocks and the full original-bound residual guard. `--owner replaymenu`. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **904 differing bytes** (911→904, no damaged matches) | Side registration and shared limit/rate publication. Keep native creator calls and164 aligned identities; B4 multiplicity reflects branch sharing. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **862 / 849**, 26 fields, 12 calls; **799** overlap + 13 missing | Region producer, activeB100 pool and missing physical bytes. Preserve five same-source exact helpers and separate CalcItemBox/FindCollision proofs. `--owner player`. |

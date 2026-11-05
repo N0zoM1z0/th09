@@ -18,6 +18,21 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: result updater byte snapshot and caller/callee closure
+
+Original result266B5 loads the selected index intoECX at+FD, reads the table
+byte intoCL at+FF, sign-extends toEDI at+107, calls the actual cursor at+111 and
+storesEDI tobank+8 at+116. Current484/485 source retains34 fields/nine calls,
+147 instructions and40 ordinal direct blocks with218 unequal overlaps plusone
+missing. Seven plain snapshots/byte lookup/native-reference/signed-storage forms
+collapse to the same483-byte raw/COFF body and are rejected. A byte-copy form
+adds a memcpy field and fails the strict34-field gate. Existing score/O2 keeps
+its216/5 insertion owner exact but emits533/33 result and185-byte cursor bodies;
+no profile is selected. All40 unchanged primary-profile witnesses retain18756
+physical bytes/948 fields; actual175/2 cursor definitions agree in every primary
+trial. No new source/credit or original volatile/type/ownership claim follows.
+See [the bounded original-source review](TH09_TITLE_RESULT_BYTE_SNAPSHOT_20261105.md).
+
 ### 2026-11-05 continued main: charge mode home and branch specialization
 
 Current charge41F810 retains1197/1210 bytes,70 fields/58 calls and1160 unequal
