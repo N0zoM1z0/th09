@@ -11,6 +11,18 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — complete Etama renderer exact
+
+OnDraw413BE0 now matches all600 bytes/27 fields/13 calls/157 instructions.
+Real SDK inline conversion with one /O2 /Ob0 source profile also preserves the
+232-byte helper and832-byte AddedCallback; the same-object SDK alias matches
+three bytes without authored/origin credit. Current-header Bullet dependencies
+retain their original bytes/tails after definition-backed private-name updates.
+See [the exact-source review](TH09_ETAMA_SDK_EXACT_20261105.md).
+Canonical ledger: 1035 source-present / 1020 exact / 15 non-exact.
+Exact reviewed-authored bytes increase to259313 (88.8414%). Product/runtime/port
+and Factory acceptance remain open.
+
 ## 2026-11-05 continued main — complete ECL probe include closure
 
 The shared variant stager now copies/hashes every quoted project dependency,
@@ -712,7 +724,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current ledger summary is
-**1035 source-present / 1019 exact / 16 non-exact**; earlier operator notes
+**1035 source-present / 1020 exact / 15 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -723,19 +735,19 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 1,035 |
 | Classified exclusions | 1,176 |
 | Source-present authored mappings | 1,035 |
-| Canonical exact functions | 1,019 |
-| Source-present non-exact functions | 16 |
-| Source-present non-exact bytes | 33,170 |
+| Canonical exact functions | 1,020 |
+| Source-present non-exact functions | 15 |
+| Source-present non-exact bytes | 32,570 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 258,713 |
+| Canonical exact authored bytes | 259,313 |
 
-**258,713 / 291,883 reviewed-authored bytes = 88.6359% exact**. To reach
-98% of the *currently classified* denominator, another **27,333 bytes**
+**259,313 / 291,883 reviewed-authored bytes = 88.8414% exact**. To reach
+98% of the *currently classified* denominator, another **26,733 bytes**
 must become complete original-bound exact owners, reaching at least **286,046
 exact authored bytes**. The 37 origin-unresolved functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
-The manifests govern **1019 exact** functions.
+The manifests govern **1020 exact** functions.
 
 The catalog is not proof of complete executable-code inventory. The formerly
 uncatalogued **0x0040D677 /0x00444A78** Timer references now belong to the exact
@@ -758,7 +770,6 @@ repeating them. Historical assumptions remain hypotheses.
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode4 timer transport and opcode155 flag update. Keep all598 fields/tables and complete15564 bytes; actual Timer ABI and RNG ownership are already corrected. `--owner runecl`. |
 | **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Draw index2, side/threshold4, descriptor-position copy7. Keep real20-byte Timer greater co-visible, all97 fields and3887 matching physical bytes. |
 | **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Main/satellite fan chronology, polar receiver reloads and ordinal graph. Bounded emulator fixtures are not whole-runtime or exactness proof. `--owner effect29`. |
-| **EtamaController::OnDraw** | 0x00413BE0 | **600/600 physical**, 27 fields, 13 calls, 17 blocks; **268** differences | Laser body-VM position cursor. Preserve332 matching bytes and the genuine final DrawBulletLayerEffects member identity. `--owner etama`. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Lower-bound EAX/EDX transport and encoding cascade. Native framerate/coordinate owners and the shared SHT speed type are corrected;preserve1771 matching bytes and both tables. `--owner movement`. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Recover source chronology and missing13 bytes; preserve repaired SpawnShots transport and actual call/field identities. |
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Character snapshot and remaining control-flow/byte deficit. Keep the exact Title setup siblings. |

@@ -1,6 +1,6 @@
 """Original-retail math ABI for large Etama OnDraw's exact bullet leaf.
 
-The original 600-byte draw boss remains nonexact. Pure-input tests do not
+The 600-byte draw owner and its exact siblings share one profile. Pure-input tests do not
 replace original-PE/COFF exact comparator or independent Factory receipts.
 """
 from copy import deepcopy
@@ -53,13 +53,18 @@ class EtamaRealMathABI(unittest.TestCase):
             ('etama-controller-added-callback','target_address',0x413E41),
             ('etama-controller-added-callback','size',599),
             ('etama-controller-added-callback','compare_size',831),
+            ('etama-controller-on-draw','size',599),
+            ('etama-controller-on-draw','profile',list(frontier._SCREEN_EFFECT_BASE_PROFILE)),
+            ('etama-sdk-vector-pointer-identity-view','target_address',0x4343D1),
+            ('etama-sdk-vector-pointer-identity-view','symbol','??BFalse@@QAEPAMXZ'),
         )
         for name,key,value in cases:
             evidence=deepcopy(self.units);evidence[name][key]=value
             with self.subTest(unit=name,property=key),self.assertRaises(RuntimeError):
                 frontier.validate_etama_real_angle_abi(evidence)
         for missing in ('bullet-draw-single','runtime-add-normalize-angle',
-                        'etama-controller-added-callback'):
+                        'etama-controller-added-callback','etama-controller-on-draw',
+                        'etama-sdk-vector-pointer-identity-view'):
             evidence=deepcopy(self.units);del evidence[missing]
             with self.subTest(missing=missing),self.assertRaises(RuntimeError):
                 frontier.validate_etama_real_angle_abi(evidence)

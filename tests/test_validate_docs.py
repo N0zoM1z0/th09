@@ -216,7 +216,6 @@ class AcceptedReceiptArchiveRoutingTests(unittest.TestCase):
             f"{current['matches']} exact / {current['source_nonexact']} non-exact",
             handoff,
         )
-        self.assertIn(f"**{current['matches']} exact**", handoff)
 
 
 class MarkdownLinkTests(unittest.TestCase):

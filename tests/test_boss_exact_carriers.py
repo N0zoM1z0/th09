@@ -423,11 +423,12 @@ class ExactCarrierDiscovery(unittest.TestCase):
         build.assert_called_once_with('effect-manager-update')
         canonical.assert_not_called()
 
-    def test_real_etama_draw_carrier_has_both_exact_siblings(self):
+    def test_real_etama_draw_carrier_covers_main_siblings_and_sdk_alias(self):
         groups = frontier.exact_source_carriers(
             'src/EtamaControllerDraw.cpp', frontier.ETAMA_DRAW_EXACT_CARRIERS)
         self.assertEqual(groups, {'build/matching/EtamaControllerDraw.obj': [
-            'bullet-draw-single', 'etama-controller-added-callback']})
+            'bullet-draw-single', 'etama-controller-added-callback',
+            'etama-controller-on-draw', 'etama-sdk-vector-pointer-identity-view']})
 
     def test_partial_anm_or_etama_carrier_inventory_is_rejected(self):
         for source, expected, missing in (
@@ -447,7 +448,7 @@ class ExactCarrierDiscovery(unittest.TestCase):
                 ('src/AnmManagerRender.cpp', frontier.ANM_RENDER_EXACT_CARRIERS,
                  ('build/matching/AnmManagerRender.obj',), 16),
                 ('src/EtamaControllerDraw.cpp', frontier.ETAMA_DRAW_EXACT_CARRIERS,
-                 ('build/matching/EtamaControllerDraw.obj',), 2)):
+                 ('build/matching/EtamaControllerDraw.obj',), 4)):
             with self.subTest(source=source), patch.object(
                     frontier, 'build') as build, patch.object(
                     frontier, 'canonical', side_effect=lambda name: {'unit': name}) as replay:

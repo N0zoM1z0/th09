@@ -907,15 +907,26 @@ class BossFrontierChecks(TestCase):
         }
 
     def test_etama_big_draw_protects_all_four_real_exact_siblings(self):
+        evidence = {**self.etama_evidence(), 'difference_offsets': [],
+                    'overlapping_byte_differences': 0, 'candidate_instructions': 157,
+                    'complete_bytes_equal': True}
         with patch.object(frontiers, 'build') as build, patch.object(
-                frontiers, 'parsed', return_value=self.etama_evidence()), patch.object(
+                frontiers, 'parsed', return_value=evidence), patch.object(
                 frontiers, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, siblings = frontiers.run_etama(protect_exact=True)
-        self.assertEqual(owners['etama_draw']['overlapping_differences'], 268)
+        self.assertEqual(owners['etama_draw']['overlapping_differences'], 0)
         self.assertEqual([r['unit'] for r in siblings],
                          ['bullet-draw-single', 'etama-controller-added-callback',
+                          'etama-controller-on-draw', 'etama-sdk-vector-pointer-identity-view',
                           'etama-controller-update', 'runtime-add-normalize-angle'])
         self.assertEqual(build.call_count, 3)
+
+    def test_accepted_etama_rejects_its_historical_nonexact_result(self):
+        with patch.object(frontiers, 'build'), patch.object(
+                frontiers, 'parsed', return_value=self.etama_evidence()), patch.object(
+                frontiers, 'canonical') as canonical, self.assertRaisesRegex(RuntimeError, 'accepted Etama'):
+            frontiers.run_etama(protect_exact=True)
+        canonical.assert_not_called()
 
     def test_etama_original_physically_bound_residual_runs_are_nonoverlapping(self):
         runs = frontiers.ETAMA_DRAW_RESIDUAL_RUNS

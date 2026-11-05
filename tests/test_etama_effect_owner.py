@@ -42,11 +42,10 @@ class EtamaSharedEffectOwner(TestCase):
         self.assertIn('EffectManager *effectManager0C;', native_side)
         self.assertIn('BulletSideEffectManagerAt0C', side)
         self.assertIn('BulletSideStateSizeIs38', side)
-        self.assertIn('controller->sideState->effectManager0C->DrawBulletLayerEffects();', boss)
         self.assertNotIn('BulletDrawSideStateView', boss)
         self.assertNotIn('BulletDrawEffectManagerView', leaf + boss)
 
-    def test_exact_leaf_and_large_nonexact_call_resolve_to_same_original_va(self):
+    def test_exact_leaf_and_draw_caller_resolve_to_same_original_va(self):
         units = manifest()
         leaf = units['effect-draw-bullet-layer']
         self.assertEqual(leaf['target_address'], 0x0040D110)
@@ -63,6 +62,9 @@ class EtamaSharedEffectOwner(TestCase):
         self.assertEqual(inspect.SIZE, 600)
         self.assertEqual(inspect.DESTINATIONS[leaf['symbol']], 0x0040D110)
         self.assertEqual(inspect.expected_kind(leaf['symbol']), 'REL32')
+        caller = units['etama-controller-on-draw']
+        self.assertEqual([(r['type'], r['target']) for r in caller['relocations']
+                          if r['symbol'] == leaf['symbol']], [('REL32', 0x0040D110)])
         with self.assertRaisesRegex(ValueError, 'unknown Etama draw relocation'):
             inspect.expected_kind('?DrawBulletLayerEffects@BulletDrawEffectManagerView@@QAEHXZ')
 

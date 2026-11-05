@@ -175,7 +175,7 @@ TITLE_EXACT_CARRIERS = {
 # the three nearby rendering leaves. Etama OnDraw also has a second exact
 # same-carrier lifecycle callback beyond the bullet sprite drawing leaf.
 ANM_RENDER_EXACT_CARRIERS = {'build/matching/AnmManagerRender.obj': 16}
-ETAMA_DRAW_EXACT_CARRIERS = {'build/matching/EtamaControllerDraw.obj': 2}
+ETAMA_DRAW_EXACT_CARRIERS = {'build/matching/EtamaControllerDraw.obj': 4}
 # One real BulletManager.cpp compiler profile has three independently named
 # physical object carriers, all previously exact. The 2,216-byte physical
 # OnUpdate includes its compiler switch/data tail; all 18 source functions
@@ -2835,8 +2835,10 @@ def run_enemy(*, protect_exact: bool) -> tuple[dict, list[dict]]:
                 'bound_fields': collision['bound_call_fields']}}, exact
 
 
-# These are the 32 disjoint, *physical* original-v1.50a byte runs that
-# differ in the currently cold-compiled 600-byte Etama::OnDraw. The aggregate
+# These are the 32 disjoint, *physical* original-v1.50a byte runs from the
+# historical nonexact Etama::OnDraw. They remain useful for rejected controls.
+# The accepted renderer additionally requires zero differences in run_etama.
+# The aggregate
 # count alone is insufficient: a rewrite could replace a formerly exact byte
 # with a new mismatch while preserving the same count. This is a source-bound
 # no-regression ceiling, never an acceptance/partial-exactness allowance.
@@ -3206,7 +3208,7 @@ BULLET_TRUE_LOADED_CALLS = {
 BULLET_TRUE_LOADED_CARRIERS = {
     'src/EnemyEclOpcode2.cpp': {'build/matching/EnemyEclOpcode2.obj':1},
     'src/BulletLaserSpawn.cpp': {'build/matching/BulletLaserSpawn.obj':1},
-    'src/EtamaControllerDraw.cpp': {'build/matching/EtamaControllerDraw.obj':2},
+    'src/EtamaControllerDraw.cpp': ETAMA_DRAW_EXACT_CARRIERS,
 }
 
 
@@ -3348,6 +3350,8 @@ def unique_canonical_siblings(checks: list[dict]) -> list[dict]:
 # declaration was NOT the C++ owner of this native __fastcall runtime leaf.
 ETAMA_TRUE_ANGLE_CALL = ('bullet-draw-single', 0x00413AF0, 215, 232,
                          0xB7, '?AddNormalizeAngle@@YIMMM@Z', 0x0042AED0)
+ETAMA_DRAW_PROFILE = tuple('/Ob0' if flag == '/Ob1' else flag
+                           for flag in _SCREEN_EFFECT_BASE_PROFILE)
 
 
 def validate_etama_real_angle_abi(units: dict) -> None:
@@ -3365,7 +3369,7 @@ def validate_etama_real_angle_abi(units: dict) -> None:
             src.get('size')!=logical or src.get('compare_size')!=physical or
             src.get('source')!='src/EtamaControllerDraw.cpp' or
             src.get('object')!='build/matching/EtamaControllerDraw.obj' or
-            src.get('profile')!=list(_SCREEN_EFFECT_BASE_PROFILE)):
+            src.get('profile')!=list(ETAMA_DRAW_PROFILE)):
         raise RuntimeError('Etama independently exact DrawSingleBullet source/profile changed')
     fields=src.get('relocations')
     found=[row for row in fields if row.get('symbol')==method or
@@ -3387,9 +3391,19 @@ def validate_etama_real_angle_abi(units: dict) -> None:
     added=units.get('etama-controller-added-callback')
     if (not isinstance(added,dict) or
             added.get('source')!=src['source'] or added.get('object')!=src['object'] or
+            added.get('profile')!=src['profile'] or
             added.get('target_address')!=0x00413E40 or added.get('size')!=598 or
             added.get('compare_size')!=832):
         raise RuntimeError('Etama 832-byte already-exact AddedCallback lost shared source carrier')
+    for name, symbol, address, size in (
+            ('etama-controller-on-draw', '?OnDraw@EtamaController@@SIHPAU1@@Z', 0x00413BE0, 600),
+            ('etama-sdk-vector-pointer-identity-view', '??BD3DXVECTOR3@@QAEPAMXZ', 0x004343D0, 3)):
+        member = units.get(name)
+        if (not isinstance(member, dict) or member.get('source') != src['source'] or
+                member.get('object') != src['object'] or member.get('profile') != src['profile'] or
+                (member.get('symbol'), member.get('target_address'), member.get('size')) !=
+                (symbol, address, size)):
+            raise RuntimeError('Etama draw/SDK conversion lost the common exact source/profile')
 
 
 def replay_etama_real_angle_exact(*, already_checked: bool) -> list[dict]:
@@ -3411,6 +3425,8 @@ def run_etama(*, protect_exact: bool,
                                 diagnostic=True), name='Etama OnDraw',
                           target_size=600, fields=27)
     guard_etama_draw(result)
+    if result.get('complete_bytes_equal') is not True:
+        raise RuntimeError('accepted Etama OnDraw no longer matches its complete original owner')
     exact_units = []
     if protect_exact:
         exact_units = cold_replay_exact_source(

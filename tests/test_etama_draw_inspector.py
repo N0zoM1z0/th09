@@ -18,6 +18,18 @@ spec.loader.exec_module(DIAG)
 
 
 class EtamaDrawInspectorTests(unittest.TestCase):
+    def test_sdk_alias_requires_complete_equal_body_without_fields(self):
+        # Synthetic byte-equality fixtures, not fabricated game instructions.
+        result = DIAG.validate_sdk_vector_body(b'abc', [], b'abc')
+        self.assertEqual(result['original_address'], 0x004343D0)
+        self.assertTrue(result['same_object_definition'])
+        self.assertTrue(result['exactness_credit'].startswith('none'))
+        for body, fields, original in ((b'', [], b'abc'), (b'ab', [], b'abc'),
+                                      (b'abcd', [], b'abc'), (b'abx', [], b'abc'),
+                                      (b'abc', [{}], b'abc'), (b'ab', [], b'ab')):
+            with self.subTest(body=body, fields=fields), self.assertRaises(ValueError):
+                DIAG.validate_sdk_vector_body(body, fields, original)
+
     @staticmethod
     def fields():
         rows = [dict(offset=4 * index, type='DIR32',

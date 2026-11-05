@@ -8171,16 +8171,16 @@ relocations = [
 [units.bullet-draw-single]
 source = "src/EtamaControllerDraw.cpp"
 object = "build/matching/EtamaControllerDraw.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["DrawSingleBullet"]
 symbol = "?DrawSingleBullet@@YIHPAUBullet@@@Z"
 target_address = 0x00413AF0
 size = 0xD7
 compare_size = 0xE8
 relocations = [
-  { offset = 0x17, type = "DIR32", symbol = "$L3191", target = 0x00413BC8 },
-  { offset = 0x46, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
-  { offset = 0x54, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
+  { offset = 0x17, type = "DIR32", symbol = "$L64834", target = 0x00413BC8 },
+  { offset = 0x46, type = "REL32", symbol = "??BD3DXVECTOR3@@QAEPAMXZ", target = 0x004343D0 },
+  { offset = 0x54, type = "REL32", symbol = "??BD3DXVECTOR3@@QAEPAMXZ", target = 0x004343D0 },
   { offset = 0x61, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x66, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0x74, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -8190,10 +8190,10 @@ relocations = [
   { offset = 0xC2, type = "REL32", symbol = "?SetZRotation@AnmVm@@QAEXM@Z", target = 0x0040F840 },
   { offset = 0xC8, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0xCE, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
-  { offset = 0xD8, type = "DIR32", symbol = "$L3076", target = 0x00413B0B },
-  { offset = 0xDC, type = "DIR32", symbol = "$L3077", target = 0x00413B13 },
-  { offset = 0xE0, type = "DIR32", symbol = "$L3078", target = 0x00413B1B },
-  { offset = 0xE4, type = "DIR32", symbol = "$L3079", target = 0x00413B23 },
+  { offset = 0xD8, type = "DIR32", symbol = "$L64626", target = 0x00413B0B },
+  { offset = 0xDC, type = "DIR32", symbol = "$L64627", target = 0x00413B13 },
+  { offset = 0xE0, type = "DIR32", symbol = "$L64628", target = 0x00413B1B },
+  { offset = 0xE4, type = "DIR32", symbol = "$L64629", target = 0x00413B23 },
 ]
 
 [units.etama-controller-release]
@@ -11179,7 +11179,7 @@ relocations = [
 [units.etama-controller-added-callback]
 source = "src/EtamaControllerDraw.cpp"
 object = "build/matching/EtamaControllerDraw.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["EtamaController::AddedCallback"]
 symbol = "?AddedCallback@EtamaController@@SIHPAU1@@Z"
 target_address = 0x00413E40
@@ -11204,18 +11204,18 @@ relocations = [
   { offset = 0x142, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
   { offset = 0x163, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
   { offset = 0x170, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
-  { offset = 0x17F, type = "DIR32", symbol = "$L3237", target = 0x004140A4 },
-  { offset = 0x186, type = "DIR32", symbol = "$L3246", target = 0x00414098 },
+  { offset = 0x17F, type = "DIR32", symbol = "$L64861", target = 0x004140A4 },
+  { offset = 0x186, type = "DIR32", symbol = "$L64870", target = 0x00414098 },
   { offset = 0x1CF, type = "DIR32", symbol = "__real@42000000", target = 0x0048E5E0 },
   { offset = 0x1DC, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
-  { offset = 0x1EB, type = "DIR32", symbol = "$L3238", target = 0x0041411C },
-  { offset = 0x1F2, type = "DIR32", symbol = "$L3247", target = 0x00414110 },
-  { offset = 0x258, type = "DIR32", symbol = "$L3162", target = 0x00413FCA },
-  { offset = 0x25C, type = "DIR32", symbol = "$L3163", target = 0x00413FDB },
-  { offset = 0x260, type = "DIR32", symbol = "$L3165", target = 0x00413FFC },
-  { offset = 0x2D0, type = "DIR32", symbol = "$L3172", target = 0x00414036 },
-  { offset = 0x2D4, type = "DIR32", symbol = "$L3173", target = 0x00414044 },
-  { offset = 0x2D8, type = "DIR32", symbol = "$L3174", target = 0x00414052 },
+  { offset = 0x1EB, type = "DIR32", symbol = "$L64862", target = 0x0041411C },
+  { offset = 0x1F2, type = "DIR32", symbol = "$L64871", target = 0x00414110 },
+  { offset = 0x258, type = "DIR32", symbol = "$L64698", target = 0x00413FCA },
+  { offset = 0x25C, type = "DIR32", symbol = "$L64699", target = 0x00413FDB },
+  { offset = 0x260, type = "DIR32", symbol = "$L64701", target = 0x00413FFC },
+  { offset = 0x2D0, type = "DIR32", symbol = "$L64708", target = 0x00414036 },
+  { offset = 0x2D4, type = "DIR32", symbol = "$L64709", target = 0x00414044 },
+  { offset = 0x2D8, type = "DIR32", symbol = "$L64710", target = 0x00414052 },
 ]
 
 [units.anm-manager-load-surface]
@@ -19050,7 +19050,7 @@ target_address = 0x00412960
 size = 0x765
 compare_size = 0x78C
 relocations = [
-  { offset = 0x25E, type = "DIR32", symbol = "$L61031", target = 0x004130C8 },
+  { offset = 0x25E, type = "DIR32", symbol = "$L61121", target = 0x004130C8 },
   { offset = 0x28D, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x29B, type = "DIR32", symbol = "__real@bf800000", target = 0x0048E7F4 },
   { offset = 0x2C7, type = "DIR32", symbol = "_kTwoPi", target = 0x0048E4C4 },
@@ -19088,15 +19088,15 @@ relocations = [
   { offset = 0x6F1, type = "REL32", symbol = "??DFloat3@@QBE?AU0@M@Z", target = 0x00401180 },
   { offset = 0x6F9, type = "REL32", symbol = "??ZFloat3@@QAEAAU0@ABU0@@Z", target = 0x004125B0 },
   { offset = 0x735, type = "REL32", symbol = "?AdvanceTransformProgram@Bullet@@QAEXXZ", target = 0x004141C0 },
-  { offset = 0x768, type = "DIR32", symbol = "$L60549", target = 0x00412BC2 },
-  { offset = 0x76C, type = "DIR32", symbol = "$L60549", target = 0x00412BC2 },
-  { offset = 0x770, type = "DIR32", symbol = "$L60556", target = 0x00412C12 },
-  { offset = 0x774, type = "DIR32", symbol = "$L60557", target = 0x00412C18 },
-  { offset = 0x778, type = "DIR32", symbol = "$L60561", target = 0x00412C44 },
-  { offset = 0x77C, type = "DIR32", symbol = "$L60562", target = 0x00412C4A },
-  { offset = 0x780, type = "DIR32", symbol = "$L60566", target = 0x00412C7C },
-  { offset = 0x784, type = "DIR32", symbol = "$L60567", target = 0x00412C98 },
-  { offset = 0x788, type = "DIR32", symbol = "$L60571", target = 0x00412CD8 },
+  { offset = 0x768, type = "DIR32", symbol = "$L60639", target = 0x00412BC2 },
+  { offset = 0x76C, type = "DIR32", symbol = "$L60639", target = 0x00412BC2 },
+  { offset = 0x770, type = "DIR32", symbol = "$L60646", target = 0x00412C12 },
+  { offset = 0x774, type = "DIR32", symbol = "$L60647", target = 0x00412C18 },
+  { offset = 0x778, type = "DIR32", symbol = "$L60651", target = 0x00412C44 },
+  { offset = 0x77C, type = "DIR32", symbol = "$L60652", target = 0x00412C4A },
+  { offset = 0x780, type = "DIR32", symbol = "$L60656", target = 0x00412C7C },
+  { offset = 0x784, type = "DIR32", symbol = "$L60657", target = 0x00412C98 },
+  { offset = 0x788, type = "DIR32", symbol = "$L60661", target = 0x00412CD8 },
 ]
 
 [units.exattack-type4-update]
@@ -20195,7 +20195,7 @@ relocations = [
   { offset = 0x2A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x2F, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
   { offset = 0x4A, type = "REL32", symbol = "?ClearDrawBuckets@EtamaController@@QAEHXZ", target = 0x00412390 },
-  { offset = 0xD0, type = "DIR32", symbol = "$L61111", target = 0x00414F84 },
+  { offset = 0xD0, type = "DIR32", symbol = "$L61183", target = 0x00414F84 },
   { offset = 0xDD, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
   { offset = 0xF1, type = "REL32", symbol = "??KFloat3@@QBE?AU0@M@Z", target = 0x0040F5A0 },
   { offset = 0xFD, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
@@ -20274,11 +20274,11 @@ relocations = [
   { offset = 0x837, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x83D, type = "REL32", symbol = "?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x00436F30 },
   { offset = 0x87D, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
-  { offset = 0x894, type = "DIR32", symbol = "$L61098", target = 0x004148A0 },
-  { offset = 0x898, type = "DIR32", symbol = "$L60666", target = 0x004147C4 },
-  { offset = 0x89C, type = "DIR32", symbol = "$L60672", target = 0x004147FA },
-  { offset = 0x8A0, type = "DIR32", symbol = "$L60677", target = 0x00414830 },
-  { offset = 0x8A4, type = "DIR32", symbol = "$L60683", target = 0x00414C64 },
+  { offset = 0x894, type = "DIR32", symbol = "$L61170", target = 0x004148A0 },
+  { offset = 0x898, type = "DIR32", symbol = "$L60738", target = 0x004147C4 },
+  { offset = 0x89C, type = "DIR32", symbol = "$L60744", target = 0x004147FA },
+  { offset = 0x8A0, type = "DIR32", symbol = "$L60749", target = 0x00414830 },
+  { offset = 0x8A4, type = "DIR32", symbol = "$L60755", target = 0x00414C64 },
 ]
 
 [units.player-update-selector-state]
@@ -25140,3 +25140,52 @@ relocations = [
   { offset = 0x388, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x39C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
 ]
+
+[units.etama-controller-on-draw]
+source = "src/EtamaControllerDraw.cpp"
+object = "build/matching/EtamaControllerDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["EtamaController::OnDraw"]
+symbol = "?OnDraw@EtamaController@@SIHPAU1@@Z"
+target_address = 0x00413BE0
+size = 600
+relocations = [
+  { offset = 0x13, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x1B, type = "REL32", symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z", target = 0x00401390 },
+  { offset = 0x5C, type = "REL32", symbol = "?fsincos@@YIXPAM0M@Z", target = 0x00412780 },
+  { offset = 0x74, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
+  { offset = 0x82, type = "REL32", symbol = "??BD3DXVECTOR3@@QAEPAMXZ", target = 0x004343D0 },
+  { offset = 0x8B, type = "REL32", symbol = "??BD3DXVECTOR3@@QAEPAMXZ", target = 0x004343D0 },
+  { offset = 0x97, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0xA3, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0xAE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0xBC, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0xD8, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0xDE, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
+  { offset = 0xEA, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0xF7, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x12D, type = "REL32", symbol = "??BD3DXVECTOR3@@QAEPAMXZ", target = 0x004343D0 },
+  { offset = 0x13C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x148, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
+  { offset = 0x153, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x164, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
+  { offset = 0x17D, type = "DIR32", symbol = "__real@3dcccccd", target = 0x0048E4B0 },
+  { offset = 0x186, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
+  { offset = 0x1A7, type = "DIR32", symbol = "__real@3d800000", target = 0x0048E828 },
+  { offset = 0x1C2, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
+  { offset = 0x1DF, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x1EB, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
+  { offset = 0x227, type = "REL32", symbol = "?DrawSingleBullet@@YIHPAUBullet@@@Z", target = 0x00413AF0 },
+  { offset = 0x248, type = "REL32", symbol = "?DrawBulletLayerEffects@EffectManager@@QAEHXZ", target = 0x0040D110 },
+]
+
+# SDK logical alias for the shared/folded 0x4343D0 body; no authored credit.
+[units.etama-sdk-vector-pointer-identity-view]
+source = "src/EtamaControllerDraw.cpp"
+object = "build/matching/EtamaControllerDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["D3DXVECTOR3::operator float*"]
+symbol = "??BD3DXVECTOR3@@QAEPAMXZ"
+target_address = 0x004343D0
+size = 3
+relocations = []

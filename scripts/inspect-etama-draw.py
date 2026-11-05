@@ -31,6 +31,7 @@ DESTINATIONS = {
     '?fsincos@@YIXPAM0M@Z': 0x00412780,
     '__real@3f000000': 0x00490F54,
     '??BFloat3@@QAEPAMXZ': 0x004343D0,
+    '??BD3DXVECTOR3@@QAEPAMXZ': 0x004343D0,
     '?g_GameManager@@3UAsciiGameManagerView@@A': 0x004A7D90,
     '?TransformPopupX@AsciiGameManagerView@@QAEMM@Z': 0x00401680,
     '?TransformPopupY@AsciiGameManagerView@@QAEMM@Z': 0x004016B0,
@@ -110,6 +111,16 @@ def load_local(name: str, filename: str):
     return obj
 
 
+def validate_sdk_vector_body(body: bytes, fields: list, original: bytes) -> dict:
+    """A new nominal alias must supply the same complete three-byte body."""
+    if len(original) != 3 or fields or body != original:
+        raise ValueError('SDK vector conversion lacks its complete original-equal same-object body')
+    return {'original_address': 0x004343D0, 'bytes': 3,
+            'relocations': 0, 'same_object_definition': True,
+            'sha256': hashlib.sha256(body).hexdigest(),
+            'exactness_credit': 'none; shared/folded origin remains unknown'}
+
+
 def inspect(path: Path, *, explain: bool = False) -> dict:
     import capstone
     from diagnostic_branch_alignment import direct_control_flow
@@ -127,6 +138,11 @@ def inspect(path: Path, *, explain: bool = False) -> dict:
                 raise ValueError('Etama draw original float constant differs: ' + symbol)
 
     raw, fields = coff.object_function(path, SYMBOL)
+    vector_callee = None
+    if any(row['symbol'] == '??BD3DXVECTOR3@@QAEPAMXZ' for row in fields):
+        body, calleefields = coff.object_function(path, '??BD3DXVECTOR3@@QAEPAMXZ')
+        vector_callee = validate_sdk_vector_body(
+            body, calleefields, coff.pe_bytes_at(pe, 0x004343D0, 3))
     candidate, bound_fields = bind_candidate(raw, fields)
     cs = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
     cs.detail = True
@@ -169,6 +185,7 @@ def inspect(path: Path, *, explain: bool = False) -> dict:
         'target_sha256': hashlib.sha256(target).hexdigest(),
         'raw_sha256': hashlib.sha256(raw).hexdigest(),
         'linked_sha256': hashlib.sha256(candidate).hexdigest(),
+        'native_vector_callee': vector_callee,
     }
     if explain:
         shapes = load_local('etama_draw_shapes', 'report-ecl-handler-shapes.py')

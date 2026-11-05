@@ -18,6 +18,19 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: Etama SDK inline conversion closes the renderer
+
+The complete600-byte OnDraw,232-byte physical DrawSingleBullet and832-byte
+AddedCallback now match together under one /O2 /Ob0 source profile with the
+actual SDK D3DXVECTOR3 inline conversion. Noninline visibility matches the
+parent but changes133 helper bytes; inline/Ob1 removes required calls. Actual
+COFF selection is1 for the noninline getter and2 for inline/SDK getters.
+The SDK same-object alias equals three original bytes at4343D0; its unique
+origin/nominal ownership remain unknown and receive no authored credit. No
+other Float3 caller or definition changes. See
+[the complete-source review](TH09_ETAMA_SDK_EXACT_20261105.md). One new exact
+function raises totals to1020/1035; whole-product/runtime acceptance stays open.
+
 ### 2026-11-05 continued main: ECL probe header identity
 
 Copying only the lexical fragments mixed staged and live flags headers through

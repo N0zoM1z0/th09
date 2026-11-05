@@ -1,5 +1,9 @@
 # Cirno-Labs integration — 2026-11-05
 
+Later follow-up: [the complete Etama SDK renderer](TH09_ETAMA_SDK_EXACT_20261105.md)
+now matches600 bytes with both exact siblings preserved. The fourteen-owner
+counts and rejected Etama controls below describe the earlier source checkpoint.
+
 The operator authorized integrating useful reference implementations, crediting
 them in commits, and pushing progress on `reconstruction/cirno-labs-integration`.
 The immutable source reference is [Cirno-Labs/th09 at d7653152](https://github.com/Cirno-Labs/th09/tree/d7653152becabb8c86f2f43d49015ecc11bd0652).

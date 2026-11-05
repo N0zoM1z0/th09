@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// OnDraw adapted from Cirno-Labs/th09 d7653152; original MIT portions retain
+// their grant in LICENSE. See THIRD_PARTY_NOTICES.md.
 #include "BulletManager.hpp"
 #include "AnmManager.hpp"
 #include "EffectManager.hpp"
@@ -6,16 +9,20 @@
 #include "Supervisor.hpp"
 
 #include <stddef.h>
+#include <d3dx8math.h>
 
-// Both pointers address the same reviewed Laser body-VM position in the
-// original TH09 32-bit memory model; the numeric end-of-loop cursor update
-// does not access a member of the one-past Laser.
+// The native VM position consumed by the renderer begins at Laser+0x208.
 typedef char EtamaDrawBodyPositionOffsetIs208[
     (offsetof(Laser, bodyVm) + offsetof(AnmVm, pos) == 0x208) ? 1 : -1];
-typedef char EtamaDrawPointerAddressIsI386[
-    (sizeof(size_t) == sizeof(void *) && sizeof(void *) == 4) ? 1 : -1];
 
 extern void __fastcall fsincos(float *sine, float *cosine, float angle);
+
+// SDK conversions use the same checked three-float storage and this pointer.
+typedef char EtamaSdkVectorLayoutMatchesFloat3[
+    (sizeof(D3DXVECTOR3) == sizeof(Float3) && sizeof(Float3) == 12 &&
+     offsetof(D3DXVECTOR3, x) == offsetof(Float3, x) &&
+     offsetof(D3DXVECTOR3, y) == offsetof(Float3, y) &&
+     offsetof(D3DXVECTOR3, z) == offsetof(Float3, z)) ? 1 : -1];
 
 static int DrawSingleBullet(Bullet *bullet)
 {
@@ -39,8 +46,10 @@ static int DrawSingleBullet(Bullet *bullet)
         break;
     }
 
-    float *position = bullet->position.operator float *();
-    float *vmPosition = vm->pos.operator float *();
+    float *position =
+        reinterpret_cast<D3DXVECTOR3 &>(bullet->position).operator float *();
+    float *vmPosition =
+        reinterpret_cast<D3DXVECTOR3 &>(vm->pos).operator float *();
     vmPosition[0] = g_GameManager.TransformPopupX(position[0]);
     vmPosition[1] = g_GameManager.TransformPopupY(position[1]);
     vmPosition[2] = 0.05f;
@@ -52,92 +61,58 @@ static int DrawSingleBullet(Bullet *bullet)
     return g_AnmManager->Draw2D(vm);
 }
 
-int EtamaController::OnDraw(EtamaController *controller)
+int EtamaController::OnDraw(EtamaController *mgr)
 {
-    g_Supervisor.ConfigureGameplayViewport(controller->sideIndex);
+    int i;
+    float s;
+    float ca;
+    Laser *laser;
+    float len;
+    float scale;
+    Bullet *bullet;
 
-    // TH09 carries two independent cursors through the 48 Laser records:
-    // the Laser owner and its body VM's position (+0x208). Keep the numeric
-    // address step separate: the final loop increment never dereferences
-    // an out-of-range Laser member when the cursor reaches the terminus.
-    Laser *laser = controller->lasers;
-    Float3 *bodyPosition = &laser->bodyVm.pos;
-    for (int i = 0; i < 48; ++i, ++laser,
-         bodyPosition = reinterpret_cast<Float3 *>(
-             reinterpret_cast<size_t>(laser) +
-             offsetof(Laser, bodyVm) + offsetof(AnmVm, pos)))
+    g_Supervisor.ConfigureGameplayViewport(mgr->sideIndex);
+    laser = mgr->lasers;
+    for (i = 0x30; i != 0; i--, laser++)
     {
-        // This owner is the same real Laser that contains bodyPosition.
-        // In-use, polar angle and base position share this true owner cursor.
-        Laser *bodyOwner = reinterpret_cast<Laser *>(
-            reinterpret_cast<size_t>(bodyPosition) -
-            offsetof(Laser, bodyVm) - offsetof(AnmVm, pos));
-        if (bodyOwner->inUse == 0)
+        if (!laser->inUse)
+        {
             continue;
-
-        AnmVm *startCapVm = &laser->startCapVm;
-
-        float sine;
-        float cosine;
-        fsincos(&sine, &cosine, bodyOwner->angle);
-
-        float halfLength =
-            (laser->endOffset - laser->startOffset) * 0.5f +
-            laser->startOffset;
-
-        Float3 *position = reinterpret_cast<Float3 *>(
-            bodyOwner->position.operator float *());
-        Float3 *body = reinterpret_cast<Float3 *>(
-            bodyPosition->operator float *());
-        body->x =
-            g_GameManager.TransformPopupX(position->x + cosine * halfLength);
-        body->y =
-            g_GameManager.TransformPopupY(position->y + sine * halfLength);
-        body->z = 0.07f;
-        laser->color = -1;
+        }
+        fsincos(&s, &ca, laser->angle);
+        len = (laser->endOffset - laser->startOffset) / 2.0f + laser->startOffset;
+        reinterpret_cast<D3DXVECTOR3 &>(laser->bodyVm.pos)[0] = g_GameManager.TransformPopupX(len * ca + reinterpret_cast<D3DXVECTOR3 &>(laser->position)[0]);
+        reinterpret_cast<D3DXVECTOR3 &>(laser->bodyVm.pos)[1] = g_GameManager.TransformPopupY(len * s + reinterpret_cast<D3DXVECTOR3 &>(laser->position)[1]);
+        reinterpret_cast<D3DXVECTOR3 &>(laser->bodyVm.pos)[2] = 0.07f;
+        laser->color = laser->color & 0xff000000 | 0xffffff;
         g_AnmManager->Draw2D(&laser->bodyVm);
-
-        if (laser->startOffset < 16.0f || laser->speed == 0.0f)
+        if ((laser->startOffset < 16.0f || laser->speed == 0.0f) && (laser->hideCapDuringStartup == 0 || laser->state != 0))
         {
-            if (!laser->hideCapDuringStartup || laser->state != 0)
+            reinterpret_cast<D3DXVECTOR3 &>(laser->startCapVm.pos)[0] = g_GameManager.TransformPopupX(ca * laser->startOffset + reinterpret_cast<D3DXVECTOR3 &>(laser->position)[0]);
+            reinterpret_cast<D3DXVECTOR3 &>(laser->startCapVm.pos)[1] = g_GameManager.TransformPopupY(s * laser->startOffset + reinterpret_cast<D3DXVECTOR3 &>(laser->position)[1]);
+            reinterpret_cast<D3DXVECTOR3 &>(laser->startCapVm.pos)[2] = 0.05f;
+            laser->startCapVm.color1 = laser->bodyVm.color1;
+            laser->startCapVm.flag6 = 1;
+            laser->startCapVm.color1 = laser->startCapVm.color1 & 0xffffff | 0xff000000;
+            scale = laser->width / 10.0f;
+            laser->startCapVm.scale.y = laser->startCapVm.scale.x = scale * ((16.0f - laser->startOffset) / 16.0f);
+            if (laser->startCapVm.scale.x <= 0.0f)
             {
-                Float3 *capPosition = reinterpret_cast<Float3 *>(
-                    startCapVm->pos.operator float *());
-                capPosition->x = g_GameManager.TransformPopupX(
-                    position->x + cosine * laser->startOffset);
-                capPosition->y = g_GameManager.TransformPopupY(
-                    position->y + sine * laser->startOffset);
-                capPosition->z = 0.05f;
-
-                float widthScale = laser->width / 10.0f;
-                startCapVm->color1 = laser->bodyVm.color1;
-                startCapVm->flagsWord |= 0x40;
-                startCapVm->color1 |= 0xFF000000u;
-                startCapVm->scale.x =
-                    widthScale * ((16.0f - laser->startOffset) / 16.0f);
-                startCapVm->scale.y = startCapVm->scale.x;
-                if (startCapVm->scale.y <= 0.0f)
-                {
-                    startCapVm->scale.x = widthScale;
-                    startCapVm->scale.y = startCapVm->scale.x;
-                }
-
-                g_AnmManager->Draw2D(startCapVm);
+                laser->startCapVm.scale.y = laser->startCapVm.scale.x = scale;
             }
+            g_AnmManager->Draw2D(&laser->startCapVm);
         }
     }
-
-    for (int i = 0; i < 6; ++i)
+    for (i = 0; i < 6; i++)
     {
-        Bullet *node = controller->drawBuckets[i];
-        while (node != NULL)
+        bullet = mgr->drawBuckets[i];
+        while (bullet != NULL)
         {
-            DrawSingleBullet(node);
-            node = node->nextInDrawBucket;
+            DrawSingleBullet(bullet);
+            bullet = bullet->nextInDrawBucket;
         }
     }
-
-    controller->sideState->effectManager0C->DrawBulletLayerEffects();
+    mgr->sideState->effectManager0C->DrawBulletLayerEffects();
     return 1;
 }
 
@@ -162,10 +137,7 @@ static const int kBulletSpriteScripts[23][5] = {
     {106, 21, 22, 23, 16}, {107, 24, 24, 24, 17},
 };
 
-inline AnmLoadedSprite *LoadedSprite(AnmVm *vm)
-{
-    return vm->loadedSprite;
-}
+
 
 } // namespace
 
@@ -204,15 +176,15 @@ int EtamaController::AddedCallback(EtamaController *controller)
         sprites->unknownD44 = sprites->bulletVm.activeSpriteIndex;
         sprites->bulletVm.baseSpriteIndex = sprites->bulletVm.activeSpriteIndex;
         sprites->spriteHeightPx =
-            static_cast<unsigned char>(LoadedSprite(&sprites->bulletVm)->heightPx);
+            static_cast<unsigned char>(sprites->bulletVm.loadedSprite->heightPx);
 
-        if (LoadedSprite(&sprites->bulletVm)->heightPx <= 8.0f)
+        if (sprites->bulletVm.loadedSprite->heightPx <= 8.0f)
         {
             sprites->collisionSize.x = 4.0f;
             sprites->collisionSize.y = 4.0f;
             sprites->drawBucketIndex = 5;
         }
-        else if (LoadedSprite(&sprites->bulletVm)->heightPx <= 16.0f)
+        else if (sprites->bulletVm.loadedSprite->heightPx <= 16.0f)
         {
             switch (kBulletSpriteScripts[i][0])
             {
@@ -238,7 +210,7 @@ int EtamaController::AddedCallback(EtamaController *controller)
                 break;
             }
         }
-        else if (LoadedSprite(&sprites->bulletVm)->heightPx <= 32.0f)
+        else if (sprites->bulletVm.loadedSprite->heightPx <= 32.0f)
         {
             switch (kBulletSpriteScripts[i][0])
             {
