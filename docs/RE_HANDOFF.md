@@ -11,6 +11,22 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — timeout probes reach the complete Oracle
+
+Two optional ECL operand recipes used a retired `state` assignment and failed
+before compilation. Both now recognize the reviewed native Enemy assignment,
+retain the single byte copy and reject mixed/duplicate/unknown storage roots.
+Real source-frozen CLI replays reach15564 bytes/598 fields, then correctly
+reject239 field-byte and26 table-byte differences. Native bitfield and complete
+accessor-surface controls do not improve RunEcl and are not adopted. See
+[the bounded review](TH09_ECL_TIMEOUT_PROBES_20261105.md).
+Game/compiler/profile/object inputs are unchanged;82 canonical proofs are reused
+with their source/object hashes. Full RunEcl retains the identical30 unlike
+bytes and Enemy13; biased movement remains exact516/28. Totals stay1021 exact/
+14 nonexact. Six focused tests and full CI1346 tests/29 skips pass, together
+with target/tracking, docs/progress and whitespace. This is a diagnostic repair
+and bounded negative evidence, with no new Factory or product claim.
+
 ## 2026-11-05 continued main — complete biased ECL movement exact
 
 MoveRandomBiased407E30 now matches all516 bytes/28 fields/14 calls, including

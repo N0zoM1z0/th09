@@ -21,6 +21,18 @@ expressions={
  'WriteInt': ('TH09_ECL_WRITE_INT','(Th09EclRunControl::ResolveIntLValue((enemy), &Th09EclRunControl::RawInt((instruction), (index)), (instruction)->parameterMask0A, (index)))'),
  'WriteFloat': ('TH09_ECL_WRITE_FLOAT','(Th09EclRunControl::ResolveFloatLValue((enemy), &Th09EclRunControl::RawFloat((instruction), (index)), (instruction)->parameterMask0A, (index)))'),
 }
+
+def native_timeout_assignment(text):
+ """Retain the reviewed byte read and replace only its flag assignment."""
+ pattern=(r'(?<![\w.>:])(?P<owner>enemy->|state\.)primaryFlags337C\s*=\s*'
+          r'Th09EclRunState::AssignTimeoutSpellBit\(\s*'
+          r'(?P=owner)primaryFlags337C,\s*value\s*\);')
+ result,count=re.subn(pattern,lambda match:
+     match['owner']+'primaryFlagBits337C.timeoutSpell24 = value;',text)
+ if count!=1:
+  raise ValueError('reviewed timeout flag assignment missing, mixed or duplicated')
+ return result
+
 def render(case, source):
  counts={}
  original=source['EclRunControl.inl'].decode().replace('\r\n','\n')
@@ -48,9 +60,8 @@ def render(case, source):
   assert text.count(old)==1
   changed[name]=text.replace(old,'int value = Th09EclRunControl::RawInt(instruction, 0);').encode()
  if case in ('operand-macros-native-timeout','operand-macros-native-plain'):
-  name='EclRunState.inl';text=changed[name].decode()
-  old='state.primaryFlags337C = Th09EclRunState::AssignTimeoutSpellBit(state.primaryFlags337C, value);';assert text.count(old)==1
-  changed[name]=text.replace(old,'state.primaryFlagBits337C.timeoutSpell24 = value;').encode()
+  name='EclRunState.inl'
+  changed[name]=native_timeout_assignment(changed[name].decode()).encode()
  for data in changed.values():
   if re.search(r'(?<![\w:])(?:Th09EclRunControl::)?(?:ReadInt|ReadFloat|WriteInt|WriteFloat)\s*\(', data.decode()):
    raise ValueError('unreviewed operand call remains')

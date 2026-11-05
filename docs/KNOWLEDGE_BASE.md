@@ -18,6 +18,24 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: timeout recipe storage and whole native-surface controls
+
+Two optional operand probes still matched the retired state alias, so neither
+reached compilation. Reviewed root-preserving replacement now handles current
+Enemy storage, retaining the single byte copy. Both full15564/598 CLI comparisons
+run and correctly reject239 field-byte/26 table-byte differences. Native timeout
+from a typed byte or existing shared scalar, with or without byte memcpy,
+remains nonexact. Expanding all source-only accessor boundaries does not infer
+a common original ECL profile: the final /Ob0 carrier is15560/598 and rejected;
+/Ob1 with genuine math wrapper typing has3693 ordinary/454 field/65 table
+unlike bytes. Temporary do-while macro scaffolding introduced extra blocks and
+must not be used as evidence of an original boundary or profile. Actual target
+opcode155 widens ECX before reading old flags intoESI, then writes the EAX
+result; no register annotations follow. See
+[the bounded review](TH09_ECL_TIMEOUT_PROBES_20261105.md). Game source and the
+source/profile/object-bound82 canonical proofs remain unchanged, with main30
+and Enemy13. No exact credit or whole-product claim.
+
 ### 2026-11-05 continued main: biased ECL movement and private callee transport
 
 The complete516-byte/28-field MoveRandomBiased407E30 matches under the existing
