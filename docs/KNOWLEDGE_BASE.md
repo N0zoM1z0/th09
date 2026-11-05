@@ -31153,3 +31153,16 @@ mismatches. No split or ABI forcing is adopted. The retained232/16 helper and
 conflict remains unresolved; parent-only equality cannot authorize a helper
 regression. See TH09_ETAMA_PRIVATE_ABI_REVIEW_20261105.md for original hashes,
 complete source controls and the bounded38-row/55-address Effect prefix check.
+
+## 2026-11-05 readonly selected replay and direct menu arguments
+
+The renderer's selected ReplayDataView pointer is const; direct name/date
+arguments remove two inline wrappers. Current-source const pointer/reference,
+direct argument and record-cursor controls all reproduce the same complete1280
+raw bytes and57 actual COFF records. The adopted source independently passes
+the focused original-bound gate with the identical29 residual offsets and all
+1251 previously equal positions protected. All16 actual literals/30 references,
+13 ordered calls and72 direct blocks remain. Three fresh real-owner contexts
+(standalone/declarations/native implementation) agree on the entire payload.
+Nine focused tests pass; no new exact function credit. Source-bound evidence
+and reproduction are in TH09_REPLAY_MENU_READS_20261105.md.

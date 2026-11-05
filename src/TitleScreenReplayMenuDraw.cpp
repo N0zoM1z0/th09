@@ -56,16 +56,6 @@ extern const char *g_ReplayCharacterNames[];
 extern const char *g_ReplayStoryModeName[];
 extern const char *g_ReplayExtraModeName[];
 
-static __inline const char *ReplayMenuPlayTime(ReplayDataView *replay)
-{
-    return replay->magic ? replay->playTime : "--/--/--";
-}
-
-static __inline const char *ReplayMenuPlayerName(ReplayDataView *replay)
-{
-    return replay->magic ? replay->playerName : "--------";
-}
-
 int TitleScreenView::DrawReplayMenu()
 {
     D3DXVECTOR3 position;
@@ -114,7 +104,7 @@ int TitleScreenView::DrawReplayMenu()
     else if (currentScreenState == 2)
     {
         // Acquire the record before the selected-index snapshot.
-        ReplayDataView *replay = &replays[selectedReplay];
+        const ReplayDataView *replay = &replays[selectedReplay];
         i32 selected = selectedReplay;
 
         position.x = selected < 25 ? 32.0f : 352.0f;
@@ -134,8 +124,8 @@ int TitleScreenView::DrawReplayMenu()
                 reinterpret_cast<Float3 *>(&position),
                 "No.%.2d %8s %8s",
                 selected + 1,
-                ReplayMenuPlayerName(replay),
-                ReplayMenuPlayTime(replay));
+                (replay->magic ? replay->playerName : "--------"),
+                (replay->magic ? replay->playTime : "--/--/--"));
         }
         else
         {

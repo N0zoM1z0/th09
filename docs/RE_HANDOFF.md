@@ -11,6 +11,17 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — readonly replay-menu record
+
+ReplayMenu reads the selected record through const and supplies name/date
+arguments directly, removing two inline wrappers. Fresh complete raw bytes
+and all57 actual COFF records remain unchanged:1280 bytes/13 calls/72 blocks/
+29 differences. Standalone, real declarations and full Title implementation
+contexts all reproduce the same payload; all1251 equal positions remain.
+Nine focused tests and tracking/docs/progress/whitespace pass. See
+[the bounded review](TH09_REPLAY_MENU_READS_20261105.md).
+Totals remain1019 exact/16 nonexact; no new exact credit.
+
 ## 2026-11-05 continued main — Etama private argument boundary
 
 Fresh target/control evidence confirms DrawSingleBullet's physical Bullet
