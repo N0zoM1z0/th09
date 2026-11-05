@@ -12,6 +12,58 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 5: native replay state — local affected-owner Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `c8a0bc15c07520b95abba2e218d3a5ee2a70054e`.
+Target SHA-256:
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+
+Eighteen Replay aliases now use actual GameManager members. All 348 affected
+units pass 115410 complete compared bytes/6134 fields in 118 existing profiles;
+two affected diagnostic builds complete the scope. All 466 private field spellings
+retain actual definitions and original operands. Eight nonexact dependent
+bodies/field destinations remain unchanged; both Replay frontiers remain
+nonexact. No new exact-function or origin credit is assigned.
+
+The ignored `.analysis/replay-frame-copy-20261105/canonical-source-proof.json`
+is SHA-256 `194c65dc2bb227ea5a360ca163dde3ad5796c783d55ce265d06ab56f58b8e540`.
+It binds 276 tracked inputs and normalized Git blobs, 132 actual objects/profiles,
+eight compiler/SDK files, complete comparisons, six checked unchanged callee
+proofs, private controls, attested exports, preserved diagnostics and CI. The
+independent verifier writes a separate replay for 348 units plus six callees
+and ten historical recovery comparisons. Full public CI passes 1355 tests
+with 29 skips. Totals stay 1035 source-present/1022 exact/13 nonexact. See
+[the source review](TH09_REPLAY_NATIVE_STATE_20261105.md); product/runtime,
+dual-Oracle semantics and portability remain independent open gates.
+
+## November 5: callback source rebuild — local canonical Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `533bf0267c1e3ac646265fb51688e2d0825eb23d`.
+Six old source/native-header conflicts are reproduced independently. Fixed
+CardAttack/ExAttack sources pass all 1968 bytes/66 fields with both header
+contexts, with identical full raw bodies and actual COFF. Ten native global
+identities retain original destinations. No exact/origin credit is added.
+The ignored `callbacks-source-proof.json` in the same packet is SHA-256
+`a2825a29ef2b7053ada10f885282bcd02eebff6543ba43826908b552952a30d9`.
+It binds 36 tracked inputs, six actual old-header objects/profiles, both context
+comparisons and eight compiler/SDK inputs. See
+[the source repair](TH09_CALLBACK_NATIVE_MANAGER_REBUILD_20261105.md).
+
+## November 5: enemy lifecycle source rebuild — local canonical Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `a7cbf13fdc3ccb23fab6e780b97ea5fd5aeb3247`.
+The old declaration conflict is independently reproduced with the old header.
+Four fixed source owners pass all 1355 bytes/67 fields in both existing
+profiles, with identical raw bodies/actual COFF across header contexts.
+The ignored `lifecycle-source-proof.json` in the same packet is SHA-256
+`5079d12805e100aa6c511f83fc00a8b35117cd5dabd4f88a5bee655bb0df7ae9`.
+It binds 27 tracked inputs, two actual old-header objects/profiles, both context
+comparisons and eight compiler/SDK inputs. No new exact or constructor-origin
+credit follows. See [the source repair](TH09_ENEMY_LIFECYCLE_NATIVE_MANAGER_20261105.md).
+
 ## November 5: replay name span — local affected-owner Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

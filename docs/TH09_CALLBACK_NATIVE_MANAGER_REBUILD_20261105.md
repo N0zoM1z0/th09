@@ -58,3 +58,15 @@ This restores current source rebuild evidence for six already tracked exact
 functions. It adds no function-exact, authored-origin, product/runtime or
 Factory acceptance credit. Totals remain 1035 source-present / 1022 exact /
 13 nonexact. The larger affected-header replay continues independently.
+
+The immutable source checkpoint is
+`533bf0267c1e3ac646265fb51688e2d0825eb23d`. The ignored packet's
+`callbacks-source-proof.json` is SHA-256
+`a2825a29ef2b7053ada10f885282bcd02eebff6543ba43826908b552952a30d9`.
+It binds 36 tracked inputs and normalized Git blobs, six actual old-header
+objects/profiles, eight pinned compiler/SDK inputs, both matching contexts,
+original failure logs, attested exports and all six complete results. Six
+Card tests pass; the focused ExAttack suite with the repository scripts on
+its import path passes 63 tests with four skips. The later
+[native-state review](TH09_REPLAY_NATIVE_STATE_20261105.md) completes the shared
+header replay and describes the independent verifier for both receipts.

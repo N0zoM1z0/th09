@@ -24,6 +24,11 @@ field destinations; full RunEcl remains 30 differences and Enemy remains 13.
 SaveReplay stays two bytes unlike; playback stays 538/540 with39 unlike overlaps
 and two missing. See [the source review](TH09_REPLAY_NATIVE_STATE_20261105.md).
 Full public CI passes 1355 tests with 29 skips; target/tracking/docs checks pass.
+Source `c8a0bc15`; sealed receipt SHA-256
+`194c65dc2bb227ea5a360ca163dde3ad5796c783d55ce265d06ab56f58b8e540`.
+It binds 276 inputs/132 actual objects and both independent repair receipts.
+The verifier replays 348 affected units, six unchanged callees and ten
+historical recovery comparisons without overwriting the immutable receipts.
 No new exact/origin credit; totals remain 1022 exact/13 nonexact.
 
 ## 2026-11-05 continued main — six callback native declarations repaired

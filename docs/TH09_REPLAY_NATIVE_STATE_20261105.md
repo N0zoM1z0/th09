@@ -4,7 +4,7 @@ Recording, playback, input gating and save metadata now use the GameManager
 members already selected by the original instructions. Eighteen separate
 global aliases are retired from ReplayInput; two of those aliases described
 the same configuration-pointer cell. The shared native view gains the observed
-side words at +2C/+30, signed word at +138, and a GameConfiguration pointer
+32-bit side fields at +2C/+30, signed i32 at +138, and a GameConfiguration pointer
 projection at +E8. Existing opaque byte views and all physical offsets remain.
 
 ## Original-bound state paths
@@ -19,7 +19,7 @@ the pinned compiler and complete PE/COFF comparison supply exactness evidence.
 | --- | --- | --- |
 | sides[0/1].character20 | 4A7DB0 / 4A7DE8 | frame +06 |
 | sides[0/1].replaySelector28 | 4A7DB8 / 4A7DF0 | frame +07 |
-| sides[0/1].value2C | 4A7DBC / 4A7DF4 | frame +0A word |
+| sides[0/1].value2C | 4A7DBC / 4A7DF4 | frame +0A u16 |
 | sides[0/1].value30 | 4A7DC0 / 4A7DF8 | info +1E8/+1E9 bytes |
 | clearD8 | 4A7E68 | previously seen character bytes |
 | configurationE8 | 4A7E78 | complete CC-byte configuration and input modes |
@@ -121,6 +121,35 @@ runtime validation, dual-Oracle semantics and portability remain open.
 Full public CI passes 1355 tests with 29 skips. All 49 focused Replay tests,
 91 Enemy tests and six Card tests pass. The focused ExAttack invocation with
 the repository scripts on its import path passes 63 tests with four skips.
-Two obsolete tests pinning exact configuration-pointer declaration spellings
-are removed; their physical offset guards and complete original-byte checks
+Obsolete configuration-access and union-spelling assertions are removed;
+their physical offset guards and complete original-byte checks
 remain. Target/tracking, progress, documentation and whitespace checks pass.
+
+## Immutable source receipts
+
+The native-state source checkpoint is
+`c8a0bc15c07520b95abba2e218d3a5ee2a70054e`. The ignored
+`canonical-source-proof.json` is SHA-256
+`194c65dc2bb227ea5a360ca163dde3ad5796c783d55ce265d06ab56f58b8e540`.
+It binds 276 tracked source/tool/test inputs and normalized Git blobs, 132
+actual objects/profiles, eight pinned compiler/SDK files, all complete unit
+results, unchanged nonexact reports, private controls, successful attested
+exports and public CI. Six unchanged allocator/RNG/replay-constructor/LZSS
+callee proofs are reused only after source/profile/object checks and complete
+original-byte replay. The affected GameManager mode helpers are already
+freshly compiled among the 348 units.
+
+The packet also retains two independent source receipts: lifecycle source
+`a7cbf13fdc3ccb23fab6e780b97ea5fd5aeb3247`, receipt SHA-256
+`5079d12805e100aa6c511f83fc00a8b35117cd5dabd4f88a5bee655bb0df7ae9`;
+callback source `533bf0267c1e3ac646265fb51688e2d0825eb23d`, receipt SHA-256
+`a2825a29ef2b7053ada10f885282bcd02eebff6543ba43826908b552952a30d9`.
+These bind the fixed sources to their old-header compiler contexts as well as
+the separately recorded matching new-header builds.
+
+`python3 -B .analysis/replay-frame-copy-20261105/verify-native-receipts.py`
+checks immutable/current inputs and retained reports/objects, then independently
+replays all 348 affected units, six unchanged callees and ten historical
+recovery comparisons. It writes a separate `canonical-source-replay.json`
+without replacing any sealed receipt. These are local source-bound compiler
+receipts, not Factory verdicts or remote-publication evidence.

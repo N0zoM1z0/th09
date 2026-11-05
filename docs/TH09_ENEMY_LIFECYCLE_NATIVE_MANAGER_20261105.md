@@ -65,3 +65,14 @@ separate the reproduced failure from both successful source contexts. Native
 product/link/runtime closure, original source uniqueness and Factory
 acceptance remain independent open claims. The broader affected-header replay
 continues separately.
+
+The immutable source checkpoint is
+`a7cbf13fdc3ccb23fab6e780b97ea5fd5aeb3247`. The ignored packet's
+`lifecycle-source-proof.json` is SHA-256
+`5079d12805e100aa6c511f83fc00a8b35117cd5dabd4f88a5bee655bb0df7ae9`.
+It binds 27 tracked inputs and normalized Git blobs, two actual old-header
+objects/profiles, eight pinned compiler/SDK inputs, both matching header
+contexts, the original failure, attested exports and all four complete results.
+The 91 focused Enemy tests pass. The later native-state checkpoint completes
+the affected shared-header replay; the independent verifier described in
+[that review](TH09_REPLAY_NATIVE_STATE_20261105.md) also replays this receipt.
