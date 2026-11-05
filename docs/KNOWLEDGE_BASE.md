@@ -31085,3 +31085,17 @@ functions** and its still-unmatched 1,689-byte setup thread remains
 at 904 unlike bytes with its former 171/172 field coverage. Source
 representation of the +0xB0 helper receiver does not determine the
 retail C++ hierarchy. No additional authored exactness is claimed.
+## 2026-11-05 structured Player charge and independent reference control
+
+The full external player translation unit and our charge source independently
+produce the same linked 1197-byte candidate for the original1210-byte owner.
+Reference COFF uses GameManager+E8 and our source the separately proven
+configuration alias; raw addends differ, effective targets do not. The source
+now uses structured pressed/held/released branches and direct native timers.
+Fresh maintained-source before/adopted builds preserve every raw byte, linked
+byte and actual70-field COFF record, all58 calls and all five actual scalar
+initializers. Both retain1160 unequal overlaps,13 missing bytes and the missing
+original EBP-1 byte home. The visible20-byte Timer >= body is separately exact.
+There is no new exact credit. Fresh Replay seed/config/native-header controls
+and Effect GetAnm visibility controls do not improve their complete frontiers.
+See docs/TH09_CHARGE_REPLAY_REVIEW_20261105.md for retained evidence and scope.

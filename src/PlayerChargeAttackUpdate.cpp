@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Control-flow structure adapted from Cirno-Labs/th09 src/player.cpp,
+// Player::UpdateShotInput, d7653152becabb8c86f2f43d49015ecc11bd0652.
+// GPL-3.0-only; see THIRD_PARTY_NOTICES.md. Native ABI/types remain TH09-bound.
 #include "PlayerChargeAttackView.hpp"
 #include "CardAttackStartView.hpp"
 #include "PlayerResourceSubtractView.hpp"
@@ -39,200 +43,156 @@ typedef char PlayerChargeNativeSideStorage[
 
 int PlayerChargeAttackView::UpdateChargeAttack()
 {
-    int side = sideIndex;
+    int side;
     u8 sideMode;
+    int previousLevel;
 
+    side = sideIndex;
     if ((g_ReplayInputStates[side].WasPressed(1) &&
-         (g_GameConfiguration->sideFocusMode[side] != 1 ||
-          !g_ReplayInputStates[side].IsHeld(4))) ||
+         !(g_GameConfiguration->sideFocusMode[side] == 1 &&
+           g_ReplayInputStates[side].IsHeld(4))) ||
         ((sideMode = g_GameConfiguration->sideFocusMode[side]) == 1 &&
          g_ReplayInputStates[side].IsHeld(1) &&
          !g_ReplayInputStates[side].IsHeld(4)))
     {
-        ZunTimer *chargeDelay =
-            &timer303B0;
-        if (*chargeDelay == 0)
+        if (timer303B0 == 0)
         {
-            ZunTimer *normalShotTimer =
-                &timer303A4;
-            if (*normalShotTimer < 0)
-                *normalShotTimer = 0;
-            else if (*normalShotTimer >= 10)
-                *normalShotTimer -= 10;
-            else if (*normalShotTimer >= 5)
-                *normalShotTimer -= 5;
-
-            *chargeDelay = 3;
+            if (timer303A4 < 0)
+            {
+                timer303A4 = 0;
+            }
+            else if (timer303A4 >= 10)
+            {
+                timer303A4 -= 10;
+            }
+            else if (timer303A4 >= 5)
+            {
+                timer303A4 -= 5;
+            }
+            timer303B0 = 3;
             timer303BC = 1;
         }
-        else if (*chargeDelay > 0)
+        else if (timer303B0 > 0)
         {
-            (*chargeDelay)--;
+            timer303B0--;
         }
-
-        // The post-timer gate reloads the player side; the initial input
-        // disjunction intentionally keeps its entry-side snapshot.
-        if (g_GameConfiguration->sideFocusMode[sideIndex] == 1)
-            goto resolveAttack;
+        if (g_GameConfiguration->sideFocusMode[sideIndex] != 1)
+        {
+            goto afterCharge;
+        }
+    }
+    else if ((sideMode == 1 && g_ReplayInputStates[side].IsHeld(4)) ||
+             (sideMode == 0 && g_ReplayInputStates[side].IsHeld(1)))
+    {
+        timer303BC++;
+        if (timer303BC >= 10 && (flags1B80 & 4u) == 0)
+        {
+            if (scalar30384 == 0.0f)
+            {
+                g_SoundPlayer.PlaySoundByIdx(43, sideIndex != 0 ? 500 : -500);
+                reinterpret_cast<AsciiGameManagerSideView *>(sideState)
+                    ->frontSide18->ActivateMeterVms();
+            }
+            previousLevel = static_cast<int>(scalar30384) / 100;
+            scalar30384 +=
+                g_Supervisor.framerateMultiplier5B8 * primaryShtFile->chargeRate24;
+            if (scalar30384 >= scalar30388)
+            {
+                scalar30384 = scalar30388;
+                timer3038C++;
+                if (timer3038C >= 300)
+                {
+                    goto resolveAttack;
+                }
+            }
+            else
+            {
+                timer3038C = 0;
+            }
+            if (previousLevel < static_cast<int>(scalar30384) / 100)
+            {
+                g_SoundPlayer.PlaySoundByIdx(50, sideIndex != 0 ? 500 : -500);
+            }
+        }
         goto afterCharge;
     }
-
-    if ((sideMode != 1 || !g_ReplayInputStates[side].IsHeld(4)) &&
-        (sideMode != 0 || !g_ReplayInputStates[side].IsHeld(1)))
-    {
-        goto resolveAttack;
-    }
-
-    {
-        ZunTimer *holdTimer =
-            &timer303BC;
-        (*holdTimer)++;
-        if (!(*holdTimer >= 10))
-            goto afterCharge;
-    }
-
-    if ((flags1B80 & 4u) != 0)
-        goto shooting;
-
-    if (scalar30384 == 0.0f)
-    {
-        g_SoundPlayer.PlaySoundByIdx(
-            43, sideIndex != 0 ? 500 : -500);
-        reinterpret_cast<AsciiGameManagerSideView *>(sideState)
-            ->frontSide18->ActivateMeterVms();
-    }
-
-    {
-        int previousLevel = static_cast<int>(scalar30384) / 100;
-        PlayerShtFileView *sht = primaryShtFile;
-
-        scalar30384 +=
-            g_Supervisor.framerateMultiplier5B8 *
-            sht->chargeRate24;
-
-        if (scalar30384 >= scalar30388)
-        {
-            scalar30384 = scalar30388;
-            ZunTimer *fullTimer =
-                &timer3038C;
-            (*fullTimer)++;
-            if (*fullTimer >= 300)
-                goto resolveAttack;
-        }
-        else
-        {
-            timer3038C = 0;
-        }
-
-        int currentLevel = static_cast<int>(scalar30384) / 100;
-        if (previousLevel < currentLevel)
-        {
-            g_SoundPlayer.PlaySoundByIdx(
-                50, sideIndex != 0 ? 500 : -500);
-        }
-    }
-    goto afterCharge;
-
 resolveAttack:
     if (scalar30384 >= 100.0f)
     {
         flags1B80 |= 4u;
         timer30398 = 0;
         timer1B74 = 8;
-
         if (scalar30384 >= 400.0f &&
             reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
-                ->enemyManager10->FindActiveEnemyBySideCategory(3) == 0)
+                ->enemyManager10->FindActiveEnemyBySideCategory(3) == NULL)
         {
             reinterpret_cast<CardAttackStartView *>(
                 reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
                     ->cardAttack14)->StartAttack(
-                        2, 2, 0,
-                        primaryShtFile->modePath2);
-            reinterpret_cast<PlayerResourceSubtractView *>(this)
-                ->SubtractResourceClamped(300.0f);
+                        2, 2, 0, primaryShtFile->modePath2);
+            reinterpret_cast<PlayerResourceSubtractView *>(this)->SubtractResourceClamped(300.0f);
             timer1B74 = 8;
-            reinterpret_cast<PlayerStateEffectView *>(this)
-                ->ConfigureState3Effect15();
+            reinterpret_cast<PlayerStateEffectView *>(this)->ConfigureState3Effect15();
         }
         else if (scalar30384 >= 300.0f)
         {
             reinterpret_cast<CardAttackStartView *>(
                 reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
                     ->cardAttack14)->StartAttack(
-                        1, 1, 0,
-                        primaryShtFile->modePath1);
-            reinterpret_cast<PlayerResourceSubtractView *>(this)
-                ->SubtractResourceClamped(200.0f);
+                        1, 1, 0, primaryShtFile->modePath1);
+            reinterpret_cast<PlayerResourceSubtractView *>(this)->SubtractResourceClamped(200.0f);
             timer1B74 = 8;
-            reinterpret_cast<PlayerStateEffectView *>(this)
-                ->ConfigureState3Effect14();
+            reinterpret_cast<PlayerStateEffectView *>(this)->ConfigureState3Effect14();
         }
         else if (scalar30384 >= 200.0f)
         {
             reinterpret_cast<CardAttackStartView *>(
                 reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
                     ->cardAttack14)->StartAttack(
-                        0, 0, 0,
-                        primaryShtFile->modePath0);
+                        0, 0, 0, primaryShtFile->modePath0);
             timer1B74 = 8;
-            reinterpret_cast<PlayerResourceSubtractView *>(this)
-                ->SubtractResourceClamped(100.0f);
-            reinterpret_cast<PlayerStateEffectView *>(this)
-                ->ConfigureState3Effect13();
+            reinterpret_cast<PlayerResourceSubtractView *>(this)->SubtractResourceClamped(100.0f);
+            reinterpret_cast<PlayerStateEffectView *>(this)->ConfigureState3Effect13();
         }
     }
-
     reinterpret_cast<AsciiGameManagerSideView *>(sideState)
         ->frontSide18->DeactivateMeterVms();
     timer303BC = -1;
     scalar30384 = 0.0f;
-
     if (timer303B0 > 0)
-        (timer303B0)--;
-
+    {
+        timer303B0--;
+    }
 afterCharge:
     if ((flags1B80 & 4u) != 0)
     {
-shooting:
-        ZunTimer *shotTimer =
-            &timer30398;
-        if (shotTimer->HasTicked())
+        if (timer30398.HasTicked())
         {
             reinterpret_cast<PlayerSpawnShotsView *>(this)
-                ->SpawnShots(
-                    static_cast<int>(*shotTimer), 1);
+                ->SpawnShots(static_cast<int>(timer30398), 1);
         }
-
-        (*shotTimer)++;
-        // Finish the timer conversion before reacquiring the SHT record.
-        // This preserves the target's load order across the out-of-line call.
-        float shotTime = static_cast<float>(*shotTimer);
+        timer30398++;
+        // Complete the timer call before reloading the SHT pointer.
+        float shotTime = static_cast<float>(timer30398);
         PlayerShtFileView *sht = primaryShtFile;
         if (shotTime >= sht->shotDuration28)
         {
-            *shotTimer = 0;
+            timer30398 = 0;
             flags1B80 &= ~4u;
         }
     }
-
+    if (timer303A4 >= 0)
     {
-        ZunTimer *normalShotTimer =
-            &timer303A4;
-        if (*normalShotTimer >= 0)
+        if (timer303A4.HasTicked())
         {
-            if (normalShotTimer->HasTicked())
-            {
-                reinterpret_cast<PlayerSpawnShotsView *>(this)
-                    ->SpawnShots(
-                        static_cast<int>(*normalShotTimer), 0);
-            }
-
-            (*normalShotTimer)++;
-            if (*normalShotTimer >= 15)
-                *normalShotTimer = -1;
+            reinterpret_cast<PlayerSpawnShotsView *>(this)
+                ->SpawnShots(static_cast<int>(timer303A4), 0);
+        }
+        timer303A4++;
+        if (timer303A4 >= 15)
+        {
+            timer303A4 = -1;
         }
     }
-
     return 0;
 }

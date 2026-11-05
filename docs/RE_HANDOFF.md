@@ -11,6 +11,18 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — structured charge update
+
+The complete independent reference charge body reproduces our linked candidate.
+Charge now uses structured pressed/held/released branches and direct timers.
+Fresh maintained-source before/adopted builds preserve every raw/linked byte
+and all70 actual COFF identities:1197/1210 bytes,58 calls,1160 overlap
+differences and13 missing. Its visible20-byte Timer >= sibling is exact.
+Fresh Replay seed/config/native-header and Effect GetAnm controls do not improve
+their frontiers and are rejected. See
+[the bounded review](TH09_CHARGE_REPLAY_REVIEW_20261105.md).
+Totals remain1019 exact/16 nonexact; product/runtime closure remains open.
+
 ## 2026-11-05 continued main — native result storage and complete-byte guard
 
 Result update uses shared input/unlock fields with ten unchanged effective

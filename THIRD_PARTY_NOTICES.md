@@ -19,6 +19,7 @@ Original game files and assets are outside these licenses.
 | `src/TitleScreenReplayMenuDraw.cpp` | `src/mainmenu.cpp`, `DrawState11` | Native SDK vector interpolation, shared formatting buffer and direct conditional arguments; retains the nonexact frontier |
 | `src/TitleScreenReplaySaveDraw.cpp` | `src/mainmenu.cpp`, `DrawState15` | Native replay-slot and name-keyboard drawing |
 | `src/ExAttackUpdateType3.cpp` | `src/pl02.cpp`, `UpdateExAttackType3` | Native history shifts, collision positions and VM state transitions |
+| `src/PlayerChargeAttackUpdate.cpp` | `src/player.cpp`, `Player::UpdateShotInput` | Structured charge/shot branches and direct native timers, preserving the complete nonexact owner and reviewed ABI |
 | `src/SupervisorNetworkMessageHandler.cpp` | `src/network.cpp`, message handler | Full native packet dispatch, with target-backed unsigned 16-bit frame input ABI |
 | `src/EclManager.cpp`, `src/ExAttackDrawType14Type22.inl` | `src/pl04.cpp`, `DrawExAttackTypes14And22` | Native fan rendering in the existing ECL carrier, retaining our real polar helper |
 
