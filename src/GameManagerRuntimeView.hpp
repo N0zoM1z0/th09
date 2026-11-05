@@ -13,6 +13,7 @@ struct EnemyManagerView;
 struct CardAttack;
 struct FrontSide;
 struct ReplayManagerView;
+struct GameConfiguration;
 struct ReplayStageDispatchView;
 
 struct AsciiPlayerPopupPositionView
@@ -59,7 +60,10 @@ struct AsciiGameManagerSideView
     union { int character20; int value20; };
     union { unsigned char unknown24[4]; int value24; };
     union { int replaySelector28; int selector; };
-    unsigned char unknown2C[8];
+    union {
+        unsigned char unknown2C[8];
+        struct { unsigned int value2C; unsigned int value30; };
+    };
     unsigned int flags;
 };
 
@@ -105,7 +109,7 @@ struct AsciiGameManagerView
     int valueD0;
     union { void *stageObjectD4; ReplayManagerView *replayManagerD4; ReplayStageDispatchView *replayDispatchD4; };
     unsigned char clearD8[0x10];
-    union { ReplayInputGateView *replayInputGateE8; void *heapE8; };
+    union { ReplayInputGateView *replayInputGateE8; GameConfiguration *configurationE8; void *heapE8; };
     float speedEC;
     unsigned char unknown0F0[4];
     int valueF4;
@@ -136,7 +140,7 @@ struct AsciiGameManagerView
             unsigned int highFlags134 : 19;
         };
     };
-    unsigned char unknown138[4];
+    union { unsigned char unknown138[4]; int value138; };
     unsigned char inGameMenu;
     union { unsigned char menuState97C8Active; unsigned char menuBlock13D; };
     union { unsigned char menuStateA7A8Active; unsigned char menuBlock13E; };

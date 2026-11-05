@@ -31499,3 +31499,17 @@ destinations. Both header contexts emit identical full bodies and actual COFF.
 Five ExAttack Ghidra exports complete; the CardAttack entry lacks a database
 function and is independently covered by the full PE/COFF comparison. No new
 exact/origin or product/runtime credit. See TH09_CALLBACK_NATIVE_MANAGER_REBUILD_20261105.md.
+
+## 2026-11-05 Replay state is part of the native GameManager
+
+Recording/playback/input now retire 18 separate aliases, including two names for
+the same +E8 configuration cell. Physical side +2C/+30 words and signed +138 are
+exposed in the native view while keeping their opaque byte unions. Twenty
+canonical root/addend changes preserve independently checked original operands.
+The 348-unit affected closure passes 115410 complete compared bytes/6134 fields
+after 118 serial configured builds and two diagnostic builds. Seven old source
+declaration conflicts are independently reproduced and repaired.466 private field
+spellings preserve actual local definitions and original encoded targets. Eight
+nonexact dependents retain complete bodies/field destinations, including RunEcl30
+and Enemy13; SaveReplay retains two unlike bytes and playback39 plus two missing.
+No new exact/origin or product/runtime credit. See TH09_REPLAY_NATIVE_STATE_20261105.md.

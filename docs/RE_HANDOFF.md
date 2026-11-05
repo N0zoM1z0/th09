@@ -11,6 +11,21 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — native replay state and complete affected closure
+
+Replay now retires 18 separate globals in favor of actual GameManager members,
+including side +2C/+30, signed +138 and the +E8 configuration pointer. All 348
+affected units pass 115410 complete compared bytes/6134 fields under 118 existing
+profiles, plus two affected diagnostic builds. The source rebuild uncovers and
+repairs seven older declaration conflicts in two independent source checkpoints.
+All 466 private field-name refreshes preserve actual definitions and original
+destinations. Eight nonexact dependent bodies retain their full raw hashes and
+field destinations; full RunEcl remains 30 differences and Enemy remains 13.
+SaveReplay stays two bytes unlike; playback stays 538/540 with39 unlike overlaps
+and two missing. See [the source review](TH09_REPLAY_NATIVE_STATE_20261105.md).
+Full public CI passes 1355 tests with 29 skips; target/tracking/docs checks pass.
+No new exact/origin credit; totals remain 1022 exact/13 nonexact.
+
 ## 2026-11-05 continued main — six callback native declarations repaired
 
 CardAttack's 24-byte query and ExAttack updates 2/15/20/25/26 now use the

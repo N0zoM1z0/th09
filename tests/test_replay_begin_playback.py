@@ -89,6 +89,23 @@ class ReplayPlaybackOriginalManifestTests(TestCase):
         self.assertEqual(fields[19][2], 0x004A7DAC)
         self.assertEqual(fields[20][2], 0x004A810C)
 
+    def test_restored_side_state_and_config_require_original_native_members(self):
+        rows = self.sample_rows()
+        known = self.sample_known()
+        owner = '?g_GameManager@@3UAsciiGameManagerView@@A'
+        for index, addend in ((13, 0x2C), (14, 0x64), (16, 0x138),
+                              (21, 0x30), (22, 0x68), (29, 0xE8)):
+            self.assertEqual(playback.SOURCE_FIELDS[index],
+                             (owner, 'DIR32', 0x004A7D90, addend))
+            legacy = '?legacyReplayState@@3IA'
+            for mutation in ({'symbol': legacy, 'addend': 0},
+                             {'addend': addend ^ 4}):
+                changed = [dict(row) for row in rows]
+                changed[index].update(mutation)
+                with self.subTest(index=index, mutation=mutation), self.assertRaises(ValueError):
+                    playback.link_candidate(bytes(538), changed,
+                        dict(known, **{legacy: {0x004A7D90 + addend}}))
+
     def test_candidate_wrong_count_alias_addend_kind_or_other_reorder_fails(self):
         baseline = self.sample_rows()
         variants = [baseline[:-1], baseline + [baseline[-1]],

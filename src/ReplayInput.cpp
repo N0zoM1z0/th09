@@ -35,13 +35,11 @@ typedef char ReplayNativeSideRuntimeFields[
      offsetof(AsciiGameSideRuntimeView, phase10) == 0x10 &&
      offsetof(AsciiGameManagerSideView, runtime) == 0x1C) ? 1 : -1];
 
-// +0xE8 in the GameManager is the separately source-bound
-// g_GameConfiguration pointer at 0x004A7E78. The two side bytes at
-// configuration +0xB4 are the same input-mode bytes Replay uses.
+// The native GameManager +0xE8 configuration pointer is the same original
+// owner used for the complete snapshot and the two input-mode bytes at +0xB4.
 typedef char ReplayNativeInputGateConfigModes[
     (offsetof(AsciiGameManagerView, replayInputGateE8) == 0xE8 &&
      offsetof(GameConfiguration, sideFocusMode) == 0xB4) ? 1 : -1];
-extern GameConfiguration *g_GameConfiguration;
 
 // The two 0x38-byte side records, +0xE8 input gate and +0x114/+0x118
 // replay mode fields are actually part of the original-bound GameManager.
@@ -68,6 +66,18 @@ struct ReplayUserDataHeaderView
 typedef char ReplayUserDataHeaderSizeIs0C[(sizeof(ReplayUserDataHeaderView) == 0x0C) ? 1 : -1];
 
 
+// Recording and playback use the original GameManager members, including
+// side +0x2C/+0x30 words and the signed stage byte widened at +0x138.
+typedef char ReplayNativeRestoredStateOffsets[
+    (offsetof(AsciiGameManagerSideView, value2C) == 0x2C &&
+     offsetof(AsciiGameManagerSideView, value30) == 0x30 &&
+     offsetof(AsciiGameManagerView, clearD8) == 0xD8 &&
+     offsetof(AsciiGameManagerView, configurationE8) == 0xE8 &&
+     offsetof(AsciiGameManagerView, valueF4) == 0xF4 &&
+     offsetof(AsciiGameManagerView, field0FC) == 0xFC &&
+     offsetof(AsciiGameManagerView, value138) == 0x138 &&
+     offsetof(AsciiGameManagerView, seedCopy346) == 0x346) ? 1 : -1];
+
 extern Chain g_Chain;
 // The seed methods and the shared generator project the same eight-byte state.
 typedef char ReplayNativeRngSize[(sizeof(ReplayRngView) == sizeof(RngRuntimeView)) ? 1 : -1];
@@ -75,25 +85,8 @@ typedef char ReplayNativeRngSeed[(offsetof(ReplayRngView, seed) == offsetof(RngR
 typedef char ReplayNativeRngCount[(offsetof(ReplayRngView, generationCount) == offsetof(RngRuntimeView, generationCount)) ? 1 : -1];
 extern RngRuntimeView g_ReplayRng;
 extern SupervisorReplayView g_Supervisor;
-extern i32 g_ReplayStageIndex;
-extern u8 *g_ReplayConfigSnapshot;
 extern u32 g_ReplayHeaderValue1D4;
 extern u32 g_ReplayHeaderValue1D8;
-extern u32 g_ReplayHeaderValue0D7;
-extern u8 g_ReplayHeaderValue1E4;
-extern u8 g_ReplayHeaderValue1E5;
-extern u32 g_ReplayHeaderValue1E8;
-extern u32 g_ReplayHeaderValue1E9;
-extern u16 g_ReplayStageSeed;
-extern u32 g_ReplayFrame0Value06;
-extern u32 g_ReplayFrame1Value06;
-extern u32 g_ReplayFrame0Value07;
-extern u32 g_ReplayFrame1Value07;
-extern u32 g_ReplayFrame0Value0A;
-extern u32 g_ReplayFrame1Value0A;
-extern u32 g_ReplayFrame0Value0C;
-extern i32 g_ReplayFrame0Value09;
-extern u8 g_ReplayStageSeen[];
 
 extern char g_ReplayPlayTimeText[];
 extern const char *g_ReplayDifficultyNames[];
@@ -131,7 +124,7 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
         g_ReplayInputStates[1].Update();
         g_ReplayInputStates[2].Update();
 
-        u8 *sideMode = g_GameConfiguration->sideFocusMode;
+        u8 *sideMode = g_GameManager.configurationE8->sideFocusMode;
         for (int side = 0; side < 2; side++, sideMode++)
         {
             if (*sideMode == 1)
@@ -356,15 +349,15 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
         strcpy(replayData->exeVersion, "0150a");
         replayData->value1D4 = g_ReplayHeaderValue1D4;
         replayData->value1D8 = g_ReplayHeaderValue1D8;
-        replayData->value0D7 = g_ReplayHeaderValue0D7;
-        replayData->value1E4 = g_ReplayHeaderValue1E4;
-        replayData->value1E5 = g_ReplayHeaderValue1E5;
+        replayData->value0D7 = g_GameManager.difficulty;
+        replayData->value1E4 = g_GameManager.gameMode;
+        replayData->value1E5 = g_GameManager.replayMode114;
         replayData->value1E6 = g_GameManager.value378;
         replayData->value1E7 = g_GameManager.value37C;
-        replayManager->replayData->value1E8 = g_ReplayHeaderValue1E8;
-        replayManager->replayData->value1E9 = g_ReplayHeaderValue1E9;
+        replayManager->replayData->value1E8 = g_GameManager.sides[0].value30;
+        replayManager->replayData->value1E9 = g_GameManager.sides[1].value30;
         memcpy(replayData->playerName, "NO NAME", 4);
-        memcpy(&replayData->configSnapshot, g_ReplayConfigSnapshot, sizeof(replayData->configSnapshot));
+        memcpy(&replayData->configSnapshot, g_GameManager.configurationE8, sizeof(replayData->configSnapshot));
         for (int i = 0; i < 10; i++)
         {
             replayData->frameStart[0][i] = NULL;
@@ -374,7 +367,7 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
         }
     }
 
-    int stage = g_ReplayStageIndex;
+    int stage = g_GameManager.field0FC;
     if (replayData->frameStart[0][stage] != NULL)
         g_ZunMemory.Free(replayData->frameStart[0][stage]);
     if (replayData->frameStart[1][stage] != NULL)
@@ -405,21 +398,21 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
     memset(frame2, 0, sizeof(ReplayFrameDataStartView));
     *fpsStart = 0;
 
-    frame2->stageSeed = g_ReplayStageSeed;
-    frame1->stageSeed = g_ReplayStageSeed;
-    frame0->stageSeed = g_ReplayStageSeed;
-    frame0->value06 = g_ReplayFrame0Value06;
-    frame1->value06 = g_ReplayFrame1Value06;
-    frame0->value07 = g_ReplayFrame0Value07;
-    frame1->value07 = g_ReplayFrame1Value07;
-    frame0->value0A = g_ReplayFrame0Value0A;
-    frame1->value0A = g_ReplayFrame1Value0A;
+    frame2->stageSeed = g_GameManager.seedCopy346;
+    frame1->stageSeed = g_GameManager.seedCopy346;
+    frame0->stageSeed = g_GameManager.seedCopy346;
+    frame0->value06 = g_GameManager.sides[0].character20;
+    frame1->value06 = g_GameManager.sides[1].character20;
+    frame0->value07 = g_GameManager.sides[0].replaySelector28;
+    frame1->value07 = g_GameManager.sides[1].replaySelector28;
+    frame0->value0A = g_GameManager.sides[0].value2C;
+    frame1->value0A = g_GameManager.sides[1].value2C;
     frame0->value08 = (u8)g_GameManager.sides[0].runtime->value00;
     frame1->value08 = (u8)g_GameManager.sides[1].runtime->value00;
     frame0->value00 = g_GameManager.sides[0].runtime->value08;
     frame1->value00 = g_GameManager.sides[1].runtime->value08;
-    frame0->value0C = g_ReplayFrame0Value0C;
-    frame0->value09 = g_ReplayFrame0Value09;
+    frame0->value0C = g_GameManager.valueF4;
+    frame0->value09 = g_GameManager.value138;
     frame0->value10 = g_GameManager.sides[0].runtime->phase10;
 
     replayManager->inputCursor0 = (u16 *)g_ZunMemory.Alloc(0x1C20, "rep data");
@@ -476,7 +469,7 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
             return -1;
         replayManager->unknown110 = 0;
     }
-    i32 stage = g_ReplayStageIndex;
+    i32 stage = g_GameManager.field0FC;
     // TH09 tests this table address, not the stored frame pointer.
     // Form it within the complete replay header's byte representation.
     if ((u8 *)replayManager->replayData + offsetof(ReplayDataView, frameStart) +
@@ -485,21 +478,21 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     if ((g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1()) && stage > 0)
     {
         for (i32 i = 0; i < stage; i++)
-            g_ReplayStageSeen[replayManager->replayData->frameStart[1][i]->value06] = 1;
+            g_GameManager.clearD8[replayManager->replayData->frameStart[1][i]->value06] = 1;
     }
     ReplayFrameDataStartView *frame1 = replayManager->replayData->frameStart[1][stage];
     ReplayFrameDataStartView *frame0 = replayManager->replayData->frameStart[0][stage];
     ReplayFrameDataStartView *frame2 = replayManager->replayData->frameStart[2][stage];
     u8 *fpsStart = replayManager->replayData->fpsStart[stage];
-    g_ReplayFrame0Value06 = frame0->value06;
-    g_ReplayFrame1Value06 = frame1->value06;
-    g_ReplayFrame0Value07 = frame0->value07;
-    g_ReplayFrame1Value07 = frame1->value07;
-    g_ReplayFrame0Value0A = frame0->value0A;
-    g_ReplayFrame1Value0A = frame1->value0A;
-    g_ReplayFrame0Value0C = frame0->value0C;
-    g_ReplayFrame0Value09 = (signed char)frame0->value09;
-    g_ReplayHeaderValue0D7 = replayManager->replayData->value0D7;
+    g_GameManager.sides[0].character20 = frame0->value06;
+    g_GameManager.sides[1].character20 = frame1->value06;
+    g_GameManager.sides[0].replaySelector28 = frame0->value07;
+    g_GameManager.sides[1].replaySelector28 = frame1->value07;
+    g_GameManager.sides[0].value2C = frame0->value0A;
+    g_GameManager.sides[1].value2C = frame1->value0A;
+    g_GameManager.valueF4 = frame0->value0C;
+    g_GameManager.value138 = (signed char)frame0->value09;
+    g_GameManager.difficulty = replayManager->replayData->value0D7;
     g_GameManager.value378 = replayManager->replayData->value1E6;
     g_GameManager.value37C = replayManager->replayData->value1E7;
     // The original first publishes header 1E7, then loads the side-0 owner
@@ -509,8 +502,8 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     AsciiGameSideRuntimeView *firstSide0 =
         *reinterpret_cast<AsciiGameSideRuntimeView *volatile *>(
             &g_GameManager.sides[0].runtime);
-    g_ReplayHeaderValue1E8 = replayManager->replayData->value1E8;
-    g_ReplayHeaderValue1E9 = replayManager->replayData->value1E9;
+    g_GameManager.sides[0].value30 = replayManager->replayData->value1E8;
+    g_GameManager.sides[1].value30 = replayManager->replayData->value1E9;
     firstSide0->value08 = frame0->value00;
     g_GameManager.sides[1].runtime->value08 = frame1->value00;
     g_GameManager.sides[0].runtime->value04 = frame0->value00;
@@ -522,7 +515,7 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     replayManager->fpsCursor = fpsStart;
     replayManager->inputCursor0 = reinterpret_cast<u16 *>(frame0 + 1);
     replayManager->inputCursor2 = reinterpret_cast<u16 *>(frame2 + 1);
-    memcpy(g_ReplayConfigSnapshot, &replayManager->replayData->configSnapshot, 0xCC);
+    memcpy(g_GameManager.configurationE8, &replayManager->replayData->configSnapshot, 0xCC);
     reinterpret_cast<ReplayRngView &>(g_ReplayRng).SetSeed(frame0->stageSeed);
     replayManager->inputDelay = 0;
     return 0;
@@ -550,7 +543,7 @@ int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
     g_ReplayInputStates[2].Update();
 
     int side = 0;
-    GameConfiguration *inputGate = g_GameConfiguration;
+    GameConfiguration *inputGate = g_GameManager.configurationE8;
     for (; side < 2; side++)
     {
         if (inputGate != NULL && inputGate->sideFocusMode[side] == 1)

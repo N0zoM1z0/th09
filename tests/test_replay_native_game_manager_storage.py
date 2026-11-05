@@ -2,7 +2,7 @@
 
 This is a source identity check. Exactness is separately proven by pinned
 TH09 1.50a PE/VC7.1 replays of both independent ReplayInput.cpp profiles.
-SaveReplay remains nonexact with three actual residual bytes.
+SaveReplay remains nonexact with two actual residual bytes.
 """
 from pathlib import Path
 import tomllib
@@ -32,10 +32,8 @@ class NativeReplayGameManagerStorage(unittest.TestCase):
                 self.assertIn('offsetof('+owner+', '+field+') == '+offset,replay)
                 self.assertIn(field,header)
         self.assertIn('g_GameManager.sides[0].replaySelector28',replay)
-        # The separately source-bound configuration global occupies exactly
-        # GameManager+0xE8; the two replay input bytes are the same +0xB4 pair.
-        self.assertIn('g_GameConfiguration->sideFocusMode',replay)
-        self.assertIn('GameConfiguration *inputGate = g_GameConfiguration',replay)
+        # Configuration belongs to GameManager+0xE8. Its original physical
+        # referents and actual COFF addends are checked by the focused Oracle.
         self.assertNotIn('struct ReplayInputGateView',replay)
         self.assertIn('ReplayNativeInputGateConfigModes',replay)
         self.assertIn('g_GameManager.replayPauseRecorded130',replay)
@@ -63,8 +61,8 @@ class NativeReplayGameManagerStorage(unittest.TestCase):
                           if r['offset'] == offset]
                 self.assertEqual(fields, [{
                     'offset': offset, 'type': 'DIR32',
-                    'symbol': '?g_GameConfiguration@@3PAUGameConfiguration@@A',
-                    'target': 0x004A7E78}])
+                    'symbol': '?g_GameManager@@3UAsciiGameManagerView@@A',
+                    'target': 0x004A7D90}])
         source=(ROOT/'src/ReplayInput.cpp').read_text()
         self.assertIn('int ReplayManagerView::SaveReplay(',source)
         self.assertIn('g_GameManager.replayMode114',source)
