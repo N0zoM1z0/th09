@@ -11,6 +11,17 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — complete Enemy source contexts rechecked
+
+Fresh five-function Ghidra attestation and eleven fixed-profile source contexts
+recheck Enemy's two draw-index and eleven special-branch transport bytes.
+Seven models retain3900/97/13; three actual-periodic contexts retain45 unlike
+bytes; one native byte-copy model fails the literal-position guard. The real
+co-visible periodic33-byte and Effect184-byte callees remain original-equal.
+No production model is adopted and no exact credit changes. See
+[the bounded evidence](TH09_ENEMY_CONTEXT_RECHECK_20261106.md).
+The prior83-unit ECL source proofs remain unchanged and are reused.
+
 ## 2026-11-05 continued main — complete Enemy native Player reads
 
 Enemy update now shares the native Player's focus, position, state timer and

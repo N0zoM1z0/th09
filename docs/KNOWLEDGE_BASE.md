@@ -31532,3 +31532,15 @@ identical destinations. The main original-linked residuals remain30/13; no
 new exact or original nominal-class credit follows. A wider timeout helper
 parameter preserves the30-byte RunEcl frontier; native bitfield value lowering
 regresses to2140 total differences. Both controls remain rejected.
+
+## 2026-11-06 Complete Enemy context recheck
+
+The descriptor's offset-zero derived-view control preserves its28-byte
+constructor but leaves the caller13 bytes different. Native flag reads,
+native coordinate copying and shared Player/callback/draw workspaces also
+preserve13. The actual periodic33-byte callee and actual Effect184-byte callee
+both remain original-equal when co-visible, while their combined complete
+Enemy caller retains45 differences. Matching callee bodies therefore do not
+settle this caller's source context. No model is adopted; the finite result
+does not prove original class/TU identity or exhaustion. See
+TH09_ENEMY_CONTEXT_RECHECK_20261106.md.
