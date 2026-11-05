@@ -4,8 +4,9 @@
 // Shared declaration of the maintained setup owner. Fields remain partial
 // target-backed views; original nominal C++ ownership is still provisional.
 
-// The 0x38-byte GameManager side record has one physical original identity.
-// Keep the existing setup-facing alias without redefining a second structure.
+// Setup resets three physical 0x38-byte records but creates player-side
+// controllers only for records 0/1. Record 2 carries the shared EffectManager.
+// The unused third-record members have no asserted gameplay role.
 struct ReplayManagerView;
 struct ReplayStageDispatchView;
 typedef AsciiGameManagerSideView SetupSideState;
@@ -13,10 +14,7 @@ typedef char SetupSideStateSizeCheck[(sizeof(SetupSideState) == 0x38) ? 1 : -1];
 
 struct GameManagerSetupLayout
 {
-    SetupSideState sides[2];
-    unsigned char unknown_70[0x0C];
-    void *sharedSubsystem;
-    unsigned char unknown_80[0x28];
+    SetupSideState sides[3];
     void *gameSubsystem;
     void *secondarySubsystem;
     unsigned int valueB0;
@@ -74,3 +72,14 @@ struct GameManagerSetupLayout
     static int RegisterChain();
     static void CleanupGameplayState();
 };
+
+// The original reset walks flag words at +0x34/+0x6C/+0xA4. The setup,
+// cleanup and delete owners share the EffectManager slot at +0x7C.
+typedef char SetupThirdRecordNativeFields[
+    (sizeof(GameManagerSetupLayout) == 0x390 &&
+     offsetof(GameManagerSetupLayout, sides) + 2 * sizeof(SetupSideState) +
+         offsetof(SetupSideState, effectManager0C) == 0x7C &&
+     offsetof(GameManagerSetupLayout, sides) + 2 * sizeof(SetupSideState) +
+         offsetof(SetupSideState, flags) == 0xA4 &&
+     offsetof(GameManagerSetupLayout, gameSubsystem) == 0xA8 &&
+     offsetof(GameManagerSetupLayout, secondarySubsystem) == 0xAC) ? 1 : -1];

@@ -11,6 +11,17 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — third setup record and shared Effect slot
+
+Setup models the three0x38 physical records observed by reset. Record2's
+EffectManager slot+7C replaces the standalone pointer in creation, cleanup
+and deletion. All12 affected units pass3987 bytes/335 fields across three
+actual source/profile builds;40 Supervisor local fields retain verified
+original destinations.20 focused tests pass. Complete worker remains1689/
+171/904; fresh loop/context/reference controls do not provide a replacement.
+See [the bounded review](TH09_SETUP_THIRD_RECORD_20261105.md).
+Totals stay1019 exact/16 nonexact; no new exact credit.
+
 ## 2026-11-05 continued main — replay copy/checksum controls
 
 Fresh SaveReplay still passes its1238/53/3 whole-owner guard. Three natural

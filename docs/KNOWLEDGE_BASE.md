@@ -31192,3 +31192,17 @@ byte-copy source remains. These are bounded current-source observations, not
 an exhausted-model or cross-game exactness claim. See
 TH09_REPLAY_COPY_CONTROLS_20261105.md for frozen recipes, guards and duplicate
 input cleanup receipts.
+
+## 2026-11-05 third setup record and EffectManager lifecycle
+
+TH09 ResetGameManager traverses flags+34/+6C/+A4 at0x38 stride. Setup's
+EffectManager(2,0x320,1) result, cleanup ResetPool and DeletedCallback release
+all use the same+7C slot. Setup now models that as record2.effectManager0C;
+records0/1 alone create the player controllers. Other record2 members retain
+unknown gameplay roles. Three actual source/profile compiles preserve12 exact
+units,3987 physical bytes/335 fields;40 Supervisor local-field names are
+verified against actual definitions and original operands. The complete1689/
+171/904 setup frontier is unchanged. Fresh indexed/condition/context controls
+retain it, while delayed-limit controls and the complete independent reference
+remain nonexact. Source, target and reproducible evidence are separated in
+TH09_SETUP_THIRD_RECORD_20261105.md. No new exact-function credit is claimed.

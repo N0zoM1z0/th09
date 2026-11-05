@@ -566,8 +566,8 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
     gameManager->gameSubsystem = NULL;
     ExAttackController::Release(static_cast<ExAttackController *>(gameManager->secondarySubsystem));
     gameManager->secondarySubsystem = NULL;
-    EffectManager::Release(static_cast<EffectManager *>(gameManager->sharedSubsystem));
-    gameManager->sharedSubsystem = NULL;
+    EffectManager::Release(gameManager->sides[2].effectManager0C);
+    gameManager->sides[2].effectManager0C = NULL;
 
     if (gameManager->heapE8 != NULL)
     {
@@ -638,7 +638,7 @@ void GameManagerSetupLayout::CleanupGameplayState()
         static_cast<FrontSide *>(side->frontSide18)->ResetTransitionState();
     }
 
-    static_cast<EffectManager *>(globalManager.sharedSubsystem)->ResetPool();
+    globalManager.sides[2].effectManager0C->ResetPool();
 
     if (globalManager.gameMode == 2)
     {
@@ -880,8 +880,8 @@ mode_ready:
             goto setup_failed;
     }
 
-    manager->sharedSubsystem = EffectManager::Create(2, 0x320, 1);
-    if (manager->sharedSubsystem == NULL)
+    manager->sides[2].effectManager0C = EffectManager::Create(2, 0x320, 1);
+    if (manager->sides[2].effectManager0C == NULL)
         goto setup_failed;
 
     manager->secondarySubsystem = ExAttackController::Register();

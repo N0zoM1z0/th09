@@ -20,7 +20,6 @@ class NativeGameSideAcrossOwners(unittest.TestCase):
         self.assertIn('#include "GameManagerRuntimeView.hpp"',setup)
         self.assertIn('AsciiGameManagerNativeSetupSideOffsets',shared)
         self.assertIn('AsciiGameManagerSideView sides[2];',shared)
-        self.assertIn('SetupSideState sides[2];',setup)
         self.assertIn('AsciiGameManagerSideViewSizeIs38',shared)
         self.assertIn('SetupSideStateSizeCheck',setup)
         for name,offset in (
