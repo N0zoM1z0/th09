@@ -31108,3 +31108,20 @@ Timer >= definition in that same fresh object. Every one of37 already-equal
 positions is guarded against same-count substitution. Negative tests cover
 wrong identity/extents/censuses, altered Timer bytes/fields and all37 exchanges.
 Diagnostic reductions still cannot enter the match ledger automatically.
+
+## 2026-11-05 ECL re-investigation and native Front indicator
+
+Fresh target-attested Ghidra covers complete RunEcl/Enemy and the Front
+indicator/initialization owners. The setter's alpha at VM+1F3 and position
+at+208 use the native2A4-byte AnmVm. Its two records at Front+123F4/+12698
+are initialized by FrontAddedCallback and passed to rendering by FrontDrawCallback.
+The duplicate padded VM/color classes are removed; initializer alpha clears
+now address the same native fields. Fresh complete setter213/10 and initializer
+706/37 comparisons remain exact. Both ECL profiles preserve all81 canonical
+units,27120 physical bytes and1232 fields. Actual same-section definitions
+prove two label-only manifest changes; original destinations408548/407A4C,
+field offsets and kinds remain fixed. Full Enemy3900/97/13 and RunEcl15564/598/30
+remain nonexact. Current-source typed-wire, bitfield type, timer visibility,
+constructor/periodic context and SDK vector controls either preserve or regress
+those fronts and are rejected. See docs/TH09_ECL_FRONT_REVIEW_20261105.md for
+complete observations, recipes, retained source inputs and scoped replay.

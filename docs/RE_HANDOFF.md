@@ -11,6 +11,18 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — native Front indicator and ECL reinvestigation
+
+Front's enemy indicator uses the native AnmVm array; AddedCallback clears
+the same two alpha fields directly. Both full owners remain213/10 and706/37
+exact. Both ECL profiles rebuild:all81 exact units pass; complete Enemy13
+and RunEcl30 frontiers remain. Two private label spellings change only after
+actual same-section definitions prove the immutable original targets.
+Fresh typed-wire/bitfield/timer/context and SDK controls do not improve the
+large owners and are rejected. See
+[the bounded review](TH09_ECL_FRONT_REVIEW_20261105.md).
+Totals stay1019 exact/16 nonexact. No full cold replay or product/runtime claim.
+
 ## 2026-11-05 continued main — structured charge update
 
 The complete independent reference charge body reproduces our linked candidate.

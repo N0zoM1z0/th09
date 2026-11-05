@@ -14,7 +14,7 @@ void FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition(
 
     if (enemyPosition->x < -112.0f || enemyPosition->x > 112.0f)
     {
-        this->enemyIndicatorVms123F4[sideIndex].color1F0.alpha = 0;
+        this->enemyIndicatorVms123F4[sideIndex].color1Script.a = 0;
         return;
     }
 
@@ -25,13 +25,13 @@ void FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition(
         distance = -distance;
 
     if (distance < 64.0f)
-        this->enemyIndicatorVms123F4[sideIndex].color1F0.alpha =
+        this->enemyIndicatorVms123F4[sideIndex].color1Script.a =
             static_cast<unsigned char>(distance) * 3 + 64;
     else
-        this->enemyIndicatorVms123F4[sideIndex].color1F0.alpha = 0xFF;
+        this->enemyIndicatorVms123F4[sideIndex].color1Script.a = 0xFF;
 
-    this->enemyIndicatorVms123F4[sideIndex].position208.x =
+    this->enemyIndicatorVms123F4[sideIndex].pos.x =
         g_GameManager.TransformPopupX(enemyPosition->x);
-    this->enemyIndicatorVms123F4[sideIndex].position208.y = 472.0f;
-    this->enemyIndicatorVms123F4[sideIndex].position208.z = 0.0f;
+    this->enemyIndicatorVms123F4[sideIndex].pos.y = 472.0f;
+    this->enemyIndicatorVms123F4[sideIndex].pos.z = 0.0f;
 }

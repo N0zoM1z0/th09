@@ -79,8 +79,8 @@ int FrontAddedCallback(void *frontArg)
     gui->frontAnm08->ExecuteAnmIdx(&gui->frontVms00C[6], 6);
     g_AsciiManager.asciiAnm->ExecuteAnmIdx(&gui->markerVm123F4, 0);
     g_AsciiManager.asciiAnm->ExecuteAnmIdx(&gui->markerVm12698, 0);
-    reinterpret_cast<unsigned char *>(&gui->markerVm123F4)[0x1F3] = 0;
-    reinterpret_cast<unsigned char *>(&gui->markerVm12698)[0x1F3] = 0;
+    gui->markerVm123F4.color1Script.a = 0;
+    gui->markerVm12698.color1Script.a = 0;
     if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
     {
         gui->frontAnm08->ExecuteAnmIdx(&gui->resultVm11EAC, 0x55);
