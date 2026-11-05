@@ -106,6 +106,19 @@ class ExactCarrierDiscovery(unittest.TestCase):
         self.assertIn('title-screen-setup-thread',
                       groups['build/matching/TitleScreen.obj'])
 
+    def test_options_inventory_protects_menu_sound_and_complete_update(self):
+        groups = frontier.exact_source_carriers(
+            'src/TitleScreenOptions.cpp', frontier.TITLE_OPTIONS_EXACT_CARRIERS)
+        self.assertEqual(set(groups['build/matching/TitleScreenOptions.obj']), {
+            'title-screen-options-update', 'title-screen-play-menu-sound'})
+        for missing in ('title-screen-options-update', 'title-screen-play-menu-sound'):
+            changed = self.units()
+            changed.pop(missing)
+            with self.subTest(missing=missing), self.assertRaises(RuntimeError):
+                frontier.exact_source_carriers(
+                    'src/TitleScreenOptions.cpp',
+                    frontier.TITLE_OPTIONS_EXACT_CARRIERS, changed)
+
     def test_real_anm_render_ob0_carrier_covers_all_sixteen_owners(self):
         groups = frontier.exact_source_carriers(
             'src/AnmManagerRender.cpp', frontier.ANM_RENDER_EXACT_CARRIERS)

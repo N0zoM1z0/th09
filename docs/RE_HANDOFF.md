@@ -11,6 +11,27 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 merged main — native Options and complete carrier repair
+
+PR [#1](https://github.com/N0zoM1z0/th09/pull/1) is merged at `1015aa9a` after
+remote CI passed. New commits use `gpt-6.1-sol:`. See
+[CIRNO_LABS_NATURAL_CPP_20261105.md](CIRNO_LABS_NATURAL_CPP_20261105.md)
+for controlled compiler comparisons and the next source-model guidance.
+Options now uses shared native AnmVm fields and direct SetSprite pointers;
+its full 2045 bytes/135 fields remain exact. Whole-carrier review recovered a
+34-byte PlayMenuSound definition omitted in the previous integration while
+its unit remained registered. Both functions now replay in the same fresh
+object; the new `--owner options` checks both and the real 42-byte scrolling
+helper. This repairs prior source coverage; it is not new function credit.
+Tracking remains 1019 exact /16 nonexact, 258713/291883 authored bytes.
+The twelve reference-adapted source files pass135/135 canonical comparisons,
+reusing unchanged source/profile objects and rebuilding only Options. Full
+local public CI passes1330 tests with29 skips.
+The frozen source controls reproduce Type3's 15-byte residual solely by
+narrowing the three position objects' scope. Hiding the Options helper body
+breaks exactness despite unchanged calls/graph. The SaveReplay cursor rewrite
+worsens three differences to149 and is rejected; original source is retained.
+
 ## 2026-11-05 Cirno-Labs integration branch — current source checkpoint
 
 Operator authorized integration, attribution, local commits and push on

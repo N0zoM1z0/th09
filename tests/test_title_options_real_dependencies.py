@@ -34,7 +34,7 @@ class RealTitleOptionDependencies(TestCase):
             'g_AnmManager->ExecuteScriptArray(',
             'g_SoundPlayer.PlaySoundByIdx(', 'g_SoundPlayer.QueueCommand(',
             'OptionsRealBgmVolumeAt6218',
-            'OptionsRealSfxVolumeAt621C', 'OptionsRealAnmVmSizeIs2A4',
+            'OptionsRealSfxVolumeAt621C',
         ):
             with self.subTest(expected=expected):
                 self.assertIn(expected, s)

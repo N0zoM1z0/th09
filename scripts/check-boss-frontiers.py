@@ -11,6 +11,7 @@ No stored experiment, previous object or historical percentage is accepted.
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 from collections import Counter
 import re
@@ -164,6 +165,7 @@ ECL_EXACT_CARRIERS = {
     'build/matching/EclManager.obj': 77,
     'build/matching/EclManager-Type11.obj': 4,
 }
+TITLE_OPTIONS_EXACT_CARRIERS = {'build/matching/TitleScreenOptions.obj': 2}
 TITLE_EXACT_CARRIERS = {
     'build/matching/TitleScreen.obj': 40,
     'build/matching/TitleScoreRecord.obj': 1,
@@ -4265,6 +4267,41 @@ def run_title_result() -> dict:
         'direct_graphs_agree': draw['direct_graphs_agree']}}
 
 
+def run_title_options(*, protect_exact: bool) -> tuple[dict, list[dict]]:
+    """Compile the whole Options TU and protect both exact functions."""
+    obj = 'build/matching/TitleScreenOptions.obj'
+    build('title-screen-options-update')
+    options = parsed(['scripts/inspect-title-options.py', obj,
+                      '--require-native-input', '--json'])
+    guard_title_options(options)
+    # The genuine scrolling body must be visible, not an opaque declaration
+    # or an invented register-clobber contract. It remains an out-of-line call.
+    spec = importlib.util.spec_from_file_location(
+        'options_visible_helper', ROOT/'scripts/compare-coff-function.py')
+    coff = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(coff)
+    body, fields = coff.object_function(
+        ROOT/obj, '?IsPressedScrolling@InputView@@QAEGH@Z')
+    if (len(body) != 42 or fields or
+            body != coff.pe_bytes_at(coff.verified_target(), 0x00423158, 42)):
+        raise RuntimeError('Options scrolling helper no longer equals its original body')
+    exact = (cold_replay_exact_source(
+        'src/TitleScreenOptions.cpp', TITLE_OPTIONS_EXACT_CARRIERS,
+        already_built=(obj,)) if protect_exact else [])
+    owners = {'title_update_options': {
+        'target_bytes': 2045, 'candidate_bytes': options['candidate_bytes'],
+        'literal_definitions_checked': options['literal_definitions_checked'],
+        'bound_fields': options['bound_fields'],
+        'ordered_calls': options['ordered_calls'],
+        'target_instructions': options['target_instructions'],
+        'candidate_instructions': options['candidate_instructions'],
+        'missing_target_bytes': options['missing_target_bytes'],
+        'extra_candidate_bytes': options['extra_candidate_bytes'],
+        'direct_graphs_agree': options['direct_graphs_agree'],
+    }}
+    return owners, exact
+
+
 def run_title_open() -> dict:
     # These source-present owners are explicitly non-exact. Their independent
     # original operand inventories must agree before any similarity score.
@@ -4302,27 +4339,8 @@ def run_title_open() -> dict:
         'missing_target_bytes': update['missing_target_bytes'],
         'direct_graphs_agree': update['direct_graphs_agree'],
     }
-    # The 2,045-byte Options update is a separate 121-block boss, not part of
-    # the smaller TitleSetup exact receipts; never reuse a previously built
-    # ignored COFF object without recompiling its current tracked source.
-    options_obj = 'build/matching/TitleScreenOptions.obj'
-    build_nonexact('src/TitleScreenOptions.cpp', options_obj,
-                   reference_unit='title-screen-setup-thread')
-    options = parsed(['scripts/inspect-title-options.py', options_obj,
-                      '--require-native-input', '--json'])
-    guard_title_options(options)
-    canonical('title-screen-options-update')
-    cursor_reports['title_update_options'] = {
-        'target_bytes': 2045, 'candidate_bytes': options['candidate_bytes'],
-        'literal_definitions_checked': options['literal_definitions_checked'],
-        'bound_fields': options['bound_fields'],
-        'ordered_calls': options['ordered_calls'],
-        'target_instructions': options['target_instructions'],
-        'candidate_instructions': options['candidate_instructions'],
-        'missing_target_bytes': options['missing_target_bytes'],
-        'extra_candidate_bytes': options['extra_candidate_bytes'],
-        'direct_graphs_agree': options['direct_graphs_agree'],
-    }
+    options, _ = run_title_options(protect_exact=True)
+    cursor_reports.update(options)
     menu_report = run_title_replay_menu()
     draw_report = run_title_result()
     replay_obj = 'build/matching/TitleReplaySave.obj'
@@ -5166,7 +5184,7 @@ def run_effect_type34(*, protect_exact: bool,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'resultdraw', 'replaymenu', 'anm', 'network', 'netmessage', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'replaysave', 'pause', 'controller', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'options', 'resultdraw', 'replaymenu', 'anm', 'network', 'netmessage', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'replaysave', 'pause', 'controller', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -5226,6 +5244,11 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('crypto', 'all'):
             owners, exact = run_decrypt_table(protect_exact=not args.skip_exact_siblings)
+            report['owners'].update(owners)
+            report['canonical_siblings'].extend(exact)
+        if args.owner == 'options':
+            owners, exact = run_title_options(
+                protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
         if args.owner == 'controller':

@@ -234,49 +234,16 @@ class OptionsBossFrontierWiring(unittest.TestCase):
 
     def test_options_identity_gate_fails_closed(self):
         evidence = self.options_evidence()
-        # Selective test: let the four cursor/result audits provide valid
-        # lightweight evidence before the Options audit; reject corruption
-        # without invoking the remaining renderer calls.
-        cursors = [{
-            'diagnostic_only': True, 'exactness_credit': 'none',
-            'target_bytes': 211, 'candidate_bytes': 215,
-            'original_fields': 6, 'bound_fields': 6,
-            'ordered_calls': 4, 'ordered_calls_agree': True,
-            'overlap_differences': 185, 'extra_candidate_bytes': 4,
-            'direct_graphs_agree': True,
-        }]
-        # Reverse/Inactive are NOT exact. The full independent original
-        # source-cold diagnostic has 38 real unequal offsets, 55 instructions,
-        # two original calls and a 5-vs-4 direct-block gap. A fabricated zero-
-        # difference stub would now correctly fail before the Options audit.
-        residuals = [hex(offset) for offset in sorted(
-            boss.TITLE_CURSOR_REVERSE_INACTIVE_ORIGINAL_RESIDUAL_OFFSETS)]
-        for variant in ('reverse', 'inactive'):
-            cursors.append({
-                'diagnostic_only': True, 'exactness_credit': 'none',
-                'variant': variant,
-                'original_sha256': boss.TITLE_CURSOR_REVERSE_INACTIVE_TARGET_SHA256[variant],
-                'target_bytes': 175, 'candidate_bytes': 175,
-                'target_instructions': 55, 'candidate_instructions': 55,
-                'original_fields': 2, 'bound_fields': 2,
-                'ordered_calls': 2, 'ordered_calls_agree': True,
-                'original_blocks': 5, 'candidate_blocks': 4,
-                'direct_graphs_agree': False,
-                'difference_offsets': residuals,
-                'overlap_differences': 38,
-                'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
-                'complete_bytes_equal': False,
-            })
-        update = self.result_evidence()
         for changed in ({'bound_fields': 134}, {'original_fields': 134},
                         {'target_instructions': 550}, {'ordered_calls': 50},
                         {'ordered_calls_agree': False}, {'original_blocks': 120},
                         {'direct_graphs_agree': False}):
-            with self.subTest(changed=changed), patch.object(boss, 'build'), patch.object(
-                    boss, 'build_nonexact') as compile_options, patch.object(
-                    boss, 'parsed', side_effect=[*cursors, update, {**evidence, **changed}]), self.assertRaises(RuntimeError):
-                boss.run_title_open()
-            compile_options.assert_called_once()
+            with self.subTest(changed=changed), patch.object(
+                    boss, 'build') as compile_options, patch.object(
+                    boss, 'parsed', return_value={**evidence, **changed}), self.assertRaises(RuntimeError):
+                boss.run_title_options(protect_exact=True)
+            compile_options.assert_called_once_with('title-screen-options-update')
+
 
 
 if __name__ == '__main__':

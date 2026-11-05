@@ -18,6 +18,20 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 main: natural-source controls and native Options carrier
+
+See [the measured source-context analysis](CIRNO_LABS_NATURAL_CPP_20261105.md).
+A single Type3 scope control returns the old15-byte middle-Z scheduling
+residual; hiding the real Options helper produces2042/2045 bytes and1210
+unequal overlaps despite identical135 fields/51 calls and matching graph.
+The actual42-byte helper preserves ECX/EDX and matches the original; any
+specific compiler-pass explanation remains inference. SaveReplay's narrower
+input-chain cursor worsens3 differences to149 and is rejected. Options now
+uses real AnmVm alpha/draw fields and direct pointers, retaining2045/135 exact.
+The previously omitted34-byte menu-sound body is restored and both functions
+are protected by the complete focused Options carrier gate. No new exact
+count or native-product/runtime acceptance is claimed.
+
 ### 2026-11-05 reference integration: fourteen complete native owners
 
 The branch adopts fourteen independently replayed owners from Cirno-Labs/th09

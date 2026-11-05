@@ -20,34 +20,19 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int i32;
 
-struct AnmVmView {
-    u8 unknown000[0x1F0];
-    union {
-        u32 color1;
-        u8 color1Bytes[4];
-    };
-    u8 unknown1F4[4];
-    u32 flags;
-    u8 unknown1FC[2];
-    u16 pendingInterrupt;
-    u8 unknown200[0x18];
-    short baseSpriteIndex;
-    u8 unknown21A[0x8A];
-};
-
-typedef char OptionsAnmVmSizeIs2A4[(sizeof(AnmVmView) == 0x2A4) ? 1 : -1];
-typedef char OptionsRealAnmVmSizeIs2A4[(sizeof(AnmVm) == sizeof(AnmVmView)) ? 1 : -1];
+typedef char OptionsAnmVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
 typedef char OptionsRealBgmVolumeAt6218[(offsetof(SoundPlayer, bgmVolume) == 0x6218) ? 1 : -1];
 typedef char OptionsRealSfxVolumeAt621C[(offsetof(SoundPlayer, sfxVolume) == 0x621C) ? 1 : -1];
-typedef char OptionsAnmVmColorAt1F0[(offsetof(AnmVmView, color1) == 0x1F0) ? 1 : -1];
-typedef char OptionsAnmVmFlagsAt1F8[(offsetof(AnmVmView, flags) == 0x1F8) ? 1 : -1];
-typedef char OptionsAnmVmInterruptAt1FE[(offsetof(AnmVmView, pendingInterrupt) == 0x1FE) ? 1 : -1];
-typedef char OptionsAnmVmSpriteAt218[(offsetof(AnmVmView, baseSpriteIndex) == 0x218) ? 1 : -1];
+typedef char OptionsAnmVmColorAt1F0[(offsetof(AnmVm, color1) == 0x1F0) ? 1 : -1];
+typedef char OptionsAnmVmFlagsAt1F8[(offsetof(AnmVm, flagsWord) == 0x1F8) ? 1 : -1];
+typedef char OptionsAnmVmInterruptAt1FE[(offsetof(AnmVm, pendingInterrupt) == 0x1FE) ? 1 : -1];
+typedef char OptionsAnmVmSpriteAt218[(offsetof(AnmVm, baseSpriteIndex) == 0x218) ? 1 : -1];
 
 // DrawTitleHelpText is a separate, independently addressed helper whose
 // original C++ declaration is not yet reconstructed. Retain its ABI-facing
 // argument tag without inventing ownership of the real ANM manager.
 struct TitleAnmManagerView;
+struct AnmVmView; // Opaque argument tag for DrawTitleHelpText only.
 
 // Bounded scrolling-helper prefix of the native ReplayInputState slot.
 struct InputView {
@@ -117,9 +102,9 @@ struct TitleScreenView {
     u8 unknown0C91C[0x5274];
     AnmLoaded *titleAnm;                   // +0x11B90
     u8 unknown11B94[4];
-    AnmVmView *vms;                           // +0x11B98
-    AnmVmView *currentHelpTextVm;             // +0x11B9C
-    AnmVmView embeddedVms[57];                // +0x11BA0
+    AnmVm *vms;                           // +0x11B98
+    AnmVm *currentHelpTextVm;             // +0x11B9C
+    AnmVm embeddedVms[57];                // +0x11BA0
     i32 vmCount;                              // +0x1B224
     i32 currentScreen;                        // +0x1B228
     i32 registrationContext;                  // +0x1B22C
@@ -176,56 +161,56 @@ int TitleScreenView::OnUpdateOptions()
         this->currentScreenState = 1;
         for (i = 0; i < sizeof(g_TitleOptionsHelpText) / sizeof(g_TitleOptionsHelpText[0]); i++)
         {
-            DrawTitleHelpText(reinterpret_cast<TitleAnmManagerView *>(g_AnmManager), &this->embeddedVms[i], 0xfff0e0, 0x300000, g_TitleOptionsHelpText[i]);
+            DrawTitleHelpText(reinterpret_cast<TitleAnmManagerView *>(g_AnmManager), reinterpret_cast<AnmVmView *>(&this->embeddedVms[i]), 0xfff0e0, 0x300000, g_TitleOptionsHelpText[i]);
         }
     case 1:
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) >= 100)
         {
-            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[26]), this->vms[26].baseSpriteIndex);
-            this->vms[26].color1Bytes[3] = 0xff;
-            this->vms[26].flags |= 2;
+            this->titleAnm->SetSprite(&this->vms[26], this->vms[26].baseSpriteIndex);
+            this->vms[26].color1Script.a = 0xff;
+            this->vms[26].drawEnabled = 1;
         }
         else
         {
-            this->vms[26].color1Bytes[3] = 0;
-            this->vms[26].flags &= ~2;
+            this->vms[26].color1Script.a = 0;
+            this->vms[26].drawEnabled = 0;
         }
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) >= 10)
         {
-            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[27]),
+            this->titleAnm->SetSprite(&this->vms[27],
                                  this->vms[27].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) / 10 % 10 * 2);
-            this->vms[27].color1Bytes[3] = 0xff;
-            this->vms[27].flags |= 2;
+            this->vms[27].color1Script.a = 0xff;
+            this->vms[27].drawEnabled = 1;
         }
         else
         {
-            this->vms[27].color1Bytes[3] = 0;
-            this->vms[27].flags &= ~2;
+            this->vms[27].color1Script.a = 0;
+            this->vms[27].drawEnabled = 0;
         }
-        this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[28]), this->vms[28].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) % 10 * 2);
-        this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[29]), this->vms[29].baseSpriteIndex);
+        this->titleAnm->SetSprite(&this->vms[28], this->vms[28].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) % 10 * 2);
+        this->titleAnm->SetSprite(&this->vms[29], this->vms[29].baseSpriteIndex);
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) >= 100)
         {
-            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[30]), this->vms[30].baseSpriteIndex);
-            this->vms[30].color1Bytes[3] = 0xff;
-            this->vms[30].flags |= 2;
+            this->titleAnm->SetSprite(&this->vms[30], this->vms[30].baseSpriteIndex);
+            this->vms[30].color1Script.a = 0xff;
+            this->vms[30].drawEnabled = 1;
         }
         else
         {
-            this->vms[30].color1Bytes[3] = 0;
-            this->vms[30].flags &= ~2;
+            this->vms[30].color1Script.a = 0;
+            this->vms[30].drawEnabled = 0;
         }
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) >= 10)
         {
-            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[31]),
+            this->titleAnm->SetSprite(&this->vms[31],
                                  this->vms[31].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) / 10 % 10 * 2);
-            this->vms[31].color1Bytes[3] = 0xff;
-            this->vms[31].flags |= 2;
+            this->vms[31].color1Script.a = 0xff;
+            this->vms[31].drawEnabled = 1;
         }
         else
         {
-            this->vms[31].color1Bytes[3] = 0;
-            this->vms[31].flags &= ~2;
+            this->vms[31].color1Script.a = 0;
+            this->vms[31].drawEnabled = 0;
         }
         if (this->MoveCursorVertical(9) != 0)
         {
@@ -493,9 +478,9 @@ int TitleScreenView::OnUpdateOptions()
                 }
                 return 1;
             }
-            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[this->keyboardSelection + 9]), this->vms[this->keyboardSelection + 9].baseSpriteIndex + 1);
+            this->titleAnm->SetSprite(&this->vms[this->keyboardSelection + 9], this->vms[this->keyboardSelection + 9].baseSpriteIndex + 1);
             this->keyboardSelection = 8;
-            this->titleAnm->SetSprite(reinterpret_cast<AnmVm *>(&this->vms[this->keyboardSelection + 9]), this->vms[this->keyboardSelection + 9].baseSpriteIndex);
+            this->titleAnm->SetSprite(&this->vms[this->keyboardSelection + 9], this->vms[this->keyboardSelection + 9].baseSpriteIndex);
             this->PlayMenuSound(11, 0);
         }
     }
@@ -503,4 +488,10 @@ int TitleScreenView::OnUpdateOptions()
     this->stateTimer++;
     this->stateTimer2++;
     return 1;
+}
+
+int TitleScreenView::PlayMenuSound(i32 soundId, i32 unused)
+{
+    g_SoundPlayer.PlaySoundByIdx(soundId, unused);
+    return g_SoundPlayer.ProcessQueues();
 }
