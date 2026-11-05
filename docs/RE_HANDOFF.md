@@ -11,6 +11,19 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — complete SaveReplay offset context rechecked
+
+Nine fixed-profile source controls recheck the two destination-address transport
+bytes. Six retain1238/53/two; early offset publication, positive outer guarding
+and deferred chain initialization fail the complete/protected-byte guards.
+Header/payload members preserve both15/18-byte constructors. Twelve actual
+co-visible memory/RNG bodies match336 bytes under the caller profile, without
+changing the canonical RNG profile. No production model is adopted. See
+[the complete evidence](TH09_REPLAY_OFFSET_RECHECK_20261106.md).
+All112 current source/tool inputs,14 actual objects and eight provider
+hashes remain bound to the prior source receipt; no canonical cold replay.
+The goal and the13 nonexact functions remain open; exact count stays1022.
+
 ## 2026-11-06 continued main — complete Enemy source contexts rechecked
 
 Fresh five-function Ghidra attestation and eleven fixed-profile source contexts

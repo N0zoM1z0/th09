@@ -31544,3 +31544,15 @@ Enemy caller retains45 differences. Matching callee bodies therefore do not
 settle this caller's source context. No model is adopted; the finite result
 does not prove original class/TU identity or exhaustion. See
 TH09_ENEMY_CONTEXT_RECHECK_20261106.md.
+
+## 2026-11-06 SaveReplay destination context recheck
+
+The two residual bytes select the intermediate destination-base register:
+original EDI versus maintained ECX, before the same record-copy operation.
+Six typed/layout/real-callee contexts preserve1238 bytes/53 fields/two differences.
+Earlier offset publication, positive outer guarding and deferred chain
+initialization regress and remain rejected. A full header/payload-member model
+also retains both15/18-byte constructors, without establishing the original
+class relationship. Twelve real co-visible memory/RNG bodies match336 bytes
+under the fixed caller profile; that does not make SaveReplay exact. No source
+or canonical profile changes. See TH09_REPLAY_OFFSET_RECHECK_20261106.md.
