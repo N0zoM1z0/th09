@@ -31206,3 +31206,15 @@ verified against actual definitions and original operands. The complete1689/
 retain it, while delayed-limit controls and the complete independent reference
 remain nonexact. Source, target and reproducible evidence are separated in
 TH09_SETUP_THIRD_RECORD_20261105.md. No new exact-function credit is claimed.
+
+## 2026-11-05 ResetGameManager uses setup fields directly
+
+The complete100-byte reset uses the recovered three setup records, existing
+rank/wait/playtime/replay/menu fields and typed+BC/+110 dwords. The duplicate
+private reset projection is removed; the two dwords' gameplay meanings remain
+unknown, and +114 remains separate. The existing native +380 ECL word is
+unchanged. Three actual source/profile builds retain12 complete exact units,
+3987 physical bytes/335 fields. Every one of40 changed Supervisor private
+field spellings has an actual definition/original-operand proof. The setup
+worker still has904 unlike bytes.24 focused tests pass; no new exact credit.
+See TH09_SETUP_RESET_FIELDS_20261105.md for source-bound receipts and recipes.

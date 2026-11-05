@@ -20,7 +20,7 @@ struct GameManagerSetupLayout
     unsigned int valueB0;
     int limitB4;
     int valueB8;
-    unsigned char unknown_BC[4];
+    int valueBC;
     unsigned int valueC0;
     unsigned int valueC4;
     int valueC8;
@@ -38,7 +38,8 @@ struct GameManagerSetupLayout
     int value104;
     int value108;
     int value10C;
-    unsigned char unknown_110[8];
+    int value110;
+    unsigned char unknown114[4];
     int gameMode;
     int setupMode;
     unsigned int instructionMask120;
@@ -83,3 +84,11 @@ typedef char SetupThirdRecordNativeFields[
          offsetof(SetupSideState, flags) == 0xA4 &&
      offsetof(GameManagerSetupLayout, gameSubsystem) == 0xA8 &&
      offsetof(GameManagerSetupLayout, secondarySubsystem) == 0xAC) ? 1 : -1];
+
+// Reset clears these original dwords independently of the adjacent rank
+// ceiling/rate and replay-mode fields; their higher-level roles stay unknown.
+typedef char SetupResetNativeWords[
+    (offsetof(GameManagerSetupLayout, valueBC) == 0xBC &&
+     offsetof(GameManagerSetupLayout, value110) == 0x110 &&
+     sizeof(((GameManagerSetupLayout *)0)->valueBC) == 4 &&
+     sizeof(((GameManagerSetupLayout *)0)->value110) == 4) ? 1 : -1];

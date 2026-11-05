@@ -11,6 +11,20 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — direct reset fields
+
+The100-byte ResetGameManager uses the setup side/rank/menu fields directly;
+its duplicate private reset layout is removed. Stores+BC/+110 have typed,
+offset-checked members with unknown semantic roles. All12 affected units
+remain3987 bytes/335 fields exact across three actual source/profile builds;
+40 Supervisor local fields retain verified destinations.24 focused tests and
+tracking/docs/progress/whitespace pass. Worker stays1689/171/904. See
+[the bounded review](TH09_SETUP_RESET_FIELDS_20261105.md).
+Totals stay1019 exact/16 nonexact; no new exact-function credit.
+Only hashed duplicate per-case inputs in the setup-flow packet and disposable
+reuse orchestration were cleaned; frozen inputs, changed controls, compiler
+objects, receipts and cold-build verification recipes remain.
+
 ## 2026-11-05 continued main — third setup record and shared Effect slot
 
 Setup models the three0x38 physical records observed by reset. Record2's
