@@ -11,6 +11,16 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — native Controller input owner
+
+The819-byte GetInput uses shared Supervisor fields, removing a padded duplicate
+and conflicting global declaration. All nine fields remain exact; its real
+ControllerInput callee/siblings also replay exact.11 focused tests pass.
+Service body visibility, shared-workspace and member controls remain nonexact;
+input arity is under separate review. See
+[the bounded review](TH09_CONTROLLER_INPUT_OWNER_20261105.md).
+Totals stay1019 exact/16 nonexact; no new exact credit.
+
 ## 2026-11-05 continued main — direct reset fields
 
 The100-byte ResetGameManager uses the setup side/rank/menu fields directly;

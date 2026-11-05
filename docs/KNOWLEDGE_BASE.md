@@ -31218,3 +31218,14 @@ unchanged. Three actual source/profile builds retain12 complete exact units,
 field spellings has an actual definition/original-operand proof. The setup
 worker still has904 unlike bytes.24 focused tests pass; no new exact credit.
 See TH09_SETUP_RESET_FIELDS_20261105.md for source-bound receipts and recipes.
+
+## 2026-11-05 network input uses the native Supervisor
+
+Controller::GetInput's padded Supervisor projection is removed. Complete819
+bytes/nine fields replay exact through the native4B3100 root and actual COFF
+addends, along with its real controller poll/setter siblings.11 focused tests
+pass. Fresh target-attested GetInput/service analysis and physical xrefs bound
+the two direct calls430EC8/431046; the formal index is unused, but original C++
+arity is not uniquely proven. The separate no-arg control retains the full
+helper while service remains1616/1633 bytes. No caller API change is made in
+this owner checkpoint. See TH09_CONTROLLER_INPUT_OWNER_20261105.md.

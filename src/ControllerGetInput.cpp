@@ -1,4 +1,5 @@
 #include "Controller.hpp"
+#include "Supervisor.hpp"
 #include "GameConfiguration.hpp"
 
 #include <windows.h>
@@ -32,15 +33,11 @@ enum ControllerTouhouButton
     TH_BUTTON_DOWN_RIGHT = TH_BUTTON_DOWN | TH_BUTTON_RIGHT
 };
 
-struct ControllerGetInputSupervisorView
-{
-    unsigned char unknown000[0x10];
-    IDirectInputDevice8A *keyboard10;
-    unsigned char unknown014[0x388 - 0x14];
-    GameConfiguration config388;
-};
+typedef char ControllerInputNativeSupervisorFields[
+    (sizeof(Supervisor) == 0x7B0 &&
+     offsetof(Supervisor, keyboard10) == 0x10 &&
+     offsetof(Supervisor, config388) == 0x388) ? 1 : -1];
 
-extern ControllerGetInputSupervisorView g_Supervisor;
 extern int g_WindowActivateWParam;
 
 #define KEYBOARD_KEY_PRESSED(button, key) \
