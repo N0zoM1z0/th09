@@ -18,6 +18,18 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: typed ECL instruction operands
+
+TH09's instruction arguments begin at prefix+0x0C and share four-byte integer,
+float and byte storage. The maintained header now names that trailing storage;
+RawInt/RawFloat return its actual typed members. VC7.1 asserts prefix/stride/
+offset, and seven actual profiles retain90 exact owners/33719 bytes/1631 fields.
+All311 private-label fields retain original destinations. Complete RunEcl
+retains the identical30-byte difference list, with Enemy13 and biased movement
+517/516/148 unchanged. Fresh natural controls remain nonexact. Original nominal
+types/operand counts and whole-product behavior are not inferred. See
+[the bounded review](TH09_ECL_WIRE_ARGUMENTS_20261105.md).
+
 ### 2026-11-05 continued main: native result storage and byte integrity
 
 Result update's five input/five unlock fields use shared native roots without

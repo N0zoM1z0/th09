@@ -112,7 +112,7 @@ class RunEclRawContextTests(unittest.TestCase):
 
     def test_scalar_return_context_rejects_changed_width_size_and_duplicate_copy(self):
         for filename, old, new in (
-                ('EclRunControl.inl', 'reinterpret_cast<int *>', 'reinterpret_cast<short *>'),
+                ('EclRunControl.inl', 'arguments[operandIndex].integer;', 'arguments[operandIndex].real;'),
                 ('EclRunState.inl', '0x0C + byteOffset', '0x10 + byteOffset'),
                 ('EclRunState.inl', 'sizeof(value));', 'sizeof(int));')):
             inputs = probe.collect_inputs()
@@ -125,6 +125,22 @@ class RunEclRawContextTests(unittest.TestCase):
             b'&Th09EclRunControl::RawInt(instruction, 0), sizeof(value));')
         with self.assertRaises(ValueError):
             probe.render('wire-template-jump', inputs)
+
+    def test_typed_accessor_rewrite_requires_reviewed_storage_and_single_definition(self):
+        inputs = probe.collect_inputs()
+        changed = probe.render('raw-int-macro', inputs)
+        self.assertIn(probe.INT_MACRO_TYPED.encode(), changed['EclRunControl.inl'])
+        self.assertNotIn(probe.RAW_INT_TYPED.encode(), changed['EclRunControl.inl'])
+        for old, new in ((b'int integer;', b'short integer;'),
+                         (b'arguments[0];', b'arguments[1];')):
+            bad = dict(inputs)
+            bad['EclOpcodes.hpp'] = bad['EclOpcodes.hpp'].replace(old, new)
+            with self.subTest(old=old), self.assertRaises(ValueError):
+                probe.render('raw-int-macro', bad)
+        duplicate = dict(inputs)
+        duplicate['EclRunControl.inl'] += probe.RAW_INT_TYPED.encode()
+        with self.assertRaises(ValueError):
+            probe.render('raw-int-macro', duplicate)
 
     def test_project_include_escape_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:

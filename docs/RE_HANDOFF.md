@@ -11,6 +11,19 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — typed ECL wire operands
+
+The instruction prefix names its four-byte trailing operands; RawInt/RawFloat
+use typed members instead of byte arithmetic and scalar pointer casts. Seven
+actual source/profile builds preserve90 exact units/33719 physical bytes/1631
+fields. All311 renamed private fields retain definition/PE-verified targets.
+The complete RunEcl difference list stays identical at15564/598/30, Enemy
+stays3900/97/13 and biased movement stays517/516 with148 unlike overlaps.
+Fresh native assignment/scope/owner/Y-alias controls remain nonexact. The raw
+context probe supports the maintained representation and rejects changed
+storage. See [the bounded review](TH09_ECL_WIRE_ARGUMENTS_20261105.md).
+Totals stay1019 exact/16 nonexact; this is an operand-model checkpoint.
+
 ## 2026-11-05 continued main — minimal network input interface
 
 GetInput's unused source index is removed; both service calls now use its

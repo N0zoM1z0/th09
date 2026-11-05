@@ -26,6 +26,19 @@ RAW_INT = '''inline int &RawInt(
         0x0C + operandIndex * 4);
 }
 '''
+RAW_INT_TYPED = '''inline int &RawInt(
+    Th09EclRawInstructionHeaderView *instruction,
+    int operandIndex)
+{
+    return instruction->arguments[operandIndex].integer;
+}
+'''
+WIRE_ARGUMENT = '''union Th09EclWireArgument
+{
+    int integer;
+    float real;
+    unsigned char bytes[4];
+};'''
 RAW_BYTE = '''inline unsigned char &RawByte(
     Th09EclRawInstructionHeaderView *instruction,
     int byteOffset)
@@ -37,6 +50,8 @@ RAW_BYTE = '''inline unsigned char &RawByte(
 INT_MACRO = ('#define TH09_ECL_RAW_INT(instruction, operandIndex) '
              '(*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) '
              '+ 0x0C + (operandIndex) * 4))\n')
+INT_MACRO_TYPED = ('#define TH09_ECL_RAW_INT(instruction, operandIndex) '
+                   '((instruction)->arguments[(operandIndex)].integer)\n')
 BYTE_MACRO = ('#define TH09_ECL_RAW_BYTE(instruction, byteOffset) '
               '(*(reinterpret_cast<unsigned char *>(instruction) + 0x0C + (byteOffset)))\n')
 TIMER = 'ZunTimer &timer = *reinterpret_cast<ZunTimer *>(&context->time008);'
@@ -61,6 +76,20 @@ def replace_once(text, before, after):
     if text.count(before) != 1:
         raise ValueError('reviewed source anchor changed: '+before.splitlines()[0])
     return text.replace(before, after, 1)
+
+
+def reviewed_raw_int(source, inputs):
+    """Recognize the reviewed legacy address or typed wire lvalue before rewriting."""
+    matches = [form for form in (RAW_INT, RAW_INT_TYPED) if source.count(form) == 1]
+    if len(matches) != 1 or sum(source.count(form) for form in (RAW_INT, RAW_INT_TYPED)) != 1:
+        raise ValueError('reviewed raw integer accessor semantics changed')
+    form = matches[0]
+    if form == RAW_INT_TYPED:
+        layout = inputs.get('EclOpcodes.hpp', b'').decode().replace('\r\n', '\n')
+        if (layout.count(WIRE_ARGUMENT) != 1 or
+                layout.count('Th09EclWireArgument arguments[0];') != 1):
+            raise ValueError('reviewed typed wire storage changed')
+    return form
 
 
 def render_wire_return(case, inputs):
@@ -100,7 +129,7 @@ inline T ReadWireScalar(const void *address)
   arg=('' if case=='reference-both' else '&')+ns+'::'+rawfun+'(instruction, 0)'
   new=typename+' value = Th09EclRunControl::'+method+'('+arg+');'
   text=control if kind=='jump' else state
-  accessor=RAW_INT if kind=='jump' else RAW_BYTE
+  accessor=reviewed_raw_int(text,inputs) if kind=='jump' else RAW_BYTE
   if text.count(accessor)!=1:
    raise ValueError('reviewed scalar accessor width/address changed')
   text=replace_once(text, old, new)
@@ -144,8 +173,7 @@ def render(case, inputs):
         return {name: source.encode()} if source.encode() != inputs[name] else {}
     use_int = case in ('raw-int-macro', 'raw-family-macros')
     use_byte = case in ('raw-byte-macro', 'raw-family-macros')
-    if use_int and inputs['EclRunControl.inl'].decode().count(RAW_INT) != 1:
-        raise ValueError('reviewed raw integer accessor semantics changed')
+    int_form = reviewed_raw_int(inputs['EclRunControl.inl'].decode(), inputs) if use_int else None
     if use_byte and inputs['EclRunState.inl'].decode().count(RAW_BYTE) != 1:
         raise ValueError('reviewed raw byte accessor semantics changed')
     changed = {}
@@ -153,7 +181,8 @@ def render(case, inputs):
         source = data.decode()
         if use_int:
             if name == 'EclRunControl.inl':
-                source = replace_once(source, RAW_INT, INT_MACRO)
+                source = replace_once(source, int_form,
+                                      INT_MACRO_TYPED if int_form == RAW_INT_TYPED else INT_MACRO)
             source = re.sub(r'(?<![\w:.>])(?:Th09EclRunControl::)?RawInt\s*\(',
                             'TH09_ECL_RAW_INT(', source)
         if use_byte:

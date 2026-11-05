@@ -101,18 +101,14 @@ inline int &RawInt(
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
 {
-    return *reinterpret_cast<int *>(
-        reinterpret_cast<unsigned char *>(instruction) +
-        0x0C + operandIndex * 4);
+    return instruction->arguments[operandIndex].integer;
 }
 
 inline float &RawFloat(
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
 {
-    return *reinterpret_cast<float *>(
-        reinterpret_cast<unsigned char *>(instruction) +
-        0x0C + operandIndex * 4);
+    return instruction->arguments[operandIndex].real;
 }
 
 // Target RunEcl inlines these four operand wrappers at every call site while

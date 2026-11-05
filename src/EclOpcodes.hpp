@@ -223,8 +223,20 @@ enum
     TH09_ECL_OPCODE_DEFAULT_COUNT = 20
 };
 
-// Fixed portion of every variable-length ECL instruction.  Argument bytes
-// begin immediately at +0x0C; nextOffset advances to the next instruction.
+// The instruction stores four-byte wire operands, interpreted by each opcode.
+// These are raw values; parameterMask0A separately controls variable resolution.
+union Th09EclWireArgument
+{
+    int integer;
+    float real;
+    unsigned char bytes[4];
+};
+typedef char Th09EclWireArgumentSizeIs04[
+    (sizeof(Th09EclWireArgument) == 0x04) ? 1 : -1];
+
+// Fixed portion of every variable-length ECL instruction. VC7.1's zero-length
+// trailing array names the operands without increasing the 0x0C-byte prefix.
+// nextOffset advances to the next instruction, not sizeof(this prefix).
 struct Th09EclRawInstructionHeaderView
 {
     int time00;
@@ -233,10 +245,13 @@ struct Th09EclRawInstructionHeaderView
     unsigned char unknown08;
     unsigned char difficultyMask09;
     unsigned short parameterMask0A;
+    Th09EclWireArgument arguments[0];
 };
 
 typedef char Th09EclRawInstructionHeaderSizeIs0C[
     (sizeof(Th09EclRawInstructionHeaderView) == 0x0C) ? 1 : -1];
+typedef char Th09EclWireArgumentsAt0C[
+    (offsetof(Th09EclRawInstructionHeaderView, arguments) == 0x0C) ? 1 : -1];
 typedef char Th09EclOpcodeAt04[
     (offsetof(Th09EclRawInstructionHeaderView, opcode04) == 0x04) ? 1 : -1];
 typedef char Th09EclNextOffsetAt06[
