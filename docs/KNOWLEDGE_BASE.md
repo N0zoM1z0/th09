@@ -31166,3 +31166,16 @@ the focused original-bound gate with the identical29 residual offsets and all
 (standalone/declarations/native implementation) agree on the entire payload.
 Nine focused tests pass; no new exact function credit. Source-bound evidence
 and reproduction are in TH09_REPLAY_MENU_READS_20261105.md.
+
+## 2026-11-05 post-ECL callbacks share the native Enemy allocation
+
+The992-byte movement and349-byte shot/animation callbacks now access EnemyView;
+no second0x5430 EnemyCoreView layout remains. The opaque helper tag preserves
+three existing bound signatures without providing a competing layout. POD
+coordinate fields bridge Float3 arithmetic, and direction reads explicitly
+preserve the original byte/0xFF interpretation. Five source/profile builds
+retain85 canonical exact units,27847 physical bytes/1252 fields. Twenty private
+labels in two functions are verified against actual same-section definitions
+and original operands before manifest spelling updates. Complete nonexact
+frontiers remain unchanged, with82 focused tests passing. See
+TH09_ENEMY_SINGLE_LAYOUT_20261105.md for scoped reproduction and retained proof.

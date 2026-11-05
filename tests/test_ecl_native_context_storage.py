@@ -29,26 +29,11 @@ class NativeEclContextStorage(unittest.TestCase):
         remote = (ROOT/'src/EclRunRemote.inl').read_text()
         bullet = (ROOT/'src/EclRunBullet.inl').read_text()
         enemy = (ROOT/'src/EnemyManager.hpp').read_text()
-        state = (ROOT/'src/EclRunState.inl').read_text()
         self.assertIn('return ActiveContext(enemy)->intVariables1C;', remote)
         self.assertIn('return ActiveContext(enemy)->intVariables5C[2];', bullet)
         self.assertIn('EnemyViewLaserSlotsAt32D8', enemy)
         self.assertIn('EnemyViewSelectedLaserAt3358', enemy)
-        self.assertIn('EnemyEclNativeLaserSlotsAt32D8', state)
         self.assertIn('enemy->laserSlots32D8[laserIndex]', bullet)
-
-    def test_post_ecl_movement_shares_enemy_update_core_record(self):
-        core=(ROOT/'src/EclRunState.inl').read_text()
-        post=(ROOT/'src/EclPostRuntime.inl').read_text()
-        self.assertIn('typedef EnemyCoreView EnemyPostEclRuntimeView;',post)
-        self.assertNotIn('struct EnemyPostEclRuntimeView\n{',post)
-        for field in ('movementTimer2E28','movementDuration2E34',
-                      'pendingShotInstruction3088','shootIntervalTimer30B8',
-                      'movementDelta2E10','radialVelocity2E00',
-                      'anmDirection3386','moveLeftAnm3390'):
-            self.assertIn(field,core)
-            self.assertIn(field,post)
-        self.assertIn('sizeof(EnemyStateView) == 0x5430',core)
 
     def test_post_ecl_anm_vm_and_script_slots_are_native_enemy_fields(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
@@ -132,8 +117,6 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('EnemyTrailVertexView trailVertices3E68[192];',native)
         self.assertIn('typedef EnemyTrailSampleView EnemyCoreTrailSampleView;',core)
         self.assertIn('typedef EnemyTrailVertexView EnemyCoreTrailVertexView;',core)
-        self.assertIn('EnemyCoreTrailSampleView trailSamples33E8[96];',core)
-        self.assertIn('EnemyCoreTrailVertexView trailVertices3E68[192];',core)
         self.assertIn('enemy->trailVertices3E68',core)
         self.assertIn('&enemy->primaryAnmVm0008',core)
         for f,offset in (('trailSamples33E8','0x33E8'),
@@ -301,11 +284,9 @@ class NativeEclContextStorage(unittest.TestCase):
 
     def test_exact_enemy_motion_leaf_uses_one_native_previous_and_displacement(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
-        ecl=(ROOT/'src/EclRunState.inl').read_text()
         operands=(ROOT/'src/EclOperands.cpp').read_text()
         leaf=(ROOT/'src/EnemyIntegrateMotion.cpp').read_text()
         self.assertIn('EnemyViewNativePreviousMotionAt2D98',native)
-        self.assertIn('EnemyEclNativePreviousAndDisplacementAt2DA4',ecl)
         self.assertIn('EnemyFloat3 alternateVelocity2D98;',native)
         self.assertIn('EnemyFloat3 previousPosition2DA4;',native)
         self.assertIn('EnemyFloat3 displacement2DB0;',native)
@@ -432,11 +413,9 @@ class NativeEclContextStorage(unittest.TestCase):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         movement=(ROOT/'src/EclRunMovement.inl').read_text()
         interpreter=(ROOT/'src/EclManager.cpp').read_text()
-        core=(ROOT/'src/EclRunState.inl').read_text()
         self.assertIn('EnemyViewSecondaryAnmVmsAt2AC',native)
         self.assertIn('AnmVm primaryAnmVm0008;',native)
         self.assertIn('AnmVm secondaryVms2AC[2];',native)
-        self.assertIn('AnmVm secondaryVms2AC[2];',core)
         self.assertIn('&enemy->primaryAnmVm0008',movement)
         self.assertIn('(&(owner)->primaryAnmVm0008)',movement)
         self.assertIn('&enemy->secondaryVms2AC[',interpreter)
@@ -498,10 +477,8 @@ class NativeEclContextStorage(unittest.TestCase):
         movement=(ROOT/'src/EclRunMovement.inl').read_text()
         interpreter=(ROOT/'src/EclManager.cpp').read_text()
         runtime=(ROOT/'src/EclPostRuntime.inl').read_text()
-        core=(ROOT/'src/EclRunState.inl').read_text()
         self.assertIn('ZunTimer movementTimer2E28;',native)
         self.assertIn('EnemyViewMovementTimerIsNativeZunTimer',native)
-        self.assertIn('ZunTimer movementTimer2E28;',core)
         self.assertIn('enemy->movementTimer2E28',runtime)
         self.assertIn('view->movementTimer2E28 = duration;',interpreter)
         self.assertIn('TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28 =',movement)
@@ -522,11 +499,9 @@ class NativeEclContextStorage(unittest.TestCase):
     def test_enemy_operand_banks_use_real_native_enemy_fields(self):
         enemy = (ROOT/'src/EnemyManager.hpp').read_text()
         resolver = (ROOT/'src/EclOperands.cpp').read_text()
-        state = (ROOT/'src/EclRunState.inl').read_text()
         self.assertIn('EnemyViewNativeOperandBanks',enemy)
         self.assertIn('int intVariables2CE8[8];',enemy)
         self.assertIn('float floatVariables2D08[8];',enemy)
-        self.assertIn('EnemyEclNativeOperandBanks',state)
         self.assertIn('enemy->intVariables2CE8[0]',resolver)
         self.assertIn('this->floatVariables2D08[7]',resolver)
         self.assertNotIn('TH09_ECL_OPERAND_ENEMY(enemy)->intVariables2CE8',resolver)

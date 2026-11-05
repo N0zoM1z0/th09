@@ -11,6 +11,16 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — one native Enemy layout
+
+Both post-ECL callbacks now use EnemyView; the duplicate0x5430 EnemyCoreView
+layout is removed, with opaque helper ABI tags retained. All85 affected exact
+units replay27847 bytes/1252 fields;20 private label names are definition/PE
+verified in two functions. Full Enemy13, RunEcl30, Effect29 and biased-movement
+frontiers are unchanged.82 focused tests and tracking/docs/progress/whitespace
+pass. See [the bounded review](TH09_ENEMY_SINGLE_LAYOUT_20261105.md).
+Totals stay1019 exact/16 nonexact; this is source consolidation, not new credit.
+
 ## 2026-11-05 continued main — readonly replay-menu record
 
 ReplayMenu reads the selected record through const and supplies name/date

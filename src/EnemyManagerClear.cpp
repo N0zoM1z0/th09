@@ -11,17 +11,15 @@ extern AsciiManager g_AsciiManager;
 // between ECL and native field coordinates must fail this source build.
 typedef char EnemyClearNativeLayout[
     (sizeof(EnemyManagerView) == sizeof(EnemyManagerCoreView) &&
-     sizeof(EnemyView) == sizeof(EnemyCoreView) &&
+     sizeof(EnemyView) == 0x5430 &&
      offsetof(EnemyManagerView, enemies5758) ==
          offsetof(EnemyManagerCoreView, enemies5758) &&
      offsetof(EnemyManagerView, sideIndex31C) ==
          offsetof(EnemyManagerCoreView, sideIndex31C) &&
      sizeof(((EnemyManagerView *)0)->enemies5758) ==
          sizeof(((EnemyManagerCoreView *)0)->enemies5758) &&
-     offsetof(EnemyView, trailSamples33E8) ==
-         offsetof(EnemyCoreView, trailSamples33E8) &&
-     offsetof(EnemyView, deathCallbackSubId2D2E) ==
-         offsetof(EnemyCoreView, deathCallbackSubId2D2E)) ? 1 : -1];
+     offsetof(EnemyView, trailSamples33E8) == 0x33E8 &&
+     offsetof(EnemyView, deathCallbackSubId2D2E) == 0x2D2E) ? 1 : -1];
 
 int EnemyManagerCoreView::KillAllNonBossEnemies(
     int transitionValue, int startingValue)

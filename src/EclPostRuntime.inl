@@ -38,13 +38,13 @@ typedef char EnemyEclPlayerCallbackAt30408[
         ? 1
         : -1];
 
-// Exact Enemy OnUpdate and the two post-ECL callbacks walk the same
-// 0x5430-byte Enemy allocation. Reuse the existing fully typed Float3 and
-// Timer core view instead of a second private post-ECL byte projection.
-typedef EnemyCoreView EnemyPostEclRuntimeView;
+// Enemy OnUpdate and the two exact post-ECL callbacks walk the same
+// native 0x5430-byte Enemy allocation. Keep one field layout; Float3
+// arithmetic below bridges the established POD coordinate fields.
+typedef EnemyView EnemyPostEclRuntimeView;
 
 typedef char EnemyPostEclPrimaryVmAt0008[
-    (offsetof(EnemyPostEclRuntimeView, primaryVm008) == 0x0008)
+    (offsetof(EnemyPostEclRuntimeView, primaryAnmVm0008) == 0x0008)
         ? 1
         : -1];
 typedef char EnemyPostEclPositionAt2D74[
@@ -90,7 +90,7 @@ enum EnemyPostEclFlag
 
 static __forceinline EnemyPostEclRuntimeView *PostEclView(EnemyView *enemy)
 {
-    return reinterpret_cast<EnemyPostEclRuntimeView *>(enemy);
+    return enemy;
 }
 
 static __forceinline EnemyEclPlayerView *PostEclPlayer(
@@ -144,9 +144,9 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
         enemy->speed2DF4 =
             g_Supervisor.framerateMultiplier5B8 * enemy->acceleration2DF8 +
             enemy->speed2DF4;
-        enemy->velocity2D8C.FromAngleMagnitude(
+        reinterpret_cast<Float3 &>(enemy->velocity2D8C).FromAngleMagnitude(
             enemy->movementAngle2DE0, enemy->speed2DF4);
-        enemy->velocity2D8C.operator float *()[2] = 0.0f;
+        reinterpret_cast<Float3 &>(enemy->velocity2D8C).operator float *()[2] = 0.0f;
         if (enemy->movementDuration2E34 > 0)
         {
             enemy->movementTimer2E28--;
@@ -197,9 +197,10 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
             break;
         }
 
-        enemy->velocity2D8C =
-            enemy->movementOrigin2E1C +
-            enemy->movementDelta2E10 * progress - enemy->position2D74;
+        reinterpret_cast<Float3 &>(enemy->velocity2D8C) =
+            reinterpret_cast<const Float3 &>(enemy->movementOrigin2E1C) +
+            reinterpret_cast<const Float3 &>(enemy->movementDelta2E10) * progress -
+            reinterpret_cast<const Float3 &>(enemy->position2D74);
         if ((movementFlags & ENEMY_MIRROR_MOVEMENT_X) != 0)
             enemy->velocity2D8C.x = -enemy->velocity2D8C.x;
         enemy->movementAngle2DE0 = Th09EclRunControl::VectorAngle(
@@ -208,9 +209,10 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
         {
             movementFlags &= ~ENEMY_MOVEMENT_MODE_MASK;
             enemy->primaryFlags337C = movementFlags;
-            enemy->position2D74 =
-                enemy->movementOrigin2E1C + enemy->movementDelta2E10;
-            enemy->velocity2D8C = Float3(0.0f, 0.0f, 0.0f);
+            reinterpret_cast<Float3 &>(enemy->position2D74) =
+                reinterpret_cast<const Float3 &>(enemy->movementOrigin2E1C) +
+                reinterpret_cast<const Float3 &>(enemy->movementDelta2E10);
+            reinterpret_cast<Float3 &>(enemy->velocity2D8C) = Float3(0.0f, 0.0f, 0.0f);
         }
         break;
     }
@@ -226,7 +228,7 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
             EnemyEclPlayerView *player = PostEclPlayer(enemy);
             if (player->interactionState364 != 0 &&
                 player->CheckEnemyInteraction(
-                    reinterpret_cast<EnemyFloat3 *>(&enemy->position2D74)))
+                    &enemy->position2D74))
             {
                 enemy->secondaryFlags3380 |= ENEMY_INTERACTION_TRIGGERED;
                 enemy->manager00->enemyAnm2AC420->SetAndExecuteScriptIdx(
@@ -283,7 +285,7 @@ static void EnemyPostEclUpdateShotAndAnm(EnemyView *thisEnemy)
     else if (horizontalVelocity > 0.01f)
         direction = 2;
 
-    if (enemy->anmDirection3386 == direction)
+    if (static_cast<unsigned char>(enemy->anmDirection3386) == direction)
         return;
 
     anm = (enemy->primaryFlags337C & ENEMY_ALTERNATE_ANM_BANK) != 0
@@ -293,7 +295,7 @@ static void EnemyPostEclUpdateShotAndAnm(EnemyView *thisEnemy)
     switch (direction)
     {
     case 0:
-        if (enemy->anmDirection3386 == 0xFF)
+        if (static_cast<unsigned char>(enemy->anmDirection3386) == 0xFF)
         {
             anm->SetAndExecuteScriptIdx(
                 &thisEnemy->primaryAnmVm0008, thisEnemy->idleInitialAnm338A);

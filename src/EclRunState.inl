@@ -82,149 +82,9 @@ typedef EnemySideStateView EnemyCoreSideStateView;
 // vertices, rather than private lookalikes at the same constant offsets.
 typedef EnemyTrailSampleView EnemyCoreTrailSampleView;
 typedef EnemyTrailVertexView EnemyCoreTrailVertexView;
-struct EnemyCoreView
-{
-    EnemyManagerView *manager00;
-    EnemyView *nextInDrawGroup04;
-    AnmVm primaryVm008;
-    AnmVm secondaryVms2AC[2];
-    Th09EclContextView mainContext07F4;
-    Th09EclContextView mainCallStack0A20[TH09_ECL_MAIN_CALL_STACK_CAPACITY];
-    Th09EclContextView *activeContext2CE0;
-    Th09EclContextView *activeCallStack2CE4;
-    unsigned char unknown2CE8[0x2D28 - 0x2CE8];
-    short mainCallDepth2D28;
-    short activeCallDepth2D2A;
-    unsigned char unknown2D2C[0x02];
-    short deathCallbackSubId2D2E;
-    short subroutineSlots2D30[32];
-    short pendingSubroutineId2D70;
-    unsigned char unknown2D72[0x02];
-    Float3 position2D74;
-    Float3 positionOffset2D80;
-    Float3 velocity2D8C;
-    unsigned char unknown2D98[0x2DA4 - 0x2D98];
-    Float3 previousPosition2DA4;
-    Float3 displacement2DB0;
-    Float3 hitbox2DBC;
-    Float3 secondaryHitbox2DC8;
-    Float3 worldPosition2DD4;
-    float movementAngle2DE0;
-    float angularVelocity2DE4;
-    float orbitAngle2DE8;
-    float orbitAngularVelocity2DEC;
-    unsigned char unknown2DF0[0x2DF4 - 0x2DF0];
-    float speed2DF4;
-    float acceleration2DF8;
-    float orbitRadius2DFC;
-    float radialVelocity2E00;
-    unsigned char unknown2E04[0x2E10 - 0x2E04];
-    Float3 movementDelta2E10;
-    Float3 movementOrigin2E1C;
-    ZunTimer movementTimer2E28;
-    int movementDuration2E34;
-    float bulletRankSpeedLow2E38;
-    float bulletRankSpeedHigh2E3C;
-    short bulletRankCount1Low2E40;
-    short bulletRankCount1High2E42;
-    short bulletRankCount2Low2E44;
-    short bulletRankCount2High2E46;
-    int life2E48;
-    int maxLife2E4C;
-    int phaseStartingLife2E50;
-    int score2E54;
-    int sequenceIndex2E58;
-    int primaryDamageAccumulator2E5C;
-    int secondaryDamageAccumulator2E60;
-    Th09EclTimerStorageView bossTimer2E64;
-    unsigned int displayColor2E70;
-    unsigned char bulletState2E74[0x3088 - 0x2E74];
-    unsigned char pendingShotInstruction3088[0x2C];
-    union { int shootInterval30B4; int shootIntervalFrames30B4; };
-    ZunTimer shootIntervalTimer30B8;
-    unsigned char unknown30C4[0x32D8 - 0x30C4];
-    Laser *laserSlots32D8[32];
-    int selectedLaserSlot3358;
-    int itemDropType335C;
-    int itemDropCount3360;
-    int itemDropExtraCount3364;
-    signed char deathAnmScripts3368[3];
-    unsigned char bossSlot336B;
-    unsigned char damageFlashTimer336C;
-    unsigned char unknown336D[0x337C - 0x336D];
-    union
-    {
-        unsigned int primaryFlags337C;
-        Th09EclRunState::EnemyStateFlagBits primaryFlagBits337C;
-    };
-    unsigned int secondaryFlags3380;
-    unsigned char unknown3384[0x02];
-    unsigned char anmDirection3386;
-    unsigned char drawGroup3387;
-    unsigned char difficultyOverride3388;
-    unsigned char unknown3389[0x338A - 0x3389];
-    short idleInitialAnm338A;
-    short idleFromLeftAnm338C;
-    short idleFromRightAnm338E;
-    short moveLeftAnm3390;
-    short moveRightAnm3392;
-    unsigned char unknown3394[0x33A8 - 0x3394];
-    float minimumPlayerDistanceSquared33A8;
-    int lastDamage33AC;
-    int lifeCallbackThresholds33B0[4];
-    int lifeCallbackSubIds33C0[4];
-    int timerCallbackThreshold33D0;
-    int timerCallbackSubId33D4;
-    void *childEclBlocks33D8[4];
-    EnemyCoreTrailSampleView trailSamples33E8[96];
-    EnemyCoreTrailVertexView trailVertices3E68[192];
-    unsigned char unknown5368[0x53A0 - 0x5368];
-    unsigned char trailFlags53A0;
-    unsigned char unknown53A1;
-    short trailHistoryLength53A2;
-    short trailCollisionLength53A4;
-    short trailSampleStride53A6;
-    Th09EclTimerStorageView damageReductionTimer53A8;
-    EnemyAttachedEffectStateView attachedEffectState53B4;
-    unsigned char unknown541C[4];
-    int phaseEndSeconds5420;
-    ZunTimer specialAttackTimer5424;
-};
-// The front of the lexical ECL Enemy alias refers to exactly the native
-// Enemy manager and draw-link fields; neither owns a separate allocation.
-typedef char EnemyEclNativeManagerAndDrawLinkAt000[
-    (offsetof(EnemyCoreView, manager00) == offsetof(EnemyView, manager00) &&
-     offsetof(EnemyCoreView, nextInDrawGroup04) ==
-         offsetof(EnemyView, nextInDrawGroup04)) ? 1 : -1];
-
-// The original +0x2CE0 pointer is shared by every lexical ECL family;
-// the public Enemy lifetime and the complete ECL Core owner must agree.
-typedef char EnemyEclNativeActiveContextAt2CE0[
-    (offsetof(EnemyView, activeContext2CE0) ==
-     offsetof(EnemyCoreView, activeContext2CE0)) ? 1 : -1];
-typedef char EnemyEclNativeOperandBanks[
-    (offsetof(EnemyView, intVariables2CE8) == 0x2CE8 &&
-     offsetof(EnemyView, floatVariables2D08) == 0x2D08 &&
-     offsetof(EnemyView, activeCallStack2CE4) ==
-         offsetof(EnemyCoreView, activeCallStack2CE4)) ? 1 : -1];
-typedef char EnemyEclNativePendingSubroutineAt2D70[
-    (offsetof(EnemyView, pendingSubroutineId2D70) ==
-     offsetof(EnemyCoreView, pendingSubroutineId2D70)) ? 1 : -1];
-typedef char EnemyEclNativePreviousAndDisplacementAt2DA4[
-    (offsetof(EnemyView, previousPosition2DA4) ==
-         offsetof(EnemyCoreView, previousPosition2DA4) &&
-     offsetof(EnemyView, displacement2DB0) ==
-         offsetof(EnemyCoreView, displacement2DB0) &&
-     offsetof(EnemyView, floatVariables2DB0) ==
-         offsetof(EnemyCoreView, displacement2DB0)) ? 1 : -1];
-typedef char EnemyEclNativeLifeAt2E48[
-    (offsetof(EnemyView, life2E48) ==
-     offsetof(EnemyCoreView, life2E48)) ? 1 : -1];
-typedef char EnemyEclNativeLaserSlotsAt32D8[
-    (offsetof(EnemyView, laserSlots32D8) ==
-         offsetof(EnemyCoreView, laserSlots32D8) &&
-     offsetof(EnemyView, selectedLaserSlot3358) ==
-         offsetof(EnemyCoreView, selectedLaserSlot3358)) ? 1 : -1];
+// The ECL state family uses the native EnemyView fields directly. The opaque
+// EnemyCoreView tag above survives only in independently bound helper APIs;
+// it does not describe a second allocation or duplicate the Enemy layout.
 
 // The exact mass-clear leaf owns this distinct C++ receiver name.  Its
 // physical state, however, is the same native EnemyManagerView allocation
@@ -251,7 +111,7 @@ typedef ::EnemyCoreSideStateView SideStateView;
 typedef ::EnemyManagerCoreView ManagerStateView;
 typedef ::EnemyCoreTrailSampleView TrailSampleView;
 typedef ::EnemyCoreTrailVertexView TrailVertexView;
-typedef ::EnemyCoreView EnemyStateView;
+typedef ::EnemyView EnemyStateView;
 typedef char Th09EclStateSideEffectAt0C[(offsetof(SideStateView, effectManager0C) == 0x0C) ? 1 : -1];
 typedef char Th09EclStateManagerSideAt320[(offsetof(ManagerStateView, sideState320) == 0x320) ? 1 : -1];
 typedef char Th09EclStateTrailSampleSizeIs1C[(sizeof(TrailSampleView) == 0x1C) ? 1 : -1];
@@ -259,7 +119,7 @@ typedef char Th09EclStateTrailVertexSizeIs1C[(sizeof(TrailVertexView) == 0x1C) ?
 typedef char Th09EclStateEnemySizeIs5430[
     (sizeof(EnemyStateView) == 0x5430) ? 1 : -1];
 typedef char Th09EclStatePrimaryVmAt008[
-    (offsetof(EnemyStateView, primaryVm008) == 0x0008) ? 1 : -1];
+    (offsetof(EnemyStateView, primaryAnmVm0008) == 0x0008) ? 1 : -1];
 typedef char Th09EclStateMainContextAt07F4[
     (offsetof(EnemyStateView, mainContext07F4) == 0x07F4) ? 1 : -1];
 typedef char Th09EclStateMainCallStackAt0A20[
@@ -338,7 +198,7 @@ void __fastcall ReleaseAttachedEffects(EnemyView *enemy);
 
 inline EnemyStateView *View(EnemyView *enemy)
 {
-    return reinterpret_cast<EnemyStateView *>(enemy);
+    return enemy;
 }
 
 inline int &BackgroundScriptLabel(EnemyView *enemy)

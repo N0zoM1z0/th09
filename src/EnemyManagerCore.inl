@@ -125,10 +125,7 @@ typedef char EnemyCoreSideStateSizeIs38[
 // The reset copy and the native Etama call use the same 0x214-byte payload.
 // Keep the independently reviewed offsets without a second descriptor class.
 typedef char EnemyCoreNativeDescriptorResetAt2E74[
-    (offsetof(EnemyCoreView, bulletState2E74) ==
-         offsetof(EnemyView, bulletDescriptor2E74) &&
-     offsetof(EnemyManagerCoreView, spawnTemplate328) ==
-         offsetof(EnemyManagerView, spawnTemplate328) &&
+    (offsetof(EnemyView, bulletDescriptor2E74) == 0x2E74 &&
      sizeof(((EnemyView *)0)->bulletDescriptor2E74) == 0x214) ? 1 : -1];
 typedef char EnemyCoreBulletDescriptorMatchesEtamaFields[
     (sizeof(BulletSpawnDescriptor) == 0x214 &&
@@ -148,31 +145,31 @@ typedef char EnemyCoreBulletDescriptorMatchesEtamaFields[
 
 
 typedef char EnemyCoreViewSizeIs5430[
-    (sizeof(EnemyCoreView) == 0x5430) ? 1 : -1];
+    (sizeof(EnemyView) == 0x5430) ? 1 : -1];
 typedef char EnemyCoreWorldAt2DD4[
-    (offsetof(EnemyCoreView, worldPosition2DD4) == 0x2DD4) ? 1 : -1];
+    (offsetof(EnemyView, worldPosition2DD4) == 0x2DD4) ? 1 : -1];
 typedef char EnemyCoreFlagsAt337C[
-    (offsetof(EnemyCoreView, primaryFlags337C) == 0x337C) ? 1 : -1];
+    (offsetof(EnemyView, primaryFlags337C) == 0x337C) ? 1 : -1];
 typedef char EnemyCoreTrailAt33E8[
-    (offsetof(EnemyCoreView, trailSamples33E8) == 0x33E8) ? 1 : -1];
+    (offsetof(EnemyView, trailSamples33E8) == 0x33E8) ? 1 : -1];
 typedef char EnemyCoreTrailVerticesAt3E68[
-    (offsetof(EnemyCoreView, trailVertices3E68) == 0x3E68) ? 1 : -1];
+    (offsetof(EnemyView, trailVertices3E68) == 0x3E68) ? 1 : -1];
 typedef char EnemyCoreTrailHistoryEndsAtVertices[
-    (offsetof(EnemyCoreView, trailSamples33E8) +
-     sizeof(((EnemyCoreView *)0)->trailSamples33E8) ==
-     offsetof(EnemyCoreView, trailVertices3E68)) ? 1 : -1];
+    (offsetof(EnemyView, trailSamples33E8) +
+     sizeof(((EnemyView *)0)->trailSamples33E8) ==
+     offsetof(EnemyView, trailVertices3E68)) ? 1 : -1];
 typedef char EnemyCoreTrailVerticesEndAt5368[
-    (offsetof(EnemyCoreView, trailVertices3E68) +
-     sizeof(((EnemyCoreView *)0)->trailVertices3E68) ==
-     offsetof(EnemyCoreView, unknown5368)) ? 1 : -1];
+    (offsetof(EnemyView, trailVertices3E68) +
+     sizeof(((EnemyView *)0)->trailVertices3E68) ==
+     offsetof(EnemyView, unknown5368)) ? 1 : -1];
 typedef char EnemyCoreTrailFlagsAt53A0[
-    (offsetof(EnemyCoreView, trailFlags53A0) == 0x53A0) ? 1 : -1];
+    (offsetof(EnemyView, trailFlags53A0) == 0x53A0) ? 1 : -1];
 typedef char EnemyCoreAttachedEffectStateAt53B4[
-    (offsetof(EnemyCoreView, attachedEffectState53B4) == 0x53B4) ? 1 : -1];
+    (offsetof(EnemyView, attachedEffectState53B4) == 0x53B4) ? 1 : -1];
 typedef char EnemyCorePhaseEndSecondsAt5420[
-    (offsetof(EnemyCoreView, phaseEndSeconds5420) == 0x5420) ? 1 : -1];
+    (offsetof(EnemyView, phaseEndSeconds5420) == 0x5420) ? 1 : -1];
 typedef char EnemyCoreDamageTimerAt53A8[
-    (offsetof(EnemyCoreView, damageReductionTimer53A8) == 0x53A8) ? 1 : -1];
+    (offsetof(EnemyView, damageReductionTimer53A8) == 0x53A8) ? 1 : -1];
 
 
 typedef char EnemyManagerCoreSizeIs2AC450[
