@@ -193,3 +193,12 @@ partial source integration with no new exact-function or origin credit; see
 The later exact Etama and biased-movement checkpoints supersede their earlier
 negative routing results above; their source-bound receipts are recorded in
 [local canonical receipts](RE_ACCEPTED_RECEIPTS.md).
+
+
+## Later November 5 follow-up: complete Type29 exact
+
+Independent per-fan angle lifetimes and the actual main-fan snapshot chronology
+close the complete2220-byte Type29 draw owner with all129 fields. Both actual
+ECL profiles pass83 complete canonical comparisons; original-equal SDK aliases
+add no authored/origin credit. This supersedes the92-byte partial result above.
+See [the exact source review](TH09_EFFECT29_EXACT_20261105.md).

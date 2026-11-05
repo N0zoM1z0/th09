@@ -18,6 +18,25 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: complete Type29 draw exact
+
+Seven independent per-fan angle lifetimes reproduce the original stack homes
+and FADD order, reducing the92-byte frontier to a ten-byte exchanged initial
+store pair. Main-fan angle initialization followed by its real fan-start
+snapshot closes all2220 bytes/129 fields/675 instructions/72 calls/41 blocks.
+No declaration-order hints, barriers, new assembly, padding or profile changes
+are used. Original negative-pi store is+51 and fan-start store+58. The genuine
+SDK constructor/accumulator and existing polar primitive retain26/36/32 complete
+original-equal bytes without extra authored/origin credit. Both actual ECL
+profiles preserve83 canonical owners/29856 physical bytes/1389 fields; two
+private labels retain actual-definition/original-operand-verified destinations.
+Main RunEcl raw/linked hashes and30 differences stay identical; Enemy stays13.
+A function-wide initialized-angle control has154 differences and loses exact
+field/graph positions; loop-local counters retain92. Exact totals become1022/
+1035 and262049 reviewed-authored bytes (89.7788%). See
+[the complete original-bound review](TH09_EFFECT29_EXACT_20261105.md).
+Original source spelling/TU ownership and later product/runtime gates remain open.
+
 ### 2026-11-05 continued main: native polar transport closes Type29 extent
 
 Original polar441890 takes its vector inECX and two stack floats, returns with

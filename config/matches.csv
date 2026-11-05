@@ -1020,3 +1020,4 @@ address,name,size,status,match_percent,unit,evidence
 0x00444130,ExAttackDrawCallbackType14_22,959,matching,100.00,ex-attack-draw-type14-22,python3 scripts/build-match-unit.py --unit ex-attack-draw-type14-22 && python3 scripts/compare-coff-function.py --unit ex-attack-draw-type14-22 --json
 0x00413BE0,EtamaController::OnDraw,600,matching,100.00,etama-controller-on-draw,python3 scripts/build-match-unit.py --unit etama-controller-on-draw && python3 scripts/compare-coff-function.py --unit etama-controller-on-draw --json
 0x00407E30,Th09EclRunLate::MoveRandomBiased,516,matching,100.00,ecl-move-random-biased,python3 scripts/build-match-unit.py --unit ecl-move-random-biased && python3 scripts/compare-coff-function.py --unit ecl-move-random-biased --json
+0x00448750,EffectDrawCallbackType29,2220,matching,100.00,effect-draw-type29,python3 scripts/build-match-unit.py --unit effect-draw-type29 && python3 scripts/compare-coff-function.py --unit effect-draw-type29 --json

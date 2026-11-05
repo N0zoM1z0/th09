@@ -79,7 +79,7 @@ class TrueRunEclAngle(unittest.TestCase):
             if unit.get('source')!='src/EclManager.cpp': continue
             for row in unit['relocations']:
                 if 'AddNormalizeAngle' in row['symbol']:refs.append(row)
-        self.assertEqual(len(refs),44)
+        self.assertEqual(len(refs),49)
         self.assertEqual({(x['symbol'],x['type'],x['target'],x.get('addend',0))
                           for x in refs},
                          {(frontier.RUNECL_REAL_ANGLE_SYMBOL,'REL32',0x42AED0,0)})
@@ -139,7 +139,7 @@ class TrueRunEclAngle(unittest.TestCase):
                 frontier.validate_runecl_real_angle_owners(units)
         allrefs=[(n,i) for n,u in self.units.items() if u.get('source')=='src/EclManager.cpp'
                  for i,r in enumerate(u['relocations']) if 'AddNormalizeAngle' in r['symbol']]
-        self.assertEqual(len(allrefs),44)
+        self.assertEqual(len(allrefs),49)
         for key,bad in (('symbol','?AddNormalizeAngle@@YGMMM@Z'),
                         ('type','DIR32'),('target',0x42AED1),('addend',4)):
             units=deepcopy(self.units)

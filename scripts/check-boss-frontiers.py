@@ -163,7 +163,7 @@ def run_network_message() -> dict:
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
     'build/matching/EclManager.obj': 77,
-    'build/matching/EclManager-Type11.obj': 5,
+    'build/matching/EclManager-Type11.obj': 6,
 }
 TITLE_OPTIONS_EXACT_CARRIERS = {'build/matching/TitleScreenOptions.obj': 2}
 TITLE_EXACT_CARRIERS = {
@@ -900,8 +900,8 @@ def validate_runecl_real_angle_owners(units: dict) -> None:
                     ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
                 raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
             exact_ref_count += 1
-    if exact_ref_count != 44:
-        raise RuntimeError('ECL/Enemy/position/Effect 44 exact C++ angle callsites missing')
+    if exact_ref_count != 49:
+        raise RuntimeError('ECL/Enemy/position/Effect 49 exact C++ angle callsites missing')
 
 
 def guard_runecl_real_angle_callsite_report(report: dict) -> dict:
@@ -5155,33 +5155,8 @@ def guard_effect_type34_draw(result: dict) -> dict:
 
 
 EFFECT29_DRAW_SHA256 = '8ecf5d55f2ef0de67316f09b3a6d9422b4475bf9a7fdf1ea9dd10919247a3455'
-# Complete 2220-byte native-polar /Ob0 frontier; protect all 2128 equal bytes.
-# The reviewed migration restores1089 old differences, changes11 old matches,
-# and supplies15 missing bytes. See TH09_EFFECT29_POLAR_RECOVERY_20261105.md.
-EFFECT29_DRAW_RESIDUAL_RUNS = (
-    (0x51, 0x53), (0x54, 0x5B), (0x94, 0x95), (0xA4, 0xA5),
-    (0xAD, 0xAE), (0xB0, 0xB1), (0xEF, 0xF0), (0x10A, 0x10B),
-    (0x112, 0x113), (0x150, 0x151), (0x167, 0x168), (0x16E, 0x16F),
-    (0x1D5, 0x1D6), (0x1E5, 0x1E6), (0x1EE, 0x1EF), (0x1F1, 0x1F2),
-    (0x231, 0x232), (0x237, 0x238), (0x24C, 0x24D), (0x25E, 0x25F),
-    (0x283, 0x284), (0x28B, 0x28C), (0x299, 0x29A), (0x29F, 0x2A0),
-    (0x2AC, 0x2AD), (0x313, 0x314), (0x323, 0x324), (0x32C, 0x32D),
-    (0x32F, 0x330), (0x36F, 0x370), (0x375, 0x376), (0x38A, 0x38B),
-    (0x395, 0x396), (0x3BE, 0x3BF), (0x3C6, 0x3C7), (0x3D4, 0x3D5),
-    (0x3DA, 0x3DB), (0x3E7, 0x3E8), (0x452, 0x453), (0x462, 0x463),
-    (0x46B, 0x46C), (0x46E, 0x46F), (0x4AE, 0x4AF), (0x4B4, 0x4B5),
-    (0x4C9, 0x4CA), (0x4D4, 0x4D5), (0x4FD, 0x4FE), (0x505, 0x506),
-    (0x513, 0x514), (0x519, 0x51A), (0x526, 0x527), (0x592, 0x593),
-    (0x5A2, 0x5A3), (0x5AB, 0x5AC), (0x5AE, 0x5AF), (0x5EE, 0x5EF),
-    (0x5F4, 0x5F5), (0x609, 0x60A), (0x614, 0x615), (0x63D, 0x63E),
-    (0x645, 0x646), (0x653, 0x654), (0x659, 0x65A), (0x666, 0x667),
-    (0x6D2, 0x6D3), (0x6E2, 0x6E3), (0x6EB, 0x6EC), (0x6EE, 0x6EF),
-    (0x72E, 0x72F), (0x734, 0x735), (0x749, 0x74A), (0x754, 0x755),
-    (0x77D, 0x77E), (0x785, 0x786), (0x793, 0x794), (0x799, 0x79A),
-    (0x7A6, 0x7A7), (0x812, 0x813), (0x822, 0x823), (0x82B, 0x82C),
-    (0x82E, 0x82F), (0x86E, 0x86F), (0x878, 0x879), (0x886, 0x887),
-    (0x88E, 0x88F),
-)
+# The complete Type29 owner is now exact; every original byte is protected.
+EFFECT29_DRAW_RESIDUAL_RUNS = ()
 EFFECT29_DRAW_CALLS = (
     0x401680, 0x4016b0, 0x441890, 0x405730, 0x401680, 0x4016b0, 0x43b7b0, 0x4010b0,
     0x441890, 0x405730, 0x401680, 0x4016b0, 0x441890, 0x405730, 0x401680, 0x4016b0,
@@ -5272,7 +5247,7 @@ def guard_effect_type29_draw(document: dict) -> dict:
             any(type(i) is not int or i not in known or i >= size for i in offsets) or
             offsets != sorted(set(offsets)) or
             result.get('overlapping_differences') != len(offsets) or
-            len(offsets) > 92):
+            len(offsets) != 0):
         raise RuntimeError('Effect 29 changed an already equal original byte')
     equal = not offsets and size == 2220
     if result.get('complete_bytes_agree') is not equal:
@@ -5288,16 +5263,18 @@ def guard_effect_type29_draw(document: dict) -> dict:
 
 
 def inspect_selected_effect_type29(*, already_built: bool) -> dict:
-    """Use the existing /Ob0 carrier; Type29 remains a nonexact diagnostic."""
+    """Use the existing /Ob0 carrier; verify the exact owner and actual local callees."""
     with (ROOT/'config/match-units.toml').open('rb') as stream:
-        unit = tomllib.load(stream)['units']['ecl-move-random-biased']
+        unit = tomllib.load(stream)['units']['effect-draw-type29']
     profile = ['/Ob0' if flag == '/Ob1' else flag for flag in _SCREEN_EFFECT_BASE_PROFILE]
     if (unit.get('source') != 'src/EclManager.cpp' or
             unit.get('object') != 'build/matching/EclManager-Type11.obj' or
-            unit.get('profile') != profile):
+            unit.get('profile') != profile or
+            unit.get('symbol') != '?EffectDrawCallbackType29@@YIHPAUEffect@@@Z' or
+            (unit.get('target_address'), unit.get('size')) != (0x448750, 2220)):
         raise RuntimeError('Effect 29 selected source/profile changed')
     if not already_built:
-        build('ecl-move-random-biased')
+        build('effect-draw-type29')
     return guard_effect_type29_draw(parsed([
         'scripts/inspect-effect-type29.py', unit['object'], '--json']))
 

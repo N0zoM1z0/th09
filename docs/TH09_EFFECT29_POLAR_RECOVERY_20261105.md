@@ -1,5 +1,9 @@
 # Effect29 polar investigation and Type6 source recovery — 2026-11-05
 
+> Later same-day [complete Type29 exact checkpoint](TH09_EFFECT29_EXACT_20261105.md)
+> supersedes the 92-byte frontier. This review retains the source4586b675
+> recovery and partial-source evidence.
+
 The first adopted checkpoint restores `ExAttackUpdateCallbackType6 @00446060`
 to a reproducible current-header build: all 698 bytes and 30 fields match.
 This repairs an existing exact unit; totals remain 1021/1035 functions and

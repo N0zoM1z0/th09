@@ -22,7 +22,7 @@ Original game files and assets are outside these licenses.
 | `src/PlayerChargeAttackUpdate.cpp` | `src/player.cpp`, `Player::UpdateShotInput` | Structured charge/shot branches and direct native timers, preserving the complete nonexact owner and reviewed ABI |
 | `src/SupervisorNetworkMessageHandler.cpp` | `src/network.cpp`, message handler | Full native packet dispatch, with target-backed unsigned 16-bit frame input ABI |
 | `src/EclManager.cpp`, `src/ExAttackDrawType14Type22.inl` | `src/pl04.cpp`, `DrawExAttackTypes14And22` | Native fan rendering in the existing ECL carrier, retaining our real polar helper |
-| `src/EffectDrawType29.inl` | `src/pl09.cpp`, Type29 draw | Complete main/satellite fan source shape with native vertices and SDK local centers; reuses the existing polar primitive and remains nonexact |
+| `src/EffectDrawType29.inl` | `src/pl09.cpp`, Type29 draw | Complete main/satellite fan source shape with native vertices and SDK local centers; reuses the existing polar primitive; the complete owner is exact in its selected /Ob0 profile |
 | `src/EtamaControllerDraw.cpp` | `src/bullet.cpp`, `BulletManager::OnDraw` | Laser and bullet drawing with native VM/side fields and the SDK vector conversion, preserving both exact same-file siblings |
 
 Source headers retain the upstream attribution and revision.

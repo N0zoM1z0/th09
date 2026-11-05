@@ -11,6 +11,26 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — complete Effect Type29 draw exact
+
+Type29 draw448750 now matches all2220 bytes/129 fields/675 instructions/72
+ordered calls/41 physical blocks in the existing EclManager Type11 /Ob0 carrier.
+Independent per-fan angle lifetimes reduce92 differences to10; restoring the
+real main-fan snapshot chronology closes the complete owner. No compiler hints,
+new assembly, layout or profile changes are introduced. Three complete
+same-object polar/SDK bodies retain32/26/36 original-equal bytes without alias
+or origin credit. See [the exact review](TH09_EFFECT29_EXACT_20261105.md).
+Both affected profiles pass83 canonical units/29856 physical bytes/1389 fields;
+48 unchanged polar-cohort proofs are reused. RunEcl retains identical raw/linked
+hashes and all30 differences; Enemy remains13. The guard protects every Type29
+byte and its original field/call/graph/callee evidence.
+Canonical totals:1035 source-present /1022 exact /13 nonexact;
+262049 exact reviewed-authored bytes (89.7788%). Original TU ownership,
+Factory acceptance and Windows product/runtime/port closure remain open.
+Full CI passes1351 tests/29 skips; target/tracking, docs/progress and whitespace
+checks pass. The complete source-bound proof is recorded separately from Factory
+acceptance.
+
 ## 2026-11-05 continued main — native polar API and complete Type29 extent
 
 Type29 draw now has all 2220 bytes, 129 original-position fields, 675 instructions,
@@ -796,7 +816,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current ledger summary is
-**1035 source-present / 1021 exact / 14 non-exact**; earlier operator notes
+**1035 source-present / 1022 exact / 13 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -807,19 +827,19 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 1,035 |
 | Classified exclusions | 1,176 |
 | Source-present authored mappings | 1,035 |
-| Canonical exact functions | 1,021 |
-| Source-present non-exact functions | 14 |
-| Source-present non-exact bytes | 32,054 |
+| Canonical exact functions | 1,022 |
+| Source-present non-exact functions | 13 |
+| Source-present non-exact bytes | 29,834 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 259,829 |
+| Canonical exact authored bytes | 262,049 |
 
-**259,829 / 291,883 reviewed-authored bytes = 89.0182% exact**. To reach
-98% of the *currently classified* denominator, another **26,217 bytes**
+**262,049 / 291,883 reviewed-authored bytes = 89.7788% exact**. To reach
+98% of the *currently classified* denominator, another **23,997 bytes**
 must become complete original-bound exact owners, reaching at least **286,046
 exact authored bytes**. The 37 origin-unresolved functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
-The manifests govern **1021 exact** functions.
+The manifests govern **1022 exact** functions.
 
 The catalog is not proof of complete executable-code inventory. The formerly
 uncatalogued **0x0040D677 /0x00444A78** Timer references now belong to the exact
@@ -827,12 +847,13 @@ Effect 1/2 and Effect 34 updates. All **203** captured assignment callsites have
 catalogued owners; that bounded census proves neither complete executable
 coverage nor a return ABI. The Effect 34 **178-byte initializer at 0x00444960** and **946-byte draw
 at 0x00444AF0** are both canonical exact in their pinned source/profile.
-The separate Effect29 draw remains nonexact.
+The separate Effect29 draw is now canonical exact in its selected /Ob0 profile;
+see [the complete-owner review](TH09_EFFECT29_EXACT_20261105.md).
 Do not silently treat uncatalogued code as excluded.
 
 ## Reconstruction frontiers
 
-These are routing measurements, not exactness credit. The ledgers list all14
+These are routing measurements, not exactness credit. The ledgers list all13
 nonexact functions. The opcode4 setter/assignment visibility and whole Enemy
 storage controls are already measured; consult their actual frozen inputs before
 repeating them. Historical assumptions remain hypotheses.
@@ -841,7 +862,6 @@ repeating them. Historical assumptions remain hypotheses.
 | --- | --- | --- | --- |
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode4 timer transport and opcode155 flag update. Keep all598 fields/tables and complete15564 bytes; actual Timer ABI and RNG ownership are already corrected. `--owner runecl`. |
 | **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Draw index2, side/threshold4, descriptor-position copy7. Keep real20-byte Timer greater co-visible, all97 fields and3887 matching physical bytes. |
-| **Effect Type29 draw** | 0x00448750 | **2,220 /2,220 bytes**,129 original-position fields,72 ordered calls,41/41 physical blocks; **92 ordinary differences**, no missing bytes | Existing /Ob0 carrier; complete same-object SDK/polar callees, six local receiver reloads and matching physical graph. Bounded emulator fixtures are not whole-runtime or exactness proof. `--owner effect29`. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Lower-bound EAX/EDX transport and encoding cascade. Native framerate/coordinate owners and the shared SHT speed type are corrected;preserve1771 matching bytes and both tables. `--owner movement`. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Recover source chronology and missing13 bytes; preserve repaired SpawnShots transport and actual call/field identities. |
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Character snapshot and remaining control-flow/byte deficit. Keep the exact Title setup siblings. |

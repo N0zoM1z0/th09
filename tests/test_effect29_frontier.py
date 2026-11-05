@@ -39,8 +39,9 @@ def baseline():
             'ordered_calls_agree': True,
             'target_calls': calls, 'candidate_calls': deepcopy(calls),
             'target_blocks': 41, 'candidate_blocks': 41,
-            'overlapping_differences': 92, 'difference_offsets': offsets,
-            'complete_bytes_agree': False,
+            'overlapping_differences': 0, 'difference_offsets': offsets,
+            'resolved_sha256': boss.EFFECT29_DRAW_SHA256,
+            'complete_bytes_agree': True,
             'same_object_vector_callees': [
                 dict(symbol=symbol, target_address=address, target_bytes=size,
                      target_sha256=digest, fields=0, same_object_definition=True,
@@ -71,8 +72,8 @@ class Type29Frontier(TestCase):
     def test_same_count_exchange_cannot_damage_an_old_equal_byte(self):
         result = baseline()
         row = result['comparison']
-        row['difference_offsets'][0] = 0  # Entry PUSH EBP was already equal.
-        row['difference_offsets'].sort()
+        row['difference_offsets'] = [0]  # Every byte is now protected.
+        row['overlapping_differences'] = 1
         with self.assertRaisesRegex(RuntimeError, 'already equal'):
             boss.guard_effect_type29_draw(result)
 
@@ -94,28 +95,21 @@ class Type29Frontier(TestCase):
             with self.subTest(key=key, value=value), self.assertRaises(RuntimeError):
                 boss.guard_effect_type29_draw(result)
         result = baseline()
-        result['comparison']['complete_bytes_agree'] = True
+        result['comparison']['complete_bytes_agree'] = False
         with self.assertRaisesRegex(RuntimeError, 'contradictory'):
             boss.guard_effect_type29_draw(result)
 
     def test_duplicate_unsorted_or_inconsistent_offsets_are_rejected(self):
-        for mutate in (
-            lambda row: row['difference_offsets'].reverse(),
-            lambda row: row['difference_offsets'].append(row['difference_offsets'][-1]),
-            lambda row: row['difference_offsets'].__setitem__(0, True),
-            lambda row: row.__setitem__('overlapping_differences', 91),
-        ):
+        for offsets, count in (([2, 1], 2), ([1, 1], 2), ([True], 1), ([], 1)):
             result = baseline()
-            mutate(result['comparison'])
-            with self.assertRaises(RuntimeError):
+            result['comparison'].update(difference_offsets=offsets,
+                                        overlapping_differences=count)
+            with self.subTest(offsets=offsets), self.assertRaises(RuntimeError):
                 boss.guard_effect_type29_draw(result)
 
-    def test_partial_recovery_does_not_grant_exact_credit(self):
-        result = baseline()
-        result['comparison']['difference_offsets'].pop()
-        result['comparison']['overlapping_differences'] -= 1
-        summary = boss.guard_effect_type29_draw(result)
-        self.assertEqual(summary['ordinary_differences'], 91)
+    def test_diagnostic_equality_does_not_grant_canonical_credit(self):
+        summary = boss.guard_effect_type29_draw(baseline())
+        self.assertEqual(summary['ordinary_differences'], 0)
         self.assertEqual(summary['missing_bytes'], 0)
         self.assertEqual(summary['exactness_credit'], 'none')
 
@@ -124,6 +118,7 @@ class Type29Frontier(TestCase):
         row = result['comparison']
         row.update(candidate_bytes=2220, missing_bytes=0, difference_offsets=[],
                    overlapping_differences=0, complete_bytes_agree=True)
+        row.pop('resolved_sha256')
         with self.assertRaisesRegex(RuntimeError, 'incomplete equality'):
             boss.guard_effect_type29_draw(result)
         row.update(resolved_sha256=boss.EFFECT29_DRAW_SHA256,
@@ -135,7 +130,7 @@ class Type29Frontier(TestCase):
         with patch.object(boss, 'build') as build, patch.object(
                 boss, 'parsed', return_value=baseline()) as read:
             boss.inspect_selected_effect_type29(already_built=False)
-        build.assert_called_once_with('ecl-move-random-biased')
+        build.assert_called_once_with('effect-draw-type29')
         self.assertIn('build/matching/EclManager-Type11.obj', read.call_args.args[0])
         for field, value in [('same_object_definition', False), ('fields', 1),
                              ('target_bytes', 31), ('target_sha256', 'wrong'),

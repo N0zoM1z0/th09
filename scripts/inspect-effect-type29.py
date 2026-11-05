@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Original-bound Type29 Effect draw boundary and non-crediting COFF audit.
 
-The callback has maintained non-exact C++ source and no canonical exact unit.
-An arbitrary supplied object is a compiler experiment, never source attestation.
+The selected /Ob0 callback has the canonical exact unit effect-draw-type29.
+An arbitrary supplied object remains a diagnostic, never source attestation or
+canonical credit by itself.
 """
 from pathlib import Path
 import argparse
