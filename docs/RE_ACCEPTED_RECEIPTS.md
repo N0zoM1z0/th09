@@ -12,6 +12,46 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 5: replay name span — local affected-owner Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `4adec272cd857a39d36432078e5e666c27c80b18`.
+Target SHA-256:
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+
+The original copy and title-entry observations support the nine-byte name
+view at +CE..+D6. All 68 affected existing canonical units pass 26948 complete
+physical bytes and 1474 fields under nine existing profiles. Nine private
+Title labels retain identical actual positions, addends and PE destinations.
+All affected nonexact diagnostics are unchanged; SaveReplay retains two unlike
+bytes. No function-exact or authored-origin credit is added.
+
+The ignored `.analysis/replay-frame-destination-20261105/canonical-source-proof.json`
+is SHA-256 `4e4b1c873b127832aa0cf2d53d7c46636e4e0a340501e8d3cc04acbd02a90826`.
+It binds 76 tracked inputs and normalized Git blobs, 13 actual objects/profiles,
+eight compiler/SDK inputs, complete comparisons, retained diagnostics, original
+copy trace, three attested Ghidra runs and CI. The independent verifier writes
+a separate replay. Full public CI passes 1354 tests with 29 skips. Totals remain
+1035 source-present/1022 exact/13 nonexact. See
+[the source review](TH09_REPLAY_NAME_STORAGE_20261105.md); product/runtime,
+dual-Oracle semantics and portability remain open.
+
+## November 5: independent GameManager profile objects — local canonical Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source/configuration commit: `eae1a5a418c8ea633bf57d9f2ddc957dc7bd6d19`.
+The unchanged `/Os` primary and no-`/Os` loading-helper profiles retain distinct
+actual objects. All eleven existing units pass simultaneously: 2991 complete
+physical bytes and 243 fields. The setup worker's full diagnostic is unchanged.
+No source flags, target bindings or exact-function credit change.
+
+The ignored `.analysis/replay-frame-destination-20261105/cache-source-proof.json`
+is SHA-256 `7a812f69f196528727b3f3e0d665e84738391be99e7c3126c1205e76bde12227`.
+It binds 40 source inputs, four metadata inputs, normalized Git blobs, both
+historical objects/profiles and all eleven comparisons to that commit. The
+same independent verifier replays these retained objects against the original
+target above. See [the cache review](TH09_GAME_MANAGER_PROFILE_OBJECTS_20261105.md).
+
 ## November 5: complete Effect Type29 draw — local canonical Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

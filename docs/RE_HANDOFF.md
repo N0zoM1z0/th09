@@ -22,7 +22,11 @@ identical raw bytes, addends and owner-relative destinations before refreshing
 their manifest spellings. All affected nonexact owners and the three menu
 contexts retain their complete previous diagnostics; SaveReplay remains 2 bytes
 different at +B7/+BB. See [the source investigation](TH09_REPLAY_NAME_STORAGE_20261105.md).
-Full public CI passes 1354 tests with29 skips; target/tracking/docs checks pass.
+Source checkpoint `4adec272`; immutable receipt SHA-256
+`4e4b1c873b127832aa0cf2d53d7c46636e4e0a340501e8d3cc04acbd02a90826`.
+It binds 76 inputs/13 actual objects plus the historical cache receipt;
+the separate verifier replays all 68 current and 11 historical comparisons.
+Full public CI passes 1354 tests with 29 skips; target/tracking/docs checks pass.
 Totals remain 1035 source-present/1022 exact/13 nonexact; no product/runtime claim.
 
 ## 2026-11-05 continued main — independent GameManager profile objects

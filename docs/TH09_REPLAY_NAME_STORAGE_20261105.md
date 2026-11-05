@@ -106,3 +106,23 @@ All six shared-layout tests pass. The obsolete assertion requiring the literal
 eight-byte declaration is removed; the physical-neighbor and original target
 checks remain. Full public CI passes 1,354 tests with 29 skips. Target/tracking,
 progress, documentation and whitespace checks pass.
+
+## Immutable source binding
+
+The source checkpoint is `4adec272cd857a39d36432078e5e666c27c80b18`.
+The ignored `canonical-source-proof.json` is SHA-256
+`4e4b1c873b127832aa0cf2d53d7c46636e4e0a340501e8d3cc04acbd02a90826`.
+It binds 76 tracked source/tool/test inputs and their normalized Git blobs,
+13 actual objects/profiles, eight compiler/SDK inputs, all 68 complete unit
+results, unchanged nonexact diagnostics, reused callees, three attested Ghidra
+reports, private controls, original-copy trace and public CI log to that
+immutable source commit. It also binds the separate historical cache receipt.
+
+`python3 -B .analysis/replay-frame-destination-20261105/verify-source-proofs.py`
+checks the committed and current inputs, retained objects and report hashes,
+then independently replays all 68 current comparisons and the eleven
+historical cache comparisons against the original PE. It writes a separate
+`canonical-source-replay.json`; neither sealed receipt is overwritten.
+The receipt registry records these as local source-bound evidence. Later
+documentation commits, original source uniqueness and Factory acceptance are
+not automatically covered by a source checkpoint.

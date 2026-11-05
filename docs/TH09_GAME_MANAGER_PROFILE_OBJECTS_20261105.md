@@ -32,3 +32,12 @@ records the 40 quoted source inputs, both actual profiles and object hashes.
 This is compiler-cache and exact-source evidence. It does not establish an
 original TU partition or native product/link/runtime closure. The replay-name
 field investigation continues separately with its candidate preserved.
+
+The source/configuration checkpoint is
+`eae1a5a418c8ea633bf57d9f2ddc957dc7bd6d19`. Its immutable ignored
+`cache-source-proof.json` is SHA-256
+`7a812f69f196528727b3f3e0d665e84738391be99e7c3126c1205e76bde12227`.
+It binds the 40 source inputs and four metadata inputs to normalized committed
+Git blobs, both actual profiles, both retained historical objects, pinned
+compiler/SDK hashes and all eleven complete comparisons. It is a local
+source-scoped compiler receipt, with no Factory or remote-publication claim.
