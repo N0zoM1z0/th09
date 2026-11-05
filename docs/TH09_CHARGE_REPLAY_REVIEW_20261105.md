@@ -36,6 +36,27 @@ The old source-text test required five pointer-alias spellings even though both
 native expressions produce identical machine code. Those assertions are
 removed; native type/layout and complete target/COFF checks remain.
 
+The source checkpoint is local commit `bccbc5e4`. A new focused entry is now
+available without historical experiment scripts:
+
+```bash
+python3 -B scripts/check-boss-frontiers.py --owner charge
+```
+
+It verifies the original target, cold-compiles only this source with the
+existing Player /O2 /Ob1 /EHsc profile, checks the complete 1210-byte original
+and all 70 actual fields/58 calls/five literal definitions, then compares the
+visible Timer body in the same object. Every one of the 37 already-matching
+physical positions is protected individually; same-count substitutions fail.
+Partial reductions remain explicitly noncrediting. Nonexact compiler runs
+now inherit lowered priority and a 180-second timeout with a kill deadline.
+The fresh focused receipt is `.analysis/charge-20261105/focused.json`.
+
+Full target-independent CI passes 1338 tests (29 skipped), including the new
+wrong-target/census/extent, Timer-byte/field and all 37 byte-substitution
+negative cases. Tracking, documentation, generated progress and whitespace
+checks pass. This public CI is separate from the focused compiler replay.
+
 ## Fresh rejected replay and Effect controls
 
 Replay BeginPlaybackStage is freshly reproduced at 538/540 bytes, 32 fields,

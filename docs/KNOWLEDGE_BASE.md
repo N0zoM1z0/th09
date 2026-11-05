@@ -31099,3 +31099,12 @@ original EBP-1 byte home. The visible20-byte Timer >= body is separately exact.
 There is no new exact credit. Fresh Replay seed/config/native-header controls
 and Effect GetAnm visibility controls do not improve their complete frontiers.
 See docs/TH09_CHARGE_REPLAY_REVIEW_20261105.md for retained evidence and scope.
+
+The maintained charge now has a standalone focused cold replay:
+`python3 -B scripts/check-boss-frontiers.py --owner charge`. It uses the existing
+Player /O2 /Ob1 /EHsc profile, verifies the full1210-byte original and all70
+operands/58 ordered calls/five actual literals, and compares the visible20-byte
+Timer >= definition in that same fresh object. Every one of37 already-equal
+positions is guarded against same-count substitution. Negative tests cover
+wrong identity/extents/censuses, altered Timer bytes/fields and all37 exchanges.
+Diagnostic reductions still cannot enter the match ledger automatically.

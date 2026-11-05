@@ -322,10 +322,19 @@ def diagnose(path):
         'extra_candidate_bytes': max(0, len(raw) - SIZE),
         'complete_bytes_equal': target == linked,
         'literal_definitions_checked': len(literals),
+        'same_carrier_timer_bytes_exact': verify_timer_sibling(coff, path, image),
         'original_stack_byte_minus_one': stack_byte_accesses(original),
         'candidate_stack_byte_minus_one': stack_byte_accesses(candidate),
         'bindings': rows,
     }
+
+
+def verify_timer_sibling(coff, path, image):
+    """Compare the actual visible Timer >= definition in this fresh object."""
+    body, fields = coff.object_function(path, '??PZunTimer@@QAEIH@Z')
+    if fields or body != coff.pe_bytes_at(image, 0x00401520, 20):
+        raise ValueError('charge same-carrier complete Timer >= sibling changed')
+    return 20
 
 
 def main():

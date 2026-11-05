@@ -383,7 +383,8 @@ def build_nonexact(source: str, obj: str, *, reference_unit: str) -> None:
         raise RuntimeError('refusing a symlink at the non-exact object path')
     if output.exists():
         output.unlink()
-    command = [str(ROOT / 'scripts/compile-probe.sh'), source, obj, *flags]
+    command = ['nice', '-n', '10', 'timeout', '--kill-after=10s', '180s',
+               str(ROOT / 'scripts/compile-probe.sh'), source, obj, *flags]
     response = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
     if response.returncode != 0 or not output.is_file():
         raise RuntimeError('cold non-exact build failed: ' +
@@ -1334,6 +1335,60 @@ def guard_player_bullet_collision(result: dict) -> dict:
              (instructions != 277 or bullet.get('direct_graphs_agree') is not True))):
         raise RuntimeError('Player 862-byte collision boss target/fields/matching bytes regressed')
     return bullet
+
+
+PLAYER_CHARGE_TARGET_SHA = '6c24be1a012fc3fa6148bd09954443318cc9db33d6b69a26ca1a778dfe6e5015'
+# Every position that already equals the original in the 1197-byte candidate.
+# The other 1160 overlaps and 13 absent bytes remain an open full-owner claim.
+PLAYER_CHARGE_MATCHED = frozenset((
+    129, 268, 275, 282, 288, 304, 305, 310, 316, 322, 331, 354, 392,
+    393, 457, 471, 483, 484, 493, 524, 650, 704, 736, 807, 816, 874,
+    961, 967, 985, 995, 996, 997, 999, 1034, 1072, 1119, 1168,
+))
+
+
+def guard_player_charge(result: dict) -> dict:
+    """Preserve the complete original-bound charge owner, never exact credit."""
+    noncrediting(result, name='Player charge update', target_size=1210, fields=70)
+    size, count = result.get('candidate_bytes'), result.get('overlap_differences')
+    offsets = result.get('difference_offsets')
+    if (result.get('target_sha256') != PLAYER_CHARGE_TARGET_SHA or
+            type(size) is not int or not 1197 <= size <= 1210 or
+            result.get('target_instructions') != 350 or
+            type(result.get('candidate_instructions')) is not int or
+            not 342 <= result['candidate_instructions'] <= 350 or
+            result.get('original_fields') != 70 or
+            result.get('ordered_calls') != 58 or
+            result.get('ordered_calls_agree') is not True or
+            result.get('target_blocks') != 53 or
+            type(result.get('candidate_blocks')) is not int or
+            not 1 <= result['candidate_blocks'] <= result['candidate_instructions'] or
+            type(result.get('direct_graphs_agree')) is not bool or
+            result.get('literal_definitions_checked') != 5 or
+            result.get('same_carrier_timer_bytes_exact') != 20 or
+            type(count) is not int or not 0 <= count <= 1160 or
+            not isinstance(offsets, list) or
+            any(type(o) is not int or not 0 <= o < size for o in offsets) or
+            offsets != sorted(set(offsets)) or len(offsets) != count or
+            PLAYER_CHARGE_MATCHED.intersection(offsets) or
+            result.get('missing_target_bytes') != 1210 - size or
+            result.get('extra_candidate_bytes') != 0 or
+            result.get('complete_bytes_equal') is not (size == 1210 and count == 0) or
+            (result.get('complete_bytes_equal') and
+             (result['candidate_instructions'] != 350 or
+              result['candidate_blocks'] != 53 or not result['direct_graphs_agree']))):
+        raise RuntimeError('Player charge full-owner bytes/fields/calls/Timer frontier regressed')
+    return result
+
+
+def run_player_charge() -> dict:
+    obj = 'build/matching/PlayerChargeAttackUpdate.obj'
+    # This existing exact Player carrier has the charge packet's unchanged
+    # /O2 /Ob1 /EHsc profile; no diagnostic profile is guessed or searched.
+    build_nonexact('src/PlayerChargeAttackUpdate.cpp', obj,
+                   reference_unit='player-on-update')
+    current = guard_player_charge(parsed(['scripts/inspect-player-charge-update.py', obj]))
+    return {'player_charge_update': current}
 
 
 def run_player_collision(*, protect_exact: bool) -> tuple[dict, list[dict]]:
@@ -5218,7 +5273,7 @@ def run_effect_type34(*, protect_exact: bool,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'options', 'resultdraw', 'replaymenu', 'anm', 'network', 'netmessage', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'replaysave', 'pause', 'controller', 'all'],
+    parser.add_argument('--owner', choices=['runecl', 'enemy', 'bullet', 'card', 'audio', 'player', 'charge', 'added', 'positions', 'movement', 'gamemgr', 'crypto', 'effect', 'effect34', 'effect29', 'etama', 'exattack', 'type3', 'type11', 'type19', 'title', 'options', 'resultdraw', 'replaymenu', 'anm', 'network', 'netmessage', 'queue', 'parser', 'front', 'frontadded', 'supervisor', 'screen', 'replay', 'replaysave', 'pause', 'controller', 'all'],
                         default='all')
     parser.add_argument('--skip-exact-siblings', action='store_true',
                         help='diagnostics only; explicitly omit the extra canonical regressions')
@@ -5343,6 +5398,8 @@ def main() -> int:
             owners, exact = run_player_added_state(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)
             report['canonical_siblings'].extend(exact)
+        if args.owner in ('charge', 'all'):
+            report['owners'].update(run_player_charge())
         if args.owner in ('player', 'all'):
             owners, exact = run_player_collision(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)

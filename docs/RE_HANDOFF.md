@@ -21,6 +21,9 @@ differences and13 missing. Its visible20-byte Timer >= sibling is exact.
 Fresh Replay seed/config/native-header and Effect GetAnm controls do not improve
 their frontiers and are rejected. See
 [the bounded review](TH09_CHARGE_REPLAY_REVIEW_20261105.md).
+Source checkpoint:`bccbc5e4`. The new `--owner charge` cold-compiles only this
+owner, checks the actual Timer sibling and protects all37 already-equal bytes.
+Full public CI passes1338 tests(29 skipped), tracking/docs/progress/whitespace.
 Totals remain1019 exact/16 nonexact; product/runtime closure remains open.
 
 ## 2026-11-05 continued main — native result storage and complete-byte guard
