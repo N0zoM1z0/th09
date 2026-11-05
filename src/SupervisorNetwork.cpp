@@ -213,7 +213,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
             HAVE_PACKET:
                 g_NetworkFramePacket.words.input =
-                    (unsigned short)Controller::GetInput(g_SupervisorNetworkState->localSide);
+                    (unsigned short)Controller::GetInput();
                 s->networkTiming458.frameCounter++;
                 s->networkTiming458.frameStartTime = timeGetTime();
             }
@@ -276,7 +276,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
     RETURN_STATE:
         supervisor->LeaveCriticalSectionWrapper(4);
-        if ((Controller::GetInput(2) & 2) != 0)
+        if ((Controller::GetInput() & 2) != 0)
             return 3;
         if (s->flagsLow5D4 >= 0 || SupervisorSubthreadIsRunning(supervisor))
             return returnState;

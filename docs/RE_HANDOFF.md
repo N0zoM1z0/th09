@@ -11,6 +11,19 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — minimal network input interface
+
+GetInput's unused source index is removed; both service calls now use its
+minimal no-argument interface. Original body/known direct consumers do not
+consume/prepare that index; original C++ arity remains unproven. All seven
+affected exact units pass3597 bytes/73 fields, with13 focused tests passing.
+Service remains nonexact at1616/1633 bytes,106 fields,1366 unlike overlaps and
+17 missing. This is an input-contract correction, not an exact promotion.
+See [the bounded review](TH09_NETWORK_INPUT_CONTRACT_20261105.md).
+Totals stay1019 exact/16 nonexact; tracking/docs/progress/whitespace pass.
+Hashed duplicate per-case headers are cleaned; frozen inputs, unique controls
+and their reconstruction recipes remain in the service-flow packet.
+
 ## 2026-11-05 continued main — native Controller input owner
 
 The819-byte GetInput uses shared Supervisor fields, removing a padded duplicate

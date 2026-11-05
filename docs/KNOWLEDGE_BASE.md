@@ -31229,3 +31229,16 @@ the two direct calls430EC8/431046; the formal index is unused, but original C++
 arity is not uniquely proven. The separate no-arg control retains the full
 helper while service remains1616/1633 bytes. No caller API change is made in
 this owner checkpoint. See TH09_CONTROLLER_INPUT_OWNER_20261105.md.
+
+## 2026-11-05 minimal GetInput call contract
+
+The full819-byte original input body does not consume the maintained index;
+its two physical direct service callers430EC8/431046 do not prepare one.
+No absolute42BE40 DWORD occurs in the original image. This does not prove
+unique original C++ arity or exclude computed indirect calls. The maintained
+API now has no argument, with no adapter or fabricated value. Seven affected
+exact units replay3597 bytes/73 fields. Complete service is1616/1633 bytes,
+106 bound fields,1366 unequal overlaps and17 missing; all41 direct-callee
+multiplicities agree but order/control flow remain open. Thirteen tests pass.
+Source/target/proof scope and physical before/after delta are recorded in
+TH09_NETWORK_INPUT_CONTRACT_20261105.md. No new exact credit follows.
