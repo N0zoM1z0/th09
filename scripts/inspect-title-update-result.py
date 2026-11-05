@@ -59,6 +59,19 @@ FIELDS = (
 )
 CALLS = tuple(dest for _, kind, _, dest in FIELDS if kind == 'REL32')
 
+# Native roots are independently established by exact PlayStats and input owners.
+# Keep old aliases readable for historical source controls, without fitting a
+# new root or addend to any candidate instruction bytes.
+SOURCE_ROOTS = {symbol: address for _, _, symbol, address in FIELDS}
+SOURCE_ROOTS.update({
+    '?g_ReplayInputStates@@3PAUReplayInputState@@A': 0x004ACE18,
+    '?g_PlayStatsRecord@@3UPlayStatsRecordView@@A': 0x004A8180,
+})
+NATIVE_ADDENDS = {
+    '?g_ReplayInputStates@@3PAUReplayInputState@@A': (0x122,),
+    '?g_PlayStatsRecord@@3UPlayStatsRecordView@@A': (0x4C, 0x5C, 0x6C),
+}
+
 
 def encode(kind: str, address: int, offset: int) -> int:
     if kind not in ('DIR32', 'REL32'):
@@ -89,7 +102,11 @@ def bind_candidate(raw: bytes, rows: list[dict]) -> bytes:
     previous_end = 0
     for row, (_, kind, name, dest) in zip(rows, FIELDS):
         offset = row['offset']
-        if (row['type'], row['symbol'], row['addend']) != (kind, name, 0):
+        symbol, addend = row['symbol'], row['addend']
+        if (symbol not in SOURCE_ROOTS or row['type'] != kind or
+                type(addend) is not int or
+                addend not in NATIVE_ADDENDS.get(symbol, (0,)) or
+                SOURCE_ROOTS[symbol] + addend != dest):
             raise ValueError('Title result updater source field identity/addend/order changed')
         if not isinstance(offset, int) or offset < previous_end or offset + 4 > len(raw):
             raise ValueError('Title result updater source field overlap/extent changed')
@@ -129,6 +146,19 @@ def decoded_fields(code: bytes) -> tuple[list, list, list]:
     return ins, fields, calls
 
 
+def require_literal_definitions(data, rows, image, parser):
+    spec = importlib.util.spec_from_file_location(
+        'title_result_literal_payload', ROOT / 'scripts/coff_literal_definitions.py')
+    literals = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(literals)
+    definitions = literals.check_literal_definitions(data, rows, image, parser, SOURCE_ROOTS)
+    if (len(definitions) != 1 or definitions[0]['symbol'] !=
+            '??_C@_0BD@JGJJAHCD@title?1result00?4png?$AA@' or
+            definitions[0]['size'] != 19):
+        raise ValueError('Title result updater literal definition inventory changed')
+    return definitions
+
+
 def diagnose(obj: Path) -> dict:
     from diagnostic_branch_alignment import direct_control_flow
     import capstone
@@ -142,8 +172,10 @@ def diagnose(obj: Path) -> dict:
     if (len(ti) != 147 or tf != [(off, kind, dest) for off, kind, _, dest in FIELDS]
             or tuple(tc) != CALLS):
         raise ValueError('Title result updater original decoded field/call/instruction inventory changed')
-    raw, rows = parser.object_function(obj, SYMBOL)
+    raw, rows = parser.object_function(obj, SYMBOL, include_symbol_locations=True)
     linked = bind_candidate(raw, rows)
+    literal_definitions = require_literal_definitions(
+        obj.read_bytes(), rows, parser.verified_target(), parser)
     ci, cf, cc = decoded_fields(linked)
     if (cf != [(row['offset'], kind, dest) for row, (_, kind, _, dest) in zip(rows, FIELDS)]
             or tuple(cc) != CALLS):
@@ -161,6 +193,12 @@ def diagnose(obj: Path) -> dict:
         'original_blocks': len(target_graph), 'candidate_blocks': len(candidate_graph),
         'direct_graphs_agree': target_graph == candidate_graph,
         'overlap_differences': sum(a != b for a, b in zip(original, linked)),
+        'difference_offsets': [i for i, (a, b) in enumerate(zip(original, linked)) if a != b],
+        'literal_definitions': literal_definitions,
+        'native_fields': [dict(offset=r['offset'], symbol=r['symbol'],
+                               root=SOURCE_ROOTS[r['symbol']], addend=r['addend'],
+                               effective=SOURCE_ROOTS[r['symbol']] + r['addend'])
+                          for r in rows if r['symbol'] in NATIVE_ADDENDS],
         'missing_target_bytes': max(0, SIZE-len(linked)),
         'extra_candidate_bytes': max(0, len(linked)-SIZE),
         'complete_bytes_equal': linked == original,

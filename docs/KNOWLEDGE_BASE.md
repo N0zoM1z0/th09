@@ -18,6 +18,17 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: native result storage and byte integrity
+
+Result update's five input/five unlock fields use shared native roots without
+changing their effective addresses. Its 484/485-byte/34-field/218-difference
+frontier remains. A new position guard preserves each of 266 equal bytes, and
+actual read-only PNG initializer bytes are checked independently of its name.
+Fresh Etama 600-byte parent matches still damage 133 bytes in the exact 232-byte
+sibling; int/void returns and genuine body placement do not solve the pair.
+Fresh source/context observations are in
+[the bounded review](TH09_EFFECT_PLAYER_REVIEW_20261105.md). No new exact credit.
+
 ### 2026-11-05 continued main: native screen device
 
 ScreenEffect uses the shared Supervisor +8 device for clear and rectangle

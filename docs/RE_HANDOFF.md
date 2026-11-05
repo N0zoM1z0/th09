@@ -11,6 +11,18 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — native result storage and complete-byte guard
+
+Result update uses shared input/unlock fields with ten unchanged effective
+operands. Its full 484/485-byte, 34-field, 218-difference frontier is preserved.
+The Oracle now protects all 266 previously equal positions and verifies the
+actual 19-byte PNG initializer. Both Title source profiles preserve 41 exact
+units. Full local CI passes 1333 tests with 29 skips, plus tracking/docs/progress
+and whitespace checks. Fresh character/loop and Rotate2D contexts regress;
+fresh Etama parent matches still break its 232-byte exact sibling and are
+rejected. See [the bounded review](TH09_EFFECT_PLAYER_REVIEW_20261105.md).
+Totals stay at 1019 exact / 16 nonexact; no candidate gains partial credit.
+
 ## 2026-11-05 continued main — native screen device and renewed controls
 
 Screen clear/rectangle rendering now use the shared Supervisor device field,

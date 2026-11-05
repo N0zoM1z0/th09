@@ -5,6 +5,17 @@
 // Target-bound TH09 TitleScreen reconstruction views. The physical TitleScreen
 // owner is target-proved; original identifier spelling, TU partition, and data-definition ownership remain unresolved.
 
+#include "ReplayInputState.hpp"
+#include "PlayStats.hpp"
+
+// These native fields are the original result browser's input/unlock storage.
+typedef char TitleResultNativeFieldLayout[
+    (sizeof(ReplayInputState) == 0x8E &&
+     offsetof(ReplayInputState, word06) == 0x06 &&
+     offsetof(PlayStatsRecordView, characterUnlocked) == 0x4C &&
+     sizeof(((PlayStatsRecordView *)0)->characterUnlocked[0]) == 16)
+        ? 1 : -1];
+
 #include "AsciiManager.hpp"
 #include "SoundPlayer.hpp"
 #include "Supervisor.hpp"
@@ -2496,41 +2507,41 @@ int TitleScreenView::OnUpdateResult()
     {
         if (g_TitleResultUnlockStep < 3)
         {
-            if (g_TitleInputFlags & 0x2000)
+            if (g_ReplayInputStates[2].word06 & 0x2000)
                 g_TitleResultUnlockStep++;
-            else if ((u16)g_TitleInputFlags)
+            else if (g_ReplayInputStates[2].word06)
                 g_TitleResultUnlockStep = 0;
         }
         else if (g_TitleResultUnlockStep < 7)
         {
-            if (g_TitleInputFlags & 0x400)
+            if (g_ReplayInputStates[2].word06 & 0x400)
                 g_TitleResultUnlockStep++;
-            else if ((u16)g_TitleInputFlags)
+            else if (g_ReplayInputStates[2].word06)
                 g_TitleResultUnlockStep = 0;
         }
         else if (g_TitleResultUnlockStep < 8)
         {
-            if (g_TitleInputFlags & 0x200)
+            if (g_ReplayInputStates[2].word06 & 0x200)
                 g_TitleResultUnlockStep++;
-            else if ((u16)g_TitleInputFlags)
+            else if (g_ReplayInputStates[2].word06)
                 g_TitleResultUnlockStep = 0;
         }
         else if (g_TitleResultUnlockStep < 10)
         {
-            if (g_TitleInputFlags & 0x4000)
+            if (g_ReplayInputStates[2].word06 & 0x4000)
                 g_TitleResultUnlockStep++;
-            else if ((u16)g_TitleInputFlags)
+            else if (g_ReplayInputStates[2].word06)
                 g_TitleResultUnlockStep = 0;
         }
 
         if (g_TitleResultUnlockStep >= 10)
         {
             for (i32 i = 0; i < 16; i++)
-                g_TitleCharacterUnlocked[(char)i] = 1;
+                g_PlayStatsRecord.characterUnlocked[0][(char)i] = 1;
             for (i32 i = 0; i <= 13; i++)
             {
-                g_TitleCharacterUnlockedNormal[(char)i] = 1;
-                g_TitleCharacterUnlockedMode4[(char)i] = 1;
+                g_PlayStatsRecord.characterUnlocked[1][(char)i] = 1;
+                g_PlayStatsRecord.characterUnlocked[2][(char)i] = 1;
             }
             g_SoundPlayer.PlaySoundByIdx(28, 0);
             g_TitleResultUnlockStep = 0;
@@ -2539,8 +2550,8 @@ int TitleScreenView::OnUpdateResult()
         i32 direction = MoveCursorHorizontal(14);
         if (direction != 0)
         {
-            while (!g_TitleCharacterUnlockedNormal[keyboardSelection] &&
-                   !g_TitleCharacterUnlockedMode4[keyboardSelection])
+            while (!g_PlayStatsRecord.characterUnlocked[1][keyboardSelection] &&
+                   !g_PlayStatsRecord.characterUnlocked[2][keyboardSelection])
             {
                 keyboardSelection += direction;
                 if (keyboardSelection < 0)
@@ -2557,7 +2568,7 @@ int TitleScreenView::OnUpdateResult()
             nameBankIndex = character;
         }
 
-        if (static_cast<u8>(g_TitleInputFlags) & 0xA)
+        if (g_ReplayInputStates[2].word06 & 0xA)
         {
             PlayMenuSound(11, 0);
             stateTimer = 0;

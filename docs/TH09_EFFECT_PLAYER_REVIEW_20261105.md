@@ -48,6 +48,49 @@ The unsigned shake control needs an explicit signed comparator because our
 shared timer offers both integer and floating conversions; its first ambiguous
 overload build provides no codegen evidence.
 
+## Native result storage and stricter original-byte protection
+
+The result updater now reads ReplayInputState slot 2 word06 and the shared
+PlayStatsRecord characterUnlocked rows. Compiler assertions fix input stride
+0x8E, word offset 6, unlock offset 0x4C and 16-byte rows. Five input and five unlock
+operands retain their original effective addresses: input root 4ACE18+122;
+statistics root 4A8180+4C/5C/6C. These roots were independently established by
+existing TH09 exact owners. No target is derived from candidate operand bytes.
+The already-exact 40+1 same-source units are replayed in both actual profiles.
+
+The complete updater remains 484/485 bytes, 147 instructions, 34 fields, nine calls,
+40 original-equal blocks and 218 unequal bytes. Its 266 already-equal positions
+are now individually guarded, closing a count-only regression gap. The Oracle
+also checks the actual read-only 19-byte result PNG literal against the original;
+an unchanged symbol name cannot authenticate changed initializer bytes.
+Old aliases remain readable for historical controls. New tests reject bad native
+addends, changed literal payloads, wrong owner hashes and same-count exchanges
+that damage any previously equal position. The source stays nonexact.
+
+Fresh result character/loop models produce 483 bytes/224 unequal overlaps/two
+missing; native data fields alone preserve 484/218/one missing. Actual player
+Rotate2D visibility grows the maintained collision candidate to 865 bytes/826
+unequal overlaps/three extra, so it is also rejected.
+
+## Fresh Etama complete-pair retries
+
+The reference-shaped draw with the real three-byte Float3 pointer conversion
+body visible again reproduces the entire 600-byte/27-field/13-call parent.
+Direct-index helper expressions, int/void source returns and three genuine
+body placements still change the existing 232-byte/16-field bullet helper:
+133 fully bound bytes differ. All controls use the current source and fixed
+profile; actual local COFF definitions resolve tables without target fitting.
+The source caller does not consume the helper result; changing the C++ return
+spelling alone changes neither outcome. The current maintained parent/helper
+pair is retained. Parent equality alone cannot authorize this integration.
+No new folded-body authorship or unique original nominal type is inferred.
+
+Final retained source passes all 41 Title canonical comparisons plus the new
+complete result guard. Nine Title private label renames are proved against
+actual COFF definitions. Full local CI passes 1333 tests with 29 skips;
+tracking, documentation, generated progress and whitespace checks pass.
+Totals remain 1019 exact and 16 nonexact.
+
 ## Reproduction and evidence
 
 Build only the affected source profiles, then use the existing focused guard:

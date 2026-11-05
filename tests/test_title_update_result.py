@@ -76,6 +76,55 @@ class TitleResultUpdateGates(unittest.TestCase):
             with self.assertRaises(ValueError):
                 result.bind_candidate(bytes(extent), rows)
 
+    def test_native_storage_roots_preserve_original_effective_operands(self):
+        rows = self.rows()
+        replacements = {
+            '?g_TitleInputFlags@@3IA':
+                ('?g_ReplayInputStates@@3PAUReplayInputState@@A', 0x122),
+            '?g_TitleCharacterUnlocked@@3PAEA':
+                ('?g_PlayStatsRecord@@3UPlayStatsRecordView@@A', 0x4C),
+            '?g_TitleCharacterUnlockedNormal@@3PAEA':
+                ('?g_PlayStatsRecord@@3UPlayStatsRecordView@@A', 0x5C),
+            '?g_TitleCharacterUnlockedMode4@@3PAEA':
+                ('?g_PlayStatsRecord@@3UPlayStatsRecordView@@A', 0x6C),
+        }
+        for row in rows:
+            if row['symbol'] in replacements:
+                row['symbol'], row['addend'] = replacements[row['symbol']]
+        self.assertEqual(result.bind_candidate(bytes(result.SIZE), rows),
+                         result.bind_candidate(bytes(result.SIZE), self.rows()))
+        for index, row in enumerate(rows):
+            if row['symbol'] not in result.NATIVE_ADDENDS:
+                continue
+            damaged = [dict(item) for item in rows]
+            damaged[index]['addend'] += 1
+            with self.subTest(index=index), self.assertRaises(ValueError):
+                result.bind_candidate(bytes(result.SIZE), damaged)
+
+    def test_literal_payload_is_checked_even_when_names_and_fields_are_unchanged(self):
+        literal = b'title/result00.png\0'
+        symbol = '??_C@_0BD@JGJJAHCD@title?1result00?4png?$AA@'
+        data = bytearray(60 + len(literal))
+        struct.pack_into('<HH', data, 0, 0x14C, 1)
+        struct.pack_into('<II', data, 36, len(literal), 60)
+        struct.pack_into('<I', data, 56, 0x40000040)
+        data[60:] = literal
+        rows = [dict(symbol=symbol, symbol_section=1, symbol_value=0,
+                     offset=0x156, addend=0)]
+
+        class Original:
+            @staticmethod
+            def pe_bytes_at(image, address, size):
+                if address != 0x48F640:
+                    raise ValueError('unexpected literal root')
+                return literal + bytes(size - len(literal))
+
+        proof = result.require_literal_definitions(bytes(data), rows, b'', Original())
+        self.assertEqual((proof[0]['target'], proof[0]['size']), (0x48F640, 19))
+        data[60] ^= 1
+        with self.assertRaisesRegex(ValueError, 'literal definition differs'):
+            result.require_literal_definitions(bytes(data), rows, b'', Original())
+
     @unittest.skipIf(capstone is None, 'Capstone unavailable under python -S')
     def test_decoder_distinguishes_jump_displacements_from_external_referents(self):
         # mov eax,[absolute], call next, jnz next, ret
