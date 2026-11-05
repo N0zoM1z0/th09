@@ -31125,3 +31125,17 @@ remain nonexact. Current-source typed-wire, bitfield type, timer visibility,
 constructor/periodic context and SDK vector controls either preserve or regress
 those fronts and are rejected. See docs/TH09_ECL_FRONT_REVIEW_20261105.md for
 complete observations, recipes, retained source inputs and scoped replay.
+
+## 2026-11-05 direct Player movement vector and VM access
+
+The movement owner consumes the existing vector float-pointer conversion
+without reinterpreting it as another object. Main VM arguments use their real
+AnmVm base and option arguments their vm00 member, removing five casts. Full
+before/adopted current-profile raw code, alignment and two tables remain
+identical across1900 physical bytes. All66 actual fields retain kind/offset/
+addend/effective target; two local table symbols have unchanged actual offsets
+72C/74C. The original mismatch set remains122, protecting all1778 equal bytes.
+Focused --owner movement cold replay preserves the exact caller and native
+interrupt callee. A direct input-pointer control fails decoded-field/COFF
+coverage and is not adopted. The independent input offset remains. See
+TH09_PLAYER_MOVEMENT_REVIEW_20261105.md for source/hash/target evidence and scope.

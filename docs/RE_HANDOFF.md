@@ -11,6 +11,18 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — direct native movement access
+
+Movement uses the vector's real float-pointer result and genuine main/option
+AnmVm objects, removing the position reinterpretation and five VM casts.
+Fresh complete raw bytes and all66 effective COFF fields remain unchanged:
+1900 physical bytes/23 calls/122 differences. Two local label names are verified
+at unchanged actual section offsets. The exact Player update caller and native
+SetInterrupt callee pass focused cold replay;27 movement tests pass. The direct
+input-pointer variant fails field coverage and is rejected. See
+[the bounded review](TH09_PLAYER_MOVEMENT_REVIEW_20261105.md).
+Totals stay1019 exact/16 nonexact; no new exact credit.
+
 ## 2026-11-05 continued main — native Front indicator and ECL reinvestigation
 
 Front's enemy indicator uses the native AnmVm array; AddedCallback clears

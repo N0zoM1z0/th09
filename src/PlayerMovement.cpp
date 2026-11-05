@@ -270,17 +270,17 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     // The second transition group reloads the ANM owner after the first call.
     if (horizontalSpeed < 0.0f && player->horizontalSpeed3035C >= 0.0f)
         player->header24.anmFile98->SetAndExecuteScriptIdx(
-            reinterpret_cast<AnmVm *>(&player->mainVm), 1);
+            &player->mainVm, 1);
     else if (horizontalSpeed == 0.0f && player->horizontalSpeed3035C < 0.0f)
         player->header24.anmFile98->SetAndExecuteScriptIdx(
-            reinterpret_cast<AnmVm *>(&player->mainVm), 2);
+            &player->mainVm, 2);
 
     if (horizontalSpeed > 0.0f && player->horizontalSpeed3035C <= 0.0f)
         player->header24.anmFile98->SetAndExecuteScriptIdx(
-            reinterpret_cast<AnmVm *>(&player->mainVm), 3);
+            &player->mainVm, 3);
     else if (horizontalSpeed == 0.0f && player->horizontalSpeed3035C > 0.0f)
         player->header24.anmFile98->SetAndExecuteScriptIdx(
-            reinterpret_cast<AnmVm *>(&player->mainVm), 4);
+            &player->mainVm, 4);
 
     player->horizontalSpeed3035C = horizontalSpeed;
     player->verticalSpeed30360 = verticalSpeed;
@@ -290,21 +290,19 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     runtime->velocity1CCC.y =
         verticalSpeed * g_Supervisor.framerateMultiplier5B8;
 
-    PlayerPositionView *position =
-        reinterpret_cast<PlayerPositionView *>(
-            player->position1B88.operator float *());
-    position->x += runtime->velocity1CCC.x;
-    position->y += runtime->velocity1CCC.y;
+    float *position = player->position1B88;
+    position[0] += runtime->velocity1CCC.x;
+    position[1] += runtime->velocity1CCC.y;
 
-    if (position->x < g_GameManager.coordinate360)
-        position->x = g_GameManager.coordinate360;
-    else if (position->x > g_GameManager.coordinate360 + g_GameManager.coordinate368)
-        position->x = g_GameManager.coordinate360 + g_GameManager.coordinate368;
+    if (position[0] < g_GameManager.coordinate360)
+        position[0] = g_GameManager.coordinate360;
+    else if (position[0] > g_GameManager.coordinate360 + g_GameManager.coordinate368)
+        position[0] = g_GameManager.coordinate360 + g_GameManager.coordinate368;
 
-    if (position->y < g_GameManager.coordinate364)
-        position->y = g_GameManager.coordinate364;
-    else if (position->y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
-        position->y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
+    if (position[1] < g_GameManager.coordinate364)
+        position[1] = g_GameManager.coordinate364;
+    else if (position[1] > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
+        position[1] = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
 
     player->collisionBoundsMin1C60 =
         player->position1B88 - player->hurtboxHalfSize;
@@ -326,7 +324,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         {
             option->updateCallback2EC(player, option);
             g_AnmManager->ExecuteScript(
-                reinterpret_cast<AnmVm *>(option));
+                &option->vm00);
             option->timer2E0++;
         }
     }
