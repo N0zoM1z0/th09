@@ -11,6 +11,18 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — complete Enemy native Player reads
+
+Enemy update now shares the native Player's focus, position, state timer and
+tracking storage with the four exact leaves. Both ECL profiles cold-build from86
+quoted inputs;83 complete units pass29856 bytes/1389 fields. Two private label
+spellings retain proven actual definitions and original operands. Full Enemy
+and RunEcl raw bodies/actual referents are unchanged in both profiles; the main
+original-linked frontiers remain3900/97/13 and15564/598/30. Two further RunEcl
+timeout controls fail to improve that frontier and are not adopted. See
+[the source review](TH09_NATIVE_PLAYER_TRACKING_20261105.md).
+No new exact/origin or product/runtime credit; totals remain1022 exact/13 nonexact.
+
 ## 2026-11-05 continued main — native Player tracking leaves
 
 Three SHT homing callbacks retire private Player layouts in favor of the existing
@@ -19,8 +31,8 @@ homing pointer is guarded against the native opaque region, without adding
 construction. Four complete leaves pass1042 bytes/35 fields;22 freshly rebuilt
 callee/sibling units and three unchanged bound callees also pass. Enemy/Player
 tests pass205 with five skips. See [the source review](TH09_NATIVE_PLAYER_TRACKING_20261105.md).
-The full Enemy native-Player trial is separately preserved pending its source
-checkpoint. No new exact/origin credit; totals remain1022 exact/13 nonexact.
+The complete Enemy source checkpoint is described above. No new exact/origin
+credit; totals remain1022 exact/13 nonexact.
 
 ## 2026-11-05 continued main — native replay state and complete affected closure
 

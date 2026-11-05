@@ -31523,3 +31523,12 @@ new Float3 construction. The three actual SHT table cells retain their original
 entries; native nominal parameter changes preserve the fastcall ABI. Four full
 owners pass1042 bytes/35 fields, with all raw bytes and actual referents equal
 to fresh old-source builds. See TH09_NATIVE_PLAYER_TRACKING_20261105.md.
+
+The full Enemy update now uses that same native Player for focus, position,
+tracking and state-timer reads/writes. Both existing ECL profiles preserve the
+full RunEcl/Enemy bodies and actual referents;83 complete configured units
+pass29856 bytes/1389 fields. Only two private label spellings change at proven
+identical destinations. The main original-linked residuals remain30/13; no
+new exact or original nominal-class credit follows. A wider timeout helper
+parameter preserves the30-byte RunEcl frontier; native bitfield value lowering
+regresses to2140 total differences. Both controls remain rejected.

@@ -18,7 +18,7 @@
 #include "AnmManager.hpp"
 #include "AsciiBossMarkerVmView.hpp"
 #include "ZunMemory.hpp"
-#include "PlayerEnemyTrackingStateView.hpp"
+#include "PlayerEnemyTrackingNative.hpp"
 
 #include <math.h>
 #include <stddef.h>
@@ -321,7 +321,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
     manager->rewardEnemyCount2AC3B8 = 0;
 
     EnemyView *enemy = manager->enemies5758;
-    if (manager->sideState320->player04->focusEffect364 != 0)
+    if (reinterpret_cast<PlayerLifecycleView *>(
+        manager->sideState320->player04)->focusEffect364 != 0)
         manager->sideTimer2AC3C8 = 0;
     else
         manager->sideTimer2AC3C8++;
@@ -333,9 +334,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
         if ((flags & ENEMY_CORE_ACTIVE) == 0)
         {
-            if (manager->sideState320->player04->tracking30364.homingTarget18 ==
+            if (reinterpret_cast<PlayerEnemyTrackingStateView *>(
+                reinterpret_cast<PlayerLifecycleView *>(
+                    manager->sideState320->player04)->unknown30364)->homingTarget18 ==
                     enemy)
-                manager->sideState320->player04->tracking30364.homingTarget18 = 0;
+                reinterpret_cast<PlayerEnemyTrackingStateView *>(
+                    reinterpret_cast<PlayerLifecycleView *>(
+                        manager->sideState320->player04)->unknown30364)->homingTarget18 = 0;
             continue;
         }
 
@@ -412,7 +417,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             }
 
             if (((enemy->primaryFlags337C & ENEMY_CORE_PAUSE_WITH_PLAYER) != 0 &&
-                 reinterpret_cast<PlayerLifecycleView *>(manager->sideState320->player04)->GetUpdateState() != 0) ||
+                 reinterpret_cast<PlayerLifecycleView *>(
+                     manager->sideState320->player04)->GetUpdateState() != 0) ||
                 (enemy->secondaryFlags3380 & 0x10) != 0)
             {
                 enemy->bossTimer2E64--;
@@ -637,31 +643,40 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
 
                     EnemyCoreSideStateView *side = manager->sideState320;
                     Float3 oldTargetDelta =
-                        side->player04->tracking30364.trackedEnemyPosition00 -
-                        side->player04->position1B88;
-                    EnemyCorePlayerView *player = side->player04;
+                        reinterpret_cast<PlayerEnemyTrackingStateView *>(
+                            reinterpret_cast<PlayerLifecycleView *>(
+                                side->player04)->unknown30364)->trackedEnemyPosition00 -
+                        reinterpret_cast<const Float3 &>(
+                            reinterpret_cast<PlayerLifecycleView *>(
+                                side->player04)->position1B88);
+                    PlayerLifecycleView *player = reinterpret_cast<PlayerLifecycleView *>(
+                        side->player04);
                     Float3 newTargetDelta =
                         reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4) -
-                        player->position1B88;
+                        reinterpret_cast<const Float3 &>(player->position1B88);
                     if (oldTargetDelta.x * oldTargetDelta.x +
                             oldTargetDelta.y * oldTargetDelta.y >
                         newTargetDelta.x * newTargetDelta.x +
                             newTargetDelta.y * newTargetDelta.y)
                     {
-                        player->tracking30364.trackedEnemyPosition00 =
+                        reinterpret_cast<PlayerEnemyTrackingStateView *>(
+                            player->unknown30364)->trackedEnemyPosition00 =
                             reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4);
                     }
 
-                    player = manager->sideState320->player04;
+                    player = reinterpret_cast<PlayerLifecycleView *>(
+                        manager->sideState320->player04);
                     if (static_cast<float>(AnmProjectionAbs(
                             enemy->worldPosition2DD4.x -
                             player->position1B88.x)) < 64.0f)
                     {
-                        EnemyView *homing = player->tracking30364.homingTarget18;
+                        EnemyView *homing = reinterpret_cast<PlayerEnemyTrackingStateView *>(
+                            player->unknown30364)->homingTarget18;
                         if (homing == 0 ||
                             homing->position2D74.y > enemy->worldPosition2DD4.y)
                         {
-                            player->tracking30364.homingTarget18 =
+                            reinterpret_cast<PlayerEnemyTrackingStateView *>(
+                                player->unknown30364)->homingTarget18 =
                                 enemy;
                         }
                     }
@@ -717,10 +732,11 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
                         1,
                         static_cast<unsigned int>(-1));
                 }
-                EnemyCorePlayerView *player = manager->sideState320->player04;
-                if (reinterpret_cast<PlayerLifecycleView *>(player)->GetUpdateState() == 0)
+                PlayerLifecycleView *player = reinterpret_cast<PlayerLifecycleView *>(
+                    manager->sideState320->player04);
+                if (player->GetUpdateState() == 0)
                 {
-                    player->stateTimer303C8 = 90;
+                    player->timer303C8 = 90;
                     reinterpret_cast<PlayerState4OpsView *>(manager->sideState320->player04)->SetUpdateState(3);
                 }
                 enemy->primaryFlags337C &= 0xE7FFFFFF;

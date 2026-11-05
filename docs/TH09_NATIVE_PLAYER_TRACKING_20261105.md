@@ -61,3 +61,43 @@ canonical leaf/callee reports and focused test logs. Build objects remain
 under `build/`. These are four preserved existing exact functions, not four
 new matches. Totals remain1035 source-present/1022 exact/13 nonexact;
 Windows product, runtime and later phases remain open.
+
+## Complete Enemy compiler carrier
+
+The subsequent Enemy source checkpoint uses the same native Player for the
+focus-effect read, nearest-position comparison/publication, homing selection,
+position read and state-timer assignment. The existing POD position bridges
+to the already-bound Float3 operations. Player reloads across real calls are
+preserved. The side and reward projections still used elsewhere remain
+explicit; this does not establish a unique original Player class or TU.
+
+Both actual ECL profiles are freshly rebuilt from86 quoted source inputs.
+All83 configured units pass29856 complete physical bytes/1389 fields,
+including their tails/tables. Two private labels in CompareOperands and the
+post-ECL movement callback change spelling. Their actual same-owner definitions,
+relative offsets, addends and original PE operands are checked before changing
+only those two manifest names.
+
+The complete RunEcl and Enemy raw bodies and all actual local/external referents
+equal their independently source-bound pre-change objects in **both** profiles.
+Under the main profile, the original-linked diagnostics remain RunEcl
+15564 bytes/598 fields/30 ordinary differences and Enemy3900/97/13.
+RunEcl has no field or table differences. The Enemy full call inventory retains
+all69 calls in order, including the real same-object folded callbacks.
+This preserves an existing frontier; it does not close either large owner.
+
+The packet also retains two fresh RunEcl source controls against its attested
+original. Widening only the timeout helper's value parameter, while keeping
+the one-byte wire copy, leaves30 differences and the complete raw body unchanged.
+A local union using the native flag bitfield gives1938 ordinary,202 field and26
+table differences,2140 total. Neither candidate is adopted. These bounded
+results do not exhaust the natural-source search.
+
+Canonical reports are `canonical-boss-verified.json`, `canonical-runecl.json`
+and `canonical-enemy.json`; `canonical-boss-builds.json` records the two
+source-input-bound compiler commands and the preserved old object identities.
+Only these two affected compiler configurations are rebuilt for the large
+owner checkpoint. The earlier leaf/callee objects and source-bound proofs
+remain available for reuse.
+Enemy/ECL/RunEcl/shared-storage tests pass318 with three existing skips.
+Tracking, generated progress, documentation and whitespace checks pass.
