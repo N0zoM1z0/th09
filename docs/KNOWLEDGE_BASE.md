@@ -31,6 +31,11 @@ for source pins, commands, limits and candidates. The upstream progress image's
 98.65% function count and 88.11% code-byte coverage have distinct denominators.
 This is bounded TH09-local compiler/PE evidence, not acceptance of upstream's
 entire repository, its nominal types or its separate runtime claims.
+The independently compiled upstream RunEnemy is a counterexample: its full
+15564-byte/598-field owner has 3695 non-relocation differences, with 12 helper
+and literal fields explicitly unresolved. Upstream already marks it DIFF.
+Reproduce only that group with `audit-cirno-reference.py --group ecl --build`;
+do not substitute its source for our unreplayed 30-byte RunEcl frontier.
 
 ### 2026-11-02 original exact ECL opcode1, two native Side bit-0 writes
 

@@ -18,6 +18,13 @@ proved whole-game exactness percentage under our rules. Our authored
 denominator also differs, so comparing 98.65% directly with our 84.8275%
 reviewed-authored-byte coverage is invalid.
 
+In particular, the image's **96.97% executable-file** row is a separate
+self-reported measure. `tools/render_progress.py::summary_rows` and
+`exe_stats` obtain it from equal bytes at the same file offsets (including
+library code and other executable contents). It is not the game-function
+match rate or our reviewed authored-byte measure. No rebuilt upstream EXE
+was independently produced or compared in this session.
+
 The upstream `orig/th09_150a.sha1` gives
 `89c8fdef84d25b2ee8bbd2026f8a343d7ef57c03` for its executable, equal to our
 canonical original's SHA-1. All experiments here use **our**
@@ -80,6 +87,41 @@ mapped bytes**, including PE headers and all five sections. Bounded exports
 include result drawing, the three cursor functions and frame insertion.
 This supplies independent semantic/ABI evidence, not compiler exactness.
 
+## Complete ECL interpreter counterexample
+
+The additional `ecl` group cold-builds only upstream `src/ecl.cpp` using its
+documented `/O2 /Ob0 /Oy- /Gr /GX` profile and our pinned compiler. At
+`0x004086C0`, upstream records **14792 code bytes**; our complete reviewed
+owner is **15564 physical bytes**, including its 772-byte tail/tables.
+
+The candidate has the full **15564 bytes and 598 COFF fields**, but **3695
+non-relocation bytes differ** at identical physical offsets. This alone
+falsifies exactness, independently of any unresolved pointer identity.
+The original physical extent SHA-256 is
+`e9433504219119eba40ed4d11537782178135effeb6c95d74b6274e0e7f5e7ea`.
+The current audit additionally leaves **12 relocation fields unresolved**:
+the emitted `@fmodf@8` / `@atan2f@8` helpers and selected literal references
+lack independently supplied bindings in this group. It deliberately does
+not infer those addresses from original operand words. Its reported 4164
+partially relocated overlap differences therefore are **not** a complete
+relocation-bound residual metric; the 3695 ordinary differences are the
+decisive measured counterexample.
+
+Upstream's progress image and `hooks.allow_diff` already mark
+`EclManager::RunEnemy` as nonmatching. This does not contradict its stated
+function total. It shows why a promising reference does not establish exact
+reconstruction of every large owner. Our maintained RunEcl's 30-byte
+residual in the November 4 handoff was not rebuilt here; this audit grants
+no new claim about its present compiler output or possible source improvements.
+
+```bash
+python3 -B scripts/audit-cirno-reference.py --group ecl --build
+```
+
+This writes `.analysis/cirno-labs-audit-20261105/ecl-report.json` and its
+source/profile/object-bound build receipt. A second read reuses that receipt;
+it does not rebuild the previously verified title/system cohort.
+
 ## Reproduce the bounded check
 
 ```bash
@@ -124,3 +166,10 @@ in our native owners against fresh TH09 evidence and replay affected canonical
 cohorts before any exact promotion. Foreign nominal names and layouts remain
 hypotheses. Upstream also contains inline assembly and a volatile cast in other
 owners; a foreign match alone does not waive our natural-source rules.
+
+Validation at this checkpoint: the eight positive replays above, the bounded
+nonexact ECL replay, 11 focused target-independent audit tests, tracking,
+generated-progress and documentation checks, and `git diff --check` pass.
+An audit command succeeds when it produces a valid diagnostic, including a
+nonexact sample; inspect each sample's `result` rather than interpreting exit
+status zero as an exactness receipt.

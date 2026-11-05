@@ -26,8 +26,8 @@ PACKET = ROOT / ".analysis/cirno-labs-audit-20261105"
 OBJECTS = ROOT / "build/reference-audit"
 
 # Physical ownership comes from our existing reviewed TH09 extents. In
-# particular, 844 is only the upstream OnUpdate code size. Its 152-byte
-# physical tail must also be compared.
+# particular, 844 and 14792 are only the upstream OnUpdate/RunEnemy code sizes.
+# The 152- and 772-byte physical tails must also be compared.
 SAMPLES = {
     "title": [
         ("mainmenu", 0x00423D16, 1939, 82),
@@ -41,16 +41,19 @@ SAMPLES = {
         ("app", 0x00431110, 996, 92),
         ("unsorted", 0x0042B410, 808, 32),
     ],
+    "ecl": [("ecl", 0x004086C0, 15564, 598)],
 }
 PROFILES = {
     "mainmenu": ["/Oy-", "/Gr", "/GX", "/O1", "/Ob1"],
     "app": ["/O2", "/Ob0", "/Oy-", "/Gr", "/GX"],
     "unsorted": ["/O2", "/Ob0", "/Oy-", "/Gr", "/GX"],
+    "ecl": ["/O2", "/Ob0", "/Oy-", "/Gr", "/GX"],
 }
 LITERAL_EVIDENCE = {
     "mainmenu": ["inspect-title-result-draw.py", "inspect-title-options.py"],
     "app": ["inspect-supervisor-update.py"],
     "unsorted": [],
+    "ecl": [],
 }
 
 

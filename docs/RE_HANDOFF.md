@@ -23,6 +23,14 @@ controller input. Our source/ledgers remain unchanged at 1005 exact functions;
 this is diagnostic evidence, not canonical acceptance. Upstream's 98.65%
 function count is distinct from its 88.11% game-byte figure.
 
+The separate `--group ecl --build` audit includes the entire upstream
+15564-byte/598-field interpreter, including the 772-byte physical tail. It
+has **3695 ordinary non-relocation differences** and 12 deliberately unresolved
+helper/literal fields under our pinned compiler: not exact. Upstream also
+marks it DIFF. Its self-reported 96.97% whole-file equality is another measure,
+not a game-authored-byte exactness percentage. The maintained RunEcl source
+and its historical 30-byte frontier were not replayed or modified here.
+
 Reproduce only this bounded sample with `python3 -B
 scripts/audit-cirno-reference.py --group title --group system --build`.
 Ignored checkout, CP932 source mirror, original-bound JSON/build receipts and
