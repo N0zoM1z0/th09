@@ -20,18 +20,14 @@ extern RngRuntimeView g_ReplayRng;
 
 
 
-struct ScreenEffectSupervisorView
+struct ScreenEffectPresentationView
 {
-    unsigned char unknown000[0x08];
-    IDirect3DDevice8 *d3dDevice;
-    unsigned char unknown00C[0x350 - 0x0C];
+    unsigned char unknown000[0x350];
     D3DPRESENT_PARAMETERS presentParameters;
 };
 
-typedef char ScreenEffectSupervisorDeviceAt08[
-    (offsetof(ScreenEffectSupervisorView, d3dDevice) == 0x08) ? 1 : -1];
 typedef char ScreenEffectSupervisorPresentAt350[
-    (offsetof(ScreenEffectSupervisorView, presentParameters) == 0x350) ? 1 : -1];
+    (offsetof(ScreenEffectPresentationView, presentParameters) == 0x350) ? 1 : -1];
 
 // TH09's two gameplay shake records live in the genuine 0xF0 Supervisor
 // constructor-array elements, at +0x160/+0x164 and +0x250/+0x254.
@@ -55,9 +51,9 @@ struct VertexDiffuseXyzrhw
 typedef char VertexDiffuseXyzrhwSizeIs14[
     (sizeof(VertexDiffuseXyzrhw) == 0x14) ? 1 : -1];
 
-static __inline ScreenEffectSupervisorView *ScreenEffectSupervisor()
+static __inline ScreenEffectPresentationView *ScreenEffectPresentation()
 {
-    return reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor);
+    return reinterpret_cast<ScreenEffectPresentationView *>(&g_Supervisor);
 }
 
 ScreenEffect::ScreenEffect()
@@ -66,15 +62,15 @@ ScreenEffect::ScreenEffect()
 
 void ScreenEffect::Clear(unsigned int color)
 {
-    ScreenEffectSupervisorView *supervisor = ScreenEffectSupervisor();
-    supervisor->d3dDevice->Clear(
+    ScreenEffectPresentationView *supervisor = ScreenEffectPresentation();
+    g_Supervisor.d3dDevice08->Clear(
         0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, 1.0f, 0);
-    if (supervisor->d3dDevice->Present(NULL, NULL, NULL, NULL) < 0)
-        supervisor->d3dDevice->Reset(&supervisor->presentParameters);
-    supervisor->d3dDevice->Clear(
+    if (g_Supervisor.d3dDevice08->Present(NULL, NULL, NULL, NULL) < 0)
+        g_Supervisor.d3dDevice08->Reset(&supervisor->presentParameters);
+    g_Supervisor.d3dDevice08->Clear(
         0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, 1.0f, 0);
-    if (supervisor->d3dDevice->Present(NULL, NULL, NULL, NULL) < 0)
-        supervisor->d3dDevice->Reset(&supervisor->presentParameters);
+    if (g_Supervisor.d3dDevice08->Present(NULL, NULL, NULL, NULL) < 0)
+        g_Supervisor.d3dDevice08->Reset(&supervisor->presentParameters);
 }
 
 void ScreenEffect::SetViewport(unsigned int clearColor)
@@ -357,18 +353,18 @@ void ScreenEffect::DrawSquare(ScreenEffectRect *rect, unsigned int color)
     vertices[1].diffuse = vertices[2].diffuse;
     vertices[0].diffuse = vertices[1].diffuse;
 
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->DrawPrimitiveUP(
+    g_Supervisor.d3dDevice08->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    g_Supervisor.d3dDevice08->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    g_Supervisor.d3dDevice08->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+    g_Supervisor.d3dDevice08->DrawPrimitiveUP(
         D3DPT_TRIANGLESTRIP, 2, vertices, sizeof(VertexDiffuseXyzrhw));
 
     g_AnmManager->ClearVertexShader();
@@ -378,13 +374,13 @@ void ScreenEffect::DrawSquare(ScreenEffectRect *rect, unsigned int color)
     g_AnmManager->ClearBlendMode();
     g_AnmManager->ClearZWrite();
 
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    reinterpret_cast<ScreenEffectSupervisorView *>(&g_Supervisor)->d3dDevice->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 }
 

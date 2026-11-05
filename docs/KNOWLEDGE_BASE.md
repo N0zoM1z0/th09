@@ -18,6 +18,17 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: native screen device
+
+ScreenEffect uses the shared Supervisor +8 device for clear and rectangle
+rendering. Three fresh compiler profiles preserve all 18 canonical units
+(2562 physical bytes, 164 fields); actual COFF definitions verify nine private
+label renames. Ordinary/unsigned shake models still miss bytes. Five freshly
+compiled player hit-loop/vector models emit the same 830-byte body and two
+ret12 exits versus the original 862 bytes/three exits; none is adopted.
+See [the bounded source review](TH09_EFFECT_PLAYER_REVIEW_20261105.md).
+No new exact credit or whole-product claim.
+
 ### 2026-11-05 continued main: native ReplayMenu expressions
 
 The SDK vector/direct-format simplification keeps the complete 1280-byte body

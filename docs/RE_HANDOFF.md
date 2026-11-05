@@ -11,6 +11,18 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — native screen device and renewed controls
+
+Screen clear/rectangle rendering now use the shared Supervisor device field,
+removing twelve casts and the duplicate device projection. All three actual
+profiles rebuild: 18 canonical units, 2562 bytes and 164 fields remain exact.
+Nine RegisterChain label names are verified against actual COFF definitions;
+28 focused tests pass. The complete shake frontier stays at 336/20/26.
+Fresh ordinary/unsigned envelope and reference-shaped player/SDK controls
+regress and are rejected; current player source remains 849/862 bytes.
+See [the bounded review](TH09_EFFECT_PLAYER_REVIEW_20261105.md).
+Totals stay at 1019 exact and 16 nonexact.
+
 ## 2026-11-05 continued main — natural ReplayMenu expressions
 
 ReplayMenu replaces manual component arithmetic and staged character arguments
