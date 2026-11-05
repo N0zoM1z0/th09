@@ -97,9 +97,7 @@ REFERENTS = {
     '?g_ReplayCharacterNames@@3PAPBDA': 0x004A1C78,
     '?g_ReplayInfoCharacterFormat@@3QBDB': 0x0048F134,
     '?g_ReplayInfoVersusCharactersFormat@@3QBDB': 0x0048F11C,
-    '?g_ReplayInitialHealth1@@3HA': 0x004A810C,
     '__real@3f000000': 0x00490F54,
-    '?g_ReplayInitialHealth0@@3HA': 0x004A8108,
     '?g_ReplayInfoInitialHealthFormat@@3QBDB': 0x0048F100,
     '?g_ReplayVersionText@@3QBDB': 0x0048F0E8,
     '?g_ReplayInfoVersionFormat@@3QBDB': 0x0048F0D0,
@@ -113,7 +111,8 @@ REFERENTS = {
     '__imp__GlobalFree@4': 0x0048E05C,
 }
 
-ALLOWED_GAME_MANAGER_ADDENDS = frozenset((0, 0x20, 0x58, 0x114, 0x118, 0x11C))
+ALLOWED_GAME_MANAGER_ADDENDS = frozenset((
+    0, 0x20, 0x58, 0x114, 0x118, 0x11C, 0x378, 0x37C))
 LITERALS = {
     '??_C@_07OMKIOBLC@rep?5tmp?$AA@': b'rep tmp\0',
     '__real@3f000000': struct.pack('<f', 0.5),

@@ -36,6 +36,23 @@ def frontier():
 
 
 class ReplaySaveTests(unittest.TestCase):
+    def test_initial_health_fields_require_the_native_manager_root(self):
+        rows = binding_rows()
+        for addend, destination, legacy in (
+                (0x378, 0x004A8108, '?g_ReplayInitialHealth0@@3HA'),
+                (0x37C, 0x004A810C, '?g_ReplayInitialHealth1@@3HA')):
+            index = next(i for i, field in enumerate(audit.TARGET_FIELDS)
+                         if field[2] == destination)
+            self.assertEqual(rows[index]['symbol'],
+                             '?g_GameManager@@3UAsciiGameManagerView@@A')
+            self.assertEqual(rows[index]['addend'], addend)
+            for mutation in ({'symbol': legacy, 'addend': 0},
+                             {'addend': addend ^ 4}):
+                changed = copy.deepcopy(rows)
+                changed[index].update(mutation)
+                with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                    audit.bind_candidate(bytes(audit.SIZE), changed)
+
     def test_rng_fields_require_the_implemented_shared_interface(self):
         rows = binding_rows()
         for actual, legacy in (

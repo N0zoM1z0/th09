@@ -56,6 +56,24 @@ class ReplayPlaybackOriginalManifestTests(TestCase):
         with self.assertRaises(ValueError):
             playback.validate_original(data[:-1], sha256=hashlib.sha256(data[:-1]).hexdigest())
 
+    def test_counter_writes_require_native_members_and_correct_side(self):
+        rows = self.sample_rows()
+        known = self.sample_known()
+        for index, addend, destination, legacy in (
+                (18, 0x378, 0x004A8108, '?g_ReplayHeaderValue1E6@@3IA'),
+                (19, 0x37C, 0x004A810C, '?g_ReplayHeaderValue1E7@@3IA')):
+            self.assertEqual(playback.SOURCE_FIELDS[index],
+                             ('?g_GameManager@@3UAsciiGameManagerView@@A',
+                              'DIR32', 0x004A7D90, addend))
+            for mutation in ({'symbol': legacy, 'addend': 0},
+                             {'addend': addend ^ 4}):
+                changed = [dict(row) for row in rows]
+                changed[index].update(mutation)
+                # An equal-address alias is still not an accepted native owner.
+                with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                    playback.link_candidate(bytes(538), changed,
+                                            dict(known, **{legacy: {destination}}))
+
     def test_candidate_can_follow_retained_or_corrected_original_field_order(self):
         rows = self.sample_rows()
         linked, fields = playback.link_candidate(bytes(538), rows, self.sample_known())

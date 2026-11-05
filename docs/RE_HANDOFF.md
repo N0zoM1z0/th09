@@ -11,6 +11,22 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — Replay uses native GameManager counters
+
+Recording, playback and save metadata now share the actual GameManager
++378/+37C dwords, replacing four standalone global names. Fresh original
+reset/capture/restore/save evidence establishes their common physical owner;
+broader field names remain unknown. Both actual ReplayInput profiles preserve
+12 canonical units/4093 physical bytes/232 fields; seven freshly rebuilt callee
+bodies retain698 bytes/13 fields without constructor-origin promotion.
+SaveReplay retains the identical1238/53/3 resolved frontier in both profiles;
+playback remains538/540 with39 unlike overlaps andtwo missing. Reference chain
+lifetime/checksum controls do not improve it. See
+[the source review](TH09_REPLAY_NATIVE_COUNTERS_20261105.md).
+All47 Replay tests and full CI1353 tests/29 skips pass. No new exact credit;
+totals remain1022 exact/13 nonexact. The source receipt is bound after the
+source checkpoint, independently of Factory acceptance.
+
 ## 2026-11-05 continued main — shake residual operand classification
 
 Fresh target-attested shake work retains336 bytes/20 fields/132 instructions/

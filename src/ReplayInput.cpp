@@ -82,8 +82,6 @@ extern u32 g_ReplayHeaderValue1D8;
 extern u32 g_ReplayHeaderValue0D7;
 extern u8 g_ReplayHeaderValue1E4;
 extern u8 g_ReplayHeaderValue1E5;
-extern u32 g_ReplayHeaderValue1E6;
-extern u32 g_ReplayHeaderValue1E7;
 extern u32 g_ReplayHeaderValue1E8;
 extern u32 g_ReplayHeaderValue1E9;
 extern u16 g_ReplayStageSeed;
@@ -98,8 +96,6 @@ extern i32 g_ReplayFrame0Value09;
 extern u8 g_ReplayStageSeen[];
 
 extern char g_ReplayPlayTimeText[];
-extern i32 g_ReplayInitialHealth0;
-extern i32 g_ReplayInitialHealth1;
 extern const char *g_ReplayDifficultyNames[];
 extern const char *g_ReplayModeNames[];
 extern const char *g_ReplayCharacterNames[];
@@ -363,8 +359,8 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
         replayData->value0D7 = g_ReplayHeaderValue0D7;
         replayData->value1E4 = g_ReplayHeaderValue1E4;
         replayData->value1E5 = g_ReplayHeaderValue1E5;
-        replayData->value1E6 = g_ReplayHeaderValue1E6;
-        replayData->value1E7 = g_ReplayHeaderValue1E7;
+        replayData->value1E6 = g_GameManager.value378;
+        replayData->value1E7 = g_GameManager.value37C;
         replayManager->replayData->value1E8 = g_ReplayHeaderValue1E8;
         replayManager->replayData->value1E9 = g_ReplayHeaderValue1E9;
         memcpy(replayData->playerName, "NO NAME", 4);
@@ -504,8 +500,8 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     g_ReplayFrame0Value0C = frame0->value0C;
     g_ReplayFrame0Value09 = (signed char)frame0->value09;
     g_ReplayHeaderValue0D7 = replayManager->replayData->value0D7;
-    g_ReplayHeaderValue1E6 = replayManager->replayData->value1E6;
-    g_ReplayHeaderValue1E7 = replayManager->replayData->value1E7;
+    g_GameManager.value378 = replayManager->replayData->value1E6;
+    g_GameManager.value37C = replayManager->replayData->value1E7;
     // The original first publishes header 1E7, then loads the side-0 owner
     // once before publishing 1E8. Preserve that distinct global pointer
     // read: an ordinary C++ alias gets hoisted ahead of the 1E7 store by
@@ -792,7 +788,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             g_ReplayCharacterNames[g_GameManager.sides[1].character20]);
     }
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoInitialHealthFormat,
-        g_ReplayInitialHealth0 * 0.5f, g_ReplayInitialHealth1 * 0.5f);
+        g_GameManager.value378 * 0.5f, g_GameManager.value37C * 0.5f);
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoVersionFormat, g_ReplayVersionText);
     infoHeader.size = (int)strlen(infoBuffer) + 13;
     infoHeader.size += infoHeader.size & 1;

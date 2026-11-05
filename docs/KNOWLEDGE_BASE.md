@@ -31419,3 +31419,18 @@ not a semantic-equivalence or exactness proof. Original volatile qualifiers
 and declaration order remain unknown despite the legacy source comment.
 The fresh main object preserves16 exact siblings/1555 physical bytes/77 fields.
 See TH09_SHAKE_REGISTER_RESIDUALS_20261105.md; no source or exact credit changes.
+
+## 2026-11-05 Replay shares the native GameManager counter pair
+
+The original4A8108/4A810C words are GameManager+378/+37C, already reset to10
+by the47-byte Supervisor reset helper. Recording captures their low bytes into
+replay+1E6/+1E7; playback zero-extends and restores them; SaveReplay formats
+each signed value multiplied by0.5f. Four ReplayInput globals for these two
+addresses are removed in favor of the existing native members. Original field
+names and broader gameplay meaning remain unknown. Both actual source/profile
+builds preserve12 canonical units/4093 physical bytes/232 fields; seven callee
+bodies retain698 bytes/13 fields without new origin credit. SaveReplay's full
+linked1238-byte stream remains identical, still three differences; playback
+retains538/540 and39+2. New guards reject old aliases and swapped native side
+addends.47 Replay tests and CI1353/29 pass. See
+TH09_REPLAY_NATIVE_COUNTERS_20261105.md; no new exact-function credit.
