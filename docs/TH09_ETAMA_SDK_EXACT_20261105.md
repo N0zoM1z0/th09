@@ -8,6 +8,9 @@ tails. The actual SDK conversion in that object independently reproduces the
 shared three-byte identity body at4343D0. This is one new authored exact
 function: totals1020 exact/15 nonexact,259313 of291883 reviewed authored bytes
 (88.8414%). Product linking, runtime validation and origin closure stay open.
+The local Oracle receipt binds source commit
+`9507e12a3400c7936617ed7fb7f3e4fd3b2454ec`; see
+[source-bound receipts](RE_ACCEPTED_RECEIPTS.md). It is not a Factory verdict.
 
 ## Compiler and source evidence
 

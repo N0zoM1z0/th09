@@ -22,6 +22,9 @@ See [the exact-source review](TH09_ETAMA_SDK_EXACT_20261105.md).
 Canonical ledger: 1035 source-present / 1020 exact / 15 non-exact.
 Exact reviewed-authored bytes increase to259313 (88.8414%). Product/runtime/port
 and Factory acceptance remain open.
+Source checkpoint `9507e12a` and its hashed local receipt are recorded in
+[source-bound receipts](RE_ACCEPTED_RECEIPTS.md); current game source inputs
+agree with that immutable commit. CI passes1341 tests with29 skips.
 
 ## 2026-11-05 continued main — complete ECL probe include closure
 

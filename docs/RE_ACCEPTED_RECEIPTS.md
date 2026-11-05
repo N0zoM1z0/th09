@@ -1,4 +1,7 @@
-# TH09 historical Factory acceptance receipts
+# TH09 source-bound replay and acceptance receipts
+
+Local compiler receipts are explicitly marked. Older Factory verdicts retain
+their original source/invocation bindings and are not new Factory acceptance.
 
 > Immutable historical receipt archive. Each verdict is bound to the source commit and invocation recorded with it; older residual counts (including the former 22-byte DrawResult residual) are not current-source measurements. Current acceptance is determined only by the live registry and docs/RE_HANDOFF.md.
 
@@ -8,6 +11,36 @@
 > specified gameplay-source commits. Later docs/source commits do not
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
+
+## November 5: complete Etama renderer — local canonical Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `9507e12a3400c7936617ed7fb7f3e4fd3b2454ec`.
+Target SHA-256:
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+
+- `EtamaController::OnDraw @00413BE0`:600/600 bytes,27 original-bound fields,
+  13 calls,157 instructions,17 blocks, zero differences.
+- Same-object `DrawSingleBullet`:232 physical bytes/16 fields, including its
+  alignment/switch tail; the private EBX receiver is preserved.
+- Same-object `AddedCallback`:832 physical bytes/30 fields, including its
+  complete owned tail.
+- Same-object SDK vector conversion:3/3 bytes at shared/folded4343D0, zero
+  fields. Logical alias evidence only; no authored or origin credit.
+
+All24 affected canonical units pass8504 physical bytes/338 fields across five
+actual objects. This adds exactly one authored exact function, reaching1020;
+the15 remaining nonexact functions and later product/runtime gates stay open.
+Full target-independent CI passes1341 tests with29 skips; target/tracking,
+documentation, generated progress and whitespace checks pass.
+
+The ignored bound receipt is
+`.analysis/etama-const-20261105/canonical-source-proof.json`, SHA-256
+`b2179cb57fd1efccf829db3702a24a84ca2fb65edbe3809b483d0fcee1131cb7`.
+It records raw source/header/manifest/profile/object hashes, SDK-header hashes
+and the immutable source binding. A later recipe run writes a separate replay
+instead of replacing this bound receipt. Reproduction and source/COMDAT
+evidence: [complete Etama review](TH09_ETAMA_SDK_EXACT_20261105.md).
 
 ## October 19: native Title MusicRoom whole-callback ANM/Supervisor ABI accepted
 
