@@ -63,8 +63,8 @@ coverage is **258,713 / 291,883 (88.6359%)**; the 98% milestone remains open.
 Whole-product linking, runtime semantics and portability are separate,
 unstarted gates.
 
-The **2026-11-03 current next-agent guide** is
-[TH09_NEXT_AGENT_HANDOFF_20261103.md](docs/TH09_NEXT_AGENT_HANDOFF_20261103.md).
+The **2026-11-04 current next-agent guide** is
+[TH09_NEXT_AGENT_HANDOFF_20261104.md](docs/TH09_NEXT_AGENT_HANDOFF_20261104.md).
 Do not use the old `e4ea703b` Supervisor checkpoint as current HEAD;
 check live `git status` and `git log` instead. Recent verified Player work
 includes the 3,238-byte **exact** selector sharing native GameManager
@@ -73,15 +73,15 @@ bounds (`bc26b958`), the **non-exact** 1,900-byte movement owner with
 AddedState initializer with 552 canonical bytes and 20 reviewed tail bytes
 (`a5dbf3b9`). High-value unfinished owners include `RunEcl` (30 unlike
 bytes), `EnemyManager::OnUpdate` (13), `ReplayManager::SaveReplay` (3),
-`TitleScreenView::DrawResult` (3), `GameplaySetupThread` (historical
-1,689-byte /904 unlike), and `Supervisor::OnUpdate` (996 original-owned /
-952 candidate-owned bytes; 791 overlapping differences and 44 absent).
+and `GameplaySetupThread` (historical 1,689-byte /904 unlike).
+The Cirno-Labs integration made fourteen additional owners exact, including
+Title result/options, Supervisor update and the network-message handler.
 The older [RE_HANDOFF.md](docs/RE_HANDOFF.md) retains historical evidence.
 Do not confuse structural source recovery with a new exactness receipt.
 
 Use focused complete-owner builds/replays for the changed units only. Do not
 run a full cold replay for routine iteration. Commits use
-`gpt-web: <concise English summary>` after each substantive checkpoint; keep
+`gpt-6.1-sol: <concise English summary>` after each substantive checkpoint; keep
 code and documentation commits coherent and make multiple checkpoints when a
 session produces multiple reviewable advances.
 
@@ -137,7 +137,7 @@ not an acceptable shortcut around the native-product stage.
 - [`config/build.toml`](config/build.toml) — whole-product graph and explicit unknowns.
 - [`docs/RE_WORKFLOW.md`](docs/RE_WORKFLOW.md) — bounded reconstruction loop and stage gates.
 - [`docs/ORACLES.md`](docs/ORACLES.md) — what can falsify or accept each claim.
-- [`docs/TH09_NEXT_AGENT_HANDOFF_20261103.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261103.md) — current restart scope, verified owner boundaries, and cleanup guidance.
+- [`docs/TH09_NEXT_AGENT_HANDOFF_20261104.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261104.md) — current restart scope, verified owner boundaries, and cleanup guidance.
 - [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — dated historical evidence and ledger-backed tables; use the current restart guide first.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — target facts and maintained source/verification map.
 - [`docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`](docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md) — frozen historical checkpoints; use the active handoff, not this archive, for current facts.
@@ -148,12 +148,15 @@ not an acceptable shortcut around the native-product stage.
 - [`docs/RE_ARTIFACT_CLEANUP_HISTORY.md`](docs/RE_ARTIFACT_CLEANUP_HISTORY.md) — verified generated-cache deletion audits and preservation policy.
 - [Touhou Reconstruction Factory](https://github.com/N0zoM1z0/touhou-reconstruction-factory) — shared ontology, workflow, and cross-game knowledge.
 
+## Credits
+
+Thanks to [Cirno-Labs/th09](https://github.com/Cirno-Labs/th09) for the reference
+implementations adapted into fourteen exact functions here. File-level credits
+and the pinned upstream revision are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
 ## License
 
-This integration branch includes GPL-3.0-only adaptations from Cirno-Labs/th09.
-The combined reconstructed program is distributed under GPL-3.0-only; see
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and
-[LICENSES/GPL-3.0-only.txt](LICENSES/GPL-3.0-only.txt) for scope and attribution.
-Pre-existing repository-authored code and documentation retain their MIT grant
-in [LICENSE](LICENSE).
-This does not grant rights to the original game or its assets.
+Original project code and documentation retain their [MIT license](LICENSE).
+Code adapted from Cirno-Labs/th09 is [GPL-3.0-only](LICENSES/GPL-3.0-only.txt),
+so the combined reconstructed program is distributed under GPL-3.0-only.
+These licenses do not cover the original game or its assets.

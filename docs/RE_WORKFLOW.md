@@ -10,7 +10,7 @@ replays only; no full cold replay for routine iteration.
 Use the live registered repository worktree for source and Git operations,
 `scripts/ghidra-analysis.py` for target-attested local Ghidra analysis, and the
 pinned VC7.1 compiler for byte-exact comparisons. These are separate evidence
-sources. New English commits use `gpt-web: <concise summary>`; checkpoint every
+sources. New English commits use `gpt-6.1-sol: <concise summary>`; checkpoint every
 substantive advance and create multiple commits when a session has multiple
 reviewable advances. Compile serially at lowered priority and preserve complete
 affected-owner/callee proofs. See [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md)

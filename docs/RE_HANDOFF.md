@@ -61,7 +61,7 @@ No full cold replay, source import, game run or push was performed.
 The operator explicitly resumed TH09 reconstruction and requires serious work
 on both complete large bosses and leaf functions. Re-investigate source and
 target evidence rather than trusting old notes or previous attempts. Commit
-reviewable progress with commit subjects prefixed gpt-web:; create multiple coherent
+reviewable progress with commit subjects prefixed gpt-6.1-sol:; create multiple coherent
 commits in a session when there are multiple substantive advances. Use only
 focused complete-owner/carrier replays for changed units and dependencies; do
 not run a full cold replay for routine iteration. Preserve incoming dirty work
