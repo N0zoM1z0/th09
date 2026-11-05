@@ -24,6 +24,9 @@ Canonical ledger: 1035 source-present / 1021 exact / 14 non-exact.
 Exact reviewed-authored bytes increase to259829 (89.0182%). Original TU/profile
 closure, product/runtime/port and Factory acceptance remain open. CI passes1343
 tests with29 skips; target/tracking, docs/progress and whitespace checks pass.
+Source checkpoint `33291074` and its immutable hashed local receipt are in
+[source-bound receipts](RE_ACCEPTED_RECEIPTS.md); the recorded game/tool inputs
+agree with that commit. This is local compiler evidence, not a Factory verdict.
 
 ## 2026-11-05 continued main — complete Etama renderer exact
 

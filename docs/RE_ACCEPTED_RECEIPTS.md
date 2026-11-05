@@ -12,6 +12,41 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 5: complete biased ECL movement — local canonical Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `33291074836f545f21e39a49c5a4b85e0f2a3dfe`.
+Target SHA-256:
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+
+- `Th09EclRunLate::MoveRandomBiased @00407E30`:516/516 bytes,28 fields,
+  14 calls,145 instructions,24 blocks, zero differences in the existing
+  EclManager Type11 `/Ob0` profile. The `/Ob1` copy remains uncredited.
+- Actual same-object `StartTimedPolarDisplacement @00407200`:288/288 bytes,
+  nine original-bound fields; private EnemyEDI/instructionESI transport.
+- Actual same-object SDK conversion:3/3 bytes at shared4343D0, zero fields;
+  unknown folded origin and no authored credit. Same-object compiler math
+  support:12/12 bytes each at401060/401070, no added authored credit.
+
+Both actual canonical EclManager profiles pass all82 comparisons,27636
+physical bytes and1260 fields. This preserves the prior81 units and adds one
+authored exact function, reaching1021/1035 with14 nonexact. Complete RunEcl
+retains exactly the prior30 difference offsets and values (15564 bytes/598
+fields, zero field/table differences); Enemy update retains13 (3900/97).
+The focused RunEcl replay and full target-independent CI pass:1343 tests,
+29 skips. Target/tracking, docs/progress and whitespace checks pass.
+
+The ignored immutable receipt is
+`.analysis/ecl-sdk-20261105/canonical-source-proof.json`, SHA-256
+`f087c5f6f86e15fd5919b100b1563b26761aa3e06b3a1c79f9b43435b12b3786`.
+It binds raw inputs, normalized Git-blob contents, both compiler profiles and
+actual objects, toolchain/SDK hashes, all82 canonical comparisons and complete
+callee/frontier reports to the source commit above. Later recipe runs write a
+separate replay rather than replacing this bound receipt. Reproduction,
+Ghidra/PE and compiler evidence are described in
+[the complete-source review](TH09_ECL_SDK_MOVEMENT_EXACT_20261105.md).
+Original TU/profile and whole Windows product/runtime closure remain open.
+
 ## November 5: complete Etama renderer — local canonical Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

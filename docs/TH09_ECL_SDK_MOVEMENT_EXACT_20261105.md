@@ -107,8 +107,9 @@ complete comparison reports, definition-backed label receipt and focused
 replay. `verify-current.py` checks all82 canonical units, complete same-object
 callees and unchanged main/Enemy frontiers. `canonical-source-proof.json`
 records source/header/manifest/toolchain/SDK/profile/object hashes; the
-[source-bound receipts](RE_ACCEPTED_RECEIPTS.md) record its immutable source
-binding after the source commit. Trial objects remain under
+[source-bound receipts](RE_ACCEPTED_RECEIPTS.md) bind it to source commit
+`33291074836f545f21e39a49c5a4b85e0f2a3dfe` with receipt SHA-256
+`f087c5f6f86e15fd5919b100b1563b26761aa3e06b3a1c79f9b43435b12b3786`. Trial objects remain under
 `build/analysis/ecl-sdk-20261105/`. Only hash-identical per-trial duplicates
 are removed, retaining a per-file receipt and all unique inputs/evidence.
 
