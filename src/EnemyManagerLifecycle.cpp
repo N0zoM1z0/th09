@@ -6,7 +6,6 @@
 #include <new>
 
 extern Chain g_Chain;
-extern unsigned char g_GameManager[];
 
 EnemyManagerView *__fastcall EnemyManagerView::Create(int sideIndex)
 {
@@ -16,11 +15,10 @@ EnemyManagerView *__fastcall EnemyManagerView::Create(int sideIndex)
 
     enemyManager->Initialize();
     enemyManager->sideState320 = reinterpret_cast<EnemySideStateView *>(
-        g_GameManager + sideIndex * sizeof(EnemySideStateView));
+        &g_GameManager.sides[sideIndex]);
     enemyManager->sideIndex31C = sideIndex;
     enemyManager->opposingSideState324 = reinterpret_cast<EnemySideStateView *>(
-        g_GameManager + sizeof(EnemySideStateView) -
-        sideIndex * sizeof(EnemySideStateView));
+        &g_GameManager.sides[1 - sideIndex]);
 
     enemyManager->calcChain310 =
         g_Chain.CreateElem(reinterpret_cast<ChainCallback>(EnemyManagerView::OnUpdate));
@@ -163,7 +161,7 @@ int __fastcall EnemyManagerView::AddedCallback(EnemyManagerView *enemyManager)
 
         if (loaded->rawData04 == NULL)
         {
-            int currentStage = *reinterpret_cast<int *>(g_GameManager + 0xF4);
+            int currentStage = g_GameManager.valueF4;
             if (currentStage == 0 || currentStage == 3 || currentStage == 7)
             {
                 enemyManager->enemyAnm2AC420 =

@@ -31474,3 +31474,16 @@ retain 26948 physical bytes/1474 fields under nine existing profiles; all affect
 nonexact diagnostics, including SaveReplay's two bytes, are unchanged. Private
 composition/helper controls do not prove original class structure and are not
 adopted. See TH09_REPLAY_NAME_STORAGE_20261105.md. No new exact or runtime credit.
+
+## 2026-11-05 Enemy lifecycle uses the declared native GameManager
+
+Old committed source and its nineteen-file original header closure reproduce
+C2040 from a byte-array g_GameManager declaration conflicting with the shared
+native object. Create now selects the native 0x38-byte side records and
+AddedCallback reads valueF4. Both configured profiles match four complete
+owners: 1355 bytes/67 fields. The same bodies and actual COFF rows match with
+the old and pending headers. Three native symbol identities retain original
+root/addend destinations. This repairs current source rebuild evidence without
+new exact/origin or product/runtime credit. Ghidra exports three present entries;
+AddedCallback lacks a database function and is covered by the PE/COFF Oracle.
+See TH09_ENEMY_LIFECYCLE_NATIVE_MANAGER_20261105.md.

@@ -11,6 +11,18 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — enemy lifecycle native declaration repaired
+
+The old committed EnemyManagerLifecycle source independently reproduces C2040
+with its old GameManager header: a byte-array declaration conflicts with the
+native object already included. Native side records and valueF4 restore all
+four configured owners, 1355 complete bytes/67 fields. Both original profiles
+pass with the old header as well as the pending expanded header; all raw bodies
+and actual COFF rows agree across contexts. Three manifest symbols preserve
+the original roots/addends. See [the source review](TH09_ENEMY_LIFECYCLE_NATIVE_MANAGER_20261105.md).
+No new exact/origin credit; the broader replay/native-header work is still in
+progress and must finish its affected-owner comparisons before acceptance.
+
 ## 2026-11-05 continued main — original replay-name span recovered
 
 Fresh target-attested Ghidra and a bounded trace of the original copy establish
