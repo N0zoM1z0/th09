@@ -11,6 +11,20 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — complete Enemy append/count counterevidence
+
+Fresh target-attested Enemy update work retains3900 physical bytes/97 fields/
+69 ordered calls/170 agreeing blocks and13 unlike bytes. Independent list
+append controls expand to3912 and are rejected. Moving count initialization
+to the reference position shrinks to3852 and also merges the later movement
+branches, dropping one original vector-add call. The arithmetic count alone
+reproduces the maintained raw body and all13 differences. Four fresh disposable
+recompiles reproduce complete Enemy/RunEcl raw bodies and actual fields.
+RunEcl's full30-byte frontier is unchanged;83 existing canonical ECL proofs
+are reused after checking144 receipt inputs and both object hashes. See
+[the bounded review](TH09_ENEMY_APPEND_COUNT_20261105.md). No game source,
+ledger or exact-credit change; totals remain1022 exact/13 nonexact.
+
 ## 2026-11-05 continued main — result byte snapshot and complete callee context
 
 Fresh Title result work retains484/485 bytes,34 fields/nine calls/147

@@ -31393,3 +31393,17 @@ exact units replay3597 bytes/73 fields. Complete service is1616/1633 bytes,
 multiplicities agree but order/control flow remain open. Thirteen tests pass.
 Source/target/proof scope and physical before/after delta are recorded in
 TH09_NETWORK_INPUT_CONTRACT_20261105.md. No new exact credit follows.
+
+## 2026-11-05 Enemy descriptor chronology affects distant branch merging
+
+Fresh original-bound Enemy update evidence still has3900 physical bytes,
+97 fields,69 calls,170 blocks and13 unlike bytes. The reference arithmetic
+count expression alone preserves the complete raw body. Moving its assignment
+later in descriptor setup produces3852 bytes and causes VC7.1 to merge the
+two subsequent movement-position addition paths: three physical calls to
+401100 become two despite both source branches remaining present. Independent
+early draw-list insertion produces3912 bytes. All regressed controls are
+rejected. Four fresh disposable compiles reproduce full Enemy and RunEcl
+raw/COFF evidence; RunEcl remains15564/598/30. Original declarations and nominal
+vector ownership remain unknown. See TH09_ENEMY_APPEND_COUNT_20261105.md;
+no game source or exact credit changes.
