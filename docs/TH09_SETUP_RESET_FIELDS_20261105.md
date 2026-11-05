@@ -35,3 +35,10 @@ label-proof.json retain the full receipts. Frozen pre-change inputs and logs
 are preserved there. Objects stay below
 `build/analysis/setup-reset-20261105/`. The earlier packet retains the large
 worker source controls and independent full reference build.
+
+Final receipt recovery separates the two checkpoints' generated objects. The
+first source checkpoint is independently recompiled from immutable `ecd136eb`
+inputs into its own setup-flow paths; its earlier receipt is retained as
+native-proof-before-replay.json. Current reset objects are copied into the
+setup-reset paths with identical SHA-256 and corrected receipt routes. This
+repairs local artifact provenance without changing target equality or source.

@@ -21,6 +21,11 @@ remain3987 bytes/335 fields exact across three actual source/profile builds;
 tracking/docs/progress/whitespace pass. Worker stays1689/171/904. See
 [the bounded review](TH09_SETUP_RESET_FIELDS_20261105.md).
 Totals stay1019 exact/16 nonexact; no new exact-function credit.
+The two proof packets now have separate object directories. Checkpoint
+`ecd136eb` was cold-replayed from immutable inputs after a local directory
+collision; the current reset objects retain verified SHA-256 in setup-reset.
+All source/object hashes and both full12-unit receipts reconcile. Details:
+[reset proof recovery](TH09_SETUP_RESET_FIELDS_20261105.md).
 Only hashed duplicate per-case inputs in the setup-flow packet and disposable
 reuse orchestration were cleaned; frozen inputs, changed controls, compiler
 objects, receipts and cold-build verification recipes remain.
