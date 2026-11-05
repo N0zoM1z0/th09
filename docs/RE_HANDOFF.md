@@ -11,6 +11,18 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — independent GameManager profile objects
+
+The `/Os` primary and no-`/Os` loading-helper profiles now retain distinct
+objects. The old helper build demonstrably replaced the1230-byte primary
+with1397 bytes in the shared cache. Both actual profiles now remain available
+and all11 units pass2991 physical bytes/243 fields simultaneously; the primary
+setup worker retains its identical1689/171/904 diagnostic. Flags, source and
+target bindings are unchanged. All27 GameManager tests pass. See
+[the bounded cache review](TH09_GAME_MANAGER_PROFILE_OBJECTS_20261105.md).
+The replay-name candidate is preserved separately; no new exact credit or
+product/runtime claim follows. Totals remain1022 exact/13 nonexact.
+
 ## 2026-11-05 continued main — SaveReplay closes the checksum address byte
 
 One shared index across the seven stage/byte loops restores+3F6 in both actual

@@ -31449,3 +31449,14 @@ The guard now protects1236 equal bytes, including restored+3F6. Both profiles
 preserve12 canonical units/4093 bytes/232 fields; seven callee proofs are reused
 after source/profile/object checks. See TH09_REPLAY_SHARED_INDEX_20261105.md.
 No partial/exact-function credit or product/runtime conclusion follows.
+
+## 2026-11-05 GameManager profile output paths are independent
+
+The configured `/Os` primary and no-`/Os` loading-helper builds formerly both
+wrote GameManagerSetup.obj. The helper stayed214-byte exact while overwriting
+the primary with1397 bytes, correctly rejected against1230. Separate helper
+output GameManagerSetupNoOs.obj preserves both actual source/profile objects;
+all11 configured units now compare2991 physical bytes/243 fields simultaneously.
+The setup worker's complete1689/171/904 diagnostic is unchanged.27 GameManager
+tests pass. This changes cache routing only, not original TU ownership or
+native product closure. See TH09_GAME_MANAGER_PROFILE_OBJECTS_20261105.md.

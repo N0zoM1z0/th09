@@ -115,7 +115,9 @@ class GameManagerExactSource(unittest.TestCase):
         plain = self.units['supervisor-setup-loading-vms-and-capture']['profile']
         self.assertIn('/Os',fast)
         self.assertNotIn('/Os',plain)
-        self.assertEqual(self.unit['object'], self.units[
+        self.assertEqual(self.unit['source'], self.units[
+            'supervisor-setup-loading-vms-and-capture']['source'])
+        self.assertNotEqual(self.unit['object'], self.units[
             'supervisor-setup-loading-vms-and-capture']['object'])
 
 

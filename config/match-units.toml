@@ -12307,7 +12307,7 @@ relocations = []
 
 [units.supervisor-setup-loading-vms-and-capture]
 source = "src/GameManagerSetup.cpp"
-object = "build/matching/GameManagerSetup.obj"
+object = "build/matching/GameManagerSetupNoOs.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["SupervisorSetupLayout::SetupLoadingVmsAndInitCapture"]
 symbol = "?SetupLoadingVmsAndInitCapture@SupervisorSetupLayout@@QAEXPAUSetupLoadingPosition@@@Z"
