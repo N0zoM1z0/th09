@@ -35,8 +35,10 @@ class SharedTitleScoreRecordOwner(unittest.TestCase):
             self.assertNotIn('struct ResultDrawScoreRecord', source)
             self.assertNotIn('extern TitleScoreRecordView g_TitleScoreTable', source)
         self.assertNotIn('ResultDrawScoreRecord', self.renderer)
-        self.assertIn('TitleScoreRecordView (*scoreGroup)[5];', self.renderer)
-        self.assertIn('TitleScoreRecordView *entry = *scoreGroup;', self.renderer)
+        draw = self.units['title-screen-draw-result']
+        field = next(r for r in draw['relocations'] if r['symbol'] == SCORE_SYMBOL)
+        self.assertEqual((field['offset'], field['type'], field['target']),
+                         (0x15, 'DIR32', 0x4A8380))
         self.assertIn('g_TitleScoreRecord.InsertIntoTable()', self.producer)
 
     def test_one_original_layout_covers_both_consumers(self):
@@ -50,9 +52,6 @@ class SharedTitleScoreRecordOwner(unittest.TestCase):
                          'char scoreDigit;'):
             with self.subTest(fragment=fragment):
                 self.assertIn(fragment, self.header)
-        self.assertIn('entry->scoreDigit', self.renderer)
-        self.assertIn('static_cast<i32>(entry->score)', self.renderer)
-        self.assertIn('scoreGroup = g_TitleScoreTable[nameBankIndex];', self.renderer)
         self.assertEqual(16 * 5 * 5 * 0x2C, 0x44C0)
         self.assertEqual(5 * 5 * 0x2C, 0x44C)
 

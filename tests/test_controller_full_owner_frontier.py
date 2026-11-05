@@ -88,8 +88,9 @@ class ControllerFullOwnerGate(TestCase):
                                       diagnostic=True)
         self.assertEqual([w['unit'] for w in witnesses],
                          ['controller-set-button-directinput',
-                          'controller-set-button-joystick'])
-        self.assertEqual(exact.call_count,2)
+                          'controller-set-button-joystick',
+                          'controller-get-controller-input'])
+        self.assertEqual(exact.call_count,3)
         self.assertEqual(owners['controller_input']['unlike_bytes'],84)
         self.assertEqual(owners['controller_input']['matched_original_bytes'],724)
         self.assertEqual(owners['controller_input']['exactness_credit'],'none')

@@ -18,6 +18,55 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 reference integration: fourteen complete native owners
+
+The branch adopts fourteen independently replayed owners from Cirno-Labs/th09
+revision d7653152becabb8c86f2f43d49015ecc11bd0652, with GPL provenance retained.
+Tracking is 1019 exact /16 nonexact, 258713/291883 authored bytes (88.6359%).
+See [the complete integration record](CIRNO_LABS_INTEGRATION_20261105.md).
+The latest six include Front random/AddedCallback, replay-save drawing, Type3
+update, Type14/22 draw and the entire 808-byte network handler. Its frame input
+parameter is unsigned 16-bit: original caller zero-extension and callee low-word
+stores agree; four physical stack slots and ret16 remain unchanged. Actual
+original nominal C++ class identity is still unknown.
+The unchanged nonexact network-service body compiles to1627 bytes/1381 unequal
+overlaps/six missing after the narrow API (previously1626/1376/seven). This
+reviewed consequence retains106 bound fields and original direct-call
+multiplicities; it is not described as a matching improvement. Mode4 reset177
+and synchronized-frame query49 both retain complete exactness.
+The ECL draw uses our real native polar body; no reference assembly is imported.
+Etama's candidate was rejected after its visible vector body changed an already
+exact sibling. No new vector source contexts or aliases were adopted. The biased
+movement trial still has 148 unequal bytes and one excess byte. These are bounded
+negative results, not proof that natural exact reconstruction is impossible.
+
+### 2026-11-05 independently compiled Cirno-Labs reference sample
+
+Later operator-authorized integration adopts the three typed indexed Title
+cursor loops (211/175/175 bytes, ten fields) and the native Supervisor frame
+insertion loop (213 bytes, no fields). All four are independently canonical
+exact with original ABI/graph/physical ownership; tracking reaches 1009.
+See [the integration checkpoint](CIRNO_LABS_INTEGRATION_20261105.md) for
+source attribution, complete-cohort replay and actual COFF-label proofs.
+The following external-audit result describes the earlier 1005-exact state.
+
+The operator-requested ignored `_reference/Cirno-Labs-th09` checkout at
+`d7653152becabb8c86f2f43d49015ecc11bd0652` targets the same original SHA-1.
+Our pinned VC7.1 replay independently matches eight complete external-source
+owners, 6562 physical bytes/351 fields, including actual constant/string
+initializers and Supervisor's full 996-byte extent. All eight are currently
+nonexact in our maintained source; no source/ledger promotion follows from
+this external diagnostic. See [the reproducible audit](CIRNO_LABS_REFERENCE_AUDIT_20261105.md)
+for source pins, commands, limits and candidates. The upstream progress image's
+98.65% function count and 88.11% code-byte coverage have distinct denominators.
+This is bounded TH09-local compiler/PE evidence, not acceptance of upstream's
+entire repository, its nominal types or its separate runtime claims.
+The independently compiled upstream RunEnemy is a counterexample: its full
+15564-byte/598-field owner has 3695 non-relocation differences, with 12 helper
+and literal fields explicitly unresolved. Upstream already marks it DIFF.
+Reproduce only that group with `audit-cirno-reference.py --group ecl --build`;
+do not substitute its source for our unreplayed 30-byte RunEcl frontier.
+
 ### 2026-11-02 original exact ECL opcode1, two native Side bit-0 writes
 
 The 76-byte original `EnemyEclExInstruction1` changes bit 0 of the
@@ -785,7 +834,7 @@ name into a TH09 fact without target-local evidence.
 | BOUNDARY-048 | exact | `GameManagerSetupLayout::OnDraw` owns `0x0041A75F-0x0041A795`. Independent candidate `0x0041A796` starts at the immediately following byte, so there is no padding or shared tail between them. | Native IDA reports the 0x37-byte extent; attested target bytes across the boundary and the complete 55-byte canonical replay agree. |
 
 
-| SUPERVISOR-007 | source-present / codegen-blocked / authored-game | `Supervisor::OnUpdate @ 0x00431110-0x0043145B` is the central Supervisor calc-chain callback. Exact `SupervisorRegisterChain @ 0x00432180` stores this address with `g_Supervisor @ 0x004B3100` as callback argument after initializing `wantedState +0x58C`, `curState +0x590`, and `calcCount +0x454`. The body services startup/subthread state, ANM/loading/audio frame work, scene transitions, GameManager cut/register seams, the 4000-frame version check, screen-effect countdown, and Chain results 1/3/4/5. Current source-bound replay remains non-exact: 800 code bytes plus 152 artifacts = 952 physical bytes versus target 844+152 = 996, with 92 fields, 27 actual calls, one physical title registration, 791 unequal overlap bytes and 44 absent bytes. The October 20 native-dependency boundary correction preserves all linked bytes; historical 828/980 measurements are superseded. | Native TH09 registration/xrefs, target decompilation/disassembly and switch tables, target-local dependencies, repeatable pinned VC7.1 source feedback, and exact caller regression. Clean committed TH08 corroborates the broad `Supervisor::OnUpdate` state-machine organization only; TH09 determines all state values, fields, helpers, physical blocks, and exactness. |
+| SUPERVISOR-007 | exact / authored-game | `Supervisor::OnUpdate @ 0x00431110` now reproduces its complete 996-byte physical extent: 844 authored code bytes plus all 152 switch-table/tail bytes, 92 fields, 27 calls and 217 instructions. Cirno-Labs/th09 d7653152 scene-transition source is adapted to the existing native Supervisor, ANM, network, GameManager, Title and Ending contracts. | Pinned original PE/COFF replay, independently attested Ghidra, actual local labels and the version literal definition; eleven focused canonical comparisons pass. See CIRNO_LABS_INTEGRATION_20261105.md and THIRD_PARTY_NOTICES.md. |
 | BOUNDARY-049 | observed | `Supervisor::OnUpdate` owns the reviewed logical code extent `0x00431110-0x0043145B`. Its target switch artifacts immediately follow at `0x0043145C-0x004314F3`: a 10-entry table, 4-entry table, 6-entry table, 11-byte case-index table plus one alignment byte, and a 15-entry table. `0x004314F4-0x004314FF` are twelve `CC` bytes. Separate executable code begins at `0x00431500` and returns at `0x0043153D`; `0x0043153E-0x0043153F` are two `CC` bytes before the independent inventory candidate at `0x00431540`. | Attested target bytes, native IDA switch references, and PE-aware bounded disassembly. The switch artifacts are compiler-associated with the callback control flow but are not counted as authored-function bytes; physical TU/data ownership remains separate from the reviewed 844-byte code extent. |
 | INVENTORY-002 | denominator-expanded / reviewed-authored | The initial 1.50a candidate inventory omitted executable code at `0x00431500-0x0043153D`. Packet 51 added it conservatively as `unknown/review`; the subsequent constructor packet proved a target static-initializer thunk at `0x0048D8F0` loads `g_Supervisor @ 0x004B3100` into ECX and tail-jumps to the entry, and the body has C++ member-construction plus authored initialization semantics. The candidate is now classified `authored_game / Supervisor` independently from its still-non-exact source. | Attested target thunk/xref, constructor control flow, exact GameConfiguration member-constructor dependency, bounded target disassembly, and focused pinned-VC7.1 source probes. |
 
@@ -1167,7 +1216,7 @@ name into a TH09 fact without target-local evidence.
 | BULLET-001 | mixed exact/source-present / authored-game / Etama owner seam | The target-backed Etama/Bullet seam uses a 0x25E1C0 controller, 0x10C4 Bullet, 0x59C Laser, and 0x214 spawn descriptor. `EtamaController::Initialize`, `EtamaController::AddedCallback`, `EtamaController::OnUpdate @ 0x004146F0`, and `Bullet::AdvanceTransformProgram` are canonical exact; OnUpdate owns 2,195 authored bytes and its complete 2,216-byte physical code/table extent replays exactly. `EtamaController::OnDraw` and `SpawnLaserPattern` remain source-present/non-exact and independent. | Current function/match ledgers, canonical Etama replay units, and target-backed layout evidence. |
 | BOUNDARY-137 | reviewed / mixed exact-source-present / Etama and Bullet | Packet 155 reviews 19 independent logical extents totaling 6,690 target bytes: `0x00412390-0x004123B6`, `0x004124D0-0x004124DF`, `0x004124E0-0x00412580`, `0x00412930-0x00412957`, `0x00412960-0x004130C4`, `0x004130F0-0x004131BA`, `0x004131C0-0x0041328A`, the seven non-wrap transform helpers `0x00413460-0x004139E6`, exact wrap helpers `0x004139F0-0x00413A60` and `0x00413A70-0x00413AE0`, Release `0x00414180-0x004141B3`, OnUpdate `0x004146F0-0x00414F82`, and Register `0x004150D0-0x004151EA`. Earlier interrupted artifacts incorrectly compared `ClearDrawBuckets` and `Deactivate` against 48-byte extents; fresh IDA boundaries and inventory rows establish their independent 39-byte and 40-byte extents, and current source replays both exactly. No alignment or neighboring constructor/initializer/transform-program function is absorbed. | Matching-IDB current function objects/decompilation, candidate inventory extents, target call graph, and full target-bound comparisons. |
 | TOOLCHAIN-140 | mixed exact/stable-non-exact / recovered Bullet profile | Natural source under pinned VC7.1 `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src` yields seven canonical functions totaling 656 exact bytes with all 43 relocations replayed. Stable negatives are sprite selection target-sized 161 but byte-different; SpawnSingle 1392/1893; pattern wrappers 187/203 each; deceleration 116/110, vector 196/179, polar 152/158, relative 184/202, absolute 181/199, aimed 214/236, bounce 299/295; and OnUpdate 2236/2195. These mismatches remain useful maintained source without exact credit. No register forcing, padding, assembly, fake return, or embedded target bytes is retained. | Recovered Packet-139 probes as historical diagnostics, corrected current boundaries, fresh cold canonical builds and explicit relocation manifests. |
-| TITLE-016 | mixed exact/source-present / authored-game / recovered options owner | Packet 156 consumes the last inherited dirty path and records maintained source for `TitleScreenView::OnUpdateOptions @ 0x004276EB`, the nine-entry options menu owner called from the Start-menu state machine. TH09 independently fixes the 0x1B388 owner view, VM bank at `+0x11BA0`, menu/timer/config snapshot fields, option and volume globals, input masks, screen transitions, selection sprite updates and audio-volume queueing. The 2,045-byte target owner remains NON-EXACT; the 2,050-byte Packet 156 object is historical. Use docs/RE_HANDOFF.md and scripts/inspect-title-options.py for the current candidate. Connected `TitleScreenView::PlayMenuSound @ 0x00422F17` is canonical exact at 34 bytes and drains the sound queue after playing the requested UI sound. | Matching-IDB callers/decompilation and extents, recovered title-options probe history, current cold VC7.1 comparisons, and repository-defined exact helper replay. |
+| TITLE-016 | exact / authored-game | `TitleScreenView::OnUpdateOptions @ 0x004276EB` is complete 2045-byte/135-field/51-call/121-block exact source. Cirno-Labs/th09 d7653152 supplies the state-machine hypothesis; native Supervisor configuration, ReplayInputState slots, ANM and SoundPlayer methods remain independently bound. The real 42-byte scrolling helper is visible in this TU and separately PE-exact; no invented clobber or ABI is used. | Complete original-pinned VC7.1 owner, one actual SetVol literal definition, native input root/addends, and independent real dependency replays. Canonical title-screen-options-update; see CIRNO_LABS_INTEGRATION_20261105.md. |
 | BOUNDARY-138 | reviewed / mixed exact-source-present / Title options | `TitleScreenView::PlayMenuSound` owns `0x00422F17-0x00422F38` and is immediately followed by independent `ChangeCurrentScreen @ 0x00422F39`; no padding is assigned. `OnUpdateOptions` owns `0x004276EB-0x00427EE7`; its next target seam remains independent. The two functions contribute 2,079 reviewed target bytes, of which only the 34-byte helper is exact. | Current matching-IDB function objects/callers, candidate inventory and full target-bound compiler comparisons. |
 | TOOLCHAIN-141 | mixed exact/stable-non-exact / Title options profile | Pinned VC7.1 `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Gr /O1 /Ob1 /Oy- /I src` emits `PlayMenuSound` exactly at 34/34 with three reviewed relocations and emits `OnUpdateOptions` at 2,050 bytes versus the 2,045-byte target. `/O2 /Os /Ob1` keeps the same 2,050-byte owner size, while plain `/O2 /Ob1` grows it to 2,292 and is rejected. No five-byte padding, register forcing, pragma, assembly or target-byte encoding is used to manufacture equality. | Fresh cold compact-profile build and helper canonical replay plus focused `/O2` and `/O2 /Os` falsification. |
 | ANM-023 | exact / authored-game / complete interpreter owner | `AnmManager::ExecuteScript @ 0x00436F30-0x004393BD` is repository-canonical exact. The decisive correction was not opcode semantics: all 91 wire values were already represented by 89 explicit handlers plus intentionally defaulted Nop/InterruptLabel. The local execution view incorrectly supplied class-inline `ZunTimer::operator==`, `operator<=`, and `operator>` bodies; the target instead relocates those comparisons to out-of-line members in Wait and the seven-slot interpolation loop. With that TU boundary restored and the original unit's `/Ob0` inline policy recovered, the natural source reproduces all 9,358 authored code bytes and the complete 9,776-byte physical extent. The latter includes two alignment bytes and three compiler tables: 91 opcode, six easing, and seven interpolation-field entries. | Fail-closed `scripts/report-anm-execute.py`, target table hashes, repeated pinned-VC7.1 canonical replay, 9,358/9,358 logical bytes, 9,776/9,776 physical bytes, and all 368 relocations including 104 table entries. |

@@ -133,7 +133,8 @@ def run_controller_input(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     exact = []
     if protect_exact:
         exact = [canonical('controller-set-button-directinput'),
-                 canonical('controller-set-button-joystick')]
+                 canonical('controller-set-button-joystick'),
+                 canonical('controller-get-controller-input')]
     return {'controller_input': {
         'target_bytes': 808, 'candidate_bytes': current['candidate_bytes'],
         'unlike_bytes': current['overlapping_differences'],
@@ -145,8 +146,8 @@ def run_controller_input(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 
 def run_network_message() -> dict:
-    # This standalone source has no canonical exact siblings. The producer
-    # binds its live project inputs before/after one low-priority compile.
+    # The diagnostic producer binds live project inputs before/after one
+    # low-priority compile; the caller also checks the canonical exact owner.
     current = noncrediting(parsed(['scripts/inspect-network-message.py',
                                   '--build', '--guard', '--json']),
                            name='Supervisor network message', target_size=808,
@@ -160,11 +161,11 @@ def run_network_message() -> dict:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 76,
+    'build/matching/EclManager.obj': 77,
     'build/matching/EclManager-Type11.obj': 4,
 }
 TITLE_EXACT_CARRIERS = {
-    'build/matching/TitleScreen.obj': 37,
+    'build/matching/TitleScreen.obj': 40,
     'build/matching/TitleScoreRecord.obj': 1,
 }
 # The true 622-byte camera-facing boss is compiled *inside* this Render TU.
@@ -873,8 +874,8 @@ def validate_runecl_real_angle_owners(units: dict) -> None:
                     ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
                 raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
             exact_ref_count += 1
-    if exact_ref_count != 40:
-        raise RuntimeError('ECL/Enemy/position/Effect 40 exact C++ angle callsites missing')
+    if exact_ref_count != 41:
+        raise RuntimeError('ECL/Enemy/position/Effect 41 exact C++ angle callsites missing')
 
 
 def guard_runecl_real_angle_callsite_report(report: dict) -> dict:
@@ -1595,6 +1596,7 @@ def run_supervisor_update(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     result = guard_supervisor_update(parsed(['scripts/inspect-supervisor-update.py', obj], diagnostic=True))
     exact = []
     if protect_exact:
+        exact.append(canonical('supervisor-on-update'))
         with (ROOT/'config/match-units.toml').open('rb') as stream:
             units = tomllib.load(stream)['units']
         for name, source, symbol, address, size in SUPERVISOR_UPDATE_CALLEES:
@@ -1647,6 +1649,7 @@ def run_front_added(*, protect_exact: bool, shared_callees_prechecked: bool = Fa
     result = guard_front_added(parsed(['scripts/inspect-front-added.py', obj, '--json']))
     exact = []
     if protect_exact:
+        exact.append(canonical('front-added-callback'))
         with (ROOT/'config/match-units.toml').open('rb') as stream:
             units = tomllib.load(stream)['units']
         for name, source, symbol, address, size in FRONT_ADDED_CALLEES:
@@ -1687,7 +1690,7 @@ def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     literals = owner.get('literal_definitions')
     if (owner.get('candidate_bytes') != 693 or
             owner.get('target_instructions') != 206 or
-            owner.get('candidate_instructions') != 205 or
+            owner.get('candidate_instructions') not in (205, 206) or
             owner.get('original_fields') != 15 or
             owner.get('ordered_calls') != 6 or
             owner.get('ordered_calls_agree') is not True or
@@ -1712,6 +1715,7 @@ def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
         raise RuntimeError('Front random 693-byte/15-field/6-call current full-owner frontier regressed')
     exact=[]
     if protect_exact:
+        exact.append(canonical('front-message-random-setup'))
         for unit in ('front-calc-callback', 'front-message-setup',
                      'front-message-load-for-side-count',
                      'front-message-initialize-runtime'):
@@ -1734,16 +1738,11 @@ def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 RECEIVED_FRAME_TARGET_SHA256 = (
     'c7d33d3a0ca15df698c2c66916c24aa0b0b7527e769c08bbd1d0ed88ac245c17'
 )
-RECEIVED_FRAME_RESIDUAL_OFFSETS = frozenset((
-    0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24,
-    0x25, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E,
-    0x2F, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38,
-    0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0xBC, 0xBD, 0xBE,
-))
+RECEIVED_FRAME_RESIDUAL_OFFSETS = frozenset()
 
 
 def guard_received_frames(received: dict) -> None:
-    """Protect all 178 matching bytes of the original received-frame leaf."""
+    """Protect every byte of the canonical original received-frame leaf."""
     noncrediting(received, name='Supervisor received-frame insertion',
                  target_size=213, fields=0, fields_key='relocation_fields')
     if (received.get('target_sha256') != RECEIVED_FRAME_TARGET_SHA256 or
@@ -1756,7 +1755,7 @@ def guard_received_frames(received: dict) -> None:
         raise RuntimeError('Supervisor received-frame no-call/67-instruction/9-block gate changed')
     physical_difference_windows(
         {**received, 'difference_offsets': received.get('differing_offsets')},
-        count_key='complete_differences', windows=((0, 213, 35),),
+        count_key='complete_differences', windows=((0, 213, 0),),
         equality_key='complete_bytes_equal')
     observed = {int(x, 16) for x in received['differing_offsets']}
     if not observed.issubset(RECEIVED_FRAME_RESIDUAL_OFFSETS):
@@ -1776,6 +1775,7 @@ def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     if protect_exact:
         build('supervisor-frame-queue-insert-predicted')
         exact.append(canonical('supervisor-frame-queue-insert-predicted'))
+        exact.append(canonical('supervisor-frame-queue-insert-received'))
         build('supervisor-frame-queue-pop-frame')
         exact.append(canonical('supervisor-frame-queue-pop-frame'))
     return {'supervisor_received_frame': {
@@ -3586,6 +3586,7 @@ def run_exattack_type3(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     validated = guard_exattack_type3_update(result)
     exact = []
     if protect_exact:
+        exact.append(canonical('ex-attack-update-type3'))
         build('ex-attack-initialize-type3')
         exact.append(canonical('ex-attack-initialize-type3'))
         exact.extend(replay_exattack_type3_native_exact())
@@ -4255,6 +4256,7 @@ def run_title_result() -> dict:
                    reference_unit='title-screen-setup-thread')
     draw = parsed(['scripts/inspect-title-result-draw.py', result_obj, '--json'])
     guard_title_draw_result(draw)
+    canonical('title-screen-draw-result')
     return {'title_draw_result': {
         'target_bytes': 1939, 'candidate_bytes': draw['candidate_bytes'],
         'ordinary_differences': draw['complete_differences'],
@@ -4309,6 +4311,7 @@ def run_title_open() -> dict:
     options = parsed(['scripts/inspect-title-options.py', options_obj,
                       '--require-native-input', '--json'])
     guard_title_options(options)
+    canonical('title-screen-options-update')
     cursor_reports['title_update_options'] = {
         'target_bytes': 2045, 'candidate_bytes': options['candidate_bytes'],
         'literal_definitions_checked': options['literal_definitions_checked'],
@@ -4329,6 +4332,7 @@ def run_title_open() -> dict:
                                   '--json']), name='Title DrawReplaySave',
                           target_size=800, fields=41)
     guard_title_replay_save(replay)
+    canonical('title-screen-draw-replay-save')
     return {**cursor_reports, **menu_report, **draw_report,
             'title_draw_replay_save': {
                 'target_bytes': 800, 'candidate_bytes': replay['candidate_bytes'],
@@ -5261,6 +5265,9 @@ def main() -> int:
             report['canonical_siblings'].extend(exact)
         if args.owner in ('netmessage', 'all'):
             report['owners'].update(run_network_message())
+            if not args.skip_exact_siblings:
+                report['canonical_siblings'].append(
+                    canonical('supervisor-network-message-handler'))
         if args.owner in ('replay', 'all'):
             owners, exact = run_replay_playback(protect_exact=not args.skip_exact_siblings)
             report['owners'].update(owners)

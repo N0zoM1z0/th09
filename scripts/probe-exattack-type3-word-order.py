@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cold-reproduce Type3's complete word/query component diagnostics.
+"""Reproduce historical Type3 word/query diagnostics, never current exactness.
 
 The private models qualify the actual middle-Z store, transport the tail-X
 float through one real volatile word read, and forward the three real collision
@@ -27,6 +27,8 @@ import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = 'ExAttackUpdateType3.cpp'
+BASELINE_SOURCE = 'scripts/fixtures/type3-pre-cirno.cpp.txt'
+BASELINE_COMMIT = '944870a99a8124cffdd1228ba8980b601d64f964'
 BASELINE_SHA256 = 'c57cf9b9277f967832c5ab85031a4610716a88cb03fe02e96efa6389cac030a2'
 PROFILE = ['/MT', '/EHsc', '/Gs', '/DNDEBUG', '/Zi', '/Gy', '/GF', '/Oi',
            '/Gr', '/O2', '/Ob1', '/Oy-', '/I', 'src']
@@ -125,7 +127,7 @@ def report_name(case):
 
 
 def source_inputs():
-    """Copy the real recursive quoted-header closure, never synthetic headers."""
+    """Frozen pre-integration root and real live recursive header closure."""
     result = {}
 
     def collect(name):
@@ -134,14 +136,14 @@ def source_inputs():
         path = (ROOT / 'src' / name).resolve()
         if not path.is_relative_to((ROOT / 'src').resolve()):
             raise ValueError('project include escapes source tree')
-        raw = path.read_bytes()
+        raw = (ROOT / BASELINE_SOURCE).read_bytes() if name == SOURCE else path.read_bytes()
         result[name] = raw
         for include in re.findall(rb'^\s*#\s*include\s*"([^"]+)"', raw, re.M):
             collect((Path(name).parent / include.decode()).as_posix())
 
     collect(SOURCE)
     if hashlib.sha256(result[SOURCE]).hexdigest() != BASELINE_SHA256:
-        raise ValueError('maintained Type3 baseline changed; review this bounded experiment')
+        raise ValueError('historical Type3 input changed; review this bounded experiment')
     return result
 
 
@@ -188,7 +190,8 @@ def run(output, selected_case='all'):
                         for name, raw in tools.items()},
         'manifest_sha256': hashlib.sha256(config).hexdigest(),
         'target_sha256': hashlib.sha256(target).hexdigest(),
-        'profile': PROFILE, 'requested_case': selected_case, 'rows': [],
+        'profile': PROFILE, 'historical_source': BASELINE_SOURCE, 'historical_source_commit': BASELINE_COMMIT,
+        'requested_case': selected_case, 'rows': [],
     }
     source = inputs[SOURCE].decode().replace('\r\n', '\n')
     cases = (component_variants(source) if selected_case in COMPONENT_CASES

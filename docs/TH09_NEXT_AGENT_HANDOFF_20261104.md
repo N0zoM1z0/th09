@@ -1,5 +1,9 @@
 # TH09 — current next-agent handoff (2026-11-04)
 
+> Later integration branch work is routed through [RE_HANDOFF.md](RE_HANDOFF.md)
+> and [CIRNO_LABS_INTEGRATION_20261105.md](CIRNO_LABS_INTEGRATION_20261105.md).
+> This November 4 table is a historical snapshot.
+
 **Read this first.** This is a **routing and audit snapshot**, not a Factory
 acceptance receipt. The Git worktree, `config/functions.csv`,
 `config/matches.csv`, `config/match-units.toml`, the SHA-pinned Japanese original

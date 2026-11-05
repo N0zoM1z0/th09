@@ -39,6 +39,9 @@ def validate_public_tree() -> None:
 def main() -> int:
     try:
         validate_public_tree()
+        # Git omits this scratch directory on a clean checkout. Tests stage
+        # generated compiler inputs here rather than in the public source tree.
+        (ROOT / ".analysis").mkdir(exist_ok=True)
         run("Compile workflow Python", [sys.executable, "-m", "py_compile", *tracked("scripts/*.py")])
         run(
             "Run target-independent tests without site packages",

@@ -87,7 +87,7 @@ class BossFrontierChecks(TestCase):
         self.assertEqual(owners['front_random_setup']['target_blocks'], 40)
         self.assertEqual(owners['front_random_setup']['candidate_blocks'], 41)
         self.assertEqual([x['unit'] for x in exact],
-            ['front-calc-callback', 'front-message-setup',
+            ['front-message-random-setup', 'front-calc-callback', 'front-message-setup',
              'front-message-load-for-side-count', 'front-message-initialize-runtime'])
         self.assertEqual(build.call_count, 4)
 
@@ -664,7 +664,7 @@ class BossFrontierChecks(TestCase):
         self.assertEqual(owners['exattack_type3_update']['ordinary_differences'], 15)
         # Six real exact GameManager/Type4/AnmVm owners add regression checks,
         # NOT new canonical exact credit to the still-unmatched Type3 update.
-        self.assertEqual(len(exact), 7)
+        self.assertEqual(len(exact), 8)
         self.assertTrue(all(row['unit'] == 'exact' for row in exact))
 
     @staticmethod
@@ -1433,16 +1433,17 @@ class BossFrontierChecks(TestCase):
                     'target_sha256': frontiers.RECEIVED_FRAME_TARGET_SHA256,
                     'differing_offsets': [hex(x) for x in sorted(
                         frontiers.RECEIVED_FRAME_RESIDUAL_OFFSETS)],
-                    'complete_bytes_equal': False,
-                    'complete_differences': 35}
+                    'complete_bytes_equal': True,
+                    'complete_differences': 0}
         with patch.object(frontiers, 'build_nonexact') as nonexact, patch.object(
                 frontiers, 'build') as build, patch.object(frontiers, 'parsed',
                 return_value=evidence), patch.object(frontiers, 'canonical',
                 side_effect=lambda unit: {'unit': unit}):
             owners, exact = frontiers.run_received_frames(protect_exact=True)
-        self.assertEqual(owners['supervisor_received_frame']['ordinary_differences'], 35)
+        self.assertEqual(owners['supervisor_received_frame']['ordinary_differences'], 0)
         self.assertEqual([e['unit'] for e in exact],
                          ['supervisor-frame-queue-insert-predicted',
+                          'supervisor-frame-queue-insert-received',
                           'supervisor-frame-queue-pop-frame'])
         nonexact.assert_called_once()
         self.assertEqual(build.call_count, 2)
@@ -1496,8 +1497,8 @@ class BossFrontierChecks(TestCase):
                 frontiers, 'canonical', side_effect=lambda unit: checked.append(unit) or {'unit': unit}):
             owners, exact = frontiers.run_title(protect_exact=True)
         self.assertEqual(owners, {})
-        self.assertEqual(len(exact), 46)
-        self.assertEqual(len(set(checked)), 46)
+        self.assertEqual(len(exact), 49)
+        self.assertEqual(len(set(checked)), 49)
         self.assertIn('title-screen-setup-thread', checked)
         self.assertIn('score-record-insert', checked)
         self.assertEqual([row['unit'] for row in exact][-3:],

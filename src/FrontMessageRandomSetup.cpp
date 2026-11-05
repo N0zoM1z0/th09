@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Adapted from Cirno-Labs/th09 src/gui.cpp GuiMsg::StartRandom,
+// commit d7653152becabb8c86f2f43d49015ecc11bd0652.
+// Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "AsciiGameManagerView.hpp"
@@ -10,102 +14,76 @@
 extern AnmLoaded *g_FrontMessageAnm;
 extern RngRuntimeView g_Rng;
 
-void FrontMessageRandomView::SetupRandomForSide(int sideIndex)
+void FrontMessageRandomView::SetupRandomForSide(int side)
 {
-    int opponentSelector =
-        g_GameManager.sides[1 - sideIndex].character20;
-    FrontMessageTableView *primary = primary00;
-    FrontMessageTableView *secondary = secondary0C;
+    int i;
+    int roll;
+    int first = g_GameManager.sides[1 - side].character20 * 10;
+    FrontMessageTableView *msgFile = this->primary00;
+    FrontMessageTableView *msgFile2 = this->secondary0C;
 
     memset(this, 0, sizeof(*this));
-
-    primary00 = primary;
-    secondary0C = secondary;
-
-    opponentSelector *= 10;
-
-    FrontMessageTableView *table = primary;
-    if (sideIndex == 1)
-        table = secondary;
-
-    side10 = sideIndex;
-
-    int selected = opponentSelector;
-    int randomValue = g_Rng.GetRandomU16InRange(0x100);
-    int end = opponentSelector + 10;
-
-    int *entryWeight = &table->entries04[selected].weight04;
-    while (selected < end)
+    this->primary00 = msgFile;
+    this->secondary0C = msgFile2;
+    if (side == 1)
     {
-        if (*reinterpret_cast<void **>(entryWeight - 1) != 0)
-        {
-            if (randomValue < *entryWeight)
-                break;
-            randomValue -= *entryWeight;
-        }
-        ++selected;
-        entryWeight += 2;
+        msgFile = msgFile2;
     }
-
-    if (selected >= end)
+    this->side10 = side;
+    roll = g_Rng.GetRandomU16InRange(0x100);
+    for (i = first; i < first + 10; i++)
     {
-        randomValue = g_Rng.GetRandomU16InRange(0x100);
-        selected = 210;
-
-        int *weight = &table->entries04[selected].weight04;
-        for (; selected < 220; ++selected, weight += 2)
+        if (msgFile->entries04[i].instructions00 != NULL)
         {
-            if (*reinterpret_cast<void **>(weight - 1) != 0 && selected < table->count00)
+            if (roll < msgFile->entries04[i].weight04)
             {
-                if (randomValue < *weight)
+                break;
+            }
+            roll -= msgFile->entries04[i].weight04;
+        }
+    }
+    if (i >= first + 10)
+    {
+        roll = g_Rng.GetRandomU16InRange(0x100);
+        for (i = 210; i < 220; i++)
+        {
+            if (msgFile->entries04[i].instructions00 != NULL && i < msgFile->count00)
+            {
+                if (roll < msgFile->entries04[i].weight04)
+                {
                     break;
-                randomValue -= *weight;
+                }
+                roll -= msgFile->entries04[i].weight04;
             }
         }
-        if (selected >= 220 || selected >= table->count00)
-            selected = 210;
+        if (i >= 220 || i >= msgFile->count00)
+        {
+            i = 210;
+        }
     }
-
-    current04 = table->entries04[selected].instructions00;
-
-    textVmA1534.scriptIndex = -1;
-    textVmB17D8.scriptIndex = -1;
-
-    glyphSize1D54 = 24;
-    textColors1D20[0] = 0x00E8F0FFUL;
-    textColors1D20[1] = 0x00F0E8FFUL;
-    textColors1D20[2] = 0x00E8D0FFUL;
-    textColors1D20[3] = 0x00D8FFFFUL;
-    shadowColors1D30[0] = 0;
-    shadowColors1D30[1] = 0;
-    shadowColors1D30[2] = 0;
-    shadowColors1D30[3] = 0;
-
-    fontFlag1D6C = 1;
-    textSelectorCount1D50 = 6;
-    fontFlag1D6D = 1;
-    colorIndex1D64 = 0;
-    flag1D65 = 1;
-    flag1D66 = 0;
-    flag1D67 = 0xFF;
-
-    g_FrontMessageAnm->SetAndExecuteScriptIdx(&textVmA1534, 0);
-    g_FrontMessageAnm->SetAndExecuteScriptIdx(&textVmB17D8, 1);
-
-    unsigned char glyphSize = static_cast<unsigned char>(glyphSize1D54);
-    reinterpret_cast<unsigned char *>(&textVmA1534)[0x299] = glyphSize;
-    reinterpret_cast<unsigned char *>(&textVmA1534)[0x298] = glyphSize;
-    reinterpret_cast<unsigned char *>(&textVmB17D8)[0x299] = glyphSize;
-    reinterpret_cast<unsigned char *>(&textVmB17D8)[0x298] = glyphSize;
-
-    g_AnmManager->DrawTextLeft(
-        &textVmA1534,
-        textColors1D20[colorIndex1D64],
-        shadowColors1D30[colorIndex1D64],
-        " ");
-    g_AnmManager->DrawTextLeft(
-        &textVmB17D8,
-        textColors1D20[colorIndex1D64],
-        shadowColors1D30[colorIndex1D64],
-        " ");
+    this->current04 = msgFile->entries04[i].instructions00;
+    this->textVmA1534.scriptIndex = -1;
+    this->textVmB17D8.scriptIndex = -1;
+    this->glyphSize1D54 = 24;
+    this->textColors1D20[0] = 0xe8f0ff;
+    this->textColors1D20[1] = 0xf0e8ff;
+    this->textColors1D20[2] = 0xe8d0ff;
+    this->textColors1D20[3] = 0xd8ffff;
+    this->shadowColors1D30[0] = 0;
+    this->shadowColors1D30[1] = 0;
+    this->shadowColors1D30[2] = 0;
+    this->shadowColors1D30[3] = 0;
+    this->fontFlag1D6C = 1;
+    this->textSelectorCount1D50 = 6;
+    this->fontFlag1D6D = 1;
+    this->colorIndex1D64 = 0;
+    this->flag1D65 = 1;
+    this->flag1D66 = 0;
+    this->flag1D67 = 0xff;
+    g_FrontMessageAnm->SetAndExecuteScriptIdx(&this->textVmA1534, 0);
+    g_FrontMessageAnm->SetAndExecuteScriptIdx(&this->textVmB17D8, 1);
+    this->textVmA1534.fontWidth = this->textVmA1534.fontHeight = this->glyphSize1D54;
+    this->textVmB17D8.fontWidth = this->textVmB17D8.fontHeight = this->glyphSize1D54;
+    g_AnmManager->DrawTextLeft(&this->textVmA1534, this->textColors1D20[this->colorIndex1D64], this->shadowColors1D30[this->colorIndex1D64], " ");
+    g_AnmManager->DrawTextLeft(&this->textVmB17D8, this->textColors1D20[this->colorIndex1D64], this->shadowColors1D30[this->colorIndex1D64], " ");
 }

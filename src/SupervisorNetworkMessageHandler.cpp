@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Adapted from Cirno-Labs/th09 src/network.cpp Network::HandleMessage,
+// commit d7653152becabb8c86f2f43d49015ecc11bd0652.
+// Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "ReplayRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 #include "SupervisorFrameQueueView.hpp"
@@ -34,161 +38,109 @@ extern int g_NetworkHandshakeToken;
 extern unsigned int g_NetworkLastReceiveTime;
 extern unsigned int g_NetworkCurrentTime;
 
-int SupervisorNetworkMessageView::HandleMessage(
-    void *userContext,
-    unsigned long messageId,
-    void *message)
+int SupervisorNetworkMessageView::HandleMessage(void *userContext, unsigned long messageId, void *message)
 {
+    NetworkFramePacketView *packet;
+    DPN_PLAYER_INFO *info;
+    DWORD size;
+    HRESULT hr;
+    int i;
+
     switch (messageId)
     {
     case DPN_MSGID_RECEIVE:
-    {
         g_Supervisor.EnterCriticalSectionWrapper(4);
-        DPNMSG_RECEIVE *msg = static_cast<DPNMSG_RECEIVE *>(message);
-        unsigned char *data =
-            static_cast<unsigned char *>(msg->pReceiveData);
-
-        if (data[0] == 0)
+        packet = (NetworkFramePacketView *)((DPNMSG_RECEIVE *)message)->pReceiveData;
+        if (packet->type == 0)
         {
-            NetworkFramePacketView *packet =
-                reinterpret_cast<NetworkFramePacketView *>(data);
-
             if (packet->side != g_SupervisorNetworkState->localSide)
             {
-                lastReceivedC8 = *packet;
-
-                // The original reads the frame before the input word. Keep
-                // these actual packet reads visible before the queue call.
-                int receivedFrame = static_cast<volatile int &>(packet->frame);
-                unsigned short receivedSeed = packet->seed;
-                int receivedInput = static_cast<volatile unsigned short &>(packet->input);
-                static_cast<SupervisorFrameQueueView *>(&g_Supervisor)
-                    ->InsertReceivedFrame(packet->side, receivedFrame, receivedInput,
-                        static_cast<short>(receivedSeed));
+                this->lastReceivedC8 = *packet;
+                static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(packet->side, packet->frame, packet->input, packet->seed);
             }
         }
-        else if (data[0] == 1)
+        else if (packet->type == 1)
         {
-            NetworkAckPacketView *packet =
-                reinterpret_cast<NetworkAckPacketView *>(data);
-
-            if (g_NetworkHandshakeToken == static_cast<int>(packet->value04) &&
-                packet->value04 == packet->value02)
+            if (g_NetworkHandshakeToken == packet->frame && packet->frame == packet->seed)
             {
-                packetReady = 1;
-                g_NetworkLastReceiveTime = g_NetworkCurrentTime;
-                g_Supervisor.LeaveCriticalSectionWrapper(4);
-                return 0;
+                this->packetReady = 1;
             }
         }
-        else if (data[0] == 2)
+        else if (packet->type == 2)
         {
-            NetworkHandshakePacketView *packet =
-                reinterpret_cast<NetworkHandshakePacketView *>(data);
-
-            if (packet->side == localSide)
-                localSide = 1 - packet->side;
-
-            if (localSide == 1)
+            if (packet->side == this->localSide)
+            {
+                this->localSide = 1 - packet->side;
+            }
+            if (this->localSide == 1)
             {
                 g_ReplayRng.SetSeed(packet->seed);
-                syncRate = packet->syncRate;
-                syncValue = packet->syncValue;
-
-                if (60 / syncRate > 1)
+                this->syncRate = packet->frame;
+                this->syncValue = packet->packedInput;
+                if (60 / this->syncRate > 1)
                 {
-                    for (int index = 0; index < 60 / syncRate - 1; ++index)
+                    for (i = 0; i < 60 / this->syncRate - 1; i++)
                     {
-                        static_cast<SupervisorFrameQueueView *>(
-                            &g_Supervisor)->InsertReceivedFrame(
-                                0,
-                                index - 9998,
-                                0,
-                                static_cast<short>(g_ReplayRng.GetSeed()));
-                        static_cast<SupervisorFrameQueueView *>(
-                            &g_Supervisor)->InsertReceivedFrame(
-                                1,
-                                index - 9998,
-                                0,
-                                static_cast<short>(g_ReplayRng.GetSeed()));
+                        static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(0, i - 9998, 0, g_ReplayRng.GetSeed());
+                        static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(1, i - 9998, 0, g_ReplayRng.GetSeed());
                     }
                 }
             }
         }
-
         g_NetworkLastReceiveTime = g_NetworkCurrentTime;
         g_Supervisor.LeaveCriticalSectionWrapper(4);
-        return 0;
-    }
-
+        break;
     case DPN_MSGID_CREATE_PLAYER:
-    {
         g_Supervisor.EnterCriticalSectionWrapper(4);
-        DPNMSG_CREATE_PLAYER *msg =
-            static_cast<DPNMSG_CREATE_PLAYER *>(message);
-
-        DWORD size = 0;
-        static_cast<IDirectPlay8Peer *>(peer)->GetPeerInfo(msg->dpnidPlayer, 0, &size, 0);
-
-        DPN_PLAYER_INFO *info =
-            static_cast<DPN_PLAYER_INFO *>(::operator new(size));
+        size = 0;
+        static_cast<IDirectPlay8Peer *>(peer)->GetPeerInfo(((DPNMSG_CREATE_PLAYER *)message)->dpnidPlayer, NULL, &size, 0);
+        info = static_cast<DPN_PLAYER_INFO *>(::operator new(size));
         memset(info, 0, size);
         info->dwSize = sizeof(DPN_PLAYER_INFO);
-
-        HRESULT result =
-            static_cast<IDirectPlay8Peer *>(peer)->GetPeerInfo(msg->dpnidPlayer, info, &size, 0);
-        if (result != 0)
+        hr = static_cast<IDirectPlay8Peer *>(peer)->GetPeerInfo(((DPNMSG_CREATE_PLAYER *)message)->dpnidPlayer, info, &size, 0);
+        if (hr != DPN_OK)
         {
-            ::operator delete(info);
+            delete info;
             g_Supervisor.LeaveCriticalSectionWrapper(4);
-            return result;
+            return hr;
         }
-
-        if ((info->dwPlayerFlags & DPNPLAYER_LOCAL) != 0)
-            peerIds[localSide] = msg->dpnidPlayer;
+        if (info->dwPlayerFlags & DPNPLAYER_LOCAL)
+        {
+            this->peerIds[this->localSide] = ((DPNMSG_CREATE_PLAYER *)message)->dpnidPlayer;
+        }
         else
-            peerIds[1 - localSide] = msg->dpnidPlayer;
-
-        ::operator delete(info);
+        {
+            this->peerIds[1 - this->localSide] = ((DPNMSG_CREATE_PLAYER *)message)->dpnidPlayer;
+        }
+        delete info;
         g_Supervisor.LeaveCriticalSectionWrapper(4);
-        return 0;
-    }
-
+        break;
     case DPN_MSGID_DESTROY_PLAYER:
-    {
         g_Supervisor.EnterCriticalSectionWrapper(4);
-        DPNMSG_DESTROY_PLAYER *msg =
-            static_cast<DPNMSG_DESTROY_PLAYER *>(message);
-
-        if (peerIds[0] == msg->dpnidPlayer)
-            peerIds[0] = 0;
-        if (peerIds[1] == msg->dpnidPlayer)
-            peerIds[1] = 0;
+        if (this->peerIds[0] == ((DPNMSG_DESTROY_PLAYER *)message)->dpnidPlayer)
+        {
+            this->peerIds[0] = 0;
+        }
+        if (this->peerIds[1] == ((DPNMSG_DESTROY_PLAYER *)message)->dpnidPlayer)
+        {
+            this->peerIds[1] = 0;
+        }
         g_Supervisor.LeaveCriticalSectionWrapper(4);
-        return 0;
-    }
-
+        break;
     case DPN_MSGID_SEND_COMPLETE:
         g_Supervisor.EnterCriticalSectionWrapper(4);
-        packetReady = 1;
+        this->packetReady = 1;
         g_Supervisor.LeaveCriticalSectionWrapper(4);
-        return 0;
-
+        break;
     case DPN_MSGID_CONNECT_COMPLETE:
-    {
         g_Supervisor.EnterCriticalSectionWrapper(4);
-        DPNMSG_CONNECT_COMPLETE *msg =
-            static_cast<DPNMSG_CONNECT_COMPLETE *>(message);
-        if (msg->hResultCode == 0 && connectionState == 1)
+        if (((DPNMSG_CONNECT_COMPLETE *)message)->hResultCode == DPN_OK && this->connectionState == 1)
         {
-            connectionState = 3;
-            localSide = 1;
+            this->connectionState = 3;
+            this->localSide = 1;
         }
         g_Supervisor.LeaveCriticalSectionWrapper(4);
-        return 0;
+        break;
     }
-
-    default:
-        return 0;
-    }
+    return 0;
 }

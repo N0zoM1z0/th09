@@ -25,7 +25,8 @@ class SupervisorNativeVersionOwner(unittest.TestCase):
         self.assertIn('versionState->versionData7AC',source)
         self.assertIn('versionDataSize = this->versionDataSize7A8;',source)
         self.assertIn('this->versionData7AC',source)
-        self.assertIn('static_cast<SupervisorVersionView *>(globalSupervisor)->CheckVersion(',update)
+        self.assertIn('SupervisorVersionView',update)
+        self.assertIn('CheckVersion(',update)
         self.assertNotIn('reinterpret_cast<SupervisorVersionView *>(globalSupervisor)',update)
 
     def test_exact_version_and_loader_owners_keep_original_method_targets(self):

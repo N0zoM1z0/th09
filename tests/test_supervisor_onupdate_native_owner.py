@@ -16,15 +16,14 @@ class NativeSupervisorUpdateOwner(unittest.TestCase):
         header=(ROOT/'src/Supervisor.hpp').read_text()
         self.assertNotIn('struct SupervisorUpdateLayout',source)
         self.assertNotIn('reinterpret_cast<SupervisorUpdateLayout *>(',source)
-        self.assertIn('Supervisor *s = supervisor;',source)
-        self.assertIn('Supervisor *globalSupervisor = &g_Supervisor;',source)
+        self.assertIn('Supervisor::OnUpdate(Supervisor *',source)
         self.assertIn('SupervisorUpdateNativeFrameOffsets',source)
         self.assertIn('SupervisorCtorArrayElement',source)
         self.assertIn('SupervisorUpdateNativeQueueAt47C',source)
         for index in range(3):
             for component in ('frameOffsetX','frameOffsetY'):
                 with self.subTest(index=index,component=component):
-                    self.assertIn('globalSupervisor->ctorArray078[%d].%s = 0.0f;'
+                    self.assertIn('ctorArray078[%d].%s = 0.0f;'
                                   % (index, component),source)
         self.assertIn('offsetof(SupervisorCtorArrayElement, frameOffsetX) == 0xE8',source)
         self.assertIn('offsetof(SupervisorCtorArrayElement, frameOffsetY) == 0xEC',source)

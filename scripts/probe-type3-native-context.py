@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Cold Type3 source/context controls; no source adoption or exact credit.
+"""Historical Type3 source/context controls; no current-source exact credit.
 
-Run one case on the maintained source or the rejected four-byte word model.
+Run one case on the frozen pre-Cirno source or rejected four-byte word model.
 Reports retain source/tool hashes, actual COFF and complete-owner comparisons.
 Temporary sources and compiler objects clean themselves on failure. Coordinate
 helper cases accept only the unqualified baseline source.
@@ -74,7 +74,8 @@ def module(name, filename):
 def inputs_for(case):
     if case not in CASES:
         raise ValueError('unknown Type3 native context')
-    # This existing producer also enforces the reviewed maintained-source SHA.
+    # The historical producer enforces the frozen pre-Cirno root SHA;
+    # headers remain live and are included in every input proof.
     word = module('context_word_inputs', 'probe-exattack-type3-word-order.py')
     inputs = word.source_inputs()
     def collect(name):
@@ -445,6 +446,8 @@ def run(output, case, variant='baseline'):
         report = {
             'diagnostic_only': True, 'exactness_credit': 'none', 'case': case,
             'source_variant': variant, 'native_interrupt': native_interrupt,
+            'historical_source': 'scripts/fixtures/type3-pre-cirno.cpp.txt',
+            'historical_source_commit': '944870a99a8124cffdd1228ba8980b601d64f964',
             'native_pointer_views': native_pointer_views,
             'native_timer_compare': native_timer_compare,
             'native_timer_bodies': native_timer_bodies,

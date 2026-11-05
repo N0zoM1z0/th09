@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Adapted from Cirno-Labs/th09 src/mainmenu.cpp MainMenu::DrawState15,
+// commit d7653152becabb8c86f2f43d49015ecc11bd0652.
+// Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include <d3dx8math.h>
 #include "AsciiManager.hpp"
 
@@ -51,137 +55,99 @@ extern AsciiManager g_AsciiManager;
 extern char *g_TitleAlphabet;
 extern char g_ReplayPlayTimeText[];
 
-// One character and its terminator occupy the existing two-byte temporary.
-struct ReplayGlyphText
-{
-    char bytes[2];
-
-    explicit ReplayGlyphText(char character)
-    {
-        bytes[0] = character;
-        bytes[1] = 0;
-    }
-};
-typedef char ReplayGlyphTextSizeIs02[(sizeof(ReplayGlyphText) == 2) ? 1 : -1];
-typedef char ReplayGlyphTextBytesAt0[(offsetof(ReplayGlyphText, bytes) == 0) ? 1 : -1];
-
 int TitleScreenView::DrawReplaySave()
 {
-    D3DXVECTOR3 position;
-    position.x = 32.0f;
-    position.y = 64.0f;
-    position.z = 0.0f;
+    D3DXVECTOR3 pos(32.0f, 64.0f, 0.0f);
+    int i;
+    int row;
+    int col;
+    float scale;
+    char str[16];
 
-    if (replaySaveState == 2)
+    if (this->replaySaveState == 2)
     {
-        position.y = 90.0f;
-        ReplayDataView *replay = replays;
-
-        for (i32 i = 0; i < 25; ++i, ++replay)
+        pos.y = 90.0f;
+        for (i = 0; i < 25; i++)
         {
-            g_AsciiManager.color =
-                (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
-
-            // Reuse the stored magic directly for both displayed fields.
-            u32 valid = replay->magic;
-            const char *playTime = valid ? replay->playTime : "--/--/--";
-            const char *playerName = valid ? replay->playerName : "--------";
-
-            g_AsciiManager.AddFormatText(
-                reinterpret_cast<Float3 *>(&position),
-                "No.%.2d %.8s %8s",
-                i + 1, playerName, playTime);
-            position.y += 13.0f;
+            g_AsciiManager.color = i == this->keyboardSelection ? 0xffffffff : 0xff808080;
+            g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "No.%.2d %.8s %8s", i + 1,
+                                  this->replays[i].magic != 0 ? this->replays[i].playerName : "--------",
+                                  this->replays[i].magic != 0 ? this->replays[i].playTime : "--/--/--");
+            pos.y += 13.0f;
         }
     }
-    else if (replaySaveState == 3 || replaySaveState == 4)
+    else if (this->replaySaveState == 3 || this->replaySaveState == 4)
     {
-        i32 row = selectedReplay;
-        i32 frame = stateTimer2;
-
-        position.y = (float)row * 13.0f + 90.0f;
-        D3DXVECTOR3 target = position;
-        target.y = target.x = 224.0f;
-
-        if (frame < 10)
+        row = this->selectedReplay;
+        pos.y = row * 13.0f + 90.0f;
+        D3DXVECTOR3 end = pos;
+        end.x = end.y = 224.0f;
+        if (this->stateTimer2 < 10)
         {
-            D3DXVECTOR3 scaled;
-            // Preserve the two original scale operations and their order.
-            D3DXVec3Subtract(&scaled, &target, &position);
-            D3DXVec3Scale(&target, &scaled, (float)frame);
-            D3DXVec3Scale(&scaled, &target, 0.1f);
-            D3DXVec3Add(&target, &scaled, &position);
+            pos = pos + (end - pos) * (float)this->stateTimer2 * 0.1f;
         }
-        position = target;
-
-        g_AsciiManager.color = 0xFFFFFFFFu;
-        g_AsciiManager.AddFormatText(
-            reinterpret_cast<Float3 *>(&position),
-            "No.%.2d %.8s %8s",
-            row + 1, replayName, g_ReplayPlayTimeText);
-
-        position.x += (float)((replayNameCursor + 6) * 9);
-        g_AsciiManager.AddFormatText(
-            reinterpret_cast<Float3 *>(&position), "%.8s", "_");
-
-        if (replaySaveState == 4)
+        else
         {
-            position.y = 320.0f;
-            position.z = 0.0f;
-
-            for (row = 0; row < 6; ++row)
+            pos = end;
+        }
+        g_AsciiManager.color = 0xffffffff;
+        g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "No.%.2d %.8s %8s", row + 1, this->replayName, g_ReplayPlayTimeText);
+        pos.x += (this->replayNameCursor + 6) * 9;
+        g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "%.8s", "_");
+        if (this->replaySaveState == 4)
+        {
+            pos.z = 0.0f;
+            pos.y = 320.0f;
+            for (row = 0; row < 6; row++)
             {
-                position.x = 224.0f;
-                i32 rowBase = row * 16;
-                for (i32 column = 0; column < 16; ++column)
+                pos.x = 224.0f;
+                for (col = 0; col < 16; col++)
                 {
-                    position.x += 12.0f;
+                    pos.x += 12.0f;
                     float offsetX = 0.0f;
                     float offsetY = 0.0f;
-
-                    if (keyboardSelection == rowBase + column)
+                    if (this->keyboardSelection == col + row * 16)
                     {
-                        g_AsciiManager.color = 0xFFFFFFC0u;
-
-                        float scale;
-                        if ((stateTimer % 64) < 32)
-                            scale = (float)(stateTimer % 32) * 0.025f + 1.2f;
+                        g_AsciiManager.color = 0xffffffc0;
+                        if (this->stateTimer % 64 < 32)
+                        {
+                            scale = this->stateTimer % 32 * 0.025f + 1.2f;
+                        }
                         else
-                            scale = 2.0f - (float)(stateTimer % 32) * 0.025f;
-
+                        {
+                            scale = 2.0f - this->stateTimer % 32 * 0.025f;
+                        }
                         g_AsciiManager.scaleX = scale;
                         g_AsciiManager.scaleY = scale;
                         offsetY = offsetX = (scale - 1.0f) * -8.0f;
                     }
                     else
                     {
-                        g_AsciiManager.color = 0xC0C0C0C0u;
+                        g_AsciiManager.color = 0xc0c0c0c0;
                         g_AsciiManager.scaleX = 1.0f;
                         g_AsciiManager.scaleY = 1.0f;
                     }
-
-                    D3DXVECTOR3 characterPosition;
-                    characterPosition.x = position.x + offsetX;
-                    characterPosition.y = position.y + offsetY;
-                    characterPosition.z = position.z;
-                    ReplayGlyphText text(g_TitleAlphabet[rowBase + column]);
+                    D3DXVECTOR3 charPos = D3DXVECTOR3(offsetX, offsetY, 0.0f) + pos;
+                    str[0] = g_TitleAlphabet[row * 16 + col];
+                    str[1] = 0;
                     if (row == 5)
                     {
-                        if (column == 14)
-                            text.bytes[0] = 0x7F;
-                        else if (column == 15)
-                            text.bytes[0] = (char)0x80;
+                        if (col == 14)
+                        {
+                            str[0] = 0x7f;
+                        }
+                        else if (col == 15)
+                        {
+                            str[0] = 0x80;
+                        }
                     }
-
-                    g_AsciiManager.AddString(
-                        reinterpret_cast<Float3 *>(&characterPosition), text.bytes);
+                    g_AsciiManager.AddString(reinterpret_cast<Float3 *>(&charPos), str);
                 }
-                position.y += 16.0f;
+                pos.y += 16.0f;
             }
         }
     }
-
-    g_AsciiManager.color = 0xFFFFFFFFu;
+    g_AsciiManager.color = 0xffffffff;
     g_AsciiManager.isSelected = 0;
     g_AsciiManager.scaleX = 1.0f;
     g_AsciiManager.scaleY = 1.0f;

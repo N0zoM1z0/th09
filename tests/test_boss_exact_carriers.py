@@ -29,7 +29,7 @@ class ExactCarrierDiscovery(unittest.TestCase):
         groups = frontier.exact_source_carriers(
             'src/EclManager.cpp', frontier.ECL_EXACT_CARRIERS)
         self.assertEqual(len(groups), 2)
-        self.assertEqual(sum(map(len, groups.values())), 80)
+        self.assertEqual(sum(map(len, groups.values())), 81)
         self.assertIn('ecl-pop-context', groups['build/matching/EclManager.obj'])
         self.assertIn('effect-polar-set-from-angle-axes', groups['build/matching/EclManager.obj'])
         self.assertIn('effect-initialize-callback-ring', groups['build/matching/EclManager.obj'])
@@ -44,7 +44,7 @@ class ExactCarrierDiscovery(unittest.TestCase):
         self.assertIn('player-position-callback-type8', groups['build/matching/EclManager.obj'])
         self.assertIn('exattack-type6-initialize',
                       groups['build/matching/EclManager.obj'])
-        self.assertEqual(len(set(sum(groups.values(), []))), 80)
+        self.assertEqual(len(set(sum(groups.values(), []))), 81)
 
     def test_ecl_private_label_targets_remain_original_across_carriers(self):
         # These entries used different compiler-private $L spellings before
@@ -100,7 +100,7 @@ class ExactCarrierDiscovery(unittest.TestCase):
         groups = frontier.exact_source_carriers(
             'src/TitleScreen.cpp', frontier.TITLE_EXACT_CARRIERS)
         self.assertEqual(len(groups), 2)
-        self.assertEqual(len(groups['build/matching/TitleScreen.obj']), 37)
+        self.assertEqual(len(groups['build/matching/TitleScreen.obj']), 40)
         self.assertEqual(groups['build/matching/TitleScoreRecord.obj'],
                          ['score-record-insert'])
         self.assertIn('title-screen-setup-thread',
@@ -489,9 +489,9 @@ class ExactCarrierDiscovery(unittest.TestCase):
     def test_cold_builds_every_distinct_carrier_once_and_replays_every_unit(self):
         for source, expected, prebuilt, nbuild, nexact in (
                 ('src/EclManager.cpp', frontier.ECL_EXACT_CARRIERS,
-                 ('build/matching/EclManager.obj',), 1, 80),
+                 ('build/matching/EclManager.obj',), 1, 81),
                 ('src/TitleScreen.cpp', frontier.TITLE_EXACT_CARRIERS,
-                 (), 2, 38)):
+                 (), 2, 41)):
             with self.subTest(source=source), patch.object(
                     frontier, 'build') as build, patch.object(
                     frontier, 'canonical', side_effect=lambda unit: {'unit': unit}) as canonical:
@@ -509,13 +509,13 @@ class ExactCarrierDiscovery(unittest.TestCase):
                 frontier.cold_replay_exact_source(
                     'src/TitleScreen.cpp', frontier.TITLE_EXACT_CARRIERS)
 
-    def test_title_owner_runs_38_screen_two_music_draw_and_two_real_audio_callees(self):
+    def test_title_owner_replays_screen_music_draw_and_real_audio_callees(self):
         with patch.object(frontier, 'build') as build, patch.object(
                 frontier, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, exact = frontier.run_title(protect_exact=True)
             self.assertEqual(owners, {})
-            self.assertEqual(len(exact), 46)
-            self.assertEqual(len({r['unit'] for r in exact}), 46)
+            self.assertEqual(len(exact), 49)
+            self.assertEqual(len({r['unit'] for r in exact}), 49)
             self.assertEqual(build.call_count, 9)
             self.assertEqual([r['unit'] for r in exact[-3:]], [
                 'anm-manager-draw-text-left', 'anm-manager-load-surface',
@@ -527,8 +527,8 @@ class ExactCarrierDiscovery(unittest.TestCase):
             owners, exact = frontier.run_title(protect_exact=True,
                                                play_sound_prechecked=True)
             self.assertEqual(owners, {})
-            self.assertEqual(len(exact), 45)
-            self.assertEqual(len({r['unit'] for r in exact}), 45)
+            self.assertEqual(len(exact), 48)
+            self.assertEqual(len({r['unit'] for r in exact}), 48)
             self.assertEqual(build.call_count, 8)
             self.assertNotIn('soundplayer-play-sound-by-idx',
                              [r['unit'] for r in exact])

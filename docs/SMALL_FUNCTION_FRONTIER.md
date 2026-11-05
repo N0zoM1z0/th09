@@ -14,8 +14,8 @@ The filter is:
 - not canonical exact;
 - target logical size <=256 bytes.
 
-At the current checkpoint it yields **5 functions**, of which **1 is at most
-128 bytes**. The repository-wide canonical total is **1005 exact functions**.
+At the current checkpoint it yields **1 function**, of which **1 is at most
+128 bytes**. The repository-wide canonical total is **1019 exact functions**.
 
 Size is only a routing heuristic. This is not a verified leaf-function set, a
 difficulty ranking, or evidence about whole-product closure.
@@ -23,10 +23,6 @@ difficulty ranking, or evidence about whole-product closure.
 | Target address | Bytes | Module | Current non-exact source function |
 | --- | ---: | --- | --- |
 | 0x0040D1C0 | 51 | EffectManager | EffectManager::AddedCallback |
-| 0x00424FB0 | 175 | TitleScreen | TitleScreenView::SetCharacterCursorReverse |
-| 0x0042505F | 175 | TitleScreen | TitleScreenView::SetCharacterCursorInactive |
-| 0x00424EDD | 211 | TitleScreen | TitleScreenView::SetCharacterCursorActive |
-| 0x0042E9E0 | 213 | Supervisor | SupervisorFrameQueueView::InsertReceivedFrame |
 
 ## How to use this list
 

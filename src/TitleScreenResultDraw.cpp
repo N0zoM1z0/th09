@@ -1,10 +1,12 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Adapted from Cirno-Labs/th09 src/mainmenu.cpp, MainMenu::DrawState13,
+// commit d7653152becabb8c86f2f43d49015ecc11bd0652.
+// Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "AsciiManager.hpp"
 #include "AsciiGameManagerView.hpp"
 
 #include <stddef.h>
 
-extern "C" void __cdecl _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -50,164 +52,240 @@ extern AsciiManager g_AsciiManager;
 extern const char *g_TitleRankLabels[];
 extern char *g_TitleAlphabet;
 
-#define DRAW_RANKING_BLOCK(bitValue, xValue, yValue, headingText, headingActiveColor, initializeAlpha) \
-    do { \
-        i32 active = difficultyMask & (bitValue); \
-        if (active) { \
-            if (initializeAlpha) alphaColor <<= 24; \
-            g_AsciiManager.color = alphaColor | (headingActiveColor); \
-        } else { \
-            if (initializeAlpha) alphaColor <<= 24; \
-            g_AsciiManager.color = alphaColor | 0x00808080u; \
-        } \
-        position.x = (xValue); \
-        position.y = (yValue); \
-        position.z = 0.0f; \
-        g_AsciiManager.AddFormatText(&position, (headingText)); \
-        position.y += 16.0f; \
-        i32 row = 0; \
-        TitleScoreRecordView *entry = *scoreGroup; \
-        while (row < 5) { \
-            if (active) { \
-                if (selectedRank == row) \
-                    g_AsciiManager.color = alphaColor | 0x00FFF0EFu; \
-                else \
-                    g_AsciiManager.color = alphaColor | 0x00C0F0FFu; \
-            } else \
-                g_AsciiManager.color = alphaColor | 0x00809090u; \
-            if (active && selectedRank == row) { \
-                temp = 9 * (replayNameCursor + 4); \
-                position.x += (float)temp; \
-                g_AsciiManager.AddFormatText( \
-                    &position, "%.8s", "_"); \
-                temp = 9 * (replayNameCursor + 4); \
-                position.x -= (float)temp; \
-            } \
-            g_AsciiManager.AddFormatText( \
-                &position, "%s %.8s %.9d%d", \
-                g_TitleRankLabels[row], entry->name, static_cast<i32>(entry->score), \
-                entry->scoreDigit); \
-            ++row; \
-            ++entry; \
-            position.y += 16.0f; \
-        } \
-        ++scoreGroup; \
-    } while (0)
-
 int TitleScreenView::DrawResult()
 {
-    char text[16];
-    Float3 position;
-    i32 temp;
-    i32 difficultyMask;
-    i32 selectedRank;
-    TitleScoreRecordView (*scoreGroup)[5];
-    u32 alphaColor;
+    Float3 pos;
+    int row;
+    int col;
+    int mask;
+    int highlight;
+    int alpha;
+    float scale;
+    char str[16];
+    TitleScoreRecordView (*scores)[5];
 
-    scoreGroup = g_TitleScoreTable[nameBankIndex];
-    // Keep the following screen snapshot after the score-table pointer store.
-    // VC7.1 emits no machine instruction for this compiler-only memory barrier.
-    _ReadWriteBarrier();
-
-    if (currentScreen == 13)
+    scores = g_TitleScoreTable[this->nameBankIndex];
+    if (this->currentScreen == 13)
     {
-        difficultyMask = 0xFF;
-        selectedRank = 99;
+        mask = 0xff;
+        highlight = 99;
     }
-    else if (currentScreen == 14)
+    else if (this->currentScreen == 14)
     {
-        difficultyMask = 1 << g_GameManager.difficulty;
-        selectedRank = nameSlotIndex;
+        mask = 1 << g_GameManager.difficulty;
+        highlight = this->nameSlotIndex;
     }
-
-    i32 alpha;
-    if (stateTimer2 < 30)
-        alpha = 255 * stateTimer2 / 30;
-    else
-        alpha = 255;
-    alphaColor = (u32)alpha;
-
-    DRAW_RANKING_BLOCK(1, 102.0f, 80.0f, "Easy Ranking", 0x00D0FFD0u, true);
-    DRAW_RANKING_BLOCK(2, 358.0f, 80.0f, "Normal Ranking", 0x00D0FFD0u, false);
-    DRAW_RANKING_BLOCK(4, 102.0f, 192.0f, "Hard Ranking", 0x00FFF0D0u, false);
-    DRAW_RANKING_BLOCK(8, 358.0f, 192.0f, "Lunatic Ranking", 0x00FFC0C0u, false);
-    DRAW_RANKING_BLOCK(0x10, 102.0f, 304.0f, "Extra Ranking", 0x00FFC0F0u, false);
-
-    if (currentScreen == 13)
+    alpha = this->stateTimer2 < 30 ? this->stateTimer2 * 255 / 30 : 255;
+    g_AsciiManager.color = mask & 1 ? (alpha << 24) | 0xd0ffd0 : (alpha << 24) | 0x808080;
+    pos.x = 102.0f;
+    pos.y = 80.0f;
+    pos.z = 0.0f;
+    g_AsciiManager.AddFormatText(&pos, "Easy Ranking");
+    pos.y += 16.0f;
     {
-    }
-    else if (currentScreen == 14 && nameSlotIndex < 5 && currentScreenState >= 1)
-    {
-        position.y = 336.0f;
-        position.z = 0.0f;
-        i32 row = 0;
+        int i;
 
-        while (row < 6)
+        for (i = 0; i < 5; i++)
         {
-            i32 column = 0;
-            position.x = 348.0f;
-            i32 rowBase = row * 16;
-            while (column < 16)
+            if (mask & 1)
             {
-                Float3 characterPosition;
-                position.x += 12.0f;
+                g_AsciiManager.color = highlight == i ? (alpha << 24) | 0xfff0ef : (alpha << 24) | 0xc0f0ff;
+            }
+            else
+            {
+                g_AsciiManager.color = (alpha << 24) | 0x809090;
+            }
+            if (mask & 1 && highlight == i)
+            {
+                pos.x += (this->replayNameCursor + 4) * 9;
+                g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
+                pos.x -= (this->replayNameCursor + 4) * 9;
+            }
+            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", g_TitleRankLabels[i], (*scores)[i].name, (*scores)[i].score,
+                                  (char)(*scores)[i].scoreDigit);
+            pos.y += 16.0f;
+        }
+    }
+    scores++;
+    g_AsciiManager.color = mask & 2 ? (alpha << 24) | 0xd0ffd0 : (alpha << 24) | 0x808080;
+    pos.x = 358.0f;
+    pos.y = 80.0f;
+    pos.z = 0.0f;
+    g_AsciiManager.AddFormatText(&pos, "Normal Ranking");
+    pos.y += 16.0f;
+    {
+        int i;
+        for (i = 0; i < 5; i++)
+        {
+            if (mask & 2)
+            {
+                g_AsciiManager.color = highlight == i ? (alpha << 24) | 0xfff0ef : (alpha << 24) | 0xc0f0ff;
+            }
+            else
+            {
+                g_AsciiManager.color = (alpha << 24) | 0x809090;
+            }
+            if (mask & 2 && highlight == i)
+            {
+                pos.x += (this->replayNameCursor + 4) * 9;
+                g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
+                pos.x -= (this->replayNameCursor + 4) * 9;
+            }
+            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", g_TitleRankLabels[i], (*scores)[i].name, (*scores)[i].score,
+                                  (char)(*scores)[i].scoreDigit);
+            pos.y += 16.0f;
+        }
+    }
+    scores++;
+    g_AsciiManager.color = mask & 4 ? (alpha << 24) | 0xfff0d0 : (alpha << 24) | 0x808080;
+    pos.x = 102.0f;
+    pos.y = 192.0f;
+    pos.z = 0.0f;
+    g_AsciiManager.AddFormatText(&pos, "Hard Ranking");
+    pos.y += 16.0f;
+    {
+        int i;
+        for (i = 0; i < 5; i++)
+        {
+            if (mask & 4)
+            {
+                g_AsciiManager.color = highlight == i ? (alpha << 24) | 0xfff0ef : (alpha << 24) | 0xc0f0ff;
+            }
+            else
+            {
+                g_AsciiManager.color = (alpha << 24) | 0x809090;
+            }
+            if (mask & 4 && highlight == i)
+            {
+                pos.x += (this->replayNameCursor + 4) * 9;
+                g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
+                pos.x -= (this->replayNameCursor + 4) * 9;
+            }
+            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", g_TitleRankLabels[i], (*scores)[i].name, (*scores)[i].score,
+                                  (char)(*scores)[i].scoreDigit);
+            pos.y += 16.0f;
+        }
+    }
+    scores++;
+    g_AsciiManager.color = mask & 8 ? (alpha << 24) | 0xffc0c0 : (alpha << 24) | 0x808080;
+    pos.x = 358.0f;
+    pos.y = 192.0f;
+    pos.z = 0.0f;
+    g_AsciiManager.AddFormatText(&pos, "Lunatic Ranking");
+    pos.y += 16.0f;
+    {
+        int i;
+        for (i = 0; i < 5; i++)
+        {
+            if (mask & 8)
+            {
+                g_AsciiManager.color = highlight == i ? (alpha << 24) | 0xfff0ef : (alpha << 24) | 0xc0f0ff;
+            }
+            else
+            {
+                g_AsciiManager.color = (alpha << 24) | 0x809090;
+            }
+            if (mask & 8 && highlight == i)
+            {
+                pos.x += (this->replayNameCursor + 4) * 9;
+                g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
+                pos.x -= (this->replayNameCursor + 4) * 9;
+            }
+            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", g_TitleRankLabels[i], (*scores)[i].name, (*scores)[i].score,
+                                  (char)(*scores)[i].scoreDigit);
+            pos.y += 16.0f;
+        }
+    }
+    scores++;
+    g_AsciiManager.color = mask & 16 ? (alpha << 24) | 0xffc0f0 : (alpha << 24) | 0x808080;
+    pos.x = 102.0f;
+    pos.y = 304.0f;
+    pos.z = 0.0f;
+    g_AsciiManager.AddFormatText(&pos, "Extra Ranking");
+    pos.y += 16.0f;
+    {
+        int i;
+        for (i = 0; i < 5; i++)
+        {
+            if (mask & 16)
+            {
+                g_AsciiManager.color = highlight == i ? (alpha << 24) | 0xfff0ef : (alpha << 24) | 0xc0f0ff;
+            }
+            else
+            {
+                g_AsciiManager.color = (alpha << 24) | 0x809090;
+            }
+            if (mask & 16 && highlight == i)
+            {
+                pos.x += (this->replayNameCursor + 4) * 9;
+                g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
+                pos.x -= (this->replayNameCursor + 4) * 9;
+            }
+            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", g_TitleRankLabels[i], (*scores)[i].name, (*scores)[i].score,
+                                  (char)(*scores)[i].scoreDigit);
+            pos.y += 16.0f;
+        }
+    }
+    if (this->currentScreen == 13)
+    {
+    }
+    else if (this->currentScreen == 14 && this->nameSlotIndex < 5 && this->currentScreenState >= 1)
+    {
+        pos.z = 0.0f;
+        pos.y = 336.0f;
+        for (row = 0; row < 6; row++)
+        {
+            pos.x = 348.0f;
+            for (col = 0; col < 16; col++)
+            {
+                pos.x += 12.0f;
                 float offsetX = 0.0f;
                 float offsetY = 0.0f;
-
-                if (keyboardSelection == rowBase + column)
+                if (this->keyboardSelection == col + row * 16)
                 {
-                    g_AsciiManager.color = 0xFFFFFFC0u;
-
-                    float scale;
-                    if ((stateTimer % 64) < 32)
+                    g_AsciiManager.color = 0xffffffc0;
+                    if (this->stateTimer % 64 < 32)
                     {
-                        temp = stateTimer % 32;
-                        scale = (float)temp * 0.025f + 1.2f;
+                        scale = this->stateTimer % 32 * 0.025f + 1.2f;
                     }
                     else
                     {
-                        temp = stateTimer % 32;
-                        scale = 2.0f - (float)temp * 0.025f;
+                        scale = 2.0f - this->stateTimer % 32 * 0.025f;
                     }
-
                     g_AsciiManager.scaleX = scale;
                     g_AsciiManager.scaleY = scale;
                     offsetY = offsetX = (scale - 1.0f) * -8.0f;
                 }
                 else
                 {
-                    g_AsciiManager.color = 0xC0C0C0C0u;
+                    g_AsciiManager.color = 0xc0c0c0c0;
                     g_AsciiManager.scaleX = 1.0f;
                     g_AsciiManager.scaleY = 1.0f;
                 }
-
-                characterPosition.x = position.x + offsetX;
-                characterPosition.y = position.y + offsetY;
-                characterPosition.z = position.z;
-                text[0] = g_TitleAlphabet[rowBase + column];
-                text[1] = 0;
-
+                Float3 charPos;
+                charPos.x = offsetX + pos.x;
+                charPos.y = offsetY + pos.y;
+                charPos.z = pos.z;
+                str[0] = g_TitleAlphabet[row * 16 + col];
+                str[1] = 0;
                 if (row == 5)
                 {
-                    if (column == 14)
-                        text[0] = 0x7F;
-                    else if (column == 15)
-                        text[0] = (char)0x80;
+                    if (col == 14)
+                    {
+                        str[0] = 0x7f;
+                    }
+                    else if (col == 15)
+                    {
+                        str[0] = 0x80;
+                    }
                 }
-
-                g_AsciiManager.AddString(
-                    &characterPosition, text);
-                ++column;
+                g_AsciiManager.AddString(&charPos, str);
             }
-            ++row;
-            position.y += 16.0f;
+            pos.y += 16.0f;
         }
     }
-
-    g_AsciiManager.color = 0xFFFFFFFFu;
+    g_AsciiManager.color = 0xffffffff;
     g_AsciiManager.scaleX = 1.0f;
     g_AsciiManager.scaleY = 1.0f;
     return 1;
 }
-
-#undef DRAW_RANKING_BLOCK

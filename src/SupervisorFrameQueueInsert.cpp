@@ -1,57 +1,38 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Adapted from Cirno-Labs/th09 src/app.cpp, App::AddRecord,
+// commit d7653152becabb8c86f2f43d49015ecc11bd0652.
+// Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "SupervisorFrameQueueView.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
 #include "Supervisor.hpp"
-#include <stddef.h>
 
 void SupervisorFrameQueueView::InsertReceivedFrame(
-    int side, int frame, int packedInput, short seed)
+    int side, int frame, unsigned short packedInput, short seed)
 {
-    // The producer writes the same native +0x47C/+0x56C queue arrays as
-    // the full Supervisor::OnUpdate owner and two exact consumer leaves.
+    int i;
+    int j;
     Supervisor *view = static_cast<Supervisor *>(this);
-
     view->lastReceived56C[side].frame04 = frame;
     view->lastReceived56C[side].packedInput00 = (short)packedInput;
     view->lastReceived56C[side].seed02 = seed;
-
-    // The two 10-record side queues are actual elements of the same
-    // 20-entry array. Keep the scan rooted at that array rather than
-    // constructing a pointer from an unrelated byte-offset view.
-    SupervisorFrameEntryView *scan = &view->entries47C[side * 10];
-
-    int index;
-    for (index = 0; index < 10; ++index, ++scan)
+    for (i = 0; i < 10; i++)
     {
-        if (scan->frame04 == 0 || scan->frame04 > frame)
+        if (view->entries47C[side * 10 + i].frame04 == 0 ||
+            view->entries47C[side * 10 + i].frame04 > frame)
             break;
     }
-
-    int flatIndex = side * 10 + index;
-    int *targetFrame = &view->entries47C[flatIndex].frame04;
-
-    if (*targetFrame != 0 && index < 9)
+    if (view->entries47C[side * 10 + i].frame04 != 0 && i < 9)
     {
-        SupervisorFrameEntryView *dst = &view->entries47C[side * 10 + 9];
-        int count = 9 - index;
-        do
+        for (j = 9; j > i; j--)
         {
-            dst->packedInput00 = (dst - 1)->packedInput00;
-            dst->seed02 = (dst - 1)->seed02;
-            dst->frame04 = (dst - 1)->frame04;
-            dst->value08 = (dst - 1)->value08;
-            --dst;
-            --count;
+            view->entries47C[side * 10 + j].packedInput00 = view->entries47C[side * 10 + j - 1].packedInput00;
+            view->entries47C[side * 10 + j].seed02 = view->entries47C[side * 10 + j - 1].seed02;
+            view->entries47C[side * 10 + j].frame04 = view->entries47C[side * 10 + j - 1].frame04;
+            view->entries47C[side * 10 + j].value08 = view->entries47C[side * 10 + j - 1].value08;
         }
-        while (count != 0);
     }
-
-    char *result =
-        reinterpret_cast<char *>(view) +
-        flatIndex * sizeof(SupervisorFrameEntryView);
-
-    *reinterpret_cast<short *>(result + 0x47C) = (short)packedInput;
-    *targetFrame = frame;
-    *reinterpret_cast<short *>(result + 0x47E) = seed;
-    *reinterpret_cast<unsigned int *>(result + 0x484) = 0;
-
+    view->entries47C[side * 10 + i].packedInput00 = (short)packedInput;
+    view->entries47C[side * 10 + i].frame04 = frame;
+    view->entries47C[side * 10 + i].seed02 = seed;
+    view->entries47C[side * 10 + i].value08 = 0;
 }

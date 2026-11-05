@@ -128,8 +128,8 @@ class FrontAddedGuardTests(unittest.TestCase):
             compile_.assert_called_once_with('src/FrontAddedCallback.cpp',
                 'build/matching/FrontAddedCallback.obj', reference_unit='front-message-setup')
             self.assertEqual(build.call_count, count)
-            self.assertEqual(len(exact), count)
-            self.assertEqual(len({row['unit'] for row in exact}), count)
+            self.assertEqual(len(exact), count + 1)
+            self.assertEqual(len({row['unit'] for row in exact}), count + 1)
 
     def test_native_alias_address_source_or_profile_drift_is_rejected(self):
         with (ROOT/'config/match-units.toml').open('rb') as stream:

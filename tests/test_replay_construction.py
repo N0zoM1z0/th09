@@ -58,12 +58,12 @@ class ReplayConstructionPolicyTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 audit.validate_origin_policy(functions, origins, matches+[dict(address=hex(address))])
 
-    def test_dependent_replay_covers_each_of_62_accepted_units_once(self):
+    def test_dependent_replay_covers_each_accepted_unit_once(self):
         manifest, matches = units(), audit.ledger('matches.csv')
         groups = audit.dependent_groups(manifest, matches)
         names = [name for source, profile, group in groups for name in group]
-        self.assertEqual(len(names), 62)
-        self.assertEqual(len(set(names)), 62)
+        self.assertEqual(len(names), 65)
+        self.assertEqual(len(set(names)), 65)
         self.assertEqual(len(groups), 7)
         self.assertNotIn('replay-payload-constructor', names)
         missing = [r for r in matches if r['unit'] != names[0]]
