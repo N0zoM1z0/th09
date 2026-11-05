@@ -1,5 +1,6 @@
+#include "RuntimePolarMath.hpp"
 // Shared type-8/type-9 update callback in the EclManager translation unit.
-// TH09 retains the Float3::FromAngleMagnitude receiver in ECX across its
+// TH09 retains the SetPolar2D receiver in ECX across its
 // call; visibility of that maintained definition reproduces this call site.
 
 #include "AnmManager.hpp"
@@ -133,7 +134,7 @@ int __fastcall ExAttackUpdateCallbackType8_9(ExAttackRecord *base)
             }
             else
             {
-                extra->motion14.FromAngleMagnitude(extra->angle08, 1.5f);
+                SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion14)), extra->angle08, 1.5f);
                 record->position20 += extra->motion14;
 
                 if (record->position20.y >= 480.0f ||

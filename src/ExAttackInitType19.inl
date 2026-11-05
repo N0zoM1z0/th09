@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 // Included once by EclManager.cpp; the real Float3 helper is already visible.
 #include "AnmManager.hpp"
 #include "ExAttackRecordRuntimeView.hpp"
@@ -30,14 +31,14 @@ int __fastcall ExAttackInitializeCallbackType19(ExAttackRecord *base)
 
     float initialAngle = g_ReplayRng.GetRandomF32InRange(-3.1415927f);
     extra->motion04.z = 0.0f;
-    extra->motion04.FromAngleMagnitude(initialAngle, 2.0f);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion04)), initialAngle, 2.0f);
     extra->state00 = 0;
     record->state00 = 2;
 
-    extra->control28.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control28)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
-    extra->control34.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control34)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
 
@@ -80,7 +81,7 @@ int __fastcall ExAttackInitializeCallbackType19(ExAttackRecord *base)
         vertex->rhw = 1.0f;
 
         Float3 uvVector;
-        uvVector.FromAngleMagnitude(angle, 0.5f);
+        SetPolar2D(reinterpret_cast<Float2 *>(&(uvVector)), angle, 0.5f);
         vertex->u = uvVector.x + 0.5f;
         (vertex++)->v = uvVector.y + 0.5f;
 
@@ -97,7 +98,7 @@ int __fastcall ExAttackInitializeCallbackType19(ExAttackRecord *base)
         else if (angularStep > 0.06666667f)
             angularStep = 0.06666667f;
 
-        extra->history3E8[sample + 1].FromAngleMagnitude(
+        SetPolar2D(reinterpret_cast<Float2 *>(&(extra->history3E8[sample + 1])),
             angle, extra->magnitudes578[sample]);
         extra->history3E8[sample + 1] += *spawn;
 

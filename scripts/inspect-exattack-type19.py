@@ -31,7 +31,7 @@ DESTINATIONS = {
     '??MZunTimer@@QAEIH@Z': 0x00401540,
     '??BZunTimer@@QAEMXZ': 0x004014F0,
     '??4ZunTimer@@QAEXH@Z': 0x00401500,
-    '?FromAngleMagnitude@Float3@@QAEXMM@Z': 0x00441890,
+    '?SetPolar2D@@YIXPAUFloat2@@MM@Z': 0x00441890,
     '??YFloat3@@QAEAAU0@ABU0@@Z': 0x00405730,
     '??GFloat3@@QBE?AU0@ABU0@@Z': 0x00401140,
     '?ExAttackInterpolate2D@@YIXPAM0000MM@Z': 0x0042AF80,

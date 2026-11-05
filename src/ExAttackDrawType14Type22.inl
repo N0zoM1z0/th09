@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 // SPDX-License-Identifier: GPL-3.0-only
 // Adapted from Cirno-Labs/th09 src/pl04.cpp DrawExAttackTypes14And22,
 // commit d7653152becabb8c86f2f43d49015ecc11bd0652.
@@ -62,7 +63,7 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
                 angle -= 6.2831855f;
             }
             vtx->pos.z = 0.0f;
-            vtx->pos.FromAngleMagnitude(angle, data->value50);
+            SetPolar2D(reinterpret_cast<Float2 *>(&(vtx->pos)), angle, data->value50);
             vtx->pos += attack->position20;
             vtx->pos.x = g_GameManager.TransformPopupX(vtx->pos.x);
             vtx->pos.y = g_GameManager.TransformPopupY(vtx->pos.y);
@@ -90,7 +91,7 @@ int __fastcall ExAttackDrawCallbackType14_22(ExAttackRecord *base)
                     angle -= 6.2831855f;
                 }
                 vtx->pos.z = 0.0f;
-                vtx->pos.FromAngleMagnitude(angle, data->randomD38[i][j] + data->value50);
+                SetPolar2D(reinterpret_cast<Float2 *>(&(vtx->pos)), angle, data->randomD38[i][j] + data->value50);
                 vtx->pos += attack->position20;
                 vtx->pos.x = g_GameManager.TransformPopupX(vtx->pos.x);
                 vtx->pos.y = g_GameManager.TransformPopupY(vtx->pos.y);

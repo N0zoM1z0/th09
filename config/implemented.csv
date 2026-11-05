@@ -880,7 +880,7 @@ ExAttackUpdateCallbackType01
 ExAttackInitializeCallbackType4
 ExAttackInitializeCallbackType3
 ExAttackInitializeCallbackType5
-Float3::FromAngleMagnitude
+SetPolar2D
 ExAttackInitializeCallbackType8
 ExAttackInitializeCallbackType7
 ExAttackInitializeCallbackType6

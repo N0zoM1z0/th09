@@ -11,6 +11,25 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — native polar API and complete Type29 extent
+
+Type29 draw now has all 2220 bytes, 129 original-position fields, 675 instructions,
+72 ordered calls and 41 identical physical blocks, with 92 ordinary differences.
+The selected existing EclManager Type11 `/Ob0` carrier reproduces the original
+six local-center receiver reloads. The sole existing 32-byte polar primitive is
+reused through the physical explicit-vector API; original nominal ownership
+remains unknown. Three complete same-object callee proofs are mandatory.
+The reviewed transition restores1089 old differences and15 missing bytes while
+changing11 old matches; the guard protects all2128 now-equal positions.
+All130 affected canonical units pass47047 physical bytes/2371 fields across29
+source/profile builds. RunEcl retains the identical30-byte difference list and
+raw/linked hashes; Enemy remains13. All26 existing bounded drawing fixtures
+agree, covering672 reachable original instructions, without a product/runtime
+claim. See [the recovery review](TH09_EFFECT29_POLAR_RECOVERY_20261105.md).
+Totals remain1021 exact/14 nonexact; Type29 has no new exactness credit.
+Full CI passes1351 tests with29 skips; target/tracking, docs/progress and
+whitespace checks pass.
+
 ## 2026-11-05 continued main — current-header Type6 update recovered
 
 The shared-polar caller audit finds that unchanged Type6 source no longer
@@ -820,7 +839,7 @@ repeating them. Historical assumptions remain hypotheses.
 | --- | --- | --- | --- |
 | **RunEcl** | 0x004086C0 | **15,564 physical** (14,792 code + 772 table); 598 bound fields; **30** differing non-field bytes | Opcode4 timer transport and opcode155 flag update. Keep all598 fields/tables and complete15564 bytes; actual Timer ABI and RNG ownership are already corrected. `--owner runecl`. |
 | **EnemyManager::OnUpdate** | 0x00410730 | **3,900 physical**,97 fields, 69 calls,170 blocks; **13 differing bytes** (29->13) | Draw index2, side/threshold4, descriptor-position copy7. Keep real20-byte Timer greater co-visible, all97 fields and3887 matching physical bytes. |
-| **Effect Type29 draw** | 0x00448750 | **2,220 /2,205 bytes**,129 original referents,72 ordered calls,41/41 physical blocks; **1170 overlap differences +15 missing** | Main/satellite fan chronology, polar receiver reloads and ordinal graph. Bounded emulator fixtures are not whole-runtime or exactness proof. `--owner effect29`. |
+| **Effect Type29 draw** | 0x00448750 | **2,220 /2,220 bytes**,129 original-position fields,72 ordered calls,41/41 physical blocks; **92 ordinary differences**, no missing bytes | Existing /Ob0 carrier; complete same-object SDK/polar callees, six local receiver reloads and matching physical graph. Bounded emulator fixtures are not whole-runtime or exactness proof. `--owner effect29`. |
 | **Player movement boss** | 0x0041C170 | **1,900/1,900 physical**, 66 fields, 23 calls, **129** differing bytes | Lower-bound EAX/EDX transport and encoding cascade. Native framerate/coordinate owners and the shared SHT speed type are corrected;preserve1771 matching bytes and both tables. `--owner movement`. |
 | **Player charge update** | 0x0041F810 | **1,210 target /1,197 candidate bytes**, 70 fields, 58 calls, 350/342 instructions; **1,160 overlap differences +13 missing** | Recover source chronology and missing13 bytes; preserve repaired SpawnShots transport and actual call/field identities. |
 | **TitleScreen::OnUpdateResult** | 0x004266B5 | **485 / 484**, 147/147 instructions, 34 fields, 9 calls; **218** overlap + 1 missing | Character snapshot and remaining control-flow/byte deficit. Keep the exact Title setup siblings. |

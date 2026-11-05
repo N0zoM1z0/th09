@@ -13,7 +13,7 @@ DESTINATIONS = {
     '?GetSideState@ExAttackRecordSideView@@QAEPAUExAttackGameManagerSideView@@XZ': 0x440cb0,
     '??YFloat3@@QAEAAU0@ABU0@@Z': 0x405730,
     '?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z': 0x401560,
-    '?FromAngleMagnitude@Float3@@QAEXMM@Z': 0x441890,
+    '?SetPolar2D@@YIXPAUFloat2@@MM@Z': 0x441890,
     '?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z': 0x404910,
     '?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z': 0x406200,
     '?SelectSide@Supervisor@@QAEXH@Z': 0x401440,

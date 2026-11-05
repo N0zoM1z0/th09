@@ -16,7 +16,7 @@ diagnostic.SYMBOL = '?ExAttackUpdateCallbackType21@@YIHPAUExAttackRecord@@@Z'
 # The descriptor-storage constructor aliases the reviewed 0x214-byte constructor.
 diagnostic.DESTINATIONS = {
     '??OZunTimer@@QAEIH@Z': 0x403de0,
-    '?FromAngleMagnitude@Float3@@QAEXMM@Z': 0x441890,
+    '?SetPolar2D@@YIXPAUFloat2@@MM@Z': 0x441890,
     '__real@3f000000': 0x490f54,
     '?AddNormalizeAngle@@YIMMM@Z': 0x42aed0,
     '??YFloat3@@QAEAAU0@ABU0@@Z': 0x405730,

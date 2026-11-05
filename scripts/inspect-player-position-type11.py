@@ -17,7 +17,7 @@ DESTINATIONS = {
     '??KFloat3@@QBE?AU0@M@Z': 0x40F5A0,
     '??0Float3@@QAE@XZ': 0x4343D0,
     '??_H@YGXPAXIHP6EPAX0@Z@Z': 0x401470,
-    '?FromAngleMagnitude@Float3@@QAEXMM@Z': 0x441890,
+    '?SetPolar2D@@YIXPAUFloat2@@MM@Z': 0x441890,
     '?AddNormalizeAngle@@YIMMM@Z': 0x42AED0,
     '?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z': 0x449B50,
 }

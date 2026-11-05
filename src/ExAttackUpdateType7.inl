@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "AnmManager.hpp"
 #include "RuntimeAngleMath.hpp"
 #include "BulletManager.hpp"
@@ -147,7 +148,7 @@ int __fastcall ExAttackUpdateCallbackType7(ExAttackRecord *base)
             }
             else
             {
-                extra->motion14.FromAngleMagnitude(
+                SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion14)),
                     extra->angle08, 1.5f);
                 record->position20 += extra->motion14;
 

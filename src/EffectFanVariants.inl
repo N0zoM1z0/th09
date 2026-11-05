@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 // Original Effect rows17/29/30/31/32/37 initialization and bounded fan callbacks.
 #include "RuntimeAngleMath.hpp"
 
@@ -220,7 +221,7 @@ int __fastcall EffectDrawCallbackType32(Effect *effect)
             if (angle >= 3.1415927f)
                 angle -= 6.2831855f;
             vertex->pos.z = 0.0f;
-            vertex->pos.FromAngleMagnitude(angle, state->radius7C);
+            SetPolar2D(reinterpret_cast<Float2 *>(&(vertex->pos)), angle, state->radius7C);
             vertex->pos += origin;
             vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);
             vertex->pos.y = g_GameManager.TransformPopupY(vertex->pos.y);
@@ -255,7 +256,7 @@ int __fastcall EffectDrawCallbackType17(Effect *effect)
         {
             vertex->pos.z = 0.0f;
             angle = AddNormalizeAngle(angle, 0.0f);
-            vertex->pos.FromAngleMagnitude(angle, state->radius7C);
+            SetPolar2D(reinterpret_cast<Float2 *>(&(vertex->pos)), angle, state->radius7C);
             vertex->pos += origin;
             vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);
             vertex->pos.y = g_GameManager.TransformPopupY(vertex->pos.y);
@@ -290,7 +291,7 @@ int __fastcall EffectDrawCallbackType30(Effect *effect)
         {
             vertex->pos.z = 0.0f;
             angle = AddNormalizeAngle(angle, 0.0f);
-            vertex->pos.FromAngleMagnitude(angle, state->radius7C);
+            SetPolar2D(reinterpret_cast<Float2 *>(&(vertex->pos)), angle, state->radius7C);
             vertex->pos += origin;
             vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);
             vertex->pos.y = g_GameManager.TransformPopupY(vertex->pos.y);

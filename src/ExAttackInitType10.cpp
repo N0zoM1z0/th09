@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "AnmManager.hpp"
 #include "ExAttackController.hpp"
 #include "RngRuntimeLeaves.hpp"
@@ -106,10 +107,10 @@ int __fastcall ExAttackInitializeCallbackType10(ExAttackRecord *base)
 
     g_Supervisor.SelectSide(record->opponentSide04);
 
-    extra->control34.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control34)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
-    extra->control40.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control40)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
 

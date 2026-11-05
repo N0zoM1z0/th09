@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RuntimePolarMath.hpp"
+
 #include "AnmManager.hpp"
 #include "RuntimeAngleMath.hpp"
 #include "ExAttackController.hpp"
@@ -9,17 +11,17 @@
 #include "Supervisor.hpp"
 #include <math.h>
 
-// Lexical fragment included at the end of the EclManager TU. Keep this
-// TH09 exact callers require this out-of-line definition to remain visible in
+// The existing native polar primitive remains one out-of-line body.
+// Exact callers require this definition to remain visible in
 // the EclManager translation unit. The original engine family uses the x87
 // FSINCOS primitive here (also present in committed TH08/TH095 source); ordinary
 // VC7.1 cosf/sinf source emits separate FCOS/FSIN and does not reproduce TH09.
 
-void Float3::FromAngleMagnitude(float angle, float magnitude)
+void __fastcall SetPolar2D(Float2 *vector, float angle, float magnitude)
 {
     __asm
     {
-        mov eax, this
+        mov eax, vector
         fld angle
         fsincos
         fmul [magnitude]
@@ -78,17 +80,17 @@ int __fastcall ExAttackInitializeCallbackType8(ExAttackRecord *base)
 
     float angle = g_ReplayRng.GetRandomF32InRange(-3.1415927f);
     extra->motion14.z = 0.0f;
-    extra->motion14.FromAngleMagnitude(angle, 2.0f);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion14)), angle, 2.0f);
     extra->angle08 = angle;
     extra->state00 = 0;
 
     record->unknown00 = 2;
     record->timer10 = 90;
 
-    extra->control38.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control38)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
-    extra->control44.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control44)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
 
@@ -128,16 +130,16 @@ int __fastcall ExAttackInitializeCallbackType7(ExAttackRecord *base)
 
     float angle = g_ReplayRng.GetRandomF32InRange(-3.1415927f);
     extra->motion14.z = 0.0f;
-    extra->motion14.FromAngleMagnitude(angle, 2.0f);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion14)), angle, 2.0f);
     extra->state00 = 0;
 
     record->unknown00 = 2;
     record->timer10 = 90;
 
-    extra->control38.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control38)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
-    extra->control44.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control44)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
 
@@ -187,14 +189,14 @@ int __fastcall ExAttackInitializeCallbackType6(ExAttackRecord *base)
 
     float angle = g_ReplayRng.GetRandomF32InRange(-3.1415927f);
     extra->motion14.z = 0.0f;
-    extra->motion14.FromAngleMagnitude(angle, 2.0f);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion14)), angle, 2.0f);
     extra->state00 = 0;
     record->unknown00 = 2;
 
-    extra->control38.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control38)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
-    extra->control44.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control44)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
 
@@ -248,17 +250,17 @@ int __fastcall ExAttackInitializeCallbackType9(ExAttackRecord *base)
 
     float angle = g_ReplayRng.GetRandomF32InRange(-3.1415927f);
     extra->motion14.z = 0.0f;
-    extra->motion14.FromAngleMagnitude(angle, 2.0f);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion14)), angle, 2.0f);
     extra->angle08 = angle;
     extra->state00 = 0;
 
     record->unknown00 = 2;
     record->timer10 = 90;
 
-    extra->control38.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control38)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
-    extra->control44.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->control44)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
 

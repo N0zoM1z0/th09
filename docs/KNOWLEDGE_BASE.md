@@ -18,6 +18,25 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: native polar transport closes Type29 extent
+
+Original polar441890 takes its vector inECX and two stack floats, returns with
+ret8 and writes onlyXY. A natural explicit Float2 pointer API, reusing the sole
+existing32-byte FSINCOS body, restores the six Type29 local-center receiver
+reloads while retaining all vertex receivers. Original nominal names and
+static/global/member ownership remain unknown. Actual SDK center constructors
+and accumulators match26/36 original bytes; the native20-byte vertex and shared
+12-byte XYZ layout remain explicit. Existing /Ob0 carrier Type29 now compares
+2220/129/675 instructions/72 calls/41 identical physical blocks with92 unlike
+ordinary bytes. The reviewed transition restores1089 old differences plus15
+missing bytes and changes11 old matches; the new guard protects2128 equalbytes.
+All130 affected canonical units retain47047 physical bytes/2371 fields from29
+serial source/profile builds. Main15564/598 retains identical raw/linked hashes
+and all30 differences; Enemy3900/97 retains13. Existing26 bounded draw fixtures
+agree across672 reachable original instructions, without product/runtime credit.
+No function is promoted; totals remain1021 exact/14 nonexact. See
+[the complete recovery review](TH09_EFFECT29_POLAR_RECOVERY_20261105.md).
+
 ### 2026-11-05 continued main: Type6 native source and polar interface witness
 
 Unchanged Type6 update fails current-header compilation because its private

@@ -179,3 +179,17 @@ The retained local packet includes `rejected-etama-context.patch`, the candidate
 logs, the no-visible-body rejection and both biased-movement comparisons.
 The upstream progress image is routing evidence only. Broader subsystem names,
 layouts and still-unmatched code remain hypotheses requiring TH09-local proof.
+
+
+## Later November 5 follow-up: Type29 partial source integration
+
+The Type29 `pl09.cpp` source hypothesis is integrated with our existing native
+vertex, genuine SDK local vectors and the sole existing polar primitive.
+Complete TH09 comparison reaches2220 bytes/129 original-position fields with
+92 ordinary differences, and reproduces the six original local-center receiver
+reloads. All130 affected existing canonical units remain exact. This is a
+partial source integration with no new exact-function or origin credit; see
+[the source/API review](TH09_EFFECT29_POLAR_RECOVERY_20261105.md).
+The later exact Etama and biased-movement checkpoints supersede their earlier
+negative routing results above; their source-bound receipts are recorded in
+[local canonical receipts](RE_ACCEPTED_RECEIPTS.md).

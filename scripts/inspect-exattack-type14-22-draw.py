@@ -36,7 +36,7 @@ DESTINATIONS = {
     '?TransformPopupY@AsciiGameManagerView@@QAEMM@Z': 0x004016B0,
     '__real@40490fdb': 0x0048E2C4,
     '__real@40c90fdb': 0x0048E4C4,
-    '?FromAngleMagnitude@Float3@@QAEXMM@Z': 0x00441890,
+    '?SetPolar2D@@YIXPAUFloat2@@MM@Z': 0x00441890,
     '??YFloat3@@QAEAAU0@ABU0@@Z': 0x00405730,
     '__real@3e4f8c3d': 0x00491608,
     '?g_AnmManager@@3PAVAnmManager@@A': 0x004DC550,
@@ -432,7 +432,7 @@ def inspect(path: Path, *, explain: bool = False) -> dict:
     literals = importlib.util.module_from_spec(literal_spec)
     literal_spec.loader.exec_module(literals)
     definitions = literals.check_literal_definitions(path.read_bytes(), rows, image, coff, DESTINATIONS)
-    polar_symbol = '?FromAngleMagnitude@Float3@@QAEXMM@Z'
+    polar_symbol = '?SetPolar2D@@YIXPAUFloat2@@MM@Z'
     polar, polar_fields = coff.object_function(path, polar_symbol, include_symbol_locations=True)
     if polar != coff.pe_bytes_at(image, 0x00441890, 32) or polar_fields:
         raise ValueError('ExAttack draw actual native polar definition differs')

@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 // Included once by EclManager.cpp with ordinary Float3 math definitions.
 // The reference keeps the real offset receiver available for the center
 // calculation. No separate point object or non-void angle API is introduced.
@@ -39,7 +40,7 @@ int __fastcall PlayerPositionCallback30404Type4(
         player->rangeSource368->angle80, 1.5707964f);
     Float3 offsetValue;
     Float3 &offset = offsetValue;
-    offset.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(offset)),
         angle, player->rangeSource368->radius7C * 0.5f);
 
     Float3 center;
@@ -63,7 +64,7 @@ int __fastcall PlayerPositionCallback30404Type8(
         player->rangeSource368->angle80, 1.5707964f);
     Float3 offsetValue;
     Float3 &offset = offsetValue;
-    offset.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(offset)),
         angle, player->rangeSource368->radius7C * 0.86602539f);
 
     Float3 center;

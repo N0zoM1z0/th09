@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "AsciiManager.hpp"
 #include "PlayerLifecycleView.hpp"
 
@@ -43,7 +44,7 @@ int __fastcall PlayerPositionCallback30404Type9(
             (player->rangeSource368->radius7C + 24.0f))
         return 0;
 
-    reinterpret_cast<Float3 *>(&delta)->FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(&delta)),
         player->rangeSource368->angle80,
         player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
@@ -52,7 +53,7 @@ int __fastcall PlayerPositionCallback30404Type9(
         return 1;
 
     float angle = AddNormalizeAngle(player->rangeSource368->angle80, 1.0471976f);
-    reinterpret_cast<Float3 *>(&delta)->FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(&delta)),
         angle, player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
     delta = delta - *other;
@@ -60,7 +61,7 @@ int __fastcall PlayerPositionCallback30404Type9(
         return 1;
 
     angle = AddNormalizeAngle(player->rangeSource368->angle80, 2.0943952f);
-    reinterpret_cast<Float3 *>(&delta)->FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(&delta)),
         angle, player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
     delta = delta - *other;
@@ -68,7 +69,7 @@ int __fastcall PlayerPositionCallback30404Type9(
         return 1;
 
     angle = AddNormalizeAngle(player->rangeSource368->angle80, 3.1415927f);
-    reinterpret_cast<Float3 *>(&delta)->FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(&delta)),
         angle, player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
     delta = delta - *other;
@@ -76,7 +77,7 @@ int __fastcall PlayerPositionCallback30404Type9(
         return 1;
 
     angle = AddNormalizeAngle(player->rangeSource368->angle80, 4.1887903f);
-    reinterpret_cast<Float3 *>(&delta)->FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(&delta)),
         angle, player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
     delta = delta - *other;
@@ -84,7 +85,7 @@ int __fastcall PlayerPositionCallback30404Type9(
         return 1;
 
     angle = AddNormalizeAngle(player->rangeSource368->angle80, 5.2359877f);
-    reinterpret_cast<Float3 *>(&delta)->FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(&delta)),
         angle, player->rangeSource368->radius7C + 24.0f);
     delta += player->position1B88;
     delta = delta - *other;

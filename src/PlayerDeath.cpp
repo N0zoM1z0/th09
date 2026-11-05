@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "AsciiManager.hpp"
 #include "PlayerLifecycleView.hpp"
 
@@ -206,8 +207,7 @@ void PlayerLifecycleView::EnterDeathState()
 
     float angle = g_PlayerDeathReplayRng.GetRandomF32InRange(3.1415927f);
     movementFields1CCC.movementAngle1CD8 = angle;
-    reinterpret_cast<Float3 *>(&movementFields1CCC.velocity1CCC)
-        ->FromAngleMagnitude(angle, 1.0f);
+    SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(&movementFields1CCC.velocity1CCC)), angle, 1.0f);
 
     g_PlayerDeathShared->transitionFramesE93C[sideIndex] = 60;
     g_PlayerDeathShared->transitionColorE934[sideIndex] = 0x80FF0000u;

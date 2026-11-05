@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 // Lexical member of EclManager.cpp. Ordinary Float3 bodies select the
 // target temporary lifetimes; the constructor callback owner stays unknown.
 #include "AsciiManager.hpp"
@@ -53,15 +54,15 @@ int __fastcall PlayerPositionCallback30404Type11(
     PlayerType11RangeSourceView *source = player->rangeSource368;
 
     float angle = source->angle80;
-    points[0].FromAngleMagnitude(angle, source->radius7C);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(points[0])), angle, source->radius7C);
     angle = AddNormalizeAngle(angle, 1.2566371f);
-    points[2].FromAngleMagnitude(angle, source->radius7C);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(points[2])), angle, source->radius7C);
     angle = AddNormalizeAngle(angle, 1.2566371f);
-    points[4].FromAngleMagnitude(angle, source->radius7C);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(points[4])), angle, source->radius7C);
     angle = AddNormalizeAngle(angle, 1.2566371f);
-    points[6].FromAngleMagnitude(angle, source->radius7C);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(points[6])), angle, source->radius7C);
     angle = AddNormalizeAngle(angle, 1.2566371f);
-    points[8].FromAngleMagnitude(angle, source->radius7C);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(points[8])), angle, source->radius7C);
 
     points[1] = (points[0] - points[4]) / 1.618f + points[4];
     points[3] = (points[2] - points[6]) / 1.618f + points[6];

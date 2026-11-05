@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "EffectRingRuntimeView.hpp"
 #include "AnmManager.hpp"
 #include "AsciiGameManagerView.hpp"
@@ -75,7 +76,7 @@ int __fastcall EffectDrawCallbackType16(Effect *effect)
         for (int i = state->segments8C; i > 0; --i)
         {
             vertex->pos.z = 0.0f;
-            vertex->pos.FromAngleMagnitude(angle, 448.0f);
+            SetPolar2D(reinterpret_cast<Float2 *>(&(vertex->pos)), angle, 448.0f);
             const float &horizontalScale = *reinterpret_cast<const float *>(effect->unknown084);
             vertex->pos.x = horizontalScale * vertex->pos.x;
             vertex->pos += origin;

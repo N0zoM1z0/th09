@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RuntimePolarMath.hpp"
+
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "EclOpcodes.hpp"
@@ -118,7 +120,7 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
             g_GameManager.speedEC * enemy->radialVelocity2E00 *
                 g_Supervisor.framerateMultiplier5B8 +
             enemy->orbitRadius2DFC;
-        reinterpret_cast<Float3 *>(polarVelocity)->FromAngleMagnitude(
+        SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(polarVelocity)),
             enemy->orbitAngle2DE8, enemy->orbitRadius2DFC);
         enemy->velocity2D8C.x =
             polarVelocity[0] + enemy->movementOrigin2E1C.x -
@@ -144,7 +146,7 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
         enemy->speed2DF4 =
             g_Supervisor.framerateMultiplier5B8 * enemy->acceleration2DF8 +
             enemy->speed2DF4;
-        reinterpret_cast<Float3 &>(enemy->velocity2D8C).FromAngleMagnitude(
+        SetPolar2D(reinterpret_cast<Float2 *>(&(reinterpret_cast<Float3 &>(enemy->velocity2D8C))),
             enemy->movementAngle2DE0, enemy->speed2DF4);
         reinterpret_cast<Float3 &>(enemy->velocity2D8C).operator float *()[2] = 0.0f;
         if (enemy->movementDuration2E34 > 0)

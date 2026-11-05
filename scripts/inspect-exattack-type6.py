@@ -23,7 +23,7 @@ diagnostic.DESTINATIONS = {
     '?CheckBulletCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z': 0x41DFF0,
     '??4ZunTimer@@QAEXH@Z': 0x401500,
     '?SetInterrupt@AnmVm@@QAEXF@Z': 0x406790,
-    '?FromAngleMagnitude@Float3@@QAEXMM@Z': 0x441890,
+    '?SetPolar2D@@YIXPAUFloat2@@MM@Z': 0x441890,
     '?AddNormalizeAngle@@YIMMM@Z': 0x42AED0,
     '??YFloat3@@QAEAAU0@ABU0@@Z': 0x405730,
     '??BZunTimer@@QAEMXZ': 0x4014F0,

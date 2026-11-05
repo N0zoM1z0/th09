@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "BulletManager.hpp"
 #include "AnmManager.hpp"
 #include "SoundPlayer.hpp"
@@ -118,7 +119,7 @@ nextRecord:
         this->exStates[1].timer = 0;
         this->exStates[1].durationFrames =
             record->payload.vectorAcceleration.durationFrames;
-        this->exStates[1].vector.FromAngleMagnitude(
+        SetPolar2D(reinterpret_cast<Float2 *>(&(this->exStates[1].vector)),
             this->exStates[1].accelerationAngle,
             g_Supervisor.framerateMultiplier *
                 this->exStates[1].accelerationMagnitude);

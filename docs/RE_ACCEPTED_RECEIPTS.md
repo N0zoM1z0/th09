@@ -12,6 +12,28 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 5: restored Type6 current-header source — local canonical Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `ba92c53d1439a04460f9c392bed4b0bc942b4aa8`.
+Target SHA-256:
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+
+`ExAttackUpdateCallbackType6 @00446060` restores all698 bytes/30 fields using
+shared native GameManager, Player, descriptor-constructor, ANM and angle
+interfaces. Eleven actual caller/callee/sibling units pass1359 physical bytes/
+60 fields across five objects. Seven ANM table labels retain definition/PE-
+verified destinations. This repairs an existing exact unit without new credit.
+Full target-independent CI passes1347 tests with29 skips.
+
+The ignored immutable receipt is
+`.analysis/effect29-recovery-20261105/type6-source-proof.json`, SHA-256
+`3746df89b609179c4dabd18bff97acf5c0e7b3805809dbf69fa65858aceb7b5e`.
+It binds raw inputs, normalized Git blobs, profiles and actual objects to the
+source commit above. Later polar-interface changes require a separate replay;
+this receipt is not a claim about those changed inputs. See
+[the recovery review](TH09_EFFECT29_POLAR_RECOVERY_20261105.md).
+
 ## November 5: complete biased ECL movement — local canonical Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

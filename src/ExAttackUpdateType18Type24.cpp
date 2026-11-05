@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "ExAttackController.hpp"
@@ -218,7 +219,7 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
 
     if (record->timer10 > 20)
     {
-        extra->motion04.FromAngleMagnitude(
+        SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion04)),
             extra->angle4C, extra->speed50);
         extra->speed50 += 0.1f;
 
@@ -258,7 +259,7 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
             }
         }
 
-        collisionPoint.FromAngleMagnitude(
+        SetPolar2D(reinterpret_cast<Float2 *>(&(collisionPoint)),
             extra->angle4C, extra->speed50);
         collisionPoint += record->position20;
         g_GameManager.sides[record->opponentSide04]

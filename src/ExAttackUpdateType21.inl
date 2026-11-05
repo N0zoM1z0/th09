@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 // Included once by EclManager.cpp after the existing Float3 helper definition.
 #include "AnmManager.hpp"
 #include "RuntimeAngleMath.hpp"
@@ -99,14 +100,14 @@ int __fastcall ExAttackUpdateCallbackType21(ExAttackRecord *base)
         do
         {
             Float3 *uv = &workspace;
-            uv->FromAngleMagnitude(uvAngle, 0.5f);
+            SetPolar2D(reinterpret_cast<Float2 *>(uv), uvAngle, 0.5f);
             *reinterpret_cast<float *>(vertexV - sizeof(float)) =
                 uv->x + 0.5f;
             *reinterpret_cast<float *>(vertexV) = uv->y + 0.5f;
             uvAngle = AddNormalizeAngle(uvAngle, 0.2026834f);
 
             extra->magnitudes578[sample] += extra->angularSteps5FC[sample];
-            history->FromAngleMagnitude(historyAngle, extra->magnitudes578[sample]);
+            SetPolar2D(reinterpret_cast<Float2 *>(history), historyAngle, extra->magnitudes578[sample]);
             *history += extra->spawn40;
 
             vertexV += sizeof(ExAttackType21UpdateVertex);

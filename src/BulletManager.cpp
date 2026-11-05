@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "BulletManager.hpp"
 #include "ZunMemory.hpp"
 #include "SoundPlayer.hpp"
@@ -185,7 +186,7 @@ static void UpdateBulletDeceleration(Bullet *bullet)
     if (state.timer <= 16)
     {
         magnitude = 5.0f - (float)state.timer * (5.0f / 16.0f);
-        bullet->velocity.FromAngleMagnitude(
+        SetPolar2D(reinterpret_cast<Float2 *>(&(bullet->velocity)),
             bullet->angle, (magnitude + bullet->speed) * g_Supervisor.framerateMultiplier5B8);
     }
     else
@@ -227,7 +228,7 @@ static void UpdateBulletPolarAcceleration(Bullet *bullet)
             g_Supervisor.framerateMultiplier5B8 * bullet->exStates[2].angleDelta);
         bullet->speed +=
             g_Supervisor.framerateMultiplier5B8 * bullet->exStates[2].speedDelta;
-        bullet->velocity.FromAngleMagnitude(
+        SetPolar2D(reinterpret_cast<Float2 *>(&(bullet->velocity)),
             bullet->angle, g_Supervisor.framerateMultiplier5B8 * bullet->speed);
     }
     state.timer++;
@@ -256,7 +257,7 @@ static void UpdateBulletRelativeDirectionChange(Bullet *bullet)
         magnitude = bullet->speed -
                     ((float)state.timer * bullet->speed) / interval;
     }
-    bullet->velocity.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(bullet->velocity)),
         bullet->angle, magnitude * g_Supervisor.framerateMultiplier5B8);
     state.timer++;
 }
@@ -284,7 +285,7 @@ static void UpdateBulletAbsoluteDirectionChange(Bullet *bullet)
         magnitude = bullet->speed -
                     ((float)state.timer * bullet->speed) / interval;
     }
-    bullet->velocity.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(bullet->velocity)),
         bullet->angle, magnitude * g_Supervisor.framerateMultiplier5B8);
     state.timer++;
 }
@@ -314,7 +315,7 @@ static void UpdateBulletAimedDirectionChange(Bullet *bullet)
         magnitude = bullet->speed -
                     ((float)state.timer * bullet->speed) / interval;
     }
-    bullet->velocity.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(bullet->velocity)),
         bullet->angle, magnitude * g_Supervisor.framerateMultiplier5B8);
     state.timer++;
 }
@@ -340,7 +341,7 @@ static void UpdateBulletBoundaryBounce(Bullet *bullet)
             bullet->angle = -bullet->angle;
         bullet->speed = bullet->exStates[4].bounceSpeed;
         magnitude = bullet->speed;
-        bullet->velocity.FromAngleMagnitude(
+        SetPolar2D(reinterpret_cast<Float2 *>(&(bullet->velocity)),
             bullet->angle, magnitude * g_Supervisor.framerateMultiplier5B8);
         bullet->exStates[4].bouncesCompleted += 1;
         if (bullet->exStates[4].bouncesCompleted >= bullet->exStates[4].bounceLimit)
@@ -476,7 +477,7 @@ Bullet *EtamaController::SpawnSingleBullet(
     bullet->position = descriptor->position;
     float *bulletPosition = bullet->position;
     bulletPosition[2] = 0.1f;
-    bullet->velocity.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(bullet->velocity)),
         angle, speed * g_Supervisor.framerateMultiplier5B8);
     bullet->activeTransformFlags = descriptor->transformFlags;
     bullet->color = descriptor->color;

@@ -1,6 +1,8 @@
 #pragma once
 
-// Compile with EclManager's visible ordinary Float3::FromAngleMagnitude.
+#include "RuntimePolarMath.hpp"
+
+// Compile with EclManager's visible native SetPolar2D.
 // The original retains its receiver in ECX for the following vector addition.
 
 #include "AnmManager.hpp"
@@ -133,7 +135,7 @@ int __fastcall ExAttackUpdateCallbackType19(ExAttackRecord *base)
 
             extra->magnitudes578[sample] += extra->angularSteps5FC[sample];
 
-            extra->history3E8[sample + 1].FromAngleMagnitude(
+            SetPolar2D(reinterpret_cast<Float2 *>(&(extra->history3E8[sample + 1])),
                 angle, extra->magnitudes578[sample]);
             extra->history3E8[sample + 1] += extra->spawn40;
 

@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 // Effect template 34 callbacks; lexical member of the real ECL/math carrier.
 // Both initializer and 946-byte draw owner are exact against Japanese TH09 1.50a.
 #include "EffectManager.hpp"
@@ -77,7 +78,7 @@ int __fastcall EffectDrawCallbackType34(Effect *effect)
         if (angle >= 3.1415927f)
             angle -= 6.2831855f;
         vertex->pos.z = 0.0f;
-        vertex->pos.FromAngleMagnitude(angle, vertices->width50);
+        SetPolar2D(reinterpret_cast<Float2 *>(&(vertex->pos)), angle, vertices->width50);
         vertex->pos += *position;
         vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);
         vertex->pos.y = g_GameManager.TransformPopupY(vertex->pos.y);
@@ -105,7 +106,7 @@ int __fastcall EffectDrawCallbackType34(Effect *effect)
             if (angle >= 3.1415927f)
                 angle -= 6.2831855f;
             vertex->pos.z = 0.0f;
-            vertex->pos.FromAngleMagnitude(angle, vertices->jitterCE8[layer][i] + vertices->width50);
+            SetPolar2D(reinterpret_cast<Float2 *>(&(vertex->pos)), angle, vertices->jitterCE8[layer][i] + vertices->width50);
             vertex->pos += *position;
             vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);
             vertex->pos.y = g_GameManager.TransformPopupY(vertex->pos.y);

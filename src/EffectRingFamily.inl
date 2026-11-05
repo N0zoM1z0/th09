@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 // Original Effect rows 6/8/13/14/15 share these two callbacks.
 // Member names describe the observed runtime prefix; full ownership is unknown.
 #include "EffectRingRuntimeView.hpp"
@@ -65,13 +66,13 @@ int __fastcall EffectDrawCallbackRing(Effect *effect)
                 if (angle >= 3.1415927f)
                     angle -= 6.2831855f;
                 vertex->pos.z = 0.0f;
-                vertex->pos.FromAngleMagnitude(angle, halfWidth);
+                SetPolar2D(reinterpret_cast<Float2 *>(&(vertex->pos)), angle, halfWidth);
                 vertex->pos += state->origin48;
                 vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);
                 vertex->pos.y = g_GameManager.TransformPopupY(vertex->pos.y);
                 ++vertex;
                 vertex->pos.z = 0.0f;
-                vertex->pos.FromAngleMagnitude(angle, innerRadius);
+                SetPolar2D(reinterpret_cast<Float2 *>(&(vertex->pos)), angle, innerRadius);
                 vertex->pos += state->origin48;
                 vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);
                 vertex->pos.y = g_GameManager.TransformPopupY(vertex->pos.y);
@@ -125,13 +126,13 @@ int __fastcall EffectDrawCallbackRing(Effect *effect)
                 if (waveAngle >= 3.1415927f)
                     waveAngle -= 6.2831855f;
                 ripple = cosf(waveAngle) * state->ellipseY94;
-                vertex->pos.FromAngleMagnitude(angle, ripple + halfWidth);
+                SetPolar2D(reinterpret_cast<Float2 *>(&(vertex->pos)), angle, ripple + halfWidth);
                 vertex->pos += state->origin48;
                 vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);
                 vertex->pos.y = g_GameManager.TransformPopupY(vertex->pos.y);
                 vertex->pos.z = 0.0f;
                 ++vertex;
-                vertex->pos.FromAngleMagnitude(angle, ripple + innerRadius);
+                SetPolar2D(reinterpret_cast<Float2 *>(&(vertex->pos)), angle, ripple + innerRadius);
                 vertex->pos += state->origin48;
                 vertex->pos.x = g_GameManager.TransformPopupX(vertex->pos.x);
                 vertex->pos.y = g_GameManager.TransformPopupY(vertex->pos.y);

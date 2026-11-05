@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 // Original Effect rows17/29/31 updates and rows31/37 draws.
 // Lexical member of EclManager.cpp; Type31 draw uses the existing /Ob0 carrier.
 #include "RuntimeAngleMath.hpp"
@@ -75,15 +76,15 @@ int __fastcall EffectDrawCallbackType31(Effect *effect)
     {
         float angle = state->angle80;
         Float3 points[10];
-        points[0].FromAngleMagnitude(angle, state->radius7C);
+        SetPolar2D(reinterpret_cast<Float2 *>(&(points[0])), angle, state->radius7C);
         angle = AddNormalizeAngle(angle, 1.2566371f);
-        points[2].FromAngleMagnitude(angle, state->radius7C);
+        SetPolar2D(reinterpret_cast<Float2 *>(&(points[2])), angle, state->radius7C);
         angle = AddNormalizeAngle(angle, 1.2566371f);
-        points[4].FromAngleMagnitude(angle, state->radius7C);
+        SetPolar2D(reinterpret_cast<Float2 *>(&(points[4])), angle, state->radius7C);
         angle = AddNormalizeAngle(angle, 1.2566371f);
-        points[6].FromAngleMagnitude(angle, state->radius7C);
+        SetPolar2D(reinterpret_cast<Float2 *>(&(points[6])), angle, state->radius7C);
         angle = AddNormalizeAngle(angle, 1.2566371f);
-        points[8].FromAngleMagnitude(angle, state->radius7C);
+        SetPolar2D(reinterpret_cast<Float2 *>(&(points[8])), angle, state->radius7C);
 
         points[1] = (points[0] - points[4]) / 1.618f + points[4];
         points[3] = (points[2] - points[6]) / 1.618f + points[6];

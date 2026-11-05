@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "AnmManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "ExAttackController.hpp"
@@ -83,16 +84,16 @@ int __fastcall ExAttackInitializeCallbackType24(ExAttackRecord *base)
 
     float angle = g_ReplayRng.GetRandomF32InRange(-3.1415927f);
     extra->motion04.z = 0.0f;
-    extra->motion04.FromAngleMagnitude(angle, 2.0f);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion04)), angle, 2.0f);
     extra->state00 = 0;
     record->timer10 = 90;
     record->state00 = 2;
 
-    extra->point28.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->point28)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
 
-    extra->point34.FromAngleMagnitude(
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->point34)),
         g_ReplayRng.GetRandomF32SignedInRange(3.1415927f),
         g_ReplayRng.GetRandomF32InRange(192.0f));
 

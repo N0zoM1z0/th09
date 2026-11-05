@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "AnmManager.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackType3DataView.hpp"
@@ -98,7 +99,7 @@ int __fastcall ExAttackInitializeCallbackType3(ExAttackRecord *base)
         opponentPosition.x - spawnPosition.x);
     record->angle3C = angle;
 
-    extra->motion04.FromAngleMagnitude(angle, 3.5f);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion04)), angle, 3.5f);
     extra->state00 = 0;
 
     g_ExAttackController->Spawn(

@@ -5155,38 +5155,32 @@ def guard_effect_type34_draw(result: dict) -> dict:
 
 
 EFFECT29_DRAW_SHA256 = '8ecf5d55f2ef0de67316f09b3a6d9422b4475bf9a7fdf1ea9dd10919247a3455'
-# Complete original-linked residual set from the maintained 2205-byte source.
-# Missing tail bytes receive no equality claim. All 1035 old-equal positions
-# remain protected when a later source model changes length or scheduling.
+# Complete 2220-byte native-polar /Ob0 frontier; protect all 2128 equal bytes.
+# The reviewed migration restores1089 old differences, changes11 old matches,
+# and supplies15 missing bytes. See TH09_EFFECT29_POLAR_RECOVERY_20261105.md.
 EFFECT29_DRAW_RESIDUAL_RUNS = (
-    (0x13, 0x14), (0x23, 0x24), (0x26, 0x27), (0x53, 0x54),
-    (0x5A, 0x5B), (0x5D, 0x5E), (0x91, 0x92), (0x94, 0x95),
-    (0xA4, 0xA5), (0xAD, 0xAE), (0xB0, 0xB1), (0xEF, 0xF0),
-    (0xF2, 0xF3), (0xF5, 0xF6), (0x10A, 0x10B), (0x10D, 0x10E),
-    (0x112, 0x113), (0x135, 0x136), (0x13E, 0x13F), (0x150, 0x151),
-    (0x153, 0x154), (0x156, 0x157), (0x167, 0x168), (0x16E, 0x16F),
-    (0x17C, 0x184), (0x185, 0x187), (0x188, 0x191), (0x192, 0x1C1),
-    (0x1C2, 0x1FD), (0x1FE, 0x22C), (0x22D, 0x230), (0x231, 0x233),
-    (0x235, 0x25A), (0x25B, 0x26C), (0x26D, 0x273), (0x274, 0x27E),
-    (0x27F, 0x297), (0x298, 0x2C2), (0x2C3, 0x331), (0x332, 0x33B),
-    (0x33E, 0x342), (0x343, 0x379), (0x37A, 0x3A5), (0x3A6, 0x3AD),
-    (0x3AF, 0x3EF), (0x3F0, 0x403), (0x404, 0x44F), (0x452, 0x453),
-    (0x462, 0x463), (0x46B, 0x46C), (0x46E, 0x46F), (0x4AE, 0x4AF),
-    (0x4B1, 0x4B2), (0x4C9, 0x4CA), (0x4CC, 0x4CD), (0x4D1, 0x4D2),
-    (0x4D4, 0x4D5), (0x4E8, 0x4E9), (0x4FD, 0x4FE), (0x505, 0x506),
-    (0x513, 0x514), (0x519, 0x51A), (0x526, 0x527), (0x534, 0x53C),
-    (0x53D, 0x53F), (0x540, 0x549), (0x54A, 0x579), (0x57A, 0x58F),
-    (0x592, 0x593), (0x5A2, 0x5A3), (0x5AB, 0x5AC), (0x5AE, 0x5AF),
-    (0x5EE, 0x5EF), (0x5F1, 0x5F2), (0x609, 0x60A), (0x60C, 0x60D),
-    (0x611, 0x612), (0x614, 0x615), (0x628, 0x629), (0x63D, 0x63E),
+    (0x51, 0x53), (0x54, 0x5B), (0x94, 0x95), (0xA4, 0xA5),
+    (0xAD, 0xAE), (0xB0, 0xB1), (0xEF, 0xF0), (0x10A, 0x10B),
+    (0x112, 0x113), (0x150, 0x151), (0x167, 0x168), (0x16E, 0x16F),
+    (0x1D5, 0x1D6), (0x1E5, 0x1E6), (0x1EE, 0x1EF), (0x1F1, 0x1F2),
+    (0x231, 0x232), (0x237, 0x238), (0x24C, 0x24D), (0x25E, 0x25F),
+    (0x283, 0x284), (0x28B, 0x28C), (0x299, 0x29A), (0x29F, 0x2A0),
+    (0x2AC, 0x2AD), (0x313, 0x314), (0x323, 0x324), (0x32C, 0x32D),
+    (0x32F, 0x330), (0x36F, 0x370), (0x375, 0x376), (0x38A, 0x38B),
+    (0x395, 0x396), (0x3BE, 0x3BF), (0x3C6, 0x3C7), (0x3D4, 0x3D5),
+    (0x3DA, 0x3DB), (0x3E7, 0x3E8), (0x452, 0x453), (0x462, 0x463),
+    (0x46B, 0x46C), (0x46E, 0x46F), (0x4AE, 0x4AF), (0x4B4, 0x4B5),
+    (0x4C9, 0x4CA), (0x4D4, 0x4D5), (0x4FD, 0x4FE), (0x505, 0x506),
+    (0x513, 0x514), (0x519, 0x51A), (0x526, 0x527), (0x592, 0x593),
+    (0x5A2, 0x5A3), (0x5AB, 0x5AC), (0x5AE, 0x5AF), (0x5EE, 0x5EF),
+    (0x5F4, 0x5F5), (0x609, 0x60A), (0x614, 0x615), (0x63D, 0x63E),
     (0x645, 0x646), (0x653, 0x654), (0x659, 0x65A), (0x666, 0x667),
-    (0x674, 0x67C), (0x67D, 0x67F), (0x680, 0x689), (0x68A, 0x6B9),
-    (0x6BA, 0x6CF), (0x6D2, 0x6D3), (0x6E2, 0x6E3), (0x6EB, 0x6EC),
-    (0x6EE, 0x6EF), (0x72E, 0x72F), (0x731, 0x732), (0x749, 0x74A),
-    (0x74C, 0x74D), (0x751, 0x752), (0x754, 0x755), (0x768, 0x769),
+    (0x6D2, 0x6D3), (0x6E2, 0x6E3), (0x6EB, 0x6EC), (0x6EE, 0x6EF),
+    (0x72E, 0x72F), (0x734, 0x735), (0x749, 0x74A), (0x754, 0x755),
     (0x77D, 0x77E), (0x785, 0x786), (0x793, 0x794), (0x799, 0x79A),
-    (0x7A6, 0x7A7), (0x7B4, 0x7BC), (0x7BD, 0x7BF), (0x7C0, 0x7C9),
-    (0x7CA, 0x7F9), (0x7FA, 0x84C), (0x84D, 0x863), (0x864, 0x89D),
+    (0x7A6, 0x7A7), (0x812, 0x813), (0x822, 0x823), (0x82B, 0x82C),
+    (0x82E, 0x82F), (0x86E, 0x86F), (0x878, 0x879), (0x886, 0x887),
+    (0x88E, 0x88F),
 )
 EFFECT29_DRAW_CALLS = (
     0x401680, 0x4016b0, 0x441890, 0x405730, 0x401680, 0x4016b0, 0x43b7b0, 0x4010b0,
@@ -5199,6 +5193,15 @@ EFFECT29_DRAW_CALLS = (
     0x441890, 0x405730, 0x401680, 0x4016b0, 0x43b7b0, 0x4010b0, 0x42aed0, 0x441890,
     0x405730, 0x401680, 0x4016b0, 0x441890, 0x405730, 0x401680, 0x4016b0, 0x43b7b0,
 )
+
+EFFECT29_LOCAL_CALLEES = {
+    '?SetPolar2D@@YIXPAUFloat2@@MM@Z': (0x441890, 32,
+        'a50437b23b41970d8419b08c34293566d683282156f7ff73b7e73198b15bd19a'),
+    '??0D3DXVECTOR3@@QAE@MMM@Z': (0x4010B0, 26,
+        '204472fde081cbd193adc34dad5b003d18f093a1a537856ca14d93797c67a3ca'),
+    '??YD3DXVECTOR3@@QAEAAU0@ABU0@@Z': (0x405730, 36,
+        'ac5a4b23ae37aa608b00e72c113088fa7e0617ada95c50e71cb4742db5219212'),
+}
 
 def guard_effect_type29_draw(document: dict) -> dict:
     original = document.get('original', {})
@@ -5228,7 +5231,10 @@ def guard_effect_type29_draw(document: dict) -> dict:
     if (result.get('target_sha256') != EFFECT29_DRAW_SHA256 or
             result.get('target_address') != 0x448750 or
             result.get('target_instructions') != 675 or
-            type(size) is not int or not 2205 <= size <= 2220 or
+            type(size) is not int or size != 2220 or
+            result.get('candidate_instructions') != 675 or
+            result.get('all_original_fields_agree') is not True or
+            result.get('direct_graphs_agree') is not True or
             result.get('missing_bytes') != 2220 - size or
             result.get('extra_bytes') != 0 or
             result.get('target_blocks') != 41 or
@@ -5240,13 +5246,33 @@ def guard_effect_type29_draw(document: dict) -> dict:
     if (result.get('target_calls') != expected_calls or
             result.get('candidate_calls') != expected_calls):
         raise RuntimeError('Effect 29 original ordered call trace changed')
+    callees = result.get('same_object_vector_callees')
+    if (not isinstance(callees, list) or len(callees) != len(EFFECT29_LOCAL_CALLEES) or
+            any(not isinstance(row, dict) for row in callees)):
+        raise RuntimeError('Effect 29 missing complete same-object callee proofs')
+    observed = {row.get('symbol'): row for row in callees}
+    if set(observed) != set(EFFECT29_LOCAL_CALLEES):
+        raise RuntimeError('Effect 29 same-object callee identities changed')
+    for symbol, (address, callee_size, digest) in EFFECT29_LOCAL_CALLEES.items():
+        row = observed[symbol]
+        if (row.get('target_address') != address or row.get('target_bytes') != callee_size or
+                row.get('target_sha256') != digest or row.get('fields') != 0 or
+                row.get('same_object_definition') is not True or
+                row.get('complete_bytes_equal') is not True or
+                row.get('exactness_credit') != 'none'):
+            raise RuntimeError('Effect 29 incomplete same-object callee proof')
+    windows = document.get('receiver_windows', {})
+    for side in ('original', 'candidate'):
+        row = windows.get(side, {})
+        if (row.get('center_ecx_reloads') != 6 or row.get('vertex_ecx_reloads') != 0):
+            raise RuntimeError('Effect 29 receiver reload observations changed')
     offsets = result.get('difference_offsets')
     known = {i for a, b in EFFECT29_DRAW_RESIDUAL_RUNS for i in range(a, b)}
     if (not isinstance(offsets, list) or
             any(type(i) is not int or i not in known or i >= size for i in offsets) or
             offsets != sorted(set(offsets)) or
             result.get('overlapping_differences') != len(offsets) or
-            len(offsets) > 1170):
+            len(offsets) > 92):
         raise RuntimeError('Effect 29 changed an already equal original byte')
     equal = not offsets and size == 2220
     if result.get('complete_bytes_agree') is not equal:
@@ -5261,6 +5287,21 @@ def guard_effect_type29_draw(document: dict) -> dict:
             'source_present': True, 'exactness_credit': 'none'}
 
 
+def inspect_selected_effect_type29(*, already_built: bool) -> dict:
+    """Use the existing /Ob0 carrier; Type29 remains a nonexact diagnostic."""
+    with (ROOT/'config/match-units.toml').open('rb') as stream:
+        unit = tomllib.load(stream)['units']['ecl-move-random-biased']
+    profile = ['/Ob0' if flag == '/Ob1' else flag for flag in _SCREEN_EFFECT_BASE_PROFILE]
+    if (unit.get('source') != 'src/EclManager.cpp' or
+            unit.get('object') != 'build/matching/EclManager-Type11.obj' or
+            unit.get('profile') != profile):
+        raise RuntimeError('Effect 29 selected source/profile changed')
+    if not already_built:
+        build('ecl-move-random-biased')
+    return guard_effect_type29_draw(parsed([
+        'scripts/inspect-effect-type29.py', unit['object'], '--json']))
+
+
 def run_effect_type34(*, protect_exact: bool,
                       protect_update_exact: bool = True,
                       already_built: tuple[str, ...] = ()) -> tuple[dict, list[dict]]:
@@ -5272,8 +5313,8 @@ def run_effect_type34(*, protect_exact: bool,
         build('effect-initialize-callback-type34')
     draw = parsed(['scripts/inspect-effect-type34.py', obj, '--json'])
     summary = guard_effect_type34_draw(draw)
-    effect29 = guard_effect_type29_draw(parsed([
-        'scripts/inspect-effect-type29.py', obj, '--json']))
+    biased_obj = 'build/matching/EclManager-Type11.obj'
+    effect29 = inspect_selected_effect_type29(already_built=biased_obj in already_built)
     effect26 = guard_effect_type26_update(parsed([
         'scripts/inspect-effect-double-fan.py', obj, '--json']))
     # The same compiler source also owns the existing open bosses. Reuse this
@@ -5290,7 +5331,7 @@ def run_effect_type34(*, protect_exact: bool,
     trail = parsed(['scripts/inspect-exattack-type19.py', obj, '--json'], diagnostic=True)
     guard_exattack_type19_update(trail)
     biased_obj = 'build/matching/EclManager-Type11.obj'
-    biased = inspect_selected_biased_movement(already_built=biased_obj in already_built)
+    biased = inspect_selected_biased_movement(already_built=True)
     exact = []
     if protect_exact:
         exact.extend(cold_replay_exact_source(

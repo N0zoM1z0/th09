@@ -5,6 +5,26 @@ import hashlib,importlib.util,json,struct,sys,tomllib
 ROOT=Path(__file__).resolve().parents[1]
 s=importlib.util.spec_from_file_location('family_coff',ROOT/'scripts/compare-coff-function.py');c=importlib.util.module_from_spec(s);s.loader.exec_module(c)
 OWNERS={'initialize':(0x444960,178,'?EffectInitializeCallbackType34@@YIHPAUEffect@@@Z','e1cd1a2867299092ed3e86ac43c03538760723bef50feda4d3b6150d9a150f40'),'draw':(0x444AF0,946,'?EffectDrawCallbackType34@@YIHPAUEffect@@@Z','d32652c2e08ffbd02a103e379724cde773716f964bbb962e9e4cbd12f58c88a2')}
+LOCAL_VECTOR_CALLEES = {
+ '?SetPolar2D@@YIXPAUFloat2@@MM@Z': (0x441890, 32),
+ '??0D3DXVECTOR3@@QAE@MMM@Z': (0x4010B0, 26),
+ '??YD3DXVECTOR3@@QAEAAU0@ABU0@@Z': (0x405730, 36),
+}
+
+def require_local_callee_bytes(raw, fields, original, size):
+ """Only complete, relocation-free definitions can establish these aliases."""
+ if len(raw) != size or len(original) != size or fields or raw != original:
+  raise ValueError('Effect same-object vector callee differs from the complete original')
+
+def local_vector_callee(obj, symbol, image):
+ address, size = LOCAL_VECTOR_CALLEES[symbol]
+ raw, fields = c.object_function(Path(obj), symbol)
+ original = c.pe_bytes_at(image, address, size)
+ require_local_callee_bytes(raw, fields, original, size)
+ return dict(symbol=symbol, target_address=address, target_bytes=size,
+             same_object_definition=True, complete_bytes_equal=True, fields=0,
+             target_sha256=hashlib.sha256(original).hexdigest(),
+             exactness_credit='none')
 def string_at_symbol(path,row):
  data=Path(path).read_bytes();machine,sections,_,_,_,opt,_=struct.unpack_from('<HHIIIHH',data);assert machine==0x14c and 1<=row['symbol_section']<=sections
  sec=20+opt+(row['symbol_section']-1)*40;length,pointer=struct.unpack_from('<II',data,sec+16);offset=row['symbol_value'];assert 0<=offset<length;start=pointer+offset;end=data.index(b'\0',start,pointer+length);return data[start:end+1]
@@ -60,9 +80,12 @@ def inspect(obj,role,*,owners=None):
  registry={};units=tomllib.loads((ROOT/'config/match-units.toml').read_text())['units']
  for u in units.values():
   for r in [{'symbol':u['symbol'],'target':u['target_address']}]+u.get('relocations',[]):registry.setdefault(r['symbol'],set()).add(r['target'])
- raw,fields=c.object_function(Path(obj),symbol,include_symbol_locations=True);linked=bytearray(raw);bindings=[];definitions=set();object_data=Path(obj).read_bytes()
+ raw,fields=c.object_function(Path(obj),symbol,include_symbol_locations=True);linked=bytearray(raw);bindings=[];definitions=set();object_data=Path(obj).read_bytes();local_callees={}
  for r in fields:
-  if r['symbol'].startswith('__real@'):values=literal_registry.get(r['symbol'],set());basis='original decoded FPU address and literal payload'
+  if r['symbol'] in LOCAL_VECTOR_CALLEES:
+   if r['symbol'] not in local_callees:local_callees[r['symbol']]=local_vector_callee(obj,r['symbol'],image)
+   values={local_callees[r['symbol']]['target_address']};basis='complete same-object callee bytes equal original; no origin credit'
+  elif r['symbol'].startswith('__real@'):values=literal_registry.get(r['symbol'],set());basis='original decoded FPU address and literal payload'
   elif r['symbol'].startswith(('$SG','??_C@')):
    payload=string_at_symbol(obj,r);values={a for a in absolute_addresses if optional_pe_bytes(image,a,len(payload))==payload};basis='actual COFF literal bytes matched to original decoded string address'
   elif r['symbol_section']==r['owner_section'] and r['symbol_section']>0:
@@ -114,6 +137,7 @@ def inspect(obj,role,*,owners=None):
  original_fields.sort(key=lambda r:r['offset']);actual=[{'offset':r['offset'],'type':r['type'],'destination':r['effective_target']} for r in bindings];diff=[n for n,(a,b) in enumerate(zip(target,linked)) if a!=b]
  report={'role':role,'diagnostic_only':True,'exactness_credit':'none; complete non-crediting original/COFF diagnostic','target_address':base,'target_bytes':size,'candidate_bytes':len(raw),'target_sha256':expected,'raw_sha256':hashlib.sha256(raw).hexdigest(),'resolved_sha256':hashlib.sha256(linked).hexdigest(),'target_instructions':len(ti),'candidate_instructions':len(ci),'fields':len(bindings),'candidate_address_field_count':len(candidate_address_fields),'candidate_fields_cover_instructions':True,'literal_definitions_checked':len(definitions),'bindings':bindings,'original_fields':original_fields,'all_original_fields_agree':actual==original_fields,'field_referent_order_agrees':[(r['type'],r['destination']) for r in actual]==[(r['type'],r['destination']) for r in original_fields],'target_calls':calls(ti),'candidate_calls':calls(ci),'ordered_calls_agree':calls(ti)==calls(ci),'target_blocks':len(graph(ti)),'candidate_blocks':len(graph(ci)),'direct_graphs_agree':graph(ti)==graph(ci),'target_COM_arguments':com_args(ti),'candidate_COM_arguments':com_args(ci),'COM_immediate_arguments_agree':com_args(ti)==com_args(ci),'overlapping_differences':len(diff),'difference_offsets':diff,'missing_bytes':max(0,size-len(raw)),'extra_bytes':max(0,len(raw)-size),'complete_bytes_agree':bytes(linked)==target}
  report['ordinal_graphs_agree']=ordinal_graph(ti)==ordinal_graph(ci)
+ report['same_object_vector_callees']=list(local_callees.values())
  return report,ti,ci
 def main():
  import argparse

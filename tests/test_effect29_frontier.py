@@ -3,6 +3,7 @@ from copy import deepcopy
 import importlib.util
 from pathlib import Path
 from unittest import TestCase
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location(
@@ -17,6 +18,8 @@ def baseline():
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'maintained_source_present': True, 'object_source_attested': False,
+        'receiver_windows': {side: dict(center_ecx_reloads=6, vertex_ecx_reloads=0)
+                             for side in ('original', 'candidate')},
         'original': {
             'target_address': 0x448750, 'target_bytes': 2220,
             'target_sha256': boss.EFFECT29_DRAW_SHA256,
@@ -29,14 +32,20 @@ def baseline():
             'diagnostic_only': True, 'exactness_credit': 'none',
             'target_bytes': 2220, 'target_address': 0x448750,
             'target_sha256': boss.EFFECT29_DRAW_SHA256,
-            'candidate_bytes': 2205, 'missing_bytes': 15, 'extra_bytes': 0,
-            'target_instructions': 675, 'candidate_instructions': 670,
+            'candidate_bytes': 2220, 'missing_bytes': 0, 'extra_bytes': 0,
+            'target_instructions': 675, 'candidate_instructions': 675,
+            'all_original_fields_agree': True, 'direct_graphs_agree': True,
             'fields': 129, 'field_referent_order_agrees': True,
             'ordered_calls_agree': True,
             'target_calls': calls, 'candidate_calls': deepcopy(calls),
             'target_blocks': 41, 'candidate_blocks': 41,
-            'overlapping_differences': 1170, 'difference_offsets': offsets,
+            'overlapping_differences': 92, 'difference_offsets': offsets,
             'complete_bytes_agree': False,
+            'same_object_vector_callees': [
+                dict(symbol=symbol, target_address=address, target_bytes=size,
+                     target_sha256=digest, fields=0, same_object_definition=True,
+                     complete_bytes_equal=True, exactness_credit='none')
+                for symbol, (address, size, digest) in boss.EFFECT29_LOCAL_CALLEES.items()],
         },
     }
 
@@ -79,7 +88,7 @@ class Type29Frontier(TestCase):
 
     def test_missing_tail_is_never_hidden_by_overlap_equality(self):
         for key, value in [('candidate_bytes', 2204), ('candidate_bytes', 2221),
-                           ('missing_bytes', 0), ('extra_bytes', 1), ('fields', 128)]:
+                           ('missing_bytes', 15), ('extra_bytes', 1), ('fields', 128)]:
             result = baseline()
             result['comparison'][key] = value
             with self.subTest(key=key, value=value), self.assertRaises(RuntimeError):
@@ -94,7 +103,7 @@ class Type29Frontier(TestCase):
             lambda row: row['difference_offsets'].reverse(),
             lambda row: row['difference_offsets'].append(row['difference_offsets'][-1]),
             lambda row: row['difference_offsets'].__setitem__(0, True),
-            lambda row: row.__setitem__('overlapping_differences', 1169),
+            lambda row: row.__setitem__('overlapping_differences', 91),
         ):
             result = baseline()
             mutate(result['comparison'])
@@ -106,8 +115,8 @@ class Type29Frontier(TestCase):
         result['comparison']['difference_offsets'].pop()
         result['comparison']['overlapping_differences'] -= 1
         summary = boss.guard_effect_type29_draw(result)
-        self.assertEqual(summary['ordinary_differences'], 1169)
-        self.assertEqual(summary['missing_bytes'], 15)
+        self.assertEqual(summary['ordinary_differences'], 91)
+        self.assertEqual(summary['missing_bytes'], 0)
         self.assertEqual(summary['exactness_credit'], 'none')
 
     def test_complete_equality_needs_all_complete_owner_evidence(self):
@@ -121,6 +130,31 @@ class Type29Frontier(TestCase):
                    candidate_instructions=675, all_original_fields_agree=True,
                    direct_graphs_agree=True)
         self.assertEqual(boss.guard_effect_type29_draw(result)['exactness_credit'], 'none')
+
+    def test_selected_replay_uses_ob0_and_requires_complete_callee_proofs(self):
+        with patch.object(boss, 'build') as build, patch.object(
+                boss, 'parsed', return_value=baseline()) as read:
+            boss.inspect_selected_effect_type29(already_built=False)
+        build.assert_called_once_with('ecl-move-random-biased')
+        self.assertIn('build/matching/EclManager-Type11.obj', read.call_args.args[0])
+        for field, value in [('same_object_definition', False), ('fields', 1),
+                             ('target_bytes', 31), ('target_sha256', 'wrong'),
+                             ('complete_bytes_equal', False), ('target_address', 0x441891)]:
+            result = baseline()
+            result['comparison']['same_object_vector_callees'][0][field] = value
+            with self.subTest(field=field), self.assertRaisesRegex(RuntimeError, 'callee'):
+                boss.guard_effect_type29_draw(result)
+        result = baseline()
+        result['comparison']['same_object_vector_callees'] = []
+        with self.assertRaisesRegex(RuntimeError, 'callee'):
+            boss.guard_effect_type29_draw(result)
+
+    def test_all_original_fields_and_graph_offsets_remain_required(self):
+        for field in ('all_original_fields_agree', 'direct_graphs_agree'):
+            result = baseline()
+            result['comparison'][field] = False
+            with self.subTest(field=field), self.assertRaises(RuntimeError):
+                boss.guard_effect_type29_draw(result)
 
     def test_malformed_nested_evidence_is_rejected(self):
         for key in ('original', 'comparison'):

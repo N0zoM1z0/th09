@@ -1,6 +1,7 @@
 #include "GameManagerRuntimeView.hpp"
 #include "RuntimeAngleMath.hpp"
 #include "BulletSpawnDescriptorCtorView.hpp"
+#include "RuntimePolarMath.hpp"
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "BulletManager.hpp"
@@ -113,7 +114,7 @@ int __fastcall ExAttackUpdateCallbackType6(ExAttackRecord *base)
             }
             else
             {
-                extra->motion14.FromAngleMagnitude(
+                SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion14)),
                     extra->angle08, 1.5f);
                 extra->angle08 = AddNormalizeAngle(
                     extra->angle08, extra->angularVelocity10);

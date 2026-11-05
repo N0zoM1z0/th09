@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "EffectManager.hpp"
 #include "AsciiManager.hpp"
 #include "AnmCameraProjectionViews.hpp"
@@ -6,7 +7,7 @@
 int __fastcall EffectInitializeCallbackOrientedOffset(Effect *effect)
 {
     EffectFloat3 offset;
-    reinterpret_cast<Float3 *>(&offset)->FromAngleMagnitude(effect->velocity.x, 256.0f);
+    SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(&offset)), effect->velocity.x, 256.0f);
     effect->position.x += offset.x;
     effect->position.y += offset.y;
     reinterpret_cast<AnmVmProjectionView *>(effect->vms)->rotation.z =

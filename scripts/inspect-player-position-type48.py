@@ -34,7 +34,7 @@ FIELD_LAYOUT = (
     (0x01B, 'REL32', '??GFloat3@@QBE?AU0@ABU0@@Z', 0x00401140),
     (0x032, 'REL32', '?AddNormalizeAngle@@YIMMM@Z', 0x0042AED0),
     (0x045, 'DIR32', None, None),  # per-callback magnitude scalar
-    (0x054, 'REL32', '?FromAngleMagnitude@Float3@@QAEXMM@Z', 0x00441890),
+    (0x054, 'REL32', '?SetPolar2D@@YIXPAUFloat2@@MM@Z', 0x00441890),
     (0x068, 'DIR32', '__real@00000000', 0x0048E314),
     (0x07D, 'REL32', '??GFloat3@@QBE?AU0@ABU0@@Z', 0x00401140),
     (0x08E, 'REL32', '??HFloat3@@QBE?AU0@ABU0@@Z', 0x00401100),

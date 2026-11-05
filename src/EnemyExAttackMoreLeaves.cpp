@@ -1,3 +1,4 @@
+#include "RuntimePolarMath.hpp"
 #include "EnemyEclExInstructions.hpp"
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
@@ -58,21 +59,21 @@ void __fastcall EnemyEclExInstruction9(
 
     Float3 parameter;
 
-    parameter.FromAngleMagnitude(1.5707964f, 64.0f);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(parameter)), 1.5707964f, 64.0f);
     parameter += reinterpret_cast<const Float3 &>(enemy->position2D74);
     parameter.z = 1.5707964f;
     g_ExAttackController->Spawn(
         22, reinterpret_cast<const Float3 *>(&enemy->position2D74), 1 - enemy->manager00->sideIndex31C,
         reinterpret_cast<int>(&parameter));
 
-    parameter.FromAngleMagnitude(1.2566371f, 64.0f);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(parameter)), 1.2566371f, 64.0f);
     parameter += reinterpret_cast<const Float3 &>(enemy->position2D74);
     parameter.z = 1.2566371f;
     g_ExAttackController->Spawn(
         22, reinterpret_cast<const Float3 *>(&enemy->position2D74), 1 - enemy->manager00->sideIndex31C,
         reinterpret_cast<int>(&parameter));
 
-    parameter.FromAngleMagnitude(1.8849556f, 64.0f);
+    SetPolar2D(reinterpret_cast<Float2 *>(&(parameter)), 1.8849556f, 64.0f);
     parameter += reinterpret_cast<const Float3 &>(enemy->position2D74);
     parameter.z = 1.8849556f;
     g_ExAttackController->Spawn(
