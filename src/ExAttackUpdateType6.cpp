@@ -1,3 +1,6 @@
+#include "GameManagerRuntimeView.hpp"
+#include "RuntimeAngleMath.hpp"
+#include "BulletSpawnDescriptorCtorView.hpp"
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "BulletManager.hpp"
@@ -38,48 +41,14 @@ struct ExAttackType6Record
     float rotation3C;
 };
 
-struct ExAttackType6InterruptView
-{
-    void SetInterrupt(short interrupt);
-};
+typedef char ExAttackType6NativeDescriptorSizeIs214[
+    (sizeof(BulletSpawnDescriptorCtorView) == 0x214) ? 1 : -1];
+typedef char ExAttackType6NativePlayerAnmAtBC[
+    (offsetof(PlayerLifecycleView, header24) +
+     offsetof(PlayerHeaderStateView, anmFile98) == 0xBC) ? 1 : -1];
 
-struct ExAttackType6PlayerView
-{
-    unsigned char unknown000[0xBC];
-    AnmLoaded *anmFileBC;
-    unsigned char unknown0C0[0x36C - 0xC0];
-    PlayerCollisionQueryStateView collisionQuery36C;
-
-    int CheckBulletCollision(
-        PlayerPositionView *position,
-        PlayerPositionView *collisionSize,
-        Bullet *bullet);
-};
-
-struct ExAttackType6SideView
-{
-    unsigned char unknown00[0x04];
-    ExAttackType6PlayerView *player04;
-    EtamaController *etama08;
-    unsigned char unknown0C[0x2C];
-};
-
-struct ExAttackType6GameManagerView
-{
-    ExAttackType6SideView sides[2];
-};
-
-struct ExAttackType6BulletDescriptorStorage
-{
-    unsigned char storage[0x214];
-    ExAttackType6BulletDescriptorStorage();
-};
-typedef char ExAttackType6BulletDescriptorStorageSizeIs214[
-    (sizeof(ExAttackType6BulletDescriptorStorage) == 0x214) ? 1 : -1];
-
-extern ExAttackType6GameManagerView g_GameManager;
 extern int g_PlayerRewardBaseValue;
-float __stdcall AddNormalizeAngle(float angle, float delta);
+
 
 int __fastcall ExAttackUpdateCallbackType6(ExAttackRecord *base)
 {
@@ -101,9 +70,8 @@ int __fastcall ExAttackUpdateCallbackType6(ExAttackRecord *base)
             if (record->timer10.HasTickedEvery(
                     20 - g_PlayerRewardBaseValue / 8))
             {
-                ExAttackType6BulletDescriptorStorage storage;
-                BulletSpawnDescriptor *descriptor =
-                    reinterpret_cast<BulletSpawnDescriptor *>(&storage);
+                BulletSpawnDescriptorCtorView storage;
+                BulletSpawnDescriptor *descriptor = &storage.descriptor;
 
                 descriptor->position = record->position20;
                 descriptor->bulletType = 6;
@@ -140,7 +108,7 @@ int __fastcall ExAttackUpdateCallbackType6(ExAttackRecord *base)
             {
                 extra->state00 = 2;
                 record->timer10 = 0;
-                reinterpret_cast<ExAttackType6InterruptView *>(
+                reinterpret_cast<AnmVm *>(
                     record->dynamicData1C)->SetInterrupt(1);
             }
             else
@@ -177,7 +145,7 @@ int __fastcall ExAttackUpdateCallbackType6(ExAttackRecord *base)
         if (record->timer10 > 90)
         {
             g_GameManager.sides[record->side08]
-                .player04->anmFileBC->ExecuteAnmIdx(
+                .player04->header24.anmFile98->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C),
                     9);
             ++extra->state00;

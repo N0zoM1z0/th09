@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Complete target-bound type01 diagnostic; never acceptance or byte credit."""
 import argparse
-import capstone
 import difflib
 import hashlib
 import importlib.util
@@ -47,6 +46,8 @@ def main():
     coff = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(coff)
     pe = coff.verified_target()
+    import capstone
+
     target = coff.pe_bytes_at(pe, BASE, SIZE)
     raw, rows = coff.object_function(args.object, SYMBOL)
     code = bytearray(raw)

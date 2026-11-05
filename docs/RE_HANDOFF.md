@@ -11,6 +11,21 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — current-header Type6 update recovered
+
+The shared-polar caller audit finds that unchanged Type6 source no longer
+compiles with current native headers. Removing its conflicting private roots
+and using the real Player header/ANM/descriptor/angle interfaces restores all
+698 bytes/30 fields. Eleven caller/callee/sibling units retain1359 physical
+bytes/60 fields; seven private ANM table labels retain proven destinations.
+See [the recovery review](TH09_EFFECT29_POLAR_RECOVERY_20261105.md).
+This restores existing exact evidence; totals remain1021 exact/14 nonexact.
+Full CI passes1347 tests with29 skips; target/tracking/docs/progress and
+whitespace checks pass.
+Type29 has a private2220/129/92 candidate with the original six local receiver
+reloads. Its broader caller migration remains under review; the maintained
+Type29 frontier remains2205/129/1170 plus15 missing until that cohort closes.
+
 ## 2026-11-05 continued main — timeout probes reach the complete Oracle
 
 Two optional ECL operand recipes used a retired `state` assignment and failed

@@ -18,6 +18,23 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: Type6 native source and polar interface witness
+
+Unchanged Type6 update fails current-header compilation because its private
+GameManager declaration conflicts and Player's old anmFileBC spelling is gone.
+Native header24+anmFile98 preserves the actual Player+BC resource; the real
+BulletSpawnDescriptorCtorView preserves the28-byte constructor. Genuine Player
+collision, AnmVm interrupt and shared fastcall angle identities restore the
+complete698-byte/30-field owner. Eleven current caller/callee/sibling units
+retain1359 physical bytes/60 fields. Seven ANM table-label spellings are proved
+against actual definitions and original PE destinations before refresh.
+A private two-dimensional free polar interface using the existing32-byte
+primitive restores Type29's six local receiver reloads,2220-byte extent and129
+field positions, leaving92 unlike bytes. Its full caller cohort is still being
+reviewed; this candidate is not maintained exact credit. See
+[the recovery review](TH09_EFFECT29_POLAR_RECOVERY_20261105.md). Original nominal
+names/TU ownership and whole-product/runtime gates stay open.
+
 ### 2026-11-05 continued main: timeout recipe storage and whole native-surface controls
 
 Two optional operand probes still matched the retired state alias, so neither
