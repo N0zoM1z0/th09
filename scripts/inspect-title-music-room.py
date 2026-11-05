@@ -36,7 +36,8 @@ DESTINATIONS = {
     '?g_AnmManager@@3PAVAnmManager@@A': 0x4DC550,
     '?g_TitleBgmNotUnlockedWarning@@3PAPBDA': 0x4A1DBC,
     '?g_TitleBgmUnlocked@@3PAEA': 0x4A81AC,
-    '?g_TitleInputFlags@@3IA': 0x4ACF3A,
+    '?g_TitleInputFlags@@3IA': 0x4ACF3A,  # historical objects
+    '?g_ReplayInputStates@@3PAUReplayInputState@@A': 0x4ACE18,
     '?g_TitleMusicDescriptionAnm@@3PAVAnmLoaded@@A': 0x4B36CC,
     '?g_Supervisor@@3VSupervisor@@A': 0x4B3100,
     '__real@41a00000': 0x48F7BC,

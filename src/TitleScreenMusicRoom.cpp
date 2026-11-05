@@ -4,6 +4,8 @@
 
 #include "FileSystem.hpp"
 #include "AnmManager.hpp"
+#include "AnmVmLifecycle.hpp"
+#include "ReplayInputState.hpp"
 #include "Supervisor.hpp"
 #include "SoundPlayer.hpp"
 
@@ -18,24 +20,10 @@ extern "C" void *__cdecl memcpy(void *, const void *, size_t);
 extern "C" void *__cdecl memset(void *, int, size_t);
 extern "C" void __cdecl free(void *);
 
-struct AnmVmView {
-    u8 unknown000[0x1F8];
-    u32 flags;
-    u8 unknown1FC[2];
-    u16 pendingInterrupt;
-    u8 unknown200[8];
-    float posX;
-    float posY;
-    float posZ;
-    u8 unknown214[4];
-    short baseSpriteIndex;
-    u8 unknown21A[0x8A];
-};
-
-typedef char MusicRoomAnmVmSizeIs2A4[(sizeof(AnmVmView) == 0x2A4) ? 1 : -1];
-typedef char MusicRoomAnmVmFlagsAt1F8[(offsetof(AnmVmView, flags) == 0x1F8) ? 1 : -1];
-typedef char MusicRoomAnmVmInterruptAt1FE[(offsetof(AnmVmView, pendingInterrupt) == 0x1FE) ? 1 : -1];
-typedef char MusicRoomAnmVmPosAt208[(offsetof(AnmVmView, posX) == 0x208) ? 1 : -1];
+typedef char MusicRoomAnmVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
+typedef char MusicRoomAnmVmFlagsAt1F8[(offsetof(AnmVm, flagsWord) == 0x1F8) ? 1 : -1];
+typedef char MusicRoomAnmVmInterruptAt1FE[(offsetof(AnmVm, pendingInterrupt) == 0x1FE) ? 1 : -1];
+typedef char MusicRoomAnmVmPosAt208[(offsetof(AnmVm, pos) == 0x208) ? 1 : -1];
 
 struct MusicRoomTrackDescriptor {
     char path[64];
@@ -49,7 +37,8 @@ typedef char MusicRoomTrackDescriptorSizeIs292[(sizeof(MusicRoomTrackDescriptor)
 
 extern AnmLoaded *g_TitleMusicDescriptionAnm;
 
-extern u32 g_TitleInputFlags;
+typedef char MusicInputSlotSizeIs8E[(sizeof(ReplayInputState) == 0x8E) ? 1 : -1];
+typedef char MusicInputFrontAt06[(offsetof(ReplayInputState, word06) == 6) ? 1 : -1];
 extern u8 g_TitleBgmUnlocked[32];
 extern const char *g_TitleBgmNotUnlockedWarning[8];
 
@@ -70,9 +59,9 @@ struct TitleScreenView {
     u8 unknown11B84[0x0C];
     AnmLoaded *musicAnm;             // +0x11B90
     u8 unknown11B94[0x04];
-    AnmVmView *vms;                           // +0x11B98
+    AnmVm *vms;                           // +0x11B98
     i32 uiAux;                                // +0x11B9C
-    AnmVmView embeddedVms[57];                // +0x11BA0
+    AnmVm embeddedVms[57];                // +0x11BA0
     i32 vmCount;                              // +0x1B224
     i32 currentScreen;                        // +0x1B228
     u8 unknown1B22C[4];
@@ -109,80 +98,80 @@ int TitleScreenView::OnUpdateMusicRoom()
         {
             embeddedVms[49].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[49]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[49], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[0]);
             else
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[49]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[49], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[0]);
         }
         else if (stateTimer2 == 4)
         {
             embeddedVms[50].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[50]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[50], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[1]);
             else
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[50]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[50], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[1]);
         }
         else if (stateTimer2 == 6)
         {
             embeddedVms[51].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[51]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[51], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[2]);
             else
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[51]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[51], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[2]);
         }
         else if (stateTimer2 == 8)
         {
             embeddedVms[52].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[52]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[52], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[3]);
             else
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[52]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[52], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[3]);
         }
         else if (stateTimer2 == 10)
         {
             embeddedVms[53].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[53]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[53], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[4]);
             else
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[53]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[53], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[4]);
         }
         else if (stateTimer2 == 12)
         {
             embeddedVms[54].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[54]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[54], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[5]);
             else
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[54]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[54], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[5]);
         }
         else if (stateTimer2 == 14)
         {
             embeddedVms[55].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[55]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[55], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[6]);
             else
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[55]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[55], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[6]);
         }
         else if (stateTimer2 == 16)
         {
             embeddedVms[56].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[56]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[56], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[7]);
             else
-                g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&embeddedVms[56]), 0xE0E0FF, 0x302080,
+                g_AnmManager->DrawTextLeft(&embeddedVms[56], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[7]);
         }
 
@@ -202,24 +191,24 @@ int TitleScreenView::OnUpdateMusicRoom()
             SetRangeSelectionInterrupts(keyboardSelection, 159, musicTrackCount);
 
             for (i = 0; i < musicListingOffset; i++)
-                vms[159 + i].flags &= ~2u;
+                vms[159 + i].drawEnabled = 0;
 
             i = musicListingOffset;
             // Keep the bound distinct from the visible and hidden traversal cursors.
             const i32 visibleEnd = i + 10 < musicTrackCount ? i + 10 : musicTrackCount;
             for (; i < visibleEnd; i++)
             {
-                vms[159 + i].flags |= 2;
-                vms[159 + i].posY = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;
+                vms[159 + i].drawEnabled = 1;
+                vms[159 + i].pos.y = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;
             }
             for (i32 hiddenRow = visibleEnd; hiddenRow <= 29; hiddenRow++)
-                vms[159 + hiddenRow].flags &= ~2u;
+                vms[159 + hiddenRow].drawEnabled = 0;
         }
 
-        if (g_TitleInputFlags & 4)
+        if (g_ReplayInputStates[2].word06 & 4)
             g_Supervisor.FadeOutMusic(20.0f);
 
-        if (g_TitleInputFlags & 0x200)
+        if (g_ReplayInputStates[2].word06 & 0x200)
         {
             if (!musicPaused)
                 g_SoundPlayer.QueueCommand(6, 0, "Pause");
@@ -228,7 +217,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             musicPaused = 1 - musicPaused;
         }
 
-        if (g_TitleInputFlags & 0x4000)
+        if (g_ReplayInputStates[2].word06 & 0x4000)
         {
             if (musicPaused)
                 g_SoundPlayer.QueueCommand(7, 0, "UnPause");
@@ -236,7 +225,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             g_Supervisor.PlayAudio(musicTracks[musicSelectedSongIndex].path, 0);
         }
 
-        if (g_TitleInputFlags & 0x1001)
+        if (g_ReplayInputStates[2].word06 & 0x1001)
         {
             if (musicPaused)
                 g_SoundPlayer.QueueCommand(7, 0, "UnPause");
@@ -245,11 +234,11 @@ int TitleScreenView::OnUpdateMusicRoom()
             g_Supervisor.PlayAudio(musicTracks[keyboardSelection].path, 0);
             stateTimer2 = 0;
             for (i = 0; i < 8; i++)
-                g_TitleMusicDescriptionAnm->SetAndExecuteScriptIdx(reinterpret_cast<AnmVm *>(&embeddedVms[49 + i]), 6 + i);
+                g_TitleMusicDescriptionAnm->SetAndExecuteScriptIdx(&embeddedVms[49 + i], 6 + i);
             goto common_tail;
         }
 
-        if ((g_TitleInputFlags & 0xA) != 0)
+        if ((g_ReplayInputStates[2].word06 & 0xA) != 0)
         {
             PlayMenuSound(11, 0);
             stateTimer = 0;
@@ -364,11 +353,11 @@ int TitleScreenView::OnUpdateMusicRoom()
                 i32 rowY = 18;
                 do
                 {
-                    musicAnm->SetAndExecuteScriptIdx(reinterpret_cast<AnmVm *>(&vms[159 + vmIndex]), i);
+                    musicAnm->SetAndExecuteScriptIdx(&vms[159 + vmIndex], i);
                     // vmIndex is the descriptor row; i is the 159-based script id.
                     if (g_TitleBgmUnlocked[vmIndex])
                     {
-                        g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&vms[159 + vmIndex]), 0xD0E0FF, 0x302080,
+                        g_AnmManager->DrawTextLeft(&vms[159 + vmIndex], 0xD0E0FF, 0x302080,
                                            musicTrack->title);
                     }
                     else
@@ -376,16 +365,15 @@ int TitleScreenView::OnUpdateMusicRoom()
                         char shortTitle[6];
                         memcpy(shortTitle, musicTrack->title, 5);
                         shortTitle[5] = '\0';
-                        g_AnmManager->DrawTextLeft(reinterpret_cast<AnmVm *>(&vms[159 + vmIndex]), 0x80A0A0, 0x100040,
+                        g_AnmManager->DrawTextLeft(&vms[159 + vmIndex], 0x80A0A0, 0x100040,
                                            "%5s \x81\x48\x81\x48\x81\x48\x81\x48"
                                            "\x81\x48\x81\x48\x81\x48\x81\x48", shortTitle);
                     }
 
-                    vms[159 + vmIndex].posX = 93.0f;
-                    vms[159 + vmIndex].posY = (float)rowY + 104.0f - 20.0f;
-                    vms[159 + vmIndex].posZ = 0.0f;
-                    u8 *flagsBytes = (u8 *)&vms[159 + vmIndex].flags;
-                    flagsBytes[1] |= 0x18;
+                    vms[159 + vmIndex].pos.x = 93.0f;
+                    vms[159 + vmIndex].pos.y = (float)rowY + 104.0f - 20.0f;
+                    vms[159 + vmIndex].pos.z = 0.0f;
+                    vms[159 + vmIndex].anchor = 3;
                     i++;
                     musicTrack++;
                     vmIndex++;
@@ -396,23 +384,22 @@ int TitleScreenView::OnUpdateMusicRoom()
             SetRangeSelectionInterrupts(keyboardSelection, 159, musicTrackCount);
 
             for (i = 0; i < musicListingOffset; i++)
-                reinterpret_cast<AnmVmView *>(
-                    (159 + i) * sizeof(AnmVmView) + reinterpret_cast<u8 *>(vms))->flags &= ~2u;
+                vms[159 + i].drawEnabled = 0;
 
             i = musicListingOffset;
             // Keep the bound distinct from the visible and hidden traversal cursors.
             const i32 visibleEnd = i + 10 < musicTrackCount ? i + 10 : musicTrackCount;
             for (; i < visibleEnd; i++)
             {
-                vms[159 + i].flags |= 2;
-                vms[159 + i].posY = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;
+                vms[159 + i].drawEnabled = 1;
+                vms[159 + i].pos.y = (float)((i - musicListingOffset + 1) * 18) + 104.0f - 20.0f;
             }
             for (i32 hiddenRow = visibleEnd; hiddenRow <= 29; hiddenRow++)
-                vms[159 + hiddenRow].flags &= ~2u;
+                vms[159 + hiddenRow].drawEnabled = 0;
 
             musicSelectedSongIndex = keyboardSelection;
             for (i = 0; i < 8; i++)
-                g_TitleMusicDescriptionAnm->SetAndExecuteScriptIdx(reinterpret_cast<AnmVm *>(&embeddedVms[49 + i]), 6 + i);
+                g_TitleMusicDescriptionAnm->SetAndExecuteScriptIdx(&embeddedVms[49 + i], 6 + i);
             musicPaused = 0;
         }
 
@@ -430,23 +417,11 @@ int TitleScreenView::OnUpdateMusicRoom()
 
 common_tail:
     for (i = 0; i < 8; i++)
-        g_AnmManager->ExecuteScript(reinterpret_cast<AnmVm *>(&embeddedVms[49 + i]));
+        g_AnmManager->ExecuteScript(&embeddedVms[49 + i]);
     stateTimer++;
     screenFrameCounter++;
     stateTimer2++;
     return 1;
-}
-
-struct MusicRoomFloat3View
-{
-    float x;
-    float y;
-    float z;
-};
-
-inline u32 &MusicRoomColor(AnmVmView *vm)
-{
-    return *reinterpret_cast<u32 *>(reinterpret_cast<u8 *>(vm) + 0x1F0);
 }
 
 int TitleScreenView::DrawMusicRoom()
@@ -454,21 +429,19 @@ int TitleScreenView::DrawMusicRoom()
     if (currentScreenState == 1)
     {
         i32 songVmIndex = musicSelectedSongIndex + 159;
-        MusicRoomFloat3View savedPosition =
-            *reinterpret_cast<MusicRoomFloat3View *>(&vms[songVmIndex].posX);
-        u32 savedColor = MusicRoomColor(&vms[songVmIndex]);
+        Float3 savedPosition = vms[songVmIndex].pos;
+        u32 savedColor = vms[songVmIndex].color1;
 
-        MusicRoomColor(&vms[songVmIndex]) = 0xFFFFFFFF;
-        vms[songVmIndex].posX = 208.0f;
-        vms[songVmIndex].posY = 293.0f;
-        g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(&vms[songVmIndex]));
+        vms[songVmIndex].color1 = 0xFFFFFFFF;
+        vms[songVmIndex].pos.x = 208.0f;
+        vms[songVmIndex].pos.y = 293.0f;
+        g_AnmManager->DrawNoRotation(&vms[songVmIndex]);
 
-        *reinterpret_cast<MusicRoomFloat3View *>(&vms[songVmIndex].posX) =
-            savedPosition;
-        MusicRoomColor(&vms[songVmIndex]) = savedColor;
+        vms[songVmIndex].pos = savedPosition;
+        vms[songVmIndex].color1 = savedColor;
 
         for (i32 i = 0; i < 8; ++i)
-            g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(&embeddedVms[49 + i]));
+            g_AnmManager->DrawNoRotation(&embeddedVms[49 + i]);
     }
 
     return 1;

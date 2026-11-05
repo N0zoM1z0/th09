@@ -18,6 +18,18 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: native MusicRoom and fresh source controls
+
+[The current-source review](TH09_NATIVE_SOURCE_REVIEW_20261105.md) records new
+whole-owner retries. MusicRoom2258/74 and209/6 retain exactness after replacing
+private VM/color/position projections and24 casts with real AnmVm members.
+Input uses native slot2 word06; all four original operand sites and effective
+4ACF3A/4ACF3B addresses are preserved via root4ACE18 plus actual122/123 addends.
+Fresh full constructor/configuration/codec visibility controls retain the
+SaveReplay1238/53/3 frontier. ReplayMenu SDK arithmetic, shared buffer and direct
+expressions retain1280/57/29, while an index-first snapshot regresses to1264
+bytes/858 overlaps/16 missing. No new exact count or exhaustive-negative claim.
+
 ### 2026-11-05 main: natural-source controls and native Options carrier
 
 See [the measured source-context analysis](CIRNO_LABS_NATURAL_CPP_20261105.md).

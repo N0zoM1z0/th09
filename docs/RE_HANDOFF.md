@@ -11,6 +11,19 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — native MusicRoom and current-source retries
+
+See [TH09_NATIVE_SOURCE_REVIEW_20261105.md](TH09_NATIVE_SOURCE_REVIEW_20261105.md).
+MusicRoom now uses shared AnmVm and ReplayInputState fields; both complete
+owners remain2258/74 and209/6 exact from one fresh object. Four native input
+relocations keep the original effective4ACF3A/4ACF3B addresses through the
+verified4ACE18 root and actual122/123 addends. Full local CI1330/29 skips,
+tracking/docs/progress and whitespace pass. Exact totals remain1019/16.
+Current-source constructor/configuration/encoder retries retain SaveReplay's
+1238/53/3. Fresh ReplayMenu SDK, buffer and expression controls retain1280/57/29;
+one index-snapshot candidate regresses and is rejected. These are fresh bounded
+observations, not a presumption that earlier negative notes are authoritative.
+
 ## 2026-11-05 merged main — native Options and complete carrier repair
 
 PR [#1](https://github.com/N0zoM1z0/th09/pull/1) is merged at `1015aa9a` after
