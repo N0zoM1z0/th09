@@ -12,6 +12,41 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 5: native polar interface and Type29 extent — local canonical Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `4586b67562f7007a663913198d636a5d619f362d`.
+Target SHA-256:
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+
+All 130 affected existing canonical units pass 47047 complete physical bytes
+and 2371 fields after 29 serial source/profile builds. Thirty compiler-private
+labels retain actual-definition and original-PE-verified destinations. The ten
+unchanged Type6 dependencies reuse source/profile/object proofs and pass their
+complete byte checks. No new exact-function credit is assigned.
+
+Type29 remains a **nonexact** frontier: 2220/2220 bytes, 129 original-position
+fields, 675 instructions, 72 ordered calls, 41 identical physical blocks and
+92 ordinary differences. Actual same-object polar/SDK bodies match 32/26/36
+bytes without alias/origin credit. The transition restores 1089 old differences
+and 15 missing bytes, changes 11 old matches, and protects 2128 now-equal
+positions. The selected object uses the existing Type11 `/Ob0` profile.
+RunEcl retains identical raw/linked hashes and all 30 differences; Enemy
+retains the identical 13 offsets. The 26 existing bounded draw counterchecks
+agree across 672 reachable original instructions, without product/runtime or
+byte-exactness credit. Full public CI passes 1351 tests with 29 skips.
+
+The ignored immutable receipt is
+`.analysis/effect29-recovery-20261105/canonical-source-proof.json`, SHA-256
+`78f315eeec9ebb3816c1eb4a84be865c94172f9f9ee7a1806515d72061ccfcf2`.
+It binds 138 raw source/header/registry/tool inputs and normalized Git blobs,
+pinned compiler/SDK hashes, actual objects/profiles, all comparisons and complete
+frontier reports to the source commit above. Later recipe runs write a separate
+replay. [The recovery review](TH09_EFFECT29_POLAR_RECOVERY_20261105.md) describes
+reproduction and the remaining Type29 source question. Totals remain 1021 exact/
+14 nonexact; original TU ownership and whole Windows product/runtime/port gates
+remain open.
+
 ## November 5: restored Type6 current-header source — local canonical Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

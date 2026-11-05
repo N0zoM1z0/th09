@@ -29,6 +29,8 @@ claim. See [the recovery review](TH09_EFFECT29_POLAR_RECOVERY_20261105.md).
 Totals remain1021 exact/14 nonexact; Type29 has no new exactness credit.
 Full CI passes1351 tests with29 skips; target/tracking, docs/progress and
 whitespace checks pass.
+Source checkpoint `4586b675` and its immutable hashed local proof are
+recorded in [source-bound receipts](RE_ACCEPTED_RECEIPTS.md).
 
 ## 2026-11-05 continued main — current-header Type6 update recovered
 

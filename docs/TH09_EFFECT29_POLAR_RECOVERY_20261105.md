@@ -156,7 +156,8 @@ python3 -B scripts/compare-coff-function.py --unit exattack-type6-update --json
 
 The first Type6 source checkpoint is `ba92c53d`, with its immutable receipt
 recorded in [source-bound receipts](RE_ACCEPTED_RECEIPTS.md). The later polar
-migration has its own source-bound proof; neither receipt is Factory acceptance.
+migration source checkpoint is `4586b675`, with its own immutable
+source-bound proof in that same receipt index; neither is Factory acceptance.
 Totals stay 1021 exact /14 nonexact and 259829 reviewed-authored exact bytes
 (89.0182%). Whole Windows product/runtime and portability remain open.
 
