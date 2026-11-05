@@ -97,14 +97,14 @@ class SharedReplayDataPhysicalLayout(TestCase):
                             "ReplayMenuFrameView"):
             self.assertNotIn(false_owner, save + menu)
 
-    def test_all_existing_50_exact_replay_and_title_units_stay_tracked(self):
+    def test_all_exact_replay_and_title_units_stay_tracked(self):
         units = manifest_units()
         items = {name: entry for name, entry in units.items()
                  if entry.get("source") in
                  ("src/ReplayInput.cpp", "src/TitleScreen.cpp")}
-        self.assertEqual(len(items), 50)
-        self.assertEqual(sum(x.get("compare_size", x["size"]) for x in items.values()), 22504)
-        self.assertEqual(sum(len(x["relocations"]) for x in items.values()), 1175)
+        self.assertEqual(len(items), 53)
+        self.assertEqual(sum(x.get("compare_size", x["size"]) for x in items.values()), 23065)
+        self.assertEqual(sum(len(x["relocations"]) for x in items.values()), 1185)
         self.assertEqual(items["title-screen-setup-thread"]["size"], 534)
         self.assertEqual(items["replay-manager-begin-recording-stage"]["size"], 1323)
         self.assertEqual(items["title-screen-start-menu"]["size"], 1560)

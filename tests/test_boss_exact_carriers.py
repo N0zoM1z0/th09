@@ -100,7 +100,7 @@ class ExactCarrierDiscovery(unittest.TestCase):
         groups = frontier.exact_source_carriers(
             'src/TitleScreen.cpp', frontier.TITLE_EXACT_CARRIERS)
         self.assertEqual(len(groups), 2)
-        self.assertEqual(len(groups['build/matching/TitleScreen.obj']), 37)
+        self.assertEqual(len(groups['build/matching/TitleScreen.obj']), 40)
         self.assertEqual(groups['build/matching/TitleScoreRecord.obj'],
                          ['score-record-insert'])
         self.assertIn('title-screen-setup-thread',
@@ -491,7 +491,7 @@ class ExactCarrierDiscovery(unittest.TestCase):
                 ('src/EclManager.cpp', frontier.ECL_EXACT_CARRIERS,
                  ('build/matching/EclManager.obj',), 1, 80),
                 ('src/TitleScreen.cpp', frontier.TITLE_EXACT_CARRIERS,
-                 (), 2, 38)):
+                 (), 2, 41)):
             with self.subTest(source=source), patch.object(
                     frontier, 'build') as build, patch.object(
                     frontier, 'canonical', side_effect=lambda unit: {'unit': unit}) as canonical:
@@ -509,13 +509,13 @@ class ExactCarrierDiscovery(unittest.TestCase):
                 frontier.cold_replay_exact_source(
                     'src/TitleScreen.cpp', frontier.TITLE_EXACT_CARRIERS)
 
-    def test_title_owner_runs_38_screen_two_music_draw_and_two_real_audio_callees(self):
+    def test_title_owner_replays_screen_music_draw_and_real_audio_callees(self):
         with patch.object(frontier, 'build') as build, patch.object(
                 frontier, 'canonical', side_effect=lambda unit: {'unit': unit}):
             owners, exact = frontier.run_title(protect_exact=True)
             self.assertEqual(owners, {})
-            self.assertEqual(len(exact), 46)
-            self.assertEqual(len({r['unit'] for r in exact}), 46)
+            self.assertEqual(len(exact), 49)
+            self.assertEqual(len({r['unit'] for r in exact}), 49)
             self.assertEqual(build.call_count, 9)
             self.assertEqual([r['unit'] for r in exact[-3:]], [
                 'anm-manager-draw-text-left', 'anm-manager-load-surface',
@@ -527,8 +527,8 @@ class ExactCarrierDiscovery(unittest.TestCase):
             owners, exact = frontier.run_title(protect_exact=True,
                                                play_sound_prechecked=True)
             self.assertEqual(owners, {})
-            self.assertEqual(len(exact), 45)
-            self.assertEqual(len({r['unit'] for r in exact}), 45)
+            self.assertEqual(len(exact), 48)
+            self.assertEqual(len({r['unit'] for r in exact}), 48)
             self.assertEqual(build.call_count, 8)
             self.assertNotIn('soundplayer-play-sound-by-idx',
                              [r['unit'] for r in exact])

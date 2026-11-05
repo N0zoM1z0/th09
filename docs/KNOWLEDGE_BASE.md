@@ -20,6 +20,14 @@ source/ledger before reviving an old layout or exactness hypothesis.
 
 ### 2026-11-05 independently compiled Cirno-Labs reference sample
 
+Later operator-authorized integration adopts the three typed indexed Title
+cursor loops (211/175/175 bytes, ten fields) and the native Supervisor frame
+insertion loop (213 bytes, no fields). All four are independently canonical
+exact with original ABI/graph/physical ownership; tracking reaches 1009.
+See [the integration checkpoint](CIRNO_LABS_INTEGRATION_20261105.md) for
+source attribution, complete-cohort replay and actual COFF-label proofs.
+The following external-audit result describes the earlier 1005-exact state.
+
 The operator-requested ignored `_reference/Cirno-Labs-th09` checkout at
 `d7653152becabb8c86f2f43d49015ecc11bd0652` targets the same original SHA-1.
 Our pinned VC7.1 replay independently matches eight complete external-source

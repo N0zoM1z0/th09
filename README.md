@@ -57,9 +57,9 @@ downloaded tools are private and never committed.
 TH09 reconstruction is active on explicit operator request. Work both complete
 large owners and leaf functions; historical hypotheses and experiment notes are
 not authoritative over fresh source/target evidence. The canonical ledger
-currently reports **2,248 candidates, 1,035 authored mappings, 1,005 exact
-functions and 30 non-exact functions / 44,286 bytes**. Exact authored-byte
-coverage is **247,597 / 291,883 (84.8275%)**; the 98% milestone remains open.
+currently reports **2,248 candidates, 1,035 authored mappings, 1,009 exact
+functions and 26 non-exact functions / 43,512 bytes**. Exact authored-byte
+coverage is **248,371 / 291,883 (85.0927%)**; the 98% milestone remains open.
 Whole-product linking, runtime semantics and portability are separate,
 unstarted gates.
 
@@ -150,5 +150,10 @@ not an acceptable shortcut around the native-product stage.
 
 ## License
 
-Repository-authored code and documentation are provided under the MIT License.
+This integration branch includes GPL-3.0-only adaptations from Cirno-Labs/th09.
+The combined reconstructed program is distributed under GPL-3.0-only; see
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and
+[LICENSES/GPL-3.0-only.txt](LICENSES/GPL-3.0-only.txt) for scope and attribution.
+Pre-existing repository-authored code and documentation retain their MIT grant
+in [LICENSE](LICENSE).
 This does not grant rights to the original game or its assets.

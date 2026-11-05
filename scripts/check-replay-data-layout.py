@@ -33,7 +33,7 @@ DEPENDENT_COUNTS = {
     'src/GameManagerSetup.cpp': 11,
     'src/ReplayInput.cpp': 12,
     'src/ReplayPlaybackFrameAdvance.cpp': 1,
-    'src/TitleScreen.cpp': 38,
+    'src/TitleScreen.cpp': 41,
 }
 RENDERERS = ('src/TitleScreenReplayMenuDraw.cpp', 'src/TitleScreenReplaySaveDraw.cpp')
 

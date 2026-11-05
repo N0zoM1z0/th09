@@ -69,14 +69,14 @@ class TrueTitleAudioABI(unittest.TestCase):
                 self.assertNotIn('SoundPlayerView@@',row['symbol'])
         self.assertEqual(total,35) # 12 global,20 sound calls,3 queue calls
 
-    def test_exact_38_main_and_two_music_owners_remain_source_cold(self):
+    def test_exact_main_and_music_owners_remain_source_cold(self):
         main=[(name,u) for name,u in self.units.items() if u['source']=='src/TitleScreen.cpp']
         music=[(name,u) for name,u in self.units.items() if u['source']=='src/TitleScreenMusicRoom.cpp']
-        self.assertEqual((len(main),len(music)),(38,2))
+        self.assertEqual((len(main),len(music)),(41,2))
         self.assertEqual((sum(u.get('compare_size',u['size']) for _,u in main),
-                          sum(u.get('compare_size',u['size']) for _,u in music)),(18411,2467))
+                          sum(u.get('compare_size',u['size']) for _,u in music)),(18972,2467))
         self.assertEqual((sum(len(u['relocations']) for _,u in main),
-                          sum(len(u['relocations']) for _,u in music)),(943,80))
+                          sum(len(u['relocations']) for _,u in music)),(953,80))
         self.assertEqual(self.units['title-screen-music-room']['size'],2258)
         self.assertEqual(self.units['title-screen-setup-thread']['size'],534)
 

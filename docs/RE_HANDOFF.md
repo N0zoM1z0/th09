@@ -11,6 +11,17 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 Cirno-Labs integration branch — current source checkpoint
+
+Operator authorized integration, attribution, local commits and push on
+`reconstruction/cirno-labs-integration`. See
+[CIRNO_LABS_INTEGRATION_20261105.md](CIRNO_LABS_INTEGRATION_20261105.md).
+The three native Title cursor owners and Supervisor received-frame insertion
+are now canonical exact: 774 physical bytes and ten relocation fields. Live
+tracking is **1009 exact / 26 nonexact**, 248371/291883 authored bytes.
+The older external-audit section below describes the pre-integration source.
+GPL adaptations and original MIT grants are recorded in THIRD_PARTY_NOTICES.md.
+
 ## 2026-11-05 external reference audit — no canonical promotion
 
 The operator requested the Cirno-Labs/th09 clone under `_reference/` and a
@@ -453,7 +464,7 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current ledger summary is
-**1035 source-present / 1005 exact / 30 non-exact**; earlier operator notes
+**1035 source-present / 1009 exact / 26 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
@@ -464,19 +475,19 @@ mentioning 979/876/103 are obsolete for this checkout.
 | Confirmed authored | 1,035 |
 | Classified exclusions | 1,176 |
 | Source-present authored mappings | 1,035 |
-| Canonical exact functions | 1,005 |
-| Source-present non-exact functions | 30 |
-| Source-present non-exact bytes | 44,286 |
+| Canonical exact functions | 1,009 |
+| Source-present non-exact functions | 26 |
+| Source-present non-exact bytes | 43,512 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 247,597 |
+| Canonical exact authored bytes | 248,371 |
 
-**247,597 / 291,883 reviewed-authored bytes = 84.8275% exact**. To reach
-98% of the *currently classified* denominator, another **38,449 bytes**
+**248,371 / 291,883 reviewed-authored bytes = 85.0927% exact**. To reach
+98% of the *currently classified* denominator, another **37,675 bytes**
 must become complete original-bound exact owners, reaching at least **286,046
 exact authored bytes**. The 37 origin-unresolved functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
-The manifests govern **1005 exact** functions.
+The manifests govern **1009 exact** functions.
 
 The catalog is not proof of complete executable-code inventory. The formerly
 uncatalogued **0x0040D677 /0x00444A78** Timer references now belong to the exact
@@ -509,7 +520,6 @@ repeating them. Historical assumptions remain hypotheses.
 | **TitleScreen::DrawReplaySave** | 0x004239F6 | **800/800 physical**, 245 instructions, 41 fields, 4 calls, 28/28 matching blocks; **96 linked differences** | VM/bank transport and scheduling. Keep245 instructions,41 fields and28 physical blocks. |
 | **TitleScreen::DrawResult** | 0x00423D16 | **1,939/1,939**, 577 instructions, 82 fields, 16 calls, 92 blocks; **3** differences at +0x1D/+0x23/+0x39 | The no-code _ReadWriteBarrier() preserves the scoreGroup-store/currentScreen-read order; the remaining three bytes are register choice. Keep the full owner gate and all 1,936 matched bytes protected. Still non-exact. --owner title. |
 | **TitleScreen::OnUpdateOptions** | 0x004276EB | **2,045 target / 2,048 candidate**, 551/554 instructions, 135 fields, 51 calls, 121 blocks; **610 unequal overlaps + 3 extra bytes** | Options-menu loop, register lifetime and physical excess; fields/calls/direct CFG agree. Do not mistake the three-byte size excess for a three-byte residual. --owner title. |
-| **Title character cursors** | 0x00424EDD / 0x00424FB0 / 0x0042505F | Active **211 target / 215 candidate**, 185 unequal overlaps + 4 extra; Reverse/Inactive **175/175** but 38 differences and 4/5 CFG blocks | Active cursor state/transport remains open. Reverse/Inactive equal sizes do not mean exact code or matching CFG. --owner title. |
 | **ExAttack Type3 update** | 0x00442750 | **780/780**, 38 fields, 24 calls, 17 blocks; **15 maintained differences** | Middle-Z chronology; preserve765 matching bytes. Actual Timer visibility and native vector interfaces do not resolve15. `--owner type3`. |
 | **ExAttack Type14/22 draw** | 0x00444130 | **959/959**,53 original referents,20 direct +12 COM calls,290/291 instructions; **525 linked differences** | Frame20 versus1C, polar/store scheduling and physical jumps9/10. Preserve434 matching bytes,53 fields and actual scalar/helper payloads. `--owner exattack`. |
 | **GameManager gameplay setup worker** | 0x0041AF2D | **1,689/1,689**, 172/171 fields, 35 calls, 78/77 blocks; **904 differing bytes** (911→904, no damaged matches) | Side registration and shared limit/rate publication. Keep native creator calls and164 aligned identities; B4 multiplicity reflects branch sharing. |
@@ -523,7 +533,6 @@ repeating them. Historical assumptions remain hypotheses.
 | **Supervisor::OnUpdate** | 0x00431110 | **844 authored / 996 target physical**, 952 candidate physical | Whole-owner physical deficit and startup chronology. Keep native GameManager/Title/Ending symbols and actual version data. `--owner supervisor`. |
 | **ECL MoveRandomBiased leaf** | 0x00407E30 | **516 / 517**, 28 fields, 14 calls, 24 blocks; 148 overlap + 1 extra | Y-pointer LEA versus MOV alias after actual Float3 conversion. Keep complete owner, fields, branches and exact ECL cohort. `--owner runecl`. |
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Remaining receiver/allocation scheduling. Preserve43 matching bytes and genuine AnmLoaded/Chain interfaces. `--owner effect`. |
-| **Supervisor received-frame leaf** | 0x0042E9E0 | **213/213**, 67 instructions, 9 blocks; **35** differences | Packed input/seed16-bit store order. Preserve178 matching physical bytes and both exact queue members. `--owner queue`. |
 
 ## Continuing reconstruction
 

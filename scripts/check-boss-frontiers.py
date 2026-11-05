@@ -164,7 +164,7 @@ ECL_EXACT_CARRIERS = {
     'build/matching/EclManager-Type11.obj': 4,
 }
 TITLE_EXACT_CARRIERS = {
-    'build/matching/TitleScreen.obj': 37,
+    'build/matching/TitleScreen.obj': 40,
     'build/matching/TitleScoreRecord.obj': 1,
 }
 # The true 622-byte camera-facing boss is compiled *inside* this Render TU.
@@ -1734,16 +1734,11 @@ def run_front_random(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 RECEIVED_FRAME_TARGET_SHA256 = (
     'c7d33d3a0ca15df698c2c66916c24aa0b0b7527e769c08bbd1d0ed88ac245c17'
 )
-RECEIVED_FRAME_RESIDUAL_OFFSETS = frozenset((
-    0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24,
-    0x25, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E,
-    0x2F, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38,
-    0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0xBC, 0xBD, 0xBE,
-))
+RECEIVED_FRAME_RESIDUAL_OFFSETS = frozenset()
 
 
 def guard_received_frames(received: dict) -> None:
-    """Protect all 178 matching bytes of the original received-frame leaf."""
+    """Protect every byte of the canonical original received-frame leaf."""
     noncrediting(received, name='Supervisor received-frame insertion',
                  target_size=213, fields=0, fields_key='relocation_fields')
     if (received.get('target_sha256') != RECEIVED_FRAME_TARGET_SHA256 or
@@ -1756,7 +1751,7 @@ def guard_received_frames(received: dict) -> None:
         raise RuntimeError('Supervisor received-frame no-call/67-instruction/9-block gate changed')
     physical_difference_windows(
         {**received, 'difference_offsets': received.get('differing_offsets')},
-        count_key='complete_differences', windows=((0, 213, 35),),
+        count_key='complete_differences', windows=((0, 213, 0),),
         equality_key='complete_bytes_equal')
     observed = {int(x, 16) for x in received['differing_offsets']}
     if not observed.issubset(RECEIVED_FRAME_RESIDUAL_OFFSETS):
@@ -1776,6 +1771,7 @@ def run_received_frames(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     if protect_exact:
         build('supervisor-frame-queue-insert-predicted')
         exact.append(canonical('supervisor-frame-queue-insert-predicted'))
+        exact.append(canonical('supervisor-frame-queue-insert-received'))
         build('supervisor-frame-queue-pop-frame')
         exact.append(canonical('supervisor-frame-queue-pop-frame'))
     return {'supervisor_received_frame': {
