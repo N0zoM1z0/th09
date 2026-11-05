@@ -11,6 +11,18 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-05 continued main — charge input-mode lifetime counterevidence
+
+Fresh target-attested current-source charge work reproduces1197/1210 bytes,
+70 fields/58 calls and1160 unlike overlaps plus13 missing. The original mode
+byte uses EBP-1; current code keeps it inBL and specializes a held-input edge.
+Three natural lifetime/bitfield controls preserve every raw/linked byte and
+actual COFF row; a native input reference regresses the extent to1195 and is
+rejected. All actual Timer >= siblings retain20 original-equal bytes. See
+[the bounded review](TH09_CHARGE_INPUT_LIFETIMES_20261105.md).
+No game source/ledger change or new exact credit; totals remain1022 exact/13
+nonexact. Input storage/source context remains open without register hints.
+
 ## 2026-11-05 continued main — complete Effect Type29 draw exact
 
 Type29 draw448750 now matches all2220 bytes/129 fields/675 instructions/72

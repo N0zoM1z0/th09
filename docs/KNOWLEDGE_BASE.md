@@ -18,6 +18,19 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-05 continued main: charge mode home and branch specialization
+
+Current charge41F810 retains1197/1210 bytes,70 fields/58 calls and1160 unequal
+overlaps plus13 missing. Original mode byte stores at+55 toEBP-1, is compared
+at+1C7 and reloaded at+1DB; currentBL mode/inputEDI/sideEBX differ from original
+stack mode/inputEBX/sideEDI. Both graphs have53 blocks, but a known-mode branch
+is specialized in the candidate, so complete direct edges do not agree. Branch-
+local previous level, input-stage scope and natural DWORD charge bitfields all
+preserve the complete raw/linked body and actual COFF rows. Native input-record
+reference regresses to1195/15 missing. Actual Timer >= remains20 original-equal
+bytes. No source is adopted or original volatile/type/ownership inferred. See
+[the frozen current-source review](TH09_CHARGE_INPUT_LIFETIMES_20261105.md).
+
 ### 2026-11-05 continued main: complete Type29 draw exact
 
 Seven independent per-fan angle lifetimes reproduce the original stack homes
