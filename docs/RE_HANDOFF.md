@@ -25,6 +25,9 @@ proofs are source/profile/object-bound reuses. See
 [the bounded source review](TH09_REPLAY_SHARED_INDEX_20261105.md). All48 Replay
 tests and full CI1354 tests/29 skips pass. SaveReplay remains nonexact; totals
 remain1022 exact/13 nonexact.
+Source checkpoint7d510243 and its immutable30-input local receipt are bound
+in the review. Six disposable control recompiles verify the tightened guard;
+only66 SHA-identical duplicate source copies are pruned from that packet.
 
 ## 2026-11-05 continued main — Replay uses native GameManager counters
 

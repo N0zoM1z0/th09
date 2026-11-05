@@ -73,8 +73,23 @@ The ignored packet `.analysis/replay-shared-index-20261105/` retains frozen
 inputs, six changed source controls, actual objects/logs, full comparisons and
 the parent guard. `verify-current.py` checks the one-byte transition, both
 complete owner contexts, all twelve canonical units and the reused callee
-bindings. Its source receipt is bound after the source checkpoint. This is
-local exact-phase evidence; source/TU uniqueness, product/runtime closure and
-Factory acceptance remain open. All 48 Replay tests pass; full public CI passes
+bindings. `replay.py` independently recompiles all six frozen controls in
+disposable directories: the three old-byte controls are rejected by the new
+guard and the three two-byte controls pass. This cold control replay passed.
+Only 66 SHA-identical duplicate source copies were pruned; the frozen closure,
+changed bodies and object/report evidence remain.
+
+The sealed `canonical-source-proof.json` is SHA-256
+`18ec28e7115b5efe18563559c2816f246c4dd5e537192b2778d49c64fe10b38b`,
+bound to source `7d51024348ded9bce92444288c06fb97db5ed6f9`. It records all 30
+tracked source/tool inputs and normalized Git blobs, eight compiler/SDK files,
+both actual objects/profiles, complete owner diagnostics, six controls, the
+independently reproduced parent no-EH baseline and the unchanged callee proof
+bindings. `python3 -B .analysis/replay-shared-index-20261105/proof.py` verifies
+that committed source and retained evidence and writes a separate
+`canonical-source-replay.json`, leaving the sealed receipt intact.
+
+This is local exact-phase evidence; source/TU uniqueness, product/runtime
+closure and Factory acceptance remain open. All 48 Replay tests pass; full public CI passes
 1,354 tests with 29 skips. Tracking, progress, documentation and whitespace
 checks pass. Totals stay 1,035 source-present / 1,022 exact / 13 nonexact.
