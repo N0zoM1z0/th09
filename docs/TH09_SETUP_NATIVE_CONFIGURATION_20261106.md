@@ -55,3 +55,22 @@ generated objects remain below `build/analysis/setup-side-loop-20261106/`.
 comparisons and the five alias changes. Thirty-four existing focused tests
 pass. Tracking remains1035 source-present/1022 exact/13 nonexact. Product,
 runtime, Factory acceptance and remote publication remain separate.
+
+The immutable source checkpoint is
+`1d3a23c1e23315312ef33305462b137feea9ba0b`. Its private
+`source-proof.json` SHA-256 is
+`1d58fdc50eaaa54b7949cf535f4061096aa18b6367148037250cc959951893ff`:
+59 tracked inputs/Git blobs, three actual source/profile objects, eight
+compiler/SDK files and12 complete original comparisons. Independent
+`source-receipt.py` replay passes. The five frozen controls and two restored
+complete carriers independently reproduce their entire raw bytes/actual fields
+and all ten exact siblings. Their separate control seal is
+`105761bfe05a27e34e103166730c59a42a960be31c5e6214abff29c9ce0702c2`.
+
+Cleanup removes193 per-file SHA-identical staged copies while retaining all
+changed controls and40 frozen source inputs. The restored control compiles
+again from those inputs and reproduces every original comparison. An initial
+receipt equality check rejected Python tuple versus serialized JSON list
+representation; canonical JSON comparison repairs the evidence reader, and
+both independently built complete objects pass afterward. This was not a
+compiler, byte, relocation or source regression.

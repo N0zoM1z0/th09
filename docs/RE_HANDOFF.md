@@ -13,6 +13,13 @@
 
 ## 2026-11-06 continued main — Setup uses its native configuration cell
 
+Source `1d3a23c1`; sealed proof SHA-256
+`1d58fdc50eaaa54b7949cf535f4061096aa18b6367148037250cc959951893ff`
+binds59 tracked inputs/Git blobs, three objects/profiles and eight SDK files.
+Independent source replay passes, as do five frozen controls and two restored
+complete carriers.193 hashed duplicate copies are pruned; changed controls,
+frozen inputs and actual objects remain.
+
 Setup allocation/copy/reads and the deleted callback now share the typed
 GameManager+E8 configuration pointer already consumed by Replay. Five actual
 COFF alias changes retain the same4A7E78 destination and complete linked worker.
