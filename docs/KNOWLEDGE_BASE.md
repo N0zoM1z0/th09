@@ -32061,3 +32061,21 @@ reset without repeated compiler jobs. Seal
 all nine successful objects;178 SHA-identical source copies and ten PDBs are
 removed. The Setup context packet separately removes ten PDBs1818624 bytes.
 Current game code stays657e9699;1021 exact/13 nonexact and the goal stay open.
+
+### 2026-11-06 RunEcl: native wire snapshot and real Timer visibility
+
+The maintained opcode4 can snapshot the existing four-byte wire argument and
+assign its integer member to ZunTimer without a scalar memcpy. Complete
+canonical RunEcl15564/598 and Enemy3900/97 raw bytes and actual referents remain
+unchanged; residuals stay30 and13. Original-bound exact siblings/dependencies
+pass91 comparisons36301/1783 across six affected build groups. The alternate
+/Ob0 carrier removes one noninlined RawInt call and becomes11980/649; its six
+exact leaves remain exact. This does not identify original C++ source uniquely.
+
+The real Timer setter4014D0 is25 bytes and its assignment tail wrapper401500
+is9. Exposing the genuine wrapper preserves RunEcl30; exposing both genuine
+definitions leaves both callees original-equal but changes RunEcl to15560/598,
+6230 unlike overlaps plus4 missing bytes. Public complete-shape rejection
+remains in force. Full raw/actual-field Enemy identity is unchanged even when
+its standard co-visible RunEcl inventory check rejects the changed carrier.
+See [the source and fixed-profile controls](TH09_RUNECL_WIRE_SNAPSHOT_20261106.md).

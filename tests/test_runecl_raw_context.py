@@ -88,14 +88,14 @@ class RunEclRawContextTests(unittest.TestCase):
         control = inputs['EclRunControl.inl'].decode().replace('\r\n', '\n')
         # Each operand recipe must preserve the complete remainder of opcode4,
         # including its native Timer assignment and instruction redispatch.
-        jump_end = control.index('    case TH09_ECL_OPCODE_SET_INT:')
-        timer_and_redispatch = control.split(
-            'memcpy(&value, &Th09EclRunControl::RawInt(instruction, 0), sizeof(value));',
-            1)[1].split('    case TH09_ECL_OPCODE_SET_INT:', 1)[0]
-        self.assertLess(control.index(timer_and_redispatch), jump_end)
         for case in ('wire-template-jump', 'wire-template-byte',
                      'wire-template-both', 'wire-fixed-both', 'wire-reference-both'):
             changed = probe.render(case, inputs)
+            context = control if case == 'wire-template-byte' else probe.scalar_jump_context(control, inputs)
+            snapshot = (probe.JUMP_ARGUMENT_SNAPSHOT if probe.JUMP_ARGUMENT_SNAPSHOT in context
+                        else probe.JUMP_SCALAR_COPY)
+            timer_and_redispatch = context.split(snapshot, 1)[1].split(
+                '    case TH09_ECL_OPCODE_SET_INT:', 1)[0]
             with self.subTest(case=case):
                 self.assertEqual(inputs, before)
                 self.assertEqual(set(changed), {'EclRunControl.inl'} if
@@ -105,7 +105,7 @@ class RunEclRawContextTests(unittest.TestCase):
                 self.assertIn('memcpy(&value, ', changed['EclRunControl.inl'].decode())
                 self.assertIn('sizeof(value)', changed['EclRunControl.inl'].decode())
         byte_only = probe.render('wire-template-byte', inputs)
-        self.assertIn('memcpy(&value, &Th09EclRunControl::RawInt(instruction, 0), sizeof(value));',
+        self.assertIn(probe.JUMP_ARGUMENT_SNAPSHOT,
                       byte_only['EclRunControl.inl'].decode())
         self.assertIn('ReadWireScalar<unsigned char>(&Th09EclRunState::RawByte(instruction, 0))',
                       byte_only['EclRunState.inl'].decode())
@@ -125,6 +125,29 @@ class RunEclRawContextTests(unittest.TestCase):
             b'&Th09EclRunControl::RawInt(instruction, 0), sizeof(value));')
         with self.assertRaises(ValueError):
             probe.render('wire-template-jump', inputs)
+
+    def test_wire_snapshot_adapter_checks_width_consumer_and_unique_copy(self):
+        inputs = sources()
+        inputs['EclOpcodes.hpp'] = (probe.WIRE_ARGUMENT + '\n'
+                                  'Th09EclWireArgument arguments[0];').encode()
+        source = inputs['EclRunControl.inl'].decode().replace(
+            probe.JUMP_SCALAR_COPY, probe.JUMP_ARGUMENT_SNAPSHOT).replace(
+                'timer = value;', 'context->time008 = value.integer;')
+        adapted = probe.scalar_jump_context(source, inputs)
+        self.assertIn(probe.JUMP_SCALAR_COPY, adapted)
+        self.assertIn('context->time008 = value;', adapted)
+        self.assertEqual(probe.scalar_jump_context(adapted, inputs), adapted)
+        for bad in (source + probe.JUMP_SCALAR_COPY,
+                    source + probe.JUMP_ARGUMENT_SNAPSHOT,
+                    source.replace('arguments[0]', 'arguments[1]'),
+                    source.replace('value.integer;', 'value.real;')):
+            with self.subTest(source=bad), self.assertRaises(ValueError):
+                probe.scalar_jump_context(bad, inputs)
+        wrong_width = dict(inputs)
+        wrong_width['EclOpcodes.hpp'] = wrong_width['EclOpcodes.hpp'].replace(
+            b'int integer;', b'short integer;')
+        with self.assertRaisesRegex(ValueError, 'typed wire storage'):
+            probe.scalar_jump_context(source, wrong_width)
 
     def test_typed_accessor_rewrite_requires_reviewed_storage_and_single_definition(self):
         inputs = probe.collect_inputs()

@@ -56,6 +56,9 @@ BYTE_MACRO = ('#define TH09_ECL_RAW_BYTE(instruction, byteOffset) '
               '(*(reinterpret_cast<unsigned char *>(instruction) + 0x0C + (byteOffset)))\n')
 TIMER = 'ZunTimer &timer = *reinterpret_cast<ZunTimer *>(&context->time008);'
 DIRECT_TIMER = 'ZunTimer &timer = context->time008;'
+JUMP_SCALAR_COPY = ('int value;\n        memcpy(&value, '
+                    '&Th09EclRunControl::RawInt(instruction, 0), sizeof(value));')
+JUMP_ARGUMENT_SNAPSHOT = 'Th09EclWireArgument value = instruction->arguments[0];'
 JUMP_WIRE = '''struct RelativeJumpWireView
 {
     Th09EclRawInstructionHeaderView header00;
@@ -78,6 +81,13 @@ def replace_once(text, before, after):
     return text.replace(before, after, 1)
 
 
+def reviewed_wire_storage(inputs):
+    layout = inputs.get('EclOpcodes.hpp', b'').decode().replace('\r\n', '\n')
+    if (layout.count(WIRE_ARGUMENT) != 1 or
+            layout.count('Th09EclWireArgument arguments[0];') != 1):
+        raise ValueError('reviewed typed wire storage changed')
+
+
 def reviewed_raw_int(source, inputs):
     """Recognize the reviewed legacy address or typed wire lvalue before rewriting."""
     matches = [form for form in (RAW_INT, RAW_INT_TYPED) if source.count(form) == 1]
@@ -85,16 +95,31 @@ def reviewed_raw_int(source, inputs):
         raise ValueError('reviewed raw integer accessor semantics changed')
     form = matches[0]
     if form == RAW_INT_TYPED:
-        layout = inputs.get('EclOpcodes.hpp', b'').decode().replace('\r\n', '\n')
-        if (layout.count(WIRE_ARGUMENT) != 1 or
-                layout.count('Th09EclWireArgument arguments[0];') != 1):
-            raise ValueError('reviewed typed wire storage changed')
+        reviewed_wire_storage(inputs)
     return form
+
+
+def scalar_jump_context(source, inputs):
+    """Render the historical scalar-copy experiment from either reviewed input.
+
+    This only adapts diagnostic source. The live wire-argument snapshot and the
+    original byte/relocation acceptance rules are independent of this recipe.
+    """
+    if source.count(JUMP_SCALAR_COPY) + source.count(JUMP_ARGUMENT_SNAPSHOT) != 1:
+        raise ValueError('reviewed jump snapshot missing, mixed or duplicated')
+    if JUMP_ARGUMENT_SNAPSHOT not in source:
+        return source
+    reviewed_wire_storage(inputs)
+    reviewed_raw_int(source, inputs)
+    source = replace_once(source, JUMP_ARGUMENT_SNAPSHOT, JUMP_SCALAR_COPY)
+    return replace_once(source, 'context->time008 = value.integer;',
+                        'context->time008 = value;')
 
 
 def render_wire_return(case, inputs):
  """Copy actual-width operands through ordinary scalar-return helpers."""
  control=inputs['EclRunControl.inl'].decode().replace('\r\n','\n');state=inputs['EclRunState.inl'].decode().replace('\r\n','\n');changed={}
+ if case!='template-byte':control=scalar_jump_context(control,inputs)
  if case=='fixed-both':
   helper='''inline int ReadWireInt(const void *address)
 {
@@ -153,9 +178,11 @@ def render(case, inputs):
         source = inputs[name].decode()
         if TIMER in source:
             source = replace_once(source, TIMER, DIRECT_TIMER)
-        elif source.count(DIRECT_TIMER) + source.count('context->time008 = value;') != 1:
+        elif (source.count(DIRECT_TIMER) + source.count('context->time008 = value;') +
+              source.count('context->time008 = value.integer;')) != 1:
             raise ValueError('reviewed native Timer assignment boundary changed')
         if case == 'jump-typed-wire':
+            source = scalar_jump_context(source, inputs)
             begin = source.index('    case TH09_ECL_OPCODE_JUMP:\n')
             end = source.index('    case TH09_ECL_OPCODE_SET_INT:\n', begin)
             jump = source[begin:end]

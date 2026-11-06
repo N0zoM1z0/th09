@@ -202,18 +202,11 @@ __forceinline float *WriteFloat(
             goto th09_ecl_advance_instruction;
     }
 
-    // Copy the raw four-byte timer operand into its actual scalar type.
-    // This preserves the complete caller codegen without a volatile wire read;
-    // the genuine ZunTimer assignment ABI remains unchanged.
+    // Snapshot the raw time operand before assigning the active context timer.
     case TH09_ECL_OPCODE_JUMP:
     {
-        int value;
-        memcpy(&value, &Th09EclRunControl::RawInt(instruction, 0), sizeof(value));
-        // The real timer at context +0x08 has ZunTimer's exact 12-byte ABI.
-        // Use the already-exact operator=(int) target at 0x00401500 rather
-        // than any source-only timer method symbol. The shared timer context
-        // is the genuine ZunTimer type throughout the ECL layout.
-        context->time008 = value;
+        Th09EclWireArgument value = instruction->arguments[0];
+        context->time008 = value.integer;
     }
         instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
             reinterpret_cast<unsigned char *>(instruction) +

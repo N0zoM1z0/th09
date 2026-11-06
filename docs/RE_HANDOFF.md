@@ -11,6 +11,26 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Natural RunEcl wire snapshot adopted
+
+Opcode4 now snapshots the existing four-byte wire argument and assigns its
+integer member to the real context Timer. Scalar memcpy transport and its
+codegen commentary are removed. Complete canonical RunEcl stays15564/598/30
+with no field/table differences; complete Enemy stays3900/97/13. Six affected
+build groups pass91 exact comparisons36301/1783;29 unchanged source/profile/
+object-bound callees2027/71 are reused. The alternative /Ob0 carrier loses one
+noninlined RawInt call (11980/649); its six exact leaves remain exact. See
+[the source/control review](TH09_RUNECL_WIRE_SNAPSHOT_20261106.md).
+
+Eight natural controls preserve616 repeated exact siblings194944/8768. Real
+co-visible Timer definitions remain exact43/2 across three comparisons, but
+revealing the setter changes the full caller to15560/598 with6230 unlike
+overlaps plus four missing bytes. Public shape guards continue to reject it;
+no Timer-definition relocation is adopted. Current counts stay1021/13 and
+the goal remains active. This is natural source progress without new byte
+exactness or product/runtime credit. Immutable source/receipt bindings follow
+in the next evidence checkpoint.
+
 ## 2026-11-06 continued main — Effect context and genuine callee visibility
 
 Nine successful current-native contexts preserve135 exact Effect siblings

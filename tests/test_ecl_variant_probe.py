@@ -85,8 +85,7 @@ class EclVariantFirstIncludeTests(unittest.TestCase):
 
     def test_changed_control_fragment_staged_through_all_intermediate_files(self):
         original = (ROOT/'src/EclRunControl.inl').read_text()
-        probe = original.replace('        int value;',
-                                 '        int value = 0;', 1)
+        probe = '// diagnostic control variant\n' + original
         self.assertNotEqual(probe, original)
         with tempfile.TemporaryDirectory() as folder:
             tmp = Path(folder)

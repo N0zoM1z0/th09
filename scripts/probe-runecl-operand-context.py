@@ -13,6 +13,10 @@ import json
 import re
 import sys
 ROOT = Path(__file__).resolve().parents[1]
+_raw_spec = importlib.util.spec_from_file_location(
+    'operand_raw_source', ROOT/'scripts/probe-runecl-raw-context.py')
+raw_source = importlib.util.module_from_spec(_raw_spec)
+_raw_spec.loader.exec_module(raw_source)
 CASES = ('operand-macros', 'operand-macros-plain-jump',
          'operand-macros-native-timeout', 'operand-macros-native-plain')
 expressions={
@@ -55,7 +59,7 @@ def render(case, source):
     assert count==1,(name,function,count)
   changed[name]=text.encode()
  if case in ('operand-macros-plain-jump','operand-macros-native-plain'):
-  name='EclRunControl.inl';text=changed[name].decode()
+  name='EclRunControl.inl';text=raw_source.scalar_jump_context(changed[name].decode(),source)
   old='int value;\n        memcpy(&value, &Th09EclRunControl::RawInt(instruction, 0), sizeof(value));'
   assert text.count(old)==1
   changed[name]=text.replace(old,'int value = Th09EclRunControl::RawInt(instruction, 0);').encode()
