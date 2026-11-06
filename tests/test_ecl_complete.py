@@ -75,5 +75,29 @@ class CompleteEclLinkTests(unittest.TestCase):
             MODULE.link_owner(bytes(16), [row], {0: 0x400020})
 
 
+class OwnerProjectionTests(unittest.TestCase):
+    def test_unreviewed_projection_is_rejected_before_coff_access(self):
+        from unittest.mock import patch
+        with patch.object(MODULE, 'load_module') as loader:
+            loader.return_value.validate_owner_symbol.side_effect = ValueError(
+                'unreviewed RunEcl owner ABI projection')
+            with self.assertRaisesRegex(ValueError, 'unreviewed RunEcl'):
+                MODULE.report(Path('never-opened.obj'), 'synthetic-fake-symbol')
+            self.assertEqual(loader.call_count, 2)
+
+    def test_borrowed_projection_is_propagated_to_both_checks(self):
+        from unittest.mock import patch
+        symbol = '?RunEcl@EnemyEclManagerView@@QAEHAAUEnemyView@@@Z'
+        with patch.object(MODULE, 'load_module') as loader:
+            coff, identity = loader.side_effect = (unittest.mock.MagicMock(),
+                                                  unittest.mock.MagicMock())
+            identity.validate_owner_symbol.return_value = symbol
+            identity.audit.return_value = {'audit_passed': False, 'failures': ['expected-stop']}
+            with self.assertRaisesRegex(ValueError, 'expected-stop'):
+                MODULE.report(Path('never-opened.obj'), symbol)
+            identity.audit.assert_called_once_with(Path('never-opened.obj'), symbol)
+            coff.object_function.assert_not_called()
+
+
 if __name__ == '__main__':
     unittest.main()

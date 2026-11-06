@@ -64,13 +64,14 @@ def link_owner(raw, rows, external_values, base=BASE):
     return linked, occupied
 
 
-def report(object_path):
+def report(object_path, owner_symbol=SYMBOL):
     compare = load_module('ecl_complete_coff', 'compare-coff-function.py')
     audit_module = load_module('ecl_complete_identity', 'audit-ecl-callsite-identities.py')
-    identity = audit_module.audit(object_path)
+    owner_symbol = audit_module.validate_owner_symbol(owner_symbol)
+    identity = audit_module.audit(object_path, owner_symbol)
     if not identity['audit_passed']:
         raise ValueError('independent identity audit failed: ' + ', '.join(identity['failures']))
-    raw, rows = compare.object_function(object_path, SYMBOL, include_symbol_locations=True)
+    raw, rows = compare.object_function(object_path, owner_symbol, include_symbol_locations=True)
     if len(raw) != SIZE or len(rows) != identity['accounted_relocations']:
         raise ValueError('incomplete physical extent or relocation coverage')
     external_values = {
@@ -95,6 +96,7 @@ def report(object_path):
         'diagnostic_only': True,
         'exactness_credit': 'none',
         'identity_audit_passed': True,
+        'owner_symbol': owner_symbol,
         'object': str(object_path),
         'object_source_binding': identity['source_observation']['object_source_binding'],
         'target_sha256': identity['target_sha256'],
@@ -115,10 +117,14 @@ def report(object_path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
+    parser.add_argument('--reference-owner', action='store_true',
+                        help='Review the native EnemyView& projection, diagnostic-only')
     parser.add_argument('--output', type=Path, help='Retain the complete diagnostic JSON')
     args = parser.parse_args()
     try:
-        result = report(args.object)
+        result = report(args.object,
+                        load_module('ecl_cli_identity', 'audit-ecl-callsite-identities.py')
+                        .REFERENCE_OWNER_SYMBOL if args.reference_owner else SYMBOL)
         if args.output:
             args.output.write_text(json.dumps(result, indent=2) + '\n')
     except (OSError, ValueError, KeyError, struct.error) as error:

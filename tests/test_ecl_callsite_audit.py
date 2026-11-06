@@ -160,5 +160,16 @@ class CompilerMathBodyTests(unittest.TestCase):
             self.assertIsNone(audit.direct_identity(symbol, {}, audit.ALIASES, 0x401070)[2])
 
 
+class OwnerSymbolProjectionTests(unittest.TestCase):
+    def test_only_original_pointer_and_compiler_witness_reference_are_permitted(self):
+        for symbol in (audit.POINTER_OWNER_SYMBOL, audit.REFERENCE_OWNER_SYMBOL):
+            self.assertEqual(audit.validate_owner_symbol(symbol), symbol)
+        for symbol in ('?RunEcl@EnemyEclManagerView@@QAEHPAUOther@@@Z',
+                       '?RunEcl@EnemyEclManagerView@@QAEHAAUOther@@@Z',
+                       '', None, 0):
+            with self.subTest(symbol=symbol), self.assertRaisesRegex(ValueError, 'unreviewed'):
+                audit.validate_owner_symbol(symbol)
+
+
 if __name__ == '__main__':
     unittest.main()

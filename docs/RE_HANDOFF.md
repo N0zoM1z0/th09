@@ -59,6 +59,17 @@ The separate Effect29 draw is now canonical exact in its selected /Ob0 profile;
 see [the complete-owner review](TH09_EFFECT29_EXACT_20261105.md).
 Do not silently treat uncatalogued code as excluded.
 
+## 2026-11-06 resumed RunEcl ABI recovery
+
+The recovered `EnemyView&` RunEcl object was finally compared against all
+15,564 original physical bytes/598 fields and the actual 3,900-byte Enemy
+caller; 77 exact same-source units also passed. Its remaining 30 RunEcl and
+13 Enemy differences provide no exact credit. The prior private `KeyError`
+was a bad diagnostic alias lookup, not a compile/byte-matching result.
+Public exactness inspectors now support a strictly whitelisted diagnostic-only
+reference projection without changing canonical pointer builds. See
+[reference ABI recovery](TH09_RUNECL_REFERENCE_ABI_RECOVERY_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

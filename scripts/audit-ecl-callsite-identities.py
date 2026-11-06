@@ -31,6 +31,17 @@ def require(condition, message):
         raise ValueError(message)
 
 BASE = 0x4086c0
+# Only these two compiled projections have independently observed the real
+# ECX/stack/RET4 transport. Source identity is still an open question.
+POINTER_OWNER_SYMBOL = '?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z'
+REFERENCE_OWNER_SYMBOL = '?RunEcl@EnemyEclManagerView@@QAEHAAUEnemyView@@@Z'
+
+
+def validate_owner_symbol(symbol):
+    if symbol not in (POINTER_OWNER_SYMBOL, REFERENCE_OWNER_SYMBOL):
+        raise ValueError('unreviewed RunEcl owner ABI projection')
+    return symbol
+
 ALIASES = {
     # Same folded +8 getter used by the reviewed canonical charge timer.
     # This is a diagnostic ABI binding, not a second physical/source owner.
@@ -371,7 +382,8 @@ def validate_real_runstate_callees(calls: list, fields: list) -> dict:
             'all_eight_real_owners_agree': True}
 
 
-def audit(object_path):
+def audit(object_path, owner_symbol=POINTER_OWNER_SYMBOL):
+    owner_symbol = validate_owner_symbol(owner_symbol)
     require(capstone is not None, 'Capstone is required for this optional private-target audit')
     spec = importlib.util.spec_from_file_location('coff', ROOT / 'scripts/compare-coff-function.py')
     coff = importlib.util.module_from_spec(spec)
@@ -380,7 +392,7 @@ def audit(object_path):
     require(coff.pe_bytes_at(image, 0x435f00, 4) == bytes.fromhex('8b4108c3'),
             'folded timer-current getter body changed')
     obj = Path(object_path)
-    raw, rows = coff.object_function(obj, '?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z', include_symbol_locations=True)
+    raw, rows = coff.object_function(obj, owner_symbol, include_symbol_locations=True)
     # The two compiler tables follow the complete logical instruction stream.
     # Every relocation must own one distinct, recognized four-byte field.
     rows = validate_relocation_fields(raw, rows)
@@ -605,6 +617,7 @@ def audit(object_path):
     return {
         'diagnostic_only': True,
         'exactness_credit': 'none',
+        'owner_symbol': owner_symbol,
         'audit_passed': not failures,
         'failures': failures,
         'target_sha256': hashlib.sha256(image).hexdigest(),
@@ -647,10 +660,13 @@ def audit(object_path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
+    parser.add_argument('--reference-owner', action='store_true',
+                        help='Use the reviewed EnemyView& projection; never changes target identity')
     parser.add_argument('--output', type=Path, help='Write the full diagnostic JSON to this path')
     args = parser.parse_args()
     try:
-        result = audit(args.object)
+        result = audit(args.object, REFERENCE_OWNER_SYMBOL if args.reference_owner
+                       else POINTER_OWNER_SYMBOL)
         if args.output:
             args.output.write_text(json.dumps(result, indent=2) + '\n')
         summary = {key: value for key, value in result.items() if key not in (
