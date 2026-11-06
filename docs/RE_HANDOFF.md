@@ -111,6 +111,14 @@ focused RunEcl replay passes99 complete canonical comparisons, including
 both affected exact sibling label refreshes. Enemy OnUpdate remains3900/97/13.
 See [native wire argument source evidence](TH09_RUNECL_NATIVE_WIRE_ARGUMENTS_20261106.md).
 
+## 2026-11-06 ANM VM native color/sprite ownership
+
+The already exact 811-byte Draw3D owner reads the native `color1Script.a`
+field at VM+0x1F3 rather than a raw byte offset. The 45-byte VM constructor
+sets `activeSpriteIndex` at +0x214 by name; the 62-byte base constructor also
+remains exact. See [native ANM VM member proof](TH09_ANM_VM_NATIVE_COLOR_AND_SPRITE_20261106.md).
+These are source-quality advances, not new exact authored bytes.
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

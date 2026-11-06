@@ -58,6 +58,10 @@ typedef char Draw3DMatrix1At130[(offsetof(AnmVmDraw3DView, matrix1) == 0x130) ? 
 typedef char Draw3DMatrix2At170[(offsetof(AnmVmDraw3DView, matrix2) == 0x170) ? 1 : -1];
 typedef char Draw3DMatrix3At1B0[(offsetof(AnmVmDraw3DView, matrix3) == 0x1B0) ? 1 : -1];
 typedef char Draw3DFlagsAt1F8[(offsetof(AnmVmDraw3DView, flagsWord) == 0x1F8) ? 1 : -1];
+// Original VM+0x1F3 is the alpha byte of its shared native ARGB color.
+typedef char Draw3DNativeAlphaAt1F3[
+    (offsetof(AnmVmBase, color1Script) +
+     offsetof(AnmVmScriptColor, a) == 0x1F3) ? 1 : -1];
 typedef char Draw3DPosAt208[(offsetof(AnmVmDraw3DView, pos) == 0x208) ? 1 : -1];
 typedef char Draw3DSpriteAt224[(offsetof(AnmVmDraw3DView, loadedSprite) == 0x224) ? 1 : -1];
 
@@ -98,7 +102,7 @@ int AnmManager::Draw3D(AnmVm *vm)
         return -1;
     if ((drawVm->flagsWord & 2) == 0)
         return -1;
-    if (*(reinterpret_cast<unsigned char *>(vm) + 0x1F3) == 0)
+    if (vm->color1Script.a == 0)
         return -1;
 
     if (anm->spritesToDraw != 0)

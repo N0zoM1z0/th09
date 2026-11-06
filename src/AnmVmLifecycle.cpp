@@ -1,6 +1,11 @@
 #include "AnmVmLifecycle.hpp"
 
+#include <stddef.h>
 #include <string.h>
+
+// The original constructor writes the native VM sprite-index word at +0x214.
+typedef char AnmVmNativeActiveSpriteIndexAt214[
+    (offsetof(AnmVmBase, activeSpriteIndex) == 0x214) ? 1 : -1];
 
 AnmVmBase::AnmVmBase()
 {
@@ -9,5 +14,5 @@ AnmVmBase::AnmVmBase()
 AnmVm::AnmVm()
 {
     memset(this, 0, sizeof(AnmVm));
-    *reinterpret_cast<short *>(reinterpret_cast<unsigned char *>(this) + 0x214) = -1;
+    activeSpriteIndex = -1;
 }
