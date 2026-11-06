@@ -83,3 +83,14 @@ not repeated for this evidence/ledger/documentation checkpoint.
 Totals stay1034 source-present/1021 exact/13 non-exact. The reconstruction goal
 and later product/runtime/semantic/port gates remain open. No Factory acceptance
 or independent remote-publication claim is made.
+
+Evidence checkpoint `1be9fee4` binds50 tracked inputs/Git blobs,38 selected
+compiler/SDK files,18 objects and30 provider/evidence files in private
+`source-proof.json`, SHA-256
+`237f057e56d2c680532f29576434c3737785e50b732b06f8afd935554498639c`.
+Independent read-only replay passes all31 current and40 private-context bodies,
+nine controls/90 repeated siblings,the actual paired call roles,both current
+Save contexts and all mapped bytes. Cleanup removes127 SHA-identical input
+copies and10 PDBs,137 files/1421830 bytes; all ten new compiler objects,unique
+changed sources and frozen originals remain. Tracking/progress/docs/whitespace
+checks pass. The sealed packet remains distinct from current-source acceptance.

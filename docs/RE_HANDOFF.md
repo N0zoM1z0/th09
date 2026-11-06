@@ -29,6 +29,12 @@ only two private callee names and nine proven owner-local spellings change.
 Nine focused tests and tracking/progress/docs/whitespace pass. No game source,
 canonical recipe,new exact or later-phase credit changes. Totals stay1021/13;
 goal remains active. Packet:`.analysis/replay-save-stage-flow-20261106/`.
+Checkpoint1be9fee4 binds50 tracked inputs/Git blobs,38 compiler/SDK pins and18
+objects. Proof
+`237f057e56d2c680532f29576434c3737785e50b732b06f8afd935554498639c`
+passes independent read-only replay of31 current/40 private bodies,nine models,
+the paired actual call roles,both Save contexts and all mapped bytes. Cleanup
+removes137 hashed duplicate/debug files1421830 bytes; all ten new objects stay.
 
 ## 2026-11-06 continued main — Collision geometry result and direct receiver
 
