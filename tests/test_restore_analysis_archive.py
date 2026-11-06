@@ -19,6 +19,78 @@ def digest(raw: bytes) -> str:
 
 
 class AnalysisArchiveRestoration(unittest.TestCase):
+    def test_bundle_paths_stay_within_generated_evidence_scopes(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for good in ('build/analysis/probe/candidate.obj', '.analysis/probe/private.toml',
+                         '.analysis/probe/result.json'):
+                self.assertEqual(restore_module.safe_path(root, good, bundle=True), root/good)
+            for bad in ('src/game.obj', 'build/game.exe', '.analysis/project.gbf',
+                        '.analysis/a/../result.json', './build/a.obj', 'build/a.obj/'):
+                with self.subTest(path=bad), self.assertRaises(ValueError):
+                    restore_module.safe_path(root, bad, bundle=True)
+
+    @unittest.skipUnless(shutil.which('tar') and shutil.which('zstd'),
+                         'tar/zstd are optional local-archive tools')
+    def test_bundle_prefix_restore_preflights_every_selected_member(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            bundle = Path('.analysis/handoff-archive-20261106')
+            folder = root/bundle
+            folder.mkdir(parents=True)
+            payloads = {'build/analysis/probe/a.obj': b'object bytes',
+                        '.analysis/probe/private.toml': b'[private]\nvalue = 1\n',
+                        '.analysis/probe/result.json': b'{"result": true}\n'}
+            rows = []
+            for member, payload in payloads.items():
+                target = root/member
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(payload)
+                rows.append({'path': member, 'bytes': len(payload), 'sha256': digest(payload)})
+            archive = folder/'generated-evidence.tar.zst'
+            subprocess.run(['tar', '--create', '--file', str(archive),
+                            '--use-compress-program=zstd -3', *payloads],
+                           cwd=root, check=True, capture_output=True)
+            manifest = folder/'manifest.json'
+            receipt = folder/'receipt.json'
+            def seal():
+                total = sum(row['bytes'] for row in rows)
+                manifest.write_text(json.dumps({'count': len(rows), 'original_bytes': total,
+                                                'files': rows}))
+                receipt.write_text(json.dumps({'bundle_kind': 'generated-evidence-v1',
+                    'count_archived_and_removed': len(rows), 'original_bytes': total,
+                    'archive_sha256': restore_module.file_sha256(archive),
+                    'manifest_sha256': restore_module.file_sha256(manifest)}))
+            seal()
+            for member in payloads:
+                (root/member).unlink()
+            preview = restore_module.restore(root, [], bundle=bundle,
+                                             prefixes=['.analysis/probe/'])
+            self.assertEqual(preview['absent_files'], 2)
+            self.assertFalse((root/'.analysis/probe/result.json').exists())
+            # Even a self-consistent receipt cannot authorize corrupt member content.
+            rows[1]['sha256'] = '0'*64
+            seal()
+            with self.assertRaisesRegex(ValueError, 'member'):
+                restore_module.restore(root, [], bundle=bundle,
+                                       prefixes=['.analysis/probe'], apply=True)
+            self.assertFalse((root/'.analysis/probe/result.json').exists())
+            rows[1]['sha256'] = digest(payloads[rows[1]['path']])
+            seal()
+            restored = restore_module.restore(root, [], bundle=bundle,
+                prefixes=['.analysis/probe', 'build/analysis/probe'], apply=True)
+            self.assertEqual(restored['absent_files'], 3)
+            for member, payload in payloads.items():
+                self.assertEqual((root/member).read_bytes(), payload)
+            (root/rows[0]['path']).write_bytes(b'local edited object')
+            with self.assertRaisesRegex(ValueError, 'refusing overwrite'):
+                restore_module.restore(root, [], bundle=bundle,
+                                       prefixes=['build/analysis/probe'], apply=True)
+            with self.assertRaises(ValueError):
+                restore_module.restore(root, [], bundle=Path('build/other'))
+            with self.assertRaisesRegex(ValueError, 'no manifest-listed'):
+                restore_module.restore(root, [], bundle=bundle, prefixes=['build/missing'])
+
     def test_path_must_be_json_inside_analyses_without_symlink(self):
         with tempfile.TemporaryDirectory() as temporary:
             root=Path(temporary)
