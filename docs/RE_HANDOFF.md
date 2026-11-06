@@ -1,12 +1,14 @@
 # TH09 reconstruction — current handoff (2026-11-06)
 
 Start with [the November 6 restart guide](TH09_NEXT_AGENT_HANDOFF_20261106.md).
-The operator switched this session to cleanup and handoff; the former 98%
-reconstruction goal is no longer running and the milestone remains unfinished.
-No gameplay source or exactness credit changed in this maintenance checkpoint.
-The last pre-cleanup local checkpoint was `89058d69`; always read live Git status
-and log because handoff/tooling commits advance HEAD. Local commits do not prove
-remote publication or Factory acceptance.
+The operator resumed exact-source TH09 reconstruction after the November 6
+maintenance checkpoint. Both large bosses and leaves are in scope; verify
+original bytes and compiler evidence instead of trusting archival hypotheses.
+The 98% reviewed-authored-byte goal remains unfinished. Before this restart,
+`39511403` committed the cleanup handoff and recovered evidence without new
+exact gameplay credit. New source checkpoints must use `gpt-web: ...`, protect
+complete owners and affected exact siblings, and avoid full cold replay.
+Local commits do not establish Factory acceptance or remote publication.
 
 Historical session prose was moved byte-for-byte into
 [the November 6 history archive](RE_HANDOFF_HISTORY_20261106.md).

@@ -54,7 +54,7 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-The operator has switched this session to documentation cleanup and handoff.
+The operator has resumed exact-source reconstruction after the November 6 cleanup.
 Reconstruction remains unfinished. The canonical ledger reports **2,248
 candidates, 1,034 authored mappings, 1,021 exact functions and 13 non-exact
 functions /29,834 authored bytes**. Exact authored-byte coverage is
@@ -74,7 +74,7 @@ source or exactness credit changed during cleanup.
 
 Use focused complete-owner builds/replays for the changed units only. Do not
 run a full cold replay for routine iteration. Commits use
-`gpt-6.1-sol: <concise English summary>` after each substantive checkpoint; keep
+`gpt-web: <concise English summary>` after each substantive checkpoint; keep
 code and documentation commits coherent and make multiple checkpoints when a
 session produces multiple reviewable advances.
 

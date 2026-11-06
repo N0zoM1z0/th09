@@ -2,16 +2,14 @@
 
 ## Current operator status
 
-The current operator request is cleanup and handoff to another agent. The
-previous reconstruction goal is no longer running; the98% milestone remains
-unfinished. When reconstruction resumes, the operator requires serious work
-on both complete large bosses and leaf functions,
-source/target re-investigation rather than trusting old notes, and English
-commit subjects of the form `gpt-6.1-sol: <summary>` after each substantive checkpoint. Make multiple coherent
-commits when a session produces multiple reviewable advances; do not stop after
-the first useful commit. Routine iteration must rebuild/replay only affected
-owners and dependencies; do not run a full cold replay unless explicitly
-requested.
+The current operator has explicitly resumed TH09 exact-source reconstruction.
+Work seriously on both complete large bosses and small leaves, challenge old
+notes against the original executable and pinned compiler, and produce actual
+source progress rather than only inspections. Recover all dirty/untracked work
+before editing, and do not discard interrupted attempts. Use English commit
+subjects in the format `gpt-web: <summary>` after each substantive checkpoint;
+make multiple reviewable commits in each productive session. Rebuild/replay only
+affected owners and their dependencies, never a routine full cold replay.
 
 The **2026-11-06 current restart guide** is
 `docs/TH09_NEXT_AGENT_HANDOFF_20261106.md`. Earlier source checkpoints
@@ -149,7 +147,7 @@ analysis database is working state; mirror durable conclusions into the repo.
 
 ## Checkpoints and artifacts
 
-- Use concise, coherent local commits prefixed **gpt-6.1-sol: ...**. Commit after
+- Use concise, coherent local commits prefixed **gpt-web: ...**. Commit after
   each substantive advance and create multiple commits in a session when there
   are multiple reviewable checkpoints. Report local checkpoints separately
   from independently verified remote state.

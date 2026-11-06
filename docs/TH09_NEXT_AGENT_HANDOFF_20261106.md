@@ -4,6 +4,10 @@ Read [AGENTS.md](../AGENTS.md), [the live handoff](RE_HANDOFF.md),
 [RE_WORKFLOW.md](RE_WORKFLOW.md) and [ORACLES.md](ORACLES.md) first.
 This is a routing snapshot, not Factory acceptance or remote-publication proof.
 
+**Operator update:** reconstruction has resumed after this cleanup snapshot.
+For current intent and the `gpt-web:` commit convention, use AGENTS.md and
+RE_WORKFLOW.md; the cleanup request below describes a completed earlier task.
+
 ## Operator task and current state
 
 The operator ended the running reconstruction goal and requested code/document
