@@ -44,19 +44,14 @@ typedef char PrimitiveXyzTex1VertexSizeIs14[(sizeof(VertexTex1Xyz) == 0x14) ? 1 
 typedef char PrimitiveXyzrhwTex1VertexSizeIs18[(sizeof(BackgroundQuadVertexView) == 0x18) ? 1 : -1];
 typedef char PrimitiveXyzrhwTex1UvAt10[(offsetof(BackgroundQuadVertexView, textureUV) == 0x10) ? 1 : -1];
 
-struct AnmVmPrimitiveView
-{
-    unsigned char unknown000[0x1F3];
-    unsigned char colorAlpha;
-    unsigned char unknown1F4[0x1F8 - 0x1F4];
-    unsigned int flagsWord;
-    unsigned char unknown1FC[0x224 - 0x1FC];
-    AnmLoadedSprite *loadedSprite;
-};
-
-typedef char PrimitiveVmAlphaAt1F3[(offsetof(AnmVmPrimitiveView, colorAlpha) == 0x1F3) ? 1 : -1];
-typedef char PrimitiveVmFlagsAt1F8[(offsetof(AnmVmPrimitiveView, flagsWord) == 0x1F8) ? 1 : -1];
-typedef char PrimitiveVmSpriteAt224[(offsetof(AnmVmPrimitiveView, loadedSprite) == 0x224) ? 1 : -1];
+// Every primitive draw path uses the same native 0x2A4-byte VM as the
+// ANM script interpreter and Draw3D; no independently allocated VM prefix.
+typedef char PrimitiveNativeVmDrawFields[
+    (offsetof(AnmVmBase, color1Script) +
+         offsetof(AnmVmScriptColor, a) == 0x1F3 &&
+     offsetof(AnmVmBase, flagsWord) == 0x1F8 &&
+     offsetof(AnmVmBase, loadedSprite) == 0x224 &&
+     sizeof(AnmVm) == 0x2A4) ? 1 : -1];
 
 struct SupervisorPrimitiveView
 {
@@ -111,14 +106,13 @@ void AnmManager::ClearZWrite() { PrimitiveManager(this)->disableZWrite = 0xff; }
 int AnmManager::DrawVertices(AnmVm *vmObject, VertexTex1DiffuseXyzrhw *vertices, int vertexCount)
 {
     AnmManagerPrimitiveView *anm = PrimitiveManager(this);
-    AnmVmPrimitiveView *vm = reinterpret_cast<AnmVmPrimitiveView *>(vmObject);
     SupervisorPrimitiveView *supervisor = PrimitiveSupervisor();
     if (!vmObject->IsVisible()) return -1;
-    if ((vm->flagsWord & 2) == 0) return -1;
-    if (vm->colorAlpha == 0) return -1;
+    if ((vmObject->flagsWord & 2) == 0) return -1;
+    if (vmObject->color1Script.a == 0) return -1;
     if (anm->spritesToDraw != 0) this->FlushVertexBuffer();
-    if (anm->currentTexture != vm->loadedSprite->texture) {
-        anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vm->loadedSprite->texture);
+    if (anm->currentTexture != vmObject->loadedSprite->texture) {
+        anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vmObject->loadedSprite->texture);
         supervisor->d3dDevice->SetTexture(0, anm->currentTexture);
     }
     if (anm->currentVertexShader != 3) {
@@ -135,13 +129,12 @@ int AnmManager::DrawVertices(AnmVm *vmObject, VertexTex1DiffuseXyzrhw *vertices,
 int AnmManager::QueueSpriteQuad(AnmVm *vmObject, VertexTex1DiffuseXyzrhw *vertices)
 {
     AnmManagerPrimitiveView *anm = PrimitiveManager(this);
-    AnmVmPrimitiveView *vm = reinterpret_cast<AnmVmPrimitiveView *>(vmObject);
     SupervisorPrimitiveView *supervisor = PrimitiveSupervisor();
     if (!vmObject->IsVisible()) return -1;
-    if ((vm->flagsWord & 2) == 0) return -1;
-    if (vm->colorAlpha == 0) return -1;
-    if (anm->currentTexture != vm->loadedSprite->texture) {
-        anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vm->loadedSprite->texture);
+    if ((vmObject->flagsWord & 2) == 0) return -1;
+    if (vmObject->color1Script.a == 0) return -1;
+    if (anm->currentTexture != vmObject->loadedSprite->texture) {
+        anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vmObject->loadedSprite->texture);
         this->FlushVertexBuffer();
         supervisor->d3dDevice->SetTexture(0, anm->currentTexture);
     }
@@ -211,7 +204,6 @@ int AnmManager::DrawTriangleFan(AnmVm *vm, VertexDiffuseXyzrhw *vertices, int ve
 int AnmManager::DrawTexturedTriangleFan(AnmVm *vmObject, VertexTex1DiffuseXyzrhw *vertices, int vertexCount)
 {
     AnmManagerPrimitiveView *anm = PrimitiveManager(this);
-    AnmVmPrimitiveView *vm = reinterpret_cast<AnmVmPrimitiveView *>(vmObject);
     SupervisorPrimitiveView *supervisor = PrimitiveSupervisor();
     if (anm->spritesToDraw != 0) this->FlushVertexBuffer();
     if (anm->currentVertexShader != 3) {
@@ -219,8 +211,8 @@ int AnmManager::DrawTexturedTriangleFan(AnmVm *vmObject, VertexTex1DiffuseXyzrhw
         anm->currentVertexShader = 3;
     }
     this->SetRenderStateForVm(vmObject);
-    if (anm->currentTexture != vm->loadedSprite->texture) {
-        anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vm->loadedSprite->texture);
+    if (anm->currentTexture != vmObject->loadedSprite->texture) {
+        anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vmObject->loadedSprite->texture);
         supervisor->d3dDevice->SetTexture(0, anm->currentTexture);
     }
     g_Supervisor.SetRenderState(D3DRS_ZWRITEENABLE, FALSE);

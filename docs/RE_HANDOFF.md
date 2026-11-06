@@ -330,6 +330,15 @@ this adopted record model retains all 57 fields, 13 calls, 72 blocks and
 29 existing unequal bytes, with no new mismatch. See
 [Title native replay record proof](TH09_TITLE_REPLAY_MENU_NATIVE_RECORD_SNAPSHOT_20261106.md).
 
+## 2026-11-06 native ANM PrimitiveDraw VM source
+
+PrimitiveDraw no longer maintains an independent fake VM prefix. Its
+DrawVertices/QueueSpriteQuad/DrawTexturedTriangleFan paths now use actual
+`AnmVm` color, flags and sprite members, with native offset assertions.
+All 12 same-source exact units match the original 1,763 physical bytes/90
+fields. Five natural C++ models were compiled. See
+[native ANM primitive VM evidence](TH09_ANM_PRIMITIVE_NATIVE_VM_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
