@@ -31,6 +31,14 @@ body/profiles6742/546 and the actual EH graph are preserved. Ten bounded
 rank-slice traces retain every ordered rank/player write; this is not product
 runtime validation. Exact totals stay1021/13 and the goal remains active.
 
+Source `657e9699`; source-proof SHA-256
+`8023ad887bc478521658b77fa3e516a401214626e6d228e3796a1016c2940f93`.
+It binds60 tracked inputs/Git blobs,eight compiler/SDK files and all eight new
+objects. Independent14-unit plus50 experimental sibling replay passes17365/
+1416, with no new function credit. Full CI passes1376/29;26 focused guard and35
+status tests pass.195 hashed source duplicates and eight PDBs are removed.
+The complete no-/Os worker remains1828/189/1592 plus139 extra bytes, nonexact.
+
 ## 2026-11-06 continued main — Native Setup access isolates remaining rank differences
 
 Ten current-native source/profile controls preserve all ten exact Setup

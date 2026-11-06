@@ -32003,3 +32003,14 @@ all ordered rank/player writes; whole-worker/product/runtime gates stay open.
 [The checkpoint](TH09_SETUP_RANK_PUBLICATION_20261106.md) retains all native
 experiments and actual current objects. Authored totals remain1021 exact/13
 nonexact; the goal remains active.
+
+
+Native Setup source proof is bound to657e9699, SHA-256
+`8023ad887bc478521658b77fa3e516a401214626e6d228e3796a1016c2940f93`:
+60 tracked inputs/Git blobs,eight SDK/compiler files,three actual current
+objects and five native-control objects.14 current plus50 experimental
+comparisons17365/1416 replay read-only;25 unchanged contributions and ten
+rank slices remain distinct evidence. Full CI passes1376 tests/29 skips.
+195 hashed source copies and eight disposable PDBs are removed. The alternate
+worker remains1828/189/1592 plus139 extra bytes. No new exact-function credit,
+Factory acceptance, remote publication or product/runtime claim is made.

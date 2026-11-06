@@ -1,5 +1,12 @@
 # TH09 — current next-agent handoff (2026-11-04)
 
+> **2026-11-06 Setup update:** source657e9699 supersedes this guide's older
+> Setup1689/171/904 frontier. The current complete candidate is1682/172 with694
+> unlike overlaps plus seven missing original bytes; all172 referent counts
+> and35 calls agree. See [native rank publication](TH09_SETUP_RANK_PUBLICATION_20261106.md)
+> and the newest [handoff](RE_HANDOFF.md). Exact totals stay1021/13; re-read
+> live status and ledgers. This does not promote Setup to exact.
+
 > Later integration branch work is routed through [RE_HANDOFF.md](RE_HANDOFF.md)
 > and [CIRNO_LABS_INTEGRATION_20261105.md](CIRNO_LABS_INTEGRATION_20261105.md).
 > This November 4 table is a historical snapshot.

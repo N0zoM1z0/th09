@@ -85,3 +85,27 @@ all14 units and the whole nonexact diagnostic; `preservation.py` checks the
 25 unchanged contributions; `rank-traces.py` repeats the ten bounded traces.
 Current authored totals remain1034 source-present/1021 exact/13 nonexact.
 Native Windows i386 product/runtime and later semantic/port gates remain open.
+
+
+## Immutable source binding
+
+Source checkpoint `657e9699dabdf962d96f5b193ae5da4fa594dd0a`; private source-proof SHA-256:
+
+`8023ad887bc478521658b77fa3e516a401214626e6d228e3796a1016c2940f93`
+
+The proof binds60 tracked inputs/Git blobs,eight compiler/SDK files,three
+current objects and five experimental objects. Independent read-only replay
+passes14 current canonical comparisons3480/286 plus50 source-scoped experimental
+sibling comparisons13885/1130. These64 comparisons17365/1416 do not represent64
+distinct functions. The25 unchanged body/profile comparisons and ten rank
+traces remain separately identified. The alternate worker is1828/189 with1592
+unlike overlaps plus139 extra candidate bytes; it is not original-exact credit.
+
+Run `python3 -B .analysis/setup-rank-publication-20261106/source-seal.py` for
+the complete read-only verification.195 per-file SHA-identical source copies
+and eight disposable PDBs totaling1409024 bytes are removed; all eight
+actual new objects remain. Five private PDBs are covered by the sealed packet;
+three lowercase canonical output names use supplemental path/SHA receipt
+`b4c784c2294230e538243fabc928a2ed04cc8d2232d57735dad920c2ee6fe411`
+(`.analysis/setup-rank-canonical-debug-cleanup-20261106.json`). Final public CI passes1376 tests/29 skips. Factory
+acceptance and remote publication are not claimed.
