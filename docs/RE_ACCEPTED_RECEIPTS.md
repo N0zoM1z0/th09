@@ -12,6 +12,27 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 6: shared gameplay side storage — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `ef5a1072ed1ca7cad8e6b6d875ea9fe0905e980b`.
+Player ChargeAttack and its actual creators use the shared0x38-byte native side
+record. PlayerDeath uses genuine signed-range RNG406200; two pre-existing
+manifest names absent from source are corrected without changing destinations.
+All162 affected source/profile groups rebuild;448 existing exact units pass
+139770 physical bytes/7206 fields through the strict public comparison. The
+488 refreshed private labels in22 units retain actual owner-relative positions.
+
+The ignored `.analysis/native-side-record-20261106/source-proof.json` is
+SHA-256 `4e738cb13954b32bfa7a2d514de8ced339078e8db3b9b112f7dda6f88d1c032c`.
+It binds284 tracked inputs/Git blobs,162 actual objects/profiles,13 selected
+compiler/SDK files and complete affected/nonexact/control evidence. Independent
+read-only replay verifies448 exact comparisons,413 regular bodies/four EH graphs
+in13 nonexact-containing carriers, two complete creator payloads, six Charge
+controls and three full mapped-byte Ghidra attestations. Public CI passes1377
+with29 skips. No new exact credit; totals remain1021 exact/13 nonexact. See
+[the complete source review](TH09_NATIVE_SIDE_RECORD_20261106.md).
+
 ## November 6: shared replay serialized locations — local Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

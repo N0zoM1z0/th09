@@ -34,8 +34,14 @@ nonexact-containing baselines preserve413 regular bodies/four EH graphs and
 auxiliary/private-cleanup payloads; the two creators preserve20 bodies/two EH
 graphs separately. Public CI passes1377 tests/29 skips. Counts stay1021/13;
 there is no new exact, product/runtime, semantic or port credit. The goal stays
-active. Interrupted/failed objects retain their own source epochs in the
-ignored packets; local commits do not establish remote publication.
+active. Sourceef5a1072 binds284 tracked inputs/Git blobs,162 actual objects and13
+selected provider files. Source/control proof SHA-256
+`4e738cb13954b32bfa7a2d514de8ced339078e8db3b9b112f7dda6f88d1c032c`
+passes independent read-only replay, including all six controls and the legacy
+Death753/38 binding. Cleanup removes178 hashed duplicate sources and176 PDBs,
+354 files/16892462 bytes; every new/interrupted object remains. Interrupted/
+failed objects retain their own source epochs in the ignored packets; local
+commits do not establish remote publication.
 
 ## 2026-11-06 continued main — Natural network checksum and wait-flow review
 

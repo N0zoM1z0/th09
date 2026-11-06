@@ -89,3 +89,26 @@ Ignored evidence packets are `.analysis/charge-mode-snapshot-20261106/` and
 pre-repair PlayerDeath object are retained with their own source epochs. The
 incorrect first death entry request41D510 failed and is preserved separately;
 only the successful reviewed41E420 export supports the claim above.
+
+## Source binding and retained evidence
+
+Source commit `ef5a1072ed1ca7cad8e6b6d875ea9fe0905e980b` binds284 current
+tracked inputs/Git blobs,162 affected objects and13 selected compiler/SDK files.
+The source/control proof SHA-256 is:
+
+`4e738cb13954b32bfa7a2d514de8ced339078e8db3b9b112f7dda6f88d1c032c`
+
+`python3 -B .analysis/native-side-record-20261106/verify.py` passes an
+independent read-only replay of all448 exact comparisons, all thirteen
+nonexact-containing payloads, both complete creator payloads, the pre-repair
+PlayerDeath753/38 comparison, six Charge controls and three full mapped-byte
+Ghidra attestations. It also verifies the recipe migration permits only the
+reported actual private names and two genuine RNG bindings. Source/profile,
+comparison extents and every original destination remain independently pinned.
+
+The cleanup removes178 SHA-identical per-case source copies and176 disposable
+PDBs,354 files/16892462 bytes in total. All current, baseline, interrupted and
+experimental objects remain. Removed inputs resolve to independently retained
+frozen copies through explicit path/hash receipts; changed models stay intact.
+The first-pass and pre-native-Death epochs remain separate from current source.
+This local evidence does not establish Factory acceptance or remote publication.
