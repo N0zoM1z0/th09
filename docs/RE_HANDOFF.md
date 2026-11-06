@@ -198,6 +198,15 @@ codegen. All 12 same-source exact units match across 4,093 bytes/232 fields;
 SaveReplay remains 1,238 bytes/53 fields/two unlike bytes. See
 [the native Replay codec proof](TH09_REPLAY_NATIVE_CODEC_WIRE_20261106.md).
 
+## 2026-11-06 Player movement native reference
+
+The still-nonexact 1,900-byte Player movement boss now uses a genuine
+`PlayerMovementFields&` over the native +0x1CCC subobject. Ten complete
+fixed-profile C++ source variants were tried; the adopted reference preserves
+all 66 original fields, 23 calls and 122 existing unlike bytes, without any
+new mismatch. The focused movement replay passes the nearby exact owners.
+See [the movement source trial and evidence](TH09_PLAYER_MOVEMENT_NATIVE_REFERENCE_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
