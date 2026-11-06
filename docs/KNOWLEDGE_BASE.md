@@ -18,6 +18,21 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-06: Network service return protocol and failed status models
+
+Original431110 maps service0 to continued update,1 to retry,2 to callback3,
+3 to reset/inactivate/state1 and4 to reset/callback4. Shared result constants
+now express those roles;original enum spelling/nominal return type stay unknown.
+The full service1627/106/1381-plus6-missing and996-byte exact caller are preserved.
+Original service has20 local bytes,result EBP-4;partial AX input stores at
+EBP-14/-12 are followed by DWORD reads. Neither width proves a unique C++ API.
+Twelve complete natural controls test status joins,cleanup loops and input
+representations. Even a1633-byte model has1279 unlike positions/16-byte frame;
+no model is adopted. A genuine paired word producer still matches131/1 and
+remains a private ambiguity countermodel. Strict21 existing units4763/223 pass;
+see [the bounded review](TH09_NETWORK_SERVICE_RESULT_CONTRACT_20261106.md).
+No new exact or later-phase credit.
+
 ### 2026-11-06: RunEcl scope, ordinary setters and alternate carrier
 
 One Enemy parameter and one switch scope preserve the full main15564/598/30

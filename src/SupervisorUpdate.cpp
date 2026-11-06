@@ -3,6 +3,7 @@
 // commit d7653152becabb8c86f2f43d49015ecc11bd0652.
 // Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "Supervisor.hpp"
+#include "SupervisorNetworkService.hpp"
 #include "Chain.hpp"
 #include "AnmManager.hpp"
 #include "SupervisorNetworkState.hpp"
@@ -36,7 +37,6 @@ extern int g_ScreenEffectCounter;
 extern void __fastcall ResetSupervisorServiceChannels();
 extern void __fastcall SupervisorNetworkMarkInactive(void *state);
 extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
-extern int __fastcall SupervisorServiceUpdate(Supervisor *supervisor);
 extern void __fastcall GameManager_CutChain();
 extern int __fastcall RegisterTitleScreen(int mode);
 
@@ -53,17 +53,17 @@ int Supervisor::OnUpdate(Supervisor *app)
         {
             switch (SupervisorServiceUpdate(app))
             {
-            case 1:
+            case NETWORK_SERVICE_RETRY_FRAME:
                 continue;
-            case 2:
+            case NETWORK_SERVICE_WAIT:
                 return 3;
-            case 3:
+            case NETWORK_SERVICE_RESET:
                 g_SupervisorNetworkState->ResetSession();
                 SupervisorNetworkMarkInactive(g_SupervisorNetworkState);
                 g_SupervisorNetworkState->connectionState = 0;
                 app->curState590 = 1;
                 break;
-            case 4:
+            case NETWORK_SERVICE_STOP:
                 g_SupervisorNetworkState->ResetSession();
                 return 4;
             }

@@ -1,4 +1,5 @@
 #include "Supervisor.hpp"
+#include "SupervisorNetworkService.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "AnmManager.hpp"
 #include "Controller.hpp"
@@ -48,7 +49,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
     Supervisor *s = supervisor;
     SupervisorFrameQueueView *frameQueues =
         static_cast<SupervisorFrameQueueView *>(supervisor);
-    int result = 0;
+    int result = NETWORK_SERVICE_FRAME_READY;
     DWORD now;
     int returnState;
 
@@ -108,7 +109,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         {
             if (s->networkTiming458.frameCounter != 0)
             {
-                returnState = 3;
+                returnState = NETWORK_SERVICE_RESET;
                 goto RETURN_STATE;
             }
 
@@ -200,7 +201,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                     goto HAVE_PACKET;
 
             WAIT_FOR_FRAME:
-                result = 1;
+                result = NETWORK_SERVICE_RETRY_FRAME;
                 supervisor->LeaveCriticalSectionWrapper(4);
                 return result;
 
@@ -256,7 +257,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
         if (now - s->networkTiming458.frameStartTime > 60000)
         {
-            returnState = 3;
+            returnState = NETWORK_SERVICE_RESET;
             goto RETURN_STATE;
         }
 
@@ -266,15 +267,15 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             g_NetworkDisconnectedMessage);
 
     NETWORK_WAIT:
-        returnState = 2;
+        returnState = NETWORK_SERVICE_WAIT;
 
     RETURN_STATE:
         supervisor->LeaveCriticalSectionWrapper(4);
         if ((Controller::GetInput(2) & 2) != 0)
-            return 3;
+            return NETWORK_SERVICE_RESET;
         if (s->flagsLow5D4 >= 0 || SupervisorSubthreadIsRunning(supervisor))
             return returnState;
-        return 4;
+        return NETWORK_SERVICE_STOP;
     }
 
     {

@@ -11,6 +11,22 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Network service result contract
+
+Service/caller share named0..4 results and one int/fastcall declaration.
+The full1627/106/1381-plus6-missing service body/referents remain unchanged.
+Fresh Ghidra covers service,actual PopFrame and996-byte caller; all mapped bytes
+attest. Twelve natural status/cleanup/input models fail complete comparison;
+one matches total1633 length but differs1279 positions and has the wrong frame.
+No narrow API or return-layout model is adopted. See
+[the bounded review](TH09_NETWORK_SERVICE_RESULT_CONTRACT_20261106.md).
+
+Only service/caller rebuild. Strict21 existing units4763/223 pass, including
+caller996/92 and receiver808/46;20 unchanged proofs are reused. Forty actual
+caller-local spellings refresh without position/destination changes.43 focused
+tests/173 subtests pass. Totals stay1021/13; goal/later gates remain open.
+Source/control sealing follows the source checkpoint; no Factory/remote claim.
+
 ## 2026-11-06 continued main — RunEcl native owner and switch scope
 
 RunEcl uses one actual Enemy parameter and one switch scope. Full main
