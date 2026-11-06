@@ -4,7 +4,7 @@
 
 
 > For current cache state, use the
-> [2026-11-04 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261104.md).
+> [2026-11-06 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261106.md).
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 > October30 clarification: documentation and research records stay; unused
@@ -3675,3 +3675,76 @@ no-op dry run confirmed **zero disposable cache files**. These transient
 CI-created bytes are **not an additional net storage saving** to add to
 this checkpoint's pre-cleanup accounting. The original EXE SHA remained
 unchanged and no all-match-unit codegen replay was run.
+
+## 2026-11-06 — Handoff recovery, lossless object/manifest archive and caches
+
+The operator switched from reconstruction to cleanup/handoff. No gameplay
+source was adopted and exact totals remain1021/13. The previous1866-line active
+handoff is preserved byte-for-byte after an archive notice in
+[RE_HANDOFF_HISTORY_20261106.md](RE_HANDOFF_HISTORY_20261106.md); original payload
+SHA-256 is `3b2ce353995b88a947c5538f39575473d0c9b76e0dd6b0981ca85a3b02ba3e0f`.
+The [new restart guide](TH09_NEXT_AGENT_HANDOFF_20261106.md) and concise live
+handoff correct stale totals, Movement129→122, Setup1689/171/904→1682/172/
+694-overlap-plus-seven-missing, SaveReplay3→2 and historical running-goal claims.
+The Setup live ledger evidence now names the maintained source comparison;
+its older controls remain dated in notes. Accepted receipts are unchanged.
+
+Net logical regular-file bytes under `.analysis/` and `build/` fell by
+**422,418,351 bytes (402.85 MiB)**, including archive/audit overhead up to the
+final measurement. The small final audit itself was written after measurement;
+filesystem allocated blocks may differ. `build/` is intentionally absent.
+
+| Treatment | Files | Original bytes |
+| --- | ---: | ---: |
+| Build OBJ, losslessly archived | 1208 | 70,558,367 |
+| Large analysis JSON, losslessly archived | 209 | 94,922,787 |
+| Large private TOML manifests, losslessly archived | 96 | 175,470,846 |
+| Cache cleanup: build plus analysis debug/bytecode | 2450 | 164,100,962 |
+
+The cache row includes the1208 archived objects; do not add it to the archive
+rows as a disjoint total. All1513 archive members passed streamed size/SHA-256
+checks and all originals were rechecked before removal. The10,300,825-byte
+archive and its manifest/receipt remain locally ignored at
+`.analysis/handoff-archive-20261106/`. Archive SHA-256:
+`c2ef291c49e913a5b44d5b68e9dc568c924732976d27cc3545e2945ca04a7da0`;
+manifest SHA-256:
+`191d2dc6f3395c31b0d43f43abe74c8a24ab68b2365661f4a0b8e40bdf14c976`.
+These local packages do not travel in a Git clone.
+
+The canonical target, all tracked source/config files at cleanup inspection and
+1467 Ghidra working-state files were preserved and rehashed (1996 protected
+files total). Analysis OBJ files remain loose; older verified archives,
+toolchains, frozen input sources, scripts and unresolved RunEcl evidence remain.
+PDB/bytecode caches were discarded. Large JSON/TOML evidence was archived, not
+lost: a verifier may need selective restoration of its named inputs first.
+
+Preview and then restore the interrupted packet's objects:
+
+```bash
+python3 -B scripts/restore-analysis-archive.py --bundle .analysis/handoff-archive-20261106 --prefix build/analysis/runecl-timeout-storage-20261106
+# Repeat with --apply to restore absent, hash-verified members.
+```
+
+Use `--path` for a specific archived JSON, TOML or OBJ; use `--prefix` for an
+archived analysis packet. Without `--bundle`, the helper still selects the
+older November4 JSON archive. Existing different files are never overwritten.
+A real restore of17 objects plus one JSON and one TOML (19 files/7,049,630 bytes)
+passed SHA checks; those restored duplicates were then removed by hash review.
+Rebuild only the affected canonical unit when starting a new comparison; do
+not interpret absent build cache as lost canonical source or run a full cold
+replay to refill it.
+
+Local audit entrypoints are
+`.analysis/handoff-cleanup-20261106/final-audit.json`, `archive-plan.json`,
+`archive-verification.json`, `generated-cache-manifest.json`,
+`selective-restore-check.json`, and `cache-resume.json`. The cache-cleaner call
+initially rejected an absolute audit path after archive-backed analysis removal;
+no build cache was deleted by that rejected call. A relative audit path, fresh
+fingerprint checks and protected-input checks completed cleanup.
+
+Validation:1389 target-independent tests ran with29 optional skips; test,
+ledger, documentation and generated-progress stages passed. The first CI command
+ended at its final whitespace stage on one trailing blank line, then
+`git diff --check` passed after correction. Target verification, target-required
+tracking, status, documentation and progress checks passed after cleanup. No
+new compiler/Ghidra replay or exactness claim is part of this maintenance work.

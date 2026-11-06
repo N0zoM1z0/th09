@@ -2,8 +2,10 @@
 
 ## Current operator status
 
-TH09 reconstruction is active on explicit operator request. The operator
-requires serious work on both complete large bosses and leaf functions,
+The current operator request is cleanup and handoff to another agent. The
+previous reconstruction goal is no longer running; the98% milestone remains
+unfinished. When reconstruction resumes, the operator requires serious work
+on both complete large bosses and leaf functions,
 source/target re-investigation rather than trusting old notes, and English
 commit subjects of the form `gpt-6.1-sol: <summary>` after each substantive checkpoint. Make multiple coherent
 commits when a session produces multiple reviewable advances; do not stop after
@@ -11,14 +13,15 @@ the first useful commit. Routine iteration must rebuild/replay only affected
 owners and dependencies; do not run a full cold replay unless explicitly
 requested.
 
-The **2026-11-04 current restart guide** is
-`docs/TH09_NEXT_AGENT_HANDOFF_20261104.md`. Earlier source checkpoints
+The **2026-11-06 current restart guide** is
+`docs/TH09_NEXT_AGENT_HANDOFF_20261106.md`. Earlier source checkpoints
 (`e4ea703b`, `80313a4f` and October/early-November handoffs) are
 historical, not statements about current HEAD. Re-read `git log -1
 --oneline`, the real Git status and the ledgers for each session: a
 handoff/cleanup commit may advance HEAD without modifying source.
-`docs/RE_HANDOFF.md` and `docs/TH09_NEXT_AGENT_HANDOFF_20261102.md`
-retain dated evidence, including superseded "current" claims. Commit hashes are not Factory
+`docs/RE_HANDOFF.md` is the concise live entry;
+`docs/RE_HANDOFF_HISTORY_20261106.md` and older dated guides retain historical
+evidence, including superseded "current" and "goal active" claims. Commit hashes are not Factory
 acceptance, original-byte, or remote-publication proofs.
 
 Use the live registered repository worktree exposed to the current agent for
@@ -185,6 +188,13 @@ analysis database is working state; mirror durable conclusions into the repo.
   repacked with `git gc --prune=never` while preserving all live refs; neither
   storage action changes accepted source-exact evidence. See the newest
   2026-11-04 audit and handoff before deleting any other evidence.
+- The 2026-11-06 cleanup losslessly archived all1208 build OBJ plus209 large
+  analysis JSON and96 private TOML files, with per-member SHA-256 validation.
+  `build/` is absent. Read the current handoff before replay; use
+  `scripts/restore-analysis-archive.py --bundle .analysis/handoff-archive-20261106`
+  with `--path` or `--prefix` (preview, then `--apply`) to recover named inputs.
+  The interrupted RunEcl reference-parameter object is recovered but unaccepted;
+  its postcompile harness failed. Never promote it from object existence alone.
 - Never commit the original executable, game archives/data, IDA databases,
   Ghidra projects, toolchains, generated decompiler text, credentials, or private endpoints.
 - Finish with `git diff --check` and the checks required by the change: the

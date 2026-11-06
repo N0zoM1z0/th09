@@ -1,4 +1,7 @@
-# TH09 — current next-agent handoff (2026-11-04)
+# TH09 — historical next-agent handoff (2026-11-04)
+
+> **Superseded:** resume from [the November 6 guide](TH09_NEXT_AGENT_HANDOFF_20261106.md).
+> This dated snapshot does not describe the current operator task or storage state.
 
 > **2026-11-06 Setup update:** source657e9699 supersedes this guide's older
 > Setup1689/171/904 frontier. The current complete candidate is1682/172 with694

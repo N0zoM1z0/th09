@@ -1,14 +1,16 @@
 # Tool routing
 
-TH09 reconstruction is **active**. Use the live registered worktree
+The current task is cleanup and handoff; reconstruction remains unfinished.
+For reconstruction, use the live registered worktree
 (via repository shell/connector if available), the pinned VC7.1 compiler
 for codegen, and **direct local Ghidra** for new original-binary analysis.
 A Factory connector can execute repository operations but cannot replace
 attested Ghidra/target bytes or give exactness credit by itself. Do **not**
 substitute historical IDA/REA exports as new original-backed evidence.
 For the current scope, read
-[the 2026-11-04 restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md);
-[RE_HANDOFF.md](RE_HANDOFF.md) retains dated evidence and ledger tables.
+[the 2026-11-06 restart guide](TH09_NEXT_AGENT_HANDOFF_20261106.md);
+[RE_HANDOFF.md](RE_HANDOFF.md) holds concise live frontiers and storage recovery;
+[the history archive](RE_HANDOFF_HISTORY_20261106.md) retains dated evidence.
 
 | Need | Command | Claim established |
 | --- | --- | --- |
@@ -25,9 +27,10 @@ For the current scope, read
 | Check product graph | `python3 scripts/build.py --check` | explicit open/closed graph state |
 | Validate documentation | `python3 scripts/validate-docs.py` | ledger-derived totals, links and frontier consistency |
 | Run public checks | `python3 scripts/ci.py` | target-independent repository consistency; required for shared validation/CI changes |
-| Preview cache cleanup | `python3 scripts/clean-generated-artifacts.py` | objects kept by default;explicit path/SHA-256 review required for OBJ deletion |
+| Preview cache cleanup | `python3 scripts/clean-generated-artifacts.py` | build caches removed on apply; analysis OBJ retained unless explicitly path/SHA-256 reviewed |
 | Recover old Git-backed copies | `python3 scripts/restore-analysis-snapshots.py MANIFEST --prefix .analysis/PACKET` | preview original bytes/EOL recovery;add --apply for absent files |
 | Restore archived old JSON | `python3 -B scripts/restore-analysis-archive.py --path .analysis/FILE.json` | preview SHA-pinned local tar.zst member; add `--apply` for exclusive, verified restore |
+| Restore archived objects/private inputs | `python3 -B scripts/restore-analysis-archive.py --bundle .analysis/handoff-archive-20261106 --prefix build/analysis/PACKET` | preview manifest-listed OBJ/JSON/TOML; use actual packet prefix or `--path`, then `--apply` |
 
 The installed Ghidra12.1.4 is available via the ignored `.tools/ghidra` symlink;
 `--ghidra-dir` accepts another explicit installation. The runner imports once

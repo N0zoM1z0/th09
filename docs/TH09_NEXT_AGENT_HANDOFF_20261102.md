@@ -1,7 +1,7 @@
 # TH09 next-agent handoff — 2026-11-02
 
-> **HISTORICAL CHECKPOINT — SUPERSEDED 2026-11-04.**
-> Resume from [TH09_NEXT_AGENT_HANDOFF_20261104.md](TH09_NEXT_AGENT_HANDOFF_20261103.md).
+> **HISTORICAL CHECKPOINT — SUPERSEDED 2026-11-06.**
+> Resume from [TH09_NEXT_AGENT_HANDOFF_20261106.md](TH09_NEXT_AGENT_HANDOFF_20261106.md).
 > This dated record contains earlier "current" assertions (e.g. Player
 > Movement **129** differences) and old compiler-label names. Preserve it
 > for provenance; do not use it as a current-status or worktree guide.

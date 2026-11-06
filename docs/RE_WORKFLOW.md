@@ -13,7 +13,7 @@ pinned VC7.1 compiler for byte-exact comparisons. These are separate evidence
 sources. New English commits use `gpt-6.1-sol: <concise summary>`; checkpoint every
 substantive advance and create multiple commits when a session has multiple
 reviewable advances. Compile serially at lowered priority and preserve complete
-affected-owner/callee proofs. See [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md)
+affected-owner/callee proofs. See [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261106.md)
 for active source boundaries/residuals, and `RE_HANDOFF.md` for historical
 evidence and validated ledger totals.
 
@@ -76,7 +76,7 @@ project stay below `.analysis/ghidra-direct/`; no MCP service is needed.
 
 ### What to read at a fresh handoff
 
-Use [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) for the
+Use [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261106.md) for the
 active owner priorities and [RE_HANDOFF.md](RE_HANDOFF.md) for ledger-backed
 historical tables and unresolved
 large/small function fronts, exact-sibling scopes, and restart/cleanup gates.
@@ -208,3 +208,12 @@ operator changes. The manifest/receipt/archive are ignored local state and
 may be absent in a fresh clone. Read the measured cleanup history and
 regenerate a selected match unit when needed; do **not** full-replay all units
 or bulk-delete current source/unique unarchived experiments.
+
+The November6 cleanup also preserves build OBJ and large private TOML inputs
+in a separate verified bundle. Use
+`python3 -B scripts/restore-analysis-archive.py --bundle .analysis/handoff-archive-20261106 --prefix build/analysis/PACKET`
+with the actual packet name (preview, then `--apply`); `--path` selects one
+manifest-listed OBJ/JSON/TOML and an analysis prefix selects archived packet
+inputs. The default November4 JSON archive is unchanged. See the current
+handoff for hashes, protected inputs and actual reclaimed bytes. Missing
+`build/` is expected; restore retained evidence or rebuild the affected unit.

@@ -54,30 +54,23 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-TH09 reconstruction is active on explicit operator request. Work both complete
-large owners and leaf functions; historical hypotheses and experiment notes are
-not authoritative over fresh source/target evidence. The canonical ledger
-currently reports **2,248 candidates, 1,035 authored mappings, 1,019 exact
-functions and 16 non-exact functions / 33,170 bytes**. Exact authored-byte
-coverage is **258,713 / 291,883 (88.6359%)**; the 98% milestone remains open.
-Whole-product linking, runtime semantics and portability are separate,
-unstarted gates.
+The operator has switched this session to documentation cleanup and handoff.
+Reconstruction remains unfinished. The canonical ledger reports **2,248
+candidates, 1,034 authored mappings, 1,021 exact functions and 13 non-exact
+functions /29,834 authored bytes**. Exact authored-byte coverage is
+**262,034 /291,868 (89.7783%)**; the 98% milestone still needs23,997 exact
+authored bytes at the present denominator. Whole-product closure and runtime
+validation remain open; semantic reconstruction and portability have not started.
 
-The **2026-11-04 current next-agent guide** is
-[TH09_NEXT_AGENT_HANDOFF_20261104.md](docs/TH09_NEXT_AGENT_HANDOFF_20261104.md).
-Do not use the old `e4ea703b` Supervisor checkpoint as current HEAD;
-check live `git status` and `git log` instead. Recent verified Player work
-includes the 3,238-byte **exact** selector sharing native GameManager
-bounds (`bc26b958`), the **non-exact** 1,900-byte movement owner with
-**122** residual bytes (`3cd23f37`), and 572-byte **physically exact**
-AddedState initializer with 552 canonical bytes and 20 reviewed tail bytes
-(`a5dbf3b9`). High-value unfinished owners include `RunEcl` (30 unlike
-bytes), `EnemyManager::OnUpdate` (13), `ReplayManager::SaveReplay` (3),
-and `GameplaySetupThread` (historical 1,689-byte /904 unlike).
-The Cirno-Labs integration made fourteen additional owners exact, including
-Title result/options, Supervisor update and the network-message handler.
-The older [RE_HANDOFF.md](docs/RE_HANDOFF.md) retains historical evidence.
-Do not confuse structural source recovery with a new exactness receipt.
+Use [the November 6 restart guide](docs/TH09_NEXT_AGENT_HANDOFF_20261106.md)
+and [the live handoff](docs/RE_HANDOFF.md), then check actual Git status/log and
+ledgers. The latter lists all13 nonexact owners and current source-bound
+receipts. RunEcl remains30 unlike bytes, Enemy update13, Player movement122,
+SaveReplay two; Setup is1682/1689 bytes with694 unequal overlaps plus seven
+missing. Historical handoff prose was moved to
+[the dated archive](docs/RE_HANDOFF_HISTORY_20261106.md). The latest interrupted
+RunEcl prototype experiment was recovered as unaccepted evidence; no gameplay
+source or exactness credit changed during cleanup.
 
 Use focused complete-owner builds/replays for the changed units only. Do not
 run a full cold replay for routine iteration. Commits use
@@ -112,6 +105,12 @@ cache cleanup; about **590.5 MiB of net logical file bytes** were reclaimed.
 See `docs/RE_ARTIFACT_CLEANUP_HISTORY.md` for archive SHA-256, protected
 scopes and selective restoration. The archive is ignored and not cloned.
 
+The November6 cleanup reclaimed approximately **402.85 MiB** more logical file
+bytes. Build objects and selected large JSON/TOML evidence are losslessly saved
+in a SHA-verified local archive; `build/` is absent. Use the current handoff for
+`restore-analysis-archive.py --bundle ... --prefix ...` recovery commands and
+restore archived inputs before running a dated private verifier.
+
 Use `docs/RE_ARTIFACT_CLEANUP_HISTORY.md` for the actual cleaned
 scopes and retained evidence.
 
@@ -137,8 +136,8 @@ not an acceptable shortcut around the native-product stage.
 - [`config/build.toml`](config/build.toml) — whole-product graph and explicit unknowns.
 - [`docs/RE_WORKFLOW.md`](docs/RE_WORKFLOW.md) — bounded reconstruction loop and stage gates.
 - [`docs/ORACLES.md`](docs/ORACLES.md) — what can falsify or accept each claim.
-- [`docs/TH09_NEXT_AGENT_HANDOFF_20261104.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261104.md) — current restart scope, verified owner boundaries, and cleanup guidance.
-- [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — dated historical evidence and ledger-backed tables; use the current restart guide first.
+- [`docs/TH09_NEXT_AGENT_HANDOFF_20261106.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261106.md) — current restart scope, verified owner boundaries, and cleanup guidance.
+- [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — concise live ledger, all13 nonexact frontiers and evidence routing.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — target facts and maintained source/verification map.
 - [`docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`](docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md) — frozen historical checkpoints; use the active handoff, not this archive, for current facts.
 - [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) — durable TH09-only facts.
