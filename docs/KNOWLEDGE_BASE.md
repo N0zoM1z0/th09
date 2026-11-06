@@ -18,6 +18,21 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-06: Save destination controls and paired source-method witness
+
+Actual Save ECX/EDX/stack-name/RET4 transport admits both the current static
+declaration and a private ordinary fastcall instance method. The latter's real
+header,definition and both Title calls compile coherently: Save still has two
+residuals,and40 complete Title bodies18756/948 reproduce original bytes/fields.
+Two fixed Save-call roles+190/+595 in the1825-byte caller bind the actual new
+callee symbol to420C60. This does not prove original method shape,ownership or
+well-defined null-receiver semantics; the current API remains. Nine new source
+controls preserve90 repeated exact siblings21681/1098. Location-derived offsets
+add32 bytes; a value snapshot adds16; native-word address forms do not recover
+the two differing selectors. Strict31 current and40 private-context comparisons
+pass25163/1259 with no new credit. See
+[the review](TH09_REPLAY_SAVE_STAGE_FLOW_20261106.md).
+
 ### 2026-11-06: Collision geometry result and vector/scope counterevidence
 
 A bool geometry result,ordinary if/else branches and direct this/bullet use

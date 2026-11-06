@@ -11,6 +11,25 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Save stage destination and method shape
+
+Save stays1238/53/two at+B7/+BB in both current profiles. Nine new copy/address/
+method controls protect90 repeated exact siblings21681/1098; none is adopted.
+A real paired instance-header/definition/Title caller model retains the same
+Save residual and40 complete Title bodies18756/948. Physical fastcall transport
+therefore does not determine static versus instance source shape. The current
+static API remains; null-receiver C++ semantics and nominal ownership are not
+established by this private witness. See
+[the review](TH09_REPLAY_SAVE_STAGE_FLOW_20261106.md).
+
+Fresh Ghidra attests Save and all685056 mapped bytes. The31 current units6407/
+311 reuse verified unchanged inputs/objects/recipes. Strict private-manifest
+replay additionally covers40 model-context bodies,71 comparisons25163/1259;
+only two private callee names and nine proven owner-local spellings change.
+Nine focused tests and tracking/progress/docs/whitespace pass. No game source,
+canonical recipe,new exact or later-phase credit changes. Totals stay1021/13;
+goal remains active. Packet:`.analysis/replay-save-stage-flow-20261106/`.
+
 ## 2026-11-06 continued main — Collision geometry result and direct receiver
 
 CheckBulletCollision now computes one intersects result and uses this/bullet
