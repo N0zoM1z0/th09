@@ -103,8 +103,7 @@ int TitleScreenView::DrawReplayMenu()
     }
     else if (currentScreenState == 2)
     {
-        // Acquire the record before the selected-index snapshot.
-        const ReplayDataView *replay = &replays[selectedReplay];
+        const ReplayDataView &replayValue = replays[selectedReplay];
         i32 selected = selectedReplay;
 
         position.x = selected < 25 ? 32.0f : 352.0f;
@@ -124,19 +123,19 @@ int TitleScreenView::DrawReplayMenu()
                 reinterpret_cast<Float3 *>(&position),
                 "No.%.2d %8s %8s",
                 selected + 1,
-                (replay->magic ? replay->playerName : "--------"),
-                (replay->magic ? replay->playTime : "--/--/--"));
+                (replayValue.magic ? replayValue.playerName : "--------"),
+                (replayValue.magic ? replayValue.playTime : "--/--/--"));
         }
         else
         {
             g_AsciiManager.AddFormatText(
                 reinterpret_cast<Float3 *>(&position), "%c%c%c%c  %8s %8s",
-                replay->magic ? replayPaths[selected][15] : 'u',
-                replay->magic ? replayPaths[selected][16] : 's',
-                replay->magic ? replayPaths[selected][17] : 'e',
-                replay->magic ? replayPaths[selected][18] : 'r',
-                replay->magic ? replay->playerName : "--------",
-                replay->magic ? replay->playTime : "--/--/--");
+                replayValue.magic ? replayPaths[selected][15] : 'u',
+                replayValue.magic ? replayPaths[selected][16] : 's',
+                replayValue.magic ? replayPaths[selected][17] : 'e',
+                replayValue.magic ? replayPaths[selected][18] : 'r',
+                replayValue.magic ? replayValue.playerName : "--------",
+                replayValue.magic ? replayValue.playTime : "--/--/--");
         }
 
         position.x = 221.0f;
@@ -147,7 +146,7 @@ int TitleScreenView::DrawReplayMenu()
             sprintf(
                 buffer, "%s  -%s-",
                 g_ReplayStoryModeName[0],
-                g_ReplayDifficultyNames[replay->value0D7]);
+                g_ReplayDifficultyNames[replayValue.value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&position), buffer);
         }
@@ -161,8 +160,8 @@ int TitleScreenView::DrawReplayMenu()
         {
             sprintf(
                 buffer, "%s  -%s-",
-                g_ReplayModeNames[replay->value1E5],
-                g_ReplayDifficultyNames[replay->value0D7]);
+                g_ReplayModeNames[replayValue.value1E5],
+                g_ReplayDifficultyNames[replayValue.value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&position), buffer);
         }
@@ -172,15 +171,15 @@ int TitleScreenView::DrawReplayMenu()
 
         for (i32 i = 0; i < 10; ++i)
         {
-            if (replay->frameStart[0][i] != 0)
+            if (replayValue.frameStart[0][i] != 0)
             {
                 g_AsciiManager.color =
                     (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
                 g_AsciiManager.AddFormatText(
                     reinterpret_cast<Float3 *>(&position),
                     "%.8s vs %.8s",
-                    g_ReplayCharacterNames[replay->frameStart[0][i]->value06],
-                    g_ReplayCharacterNames[replay->frameStart[1][i]->value06]);
+                    g_ReplayCharacterNames[replayValue.frameStart[0][i]->value06],
+                    g_ReplayCharacterNames[replayValue.frameStart[1][i]->value06]);
                 position.y += 13.0f;
             }
         }

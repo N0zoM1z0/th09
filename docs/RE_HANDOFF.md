@@ -321,6 +321,15 @@ not a generic +0x80 byte pointer on an opaque side slot. All 21 complete
 same-source units still match 5,391 original bytes / 288 fields. See
 [native opponent Player metric receiver](TH09_PLAYER_OPPONENT_METRIC_NATIVE_HEADER_20261106.md).
 
+## 2026-11-06 Title replay-menu record ownership
+
+The still-nonexact 1,280-byte ReplayMenu draw boss now borrows the actual
+native `ReplayDataView` record as a const reference before snapshotting the
+selected index. Twenty-three original-profile C++ models were compiled;
+this adopted record model retains all 57 fields, 13 calls, 72 blocks and
+29 existing unequal bytes, with no new mismatch. See
+[Title native replay record proof](TH09_TITLE_REPLAY_MENU_NATIVE_RECORD_SNAPSHOT_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
