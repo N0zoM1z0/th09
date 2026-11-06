@@ -30,9 +30,14 @@ No ownership/qualifier inference or non-checksum source model is adopted.
 
 Fourteen fresh build groups and four unchanged scoped proofs pass20 complete
 exact comparisons3767/131, including all19 direct callees and receiver808/46.
-57 focused tests plus tracking/progress/whitespace pass. Immutable source and
-control receipts follow in the next checkpoint. Counts remain1021/13 and the
-reconstruction goal stays active.
+57 focused tests plus tracking/progress/whitespace pass. Source200591bd binds
+37 current inputs/Git blobs and13 provider files; source-proof SHA-256
+`ae9d683f2d9a940090d9415071ed9e5ad9dfbe40437f1db55e2ea12606acde62`.
+Control seal `c0d035244de5e27737d65c7c6780a9c010a4c153384a86c70ce944926ff2fa64`
+passes independent read-only replay. A disposable seed/range-visible context
+rebuild reproduces1622/105 and both genuine callees.146 hashed source copies
+and25 PDBs2060288 bytes are removed; all24 new objects remain. Counts remain
+1021/13 and the reconstruction goal stays active.
 
 ## 2026-11-06 continued main — Shake natural phase models remain unresolved
 

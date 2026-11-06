@@ -88,8 +88,25 @@ SDK files, including DirectPlay and Windows headers, are hashed.
 
 The ignored packet is `.analysis/network-sync-flow-20261106/`. It retains all
 24 new objects, frozen/changed sources, both fresh Ghidra exports and complete
-PE/COFF reports. Source/receipt bindings, cleanup and independent read-only
-verification are completed in the follow-up checkpoint.57 focused network/
+PE/COFF reports. Source commit200591bde54994e5768fcfffb5de7f43cb26db96 binds
+all37 current source/Git-blob inputs and13 selected provider files. Its
+source-proof SHA-256 is:
+
+`ae9d683f2d9a940090d9415071ed9e5ad9dfbe40437f1db55e2ea12606acde62`
+
+The complete source/control seal is:
+
+`c0d035244de5e27737d65c7c6780a9c010a4c153384a86c70ce944926ff2fa64`
+
+`python3 -B .analysis/network-sync-flow-20261106/verify.py` independently
+rechecks all20 current exact comparisons, ten complete controls, the separate
+setup failure, both Ghidra attestations and cleanup receipts without compiling.
+`replay-one.py visible-seed-range` rebuilds the frozen current-native context,
+reproduces every1622 raw byte, all105 referents and both actual callee bodies,
+then removes its disposable build. Only reviewed anonymous packet-name salts
+and the reported output pathname are normalized; no field value or byte moves.
+146 per-case SHA-identical source copies and25 PDBs2060288 bytes are pruned;
+all24 new objects, changed sources and frozen inputs remain.57 focused network/
 input/tracking/progress/origin/documentation tests pass. Target-required
 tracking,progress and whitespace pass. Full public CI is not repeated for this
 bounded source/metadata change; no shared validator changes.
