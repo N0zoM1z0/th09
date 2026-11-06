@@ -18,6 +18,21 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-06: Collision geometry result and vector/scope counterevidence
+
+A bool geometry result,ordinary if/else branches and direct this/bullet use
+reproduce all849 collision raw bytes and26 actual COFF rows. Three geometry
+goto transfers and receiver/input aliases are removed. Eight of ten new whole-
+source controls reproduce the baseline raw body,including existing Float3
+locals and positive response/filter scopes. Their construction/scopes alone do
+not explain the original loop entry or Bullet/position register choice. A
+compound type early return loses five equal positions; the two explicit type
+branches remain. Rotation's target reads/writes XY only,which does not establish
+the original vector nominal type or caller-local extent. All50 repeated exact
+siblings and16 strict current units3480/138 pass. See
+[the review](TH09_PLAYER_COLLISION_VECTOR_CONTEXT_20261106.md).
+Full owner remains799 unequal overlaps plus13 missing,no new exact credit.
+
 ### 2026-11-06: Collision loop, implemented reward calls and scratch homes
 
 CheckBulletCollision's native resource/score call targets41BC90/40F860 now use

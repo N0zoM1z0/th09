@@ -54,9 +54,14 @@ def validate_connection(consumer, header, producer, units):
             'duplicated private region/storage overlay')
     body = consumer.split('int PlayerLifecycleView::CheckBulletCollision(', 1)[1]
     body = body.split('\nint PlayerLifecycleView::CheckGrazeCollision(', 1)[0]
-    require(re.search(REGION + r'\s*\*\*slot\s*=\s*reinterpret_cast<' + OWNER +
-                      r'\s*\*>\(player\)->activeB100;', body) is not None,
+    scan = re.search(REGION + r'\s*\*\*(\w+)\s*=\s*reinterpret_cast<' + OWNER +
+                     r'\s*\*>\((\w+)\)->activeB100;', body)
+    require(scan is not None,
             'consumer must scan the actual producer pointer array')
+    cursor, receiver = scan.groups()
+    require(receiver == 'this' or re.search(
+        r'\bPlayerLifecycleView\s*\*\s*' + re.escape(receiver) + r'\s*=\s*this\s*;',
+        body) is not None, 'consumer must scan the actual producer pointer array')
     scalar = {'unsigned char': (1, 1), 'float': (4, 4), 'int': (4, 4)}
     fields, shape = struct_layout(header, REGION, scalar)
     require(shape == (0x44, 4), 'region physical size/alignment')
@@ -67,7 +72,7 @@ def validate_connection(consumer, header, producer, units):
         'hitCount2C': (0x2C, 'int'), 'type38': (0x38, 'int'),
         'delay40': (0x40, 'int'),
     }
-    consumed = set(re.findall(r'\(\*slot\)->(\w+)', body))
+    consumed = set(re.findall(r'\(\*' + re.escape(cursor) + r'\)->(\w+)', body))
     require(consumed == set(expected), 'unreviewed or missing consumed region fields')
     for field, (offset, kind) in expected.items():
         require(fields.get(field) == (offset, kind, 1), 'wrong region field ' + field)
@@ -134,6 +139,11 @@ class PlayerCollisionRegionOwner(unittest.TestCase):
     def test_reject_consumer_scanning_other_pool(self):
         with self.assertRaisesRegex(ValueError, 'actual producer pointer array'):
             self.check(consumer=self.consumer.replace('->activeB100;', '->releasedB908;', 1))
+
+    def test_reject_consumer_scanning_other_player(self):
+        with self.assertRaisesRegex(ValueError, 'actual producer pointer array'):
+            self.check(consumer=self.consumer.replace(
+                '>(this)->activeB100;', '>(otherPlayer)->activeB100;', 1))
 
 
 if __name__ == '__main__':

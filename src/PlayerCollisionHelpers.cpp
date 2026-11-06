@@ -25,10 +25,9 @@ extern EffectManager *g_PlayerRewardEffectManager;
 
 int PlayerLifecycleView::CheckBulletCollision(
     PlayerPositionView *position,
-    PlayerPositionView *collisionSize,
+    PlayerPositionView *,
     Bullet *bullet)
 {
-    (void)collisionSize;
 
     PlayerPositionView delta;
     PlayerPositionView rotated;
@@ -37,10 +36,8 @@ int PlayerLifecycleView::CheckBulletCollision(
     float xDelta;
     float yDelta;
 
-    PlayerLifecycleView *player = this;
-    Bullet *currentBullet = bullet;
     PlayerCollisionRegionCreateRegionView **slot =
-        reinterpret_cast<PlayerCollisionRegionCreateView *>(player)->activeB100;
+        reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->activeB100;
 
     for (; *slot != NULL; ++slot)
     {
@@ -51,52 +48,40 @@ int PlayerLifecycleView::CheckBulletCollision(
         if ((*slot)->delay40 > 0)
             continue;
 
+        bool intersects;
         if ((*slot)->radius08 != 0.0)
         {
             xDelta = position->x - (*slot)->centerX00;
             yDelta = position->y - (*slot)->centerY04;
-            if (xDelta * xDelta + yDelta * yDelta <
-                (*slot)->radius08 * (*slot)->radius08)
-                goto hit;
-            continue;
+            intersects = xDelta * xDelta + yDelta * yDelta <
+                (*slot)->radius08 * (*slot)->radius08;
         }
-
-        if ((*slot)->angle20 != 0.0f)
+        else if ((*slot)->angle20 != 0.0f)
         {
             delta.x = position->x - (*slot)->centerX00;
             delta.y = position->y - (*slot)->centerY04;
             RotatePlayerCollisionVector(
                 &rotated, &delta, -(*slot)->angle20);
-
             halfSize.x = (*slot)->halfWidth10;
             halfSize.y = (*slot)->halfHeight14;
-            if (-halfSize.x <= rotated.x &&
+            intersects = -halfSize.x <= rotated.x &&
                 rotated.x <= halfSize.x &&
                 -halfSize.y <= rotated.y &&
-                rotated.y <= halfSize.y)
-                goto hit;
-            continue;
+                rotated.y <= halfSize.y;
         }
-
-        halfSize.x = (*slot)->centerX00 - (*slot)->halfWidth10;
-        halfSize.y = (*slot)->centerY04 - (*slot)->halfHeight14;
-        boundsMax.x = (*slot)->halfWidth10 + (*slot)->centerX00;
-        boundsMax.y = (*slot)->halfHeight14 + (*slot)->centerY04;
-
-        if (!(halfSize.x > position->x))
+        else
         {
-            if (!(boundsMax.x < position->x))
-            {
-                if (!(halfSize.y > position->y))
-                {
-                    if (!(boundsMax.y < position->y))
-                        goto hit;
-                }
-            }
+            halfSize.x = (*slot)->centerX00 - (*slot)->halfWidth10;
+            halfSize.y = (*slot)->centerY04 - (*slot)->halfHeight14;
+            boundsMax.x = (*slot)->halfWidth10 + (*slot)->centerX00;
+            boundsMax.y = (*slot)->halfHeight14 + (*slot)->centerY04;
+            intersects = !(halfSize.x > position->x) &&
+                !(boundsMax.x < position->x) &&
+                !(halfSize.y > position->y) &&
+                !(boundsMax.y < position->y);
         }
-        continue;
-
-hit:
+        if (!intersects)
+            continue;
         if ((*slot)->type38 == 2)
             goto cancel_hit;
         if ((*slot)->type38 == 3)
@@ -105,7 +90,7 @@ hit:
         return 2;
 
     cancel_hit:
-        if (currentBullet == NULL || currentBullet->bulletType != 0)
+        if (bullet == NULL || bullet->bulletType != 0)
             continue;
 
         {
@@ -116,7 +101,7 @@ hit:
                 g_GameManager.TransformPopupY(position->y);
             effectPosition.z = 0.0f;
 
-            g_Supervisor.SelectSide(1 - player->sideIndex);
+            g_Supervisor.SelectSide(1 - this->sideIndex);
 
             EffectFloat3 velocity;
             velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
@@ -126,24 +111,24 @@ hit:
 
             Effect *effect =
                 g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                    player->sideIndex + 1, &effectPosition, &velocity,
+                    this->sideIndex + 1, &effectPosition, &velocity,
                     1, static_cast<unsigned int>(-1));
-            g_Supervisor.SelectSide(player->sideIndex);
+            g_Supervisor.SelectSide(this->sideIndex);
 
-            effect->cancel.bulletType = currentBullet->bulletType;
-            effect->cancel.color = currentBullet->color;
-            effect->cancel.bulletSpeed = currentBullet->speed;
+            effect->cancel.bulletType = bullet->bulletType;
+            effect->cancel.color = bullet->color;
+            effect->cancel.bulletSpeed = bullet->speed;
             effect->cancel.side =
-                static_cast<short>(currentBullet->controller->sideIndex);
-            effect->cancel.extraAttribute = currentBullet->extraAttribute10BD;
+                static_cast<short>(bullet->controller->sideIndex);
+            effect->cancel.extraAttribute = bullet->extraAttribute10BD;
 
-            reinterpret_cast<PlayerState4OpsView *>(player)
+            reinterpret_cast<PlayerState4OpsView *>(this)
                 ->AddRespawnResource(0.2f);
             g_SoundPlayer.PlaySoundByIdx(
-                46, player->sideIndex != 0 ? 500 : -500);
+                46, this->sideIndex != 0 ? 500 : -500);
 
             int rewardValue =
-                player->ownerState30410.state38;
+                this->ownerState30410.state38;
             if (rewardValue > 100)
                 rewardValue = 1000;
             else
@@ -151,10 +136,10 @@ hit:
 
             int rewardMode =
                 (g_GameManager.difficulty11C >= 3) + 2;
-            player->ownerState30410.ApplyReward(
+            this->ownerState30410.ApplyReward(
                 position, rewardMode, 2, 0, rewardValue);
 
-            reinterpret_cast<GameManagerSideStateView *>(player->sideState)
+            reinterpret_cast<GameManagerSideStateView *>(this->sideState)
                 ->AddScore(50);
         }
 

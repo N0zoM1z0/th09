@@ -11,6 +11,24 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Collision geometry result and direct receiver
+
+CheckBulletCollision now computes one intersects result and uses this/bullet
+directly. Three goto-hit transfers and redundant aliases disappear while all
+849 raw bytes and26 actual COFF rows remain identical. The owner stays799
+unequal overlaps plus13 missing bytes,32 versus33 target blocks. Ten whole-
+source controls protect50 repeated exact siblings. Native Float3 and positive
+scope models do not recover the target layout; a compound type early return
+loses five equal positions and is rejected. See
+[the bounded review](TH09_PLAYER_COLLISION_VECTOR_CONTEXT_20261106.md).
+
+Fresh Ghidra attests owner,rotation and all685056 mapped bytes. Strict16 current
+units3480/138 pass with nine unchanged dependency carriers reused. Only this
+source rebuilds.19 focused tests pass after removing an obsolete receiver-alias
+spelling requirement; wrong Player/pool/storage rejection remains. The collision
+ledger now describes current structured source. Totals stay1021/13; goal/later
+gates remain open. Packet:`.analysis/player-collision-vector-context-20261106/`.
+
 ## 2026-11-06 continued main — Collision loop and native reward calls
 
 CheckBulletCollision now uses a pointer for/continue loop and the existing
