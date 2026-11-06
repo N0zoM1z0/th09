@@ -13,6 +13,11 @@
 
 ## 2026-11-06 continued main — Seed operations use the native RNG owner
 
+Source `398b69e4`; immutable proof SHA-256
+`5e15c80d2e1ce618e6916f01915bb2c834c3e3505282eb301a6cbd6b43e3b443`
+binds196 tracked inputs/Git blobs, eight SDK files and60 actual objects.
+Independent complete read-only replay passes; no compiler jobs are repeated.
+
 Replay, Network and startup now use RngRuntimeView for seed get/set/count reset;
 the duplicate Replay RNG layout and casts are removed. Fresh Ghidra attests the
 4/14/8-byte leaves and all mapped file bytes. 58 affected source/profile builds

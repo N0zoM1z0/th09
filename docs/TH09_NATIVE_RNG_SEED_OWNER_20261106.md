@@ -64,3 +64,20 @@ Full target-independent CI passes 1376 tests with 29 skips; 21 focused tests,
 target-required tracking, progress and whitespace checks pass. No new authored
 exact function, Factory acceptance, remote publication or product/runtime
 result is claimed. Current source proof is routed through RE_HANDOFF.md.
+
+Source checkpoint is `398b69e443c994201e515396656770d2b3efba58`. The immutable
+`source-proof.json` binds 196 tracked inputs and their Git blobs, eight compiler/
+SDK files, all 60 new objects, existing Setup source carriers and every report
+and recipe. Its SHA-256 is
+`5e15c80d2e1ce618e6916f01915bb2c834c3e3505282eb301a6cbd6b43e3b443`.
+Independent complete read-only replay passes with no compiler jobs:
+
+```bash
+python3 -B .analysis/rng-native-seed-20261106/seal.py --replay
+```
+
+The canonical four-leaf carrier can also be rebuilt separately with
+`python3 -B scripts/build-match-unit.py --unit replay-rng-get-seed`, followed
+by the configured complete comparison for each ReplayRuntimeLeaves unit.
+The private packet supplies the broader scoped replay; a fresh clone uses the
+maintained per-unit recipes rather than assuming ignored objects are present.

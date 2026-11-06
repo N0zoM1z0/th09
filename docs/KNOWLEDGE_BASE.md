@@ -31907,3 +31907,10 @@ all524 reviewed prior contributions. Earlier Setup canonical caches used stale
 configuration aliases; the source1d3a23c1 carriers supply the current comparison.
 See TH09_NATIVE_RNG_SEED_OWNER_20261106.md. Full CI1376/29 skips and21 focused
 tests pass. No new exact credit, Factory acceptance or native-product claim.
+
+The native seed source is checkpoint398b69e4. Its immutable proof
+5e15c80d2e1ce618e6916f01915bb2c834c3e3505282eb301a6cbd6b43e3b443 binds196
+tracked source/provider inputs and Git blobs, eight SDK files and60 new
+objects. Independent read-only replay repeats all241 strict comparisons,
+complete frontier diagnostics and contribution reconciliation without compiler
+jobs. Recipes and retained object/source hashes are in the native RNG packet.
