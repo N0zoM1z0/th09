@@ -210,8 +210,7 @@ inline unsigned char &RawByte(
     Th09EclRawInstructionHeaderView *instruction,
     int byteOffset)
 {
-    return *(reinterpret_cast<unsigned char *>(instruction) +
-             0x0C + byteOffset);
+    return reinterpret_cast<unsigned char *>(instruction->arguments)[byteOffset];
 }
 
 inline short &RawShort(
@@ -219,8 +218,7 @@ inline short &RawShort(
     int byteOffset)
 {
     return *reinterpret_cast<short *>(
-        reinterpret_cast<unsigned char *>(instruction) +
-        0x0C + byteOffset);
+        reinterpret_cast<unsigned char *>(instruction->arguments) + byteOffset);
 }
 
 __forceinline void AssignFlagField(
@@ -568,7 +566,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     {
         Th09EclRunState::TrailInstructionArgs *trailArgs =
             reinterpret_cast<Th09EclRunState::TrailInstructionArgs *>(
-                reinterpret_cast<unsigned char *>(instruction) + 0x0C);
+                instruction->arguments);
 
         enemy->trailFlags53A0 = trailArgs->flags00;
 

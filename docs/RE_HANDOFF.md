@@ -92,6 +92,16 @@ original addresses, field coordinates, types and linked bytes did not change.
 The exact authored count is unchanged. See
 [the original-bound ECL resolver proof](TH09_ECL_OPERAND_NATIVE_GAMEMANAGER_20261106.md).
 
+## 2026-11-06 RunEcl native wire argument source checkpoint
+
+The complete 15,564-byte RunEcl now uses `instruction->arguments` for wire
+bytes, shorts and trail parameters rather than raw `+0x0C` address arithmetic.
+All 598 fields and previously exact 15,534 physical positions remain
+unchanged, with seven opcode4 and23 opcode155 mismatches still open. The
+focused RunEcl replay passes99 complete canonical comparisons, including
+both affected exact sibling label refreshes. Enemy OnUpdate remains3900/97/13.
+See [native wire argument source evidence](TH09_RUNECL_NATIVE_WIRE_ARGUMENTS_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
