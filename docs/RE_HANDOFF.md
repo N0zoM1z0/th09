@@ -11,6 +11,29 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Natural network checksum and wait-flow review
+
+The service checksum now names the wire input word. The old high checksum word
+contributes zero to the stored sum modulo65536; complete1627 raw bytes and106
+referent identities remain unchanged. Original1633-byte comparison stays1381
+unlike overlaps plus six missing bytes. See
+[the source/flow review](TH09_NETWORK_CHECKSUM_AND_FLOW_20261106.md).
+
+Fresh Ghidra attests service/receiver/all mapped bytes. The receiver copies12
+wire bytes and queues input/seed without a checksum comparison in that branch.
+Only physical call positions25..30 differ in the baseline order; branch-arm
+swaps and two structured wait returns preserve the whole baseline object.
+Complete-frame aggregates and earlier success blocks remain nonexact. Genuine
+visible GetSeed4/range34 remain exact42/1 across three comparisons, but remove
+one frame-field reload from the caller, yielding1622/105/1500 plus11 missing.
+No ownership/qualifier inference or non-checksum source model is adopted.
+
+Fourteen fresh build groups and four unchanged scoped proofs pass20 complete
+exact comparisons3767/131, including all19 direct callees and receiver808/46.
+57 focused tests plus tracking/progress/whitespace pass. Immutable source and
+control receipts follow in the next checkpoint. Counts remain1021/13 and the
+reconstruction goal stays active.
+
 ## 2026-11-06 continued main — Shake natural phase models remain unresolved
 
 Three current-native models remove the old volatile reference construction.

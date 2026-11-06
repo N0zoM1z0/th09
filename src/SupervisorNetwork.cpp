@@ -224,11 +224,12 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             g_NetworkFramePacket.seed =
                 g_ReplayRng.GetSeed();
 
+            // The transmitted checksum is the low word of these four fields.
             unsigned int checksum =
                 static_cast<unsigned int>(packetSide) +
                 g_NetworkFramePacket.frame +
                 g_NetworkFramePacket.seed +
-                g_NetworkFramePacket.packedInput;
+                g_NetworkFramePacket.words.input;
             g_NetworkFramePacket.words.checksum =
                 (unsigned short)checksum;
 

@@ -32091,3 +32091,20 @@ overlaps plus two missing bytes; a distinct unsigned final endpoint produces
 calls and26 blocks but fail the complete maintained frontier. No model is
 adopted;336/20/26 and the existing qualifiers remain provisional source. See
 [the complete natural-phase review](TH09_SHAKE_NATURAL_PHASES_20261106.md).
+
+### 2026-11-06 Network: checksum input word and actual return-block order
+
+The stored16-bit sender checksum is signed-byte side + frame + seed + input,
+modulo65536. The old high word of the packed input/checksum DWORD contributes
+zero. Naming words.input naturally preserves the complete1627/106 service raw
+bytes and referent identities; it does not close1381 unlike overlaps and six
+missing original bytes. Fresh receiver432B70's type0 branch copies12 bytes and
+queues input/seed without comparing the checksum. This is a branch-local fact.
+
+In the maintained service, physical calls0..24 agree; calls25..30 differ due
+to the early wait/unlock block's placement. Swapping synchronous/predicted
+source arms or using two structured wait returns leaves all raw bytes/fields
+unchanged. A genuine visible GetSeed4 still preserves41 calls but permits one
+packet-frame+4 reload to disappear:1622/105/1500 with11 missing. Thus source
+statement order and nominal callee identity do not determine caller bytes.
+See [the complete current-source review](TH09_NETWORK_CHECKSUM_AND_FLOW_20261106.md).
