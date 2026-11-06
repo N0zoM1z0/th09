@@ -1,4 +1,4 @@
-#include "ReplayRuntimeLeaves.hpp"
+#include "RngRuntimeLeaves.hpp"
 #include "SupervisorFrameQueueView.hpp"
 #include "Supervisor.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
@@ -22,7 +22,7 @@ typedef char TitleResetNativeSupervisorState[
      sizeof(((TitleSupervisorView *)0)->lastReceived56C) == 0x18) ? 1 : -1];
 
 extern TitleSupervisorView g_TitleSupervisor;
-extern ReplayRngView g_ReplayRng;
+extern RngRuntimeView g_ReplayRng;
 extern void __fastcall SupervisorNetworkMarkActive(void *state);
 
 void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor)

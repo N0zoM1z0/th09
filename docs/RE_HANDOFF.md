@@ -11,6 +11,23 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Seed operations use the native RNG owner
+
+Replay, Network and startup now use RngRuntimeView for seed get/set/count reset;
+the duplicate Replay RNG layout and casts are removed. Fresh Ghidra attests the
+4/14/8-byte leaves and all mapped file bytes. 58 affected source/profile builds
+pass241 complete exact comparisons91667/4878; a separate canonical leaf build
+passes four comparisons39/0. The eight affected nonexact owners retain every
+current frontier. 533 private field spellings refresh only at independently
+verified unchanged destinations. Full CI passes1376 tests/29 skips;21 focused
+tests pass. All524 reviewed prior body/profile contributions are accounted for,
+including current sealed Setup carriers and actual private EH definitions.
+59 disposable PDBs are removed by path/SHA; all objects remain. See
+[the native owner review](TH09_NATIVE_RNG_SEED_OWNER_20261106.md).
+Authored totals remain1021 exact/13 nonexact; native product/runtime and the
+goal stay open. This checkpoint's source hashes/objects live in
+`.analysis/rng-native-seed-20261106/`.
+
 ## 2026-11-06 continued main — Complete Network reference and word-width countercheck
 
 Complete pinned `app_network.cpp` yields 1610 bytes / 106 fields, all bound,

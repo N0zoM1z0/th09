@@ -80,9 +80,6 @@ typedef char ReplayNativeRestoredStateOffsets[
 
 extern Chain g_Chain;
 // The seed methods and the shared generator project the same eight-byte state.
-typedef char ReplayNativeRngSize[(sizeof(ReplayRngView) == sizeof(RngRuntimeView)) ? 1 : -1];
-typedef char ReplayNativeRngSeed[(offsetof(ReplayRngView, seed) == offsetof(RngRuntimeView, seed)) ? 1 : -1];
-typedef char ReplayNativeRngCount[(offsetof(ReplayRngView, generationCount) == offsetof(RngRuntimeView, generationCount)) ? 1 : -1];
 extern RngRuntimeView g_ReplayRng;
 extern SupervisorReplayView g_Supervisor;
 extern u32 g_ReplayHeaderValue1D4;
@@ -516,7 +513,7 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     replayManager->inputCursor0 = reinterpret_cast<u16 *>(frame0 + 1);
     replayManager->inputCursor2 = reinterpret_cast<u16 *>(frame2 + 1);
     memcpy(g_GameManager.configurationE8, &replayManager->replayData->configSnapshot, 0xCC);
-    reinterpret_cast<ReplayRngView &>(g_ReplayRng).SetSeed(frame0->stageSeed);
+    g_ReplayRng.SetSeed(frame0->stageSeed);
     replayManager->inputDelay = 0;
     return 0;
 }
@@ -524,8 +521,8 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
 int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
 {
     replayManager->frameEventFlags = 0;
-    replayManager->frameRngSeed = reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed();
-    reinterpret_cast<ReplayRngView &>(g_ReplayRng).ResetGenerationCount();
+    replayManager->frameRngSeed = g_ReplayRng.GetSeed();
+    g_ReplayRng.ResetGenerationCount();
 
     if (g_GameManager.replayPauseRecorded130 != 0)
         replayManager->frameEventFlags |= 0x100;

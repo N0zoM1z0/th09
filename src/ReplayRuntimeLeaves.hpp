@@ -2,19 +2,7 @@
 
 #include <stddef.h>
 
-struct ReplayRngView
-{
-    unsigned short seed;
-    unsigned short unknown02;
-    int generationCount;
-
-    unsigned short GetSeed();
-    void SetSeed(unsigned short seed);
-    void ResetGenerationCount();
-};
-
-typedef char ReplayRngGenerationCountAt04[
-    (offsetof(ReplayRngView, generationCount) == 0x04) ? 1 : -1];
+#include "RngRuntimeLeaves.hpp"
 
 struct SupervisorReplayView
 {

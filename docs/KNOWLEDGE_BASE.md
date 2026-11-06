@@ -31889,3 +31889,21 @@ supersedes, the October31 ambiguity. Existing canonical int/int and full
 service1627/106/1381 remain. Fresh service/producer/queue Ghidra attests all
 685056 mapped bytes. See TH09_NETWORK_FRAME_CONTEXT_20261106.md for the sealed
 three-object packet and 79 hashed duplicate copies pruned. No source adoption.
+
+## 2026-11-06 seed methods share the generator's native eight-byte RNG state
+
+GetSeed41A89E, SetSeed420160 and ResetGenerationCount420170 are now methods of
+the maintained RngRuntimeView, alongside the generator methods. The duplicate
+ReplayRngView and Replay/Network casts are removed. Both global spellings bind
+004ACE0C; seed+0, neutral word+2 and count+4 retain eight-byte storage. Fresh
+Ghidra attests all mapped bytes and the complete4/14/8-byte leaves. The original
+nominal C++ class/TU and product global ownership remain separate unknowns.
+58 affected source/profile builds pass241 canonical comparisons91667/4878;
+an independent canonical leaf build passes39/0. Eight nonexact owner frontiers
+remain unchanged. All533 private field-name changes retain actual same-owner
+definitions and original operands. 512 unchanged contributions, ten actual
+compiler-private/EH contributions and two current Setup carriers account for
+all524 reviewed prior contributions. Earlier Setup canonical caches used stale
+configuration aliases; the source1d3a23c1 carriers supply the current comparison.
+See TH09_NATIVE_RNG_SEED_OWNER_20261106.md. Full CI1376/29 skips and21 focused
+tests pass. No new exact credit, Factory acceptance or native-product claim.

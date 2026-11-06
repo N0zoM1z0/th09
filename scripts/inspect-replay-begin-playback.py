@@ -84,7 +84,7 @@ SOURCE_FIELDS = (
     ('?g_GameManager@@3UAsciiGameManagerView@@A', 'DIR32', 0x004A7D90, 0x1C),
     ('?g_GameManager@@3UAsciiGameManagerView@@A', 'DIR32', 0x004A7D90, 0xE8),
     ('?g_ReplayRng@@3URngRuntimeView@@A', 'DIR32', 0x004ACE0C, 0x0),
-    ('?SetSeed@ReplayRngView@@QAEXG@Z', 'REL32', 0x00420160, 0x0),
+    ('?SetSeed@RngRuntimeView@@QAEXG@Z', 'REL32', 0x00420160, 0x0),
 )
 
 def encoded(kind: str, destination: int, offset: int, *, base=BASE) -> int:

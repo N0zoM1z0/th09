@@ -1,6 +1,5 @@
 #include "Supervisor.hpp"
 #include "RngRuntimeLeaves.hpp"
-#include "ReplayRuntimeLeaves.hpp"
 #include "AnmManager.hpp"
 #include "Controller.hpp"
 #include "SupervisorNetworkState.hpp"
@@ -34,12 +33,6 @@ typedef char NetworkFramePacketPackedInputAt08[
 
 }
 
-typedef char NetworkNativeRngSize[
-    (sizeof(ReplayRngView) == 8 && sizeof(RngRuntimeView) == 8) ? 1 : -1];
-typedef char NetworkNativeRngSeed[
-    (offsetof(ReplayRngView, seed) == offsetof(RngRuntimeView, seed)) ? 1 : -1];
-typedef char NetworkNativeRngCount[
-    (offsetof(ReplayRngView, generationCount) == offsetof(RngRuntimeView, generationCount)) ? 1 : -1];
 extern RngRuntimeView g_ReplayRng;
 extern NetworkFramePacket g_NetworkFramePacket;
 extern NetworkHandshakePacket g_NetworkHandshakePacket;
@@ -150,10 +143,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         {
             frameQueues->InsertPredictedFrame(
                 frameNetwork->localSide, frame,
-                (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
+                (short)g_ReplayRng.GetSeed());
             frameQueues->InsertPredictedFrame(
                 1 - g_SupervisorNetworkState->localSide, s->networkTiming458.frameCounter,
-                (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
+                (short)g_ReplayRng.GetSeed());
             s->networkTiming458.frameCounter++;
         }
         else
@@ -170,10 +163,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                         {
                             static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
                                 0, queuedFrame, 0,
-                                (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
+                                (short)g_ReplayRng.GetSeed());
                             static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
                                 1, queuedFrame++, 0,
-                                (short)reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed());
+                                (short)g_ReplayRng.GetSeed());
                         } while (queuedFrame + 9998 <
                                  60 / frameNetwork->syncRate - 1);
                     }
@@ -187,7 +180,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                     g_NetworkHandshakePacket.syncRate = g_SupervisorNetworkState->syncRate;
                     g_NetworkHandshakePacket.syncValue = g_SupervisorNetworkState->syncValue;
                     g_NetworkHandshakePacket.seed =
-                        reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed();
+                        g_ReplayRng.GetSeed();
                     handshakeNetwork->SendPacket(
                         &g_NetworkHandshakePacket,
                         sizeof(g_NetworkHandshakePacket));
@@ -229,7 +222,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 60 / g_SupervisorNetworkState->syncRate +
                 s->networkTiming458.frameCounter - 1;
             g_NetworkFramePacket.seed =
-                reinterpret_cast<ReplayRngView &>(g_ReplayRng).GetSeed();
+                g_ReplayRng.GetSeed();
 
             unsigned int checksum =
                 static_cast<unsigned int>(packetSide) +

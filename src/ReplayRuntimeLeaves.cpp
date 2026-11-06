@@ -1,16 +1,16 @@
 #include "ReplayRuntimeLeaves.hpp"
 
-unsigned short ReplayRngView::GetSeed()
+unsigned short RngRuntimeView::GetSeed()
 {
     return this->seed;
 }
 
-void ReplayRngView::SetSeed(unsigned short newSeed)
+void RngRuntimeView::SetSeed(unsigned short newSeed)
 {
     this->seed = newSeed;
 }
 
-void ReplayRngView::ResetGenerationCount()
+void RngRuntimeView::ResetGenerationCount()
 {
     this->generationCount = 0;
 }

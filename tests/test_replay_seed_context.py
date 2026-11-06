@@ -68,11 +68,11 @@ class ReplaySeedEvidenceTests(unittest.TestCase):
             altered = copy.copy(inputs)
             text = altered['ReplayRuntimeLeaves.cpp'].decode()
             if mutation == 'duplicate':
-                text += '\nvoid ReplayRngView::SetSeed(unsigned short x) {}\n'
+                text += '\nvoid RngRuntimeView::SetSeed(unsigned short x) {}\n'
             elif mutation == 'missing':
-                text = text.replace('void ReplayRngView::SetSeed(', 'void Other::SetSeed(')
+                text = text.replace('void RngRuntimeView::SetSeed(', 'void Other::SetSeed(')
             else:
-                text = 'void ReplayRngView::ResetGenerationCount() {}\n' + text
+                text = 'void RngRuntimeView::ResetGenerationCount() {}\n' + text
             altered['ReplayRuntimeLeaves.cpp'] = text.encode()
             with self.subTest(mutation=mutation), self.assertRaises(ValueError):
                 probe.case_source('seed-before', altered)

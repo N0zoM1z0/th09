@@ -80,8 +80,8 @@ def case_source(case: str, inputs: dict[str, bytes]) -> tuple[bytes, tuple]:
         raise ValueError('unknown Replay seed context')
     base = inputs['ReplayInput.cpp'].decode().replace('\r\n', '\n')
     leaves = inputs['ReplayRuntimeLeaves.cpp'].decode().replace('\r\n', '\n')
-    start = 'void ReplayRngView::SetSeed('
-    end = 'void ReplayRngView::ResetGenerationCount('
+    start = 'void RngRuntimeView::SetSeed('
+    end = 'void RngRuntimeView::ResetGenerationCount('
     if leaves.count(start) != 1 or leaves.count(end) != 1:
         raise ValueError('maintained RNG definition boundaries changed')
     a, b = leaves.index(start), leaves.index(end)

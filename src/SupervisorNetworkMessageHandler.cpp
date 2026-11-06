@@ -2,7 +2,7 @@
 // Adapted from Cirno-Labs/th09 src/network.cpp Network::HandleMessage,
 // commit d7653152becabb8c86f2f43d49015ecc11bd0652.
 // Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
-#include "ReplayRuntimeLeaves.hpp"
+#include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 #include "SupervisorFrameQueueView.hpp"
 #include "SupervisorNetworkState.hpp"
@@ -33,7 +33,7 @@ struct NetworkAckPacketView
     unsigned int value04;
 };
 
-extern ReplayRngView g_ReplayRng;
+extern RngRuntimeView g_ReplayRng;
 extern int g_NetworkHandshakeToken;
 extern unsigned int g_NetworkLastReceiveTime;
 extern unsigned int g_NetworkCurrentTime;

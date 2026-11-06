@@ -517,9 +517,9 @@ SupervisorNetworkMarkActive
 SupervisorNetworkMarkInactive
 ResetSupervisorServiceChannels
 AnmManager::ResetForSupervisorFrame
-ReplayRngView::GetSeed
-ReplayRngView::SetSeed
-ReplayRngView::ResetGenerationCount
+RngRuntimeView::GetSeed
+RngRuntimeView::SetSeed
+RngRuntimeView::ResetGenerationCount
 SupervisorReplayView::IsSpeedhackDetected
 ReleaseScoreFileBuffer
 InitializeScoreDataStartup

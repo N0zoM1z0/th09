@@ -11,7 +11,7 @@
 #include "Midi.hpp"
 #include "SupervisorNetworkState.hpp"
 #include "ZunMemory.hpp"
-#include "ReplayRuntimeLeaves.hpp"
+#include "RngRuntimeLeaves.hpp"
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -106,7 +106,7 @@ extern MainSoundPlayer g_MainSoundPlayer;
 extern MainAnmManager *g_MainAnmManager;
 extern MidiOutput *g_MainMidiOutput;
 extern MainChainReleaseView g_MainChain;
-extern ReplayRngView g_ReplayRng;
+extern RngRuntimeView g_ReplayRng;
 extern ZunMemory g_ZunMemory;
 extern GameErrorContext g_GameErrorContext;
 
