@@ -31754,3 +31754,25 @@ strict acceptance guards. .analysis/enemy-loop-lifetimes-20261106/ retains full
 objects/fields and repeatable recovery. The old build4035 Rich caveat is
 reobserved, not new per-function compiler provenance. See
 TH09_COMPLETE_OWNER_LAYOUT_CONTROLS_20261106.md. No exact or later-phase credit.
+
+
+## 2026-11-06 Charge captured mode and complete caller
+
+Original41F810 captures the mode at+46/+4C/+53/+55: configuration pointer
+4A7E78 -> EDX, byte[EDI+EDX+B4] -> AL, compare1, then byte[EBP-1] <- AL.
+It later compares that saved byte at+1C7 and reloads it at+1DB. An additional
+incoming mode argument is not this observed producer; original nominal
+class/signature and ignored-argument arity remain unknown. Native Player owner
+and const-side source contexts reproduce the complete current1197-byte raw
+body and70 COFF rows, retaining1160 overlaps/13 missing and no byte home.
+Every context retains the real20-byte Timer >= provider and five literals.
+
+The522-byte Player OnUpdate caller has the direct charge call at+1BD after
+MOV ECX,ESI. Its full40-field canonical comparison passes using17 unchanged
+quoted source inputs and the b9e1a95a object/profile/eight-SDK-file proof. The
+previously absent Ghidra entry41E900 is created over exactly522 bytes and a
+generic physical ECX-context/EAX-return projection is read back, with an
+explicit nominal-type/arity caveat. Full mapped-byte pre/post checks agree.
+This is analysis metadata and caller evidence, not new exact credit. See
+TH09_CHARGE_ENTRY_MODE_AUDIT_20261106.md; the31-input ignored packet retains
+three complete controls, scripts/readbacks, original bytes and all field proofs.

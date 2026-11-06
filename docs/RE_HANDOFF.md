@@ -11,6 +11,20 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Charge mode producer and caller audited
+
+Original mode capture is configuration byte[side+B4] -> AL -> local[EBP-1],
+with two later byte accesses. The extra-mode-argument hypothesis does not
+explain that producer. Three current baseline/native-owner/const-side contexts
+retain every1197 raw byte and70 COFF rows,1160 unlike overlaps and13 missing.
+Each actual20-byte Timer >= body and five literals pass. No source is adopted.
+The complete522/40 caller replays using17 unchanged source inputs and its
+b9e1a95a object/profile/SDK proof. Its missing Ghidra function entry is created,
+its physical ECX/EAX projection read back, and all685056 mapped bytes reattested.
+See [the entry audit](TH09_CHARGE_ENTRY_MODE_AUDIT_20261106.md).
+89 hashed duplicate copies are pruned; all changed/frozen inputs and actual
+objects remain. Source stays36002b4b;1022 exact/13 nonexact and the goal remain open.
+
 ## 2026-11-06 continued main — Replay composition and Enemy controls
 
 Three complete Replay member/base layouts retain1238/53/two, while every
