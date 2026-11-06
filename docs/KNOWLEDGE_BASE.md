@@ -31679,3 +31679,26 @@ source controls also replay independently, including original hash, all actual
 fields, PNG data and graphs.116 identical staged copies are pruned with frozen
 hash-checked recovery; a restored native context retains the whole raw function
 and fields. See TH09_TITLE_RESULT_NATIVE_ANM_20261106.md. No new exact credit.
+
+
+## 2026-11-06 RunEcl residual blocks and physical dispatch tables
+
+RunEcl has six interpolation entries at40C088 before its187-entry main table
+at40C0A0, indexed by opcode minus one. Locate candidate blocks through actual
+same-owner COFF definitions; treating all193 trailing words as one dispatch
+table selects incorrect handlers. Opcode4 begins408937, opcode155 begins40B770.
+Current complete15564/598 comparison leaves exactly seven plus23 ordinary
+differences, with zero field/table differences. Original opcode4 pushes ECX
+before reloading the timer receiver; opcode155 zero-extends ECX and preserves
+the old flags in ESI before computing/storing the masked bit24 update.
+
+Nine fresh whole-carrier controls do not improve this frontier. Six native
+byte-valued bitfield shapes shorten the local AND encoding by one byte, changing
+later instructions/table destinations while retaining the physical15564-byte
+extent. Both copied-integer Timer controls retain30; the word-valued bitfield
+regresses further. Each complete Enemy owner stays3900/97/13. An older direct
+Timer control's42 differences include the original seven in opcode4 plus12
+new differences in neighboring opcode5 and the unchanged23 in opcode155.
+These are complete target/compiler observations, not original source identity.
+See TH09_RUNECL_RESIDUAL_SITES_20261106.md and the sealed ignored packet; no
+source model, exact count or later phase credit is adopted.

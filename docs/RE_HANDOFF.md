@@ -11,6 +11,21 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — complete RunEcl residual sites re-investigated
+
+Fresh target-attested Ghidra and nine fixed-profile complete source controls
+retain the two-site frontier: opcode4 seven bytes, opcode155 twenty-three.
+The six-entry interpolation table precedes the187-entry main table; handler
+selection is now checked from actual same-owner COFF definitions. The two
+copied-integer controls stay30; native byte-valued bitfields regress1938/202/26.
+All nine complete Enemy owners remain3900/97/13. No source is adopted.
+See [the full residual review](TH09_RUNECL_RESIDUAL_SITES_20261106.md).
+The unchanged86-input ECL baseline/object proof is reused.763 hashed duplicate
+copies are pruned, and a restored full carrier independently reproduces its
+raw bytes and all fields. Effect callback metadata is also created and read
+back after mapped-byte attestation; no target bytes change or exact credit follows.
+The active goal and13 nonexact owners remain open.
+
 ## 2026-11-06 continued main — result update uses implemented ANM providers
 
 Source `17a17736`; sealed local receipt SHA-256
