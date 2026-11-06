@@ -180,6 +180,15 @@ The exact 329-byte TitleDrawCallback uses the native animation VM
 fields remain unchanged. See
 [the title native VM member check](TH09_TITLE_DRAW_NATIVE_VM_ROTATION_20261106.md).
 
+## 2026-11-06 native Player/ExAttack members
+
+The exact Player register (328 bytes), Player added-state initializer (572
+physical bytes) and ExAttack Type19/21 draw (318 bytes) now use native Player
+Timer/header and AnmVm alpha members instead of naked byte offsets. Eight
+affected original-bound units remain exact, including six original-local
+initializer table fields rebound from observed COFF definitions. See
+[the native Player/ExAttack source proof](TH09_PLAYER_EXATTACK_NATIVE_MEMBERS_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

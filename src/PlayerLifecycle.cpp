@@ -11,6 +11,10 @@
 extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
 
+// Native Player-owned Timer: the original registration initializes it at +0x303C8.
+typedef char PlayerRegisterNativeTimerAt303C8[
+    (offsetof(PlayerLifecycleView, timer303C8) == 0x303C8) ? 1 : -1];
+
 PlayerLifecycleView *__fastcall PlayerRegisterChain(int playerType, int sideIndex, int selector)
 {
     PlayerLifecycleView *player = static_cast<PlayerLifecycleView *>(
@@ -18,7 +22,7 @@ PlayerLifecycleView *__fastcall PlayerRegisterChain(int playerType, int sideInde
                                   const_cast<char *>("PlayerInf")));
 
     memset(player, 0, sizeof(PlayerLifecycleView));
-    *reinterpret_cast<ZunTimer *>(reinterpret_cast<unsigned char *>(player) + 0x303C8) = 0;
+    player->timer303C8 = 0;
     player->InitializeType(playerType);
 
     player->sideState = &g_GameManager.sides[sideIndex];

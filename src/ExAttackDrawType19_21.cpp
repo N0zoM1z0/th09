@@ -11,6 +11,10 @@
 // Type21 also owns an extra angle at +0x688, unused by this draw callback.
 typedef ExAttackType19Vertex ExAttackTrailVertex;
 typedef ExAttackType19Extra ExAttackTrailExtra;
+// This callback reads the alpha channel of the native VM ARGB color at +0x1F3.
+typedef char ExAttackNativeTrailAlphaAt1F3[
+    (offsetof(AnmVmBase, color1Script) +
+     offsetof(AnmVmScriptColor, a) == 0x1F3) ? 1 : -1];
 
 struct ExAttackTrailRecordView
 {
@@ -35,7 +39,7 @@ int __fastcall ExAttackDrawCallbackType19_21(ExAttackRecord *base)
     if (extra->state00 >= 1)
     {
         unsigned char alpha =
-            *(reinterpret_cast<unsigned char *>(record->vms1C) + 0x1F3);
+            record->vms1C->color1Script.a;
 
         ExAttackTrailVertex *vertex = &extra->vertices4C[0];
         vertex->pos = extra->history3E8[0];

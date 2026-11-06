@@ -42,6 +42,10 @@ struct PlayerAddedHeaderResetView
 };
 typedef char PlayerAddedHeaderResetSizeIs78[
     (sizeof(PlayerAddedHeaderResetView) == 0x78) ? 1 : -1];
+// The independently exact Player registration and this update share the
+// header subobject at Player +0x24, not another byte-offset allocation.
+typedef char PlayerAddedNativeHeaderAt24[
+    (offsetof(PlayerLifecycleView, header24) == 0x24) ? 1 : -1];
 
 struct PlayerAddedHandleManagerView
 {
@@ -275,7 +279,6 @@ void PlayerLifecycleView::InitializeAddedState()
     player->timer303A4 = -1;
     this->movementFields1CCC.movementAngle1CD8 = -1.57079637f;
     this->focusEffect364 = NULL;
-    reinterpret_cast<PlayerAddedHeaderResetView *>(
-        reinterpret_cast<unsigned char *>(player) + 0x24)->Reset();
+    reinterpret_cast<PlayerAddedHeaderResetView *>(&this->header24)->Reset();
     memset(player->tailStates30454, 0, sizeof(player->tailStates30454));
 }
