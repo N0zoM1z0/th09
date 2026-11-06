@@ -239,6 +239,7 @@ extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 } // namespace
 
 #include "EnemyManager.hpp"
+#include "PlayerCollisionRegionCreate.hpp"
 
 // The selector, Enemy calc, and ECL interpreter consume the same allocation.
 // Native side +0x10 is already a typed EnemyManager pointer, and each enemy
@@ -261,6 +262,14 @@ typedef char PlayerSelectorNativeEnemyXYZWindow[
      offsetof(EnemyFloat3, x) == offsetof(PlayerPositionView, x) &&
      offsetof(EnemyFloat3, y) == offsetof(PlayerPositionView, y) &&
      offsetof(EnemyFloat3, z) == offsetof(PlayerPositionView, z)) ? 1 : -1];
+
+// The opposing Player's published reward timer is the native Player owner
+// at +0x30410 + 0x3C. The +0xC110 collision count is the same active region
+// pool used by the separately recovered collision-region producer.
+typedef char PlayerSelectorNativeOpponentAndCollisionCounters[
+    (offsetof(PlayerLifecycleView, ownerState30410) +
+         offsetof(PlayerOwnerStateView, activeFrameCounter3C) == 0x3044C &&
+     offsetof(PlayerCollisionRegionCreateView, activeCountC110) == 0xC110) ? 1 : -1];
 
 void __fastcall PlayerUpdateSelectorState(void *state)
 {
@@ -302,7 +311,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     if ((header->flags74 & 1U) == 0)
     {
         if ((header->player78->sideState->flags34 & 1U) == 0 &&
-            (*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(header->player78->opponentState->manager04) + 0x3044C)) <= 360)
+            header->player78->opponentState->player04->ownerState30410.activeFrameCounter3C <= 360)
             header->openingTimer5C++;
 
         PlayerLifecycleView *phasePlayer = header->player78;
@@ -383,7 +392,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     g_PlayerPatternGrid[cell][1] = header->currentPattern54;
 
     if ((header->flags74 & 2U) == 0 ||
-        (*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(header->player78->opponentState->manager04) + 0x3044C)) > 300)
+        header->player78->opponentState->player04->ownerState30410.activeFrameCounter3C > 300)
     {
         if (header->retryCooldown50 != 0)
         {
@@ -681,7 +690,7 @@ pattern_selected:
         if ((targetEnemy != NULL &&
             ((targetEnemy->secondaryFlags3380 & 0xC00U) == 0xC00U ||
             (targetEnemy->secondaryFlags3380 & 0x2000U) != 0)) ||
-            (*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(player) + 0xC110)) == 0)
+            reinterpret_cast<const PlayerCollisionRegionCreateView *>(player)->activeCountC110 == 0)
         {
             int emitEvent = manager->activeEnemyCount2AC3AC != 0
             ? header->frameTimer00.HasTickedEvery(10)
@@ -691,7 +700,7 @@ pattern_selected:
         }
 
         if (g_GameManager.IsGameMode1() && (header->flags74 & 2U) != 0 &&
-            (*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(header->player78->opponentState->manager04) + 0x3044C)) <= 300)
+            header->player78->opponentState->player04->ownerState30410.activeFrameCounter3C <= 300)
             g_PlayerSideProtocols[header->player78->sideIndex].eventFlags32 &= ~1U;
 
         header->currentPattern54 = selectedPattern;

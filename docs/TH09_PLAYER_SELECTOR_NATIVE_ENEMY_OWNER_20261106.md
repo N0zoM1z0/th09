@@ -49,3 +49,19 @@ python3 -B scripts/validate-docs.py
 
 The source and generated COFF evidence is local. The `gpt-web:` checkpoint is
 a source/recipe checkpoint, not independent Factory or remote acceptance.
+
+## Follow-on native counter consolidation
+
+The same original-exact 3,238-byte selector now also reads the opponent
+Player's `ownerState30410.activeFrameCounter3C` (original +0x3044C) and the
+own Player's `PlayerCollisionRegionCreateView::activeCountC110` through
+existing native fields. All three opponent frame-counter conditions and the
+collision-event condition preserve their original operand semantics.
+
+After importing the pre-existing native collision-region header *after* the
+resolver's function body, the resolver again retains 16 of its original
+compiler-local case-label names. The two switch table roots are renamed by
+VC7.1 to `$L5132`/`$L5133`; their actual object coordinates independently
+resolve to the unchanged original destinations `0x0040486C` and
+`0x0040488C`. Both 3,238-byte and 412-byte whole-owner exact comparisons
+pass. The authored match count and complete original fields are unchanged.

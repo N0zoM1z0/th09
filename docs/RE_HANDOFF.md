@@ -76,9 +76,11 @@ The native Player selector (`PlayerGameplayState.cpp`) uses the typed Enemy
 manager/Enemy objects rather than raw `void*` member arithmetic in its target
 and reward selection. The pinned original-bound compiler reproduces the
 complete already-exact 3,238-byte selector and 412-byte physical resolver,
-including all18 resolver table fields. Only two compiler-private label names
-change in the canonical manifest; target destinations and authored totals are
-unchanged. See [the focused Player source proof](TH09_PLAYER_SELECTOR_NATIVE_ENEMY_OWNER_20261106.md).
+including all18 resolver table fields. Follow-on native conversions also
+cover the opponent Player +0x3044C frame counter and the local +0xC110 collision
+count. Only two compiler-private resolver label names change in the canonical
+manifest at each source checkpoint; target destinations and authored totals
+are unchanged. See [the focused Player source proof](TH09_PLAYER_SELECTOR_NATIVE_ENEMY_OWNER_20261106.md).
 
 ## Reconstruction frontiers
 
