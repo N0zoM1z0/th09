@@ -18,6 +18,22 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-06: RunEcl scope, ordinary setters and alternate carrier
+
+One Enemy parameter and one switch scope preserve the full main15564/598/30
+body and all136 same-profile regular bodies. These scaffolding choices do not
+explain opcode4/155 residuals. Three ordinary setter abstractions emit new
+calls under the existing profile; their original destinations remain unknown.
+The actual9-byte Timer assignment is401500,not the separately exported401600.
+Nine natural models protect693 repeated exact siblings; typed jump payload,
+borrowed context and native word snapshot regress to2165,42,2140 differences.
+The alternative Ob0 carrier preserves135 regular bodies and all six exact
+leaves, but its noncanonical RunEcl11980/649 changes838 raw bytes after source
+simplification. Do not claim all272 body/profile payloads are unchanged.
+Strict116-unit44752/1896 replay and source epoch details are in
+[the bounded review](TH09_RUNECL_SCOPE_AND_SETTER_CONTEXT_20261106.md).
+No new authored exact or later-phase credit.
+
 ### 2026-11-06: Enemy residual transfer and natural source models
 
 Original410730 retains3883 code/3900 physical bytes,97 actual fields and13

@@ -509,7 +509,6 @@ static void CallSubroutine(
 
 int EclManager::RunEcl(EnemyView *enemy)
 {
-    EnemyView *enemyState;
     Th09EclContextView *savedMainContext;
     Th09EclContextView *savedMainCallStack;
     Th09EclRawInstructionHeaderView *instruction;
@@ -530,38 +529,37 @@ int EclManager::RunEcl(EnemyView *enemy)
     float deltaX;
     float deltaY;
 
-    enemyState = enemy;
     savedMainCallStack = enemy->mainCallStack0A20;
-    enemyState->activeCallStack2CE4 = savedMainCallStack;
+    enemy->activeCallStack2CE4 = savedMainCallStack;
     savedMainContext = &enemy->mainContext07F4;
-    enemyState->activeContext2CE0 = savedMainContext;
+    enemy->activeContext2CE0 = savedMainContext;
     childIndex = -1;
     enemy->activeCallDepth2D2A = enemy->mainCallDepth2D28;
 
 th09_ecl_restart_context:
-    instruction = enemyState->activeContext2CE0->currentInstruction004;
+    instruction = enemy->activeContext2CE0->currentInstruction004;
     if (enemy->pendingSubroutineId2D70 >= 0)
         goto th09_ecl_enter_pending_subroutine;
-    positionOffset = reinterpret_cast<Float3 *>(&enemyState->positionOffset2D80);
-    position = reinterpret_cast<Float3 *>(&enemyState->position2D74);
+    positionOffset = reinterpret_cast<Float3 *>(&enemy->positionOffset2D80);
+    position = reinterpret_cast<Float3 *>(&enemy->position2D74);
     goto th09_ecl_instruction_loop;
 
 th09_ecl_enter_pending_subroutine:
-    enemyState->activeContext2CE0->currentInstruction004 =
+    enemy->activeContext2CE0->currentInstruction004 =
         reinterpret_cast<Th09EclRawInstructionHeaderView *>(
             reinterpret_cast<unsigned char *>(instruction) +
             static_cast<short>(instruction->nextOffset06));
 
-    if ((enemyState->primaryFlags337C &
+    if ((enemy->primaryFlags337C &
          Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
     {
         memcpy(
-            &enemyState->activeCallStack2CE4[enemy->activeCallDepth2D2A],
+            &enemy->activeCallStack2CE4[enemy->activeCallDepth2D2A],
             savedMainContext,
             sizeof(Th09EclContextView));
     }
 
-    enemyState->manager00->primaryEclManager000.InitializeSubroutine(
+    enemy->manager00->primaryEclManager000.InitializeSubroutine(
         savedMainContext,
         enemy->subroutineSlots2D30[
             enemy->pendingSubroutineId2D70]);
@@ -574,65 +572,53 @@ th09_ecl_enter_pending_subroutine:
     goto th09_ecl_restart_context;
 
 th09_ecl_instruction_loop:
-    reinterpret_cast<Float3 &>(enemyState->worldPosition2DD4) = *position + *positionOffset;
+    reinterpret_cast<Float3 &>(enemy->worldPosition2DD4) = *position + *positionOffset;
 
     for (;;)
     {
         Th09EclTimerStorageView *secondaryTimer =
-            &enemyState->activeContext2CE0->secondaryTime094;
+            &enemy->activeContext2CE0->secondaryTime094;
         if (static_cast<int>(*secondaryTimer) > 0)
         {
             (*secondaryTimer)--;
-            enemyState->activeContext2CE0->time008--;
+            enemy->activeContext2CE0->time008--;
             break;
         }
 
         // Bind the time field for the immediate by-value comparison.
         const int &instructionTime = instruction->time00;
         Th09EclContextView *comparisonContext =
-            enemyState->activeContext2CE0;
+            enemy->activeContext2CE0;
         if (comparisonContext->time008 == instructionTime)
         {
             executionMask = g_GameManager.instructionMask120 |
-                            enemyState->difficultyOverride3388;
+                            enemy->difficultyOverride3388;
             if ((instruction->difficultyMask09 & executionMask) != executionMask)
                 goto th09_ecl_advance_instruction;
 
 #define TH09_ECL_RUN_SHARED_SWITCH
             switch (instruction->opcode04)
             {
-            {
-#define context (enemyState->activeContext2CE0)
+#define context (enemy->activeContext2CE0)
 #define TH09_ECL_RUN_CONTROL_BODY
 #include "EclRunControl.inl"
 #undef TH09_ECL_RUN_CONTROL_BODY
 #undef context
-            }
-            {
 #define TH09_ECL_RUN_MOVEMENT_BODY
 #include "EclRunMovement.inl"
 #undef TH09_ECL_RUN_MOVEMENT_BODY
-            }
-            {
 #define TH09_ECL_RUN_REMOTE_BODY
 #include "EclRunRemote.inl"
 #undef TH09_ECL_RUN_REMOTE_BODY
-            }
-            {
 #define TH09_ECL_RUN_BULLET_BODY
 #include "EclRunBullet.inl"
 #undef TH09_ECL_RUN_BULLET_BODY
-            }
-            {
 #define TH09_ECL_RUN_STATE_BODY
 #include "EclRunState.inl"
 #undef TH09_ECL_RUN_STATE_BODY
-            }
-            {
 #define TH09_ECL_RUN_LATE_BODY
 #include "EclRunLate.inl"
 #undef TH09_ECL_RUN_LATE_BODY
-            }
             default:
                 break;
             }
@@ -651,12 +637,12 @@ th09_ecl_redispatch_instruction:
     }
 
 th09_ecl_after_dispatch:
-    if (enemyState->life2E48 > 0)
+    if (enemy->life2E48 > 0)
     {
         perFrameCallback =
             reinterpret_cast<EnemyEclCallbackContextView *>(
-                enemyState->activeContext2CE0)->callback014;
-        slot = &enemyState->activeContext2CE0->interpolationSlots0A0[0];
+                enemy->activeContext2CE0)->callback014;
+        slot = &enemy->activeContext2CE0->interpolationSlots0A0[0];
 
         positionInterpolated = false;
         Float3 positionBeforeCallbacks = *position;
@@ -666,7 +652,7 @@ th09_ecl_after_dispatch:
             perFrameCallback(
                 enemy,
                 reinterpret_cast<EnemyEclCallbackContextView *>(
-                    enemyState->activeContext2CE0)->instruction018);
+                    enemy->activeContext2CE0)->instruction018);
         }
 
         for (interpolationIndex = TH09_ECL_INTERPOLATION_SLOT_COUNT;
@@ -732,11 +718,11 @@ th09_ecl_after_dispatch:
         if (positionInterpolated)
         {
             deltaX = position->x - positionBeforeCallbacks.x;
-            enemyState->velocity2D8C.x = deltaX;
+            enemy->velocity2D8C.x = deltaX;
             deltaY =
-                enemyState->position2D74.y - positionBeforeCallbacks.y;
-            enemyState->velocity2D8C.y = deltaY;
-            enemyState->movementAngle2DE0 =
+                enemy->position2D74.y - positionBeforeCallbacks.y;
+            enemy->velocity2D8C.y = deltaY;
+            enemy->movementAngle2DE0 =
                 Th09EclRunControl::VectorAngle(deltaY, deltaX);
             position->x = positionBeforeCallbacks.x;
             position->y = positionBeforeCallbacks.y;
@@ -755,8 +741,8 @@ th09_ecl_after_dispatch:
         child->callStackDepth06 = enemy->activeCallDepth2D2A;
     }
 
-    enemyState->activeContext2CE0->currentInstruction004 = instruction;
-    enemyState->activeContext2CE0->time008 += g_GameManager.speedEC;
+    enemy->activeContext2CE0->currentInstruction004 = instruction;
+    enemy->activeContext2CE0->time008 += g_GameManager.speedEC;
 
 th09_ecl_select_next_context:
     for (int next = childIndex + 1;
@@ -767,18 +753,18 @@ th09_ecl_select_next_context:
         {
             child = reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
                 enemy->childEclBlocks33D8[next]);
-            enemyState->activeCallStack2CE4 = child->callStack0234;
-            enemyState->activeContext2CE0 = &child->context08;
-            instruction = enemyState->activeContext2CE0->currentInstruction004;
-            enemyState->activeContext2CE0->contextOrdinal224 = next + 1;
+            enemy->activeCallStack2CE4 = child->callStack0234;
+            enemy->activeContext2CE0 = &child->context08;
+            instruction = enemy->activeContext2CE0->currentInstruction004;
+            enemy->activeContext2CE0->contextOrdinal224 = next + 1;
             enemy->activeCallDepth2D2A = child->callStackDepth06;
             childIndex = next;
             goto th09_ecl_instruction_loop;
         }
     }
 
-    enemyState->activeCallStack2CE4 = savedMainCallStack;
-    enemyState->activeContext2CE0 = savedMainContext;
+    enemy->activeCallStack2CE4 = savedMainCallStack;
+    enemy->activeContext2CE0 = savedMainContext;
     EnemyPostEclUpdateMovement(enemy);
     EnemyPostEclUpdateShotAndAnm(enemy);
     return 0;

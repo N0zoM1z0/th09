@@ -11,6 +11,24 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — RunEcl native owner and switch scope
+
+RunEcl uses one actual Enemy parameter and one switch scope. Full main
+15564/598/30 and Enemy3900/97/13 stay unchanged. Nine natural models protect
+693 repeated exact siblings; ordinary setters emit new calls and are rejected,
+while native flag/jump payload models regress. Fresh Ghidra attests RunEcl,
+actual Timer assignment and all mapped bytes. See
+[the bounded review](TH09_RUNECL_SCOPE_AND_SETTER_CONTEXT_20261106.md).
+
+Two successful current objects are hash-recovered after the initial Ob0 payload
+assertion, without recompilation.271 regular body/profile payloads are unchanged;
+Ob0's separate noncanonical RunEcl11980/649 changes838 raw bytes while its six
+exact leaves pass. Strict116 current units44752/1896 pass after8 field-position-
+verified private spelling refreshes. The main83 affected units retain29856/1389.
+136 focused tests/303 subtests pass after removing one obsolete alias-spelling
+assertion. No byte gate changes. Totals stay1021/13; goal/later gates remain open.
+Source/control sealing follows the source checkpoint; no Factory/remote claim.
+
 ## 2026-11-06 continued main — Enemy stage dataflow and natural source
 
 Enemy uses its typed manager parameter directly and decodes the side category

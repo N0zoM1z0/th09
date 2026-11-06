@@ -5,20 +5,17 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]
 
 class RunEclNativeCoreOwner(unittest.TestCase):
-    def test_15564_byte_main_context_and_world_position_uses_native_enemy(self):
+    def test_main_context_and_world_position_use_native_enemy_storage(self):
         source=(ROOT/'src/EclManager.cpp').read_text()
         native=(ROOT/'src/EnemyManager.hpp').read_text()
-        self.assertIn('EnemyView *enemyState;',source)
-        self.assertIn('enemyState = enemy;',source)
-        self.assertNotIn('Th09EclRunState::EnemyStateView *enemyState',source)
-        self.assertIn('positionOffset = reinterpret_cast<Float3 *>(&enemyState->positionOffset2D80);',source)
-        self.assertIn('position = reinterpret_cast<Float3 *>(&enemyState->position2D74);',source)
-        self.assertIn('reinterpret_cast<Float3 &>(enemyState->worldPosition2DD4) =',source)
-        self.assertIn('enemyState->manager00->primaryEclManager000.InitializeSubroutine(',source)
-        self.assertNotIn('enemyState->manager0000',source)
-        self.assertIn('enemy->activeContext2CE0->time008.current =',source)
-        self.assertIn('enemy->activeContext2CE0->interpolationSlots0A0',source)
+        self.assertRegex(source,r'int\s+EclManager::RunEcl\(EnemyView\s*\*\s*\w+\)')
+        self.assertNotIn('Th09EclRunState::EnemyStateView *',source)
+        self.assertRegex(source,r'->manager00->primaryEclManager000\s*\.\s*InitializeSubroutine\s*\(')
+        self.assertNotIn('->manager0000',source)
+        self.assertIn('->activeContext2CE0->time008.current =',source)
+        self.assertIn('->activeContext2CE0->interpolationSlots0A0',source)
         for field in ('positionOffset2D80','position2D74','worldPosition2DD4'):
+            self.assertIn('->'+field,source)
             self.assertIn('EnemyFloat3 '+field+';',native)
 
     def test_post_ecl_native_manager_and_draw_link(self):
