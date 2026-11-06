@@ -83,3 +83,19 @@ independent open gates.
 
 Full public CI passes1376 tests with29 skips. Target-required tracking,
 documentation, generated progress and whitespace checks pass.
+
+Source checkpoint: `17a177368031f1b5e94a45d38eccbe664e1841fa`.
+The sealed local receipt SHA-256 is
+`bf16e0b0de664f55f751772db031942fca3e6442d61dd52f2f4beaad86504c69`.
+It binds40 tracked inputs/Git blobs, four objects/profiles, eight compiler/SDK
+files and44 complete comparisons. `source-receipt.py` checks this immutable
+proof and writes a separate current replay; it does not overwrite the receipt.
+
+`verify-controls.py` independently rechecks all six retained objects against
+the full original, including actual fields, the PNG definition and complete
+graphs.116 SHA-identical per-case inputs are pruned with indexed frozen recovery
+copies. `probe.py CASE` verifies the historical source blobs, restores missing
+unchanged inputs and writes a separate current report. A restored native context
+reproduces its entire raw body and actual fields; its20 restored copies are
+pruned again only after matching their hashes. No objects or unique sources
+are deleted, and no additional source model is adopted.

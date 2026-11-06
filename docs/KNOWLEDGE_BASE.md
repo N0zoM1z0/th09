@@ -31671,3 +31671,11 @@ fixed-profile reference/index/value/native-owner controls retain484/218/one or
 regress483/224/two. Their40-block graphs still agree, which does not make the
 whole owners exact. See TH09_TITLE_RESULT_NATIVE_ANM_20261106.md; no new exact,
 runtime, original-class or TU ownership credit follows.
+
+The17a17736 source receipt binds40 tracked inputs/Git blobs, four objects,
+eight compiler/SDK files and44 full comparisons19583/978. Its separate verifier
+checks the immutable source proof and replays the actual objects. Six complete
+source controls also replay independently, including original hash, all actual
+fields, PNG data and graphs.116 identical staged copies are pruned with frozen
+hash-checked recovery; a restored native context retains the whole raw function
+and fields. See TH09_TITLE_RESULT_NATIVE_ANM_20261106.md. No new exact credit.

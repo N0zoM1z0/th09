@@ -12,6 +12,27 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 6: result initialization native ANM providers — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `17a177368031f1b5e94a45d38eccbe664e1841fa`.
+Three result-initialization calls now use implemented native ANM declarations
+and the shared VM span.41 affected Title units and three real providers pass
+44 complete comparisons19583 physical bytes/978 fields in four existing
+source/profile builds. Nine private labels retain actual definitions/original
+operands. The result updater remains484/485 bytes,34 fields,218 unequal overlaps
+and one missing; its entire raw body/effective operands are unchanged.
+
+The ignored `.analysis/title-result-current-20261106/source-proof.json`
+is SHA-256 `bf16e0b0de664f55f751772db031942fca3e6442d61dd52f2f4beaad86504c69`.
+It binds40 tracked inputs/Git blobs, four actual objects/profiles, eight
+compiler/SDK files, three full mapped-byte Ghidra attestations and the CI log.
+`source-receipt.py` verifies the sealed proof and writes a separate current
+replay. Provider objects are isolated and old canonical Title OBJ/PDB files
+are preserved. Full public CI passes1376 tests with29 skips. No new exact
+credit; totals remain1022 exact/13 nonexact. See
+[the source and bounded-control review](TH09_TITLE_RESULT_NATIVE_ANM_20261106.md).
+
 ## November 6: Player movement native math providers — local Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

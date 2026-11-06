@@ -13,6 +13,14 @@
 
 ## 2026-11-06 continued main — result update uses implemented ANM providers
 
+Source `17a17736`; sealed local receipt SHA-256
+`bf16e0b0de664f55f751772db031942fca3e6442d61dd52f2f4beaad86504c69`
+binds40 inputs, four objects/profiles, eight compiler/SDK files and44 complete
+comparisons19583 bytes/978 fields. Its independent replay passes. Six retained
+full-source contexts independently replay their fields/literals/graphs.
+116 SHA-identical staged copies are pruned; a restored native context retains
+its entire raw body/fields, and its20 unchanged inputs are pruned again.
+
 Result initialization now uses the real AnmManager surface/interrupt/script
 providers and shared native VM interfaces.41 affected Title units plus three
 actual providers pass44 complete comparisons19583 bytes/978 fields in four
