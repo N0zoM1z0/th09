@@ -11,6 +11,23 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Movement actual zero and expression contexts
+
+The movement inspector now validates its actual defined read-only zero scalar.
+A malformed0.5-under-zero-name OBJ previously passed the identical1900/66/122
+report and complete frontier guard; the new check rejects it. Valid report
+format/values and the unchanged15-input baseline stay intact. Fresh Ghidra
+attests movement/all mapped bytes. See
+[the bounded review](TH09_PLAYER_MOVEMENT_LITERALS_AND_EXPRESSIONS_20261106.md).
+
+Seven natural velocity/focus/SHT/receiver/assignment models retain122 or regress;
+none is adopted. Four actual producer comparisons656/42 remain exact. Strict11
+current units10605/414 covernine direct callees,nested constructor and522-byte
+caller;8 unchanged unit proofs are reused and3 carriers fresh. No recipe/label/
+matching changes. Five new Oracle tests pass;42 focused tests/111 subtests and
+full public CI1386/29 pass. Totals stay1021/13; goal/later gates remain open.
+Source/control sealing follows the source checkpoint; no Factory/remote claim.
+
 ## 2026-11-06 continued main — Network service result contract
 
 Service/caller share named0..4 results and one int/fastcall declaration.

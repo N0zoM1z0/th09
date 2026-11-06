@@ -18,6 +18,21 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-06: Movement actual zero provenance and expression models
+
+Original/current movement scalar homes already agree at EBP-8 horizontal and
+EBP-4 vertical. Residuals involve GP choices,one-byte clamp-load encoding and
+first bounds-copy scheduling. Seven whole-owner models remain122 or worse;
+no velocity/focus/SHT/receiver/assignment model is adopted. Genuine changed-
+header consumers retainfour complete producer proofs656/42. Strict11 current
+units10605/414 cover the actual direct callees,nested constructor andPlayer caller.
+The inspector formerly accepted0.5 under the zero literal's unchanged symbol,
+with every code/table byte and COFF field unchanged. It now reads the actual
+initialized read-only payload and checks independent original48E314 zero. Legacy
+acceptance/new rejection is retained as a bounded Oracle regression,not a game
+input change. See [the review](TH09_PLAYER_MOVEMENT_LITERALS_AND_EXPRESSIONS_20261106.md).
+Movement stays1900/66/122;no new exact orlater-phase credit.
+
 ### 2026-11-06: Network service return protocol and failed status models
 
 Original431110 maps service0 to continued update,1 to retry,2 to callback3,

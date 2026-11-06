@@ -53,6 +53,18 @@ DESTINATIONS = {
 }
 
 
+def validate_movement_literals(data, fields, image, coff):
+    """Verify the actual local zero definition used by movement comparisons."""
+    if not any(row['symbol'] == '__real@00000000' for row in fields):
+        raise ValueError('movement lacks its required zero literal')
+    spec = importlib.util.spec_from_file_location(
+        'movement_literal_definitions', ROOT / 'scripts/coff_literal_definitions.py'
+    )
+    literals = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(literals)
+    return literals.check_literal_definitions(data, fields, image, coff, DESTINATIONS)
+
+
 def coff_symbols(path: Path, coff, names: set[str]) -> dict[str, tuple[int, int]]:
     data = path.read_bytes()
     machine, _, _, offset, count, optional_size, _ = struct.unpack_from("<HHIIIHH", data)
@@ -136,7 +148,8 @@ def inspect(path: Path) -> dict[str, object]:
     )
     coff = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(coff)
-    target = coff.pe_bytes_at(coff.verified_target(), BASE, PHYSICAL_SIZE)
+    image = coff.verified_target()
+    target = coff.pe_bytes_at(image, BASE, PHYSICAL_SIZE)
     code, relocations = coff.object_function(path, SYMBOL)
     symbols = coff_symbols(path, coff, {SYMBOL} | {r["symbol"] for r in relocations})
     owner_section, owner_offset = symbols[SYMBOL]
@@ -173,6 +186,7 @@ def inspect(path: Path) -> dict[str, object]:
             owner_section=owner_section, owner_value=owner_offset,
             owner_local=name not in DESTINATIONS,
         ))
+    validate_movement_literals(path.read_bytes(), bound_fields, image, coff)
     tables = sorted(set(table_positions))
     if tables != [len(code) - 64, len(code) - 32] or len(internal_offsets) != 18:
         raise ValueError("expected two eight-entry tables and eighteen internal fields")
