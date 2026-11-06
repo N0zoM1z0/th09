@@ -18,6 +18,23 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-06: Enemy residual transfer and natural source models
+
+Original410730 retains3883 code/3900 physical bytes,97 actual fields and13
+residuals:draw2,side2,threshold2,position copy7. Draw states converge after the
+first footer ECX load; threshold states converge through actual403DE0/20-byte
+Timer greater; XYZ copy states converge after the+2D3 EDX clear. SpawnEffect
+inputs agree at its standard ECX/four-word-stack boundary; no volatile outputs
+are assumed. These are bounded static observations under explicit valid-storage
+and normal nontrapping/FP assumptions, not all-input or runtime equivalence.
+Ten coherent natural source models produce13 or worse residuals. Genuine POD
+conversion/base hypotheses retain actual28-byte descriptor construction but
+recover no caller bytes. Direct manager plus named two-bit side category is
+adopted without altering any emitted body/field in either profile. Fresh target
+Ghidra and strict116-unit44752/1896 replay are documented in
+[the complete review](TH09_ENEMY_UPDATE_STAGE_DATAFLOW_20261106.md).
+Full RunEcl remains15564/598/30; no new exact or later-phase credit.
+
 ### 2026-11-05 continued main: result updater byte snapshot and caller/callee closure
 
 Original result266B5 loads the selected index intoECX at+FD, reads the table

@@ -274,9 +274,8 @@ typedef char EnemyCoreCalcNativePoolAndFields[
      offsetof(EnemyView, shootIntervalFrames30B4) == 0x30B4 &&
      offsetof(EnemyView, trailSamples33E8) == 0x33E8) ? 1 : -1];
 
-int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
+int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
 {
-    EnemyManagerView *manager = enemyManager;
     int bombHit = 0;
     int damageOccurred;
     int trailIndex;
@@ -344,16 +343,19 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *enemyManager)
             continue;
         }
 
-        if ((manager->sideState320->flags34 & 1) != 0 &&
-            ((enemy->secondaryFlags3380 >> 10) & 3) != 1 &&
-            ((enemy->secondaryFlags3380 >> 10) & 3) != 2)
+        if ((manager->sideState320->flags34 & 1) != 0)
         {
-            if ((flags & ENEMY_CORE_NO_SPRITE) == 0)
+            const unsigned int sideCategory =
+                (enemy->secondaryFlags3380 >> 10) & 3;
+            if (sideCategory != 1 && sideCategory != 2)
             {
-                drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
-                goto append_enemy_to_draw_group;
+                if ((flags & ENEMY_CORE_NO_SPRITE) == 0)
+                {
+                    drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
+                    goto append_enemy_to_draw_group;
+                }
+                continue;
             }
-            continue;
         }
 
         {

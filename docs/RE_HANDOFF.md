@@ -11,6 +11,24 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Enemy stage dataflow and natural source
+
+Enemy uses its typed manager parameter directly and decodes the side category
+once. Both current ECL profiles preserve all272 regular body/profile payloads.
+The complete3900/97 owner still has13 differences; full RunEcl15564/598/30
+is unchanged. Fresh Ghidra attests all685056 mapped bytes. Ten natural models
+protect770 repeated exact siblings, and three actual descriptor producers stay
+28-byte exact. No header/type/ABI/profile model is adopted. See
+[the bounded review](TH09_ENEMY_UPDATE_STAGE_DATAFLOW_20261106.md).
+
+A bounded static audit locates draw/side/threshold/copy convergence, including
+execution of the actual20-byte Timer comparator. Explicit storage/nontrapping
+assumptions apply; no runtime/semantic/exact credit. Strict116 existing exact
+units44752/1896 pass after two proven private-label spelling refreshes. Nineteen
+unchanged callee proofs are reused; only affected carriers rebuild.96 focused
+tests/282 subtests pass. Totals stay1021/13 and the goal/later gates stay open.
+Source/control sealing follows the source checkpoint; no Factory/remote claim.
+
 ## 2026-11-06 continued main — Effect receiver and actual literal definitions
 
 The Effect diagnostic now checks actual read-only etama.anm source bytes/NUL.
