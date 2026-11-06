@@ -313,6 +313,14 @@ PlayerRuntime units remain exact across 5,391 bytes/288 fields; only 11
 verified compiler-private names were refreshed. See
 [native stage-D original-byte proof](TH09_PLAYER_STAGE_D_NATIVE_TRACKING_RESET_20261106.md).
 
+## 2026-11-06 native opponent Player metric receiver
+
+The 522-byte exact Player OnUpdate now derives its opponent timing/metric
+receiver through the actual native Player +0x24 header at inner +0x5C,
+not a generic +0x80 byte pointer on an opaque side slot. All 21 complete
+same-source units still match 5,391 original bytes / 288 fields. See
+[native opponent Player metric receiver](TH09_PLAYER_OPPONENT_METRIC_NATIVE_HEADER_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

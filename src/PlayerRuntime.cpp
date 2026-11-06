@@ -121,6 +121,14 @@ typedef char PlayerRuntimeNativeMovementVmAndTail[
 // Stage D's nearest-target and reset windows are native to the existing
 // Player allocation. Preserve their original Float3 constructor calls;
 // do not introduce a new constructed tracking subobject here.
+// The opponent metric getter receives the real Player's embedded header
+// window at absolute +0x80 (header +0x5C). Its nominal owner remains open.
+typedef char PlayerRuntimeNativeOpponentHeaderMetricAt80[
+    (offsetof(PlayerLifecycleView, header24) == 0x24 &&
+     offsetof(PlayerHeaderStateView, unknown00) == 0 &&
+     sizeof(((PlayerHeaderStateView *)0)->unknown00) >= 0x5C + 4 &&
+     offsetof(PlayerLifecycleView, header24) + 0x5C == 0x80) ? 1 : -1];
+
 typedef char PlayerRuntimeNativeTrackingResetAt30364[
     (offsetof(PlayerLifecycleView, unknown30364) == 0x30364 &&
      sizeof(((PlayerLifecycleView *)0)->unknown30364) == 0x20 &&
@@ -821,8 +829,9 @@ afterTransition:
             if (g_PlayerGameManagerRuntime.CheckTimingState() && player->sideIndex == 0)
             {
                 PlayerSideStateView *opponentState = player->opponentState;
+                PlayerLifecycleView *opponent = opponentState->player04;
                 PlayerMetricRuntimeView *metric = reinterpret_cast<PlayerMetricRuntimeView *>(
-                    reinterpret_cast<unsigned char *>(opponentState->manager04) + 0x80);
+                    &opponent->header24.unknown00[0x5C]);
                 int metricValue = metric->GetValue();
                 int timingValue = g_PlayerTimingTable[opponentState->characterIndex2C][0];
                 timingValue *= 60;
