@@ -76,6 +76,26 @@ spelling. The game source is never rewritten by these probes.
 The ignored packet is `.analysis/runecl-native-expression-20261106/`; fourteen
 new objects are retained in `build/analysis/runecl-native-expression-20261106/`.
 Frozen inputs, full COFF rows, original-bound diagnostics and reproducible
-recipes are retained. Current source/receipt bindings and cleanup are recorded
-in the follow-up checkpoint. Authored totals remain1034 source-present/1021
-exact/13 nonexact; product/runtime, semantic and port gates remain open.
+recipes are retained. Source commit7e29346010e9b45a53a019bc6b2008e33990ee51
+binds all90 current transitive source/Git-blob hashes, six new current objects,
+eight provider/SDK files and91 canonical comparisons. Source-proof SHA-256:
+
+`3d2ab9c3c0bcf48e150af77c55d2c822d7be4a7a744703a0b45e840f2bd6f9fe`
+
+The source/control seal is:
+
+`a61bac1fe402aa495008476cd2ea93bf9bfc2e412fa790a3eb9491347cf7a57a`
+
+`python3 -B .analysis/runecl-native-expression-20261106/seal.py` independently
+rechecks the complete91 current,29 reused,616 experimental sibling and three
+actual Timer comparisons without recompiling. It also rechecks every complete
+RunEcl context, Enemy raw/field identity and all cleanup receipts.680 per-case
+SHA-identical source copies and14 PDBs2891776 bytes are pruned; all14 new
+objects, frozen baseline inputs and changed control sources remain.
+
+Public CI passes1377 tests with29 skips. The first run detected the old staging
+fixture's no-op edit; the fixture fix passes14 staging tests,72 RunEcl tests
+and the final full suite. Tracking, progress, documentation and whitespace pass.
+Authored totals remain1034 source-present/1021 exact/13 nonexact; product/runtime,
+semantic and port gates remain open. These are local source/proof checkpoints,
+not Factory acceptance or independently verified remote publication.

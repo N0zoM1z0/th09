@@ -28,8 +28,13 @@ revealing the setter changes the full caller to15560/598 with6230 unlike
 overlaps plus four missing bytes. Public shape guards continue to reject it;
 no Timer-definition relocation is adopted. Current counts stay1021/13 and
 the goal remains active. This is natural source progress without new byte
-exactness or product/runtime credit. Immutable source/receipt bindings follow
-in the next evidence checkpoint.
+exactness or product/runtime credit. Source7e293460 binds90 current inputs,
+six actual objects and91 comparisons; source-proof SHA-256
+`3d2ab9c3c0bcf48e150af77c55d2c822d7be4a7a744703a0b45e840f2bd6f9fe`.
+Control seal `a61bac1fe402aa495008476cd2ea93bf9bfc2e412fa790a3eb9491347cf7a57a`
+replays91 current,29 reused,616 experimental sibling and three actual Timer
+comparisons read-only.680 hashed duplicate sources and14 PDBs2891776 bytes
+are removed; all14 new objects remain. Full public CI passes1377/29.
 
 ## 2026-11-06 continued main — Effect context and genuine callee visibility
 
