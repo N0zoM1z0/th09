@@ -27,7 +27,13 @@ assumptions apply; no runtime/semantic/exact credit. Strict116 existing exact
 units44752/1896 pass after two proven private-label spelling refreshes. Nineteen
 unchanged callee proofs are reused; only affected carriers rebuild.96 focused
 tests/282 subtests pass. Totals stay1021/13 and the goal/later gates stay open.
-Source/control sealing follows the source checkpoint; no Factory/remote claim.
+Sourcea34affb3 binds134 tracked inputs/Git blobs,38 selected providers and46
+current/model/producer/baseline objects. Source/control proof
+`aefdbed4bd645db99f91bad34c5f01f1bc93a19c354f4b96de56ea357a9a78a0`
+passes independent read-only replay, retaining the distinct frozen hypothesis
+epoch. Cleanup removes880 hashed duplicates/PDBs8474638 bytes; all26 new
+objects remain. Target-required tracking/progress/docs/whitespace pass. No
+Factory/remote claim.
 
 ## 2026-11-06 continued main — Effect receiver and actual literal definitions
 

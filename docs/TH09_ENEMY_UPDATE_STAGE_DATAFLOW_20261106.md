@@ -94,3 +94,27 @@ The ignored packet is `.analysis/enemy-update-stage-dataflow-20261106/`.
 Totals remain1034 source-present/1021 exact/13 nonexact. The reconstruction goal,
 complete Enemy exactness and later product/runtime/semantic/port gates stay open.
 Local commits and compiler proofs do not establish Factory or remote acceptance.
+
+## Immutable source and control binding
+
+Source commit `a34affb3fdd0aac570f424f5b5fcc72d9065083f` binds134 tracked
+inputs/Git blobs,38 selected compiler/SDK files and46 current/model/producer/
+baseline objects. The frozen87-input hypothesis epoch remains bound to its
+originaldcf780ea source, separately from the adopted current source. The
+source/control proof SHA-256 is:
+
+`aefdbed4bd645db99f91bad34c5f01f1bc93a19c354f4b96de56ea357a9a78a0`
+
+The ignored `verify.py` independently replays116 strict current comparisons,
+272 preserved body/profile payloads, all ten complete models/770 exact sibling
+comparisons, three actual constructors, bounded static transfer controls and
+all mapped Ghidra ranges. Historical model receipts retain their original
+private-label spellings; the current public replay uses the refreshed manifest.
+Reused callees require the old proof's exact input and object memberships.
+
+Cleanup removes854 SHA-identical staged source copies and26 disposable PDBs,
+880 files/8474638 bytes. Every removed source resolves to its hashed retained
+frozen input. All26 new compiler objects, changed source models, original-bound
+baselines and reused objects remain. No original input or analysis object is
+removed. Target-required tracking/progress, documentation and whitespace pass;
+totals stay1021 exact/13 nonexact. This is a local source-scoped checkpoint.

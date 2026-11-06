@@ -12,6 +12,30 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 6: Enemy stage dataflow and natural source — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `a34affb3fdd0aac570f424f5b5fcc72d9065083f`.
+Direct manager/named-category source preserves every body in two actual ECL
+profiles. Strict116 existing exact units retain44752 physical bytes/1896 fields;
+83 affected units and33 additional actual callees are included. Two proven
+owner-local label spellings refresh without changing positions or destinations.
+Enemy3900/97/13 and RunEcl15564/598/30 remain nonexact. Ten natural models
+protect770 repeated exact siblings; three actual descriptor producers remain
+28-byte exact. Static transfer observations have explicit storage/FP assumptions
+and grant no exactness or later-phase credit.
+
+The ignored `.analysis/enemy-update-stage-dataflow-20261106/source-proof.json`
+is SHA-256
+`aefdbed4bd645db99f91bad34c5f01f1bc93a19c354f4b96de56ea357a9a78a0`.
+It binds134 tracked inputs/Git blobs,38 selected providers and46 objects.
+Independent read-only replay checks272 preserved bodies, all current/model/
+producer comparisons, static transfer controls and all mapped Ghidra bytes.
+Cleanup removes880 hashed duplicates/PDBs while retaining all26 new objects.
+96 focused tests/282 subtests plus tracking/progress/docs/whitespace pass.
+No new exact credit; totals remain1021 exact/13 nonexact. See
+[the bounded review](TH09_ENEMY_UPDATE_STAGE_DATAFLOW_20261106.md).
+
 ## November 6: Effect receiver and actual literal definitions — local Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
