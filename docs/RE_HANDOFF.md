@@ -11,6 +11,20 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Complete Enemy reference rejects direct substitution
+
+Two complete pinned-reference Enemy builds, before/after correcting its speed
+constant to the original 1.0f, retain 3872 physical bytes / 96 fields. All actual
+fields and five literal definitions are checked; each differs at 3297 overlaps
+with 28 original bytes missing. Its movement branches share one vector-add
+call, producing 68 calls versus the original 69. No source is adopted.
+Fresh Ghidra attests all 685056 mapped bytes; unchanged native source/SDK/object
+proofs and strict Enemy3900/97/13 plus RunEcl15564/598/30 replay. 157 hashed
+duplicates are pruned. Seal:
+`b9f2730ab6f6f93bdbd6562c47451991d286da4fa5057e259bbf7ff220cb23cd`.
+See [the complete reference review](TH09_ENEMY_COMPLETE_REFERENCE_20261106.md).
+Authored totals remain 1021 exact / 13 nonexact; the goal stays active.
+
 ## 2026-11-06 continued main — Natural RunEcl reference blocks and whole contexts
 
 The actual reference opcode4 block reproduces29 original bytes. Opcode155

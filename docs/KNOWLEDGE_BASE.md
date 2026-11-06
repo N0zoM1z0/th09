@@ -31857,3 +31857,19 @@ support the bounded record; the angle unit's authorship remains under review.
 1277 SHA-identical staged copies are pruned; a restored full reference carrier
 reproduces15564 raw bytes/all598 fields and its complete comparison. See
 docs/TH09_RUNECL_NATURAL_REFERENCE_CONTEXT_20261106.md for both sealed packets.
+
+## 2026-11-06 complete Enemy reference retains a different movement-call graph
+
+The pinned d7653152 Enemy translation unit, under its recorded profile and our
+pinned compiler, produces 3872 physical bytes / 96 fields / 68 calls. Correcting
+its speed expression from +2.0f to TH09's observed +1.0f retains that shape.
+Both full comparisons bind every actual field, preserve the four-entry table
+and check five literal definitions; each has 3297 unlike overlaps and 28
+missing original bytes. Both merge the movement branches into a shared vector
+addition. Original and maintained code retain 69 calls / three vector additions.
+Thus the complete reference context does not explain the remaining 13 native
+differences or justify adopting its source/profile. Fresh Ghidra attests all
+685056 mapped bytes; strict unchanged Enemy3900/97/13 and RunEcl15564/598/30
+replay. See docs/TH09_ENEMY_COMPLETE_REFERENCE_20261106.md for the sealed two
+builds, source/SDK/object bindings and hashed duplicate cleanup. No exact,
+original-source-identity, product/runtime or Factory credit follows.
