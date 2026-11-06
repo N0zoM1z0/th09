@@ -27,6 +27,14 @@ existing units3480/138 pass; nine unchanged dependency carriers are reused.
 Only this source rebuilds.18 focused tests and full public CI1386/29 pass.
 Totals stay1021/13; the goal/later gates remain open. Current private packet:
 `.analysis/player-collision-owner-flow-20261106/`. No Factory/remote claim.
+Sourcea1a1dc05 binds54 tracked inputs/Git blobs,13 compiler/SDK pins and28 objects.
+Final source/control proof
+`bd085293ca27906df29945797863de076cc68d7fbf0ca9dca6d99f457888173b`
+passes independent read-only replay of16 current units,16 controls and both
+mapped-byte attestations. The v2 replay corrects only tuple/list JSON comparison;
+the first seal/failure remain immutable. Cleanup removes319 hashed duplicate/
+debug files3862224 bytes and retains all18 new objects. Final public CI1386/29
+and target-required tracking/progress/docs/whitespace pass.
 
 ## 2026-11-06 continued main — Movement actual zero and expression contexts
 

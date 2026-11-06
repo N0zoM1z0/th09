@@ -90,3 +90,14 @@ Totals remain1034 source-present,1021 exact and13 non-exact. The reconstruction
 goal,Windows product closure and later runtime/semantic/port gates remain open.
 These are local source/evidence checkpoints,not Factory acceptance or remote
 publication claims.
+
+Source checkpoint `a1a1dc05` is sealed by private `source-proof-v2.json`, SHA-256
+`bd085293ca27906df29945797863de076cc68d7fbf0ca9dca6d99f457888173b`.
+It binds54 tracked inputs with Git blobs,13 compiler/SDK pins,28 objects and53
+selected provider/evidence files. Independent `replay-v2.py` passes all16 current
+exact units,16 controls and both mapped-byte attestations without compilation.
+The initial replay stopped on tuple/list JSON representation of the two-site
+controls' return records. The corrected replay normalizes that representation;
+byte,field,literal and exit checks stay intact. Its superseded seal/failure log
+remain immutable. Cleanup removes301 hash-identical copied inputs and18 PDBs,
+319 files/3862224 bytes; all18 new compiler objects and unique sources remain.
