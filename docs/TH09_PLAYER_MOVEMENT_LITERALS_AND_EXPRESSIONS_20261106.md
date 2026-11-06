@@ -91,3 +91,30 @@ definitions, both malformed-fixture reports, restored legacy checker, current
 dependency proofs and mapped-byte Ghidra evidence. Counts remain1034 source-
 present/1021 exact/13 nonexact; the goal and later product/runtime/semantic/port
 gates stay open. Local Oracle checks do not establish Factory or remote acceptance.
+
+## Immutable source, object and regression binding
+
+Source commit `da84e3a740f470fd270de3c15477395c5e21e9d7` binds113 tracked
+inputs/Git blobs,38 selected compiler/SDK files and20 current/model/baseline/
+fixture objects. The15 frozen model inputs and77 additional frozen producer
+sources remain separately bound to their original1f4ae076 epoch. The proof
+SHA-256 is:
+
+`2ff669bac4d4574010e26a83a80c4ef2e8bc78c510f8b11a1090702dba61e1c7`
+
+The ignored `verify.py` independently replays11 strict current comparisons,
+all seven complete models, four actual producer comparisons and all mapped
+Ghidra ranges. It restores the old reader from its immutable Git blob, changes
+only its repository-root path for private replay, reproduces old acceptance
+of the same malformed fixture and verifies new rejection. Both objects retain
+identical owned code/table bytes and fields. New literal checks also replay
+each valid model's actual read-only zero definition.
+
+Cleanup removes180 per-file SHA-identical source copies and12 disposable PDBs,
+192 files/2217938 bytes. Hash receipts resolve every source to a retained frozen
+copy;77 extra original-source anchors preserve the producer contexts. All12
+new compiler objects and the separately labeled malformed fixture remain,
+along with unchanged baseline/dependency objects and changed source models.
+No original game input or analysis object is deleted. Public CI1386/29 and
+focused42/111 pass; tracking/progress/docs/whitespace pass. There is no new
+exact credit or later-phase acceptance.

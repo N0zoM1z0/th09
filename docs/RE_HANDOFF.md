@@ -26,7 +26,14 @@ current units10605/414 covernine direct callees,nested constructor and522-byte
 caller;8 unchanged unit proofs are reused and3 carriers fresh. No recipe/label/
 matching changes. Five new Oracle tests pass;42 focused tests/111 subtests and
 full public CI1386/29 pass. Totals stay1021/13; goal/later gates remain open.
-Source/control sealing follows the source checkpoint; no Factory/remote claim.
+Sourceda84e3a7 binds113 tracked inputs/Git blobs,38 selected providers and20
+current/model/baseline/fixture objects. Source/control proof
+`2ff669bac4d4574010e26a83a80c4ef2e8bc78c510f8b11a1090702dba61e1c7`
+passes independent read-only replay of all current/model/producer comparisons,
+restored legacy acceptance/new rejection and all mapped bytes. Cleanup removes
+192 hashed duplicates/PDBs2217938 bytes; all12 new compiler objects and the
+malformed fixture remain. Tracking/progress/docs/whitespace pass. No Factory/
+remote claim.
 
 ## 2026-11-06 continued main — Network service result contract
 

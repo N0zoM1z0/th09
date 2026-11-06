@@ -12,6 +12,30 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 6: movement actual zero and source expressions — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `da84e3a740f470fd270de3c15477395c5e21e9d7`.
+The movement diagnostic now verifies its actual defined read-only zero scalar.
+A malformed0.5-under-zero-name OBJ formerly passed the identical complete
+1900/66/122 report and frontier guard; the new check rejects it. Valid report
+format/values stay unchanged. Seven natural models retain122 or regress; none
+is adopted. Four actual producer comparisons656/42 and11 strict current units
+10605/414 pass. Eight unit proofs are reused; three current carriers are fresh.
+No game source, canonical recipe or exact count changes.
+
+The ignored `.analysis/player-movement-expression-flow-20261106/source-proof.json`
+is SHA-256
+`2ff669bac4d4574010e26a83a80c4ef2e8bc78c510f8b11a1090702dba61e1c7`.
+It binds113 tracked inputs/Git blobs,38 selected providers and20 objects.
+Independent replay verifies every current/model/producer body,actual model zero
+definitions,restored legacy acceptance/new rejection and mapped Ghidra bytes.
+Five new Oracle tests pass; public CI1386/29 and focused42 tests/111 subtests
+plus tracking/progress/docs/whitespace pass. Cleanup removes192 hashed duplicate
+sources/PDBs, retaining all12 new compiler objects and the explicit malformed
+fixture. No new exact credit; totals remain1021/13. See
+[the bounded review](TH09_PLAYER_MOVEMENT_LITERALS_AND_EXPRESSIONS_20261106.md).
+
 ## November 6: network service result contract — local Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
