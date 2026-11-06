@@ -11,6 +11,22 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Effect pre-call dataflow rechecked
+
+Original and current Effect AddedCallback both retain ESI=context and EDI=ANM;
+the old external register-swap comment is not current evidence. All eight
+differences precede the first GetAnm call; bounded static transfer agrees at
+that call, and the complete37-byte suffix is equal. Native member/free helper
+contexts preserve51/four/eight and all15 Effect siblings; neither is adopted.
+Two native callee carriers plus the baseline pass36 strict complete comparisons
+5543/206. Reviewed callback metadata is read back after mapped-byte pre/post
+checks.19 source inputs/six objects are sealed by
+`a81efd28bd9ce66f2061c039284d4010721ca4067292907e5aef8e38668366eb`;
+54 duplicate copies are pruned and a restored full carrier reproduces its
+raw/fields and15 siblings.14 focused tests pass. See
+[the original-bound entry review](TH09_EFFECT_PRECALL_DATAFLOW_20261106.md).
+Game source remains `1d3a23c1`;1022 exact/13 nonexact and the goal stay open.
+
 ## 2026-11-06 continued main — Setup uses its native configuration cell
 
 Source `1d3a23c1`; sealed proof SHA-256

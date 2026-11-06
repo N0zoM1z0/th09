@@ -31795,3 +31795,24 @@ Deleted callback remains exact. All five full-source controls retain the
 signed-threshold controls are not original source/typing proofs and are not
 adopted. Original nominal class/TU ownership stays unknown; no authored exact
 credit follows. See docs/TH09_SETUP_NATIVE_CONFIGURATION_20261106.md.
+
+## 2026-11-06 Effect AddedCallback first-call state
+
+Fresh original40D1C0..40D1F2 and current full compiler comparison show the same
+ESI callback owner and EDI captured ANM manager. The older external reference's
+register-swap comment does not describe this source candidate. Original loads
+EDI from4DC550 before saving context; candidate saves context then loads ECX
+and copies it to EDI. The global operand is at+4 versus+6. Both static transfer
+sequences converge before GetAnm at+E, with the same pushed saved registers and
+slot8; all37 suffix bytes agree. Only offsets3..9 andD differ. This does not
+prove original source spelling, nominal type, or a runtime gate.
+
+Natural member/free inline acquisition contexts retain every51 raw byte and
+all four effective field identities, eight differences and43 equal positions;
+no helper is adopted. Both preserve15 exact Effect siblings. Baseline plus two
+native callee carriers pass36 strict original comparisons5543 bytes/206 fields,
+including the20-byte GetAnm and90-byte PreloadAnm. Physical ECX context/EAX
+return callback metadata is read back with all685056 mapped bytes checked
+before and after. Source epoch a9084cd7,19 frozen inputs/six objects,54 pruned
+hash-identical copies and a restored full carrier are sealed in the packet
+linked by docs/TH09_EFFECT_PRECALL_DATAFLOW_20261106.md. No new exact credit.
