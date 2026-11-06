@@ -31626,3 +31626,24 @@ actual-core contexts preserve26/54/54-byte callees. Six relocation-contract
 tests reject private numeric aliases and incorrect/missing/extra actual fields.
 See TH09_PLAYER_MOVEMENT_NATIVE_MATH_20261106.md; original class spelling and
 TU identity remain unknown, with all later phase gates separate.
+
+## 2026-11-06 Player speed storage does not explain movement residuals
+
+Three b9e1a95a contexts preserve the four SHT speed offsets14/18/1C/20 while
+exposing a union, constant-index float array or axis/diagonal Float2 pairs.
+Each retains every complete movement raw byte/effective field at1900/66/122.
+The actual ResolvePatternOffset consumer independently matches412 physical
+bytes/18 fields in each case, including two alignment and64 table bytes.
+Private labels retain actual same-owner definitions/original destinations;
+no canonical metadata changes. The scalar/array/class source form remains
+unknown. Read-only committed TH08/TH095 support only broad scalar-speed
+hypotheses, not TH09 layout or codegen.
+
+Ten complete controls across the b60b5f65 and b9e1a95a source epochs replay
+with twelve complete callee comparisons1638 bytes/60 fields. No additional
+production model is adopted.149 SHA-identical staged copies are pruned with
+frozen recovery inputs; a restored native/core context preserves its whole
+caller, actual fields and three math providers. The separate b9e1a95a source
+proof binds104 inputs/four objects/eight provider hashes and five canonical
+comparisons674/42. See TH09_PLAYER_MOVEMENT_SPEED_CONTEXT_20261106.md. Exact
+totals remain1022 functions; product/runtime/semantic/port gates remain open.

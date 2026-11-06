@@ -11,6 +11,23 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — complete Player speed contexts rechecked
+
+Three SHT storage/read models retain the full movement raw body at1900/66/122.
+The actual direction-offset consumer passes412 complete bytes/18 fields in
+each context, including both switch tables and actual private definitions.
+No model is adopted. Ten full-owner contexts across two preserved source epochs
+and twelve callee comparisons1638 bytes/60 fields replay independently. See
+[the bounded review](TH09_PLAYER_MOVEMENT_SPEED_CONTEXT_20261106.md).
+149 hashed duplicate copies are pruned; a restored core context reproduces its
+full caller, fields and three exact providers.
+
+Source `b9e1a95a`; sealed local receipt SHA-256
+`bc4d06b3b4f4940fb40095dc71378349ae7ed8ef9060741d41917f0fed4f9112`
+binds104 inputs, four objects, eight compiler/SDK files and five canonical
+comparisons674 bytes/42 fields. Its independent replay passes. Exact count
+stays1022; the goal and13 nonexact owners remain open.
+
 ## 2026-11-06 continued main — Player movement uses implemented native math
 
 Six bounds operations now resolve to the existing implemented Float3 addition/

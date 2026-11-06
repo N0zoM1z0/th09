@@ -12,6 +12,26 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 6: Player movement native math providers — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `b9e1a95a72ad033ba722aa8734fedb1ce1dbd541`.
+Six movement bounds operations now use the implemented native Float3 providers.
+The full1900-byte raw owner,66 effective fields,23 ordered calls and122
+residual positions are unchanged. No new exact credit is assigned.
+
+The ignored `.analysis/player-movement-current-20261106/source-proof.json`
+is SHA-256 `bc4d06b3b4f4940fb40095dc71378349ae7ed8ef9060741d41917f0fed4f9112`.
+It binds104 tracked inputs/Git blobs, four objects/profiles, eight compiler/SDK
+files, full mapped-byte Ghidra attestation and the public CI log. Two fresh
+canonical owners and three unchanged source-bound math providers pass five
+complete comparisons674 bytes/42 fields. All86 ECL provider inputs and the
+bfa170c9 object/unit recipes are independently verified without rebuilding ECL.
+`source-receipt.py` checks the sealed proof and writes a separate current replay.
+Full public CI passes1370 tests with29 skips. See
+[the source review](TH09_PLAYER_MOVEMENT_NATIVE_MATH_20261106.md) and
+[subsequent full-owner controls](TH09_PLAYER_MOVEMENT_SPEED_CONTEXT_20261106.md).
+
 ## November 6: observed network input selectors — local Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

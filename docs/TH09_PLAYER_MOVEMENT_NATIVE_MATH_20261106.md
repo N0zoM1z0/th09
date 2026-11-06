@@ -69,3 +69,12 @@ canonical units, including unchanged provider provenance. Builds stay below
 `build/`. Totals remain1035 source-present /1022 exact /13 nonexact. Windows
 product/runtime, semantic reconstruction, portability and Factory acceptance
 remain open.
+
+Source checkpoint: `b9e1a95a72ad033ba722aa8734fedb1ce1dbd541`.
+The sealed local receipt SHA-256 is
+`bc4d06b3b4f4940fb40095dc71378349ae7ed8ef9060741d41917f0fed4f9112`;
+it binds104 tracked inputs/Git blobs, four objects/profiles, eight compiler/SDK
+files and the five canonical comparisons. `source-receipt.py` verifies the
+immutable proof and writes a separate current replay. Subsequent storage/read
+controls are recorded in
+[the complete context review](TH09_PLAYER_MOVEMENT_SPEED_CONTEXT_20261106.md).
