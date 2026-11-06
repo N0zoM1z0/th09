@@ -11,6 +11,24 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Native Setup access isolates remaining rank differences
+
+Ten current-native source/profile controls preserve all ten exact Setup
+siblings each. Direct native field access restores the original root reloads
+and side flag anchor; retaining the initial Setup sequence yields1697/174,
+698 unlike overlaps plus eight extra bytes and two extra rank-limit stores.
+It loses243 prior equal positions, so it is not adopted. The real byte/int
+Player producer pair both matches328/29, including actual EH identity/data;
+its wider caller still retains904. The byte interface remains maintained.
+Fresh Ghidra attests worker/reset/Player and all mapped bytes. See
+[the native access review](TH09_SETUP_NATIVE_ACCESS_20261106.md).
+Sixteen actual models pass106 complete sibling comparisons28748/2346;
+seal `0db217584dc2b1ab0b0ebf50b4f0def4abd316e33f2b3ca0cb7dd79f89cc2008`.
+704 hashed copies and11 PDBs are removed; all16 objects remain. Code stays
+398b69e4 and1021 exact/13 nonexact. Continue from native target/source
+questions; reference code supplies natural source-shape ideas. The goal
+remains active.
+
 ## 2026-11-06 continued main — Playback setter width is not a unique source type
 
 A coherent unsigned-int SetSeed declaration/definition matches all14 original

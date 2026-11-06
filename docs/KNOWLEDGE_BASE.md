@@ -31946,3 +31946,31 @@ creator Ghidra attests all685056 mapped bytes, and original4216F5 contains the
 installed callback420840 at creator+85. See TH09_REPLAY_SEED_WIDTH_20261106.md
 for the six actual objects, baseline398b69e4 code binding and independent seal.
 23 hashed duplicate copies are pruned. No code/interface adoption or new credit.
+
+
+## 2026-11-06 Setup native access and Player formal-width counterexample
+
+Fresh target-bound Ghidra covers41AF2D/41A7C3/41F170 and all685056 mapped
+file bytes. Ten current-native controls retain all ten exact Setup siblings.
+The native-field split restores original root reloads/flag-word loop anchor,
+but1697 bytes/174 fields retain698 unlike overlaps plus eight extra bytes,
+two extra limitB4 stores and243 lost prior equal positions. It is not an
+accepted improvement over the maintained1689/171/904 candidate. Global side
+spelling alone, a single round-count snapshot and one recorded size profile
+do not close the original complete owner.
+
+A genuine unsigned-char/int PlayerRegisterChain declaration/definition pair
+both reproduces328 original bytes/29 fields and both86/75-byte cleanup
+siblings. Complete actual compiler EH definitions and recursive private
+contributions also agree. Original low-byte consumption and Ghidra's byte
+projection do not uniquely determine formal width. The wider actual caller
+restores whole-ECX zeroing but still retains904; the current byte interface
+stays. No source or metadata interface change is adopted. These are compiler
+counterexamples, not proof that every parameter type or source context is
+exhausted.
+
+[The bounded review](TH09_SETUP_NATIVE_ACCESS_20261106.md) records16 actual
+source models,106 complete sibling comparisons28748/2346 and control seal
+`0db217584dc2b1ab0b0ebf50b4f0def4abd316e33f2b3ca0cb7dd79f89cc2008`.
+704 hashed duplicates and11 disposable PDBs are removed; all16 objects remain.
+Source epoch8096590f/code398b69e4; current1021 exact/13 nonexact, goal active.
