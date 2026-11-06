@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "AnmManagerFileSlotView.hpp"
 
 #include <stddef.h>
 
@@ -45,6 +46,6 @@ void AnmManager::Draw2DAndFlush(AnmVm *vm)
 
 AnmLoaded *AnmManager::GetAnm(int anmIdx)
 {
-    return reinterpret_cast<AnmLoaded *>(
-        reinterpret_cast<unsigned char *>(this) + 0x24 + anmIdx * 0x120);
+    AnmManagerReadView *manager = reinterpret_cast<AnmManagerReadView *>(this);
+    return &manager->slots[anmIdx].loaded;
 }

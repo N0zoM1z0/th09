@@ -1,5 +1,6 @@
 #define TH09_ANM_MANAGER_LIFECYCLE_LAYOUT
 #include "AnmManager.hpp"
+#include "AnmManagerFileSlotView.hpp"
 #include "FileSystem.hpp"
 #include "GameErrorContext.hpp"
 #include "Supervisor.hpp"
@@ -102,30 +103,6 @@ typedef char AnmManagerLoadSlotSizeIs120[(sizeof(AnmManagerLoadSlotView) == 0x12
 typedef char AnmManagerLoadAnmAt24[(offsetof(AnmManagerLoadSlotView, loaded) == 0x24) ? 1 : -1];
 typedef char AnmManagerLoadReleaseAt40[(offsetof(AnmManagerLoadSlotView, releasePending) == 0x40) ? 1 : -1];
 typedef char AnmManagerLoadPathAt44[(offsetof(AnmManagerLoadSlotView, path) == 0x44) ? 1 : -1];
-
-// ReadAnmEntries target layout: manager prefix +0x24, then 0x120-byte file slots.
-struct AnmManagerReadSlotView
-{
-    AnmLoaded loaded;
-    int releasePending;
-    char path[0x100];
-};
-
-typedef char AnmManagerReadSlotSizeIs120[
-    (sizeof(AnmManagerReadSlotView) == 0x120) ? 1 : -1];
-typedef char AnmManagerReadReleaseAt1C[
-    (offsetof(AnmManagerReadSlotView, releasePending) == 0x1C) ? 1 : -1];
-typedef char AnmManagerReadPathAt20[
-    (offsetof(AnmManagerReadSlotView, path) == 0x20) ? 1 : -1];
-
-struct AnmManagerReadView
-{
-    unsigned char unknown000[0x24];
-    AnmManagerReadSlotView slots[256];
-};
-
-typedef char AnmManagerReadSlotsAt24[
-    (offsetof(AnmManagerReadView, slots) == 0x24) ? 1 : -1];
 
 struct SupervisorAnmLoadView
 {

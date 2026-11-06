@@ -119,6 +119,13 @@ sets `activeSpriteIndex` at +0x214 by name; the 62-byte base constructor also
 remains exact. See [native ANM VM member proof](TH09_ANM_VM_NATIVE_COLOR_AND_SPRITE_20261106.md).
 These are source-quality advances, not new exact authored bytes.
 
+## 2026-11-06 shared ANM file-slot source
+
+`AnmManager::GetAnm` now uses the same typed `+0x24/0x120` file-slot record
+as `ReadAnmEntries`. Focused current-source VC7.1 replay passes all 22 exact
+Background, Load and constructor units in their existing profiles; no authored
+exact total changes. See [ANM shared slot evidence](TH09_ANM_SHARED_FILE_SLOT_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
