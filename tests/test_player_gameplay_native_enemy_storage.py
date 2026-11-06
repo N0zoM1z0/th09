@@ -33,9 +33,17 @@ class PlayerSelectorNativeEnemyStorage(unittest.TestCase):
         self.assertIn('EnemyView *priorityEnemy2AC444;', enemy)
         self.assertIn('EnemyView *firstActiveEnemy2AC448;', enemy)
         self.assertIn('PlayerPositionView targetOverride30F64;', player)
-        # +0x3044C and +0xC110 still lack a uniquely proven owner type.
-        self.assertIn(' + 0x3044C', gameplay)
-        self.assertIn(' + 0xC110', gameplay)
+        # Both previously raw counters now traverse independently pinned
+        # Player and collision-region storage, rather than +0x... casts.
+        self.assertIn('PlayerSelectorNativeOpponentAndCollisionCounters', gameplay)
+        self.assertIn('ownerState30410.activeFrameCounter3C', gameplay)
+        self.assertEqual(gameplay.count('ownerState30410.activeFrameCounter3C'), 3)
+        self.assertIn('PlayerCollisionRegionCreateView *>(player)->activeCountC110', gameplay)
+        self.assertIn('int activeFrameCounter3C;', player)
+        collision = (ROOT / 'src/PlayerCollisionRegionCreate.hpp').read_text()
+        self.assertIn('int activeCountC110;', collision)
+        self.assertNotIn(' + 0x3044C', gameplay)
+        self.assertNotIn(' + 0xC110', gameplay)
 
     def test_source_label_churn_retains_every_original_table_destination(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:

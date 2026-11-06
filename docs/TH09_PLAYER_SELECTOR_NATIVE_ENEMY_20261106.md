@@ -18,9 +18,13 @@ stand-in enemy pool or duplicate manager allocation is introduced. These
 replacement types describe concrete shared storage, not proof of retail
 nominal class names.
 
-The other raw +0x3044C and +0xC110 accesses remain unresolved: they belong
-to different, not yet uniquely typed Player/side storage. We did **not**
-rename those fields by guesswork.
+A follow-on source checkpoint has also replaced the remaining raw +0x3044C
+and +0xC110 paths, using the independently existing
+`PlayerLifecycleView::ownerState30410.activeFrameCounter3C` and
+`PlayerCollisionRegionCreateView::activeCountC110`. Compile-time offset
+assertions pin both storage paths. This supersedes the two-unknown-fields
+statement in the initial checkpoint, without claiming original class names
+or any newly matched authored bytes.
 
 ## Actual pinned compiler comparisons
 
@@ -37,7 +41,8 @@ the separate resolver profile. **All 18** actual COFF fields were first read
 with their real symbol-section and owner-relative values; every one resolved
 to the **same independently retained original target address** as before.
 `config/match-units.toml` updates only these 18 compiler-generated symbol
-spellings, not their offsets, relocation types or target destinations. This
+spellings, not their offsets, relocation types or target destinations. Two further local table roots are renumbered by the second native header and
+verified to land on the same two original destinations. This
 is not a field mask, target fitted alias, or a new exactness claim. No owner
 changed code bytes and no newly matched authored byte is counted; both were
 already exact in the 1,021-unit baseline.
