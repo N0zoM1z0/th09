@@ -31383,6 +31383,10 @@ this owner checkpoint. See TH09_CONTROLLER_INPUT_OWNER_20261105.md.
 
 ## 2026-11-05 minimal GetInput call contract
 
+**Target interpretation corrected 2026-11-06:** both original callers prepare
+ECX explicitly; the following paragraph describes a historical source model.
+See TH09_NETWORK_INPUT_SELECTORS_20261106.md and the correction below.
+
 The full819-byte original input body does not consume the maintained index;
 its two physical direct service callers430EC8/431046 do not prepare one.
 No absolute42BE40 DWORD occurs in the original image. This does not prove
@@ -31393,6 +31397,27 @@ exact units replay3597 bytes/73 fields. Complete service is1616/1633 bytes,
 multiplicities agree but order/control flow remain open. Thirteen tests pass.
 Source/target/proof scope and physical before/after delta are recorded in
 TH09_NETWORK_INPUT_CONTRACT_20261105.md. No new exact credit follows.
+
+## 2026-11-06 network input selectors are explicitly prepared
+
+Original430EC2 loads ECX from EDI+AC immediately before430EC8 calls42BE40.
+EDI was loaded from current network state4B42D0 at430E98, and packet-ready
+branch430EA6 reaches the selector directly. Original431041 loads ECX=2
+immediately before431046 calls the same input owner. The earlier claim that
+neither caller prepares an index is wrong. The complete original819-byte
+callee ignores the selector, so original nominal C++ arity/name remain unknown.
+Preserving these observed caller values supports the maintained int selector;
+it does not uniquely prove the original declaration.
+
+Restored declaration/definition and both caller arguments replay seven complete
+units3597 bytes/73 fields, including input819/9. Full service remains nonexact
+at1627/1633 bytes,106 fields,1381 unequal overlaps and six missing. All41 direct
+callee multiplicities agree, but ordered calls/control flow do not. The public
+original-bound auditor checks both exact producer/call edges, hashes of both
+complete owners and physical E8 candidates. Nine byte-contract tests reject
+wrong selector/root/field/branch/callee/opcode/extent without asserting source
+spelling. Fresh Ghidra exports attest all685056 mapped bytes. See
+TH09_NETWORK_INPUT_SELECTORS_20261106.md; no new exact or runtime credit.
 
 ## 2026-11-05 Enemy descriptor chronology affects distant branch merging
 

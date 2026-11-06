@@ -48,7 +48,7 @@ extern int g_WindowActivateWParam;
 
 namespace Controller
 {
-u16 __fastcall GetInput()
+u16 __fastcall GetInput(int inputIndex)
 {
     u8 keyboardState[256];
     u16 inputButtons = 0;

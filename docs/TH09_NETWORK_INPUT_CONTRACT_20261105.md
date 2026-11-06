@@ -1,5 +1,12 @@
 # Network input call contract, 2026-11-05
 
+> **Corrected 2026-11-06:** the claim below that neither caller prepares an
+> index is false. Original `0x00430EC2` loads ECX from network state +0xAC;
+> `0x00431041` loads ECX=2, immediately before the respective calls. The
+> maintained selector-bearing interface is restored. See
+> [the fresh target review](TH09_NETWORK_INPUT_SELECTORS_20261106.md).
+> Receipts below describe the historical no-argument source only.
+
 This source continuation follows `06f89ba1`, the native Supervisor input owner.
 Fresh target-attested Ghidra covers the full service430AA0 and input42BE40
 owners; disk/Program, i386, base/entry and all685056 mapped bytes agree.

@@ -11,6 +11,20 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — observed network input selectors restored
+
+Fresh original-byte review corrects the earlier no-prepared-index claim:
+430EC2 loads ECX from current network state+AC and431041 loads ECX=2 before
+the two input calls. Declaration/definition and callers preserve those values;
+the original-equal input body still ignores the selector. Original C++ arity
+remains unproved. Seven affected complete units pass3597 bytes/73 fields under
+their existing profiles. Full service remains nonexact at1627/1633 bytes,
+106 fields,1381 unequal overlaps and six missing; all41 direct-callee
+multiplicities agree. See [the corrected review](TH09_NETWORK_INPUT_SELECTORS_20261106.md).
+Nine target-contract tests guard the observed producer/call edges. No new
+exact credit; totals remain1022 exact/13 nonexact. Full public CI passes1364
+tests with29 skips; target-required tracking/progress/docs/whitespace pass.
+
 ## 2026-11-06 continued main — complete SaveReplay offset context rechecked
 
 Nine fixed-profile source controls recheck the two destination-address transport
@@ -352,6 +366,10 @@ storage. See [the bounded review](TH09_ECL_WIRE_ARGUMENTS_20261105.md).
 Totals stay1019 exact/16 nonexact; this is an operand-model checkpoint.
 
 ## 2026-11-05 continued main — minimal network input interface
+
+**Historical source checkpoint; target interpretation corrected November 6.**
+Both original callers prepare ECX explicitly. See
+[the restored observed interface](TH09_NETWORK_INPUT_SELECTORS_20261106.md).
 
 GetInput's unused source index is removed; both service calls now use its
 minimal no-argument interface. Original body/known direct consumers do not
