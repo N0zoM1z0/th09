@@ -12,6 +12,27 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 6: Effect receiver and actual literal definitions — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `d833f9bd8886b87a739aead5b96b4b95bd10b989`.
+The noncrediting callback diagnostic now validates the actual defined read-only
+ANM filename/NUL. A malformed OBJ formerly passed under an unchanged symbol;
+the new check rejects it without changing any game behavior or canonical recipe.
+Strict36 existing units retain5543 physical bytes/206 fields. A fresh Effect
+object preserves all17 bodies; two unchanged native callee objects are reused.
+Callback51/4/eight remains nonexact. Four reference/instance models preserve60
+repeated exact siblings10120/400; no signature/helper/source model is adopted.
+
+The ignored `.analysis/effect-native-receiver-20261106/source-proof.json` is
+SHA-256 `4b24dce75d5014ef9319d5ee9dd0ddb451ad38720e241cf162e8cb64d365fe50`.
+It binds26 tracked inputs/Git blobs,13 selected providers and nine current/model/
+baseline/fixture objects. Independent replay verifies the full current/model
+comparisons, restored legacy false acceptance, new rejection and all mapped
+Ghidra bytes. Full public CI passes1381 tests/29 skips. No new exact credit;
+totals remain1021 exact/13 nonexact. See
+[the complete review](TH09_EFFECT_RECEIVER_AND_LITERAL_DEFINITIONS_20261106.md).
+
 ## November 6: native Replay stage-header snapshot — local Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

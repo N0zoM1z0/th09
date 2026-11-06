@@ -86,3 +86,27 @@ counterexamples. The final scope selects each actual callee's existing profile.
 Totals remain1034 source-present/1021 exact/13 nonexact. The exact-phase goal
 and Windows product/runtime, semantic and portability gates stay open. This
 checkpoint does not establish Factory acceptance or remote publication.
+
+## Immutable source and regression binding
+
+Source commit `d833f9bd8886b87a739aead5b96b4b95bd10b989` binds26 tracked
+inputs/Git blobs and13 selected compiler/SDK files. The sealed object set has
+three current objects, four source-model objects, the original baseline and
+the explicitly malformed Oracle fixture. The source/control proof SHA-256 is:
+
+`4b24dce75d5014ef9319d5ee9dd0ddb451ad38720e241cf162e8cb64d365fe50`
+
+`python3 -B .analysis/effect-native-receiver-20261106/verify.py` passes an
+independent read-only replay of36 current exact comparisons,17 preserved
+Effect bodies, all four complete models/60 exact siblings, the emitted instance
+projection and all mapped-byte Ghidra ranges. It restores the unmodified legacy
+checker from its immutable Git blob, sets only its repository-root path for
+private replay, reproduces the old malformed-literal acceptance and verifies
+that the new checker rejects that same hashed fixture. No target byte changes.
+
+Cleanup removes57 SHA-identical staged inputs and five disposable PDBs:
+62 files/632437 bytes. All five new compiler objects and the malformed fixture
+remain, along with frozen/changed sources, original baseline, reused native
+objects and setup/recovery evidence. Explicit path/hash receipts resolve each
+removed duplicate to its retained frozen input. This is local source-scoped
+Oracle evidence, not Factory acceptance or remote publication.

@@ -31,6 +31,12 @@ One fresh Effect build preserves all17 regular bodies; two unchanged native
 ANM carriers reuse verified source/profile/object proofs. Strict36 existing
 comparisons5543/206 pass. Counts stay1021/13, the goal and all later gates stay
 open. Completed interrupted work is hash-recovered rather than recompiled.
+Sourced833f9bd binds26 tracked inputs/Git blobs,13 selected providers and the
+current/model/baseline objects plus the explicit malformed Oracle fixture.
+Proof `4b24dce75d5014ef9319d5ee9dd0ddb451ad38720e241cf162e8cb64d365fe50`
+passes independent read-only replay, including old-checker restoration from Git
+and old acceptance/new rejection.57 hashed duplicates and five PDBs are removed,
+62 files/632437 bytes; all five new compiler objects and fixture remain.
 
 ## 2026-11-06 continued main — Native Replay stage-header snapshot
 
