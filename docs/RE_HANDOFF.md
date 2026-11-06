@@ -255,6 +255,16 @@ physical bytes/22 fields) remain exact under their pinned compiler profiles.
 See [shared ANM/Title texture owner](TH09_ANM_TITLE_TEXTURE_CACHE_SHARED_20261106.md).
 No new authored exactness or product/runtime acceptance is claimed.
 
+## 2026-11-06 Player tracking shot-local reference source
+
+The exact Player shot update1/update3/spawn7 callbacks now borrow the actual
+tracking state at Player +0x30364 once, instead of repeating the same opaque
+cast for each tracked vector component. Their complete 471/248/139 byte
+owners all remain original-exact (858 physical bytes total), with unchanged
+call/referent identities. A common inline accessor and Enemy cleanup local
+alias were separately compiled and rejected on complete-owner extent.
+See [borrowed native Player tracking references](TH09_PLAYER_TRACKING_BORROWED_REFERENCES_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

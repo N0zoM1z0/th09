@@ -47,16 +47,15 @@ int __fastcall PlayerShotUpdateCallbackType3(
     {
         float angle;
 
-        if (reinterpret_cast<PlayerEnemyTrackingStateView *>(
-            player->unknown30364)->trackedEnemyPosition00.x >= -144.0f)
+        const PlayerEnemyTrackingStateView &tracking =
+            *reinterpret_cast<PlayerEnemyTrackingStateView *>(player->unknown30364);
+        if (tracking.trackedEnemyPosition00.x >= -144.0f)
         {
             float xDelta =
-                reinterpret_cast<PlayerEnemyTrackingStateView *>(
-                    player->unknown30364)->trackedEnemyPosition00.x -
+                tracking.trackedEnemyPosition00.x -
                 shot->position2A4.x;
             float yDelta =
-                reinterpret_cast<PlayerEnemyTrackingStateView *>(
-                    player->unknown30364)->trackedEnemyPosition00.y -
+                tracking.trackedEnemyPosition00.y -
                 shot->position2A4.y;
 
             if (yDelta == 0.0f && xDelta == 0.0f)

@@ -30,15 +30,15 @@ int __fastcall PlayerShotSpawnCallbackType7(
 {
     if (value == entry->scheduleValue00)
     {
+        PlayerEnemyTrackingStateView &tracking =
+            *reinterpret_cast<PlayerEnemyTrackingStateView *>(player->unknown30364);
         float angle =
             reinterpret_cast<PlayerForwardAngleView *>(player)->AngleFromPlayerToPoint(
                 reinterpret_cast<PlayerForwardAngleFloat3View *>(
-                    &reinterpret_cast<PlayerEnemyTrackingStateView *>(
-                        player->unknown30364)->trackedEnemyPosition00)) +
+                    &tracking.trackedEnemyPosition00)) +
             entry->angle14;
 
-        if (reinterpret_cast<PlayerEnemyTrackingStateView *>(
-            player->unknown30364)->trackedEnemyPosition00.x < -144.0f)
+        if (tracking.trackedEnemyPosition00.x < -144.0f)
             angle = -1.5707964f;
 
         reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
