@@ -31835,3 +31835,25 @@ source and a replayable recipe, but its authored mapping/name/match credit is
 held for review. Current authored totals are1034 present/1021 exact/13 nonexact,
 with38 unresolved origins. No game code or byte-exact proof changes. See
 docs/TH09_ANGLE_ORIGIN_REVIEW_20261106.md.
+
+## 2026-11-06 natural reference reproduces both remaining RunEcl instruction shapes
+
+Actual same-owner reference table definitions select opcode4 at+277, whose
+complete29 relocated bytes equal the original, and opcode155 at+30AE versus
+original+30B0. The latter's45-byte decoded sequence and408750 destination agree;
+its first40 bytes agree, but its relative jump displacement changes with its
+actual address. This is not whole-block/owner exact credit. All598 reference
+fields and six actual literal initializers are now independently bound; the
+old12 unresolved fields are resolved using existing canonical identities and
+the actual15-byte same-object atan2f byte proof. Complete comparison stays4149.
+
+Seven reference refinements and one termination-source-order control retain
+that exact linked candidate. Three current native signed/long field controls
+retain1938 ordinary/202 field/26 table differences, with table a subset of
+field differences. Existing-profile lexical contexts regress15580/598 or
+15576/598, or fail15512/591 with unreviewed CIfmod calls. None is adopted.
+Fresh Ghidra and112 reused source/profile/object code comparisons31883/1460
+support the bounded record; the angle unit's authorship remains under review.
+1277 SHA-identical staged copies are pruned; a restored full reference carrier
+reproduces15564 raw bytes/all598 fields and its complete comparison. See
+docs/TH09_RUNECL_NATURAL_REFERENCE_CONTEXT_20261106.md for both sealed packets.

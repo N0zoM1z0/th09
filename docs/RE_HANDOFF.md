@@ -11,6 +11,22 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Natural RunEcl reference blocks and whole contexts
+
+The actual reference opcode4 block reproduces29 original bytes. Opcode155
+produces the same45-byte instruction sequence, with40 equal bytes before its
+address-dependent jump, but sits two bytes early. Complete reference binding
+now covers all598 fields/six literals and still differs4149 physical bytes.
+Seven reference refinements and a termination-order control retain that whole
+candidate. Lexical and native-type contexts regress or fail the strict
+shape/identity gate; no source is adopted. The maintained owner remains30.
+Fifteen frozen contexts/sixteen objects and a restored complete carrier are
+sealed by `3511c6bc2878f43b41f4786a404abc0c7a5c79a8f6e0d1908192ab63366c4452`.
+112 unchanged code-unit proofs31883/1460 replay without compiler jobs;1277
+hashed duplicate copies are pruned. See
+[the complete-context review](TH09_RUNECL_NATURAL_REFERENCE_CONTEXT_20261106.md).
+Current authored totals remain1021 exact/13 nonexact; the goal stays active.
+
 ## 2026-11-06 continued main — Angle byte proof retained, origin returned to review
 
 The actual pinned SDK atan2f and maintained VectorAngle wrapper independently
