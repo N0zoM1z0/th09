@@ -25,7 +25,13 @@ Only service/caller rebuild. Strict21 existing units4763/223 pass, including
 caller996/92 and receiver808/46;20 unchanged proofs are reused. Forty actual
 caller-local spellings refresh without position/destination changes.43 focused
 tests/173 subtests pass. Totals stay1021/13; goal/later gates remain open.
-Source/control sealing follows the source checkpoint; no Factory/remote claim.
+Source7fa86c3e binds59 tracked inputs/Git blobs,13 selected providers and33
+current/model/baseline objects. Source/control proof
+`9647aac1f8e6bd06676aee0a21fac77c0a1cc788bdc41284142786f7be0420f1`
+passes independent read-only replay of21 current units,all12 controls,the
+unchanged service payload,actual word producer and both mapped-byte attestations.
+Cleanup removes170 hashed duplicates/PDBs1785840 bytes; all14 new objects remain.
+Tracking/progress/docs/whitespace pass. No Factory/remote claim.
 
 ## 2026-11-06 continued main — RunEcl native owner and switch scope
 

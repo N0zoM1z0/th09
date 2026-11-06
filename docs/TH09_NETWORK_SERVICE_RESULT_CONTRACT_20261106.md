@@ -98,3 +98,27 @@ unchanged proofs and Ghidra attestations remain reproducible.
 Counts remain1034 source-present/1021 exact/13 nonexact. There is no new exact,
 product/runtime, semantic, portability, Factory or remote-publication credit.
 The reconstruction goal and those later gates remain open.
+
+## Immutable source and control binding
+
+Source commit `7fa86c3e160f02b0c2b726880a669e9afe07bec0` binds59 tracked inputs/
+Git blobs,13 selected compiler/SDK files and33 current/model/baseline objects.
+The14-input frozen experiment epoch remains separately bound tod2e16ecb.
+The source/control proof SHA-256 is:
+
+`9647aac1f8e6bd06676aee0a21fac77c0a1cc788bdc41284142786f7be0420f1`
+
+The ignored `verify.py` independently replays21 strict current units, the
+complete unchanged service payload, all12 complete original-bound controls,
+the genuine paired word producer and both full mapped-byte attestations. The
+word observer must equal the public reader plus its one explicitly proven
+callee-role identity. Reused unit profiles, transitive inputs and actual object
+memberships are checked against the immutable preceding source proof.
+
+Cleanup removes156 per-file SHA-identical staged inputs and14 disposable PDBs,
+170 files/1785840 bytes. Each removed source resolves to a retained frozen
+input. All14 new compiler objects, changed models and reused baseline/producer
+objects remain. No analysis object or original game input is removed.
+43 focused tests/173 subtests, target-required tracking/progress, documentation
+and whitespace pass. Counts stay1021 exact/13 nonexact; no acceptance transfers
+to the nonexact service or later product/runtime/semantic/port gates.

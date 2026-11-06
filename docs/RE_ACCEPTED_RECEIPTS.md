@@ -12,6 +12,29 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 6: network service result contract — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `7fa86c3e160f02b0c2b726880a669e9afe07bec0`.
+The service and996-byte caller share observed0..4 result names and one unchanged
+int/fastcall declaration. Entire service1627/106/1381-plus6-missing remains
+unchanged. Strict21 existing exact units4763 bytes/223 fields pass, including
+caller996/92 and receiver808/46. Twenty unchanged proofs are reused. Only40
+caller-local spellings refresh at proven unchanged positions/destinations.
+Twelve status/cleanup/input models remain private; no narrow interface or
+return-layout model is adopted. One model has1633 bytes but1279 differences.
+
+The ignored `.analysis/network-service-status-flow-20261106/source-proof.json`
+is SHA-256
+`9647aac1f8e6bd06676aee0a21fac77c0a1cc788bdc41284142786f7be0420f1`.
+It binds59 tracked inputs/Git blobs,13 selected providers and33 objects.
+Independent read-only replay verifies all current comparisons,unchanged service
+payload,all12 complete controls,actual131/1 word producer and both mapped-byte
+Ghidra attestations.43 focused tests/173 subtests plus tracking/progress/docs/
+whitespace pass. Cleanup removes170 hashed duplicates/PDBs while retaining
+all14 new objects. No new exact credit; totals remain1021/13. See
+[the bounded review](TH09_NETWORK_SERVICE_RESULT_CONTRACT_20261106.md).
+
 ## November 6: RunEcl native owner and switch scope — local Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
