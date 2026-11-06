@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "AnmManagerBackgroundView.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
 
@@ -41,8 +42,8 @@ int __fastcall TitleDrawCallback(void *object)
     g_Supervisor.ConfigureGameplayViewport(2);
     if (title->chainState1B238 == 0)
     {
-        *reinterpret_cast<void **>(
-            reinterpret_cast<unsigned char *>(g_AnmManager) + 0x12880) = 0;
+        reinterpret_cast<AnmManagerBackgroundView *>(g_AnmManager)
+            ->currentTexture = NULL;
         g_AnmManager->CopySurfaceToBackbuffer(0, 0, 0, 0, 0);
 
         AnmVm *vm = title->vms11B98;

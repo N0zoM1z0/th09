@@ -1,20 +1,8 @@
 #include "AnmManager.hpp"
 #include "AnmManagerFileSlotView.hpp"
+#include "AnmManagerBackgroundView.hpp"
 
 #include <stddef.h>
-
-struct AnmManagerBackgroundView
-{
-    unsigned int mixColor;
-    int useMixColor;
-    unsigned char unknown008[0x12880 - 0x008];
-    void *currentTexture;
-    unsigned char unknown12884[0x12888 - 0x12884];
-    unsigned char cameraMode;
-};
-
-typedef char AnmBackgroundCameraModeAt12888[
-    (offsetof(AnmManagerBackgroundView, cameraMode) == 0x12888) ? 1 : -1];
 
 static __inline AnmManagerBackgroundView *BackgroundManager(AnmManager *manager)
 {

@@ -246,6 +246,15 @@ validate all 18,121 original physical bytes/846 fields. The nonexact Enemy
 and ChargeAttack original-bound diagnostics remain unchanged. See
 [the native Player transition proof](TH09_PLAYER_TRANSITION_NATIVE_STATE_20261106.md).
 
+## 2026-11-06 ANM native texture cache shared by Title
+
+The original TitleDrawCallback now writes the actual `AnmManager` cached
+texture pointer at +0x12880 through the same typed native prefix as the
+five original-bound ANM background units. Six complete functions (425
+physical bytes/22 fields) remain exact under their pinned compiler profiles.
+See [shared ANM/Title texture owner](TH09_ANM_TITLE_TEXTURE_CACHE_SHARED_20261106.md).
+No new authored exactness or product/runtime acceptance is claimed.
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
