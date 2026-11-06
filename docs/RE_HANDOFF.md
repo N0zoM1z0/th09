@@ -27,7 +27,14 @@ exact leaves pass. Strict116 current units44752/1896 pass after8 field-position-
 verified private spelling refreshes. The main83 affected units retain29856/1389.
 136 focused tests/303 subtests pass after removing one obsolete alias-spelling
 assertion. No byte gate changes. Totals stay1021/13; goal/later gates remain open.
-Source/control sealing follows the source checkpoint; no Factory/remote claim.
+Source1348f5d6 binds137 tracked inputs/Git blobs,38 selected providers and42
+current/model/baseline objects. Source/control proof
+`948bf487b6c0a92ab53f8779296ea8722d4d0320db7eedd50f9a95e0b0caa49a`
+passes independent read-only replay, including the changed alternate owner and
+three genuine unbound setter definitions.166 focused tests/391 subtests and
+target-required tracking/progress/docs/whitespace pass. Cleanup removes783
+hashed duplicates/PDBs7024444 bytes; all11 new objects remain. No Factory/remote
+claim.
 
 ## 2026-11-06 continued main — Enemy stage dataflow and natural source
 

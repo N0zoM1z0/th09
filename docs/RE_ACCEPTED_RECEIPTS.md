@@ -12,6 +12,29 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 6: RunEcl native owner and switch scope — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `1348f5d656997faa05fdb355f4b3b6a656fe78f1`.
+RunEcl uses its actual Enemy parameter and one lexical switch scope. Full main
+15564/598/30 and Enemy3900/97/13 remain nonexact. Strict116 existing units
+retain44752 physical bytes/1896 fields; eight actual owner-local spellings
+refresh at unchanged field positions/destinations. Across two current profiles,
+271 regular bodies are unchanged. The alternate noncanonical RunEcl11980/649
+changes838 raw bytes; its six canonical exact leaves remain exact. This changed
+alternate owner is explicitly separate from original-bound RunEcl equality.
+
+The ignored `.analysis/runecl-schedule-source-20261106/source-proof.json` is
+SHA-256
+`948bf487b6c0a92ab53f8779296ea8722d4d0320db7eedd50f9a95e0b0caa49a`.
+It binds137 tracked inputs/Git blobs,38 selected providers and42 objects.
+Independent read-only replay checks all current payloads, nine complete source
+models/693 exact siblings, three actual unbound setter definitions and both
+mapped-byte Ghidra attestations.166 focused tests/391 subtests plus tracking/
+progress/docs/whitespace pass. Cleanup removes783 hashed duplicates/PDBs while
+retaining all11 new objects. No new exact credit; totals remain1021/13. See
+[the bounded review](TH09_RUNECL_SCOPE_AND_SETTER_CONTEXT_20261106.md).
+
 ## November 6: Enemy stage dataflow and natural source — local Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

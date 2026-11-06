@@ -92,3 +92,29 @@ Evidence is `.analysis/runecl-schedule-source-20261106/`. Counts remain1034
 source-present/1021 exact/13 nonexact. The goal and later Windows product,
 runtime, semantic and port gates remain open. Local source and Oracle results
 do not establish Factory acceptance or remote publication.
+
+## Immutable source and control binding
+
+Source commit `1348f5d656997faa05fdb355f4b3b6a656fe78f1` binds137 tracked
+inputs/Git blobs,38 selected compiler/SDK files and42 current/model/baseline
+objects. The frozen87-input model epoch is separately bound to19bb787c.
+The source/control proof SHA-256 is:
+
+`948bf487b6c0a92ab53f8779296ea8722d4d0320db7eedd50f9a95e0b0caa49a`
+
+The ignored `verify.py` independently replays116 strict current units, all
+271 unchanged body/profile payloads, the explicitly changed alternate RunEcl,
+all nine models/693 exact siblings and both full mapped-byte attestations.
+The three extra setter calls must name actual same-object helper definitions;
+none is assigned an original address. Reused object membership, source closure
+and profile are checked against the immutable preceding proof. Historical
+model/private-label receipts use their original manifest epoch; current public
+replay uses actual refreshed labels and positions.
+
+Cleanup removes772 per-file SHA-identical model inputs and11 disposable PDBs,
+783 files/7024444 bytes. Every removed input resolves to its retained frozen
+copy. All11 new compiler objects and changed source models remain. The stopped
+drivers, completed-object recovery and initial source-spelling test failure
+are retained separately from compiler results. Target-required tracking,
+progress, documentation and whitespace pass. Totals remain1021 exact/13
+nonexact; this is local source-scoped evidence, without new exact credit.
