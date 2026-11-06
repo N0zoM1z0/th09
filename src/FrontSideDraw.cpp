@@ -22,6 +22,16 @@ struct FrontSideDrawVmCursor
 };
 typedef char FrontSideDrawVmCursorSizeIs2A4[
     (sizeof(FrontSideDrawVmCursor) == 0x2A4) ? 1 : -1];
+// The source loops over the native VM allocation using a cursor based at
+// its +0x208 position member; the second coordinate lies +0x80 after it.
+// Keep the original +0x2A4 stride without a second independent VM layout.
+typedef char FrontSideDrawNativePositionCursor[
+    (sizeof(AnmVm) == sizeof(FrontSideDrawVmCursor) &&
+     offsetof(AnmVm, pos) == 0x208 &&
+     offsetof(AnmVm, pos2) == 0x288 &&
+     offsetof(FrontSideDrawVmCursor, pos80) == 0x80 &&
+     offsetof(AnmVm, pos2) - offsetof(AnmVm, pos) ==
+         offsetof(FrontSideDrawVmCursor, pos80)) ? 1 : -1];
 
 struct FrontSideDrawPlayerView
 {
@@ -69,9 +79,9 @@ typedef char FrontSideDrawVertexSizeIs14[
 // These are layout casts, not calls in the target. Keep the expressions visible
 // even when diagnosing the target's non-inlined vertex-array construction.
 #define FRONT_SIDE_DRAW_CURSOR(vm) \
-    reinterpret_cast<FrontSideDrawVmCursor *>(reinterpret_cast<u8 *>(vm) + 0x208)
+    reinterpret_cast<FrontSideDrawVmCursor *>(&((vm)->pos))
 #define FRONT_SIDE_DRAW_BASE(cursor) \
-    reinterpret_cast<AnmVm *>(reinterpret_cast<u8 *>(cursor) - 0x208)
+    reinterpret_cast<AnmVm *>(reinterpret_cast<u8 *>(cursor) - offsetof(AnmVm, pos))
 #define FRONT_SIDE_DRAW_SIDE(side) \
     reinterpret_cast<FrontSideDrawSideView *>((side)->sideStateA670)
 

@@ -126,6 +126,13 @@ as `ReadAnmEntries`. Focused current-source VC7.1 replay passes all 22 exact
 Background, Load and constructor units in their existing profiles; no authored
 exact total changes. See [ANM shared slot evidence](TH09_ANM_SHARED_FILE_SLOT_20261106.md).
 
+## 2026-11-06 FrontSide native ANM position cursor
+
+The entire 3,094-byte FrontSide OnDraw remains original-exact while its
+cursor now uses the native `AnmVm::pos +0x208` and `pos2 +0x288` members.
+Direct unshifted VM iteration regressed to 3,127 bytes and was rejected.
+See [FrontSide native VM cursor](TH09_FRONTSIDE_NATIVE_VM_CURSOR_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
