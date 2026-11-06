@@ -31931,3 +31931,18 @@ current21-input Title closure is joined to36002b4b, while the three unchanged
 ANM provider proofs retain their17a17736 binding;44 read-only comparisons pass
 19583/978. See TH09_TITLE_RESULT_NATIVE_ANM_20261106.md for the sealed three
 controls, reused complete reference and60 hashed duplicate copies pruned.
+
+## 2026-11-06 SetSeed's word access does not uniquely imply a word parameter
+
+The current unsigned-short setter and a coherent unsigned-int definition both
+produce every original420160..42016D byte. The wider form matches under both
+existing Replay profiles; assigning to the16-bit seed member retains the same
+machine word access. A two-byte decompiler projection is therefore not unique
+source-width evidence. The maintained interface remains unsigned short.
+Both complete wider-setter callers and read-only-frame-header callers retain
+538/32/39 plus two missing bytes in both profiles. All28 complete sibling
+comparisons8225/464 pass without private label migration. Fresh caller/setter/
+creator Ghidra attests all685056 mapped bytes, and original4216F5 contains the
+installed callback420840 at creator+85. See TH09_REPLAY_SEED_WIDTH_20261106.md
+for the six actual objects, baseline398b69e4 code binding and independent seal.
+23 hashed duplicate copies are pruned. No code/interface adoption or new credit.

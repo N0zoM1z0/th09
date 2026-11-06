@@ -11,6 +11,23 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Playback setter width is not a unique source type
+
+A coherent unsigned-int SetSeed declaration/definition matches all14 original
+bytes in both existing Replay profiles, as does the maintained unsigned-short
+interface. The original word access does not uniquely determine formal width.
+Both wider-setter callers and read-only frame-header callers retain every
+538-byte raw instruction and32 identities:39 unlike overlaps plus two missing.
+Six actual objects pass28 complete sibling comparisons8225/464, with no private
+label changes. Fresh Ghidra covers caller/setter/creator and all mapped bytes;
+original4216F5 independently records the installed420840 callback. No source or
+interface is adopted. See [the width review](TH09_REPLAY_SEED_WIDTH_20261106.md).
+Seal `04cd6f55ae6aafe0f9971de6f2e088d45774a79932791ae179ae829b015f19f2`;
+23 hashed copies are pruned. Code remains398b69e4 and1021 exact/13 nonexact;
+the goal stays active. 35 focused tracking/progress/origin/documentation tests
+pass. Nine probe PDBs across the Replay and Title packets are removed by
+path/SHA; all nine new objects remain.
+
 ## 2026-11-06 continued main — Title result tests actual caller/callee scope
 
 The complete pinned reference is483/34/224 plus two missing bytes. Removing
