@@ -173,6 +173,13 @@ comparisons. Only two compiler-local original-identity labels changed names.
 See [the ECL and Enemy source evidence](TH09_ECL_BULLET_NATIVE_WIRE_AND_ENEMY_COPY_20261106.md).
 No new exact bytes are claimed.
 
+## 2026-11-06 Title draw native VM rotation
+
+The exact 329-byte TitleDrawCallback uses the native animation VM
+`rotation.z` instead of a raw `vm + 0x08` cast; all 20 original-bound
+fields remain unchanged. See
+[the title native VM member check](TH09_TITLE_DRAW_NATIVE_VM_ROTATION_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

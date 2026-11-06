@@ -29,6 +29,10 @@ typedef char TitleDrawScreenAt1B228[
     (offsetof(TitleDrawView, currentScreen1B228) == 0x1B228) ? 1 : -1];
 typedef char TitleDrawChainStateAt1B238[
     (offsetof(TitleDrawView, chainState1B238) == 0x1B238) ? 1 : -1];
+// The draw branch checks native VM rotation.z, not an unrelated float at
+// a manually computed +0x08 byte offset.
+typedef char TitleDrawNativeVmRotationZAt08[
+    (offsetof(AnmVmBase, rotation) + offsetof(Float3, z) == 0x08) ? 1 : -1];
 
 int __fastcall TitleDrawCallback(void *object)
 {
@@ -51,8 +55,7 @@ int __fastcall TitleDrawCallback(void *object)
 
                 // Equivalent source comparison; the target schedules Draw2D
                 // first and DrawNoRotation on the other branch.
-                if (*reinterpret_cast<float *>(
-                        reinterpret_cast<unsigned char *>(vm) + 0x08) != 0.0f)
+                if (vm->rotation.z != 0.0f)
                     g_AnmManager->Draw2D(vm);
                 else
                     g_AnmManager->DrawNoRotation(vm);
