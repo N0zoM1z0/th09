@@ -192,7 +192,18 @@ class AnmManager
 
     unsigned char unknown000024[0x12064 - 0x24];
     AnmVm managerVm12064;
-    unsigned char unknown12308[0x12894 - 0x12308];
+    // These native device-state words are independently used by render,
+    // background and vertex-buffer owners; they share this same allocation.
+    unsigned char unknown12308[0x1287C - 0x12308];
+    unsigned long currentTextureFactor1287C;
+    void *currentTexture12880;
+    unsigned char currentBlendMode12884;
+    unsigned char unknown12885;
+    unsigned char currentVertexShader12886;
+    unsigned char disableZWrite12887;
+    unsigned char cameraMode12888;
+    unsigned char unknown12889[0x12890 - 0x12889];
+    void *quadVertexBuffer12890;
     ManagerDiffuseVertexStorage untexturedVertices12894[4];
     int spritesToDraw128E4;
     ManagerTexturedVertexStorage vertexStorage128E8[0x18000];

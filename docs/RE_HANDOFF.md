@@ -133,6 +133,15 @@ cursor now uses the native `AnmVm::pos +0x208` and `pos2 +0x288` members.
 Direct unshifted VM iteration regressed to 3,127 bytes and was rejected.
 See [FrontSide native VM cursor](TH09_FRONTSIDE_NATIVE_VM_CURSOR_20261106.md).
 
+## 2026-11-06 ANM constructor native render fields
+
+`AnmManager::AnmManager` now directly initializes the typed native render
+state at +0x1287C..+0x12890 and its existing +0x2B28F0 tail field. The
+341-byte constructor and the other 16 exact same-source functions still match
+all 3,258 original physical bytes. See
+[the ANM native-constructor proof](TH09_ANM_CONSTRUCTOR_NATIVE_RENDER_STATE_20261106.md).
+No new authored exact bytes were added.
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

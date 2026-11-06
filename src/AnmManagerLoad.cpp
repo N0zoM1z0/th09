@@ -611,6 +611,19 @@ int AnmManager::ServicePreloadedAnims()
 
 AnmManager::AnmManager()
 {
+    // This is the actual Manager allocation used by the vertex/render TUs.
+    // Verify every newly typed native state member against the original PE
+    // addresses before trusting the constructor's normal C++ member writes.
+    typedef char NativeCtorRenderStateOffsets[
+        (offsetof(AnmManager, currentTextureFactor1287C) == 0x1287C &&
+         offsetof(AnmManager, currentTexture12880) == 0x12880 &&
+         offsetof(AnmManager, currentBlendMode12884) == 0x12884 &&
+         offsetof(AnmManager, unknown12885) == 0x12885 &&
+         offsetof(AnmManager, currentVertexShader12886) == 0x12886 &&
+         offsetof(AnmManager, disableZWrite12887) == 0x12887 &&
+         offsetof(AnmManager, cameraMode12888) == 0x12888 &&
+         offsetof(AnmManager, quadVertexBuffer12890) == 0x12890 &&
+         offsetof(AnmManager, field2B28F0) == 0x2B28F0) ? 1 : -1];
     memset(this, 0, sizeof(*this));
 
     g_AnmUntexturedQuad[0].u = 0.0f;
@@ -640,16 +653,16 @@ AnmManager::AnmManager()
     g_AnmRenderQuad[3].v = 1.0f;
 
     unsigned char *self = reinterpret_cast<unsigned char *>(this);
-    *reinterpret_cast<void **>(self + 0x12890) = NULL;
-    *reinterpret_cast<void **>(self + 0x12880) = NULL;
-    self[0x12884] = 0;
-    self[0x12885] = 0;
-    self[0x12886] = 0;
-    self[0x12887] = 0;
-    *reinterpret_cast<int *>(self + 0x2B28F0) = -1;
+    quadVertexBuffer12890 = NULL;
+    currentTexture12880 = NULL;
+    currentBlendMode12884 = 0;
+    unknown12885 = 0;
+    currentVertexShader12886 = 0;
+    disableZWrite12887 = 0;
+    field2B28F0 = -1;
     *reinterpret_cast<int *>(self + 0x08) = -1;
-    *reinterpret_cast<int *>(self + 0x1287C) = 1;
-    self[0x12888] = 0xFF;
+    currentTextureFactor1287C = 1;
+    cameraMode12888 = 0xFF;
 }
 
 struct D3DXIMAGE_INFO
