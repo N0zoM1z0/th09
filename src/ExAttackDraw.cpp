@@ -29,6 +29,12 @@ struct ExAttackDrawRecordView
 
 typedef char ExAttackDrawRecordSizeIs4C[
     (sizeof(ExAttackDrawRecordView) == 0x4C) ? 1 : -1];
+// ExAttack's draw callbacks iterate actual AnmVm[vmCount2C] records.
+// The former raw +0x1FC probe is AnmVmBase::type in this same 0x2A4 VM.
+typedef char ExAttackNativeVmTypeAndStride[
+    (offsetof(ExAttackDrawRecordView, vms1C) == 0x1C &&
+     offsetof(AnmVmBase, type) == 0x1FC &&
+     sizeof(AnmVm) == 0x2A4) ? 1 : -1];
 
 struct ExAttackDrawControllerView
 {
@@ -58,29 +64,26 @@ int ExAttackController::OnDraw0(ExAttackController *controller)
             int vmIndex = 0;
             if (record->vmCount2C > 0)
             {
-                int vmOffset = 0;
                 do
                 {
-                    if (*reinterpret_cast<unsigned short *>((reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset) + 0x1FC) != 0)
+                    if (record->vms1C[vmIndex].type != 0)
                     {
-                        reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->
-                            SetZRotation(record->rotation3C);
+                        record->vms1C[vmIndex].SetZRotation(record->rotation3C);
                     }
 
-                    reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->pos.x =
+                    record->vms1C[vmIndex].pos.x =
                         g_GameManager.TransformPopupX(
-                            reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->pos2.x +
+                            record->vms1C[vmIndex].pos2.x +
                             record->position20.x);
-                    reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->pos.y =
+                    record->vms1C[vmIndex].pos.y =
                         g_GameManager.TransformPopupY(
-                            reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->pos2.y +
+                            record->vms1C[vmIndex].pos2.y +
                             record->position20.y);
-                    reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->pos.z = 0.06f;
+                    record->vms1C[vmIndex].pos.z = 0.06f;
                     g_AnmManager->Draw2D(
-                        reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset));
+                        &record->vms1C[vmIndex]);
 
                     ++vmIndex;
-                    vmOffset += sizeof(AnmVm);
                 }
                 while (vmIndex < record->vmCount2C);
             }
@@ -111,27 +114,24 @@ int ExAttackController::OnDraw1(ExAttackController *controller)
         int vmIndex = 0;
         if (record->vmCount2C > 0)
         {
-            int vmOffset = 0;
             do
             {
-                if (*reinterpret_cast<unsigned short *>((reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset) + 0x1FC) != 0)
+                if (record->vms1C[vmIndex].type != 0)
                 {
-                    reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->
-                        SetZRotation(record->rotation3C);
+                    record->vms1C[vmIndex].SetZRotation(record->rotation3C);
                 }
 
-                reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->pos.x =
-                    reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->pos2.x +
+                record->vms1C[vmIndex].pos.x =
+                    record->vms1C[vmIndex].pos2.x +
                     record->position20.x;
-                reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->pos.y =
-                    reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->pos2.y +
+                record->vms1C[vmIndex].pos.y =
+                    record->vms1C[vmIndex].pos2.y +
                     record->position20.y;
-                reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset)->pos.z = 0.06f;
+                record->vms1C[vmIndex].pos.z = 0.06f;
                 g_AnmManager->Draw2D(
-                    reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(record->vms1C) + vmOffset));
+                    &record->vms1C[vmIndex]);
 
                 ++vmIndex;
-                vmOffset += sizeof(AnmVm);
             }
             while (vmIndex < record->vmCount2C);
         }

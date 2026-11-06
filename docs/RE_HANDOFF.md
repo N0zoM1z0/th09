@@ -227,6 +227,15 @@ label names were verified against unchanged original destinations.
 See [native PlayerRuntime source proof](TH09_PLAYER_RUNTIME_NATIVE_MOVEMENT_VM_20261106.md).
 These were previously exact functions; no new match credit.
 
+## 2026-11-06 ExAttack native VM draw loops
+
+OnDraw0 (286 bytes/9 fields) and OnDraw1 (193/5) now use actual
+`AnmVm[vmIndex]` subobjects and `AnmVmBase::type` instead of manually adding
+VM stride/0x1FC offsets. Both remained fully target-exact under the pinned
+compiler; the independent 318-byte Type19/21 draw is also exact. This is
+real C++ source ownership progress, not new exact function count.
+See [ExAttack native VM draw loops](TH09_EXATTACK_NATIVE_VM_ARRAY_DRAWS_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
