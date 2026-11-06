@@ -128,9 +128,9 @@ class GameManagerColdRegression(unittest.TestCase):
         # the ten canonical full-owner exact GameManager callbacks.
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
-            'target_bytes': 1689, 'candidate_bytes': 1689,
-            'target_instructions': 413, 'candidate_instructions': 416,
-            'original_fields': 172, 'bound_fields': 171,
+            'target_bytes': 1689, 'candidate_bytes': 1682,
+            'target_instructions': 413, 'candidate_instructions': 413,
+            'original_fields': 172, 'bound_fields': 172,
             'ordered_calls': 35, 'candidate_calls': 35,
             'ordered_calls_agree': True,
             'native_replay_calls': [
@@ -145,62 +145,41 @@ class GameManagerColdRegression(unittest.TestCase):
                 dict(unit=unit, symbol=symbol, target=target, count=count)
                 for unit, symbol, target, count in (
                     ('background-create', '?Create@Background@@SIPAU1@H@Z', 0x403AE0, 1),
-                    ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z', 0x41F170, 1),
+                    ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@HHH@Z', 0x41F170, 1),
                     ('etama-controller-register', '?Register@EtamaController@@SIPAU1@H@Z', 0x4150D0, 1),
                     ('effect-manager-create', '?Create@EffectManager@@SIPAU1@HHH@Z', 0x40D320, 2),
                     ('enemy-manager-create', '?Create@EnemyManagerView@@SIPAU1@H@Z', 0x412240, 1),
                     ('card-attack-create', '?Create@CardAttack@@SIPAU1@H@Z', 0x404600, 1),
                     ('front-side-create', '?Create@FrontSide@@SIPAU1@H@Z', 0x41A5D0, 1),
                     ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 1))],
-            'original_blocks': 78, 'candidate_blocks': 77,
+            'original_blocks': 78, 'candidate_blocks': 78,
             'direct_graphs_agree': False,
-            'aligned_field_identities': 164,
-            'field_change_spans': 15,
+            'aligned_field_identities': 171,
+            'field_change_spans': 2,
             'original_only_field_referents': [dict(type=t, address=a, count=n)
                 for t,a,n in boss.GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS],
             'source_only_field_referents': [dict(type=t, address=a, count=n)
                 for t,a,n in boss.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS],
-            'aligned_instructions': 393,
+            'aligned_instructions': 412,
             'target_sha256': boss.GAMEPLAY_SETUP_TARGET_SHA,
             'difference_offsets': [i for i in range(1689) if
                 boss.GAMEPLAY_SETUP_RESIDUAL_MASK[i // 8] & (1 << (i % 8))],
-            'overlap_differences': 904,
+            'overlap_differences': 694,
             'complete_bytes_equal': False,
+        'missing_target_bytes': 7, 'extra_candidate_bytes': 0,
         }
 
-    def test_gameplay_setup_exact_172_vs_171_original_referents(self):
+    def test_gameplay_setup_all172_original_referents_and_multiplicities_agree(self):
         example = self.evidence()
-        self.assertEqual(boss.GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS, (
-            ('DIR32', 0x4A7D90, 3), ('DIR32', 0x4A7DC4, 1),
-            ('DIR32', 0x4A7E34, 1)))
-        self.assertEqual(boss.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS, (
-            ('DIR32', 0x4A7DB8, 1), ('DIR32', 0x4A7E28, 1),
-            ('DIR32', 0x4A7E44, 2)))
+        self.assertEqual(boss.GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS, ())
+        self.assertEqual(boss.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS, ())
         boss.guard_gameplay_setup_field_referents(example)
-        # A real improvement may reconcile a target-only and a candidate-only
-        # memory referent without changing total field counts or calls.
-        improved = {**example,
-            'original_only_field_referents': [dict(type='DIR32',address=0x4A7D90,count=2),
-                *example['original_only_field_referents'][1:]],
-            'source_only_field_referents': [*example['source_only_field_referents'][:-1],
-                dict(type='DIR32',address=0x4A7E44,count=1)]}
-        boss.guard_gameplay_setup_field_referents(improved)
-        for change in (
-            {'original_only_field_referents': []},
-            {'source_only_field_referents': []},
-            {'original_only_field_referents': None},
-            {'original_only_field_referents': example['original_only_field_referents'][::-1]},
-            {'original_only_field_referents': example['original_only_field_referents'] +
-             [dict(type='DIR32',address=0x4A7DCC,count=1)]},
-            {'source_only_field_referents': example['source_only_field_referents'][:-1] +
-             [dict(type='DIR32',address=0x4A7E44,count=3)]},
-            {'source_only_field_referents': example['source_only_field_referents'][:-1] +
-             [dict(type='REL32',address=0x4A7E44,count=2)]},
-            {'source_only_field_referents': [dict(type='DIR32',address='0x4A7DB8',count=1)] +
-             example['source_only_field_referents'][1:]},
-        ):
-            with self.subTest(change=change), self.assertRaises(RuntimeError):
-                boss.guard_gameplay_setup_field_referents({**example, **change})
+        for field in ('original_only_field_referents', 'source_only_field_referents'):
+            for value in (None, [dict(type='DIR32', address=0x4A7D90, count=1)],
+                          [dict(type='DIR32', address=0x4A7E44, count=2)],
+                          [dict(type='DIR32', address='0x4A7D90', count=1)]):
+                with self.subTest(field=field, value=value), self.assertRaises(RuntimeError):
+                    boss.guard_gameplay_setup_field_referents({**example, field:value})
 
     @staticmethod
     def cleanup_evidence():
@@ -252,7 +231,7 @@ class GameManagerColdRegression(unittest.TestCase):
                 boss, 'parsed', side_effect=[self.evidence(), self.cleanup_evidence()]), patch.object(
                 boss, 'canonical', side_effect=lambda unit: {'unit':unit}) as canonical:
             owners, exact = boss.run_game_manager(protect_exact=True)
-        self.assertEqual(owners['gameplay_setup_thread']['bound_fields'],171)
+        self.assertEqual(owners['gameplay_setup_thread']['bound_fields'],172)
         self.assertEqual(owners['game_manager_cleanup']['candidate_bytes'],425)
         self.assertFalse(owners['gameplay_setup_thread']['direct_graphs_agree'])
         self.assertEqual(len(exact),16)
@@ -282,7 +261,7 @@ class GameManagerColdRegression(unittest.TestCase):
                 boss, 'canonical', side_effect=lambda name: {'unit': name}) as canonical:
             owners, exact = boss.run_game_manager(
                 protect_exact=True, replay_callees_prechecked=True)
-        self.assertEqual(owners['gameplay_setup_thread']['ordinary_differences'], 904)
+        self.assertEqual(owners['gameplay_setup_thread']['ordinary_differences'], 694)
         self.assertEqual(len(exact), 13)
         self.assertEqual(exact[-1]['unit'], 'game-manager-select-opponent')
         self.assertNotIn('replay-manager-create', [r['unit'] for r in exact])
@@ -308,9 +287,9 @@ class GameManagerColdRegression(unittest.TestCase):
         for change in (
                 {'target_bytes':1688}, {'candidate_bytes':1812},
                 {'target_instructions':412}, {'original_fields':171},
-                {'bound_fields':172}, {'ordered_calls':34},
+                {'bound_fields':171}, {'ordered_calls':34},
                 {'candidate_calls':34}, {'ordered_calls_agree':False},
-                {'original_blocks':77}, {'candidate_blocks':78},
+                {'original_blocks':77}, {'candidate_blocks':77},
                 {'aligned_field_identities':154},
                 {'diagnostic_only':False}, {'exactness_credit':'accepted'}):
             with self.subTest(change=change), patch.object(

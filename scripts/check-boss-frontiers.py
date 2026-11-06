@@ -2431,21 +2431,11 @@ def run_effect(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 
 GAMEPLAY_SETUP_TARGET_SHA = '8dc5dd11495f34c6b1998653e0094195d6d891fff374d403750141e9936f0d6a'
 
-# Independent physical target/source referent MULTISETS (not merely code
-# offsets). All 35 callee identities are equal; the residual entries are
-# genuine GameManager storage cursor/reload roles. Target-only 5 vs source-only
-# 4 explains the outstanding 172-vs-171 field count. Preserve the ability to
-# narrow these gaps; forbid unexplained NEW wrong referents.
-GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS = (
-    ('DIR32', 0x004A7D90, 3),
-    ('DIR32', 0x004A7DC4, 1),
-    ('DIR32', 0x004A7E34, 1),
-)
-GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS = (
-    ('DIR32', 0x004A7DB8, 1),
-    ('DIR32', 0x004A7E28, 1),
-    ('DIR32', 0x004A7E44, 2),
-)
+# All172 original/source effective referents now agree, including their
+# multiplicities. Old missing root reloads/loop anchors and extra rank stores
+# are closed. Any new unmatched destination is a regression.
+GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS = ()
+GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS = ()
 
 
 def guard_gameplay_setup_field_referents(result: dict) -> None:
@@ -2472,7 +2462,7 @@ def guard_gameplay_setup_field_referents(result: dict) -> None:
         if any((t, a) not in ceiling or n > ceiling[(t, a)] for t, a, n in values):
             raise RuntimeError('GameplaySetupThread new incorrect original/codegen field referent')
         readings.append(sum(n for _, _, n in values))
-    # The original 172-field inventory and source 171-field inventory are
+    # The original and source172-field inventories are
     # checked elsewhere; their multiset-count difference must ALSO balance.
     if readings[0] - readings[1] != result.get('original_fields', 0) - result.get('bound_fields', 0):
         raise RuntimeError('GameplaySetupThread referent multiset count does not reconcile')
@@ -2484,12 +2474,12 @@ def guard_gameplay_setup_field_referents(result: dict) -> None:
 # A future improvement may clear bits, never change already equal bytes.
 GAMEPLAY_SETUP_RESIDUAL_MASK = bytes.fromhex(
     '0000000000000000000000000000000000000000000000000000000000000000'
-    '0000000000000000000000000000000000000000000000000000000800000010'
-    'c0fffffffffffffffffffefffffffffffffffffffffffffffffffffdffffffff'
-    'ffffffffffbfffffffffffffffffffffffff7ffffffffffffeffeffffffddf9f'
-    '20088078eeffffffffffffbffffffffffffddfffffffffbfffffffffff3df7f7'
-    '7ffff73fffbffffffffb0f000000000000000000000000fefffff7bdef7defff'
-    'ffffffffff170000000000000000000000000000'
+    '0000000000000000000000000000000000000000000000000000000000000000'
+    '0000000000000000000000000000000000000000000000000000020000000000'
+    '0800000400100000200080000002000800000000000800f8ffffffffffffdfff'
+    'fffeeffffe6fbe7defffffffffffdff77ffff77fffdffffffffdfffff9fdfdff'
+    'fbbffffffebffffffffffffffbdffffeefffbf5fefffffff9fff7ffffbdffffd'
+    'ffffffffffffbffffffffffffffffff7ffff0300'
 )
 
 
@@ -2501,40 +2491,44 @@ def guard_gameplay_setup_thread(result: dict) -> None:
     inspect-gameplay-setup.py. Neither a close match nor zero local residuals
     bypasses the separate canonical, source-commit-bound exactness workflow.
     """
-    noncrediting(result, name='Gameplay setup thread', target_size=1689, fields=171)
+    noncrediting(result, name='Gameplay setup thread', target_size=1689, fields=172)
     differences = result.get('difference_offsets')
     count = result.get('overlap_differences')
     if (result.get('target_sha256') != GAMEPLAY_SETUP_TARGET_SHA or
             len(GAMEPLAY_SETUP_RESIDUAL_MASK) != 212 or
-            sum(bin(x).count('1') for x in GAMEPLAY_SETUP_RESIDUAL_MASK) != 904 or
-            result.get('candidate_bytes') != 1689 or
+            sum(bin(x).count('1') for x in GAMEPLAY_SETUP_RESIDUAL_MASK) != 694 or
+            result.get('candidate_bytes') != 1682 or
+            type(result.get('missing_target_bytes')) is not int or
+            result['missing_target_bytes'] != 7 or
+            type(result.get('extra_candidate_bytes')) is not int or
+            result['extra_candidate_bytes'] != 0 or
             result.get('target_instructions') != 413 or
-            result.get('candidate_instructions') != 416 or
+            result.get('candidate_instructions') != 413 or
             result.get('original_fields') != 172 or
             result.get('ordered_calls') != 35 or
             result.get('candidate_calls') != 35 or
             result.get('ordered_calls_agree') is not True or
             result.get('original_blocks') != 78 or
-            result.get('candidate_blocks') != 77 or
+            result.get('candidate_blocks') != 78 or
             result.get('direct_graphs_agree') is not False or
             type(result.get('aligned_field_identities')) is not int or
-            result['aligned_field_identities'] < 164 or
+            result['aligned_field_identities'] < 171 or
             type(result.get('field_change_spans')) is not int or
-            not 0 <= result['field_change_spans'] <= 15 or
+            not 0 <= result['field_change_spans'] <= 2 or
             type(result.get('aligned_instructions')) is not int or
-            # The genuine byte player-type parameter emits XOR CL,CL in an
-            # already unlike physical position. The full785-byte match guard
-            # above stays unchanged; instruction correspondence is diagnostic.
-            result['aligned_instructions'] < 393 or
-            type(count) is not int or not 0 <= count <= 904 or
-            result.get('complete_bytes_equal') is not (count == 0) or
+            # The current coherent int producer/caller restores full ECX
+            # zeroing. Instruction correspondence never substitutes for the
+            # whole physical overlap and seven missing original bytes.
+            result['aligned_instructions'] < 412 or
+            type(count) is not int or not 0 <= count <= 694 or
+            result.get('complete_bytes_equal') is not False or
             not isinstance(differences, list) or len(differences) != count or
-            any(type(i) is not int or not 0 <= i < 1689
+            any(type(i) is not int or not 0 <= i < 1682
                 for i in differences) or
             differences != sorted(set(differences)) or
             any(not (GAMEPLAY_SETUP_RESIDUAL_MASK[i // 8] & (1 << (i % 8)))
                 for i in differences)):
-        raise RuntimeError('GameplaySetupThread 1689-byte/171-field/35-call/904-residual frontier drifted')
+        raise RuntimeError('GameplaySetupThread 1682-byte/172-field/35-call/694-plus-seven-missing frontier drifted')
     if result.get('native_replay_calls') != [
             dict(symbol='?Create@ReplayManagerView@@SIPAU1@HPBD@Z',
                  target=0x421670, count=2),
@@ -2552,7 +2546,7 @@ def guard_gameplay_setup_thread(result: dict) -> None:
             dict(unit=unit, symbol=symbol, target=target, count=count)
             for unit, symbol, target, count in (
                 ('background-create', '?Create@Background@@SIPAU1@H@Z', 0x403AE0, 1),
-                ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z', 0x41F170, 1),
+                ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@HHH@Z', 0x41F170, 1),
                 ('etama-controller-register', '?Register@EtamaController@@SIPAU1@H@Z', 0x4150D0, 1),
                 ('effect-manager-create', '?Create@EffectManager@@SIPAU1@HHH@Z', 0x40D320, 2),
                 ('enemy-manager-create', '?Create@EnemyManagerView@@SIPAU1@H@Z', 0x412240, 1),
@@ -2608,13 +2602,13 @@ def run_game_manager(*, protect_exact: bool,
                'game-manager-format-current-date')
     build('game-manager-on-update')
     owners = [canonical('game-manager-on-update')]
-    # This 1,689-byte worker must use *the same /Os build* as the newly
-    # accepted large callback. The no-/Os supervisor capture profile yields
-    # an unrelated 1,812-byte candidate and private switch symbols.
+    # The worker compares its complete1682-byte /Os candidate against all1689
+    # original bytes, including seven missing bytes. The loading sibling
+    # intentionally uses a separately compiled no-/Os profile.
     gameplay = noncrediting(parsed(['scripts/inspect-gameplay-setup.py',
                                     'build/matching/GameManagerSetup.obj', '--json']),
                            name='Gameplay setup thread', target_size=1689,
-                           fields=171)
+                           fields=172)
     guard_gameplay_setup_thread(gameplay)
     diagnostics = {'gameplay_setup_thread': {
         'target_bytes': 1689, 'candidate_bytes': gameplay['candidate_bytes'],
@@ -2629,6 +2623,8 @@ def run_game_manager(*, protect_exact: bool,
         'source_only_field_referents': gameplay['source_only_field_referents'],
         'aligned_field_identities': gameplay['aligned_field_identities'],
         'ordinary_differences': gameplay['overlap_differences'],
+        'missing_target_bytes': gameplay['missing_target_bytes'],
+        'extra_candidate_bytes': gameplay['extra_candidate_bytes'],
         'direct_graphs_agree': gameplay['direct_graphs_agree'],
     }}
     cleanup = guard_game_manager_cleanup(parsed([

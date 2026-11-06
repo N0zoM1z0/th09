@@ -699,58 +699,57 @@ void __fastcall GameplaySetupThread(void *unused)
     GameManagerSetupLayout &globalManager =
         *reinterpret_cast<GameManagerSetupLayout *>(&g_GameManager);
 
-    GameManagerSetupLayout *manager = &globalManager;
     SupervisorSetupLayout *supervisor = reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
     unsigned int previousMode;
     int sideIndex;
 
     (void)unused;
 
-    ResetGameManager(manager);
+    ResetGameManager(&globalManager);
     FormatCurrentDateString(g_ReplayPlayTimeText);
 
-    manager->flags |= 4;
-    manager->flags &= ~0x1800u;
-    manager->value374 = -1;
-    previousMode = manager->gameMode;
-    manager->valueD0 = 0;
-    manager->value348 = 0;
-    manager->stageStartupMode = 1;
-    manager->instructionMask120 = 0xff;
-    manager->valueB8 = 2;
-    manager->valueCC = 0;
-    manager->valueC0 = 0;
-    manager->demoFrameCount = 0;
-    manager->value100 = 0;
-    manager->value104 = (previousMode == 2) + 1;
-    manager->flags &= ~0x4000u;
-    manager->value108 = 0;
-    manager->value10C = 0;
+    globalManager.flags |= 4;
+    globalManager.flags &= ~0x1800u;
+    globalManager.value374 = -1;
+    previousMode = globalManager.gameMode;
+    globalManager.valueD0 = 0;
+    globalManager.value348 = 0;
+    globalManager.stageStartupMode = 1;
+    globalManager.instructionMask120 = 0xff;
+    globalManager.valueB8 = 2;
+    globalManager.valueCC = 0;
+    globalManager.valueC0 = 0;
+    globalManager.demoFrameCount = 0;
+    globalManager.value100 = 0;
+    globalManager.value104 = (previousMode == 2) + 1;
+    globalManager.flags &= ~0x4000u;
+    globalManager.value108 = 0;
+    globalManager.value10C = 0;
 
-    if ((manager->flags & 8) == 0)
+    if ((globalManager.flags & 8) == 0)
     {
         if (supervisor->flags & 0x200)
         {
-            memset(manager->clearD8, 0, sizeof(manager->clearD8));
+            memset(globalManager.clearD8, 0, sizeof(globalManager.clearD8));
             goto mode_ready;
         }
     }
     else
     {
-        memset(manager->clearD8, 0, sizeof(manager->clearD8));
+        memset(globalManager.clearD8, 0, sizeof(globalManager.clearD8));
         if (supervisor->flags & 0x200)
             goto mode_ready;
-        previousMode = manager->gameMode;
+        previousMode = globalManager.gameMode;
     }
 
     if (previousMode == 0 || previousMode == 1)
-        manager->counterFC++;
+        globalManager.counterFC++;
 
 mode_ready:
-    if (manager->configurationE8 != NULL)
+    if (globalManager.configurationE8 != NULL)
     {
-        operator delete(manager->configurationE8);
-        manager->configurationE8 = NULL;
+        operator delete(globalManager.configurationE8);
+        globalManager.configurationE8 = NULL;
     }
 
     GameConfiguration *allocation =
@@ -760,228 +759,226 @@ mode_ready:
         allocation->Initialize();
     else
         newConfiguration = NULL;
-    manager->configurationE8 = newConfiguration;
-    *manager->configurationE8 = supervisor->config388;
-    manager->speedEC = 1.0f;
+    globalManager.configurationE8 = newConfiguration;
+    *globalManager.configurationE8 = supervisor->config388;
+    globalManager.speedEC = 1.0f;
 
     if (supervisor->flags & 0x200)
     {
-        manager->flags &= ~0x2000u;
+        g_GameManager.flags &= ~0x2000u;
 
         for (sideIndex = 0; sideIndex < 2; sideIndex++)
         {
-            if (manager->sides[sideIndex].state != NULL)
+            if (g_GameManager.sides[sideIndex].state != NULL)
             {
-                operator delete(manager->sides[sideIndex].state);
-                manager->sides[sideIndex].state = NULL;
+                operator delete(g_GameManager.sides[sideIndex].state);
+                g_GameManager.sides[sideIndex].state = NULL;
             }
-            manager->sides[sideIndex].state = static_cast<SetupStateBuffer *>(operator new(0xA0));
-            memset(manager->sides[sideIndex].state, 0, 0xA0);
+            g_GameManager.sides[sideIndex].state = static_cast<SetupStateBuffer *>(operator new(0xA0));
+            memset(g_GameManager.sides[sideIndex].state, 0, 0xA0);
         }
 
-        if (manager->gameMode == 0)
-            manager->sides[0].state->value00 =
-                static_cast<float>(manager->configurationE8->valueAC) + 2.0f;
+        if (g_GameManager.gameMode == 0)
+            g_GameManager.sides[0].state->value00 =
+                static_cast<float>(g_GameManager.configurationE8->valueAC) + 2.0f;
         else
-            manager->sides[0].state->value00 = 0.0f;
+            g_GameManager.sides[0].state->value00 = 0.0f;
 
-        manager->replayManagerD4->Release();
-        manager->stageObject = NULL;
+        g_GameManager.replayManagerD4->Release();
+        g_GameManager.stageObjectD4 = NULL;
 
-        if ((manager->flags & 8) == 0)
+        if ((g_GameManager.flags & 8) == 0)
         {
-            manager->seedCopy346 = g_Rng.seed;
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
+            g_GameManager.seedCopy346 = g_Rng.seed;
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
                 ->SelectOpponentConfiguration();
-            manager->replayManagerD4 = ReplayManagerView::Create(0, NULL);
+            g_GameManager.replayManagerD4 = ReplayManagerView::Create(0, NULL);
         }
         else
         {
-            manager->replayManagerD4 = ReplayManagerView::Create(
-                1, reinterpret_cast<const char *>(&manager->modeByte145));
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
+            g_GameManager.replayManagerD4 = ReplayManagerView::Create(
+                1, reinterpret_cast<const char *>(&g_GameManager.modeByte145));
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
                 ->SelectOpponentConfiguration();
         }
     }
     else
     {
-        if (manager->gameMode == 0)
+        if (g_GameManager.gameMode == 0)
         {
             SetupStateBuffer *state =
-                manager->sides[0].state;
+                g_GameManager.sides[0].state;
             if (state->value04 >= 2000000u * state->phase10 + 1000000u)
                 globalManager.AdvanceTimedState();
         }
-        if (manager->gameMode == 1)
+        if (g_GameManager.gameMode == 1)
         {
             SetupStateBuffer *state =
-                manager->sides[0].state;
+                g_GameManager.sides[0].state;
             if (state->value04 >= 500000u * (state->phase10 + 1))
                 globalManager.AdvanceTimedState();
         }
 
-        if ((manager->flags & 8) == 0)
+        if ((g_GameManager.flags & 8) == 0)
         {
-            manager->seedCopy346 = g_Rng.seed;
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
+            g_GameManager.seedCopy346 = g_Rng.seed;
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
                 ->SelectOpponentConfiguration();
             DispatchReplayStage(
-                manager->replayDispatchD4, 0);
+                g_GameManager.replayDispatchD4, 0);
         }
         else
         {
             DispatchReplayStage(
-                manager->replayDispatchD4, 1);
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&globalManager)
+                g_GameManager.replayDispatchD4, 1);
+            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
                 ->SelectOpponentConfiguration();
         }
 
-        if (manager->gameMode == 0 || manager->gameMode == 1)
-            memset(manager->sides[1].state, 0, 0xA0);
+        if (g_GameManager.gameMode == 0 || g_GameManager.gameMode == 1)
+            memset(g_GameManager.sides[1].state, 0, 0xA0);
     }
 
     g_Supervisor.InitializeViewports();
-    manager->valueB0 = 0;
-    manager->gameSubsystem = CreateGameSubsystem();
-    if (manager->gameSubsystem == NULL)
+    g_GameManager.valueB0 = 0;
+    globalManager.gameSubsystem = CreateGameSubsystem();
+    if (globalManager.gameSubsystem == NULL)
         goto setup_failed;
 
     PreloadPlayerAnmResources();
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++)
     {
-        SetupSideState *side = &manager->sides[sideIndex];
+        if (g_GameManager.sides[sideIndex].selector != 0)
+            g_GameManager.configurationE8->sideFocusMode[sideIndex] = 0;
+        g_GameManager.sides[sideIndex].flags &= ~1u;
 
-        if (side->selector != 0)
-            manager->configurationE8->sideFocusMode[sideIndex] = 0;
-        side->flags &= ~1u;
-
-        side->background00 = Background::Create(sideIndex);
-        if (side->background00 == NULL)
+        g_GameManager.sides[sideIndex].background00 = Background::Create(sideIndex);
+        if (g_GameManager.sides[sideIndex].background00 == NULL)
             goto setup_failed;
-        side->player04 = PlayerRegisterChain(0, sideIndex, side->selector);
-        if (side->player04 == NULL)
+        g_GameManager.sides[sideIndex].player04 = PlayerRegisterChain(0, sideIndex, g_GameManager.sides[sideIndex].selector);
+        if (g_GameManager.sides[sideIndex].player04 == NULL)
             goto setup_failed;
-        side->etama08 = EtamaController::Register(sideIndex);
-        if (side->etama08 == NULL)
+        g_GameManager.sides[sideIndex].etama08 = EtamaController::Register(sideIndex);
+        if (g_GameManager.sides[sideIndex].etama08 == NULL)
             goto setup_failed;
-        side->effectManager0C = EffectManager::Create(sideIndex, 0x100, 7);
-        if (side->effectManager0C == NULL)
+        g_GameManager.sides[sideIndex].effectManager0C = EffectManager::Create(sideIndex, 0x100, 7);
+        if (g_GameManager.sides[sideIndex].effectManager0C == NULL)
             goto setup_failed;
-        side->enemyManager10 = EnemyManagerView::Create(sideIndex);
-        if (side->enemyManager10 == NULL)
+        g_GameManager.sides[sideIndex].enemyManager10 = EnemyManagerView::Create(sideIndex);
+        if (g_GameManager.sides[sideIndex].enemyManager10 == NULL)
             goto setup_failed;
-        side->cardAttack14 = CardAttack::Create(sideIndex);
-        if (side->cardAttack14 == NULL)
+        g_GameManager.sides[sideIndex].cardAttack14 = CardAttack::Create(sideIndex);
+        if (g_GameManager.sides[sideIndex].cardAttack14 == NULL)
             goto setup_failed;
-        side->frontSide18 = FrontSide::Create(sideIndex);
-        if (side->frontSide18 == NULL)
+        g_GameManager.sides[sideIndex].frontSide18 = FrontSide::Create(sideIndex);
+        if (g_GameManager.sides[sideIndex].frontSide18 == NULL)
             goto setup_failed;
     }
 
-    manager->sides[2].effectManager0C = EffectManager::Create(2, 0x320, 1);
-    if (manager->sides[2].effectManager0C == NULL)
+    globalManager.sides[2].effectManager0C = EffectManager::Create(2, 0x320, 1);
+    if (globalManager.sides[2].effectManager0C == NULL)
         goto setup_failed;
 
-    manager->secondarySubsystem = ExAttackController::Register();
-    if (manager->secondarySubsystem == NULL)
+    globalManager.secondarySubsystem = ExAttackController::Register();
+    if (globalManager.secondarySubsystem == NULL)
         goto setup_failed;
 
-    switch (manager->setupMode)
+    switch (g_GameManager.setupMode11C)
     {
     case 4:
-        manager->limitB4 = 18;
-        manager->sides[0].player04->header24.state7C = 10;
-        manager->sides[0].player04->header24.state80 = 10;
-        manager->sides[1].player04->header24.state7C = 10;
-        manager->sides[1].player04->header24.state80 = 10;
-        manager->valueC4 = 600;
-        manager->valueC8 = 22;
+        g_GameManager.limitB4 = 18;
+        g_GameManager.sides[0].player04->header24.state7C = 10;
+        g_GameManager.sides[0].player04->header24.state80 = 10;
+        g_GameManager.sides[1].player04->header24.state7C = 10;
+        g_GameManager.sides[1].player04->header24.state80 = 10;
+        g_GameManager.valueC4 = 600;
+        g_GameManager.valueC8 = 22;
         break;
 
     case 3:
-        manager->limitB4 = 8;
-        manager->sides[0].player04->header24.state7C = 8;
-        manager->sides[0].player04->header24.state80 = 8;
-        manager->sides[1].player04->header24.state7C = 8;
-        manager->sides[1].player04->header24.state80 = 8;
-        if (manager->gameMode == 2)
+        g_GameManager.limitB4 = 8;
+        g_GameManager.sides[0].player04->header24.state7C = 8;
+        g_GameManager.sides[0].player04->header24.state80 = 8;
+        g_GameManager.sides[1].player04->header24.state7C = 8;
+        g_GameManager.sides[1].player04->header24.state80 = 8;
+        if (g_GameManager.gameMode == 2)
         {
-            manager->valueC4 = 900;
-            manager->valueC8 = 22;
+            g_GameManager.valueC4 = 900;
+            g_GameManager.valueC8 = 22;
         }
         else
         {
-            manager->limitB4 = manager->counterFC + 6;
-            manager->valueC4 = 720;
-            manager->valueC8 = manager->counterFC / 2 + 17;
+            g_GameManager.valueC4 = 720;
+            g_GameManager.limitB4 = g_GameManager.counterFC + 6;
+            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 17;
         }
         break;
 
     case 2:
-        manager->limitB4 = 6;
-        manager->sides[0].player04->header24.state7C = 4;
-        manager->sides[0].player04->header24.state80 = 4;
-        manager->sides[1].player04->header24.state7C = 4;
-        manager->sides[1].player04->header24.state80 = 4;
-        if (manager->gameMode == 2)
+        g_GameManager.limitB4 = 6;
+        g_GameManager.sides[0].player04->header24.state7C = 4;
+        g_GameManager.sides[0].player04->header24.state80 = 4;
+        g_GameManager.sides[1].player04->header24.state7C = 4;
+        g_GameManager.sides[1].player04->header24.state80 = 4;
+        if (g_GameManager.gameMode == 2)
         {
-            manager->valueC4 = 720;
-            manager->valueC8 = 22;
+            g_GameManager.valueC4 = 720;
+            g_GameManager.valueC8 = 22;
         }
         else
         {
-            manager->limitB4 = manager->counterFC + 3;
-            manager->valueC4 = 900;
-            manager->valueC8 = manager->counterFC / 2 + 15;
+            g_GameManager.valueC4 = 900;
+            g_GameManager.limitB4 = g_GameManager.counterFC + 3;
+            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 15;
         }
         break;
 
     case 1:
-        manager->limitB4 = 1;
-        manager->sides[0].player04->header24.state7C = 1;
-        manager->sides[0].player04->header24.state80 = 1;
-        manager->sides[1].player04->header24.state7C = 1;
-        manager->sides[1].player04->header24.state80 = 1;
-        if (manager->gameMode == 2)
+        g_GameManager.limitB4 = 1;
+        g_GameManager.sides[0].player04->header24.state7C = 1;
+        g_GameManager.sides[0].player04->header24.state80 = 1;
+        g_GameManager.sides[1].player04->header24.state7C = 1;
+        g_GameManager.sides[1].player04->header24.state80 = 1;
+        if (g_GameManager.gameMode == 2)
         {
-            manager->valueC4 = 900;
-            manager->valueC8 = 20;
+            g_GameManager.valueC4 = 900;
+            g_GameManager.valueC8 = 20;
         }
         else
         {
-            manager->valueC4 = 1200;
-            manager->limitB4 = manager->counterFC + 1;
-            manager->valueC8 = manager->counterFC + 10;
+            g_GameManager.valueC4 = 1200;
+            g_GameManager.limitB4 = g_GameManager.counterFC + 1;
+            g_GameManager.valueC8 = g_GameManager.counterFC + 10;
         }
         break;
 
     case 0:
-        manager->limitB4 = 1;
-        manager->sides[0].player04->header24.state7C = 1;
-        manager->sides[0].player04->header24.state80 = 1;
-        manager->sides[1].player04->header24.state7C = 1;
-        manager->sides[1].player04->header24.state80 = 1;
-        manager->valueC4 = 1800;
-        // For every gameMode other than 2, keep the counter-derived limits
-        // and leave this switch immediately. The fixed mode-2 rate follows
-        // below; both paths retain the same actual field writes.
-        if (manager->gameMode != 2)
+        g_GameManager.limitB4 = 1;
+        g_GameManager.sides[0].player04->header24.state7C = 1;
+        g_GameManager.sides[0].player04->header24.state80 = 1;
+        g_GameManager.sides[1].player04->header24.state7C = 1;
+        g_GameManager.sides[1].player04->header24.state80 = 1;
+        g_GameManager.valueC4 = 1800;
+        // Mode 2 uses the fixed rate; other modes use round-derived limits.
+        if (g_GameManager.gameMode != 2)
         {
-            manager->limitB4 = manager->counterFC / 3 + 1;
-            manager->valueC8 = manager->counterFC / 2 + 6;
-            break;
+            g_GameManager.limitB4 = g_GameManager.counterFC / 3 + 1;
+            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 6;
         }
-        manager->valueC8 = 16;
+        else
+        {
+            g_GameManager.valueC8 = 16;
+        }
         break;
     }
 
     SupervisorCalculateFps(0);
     FinishLoading(&g_Supervisor);
-    while ((manager->flags & 0x60u) != 0)
+    while ((g_GameManager.flags & 0x60u) != 0)
         Sleep(17);
 
-    manager->gameplaySetupState = 0;
+    g_GameManager.gameplaySetupState124 = 0;
     supervisor->runningSubthreadHandle = 0;
     supervisor->subthreadCloseRequestActive = 0;
     supervisor->subthreadActive = 0;
@@ -992,7 +989,7 @@ mode_ready:
     return;
 
 setup_failed:
-    manager->gameplaySetupState = 2;
+    g_GameManager.gameplaySetupState124 = 2;
     FinishLoading(&g_Supervisor);
     supervisor->runningSubthreadHandle = 0;
     supervisor->subthreadCloseRequestActive = 0;

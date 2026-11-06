@@ -21,9 +21,9 @@ def baseline():
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_sha256': front.GAMEPLAY_SETUP_TARGET_SHA,
-        'target_bytes': 1689, 'candidate_bytes': 1689,
-        'target_instructions': 413, 'candidate_instructions': 416,
-        'original_fields': 172, 'bound_fields': 171,
+        'target_bytes': 1689, 'candidate_bytes': 1682,
+        'target_instructions': 413, 'candidate_instructions': 413,
+        'original_fields': 172, 'bound_fields': 172,
         'ordered_calls': 35, 'candidate_calls': 35,
         'ordered_calls_agree': True,
         'native_replay_calls': [
@@ -38,16 +38,16 @@ def baseline():
             dict(unit=unit, symbol=symbol, target=target, count=count)
             for unit, symbol, target, count in (
                 ('background-create', '?Create@Background@@SIPAU1@H@Z', 0x403AE0, 1),
-                ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z', 0x41F170, 1),
+                ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@HHH@Z', 0x41F170, 1),
                 ('etama-controller-register', '?Register@EtamaController@@SIPAU1@H@Z', 0x4150D0, 1),
                 ('effect-manager-create', '?Create@EffectManager@@SIPAU1@HHH@Z', 0x40D320, 2),
                 ('enemy-manager-create', '?Create@EnemyManagerView@@SIPAU1@H@Z', 0x412240, 1),
                 ('card-attack-create', '?Create@CardAttack@@SIPAU1@H@Z', 0x404600, 1),
                 ('front-side-create', '?Create@FrontSide@@SIPAU1@H@Z', 0x41A5D0, 1),
                 ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 1))],
-        'original_blocks': 78, 'candidate_blocks': 77,
+        'original_blocks': 78, 'candidate_blocks': 78,
         'direct_graphs_agree': False,
-        'aligned_field_identities': 164, 'field_change_spans': 15,
+        'aligned_field_identities': 171, 'field_change_spans': 2,
         # The real full-owner decoded 172/171-field *referent multisets*
         # are part of the source-cold guard, not optional diagnostic data.
         'original_only_field_referents': [
@@ -56,20 +56,21 @@ def baseline():
         'source_only_field_referents': [
             dict(type=t, address=address, count=count)
             for t, address, count in front.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS],
-        'aligned_instructions': 393,
+        'aligned_instructions': 412,
         'overlap_differences': len(differences),
         'difference_offsets': differences, 'complete_bytes_equal': False,
+        'missing_target_bytes': 7, 'extra_candidate_bytes': 0,
     }
 
 
 class GameplaySetupOriginalBoundFrontier(TestCase):
-    def test_complete_candidate_mask_is_904_different_bytes(self):
+    def test_complete_candidate_accounts_for_694_differences_and_seven_missing_bytes(self):
         report = baseline()
         self.assertEqual(len(front.GAMEPLAY_SETUP_RESIDUAL_MASK), 212)
-        self.assertEqual(report['overlap_differences'], 904)
-        self.assertNotIn(0x62B, report['difference_offsets'])
-        self.assertNotIn(0x635, report['difference_offsets'])
-        self.assertIn(0x62C, report['difference_offsets'])
+        self.assertEqual(report['overlap_differences'], 694)
+        self.assertEqual(report['missing_target_bytes'], 7)
+        self.assertNotIn(0, report['difference_offsets'])
+        self.assertTrue(all(off < 1682 for off in report['difference_offsets']))
         front.guard_gameplay_setup_thread(report)
 
     def test_genuinely_narrower_full_extent_still_receives_no_local_exact_credit(self):
@@ -80,7 +81,7 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
         front.guard_gameplay_setup_thread(narrower)
         self.assertEqual(narrower['exactness_credit'], 'none')
         apparent_zero = {**report, 'difference_offsets': [],
-                         'overlap_differences': 0, 'complete_bytes_equal': True}
+                         'overlap_differences': 0, 'complete_bytes_equal': False}
         front.guard_gameplay_setup_thread(apparent_zero)
         self.assertEqual(apparent_zero['exactness_credit'], 'none')
 
@@ -88,7 +89,7 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
         report = baseline()
         allowed = report['difference_offsets']
         outside = [i for i in range(1689) if i not in set(allowed)]
-        for off in (0, 0x5AF, 0x5B0, 0x5B1, 0x5B5, 0x5B6, 0x5B7, 0x5B8, 0x62B, 0x635, outside[-1]):
+        for off in (0, 1, 0x100, outside[-1]):
             with self.subTest(offset=hex(off)), self.assertRaises(RuntimeError):
                 candidate = sorted(allowed[:-1] + [off])
                 front.guard_gameplay_setup_thread({**report,
@@ -128,13 +129,15 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
             {'difference_offsets': differences[:-1] + [1689]},
             {'difference_offsets': differences[:-1] + [-1]},
             {'difference_offsets': differences[:-1] + [True]},
-            {'overlap_differences': 905},
-            {'overlap_differences': '904'},
+            {'overlap_differences': 695},
+            {'overlap_differences': '694'},
             {'complete_bytes_equal': True},
+            {'missing_target_bytes': 0}, {'missing_target_bytes': 6},
+            {'missing_target_bytes': True}, {'extra_candidate_bytes': 1},
             {'exactness_credit': 'accepted'},
             {'diagnostic_only': False},
             {'original_only_field_referents': None},
-            {'source_only_field_referents': []},
+            {'source_only_field_referents': None},
             {'original_only_field_referents': [dict(type='DIR32',
                 address=0x4A7D90, count=4),
                 *report['original_only_field_referents'][1:]]},
@@ -163,15 +166,15 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
         invalid = (
             {'target_sha256': '0' * 64},
             {'target_bytes': 1688}, {'candidate_bytes': 1690},
-            {'target_instructions': 412}, {'candidate_instructions': 415},
+            {'target_instructions': 412}, {'candidate_instructions': 412},
             {'original_fields': 171}, {'bound_fields': 170},
             {'ordered_calls': 34}, {'candidate_calls': 34},
             {'ordered_calls_agree': False},
-            {'original_blocks': 77}, {'candidate_blocks': 78},
+            {'original_blocks': 77}, {'candidate_blocks': 77},
             {'direct_graphs_agree': True},
-            {'aligned_field_identities': 163},
-            {'field_change_spans': 16},
-            {'aligned_instructions': 392},
+            {'aligned_field_identities': 170},
+            {'field_change_spans': 3},
+            {'aligned_instructions': 411},
         )
         for change in invalid:
             with self.subTest(change=change), self.assertRaises(RuntimeError):

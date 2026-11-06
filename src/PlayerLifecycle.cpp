@@ -11,7 +11,7 @@
 extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
 
-PlayerLifecycleView *__fastcall PlayerRegisterChain(unsigned char playerType, int sideIndex, int selector)
+PlayerLifecycleView *__fastcall PlayerRegisterChain(int playerType, int sideIndex, int selector)
 {
     PlayerLifecycleView *player = static_cast<PlayerLifecycleView *>(
         g_ZunMemory.AddToRegistry(new PlayerLifecycleView, sizeof(PlayerLifecycleView),

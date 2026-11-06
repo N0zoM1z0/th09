@@ -31974,3 +31974,32 @@ source models,106 complete sibling comparisons28748/2346 and control seal
 `0db217584dc2b1ab0b0ebf50b4f0def4abd316e33f2b3ca0cb7dd79f89cc2008`.
 704 hashed duplicates and11 disposable PDBs are removed; all16 objects remain.
 Source epoch8096590f/code398b69e4; current1021 exact/13 nonexact, goal active.
+
+
+## 2026-11-06 Native Setup source and coherent Player interface
+
+The maintained Setup now uses native global side/runtime fields, rank-parameter
+writes before consecutive limit/rate writes, and a structured difficulty0
+if/else. Its whole1682-byte/172-field candidate has694 unlike overlaps plus
+seven missing original bytes. All172 original address referents and their
+multiplicities agree; all35 calls,413 instructions and78 blocks are accounted
+for.412 instruction correspondences agree, with the shared C8=22 write at
+original+431 versus candidate+522 still unresolved. The physical original
+error count drops904 to701 including missing bytes.988 positions now match:
+536 retained,249 previous positions lost,452 gained. A new noncrediting
+source-bound mask protects988 positions and explicitly requires seven missing
+bytes; it does not grant exact credit or inherit an old epoch's proof.
+
+PlayerRegisterChain now uses a coherent int declaration and actual definition.
+Both byte and int source pairs match328/29; int also matches original whole-ECX
+Setup zeroing. The canonical compiler EH name changes with the source symbol,
+while its actual complete definition/recursive contribution remains equal.
+Formal-width uniqueness is still unknown. No fake ABI or extra wrapper is used.
+
+Three fresh existing-profile builds pass14 complete affected exact units3480/
+286. Twenty-five unchanged body/profiles preserve6742 raw bytes/546 identities.
+Ten specific x86 rank-slice traces across difficulties0..4 and mode0/2 preserve
+all ordered rank/player writes; whole-worker/product/runtime gates stay open.
+[The checkpoint](TH09_SETUP_RANK_PUBLICATION_20261106.md) retains all native
+experiments and actual current objects. Authored totals remain1021 exact/13
+nonexact; the goal remains active.

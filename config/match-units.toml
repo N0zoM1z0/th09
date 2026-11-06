@@ -7373,11 +7373,11 @@ source = "src/PlayerLifecycle.cpp"
 object = "build/matching/PlayerLifecycle.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["PlayerRegisterChain"]
-symbol = "?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z"
+symbol = "?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@HHH@Z"
 target_address = 0x0041F170
 size = 0x148
 relocations = [
-  { offset = 0x6, type = "DIR32", symbol = "__ehhandler$?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z", target = 0x0048D31B },
+  { offset = 0x6, type = "DIR32", symbol = "__ehhandler$?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@HHH@Z", target = 0x0048D31B },
   { offset = 0xC, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
   { offset = 0x14, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
   { offset = 0x28, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },

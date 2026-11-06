@@ -11,6 +11,26 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Native Setup source recovers all original field roles
+
+The maintained worker now uses native side/runtime fields and structured rank
+publication. Complete1682/172 compares694 unlike overlaps plus seven missing
+original bytes; all172 referent multiplicities and35 calls agree. Both flows
+have413 instructions/78 blocks, with412 instruction correspondences. The
+remaining shared C8=22 block is original+431 versus candidate+522. This is
+nonexact:988 physical positions match, versus785 before;249 prior positions
+are lost and452 gained. The new guard accounts for every missing byte and
+protects all988 equal positions. See
+[the native rank checkpoint](TH09_SETUP_RANK_PUBLICATION_20261106.md).
+
+The coherent actual int Player declaration/definition preserves328/29 and
+original whole-ECX caller zeroing; unsigned-char also matched the producer,
+so original formal width stays ambiguous. Three fresh affected profile builds
+pass14 complete canonical comparisons3480/286. All25 unchanged regular
+body/profiles6742/546 and the actual EH graph are preserved. Ten bounded
+rank-slice traces retain every ordered rank/player write; this is not product
+runtime validation. Exact totals stay1021/13 and the goal remains active.
+
 ## 2026-11-06 continued main — Native Setup access isolates remaining rank differences
 
 Ten current-native source/profile controls preserve all ten exact Setup

@@ -1,5 +1,9 @@
 # Setup native access and Player parameter review, 2026-11-06
 
+> Subsequent source checkpoint: [native rank publication](TH09_SETUP_RANK_PUBLICATION_20261106.md)
+> adopts the later structured native candidate. The non-adoption and current
+> source statements below describe the earlier8096590f/9f97ba32 investigation.
+
 The maintained worker remains1689 bytes/171 fields/904 unlike bytes. No source,
 interface, profile or match is adopted. Current authored totals remain1034
 source-present,1021 exact and13 nonexact. This packet freezes source epoch
@@ -91,8 +95,10 @@ bodies/fields and original comparisons are bound by control seal:
 
 `0db217584dc2b1ab0b0ebf50b4f0def4abd316e33f2b3ca0cb7dd79f89cc2008`
 
-Run `python3 -B .analysis/setup-reference-context-20261106/seal.py` for read-only
-replay.704 per-file SHA-identical staged copies are pruned; frozen originals
+At the recorded source/provider epoch,
+`python3 -B .analysis/setup-reference-context-20261106/seal.py` performs read-only
+replay. Later source/provider hash changes require an epoch-bound reader; this
+receipt does not certify the later maintained source.704 per-file SHA-identical staged copies are pruned; frozen originals
 and changed sources remain. Eleven disposable PDBs totaling1814528 bytes are
 removed by path/SHA; all16 objects remain. Two observer failures, concerning
 the renamed private EH identity and an aux-less object extent, are recovered

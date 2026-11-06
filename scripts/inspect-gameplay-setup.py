@@ -37,7 +37,7 @@ DESTINATIONS = {
     '?Create@Background@@SIPAU1@H@Z': 0x403AE0,
     '?Create@CardAttack@@SIPAU1@H@Z': 0x404600,
     '?Create@FrontSide@@SIPAU1@H@Z': 0x41A5D0,
-    '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z': 0x41F170,
+    '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@HHH@Z': 0x41F170,
     '?Register@EtamaController@@SIPAU1@H@Z': 0x4150D0,
     '?Create@EffectManager@@SIPAU1@HHH@Z': 0x40D320,
     '?Create@EnemyManagerView@@SIPAU1@H@Z': 0x412240,
@@ -66,7 +66,7 @@ DESTINATIONS = {
 
 NATIVE_CREATORS = (
     ('background-create', '?Create@Background@@SIPAU1@H@Z', 0x403AE0, 307, 1),
-    ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@EHH@Z', 0x41F170, 328, 1),
+    ('player-register-chain', '?PlayerRegisterChain@@YIPAUPlayerLifecycleView@@HHH@Z', 0x41F170, 328, 1),
     ('etama-controller-register', '?Register@EtamaController@@SIPAU1@H@Z', 0x4150D0, 283, 1),
     ('effect-manager-create', '?Create@EffectManager@@SIPAU1@HHH@Z', 0x40D320, 327, 2),
     ('enemy-manager-create', '?Create@EnemyManagerView@@SIPAU1@H@Z', 0x412240, 328, 1),
@@ -171,8 +171,8 @@ def main():
     if len(target) != SIZE or hashlib.sha256(target).hexdigest() != TARGET_SHA256:
         raise ValueError('TH09 original GameplaySetupThread PE SHA256/extent changed')
     code, rows = coff.object_function(args.object, SYMBOL)
-    if len(code) != SIZE:
-        raise ValueError('GameManager gameplay setup must use the verified /Os 1689-byte profile')
+    if len(code) != 1682:
+        raise ValueError('GameManager gameplay setup must use the reviewed /Os 1682-byte candidate')
     raw_hash = hashlib.sha256(code).hexdigest()
     for row in rows:
         if row['symbol'] not in DESTINATIONS:
@@ -257,6 +257,8 @@ def main():
             'source_only_field_referents': source_only,
             'aligned_instructions': sum(z.size for z in matcher.get_matching_blocks()),
             'overlap_differences': len(physical_differences),
+            'missing_target_bytes': max(0, SIZE - len(code)),
+            'extra_candidate_bytes': max(0, len(code) - SIZE),
             'difference_offsets': physical_differences,
             'complete_bytes_equal': target == code,
             'candidate_raw_sha256': raw_hash, 'target_sha256': TARGET_SHA256,
