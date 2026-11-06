@@ -77,6 +77,9 @@ struct LaserInstructionArgs
 };
 typedef char Th09EclLaserArgsSizeIs34[
     (sizeof(LaserInstructionArgs) == 0x34) ? 1 : -1];
+// The original 16-bit laser-color wire element lives at payload +0x02.
+typedef char Th09EclLaserColorAt02[
+    (offsetof(LaserInstructionArgs, color02) == 0x02) ? 1 : -1];
 
 inline EnemyBulletView *View(EnemyView *enemy)
 {
@@ -138,10 +141,8 @@ __forceinline short ReadLaserColor(
                ? static_cast<short>(
                      Th09EclRunControl::ResolveInt(
                          enemy,
-                         *reinterpret_cast<short *>(
-                             reinterpret_cast<unsigned char *>(instruction->arguments) + 0x02)))
-               : *reinterpret_cast<short *>(
-                     reinterpret_cast<unsigned char *>(instruction->arguments) + 0x02);
+                         reinterpret_cast<const LaserInstructionArgs *>(instruction->arguments)->color02))
+               : reinterpret_cast<const LaserInstructionArgs *>(instruction->arguments)->color02;
 }
 
 inline void SetLaserPosition(

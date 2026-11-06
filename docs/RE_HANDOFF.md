@@ -284,6 +284,16 @@ mangled symbol identity. 25 affected complete unit comparisons remain exact
 (9,124 bytes/445 fields). See
 [the shared runtime owner proof](TH09_SHARED_RUNTIME_NATIVE_BLOCK_STATE_20261106.md).
 
+## 2026-11-06 RunEcl native laser color member
+
+The still-nonexact 15,564-byte RunEcl boss now reads its 16-bit laser color
+through the genuine `LaserInstructionArgs::color02` wire member instead of
+manual byte addition/reinterpret-cast. All 598 fields are preserved, with
+the same 30 unlike bytes (opcode 4/155). A focused 99-comparison cohort
+preserves 30,461 exact related bytes/1,404 fields; only 20 verified
+compiler-private label names changed. See
+[laser color original-bound source proof](TH09_RUNECL_NATIVE_LASER_COLOR_WIRE_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
