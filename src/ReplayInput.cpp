@@ -68,6 +68,14 @@ typedef char ReplayUserDataHeaderSizeIs0C[(sizeof(ReplayUserDataHeaderView) == 0
 
 // Recording and playback use the original GameManager members, including
 // side +0x2C/+0x30 words and the signed stage byte widened at +0x138.
+// The serialized header has one native byte/word map. Preserve the original
+// *signed* fileSize subtraction when turning offsets into C++ offsetof values.
+typedef char ReplayCodecNativeWireHeaderOffsets[
+    (offsetof(ReplayDataView, obfuscationKey) == 0x15 &&
+     offsetof(ReplayDataView, compressedSize) == 0x18 &&
+     offsetof(ReplayDataView, randomPayloadByte) == 0xC0 &&
+     sizeof(ReplayHeaderView) == 0xC0) ? 1 : -1];
+
 typedef char ReplayNativeRestoredStateOffsets[
     (offsetof(AsciiGameManagerSideView, value2C) == 0x2C &&
      offsetof(AsciiGameManagerSideView, value30) == 0x30 &&
@@ -173,17 +181,17 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
     if (replayData->value06 != 0)
         goto err1;
 
-    obfuscateCursor = (u8 *)replayData + 0x18;
+    obfuscateCursor = reinterpret_cast<u8 *>(&replayData->compressedSize);
     obfuscateOffset = replayData->obfuscationKey;
-    for (i = 0; i < replayData->fileSize - 0x18; i++, obfuscateCursor++)
+    for (i = 0; i < replayData->fileSize - static_cast<i32>(offsetof(ReplayDataView, compressedSize)); i++, obfuscateCursor++)
     {
         *obfuscateCursor -= obfuscateOffset;
         obfuscateOffset += 7;
     }
 
-    checksumCursor = (u8 *)replayData + 0x15;
+    checksumCursor = &replayData->obfuscationKey;
     checksum = 0x3F000318;
-    for (i = 0; i < replayData->fileSize - 0x15; i++, checksumCursor++)
+    for (i = 0; i < replayData->fileSize - static_cast<i32>(offsetof(ReplayDataView, obfuscationKey)); i++, checksumCursor++)
         checksum += *checksumCursor;
 
     if (checksum != replayData->checksum)
@@ -191,14 +199,14 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
 
     i32 decompressedSize = replayData->decompressedSize;
     decodedReplay = (ReplayDataView *)g_ZunMemory.Alloc(
-        decompressedSize - replayData->fileSize + fileSize + 0xC0,
+        decompressedSize - replayData->fileSize + fileSize + sizeof(ReplayHeaderView),
         "./system\\global.h");
-    memcpy(decodedReplay, replayData, 0xC0);
+    memcpy(decodedReplay, replayData, sizeof(ReplayHeaderView));
     Lzss::Decode(
-        (u8 *)replayData + 0xC0, replayData->compressedSize,
-        (u8 *)decodedReplay + 0xC0, replayData->decompressedSize);
+        &replayData->randomPayloadByte, replayData->compressedSize,
+        &decodedReplay->randomPayloadByte, replayData->decompressedSize);
     memcpy(
-        (u8 *)decodedReplay + replayData->decompressedSize + 0xC0,
+        &decodedReplay->randomPayloadByte + replayData->decompressedSize,
         (u8 *)replayData + replayData->fileSize,
         fileSize - replayData->fileSize);
 

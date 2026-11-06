@@ -189,6 +189,15 @@ affected original-bound units remain exact, including six original-local
 initializer table fields rebound from observed COFF definitions. See
 [the native Player/ExAttack source proof](TH09_PLAYER_EXATTACK_NATIVE_MEMBERS_20261106.md).
 
+## 2026-11-06 native replay codec payload/source offsets
+
+Replay `LoadReplayData` now traverses its real serialized header/payload
+members. A signed `i32` cast on `offsetof` preserves the original loop
+bound semantics; unsigned `offsetof` without that cast was rejected by actual
+codegen. All 12 same-source exact units match across 4,093 bytes/232 fields;
+SaveReplay remains 1,238 bytes/53 fields/two unlike bytes. See
+[the native Replay codec proof](TH09_REPLAY_NATIVE_CODEC_WIRE_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
