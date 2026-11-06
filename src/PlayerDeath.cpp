@@ -1,6 +1,7 @@
 #include "RuntimePolarMath.hpp"
 #include "AsciiManager.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "RngRuntimeLeaves.hpp"
 
 #include <stddef.h>
 
@@ -75,11 +76,6 @@ struct PlayerDeathTimerView
 
 typedef char PlayerDeathTimerSizeIsC[(sizeof(PlayerDeathTimerView) == 0x0C) ? 1 : -1];
 
-struct PlayerDeathReplayRngView
-{
-    float GetRandomF32InRange(float max);
-};
-
 struct PlayerDeathVmHandleView
 {
     unsigned char unknown00[0x04];
@@ -120,7 +116,7 @@ extern PlayerDeathSoundView g_PlayerDeathSound;
 extern int g_PlayerDeathCounter;
 extern int g_PlayerDeathCounterBonus;
 extern PlayerDeathCounterView g_PlayerDeathCounterState;
-extern PlayerDeathReplayRngView g_PlayerDeathReplayRng;
+extern RngRuntimeView g_ReplayRng;
 
 void PlayerLifecycleView::EnterDeathState()
 {
@@ -205,7 +201,7 @@ void PlayerLifecycleView::EnterDeathState()
     *reinterpret_cast<int *>(this) = 4;
     reinterpret_cast<PlayerDeathTimerView *>(&timer303C8)->operator=(0);
 
-    float angle = g_PlayerDeathReplayRng.GetRandomF32InRange(3.1415927f);
+    float angle = g_ReplayRng.GetRandomF32SignedInRange(3.1415927f);
     movementFields1CCC.movementAngle1CD8 = angle;
     SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(&movementFields1CCC.velocity1CCC)), angle, 1.0f);
 

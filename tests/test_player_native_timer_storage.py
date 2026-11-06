@@ -27,7 +27,6 @@ class PlayerNativeTimerStorage(unittest.TestCase):
         for f in ('timer1B74 = 8;', 'timer303BC = -1;',
                   'timer3038C = 0;', 'timer30398 = 0;'):
             with self.subTest(storage=f):self.assertIn(f,source)
-        self.assertIn('PlayerChargeNativeSideStorage',source)
         self.assertIn('g_GameConfiguration->sideFocusMode',source)
 
     def test_runtime_collision_and_state_use_direct_timer_receivers(self):

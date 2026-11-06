@@ -12,7 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class NativeGameSubsystemSlots(unittest.TestCase):
     def test_source_uses_one_original_seven_subsystem_layout(self):
-        header=(ROOT/'src/GameManagerRuntimeView.hpp').read_text()
+        header=((ROOT/'src/GameManagerRuntimeView.hpp').read_text() +
+                (ROOT/'src/GameManagerSideState.hpp').read_text())
         for name,offset in (
             ('background00','0x00'),('player04','0x04'),
             ('etama08','0x08'),('effectManager0C','0x0C'),

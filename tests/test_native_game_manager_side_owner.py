@@ -12,7 +12,8 @@ ROOT=Path(__file__).resolve().parents[1]
 
 class NativeGameSideAcrossOwners(unittest.TestCase):
     def test_one_game_side_type_replaces_duplicate_setup_structure(self):
-        shared=(ROOT/'src/GameManagerRuntimeView.hpp').read_text()
+        shared=((ROOT/'src/GameManagerRuntimeView.hpp').read_text() +
+                (ROOT/'src/GameManagerSideState.hpp').read_text())
         setup=(ROOT/'src/GameManagerSetupView.hpp').read_text()
         code=(ROOT/'src/GameManagerSetup.cpp').read_text()
         self.assertIn('typedef AsciiGameManagerSideView SetupSideState;',setup)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Float3.hpp"
+#include "GameManagerSideState.hpp"
 
 #include <stddef.h>
 
@@ -40,59 +41,6 @@ typedef char AsciiGameSideNativeScoreSizeIsA0[
     (sizeof(AsciiGameSideRuntimeView) == 0xA0 &&
      offsetof(AsciiGameSideRuntimeView, phase10) == 0x10 &&
      offsetof(AsciiGameSideRuntimeView, value14) == 0x14) ? 1 : -1];
-
-struct AsciiGameManagerSideView
-{
-    union { unsigned char unknown00[4]; void *subsystem0; Background *background00; };
-    // The same original +0x04..+0x1C gameplay side controllers are consumed
-    // by GameManager setup, ECL/Enemy and the replay/ASCII owners.
-    union {
-        AsciiPlayerPopupPositionView *player;
-        PlayerLifecycleView *player04;
-        void *subsystem1;
-    };
-    union { EtamaController *etama08; void *subsystem2; };
-    union { EffectManager *effectManager0C; void *subsystem3; };
-    union { void *subsystem4; EnemyManagerView *enemyManager10; };
-    union { void *subsystem5; CardAttack *cardAttack14; };
-    union { void *subsystem6; FrontSide *frontSide18; };
-    union { AsciiGameSideRuntimeView *runtime; SetupStateBuffer *state; };
-    union { int character20; int value20; };
-    union { unsigned char unknown24[4]; int value24; };
-    union { int replaySelector28; int selector; };
-    union {
-        unsigned char unknown2C[8];
-        struct { unsigned int value2C; unsigned int value30; };
-    };
-    unsigned int flags;
-};
-
-typedef char AsciiGameManagerSideViewSizeIs38[
-    (sizeof(AsciiGameManagerSideView) == 0x38) ? 1 : -1];
-// Genuine Create/Register call targets independently identify these side
-// subsystems; the aliases do not change the 0x38-byte i386 storage record.
-typedef char AsciiGameManagerTypedSubsystemsAtOffsets[
-    (offsetof(AsciiGameManagerSideView, background00) == 0x00 &&
-     offsetof(AsciiGameManagerSideView, player04) == 0x04 &&
-     offsetof(AsciiGameManagerSideView, etama08) == 0x08 &&
-     offsetof(AsciiGameManagerSideView, effectManager0C) == 0x0C &&
-     offsetof(AsciiGameManagerSideView, enemyManager10) == 0x10 &&
-     offsetof(AsciiGameManagerSideView, cardAttack14) == 0x14 &&
-     offsetof(AsciiGameManagerSideView, frontSide18) == 0x18) ? 1 : -1];
-
-typedef char AsciiGameManagerNativeSetupSideOffsets[
-    (offsetof(AsciiGameManagerSideView, subsystem0) == 0x00 &&
-     offsetof(AsciiGameManagerSideView, subsystem1) == 0x04 &&
-     offsetof(AsciiGameManagerSideView, subsystem2) == 0x08 &&
-     offsetof(AsciiGameManagerSideView, subsystem3) == 0x0C &&
-     offsetof(AsciiGameManagerSideView, subsystem4) == 0x10 &&
-     offsetof(AsciiGameManagerSideView, subsystem5) == 0x14 &&
-     offsetof(AsciiGameManagerSideView, subsystem6) == 0x18 &&
-     offsetof(AsciiGameManagerSideView, state) == 0x1C &&
-     offsetof(AsciiGameManagerSideView, value20) == 0x20 &&
-     offsetof(AsciiGameManagerSideView, value24) == 0x24 &&
-     offsetof(AsciiGameManagerSideView, selector) == 0x28 &&
-     offsetof(AsciiGameManagerSideView, flags) == 0x34) ? 1 : -1];
 
 struct AsciiGameManagerView
 {

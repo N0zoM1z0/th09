@@ -11,7 +11,8 @@ ROOT=Path(__file__).resolve().parents[1]
 
 class NativeGameSideScoreStorage(unittest.TestCase):
     def test_one_score_phase_owner_used_by_ascii_and_setup(self):
-        shared=(ROOT/'src/GameManagerRuntimeView.hpp').read_text()
+        shared=((ROOT/'src/GameManagerRuntimeView.hpp').read_text() +
+                (ROOT/'src/GameManagerSideState.hpp').read_text())
         setup=(ROOT/'src/GameManagerSetup.cpp').read_text()
         header=(ROOT/'src/GameManagerSetupView.hpp').read_text()
         self.assertIn('struct AsciiGameSideRuntimeView',shared)
@@ -27,7 +28,7 @@ class NativeGameSideScoreStorage(unittest.TestCase):
                       'unsigned int value08;', 'unsigned int value0C;',
                       'int phase10;', 'unsigned char value14;'):
             self.assertIn(token,shared)
-        self.assertIn('SetupStateBuffer *state',shared)
+        self.assertIn('offsetof(AsciiGameManagerSideView, state) == 0x1C',shared)
         self.assertIn('SetupStateBuffer *state =',setup)
 
     def test_original_game_and_replay_exact_manifest_owners_remain_pinned(self):

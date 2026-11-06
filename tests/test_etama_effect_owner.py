@@ -36,7 +36,8 @@ class EtamaSharedEffectOwner(TestCase):
         self.assertIn('manager->drawSentinel1.nextInDrawGroup', leaf)
         side = (ROOT / 'src/BulletManager.hpp').read_text()
         self.assertIn('#include "EffectManager.hpp"', boss)
-        native_side = (ROOT / 'src/GameManagerRuntimeView.hpp').read_text()
+        native_side = ((ROOT / 'src/GameManagerRuntimeView.hpp').read_text() +
+                       (ROOT / 'src/GameManagerSideState.hpp').read_text())
         self.assertIn('struct EffectManager;', side)
         self.assertIn('typedef AsciiGameManagerSideView BulletSideStateView;', side)
         self.assertIn('EffectManager *effectManager0C;', native_side)

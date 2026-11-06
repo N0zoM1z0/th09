@@ -32108,3 +32108,21 @@ unchanged. A genuine visible GetSeed4 still preserves41 calls but permits one
 packet-frame+4 reload to disappear:1622/105/1500 with11 missing. Thus source
 statement order and nominal callee identity do not determine caller bytes.
 See [the complete current-source review](TH09_NETWORK_CHECKSUM_AND_FLOW_20261106.md).
+
+### 2026-11-06 — Shared native side allocation and PlayerDeath signed RNG
+
+Fresh PlayerRegisterChain41F170 and FrontSide::Create41A5D0 observations confirm
+that their side pointers refer to GameManager's same0x38-byte records. The
+maintained GameManager/Player/FrontSide side declarations now share one type;
+this does not merge their partial player/runtime pointee views or resolve the
+outer FrontSide GameManager facade. Complete ChargeAttack raw1197/70 remains
+unchanged and nonexact against1210 original bytes. Its original EBP-1 mode-byte
+snapshot is not recovered by an input-pointer or pressed-result snapshot.
+
+PlayerDeath41E420's random angle calls406200 on global4ACE0C. Fresh target
+analysis and existing genuine RNG owners identify406200 as signed-float-range:
+it calls42AEA0 then multiplies by the argument. The earlier local unsigned-like
+method name was misleading, and the RNG manifest migration also introduced two
+names absent from source. Real GetRandomF32SignedInRange and g_ReplayRng replace
+that facade while retaining complete753/38 original equality. See
+[the source and affected-closure review](TH09_NATIVE_SIDE_RECORD_20261106.md).

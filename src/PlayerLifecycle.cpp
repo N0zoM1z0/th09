@@ -21,9 +21,9 @@ PlayerLifecycleView *__fastcall PlayerRegisterChain(int playerType, int sideInde
     *reinterpret_cast<ZunTimer *>(reinterpret_cast<unsigned char *>(player) + 0x303C8) = 0;
     player->InitializeType(playerType);
 
-    player->sideState = reinterpret_cast<PlayerSideStateView *>(&g_GameManager.sides[sideIndex]);
+    player->sideState = &g_GameManager.sides[sideIndex];
     player->sideIndex = sideIndex;
-    player->opponentState = reinterpret_cast<PlayerSideStateView *>(&g_GameManager.sides[1 - sideIndex]);
+    player->opponentState = &g_GameManager.sides[1 - sideIndex];
     player->selector = selector;
 
     player->calcChain = g_Chain.CreateElem(

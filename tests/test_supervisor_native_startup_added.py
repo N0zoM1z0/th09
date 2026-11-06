@@ -40,7 +40,8 @@ class NativeSupervisorStartupAdded(unittest.TestCase):
         self.assertNotIn('struct StartupGameManagerSide',startup)
         self.assertIn('g_GameManager.sides[0].value20 = 0;',startup)
         self.assertIn('g_GameManager.sides[1].value20 = 1;',startup)
-        types=(ROOT/'src/GameManagerRuntimeView.hpp').read_text()
+        types=((ROOT/'src/GameManagerRuntimeView.hpp').read_text() +
+                (ROOT/'src/GameManagerSideState.hpp').read_text())
         self.assertIn('#ifndef TH09_GAME_MANAGER_TYPES_ONLY',types)
         self.assertIn('extern AsciiGameManagerView g_GameManager;',types)
         self.assertIn('AsciiGameManagerSideViewSizeIs38',types)

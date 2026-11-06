@@ -26,7 +26,8 @@ class SharedOriginalGameManagerOwner(unittest.TestCase):
     def setUpClass(cls):
         cls.type3 = (ROOT/'src/ExAttackUpdateType3.cpp').read_text()
         cls.type4 = (ROOT/'src/ExAttackInitType4.cpp').read_text()
-        cls.gm = (ROOT/'src/GameManagerRuntimeView.hpp').read_text()
+        cls.gm = ((ROOT/'src/GameManagerRuntimeView.hpp').read_text() +
+                (ROOT/'src/GameManagerSideState.hpp').read_text())
         cls.methods = (ROOT/'src/GameManagerCoordinates.cpp').read_text()
         cls.bind_type3 = (ROOT/'scripts/inspect-exattack-type3.py').read_text()
         with (ROOT/'config/match-units.toml').open('rb') as f:

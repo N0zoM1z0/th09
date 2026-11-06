@@ -29,18 +29,7 @@ typedef unsigned short u16;
 typedef char PlayerChargeConfigurationModeAtB4[
     (offsetof(GameConfiguration, sideFocusMode) == 0xB4) ? 1 : -1];
 
-// The live 0x38-byte gameplay side is the very same GameManager side
-// allocation used by Enemy/ECL and the original game setup factories.
-// Preserve the existing Player-facing field names without a second struct.
-typedef char PlayerChargeNativeSideStorage[
-    (sizeof(PlayerSideStateView) == sizeof(AsciiGameManagerSideView) &&
-     offsetof(PlayerSideStateView, attackTarget10) ==
-         offsetof(AsciiGameManagerSideView, enemyManager10) &&
-     offsetof(PlayerSideStateView, attackOwner14) ==
-         offsetof(AsciiGameManagerSideView, cardAttack14) &&
-     offsetof(PlayerSideStateView, frontSide18) ==
-         offsetof(AsciiGameManagerSideView, frontSide18)) ? 1 : -1];
-
+// Player and FrontSide use the shared 0x38-byte side allocation.
 int PlayerChargeAttackView::UpdateChargeAttack()
 {
     int side;
@@ -90,8 +79,7 @@ int PlayerChargeAttackView::UpdateChargeAttack()
             if (scalar30384 == 0.0f)
             {
                 g_SoundPlayer.PlaySoundByIdx(43, sideIndex != 0 ? 500 : -500);
-                reinterpret_cast<AsciiGameManagerSideView *>(sideState)
-                    ->frontSide18->ActivateMeterVms();
+                sideState->frontSide18->ActivateMeterVms();
             }
             previousLevel = static_cast<int>(scalar30384) / 100;
             scalar30384 +=
@@ -123,12 +111,10 @@ resolveAttack:
         timer30398 = 0;
         timer1B74 = 8;
         if (scalar30384 >= 400.0f &&
-            reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
-                ->enemyManager10->FindActiveEnemyBySideCategory(3) == NULL)
+            opponentState->enemyManager10->FindActiveEnemyBySideCategory(3) == NULL)
         {
             reinterpret_cast<CardAttackStartView *>(
-                reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
-                    ->cardAttack14)->StartAttack(
+                opponentState->cardAttack14)->StartAttack(
                         2, 2, 0, primaryShtFile->modePath2);
             reinterpret_cast<PlayerResourceSubtractView *>(this)->SubtractResourceClamped(300.0f);
             timer1B74 = 8;
@@ -137,8 +123,7 @@ resolveAttack:
         else if (scalar30384 >= 300.0f)
         {
             reinterpret_cast<CardAttackStartView *>(
-                reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
-                    ->cardAttack14)->StartAttack(
+                opponentState->cardAttack14)->StartAttack(
                         1, 1, 0, primaryShtFile->modePath1);
             reinterpret_cast<PlayerResourceSubtractView *>(this)->SubtractResourceClamped(200.0f);
             timer1B74 = 8;
@@ -147,16 +132,14 @@ resolveAttack:
         else if (scalar30384 >= 200.0f)
         {
             reinterpret_cast<CardAttackStartView *>(
-                reinterpret_cast<AsciiGameManagerSideView *>(opponentState)
-                    ->cardAttack14)->StartAttack(
+                opponentState->cardAttack14)->StartAttack(
                         0, 0, 0, primaryShtFile->modePath0);
             timer1B74 = 8;
             reinterpret_cast<PlayerResourceSubtractView *>(this)->SubtractResourceClamped(100.0f);
             reinterpret_cast<PlayerStateEffectView *>(this)->ConfigureState3Effect13();
         }
     }
-    reinterpret_cast<AsciiGameManagerSideView *>(sideState)
-        ->frontSide18->DeactivateMeterVms();
+    sideState->frontSide18->DeactivateMeterVms();
     timer303BC = -1;
     scalar30384 = 0.0f;
     if (timer303B0 > 0)

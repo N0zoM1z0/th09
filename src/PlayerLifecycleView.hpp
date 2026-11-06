@@ -3,6 +3,7 @@
 #include "Chain.hpp"
 #include "ZunTimer.hpp"
 #include "Float3.hpp"
+#include "GameManagerSideState.hpp"
 #include "AnmVmLifecycle.hpp"
 
 #include <stddef.h>
@@ -12,26 +13,24 @@ struct EffectManager;
 struct Effect;
 class AnmLoaded;
 
-struct PlayerSideStateView
-{
-    unsigned char unknown00[0x04];
-    void *manager04;
-    unsigned char unknown08[0x04];
-    EffectManager *effectManager0C;
-    void *attackTarget10;
-    void *attackOwner14;
-    void *frontSide18;
-    unsigned char unknown1C[0x04];
-    int shotType20;
-    int previousShotType24;
-    unsigned char unknown28[0x04];
-    int characterIndex2C;
-    unsigned char unknown30[0x04];
-    unsigned int flags34;
-};
+typedef AsciiGameManagerSideView PlayerSideStateView;
 
 typedef char PlayerSideStateSizeIs38[(sizeof(PlayerSideStateView) == 0x38) ? 1 : -1];
 typedef char PlayerSideEffectAt0C[(offsetof(PlayerSideStateView, effectManager0C) == 0x0C) ? 1 : -1];
+// Preserve every formerly separate Player-facing slot in the shared record.
+typedef char PlayerSideNativeStorageOffsets[
+    (offsetof(PlayerSideStateView, manager04) == 0x04 &&
+     offsetof(PlayerSideStateView, unknown08) == 0x08 &&
+     offsetof(PlayerSideStateView, attackTarget10) == 0x10 &&
+     offsetof(PlayerSideStateView, attackOwner14) == 0x14 &&
+     offsetof(PlayerSideStateView, frontSide18) == 0x18 &&
+     offsetof(PlayerSideStateView, unknown1C) == 0x1C &&
+     offsetof(PlayerSideStateView, shotType20) == 0x20 &&
+     offsetof(PlayerSideStateView, previousShotType24) == 0x24 &&
+     offsetof(PlayerSideStateView, unknown28) == 0x28 &&
+     offsetof(PlayerSideStateView, characterIndex2C) == 0x2C &&
+     offsetof(PlayerSideStateView, unknown30) == 0x30 &&
+     offsetof(PlayerSideStateView, flags34) == 0x34) ? 1 : -1];
 
 struct PlayerShtDescriptorView
 {

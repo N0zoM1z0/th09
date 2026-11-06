@@ -9,7 +9,8 @@ ROOT=Path(__file__).resolve().parents[1]
 class ReplayNativeSideRuntime(unittest.TestCase):
     def test_side_state_shape_is_native_game_side_score_buffer(self):
         source=(ROOT/'src/ReplayInput.cpp').read_text()
-        native=(ROOT/'src/GameManagerRuntimeView.hpp').read_text()
+        native=((ROOT/'src/GameManagerRuntimeView.hpp').read_text() +
+                (ROOT/'src/GameManagerSideState.hpp').read_text())
         self.assertNotIn('struct ReplaySideStateView\n{',source)
         self.assertNotIn('ReplaySideStateView',source)
         self.assertNotIn('g_ReplaySideState0',source)

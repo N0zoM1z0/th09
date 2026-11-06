@@ -11,6 +11,32 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Shared native side record in nonexact ChargeAttack
+
+GameManager/Player/FrontSide now share their actual0x38-byte side declaration.
+ChargeAttack uses the native side fields directly; Player/FrontSide creation
+assigns real side pointers without casts. The maintained1197/70 nonexact owner
+is unchanged against original1210/1160-plus13-missing. Input-pointer and pressed
+snapshot controls do not recover the original EBP-1 mode byte. Explicit-owner
+static fastcall also preserves the whole baseline but is not adopted. See
+[the source and complete affected review](TH09_NATIVE_SIDE_RECORD_20261106.md).
+
+Fresh Ghidra attests ChargeAttack, both creators, PlayerDeath and signed RNG,
+including all685056 mapped bytes. A pre-existing PlayerDeath manifest migration
+named a nonexistent RNG type. Original406200 is the signed-range method;
+source now uses real g_ReplayRng/GetRandomF32SignedInRange and full753/38 passes.
+
+All162 affected source/profile groups rebuild serially. Strict public comparison
+passes448 existing exact units139770/7206, including physical tails/tables and
+actual definitions. Only488 compiler-private owner-local spellings in22 units
+refresh, with positions/addresses/kinds/addends/extents unchanged. Thirteen
+nonexact-containing baselines preserve413 regular bodies/four EH graphs and
+auxiliary/private-cleanup payloads; the two creators preserve20 bodies/two EH
+graphs separately. Public CI passes1377 tests/29 skips. Counts stay1021/13;
+there is no new exact, product/runtime, semantic or port credit. The goal stays
+active. Interrupted/failed objects retain their own source epochs in the
+ignored packets; local commits do not establish remote publication.
+
 ## 2026-11-06 continued main — Natural network checksum and wait-flow review
 
 The service checksum now names the wire input word. The old high checksum word

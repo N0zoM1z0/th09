@@ -100,19 +100,7 @@ typedef char FrontSidePlayerTimer30424At30424[
 typedef char FrontSidePlayerTimer30430At30430[
     (offsetof(FrontSidePlayerRuntimeView, pulseTimer30430) == 0x30430) ? 1 : -1];
 
-struct FrontSideSideStateView
-{
-    unsigned char unknown00[4];
-    FrontSidePlayerRuntimeView *player04;
-    unsigned char unknown08[0x14];
-    FrontSideSideRuntimeView *runtime1C;
-    int shotType20;
-    int previousShotType24;
-    unsigned char unknown28[4];
-    int characterIndex2C;
-    int auxPathIndex30;
-    unsigned int flags34;
-};
+typedef AsciiGameManagerSideView FrontSideSideStateView;
 
 typedef char FrontSideSideStateSizeIs38[
     (sizeof(FrontSideSideStateView) == 0x38) ? 1 : -1];
@@ -156,7 +144,7 @@ extern FrontSideSupervisorView g_Supervisor;
 extern const char *g_FrontSideAuxPaths[];
 
 #define FrontSideVm(vm) (reinterpret_cast<FrontSideVmView *>(vm))
-#define FrontSideState(state) (reinterpret_cast<FrontSideSideStateView *>(state))
+#define FrontSideState(state) (state)
 
 FrontSideAuxView::FrontSideAuxView()
 {
@@ -233,11 +221,9 @@ FrontSide *FrontSide::Create(int sideIndex)
         g_ZunMemory.AddToRegistry(new FrontSide, sizeof(FrontSide), "FrontSideInf"));
     frontSide->Reset();
 
-    frontSide->sideStateA670 = reinterpret_cast<PlayerSideStateView *>(
-        &g_GameManager.sides[sideIndex]);
+    frontSide->sideStateA670 = &g_GameManager.sides[sideIndex];
     frontSide->sideIndexA66C = sideIndex;
-    frontSide->otherSideStateA674 = reinterpret_cast<PlayerSideStateView *>(
-        &g_GameManager.sides[1 - sideIndex]);
+    frontSide->otherSideStateA674 = &g_GameManager.sides[1 - sideIndex];
 
     frontSide->calcChainA660 =
         g_Chain.CreateElem(reinterpret_cast<ChainCallback>(FrontSide::OnUpdate));
@@ -364,7 +350,7 @@ int FrontSide::SetTimingDigits(int frames)
 
 // These are expression-only layout views, not extra callable accessors.
 #define FRONT_SIDE_STATE(owner) FrontSideState((owner)->sideStateA670)
-#define FRONT_SIDE_PLAYER(owner) (FRONT_SIDE_STATE(owner)->player04)
+#define FRONT_SIDE_PLAYER(owner) (FRONT_SIDE_STATE(owner)->hudPlayer04)
 #define FRONT_SIDE_RUNTIME(owner) (FRONT_SIDE_STATE(owner)->runtime1C)
 
 int FrontSide::OnUpdate(FrontSide *frontSide)
@@ -488,32 +474,32 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     for (int i = 0; i < 7; ++i)
         g_AnmManager->ExecuteScript(&frontSide->gaugeVms2A40[i]);
     FrontSideSideStateView *side = FRONT_SIDE_STATE(frontSide);
-    FrontSideVm(&frontSide->gaugeVms2A40[0])->scale18.x = side->player04->meter30388 * 0.0025f;
-    FrontSideVm(&frontSide->gaugeVms2A40[1])->scale18.x = side->player04->meter30384 * 0.0025f;
+    FrontSideVm(&frontSide->gaugeVms2A40[0])->scale18.x = side->hudPlayer04->meter30388 * 0.0025f;
+    FrontSideVm(&frontSide->gaugeVms2A40[1])->scale18.x = side->hudPlayer04->meter30384 * 0.0025f;
 
     FrontSideColorView &meter0Color = FrontSideVm(&frontSide->gaugeVms2A40[1])->color1F0;
-    if (side->player04->meter30384 >= 400.0f)
+    if (side->hudPlayer04->meter30384 >= 400.0f)
         meter0Color.rgba = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFFFFFFFU : 0xFFFF0000U;
-    else if (side->player04->meter30384 >= 300.0f)
+    else if (side->hudPlayer04->meter30384 >= 300.0f)
         meter0Color.rgba = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F000U : 0xFFF0F0C0U;
-    else if (side->player04->meter30384 >= 200.0f)
+    else if (side->hudPlayer04->meter30384 >= 200.0f)
         meter0Color.rgba = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F000U : 0xFFC0C0C0U;
-    else if (side->player04->meter30384 >= 100.0f)
+    else if (side->hudPlayer04->meter30384 >= 100.0f)
         meter0Color.rgba = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F080U : 0xFFC0C0C0U;
     else
         meter0Color.rgba = 0xFFC0C0C0U;
 
     FrontSideColorView &meter1Color = FrontSideVm(&frontSide->gaugeVms2A40[0])->color1F0;
-    if (side->player04->meter30388 >= 400.0f)
+    if (side->hudPlayer04->meter30388 >= 400.0f)
         meter1Color.rgba = 0xFFC08080U;
-    else if (side->player04->meter30388 >= 300.0f)
+    else if (side->hudPlayer04->meter30388 >= 300.0f)
         meter1Color.rgba = 0xFFB08080U;
-    else if (side->player04->meter30388 >= 200.0f)
+    else if (side->hudPlayer04->meter30388 >= 200.0f)
         meter1Color.rgba = 0xFFA08080U;
     else
         meter1Color.rgba = 0xFF808080U;
 
-    int gaugeValue = side->player04->valueA0;
+    int gaugeValue = side->hudPlayer04->valueA0;
     int gaugeRemainder = gaugeValue % 10;
     frontSide->frontAnmA668->SetSprite(&frontSide->gaugeVms2A40[3], gaugeValue / 10 + 8);
     frontSide->frontAnmA668->SetSprite(&frontSide->gaugeVms2A40[4], gaugeRemainder + 8);

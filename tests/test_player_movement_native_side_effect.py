@@ -11,7 +11,8 @@ ROOT=Path(__file__).resolve().parents[1]
 
 class PlayerMovementNativeSideEffect(unittest.TestCase):
     def test_side_effect_manager_consumed_from_native_lifecycle_record(self):
-        header=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
+        header=((ROOT/'src/PlayerLifecycleView.hpp').read_text() +
+                (ROOT/'src/GameManagerSideState.hpp').read_text())
         source=(ROOT/'src/PlayerMovement.cpp').read_text()
         self.assertIn('struct EffectManager;',header)
         self.assertIn('EffectManager *effectManager0C;',header)
