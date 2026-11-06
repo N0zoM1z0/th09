@@ -774,8 +774,10 @@ mode_ready:
                 operator delete(g_GameManager.sides[sideIndex].state);
                 g_GameManager.sides[sideIndex].state = NULL;
             }
-            g_GameManager.sides[sideIndex].state = static_cast<SetupStateBuffer *>(operator new(0xA0));
-            memset(g_GameManager.sides[sideIndex].state, 0, 0xA0);
+            g_GameManager.sides[sideIndex].state =
+                static_cast<SetupStateBuffer *>(
+                    operator new(sizeof(SetupStateBuffer)));
+            memset(g_GameManager.sides[sideIndex].state, 0, sizeof(SetupStateBuffer));
         }
 
         if (g_GameManager.gameMode == 0)
@@ -836,7 +838,7 @@ mode_ready:
         }
 
         if (g_GameManager.gameMode == 0 || g_GameManager.gameMode == 1)
-            memset(g_GameManager.sides[1].state, 0, 0xA0);
+            memset(g_GameManager.sides[1].state, 0, sizeof(SetupStateBuffer));
     }
 
     g_Supervisor.InitializeViewports();

@@ -294,6 +294,16 @@ preserves 30,461 exact related bytes/1,404 fields; only 20 verified
 compiler-private label names changed. See
 [laser color original-bound source proof](TH09_RUNECL_NATIVE_LASER_COLOR_WIRE_20261106.md).
 
+## 2026-11-06 native per-side setup score buffers
+
+The original gameplay setup thread now allocates and clears its real
+0xA0-byte `SetupStateBuffer` using `sizeof`, rather than three hard-coded
+byte counts. Eight actual VC7.1 source contexts were compared. The full
+1,682/1,689-byte nonexact thread keeps all 172 fields, 35 calls and its
+7 missing bytes/694 differing overlaps, with no new unequal positions;
+16 related exact unit replays pass. See
+[native setup score-buffer proof](TH09_GAMEPLAY_SETUP_NATIVE_SCORE_BUFFER_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
