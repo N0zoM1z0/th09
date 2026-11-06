@@ -152,6 +152,16 @@ two pinned compiler profiles. See
 [the constructor member audit](TH09_ANM_CONSTRUCTOR_NATIVE_DEVICE_STATE_20261106.md).
 This is source-quality progress, not newly matched authored bytes.
 
+## 2026-11-06 Etama/Player native collision query
+
+Etama's complete 2,216-byte OnUpdate now uses the native Player collision
+query at `+0x36C`, instead of four raw byte-offset casts. All 18 same-source
+BulletManager units (including 1,932-byte SpawnSingleBullet) remain exact;
+16 compiler-local labels were re-bound from independently verified COFF
+positions to their **unchanged** original addresses. The focused Bullet
+replay passes 30 complete comparisons. See
+[the Etama collision receiver proof](TH09_BULLET_NATIVE_COLLISION_SUBOBJECT_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

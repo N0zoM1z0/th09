@@ -5,6 +5,7 @@
 #include "RuntimeAngleMath.hpp"
 #include "AnmManager.hpp"
 #include "AsciiGameManagerView.hpp"
+#include "PlayerLifecycleView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 
@@ -43,20 +44,6 @@ struct BulletTimerCurrentView
     int GetCurrent();
 };
 
-struct PlayerPositionView;
-struct PlayerCollisionQueryStateView
-{
-    void AppendLaserRecord(
-        const PlayerPositionView *position,
-        const PlayerPositionView *size,
-        const PlayerPositionView *origin,
-        float angle,
-        int unknown);
-    void AppendBoxRecord(
-        const PlayerPositionView *position,
-        const PlayerPositionView *size,
-        int unknown);
-};
 
 struct BulletPlayerView
 {
@@ -73,6 +60,12 @@ struct BulletPlayerView
 // The retained Bullet side subview is physically one native GameManager
 // side slot; the original world flags and playfield callee belong to the
 // canonical 0x4A7D90 AsciiGameManagerView allocation, not a second root.
+// The laser and bullet append receivers are the real Player's collision
+// subobject at +0x36C, not four synthetic byte-offset pointers.
+typedef char BulletNativePlayerCollisionQueryAt36C[
+    (offsetof(PlayerLifecycleView, collisionQuery36C) == 0x36C &&
+     sizeof(PlayerCollisionQueryStateView) == 0x1808) ? 1 : -1];
+
 typedef char BulletNativeGameManagerOwner[
     (offsetof(AsciiGameManagerView, sides) == 0 &&
      sizeof(AsciiGameManagerSideView) == 0x38 &&
@@ -795,9 +788,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
                 }
                 else
                 {
-                    reinterpret_cast<PlayerCollisionQueryStateView *>(
-                        reinterpret_cast<unsigned char *>(controller->sideState->player04) + 0x36C)
-                        ->AppendBoxRecord(
+                    controller->sideState->player04->collisionQuery36C.AppendBoxRecord(
                             reinterpret_cast<PlayerPositionView *>(&bullet->position),
                             reinterpret_cast<PlayerPositionView *>(
                                 &bullet->sprites.collisionSize),
@@ -873,9 +864,7 @@ updateTimers:
                 laserSize[0] = currentWidth / 2.0f;
             }
             if (laser->timer >= laser->hitboxStartTime)
-                reinterpret_cast<PlayerCollisionQueryStateView *>(
-                    reinterpret_cast<unsigned char *>(controller->sideState->player04) + 0x36C)
-                    ->AppendLaserRecord(
+                controller->sideState->player04->collisionQuery36C.AppendLaserRecord(
                         reinterpret_cast<PlayerPositionView *>(laserCenter),
                         reinterpret_cast<PlayerPositionView *>(laserSize),
                         reinterpret_cast<PlayerPositionView *>(&laser->position),
@@ -887,9 +876,7 @@ updateTimers:
             ++laser->state;
             laser->currentWidth = laser->width;
         case 1:
-            reinterpret_cast<PlayerCollisionQueryStateView *>(
-                    reinterpret_cast<unsigned char *>(controller->sideState->player04) + 0x36C)
-                    ->AppendLaserRecord(
+            controller->sideState->player04->collisionQuery36C.AppendLaserRecord(
                         reinterpret_cast<PlayerPositionView *>(laserCenter),
                         reinterpret_cast<PlayerPositionView *>(laserSize),
                         reinterpret_cast<PlayerPositionView *>(&laser->position),
@@ -924,9 +911,7 @@ updateTimers:
                 }
             }
             if (laser->timer < laser->hitboxEndDelay)
-                reinterpret_cast<PlayerCollisionQueryStateView *>(
-                    reinterpret_cast<unsigned char *>(controller->sideState->player04) + 0x36C)
-                    ->AppendLaserRecord(
+                controller->sideState->player04->collisionQuery36C.AppendLaserRecord(
                         reinterpret_cast<PlayerPositionView *>(laserCenter),
                         reinterpret_cast<PlayerPositionView *>(laserSize),
                         reinterpret_cast<PlayerPositionView *>(&laser->position),
