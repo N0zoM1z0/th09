@@ -18,6 +18,27 @@ share one **0x38-byte** native layout. Consult
 [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261104.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-06: Collision loop, implemented reward calls and scratch homes
+
+CheckBulletCollision's native resource/score call targets41BC90/40F860 now use
+the already implemented162/33-byte methods. A pointer for/continue scan preserves
+every849 raw byte and all26 field positions; two symbol identities change.
+Strict16 existing exact units3480/138 protect five siblings and eleven direct
+callees. The complete owner still differs at799 overlapping positions and lacks
+13 bytes; length alone understates the frontier.
+
+Original scratch homes overlap between geometry and rewards: Rotate input and
+popup position at EBP-1C/-18,Rotate output and velocity at EBP-10/-0C. A private
+workspace recovers these homes but not the complete body. Explicit variable
+reuse/union spelling remains a hypothesis. Sixteen natural controls preserve80
+repeated exact siblings; only the byte-identical structured loop is adopted.
+Two830-byte controls retain RET12 transport but merge the original three
+physical return sites to two. Fresh Ghidra attests all mapped bytes. Earlier
+claims that progress would require register steering do not establish that all
+natural source models are exhausted. See
+[the review](TH09_PLAYER_COLLISION_SOURCE_FLOW_20261106.md).
+No new exact or later-phase credit.
+
 ### 2026-11-06: Movement actual zero provenance and expression models
 
 Original/current movement scalar homes already agree at EBP-8 horizontal and

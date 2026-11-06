@@ -65,11 +65,11 @@ SOURCE_TARGETS = {
     '?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z': 0x00404910,
     '?g_PlayerRewardEffectManager@@3PAUEffectManager@@A': 0x004A7E0C,
     '?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z': 0x0040CCC0,
-    '?AddRespawnResource@PlayerCancelState4OpsView@@QAEXM@Z': 0x0041BC90,
+    '?AddRespawnResource@PlayerState4OpsView@@QAEXM@Z': 0x0041BC90,
     '?g_SoundPlayer@@3VSoundPlayer@@A': 0x004DC698,
     '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z': 0x0043E2F0,
     '?ApplyReward@PlayerOwnerStateView@@QAEXPAUPlayerPositionView@@HHHH@Z': 0x0041D150,
-    '?AddScore@PlayerCancelSideView@@QAEXH@Z': 0x0040F860,
+    '?AddScore@GameManagerSideStateView@@QAEXH@Z': 0x0040F860,
 }
 
 

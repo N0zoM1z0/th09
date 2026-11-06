@@ -11,6 +11,23 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Collision loop and native reward calls
+
+CheckBulletCollision now uses a pointer for/continue loop and the existing
+resource/score implementations; two declaration-only callee classes are removed.
+All849 raw bytes and26 field positions stay unchanged; only the two callee
+identities change. Full owner stays799 unequal overlaps plus13 missing bytes,
+not merely a13-byte residual. See
+[the bounded review](TH09_PLAYER_COLLISION_SOURCE_FLOW_20261106.md).
+
+Fresh Ghidra attests the owner,two callees and all685056 mapped bytes. Sixteen
+natural controls preserve80 repeated exact siblings. A workspace reproduces
+the target scratch homes but not the whole body and is not adopted. Strict16
+existing units3480/138 pass; nine unchanged dependency carriers are reused.
+Only this source rebuilds.18 focused tests and full public CI1386/29 pass.
+Totals stay1021/13; the goal/later gates remain open. Current private packet:
+`.analysis/player-collision-owner-flow-20261106/`. No Factory/remote claim.
+
 ## 2026-11-06 continued main — Movement actual zero and expression contexts
 
 The movement inspector now validates its actual defined read-only zero scalar.

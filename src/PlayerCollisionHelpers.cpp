@@ -7,6 +7,8 @@
 #include "RngRuntimeLeaves.hpp"
 #include "ZunTimer.hpp"
 #include "PlayerCollisionRegionCreate.hpp"
+#include "PlayerState4OpsView.hpp"
+#include "GameManagerSideScoreView.hpp"
 
 void RotatePlayerCollisionVector(
     PlayerPositionView *outVector,
@@ -16,16 +18,6 @@ void RotatePlayerCollisionVector(
 
 typedef char PlayerCancelGameManagerCoordinateAt358[
     (offsetof(AsciiGameManagerView, coordinate358) == 0x358) ? 1 : -1];
-
-struct PlayerCancelSideView
-{
-    void AddScore(int score);
-};
-
-struct PlayerCancelState4OpsView
-{
-    void AddRespawnResource(float value);
-};
 
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_PlayerRewardEffectManager;
@@ -50,14 +42,14 @@ int PlayerLifecycleView::CheckBulletCollision(
     PlayerCollisionRegionCreateRegionView **slot =
         reinterpret_cast<PlayerCollisionRegionCreateView *>(player)->activeB100;
 
-    while (*slot != NULL)
+    for (; *slot != NULL; ++slot)
     {
         if ((*slot)->type38 != 1 &&
             (*slot)->type38 != 2 &&
             (*slot)->type38 != 3)
-            goto next;
+            continue;
         if ((*slot)->delay40 > 0)
-            goto next;
+            continue;
 
         if ((*slot)->radius08 != 0.0)
         {
@@ -66,7 +58,7 @@ int PlayerLifecycleView::CheckBulletCollision(
             if (xDelta * xDelta + yDelta * yDelta <
                 (*slot)->radius08 * (*slot)->radius08)
                 goto hit;
-            goto next;
+            continue;
         }
 
         if ((*slot)->angle20 != 0.0f)
@@ -83,7 +75,7 @@ int PlayerLifecycleView::CheckBulletCollision(
                 -halfSize.y <= rotated.y &&
                 rotated.y <= halfSize.y)
                 goto hit;
-            goto next;
+            continue;
         }
 
         halfSize.x = (*slot)->centerX00 - (*slot)->halfWidth10;
@@ -102,7 +94,7 @@ int PlayerLifecycleView::CheckBulletCollision(
                 }
             }
         }
-        goto next;
+        continue;
 
 hit:
         if ((*slot)->type38 == 2)
@@ -114,7 +106,7 @@ hit:
 
     cancel_hit:
         if (currentBullet == NULL || currentBullet->bulletType != 0)
-            goto next;
+            continue;
 
         {
             EffectFloat3 effectPosition;
@@ -145,7 +137,7 @@ hit:
                 static_cast<short>(currentBullet->controller->sideIndex);
             effect->cancel.extraAttribute = currentBullet->extraAttribute10BD;
 
-            reinterpret_cast<PlayerCancelState4OpsView *>(player)
+            reinterpret_cast<PlayerState4OpsView *>(player)
                 ->AddRespawnResource(0.2f);
             g_SoundPlayer.PlaySoundByIdx(
                 46, player->sideIndex != 0 ? 500 : -500);
@@ -162,15 +154,13 @@ hit:
             player->ownerState30410.ApplyReward(
                 position, rewardMode, 2, 0, rewardValue);
 
-            reinterpret_cast<PlayerCancelSideView *>(player->sideState)
+            reinterpret_cast<GameManagerSideStateView *>(player->sideState)
                 ->AddScore(50);
         }
 
         ++(*slot)->hitCount2C;
         return 2;
 
-next:
-        ++slot;
     }
 
     return 0;
