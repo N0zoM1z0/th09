@@ -28,7 +28,7 @@ struct GameManagerSetupLayout
     int valueD0;
     union { void *stageObject; ReplayManagerView *replayManagerD4; ReplayStageDispatchView *replayDispatchD4; };
     unsigned char clearD8[0x10];
-    void *heapE8;
+    GameConfiguration *configurationE8;
     float speedEC;
     unsigned char unknown_F0[4];
     int valueF4;
@@ -92,3 +92,11 @@ typedef char SetupResetNativeWords[
      offsetof(GameManagerSetupLayout, value110) == 0x110 &&
      sizeof(((GameManagerSetupLayout *)0)->valueBC) == 4 &&
      sizeof(((GameManagerSetupLayout *)0)->value110) == 4) ? 1 : -1];
+
+// Setup allocates/copies the configuration in the same +0xE8 pointer cell
+// read by Replay, then releases it from the deleted callback.
+typedef char SetupNativeConfigurationAtE8[
+    (offsetof(GameManagerSetupLayout, configurationE8) == 0xE8 &&
+     offsetof(GameManagerSetupLayout, configurationE8) ==
+         offsetof(AsciiGameManagerView, configurationE8) &&
+     sizeof(((GameManagerSetupLayout *)0)->configurationE8) == 4) ? 1 : -1];

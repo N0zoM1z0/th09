@@ -11,6 +11,19 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Setup uses its native configuration cell
+
+Setup allocation/copy/reads and the deleted callback now share the typed
+GameManager+E8 configuration pointer already consumed by Replay. Five actual
+COFF alias changes retain the same4A7E78 destination and complete linked worker.
+Three affected source/profile builds pass12 canonical comparisons3987/335,
+including the Supervisor physical tail;40 private labels retain actual
+same-owner definitions/original operands. Complete Setup remains1689/171/904,
+with35 ordered calls and all785 previously equal positions protected. Five
+complete controls retain this frontier;34 focused tests pass. See
+[the source review](TH09_SETUP_NATIVE_CONFIGURATION_20261106.md).
+No new exact credit;1022 exact/13 nonexact and the active goal remain open.
+
 ## 2026-11-06 continued main — Charge mode producer and caller audited
 
 Original mode capture is configuration byte[side+B4] -> AL -> local[EBP-1],

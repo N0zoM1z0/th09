@@ -31776,3 +31776,22 @@ explicit nominal-type/arity caveat. Full mapped-byte pre/post checks agree.
 This is analysis metadata and caller evidence, not new exact credit. See
 TH09_CHARGE_ENTRY_MODE_AUDIT_20261106.md; the31-input ignored packet retains
 three complete controls, scripts/readbacks, original bytes and all field proofs.
+
+## 2026-11-06 Setup native configuration allocation and release
+
+Fresh target-attested Ghidra covers41AF2D..41B5C5, with all685056 mapped PE
+bytes checked. The worker's configuration cell is4A7E78, GameManager+E8;
+Setup's deleted callback frees the same receiver member. Setup now uses the
+shared native GameConfiguration pointer type for allocation/copy/reads/release,
+removing its separate global declaration and untyped heap member. Five real
+COFF aliases at+DF/+F0/+11C/+17A/+2DF change spelling/addend while retaining
+that same effective destination. Every linked worker byte is unchanged.
+
+Three affected source/profile builds pass12 complete canonical comparisons
+3987 bytes/335 fields, including the844-byte Supervisor code plus152-byte tail.
+Forty private label renames are independently definition/PE-bound. The422-byte
+Deleted callback remains exact. All five full-source controls retain the
+1689/171/904 worker and ten complete exact siblings each. Side-bit field and
+signed-threshold controls are not original source/typing proofs and are not
+adopted. Original nominal class/TU ownership stays unknown; no authored exact
+credit follows. See docs/TH09_SETUP_NATIVE_CONFIGURATION_20261106.md.

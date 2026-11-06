@@ -122,7 +122,6 @@ typedef char SetupGameManagerNativeReplayOffsets[
 extern Chain g_Chain;
 extern ChainElem g_GameManagerCalcChain;
 extern ChainElem g_GameManagerDrawChain;
-extern GameConfiguration *g_GameConfiguration;
 extern char g_ReplayPlayTimeText[];
 extern int g_SetupStatus;
 extern RngRuntimeView g_Rng;
@@ -569,10 +568,10 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
     EffectManager::Release(gameManager->sides[2].effectManager0C);
     gameManager->sides[2].effectManager0C = NULL;
 
-    if (gameManager->heapE8 != NULL)
+    if (gameManager->configurationE8 != NULL)
     {
-        operator delete(gameManager->heapE8);
-        gameManager->heapE8 = NULL;
+        operator delete(gameManager->configurationE8);
+        gameManager->configurationE8 = NULL;
     }
 
     while (g_SoundPlayer.ProcessQueues())
@@ -748,10 +747,10 @@ void __fastcall GameplaySetupThread(void *unused)
         manager->counterFC++;
 
 mode_ready:
-    if (g_GameConfiguration != NULL)
+    if (manager->configurationE8 != NULL)
     {
-        operator delete(g_GameConfiguration);
-        g_GameConfiguration = NULL;
+        operator delete(manager->configurationE8);
+        manager->configurationE8 = NULL;
     }
 
     GameConfiguration *allocation =
@@ -761,8 +760,8 @@ mode_ready:
         allocation->Initialize();
     else
         newConfiguration = NULL;
-    g_GameConfiguration = newConfiguration;
-    *g_GameConfiguration = supervisor->config388;
+    manager->configurationE8 = newConfiguration;
+    *manager->configurationE8 = supervisor->config388;
     manager->speedEC = 1.0f;
 
     if (supervisor->flags & 0x200)
@@ -782,7 +781,7 @@ mode_ready:
 
         if (manager->gameMode == 0)
             manager->sides[0].state->value00 =
-                static_cast<float>(g_GameConfiguration->valueAC) + 2.0f;
+                static_cast<float>(manager->configurationE8->valueAC) + 2.0f;
         else
             manager->sides[0].state->value00 = 0.0f;
 
@@ -854,7 +853,7 @@ mode_ready:
         SetupSideState *side = &manager->sides[sideIndex];
 
         if (side->selector != 0)
-            g_GameConfiguration->sideFocusMode[sideIndex] = 0;
+            manager->configurationE8->sideFocusMode[sideIndex] = 0;
         side->flags &= ~1u;
 
         side->background00 = Background::Create(sideIndex);
