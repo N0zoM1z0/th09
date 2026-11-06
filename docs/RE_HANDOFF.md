@@ -11,6 +11,17 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Replay composition and Enemy controls
+
+Three complete Replay member/base layouts retain1238/53/two, while every
+actual18/15-byte constructor pair remains original-equal. Nine full comparisons
+3813/165 do not identify original composition/inheritance or constructor origin.
+Four Enemy descriptor/count contexts retain13 or regress214/2954 overlaps;
+all complete RunEcl companions stay15564/598/30. No source model is adopted.
+Both restored complete carriers reproduce all raw bytes/fields after hashed
+copy pruning. See [the complete controls](TH09_COMPLETE_OWNER_LAYOUT_CONTROLS_20261106.md).
+Canonical source and1022 exact/13 nonexact remain unchanged; the goal stays active.
+
 ## 2026-11-06 continued main — replay header names its serialized locations
 
 Source `36002b4b`; sealed receipt SHA-256

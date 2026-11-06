@@ -31733,3 +31733,24 @@ copies are pruned; a restored native-wire control reproduces all code/fields.
 The TH08 portable offset representation and different TH095 container were
 read only as hypotheses; no adjacent layout or compiler hint becomes TH09
 evidence. See TH09_REPLAY_SERIALIZED_LOCATIONS_20261106.md.
+
+
+## 2026-11-06 Complete Replay composition and Enemy descriptor controls
+
+The actual420C40/420830 constructor chain does not identify base classes versus
+members: three current-source header/payload arrangements all reproduce the
+18/15-byte bodies and leave the full1238-byte Save owner at53 fields/two
+differences. Nine comparisons3813/165 retain layout/origin uncertainty. No
+layout is adopted. Fresh mapped-byte Ghidra and frozen thirteen-input controls
+are in .analysis/replay-object-shape-20261106/.
+
+Enemy count selection expressed arithmetically or with direct side access
+retains3900/97/13. Delaying count1 fixes old+2A9 but adds202 differences, giving
+214, and moves the actual Player-state operand+36B to+36D. Combining late
+assignment and arithmetic emits3852/96 with2954 unlike overlaps and48 absent
+physical bytes. All four full RunEcl companions remain15564/598/30. A separate
+negative comparator binds every actual field and literal without relaxing the
+strict acceptance guards. .analysis/enemy-loop-lifetimes-20261106/ retains full
+objects/fields and repeatable recovery. The old build4035 Rich caveat is
+reobserved, not new per-function compiler provenance. See
+TH09_COMPLETE_OWNER_LAYOUT_CONTROLS_20261106.md. No exact or later-phase credit.
