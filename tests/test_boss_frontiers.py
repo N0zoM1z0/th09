@@ -142,11 +142,17 @@ class BossFrontierChecks(TestCase):
             'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
             'full_byte_agreement': False,
             'target_fields': [{'offset': 0x31D, 'type': 'REL32',
-                               'effective_destination': 0x00406790}],
+                               'effective_destination': 0x00406790},
+                *[{'offset': offset, 'type': 'REL32', 'effective_destination': destination}
+                  for offset, _, destination in frontiers.PLAYER_MOVEMENT_MATH_CALLS]],
             'actual_resolved_fields': [{'offset': 0x31D, 'type': 'REL32',
                 'symbol': frontiers.PLAYER_MOVEMENT_INTERRUPT_SYMBOL, 'addend': 0,
                 'destination': 0x00406790, 'effective_destination': 0x00406790,
-                'owner_local': False, 'symbol_section': 0}],
+                'owner_local': False, 'symbol_section': 0},
+                *[{'offset': offset, 'type': 'REL32', 'symbol': symbol, 'addend': 0,
+                   'destination': destination, 'effective_destination': destination,
+                   'owner_local': False, 'symbol_section': 0}
+                  for offset, symbol, destination in frontiers.PLAYER_MOVEMENT_MATH_CALLS]],
         }
 
     def test_player_movement_cold_full_owner_and_exact_caller(self):

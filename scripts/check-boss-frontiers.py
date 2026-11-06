@@ -1293,6 +1293,39 @@ def replay_player_movement_interrupt_exact() -> list[dict]:
     return [canonical('anm-vm-set-interrupt')]
 
 
+PLAYER_MOVEMENT_MATH_CALLS = (
+    (0x59E, '??GFloat3@@QBE?AU0@ABU0@@Z', 0x00401140),
+    (0x5C0, '??HFloat3@@QBE?AU0@ABU0@@Z', 0x00401100),
+    (0x5E8, '??GFloat3@@QBE?AU0@ABU0@@Z', 0x00401140),
+    (0x60A, '??HFloat3@@QBE?AU0@ABU0@@Z', 0x00401100),
+    (0x632, '??GFloat3@@QBE?AU0@ABU0@@Z', 0x00401140),
+    (0x654, '??HFloat3@@QBE?AU0@ABU0@@Z', 0x00401100),
+)
+
+
+def guard_player_movement_math(report: dict) -> None:
+    """Preserve all six actual native math provider identities and PE edges."""
+    offsets = {row[0] for row in PLAYER_MOVEMENT_MATH_CALLS}
+    destinations = {row[2] for row in PLAYER_MOVEMENT_MATH_CALLS}
+    for key in ('target_fields', 'actual_resolved_fields'):
+        rows = report.get(key)
+        if not isinstance(rows, list):
+            raise RuntimeError('Player movement native math fields absent')
+        selected = [row for row in rows if row.get('offset') in offsets or
+                    row.get('effective_destination') in destinations]
+        if len(selected) != 6:
+            raise RuntimeError('Player movement native math field coverage changed')
+        selected.sort(key=lambda row: row.get('offset', -1))
+        for actual, (offset, symbol, destination) in zip(selected, PLAYER_MOVEMENT_MATH_CALLS):
+            if (actual.get('offset'), actual.get('type'), actual.get('effective_destination')) != (
+                    offset, 'REL32', destination):
+                raise RuntimeError('Player movement original native math edge changed')
+            if key == 'actual_resolved_fields' and (
+                    actual.get('symbol'), actual.get('addend'), actual.get('destination'),
+                    actual.get('owner_local')) != (symbol, 0, destination, False):
+                raise RuntimeError('Player movement native math provider identity changed')
+
+
 def run_player_movement(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     with (ROOT/'config/match-units.toml').open('rb') as stream:
         validate_player_movement_interrupt_abi(tomllib.load(stream)['units'])
@@ -1301,6 +1334,7 @@ def run_player_movement(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     report = parsed(['scripts/inspect-player-movement.py', obj])
     owner = guard_player_movement(report)
     guard_player_movement_interrupt(report)
+    guard_player_movement_math(report)
     exact = []
     if protect_exact:
         build('player-on-update')

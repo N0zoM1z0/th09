@@ -31603,3 +31603,26 @@ also retains both15/18-byte constructors, without establishing the original
 class relationship. Twelve real co-visible memory/RNG bodies match336 bytes
 under the fixed caller profile; that does not make SaveReplay exact. No source
 or canonical profile changes. See TH09_REPLAY_OFFSET_RECHECK_20261106.md.
+
+## 2026-11-06 Player bounds math uses the implemented Float3 providers
+
+Full original movement calls401140/401100 three times each for the six bounds
+at Player+1C60..1C9C, using its position and three12-byte half-size vectors.
+The maintained caller now projects those actual three-float fields to native
+Float3 arithmetic, replacing declaration-only PlayerPositionView operator
+references with implemented canonical providers. Size/x/y/z guards preserve
+the storage contract. Player's header and construction remain unchanged.
+Fresh full1900-byte comparison retains every raw byte, all66 effective fields,
+23 ordered calls and exactly122 unlike positions. The prior129 ledger prose
+is stale. This source-provider repair gives no new exactness or runtime credit.
+
+Fresh OnUpdate522/40 and SetInterrupt18/0 plus three unchanged source-bound
+math providers134/2 pass five complete comparisons674 bytes/42 fields. All86
+ECL source inputs/Git blobs, its actual object, recipes and eight provider
+hashes remain bound to bfa170c9; no ECL rebuild. Seven full controls test SHT
+alias removal, native-vector headers, actual definitions and local projection.
+SHT removal regresses to252; the native/projection models retain122. Three
+actual-core contexts preserve26/54/54-byte callees. Six relocation-contract
+tests reject private numeric aliases and incorrect/missing/extra actual fields.
+See TH09_PLAYER_MOVEMENT_NATIVE_MATH_20261106.md; original class spelling and
+TU identity remain unknown, with all later phase gates separate.

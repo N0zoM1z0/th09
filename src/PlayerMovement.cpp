@@ -1,4 +1,5 @@
 #include "PlayerLifecycleView.hpp"
+#include "Float3.hpp"
 #include "EffectManager.hpp"
 #include "GameConfiguration.hpp"
 #include "AnmManager.hpp"
@@ -29,6 +30,14 @@ typedef char PlayerMovementOptionTimerAt2E0[
     (offsetof(PlayerMovementOptionView, timer2E0) == 0x2E0) ? 1 : -1];
 typedef char PlayerMovementOptionCallbackAt2EC[
     (offsetof(PlayerMovementOptionView, updateCallback2EC) == 0x2EC) ? 1 : -1];
+
+// These existing Player vectors are three consecutive floats. Arithmetic
+// uses the implemented Float3 providers without changing Player construction.
+typedef char PlayerMovementNativeVectorStorage[
+    (sizeof(PlayerPositionView) == sizeof(Float3) &&
+     offsetof(PlayerPositionView, x) == offsetof(Float3, x) &&
+     offsetof(PlayerPositionView, y) == offsetof(Float3, y) &&
+     offsetof(PlayerPositionView, z) == offsetof(Float3, z)) ? 1 : -1];
 
 extern GameConfiguration *g_GameConfiguration;
 
@@ -304,18 +313,21 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     else if (position[1] > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
         position[1] = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
 
-    player->collisionBoundsMin1C60 =
-        player->position1B88 - player->hurtboxHalfSize;
-    player->collisionBoundsMax1C6C =
-        player->position1B88 + player->hurtboxHalfSize;
-    player->grazeBoundsMin1C78 =
-        player->position1B88 - player->grazeHalfSize;
-    player->grazeBoundsMax1C84 =
-        player->position1B88 + player->grazeHalfSize;
-    player->unknownBoundsMin1C90 =
-        player->position1B88 - player->itemCollectionHalfSize;
-    player->unknownBoundsMax1C9C =
-        player->position1B88 + player->itemCollectionHalfSize;
+    const Float3 &positionVector =
+        reinterpret_cast<const Float3 &>(player->position1B88);
+
+    reinterpret_cast<Float3 &>(player->collisionBoundsMin1C60) =
+        positionVector - reinterpret_cast<const Float3 &>(player->hurtboxHalfSize);
+    reinterpret_cast<Float3 &>(player->collisionBoundsMax1C6C) =
+        positionVector + reinterpret_cast<const Float3 &>(player->hurtboxHalfSize);
+    reinterpret_cast<Float3 &>(player->grazeBoundsMin1C78) =
+        positionVector - reinterpret_cast<const Float3 &>(player->grazeHalfSize);
+    reinterpret_cast<Float3 &>(player->grazeBoundsMax1C84) =
+        positionVector + reinterpret_cast<const Float3 &>(player->grazeHalfSize);
+    reinterpret_cast<Float3 &>(player->unknownBoundsMin1C90) =
+        positionVector - reinterpret_cast<const Float3 &>(player->itemCollectionHalfSize);
+    reinterpret_cast<Float3 &>(player->unknownBoundsMax1C9C) =
+        positionVector + reinterpret_cast<const Float3 &>(player->itemCollectionHalfSize);
 
     PlayerMovementOptionView *option = player->optionStates;
     for (int optionCount = 4; optionCount != 0; --optionCount, ++option)

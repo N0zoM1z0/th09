@@ -46,6 +46,8 @@ DESTINATIONS = {
     "??BPlayerPositionView@@QAEPAMXZ": 0x004343D0,
     "??GPlayerPositionView@@QBE?AU0@ABU0@@Z": 0x00401140,
     "??HPlayerPositionView@@QBE?AU0@ABU0@@Z": 0x00401100,
+    "??GFloat3@@QBE?AU0@ABU0@@Z": 0x00401140,
+    "??HFloat3@@QBE?AU0@ABU0@@Z": 0x00401100,
     "?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z": 0x00436F30,
     "??EZunTimer@@QAEXH@Z": 0x00401510,
 }

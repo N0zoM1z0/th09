@@ -11,6 +11,22 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Player movement uses implemented native math
+
+Six bounds operations now resolve to the existing implemented Float3 addition/
+subtraction owners, retiring declaration-only PlayerPositionView math seams
+from this caller. Local storage projections preserve Player header/construction.
+Complete movement stays1900 bytes/66 fields/23 ordered calls/122 differences,
+with every raw byte, effective field and residual position unchanged. The
+129-byte ledger prose is corrected. See
+[the source and target review](TH09_PLAYER_MOVEMENT_NATIVE_MATH_20261106.md).
+Two freshly rebuilt exact units and three unchanged source-bound math providers
+pass five complete comparisons674 bytes/42 fields. All86 provider inputs and
+the original object/profile/SDK proof are verified without rebuilding ECL.
+Six native relocation-contract tests and50 focused movement tests pass
+(two skips). No new exact credit; totals remain1022 exact/13 nonexact.
+Full public CI passes1370 tests with29 skips; tracking/docs/progress/whitespace pass.
+
 ## 2026-11-06 continued main — complete network frame contexts rechecked
 
 Five source contexts recheck the original20-byte local frame and swapped
