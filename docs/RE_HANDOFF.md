@@ -11,6 +11,27 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Effect receiver and actual literal definitions
+
+The Effect diagnostic now checks actual read-only etama.anm source bytes/NUL.
+A malformed Xtama.anm OBJ previously produced the identical51/four/eight
+report under the unchanged symbol; the new check rejects it. The four fields,
+full owner and original target checks stay required. Four new meaningful tests
+and full public CI pass1381/29. No target/game runtime behavior changes.
+See [the complete review](TH09_EFFECT_RECEIVER_AND_LITERAL_DEFINITIONS_20261106.md).
+
+Fresh Ghidra attests callback/Create/all mapped bytes. ESI=owner, EDI=ANM
+manager, returned resource=EAX; the wrong source comment is corrected. Four
+coherent reference/instance models retain eight or11 differences and protect60
+repeated exact siblings10120/400. Their full creators327/27 remain exact; no
+callback interface, qualifier or helper is adopted. The instance projection also
+retains eight and has no original-owner credit.
+
+One fresh Effect build preserves all17 regular bodies; two unchanged native
+ANM carriers reuse verified source/profile/object proofs. Strict36 existing
+comparisons5543/206 pass. Counts stay1021/13, the goal and all later gates stay
+open. Completed interrupted work is hash-recovered rather than recompiled.
+
 ## 2026-11-06 continued main — Native Replay stage-header snapshot
 
 SaveReplay now snapshots each live32-byte stage header before publishing its

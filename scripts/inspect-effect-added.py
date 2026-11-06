@@ -121,6 +121,24 @@ def decode_owner(code: bytes) -> tuple[list, list[tuple], list[int]]:
     return ins, sorted(fields), calls
 
 
+def check_literals(data: bytes, rows: list[dict], image: bytes, coff) -> list[dict]:
+    """Require the actual defined etama.anm bytes, including the terminator."""
+    symbol = '??_C@_09NMANGJFI@etama?4anm?$AA@'
+    expected = b'etama.anm\x00'
+    if coff.pe_bytes_at(image, DESTINATIONS[symbol], len(expected)) != expected:
+        raise ValueError('original TH09 ANM filename literal differs')
+    spec = importlib.util.spec_from_file_location(
+        'effect_added_literals', ROOT/'scripts/coff_literal_definitions.py')
+    if spec is None or spec.loader is None:
+        raise ValueError('cannot import literal definition checker')
+    literals = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(literals)
+    definitions = literals.check_literal_definitions(data, rows, image, coff, DESTINATIONS)
+    if len(definitions) != 1 or definitions[0]['symbol'] != symbol:
+        raise ValueError('Effect AddedCallback requires its defined ANM filename literal')
+    return definitions
+
+
 def diagnose(path: Path) -> dict:
     spec = importlib.util.spec_from_file_location(
         'effect_added_coff', ROOT/'scripts/compare-coff-function.py')
@@ -131,14 +149,13 @@ def diagnose(path: Path) -> dict:
     image = coff.verified_target()
     target = coff.pe_bytes_at(image, BASE, SIZE)
     require_original(target)
-    if coff.pe_bytes_at(image, DESTINATIONS['??_C@_09NMANGJFI@etama?4anm?$AA@'], 10) != b'etama.anm\x00':
-        raise ValueError('original TH09 ANM filename literal is not independently verified')
     target_instructions, target_fields, target_calls = decode_owner(target)
     if (len(target_instructions) != 19 or tuple(target_fields) != TARGET_FIELDS
             or target_calls != CALL_ORDER):
         raise ValueError('original Effect AddedCallback owner/ABI inventory changed')
-    raw, rows = coff.object_function(path, SYMBOL)
+    raw, rows = coff.object_function(path, SYMBOL, include_symbol_locations=True)
     linked, bound = bind_candidate(raw, rows)
+    check_literals(path.read_bytes(), rows, image, coff)
     candidate_ins, candidate_fields, candidate_calls = decode_owner(linked)
     if candidate_fields != bound or candidate_calls != CALL_ORDER:
         raise ValueError('candidate Effect AddedCallback operands/call order differ')

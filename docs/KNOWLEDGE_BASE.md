@@ -32142,3 +32142,20 @@ payload constructor definitions retain15 exact producer comparisons2013/71 in
 those contexts, while the caller keeps its two differences. This is bounded
 compiler evidence, not proof of original qualifiers, unique source or exhausted
 TU hypotheses. See [the full review](TH09_REPLAY_STAGE_HEADER_SNAPSHOT_20261106.md).
+
+### 2026-11-06 — Effect service identity and actual literal definitions
+
+At AddedCallback40D1C0's first call, ESI holds owner and EDI holds ANM manager;
+the loaded resource is returned in EAX. Borrowed-owner references, local object
+references and a static adapter over inline instance initialization do not close
+the51-byte owner under the maintained profile: eight or11 differences remain.
+The instance projection itself also retains eight. Original nominal types and
+ignored-argument arity remain unknown; the shared void-pointer callback remains.
+
+A concrete malformed COFF fixture demonstrated that the old inspector accepted
+Xtama.anm under etama.anm's unchanged symbol and returned the identical report.
+The diagnostic now requires the actual defined read-only string and its NUL,
+using real COFF symbol locations and the original-bound definition checker.
+The fixture is rejected; the original executable is untouched. All36 existing
+caller/callee units retain5543/206. See
+[the complete review](TH09_EFFECT_RECEIVER_AND_LITERAL_DEFINITIONS_20261106.md).
