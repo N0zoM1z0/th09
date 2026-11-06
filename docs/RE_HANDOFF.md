@@ -275,6 +275,15 @@ view was deliberately kept separate after a real source/COFF experiment
 proved that merging it changes required original C++ symbol identities.
 See [the shared Player gate audit](TH09_PLAYER_SHARED_RUNTIME_NATIVE_GATE_20261106.md).
 
+## 2026-11-06 shared Player runtime native blocked state
+
+The exact IsBlocked leaf now reads its real `+0xE94C` field through the
+native shared-runtime layout used by PlayerRuntime and Replay control. The
+anonymous-selector local type is kept separate to preserve its original
+mangled symbol identity. 25 affected complete unit comparisons remain exact
+(9,124 bytes/445 fields). See
+[the shared runtime owner proof](TH09_SHARED_RUNTIME_NATIVE_BLOCK_STATE_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
