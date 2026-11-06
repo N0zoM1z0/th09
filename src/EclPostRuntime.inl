@@ -353,7 +353,7 @@ static void DispatchShotInstruction(
 {
     EnemyBulletView *view = View(enemy);
     ShotInstructionArgs *args = reinterpret_cast<ShotInstructionArgs *>(
-        reinterpret_cast<unsigned char *>(instruction) + 0x0C);
+        reinterpret_cast<unsigned char *>(instruction->arguments));
     BulletSpawnDescriptor *descriptor = &view->bulletDescriptor2E74;
 
     // The native Enemy fields are POD XYZ storage; the exact bullet math

@@ -394,7 +394,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 {
                     BulletSpawnDescriptorCtorView storage;
                     BulletSpawnDescriptor &descriptor = storage.descriptor;
-                    descriptor.position = reinterpret_cast<const Float3 &>(enemy->position2D74);
+                    memcpy(&descriptor.position, &enemy->position2D74, sizeof(descriptor.position));
                     EnemyCoreSideStateView *spawnSide = manager->sideState320;
                     descriptor.bulletType = 1;
                     descriptor.aimMode = 0;

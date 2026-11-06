@@ -110,11 +110,9 @@ __forceinline float ReadLaserFloat(
     return (instruction->parameterMask0A & (1U << flagIndex))
                ? enemy->ResolveFloat(
                      *reinterpret_cast<float *>(
-                         reinterpret_cast<unsigned char *>(instruction) +
-                         0x0C + byteOffset))
+                         reinterpret_cast<unsigned char *>(instruction->arguments) + byteOffset))
                : *reinterpret_cast<float *>(
-                     reinterpret_cast<unsigned char *>(instruction) +
-                     0x0C + byteOffset);
+                     reinterpret_cast<unsigned char *>(instruction->arguments) + byteOffset);
 }
 
 __forceinline int ReadLaserInt(
@@ -127,11 +125,9 @@ __forceinline int ReadLaserInt(
                ? Th09EclRunControl::ResolveInt(
                      enemy,
                      *reinterpret_cast<int *>(
-                         reinterpret_cast<unsigned char *>(instruction) +
-                         0x0C + byteOffset))
+                         reinterpret_cast<unsigned char *>(instruction->arguments) + byteOffset))
                : *reinterpret_cast<int *>(
-                     reinterpret_cast<unsigned char *>(instruction) +
-                     0x0C + byteOffset);
+                     reinterpret_cast<unsigned char *>(instruction->arguments) + byteOffset);
 }
 
 __forceinline short ReadLaserColor(
@@ -143,10 +139,9 @@ __forceinline short ReadLaserColor(
                      Th09EclRunControl::ResolveInt(
                          enemy,
                          *reinterpret_cast<short *>(
-                             reinterpret_cast<unsigned char *>(instruction) +
-                             0x0E)))
+                             reinterpret_cast<unsigned char *>(instruction->arguments) + 0x02)))
                : *reinterpret_cast<short *>(
-                     reinterpret_cast<unsigned char *>(instruction) + 0x0E);
+                     reinterpret_cast<unsigned char *>(instruction->arguments) + 0x02);
 }
 
 inline void SetLaserPosition(
@@ -286,7 +281,7 @@ static void DispatchShotInstruction(
     case TH09_ECL_OPCODE_CREATE_LASER:
     case TH09_ECL_OPCODE_CREATE_LASER_AIMED:
         laserArgs = reinterpret_cast<Th09EclRunBullet::LaserInstructionArgs *>(
-            reinterpret_cast<unsigned char *>(instruction) + 0x0C);
+            reinterpret_cast<unsigned char *>(instruction->arguments));
         laserDescriptor =
             &Th09EclRunBullet::View(enemy)->laserDescriptor30C4;
         laserDescriptor->position =

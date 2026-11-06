@@ -162,6 +162,17 @@ positions to their **unchanged** original addresses. The focused Bullet
 replay passes 30 complete comparisons. See
 [the Etama collision receiver proof](TH09_BULLET_NATIVE_COLLISION_SUBOBJECT_20261106.md).
 
+## 2026-11-06 native ECL bullet wire and Enemy descriptor copy
+
+RunEcl's bullet/laser and independent shot-post paths now use the real
+`instruction->arguments +0x0C` trailing wire array. Enemy OnUpdate copies
+its XYZ into the actual descriptor through C++ `memcpy`, avoiding unrelated
+POD lvalue aliases. The focused complete 15,564/598/30 RunEcl and
+3,900/97/13 Enemy audits pass, together with 99 exact related ECL
+comparisons. Only two compiler-local original-identity labels changed names.
+See [the ECL and Enemy source evidence](TH09_ECL_BULLET_NATIVE_WIRE_AND_ENEMY_COPY_20261106.md).
+No new exact bytes are claimed.
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
