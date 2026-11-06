@@ -15,7 +15,9 @@ The filter is:
 - target logical size <=256 bytes.
 
 At the current checkpoint it yields **1 function**, of which **1 is at most
-128 bytes**. The repository-wide canonical total is **1022 exact functions**.
+128 bytes**. The repository-wide canonical total is **1021 exact functions**.
+The15-byte angle helper retains its exact source recipe while its origin is
+under review; it receives no authored credit and is not a nonexact frontier.
 
 Size is only a routing heuristic. This is not a verified leaf-function set, a
 difficulty ranking, or evidence about whole-product closure.

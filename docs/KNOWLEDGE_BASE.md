@@ -31816,3 +31816,22 @@ return callback metadata is read back with all685056 mapped bytes checked
 before and after. Source epoch a9084cd7,19 frozen inputs/six objects,54 pruned
 hash-identical copies and a restored full carrier are sealed in the packet
 linked by docs/TH09_EFFECT_PRECALL_DATAFLOW_20261106.md. No new exact credit.
+
+## 2026-11-06 angle wrapper has a byte-identical SDK producer
+
+A fresh isolated address-use probe exposes the actual pinned math.h atan2f
+inline under the established RuntimeAngleMath profile. Its15-byte @atan2f@8
+implementation, the maintained explicit game wrapper, and the same-object
+reference ECL header definition all equal original405700..40570E with no
+relocations. The SDK header hash and both fresh native/header objects are
+retained in .analysis/math-angle-origin-20261106/. Two native unit comparisons
+protect126 bytes/six fields; fresh Ghidra attests the original15-byte leaf.
+
+This gives a concrete rival source origin, not proof of library ownership.
+Original SDK-versus-game authorship, nominal convention/namespace and possible
+folding stay unknown. The former high-confidence authored attribution based
+on byte equality is withdrawn. The function remains matching100 with maintained
+source and a replayable recipe, but its authored mapping/name/match credit is
+held for review. Current authored totals are1034 present/1021 exact/13 nonexact,
+with38 unresolved origins. No game code or byte-exact proof changes. See
+docs/TH09_ANGLE_ORIGIN_REVIEW_20261106.md.

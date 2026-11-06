@@ -564,7 +564,6 @@ PlayerUpdateOwnerState
 AsciiManager::SetScale
 GameManagerSideStateView::AddScore
 PlayerOwnerStateResetView::PrepareReset
-Th09EclRunControl::VectorAngle
 PlayerAngleView::AngleToPoint
 AddNormalizeAngle
 SoundPlayer::PlaySoundByIdx

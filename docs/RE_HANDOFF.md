@@ -11,6 +11,21 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Angle byte proof retained, origin returned to review
+
+The actual pinned SDK atan2f and maintained VectorAngle wrapper independently
+produce the same15 original bytes. This prevents inferring game authorship
+from the existing compiler comparison. Origin becomes unknown/review; source,
+matching100 codegen status and the runtime-vector-angle recipe remain intact.
+Only authored mapping/name/match credit is withdrawn. Two fresh native units
+pass126 complete bytes/six fields, and fresh Ghidra attests the original leaf.
+Current totals are1034 authored mappings,1021 authored exact functions and13
+nonexact functions, with38 origin-unresolved candidates. The98% gate remains open. See
+[the origin review](TH09_ANGLE_ORIGIN_REVIEW_20261106.md).
+The independently replayed proof SHA-256 is
+`9bc0390a0c531971bf7b78cdb4d7daf2f68bd233dbc3452e564c9802a616ddb5`;
+35 focused tests and the unchanged full RunEcl guard pass.
+
 ## 2026-11-06 continued main — Effect pre-call dataflow rechecked
 
 Original and current Effect AddedCallback both retain ESI=context and EDI=ANM;
@@ -1219,30 +1234,31 @@ The canonical state is `config/functions.csv`, `config/function-origins.csv`,
 `config/matches.csv`, and `config/match-units.toml`, checked by
 `python3 scripts/validate-tracking.py --require-target` and
 `python3 scripts/validate-docs.py`. The current ledger summary is
-**1035 source-present / 1022 exact / 13 non-exact**; earlier operator notes
+**1034 source-present / 1021 exact / 13 non-exact**; earlier operator notes
 mentioning 979/876/103 are obsolete for this checkout.
 
 | Measure | Count |
 | --- | ---: |
 | Function candidates | 2,248 |
 | Boundary/origin unreviewed | 0 |
-| Reviewed but origin-unresolved | 37 |
-| Confirmed authored | 1,035 |
+| Reviewed but origin-unresolved | 38 |
+| Confirmed authored | 1,034 |
 | Classified exclusions | 1,176 |
-| Source-present authored mappings | 1,035 |
-| Canonical exact functions | 1,022 |
+| Source-present authored mappings | 1,034 |
+| Canonical exact functions | 1,021 |
 | Source-present non-exact functions | 13 |
 | Source-present non-exact bytes | 29,834 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 262,049 |
+| Canonical exact authored bytes | 262,034 |
 
-**262,049 / 291,883 reviewed-authored bytes = 89.7788% exact**. To reach
+**262,034 / 291,868 reviewed-authored bytes = 89.7783% exact**. To reach
 98% of the *currently classified* denominator, another **23,997 bytes**
-must become complete original-bound exact owners, reaching at least **286,046
-exact authored bytes**. The 37 origin-unresolved functions are excluded and could change the denominator. Similarity fractions
+must become complete original-bound exact owners, reaching at least **286,031
+exact authored bytes**. The 38 origin-unresolved functions are excluded and could change the denominator. Similarity fractions
 and locally matching subsequences never count as accepted exact.
 
-The manifests govern **1022 exact** functions.
+The authored match ledger governs **1021 exact** functions. The separate15-byte
+VectorAngle source recipe remains byte-exact while its origin is under review.
 
 The catalog is not proof of complete executable-code inventory. The formerly
 uncatalogued **0x0040D677 /0x00444A78** Timer references now belong to the exact
