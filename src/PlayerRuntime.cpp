@@ -557,8 +557,7 @@ struct PlayerRespawnBlendView
 
 static void PlayerTransitionSpecial(PlayerLifecycleView *player)
 {
-    *reinterpret_cast<int *>(
-        reinterpret_cast<unsigned char *>(player) + 0x30334) = 60;
+    player->state3031C.transitionCounter18 = 60;
 
     float value =
         1.0f -
@@ -581,8 +580,7 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
     player->mainVm.color1 =
         ((255 * timerCurrent / 30) << 24) | 0x00FFFFFF;
 
-    *reinterpret_cast<int *>(
-        reinterpret_cast<unsigned char *>(player) + 0x3032C) = 0;
+    player->state3031C.stateWord10 = 0;
 
     if (player->sideIndex == 0)
         player->position1B88.x = value * -176.0f;
@@ -607,15 +605,13 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
 
 static __inline Effect *&PlayerStateEffect(PlayerLifecycleView *player)
 {
-    return *reinterpret_cast<Effect **>(
-        reinterpret_cast<unsigned char *>(player) + 0x303E0);
+    return player->stateEffect303E0;
 }
 
 static void PlayerUpdateCommon(PlayerLifecycleView *player)
 {
     int &transitionCounter =
-        *reinterpret_cast<int *>(
-            reinterpret_cast<unsigned char *>(player) + 0x30334);
+        player->state3031C.transitionCounter18;
     if (transitionCounter != 0)
         --transitionCounter;
 

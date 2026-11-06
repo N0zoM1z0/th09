@@ -306,12 +306,20 @@ typedef char PlayerShotUpdateCallbackAt474[
 typedef char PlayerShotDrawCallbackAt478[
     (offsetof(PlayerShotCtorView, drawCallback478) == 0x478) ? 1 : -1];
 
+// Original Player+0x3031C group: the reset word and transition countdown
+// share this actual 0x1C-byte state allocation with other Player owners.
 struct PlayerState3031CView
 {
-    unsigned char storage[0x1C];
+    unsigned char unknown00[0x10];
+    int stateWord10;
+    unsigned char unknown14[4];
+    int transitionCounter18;
     PlayerState3031CView();
 };
 typedef char PlayerState3031CSizeIs1C[(sizeof(PlayerState3031CView) == 0x1C) ? 1 : -1];
+typedef char PlayerNativeTransitionStateWords[
+    (offsetof(PlayerState3031CView, stateWord10) == 0x10 &&
+     offsetof(PlayerState3031CView, transitionCounter18) == 0x18) ? 1 : -1];
 
 struct PlayerOwnerStateView
 {
@@ -407,7 +415,8 @@ struct PlayerLifecycleView
     PlayerTimerCtorView timer303BC;
     PlayerTimerCtorView timer303C8;
     PlayerTimerCtorView timer303D4;
-    unsigned char unknown303E0[0x303F0 - 0x303E0];
+    Effect *stateEffect303E0;
+    unsigned char unknown303E4[0x303F0 - 0x303E4];
     int tableValue303F0;
     int tableValue303F4;
     int tableValue303F8;
@@ -503,6 +512,12 @@ typedef char PlayerLifecycleMovementAt1CCC[
 typedef char PlayerLifecycleOptionsAt1CEC[(offsetof(PlayerLifecycleView, optionStates) == 0x1CEC) ? 1 : -1];
 typedef char PlayerLifecycleShotsAtC11C[(offsetof(PlayerLifecycleView, shots) == 0xC11C) ? 1 : -1];
 typedef char PlayerLifecycleState3031CAt3031C[(offsetof(PlayerLifecycleView, state3031C) == 0x3031C) ? 1 : -1];
+typedef char PlayerLifecycleNativeStateAndEffectWords[
+    (offsetof(PlayerLifecycleView, state3031C) +
+         offsetof(PlayerState3031CView, stateWord10) == 0x3032C &&
+     offsetof(PlayerLifecycleView, state3031C) +
+         offsetof(PlayerState3031CView, transitionCounter18) == 0x30334 &&
+     offsetof(PlayerLifecycleView, stateEffect303E0) == 0x303E0) ? 1 : -1];
 typedef char PlayerLifecyclePrimaryShtAt30338[(offsetof(PlayerLifecycleView, primaryShtFile) == 0x30338) ? 1 : -1];
 typedef char PlayerLifecycleTimer303C8At303C8[(offsetof(PlayerLifecycleView, timer303C8) == 0x303C8) ? 1 : -1];
 typedef char PlayerLifecycleOwnerAt30410[(offsetof(PlayerLifecycleView, ownerState30410) == 0x30410) ? 1 : -1];

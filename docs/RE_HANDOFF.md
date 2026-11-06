@@ -236,6 +236,16 @@ compiler; the independent 318-byte Type19/21 draw is also exact. This is
 real C++ source ownership progress, not new exact function count.
 See [ExAttack native VM draw loops](TH09_EXATTACK_NATIVE_VM_ARRAY_DRAWS_20261106.md).
 
+## 2026-11-06 Player native transition/effect ownership
+
+The native Player layout now exposes its transition state word at +0x3032C,
+transition countdown at +0x30334, and effect pointer at +0x303E0. The exact
+Player transition/common update uses those direct members rather than raw
+pointer casts. 41 selected exact units spanning Player/Etama/ExAttack
+validate all 18,121 original physical bytes/846 fields. The nonexact Enemy
+and ChargeAttack original-bound diagnostics remain unchanged. See
+[the native Player transition proof](TH09_PLAYER_TRANSITION_NATIVE_STATE_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

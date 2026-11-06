@@ -32289,3 +32289,21 @@ using real COFF symbol locations and the original-bound definition checker.
 The fixture is rejected; the original executable is untouched. All36 existing
 caller/callee units retain5543/206. See
 [the complete review](TH09_EFFECT_RECEIVER_AND_LITERAL_DEFINITIONS_20261106.md).
+
+## 2026-11-06 — native Player transition/effect state words (session checkpoint)
+
+- **Target/codegen observations:** Player absolute `+0x3032C` is cleared in the
+  exact 293-byte transition; `+0x30334` is initialized to 60 there and
+  decremented in the 320-byte common update; `+0x303E0` is the effect pointer
+  that common update publishes, updates and clears. These words share the
+  existing 0x30F70-byte Player allocation; the +0x3031C subrecord remains
+  0x1C bytes. Neutral `stateWord10` has no proven further semantic name.
+- **Original-bound source evidence:** VC7.1 builds complete owners at the
+  original addresses; 41 selected exact source units (18,121 physical
+  bytes/846 bound fields), with all changed switch-label names independently
+  mapped through real COFF section/value to unchanged original VAs. Target
+  SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+- **Unknown/open:** Original C++ nominal types, Windows product closure and
+  runtime semantics. Enemy OnUpdate remains nonexact 3,900/97/13;
+  ChargeAttack remains nonexact 1,197 candidate vs 1,210 original.
+  See [local original-bound report](TH09_PLAYER_TRANSITION_NATIVE_STATE_20261106.md).
