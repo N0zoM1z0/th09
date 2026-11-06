@@ -82,6 +82,16 @@ count. Only two compiler-private resolver label names change in the canonical
 manifest at each source checkpoint; target destinations and authored totals
 are unchanged. See [the focused Player source proof](TH09_PLAYER_SELECTOR_NATIVE_ENEMY_OWNER_20261106.md).
 
+## 2026-11-06 ECL resolver native GameManager storage
+
+The four existing exact operand resolvers now read/write the native typed
+`GameManager.valueB4` instead of a casted `+0xB4` raw storage alias. Fixed
+VC7.1 replays cover 5,718 original physical bytes and 374 fields across all
+four complete owners. 291 compiler-private labels changed spelling but their
+original addresses, field coordinates, types and linked bytes did not change.
+The exact authored count is unchanged. See
+[the original-bound ECL resolver proof](TH09_ECL_OPERAND_NATIVE_GAMEMANAGER_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

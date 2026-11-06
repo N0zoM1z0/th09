@@ -90,9 +90,9 @@ typedef char EclOperandEnemyLifeThresholdsAt33B0[
     ((owner)->manager00->sideState320->player04)
 #define TH09_ECL_OPERAND_OPPOSING_PLAYER(owner) \
     ((owner)->manager00->opposingSideState324->player04)
-#define TH09_ECL_OPERAND_GAME_MANAGER_B4 \
-    (*reinterpret_cast<int *>( \
-        reinterpret_cast<unsigned char *>(&g_GameManager) + 0x00B4))
+// Opcode 0x2739 reads the native GameManager's +0xB4 signed word.
+typedef char EclOperandNativeGameManagerB4[
+    (offsetof(AsciiGameManagerView, valueB4) == 0x00B4) ? 1 : -1];
 
 } // namespace
 
@@ -137,7 +137,7 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x2733: return static_cast<int>(g_Rng.GetRandomF32Signed());
 
     case 0x2738: return g_GameManager.difficulty;
-    case 0x2739: return TH09_ECL_OPERAND_GAME_MANAGER_B4;
+    case 0x2739: return g_GameManager.valueB4;
     case 0x2741: return enemy->bossTimer2E64.current;
     case 0x2743: return enemy->life2E48;
     case 0x2744: return enemy->manager00->sideState320->characterIndex20;
@@ -269,7 +269,7 @@ int *__fastcall ResolveIntLValue(
     case 0x2737: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables5C[3];
 
     case 0x2738: return &g_GameManager.difficulty;
-    case 0x2739: return &TH09_ECL_OPERAND_GAME_MANAGER_B4;
+    case 0x2739: return &g_GameManager.valueB4;
     case 0x2741: return &enemy->bossTimer2E64.current;
     case 0x2743: return &enemy->life2E48;
     case 0x276C: return &enemy->itemDropType335C;
@@ -395,7 +395,7 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x2762: return Th09EclRunControl::g_Rng.GetRandomF32InRange(6.2831855f) - 3.1415927f;
 
     case 0x2738: return static_cast<float>(g_GameManager.difficulty);
-    case 0x2739: return static_cast<float>(TH09_ECL_OPERAND_GAME_MANAGER_B4);
+    case 0x2739: return static_cast<float>(g_GameManager.valueB4);
     case 0x2741: return static_cast<float>(this->bossTimer2E64.current);
     case 0x2743: return static_cast<float>(this->life2E48);
     case 0x2744: return static_cast<float>(this->manager00->sideState320->characterIndex20);
@@ -499,7 +499,6 @@ float EnemyView::ResolveFloat(float rawValue)
     }
 }
 
-#undef TH09_ECL_OPERAND_GAME_MANAGER_B4
 #undef TH09_ECL_OPERAND_OPPOSING_PLAYER
 #undef TH09_ECL_OPERAND_PLAYER
 #undef TH09_ECL_OPERAND_CONTEXT
