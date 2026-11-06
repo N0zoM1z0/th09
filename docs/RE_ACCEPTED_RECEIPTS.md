@@ -12,6 +12,28 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 6: observed network input selectors — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `f350f750c5fb24f75a125e2053813f75cd533644`.
+Both service calls preserve their original explicitly prepared ECX values:
+current network side and literal 2. The original-equal callee ignores its
+selector; original nominal C++ arity/name remain unproved. Seven affected
+complete units pass3597 bytes/73 fields in five existing source/profile builds.
+The full service remains nonexact1627/1633 bytes,106 fields,1381 unequal
+overlaps and six missing; all41 direct-callee multiplicities agree.
+
+The ignored `.analysis/network-current-frame-20261106/source-proof.json`
+is SHA-256 `dcb6b7b906a738f7444fbc7bd30d4a54cb7f00e0950fed079fad50a6e82b31da`.
+It binds33 tracked inputs/Git blobs, six objects/profiles, eight compiler/SDK
+files, both complete mapped-byte Ghidra attestations and the public CI log.
+`source-receipt.py` validates the sealed inputs and replays all seven full
+comparisons, the original caller-contract audit and the complete service
+diagnostic into a separate current report. Full public CI passes1364 tests
+with29 skips. No new exact credit; totals remain1022 exact/13 nonexact.
+See [the corrected review](TH09_NETWORK_INPUT_SELECTORS_20261106.md) and
+[subsequent complete caller controls](TH09_NETWORK_FRAME_CONTEXT_20261106.md).
+
 ## November 5: native Player and complete Enemy carrier — local Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

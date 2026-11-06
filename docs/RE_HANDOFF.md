@@ -11,6 +11,24 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — complete network frame contexts rechecked
+
+Five source contexts recheck the original20-byte local frame and swapped
+seed/predicted homes. Adjacent arrays and actual queue definitions retain
+1627/106/1381; phase union and successful-path placement remain nonexact.
+Both co-visible contexts retain four exact queue owners, eight complete
+comparisons1144 bytes/two fields. No model is adopted. See
+[the bounded full-owner review](TH09_NETWORK_FRAME_CONTEXT_20261106.md).
+Ninety hashed duplicate inputs are pruned; one restored co-visible context
+rebuilds with identical raw body/fields and exact callees.
+
+Source `f350f750`; sealed local receipt SHA-256
+`dcb6b7b906a738f7444fbc7bd30d4a54cb7f00e0950fed079fad50a6e82b31da`
+binds33 inputs, six objects, eight compiler/SDK files and seven canonical
+comparisons3597 bytes/73 fields. Its independent replay passes; the service
+remains1627/1633 bytes with1381 unequal overlaps and six missing. Exact count
+stays1022; the goal and13 nonexact owners remain open.
+
 ## 2026-11-06 continued main — observed network input selectors restored
 
 Fresh original-byte review corrects the earlier no-prepared-index claim:

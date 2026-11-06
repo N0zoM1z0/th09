@@ -31419,6 +31419,28 @@ wrong selector/root/field/branch/callee/opcode/extent without asserting source
 spelling. Fresh Ghidra exports attest all685056 mapped bytes. See
 TH09_NETWORK_INPUT_SELECTORS_20261106.md; no new exact or runtime credit.
 
+## 2026-11-06 network frame output contexts remain unresolved
+
+Original service reserves20 local bytes and keeps result at EBP-4. Prefill
+PopFrame outputs use seeds EBP-C/-A and predicted EBP-8; successful-frame
+outputs use seeds EBP-8/-6 and predicted EBP-C. Maintained source reserves12
+bytes and removes the result home. These physical homes do not prove original
+aggregates, volatile qualification or variable order.
+
+Five complete fixed-profile contexts test adjacent seed arrays, a phase output
+union with result, four actual queue definitions, their combination and
+successful-frame-first control flow. They emit1627/1639/1627/1634/1627 bytes
+with1381/1326/1381/1321/1321 unequal overlaps, all106 fields and41 direct-callee
+multiplicities, but no complete ordered call sequence. None is adopted. Both
+co-visible cases retain four complete exact queue bodies572 bytes/one field
+and ten same-object caller references. The independent verifier checks all
+five original-linked owners and eight callee comparisons1144 bytes/two fields.
+Ninety SHA-identical staged copies are pruned with frozen recovery inputs;
+the co-visible recovery replay retains the same complete raw body/fields.
+See TH09_NETWORK_FRAME_CONTEXT_20261106.md. The f350f750 source receipt binds
+seven canonical input units3597/73 and33 inputs/six objects/eight provider
+hashes. No new exactness, original source spelling or runtime claim follows.
+
 ## 2026-11-05 Enemy descriptor chronology affects distant branch merging
 
 Fresh original-bound Enemy update evidence still has3900 physical bytes,
