@@ -11,6 +11,27 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Native Replay stage-header snapshot
+
+SaveReplay now snapshots each live32-byte stage header before publishing its
+serialized offset. Both existing profiles preserve1238/53/two; the differences
+at+B7/+BB belong to that stage-header destination, not the earlier full record
+copy. Source/target still agree on380 instructions,23 physical calls and49 CFG
+blocks. See [the bounded review](TH09_REPLAY_STAGE_HEADER_SNAPSHOT_20261106.md).
+
+Thirteen natural/current-native contexts preserve130 repeated exact siblings
+31317/1586. Actual allocator, full codec and record-constructor visibility also
+reproduce15 genuine producer comparisons2013/71 while retaining both caller
+differences. No qualifier/interface/definition relocation is adopted. Fresh
+Ghidra attests all mapped bytes for Save and both constructors.
+
+Five fresh groups and three unchanged source/profile/object proofs pass31
+strict complete units6407/311, including all12 same-source exact siblings and
+actual direct/nested dependencies. Both full Replay carriers preserve28 regular
+bodies/two EH graphs and auxiliary/private-cleanup payloads.49 focused tests
+plus target-required tracking/progress/docs/whitespace pass. Counts stay1021/13;
+the reconstruction goal and all later gates remain open.
+
 ## 2026-11-06 continued main — Shared native side record in nonexact ChargeAttack
 
 GameManager/Player/FrontSide now share their actual0x38-byte side declaration.

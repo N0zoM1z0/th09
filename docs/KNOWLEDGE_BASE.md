@@ -32126,3 +32126,19 @@ method name was misleading, and the RNG manifest migration also introduced two
 names absent from source. Real GetRandomF32SignedInRange and g_ReplayRng replace
 that facade while retaining complete753/38 original equality. See
 [the source and affected-closure review](TH09_NATIVE_SIDE_RECORD_20261106.md).
+
+### 2026-11-06 — Replay's remaining two bytes belong to the stage-header copy
+
+Fresh SaveReplay420C60 observations locate+0xB7/+0xBB inside the first32-byte
+stage-header copy in the three-stream loop. The original +B6 load uses EDI,
+then +B9 computes EDI+EBX-C0; current code uses ECX as the intermediate base.
+The earlier complete0x1EC-byte copy is already equal. A named const input-frame
+snapshot now expresses the live-pointer-to-file-offset transition and preserves
+all1238 bytes/53 fields of both maintained nonexact carriers.
+
+Ten natural serialization/control/type models and three genuine callee-visibility
+models do not close the owner. Actual allocator, complete codec and record/
+payload constructor definitions retain15 exact producer comparisons2013/71 in
+those contexts, while the caller keeps its two differences. This is bounded
+compiler evidence, not proof of original qualifiers, unique source or exhausted
+TU hypotheses. See [the full review](TH09_REPLAY_STAGE_HEADER_SNAPSHOT_20261106.md).
