@@ -265,6 +265,16 @@ call/referent identities. A common inline accessor and Enemy cleanup local
 alias were separately compiled and rejected on complete-owner extent.
 See [borrowed native Player tracking references](TH09_PLAYER_TRACKING_BORROWED_REFERENCES_20261106.md).
 
+## 2026-11-06 global Player shared runtime native signed gate
+
+The global Player runtime's signed block-state dword +0xE94C now belongs to
+the same native C++ view as update-block +0x1095C and draw counter +0x10960.
+All 23 affected PlayerRuntime/Replay/IsBlocked functions replay exact:
+5,474 original physical bytes / 291 fields. The anonymous-namespace selector
+view was deliberately kept separate after a real source/COFF experiment
+proved that merging it changes required original C++ symbol identities.
+See [the shared Player gate audit](TH09_PLAYER_SHARED_RUNTIME_NATIVE_GATE_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

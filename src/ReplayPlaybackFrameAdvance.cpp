@@ -1,11 +1,8 @@
 // Original replay Chain control callback. Return 6 restarts the calc chain.
 #include "ReplayManagerRuntimeView.hpp"
 #include "AsciiGameManagerView.hpp"
+#include "PlayerSharedRuntimeView.hpp"
 
-struct PlayerSharedRuntimeView
-{
-    int IsBlocked();
-};
 extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 
 int __fastcall ReplayManagerView::ControlPlaybackFrameAdvance(ReplayManagerView *replayManager)

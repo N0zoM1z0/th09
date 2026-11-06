@@ -9,6 +9,7 @@
 #include "EffectManager.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "PlayerEnemyTrackingStateView.hpp"
+#include "PlayerSharedRuntimeView.hpp"
 
 #include <stddef.h>
 
@@ -326,13 +327,6 @@ static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
 }
 
 
-struct PlayerSharedRuntimeView
-{
-    int IsBlocked();
-    unsigned char unknown0000[0x1095C];
-    int updateBlock1095C;
-    int drawCounter10960;
-};
 extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 
 struct PlayerInputRuntimeView

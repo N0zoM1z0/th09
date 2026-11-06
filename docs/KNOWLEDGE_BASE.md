@@ -32307,3 +32307,19 @@ caller/callee units retain5543/206. See
   runtime semantics. Enemy OnUpdate remains nonexact 3,900/97/13;
   ChargeAttack remains nonexact 1,197 candidate vs 1,210 original.
   See [local original-bound report](TH09_PLAYER_TRANSITION_NATIVE_STATE_20261106.md).
+
+## 2026-11-06 — global Player shared-runtime signed gate and anonymous selector seam
+
+- **Original-bound storage:** Player shared global runtime signed state
+  `+0xE94C` is tested `>=0 || ==-2` by the exact 24-byte `IsBlocked` member;
+  +0x1095C and +0x10960 are update-block and draw-count words read by exact
+  Player/Replay callers. The global class view has a 0x10964-byte extent.
+- **C++ identity counterexample:** The exact Player selector's anonymous-
+  namespace `PlayerSharedRuntimeView` does **not** have the same mangled
+  `IsBlocked`/global pointer identities as the global class, despite matching
+  target-linked bytes. Replacing it with the global header was rejected; the
+  local source remains unchanged. No numeric address fitting is allowed.
+- **Verification:** 23 selected exact owners (5,474 original physical bytes,
+  291 fields) replay under canonical VC7.1 profiles; 11 private labels were
+  reverified by COFF section/value before updating only their symbol names.
+  See [the complete source/identity check](TH09_PLAYER_SHARED_RUNTIME_NATIVE_GATE_20261106.md).
