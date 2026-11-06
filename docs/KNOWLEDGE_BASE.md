@@ -32014,3 +32014,22 @@ rank slices remain distinct evidence. Full CI passes1376 tests/29 skips.
 195 hashed source copies and eight disposable PDBs are removed. The alternate
 worker remains1828/189/1592 plus139 extra bytes. No new exact-function credit,
 Factory acceptance, remote publication or product/runtime claim is made.
+
+
+## 2026-11-06 Shared Setup rate source contexts
+
+Fresh target-bound Ghidra41AF2D attests all685056 mapped bytes. Ten native
+contexts test early exits, post-switch publication, nested/ascending dispatch,
+an isolated actual worker and a real counter initializer. The isolated caller
+retains all1682/172/694-plus-seven-missing raw bytes and field identities.
+The initializer emits five actual helper calls absent from the original and
+is rejected without target rebinding. Longer/nested variants can lower overlap
+counts while moving additional original instruction tails or dispatch; none
+is adopted. No source context or original nominal TU is uniquely established.
+
+[The context review](TH09_SETUP_SHARED_RATE_CONTEXT_20261106.md) records90
+complete experimental sibling comparisons24993/2034 and14 source-scoped
+unchanged comparisons3480/286, with no baseline compiler jobs. Seal
+`566a400d36a806dda4ff94863329f6aac2e5deb8a66614c725659c0445465519` binds
+all ten actual objects;390 SHA-identical source copies are pruned. Source
+remains657e9699; authored totals1021 exact/13 nonexact and the goal stay open.

@@ -11,6 +11,21 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Shared Setup rate context remains unresolved
+
+Ten current-native contexts test early exits, shared publication, nested/ordered
+dispatch and an isolated actual caller. None closes the full worker; isolated
+compilation retains every1682/172/694-plus-seven-missing byte/field. The real
+counter initializer emits five extra calls and fails original binding. Nine
+whole-TU contexts preserve90 complete siblings24993/2034; unchanged current14
+proofs3480/286 reuse verified source657e9699 inputs/objects. See
+[the bounded contexts](TH09_SETUP_SHARED_RATE_CONTEXT_20261106.md).
+Seal `566a400d36a806dda4ff94863329f6aac2e5deb8a66614c725659c0445465519`;
+390 hashed copies are pruned; all ten objects remain. Fresh Ghidra attests all
+mapped bytes. No source/profile/interface is adopted;1021/13 and the goal
+remain open. Do not infer original switch/source spelling from the decompiler
+or select a longer candidate solely for fewer overlapping differences.
+
 ## 2026-11-06 continued main — Native Setup source recovers all original field roles
 
 The maintained worker now uses native side/runtime fields and structured rank
