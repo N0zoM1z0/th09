@@ -28,6 +28,13 @@ source rebuilds.19 focused tests pass after removing an obsolete receiver-alias
 spelling requirement; wrong Player/pool/storage rejection remains. The collision
 ledger now describes current structured source. Totals stay1021/13; goal/later
 gates remain open. Packet:`.analysis/player-collision-vector-context-20261106/`.
+Source0df06fa5 binds56 tracked inputs/Git blobs,13 compiler/SDK pins and21 objects.
+Proof `59bf0d33fc4cc4fcf8bf80bf792d00a6de4139915e531ffa65f0bf72205994b0`
+passes independent read-only replay of all16 current units,10 models/50 repeated
+siblings,the full raw/actual-COFF identity and mapped-byte attestation. Cleanup
+removes221 hashed duplicate/debug files2433588 bytes; all11 new objects remain.
+Full public CI1387/29 and tracking/progress/docs/whitespace pass. No new exact,
+Factory acceptance or remote-publication claim.
 
 ## 2026-11-06 continued main — Collision loop and native reward calls
 

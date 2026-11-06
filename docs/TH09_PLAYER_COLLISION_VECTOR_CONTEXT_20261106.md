@@ -70,3 +70,13 @@ Objects remain below `build/analysis/player-collision-vector-context-20261106/`.
 The reconstruction goal and later product/runtime/semantic/port gates remain
 open. Totals remain1034 source-present,1021 exact and13 non-exact. No Factory
 acceptance or independent remote-publication claim is made.
+
+Source checkpoint `0df06fa5` is bound by private `source-proof.json`, SHA-256
+`59bf0d33fc4cc4fcf8bf80bf792d00a6de4139915e531ffa65f0bf72205994b0`.
+It binds56 tracked inputs/Git blobs,13 compiler/SDK pins,21 objects and35
+selected provider/evidence files. Independent read-only replay passes16 current
+units,10 models/50 repeated siblings,complete raw/actual-COFF identity and all
+685056 mapped bytes. Cleanup removes210 SHA-identical copied inputs and11
+PDBs,221 files/2433588 bytes,retaining all11 new objects and unique sources.
+Full public CI passes1387 tests with29 skips. Target-required tracking,
+progress,documentation and whitespace checks pass.
