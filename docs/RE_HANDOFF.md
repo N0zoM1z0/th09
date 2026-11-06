@@ -216,6 +216,17 @@ RegisterChain labels were rebound by actual COFF identity. The 336-byte
 shake envelope remains nonexact by 26 ordinary bytes. See
 [the native side flags evidence](TH09_SCREEN_EFFECT_NATIVE_SIDE_FLAGS_20261106.md).
 
+## 2026-11-06 PlayerRuntime native movement and VM
+
+The current native PlayerRuntime source now uses typed Player movement
+fields, ANM VM color/scale, selector header and tail-state storage instead
+of repeated raw offsets. The **complete 21-owner, five-profile source cohort**
+replays exact: 5,391 physical bytes / 288 bound fields, including the
+522-byte OnUpdate and 852-byte UpdateBeforeState. Eleven private compiler
+label names were verified against unchanged original destinations.
+See [native PlayerRuntime source proof](TH09_PLAYER_RUNTIME_NATIVE_MOVEMENT_VM_20261106.md).
+These were previously exact functions; no new match credit.
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

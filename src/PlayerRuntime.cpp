@@ -104,6 +104,19 @@ typedef char PlayerOwnerStateTimer14At14[
 typedef char PlayerOwnerStateTimer20At20[
     (offsetof(PlayerOwnerStateUpdateView, timer20) == 0x20) ? 1 : -1];
 
+// These runtime callbacks traverse the same true Player/ANM allocations
+// as the Player movement, selector, constructor and title-render owners.
+typedef char PlayerRuntimeNativeMovementVmAndTail[
+    (offsetof(PlayerLifecycleView, movementFields1CCC) == 0x1CCC &&
+     offsetof(PlayerLifecycleView, header24) == 0x24 &&
+     offsetof(PlayerLifecycleView, tailStates30454) == 0x30454 &&
+     sizeof(PlayerTailStateCtorView) == 0x2C4 &&
+     offsetof(AnmVmBase, scale) == 0x18 &&
+     offsetof(AnmVmBase, color1) == 0x1F0 &&
+     offsetof(PlayerMovementFields, velocity1CCC) == 0x00 &&
+     offsetof(PlayerMovementFields, speedMultiplier1CDC) == 0x10 &&
+     offsetof(PlayerMovementFields, speedMultiplier1CE8) == 0x1C) ? 1 : -1];
+
 // The ANM singleton uses the same native interface as the loader.
 extern AnmManager *g_AnmManager;
 extern PlayerShtFileView *g_PlayerShtFilesBySide[2];
@@ -552,22 +565,20 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
         (float)player->timer303C8 *
             0.033333335f;
 
-    reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->scaleY1C =
+    player->mainVm.scale.y =
         value + value + 1.0f;
-    reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->scaleX18 =
+    player->mainVm.scale.x =
         1.0f - value;
     reinterpret_cast<PlayerRespawnBlendView *>(&player->mainVm)
         ->SetBlendModeAdditive();
 
-    *reinterpret_cast<float *>(
-        reinterpret_cast<unsigned char *>(player) + 0x1CE0) = 1.0f;
-    *reinterpret_cast<float *>(
-        reinterpret_cast<unsigned char *>(player) + 0x1CDC) = 1.0f;
+    player->movementFields1CCC.speedMultiplier1CE0 = 1.0f;
+    player->movementFields1CCC.speedMultiplier1CDC = 1.0f;
 
     int timerCurrent =
         reinterpret_cast<PlayerState4TimerCurrentView *>(
             &player->timer303C8)->GetCurrent();
-    reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->color1F0 =
+    player->mainVm.color1 =
         ((255 * timerCurrent / 30) << 24) | 0x00FFFFFF;
 
     *reinterpret_cast<int *>(
@@ -583,9 +594,9 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
             &player->timer303C8)->GetCurrent() >= 30)
     {
         reinterpret_cast<PlayerState4OpsView *>(player)->SetUpdateState(3);
-        reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->scaleX18 = 1.0f;
-        reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->scaleY1C = 1.0f;
-        reinterpret_cast<PlayerRespawnVmView *>(&player->mainVm)->color1F0 = 0xFFFFFFFF;
+        player->mainVm.scale.x = 1.0f;
+        player->mainVm.scale.y = 1.0f;
+        player->mainVm.color1 = 0xFFFFFFFF;
         reinterpret_cast<PlayerRespawnBlendView *>(&player->mainVm)
             ->SetBlendModeNormal();
         player->position1B88.x = 0.0f;
@@ -627,7 +638,7 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
             }
             reinterpret_cast<PlayerState4OpsView *>(player)->SetUpdateState(0);
             player->timer303C8 = 0;
-            reinterpret_cast<unsigned int &>(player->mainVm.color1) =
+            player->mainVm.color1 =
                 0xFFFFFFFFu;
         }
         else
@@ -635,7 +646,7 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
             int current =
                 reinterpret_cast<PlayerState4TimerCurrentView *>(
                     &player->timer303C8)->GetCurrent();
-            reinterpret_cast<unsigned int &>(player->mainVm.color1) =
+            player->mainVm.color1 =
                 current % 8 < 2 ? 0xFFF02020u : 0xFFFFFFFFu;
         }
     }
@@ -650,17 +661,17 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
             reinterpret_cast<PlayerState4TimerCurrentView *>(
                 &player->timer303C8)->GetCurrent();
         if (current % 4 < 2)
-            reinterpret_cast<unsigned int &>(player->mainVm.color1) =
+            player->mainVm.color1 =
                 0xFFF02020u;
         else
-            reinterpret_cast<unsigned int &>(player->mainVm.color1) =
+            player->mainVm.color1 =
                 0xFFFFFFFFu;
 
         player->timer1B74.operator--(0);
         if (player->timer1B74.operator<=(0))
         {
             player->timer1B74 = 0;
-            reinterpret_cast<unsigned int &>(player->mainVm.color1) =
+            player->mainVm.color1 =
                 0xFFFFFFFFu;
         }
     }
@@ -675,7 +686,7 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
     {
         *reinterpret_cast<Float3 *>(&player->position1B88) +=
             *reinterpret_cast<Float3 *>(
-                reinterpret_cast<unsigned char *>(player) + 0x1CCC) *
+                &player->movementFields1CCC.velocity1CCC) *
             (60.0f - (float)*timer) / 20.0f;
 
         float *position =
@@ -692,7 +703,7 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
 
         int timerCurrent =
             reinterpret_cast<PlayerState4TimerCurrentView *>(timer)->GetCurrent();
-        reinterpret_cast<unsigned int &>(player->mainVm.color1) =
+        player->mainVm.color1 =
             ((255 * timerCurrent / 10) << 24) | 0x00FFFFFF;
         return 0;
     }
@@ -724,10 +735,8 @@ static void PlayerUpdateStageD(PlayerLifecycleView *player)
 
     *reinterpret_cast<int *>(
         reinterpret_cast<unsigned char *>(player) + 0x30380) = 0;
-    *reinterpret_cast<float *>(
-        reinterpret_cast<unsigned char *>(player) + 0x1CE8) = 1.0f;
-    *reinterpret_cast<float *>(
-        reinterpret_cast<unsigned char *>(player) + 0x1CE4) = 1.0f;
+    player->movementFields1CCC.speedMultiplier1CE8 = 1.0f;
+    player->movementFields1CCC.speedMultiplier1CE4 = 1.0f;
 }
 
 static int PlayerUpdateStageC(PlayerLifecycleView *player)
@@ -790,7 +799,7 @@ transitionSpecial:
 afterTransition:
     PlayerUpdateCommon(player);
     if (player->selector > 0)
-        PlayerUpdateSelectorState(reinterpret_cast<unsigned char *>(player) + 0x24);
+        PlayerUpdateSelectorState(&player->header24);
 
     UpdatePlayerCollisionRegions(player);
     if (!g_PlayerSharedRuntime->IsBlocked())
@@ -1017,7 +1026,7 @@ void PlayerLifecycleView::SpawnRewardTailState(
 void PlayerLifecycleView::DrawTailStates()
 {
     PlayerTailDrawStateView *state = reinterpret_cast<PlayerTailDrawStateView *>(
-        reinterpret_cast<unsigned char *>(this) + 0x30458);
+        &this->tailStates30454[0].storage[4]);
     for (int i = 0; i < 4; ++i, ++state)
     {
         if (state->active18 == NULL)
