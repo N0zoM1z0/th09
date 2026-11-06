@@ -30,7 +30,13 @@ strict complete units6407/311, including all12 same-source exact siblings and
 actual direct/nested dependencies. Both full Replay carriers preserve28 regular
 bodies/two EH graphs and auxiliary/private-cleanup payloads.49 focused tests
 plus target-required tracking/progress/docs/whitespace pass. Counts stay1021/13;
-the reconstruction goal and all later gates remain open.
+the reconstruction goal and all later gates remain open. Sourcefbe49559 binds22
+tracked inputs/Git blobs, eight actual objects and38 selected provider files.
+Source/control proof SHA-256
+`7fb3ad16a1a207cf1cb42c04e65286b1f7b12a0a06aa46277bbe94b884a1d628`
+passes independent read-only replay of current bodies and all13 controls.
+Cleanup removes155 hashed duplicate sources and18 PDBs,173 files/2116482 bytes;
+all18 new objects remain. Local checkpoints do not establish remote publication.
 
 ## 2026-11-06 continued main — Shared native side record in nonexact ChargeAttack
 

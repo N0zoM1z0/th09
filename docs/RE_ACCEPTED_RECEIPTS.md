@@ -12,6 +12,27 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 6: native Replay stage-header snapshot — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `fbe49559879364c433ddc970d7014d0c8cdca839`.
+Save snapshots each live stage-header pointer before writing its serialized
+location. Both complete1238/53 carriers retain the same two differing bytes.
+The strict public replay passes31 existing units6407 physical bytes/311 fields,
+including all12 exact same-source siblings and actual direct/nested callees.
+Both full carriers preserve28 regular bodies/two EH graphs and private payloads.
+The two constructor bodies total33 bytes and retain unknown origin without credit;
+the codec retains excluded origin. No new exact function is claimed.
+
+The ignored `.analysis/replay-header-copy-20261106/source-proof.json` is
+SHA-256 `7fb3ad16a1a207cf1cb42c04e65286b1f7b12a0a06aa46277bbe94b884a1d628`.
+It binds22 tracked inputs/Git blobs, eight current objects and38 selected
+compiler/SDK files. Independent read-only replay also verifies all13 complete
+controls,130 repeated exact siblings31317/1586,15 actual producer comparisons
+2013/71 and the complete mapped-byte Ghidra attestation.49 focused tests and
+tracking/progress/docs/whitespace pass. Totals remain1021 exact/13 nonexact.
+See [the complete review](TH09_REPLAY_STAGE_HEADER_SNAPSHOT_20261106.md).
+
 ## November 6: shared gameplay side storage — local Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

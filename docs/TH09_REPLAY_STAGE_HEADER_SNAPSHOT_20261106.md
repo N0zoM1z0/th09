@@ -98,3 +98,25 @@ original-bound diagnostics, current/frozen sources, all models and objects,
 complete actual producer comparisons and fresh mapped-byte Ghidra reports.
 The initial current-build driver failed before compilation on a Python import
 path; its setup log is retained separately from all successful experiments.
+
+## Immutable current-source binding
+
+Source commit `fbe49559879364c433ddc970d7014d0c8cdca839` binds22 tracked
+inputs/Git blobs, eight actual objects and38 selected compiler/SDK files. The
+provider set additionally pins the genuine VC7.1 algorithm header's static
+C++ include closure used by the standard-copy experiment. The source/control
+proof SHA-256 is:
+
+`7fb3ad16a1a207cf1cb42c04e65286b1f7b12a0a06aa46277bbe94b884a1d628`
+
+`python3 -B .analysis/replay-header-copy-20261106/verify.py` passes an
+independent read-only replay of all31 current comparisons, both complete
+Replay carriers, all13 controls,130 repeated exact siblings,15 actual producer
+comparisons and the fresh full mapped-byte Ghidra attestation. It verifies
+source/profile/object bindings and the unchanged full canonical recipes.
+
+Cleanup removes155 SHA-identical source copies and18 disposable PDBs:
+173 files/2116482 bytes. All18 new objects, current-source and baseline proofs,
+changed models and genuine included source definitions remain. Removed inputs
+resolve through explicit path/hash receipts to retained frozen copies. No
+original, toolchain, source owner or unreproduced target evidence is removed.
