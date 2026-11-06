@@ -31647,3 +31647,27 @@ caller, actual fields and three math providers. The separate b9e1a95a source
 proof binds104 inputs/four objects/eight provider hashes and five canonical
 comparisons674/42. See TH09_PLAYER_MOVEMENT_SPEED_CONTEXT_20261106.md. Exact
 totals remain1022 functions; product/runtime/semantic/port gates remain open.
+
+## 2026-11-06 Title result initialization uses the native ANM providers
+
+The complete485-byte original updater calls LoadSurface43CAE0, batch interrupt
+436DE0 and batch execution439560 through4DC550. Maintained result initialization
+now uses the implemented AnmManager declarations and native AnmVm array
+interface; size2A4 and pending interrupt1FE remain guarded. The native interrupt
+declaration takes short, superseding this caller's private int-form declaration.
+Original C++ parameter spelling/class/member identity remain unproved.
+
+41 Title units and the three providers pass44 complete comparisons19583 bytes/
+978 fields. Nine private labels preserve actual definitions/original operands.
+Full result raw/effective code is unchanged484/485 bytes,34 fields,147
+instructions,nine calls,40 blocks,218 unlike overlaps and one missing. Actual
+PNG19-byte data and all266 equal physical positions are protected. Native
+provider identity is separately guarded against byte-equivalent private aliases.
+
+Original selected-character transport reads CL then sign-extends EDI before
+the175-byte cursor call and reuses it afterward. The cursor target consumes
+a full32-bit selected-index stack word; no narrower ABI is adopted. Six fresh
+fixed-profile reference/index/value/native-owner controls retain484/218/one or
+regress483/224/two. Their40-block graphs still agree, which does not make the
+whole owners exact. See TH09_TITLE_RESULT_NATIVE_ANM_20261106.md; no new exact,
+runtime, original-class or TU ownership credit follows.

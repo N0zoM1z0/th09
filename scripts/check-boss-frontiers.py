@@ -4118,6 +4118,26 @@ def guard_title_update_result(result: dict) -> None:
         raise RuntimeError('Title OnUpdateResult 485-byte/34-field/9-call/40-block frontier drifted')
 
 
+def guard_title_result_native_anm(result: dict) -> None:
+    """Require the shared ANM providers on result-page initialization."""
+    root = '?g_AnmManager@@3PAVAnmManager@@A'
+    expected = (
+        ('DIR32', root, 0x004DC550),
+        ('REL32', '?LoadSurface@AnmManager@@QAEHHPBD@Z', 0x0043CAE0),
+        ('DIR32', root, 0x004DC550),
+        ('REL32', '?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z', 0x00436DE0),
+        ('DIR32', root, 0x004DC550),
+        ('REL32', '?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z', 0x00439560),
+    )
+    fields = result.get('native_anm_fields')
+    if not isinstance(fields, list) or len(fields) != len(expected):
+        raise RuntimeError('Title result native ANM field coverage changed')
+    for row, (kind, symbol, target) in zip(fields, expected):
+        if (row.get('type'), row.get('symbol'), row.get('root'),
+                row.get('effective'), row.get('addend')) != (kind, symbol, target, target, 0):
+            raise RuntimeError('Title result native ANM provider identity changed')
+
+
 TITLE_OPTIONS_TARGET_SHA256 = (
     '869fec21781b663202298f8486ebf8d0d9e42c0c1d34f1d3b08bf860b247eb63'
 )
@@ -4492,6 +4512,7 @@ def run_title_open() -> dict:
         }
     update = parsed(['scripts/inspect-title-update-result.py', cursor_obj])
     guard_title_update_result(update)
+    guard_title_result_native_anm(update)
     cursor_reports['title_update_result'] = {
         'target_bytes': 485, 'candidate_bytes': update['candidate_bytes'],
         'bound_fields': update['bound_fields'],

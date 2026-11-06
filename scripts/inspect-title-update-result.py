@@ -66,11 +66,21 @@ SOURCE_ROOTS = {symbol: address for _, _, symbol, address in FIELDS}
 SOURCE_ROOTS.update({
     '?g_ReplayInputStates@@3PAUReplayInputState@@A': 0x004ACE18,
     '?g_PlayStatsRecord@@3UPlayStatsRecordView@@A': 0x004A8180,
+    '?g_AnmManager@@3PAVAnmManager@@A': 0x004DC550,
+    '?LoadSurface@AnmManager@@QAEHHPBD@Z': 0x0043CAE0,
+    '?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z': 0x00436DE0,
+    '?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z': 0x00439560,
 })
 NATIVE_ADDENDS = {
     '?g_ReplayInputStates@@3PAUReplayInputState@@A': (0x122,),
     '?g_PlayStatsRecord@@3UPlayStatsRecordView@@A': (0x4C, 0x5C, 0x6C),
 }
+NATIVE_ANM_SYMBOLS = (
+    '?g_AnmManager@@3PAVAnmManager@@A',
+    '?LoadSurface@AnmManager@@QAEHHPBD@Z',
+    '?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z',
+    '?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z',
+)
 
 
 def encode(kind: str, address: int, offset: int) -> int:
@@ -200,6 +210,11 @@ def diagnose(obj: Path) -> dict:
                                effective=SOURCE_ROOTS[r['symbol']] + r['addend'])
                           for r in rows if r['symbol'] in NATIVE_ADDENDS],
         'missing_target_bytes': max(0, SIZE-len(linked)),
+        'native_anm_fields': [dict(offset=r['offset'], type=r['type'],
+                                  symbol=r['symbol'], addend=r['addend'],
+                                  root=SOURCE_ROOTS[r['symbol']],
+                                  effective=SOURCE_ROOTS[r['symbol']] + r['addend'])
+                             for r in rows if r['symbol'] in NATIVE_ANM_SYMBOLS],
         'extra_candidate_bytes': max(0, len(linked)-SIZE),
         'complete_bytes_equal': linked == original,
         'candidate_raw_sha256': hashlib.sha256(raw).hexdigest(),

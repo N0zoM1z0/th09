@@ -11,6 +11,22 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — result update uses implemented ANM providers
+
+Result initialization now uses the real AnmManager surface/interrupt/script
+providers and shared native VM interfaces.41 affected Title units plus three
+actual providers pass44 complete comparisons19583 bytes/978 fields in four
+existing source/profile builds. Nine private labels retain actual definitions
+and original operands. Full result code stays484/485 bytes,34 fields,147
+instructions,nine calls,40 blocks and218 unlike overlaps plus one missing.
+Every raw byte/effective field and all266 equal positions remain protected.
+Six source controls do not close the character-transport deficit; the175-byte
+cursor helper keeps its full32-bit index contract. See
+[the complete source review](TH09_TITLE_RESULT_NATIVE_ANM_20261106.md).
+108 focused Title tests pass with eight skips. No new exact credit; totals
+remain1022 exact/13 nonexact.
+Full public CI passes1376 tests with29 skips; tracking/docs/progress/whitespace pass.
+
 ## 2026-11-06 continued main — complete Player speed contexts rechecked
 
 Three SHT storage/read models retain the full movement raw body at1900/66/122.

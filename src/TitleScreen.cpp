@@ -17,6 +17,7 @@ typedef char TitleResultNativeFieldLayout[
         ? 1 : -1];
 
 #include "AsciiManager.hpp"
+#include "AnmManager.hpp"
 #include "SoundPlayer.hpp"
 #include "Supervisor.hpp"
 #include "Chain.hpp"
@@ -159,6 +160,11 @@ typedef char AnmVmSizeIs2A4[(sizeof(AnmVmView) == 0x2A4) ? 1 : -1];
 typedef char AnmVmColorAt1F0[(offsetof(AnmVmView, color1) == 0x1F0) ? 1 : -1];
 typedef char AnmVmFlagsAt1F8[(offsetof(AnmVmView, flags) == 0x1F8) ? 1 : -1];
 typedef char AnmVmInterruptAt1FE[(offsetof(AnmVmView, pendingInterrupt) == 0x1FE) ? 1 : -1];
+// Result-page arrays share the implemented native ANM storage contract.
+typedef char TitleResultNativeVmArrayStorage[
+    (sizeof(AnmVmView) == sizeof(AnmVm) &&
+     offsetof(AnmVmView, pendingInterrupt) == offsetof(AnmVm, pendingInterrupt))
+        ? 1 : -1];
 typedef char AnmVmPositionAt208[(offsetof(AnmVmView, position) == 0x208) ? 1 : -1];
 typedef char AnmVmActiveSpriteAt214[(offsetof(AnmVmView, activeSpriteIndex) == 0x214) ? 1 : -1];
 typedef char AnmVmSpriteAt218[(offsetof(AnmVmView, baseSpriteIndex) == 0x218) ? 1 : -1];
@@ -2485,11 +2491,11 @@ int TitleScreenView::OnUpdateResult()
     case 0:
         if (phaseTimer == 0)
         {
-            if (g_TitleAnmManager->LoadSurface(0, "title/result00.png"))
+            if (g_AnmManager->LoadSurface(0, "title/result00.png"))
                 return 0;
 
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 16);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(reinterpret_cast<AnmVm *>(vms), vmCount, 16);
+            g_AnmManager->ExecuteScriptArray(reinterpret_cast<AnmVm *>(vms), vmCount);
             keyboardSelection = 0;
             nameBankIndex = 0;
             SetCharacterCursorInactive(g_TitleResultCharacterOrder[0], 60, 16, 2);
