@@ -238,6 +238,30 @@ extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 
 } // namespace
 
+#include "EnemyManager.hpp"
+
+// The selector, Enemy calc, and ECL interpreter consume the same allocation.
+// Native side +0x10 is already a typed EnemyManager pointer, and each enemy
+// pointer is an element of that manager's real enemy pool.  This is not a
+// new Player-facing copy of the 0x2AC450-byte manager.
+typedef char PlayerSelectorNativeEnemyOwnerFields[
+    (offsetof(PlayerSideStateView, enemyManager10) == 0x10 &&
+     offsetof(EnemyManagerView, activeEnemyCount2AC3AC) == 0x2AC3AC &&
+     offsetof(EnemyManagerView, rewardEnemyCount2AC3B8) == 0x2AC3B8 &&
+     offsetof(EnemyManagerView, priorityEnemy2AC444) == 0x2AC444 &&
+     offsetof(EnemyManagerView, firstActiveEnemy2AC448) == 0x2AC448 &&
+     offsetof(EnemyView, position2D74) == 0x2D74 &&
+     offsetof(EnemyView, secondaryFlags3380) == 0x3380 &&
+     offsetof(PlayerLifecycleView, targetOverride30F64) == 0x30F64) ? 1 : -1];
+// The selector copies the Enemy's native XYZ into its own PlayerPosition
+// workspace.  Both views have the original, proven 3-float memory geometry.
+typedef char PlayerSelectorNativeEnemyXYZWindow[
+    (sizeof(EnemyFloat3) == sizeof(PlayerPositionView) &&
+     sizeof(PlayerPositionView) == 0x0C &&
+     offsetof(EnemyFloat3, x) == offsetof(PlayerPositionView, x) &&
+     offsetof(EnemyFloat3, y) == offsetof(PlayerPositionView, y) &&
+     offsetof(EnemyFloat3, z) == offsetof(PlayerPositionView, z)) ? 1 : -1];
+
 void __fastcall PlayerUpdateSelectorState(void *state)
 {
     PlayerGameplayHeaderView *header =
@@ -348,8 +372,8 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     halfSizes[2] = header->player78->hurtboxHalfSize;
 
     {
-        void *manager = (header->player78)->sideState->attackTarget10;
-        if ((*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(manager) + 0x2AC3B8)) >= 4)
+        EnemyManagerView *manager = header->player78->sideState->enemyManager10;
+        if (manager->rewardEnemyCount2AC3B8 >= 4)
         {
             g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 4U;
             alternate = 1;
@@ -526,30 +550,29 @@ pattern_selected:
                 {
                     PlayerLifecycleView *player = header->player78;
                     target.x = -1000.0f;
-                    const PlayerPositionView *overridePosition = reinterpret_cast<const PlayerPositionView *>(
-                        reinterpret_cast<unsigned char *>(player) + 0x30F64);
+                    const PlayerPositionView *overridePosition = &player->targetOverride30F64;
                     if (overridePosition->x > -999.0f)
                     {
                         target = *overridePosition;
                     }
                     else
                     {
-                        void *manager = (player)->sideState->attackTarget10;
-                        void *enemy = (*reinterpret_cast<void * *>(reinterpret_cast<unsigned char *>(manager) + 0x2AC444));
+                        EnemyManagerView *manager = player->sideState->enemyManager10;
+                        EnemyView *enemy = manager->priorityEnemy2AC444;
                         if (enemy != NULL)
                         {
-                            target = (*reinterpret_cast<PlayerPositionView *>(reinterpret_cast<unsigned char *>(enemy) + 0x2D74));
+                            target = *reinterpret_cast<const PlayerPositionView *>(&enemy->position2D74);
                             target.y += 128.0f;
-                            unsigned int flags = (*reinterpret_cast<unsigned int *>(reinterpret_cast<unsigned char *>(enemy) + 0x3380));
+                            unsigned int flags = enemy->secondaryFlags3380;
                             if ((flags & 0xC00U) == 0xC00U || (flags & 0x2000U) != 0)
                                 target.y = 400.0f;
                             goto opponent_target_resolved;
                         }
 
-                        enemy = (*reinterpret_cast<void * *>(reinterpret_cast<unsigned char *>(manager) + 0x2AC448));
+                        enemy = manager->firstActiveEnemy2AC448;
                         if (enemy != NULL)
                         {
-                            target = (*reinterpret_cast<PlayerPositionView *>(reinterpret_cast<unsigned char *>(enemy) + 0x2D74));
+                            target = *reinterpret_cast<const PlayerPositionView *>(&enemy->position2D74);
                             target.y += 128.0f;
                         }
                     }
@@ -653,14 +676,14 @@ pattern_selected:
             history[0] = g_PlayerPatternFlags[selectedPattern];
         }
 
-        void *manager = (player)->sideState->attackTarget10;
-        void *targetEnemy = (*reinterpret_cast<void * *>(reinterpret_cast<unsigned char *>(manager) + 0x2AC444));
+        EnemyManagerView *manager = player->sideState->enemyManager10;
+        EnemyView *targetEnemy = manager->priorityEnemy2AC444;
         if ((targetEnemy != NULL &&
-            (((*reinterpret_cast<unsigned int *>(reinterpret_cast<unsigned char *>(targetEnemy) + 0x3380)) & 0xC00U) == 0xC00U ||
-            ((*reinterpret_cast<unsigned int *>(reinterpret_cast<unsigned char *>(targetEnemy) + 0x3380)) & 0x2000U) != 0)) ||
+            ((targetEnemy->secondaryFlags3380 & 0xC00U) == 0xC00U ||
+            (targetEnemy->secondaryFlags3380 & 0x2000U) != 0)) ||
             (*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(player) + 0xC110)) == 0)
         {
-            int emitEvent = (*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(manager) + 0x2AC3AC)) != 0
+            int emitEvent = manager->activeEnemyCount2AC3AC != 0
             ? header->frameTimer00.HasTickedEvery(10)
                 : header->frameTimer00.HasTickedEvery(30);
             if (emitEvent)

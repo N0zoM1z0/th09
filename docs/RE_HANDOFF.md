@@ -90,6 +90,16 @@ Counts below are complete-owner diagnostics, not partial acceptance.
 | **Supervisor network service** | 0x00430AA0 | **1,633 target /1,627 candidate**,106 source fields;51 call-identity multiplicities agree |1381 unequal overlaps plus6 missing after the reviewed unsigned-16 queue API change (previously1376+7). Native RNG and packet lifetimes remain;wait/stack/input transport stay open. `inspect-supervisor-service.py` checks the full compiled owner; `--owner network` checks its queue dependencies. |
 | **Effect AddedCallback leaf** | 0x0040D1C0 | **51/51**, 4 fields, 2 calls; **8** differences | Remaining receiver/allocation scheduling. Preserve43 matching bytes and genuine AnmLoaded/Chain interfaces. `--owner effect`. |
 
+## 2026-11-06 Player selector typed Enemy owner
+
+The exact 3,238-byte Player pattern selector now reads the one native
+EnemyManager/Enemy allocation rather than duplicated raw numeric offsets.
+Its 346-byte/412-physical-byte direction resolver also remains exact after
+all 18 compiler-local table labels were verified against unchanged original
+destinations and refreshed. These are meaningful typed gameplay-source changes
+but **zero new exact bytes**. See
+[the native Enemy owner review](TH09_PLAYER_SELECTOR_NATIVE_ENEMY_20261106.md).
+
 ## Latest source and evidence
 
 - RunEcl: one native Enemy owner and one switch, current30 residuals; see
