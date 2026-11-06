@@ -11,6 +11,25 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Shake natural phase models remain unresolved
+
+Three current-native models remove the old volatile reference construction.
+Ordinary and typed-parameter phases both produce334/20 with249 unlike overlaps
+and two missing bytes; unsigned final endpoint produces339/20 with249 unlike
+and three extra. All20 referents,eight ordered calls and26 blocks agree, but
+none preserves the maintained310 equal positions. No source or qualifier is
+adopted; original C++ volatility remains unknown. The current owner stays
+336/20/26. See [the complete review](TH09_SHAKE_NATURAL_PHASES_20261106.md).
+
+Fresh Ghidra attests both reviewed owners and all mapped bytes.70 complete
+comparisons7293/397 cover48 experimental siblings,18 unchanged canonical
+owners and four actual Timer/RNG callees. Seal
+`2bda1cc0aa0f4cca878046dfb8ee1c3eae5a6c80bdcd75461394be12a9a36165`
+passes independent read-only replay; a disposable typed-parameter rebuild also
+reproduces full raw bytes/COFF and16 siblings.45 hashed copies and four
+PDBs524288 bytes are removed; all four new objects remain. Game source stays
+7e293460;1021/13 and the active goal remain open.
+
 ## 2026-11-06 continued main — Natural RunEcl wire snapshot adopted
 
 Opcode4 now snapshots the existing four-byte wire argument and assigns its

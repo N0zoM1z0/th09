@@ -32079,3 +32079,15 @@ definitions leaves both callees original-equal but changes RunEcl to15560/598,
 remains in force. Full raw/actual-field Enemy identity is unchanged even when
 its standard co-visible RunEcl inventory check rejects the changed carrier.
 See [the source and fixed-profile controls](TH09_RUNECL_WIRE_SNAPSHOT_20261106.md).
+
+### 2026-11-06 Shake: natural phase expressions and qualifier limits
+
+Original4227A0+5A loads hold+20 intoECX,+5D loads fade+24 intoEAX,+60 adds
+them,+62 extends the endpoint. Neither the separate loads nor Ghidra prove
+original volatile C++ qualifiers. Current ordinary and typed-parameter models
+both fold the hold read into ADD memory and produce334/20 with249 unlike
+overlaps plus two missing bytes; a distinct unsigned final endpoint produces
+339/20 with249 unlike plus three extra. All retain20 referents,eight ordered
+calls and26 blocks but fail the complete maintained frontier. No model is
+adopted;336/20/26 and the existing qualifiers remain provisional source. See
+[the complete natural-phase review](TH09_SHAKE_NATURAL_PHASES_20261106.md).
