@@ -79,3 +79,31 @@ Constructor layout checks, target/tracking, progress, documentation and
 whitespace checks pass. No new authored exact function is claimed: totals stay
 1035 source-present /1022 exact /13 nonexact. Whole-product/runtime closure,
 dual-Oracle semantics, portability and Factory acceptance remain open.
+
+
+## Immutable local source receipt
+
+Source checkpoint `36002b4b272f56f1daf410ce32baaff488687538` is bound by
+`.analysis/replay-save-current-20261106/source-proof.json`, SHA-256
+`be937055150692469c349828bfa2a42738f8f4eaaeddf23a0baf6656dcf73584`.
+It records71 tracked inputs and normalized Git blobs, ten actual objects and
+profiles, eight compiler/SDK files, all68 complete comparisons, both mapped-byte
+Ghidra attestations and the unchanged nonexact carrier diagnostics. The
+independent `source-receipt.py` replay passes and writes a separate report.
+This is local compiler evidence, not Factory or remote-publication acceptance.
+
+The six control contexts are separately sealed by SHA-256
+`408cb342a6264bd5f5e28f7790f11468cb53d30631fc424fe1b0b6eaf63deabe`.
+66 SHA-identical staged copies are pruned. Restoring the native-wire control
+reproduces its entire1238-byte raw body and all53 actual COFF rows; ten restored
+unchanged inputs are then pruned again. Frozen inputs, changed sources,
+objects, logs and unreproduced evidence remain available.
+
+Read-only adjacent sources were also checked. TH08 `adfdc969` separates file
+offsets from live pointers in its portable representation; its exact branch
+still spells numerical pointer casts. TH095 `72409b7` instead has a24-byte
+container header and another payload shape. These suggest representation
+questions only: no adjacent byte, layout, behavior, type identity or compiler
+hint is adopted as TH09 evidence. The ignored adjacent-hypothesis receipt pins
+the inspected files and Git state. All TH09 claims above come from TH09 target
+and compiler observations.

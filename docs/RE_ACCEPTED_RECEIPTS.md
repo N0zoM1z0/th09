@@ -12,6 +12,29 @@ their original source/invocation bindings and are not new Factory acceptance.
 > automatically inherit them. Consult [the active handoff](RE_HANDOFF.md)
 > and the canonical ledgers for current counts.
 
+## November 6: shared replay serialized locations — local Oracle
+
+**Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**
+Source commit: `36002b4b272f56f1daf410ce32baaff488687538`.
+Save and the original-equal591-byte loader now express file offsets through
+the shared header's32-bit offset members before using the existing live pointer
+members.66 existing canonical units retain26915 bytes/1472 fields. Two
+origin-unknown constructors additionally reproduce33/2 without authored credit.
+All68 comparisons total26948 bytes/1474 fields across nine existing profile
+groups; the separate nonexact menu carrier is also freshly built. Nine private
+Title labels retain independently verified same-owner definitions/PE operands.
+
+The ignored `.analysis/replay-save-current-20261106/source-proof.json` is
+SHA-256 `be937055150692469c349828bfa2a42738f8f4eaaeddf23a0baf6656dcf73584`.
+It binds71 tracked inputs/Git blobs, ten actual objects/profiles, eight
+compiler/SDK files, both mapped-byte Ghidra attestations and complete nonexact
+carrier comparisons. Its independent source replay passes. Both Save profiles
+remain1238/53/two; the other affected nonexact frontiers retain full prior raw
+code/effective fields.177 focused tests pass; shared validators are unchanged.
+Six source controls remain nonexact and are separately sealed with hash-checked
+recovery. No new exact credit; totals remain1022 exact/13 nonexact. See
+[the source and original review](TH09_REPLAY_SERIALIZED_LOCATIONS_20261106.md).
+
 ## November 6: result initialization native ANM providers — local Oracle
 
 **Local pinned-VC7.1 result; no Factory verdict or remote-publication claim.**

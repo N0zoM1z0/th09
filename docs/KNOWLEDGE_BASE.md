@@ -31723,3 +31723,13 @@ label names change at independently proven unchanged destinations. Six current
 Save contexts remain1238/53/two; the historical7d510243 recipe's changed inputs
 are not reused as current proof. See TH09_REPLAY_SERIALIZED_LOCATIONS_20261106.md.
 No authored exact, native-product, runtime or semantic-stage credit is added.
+
+
+The36002b4b local source proof seals71 inputs/Git blobs, ten objects/profiles,
+eight compiler/SDK files and68 complete comparisons26948/1474. Independent
+replay passes;66 are existing canonical owners and two constructors retain
+unknown origin. Six current Save contexts replay1238/53/two.66 duplicate
+copies are pruned; a restored native-wire control reproduces all code/fields.
+The TH08 portable offset representation and different TH095 container were
+read only as hypotheses; no adjacent layout or compiler hint becomes TH09
+evidence. See TH09_REPLAY_SERIALIZED_LOCATIONS_20261106.md.

@@ -13,6 +13,13 @@
 
 ## 2026-11-06 continued main — replay header names its serialized locations
 
+Source `36002b4b`; sealed receipt SHA-256
+`be937055150692469c349828bfa2a42738f8f4eaaeddf23a0baf6656dcf73584`
+binds71 tracked inputs/Git blobs, ten objects/profiles and eight compiler/SDK
+files. Independent source replay passes. Six frozen controls also pass;66
+hashed duplicate copies are pruned, and a restored full control reproduces
+all raw bytes/fields before its ten duplicates are pruned again.
+
 SaveReplay writes32-bit offsets through shared frameOffset/fpsOffset storage;
 the591-byte original-equal loader reads those words before rebasing the existing
 pointer members. HeaderC0/record1EC and offset-table locations remain guarded.
