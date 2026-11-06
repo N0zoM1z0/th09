@@ -304,6 +304,15 @@ byte counts. Eight actual VC7.1 source contexts were compared. The full
 16 related exact unit replays pass. See
 [native setup score-buffer proof](TH09_GAMEPLAY_SETUP_NATIVE_SCORE_BUFFER_20261106.md).
 
+## 2026-11-06 native Player stage-D tracking reset
+
+The already exact 121-byte Player stage-D leaf now resets its two positions
+and adjacent word through the actual Player +0x30364 tracking storage rather
+than three absolute byte-address casts. All 21 same-source original-bound
+PlayerRuntime units remain exact across 5,391 bytes/288 fields; only 11
+verified compiler-private names were refreshed. See
+[native stage-D original-byte proof](TH09_PLAYER_STAGE_D_NATIVE_TRACKING_RESET_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

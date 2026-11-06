@@ -118,6 +118,16 @@ typedef char PlayerRuntimeNativeMovementVmAndTail[
      offsetof(PlayerMovementFields, speedMultiplier1CDC) == 0x10 &&
      offsetof(PlayerMovementFields, speedMultiplier1CE8) == 0x1C) ? 1 : -1];
 
+// Stage D's nearest-target and reset windows are native to the existing
+// Player allocation. Preserve their original Float3 constructor calls;
+// do not introduce a new constructed tracking subobject here.
+typedef char PlayerRuntimeNativeTrackingResetAt30364[
+    (offsetof(PlayerLifecycleView, unknown30364) == 0x30364 &&
+     sizeof(((PlayerLifecycleView *)0)->unknown30364) == 0x20 &&
+     offsetof(PlayerEnemyTrackingStateView, trackedEnemyPosition00) == 0 &&
+     offsetof(PlayerEnemyTrackingStateView, unknown0C) == 0x0C &&
+     0x30364 + 0x1C == 0x30380) ? 1 : -1];
+
 // The ANM singleton uses the same native interface as the loader.
 extern AnmManager *g_AnmManager;
 extern PlayerShtFileView *g_PlayerShtFilesBySide[2];
@@ -715,16 +725,13 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
 
 static void PlayerUpdateStageD(PlayerLifecycleView *player)
 {
-    reinterpret_cast<PlayerEnemyTrackingStateView *>(
-        reinterpret_cast<unsigned char *>(player) + 0x30364)
+    reinterpret_cast<PlayerEnemyTrackingStateView *>(player->unknown30364)
         ->trackedEnemyPosition00 =
         Float3(-999.0f, -999.0f, 0.0f);
-    *reinterpret_cast<Float3 *>(
-        reinterpret_cast<unsigned char *>(player) + 0x30370) =
+    *reinterpret_cast<Float3 *>(player->unknown30364 + 0x0C) =
         Float3(-999.0f, -999.0f, 0.0f);
 
-    *reinterpret_cast<int *>(
-        reinterpret_cast<unsigned char *>(player) + 0x30380) = 0;
+    *reinterpret_cast<int *>(player->unknown30364 + 0x1C) = 0;
     player->movementFields1CCC.speedMultiplier1CE8 = 1.0f;
     player->movementFields1CCC.speedMultiplier1CE4 = 1.0f;
 }
