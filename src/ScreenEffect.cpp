@@ -32,6 +32,12 @@ typedef char ScreenEffectSupervisorPresentAt350[
 // TH09's two gameplay shake records live in the genuine 0xF0 Supervisor
 // constructor-array elements, at +0x160/+0x164 and +0x250/+0x254.
 // Do not carry a parallel 0x250-byte Supervisor memory projection here.
+// Original low-byte side flag is the low bit of the genuine shared
+// GameManager.sides[contextIndex].flags word; not a second byte-only slot.
+typedef char ScreenEffectNativeSideFlagsAt34[
+    (sizeof(AsciiGameManagerSideView) == 0x38 &&
+     offsetof(AsciiGameManagerSideView, flags) == 0x34) ? 1 : -1];
+
 typedef char ScreenEffectNativeSupervisorShakeOffsets[
     (offsetof(Supervisor, ctorArray078) +
          offsetof(SupervisorCtorArrayElement, frameOffsetX) == 0x160 &&
@@ -191,7 +197,7 @@ int ScreenEffect::CalcArcadePulse(ScreenEffect *screenEffect)
 
 int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
 {
-    if ((reinterpret_cast<unsigned char *>(&g_GameManager.sides[screenEffect->contextIndex].flags)[0] & 1) != 0)
+    if ((g_GameManager.sides[screenEffect->contextIndex].flags & 1u) != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
 
     if ((g_GameManager.flags & 0x1800) != 0)

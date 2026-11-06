@@ -207,6 +207,15 @@ all 66 original fields, 23 calls and 122 existing unlike bytes, without any
 new mismatch. The focused movement replay passes the nearby exact owners.
 See [the movement source trial and evidence](TH09_PLAYER_MOVEMENT_NATIVE_REFERENCE_20261106.md).
 
+## 2026-11-06 ScreenEffect native side flags
+
+The exact 316-byte `CalcShake` now uses the shared side flags word rather
+than an opaque byte cast. All 18 exact same-source ScreenEffect units remain
+original-bound exact (2,562 physical bytes / 164 fields); nine private
+RegisterChain labels were rebound by actual COFF identity. The 336-byte
+shake envelope remains nonexact by 26 ordinary bytes. See
+[the native side flags evidence](TH09_SCREEN_EFFECT_NATIVE_SIDE_FLAGS_20261106.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
