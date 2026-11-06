@@ -31914,3 +31914,20 @@ tracked source/provider inputs and Git blobs, eight SDK files and60 new
 objects. Independent read-only replay repeats all241 strict comparisons,
 complete frontier diagnostics and contribution reconciliation without compiler
 jobs. Recipes and retained object/source hashes are in the native RNG packet.
+
+## 2026-11-06 Title result byte transport is not closed by cursor visibility
+
+The actual complete d7653152 UpdateState13 object yields483/34/224 plus two
+missing bytes; every field and literal is independently checked. Current
+caller controls with inactive/all cursor definitions external retain the
+entire484-byte raw body and34 identities, with218 unlike overlaps and one
+missing byte. The real separate175-byte cursor still matches in full.
+Narrowing the selected-character parameter coherently in declaration and
+definition produces a488-byte caller and176-byte cursor. The latter's full
+two-field comparison has60 unlike overlaps plus one extra byte. This rejects
+that paired model, not every possible original type/source. No ABI change is
+adopted. Fresh Ghidra attests both entries and all685056 mapped bytes. The
+current21-input Title closure is joined to36002b4b, while the three unchanged
+ANM provider proofs retain their17a17736 binding;44 read-only comparisons pass
+19583/978. See TH09_TITLE_RESULT_NATIVE_ANM_20261106.md for the sealed three
+controls, reused complete reference and60 hashed duplicate copies pruned.

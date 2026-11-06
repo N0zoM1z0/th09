@@ -1,5 +1,46 @@
 # Result update uses the implemented ANM providers, 2026-11-06
 
+## Caller/callee scope countercheck after 0168c67a
+
+The immutable reference's complete UpdateState13 object is independently bound
+through all 34 actual fields and its real 19-byte PNG literal. It produces
+483 bytes / 146 instructions, 224 unlike overlaps and two missing original
+bytes. Its own project lists this function among allowed nonmatches. The full
+reference context does not close the maintained 484/485-byte frontier.
+
+Two current-source controls remove only the inactive cursor definition, or all
+three cursor definitions, from the caller's translation unit. All signatures
+and the existing O1 profile remain fixed. Both callers retain every baseline
+raw byte, all 34 field identities and the 484/218/one-missing result. Their
+cursor references are genuinely external. The separate real 175-byte cursor
+definition and both fields are checked against the entire original.
+
+A third control narrows the selected-character parameter to signed char in
+both declaration and actual definition. The caller becomes 488 bytes and is
+rejected by the public identity guard. The actual cursor becomes 176 bytes
+against 175 original; its full two-field comparison has 60 unlike overlaps
+and one extra byte. Thus this particular paired source model fails; changing
+only the caller declaration would not be a valid reconstruction. No narrowed
+interface, source change or claim of uniquely recovered original types follows.
+
+Fresh direct Ghidra covers both entries with all 685056 mapped file bytes
+attested. The 21-input current Title closure matches the 36002b4b Replay-header
+receipt, including the later serialized-field header. It is not incorrectly
+joined wholesale to the earlier 17a17736 receipt. That earlier receipt supplies
+the three still-unchanged ANM provider proofs. The actual scoped replay passes
+44 comparisons / 19583 bytes / 978 fields without compiler jobs.
+
+The ignored `.analysis/title-result-owner-20261106/` retains three new complete
+objects, source controls, frozen inputs, actual caller/callee reports, the
+reused reference object binding and Ghidra exports. 60 per-file SHA-identical
+copies are pruned; unique controls and frozen carriers remain. Independent
+seal replay passes:
+`84e46bf0dc4986441b64a874bd3e0732d8112b35dccad8a059ba89e906c6d179`.
+Game source remains 398b69e4, with 1021 authored exact / 13 nonexact. The
+following integration history describes its own earlier source epochs.
+
+## Native ANM integration history
+
 Recovery starts at clean `0bb32426`; original-target, tracking and status
 checks pass. Three fresh local Ghidra batches cover the485-byte result updater,
 three ANM providers and175-byte cursor helper. Each attests disk/Program SHA,

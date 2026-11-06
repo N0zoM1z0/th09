@@ -11,6 +11,21 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Title result tests actual caller/callee scope
+
+The complete pinned reference is483/34/224 plus two missing bytes. Removing
+the inactive/all cursor definitions from the current caller preserves every
+484-byte raw instruction and all34 fields; the separate actual175-byte cursor
+still matches. A signed-byte declaration/definition pair instead produces a
+488-byte caller and176-byte cursor; the actual callee fails60 overlaps plus
+one extra byte. No source or narrower interface is adopted. Fresh Ghidra
+attests both entries/all mapped bytes;44 correctly source-scoped unchanged
+comparisons19583/978 pass without compiler jobs. See
+[the caller/callee review](TH09_TITLE_RESULT_NATIVE_ANM_20261106.md).
+Seal `84e46bf0dc4986441b64a874bd3e0732d8112b35dccad8a059ba89e906c6d179`;
+60 hashed duplicate copies are pruned. Source stays398b69e4 and1021 exact/13
+nonexact; the goal remains active.
+
 ## 2026-11-06 continued main — Seed operations use the native RNG owner
 
 Source `398b69e4`; immutable proof SHA-256
