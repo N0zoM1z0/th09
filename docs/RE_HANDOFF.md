@@ -11,6 +11,20 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — replay header names its serialized locations
+
+SaveReplay writes32-bit offsets through shared frameOffset/fpsOffset storage;
+the591-byte original-equal loader reads those words before rebasing the existing
+pointer members. HeaderC0/record1EC and offset-table locations remain guarded.
+Seven affected sources are covered by nine isolated canonical profile builds
+plus the separate nonexact menu carrier.66 canonical comparisons26915/1472
+and two origin-unknown constructors33/2 pass:68 total26948 bytes/1474 fields.
+Nine private Title labels retain actual same-owner definitions/original operands.
+Complete Save in both profiles remains1238/53/two; every affected nonexact
+frontier retains its full prior raw body/effective fields.177 focused tests pass.
+See [the source and original review](TH09_REPLAY_SERIALIZED_LOCATIONS_20261106.md).
+No new authored exact credit; the active goal and13 remaining owners stay open.
+
 ## 2026-11-06 continued main — complete RunEcl residual sites re-investigated
 
 Fresh target-attested Ghidra and nine fixed-profile complete source controls

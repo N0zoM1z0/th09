@@ -43,8 +43,16 @@ struct ReplayHeaderView
     u8 unknown16[2];
     i32 compressedSize;
     i32 decompressedSize;
-    ReplayFrameDataStartView *frameStart[3][10];
-    u8 *fpsStart[10];
+    // File records contain 32-bit offsets here; LoadReplayData rebases them
+    // into live pointers. Both states occupy the same original header words.
+    union {
+        ReplayFrameDataStartView *frameStart[3][10];
+        u32 frameOffset[3][10];
+    };
+    union {
+        u8 *fpsStart[10];
+        u32 fpsOffset[10];
+    };
 };
 
 struct ReplayPayloadView
@@ -89,6 +97,11 @@ typedef char ReplayDataFrame0At20[(offsetof(ReplayDataView, frameStart) == 0x20)
 typedef char ReplayDataFrame1At48[(offsetof(ReplayDataView, frameStart) + sizeof(((ReplayDataView *)0)->frameStart[0]) == 0x48) ? 1 : -1];
 typedef char ReplayDataFrame2At70[(offsetof(ReplayDataView, frameStart) + 2 * sizeof(((ReplayDataView *)0)->frameStart[0]) == 0x70) ? 1 : -1];
 typedef char ReplayDataFpsAt98[(offsetof(ReplayDataView, fpsStart) == 0x98) ? 1 : -1];
+typedef char ReplayDataSerializedLocations[
+    (offsetof(ReplayDataView, frameOffset) == 0x20 &&
+     offsetof(ReplayDataView, fpsOffset) == 0x98 &&
+     sizeof(((ReplayDataView *)0)->frameOffset[0][0]) == 4 &&
+     sizeof(((ReplayDataView *)0)->fpsOffset[0]) == 4) ? 1 : -1];
 typedef char ReplayDataConfigAtDC[(offsetof(ReplayDataView, configSnapshot) == 0xDC) ? 1 : -1];
 typedef char ReplayDataVersionAt1DC[(offsetof(ReplayDataView, exeVersion) == 0x1DC) ? 1 : -1];
 

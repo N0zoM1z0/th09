@@ -211,14 +211,14 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
 
     for (i = 0; i < 10; i++)
     {
-        if (decodedReplay->frameStart[0][i] != NULL)
-            decodedReplay->frameStart[0][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart[0][i]);
-        if (decodedReplay->frameStart[1][i] != NULL)
-            decodedReplay->frameStart[1][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart[1][i]);
-        if (decodedReplay->frameStart[2][i] != NULL)
-            decodedReplay->frameStart[2][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + (u32)decodedReplay->frameStart[2][i]);
-        if (decodedReplay->fpsStart[i] != NULL)
-            decodedReplay->fpsStart[i] = (u8 *)decodedReplay + (u32)decodedReplay->fpsStart[i];
+        if (decodedReplay->frameOffset[0][i] != 0)
+            decodedReplay->frameStart[0][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + decodedReplay->frameOffset[0][i]);
+        if (decodedReplay->frameOffset[1][i] != 0)
+            decodedReplay->frameStart[1][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + decodedReplay->frameOffset[1][i]);
+        if (decodedReplay->frameOffset[2][i] != 0)
+            decodedReplay->frameStart[2][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + decodedReplay->frameOffset[2][i]);
+        if (decodedReplay->fpsOffset[i] != 0)
+            decodedReplay->fpsStart[i] = (u8 *)decodedReplay + decodedReplay->fpsOffset[i];
     }
 
     g_ZunMemory.Free(data);
@@ -729,7 +729,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             {
                 ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
                 memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), replayCopy.frameStart[stream][loopIndex], sizeof(ReplayFrameDataStartView));
-                replayCopy.frameStart[stream][loopIndex] = (ReplayFrameDataStartView *)currentOffset;
+                replayCopy.frameOffset[stream][loopIndex] = currentOffset;
                 currentOffset += sizeof(ReplayFrameDataStartView);
                 for (; link != NULL; link = link->next)
                 {
@@ -747,7 +747,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         if (replayCopy.fpsStart[loopIndex] != NULL)
         {
             ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
-            replayCopy.fpsStart[loopIndex] = (u8 *)currentOffset;
+            replayCopy.fpsOffset[loopIndex] = currentOffset;
             for (; link != NULL; link = link->next)
             {
                 int fpsSize = link->frameCount / 30;

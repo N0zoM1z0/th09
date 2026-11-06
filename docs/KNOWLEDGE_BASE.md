@@ -31702,3 +31702,24 @@ new differences in neighboring opcode5 and the unchanged23 in opcode155.
 These are complete target/compiler observations, not original source identity.
 See TH09_RUNECL_RESIDUAL_SITES_20261106.md and the sealed ignored packet; no
 source model, exact count or later phase credit is adopted.
+
+
+## 2026-11-06 Replay file offsets and live pointers share header storage
+
+The original591-byte LoadReplayData4205E0 rebases four ten-entry32-bit tables:
+frame streams start at+20/+48/+70; FPS starts+98. Nonzero words receive the
+decoded record base; zero words remain zero. SaveReplay420C60 writes file
+locations into the corresponding words. The maintained ReplayHeaderView now
+names both states with frameOffset/fpsOffset and the existing pointer members
+in shared unions, guarding the headerC0, record1EC and four-byte wire entries.
+Save writes integer offsets; Load reads offsets before publishing pointers.
+These are reconstruction views, not original C++ class or lifetime proof.
+
+All66 affected canonical units26915 bytes/1472 fields and two origin-unknown
+constructor bodies33/2 reproduce their complete targets across nine profiles.
+Save's two residual bytes, Playback39-plus-two, result218-plus-one, menu29 and
+Setup frontiers retain complete prior code/effective fields. Nine private Title
+label names change at independently proven unchanged destinations. Six current
+Save contexts remain1238/53/two; the historical7d510243 recipe's changed inputs
+are not reused as current proof. See TH09_REPLAY_SERIALIZED_LOCATIONS_20261106.md.
+No authored exact, native-product, runtime or semantic-stage credit is added.
