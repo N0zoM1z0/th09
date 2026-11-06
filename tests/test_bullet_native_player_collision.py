@@ -24,7 +24,7 @@ class BulletNativePlayerCollision(unittest.TestCase):
         with (ROOT/'config/match-units.toml').open('rb') as f:
             units = tomllib.load(f)['units']
         for name, expected in (
-            ('etama-controller-update', (0x00413530, 2216, 88)),
+            ('etama-controller-update', (0x004146F0, 2216, 88)),
             ('etama-spawn-single-bullet', (0x00412960, 1932, 47))):
             with self.subTest(unit=name):
                 u = units[name]
