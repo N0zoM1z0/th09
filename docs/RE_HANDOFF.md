@@ -11,6 +11,24 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Effect context and genuine callee visibility
+
+Nine successful current-native contexts preserve135 exact Effect siblings
+22770/900. Receiver/cast/early-return/typed-owner variants retain8 or11 unlike
+bytes. Actual GetAnm definitions match20/0 while their callers shrink45/4 with
+42 unlike overlaps plus six missing bytes. Actual PreloadAnm90/4 preserves
+51/4/8. The first Preload setup misses windows.h; its complete-header model
+recovers the same real body. No source or interface is adopted. Original
+Create+0xC0 stores owner into ChainElem+1C and+0xC6 stores40D1C0 into+8;
+actual callback pointer operand is+0xC9. See
+[the visibility review](TH09_EFFECT_CONTEXT_VISIBILITY_20261106.md).
+Fresh Ghidra attests callback/creator/all mapped bytes.36 unchanged comparisons
+5543/206 and three actual producer comparisons130/4 remain separately scoped.
+Seal `553a9bb5306dd3ae144f395890580f294618efead110d437279f843dd0f66f73`;
+178 hashed source copies and ten PDBs are removed; all nine objects remain.
+The earlier Setup packet additionally removes ten PDBs1818624 bytes and keeps
+all ten objects. Neither batch adds exact credit:1021/13 and the goal stay open.
+
 ## 2026-11-06 continued main — Shared Setup rate context remains unresolved
 
 Ten current-native contexts test early exits, shared publication, nested/ordered

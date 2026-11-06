@@ -61,6 +61,11 @@ reports and recipes are sealed by:
 
 `python3 -B .analysis/setup-shared-rate-20261106/seal.py` independently replays
 the packet read-only.390 per-file SHA-identical staged copies are pruned;
-changed sources and all ten objects remain. Current authored totals stay1034
+changed sources and all ten objects remain. Ten disposable PDBs totaling
+1818624 bytes are additionally removed by path/SHA. An independent isolated
+identity receipt, `.analysis/setup-shared-rate-isolated-identity-20261106.json`
+(SHA-256 `d4cb2cde5906510c2c8130d9ecde1d9cef28780b65c41c3cd0d413f069f8f4cc`),
+checks complete raw bytes and all172 symbol/addend/offset/kind identities
+against the baseline. Current authored totals stay1034
 source-present/1021 exact/13 nonexact. Product/runtime, Factory acceptance and
 remote publication are not established by this investigation.

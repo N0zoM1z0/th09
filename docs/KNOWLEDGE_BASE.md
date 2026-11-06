@@ -32033,3 +32033,31 @@ unchanged comparisons3480/286, with no baseline compiler jobs. Seal
 `566a400d36a806dda4ff94863329f6aac2e5deb8a66614c725659c0445465519` binds
 all ten actual objects;390 SHA-identical source copies are pruned. Source
 remains657e9699; authored totals1021 exact/13 nonexact and the goal stay open.
+
+
+## 2026-11-06 Effect context/visibility native-source controls
+
+Fresh Ghidra40D1C0/40D320 attests all685056 mapped bytes. Original Create+0xC0
+publishes the owner into ChainElem+1C; +0xC6 stores40D1C0 into+8, with the
+actual DIR32 operand at+0xC9. This fixes the callback/payload relationship,
+not unique original C++ parameter spelling.
+
+Nine successful native contexts retain eight or eleven unlike bytes at51/4,
+or produce45/4 with42 unlike overlaps plus six missing bytes. Actual typed
+owner declaration/definition pairs keep the327-byte Create original-equal
+with its genuine callback field identity, but neither callback is original-
+exact; they are not exact-producer type-uniqueness counterexamples. Source
+void* stays. Actual GetAnm bodies match20/0 when visible before the callback,
+yet callers shrink to45 and save onlyESI; actual PreloadAnm90/4 instead keeps
+the baseline51/4/8. Original TU boundaries remain unknown. These contexts do
+not warrant register-order hints or adopting a shorter compatible owner.
+
+[The review](TH09_EFFECT_CONTEXT_VISIBILITY_20261106.md) records135 same-object
+comparisons22770/900,three actual producer comparisons130/4 and36 source-
+scoped unchanged comparisons5543/206. One missing windows.h producer setup
+is fixed in a complete-header context. A private replay symbol-state leak is
+reset without repeated compiler jobs. Seal
+`553a9bb5306dd3ae144f395890580f294618efead110d437279f843dd0f66f73` binds
+all nine successful objects;178 SHA-identical source copies and ten PDBs are
+removed. The Setup context packet separately removes ten PDBs1818624 bytes.
+Current game code stays657e9699;1021 exact/13 nonexact and the goal stay open.
