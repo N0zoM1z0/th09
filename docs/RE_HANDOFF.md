@@ -11,6 +11,19 @@
 > do not interpret old names or private class layouts as current.
 
 
+## 2026-11-06 continued main — Complete Network reference and word-width countercheck
+
+Complete pinned `app_network.cpp` yields 1610 bytes / 106 fields, all bound,
+with 1478 unlike overlaps and 23 missing original bytes. Its three literal
+payloads agree; its whole flow remains nonexact. The paired native word-width
+producer again matches131/1, while its service caller is1629/106/1388 plus four
+missing bytes. This confirms the earlier width ambiguity; no interface or
+source is adopted. Fresh Ghidra covers service/input/queue with all mapped
+bytes attested. Seal:
+`adf4581b2d28eef2eb80643a7453e213019ef8b4c679952abcd28b880fe323b5`.
+See [the updated frame review](TH09_NETWORK_FRAME_CONTEXT_20261106.md).
+Authored totals remain1021 exact/13 nonexact; the goal stays active.
+
 ## 2026-11-06 continued main — Complete Enemy reference rejects direct substitution
 
 Two complete pinned-reference Enemy builds, before/after correcting its speed

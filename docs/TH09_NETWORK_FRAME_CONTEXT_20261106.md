@@ -1,5 +1,35 @@
 # Complete network service frame contexts, 2026-11-06
 
+## Complete pinned-reference countercheck after 885cc874
+
+The complete d7653152 `app_network.cpp`, built with the pinned local compiler
+and its recorded `/O2 /Ob0 /Oy- /Gr /GX` profile, produces 1610 bytes against
+the original 1633. All 106 actual fields are bound; every external destination
+also exists in the independent native baseline. The three actual CP932 string
+definitions match their original payloads. Complete comparison has 1478 unlike
+overlaps and 23 missing bytes. Its 41 call multiplicities agree, while their
+order and the flow remain nonexact. It does not recover the original stack or
+the two observed input-selector preparations and is not adopted.
+
+Fresh original review also confirms partial-word input stores followed by
+dword loads at 4310C5/4310D1. A paired unsigned-short input/result producer
+again passes all 131 bytes and its field, but its native service caller is
+1629 bytes / 106 fields / 1388 unlike overlaps / four missing bytes. This is a
+current countercheck of the October 31 width ambiguity already recorded in the
+ledger, not new proof of unique source types. The canonical int/int interface
+and 1627/106/1381 service baseline remain unchanged.
+
+Fresh Ghidra covers service430AA0, producer42ACE0 and queue42EB80 with all
+685056 mapped bytes attested. The ignored packet
+`.analysis/network-reference-whole-20261106/` retains three objects, the 17-input
+native control, complete comparisons and recipes. 79 SHA-identical reference
+copies are pruned against the retained pinned mirror. Independent seal replay
+passes `adf4581b2d28eef2eb80643a7453e213019ef8b4c679952abcd28b880fe323b5`.
+No source adoption or exact credit; authored totals are 1034 present / 1021
+exact / 13 nonexact. The remainder below describes its earlier source epoch.
+
+## Earlier native frame contexts
+
 The restored observed input selectors in source `f350f750` are the baseline.
 Fresh target-bound Ghidra and direct original-byte decoding show a 20-byte
 local frame, a result home at EBP-4, and different output homes in the two

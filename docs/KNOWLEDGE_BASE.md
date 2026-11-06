@@ -31873,3 +31873,19 @@ differences or justify adopting its source/profile. Fresh Ghidra attests all
 replay. See docs/TH09_ENEMY_COMPLETE_REFERENCE_20261106.md for the sealed two
 builds, source/SDK/object bindings and hashed duplicate cleanup. No exact,
 original-source-identity, product/runtime or Factory credit follows.
+
+## 2026-11-06 full Network reference does not recover the missing frame shape
+
+The complete pinned d7653152 app_network translation unit under its recorded
+profile and our pinned compiler yields1610/106, not original1633/106. Every
+field has an independent fixed identity also present in the native baseline;
+all three actual literal payloads agree. Complete comparison is1478 unlike
+overlaps plus23 missing bytes. All41 call multiplicities agree, but ordered
+calls/control flow remain different. Original inputs are stored as words and
+subsequently loaded as dwords; this does not uniquely establish a C++ width.
+The paired native ushort producer again matches131/1; its caller1629/106/1388
+plus four missing does not close the service. This rechecks, rather than
+supersedes, the October31 ambiguity. Existing canonical int/int and full
+service1627/106/1381 remain. Fresh service/producer/queue Ghidra attests all
+685056 mapped bytes. See TH09_NETWORK_FRAME_CONTEXT_20261106.md for the sealed
+three-object packet and 79 hashed duplicate copies pruned. No source adoption.
