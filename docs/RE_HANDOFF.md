@@ -59,6 +59,15 @@ The separate Effect29 draw is now canonical exact in its selected /Ob0 profile;
 see [the complete-owner review](TH09_EFFECT29_EXACT_20261105.md).
 Do not silently treat uncatalogued code as excluded.
 
+## 2026-11-06 exact ANM loader slot path
+
+The exact 390-byte ANM ReadAnmEntries now addresses the existing native
+slot path at +0x20 instead of casting beyond the 0x1C resource. All 16
+same-profile ANM functions and the separate 341-byte constructor remain
+complete original-bound exact. See
+[ANM native reader path](TH09_ANM_READER_NATIVE_SLOT_PATH_20261106.md).
+This is source ownership progress, not new exactness or Factory acceptance.
+
 ## 2026-11-06 resumed RunEcl ABI recovery
 
 The recovered `EnemyView&` RunEcl object was finally compared against all

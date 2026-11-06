@@ -480,13 +480,14 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
     AnmRawEntry *entry = reinterpret_cast<AnmRawEntry *>(
         FileSystem::OpenFile(filename, NULL, 0));
     int currentEntryNumber = 0;
-    AnmLoaded *anmLoaded = &manager->slots[anmIdx].loaded;
+    AnmManagerReadSlotView *slot = &manager->slots[anmIdx];
+    AnmLoaded *anmLoaded = &slot->loaded;
     if (entry == NULL)
         return NULL;
 
     anmLoaded->anmIdx = anmIdx;
     anmLoaded->rawData04 = entry;
-    strcpy(reinterpret_cast<char *>(anmLoaded) + 0x20, filename);
+    strcpy(slot->path, filename);
 
     int totalEntries = 1;
     int totalScripts = entry->numScripts;
