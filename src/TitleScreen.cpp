@@ -343,7 +343,6 @@ extern TitleNameRecordView g_TitleNameTable[][5][5];
 extern i32 g_TitleNameTableIndex;
 extern i32 g_GameMode;
 extern u32 g_TitleGameFlags;
-extern TitleAnmManagerView *g_TitleAnmManager;
 extern TitleSupervisorView g_TitleSupervisor;
 extern AsciiManager g_AsciiManager;
 extern Chain g_Chain;
@@ -401,10 +400,10 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
 {
     (void)unused;
 
-    while (g_TitleAnmManager->captureSurfaceIndex08 >= 0)
+    while (g_AnmManager->captureSurfaceIndex08 >= 0)
         Sleep(1);
 
-    TitleAnmView *loadedTitleAnm = static_cast<TitleAnmView *>(g_TitleAnmManager->PreloadAnm(15, "title01.anm"));
+    TitleAnmView *loadedTitleAnm = static_cast<TitleAnmView *>(g_AnmManager->PreloadAnm(15, "title01.anm"));
     TitleScreenView *title = g_TitleScreen;
     title->titleAnm = loadedTitleAnm;
     if (loadedTitleAnm == 0)
@@ -413,7 +412,7 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
         return;
     }
 
-    TitleAnmView *loadedResultAnm = static_cast<TitleAnmView *>(g_TitleAnmManager->PreloadAnm(17, "resulttext.anm"));
+    TitleAnmView *loadedResultAnm = static_cast<TitleAnmView *>(g_AnmManager->PreloadAnm(17, "resulttext.anm"));
     title = g_TitleScreen;
     title->resultTextAnm = loadedResultAnm;
     if (loadedResultAnm == 0)
@@ -453,7 +452,7 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
 
     if (title->currentScreen == 1)
     {
-        if (g_TitleAnmManager->PreloadSurface(0, "title/title00.png"))
+        if (g_AnmManager->PreloadSurface(0, "title/title00.png"))
         {
             g_TitleScreen->chainState = 2;
             return;
@@ -461,7 +460,7 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
     }
     else
     {
-        if (g_TitleAnmManager->PreloadSurface(0, "title/result00.png"))
+        if (g_AnmManager->PreloadSurface(0, "title/result00.png"))
         {
             g_TitleScreen->chainState = 2;
             return;
@@ -588,9 +587,9 @@ int TitleScreenView::Release()
 int TitleScreenView::DeletedCallback(TitleScreenView *titleScreen)
 {
     g_TitleSupervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
-    g_TitleAnmManager->ReleaseAnm(15);
-    g_TitleAnmManager->ReleaseAnm(17);
-    g_TitleAnmManager->ReleaseSurface(0);
+    g_AnmManager->ReleaseAnm(15);
+    g_AnmManager->ReleaseAnm(17);
+    g_AnmManager->ReleaseSurface(0);
     g_Chain.Cut(titleScreen->drawChain);
     titleScreen->drawChain = 0;
     titleScreen->Release();
@@ -968,11 +967,11 @@ void TitleScreenView::SetCharacterCursorActive(i32 selectedCharacter, i32 start,
     {
         titleAnm->SetSprite(&vms[i], vms[i].baseSpriteIndex + 1);
         vms[i].pendingInterrupt = 8;
-        g_TitleAnmManager->ExecuteScript(&vms[i]);
+        g_AnmManager->ExecuteScript(&vms[i]);
     }
     titleAnm->SetSprite(&vms[selectedCharacter * stride + start], vms[selectedCharacter * stride + start].baseSpriteIndex);
     vms[selectedCharacter * stride + start].pendingInterrupt = 7;
-    g_TitleAnmManager->ExecuteScript(&vms[selectedCharacter * stride + start]);
+    g_AnmManager->ExecuteScript(&vms[selectedCharacter * stride + start]);
 }
 
 
@@ -1240,8 +1239,8 @@ int TitleScreenView::OnUpdateCharacterSelect()
     case 0:
         if (stateTimer2 == 0)
         {
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 13);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 13);
+            g_AnmManager->ExecuteScriptArray(vms, vmCount);
 
             i32 visibleCount = 0;
             i32 visibleByteOffset = 0;
@@ -1502,8 +1501,8 @@ int TitleScreenView::UpdateScreen8Mode0()
         {
             i32 value;
 
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 13);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 13);
+            g_AnmManager->ExecuteScriptArray(vms, vmCount);
 
             {
                 i32 visibleCount = 0;
@@ -1805,8 +1804,8 @@ int TitleScreenView::UpdateScreen8Mode123()
     case 0:
         if (stateTimer2 == 0)
         {
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 13);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 13);
+            g_AnmManager->ExecuteScriptArray(vms, vmCount);
 
             i32 visibleCount = 0;
             for (value = 0; value < 16; value++)
@@ -2072,8 +2071,8 @@ int TitleScreenView::UpdateScreen16()
     case 0:
         if (stateTimer2 == 0)
         {
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 26);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 26);
+            g_AnmManager->ExecuteScriptArray(vms, vmCount);
 
             i32 visibleCount = 0;
             i32 orderIndex = 0;
@@ -2244,7 +2243,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
         if (stateTimer2 == 0)
         {
             g_TitleSupervisor.StopAudio();
-            if (g_TitleAnmManager->LoadSurface(0, "title/result00.png"))
+            if (g_AnmManager->LoadSurface(0, "title/result00.png"))
                 return 0;
 
             if (vmCount == 0)
@@ -2254,8 +2253,8 @@ int TitleScreenView::OnUpdateResultNameEntry()
                 titleAnm->ExecuteAnmIdxArray(vms, 0, vmCount);
             }
 
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 16);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 16);
+            g_AnmManager->ExecuteScriptArray(vms, vmCount);
 
             if (g_GameMode == 2)
             {
@@ -2521,10 +2520,10 @@ int TitleScreenView::OnUpdateReplayMenu()
         if (phaseTimer == 0)
         {
             g_TitleGameFlags &= ~8u;
-            if (previousScreen != 11 && g_TitleAnmManager->LoadSurface(0, "title/replay00.png"))
+            if (previousScreen != 11 && g_AnmManager->LoadSurface(0, "title/replay00.png"))
                 return 0;
 
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 22);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 22);
             keyboardSelection = 0;
             currentScreenState = 0;
             stateTimer = 0;
@@ -2805,11 +2804,11 @@ int TitleScreenView::UpdateReplaySave()
                 return 1;
             }
 
-            if (g_TitleAnmManager->LoadSurface(0, "title/replay00.png"))
+            if (g_AnmManager->LoadSurface(0, "title/replay00.png"))
                 return 0;
 
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 19);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 19);
+            g_AnmManager->ExecuteScriptArray(vms, vmCount);
             keyboardSelection = 0;
             strcpy(replayName, g_ReplayName);
             replaySaveState = 0;
@@ -2880,8 +2879,8 @@ int TitleScreenView::UpdateReplaySave()
             replaySaveState = 2;
             phaseTimer = 0;
             keyboardSelection = 0;
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 22);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 22);
+            g_AnmManager->ExecuteScriptArray(vms, vmCount);
         }
         break;
 
@@ -2898,8 +2897,8 @@ int TitleScreenView::UpdateReplaySave()
             keyboardSelection = 0;
             phaseTimer = 0;
             replaySaveState = 1;
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 19);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 19);
+            g_AnmManager->ExecuteScriptArray(vms, vmCount);
             transitionId = 125;
             transitionMode = 2;
             UpdateMenuSelection();
@@ -2914,8 +2913,8 @@ int TitleScreenView::UpdateReplaySave()
             if (replays[selectedReplay].magic != 0)
             {
                 replaySaveState = 3;
-                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 21);
-                g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+                g_AnmManager->SetInterruptArray(vms, vmCount, 21);
+                g_AnmManager->ExecuteScriptArray(vms, vmCount);
                 transitionId = 129;
                 transitionMode = 2;
                 UpdateMenuSelection();
@@ -2924,8 +2923,8 @@ int TitleScreenView::UpdateReplaySave()
             {
                 keyboardSelection = 95;
                 replaySaveState = 4;
-                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 23);
-                g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+                g_AnmManager->SetInterruptArray(vms, vmCount, 23);
+                g_AnmManager->ExecuteScriptArray(vms, vmCount);
             }
             phaseTimer = 0;
             strcpy(replayName, g_ReplayName);
@@ -2951,16 +2950,16 @@ int TitleScreenView::UpdateReplaySave()
                 PlayMenuSound(11, 0);
                 replaySaveState = 2;
                 keyboardSelection = 0;
-                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 22);
-                g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+                g_AnmManager->SetInterruptArray(vms, vmCount, 22);
+                g_AnmManager->ExecuteScriptArray(vms, vmCount);
             }
             else
             {
                 PlayMenuSound(10, 0);
                 keyboardSelection = 95;
                 replaySaveState = 4;
-                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 23);
-                g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+                g_AnmManager->SetInterruptArray(vms, vmCount, 23);
+                g_AnmManager->ExecuteScriptArray(vms, vmCount);
             }
         }
         break;
@@ -3063,8 +3062,8 @@ int TitleScreenView::UpdateReplaySave()
             {
                 keyboardSelection = 0;
                 replaySaveState = 2;
-                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 22);
-                g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+                g_AnmManager->SetInterruptArray(vms, vmCount, 22);
+                g_AnmManager->ExecuteScriptArray(vms, vmCount);
                 phaseTimer = 0;
             }
             stateTimer = 0;
@@ -3093,7 +3092,7 @@ int TitleScreenView::OnUpdateStartMenu()
                 previousScreen == 11 || previousScreen == 15 || previousScreen == 12 ||
                 previousScreen == 2 || previousScreen == 4 || previousScreen == 7 || previousScreen == 6)
             {
-                if (g_TitleAnmManager->LoadSurface(0, "title/title00.png"))
+                if (g_AnmManager->LoadSurface(0, "title/title00.png"))
                     return 0;
             }
 
@@ -3107,8 +3106,8 @@ int TitleScreenView::OnUpdateStartMenu()
                 titleAnm->ExecuteAnmIdxArray(vms, 0, vmCount);
             }
 
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 2);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 2);
+            g_AnmManager->ExecuteScriptArray(vms, vmCount);
             if (!g_TitleLockedMenuItem)
                 vms[2].color1 = 0x30908040;
 
@@ -3117,7 +3116,7 @@ int TitleScreenView::OnUpdateStartMenu()
                 g_TitleGameFlags &= ~8u;
                 keyboardSelection = g_TitleModeSelection;
                 ChangeCurrentScreen(6);
-                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
+                g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                 return 1;
             }
 
@@ -3127,7 +3126,7 @@ int TitleScreenView::OnUpdateStartMenu()
             if (g_TitleGameFlags & 8)
             {
                 ChangeCurrentScreen(11);
-                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
+                g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                 return 1;
             }
             g_TitleGameFlags &= ~2u;
@@ -3135,7 +3134,7 @@ int TitleScreenView::OnUpdateStartMenu()
 
         if ((u32)stateTimer2 < 8)
         {
-            DrawTitleHelpText(g_TitleAnmManager, &embeddedVms[stateTimer2], 0xFFF0E0, 0x300000,
+            DrawTitleHelpText(static_cast<TitleAnmManagerView *>(g_AnmManager), &embeddedVms[stateTimer2], 0xFFF0E0, 0x300000,
                               g_TitleHelpText[stateTimer2]);
             stateTimer2++;
             return 1;
@@ -3200,7 +3199,7 @@ int TitleScreenView::OnUpdateStartMenu()
                     if (keyboardSelection >= 4)
                         keyboardSelection = 2;
                     ChangeCurrentScreen(2);
-                    g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
+                    g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                     g_TitleTransitionCounter0 = 10;
                     g_TitleTransitionCounter1 = 10;
                     return 1;
@@ -3212,7 +3211,7 @@ int TitleScreenView::OnUpdateStartMenu()
                         if (keyboardSelection >= 4)
                             keyboardSelection = 2;
                         ChangeCurrentScreen(4);
-                        g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
+                        g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                         g_TitleTransitionCounter0 = 10;
                         g_TitleTransitionCounter1 = 10;
                         return 1;
@@ -3224,26 +3223,26 @@ int TitleScreenView::OnUpdateStartMenu()
                     PlayMenuSound(10, 0);
                     keyboardSelection = g_TitleModeSelection;
                     ChangeCurrentScreen(6);
-                    g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
+                    g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                     g_TitleTransitionCounter0 = 10;
                     g_TitleTransitionCounter1 = 10;
                     return 1;
                 case 3:
                     PlayMenuSound(10, 0);
                     ChangeCurrentScreen(11);
-                    g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
+                    g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                     currentHelpTextVm->pendingInterrupt = 2;
                     return 1;
                 case 5:
                     PlayMenuSound(10, 0);
                     ChangeCurrentScreen(12);
-                    g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
+                    g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                     currentHelpTextVm->pendingInterrupt = 2;
                     return 1;
                 case 4:
                     PlayMenuSound(10, 0);
                     ChangeCurrentScreen(13);
-                    g_TitleAnmManager->SetInterruptArray(vms, vmCount, 5);
+                    g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                     return 1;
                 case 6:
                     PlayMenuSound(10, 0);
@@ -3264,7 +3263,7 @@ int TitleScreenView::OnUpdateStartMenu()
                 case 7:
                     currentScreenState = 2;
                     stateTimer = 0;
-                    g_TitleAnmManager->SetInterruptArray(vms, vmCount, 1);
+                    g_AnmManager->SetInterruptArray(vms, vmCount, 1);
                     if (g_OptionC == 2)
                         g_TitleMidiOutput->PlayFile(30);
                     break;
@@ -3326,14 +3325,14 @@ int TitleScreenView::OnUpdateDifficultySelect()
     case 0:
         if (stateTimer2 == 0)
         {
-            if (g_TitleAnmManager->LoadSurface(0, "title/select00.png"))
+            if (g_AnmManager->LoadSurface(0, "title/select00.png"))
                 return 0;
 
             if (currentScreen == 4)
-                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 25);
+                g_AnmManager->SetInterruptArray(vms, vmCount, 25);
             else
-                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 12);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+                g_AnmManager->SetInterruptArray(vms, vmCount, 12);
+            g_AnmManager->ExecuteScriptArray(vms, vmCount);
 
             if (currentScreen == 7)
             {
@@ -3449,7 +3448,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
                 ChangeCurrentScreen(6);
                 return 1;
             }
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 6);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 6);
             currentScreenState = 3;
         }
 
@@ -3463,7 +3462,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
                 ChangeCurrentScreen(6);
                 return 1;
             }
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 6);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 6);
             currentScreenState = 3;
         }
         break;
@@ -3493,11 +3492,11 @@ int TitleScreenView::OnUpdateModeSelect()
     case 0:
         if (stateTimer2 == 0)
         {
-            if (previousScreen != 7 && g_TitleAnmManager->LoadSurface(0, "title/select00.png"))
+            if (previousScreen != 7 && g_AnmManager->LoadSurface(0, "title/select00.png"))
                 return 0;
 
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 11);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(vms, vmCount, 11);
+            g_AnmManager->ExecuteScriptArray(vms, vmCount);
 
             if (resumeState != 0)
             {
@@ -3552,7 +3551,7 @@ int TitleScreenView::OnUpdateModeSelect()
                 PlayMenuSound(11, 0);
                 currentScreenState = 3;
                 stateTimer = 0;
-                g_TitleAnmManager->SetInterruptArray(vms, vmCount, 6);
+                g_AnmManager->SetInterruptArray(vms, vmCount, 6);
             }
         }
         break;

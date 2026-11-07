@@ -25,7 +25,10 @@ SPRITE_SYMBOL = '?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z'
 # The complete AnmManager::ExecuteScript owner at 0x436F30 is independently
 # original-bound; cursor code now consumes that genuine typed member.
 SCRIPT_SYMBOL = '?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z'
-MANAGER_SYMBOL = '?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A'
+# Original PE authenticates the physical manager pointer at 0x4DC550;
+# independently exact ANM owners establish the native source symbol.  Do not
+# re-allow the older Title-private alias in the candidate field validator.
+MANAGER_SYMBOL = '?g_AnmManager@@3PAVAnmManager@@A'
 SPRITE_ADDRESS = 0x00436AC0
 
 def require_native_sprite_leaf(units: dict) -> None:

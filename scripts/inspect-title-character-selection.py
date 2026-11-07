@@ -89,6 +89,7 @@ destinations = {
     '?g_GameSide1Value20@@3HA': 0x4A7DE8,
     '?g_GameSide1Value30@@3HA': 0x4A7DF8,
     '?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A': 0x4B42D0,
+    '?g_AnmManager@@3PAVAnmManager@@A': 0x4DC550,
     '?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A': 0x4DC550,
     '?g_TitleCharacterOrder@@3PADA': 0x4A1E2C,
     '?g_TitleCharacterReturnSelection@@3HA': 0x4A7EAC,
