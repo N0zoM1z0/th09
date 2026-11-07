@@ -7,20 +7,21 @@ ROOT=Path(__file__).resolve().parents[1]
 
 class PlayerState3EffectNativeStorage(unittest.TestCase):
     def test_one_real_player_owner_and_method_abi(self):
-        header=(ROOT/'src/PlayerStateEffectView.hpp').read_text()
+        header=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
         source=(ROOT/'src/PlayerState3EffectSetup.cpp').read_text()
         native=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
-        self.assertIn('struct PlayerStateEffectView : PlayerResourceSubtractView',header)
-        self.assertIn('sizeof(PlayerStateEffectView) == sizeof(PlayerLifecycleView)',header)
-        self.assertIn('offsetof(PlayerStateEffectView, sideState) == 0x0C',header)
-        self.assertIn('offsetof(PlayerStateEffectView, position1B88) == 0x1B88',header)
-        self.assertIn('offsetof(PlayerStateEffectView, timer303C8) == 0x303C8',header)
+        self.assertIn('struct PlayerLifecycleView',header)
+        self.assertIn('PlayerLifecycleSizeIs30F70',header)
+        self.assertIn('PlayerSideStateSizeIs38',header)
+        self.assertIn('PlayerLifecyclePositionAt1B88',header)
+        self.assertIn('PlayerLifecycleTimer303C8At303C8',header)
         self.assertNotIn('struct PlayerStateEffectSideView',header)
         self.assertNotIn('struct PlayerStateEffectPosition',header)
         self.assertNotIn('unknown00010[0x1B88',header)
         self.assertEqual(source.count('sideState->effectManager0C->SpawnEffect('),3)
         self.assertIn('PlayerSideStateView *sideState;',native)
-        self.assertIn('#include "PlayerResourceSubtractView.hpp"',header)
+        self.assertIn('#include "PlayerLifecycleView.hpp"',source)
+        self.assertFalse((ROOT/'src/PlayerStateEffectView.hpp').exists())
 
     def test_three_original_bound_function_identifiers_stable(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:u=tomllib.load(f)['units']

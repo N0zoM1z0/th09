@@ -17,20 +17,18 @@ class NativePlayerState3AndResource(unittest.TestCase):
 
     def test_single_player_native_methods_not_duplicated_in_derived_facades(self):
         native=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
-        effect=(ROOT/'src/PlayerStateEffectView.hpp').read_text()
-        resource=(ROOT/'src/PlayerResourceSubtractView.hpp').read_text()
         src=(ROOT/'src/PlayerState3EffectSetup.cpp').read_text()
         clamp=(ROOT/'src/PlayerResourceSubtract.cpp').read_text()
         self.assertIn('void SubtractResourceClamped(float amount);',native)
-        self.assertNotIn('void SubtractResourceClamped(float amount);',resource)
+        self.assertIn('PlayerLifecycleNativeChargeResourceAt30388',native)
         self.assertIn('void PlayerLifecycleView::SubtractResourceClamped(',clamp)
         self.assertNotIn('struct PlayerCollisionRegionCreateView\n{',src)
         for n in (13,14,15):
             self.assertIn(f'Effect *ConfigureState3Effect{n}();',native)
-            self.assertNotIn(f'Effect *ConfigureState3Effect{n}();',effect)
+            self.assertFalse((ROOT/'src/PlayerStateEffectView.hpp').exists())
             self.assertIn(f'Effect *PlayerLifecycleView::ConfigureState3Effect{n}()',src)
-        self.assertIn('struct PlayerStateEffectView : PlayerResourceSubtractView',effect)
-        self.assertIn('sizeof(PlayerStateEffectView) == sizeof(PlayerLifecycleView)',effect)
+        self.assertFalse((ROOT/'src/PlayerResourceSubtractView.hpp').exists())
+        self.assertIn('PlayerLifecycleSizeIs30F70',native)
 
     def test_four_original_bound_methods_and_big_boss_call_family(self):
         goals=(('player-subtract-resource-clamped',51,0x0041F310),

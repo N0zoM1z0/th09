@@ -18,19 +18,19 @@ class PlayerNativeSpawnShotsOwner(unittest.TestCase):
 
     def test_native_player_method_and_array_bounds(self):
         native=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
-        header=(ROOT/'src/PlayerSpawnShotsView.hpp').read_text()
+        header=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
         source=(ROOT/'src/PlayerSpawnShots.cpp').read_text()
         self.assertIn('void __fastcall SpawnShots(int value, int powerLevel);',native)
         self.assertIn('void __fastcall PlayerLifecycleView::SpawnShots(',source)
-        self.assertIn('PlayerLifecycleView *player,',header)
+        self.assertIn('PlayerLifecycleView *player,',source)
         self.assertIn('PlayerShotCtorView shots[128]',native)
         self.assertIn('sizeof(shots) / sizeof(shots[0])',source)
-        self.assertIn('sizeof(PlayerSpawnShotsShotView) == sizeof(PlayerShotCtorView)',header)
+        self.assertIn('PlayerShotCtorSizeIs484',header)
         self.assertNotIn('PlayerSpawnShotsView::SpawnShots',source)
-        self.assertNotIn('void __fastcall SpawnShots(',header)
+        self.assertIn('void __fastcall SpawnShots(',header)
         # Legacy state-effect and charge interfaces can remain zero-storage
         # derived facades, without owning the native shot method.
-        self.assertIn('struct PlayerSpawnShotsView : PlayerStateEffectView',header)
+        self.assertFalse((ROOT/'src/PlayerSpawnShotsView.hpp').exists())
 
     def test_original_bound_producer_and_two_consumers(self):
         owner=self.units['player-spawn-shots']

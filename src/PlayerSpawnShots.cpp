@@ -1,5 +1,13 @@
-#include "PlayerSpawnShotsView.hpp"
+#include "PlayerLifecycleView.hpp"
 #include "PlayerSpawnFrameView.hpp"
+
+// The SHT format stores spawn callbacks as encoded function-pointer words.
+// Narrow the native descriptor's void * only at the actual callback site.
+typedef int (__fastcall *PlayerSpawnCallback)(
+    PlayerLifecycleView *player,
+    PlayerShotCtorView *shot,
+    int value,
+    PlayerShtDescriptorView *entry);
 
 void __fastcall PlayerLifecycleView::SpawnShots(int value, int powerLevel)
 {

@@ -7,12 +7,13 @@ ROOT=Path(__file__).resolve().parents[1]
 
 class NativePlayerResourceSubtract(unittest.TestCase):
     def test_storage_and_class_abi(self):
-        header=(ROOT/'src/PlayerResourceSubtractView.hpp').read_text()
+        header=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
         source=(ROOT/'src/PlayerResourceSubtract.cpp').read_text()
         player=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
-        self.assertIn('struct PlayerResourceSubtractView : PlayerLifecycleView',header)
-        self.assertIn('sizeof(PlayerResourceSubtractView) == sizeof(PlayerLifecycleView)',header)
-        self.assertIn('offsetof(PlayerResourceSubtractView, scalar30388) == 0x30388',header)
+        self.assertIn('void SubtractResourceClamped(float amount);',header)
+        self.assertIn('PlayerLifecycleSizeIs30F70',header)
+        self.assertIn('PlayerLifecycleNativeChargeResourceAt30388',header)
+        self.assertFalse((ROOT/'src/PlayerResourceSubtractView.hpp').exists())
         self.assertNotIn('unknown00000[0x30388]',header)
         self.assertIn('float scalar30388;',player)
         self.assertIn('float value = scalar30388 - amount;',source)

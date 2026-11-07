@@ -558,6 +558,9 @@ typedef char PlayerLifecycleNativeStateAndEffectWords[
      offsetof(PlayerLifecycleView, state3031C) +
          offsetof(PlayerState3031CView, transitionCounter18) == 0x30334 &&
      offsetof(PlayerLifecycleView, stateEffect303E0) == 0x303E0) ? 1 : -1];
+typedef char PlayerLifecycleNativeChargeResourceAt30388[
+    (offsetof(PlayerLifecycleView, scalar30384) == 0x30384 &&
+     offsetof(PlayerLifecycleView, scalar30388) == 0x30388) ? 1 : -1];
 typedef char PlayerLifecyclePrimaryShtAt30338[(offsetof(PlayerLifecycleView, primaryShtFile) == 0x30338) ? 1 : -1];
 typedef char PlayerLifecycleTimer303C8At303C8[(offsetof(PlayerLifecycleView, timer303C8) == 0x303C8) ? 1 : -1];
 typedef char PlayerLifecycleOwnerAt30410[(offsetof(PlayerLifecycleView, ownerState30410) == 0x30410) ? 1 : -1];

@@ -1,4 +1,4 @@
-#include "PlayerResourceSubtractView.hpp"
+#include "PlayerLifecycleView.hpp"
 
 void PlayerLifecycleView::SubtractResourceClamped(float amount)
 {

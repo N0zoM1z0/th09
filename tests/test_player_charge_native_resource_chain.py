@@ -9,11 +9,10 @@ class PlayerChargeNativeResourceChain(unittest.TestCase):
     def test_native_zero_storage_inheritance_and_direct_calls(self):
         header=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
         source=(ROOT/'src/PlayerChargeAttackUpdate.cpp').read_text()
-        resource=(ROOT/'src/PlayerResourceSubtractView.hpp').read_text()
         self.assertIn('int UpdateChargeAttack();',header)
         self.assertIn('PlayerLifecycleSizeIs30F70',header)
-        self.assertIn('struct PlayerResourceSubtractView : PlayerLifecycleView',resource)
-        self.assertIn('struct PlayerStateEffectView : PlayerResourceSubtractView', (ROOT/'src/PlayerStateEffectView.hpp').read_text())
+        self.assertIn('PlayerLifecycleNativeChargeResourceAt30388',header)
+        self.assertFalse((ROOT/'src/PlayerResourceSubtractView.hpp').exists())
         self.assertNotIn('reinterpret_cast<PlayerResourceSubtractView *>(this)',source)
         self.assertEqual(source.count('SubtractResourceClamped('),3)
         self.assertIn('SubtractResourceClamped(300.0f);',source)

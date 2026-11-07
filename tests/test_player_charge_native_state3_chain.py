@@ -8,14 +8,12 @@ ROOT=Path(__file__).resolve().parents[1]
 class PlayerChargeNativeState3Chain(unittest.TestCase):
     def test_zero_extra_storage_method_chain(self):
         charge=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
-        effect=(ROOT/'src/PlayerStateEffectView.hpp').read_text()
-        resource=(ROOT/'src/PlayerResourceSubtractView.hpp').read_text()
         source=(ROOT/'src/PlayerChargeAttackUpdate.cpp').read_text()
         self.assertIn('int UpdateChargeAttack();',charge)
         self.assertIn('int PlayerLifecycleView::UpdateChargeAttack()',source)
-        self.assertIn('struct PlayerStateEffectView : PlayerResourceSubtractView',effect)
-        self.assertIn('struct PlayerSpawnShotsView : PlayerStateEffectView', (ROOT/'src/PlayerSpawnShotsView.hpp').read_text())
-        self.assertIn('struct PlayerResourceSubtractView : PlayerLifecycleView',resource)
+        self.assertIn('void SubtractResourceClamped(float amount);',charge)
+        self.assertIn('void __fastcall SpawnShots(int value, int powerLevel);',charge)
+        self.assertFalse((ROOT/'src/PlayerStateEffectView.hpp').exists())
         self.assertIn('PlayerLifecycleSizeIs30F70',charge)
         self.assertNotIn('reinterpret_cast<PlayerStateEffectView *>(this)',source)
         for effect_number in (13,14,15):

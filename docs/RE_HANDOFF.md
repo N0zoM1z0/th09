@@ -407,6 +407,15 @@ proof of remote publication.
   retains its full nonexact 13-byte deficit. See
   [native shot/SHT fields](TH09_PLAYER_NATIVE_SHOT_SHT_FIELDS_20261107.md).
 
+- **Player ChargeAttack now has no unused zero-storage helper facades:**
+  SpawnShots, resource clamp and the three exact State3 effects now include
+  the native Player header directly. The last three empty legacy derived
+  role headers are deleted; all five helper methods and complete
+  1,210-byte ChargeAttack remain original-target-bound. **28 exact
+  affected functions / 6,024 bytes / 308 fields** pass scoped replay;
+  the boss still lacks 13 target bytes. See
+  [native Player/Charge leaf consolidation](TH09_PLAYER_NATIVE_BOSS_LEAF_CONSOLIDATION_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

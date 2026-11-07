@@ -61,6 +61,17 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Native Player ChargeAttack chain has no empty derived facades
+
+The exact SpawnShots, resource clamp and three State3 effect helper owners
+share `PlayerLifecycleView` with the still-nonexact complete ChargeAttack.
+The old empty-derived `PlayerSpawnShotsView`, `PlayerResourceSubtractView`
+and `PlayerStateEffectView` are no longer declared or included in live
+source. Their native member offsets and exact call targets remain protected
+by pinned source-cold replays of 28 complete exact units; the ChargeAttack
+boss remains 1,197/1,210. See
+[native Player Charge/leaf consolidation](TH09_PLAYER_NATIVE_BOSS_LEAF_CONSOLIDATION_20261107.md).
+
 ### 2026-11-07: Native Player SHT and shot tail in complete SpawnShots
 
 The exact 190-byte `PlayerLifecycleView::SpawnShots` now uses actual
