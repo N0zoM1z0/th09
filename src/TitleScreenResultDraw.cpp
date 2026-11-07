@@ -14,22 +14,9 @@ typedef int i32;
 
 #include "TitleScoreRecordView.hpp"
 
-struct TitleScreenView
-{
-    i32 keyboardSelection;       // +0x00000
-    i32 replayNameCursor;        // +0x00004
-    i32 nameBankIndex;           // +0x00008
-    i32 nameSlotIndex;           // +0x0000C
-    u8 unknown00010[0x18];
-    i32 currentScreenState;      // +0x00028
-    i32 stateTimer;              // +0x0002C
-    u8 unknown00030[0x1B228 - 0x30];
-    i32 currentScreen;           // +0x1B228
-    u8 unknown1B22C[4];
-    i32 stateTimer2;             // +0x1B230
-
-    int DrawResult();
-};
+// Result drawing sees the same complete +0x1B388 Title object as
+// core, options, and replay menu/save. No duplicate prefix is allocated.
+#include "TitleScreenReplayView.hpp"
 
 typedef char ResultDrawKeyboardAt0[
     (offsetof(TitleScreenView, keyboardSelection) == 0) ? 1 : -1];

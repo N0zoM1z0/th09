@@ -61,6 +61,17 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Exact Title ResultDraw uses the one full native Title object
+
+The complete original-exact 1,939-byte Title DrawResult function now
+borrows the shared full 0x1B388-byte `TitleScreenView` used by Title core,
+Options and the Replay Menu/Save renderers. Its duplicate 0x1B234-byte
+prefix class and large opaque region were removed; the result score,
+selection and timer offsets now have a single physical type. Scoped
+source-cold replay preserves 45 existing exact functions and unchanged
+ReplayMenu/ResultUpdate boss residuals. See
+[native ResultDraw owner audit](TH09_TITLE_RESULT_DRAW_NATIVE_FULL_OWNER_20261107.md).
+
 ### 2026-11-07: Complete Title Options boss shares one native full Title owner
 
 The 2,045-byte exact `OnUpdateOptions` and 34-byte exact sound leaf now

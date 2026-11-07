@@ -533,6 +533,16 @@ proof of remote publication.
   ReplayMenu's 1,280-byte boss remains 29 bytes unlike. See
   [native Title Options/serialized POD proof](TH09_TITLE_NATIVE_OPTIONS_POD_OWNER_20261107.md).
 
+- **Exact 1,939-byte ResultDraw now uses the complete native TitleScreen
+  class:** removed its separate 0x1B234-byte Title prefix and borrowed
+  the genuine 0x1B388-byte owner shared with core, Options and Replay
+  draws. Strictly preserved the **1,939-byte/82-field ResultDraw**, all
+  **45 exact affected owners / 23,790 bytes / 1,214 fields**, and the
+  **1,280-byte ReplayMenu** (29 unlike bytes) plus 485-byte ResultUpdate
+  (218 overlap + 1 missing) nonexact frontiers. Nine original-VA-audited
+  private labels are name-only. See
+  [complete native ResultDraw owner](TH09_TITLE_RESULT_DRAW_NATIVE_FULL_OWNER_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
