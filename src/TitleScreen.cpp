@@ -21,6 +21,7 @@ typedef char TitleResultNativeFieldLayout[
 #include "SoundPlayer.hpp"
 #include "Supervisor.hpp"
 #include "SupervisorThreadStartView.hpp"
+#include "SupervisorSetupLayoutView.hpp"
 #include "Chain.hpp"
 #include "FileSystem.hpp"
 #include "ScreenEffect.hpp"
@@ -95,6 +96,10 @@ typedef char TitleFloat3ViewSizeIs0C[(sizeof(TitleFloat3View) == 0x0C) ? 1 : -1]
 // The exact Supervisor loading-VM method accepts the native Float3 window.
 typedef char TitleNativeLoadingPositionStorage[
     (sizeof(TitleFloat3View) == sizeof(Float3) &&
+     sizeof(TitleFloat3View) == sizeof(SetupLoadingPosition) &&
+     offsetof(TitleFloat3View, x) == offsetof(SetupLoadingPosition, x) &&
+     offsetof(TitleFloat3View, y) == offsetof(SetupLoadingPosition, y) &&
+     offsetof(TitleFloat3View, z) == offsetof(SetupLoadingPosition, z) &&
      offsetof(TitleFloat3View, x) == offsetof(Float3, x) &&
      offsetof(TitleFloat3View, y) == offsetof(Float3, y) &&
      offsetof(TitleFloat3View, z) == offsetof(Float3, z)) ? 1 : -1];
@@ -595,7 +600,7 @@ int TitleScreenView::ActualAddedCallback()
     TitleFloat3View loadingPosition(500.0f, 440.0f, 0.0f);
     if (g_TitleSupervisor.value594 == 2)
     {
-        g_TitleSupervisor.SetupLoadingVmsAndInitCapture(&loadingPosition);
+        g_TitleSupervisor.SetupLoadingVmsAndInitCapture(reinterpret_cast<SetupLoadingPosition *>(&loadingPosition));
         g_TitleSupervisor.StartEffect(0);
     }
     else if (g_TitleSupervisor.value594 != 0)

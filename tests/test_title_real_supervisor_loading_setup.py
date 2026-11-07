@@ -10,7 +10,7 @@ class TitleNativeSupervisorLoadingSetup(unittest.TestCase):
         title=(ROOT/'src/TitleScreen.cpp').read_text()
         owner=(ROOT/'src/TitleSupervisorRuntimeView.hpp').read_text()
         native=(ROOT/'src/SupervisorLoadingSetupView.hpp').read_text()
-        self.assertIn('struct TitleSupervisorView : SupervisorLoadingSetupView',owner)
+        self.assertIn('struct TitleSupervisorView : SupervisorSetupLayout',owner)
         self.assertIn('struct SupervisorLoadingSetupView : SupervisorThreadStartView',native)
         self.assertNotIn('void SetupLoadingVms(TitleFloat3View *position);',owner)
         self.assertIn('sizeof(TitleFloat3View) == sizeof(Float3)',title)

@@ -9,7 +9,7 @@ class TitleSupervisorNativeAudioMethods(unittest.TestCase):
     def test_title_zero_storage_owner_inherits_real_audio_methods(self):
         title=(ROOT/'src/TitleScreen.cpp').read_text()
         native=(ROOT/'src/Supervisor.hpp').read_text()
-        self.assertIn('struct TitleSupervisorView : SupervisorLoadingSetupView',(ROOT/'src/TitleSupervisorRuntimeView.hpp').read_text())
+        self.assertIn('struct TitleSupervisorView : SupervisorSetupLayout',(ROOT/'src/TitleSupervisorRuntimeView.hpp').read_text())
         self.assertNotIn('void PlayMusic(i32 track, i32 unused);',title)
         self.assertNotIn('int LoadMusic(i32 trackId);',title)
         self.assertNotIn('    int StopAudio();',title)

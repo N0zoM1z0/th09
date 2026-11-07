@@ -10,7 +10,7 @@ class TitleNativeSupervisorStorage(unittest.TestCase):
         title=(ROOT/'src/TitleScreen.cpp').read_text()
         native=(ROOT/'src/Supervisor.hpp').read_text()
         view=(ROOT/'src/TitleSupervisorRuntimeView.hpp').read_text()
-        self.assertIn('struct TitleSupervisorView : SupervisorLoadingSetupView',view)
+        self.assertIn('struct TitleSupervisorView : SupervisorSetupLayout',view)
         self.assertIn('sizeof(TitleSupervisorView) == sizeof(Supervisor)',view)
         self.assertNotIn('u8 unknown000[8];\n    IDirect3DDevice8 *d3dDevice;',title)
         self.assertIn('g_TitleSupervisor.d3dDevice08->ResourceManagerDiscardBytes(0);',title)

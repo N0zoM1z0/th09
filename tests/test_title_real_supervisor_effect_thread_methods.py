@@ -11,7 +11,7 @@ class TitleNativeSupervisorEffectAndThread(unittest.TestCase):
         t=(ROOT/'src/SupervisorThreadStartView.hpp').read_text()
         e=(ROOT/'src/SupervisorStartEffectView.hpp').read_text()
         self.assertIn('#include "SupervisorThreadStartView.hpp"',s)
-        self.assertIn('struct TitleSupervisorView : SupervisorLoadingSetupView',(ROOT/'src/TitleSupervisorRuntimeView.hpp').read_text())
+        self.assertIn('struct TitleSupervisorView : SupervisorSetupLayout',(ROOT/'src/TitleSupervisorRuntimeView.hpp').read_text())
         self.assertIn('struct SupervisorThreadStartView : SupervisorStartEffectView',t)
         self.assertIn('struct SupervisorStartEffectView : ScoreSupervisorView',e)
         self.assertIn('g_TitleSupervisor.StartEffect(0);',s)
