@@ -2,6 +2,7 @@
 #include "PlayerLifecycleView.hpp"
 #include "FrontSide.hpp"
 #include "RngRuntimeLeaves.hpp"
+#include "PlayerSharedRuntimeView.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
@@ -10,6 +11,7 @@
 // The selector uses the same physical 0x4ACE0C RNG allocation as the
 // other Player and replay owners, not a private game-pattern RNG record.
 extern RngRuntimeView g_ReplayRng;
+extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 
 // Maintained natural reconstruction of the Player gameplay-pattern owner at
 // 0x004049A0.  Exact identifier spelling remains unknown; the exact OnUpdate
@@ -209,15 +211,6 @@ extern int g_PlayerPatternProtocolValue;
 
 
 
-
-struct PlayerSharedRuntimeView
-{
-    int IsBlocked();
-    unsigned char unknown0000[0x1095C];
-    int updateBlock1095C;
-    int drawCounter10960;
-};
-extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 
 } // namespace
 
