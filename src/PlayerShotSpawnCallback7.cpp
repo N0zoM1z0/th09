@@ -3,32 +3,14 @@
 #include "PlayerForwardAngleView.hpp"
 #include <math.h>
 
-struct PlayerShotSpawn7DescriptorView
-{
-    short scheduleValue00;
-    unsigned char unknown02[0x12];
-    float angle14;
-    float speed18;
-    unsigned char unknown1C[0x1C];
-};
-
-struct PlayerShotSpawn7ShotView
-{
-    unsigned char unknown000[0x43C];
-    float velocityX43C;
-    float velocityY440;
-    unsigned char unknown444[0x450 - 0x444];
-    float angle450;
-};
-
 
 int __fastcall PlayerShotSpawnCallbackType7(
     PlayerLifecycleView *player,
-    PlayerShotSpawn7ShotView *shot,
+    PlayerShotCtorView *shot,
     int value,
-    PlayerShotSpawn7DescriptorView *entry)
+    PlayerShtDescriptorView *entry)
 {
-    if (value == entry->scheduleValue00)
+    if (value == entry->fireInterval)
     {
         PlayerEnemyTrackingNativeView &tracking = player->tracking30364;
         float angle =
@@ -44,8 +26,8 @@ int __fastcall PlayerShotSpawnCallbackType7(
             reinterpret_cast<PlayerShotInitShotView *>(shot),
             reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
 
-        shot->velocityX43C = cosf(angle) * entry->speed18;
-        shot->velocityY440 = sinf(angle) * entry->speed18;
+        shot->velocity43C.x = cosf(angle) * entry->speed18;
+        shot->velocity43C.y = sinf(angle) * entry->speed18;
         shot->angle450 = angle;
         return 1;
     }

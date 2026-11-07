@@ -8,42 +8,12 @@ namespace Th09EclRunControl
 float __stdcall VectorAngle(float y, float x);
 }
 
-struct PlayerShotUpdate3Vec3
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct PlayerShotUpdate3TimerView
-{
-    int previous;
-    float subFrame;
-    int current;
-
-    int GetCurrent();
-};
-
-struct PlayerShotUpdate3ShotView
-{
-    unsigned char unknown000[0x2A4];
-    PlayerShotUpdate3Vec3 position2A4;
-    unsigned char unknown2B0[0x43C - 0x2B0];
-    float velocityX43C;
-    float velocityY440;
-    unsigned char unknown444[0x44C - 0x444];
-    float speed44C;
-    float angle450;
-    PlayerShotUpdate3TimerView timer454;
-    unsigned char unknown460[2];
-    short state462;
-};
 
 int __fastcall PlayerShotUpdateCallbackType3(
     PlayerLifecycleView *player,
-    PlayerShotUpdate3ShotView *shot)
+    PlayerShotCtorView *shot)
 {
-    if (shot->state462 == 1 && shot->timer454.GetCurrent() == 30)
+    if (shot->state462 == 1 && static_cast<int>(shot->timer454) == 30)
     {
         float angle;
 
@@ -74,8 +44,8 @@ int __fastcall PlayerShotUpdateCallbackType3(
         }
 
         angle = AddNormalizeAngle(angle, 0.0f);
-        shot->velocityX43C = cosf(angle) * shot->speed44C;
-        shot->velocityY440 = sinf(angle) * shot->speed44C;
+        shot->velocity43C.x = cosf(angle) * shot->speed44C;
+        shot->velocity43C.y = sinf(angle) * shot->speed44C;
         shot->angle450 = angle;
     }
 

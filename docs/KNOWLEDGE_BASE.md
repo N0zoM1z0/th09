@@ -61,6 +61,17 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Shot update/spawn callbacks share one Player shot/SHT type
+
+Three complete original-exact shot callbacks (471/248/139 bytes) now use
+`PlayerShotCtorView *` and native `PlayerShtDescriptorView *` instead of
+private duplicate shot, timer, vector and descriptor structures. Update
+calls reuse the real 0x435F00 timer-int conversion and 0x4343D0 Player
+position conversion; Spawn Type7 uses native SHT angle +0x14 and speed
++0x18. Scoped replays of 108 exact functions remain source-cold and
+original-bound. See
+[native Player shot callback proof](TH09_PLAYER_NATIVE_SHOT_CALLBACK_OWNERS_20261107.md).
+
 ### 2026-11-07: One native Player target-tracking POD serves Enemy and shots
 
 Player's genuine +0x30364..+0x30383 tracking allocation is now one POD

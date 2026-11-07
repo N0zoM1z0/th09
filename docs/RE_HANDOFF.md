@@ -454,6 +454,16 @@ proof of remote publication.
   and PlayerRuntime's 17 private `$L` changes retain verified original VAs.
   See [native Player/Enemy tracking POD review](TH09_PLAYER_ENEMY_NATIVE_TRACKING_POD_20261107.md).
 
+- **Three exact shot callbacks now use native Player Shot/SHT records:**
+  471-byte Update Type1, 248-byte Update Type3 and 139-byte Spawn Type7
+  no longer invent shot/timer/descriptor prefix structs. They consume the
+  same 0x484 PlayerShotCtorView, genuine +0x14/+0x18 SHT angle/speed,
+  exact ZunTimer conversion (+0x435F00) and Player position conversion
+  (+0x4343D0). **108 existing exact functions / 36,295 bytes / 1,711
+  fields** pass scoped replay with original addresses preserved. The
+  Enemy 3,900-byte boss remains 13 bytes different. See
+  [native Player shot callback owner audit](TH09_PLAYER_NATIVE_SHOT_CALLBACK_OWNERS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

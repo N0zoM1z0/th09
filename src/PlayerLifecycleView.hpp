@@ -36,7 +36,10 @@ typedef char PlayerSideNativeStorageOffsets[
 struct PlayerShtDescriptorView
 {
     short fireInterval;
-    unsigned char unknown02[0x26];
+    unsigned char unknown02[0x12];
+    float angle14;
+    float speed18;
+    unsigned char unknown1C[0x0C];
     void *spawnCallback;
     void *updateCallback;
     void *drawCallback;
@@ -44,6 +47,13 @@ struct PlayerShtDescriptorView
 };
 
 typedef char PlayerShtDescriptorSizeIs38[(sizeof(PlayerShtDescriptorView) == 0x38) ? 1 : -1];
+// Exact SHT spawn callback type 7 reads two float words from this native
+// loader-owned 0x38-byte descriptor. Do not introduce a second descriptor.
+typedef char PlayerShtNativeAngleAndSpeed[
+    (offsetof(PlayerShtDescriptorView, fireInterval) == 0x00 &&
+     offsetof(PlayerShtDescriptorView, angle14) == 0x14 &&
+     offsetof(PlayerShtDescriptorView, speed18) == 0x18 &&
+     offsetof(PlayerShtDescriptorView, spawnCallback) == 0x28) ? 1 : -1];
 
 struct PlayerShtPowerLevelView
 {
