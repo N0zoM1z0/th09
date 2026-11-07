@@ -161,6 +161,28 @@ typedef char PlayerAnmVmNativeMembers[
      offsetof(PlayerAnmVmView, pos2) == 0x288) ? 1 : -1];
 
 struct PlayerLifecycleView;
+struct EnemyView;
+
+// The native Player allocation owns a complete 0x20-byte POD tracking window.
+// Do not add a constructed Float3 field here: that would change the original
+// Player constructor. Float3 math is borrowed only at its call sites.
+struct PlayerEnemyTrackingNativeView
+{
+    float trackedX00;
+    float trackedY04;
+    float trackedZ08;
+    unsigned char unknown0C[0x0C];
+    EnemyView *homingTarget18;
+    unsigned int trailingWord1C;
+};
+typedef char PlayerEnemyTrackingNativeSizeIs20[
+    (sizeof(PlayerEnemyTrackingNativeView) == 0x20 &&
+     offsetof(PlayerEnemyTrackingNativeView, trackedX00) == 0x00 &&
+     offsetof(PlayerEnemyTrackingNativeView, trackedY04) == 0x04 &&
+     offsetof(PlayerEnemyTrackingNativeView, unknown0C) == 0x0C &&
+     offsetof(PlayerEnemyTrackingNativeView, homingTarget18) == 0x18 &&
+     offsetof(PlayerEnemyTrackingNativeView, trailingWord1C) == 0x1C)
+    ? 1 : -1];
 
 struct PlayerCollisionQueryRecordView
 {
@@ -423,7 +445,7 @@ struct PlayerLifecycleView
     int movementDirection30358;
     float horizontalSpeed3035C;
     float verticalSpeed30360;
-    unsigned char unknown30364[0x30384 - 0x30364];
+    PlayerEnemyTrackingNativeView tracking30364;
     float scalar30384;
     float scalar30388;
     PlayerTimerCtorView timer3038C;

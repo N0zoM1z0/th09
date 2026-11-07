@@ -648,9 +648,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
 
                     EnemyCoreSideStateView *side = manager->sideState320;
                     Float3 oldTargetDelta =
-                        reinterpret_cast<PlayerEnemyTrackingStateView *>(
+                        reinterpret_cast<const Float3 &>(
                             reinterpret_cast<PlayerLifecycleView *>(
-                                side->player04)->unknown30364)->trackedEnemyPosition00 -
+                                side->player04)->tracking30364.trackedX00) -
                         reinterpret_cast<const Float3 &>(
                             reinterpret_cast<PlayerLifecycleView *>(
                                 side->player04)->position1B88);
@@ -664,8 +664,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                         newTargetDelta.x * newTargetDelta.x +
                             newTargetDelta.y * newTargetDelta.y)
                     {
-                        reinterpret_cast<PlayerEnemyTrackingStateView *>(
-                            player->unknown30364)->trackedEnemyPosition00 =
+                        reinterpret_cast<Float3 &>(
+                            player->tracking30364.trackedX00) =
                             reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4);
                     }
 
@@ -675,14 +675,11 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                             enemy->worldPosition2DD4.x -
                             player->position1B88.x)) < 64.0f)
                     {
-                        EnemyView *homing = reinterpret_cast<PlayerEnemyTrackingStateView *>(
-                            player->unknown30364)->homingTarget18;
+                        EnemyView *homing = player->tracking30364.homingTarget18;
                         if (homing == 0 ||
                             homing->position2D74.y > enemy->worldPosition2DD4.y)
                         {
-                            reinterpret_cast<PlayerEnemyTrackingStateView *>(
-                                player->unknown30364)->homingTarget18 =
-                                enemy;
+                            player->tracking30364.homingTarget18 = enemy;
                         }
                     }
                 }

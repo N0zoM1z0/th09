@@ -443,6 +443,17 @@ proof of remote publication.
   scoped replay; SaveReplay still has 2 residual bytes. See
   [native replay playback row audit](TH09_REPLAY_NATIVE_PLAYBACK_FRAME_ROW_20261107.md).
 
+- **Player/Enemy nearest-target tracking is now one native POD member:**
+  Player +0x30364 holds three position floats, opaque 12-byte reset state,
+  +0x3037C homing Enemy pointer and +0x30380 last status word, without
+  introducing an extra `Float3` constructor. The **3,900-byte Enemy
+  OnUpdate** and exact Enemy cleanup, Player constructor/OnUpdate and
+  shot callbacks use the same native allocation. **108 exact source-cold
+  owners / 36,289 bytes / 1,712 fields** pass; the Enemy boss retains
+  its **97 fields / 69 calls / 13 ordinary byte residuals**. ECL's two
+  and PlayerRuntime's 17 private `$L` changes retain verified original VAs.
+  See [native Player/Enemy tracking POD review](TH09_PLAYER_ENEMY_NATIVE_TRACKING_POD_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

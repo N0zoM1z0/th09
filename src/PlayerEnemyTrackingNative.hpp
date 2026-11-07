@@ -4,12 +4,11 @@
 #include "PlayerLifecycleView.hpp"
 
 // Enemy calc, cleanup and SHT callbacks use this same Player storage.
-// Keep the observed component as a projection of the native opaque region;
-// exposing a constructed Float3 member would change Player construction.
+// This real POD allocation preserves the original Player constructor. The
+// separate Float3-facing enemy/shot view remains for actual math operations.
 typedef char PlayerEnemyTrackingNativeStorageAt30364[
-    (offsetof(PlayerLifecycleView, unknown30364) == 0x30364 &&
-     sizeof(((PlayerLifecycleView *)0)->unknown30364) >=
-         sizeof(PlayerEnemyTrackingStateView) &&
-     offsetof(PlayerLifecycleView, unknown30364) +
-         offsetof(PlayerEnemyTrackingStateView, homingTarget18) == 0x3037C)
-         ? 1 : -1];
+    (offsetof(PlayerLifecycleView, tracking30364) == 0x30364 &&
+     sizeof(((PlayerLifecycleView *)0)->tracking30364) == 0x20 &&
+     offsetof(PlayerLifecycleView, tracking30364) +
+         offsetof(PlayerEnemyTrackingNativeView, homingTarget18) == 0x3037C &&
+     sizeof(PlayerEnemyTrackingStateView) == 0x1C) ? 1 : -1];

@@ -14,8 +14,8 @@ typedef char EnemyCleanupNativeSharedFields[
      offsetof(EnemyView, attachedEffectState53B4) +
          offsetof(EnemyAttachedEffectStateView, count60) == 0x5414 &&
      offsetof(EnemyManagerView, remoteSlots2AC388) == 0x2AC388 &&
-     offsetof(PlayerLifecycleView, unknown30364) +
-         offsetof(PlayerEnemyTrackingStateView, homingTarget18) == 0x3037C)
+     offsetof(PlayerLifecycleView, tracking30364) +
+         offsetof(PlayerEnemyTrackingNativeView, homingTarget18) == 0x3037C)
          ? 1 : -1];
 
 namespace Th09EclRunState
@@ -58,8 +58,6 @@ void EnemyView::CleanupAfterDeactivation()
 
     PlayerLifecycleView *player = reinterpret_cast<PlayerLifecycleView *>(
         enemy->manager00->sideState320->player04);
-    if (reinterpret_cast<PlayerEnemyTrackingStateView *>(
-        player->unknown30364)->homingTarget18 == this)
-        reinterpret_cast<PlayerEnemyTrackingStateView *>(
-            player->unknown30364)->homingTarget18 = 0;
+    if (player->tracking30364.homingTarget18 == this)
+        player->tracking30364.homingTarget18 = 0;
 }

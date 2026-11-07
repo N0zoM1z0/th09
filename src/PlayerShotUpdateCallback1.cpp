@@ -52,13 +52,12 @@ int __fastcall PlayerShotUpdateCallbackType1(
         shot->timer454.GetCurrent() >= 40 &&
         reinterpret_cast<ZunTimer *>(&shot->timer454)->HasTicked())
     {
-        const PlayerEnemyTrackingStateView &tracking =
-            *reinterpret_cast<PlayerEnemyTrackingStateView *>(player->unknown30364);
-        if (tracking.trackedEnemyPosition00.x > -900.0f)
+        const PlayerEnemyTrackingNativeView &tracking = player->tracking30364;
+        if (tracking.trackedX00 > -900.0f)
         {
             float *position = shot->position2A4.operator float *();
-            xDelta = tracking.trackedEnemyPosition00.x - position[0];
-            yDelta = tracking.trackedEnemyPosition00.y - position[1];
+            xDelta = tracking.trackedX00 - position[0];
+            yDelta = tracking.trackedY04 - position[1];
 
             magnitude =
                 sqrtf(xDelta * xDelta + yDelta * yDelta) /

@@ -129,11 +129,13 @@ typedef char PlayerRuntimeNativeOpponentHeaderMetricAt80[
      offsetof(PlayerLifecycleView, header24) + 0x5C == 0x80) ? 1 : -1];
 
 typedef char PlayerRuntimeNativeTrackingResetAt30364[
-    (offsetof(PlayerLifecycleView, unknown30364) == 0x30364 &&
-     sizeof(((PlayerLifecycleView *)0)->unknown30364) == 0x20 &&
-     offsetof(PlayerEnemyTrackingStateView, trackedEnemyPosition00) == 0 &&
-     offsetof(PlayerEnemyTrackingStateView, unknown0C) == 0x0C &&
-     0x30364 + 0x1C == 0x30380) ? 1 : -1];
+    (offsetof(PlayerLifecycleView, tracking30364) == 0x30364 &&
+     sizeof(((PlayerLifecycleView *)0)->tracking30364) == 0x20 &&
+     offsetof(PlayerEnemyTrackingNativeView, trackedX00) == 0 &&
+     offsetof(PlayerEnemyTrackingNativeView, unknown0C) == 0x0C &&
+     offsetof(PlayerLifecycleView, tracking30364) +
+         offsetof(PlayerEnemyTrackingNativeView, trailingWord1C) == 0x30380)
+    ? 1 : -1];
 
 // The ANM singleton uses the same native interface as the loader.
 extern AnmManager *g_AnmManager;
@@ -732,13 +734,12 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
 
 static void PlayerUpdateStageD(PlayerLifecycleView *player)
 {
-    reinterpret_cast<PlayerEnemyTrackingStateView *>(player->unknown30364)
-        ->trackedEnemyPosition00 =
+    reinterpret_cast<Float3 &>(player->tracking30364.trackedX00) =
         Float3(-999.0f, -999.0f, 0.0f);
-    *reinterpret_cast<Float3 *>(player->unknown30364 + 0x0C) =
+    *reinterpret_cast<Float3 *>(player->tracking30364.unknown0C) =
         Float3(-999.0f, -999.0f, 0.0f);
 
-    *reinterpret_cast<int *>(player->unknown30364 + 0x1C) = 0;
+    player->tracking30364.trailingWord1C = 0;
     player->movementFields1CCC.speedMultiplier1CE8 = 1.0f;
     player->movementFields1CCC.speedMultiplier1CE4 = 1.0f;
 }

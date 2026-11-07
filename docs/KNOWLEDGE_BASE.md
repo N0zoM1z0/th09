@@ -61,6 +61,17 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: One native Player target-tracking POD serves Enemy and shots
+
+Player's genuine +0x30364..+0x30383 tracking allocation is now one POD
+`PlayerEnemyTrackingNativeView` with three target position floats, a
+12-byte opaque reset span, the +0x3037C Enemy homing pointer and a last
+reset word. The full 3,900-byte Enemy OnUpdate boss, exact Enemy cleanup,
+Player Runtime/constructor and exact shot callbacks use that same Player
+allocation without adding a constructed Float3. 108 exact complete owners
+and the unchanged 13-byte Enemy boss residual are protected. See
+[native tracking review](TH09_PLAYER_ENEMY_NATIVE_TRACKING_POD_20261107.md).
+
 ### 2026-11-07: Native replay playback tests a frame-table row address
 
 The complete 540-byte BeginPlaybackStage does not test an individual stored
