@@ -32,6 +32,11 @@ struct SupervisorRenderDeviceView
     IDirect3DDevice8 *d3dDevice;
 };
 
+// The two substantial original-bound render-state owners update the native
+// +0x14 AnmManager frame counter, shared with the 15-byte reset leaf.
+typedef char AnmRenderNativeStateChangeCounter[
+    (offsetof(AnmManager, renderStateChangesThisFrame14) == 0x14) ? 1 : -1];
+
 typedef char AnmManagerNativeRenderVmAlpha[
     (offsetof(AnmVmBase, color1Script) +
      offsetof(AnmVmScriptColor, a) == 0x1F3) ? 1 : -1];
@@ -144,7 +149,7 @@ struct AnmManagerDrawInnerView
     AnmRenderColor color;
     int useMixColor;
     unsigned char unknown008[0x14 - 0x08];
-    int renderStateChangesThisFrame;
+    unsigned char unknown014[4];
     unsigned char unknown018[0x1C - 0x18];
     Float2 screenShakeOffset;
     unsigned char unknown024[0x1287C - 0x24];
@@ -244,7 +249,7 @@ void AnmManager::SetRenderStateForVm3D(AnmVm *vm)
         }
     }
 
-    anm->renderStateChangesThisFrame++;
+    this->renderStateChangesThisFrame14++;
 }
 
 void AnmManager::SetRenderStateForVm(AnmVm *vm)
@@ -278,7 +283,7 @@ void AnmManager::SetRenderStateForVm(AnmVm *vm)
         }
     }
 
-    anm->renderStateChangesThisFrame++;
+    this->renderStateChangesThisFrame14++;
 }
 
 int AnmManager::AddSpriteToDrawBuffer(VertexTex1DiffuseXyzrhw *vertices)

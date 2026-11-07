@@ -22,7 +22,7 @@ class AnmResetNativeCounterIdentity(unittest.TestCase):
                 self.assertIn('offsetof(AnmManager, '+name+') == '+offset,reset)
         self.assertIn('this->scriptsExecutedThisFrame10++;',script)
         self.assertIn('g_AnmManager->scriptsStartedThisFrame0C++;',runtime)
-        self.assertIn('renderStateChangesThisFrame++;',render)
+        self.assertEqual(render.count('this->renderStateChangesThisFrame14++;'), 2)
         self.assertNotIn('struct AnmManagerStateResetView',reset)
         self.assertIn('reinterpret_cast<AnmManagerRenderCacheView *>(this)->cameraMode = 0xff;',reset)
         # Original reset is precisely +0x10, +0x14, +0x0C, +0x18.
