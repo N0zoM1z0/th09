@@ -73,19 +73,20 @@ struct ScoreVersionRecordView {
 
 typedef char ScoreVersionRecordSizeIs1C[(sizeof(ScoreVersionRecordView) == 0x1C) ? 1 : -1];
 
-struct ScoreSupervisorView {
-    u8 unknown000[0x798];
-    u32 totalPlayTime;
-    u32 systemTime;
-    i32 exeChecksum;
-    i32 exeSize;
+// Score.dat's timekeeping methods keep their independently original-bound
+// ScoreSupervisorView ABI, but borrow the one true 0x7B0-byte Supervisor
+// allocation rather than a second 0x798-byte prefix layout.
+struct ScoreSupervisorView : Supervisor {
     void UpdatePlayTime();
     void UpdateGameTime();
 };
 
-typedef char ScoreSupervisorTotalPlayTimeAt798[(offsetof(ScoreSupervisorView, totalPlayTime) == 0x798) ? 1 : -1];
-typedef char ScoreSupervisorSystemTimeAt79C[(offsetof(ScoreSupervisorView, systemTime) == 0x79C) ? 1 : -1];
-typedef char ScoreSupervisorExeChecksumAt7A0[(offsetof(ScoreSupervisorView, exeChecksum) == 0x7A0) ? 1 : -1];
+typedef char ScoreSupervisorNativeStorage[
+    (sizeof(ScoreSupervisorView) == sizeof(Supervisor) &&
+     offsetof(ScoreSupervisorView, totalPlayTime) == 0x798 &&
+     offsetof(ScoreSupervisorView, systemTime) == 0x79C &&
+     offsetof(ScoreSupervisorView, exeChecksum7A0) == 0x7A0 &&
+     offsetof(ScoreSupervisorView, exeSize7A4) == 0x7A4) ? 1 : -1];
 
 extern RngRuntimeView g_ReplayRng;
 
@@ -207,8 +208,8 @@ int SaveTitleScoreData()
     vrsm.base.runtimeMarker = 0;
     strcpy(vrsm.version, "0150a");
     ScoreSupervisorView *supervisor = reinterpret_cast<ScoreSupervisorView *>(&g_Supervisor);
-    vrsm.exeSize = supervisor->exeSize;
-    vrsm.exeChecksum = supervisor->exeChecksum;
+    vrsm.exeSize = supervisor->exeSize7A4;
+    vrsm.exeChecksum = supervisor->exeChecksum7A0;
     memcpy(scoreData + currentOffset, &vrsm, sizeof(vrsm));
     currentOffset += sizeof(vrsm);
 
