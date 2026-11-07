@@ -49,13 +49,6 @@ struct FrontSideDrawSideView
 typedef char FrontSideDrawSidePlayerAt04[
     (offsetof(FrontSideDrawSideView, player04) == 0x04) ? 1 : -1];
 
-struct FrontSideDrawViewportConfiguration
-{
-    u8 unknown000[0xE8];
-    Float2 screenShakeOffsetE8;
-};
-typedef char FrontSideDrawViewportSizeIsF0[
-    (sizeof(FrontSideDrawViewportConfiguration) == 0xF0) ? 1 : -1];
 
 typedef char FrontSideDrawSupervisorDeviceAt08[
     (offsetof(Supervisor, d3dDevice08) == 0x08) ? 1 : -1];
@@ -63,7 +56,7 @@ typedef char FrontSideDrawSupervisorViewportsAt78[
     (offsetof(Supervisor, ctorArray078) == 0x78) ? 1 : -1];
 typedef char FrontSideDrawShakeAt160[
     (offsetof(Supervisor, ctorArray078) +
-     offsetof(FrontSideDrawViewportConfiguration, screenShakeOffsetE8) ==
+     offsetof(SupervisorCtorArrayElement, screenShakeOffsetE8) ==
      0x160) ? 1 : -1];
 
 struct FrontSideDrawVertex
@@ -89,12 +82,8 @@ int FrontSide::OnDraw(FrontSide *frontSide)
 {
     int i;
 
-    reinterpret_cast<FrontSideDrawViewportConfiguration *>(
-        g_Supervisor.ctorArray078)[frontSide->sideIndexA66C]
-        .screenShakeOffsetE8.x = 0.0f;
-    reinterpret_cast<FrontSideDrawViewportConfiguration *>(
-        g_Supervisor.ctorArray078)[frontSide->sideIndexA66C]
-        .screenShakeOffsetE8.y = 0.0f;
+    g_Supervisor.ctorArray078[frontSide->sideIndexA66C].screenShakeOffsetE8.x = 0.0f;
+    g_Supervisor.ctorArray078[frontSide->sideIndexA66C].screenShakeOffsetE8.y = 0.0f;
     g_Supervisor.ConfigureScreenViewport(frontSide->sideIndexA66C);
 
     FrontSideDrawVmCursor *cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->statusVms0000[0]);
