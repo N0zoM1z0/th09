@@ -176,8 +176,10 @@ class Supervisor
     union { volatile unsigned int flags5D4; unsigned int flags; signed char flagsLow5D4; };
     // The retail renderer writes the complete D3D8 caps record here.
     D3DCAPS8 d3dCaps5D8;
-    int runningSubthreadHandle;
-    unsigned char unknown6B0[4];
+    // Win32 thread methods use the same +0x6AC handle cell as game setup's
+    // raw state resets. Preserve both native representations at one address.
+    union { int runningSubthreadHandle; void *runningSubthreadHandlePtr; };
+    union { unsigned char unknown6B0[4]; unsigned long runningSubthreadId6B0; };
     int subthreadCloseRequestActive;
     int subthreadActive;
     union { int startupThreadState6BC; int startupThreadState; };

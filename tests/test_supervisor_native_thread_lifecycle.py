@@ -1,41 +1,35 @@
-"""Two exact Supervisor thread leafs share real +0x6AC/+0x6B4/+0x6B8.
-
-The original ThreadClose member's class spelling remains intact for real
-linker ABI; source-byte claims rely on independent current VC7.1 PE replays.
-"""
+"""Exact Win32 thread start/join methods borrow the real Supervisor storage."""
 from pathlib import Path
 import tomllib
 import unittest
 
 ROOT=Path(__file__).resolve().parents[1]
 
-class SupervisorThreadNativeOwner(unittest.TestCase):
-    def test_running_predicate_uses_actual_supervisor(self):
-        src=(ROOT/'src/SupervisorSubthread.cpp').read_text()
-        sup=(ROOT/'src/Supervisor.hpp').read_text()
-        self.assertNotIn('struct SupervisorSubthreadView',src)
-        self.assertIn('offsetof(Supervisor, runningSubthreadHandle) == 0x6AC',src)
-        self.assertIn('return supervisor->runningSubthreadHandle != 0;',src)
-        self.assertIn('int runningSubthreadHandle;',sup)
-
-    def test_exact_close_preserves_native_class_symbol_and_values(self):
-        src=(ROOT/'src/SupervisorThreadClose.cpp').read_text()
-        self.assertIn('struct SupervisorThreadCloseView : Supervisor',src)
+class SupervisorNativeThreadLifecycle(unittest.TestCase):
+    def test_real_handle_id_and_state_not_a_private_prefix(self):
+        header=(ROOT/'src/SupervisorThreadStartView.hpp').read_text()
+        src=(ROOT/'src/SupervisorThreadStart.cpp').read_text()
+        native=(ROOT/'src/Supervisor.hpp').read_text()
+        self.assertIn('struct SupervisorThreadStartView : SupervisorStartEffectView',header)
+        self.assertIn('sizeof(SupervisorThreadStartView) == sizeof(Supervisor)',header)
+        self.assertIn('offsetof(SupervisorThreadStartView, runningSubthreadHandlePtr) == 0x6AC',header)
+        self.assertIn('offsetof(SupervisorThreadStartView, runningSubthreadId6B0) == 0x6B0',header)
+        self.assertIn('offsetof(SupervisorThreadStartView, subthreadCloseRequestActive) == 0x6B4',header)
+        self.assertIn('offsetof(SupervisorThreadStartView, subthreadActive) == 0x6B8',header)
         self.assertNotIn('unsigned char unknown000[0x6AC]',src)
-        self.assertIn('void SupervisorThreadCloseView::ThreadClose()',src)
-        for field in ('runningSubthreadHandle','subthreadCloseRequestActive','subthreadActive'):
-            self.assertIn('this->'+field+' = ',src)
-        self.assertIn('offsetof(SupervisorThreadCloseView, runningSubthreadHandle) == 0x6AC',src)
-        self.assertIn('offsetof(SupervisorThreadCloseView, subthreadActive) == 0x6B8',src)
+        self.assertIn('WaitForSingleObject(this->runningSubthreadHandlePtr, 1000)',src)
+        self.assertIn('&runningSubthreadId6B0',src)
+        self.assertIn('subthreadActive = 1;',src)
+        self.assertIn('unsigned long runningSubthreadId6B0;',native)
 
-    def test_original_pe_leaf_extents_remain_pinned(self):
-        with (ROOT/'config/match-units.toml').open('rb') as fd:
-            units=tomllib.load(fd)['units']
-        for name,size in (('supervisor-subthread-is-running',14),
-                          ('supervisor-thread-close',21)):
+    def test_separate_original_method_abis(self):
+        with (ROOT/'config/match-units.toml').open('rb') as f:u=tomllib.load(f)['units']
+        for name,size,target in (
+            ('supervisor-thread-start-leaf',69,0x00431AE0),
+            ('supervisor-thread-join-close',108,0x00430230),
+        ):
             with self.subTest(name=name):
-                self.assertEqual(units[name]['size'],size)
-                self.assertEqual(len(units[name]['relocations']),0)
+                self.assertEqual((u[name]['size'],u[name]['target_address']), (size,target))
+                self.assertEqual(u[name]['source'],'src/SupervisorThreadStart.cpp')
 
-if __name__=='__main__':
-    unittest.main()
+if __name__=='__main__':unittest.main()
