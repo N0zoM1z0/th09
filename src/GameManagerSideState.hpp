@@ -10,6 +10,7 @@ struct EnemyManagerView;
 struct CardAttack;
 struct FrontSide;
 struct FrontSidePlayerRuntimeView;
+struct CardAttackStartPlayerView;
 struct FrontSideSideRuntimeView;
 struct AsciiPlayerPopupPositionView;
 struct AsciiGameSideRuntimeView;
@@ -25,6 +26,7 @@ struct AsciiGameManagerSideView
         AsciiPlayerPopupPositionView *player;
         PlayerLifecycleView *player04;
         FrontSidePlayerRuntimeView *hudPlayer04;
+        CardAttackStartPlayerView *attackPlayer04;
         void *subsystem1;
         void *manager04;
     };

@@ -13,7 +13,7 @@ class CardAttackStartNativeFrontSide(unittest.TestCase):
         self.assertIn('CardAttackStartNativeFrontAux', s)
         self.assertNotIn('struct CardAttackStartFrontAuxView', s)
         self.assertNotIn('struct CardAttackStartFrontSideView', s)
-        self.assertIn('FrontSide *frontSide18;', s)
+        self.assertIn('FrontSide *frontSide18;', (ROOT/'src/GameManagerSideState.hpp').read_text())
         self.assertIn('offsetof(FrontSide, auxA678) == 0xA678', s)
         self.assertIn('sizeof(FrontSideAuxView) == 0x558', s)
         self.assertIn('startOtherSideState08->frontSide18->auxA678', s)

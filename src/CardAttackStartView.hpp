@@ -2,8 +2,6 @@
 
 #include "CardAttack.hpp"
 
-struct CardAttackStartSideView;
-
 // Source-facing method class retains its proven ABI spelling, but inherits
 // the real CardAttack allocation instead of redefining 0x1368 bytes of it.
 struct CardAttackStartView : CardAttack

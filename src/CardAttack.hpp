@@ -9,7 +9,7 @@
 
 class AnmLoaded;
 class Background;
-struct CardAttackStartSideView;
+typedef AsciiGameManagerSideView CardAttackStartSideView;
 
 // Target-facing reconstruction of the TH09 per-side CardAttack owner.  The
 // semantic name comes from the target registry tag "CardAttackInf"; it is not
