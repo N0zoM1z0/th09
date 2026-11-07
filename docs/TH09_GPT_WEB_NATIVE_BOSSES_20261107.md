@@ -523,3 +523,82 @@ source-present / 1,021 exact / 13 nonexact over 29,834 bytes**. This work
 addresses both substantial exact boss implementations and the real remaining
 nonexact codegen frontiers. Complete Windows linking, gameplay semantics and
 Factory acceptance were **not** asserted or performed.
+
+## Shared native ANM quad cache and renewed Player movement work (2026-11-07)
+
+Starting from the clean pinned Japanese TH09 1.50a executable (SHA256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`),
+this continuation made **seven further incremental `gpt-web:` source/test
+commits**, each validated only against the changed original-bound units.
+These are real C++ reconstruction/ownership changes, **not** seven newly exact
+function credits.
+
+| Checkpoint | Natural source reconstruction and evidence | Scope verified |
+| --- | --- | --- |
+| `1bb9fa95` | `PlayerLifecycleView::UpdateMovementAndOptions` snapshots the native ReplayInputState side index before deriving the real **0x8E-byte stride** and input slot; the typed input and focus access refer to the same original allocation, not a private input prefix | **1,900/1,900 physical bytes**, **66 fields**, **23 calls**; still **122 unlike bytes**. The independent Player OnUpdate (522 bytes) and ANM SetInterrupt (18 bytes) remain exact |
+| `fe472a13` | Remove the private eight-byte `SupervisorPrimitiveView` D3D projection. Original ANM primitive code now consumes **`Supervisor::d3dDevice08` at +0x08** directly | **12 complete exact functions, 1,763 bytes**, including 238-byte DrawVertices, 318-byte TriangleStrip/Fan and 472-byte vertex-buffer setup |
+| `eb133673` | Remove `SupervisorDraw3DView`, use the same native Supervisor device in the large Draw3D owner | Draw3D **811/811 exact**, original VA **0x43B1A0** |
+| `c637e297` | Add the native **+0x12024 `D3DMATRIX` world cache** in `AnmManagerRenderCacheView`'s raw-byte-cover union. Replace Project3DQuad's otherwise duplicated 0x128E4-byte prefix with a derived view, retaining four +0x12894 software vertices | All four relevant ANM source profiles: **30 complete exact functions, 8,983 physical bytes**, including 595-byte Project3DQuad |
+| `27ad499c` | Introduce `AnmManagerQuadCacheView` with one real +0x1288C sprite pointer, +0x12890 VB pointer, +0x12894 `VertexTex1Xyz[4]`, +0x128E4 sprite count. Primitive TU borrows this type and deletes its private tail | All 12 primitive methods exact (1,763 physical bytes) |
+| `daec4bfd` | Make Draw3D and Project3DQuad typedef the shared zero-offset quad cache; Render inherits it and supplies only the later vertex-buffer pointers at +0x2B28E8/+0x2B28EC | **30 complete exact ANM functions, 8,983 bytes** under the original four VC7.1 profiles, with unchanged original-bound relocation targets, kinds and addends |
+| `76a140c5` | Correct four stale structural tests that still required the now-removed private `AnmManagerPrimitiveView`, `AnmManagerProjectionView` and `AnmManagerRenderView` layouts; assert the *new* actual shared base/derived relationship, original field offsets and native array instead | **61 focused ANM tests pass**; independent full-function byte checks already recorded for all 30 |
+
+The C++ software vertex type is source-facing. C++03 prohibits forming a union
+of the nontrivially constructed `VertexTex1Xyz` and `VertexDiffuseXyzrhw`
+classes. The source therefore uses the **same physical 20-byte prefix** under a
+single typed ANM quad cache; Project3DQuad reads the XYZ part, while primitive
+rendering observes the remaining texture UV words. **Do not** infer the
+original game's nominal class inheritance or literal source-file partition
+from this tested code-reconstruction view. Original PE/COFF field and function
+extent matches, rather than a guessed class name, remain authoritative.
+
+### Renewed Player movement boss research (not yet exact)
+
+The 1,900-byte original movement code and its 66 COFF-bound fields were
+independently rechecked, including both jump tables. New targeted C++
+experiments under `.analysis/gpt-web-player-movement-input-20261107/` and
+`.analysis/gpt-web-player-movement-focus-mode-20261107/` explored over thirty
+input-array indexing, configuration pointer/reference, byte-stride, scoped
+`auxiliary2A`, temporary lifetime and conditional-writing models. The valid
+original-width candidates retained **1,900 bytes / 66 fields / 23 calls /
+122 differing bytes / 435 normalized aligned instructions**; none recovered
+a previously mismatched byte without breaking another independently matching
+byte. Invalid unbraced branch declarations were corrected and **three legal
+scoped** forms were tested as well. `volatile` on the configuration receiver
+expanded the differences to well over a thousand and was rejected. All
+experimental source edits were restored, and no synthetic register binding,
+inline assembly, byte patch or compiler-profile change was accepted.
+
+A particularly useful independently observed instruction difference occurs at
+**original movement +0x126**: the target loads `g_GameConfiguration` **before**
+loading the Player side index; the candidate loads the side index first. At
+**+0x139** the original compares the input history word through an
+array-base-plus-index absolute address (0x4ACE42 plus a byte offset); the
+candidate uses an already computed input pointer plus +0x2A. Several natural
+code formulations preserve the original-width candidate but do not alter
+these VC7.1 register/operand scheduling choices. This is an **open frontier**,
+not evidence that previous source code is the exact original.
+
+For a subsequent pass, rebuild **only the relevant scope**, never all-owner
+cold replay:
+
+```bash
+python3 -B scripts/check-boss-frontiers.py --owner movement
+python3 -B scripts/build-match-unit.py --unit anm-manager-project-3d-quad
+python3 -B scripts/compare-coff-function.py --unit anm-manager-project-3d-quad
+python3 -B scripts/build-match-unit.py --unit anm-manager-draw-3d
+python3 -B scripts/compare-coff-function.py --unit anm-manager-draw-3d
+python3 -B scripts/build-match-unit.py --unit anm-manager-draw-triangle-strip
+python3 -B scripts/compare-coff-function.py --unit anm-manager-draw-triangle-strip
+python3 -B scripts/build-match-unit.py --unit anm-manager-flush-vertex-buffer
+python3 -B scripts/compare-coff-function.py --unit anm-manager-flush-vertex-buffer
+python3 -B -m unittest discover -s tests -p 'test_anm*.py' -q
+python3 -B -m unittest discover -s tests -p 'test_player_movement_native_input_snapshot.py' -q
+python3 -B scripts/validate-tracking.py --require-target
+python3 -B scripts/validate-docs.py
+```
+
+The final source ledger **remains 2,248 function candidates, 1,034
+source-present, 1,021 exact, 13 nonexact spanning 29,834 bytes**. All commits
+are local checkpoints only. A complete Windows link, runtime semantic check,
+full inventory and Factory acceptance have **not** been claimed or performed.
