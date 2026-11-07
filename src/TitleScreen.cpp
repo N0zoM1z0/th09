@@ -215,9 +215,6 @@ struct TitleSelectionRandomView {
 // zero-extra-storage source-facing class.  Its anonymous status/FPs window
 // is owned by Supervisor at +0x77C..+0x793, not duplicated here.
 struct TitleSupervisorView : Supervisor {
-    int LoadMusic(i32 trackId);
-    void PlayMusic(i32 track, i32 unused);
-    int StopAudio();
     int ClearRecordingFpsWarningState();
     void SetupLoadingVms(TitleFloat3View *position);
     void SetupLoadingVmsAndInitCapture(TitleFloat3View *position);
