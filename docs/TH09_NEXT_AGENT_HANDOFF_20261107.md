@@ -8,6 +8,17 @@ records the *earlier cleanup state*, not the current source or working tree.
 Earlier result notes and negative experiments are **dated observations**, not
 permission to fit targets or assume the original author used those expressions.
 
+## Additional live-session source checkpoint — 2026-11-07
+
+After this handoff was written, the single active operator committed four
+additional `gpt-web:` source changes (`a815c6c0`, `9b905a85`, `3cab7f1e`,
+`ca415d42`). The [new complete boss/leaf source and negative-model report](TH09_GPT_WEB_NATIVE_BOSSES_20261107.md)
+records original-bound sizes, the native layouts adopted, the rejected
+Effect/Replay experiments, and the narrow reproduction commands. The authored
+ledger is still **1,034 present / 1,021 exact / 13 nonexact**. The older
+"most recent" list below describes the *earlier* November 7 handoff source
+advances; consult the real Git HEAD before every new experiment.
+
 ## Current verified state and limitations
 
 The authoritative counts are the *live* `config/functions.csv`,

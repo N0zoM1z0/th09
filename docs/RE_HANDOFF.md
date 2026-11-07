@@ -2,8 +2,10 @@
 
 Start with [the current November 7 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md).
 The November 6 handoff and its historical cleanup snapshot are **not** the
-current HEAD or cache state. Another agent is preparing to resume this
-reconstruction; both large bosses and leaves remain in scope. Verify
+current HEAD or cache state. This is the single active operator worktree;
+both large bosses and leaves remain in scope. See the
+[November 7 native boss/leaf source checkpoint](TH09_GPT_WEB_NATIVE_BOSSES_20261107.md)
+for the latest bounded source experiments, commits and negative controls. Verify
 original bytes and compiler evidence instead of trusting archival hypotheses.
 The 98% reviewed-authored-byte goal remains unfinished. Before this restart,
 `39511403` committed the cleanup handoff and recovered evidence without new
