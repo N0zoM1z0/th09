@@ -2,6 +2,7 @@
 #include "PlayerLifecycleView.hpp"
 #include "FrontSide.hpp"
 #include "RngRuntimeLeaves.hpp"
+#include "ReplayInputState.hpp"
 #include "PlayerSharedRuntimeView.hpp"
 #include "PlayerState4OpsView.hpp"
 #include "ZunTimer.hpp"
@@ -60,23 +61,14 @@ struct PlayerPatternConfig
 typedef char PlayerPatternConfigSizeIs1C[
     (sizeof(PlayerPatternConfig) == 0x1C) ? 1 : -1];
 
-struct PlayerSideProtocolView
-{
-    unsigned char unknown00[0x2C];
-    unsigned short patternFlags2C;
-    unsigned char unknown2E[4];
-    unsigned short eventFlags32;
-    unsigned short thresholdFlags34;
-    unsigned char unknown36[0x8E - 0x36];
-};
-typedef char PlayerSideProtocolSizeIs8E[
-    (sizeof(PlayerSideProtocolView) == 0x8E) ? 1 : -1];
-typedef char PlayerSideProtocolPatternAt2C[
-    (offsetof(PlayerSideProtocolView, patternFlags2C) == 0x2C) ? 1 : -1];
-typedef char PlayerSideProtocolEventAt32[
-    (offsetof(PlayerSideProtocolView, eventFlags32) == 0x32) ? 1 : -1];
-typedef char PlayerSideProtocolThresholdAt34[
-    (offsetof(PlayerSideProtocolView, thresholdFlags34) == 0x34) ? 1 : -1];
+// The original global at 0x4ACE18 is the actual three-slot ReplayInputState
+// array, not a second Player protocol allocation. These native history
+// words are the same +0x2C/+0x32/+0x34 words the selector manipulates.
+typedef char PlayerSelectorNativeReplayProtocolOffsets[
+    (sizeof(ReplayInputState) == 0x8E &&
+     offsetof(ReplayInputState, historyCurrent) == 0x2C &&
+     offsetof(ReplayInputState, historyPressed) == 0x32 &&
+     offsetof(ReplayInputState, historyReleased) == 0x34) ? 1 : -1];
 
 // This method family addresses the Player's real allocation with a +0x00
 // nonvirtual base and no extra bytes; the independently bound resolver at
@@ -207,7 +199,6 @@ float *PlayerGameplayMethods::ResolvePatternOffset(
     return offsetY;
 }
 
-extern PlayerSideProtocolView g_PlayerSideProtocols[2];
 extern PlayerPatternConfig g_PlayerPatternConfigs[];
 extern int g_PlayerPatternGrid[12][10];
 extern int g_PlayerPatternFlags[];
@@ -261,7 +252,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     int alternate = 0;
     PlayerConstructedVector3View constructedHalfSizes[3];
     memset(
-        &g_PlayerSideProtocols[header->player78->sideIndex],
+        &g_ReplayInputStates[header->player78->sideIndex],
         0,
         0x58);
     PlayerPositionView *halfSizes =
@@ -339,7 +330,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     {
         if (header->crossedThreshold0C != 0)
         {
-            g_PlayerSideProtocols[header->player78->sideIndex].thresholdFlags34 |= 1U;
+            g_ReplayInputStates[header->player78->sideIndex].historyReleased |= 1U;
             header->crossedThreshold0C = 0;
         }
     }
@@ -363,7 +354,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         EnemyManagerView *manager = header->player78->sideState->enemyManager10;
         if (manager->rewardEnemyCount2AC3B8 >= 4)
         {
-            g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 4U;
+            g_ReplayInputStates[header->player78->sideIndex].historyCurrent |= 4U;
             alternate = 1;
         }
     }
@@ -435,9 +426,9 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             }
         }
 
-        if ((g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C & 4U) != 0)
+        if ((g_ReplayInputStates[header->player78->sideIndex].historyCurrent & 4U) != 0)
         {
-            g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C &= ~4U;
+            g_ReplayInputStates[header->player78->sideIndex].historyCurrent &= ~4U;
             alternate = 0;
             goto retry_pattern_grid;
         }
@@ -451,12 +442,12 @@ void __fastcall PlayerUpdateSelectorState(void *state)
                 if (header->crossedThreshold0C != 0 &&
                     player->scalar30384 >= 100.0f)
                 {
-                    g_PlayerSideProtocols[player->sideIndex].thresholdFlags34 |= 1U;
+                    g_ReplayInputStates[player->sideIndex].historyReleased |= 1U;
                     header->crossedThreshold0C = 0;
                     return;
                 }
-                g_PlayerSideProtocols[player->sideIndex].eventFlags32 |= 2U;
-                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 2U;
+                g_ReplayInputStates[player->sideIndex].historyPressed |= 2U;
+                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |= 2U;
             }
         }
         header->currentPattern54 = selectedPattern;
@@ -467,7 +458,7 @@ pattern_selected:
     {
         if (header->player78->scalar30384 >= header->distanceThreshold58)
         {
-            g_PlayerSideProtocols[header->player78->sideIndex].thresholdFlags34 |= 1U;
+            g_ReplayInputStates[header->player78->sideIndex].historyReleased |= 1U;
             header->crossedThreshold0C = 0;
             header->distanceThreshold58 =
                 (static_cast<int>(g_ReplayRng.GetRandomU32InRange(4)) + 1.0f) * 100.0f;
@@ -477,7 +468,7 @@ pattern_selected:
         else
         {
             if (header->crossedThreshold0C != 0)
-                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |= 1U;
+                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |= 1U;
         }
 
         int patternFlag = g_PlayerPatternFlags[selectedPattern];
@@ -520,7 +511,7 @@ pattern_selected:
                 }
             }
 
-            g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+            g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
                 static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
             if (header->retryCooldown50 == 0)
             {
@@ -602,10 +593,10 @@ pattern_selected:
                                     candidate.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
                             }
                             if (trackingPlayer->collisionQuery36C.FindCollision(candidate, halfSizes[1], 0.0f) == NULL)
-                                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
                                     static_cast<unsigned short>(g_PlayerPatternFlags[pattern]);
                             else
-                                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
                                     static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
                         }
                         else if (target.x - 6.0f > trackingPlayer->position1B88.x)
@@ -630,25 +621,25 @@ pattern_selected:
                                     candidate.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
                             }
                             if (trackingPlayer->collisionQuery36C.FindCollision(candidate, halfSizes[1], 0.0f) == NULL)
-                                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
                                     static_cast<unsigned short>(g_PlayerPatternFlags[pattern]);
                             else
-                                g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
                                     static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
                         }
                         else
                         {
-                            g_PlayerSideProtocols[trackingPlayer->sideIndex].patternFlags2C |=
+                            g_ReplayInputStates[trackingPlayer->sideIndex].historyCurrent |=
                                 static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
                             goto target_pattern_done;
                         }
                     }
                     else
-                        g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                        g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
                             static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
                 }
                 else
-                    g_PlayerSideProtocols[header->player78->sideIndex].patternFlags2C |=
+                    g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
                         static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
             target_pattern_done:
                 ;
@@ -675,12 +666,12 @@ pattern_selected:
             ? header->frameTimer00.HasTickedEvery(10)
                 : header->frameTimer00.HasTickedEvery(30);
             if (emitEvent)
-                g_PlayerSideProtocols[player->sideIndex].eventFlags32 |= 1U;
+                g_ReplayInputStates[player->sideIndex].historyPressed |= 1U;
         }
 
         if (g_GameManager.IsGameMode1() && (header->flags74 & 2U) != 0 &&
             header->player78->opponentState->player04->ownerState30410.activeFrameCounter3C <= 300)
-            g_PlayerSideProtocols[header->player78->sideIndex].eventFlags32 &= ~1U;
+            g_ReplayInputStates[header->player78->sideIndex].historyPressed &= ~1U;
 
         header->currentPattern54 = selectedPattern;
         header->frameTimer00++;
