@@ -6,6 +6,7 @@
 #include "AnmManager.hpp"
 #include "AnmVmLifecycle.hpp"
 #include "Supervisor.hpp"
+#include "SoundPlayer.hpp"
 
 #include <stddef.h>
 #include <string.h>
@@ -41,11 +42,6 @@ struct TitleKeyInputView
     u16 IsPressedScrolling(i32 mask);
 };
 
-struct TitleKeySoundView
-{
-    void PlaySoundByIdx(i32 soundId, i32 unused);
-};
-
 // Key/controller configuration reads the real Supervisor's native
 // GameConfiguration at physical offset +0x388, not a separate prefix view.
 typedef char TitleKeyNativeSupervisorConfiguration[
@@ -67,7 +63,6 @@ union TitleKeyMapping
 typedef char TitleKeyMappingSizeIs6C[(sizeof(TitleKeyMapping) == 0x6C) ? 1 : -1];
 
 extern TitleKeyInputView g_TitleInput;
-extern TitleKeySoundView g_SoundPlayer;
 extern const char *g_TitleKeyConfigHelpText[10];
 extern short g_TitleLastControllerButton;
 
