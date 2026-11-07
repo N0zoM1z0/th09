@@ -156,36 +156,23 @@ struct D3DInitViewportConfiguration
 typedef char D3DInitViewportConfigurationSizeIsF0[
     (sizeof(D3DInitViewportConfiguration) == 0xF0) ? 1 : -1];
 
+// Camera-array projection and register-sensitive flags: all other D3D
+// initialization fields now use the native Supervisor object. The flags
+// writes deliberately retain the current local receiver across device calls;
+// a direct global expression changes the complete VC7.1 owner by 20 bytes.
 struct SupervisorD3DInitView
 {
     unsigned char unknown000[0x78];
     D3DInitViewportConfiguration viewports078[3];
-    D3DInitViewportConfiguration *current348;
-    int currentIndex34C;
-    D3DPRESENT_PARAMETERS presentParameters350;
-    unsigned char unknown384[0x388 - 0x384];
-    GameConfiguration config388;
-    unsigned char unknown454[0x5AC - 0x454];
-    int disableVsync5AC;
-    int couldSetRefreshRate5B0;
-    int lastFrameTime5B4;
-    unsigned char unknown5B8[0x5D4 - 0x5B8];
+    unsigned char unknown348[0x5D4 - 0x348];
     unsigned int flags5D4;
-    D3DCAPS8 d3dCaps5D8;
 };
 
-typedef char SupervisorD3DInitViewportsAt078[
-    (offsetof(SupervisorD3DInitView, viewports078) == 0x78) ? 1 : -1];
-typedef char SupervisorD3DInitPresentAt350[
-    (offsetof(SupervisorD3DInitView, presentParameters350) == 0x350) ? 1 : -1];
-typedef char SupervisorD3DInitConfigAt388[
-    (offsetof(SupervisorD3DInitView, config388) == 0x388) ? 1 : -1];
-typedef char SupervisorD3DInitDisableVsyncAt5AC[
-    (offsetof(SupervisorD3DInitView, disableVsync5AC) == 0x5AC) ? 1 : -1];
-typedef char SupervisorD3DInitFlagsAt5D4[
-    (offsetof(SupervisorD3DInitView, flags5D4) == 0x5D4) ? 1 : -1];
-typedef char SupervisorD3DInitCapsAt5D8[
-    (offsetof(SupervisorD3DInitView, d3dCaps5D8) == 0x5D8) ? 1 : -1];
+typedef char SupervisorD3DInitNativeOwnerWindow[
+    (offsetof(SupervisorD3DInitView, viewports078) == 0x78 &&
+     sizeof(((SupervisorD3DInitView *)0)->viewports078) == 0x2D0 &&
+     offsetof(SupervisorD3DInitView, flags5D4) == 0x5D4 &&
+     offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
 
 struct GameWindowD3DInitView
 {
@@ -220,37 +207,37 @@ int InitializeD3DRendering()
     g_Supervisor.d3d04->GetAdapterDisplayMode(
         D3DADAPTER_DEFAULT, &displayMode);
 
-    if (!supervisor->config388.windowed)
+    if (!g_Supervisor.config388.windowed)
     {
         if (g_Supervisor.Is16BitTexturesForced() == 1)
         {
             presentParameters.BackBufferFormat = D3DFMT_R5G6B5;
-            supervisor->config388.valueAD = 1;
+            g_Supervisor.config388.valueAD = 1;
         }
-        else if (supervisor->config388.valueAD == 0xff)
+        else if (g_Supervisor.config388.valueAD == 0xff)
         {
             presentParameters.BackBufferFormat = D3DFMT_X8R8G8B8;
-            supervisor->config388.valueAD = 0;
+            g_Supervisor.config388.valueAD = 0;
             g_GameErrorContext.Log(sD3DInit32Bit);
         }
         else
         {
             presentParameters.BackBufferFormat =
-                supervisor->config388.valueAD != 0 ?
+                g_Supervisor.config388.valueAD != 0 ?
                     D3DFMT_R5G6B5 : D3DFMT_X8R8G8B8;
         }
 
         if (gameWindow->startupPathDiffers1C)
-            supervisor->disableVsync5AC = 1;
+            g_Supervisor.disableVsync = 1;
 
-        if (!supervisor->disableVsync5AC)
+        if (!g_Supervisor.disableVsync)
         {
             presentParameters.FullScreen_RefreshRateInHz = 60;
             presentParameters.FullScreen_PresentationInterval =
                 D3DPRESENT_INTERVAL_ONE;
             g_GameErrorContext.Log(sD3DSetRefresh60Hz);
             presentParameters.SwapEffect =
-                supervisor->config388.valueB2 != 0 ?
+                g_Supervisor.config388.valueB2 != 0 ?
                     D3DSWAPEFFECT_COPY_VSYNC : D3DSWAPEFFECT_FLIP;
         }
         else
@@ -277,7 +264,7 @@ int InitializeD3DRendering()
     presentParameters.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 
     supervisor->flags5D4 |= 2;
-    supervisor->couldSetRefreshRate5B0 = 1;
+    g_Supervisor.couldSetRefreshRate5B0 = 1;
     failedToSetFramerate = 0;
 
     for (;;)
@@ -319,12 +306,12 @@ int InitializeD3DRendering()
                             &presentParameters,
                             &g_Supervisor.d3dDevice08) < 0)
                     {
-                        if (!supervisor->disableVsync5AC)
+                        if (!g_Supervisor.disableVsync)
                         {
                             g_GameErrorContext.Log(sD3DCannotSetRefresh);
                             presentParameters.FullScreen_RefreshRateInHz =
                                 D3DPRESENT_RATE_DEFAULT;
-                            supervisor->couldSetRefreshRate5B0 = 0;
+                            g_Supervisor.couldSetRefreshRate5B0 = 0;
                             failedToSetFramerate = 1;
                             continue;
                         }
@@ -379,7 +366,7 @@ int InitializeD3DRendering()
     }
 
     memcpy(
-        &supervisor->presentParameters350,
+        &g_Supervisor.presentParameters350,
         &presentParameters,
         sizeof(presentParameters));
 
@@ -429,13 +416,13 @@ int InitializeD3DRendering()
     supervisor->viewports078[1].viewportModeE4 = 1;
 
     g_Supervisor.ConfigureScreenViewport(2);
-    g_Supervisor.d3dDevice08->GetDeviceCaps(&supervisor->d3dCaps5D8);
+    g_Supervisor.d3dDevice08->GetDeviceCaps(&g_Supervisor.d3dCaps5D8);
 
-    if (supervisor->d3dCaps5D8.MaxTextureWidth <= 256)
+    if (g_Supervisor.d3dCaps5D8.MaxTextureWidth <= 256)
         g_GameErrorContext.Log(sD3DMaxTextureTooSmall);
 
     FormatD3DCapabilities(
-        &supervisor->d3dCaps5D8, capabilitiesBuffer);
+        &g_Supervisor.d3dCaps5D8, capabilitiesBuffer);
     g_GameErrorContext.Log(capabilitiesBuffer);
 
     if (!g_Supervisor.Is16BitTexturesForced() && usingHardwareRenderer)
@@ -453,7 +440,7 @@ int InitializeD3DRendering()
         else
         {
             supervisor->flags5D4 &= ~4u;
-            supervisor->config388.options |= 1;
+            g_Supervisor.config388.options |= 1;
             g_GameErrorContext.Log(sD3DA8R8G8B8Unsupported);
         }
     }
@@ -461,6 +448,6 @@ int InitializeD3DRendering()
     ResetRenderState();
     ScreenEffect::SetViewport(0xff000000);
     gameWindow->windowIsClosing04 = 0;
-    supervisor->lastFrameTime5B4 = 0;
+    g_Supervisor.lastFrameTime5B4 = 0;
     return 0;
 }

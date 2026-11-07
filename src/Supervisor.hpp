@@ -139,14 +139,18 @@ class Supervisor
     union { int screenTransitionCountdown; int startupField5A4; };
     union { int startupField5A8; int suppressFpsDisplay; };
     int disableVsync;
-    unsigned char unknown5B0[0x5B8 - 0x5B0];
+    // D3D initialization publishes both refresh negotiation and the last
+    // measured frame tick into this actual Supervisor storage window.
+    int couldSetRefreshRate5B0;
+    int lastFrameTime5B4;
     union { float framerateMultiplier5B8; float gameSpeed; };
     MidiOutputStartup *midiOutput5BC;
     unsigned char unknown5C0[0x5CC - 0x5C0];
     StartupAnmLoaded *textAnm5CC;
     union { AnmLoaded *loadingAnm5D0; void *loadingAnm; };
     union { volatile unsigned int flags5D4; unsigned int flags; signed char flagsLow5D4; };
-    unsigned char unknown5D8[0x6AC - 0x5D8];
+    // The retail renderer writes the complete D3D8 caps record here.
+    D3DCAPS8 d3dCaps5D8;
     int runningSubthreadHandle;
     unsigned char unknown6B0[4];
     int subthreadCloseRequestActive;
@@ -184,6 +188,11 @@ typedef char SupervisorConfigAt388[
     (offsetof(Supervisor, config388) == 0x388) ? 1 : -1];
 typedef char SupervisorFrameMultiplierAt5B8[
     (offsetof(Supervisor, framerateMultiplier5B8) == 0x5B8) ? 1 : -1];
+typedef char SupervisorNativeD3DInitFields[
+    (offsetof(Supervisor, couldSetRefreshRate5B0) == 0x5B0 &&
+     offsetof(Supervisor, lastFrameTime5B4) == 0x5B4 &&
+     offsetof(Supervisor, d3dCaps5D8) == 0x5D8 &&
+     sizeof(D3DCAPS8) == 0xD4) ? 1 : -1];
 typedef char SupervisorFlagsAt5D4[
     (offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
 typedef char SupervisorSizeIs7B0[(sizeof(Supervisor) == 0x7B0) ? 1 : -1];
