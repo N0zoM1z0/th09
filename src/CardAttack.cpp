@@ -3,6 +3,7 @@
 
 #include "AnmManager.hpp"
 #include "Background.hpp"
+#include "Supervisor.hpp"
 #include "ZunMemory.hpp"
 
 #include <new>
@@ -28,12 +29,6 @@ struct CardAttackGameManagerView
     float TransformPopupY(float value);
 };
 
-struct CardAttackSupervisorView
-{
-    // Reconstruction alias for the target helper at 0x00403D90.
-    void PreparePlayerDraw(int sideIndex);
-};
-
 struct CardAttackResourceView
 {
     unsigned char unknown00[8];
@@ -42,7 +37,6 @@ struct CardAttackResourceView
 
 extern Chain g_Chain;
 extern CardAttackGameManagerView g_GameManager;
-extern CardAttackSupervisorView g_Supervisor;
 extern CardAttackResourceView *g_CardAttackResource;
 extern AnmLoaded *g_CardAttackTextAnm;
 extern unsigned int g_CardAttackInputFlags;
@@ -134,7 +128,7 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
 
 int CardAttack::OnDraw(CardAttack *cardAttack)
 {
-    g_Supervisor.PreparePlayerDraw(cardAttack->sideIndex00);
+    g_Supervisor.ConfigureScreenViewport(cardAttack->sideIndex00);
 
     if (cardAttack->primaryDraw132C != NULL)
         cardAttack->primaryDraw132C(cardAttack);
