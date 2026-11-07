@@ -116,7 +116,7 @@ resolveAttack:
             reinterpret_cast<CardAttackStartView *>(
                 opponentState->cardAttack14)->StartAttack(
                         2, 2, 0, primaryShtFile->modePath2);
-            reinterpret_cast<PlayerResourceSubtractView *>(this)->SubtractResourceClamped(300.0f);
+            SubtractResourceClamped(300.0f);
             timer1B74 = 8;
             reinterpret_cast<PlayerStateEffectView *>(this)->ConfigureState3Effect15();
         }
@@ -125,7 +125,7 @@ resolveAttack:
             reinterpret_cast<CardAttackStartView *>(
                 opponentState->cardAttack14)->StartAttack(
                         1, 1, 0, primaryShtFile->modePath1);
-            reinterpret_cast<PlayerResourceSubtractView *>(this)->SubtractResourceClamped(200.0f);
+            SubtractResourceClamped(200.0f);
             timer1B74 = 8;
             reinterpret_cast<PlayerStateEffectView *>(this)->ConfigureState3Effect14();
         }
@@ -135,7 +135,7 @@ resolveAttack:
                 opponentState->cardAttack14)->StartAttack(
                         0, 0, 0, primaryShtFile->modePath0);
             timer1B74 = 8;
-            reinterpret_cast<PlayerResourceSubtractView *>(this)->SubtractResourceClamped(100.0f);
+            SubtractResourceClamped(100.0f);
             reinterpret_cast<PlayerStateEffectView *>(this)->ConfigureState3Effect13();
         }
     }
