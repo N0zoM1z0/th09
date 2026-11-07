@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "VertexDiffuseXyzrhw.hpp"
 #include "AnmManagerRenderCacheView.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
@@ -17,13 +18,6 @@ struct VertexTex1DiffuseXyzrhw
     unsigned long diffuse;
     float u;
     float v;
-};
-
-struct VertexDiffuseXyzrhw
-{
-    Float3 pos;
-    float rhw;
-    unsigned long diffuse;
 };
 
 struct VertexTex1Xyz
