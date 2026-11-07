@@ -117,51 +117,10 @@ struct TitleZunTimerView {
     }
 };
 
-struct TitleColorView {
-    u8 b;
-    u8 g;
-    u8 r;
-    u8 a;
-};
-
-struct AnmVmView {
+// Preserve the separately original-bound Title interpolation methods, but
+// share the native 0x2A4-byte AnmVm allocation with ANM and other game owners.
+struct AnmVmView : AnmVm {
     AnmVmView();
-    u8 unknown000[0x50];
-    TitleZunTimerView interpCurrentTimers[7];
-    TitleZunTimerView interpEndTimers[7];
-    u8 interpModes[7];
-    u8 interpPadding;
-    u8 unknown100[0xF0];
-    union {
-        u32 color1;
-        u8 color1Bytes[4];
-    };
-    u8 unknown1F4[4];
-    union {
-        u32 flags;
-        struct {
-            u16 flagsLow;
-            u16 flagsHigh;
-        };
-    };
-    u8 unknown1FC[2];
-    u16 pendingInterrupt;
-    u8 unknown200[0x08];
-    TitleFloat3View position;
-    short activeSpriteIndex;
-    u8 unknown216[2];
-    short baseSpriteIndex;
-    u8 unknown21A[0x1E];
-    TitleFloat3View posInitial;
-    TitleFloat3View posFinal;
-    u8 unknown250[0x28];
-    TitleColorView color1Initial;
-    TitleColorView color1Final;
-    u8 unknown280[0x18];
-    u8 fontWidth;
-    u8 fontHeight;
-    u8 unknown29A[0x0A];
-
     char ConfigurePositionInterpolation(i32 duration, char mode,
                                         TitleFloat3View *start, TitleFloat3View *end);
     int ConfigureColorInterpolation(i32 duration, char mode,
@@ -177,7 +136,7 @@ typedef char TitleResultNativeVmArrayStorage[
     (sizeof(AnmVmView) == sizeof(AnmVm) &&
      offsetof(AnmVmView, pendingInterrupt) == offsetof(AnmVm, pendingInterrupt))
         ? 1 : -1];
-typedef char AnmVmPositionAt208[(offsetof(AnmVmView, position) == 0x208) ? 1 : -1];
+typedef char AnmVmPositionAt208[(offsetof(AnmVmView, pos) == 0x208) ? 1 : -1];
 typedef char AnmVmActiveSpriteAt214[(offsetof(AnmVmView, activeSpriteIndex) == 0x214) ? 1 : -1];
 typedef char AnmVmSpriteAt218[(offsetof(AnmVmView, baseSpriteIndex) == 0x218) ? 1 : -1];
 typedef char AnmVmFontWidthAt298[(offsetof(AnmVmView, fontWidth) == 0x298) ? 1 : -1];
@@ -496,10 +455,10 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
         title = g_TitleScreen;
         float y = (float)i * 16.0f;
         if (i <= 4)
-            title->embeddedVms[i + 35].position =
+            *reinterpret_cast<TitleFloat3View *>(&title->embeddedVms[i + 35].pos) =
                 TitleFloat3View(64.0f, y + 352.0f, 0.0f);
         else
-            title->embeddedVms[i + 35].position =
+            *reinterpret_cast<TitleFloat3View *>(&title->embeddedVms[i + 35].pos) =
                 TitleFloat3View(64.0f, y + 362.0f, 0.0f);
         title->embeddedVms[i + 35].flagsLow |= 0x1802;
         title->embeddedVms[i + 35].fontWidth = 15;
@@ -733,12 +692,12 @@ void TitleScreenView::SetMenuSelectionSprites(i32 selected, i32 start, i32 count
 char AnmVmView::ConfigurePositionInterpolation(
     i32 duration, char mode, TitleFloat3View *start, TitleFloat3View *end)
 {
-    interpCurrentTimers[0] = 0;
-    interpEndTimers[0] = duration;
+    *reinterpret_cast<TitleZunTimerView *>(&interpCurrentTimers[0]) = 0;
+    *reinterpret_cast<TitleZunTimerView *>(&interpEndTimers[0]) = duration;
 
     interpModes[0] = mode;
-    posInitial = *start;
-    posFinal = *end;
+    *reinterpret_cast<TitleFloat3View *>(&posInitial) = *start;
+    *reinterpret_cast<TitleFloat3View *>(&posFinal) = *end;
     return mode;
 }
 
@@ -746,8 +705,8 @@ char AnmVmView::ConfigurePositionInterpolation(
 int AnmVmView::ConfigureColorInterpolation(
     i32 duration, char mode, u32 startColor, u32 endColor)
 {
-    interpCurrentTimers[1] = 0;
-    interpEndTimers[1] = duration;
+    *reinterpret_cast<TitleZunTimerView *>(&interpCurrentTimers[1]) = 0;
+    *reinterpret_cast<TitleZunTimerView *>(&interpEndTimers[1]) = duration;
 
     interpModes[1] = mode;
     color1Initial.r = (startColor >> 16) & 0xFF;
@@ -1148,11 +1107,11 @@ void TitleScreenView::UpdateCharacterSelectionVisuals(
     }
 
     TitleFloat3View targetPosition;
-    targetPosition.x = marker->position.x;
+    targetPosition.x = marker->pos.x;
     targetPosition.y = selectedVisibleIndex * 16.0f + 128.0f;
     targetPosition.z = 0.0f;
     marker->ConfigurePositionInterpolation(
-        8, 4, &marker->position, &targetPosition);
+        8, 4, reinterpret_cast<TitleFloat3View *>(&marker->pos), &targetPosition);
 
     i32 otherVisibleIndex = 0;
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
@@ -1225,16 +1184,16 @@ void TitleScreenView::UpdateScreen16SelectionVisuals(i32 unusedSide, i32 selecte
     }
 
     TitleFloat3View targetPosition;
-    targetPosition.x = marker->position.x;
+    targetPosition.x = marker->pos.x;
     targetPosition.y = selectedVisibleIndex * 16.0f + 128.0f;
     targetPosition.z = 0.0f;
     marker->ConfigurePositionInterpolation(
-        8, 4, &marker->position, &targetPosition);
+        8, 4, reinterpret_cast<TitleFloat3View *>(&marker->pos), &targetPosition);
 
     marker = &vms[190];
-    targetPosition.x = marker->position.x;
+    targetPosition.x = marker->pos.x;
     marker->ConfigurePositionInterpolation(
-        8, 4, &marker->position, &targetPosition);
+        8, 4, reinterpret_cast<TitleFloat3View *>(&marker->pos), &targetPosition);
 
     i32 visibleIndex = 0;
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
