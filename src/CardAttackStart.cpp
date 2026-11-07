@@ -8,18 +8,17 @@
 #include <stddef.h>
 #include <string.h>
 
-struct CardAttackStartPlayerView
-{
-    unsigned char unknown00000[0xA0];
-    int valueA0;
-    int valueA4;
-    unsigned char unknown0A8[0xB0 - 0xA8];
-    int valueB0;
-    int valueB4;
-    int valueB8;
-    unsigned char unknown0BC[0x303F0 - 0xBC];
-    int tableValue303F0;
-};
+// The Player header starts at +0x24. Its native state7C/state80 and
+// state8C/state90/state94 are exactly the HUD/attack values at
+// +0xA0/+0xA4 and +0xB0/+0xB4/+0xB8, respectively.
+typedef char CardAttackStartNativePlayerHeader[
+    (offsetof(PlayerLifecycleView, header24) == 0x24 &&
+     offsetof(PlayerHeaderStateView, state7C) + 0x24 == 0xA0 &&
+     offsetof(PlayerHeaderStateView, state80) + 0x24 == 0xA4 &&
+     offsetof(PlayerHeaderStateView, state8C) + 0x24 == 0xB0 &&
+     offsetof(PlayerHeaderStateView, state90) + 0x24 == 0xB4 &&
+     offsetof(PlayerHeaderStateView, state94) + 0x24 == 0xB8 &&
+     offsetof(PlayerLifecycleView, tableValue303F0) == 0x303F0) ? 1 : -1];
 
 // The side's +0x00 Background owns both +0x1C/+0x20 transition words.
 typedef char CardAttackStartNativeBackgroundTransition[
@@ -39,7 +38,7 @@ typedef char CardAttackStartNativeFrontAux[
 typedef char CardAttackStartNativeSideRecord[
     (sizeof(CardAttackStartSideView) == 0x38 &&
      offsetof(CardAttackStartSideView, background00) == 0 &&
-     offsetof(CardAttackStartSideView, attackPlayer04) == 0x04 &&
+     offsetof(CardAttackStartSideView, player04) == 0x04 &&
      offsetof(CardAttackStartSideView, enemyManager10) == 0x10 &&
      offsetof(CardAttackStartSideView, frontSide18) == 0x18) ? 1 : -1];
 
@@ -79,9 +78,9 @@ void CardAttackStartView::StartAttack(
 {
     int displayValue;
     if (attackClass < 2)
-        displayValue = startOtherSideState08->attackPlayer04->valueA0;
+        displayValue = startOtherSideState08->player04->header24.state7C;
     else
-        displayValue = startOtherSideState08->attackPlayer04->valueA4;
+        displayValue = startOtherSideState08->player04->header24.state80;
 
     reinterpret_cast<CardAttackStartValueCCView *>(
         &g_GameManager.valueB0)->SubtractSaturating(500);
@@ -96,9 +95,9 @@ void CardAttackStartView::StartAttack(
             EnemyView *enemy =
                 startOtherSideState08->enemyManager10->FindActiveEnemyBySideCategory(3);
             enemy->flags337C |= 0x100u;
-            ++startOtherSideState08->attackPlayer04->valueB8;
+            ++startOtherSideState08->player04->header24.state94;
         }
-        ++startOtherSideState08->attackPlayer04->valueB4;
+        ++startOtherSideState08->player04->header24.state90;
 
         if (secondaryUpdate1334 != 0)
         {
@@ -123,10 +122,10 @@ void CardAttackStartView::StartAttack(
         secondaryEnd133C =
             g_CardAttackCallbackRows[secondaryRow1358].end;
 
-        if (startOtherSideState08->attackPlayer04->valueA4 < 16)
-            ++startOtherSideState08->attackPlayer04->valueA4;
-        if (startSideState04->attackPlayer04->valueA4 < 16)
-            ++startSideState04->attackPlayer04->valueA4;
+        if (startOtherSideState08->player04->header24.state80 < 16)
+            ++startOtherSideState08->player04->header24.state80;
+        if (startSideState04->player04->header24.state80 < 16)
+            ++startSideState04->player04->header24.state80;
 
         g_SoundPlayer.PlaySoundByIdx(53, 0);
     }
@@ -145,7 +144,7 @@ void CardAttackStartView::StartAttack(
         primaryValue1348 = value;
         primaryClass1350 = attackClass;
         strcpy(text18, text);
-        ++startOtherSideState08->attackPlayer04->valueB0;
+        ++startOtherSideState08->player04->header24.state8C;
 
         g_CardAttackCallbackRows[primaryRow134C].begin(
             this);
@@ -156,8 +155,8 @@ void CardAttackStartView::StartAttack(
         primaryEnd1330 =
             g_CardAttackCallbackRows[primaryRow134C].end;
 
-        if (startOtherSideState08->attackPlayer04->valueA0 < 16)
-            ++startOtherSideState08->attackPlayer04->valueA0;
+        if (startOtherSideState08->player04->header24.state7C < 16)
+            ++startOtherSideState08->player04->header24.state7C;
 
         g_SoundPlayer.PlaySoundByIdx(14, 0);
     }
@@ -188,18 +187,18 @@ void CardAttackStartView::StartAttack(
     {
         startOtherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
             &startOtherSideState08->frontSide18->auxA678.vms0C[0],
-            startOtherSideState08->attackPlayer04->tableValue303F0);
+            startOtherSideState08->player04->tableValue303F0);
         startOtherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
             &startOtherSideState08->frontSide18->auxA678.vms0C[1],
-            startOtherSideState08->attackPlayer04->tableValue303F0 + 1);
+            startOtherSideState08->player04->tableValue303F0 + 1);
     }
     else
     {
         startOtherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
             &startOtherSideState08->frontSide18->auxA678.vms0C[0],
-            startOtherSideState08->attackPlayer04->tableValue303F0 + 2);
+            startOtherSideState08->player04->tableValue303F0 + 2);
         startOtherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
             &startOtherSideState08->frontSide18->auxA678.vms0C[1],
-            startOtherSideState08->attackPlayer04->tableValue303F0 + 3);
+            startOtherSideState08->player04->tableValue303F0 + 3);
     }
 }

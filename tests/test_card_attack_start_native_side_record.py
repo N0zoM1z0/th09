@@ -13,11 +13,11 @@ class CardAttackStartNativeSideRecord(unittest.TestCase):
         self.assertNotIn('struct CardAttackStartSideView',s)
         self.assertIn('typedef AsciiGameManagerSideView CardAttackStartSideView;',h)
         self.assertIn('CardAttackStartNativeSideRecord',s)
-        self.assertIn('offsetof(CardAttackStartSideView, attackPlayer04) == 0x04',s)
+        self.assertIn('offsetof(CardAttackStartSideView, player04) == 0x04',s)
         self.assertIn('offsetof(CardAttackStartSideView, enemyManager10) == 0x10',s)
         self.assertIn('offsetof(CardAttackStartSideView, frontSide18) == 0x18',s)
-        self.assertIn('CardAttackStartPlayerView *attackPlayer04;',common)
-        self.assertIn('startOtherSideState08->attackPlayer04->tableValue303F0',s)
+        self.assertIn('PlayerLifecycleView *player04;',common)
+        self.assertIn('startOtherSideState08->player04->tableValue303F0',s)
         self.assertIn('startOtherSideState08->background00->transitionFrames',s)
 
     def test_exact_owner_identity_unchanged(self):

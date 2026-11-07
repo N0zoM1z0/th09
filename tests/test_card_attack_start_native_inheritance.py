@@ -19,7 +19,7 @@ class CardAttackStartNativeInheritance(unittest.TestCase):
         self.assertIn('int secondaryRow1358;',base)
         self.assertIn('CardAttackStartSideView *startSideState04;',base)
         self.assertIn('CardAttackStartSideView *startOtherSideState08;',base)
-        self.assertIn('startOtherSideState08->attackPlayer04',implementation)
+        self.assertIn('startOtherSideState08->player04->header24.state7C',implementation)
         self.assertIn('startSideState04->enemyManager10',implementation)
         self.assertNotIn('reinterpret_cast<CardAttack *>(this)',implementation)
         self.assertIn('CardAttackStartView::StartAttack(',implementation)
