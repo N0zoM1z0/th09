@@ -13299,7 +13299,7 @@ symbol = "?Release@ChainReleaseView@@QAEXXZ"
 target_address = 0x0042CBE0
 size = 0x22
 relocations = [
-  { offset = 0x04, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorThreadStartView@@A", target = 0x004B3100 },
+  { offset = 0x04, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x09, type = "REL32", symbol = "?ThreadClose@SupervisorThreadStartView@@QAEXXZ", target = 0x00430230 },
   { offset = 0x11, type = "REL32", symbol = "?ReleaseSingleChain@ChainReleaseView@@QAEXPAVChainElem@@@Z", target = 0x0042CAE0 },
   { offset = 0x1C, type = "REL32", symbol = "?ReleaseSingleChain@ChainReleaseView@@QAEXPAVChainElem@@@Z", target = 0x0042CAE0 },

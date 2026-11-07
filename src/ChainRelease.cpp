@@ -1,14 +1,8 @@
 #include "Chain.hpp"
 #include "ZunMemory.hpp"
+#include "SupervisorThreadStartView.hpp"
 
 #include <new>
-
-struct SupervisorThreadStartView
-{
-    void ThreadClose();
-};
-
-extern SupervisorThreadStartView g_Supervisor;
 
 struct ChainReleaseView
 {
@@ -67,7 +61,7 @@ void ChainReleaseView::ReleaseSingleChain(ChainElem *root)
 
 void ChainReleaseView::Release()
 {
-    g_Supervisor.ThreadClose();
+    static_cast<SupervisorThreadStartView *>(&g_Supervisor)->ThreadClose();
     ReleaseSingleChain(&calcChain00);
     ReleaseSingleChain(&drawChain20);
 }
