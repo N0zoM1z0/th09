@@ -45,7 +45,7 @@ typedef char EffectUpdateVmNativeCoordinates[
 
 int __fastcall EffectUpdateFromVm(Effect *effect)
 {
-    AnmVm *vm = reinterpret_cast<AnmVm *>(effect->vms);
+    AnmVm *vm = effect->vms;
     effect->value8C = vm->intVar0;
     effect->value9C = static_cast<float>(vm->intVar1);
     memcpy(&effect->value88, &vm->scale.x, sizeof(effect->value88));
@@ -113,13 +113,13 @@ Effect *EffectManager::InitializeEffect(
         for (int i = 0; i < g_EffectTemplates[effectId].vmCount; ++i)
         {
             this->effectAnm->SetAndExecuteScriptIdx(
-                    reinterpret_cast<AnmVm *>(&effect->vms[i]), scriptIndex);
+                    &effect->vms[i], scriptIndex);
             scriptIndex += g_EffectTemplates[effectId].scriptStep;
-            reinterpret_cast<AnmVm *>(&effect->vms[i])->flagsWord |= 0x2000;
-            reinterpret_cast<AnmVm *>(&effect->vms[i])->color1 = color;
-            reinterpret_cast<AnmVm *>(&effect->vms[i])->pos2.x = 0.0f;
-            reinterpret_cast<AnmVm *>(&effect->vms[i])->pos2.y = 0.0f;
-            reinterpret_cast<AnmVm *>(&effect->vms[i])->pos2.z = 0.0f;
+            effect->vms[i].flagsWord |= 0x2000;
+            effect->vms[i].color1 = color;
+            effect->vms[i].pos2.x = 0.0f;
+            effect->vms[i].pos2.y = 0.0f;
+            effect->vms[i].pos2.z = 0.0f;
         }
     }
     effect->updateCallback = g_EffectTemplates[effectId].updateCallback;
@@ -260,7 +260,7 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
         for (int vmIndex = 0; vmIndex < effect->vmCount; ++vmIndex)
         {
             if (g_AnmManager->ExecuteScript(
-                    &reinterpret_cast<AnmVm *>(effect->vms)[vmIndex]) != 0)
+                    &effect->vms[vmIndex]) != 0)
                 --liveVmCount;
         }
         if (liveVmCount == 0)
@@ -306,7 +306,7 @@ int EffectManager::OnDraw(EffectManager *effectManager)
         }
         else
         {
-            AnmVm *vm = reinterpret_cast<AnmVm *>(effect->vms);
+            AnmVm *vm = effect->vms;
             if (effect->vmCount > 0)
             {
                 int vmCount = effect->vmCount;
@@ -338,7 +338,7 @@ int EffectManager::OnDrawShared(EffectManager *effectManager)
         else
         {
             int vmCount = effect->vmCount;
-            AnmVm *vm = reinterpret_cast<AnmVm *>(effect->vms);
+            AnmVm *vm = effect->vms;
             if (vmCount > 0)
             {
                 do
