@@ -21087,10 +21087,10 @@ target_address = 0x00427EE8
 size = 2803
 # Packet804: complete reviewed owner, all118 fields independently bound.
 relocations = [
-  { offset = 0x37, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleKeyAnmManagerView@@A", target = 0x004DC550 },
-  { offset = 0x4C, type = "REL32", symbol = "?SetInterruptArray@TitleKeyAnmManagerView@@QAEXPAUAnmVmView@@HH@Z", target = 0x00436DE0 },
-  { offset = 0x54, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleKeyAnmManagerView@@A", target = 0x004DC550 },
-  { offset = 0x5F, type = "REL32", symbol = "?ExecuteScriptArray@TitleKeyAnmManagerView@@QAEXPAUAnmVmView@@H@Z", target = 0x00439560 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x4C, type = "REL32", symbol = "?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z", target = 0x00436DE0 },
+  { offset = 0x54, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
+  { offset = 0x5F, type = "REL32", symbol = "?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z", target = 0x00439560 },
   { offset = 0x7A, type = "REL32", symbol = "?UpdateMenuSelection@TitleScreenView@@QAEXXZ", target = 0x004276D7 },
   { offset = 0x8F, type = "DIR32", symbol = "?g_Supervisor@@3UTitleKeySupervisorView@@A", target = 0x004B3100 },
   { offset = 0x9F, type = "REL32", symbol = "_memcpy", target = 0x0047C750 },
@@ -21105,7 +21105,7 @@ relocations = [
   { offset = 0x15A, type = "REL32", symbol = "?SetTwoDigitVmValue@TitleScreenView@@QAEHPAUAnmVmView@@F@Z", target = 0x00422FD1 },
   { offset = 0x17A, type = "REL32", symbol = "?SetTwoDigitVmValue@TitleScreenView@@QAEHPAUAnmVmView@@F@Z", target = 0x00422FD1 },
   { offset = 0x1A0, type = "DIR32", symbol = "?g_TitleKeyConfigHelpText@@3PAPBDA", target = 0x004A1E04 },
-  { offset = 0x1B3, type = "DIR32", symbol = "?g_TitleAnmManager@@3PAUTitleKeyAnmManagerView@@A", target = 0x004DC550 },
+  { offset = 0x1B3, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x1B8, type = "REL32", symbol = "?DrawTitleHelpText@@YAXPAUTitleKeyAnmManagerView@@PAUAnmVmView@@IHPBD@Z", target = 0x0043BE50 },
   { offset = 0x1D1, type = "REL32", symbol = "?MoveCursorVertical@TitleScreenView@@QAEHH@Z", target = 0x0042457A },
   { offset = 0x1E1, type = "DIR32", symbol = "?g_Supervisor@@3UTitleKeySupervisorView@@A", target = 0x004B3100 },

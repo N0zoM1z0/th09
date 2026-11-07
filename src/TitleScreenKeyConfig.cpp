@@ -3,6 +3,7 @@
 // identifier spelling remains unresolved except where exact callers fix it.
 
 #include "GameConfiguration.hpp"
+#include "AnmManager.hpp"
 
 #include <stddef.h>
 #include <string.h>
@@ -36,11 +37,13 @@ struct AnmVmView
 };
 typedef char KeyConfigAnmVmSizeIs2A4[(sizeof(AnmVmView) == 0x2A4) ? 1 : -1];
 
-struct TitleKeyAnmManagerView
-{
-    void SetInterruptArray(AnmVmView *vms, i32 count, i32 interrupt);
-    void ExecuteScriptArray(AnmVmView *vms, i32 count);
-};
+// The independently exact Title key-config update uses the same native
+// AnmManager allocation as the menu and ANM script owners. Keep the nominal
+// TitleKey type only for the not-yet-proven external help-text function ABI.
+struct TitleKeyAnmManagerView : AnmManager {};
+typedef char TitleKeyNativeManagerStorage[
+    (sizeof(TitleKeyAnmManagerView) == sizeof(AnmManager) &&
+     offsetof(TitleKeyAnmManagerView, captureSurfaceIndex08) == 0x08) ? 1 : -1];
 
 struct TitleKeyInputView
 {
@@ -77,7 +80,6 @@ union TitleKeyMapping
 };
 typedef char TitleKeyMappingSizeIs6C[(sizeof(TitleKeyMapping) == 0x6C) ? 1 : -1];
 
-extern TitleKeyAnmManagerView *g_TitleAnmManager;
 extern TitleKeyInputView g_TitleInput;
 extern TitleKeySoundView g_SoundPlayer;
 extern TitleKeySupervisorView g_Supervisor;
@@ -187,8 +189,8 @@ i32 TitleScreenView::OnUpdateKeyConfig()
     case 0:
         if (stateTimer2 == 0)
         {
-            g_TitleAnmManager->SetInterruptArray(vms, vmCount, 4);
-            g_TitleAnmManager->ExecuteScriptArray(vms, vmCount);
+            g_AnmManager->SetInterruptArray(reinterpret_cast<AnmVm *>(vms), vmCount, 4);
+            g_AnmManager->ExecuteScriptArray(reinterpret_cast<AnmVm *>(vms), vmCount);
             menuVmStart = 37;
             menuItemCount = 10;
             UpdateMenuSelection();
@@ -223,7 +225,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
         for (helpIndex = 0; helpIndex < 10; ++helpIndex)
         {
             DrawTitleHelpText(
-                g_TitleAnmManager,
+                static_cast<TitleKeyAnmManagerView *>(g_AnmManager),
                 &helpTextVms[helpIndex],
                 0x00FFF0E0u,
                 0x300000,
