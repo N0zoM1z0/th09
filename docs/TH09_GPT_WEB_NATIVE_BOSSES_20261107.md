@@ -443,3 +443,83 @@ The ledger is still **2,248 candidates; 1,034 source-present; 1,021 exact;
 Replay SaveReplay, Title OnUpdateResult and DrawReplayMenu are not newly exact.
 Whole Windows linking, semantic/run-time validation and Factory acceptance
 remain unproven. This source is a local Git checkpoint, not a remote push.
+
+## Exact native options input and one 20-byte D3D vertex across gameplay (later 2026-11-07)
+
+The live original remains Japanese TH09 v1.50a, SHA256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+Five further `gpt-web:` source checkpoints preserved original-bound function
+bytes, relocation types/offsets/addends/targets and unaltered VC7.1 profiles:
+
+| Source checkpoint | Evidence-backed source reconstruction | Exact original-bound owner checks |
+| --- | --- | --- |
+| `3bc1eaf9` | Replace the options page's private **8-byte** `InputView` prefix with a **0x8E-byte** `InputView : ReplayInputState` source-facing receiver, retaining its native +0x06/+0x04 scrolling words and original **inlined** implementation | `TitleScreen::OnUpdateOptions` **2,045/2,045 bytes**, `PlayMenuSound` **34/34**; the two original `InputView::IsPressedScrolling` relocations stay bound to the exact 0x423158 leaf |
+| `f5ee2aa5` | Introduce **one `VertexDiffuseXyzrhw` concrete definition** with native `Float3 pos` +0x00, aliased `w`/`rhw` +0x0C, `diffuse` +0x10 and its exact constructor identity 0x4343D0. ScreenEffect and two Effect strip callbacks use it | `ScreenEffect::DrawSquare` **527/527**, strip Type27 **491/491**, Type36 **506/506**. Scoped ScreenEffect source: **18 exact siblings / 2,562 physical bytes**. Nine VC7.1 `$L...` names in 447-code/480-physical-byte RegisterChain were refreshed; all 55 original-bound fields including addends/targets frozen |
+| `20f1eff2` | The same native vertex now underlies `EffectType34VerticesView::fan54[33]` and `lines2E8[4][32]`, preserving the exact **0xEF8-byte** allocation; it remains `Alloc`/`memset`-initialized, not constructed as a C++ object | Effect34 draw **946/946**, Type34 init **178/178**, Type29 init **152/152** exact. Same-ECL focused nonexact guards: **RunEcl 15,564 bytes, 30 residual** and **Enemy OnUpdate 3,900 bytes, 13 residual** unchanged |
+| `07cf3266` | Remove ANM primitive draw's independent nominal vertex definition; use native vertex for triangle fan/strip and all other primitive source methods | **12 complete exact functions / 1,763 physical bytes**, including triangle strip **318**, triangle fan **318**, vertex-buffer setup **472** |
+| `d3fd84d0` | ANM 3D projection and 3D draw borrow that same native vertex; eliminate the remaining duplicated concrete `VertexDiffuseXyzrhw` declarations in `.cpp` sources | Project3DQuad **595/595** and Draw3D **811/811** exact |
+
+An important corrected **negative** finding: a prior attempt to replace the
+Options page's inline 8-byte helper by an **out-of-line** native method shortened
+the 2,045-byte source owner to **2,042**, so it was rightly rejected. Five
+separate natural C++ **inlined** full-`ReplayInputState` alternatives now produce
+identical 2,045-byte code. Changing the source-facing class's nominal name to
+`OptionsInputView` left the bytes intact but changed two authentic
+`InputView::IsPressedScrolling` COFF call symbols, so that form was rejected.
+Nominal original class definitions across source TUs and full product link
+compatibility remain unproven; the original-bound method identity is deliberately
+preserved instead of silently changing the manifest to a fake alias.
+
+Additional *real* nonexact frontier work, not just a source inspection:
+
+- `ScreenEffect::CalcShakeEnvelope`: newly compiled **17** natural receiver,
+  declaration, timer, magnitude, RNG and local-lifetime variants. All admissible
+  candidates with the original **336 bytes / 20 relocation fields / 8 calls**
+  retain **26 unlike bytes**. Timer pointer/reference controls expanded to
+  **337 bytes** with hundreds of differences, and were rejected. The target
+  retains EDI for ScreenEffect and ESI for its timer; the current candidate
+  allocates the two registers oppositely. No byte patches or register-fixing
+  compiler extensions were used.
+- `EffectManager::AddedCallback`: newly compiled **16** natural preload index,
+  condition, output owner, reference and dataflow variants. All accepted
+  **51-byte / 4-relocation** variants retain the **eight different bytes** at
+  `+0x03..+0x09` and `+0x0D`. One form using two independently loaded global
+  manager pointers failed the four-field audit; it was rejected. In the
+  original, `mov edi,[g_AnmManager]` precedes `mov esi,ecx`, unlike the
+  current receiver/global load schedule. Neither function was promoted exact.
+
+Ignored and preserved focused experiment receipts:
+`.analysis/gpt-web-options-inline-full-input-20261107/`,
+`.analysis/gpt-web-native-diffuse-vertex-20261107/`,
+`.analysis/gpt-web-shake-reg-lifetime-20261107/`, and
+`.analysis/gpt-web-effect-new-branch-schedule-20261107/`.
+
+Use **only changed-owner scopes**, not an all-owner cold replay:
+
+```bash
+python3 -B scripts/build-match-unit.py --unit title-screen-options-update
+python3 -B scripts/compare-coff-function.py --unit title-screen-options-update
+python3 -B scripts/build-match-unit.py --unit screen-effect-draw-square
+python3 -B scripts/compare-coff-function.py --unit screen-effect-draw-square
+python3 -B scripts/build-match-unit.py --unit effect-draw-callback-type34
+python3 -B scripts/compare-coff-function.py --unit effect-draw-callback-type34
+python3 -B scripts/build-match-unit.py --unit anm-manager-draw-triangle-strip
+python3 -B scripts/compare-coff-function.py --unit anm-manager-draw-triangle-strip
+python3 -B scripts/build-match-unit.py --unit anm-manager-project-3d-quad
+python3 -B scripts/compare-coff-function.py --unit anm-manager-project-3d-quad
+python3 -B scripts/check-boss-frontiers.py --owner screen --skip-exact-siblings
+python3 -B scripts/check-boss-frontiers.py --owner effect --skip-exact-siblings
+python3 -B scripts/check-boss-frontiers.py --owner runecl --skip-exact-siblings
+python3 -B scripts/check-boss-frontiers.py --owner enemy --skip-exact-siblings
+python3 -B -m unittest discover -s tests -p 'test_screen*.py' -q
+python3 -B -m unittest discover -s tests -p 'test_effect*.py' -q
+python3 -B -m unittest discover -s tests -p 'test_anm*.py' -q
+python3 -B scripts/validate-tracking.py --require-target
+python3 -B scripts/validate-docs.py
+```
+
+The exact-function ledger did **not** change: **2,248 candidates / 1,034
+source-present / 1,021 exact / 13 nonexact over 29,834 bytes**. This work
+addresses both substantial exact boss implementations and the real remaining
+nonexact codegen frontiers. Complete Windows linking, gameplay semantics and
+Factory acceptance were **not** asserted or performed.
