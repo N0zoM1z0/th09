@@ -24,6 +24,7 @@
 #include "AsciiBossMarkerVmView.hpp"
 #include "SoundPlayer.hpp"
 #include "Background.hpp"
+#include "CardAttack.hpp"
 #include "EnemyCorePlayerView.hpp"
 #include "ZunMemory.hpp"
 
@@ -62,18 +63,14 @@ typedef char Th09EclStateFlagBitsSizeIs04[
 struct EnemyManagerCoreView;
 struct EnemyCoreView;
 
-// The side owner's two observed control dwords are consumed by the late ECL
-// opcode family.  Its complete nominal class and lifetime are not asserted.
-struct EnemyCoreSideOwnerView
-{
-    unsigned char unknown000[0xA4];
-    int primaryStateA4;
-    int alternateStateA8;
-};
+// The owner in Side slot +0x14 is the native CardAttack created by
+// GameManagerSetup. These opcode state writes hit its exact counters at
+// +0xA4/+0xA8, shared with the original-bound CardAttack::OnUpdate.
+typedef CardAttack EnemyCoreSideOwnerView;
 typedef char EnemyCoreSideOwnerPrimaryAtA4[
-    (offsetof(EnemyCoreSideOwnerView, primaryStateA4) == 0xA4) ? 1 : -1];
+    (offsetof(EnemyCoreSideOwnerView, primaryPresentationCounterA4) == 0xA4) ? 1 : -1];
 typedef char EnemyCoreSideOwnerAlternateAtA8[
-    (offsetof(EnemyCoreSideOwnerView, alternateStateA8) == 0xA8) ? 1 : -1];
+    (offsetof(EnemyCoreSideOwnerView, secondaryPresentationCounterA8) == 0xA8) ? 1 : -1];
 
 // The ECL interpreter and Enemy calc traverse the same native side object.
 // Keep one source layout and one field authority rather than a copy of 0x38.

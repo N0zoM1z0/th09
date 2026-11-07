@@ -53,10 +53,10 @@ typedef char Th09EclLatePlayerPositionAt1B88[
 typedef char Th09EclLatePlayerTableAt303F4[
     (offsetof(PlayerLateView, tableValue303F4) == 0x303F4) ? 1 : -1];
 
-typedef ::EnemyCoreSideOwnerView SideOwnerView;
+typedef ::CardAttack SideOwnerView;
 typedef char Th09EclLateOwnerPrimaryAtA4[
-    (offsetof(SideOwnerView, primaryStateA4) == 0xA4 &&
-     offsetof(SideOwnerView, alternateStateA8) == 0xA8) ? 1 : -1];
+    (offsetof(SideOwnerView, primaryPresentationCounterA4) == 0xA4 &&
+     offsetof(SideOwnerView, secondaryPresentationCounterA8) == 0xA8) ? 1 : -1];
 
 // ECL late instructions and Enemy calc both traverse the same side-state
 // object.  Keep the canonical offsets in the shared native struct.
@@ -261,18 +261,18 @@ static void MoveRandomBiased(
         if (lateCategory < 3)
         {
             if (enemy->manager00->sideState320->
-                    owner14->primaryStateA4 == 0)
+                    owner14->primaryPresentationCounterA4 == 0)
                 break;
             enemy->manager00->sideState320->
-                owner14->primaryStateA4 = 2;
+                owner14->primaryPresentationCounterA4 = 2;
         }
         else if (lateCategory == 3)
         {
             if (enemy->manager00->sideState320->
-                    owner14->alternateStateA8 == 0)
+                    owner14->secondaryPresentationCounterA8 == 0)
                 break;
             enemy->manager00->sideState320->
-                owner14->alternateStateA8 = 2;
+                owner14->secondaryPresentationCounterA8 = 2;
             reinterpret_cast<BackgroundSpellStateView *>(
                 enemy->manager00->sideState320->background00)
                 ->BeginSpellBackground();

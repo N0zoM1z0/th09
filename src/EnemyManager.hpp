@@ -114,7 +114,7 @@ class AnmLoaded;
 class EtamaController;
 struct Laser;
 class Background;
-struct EnemyCoreSideOwnerView;
+struct CardAttack;
 struct EnemyManagerView;
 struct EnemyView;
 
@@ -135,7 +135,7 @@ struct EnemySideStateView
     EtamaController *etama08;
     EffectManager *effectManager0C;
     EnemyManagerView *enemyManager10;
-    EnemyCoreSideOwnerView *owner14;
+    CardAttack *owner14;
     unsigned char unknown18[0x08];
     int characterIndex20;
     unsigned char unknown24[0x10];
