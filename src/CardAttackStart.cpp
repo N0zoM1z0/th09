@@ -3,6 +3,7 @@
 #include "SoundPlayer.hpp"
 #include "EnemyManager.hpp"
 #include "FrontSide.hpp"
+#include "Background.hpp"
 
 #include <stddef.h>
 #include <string.h>
@@ -20,12 +21,10 @@ struct CardAttackStartPlayerView
     int tableValue303F0;
 };
 
-struct CardAttackStartStateView
-{
-    unsigned char unknown00[0x1C];
-    int field1C;
-    int field20;
-};
+// The side's +0x00 Background owns both +0x1C/+0x20 transition words.
+typedef char CardAttackStartNativeBackgroundTransition[
+    (offsetof(Background, transitionMode) == 0x1C &&
+     offsetof(Background, transitionFrames) == 0x20) ? 1 : -1];
 
 // StartAttack reads the same full FrontSide HUD that exact OnDraw and
 // OnUpdate own, including the 0x558-byte auxiliary VM region at +0xA678.
@@ -37,7 +36,7 @@ typedef char CardAttackStartNativeFrontAux[
 
 struct CardAttackStartSideView
 {
-    CardAttackStartStateView *state00;
+    Background *state00;
     CardAttackStartPlayerView *player04;
     unsigned char unknown08[8];
     EnemyManagerView *enemyManager10;
@@ -184,10 +183,10 @@ void CardAttackStartView::StartAttack(
         1u << sideIndex00;
     timer98 = 0;
 
-    startSideState04->state00->field1C = 1;
-    startSideState04->state00->field20 = 30;
-    startOtherSideState08->state00->field1C = 2;
-    startOtherSideState08->state00->field20 = 30;
+    startSideState04->state00->transitionMode = 1;
+    startSideState04->state00->transitionFrames = 30;
+    startOtherSideState08->state00->transitionMode = 2;
+    startOtherSideState08->state00->transitionFrames = 30;
 
     if (sideIndex00 == 1)
     {
