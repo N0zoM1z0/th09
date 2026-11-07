@@ -122,6 +122,13 @@ proof of remote publication.
   remain exact (1,667 bytes / 73 relocations). See
   [Etama sprite table proof](TH09_ETAMA_SPRITE_SCRIPT_TABLE_20261107.md).
 
+- **SaveReplay original header spans:** the native 0xC0 wire header now
+  determines its 0xAB-byte checksum range, 0xA8-byte obfuscation range and
+  header file-write count; the user-info NUL is derived from its 0x0C-byte
+  record. The complete 1,238-byte boss remains two bytes nonexact, while
+  12 original-exact siblings / 4,093 bytes / 232 fields pass focused replay.
+  See [SaveReplay native header-span review](TH09_REPLAY_SAVE_NATIVE_HEADER_SPANS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

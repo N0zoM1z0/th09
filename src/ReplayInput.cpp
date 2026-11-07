@@ -65,6 +65,16 @@ struct ReplayUserDataHeaderView
 
 typedef char ReplayUserDataHeaderSizeIs0C[(sizeof(ReplayUserDataHeaderView) == 0x0C) ? 1 : -1];
 
+// These original byte ranges are bounded by the physical 0xC0 wire header.
+// They do not cover the post-header payload nor its compressed stream.
+typedef char ReplaySaveHeaderCodecSpans[
+    (sizeof(ReplayHeaderView) == 0xC0 &&
+     offsetof(ReplayHeaderView, obfuscationKey) == 0x15 &&
+     offsetof(ReplayHeaderView, compressedSize) == 0x18 &&
+     sizeof(ReplayHeaderView) - offsetof(ReplayHeaderView, obfuscationKey) == 0xAB &&
+     sizeof(ReplayHeaderView) - offsetof(ReplayHeaderView, compressedSize) == 0xA8 &&
+     sizeof(ReplayUserDataHeaderView) + 1 == 13) ? 1 : -1];
+
 
 // Recording and playback use the original GameManager members, including
 // side +0x2C/+0x30 words and the signed stage byte widened at +0x138.
@@ -704,6 +714,14 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     if (replayManager == NULL || replayPath == NULL)
         return 0;
 
+    enum ReplaySaveWireLengths
+    {
+        ChecksumHeaderBytes = sizeof(ReplayHeaderView) -
+                              offsetof(ReplayHeaderView, obfuscationKey),
+        ObfuscatedHeaderBytes = sizeof(ReplayHeaderView) -
+                                offsetof(ReplayHeaderView, compressedSize),
+        UserInfoWithNulBytes = sizeof(ReplayUserDataHeaderView) + 1,
+    };
     ReplayDataView replayCopy;
     int allocationSize = (sizeof(ReplayDataView) + ReplayRecordingCapacity::InitialPayloadBytes);
     int loopIndex;
@@ -791,7 +809,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoInitialHealthFormat,
         g_GameManager.value378 * 0.5f, g_GameManager.value37C * 0.5f);
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoVersionFormat, g_ReplayVersionText);
-    infoHeader.size = (int)strlen(infoBuffer) + 13;
+    infoHeader.size = (int)strlen(infoBuffer) + UserInfoWithNulBytes;
     infoHeader.size += infoHeader.size & 1;
 
     replayCopy.value07 = 1;
@@ -810,7 +828,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
 
     u32 checksum = 0x3F000318;
     u8 *checksumCursor = &replayCopy.obfuscationKey;
-    for (loopIndex = 0; loopIndex < 0xAB; loopIndex++, checksumCursor++)
+    for (loopIndex = 0; loopIndex < ChecksumHeaderBytes; loopIndex++, checksumCursor++)
         checksum += *checksumCursor;
     for (loopIndex = 0; loopIndex < compressedSize; loopIndex++)
         checksum += compressedData[loopIndex];
@@ -818,7 +836,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
 
     u8 obfuscationOffset = replayCopy.obfuscationKey;
     u8 *obfuscationCursor = (u8 *)&replayCopy.compressedSize;
-    for (loopIndex = 0; loopIndex < 0xA8; loopIndex++, obfuscationCursor++)
+    for (loopIndex = 0; loopIndex < ObfuscatedHeaderBytes; loopIndex++, obfuscationCursor++)
     {
         *obfuscationCursor += obfuscationOffset;
         obfuscationOffset += 7;
@@ -836,7 +854,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         HANDLE file = CreateFileA(replayPath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
         if (file != INVALID_HANDLE_VALUE)
         {
-            WriteFile(file, &replayCopy, 0xC0, &bytesWritten, NULL);
+            WriteFile(file, &replayCopy, sizeof(ReplayHeaderView), &bytesWritten, NULL);
             WriteFile(file, compressedData, compressedSize, &bytesWritten, NULL);
             WriteFile(file, &infoHeader, sizeof(infoHeader), &bytesWritten, NULL);
             WriteFile(file, infoBuffer, infoHeader.size - sizeof(infoHeader), &bytesWritten, NULL);
