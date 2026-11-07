@@ -12,6 +12,7 @@ typedef unsigned int u32;
 typedef int i32;
 
 #include "TitleScreenReplayView.hpp"
+#include "TitleReplayNativeSlots.hpp"
 
 // The text API reads the same three-float representation through its shared view.
 typedef char ReplaySdkVectorSizeIs0C[(sizeof(D3DXVECTOR3) == sizeof(Float3)) ? 1 : -1];
@@ -50,7 +51,7 @@ int TitleScreenView::DrawReplaySave()
     if (this->replaySaveState == 2)
     {
         pos.y = 90.0f;
-        for (i = 0; i < 25; i++)
+        for (i = 0; i < TitleReplayNativeSlots::RowsPerColumn; i++)
         {
             g_AsciiManager.color = i == this->keyboardSelection ? 0xffffffff : 0xff808080;
             g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "No.%.2d %.8s %8s", i + 1,

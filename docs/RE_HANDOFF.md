@@ -182,6 +182,13 @@ proof of remote publication.
   2,571 bytes / 101 relocations**; 51-byte AddedCallback remains 8 bytes
   nonexact. See [Effect native dynamic pool](TH09_EFFECT_NATIVE_DYNAMIC_POOL_20261107.md).
 
+- **Title replay native slot geometry:** 50 shared original replay paths
+  and 50 complete replay records are rendered as two 25-row columns, with
+  ten stage records per replay stream. Source-derived C++ lengths now drive
+  both the 1,280-byte open DrawReplayMenu boss (29 differences unchanged)
+  and the 800-byte exact DrawReplaySave owner (41 fields unchanged). See
+  [Title replay slot review](TH09_TITLE_REPLAY_NATIVE_SLOTS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

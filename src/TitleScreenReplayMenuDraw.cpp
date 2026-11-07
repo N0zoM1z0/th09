@@ -13,6 +13,7 @@ typedef unsigned int u32;
 typedef int i32;
 
 #include "TitleScreenReplayView.hpp"
+#include "TitleReplayNativeSlots.hpp"
 
 
 
@@ -52,9 +53,9 @@ int TitleScreenView::DrawReplayMenu()
         position.y = 90.0f;
         position.z = 0.0f;
 
-        for (i32 i = 0; i < 50; ++i)
+        for (i32 i = 0; i < TitleReplayNativeSlots::ReplayCount; ++i)
         {
-            if (i == 25)
+            if (i == TitleReplayNativeSlots::RowsPerColumn)
             {
                 position.x = 352.0f;
                 position.y = 90.0f;
@@ -63,7 +64,7 @@ int TitleScreenView::DrawReplayMenu()
             g_AsciiManager.color =
                 (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
 
-            if (i < 25)
+            if (i < TitleReplayNativeSlots::RowsPerColumn)
             {
                 g_AsciiManager.AddFormatText(
                     reinterpret_cast<Float3 *>(&position),
@@ -91,7 +92,7 @@ int TitleScreenView::DrawReplayMenu()
         const ReplayDataView &replayValue = replays[selectedReplay];
         i32 selected = selectedReplay;
 
-        position.x = selected < 25 ? 32.0f : 352.0f;
+        position.x = selected < TitleReplayNativeSlots::RowsPerColumn ? 32.0f : 352.0f;
         position.y = (float)selected * 13.0f + 90.0f;
         position.z = 0.0f;
 
@@ -102,7 +103,7 @@ int TitleScreenView::DrawReplayMenu()
         else
             position = target;
 
-        if (selected < 25)
+        if (selected < TitleReplayNativeSlots::RowsPerColumn)
         {
             g_AsciiManager.AddFormatText(
                 reinterpret_cast<Float3 *>(&position),
@@ -154,7 +155,7 @@ int TitleScreenView::DrawReplayMenu()
         position.x = 230.0f;
         position.y = 270.0f;
 
-        for (i32 i = 0; i < 10; ++i)
+        for (i32 i = 0; i < TitleReplayNativeSlots::StageCount; ++i)
         {
             if (replayValue.frameStart[0][i] != 0)
             {
