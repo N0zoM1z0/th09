@@ -1,25 +1,22 @@
 #include "AnmManager.hpp"
+#include "AnmManagerQuadCacheView.hpp"
 
 #include <stddef.h>
 #include <windows.h>
 #include <d3d8.h>
 
-struct AnmManagerVertexBufferView
-{
-    unsigned char unknown000[0x12890];
-    IDirect3DVertexBuffer8 *vertexBuffer;
-};
-
+// The exact 31-byte ReleaseVertexBuffer leaf consumes the same native
+// +0x12890 D3D vertex buffer as ANM primitive setup and 3D rendering.
 typedef char AnmManagerVertexBufferAt12890[
-    (offsetof(AnmManagerVertexBufferView, vertexBuffer) == 0x12890) ? 1 : -1];
+    (offsetof(AnmManagerQuadCacheView, quadVertexBuffer) == 0x12890) ? 1 : -1];
 
 void AnmManager::ReleaseVertexBuffer()
 {
-    AnmManagerVertexBufferView *manager =
-        reinterpret_cast<AnmManagerVertexBufferView *>(this);
-    if (manager->vertexBuffer != NULL)
+    AnmManagerQuadCacheView *manager =
+        reinterpret_cast<AnmManagerQuadCacheView *>(this);
+    if (manager->quadVertexBuffer != NULL)
     {
-        manager->vertexBuffer->Release();
-        manager->vertexBuffer = NULL;
+        manager->quadVertexBuffer->Release();
+        manager->quadVertexBuffer = NULL;
     }
 }
