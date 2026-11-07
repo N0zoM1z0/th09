@@ -217,8 +217,11 @@ inline short &RawShort(
     Th09EclRawInstructionHeaderView *instruction,
     int byteOffset)
 {
-    return *reinterpret_cast<short *>(
-        reinterpret_cast<unsigned char *>(instruction->arguments) + byteOffset);
+    // The original short operand is an element of the same packed 4-byte
+    // union word used by RawByte, RawInt, and RawFloat. The observed callers
+    // use aligned byte offsets 0 and 4; no shadow short-buffer allocation.
+    return instruction->arguments[byteOffset / sizeof(Th09EclWireArgument)]
+        .halfWords[(byteOffset % sizeof(Th09EclWireArgument)) / sizeof(short)];
 }
 
 __forceinline void AssignFlagField(

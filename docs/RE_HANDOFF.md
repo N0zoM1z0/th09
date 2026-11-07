@@ -464,6 +464,15 @@ proof of remote publication.
   Enemy 3,900-byte boss remains 13 bytes different. See
   [native Player shot callback owner audit](TH09_PLAYER_NATIVE_SHOT_CALLBACK_OWNERS_20261107.md).
 
+- **Full RunEcl native halfword wire access:** opcode 130/150 now read
+  genuine signed 16-bit `halfWords[2]` in the four-byte ECL argument union,
+  replacing a byte-base-to-short pointer cast. The 15,564-byte RunEcl
+  boss stays **598 fields / 30 unlike ordinary bytes (7 opcode4 + 23
+  opcode155), zero table differences**. **83 existing exact ECL owners /
+  29,856 physical bytes / 1,389 fields** pass scoped replay; 20 local
+  `$L` name changes retain proven same original addresses. See
+  [native ECL wire halfwords](TH09_ECL_NATIVE_WIRE_HALFWORD_INDEXING_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

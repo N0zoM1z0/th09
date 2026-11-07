@@ -61,6 +61,16 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: ECL raw signed shorts use the actual wire union halves
+
+The full RunEcl opcode 130/150 handlers read signed shorts at offsets
+0 and 4 in the native four-byte ECL argument words. `RawShort` now selects
+`Th09EclWireArgument::halfWords[2]` instead of overlaying `short *` on a
+raw byte pointer; existing integer, float and byte views share that union.
+Complete RunEcl original comparison still has 598 fields/30 ordinary
+residual bytes, while 83 exact ECL owners remain byte-exact. See
+[native wire halfword proof](TH09_ECL_NATIVE_WIRE_HALFWORD_INDEXING_20261107.md).
+
 ### 2026-11-07: Shot update/spawn callbacks share one Player shot/SHT type
 
 Three complete original-exact shot callbacks (471/248/139 bytes) now use

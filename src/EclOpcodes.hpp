@@ -230,9 +230,15 @@ union Th09EclWireArgument
     int integer;
     float real;
     unsigned char bytes[4];
+    short halfWords[2];
 };
 typedef char Th09EclWireArgumentSizeIs04[
     (sizeof(Th09EclWireArgument) == 0x04) ? 1 : -1];
+// Opcodes 130 and 150 read signed 16-bit instruction operands at byte
+// offsets 0 and 4 of the native four-byte wire-argument sequence.
+typedef char Th09EclWireHalfWordsAreTwoPerWord[
+    (sizeof(((Th09EclWireArgument *)0)->halfWords) == 4 &&
+     sizeof(((Th09EclWireArgument *)0)->halfWords[0]) == 2) ? 1 : -1];
 
 // Fixed portion of every variable-length ECL instruction. VC7.1's zero-length
 // trailing array names the operands without increasing the 0x0C-byte prefix.

@@ -39,6 +39,13 @@ WIRE_ARGUMENT = '''union Th09EclWireArgument
     float real;
     unsigned char bytes[4];
 };'''
+# The retail-verified signed halfword projection shares the same 0x04-byte
+# wire word. Keep the historical pre-halfword fixture accepted for isolated
+# probe tests; only these two exact layout forms are recognized, not arbitrary
+# source drift or unreviewed storage declarations.
+WIRE_ARGUMENT_NATIVE_HALFWORDS = WIRE_ARGUMENT.replace(
+    '    unsigned char bytes[4];',
+    '    unsigned char bytes[4];\n    short halfWords[2];')
 RAW_BYTE = '''inline unsigned char &RawByte(
     Th09EclRawInstructionHeaderView *instruction,
     int byteOffset)
@@ -110,7 +117,8 @@ def replace_once(text, before, after):
 
 def reviewed_wire_storage(inputs):
     layout = inputs.get('EclOpcodes.hpp', b'').decode().replace('\r\n', '\n')
-    if (layout.count(WIRE_ARGUMENT) != 1 or
+    layouts = (WIRE_ARGUMENT, WIRE_ARGUMENT_NATIVE_HALFWORDS)
+    if (sum(layout.count(view) for view in layouts) != 1 or
             layout.count('Th09EclWireArgument arguments[0];') != 1):
         raise ValueError('reviewed typed wire storage changed')
 
