@@ -22,7 +22,9 @@ ROOT = Path(__file__).resolve().parents[1]
 # original-bound. Title cursor callers now use this same native member ABI,
 # not a private TitleAnmView placeholder. Retain the historical target VA.
 SPRITE_SYMBOL = '?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z'
-SCRIPT_SYMBOL = '?ExecuteScript@TitleAnmManagerView@@QAEHPAUAnmVmView@@@Z'
+# The complete AnmManager::ExecuteScript owner at 0x436F30 is independently
+# original-bound; cursor code now consumes that genuine typed member.
+SCRIPT_SYMBOL = '?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z'
 MANAGER_SYMBOL = '?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A'
 SPRITE_ADDRESS = 0x00436AC0
 
@@ -36,6 +38,16 @@ def require_native_sprite_leaf(units: dict) -> None:
 
 
 SCRIPT_ADDRESS = 0x00436F30
+
+def require_native_cursor_script_leaf(units: dict) -> None:
+    leaf = units['anm-manager-execute-script']
+    if (leaf['symbol'] != SCRIPT_SYMBOL or
+            leaf['target_address'] != SCRIPT_ADDRESS or leaf['size'] != 9358 or
+            leaf['source'] != 'src/AnmManagerExecuteScript.cpp'):
+        raise ValueError('Title cursor native ExecuteScript callee identity changed')
+
+
+
 MANAGER_ADDRESS = 0x004DC550
 
 # Independent original code boundary, owner checksum, physical operand
@@ -151,7 +163,9 @@ def diagnose(object_file: Path, variant: str) -> dict:
     model = OWNERS[variant]
     import tomllib
     with (ROOT/'config/match-units.toml').open('rb') as manifest:
-        require_native_sprite_leaf(tomllib.load(manifest)['units'])
+        units = tomllib.load(manifest)['units']
+        require_native_sprite_leaf(units)
+        require_native_cursor_script_leaf(units)
     spec = importlib.util.spec_from_file_location(
         'cursor_th09_coff', ROOT / 'scripts/compare-coff-function.py')
     coff = importlib.util.module_from_spec(spec)

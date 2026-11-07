@@ -157,7 +157,13 @@ class AnmManager
 
     // Original ScreenEffect::CalcShakeEnvelope writes these two ANM manager
     // scalars at +0x1C/+0x20. Preserve the full loader class offset map.
-    unsigned char unknown000000[0x1C];
+    // The Title loading callback observes the capture-active slot at +0x08
+    // in the same manager allocation as the exact surface and ANM leaves.
+    union
+    {
+        unsigned char unknown000000[0x1C];
+        struct { unsigned char unknown000008[8]; int captureSurfaceIndex08; unsigned char unknown00000C[0x10]; };
+    };
     float frameShakeX1C;
     float frameShakeY20;
 
@@ -214,6 +220,8 @@ class AnmManager
 #endif
 };
 
+typedef char AnmManagerNativeCaptureSurfaceAt08[
+    (offsetof(AnmManager, captureSurfaceIndex08) == 0x08) ? 1 : -1];
 typedef char AnmManagerNativeScreenShakeAt1C[
     (offsetof(AnmManager, frameShakeX1C) == 0x1C &&
      offsetof(AnmManager, frameShakeY20) == 0x20) ? 1 : -1];

@@ -144,19 +144,13 @@ typedef char TitleNativeAnmLoadedView[
     (sizeof(TitleAnmView) == sizeof(AnmLoaded) &&
      sizeof(TitleAnmView) == 0x1C) ? 1 : -1];
 
-struct TitleAnmManagerView {
-    u8 unknown000[8];
-    i32 captureSurfaceIndex;
-
-    TitleAnmView *PreloadAnm(i32 slot, const char *path);
-    int PreloadSurface(i32 slot, const char *path);
-    int LoadSurface(i32 slot, const char *path);
-    void SetInterruptArray(AnmVmView *vms, i32 count, i32 interrupt);
-    void ExecuteScriptArray(AnmVmView *vms, i32 count);
-    int ExecuteScript(AnmVmView *vm);
-    void ReleaseAnm(i32 slot);
-    void ReleaseSurface(i32 slot);
-};
+// Every actual animation manager method used by the Title callback is now
+// independently exact. Reuse the original manager class and its +0x08
+// capture state instead of a 12-byte private prefix and eight fake methods.
+struct TitleAnmManagerView : AnmManager {};
+typedef char TitleNativeAnmManagerStorage[
+    (sizeof(TitleAnmManagerView) == sizeof(AnmManager) &&
+     offsetof(TitleAnmManagerView, captureSurfaceIndex08) == 0x08) ? 1 : -1];
 
 struct TitleSideInputView {
     u32 currentInput;
@@ -407,10 +401,10 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
 {
     (void)unused;
 
-    while (g_TitleAnmManager->captureSurfaceIndex >= 0)
+    while (g_TitleAnmManager->captureSurfaceIndex08 >= 0)
         Sleep(1);
 
-    TitleAnmView *loadedTitleAnm = g_TitleAnmManager->PreloadAnm(15, "title01.anm");
+    TitleAnmView *loadedTitleAnm = static_cast<TitleAnmView *>(g_TitleAnmManager->PreloadAnm(15, "title01.anm"));
     TitleScreenView *title = g_TitleScreen;
     title->titleAnm = loadedTitleAnm;
     if (loadedTitleAnm == 0)
@@ -419,7 +413,7 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
         return;
     }
 
-    TitleAnmView *loadedResultAnm = g_TitleAnmManager->PreloadAnm(17, "resulttext.anm");
+    TitleAnmView *loadedResultAnm = static_cast<TitleAnmView *>(g_TitleAnmManager->PreloadAnm(17, "resulttext.anm"));
     title = g_TitleScreen;
     title->resultTextAnm = loadedResultAnm;
     if (loadedResultAnm == 0)

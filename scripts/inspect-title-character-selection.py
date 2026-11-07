@@ -58,6 +58,14 @@ elif args.replay_save:
     symbol = '?UpdateReplaySave@TitleScreenView@@QAEHXZ'
     size = 1825
 destinations = {
+    '?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z': 0x436F30,
+    '?ReleaseSurface@AnmManager@@QAEXH@Z': 0x43BF30,
+    '?ReleaseAnm@AnmManager@@QAEXH@Z': 0x43CA30,
+    '?PreloadSurface@AnmManager@@QAEHHPBD@Z': 0x43CCD0,
+    '?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z': 0x43C7A0,
+    '?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z': 0x439560,
+    '?LoadSurface@AnmManager@@QAEHHPBD@Z': 0x43CAE0,
+    '?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z': 0x436DE0,
     '?g_TitleSide0InputFlags@@3IA': 0x4ACE1E,
     '?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z': 0x422F39,
     '?ExecuteScriptArray@TitleAnmManagerView@@QAEXPAUAnmVmView@@H@Z': 0x439560,
