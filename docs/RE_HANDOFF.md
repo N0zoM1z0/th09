@@ -483,6 +483,16 @@ proof of remote publication.
   names retain verified original VAs. The network service big boss remains
   nonexact. See [native Supervisor queue methods](TH09_SUPERVISOR_NATIVE_FRAME_QUEUE_METHODS_20261107.md).
 
+- **1,633-byte Supervisor network service now calls real native queue
+  methods:** all ten InsertPredicted/InsertReceived/Pop/Sync callsites
+  use the actual `Supervisor` receiver, not an empty derived queue view.
+  Ten natural compiler controls reproduce identical **1,627 candidate
+  bytes / 106 referents**, with original **1,381 overlap differences + 6
+  missing bytes**. Its exact 996-byte Supervisor OnUpdate caller and four
+  queue leaves pass **5 owners / 1,568 bytes / 93 fields** after 40
+  original-VA-audited private labels. See
+  [network service native queue closure](TH09_SUPERVISOR_NETWORK_SERVICE_NATIVE_QUEUE_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

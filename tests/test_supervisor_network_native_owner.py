@@ -31,9 +31,12 @@ class SupervisorNetworkNativeOwnerTests(unittest.TestCase):
                 self.assertIn('s->networkTiming458.' + name, network)
         self.assertIn('s->networkMessageVm584', network)
         self.assertIn('s->flagsLow5D4', network)
-        self.assertIn('SupervisorFrameQueueView *frameQueues', network)
-        self.assertIn('static_cast<SupervisorFrameQueueView *>(supervisor)', network)
-        self.assertEqual(network.count('static_cast<SupervisorFrameQueueView *>(&g_Supervisor)'), 2)
+        self.assertNotIn('SupervisorFrameQueueView', network)
+        self.assertNotIn('frameQueues->', network)
+        self.assertEqual(network.count('g_Supervisor.InsertReceivedFrame('), 2)
+        self.assertIn('s->InsertPredictedFrame(',network)
+        self.assertIn('s->PopFrame(',network)
+        self.assertIn('s->AreFrameQueuesSynchronized(',network)
         self.assertNotIn('reinterpret_cast<SupervisorFrameQueueView *>(', network)
 
     def test_true_queue_producers_and_consumers_remain_independently_mapped(self):

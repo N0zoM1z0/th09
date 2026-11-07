@@ -5,7 +5,6 @@
 #include "Controller.hpp"
 #include "SupervisorNetworkState.hpp"
 #include "SupervisorNetworkPackets.hpp"
-#include "SupervisorFrameQueueView.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
 
 #include <windows.h>
@@ -47,8 +46,7 @@ extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
     Supervisor *s = supervisor;
-    SupervisorFrameQueueView *frameQueues =
-        static_cast<SupervisorFrameQueueView *>(supervisor);
+    // The service uses the real Supervisor queue records at +0x47C/+0x56C.
     int result = NETWORK_SERVICE_FRAME_READY;
     DWORD now;
     int returnState;
@@ -142,10 +140,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         if (frame != 0 &&
             frame % (60 / g_SupervisorNetworkState->syncRate) != 0)
         {
-            frameQueues->InsertPredictedFrame(
+            s->InsertPredictedFrame(
                 frameNetwork->localSide, frame,
                 (short)g_ReplayRng.GetSeed());
-            frameQueues->InsertPredictedFrame(
+            s->InsertPredictedFrame(
                 1 - g_SupervisorNetworkState->localSide, s->networkTiming458.frameCounter,
                 (short)g_ReplayRng.GetSeed());
             s->networkTiming458.frameCounter++;
@@ -162,10 +160,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                         int queuedFrame = -9998;
                         do
                         {
-                            static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
+                            g_Supervisor.InsertReceivedFrame(
                                 0, queuedFrame, 0,
                                 (short)g_ReplayRng.GetSeed());
-                            static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(
+                            g_Supervisor.InsertReceivedFrame(
                                 1, queuedFrame++, 0,
                                 (short)g_ReplayRng.GetSeed());
                         } while (queuedFrame + 9998 <
@@ -191,8 +189,8 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                         unsigned short ignoredSeed0;
                         unsigned short ignoredSeed1;
                         unsigned int ignoredPredicted;
-                        frameQueues->PopFrame(0, &ignoredSeed0, &ignoredPredicted);
-                        frameQueues->PopFrame(1, &ignoredSeed1, &ignoredPredicted);
+                        s->PopFrame(0, &ignoredSeed0, &ignoredPredicted);
+                        s->PopFrame(1, &ignoredSeed1, &ignoredPredicted);
                     }
                     g_SupervisorNetworkState->initialFramesQueued = 1;
                 }
@@ -237,7 +235,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             packetNetwork->SendPacket(
                 &g_NetworkFramePacket, sizeof(g_NetworkFramePacket));
             s->networkTiming458.frameMode = 1;
-            frameQueues->InsertReceivedFrame(
+            s->InsertReceivedFrame(
                 g_SupervisorNetworkState->localSide,
                 g_NetworkFramePacket.frame,
                 g_NetworkFramePacket.words.input,
@@ -245,7 +243,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         }
     }
 
-    if (!frameQueues->AreFrameQueuesSynchronized(1 - g_SupervisorNetworkState->localSide))
+    if (!s->AreFrameQueuesSynchronized(1 - g_SupervisorNetworkState->localSide))
     {
         now = timeGetTime();
         s->networkTiming458.waitTime = now;
@@ -286,8 +284,8 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
         s->networkTiming458.confirmedFrame = s->networkTiming458.frameCounter;
         s->networkTiming458.frameMode = 0;
-        inputs[0] = (unsigned short)frameQueues->PopFrame(0, &seed0, &predicted);
-        inputs[1] = (unsigned short)frameQueues->PopFrame(1, &seed1, &predicted);
+        inputs[0] = (unsigned short)s->PopFrame(0, &seed0, &predicted);
+        inputs[1] = (unsigned short)s->PopFrame(1, &seed1, &predicted);
         ApplyNetworkInput(0, inputs[0]);
         ApplyNetworkInput(1, inputs[1]);
         ApplyNetworkInput(2, inputs[0] | inputs[1]);

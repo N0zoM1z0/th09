@@ -61,6 +61,16 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Complete SupervisorServiceUpdate uses real queue methods
+
+The 1,633-byte nonexact `SupervisorServiceUpdate` now calls the actual
+Supervisor queue functions at their original addresses, without
+`SupervisorFrameQueueView` receiver casts. Ten source-cold variants all
+preserve 1,627 candidate bytes/106 fields; the 1,381-plus-six byte gap is
+unchanged. Five independently exact caller/queue owners and 40 audited
+caller-private labels stay fully PE-bound. See
+[Supervisor service native queue proof](TH09_SUPERVISOR_NETWORK_SERVICE_NATIVE_QUEUE_20261107.md).
+
 ### 2026-11-07: Supervisor itself owns all four network frame-queue methods
 
 Four exact frame queue methods at 0x42E9E0/0x42EAC0/0x42EB80/0x42ECF0
