@@ -52,8 +52,9 @@ class NetworkMessageAuditTests(unittest.TestCase):
         self.assertNotIn('struct SupervisorNetworkMessageView', thunk)
         self.assertIn('g_SupervisorNetworkState)->HandleMessage(', thunk)
         self.assertNotIn('unsigned char unknown008[0x04];', source)
+        self.assertNotIn('SupervisorFrameQueueView', source)
         self.assertNotIn('reinterpret_cast<SupervisorFrameQueueView *>(', source)
-        self.assertEqual(source.count('static_cast<SupervisorFrameQueueView *>('),3)
+        self.assertEqual(source.count('g_Supervisor.InsertReceivedFrame('),3)
         self.assertIn('SupervisorNetworkLastFrameAtC8', header)
         self.assertIn('offsetof(SupervisorNetworkState, lastReceivedC8) == 0xC8',
                       header)

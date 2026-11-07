@@ -25169,8 +25169,8 @@ target_address = 0x00432B70
 size = 768
 compare_size = 808
 relocations = [
-  { offset = 0x1C, type = "DIR32", symbol = "$L59420", target = 0x00432E88 },
-  { offset = 0x23, type = "DIR32", symbol = "$L59423", target = 0x00432E70 },
+  { offset = 0x1C, type = "DIR32", symbol = "$L59402", target = 0x00432E88 },
+  { offset = 0x23, type = "DIR32", symbol = "$L59405", target = 0x00432E70 },
   { offset = 0x2A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x2F, type = "REL32", symbol = "?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B130 },
   { offset = 0x44, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
@@ -25209,12 +25209,12 @@ relocations = [
   { offset = 0x2BE, type = "REL32", symbol = "?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B130 },
   { offset = 0x2EC, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x2F3, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
-  { offset = 0x300, type = "DIR32", symbol = "$L59393", target = 0x00432E26 },
-  { offset = 0x304, type = "DIR32", symbol = "$L59372", target = 0x00432D0D },
-  { offset = 0x308, type = "DIR32", symbol = "$L59387", target = 0x00432DDF },
-  { offset = 0x30C, type = "DIR32", symbol = "$L59353", target = 0x00432B97 },
-  { offset = 0x310, type = "DIR32", symbol = "$L59392", target = 0x00432E0E },
-  { offset = 0x314, type = "DIR32", symbol = "$L59350", target = 0x00432E67 },
+  { offset = 0x300, type = "DIR32", symbol = "$L59375", target = 0x00432E26 },
+  { offset = 0x304, type = "DIR32", symbol = "$L59354", target = 0x00432D0D },
+  { offset = 0x308, type = "DIR32", symbol = "$L59369", target = 0x00432DDF },
+  { offset = 0x30C, type = "DIR32", symbol = "$L59338", target = 0x00432B97 },
+  { offset = 0x310, type = "DIR32", symbol = "$L59374", target = 0x00432E0E },
+  { offset = 0x314, type = "DIR32", symbol = "$L59335", target = 0x00432E67 },
 ]
 
 [units.ex-attack-draw-type14-22]

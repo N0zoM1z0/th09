@@ -493,6 +493,14 @@ proof of remote publication.
   original-VA-audited private labels. See
   [network service native queue closure](TH09_SUPERVISOR_NETWORK_SERVICE_NATIVE_QUEUE_20261107.md).
 
+- **Network message's three queue calls now use true `g_Supervisor`:**
+  complete **808-byte physical handler** (768 code + 40 switch/table)
+  and 46 original PE-bound fields are byte-identical under five natural
+  C++ models. All three existing InsertReceivedFrame calls remain at
+  offsets +0x89/+0x156/+0x16F targeting 0x42E9E0. Eight changed
+  compiler-private symbols were proved at their original target VAs.
+  See [native network message queue audit](TH09_NETWORK_MESSAGE_NATIVE_SUPERVISOR_QUEUE_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

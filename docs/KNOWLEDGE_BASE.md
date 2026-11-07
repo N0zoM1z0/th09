@@ -61,6 +61,15 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Exact network message handler uses Supervisor's own queue
+
+The 808-byte physical `SupervisorNetworkMessageView::HandleMessage`
+now makes three original InsertReceivedFrame calls directly on the native
+`g_Supervisor`, rather than a synthetic derived view. The entire code and
+switch-table carrier is original-byte-exact with all 46 fields, and all
+calls retain the real +0x89/+0x156/+0x16F operand destinations. See
+[network message native queue proof](TH09_NETWORK_MESSAGE_NATIVE_SUPERVISOR_QUEUE_20261107.md).
+
 ### 2026-11-07: Complete SupervisorServiceUpdate uses real queue methods
 
 The 1,633-byte nonexact `SupervisorServiceUpdate` now calls the actual

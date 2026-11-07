@@ -4,7 +4,6 @@
 // Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
-#include "SupervisorFrameQueueView.hpp"
 #include "SupervisorNetworkState.hpp"
 #include "SupervisorNetworkMessageView.hpp"
 #include "SupervisorNetworkPackets.hpp"
@@ -56,7 +55,7 @@ int SupervisorNetworkMessageView::HandleMessage(void *userContext, unsigned long
             if (packet->side != g_SupervisorNetworkState->localSide)
             {
                 this->lastReceivedC8 = *packet;
-                static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(packet->side, packet->frame, packet->input, packet->seed);
+                g_Supervisor.InsertReceivedFrame(packet->side, packet->frame, packet->input, packet->seed);
             }
         }
         else if (packet->type == 1)
@@ -81,8 +80,8 @@ int SupervisorNetworkMessageView::HandleMessage(void *userContext, unsigned long
                 {
                     for (i = 0; i < 60 / this->syncRate - 1; i++)
                     {
-                        static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(0, i - 9998, 0, g_ReplayRng.GetSeed());
-                        static_cast<SupervisorFrameQueueView *>(&g_Supervisor)->InsertReceivedFrame(1, i - 9998, 0, g_ReplayRng.GetSeed());
+                        g_Supervisor.InsertReceivedFrame(0, i - 9998, 0, g_ReplayRng.GetSeed());
+                        g_Supervisor.InsertReceivedFrame(1, i - 9998, 0, g_ReplayRng.GetSeed());
                     }
                 }
             }
