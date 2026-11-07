@@ -1,10 +1,15 @@
 #include "GameManagerRuntimeView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "FrontSide.hpp"
+#include "RngRuntimeLeaves.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
 #include <string.h>
+
+// The selector uses the same physical 0x4ACE0C RNG allocation as the
+// other Player and replay owners, not a private game-pattern RNG record.
+extern RngRuntimeView g_ReplayRng;
 
 // Maintained natural reconstruction of the Player gameplay-pattern owner at
 // 0x004049A0.  Exact identifier spelling remains unknown; the exact OnUpdate
@@ -194,20 +199,12 @@ float *PlayerGameplayMethods::ResolvePatternOffset(
     return offsetY;
 }
 
-struct PlayerGameplayRngView
-{
-    unsigned short GetRandomU16InRange(unsigned short maximum);
-    unsigned int GetRandomU32InRange(unsigned int maximum);
-    float GetRandomF32InRange(float maximum);
-};
-
 extern PlayerSideProtocolView g_PlayerSideProtocols[2];
 extern PlayerPatternConfig g_PlayerPatternConfigs[];
 extern int g_PlayerPatternGrid[12][10];
 extern int g_PlayerPatternFlags[];
 extern int g_PlayerPatternAlternates[];
 extern int g_PlayerPatternProtocolValue;
-extern PlayerGameplayRngView g_PlayerGameplayRng;
 
 
 
@@ -474,7 +471,7 @@ pattern_selected:
             g_PlayerSideProtocols[header->player78->sideIndex].thresholdFlags34 |= 1U;
             header->crossedThreshold0C = 0;
             header->distanceThreshold58 =
-                (static_cast<int>(g_PlayerGameplayRng.GetRandomU32InRange(4)) + 1.0f) * 100.0f;
+                (static_cast<int>(g_ReplayRng.GetRandomU32InRange(4)) + 1.0f) * 100.0f;
             if (header->distanceThreshold58 >= 400.0f)
                 header->distanceThreshold58 = 400.0f;
         }
@@ -495,7 +492,7 @@ pattern_selected:
                 header->recentPatternFlags30[4] == header->recentPatternFlags30[5])
             {
                 int candidatePattern = g_PlayerPatternAlternates[
-                    g_PlayerGameplayRng.GetRandomU16InRange(2) * 9 + selectedPattern];
+                    g_ReplayRng.GetRandomU16InRange(2) * 9 + selectedPattern];
                 PlayerLifecycleView *candidatePlayer = header->player78;
 
                 {
@@ -575,7 +572,7 @@ pattern_selected:
                         header->recentPatterns10[0] != header->recentPatterns10[1])
                     {
                         target.x = -target.x;
-                        target.y = g_PlayerGameplayRng.GetRandomF32InRange(448.0f);
+                        target.y = g_ReplayRng.GetRandomF32InRange(448.0f);
                     }
 
                 }
