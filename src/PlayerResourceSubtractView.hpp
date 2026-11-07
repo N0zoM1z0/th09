@@ -1,14 +1,17 @@
 #pragma once
 
+#include "PlayerLifecycleView.hpp"
+
 #include <stddef.h>
 
-struct PlayerResourceSubtractView
+// The 51-byte original resource clamp acts on the same native Player's
+// +0x30388 scalar. Keep its historically bound method ABI while borrowing
+// the real storage instead of a separate 0x30388-byte shadow prefix.
+struct PlayerResourceSubtractView : PlayerLifecycleView
 {
-    unsigned char unknown00000[0x30388];
-    float resource30388;
-
     void SubtractResourceClamped(float amount);
 };
 
 typedef char PlayerResourceAt30388[
-    (offsetof(PlayerResourceSubtractView, resource30388) == 0x30388) ? 1 : -1];
+    (sizeof(PlayerResourceSubtractView) == sizeof(PlayerLifecycleView) &&
+     offsetof(PlayerResourceSubtractView, scalar30388) == 0x30388) ? 1 : -1];
