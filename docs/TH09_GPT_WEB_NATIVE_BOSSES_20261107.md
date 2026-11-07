@@ -213,3 +213,89 @@ still has two; AddedCallback still has eight. Function-level equality here
 does not prove a complete Windows link, runtime equivalence, original TU
 partition, semantic port or remote Factory acceptance. Git commits are
 checkpoints, not Oracle acceptance receipts.
+
+## CardAttack boss and leaf ownership continuation — 2026-11-07
+
+Seven further code checkpoints recover more **natural native C++** from the
+pinned Japanese TH09 v1.50a owner, without claiming original class spelling,
+source TU boundaries, or *new* exact-function credit. Every adopted source
+change was rebuilt with its reviewed VC7.1 profile. Complete original PE bytes,
+all COFF relocation fields and actual call targets were compared independently.
+No all-owner/full cold replay was run.
+
+| Committed checkpoint | Source recovered | Real original-bound evidence |
+| --- | --- | --- |
+| `5c187810` | `CardAttack::OnDraw` calls real `Supervisor::ConfigureScreenViewport` rather than a duplicate `CardAttackSupervisorView` fake method | Target method `0x00403D90`, original draw 334/334 bytes, 17 fields; eight CardAttack source functions 1,302 bytes exact |
+| `893cf5a9` | `CardAttack::Create/OnUpdate/OnDraw` share native `AsciiGameManagerView`, its transition bits and exact popup-coordinate methods, eliminating `CardAttackGameManagerView` | 13 field identities changed to genuine global/callees at the **same original field positions/targets**; all eight source functions remain exact |
+| `d9fc12b2` | `CardAttack` side pointers reuse the single native 0x38-byte `AsciiGameManagerSideView` and Create no longer casts from another unrelated side record | Eight same-source functions and eleven additional directly dependent CardAttack leaves exact; nonexact GameManager setup's 1,682/1,689-byte, 172-field scope unchanged |
+| `2365bd79` | Recovers the 0x1348..0x1364 CardAttack primary/secondary values and extra pointers inside the real 0x1368-byte record, removes private `CardAttackBeginTailView`/`CardAttackEndTailView` | 17 affected exact functions, 2,757 physical bytes, including 923-byte StartAttack, 536-byte update, 334-byte draw and eight Begin/End callbacks |
+| `d1bb8c16` | `CardAttackStartView : CardAttack` preserves the proven `StartAttack` source ABI but inherits real owner storage; retained specialized side-pointer aliases; implicit upcasts replace unnecessary `reinterpret_cast<CardAttack *>(this)` | StartAttack 923/923 exact with all 29 relocations; 18 other related exact units; nonexact charge boss still 1,210 original/1,197 candidate, 70 fields and 58 calls |
+| `dfc3e2b7` | Update/Draw use genuine `AnmVm` scalar, color, flags, position and sprite arrays directly, discarding the redundant identity helper, VM alias and unused Float2/Float3 shadows | **All 19** CardAttack source/dependent exact functions, 2,804 physical bytes, all original-bound; 11 focused CardAttack tests |
+| `baee11df` | Exact `StartAttack` dereferences real `FrontSide` and its `FrontSideAuxView` VMs at +0xA678 instead of two fake HUD/auxiliary allocations | StartAttack still 923/923 exact; nonexact charge caller keeps 70 fields, 58 calls and 13 missing bytes; 13 focused CardAttack tests |
+
+The 19 distinct original functions checked across the changed CardAttack
+sources have 2,804 physical bytes. Separate original `Supervisor` and
+`AsciiGameManagerView::TransformPopupX/Y` leaves anchor their actual call
+addresses `0x00403D90`, `0x00401680`, and `0x004016B0`.
+The StartAttack independent target remains `0x00403E50` with the
+`?StartAttack@CardAttackStartView@@QAEXHHHPBD@Z` symbol, **not** a fabricated
+change to a new method identity. The inherited class and specialized side
+aliases are source-facing representations of independently observed storage,
+not proof of the game's original class hierarchy.
+
+### Nonexact boss experiments — rejected source restored
+
+- `.analysis/gpt-web-charge-mode-20261107/` records **14** natural C++
+  `PlayerChargeAttackView::UpdateChargeAttack` experiments: unsigned/signed/short,
+  bool, structured local, branching/comma forms, initialized/captured locals,
+  direct ReplayInput references. The target is 1,210 bytes. The 1,197-byte
+  candidate still lacks 13 bytes and the independently observed stack byte
+  `sideMode` at EBP−1. Two 1,201-byte variants have only nine missing bytes
+  but do **not** restore the original stack access or control-flow graph.
+  No such variant was adopted or credited.
+- `.analysis/gpt-web-movement-aux-20261107/` preserves eight direct native
+  `ReplayInputState::auxiliary2A` candidate forms for the **1,900-byte**
+  Player movement boss. Those compiled, but the strict inspector rejected
+  mismatched independent COFF operand shapes. Its previous 66 fields,
+  23 calls and 122 differing bytes remain the verified baseline.
+- `.analysis/gpt-web-shake-natural-20261107/` preserves **12** ordinary C++
+  expressions/lifetime alternatives for 336-byte ScreenEffect shake envelope.
+  The best remains 336 bytes/20 fields/8 calls/**26** different bytes.
+  Several alternatives regressed to 249–317 differences; none was adopted.
+  Original ScreenEffect/Timer register lifetimes (EDI/ESI respectively) still
+  differ from the current ESI/EDI allocation. No asm, register pinning, target
+  patching, speculative compiler switch or partial-byte exactness claim used.
+
+**Focused reproduction** (not `--owner all`, not full cold replay):
+
+```bash
+python3 -B scripts/build-match-unit.py --unit card-attack-start
+python3 -B scripts/compare-coff-function.py --unit card-attack-start
+python3 -B scripts/build-match-unit.py --unit card-attack-on-update
+python3 -B scripts/compare-coff-function.py --unit card-attack-on-update
+python3 -B scripts/build-match-unit.py --unit card-attack-on-draw
+python3 -B scripts/compare-coff-function.py --unit card-attack-on-draw
+python3 -B scripts/build-match-unit.py --unit card-attack-begin-pl00-type0
+python3 -B scripts/compare-coff-function.py --unit card-attack-begin-pl00-type0
+python3 -B scripts/build-match-unit.py --unit card-attack-end-free1360
+python3 -B scripts/compare-coff-function.py --unit card-attack-end-free1360
+python3 -B scripts/check-boss-frontiers.py --owner charge --skip-exact-siblings
+python3 -B scripts/check-boss-frontiers.py --owner gamemgr --skip-exact-siblings
+python3 -B -m unittest discover -s tests -p 'test_card_attack*.py' -q
+python3 -B scripts/validate-tracking.py --require-target
+python3 -B scripts/validate-docs.py
+```
+
+Relevant new guards:
+`tests/test_card_attack_real_supervisor_viewport.py`,
+`tests/test_card_attack_real_game_manager_abi.py`,
+`tests/test_card_attack_native_tail_leaves.py`,
+`tests/test_card_attack_start_native_inheritance.py`,
+`tests/test_card_attack_start_native_front_side.py` and the existing
+`tests/test_card_attack_native_vm_and_manager.py` (updated to the real VM).
+
+The status ledger remains **2,248 candidate / 1,034 source-present /
+1,021 exact / 13 nonexact**, with **29,834** bytes of nonexact authored
+functions. These C++ improvements are valuable source reconstruction but **do
+not** by themselves establish any new byte-exact function count, an entire
+Windows image rebuild, whole-program semantics, runtime or Factory acceptance.
