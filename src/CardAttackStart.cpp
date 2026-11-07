@@ -2,6 +2,7 @@
 #include "CardAttackStartView.hpp"
 #include "SoundPlayer.hpp"
 #include "EnemyManager.hpp"
+#include "FrontSide.hpp"
 
 #include <stddef.h>
 #include <string.h>
@@ -26,20 +27,13 @@ struct CardAttackStartStateView
     int field20;
 };
 
-struct CardAttackStartFrontAuxView
-{
-    AnmLoaded *sideAnm00;
-    AnmLoaded *optionalAnm04;
-    int unknown08;
-    AnmVm vms0C[2];
-    int unknown554;
-};
-
-struct CardAttackStartFrontSideView
-{
-    unsigned char unknown0000[0xA678];
-    CardAttackStartFrontAuxView auxA678;
-};
+// StartAttack reads the same full FrontSide HUD that exact OnDraw and
+// OnUpdate own, including the 0x558-byte auxiliary VM region at +0xA678.
+typedef char CardAttackStartNativeFrontAux[
+    (offsetof(FrontSide, auxA678) == 0xA678 &&
+     sizeof(FrontSideAuxView) == 0x558 &&
+     offsetof(FrontSideAuxView, sideAnm00) == 0 &&
+     offsetof(FrontSideAuxView, vms0C) == 0x0C) ? 1 : -1];
 
 struct CardAttackStartSideView
 {
@@ -48,7 +42,7 @@ struct CardAttackStartSideView
     unsigned char unknown08[8];
     EnemyManagerView *enemyManager10;
     void *subsystem5_14;
-    CardAttackStartFrontSideView *frontSide18;
+    FrontSide *frontSide18;
     unsigned char unknown1C[0x1C];
 };
 typedef char CardAttackStartSideSizeIs38[
