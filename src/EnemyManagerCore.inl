@@ -381,15 +381,17 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 {
                     BulletSpawnDescriptorCtorView storage;
                     BulletSpawnDescriptor &descriptor = storage.descriptor;
-                    // The native 12-byte Enemy position is the same vector
-                    // representation used by the real Etama descriptor.
+                    // The native Enemy position and Etama descriptor both
+                    // use the same three-float vector storage.
                     descriptor.position =
                         reinterpret_cast<const Float3 &>(enemy->position2D74);
-                    EnemyCoreSideStateView *spawnSide = manager->sideState320;
+                    // Borrow the actual GameManager side record shared with
+                    // Enemy, ECL and Etama; no per-opcode side overlay exists.
+                    EnemySideStateView &spawnSide = *manager->sideState320;
                     descriptor.bulletType = 1;
                     descriptor.aimMode = 0;
                     descriptor.count1 =
-                        static_cast<short>(spawnSide->characterIndex20 == 13 ? 1 : 3);
+                        static_cast<short>(spawnSide.characterIndex20 == 13 ? 1 : 3);
                     descriptor.speed1 =
                         static_cast<float>(g_GameManager.valueB4) * 0.1f +
                         1.0f;
@@ -400,7 +402,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                     descriptor.unknown1FA = 0;
                     descriptor.transformFlags = 4;
                     descriptor.color = 2;
-                    spawnSide->etama08->SpawnBulletPatternPrimary(
+                    spawnSide.etama08->SpawnBulletPatternPrimary(
                         &descriptor);
                     enemy->primaryFlags337C &= ~ENEMY_CORE_ACTIVE;
                     enemy->CleanupAfterDeactivation();

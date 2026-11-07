@@ -185,15 +185,16 @@ def scalar_copy_context(text, case):
                 if (enemy->specialAttackTimer5424 > specialAttackThreshold)'''
         text = replace_scalar_once(text, old, new)
     if case in ('side', 'all'):
-        old = '                    EnemyCoreSideStateView *spawnSide = manager->sideState320;'
-        new = '''                    EnemyCoreSideStateView *spawnSide;
-                    memcpy(&spawnSide, &manager->sideState320, sizeof(spawnSide));'''
+        old = '                    EnemySideStateView &spawnSide = *manager->sideState320;'
+        new = '''                    EnemySideStateView *spawnSidePtr;
+                    memcpy(&spawnSidePtr, &manager->sideState320, sizeof(spawnSidePtr));
+                    EnemySideStateView &spawnSide = *spawnSidePtr;'''
         text = replace_scalar_once(text, old, new)
     if case in ('character', 'all'):
         old = '''                    descriptor.count1 =
-                        static_cast<short>(spawnSide->characterIndex20 == 13 ? 1 : 3);'''
+                        static_cast<short>(spawnSide.characterIndex20 == 13 ? 1 : 3);'''
         new = '''                    int characterIndex;
-                    memcpy(&characterIndex, &spawnSide->characterIndex20, sizeof(characterIndex));
+                    memcpy(&characterIndex, &spawnSide.characterIndex20, sizeof(characterIndex));
                     descriptor.count1 = static_cast<short>(characterIndex == 13 ? 1 : 3);'''
         text = replace_scalar_once(text, old, new)
     return text
