@@ -77,19 +77,12 @@ struct FrontSideGameManagerView
     int IsMode2();
 };
 
-struct FrontSideTimerModuloView
-{
-    int previous;
-    float subFrame;
-    int current;
-
-    int Modulo(int divisor);
-    // Target folded body at 0x00435F00 reads +8; no unique ownership claim.
-    int GetCurrent();
-};
-
-typedef char FrontSideTimerModuloSizeIs0C[
-    (sizeof(FrontSideTimerModuloView) == 0x0C) ? 1 : -1];
+// The periodic HUD indicators use the genuine 12-byte ZunTimer object;
+// its integer getter and modulo operator have independent original owners.
+typedef char FrontSideNativeTimerRoles[
+    (sizeof(ZunTimer) == 0x0C &&
+     offsetof(FrontSide, updateTimerABDC) == 0xABDC &&
+     offsetof(FrontSidePlayerRuntimeView, pulseTimer30430) == 0x30430) ? 1 : -1];
 
 extern Chain g_Chain;
 extern FrontSideGameManagerView g_GameManager;
@@ -340,7 +333,7 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     FrontSidePlayerRuntimeView *pulsePlayer = FRONT_SIDE_PLAYER(frontSide);
     if (pulsePlayer->pulseTimer30430 > 0 && pulsePlayer->pulseTimer30430 < 20)
     {
-        if (reinterpret_cast<FrontSideTimerModuloView *>(&pulsePlayer->pulseTimer30430)->GetCurrent() & 1)
+        if (static_cast<int>(pulsePlayer->pulseTimer30430) & 1)
         {
             for (int i = 4; i != 0; --i)
             {
@@ -431,13 +424,13 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
 
     AnmVmScriptColor &meter0Color = (&frontSide->gaugeVms2A40[1])->color1Script;
     if (side->hudPlayer04->meter30384 >= 400.0f)
-        meter0Color.d3dColor = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFFFFFFFU : 0xFFFF0000U;
+        meter0Color.d3dColor = (frontSide->updateTimerABDC % 2) ? 0xFFFFFFFFU : 0xFFFF0000U;
     else if (side->hudPlayer04->meter30384 >= 300.0f)
-        meter0Color.d3dColor = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F000U : 0xFFF0F0C0U;
+        meter0Color.d3dColor = (frontSide->updateTimerABDC % 2) ? 0xFFF0F000U : 0xFFF0F0C0U;
     else if (side->hudPlayer04->meter30384 >= 200.0f)
-        meter0Color.d3dColor = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F000U : 0xFFC0C0C0U;
+        meter0Color.d3dColor = (frontSide->updateTimerABDC % 2) ? 0xFFF0F000U : 0xFFC0C0C0U;
     else if (side->hudPlayer04->meter30384 >= 100.0f)
-        meter0Color.d3dColor = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F080U : 0xFFC0C0C0U;
+        meter0Color.d3dColor = (frontSide->updateTimerABDC % 2) ? 0xFFF0F080U : 0xFFC0C0C0U;
     else
         meter0Color.d3dColor = 0xFFC0C0C0U;
 
