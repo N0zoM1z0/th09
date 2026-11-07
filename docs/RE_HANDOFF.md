@@ -275,6 +275,15 @@ proof of remote publication.
   replay. The 51-byte AddedCallback still has 8 differences. See
   [Effect native playable-side review](TH09_EFFECT_NATIVE_PLAYABLE_SIDE_20261107.md).
 
+- **Native Player collision-query record capacity:** the genuine +0x36C
+  Player query owns 128 × 0x30-byte records followed by a signed count at
+  +0x1804. Enemy's 3,900-byte OnUpdate, exact 205-byte AppendBoxRecord,
+  exact 245-byte AppendLaserRecord and exact 95-byte AppendCircleRecord
+  now share the array-derived capacity. **85 exact functions / 30,196
+  bytes / 1,391 fields** pass affected source-cold checks; the Enemy boss
+  remains 13 bytes different. See
+  [native query capacity review](TH09_PLAYER_COLLISION_QUERY_CAPACITY_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

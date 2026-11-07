@@ -1,11 +1,12 @@
 #include "PlayerLifecycleView.hpp"
+#include "PlayerCollisionQueryCapacity.hpp"
 
 #include <stddef.h>
 
 struct PlayerCollisionCircleAppendView
 {
     PlayerLifecycleView *player00;
-    PlayerCollisionQueryRecordView records[128];
+    PlayerCollisionQueryRecordView records[PlayerCollisionQueryCapacity::RecordCount];
     int count1804;
 
     void AppendCircleRecord(
@@ -15,14 +16,16 @@ struct PlayerCollisionCircleAppendView
 };
 
 typedef char PlayerCollisionCircleAppendCountAt1804[
-    (offsetof(PlayerCollisionCircleAppendView, count1804) == 0x1804) ? 1 : -1];
+    (offsetof(PlayerCollisionCircleAppendView, count1804) ==
+     offsetof(PlayerCollisionQueryStateView, count1804) &&
+     sizeof(PlayerCollisionCircleAppendView) == sizeof(PlayerCollisionQueryStateView)) ? 1 : -1];
 
 void PlayerCollisionCircleAppendView::AppendCircleRecord(
     const PlayerPositionView *position,
     float radius,
     int unknown)
 {
-    if (count1804 >= 128)
+    if (count1804 >= PlayerCollisionQueryCapacity::RecordCount)
         return;
 
     records[count1804].position00 = *position;

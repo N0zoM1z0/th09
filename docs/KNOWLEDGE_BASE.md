@@ -51,6 +51,17 @@ large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+### 2026-11-07: Player collision-query array capacity shared with Enemy
+
+Player's real query object at +0x36C stores one owner pointer, 128
+0x30-byte query records starting at +0x04, then a count at +0x1804.
+The Enemy boss and three independently exact collision-append methods
+now read a single array-derived native RecordCount. The separate circle
+append view has the same exact physical extent. Original-bound replay
+passes 85 affected exact owners and retains the 3,900-byte Enemy's
+13-byte residual. See
+[native collision query capacity](TH09_PLAYER_COLLISION_QUERY_CAPACITY_20261107.md).
+
 ### 2026-11-07: Effect creator uses actual two-side GameManager C++ array
 
 The native EffectManager::Create at 0x0040D320 publishes side and opposing

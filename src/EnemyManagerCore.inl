@@ -15,6 +15,7 @@
 #include "BulletManager.hpp"
 #include "EnemyAppendCollisionView.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "PlayerCollisionQueryCapacity.hpp"
 #include "Supervisor.hpp"
 #include "SoundPlayer.hpp"
 #include "AnmManager.hpp"
@@ -44,7 +45,7 @@ void PlayerCollisionQueryStateView::AppendBoxRecord(
     const PlayerPositionView *size,
     int unknown)
 {
-    if (count1804 >= 128)
+    if (count1804 >= PlayerCollisionQueryCapacity::RecordCount)
         return;
 
     records[count1804].position00 = *position;

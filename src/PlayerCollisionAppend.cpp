@@ -1,4 +1,5 @@
 #include "PlayerLifecycleView.hpp"
+#include "PlayerCollisionQueryCapacity.hpp"
 
 void PlayerCollisionQueryStateView::AppendLaserRecord(
     const PlayerPositionView *position,
@@ -7,7 +8,7 @@ void PlayerCollisionQueryStateView::AppendLaserRecord(
     float angle,
     int unknown)
 {
-    if (this->count1804 >= 128)
+    if (this->count1804 >= PlayerCollisionQueryCapacity::RecordCount)
         return;
 
     this->records[this->count1804].position00 = *position;
