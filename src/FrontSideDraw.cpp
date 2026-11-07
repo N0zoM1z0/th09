@@ -33,21 +33,12 @@ typedef char FrontSideDrawNativePositionCursor[
      offsetof(AnmVm, pos2) - offsetof(AnmVm, pos) ==
          offsetof(FrontSideDrawVmCursor, pos80)) ? 1 : -1];
 
-struct FrontSideDrawPlayerView
-{
-    u8 unknown0000[0x1B88];
-    PlayerPositionView position1B88;
-};
-typedef char FrontSideDrawPlayerPositionAt1B88[
-    (offsetof(FrontSideDrawPlayerView, position1B88) == 0x1B88) ? 1 : -1];
-
-struct FrontSideDrawSideView
-{
-    u8 unknown00[0x04];
-    FrontSideDrawPlayerView *player04;
-};
-typedef char FrontSideDrawSidePlayerAt04[
-    (offsetof(FrontSideDrawSideView, player04) == 0x04) ? 1 : -1];
+// The HUD stores the genuine shared 0x38-byte side record at +A670,
+// whose native Player points to the original position at +1B88.
+typedef char FrontSideDrawNativeSideAndPlayer[
+    (offsetof(FrontSide, sideStateA670) == 0xA670 &&
+     offsetof(PlayerSideStateView, player04) == 0x04 &&
+     offsetof(PlayerLifecycleView, position1B88) == 0x1B88) ? 1 : -1];
 
 
 typedef char FrontSideDrawSupervisorDeviceAt08[
@@ -75,8 +66,6 @@ typedef char FrontSideDrawVertexSizeIs14[
     reinterpret_cast<FrontSideDrawVmCursor *>(&((vm)->pos))
 #define FRONT_SIDE_DRAW_BASE(cursor) \
     reinterpret_cast<AnmVm *>(reinterpret_cast<u8 *>(cursor) - offsetof(AnmVm, pos))
-#define FRONT_SIDE_DRAW_SIDE(side) \
-    reinterpret_cast<FrontSideDrawSideView *>((side)->sideStateA670)
 
 int FrontSide::OnDraw(FrontSide *frontSide)
 {
@@ -146,10 +135,10 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     for (i = 0; i < 4; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
-            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.x +
+            frontSide->sideStateA670->player04->position1B88.x +
             cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(
-            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.y +
+            frontSide->sideStateA670->player04->position1B88.y +
             cursor->pos80.y);
         g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
     }
@@ -158,10 +147,10 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     for (i = 0; i < 3; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
-            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.x +
+            frontSide->sideStateA670->player04->position1B88.x +
             cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(
-            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.y +
+            frontSide->sideStateA670->player04->position1B88.y +
             cursor->pos80.y);
         if (frontSide->transitionStateA65C != 0)
             cursor->pos00.y -= 24.0f;
@@ -172,10 +161,10 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     for (i = 0; i < 6; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
-            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.x +
+            frontSide->sideStateA670->player04->position1B88.x +
             cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(
-            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.y +
+            frontSide->sideStateA670->player04->position1B88.y +
             cursor->pos80.y);
         g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
     }
@@ -184,16 +173,16 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     for (i = 0; i < 2; ++i, ++cursor)
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
-            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.x +
+            frontSide->sideStateA670->player04->position1B88.x +
             cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(
-            FRONT_SIDE_DRAW_SIDE(frontSide)->player04->position1B88.y +
+            frontSide->sideStateA670->player04->position1B88.y +
             cursor->pos80.y);
         g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
     }
 
     cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->vm7430);
-    FrontSideDrawSideView *singleSide = FRONT_SIDE_DRAW_SIDE(frontSide);
+    PlayerSideStateView *singleSide = frontSide->sideStateA670;
     cursor->pos00.x = g_GameManager.TransformPopupX(
         singleSide->player04->position1B88.x +
         cursor->pos80.x);
