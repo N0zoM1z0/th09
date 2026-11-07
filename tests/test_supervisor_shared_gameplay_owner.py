@@ -15,7 +15,7 @@ class NativeSupervisorRuntimeInGameplay(unittest.TestCase):
     def test_setup_layout_uses_shared_supervisor_data_and_original_methods(self):
         shared=(ROOT/'src/Supervisor.hpp').read_text()
         source=(ROOT/'src/GameManagerSetup.cpp').read_text()
-        self.assertIn('struct SupervisorSetupLayout : SupervisorThreadStartView',source)
+        self.assertIn('struct SupervisorSetupLayout : SupervisorLoadingSetupView', (ROOT/'src/SupervisorSetupLayoutView.hpp').read_text())
         self.assertNotIn('unsigned char unknown_000[0x388]',source)
         self.assertIn('SupervisorNativeSetupFields',shared)
         self.assertIn('SupervisorSizeIs7B0',shared)

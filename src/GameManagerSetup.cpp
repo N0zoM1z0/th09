@@ -29,6 +29,7 @@
 #include "ReplayManagerRuntimeView.hpp"
 #include "Supervisor.hpp"
 #include "SupervisorThreadStartView.hpp"
+#include "SupervisorSetupLayoutView.hpp"
 #include "PlayerSharedRuntimeView.hpp"
 
 #include <windows.h>
@@ -78,14 +79,8 @@ typedef char SetupScoreRecordViewSizeCheck[
 
 #include "GameManagerSetupView.hpp"
 
-// Preserve the established Setup-specific original method symbol identities,
- // while reusing the real 0x7B0-byte Supervisor storage as a zero-offset base.
- // No distinct SupervisorSetupLayout object is ever allocated by this TU.
-struct SupervisorSetupLayout : SupervisorThreadStartView
-{
-    void SetupLoadingVmsAndInitCapture(SetupLoadingPosition *position);
-};
-
+// The same original-bound SupervisorSetupLayout is declared in
+// SupervisorSetupLayoutView.hpp and shared with the Title loading callback.
 typedef char SupervisorSetupLayoutLoadingAnmAt5D0[
     (offsetof(SupervisorSetupLayout, loadingAnm5D0) == 0x5D0) ? 1 : -1];
 typedef char SupervisorSetupLayoutLoadingFlagAt740[

@@ -9,7 +9,7 @@ class GameManagerNativeAudio(unittest.TestCase):
     def test_methods_are_native_inherited_supervisor_functions(self):
         source=(ROOT/'src/GameManagerSetup.cpp').read_text()
         sup=(ROOT/'src/Supervisor.hpp').read_text()
-        self.assertIn('struct SupervisorSetupLayout : SupervisorThreadStartView',source)
+        self.assertIn('struct SupervisorSetupLayout : SupervisorLoadingSetupView', (ROOT/'src/SupervisorSetupLayoutView.hpp').read_text())
         self.assertNotIn('int StartStageAudio(int mode, int index);',source)
         self.assertNotIn('int FadeOutMusic(float seconds);',source)
         self.assertIn('supervisor->PlayMusic(0, 0);',source)

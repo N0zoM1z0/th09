@@ -11,7 +11,7 @@ class SharedScoreSupervisorTimekeeping(unittest.TestCase):
         header=(ROOT/'src/ScoreSupervisorView.hpp').read_text()
         self.assertIn('#include "SupervisorThreadStartView.hpp"',source)
         self.assertIn('#include "ScoreSupervisorView.hpp"', (ROOT/'src/SupervisorStartEffectView.hpp').read_text())
-        self.assertIn('struct SupervisorSetupLayout : SupervisorThreadStartView',source)
+        self.assertIn('struct SupervisorSetupLayout : SupervisorLoadingSetupView', (ROOT/'src/SupervisorSetupLayoutView.hpp').read_text())
         self.assertNotIn('struct SupervisorSetupLayout : Supervisor\n',source)
         self.assertIn('struct ScoreSupervisorView : Supervisor',header)
         self.assertIn('sizeof(ScoreSupervisorView) == sizeof(Supervisor)',header)

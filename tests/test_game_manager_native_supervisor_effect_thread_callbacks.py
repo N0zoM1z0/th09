@@ -12,7 +12,7 @@ class GameManagerNativeSupervisorCallbackLeaves(unittest.TestCase):
         effect=(ROOT/'src/SupervisorStartEffectView.hpp').read_text()
         score=(ROOT/'src/ScoreSupervisorView.hpp').read_text()
         self.assertIn('#include "SupervisorThreadStartView.hpp"',source)
-        self.assertIn('struct SupervisorSetupLayout : SupervisorThreadStartView',source)
+        self.assertIn('struct SupervisorSetupLayout : SupervisorLoadingSetupView', (ROOT/'src/SupervisorSetupLayoutView.hpp').read_text())
         self.assertNotIn('void StartEffect(int index);',source)
         self.assertNotIn('int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);',source)
         self.assertIn('struct SupervisorThreadStartView : SupervisorStartEffectView',thread)

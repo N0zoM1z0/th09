@@ -10,7 +10,7 @@ class GameManagerNativeSupervisorThreadAndEffect(unittest.TestCase):
         source=(ROOT/'src/GameManagerSetup.cpp').read_text()
         start=(ROOT/'src/SupervisorThreadStartView.hpp').read_text()
         effect=(ROOT/'src/SupervisorStartEffectView.hpp').read_text()
-        self.assertIn('struct SupervisorSetupLayout : SupervisorThreadStartView',source)
+        self.assertIn('struct SupervisorSetupLayout : SupervisorLoadingSetupView', (ROOT/'src/SupervisorSetupLayoutView.hpp').read_text())
         self.assertIn('struct SupervisorThreadStartView : SupervisorStartEffectView',start)
         self.assertIn('struct SupervisorStartEffectView : ScoreSupervisorView',effect)
         self.assertIn('supervisor->StartEffect(0);',source)
