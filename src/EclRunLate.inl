@@ -18,7 +18,6 @@
 
 #include "EclRunState.inl"
 #include "BackgroundSpellStateView.hpp"
-#include "AnmVmRotationFieldView.hpp"
 
 #include <stddef.h>
 
@@ -117,12 +116,11 @@ inline EtamaController *BulletController(EnemyView *enemy)
 
 typedef char Th09EclLateMainVmRotationAt10[
     (offsetof(EnemyView, primaryAnmVm0008) +
-     offsetof(AnmVmRotationFieldView, rotationZ08) == 0x0010) ? 1 : -1];
+     offsetof(AnmVm, rotation) + offsetof(Float3, z) == 0x0010) ? 1 : -1];
 
 inline float &MainAnmRotation(EnemyView *enemy)
 {
-    return reinterpret_cast<AnmVmRotationFieldView *>(
-        &enemy->primaryAnmVm0008)->rotationZ08;
+    return enemy->primaryAnmVm0008.rotation.z;
 }
 
 static void MoveRandomBiased(

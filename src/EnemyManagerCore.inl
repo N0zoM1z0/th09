@@ -320,8 +320,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
     manager->rewardEnemyCount2AC3B8 = 0;
 
     EnemyView *enemy = manager->enemies5758;
-    if (reinterpret_cast<PlayerLifecycleView *>(
-        manager->sideState320->player04)->focusEffect364 != 0)
+    if (manager->sideState320->player04->focusEffect364 != NULL)
         manager->sideTimer2AC3C8 = 0;
     else
         manager->sideTimer2AC3C8++;
@@ -333,13 +332,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
 
         if ((flags & ENEMY_CORE_ACTIVE) == 0)
         {
-            if (reinterpret_cast<PlayerEnemyTrackingStateView *>(
-                reinterpret_cast<PlayerLifecycleView *>(
-                    manager->sideState320->player04)->unknown30364)->homingTarget18 ==
-                    enemy)
-                reinterpret_cast<PlayerEnemyTrackingStateView *>(
-                    reinterpret_cast<PlayerLifecycleView *>(
-                        manager->sideState320->player04)->unknown30364)->homingTarget18 = 0;
+            // The shared native Player owns the tracking record at +0x30364.
+            if (manager->sideState320->player04->tracking30364.homingTarget18 == enemy)
+                manager->sideState320->player04->tracking30364.homingTarget18 = NULL;
             continue;
         }
 
