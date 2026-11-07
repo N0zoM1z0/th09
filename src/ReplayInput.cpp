@@ -76,6 +76,14 @@ typedef char ReplaySaveHeaderCodecSpans[
      sizeof(ReplayUserDataHeaderView) + 1 == 13) ? 1 : -1];
 
 
+// The recording payload owns the same native 0xCC GameConfiguration
+// object as the live runtime. Record and restore are ordinary value copies.
+typedef char ReplayNativeConfigurationSnapshotIdentity[
+    (sizeof(((ReplayDataView *)0)->configSnapshot) == sizeof(GameConfiguration) &&
+     sizeof(*((AsciiGameManagerView *)0)->configurationE8) == sizeof(GameConfiguration) &&
+     sizeof(GameConfiguration) == 0xCC &&
+     offsetof(ReplayDataView, configSnapshot) == 0xDC) ? 1 : -1];
+
 // Recording and playback use the original GameManager members, including
 // side +0x2C/+0x30 words and the signed stage byte widened at +0x138.
 // The serialized header has one native byte/word map. Preserve the original
@@ -372,7 +380,7 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
         replayManager->replayData->value1E8 = g_GameManager.sides[0].value30;
         replayManager->replayData->value1E9 = g_GameManager.sides[1].value30;
         memcpy(replayData->playerName, "NO NAME", 4);
-        memcpy(&replayData->configSnapshot, g_GameManager.configurationE8, sizeof(replayData->configSnapshot));
+        replayData->configSnapshot = *g_GameManager.configurationE8;
         for (int i = 0; i < ReplayRecordingCapacity::StageCount; i++)
         {
             replayData->frameStart[0][i] = NULL;
@@ -530,7 +538,7 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     replayManager->fpsCursor = fpsStart;
     replayManager->inputCursor0 = reinterpret_cast<u16 *>(frame0 + 1);
     replayManager->inputCursor2 = reinterpret_cast<u16 *>(frame2 + 1);
-    memcpy(g_GameManager.configurationE8, &replayManager->replayData->configSnapshot, 0xCC);
+    *g_GameManager.configurationE8 = replayManager->replayData->configSnapshot;
     g_ReplayRng.SetSeed(frame0->stageSeed);
     replayManager->inputDelay = 0;
     return 0;

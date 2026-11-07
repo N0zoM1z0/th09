@@ -31,6 +31,16 @@ register allocation is not original exact. Original-bound evidence and the
 79 local label name rebindings are in
 [the focused review](TH09_SCREEN_EFFECT_ENVELOPE_PHASE_LAYOUT_20261107.md).
 
+### 2026-11-07: Bidirectional Replay native configuration snapshot
+
+The 0xCC-byte `GameConfiguration` is stored at serialized replay offset +0xDC
+and owned by the live GameManager `configurationE8` pointer. Recording and
+playback now use normal C++ assignments of the **same** native object type in
+opposite directions, with unchanged original-bound compiler owners. The
+540-byte playback seed transport is still two bytes short, and SaveReplay
+still has two unlike bytes; see the
+[native configuration comparison](TH09_REPLAY_NATIVE_CONFIGURATION_SNAPSHOT_20261107.md).
+
 ### 2026-11-06: Cleanup handoff and interrupted RunEcl recovery
 
 The operator switched to cleanup/handoff, ending the previous running goal.

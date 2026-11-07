@@ -156,6 +156,14 @@ proof of remote publication.
   SaveReplay still has two residual bytes. See
   [replay capacity review](TH09_REPLAY_FRAME_CAPACITY_20261107.md).
 
+- **Replay native configuration value snapshot:** the true 0xCC-byte
+  `GameConfiguration` object at replay `+0xDC` is now assigned in both
+  directions between live GameManager and the serialized replay payload.
+  Both original compiler profiles retain 12 exact ReplayInput owners;
+  focused playback replays 15 exact dependencies / 4,141 bytes / 234 fields,
+  and SaveReplay retains its two-byte residual. See
+  [native config snapshot review](TH09_REPLAY_NATIVE_CONFIGURATION_SNAPSHOT_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
