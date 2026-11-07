@@ -7,7 +7,7 @@
 #include "AnmVmLifecycle.hpp"
 #include "Supervisor.hpp"
 #include "SoundPlayer.hpp"
-#include "TitleInputRuntimeView.hpp"
+#include "TitleInputView.hpp"
 
 #include <stddef.h>
 #include <string.h>
@@ -54,7 +54,6 @@ union TitleKeyMapping
 };
 typedef char TitleKeyMappingSizeIs6C[(sizeof(TitleKeyMapping) == 0x6C) ? 1 : -1];
 
-extern TitleKeyInputView g_TitleInput;
 extern const char *g_TitleKeyConfigHelpText[10];
 extern short g_TitleLastControllerButton;
 
@@ -467,7 +466,7 @@ afterControllerBinding:
         }
     }
 
-    if ((g_TitleInput.pressed06 & 0x1001) != 0)
+    if ((g_TitleInput.word06 & 0x1001) != 0)
     {
         switch (keyboardSelection)
         {
