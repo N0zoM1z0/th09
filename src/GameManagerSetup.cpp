@@ -61,13 +61,12 @@ struct SetupLoadingPosition
 typedef char SetupLoadingPositionSizeCheck[
     (sizeof(SetupLoadingPosition) == 0x0C) ? 1 : -1];
 
-struct SpawnedSideObjectView
-{
-    unsigned char unknown0000[0x335C];
-    int selector335C;
-    unsigned char unknown3360[0x20];
-    unsigned int flags3380;
-};
+// The gameplay spawn thread receives a real EnemyView from the original
+// EnemyManager allocation. Its +0x335C and +0x3380 reward fields already
+// belong to that native 0x5430-byte record, not a separate spawn overlay.
+typedef char SetupNativeSpawnedEnemyFields[
+    (offsetof(EnemyView, itemDropType335C) == 0x335C &&
+     offsetof(EnemyView, secondaryFlags3380) == 0x3380) ? 1 : -1];
 
 struct SideAuxSetupView
 {
@@ -306,19 +305,19 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
             g_LastSpawnLane = lane;
             position.y = -32.0f;
 
-            SpawnedSideObjectView *object =
-                static_cast<SpawnedSideObjectView *>(
+            EnemyView *object =
+                static_cast<EnemyView *>(
                     reinterpret_cast<EnemyManagerCardAttackSpawnView *>(globalManager.sides[0].subsystem4)
                         ->SpawnEnemyRecord(19, &position, 830, -2, 10000, 0, 0));
-            object->selector335C = lane;
-            object->flags3380 |= 0x2000u;
+            object->itemDropType335C = lane;
+            object->secondaryFlags3380 |= 0x2000u;
 
             object =
-                static_cast<SpawnedSideObjectView *>(
+                static_cast<EnemyView *>(
                     reinterpret_cast<EnemyManagerCardAttackSpawnView *>(globalManager.sides[1].subsystem4)
                         ->SpawnEnemyRecord(19, &position, 830, -2, 10000, 0, 0));
-            object->flags3380 |= 0x2000u;
-            object->selector335C = lane;
+            object->secondaryFlags3380 |= 0x2000u;
+            object->itemDropType335C = lane;
 
             g_SoundPlayer.PlaySoundByIdx(0x33, 0);
             reinterpret_cast<SideAuxSetupView *>(globalManager.sides[0].subsystem6)->Trigger(1);
