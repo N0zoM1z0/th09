@@ -10,19 +10,12 @@ typedef char CardAttackBeginNativeEnemySideOwner[
      sizeof(AsciiGameManagerSideView) == 0x38 &&
      offsetof(AsciiGameManagerView, sides) == 0) ? 1 : -1];
 
-struct CardAttackBeginTailView
-{
-    unsigned char unknown0000[0x1360];
-    void *extra1360;
-    void *extra1364;
-};
-
 extern ZunMemory g_ZunMemory;
 
 int CardAttackBeginPl00Type0(CardAttack *cardAttack)
 {
     CardAttackSpawnPosition position;
-    reinterpret_cast<CardAttackBeginTailView *>(cardAttack)->extra1360 =
+    cardAttack->extra1360 =
         g_ZunMemory.Alloc(0x2B8, ".\\pl\\pl00.cpp");
     static_cast<EnemyManagerCardAttackSpawnView *>(
         g_GameManager.sides[cardAttack->sideIndex00].enemyManager10)
@@ -33,7 +26,7 @@ int CardAttackBeginPl00Type0(CardAttack *cardAttack)
 int CardAttackBeginPl00Type1(CardAttack *cardAttack)
 {
     CardAttackSpawnPosition position;
-    reinterpret_cast<CardAttackBeginTailView *>(cardAttack)->extra1360 =
+    cardAttack->extra1360 =
         g_ZunMemory.Alloc(0x2B8, ".\\pl\\pl00.cpp");
     static_cast<EnemyManagerCardAttackSpawnView *>(
         g_GameManager.sides[cardAttack->sideIndex00].enemyManager10)
@@ -44,7 +37,7 @@ int CardAttackBeginPl00Type1(CardAttack *cardAttack)
 int CardAttackBeginPl00Type2(CardAttack *cardAttack)
 {
     CardAttackSpawnPosition position;
-    reinterpret_cast<CardAttackBeginTailView *>(cardAttack)->extra1364 =
+    cardAttack->extra1364 =
         g_ZunMemory.Alloc(0x2B8, ".\\pl\\pl00.cpp");
     static_cast<EnemyManagerCardAttackSpawnView *>(
         g_GameManager.sides[cardAttack->sideIndex00].enemyManager10)
@@ -55,7 +48,7 @@ int CardAttackBeginPl00Type2(CardAttack *cardAttack)
 int CardAttackBeginPl01Type0(CardAttack *cardAttack)
 {
     CardAttackSpawnPosition position;
-    reinterpret_cast<CardAttackBeginTailView *>(cardAttack)->extra1360 =
+    cardAttack->extra1360 =
         g_ZunMemory.Alloc(0x2B8, ".\\pl\\pl01.cpp");
     static_cast<EnemyManagerCardAttackSpawnView *>(
         g_GameManager.sides[cardAttack->sideIndex00].enemyManager10)
@@ -66,7 +59,7 @@ int CardAttackBeginPl01Type0(CardAttack *cardAttack)
 int CardAttackBeginPl01Type1(CardAttack *cardAttack)
 {
     CardAttackSpawnPosition position;
-    reinterpret_cast<CardAttackBeginTailView *>(cardAttack)->extra1360 =
+    cardAttack->extra1360 =
         g_ZunMemory.Alloc(0x2B8, ".\\pl\\pl01.cpp");
     static_cast<EnemyManagerCardAttackSpawnView *>(
         g_GameManager.sides[cardAttack->sideIndex00].enemyManager10)
@@ -77,7 +70,7 @@ int CardAttackBeginPl01Type1(CardAttack *cardAttack)
 int CardAttackBeginPl01Type2(CardAttack *cardAttack)
 {
     CardAttackSpawnPosition position;
-    reinterpret_cast<CardAttackBeginTailView *>(cardAttack)->extra1364 =
+    cardAttack->extra1364 =
         g_ZunMemory.Alloc(0x2B8, ".\\pl\\pl01.cpp");
     static_cast<EnemyManagerCardAttackSpawnView *>(
         g_GameManager.sides[cardAttack->sideIndex00].enemyManager10)

@@ -82,7 +82,17 @@ struct CardAttack
     CardAttackUpdateCallback secondaryUpdate1334;
     CardAttackDrawCallback secondaryDraw1338;
     CardAttackEndCallback secondaryEnd133C;
-    unsigned char unknown1340[0x28];
+    // This final 0x28-byte interval is consumed by the exact 923-byte
+    // StartAttack owner and the independent begin/end callback leaves.
+    unsigned char unknown1340[8];
+    int primaryValue1348;
+    int primaryRow134C;
+    int primaryClass1350;
+    int secondaryValue1354;
+    int secondaryRow1358;
+    int secondaryClass135C;
+    void *extra1360;
+    void *extra1364;
 };
 
 typedef char CardAttackTimerAt98[
@@ -95,5 +105,14 @@ typedef char CardAttackCallbacksAt1328[
     (offsetof(CardAttack, primaryUpdate1328) == 0x1328) ? 1 : -1];
 typedef char CardAttackSecondaryEndAt133C[
     (offsetof(CardAttack, secondaryEnd133C) == 0x133C) ? 1 : -1];
+typedef char CardAttackNativeTailFields[
+    (offsetof(CardAttack, primaryValue1348) == 0x1348 &&
+     offsetof(CardAttack, primaryRow134C) == 0x134C &&
+     offsetof(CardAttack, primaryClass1350) == 0x1350 &&
+     offsetof(CardAttack, secondaryValue1354) == 0x1354 &&
+     offsetof(CardAttack, secondaryRow1358) == 0x1358 &&
+     offsetof(CardAttack, secondaryClass135C) == 0x135C &&
+     offsetof(CardAttack, extra1360) == 0x1360 &&
+     offsetof(CardAttack, extra1364) == 0x1364) ? 1 : -1];
 typedef char CardAttackSizeIs1368[
     (sizeof(CardAttack) == 0x1368) ? 1 : -1];
