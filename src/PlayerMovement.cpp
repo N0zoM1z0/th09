@@ -339,8 +339,14 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     reinterpret_cast<Float3 &>(player->unknownBoundsMax1C9C) =
         positionVector + reinterpret_cast<const Float3 &>(player->itemCollectionHalfSize);
 
+    enum
+    {
+        OptionCount = sizeof(player->optionStates) / sizeof(player->optionStates[0]),
+        PositionHistoryLast = sizeof(player->positions1BA0) /
+                              sizeof(player->positions1BA0[0]) - 1
+    };
     PlayerMovementOptionView *option = player->optionStates;
-    for (int optionCount = 4; optionCount != 0; --optionCount, ++option)
+    for (int optionCount = OptionCount; optionCount != 0; --optionCount, ++option)
     {
         if (option->updateCallback2EC != NULL)
         {
@@ -353,7 +359,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
 
     if (verticalSpeed != 0.0f || horizontalSpeed != 0.0f)
     {
-        for (int historyIndex = 15; historyIndex > 0; --historyIndex)
+        for (int historyIndex = PositionHistoryLast; historyIndex > 0; --historyIndex)
             player->positions1BA0[historyIndex] =
                 player->positions1BA0[historyIndex - 1];
         player->positions1BA0[0] =

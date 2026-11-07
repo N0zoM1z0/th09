@@ -106,6 +106,14 @@ proof of remote publication.
   original target VAs and rebound. See
   [Etama ANM slot recovery](TH09_ETAMA_ANM_NATIVE_SLOT_20261107.md).
 
+- **Player movement native loop extents:** the 1,900-byte movement boss
+  now derives its four option records and final of sixteen history entries
+  from the real native Player arrays. The original pointer-conversion call
+  is deliberately preserved after rejecting direct-reference controls.
+  Complete replay remains 66 fields/23 calls/122 ordinary differences, with
+  540 bytes/40 relocations of scoped exact providers. See
+  [Player native loop review](TH09_PLAYER_NATIVE_LOOP_EXTENTS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

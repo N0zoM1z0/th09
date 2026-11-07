@@ -32,7 +32,15 @@ class PlayerMovementNativeOptions(unittest.TestCase):
         source=(ROOT/'src/PlayerMovement.cpp').read_text()
         self.assertIn('option->updateCallback2EC(player, option);', source)
         self.assertIn('option->timer2E0++;', source)
-        self.assertIn('for (int optionCount = 4;', source)
+        # The exact four live options are now sized from the real Player
+        # allocation. The separate 16-record history also uses its native
+        # last index, rather than another unconnected literal.
+        self.assertIn('OptionCount = sizeof(player->optionStates)',source)
+        self.assertIn('for (int optionCount = OptionCount;', source)
+        self.assertIn('PositionHistoryLast = sizeof(player->positions1BA0)',source)
+        self.assertIn('for (int historyIndex = PositionHistoryLast;',source)
+        self.assertIn('PlayerConstructedVector3View positions1BA0[16];',
+                      (ROOT/'src/PlayerLifecycleView.hpp').read_text())
         with (ROOT/'config/match-units.toml').open('rb') as f:
             u=tomllib.load(f)['units']
         self.assertEqual((u['player-constructor']['target_address'],
