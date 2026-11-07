@@ -20,15 +20,6 @@ extern RngRuntimeView g_ReplayRng;
 
 
 
-struct ScreenEffectPresentationView
-{
-    unsigned char unknown000[0x350];
-    D3DPRESENT_PARAMETERS presentParameters;
-};
-
-typedef char ScreenEffectSupervisorPresentAt350[
-    (offsetof(ScreenEffectPresentationView, presentParameters) == 0x350) ? 1 : -1];
-
 // TH09's two gameplay shake records live in the genuine 0xF0 Supervisor
 // constructor-array elements, at +0x160/+0x164 and +0x250/+0x254.
 // Do not carry a parallel 0x250-byte Supervisor memory projection here.
@@ -57,26 +48,20 @@ struct VertexDiffuseXyzrhw
 typedef char VertexDiffuseXyzrhwSizeIs14[
     (sizeof(VertexDiffuseXyzrhw) == 0x14) ? 1 : -1];
 
-static __inline ScreenEffectPresentationView *ScreenEffectPresentation()
-{
-    return reinterpret_cast<ScreenEffectPresentationView *>(&g_Supervisor);
-}
-
 ScreenEffect::ScreenEffect()
 {
 }
 
 void ScreenEffect::Clear(unsigned int color)
 {
-    ScreenEffectPresentationView *supervisor = ScreenEffectPresentation();
     g_Supervisor.d3dDevice08->Clear(
         0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, 1.0f, 0);
     if (g_Supervisor.d3dDevice08->Present(NULL, NULL, NULL, NULL) < 0)
-        g_Supervisor.d3dDevice08->Reset(&supervisor->presentParameters);
+        g_Supervisor.d3dDevice08->Reset(&g_Supervisor.presentParameters350);
     g_Supervisor.d3dDevice08->Clear(
         0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, 1.0f, 0);
     if (g_Supervisor.d3dDevice08->Present(NULL, NULL, NULL, NULL) < 0)
-        g_Supervisor.d3dDevice08->Reset(&supervisor->presentParameters);
+        g_Supervisor.d3dDevice08->Reset(&g_Supervisor.presentParameters350);
 }
 
 void ScreenEffect::SetViewport(unsigned int clearColor)

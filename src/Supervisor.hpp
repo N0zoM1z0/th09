@@ -2,6 +2,7 @@
 
 #include "GameConfiguration.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
+#include <d3d8.h>
 
 #include <stddef.h>
 
@@ -108,7 +109,10 @@ class Supervisor
     unsigned char controllerCaps1C[2][0x2C];
     HWND__ *window74;
     SupervisorCtorArrayElement ctorArray078[3];
-    unsigned char unknown348[0x384 - 0x348];
+    // Shared D3D8 presentation record: the window, FPS, capture and surface
+    // loaders all refer to these 52 bytes of the same Supervisor allocation.
+    unsigned char unknown348[0x350 - 0x348];
+    D3DPRESENT_PARAMETERS presentParameters350;
     DummyMidiTimerStartup *dummyMidiTimer384;
     GameConfiguration config388;
     // These slots are independently observed by the original 1,230-byte
@@ -168,6 +172,10 @@ typedef char SupervisorDeviceAt08[
     (offsetof(Supervisor, d3dDevice08) == 0x08) ? 1 : -1];
 typedef char SupervisorCtorArrayAt078[
     (offsetof(Supervisor, ctorArray078) == 0x78) ? 1 : -1];
+typedef char SupervisorNativePresentAt350[
+    (offsetof(Supervisor, presentParameters350) == 0x350 &&
+     sizeof(((Supervisor *)0)->presentParameters350) == 0x34 &&
+     offsetof(Supervisor, dummyMidiTimer384) == 0x384) ? 1 : -1];
 typedef char SupervisorConfigAt388[
     (offsetof(Supervisor, config388) == 0x388) ? 1 : -1];
 typedef char SupervisorFrameMultiplierAt5B8[
