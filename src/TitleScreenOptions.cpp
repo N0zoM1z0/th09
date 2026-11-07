@@ -68,17 +68,14 @@ typedef char OptionsConfigwindowedAtB1[(offsetof(GameConfiguration, windowed) ==
 typedef char OptionsConfigmusicVolumeAtBA[(offsetof(GameConfiguration, musicVolume) == 0xBA) ? 1 : -1];
 typedef char OptionsConfigsfxVolumeAtBB[(offsetof(GameConfiguration, sfxVolume) == 0xBB) ? 1 : -1];
 
-struct TitleConfigSnapshotView {
-    u8 unknown00[0xAD];
-    u8 valueAD;
-    u8 unknownAE[3];
-    u8 windowed;
-    u8 unknownB2[0x1A];
-};
-
-typedef char OptionsConfigSnapshotSizeIsCC[(sizeof(TitleConfigSnapshotView) == 0xCC) ? 1 : -1];
-typedef char OptionsSnapshotValueADAtAD[(offsetof(TitleConfigSnapshotView, valueAD) == 0xAD) ? 1 : -1];
-typedef char OptionsSnapshotWindowedAtB1[(offsetof(TitleConfigSnapshotView, windowed) == 0xB1) ? 1 : -1];
+// Title's stored 0xCC-byte snapshot is the same serialized native
+// GameConfiguration as Supervisor::config388, not another private prefix.
+typedef GameConfiguration TitleConfigSnapshotView;
+typedef char OptionsConfigSnapshotNative[
+    (sizeof(TitleConfigSnapshotView) == sizeof(GameConfiguration) &&
+     sizeof(TitleConfigSnapshotView) == 0xCC &&
+     offsetof(TitleConfigSnapshotView, valueAD) == 0xAD &&
+     offsetof(TitleConfigSnapshotView, windowed) == 0xB1) ? 1 : -1];
 
 
 extern const char *g_TitleOptionsHelpText[9];
