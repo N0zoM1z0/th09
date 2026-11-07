@@ -28,6 +28,7 @@
 #include "ReplayInputState.hpp"
 #include "ReplayManagerRuntimeView.hpp"
 #include "Supervisor.hpp"
+#include "PlayerSharedRuntimeView.hpp"
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -67,11 +68,6 @@ typedef char SetupLoadingPositionSizeCheck[
 typedef char SetupNativeSpawnedEnemyFields[
     (offsetof(EnemyView, itemDropType335C) == 0x335C &&
      offsetof(EnemyView, secondaryFlags3380) == 0x3380) ? 1 : -1];
-
-struct GameSubsystemSetupView
-{
-    int IsActive();
-};
 
 
 
@@ -234,7 +230,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         return CHAIN_CALLBACK_RESULT_BREAK;
     }
 
-    if (!reinterpret_cast<GameSubsystemSetupView *>(globalManager.gameSubsystem)->IsActive())
+    if (!globalManager.playerSharedRuntimeA8->IsBlocked())
     {
         g_GameManager.valueD0++;
 

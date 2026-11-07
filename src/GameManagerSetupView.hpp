@@ -9,13 +9,16 @@
 // The unused third-record members have no asserted gameplay role.
 struct ReplayManagerView;
 struct ReplayStageDispatchView;
+struct PlayerSharedRuntimeView;
 typedef AsciiGameManagerSideView SetupSideState;
 typedef char SetupSideStateSizeCheck[(sizeof(SetupSideState) == 0x38) ? 1 : -1];
 
 struct GameManagerSetupLayout
 {
     SetupSideState sides[3];
-    void *gameSubsystem;
+    // The gameplay update's +0xA8 IsBlocked receiver is this same actual
+    // shared-runtime allocation. Preserve the raw allocation/cleanup API.
+    union { void *gameSubsystem; PlayerSharedRuntimeView *playerSharedRuntimeA8; };
     void *secondarySubsystem;
     unsigned int valueB0;
     int limitB4;
@@ -83,6 +86,7 @@ typedef char SetupThirdRecordNativeFields[
      offsetof(GameManagerSetupLayout, sides) + 2 * sizeof(SetupSideState) +
          offsetof(SetupSideState, flags) == 0xA4 &&
      offsetof(GameManagerSetupLayout, gameSubsystem) == 0xA8 &&
+     offsetof(GameManagerSetupLayout, playerSharedRuntimeA8) == 0xA8 &&
      offsetof(GameManagerSetupLayout, secondarySubsystem) == 0xAC) ? 1 : -1];
 
 // Reset clears these original dwords independently of the adjacent rank
