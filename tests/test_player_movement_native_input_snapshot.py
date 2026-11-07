@@ -10,12 +10,13 @@ class PlayerMovementNativeInputSnapshot(unittest.TestCase):
         src=(ROOT/'src/PlayerMovement.cpp').read_text()
         native=(ROOT/'src/ReplayInputState.hpp').read_text()
         self.assertIn('const int inputSide = player->sideIndex;',src)
-        self.assertIn('int inputOffset = inputSide * sizeof(ReplayInputState);',src)
+        self.assertNotIn('inputOffset',src)
         self.assertIn('ReplayInputState *input = &g_ReplayInputStates[inputSide];',src)
-        self.assertIn('inputOffset)->auxiliary2A >= 8;',src)
+        self.assertIn('g_ReplayInputStates[inputSide].auxiliary2A >= 8;',src)
         self.assertIn('sizeof(ReplayInputState) == 0x8E',native)
         self.assertIn('offsetof(ReplayInputState, auxiliary2A) == 0x2A',native)
         self.assertNotIn('struct PlayerMovementReplayInputState',src)
+        self.assertNotIn('reinterpret_cast<ReplayInputState *>(',src)
 
     def test_nonexact_boss_remains_independent_of_exact_methods(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:u=tomllib.load(f)['units']

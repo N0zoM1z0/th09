@@ -416,6 +416,14 @@ proof of remote publication.
   the boss still lacks 13 target bytes. See
   [native Player/Charge leaf consolidation](TH09_PLAYER_NATIVE_BOSS_LEAF_CONSOLIDATION_20261107.md).
 
+- **1,900-byte Player movement boss now uses typed focus input:** the
+  same native ReplayInputState slot supplies directional `IsHeld` and
+  `auxiliary2A` focus history; no byte-offset/reinterpret overlay remains.
+  The full boss retains **1,900 bytes / 66 fields / 23 calls / 122
+  ordinary differences** and both jump tables. Its exact 522-byte
+  caller and 18-byte VM interrupt leaf pass source-cold replay. See
+  [typed focus-input original comparison](TH09_PLAYER_MOVEMENT_TYPED_FOCUS_INPUT_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

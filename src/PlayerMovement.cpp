@@ -69,11 +69,11 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     if (player->header24.state84 == 0)
         return 0;
 
-    // Snapshot the native input slot before computing its physical 0x8E-byte
-    // array address. Both the IsHeld tests and focus-history path address the
-    // same original ReplayInputState allocation, without a second input view.
+    // This Player side indexes the real three-slot 0x8E-byte replay-input
+    // array for both movement direction and focus history. The compiler
+    // preserves the original 66 field/call identities with native indexing;
+    // an untyped byte-offset/reinterpret-cast view is unnecessary.
     const int inputSide = player->sideIndex;
-    int inputOffset = inputSide * sizeof(ReplayInputState);
     ReplayInputState *input = &g_ReplayInputStates[inputSide];
 
     if (input->IsHeld(0x50) == 0x50)
@@ -97,10 +97,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
 
     int focused;
     if (g_GameConfiguration->sideFocusMode[player->sideIndex] == 1)
-        focused =
-            reinterpret_cast<ReplayInputState *>(
-                reinterpret_cast<unsigned char *>(g_ReplayInputStates) +
-                inputOffset)->auxiliary2A >= 8;
+        focused = g_ReplayInputStates[inputSide].auxiliary2A >= 8;
     else
         focused = input->IsHeld(4) != 0;
 

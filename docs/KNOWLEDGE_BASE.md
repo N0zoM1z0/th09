@@ -61,6 +61,16 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Movement's focus input is a true ReplayInputState array member
+
+The entire 1,900-byte Player UpdateMovementAndOptions boss now reads
+`g_ReplayInputStates[inputSide].auxiliary2A` directly from the real
+0x8E-byte input record, shared with its directional IsHeld methods.
+Original-bound compilation retains all 66 fields, 23 calls, both tables
+and the existing 122 residual bytes; 540 bytes of exact caller/VM leaf
+remain protected. See
+[the native focus input proof](TH09_PLAYER_MOVEMENT_TYPED_FOCUS_INPUT_20261107.md).
+
 ### 2026-11-07: Native Player ChargeAttack chain has no empty derived facades
 
 The exact SpawnShots, resource clamp and three State3 effect helper owners
