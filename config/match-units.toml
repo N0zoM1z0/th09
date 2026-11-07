@@ -1679,9 +1679,9 @@ symbol = "?AddedCallback@Supervisor@@SIHPAV1@@Z"
 target_address = 0x00432090
 size = 0xEE
 relocations = [
-  { offset = 0xA, type = "DIR32", symbol = "?g_GameManager@@3USupervisorAddedGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0xA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x10, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x19, type = "REL32", symbol = "?ResetForSupervisorAdded@SupervisorAddedGameManagerView@@QAEXXZ", target = 0x0041BA4F },
+  { offset = 0x19, type = "REL32", symbol = "?ResetForSupervisorAdded@GameManagerResetView@@QAEXXZ", target = 0x0041BA4F },
   { offset = 0x1E, type = "REL32", symbol = "?SupervisorAddedLoadDat@@YIHXZ", target = 0x0042F100 },
   { offset = 0x28, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x2D, type = "DIR32", symbol = "??_C@_0BD@HAJIDIDH@title?1th09logo?4jpg?$AA@", target = 0x00490C28 },

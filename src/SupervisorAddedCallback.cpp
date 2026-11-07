@@ -2,13 +2,9 @@
 #include "SupervisorLoadingSetupView.hpp"
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
+#include "GameManagerResetView.hpp"
 
 #include <windows.h>
-
-struct SupervisorAddedGameManagerView
-{
-    void ResetForSupervisorAdded();
-};
 
 // The 238-byte startup callback shares both its real 0x7B0-byte Supervisor
 // allocation and exact VM/thread methods with the independent leaf owners.
@@ -25,7 +21,6 @@ typedef char SupervisorAddedLoadingAnmAt5D0[
 typedef char SupervisorAddedStartupStateAt6BC[
     (offsetof(SupervisorAddedLayout, startupThreadState) == 0x6BC) ? 1 : -1];
 
-extern SupervisorAddedGameManagerView g_GameManager;
 extern int SupervisorAddedLoadDat();
 extern int SupervisorCheckFps();
 extern int SupervisorAddedCreateTextBuffer();
@@ -38,7 +33,7 @@ int Supervisor::AddedCallback(Supervisor *supervisor)
         reinterpret_cast<SupervisorAddedLayout *>(supervisor);
 
     globalSupervisor->gameSpeed = 1.0f;
-    g_GameManager.ResetForSupervisorAdded();
+    static_cast<GameManagerResetView *>(&g_GameManager)->ResetForSupervisorAdded();
 
     if (SupervisorAddedLoadDat() != 0)
         return -1;
