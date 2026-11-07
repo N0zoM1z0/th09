@@ -45,21 +45,15 @@ class NativeCircleAppendOwnerTests(unittest.TestCase):
         for name, filename, count in CALL_UNITS:
             with self.subTest(unit=name):
                 code = (ROOT/'src'/filename).read_text()
-                if name == 'exattack-type18-24-update':
-                    # The separate Type18 Player overlay has additional
-                    # state fields; its unchanged native query remains
-                    # independently exact and correctly positioned.
-                    self.assertIn('PlayerCollisionQueryStateView collisionQuery36C;',code)
-                    self.assertIn('offsetof(PlayerLifecycleView, collisionQuery36C)',code)
-                else:
-                    self.assertIn('extern AsciiGameManagerView g_GameManager;',code)
-                    self.assertIn('#include "GameManagerRuntimeView.hpp"',code)
-                    self.assertNotIn('struct ExAttackType4PlayerView',code)
-                    self.assertNotIn('struct ExAttackType13PlayerView',code)
-                    self.assertNotIn('struct ExAttackType1422PlayerView',code)
-                    self.assertNotIn('struct ExAttackType16PlayerView',code)
-                    self.assertNotIn('struct ExAttackType17PlayerView',code)
-                    self.assertNotIn('struct ExAttackUpdatePlayerView',code)
+                self.assertIn('extern AsciiGameManagerView g_GameManager;',code)
+                self.assertIn('#include "GameManagerRuntimeView.hpp"',code)
+                self.assertNotIn('struct ExAttackType4PlayerView',code)
+                self.assertNotIn('struct ExAttackType13PlayerView',code)
+                self.assertNotIn('struct ExAttackType1422PlayerView',code)
+                self.assertNotIn('struct ExAttackType16PlayerView',code)
+                self.assertNotIn('struct ExAttackType17PlayerView',code)
+                self.assertNotIn('struct ExAttackUpdatePlayerView',code)
+                self.assertNotIn('struct ExAttackType1824PlayerView',code)
                 self.assertNotIn('CircleAppendView',code)
                 self.assertNotIn('ExAttackCollisionCircleView',code)
                 # Type17's natural radius branch has two C++ sites but
@@ -149,7 +143,7 @@ class NativeCircleAppendOwnerTests(unittest.TestCase):
         # fabricated zero-addend binding in an auxiliary comparator.
         unit = self.units['exattack-type18-24-update']
         fields = [row for row in unit['relocations']
-                  if row['symbol']=='?g_GameManager@@3UExAttackType1824GameManagerView@@A']
+                  if row['symbol']=='?g_GameManager@@3UAsciiGameManagerView@@A']
         self.assertEqual(len(fields), 7)
         self.assertEqual({r['target'] for r in fields},{0x004A7D90})
         self.assertEqual(unit['size'],1436)

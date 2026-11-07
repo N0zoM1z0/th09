@@ -4,6 +4,8 @@
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "GameManagerRuntimeView.hpp"
+#include "PlayerAngleView.hpp"
 
 #include <stddef.h>
 
@@ -47,77 +49,21 @@ struct ExAttackType1824RecordView
 
 
 
-struct ExAttackType1824PlayerView
-{
-    unsigned char unknown0000[0xBC];
-    AnmLoaded *anmFileBC;
-    unsigned char unknown00C0[0x36C - 0xC0];
-    PlayerCollisionQueryStateView collisionQuery36C;
-    unsigned char unknown1B74[0x1B88 - 0x1B74];
-    PlayerPositionView position1B88;
-    unsigned char unknown1B94[0x1CE4 - 0x1B94];
-    float multiplier1CE4;
-    float multiplier1CE8;
+// The original +0xBC ANM resource and +0x36C collision query are members
+// of the same native Player allocation as the other ExAttack receivers.
+typedef char ExAttackType1824NativePlayerFields[
+    (offsetof(PlayerLifecycleView, collisionQuery36C) == 0x36C &&
+     offsetof(PlayerLifecycleView, header24) +
+         offsetof(PlayerHeaderStateView, anmFile98) == 0xBC) ? 1 : -1];
 
-    int CheckBulletCollision(
-        PlayerPositionView *position,
-        PlayerPositionView *collisionSize,
-        Bullet *bullet);
-    float AngleToPoint(PlayerPositionView *position);
-};
-typedef char ExAttackType1824PlayerViewNativeCollisionQueryAt36C[
-    (offsetof(ExAttackType1824PlayerView, collisionQuery36C) ==
-     offsetof(PlayerLifecycleView, collisionQuery36C) &&
-     sizeof(((ExAttackType1824PlayerView *)0)->collisionQuery36C) ==
-         sizeof(PlayerCollisionQueryStateView)) ? 1 : -1];
+// The four record VMs are the already recovered 0x2A4-byte ANM allocation;
+// rotation calls use its real original-exact PlayerAnmVmView member.
+typedef char ExAttackType1824NativeVmLayout[
+    (sizeof(PlayerAnmVmView) == 0x2A4 &&
+     sizeof(AnmVm) == sizeof(PlayerAnmVmView) &&
+     offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
-
-struct ExAttackType1824SideView
-{
-    unsigned char unknown00[4];
-    ExAttackType1824PlayerView *player04;
-    unsigned char unknown08[0x30];
-};
-
-struct ExAttackType1824GameManagerView
-{
-    ExAttackType1824SideView sides[2];
-};
-
-struct ExAttackType1824VmPositionView
-{
-    float x;
-    float y;
-    float z;
-
-    ExAttackType1824VmPositionView &operator=(const Float3 &other)
-    {
-        x = other.x;
-        y = other.y;
-        z = other.z;
-        return *this;
-    }
-};
-typedef char ExAttackType1824VmPositionSizeIs0C[
-    (sizeof(ExAttackType1824VmPositionView) == 0x0C) ? 1 : -1];
-typedef char ExAttackType1824VmPositionFieldsAreXYZ[
-    (offsetof(ExAttackType1824VmPositionView, x) == 0 &&
-     offsetof(ExAttackType1824VmPositionView, y) == 4 &&
-     offsetof(ExAttackType1824VmPositionView, z) == 8) ? 1 : -1];
-
-struct ExAttackType1824VmView
-{
-    unsigned char unknown000[0x288];
-    ExAttackType1824VmPositionView pos2;
-    unsigned char unknown294[0x10];
-
-    void SetZRotation(float angle);
-    void SetInterrupt(short interrupt);
-};
-typedef char ExAttackType1824VmSizeIs2A4[
-    (sizeof(ExAttackType1824VmView) == 0x2A4) ? 1 : -1];
-
-extern ExAttackType1824GameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 float __stdcall AddNormalizeAngle(float angle, float delta);
 
 int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
@@ -142,18 +88,18 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
 
         if (record->timer10 > 90)
         {
-            g_GameManager.sides[record->side08].player04->anmFileBC->ExecuteAnmIdx(
+            g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
-                    &reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[0]), 9);
-            g_GameManager.sides[record->side08].player04->anmFileBC->ExecuteAnmIdx(
+                    &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[0]), 9);
+            g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
-                    &reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[1]), 10);
-            g_GameManager.sides[record->side08].player04->anmFileBC->ExecuteAnmIdx(
+                    &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1]), 10);
+            g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
-                    &reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[2]), 10);
-            g_GameManager.sides[record->side08].player04->anmFileBC->ExecuteAnmIdx(
+                    &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2]), 10);
+            g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
-                    &reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[3]), 10);
+                    &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3]), 10);
 
             ++extra->state00;
             record->position20 = extra->spawn40;
@@ -161,9 +107,10 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
             record->timer10 = 0;
 
             extra->angle4C =
-                g_GameManager.sides[record->opponentSide04]
-                    .player04->AngleToPoint(
-                        reinterpret_cast<PlayerPositionView *>(&record->position20));
+                reinterpret_cast<PlayerAngleView *>(
+                    g_GameManager.sides[record->opponentSide04].player04)
+                    ->AngleToPoint(
+                        reinterpret_cast<PlayerAngleFloat3View *>(&record->position20));
             extra->speed50 = 0.2f;
             extra->reflected54 = 0;
 
@@ -195,21 +142,21 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
     extra->trailPositions58[0] = record->position20;
     extra->trailAngles118[0] = extra->angle4C;
 
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[0].SetZRotation(extra->angle4C);
+    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[0].SetZRotation(extra->angle4C);
 
     // One sequenced publication keeps all three returned trail values alive
     // through the last VM rotation; each value is consumed by its pos2 copy.
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[1].pos2 =
+    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1].pos2 =
         extra->trailPositions58[1] - record->position20,
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[1].SetZRotation(extra->trailAngles118[1]),
+    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1].SetZRotation(extra->trailAngles118[1]),
 
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[2].pos2 =
+    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2].pos2 =
         extra->trailPositions58[3] - record->position20,
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[2].SetZRotation(extra->trailAngles118[3]),
+    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2].SetZRotation(extra->trailAngles118[3]),
 
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[3].pos2 =
+    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3].pos2 =
         extra->trailPositions58[5] - record->position20,
-    reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[3].SetZRotation(extra->trailAngles118[5]);
+    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3].SetZRotation(extra->trailAngles118[5]);
 
     if (record->timer10 > 20)
     {
@@ -225,10 +172,10 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
         {
             extra->state00 = 2;
             record->timer10 = 0;
-            reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[0].SetInterrupt(1);
-            reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[1].SetInterrupt(1);
-            reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[2].SetInterrupt(1);
-            reinterpret_cast<ExAttackType1824VmView *>(record->dynamicData1C)[3].SetInterrupt(1);
+            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[0].SetInterrupt(1);
+            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1].SetInterrupt(1);
+            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2].SetInterrupt(1);
+            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3].SetInterrupt(1);
             return 0;
         }
 

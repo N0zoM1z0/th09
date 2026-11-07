@@ -324,6 +324,16 @@ proof of remote publication.
   The called Player collision boss remains nonexact. See
   [native ExAttack Player/GameManager source review](TH09_EXATTACK_NATIVE_GAMEMANAGER_PLAYER_20261107.md).
 
+- **1,436-byte Type18/24 now uses native Player/VM/angle:** replaced
+  synthetic GameManager/Player/VM classes with the actual side array,
+  Player +0xBC ANM header/+0x36C query, four 0x2A4-byte PlayerAnmVm
+  instances and the original exact angle-view receiver. All **17**
+  name-changed COFF fields retain their original PE destinations and
+  addends. Source-cold replays pass **10 distinct exact functions /
+  2,064 physical bytes / 73 fields** including the providers; this is
+  not new authored exact credit. See
+  [Type18 native Player/ANM/angle evidence](TH09_EXATTACK_TYPE18_NATIVE_PLAYER_VM_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

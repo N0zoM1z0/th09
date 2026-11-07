@@ -51,6 +51,17 @@ large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+### 2026-11-07: Native Player, VM and angle method across Type18/24
+
+The entire exact 1,436-byte Type18/24 callback now borrows the true
+GameManager two-side array, Player +0xBC ANM resource, native Player
+collision query, four genuine 0x2A4-byte PlayerAnmVm objects, and
+separately exact PlayerAngleView method at 0x0041BB70. Four rotate
+and interrupt calls keep their exact source method identities. All
+44 original-bound relocations and complete retail bytes match; nine
+exact dependent functions pass separate scoped replays. See
+[Type18 native owner proof](TH09_EXATTACK_TYPE18_NATIVE_PLAYER_VM_20261107.md).
+
 ### 2026-11-07: Six ExAttack bosses borrow native GameManager and Player
 
 Six original-exact update callbacks now use `AsciiGameManagerView`'s two
