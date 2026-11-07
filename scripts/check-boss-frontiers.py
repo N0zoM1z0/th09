@@ -2370,12 +2370,22 @@ EFFECT_GAME_MANAGER_SITES = {
 def validate_effect_real_game_manager_abi(units: dict) -> None:
     """Bind the exact Effect callers to shared source, not numeric aliases."""
     source = (ROOT/'src/EffectManager.cpp').read_text()
+    # The genuine live GameManager type owns two playable side records,
+    # while the physical setup allocation has a third record for the shared
+    # EffectManager. Only the first two are C++ array elements of this view:
+    # a third g_GameManager.sides[] subscript would overstep that array.
+    # Keep the original-bound field/relocation census below unchanged.
     if ('#include "AsciiGameManagerView.hpp"' not in source or
+            '#include "GameplaySetupNativeSides.hpp"' not in source or
             'EffectGameManager' in source or
             'g_GameManager.sides[0].flags' not in source or
+            source.count('sideIndex < GameplaySetupNativeSides::PlayableCount') != 2 or
+            'effectManager->sideState = &g_GameManager.sides[sideIndex]' not in source or
+            'effectManager->opposingSideState = &g_GameManager.sides[1 - sideIndex]' not in source or
             'sideIndex * sizeof(AsciiGameManagerSideView)' not in source or
-            '(1 - sideIndex) * sizeof(AsciiGameManagerSideView)' not in source):
-        raise RuntimeError('Effect GameManager has a split owner or invented third typed side')
+            'effectManager->opposingSideState = effectManager->sideState' not in source or
+            'g_GameManager.sides[GameplaySetupNativeSides::SharedEffectIndex]' in source):
+        raise RuntimeError('Effect GameManager playable/shared side alias or original ABI changed')
     for name, (address, size, sites) in EFFECT_GAME_MANAGER_SITES.items():
         unit = units.get(name)
         if (not isinstance(unit, dict) or unit.get('source') != 'src/EffectManager.cpp'

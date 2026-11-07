@@ -1,5 +1,6 @@
 #include "EffectManager.hpp"
 #include "EffectNativePoolCapacity.hpp"
+#include "GameplaySetupNativeSides.hpp"
 #include "AnmManager.hpp"
 #include "EtamaAnmResourceSlot.hpp"
 #include "AnmVmLifecycle.hpp"
@@ -416,15 +417,17 @@ EffectManager *EffectManager::Create(int sideIndex, int primaryCount, int second
         g_ZunMemory.AddToRegistry(effectManager, sizeof(EffectManager), const_cast<char *>("EffectSysInf")));
     effectManager->Clear();
     effectManager->sideIndex = sideIndex;
-    if (sideIndex < 2)
+    // Only the two playable records belong to the native side array.
+    // The physical third record is a separate shared-effect setup slot.
+    if (sideIndex < GameplaySetupNativeSides::PlayableCount)
     {
-        effectManager->sideState = reinterpret_cast<unsigned char *>(&g_GameManager) +
-            sideIndex * sizeof(AsciiGameManagerSideView);
-        effectManager->opposingSideState = reinterpret_cast<unsigned char *>(&g_GameManager) +
-            (1 - sideIndex) * sizeof(AsciiGameManagerSideView);
+        effectManager->sideState = &g_GameManager.sides[sideIndex];
+        effectManager->opposingSideState = &g_GameManager.sides[1 - sideIndex];
     }
     else
     {
+        // Address setup's shared record as bytes: subscripting a third
+        // element in g_GameManager.sides[2] would leave its true bounds.
         effectManager->sideState = reinterpret_cast<unsigned char *>(&g_GameManager) +
             sideIndex * sizeof(AsciiGameManagerSideView);
         effectManager->opposingSideState = effectManager->sideState;
@@ -443,7 +446,7 @@ EffectManager *EffectManager::Create(int sideIndex, int primaryCount, int second
     if (g_Chain.AddToCalcChain(effectManager->calcChain, sideIndex + 19) != 0)
         return NULL;
 
-    if (sideIndex < 2)
+    if (sideIndex < GameplaySetupNativeSides::PlayableCount)
     {
         effectManager->drawChain = g_Chain.CreateElem(reinterpret_cast<ChainCallback>(EffectManager::OnDraw));
         effectManager->drawChain->arg = effectManager;

@@ -51,6 +51,17 @@ large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+### 2026-11-07: Effect creator uses actual two-side GameManager C++ array
+
+The native EffectManager::Create at 0x0040D320 publishes side and opposing
+side pointers from the real two-element `AsciiGameManagerView::sides` array
+for playable index 0/1. Setup owns a separately modeled third physical
+record at offset +0x70 with a shared EffectManager at +0x7C; no
+`g_GameManager.sides[2]` typed access is justified. Full original-bound
+comparison preserves 327-byte Create, 475-byte OnUpdate, all 16 exact
+related functions, and the open 51-byte callback's unchanged eight
+residuals. See [native Effect side evidence](TH09_EFFECT_NATIVE_PLAYABLE_SIDE_20261107.md).
+
 ### 2026-11-07: ECL raw opcode byte access follows the native wire union
 
 The real TH09 ECL instruction has a 0x0C-byte fixed header and a trailing

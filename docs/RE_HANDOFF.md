@@ -266,6 +266,15 @@ proof of remote publication.
   and rebound without changing target destinations; old probe scenarios
   remain strict. See [native ECL wire byte review](TH09_ECL_NATIVE_WIRE_BYTE_ACCESS_20261107.md).
 
+- **Effect creator real playable-side references:** the 327-byte exact
+  Create now directly borrows the two native GameManager side records,
+  while a separate shared-effect path addresses physical record 2 without
+  indexing beyond the native two-element array. The exact 475-byte
+  Effect OnUpdate and all other affected exact functions remain preserved:
+  **16 exact owners / 2,571 bytes / 101 fields** under focused original
+  replay. The 51-byte AddedCallback still has 8 differences. See
+  [Effect native playable-side review](TH09_EFFECT_NATIVE_PLAYABLE_SIDE_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
