@@ -1,14 +1,16 @@
 #include "PlayerSpawnShotsView.hpp"
 #include "PlayerSpawnFrameView.hpp"
 
-void __fastcall PlayerSpawnShotsView::SpawnShots(int value, int powerLevel)
+void __fastcall PlayerLifecycleView::SpawnShots(int value, int powerLevel)
 {
     PlayerSpawnShotsDescriptorView *entry =
         reinterpret_cast<PlayerSpawnShotsShtFileView *>(primaryShtFile)->shotPowerLevels42C[powerLevel].descriptors00;
     PlayerSpawnShotsShotView *shot = reinterpret_cast<PlayerSpawnShotsShotView *>(shots);
     int result;
 
-    for (int i = 0; i < 128; ++i, ++shot)
+    // The scanned 0x484-byte slots are the Player's actual 128-shot array;
+    // do not give the shot producer an unrelated capacity constant.
+    for (int i = 0; i < static_cast<int>(sizeof(shots) / sizeof(shots[0])); ++i, ++shot)
     {
         if (shot->state462 != 0)
             continue;

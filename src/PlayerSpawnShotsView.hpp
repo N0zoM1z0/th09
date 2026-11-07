@@ -9,7 +9,7 @@ struct PlayerSpawnShotsShotView;
 struct PlayerSpawnShotsDescriptorView;
 
 typedef int (__fastcall *PlayerSpawnCallback)(
-    PlayerSpawnShotsView *player,
+    PlayerLifecycleView *player,
     PlayerSpawnShotsShotView *shot,
     int value,
     PlayerSpawnShotsDescriptorView *entry);
@@ -58,13 +58,17 @@ typedef char PlayerSpawnShotsShotSizeIs484[
 // The exact SpawnShots thiscall sees the same native Player allocation.
 // Its callback-specific shot and descriptor *views* remain local until their
 // independent callback signatures can be reconstructed.
+// Legacy source-facing inheritance remains to support independently reviewed
+// Player state-effect members, but SpawnShots is owned by native Player.
 struct PlayerSpawnShotsView : PlayerStateEffectView
 {
-    void __fastcall SpawnShots(int value, int powerLevel);
 };
 
 typedef char PlayerSpawnShotsNativeStorage[
     (sizeof(PlayerSpawnShotsView) == sizeof(PlayerLifecycleView) &&
+     sizeof(((PlayerLifecycleView *)0)->shots) /
+         sizeof(((PlayerLifecycleView *)0)->shots[0]) == 128 &&
+     sizeof(PlayerSpawnShotsShotView) == sizeof(PlayerShotCtorView) &&
      offsetof(PlayerSpawnShotsView, shots) == 0xC11C &&
      offsetof(PlayerSpawnShotsView, primaryShtFile) == 0x30338 &&
      offsetof(PlayerSpawnShotsView, header24) +

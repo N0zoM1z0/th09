@@ -22,6 +22,6 @@ class PlayerChargeNativeShotsChain(unittest.TestCase):
         with (ROOT/'config/match-units.toml').open('rb') as f:units=tomllib.load(f)['units']
         spec=units['player-spawn-shots']
         self.assertEqual(spec['size'],190)
-        self.assertEqual(spec['symbol'],'?SpawnShots@PlayerSpawnShotsView@@QAIXHH@Z')
+        self.assertEqual(spec['symbol'],'?SpawnShots@PlayerLifecycleView@@QAIXHH@Z')
 
 if __name__=='__main__':unittest.main()

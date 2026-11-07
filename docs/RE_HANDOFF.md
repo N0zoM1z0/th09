@@ -346,6 +346,15 @@ proof of remote publication.
   no exact credit is added. See
   [Player native region member review](TH09_PLAYER_NATIVE_COLLISION_REGION_MEMBERS_20261107.md).
 
+- **Real Player SpawnShots method and Charge boss call chain:** the
+  exact 190-byte shot producer is now declared on actual
+  `PlayerLifecycleView` and derives its 128-slot loop limit from the
+  native Player shot array. The 1,210-byte charge boss retains both
+  original-linked calls at 0x41F4C0 (still 1,197 candidate bytes and 13
+  missing), and the exact Effect Type35 leaf uses the same method.
+  **24 affected exact functions / 5,691 bytes / 292 fields** pass scoped
+  original replay. See [native SpawnShots owner](TH09_PLAYER_NATIVE_SPAWN_SHOTS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

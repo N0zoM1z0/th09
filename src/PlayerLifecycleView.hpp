@@ -469,6 +469,7 @@ struct PlayerLifecycleView
         float angle,
         int expandForGraze);
     void UpdateShots();
+    void __fastcall SpawnShots(int value, int powerLevel);
     void EnterDeathState();
     void UpdateHeavyState();
     void DrawActiveShots();

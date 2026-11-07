@@ -123,7 +123,7 @@ def inspect(path):
     # Mode literals precede the timer integer conversion in both target calls.
     # Derive candidate windows from the independently identified SpawnShots
     # fields, then bind both actual calls; no relocation masking is used.
-    spawn_symbol = "?SpawnShots@PlayerSpawnShotsView@@QAIXHH@Z"
+    spawn_symbol = "?SpawnShots@PlayerLifecycleView@@QAIXHH@Z"
     current_symbol = "??BZunTimer@@QAEHXZ"
     spawns = [r for r in relocations if r["symbol"] == spawn_symbol]
     currents = [r for r in relocations if r["symbol"] == current_symbol]

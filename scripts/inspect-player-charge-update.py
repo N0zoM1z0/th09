@@ -41,7 +41,7 @@ REFERENTS = {
     '?HasTicked@ZunTimer@@QAEHXZ': 0x0040F810,
     '?IsHeld@ReplayInputState@@QAEGG@Z': 0x00415CB0,
     '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z': 0x0043E2F0,
-    '?SpawnShots@PlayerSpawnShotsView@@QAIXHH@Z': 0x0041F4C0,
+    '?SpawnShots@PlayerLifecycleView@@QAIXHH@Z': 0x0041F4C0,
     '?StartAttack@CardAttackStartView@@QAEXHHHPBD@Z': 0x00403E50,
     '?SubtractResourceClamped@PlayerResourceSubtractView@@QAEXM@Z': 0x0041F310,
     '?WasPressed@ReplayInputState@@QAEGG@Z': 0x00415CD0,

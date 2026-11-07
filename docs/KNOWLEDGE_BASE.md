@@ -51,6 +51,17 @@ large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+### 2026-11-07: Charge and Effect Type35 share the actual Player SpawnShots
+
+The 190-byte original-exact shot producer at 0x41F4C0 now belongs to
+`PlayerLifecycleView` rather than an independent zero-storage derived
+method façade. Its callback receiver and 128-shot capacity come from
+the true Player and shot array. Both calls from the still-nonexact 1,210-byte
+charge boss and the independently exact 38-byte Effect Type35 callback
+retain their original call destinations. All 24 affected existing exact
+owners and the full charge diagnostic pass scoped source-cold comparison;
+see [native SpawnShots proof](TH09_PLAYER_NATIVE_SPAWN_SHOTS_20261107.md).
+
 ### 2026-11-07: Player's region allocator and collision boss share native fields
 
 The exact collision-region allocation and nonexact 862-byte
