@@ -317,7 +317,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
     else
         manager->sideTimer2AC3C8++;
 
-    for (enemyIndex = 0; enemyIndex < 128; ++enemyIndex, ++enemy)
+    // One of 129 native records is reserved as the full-pool sentinel.
+    // Keep this loop's signed integer comparison: promoting enemyIndex to
+    // size_t changes the original branch at the callback's loop tail.
+    for (enemyIndex = 0;
+         enemyIndex < static_cast<int>(
+             sizeof(manager->enemies5758) / sizeof(manager->enemies5758[0]) - 1);
+         ++enemyIndex, ++enemy)
     {
         EnemyView **drawHead;
         unsigned int flags = enemy->primaryFlags337C;
@@ -522,7 +528,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             enemy->primaryAnmVm0008.color1 = enemy->displayColor2E70;
             g_AnmManager->ExecuteScript(&enemy->primaryAnmVm0008);
             enemy->displayColor2E70 = enemy->primaryAnmVm0008.color1;
-            for (int vmIndex = 0; vmIndex < 2; ++vmIndex)
+            for (int vmIndex = 0;
+                 vmIndex < static_cast<int>(
+                     sizeof(enemy->secondaryVms2AC) / sizeof(enemy->secondaryVms2AC[0]));
+                 ++vmIndex)
             {
                 if (enemy->secondaryVms2AC[vmIndex].scriptIndex >= 0 &&
                     g_AnmManager->ExecuteScript(
@@ -688,9 +697,16 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 (enemy->timerCallbackThreshold33D0 -
                  static_cast<int>(enemy->bossTimer2E64)) / 60;
             enemy->timerCallbackThreshold33D0 = -1;
-            for (int callbackIndex = 0; callbackIndex < 4; ++callbackIndex)
+            for (int callbackIndex = 0;
+                 callbackIndex < static_cast<int>(
+                     sizeof(enemy->lifeCallbackThresholds33B0) /
+                     sizeof(enemy->lifeCallbackThresholds33B0[0]));
+                 ++callbackIndex)
                 enemy->lifeCallbackThresholds33B0[callbackIndex] = -1;
-            for (int childIndex = 0; childIndex < 4; ++childIndex)
+            for (int childIndex = 0;
+                 childIndex < static_cast<int>(
+                     sizeof(enemy->childEclBlocks33D8) / sizeof(enemy->childEclBlocks33D8[0]));
+                 ++childIndex)
             {
                 if (enemy->childEclBlocks33D8[childIndex] != 0)
                 {
@@ -770,7 +786,11 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             {
                 enemy->ResetBulletRankInfluence();
                 enemy->activeCallDepth2D2A = 0;
-                for (int callbackIndex = 0; callbackIndex < 4; ++callbackIndex)
+                for (int callbackIndex = 0;
+                 callbackIndex < static_cast<int>(
+                     sizeof(enemy->lifeCallbackThresholds33B0) /
+                     sizeof(enemy->lifeCallbackThresholds33B0[0]));
+                 ++callbackIndex)
                     enemy->lifeCallbackThresholds33B0[callbackIndex] = -1;
                 enemy->timerCallbackThreshold33D0 = -1;
                 EnemyCoreReleaseChildEclBlocks(

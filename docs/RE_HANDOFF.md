@@ -88,6 +88,15 @@ proof of remote publication.
   SaveReplay still has two unequal bytes. See
   [recording capacity review](TH09_REPLAY_RECORDING_CAPACITY_20261107.md).
 
+- **Enemy OnUpdate signed native extents:** the active 128-of-129 scan,
+  two secondary VMs, four callback thresholds and four child blocks now
+  derive from the genuine native arrays with an explicit signed comparison.
+  The 3,900-byte boss preserves its 13-difference frontier. Two previously
+  stale local `$L` name groups were rebound to their independently checked
+  original addresses; **91 affected exact siblings / 41,868 bytes / 1,818
+  fields** passed fresh scoped replay. See
+  [signed extent and label review](TH09_ENEMY_SIGNED_EXTENTS_AND_LOCAL_LABELS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
