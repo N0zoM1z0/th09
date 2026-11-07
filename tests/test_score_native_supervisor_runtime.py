@@ -8,14 +8,15 @@ ROOT=Path(__file__).resolve().parents[1]
 class ScoreNativeSupervisorRuntime(unittest.TestCase):
     def test_single_native_supervisor_allocation(self):
         score=(ROOT/'src/ScoreData.cpp').read_text()
+        shared=(ROOT/'src/ScoreSupervisorView.hpp').read_text()
         native=(ROOT/'src/Supervisor.hpp').read_text()
-        self.assertIn('struct ScoreSupervisorView : Supervisor',score)
-        self.assertIn('sizeof(ScoreSupervisorView) == sizeof(Supervisor)',score)
-        self.assertNotIn('u8 unknown000[0x798];',score)
+        self.assertIn('struct ScoreSupervisorView : Supervisor',shared)
+        self.assertIn('sizeof(ScoreSupervisorView) == sizeof(Supervisor)',shared)
+        self.assertNotIn('u8 unknown000[0x798];',shared)
         for member,offset in (('totalPlayTime','0x798'),('systemTime','0x79C'),
                               ('exeChecksum7A0','0x7A0'),('exeSize7A4','0x7A4')):
             with self.subTest(member=member):
-                self.assertIn(f'offsetof(ScoreSupervisorView, {member}) == {offset}',score)
+                self.assertIn(f'offsetof(ScoreSupervisorView, {member}) == {offset}',shared)
                 self.assertIn(f'offsetof(Supervisor, {member}) == {offset}',native)
         self.assertIn('vrsm.exeSize = supervisor->exeSize7A4;',score)
         self.assertIn('vrsm.exeChecksum = supervisor->exeChecksum7A0;',score)
