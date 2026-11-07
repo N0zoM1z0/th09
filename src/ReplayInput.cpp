@@ -709,14 +709,15 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     int loopIndex;
     {
         loopIndex = 0;
-        // Walk the inline stage roots separately from each mutable link chain.
-        ReplayBufferLink *stageRoot = &replayManager->stageBuffers[0];
+        // Walk the inline stage roots separately from each immutable source
+        // link chain. Saving reads their recorded data but never mutates it.
+        const ReplayBufferLink *stageRoot = &replayManager->stageBuffers[0];
         for (; loopIndex < 10; loopIndex++, stageRoot++)
         {
             if (replayCopy.frameStart[0][loopIndex] != NULL)
             {
                 allocationSize += 0x60;
-                for (ReplayBufferLink *link = stageRoot; link != NULL; link = link->next)
+                for (const ReplayBufferLink *link = stageRoot; link != NULL; link = link->next)
                     allocationSize += 0x54D9;
             }
         }
@@ -733,7 +734,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             const ReplayFrameDataStartView *frameHeader = replayCopy.frameStart[stream][loopIndex];
             if (frameHeader != NULL)
             {
-                ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
+                const ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
                 memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), frameHeader, sizeof(ReplayFrameDataStartView));
                 replayCopy.frameOffset[stream][loopIndex] = currentOffset;
                 currentOffset += sizeof(ReplayFrameDataStartView);
@@ -752,7 +753,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     {
         if (replayCopy.fpsStart[loopIndex] != NULL)
         {
-            ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
+            const ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
             replayCopy.fpsOffset[loopIndex] = currentOffset;
             for (; link != NULL; link = link->next)
             {
