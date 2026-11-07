@@ -14,6 +14,8 @@
 // other Player and replay owners, not a private game-pattern RNG record.
 extern RngRuntimeView g_ReplayRng;
 extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
+// This 0x4A7E4C word is published here and consumed by Player::EnterDeathState.
+extern int g_PlayerDeathCounterBonus;
 
 // Maintained natural reconstruction of the Player gameplay-pattern owner at
 // 0x004049A0.  Exact identifier spelling remains unknown; the exact OnUpdate
@@ -203,7 +205,7 @@ extern PlayerPatternConfig g_PlayerPatternConfigs[];
 extern int g_PlayerPatternGrid[12][10];
 extern int g_PlayerPatternFlags[];
 extern int g_PlayerPatternAlternates[];
-extern int g_PlayerPatternProtocolValue;
+
 
 
 
@@ -320,7 +322,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             header->flags74 |= 2U;
     }
 
-    g_PlayerPatternProtocolValue = config->protocolValue18;
+    g_PlayerDeathCounterBonus = config->protocolValue18;
 
     if (header->player78->scalar30388 >= header->distanceThreshold58)
     {
