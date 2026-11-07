@@ -79,29 +79,11 @@ typedef char AnmSurfaceSlotSizeIs120[
 typedef char AnmSurfaceSlotTexturesAt38[
     (offsetof(AnmSurfaceSlotView, textures) == 0x38) ? 1 : -1];
 
-struct SupervisorUtilityView
-{
-    unsigned char unknown000[0x08];
-    IDirect3DDevice8 *d3dDevice;
-    unsigned char unknown00C[0x350 - 0x0C];
-    D3DPRESENT_PARAMETERS presentParameters;
-};
-
-typedef char SupervisorUtilityDeviceAt08[
-    (offsetof(SupervisorUtilityView, d3dDevice) == 0x08) ? 1 : -1];
-typedef char SupervisorUtilityPresentAt350[
-    (offsetof(SupervisorUtilityView, presentParameters) == 0x350) ? 1 : -1];
-
 HRESULT WINAPI D3DXLoadSurfaceFromSurface(
     IDirect3DSurface8 *destSurface, const PALETTEENTRY *destPalette,
     const RECT *destRect, IDirect3DSurface8 *srcSurface,
     const PALETTEENTRY *srcPalette, const RECT *srcRect,
     unsigned long filter, D3DCOLOR colorKey);
-
-static __inline SupervisorUtilityView *UtilitySupervisor()
-{
-    return reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor);
-}
 
 static __inline AnmManagerSurfaceView *SurfaceManager(AnmManager *manager)
 {
@@ -213,23 +195,23 @@ void AnmManager::CopySurfaceToBackbuffer(
         return;
 
     IDirect3DSurface8 *destSurface;
-    if (reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->d3dDevice->GetBackBuffer(
+    if (g_Supervisor.d3dDevice08->GetBackBuffer(
             0, D3DBACKBUFFER_TYPE_MONO, &destSurface) != D3D_OK)
         return;
 
     if (reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex] == NULL)
     {
-        if (reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->d3dDevice->CreateRenderTarget(
+        if (g_Supervisor.d3dDevice08->CreateRenderTarget(
                 reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Width,
                 reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Height,
-                reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->presentParameters.BackBufferFormat,
+                g_Supervisor.presentParameters350.BackBufferFormat,
                 D3DMULTISAMPLE_NONE, TRUE,
                 &reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex]) != D3D_OK)
         {
-            if (reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->d3dDevice->CreateImageSurface(
+            if (g_Supervisor.d3dDevice08->CreateImageSurface(
                     reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Width,
                     reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Height,
-                    reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->presentParameters.BackBufferFormat,
+                    g_Supervisor.presentParameters350.BackBufferFormat,
                     &reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex]) != D3D_OK)
             {
                 destSurface->Release();
@@ -253,7 +235,7 @@ void AnmManager::CopySurfaceToBackbuffer(
     sourceRect.bottom = reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Height;
     destPoint.x = x;
     destPoint.y = y;
-    reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->d3dDevice->CopyRects(
+    g_Supervisor.d3dDevice08->CopyRects(
         reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex], &sourceRect, 1, destSurface,
         &destPoint);
     destSurface->Release();
@@ -267,23 +249,23 @@ void AnmManager::CopySurfaceToBackbuffer2(
         return;
 
     IDirect3DSurface8 *backbuffer;
-    if (reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->d3dDevice->GetBackBuffer(
+    if (g_Supervisor.d3dDevice08->GetBackBuffer(
             0, D3DBACKBUFFER_TYPE_MONO, &backbuffer) != D3D_OK)
         return;
 
     if (reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex] == NULL)
     {
-        if (reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->d3dDevice->CreateRenderTarget(
+        if (g_Supervisor.d3dDevice08->CreateRenderTarget(
                 reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Width,
                 reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Height,
-                reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->presentParameters.BackBufferFormat,
+                g_Supervisor.presentParameters350.BackBufferFormat,
                 D3DMULTISAMPLE_NONE, TRUE,
                 &reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex]) != D3D_OK)
         {
-            if (reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->d3dDevice->CreateImageSurface(
+            if (g_Supervisor.d3dDevice08->CreateImageSurface(
                     reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Width,
                     reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Height,
-                    reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->presentParameters.BackBufferFormat,
+                    g_Supervisor.presentParameters350.BackBufferFormat,
                     &reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex]) != D3D_OK)
             {
                 backbuffer->Release();
@@ -307,7 +289,7 @@ void AnmManager::CopySurfaceToBackbuffer2(
     rect.bottom = rectTop + height;
     point.x = rectX;
     point.y = rectY;
-    reinterpret_cast<SupervisorUtilityView *>(&g_Supervisor)->d3dDevice->CopyRects(
+    g_Supervisor.d3dDevice08->CopyRects(
         reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex], &rect, 1, backbuffer, &point);
     backbuffer->Release();
 }
@@ -322,7 +304,7 @@ void AnmManager::CaptureToTexture(
     this->FlushVertexBuffer();
 
     IDirect3DSurface8 *backbuffer;
-    if (UtilitySupervisor()->d3dDevice->GetBackBuffer(
+    if (g_Supervisor.d3dDevice08->GetBackBuffer(
             0, D3DBACKBUFFER_TYPE_MONO, &backbuffer) != D3D_OK)
         return;
 
@@ -380,32 +362,32 @@ void AnmManager::CaptureToSurface(
     dstRect.bottom = dstY + dstH;
 
     IDirect3DSurface8 *backbuffer;
-    if (UtilitySupervisor()->d3dDevice->GetBackBuffer(
+    if (g_Supervisor.d3dDevice08->GetBackBuffer(
             0, D3DBACKBUFFER_TYPE_MONO, &backbuffer) != D3D_OK)
         return;
 
     manager->surfaceInfo[captureSurfaceIndex].Width = dstW;
     manager->surfaceInfo[captureSurfaceIndex].Height = dstH;
 
-    if (UtilitySupervisor()->d3dDevice->CreateRenderTarget(
+    if (g_Supervisor.d3dDevice08->CreateRenderTarget(
             manager->surfaceInfo[captureSurfaceIndex].Width,
             manager->surfaceInfo[captureSurfaceIndex].Height,
-            UtilitySupervisor()->presentParameters.BackBufferFormat,
+            g_Supervisor.presentParameters350.BackBufferFormat,
             D3DMULTISAMPLE_NONE, TRUE,
             &manager->surfaces[captureSurfaceIndex]) != D3D_OK)
     {
-        if (UtilitySupervisor()->d3dDevice->CreateImageSurface(
+        if (g_Supervisor.d3dDevice08->CreateImageSurface(
                 manager->surfaceInfo[captureSurfaceIndex].Width,
                 manager->surfaceInfo[captureSurfaceIndex].Height,
-                UtilitySupervisor()->presentParameters.BackBufferFormat,
+                g_Supervisor.presentParameters350.BackBufferFormat,
                 &manager->surfaces[captureSurfaceIndex]) != D3D_OK)
             goto out;
     }
 
-    if (UtilitySupervisor()->d3dDevice->CreateImageSurface(
+    if (g_Supervisor.d3dDevice08->CreateImageSurface(
             manager->surfaceInfo[captureSurfaceIndex].Width,
             manager->surfaceInfo[captureSurfaceIndex].Height,
-            UtilitySupervisor()->presentParameters.BackBufferFormat,
+            g_Supervisor.presentParameters350.BackBufferFormat,
             &manager->surfacesBis[captureSurfaceIndex]) != D3D_OK)
         goto out;
 

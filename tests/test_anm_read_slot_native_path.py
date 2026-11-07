@@ -12,10 +12,16 @@ class NativeAnmReadSlotPath(unittest.TestCase):
         self.assertIn('AnmLoaded *anmLoaded = &slot->loaded;',source)
         self.assertIn('strcpy(slot->path, filename);',source)
         self.assertNotIn('strcpy(reinterpret_cast<char *>(anmLoaded) + 0x20, filename)',source)
-        self.assertIn('sizeof(AnmManagerReadSlotView) == 0x120',source)
-        self.assertIn('offsetof(AnmManagerReadSlotView, releasePending) == 0x1C',source)
-        self.assertIn('offsetof(AnmManagerReadSlotView, path) == 0x20',source)
-        self.assertIn('sizeof(AnmLoaded) == 0x1C',source)
+        # The reader's shared slot layout is declared in its native header,
+        # while the other loader operations use an equivalent manager-relative
+        # view. Check both physical slot origins instead of a duplicated type.
+        shared = (ROOT/'src/AnmManagerFileSlotView.hpp').read_text()
+        self.assertIn('sizeof(AnmManagerReadSlotView) == 0x120', shared)
+        self.assertIn('offsetof(AnmManagerReadSlotView, releasePending) == 0x1C', shared)
+        self.assertIn('offsetof(AnmManagerReadSlotView, path) == 0x20', shared)
+        self.assertIn('offsetof(AnmManagerReadView, slots) == 0x24', shared)
+        self.assertIn('offsetof(AnmManagerLoadSlotView, path) == 0x44', source)
+        self.assertIn('sizeof(AnmLoaded) == 0x1C', source)
 
     def test_complete_target_owner_scope(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:

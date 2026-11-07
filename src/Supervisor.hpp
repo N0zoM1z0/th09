@@ -175,6 +175,7 @@ typedef char SupervisorCtorArrayAt078[
 typedef char SupervisorNativePresentAt350[
     (offsetof(Supervisor, presentParameters350) == 0x350 &&
      sizeof(((Supervisor *)0)->presentParameters350) == 0x34 &&
+     offsetof(Supervisor, presentParameters350.BackBufferFormat) == 0x358 &&
      offsetof(Supervisor, dummyMidiTimer384) == 0x384 &&
      offsetof(Supervisor, screenTransitionCountdown) == 0x5A4 &&
      offsetof(Supervisor, disableVsync) == 0x5AC &&

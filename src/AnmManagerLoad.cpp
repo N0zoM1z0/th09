@@ -695,18 +695,6 @@ typedef char AnmLoadSurfaceSizesAt1257C[
 typedef char AnmLoadSurfaceInfoAt125FC[
     (offsetof(AnmManagerSurfaceLoadView, surfaceInfo) == 0x125FC) ? 1 : -1];
 
-struct SupervisorAnmSurfaceLoadView
-{
-    unsigned char unknown000[0x08];
-    IDirect3DDevice8 *d3dDevice;
-    unsigned char unknown00C[0x350 - 0x0C];
-    D3DPRESENT_PARAMETERS presentParameters;
-};
-typedef char SupervisorAnmSurfaceDeviceAt08[
-    (offsetof(SupervisorAnmSurfaceLoadView, d3dDevice) == 0x08) ? 1 : -1];
-typedef char SupervisorAnmSurfaceFormatAt358[
-    (offsetof(SupervisorAnmSurfaceLoadView, presentParameters.BackBufferFormat) == 0x358) ? 1 : -1];
-
 extern const char g_AnmSurfaceCannotLoadMessage[];
 
 HRESULT WINAPI D3DXLoadSurfaceFromFileInMemory(
@@ -718,11 +706,6 @@ HRESULT WINAPI D3DXLoadSurfaceFromFileInMemory(
 static __inline AnmManagerSurfaceLoadView *SurfaceLoadView(AnmManager *manager)
 {
     return reinterpret_cast<AnmManagerSurfaceLoadView *>(manager);
-}
-
-static __inline SupervisorAnmSurfaceLoadView *SurfaceLoadSupervisor()
-{
-    return reinterpret_cast<SupervisorAnmSurfaceLoadView *>(&g_Supervisor);
 }
 
 int AnmManager::LoadSurface(int surfaceIndex, const char *path)
@@ -751,9 +734,9 @@ int AnmManager::LoadSurface(int surfaceIndex, const char *path)
         manager->surfaceData[surfaceIndex] = NULL;
     }
 
-    if (SurfaceLoadSupervisor()->d3dDevice->CreateImageSurface(
+    if (g_Supervisor.d3dDevice08->CreateImageSurface(
             640, 1024,
-            SurfaceLoadSupervisor()->presentParameters.BackBufferFormat,
+            g_Supervisor.presentParameters350.BackBufferFormat,
             &surface) != D3D_OK)
         return -1;
 
@@ -762,24 +745,24 @@ int AnmManager::LoadSurface(int surfaceIndex, const char *path)
             &manager->surfaceInfo[surfaceIndex]) != D3D_OK)
         goto error;
 
-    if (SurfaceLoadSupervisor()->d3dDevice->CreateRenderTarget(
+    if (g_Supervisor.d3dDevice08->CreateRenderTarget(
             manager->surfaceInfo[surfaceIndex].Width,
             manager->surfaceInfo[surfaceIndex].Height,
-            SurfaceLoadSupervisor()->presentParameters.BackBufferFormat,
+            g_Supervisor.presentParameters350.BackBufferFormat,
             D3DMULTISAMPLE_NONE, TRUE, &manager->surfaces[surfaceIndex]) != D3D_OK)
     {
-        if (SurfaceLoadSupervisor()->d3dDevice->CreateImageSurface(
+        if (g_Supervisor.d3dDevice08->CreateImageSurface(
                 manager->surfaceInfo[surfaceIndex].Width,
                 manager->surfaceInfo[surfaceIndex].Height,
-                SurfaceLoadSupervisor()->presentParameters.BackBufferFormat,
+                g_Supervisor.presentParameters350.BackBufferFormat,
                 &manager->surfaces[surfaceIndex]) != D3D_OK)
             goto error;
     }
 
-    if (SurfaceLoadSupervisor()->d3dDevice->CreateImageSurface(
+    if (g_Supervisor.d3dDevice08->CreateImageSurface(
             manager->surfaceInfo[surfaceIndex].Width,
             manager->surfaceInfo[surfaceIndex].Height,
-            SurfaceLoadSupervisor()->presentParameters.BackBufferFormat,
+            g_Supervisor.presentParameters350.BackBufferFormat,
             &manager->surfacesBis[surfaceIndex]) != D3D_OK)
         goto error;
 
