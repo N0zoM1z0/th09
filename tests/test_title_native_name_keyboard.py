@@ -17,6 +17,7 @@ class NativeTitleNameKeyboard(unittest.TestCase):
         cls.layout=(ROOT/'src/TitleNativeNameKeyboard.hpp').read_text()
         cls.controller=(ROOT/'src/TitleScreen.cpp').read_text()
         cls.renderer=(ROOT/'src/TitleScreenReplaySaveDraw.cpp').read_text()
+        cls.result_renderer=(ROOT/'src/TitleScreenResultDraw.cpp').read_text()
 
     def test_6_by_16_grid_and_last_row_refer_to_one_native_ui(self):
         h=self.layout
@@ -69,6 +70,23 @@ class NativeTitleNameKeyboard(unittest.TestCase):
                          'str[0] = 0x7f;', 'str[0] = 0x80;'):
             with self.subTest(fragment=fragment):self.assertIn(fragment,s)
         self.assertIn('g_AsciiManager.AddString(',s)
+
+    def test_exact_result_renderer_borrows_same_physical_keyboard(self):
+        source=self.result_renderer
+        self.assertIn('#include "TitleNativeNameKeyboard.hpp"',source)
+        self.assertIn('int TitleScreenView::DrawResult()',source)
+        for token in ('row < TitleNativeNameKeyboard::Rows',
+                      'col < TitleNativeNameKeyboard::Columns',
+                      'col + row * TitleNativeNameKeyboard::Columns',
+                      'row * TitleNativeNameKeyboard::Columns + col',
+                      'row == TitleNativeNameKeyboard::LastRow',
+                      'col == TitleNativeNameKeyboard::SpaceColumn',
+                      'col == TitleNativeNameKeyboard::ConfirmColumn',
+                      'str[0] = 0x7f;', 'str[0] = 0x80;'):
+            with self.subTest(token=token):
+                self.assertIn(token,source)
+        self.assertNotIn('for (row = 0; row < 6;',source)
+        self.assertNotIn('for (col = 0; col < 16;',source)
 
     def test_original_large_and_small_source_owners_are_exact_not_open_credit(self):
         units=tomllib.loads((ROOT/'config/match-units.toml').read_text())['units']
