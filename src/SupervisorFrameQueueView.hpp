@@ -3,15 +3,14 @@
 #include "Supervisor.hpp"
 #include <stddef.h>
 
-// The original queue methods use the 0x7B0-byte Supervisor allocation.
-// Retain their original C++ decorated receiver name without a second
-// zero-storage lookalike; this source role adds no data or virtual methods.
+// Compatibility façade for still-open network service callsite models.
+// Every real queue method is declared on Supervisor itself, whose 0x7B0-byte
+// allocation physically owns the +0x47C/+0x56C frame records. This empty
+// derived tag adds no storage or virtual methods.
 struct SupervisorFrameQueueView : Supervisor
 {
-    void InsertReceivedFrame(int side, int frame, unsigned short packedInput, short seed);
-    void InsertPredictedFrame(int side, int frame, short seed);
-    unsigned short PopFrame(int side, unsigned short *seed, unsigned int *predicted);
-    int AreFrameQueuesSynchronized(int side);
+    // Legacy zero-storage caller façade; method ownership is Supervisor.
+    // Caller removal and this facade's deletion are a separate bounded step.
 };
 typedef char SupervisorQueueNativeReceiverLayout[
     (sizeof(SupervisorFrameQueueView) == sizeof(Supervisor) &&

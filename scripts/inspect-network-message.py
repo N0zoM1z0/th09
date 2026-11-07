@@ -81,7 +81,7 @@ REFERENTS = {
     '?g_Supervisor@@3VSupervisor@@A': 0x004B3100,
     '?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z': 0x0042B130,
     '?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A': 0x004B42D0,
-    '?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHGF@Z': 0x0042E9E0,
+    '?InsertReceivedFrame@Supervisor@@QAEXHHGF@Z': 0x0042E9E0,
     '?g_NetworkCurrentTime@@3IA': 0x004B356C,
     '?g_NetworkLastReceiveTime@@3IA': 0x004B3564,
     '?g_NetworkHandshakeToken@@3HA': 0x004B3558,

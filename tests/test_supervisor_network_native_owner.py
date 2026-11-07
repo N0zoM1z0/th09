@@ -58,7 +58,7 @@ class SupervisorNetworkNativeOwnerTests(unittest.TestCase):
         self.assertIn('memset(supervisor->entries47C, 0,', reset)
         self.assertIn('static_cast<SupervisorFrameQueueView *>(&g_TitleSupervisor)', reset)
         self.assertNotIn('reinterpret_cast<SupervisorFrameQueueView *>(', reset)
-        self.assertIn('void SupervisorFrameQueueView::InsertReceivedFrame(',
+        self.assertIn('void Supervisor::InsertReceivedFrame(',
                       (ROOT / 'src/SupervisorFrameQueueInsert.cpp').read_text())
         synchronized = (ROOT / 'src/SupervisorNetworkQueue.cpp').read_text()
         self.assertNotIn('struct SupervisorNetworkQueueSyncLayout', synchronized)

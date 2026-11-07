@@ -12021,8 +12021,8 @@ relocations = [
 source = "src/SupervisorNetworkQueue.cpp"
 object = "build/matching/SupervisorNetworkQueue.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["SupervisorFrameQueueView::AreFrameQueuesSynchronized"]
-symbol = "?AreFrameQueuesSynchronized@SupervisorFrameQueueView@@QAEHH@Z"
+functions = ["Supervisor::AreFrameQueuesSynchronized"]
+symbol = "?AreFrameQueuesSynchronized@Supervisor@@QAEHH@Z"
 target_address = 0x0042ECF0
 size = 0x31
 relocations = []
@@ -12050,11 +12050,11 @@ relocations = [
   { offset = 0x5B, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x63, type = "REL32", symbol = "?GetSeed@RngRuntimeView@@QAEGXZ", target = 0x0041A89E },
   { offset = 0x68, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100 },
-  { offset = 0x75, type = "REL32", symbol = "?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHGF@Z", target = 0x0042E9E0 },
+  { offset = 0x75, type = "REL32", symbol = "?InsertReceivedFrame@Supervisor@@QAEXHHGF@Z", target = 0x0042E9E0 },
   { offset = 0x7A, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x7F, type = "REL32", symbol = "?GetSeed@RngRuntimeView@@QAEGXZ", target = 0x0041A89E },
   { offset = 0x84, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100 },
-  { offset = 0x92, type = "REL32", symbol = "?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHGF@Z", target = 0x0042E9E0 },
+  { offset = 0x92, type = "REL32", symbol = "?InsertReceivedFrame@Supervisor@@QAEXHHGF@Z", target = 0x0042E9E0 },
   { offset = 0x98, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
   { offset = 0x9D, type = "REL32", symbol = "?SupervisorNetworkMarkActive@@YIXPAX@Z", target = 0x0042E9A0 },
   { offset = 0xA3, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
@@ -17322,8 +17322,8 @@ relocations = [
 source = "src/SupervisorFrameQueueOps.cpp"
 object = "build/matching/SupervisorFrameQueuePopFrame.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["SupervisorFrameQueueView::PopFrame"]
-symbol = "?PopFrame@SupervisorFrameQueueView@@QAEGHPAGPAI@Z"
+functions = ["Supervisor::PopFrame"]
+symbol = "?PopFrame@Supervisor@@QAEGHPAGPAI@Z"
 target_address = 0x0042EB80
 size = 0x77
 relocations = [
@@ -17366,8 +17366,8 @@ relocations = [
 source = "src/SupervisorFrameQueueOps.cpp"
 object = "build/matching/SupervisorFrameQueueInsertPredicted.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["SupervisorFrameQueueView::InsertPredictedFrame"]
-symbol = "?InsertPredictedFrame@SupervisorFrameQueueView@@QAEXHHF@Z"
+functions = ["Supervisor::InsertPredictedFrame"]
+symbol = "?InsertPredictedFrame@Supervisor@@QAEXHHF@Z"
 target_address = 0x0042EAC0
 size = 0xBF
 relocations = []
@@ -24591,8 +24591,8 @@ relocations = [
 source = "src/SupervisorFrameQueueInsert.cpp"
 object = "build/matching/SupervisorFrameQueueInsert.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["SupervisorFrameQueueView::InsertReceivedFrame"]
-symbol = "?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHGF@Z"
+functions = ["Supervisor::InsertReceivedFrame"]
+symbol = "?InsertReceivedFrame@Supervisor@@QAEXHHGF@Z"
 target_address = 0x0042E9E0
 size = 213
 relocations = []
@@ -25169,13 +25169,13 @@ target_address = 0x00432B70
 size = 768
 compare_size = 808
 relocations = [
-  { offset = 0x1C, type = "DIR32", symbol = "$L57160", target = 0x00432E88 },
-  { offset = 0x23, type = "DIR32", symbol = "$L57163", target = 0x00432E70 },
+  { offset = 0x1C, type = "DIR32", symbol = "$L59420", target = 0x00432E88 },
+  { offset = 0x23, type = "DIR32", symbol = "$L59423", target = 0x00432E70 },
   { offset = 0x2A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x2F, type = "REL32", symbol = "?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B130 },
   { offset = 0x44, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
   { offset = 0x84, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x89, type = "REL32", symbol = "?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHGF@Z", target = 0x0042E9E0 },
+  { offset = 0x89, type = "REL32", symbol = "?InsertReceivedFrame@Supervisor@@QAEXHHGF@Z", target = 0x0042E9E0 },
   { offset = 0x8E, type = "DIR32", symbol = "?g_NetworkCurrentTime@@3IA", target = 0x004B356C },
   { offset = 0x93, type = "DIR32", symbol = "?g_NetworkLastReceiveTime@@3IA", target = 0x004B3564 },
   { offset = 0xAA, type = "DIR32", symbol = "?g_NetworkHandshakeToken@@3HA", target = 0x004B3558 },
@@ -25186,11 +25186,11 @@ relocations = [
   { offset = 0x141, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x146, type = "REL32", symbol = "?GetSeed@RngRuntimeView@@QAEGXZ", target = 0x0041A89E },
   { offset = 0x14B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x156, type = "REL32", symbol = "?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHGF@Z", target = 0x0042E9E0 },
+  { offset = 0x156, type = "REL32", symbol = "?InsertReceivedFrame@Supervisor@@QAEXHHGF@Z", target = 0x0042E9E0 },
   { offset = 0x15B, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x160, type = "REL32", symbol = "?GetSeed@RngRuntimeView@@QAEGXZ", target = 0x0041A89E },
   { offset = 0x165, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x16F, type = "REL32", symbol = "?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHGF@Z", target = 0x0042E9E0 },
+  { offset = 0x16F, type = "REL32", symbol = "?InsertReceivedFrame@Supervisor@@QAEXHHGF@Z", target = 0x0042E9E0 },
   { offset = 0x18F, type = "DIR32", symbol = "?g_NetworkCurrentTime@@3IA", target = 0x004B356C },
   { offset = 0x194, type = "DIR32", symbol = "?g_NetworkLastReceiveTime@@3IA", target = 0x004B3564 },
   { offset = 0x1A0, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
@@ -25209,12 +25209,12 @@ relocations = [
   { offset = 0x2BE, type = "REL32", symbol = "?EnterCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B130 },
   { offset = 0x2EC, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x2F3, type = "REL32", symbol = "?LeaveCriticalSectionWrapper@Supervisor@@QAEXH@Z", target = 0x0042B160 },
-  { offset = 0x300, type = "DIR32", symbol = "$L57133", target = 0x00432E26 },
-  { offset = 0x304, type = "DIR32", symbol = "$L57112", target = 0x00432D0D },
-  { offset = 0x308, type = "DIR32", symbol = "$L57127", target = 0x00432DDF },
-  { offset = 0x30C, type = "DIR32", symbol = "$L57093", target = 0x00432B97 },
-  { offset = 0x310, type = "DIR32", symbol = "$L57132", target = 0x00432E0E },
-  { offset = 0x314, type = "DIR32", symbol = "$L57090", target = 0x00432E67 },
+  { offset = 0x300, type = "DIR32", symbol = "$L59393", target = 0x00432E26 },
+  { offset = 0x304, type = "DIR32", symbol = "$L59372", target = 0x00432D0D },
+  { offset = 0x308, type = "DIR32", symbol = "$L59387", target = 0x00432DDF },
+  { offset = 0x30C, type = "DIR32", symbol = "$L59353", target = 0x00432B97 },
+  { offset = 0x310, type = "DIR32", symbol = "$L59392", target = 0x00432E0E },
+  { offset = 0x314, type = "DIR32", symbol = "$L59350", target = 0x00432E67 },
 ]
 
 [units.ex-attack-draw-type14-22]

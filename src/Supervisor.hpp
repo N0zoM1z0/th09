@@ -113,6 +113,12 @@ class Supervisor
     void ApplyCameraMode1();
     void EnterCriticalSectionWrapper(int id);
     void LeaveCriticalSectionWrapper(int id);
+    // The original queue producer/consumer methods receive this exact
+    // Supervisor object; +0x47C/+0x56C own their physical frame records.
+    void InsertReceivedFrame(int side, int frame, unsigned short packedInput, short seed);
+    void InsertPredictedFrame(int side, int frame, short seed);
+    unsigned short PopFrame(int side, unsigned short *seed, unsigned int *predicted);
+    int AreFrameQueuesSynchronized(int side);
 
     unsigned char unknown000[0x04];
     IDirect3D8 *d3d04;

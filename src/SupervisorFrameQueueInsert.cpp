@@ -6,7 +6,7 @@
 #include "SupervisorFrameQueueStorageView.hpp"
 #include "Supervisor.hpp"
 
-void SupervisorFrameQueueView::InsertReceivedFrame(
+void Supervisor::InsertReceivedFrame(
     int side, int frame, unsigned short packedInput, short seed)
 {
     int i;

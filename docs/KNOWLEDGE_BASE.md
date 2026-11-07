@@ -61,6 +61,16 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Supervisor itself owns all four network frame-queue methods
+
+Four exact frame queue methods at 0x42E9E0/0x42EAC0/0x42EB80/0x42ECF0
+now belong to the actual native Supervisor object, whose two ten-frame
+queues occupy +0x47C and last-received records +0x56C. Five real
+InsertReceivedFrame callsites from the exact Mode4 reset and network
+message handler retain original 0x42E9E0; six whole physical owners,
+including the 808-byte message/physical-tail owner, still exactly match.
+See [native queue method proof](TH09_SUPERVISOR_NATIVE_FRAME_QUEUE_METHODS_20261107.md).
+
 ### 2026-11-07: ECL raw signed shorts use the actual wire union halves
 
 The full RunEcl opcode 130/150 handlers read signed shorts at offsets

@@ -473,6 +473,16 @@ proof of remote publication.
   `$L` name changes retain proven same original addresses. See
   [native ECL wire halfwords](TH09_ECL_NATIVE_WIRE_HALFWORD_INDEXING_20261107.md).
 
+- **Supervisor frame-queue methods have their actual native receiver:**
+  the four exact 213/191/119/49-byte queue methods belong directly to
+  `Supervisor`, which owns the 20-entry +0x47C and two-entry +0x56C frame
+  arrays. Mode4 reset and network message call the same original
+  `0x0042E9E0` method with five unchanged call fields. **6 exact full
+  owners / 1,557 physical bytes / 59 fields** pass original-bound replay,
+  including the network handler's 40-byte switch/table tail. Eight `$L`
+  names retain verified original VAs. The network service big boss remains
+  nonexact. See [native Supervisor queue methods](TH09_SUPERVISOR_NATIVE_FRAME_QUEUE_METHODS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

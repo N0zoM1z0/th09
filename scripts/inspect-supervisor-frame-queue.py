@@ -20,7 +20,7 @@ SIZE = 213
 TARGET_SHA256 = "c7d33d3a0ca15df698c2c66916c24aa0b0b7527e769c08bbd1d0ed88ac245c17"
 TARGET_INSTRUCTIONS = 67
 TARGET_BLOCKS = 9
-SYMBOL = '?InsertReceivedFrame@SupervisorFrameQueueView@@QAEXHHGF@Z'
+SYMBOL = '?InsertReceivedFrame@Supervisor@@QAEXHHGF@Z'
 
 
 def require_owner(candidate, relocations):
@@ -105,7 +105,7 @@ def main():
     if args.json:
         print(json.dumps(report, indent=2))
     else:
-        print('NON-CREDITING SupervisorFrameQueueView::InsertReceivedFrame')
+        print('NON-CREDITING Supervisor::InsertReceivedFrame')
         for field in ('target_bytes', 'candidate_bytes', 'relocation_fields',
                       'complete_differences', 'target_instructions',
                       'candidate_instructions', 'target_calls',

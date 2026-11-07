@@ -1,7 +1,8 @@
 """Native Supervisor frame queue storage across boss and three queue methods.
 
-The 213-byte InsertReceivedFrame remains unclassified and still has observed
-differences; do not claim matching credit from its successful native compile.
+The 213-byte InsertReceivedFrame and three other frame-queue methods are
+all completely original-exact. Byte credit is independently established by
+whole-function PE/COFF comparison, not source/header inspection.
 """
 from pathlib import Path
 import tomllib

@@ -9,7 +9,7 @@ typedef char SupervisorNativeSyncQueues[
     (offsetof(Supervisor, entries47C) == 0x47C &&
      sizeof(((Supervisor *)0)->entries47C[0]) == 0x0C) ? 1 : -1];
 
-int SupervisorFrameQueueView::AreFrameQueuesSynchronized(int side)
+int Supervisor::AreFrameQueuesSynchronized(int side)
 {
     Supervisor *view = static_cast<Supervisor *>(this);
     if (view->entries47C[side * 10].frame04 != 0 &&

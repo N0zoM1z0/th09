@@ -11,7 +11,7 @@ typedef char SupervisorNativeFrameInputState[
     (sizeof(ReplayInputState) == 0x8E &&
      offsetof(ReplayInputState, currentInput) == 0x00) ? 1 : -1];
 
-void SupervisorFrameQueueView::InsertPredictedFrame(
+void Supervisor::InsertPredictedFrame(
     int side, int frame, short seed)
 {
     Supervisor *view = static_cast<Supervisor *>(this);
@@ -60,7 +60,7 @@ void SupervisorFrameQueueView::InsertPredictedFrame(
     *reinterpret_cast<unsigned int *>(entryCursor + 0x484) = 1;
 }
 
-unsigned short SupervisorFrameQueueView::PopFrame(
+unsigned short Supervisor::PopFrame(
     int side, unsigned short *seed, unsigned int *predicted)
 {
     unsigned short input;
