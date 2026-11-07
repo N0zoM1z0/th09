@@ -1,6 +1,6 @@
 #include "AnmManager.hpp"
 #include "VertexDiffuseXyzrhw.hpp"
-#include "AnmManagerRenderCacheView.hpp"
+#include "AnmManagerQuadCacheView.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
 
@@ -18,12 +18,6 @@ struct VertexTex1DiffuseXyzrhw
     unsigned long diffuse;
     float u;
     float v;
-};
-
-struct VertexTex1Xyz
-{
-    Float3 pos;
-    Float2 textureUV;
 };
 
 struct BackgroundQuadVertexView
@@ -52,13 +46,7 @@ typedef char PrimitiveNativeVmDrawFields[
 typedef char AnmPrimitiveRealDeviceAt08[
     (offsetof(Supervisor, d3dDevice08) == 0x08) ? 1 : -1];
 
-struct AnmManagerPrimitiveView : AnmManagerRenderCacheView
-{
-    AnmLoadedSprite *currentSprite;
-    IDirect3DVertexBuffer8 *quadVertexBuffer;
-    VertexTex1Xyz untexturedVector[4];
-    int spritesToDraw;
-};
+typedef AnmManagerQuadCacheView AnmManagerPrimitiveView;
 
 typedef char PrimitiveCurrentTextureAt12880[(offsetof(AnmManagerPrimitiveView, currentTexture) == 0x12880) ? 1 : -1];
 typedef char PrimitiveBlendAt12884[(offsetof(AnmManagerPrimitiveView, currentBlendMode) == 0x12884) ? 1 : -1];
