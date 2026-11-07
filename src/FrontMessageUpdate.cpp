@@ -2,6 +2,7 @@
 #include "AsciiManager.hpp"
 #include "ScreenEffect.hpp"
 #include "ZunTimer.hpp"
+#include "PlayerLifecycleView.hpp"
 
 #include <stddef.h>
 
@@ -24,18 +25,7 @@ struct FrontMessagePortraitPair
 typedef char FrontMessagePortraitPairSizeIs548[
     (sizeof(FrontMessagePortraitPair) == 0x548) ? 1 : -1];
 
-struct FrontMessagePlayerView
-{
-    unsigned char unknown00000[0x303C8];
-    ZunTimer stateTimer303C8;
-    unsigned char unknown303D4[0x303F0 - 0x303D4];
-    int tableValue303F0;
-    int tableValue303F4;
-    int tableValue303F8;
-    int tableValue303FC;
 
-    void SetUpdateState(int state);
-};
 
 
 struct FrontMessageFrontSideAuxView
@@ -68,7 +58,7 @@ struct FrontMessageSideStateView
 struct FrontMessageSideView
 {
     FrontMessageSideStateView *state00;
-    FrontMessagePlayerView *player04;
+    PlayerLifecycleView *player04;
     unsigned char unknown08[0x10];
     FrontMessageFrontSideView *frontSide18;
     unsigned char unknown1C[0x04];
@@ -78,6 +68,17 @@ struct FrontMessageSideView
 
 typedef char FrontMessageSideSizeIs38[
     (sizeof(FrontMessageSideView) == 0x38) ? 1 : -1];
+// The message script's +0x04 Player pointer is the very same native
+// allocation used by the Enemy selector and the exact state setter.
+// No extra Player class or scripted state timer object is allocated.
+typedef char FrontMessageNativePlayerStorage[
+    (offsetof(FrontMessageSideView, player04) == 0x04 &&
+     sizeof(PlayerLifecycleView) == 0x30F70 &&
+     offsetof(PlayerLifecycleView, updateState00) == 0x00 &&
+     offsetof(PlayerLifecycleView, timer303C8) == 0x303C8 &&
+     offsetof(PlayerLifecycleView, tableValue303F0) == 0x303F0 &&
+     offsetof(PlayerLifecycleView, tableValue303F8) == 0x303F8 &&
+     offsetof(PlayerLifecycleView, tableValue303FC) == 0x303FC) ? 1 : -1];
 
 struct FrontMessageGameManagerView
 {
@@ -211,7 +212,7 @@ int FrontMessageRuntimeView::Update()
         case 0x17:
         {
             g_GameManager.sides[current04->argument04].player04->SetUpdateState(1);
-            g_GameManager.sides[current04->argument04].player04->stateTimer303C8 = 0;
+            g_GameManager.sides[current04->argument04].player04->timer303C8 = 0;
             break;
         }
 

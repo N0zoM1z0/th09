@@ -594,6 +594,13 @@ proof of remote publication.
   **598 fields / 30 unlike bytes**. See
   [native Player state setter audit](TH09_PLAYER_NATIVE_UPDATE_STATE_BOSSES_20261107.md).
 
+- **Full 2,968-byte FrontMessage update physical owner now points to
+  the real native Player:** replaces its 0x303FC private prefix model with
+  `PlayerLifecycleView *` and uses true `SetUpdateState @0x403C20` plus
+  +0x303C8 timer. Original complete owner stays **2,968/2,968 bytes and
+  all 167 fields**, including 30 PE-audited compiler-private labels.
+  See [native FrontMessage Player receiver](TH09_FRONTMESSAGE_NATIVE_PLAYER_RECEIVER_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

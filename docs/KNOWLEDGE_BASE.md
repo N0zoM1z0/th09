@@ -82,6 +82,16 @@ reload; 110 exact related complete owners remain PE-bound, including
 selector jump-table data. The Enemy boss is still 13 bytes unlike.
 See [native Player state setter](TH09_PLAYER_NATIVE_SET_UPDATE_STATE_20261107.md).
 
+### 2026-11-07: FrontMessage uses the same actual Player as Enemy and selector
+
+The complete exact 2,968-byte FrontMessage update code+table carrier now
+uses a real PlayerLifecycleView pointer in its side state rather than a
+private prefix-class with a duplicate setter and timer. The original
+0x403C20 Setter REL32 target and +0x303C8 Timer are preserved. All
+167 COFF fields, complete original PE bytes, and 30 locally re-numbered
+labels have been independently verified. See
+[native FrontMessage Player proof](TH09_FRONTMESSAGE_NATIVE_PLAYER_RECEIVER_20261107.md).
+
 ### 2026-11-07: Player SetUpdateState lives on real Player, including Enemy boss
 
 The exact twelve-byte Player state setter at 0x403C20 now is a member of
