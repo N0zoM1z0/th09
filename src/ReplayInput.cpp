@@ -310,10 +310,10 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
                     new ReplayBufferLink, sizeof(ReplayBufferLink), "ReplayBufLinkInf");
             replayManager->currentBuffer = replayManager->currentBuffer->next;
 
-            replayManager->inputCursor0 = (u16 *)g_ZunMemory.Alloc(0x1C20, "rep data");
-            replayManager->inputCursor1 = (u16 *)g_ZunMemory.Alloc(0x1C20, "rep data");
-            replayManager->inputCursor2 = (u16 *)g_ZunMemory.Alloc(0x1C20, "rep data");
-            replayManager->fpsCursor = (u8 *)g_ZunMemory.Alloc(0x79, "rep data");
+            replayManager->inputCursor0 = (u16 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::InputStreamBytes, "rep data");
+            replayManager->inputCursor1 = (u16 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::InputStreamBytes, "rep data");
+            replayManager->inputCursor2 = (u16 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::InputStreamBytes, "rep data");
+            replayManager->fpsCursor = (u8 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::FpsStreamBytes, "rep data");
 
             replayManager->currentBuffer->input[0] = replayManager->inputCursor0;
             replayManager->currentBuffer->input[1] = replayManager->inputCursor1;
@@ -322,10 +322,10 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
             replayManager->currentBuffer->next = NULL;
             replayManager->currentBuffer->frameCount = 0;
 
-            memset(replayManager->inputCursor0, 0, 0x1C20);
-            memset(replayManager->inputCursor1, 0, 0x1C20);
-            memset(replayManager->inputCursor2, 0, 0x1C20);
-            memset(replayManager->fpsCursor, 0, 0x79);
+            memset(replayManager->inputCursor0, 0, ReplayRecordingCapacity::InputStreamBytes);
+            memset(replayManager->inputCursor1, 0, ReplayRecordingCapacity::InputStreamBytes);
+            memset(replayManager->inputCursor2, 0, ReplayRecordingCapacity::InputStreamBytes);
+            memset(replayManager->fpsCursor, 0, ReplayRecordingCapacity::FpsStreamBytes);
         }
 
         replayManager->frameCounter++;
@@ -420,10 +420,10 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
     frame0->value09 = g_GameManager.value138;
     frame0->value10 = g_GameManager.sides[0].runtime->phase10;
 
-    replayManager->inputCursor0 = (u16 *)g_ZunMemory.Alloc(0x1C20, "rep data");
-    replayManager->inputCursor1 = (u16 *)g_ZunMemory.Alloc(0x1C20, "rep data");
-    replayManager->inputCursor2 = (u16 *)g_ZunMemory.Alloc(0x1C20, "rep data");
-    replayManager->fpsCursor = (u8 *)g_ZunMemory.Alloc(0x79, "rep data");
+    replayManager->inputCursor0 = (u16 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::InputStreamBytes, "rep data");
+    replayManager->inputCursor1 = (u16 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::InputStreamBytes, "rep data");
+    replayManager->inputCursor2 = (u16 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::InputStreamBytes, "rep data");
+    replayManager->fpsCursor = (u8 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::FpsStreamBytes, "rep data");
 
     ReplayBufferLink *first = &replayManager->stageBuffers[stage];
     ReplayBufferLink *current = &replayManager->stageBuffers[stage];
@@ -452,10 +452,10 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
     replayManager->currentBuffer->next = NULL;
     replayManager->currentBuffer->frameCount = 0;
 
-    memset(replayManager->inputCursor0, 0, 0x1C20);
-    memset(replayManager->inputCursor1, 0, 0x1C20);
-    memset(replayManager->inputCursor2, 0, 0x1C20);
-    memset(replayManager->fpsCursor, 0, 0x79);
+    memset(replayManager->inputCursor0, 0, ReplayRecordingCapacity::InputStreamBytes);
+    memset(replayManager->inputCursor1, 0, ReplayRecordingCapacity::InputStreamBytes);
+    memset(replayManager->inputCursor2, 0, ReplayRecordingCapacity::InputStreamBytes);
+    memset(replayManager->fpsCursor, 0, ReplayRecordingCapacity::FpsStreamBytes);
     return 0;
 }
 
@@ -705,7 +705,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         return 0;
 
     ReplayDataView replayCopy;
-    int allocationSize = 0x101EC;
+    int allocationSize = (sizeof(ReplayDataView) + ReplayRecordingCapacity::InitialPayloadBytes);
     int loopIndex;
     {
         loopIndex = 0;
@@ -716,9 +716,9 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         {
             if (replayCopy.frameStart[0][loopIndex] != NULL)
             {
-                allocationSize += 0x60;
+                allocationSize += ReplayRecordingCapacity::StageHeadersBytes;
                 for (const ReplayBufferLink *link = stageRoot; link != NULL; link = link->next)
-                    allocationSize += 0x54D9;
+                    allocationSize += ReplayRecordingCapacity::LinkBytes;
             }
         }
     }

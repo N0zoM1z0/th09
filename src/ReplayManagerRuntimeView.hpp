@@ -22,6 +22,30 @@ typedef char ReplayBufferLinkNextAt14[(offsetof(ReplayBufferLink, next) == 0x14)
 
 #include "ReplayDataOriginalView.hpp"
 
+// A recording link owns three fixed input streams and one FPS stream.
+// These are the actual allocation/zeroing sizes in BeginRecordingStage;
+// SaveReplay reserves one complete set per link and three 0x20-byte stage
+// headers. The extra 0x10000 bytes are initial serialized payload capacity,
+// not part of the 0x1EC-byte replay header.
+struct ReplayRecordingCapacity
+{
+    enum
+    {
+        InputStreamBytes = 0x1C20,
+        FpsStreamBytes = 0x79,
+        InputStreamCount = sizeof(((ReplayBufferLink *)0)->input) /
+                           sizeof(((ReplayBufferLink *)0)->input[0]),
+        LinkBytes = InputStreamCount * InputStreamBytes + FpsStreamBytes,
+        StageHeadersBytes = InputStreamCount * sizeof(ReplayFrameDataStartView),
+        InitialPayloadBytes = 0x10000
+    };
+};
+typedef char ReplayRecordingCapacityPhysicalSizes[
+    (ReplayRecordingCapacity::InputStreamCount == 3 &&
+     ReplayRecordingCapacity::LinkBytes == 0x54D9 &&
+     ReplayRecordingCapacity::StageHeadersBytes == 0x60 &&
+     sizeof(ReplayDataView) == 0x1EC) ? 1 : -1];
+
 
 struct ReplayManagerView
 {
