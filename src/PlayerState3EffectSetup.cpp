@@ -29,7 +29,7 @@ Effect *PlayerStateEffectView::ConfigureState3Effect13()
         0.0f, 4.0f, 2, 0x30, 0);
     reinterpret_cast<PlayerState4OpsView *>(this)->SetUpdateState(3);
     timer303C8 = 0x30;
-    return sideState0C->effectManager0C->SpawnEffect(
+    return sideState->effectManager0C->SpawnEffect(
         13, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
 }
 
@@ -43,7 +43,7 @@ Effect *PlayerStateEffectView::ConfigureState3Effect14()
         0.0f, 4.0f, 2, 0x40, 0);
     reinterpret_cast<PlayerState4OpsView *>(this)->SetUpdateState(3);
     timer303C8 = 0x40;
-    return sideState0C->effectManager0C->SpawnEffect(
+    return sideState->effectManager0C->SpawnEffect(
         14, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
 }
 
@@ -57,6 +57,6 @@ Effect *PlayerStateEffectView::ConfigureState3Effect15()
         0.0f, 3.5f, 2, 0x80, 0);
     reinterpret_cast<PlayerState4OpsView *>(this)->SetUpdateState(3);
     timer303C8 = 0x80;
-    return sideState0C->effectManager0C->SpawnEffect(
+    return sideState->effectManager0C->SpawnEffect(
         15, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
 }
