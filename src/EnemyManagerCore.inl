@@ -19,6 +19,7 @@
 #include "AsciiBossMarkerVmView.hpp"
 #include "ZunMemory.hpp"
 #include "PlayerEnemyTrackingNative.hpp"
+#include "PlayerSharedRuntimeView.hpp"
 
 #include <math.h>
 #include <stddef.h>
@@ -191,16 +192,7 @@ typedef char EnemyManagerCoreTimelineAt2AC440[
     (offsetof(EnemyManagerCoreView, timelineSpawnsSuppressed2AC440) == 0x2AC440 &&
      offsetof(EnemyManagerCoreView, priorityEnemy2AC444) == 0x2AC444) ? 1 : -1];
 
-struct EnemyCoreFrontView
-{
-    unsigned char unknown00000[0x1095C];
-    int scriptedUpdateFreeze1095C;
-};
-typedef char EnemyCoreFrontFreezeAt1095C[
-    (offsetof(EnemyCoreFrontView, scriptedUpdateFreeze1095C) == 0x1095C) ? 1 : -1];
-
 extern AsciiManager g_AsciiManager;
-struct PlayerSharedRuntimeView;
 extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 extern unsigned char g_EnemyCoreSchedule[];
 
@@ -294,7 +286,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
     manager->drawGroupHeads2AC410[1] = 0;
     manager->drawGroupHeads2AC410[0] = 0;
 
-    if (!reinterpret_cast<EnemyCoreFrontView *>(g_PlayerSharedRuntime)->scriptedUpdateFreeze1095C)
+    if (g_PlayerSharedRuntime->updateBlock1095C == 0)
     {
         if (manager->scheduledSubroutine2AC400 != 0)
         {
