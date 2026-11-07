@@ -69,8 +69,12 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     if (player->header24.state84 == 0)
         return 0;
 
-    int inputOffset = player->sideIndex * sizeof(ReplayInputState);
-    ReplayInputState *input = &g_ReplayInputStates[player->sideIndex];
+    // Snapshot the native input slot before computing its physical 0x8E-byte
+    // array address. Both the IsHeld tests and focus-history path address the
+    // same original ReplayInputState allocation, without a second input view.
+    const int inputSide = player->sideIndex;
+    int inputOffset = inputSide * sizeof(ReplayInputState);
+    ReplayInputState *input = &g_ReplayInputStates[inputSide];
 
     if (input->IsHeld(0x50) == 0x50)
         player->movementDirection30358 = 5;
