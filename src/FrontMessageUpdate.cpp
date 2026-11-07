@@ -6,6 +6,7 @@
 #include "FrontSide.hpp"
 #include "GameManagerRuntimeView.hpp"
 #include "Background.hpp"
+#include "ReplayNativeInputGateCapacity.hpp"
 
 #include <stddef.h>
 
@@ -39,6 +40,16 @@ typedef char FrontMessageFrontSideAuxAtA678[
 // The real g_GameManager contains two 0x38-byte playable side allocations.
 // Opcode 0x1C writes Background::pendingStageLabel18 through the side's
 // +0x00 Background pointer (not a separate 0x1C-byte score-buffer view).
+// The script skip/confirm input is not another global input allocation.
+// This is the third 0x8E-byte member of the same native input array used
+// by Replay recording, playback, networking and Player movement.
+typedef char FrontMessageNativeReplayInputSlot[
+    (ReplayNativeInputGateCapacity::StateCount == 3 &&
+     ReplayNativeInputGateCapacity::SharedInputStateIndex == 2 &&
+     sizeof(((ReplayInputState *)0)->heldFrames) == 0x20 &&
+     sizeof(g_ReplayInputStates[0]) == 0x8E &&
+     ReplayNativeInputGateCapacity::SharedInputStateIndex * sizeof(ReplayInputState) == 0x11C) ? 1 : -1];
+
 typedef char FrontMessageNativeGameManagerOwners[
     (sizeof(AsciiGameManagerView) == 0x390 &&
      sizeof(FrontSideAuxView) == 0x558 &&
@@ -66,11 +77,7 @@ struct FrontMessageNeutralSourceView
     short musicId0C;
 };
 
-struct FrontMessageInputView
-{
-    unsigned short IsHeld(unsigned short mask);
-    unsigned short WasPressed(unsigned short mask);
-};
+
 
 struct FrontMessageSupervisorView
 {
@@ -127,7 +134,6 @@ typedef char FrontMessageTailAt1D64[
     (offsetof(FrontMessageRuntimeView, colorIndex1D64) == 0x1D64) ? 1 : -1];
 
 extern AsciiGameManagerView g_GameManager;
-extern FrontMessageInputView g_FrontMessageInput;
 extern FrontMessageNeutralSourceView *g_FrontMessageSource;
 extern FrontMessageResultOwnerView *g_FrontMessageOwner;
 extern FrontMessageSupervisorView g_Supervisor;
@@ -166,7 +172,7 @@ int FrontMessageRuntimeView::Update()
     if (ignoreWait1D68 > 0)
         --ignoreWait1D68;
 
-    if (skippable1D6C && g_FrontMessageInput.IsHeld(0x100))
+    if (skippable1D6C && g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].IsHeld(0x100))
         timer1D40 = current04->time00;
 
     while (timer1D40 >= static_cast<int>(current04->time00))
@@ -465,10 +471,10 @@ int FrontMessageRuntimeView::Update()
         case 4:
         {
             FrontMessageInstructionView *instruction = current04;
-            if (skippable1D6C && g_FrontMessageInput.IsHeld(0x100))
+            if (skippable1D6C && g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].IsHeld(0x100))
                 break;
 
-            if (g_FrontMessageInput.WasPressed(1) &&
+            if (g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].WasPressed(1) &&
                 framesElapsed1D4C >= waitThreshold1D50)
             {
                 resetText1D65 = 1;
@@ -620,7 +626,7 @@ run_scripts:
     g_AnmManager->ExecuteScript(&introVm1A7C);
 
     if (timer1D40 < 60 && skippable1D6C &&
-        g_FrontMessageInput.IsHeld(0x100))
+        g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].IsHeld(0x100))
     {
         timer1D40 = 60;
     }
@@ -628,7 +634,7 @@ run_scripts:
     if (secondaryTimer1D58 >= 1)
     {
         if (secondaryTimer1D58 < 60 && skippable1D6C &&
-            g_FrontMessageInput.IsHeld(0x100))
+            g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].IsHeld(0x100))
         {
             timer1D40 = 60;
         }

@@ -621,6 +621,17 @@ proof of remote publication.
   are preserved. Scoped closure passes **22 exact owners / 7,230 bytes /
   344 fields**. See [native FrontMessage GameManager/Background](TH09_FRONTMESSAGE_NATIVE_GAMEMANAGER_BACKGROUND_20261108.md).
 
+- **FrontMessage uses the native third ReplayInputState instead of an
+  invented input global:** the five original effective pointer operands
+  at 0x004ACF34 now bind to `g_ReplayInputStates` base 0x004ACE18 plus
+  true 0x11C COFF addends. Its four IsHeld and one WasPressed call target
+  the exact original Replay input leaves. **The full 2,968-byte physical
+  FrontMessage interpreter and all 167 PE-bound fields remain exact**;
+  scoped cold replay passes **16 exact owners / 7,136 bytes / 399
+  relocations**, and 30 name-only local labels have independently proved
+  original destinations. See
+  [native FrontMessage shared Replay input](TH09_FRONTMESSAGE_NATIVE_REPLAY_INPUT_SHARED_SLOT_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

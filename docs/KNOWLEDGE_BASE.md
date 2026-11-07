@@ -82,6 +82,16 @@ reload; 110 exact related complete owners remain PE-bound, including
 selector jump-table data. The Enemy boss is still 13 bytes unlike.
 See [native Player state setter](TH09_PLAYER_NATIVE_SET_UPDATE_STATE_20261107.md).
 
+### 2026-11-08: FrontMessage reads the third real ReplayInputState record
+
+The original `g_FrontMessageInput` physical receiver at 0x4ACF34 is
+really `g_ReplayInputStates[2]`: array base 0x4ACE18 + 2 × 0x8E. The
+2,968-byte exact FrontMessage script now uses its real Replay input
+record and exact `IsHeld`/`WasPressed` leaves, without a second input
+global. All five global-field effective VAs, all calls and the whole
+original code/switch owner were independently PE/COFF audited. See
+[FrontMessage shared Replay input](TH09_FRONTMESSAGE_NATIVE_REPLAY_INPUT_SHARED_SLOT_20261108.md).
+
 ### 2026-11-08: FrontMessage opcode 0x1C writes the actual Background stage label
 
 The 2,968-byte original-exact message script now shares the full native
