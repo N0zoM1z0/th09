@@ -12,7 +12,7 @@ class NativeSupervisorLoadingSharedTitleView(unittest.TestCase):
         shared=(ROOT/'src/TitleSupervisorRuntimeView.hpp').read_text()
         self.assertIn('#include "TitleSupervisorRuntimeView.hpp"',title)
         self.assertIn('#include "TitleSupervisorRuntimeView.hpp"',loading)
-        self.assertIn('struct TitleSupervisorView : SupervisorThreadStartView',shared)
+        self.assertIn('struct TitleSupervisorView : SupervisorLoadingSetupView',shared)
         self.assertIn('sizeof(TitleSupervisorView) == sizeof(Supervisor)',shared)
         self.assertNotIn('struct TitleSupervisorView',loading)
         self.assertNotIn('struct SupervisorLoadingFinishView',loading)

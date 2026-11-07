@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SupervisorThreadStartView.hpp"
+#include "SupervisorLoadingSetupView.hpp"
 #include <stddef.h>
 
 struct TitleFloat3View;
@@ -9,9 +9,8 @@ struct TitleFloat3View;
 // the separately original-bound Title method identities remain in this
 // zero-extra-storage source-facing class.  Its anonymous status/FPs window
 // is owned by Supervisor at +0x77C..+0x793, not duplicated here.
-struct TitleSupervisorView : SupervisorThreadStartView {
+struct TitleSupervisorView : SupervisorLoadingSetupView {
     int ClearRecordingFpsWarningState();
-    void SetupLoadingVms(TitleFloat3View *position);
     void SetupLoadingVmsAndInitCapture(TitleFloat3View *position);
     void HideLoadingVms();
 };
