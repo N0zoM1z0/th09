@@ -210,32 +210,11 @@ struct TitleSelectionRandomView {
     i32 NextU32();
 };
 
-struct TitleSupervisorView {
-    u8 unknown000[8];
-    IDirect3DDevice8 *d3dDevice;               // +0x008
-    u8 unknown00C[0x588];
-    i32 transitionState594;                    // +0x594
-    u8 unknown598[0x20];
-    float frameRateMultiplier;                 // +0x5B8
-    u8 unknown5BC[0x10];
-    TitleAnmView *textAnm;                     // +0x5CC
-    u8 unknown5D0[0xDC];
-    i32 runningSubthreadHandle;                // +0x6AC
-    u8 unknown6B0[4];
-    i32 subthreadCloseRequestActive;           // +0x6B4
-    i32 subthreadActive;                       // +0x6B8
-    u8 unknown6BC[0x84];
-    i32 loadingVmsHaveBeenSetup;               // +0x740
-    u8 unknown744[0x38];
-    i32 recordingFpsWarning77C;                 // +0x77C
-    i32 playbackFpsWarning780;                  // +0x780
-    i32 recordingFpsState784;                   // +0x784
-    i32 recordingFpsState788;                   // +0x788
-    i32 recordingFpsState78C;                   // +0x78C
-    i32 recordingFpsState790;                   // +0x790
-    u8 unknown794[4];
-    u32 totalPlayTime798;                       // +0x798
-
+// Title callbacks borrow the complete native Supervisor allocation; only
+// the separately original-bound Title method identities remain in this
+// zero-extra-storage source-facing class.  Its anonymous status/FPs window
+// is owned by Supervisor at +0x77C..+0x793, not duplicated here.
+struct TitleSupervisorView : Supervisor {
     int LoadMusic(i32 trackId);
     void PlayMusic(i32 track, i32 unused);
     int StopAudio();
@@ -247,22 +226,20 @@ struct TitleSupervisorView {
     void HideLoadingVms();
 };
 
-typedef char TitleSupervisorD3dAt008[(offsetof(TitleSupervisorView, d3dDevice) == 0x008) ? 1 : -1];
-typedef char TitleSupervisorStateAt594[(offsetof(TitleSupervisorView, transitionState594) == 0x594) ? 1 : -1];
-typedef char TitleSupervisorRateAt5B8[(offsetof(TitleSupervisorView, frameRateMultiplier) == 0x5B8) ? 1 : -1];
-typedef char TitleSupervisorTextAnmAt5CC[(offsetof(TitleSupervisorView, textAnm) == 0x5CC) ? 1 : -1];
-typedef char TitleSupervisorThreadAt6AC[(offsetof(TitleSupervisorView, runningSubthreadHandle) == 0x6AC) ? 1 : -1];
-typedef char TitleSupervisorCloseAt6B4[(offsetof(TitleSupervisorView, subthreadCloseRequestActive) == 0x6B4) ? 1 : -1];
-typedef char TitleSupervisorActiveAt6B8[(offsetof(TitleSupervisorView, subthreadActive) == 0x6B8) ? 1 : -1];
-typedef char TitleSupervisorLoadingAt740[(offsetof(TitleSupervisorView, loadingVmsHaveBeenSetup) == 0x740) ? 1 : -1];
-typedef char TitleSupervisorRecordingWarningAt77C[
-    (offsetof(TitleSupervisorView, recordingFpsWarning77C) == 0x77C) ? 1 : -1];
-typedef char TitleSupervisorPlaybackWarningAt780[
-    (offsetof(TitleSupervisorView, playbackFpsWarning780) == 0x780) ? 1 : -1];
-typedef char TitleSupervisorRecordingState790[
-    (offsetof(TitleSupervisorView, recordingFpsState790) == 0x790) ? 1 : -1];
-typedef char TitleSupervisorTotalPlayTimeAt798[
-    (offsetof(TitleSupervisorView, totalPlayTime798) == 0x798) ? 1 : -1];
+typedef char TitleSupervisorUsesNativeStorage[
+    (sizeof(TitleSupervisorView) == sizeof(Supervisor) &&
+     offsetof(TitleSupervisorView, d3dDevice08) == 0x08 &&
+     offsetof(TitleSupervisorView, value594) == 0x594 &&
+     offsetof(TitleSupervisorView, framerateMultiplier5B8) == 0x5B8 &&
+     offsetof(TitleSupervisorView, textAnm5CC) == 0x5CC &&
+     offsetof(TitleSupervisorView, runningSubthreadHandle) == 0x6AC &&
+     offsetof(TitleSupervisorView, subthreadCloseRequestActive) == 0x6B4 &&
+     offsetof(TitleSupervisorView, subthreadActive) == 0x6B8 &&
+     offsetof(TitleSupervisorView, loadingVmsHaveBeenSetup) == 0x740 &&
+     offsetof(TitleSupervisorView, recordingFpsWarning77C) == 0x77C &&
+     offsetof(TitleSupervisorView, playbackFpsWarning780) == 0x780 &&
+     offsetof(TitleSupervisorView, recordingFpsState790) == 0x790 &&
+     offsetof(TitleSupervisorView, totalPlayTime) == 0x798) ? 1 : -1];
 
 // Source-facing alias only for the independently unclassified one-byte
 // folded no-op at 0x0043D2B0. Its original owner is unknown; do not add
@@ -523,12 +500,12 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
 
     for (i32 i = 0; i < 14; ++i)
     {
-        g_TitleSupervisor.textAnm->SetAndExecuteScriptIdx(
+        reinterpret_cast<TitleAnmView *>(g_TitleSupervisor.textAnm5CC)->SetAndExecuteScriptIdx(
             &title->embeddedVms[i], 5);
-        g_TitleSupervisor.textAnm->SetSprite(
+        reinterpret_cast<TitleAnmView *>(g_TitleSupervisor.textAnm5CC)->SetSprite(
             &g_TitleScreen->embeddedVms[i],
             g_TitleScreen->embeddedVms[i].activeSpriteIndex + i);
-        g_TitleSupervisor.textAnm->SetSprite(
+        reinterpret_cast<TitleAnmView *>(g_TitleSupervisor.textAnm5CC)->SetSprite(
             &g_TitleScreen->embeddedVms[i + 35], i + 21);
 
         title = g_TitleScreen;
@@ -566,9 +543,9 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
 
     if ((g_TitleGameFlags & 2) == 0)
     {
-        if (g_TitleSupervisor.transitionState594 != 5)
+        if (g_TitleSupervisor.value594 != 5)
             g_TitleSupervisor.LoadMusic(0);
-        if (g_TitleSupervisor.totalPlayTime798 == 0)
+        if (g_TitleSupervisor.totalPlayTime == 0)
             ScreenEffect::RegisterChain(SCREEN_EFFECT_FULL_FADE_IN, 70, 0xFFFFFF, 0, 0, 35, 2);
         else
             ScreenEffect::RegisterChain(SCREEN_EFFECT_FULL_FADE_IN, 70, 0xFFFFFF, 0, 0, 35, 2);
@@ -591,7 +568,7 @@ int TitleScreenView::ActualAddedCallback()
     g_ScreenEffectCounter = 0;
     g_AsciiManager.Reset();
     reinterpret_cast<TitleAsciiManagerView *>(&g_AsciiManager)->InitializeVms();
-    g_TitleSupervisor.frameRateMultiplier = 1.0f;
+    g_TitleSupervisor.framerateMultiplier5B8 = 1.0f;
 
     if (g_TitleGameFlags & 8)
     {
@@ -636,12 +613,12 @@ int TitleScreenView::ActualAddedCallback()
     g_TitleGameFlags &= ~1u;
 
     TitleFloat3View loadingPosition(500.0f, 440.0f, 0.0f);
-    if (g_TitleSupervisor.transitionState594 == 2)
+    if (g_TitleSupervisor.value594 == 2)
     {
         g_TitleSupervisor.SetupLoadingVmsAndInitCapture(&loadingPosition);
         g_TitleSupervisor.StartEffect(0);
     }
-    else if (g_TitleSupervisor.transitionState594 != 0)
+    else if (g_TitleSupervisor.value594 != 0)
     {
         g_TitleSupervisor.SetupLoadingVms(&loadingPosition);
     }
@@ -683,7 +660,7 @@ int TitleScreenView::Release()
 
 int TitleScreenView::DeletedCallback(TitleScreenView *titleScreen)
 {
-    g_TitleSupervisor.d3dDevice->ResourceManagerDiscardBytes(0);
+    g_TitleSupervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
     g_TitleAnmManager->ReleaseAnm(15);
     g_TitleAnmManager->ReleaseAnm(17);
     g_TitleAnmManager->ReleaseSurface(0);

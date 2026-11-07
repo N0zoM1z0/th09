@@ -185,7 +185,22 @@ class Supervisor
     union { int startupThreadState6BC; int startupThreadState; };
     unsigned char unknown6C0[0x740 - 0x6C0];
     int loadingVmsHaveBeenSetup;
-    unsigned char unknown744[0x794 - 0x744];
+    // The Title result/FPs callback observes six native status dwords in
+    // this exact +0x77C..+0x793 window. Keep the raw cover for other owners.
+    union
+    {
+        unsigned char unknown744[0x794 - 0x744];
+        struct
+        {
+            unsigned char unknown744_77C[0x77C - 0x744];
+            int recordingFpsWarning77C;
+            int playbackFpsWarning780;
+            int recordingFpsState784;
+            int recordingFpsState788;
+            int recordingFpsState78C;
+            int recordingFpsState790;
+        };
+    };
     int frameState794;
     unsigned int totalPlayTime;
     unsigned int systemTime;
