@@ -44,7 +44,7 @@ RUNECL_SYMBOL = '?RunEcl@EnemyEclManagerView@@QAEHPAUEnemyView@@@Z'
 PLAYER_STATE_CALLS = (
     (0x36B, '?GetUpdateState@PlayerLifecycleView@@QAEHXZ', 0x00435EC0),
     (0xBE5, '?GetUpdateState@PlayerLifecycleView@@QAEHXZ', 0x00435EC0),
-    (0xC06, '?SetUpdateState@PlayerState4OpsView@@QAEXH@Z', 0x00403C20),
+    (0xC06, '?SetUpdateState@PlayerLifecycleView@@QAEXH@Z', 0x00403C20),
 )
 PLAYER_DAMAGE_SYMBOL = '?CalcDamageToEnemy@PlayerDamagePlayerView@@QAEHPAUPlayerDamageFloat3@@0PAH11@Z'
 PLAYER_DAMAGE_FIELDS = (0x8BF, 0x8FF)

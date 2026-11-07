@@ -604,7 +604,7 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
     if (reinterpret_cast<PlayerState4TimerCurrentView *>(
             &player->timer303C8)->GetCurrent() >= 30)
     {
-        reinterpret_cast<PlayerState4OpsView *>(player)->SetUpdateState(3);
+        player->SetUpdateState(3);
         player->mainVm.scale.x = 1.0f;
         player->mainVm.scale.y = 1.0f;
         player->mainVm.color1 = 0xFFFFFFFF;
@@ -645,7 +645,7 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
                 PlayerStateEffect(player)->active = 0;
                 PlayerStateEffect(player) = NULL;
             }
-            reinterpret_cast<PlayerState4OpsView *>(player)->SetUpdateState(0);
+            player->SetUpdateState(0);
             player->timer303C8 = 0;
             player->mainVm.color1 =
                 0xFFFFFFFFu;
@@ -725,7 +725,7 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
 
     PlayerState4OpsView *ops = reinterpret_cast<PlayerState4OpsView *>(player);
     player->AddRespawnResource(respawnValue);
-    ops->SetUpdateState(3);
+    player->SetUpdateState(3);
     *timer = 60;
     ops->SpawnTransitionA(&player->position1B88, 16.0f, 20.0f, 8, 0);
     ops->SpawnTransitionB(&player->position1B88, 16.0f, 20.0f, 10, 8, 0);

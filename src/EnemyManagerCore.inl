@@ -3,7 +3,6 @@
 #include "GameManagerSideScoreView.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "PlayerDamageView.hpp"
-#include "PlayerState4OpsView.hpp"
 #include "FrontEnemyIndicatorView.hpp"
 #include "BulletSpawnDescriptorCtorView.hpp"
 #include "ZunTimer.hpp"
@@ -746,7 +745,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 if (player->GetUpdateState() == 0)
                 {
                     player->timer303C8 = 90;
-                    reinterpret_cast<PlayerState4OpsView *>(manager->sideState320->player04)->SetUpdateState(3);
+                    reinterpret_cast<PlayerLifecycleView *>(manager->sideState320->player04)->SetUpdateState(3);
                 }
                 enemy->primaryFlags337C &= 0xE7FFFFFF;
                 break;

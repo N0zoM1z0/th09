@@ -72,6 +72,28 @@ original machine-code bytes/82 fields remain unchanged, with the open
 ReplayMenu/ResultUpdate boss residuals untouched. See
 [native ResultDraw keyboard proof](TH09_TITLE_RESULT_DRAW_NATIVE_KEYBOARD_20261107.md).
 
+### 2026-11-07: One real native Player state setter across Enemy and selector
+
+The exact 12-byte setter at 0x403C20 is now declared and implemented
+on `PlayerLifecycleView` rather than a source-only four-byte facade.
+It serves exact Player state/selector/Stage3 functions and the complete
+nonexact 3,900-byte Enemy OnUpdate with a preserved original receiver
+reload; 110 exact related complete owners remain PE-bound, including
+selector jump-table data. The Enemy boss is still 13 bytes unlike.
+See [native Player state setter](TH09_PLAYER_NATIVE_SET_UPDATE_STATE_20261107.md).
+
+### 2026-11-07: Player SetUpdateState lives on real Player, including Enemy boss
+
+The exact twelve-byte Player state setter at 0x403C20 now is a member of
+`PlayerLifecycleView`, with true native callers across PlayerRuntime,
+State3 effects, the 3,238-byte exact selector and 3,900-byte nonexact
+Enemy OnUpdate. A natural Enemy local-pointer shortcut changed the
+original literal fields and was rejected; retaining the original source
+pointer-load expression reproduces all 97 fields, 69 calls and the existing
+13 ordinary residual bytes. Source-cold proof retains 110 exact whole
+owners with 37 original-PE-audited private labels. See
+[native setter proof](TH09_PLAYER_NATIVE_UPDATE_STATE_BOSSES_20261107.md).
+
 ### 2026-11-07: Player respawn resource is a real Player member
 
 The exact 162-byte resource-add method at 0x41BC90 now belongs directly

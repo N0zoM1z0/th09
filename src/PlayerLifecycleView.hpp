@@ -484,6 +484,7 @@ struct PlayerLifecycleView
     void InitializeAddedState();
     void UpdateBeforeState();
     int GetUpdateState();
+    void SetUpdateState(int state);
     int UpdateMovementAndOptions();
     void SetBombMode0();
     void SetBombMode1();

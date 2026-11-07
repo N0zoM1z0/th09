@@ -685,7 +685,7 @@ EnemyManagerView::FindActiveEnemyBySideCategory
 AsciiManager::SetBossMarkerState
 PlayerSharedTransitionView::GetTransitionBlockFlag
 PlayerOwnerStateView::ApplyRewardWithStateAdvance
-PlayerState4OpsView::SetUpdateState
+PlayerLifecycleView::SetUpdateState
 AsciiGameManagerView::HasFlagBit0
 SoundPlayer::ResumeAfterPause
 ZunMemory::ZunMemory

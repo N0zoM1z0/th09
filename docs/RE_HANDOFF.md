@@ -572,6 +572,28 @@ proof of remote publication.
   compiler-private Player/ECL labels are original-VA audited. See
   [native Player respawn resource proof](TH09_PLAYER_NATIVE_RESPAWN_RESOURCE_BOSS_20261107.md).
 
+- **Native Player 12-byte SetUpdateState is shared by the entire state
+  chain:** actual `PlayerLifecycleView` now owns the setter at 0x403C20,
+  used by the **3,238-byte exact selector**, its 412-byte physical
+  resolver, exact State3 effects/Runtime and the nonexact 3,900-byte
+  Enemy OnUpdate. **110 exact affected functions / 39,191 physical bytes /
+  1,846 fields** pass scoped replay; 37 compiler-private Player/ECL/
+  selector labels were checked against immutable original PE VAs.
+  Enemy retains 97 fields/69 calls/13 unlike bytes; RunEcl 598 fields,
+  30 unlike bytes. See
+  [native Player state setter review](TH09_PLAYER_NATIVE_SET_UPDATE_STATE_20261107.md).
+
+- **Native Player state setter across big Enemy, selector and ECL owners:**
+  original-exact **12-byte `SetUpdateState` @0x403C20** now lives on
+  `PlayerLifecycleView`, no longer a fabricated four-byte method owner.
+  Full **3,238-byte selector** and **3,900-byte Enemy OnUpdate** use its
+  original target. Source-cold proof: **110 exact complete owners /
+  39,191 physical bytes / 1,846 fields**; 37 compiler-private Player/ECL
+  selector labels were audited at immutable PE targets. The Enemy boss
+  retains **97 fields / 69 calls / 13 unlike bytes**; RunEcl retains
+  **598 fields / 30 unlike bytes**. See
+  [native Player state setter audit](TH09_PLAYER_NATIVE_UPDATE_STATE_BOSSES_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

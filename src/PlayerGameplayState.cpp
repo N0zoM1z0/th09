@@ -4,7 +4,6 @@
 #include "RngRuntimeLeaves.hpp"
 #include "ReplayInputState.hpp"
 #include "PlayerSharedRuntimeView.hpp"
-#include "PlayerState4OpsView.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
@@ -297,7 +296,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         if (g_GameManager.IsGameMode1() &&
             phasePlayer->GetUpdateState() != 1)
         {
-            reinterpret_cast<PlayerState4OpsView *>(phasePlayer)->SetUpdateState(3);
+            phasePlayer->SetUpdateState(3);
             *reinterpret_cast<ZunTimer *>(&header->player78->timer303C8) = 2;
         }
         if (static_cast<int>(header->openingTimer5C) / 60 >= threshold)

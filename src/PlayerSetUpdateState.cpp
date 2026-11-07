@@ -1,7 +1,7 @@
-#include "PlayerState4OpsView.hpp"
+#include "PlayerLifecycleView.hpp"
 
 
-void PlayerState4OpsView::SetUpdateState(int state)
+void PlayerLifecycleView::SetUpdateState(int state)
 {
     updateState00 = state;
 }
