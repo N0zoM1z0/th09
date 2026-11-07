@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "AnmManagerRenderCacheView.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
 
@@ -38,26 +39,14 @@ typedef char Draw3DNativeSdkMatrixGeometry[
      offsetof(AnmVmBase, matrix2) == 0x170 &&
      offsetof(AnmVmBase, matrix3) == 0x1B0) ? 1 : -1];
 
-struct AnmManagerDraw3DView
+struct AnmManagerDraw3DView : AnmManagerRenderCacheView
 {
-    unsigned char unknown00000[0x1C];
-    Float2 screenShakeOffset;
-    unsigned char unknown00024[0x12880 - 0x24];
-    void *currentTexture;
-    unsigned char currentBlendMode;
-    unsigned char unknown12885;
-    unsigned char currentVertexShader;
-    unsigned char disableZWrite;
-    unsigned char unknown12888[4];
     AnmLoadedSprite *currentSprite;
     IDirect3DVertexBuffer8 *quadVertexBuffer;
     unsigned char unknown12894[0x128E4 - 0x12894];
     int spritesToDraw;
 };
 
-// The original 811-byte 3D renderer shares its native VM fields with
-// script execution and primitive drawing. SDK matrix views are borrowed only
-// for original calls, while their nominal C++ identity remains unproven.
 typedef char Draw3DNativeVmFieldOffsets[
     (offsetof(AnmVmBase, rotation) == 0x000 &&
      offsetof(AnmVmBase, scale) == 0x018 &&
@@ -70,7 +59,7 @@ typedef char Draw3DNativeVmFieldOffsets[
      offsetof(AnmVmBase, pos) == 0x208 &&
      offsetof(AnmVmBase, loadedSprite) == 0x224) ? 1 : -1];
 
-typedef char Draw3DShakeAt1C[(offsetof(AnmManagerDraw3DView, screenShakeOffset) == 0x1C) ? 1 : -1];
+typedef char Draw3DShakeAt1C[(offsetof(AnmManagerRenderCacheView, screenShakeOffset) == 0x1C) ? 1 : -1];
 typedef char Draw3DTextureAt12880[(offsetof(AnmManagerDraw3DView, currentTexture) == 0x12880) ? 1 : -1];
 typedef char Draw3DShaderAt12886[(offsetof(AnmManagerDraw3DView, currentVertexShader) == 0x12886) ? 1 : -1];
 typedef char Draw3DSpriteCacheAt1288C[(offsetof(AnmManagerDraw3DView, currentSprite) == 0x1288C) ? 1 : -1];
@@ -144,7 +133,7 @@ int AnmManager::Draw3D(AnmVm *vm)
     }
 
     if (anm->currentTexture != vm->loadedSprite->texture) {
-        anm->currentTexture = vm->loadedSprite->texture;
+        anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vm->loadedSprite->texture);
         supervisor->d3dDevice->SetTexture(
             0, reinterpret_cast<IDirect3DBaseTexture8 *>(anm->currentTexture));
     }

@@ -51,3 +51,13 @@ and can be checked separately through `config/match-units.toml`. The target
 is Japanese v1.50a SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 No Factory, native-product/runtime or remote acceptance is claimed.
+
+## 2026-11-07 follow-up: one render-cache prefix across draw and title
+
+The earlier `AnmManagerBackgroundView` was subsequently made an ordinary C++
+`typedef` of `AnmManagerRenderCacheView`, the native cache prefix shared by
+PrimitiveDraw and Draw3D as well as Background and Title. Its actual
+observed mix-color, texture, shader, depth-write, camera and shake offsets
+remain unchanged. All 19 affected original-bound owner functions pass
+complete comparison. See
+[ANM render-cache owner consolidation](TH09_ANM_COMMON_RENDER_CACHE_20261107.md).

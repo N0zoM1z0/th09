@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "AnmManagerRenderCacheView.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
 
@@ -59,16 +60,9 @@ struct SupervisorPrimitiveView
     IDirect3DDevice8 *d3dDevice;
 };
 
-struct AnmManagerPrimitiveView
+struct AnmManagerPrimitiveView : AnmManagerRenderCacheView
 {
-    unsigned char unknown000000[0x12880];
-    IDirect3DTexture8 *currentTexture;
-    unsigned char currentBlendMode;
-    unsigned char currentColorOp;
-    unsigned char currentVertexShader;
-    unsigned char disableZWrite;
-    unsigned char unknown12888[0x1288C - 0x12888];
-    void *currentSprite;
+    AnmLoadedSprite *currentSprite;
     IDirect3DVertexBuffer8 *quadVertexBuffer;
     VertexTex1Xyz untexturedVector[4];
     int spritesToDraw;

@@ -366,6 +366,14 @@ and remains 849 candidate / 862 target, 26 fields, 799 unlike overlaps and
 13 missing bytes. The focused seven-unit exact dependency cohort passes.
 See [native collision pool evidence](TH09_PLAYER_COLLISION_NATIVE_POOL_TYPE_20261107.md).
 
+## 2026-11-07 one native ANM render cache across four source carriers
+
+PrimitiveDraw, Draw3D, Background and TitleDrawCallback now share one
+`AnmManagerRenderCacheView` with the actual texture, shader, color, depth,
+shake and camera fields. All **19 complete original-bound exact owners**
+replay 2,999 physical bytes/138 fields with unchanged codegen. See
+[the shared native ANM cache proof](TH09_ANM_COMMON_RENDER_CACHE_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
