@@ -9,27 +9,6 @@
 
 #include <stddef.h>
 
-struct GameWindowPresentSupervisorView
-{
-    unsigned char unknown000[0x08];
-    IDirect3DDevice8 *d3dDevice08;
-    unsigned char unknown00C[0x350 - 0x0C];
-    D3DPRESENT_PARAMETERS presentParameters350;
-    unsigned char unknown384[0x5A4 - 0x384];
-    int screenTransitionCountdown5A4;
-    unsigned char unknown5A8[0x5D4 - 0x5A8];
-    unsigned int flags5D4;
-};
-
-typedef char GameWindowPresentDeviceAt08[
-    (offsetof(GameWindowPresentSupervisorView, d3dDevice08) == 0x08) ? 1 : -1];
-typedef char GameWindowPresentParamsAt350[
-    (offsetof(GameWindowPresentSupervisorView, presentParameters350) == 0x350) ? 1 : -1];
-typedef char GameWindowPresentCountdownAt5A4[
-    (offsetof(GameWindowPresentSupervisorView, screenTransitionCountdown5A4) == 0x5A4) ? 1 : -1];
-typedef char GameWindowPresentFlagsAt5D4[
-    (offsetof(GameWindowPresentSupervisorView, flags5D4) == 0x5D4) ? 1 : -1];
-
 struct AsciiInputView
 {
     unsigned short WasPressed(unsigned short buttons);
@@ -41,8 +20,7 @@ void ResetRenderState();
 
 void GameWindow::Present()
 {
-    GameWindowPresentSupervisorView *supervisor =
-        reinterpret_cast<GameWindowPresentSupervisorView *>(&g_Supervisor);
+    Supervisor *supervisor = &g_Supervisor;
 
     char snapshotPath[256];
 
@@ -51,7 +29,7 @@ void GameWindow::Present()
         g_AnmManager->ReleaseSurfaces();
         supervisor->d3dDevice08->Reset(&supervisor->presentParameters350);
         ResetRenderState();
-        supervisor->screenTransitionCountdown5A4 = 2;
+        supervisor->screenTransitionCountdown = 2;
     }
 
     g_AnmManager->ServiceCaptureRequests();
@@ -73,9 +51,9 @@ void GameWindow::Present()
             g_Supervisor.TakeSnapshot(snapshotPath);
     }
 
-    if (supervisor->screenTransitionCountdown5A4 != 0 &&
+    if (supervisor->screenTransitionCountdown != 0 &&
         g_TitleRegistrationByte == 0)
     {
-        --supervisor->screenTransitionCountdown5A4;
+        --supervisor->screenTransitionCountdown;
     }
 }

@@ -175,7 +175,10 @@ typedef char SupervisorCtorArrayAt078[
 typedef char SupervisorNativePresentAt350[
     (offsetof(Supervisor, presentParameters350) == 0x350 &&
      sizeof(((Supervisor *)0)->presentParameters350) == 0x34 &&
-     offsetof(Supervisor, dummyMidiTimer384) == 0x384) ? 1 : -1];
+     offsetof(Supervisor, dummyMidiTimer384) == 0x384 &&
+     offsetof(Supervisor, screenTransitionCountdown) == 0x5A4 &&
+     offsetof(Supervisor, disableVsync) == 0x5AC &&
+     offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
 typedef char SupervisorConfigAt388[
     (offsetof(Supervisor, config388) == 0x388) ? 1 : -1];
 typedef char SupervisorFrameMultiplierAt5B8[
