@@ -1,17 +1,12 @@
 #pragma once
 
 #include "AsciiManager.hpp"
+#include "VertexDiffuseXyzrhw.hpp"
 #include <stddef.h>
 
 // Effect template 34 owns this original 0xEF8-byte allocation. The fan,
 // line groups and random rows are fixed by the original draw/update accesses.
 // The final 33rd random float in each row is not written by the update.
-struct VertexDiffuseXyzrhw
-{
-    Float3 pos;
-    float rhw;
-    unsigned long diffuse;
-};
 struct EffectType34VerticesView
 {
     int state00;
