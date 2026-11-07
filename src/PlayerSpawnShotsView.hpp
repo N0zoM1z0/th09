@@ -1,5 +1,5 @@
 #pragma once
-#include "PlayerLifecycleView.hpp"
+#include "PlayerStateEffectView.hpp"
 #include <stddef.h>
 
 class AnmLoaded;
@@ -58,7 +58,7 @@ typedef char PlayerSpawnShotsShotSizeIs484[
 // The exact SpawnShots thiscall sees the same native Player allocation.
 // Its callback-specific shot and descriptor *views* remain local until their
 // independent callback signatures can be reconstructed.
-struct PlayerSpawnShotsView : PlayerLifecycleView
+struct PlayerSpawnShotsView : PlayerStateEffectView
 {
     void __fastcall SpawnShots(int value, int powerLevel);
 };

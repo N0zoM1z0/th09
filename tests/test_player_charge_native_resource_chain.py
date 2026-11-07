@@ -10,7 +10,7 @@ class PlayerChargeNativeResourceChain(unittest.TestCase):
         header=(ROOT/'src/PlayerChargeAttackView.hpp').read_text()
         source=(ROOT/'src/PlayerChargeAttackUpdate.cpp').read_text()
         resource=(ROOT/'src/PlayerResourceSubtractView.hpp').read_text()
-        self.assertIn('struct PlayerChargeAttackView : PlayerStateEffectView',header)
+        self.assertIn('struct PlayerChargeAttackView : PlayerSpawnShotsView',header)
         self.assertIn('sizeof(PlayerChargeAttackView) == sizeof(PlayerLifecycleView)',header)
         self.assertIn('struct PlayerResourceSubtractView : PlayerLifecycleView',resource)
         self.assertIn('struct PlayerStateEffectView : PlayerResourceSubtractView', (ROOT/'src/PlayerStateEffectView.hpp').read_text())

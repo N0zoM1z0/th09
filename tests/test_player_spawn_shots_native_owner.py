@@ -10,7 +10,7 @@ class PlayerSpawnShotsNativeOwner(unittest.TestCase):
         header=(ROOT/'src/PlayerSpawnShotsView.hpp').read_text()
         source=(ROOT/'src/PlayerSpawnShots.cpp').read_text()
         callback=(ROOT/'src/EffectType35.cpp').read_text()
-        self.assertIn('struct PlayerSpawnShotsView : PlayerLifecycleView',header)
+        self.assertIn('struct PlayerSpawnShotsView : PlayerStateEffectView',header)
         self.assertIn('sizeof(PlayerSpawnShotsView) == sizeof(PlayerLifecycleView)',header)
         self.assertIn('offsetof(PlayerSpawnShotsView, shots) == 0xC11C',header)
         self.assertIn('offsetof(PlayerSpawnShotsView, primaryShtFile) == 0x30338',header)

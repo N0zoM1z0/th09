@@ -151,8 +151,7 @@ afterCharge:
     {
         if (timer30398.HasTicked())
         {
-            reinterpret_cast<PlayerSpawnShotsView *>(this)
-                ->SpawnShots(static_cast<int>(timer30398), 1);
+            SpawnShots(static_cast<int>(timer30398), 1);
         }
         timer30398++;
         // Complete the timer call before reloading the SHT pointer.
@@ -168,8 +167,7 @@ afterCharge:
     {
         if (timer303A4.HasTicked())
         {
-            reinterpret_cast<PlayerSpawnShotsView *>(this)
-                ->SpawnShots(static_cast<int>(timer303A4), 0);
+            SpawnShots(static_cast<int>(timer303A4), 0);
         }
         timer303A4++;
         if (timer303A4 >= 15)
