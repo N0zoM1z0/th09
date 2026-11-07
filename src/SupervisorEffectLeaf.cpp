@@ -1,9 +1,6 @@
 #include "ScreenEffect.hpp"
 
-struct SupervisorStartEffectView
-{
-    void StartEffect(int index);
-};
+#include "SupervisorStartEffectView.hpp"
 
 extern ScreenEffect *g_SupervisorScreenEffect;
 
