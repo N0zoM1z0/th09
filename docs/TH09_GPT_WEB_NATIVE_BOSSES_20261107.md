@@ -150,3 +150,66 @@ RunEcl remains 15,564/598/30 (opcodes 4 and 155); Effect AddedCallback stays
 51/4/8. The current 1,034 source-present / 1,021 exact / 13 nonexact ledger
 is unchanged. Full Windows product linking, semantic/runtime/port tests and
 Factory acceptance are not established by these local source commits.
+
+## Continued original-bound HUD and camera reconstruction (2026-11-07)
+
+These seven further `gpt-web:` code checkpoints are **real source edits**, not
+promotions of existing exact-function credit. The original Japanese 1.50a PE,
+the existing pinned VC7.1 compiler profiles, independently decoded relocation
+fields, complete physical extents and true native side/VM/camera/timer storage
+controlled adoption. Old source hypotheses and archived reports are not treated
+as proof of the current tree.
+
+| Checkpoint | Accepted native C++ work | Complete local original-bound evidence |
+| --- | --- | --- |
+| `9fded1d1` | Background's four `+0x834..+0xB04` camera snapshots reuse `SupervisorCtorArrayElement` as their checked 0xF0-byte data type, without changing Background ownership | Stage script 2,652/2,652 physical; camera interpolation 448/448; three same-TU leaves 20/20, 20/20 and 91/91 exact |
+| `1abea221` | HUD draw screen-shake offsets read `g_Supervisor.ctorArray078` rather than a private 0xF0-byte viewport projection | Entire `FrontSide::OnDraw` 3,094/3,094 exact |
+| `b567a713` | HUD draw uses the true `PlayerSideStateView` and `PlayerLifecycleView::position1B88` instead of two smaller shadow structures | Entire `FrontSide::OnDraw` 3,094/3,094 exact |
+| `a2a70373` | HUD update calls the real `Supervisor::SelectSide @0x401440`, not the independent fake `FrontSideSupervisorView` receiver; both relocation names bind their previous original targets | 15/15 complete FrontSide source functions, 4,087 physical bytes exact |
+| `21d6e36d` | HUD's score/phase reads use the native `AsciiGameSideRuntimeView` record rather than `FrontSideSideRuntimeView`; its distinct GameManager method ABI remains unchanged | 15/15 functions / 4,087 bytes exact |
+| `1f3eccc0` | HUD's color, scale, position and flags fields all use native `AnmVm` and `AnmVmScriptColor`; removes duplicate 0x2A4 VM and 4-byte color projections and the VM cast macro | 15/15 functions / 4,087 bytes exact |
+| `d3853707` | HUD's integer current-time and `%2` checks now use real `ZunTimer` methods; five original-bound call fields retain their positions/target addresses and use the exact native getter/modulo symbols | 15/15 functions / 4,087 bytes exact; 40 focused FrontSide tests pass |
+
+The source changes are protected by offset/layout assertions and new focused
+`tests/test_background_native_supervisor_viewports.py`,
+`tests/test_front_draw_native_supervisor_shake.py`,
+`tests/test_front_draw_native_player_side.py`,
+`tests/test_front_side_native_supervisor_owner.py`,
+`tests/test_front_side_native_side_runtime.py`,
+`tests/test_front_side_native_anm_vm.py` and
+`tests/test_front_side_real_zun_timer.py`. Each successful COFF comparison
+covers the **whole real function**, not a selected instruction span. No full
+cold replay was run.
+
+The separate `.analysis/gpt-web-save-register-lifetime-20261107/` packet
+contains **15 natural SaveReplay C++ probes** (loop/link lifetimes, mutable
+headers, typed and byte destination pointers, alternative offset expressions,
+and integer-width forms). All are nonadopted: some keep exactly the current
+1,238-byte/53-field owner with two residual bytes at `+0xB7/+0xBB`; others
+regress previously equal positions. The input source was restored after each
+trial. The original wants the destination base in EDI before the first stage
+header `rep movsd`; these controls do not recover it. Do not claim byte-exact
+SaveReplay on the strength of any of these observations.
+
+Narrow reproducibility:
+
+```bash
+python3 -B scripts/build-match-unit.py --unit background-run-stage-script
+python3 -B scripts/compare-coff-function.py --unit background-run-stage-script
+python3 -B scripts/compare-coff-function.py --unit background-interpolate-camera-vector
+python3 -B scripts/build-match-unit.py --unit front-side-draw
+python3 -B scripts/compare-coff-function.py --unit front-side-draw
+python3 -B scripts/build-match-unit.py --unit front-side-on-update
+python3 -B scripts/compare-coff-function.py --unit front-side-on-update
+python3 -B scripts/compare-coff-function.py --unit front-side-added-callback
+python3 -B -m unittest discover -s tests -p 'test_front*.py' -q
+python3 -B scripts/validate-tracking.py --require-target
+```
+
+The ledger remains **2,248 candidates / 1,034 source-present / 1,021
+exact / 13 nonexact (29,834 bytes)**. `EnemyManager::OnUpdate` is still
+3,900 bytes with 13 nonmatching bytes; `RunEcl` still has 30; SaveReplay
+still has two; AddedCallback still has eight. Function-level equality here
+does not prove a complete Windows link, runtime equivalence, original TU
+partition, semantic port or remote Factory acceptance. Git commits are
+checkpoints, not Oracle acceptance receipts.
