@@ -25,6 +25,18 @@ class CardAttackNativeVmAndManager(unittest.TestCase):
         self.assertIn('main->flagsWord',source)
         self.assertNotIn('reinterpret_cast<CardAttackVmView *>(vm)',source)
 
+    def test_card_attack_side_uses_the_one_native_game_manager_record(self):
+        header=(ROOT/'src/CardAttack.hpp').read_text()
+        real=(ROOT/'src/GameManagerSideState.hpp').read_text()
+        source=(ROOT/'src/CardAttack.cpp').read_text()
+        self.assertIn('#include "GameManagerSideState.hpp"',header)
+        self.assertIn('typedef AsciiGameManagerSideView CardAttackSideStateView;',header)
+        self.assertNotIn('struct CardAttackSideStateView',header)
+        self.assertIn('offsetof(CardAttackSideStateView, background00) == 0x00',header)
+        self.assertIn('struct AsciiGameManagerSideView',real)
+        self.assertIn('CardAttackSideStateView *sideState04;',header)
+        self.assertIn('cardAttack->sideState04 = &g_GameManager.sides[sideIndex];',source)
+
     def test_start_attack_uses_real_game_manager_transition_bitfield(self):
         native=(ROOT/'src/GameManagerRuntimeView.hpp').read_text()
         start=(ROOT/'src/CardAttackStart.cpp').read_text()

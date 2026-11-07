@@ -178,9 +178,9 @@ CardAttack *CardAttack::Create(int sideIndex)
         g_ZunMemory.AddToRegistry(new CardAttack, sizeof(CardAttack), "CardAttackInf"));
     memset(cardAttack, 0, sizeof(CardAttack));
 
-    cardAttack->sideState04 = reinterpret_cast<CardAttackSideStateView *>(&g_GameManager.sides[sideIndex]);
+    cardAttack->sideState04 = &g_GameManager.sides[sideIndex];
     cardAttack->sideIndex00 = sideIndex;
-    cardAttack->otherSideState08 = reinterpret_cast<CardAttackSideStateView *>(&g_GameManager.sides[1 - sideIndex]);
+    cardAttack->otherSideState08 = &g_GameManager.sides[1 - sideIndex];
 
     cardAttack->calcChain0C =
         g_Chain.CreateElem(reinterpret_cast<ChainCallback>(CardAttack::OnUpdate));

@@ -15,7 +15,8 @@ class CardAttackRealGameManagerABI(unittest.TestCase):
         self.assertIn('g_GameManager.transitionBits134',src)
         self.assertIn('g_GameManager.TransformPopupX(',src)
         self.assertIn('g_GameManager.TransformPopupY(',src)
-        self.assertIn('reinterpret_cast<CardAttackSideStateView *>(&g_GameManager.sides[sideIndex])',src)
+        self.assertIn('cardAttack->sideState04 = &g_GameManager.sides[sideIndex];',src)
+        self.assertIn('cardAttack->otherSideState08 = &g_GameManager.sides[1 - sideIndex];',src)
         self.assertIn('unsigned int transitionBits134 : 2;',native)
 
     def test_13_original_referents_are_true_global_or_exact_leaf(self):

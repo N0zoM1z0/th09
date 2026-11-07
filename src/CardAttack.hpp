@@ -2,6 +2,7 @@
 
 #include "AnmVmLifecycle.hpp"
 #include "Chain.hpp"
+#include "GameManagerSideState.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
@@ -12,14 +13,12 @@ class Background;
 // Target-facing reconstruction of the TH09 per-side CardAttack owner.  The
 // semantic name comes from the target registry tag "CardAttackInf"; it is not
 // a claim about an original source identifier.
-struct CardAttackSideStateView
-{
-    Background *background00;
-    unsigned char unknown004[0x34];
-};
-
+// The native 0x38-byte GameManager side record is the same object held by
+// CardAttack. The background pointer remains anchored at physical offset 0.
+typedef AsciiGameManagerSideView CardAttackSideStateView;
 typedef char CardAttackSideStateSizeIs38[
-    (sizeof(CardAttackSideStateView) == 0x38) ? 1 : -1];
+    (sizeof(CardAttackSideStateView) == 0x38 &&
+     offsetof(CardAttackSideStateView, background00) == 0x00) ? 1 : -1];
 
 struct CardAttackFloat2
 {
