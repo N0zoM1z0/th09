@@ -82,6 +82,15 @@ reload; 110 exact related complete owners remain PE-bound, including
 selector jump-table data. The Enemy boss is still 13 bytes unlike.
 See [native Player state setter](TH09_PLAYER_NATIVE_SET_UPDATE_STATE_20261107.md).
 
+### 2026-11-07: FrontMessage also uses the actual FrontSide HUD allocation
+
+The 2,968-byte physical FrontMessage script now uses the native FrontSide
+pointer at gameplay side +0x18, consuming its true +0xA678 ANM resource
+and calling the original exact 21-byte `FrontSide::LoadScript67` twice
+at the original 0x41A210 destination. A second fake FrontSide/HUD resource
+prefix is no longer maintained; 17 exact original-bound affected owners
+remain intact. See [FrontMessage native HUD](TH09_FRONTMESSAGE_NATIVE_FRONTSIDE_HUD_20261107.md).
+
 ### 2026-11-07: FrontMessage uses the same actual Player as Enemy and selector
 
 The complete exact 2,968-byte FrontMessage update code+table carrier now

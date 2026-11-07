@@ -3,6 +3,7 @@
 #include "ScreenEffect.hpp"
 #include "ZunTimer.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "FrontSide.hpp"
 
 #include <stddef.h>
 
@@ -28,26 +29,10 @@ typedef char FrontMessagePortraitPairSizeIs548[
 
 
 
-struct FrontMessageFrontSideAuxView
-{
-    AnmLoaded *sideAnm00;
-    AnmLoaded *optionalAnm04;
-    unsigned char unknown08[0x550];
-};
 
-typedef char FrontMessageFrontSideAuxSizeIs558[
-    (sizeof(FrontMessageFrontSideAuxView) == 0x558) ? 1 : -1];
-
-struct FrontMessageFrontSideView
-{
-    unsigned char unknown0000[0xA678];
-    FrontMessageFrontSideAuxView auxA678;
-
-    void LoadScript67();
-};
 
 typedef char FrontMessageFrontSideAuxAtA678[
-    (offsetof(FrontMessageFrontSideView, auxA678) == 0xA678) ? 1 : -1];
+    (offsetof(FrontSide, auxA678) == 0xA678) ? 1 : -1];
 
 struct FrontMessageSideStateView
 {
@@ -60,7 +45,7 @@ struct FrontMessageSideView
     FrontMessageSideStateView *state00;
     PlayerLifecycleView *player04;
     unsigned char unknown08[0x10];
-    FrontMessageFrontSideView *frontSide18;
+    FrontSide *frontSide18;
     unsigned char unknown1C[0x04];
     int shotType20;
     unsigned char unknown24[0x14];
@@ -68,6 +53,12 @@ struct FrontMessageSideView
 
 typedef char FrontMessageSideSizeIs38[
     (sizeof(FrontMessageSideView) == 0x38) ? 1 : -1];
+// The original +0x18 side HUD is the genuine FrontSide allocation with
+// its 0x558-byte embedded ANM resource at +0xA678, not another prefix.
+typedef char FrontMessageRealHudAllocation[
+    (sizeof(FrontSideAuxView) == 0x558 &&
+     offsetof(FrontSide, auxA678) == 0xA678 &&
+     offsetof(FrontMessageSideView, frontSide18) == 0x18) ? 1 : -1];
 // The message script's +0x04 Player pointer is the very same native
 // allocation used by the Enemy selector and the exact state setter.
 // No extra Player class or scripted state timer object is allocated.

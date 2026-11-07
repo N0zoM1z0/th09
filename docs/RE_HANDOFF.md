@@ -601,6 +601,16 @@ proof of remote publication.
   all 167 fields**, including 30 PE-audited compiler-private labels.
   See [native FrontMessage Player receiver](TH09_FRONTMESSAGE_NATIVE_PLAYER_RECEIVER_20261107.md).
 
+- **Full 2,968-byte FrontMessage script now uses the real FrontSide HUD:**
+  removed its duplicate +0xA678 prefix and 0x558-byte ANM resource view;
+  the +0x18 gameplay side pointer is the actual native `FrontSide *`.
+  Both exact LoadScript67 callsites preserve offsets +0x905/+0x910 and
+  original target 0x41A210, and the complete interpreter remains
+  **2,968/2,968 bytes / 167 fields**. Scoped replay passes **17
+  exact FrontMessage/FrontSide owners / 7,094 bytes / 343 fields**;
+  30 compiler-private labels retain original-VA-audited definitions.
+  See [native FrontSide in FrontMessage](TH09_FRONTMESSAGE_NATIVE_FRONTSIDE_HUD_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
