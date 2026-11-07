@@ -356,6 +356,16 @@ layout is eliminated; all 26 original relocation fields remain exact.
 Three complete source forms were compiled as original-bound controls.
 See [native Draw3D matrices without shadow](TH09_ANM_DRAW3D_NO_SHADOW_MATRIX_20261107.md).
 
+## 2026-11-07 Player collision native pool and region-type source
+
+The still-nonexact Player CheckBulletCollision owner now borrows the actual
+`PlayerCollisionRegionCreateView` and snapshots each region's typed `type38`
+without manufacturing another pool. Twelve complete fixed-profile source
+models were tested; the accepted source preserves all original equal bytes
+and remains 849 candidate / 862 target, 26 fields, 799 unlike overlaps and
+13 missing bytes. The focused seven-unit exact dependency cohort passes.
+See [native collision pool evidence](TH09_PLAYER_COLLISION_NATIVE_POOL_TYPE_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

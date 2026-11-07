@@ -36,14 +36,15 @@ int PlayerLifecycleView::CheckBulletCollision(
     float xDelta;
     float yDelta;
 
-    PlayerCollisionRegionCreateRegionView **slot =
-        reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->activeB100;
+    PlayerCollisionRegionCreateView &pool =
+        *reinterpret_cast<PlayerCollisionRegionCreateView *>(this);
+    PlayerCollisionRegionCreateRegionView **slot = pool.activeB100;
 
     for (; *slot != NULL; ++slot)
     {
-        if ((*slot)->type38 != 1 &&
-            (*slot)->type38 != 2 &&
-            (*slot)->type38 != 3)
+        PlayerCollisionRegionCreateRegionView *region = *slot;
+        const int regionType = region->type38;
+        if (regionType != 1 && regionType != 2 && regionType != 3)
             continue;
         if ((*slot)->delay40 > 0)
             continue;
