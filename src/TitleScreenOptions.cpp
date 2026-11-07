@@ -34,31 +34,22 @@ typedef char OptionsAnmVmSpriteAt218[(offsetof(AnmVm, baseSpriteIndex) == 0x218)
 struct TitleAnmManagerView;
 struct AnmVmView; // Opaque argument tag for DrawTitleHelpText only.
 
-// Bounded scrolling-helper prefix of the native ReplayInputState slot.
-struct InputView {
-    u16 held00;
-    u16 previous02;
-    u16 repeatOutput04;
-    u16 frontState06;
+// The options compiler profile requires inlining the scrolling helper, but
+// the receiver is the genuine complete 0x8E-byte native replay input slot.
+struct InputView : ReplayInputState
+{
     u16 IsPressedScrolling(i32 mask)
     {
-        u16 pressed = frontState06 & mask;
-        return pressed != 0 || ((pressed = repeatOutput04 & mask) != 0);
+        u16 pressed = word06 & mask;
+        return pressed != 0 || ((pressed = repeatOutput & mask) != 0);
     }
 };
-
-typedef char OptionsInputSizeIs08[(sizeof(InputView) == 8) ? 1 : -1];
-typedef char OptionsInputRepeatAt04[(offsetof(InputView, repeatOutput04) == 4) ? 1 : -1];
-typedef char OptionsInputFrontAt06[(offsetof(InputView, frontState06) == 6) ? 1 : -1];
-
-typedef char OptionsNativeInputSizeIs8E[(sizeof(ReplayInputState) == 0x8E) ? 1 : -1];
-typedef char OptionsNativeInputWord06At06[(offsetof(ReplayInputState, word06) == 6) ? 1 : -1];
-typedef char OptionsNativeInputWordIs16[(sizeof(((ReplayInputState *)0)->word06) == 2) ? 1 : -1];
-typedef char OptionsInputPrefixMatchesNative[
-    (offsetof(InputView, held00) == offsetof(ReplayInputState, currentInput) &&
-     offsetof(InputView, previous02) == offsetof(ReplayInputState, word02) &&
-     offsetof(InputView, repeatOutput04) == offsetof(ReplayInputState, repeatOutput) &&
-     offsetof(InputView, frontState06) == offsetof(ReplayInputState, word06)) ? 1 : -1];
+typedef char OptionsInputWholeNativeRecord[
+    (sizeof(InputView) == sizeof(ReplayInputState) &&
+     sizeof(InputView) == 0x8E &&
+     offsetof(InputView, currentInput) == 0 &&
+     offsetof(InputView, repeatOutput) == 4 &&
+     offsetof(InputView, word06) == 6) ? 1 : -1];
 
 typedef char OptionsConfigvalueACAtAC[(offsetof(GameConfiguration, valueAC) == 0xAC) ? 1 : -1];
 typedef char OptionsConfigvalueADAtAD[(offsetof(GameConfiguration, valueAD) == 0xAD) ? 1 : -1];
