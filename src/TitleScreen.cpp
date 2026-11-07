@@ -6,6 +6,7 @@
 // owner is target-proved; original identifier spelling, TU partition, and data-definition ownership remain unresolved.
 
 #include "ReplayInputState.hpp"
+#include "TitleInputView.hpp"
 #include "PlayStats.hpp"
 
 // These native fields are the original result browser's input/unlock storage.
@@ -52,11 +53,6 @@ struct TitleNameRecordView {
 };
 
 typedef char TitleNameRecordSizeIs2C[(sizeof(TitleNameRecordView) == 0x2C) ? 1 : -1];
-
-struct InputView {
-    u16 currentInput;
-    u16 IsPressedScrolling(i32 mask);
-};
 
 struct TitleInputStatePhysicalView {
     u16 currentInput;
@@ -329,7 +325,6 @@ typedef char TitleDrawChainAt1B24C[(offsetof(TitleScreenView, drawChain) == 0x1B
 typedef char TitleConfigAt1B2BC[(offsetof(TitleScreenView, configSnapshot) == 0x1B2BC) ? 1 : -1];
 typedef char TitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) ? 1 : -1];
 
-extern InputView g_TitleInput;
 extern TitleInputStateTableView g_TitleInputStateTable;
 extern u32 g_TitleInputFlags;
 // Read-width view at replay side0 +6, overlapping its known +6/+8 words.
