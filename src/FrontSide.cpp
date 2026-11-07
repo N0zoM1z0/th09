@@ -13,58 +13,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-union FrontSideColorView
-{
-    struct
-    {
-        unsigned char blue;
-        unsigned char green;
-        unsigned char red;
-        unsigned char alpha;
-    };
-    unsigned int rgba;
-};
-
-struct FrontSideFloat2View
-{
-    float x;
-    float y;
-};
-
-struct FrontSideFloat3View
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct FrontSideVmView
-{
-    unsigned char unknown000[0x18];
-    FrontSideFloat2View scale18;
-    unsigned char unknown020[0x1F0 - 0x20];
-    FrontSideColorView color1F0;
-    unsigned char unknown1F4[0x04];
-    unsigned int flags1F8;
-    unsigned char unknown1FC[0x208 - 0x1FC];
-    FrontSideFloat3View position208;
-    unsigned char unknown214[0x288 - 0x214];
-    FrontSideFloat3View offset288;
-    unsigned char unknown294[0x2A4 - 0x294];
-};
-
-typedef char FrontSideVmViewSizeIs2A4[
-    (sizeof(FrontSideVmView) == 0x2A4) ? 1 : -1];
-typedef char FrontSideVmScaleAt18[
-    (offsetof(FrontSideVmView, scale18) == 0x18) ? 1 : -1];
-typedef char FrontSideVmColorAt1F0[
-    (offsetof(FrontSideVmView, color1F0) == 0x1F0) ? 1 : -1];
-typedef char FrontSideVmFlagsAt1F8[
-    (offsetof(FrontSideVmView, flags1F8) == 0x1F8) ? 1 : -1];
-typedef char FrontSideVmPositionAt208[
-    (offsetof(FrontSideVmView, position208) == 0x208) ? 1 : -1];
-typedef char FrontSideVmOffsetAt288[
-    (offsetof(FrontSideVmView, offset288) == 0x288) ? 1 : -1];
+// Each HUD VM is the shared 0x2A4-byte ANM object, rather than a
+// second opaque 0x2A4-byte layout with duplicate scalar and color names.
+typedef char FrontSideNativeVmMemberPositions[
+    (sizeof(AnmVm) == 0x2A4 &&
+     offsetof(AnmVm, scale) == 0x18 &&
+     offsetof(AnmVm, color1Script) == 0x1F0 &&
+     offsetof(AnmVm, flagsWord) == 0x1F8 &&
+     offsetof(AnmVm, pos) == 0x208 &&
+     offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
 struct FrontSidePlayerRuntimeView
 {
@@ -139,7 +96,6 @@ extern FrontSideGameManagerView g_GameManager;
 
 extern const char *g_FrontSideAuxPaths[];
 
-#define FrontSideVm(vm) (reinterpret_cast<FrontSideVmView *>(vm))
 #define FrontSideState(state) (state)
 
 FrontSideAuxView::FrontSideAuxView()
@@ -181,8 +137,8 @@ int FrontSide::AddedCallback(FrontSide *frontSide)
     for (unsigned int i = 0; i < 11; ++i)
     {
         frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->statusVms0000[i], i + 7);
-        FrontSideVm(frontSide->statusVms0000 + i)->offset288 =
-            FrontSideVm(frontSide->statusVms0000 + i)->position208;
+        (frontSide->statusVms0000 + i)->pos2 =
+            (frontSide->statusVms0000 + i)->pos;
     }
     for (unsigned int i = 0; i < 5; ++i)
         frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->stockVms1D0C[i], i + 35);
@@ -363,21 +319,21 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     if (value >= 100)
     {
         frontSide->frontAnmA668->SetSprite(&frontSide->statusVms0000[2], value / 100 + 8);
-        FrontSideVm(&frontSide->statusVms0000[2])->flags1F8 |= 2;
+        (&frontSide->statusVms0000[2])->flagsWord |= 2;
     }
     else
     {
-        FrontSideVm(&frontSide->statusVms0000[2])->flags1F8 &= ~2U;
+        (&frontSide->statusVms0000[2])->flagsWord &= ~2U;
     }
 
     if (value >= 10)
     {
         frontSide->frontAnmA668->SetSprite(&frontSide->statusVms0000[3], value / 10 % 10 + 8);
-        FrontSideVm(&frontSide->statusVms0000[3])->flags1F8 |= 2;
+        (&frontSide->statusVms0000[3])->flagsWord |= 2;
     }
     else
     {
-        FrontSideVm(&frontSide->statusVms0000[3])->flags1F8 &= ~2U;
+        (&frontSide->statusVms0000[3])->flagsWord &= ~2U;
     }
     frontSide->frontAnmA668->SetSprite(&frontSide->statusVms0000[4], value % 10 + 8);
 
@@ -388,20 +344,20 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
         {
             for (int i = 4; i != 0; --i)
             {
-                FrontSideColorView &color = FrontSideVm(&frontSide->statusVms0000[5 - i])->color1F0;
-                color.red = 0xFF;
-                color.green = 0x00;
-                color.blue = 0x00;
+                AnmVmScriptColor &color = (&frontSide->statusVms0000[5 - i])->color1Script;
+                color.r = 0xFF;
+                color.g = 0x00;
+                color.b = 0x00;
             }
         }
         else
         {
             for (int i = 4; i != 0; --i)
             {
-                FrontSideColorView &color = FrontSideVm(&frontSide->statusVms0000[5 - i])->color1F0;
-                color.red = 0xFF;
-                color.green = 0xFF;
-                color.blue = 0xFF;
+                AnmVmScriptColor &color = (&frontSide->statusVms0000[5 - i])->color1Script;
+                color.r = 0xFF;
+                color.g = 0xFF;
+                color.b = 0xFF;
             }
         }
     }
@@ -409,10 +365,10 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     {
         for (int i = 4; i != 0; --i)
         {
-            FrontSideColorView &color = FrontSideVm(&frontSide->statusVms0000[5 - i])->color1F0;
-            color.red = 0xD0;
-            color.green = 0x80;
-            color.blue = 0x80;
+            AnmVmScriptColor &color = (&frontSide->statusVms0000[5 - i])->color1Script;
+            color.r = 0xD0;
+            color.g = 0x80;
+            color.b = 0x80;
         }
     }
 
@@ -433,11 +389,11 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     {
         frontSide->frontAnmA668->SetSprite(&frontSide->scoreVms3F60[0], wideValue / 100000000 + 8);
         wideValue %= 100000000;
-        FrontSideVm(&frontSide->scoreVms3F60[0])->flags1F8 |= 2;
+        (&frontSide->scoreVms3F60[0])->flagsWord |= 2;
     }
     else
     {
-        FrontSideVm(&frontSide->scoreVms3F60[0])->flags1F8 &= ~2U;
+        (&frontSide->scoreVms3F60[0])->flagsWord &= ~2U;
     }
     frontSide->frontAnmA668->SetSprite(&frontSide->scoreVms3F60[1], wideValue / 10000000 + 8);
     wideValue %= 10000000;
@@ -470,30 +426,30 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     for (int i = 0; i < 7; ++i)
         g_AnmManager->ExecuteScript(&frontSide->gaugeVms2A40[i]);
     FrontSideSideStateView *side = FRONT_SIDE_STATE(frontSide);
-    FrontSideVm(&frontSide->gaugeVms2A40[0])->scale18.x = side->hudPlayer04->meter30388 * 0.0025f;
-    FrontSideVm(&frontSide->gaugeVms2A40[1])->scale18.x = side->hudPlayer04->meter30384 * 0.0025f;
+    (&frontSide->gaugeVms2A40[0])->scale.x = side->hudPlayer04->meter30388 * 0.0025f;
+    (&frontSide->gaugeVms2A40[1])->scale.x = side->hudPlayer04->meter30384 * 0.0025f;
 
-    FrontSideColorView &meter0Color = FrontSideVm(&frontSide->gaugeVms2A40[1])->color1F0;
+    AnmVmScriptColor &meter0Color = (&frontSide->gaugeVms2A40[1])->color1Script;
     if (side->hudPlayer04->meter30384 >= 400.0f)
-        meter0Color.rgba = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFFFFFFFU : 0xFFFF0000U;
+        meter0Color.d3dColor = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFFFFFFFU : 0xFFFF0000U;
     else if (side->hudPlayer04->meter30384 >= 300.0f)
-        meter0Color.rgba = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F000U : 0xFFF0F0C0U;
+        meter0Color.d3dColor = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F000U : 0xFFF0F0C0U;
     else if (side->hudPlayer04->meter30384 >= 200.0f)
-        meter0Color.rgba = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F000U : 0xFFC0C0C0U;
+        meter0Color.d3dColor = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F000U : 0xFFC0C0C0U;
     else if (side->hudPlayer04->meter30384 >= 100.0f)
-        meter0Color.rgba = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F080U : 0xFFC0C0C0U;
+        meter0Color.d3dColor = reinterpret_cast<FrontSideTimerModuloView *>(&frontSide->updateTimerABDC)->Modulo(2) ? 0xFFF0F080U : 0xFFC0C0C0U;
     else
-        meter0Color.rgba = 0xFFC0C0C0U;
+        meter0Color.d3dColor = 0xFFC0C0C0U;
 
-    FrontSideColorView &meter1Color = FrontSideVm(&frontSide->gaugeVms2A40[0])->color1F0;
+    AnmVmScriptColor &meter1Color = (&frontSide->gaugeVms2A40[0])->color1Script;
     if (side->hudPlayer04->meter30388 >= 400.0f)
-        meter1Color.rgba = 0xFFC08080U;
+        meter1Color.d3dColor = 0xFFC08080U;
     else if (side->hudPlayer04->meter30388 >= 300.0f)
-        meter1Color.rgba = 0xFFB08080U;
+        meter1Color.d3dColor = 0xFFB08080U;
     else if (side->hudPlayer04->meter30388 >= 200.0f)
-        meter1Color.rgba = 0xFFA08080U;
+        meter1Color.d3dColor = 0xFFA08080U;
     else
-        meter1Color.rgba = 0xFF808080U;
+        meter1Color.d3dColor = 0xFF808080U;
 
     int gaugeValue = side->hudPlayer04->valueA0;
     int gaugeRemainder = gaugeValue % 10;
@@ -506,7 +462,7 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
 
     g_AnmManager->ExecuteScript(&frontSide->auxA678.vms0C[0]);
     g_AnmManager->ExecuteScript(&frontSide->auxA678.vms0C[1]);
-    FrontSideVm(&frontSide->vm3CBC)->scale18.x = static_cast<float>(FRONT_SIDE_PLAYER(frontSide)->meterTimer30424) * (1.0f / 105.0f);
+    (&frontSide->vm3CBC)->scale.x = static_cast<float>(FRONT_SIDE_PLAYER(frontSide)->meterTimer30424) * (1.0f / 105.0f);
     g_AnmManager->ExecuteScript(&frontSide->vm3CBC);
     g_AnmManager->ExecuteScript(&frontSide->vm59C8);
     g_AnmManager->ExecuteScript(&frontSide->meterVms5C6C[0]);
@@ -526,9 +482,9 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     {
         int rankIndex = 0;
         for (; rankIndex < static_cast<int>(g_GameManager.sides[frontSide->sideIndexA66C].runtime->value00); ++rankIndex)
-            FrontSideVm(&frontSide->rankVms86AC[rankIndex])->flags1F8 |= 2;
+            (&frontSide->rankVms86AC[rankIndex])->flagsWord |= 2;
         for (; static_cast<unsigned int>(rankIndex) < 7; ++rankIndex)
-            FrontSideVm(&frontSide->rankVms86AC[rankIndex])->flags1F8 &= ~2U;
+            (&frontSide->rankVms86AC[rankIndex])->flagsWord &= ~2U;
         g_AnmManager->ExecuteScriptArray(frontSide->rankVms86AC, 7);
     }
 
@@ -537,9 +493,9 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
         markerCount = 5;
     int markerIndex = 0;
     for (; markerIndex < markerCount; ++markerIndex)
-        FrontSideVm(&frontSide->counterVms9928[markerIndex])->flags1F8 |= 2;
+        (&frontSide->counterVms9928[markerIndex])->flagsWord |= 2;
     for (; static_cast<unsigned int>(markerIndex) < 5; ++markerIndex)
-        FrontSideVm(&frontSide->counterVms9928[markerIndex])->flags1F8 &= ~2U;
+        (&frontSide->counterVms9928[markerIndex])->flagsWord &= ~2U;
     g_AnmManager->ExecuteScriptArray(frontSide->counterVms9928, 5);
 
     if (frontSide->auxA678.unknown554 == 1)
@@ -560,5 +516,4 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
 #undef FRONT_SIDE_PLAYER
 #undef FRONT_SIDE_RUNTIME
 
-#undef FrontSideVm
 #undef FrontSideState
