@@ -90,30 +90,30 @@ void CardAttackStartView::StartAttack(
 {
     int displayValue;
     if (attackClass < 2)
-        displayValue = otherSideState08->player04->valueA0;
+        displayValue = startOtherSideState08->player04->valueA0;
     else
-        displayValue = otherSideState08->player04->valueA4;
+        displayValue = startOtherSideState08->player04->valueA4;
 
     reinterpret_cast<CardAttackStartValueCCView *>(
         &g_GameManager.valueB0)->SubtractSaturating(500);
 
     if (attackClass == 2)
     {
-        if (sideState04->enemyManager10->FindActiveEnemyBySideCategory(3) != 0)
+        if (startSideState04->enemyManager10->FindActiveEnemyBySideCategory(3) != 0)
             return;
 
-        if (otherSideState08->enemyManager10->FindActiveEnemyBySideCategory(3) != 0)
+        if (startOtherSideState08->enemyManager10->FindActiveEnemyBySideCategory(3) != 0)
         {
             EnemyView *enemy =
-                otherSideState08->enemyManager10->FindActiveEnemyBySideCategory(3);
+                startOtherSideState08->enemyManager10->FindActiveEnemyBySideCategory(3);
             enemy->flags337C |= 0x100u;
-            ++otherSideState08->player04->valueB8;
+            ++startOtherSideState08->player04->valueB8;
         }
-        ++otherSideState08->player04->valueB4;
+        ++startOtherSideState08->player04->valueB4;
 
         if (secondaryUpdate1334 != 0)
         {
-            secondaryEnd133C(reinterpret_cast<CardAttack *>(this));
+            secondaryEnd133C(this);
             secondaryUpdate1334 = 0;
             secondaryDraw1338 = 0;
             secondaryEnd133C = 0;
@@ -126,7 +126,7 @@ void CardAttackStartView::StartAttack(
         strcpy(text18, text);
 
         g_CardAttackCallbackRows[secondaryRow1358].begin(
-            reinterpret_cast<CardAttack *>(this));
+            this);
         secondaryUpdate1334 =
             g_CardAttackCallbackRows[secondaryRow1358].update;
         secondaryDraw1338 =
@@ -134,10 +134,10 @@ void CardAttackStartView::StartAttack(
         secondaryEnd133C =
             g_CardAttackCallbackRows[secondaryRow1358].end;
 
-        if (otherSideState08->player04->valueA4 < 16)
-            ++otherSideState08->player04->valueA4;
-        if (sideState04->player04->valueA4 < 16)
-            ++sideState04->player04->valueA4;
+        if (startOtherSideState08->player04->valueA4 < 16)
+            ++startOtherSideState08->player04->valueA4;
+        if (startSideState04->player04->valueA4 < 16)
+            ++startSideState04->player04->valueA4;
 
         g_SoundPlayer.PlaySoundByIdx(53, 0);
     }
@@ -145,7 +145,7 @@ void CardAttackStartView::StartAttack(
     {
         if (primaryUpdate1328 != 0)
         {
-            primaryEnd1330(reinterpret_cast<CardAttack *>(this));
+            primaryEnd1330(this);
             primaryUpdate1328 = 0;
             primaryDraw132C = 0;
             primaryEnd1330 = 0;
@@ -156,10 +156,10 @@ void CardAttackStartView::StartAttack(
         primaryValue1348 = value;
         primaryClass1350 = attackClass;
         strcpy(text18, text);
-        ++otherSideState08->player04->valueB0;
+        ++startOtherSideState08->player04->valueB0;
 
         g_CardAttackCallbackRows[primaryRow134C].begin(
-            reinterpret_cast<CardAttack *>(this));
+            this);
         primaryUpdate1328 =
             g_CardAttackCallbackRows[primaryRow134C].update;
         primaryDraw132C =
@@ -167,8 +167,8 @@ void CardAttackStartView::StartAttack(
         primaryEnd1330 =
             g_CardAttackCallbackRows[primaryRow134C].end;
 
-        if (otherSideState08->player04->valueA0 < 16)
-            ++otherSideState08->player04->valueA0;
+        if (startOtherSideState08->player04->valueA0 < 16)
+            ++startOtherSideState08->player04->valueA0;
 
         g_SoundPlayer.PlaySoundByIdx(14, 0);
     }
@@ -190,27 +190,27 @@ void CardAttackStartView::StartAttack(
         1u << sideIndex00;
     timer98 = 0;
 
-    sideState04->state00->field1C = 1;
-    sideState04->state00->field20 = 30;
-    otherSideState08->state00->field1C = 2;
-    otherSideState08->state00->field20 = 30;
+    startSideState04->state00->field1C = 1;
+    startSideState04->state00->field20 = 30;
+    startOtherSideState08->state00->field1C = 2;
+    startOtherSideState08->state00->field20 = 30;
 
     if (sideIndex00 == 1)
     {
-        otherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
-            &otherSideState08->frontSide18->auxA678.vms0C[0],
-            otherSideState08->player04->tableValue303F0);
-        otherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
-            &otherSideState08->frontSide18->auxA678.vms0C[1],
-            otherSideState08->player04->tableValue303F0 + 1);
+        startOtherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
+            &startOtherSideState08->frontSide18->auxA678.vms0C[0],
+            startOtherSideState08->player04->tableValue303F0);
+        startOtherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
+            &startOtherSideState08->frontSide18->auxA678.vms0C[1],
+            startOtherSideState08->player04->tableValue303F0 + 1);
     }
     else
     {
-        otherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
-            &otherSideState08->frontSide18->auxA678.vms0C[0],
-            otherSideState08->player04->tableValue303F0 + 2);
-        otherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
-            &otherSideState08->frontSide18->auxA678.vms0C[1],
-            otherSideState08->player04->tableValue303F0 + 3);
+        startOtherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
+            &startOtherSideState08->frontSide18->auxA678.vms0C[0],
+            startOtherSideState08->player04->tableValue303F0 + 2);
+        startOtherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
+            &startOtherSideState08->frontSide18->auxA678.vms0C[1],
+            startOtherSideState08->player04->tableValue303F0 + 3);
     }
 }

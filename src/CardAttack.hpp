@@ -9,6 +9,7 @@
 
 class AnmLoaded;
 class Background;
+struct CardAttackStartSideView;
 
 // Target-facing reconstruction of the TH09 per-side CardAttack owner.  The
 // semantic name comes from the target registry tag "CardAttackInf"; it is not
@@ -65,8 +66,9 @@ struct CardAttack
     static CardAttack *Create(int sideIndex);
 
     int sideIndex00;
-    CardAttackSideStateView *sideState04;
-    CardAttackSideStateView *otherSideState08;
+    // The exact StartAttack uses a richer view of these same two side pointers.
+    union { CardAttackSideStateView *sideState04; CardAttackStartSideView *startSideState04; };
+    union { CardAttackSideStateView *otherSideState08; CardAttackStartSideView *startOtherSideState08; };
     ChainElem *calcChain0C;
     ChainElem *drawChain10;
     AnmLoaded *presentationAnm14;
