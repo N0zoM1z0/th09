@@ -3,6 +3,7 @@
 #include "FrontSide.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "PlayerSharedRuntimeView.hpp"
+#include "PlayerState4OpsView.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
@@ -81,8 +82,6 @@ struct PlayerGameplayMethods
 {
     float *ResolvePatternOffset(
         int pattern, int alternate, float *offsetX, float *offsetY);
-    void EnterGameplayMode(int mode);
-    int GetUpdateState();
 };
 
 // The exact Player selector and 1,900-byte Player movement use identical
@@ -296,9 +295,9 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             : (phase >= 2 ? config->openingMedium04
                           : config->openingShort08);
         if (g_GameManager.IsGameMode1() &&
-            reinterpret_cast<PlayerGameplayMethods *>(phasePlayer)->GetUpdateState() != 1)
+            phasePlayer->GetUpdateState() != 1)
         {
-            reinterpret_cast<PlayerGameplayMethods *>(phasePlayer)->EnterGameplayMode(3);
+            reinterpret_cast<PlayerState4OpsView *>(phasePlayer)->SetUpdateState(3);
             *reinterpret_cast<ZunTimer *>(&header->player78->timer303C8) = 2;
         }
         if (static_cast<int>(header->openingTimer5C) / 60 >= threshold)
@@ -439,7 +438,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         if ((header->flags74 & 1U) == 0)
         {
             PlayerLifecycleView *player = header->player78;
-            if (reinterpret_cast<PlayerGameplayMethods *>(player)->GetUpdateState() == 0 &&
+            if (player->GetUpdateState() == 0 &&
                 player->timer1B74.operator==(0))
             {
                 if (header->crossedThreshold0C != 0 &&
