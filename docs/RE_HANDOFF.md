@@ -2,7 +2,8 @@
 
 **Start here:** [next-agent execution checklist](TH09_NEXT_AGENT_HANDOFF_20261107.md),
 [workflow](RE_WORKFLOW.md), [original-byte/VC7.1 Oracles](ORACLES.md),
-[tool routing](TOOLS.md), then `AGENTS.md` at the repository root. This file
+[tool routing](TOOLS.md), [accepted receipt archive](RE_ACCEPTED_RECEIPTS.md),
+then `AGENTS.md` at the repository root. This file
 is the **live routing and frontier index**, not a transcript. The previous
 560-line live document was retained byte-for-byte in
 [the November 7 historical archive](RE_HANDOFF_HISTORY_20261107.md).

@@ -25,7 +25,7 @@ class NativePlayerMovementFields(unittest.TestCase):
         self.assertIn('PlayerMovementScaleLastAt1C',header)
         self.assertIn('PlayerMovementFields movementFields1CCC;',header)
         self.assertIn('PlayerLifecycleMovementAt1CCC',header)
-        self.assertIn('PlayerMovementFields *runtime = &player->movementFields1CCC;',movement)
+        self.assertIn('PlayerMovementFields &runtime = player->movementFields1CCC;',movement)
         self.assertNotIn('struct PlayerMovementFields',movement)
         self.assertNotIn('reinterpret_cast<unsigned char *>(player) + 0x1CCC',movement)
 

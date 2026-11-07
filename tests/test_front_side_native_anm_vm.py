@@ -21,7 +21,7 @@ class FrontSideNativeAnmVm(unittest.TestCase):
         self.assertIn('offsetof(AnmVm, pos2) == 0x288', src)
         self.assertIn('color1Script',src)
         self.assertIn('struct AnmVmScriptColor',header)
-        self.assertIn('union { unsigned long color1; AnmVmScriptColor color1Script; }',header)
+        self.assertIn('union { unsigned long color1; AnmVmScriptColor color1Script; unsigned char color1Bytes[4]; }',header)
 
     def test_original_front_side_exact_owner_sizes_unchanged(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:

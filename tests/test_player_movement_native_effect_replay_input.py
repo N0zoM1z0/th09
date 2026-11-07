@@ -22,8 +22,9 @@ class PlayerMovementNativeFocusInput(unittest.TestCase):
     def test_real_replay_input_array_and_second_independent_focus_read(self):
         source=(ROOT/'src/PlayerMovement.cpp').read_text()
         input_header=(ROOT/'src/ReplayInputState.hpp').read_text()
-        self.assertIn('ReplayInputState *input = &g_ReplayInputStates[player->sideIndex];',source)
-        self.assertIn('int inputOffset = player->sideIndex * sizeof(ReplayInputState);',source)
+        self.assertIn('ReplayInputState *input = &g_ReplayInputStates[inputSide];',source)
+        self.assertIn('const int inputSide = player->sideIndex;',source)
+        self.assertIn('int inputOffset = inputSide * sizeof(ReplayInputState);',source)
         self.assertIn('reinterpret_cast<unsigned char *>(g_ReplayInputStates) +',source)
         self.assertIn('inputOffset)->auxiliary2A >= 8;',source)
         self.assertIn('extern ReplayInputState g_ReplayInputStates[3];',input_header)

@@ -24,8 +24,8 @@ class SharedReplayDataPhysicalLayout(TestCase):
         consumers = {
             "src/ReplayInput.cpp": "ReplayDataView",
             "src/TitleScreen.cpp": "ReplayDataView replays[50]",
-            "src/TitleScreenReplaySaveDraw.cpp": "ReplayDataView replays[50]",
-            "src/TitleScreenReplayMenuDraw.cpp": "ReplayDataView replays[50]",
+            "src/TitleScreenReplaySaveDraw.cpp": "this->replays[i].magic",
+            "src/TitleScreenReplayMenuDraw.cpp": "replays[i].magic",
         }
         for filename, expected in consumers.items():
             with self.subTest(filename=filename):
@@ -38,8 +38,17 @@ class SharedReplayDataPhysicalLayout(TestCase):
                     self.assertIn('#include "ReplayManagerRuntimeView.hpp"', body)
                     manager = (ROOT / "src/ReplayManagerRuntimeView.hpp").read_text()
                     self.assertIn('#include "ReplayDataOriginalView.hpp"', manager)
+                elif filename == "src/TitleScreen.cpp":
+                    # The main Title TU owns its larger exact TitleScreenView
+                    # directly, while both drawing TUs borrow the shared view.
+                    self.assertIn('#include "ReplayDataOriginalView.hpp"',body)
+                    self.assertIn('ReplayDataView replays[50];',body)
                 else:
-                    self.assertIn('#include "ReplayDataOriginalView.hpp"', body)
+                    self.assertIn('#include "TitleScreenReplayView.hpp"', body)
+                    shared=(ROOT / 'src/TitleScreenReplayView.hpp').read_text()
+                    self.assertIn('#include "ReplayDataOriginalView.hpp"',shared)
+                    self.assertIn('ReplayDataView replays[50];',shared)
+                    self.assertIn('offsetof(TitleScreenView, replays) == 0x68E4',shared)
                 self.assertIn(expected, body)
                 self.assertNotIn("struct ReplayDataView", body)
                 self.assertNotIn("struct ReplayFrameDataStartView", body)
@@ -81,17 +90,22 @@ class SharedReplayDataPhysicalLayout(TestCase):
     def test_title_bosses_share_native_replay_data_schema(self):
         save = (ROOT / "src/TitleScreenReplaySaveDraw.cpp").read_text()
         menu = (ROOT / "src/TitleScreenReplayMenuDraw.cpp").read_text()
-        self.assertIn('#include "ReplayDataOriginalView.hpp"', save)
-        self.assertIn("ReplayDataView replays[50]", save)
+        self.assertIn('#include "TitleScreenReplayView.hpp"', save)
+        self.assertIn('#include "TitleScreenReplayView.hpp"', menu)
+        self.assertIn('#include "ReplayDataOriginalView.hpp"',(ROOT/'src/TitleScreenReplayView.hpp').read_text())
+        shared=(ROOT/'src/TitleScreenReplayView.hpp').read_text()
+        self.assertIn('ReplayDataView replays[50];',shared)
+        self.assertIn('sizeof(((TitleScreenView *)0)->replays[0]) == 0x1EC',shared)
+        self.assertIn('this->replays[i].magic',save)
         self.assertIn("replays[i].magic", menu)
         self.assertIn("replays[i].playTime", menu)
         self.assertIn("replays[i].playerName", menu)
-        self.assertIn("ReplayDataView *replay = &replays[selectedReplay];", menu)
-        self.assertIn("replay->frameStart[0][i]->value06", menu)
-        self.assertIn("replay->frameStart[1][i]->value06", menu)
-        self.assertIn("replay->value0D7", menu)
+        self.assertIn("const ReplayDataView &replayValue = replays[selectedReplay];", menu)
+        self.assertIn("replayValue.frameStart[0][i]->value06", menu)
+        self.assertIn("replayValue.frameStart[1][i]->value06", menu)
+        self.assertIn("replayValue.value0D7", menu)
         self.assertIn("replays[selected].value1E4", menu)
-        self.assertIn("replay->value1E5", menu)
+        self.assertIn("replayValue.value1E5", menu)
         for false_owner in ("ReplayMenuReplayView", "ReplaySaveReplayDataView",
                             "ReplayMenuFrameView"):
             self.assertNotIn(false_owner, save + menu)

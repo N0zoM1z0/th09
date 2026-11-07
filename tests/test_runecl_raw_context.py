@@ -113,7 +113,7 @@ class RunEclRawContextTests(unittest.TestCase):
     def test_scalar_return_context_rejects_changed_width_size_and_duplicate_copy(self):
         for filename, old, new in (
                 ('EclRunControl.inl', 'arguments[operandIndex].integer;', 'arguments[operandIndex].real;'),
-                ('EclRunState.inl', '0x0C + byteOffset', '0x10 + byteOffset'),
+                ('EclRunState.inl', 'reinterpret_cast<unsigned char *>(instruction->arguments)[byteOffset]', 'reinterpret_cast<unsigned char *>(instruction->arguments)[byteOffset + 4]'),
                 ('EclRunState.inl', 'sizeof(value));', 'sizeof(int));')):
             inputs = probe.collect_inputs()
             self.assertIn(old.encode(), inputs[filename])

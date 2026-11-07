@@ -54,14 +54,21 @@ def validate_connection(consumer, header, producer, units):
             'duplicated private region/storage overlay')
     body = consumer.split('int PlayerLifecycleView::CheckBulletCollision(', 1)[1]
     body = body.split('\nint PlayerLifecycleView::CheckGrazeCollision(', 1)[0]
-    scan = re.search(REGION + r'\s*\*\*(\w+)\s*=\s*reinterpret_cast<' + OWNER +
-                     r'\s*\*>\((\w+)\)->activeB100;', body)
-    require(scan is not None,
-            'consumer must scan the actual producer pointer array')
-    cursor, receiver = scan.groups()
+    # The consumer now borrows one native pool reference and traverses its
+    # original activeB100 pointer array. Ensure it starts from *this*, not a
+    # different Player, and never silently falls back to releasedB908.
+    root = re.search(
+        r'\b' + OWNER + r'\s*&\s*(\w+)\s*=\s*'
+        r'\*reinterpret_cast<' + OWNER + r'\s*\*>\((\w+)\);', body)
+    require(root is not None, 'consumer must borrow the actual producer pool')
+    pool, receiver = root.groups()
     require(receiver == 'this' or re.search(
         r'\bPlayerLifecycleView\s*\*\s*' + re.escape(receiver) + r'\s*=\s*this\s*;',
         body) is not None, 'consumer must scan the actual producer pointer array')
+    scan = re.search(REGION + r'\s*\*\*\s*(\w+)\s*=\s*' + re.escape(pool) +
+                     r'\.activeB100;', body)
+    require(scan is not None, 'consumer must scan the actual producer pointer array')
+    cursor = scan.group(1)
     scalar = {'unsigned char': (1, 1), 'float': (4, 4), 'int': (4, 4)}
     fields, shape = struct_layout(header, REGION, scalar)
     require(shape == (0x44, 4), 'region physical size/alignment')
@@ -137,13 +144,17 @@ class PlayerCollisionRegionOwner(unittest.TestCase):
                                                      'releasedB908[activeCountC110] = region;', 1))
 
     def test_reject_consumer_scanning_other_pool(self):
+        original='pool.activeB100;'
+        self.assertEqual(self.consumer.count(original),1)
         with self.assertRaisesRegex(ValueError, 'actual producer pointer array'):
-            self.check(consumer=self.consumer.replace('->activeB100;', '->releasedB908;', 1))
+            self.check(consumer=self.consumer.replace(original,'pool.releasedB908;',1))
 
     def test_reject_consumer_scanning_other_player(self):
+        original='reinterpret_cast<PlayerCollisionRegionCreateView *>(this);'
+        self.assertEqual(self.consumer.count(original),1)
         with self.assertRaisesRegex(ValueError, 'actual producer pointer array'):
             self.check(consumer=self.consumer.replace(
-                '>(this)->activeB100;', '>(otherPlayer)->activeB100;', 1))
+                original,'reinterpret_cast<PlayerCollisionRegionCreateView *>(otherPlayer);',1))
 
 
 if __name__ == '__main__':

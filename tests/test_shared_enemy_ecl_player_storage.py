@@ -51,7 +51,7 @@ class NativeEnemyEclPlayerStorage(unittest.TestCase):
         self.assertNotIn('struct EnemyCoreSideStateView\n{', state)
         self.assertIn('typedef ::EnemyCoreSideStateView SideStateView;', late)
         for member in ('Background *background00;', 'EtamaController *etama08;',
-                       'EnemyCoreSideOwnerView *owner14;',
+                       'CardAttack *owner14;',
                        'unsigned int flags34;'):
             self.assertIn(member, native)
         self.assertIn('return Manager(enemy)->sideState320->etama08;', late)
@@ -80,7 +80,8 @@ class NativeEnemyEclPlayerStorage(unittest.TestCase):
         self.assertIn('typedef ::EnemyManagerView ManagerLateView;',late)
         self.assertIn('return enemy->manager00;',late)
         self.assertIn('return Manager(enemy)->sideState320->etama08;',late)
-        self.assertIn('&enemy->primaryAnmVm0008)->rotationZ08;',late)
+        self.assertIn('return enemy->primaryAnmVm0008.rotation.z;',late)
+        self.assertIn('offsetof(AnmVm, rotation) + offsetof(Float3, z) == 0x0010',late)
         self.assertIn('sizeof(ManagerLateView) == 0x2AC450',late)
         for field in ('damageReductionTimer53A8','worldPosition2DD4',
                       'position2D74','primaryFlags337C',

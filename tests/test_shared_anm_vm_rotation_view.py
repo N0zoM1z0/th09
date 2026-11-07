@@ -41,11 +41,12 @@ class SharedAnmVmRotationView(unittest.TestCase):
 
     def test_big_ecl_late_opcode_uses_same_native_vm_field(self):
         late = (ROOT / 'src/EclRunLate.inl').read_text()
-        self.assertIn('#include "AnmVmRotationFieldView.hpp"', late)
+        self.assertIn('typedef char Th09EclLateMainVmRotationAt10[',late)
+        self.assertNotIn('#include "AnmVmRotationFieldView.hpp"',late)
         self.assertIn('Th09EclLateMainVmRotationAt10', late)
         self.assertIn('offsetof(EnemyView, primaryAnmVm0008)', late)
-        self.assertIn('offsetof(AnmVmRotationFieldView, rotationZ08) == 0x0010', late)
-        self.assertIn('&enemy->primaryAnmVm0008)->rotationZ08;', late)
+        self.assertIn('offsetof(AnmVm, rotation) + offsetof(Float3, z) == 0x0010', late)
+        self.assertIn('return enemy->primaryAnmVm0008.rotation.z;',late)
         self.assertNotIn('reinterpret_cast<unsigned char *>(enemy) + 0x0010', late)
         self.assertIn('case TH09_ECL_OPCODE_SET_MAIN_ANM_ROTATION:', late)
         self.assertIn('Th09EclRunLate::MainAnmRotation(enemy) =', late)

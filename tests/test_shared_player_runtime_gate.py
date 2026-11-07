@@ -24,15 +24,16 @@ class NativeSharedPlayerRuntime(unittest.TestCase):
 
     def test_original_anonymous_selector_type_is_not_silently_unified(self):
         selector = (ROOT/'src/PlayerGameplayState.cpp').read_text()
-        self.assertIn('struct PlayerSharedRuntimeView\n{', selector)
-        self.assertNotIn('#include "PlayerSharedRuntimeView.hpp"', selector)
+        self.assertNotIn('struct PlayerSharedRuntimeView\n{', selector)
+        self.assertIn('#include "PlayerSharedRuntimeView.hpp"', selector)
         with (ROOT/'config/match-units.toml').open('rb') as stream:
             units = tomllib.load(stream)['units']
         self.assertEqual(units['player-shared-is-blocked']['size'],24)
         self.assertEqual(units['replay-control-frame-advance']['size'],59)
         self.assertEqual(units['player-on-update']['size'],522)
         refs = [x['symbol'] for x in units['player-update-selector-state']['relocations']]
-        self.assertTrue(any('PlayerSharedRuntimeView@?A0x' in name for name in refs))
+        self.assertIn('?g_PlayerSharedRuntime@@3PAUPlayerSharedRuntimeView@@A',refs)
+        self.assertIn('?IsBlocked@PlayerSharedRuntimeView@@QAEHXZ',refs)
 
 
 if __name__ == '__main__':

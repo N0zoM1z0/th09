@@ -18,7 +18,7 @@ class PlayerNativeMovementFields(unittest.TestCase):
         self.assertNotIn('struct PlayerMovementFields',source)
         self.assertIn('PlayerMovementFields movementFields1CCC;',header)
         self.assertNotIn('unknown1CCC[0x1CEC - 0x1CCC]',header)
-        self.assertIn('PlayerMovementFields *runtime = &player->movementFields1CCC;',source)
+        self.assertIn('PlayerMovementFields &runtime = player->movementFields1CCC;',source)
         for member,offset in (('velocity1CCC','0x1CCC'),
                               ('movementAngle1CD8','0x1CD8'),
                               ('speedMultiplier1CDC','0x1CDC'),

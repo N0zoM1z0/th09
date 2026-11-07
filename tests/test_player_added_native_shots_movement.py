@@ -21,7 +21,7 @@ class PlayerAddedNativeShotsMovement(unittest.TestCase):
                      'speedMultiplier1CE4','speedMultiplier1CE8'):
             with self.subTest(name=name):
                 self.assertIn('this->movementFields1CCC.'+name+' = 1.0f;',added)
-                self.assertIn('runtime->'+name,movement)
+                self.assertIn('runtime.'+name,movement)
         self.assertIn('this->movementFields1CCC.movementAngle1CD8 = -1.57079637f;',added)
         self.assertIn('PlayerMovementFields movementFields1CCC;',native)
 
