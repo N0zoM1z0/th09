@@ -27,6 +27,21 @@ The separate probe packet under
 `.analysis/gptweb-screen-envelope-phases-20261107/` retains all independent
 compiler inputs/objects and original-bound diagnostics.
 
+## Original-bound physical phase table
+
+| Original dword | General effect member | Envelope-specific member |
+| --- | --- | --- |
+| `ScreenEffect +0x1C` | `rawParameter0` | `shakeEnvelope.fadeInFrames` |
+| `ScreenEffect +0x20` | `rawParameter1` | `shakeEnvelope.holdFrames` |
+| `ScreenEffect +0x24` | `rawParameter2` | `shakeEnvelope.fadeOutFrames` |
+
+The native envelope compares the original Timer against the initial endpoint,
+then against initial-plus-hold and finally against the full three-phase
+endpoint. The signed parameter values still undergo the target's unsigned
+integer-to-float conversion in the fade-out fraction. An isolated candidate
+using a private cast-only local view instead emitted 343 physical bytes with
+331 unlike overlaps; the native union preserves the actual owner boundaries.
+
 ## Full affected-source and exact-original validation
 
 The **336-byte `ScreenEffect::CalcShakeEnvelope` remains explicitly nonexact**:

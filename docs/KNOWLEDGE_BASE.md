@@ -18,6 +18,19 @@ share one **0x38-byte** native layout. Consult
 [the current next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-07: Source-facing ScreenEffect envelope phases (current binding)
+
+The real 0x38-byte ScreenEffect keeps raw input fields at +0x1C/+0x20/+0x24;
+its phase-specific rise, hold and fall durations are a type-specific union
+view of those same three dwords. `CalcShakeEnvelope` uses the original timer
+subobject at +0x2C, preserving all actual target call/field addresses.
+Every original-exact function in the 11 affected source units (99 complete
+functions, 38,327 bytes, 2,315 relocations) replays under its pinned
+compiler profile. The open 336-byte envelope still has 26 differing bytes;
+register allocation is not original exact. Original-bound evidence and the
+79 local label name rebindings are in
+[the focused review](TH09_SCREEN_EFFECT_ENVELOPE_PHASE_LAYOUT_20261107.md).
+
 ### 2026-11-06: Cleanup handoff and interrupted RunEcl recovery
 
 The operator switched to cleanup/handoff, ending the previous running goal.
