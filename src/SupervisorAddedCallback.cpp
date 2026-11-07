@@ -10,14 +10,6 @@ struct SupervisorAddedGameManagerView
     void ResetForSupervisorAdded();
 };
 
-struct SupervisorAddedAnmManagerView
-{
-    int LoadSurface(int index, const char *filename);
-    void *LoadAnm(int index, const char *filename);
-    void ReleaseSurface(int index);
-    int SetupVertexBuffer();
-};
-
 // The 238-byte startup callback shares both its real 0x7B0-byte Supervisor
 // allocation and exact VM/thread methods with the independent leaf owners.
 struct SupervisorAddedLayout : SupervisorLoadingSetupView {};
@@ -51,25 +43,25 @@ int Supervisor::AddedCallback(Supervisor *supervisor)
     if (SupervisorAddedLoadDat() != 0)
         return -1;
 
-    reinterpret_cast<SupervisorAddedAnmManagerView *>(g_AnmManager)->LoadSurface(
+    g_AnmManager->LoadSurface(
         8, "title/th09logo.jpg");
     callbackSupervisor->loadingAnm =
-        reinterpret_cast<SupervisorAddedAnmManagerView *>(g_AnmManager)->LoadAnm(
+        g_AnmManager->LoadAnm(
             2, "nowloading.anm");
     if (callbackSupervisor->loadingAnm == NULL)
     {
-        reinterpret_cast<SupervisorAddedAnmManagerView *>(g_AnmManager)->ReleaseSurface(0);
+        g_AnmManager->ReleaseSurface(0);
         return -1;
     }
 
     globalSupervisor->suppressFpsDisplay = 1;
     if (!globalSupervisor->disableVsync && SupervisorCheckFps() != 0)
     {
-        reinterpret_cast<SupervisorAddedAnmManagerView *>(g_AnmManager)->ReleaseSurface(0);
+        g_AnmManager->ReleaseSurface(0);
         return -2;
     }
 
-    reinterpret_cast<SupervisorAddedAnmManagerView *>(g_AnmManager)->SetupVertexBuffer();
+    g_AnmManager->SetupVertexBuffer();
     SupervisorAddedCreateTextBuffer();
 
     Float3 position(500.0f, 440.0f, 0.0f);
