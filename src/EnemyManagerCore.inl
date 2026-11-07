@@ -381,7 +381,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 {
                     BulletSpawnDescriptorCtorView storage;
                     BulletSpawnDescriptor &descriptor = storage.descriptor;
-                    memcpy(&descriptor.position, &enemy->position2D74, sizeof(descriptor.position));
+                    // The native 12-byte Enemy position is the same vector
+                    // representation used by the real Etama descriptor.
+                    descriptor.position =
+                        reinterpret_cast<const Float3 &>(enemy->position2D74);
                     EnemyCoreSideStateView *spawnSide = manager->sideState320;
                     descriptor.bulletType = 1;
                     descriptor.aimMode = 0;
