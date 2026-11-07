@@ -78,11 +78,18 @@ typedef char PlayerSideProtocolEventAt32[
 typedef char PlayerSideProtocolThresholdAt34[
     (offsetof(PlayerSideProtocolView, thresholdFlags34) == 0x34) ? 1 : -1];
 
-struct PlayerGameplayMethods
+// This method family addresses the Player's real allocation with a +0x00
+// nonvirtual base and no extra bytes; the independently bound resolver at
+// 0x404710 retains its original source-facing method symbol.
+struct PlayerGameplayMethods : PlayerLifecycleView
 {
     float *ResolvePatternOffset(
         int pattern, int alternate, float *offsetX, float *offsetY);
 };
+typedef char PlayerGameplayMethodsNativeOwner[
+    (sizeof(PlayerGameplayMethods) == sizeof(PlayerLifecycleView) &&
+     offsetof(PlayerGameplayMethods, primaryShtFile) == 0x30338 &&
+     offsetof(PlayerGameplayMethods, position1B88) == 0x1B88) ? 1 : -1];
 
 // The exact Player selector and 1,900-byte Player movement use identical
 // native +0x360..+0x36C GameManager playfield words. A separate ResetView
@@ -111,7 +118,7 @@ float *PlayerGameplayMethods::ResolvePatternOffset(
     float *offsetY)
 {
     PlayerLifecycleView *player =
-        reinterpret_cast<PlayerLifecycleView *>(this);
+        static_cast<PlayerLifecycleView *>(this);
 
     *offsetY = 0.0f;
     *offsetX = 0.0f;
