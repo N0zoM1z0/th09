@@ -15,8 +15,11 @@ class Anm3DSharedNativeDiffuseVertex(unittest.TestCase):
                 self.assertNotIn('struct VertexDiffuseXyzrhw',source)
                 self.assertIn('sizeof(VertexDiffuseXyzrhw)',source)
         projection=(ROOT/'src/AnmManagerProjection.cpp').read_text()
-        self.assertIn('VertexDiffuseXyzrhw untexturedVertices[4];',projection)
-        self.assertIn('offsetof(AnmManagerProjectionView,untexturedVertices)==0x12894',projection)
+        quad_cache=(ROOT/'src/AnmManagerQuadCacheView.hpp').read_text()
+        self.assertIn('typedef AnmManagerQuadCacheView AnmManagerProjectionView;',projection)
+        self.assertIn('VertexTex1Xyz untexturedVector[4];',quad_cache)
+        self.assertIn('sizeof(VertexTex1Xyz) == 0x14',quad_cache)
+        self.assertIn('offsetof(AnmManagerProjectionView,untexturedVector)==0x12894',projection)
         self.assertIn('sizeof(VertexDiffuseXyzrhw) == 0x14',vertex)
 
     def test_both_original_bound_large_functions_remain_exact_extent(self):

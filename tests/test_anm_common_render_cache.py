@@ -21,8 +21,12 @@ class AnmCommonRenderCache(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertIn('offsetof(AnmManagerRenderCacheView, '+name+') == '+off,cache)
         self.assertIn('sizeof(AnmManagerRenderCacheView) == 0x1288C',cache)
-        self.assertIn('struct AnmManagerPrimitiveView : AnmManagerRenderCacheView',primitive)
-        self.assertIn('struct AnmManagerDraw3DView : AnmManagerRenderCacheView',draw)
+        quad=(ROOT/'src/AnmManagerQuadCacheView.hpp').read_text()
+        self.assertIn('struct AnmManagerQuadCacheView : AnmManagerRenderCacheView',quad)
+        self.assertIn('sizeof(AnmManagerQuadCacheView) == 0x128E8',quad)
+        self.assertIn('offsetof(AnmManagerQuadCacheView, untexturedVector) == 0x12894',quad)
+        self.assertIn('typedef AnmManagerQuadCacheView AnmManagerPrimitiveView;',primitive)
+        self.assertIn('typedef AnmManagerQuadCacheView AnmManagerDraw3DView;',draw)
         self.assertIn('typedef AnmManagerRenderCacheView AnmManagerBackgroundView',background)
         self.assertNotIn('struct AnmManagerBackgroundView\n{',background)
 
