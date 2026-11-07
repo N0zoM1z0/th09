@@ -35,14 +35,19 @@ struct AnmFileRuntimeSlot
 };
 typedef char AnmFileRuntimeSlotSizeIs120[(sizeof(AnmFileRuntimeSlot) == 0x120) ? 1 : -1];
 
-struct AnmManagerRuntimeView
+// The ANM loader's native +0x0C started-script counter belongs to the
+// same AnmManager allocation. Its +0x38 legacy resource-slot tail remains
+// a bounded view whose original 0x120-byte slot stride is independently exact.
+struct AnmManagerRuntimeView : AnmManager
 {
-    unsigned char unknown000[0x0C];
-    int scriptsStartedThisFrame;
-    unsigned char unknown010[0x28];
+    unsigned char unknown024[0x38 - 0x24];
     AnmFileRuntimeSlot anmFiles[1];
 };
-typedef char AnmManagerRuntimeFilesAt38[(offsetof(AnmManagerRuntimeView, anmFiles) == 0x38) ? 1 : -1];
+typedef char AnmManagerRuntimeNativeManagerAndFiles[
+    (sizeof(AnmManager) == 0x24 &&
+     offsetof(AnmManager, scriptsStartedThisFrame0C) == 0x0C &&
+     offsetof(AnmManagerRuntimeView, anmFiles) == 0x38 &&
+     sizeof(AnmFileRuntimeSlot) == 0x120) ? 1 : -1];
 
 void AnmVm::SetInterrupt(i16 interrupt)
 {
@@ -132,7 +137,7 @@ void AnmLoaded::SetAndExecuteScript(AnmVm *vm, AnmRawInstr *beginningOfScript)
         vm->currentTimeInScript = 0;
         vm->visible = 0;
         g_AnmManager->ExecuteScript(vm);
-        reinterpret_cast<AnmManagerRuntimeView *>(g_AnmManager)->scriptsStartedThisFrame++;
+        g_AnmManager->scriptsStartedThisFrame0C++;
     }
 }
 
