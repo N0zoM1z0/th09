@@ -26,7 +26,9 @@ class TitleNativeAnmVmInheritance(unittest.TestCase):
         title=(ROOT/'src/TitleScreen.cpp').read_text()
         self.assertIn('AnmVmView::ConfigurePositionInterpolation(',title)
         self.assertIn('AnmVmView::ConfigureColorInterpolation(',title)
-        self.assertIn('reinterpret_cast<TitleZunTimerView *>(&interpCurrentTimers[0])',title)
+        self.assertNotIn('TitleZunTimerView',title)
+        self.assertIn('AssignInterpolatedZunTimer(interpCurrentTimers[0], 0)',title)
+        self.assertIn('AssignInterpolatedZunTimer(interpEndTimers[0], duration)',title)
         self.assertIn('reinterpret_cast<TitleFloat3View *>(&posInitial)',title)
         with (ROOT/'config/match-units.toml').open('rb') as f:u=tomllib.load(f)['units']
         self.assertEqual(u['anm-vm-configure-position-interpolation']['size'],81)

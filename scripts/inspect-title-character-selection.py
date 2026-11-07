@@ -70,6 +70,7 @@ destinations = {
     '?SetCharacterCursorReverse@TitleScreenView@@QAEXHHHH@Z': 0x424FB0,
     '?SetInterruptArray@TitleAnmManagerView@@QAEXPAUAnmVmView@@HH@Z': 0x436DE0,
     '?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z': 0x436AC0,
+    '?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z': 0x436AC0,
     '?UpdateCharacterSelectionVisuals@TitleScreenView@@QAEXHHHPAD@Z': 0x425233,
     '?UpdateCharacterSettings@TitleScreenView@@QAEHHH@Z': 0x425163,
     '?UpdateScreen16@TitleScreenView@@QAEHXZ': 0x426334,

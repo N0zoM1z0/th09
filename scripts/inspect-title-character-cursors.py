@@ -18,10 +18,23 @@ import struct
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-SPRITE_SYMBOL = '?SetSprite@TitleAnmView@@QAEHPAUAnmVmView@@H@Z'
+# The complete 189-byte AnmLoaded::SetSprite at 0x436AC0 is separately
+# original-bound. Title cursor callers now use this same native member ABI,
+# not a private TitleAnmView placeholder. Retain the historical target VA.
+SPRITE_SYMBOL = '?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z'
 SCRIPT_SYMBOL = '?ExecuteScript@TitleAnmManagerView@@QAEHPAUAnmVmView@@@Z'
 MANAGER_SYMBOL = '?g_TitleAnmManager@@3PAUTitleAnmManagerView@@A'
 SPRITE_ADDRESS = 0x00436AC0
+
+def require_native_sprite_leaf(units: dict) -> None:
+    leaf = units['anm-loaded-set-sprite']
+    if (leaf['symbol'] != SPRITE_SYMBOL or
+            leaf['target_address'] != SPRITE_ADDRESS or leaf['size'] != 189 or
+            leaf['source'] != 'src/AnmLoadedSetSprite.cpp'):
+        raise ValueError('Title cursor native SetSprite callee identity changed')
+
+
+
 SCRIPT_ADDRESS = 0x00436F30
 MANAGER_ADDRESS = 0x004DC550
 
@@ -136,6 +149,9 @@ def diagnose(object_file: Path, variant: str) -> dict:
     import capstone
 
     model = OWNERS[variant]
+    import tomllib
+    with (ROOT/'config/match-units.toml').open('rb') as manifest:
+        require_native_sprite_leaf(tomllib.load(manifest)['units'])
     spec = importlib.util.spec_from_file_location(
         'cursor_th09_coff', ROOT / 'scripts/compare-coff-function.py')
     coff = importlib.util.module_from_spec(spec)

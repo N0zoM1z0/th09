@@ -104,19 +104,6 @@ typedef char TitleNativeLoadingPositionStorage[
      offsetof(TitleFloat3View, y) == offsetof(Float3, y) &&
      offsetof(TitleFloat3View, z) == offsetof(Float3, z)) ? 1 : -1];
 
-struct TitleZunTimerView {
-    i32 previous;
-    float subFrame;
-    i32 current;
-
-    void operator=(i32 value)
-    {
-        current = value;
-        subFrame = (float)value;
-        previous = -999999;
-    }
-};
-
 // Preserve the separately original-bound Title interpolation methods, but
 // share the native 0x2A4-byte AnmVm allocation with ANM and other game owners.
 struct AnmVmView : AnmVm {
@@ -149,11 +136,13 @@ typedef char AnmVmColorInitialAt278[(offsetof(AnmVmView, color1Initial) == 0x278
 typedef char AnmVmColorFinalAt27C[(offsetof(AnmVmView, color1Final) == 0x27C) ? 1 : -1];
 typedef char AnmVmFontHeightAt299[(offsetof(AnmVmView, fontHeight) == 0x299) ? 1 : -1];
 
-struct TitleAnmView {
-    void SetAndExecuteScriptIdx(AnmVmView *vm, i32 scriptIndex);
-    void ExecuteAnmIdxArray(AnmVmView *vms, i32 start, i32 count);
-    int SetSprite(AnmVmView *vm, i32 spriteIndex);
-};
+// Title sprite/script resources point at the same native 0x1C-byte AnmLoaded
+// record used by the independently exact ANM sprite and script providers.
+// The derived view adds no storage and retains the preload result pointer role.
+struct TitleAnmView : AnmLoaded {};
+typedef char TitleNativeAnmLoadedView[
+    (sizeof(TitleAnmView) == sizeof(AnmLoaded) &&
+     sizeof(TitleAnmView) == 0x1C) ? 1 : -1];
 
 struct TitleAnmManagerView {
     u8 unknown000[8];
@@ -689,11 +678,21 @@ void TitleScreenView::SetMenuSelectionSprites(i32 selected, i32 start, i32 count
 }
 
 
+// The two original Title interpolation methods assign the native timer's
+// three physical words.  Keep their original local inlining, without a
+// second timer layout or an out-of-line ZunTimer callback.
+static __forceinline void AssignInterpolatedZunTimer(ZunTimer &timer, int current)
+{
+    timer.current = current;
+    timer.subFrame = (float)current;
+    timer.previous = -999999;
+}
+
 char AnmVmView::ConfigurePositionInterpolation(
     i32 duration, char mode, TitleFloat3View *start, TitleFloat3View *end)
 {
-    *reinterpret_cast<TitleZunTimerView *>(&interpCurrentTimers[0]) = 0;
-    *reinterpret_cast<TitleZunTimerView *>(&interpEndTimers[0]) = duration;
+    AssignInterpolatedZunTimer(interpCurrentTimers[0], 0);
+    AssignInterpolatedZunTimer(interpEndTimers[0], duration);
 
     interpModes[0] = mode;
     *reinterpret_cast<TitleFloat3View *>(&posInitial) = *start;
@@ -705,8 +704,8 @@ char AnmVmView::ConfigurePositionInterpolation(
 int AnmVmView::ConfigureColorInterpolation(
     i32 duration, char mode, u32 startColor, u32 endColor)
 {
-    *reinterpret_cast<TitleZunTimerView *>(&interpCurrentTimers[1]) = 0;
-    *reinterpret_cast<TitleZunTimerView *>(&interpEndTimers[1]) = duration;
+    AssignInterpolatedZunTimer(interpCurrentTimers[1], 0);
+    AssignInterpolatedZunTimer(interpEndTimers[1], duration);
 
     interpModes[1] = mode;
     color1Initial.r = (startColor >> 16) & 0xFF;
