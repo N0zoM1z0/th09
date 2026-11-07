@@ -363,6 +363,15 @@ proof of remote publication.
   The 1,210-byte ChargeAttack boss retains its original nonexact frontier.
   See [native Player State3 region proof](TH09_PLAYER_STATE3_REAL_REGION_PRODUCER_20261107.md).
 
+- **Player State3 and resource methods now have native receiver:**
+  the exact 51-byte clamp and three complete 91/91/100-byte charge effect
+  helpers are declared/implemented on `PlayerLifecycleView`, sharing its
+  actual +0x30388 resource, +0x1B88 position and native collision-region
+  producer. The 1,210-byte ChargeAttack boss retains 70 bound fields,
+  58 ordered calls and its existing 13-byte deficit. **25 exact source
+  owners / 5,724 bytes / 304 fields** pass source-cold replay.
+  See [native Player resource/State3 audit](TH09_PLAYER_NATIVE_RESOURCE_STATE3_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

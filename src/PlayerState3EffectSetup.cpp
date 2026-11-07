@@ -12,7 +12,7 @@ typedef char PlayerState3NativeRegionProducer[
      offsetof(PlayerLifecycleView, activeB100) ==
          offsetof(PlayerCollisionRegionCreateView, activeB100)) ? 1 : -1];
 
-Effect *PlayerStateEffectView::ConfigureState3Effect13()
+Effect *PlayerLifecycleView::ConfigureState3Effect13()
 {
     reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->CreateCircleType1(
         reinterpret_cast<PlayerRegionPointView *>(&position1B88),
@@ -26,7 +26,7 @@ Effect *PlayerStateEffectView::ConfigureState3Effect13()
         13, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
 }
 
-Effect *PlayerStateEffectView::ConfigureState3Effect14()
+Effect *PlayerLifecycleView::ConfigureState3Effect14()
 {
     reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->CreateCircleType1(
         reinterpret_cast<PlayerRegionPointView *>(&position1B88),
@@ -40,7 +40,7 @@ Effect *PlayerStateEffectView::ConfigureState3Effect14()
         14, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
 }
 
-Effect *PlayerStateEffectView::ConfigureState3Effect15()
+Effect *PlayerLifecycleView::ConfigureState3Effect15()
 {
     reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->CreateCircleType1(
         reinterpret_cast<PlayerRegionPointView *>(&position1B88),

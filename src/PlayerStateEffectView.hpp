@@ -6,14 +6,11 @@
 
 struct Effect;
 
-// These state-3 effect methods operate on the native Player storage. Preserve
-// their separately original-bound method ABI, but do not reconstruct a second
-// 0x303D4-byte stand-in for the same Side, position and timer members.
+// The three original-exact State3 effects now belong to the actual native
+// Player, along with its resource clamp. Retain the zero-extra-storage
+// derived source interface for the still-open ChargeAttack method.
 struct PlayerStateEffectView : PlayerResourceSubtractView
 {
-    Effect *ConfigureState3Effect13();
-    Effect *ConfigureState3Effect14();
-    Effect *ConfigureState3Effect15();
 };
 
 typedef char PlayerStateEffectNativeStorage[

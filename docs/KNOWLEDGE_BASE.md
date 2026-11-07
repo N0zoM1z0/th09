@@ -51,6 +51,16 @@ large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+### 2026-11-07: State3 charge and resource methods have one native Player
+
+The original 51-byte resource clamp and 91/91/100-byte State3 helpers
+share the actual Player lifecycle allocation rather than method
+names on fabricated zero-storage derived classes. Their C++ declarations
+and source owners now are `PlayerLifecycleView`; the complete ChargeAttack
+boss still calls all four original-target functions with unchanged
+70 fields and 58 calls. Strict source-cold comparisons protect 25 exact
+units. See [native Player State3/resource proof](TH09_PLAYER_NATIVE_RESOURCE_STATE3_20261107.md).
+
 ### 2026-11-07: Player native region declaration repairs State3 effect compile
 
 A later native Player header exposed the actual `PlayerCollisionRegionCreateView`

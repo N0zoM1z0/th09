@@ -23,6 +23,6 @@ class NativePlayerResourceSubtract(unittest.TestCase):
         v=u['player-subtract-resource-clamped']
         self.assertEqual(v['target_address'],0x0041F310)
         self.assertEqual(v['size'],51)
-        self.assertEqual(v['symbol'],'?SubtractResourceClamped@PlayerResourceSubtractView@@QAEXM@Z')
+        self.assertEqual(v['symbol'],'?SubtractResourceClamped@PlayerLifecycleView@@QAEXM@Z')
 
 if __name__=='__main__':unittest.main()

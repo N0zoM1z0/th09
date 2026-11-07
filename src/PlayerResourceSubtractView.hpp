@@ -4,12 +4,11 @@
 
 #include <stddef.h>
 
-// The 51-byte original resource clamp acts on the same native Player's
-// +0x30388 scalar. Keep its historically bound method ABI while borrowing
-// the real storage instead of a separate 0x30388-byte shadow prefix.
+// Legacy zero-storage source-facing role. The exact 51-byte method is now
+// actually declared on PlayerLifecycleView, whose native +0x30388 resource
+// scalar is the same allocation consumed by ChargeAttack.
 struct PlayerResourceSubtractView : PlayerLifecycleView
 {
-    void SubtractResourceClamped(float amount);
 };
 
 typedef char PlayerResourceAt30388[

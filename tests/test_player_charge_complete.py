@@ -86,7 +86,7 @@ class ChargeCompleteTests(unittest.TestCase):
     def test_void_pointer_return_aliases_cannot_replace_native_effect_returns(self):
         source, rows, target = self.fixture()
         for effect in (13, 14, 15):
-            native = f'?ConfigureState3Effect{effect}@PlayerStateEffectView@@QAEPAUEffect@@XZ'
+            native = f'?ConfigureState3Effect{effect}@PlayerLifecycleView@@QAEPAUEffect@@XZ'
             changed = [dict(row) for row in rows]
             calls = [row for row in changed if row['symbol'] == native]
             self.assertEqual(len(calls), 1)

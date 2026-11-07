@@ -677,7 +677,7 @@ EnemyEclManagerView::GetSubroutineCount
 EnemyEclManagerView::GetSubroutine
 EnemyView::ResetBulletRankInfluence
 ZunTimer::operator-=(int)
-PlayerResourceSubtractView::SubtractResourceClamped
+PlayerLifecycleView::SubtractResourceClamped
 PlayerShotInitPlayerView::InitializeShot
 PlayerSpawnFrameView::SpawnShotWhenFrameMatches
 PlayerLifecycleView::SpawnShots
@@ -831,14 +831,14 @@ PlayerOwnerRewardCallbackType14
 PlayerOwnerRewardCallbackType15
 PlayerType11OrientationSign
 PlayerPositionCallback30404Type11
-PlayerStateEffectView::ConfigureState3Effect13
-PlayerStateEffectView::ConfigureState3Effect14
+PlayerLifecycleView::ConfigureState3Effect13
+PlayerLifecycleView::ConfigureState3Effect14
 ActivateGameWindow
 CubicHermiteInterpolateScalar
 Background::ApplyPendingStageLabel
 SupervisorNetworkState::SendPacket
 SupervisorNetworkState::ReleaseDirectPlayResources
-PlayerStateEffectView::ConfigureState3Effect15
+PlayerLifecycleView::ConfigureState3Effect15
 GameWindow::GetTimestamp
 ReportDirectPlayError
 SupervisorNetworkState::IsServiceProviderAvailable

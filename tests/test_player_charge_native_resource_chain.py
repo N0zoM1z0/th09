@@ -24,7 +24,7 @@ class PlayerChargeNativeResourceChain(unittest.TestCase):
         with (ROOT/'config/match-units.toml').open('rb') as f:units=tomllib.load(f)['units']
         leaf=units['player-subtract-resource-clamped']
         self.assertEqual((leaf['target_address'],leaf['size']),(0x0041F310,51))
-        self.assertEqual(leaf['symbol'],'?SubtractResourceClamped@PlayerResourceSubtractView@@QAEXM@Z')
+        self.assertEqual(leaf['symbol'],'?SubtractResourceClamped@PlayerLifecycleView@@QAEXM@Z')
         # The separate, nonexact ChargeAttack remains a tracked source frontier.
         self.assertIn('PlayerChargeAttackUpdate.cpp',(ROOT/'src/PlayerChargeAttackUpdate.cpp').as_posix())
 
