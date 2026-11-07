@@ -485,13 +485,13 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
 
     for (i32 i = 0; i < 14; ++i)
     {
-        reinterpret_cast<TitleAnmView *>(g_TitleSupervisor.textAnm5CC)->SetAndExecuteScriptIdx(
-            &title->embeddedVms[i], 5);
-        reinterpret_cast<TitleAnmView *>(g_TitleSupervisor.textAnm5CC)->SetSprite(
-            &g_TitleScreen->embeddedVms[i],
+        reinterpret_cast<AnmLoaded *>(g_TitleSupervisor.textAnm5CC)->SetAndExecuteScriptIdx(
+            reinterpret_cast<AnmVm *>(&title->embeddedVms[i]), 5);
+        reinterpret_cast<AnmLoaded *>(g_TitleSupervisor.textAnm5CC)->SetSprite(
+            reinterpret_cast<AnmVm *>(&g_TitleScreen->embeddedVms[i]),
             g_TitleScreen->embeddedVms[i].activeSpriteIndex + i);
-        reinterpret_cast<TitleAnmView *>(g_TitleSupervisor.textAnm5CC)->SetSprite(
-            &g_TitleScreen->embeddedVms[i + 35], i + 21);
+        reinterpret_cast<AnmLoaded *>(g_TitleSupervisor.textAnm5CC)->SetSprite(
+            reinterpret_cast<AnmVm *>(&g_TitleScreen->embeddedVms[i + 35]), i + 21);
 
         title = g_TitleScreen;
         float y = (float)i * 16.0f;
