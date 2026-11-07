@@ -1,5 +1,5 @@
 #include "AnmManager.hpp"
-#include "AnmManagerRenderCacheView.hpp"
+#include "AnmManagerQuadCacheView.hpp"
 #include "AsciiManager.hpp"
 #include "AnmCameraProjectionViews.hpp"
 #include "AsciiGameManagerView.hpp"
@@ -36,12 +36,9 @@ typedef char AnmManagerNativeRenderVmAlpha[
     (offsetof(AnmVmBase, color1Script) +
      offsetof(AnmVmScriptColor, a) == 0x1F3) ? 1 : -1];
 
-struct AnmManagerRenderView : AnmManagerRenderCacheView
+// Draw buffer cursors follow the shared native 0x128E8 ANM quad cache.
+struct AnmManagerRenderView : AnmManagerQuadCacheView
 {
-    AnmLoadedSprite *currentSprite;
-    IDirect3DVertexBuffer8 *quadVertexBuffer;
-    unsigned char unknown12894[0x128E4 - 0x12894];
-    int spritesToDraw;
     unsigned char unknown0128E8[0x2B28E8 - 0x128E8];
     VertexTex1DiffuseXyzrhw *vertexBufferEndPtr;
     VertexTex1DiffuseXyzrhw *vertexBufferStartPtr;

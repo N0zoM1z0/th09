@@ -1,6 +1,6 @@
 #include "AnmManager.hpp"
 #include "VertexDiffuseXyzrhw.hpp"
-#include "AnmManagerRenderCacheView.hpp"
+#include "AnmManagerQuadCacheView.hpp"
 #include "AsciiManager.hpp"
 #include <stddef.h>
 #include <math.h>
@@ -11,17 +11,11 @@ struct VertexTex1DiffuseXyzrhw { float x,y,z,rhw; unsigned long diffuse; float u
 
 typedef char VertexProjectionSourceSizeIs14[(sizeof(VertexDiffuseXyzrhw)==0x14)?1:-1];
 extern VertexTex1DiffuseXyzrhw g_AnmRenderQuad[4];
-// The exact projection method uses the same manager cache as the ANM render
-// primitive and 3D draw owners, with two native pointer words preceding the
-// four +0x12894 software vertices.
-struct AnmManagerProjectionView : AnmManagerRenderCacheView
-{
-    AnmLoadedSprite *currentSprite;
-    IDirect3DVertexBuffer8 *quadVertexBuffer;
-    VertexDiffuseXyzrhw untexturedVertices[4];
-};
+// Project3DQuad observes just the XYZ prefix of the same four 20-byte
+// software vertices consumed by other exact ANM draw paths.
+typedef AnmManagerQuadCacheView AnmManagerProjectionView;
 typedef char AnmManagerCachedWorldAt12024[(offsetof(AnmManagerProjectionView,cachedWorldMatrix12024)==0x12024)?1:-1];
-typedef char AnmManagerUntexturedAt12894[(offsetof(AnmManagerProjectionView,untexturedVertices)==0x12894)?1:-1];
+typedef char AnmManagerUntexturedAt12894[(offsetof(AnmManagerProjectionView,untexturedVector)==0x12894)?1:-1];
 
 void AnmManager::Project3DQuad(AnmVm *vm)
 {
@@ -42,9 +36,9 @@ void AnmManager::Project3DQuad(AnmVm *vm)
     if ((anchor&1)==0) worldTransformMatrix._41=vm->pos.x; else worldTransformMatrix._41=AnmProjectionAbs(vm->spriteSize.x*vm->scale.x/2.0f)+vm->pos.x;
     if ((anchor&2)==0) worldTransformMatrix._42=vm->pos.y; else worldTransformMatrix._42=AnmProjectionAbs(vm->spriteSize.y*vm->scale.y/2.0f)+vm->pos.y;
     worldTransformMatrix._43=vm->pos.z;
-    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&g_AnmRenderQuad[0]),reinterpret_cast<D3DXVECTOR3 *>(&anm->untexturedVertices[0]),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldTransformMatrix);
-    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&g_AnmRenderQuad[1]),reinterpret_cast<D3DXVECTOR3 *>(&anm->untexturedVertices[1]),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldTransformMatrix);
-    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&g_AnmRenderQuad[2]),reinterpret_cast<D3DXVECTOR3 *>(&anm->untexturedVertices[2]),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldTransformMatrix);
-    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&g_AnmRenderQuad[3]),reinterpret_cast<D3DXVECTOR3 *>(&anm->untexturedVertices[3]),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldTransformMatrix);
+    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&g_AnmRenderQuad[0]),reinterpret_cast<D3DXVECTOR3 *>(&anm->untexturedVector[0]),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldTransformMatrix);
+    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&g_AnmRenderQuad[1]),reinterpret_cast<D3DXVECTOR3 *>(&anm->untexturedVector[1]),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldTransformMatrix);
+    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&g_AnmRenderQuad[2]),reinterpret_cast<D3DXVECTOR3 *>(&anm->untexturedVector[2]),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldTransformMatrix);
+    D3DXVec3Project(reinterpret_cast<D3DXVECTOR3 *>(&g_AnmRenderQuad[3]),reinterpret_cast<D3DXVECTOR3 *>(&anm->untexturedVector[3]),&g_AnmProjectionContext->viewport,&g_AnmProjectionContext->projectionMatrix,&g_AnmProjectionContext->viewMatrix,&worldTransformMatrix);
     anm->cachedWorldMatrix12024=worldTransformMatrix;
 }

@@ -1,6 +1,6 @@
 #include "AnmManager.hpp"
 #include "VertexDiffuseXyzrhw.hpp"
-#include "AnmManagerRenderCacheView.hpp"
+#include "AnmManagerQuadCacheView.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
 
@@ -33,13 +33,8 @@ typedef char Draw3DNativeSdkMatrixGeometry[
      offsetof(AnmVmBase, matrix2) == 0x170 &&
      offsetof(AnmVmBase, matrix3) == 0x1B0) ? 1 : -1];
 
-struct AnmManagerDraw3DView : AnmManagerRenderCacheView
-{
-    AnmLoadedSprite *currentSprite;
-    IDirect3DVertexBuffer8 *quadVertexBuffer;
-    unsigned char unknown12894[0x128E4 - 0x12894];
-    int spritesToDraw;
-};
+// The 811-byte Draw3D uses the same native cache tail as ANM primitives.
+typedef AnmManagerQuadCacheView AnmManagerDraw3DView;
 
 typedef char Draw3DNativeVmFieldOffsets[
     (offsetof(AnmVmBase, rotation) == 0x000 &&
