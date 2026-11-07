@@ -19,11 +19,10 @@ long double __stdcall AnmDraw3DAbs(float value);
 
 typedef char VertexDiffuseXyzrhwSizeIs14[(sizeof(VertexDiffuseXyzrhw) == 0x14) ? 1 : -1];
 
-struct SupervisorDraw3DView
-{
-    unsigned char unknown000[0x08];
-    IDirect3DDevice8 *d3dDevice;
-};
+// The 811-byte Draw3D owner consumes the same physical Supervisor D3D8
+// device cell at +0x08 as 2D ANM primitives and gameplay presentation.
+typedef char Draw3DNativeSupervisorD3DDevice[
+    (offsetof(Supervisor, d3dDevice08) == 0x08) ? 1 : -1];
 
 // Matrices live at the native AnmVmBase::matrix1/matrix2/matrix3 slots.
 // The D3DX API consumes the same 4x4-float object representation.
@@ -67,7 +66,7 @@ int AnmManager::Draw3D(AnmVm *vm)
     D3DXMATRIX rotationMatrix;
     D3DXMATRIX worldTransformMatrix;
     AnmManagerDraw3DView *anm = reinterpret_cast<AnmManagerDraw3DView *>(this);
-    SupervisorDraw3DView *supervisor = reinterpret_cast<SupervisorDraw3DView *>(&g_Supervisor);
+    Supervisor *supervisor = &g_Supervisor;
 
     if (!vm->IsVisible())
         return -1;
@@ -115,7 +114,7 @@ int AnmManager::Draw3D(AnmVm *vm)
 
     this->SetRenderStateForVm3D(vm);
     worldTransformMatrix._43 = vm->pos.z;
-    supervisor->d3dDevice->SetTransform(D3DTS_WORLD, &worldTransformMatrix);
+    supervisor->d3dDevice08->SetTransform(D3DTS_WORLD, &worldTransformMatrix);
 
     if (anm->currentSprite != vm->loadedSprite ||
         vm->uvScrollPos.x != 0.0f || vm->uvScrollPos.x != 0.0f) {
@@ -123,25 +122,25 @@ int AnmManager::Draw3D(AnmVm *vm)
         textureMatrix = reinterpret_cast<D3DXMATRIX &>(vm->matrix3);
         textureMatrix._31 = vm->loadedSprite->uvStartX + vm->uvScrollPos.x;
         textureMatrix._32 = vm->loadedSprite->uvStartY + vm->uvScrollPos.y;
-        supervisor->d3dDevice->SetTransform(D3DTS_TEXTURE0, &textureMatrix);
+        supervisor->d3dDevice08->SetTransform(D3DTS_TEXTURE0, &textureMatrix);
 
     }
 
     if (anm->currentTexture != vm->loadedSprite->texture) {
         anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vm->loadedSprite->texture);
-        supervisor->d3dDevice->SetTexture(
+        supervisor->d3dDevice08->SetTexture(
             0, reinterpret_cast<IDirect3DBaseTexture8 *>(anm->currentTexture));
     }
 
     if (anm->currentVertexShader != 2) {
-        supervisor->d3dDevice->SetVertexShader(D3DFVF_XYZ | D3DFVF_TEX1);
-        supervisor->d3dDevice->SetStreamSource(
+        supervisor->d3dDevice08->SetVertexShader(D3DFVF_XYZ | D3DFVF_TEX1);
+        supervisor->d3dDevice08->SetStreamSource(
             0, anm->quadVertexBuffer, sizeof(VertexDiffuseXyzrhw));
-        supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
-        supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TFACTOR);
+        supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
+        supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TFACTOR);
         anm->currentVertexShader = 2;
     }
 
-    supervisor->d3dDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+    supervisor->d3dDevice08->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
     return 0;
 }
