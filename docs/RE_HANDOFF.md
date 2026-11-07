@@ -374,6 +374,16 @@ shake and camera fields. All **19 complete original-bound exact owners**
 replay 2,999 physical bytes/138 fields with unchanged codegen. See
 [the shared native ANM cache proof](TH09_ANM_COMMON_RENDER_CACHE_20261107.md).
 
+## 2026-11-07 native ANM Render core and VM alpha
+
+The real ANM render core now inherits the shared manager cache (including
+flushes +0x18) and reads native VM `color1Script.a` in seven draw guards,
+instead of maintaining another full manager padding view and shadow alpha.
+All **16 complete Render owners** remain exact (5,814 bytes/395 fields);
+the combined five-carrier cohort covers **35 exact functions, 8,813
+bytes/533 fields**. See
+[native Render core proof](TH09_ANM_RENDER_CORE_NATIVE_STATE_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

@@ -54,3 +54,13 @@ Reproduce only the affected carriers with
 four source files. No all-game cold replay, product link, runtime or
 Factory acceptance is inferred. All 19 were already exact; this is a
 concrete source-ownership improvement rather than new exactness credit.
+
+## Follow-up: render-core native cache and VM alpha
+
+The same original 0x1288C-byte cache prefix now includes the established
++0x18 `flushesThisFrame` word and is inherited by `AnmManagerRenderView`.
+Seven Render callbacks now inspect the real `AnmVm::color1Script.a` rather
+than a duplicate alpha view. All 16 Render core owners were independently
+verified, extending the focused cohort to 35 complete functions/8,813
+physical bytes/533 fields. See
+[Render core original-bound proof](TH09_ANM_RENDER_CORE_NATIVE_STATE_20261107.md).

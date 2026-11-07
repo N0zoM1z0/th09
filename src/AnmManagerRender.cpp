@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "AnmManagerRenderCacheView.hpp"
 #include "AsciiManager.hpp"
 #include "AnmCameraProjectionViews.hpp"
 #include "AsciiGameManagerView.hpp"
@@ -31,25 +32,19 @@ struct SupervisorRenderDeviceView
     IDirect3DDevice8 *d3dDevice;
 };
 
-struct AnmVmDrawAlphaView
-{
-    unsigned char unknown000[0x1F3];
-    unsigned char colorAlpha;
-};
+typedef char AnmManagerNativeRenderVmAlpha[
+    (offsetof(AnmVmBase, color1Script) +
+     offsetof(AnmVmScriptColor, a) == 0x1F3) ? 1 : -1];
 
-typedef char AnmVmDrawAlphaAt1F3[
-    (offsetof(AnmVmDrawAlphaView, colorAlpha) == 0x1F3) ? 1 : -1];
-
-struct AnmManagerRenderView
+struct AnmManagerRenderView : AnmManagerRenderCacheView
 {
-    unsigned char unknown000000[0x18];
-    int flushesThisFrame;
-    unsigned char unknown00001C[0x128E4 - 0x1C];
+    AnmLoadedSprite *currentSprite;
+    IDirect3DVertexBuffer8 *quadVertexBuffer;
+    unsigned char unknown12894[0x128E4 - 0x12894];
     int spritesToDraw;
     unsigned char unknown0128E8[0x2B28E8 - 0x128E8];
     VertexTex1DiffuseXyzrhw *vertexBufferEndPtr;
     VertexTex1DiffuseXyzrhw *vertexBufferStartPtr;
-
 };
 
 typedef char AnmManagerFlushesAt18[
@@ -89,7 +84,6 @@ int AnmManager::DrawNoRotation(AnmVm *vm)
     float spriteHalfWidth;
     float spriteHalfHeight;
     AnmManagerRenderView *anm = reinterpret_cast<AnmManagerRenderView *>(this);
-    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
 
     if (!vm->IsVisible()) {
         return -1;
@@ -97,7 +91,7 @@ int AnmManager::DrawNoRotation(AnmVm *vm)
     if ((vm->flagsWord & 2) == 0) {
         return -1;
     }
-    if (drawVm->colorAlpha == 0) {
+    if (vm->color1Script.a == 0) {
         return -1;
     }
 
@@ -585,7 +579,6 @@ int AnmManager::DrawNoRotationFlippedX(AnmVm *vm)
 {
     float spriteHalfWidth;
     float spriteHalfHeight;
-    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
 
     if (!vm->IsVisible()) {
         return -1;
@@ -593,7 +586,7 @@ int AnmManager::DrawNoRotationFlippedX(AnmVm *vm)
     if ((vm->flagsWord & 2) == 0) {
         return -1;
     }
-    if (drawVm->colorAlpha == 0) {
+    if (vm->color1Script.a == 0) {
         return -1;
     }
 
@@ -649,7 +642,6 @@ int AnmManager::Draw2D(AnmVm *vm)
     float x;
     float y;
     AnmVmRotationZView *rotationVm = reinterpret_cast<AnmVmRotationZView *>(vm);
-    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
 
     if (rotationVm->rotationZ == 0.0f) {
         return this->DrawNoRotation(vm);
@@ -660,7 +652,7 @@ int AnmManager::Draw2D(AnmVm *vm)
     if ((vm->flagsWord & 2) == 0) {
         return -1;
     }
-    if (drawVm->colorAlpha == 0) {
+    if (vm->color1Script.a == 0) {
         return -1;
     }
 
@@ -720,7 +712,6 @@ int AnmManager::Draw2DRotatedOrAxisAligned(AnmVm *vm)
     float zeroHalfWidth;
     float zeroHalfHeight;
     AnmVmRotationZView *rotationVm = reinterpret_cast<AnmVmRotationZView *>(vm);
-    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
 
     if (!vm->IsVisible()) {
         return -1;
@@ -728,7 +719,7 @@ int AnmManager::Draw2DRotatedOrAxisAligned(AnmVm *vm)
     if ((vm->flagsWord & 2) == 0) {
         return -1;
     }
-    if (drawVm->colorAlpha == 0) {
+    if (vm->color1Script.a == 0) {
         return -1;
     }
 
@@ -812,10 +803,9 @@ int AnmManager::DrawNoRotationNoRound(AnmVm *vm)
 {
     float spriteHalfWidth;
     float spriteHalfHeight;
-    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
     if (!vm->IsVisible()) return -1;
     if ((vm->flagsWord & 2) == 0) return -1;
-    if (drawVm->colorAlpha == 0) return -1;
+    if (vm->color1Script.a == 0) return -1;
     spriteHalfWidth = (vm->spriteSize.x * vm->scale.x) / 2.0f;
     spriteHalfHeight = (vm->spriteSize.y * vm->scale.y) / 2.0f;
     if ((vm->anchor & 1) == 0) {
@@ -838,20 +828,18 @@ int AnmManager::DrawNoRotationNoRound(AnmVm *vm)
 
 int AnmManager::DrawCameraFacingQuad(AnmVm *vm)
 {
-    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
     if (!vm->IsVisible()) return -1;
     if ((vm->flagsWord & 2) == 0) return -1;
-    if (drawVm->colorAlpha == 0) return -1;
+    if (vm->color1Script.a == 0) return -1;
     if (this->ProjectCameraFacingQuad(vm) != 0) return -1;
     return this->DrawInner(vm, 0);
 }
 
 int AnmManager::DrawProjected3DQuad(AnmVm *vm)
 {
-    AnmVmDrawAlphaView *drawVm = reinterpret_cast<AnmVmDrawAlphaView *>(vm);
     if (!vm->IsVisible()) return -1;
     if ((vm->flagsWord & 2) == 0) return -1;
-    if (drawVm->colorAlpha == 0) return -1;
+    if (vm->color1Script.a == 0) return -1;
     this->Project3DQuad(vm);
     return this->DrawInner(vm, 0);
 }

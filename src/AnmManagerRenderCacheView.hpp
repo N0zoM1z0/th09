@@ -11,7 +11,8 @@ struct AnmManagerRenderCacheView
 {
     unsigned int mixColor;
     int useMixColor;
-    unsigned char unknown000008[0x1C - 0x08];
+    unsigned char unknown000008[0x18 - 0x08];
+    int flushesThisFrame;
     Float2 screenShakeOffset;
     unsigned char unknown000024[0x12880 - 0x24];
     IDirect3DTexture8 *currentTexture;
@@ -26,6 +27,7 @@ struct AnmManagerRenderCacheView
 typedef char AnmManagerNativeCacheFields[
     (offsetof(AnmManagerRenderCacheView, mixColor) == 0x000 &&
      offsetof(AnmManagerRenderCacheView, useMixColor) == 0x004 &&
+     offsetof(AnmManagerRenderCacheView, flushesThisFrame) == 0x18 &&
      offsetof(AnmManagerRenderCacheView, screenShakeOffset) == 0x1C &&
      offsetof(AnmManagerRenderCacheView, currentTexture) == 0x12880 &&
      offsetof(AnmManagerRenderCacheView, currentBlendMode) == 0x12884 &&
