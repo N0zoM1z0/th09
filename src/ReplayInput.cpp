@@ -161,7 +161,7 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
         replayManager->inputCursor1++;
         replayManager->inputCursor2++;
 
-        if (replayManager->frameCounter % 30 == 0)
+        if (replayManager->frameCounter % ReplayRecordingCapacity::FramesPerFpsSample == 0)
         {
             g_Supervisor.recordedFps = (char)replayManager->fpsCursor[1] & 0x7F;
             g_Supervisor.playbackFpsWarning = (char)replayManager->fpsCursor[1] >> 7;
@@ -307,13 +307,13 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
         replayManager->inputCursor1++;
         replayManager->inputCursor2++;
 
-        if (replayManager->frameCounter % 30 == 0)
+        if (replayManager->frameCounter % ReplayRecordingCapacity::FramesPerFpsSample == 0)
         {
             *replayManager->fpsCursor = (u8)g_Supervisor.recordedFps;
             replayManager->fpsCursor++;
         }
 
-        if (replayManager->currentBuffer->frameCount >= 3598)
+        if (replayManager->currentBuffer->frameCount >= ReplayRecordingCapacity::LinkRolloverFrames)
         {
             replayManager->currentBuffer->next =
                 (ReplayBufferLink *)g_ZunMemory.AddToRegistry(
@@ -758,7 +758,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
                 currentOffset += sizeof(ReplayFrameDataStartView);
                 for (; link != NULL; link = link->next)
                 {
-                    int streamSize = 2 * link->frameCount;
+                    int streamSize = ReplayRecordingCapacity::InputFrameBytes * link->frameCount;
                     memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->input[stream], streamSize);
                     currentOffset += streamSize;
                 }
@@ -775,7 +775,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             replayCopy.fpsOffset[loopIndex] = currentOffset;
             for (; link != NULL; link = link->next)
             {
-                int fpsSize = link->frameCount / 30;
+                int fpsSize = link->frameCount / ReplayRecordingCapacity::FramesPerFpsSample;
                 memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->fps, fpsSize);
                 currentOffset += fpsSize;
             }
@@ -816,7 +816,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     strcpy(replayCopy.playerName, replayName);
     strcpy(replayCopy.playTime, g_ReplayPlayTimeText);
     replayCopy.obfuscationKey = (u8)(g_ReplayRng.GetRandomU16InRange(0x80) + 0x40);
-    replayCopy.value1D0 = 30;
+    replayCopy.value1D0 = ReplayRecordingCapacity::FramesPerFpsSample;
     replayCopy.randomPayloadByte = (u8)g_ReplayRng.GetRandomU16InRange(0x100);
     replayCopy.unknown14 = (u8)g_ReplayRng.GetRandomU16InRange(0x100);
     memcpy(tempBuffer, &replayCopy.randomPayloadByte, sizeof(ReplayPayloadView));

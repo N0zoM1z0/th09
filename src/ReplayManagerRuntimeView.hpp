@@ -32,7 +32,14 @@ struct ReplayRecordingCapacity
     enum
     {
         InputStreamBytes = 0x1C20,
-        FpsStreamBytes = 0x79,
+        // One frame stores one native 16-bit value in each input stream.
+        InputFrameBytes = sizeof(((ReplayBufferLink *)0)->input[0][0]),
+        InputFrameCapacity = InputStreamBytes / InputFrameBytes,
+        FramesPerFpsSample = 30,
+        // Playback reads fpsCursor[1], retaining one lookahead byte.
+        FpsStreamBytes = InputFrameCapacity / FramesPerFpsSample + 1,
+        // The recorder rolls its link before reaching the two tail entries.
+        LinkRolloverFrames = InputFrameCapacity - 2,
         InputStreamCount = sizeof(((ReplayBufferLink *)0)->input) /
                            sizeof(((ReplayBufferLink *)0)->input[0]),
         StageCount = sizeof(((ReplayDataView *)0)->fpsStart) /
@@ -45,6 +52,11 @@ struct ReplayRecordingCapacity
 typedef char ReplayRecordingCapacityPhysicalSizes[
     (ReplayRecordingCapacity::InputStreamCount == 3 &&
      ReplayRecordingCapacity::StageCount == 10 &&
+     ReplayRecordingCapacity::InputFrameBytes == 2 &&
+     ReplayRecordingCapacity::InputFrameCapacity == 3600 &&
+     ReplayRecordingCapacity::FramesPerFpsSample == 30 &&
+     ReplayRecordingCapacity::FpsStreamBytes == 0x79 &&
+     ReplayRecordingCapacity::LinkRolloverFrames == 3598 &&
      ReplayRecordingCapacity::LinkBytes == 0x54D9 &&
      ReplayRecordingCapacity::StageHeadersBytes == 0x60 &&
      sizeof(ReplayDataView) == 0x1EC) ? 1 : -1];

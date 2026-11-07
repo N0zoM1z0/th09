@@ -147,6 +147,15 @@ proof of remote publication.
   replay; compiler-local table labels were target-VA-checked. See
   [Etama pool-source review](TH09_ETAMA_NATIVE_POOL_LIMITS_20261107.md).
 
+- **Replay native recording frame capacity:** true `u16` inputs use
+  2-byte frames, 7,200-byte streams and 3,600-frame capacity. Playback's
+  FPS lookahead and 30-frame sampling give 121 FPS bytes; recorder rollover
+  remains at 3,598. These same typed constants now drive SaveReplay byte
+  sizes and wire fields. All **65 affected exact functions / 26,115 physical
+  bytes / 1,431 fields** pass source-cold original checks across 7 carriers;
+  SaveReplay still has two residual bytes. See
+  [replay capacity review](TH09_REPLAY_FRAME_CAPACITY_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
