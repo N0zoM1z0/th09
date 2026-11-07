@@ -299,3 +299,78 @@ The status ledger remains **2,248 candidate / 1,034 source-present /
 functions. These C++ improvements are valuable source reconstruction but **do
 not** by themselves establish any new byte-exact function count, an entire
 Windows image rebuild, whole-program semantics, runtime or Factory acceptance.
+
+## Native CardAttack → Player → ChargeAttack chain (continued 2026-11-07)
+
+This continuation starts from the real clean 1.50a repository target and carries
+**nine additional `gpt-web:` source commits**. These are source-fidelity gains,
+not promotions of new authored-exact functions. Each original-bound byte
+comparison uses the pinned existing VC7.1 profile and the original PE at its
+recorded address. A Git checkpoint is not acceptance by the Factory, runtime
+semantic equivalence, or a proven original source translation-unit partition.
+
+| Checkpoint | Real native C/C++ reconstruction | Full scoped original-bound result |
+| --- | --- | --- |
+| `8008049a` | The exact `CardAttackStartView::StartAttack` uses genuine `Background::transitionMode` and `transitionFrames` (+0x1C/+0x20), removing the private Background state layout | StartAttack **923/923 exact** |
+| `65d4d96c` | Removes `CardAttackStartSideView`'s entire duplicate 0x38-byte record by sharing `AsciiGameManagerSideView`; resolves a genuine VC7.1 old `struct` forward-declaration conflict, not an executable mismatch | **19 CardAttack exact functions / 2,804 physical bytes**; nonexact ChargeAttack and setup envelopes preserved |
+| `9271ddbe` | StartAttack reads Player `header24.state7C/state80/state8C/state90/state94` and `tableValue303F0` from native `PlayerLifecycleView` (+0xA0/+0xA4/+0xB0/+0xB4/+0xB8/+0x303F0), deleting its entire private Player view and temporary Side pointer union | StartAttack **923/923 exact**, 19 related exact functions and exact Player `OnUpdate` **522/522** |
+| `2b9be035` | The resource clamp method view derives from native `PlayerLifecycleView`; its 0x30388 resource is the real `scalar30388` | `SubtractResourceClamped` **51/51 exact** |
+| `336b1c3c` | `PlayerChargeAttackView` borrows `PlayerResourceSubtractView`; ChargeAttack's three resource calls become inherited method calls instead of sibling overlay casts | Exact resource **51/51**, Player update **522/522**; nonexact ChargeAttack stays **1,197/1,210**, 70 fields/58 calls/13 missing |
+| `11f0f432` | Three state-3 effect methods derive from the native Player; use its real Side, position and `timer303C8` instead of a private ~0x303D4-byte prefix | `ConfigureState3Effect13/14/15` **91/91, 91/91, 100/100 exact** |
+| `98fa6e4c` | A zero-extra-storage view chain lets ChargeAttack call the exact State3 methods directly without three overlay casts | Whole ChargeAttack 70 fields/58 calls/13 missing unchanged; exact state3/resource/Player witnesses pass |
+| `b69b0880` | The SpawnShots method view derives from native Player, using real shot and SHT allocation offsets; retained callback-specific shot/descriptors; Effect35 initialization now uses native Player ANM field +0xBC | `SpawnShots` **190/190**, `EffectType35::Initialize/Update` **72/72, 38/38 exact** |
+| `0fbe2f17` | Native `PlayerChargeAttackView → PlayerSpawnShotsView → PlayerStateEffectView → PlayerResourceSubtractView → PlayerLifecycleView` source-facing hierarchy; two SpawnShots calls use the inherited method directly | ChargeAttack complete 1,197 candidate / 1,210 original, 70 real fields, 58 ordered calls, 13 missing unchanged. Eight representative exact caller/leaf owners **1,155 complete bytes** all pass |
+
+The class inheritance above is a **zero-extra-storage source-facing view** of
+observed Player ownership, **not** a claim about the game's original nominal
+C++ inheritance. Methods retain their independent original C++ symbol names,
+and no compiler flags, calling convention, target bytes, or canonical exact
+credit were altered. The three specialist shot callback views remain distinct
+because their exact callback ABI ownership has not yet been proved.
+
+The main remaining ChargeAttack discrepancy is still the original **stack
+`sideMode` byte at EBP−1** and associated register/control-flow lifetimes; the
+candidate still emits 1,197 bytes versus 1,210 original. Earlier
+`.analysis/gpt-web-charge-mode-20261107/` natural-source controls were
+rejected, including the candidates that grew to 1,201 bytes without recovering
+the real stack-byte dataflow. The new native inheritance does not close this
+frontier. Likewise RunEcl, Enemy OnUpdate, Replay SaveReplay and the other
+12 remaining nonexact functions were **not** marked exact here.
+
+Additional scoped unit regression tests include:
+`test_card_attack_start_native_background_transition.py`,
+`test_card_attack_start_native_side_record.py`,
+`test_card_attack_start_native_player_header.py`,
+`test_player_native_resource_subtract.py`,
+`test_player_charge_native_resource_chain.py`,
+`test_player_charge_native_state3_chain.py`,
+`test_player_state3_effect_native_storage.py`,
+`test_player_spawn_shots_native_owner.py` and
+`test_player_charge_native_shots_chain.py`.
+
+To reproduce only the affected functions (do **not** invoke all-owner cold
+replay):
+
+```bash
+python3 -B scripts/build-match-unit.py --unit card-attack-start
+python3 -B scripts/compare-coff-function.py --unit card-attack-start
+python3 -B scripts/build-match-unit.py --unit player-state3-effect13
+python3 -B scripts/compare-coff-function.py --unit player-state3-effect13
+python3 -B scripts/compare-coff-function.py --unit player-state3-effect14
+python3 -B scripts/compare-coff-function.py --unit player-state3-effect15
+python3 -B scripts/build-match-unit.py --unit player-spawn-shots
+python3 -B scripts/compare-coff-function.py --unit player-spawn-shots
+python3 -B scripts/build-match-unit.py --unit effect-initialize-type35
+python3 -B scripts/compare-coff-function.py --unit effect-initialize-type35
+python3 -B scripts/compare-coff-function.py --unit effect-update-type35
+python3 -B scripts/check-boss-frontiers.py --owner charge --skip-exact-siblings
+python3 -B -m unittest discover -s tests -p 'test_card_attack*.py' -q
+python3 -B -m unittest discover -s tests -p 'test_player_charge_native*.py' -q
+python3 -B scripts/validate-tracking.py --require-target
+python3 -B scripts/validate-docs.py
+```
+
+The final source ledger for this continuation is **2,248 candidates / 1,034
+source-present / 1,021 exact / 13 nonexact functions**, with 29,834 bytes
+in nonexact authored functions. Whole Windows product linking, complete
+function inventory, runtime behavior and Factory acceptance remain open.
