@@ -4,30 +4,12 @@
 #include "AnmManager.hpp"
 #include "Background.hpp"
 #include "Supervisor.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "ZunMemory.hpp"
 
 #include <new>
 #include <stdlib.h>
 #include <string.h>
-
-struct CardAttackGameManagerView
-{
-    CardAttackSideStateView sides[2];
-    unsigned char unknown070[0x134 - 0x70];
-    union
-    {
-        unsigned int flags134;
-        struct
-        {
-            unsigned int lowFlags134 : 11;
-            unsigned int transitionBits134 : 2;
-            unsigned int highFlags134 : 19;
-        };
-    };
-
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-};
 
 struct CardAttackResourceView
 {
@@ -36,7 +18,6 @@ struct CardAttackResourceView
 };
 
 extern Chain g_Chain;
-extern CardAttackGameManagerView g_GameManager;
 extern CardAttackResourceView *g_CardAttackResource;
 extern AnmLoaded *g_CardAttackTextAnm;
 extern unsigned int g_CardAttackInputFlags;
@@ -197,9 +178,9 @@ CardAttack *CardAttack::Create(int sideIndex)
         g_ZunMemory.AddToRegistry(new CardAttack, sizeof(CardAttack), "CardAttackInf"));
     memset(cardAttack, 0, sizeof(CardAttack));
 
-    cardAttack->sideState04 = &g_GameManager.sides[sideIndex];
+    cardAttack->sideState04 = reinterpret_cast<CardAttackSideStateView *>(&g_GameManager.sides[sideIndex]);
     cardAttack->sideIndex00 = sideIndex;
-    cardAttack->otherSideState08 = &g_GameManager.sides[1 - sideIndex];
+    cardAttack->otherSideState08 = reinterpret_cast<CardAttackSideStateView *>(&g_GameManager.sides[1 - sideIndex]);
 
     cardAttack->calcChain0C =
         g_Chain.CreateElem(reinterpret_cast<ChainCallback>(CardAttack::OnUpdate));
