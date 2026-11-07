@@ -11,6 +11,7 @@
 #include "AsciiManager.hpp"
 #include "SoundPlayer.hpp"
 #include "ReplayInputState.hpp"
+#include "TitleScreenReplayView.hpp"
 
 #include <stddef.h>
 
@@ -61,7 +62,6 @@ typedef char OptionsConfigsfxVolumeAtBB[(offsetof(GameConfiguration, sfxVolume) 
 
 // Title's stored 0xCC-byte snapshot is the same serialized native
 // GameConfiguration as Supervisor::config388, not another private prefix.
-typedef GameConfiguration TitleConfigSnapshotView;
 typedef char OptionsConfigSnapshotNative[
     (sizeof(TitleConfigSnapshotView) == sizeof(GameConfiguration) &&
      sizeof(TitleConfigSnapshotView) == 0xCC &&
@@ -74,45 +74,7 @@ extern const char *g_TitleOptionsHelpText[9];
 extern void __cdecl DrawTitleHelpText(TitleAnmManagerView *manager, AnmVmView *vm,
                                       u32 color, i32 width, const char *text);
 
-struct TitleScreenView {
-    i32 keyboardSelection;                    // +0x00000
-    u8 unknown00004[0x20];
-    i32 previousCursor;                       // +0x00024
-    i32 currentScreenState;                   // +0x00028
-    i32 stateTimer;                           // +0x0002C
-    u8 unknown00030[0xC8E0];
-    union {
-        i32 screenFrameCounter;
-        i32 optionsFrameCounter;
-    };                                        // +0x0C910
-    u8 unknown0C914[4];
-    i32 optionsUiReady;                       // +0x0C918
-    u8 unknown0C91C[0x5274];
-    AnmLoaded *titleAnm;                   // +0x11B90
-    u8 unknown11B94[4];
-    AnmVm *vms;                           // +0x11B98
-    AnmVm *currentHelpTextVm;             // +0x11B9C
-    AnmVm embeddedVms[57];                // +0x11BA0
-    i32 vmCount;                              // +0x1B224
-    i32 currentScreen;                        // +0x1B228
-    i32 registrationContext;                  // +0x1B22C
-    i32 stateTimer2;                          // +0x1B230
-    i32 idleFrames;                           // +0x1B234
-    i32 chainState;                           // +0x1B238
-    i32 resumeState;                          // +0x1B23C
-    i32 menuVmStart;                          // +0x1B240
-    i32 menuItemCount;                        // +0x1B244
-    u8 unknown1B248[0x74];
-    TitleConfigSnapshotView configSnapshot;   // +0x1B2BC
 
-    int PlayMenuSound(i32 soundId, i32 unused);
-    int ChangeCurrentScreen(i32 screen);
-    int MoveCursorVertical(i32 count);
-    void UpdateMenuSelection();
-    void SetMenuSelectionSprites(i32 selected, i32 start, i32 count);
-    int OnUpdateStartMenu();
-    int OnUpdateOptions();
-};
 
 typedef char OptionsPreviousCursorAt24[(offsetof(TitleScreenView, previousCursor) == 0x24) ? 1 : -1];
 typedef char OptionsStateAt28[(offsetof(TitleScreenView, currentScreenState) == 0x28) ? 1 : -1];

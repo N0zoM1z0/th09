@@ -9,7 +9,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int i32;
-struct TitleAnmView;
+// The complete source native ANM loaded resource adds no storage.
+struct TitleAnmView : AnmLoaded {};
 struct TitleFloat3View;
 
 struct AnmVmView : AnmVm {
@@ -20,8 +21,20 @@ struct AnmVmView : AnmVm {
                                     u32 startColor, u32 endColor);
 };
 
+// Original Title options store a 0xCC-byte serialized GameConfiguration
+// snapshot. Keep it POD: the real GameConfiguration has a constructor and
+// would alter TitleScreen construction if embedded as an object.
 struct TitleConfigSnapshotView {
-    u32 words[0x33];
+    union {
+        u32 words[0x33];
+        struct {
+            u8 unknown00[0xAD];
+            u8 valueAD;
+            u8 unknownAE[0xB1-0xAE];
+            u8 windowed;
+            u8 unknownB2[0xCC-0xB2];
+        };
+    };
 };
 
 struct TitleScreenView {
@@ -51,9 +64,9 @@ struct TitleScreenView {
     i32 replaySlotCount;                       // +0x0C904
     i32 selectedReplay;                        // +0x0C908
     i32 unknown0C90C;
-    union { i32 replayUiFrameCounter; i32 screenFrameCounter; }; // +0x0C910
+    union { i32 replayUiFrameCounter; i32 screenFrameCounter; i32 optionsFrameCounter; }; // +0x0C910
     u8 unknown0C914[4];
-    i32 unknown0C918;                        // +0x0C918
+    union { i32 unknown0C918; i32 optionsUiReady; }; // +0x0C918
     u8 unknown0C91C[4];
     i32 optionResetCounter;                   // +0x0C920
     u8 unknown0C924[0x5260];
@@ -146,6 +159,13 @@ typedef char TitleReplaySharedCoordinates[
      sizeof(TitleScreenView) == 0x1B388) ? 1 : -1];
 
 // Complete Player/Menu/Replay/VM/Game config physical Title owner extent.
+typedef char TitleNativeOptionsSnapshotFields[
+    (sizeof(TitleConfigSnapshotView) == 0xCC &&
+     offsetof(TitleConfigSnapshotView, valueAD) == 0xAD &&
+     offsetof(TitleConfigSnapshotView, windowed) == 0xB1 &&
+     offsetof(TitleScreenView, optionsFrameCounter) == 0xC910 &&
+     offsetof(TitleScreenView, optionsUiReady) == 0xC918) ? 1 : -1];
+
 typedef char TitleReplayNativeFullOwnerExtent[
     (sizeof(TitleScreenView) == 0x1B388 &&
      offsetof(TitleScreenView, replayAllocations) == 0x681C &&

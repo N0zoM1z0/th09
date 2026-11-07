@@ -9,14 +9,20 @@ class TitleOptionsNativeConfigSnapshot(unittest.TestCase):
     def test_one_native_serialized_configuration(self):
         source=(ROOT/'src/TitleScreenOptions.cpp').read_text()
         native=(ROOT/'src/GameConfiguration.hpp').read_text()
-        self.assertIn('typedef GameConfiguration TitleConfigSnapshotView;',source)
+        shared=(ROOT/'src/TitleScreenReplayView.hpp').read_text()
+        self.assertIn('#include "TitleScreenReplayView.hpp"',source)
+        self.assertNotIn('typedef GameConfiguration TitleConfigSnapshotView;',source)
+        self.assertIn('struct TitleConfigSnapshotView {',shared)
+        self.assertIn('u32 words[0x33];',shared)
+        self.assertNotIn('TitleConfigSnapshotView()',shared)
         self.assertIn('sizeof(TitleConfigSnapshotView) == sizeof(GameConfiguration)',source)
         self.assertIn('sizeof(TitleConfigSnapshotView) == 0xCC',source)
         for field,offset in (('valueAD','0xAD'),('windowed','0xB1')):
             self.assertIn('offsetof(TitleConfigSnapshotView, '+field+') == '+offset,source)
+            self.assertIn('u8 '+field+';',shared)
             self.assertIn('unsigned char '+field+';',native)
         self.assertNotIn('struct TitleConfigSnapshotView {',source)
-        self.assertIn('TitleConfigSnapshotView configSnapshot;',source)
+        self.assertIn('TitleConfigSnapshotView configSnapshot;',shared)
         self.assertIn('this->configSnapshot.valueAD',source)
         self.assertIn('this->configSnapshot.windowed',source)
 

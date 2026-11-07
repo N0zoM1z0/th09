@@ -9,7 +9,9 @@ class TitleNativeAnmLoadedResourceView(unittest.TestCase):
     def test_shared_native_resource_object_and_methods(self):
         source=(ROOT/'src/TitleScreen.cpp').read_text()
         native=(ROOT/'src/AnmManager.hpp').read_text()
-        self.assertIn('struct TitleAnmView : AnmLoaded {};',source)
+        shared=(ROOT/'src/TitleScreenReplayView.hpp').read_text()
+        self.assertIn('struct TitleAnmView : AnmLoaded {};',shared)
+        self.assertNotIn('struct TitleAnmView : AnmLoaded {};',source)
         self.assertIn('sizeof(TitleAnmView) == sizeof(AnmLoaded)',source)
         self.assertIn('sizeof(TitleAnmView) == 0x1C',source)
         self.assertNotIn('void ExecuteAnmIdxArray(AnmVmView *vms, i32 start, i32 count);',source)

@@ -135,7 +135,7 @@ typedef char AnmVmFontHeightAt299[(offsetof(AnmVmView, fontHeight) == 0x299) ? 1
 // Title sprite/script resources point at the same native 0x1C-byte AnmLoaded
 // record used by the independently exact ANM sprite and script providers.
 // The derived view adds no storage and retains the preload result pointer role.
-struct TitleAnmView : AnmLoaded {};
+
 typedef char TitleNativeAnmLoadedView[
     (sizeof(TitleAnmView) == sizeof(AnmLoaded) &&
      sizeof(TitleAnmView) == 0x1C) ? 1 : -1];

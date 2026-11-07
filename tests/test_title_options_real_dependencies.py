@@ -30,7 +30,7 @@ class RealTitleOptionDependencies(TestCase):
             '#include "AnmManager.hpp"', '#include "AsciiManager.hpp"',
             '#include "SoundPlayer.hpp"',
             'extern const char *g_TitleOptionsHelpText[9];',
-            'AnmLoaded *titleAnm;', 'g_AnmManager->SetInterruptArray(',
+            '#include "TitleScreenReplayView.hpp"', 'g_AnmManager->SetInterruptArray(',
             'g_AnmManager->ExecuteScriptArray(',
             'g_SoundPlayer.PlaySoundByIdx(', 'g_SoundPlayer.QueueCommand(',
             'OptionsRealBgmVolumeAt6218',
@@ -38,6 +38,9 @@ class RealTitleOptionDependencies(TestCase):
         ):
             with self.subTest(expected=expected):
                 self.assertIn(expected, s)
+        shared=(ROOT/'src/TitleScreenReplayView.hpp').read_text()
+        self.assertIn('TitleAnmView *titleAnm;',shared)
+        self.assertIn('struct TitleAnmView : AnmLoaded {};',shared)
         self.assertEqual(s.count('titleAnm->SetSprite('), 8)
         unit = manifest()['title-screen-options-update']
         self.assertEqual(sum(r['type'] == 'REL32' and r['target'] == 0x436AC0

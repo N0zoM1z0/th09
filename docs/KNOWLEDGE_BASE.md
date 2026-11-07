@@ -61,6 +61,17 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Complete Title Options boss shares one native full Title owner
+
+The 2,045-byte exact `OnUpdateOptions` and 34-byte exact sound leaf now
+use the same `TitleScreenView` C++ definition as the main Title core and
+Replay Menu/Save draws, not an independent same-named local class. Its
++0xC910/+0xC918 options fields, native ANM resource pointer and 0xCC-byte
+constructor-free serialized config snapshot have explicit common layout.
+Scoped source-cold replay passes 44 exact Title owners; the 1,280-byte
+ReplayMenu boss retains 29 differences. See
+[Title Options native POD proof](TH09_TITLE_NATIVE_OPTIONS_POD_OWNER_20261107.md).
+
 ### 2026-11-07: Title core and both Replay draws share one full 0x1B388 owner
 
 The main TitleScreen.cpp's complete native Title object has moved to the

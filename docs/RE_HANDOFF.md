@@ -523,6 +523,16 @@ proof of remote publication.
   compiler-private label names have verified immutable original VAs.
   See [complete native Title owner](TH09_TITLE_NATIVE_COMPLETE_SHARED_OWNER_20261107.md).
 
+- **The exact 2,045-byte Title Options boss now uses the same complete
+  0x1B388 native Title owner as core/Replay draws:** deleted a second
+  same-named local TitleScreen class, moved native ANM resource ownership
+  to the shared header, restored the +0xC910/+0xC918 options fields, and
+  kept `configSnapshot` as 0xCC-byte POD (not a newly constructed
+  GameConfiguration) with original +0xAD/+0xB1 bytes. **44 exact Title
+  owners / 21,851 bytes / 1,132 fields** pass scoped original replay;
+  ReplayMenu's 1,280-byte boss remains 29 bytes unlike. See
+  [native Title Options/serialized POD proof](TH09_TITLE_NATIVE_OPTIONS_POD_OWNER_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
