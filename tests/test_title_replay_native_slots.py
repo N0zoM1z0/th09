@@ -54,11 +54,21 @@ class TitleReplayNativeSlots(unittest.TestCase):
         self.assertNotEqual(50,10)
         self.assertEqual(0x1EC*50,0x6018)
 
+    def test_frame_animation_and_keyboard_layout_are_independent_of_stages(self):
+        # The animation's ten frames are a different semantic owner from
+        # ten replay-stage headers; the save keyboard uses a separate 6x16 grid.
+        self.assertIn('if (frame < 10)',self.menu)
+        self.assertIn('for (row = 0; row < 6; row++)',self.save)
+        self.assertIn('for (col = 0; col < 16; col++)',self.save)
+        self.assertIn('replayValue.frameStart[0][i]',self.menu)
+        self.assertEqual(6*16,96)
+
     def test_nonexact_menu_not_registered_as_exact_draw_save(self):
         units=tomllib.loads((ROOT/'config/match-units.toml').read_text())['units']
         self.assertEqual(units['title-screen-draw-replay-save']['source'],
                          'src/TitleScreenReplaySaveDraw.cpp')
         self.assertEqual(units['title-screen-draw-replay-save']['size'],800)
+        self.assertEqual(len(units['title-screen-draw-replay-save']['relocations']),41)
         self.assertNotIn('title-screen-draw-replay-menu',units)
         self.assertNotIn('title-draw-replay-menu',units)
 

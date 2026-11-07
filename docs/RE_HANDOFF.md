@@ -186,7 +186,8 @@ proof of remote publication.
   and 50 complete replay records are rendered as two 25-row columns, with
   ten stage records per replay stream. Source-derived C++ lengths now drive
   both the 1,280-byte open DrawReplayMenu boss (29 differences unchanged)
-  and the 800-byte exact DrawReplaySave owner (41 fields unchanged). See
+  and the 800-byte exact DrawReplaySave owner (41 fields unchanged). The
+  ten-stage bound does not describe menu animation or the 6-by-16 keyboard. See
   [Title replay slot review](TH09_TITLE_REPLAY_NATIVE_SLOTS_20261107.md).
 
 ## Reconstruction frontiers

@@ -26,6 +26,9 @@ records occupy `50 × 0x1EC = 0x6018` contiguous bytes, precisely from
 is introduced. Both real source files now use these native counts rather
 than separate numeric 50, 25 and 10 loop bounds. Position and data-selection
 logic, replay names/time and `frameStart` pointer semantics are unchanged.
+The ten-frame selection animation and the six-row by sixteen-column name
+entry keyboard use independent control counts; they are **not** derived from
+the ten serialized stage entries or the 25-row replay menu columns.
 
 Four complete source-cold pinned VC7.1 controls were built independently:
 original, menu-only typed loops, save-only typed row bound and both typed
