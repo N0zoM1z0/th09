@@ -19490,8 +19490,8 @@ symbol = "?OnUpdate@FrontSide@@SIHPAU1@@Z"
 target_address = 0x00418A90
 size = 0x94D
 relocations = [
-  { offset = 0x11, type = "DIR32", symbol = "?g_Supervisor@@3UFrontSideSupervisorView@@A", target = 0x004B3100 },
-  { offset = 0x16, type = "REL32", symbol = "?SelectSide@FrontSideSupervisorView@@QAEXH@Z", target = 0x00401440 },
+  { offset = 0x11, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
+  { offset = 0x16, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
   { offset = 0x23, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x29, type = "REL32", symbol = "?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x00436F30 },
   { offset = 0x7B, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },

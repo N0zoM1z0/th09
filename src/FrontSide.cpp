@@ -1,6 +1,7 @@
 // Target-bound TH09 FrontSide HUD owner; OnUpdate's complete 2381-byte
 // replay includes every field/call relocation under pinned VC7.1 O2/Ob1.
 #include "FrontSide.hpp"
+#include "Supervisor.hpp"
 
 #include "AnmManager.hpp"
 #include "ZunMemory.hpp"
@@ -119,11 +120,6 @@ struct FrontSideGameManagerView
     int IsMode2();
 };
 
-struct FrontSideSupervisorView
-{
-    void SelectSide(int sideIndex);
-};
-
 struct FrontSideTimerModuloView
 {
     int previous;
@@ -140,7 +136,7 @@ typedef char FrontSideTimerModuloSizeIs0C[
 
 extern Chain g_Chain;
 extern FrontSideGameManagerView g_GameManager;
-extern FrontSideSupervisorView g_Supervisor;
+
 extern const char *g_FrontSideAuxPaths[];
 
 #define FrontSideVm(vm) (reinterpret_cast<FrontSideVmView *>(vm))
