@@ -1,5 +1,6 @@
 #include "EffectManager.hpp"
 #include "AnmManager.hpp"
+#include "EtamaAnmResourceSlot.hpp"
 #include "AnmVmLifecycle.hpp"
 #include "AsciiManager.hpp"
 #include "AsciiGameManagerView.hpp"
@@ -362,9 +363,9 @@ int EffectManager::AddedCallback(void *context)
     AnmManager *anmManager = g_AnmManager;
     // Keep the ANM manager snapshot for the preload path. The loaded resource
     // is published to the owner after either lookup or preload completes.
-    AnmLoaded *effectAnm = g_AnmManager->GetAnm(8);
+    AnmLoaded *effectAnm = g_AnmManager->GetAnm(ANM_FILE_SLOT_ETAMA);
     if (effectAnm->rawData04 == NULL)
-        effectAnm = anmManager->PreloadAnm(8, "etama.anm");
+        effectAnm = anmManager->PreloadAnm(ANM_FILE_SLOT_ETAMA, "etama.anm");
     manager->effectAnm = effectAnm;
     return 0;
 }

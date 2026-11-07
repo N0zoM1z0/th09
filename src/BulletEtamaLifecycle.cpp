@@ -1,11 +1,12 @@
 #include "AnmManager.hpp"
+#include "EtamaAnmResourceSlot.hpp"
 
 int PreloadEtamaStartup()
 {
-    return g_AnmManager->PreloadAnm(8, "etama.anm") == 0;
+    return g_AnmManager->PreloadAnm(ANM_FILE_SLOT_ETAMA, "etama.anm") == 0;
 }
 
 void ReleaseEtamaAnm()
 {
-    g_AnmManager->ReleaseAnm(8);
+    g_AnmManager->ReleaseAnm(ANM_FILE_SLOT_ETAMA);
 }

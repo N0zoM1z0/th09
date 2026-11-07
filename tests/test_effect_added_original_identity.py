@@ -75,7 +75,7 @@ class EffectOriginalGuard(unittest.TestCase):
         source = (ROOT / 'src/EffectManager.cpp').read_text()
         self.assertIn('#include "AnmManager.hpp"', source)
         self.assertIn('AnmManager *anmManager = g_AnmManager;', source)
-        self.assertIn('AnmLoaded *effectAnm = g_AnmManager->GetAnm(8);', source)
+        self.assertIn('AnmLoaded *effectAnm = g_AnmManager->GetAnm(ANM_FILE_SLOT_ETAMA);', source)
         self.assertNotIn('EffectAnmManagerView', source)
         self.assertEqual(inspect.DESTINATIONS['?g_AnmManager@@3PAVAnmManager@@A'],
                          0x004DC550)

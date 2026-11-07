@@ -24,6 +24,9 @@ class SharedEtamaResidentLayout(unittest.TestCase):
         self.assertIn('class AnmLoaded', self.header)
         self.assertIn('AnmRawEntry *rawData04;',self.header)
         self.assertIn('AnmLoadedNativeSizeIs1C',self.header)
+        slot = (ROOT/'src/EtamaAnmResourceSlot.hpp').read_text()
+        self.assertIn('ANM_FILE_SLOT_ETAMA = 8',slot)
+        self.assertIn('enum EtamaAnmResourceSlot',slot)
         self.assertNotIn('struct AnmLoadedResidentView',self.header)
         self.assertFalse((ROOT/'src/AnmLoadedResidentView.hpp').exists())
 
@@ -35,13 +38,24 @@ class SharedEtamaResidentLayout(unittest.TestCase):
             with self.subTest(label=label):
                 self.assertNotIn('#include "AnmLoadedResidentView.hpp"',source)
                 self.assertIn(expression,source)
-                self.assertIn('->PreloadAnm(8,',source)
-                self.assertIn('->GetAnm(8)',source)
+                self.assertIn('->PreloadAnm(ANM_FILE_SLOT_ETAMA,',source)
+                self.assertIn('->GetAnm(ANM_FILE_SLOT_ETAMA)',source)
+                self.assertIn('#include "EtamaAnmResourceSlot.hpp"',source)
                 self.assertIn('"etama.anm"',source)
         self.assertNotIn('EtamaAnmLoadedStateView',self.etama)
         self.assertNotIn('reinterpret_cast<void **>(effectAnm)[1]',self.effect)
         self.assertIn('controller->bulletAnm =',self.etama)
         self.assertIn('manager->effectAnm = effectAnm;',self.effect)
+
+    def test_etama_startup_and_shutdown_use_the_same_native_slot(self):
+        lifecycle = (ROOT/'src/BulletEtamaLifecycle.cpp').read_text()
+        self.assertIn('g_AnmManager->PreloadAnm(ANM_FILE_SLOT_ETAMA, "etama.anm")',
+                      lifecycle)
+        self.assertIn('g_AnmManager->ReleaseAnm(ANM_FILE_SLOT_ETAMA)', lifecycle)
+        for source in (self.etama,self.effect,lifecycle):
+            self.assertNotIn('GetAnm(8)',source)
+            self.assertNotIn('PreloadAnm(8,',source)
+            self.assertNotIn('ReleaseAnm(8)',source)
 
     def test_original_callers_retain_real_addresses_and_sizes(self):
         target={

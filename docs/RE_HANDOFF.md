@@ -97,6 +97,15 @@ proof of remote publication.
   fields** passed fresh scoped replay. See
   [signed extent and label review](TH09_ENEMY_SIGNED_EXTENTS_AND_LOCAL_LABELS_20261107.md).
 
+- **Shared Etama ANM slot 8:** Etama draw/setup, Effect callback and Etama
+  lifecycle now use a single narrow native resource enum rather than
+  unrelated numeric slot literals. Original-bound scoped results: 16 Effect
+  siblings / 2,571 bytes and 6 Etama draw/lifecycle functions / 1,705 bytes
+  exact; the Effect callback remains 51 bytes with eight residual differences.
+  Fifteen Etama compiler-local label names were checked against unchanged
+  original target VAs and rebound. See
+  [Etama ANM slot recovery](TH09_ETAMA_ANM_NATIVE_SLOT_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

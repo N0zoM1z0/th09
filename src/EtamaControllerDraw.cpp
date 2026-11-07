@@ -3,6 +3,7 @@
 // their grant in LICENSE. See THIRD_PARTY_NOTICES.md.
 #include "BulletManager.hpp"
 #include "AnmManager.hpp"
+#include "EtamaAnmResourceSlot.hpp"
 #include "EffectManager.hpp"
 #include "RuntimeAngleMath.hpp"
 #include "AsciiGameManagerView.hpp"
@@ -145,9 +146,9 @@ int EtamaController::AddedCallback(EtamaController *controller)
 {
     {
         AnmManager *anmManager = g_AnmManager;
-        AnmLoaded *anm = anmManager->GetAnm(8);
+        AnmLoaded *anm = anmManager->GetAnm(ANM_FILE_SLOT_ETAMA);
         if (anm->rawData04 == NULL)
-            anm = anmManager->PreloadAnm(8, const_cast<char *>("etama.anm"));
+            anm = anmManager->PreloadAnm(ANM_FILE_SLOT_ETAMA, const_cast<char *>("etama.anm"));
         controller->bulletAnm = anm;
         if (anm == NULL)
             return -1;
