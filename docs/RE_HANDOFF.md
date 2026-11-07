@@ -294,6 +294,36 @@ proof of remote publication.
   retain proven same-section targets. See
   [native ExAttack circle owner](TH09_EXATTACK_NATIVE_CIRCLE_OWNER_20261107.md).
 
+- **ExAttack Type4 real native Player/ANM receiver:** the complete exact
+  739-byte Type4 update now uses `PlayerLifecycleView *` and `AnmVm *`
+  directly instead of two private opaque duplicates. Five verified original
+  REL32 sites bind to the actual 18-byte `AnmVm::SetInterrupt` at 0x406790;
+  its five circle collision calls still use the real 95-byte Player method.
+  **8 affected exact owners / 1,246 bytes / 52 fields** pass focused
+  source-cold original checks. See
+  [Type4 native receiver proof](TH09_EXATTACK_TYPE4_NATIVE_PLAYER_ANM_20261107.md).
+
+- **Native GameManager/Player across six ExAttack bosses:** the original
+  475/422/824/496/420/739-byte update owners now use the real shared
+  GameManager side array and Player collision/animation fields, eliminating
+  six unrelated local owner overlays. All **25 GameManager data fields**,
+  **6 Player CheckBulletCollision calls**, and five Type14/22 private labels
+  retain their independently reviewed original targets. With Type4's real
+  AnmVm interrupts, scoped source-cold replay passes **13 distinct exact
+  owners / 3,883 physical bytes / 183 relocations**. The 862-byte Player
+  collision boss remains nonexact. See
+  [native ExAttack runtime owner proof](TH09_EXATTACK_NATIVE_GAMEMANAGER_PLAYER_20261107.md).
+
+- **Six ExAttack update owners now borrow real Player and GameManager:**
+  Type01/4/13/14-22/16-23/17 use the genuine two-side GameManager array,
+  Player +0x36C query, and header24.anmFile98 (+0xBC) instead of local
+  prefix clones. Type4 additionally keeps five original target-linked
+  native `AnmVm::SetInterrupt` calls. **6 exact owners / 3,376 physical
+  bytes / 159 fields** source-cold match the immutable retail PE; 41
+  changed compiler symbol *names* preserve original destinations.
+  The called Player collision boss remains nonexact. See
+  [native ExAttack Player/GameManager source review](TH09_EXATTACK_NATIVE_GAMEMANAGER_PLAYER_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

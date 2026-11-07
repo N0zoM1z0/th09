@@ -5,6 +5,7 @@
 #include "ExAttackType1422ExtraView.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "RngRuntimeLeaves.hpp"
 
 #include <stddef.h>
@@ -22,40 +23,7 @@ struct ExAttackType1422VmView
 
 
 
-struct ExAttackType1422PlayerView
-{
-    unsigned char unknown0000[0xBC];
-    AnmLoaded *anmFileBC;
-    unsigned char unknown00C0[0x36C - 0xC0];
-    PlayerCollisionQueryStateView collisionQuery36C;
-    unsigned char unknown1B74[0x1B88 - 0x1B74];
-    PlayerPositionView position1B88;
-
-    int CheckBulletCollision(
-        PlayerPositionView *position,
-        PlayerPositionView *collisionSize,
-        Bullet *bullet);
-};
-typedef char ExAttackType1422PlayerViewNativeCollisionQueryAt36C[
-    (offsetof(ExAttackType1422PlayerView, collisionQuery36C) ==
-     offsetof(PlayerLifecycleView, collisionQuery36C) &&
-     sizeof(((ExAttackType1422PlayerView *)0)->collisionQuery36C) ==
-         sizeof(PlayerCollisionQueryStateView)) ? 1 : -1];
-
-
-struct ExAttackType1422SideView
-{
-    unsigned char unknown00[4];
-    ExAttackType1422PlayerView *player04;
-    unsigned char unknown08[0x30];
-};
-
-struct ExAttackType1422GameManagerView
-{
-    ExAttackType1422SideView sides[2];
-};
-
-extern ExAttackType1422GameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 extern RngRuntimeView g_ReplayRng;
 
 int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
@@ -80,7 +48,7 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
         if (record->timer10 > 90)
         {
             g_GameManager.sides[record->side08]
-                .player04->anmFileBC->ExecuteAnmIdx(
+                .player04->header24.anmFile98->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C),
                     9);
             ++extra->state00;

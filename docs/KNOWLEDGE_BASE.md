@@ -51,6 +51,40 @@ large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+### 2026-11-07: Six ExAttack bosses borrow native GameManager and Player
+
+Six original-exact update callbacks now use `AsciiGameManagerView`'s two
+real side records and `PlayerLifecycleView` fields instead of unrelated
+private GameManager/Player overlays. Their original 25 GameManager and
+six Player collision target calls are independently PE/COFF verified;
+Type14/22 private label names changed without destinations moving.
+Six full owners (3,376 bytes/159 fields) and the seven real AnmVm provider
+functions (507 bytes/24 fields) pass focused original-bound replay. This
+source-identity recovery does not change the still-open 862-byte Player
+collision boss. See [native ExAttack runtime provenance](TH09_EXATTACK_NATIVE_GAMEMANAGER_PLAYER_20261107.md).
+
+### 2026-11-07: ExAttack updates share the real GameManager/Player source views
+
+Six complete ExAttack update callbacks (Type01/4/13/14-22/16-23/17)
+now use `AsciiGameManagerView::sides` and `PlayerLifecycleView *` rather
+than locally invented side/Player prefixes. The original Player +0xBC
+ANM file is genuinely `header24.anmFile98`, and each Player query remains
+at +0x36C. The 739-byte Type4 owner also uses native AnmVm[5] and
+actual interrupt member symbols. Original-bound, source-cold proof covers
+**6 exact whole functions / 3,376 bytes / 159 fields** with no newly
+matching authored function claimed. See
+[native ExAttack Player/manager proof](TH09_EXATTACK_NATIVE_GAMEMANAGER_PLAYER_20261107.md).
+
+### 2026-11-07: ExAttack Type4 recovers real Player and AnmVm pointers
+
+The exact 739-byte Type4 update uses Player's genuine collision query
+at +0x36C and five true 0x2A4-byte AnmVm records with pos2 at +0x288.
+It now borrows real PlayerLifecycleView and AnmVm rather than private
+opaque structs. All five interrupt calls bind the exact 18-byte real
+`AnmVm::SetInterrupt` at 0x00406790, with complete Type4 bytes and
+28 field identities independently original-bound. See
+[Type4 native Player/ANM proof](TH09_EXATTACK_TYPE4_NATIVE_PLAYER_ANM_20261107.md).
+
 ### 2026-11-07: ExAttack circle callbacks share one real Player method
 
 The original 95-byte append-circle callback at 0x00440D30 has the

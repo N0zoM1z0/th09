@@ -3,6 +3,7 @@
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 struct ExAttackType16UpdateExtra
 {
@@ -39,38 +40,7 @@ struct ExAttackType16InterruptView
 
 
 
-struct ExAttackType16PlayerView
-{
-    unsigned char unknown000[0xBC];
-    AnmLoaded *anmFileBC;
-    unsigned char unknown0C0[0x36C - 0xC0];
-    PlayerCollisionQueryStateView collisionQuery36C;
-
-    int CheckBulletCollision(
-        PlayerPositionView *position,
-        PlayerPositionView *collisionSize,
-        Bullet *bullet);
-};
-typedef char ExAttackType16PlayerViewNativeCollisionQueryAt36C[
-    (offsetof(ExAttackType16PlayerView, collisionQuery36C) ==
-     offsetof(PlayerLifecycleView, collisionQuery36C) &&
-     sizeof(((ExAttackType16PlayerView *)0)->collisionQuery36C) ==
-         sizeof(PlayerCollisionQueryStateView)) ? 1 : -1];
-
-
-struct ExAttackType16SideView
-{
-    unsigned char unknown00[0x04];
-    ExAttackType16PlayerView *player04;
-    unsigned char unknown08[0x30];
-};
-
-struct ExAttackType16GameManagerView
-{
-    ExAttackType16SideView sides[2];
-};
-
-extern ExAttackType16GameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 
 int __fastcall ExAttackUpdateCallbackType16_23(ExAttackRecord *base)
 {
@@ -142,7 +112,7 @@ int __fastcall ExAttackUpdateCallbackType16_23(ExAttackRecord *base)
             if (record->position20.x < 0.0f)
             {
                 g_GameManager.sides[record->side08]
-                    .player04->anmFileBC->ExecuteAnmIdx(
+                    .player04->header24.anmFile98->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C),
                     11);
                 extra->scalar10 = -0.03f;
@@ -150,7 +120,7 @@ int __fastcall ExAttackUpdateCallbackType16_23(ExAttackRecord *base)
             else
             {
                 g_GameManager.sides[record->side08]
-                    .player04->anmFileBC->ExecuteAnmIdx(
+                    .player04->header24.anmFile98->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C),
                     12);
                 extra->scalar10 = 0.03f;

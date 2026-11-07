@@ -2,6 +2,7 @@
 #include "ExAttackController.hpp"
 #include "ExAttackHistory32ExtraView.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 #include <stddef.h>
 
@@ -11,17 +12,10 @@ struct ExAttackType4SourceRecord
     ExAttackType4SourceExtra *extra34;
 };
 
-struct ExAttackType4VmView
-{
-    unsigned char unknown000[0x288];
-    Float3 pos2;
-    unsigned char unknown294[0x2A4 - 0x294];
-
-    void SetInterrupt(short interrupt);
-};
-
-typedef char ExAttackType4VmViewSizeIs2A4[
-    (sizeof(ExAttackType4VmView) == 0x2A4) ? 1 : -1];
+// Both the +0x288 position and the actual interrupt method belong to
+// the already reconstructed native 0x2A4-byte AnmVm, not a local VM shadow.
+typedef char ExAttackType4NativeVmLayout[
+    (sizeof(AnmVm) == 0x2A4 && offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
 struct ExAttackType4UpdateRecord
 {
@@ -30,7 +24,7 @@ struct ExAttackType4UpdateRecord
     int side08;
     int active0C;
     ZunTimer timer10;
-    ExAttackType4VmView *vms1C;
+    AnmVm *vms1C;
     Float3 position20;
     int vmCount2C;
     int unknown30;
@@ -40,31 +34,13 @@ struct ExAttackType4UpdateRecord
 
 
 
-struct ExAttackType4PlayerView
-{
-    unsigned char unknown000[0x36C];
-    PlayerCollisionQueryStateView collisionQuery36C;
-};
-typedef char ExAttackType4PlayerViewNativeCollisionQueryAt36C[
-    (offsetof(ExAttackType4PlayerView, collisionQuery36C) ==
-     offsetof(PlayerLifecycleView, collisionQuery36C) &&
-     sizeof(((ExAttackType4PlayerView *)0)->collisionQuery36C) ==
-         sizeof(PlayerCollisionQueryStateView)) ? 1 : -1];
+// Player's real collision query is embedded at +0x36C; the query's own
+// exact append method is shared with the other ExAttack callbacks.
+typedef char ExAttackType4NativePlayerQueryLayout[
+    (offsetof(PlayerLifecycleView, collisionQuery36C) == 0x36C &&
+     sizeof(PlayerCollisionQueryStateView) == 0x1808) ? 1 : -1];
 
-
-struct ExAttackType4UpdateSideView
-{
-    unsigned char unknown00[0x04];
-    ExAttackType4PlayerView *player04;
-    unsigned char unknown08[0x30];
-};
-
-struct ExAttackType4UpdateGameManagerView
-{
-    ExAttackType4UpdateSideView sides[2];
-};
-
-extern ExAttackType4UpdateGameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 
 int __fastcall ExAttackUpdateCallbackType4(ExAttackRecord *base)
 {

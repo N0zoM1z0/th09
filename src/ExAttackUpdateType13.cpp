@@ -4,6 +4,7 @@
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 struct ExAttackType13UpdateExtra
 {
@@ -39,40 +40,7 @@ struct ExAttackType13InterruptView
 
 
 
-struct ExAttackType13PlayerView
-{
-    unsigned char unknown000[0xBC];
-    AnmLoaded *anmFileBC;
-    unsigned char unknown0C0[0x36C - 0xC0];
-    PlayerCollisionQueryStateView collisionQuery36C;
-
-    int CheckBulletCollision(
-        PlayerPositionView *position,
-        PlayerPositionView *collisionSize,
-        Bullet *bullet);
-};
-typedef char ExAttackType13PlayerViewNativeCollisionQueryAt36C[
-    (offsetof(ExAttackType13PlayerView, collisionQuery36C) ==
-     offsetof(PlayerLifecycleView, collisionQuery36C) &&
-     sizeof(((ExAttackType13PlayerView *)0)->collisionQuery36C) ==
-         sizeof(PlayerCollisionQueryStateView)) ? 1 : -1];
-
-
-struct ExAttackType13SideView
-{
-    unsigned char unknown00[0x04];
-    ExAttackType13PlayerView *player04;
-    unsigned char unknown08[0x04];
-    EffectManager *effectManager0C;
-    unsigned char unknown10[0x28];
-};
-
-struct ExAttackType13GameManagerView
-{
-    ExAttackType13SideView sides[2];
-};
-
-extern ExAttackType13GameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 
 int __fastcall ExAttackUpdateCallbackType13(ExAttackRecord *base)
 {
@@ -145,7 +113,7 @@ int __fastcall ExAttackUpdateCallbackType13(ExAttackRecord *base)
         if (record->timer10 > 180)
         {
             g_GameManager.sides[record->side08]
-                .player04->anmFileBC->ExecuteAnmIdx(
+                .player04->header24.anmFile98->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C),
                     9);
             ++extra->state00;
