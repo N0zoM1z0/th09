@@ -194,15 +194,6 @@ float *PlayerGameplayMethods::ResolvePatternOffset(
     return offsetY;
 }
 
-struct PlayerGameplayTimerCurrentView
-{
-    int previous;
-    float subFrame;
-    int current;
-
-    int GetCurrent();
-};
-
 struct PlayerGameplayRngView
 {
     unsigned short GetRandomU16InRange(unsigned short maximum);
@@ -297,8 +288,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         &g_PlayerPatternConfigs[initialPlayer->sideState->characterIndex2C];
     if (g_GameManager.IsGameMode1())
     {
-        int openingTime = reinterpret_cast<PlayerGameplayTimerCurrentView *>(
-            &header->openingTimer5C)->GetCurrent();
+        int openingTime = static_cast<int>(header->openingTimer5C);
         initialPlayer->opponentState->frontSide18->SetTimingDigits(
             config->openingShort08 * 60 - openingTime);
     }
@@ -321,8 +311,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             reinterpret_cast<PlayerGameplayMethods *>(phasePlayer)->EnterGameplayMode(3);
             *reinterpret_cast<ZunTimer *>(&header->player78->timer303C8) = 2;
         }
-        if (reinterpret_cast<PlayerGameplayTimerCurrentView *>(
-            &header->openingTimer5C)->GetCurrent() / 60 >= threshold)
+        if (static_cast<int>(header->openingTimer5C) / 60 >= threshold)
         {
             header->flags74 |= 1U;
             if (g_GameManager.IsGameMode1())
@@ -340,8 +329,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             ? config->secondaryLong0C
             : (phase >= 2 ? config->secondaryMedium10
                           : config->secondaryShort14);
-        if (reinterpret_cast<PlayerGameplayTimerCurrentView *>(
-            &header->secondaryTimer68)->GetCurrent() / 60 >= threshold)
+        if (static_cast<int>(header->secondaryTimer68) / 60 >= threshold)
             header->flags74 |= 2U;
     }
 
