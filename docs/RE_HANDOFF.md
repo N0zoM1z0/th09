@@ -355,6 +355,14 @@ proof of remote publication.
   **24 affected exact functions / 5,691 bytes / 292 fields** pass scoped
   original replay. See [native SpawnShots owner](TH09_PLAYER_NATIVE_SPAWN_SHOTS_20261107.md).
 
+- **Player State3 real region producer fixed:** native `PlayerLifecycleView`
+  now exposes the real collision-region producer type; the three
+  91/91/100-byte exact State3 effect leaves no longer redeclare conflicting
+  private region structs. This repairs a reproducible VC7.1 C2011 failure
+  and restores **11 exact region/State3 owners / 759 bytes / 29 fields**.
+  The 1,210-byte ChargeAttack boss retains its original nonexact frontier.
+  See [native Player State3 region proof](TH09_PLAYER_STATE3_REAL_REGION_PRODUCER_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

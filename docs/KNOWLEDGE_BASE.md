@@ -51,6 +51,15 @@ large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+### 2026-11-07: Player native region declaration repairs State3 effect compile
+
+A later native Player header exposed the actual `PlayerCollisionRegionCreateView`
+type, revealing that old local copies in `PlayerState3EffectSetup.cpp` caused
+real VC7.1 C2011 duplicate-struct errors. Removing both local struct
+copies and checking the true +0xB0BC/+0xB100 layout restores exact
+91/91/100-byte State3 leaves and their genuine region producer closure.
+See [Player State3 producer fix](TH09_PLAYER_STATE3_REAL_REGION_PRODUCER_20261107.md).
+
 ### 2026-11-07: Charge and Effect Type35 share the actual Player SpawnShots
 
 The 190-byte original-exact shot producer at 0x41F4C0 now belongs to

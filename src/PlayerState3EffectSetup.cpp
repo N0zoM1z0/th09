@@ -3,21 +3,14 @@
 #include "EffectManager.hpp"
 #include "ZunTimer.hpp"
 
-struct PlayerRegionPointView
-{
-    float x;
-    float y;
-};
-struct PlayerCollisionRegionCreateRegionView;
-struct PlayerCollisionRegionCreateView
-{
-    PlayerCollisionRegionCreateRegionView *CreateCircleType1(
-        const PlayerRegionPointView *center, float radius, float radiusGrowth,
-        int lifetime, int delay);
-    PlayerCollisionRegionCreateRegionView *CreateCircleType4(
-        const PlayerRegionPointView *center, float radius, float radiusGrowth,
-        int value, int lifetime, int delay);
-};
+// PlayerLifecycleView now includes the genuine collision-region producer
+// declaration. Reuse its exact source-facing methods and 0xB0BC/+0xB100
+// layout rather than redefining the same C++ classes in this source file.
+typedef char PlayerState3NativeRegionProducer[
+    (offsetof(PlayerLifecycleView, collisionRegionB0BC) ==
+         offsetof(PlayerCollisionRegionCreateView, embeddedB0BC) &&
+     offsetof(PlayerLifecycleView, activeB100) ==
+         offsetof(PlayerCollisionRegionCreateView, activeB100)) ? 1 : -1];
 
 Effect *PlayerStateEffectView::ConfigureState3Effect13()
 {
