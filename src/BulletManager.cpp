@@ -1,5 +1,6 @@
 #include "RuntimePolarMath.hpp"
 #include "BulletManager.hpp"
+#include "EtamaNativePoolLimits.hpp"
 #include "ZunMemory.hpp"
 #include "SoundPlayer.hpp"
 #include "RuntimeAngleMath.hpp"
@@ -376,7 +377,7 @@ Bullet *EtamaController::SpawnSingleBullet(
     if (poolIndex == 0)
     {
         bullet = this->primaryPoolStart;
-        for (i = 0; i < 175; ++i)
+        for (i = 0; i < EtamaNativePoolLimits::PrimaryUsableCount; ++i)
         {
             if (bullet->state == BULLET_STATE_UNUSED)
                 break;
@@ -384,13 +385,13 @@ Bullet *EtamaController::SpawnSingleBullet(
             if (bullet->state == BULLET_STATE_SENTINEL)
                 bullet = &this->primaryBullets[0];
         }
-        if (i >= 175)
+        if (i >= EtamaNativePoolLimits::PrimaryUsableCount)
             return bullet;
     }
     else
     {
         bullet = this->secondaryPoolStart;
-        for (i = 0; i < 360; ++i)
+        for (i = 0; i < EtamaNativePoolLimits::SecondaryUsableCount; ++i)
         {
             if (bullet->state == BULLET_STATE_UNUSED)
                 break;
@@ -398,7 +399,7 @@ Bullet *EtamaController::SpawnSingleBullet(
             if (bullet->state == BULLET_STATE_SENTINEL)
                 bullet = &this->secondaryBullets[0];
         }
-        if (i >= 360)
+        if (i >= EtamaNativePoolLimits::SecondaryUsableCount)
             return bullet;
     }
 
@@ -579,7 +580,7 @@ Bullet *EtamaController::SpawnBulletPatternPrimary(BulletSpawnDescriptor *descri
         for (index1 = 0; index1 < descriptor->count1; ++index1)
         {
             result = this->SpawnSingleBullet(descriptor, index1, index2, angleToPlayer, 0);
-            if (result == &this->primaryBullets[175])
+            if (result == &this->primaryBullets[EtamaNativePoolLimits::PrimaryUsableCount])
                 goto done;
         }
     }
@@ -602,7 +603,7 @@ Bullet *EtamaController::SpawnBulletPatternSecondary(BulletSpawnDescriptor *desc
         for (index1 = 0; index1 < descriptor->count1; ++index1)
         {
             result = this->SpawnSingleBullet(descriptor, index1, index2, angleToPlayer, 1);
-            if (result == &this->secondaryBullets[360])
+            if (result == &this->secondaryBullets[EtamaNativePoolLimits::SecondaryUsableCount])
                 goto done;
         }
     }
@@ -626,7 +627,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
     controller->activeSecondaryCount = 0;
     controller->ClearDrawBuckets();
 
-    for (int i = 0; i < 536; ++bullet, ++i)
+    for (int i = 0; i < EtamaNativePoolLimits::LinearScanCount; ++bullet, ++i)
     {
         if (bullet->state == BULLET_STATE_UNUSED || bullet->state == BULLET_STATE_SENTINEL)
             continue;
@@ -640,7 +641,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
         }
 
         ++controller->activeTotalCount;
-        if (i < 175)
+        if (i < EtamaNativePoolLimits::PrimaryUsableCount)
             ++controller->activePrimaryCount;
         else
             ++controller->activeSecondaryCount;
@@ -812,7 +813,7 @@ updateTimers:
         return 1;
 
     Laser *laser = &controller->lasers[0];
-    for (int i = 0; i < 48; ++i, ++laser)
+    for (int i = 0; i < EtamaNativePoolLimits::LaserRecordCount; ++i, ++laser)
     {
         if (laser->inUse == 0)
             continue;

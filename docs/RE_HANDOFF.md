@@ -138,6 +138,15 @@ proof of remote publication.
   with original unchanged target addresses. See
   [ScreenEffect phase review](TH09_SCREEN_EFFECT_ENVELOPE_PHASE_LAYOUT_20261107.md).
 
+- **Etama native bullet-pool extents:** the real 176/361 bullet records
+  carry 175/360 usable entries plus physical sentinel records, while its
+  2,216-byte exact OnUpdate traverses a contiguous 536-record scan and
+  its 1,932-byte SpawnSingleBullet uses the same real bounds. The init/reset
+  leaves share this typed capacity. All **30 scoped Bullet exact owners**
+  (21,091 complete bytes / 764 fields) pass source-cold original-bound
+  replay; compiler-local table labels were target-VA-checked. See
+  [Etama pool-source review](TH09_ETAMA_NATIVE_POOL_LIMITS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

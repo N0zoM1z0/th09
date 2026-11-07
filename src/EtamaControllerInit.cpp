@@ -1,4 +1,5 @@
 #include "BulletManager.hpp"
+#include "EtamaNativePoolLimits.hpp"
 
 #include <string.h>
 
@@ -11,13 +12,13 @@ void EtamaController::Initialize()
 
     memset(this, 0, sizeof(*this));
     this->primaryPoolStart = &this->primaryBullets[0];
-    this->primaryBullets[175].state = kBulletStateSentinel;
-    this->secondaryBullets[360].state = kBulletStateSentinel;
+    this->primaryBullets[EtamaNativePoolLimits::PrimaryUsableCount].state = kBulletStateSentinel;
+    this->secondaryBullets[EtamaNativePoolLimits::SecondaryUsableCount].state = kBulletStateSentinel;
     this->secondaryPoolStart = &this->secondaryBullets[0];
     this->cancelItemType = 5;
 
     bullet = &this->primaryBullets[0];
-    for (i = 0; i < 175; ++i, ++bullet)
+    for (i = 0; i < EtamaNativePoolLimits::PrimaryUsableCount; ++i, ++bullet)
     {
         bullet->sprites.bulletVm.scriptIndex = -1;
         bullet->sprites.despawnVm.scriptIndex = -1;
@@ -27,7 +28,7 @@ void EtamaController::Initialize()
     }
 
     bullet = &this->secondaryBullets[0];
-    for (i = 0; i < 360; ++i, ++bullet)
+    for (i = 0; i < EtamaNativePoolLimits::SecondaryUsableCount; ++i, ++bullet)
     {
         bullet->sprites.bulletVm.scriptIndex = -1;
         bullet->sprites.despawnVm.scriptIndex = -1;
@@ -44,7 +45,7 @@ void EtamaController::ResetProjectiles()
     memset(this->lasers, 0, sizeof(this->lasers));
     this->primaryPoolStart = &this->primaryBullets[0];
     this->secondaryPoolStart = &this->secondaryBullets[0];
-    this->primaryBullets[175].state = kBulletStateSentinel;
-    this->secondaryBullets[360].state = kBulletStateSentinel;
+    this->primaryBullets[EtamaNativePoolLimits::PrimaryUsableCount].state = kBulletStateSentinel;
+    this->secondaryBullets[EtamaNativePoolLimits::SecondaryUsableCount].state = kBulletStateSentinel;
     this->cancelItemType = 5;
 }
