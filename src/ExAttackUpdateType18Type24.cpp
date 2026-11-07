@@ -55,6 +55,14 @@ typedef char ExAttackType1824NativePlayerFields[
     (offsetof(PlayerLifecycleView, collisionQuery36C) == 0x36C &&
      offsetof(PlayerLifecycleView, header24) +
          offsetof(PlayerHeaderStateView, anmFile98) == 0xBC) ? 1 : -1];
+// The older 101-byte angle helper's receiver/operand projections share
+// the same X/Y coordinates as the genuine Player and 12-byte Float3.
+typedef char ExAttackType1824NativeAngleStorage[
+    (offsetof(PlayerLifecycleView, position1B88) ==
+         offsetof(PlayerAngleView, position1B88) &&
+     sizeof(PlayerAngleFloat3View) == sizeof(PlayerPositionView) &&
+     offsetof(PlayerAngleFloat3View, x) == offsetof(PlayerPositionView, x) &&
+     offsetof(PlayerAngleFloat3View, y) == offsetof(PlayerPositionView, y)) ? 1 : -1];
 
 // The four record VMs are the already recovered 0x2A4-byte ANM allocation;
 // rotation calls use its real original-exact PlayerAnmVmView member.

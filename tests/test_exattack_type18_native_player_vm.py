@@ -30,6 +30,9 @@ class ExAttackType18NativeOwnershipTests(unittest.TestCase):
         self.assertIn('PlayerAnmVmView *',s)
         self.assertIn('AnmVm, pos2) == 0x288',s)
         self.assertIn('ExAttackType1824NativePlayerFields',s)
+        self.assertIn('ExAttackType1824NativeAngleStorage',s)
+        self.assertIn('offsetof(PlayerAngleView, position1B88)',s)
+        self.assertIn('sizeof(PlayerAngleFloat3View) == sizeof(PlayerPositionView)',s)
         self.assertEqual(s.count('->header24.anmFile98'),4)
         self.assertIn('->collisionQuery36C.AppendCircleRecord(',s)
         for old in ('struct ExAttackType1824PlayerView',

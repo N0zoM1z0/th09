@@ -21,7 +21,11 @@ GameManager, and animation views. The source now uses the genuine two-side
 The established original-exact `PlayerAngleView::AngleToPoint` at 0x0041BB70
 still has its own source-facing float-vector operand type. Its caller now
 casts the genuine Player receiver to that existing *verified projection*
-only at this method boundary and passes a matching position projection.
+only at this method boundary and passes a matching position projection. A
+new compile-time check also proves that both Player receiver types locate
+the world position at +0x1B88, with identically sized and positioned X/Y
+components in the 12-byte argument view. This uses normal source-level
+layout checks, not a register hint, barrier, or method thunk.
 The remaining Player fields use their actual native owner. No new
 `PlayerLifecycleView` method was invented or assigned a fabricated target.
 
