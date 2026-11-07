@@ -13,8 +13,8 @@ class TitleKeyConfigNativeAnmManager(unittest.TestCase):
         self.assertIn('sizeof(TitleKeyAnmManagerView) == sizeof(AnmManager)',src)
         self.assertNotIn('extern TitleKeyAnmManagerView *g_TitleAnmManager;',src)
         self.assertNotIn('g_TitleAnmManager->',src)
-        self.assertIn('g_AnmManager->SetInterruptArray(reinterpret_cast<AnmVm *>(vms), vmCount, 4)',src)
-        self.assertIn('g_AnmManager->ExecuteScriptArray(reinterpret_cast<AnmVm *>(vms), vmCount)',src)
+        self.assertIn('g_AnmManager->SetInterruptArray(vms, vmCount, 4)',src)
+        self.assertIn('g_AnmManager->ExecuteScriptArray(vms, vmCount)',src)
         self.assertIn('static_cast<TitleKeyAnmManagerView *>(g_AnmManager)',src)
         self.assertIn('TitleKeyAnmManagerView *manager,',src)
 
