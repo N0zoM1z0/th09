@@ -11,6 +11,7 @@
 #include "AsciiManager.hpp"
 #include "AnmManager.hpp"
 #include "ZunTimer.hpp"
+#include "Supervisor.hpp"
 
 #include <stddef.h>
 #include <math.h>
@@ -55,6 +56,20 @@ struct BackgroundStageCameraRecord
 };
 typedef char BackgroundStageCameraRecordSizeIsF0[
     sizeof(BackgroundStageCameraRecord) == 0xF0 ? 1 : -1];
+typedef char BackgroundStageNativeViewportLayout[
+    (sizeof(BackgroundStageCameraRecord) == sizeof(SupervisorCtorArrayElement) &&
+     offsetof(BackgroundStageCameraRecord, position00) ==
+         offsetof(SupervisorCtorArrayElement, cameraPosition00) &&
+     offsetof(BackgroundStageCameraRecord, lookAt0C) ==
+         offsetof(SupervisorCtorArrayElement, cameraLookAtOffset0C) &&
+     offsetof(BackgroundStageCameraRecord, up18) ==
+         offsetof(SupervisorCtorArrayElement, cameraUp18) &&
+     offsetof(BackgroundStageCameraRecord, forward24) ==
+         offsetof(SupervisorCtorArrayElement, cameraForward24) &&
+     offsetof(BackgroundStageCameraRecord, positionOffset3C) ==
+         offsetof(SupervisorCtorArrayElement, cameraPositionOffset3C) &&
+     offsetof(BackgroundStageCameraRecord, fieldOfView48) ==
+         offsetof(SupervisorCtorArrayElement, fieldOfView48)) ? 1 : -1];
 
 struct BackgroundStageView
 {
@@ -134,19 +149,8 @@ typedef char BackgroundStagePositionTargetAt6408[
 typedef char BackgroundStageMotionAt6438[
     offsetof(BackgroundStageView, cameraMotionMode6438) == 0x6438 ? 1 : -1];
 
-struct BackgroundStageSupervisorView
-{
-    unsigned char unknown000[0x78];
-    BackgroundStageCameraRecord viewports078[3];
-};
-
-typedef char BackgroundStageSupervisorViewportsAt78[
-    offsetof(BackgroundStageSupervisorView, viewports078) == 0x78 ? 1 : -1];
-
-extern BackgroundStageSupervisorView g_Supervisor;
-
-#define g_BackgroundStageViewports (g_Supervisor.viewports078)
-
+// The background target/start/tangent records belong to the Background
+// allocation, while live viewport state resides in native Supervisor.
 float __stdcall CubicHermiteInterpolateScalar(
     float startValue,
     float endValue,
@@ -299,8 +303,8 @@ read_instruction:
             background->cameraTarget834.position00 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             if (background->interpolationDurationBF4[0] == 0)
-                g_BackgroundStageViewports[background->viewportIndex00C]
-                    .position00 =
+                g_Supervisor.ctorArray078[background->viewportIndex00C]
+                    .cameraPosition00 =
                     *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
@@ -316,8 +320,8 @@ read_instruction:
             background->cameraTarget834.lookAt0C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             if (background->interpolationDurationBF4[1] == 0)
-                g_BackgroundStageViewports[background->viewportIndex00C]
-                    .lookAt0C =
+                g_Supervisor.ctorArray078[background->viewportIndex00C]
+                    .cameraLookAtOffset0C =
                     *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
@@ -333,7 +337,7 @@ read_instruction:
             background->cameraTarget834.up18 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             if (background->interpolationDurationBF4[2] == 0)
-                g_BackgroundStageViewports[background->viewportIndex00C].up18 =
+                g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18 =
                     *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
@@ -349,7 +353,7 @@ read_instruction:
             background->cameraTarget834.fieldOfView48 =
                 *reinterpret_cast<float *>(&instruction->args[0]);
             if (background->interpolationDurationBF4[3] == 0)
-                g_BackgroundStageViewports[background->viewportIndex00C]
+                g_Supervisor.ctorArray078[background->viewportIndex00C]
                     .fieldOfView48 =
                     *reinterpret_cast<float *>(&instruction->args[0]);
             break;
@@ -481,8 +485,8 @@ read_instruction:
             break;
 
         case 32:
-            g_BackgroundStageViewports[background->viewportIndex00C]
-                .positionOffset3C =
+            g_Supervisor.ctorArray078[background->viewportIndex00C]
+                .cameraPositionOffset3C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
@@ -507,7 +511,7 @@ script_done:
         InterpolateBackgroundCameraVector(
             background,
             0,
-            &g_BackgroundStageViewports[background->viewportIndex00C].position00,
+            &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraPosition00,
             &background->cameraStart924.position00,
             &background->cameraTarget834.position00,
             &background->cameraTangentStartB04.position00,
@@ -517,7 +521,7 @@ script_done:
         InterpolateBackgroundCameraVector(
             background,
             1,
-            &g_BackgroundStageViewports[background->viewportIndex00C].lookAt0C,
+            &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraLookAtOffset0C,
             &background->cameraStart924.lookAt0C,
             &background->cameraTarget834.lookAt0C,
             &background->cameraTangentStartB04.lookAt0C,
@@ -527,7 +531,7 @@ script_done:
         InterpolateBackgroundCameraVector(
             background,
             2,
-            &g_BackgroundStageViewports[background->viewportIndex00C].up18,
+            &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18,
             &background->cameraStart924.up18,
             &background->cameraTarget834.up18,
             &background->cameraTangentStartB04.up18,
@@ -576,7 +580,7 @@ script_done:
             break;
         }
 
-        g_BackgroundStageViewports[background->viewportIndex00C].fieldOfView48 =
+        g_Supervisor.ctorArray078[background->viewportIndex00C].fieldOfView48 =
             (background->cameraTarget834.fieldOfView48 -
              background->cameraStart924.fieldOfView48) *
                 time +
@@ -585,9 +589,9 @@ script_done:
 
     D3DXVec3Normalize(
         reinterpret_cast<D3DXVECTOR3 *>(
-            &g_BackgroundStageViewports[background->viewportIndex00C].forward24),
+            &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraForward24),
         reinterpret_cast<D3DXVECTOR3 *>(
-            &g_BackgroundStageViewports[background->viewportIndex00C].lookAt0C));
+            &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraLookAtOffset0C));
 
     if (background->cameraMotionMode6438 != 0)
     {
@@ -595,8 +599,8 @@ script_done:
         {
         case 1:
         {
-            g_BackgroundStageViewports[background->viewportIndex00C]
-                .positionOffset3C.x = sinf(
+            g_Supervisor.ctorArray078[background->viewportIndex00C]
+                .cameraPositionOffset3C.x = sinf(
                     (float)background->interpolationTimersC08[4] *
                         0.01308997f - 3.1415927f) * 40.0f;
             background->interpolationTimersC08[4]++;
@@ -609,9 +613,9 @@ script_done:
             float angle =
                 (float)background->interpolationTimersC08[4] * 0.01308997f -
                 3.1415927f;
-            g_BackgroundStageViewports[background->viewportIndex00C]
-                .positionOffset3C.x = sinf(angle) * 70.0f;
-            g_BackgroundStageViewports[background->viewportIndex00C].up18.x =
+            g_Supervisor.ctorArray078[background->viewportIndex00C]
+                .cameraPositionOffset3C.x = sinf(angle) * 70.0f;
+            g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18.x =
                 sinf(angle) * -0.1f;
             background->interpolationTimersC08[4]++;
             if (background->interpolationTimersC08[4] >= 480)
@@ -623,11 +627,11 @@ script_done:
             float angle =
                 (float)background->interpolationTimersC08[4] * 0.0030679617f -
                 3.1415927f;
-            g_BackgroundStageViewports[background->viewportIndex00C]
-                .positionOffset3C.x = sinf(angle) * 30.0f;
-            g_BackgroundStageViewports[background->viewportIndex00C]
-                .positionOffset3C.z = cosf(angle) * 30.0f;
-            g_BackgroundStageViewports[background->viewportIndex00C].up18.x =
+            g_Supervisor.ctorArray078[background->viewportIndex00C]
+                .cameraPositionOffset3C.x = sinf(angle) * 30.0f;
+            g_Supervisor.ctorArray078[background->viewportIndex00C]
+                .cameraPositionOffset3C.z = cosf(angle) * 30.0f;
+            g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18.x =
                 sinf(angle) * -0.1f;
             background->interpolationTimersC08[4]++;
             if (background->interpolationTimersC08[4] >= 2048)
@@ -639,9 +643,9 @@ script_done:
             float angle =
                 (float)background->interpolationTimersC08[4] * 0.0013089969f -
                 3.1415927f;
-            g_BackgroundStageViewports[background->viewportIndex00C].up18.x =
+            g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18.x =
                 sinf(angle);
-            g_BackgroundStageViewports[background->viewportIndex00C].up18.z =
+            g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18.z =
                 cosf(angle);
             background->interpolationTimersC08[4]++;
             if (background->interpolationTimersC08[4] >= 4800)
@@ -686,5 +690,3 @@ script_done:
             background->skyFogDurationCB8 = 0;
     }
 }
-
-#undef g_BackgroundStageViewports
