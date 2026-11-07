@@ -58,10 +58,11 @@ class NativeSupervisorStartupAdded(unittest.TestCase):
 
     def test_added_preserves_original_abi_as_nonvirtual_native_derived(self):
         src=(ROOT/'src/SupervisorAddedCallback.cpp').read_text()
-        self.assertIn('struct SupervisorAddedLayout : Supervisor',src)
+        self.assertIn('struct SupervisorAddedLayout : SupervisorLoadingSetupView',src)
+        self.assertIn('#include "SupervisorLoadingSetupView.hpp"',src)
         self.assertNotIn('unsigned char unknown000[0x5A8]',src)
-        self.assertIn('void SetupLoadingVms(Float3 *position);',src)
-        self.assertIn('int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);',src)
+        self.assertNotIn('void SetupLoadingVms(Float3 *position);',src)
+        self.assertNotIn('int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);',src)
         for name in ('suppressFpsDisplay','disableVsync','gameSpeed',
                      'loadingAnm','startupThreadState'):
             self.assertIn(name,src)

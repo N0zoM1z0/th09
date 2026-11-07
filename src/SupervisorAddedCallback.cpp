@@ -1,4 +1,5 @@
 #include "Supervisor.hpp"
+#include "SupervisorLoadingSetupView.hpp"
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 
@@ -17,15 +18,9 @@ struct SupervisorAddedAnmManagerView
     int SetupVertexBuffer();
 };
 
-// The original 238-byte Supervisor AddedCallback uses the same physical
-// Supervisor as StartupThread and the unsplit OnUpdate state machine.
-// Preserve the separate original SupervisorAddedLayout C++ callee identities
-// through a nonvirtual zero-offset derived interface.
-struct SupervisorAddedLayout : Supervisor
-{
-    void SetupLoadingVms(Float3 *position);
-    int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);
-};
+// The 238-byte startup callback shares both its real 0x7B0-byte Supervisor
+// allocation and exact VM/thread methods with the independent leaf owners.
+struct SupervisorAddedLayout : SupervisorLoadingSetupView {};
 
 typedef char SupervisorAddedSuppressFpsAt5A8[
     (offsetof(SupervisorAddedLayout, suppressFpsDisplay) == 0x5A8) ? 1 : -1];
