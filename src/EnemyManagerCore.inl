@@ -1,3 +1,4 @@
+#include "EnemyNativeTrailRenderCapacity.hpp"
 #include "GameManagerSideScoreView.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "PlayerDamageView.hpp"
@@ -281,7 +282,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         manager->sideIndex31C, &Float3(-999.0f, 0.0f, 0.0f));
     g_Supervisor.SelectSide(manager->sideIndex31C);
 
-    manager->drawGroupHeads2AC410[3] = 0;
+    manager->drawGroupHeads2AC410[EnemyNativeTrailRenderCapacity::DrawGroupCount - 1] = 0;
     manager->drawGroupHeads2AC410[2] = 0;
     manager->drawGroupHeads2AC410[1] = 0;
     manager->drawGroupHeads2AC410[0] = 0;
@@ -530,7 +531,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             enemy->displayColor2E70 = enemy->primaryAnmVm0008.color1;
             for (int vmIndex = 0;
                  vmIndex < static_cast<int>(
-                     sizeof(enemy->secondaryVms2AC) / sizeof(enemy->secondaryVms2AC[0]));
+                     EnemyNativeTrailRenderCapacity::SecondaryVmCount);
                  ++vmIndex)
             {
                 if (enemy->secondaryVms2AC[vmIndex].scriptIndex >= 0 &&

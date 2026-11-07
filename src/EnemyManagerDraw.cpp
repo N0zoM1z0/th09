@@ -1,3 +1,4 @@
+#include "EnemyNativeTrailRenderCapacity.hpp"
 // The real wrapped-angle helper is visible here because TH09 retains ECX
 // across its call while constructing the trail strip. Its body remains single.
 #include "EnemyDrawMath.inl"
@@ -185,14 +186,14 @@ static int EnemyManagerDrawImpl(
                     {
                         if (enemy->trailSamples33E8[k].position00.x < -990.0f)
                             break;
-                        vertexCount += 2;
+                        vertexCount += EnemyNativeTrailRenderCapacity::VerticesPerSample;
                     }
 
-                    if (vertexCount > 2)
+                    if (vertexCount > EnemyNativeTrailRenderCapacity::VerticesPerSample)
                     {
                         AnmLoadedSprite *sprite = enemy->primaryAnmVm0008.loadedSprite;
                         float uvSpan = sprite->uvEndX - sprite->uvStartX;
-                        float uvStep = uvSpan / ((vertexCount + 1) / 2 - 1);
+                        float uvStep = uvSpan / ((vertexCount + 1) / EnemyNativeTrailRenderCapacity::VerticesPerSample - 1);
                         float uv = sprite->uvEndX + enemy->primaryAnmVm0008.uvScrollPos.x;
                         EnemyDrawVertex *vertices = enemy->trailVertices3E68;
                         float previousAngle;
@@ -239,7 +240,7 @@ static int EnemyManagerDrawImpl(
                                         if (static_cast<float>(EnemyDrawAbs(
                                                 static_cast<float>(delta))) < 0.00001f)
                                         {
-                                            vertexCount -= 2;
+                                            vertexCount -= EnemyNativeTrailRenderCapacity::VerticesPerSample;
                                             continue;
                                         }
                                     }
@@ -297,7 +298,7 @@ static int EnemyManagerDrawImpl(
                             ++vertices;
                         }
 
-                        if (vertexCount > 2)
+                        if (vertexCount > EnemyNativeTrailRenderCapacity::VerticesPerSample)
                             g_AnmManager->DrawVertices(
                                 reinterpret_cast<AnmVm *>(&enemy->primaryAnmVm0008),
                                 reinterpret_cast<VertexTex1DiffuseXyzrhw *>(
@@ -317,7 +318,7 @@ static int EnemyManagerDrawImpl(
                 g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(&enemy->primaryAnmVm0008));
             }
 
-            for (int k = 1; k < 2; ++k, ++vm)
+            for (int k = 1; k < EnemyNativeTrailRenderCapacity::SecondaryVmCount; ++k, ++vm)
             {
                 if (vm->scriptIndex >= 0)
                 {
@@ -346,11 +347,11 @@ static int EnemyManagerDrawImpl(
 int __fastcall EnemyManagerView::OnDrawHighPrio(EnemyManagerView *enemyManager)
 {
     g_Supervisor.ConfigureScreenViewport(enemyManager->sideIndex31C);
-    return EnemyManagerDrawImpl(enemyManager, 0, 2);
+    return EnemyManagerDrawImpl(enemyManager, 0, EnemyNativeTrailRenderCapacity::DrawGroupCount / 2);
 }
 
 int __fastcall EnemyManagerView::OnDrawLowPrio(EnemyManagerView *enemyManager)
 {
     g_Supervisor.ConfigureScreenViewport(enemyManager->sideIndex31C);
-    return EnemyManagerDrawImpl(enemyManager, 2, 4);
+    return EnemyManagerDrawImpl(enemyManager, EnemyNativeTrailRenderCapacity::DrawGroupCount / 2, EnemyNativeTrailRenderCapacity::DrawGroupCount);
 }

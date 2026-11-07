@@ -164,6 +164,15 @@ proof of remote publication.
   and SaveReplay retains its two-byte residual. See
   [native config snapshot review](TH09_REPLAY_NATIVE_CONFIGURATION_SNAPSHOT_20261107.md).
 
+- **Enemy native trail renderer relationship:** a single `EnemyView`
+  owns 96 × 0x1C-byte history samples and 192 × 0x1C-byte draw vertices;
+  each strip sample creates two vertices. The 4 native draw-group buckets and
+  2 secondary ANM VMs now drive both the 3,900-byte OnUpdate boss and exact
+  1,758-byte DrawImpl. **91 exact ECL dependencies** (41,868 bytes / 1,818
+  fields) and **4 exact draw functions** (1,922 bytes / 61 fields) pass
+  focused original-bound replay; OnUpdate stays 13 bytes nonexact. See
+  [Enemy trail capacity review](TH09_ENEMY_NATIVE_TRAIL_RENDER_CAPACITY_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
