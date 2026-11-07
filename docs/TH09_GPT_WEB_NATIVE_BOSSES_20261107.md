@@ -1,5 +1,19 @@
 # TH09 native boss and leaf work — 2026-11-07
 
+> **Chronological experiment and commit log, not the live HEAD or proof of
+> original C++ class names.** Start from the refreshed
+> [next-agent handoff](TH09_NEXT_AGENT_HANDOFF_20261107.md) and
+> [live 13-frontier index](RE_HANDOFF.md). Older sections below describe the
+> compiler/target state *at their recorded checkpoint*; successful source
+> refactors do **not** increase the 1,021 exact / 13 nonexact ledger.
+> Later source corrections confirm the `AnmManager` +0x0C/+0x10/+0x14/+0x18
+> counter words are respectively **started/executed/render-state/flush**.
+> `ResetFrameDebugInfo` stores in **+0x10, +0x14, +0x0C, +0x18** order.
+> The 9,358-byte ExecuteScript, exact Render owners, seven runtime leaf
+> methods and 31-byte VB release use these real shared members. The older
+> duplicated counter labels in this dated research history are superseded.
+
+
 This is a **source-and-diagnostic checkpoint**, not a new exactness receipt.
 The target remains the original Japanese TH09 v1.50a:
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.

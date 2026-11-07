@@ -29,7 +29,7 @@ For the current scope, read
 | Validate documentation | `python3 scripts/validate-docs.py` | ledger-derived totals, links and frontier consistency |
 | Run public checks | `python3 scripts/ci.py` | target-independent repository consistency; required for shared validation/CI changes |
 | Preview cache cleanup | `python3 scripts/clean-generated-artifacts.py` | build caches removed on apply; analysis OBJ retained unless explicitly path/SHA-256 reviewed |
-| Recover old Git-backed copies | `python3 scripts/restore-analysis-snapshots.py MANIFEST --prefix .analysis/PACKET` | preview original bytes/EOL recovery;add --apply for absent files |
+| Recover old Git-backed copies | `python3 scripts/restore-analysis-snapshots.py MANIFEST --prefix .analysis/PACKET` | preview original bytes/EOL recovery; add `--apply` for absent files |
 | Restore archived old JSON | `python3 -B scripts/restore-analysis-archive.py --path .analysis/FILE.json` | preview SHA-pinned local tar.zst member; add `--apply` for exclusive, verified restore |
 | Restore archived objects/private inputs | `python3 -B scripts/restore-analysis-archive.py --bundle .analysis/handoff-archive-20261106 --prefix build/analysis/PACKET` | preview manifest-listed OBJ/JSON/TOML; use actual packet prefix or `--path`, then `--apply` |
 
@@ -73,7 +73,11 @@ nonreproducible experimental source. Keep `.analysis/ghidra-direct/` projects.
 Old unreferenced experiments may be losslessly compressed for this local
 handoff, as recorded in
 [RE_ARTIFACT_CLEANUP_HISTORY.md](RE_ARTIFACT_CLEANUP_HISTORY.md).
-Rebuild ignored `build/` objects before every exact comparison.
+Rebuild ignored `build/` objects before every exact comparison. At the current reviewed handoff,
+all 310 previously identified disposable compiler-cache files were removed;
+a `build/` *directory* may still exist without any matching OBJ. See the
+[current cleanup receipt](RE_ARTIFACT_CLEANUP_HISTORY.md); never infer that
+empty directories mean a missing original input.
 
 TH08 and TH095 remain read-only hypothesis sources. Only TH09-local target,
 ABI, compiler, linker or runtime evidence can accept a TH09 claim.
