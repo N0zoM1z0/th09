@@ -8,6 +8,20 @@ records the *earlier cleanup state*, not the current source or working tree.
 Earlier result notes and negative experiments are **dated observations**, not
 permission to fit targets or assume the original author used those expressions.
 
+## Most recent native source continuation — 2026-11-07
+
+The newest source-only checkpoint through `2798a84b` builds on the earlier
+four-commit report linked below. New work actively revised both the 3,900-byte
+Enemy boss and the exact 1,561-byte D3D initialization and 2,652-byte
+Background stage-script bosses. See the [fresh full-byte evidence and
+reproduction commands](TH09_GPT_WEB_NATIVE_BOSSES_20261107.md#follow-up-true-supervisor-camera-owners-and-enemy-positional-transport).
+The source commits are `126bc837`, `52d2ede5`, `e6d42e9c` and `2798a84b`;
+all have the requested `gpt-web:` prefix. The original Japanese executable,
+compiled code extents, fields and affected exact siblings were rechecked
+locally. The **1,021 exact / 13 nonexact** authored status is *unchanged*;
+those commits do not establish runtime/product/Factory acceptance. Do not
+throw away dirty source or run full `--owner all` when continuing.
+
 ## Additional live-session source checkpoint — 2026-11-07
 
 After this handoff was written, the single active operator committed four
