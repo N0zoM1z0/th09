@@ -54,16 +54,20 @@ struct TitleNameRecordView {
 
 typedef char TitleNameRecordSizeIs2C[(sizeof(TitleNameRecordView) == 0x2C) ? 1 : -1];
 
-struct TitleInputStatePhysicalView {
-    u16 currentInput;
-    u8 unknown002[0x8C];
-    u16 IsPressedScrolling(i32 mask);
-};
-typedef char TitleInputStatePhysicalViewSize[(sizeof(TitleInputStatePhysicalView) == 0x8E) ? 1 : -1];
+// The cursor movement functions operate on the same native 0x8E-byte
+// input records as the independently exact InputView scrolling leaf.
+// Keep the original table symbol distinct from the last-slot global alias.
+typedef InputView TitleInputStatePhysicalView;
+typedef char TitleInputStatePhysicalViewSize[
+    (sizeof(TitleInputStatePhysicalView) == sizeof(ReplayInputState) &&
+     sizeof(TitleInputStatePhysicalView) == 0x8E) ? 1 : -1];
 
 struct TitleInputStateTableView {
     TitleInputStatePhysicalView states[3];
 };
+typedef char TitleInputStateNativeTableSize[
+    (sizeof(TitleInputStateTableView) == sizeof(ReplayInputState) * 3 &&
+     offsetof(TitleInputStateTableView, states) == 0) ? 1 : -1];
 
 struct TitleCharacterConfigView {
     u8 unknown000[0x7C];
