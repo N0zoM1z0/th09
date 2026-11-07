@@ -21,7 +21,10 @@ class AnmDraw3dNativeFields(unittest.TestCase):
             self.assertNotIn('drawVm->'+name,source)
         self.assertIn('this->frameShakeX1C',source)
         self.assertIn('this->frameShakeY20',source)
-        self.assertIn('drawVm->matrix2',source)  # nominal D3DX matrix identity remains open
+        self.assertNotIn('AnmVmDraw3DView',source)
+        self.assertIn('Draw3DNativeSdkMatrixGeometry',source)
+        self.assertIn('reinterpret_cast<D3DXMATRIX &>(vm->matrix2)',source)
+        self.assertIn('reinterpret_cast<D3DXMATRIX &>(vm->matrix3)',source)
 
     def test_complete_original_owner(self):
         with (ROOT/'config/match-units.toml').open('rb') as stream:

@@ -12,10 +12,11 @@ and uses `this->frameShakeX1C`/`frameShakeY20` for the manager-owned shake.
 Compile-time offsets check the real VM's rotation `+0x000`, scale `+0x018`,
 sprite size `+0x028`, UV scroll `+0x030`, three script matrices `+0x130`/
 `+0x170`/`+0x1B0`, flags `+0x1F8`, position `+0x208`, and sprite `+0x224`.
-The old `D3DXMATRIX` projection remains **only** for matrix operations:
-replacing it with a fresh `D3DXMATRIX&`-to-native-script-matrix alias changed
-the 811-byte body to 813 bytes, so those nominal matrix types have not been
-conflated without codegen evidence.
+At this first checkpoint the old `D3DXMATRIX` projection remained only for
+matrix operations. A fresh long-lived `D3DXMATRIX&` alias changed the body
+to 813 bytes. A follow-up checkpoint removes the remaining shadow view while
+borrowing SDK matrix references only at the actual expression sites; see
+[the complete native matrix follow-up](TH09_ANM_DRAW3D_NO_SHADOW_MATRIX_20261107.md).
 
 Six natural source variants were actually compiled with the pinned VC7.1
 profile. Native VM fields alone, native ANM shake alone, and the combined

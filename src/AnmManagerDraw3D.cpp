@@ -29,41 +29,14 @@ struct SupervisorDraw3DView
     IDirect3DDevice8 *d3dDevice;
 };
 
-struct AnmVmDraw3DView
-{
-    Float3 rotation;
-    unsigned char unknown00C[0x0C];
-    Float2 scale;
-    unsigned char unknown020[0x08];
-    Float2 spriteSize;
-    Float2 uvScrollPos;
-    unsigned char unknown038[0xF8];
-    D3DXMATRIX matrix1;
-    D3DXMATRIX matrix2;
-    D3DXMATRIX matrix3;
-    unsigned long color1;
-    unsigned long color2;
-    unsigned int flagsWord;
-    unsigned char unknown1FC[0x0C];
-    Float3 pos;
-    unsigned char unknown214[0x10];
-    AnmLoadedSprite *loadedSprite;
-};
-
-typedef char Draw3DRotationAt000[(offsetof(AnmVmDraw3DView, rotation) == 0x000) ? 1 : -1];
-typedef char Draw3DScaleAt018[(offsetof(AnmVmDraw3DView, scale) == 0x018) ? 1 : -1];
-typedef char Draw3DSpriteSizeAt028[(offsetof(AnmVmDraw3DView, spriteSize) == 0x028) ? 1 : -1];
-typedef char Draw3DUvAt030[(offsetof(AnmVmDraw3DView, uvScrollPos) == 0x030) ? 1 : -1];
-typedef char Draw3DMatrix1At130[(offsetof(AnmVmDraw3DView, matrix1) == 0x130) ? 1 : -1];
-typedef char Draw3DMatrix2At170[(offsetof(AnmVmDraw3DView, matrix2) == 0x170) ? 1 : -1];
-typedef char Draw3DMatrix3At1B0[(offsetof(AnmVmDraw3DView, matrix3) == 0x1B0) ? 1 : -1];
-typedef char Draw3DFlagsAt1F8[(offsetof(AnmVmDraw3DView, flagsWord) == 0x1F8) ? 1 : -1];
-// Original VM+0x1F3 is the alpha byte of its shared native ARGB color.
-typedef char Draw3DNativeAlphaAt1F3[
-    (offsetof(AnmVmBase, color1Script) +
-     offsetof(AnmVmScriptColor, a) == 0x1F3) ? 1 : -1];
-typedef char Draw3DPosAt208[(offsetof(AnmVmDraw3DView, pos) == 0x208) ? 1 : -1];
-typedef char Draw3DSpriteAt224[(offsetof(AnmVmDraw3DView, loadedSprite) == 0x224) ? 1 : -1];
+// Matrices live at the native AnmVmBase::matrix1/matrix2/matrix3 slots.
+// The D3DX API consumes the same 4x4-float object representation.
+typedef char Draw3DNativeSdkMatrixGeometry[
+    (sizeof(AnmVmScriptMatrix) == 0x40 &&
+     sizeof(D3DXMATRIX) == sizeof(AnmVmScriptMatrix) &&
+     offsetof(AnmVmBase, matrix1) == 0x130 &&
+     offsetof(AnmVmBase, matrix2) == 0x170 &&
+     offsetof(AnmVmBase, matrix3) == 0x1B0) ? 1 : -1];
 
 struct AnmManagerDraw3DView
 {
@@ -82,9 +55,9 @@ struct AnmManagerDraw3DView
     int spritesToDraw;
 };
 
-// The original 811-byte 3D renderer shares all nonmatrix VM words with
-// script execution and the primitive renderer.  Keep the observed matrix
-// projection separate until its SDK-matrix C++ type identity is resolved.
+// The original 811-byte 3D renderer shares its native VM fields with
+// script execution and primitive drawing. SDK matrix views are borrowed only
+// for original calls, while their nominal C++ identity remains unproven.
 typedef char Draw3DNativeVmFieldOffsets[
     (offsetof(AnmVmBase, rotation) == 0x000 &&
      offsetof(AnmVmBase, scale) == 0x018 &&
@@ -109,7 +82,6 @@ int AnmManager::Draw3D(AnmVm *vm)
     D3DMATRIX textureMatrix;
     D3DXMATRIX rotationMatrix;
     D3DXMATRIX worldTransformMatrix;
-    AnmVmDraw3DView *drawVm = reinterpret_cast<AnmVmDraw3DView *>(vm);
     AnmManagerDraw3DView *anm = reinterpret_cast<AnmManagerDraw3DView *>(this);
     SupervisorDraw3DView *supervisor = reinterpret_cast<SupervisorDraw3DView *>(&g_Supervisor);
 
@@ -124,27 +96,27 @@ int AnmManager::Draw3D(AnmVm *vm)
         this->FlushVertexBuffer();
 
     if ((vm->flagsWord & 0x10000) == 0 && (vm->flagsWord & 0x0C) != 0) {
-        drawVm->matrix2 = drawVm->matrix1;
-        drawVm->matrix2._11 *= vm->scale.x;
-        drawVm->matrix2._22 *= vm->scale.y;
+        reinterpret_cast<D3DXMATRIX &>(vm->matrix2) = reinterpret_cast<D3DXMATRIX &>(vm->matrix1);
+        reinterpret_cast<D3DXMATRIX &>(vm->matrix2)._11 *= vm->scale.x;
+        reinterpret_cast<D3DXMATRIX &>(vm->matrix2)._22 *= vm->scale.y;
         vm->flagsWord &= ~8u;
 
         if (0.0 != vm->rotation.x) {
             D3DXMatrixRotationX(&rotationMatrix, vm->rotation.x);
-            D3DXMatrixMultiply(&drawVm->matrix2, &drawVm->matrix2, &rotationMatrix);
+            D3DXMatrixMultiply(&reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &rotationMatrix);
         }
         if (0.0 != vm->rotation.y) {
             D3DXMatrixRotationY(&rotationMatrix, vm->rotation.y);
-            D3DXMatrixMultiply(&drawVm->matrix2, &drawVm->matrix2, &rotationMatrix);
+            D3DXMatrixMultiply(&reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &rotationMatrix);
         }
         if (0.0 != vm->rotation.z) {
             D3DXMatrixRotationZ(&rotationMatrix, vm->rotation.z);
-            D3DXMatrixMultiply(&drawVm->matrix2, &drawVm->matrix2, &rotationMatrix);
+            D3DXMatrixMultiply(&reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &rotationMatrix);
         }
         vm->flagsWord &= ~4u;
     }
 
-    worldTransformMatrix = drawVm->matrix2;
+    worldTransformMatrix = reinterpret_cast<D3DXMATRIX &>(vm->matrix2);
     unsigned int anchorBits = vm->flagsWord >> 11;
     if ((anchorBits & 1) == 0)
         worldTransformMatrix._41 = vm->pos.x;
@@ -164,7 +136,7 @@ int AnmManager::Draw3D(AnmVm *vm)
     if (anm->currentSprite != vm->loadedSprite ||
         vm->uvScrollPos.x != 0.0f || vm->uvScrollPos.x != 0.0f) {
         anm->currentSprite = vm->loadedSprite;
-        textureMatrix = drawVm->matrix3;
+        textureMatrix = reinterpret_cast<D3DXMATRIX &>(vm->matrix3);
         textureMatrix._31 = vm->loadedSprite->uvStartX + vm->uvScrollPos.x;
         textureMatrix._32 = vm->loadedSprite->uvStartY + vm->uvScrollPos.y;
         supervisor->d3dDevice->SetTransform(D3DTS_TEXTURE0, &textureMatrix);

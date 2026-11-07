@@ -348,6 +348,14 @@ matrix-alias variants regressed and were rejected. Matrix nominal C++
 typing remains unresolved. See
 [the original-bound Draw3D native-member proof](TH09_ANM_DRAW3D_NATIVE_VM_FIELDS_20261107.md).
 
+## 2026-11-07 fully native ANM Draw3D VM matrices
+
+The 811-byte exact Draw3D owner now uses native `AnmVm::matrix1/2/3`
+through direct SDK-matrix reference expressions. Its last duplicate VM
+layout is eliminated; all 26 original relocation fields remain exact.
+Three complete source forms were compiled as original-bound controls.
+See [native Draw3D matrices without shadow](TH09_ANM_DRAW3D_NO_SHADOW_MATRIX_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
