@@ -290,7 +290,10 @@ struct PlayerShotCtorView
     unsigned char unknown46F[0x474 - 0x46F];
     PlayerShotUpdateCallback updateCallback474;
     PlayerShotDrawCallback drawCallback478;
-    unsigned char unknown47C[0x484 - 0x47C];
+    // Complete native 0x484-byte Player shot tail. The shooter publishes
+    // these two exact pointer fields after successful callback dispatch.
+    void *collisionCallback47C;
+    PlayerShtDescriptorView *descriptor480;
 
     PlayerShotCtorView();
 };
@@ -309,7 +312,9 @@ typedef char PlayerShotTintAt46E[(offsetof(PlayerShotCtorView, tintFlag46E) == 0
 typedef char PlayerShotUpdateCallbackAt474[
     (offsetof(PlayerShotCtorView, updateCallback474) == 0x474) ? 1 : -1];
 typedef char PlayerShotDrawCallbackAt478[
-    (offsetof(PlayerShotCtorView, drawCallback478) == 0x478) ? 1 : -1];
+    (offsetof(PlayerShotCtorView, drawCallback478) == 0x478 &&
+     offsetof(PlayerShotCtorView, collisionCallback47C) == 0x47C &&
+     offsetof(PlayerShotCtorView, descriptor480) == 0x480) ? 1 : -1];
 
 // Original Player+0x3031C group: the reset word and transition countdown
 // share this actual 0x1C-byte state allocation with other Player owners.

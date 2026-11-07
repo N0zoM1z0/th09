@@ -10,9 +10,9 @@ struct PlayerSpawnShotsDescriptorView;
 
 typedef int (__fastcall *PlayerSpawnCallback)(
     PlayerLifecycleView *player,
-    PlayerSpawnShotsShotView *shot,
+    PlayerShotCtorView *shot,
     int value,
-    PlayerSpawnShotsDescriptorView *entry);
+    PlayerShtDescriptorView *entry);
 
 struct PlayerSpawnShotsDescriptorView
 {

@@ -3,9 +3,10 @@
 
 void __fastcall PlayerLifecycleView::SpawnShots(int value, int powerLevel)
 {
-    PlayerSpawnShotsDescriptorView *entry =
-        reinterpret_cast<PlayerSpawnShotsShtFileView *>(primaryShtFile)->shotPowerLevels42C[powerLevel].descriptors00;
-    PlayerSpawnShotsShotView *shot = reinterpret_cast<PlayerSpawnShotsShotView *>(shots);
+    // The loader's native SHT power-level descriptor array and Player's
+    // native shot records are the same objects used by update/draw.
+    PlayerShtDescriptorView *entry = primaryShtFile->shotPowerLevels[powerLevel].descriptors;
+    PlayerShotCtorView *shot = shots;
     int result;
 
     // The scanned 0x484-byte slots are the Player's actual 128-shot array;
@@ -16,8 +17,8 @@ void __fastcall PlayerLifecycleView::SpawnShots(int value, int powerLevel)
             continue;
 
 processEntry:
-        if (entry->spawnCallback28 != 0)
-            result = entry->spawnCallback28(this, shot, value, entry);
+        if (entry->spawnCallback != 0)
+            result = reinterpret_cast<PlayerSpawnCallback>(entry->spawnCallback)(this, shot, value, entry);
         else
             result = reinterpret_cast<PlayerSpawnFrameView *>(this)
                 ->SpawnShotWhenFrameMatches(
@@ -26,16 +27,16 @@ processEntry:
 
         if (result == 1)
         {
-            shot->vmFlags1F8 |= 0x2000u;
+            shot->vm.flagsWord |= 0x2000u;
             shot->state462 = 1;
             shot->descriptor480 = entry;
-            shot->updateCallback474 = entry->updateCallback2C;
-            shot->drawCallback478 = entry->drawCallback30;
-            shot->collisionCallback47C = entry->collisionCallback34;
+            shot->updateCallback474 = reinterpret_cast<PlayerShotUpdateCallback>(entry->updateCallback);
+            shot->drawCallback478 = reinterpret_cast<PlayerShotDrawCallback>(entry->drawCallback);
+            shot->collisionCallback47C = entry->collisionCallback;
         }
 
         ++entry;
-        if (entry->scheduleValue00 < 0)
+        if (entry->fireInterval < 0)
             return;
         if (result == 0)
             goto processEntry;

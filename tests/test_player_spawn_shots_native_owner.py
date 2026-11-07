@@ -17,8 +17,8 @@ class PlayerSpawnShotsNativeOwner(unittest.TestCase):
         self.assertIn('offsetof(PlayerHeaderStateView, anmFile98) == 0xBC',header)
         self.assertNotIn('unknown00000[0xBC]',header)
         self.assertNotIn('shotsC11C[128]',header)
-        self.assertIn('reinterpret_cast<PlayerSpawnShotsShotView *>(shots)',source)
-        self.assertIn('reinterpret_cast<PlayerSpawnShotsShtFileView *>(primaryShtFile)',source)
+        self.assertIn('PlayerShotCtorView *shot = shots;',source)
+        self.assertIn('PlayerShtDescriptorView *entry = primaryShtFile->shotPowerLevels[powerLevel].descriptors;',source)
         self.assertIn('->header24.anmFile98->SetAndExecuteScriptIdx',callback)
 
     def test_independent_leaf_original_extents(self):

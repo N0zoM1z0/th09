@@ -398,6 +398,15 @@ proof of remote publication.
   Player SpawnShots provide original-backed allocation/callee evidence.
   See [Effect35 native Player side](TH09_EFFECT35_REAL_PLAYER_SIDE_20261107.md).
 
+- **Real native Player shot/SHT fields in SpawnShots:** the complete
+  190-byte exact shot producer now reads actual `PlayerShtFileView`
+  descriptors and `PlayerShotCtorView shots[128]`, with native +0x47C
+  collision callback/+0x480 descriptor slots, not independent overlay
+  classes. **24 affected exact owners / 5,691 bytes / 292 fields**
+  source-cold reproduce the original. The 1,210-byte ChargeAttack boss
+  retains its full nonexact 13-byte deficit. See
+  [native shot/SHT fields](TH09_PLAYER_NATIVE_SHOT_SHT_FIELDS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

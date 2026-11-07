@@ -61,6 +61,16 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Native Player SHT and shot tail in complete SpawnShots
+
+The exact 190-byte `PlayerLifecycleView::SpawnShots` now uses actual
+`PlayerShtFileView::shotPowerLevels[]` descriptor pointers and real
+0x484-byte `PlayerShotCtorView` records. The Player shot's +0x47C
+collision callback and +0x480 descriptor are now explicit typed fields;
+other native update/draw methods use the same shot allocation. Scoped
+original comparison passes 24 existing exact owners, and the ChargeAttack
+boss is still nonexact. See [native shot/SHT proof](TH09_PLAYER_NATIVE_SHOT_SHT_FIELDS_20261107.md).
+
 ### 2026-11-07: Effect Type35 side receiver is native GameManager Player
 
 The 72-byte and 38-byte exact Effect Type35 callbacks borrow the real
