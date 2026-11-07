@@ -2,15 +2,7 @@
 
 typedef unsigned short u16;
 
-struct InputView
-{
-    u16 held00;
-    u16 previous02;
-    u16 repeatOutput04;
-    u16 frontState06;
-
-    u16 IsPressedScrolling(int mask);
-};
+#include "TitleInputRuntimeView.hpp"
 
 typedef char InputRepeatAt04[
     (offsetof(InputView, repeatOutput04) == 0x04) ? 1 : -1];

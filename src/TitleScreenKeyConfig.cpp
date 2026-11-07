@@ -7,6 +7,7 @@
 #include "AnmVmLifecycle.hpp"
 #include "Supervisor.hpp"
 #include "SoundPlayer.hpp"
+#include "TitleInputRuntimeView.hpp"
 
 #include <stddef.h>
 #include <string.h>
@@ -32,15 +33,6 @@ struct TitleKeyAnmManagerView : AnmManager {};
 typedef char TitleKeyNativeManagerStorage[
     (sizeof(TitleKeyAnmManagerView) == sizeof(AnmManager) &&
      offsetof(TitleKeyAnmManagerView, captureSurfaceIndex08) == 0x08) ? 1 : -1];
-
-struct TitleKeyInputView
-{
-    u16 current00;
-    u16 previous02;
-    u16 repeatOutput04;
-    u16 pressed06;
-    u16 IsPressedScrolling(i32 mask);
-};
 
 // Key/controller configuration reads the real Supervisor's native
 // GameConfiguration at physical offset +0x388, not a separate prefix view.
