@@ -1,32 +1,27 @@
 #include "AnmManager.hpp"
+#include "AnmManagerRenderCacheView.hpp"
 
 #include <stddef.h>
 
-struct AnmManagerStateResetView
-{
-    unsigned char unknown000[0x0C];
-    int scriptsExecutedThisFrame;
-    int renderStateChangesThisFrame;
-    int scriptsStartedThisFrame;
-    int flushesThisFrame;
-    unsigned char unknown01C[0x12888 - 0x01C];
-    unsigned char cameraMode;
-};
-
-typedef char AnmManagerResetCameraModeAt12888[
-    (offsetof(AnmManagerStateResetView, cameraMode) == 0x12888) ? 1 : -1];
+// The ANM debug counters are native members at +0x0C..+0x18; the same
+// allocation's +0x12888 camera flag belongs to the shared render cache.
+typedef char AnmManagerNativeFrameDebugAndCamera[
+    (offsetof(AnmManager, scriptsStartedThisFrame0C) == 0x0C &&
+     offsetof(AnmManager, scriptsExecutedThisFrame10) == 0x10 &&
+     offsetof(AnmManager, renderStateChangesThisFrame14) == 0x14 &&
+     offsetof(AnmManager, flushesThisFrame18) == 0x18 &&
+     offsetof(AnmManagerRenderCacheView, cameraMode) == 0x12888) ? 1 : -1];
 
 void AnmManager::ResetFrameDebugInfo()
 {
-    AnmManagerStateResetView *manager =
-        reinterpret_cast<AnmManagerStateResetView *>(this);
-    manager->renderStateChangesThisFrame = 0;
-    manager->scriptsStartedThisFrame = 0;
-    manager->scriptsExecutedThisFrame = 0;
-    manager->flushesThisFrame = 0;
+    // Preserve the original store ordering: +0x10, +0x14, +0x0C, +0x18.
+    scriptsExecutedThisFrame10 = 0;
+    renderStateChangesThisFrame14 = 0;
+    scriptsStartedThisFrame0C = 0;
+    flushesThisFrame18 = 0;
 }
 
 void AnmManager::ClearCameraSettings()
 {
-    reinterpret_cast<AnmManagerStateResetView *>(this)->cameraMode = 0xff;
+    reinterpret_cast<AnmManagerRenderCacheView *>(this)->cameraMode = 0xff;
 }

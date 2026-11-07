@@ -165,9 +165,9 @@ class AnmManager
         struct {
             unsigned char unknown000008[8];
             int captureSurfaceIndex08;
-            int renderStateChangesThisFrame0C;
+            int scriptsStartedThisFrame0C;
             int scriptsExecutedThisFrame10;
-            int scriptsStartedThisFrame14;
+            int renderStateChangesThisFrame14;
             int flushesThisFrame18;
         };
     };

@@ -9,9 +9,9 @@ class AnmScriptNativeFrameCounters(unittest.TestCase):
     def test_one_anm_manager_allocation_and_true_counter_words(self):
         header=(ROOT/'src/AnmManager.hpp').read_text()
         script=(ROOT/'src/AnmManagerExecuteScript.cpp').read_text()
-        for field in ('renderStateChangesThisFrame0C',
+        for field in ('scriptsStartedThisFrame0C',
                       'scriptsExecutedThisFrame10',
-                      'scriptsStartedThisFrame14',
+                      'renderStateChangesThisFrame14',
                       'flushesThisFrame18'):
             with self.subTest(field=field):
                 self.assertIn('int '+field+';',header)
