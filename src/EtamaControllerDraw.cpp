@@ -154,7 +154,7 @@ int EtamaController::AddedCallback(EtamaController *controller)
             return -1;
     }
 
-    for (unsigned int i = 0; i < 23; ++i)
+    for (unsigned int i = 0; i < sizeof(kBulletSpriteScripts) / sizeof(kBulletSpriteScripts[0]); ++i)
     {
         BulletTypeSprites *sprites = &controller->bulletTypeSprites[i];
         controller->bulletAnm

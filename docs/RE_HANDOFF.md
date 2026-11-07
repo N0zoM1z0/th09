@@ -114,6 +114,14 @@ proof of remote publication.
   540 bytes/40 relocations of scoped exact providers. See
   [Player native loop review](TH09_PLAYER_NATIVE_LOOP_EXTENTS_20261107.md).
 
+- **Etama exact sprite-script table and loop:** the 832-byte exact
+  AddedCallback now derives its 23-type initialization bound from the real
+  23×5 read-only script table, distinct from the controller's 32 allocated
+  sprite slots. An independent original-bound check covers all **460 table
+  bytes and 7 source pointer operands**; all 4 exact same-source owners
+  remain exact (1,667 bytes / 73 relocations). See
+  [Etama sprite table proof](TH09_ETAMA_SPRITE_SCRIPT_TABLE_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
