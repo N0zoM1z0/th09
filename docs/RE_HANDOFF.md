@@ -246,6 +246,15 @@ proof of remote publication.
   1,682 bytes, with all 172 fields, 694 overlapping differences and seven
   missing bytes. See [native setup side geometry](TH09_GAMEPLAY_NATIVE_SIDE_GEOMETRY_20261107.md).
 
+- **RunEcl native ECL wire byte view:** the real 0x0C-byte instruction
+  prefix and packed 4-byte union operands now drive byte indexing as well
+  as existing integer/float readers. Original-bound scoped ECL replays
+  pass **87 exact functions / 30,583 bytes / 1,409 fields** across five
+  affected source profiles. The full RunEcl boss remains **15,564/598/30**
+  (opcode 4: seven, opcode 155: 23); Enemy OnUpdate remains **3,900/97/13**.
+  Twenty changed compiler-private ECL labels have verified unchanged
+  original destinations. See [native ECL byte indexing](TH09_ECL_NATIVE_WIRE_BYTE_INDEXING_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

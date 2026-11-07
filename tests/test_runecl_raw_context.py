@@ -113,7 +113,7 @@ class RunEclRawContextTests(unittest.TestCase):
     def test_scalar_return_context_rejects_changed_width_size_and_duplicate_copy(self):
         for filename, old, new in (
                 ('EclRunControl.inl', 'arguments[operandIndex].integer;', 'arguments[operandIndex].real;'),
-                ('EclRunState.inl', 'reinterpret_cast<unsigned char *>(instruction->arguments)[byteOffset]', 'reinterpret_cast<unsigned char *>(instruction->arguments)[byteOffset + 4]'),
+                ('EclRunState.inl', 'byteOffset / sizeof(Th09EclWireArgument)', '(byteOffset + 4) / sizeof(Th09EclWireArgument)'),
                 ('EclRunState.inl', 'sizeof(value));', 'sizeof(int));')):
             inputs = probe.collect_inputs()
             self.assertIn(old.encode(), inputs[filename])
@@ -154,6 +154,11 @@ class RunEclRawContextTests(unittest.TestCase):
         changed = probe.render('raw-int-macro', inputs)
         self.assertIn(probe.INT_MACRO_TYPED.encode(), changed['EclRunControl.inl'])
         self.assertNotIn(probe.RAW_INT_TYPED.encode(), changed['EclRunControl.inl'])
+        # A reviewed native byte array can be macro-expanded in historical
+        # diagnostic controls without falling back to a raw prefix cast.
+        byte_changed = probe.render('raw-byte-macro', inputs)
+        self.assertIn(probe.BYTE_MACRO_NATIVE_ARRAY.encode(), byte_changed['EclRunState.inl'])
+        self.assertNotIn(probe.RAW_BYTE_NATIVE_ARRAY.encode(), byte_changed['EclRunState.inl'])
         for old, new in ((b'int integer;', b'short integer;'),
                          (b'arguments[0];', b'arguments[1];')):
             bad = dict(inputs)

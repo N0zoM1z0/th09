@@ -242,7 +242,13 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('enemy->primaryAnmVm0008.color1',spawn)
         self.assertNotIn('enemy->primaryAnmVm0008.flagsWord',spawn)
         self.assertIn('enemy->displayColor2E70',spawn)
-        self.assertIn('manager->spawnFailure2AC42C = enemyIndex == 128;',spawn)
+        pool=(ROOT/'src/EnemyNativePoolCapacity.hpp').read_text()
+        self.assertIn('PhysicalSlots = sizeof(((EnemyManagerView *)0)->enemies5758)',pool)
+        self.assertIn('ActiveSlots = PhysicalSlots - 1',pool)
+        self.assertIn('FailureSentinelIndex = ActiveSlots',pool)
+        self.assertIn('enemyIndex < EnemyNativePoolCapacity::ActiveSlots',spawn)
+        self.assertIn('manager->spawnFailure2AC42C = enemyIndex == '
+                      'EnemyNativePoolCapacity::FailureSentinelIndex;',spawn)
 
     def test_exact_enemy_initialize_uses_native_spawn_template_and_descriptor(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()

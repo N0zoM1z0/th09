@@ -40,6 +40,17 @@ large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+### 2026-11-07: ECL raw opcode byte access follows the native wire union
+
+The real TH09 ECL instruction has a 0x0C-byte fixed header and a trailing
+array of four-byte `Th09EclWireArgument` union words with integer, floating,
+and raw byte projections. The complete RunEcl interpreter now indexes a
+wire byte through its containing union word and the word's 4-byte window,
+not through a detached pointer to an imagined second payload. All 87
+affected existing exact functions and both original-bound RunEcl/Enemy
+nonexact diagnostics are independently checked; no new exact owner is
+claimed. See [native ECL wire byte evidence](TH09_ECL_NATIVE_WIRE_BYTE_INDEXING_20261107.md).
+
 ### 2026-11-07: Native gameplay setup uses 2 playable plus 1 shared side record
 
 TH09 GameManager's two 0x38-byte playable records align with its two

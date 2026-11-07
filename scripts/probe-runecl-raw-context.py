@@ -57,6 +57,17 @@ RAW_BYTE_TYPED = '''inline unsigned char &RawByte(
     return reinterpret_cast<unsigned char *>(instruction->arguments)[byteOffset];
 }
 '''
+RAW_BYTE_NATIVE_ARRAY = '''inline unsigned char &RawByte(
+    Th09EclRawInstructionHeaderView *instruction,
+    int byteOffset)
+{
+    // Byte offsets traverse the packed four-byte native wire arguments,
+    // not the instruction prefix or a second synthetic payload layout.
+    return instruction->arguments[byteOffset / sizeof(Th09EclWireArgument)]
+        .bytes[byteOffset % sizeof(Th09EclWireArgument)];
+}
+'''
+
 
 INT_MACRO = ('#define TH09_ECL_RAW_INT(instruction, operandIndex) '
              '(*reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) '
@@ -67,6 +78,9 @@ BYTE_MACRO = ('#define TH09_ECL_RAW_BYTE(instruction, byteOffset) '
               '(*(reinterpret_cast<unsigned char *>(instruction) + 0x0C + (byteOffset)))\n')
 BYTE_MACRO_TYPED = ('#define TH09_ECL_RAW_BYTE(instruction, byteOffset) '
                     '(reinterpret_cast<unsigned char *>((instruction)->arguments)[(byteOffset)])\n')
+BYTE_MACRO_NATIVE_ARRAY = ('#define TH09_ECL_RAW_BYTE(instruction, byteOffset) '
+                           '((instruction)->arguments[(byteOffset) / sizeof(Th09EclWireArgument)]'
+                           '.bytes[(byteOffset) % sizeof(Th09EclWireArgument)])\n')
 TIMER = 'ZunTimer &timer = *reinterpret_cast<ZunTimer *>(&context->time008);'
 DIRECT_TIMER = 'ZunTimer &timer = context->time008;'
 JUMP_SCALAR_COPY = ('int value;\n        memcpy(&value, '
@@ -114,11 +128,11 @@ def reviewed_raw_int(source, inputs):
 
 def reviewed_raw_byte(source, inputs):
     """Require one original-backed byte-width accessor and wire location."""
-    forms = (RAW_BYTE, RAW_BYTE_TYPED)
+    forms = (RAW_BYTE, RAW_BYTE_TYPED, RAW_BYTE_NATIVE_ARRAY)
     matches = [form for form in forms if source.count(form) == 1]
     if len(matches) != 1 or sum(source.count(form) for form in forms) != 1:
         raise ValueError('reviewed scalar accessor width/address changed')
-    if matches[0] == RAW_BYTE_TYPED:
+    if matches[0] in (RAW_BYTE_TYPED, RAW_BYTE_NATIVE_ARRAY):
         reviewed_wire_storage(inputs)
     return matches[0]
 
@@ -240,7 +254,8 @@ def render(case, inputs):
         if use_byte:
             if name == 'EclRunState.inl':
                 source = replace_once(source, byte_form,
-                                      BYTE_MACRO_TYPED if byte_form == RAW_BYTE_TYPED
+                                      BYTE_MACRO_NATIVE_ARRAY if byte_form == RAW_BYTE_NATIVE_ARRAY
+                                      else BYTE_MACRO_TYPED if byte_form == RAW_BYTE_TYPED
                                       else BYTE_MACRO)
             source = re.sub(r'(?<![\w:.>])(?:Th09EclRunState::)?RawByte\s*\(',
                             'TH09_ECL_RAW_BYTE(', source)

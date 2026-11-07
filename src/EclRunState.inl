@@ -207,7 +207,10 @@ inline unsigned char &RawByte(
     Th09EclRawInstructionHeaderView *instruction,
     int byteOffset)
 {
-    return reinterpret_cast<unsigned char *>(instruction->arguments)[byteOffset];
+    // Byte offsets traverse the packed four-byte native wire arguments,
+    // not the instruction prefix or a second synthetic payload layout.
+    return instruction->arguments[byteOffset / sizeof(Th09EclWireArgument)]
+        .bytes[byteOffset % sizeof(Th09EclWireArgument)];
 }
 
 inline short &RawShort(
