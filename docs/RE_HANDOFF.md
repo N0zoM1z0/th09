@@ -198,6 +198,14 @@ proof of remote publication.
   4,093 bytes / 232 fields**. Both large Replay frontiers remain unchanged.
   See [Replay native input gates](TH09_REPLAY_NATIVE_INPUT_GATES_20261107.md).
 
+- **Native Title name keyboard:** a single six-row × sixteen-column
+  keyboard has 96 keys, skips index 93 and uses 94/95 for space/confirm.
+  The actual 1,825-byte replay-save and 966-byte result name-entry bosses
+  now share this type with the exact 800-byte save renderer. **49 exact Title
+  dependencies / 22,710 physical bytes / 1,083 fields** pass focused
+  original-bound replay (including nine target-VA-checked compiler-private
+  labels). See [Title name keyboard review](TH09_TITLE_NATIVE_NAME_KEYBOARD_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

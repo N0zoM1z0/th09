@@ -12,6 +12,7 @@ typedef unsigned int u32;
 typedef int i32;
 
 #include "TitleScreenReplayView.hpp"
+#include "TitleNativeNameKeyboard.hpp"
 #include "TitleReplayNativeSlots.hpp"
 
 // The text API reads the same three-float representation through its shared view.
@@ -82,15 +83,15 @@ int TitleScreenView::DrawReplaySave()
         {
             pos.z = 0.0f;
             pos.y = 320.0f;
-            for (row = 0; row < 6; row++)
+            for (row = 0; row < TitleNativeNameKeyboard::Rows; row++)
             {
                 pos.x = 224.0f;
-                for (col = 0; col < 16; col++)
+                for (col = 0; col < TitleNativeNameKeyboard::Columns; col++)
                 {
                     pos.x += 12.0f;
                     float offsetX = 0.0f;
                     float offsetY = 0.0f;
-                    if (this->keyboardSelection == col + row * 16)
+                    if (this->keyboardSelection == col + row * TitleNativeNameKeyboard::Columns)
                     {
                         g_AsciiManager.color = 0xffffffc0;
                         if (this->stateTimer % 64 < 32)
@@ -112,15 +113,15 @@ int TitleScreenView::DrawReplaySave()
                         g_AsciiManager.scaleY = 1.0f;
                     }
                     D3DXVECTOR3 charPos = D3DXVECTOR3(offsetX, offsetY, 0.0f) + pos;
-                    str[0] = g_TitleAlphabet[row * 16 + col];
+                    str[0] = g_TitleAlphabet[row * TitleNativeNameKeyboard::Columns + col];
                     str[1] = 0;
-                    if (row == 5)
+                    if (row == TitleNativeNameKeyboard::LastRow)
                     {
-                        if (col == 14)
+                        if (col == TitleNativeNameKeyboard::SpaceColumn)
                         {
                             str[0] = 0x7f;
                         }
-                        else if (col == 15)
+                        else if (col == TitleNativeNameKeyboard::ConfirmColumn)
                         {
                             str[0] = 0x80;
                         }

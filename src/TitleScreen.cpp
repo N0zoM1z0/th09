@@ -7,6 +7,7 @@
 
 #include "ReplayInputState.hpp"
 #include "TitleInputView.hpp"
+#include "TitleNativeNameKeyboard.hpp"
 #include "PlayStats.hpp"
 
 // These native fields are the original result browser's input/unlock storage.
@@ -2265,14 +2266,14 @@ int TitleScreenView::OnUpdateResultNameEntry()
             nameBankIndex = g_GameSide0Value20;
             replayNameCursor = 0;
             SetCharacterCursorInactive(nameBankIndex, 60, 16, 2);
-            keyboardSelection = 95;
+            keyboardSelection = TitleNativeNameKeyboard::ConfirmKey;
             currentScreenState = 0;
             stateTimer = 0;
             uiAux = 0;
             nameSlotIndex = g_TitleScoreRecord.InsertIntoTable();
             if (nameSlotIndex >= 5)
             {
-                keyboardSelection = 95;
+                keyboardSelection = TitleNativeNameKeyboard::ConfirmKey;
             }
             else
             {
@@ -2292,10 +2293,10 @@ int TitleScreenView::OnUpdateResultNameEntry()
             if (g_TitleInput.IsPressedScrolling(0x10))
             {
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                keyboardSelection -= 16;
+                keyboardSelection -= TitleNativeNameKeyboard::Columns;
                 if (keyboardSelection < 0)
-                    keyboardSelection += 96;
-                if (keyboardSelection == 93)
+                    keyboardSelection += TitleNativeNameKeyboard::KeyCount;
+                if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                     keyboardSelection = 77;
                 stateTimer = 0;
             }
@@ -2303,10 +2304,10 @@ int TitleScreenView::OnUpdateResultNameEntry()
             if (g_TitleInput.IsPressedScrolling(0x20))
             {
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                keyboardSelection += 16;
-                if (keyboardSelection >= 96)
-                    keyboardSelection -= 96;
-                if (keyboardSelection == 93)
+                keyboardSelection += TitleNativeNameKeyboard::Columns;
+                if (keyboardSelection >= TitleNativeNameKeyboard::KeyCount)
+                    keyboardSelection -= TitleNativeNameKeyboard::KeyCount;
+                if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                     keyboardSelection = 13;
                 stateTimer = 0;
             }
@@ -2314,12 +2315,12 @@ int TitleScreenView::OnUpdateResultNameEntry()
             if (g_TitleInput.IsPressedScrolling(0x40))
             {
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (keyboardSelection % 16 == 0)
-                    keyboardSelection += 15;
+                if (keyboardSelection % TitleNativeNameKeyboard::Columns == 0)
+                    keyboardSelection += TitleNativeNameKeyboard::ConfirmColumn;
                 else
                 {
                     keyboardSelection--;
-                    if (keyboardSelection == 93)
+                    if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                         keyboardSelection = 92;
                 }
                 stateTimer = 0;
@@ -2328,12 +2329,12 @@ int TitleScreenView::OnUpdateResultNameEntry()
             if (g_TitleInput.IsPressedScrolling(0x80))
             {
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                if (keyboardSelection % 16 == 15)
-                    keyboardSelection -= 15;
+                if (keyboardSelection % TitleNativeNameKeyboard::Columns == TitleNativeNameKeyboard::ConfirmColumn)
+                    keyboardSelection -= TitleNativeNameKeyboard::ConfirmColumn;
                 else
                 {
                     keyboardSelection++;
-                    if (keyboardSelection == 93)
+                    if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                         keyboardSelection = 94;
                 }
                 stateTimer = 0;
@@ -2342,7 +2343,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
 
         if (g_TitleInputFlags & 0x1001)
         {
-            if (keyboardSelection == 95)
+            if (keyboardSelection == TitleNativeNameKeyboard::ConfirmKey)
             {
                 SaveTitleScoreData();
                 PlayMenuSound(11, 0);
@@ -2358,7 +2359,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             }
 
             char value;
-            if (keyboardSelection == 94)
+            if (keyboardSelection == TitleNativeNameKeyboard::SpaceKey)
                 value = ' ';
             else
                 value = g_TitleAlphabet[keyboardSelection];
@@ -2367,7 +2368,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             if (replayNameCursor < 7)
                 replayNameCursor++;
             else
-                keyboardSelection = 95;
+                keyboardSelection = TitleNativeNameKeyboard::ConfirmKey;
             stateTimer = 0;
         }
 
@@ -2920,7 +2921,7 @@ int TitleScreenView::UpdateReplaySave()
             }
             else
             {
-                keyboardSelection = 95;
+                keyboardSelection = TitleNativeNameKeyboard::ConfirmKey;
                 replaySaveState = 4;
                 g_AnmManager->SetInterruptArray(vms, vmCount, 23);
                 g_AnmManager->ExecuteScriptArray(vms, vmCount);
@@ -2955,7 +2956,7 @@ int TitleScreenView::UpdateReplaySave()
             else
             {
                 PlayMenuSound(10, 0);
-                keyboardSelection = 95;
+                keyboardSelection = TitleNativeNameKeyboard::ConfirmKey;
                 replaySaveState = 4;
                 g_AnmManager->SetInterruptArray(vms, vmCount, 23);
                 g_AnmManager->ExecuteScriptArray(vms, vmCount);
@@ -2970,10 +2971,10 @@ int TitleScreenView::UpdateReplaySave()
         if (g_TitleInput.IsPressedScrolling(0x10))
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
-            keyboardSelection -= 16;
+            keyboardSelection -= TitleNativeNameKeyboard::Columns;
             if (keyboardSelection < 0)
-                keyboardSelection += 96;
-            if (keyboardSelection == 93)
+                keyboardSelection += TitleNativeNameKeyboard::KeyCount;
+            if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                 keyboardSelection = 77;
             stateTimer = 0;
         }
@@ -2981,10 +2982,10 @@ int TitleScreenView::UpdateReplaySave()
         if (g_TitleInput.IsPressedScrolling(0x20))
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
-            keyboardSelection += 16;
-            if (keyboardSelection >= 96)
-                keyboardSelection -= 96;
-            if (keyboardSelection == 93)
+            keyboardSelection += TitleNativeNameKeyboard::Columns;
+            if (keyboardSelection >= TitleNativeNameKeyboard::KeyCount)
+                keyboardSelection -= TitleNativeNameKeyboard::KeyCount;
+            if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                 keyboardSelection = 13;
             stateTimer = 0;
         }
@@ -2992,12 +2993,12 @@ int TitleScreenView::UpdateReplaySave()
         if (g_TitleInput.IsPressedScrolling(0x40))
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
-            if (keyboardSelection % 16 == 0)
-                keyboardSelection += 15;
+            if (keyboardSelection % TitleNativeNameKeyboard::Columns == 0)
+                keyboardSelection += TitleNativeNameKeyboard::ConfirmColumn;
             else
             {
                 keyboardSelection--;
-                if (keyboardSelection == 93)
+                if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                     keyboardSelection = 92;
             }
             stateTimer = 0;
@@ -3006,12 +3007,12 @@ int TitleScreenView::UpdateReplaySave()
         if (g_TitleInput.IsPressedScrolling(0x80))
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
-            if (keyboardSelection % 16 == 15)
-                keyboardSelection -= 15;
+            if (keyboardSelection % TitleNativeNameKeyboard::Columns == TitleNativeNameKeyboard::ConfirmColumn)
+                keyboardSelection -= TitleNativeNameKeyboard::ConfirmColumn;
             else
             {
                 keyboardSelection++;
-                if (keyboardSelection == 93)
+                if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                     keyboardSelection = 94;
             }
             stateTimer = 0;
@@ -3019,7 +3020,7 @@ int TitleScreenView::UpdateReplaySave()
 
         if (g_TitleInputFlags & 0x1001)
         {
-            if (keyboardSelection == 95)
+            if (keyboardSelection == TitleNativeNameKeyboard::ConfirmKey)
             {
                 PlayMenuSound(10, 0);
                 sprintf(path, "replay/th9_%.2d.rpy", selectedReplay + 1);
@@ -3032,7 +3033,7 @@ int TitleScreenView::UpdateReplaySave()
             }
 
             char value;
-            if (keyboardSelection == 94)
+            if (keyboardSelection == TitleNativeNameKeyboard::SpaceKey)
                 value = ' ';
             else
                 value = g_TitleAlphabet[keyboardSelection];
@@ -3041,7 +3042,7 @@ int TitleScreenView::UpdateReplaySave()
             if (replayNameCursor < 7)
                 replayNameCursor++;
             else
-                keyboardSelection = 95;
+                keyboardSelection = TitleNativeNameKeyboard::ConfirmKey;
             stateTimer = 0;
         }
 

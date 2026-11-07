@@ -58,8 +58,12 @@ class TitleReplayNativeSlots(unittest.TestCase):
         # The animation's ten frames are a different semantic owner from
         # ten replay-stage headers; the save keyboard uses a separate 6x16 grid.
         self.assertIn('if (frame < 10)',self.menu)
-        self.assertIn('for (row = 0; row < 6; row++)',self.save)
-        self.assertIn('for (col = 0; col < 16; col++)',self.save)
+        self.assertIn('for (row = 0; row < TitleNativeNameKeyboard::Rows; row++)',self.save)
+        self.assertIn('for (col = 0; col < TitleNativeNameKeyboard::Columns; col++)',self.save)
+        # Ten serialized replay stages and ten animation frames are separate
+        # from the displayed 96-key native name-entry grid.
+        self.assertNotIn('TitleReplayNativeSlots::StageCount',self.save)
+        self.assertIn('#include "TitleNativeNameKeyboard.hpp"',self.save)
         self.assertIn('replayValue.frameStart[0][i]',self.menu)
         self.assertEqual(6*16,96)
 
