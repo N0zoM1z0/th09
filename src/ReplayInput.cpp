@@ -23,6 +23,7 @@ typedef unsigned int u32;
 typedef int i32;
 
 #include "ReplayManagerRuntimeView.hpp"
+#include "ReplayNativeInputGateCapacity.hpp"
 
 // Replay side pointers at 0x4A7DAC/0x4A7DE4 alias the true
 // GameManager.sides[0/1].runtime fields (+0x1C per 0x38-byte side).
@@ -137,18 +138,20 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
     {
         g_ReplayInputStates[0].historyPrevious = g_ReplayInputStates[0].historyCurrent;
         g_ReplayInputStates[1].historyPrevious = g_ReplayInputStates[1].historyCurrent;
-        g_ReplayInputStates[2].historyPrevious = g_ReplayInputStates[2].historyCurrent;
+        g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].historyPrevious =
+            g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].historyCurrent;
 
         g_ReplayInputStates[0].historyCurrent = *replayManager->inputCursor0;
         g_ReplayInputStates[1].historyCurrent = *replayManager->inputCursor1;
-        g_ReplayInputStates[2].historyCurrent = *replayManager->inputCursor2;
+        g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].historyCurrent =
+            *replayManager->inputCursor2;
 
         g_ReplayInputStates[0].Update();
         g_ReplayInputStates[1].Update();
-        g_ReplayInputStates[2].Update();
+        g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].Update();
 
         u8 *sideMode = g_GameManager.configurationE8->sideFocusMode;
-        for (int side = 0; side < 2; side++, sideMode++)
+        for (int side = 0; side < ReplayNativeInputGateCapacity::SideCount; side++, sideMode++)
         {
             if (*sideMode == 1)
             {
@@ -308,7 +311,8 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
             *replayManager->inputCursor0 = g_ReplayInputStates[0].historyCurrent;
         if (g_GameManager.sides[1].replaySelector28 == 0)
             *replayManager->inputCursor1 = g_ReplayInputStates[1].historyCurrent;
-        *replayManager->inputCursor2 = g_ReplayInputStates[2].historyCurrent;
+        *replayManager->inputCursor2 =
+            g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].historyCurrent;
 
         replayManager->currentBuffer->frameCount++;
         replayManager->inputCursor0++;
@@ -558,16 +562,18 @@ int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
     g_ReplayInputStates[1].historyPrevious = g_ReplayInputStates[1].historyCurrent;
     g_GameManager.replayPauseRecorded130 = 0;
     g_ReplayInputStates[1].historyCurrent = g_ReplayInputStates[1].currentInput;
-    g_ReplayInputStates[2].historyPrevious = g_ReplayInputStates[2].historyCurrent;
-    g_ReplayInputStates[2].historyCurrent = g_ReplayInputStates[2].currentInput;
+    g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].historyPrevious =
+        g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].historyCurrent;
+    g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].historyCurrent =
+        g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].currentInput;
 
     g_ReplayInputStates[0].Update();
     g_ReplayInputStates[1].Update();
-    g_ReplayInputStates[2].Update();
+    g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].Update();
 
     int side = 0;
     GameConfiguration *inputGate = g_GameManager.configurationE8;
-    for (; side < 2; side++)
+    for (; side < ReplayNativeInputGateCapacity::SideCount; side++)
     {
         if (inputGate != NULL && inputGate->sideFocusMode[side] == 1)
         {

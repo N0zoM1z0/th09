@@ -190,6 +190,14 @@ proof of remote publication.
   ten-stage bound does not describe menu animation or the 6-by-16 keyboard. See
   [Title replay slot review](TH09_TITLE_REPLAY_NATIVE_SLOTS_20261107.md).
 
+- **Replay native two-side input gate:** recording/playback use one
+  three-entry global ReplayInputState array (third input is shared) but
+  the real GameConfiguration exposes only two side-focus mode bytes.
+  Typed original array extents now drive both capture/playback gates and
+  the shared state cursor, preserving **12 exact ReplayInput functions /
+  4,093 bytes / 232 fields**. Both large Replay frontiers remain unchanged.
+  See [Replay native input gates](TH09_REPLAY_NATIVE_INPUT_GATES_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
