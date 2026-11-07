@@ -12,24 +12,9 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int i32;
 
-#include "ReplayDataOriginalView.hpp"
+#include "TitleScreenReplayView.hpp"
 
-struct TitleScreenView
-{
-    i32 keyboardSelection;                   // +0x00000
-    u8 unknown00004[0x24];
-    i32 currentScreenState;                  // +0x00028
-    u8 unknown0002C[0x28C - 0x2C];
-    char replayPaths[50][0x200];             // +0x0028C
-    u8 unknown0668C[0x68E4 - 0x668C];
-    ReplayDataView replays[50];                 // +0x068E4
-    u8 unknown0C8FC[0x0C];
-    i32 selectedReplay;                      // +0x0C908
-    u8 unknown0C90C[0x1B230 - 0xC90C];
-    i32 stateTimer2;                         // +0x1B230
 
-    int DrawReplayMenu();
-};
 
 // The SDK vector crosses the established Float3 text API at a checked layout.
 typedef char ReplayMenuVectorLayoutMatchesFloat3[

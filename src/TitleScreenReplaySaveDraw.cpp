@@ -11,7 +11,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int i32;
 
-#include "ReplayDataOriginalView.hpp"
+#include "TitleScreenReplayView.hpp"
 
 // The text API reads the same three-float representation through its shared view.
 typedef char ReplaySdkVectorSizeIs0C[(sizeof(D3DXVECTOR3) == sizeof(Float3)) ? 1 : -1];
@@ -19,24 +19,7 @@ typedef char ReplaySdkVectorXAt0[(offsetof(D3DXVECTOR3, x) == offsetof(Float3, x
 typedef char ReplaySdkVectorYAt4[(offsetof(D3DXVECTOR3, y) == offsetof(Float3, y)) ? 1 : -1];
 typedef char ReplaySdkVectorZAt8[(offsetof(D3DXVECTOR3, z) == offsetof(Float3, z)) ? 1 : -1];
 
-struct TitleScreenView
-{
-    i32 keyboardSelection;                  // +0x00000
-    i32 replayNameCursor;                   // +0x00004
-    u8 unknown00008[0x20];
-    i32 replaySaveState;                    // +0x00028
-    i32 stateTimer;                         // +0x0002C
-    u8 unknown00030[0x5C];
-    char replayName[9];                     // +0x0008C
-    u8 unknown00095[0x68E4 - 0x95];
-    ReplayDataView replays[50];                 // +0x068E4
-    u8 unknown0C8FC[0x0C];
-    i32 selectedReplay;                     // +0x0C908
-    u8 unknown0C90C[0x1B230 - 0xC90C];
-    i32 stateTimer2;                        // +0x1B230
 
-    int DrawReplaySave();
-};
 
 typedef char ReplaySaveStateAt28[
     (offsetof(TitleScreenView, replaySaveState) == 0x28) ? 1 : -1];

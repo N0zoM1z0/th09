@@ -56,8 +56,12 @@ class TitleReplayMenuOriginalFrontierTests(TestCase):
         self.assertIsNone(frontier.guard_title_replay_menu(report))
         self.assertEqual(report['exactness_credit'], 'none')
         cpp = (ROOT / 'src/TitleScreenReplayMenuDraw.cpp').read_text()
-        self.assertIn('#include "ReplayDataOriginalView.hpp"', cpp)
-        self.assertIn('ReplayDataView replays[50]', cpp)
+        shared = (ROOT / 'src/TitleScreenReplayView.hpp').read_text()
+        self.assertIn('#include "TitleScreenReplayView.hpp"', cpp)
+        self.assertNotIn('struct TitleScreenView\n{', cpp)
+        self.assertIn('#include "ReplayDataOriginalView.hpp"', shared)
+        self.assertIn('ReplayDataView replays[50]', shared)
+        self.assertIn('offsetof(TitleScreenView, replays) == 0x68E4', shared)
 
     def test_actual_coff_literal_payloads_are_verified_independently_of_symbol_names(self):
         import struct
