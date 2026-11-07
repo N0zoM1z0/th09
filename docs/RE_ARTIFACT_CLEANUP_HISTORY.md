@@ -4,7 +4,7 @@
 
 
 > For current cache state, use the
-> [2026-11-06 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261106.md).
+> [2026-11-07 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md).
 > Historical cleanup counts are not presently reclaimable amounts.
 > **Never delete kept candidate sources or unique evidence simply by age.**
 > October30 clarification: documentation and research records stay; unused
@@ -3748,3 +3748,95 @@ ended at its final whitespace stage on one trailing blank line, then
 `git diff --check` passed after correction. Target verification, target-required
 tracking, status, documentation and progress checks passed after cleanup. No
 new compiler/Ghidra replay or exactness claim is part of this maintenance work.
+
+## 2026-11-07 — Current handoff refresh, reviewed caches and no-prune Git repack
+
+**Authoritative entry:** [November 7 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md).
+This maintenance follows *subsequent* gameplay source commits, so the
+November 6 handoff's “current HEAD” and absent `build/` were historical.
+The live ledger remains **2,248 candidates / 1,034 authored/source-present /
+1,021 exact / 13 nonexact**, with **262,034 / 291,868 authored bytes
+(89.7783%)**. The 98% goal remains open (23,997 exact bytes short at the
+current denominator). The current source work has **not** been promoted to
+Factory acceptance or a new exact-function count.
+
+### Cache cleanup — 183 ignored, regenerable files
+
+Used the existing `scripts/clean-generated-artifacts.py` (default preview,
+then explicit `--apply`), not a broad recursive purge of ignored evidence.
+Its guarded SHA/fingerprint plan removed:
+
+| Reviewed class | Removed files | Logical file bytes |
+| --- | ---: | ---: |
+| Generated `build/` files (OBJ/PDB) | **139** | **10,232,247** |
+| Ignored `.analysis/` debug/bytecode caches (PDB) | **44** | **5,595,136** |
+| **Total** | **183** | **15,827,383** |
+
+The repeated post-cleanup dry-run reports **zero** disposable files/bytes.
+The eight `test_clean_generated_artifacts.py` safety tests passed. The
+protected `resources/th09.exe` SHA-256, all **three lossless archive** SHA-256
+values, and the entire population of **507 preserved `.analysis/*.obj`
+files** (including their aggregate byte count) are unchanged. No historical
+trial `.cpp`, `.inl`, `.py`, data JSON, original target, archive, private
+Ghidra database, toolchain, or tracked file was deleted. A `.analysis` object
+was **not** silently classified as disposable by file extension. The
+November 6 archive's selective restore tool was run in *preview mode* after
+cleanup: it still indexes 1,513 SHA-verified members; the selected RunEcl
+prefix requests 17 now-absent build objects. Restore specific members only
+when needed, or rebuild just the affected match unit.
+
+### Lossless Git repack — no history or reflog pruning
+
+Before repacking, `git count-objects -vH` showed **1,703 loose objects /
+195.50 MiB** plus 21,846 packed objects / 22.83 MiB. The exact logical
+bytes of `.git/objects` fell from **224,861,877** to **25,522,760**, a
+reduction of **199,339,117 bytes**. Command:
+
+```bash
+git -c gc.reflogExpire=never -c gc.reflogExpireUnreachable=never \
+  gc --prune=never
+```
+
+Immediately after this repack there were **zero loose objects**, 23,549
+packed objects, two packs and no reported Git garbage. Subsequent
+maintenance commits can create new loose objects normally. The entire live `git show-ref --head` list,
+the `git rev-list --objects --all` reachable inventory, the complete local
+reflog hash sequence, exact HEAD, target-executable SHA and clean index were
+independently hashed or checked **before and after**. Every identity agreed.
+No hard reset, branch/ref deletion, force push, rewriting published history,
+or object pruning was performed.
+
+### Reclaimed this handoff and evidence retained
+
+This November 7 cleanup reclaimed **215,166,500 logical file bytes**
+(**205.20 MiB**), comprising the 15,827,383-byte cache cleanup and the
+199,339,117-byte Git object compaction. Actual allocated filesystem blocks
+and recursive `du` totals may differ. Do **not** add this total to historic
+November 3/4/6 figures as if they were one simultaneously recoverable pool:
+those reports measured other source epochs and overlapping generated files.
+
+The canonical target SHA-256 is still
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+The November 3 archive remains
+`1c287d8f1190692966b568a6ebfa62d6f3995dd6873b5782248dbdd2353a2223`,
+the November 4 archive
+`27eb786dcc791152e18023c727235de94f588fb01ccf2ae6152d94b65a66babd`,
+and the November 6 archive
+`c2ef291c49e913a5b44d5b68e9dc568c924732976d27cc3545e2945ca04a7da0`.
+Both direct Ghidra working projects are preserved. The intentionally ignored
+proof/audit entrypoints remain local and are *not* included in ordinary Git
+clones:
+
+- `.analysis/handoff-cleanup-20261107/before-cache.json`
+- `.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`
+  (its latest run records all 183 deleted paths and hashes)
+- `.analysis/handoff-cleanup-20261107/before-repack.json`
+- `.analysis/handoff-cleanup-20261107/after-repack.json`
+
+Current `build/` is absent **because the reviewed cache-clean was run**. A
+future focused compiler invocation will recreate it; this is normal, not a
+worktree regression. The recovery command and next owner-specific tasks are
+recorded in [the new handoff](TH09_NEXT_AGENT_HANDOFF_20261107.md). No
+full-all-owner cold replay or product/runtime test was run for documentation
+and storage maintenance; use the already established current-source exact
+proofs only within their original source/profile boundaries.

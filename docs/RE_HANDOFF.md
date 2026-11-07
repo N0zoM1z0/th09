@@ -38,6 +38,16 @@ local maintenance commits may move HEAD without changing function bodies.
 Read the [current next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md)
 for all 13 frontiers and restore/cache instructions.
 
+## 2026-11-07 handoff storage state
+
+The reviewed maintenance cleaned 183 generated artifacts (15,827,383 bytes)
+and compacted Git's unreachable-preserving object storage (199,339,117 bytes
+saved) without touching any refs/reflogs, target, protected archives, working
+Ghidra projects or retained analysis OBJ. **Total reclaimed this handoff:
+215,166,500 logical bytes (205.20 MiB)**. `build/` is currently absent;
+rebuild the named unit instead of all-target replay. See
+[the current cleanup receipt](RE_ARTIFACT_CLEANUP_HISTORY.md#2026-11-07--current-handoff-refresh-reviewed-caches-and-no-prune-git-repack).
+
 ## Live ledger snapshot
 
 

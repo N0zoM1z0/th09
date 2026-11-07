@@ -2,8 +2,8 @@
 
 ## Current operator status
 
-The latest operator request is a documentation/storage handoff for another
-agent. When reconstruction resumes, work seriously on both complete large bosses and small leaves, challenge old
+At the 2026-11-07 handoff, the operator requested documentation and storage
+cleanup for another agent. On reconstruction tasks, work seriously on both complete large bosses and small leaves, challenge old
 notes against the original executable and pinned compiler, and produce actual
 source progress rather than only inspections. Recover all dirty/untracked work
 before editing, and do not discard interrupted attempts. Use English commit
@@ -195,6 +195,13 @@ analysis database is working state; mirror durable conclusions into the repo.
   with `--path` or `--prefix` (preview, then `--apply`) to recover named inputs.
   The interrupted RunEcl reference-parameter object is recovered but unaccepted;
   its postcompile harness failed. Never promote it from object existence alone.
+- The 2026-11-07 next-agent handoff also reviewed and removed 183 newly
+  generated cache files, then repacked Git with `gc --prune=never` and
+  reflog expiry disabled. It retained all refs/reflogs, three archives,
+  original/unique analysis objects, both Ghidra projects and the canonical
+  private target. `build/` is now absent again; focused compiles recreate it.
+  Precise logical-byte measurements and local proof receipts are in
+  `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`.
 - Never commit the original executable, game archives/data, IDA databases,
   Ghidra projects, toolchains, generated decompiler text, credentials, or private endpoints.
 - Finish with `git diff --check` and the checks required by the change: the

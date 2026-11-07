@@ -161,6 +161,17 @@ python3 -B scripts/restore-analysis-archive.py \
 # Add --apply only after reviewing the manifest and exact requested paths.
 ```
 
+The November 7 cleanup removed **183 regenerated cache files**
+(15,827,383 bytes) and safely repacked Git objects from 224,861,877 to
+25,522,760 bytes (`--prune=never` with reflog expiry disabled). The total
+reclaimed is **215,166,500 logical bytes (205.20 MiB)**. The original input,
+all three historical archives, both Ghidra projects, and 507 existing
+analysis OBJ files were retained. All live refs, reachable Git objects,
+reflogs and HEAD were hash-checked unchanged; see
+[the detailed 2026-11-07 receipt](RE_ARTIFACT_CLEANUP_HISTORY.md#2026-11-07--current-handoff-refresh-reviewed-caches-and-no-prune-git-repack).
+`build/` is absent again after this reviewed cleanup; only focused builds
+should regenerate it.
+
 The **2026-11-06 handoff's statement that `build/` was absent** was correct
 only at that historical checkpoint. Later compiler sessions recreated the
 cache, and the current maintenance can clean it again. Do not report the
