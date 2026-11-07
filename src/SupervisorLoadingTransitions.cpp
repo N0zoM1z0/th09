@@ -1,15 +1,14 @@
 #include "ScreenEffect.hpp"
 #include "Supervisor.hpp"
 #include "TitleSupervisorRuntimeView.hpp"
+#include "AnmVmLifecycle.hpp"
 
-struct SupervisorLoadingTransitionVmView
-{
-    unsigned char bytes[0x2A4];
-
-    void SetInterrupt(short interrupt);
-};
-
-extern SupervisorLoadingTransitionVmView g_SupervisorLoadingVms[3];
+// Both independently exact loading callbacks own the same native 0x2A4-byte
+// ANM VM array as the exact Supervisor loading-VM and capture installers.
+typedef char SupervisorLoadingTransitionNativeVms[
+    (sizeof(AnmVm) == 0x2A4 &&
+     offsetof(AnmVm, pendingInterrupt) == 0x1FE) ? 1 : -1];
+extern AnmVm g_SupervisorLoadingVms[3];
 extern ScreenEffect *g_SupervisorScreenEffect;
 
 void TitleSupervisorView::HideLoadingVms()
