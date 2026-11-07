@@ -11,7 +11,7 @@ import struct
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-OWNER = "?UpdateChargeAttack@PlayerChargeAttackView@@QAEHXZ"
+OWNER = "?UpdateChargeAttack@PlayerLifecycleView@@QAEHXZ"
 START_ATTACK = "?StartAttack@CardAttackStartView@@QAEXHHHPBD@Z"
 # Independently reviewed target SHT base-load through StartAttack call.
 REGIONS = ((0xAC, 0x41F999, 0x41F9B1),

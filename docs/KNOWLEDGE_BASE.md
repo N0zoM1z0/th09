@@ -51,6 +51,26 @@ large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+### 2026-11-07: Complete ChargeAttack belongs to the native Player
+
+The original 1,210-byte ChargeAttack at 0x41F810 is now implemented as
+`PlayerLifecycleView::UpdateChargeAttack` and called directly from the
+522-byte exact Player OnUpdate, instead of a zero-storage derived façade.
+All four state-effect/resource and native shot helpers remain source-cold
+original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
+The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
+bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
+
+### 2026-11-07: Entire ChargeAttack big boss belongs to native Player
+
+The previously nonexact 1,210-byte original `UpdateChargeAttack` is now
+declared and implemented as an actual `PlayerLifecycleView` method rather
+than on an empty derived type; its exact PlayerRuntime caller uses the
+same native method symbol with the unchanged original 0x41F810 target.
+The charge candidate remains nonexact at 1,197 bytes, all 70 fields and
+58 calls unchanged. Scope-cold PE/COFF replay covers 28 complete existing
+exact functions. See [native ChargeAttack owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
+
 ### 2026-11-07: State3 charge and resource methods have one native Player
 
 The original 51-byte resource clamp and 91/91/100-byte State3 helpers

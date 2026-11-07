@@ -47,8 +47,9 @@ class PlayerNativeSpawnShotsOwner(unittest.TestCase):
         self.assertEqual(caller['size'],38)
         charge=(ROOT/'src/PlayerChargeAttackUpdate.cpp').read_text()
         self.assertEqual(charge.count('SpawnShots(static_cast<int>('),2)
-        self.assertIn('struct PlayerChargeAttackView : PlayerSpawnShotsView',
-                      (ROOT/'src/PlayerChargeAttackView.hpp').read_text())
+        native=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
+        self.assertIn('int UpdateChargeAttack();',native)
+        self.assertIn('int PlayerLifecycleView::UpdateChargeAttack()',charge)
 
     def test_tracking_names_one_native_method(self):
         for file in ('implemented.csv','reccmp-functions.csv',

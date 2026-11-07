@@ -8,11 +8,11 @@ ROOT=Path(__file__).resolve().parents[1]
 class PlayerChargeNativeShotsChain(unittest.TestCase):
     def test_native_shot_and_charge_method_chain(self):
         shots=(ROOT/'src/PlayerSpawnShotsView.hpp').read_text()
-        charge=(ROOT/'src/PlayerChargeAttackView.hpp').read_text()
+        charge=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
         source=(ROOT/'src/PlayerChargeAttackUpdate.cpp').read_text()
         self.assertIn('struct PlayerSpawnShotsView : PlayerStateEffectView',shots)
-        self.assertIn('struct PlayerChargeAttackView : PlayerSpawnShotsView',charge)
-        self.assertIn('sizeof(PlayerChargeAttackView) == sizeof(PlayerLifecycleView)',charge)
+        self.assertIn('int UpdateChargeAttack();',charge)
+        self.assertIn('PlayerLifecycleSizeIs30F70',charge)
         self.assertNotIn('reinterpret_cast<PlayerSpawnShotsView *>(this)',source)
         self.assertEqual(source.count('SpawnShots(static_cast<int>('),2)
         self.assertIn('SpawnShots(static_cast<int>(timer30398), 1);',source)

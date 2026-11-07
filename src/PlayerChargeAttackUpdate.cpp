@@ -2,14 +2,10 @@
 // Control-flow structure adapted from Cirno-Labs/th09 src/player.cpp,
 // Player::UpdateShotInput, d7653152becabb8c86f2f43d49015ecc11bd0652.
 // GPL-3.0-only; see THIRD_PARTY_NOTICES.md. Native ABI/types remain TH09-bound.
-#include "PlayerChargeAttackView.hpp"
 #include "CardAttackStartView.hpp"
-#include "PlayerResourceSubtractView.hpp"
-#include "PlayerSpawnShotsView.hpp"
 #include "EnemyManager.hpp"
 #include "FrontSide.hpp"
 #include "PlayerLifecycleView.hpp"
-#include "PlayerStateEffectView.hpp"
 #include "ReplayInputState.hpp"
 #include "ZunTimer.hpp"
 #include "SoundPlayer.hpp"
@@ -30,7 +26,7 @@ typedef char PlayerChargeConfigurationModeAtB4[
     (offsetof(GameConfiguration, sideFocusMode) == 0xB4) ? 1 : -1];
 
 // Player and FrontSide use the shared 0x38-byte side allocation.
-int PlayerChargeAttackView::UpdateChargeAttack()
+int PlayerLifecycleView::UpdateChargeAttack()
 {
     int side;
     u8 sideMode;

@@ -953,7 +953,7 @@ EtamaController::SpawnLaserPattern
 CardAttackStartView::StartAttack
 ReplayInputState::WasPressed
 InputView::IsPressedScrolling
-PlayerChargeAttackView::UpdateChargeAttack
+PlayerLifecycleView::UpdateChargeAttack
 Bullet::AdvanceTransformProgram
 EnemyScheduleRuntimeView::Run
 SampleNetworkInput

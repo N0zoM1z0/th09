@@ -1,4 +1,3 @@
-#include "PlayerChargeAttackView.hpp"
 #include "SoundPlayer.hpp"
 #include "PlayerState4OpsView.hpp"
 #include "PlayerLifecycleView.hpp"
@@ -843,7 +842,7 @@ afterTransition:
         }
 
         if (g_PlayerSharedRuntime->updateBlock1095C == 0)
-            reinterpret_cast<PlayerChargeAttackView *>(player)->UpdateChargeAttack();
+            player->UpdateChargeAttack();
     }
 
     if ((player->sideState->flags34 & 1) == 0 &&

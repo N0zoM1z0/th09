@@ -470,6 +470,7 @@ struct PlayerLifecycleView
         int expandForGraze);
     void UpdateShots();
     void __fastcall SpawnShots(int value, int powerLevel);
+    int UpdateChargeAttack();
     void SubtractResourceClamped(float amount);
     Effect *ConfigureState3Effect13();
     Effect *ConfigureState3Effect14();

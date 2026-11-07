@@ -17,7 +17,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE, SIZE = 0x0041F810, 1210
-SYMBOL = '?UpdateChargeAttack@PlayerChargeAttackView@@QAEHXZ'
+SYMBOL = '?UpdateChargeAttack@PlayerLifecycleView@@QAEHXZ'
 TARGET_SHA256 = '6c24be1a012fc3fa6148bd09954443318cc9db33d6b69a26ca1a778dfe6e5015'
 TARGET_BLOCKS = 53
 

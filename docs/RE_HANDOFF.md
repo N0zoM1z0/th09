@@ -372,6 +372,25 @@ proof of remote publication.
   owners / 5,724 bytes / 304 fields** pass source-cold replay.
   See [native Player resource/State3 audit](TH09_PLAYER_NATIVE_RESOURCE_STATE3_20261107.md).
 
+- **Full Player ChargeAttack boss now has its real native receiver:**
+  1,210-byte original ChargeAttack is declared and implemented on
+  `PlayerLifecycleView`, and the exact 522-byte Player OnUpdate calls
+  it directly. The original 0x41F810 call destination, 70 charge fields,
+  58 calls and 1,197-byte candidate remain fixed; **13 bytes are still
+  missing**, so no exact credit. Related affected source-cold replays
+  pass **28 exact functions / 6,024 bytes / 308 fields**. See
+  [native ChargeAttack owner review](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
+
+- **Complete Player ChargeAttack owner now native:** the entire
+  1,210-byte original charge boss is declared/implemented as
+  `PlayerLifecycleView::UpdateChargeAttack`; exact Player OnUpdate now
+  calls it without the no-storage derived class. The duplicate
+  `PlayerChargeAttackView.hpp` has been deleted. Full boss still has
+  **1,197/1,210 bytes, 70 field identities, 58 original calls and
+  13 missing bytes**; 28 related exact owners / 6,024 bytes / 308 fields
+  pass scoped cold replay, with 17 independently proven private label
+  renames. See [native ChargeAttack owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
