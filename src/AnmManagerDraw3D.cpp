@@ -82,6 +82,21 @@ struct AnmManagerDraw3DView
     int spritesToDraw;
 };
 
+// The original 811-byte 3D renderer shares all nonmatrix VM words with
+// script execution and the primitive renderer.  Keep the observed matrix
+// projection separate until its SDK-matrix C++ type identity is resolved.
+typedef char Draw3DNativeVmFieldOffsets[
+    (offsetof(AnmVmBase, rotation) == 0x000 &&
+     offsetof(AnmVmBase, scale) == 0x018 &&
+     offsetof(AnmVmBase, spriteSize) == 0x028 &&
+     offsetof(AnmVmBase, uvScrollPos) == 0x030 &&
+     offsetof(AnmVmBase, matrix1) == 0x130 &&
+     offsetof(AnmVmBase, matrix2) == 0x170 &&
+     offsetof(AnmVmBase, matrix3) == 0x1B0 &&
+     offsetof(AnmVmBase, flagsWord) == 0x1F8 &&
+     offsetof(AnmVmBase, pos) == 0x208 &&
+     offsetof(AnmVmBase, loadedSprite) == 0x224) ? 1 : -1];
+
 typedef char Draw3DShakeAt1C[(offsetof(AnmManagerDraw3DView, screenShakeOffset) == 0x1C) ? 1 : -1];
 typedef char Draw3DTextureAt12880[(offsetof(AnmManagerDraw3DView, currentTexture) == 0x12880) ? 1 : -1];
 typedef char Draw3DShaderAt12886[(offsetof(AnmManagerDraw3DView, currentVertexShader) == 0x12886) ? 1 : -1];
@@ -100,7 +115,7 @@ int AnmManager::Draw3D(AnmVm *vm)
 
     if (!vm->IsVisible())
         return -1;
-    if ((drawVm->flagsWord & 2) == 0)
+    if ((vm->flagsWord & 2) == 0)
         return -1;
     if (vm->color1Script.a == 0)
         return -1;
@@ -108,56 +123,56 @@ int AnmManager::Draw3D(AnmVm *vm)
     if (anm->spritesToDraw != 0)
         this->FlushVertexBuffer();
 
-    if ((drawVm->flagsWord & 0x10000) == 0 && (drawVm->flagsWord & 0x0C) != 0) {
+    if ((vm->flagsWord & 0x10000) == 0 && (vm->flagsWord & 0x0C) != 0) {
         drawVm->matrix2 = drawVm->matrix1;
-        drawVm->matrix2._11 *= drawVm->scale.x;
-        drawVm->matrix2._22 *= drawVm->scale.y;
-        drawVm->flagsWord &= ~8u;
+        drawVm->matrix2._11 *= vm->scale.x;
+        drawVm->matrix2._22 *= vm->scale.y;
+        vm->flagsWord &= ~8u;
 
-        if (0.0 != drawVm->rotation.x) {
-            D3DXMatrixRotationX(&rotationMatrix, drawVm->rotation.x);
+        if (0.0 != vm->rotation.x) {
+            D3DXMatrixRotationX(&rotationMatrix, vm->rotation.x);
             D3DXMatrixMultiply(&drawVm->matrix2, &drawVm->matrix2, &rotationMatrix);
         }
-        if (0.0 != drawVm->rotation.y) {
-            D3DXMatrixRotationY(&rotationMatrix, drawVm->rotation.y);
+        if (0.0 != vm->rotation.y) {
+            D3DXMatrixRotationY(&rotationMatrix, vm->rotation.y);
             D3DXMatrixMultiply(&drawVm->matrix2, &drawVm->matrix2, &rotationMatrix);
         }
-        if (0.0 != drawVm->rotation.z) {
-            D3DXMatrixRotationZ(&rotationMatrix, drawVm->rotation.z);
+        if (0.0 != vm->rotation.z) {
+            D3DXMatrixRotationZ(&rotationMatrix, vm->rotation.z);
             D3DXMatrixMultiply(&drawVm->matrix2, &drawVm->matrix2, &rotationMatrix);
         }
-        drawVm->flagsWord &= ~4u;
+        vm->flagsWord &= ~4u;
     }
 
     worldTransformMatrix = drawVm->matrix2;
-    unsigned int anchorBits = drawVm->flagsWord >> 11;
+    unsigned int anchorBits = vm->flagsWord >> 11;
     if ((anchorBits & 1) == 0)
-        worldTransformMatrix._41 = drawVm->pos.x;
+        worldTransformMatrix._41 = vm->pos.x;
     else
-        worldTransformMatrix._41 = AnmDraw3DAbs(drawVm->spriteSize.x * drawVm->scale.x / 2.0f) + drawVm->pos.x;
+        worldTransformMatrix._41 = AnmDraw3DAbs(vm->spriteSize.x * vm->scale.x / 2.0f) + vm->pos.x;
     if ((anchorBits & 2) == 0)
-        worldTransformMatrix._42 = drawVm->pos.y;
+        worldTransformMatrix._42 = vm->pos.y;
     else
-        worldTransformMatrix._42 = AnmDraw3DAbs(drawVm->spriteSize.y * drawVm->scale.y / 2.0f) + drawVm->pos.y;
-    worldTransformMatrix._41 += anm->screenShakeOffset.x;
-    worldTransformMatrix._42 += anm->screenShakeOffset.y;
+        worldTransformMatrix._42 = AnmDraw3DAbs(vm->spriteSize.y * vm->scale.y / 2.0f) + vm->pos.y;
+    worldTransformMatrix._41 += this->frameShakeX1C;
+    worldTransformMatrix._42 += this->frameShakeY20;
 
     this->SetRenderStateForVm3D(vm);
-    worldTransformMatrix._43 = drawVm->pos.z;
+    worldTransformMatrix._43 = vm->pos.z;
     supervisor->d3dDevice->SetTransform(D3DTS_WORLD, &worldTransformMatrix);
 
-    if (anm->currentSprite != drawVm->loadedSprite ||
-        drawVm->uvScrollPos.x != 0.0f || drawVm->uvScrollPos.x != 0.0f) {
-        anm->currentSprite = drawVm->loadedSprite;
+    if (anm->currentSprite != vm->loadedSprite ||
+        vm->uvScrollPos.x != 0.0f || vm->uvScrollPos.x != 0.0f) {
+        anm->currentSprite = vm->loadedSprite;
         textureMatrix = drawVm->matrix3;
-        textureMatrix._31 = drawVm->loadedSprite->uvStartX + drawVm->uvScrollPos.x;
-        textureMatrix._32 = drawVm->loadedSprite->uvStartY + drawVm->uvScrollPos.y;
+        textureMatrix._31 = vm->loadedSprite->uvStartX + vm->uvScrollPos.x;
+        textureMatrix._32 = vm->loadedSprite->uvStartY + vm->uvScrollPos.y;
         supervisor->d3dDevice->SetTransform(D3DTS_TEXTURE0, &textureMatrix);
 
     }
 
-    if (anm->currentTexture != drawVm->loadedSprite->texture) {
-        anm->currentTexture = drawVm->loadedSprite->texture;
+    if (anm->currentTexture != vm->loadedSprite->texture) {
+        anm->currentTexture = vm->loadedSprite->texture;
         supervisor->d3dDevice->SetTexture(
             0, reinterpret_cast<IDirect3DBaseTexture8 *>(anm->currentTexture));
     }

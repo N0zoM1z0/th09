@@ -339,6 +339,15 @@ All 12 same-source exact units match the original 1,763 physical bytes/90
 fields. Five natural C++ models were compiled. See
 [native ANM primitive VM evidence](TH09_ANM_PRIMITIVE_NATIVE_VM_20261106.md).
 
+## 2026-11-07 native ANM Draw3D source
+
+The complete 811-byte ANM Draw3D source now reads its real AnmVm position,
+scale, rotation, flags and sprite fields, plus the manager's native frame
+shake. Three complete fixed-profile variants retain exact codegen; three
+matrix-alias variants regressed and were rejected. Matrix nominal C++
+typing remains unresolved. See
+[the original-bound Draw3D native-member proof](TH09_ANM_DRAW3D_NATIVE_VM_FIELDS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.
