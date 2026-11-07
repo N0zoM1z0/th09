@@ -543,6 +543,24 @@ proof of remote publication.
   private labels are name-only. See
   [complete native ResultDraw owner](TH09_TITLE_RESULT_DRAW_NATIVE_FULL_OWNER_20261107.md).
 
+- **Exact 1,939-byte ResultDraw shares the real 6×16 native Title name
+  keyboard:** rows, columns, last row and space/confirm columns now use
+  `TitleNativeNameKeyboard` already shared by the Title input state
+  machines and exact 800-byte ReplaySave draw. Four natural C++ models
+  preserve **all 1,939 code bytes and 82 fields**. The affected
+  **45 exact Title functions / 23,790 bytes / 1,214 fields** remain
+  scoped-original-bound; the nonexact 1,280-byte ReplayMenu retains 29
+  different bytes. See
+  [native Title ResultDraw keyboard](TH09_TITLE_RESULT_DRAW_NATIVE_KEYBOARD_20261107.md).
+
+- **Exact 1,939-byte Title ResultDraw shares the native six-by-sixteen
+  name-entry keyboard:** its full renderer now uses the same
+  `TitleNativeNameKeyboard` source constants as exact ReplaySave rather
+  than repeating literal row/column/special-key values. The entire
+  1,939-byte ResultDraw and its **82 original fields** remain strictly
+  byte-exact; 178 focused Title tests pass. See
+  [native ResultDraw keyboard proof](TH09_TITLE_RESULT_DRAW_NATIVE_KEYBOARD_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

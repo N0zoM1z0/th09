@@ -61,6 +61,25 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: ResultDraw's exact 96-key grid uses native Title constants
+
+The complete original-exact 1,939-byte `TitleScreenView::DrawResult` now
+uses the true 6×16 `TitleNativeNameKeyboard` dimensions, last row and
+space/confirm columns, rather than seven independently spelled integer
+bounds. The same keyboard is consumed by original-exact ReplaySave
+rendering and the two native Title name-entry state machines. All 1,939
+original machine-code bytes/82 fields remain unchanged, with the open
+ReplayMenu/ResultUpdate boss residuals untouched. See
+[native ResultDraw keyboard proof](TH09_TITLE_RESULT_DRAW_NATIVE_KEYBOARD_20261107.md).
+
+### 2026-11-07: ResultDraw uses the same native Title keyboard as ReplaySave
+
+The exact 1,939-byte ResultDraw now expresses its 6×16 name-entry grid,
+last-row special keys, and character-table stride via the common
+`TitleNativeNameKeyboard` without changing source-cold original bytes or
+82 relocations. ReplaySave uses the same already exact keyboard layout.
+See [ResultDraw native keyboard](TH09_TITLE_RESULT_DRAW_NATIVE_KEYBOARD_20261107.md).
+
 ### 2026-11-07: Exact Title ResultDraw uses the one full native Title object
 
 The complete original-exact 1,939-byte Title DrawResult function now
