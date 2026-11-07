@@ -3,6 +3,7 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "GameManagerResetView.hpp"
+#include "TextHelper.hpp"
 
 #include <windows.h>
 
@@ -23,7 +24,6 @@ typedef char SupervisorAddedStartupStateAt6BC[
 
 extern int SupervisorAddedLoadDat();
 extern int SupervisorCheckFps();
-extern int SupervisorAddedCreateTextBuffer();
 
 int Supervisor::AddedCallback(Supervisor *supervisor)
 {
@@ -57,7 +57,7 @@ int Supervisor::AddedCallback(Supervisor *supervisor)
     }
 
     g_AnmManager->SetupVertexBuffer();
-    SupervisorAddedCreateTextBuffer();
+    TextHelper::CreateTextBuffer();
 
     Float3 position(500.0f, 440.0f, 0.0f);
     globalSupervisor->SetupLoadingVms(&position);

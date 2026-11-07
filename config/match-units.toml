@@ -1698,7 +1698,7 @@ relocations = [
   { offset = 0x8D, type = "REL32", symbol = "?ReleaseSurface@AnmManager@@QAEXH@Z", target = 0x0043BF30 },
   { offset = 0x9D, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0xA2, type = "REL32", symbol = "?SetupVertexBuffer@AnmManager@@QAEXXZ", target = 0x0043B9C0 },
-  { offset = 0xA7, type = "REL32", symbol = "?SupervisorAddedCreateTextBuffer@@YIHXZ", target = 0x004362C0 },
+  { offset = 0xA7, type = "REL32", symbol = "?CreateTextBuffer@TextHelper@@SIXXZ", target = 0x004362C0 },
   { offset = 0xBB, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
   { offset = 0xC4, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xC9, type = "REL32", symbol = "?SetupLoadingVms@SupervisorLoadingSetupView@@QAEXPAUFloat3@@@Z", target = 0x004302B0 },
