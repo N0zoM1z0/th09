@@ -85,8 +85,6 @@ struct SupervisorSetupLayout : Supervisor
     void SetupLoadingVmsAndInitCapture(SetupLoadingPosition *position);
     void StartEffect(int index);
     int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);
-    int StartStageAudio(int mode, int index);
-    int FadeOutMusic(float seconds);
     void UpdatePlayTime();
     void UpdateGameTime();
 };
@@ -186,7 +184,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         g_AnmManager->ReleaseSurface(8);
         supervisor->loadingVmsHaveBeenSetup = 0;
         if (globalManager.stageStartupMode == 1)
-            supervisor->StartStageAudio(0, 0);
+            supervisor->PlayMusic(0, 0);
         globalManager.stageStartupMode = 0;
     }
 

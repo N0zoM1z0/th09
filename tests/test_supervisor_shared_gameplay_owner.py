@@ -34,7 +34,7 @@ class NativeSupervisorRuntimeInGameplay(unittest.TestCase):
         self.assertIn('supervisor->config388',source)
         self.assertIn('offsetof(SupervisorSetupLayout, loadingAnm5D0) == 0x5D0',source)
         self.assertIn('offsetof(SupervisorSetupLayout, loadingVmsHaveBeenSetup) == 0x740',source)
-        for member in ('StartEffect','ThreadStart','StartStageAudio','FadeOutMusic','UpdatePlayTime','UpdateGameTime'):
+        for member in ('StartEffect','ThreadStart','PlayMusic','FadeOutMusic','UpdatePlayTime','UpdateGameTime'):
             self.assertIn(member+'(',source)
 
     def test_original_large_supervisor_and_setup_owners_remain_pinned(self):
