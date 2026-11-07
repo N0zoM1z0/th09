@@ -9,9 +9,10 @@ class SharedScoreSupervisorTimekeeping(unittest.TestCase):
     def test_zero_extra_storage_inherited_exact_provider(self):
         source=(ROOT/'src/GameManagerSetup.cpp').read_text()
         header=(ROOT/'src/ScoreSupervisorView.hpp').read_text()
-        self.assertIn('#include "ScoreSupervisorView.hpp"',source)
-        self.assertIn('struct SupervisorSetupLayout : ScoreSupervisorView',source)
-        self.assertNotIn('struct SupervisorSetupLayout : Supervisor',source)
+        self.assertIn('#include "SupervisorThreadStartView.hpp"',source)
+        self.assertIn('#include "ScoreSupervisorView.hpp"', (ROOT/'src/SupervisorStartEffectView.hpp').read_text())
+        self.assertIn('struct SupervisorSetupLayout : SupervisorThreadStartView',source)
+        self.assertNotIn('struct SupervisorSetupLayout : Supervisor\n',source)
         self.assertIn('struct ScoreSupervisorView : Supervisor',header)
         self.assertIn('sizeof(ScoreSupervisorView) == sizeof(Supervisor)',header)
         self.assertNotIn('void UpdateGameTime();',source)
