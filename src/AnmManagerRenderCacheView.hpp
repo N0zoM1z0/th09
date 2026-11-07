@@ -14,7 +14,19 @@ struct AnmManagerRenderCacheView
     unsigned char unknown000008[0x18 - 0x08];
     int flushesThisFrame;
     Float2 screenShakeOffset;
-    unsigned char unknown000024[0x12880 - 0x24];
+    // The source-facing 0x12024 cached world matrix and the ANM rendering
+    // flags are slices of this same physical manager allocation. The original
+    // byte cover is retained for independently unknown fields.
+    union
+    {
+        unsigned char unknown000024[0x12880 - 0x24];
+        struct
+        {
+            unsigned char unknown000024to12024[0x12024 - 0x24];
+            D3DMATRIX cachedWorldMatrix12024;
+            unsigned char unknown12064to12880[0x12880 - 0x12064];
+        };
+    };
     IDirect3DTexture8 *currentTexture;
     unsigned char currentBlendMode;
     unsigned char currentColorOp;
@@ -29,6 +41,7 @@ typedef char AnmManagerNativeCacheFields[
      offsetof(AnmManagerRenderCacheView, useMixColor) == 0x004 &&
      offsetof(AnmManagerRenderCacheView, flushesThisFrame) == 0x18 &&
      offsetof(AnmManagerRenderCacheView, screenShakeOffset) == 0x1C &&
+     offsetof(AnmManagerRenderCacheView, cachedWorldMatrix12024) == 0x12024 &&
      offsetof(AnmManagerRenderCacheView, currentTexture) == 0x12880 &&
      offsetof(AnmManagerRenderCacheView, currentBlendMode) == 0x12884 &&
      offsetof(AnmManagerRenderCacheView, currentColorOp) == 0x12885 &&
