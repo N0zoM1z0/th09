@@ -129,6 +129,15 @@ proof of remote publication.
   12 original-exact siblings / 4,093 bytes / 232 fields pass focused replay.
   See [SaveReplay native header-span review](TH09_REPLAY_SAVE_NATIVE_HEADER_SPANS_20261107.md).
 
+- **ScreenEffect native shake-envelope phases:** its three native shared
+  parameter words (+0x1C/+0x20/+0x24) now have a typed fade-in/hold/fade-out
+  view and the envelope borrows the actual Timer. Full 336-byte original-
+  bound owner remains 26 bytes nonexact, while all **99 exact functions**
+  in 21 affected compiler carriers / 11 TUs (38,327 bytes / 2,315 fields)
+  were rebuilt and verified. 79 internal compiler-label names were rebound
+  with original unchanged target addresses. See
+  [ScreenEffect phase review](TH09_SCREEN_EFFECT_ENVELOPE_PHASE_LAYOUT_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

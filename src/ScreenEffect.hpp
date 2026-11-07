@@ -64,9 +64,21 @@ struct ScreenEffect
     int unconsumedDword10;
     int overlayAlpha;
     int duration;
-    int rawParameter0;
-    int rawParameter1;
-    int rawParameter2;
+    union
+    {
+        struct
+        {
+            int rawParameter0;
+            int rawParameter1;
+            int rawParameter2;
+        };
+        struct
+        {
+            int fadeInFrames;
+            int holdFrames;
+            int fadeOutFrames;
+        } shakeEnvelope;
+    };
     int fadeReleaseRequested;
     ZunTimer timer;
 };
@@ -78,5 +90,15 @@ typedef char ScreenEffectDurationAt18[(offsetof(ScreenEffect, duration) == 0x18)
 typedef char ScreenEffectRawAt1C[(offsetof(ScreenEffect, rawParameter0) == 0x1C) ? 1 : -1];
 typedef char ScreenEffectReleaseAt28[(offsetof(ScreenEffect, fadeReleaseRequested) == 0x28) ? 1 : -1];
 typedef char ScreenEffectTimerAt2C[(offsetof(ScreenEffect, timer) == 0x2C) ? 1 : -1];
+
+typedef char ScreenEffectEnvelopePhaseNativeLayout[
+    (sizeof(((ScreenEffect *)0)->shakeEnvelope) == 0x0C &&
+     offsetof(ScreenEffect, shakeEnvelope) == 0x1C &&
+     offsetof(ScreenEffect, rawParameter0) == 0x1C &&
+     offsetof(ScreenEffect, rawParameter1) == 0x20 &&
+     offsetof(ScreenEffect, rawParameter2) == 0x24 &&
+     offsetof(ScreenEffect, shakeEnvelope.fadeInFrames) == 0x1C &&
+     offsetof(ScreenEffect, shakeEnvelope.holdFrames) == 0x20 &&
+     offsetof(ScreenEffect, shakeEnvelope.fadeOutFrames) == 0x24) ? 1 : -1];
 
 extern int g_ScreenEffectCounter;

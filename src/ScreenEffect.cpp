@@ -230,14 +230,15 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
     if (g_GameManager.value348 <= 1)
         return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
 
-    screenEffect->timer++;
+    ZunTimer &clock = screenEffect->timer;
+    clock++;
 
-    int endFrame = screenEffect->rawParameter0;
-    if (screenEffect->timer < endFrame)
+    int endFrame = screenEffect->shakeEnvelope.fadeInFrames;
+    if (clock < endFrame)
     {
-        shakeAmount = (float)screenEffect->timer / endFrame;
+        shakeAmount = (float)clock / endFrame;
     }
-    else if (screenEffect->timer < endFrame + screenEffect->rawParameter1)
+    else if (clock < endFrame + screenEffect->shakeEnvelope.holdFrames)
     {
         shakeAmount = 1.0f;
     }
@@ -248,15 +249,15 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
         // Keep both original volatile field reads; declaring the two
         // reference aliases fade-then-hold reproduces the original VC7.1
         // scalar load scheduling without changing the hold + fade result.
-        const volatile int &fade = screenEffect->rawParameter2;
-        const volatile int &hold = screenEffect->rawParameter1;
+        const volatile int &fade = screenEffect->shakeEnvelope.fadeOutFrames;
+        const volatile int &hold = screenEffect->shakeEnvelope.holdFrames;
         int update = hold + fade;
         endFrame += update;
-        if (screenEffect->timer < endFrame)
+        if (clock < endFrame)
         {
             shakeAmount =
-                ((float)(unsigned int)endFrame - (float)screenEffect->timer) /
-                (unsigned int)screenEffect->rawParameter2;
+                ((float)(unsigned int)endFrame - (float)clock) /
+                (unsigned int)screenEffect->shakeEnvelope.fadeOutFrames;
         }
         else
         {

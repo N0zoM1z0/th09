@@ -47,8 +47,8 @@ class OriginalSHAAndWholeResidualGuard(TestCase):
         front.guard_screen_shake_frontier(report)
         self.assertTrue(report['exactness_credit'].startswith('none'))
         source=(ROOT/'src/ScreenEffect.cpp').read_text()
-        before=source.index('const volatile int &fade = screenEffect->rawParameter2;')
-        after=source.index('const volatile int &hold = screenEffect->rawParameter1;')
+        before=source.index('const volatile int &fade = screenEffect->shakeEnvelope.fadeOutFrames;')
+        after=source.index('const volatile int &hold = screenEffect->shakeEnvelope.holdFrames;')
         self.assertLess(before,after)
         self.assertIn('int update = hold + fade;',source)
 
