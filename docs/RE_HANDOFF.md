@@ -434,6 +434,15 @@ proof of remote publication.
   start-menu names retain verified original destinations. See
   [native Title result unlock audit](TH09_TITLE_NATIVE_RESULT_UNLOCK_CAPACITY_20261107.md).
 
+- **540-byte Replay BeginPlaybackStage now uses its real 3×10 frame-table
+  row address:** replaces untyped byte-offset cast with the native
+  `replayData->frameStart[stage]` array row expression, intentionally *not*
+  testing a frame data pointer. **538-byte candidate / 32 fields / 5
+  calls / 39 unlike overlaps + 2 missing bytes** remain unchanged.
+  **12 exact same-source functions / 4,093 bytes / 232 fields** pass
+  scoped replay; SaveReplay still has 2 residual bytes. See
+  [native replay playback row audit](TH09_REPLAY_NATIVE_PLAYBACK_FRAME_ROW_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

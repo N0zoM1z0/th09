@@ -95,6 +95,17 @@ typedef char ReplayCodecNativeWireHeaderOffsets[
      offsetof(ReplayDataView, randomPayloadByte) == 0xC0 &&
      sizeof(ReplayHeaderView) == 0xC0) ? 1 : -1];
 
+// Replay playback's original address test forms the address of one
+// 0x28-byte frame table row in the genuine 3x10 pointer header. This is
+// NOT a test of the pointer stored at frameStart[0][stage].
+typedef char ReplayNativePlaybackFrameRowAddress[
+    (offsetof(ReplayDataView, frameStart) == 0x20 &&
+     sizeof(((ReplayDataView *)0)->frameStart[0]) == 0x28 &&
+     sizeof(((ReplayDataView *)0)->frameStart[0]) ==
+         ReplayRecordingCapacity::StageCount * sizeof(ReplayFrameDataStartView *) &&
+     sizeof(((ReplayDataView *)0)->frameStart) ==
+         ReplayRecordingCapacity::InputStreamCount * 0x28) ? 1 : -1];
+
 typedef char ReplayNativeRestoredStateOffsets[
     (offsetof(AsciiGameManagerSideView, value2C) == 0x2C &&
      offsetof(AsciiGameManagerSideView, value30) == 0x30 &&
@@ -497,10 +508,10 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
         replayManager->unknown110 = 0;
     }
     i32 stage = g_GameManager.field0FC;
-    // TH09 tests this table address, not the stored frame pointer.
-    // Form it within the complete replay header's byte representation.
-    if ((u8 *)replayManager->replayData + offsetof(ReplayDataView, frameStart) +
-        stage * sizeof(replayManager->replayData->frameStart[0]) == NULL)
+    // The original tests the frame-table ROW ADDRESS (0x20 + stage*0x28),
+    // not the pointer stored in frameStart[0][stage]. Keep its observed
+    // address test; changing to a data-pointer check alters game behavior.
+    if (replayManager->replayData->frameStart[stage] == NULL)
         return -1;
     if ((g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1()) && stage > 0)
     {

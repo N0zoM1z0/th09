@@ -61,6 +61,16 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Native replay playback tests a frame-table row address
+
+The complete 540-byte BeginPlaybackStage does not test an individual stored
+frame pointer in the original: it compares the address of one native
+0x28-byte `frameStart[stage]` array row at ReplayDataView +0x20. The C++
+source now uses that actual row expression; the 538-byte candidate keeps
+32 fields, five calls and its existing 39-plus-two difference frontier.
+Twelve exact ReplayInput same-source owners remain protected. See
+[native Replay playback row proof](TH09_REPLAY_NATIVE_PLAYBACK_FRAME_ROW_20261107.md).
+
 ### 2026-11-07: Result-page 16-slot unlock capacity is native PLST storage
 
 The full 485-byte Title OnUpdateResult original reads a native 3×16-byte
