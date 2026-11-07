@@ -19,7 +19,7 @@ struct EffectShotSideView
 int __fastcall EffectInitializeCallbackType35(Effect *effect)
 {
     reinterpret_cast<EffectShotSideView *>(effect->manager->sideState)->player04
-        ->anmFileBC->SetAndExecuteScriptIdx(reinterpret_cast<AnmVm *>(effect->vms), 7);
+        ->header24.anmFile98->SetAndExecuteScriptIdx(reinterpret_cast<AnmVm *>(effect->vms), 7);
     reinterpret_cast<AnmVm *>(effect->vms)->flagsWord |= 0x2000;
     reinterpret_cast<AnmVm *>(effect->vms)->pos2.x = 0.0f;
     reinterpret_cast<AnmVm *>(effect->vms)->pos2.y = 0.0f;

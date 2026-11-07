@@ -4,8 +4,8 @@
 void __fastcall PlayerSpawnShotsView::SpawnShots(int value, int powerLevel)
 {
     PlayerSpawnShotsDescriptorView *entry =
-        primaryShtFile30338->shotPowerLevels42C[powerLevel].descriptors00;
-    PlayerSpawnShotsShotView *shot = shotsC11C;
+        reinterpret_cast<PlayerSpawnShotsShtFileView *>(primaryShtFile)->shotPowerLevels42C[powerLevel].descriptors00;
+    PlayerSpawnShotsShotView *shot = reinterpret_cast<PlayerSpawnShotsShotView *>(shots);
     int result;
 
     for (int i = 0; i < 128; ++i, ++shot)

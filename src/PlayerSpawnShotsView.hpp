@@ -1,4 +1,5 @@
 #pragma once
+#include "PlayerLifecycleView.hpp"
 #include <stddef.h>
 
 class AnmLoaded;
@@ -54,21 +55,17 @@ struct PlayerSpawnShotsShotView
 typedef char PlayerSpawnShotsShotSizeIs484[
     (sizeof(PlayerSpawnShotsShotView) == 0x484) ? 1 : -1];
 
-struct PlayerSpawnShotsView
+// The exact SpawnShots thiscall sees the same native Player allocation.
+// Its callback-specific shot and descriptor *views* remain local until their
+// independent callback signatures can be reconstructed.
+struct PlayerSpawnShotsView : PlayerLifecycleView
 {
-    unsigned char unknown00000[0xBC];
-    AnmLoaded *anmFileBC;
-    unsigned char unknown000C0[0xC11C - 0xC0];
-    PlayerSpawnShotsShotView shotsC11C[128];
-    unsigned char unknown3031C[0x30338 - 0x3031C];
-    PlayerSpawnShotsShtFileView *primaryShtFile30338;
-
     void __fastcall SpawnShots(int value, int powerLevel);
 };
 
-typedef char PlayerSpawnShotsSlotsAtC11C[
-    (offsetof(PlayerSpawnShotsView, shotsC11C) == 0xC11C) ? 1 : -1];
-typedef char PlayerSpawnShotsShtAt30338[
-    (offsetof(PlayerSpawnShotsView, primaryShtFile30338) == 0x30338) ? 1 : -1];
-
-typedef char PlayerSpawnShotsAnmAtBC[(offsetof(PlayerSpawnShotsView, anmFileBC) == 0xBC) ? 1 : -1];
+typedef char PlayerSpawnShotsNativeStorage[
+    (sizeof(PlayerSpawnShotsView) == sizeof(PlayerLifecycleView) &&
+     offsetof(PlayerSpawnShotsView, shots) == 0xC11C &&
+     offsetof(PlayerSpawnShotsView, primaryShtFile) == 0x30338 &&
+     offsetof(PlayerSpawnShotsView, header24) +
+     offsetof(PlayerHeaderStateView, anmFile98) == 0xBC) ? 1 : -1];
