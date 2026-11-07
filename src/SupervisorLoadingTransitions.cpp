@@ -1,5 +1,6 @@
 #include "ScreenEffect.hpp"
 #include "Supervisor.hpp"
+#include "TitleSupervisorRuntimeView.hpp"
 
 struct SupervisorLoadingTransitionVmView
 {
@@ -8,31 +9,17 @@ struct SupervisorLoadingTransitionVmView
     void SetInterrupt(short interrupt);
 };
 
-struct TitleSupervisorView
-{
-    unsigned char unknown000[0x740];
-    int loadingVmsHaveBeenSetup740;
-
-    void HideLoadingVms();
-};
-
-struct SupervisorLoadingFinishView
-{
-    unsigned char unknown000[0x740];
-    int loadingVmsHaveBeenSetup740;
-};
-
 extern SupervisorLoadingTransitionVmView g_SupervisorLoadingVms[3];
 extern ScreenEffect *g_SupervisorScreenEffect;
 
 void TitleSupervisorView::HideLoadingVms()
 {
-    if (loadingVmsHaveBeenSetup740 == 1)
+    if (loadingVmsHaveBeenSetup == 1)
     {
         g_SupervisorLoadingVms[0].SetInterrupt(1);
         g_SupervisorLoadingVms[1].SetInterrupt(1);
         g_SupervisorLoadingVms[2].SetInterrupt(1);
-        loadingVmsHaveBeenSetup740 = 0;
+        loadingVmsHaveBeenSetup = 0;
     }
 
     if (g_SupervisorScreenEffect != 0)
@@ -44,15 +31,12 @@ void TitleSupervisorView::HideLoadingVms()
 
 void __fastcall FinishLoading(Supervisor *supervisor)
 {
-    SupervisorLoadingFinishView *view =
-        reinterpret_cast<SupervisorLoadingFinishView *>(supervisor);
-
-    if (view->loadingVmsHaveBeenSetup740 == 1)
+    if (supervisor->loadingVmsHaveBeenSetup == 1)
     {
         g_SupervisorLoadingVms[0].SetInterrupt(2);
         g_SupervisorLoadingVms[1].SetInterrupt(2);
         g_SupervisorLoadingVms[2].SetInterrupt(2);
-        view->loadingVmsHaveBeenSetup740 = 2;
+        supervisor->loadingVmsHaveBeenSetup = 2;
     }
 
     if (g_SupervisorScreenEffect != 0)

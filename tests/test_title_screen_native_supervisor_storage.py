@@ -9,8 +9,9 @@ class TitleNativeSupervisorStorage(unittest.TestCase):
     def test_true_supervisor_prefix_and_fps_state(self):
         title=(ROOT/'src/TitleScreen.cpp').read_text()
         native=(ROOT/'src/Supervisor.hpp').read_text()
-        self.assertIn('struct TitleSupervisorView : SupervisorThreadStartView',title)
-        self.assertIn('sizeof(TitleSupervisorView) == sizeof(Supervisor)',title)
+        view=(ROOT/'src/TitleSupervisorRuntimeView.hpp').read_text()
+        self.assertIn('struct TitleSupervisorView : SupervisorThreadStartView',view)
+        self.assertIn('sizeof(TitleSupervisorView) == sizeof(Supervisor)',view)
         self.assertNotIn('u8 unknown000[8];\n    IDirect3DDevice8 *d3dDevice;',title)
         self.assertIn('g_TitleSupervisor.d3dDevice08->ResourceManagerDiscardBytes(0);',title)
         self.assertIn('g_TitleSupervisor.framerateMultiplier5B8 = 1.0f;',title)
@@ -26,7 +27,7 @@ class TitleNativeSupervisorStorage(unittest.TestCase):
                 ('recordingFpsState790','0x790')):
             with self.subTest(field=field):
                 self.assertIn('int '+field+';',native)
-                self.assertIn('offsetof(TitleSupervisorView, '+field+') == '+offset,title) if field in ('recordingFpsWarning77C','playbackFpsWarning780','recordingFpsState790') else None
+                self.assertIn('offsetof(TitleSupervisorView, '+field+') == '+offset,view) if field in ('recordingFpsWarning77C','playbackFpsWarning780','recordingFpsState790') else None
         self.assertIn('TitleSupervisorView::ClearRecordingFpsWarningState()',title)
 
     def test_original_bound_title_big_and_small_owners_remain_stable(self):
