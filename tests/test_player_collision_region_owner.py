@@ -54,19 +54,18 @@ def validate_connection(consumer, header, producer, units):
             'duplicated private region/storage overlay')
     body = consumer.split('int PlayerLifecycleView::CheckBulletCollision(', 1)[1]
     body = body.split('\nint PlayerLifecycleView::CheckGrazeCollision(', 1)[0]
-    # The consumer now borrows one native pool reference and traverses its
-    # original activeB100 pointer array. Ensure it starts from *this*, not a
-    # different Player, and never silently falls back to releasedB908.
-    root = re.search(
-        r'\b' + OWNER + r'\s*&\s*(\w+)\s*=\s*'
-        r'\*reinterpret_cast<' + OWNER + r'\s*\*>\((\w+)\);', body)
-    require(root is not None, 'consumer must borrow the actual producer pool')
-    pool, receiver = root.groups()
-    require(receiver == 'this' or re.search(
-        r'\bPlayerLifecycleView\s*\*\s*' + re.escape(receiver) + r'\s*=\s*this\s*;',
-        body) is not None, 'consumer must scan the actual producer pointer array')
-    scan = re.search(REGION + r'\s*\*\*\s*(\w+)\s*=\s*' + re.escape(pool) +
-                     r'\.activeB100;', body)
+    # The consumer now addresses the genuine Player member directly.
+    # Both producer and consumer still share one +0xB100 array; do not
+    # permit a fallback to releasedB908 or to a different Player instance.
+    native = (ROOT/'src/PlayerLifecycleView.hpp').read_text()
+    require('#include "PlayerCollisionRegionCreate.hpp"' in native and
+            'PlayerLifecycleNativeRegionAllocation' in native and
+            'PlayerCollisionRegionCreateRegionView *activeB100[514];' in native and
+            'PlayerCollisionRegionCreateRegionView *releasedB908[514];' in native,
+            'native Player array does not match original region producer')
+    require('reinterpret_cast<PlayerCollisionRegionCreateView' not in body,
+            'consumer may not duplicate native source layout with a cast')
+    scan = re.search(REGION + r'\s*\*\*\s*(\w+)\s*=\s*activeB100;',body)
     require(scan is not None, 'consumer must scan the actual producer pointer array')
     cursor = scan.group(1)
     scalar = {'unsigned char': (1, 1), 'float': (4, 4), 'int': (4, 4)}
@@ -144,17 +143,18 @@ class PlayerCollisionRegionOwner(unittest.TestCase):
                                                      'releasedB908[activeCountC110] = region;', 1))
 
     def test_reject_consumer_scanning_other_pool(self):
-        original='pool.activeB100;'
+        original='PlayerCollisionRegionCreateRegionView **slot = activeB100;'
         self.assertEqual(self.consumer.count(original),1)
         with self.assertRaisesRegex(ValueError, 'actual producer pointer array'):
-            self.check(consumer=self.consumer.replace(original,'pool.releasedB908;',1))
+            self.check(consumer=self.consumer.replace(original,
+                'PlayerCollisionRegionCreateRegionView **slot = releasedB908;',1))
 
     def test_reject_consumer_scanning_other_player(self):
-        original='reinterpret_cast<PlayerCollisionRegionCreateView *>(this);'
+        original='PlayerCollisionRegionCreateRegionView **slot = activeB100;'
         self.assertEqual(self.consumer.count(original),1)
         with self.assertRaisesRegex(ValueError, 'actual producer pointer array'):
-            self.check(consumer=self.consumer.replace(
-                original,'reinterpret_cast<PlayerCollisionRegionCreateView *>(otherPlayer);',1))
+            self.check(consumer=self.consumer.replace(original,
+                'PlayerCollisionRegionCreateRegionView **slot = otherPlayer->activeB100;',1))
 
 
 if __name__ == '__main__':

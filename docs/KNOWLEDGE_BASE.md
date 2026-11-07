@@ -51,6 +51,20 @@ large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+### 2026-11-07: Player's region allocator and collision boss share native fields
+
+The exact collision-region allocation and nonexact 862-byte
+`CheckBulletCollision` use the same native Player storage: 0x44-byte
+embedded region at +0xB0BC, 514-pointer active/released arrays at
++0xB100/+0xB908, and count dwords at +0xC110/+0xC114. These now appear
+as ordinary typed `PlayerLifecycleView` members rather than an opaque
++0x28BC..+0xC11C span and a separate casted pool in the collision boss.
+41 affected exact whole functions (9,912 bytes, 417 relocation fields),
+including the independent Type18/24 ExAttack caller, retain original-bound
+equality. The boss remains nonexact with 799
+unlike overlap bytes plus 13 missing; see
+[the native collision-region source proof](TH09_PLAYER_NATIVE_COLLISION_REGION_MEMBERS_20261107.md).
+
 ### 2026-11-07: Native Player, VM and angle method across Type18/24
 
 The entire exact 1,436-byte Type18/24 callback now borrows the true

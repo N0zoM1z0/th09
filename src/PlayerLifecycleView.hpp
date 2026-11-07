@@ -5,6 +5,7 @@
 #include "Float3.hpp"
 #include "GameManagerSideState.hpp"
 #include "AnmVmLifecycle.hpp"
+#include "PlayerCollisionRegionCreate.hpp"
 
 #include <stddef.h>
 
@@ -401,7 +402,15 @@ struct PlayerLifecycleView
     PlayerHalfSizeView itemCollectionHalfSize;
     PlayerMovementFields movementFields1CCC;
     PlayerOptionStateCtorView optionStates[4];
-    unsigned char unknown28BC[0xC11C - 0x28BC];
+    // Native collision-region state within this Player allocation. The
+    // separate CreateRegion receiver uses these same physical coordinates.
+    unsigned char unknown28BC[0xB0BC - 0x28BC];
+    PlayerCollisionRegionCreateRegionView collisionRegionB0BC;
+    PlayerCollisionRegionCreateRegionView *activeB100[514];
+    PlayerCollisionRegionCreateRegionView *releasedB908[514];
+    int collisionRegionActiveCountC110;
+    int collisionRegionReleasedCountC114;
+    unsigned char unknownC118[0xC11C - 0xC118];
     PlayerShotCtorView shots[128];
     PlayerState3031CView state3031C;
     PlayerShtFileView *primaryShtFile;
@@ -472,6 +481,22 @@ struct PlayerLifecycleView
     static int __fastcall OnDrawHighPrio(PlayerLifecycleView *player);
     static int __fastcall OnDrawLowPrio(PlayerLifecycleView *player);
 };
+
+typedef char PlayerLifecycleNativeRegionAllocation[
+    (offsetof(PlayerLifecycleView, collisionRegionB0BC) ==
+         offsetof(PlayerCollisionRegionCreateView, embeddedB0BC) &&
+     offsetof(PlayerLifecycleView, activeB100) ==
+         offsetof(PlayerCollisionRegionCreateView, activeB100) &&
+     offsetof(PlayerLifecycleView, releasedB908) ==
+         offsetof(PlayerCollisionRegionCreateView, releasedB908) &&
+     offsetof(PlayerLifecycleView, collisionRegionActiveCountC110) ==
+         offsetof(PlayerCollisionRegionCreateView, activeCountC110) &&
+     offsetof(PlayerLifecycleView, collisionRegionReleasedCountC114) ==
+         offsetof(PlayerCollisionRegionCreateView, releasedCountC114) &&
+     sizeof(((PlayerLifecycleView *)0)->activeB100) ==
+         sizeof(((PlayerCollisionRegionCreateView *)0)->activeB100) &&
+     sizeof(((PlayerLifecycleView *)0)->releasedB908) ==
+         sizeof(((PlayerCollisionRegionCreateView *)0)->releasedB908)) ? 1 : -1];
 
 typedef char PlayerLifecycleSizeIs30F70[(sizeof(PlayerLifecycleView) == 0x30F70) ? 1 : -1];
 typedef char PlayerLifecycleTypeAt04[

@@ -36,9 +36,7 @@ int PlayerLifecycleView::CheckBulletCollision(
     float xDelta;
     float yDelta;
 
-    PlayerCollisionRegionCreateView &pool =
-        *reinterpret_cast<PlayerCollisionRegionCreateView *>(this);
-    PlayerCollisionRegionCreateRegionView **slot = pool.activeB100;
+    PlayerCollisionRegionCreateRegionView **slot = activeB100;
 
     for (; *slot != NULL; ++slot)
     {

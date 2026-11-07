@@ -334,6 +334,18 @@ proof of remote publication.
   not new authored exact credit. See
   [Type18 native Player/ANM/angle evidence](TH09_EXATTACK_TYPE18_NATIVE_PLAYER_VM_20261107.md).
 
+- **Player native collision-region allocation recovered in a large boss:**
+  the real Player now directly owns a 0x44-byte region at +0xB0BC,
+  514-entry active/released pointer arrays at +0xB100/+0xB908 and two
+  counters at +0xC110/+0xC114. The nonexact 862-byte
+  `CheckBulletCollision` now scans the actual member, not a private
+  reinterpret overlay. **41 related exact owners / 9,912 complete bytes /
+  417 fields** source-cold match the original, including independent
+  Type18/24 ExAttack caller proof. The boss still has a
+  849-byte candidate, 799 unlike overlaps and 13 missing original bytes;
+  no exact credit is added. See
+  [Player native region member review](TH09_PLAYER_NATIVE_COLLISION_REGION_MEMBERS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
