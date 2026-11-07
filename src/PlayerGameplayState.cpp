@@ -1,5 +1,6 @@
 #include "GameManagerRuntimeView.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "FrontSide.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
@@ -193,12 +194,6 @@ float *PlayerGameplayMethods::ResolvePatternOffset(
     return offsetY;
 }
 
-struct PlayerGameplayFrontSideView
-{
-    void ResetPatternTiming();
-    void SetPatternTiming(int value);
-};
-
 struct PlayerGameplayTimerCurrentView
 {
     int previous;
@@ -304,7 +299,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     {
         int openingTime = reinterpret_cast<PlayerGameplayTimerCurrentView *>(
             &header->openingTimer5C)->GetCurrent();
-        reinterpret_cast<PlayerGameplayFrontSideView *>(initialPlayer->opponentState->frontSide18)->SetPatternTiming(
+        initialPlayer->opponentState->frontSide18->SetTimingDigits(
             config->openingShort08 * 60 - openingTime);
     }
 
@@ -332,8 +327,8 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             header->flags74 |= 1U;
             if (g_GameManager.IsGameMode1())
             {
-                reinterpret_cast<PlayerGameplayFrontSideView *>((header->player78->opponentState)->frontSide18)->ResetPatternTiming();
-                reinterpret_cast<PlayerGameplayFrontSideView *>((header->player78->opponentState)->frontSide18)->SetPatternTiming(-1);
+                header->player78->opponentState->frontSide18->ResetPatternTiming();
+                header->player78->opponentState->frontSide18->SetTimingDigits(-1);
             }
         }
     }
