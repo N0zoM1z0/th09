@@ -51,7 +51,7 @@ class SupervisorNetworkNativeOwnerTests(unittest.TestCase):
             with self.subTest(unit=name):
                 self.assertEqual(units[name]['size'], size)
         reset = (ROOT / 'src/SupervisorMode4Reset.cpp').read_text()
-        self.assertIn('struct TitleSupervisorView : SupervisorFrameQueueView {};', reset)
+        self.assertIn('struct TitleSupervisorView : Supervisor {};', reset)
         self.assertIn('TitleResetNativeSupervisorState', reset)
         self.assertNotIn('unsigned char unknown000[0x458];', reset)
         for field in ('frameCounter', 'confirmedFrame', 'frameMode',
@@ -59,8 +59,9 @@ class SupervisorNetworkNativeOwnerTests(unittest.TestCase):
             with self.subTest(mode4_field=field):
                 self.assertIn('supervisor->networkTiming458.' + field, reset)
         self.assertIn('memset(supervisor->entries47C, 0,', reset)
-        self.assertIn('static_cast<SupervisorFrameQueueView *>(&g_TitleSupervisor)', reset)
-        self.assertNotIn('reinterpret_cast<SupervisorFrameQueueView *>(', reset)
+        self.assertNotIn('SupervisorFrameQueueView', reset)
+        self.assertEqual(reset.count('g_TitleSupervisor.InsertReceivedFrame('),2)
+        self.assertNotIn('frameQueues->',reset)
         self.assertIn('void Supervisor::InsertReceivedFrame(',
                       (ROOT / 'src/SupervisorFrameQueueInsert.cpp').read_text())
         synchronized = (ROOT / 'src/SupervisorNetworkQueue.cpp').read_text()

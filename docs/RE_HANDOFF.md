@@ -501,6 +501,17 @@ proof of remote publication.
   compiler-private symbols were proved at their original target VAs.
   See [native network message queue audit](TH09_NETWORK_MESSAGE_NATIVE_SUPERVISOR_QUEUE_20261107.md).
 
+- **Supervisor has no remaining empty queue façade:** the exact
+  177-byte `ResetTitleMode4Supervisor` now defines its native
+  `TitleSupervisorView : Supervisor` and directly uses the real queue
+  methods. The empty `SupervisorFrameQueueView.hpp` is deleted from all
+  source. Scoped source-cold comparisons pass **7 exact owners / 2,553
+  physical bytes / 151 fields**, including complete network-message
+  switch data and the exact Supervisor caller. The separately rebuilt
+  1,633-byte network service keeps its original 1,627-byte candidate,
+  106 fields and 1,381-plus-six difference frontier. See
+  [native Supervisor queue façade removal](TH09_SUPERVISOR_REMOVE_QUEUE_FACADE_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

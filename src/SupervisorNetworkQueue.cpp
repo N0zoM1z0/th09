@@ -1,4 +1,3 @@
-#include "SupervisorFrameQueueView.hpp"
 #include "Supervisor.hpp"
 #include <stddef.h>
 

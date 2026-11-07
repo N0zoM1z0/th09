@@ -23,18 +23,16 @@ class SupervisorNativeQueueMethodOwner(unittest.TestCase):
 
     def test_true_supervisor_owns_four_queue_methods_and_physical_frames(self):
         native=(ROOT/'src/Supervisor.hpp').read_text()
-        facade=(ROOT/'src/SupervisorFrameQueueView.hpp').read_text()
+        self.assertFalse((ROOT/'src/SupervisorFrameQueueView.hpp').exists())
         for name,_,_,_ in METHODS:
             with self.subTest(method=name):
                 self.assertIn(name+'(',native)
-                self.assertNotIn('    '+name+'(',facade)
         for part in ('SupervisorFrameEntryStorageView entries47C[20];',
                      'SupervisorFrameEntryStorageView lastReceived56C[2];',
                      'offsetof(Supervisor, entries47C) == 0x47C',
                      'offsetof(Supervisor, lastReceived56C) == 0x56C'):
             self.assertIn(part,native)
-        self.assertIn('struct SupervisorFrameQueueView : Supervisor',facade)
-        self.assertIn('sizeof(SupervisorFrameQueueView) == sizeof(Supervisor)',facade)
+        self.assertIn('SupervisorSizeIs7B0',native)
         for file in ('SupervisorFrameQueueInsert.cpp','SupervisorFrameQueueOps.cpp',
                      'SupervisorNetworkQueue.cpp'):
             with self.subTest(source=file):

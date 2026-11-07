@@ -1,5 +1,4 @@
 #include "RngRuntimeLeaves.hpp"
-#include "SupervisorFrameQueueView.hpp"
 #include "Supervisor.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
 #include "SupervisorNetworkState.hpp"
@@ -11,7 +10,7 @@
 // Keep the existing target-bound function argument and global symbol name,
 // but share the real Supervisor's 0x7B0 storage.  No alternate 0x584-byte
 // network/queue object is allocated in TH09.
-struct TitleSupervisorView : SupervisorFrameQueueView {};
+struct TitleSupervisorView : Supervisor {};
 typedef char TitleResetNativeSupervisorState[
     (sizeof(TitleSupervisorView) == sizeof(Supervisor) &&
      offsetof(TitleSupervisorView, networkTiming458) == 0x458 &&
@@ -40,12 +39,10 @@ void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor)
     memset(supervisor->entries47C, 0, sizeof(supervisor->entries47C));
     memset(supervisor->lastReceived56C, 0, sizeof(supervisor->lastReceived56C));
 
-    SupervisorFrameQueueView *frameQueues =
-        static_cast<SupervisorFrameQueueView *>(&g_TitleSupervisor);
-
-    frameQueues->InsertReceivedFrame(
+    // The native title Supervisor owns this queue and these two sentinels.
+    g_TitleSupervisor.InsertReceivedFrame(
         0, -9999, 0, (short)g_ReplayRng.GetSeed());
-    frameQueues->InsertReceivedFrame(
+    g_TitleSupervisor.InsertReceivedFrame(
         1, -9999, 0, (short)g_ReplayRng.GetSeed());
 
     SupervisorNetworkMarkActive(g_SupervisorNetworkState);

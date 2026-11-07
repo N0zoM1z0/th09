@@ -23,10 +23,11 @@ class NativeSupervisorFrameQueues(unittest.TestCase):
                         'offsetof(Supervisor, lastReceived56C) == 0x56C'):
             self.assertIn(snippet,header)
         self.assertIn('SupervisorUpdateNativeQueueAt47C',update)
-        queue = (ROOT/'src/SupervisorFrameQueueView.hpp').read_text()
         storage = (ROOT/'src/SupervisorFrameQueueStorageView.hpp').read_text()
-        self.assertIn('struct SupervisorFrameQueueView : Supervisor',queue)
-        self.assertIn('SupervisorQueueNativeReceiverLayout',queue)
+        self.assertFalse((ROOT/'src/SupervisorFrameQueueView.hpp').exists())
+        for name in ('InsertReceivedFrame','InsertPredictedFrame',
+                     'PopFrame','AreFrameQueuesSynchronized'):
+            self.assertIn(name+'(',header)
         self.assertNotIn('struct SupervisorFrameQueueStorageView',storage)
         self.assertNotIn('SupervisorFrameQueueInsertLayout',storage)
         self.assertNotIn('SupervisorFrameQueueOpsLayout',storage)

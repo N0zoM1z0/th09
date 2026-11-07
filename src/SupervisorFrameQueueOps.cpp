@@ -1,4 +1,3 @@
-#include "SupervisorFrameQueueView.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
 #include "Supervisor.hpp"
 #include "ReplayInputState.hpp"

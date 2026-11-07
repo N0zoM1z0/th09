@@ -61,6 +61,17 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: No second Supervisor frame-queue receiver class remains
+
+`SupervisorFrameQueueView.hpp` has been deleted after migrating all four
+queue exact methods, the original network-service big boss, network
+message handler, and Mode4 Title reset to the single 0x7B0-byte
+Supervisor allocation. `TitleSupervisorView` directly derives from
+Supervisor, with the unchanged original title-reset decorated symbol.
+Seven complete exact owners stay byte-identical under scoped replay; the
+nonexact network service original deficit does not grow. See
+[native queue façade removal proof](TH09_SUPERVISOR_REMOVE_QUEUE_FACADE_20261107.md).
+
 ### 2026-11-07: Exact network message handler uses Supervisor's own queue
 
 The 808-byte physical `SupervisorNetworkMessageView::HandleMessage`

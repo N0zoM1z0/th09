@@ -2,7 +2,6 @@
 // Adapted from Cirno-Labs/th09 src/app.cpp, App::AddRecord,
 // commit d7653152becabb8c86f2f43d49015ecc11bd0652.
 // Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
-#include "SupervisorFrameQueueView.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
 #include "Supervisor.hpp"
 
