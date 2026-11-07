@@ -230,7 +230,7 @@ proof of remote publication.
 - **Gameplay Setup native 2+1 side topology:** the genuine GameManager
   exposes two playable 0x38-byte sides and two configuration input modes;
   setup/teardown additionally use a third physical 0x38-byte record solely
-  for the shared EffectManager at +0x7C. All four loops, setup/reset and
+  for the shared EffectManager at +0x7C. All four loops, setup/cleanup and
   release paths now derive these bounds from native arrays rather than
   unrelated literals. **12 exact owners / 3,987 bytes / 335 fields** pass
   original-bound scoped replay. The 1,689-byte setup boss remains a
