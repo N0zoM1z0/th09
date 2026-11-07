@@ -45,26 +45,14 @@ struct ExAttackType1824RecordView
     float rotation3C;
 };
 
-struct ExAttackType1824CircleAppendView
-{
-    PlayerLifecycleView *player00;
-    PlayerCollisionQueryRecordView records[128];
-    int count1804;
 
-    void AppendCircleRecord(
-        const PlayerPositionView *position,
-        float radius,
-        int unknown);
-};
-typedef char ExAttackType1824CircleAppendSizeIs1808[
-    (sizeof(ExAttackType1824CircleAppendView) == 0x1808) ? 1 : -1];
 
 struct ExAttackType1824PlayerView
 {
     unsigned char unknown0000[0xBC];
     AnmLoaded *anmFileBC;
     unsigned char unknown00C0[0x36C - 0xC0];
-    ExAttackType1824CircleAppendView collisionQuery36C;
+    PlayerCollisionQueryStateView collisionQuery36C;
     unsigned char unknown1B74[0x1B88 - 0x1B74];
     PlayerPositionView position1B88;
     unsigned char unknown1B94[0x1CE4 - 0x1B94];
@@ -77,6 +65,12 @@ struct ExAttackType1824PlayerView
         Bullet *bullet);
     float AngleToPoint(PlayerPositionView *position);
 };
+typedef char ExAttackType1824PlayerViewNativeCollisionQueryAt36C[
+    (offsetof(ExAttackType1824PlayerView, collisionQuery36C) ==
+     offsetof(PlayerLifecycleView, collisionQuery36C) &&
+     sizeof(((ExAttackType1824PlayerView *)0)->collisionQuery36C) ==
+         sizeof(PlayerCollisionQueryStateView)) ? 1 : -1];
+
 
 struct ExAttackType1824SideView
 {

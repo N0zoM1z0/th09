@@ -31,8 +31,11 @@ class PlayerCollisionQueryNativeCapacity(unittest.TestCase):
                 self.assertIn('#include "PlayerCollisionQueryCapacity.hpp"',text)
                 self.assertIn('>= PlayerCollisionQueryCapacity::RecordCount',text)
         circle = (ROOT/'src/PlayerCollisionAppendCircle.cpp').read_text()
-        self.assertIn('PlayerCollisionQueryCapacity::RecordCount]',circle)
-        self.assertIn('sizeof(PlayerCollisionCircleAppendView) == sizeof(PlayerCollisionQueryStateView)',circle)
+        self.assertIn('PlayerCollisionQueryCapacity::RecordCount)',circle)
+        self.assertIn('PlayerCollisionQueryRecordView records[128]',
+                      (ROOT/'src/PlayerLifecycleView.hpp').read_text())
+        self.assertIn('void PlayerCollisionQueryStateView::AppendCircleRecord(',circle)
+        self.assertNotIn('struct PlayerCollisionCircleAppendView',circle)
 
     def test_three_complete_original_owner_units_stay_separately_registered(self):
         with (ROOT/'config/match-units.toml').open('rb') as stream:

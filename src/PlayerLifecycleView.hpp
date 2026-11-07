@@ -196,6 +196,10 @@ struct PlayerCollisionQueryStateView
         const PlayerPositionView *position,
         const PlayerPositionView *size,
         int unknown);
+    void AppendCircleRecord(
+        const PlayerPositionView *position,
+        float radius,
+        int unknown);
 };
 typedef char PlayerCollisionQueryStateSizeIs1808[
     (sizeof(PlayerCollisionQueryStateView) == 0x1808) ? 1 : -1];

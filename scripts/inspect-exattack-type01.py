@@ -22,7 +22,7 @@ DESTINATIONS = {
     '?CheckBulletCollision@ExAttackUpdatePlayerView@@QAEHPAUPlayerPositionView@@0PAX@Z': 0x41DFF0,
     '?CheckBulletCollision@ExAttackUpdatePlayerView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z': 0x41DFF0,
     '?SetInterrupt@ExAttackUpdateAnmVmView@@QAEXF@Z': 0x406790,
-    '?AppendCircleRecord@ExAttackCollisionCircleView@@QAEXPBUPlayerPositionView@@MH@Z': 0x440D30,
+    '?AppendCircleRecord@PlayerCollisionQueryStateView@@QAEXPBUPlayerPositionView@@MH@Z': 0x440D30,
     '?ExAttackInterpolate2D@@YIPAMPAM0000MM@Z': 0x42AF80,
     '?ExAttackInterpolate2D@@YIXPAM0000MM@Z': 0x42AF80,
     '?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z': 0x401560,

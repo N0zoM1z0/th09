@@ -51,6 +51,17 @@ large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+### 2026-11-07: ExAttack circle callbacks share one real Player method
+
+The original 95-byte append-circle callback at 0x00440D30 has the
+same physical Player query receiver (+0x36C) and 128-record storage as
+exact AppendBoxRecord and AppendLaserRecord. Seven distinct ExAttack
+callback source files no longer declare fictitious private member types;
+all 11 real relocated call sites now name the one native method. Eight
+source-cold exact owners (4,907 bytes/203 fields), including the 1,436-byte
+Type18/24 callback, preserve the full original bytes. See
+[the original-bound native circle call review](TH09_EXATTACK_NATIVE_CIRCLE_OWNER_20261107.md).
+
 ### 2026-11-07: Player collision-query array capacity shared with Enemy
 
 Player's real query object at +0x36C stores one owner pointer, 128

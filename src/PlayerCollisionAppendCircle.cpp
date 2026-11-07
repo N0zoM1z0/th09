@@ -3,24 +3,7 @@
 
 #include <stddef.h>
 
-struct PlayerCollisionCircleAppendView
-{
-    PlayerLifecycleView *player00;
-    PlayerCollisionQueryRecordView records[PlayerCollisionQueryCapacity::RecordCount];
-    int count1804;
-
-    void AppendCircleRecord(
-        const PlayerPositionView *position,
-        float radius,
-        int unknown);
-};
-
-typedef char PlayerCollisionCircleAppendCountAt1804[
-    (offsetof(PlayerCollisionCircleAppendView, count1804) ==
-     offsetof(PlayerCollisionQueryStateView, count1804) &&
-     sizeof(PlayerCollisionCircleAppendView) == sizeof(PlayerCollisionQueryStateView)) ? 1 : -1];
-
-void PlayerCollisionCircleAppendView::AppendCircleRecord(
+void PlayerCollisionQueryStateView::AppendCircleRecord(
     const PlayerPositionView *position,
     float radius,
     int unknown)

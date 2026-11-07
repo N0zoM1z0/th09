@@ -38,19 +38,19 @@ struct ExAttackType4UpdateRecord
     ExAttackType4SourceRecord *parameter38;
 };
 
-struct ExAttackType4CircleAppendView
-{
-    void AppendCircleRecord(
-        const PlayerPositionView *position,
-        float radius,
-        int unknown);
-};
+
 
 struct ExAttackType4PlayerView
 {
     unsigned char unknown000[0x36C];
-    ExAttackType4CircleAppendView collisionQuery36C;
+    PlayerCollisionQueryStateView collisionQuery36C;
 };
+typedef char ExAttackType4PlayerViewNativeCollisionQueryAt36C[
+    (offsetof(ExAttackType4PlayerView, collisionQuery36C) ==
+     offsetof(PlayerLifecycleView, collisionQuery36C) &&
+     sizeof(((ExAttackType4PlayerView *)0)->collisionQuery36C) ==
+         sizeof(PlayerCollisionQueryStateView)) ? 1 : -1];
+
 
 struct ExAttackType4UpdateSideView
 {

@@ -37,30 +37,26 @@ struct ExAttackType13InterruptView
     void SetInterrupt(short interrupt);
 };
 
-struct ExAttackType13CircleAppendView
-{
-    PlayerLifecycleView *player00;
-    PlayerCollisionQueryRecordView records[128];
-    int count1804;
 
-    void AppendCircleRecord(
-        const PlayerPositionView *position,
-        float radius,
-        int unknown);
-};
 
 struct ExAttackType13PlayerView
 {
     unsigned char unknown000[0xBC];
     AnmLoaded *anmFileBC;
     unsigned char unknown0C0[0x36C - 0xC0];
-    ExAttackType13CircleAppendView collisionQuery36C;
+    PlayerCollisionQueryStateView collisionQuery36C;
 
     int CheckBulletCollision(
         PlayerPositionView *position,
         PlayerPositionView *collisionSize,
         Bullet *bullet);
 };
+typedef char ExAttackType13PlayerViewNativeCollisionQueryAt36C[
+    (offsetof(ExAttackType13PlayerView, collisionQuery36C) ==
+     offsetof(PlayerLifecycleView, collisionQuery36C) &&
+     sizeof(((ExAttackType13PlayerView *)0)->collisionQuery36C) ==
+         sizeof(PlayerCollisionQueryStateView)) ? 1 : -1];
+
 
 struct ExAttackType13SideView
 {

@@ -284,6 +284,16 @@ proof of remote publication.
   remains 13 bytes different. See
   [native query capacity review](TH09_PLAYER_COLLISION_QUERY_CAPACITY_20261107.md).
 
+- **One native Player circle append method across ExAttack:** the exact
+  95-byte Player collision method is now actually declared on the same
+  `PlayerCollisionQueryStateView` that owns box/laser append. Seven complete
+  ExAttack callback owners (including **1,436-byte Type18/24**) now use
+  its real member; **11 compiled call fields** all preserve the original
+  0x00440D30 target. Source-cold comparisons pass **8 full functions /
+  4,907 physical bytes / 203 fields**. Five changed Type14/22 `$L` names
+  retain proven same-section targets. See
+  [native ExAttack circle owner](TH09_EXATTACK_NATIVE_CIRCLE_OWNER_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
