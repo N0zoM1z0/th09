@@ -43,33 +43,24 @@ struct BackgroundFogProbe
 typedef char BackgroundFogProbeSizeIs0C[
     sizeof(BackgroundFogProbe) == 0x0C ? 1 : -1];
 
-struct BackgroundStageCameraRecord
-{
-    Float3 position00;
-    Float3 lookAt0C;
-    Float3 up18;
-    Float3 forward24;
-    Float3 right30;
-    Float3 positionOffset3C;
-    float fieldOfView48;
-    unsigned char unknown04C[0xF0 - 0x4C];
-};
-typedef char BackgroundStageCameraRecordSizeIsF0[
-    sizeof(BackgroundStageCameraRecord) == 0xF0 ? 1 : -1];
+// The four Background-owned camera snapshots have the same physical 0xF0
+// representation as the native Supervisor viewport. This reuses the data
+// layout, not the lifetime or ownership of the Supervisor's allocation.
+typedef SupervisorCtorArrayElement BackgroundStageCameraRecord;
 typedef char BackgroundStageNativeViewportLayout[
-    (sizeof(BackgroundStageCameraRecord) == sizeof(SupervisorCtorArrayElement) &&
-     offsetof(BackgroundStageCameraRecord, position00) ==
-         offsetof(SupervisorCtorArrayElement, cameraPosition00) &&
-     offsetof(BackgroundStageCameraRecord, lookAt0C) ==
-         offsetof(SupervisorCtorArrayElement, cameraLookAtOffset0C) &&
-     offsetof(BackgroundStageCameraRecord, up18) ==
-         offsetof(SupervisorCtorArrayElement, cameraUp18) &&
-     offsetof(BackgroundStageCameraRecord, forward24) ==
-         offsetof(SupervisorCtorArrayElement, cameraForward24) &&
-     offsetof(BackgroundStageCameraRecord, positionOffset3C) ==
-         offsetof(SupervisorCtorArrayElement, cameraPositionOffset3C) &&
-     offsetof(BackgroundStageCameraRecord, fieldOfView48) ==
-         offsetof(SupervisorCtorArrayElement, fieldOfView48)) ? 1 : -1];
+    (sizeof(BackgroundStageCameraRecord) == 0xF0 &&
+     offsetof(BackgroundStageCameraRecord, cameraPosition00) == 0x00 &&
+     offsetof(BackgroundStageCameraRecord, cameraLookAtOffset0C) == 0x0C &&
+     offsetof(BackgroundStageCameraRecord, cameraUp18) == 0x18 &&
+     offsetof(BackgroundStageCameraRecord, cameraForward24) == 0x24 &&
+     offsetof(BackgroundStageCameraRecord, cameraPositionOffset3C) == 0x3C &&
+     offsetof(BackgroundStageCameraRecord, fieldOfView48) == 0x48 &&
+     offsetof(SupervisorCtorArrayElement, cameraPosition00) == 0x00 &&
+     offsetof(SupervisorCtorArrayElement, cameraLookAtOffset0C) == 0x0C &&
+     offsetof(SupervisorCtorArrayElement, cameraUp18) == 0x18 &&
+     offsetof(SupervisorCtorArrayElement, cameraForward24) == 0x24 &&
+     offsetof(SupervisorCtorArrayElement, cameraPositionOffset3C) == 0x3C &&
+     offsetof(SupervisorCtorArrayElement, fieldOfView48) == 0x48) ? 1 : -1];
 
 struct BackgroundStageView
 {
@@ -298,9 +289,9 @@ read_instruction:
         case 5:
             if (background->compensateCameraJump6428 != 0)
                 background->compensateCameraJump6428 = 0;
-            background->cameraStart924.position00 =
-                background->cameraTarget834.position00;
-            background->cameraTarget834.position00 =
+            background->cameraStart924.cameraPosition00 =
+                background->cameraTarget834.cameraPosition00;
+            background->cameraTarget834.cameraPosition00 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             if (background->interpolationDurationBF4[0] == 0)
                 g_Supervisor.ctorArray078[background->viewportIndex00C]
@@ -315,9 +306,9 @@ read_instruction:
             break;
 
         case 7:
-            background->cameraStart924.lookAt0C =
-                background->cameraTarget834.lookAt0C;
-            background->cameraTarget834.lookAt0C =
+            background->cameraStart924.cameraLookAtOffset0C =
+                background->cameraTarget834.cameraLookAtOffset0C;
+            background->cameraTarget834.cameraLookAtOffset0C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             if (background->interpolationDurationBF4[1] == 0)
                 g_Supervisor.ctorArray078[background->viewportIndex00C]
@@ -332,9 +323,9 @@ read_instruction:
             break;
 
         case 9:
-            background->cameraStart924.up18 =
-                background->cameraTarget834.up18;
-            background->cameraTarget834.up18 =
+            background->cameraStart924.cameraUp18 =
+                background->cameraTarget834.cameraUp18;
+            background->cameraTarget834.cameraUp18 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             if (background->interpolationDurationBF4[2] == 0)
                 g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18 =
@@ -383,22 +374,22 @@ read_instruction:
             goto script_done;
 
         case 14:
-            background->cameraStart924.position00 =
+            background->cameraStart924.cameraPosition00 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
         case 15:
-            background->cameraTarget834.position00 =
+            background->cameraTarget834.cameraPosition00 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
         case 16:
-            background->cameraTangentStartB04.position00 =
+            background->cameraTangentStartB04.cameraPosition00 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
         case 17:
-            background->cameraTangentEndA14.position00 =
+            background->cameraTangentEndA14.cameraPosition00 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
@@ -409,22 +400,22 @@ read_instruction:
             break;
 
         case 19:
-            background->cameraStart924.lookAt0C =
+            background->cameraStart924.cameraLookAtOffset0C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
         case 20:
-            background->cameraTarget834.lookAt0C =
+            background->cameraTarget834.cameraLookAtOffset0C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
         case 21:
-            background->cameraTangentStartB04.lookAt0C =
+            background->cameraTangentStartB04.cameraLookAtOffset0C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
         case 22:
-            background->cameraTangentEndA14.lookAt0C =
+            background->cameraTangentEndA14.cameraLookAtOffset0C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
@@ -435,22 +426,22 @@ read_instruction:
             break;
 
         case 24:
-            background->cameraStart924.up18 =
+            background->cameraStart924.cameraUp18 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
         case 25:
-            background->cameraTarget834.up18 =
+            background->cameraTarget834.cameraUp18 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
         case 26:
-            background->cameraTangentStartB04.up18 =
+            background->cameraTangentStartB04.cameraUp18 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
         case 27:
-            background->cameraTangentEndA14.up18 =
+            background->cameraTangentEndA14.cameraUp18 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
@@ -512,30 +503,30 @@ script_done:
             background,
             0,
             &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraPosition00,
-            &background->cameraStart924.position00,
-            &background->cameraTarget834.position00,
-            &background->cameraTangentStartB04.position00,
-            &background->cameraTangentEndA14.position00);
+            &background->cameraStart924.cameraPosition00,
+            &background->cameraTarget834.cameraPosition00,
+            &background->cameraTangentStartB04.cameraPosition00,
+            &background->cameraTangentEndA14.cameraPosition00);
 
     if (background->interpolationDurationBF4[1] != 0)
         InterpolateBackgroundCameraVector(
             background,
             1,
             &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraLookAtOffset0C,
-            &background->cameraStart924.lookAt0C,
-            &background->cameraTarget834.lookAt0C,
-            &background->cameraTangentStartB04.lookAt0C,
-            &background->cameraTangentEndA14.lookAt0C);
+            &background->cameraStart924.cameraLookAtOffset0C,
+            &background->cameraTarget834.cameraLookAtOffset0C,
+            &background->cameraTangentStartB04.cameraLookAtOffset0C,
+            &background->cameraTangentEndA14.cameraLookAtOffset0C);
 
     if (background->interpolationDurationBF4[2] != 0)
         InterpolateBackgroundCameraVector(
             background,
             2,
             &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18,
-            &background->cameraStart924.up18,
-            &background->cameraTarget834.up18,
-            &background->cameraTangentStartB04.up18,
-            &background->cameraTangentEndA14.up18);
+            &background->cameraStart924.cameraUp18,
+            &background->cameraTarget834.cameraUp18,
+            &background->cameraTangentStartB04.cameraUp18,
+            &background->cameraTangentEndA14.cameraUp18);
 
     if (background->interpolationDurationBF4[3] != 0)
     {

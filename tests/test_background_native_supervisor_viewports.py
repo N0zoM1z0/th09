@@ -25,6 +25,19 @@ class BackgroundNativeSupervisorViewports(unittest.TestCase):
             self.assertIn('g_Supervisor.ctorArray078[background->viewportIndex00C]', source)
             self.assertIn('offsetof(SupervisorCtorArrayElement, '+field+')', source)
 
+    def test_background_snapshots_reuse_native_layout_but_not_owner(self):
+        source = (ROOT/'src/BackgroundStageScript.cpp').read_text()
+        self.assertIn('typedef SupervisorCtorArrayElement BackgroundStageCameraRecord;', source)
+        self.assertNotIn('struct BackgroundStageCameraRecord', source)
+        for member in ('cameraTarget834', 'cameraStart924',
+                       'cameraTangentEndA14', 'cameraTangentStartB04'):
+            self.assertIn('BackgroundStageCameraRecord '+member+';', source)
+        for field in ('cameraPosition00', 'cameraLookAtOffset0C', 'cameraUp18',
+                      'cameraForward24', 'cameraPositionOffset3C', 'fieldOfView48'):
+            self.assertIn('offsetof(BackgroundStageCameraRecord, '+field+')', source)
+        self.assertIn('BackgroundStageNativeViewportLayout', source)
+        self.assertIn('offsetof(BackgroundStageView, cameraTangentStartB04) == 0xB04', source)
+
     def test_every_stage_camera_global_field_binds_native_retail_owner(self):
         with (ROOT/'config/match-units.toml').open('rb') as file:
             units = tomllib.load(file)['units']
