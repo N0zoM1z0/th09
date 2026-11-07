@@ -162,8 +162,17 @@ class AnmManager
     union
     {
         unsigned char unknown000000[0x1C];
-        struct { unsigned char unknown000008[8]; int captureSurfaceIndex08; unsigned char unknown00000C[0x10]; };
+        struct {
+            unsigned char unknown000008[8];
+            int captureSurfaceIndex08;
+            int renderStateChangesThisFrame0C;
+            int scriptsExecutedThisFrame10;
+            int scriptsStartedThisFrame14;
+            int flushesThisFrame18;
+        };
     };
+    // Exact ExecuteScript and ResetFrameDebugInfo both address these
+    // four native counters on the same AnmManager allocation.
     float frameShakeX1C;
     float frameShakeY20;
 

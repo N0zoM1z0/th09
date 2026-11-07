@@ -190,14 +190,10 @@ extern RngRuntimeView g_Rng;
 
 float AddNormalizeAngle(float value, float base);
 
-// Only this target-observed counter prefix is needed by the interpreter.
-// Use the shared AnmManager declaration for the callable interface.
-struct AnmScriptExecutionCountersView {
-    unsigned char unknown000[0x10];
-    int scriptsExecutedThisFrame;
-};
-typedef char AnmScriptExecutionCounterAt10[
-    (offsetof(AnmScriptExecutionCountersView, scriptsExecutedThisFrame) == 0x10) ? 1 : -1];
+// The enormous script interpreter consumes the same native +0x10 manager
+// counter as the independently exact frame-reset leaf.
+typedef char AnmScriptExecutionCounterNativeAt10[
+    (offsetof(AnmManager, scriptsExecutedThisFrame10) == 0x10) ? 1 : -1];
 
 
 i32 AnmVm::GetIntVar(i32 varId)
@@ -978,7 +974,7 @@ stop:
     }
 
     vm->currentTimeInScript++;
-    reinterpret_cast<AnmScriptExecutionCountersView *>(this)->scriptsExecutedThisFrame++;
+    this->scriptsExecutedThisFrame10++;
 
     return FALSE;
 }
