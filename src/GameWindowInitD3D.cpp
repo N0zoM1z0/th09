@@ -137,22 +137,16 @@ extern char sD3DUsingTlHal[];
 extern char sD3DMaxTextureTooSmall[];
 extern char sD3DA8R8G8B8Unsupported[];
 
-// Camera-array projection and register-sensitive flags: all other D3D
-// initialization fields now use the native Supervisor object. The flags
-// writes deliberately retain the current local receiver across device calls;
-// a direct global expression changes the complete VC7.1 owner by 20 bytes.
+// Only the register-sensitive flags have a local receiver projection.
+// Viewport records are the native SupervisorCtorArrayElement array.
 struct SupervisorD3DInitView
 {
-    unsigned char unknown000[0x78];
-    SupervisorCtorArrayElement viewports078[3];
-    unsigned char unknown348[0x5D4 - 0x348];
+    unsigned char unknown000[0x5D4];
     unsigned int flags5D4;
 };
 
-typedef char SupervisorD3DInitNativeOwnerWindow[
-    (offsetof(SupervisorD3DInitView, viewports078) == 0x78 &&
-     sizeof(((SupervisorD3DInitView *)0)->viewports078) == 0x2D0 &&
-     offsetof(SupervisorD3DInitView, flags5D4) == 0x5D4 &&
+typedef char SupervisorD3DInitNativeFlags[
+    (offsetof(SupervisorD3DInitView, flags5D4) == 0x5D4 &&
      offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
 
 struct GameWindowD3DInitView
@@ -182,6 +176,7 @@ int InitializeD3DRendering()
         reinterpret_cast<SupervisorD3DInitView *>(&g_Supervisor);
     GameWindowD3DInitView *gameWindow =
         reinterpret_cast<GameWindowD3DInitView *>(&g_GameWindow);
+    SupervisorCtorArrayElement (&viewports)[3] = g_Supervisor.ctorArray078;
 
     usingHardwareRenderer = 1;
     memset(&presentParameters, 0, sizeof(presentParameters));
@@ -351,50 +346,50 @@ int InitializeD3DRendering()
         &presentParameters,
         sizeof(presentParameters));
 
-    supervisor->viewports078[2].cameraPosition00 =
+    viewports[2].cameraPosition00 =
         Float3(0.0f, 0.0f, 1000.0f);
-    supervisor->viewports078[2].cameraLookAtOffset0C =
+    viewports[2].cameraLookAtOffset0C =
         Float3(0.0f, 0.0f, 0.0f);
-    supervisor->viewports078[2].cameraUp18 =
+    viewports[2].cameraUp18 =
         Float3(0.0f, 1.0f, 0.0f);
-    supervisor->viewports078[2].fieldOfView48 = 0.52359879f;
-    supervisor->viewports078[2].viewportCC.X = 0;
-    supervisor->viewports078[2].viewportCC.Y = 0;
-    supervisor->viewports078[2].viewportCC.Width = 640;
-    supervisor->viewports078[2].viewportCC.Height = 480;
-    supervisor->viewports078[2].viewportCC.MinZ = 0.0f;
-    supervisor->viewports078[2].viewportCC.MaxZ = 1.0f;
-    supervisor->viewports078[2].viewportModeE4 = 2;
+    viewports[2].fieldOfView48 = 0.52359879f;
+    viewports[2].viewportCC.X = 0;
+    viewports[2].viewportCC.Y = 0;
+    viewports[2].viewportCC.Width = 640;
+    viewports[2].viewportCC.Height = 480;
+    viewports[2].viewportCC.MinZ = 0.0f;
+    viewports[2].viewportCC.MaxZ = 1.0f;
+    viewports[2].viewportModeE4 = 2;
 
-    supervisor->viewports078[0].cameraPosition00 =
+    viewports[0].cameraPosition00 =
         Float3(0.0f, 0.0f, 1000.0f);
-    supervisor->viewports078[0].cameraLookAtOffset0C =
+    viewports[0].cameraLookAtOffset0C =
         Float3(0.0f, 0.0f, 0.0f);
-    supervisor->viewports078[0].cameraUp18 =
+    viewports[0].cameraUp18 =
         Float3(0.0f, 1.0f, 0.0f);
-    supervisor->viewports078[0].fieldOfView48 = 0.52359879f;
-    supervisor->viewports078[0].viewportCC.X = 16;
-    supervisor->viewports078[0].viewportCC.Y = 16;
-    supervisor->viewports078[0].viewportCC.Width = 288;
-    supervisor->viewports078[0].viewportCC.Height = 448;
-    supervisor->viewports078[0].viewportCC.MinZ = 0.0f;
-    supervisor->viewports078[0].viewportCC.MaxZ = 1.0f;
-    supervisor->viewports078[0].viewportModeE4 = 0;
+    viewports[0].fieldOfView48 = 0.52359879f;
+    viewports[0].viewportCC.X = 16;
+    viewports[0].viewportCC.Y = 16;
+    viewports[0].viewportCC.Width = 288;
+    viewports[0].viewportCC.Height = 448;
+    viewports[0].viewportCC.MinZ = 0.0f;
+    viewports[0].viewportCC.MaxZ = 1.0f;
+    viewports[0].viewportModeE4 = 0;
 
-    supervisor->viewports078[1].cameraPosition00 =
+    viewports[1].cameraPosition00 =
         Float3(0.0f, 0.0f, 1000.0f);
-    supervisor->viewports078[1].cameraLookAtOffset0C =
+    viewports[1].cameraLookAtOffset0C =
         Float3(0.0f, 0.0f, 0.0f);
-    supervisor->viewports078[1].cameraUp18 =
+    viewports[1].cameraUp18 =
         Float3(0.0f, 1.0f, 0.0f);
-    supervisor->viewports078[1].fieldOfView48 = 0.52359879f;
-    supervisor->viewports078[1].viewportCC.X = 336;
-    supervisor->viewports078[1].viewportCC.Y = 16;
-    supervisor->viewports078[1].viewportCC.Width = 288;
-    supervisor->viewports078[1].viewportCC.Height = 448;
-    supervisor->viewports078[1].viewportCC.MinZ = 0.0f;
-    supervisor->viewports078[1].viewportCC.MaxZ = 1.0f;
-    supervisor->viewports078[1].viewportModeE4 = 1;
+    viewports[1].fieldOfView48 = 0.52359879f;
+    viewports[1].viewportCC.X = 336;
+    viewports[1].viewportCC.Y = 16;
+    viewports[1].viewportCC.Width = 288;
+    viewports[1].viewportCC.Height = 448;
+    viewports[1].viewportCC.MinZ = 0.0f;
+    viewports[1].viewportCC.MaxZ = 1.0f;
+    viewports[1].viewportModeE4 = 1;
 
     g_Supervisor.ConfigureScreenViewport(2);
     g_Supervisor.d3dDevice08->GetDeviceCaps(&g_Supervisor.d3dCaps5D8);
