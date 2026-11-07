@@ -68,11 +68,6 @@ typedef char SetupNativeSpawnedEnemyFields[
     (offsetof(EnemyView, itemDropType335C) == 0x335C &&
      offsetof(EnemyView, secondaryFlags3380) == 0x3380) ? 1 : -1];
 
-struct SideAuxSetupView
-{
-    void Trigger(int index);
-};
-
 struct GameSubsystemSetupView
 {
     int IsActive();
@@ -320,8 +315,8 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
             object->itemDropType335C = lane;
 
             g_SoundPlayer.PlaySoundByIdx(0x33, 0);
-            reinterpret_cast<SideAuxSetupView *>(globalManager.sides[0].subsystem6)->Trigger(1);
-            reinterpret_cast<SideAuxSetupView *>(globalManager.sides[1].subsystem6)->Trigger(1);
+            globalManager.sides[0].frontSide18->ClearState(1);
+            globalManager.sides[1].frontSide18->ClearState(1);
         }
     }
 
