@@ -82,6 +82,15 @@ reload; 110 exact related complete owners remain PE-bound, including
 selector jump-table data. The Enemy boss is still 13 bytes unlike.
 See [native Player state setter](TH09_PLAYER_NATIVE_SET_UPDATE_STATE_20261107.md).
 
+### 2026-11-08: FrontMessage audio calls the genuine Supervisor object
+
+The original 2,968-byte FrontMessage code/table owner now uses the real
+0x7B0-byte `Supervisor` global at 0x4B3100 for all four original audio
+calls, not a source-only three-method receiver. Real exact StopAudio,
+PlayMusic and FadeOutMusic entry addresses and all 167 message relocation
+fields remain original PE-bound. Scoped replay checks ten existing exact
+owners. See [native Supervisor audio source proof](TH09_FRONTMESSAGE_NATIVE_SUPERVISOR_AUDIO_20261108.md).
+
 ### 2026-11-08: FrontMessage reads the third real ReplayInputState record
 
 The original `g_FrontMessageInput` physical receiver at 0x4ACF34 is

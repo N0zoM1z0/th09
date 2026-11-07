@@ -632,6 +632,16 @@ proof of remote publication.
   original destinations. See
   [native FrontMessage shared Replay input](TH09_FRONTMESSAGE_NATIVE_REPLAY_INPUT_SHARED_SLOT_20261108.md).
 
+- **Full FrontMessage script also uses the actual native Supervisor audio
+  receiver:** removed `FrontMessageSupervisorView` and called genuine
+  `Supervisor::StopAudio/PlayMusic/FadeOutMusic` with all four original
+  global references at 0x4B3100 and exact method targets 0x42FD30,
+  0x431930 and 0x42FE20. The complete **2,968/2,968 physical bytes and
+  167 fields** remain original-bound; scoped cold replay protects
+  **10 exact owners / 4,061 bytes / 249 fields** and 30 same-owner
+  PE-verified compiler-private labels. See
+  [native FrontMessage Supervisor audio](TH09_FRONTMESSAGE_NATIVE_SUPERVISOR_AUDIO_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

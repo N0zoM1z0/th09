@@ -7,6 +7,7 @@
 #include "GameManagerRuntimeView.hpp"
 #include "Background.hpp"
 #include "ReplayNativeInputGateCapacity.hpp"
+#include "Supervisor.hpp"
 
 #include <stddef.h>
 
@@ -43,6 +44,12 @@ typedef char FrontMessageFrontSideAuxAtA678[
 // The script skip/confirm input is not another global input allocation.
 // This is the third 0x8E-byte member of the same native input array used
 // by Replay recording, playback, networking and Player movement.
+// Audio opcodes use the actual 0x7B0-byte Supervisor allocation, not a
+// separate 3-method opaque receiver. All original music target VAs remain.
+typedef char FrontMessageNativeSupervisorAudio[
+    (sizeof(Supervisor) == 0x7B0 &&
+     offsetof(Supervisor, config388) == 0x388) ? 1 : -1];
+
 typedef char FrontMessageNativeReplayInputSlot[
     (ReplayNativeInputGateCapacity::StateCount == 3 &&
      ReplayNativeInputGateCapacity::SharedInputStateIndex == 2 &&
@@ -79,12 +86,7 @@ struct FrontMessageNeutralSourceView
 
 
 
-struct FrontMessageSupervisorView
-{
-    int StopAudio();
-    int PlayMusic(int track, int unused);
-    int FadeOutMusic(float seconds);
-};
+
 
 struct FrontMessageResultOwnerView
 {
@@ -136,7 +138,7 @@ typedef char FrontMessageTailAt1D64[
 extern AsciiGameManagerView g_GameManager;
 extern FrontMessageNeutralSourceView *g_FrontMessageSource;
 extern FrontMessageResultOwnerView *g_FrontMessageOwner;
-extern FrontMessageSupervisorView g_Supervisor;
+extern Supervisor g_Supervisor;
 extern AnmLoaded *g_FrontMessageAnm;
 extern AnmManager *g_AnmManager;
 extern ScreenEffect *g_FrontMessageScreenEffect;
