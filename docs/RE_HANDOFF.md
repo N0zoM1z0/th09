@@ -384,6 +384,15 @@ the combined five-carrier cohort covers **35 exact functions, 8,813
 bytes/533 fields**. See
 [native Render core proof](TH09_ANM_RENDER_CORE_NATIVE_STATE_20261107.md).
 
+## 2026-11-07 native ANM DrawInner VM source
+
+The two complete 1,067-byte DrawInner bosses, their render-state sibling
+and draw helpers now read the actual `AnmVm::color1/color2`, flags and sprite
+fields. The previous duplicated shadow VM layout is gone. Two natural C++
+models were compiler-tested; all 16 source owners remain original-exact
+(5,814 bytes/395 COFF fields). See
+[native ANM inner render proof](TH09_ANM_RENDER_NATIVE_INNER_VM_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are complete-owner diagnostics, not partial acceptance.

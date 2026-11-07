@@ -134,24 +134,13 @@ union AnmRenderColor
     };
 };
 
-struct AnmVmDrawInnerLayout
-{
-    unsigned char unknown000[0x1F0];
-    AnmRenderColor color1;
-    AnmRenderColor color2;
-    unsigned int flagsWord;
-    unsigned char unknown1FC[0x28];
-    AnmLoadedSprite *loadedSprite;
-};
-
-typedef char AnmVmDrawInnerColor1At1F0[
-    (offsetof(AnmVmDrawInnerLayout, color1) == 0x1F0) ? 1 : -1];
-typedef char AnmVmDrawInnerColor2At1F4[
-    (offsetof(AnmVmDrawInnerLayout, color2) == 0x1F4) ? 1 : -1];
-typedef char AnmVmDrawInnerFlagsAt1F8[
-    (offsetof(AnmVmDrawInnerLayout, flagsWord) == 0x1F8) ? 1 : -1];
-typedef char AnmVmDrawInnerSpriteAt224[
-    (offsetof(AnmVmDrawInnerLayout, loadedSprite) == 0x224) ? 1 : -1];
+// The two 1,067-byte DrawInner owners and render-state setter consume the
+// real animation VM color/flags/sprite words, not another shadow VM layout.
+typedef char AnmManagerRenderNativeInnerVmWords[
+    (offsetof(AnmVmBase, color1) == 0x1F0 &&
+     offsetof(AnmVmBase, color2) == 0x1F4 &&
+     offsetof(AnmVmBase, flagsWord) == 0x1F8 &&
+     offsetof(AnmVmBase, loadedSprite) == 0x224) ? 1 : -1];
 
 struct AnmManagerDrawInnerView
 {
@@ -199,8 +188,7 @@ void AnmManager::SetRenderStateForVm3D(AnmVm *vm)
 {
     AnmManagerDrawInnerView *anm =
         reinterpret_cast<AnmManagerDrawInnerView *>(this);
-    AnmVmDrawInnerLayout *drawVm =
-        reinterpret_cast<AnmVmDrawInnerLayout *>(vm);
+
     SupervisorRenderDeviceView *supervisor =
         reinterpret_cast<SupervisorRenderDeviceView *>(&g_Supervisor);
 
@@ -221,8 +209,8 @@ void AnmManager::SetRenderStateForVm3D(AnmVm *vm)
 
     {
         AnmRenderColor color;
-        color.value = (drawVm->flagsWord & 0x20000) != 0
-            ? drawVm->color2.value : drawVm->color1.value;
+        color.value = (vm->flagsWord & 0x20000) != 0
+            ? vm->color2 : vm->color1;
         if (anm->useMixColor != 0) {
             color.r = MixRenderColor(color.r, anm->color.r);
             color.g = MixRenderColor(color.g, anm->color.g);
@@ -238,10 +226,10 @@ void AnmManager::SetRenderStateForVm3D(AnmVm *vm)
         }
     }
 
-    if (anm->disableZWrite != ((drawVm->flagsWord >> 13) & 1)) {
+    if (anm->disableZWrite != ((vm->flagsWord >> 13) & 1)) {
         this->FlushVertexBuffer();
         anm->disableZWrite =
-            (unsigned char)((drawVm->flagsWord >> 13) & 1);
+            (unsigned char)((vm->flagsWord >> 13) & 1);
         if (!anm->disableZWrite) {
             supervisor->d3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
         } else {
@@ -249,9 +237,9 @@ void AnmManager::SetRenderStateForVm3D(AnmVm *vm)
         }
     }
 
-    if (anm->cameraMode != ((drawVm->flagsWord >> 15) & 1)) {
+    if (anm->cameraMode != ((vm->flagsWord >> 15) & 1)) {
         this->FlushVertexBuffer();
-        anm->cameraMode = (unsigned char)((drawVm->flagsWord >> 15) & 1);
+        anm->cameraMode = (unsigned char)((vm->flagsWord >> 15) & 1);
         if (!anm->cameraMode) {
             g_Supervisor.ApplyCameraMode0();
         } else {
@@ -316,8 +304,7 @@ int AnmManager::DrawInner(AnmVm *vm, int flags)
 {
     AnmManagerDrawInnerView *anm =
         reinterpret_cast<AnmManagerDrawInnerView *>(this);
-    AnmVmDrawInnerLayout *drawVm =
-        reinterpret_cast<AnmVmDrawInnerLayout *>(vm);
+
     SupervisorRenderDeviceView *supervisor =
         reinterpret_cast<SupervisorRenderDeviceView *>(&g_Supervisor);
     AnmRenderColor color;
@@ -363,13 +350,13 @@ int AnmManager::DrawInner(AnmVm *vm, int flags)
     }
 
     g_AnmRenderQuad[0].u = g_AnmRenderQuad[2].u =
-        drawVm->loadedSprite->uvStartX + vm->uvScrollPos.x;
+        vm->loadedSprite->uvStartX + vm->uvScrollPos.x;
     g_AnmRenderQuad[1].u = g_AnmRenderQuad[3].u =
-        drawVm->loadedSprite->uvEndX + vm->uvScrollPos.x;
+        vm->loadedSprite->uvEndX + vm->uvScrollPos.x;
     g_AnmRenderQuad[0].v = g_AnmRenderQuad[1].v =
-        drawVm->loadedSprite->uvStartY + vm->uvScrollPos.y;
+        vm->loadedSprite->uvStartY + vm->uvScrollPos.y;
     g_AnmRenderQuad[2].v = g_AnmRenderQuad[3].v =
-        drawVm->loadedSprite->uvEndY + vm->uvScrollPos.y;
+        vm->loadedSprite->uvEndY + vm->uvScrollPos.y;
 
     triangleX1 = g_AnmRenderQuad[0].x > g_AnmRenderQuad[1].x
         ? g_AnmRenderQuad[0].x : g_AnmRenderQuad[1].x;
@@ -406,8 +393,8 @@ int AnmManager::DrawInner(AnmVm *vm, int flags)
         return 0;
     }
 
-    if (anm->currentTexture != drawVm->loadedSprite->texture) {
-        anm->currentTexture = drawVm->loadedSprite->texture;
+    if (anm->currentTexture != vm->loadedSprite->texture) {
+        anm->currentTexture = vm->loadedSprite->texture;
         this->FlushVertexBuffer();
         supervisor->d3dDevice->SetTexture(
             0, reinterpret_cast<IDirect3DBaseTexture8 *>(anm->currentTexture));
@@ -419,8 +406,8 @@ int AnmManager::DrawInner(AnmVm *vm, int flags)
     }
 
     if ((flags & 2) == 0) {
-        color.value = (drawVm->flagsWord & 0x20000) != 0
-            ? drawVm->color2.value : drawVm->color1.value;
+        color.value = (vm->flagsWord & 0x20000) != 0
+            ? vm->color2 : vm->color1;
         if (anm->useMixColor != 0) {
             color.r = MixRenderColor(color.r, anm->color.r);
             color.g = MixRenderColor(color.g, anm->color.g);
@@ -442,8 +429,7 @@ int AnmManager::DrawInnerFlippedX(AnmVm *vm, int flags)
 {
     AnmManagerDrawInnerView *anm =
         reinterpret_cast<AnmManagerDrawInnerView *>(this);
-    AnmVmDrawInnerLayout *drawVm =
-        reinterpret_cast<AnmVmDrawInnerLayout *>(vm);
+
     SupervisorRenderDeviceView *supervisor =
         reinterpret_cast<SupervisorRenderDeviceView *>(&g_Supervisor);
     AnmRenderColor color;
@@ -489,13 +475,13 @@ int AnmManager::DrawInnerFlippedX(AnmVm *vm, int flags)
     }
 
     g_AnmRenderQuad[0].u = g_AnmRenderQuad[2].u =
-        drawVm->loadedSprite->uvEndX + vm->uvScrollPos.x;
+        vm->loadedSprite->uvEndX + vm->uvScrollPos.x;
     g_AnmRenderQuad[1].u = g_AnmRenderQuad[3].u =
-        drawVm->loadedSprite->uvStartX + vm->uvScrollPos.x;
+        vm->loadedSprite->uvStartX + vm->uvScrollPos.x;
     g_AnmRenderQuad[0].v = g_AnmRenderQuad[1].v =
-        drawVm->loadedSprite->uvStartY + vm->uvScrollPos.y;
+        vm->loadedSprite->uvStartY + vm->uvScrollPos.y;
     g_AnmRenderQuad[2].v = g_AnmRenderQuad[3].v =
-        drawVm->loadedSprite->uvEndY + vm->uvScrollPos.y;
+        vm->loadedSprite->uvEndY + vm->uvScrollPos.y;
 
     triangleX1 = g_AnmRenderQuad[0].x > g_AnmRenderQuad[1].x
         ? g_AnmRenderQuad[0].x : g_AnmRenderQuad[1].x;
@@ -532,8 +518,8 @@ int AnmManager::DrawInnerFlippedX(AnmVm *vm, int flags)
         return 0;
     }
 
-    if (anm->currentTexture != drawVm->loadedSprite->texture) {
-        anm->currentTexture = drawVm->loadedSprite->texture;
+    if (anm->currentTexture != vm->loadedSprite->texture) {
+        anm->currentTexture = vm->loadedSprite->texture;
         this->FlushVertexBuffer();
         supervisor->d3dDevice->SetTexture(
             0, reinterpret_cast<IDirect3DBaseTexture8 *>(anm->currentTexture));
@@ -545,8 +531,8 @@ int AnmManager::DrawInnerFlippedX(AnmVm *vm, int flags)
     }
 
     if ((flags & 2) == 0) {
-        color.value = (drawVm->flagsWord & 0x20000) != 0
-            ? drawVm->color2.value : drawVm->color1.value;
+        color.value = (vm->flagsWord & 0x20000) != 0
+            ? vm->color2 : vm->color1;
         if (anm->useMixColor != 0) {
             color.r = MixRenderColor(color.r, anm->color.r);
             color.g = MixRenderColor(color.g, anm->color.g);
