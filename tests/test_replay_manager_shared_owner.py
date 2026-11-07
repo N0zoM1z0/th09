@@ -32,7 +32,7 @@ class ReplayManagerSharedOriginalOwner(unittest.TestCase):
         self.assertEqual(self.header.count('struct ReplayManagerView\n{'),1)
         for label in ('ReplayManagerSizeIs164', 'ReplayManagerMainChainAt150',
                       'ReplayManagerFrameSyncAt15C',
-                      'ReplayManagerInput0At0C', 'ReplayManagerStageBuffersAt1C',
+                      'ReplayManagerInputCursorsAt0C', 'ReplayManagerStageBuffersAt1C',
                       'ReplayManagerCurrentBufferAt10C'):
             self.assertIn(label,self.header)
         self.assertIn('ReplayBufferLinkSizeIs18', self.header)

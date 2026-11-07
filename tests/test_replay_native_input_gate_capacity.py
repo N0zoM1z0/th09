@@ -47,7 +47,7 @@ class ReplayNativeInputGateCapacityTests(unittest.TestCase):
         s=self.input
         self.assertEqual(s.count('ReplayNativeInputGateCapacity::SharedInputStateIndex'),10)
         self.assertNotIn('g_ReplayInputStates[2]',s)
-        self.assertIn('replayManager->inputCursor2',s)
+        self.assertIn('replayManager->inputCursors[2]',s)
         self.assertIn('g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].Update()',s)
         self.assertIn('g_ReplayInputStates[0].Update()',s)
         self.assertIn('g_ReplayInputStates[1].Update()',s)

@@ -216,6 +216,17 @@ proof of remote publication.
   compiler-private `$L` names were refreshed without repointing relocations.
   See [native Enemy pool checkpoint](TH09_ENEMY_NATIVE_POOL_CAPACITY_20261107.md).
 
+- **Replay manager native cursor array:** the original 0x164-byte manager
+  has three contiguous 16-bit input-stream cursor pointers at +0x0C/+0x10/
+  +0x14, followed by FPS at +0x18. Record and playback now share one
+  `inputCursors[3]` with the wire's three streams; side gating remains two
+  configurable sides. All **65 related exact functions / 26,115 bytes /
+  1,431 fields** recompile with original equality. The 1,238-byte SaveReplay
+  still has two differences; 540-byte BeginPlaybackStage still has 39
+  overlapping differences plus two missing bytes. Nine target-checked Title
+  compiler-local labels have refreshed names, not destinations. See
+  [native stream cursor review](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

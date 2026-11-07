@@ -68,9 +68,10 @@ struct ReplayManagerView
     i32 frameCounter;
     i32 inputDelay;
     ReplayDataView *replayData;
-    u16 *inputCursor0;
-    u16 *inputCursor1;
-    u16 *inputCursor2;
+    // Three adjacent native 16-bit recording/playback stream cursors;
+    // indexed consistently with ReplayBufferLink::input[3] and the wire
+    // frameStart[3][StageCount] tables.
+    u16 *inputCursors[ReplayRecordingCapacity::InputStreamCount];
     u8 *fpsCursor;
     ReplayBufferLink stageBuffers[10];
     ReplayBufferLink *currentBuffer;
@@ -97,7 +98,14 @@ struct ReplayManagerView
     static int ControlPlaybackFrameAdvance(ReplayManagerView *replayManager);
 };
 
-typedef char ReplayManagerInput0At0C[(offsetof(ReplayManagerView, inputCursor0) == 0x0C) ? 1 : -1];
+typedef char ReplayManagerInputCursorsAt0C[
+    (offsetof(ReplayManagerView, inputCursors) == 0x0C &&
+     sizeof(((ReplayManagerView *)0)->inputCursors) == 0x0C &&
+     sizeof(((ReplayManagerView *)0)->inputCursors[0]) == sizeof(u16 *) &&
+     ReplayRecordingCapacity::InputStreamCount == 3 &&
+     offsetof(ReplayManagerView, fpsCursor) ==
+         offsetof(ReplayManagerView, inputCursors) +
+         sizeof(((ReplayManagerView *)0)->inputCursors)) ? 1 : -1];
 typedef char ReplayManagerFpsAt18[(offsetof(ReplayManagerView, fpsCursor) == 0x18) ? 1 : -1];
 typedef char ReplayManagerStageBuffersAt1C[(offsetof(ReplayManagerView, stageBuffers) == 0x1C) ? 1 : -1];
 typedef char ReplayRecordingStageArrayMatchesWire[

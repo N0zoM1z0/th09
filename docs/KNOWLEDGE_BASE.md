@@ -18,6 +18,18 @@ share one **0x38-byte** native layout. Consult
 [the current next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-07: Three native replay input stream cursors
+
+At ReplayManager +0x0C/+0x10/+0x14 the three physical 16-bit stream cursor
+pointers form an array, immediately followed by the FPS cursor at +0x18.
+Record/playback now use one typed three-pointer field consistent with the
+replay link and wire stream indices. The game has only two separately
+configured sides, with the third replay stream shared. All 65 affected
+exact owners pass pinned-compiler physical original comparison; the two
+large Save and playback-stage frontiers remain separately nonexact. Nine
+local Title compiler labels refresh against independently pinned target VAs.
+See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
+
 ### 2026-11-07: Native Enemy active pool and failed-spawn sentinel
 
 Original TH09 manager storage owns 129 consecutive 0x5430-byte Enemy records
