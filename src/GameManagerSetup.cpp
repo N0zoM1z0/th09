@@ -71,6 +71,7 @@ typedef char SetupScoreRecordViewSizeCheck[
     (sizeof(TitleScoreRecordView) == 0x2C) ? 1 : -1];
 
 #include "GameManagerSetupView.hpp"
+#include "GameplaySetupNativeSides.hpp"
 
 // The same original-bound SupervisorSetupLayout is declared in
 // SupervisorSetupLayoutView.hpp and shared with the Title loading callback.
@@ -299,7 +300,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         }
     }
 
-    for (int sideIndex = 0; sideIndex < 2; sideIndex++)
+    for (int sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)
     {
         if (globalManager.sides[sideIndex].state->value08 >= 1000000000u)
             globalManager.sides[sideIndex].state->value08 = 999999999u;
@@ -514,7 +515,7 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
     }
 
     SetupSideState *side = &gameManager->sides[0];
-    int sideCount = 2;
+    int sideCount = GameplaySetupNativeSides::PlayableCount;
     do
     {
         ReleaseSubsystem0(side->background00);
@@ -538,8 +539,8 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
     gameManager->gameSubsystem = NULL;
     ExAttackController::Release(static_cast<ExAttackController *>(gameManager->secondarySubsystem));
     gameManager->secondarySubsystem = NULL;
-    EffectManager::Release(gameManager->sides[2].effectManager0C);
-    gameManager->sides[2].effectManager0C = NULL;
+    EffectManager::Release(gameManager->sides[GameplaySetupNativeSides::SharedEffectIndex].effectManager0C);
+    gameManager->sides[GameplaySetupNativeSides::SharedEffectIndex].effectManager0C = NULL;
 
     if (gameManager->configurationE8 != NULL)
     {
@@ -597,7 +598,7 @@ void GameManagerSetupLayout::CleanupGameplayState()
     static_cast<FrontMessageOwnerView *>(globalManager.gameSubsystem)->InitializeMessageRuntime();
     ResetExAttackRecords(static_cast<ExAttackController *>(globalManager.secondarySubsystem));
 
-    for (int sideIndex = 0; sideIndex < 2; sideIndex++)
+    for (int sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)
     {
         SetupSideState *side = &globalManager.sides[sideIndex];
         side->flags &= ~1u;
@@ -610,7 +611,7 @@ void GameManagerSetupLayout::CleanupGameplayState()
         static_cast<FrontSide *>(side->frontSide18)->ResetTransitionState();
     }
 
-    globalManager.sides[2].effectManager0C->ResetPool();
+    globalManager.sides[GameplaySetupNativeSides::SharedEffectIndex].effectManager0C->ResetPool();
 
     if (globalManager.gameMode == 2)
     {
@@ -740,7 +741,7 @@ mode_ready:
     {
         g_GameManager.flags &= ~0x2000u;
 
-        for (sideIndex = 0; sideIndex < 2; sideIndex++)
+        for (sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)
         {
             if (g_GameManager.sides[sideIndex].state != NULL)
             {
@@ -822,7 +823,7 @@ mode_ready:
 
     PreloadPlayerAnmResources();
 
-    for (sideIndex = 0; sideIndex < 2; sideIndex++)
+    for (sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)
     {
         if (g_GameManager.sides[sideIndex].selector != 0)
             g_GameManager.configurationE8->sideFocusMode[sideIndex] = 0;
@@ -851,8 +852,8 @@ mode_ready:
             goto setup_failed;
     }
 
-    globalManager.sides[2].effectManager0C = EffectManager::Create(2, 0x320, 1);
-    if (globalManager.sides[2].effectManager0C == NULL)
+    globalManager.sides[GameplaySetupNativeSides::SharedEffectIndex].effectManager0C = EffectManager::Create(GameplaySetupNativeSides::SharedEffectIndex, 0x320, 1);
+    if (globalManager.sides[GameplaySetupNativeSides::SharedEffectIndex].effectManager0C == NULL)
         goto setup_failed;
 
     globalManager.secondarySubsystem = ExAttackController::Register();

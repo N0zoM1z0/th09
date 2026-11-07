@@ -15,7 +15,14 @@ typedef char SetupSideStateSizeCheck[(sizeof(SetupSideState) == 0x38) ? 1 : -1];
 
 struct GameManagerSetupLayout
 {
-    SetupSideState sides[3];
+    // Runtime and replay own two playable records; the setup allocation
+    // includes one additional physical record for the shared EffectManager.
+    enum
+    {
+        SideRecordCount = sizeof(((AsciiGameManagerView *)0)->sides) /
+                          sizeof(((AsciiGameManagerView *)0)->sides[0]) + 1
+    };
+    SetupSideState sides[SideRecordCount];
     // The gameplay update's +0xA8 IsBlocked receiver is this same actual
     // shared-runtime allocation. Preserve the raw allocation/cleanup API.
     union { void *gameSubsystem; PlayerSharedRuntimeView *playerSharedRuntimeA8; };

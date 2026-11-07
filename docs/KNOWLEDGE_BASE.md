@@ -18,6 +18,16 @@ share one **0x38-byte** native layout. Consult
 [the current next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-07: Two GameManager player sides and shared third setup slot
+
+The real GameManager/replay array has two playable 0x38-byte side records;
+setup/cleanup additionally treats the next physical record at +0x70 as
+storage for a shared EffectManager pointer at +0x7C. Both record bounds
+and the shared index now come from the native array and 2+1 physical
+relationship. Twelve exact dependent GameManager/Supervisor functions pass
+original-bound comparison; the big setup worker remains 694 overlapping
+bytes plus seven missing. See [native side geometry](TH09_GAMEPLAY_NATIVE_SIDE_GEOMETRY_20261107.md).
+
 ### 2026-11-07: Three native replay input stream cursors
 
 At ReplayManager +0x0C/+0x10/+0x14 the three physical 16-bit stream cursor
@@ -29,6 +39,17 @@ exact owners pass pinned-compiler physical original comparison; the two
 large Save and playback-stage frontiers remain separately nonexact. Nine
 local Title compiler labels refresh against independently pinned target VAs.
 See [the native replay cursor evidence](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
+
+### 2026-11-07: Native gameplay setup uses 2 playable plus 1 shared side record
+
+TH09 GameManager's two 0x38-byte playable records align with its two
+`GameConfiguration` focus-mode bytes. The setup-only 0x390-byte view has
+three physical 0x38-byte records, with the non-playable third carrying
+only a verified shared EffectManager pointer at +0x7C. The other members
+of that third record are not proven gameplay sides. Four setup/update/
+cleanup loops and teardown use native derived bounds; full compiler
+comparisons protect 12 exact owners and the still-open setup worker. See
+[the current original-bound topology audit](TH09_GAMEPLAY_NATIVE_SIDE_TOPOLOGY_20261107.md).
 
 ### 2026-11-07: Native Enemy active pool and failed-spawn sentinel
 

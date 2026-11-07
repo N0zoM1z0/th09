@@ -227,6 +227,25 @@ proof of remote publication.
   compiler-local labels have refreshed names, not destinations. See
   [native stream cursor review](TH09_REPLAY_NATIVE_STREAM_CURSORS_20261107.md).
 
+- **Gameplay Setup native 2+1 side topology:** the genuine GameManager
+  exposes two playable 0x38-byte sides and two configuration input modes;
+  setup/teardown additionally use a third physical 0x38-byte record solely
+  for the shared EffectManager at +0x7C. All four loops, setup/reset and
+  release paths now derive these bounds from native arrays rather than
+  unrelated literals. **12 exact owners / 3,987 bytes / 335 fields** pass
+  original-bound scoped replay. The 1,689-byte setup boss remains a
+  1,682-byte nonexact candidate with 694 unequal overlaps and seven missing
+  target bytes. See [native setup topology](TH09_GAMEPLAY_NATIVE_SIDE_TOPOLOGY_20261107.md).
+
+- **Native gameplay setup side geometry:** original GameManager exposes two
+  playable 0x38-byte sides. Setup/cleanup physically owns a third slot
+  (+0x70), used for shared EffectManager at +0x7C—not a third player.
+  Typed bounds now drive the setup boss, exact update and cleanup/delete
+  owners. **12 exact functions / 3,987 bytes / 335 fields** pass across
+  three affected carriers. The 1,689-byte gameplay setup boss still emits
+  1,682 bytes, with all 172 fields, 694 overlapping differences and seven
+  missing bytes. See [native setup side geometry](TH09_GAMEPLAY_NATIVE_SIDE_GEOMETRY_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
