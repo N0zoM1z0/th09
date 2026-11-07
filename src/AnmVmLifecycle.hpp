@@ -50,10 +50,12 @@ struct AnmVmBase
     int counterVar0, counterVar1;
     Float2 uvScrollVel;
     AnmVmScriptMatrix matrix1, matrix2, matrix3;
-    union { unsigned long color1; AnmVmScriptColor color1Script; };
+    union { unsigned long color1; AnmVmScriptColor color1Script; unsigned char color1Bytes[4]; };
     union { unsigned long color2; AnmVmScriptColor color2Script; };
     union {
         unsigned int flagsWord;
+        unsigned int flags;
+        struct { unsigned short flagsLow; unsigned short flagsHigh; };
         struct {
             unsigned int visible : 1;
             unsigned int drawEnabled : 1;
@@ -126,6 +128,14 @@ struct AnmVm : AnmVmBase
     unsigned char unknown29A[0x0A];
 };
 typedef char AnmVmLifecycleSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
+typedef char AnmVmNativeColorAndFlagsAliases[
+    (offsetof(AnmVmBase, color1Bytes) == 0x1F0 &&
+     offsetof(AnmVmBase, color1Script) == 0x1F0 &&
+     offsetof(AnmVmBase, flagsWord) == 0x1F8 &&
+     offsetof(AnmVmBase, flags) == 0x1F8 &&
+     offsetof(AnmVmBase, flagsLow) == 0x1F8 &&
+     offsetof(AnmVmBase, flagsHigh) == 0x1FA) ? 1 : -1];
+
 typedef char AnmVmScriptScalarsAt100[
     (offsetof(AnmVmBase, intVar0) == 0x100 &&
      offsetof(AnmVmBase, uvScrollVel) == 0x128 &&
