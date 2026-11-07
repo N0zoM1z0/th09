@@ -16,8 +16,8 @@ class FrontMessageNativePlayerReceiver(unittest.TestCase):
         native=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
         self.assertIn('#include "PlayerLifecycleView.hpp"',src)
         self.assertNotIn('struct FrontMessagePlayerView',src)
-        self.assertIn('PlayerLifecycleView *player04;',src)
-        self.assertIn('FrontMessageNativePlayerStorage',src)
+        self.assertIn('PlayerLifecycleView *player04;', (ROOT/'src/GameManagerSideState.hpp').read_text())
+        self.assertIn('FrontMessageNativeGameManagerOwners',src)
         self.assertIn('sizeof(PlayerLifecycleView) == 0x30F70',src)
         for offset in ('0x303C8','0x303F0','0x303F8','0x303FC'):
             self.assertIn(offset,src)

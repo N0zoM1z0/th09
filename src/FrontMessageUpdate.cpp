@@ -4,6 +4,8 @@
 #include "ZunTimer.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "FrontSide.hpp"
+#include "GameManagerRuntimeView.hpp"
+#include "Background.hpp"
 
 #include <stddef.h>
 
@@ -34,53 +36,29 @@ typedef char FrontMessagePortraitPairSizeIs548[
 typedef char FrontMessageFrontSideAuxAtA678[
     (offsetof(FrontSide, auxA678) == 0xA678) ? 1 : -1];
 
-struct FrontMessageSideStateView
-{
-    unsigned char unknown00[0x18];
-    int value18;
-};
-
-struct FrontMessageSideView
-{
-    FrontMessageSideStateView *state00;
-    PlayerLifecycleView *player04;
-    unsigned char unknown08[0x10];
-    FrontSide *frontSide18;
-    unsigned char unknown1C[0x04];
-    int shotType20;
-    unsigned char unknown24[0x14];
-};
-
-typedef char FrontMessageSideSizeIs38[
-    (sizeof(FrontMessageSideView) == 0x38) ? 1 : -1];
-// The original +0x18 side HUD is the genuine FrontSide allocation with
-// its 0x558-byte embedded ANM resource at +0xA678, not another prefix.
-typedef char FrontMessageRealHudAllocation[
-    (sizeof(FrontSideAuxView) == 0x558 &&
-     offsetof(FrontSide, auxA678) == 0xA678 &&
-     offsetof(FrontMessageSideView, frontSide18) == 0x18) ? 1 : -1];
-// The message script's +0x04 Player pointer is the very same native
-// allocation used by the Enemy selector and the exact state setter.
-// No extra Player class or scripted state timer object is allocated.
-typedef char FrontMessageNativePlayerStorage[
-    (offsetof(FrontMessageSideView, player04) == 0x04 &&
+// The real g_GameManager contains two 0x38-byte playable side allocations.
+// Opcode 0x1C writes Background::pendingStageLabel18 through the side's
+// +0x00 Background pointer (not a separate 0x1C-byte score-buffer view).
+typedef char FrontMessageNativeGameManagerOwners[
+    (sizeof(AsciiGameManagerView) == 0x390 &&
+     sizeof(FrontSideAuxView) == 0x558 &&
+     sizeof(AsciiGameManagerSideView) == 0x38 &&
+     sizeof(((AsciiGameManagerView *)0)->sides) == 0x70 &&
+     offsetof(AsciiGameManagerSideView, background00) == 0x00 &&
+     offsetof(AsciiGameManagerSideView, player04) == 0x04 &&
+     offsetof(AsciiGameManagerSideView, frontSide18) == 0x18 &&
+     offsetof(AsciiGameManagerSideView, shotType20) == 0x20 &&
+     offsetof(AsciiGameManagerView, gameMode) == 0x118 &&
+     offsetof(Background, pendingStageLabel18) == 0x18 &&
      sizeof(PlayerLifecycleView) == 0x30F70 &&
      offsetof(PlayerLifecycleView, updateState00) == 0x00 &&
      offsetof(PlayerLifecycleView, timer303C8) == 0x303C8 &&
      offsetof(PlayerLifecycleView, tableValue303F0) == 0x303F0 &&
      offsetof(PlayerLifecycleView, tableValue303F8) == 0x303F8 &&
-     offsetof(PlayerLifecycleView, tableValue303FC) == 0x303FC) ? 1 : -1];
+     offsetof(PlayerLifecycleView, tableValue303FC) == 0x303FC &&
+     offsetof(FrontSide, auxA678) == 0xA678) ? 1 : -1];
 
-struct FrontMessageGameManagerView
-{
-    FrontMessageSideView sides[2];
-    unsigned char unknown70[0x118 - 0x70];
-    int gameMode118;
 
-    int IsGameMode0();
-    int IsGameMode1();
-    int IsGameMode2();
-};
 
 struct FrontMessageNeutralSourceView
 {
@@ -148,7 +126,7 @@ typedef char FrontMessageTimerAt1D40[
 typedef char FrontMessageTailAt1D64[
     (offsetof(FrontMessageRuntimeView, colorIndex1D64) == 0x1D64) ? 1 : -1];
 
-extern FrontMessageGameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 extern FrontMessageInputView g_FrontMessageInput;
 extern FrontMessageNeutralSourceView *g_FrontMessageSource;
 extern FrontMessageResultOwnerView *g_FrontMessageOwner;
@@ -545,7 +523,7 @@ int FrontMessageRuntimeView::Update()
 
         case 8:
         {
-            FrontMessageSideView *side = &g_GameManager.sides[1];
+            AsciiGameManagerSideView *side = &g_GameManager.sides[1];
             int script = side->player04->tableValue303F0 + 4;
             side->frontSide18->auxA678.sideAnm00
                 ->SetAndExecuteScriptIdx(&introVm1A7C, script);
@@ -589,9 +567,9 @@ int FrontMessageRuntimeView::Update()
             break;
 
         case 0x1C:
-            g_GameManager.sides[0].state00->value18 =
+            g_GameManager.sides[0].background00->pendingStageLabel18 =
                 current04->argument04;
-            g_GameManager.sides[1].state00->value18 =
+            g_GameManager.sides[1].background00->pendingStageLabel18 =
                 current04->argument04;
             break;
 

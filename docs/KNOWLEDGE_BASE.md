@@ -82,6 +82,17 @@ reload; 110 exact related complete owners remain PE-bound, including
 selector jump-table data. The Enemy boss is still 13 bytes unlike.
 See [native Player state setter](TH09_PLAYER_NATIVE_SET_UPDATE_STATE_20261107.md).
 
+### 2026-11-08: FrontMessage opcode 0x1C writes the actual Background stage label
+
+The 2,968-byte original-exact message script now shares the full native
+`AsciiGameManagerView` and its two `AsciiGameManagerSideView` records with
+other systems. Its previously private `state00` field at side +0x00
+was actually `Background *`: opcode 0x1C writes
+`Background::pendingStageLabel18`, matching the independent Background
+consumer. Scoped checks protect all 37 GameManager original fields,
+three exact mode calls, 22 existing exact owners and full switch tables.
+See [FrontMessage native GameManager/Background](TH09_FRONTMESSAGE_NATIVE_GAMEMANAGER_BACKGROUND_20261108.md).
+
 ### 2026-11-07: FrontMessage also uses the actual FrontSide HUD allocation
 
 The 2,968-byte physical FrontMessage script now uses the native FrontSide

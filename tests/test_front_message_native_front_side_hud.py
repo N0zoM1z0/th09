@@ -22,17 +22,17 @@ class FrontMessageNativeFrontSideHud(unittest.TestCase):
         self.assertIn('#include "FrontSide.hpp"',msg)
         self.assertNotIn('struct FrontMessageFrontSideView',msg)
         self.assertNotIn('struct FrontMessageFrontSideAuxView',msg)
-        self.assertIn('FrontSide *frontSide18;',msg)
-        self.assertIn('FrontMessageRealHudAllocation',msg)
+        self.assertIn('FrontSide *frontSide18;', (ROOT/'src/GameManagerSideState.hpp').read_text())
+        self.assertIn('FrontMessageNativeGameManagerOwners',msg)
         self.assertIn('sizeof(FrontSideAuxView) == 0x558',msg)
         self.assertIn('offsetof(FrontSide, auxA678) == 0xA678',msg)
-        self.assertIn('offsetof(FrontMessageSideView, frontSide18) == 0x18',msg)
+        self.assertIn('offsetof(AsciiGameManagerSideView, frontSide18) == 0x18',msg)
         self.assertIn('FrontSideAuxView auxA678;',hud)
         self.assertIn('AnmLoaded *sideAnm00;',hud)
         self.assertIn('AnmLoaded *optionalAnm04;',hud)
         self.assertIn('void LoadScript67();',hud)
         self.assertEqual(msg.count('->LoadScript67();'),2)
-        self.assertIn('PlayerLifecycleView *player04;',msg)
+        self.assertIn('PlayerLifecycleView *player04;', (ROOT/'src/GameManagerSideState.hpp').read_text())
 
     def test_complete_original_message_and_two_native_frontside_call_sites(self):
         msg=self.units['front-message-update']

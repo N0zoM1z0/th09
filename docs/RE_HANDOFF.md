@@ -611,6 +611,16 @@ proof of remote publication.
   30 compiler-private labels retain original-VA-audited definitions.
   See [native FrontSide in FrontMessage](TH09_FRONTMESSAGE_NATIVE_FRONTSIDE_HUD_20261107.md).
 
+- **Full FrontMessage 2,968-byte script now uses real GameManager and
+  Background:** replaced the independent manager/side projections with
+  `AsciiGameManagerView` and its two actual 0x38-byte sides. Opcode `0x1C`
+  correctly writes `Background::pendingStageLabel18` through native side
+  +0x00 instead of a falsely inferred score-state object. All **37
+  original GM fields**, 3 original mode-method targets, **30 audited
+  local labels**, and complete **2,968/2,968 physical code/table bytes**
+  are preserved. Scoped closure passes **22 exact owners / 7,230 bytes /
+  344 fields**. See [native FrontMessage GameManager/Background](TH09_FRONTMESSAGE_NATIVE_GAMEMANAGER_BACKGROUND_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
