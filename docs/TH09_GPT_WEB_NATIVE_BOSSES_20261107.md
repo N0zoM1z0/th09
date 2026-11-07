@@ -374,3 +374,72 @@ The final source ledger for this continuation is **2,248 candidates / 1,034
 source-present / 1,021 exact / 13 nonexact functions**, with 29,834 bytes
 in nonexact authored functions. Whole Windows product linking, complete
 function inventory, runtime behavior and Factory acceptance remain open.
+
+## Title native full input record and options snapshot (later 2026-11-07)
+
+The live worktree was verified against the **Japanese TH09 1.50a original**
+(SHA256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`)
+before editing. The following five incremental `gpt-web:` commits are genuine
+source-fidelity changes and **do not add new exact functions**:
+
+| Local checkpoint | Source change | Scoped full-function proof |
+| --- | --- | --- |
+| `e7432aa6` | Share the original-bound eight-byte input method prefix between exact `InputView::IsPressedScrolling` and the key-config update owner | **42/42** leaf, **2,803/2,803** key boss, **106/106** auxiliary leaf; only two verified callee symbol names changed |
+| `f5eb2d17` | Replace the temporary eight-byte class with a full `InputView : ReplayInputState` at native **0x8E-byte** stride. The original input array starts at **0x4ACE18**; its third slot is **0x4ACF34**. Bind the key-config global to the true `?g_TitleInput@@3UInputView@@A` name | Key boss **2,803/2,803**, scrolling helper **42/42**; three original-bound global symbols updated without target/offset/addend changes |
+| `d57b7418` | Remove the main TitleScreen TU's duplicate tiny `InputView` and include `TitleInputView.hpp`, using the same full native input allocation | **41 complete exact Title functions, 18,972 physical bytes**, including StartMenu **1,560 code / 1,592 physical**; nine private VC7.1 `$L...` labels refreshed without altering original bounds |
+| `15cd17b2` | Replace the Title three-slot input-array's independent `TitleInputStatePhysicalView` layout with the same native `InputView` type; both cursor helpers now call the actual scrolling leaf | Two **167/167-byte** cursor bosses exact; **8** exact native call symbols, Title source **41/18,972**, nine compiler-only labels refreshed |
+| `3bdd198d` | Replace the options page's independent `TitleConfigSnapshotView` record with native `GameConfiguration` (size **0xCC**, fields `valueAD` +0xAD and `windowed` +0xB1) | OnUpdateOptions **2,045/2,045 exact**, PlayMenuSound **34/34 exact**, 157 focused Title tests |
+
+The original-bound `0x423158` input scrolling method retains its exact ABI and
+body. The three-slot input table's global identity stays distinct from the
+last-slot alias; a correct physical address is not proof of a distinct original
+source-level owner. Any remaining `TitleScreenOptions.cpp` local `InputView`
+representation has deliberately **not** been overwritten: substituting the
+out-of-line native full class into the 2,045-byte options owner yielded a
+**2,042-byte candidate**, not exact, even under the original compiler flags.
+Five natural receiver/ref/cast variations did not repair that codegen drift;
+the source was restored. This is a deliberate negative compiler observation,
+not a rationale for declaring the eight-byte window the whole native object.
+
+The independently nonexact **3,900-byte Enemy OnUpdate** was reexamined at its
+original 13 difference bytes:
+`0x19C,0x1A3,0x252,0x263,0x26D,0x272,0x294,0x29A,0x29C,0x2A5,0x2A9,0x2B7,0x2BD`.
+A further **16 natural C++ models** for `Float3` descriptor copying, pointer
+versus reference lifetimes, Side record scheduling and draw group indices were
+independently rebuilt. All valid unchanged-width candidates retained **3,900
+bytes / 97 bound fields / 69 calls / 13 unlike bytes**; component-wise
+rewrites moved or changed independently original-bound literal positions and
+were rejected. No candidate was committed as an exact improvement. The related
+82-byte collision leaf remains exact. An additional 51-byte effect callback
+check remained **51/51 bytes with four fields and eight unlike bytes**.
+
+Relevant ignored experiment evidence is under
+`.analysis/gpt-web-enemy-descriptor-models-20261107/`,
+`.analysis/gpt-web-options-native-input-probes-20261107/`, and
+`.analysis/gpt-web-title-input-triple-20261107/`. The finished source is clean;
+no failed candidate was merged. The following **scoped** tests and checks
+avoid the forbidden whole-owner cold replay:
+
+```bash
+python3 -B scripts/build-match-unit.py --unit input-is-pressed-scrolling
+python3 -B scripts/compare-coff-function.py --unit input-is-pressed-scrolling
+python3 -B scripts/build-match-unit.py --unit title-screen-update-key-config
+python3 -B scripts/compare-coff-function.py --unit title-screen-update-key-config
+python3 -B scripts/build-match-unit.py --unit title-screen-start-menu
+python3 -B scripts/compare-coff-function.py --unit title-screen-start-menu
+python3 -B scripts/compare-coff-function.py --unit title-screen-move-character-cursor-horizontal
+python3 -B scripts/compare-coff-function.py --unit title-screen-move-character-cursor-horizontal-for-input
+python3 -B scripts/build-match-unit.py --unit title-screen-options-update
+python3 -B scripts/compare-coff-function.py --unit title-screen-options-update
+python3 -B scripts/check-boss-frontiers.py --owner title --skip-exact-siblings
+python3 -B scripts/check-boss-frontiers.py --owner enemy --skip-exact-siblings
+python3 -B -m unittest discover -s tests -p 'test_title*.py' -q
+python3 -B scripts/validate-tracking.py --require-target
+python3 -B scripts/validate-docs.py
+```
+
+The ledger is still **2,248 candidates; 1,034 source-present; 1,021 exact;
+13 nonexact covering 29,834 bytes**. In particular, Enemy OnUpdate, RunEcl,
+Replay SaveReplay, Title OnUpdateResult and DrawReplayMenu are not newly exact.
+Whole Windows linking, semantic/run-time validation and Factory acceptance
+remain unproven. This source is a local Git checkpoint, not a remote push.
