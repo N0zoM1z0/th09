@@ -391,6 +391,13 @@ proof of remote publication.
   pass scoped cold replay, with 17 independently proven private label
   renames. See [native ChargeAttack owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+- **Type35 Effect side owner now the native GameManager allocation:**
+  the exact 72-byte initializer and 38-byte updater borrow
+  `PlayerSideStateView::player04` instead of a local four-byte-prefix
+  side clone. The exact 327-byte EffectManager Create and 190-byte native
+  Player SpawnShots provide original-backed allocation/callee evidence.
+  See [Effect35 native Player side](TH09_EFFECT35_REAL_PLAYER_SIDE_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

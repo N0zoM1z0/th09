@@ -61,6 +61,15 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Effect Type35 side receiver is native GameManager Player
+
+The 72-byte and 38-byte exact Effect Type35 callbacks borrow the real
+0x38-byte gameplay side `PlayerSideStateView` and its +0x04 Player
+pointer, not an invented Effect-local side structure. The former Type35
+initializer and updater already share native Player +0xBC ANM resources
+and original 0x41F4C0 SpawnShots. See
+[Effect35 native side proof](TH09_EFFECT35_REAL_PLAYER_SIDE_20261107.md).
+
 ### 2026-11-07: Entire ChargeAttack big boss belongs to native Player
 
 The previously nonexact 1,210-byte original `UpdateChargeAttack` is now

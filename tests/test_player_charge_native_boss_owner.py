@@ -43,6 +43,8 @@ class PlayerNativeChargeBoss(unittest.TestCase):
         self.assertEqual(hits[0]['target'],0x0041F810)
         self.assertEqual(hits[0].get('addend',0),0)
         self.assertIn(CHARGE_SYMBOL,(ROOT/'scripts/inspect-player-charge-update.py').read_text())
+        self.assertIn('BASE, SIZE = 0x0041F810, 1210',
+                      (ROOT/'scripts/inspect-player-charge-update.py').read_text())
         self.assertIn(CHARGE_SYMBOL,(ROOT/'scripts/inspect-player-charge-text.py').read_text())
         for filename in ('functions.csv','implemented.csv','reccmp-functions.csv'):
             s=(ROOT/'config'/filename).read_text()
