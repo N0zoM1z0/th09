@@ -1,6 +1,7 @@
 #include "ScreenEffect.hpp"
 
 #include "AnmManager.hpp"
+#include "VertexDiffuseXyzrhw.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "AsciiManager.hpp"
 #include "AsciiGameManagerView.hpp"
@@ -35,15 +36,6 @@ typedef char ScreenEffectNativeSupervisorShakeOffsets[
      offsetof(Supervisor, ctorArray078) +
          offsetof(SupervisorCtorArrayElement, frameOffsetY) == 0x164 &&
      sizeof(SupervisorCtorArrayElement) == 0xF0) ? 1 : -1];
-
-struct VertexDiffuseXyzrhw
-{
-    VertexDiffuseXyzrhw();
-
-    Float3 pos;
-    float w;
-    unsigned long diffuse;
-};
 
 typedef char VertexDiffuseXyzrhwSizeIs14[
     (sizeof(VertexDiffuseXyzrhw) == 0x14) ? 1 : -1];

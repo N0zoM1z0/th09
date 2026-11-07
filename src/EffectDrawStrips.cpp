@@ -2,13 +2,8 @@
 #include "AsciiManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "EffectManager.hpp"
+#include "VertexDiffuseXyzrhw.hpp"
 
-struct VertexDiffuseXyzrhw
-{
-    Float3 pos;
-    float rhw;
-    unsigned long diffuse;
-};
 typedef char EffectStripVertexSizeIs14[
     (sizeof(VertexDiffuseXyzrhw) == 0x14) ? 1 : -1];
 
