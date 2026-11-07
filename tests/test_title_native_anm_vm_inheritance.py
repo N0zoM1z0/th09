@@ -9,11 +9,13 @@ class TitleNativeAnmVmInheritance(unittest.TestCase):
     def test_no_second_vm_allocation_or_color_snapshot(self):
         title=(ROOT/'src/TitleScreen.cpp').read_text()
         native=(ROOT/'src/AnmVmLifecycle.hpp').read_text()
-        self.assertIn('struct AnmVmView : AnmVm',title)
+        shared=(ROOT/'src/TitleScreenReplayView.hpp').read_text()
+        self.assertIn('struct AnmVmView : AnmVm',shared)
+        self.assertNotIn('struct AnmVmView : AnmVm',title)
         self.assertIn('sizeof(AnmVmView) == sizeof(AnmVm)',title)
         self.assertNotIn('u8 unknown000[0x50];',title)
         self.assertNotIn('struct TitleColorView',title)
-        self.assertIn('AnmVmView embeddedVms[57];',title)
+        self.assertIn('AnmVmView embeddedVms[57];',shared)
         for field,offset in (('pos','0x208'),('color1Initial','0x278'),
                              ('color1Final','0x27C'),('interpCurrentTimers','0x050'),
                              ('interpEndTimers','0x0A4'),('fontHeight','0x299')):

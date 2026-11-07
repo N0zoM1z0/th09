@@ -512,6 +512,17 @@ proof of remote publication.
   106 fields and 1,381-plus-six difference frontier. See
   [native Supervisor queue façade removal](TH09_SUPERVISOR_REMOVE_QUEUE_FACADE_20261107.md).
 
+- **TitleScreen core and both replay draw functions now share the entire
+  native 0x1B388-byte Title owner:** removed the conflicting separate
+  0x1B234 replay-only class. Real replay allocation pointers +0x681C,
+  0x1EC-byte records +0x68E4, `currentReplay` +0xC8FC, 57 ANM VMs
+  +0x11BA0 and config +0x1B2BC now have one common C++ allocation.
+  **42 exact core/draw-save functions / 19,772 bytes / 994 fields** pass
+  source-cold; **1,280-byte replay-menu boss** retains 57 fields,
+  13 calls and its existing 29 ordinary residual bytes. Nine Title
+  compiler-private label names have verified immutable original VAs.
+  See [complete native Title owner](TH09_TITLE_NATIVE_COMPLETE_SHARED_OWNER_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

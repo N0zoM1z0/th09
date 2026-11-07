@@ -26,7 +26,7 @@ typedef char TitleReplayNativeSlotDimensions[
      TitleReplayNativeSlots::StageCount == 10 &&
      offsetof(TitleScreenView, replays) == 0x68E4 &&
      sizeof(((TitleScreenView *)0)->replays) == 0x6018 &&
-     offsetof(TitleScreenView, unknown0C8FC) ==
+     offsetof(TitleScreenView, currentReplay) ==
          offsetof(TitleScreenView, replays) +
          sizeof(((TitleScreenView *)0)->replays) &&
      offsetof(TitleScreenView, selectedReplay) == 0xC908 &&

@@ -32,7 +32,9 @@ class TitleReplayNativeSlots(unittest.TestCase):
         self.assertIn('ColumnCount = 2',self.layout)
         self.assertIn('RowsPerColumn == 25',self.layout)
         self.assertIn('sizeof(((TitleScreenView *)0)->replays) == 0x6018',self.layout)
-        self.assertIn('offsetof(TitleScreenView, unknown0C8FC) ==',self.layout)
+        self.assertIn('offsetof(TitleScreenView, currentReplay) ==',self.layout)
+        self.assertIn('ReplayDataView *replayAllocations[50];',self.view)
+        self.assertIn('ReplayDataView *currentReplay;',self.view)
         self.assertIn('StageCount == 10',self.layout)
 
     def test_two_display_owners_use_one_native_count_and_column_boundary(self):

@@ -61,6 +61,17 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Title core and both Replay draws share one full 0x1B388 owner
+
+The main TitleScreen.cpp's complete native Title object has moved to the
+shared replay view header, eliminating the conflicting 0x1B234-byte
+prefix-only shadow used by the 1,280-byte replay-menu and exact 800-byte
+replay-save renderer. Actual allocations, replay current pointer, 57 native
+ANM VMs and configuration snapshot now have one common C++ definition.
+Scoped original comparison preserves 41 exact full functions and the open
+29-byte replay-menu residual. See
+[complete native Title owner proof](TH09_TITLE_NATIVE_COMPLETE_SHARED_OWNER_20261107.md).
+
 ### 2026-11-07: No second Supervisor frame-queue receiver class remains
 
 `SupervisorFrameQueueView.hpp` has been deleted after migrating all four

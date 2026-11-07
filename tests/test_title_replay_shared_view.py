@@ -12,13 +12,16 @@ ROOT = Path(__file__).resolve().parents[1]
 class TitleReplaySharedViewTests(unittest.TestCase):
     def test_replay_menu_and_save_renderers_include_one_layout(self):
         header = (ROOT / 'src/TitleScreenReplayView.hpp').read_text()
-        self.assertEqual(header.count('struct TitleScreenView\n{'), 1)
+        self.assertEqual(header.count('struct TitleScreenView {'), 1)
         self.assertEqual(header.count('ReplayDataView replays[50]'), 1)
-        self.assertIn('union { int replaySaveState; int currentScreenState; };', header)
+        self.assertIn('union { i32 replaySaveState; i32 currentScreenState; };', header)
         self.assertIn('sizeof(((TitleScreenView *)0)->replays[0]) == 0x1EC', header)
         self.assertIn('sizeof(((TitleScreenView *)0)->replayPaths[0]) == 0x200', header)
         self.assertIn('offsetof(TitleScreenView, stateTimer2) == 0x1B230', header)
-        self.assertIn('sizeof(TitleScreenView) == 0x1B234', header)
+        self.assertIn('sizeof(TitleScreenView) == 0x1B388', header)
+        self.assertIn('TitleReplayNativeFullOwnerExtent',header)
+        self.assertIn('TitleConfigSnapshotView configSnapshot;',header)
+        self.assertNotIn('unknown0C8FC',header)
 
         for filename in ('TitleScreenReplayMenuDraw.cpp', 'TitleScreenReplaySaveDraw.cpp'):
             with self.subTest(source=filename):
