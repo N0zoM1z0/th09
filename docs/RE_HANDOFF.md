@@ -127,8 +127,8 @@ no wholesale archive deletion. New commit subjects: `gpt-web: ...`.
 
 ## Ignored local evidence, cleanup and restoration
 
-The latest guarded cleanup removed **310 rebuildable generated cache files,
-25,234,328 logical bytes (about 24.07 MiB)**, from `build/`; a second dry run
+The latest guarded cleanup removed **312 rebuildable generated cache files,
+25,372,141 logical bytes (about 24.20 MiB)**, from `build/`; a second dry run
 reported **zero remaining disposable cache files**. `build/` can still
 contain empty directories; do not repeat old claims that its directory must
 be absent. The original SHA, all three SHA-verified historical archive bundles,

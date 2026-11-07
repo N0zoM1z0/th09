@@ -74,7 +74,7 @@ Old unreferenced experiments may be losslessly compressed for this local
 handoff, as recorded in
 [RE_ARTIFACT_CLEANUP_HISTORY.md](RE_ARTIFACT_CLEANUP_HISTORY.md).
 Rebuild ignored `build/` objects before every exact comparison. At the current reviewed handoff,
-all 310 previously identified disposable compiler-cache files were removed;
+all 312 reviewed disposable compiler-cache files were removed;
 a `build/` *directory* may still exist without any matching OBJ. See the
 [current cleanup receipt](RE_ARTIFACT_CLEANUP_HISTORY.md); never infer that
 empty directories mean a missing original input.

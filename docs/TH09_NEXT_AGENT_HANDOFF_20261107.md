@@ -126,8 +126,8 @@ reviewable commits rather than combining unrelated source experiments.
 
 ## 4. Storage, evidence and cleanup guardrails
 
-**The latest reviewed cache cleanup removed 310 disposable files
-(25,234,328 logical bytes, about 24.07 MiB).** The guarded cleaner's
+**The latest reviewed cache cleanup removed 312 disposable files
+(25,372,141 logical bytes, about 24.20 MiB).** The guarded cleaner's
 repeat dry-run returned zero files. It is normal for `build/` directories
 to remain while **all cached compiler objects have been removed**; the next
 agent must rebuild only the selected original-bound unit. A missing OBJ is

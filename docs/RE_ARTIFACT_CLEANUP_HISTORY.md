@@ -3840,3 +3840,95 @@ recorded in [the new handoff](TH09_NEXT_AGENT_HANDOFF_20261107.md). No
 full-all-owner cold replay or product/runtime test was run for documentation
 and storage maintenance; use the already established current-source exact
 proofs only within their original source/profile boundaries.
+
+## 2026-11-07 — Post-native-ANM next-agent handoff: guarded cache cleanup and no-prune Git compaction
+
+This is a **new, separately measured cleanup epoch**, after the corrected
+original-bound ANM counters and shared vertex-buffer source changes. It does
+not revise or silently add to the earlier November 7 / November 6 receipts.
+The current operator requested a concise and accurate handoff, removal of
+unused generated artifacts, and retention of valuable binary-analysis data.
+The refreshed [live handoff](RE_HANDOFF.md) and
+[next-agent instructions](TH09_NEXT_AGENT_HANDOFF_20261107.md) supersede old
+"most recent" and `build/`-absent claims, while the old live handoff content
+has been preserved as [dated history](RE_HANDOFF_HISTORY_20261107.md).
+
+### 312 guarded, reproducible compiler-cache files reclaimed
+
+**Only** `python3 -B scripts/clean-generated-artifacts.py` was used, after
+checking its preview. It operates on ignored generated caches, not source,
+project, or historical experiment objects. Two observed batches:
+
+| Batch | Removed files | Logical file bytes |
+| --- | ---: | ---: |
+| Original preview then reviewed `--apply` | 310 | 25,234,328 |
+| Final refresh preview then reviewed `--apply` | 2 | 137,813 |
+| **Total** | **312** | **25,372,141** |
+
+A further dry-run returned **zero disposable files / zero bytes**. The `build/`
+*directory* may remain after its generated objects are gone, so the older
+claim that the directory is absent is no longer a reliable current-state
+statement. Rebuild just the required pinned match unit, never all owners.
+
+### No-prune Git object compaction (entire history preserved)
+
+The existing locally accumulated loose objects were compacted by:
+
+```bash
+git -c gc.reflogExpire=never -c gc.reflogExpireUnreachable=never \
+  gc --prune=never
+```
+
+Exact `.git/objects` logical bytes: **43,276,250 before / 20,015,067 after**,
+reclaiming **23,261,183 bytes**. After compaction the local loose object count
+was zero, the reachable object count 24,468, and no Git garbage was reported.
+The **SHA-256 of complete `git show-ref --head`, full
+`git reflog --all --format=%H`, and `git rev-list --objects --all`** all
+matched before and after, as did HEAD and the reachable object count. No
+history rewriting, reflog expiration, reference deletion, push, force-push,
+or pruning was performed. Later documentation commits normally create new
+loose objects; these are not a regression or an additional saving.
+
+### Protection and total actually reclaimed in this maintenance
+
+| Component | Logical bytes reclaimed |
+| --- | ---: |
+| Rebuildable caches | 25,372,141 |
+| History-preserving Git object compaction | 23,261,183 |
+| **Combined new reduction** | **48,633,324 (46.38 MiB)** |
+
+All SHA-256 hashes were verified unchanged **after** both cache batches:
+
+- Operator-provided original Japanese 1.50a `resources/th09.exe`:
+  `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`
+- Protected November 3 archive:
+  `1c287d8f1190692966b568a6ebfa62d6f3995dd6873b5782248dbdd2353a2223`
+- Protected November 4 archive:
+  `27eb786dcc791152e18023c727235de94f588fb01ccf2ae6152d94b65a66babd`
+- Protected November 6 archive:
+  `c2ef291c49e913a5b44d5b68e9dc568c924732976d27cc3545e2945ca04a7da0`
+
+The **507 loose `.analysis/*.obj` files (14,693,035 bytes)** and the **1,467
+Ghidra working-project files (40,643,079 bytes)** were independently counted
+and verified unchanged. The three archives, their manifests, all unique
+trial C/C++ source, target input, toolchain, operator's experiment JSON and
+current tracked repository files were **preserved**, not discarded. A large
+ignored `.analysis` tree can be valuable original-bound evidence; a file's
+`.obj` extension alone does **not** make it disposable. Its removal needs a
+separately reviewed path and exact hash.
+
+Detailed local ignored audit (not available in a fresh Git clone):
+
+- `.analysis/gpt-web-handoff-refresh-20261107/verified-protected-before.json`
+- `.analysis/gpt-web-handoff-refresh-20261107/preview.json`
+- `.analysis/gpt-web-handoff-refresh-20261107/applied.json`
+- `.analysis/gpt-web-handoff-refresh-20261107/final-maintenance-receipt.json`
+- `.analysis/gpt-web-handoff-refresh-20261107/git-repack-before.json`
+- `.analysis/gpt-web-handoff-refresh-20261107/git-repack-after.json`
+
+The original target, tracking ledger and documentation were revalidated.
+The reviewed **1,021 exact / 13 nonexact** function tally is unchanged.
+This cleanup establishes **no new matching credit**, full Windows linkage,
+semantic accuracy or Factory acceptance. Avoid adding this new number to
+historical cleanup totals as though they were one simultaneously recoverable
+pool; their measurements belong to different source/cache epochs.
