@@ -173,6 +173,15 @@ proof of remote publication.
   focused original-bound replay; OnUpdate stays 13 bytes nonexact. See
   [Enemy trail capacity review](TH09_ENEMY_NATIVE_TRAIL_RENDER_CAPACITY_20261107.md).
 
+- **Effect native dynamic pool + failure sentinel:** `EffectManager`
+  now derives all allocation/reset/release counts and the failed-spawn
+  pointer from one genuine active-primary + active-secondary + one sentinel
+  model. Its 475-byte exact OnUpdate retains the observed live primary
+  count read order, while 327-byte Create and both Spawn source owners share
+  the same record semantics. Focused original replay: **16 exact functions,
+  2,571 bytes / 101 relocations**; 51-byte AddedCallback remains 8 bytes
+  nonexact. See [Effect native dynamic pool](TH09_EFFECT_NATIVE_DYNAMIC_POOL_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

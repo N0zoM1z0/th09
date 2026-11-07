@@ -1,4 +1,5 @@
 #include "EffectManager.hpp"
+#include "EffectNativePoolCapacity.hpp"
 #include "AnmManager.hpp"
 #include "EtamaAnmResourceSlot.hpp"
 #include "AnmVmLifecycle.hpp"
@@ -67,7 +68,7 @@ void EffectManager::ResetPool()
 {
     Effect *effect = this->effects;
     this->drawSentinel0.nextInDrawGroup = NULL;
-    for (int i = 0; i < this->primaryCount + this->secondaryCount + 1; ++i, ++effect)
+    for (int i = 0; i < EffectNativePoolCapacity::AllocatedCount(*this); ++i, ++effect)
     {
         if (effect->vertices != NULL)
         {
@@ -82,10 +83,10 @@ void EffectManager::ResetPool()
     }
     g_ZunMemory.Free(this->effects);
     this->effects = static_cast<Effect *>(g_ZunMemory.Alloc(
-        sizeof(Effect) * (this->primaryCount + this->secondaryCount + 1),
+        sizeof(Effect) * (EffectNativePoolCapacity::AllocatedCount(*this)),
         "./system\\global.h"));
     memset(this->effects, 0,
-           sizeof(Effect) * (this->primaryCount + this->secondaryCount + 1));
+           sizeof(Effect) * (EffectNativePoolCapacity::AllocatedCount(*this)));
 }
 
 Effect *EffectManager::InitializeEffect(
@@ -164,7 +165,7 @@ Effect *EffectManager::SpawnEffect(
     }
 
     return i >= this->primaryCount
-        ? &this->effects[this->primaryCount + this->secondaryCount]
+        ? EffectNativePoolCapacity::FailureSentinel(*this)
         : effect;
 }
 
@@ -196,7 +197,7 @@ Effect *EffectManager::SpawnEffectWithVelocity(
     }
 
     return i >= this->primaryCount
-        ? &this->effects[this->primaryCount + this->secondaryCount]
+        ? EffectNativePoolCapacity::FailureSentinel(*this)
         : effect;
 }
 
@@ -231,8 +232,7 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
     // This is a volatile-qualified access to an ordinary field, not a change
     // to the EffectManager layout or the other pool consumers.
     for (int i = 0;
-         i < static_cast<const volatile int &>(effectManager->primaryCount) +
-                 effectManager->secondaryCount;
+         i < EffectNativePoolCapacity::ActiveCountWithNativeOrder(*effectManager);
          ++i, ++effect)
     {
         if (effect->active == 0)
@@ -373,7 +373,7 @@ int EffectManager::AddedCallback(void *context)
 int EffectManager::ReleasePool()
 {
     Effect *effect = this->effects;
-    for (int i = 0; i < this->primaryCount + this->secondaryCount + 1; ++i, ++effect)
+    for (int i = 0; i < EffectNativePoolCapacity::AllocatedCount(*this); ++i, ++effect)
     {
         if (effect->vertices != NULL)
         {
@@ -432,7 +432,7 @@ EffectManager *EffectManager::Create(int sideIndex, int primaryCount, int second
     effectManager->primaryCount = primaryCount;
     effectManager->secondaryCount = secondaryCount;
 
-    int count = primaryCount + secondaryCount + 1;
+    int count = EffectNativePoolCapacity::AllocatedFromCounts(primaryCount, secondaryCount);
     unsigned int bytes = sizeof(Effect) * count;
     effectManager->effects = static_cast<Effect *>(g_ZunMemory.Alloc(bytes, "./system\\global.h"));
     memset(effectManager->effects, 0, bytes);
