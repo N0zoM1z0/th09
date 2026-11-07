@@ -1,6 +1,9 @@
 // Target-bound TH09 FrontSide HUD owner; OnUpdate's complete 2381-byte
 // replay includes every field/call relocation under pinned VC7.1 O2/Ob1.
 #include "FrontSide.hpp"
+#define TH09_GAME_MANAGER_TYPES_ONLY
+#include "GameManagerRuntimeView.hpp"
+#undef TH09_GAME_MANAGER_TYPES_ONLY
 #include "Supervisor.hpp"
 
 #include "AnmManager.hpp"
@@ -63,16 +66,6 @@ typedef char FrontSideVmPositionAt208[
 typedef char FrontSideVmOffsetAt288[
     (offsetof(FrontSideVmView, offset288) == 0x288) ? 1 : -1];
 
-struct FrontSideSideRuntimeView
-{
-    float value00;
-    int value04;
-    int value08;
-    int value0C;
-    unsigned char unknown10[4];
-    unsigned char counter14;
-};
-
 struct FrontSidePlayerRuntimeView
 {
     unsigned char unknown00000[0xA0];
@@ -105,6 +98,13 @@ typedef AsciiGameManagerSideView FrontSideSideStateView;
 
 typedef char FrontSideSideStateSizeIs38[
     (sizeof(FrontSideSideStateView) == 0x38) ? 1 : -1];
+// Both HUD counters and the score word are genuine members of the shared
+// GameManager per-side 0xA0 record; do not retain a smaller second view.
+typedef char FrontSideNativeRuntimeLayout[
+    (offsetof(FrontSideSideStateView, runtime) == 0x1C &&
+     sizeof(AsciiGameSideRuntimeView) == 0xA0 &&
+     offsetof(AsciiGameSideRuntimeView, value04) == 0x04 &&
+     offsetof(AsciiGameSideRuntimeView, counter14) == 0x14) ? 1 : -1];
 
 struct FrontSideGameManagerView
 {
@@ -347,7 +347,7 @@ int FrontSide::SetTimingDigits(int frames)
 // These are expression-only layout views, not extra callable accessors.
 #define FRONT_SIDE_STATE(owner) FrontSideState((owner)->sideStateA670)
 #define FRONT_SIDE_PLAYER(owner) (FRONT_SIDE_STATE(owner)->hudPlayer04)
-#define FRONT_SIDE_RUNTIME(owner) (FRONT_SIDE_STATE(owner)->runtime1C)
+#define FRONT_SIDE_RUNTIME(owner) (FRONT_SIDE_STATE(owner)->runtime)
 
 int FrontSide::OnUpdate(FrontSide *frontSide)
 {
@@ -525,7 +525,7 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     if (!g_GameManager.IsMode2())
     {
         int rankIndex = 0;
-        for (; rankIndex < static_cast<int>(g_GameManager.sides[frontSide->sideIndexA66C].runtime1C->value00); ++rankIndex)
+        for (; rankIndex < static_cast<int>(g_GameManager.sides[frontSide->sideIndexA66C].runtime->value00); ++rankIndex)
             FrontSideVm(&frontSide->rankVms86AC[rankIndex])->flags1F8 |= 2;
         for (; static_cast<unsigned int>(rankIndex) < 7; ++rankIndex)
             FrontSideVm(&frontSide->rankVms86AC[rankIndex])->flags1F8 &= ~2U;
