@@ -54,13 +54,6 @@ typedef char SetupPlayerCounterA4[
     (offsetof(PlayerLifecycleView, header24) +
      offsetof(PlayerHeaderStateView, state80) == 0xA4) ? 1 : -1];
 
-struct SetupLoadingPosition
-{
-    float x;
-    float y;
-    float z;
-};
-
 typedef char SetupLoadingPositionSizeCheck[
     (sizeof(SetupLoadingPosition) == 0x0C) ? 1 : -1];
 
