@@ -15,8 +15,10 @@ use `.real`, and the real opcode byte reader now accesses
 byteOffset % sizeof(Th09EclWireArgument)]` instead of a reinterpret-cast
 through raw bytes at the payload base. This retains byte addressing within
 and across the packed four-byte wire words. Original observed consumers
-currently request byte offset zero; other nonnegative offsets remain a
-well-defined source indexing expression. The wire type and header sizes
+currently request byte offset zero; other nonnegative offsets remain
+expressible by the same indexed wire layout under the pinned VC7.1 extension.
+This is not a claim of standard-C++ flexible-array portability or of
+runtime behavior beyond the checked opcode consumers. The wire type and header sizes
 are compiler-asserted in `EclOpcodes.hpp`.
 
 The original timer-assignment and timeout-flag handlers are untouched. The

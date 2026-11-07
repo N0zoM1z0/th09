@@ -18,6 +18,17 @@ share one **0x38-byte** native layout. Consult
 [the current next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-07: RunEcl native union byte accessor, not raw prefix alias
+
+ECL's genuine 0x0C-byte instruction header precedes a flexible array of
+four-byte native union operands. The RunEcl state handlers now index
+bytes within those words by quotient and remainder; no second byte-pointer
+storage projection is needed. All 15,564 RunEcl linked bytes and their
+original-bound 598 fields remain the same, with the existing 30 unlike
+ordinary bytes. Eighty-seven exact affected sibling/helper functions pass
+fixed-profile replay; twenty compiler-local labels were rebound only after
+original VA and same-section proof. See [native wire byte evidence](TH09_ECL_NATIVE_WIRE_BYTE_ACCESS_20261107.md).
+
 ### 2026-11-07: Two GameManager player sides and shared third setup slot
 
 The real GameManager/replay array has two playable 0x38-byte side records;

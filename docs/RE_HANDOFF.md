@@ -255,6 +255,17 @@ proof of remote publication.
   Twenty changed compiler-private ECL labels have verified unchanged
   original destinations. See [native ECL byte indexing](TH09_ECL_NATIVE_WIRE_BYTE_INDEXING_20261107.md).
 
+- **RunEcl native wire byte indexing:** all current ECL opcode byte readers
+  now index the same physical 4-byte `Th09EclWireArgument` union as the
+  integer/float readers; the raw byte-pointer cast is gone. The complete
+  **15,564-byte RunEcl boss** has the *identical* original-linked code and
+  stays **598 fields / 30 ordinary differences** (opcode4 7, opcode155
+  23). Its 3,900-byte Enemy sibling keeps 13 differences. **87 exact
+  functions / 30,583 bytes / 1,409 fields** pass in the affected
+  carriers. Twenty compiler-private symbol names were target-VA-verified
+  and rebound without changing target destinations; old probe scenarios
+  remain strict. See [native ECL wire byte review](TH09_ECL_NATIVE_WIRE_BYTE_ACCESS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
