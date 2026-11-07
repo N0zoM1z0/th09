@@ -10,7 +10,7 @@ class PlayerState3EffectNativeStorage(unittest.TestCase):
         header=(ROOT/'src/PlayerStateEffectView.hpp').read_text()
         source=(ROOT/'src/PlayerState3EffectSetup.cpp').read_text()
         native=(ROOT/'src/PlayerLifecycleView.hpp').read_text()
-        self.assertIn('struct PlayerStateEffectView : PlayerLifecycleView',header)
+        self.assertIn('struct PlayerStateEffectView : PlayerResourceSubtractView',header)
         self.assertIn('sizeof(PlayerStateEffectView) == sizeof(PlayerLifecycleView)',header)
         self.assertIn('offsetof(PlayerStateEffectView, sideState) == 0x0C',header)
         self.assertIn('offsetof(PlayerStateEffectView, position1B88) == 0x1B88',header)
@@ -20,6 +20,7 @@ class PlayerState3EffectNativeStorage(unittest.TestCase):
         self.assertNotIn('unknown00010[0x1B88',header)
         self.assertEqual(source.count('sideState->effectManager0C->SpawnEffect('),3)
         self.assertIn('PlayerSideStateView *sideState;',native)
+        self.assertIn('#include "PlayerResourceSubtractView.hpp"',header)
 
     def test_three_original_bound_function_identifiers_stable(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:u=tomllib.load(f)['units']

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "PlayerResourceSubtractView.hpp"
+#include "PlayerStateEffectView.hpp"
 
 // Shared interface for the complete charge-update owner at 0x0041F810.
 // It adds no storage to the observed Player prefix. Original class identity
 // and the original translation-unit partition remain unknown.
-struct PlayerChargeAttackView : PlayerResourceSubtractView
+struct PlayerChargeAttackView : PlayerStateEffectView
 {
     int UpdateChargeAttack();
 };

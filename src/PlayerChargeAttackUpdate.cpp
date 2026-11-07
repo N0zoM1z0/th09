@@ -118,7 +118,7 @@ resolveAttack:
                         2, 2, 0, primaryShtFile->modePath2);
             SubtractResourceClamped(300.0f);
             timer1B74 = 8;
-            reinterpret_cast<PlayerStateEffectView *>(this)->ConfigureState3Effect15();
+            ConfigureState3Effect15();
         }
         else if (scalar30384 >= 300.0f)
         {
@@ -127,7 +127,7 @@ resolveAttack:
                         1, 1, 0, primaryShtFile->modePath1);
             SubtractResourceClamped(200.0f);
             timer1B74 = 8;
-            reinterpret_cast<PlayerStateEffectView *>(this)->ConfigureState3Effect14();
+            ConfigureState3Effect14();
         }
         else if (scalar30384 >= 200.0f)
         {
@@ -136,7 +136,7 @@ resolveAttack:
                         0, 0, 0, primaryShtFile->modePath0);
             timer1B74 = 8;
             SubtractResourceClamped(100.0f);
-            reinterpret_cast<PlayerStateEffectView *>(this)->ConfigureState3Effect13();
+            ConfigureState3Effect13();
         }
     }
     sideState->frontSide18->DeactivateMeterVms();

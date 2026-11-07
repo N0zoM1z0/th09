@@ -1,0 +1,30 @@
+"""The still-nonexact charge boss calls its exact state-3 effects as base methods."""
+from pathlib import Path
+import tomllib
+import unittest
+
+ROOT=Path(__file__).resolve().parents[1]
+
+class PlayerChargeNativeState3Chain(unittest.TestCase):
+    def test_zero_extra_storage_method_chain(self):
+        charge=(ROOT/'src/PlayerChargeAttackView.hpp').read_text()
+        effect=(ROOT/'src/PlayerStateEffectView.hpp').read_text()
+        resource=(ROOT/'src/PlayerResourceSubtractView.hpp').read_text()
+        source=(ROOT/'src/PlayerChargeAttackUpdate.cpp').read_text()
+        self.assertIn('struct PlayerChargeAttackView : PlayerStateEffectView',charge)
+        self.assertIn('struct PlayerStateEffectView : PlayerResourceSubtractView',effect)
+        self.assertIn('struct PlayerResourceSubtractView : PlayerLifecycleView',resource)
+        self.assertIn('sizeof(PlayerChargeAttackView) == sizeof(PlayerLifecycleView)',charge)
+        self.assertNotIn('reinterpret_cast<PlayerStateEffectView *>(this)',source)
+        for effect_number in (13,14,15):
+            self.assertIn(f'ConfigureState3Effect{effect_number}();',source)
+
+    def test_original_method_referents_still_independent(self):
+        with (ROOT/'config/match-units.toml').open('rb') as f:u=tomllib.load(f)['units']
+        for effect_number,size in ((13,91),(14,91),(15,100)):
+            name=f'player-state3-effect{effect_number}'
+            self.assertEqual(u[name]['size'],size)
+            self.assertEqual(u[name]['source'],'src/PlayerState3EffectSetup.cpp')
+        self.assertEqual(u['player-subtract-resource-clamped']['size'],51)
+
+if __name__=='__main__':unittest.main()
