@@ -54,23 +54,23 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-The operator has resumed exact-source reconstruction after the November 6 cleanup.
-Reconstruction remains unfinished. The canonical ledger reports **2,248
+The current operator is preparing a clean handoff to another agent after
+substantial November 7 C++ reconstruction. Reconstruction remains unfinished. The canonical ledger reports **2,248
 candidates, 1,034 authored mappings, 1,021 exact functions and 13 non-exact
 functions /29,834 authored bytes**. Exact authored-byte coverage is
 **262,034 /291,868 (89.7783%)**; the 98% milestone still needs23,997 exact
 authored bytes at the present denominator. Whole-product closure and runtime
 validation remain open; semantic reconstruction and portability have not started.
 
-Use [the November 6 restart guide](docs/TH09_NEXT_AGENT_HANDOFF_20261106.md)
+Use [the current November 7 handoff](docs/TH09_NEXT_AGENT_HANDOFF_20261107.md)
 and [the live handoff](docs/RE_HANDOFF.md), then check actual Git status/log and
 ledgers. The latter lists all13 nonexact owners and current source-bound
 receipts. RunEcl remains30 unlike bytes, Enemy update13, Player movement122,
 SaveReplay two; Setup is1682/1689 bytes with694 unequal overlaps plus seven
 missing. Historical handoff prose was moved to
-[the dated archive](docs/RE_HANDOFF_HISTORY_20261106.md). The latest interrupted
-RunEcl prototype experiment was recovered as unaccepted evidence; no gameplay
-source or exactness credit changed during cleanup.
+[the dated archive](docs/RE_HANDOFF_HISTORY_20261106.md). The earlier interrupted RunEcl prototype was recovered as unaccepted evidence.
+The subsequent November 7 ANM/Player source commits improved native C++
+layout but did not change the 1,021/1,034 exact-function count.
 
 Use focused complete-owner builds/replays for the changed units only. Do not
 run a full cold replay for routine iteration. Commits use
@@ -105,9 +105,11 @@ cache cleanup; about **590.5 MiB of net logical file bytes** were reclaimed.
 See `docs/RE_ARTIFACT_CLEANUP_HISTORY.md` for archive SHA-256, protected
 scopes and selective restoration. The archive is ignored and not cloned.
 
-The November6 cleanup reclaimed approximately **402.85 MiB** more logical file
-bytes. Build objects and selected large JSON/TOML evidence are losslessly saved
-in a SHA-verified local archive; `build/` is absent. Use the current handoff for
+The November 6 cleanup historically reclaimed approximately **402.85 MiB**
+of logical file bytes. Original build objects and selected large JSON/TOML
+evidence were saved in a SHA-verified local archive. Focused compiler work
+afterward recreated `build/`, which is disposable and may be removed again
+by a reviewed cleanup; its presence is not a handoff invariant. Use the current handoff for
 `restore-analysis-archive.py --bundle ... --prefix ...` recovery commands and
 restore archived inputs before running a dated private verifier.
 
@@ -136,7 +138,8 @@ not an acceptable shortcut around the native-product stage.
 - [`config/build.toml`](config/build.toml) — whole-product graph and explicit unknowns.
 - [`docs/RE_WORKFLOW.md`](docs/RE_WORKFLOW.md) — bounded reconstruction loop and stage gates.
 - [`docs/ORACLES.md`](docs/ORACLES.md) — what can falsify or accept each claim.
-- [`docs/TH09_NEXT_AGENT_HANDOFF_20261106.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261106.md) — current restart scope, verified owner boundaries, and cleanup guidance.
+- [`docs/TH09_NEXT_AGENT_HANDOFF_20261107.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261107.md) — **current** next-agent entry, owner frontiers, affected-source checkpoints, cache recovery.
+- [`docs/TH09_NEXT_AGENT_HANDOFF_20261106.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261106.md) — historical November 6 cleanup snapshot, not the current HEAD.
 - [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — concise live ledger, all13 nonexact frontiers and evidence routing.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — target facts and maintained source/verification map.
 - [`docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`](docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md) — frozen historical checkpoints; use the active handoff, not this archive, for current facts.

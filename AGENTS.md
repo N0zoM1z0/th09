@@ -2,8 +2,8 @@
 
 ## Current operator status
 
-The current operator has explicitly resumed TH09 exact-source reconstruction.
-Work seriously on both complete large bosses and small leaves, challenge old
+The latest operator request is a documentation/storage handoff for another
+agent. When reconstruction resumes, work seriously on both complete large bosses and small leaves, challenge old
 notes against the original executable and pinned compiler, and produce actual
 source progress rather than only inspections. Recover all dirty/untracked work
 before editing, and do not discard interrupted attempts. Use English commit
@@ -11,8 +11,9 @@ subjects in the format `gpt-web: <summary>` after each substantive checkpoint;
 make multiple reviewable commits in each productive session. Rebuild/replay only
 affected owners and their dependencies, never a routine full cold replay.
 
-The **2026-11-06 current restart guide** is
-`docs/TH09_NEXT_AGENT_HANDOFF_20261106.md`. Earlier source checkpoints
+The **2026-11-07 current handoff guide** is
+`docs/TH09_NEXT_AGENT_HANDOFF_20261107.md`. The November 6 guide is a
+historical earlier cleanup snapshot, not current source/HEAD/cache state. Earlier source checkpoints
 (`e4ea703b`, `80313a4f` and October/early-November handoffs) are
 historical, not statements about current HEAD. Re-read `git log -1
 --oneline`, the real Git status and the ledgers for each session: a
@@ -186,9 +187,10 @@ analysis database is working state; mirror durable conclusions into the repo.
   repacked with `git gc --prune=never` while preserving all live refs; neither
   storage action changes accepted source-exact evidence. See the newest
   2026-11-04 audit and handoff before deleting any other evidence.
-- The 2026-11-06 cleanup losslessly archived all1208 build OBJ plus209 large
-  analysis JSON and96 private TOML files, with per-member SHA-256 validation.
-  `build/` is absent. Read the current handoff before replay; use
+- The 2026-11-06 cleanup losslessly archived 1,208 build OBJ plus 209 large
+  analysis JSON and 96 private TOML files, with per-member SHA-256 validation.
+  `build/` was absent at that historical checkpoint and may reappear after
+  focused compiles or disappear again after a reviewed cache clean. Read the current handoff before replay; use
   `scripts/restore-analysis-archive.py --bundle .analysis/handoff-archive-20261106`
   with `--path` or `--prefix` (preview, then `--apply`) to recover named inputs.
   The interrupted RunEcl reference-parameter object is recovered but unaccepted;

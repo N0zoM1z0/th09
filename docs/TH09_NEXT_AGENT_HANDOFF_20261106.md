@@ -1,3 +1,8 @@
+> **Historical snapshot (2026-11-06), not the current handoff.** The
+> [November 7 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md)
+> supersedes this page for source commits, current filesystem/cache state,
+> and storage cleanup. Historical private recovery notes below are retained.
+
 # TH09 next-agent handoff — 2026-11-06
 
 Read [AGENTS.md](../AGENTS.md), [the live handoff](RE_HANDOFF.md),

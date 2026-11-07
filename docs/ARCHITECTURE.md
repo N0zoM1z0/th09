@@ -52,7 +52,7 @@ Boundary review still does not imply source presence or exact code generation.
 
 ## Maintained source map
 
-Start with [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261106.md)
+Start with [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261107.md)
 and the live manifests; treat [older handoffs](RE_HANDOFF.md) as history. These paths
 describe the current reconstruction organization, not a proven original
 translation-unit or class partition.

@@ -1,8 +1,9 @@
-# TH09 reconstruction — current handoff (2026-11-06)
+# TH09 reconstruction — live handoff (2026-11-07)
 
-Start with [the November 6 restart guide](TH09_NEXT_AGENT_HANDOFF_20261106.md).
-The operator resumed exact-source TH09 reconstruction after the November 6
-maintenance checkpoint. Both large bosses and leaves are in scope; verify
+Start with [the current November 7 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md).
+The November 6 handoff and its historical cleanup snapshot are **not** the
+current HEAD or cache state. Another agent is preparing to resume this
+reconstruction; both large bosses and leaves remain in scope. Verify
 original bytes and compiler evidence instead of trusting archival hypotheses.
 The 98% reviewed-authored-byte goal remains unfinished. Before this restart,
 `39511403` committed the cleanup handoff and recovered evidence without new
@@ -15,6 +16,27 @@ Historical session prose was moved byte-for-byte into
 Immutable source-bound [accepted receipts](RE_ACCEPTED_RECEIPTS.md) remain
 separate. Historical "current" and "goal active" assertions are not session
 instructions.
+
+## Current handoff summary — November 7
+
+The November 7 source changes through `7ec8e316` have **not** added new
+byte-exact function credit, despite substantial actual C++ improvements.
+The latest ANM code unifies the real render/cache ownership across five
+source-profile carriers and removes duplicate 3D and 2D/inner VM layouts:
+**35 original-bound exact functions, 8,813 complete physical bytes and
+533 fields** were replayed in their affected carriers (these functions
+were *already* exact). See
+[shared cache](TH09_ANM_COMMON_RENDER_CACHE_20261107.md),
+[render core](TH09_ANM_RENDER_CORE_NATIVE_STATE_20261107.md), and
+[DrawInner VM](TH09_ANM_RENDER_NATIVE_INNER_VM_20261107.md).
+The [Player collision](TH09_PLAYER_COLLISION_NATIVE_POOL_TYPE_20261107.md)
+boss gained a real typed pool but remains **849 candidate / 862 target**.
+
+Historical handoff sections below are retained as dated records. For the
+latest working tree, always run `git status`, `git log` and the live ledgers;
+local maintenance commits may move HEAD without changing function bodies.
+Read the [current next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md)
+for all 13 frontiers and restore/cache instructions.
 
 ## Live ledger snapshot
 

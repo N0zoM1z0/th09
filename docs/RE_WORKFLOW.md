@@ -2,7 +2,7 @@
 
 The project milestone is at least **98% of reviewed authored bytes exact**,
 using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
-The operator has explicitly resumed reconstruction and requests serious work
+For the next reconstruction session, work seriously
 on complete large bosses as well as leaf functions. Re-investigate old claims
 against current source/target evidence. Use focused complete-owner builds and
 replays only; no full cold replay for routine iteration.
@@ -13,7 +13,7 @@ pinned VC7.1 compiler for byte-exact comparisons. These are separate evidence
 sources. New English commits use `gpt-web: <concise summary>`; checkpoint every
 substantive advance and create multiple commits when a session has multiple
 reviewable advances. Compile serially at lowered priority and preserve complete
-affected-owner/callee proofs. See [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261106.md)
+affected-owner/callee proofs. See [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261107.md)
 for active source boundaries/residuals, and `RE_HANDOFF.md` for historical
 evidence and validated ledger totals.
 
@@ -76,7 +76,7 @@ project stay below `.analysis/ghidra-direct/`; no MCP service is needed.
 
 ### What to read at a fresh handoff
 
-Use [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261106.md) for the
+Use [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261107.md) for the
 active owner priorities and [RE_HANDOFF.md](RE_HANDOFF.md) for ledger-backed
 historical tables and unresolved
 large/small function fronts, exact-sibling scopes, and restart/cleanup gates.
