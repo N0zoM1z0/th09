@@ -22,11 +22,6 @@ extern CardAttackResourceView *g_CardAttackResource;
 extern AnmLoaded *g_CardAttackTextAnm;
 extern unsigned int g_CardAttackInputFlags;
 
-static __forceinline CardAttackVmView *CardAttackVm(AnmVm *vm)
-{
-    return vm;
-}
-
 CardAttack::CardAttack()
 {
 }
@@ -42,8 +37,8 @@ static __forceinline void PrepareCardAttackPresentation(CardAttack *cardAttack)
         &cardAttack->mainVms0AC[0], cardAttack->sideIndex00 + 18);
     g_CardAttackTextAnm->SetSprite(
         &cardAttack->mainVms0AC[1], cardAttack->sideIndex00 + 4);
-    CardAttackVm(cardAttack->mainVms0AC + 1)->scale.x = 1.0f;
-    CardAttackVm(cardAttack->mainVms0AC + 1)->scale.y = 1.0f;
+    cardAttack->mainVms0AC[1].scale.x = 1.0f;
+    cardAttack->mainVms0AC[1].scale.y = 1.0f;
     g_AnmManager->DrawTextCentered(
         &cardAttack->mainVms0AC[1], 0x00FFFFFE, 0, cardAttack->text18);
 }
@@ -75,7 +70,7 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
         cardAttack->primaryUpdate1328(cardAttack) != 0)
     {
         if (cardAttack->secondaryUpdate1334 == NULL)
-            CardAttackVm(&cardAttack->mainVms0AC[0])->flagsWord &= ~2U;
+            cardAttack->mainVms0AC[0].flagsWord &= ~2U;
         cardAttack->primaryEnd1330(cardAttack);
         cardAttack->primaryUpdate1328 = NULL;
         cardAttack->primaryDraw132C = NULL;
@@ -85,7 +80,7 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
     if (cardAttack->secondaryUpdate1334 != NULL &&
         cardAttack->secondaryUpdate1334(cardAttack) != 0)
     {
-        CardAttackVm(&cardAttack->mainVms0AC[0])->flagsWord &= ~2U;
+        cardAttack->mainVms0AC[0].flagsWord &= ~2U;
         cardAttack->secondaryEnd133C(cardAttack);
         cardAttack->secondaryUpdate1334 = NULL;
         cardAttack->secondaryDraw1338 = NULL;
@@ -95,12 +90,12 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
     }
 
     if (g_AnmManager->ExecuteScript(&cardAttack->mainVms0AC[0]) != 0)
-        CardAttackVm(&cardAttack->mainVms0AC[0])->flagsWord &= ~2U;
+        cardAttack->mainVms0AC[0].flagsWord &= ~2U;
 
     for (int i = 0; i < 5; ++i)
     {
         if (g_AnmManager->ExecuteScript(&cardAttack->secondaryVms5F4[i]) != 0)
-            CardAttackVm(&cardAttack->secondaryVms5F4[i])->flagsWord &= ~2U;
+            cardAttack->secondaryVms5F4[i].flagsWord &= ~2U;
     }
 
     cardAttack->timer98++;
@@ -116,7 +111,7 @@ int CardAttack::OnDraw(CardAttack *cardAttack)
     if (cardAttack->secondaryDraw1338 != NULL)
         cardAttack->secondaryDraw1338(cardAttack);
 
-    CardAttackVmView *main = CardAttackVm(&cardAttack->mainVms0AC[0]);
+    AnmVm *main = &cardAttack->mainVms0AC[0];
     if ((main->flagsWord & 2) != 0)
     {
         main->pos.x = g_GameManager.TransformPopupX(main->pos2.x);
@@ -124,23 +119,22 @@ int CardAttack::OnDraw(CardAttack *cardAttack)
         main->pos.z = 0.0f;
         g_AnmManager->DrawNoRotation(&cardAttack->mainVms0AC[0]);
 
-        CardAttackVm(cardAttack->mainVms0AC + 1)->pos =
+        cardAttack->mainVms0AC[1].pos =
             main->pos;
-        CardAttackVm(cardAttack->mainVms0AC + 1)->pos.y += 10.0f;
-        CardAttackVm(cardAttack->mainVms0AC + 1)->color1 = main->color1;
-        CardAttackVm(cardAttack->mainVms0AC + 1)->flagsWord = main->flagsWord;
+        cardAttack->mainVms0AC[1].pos.y += 10.0f;
+        cardAttack->mainVms0AC[1].color1 = main->color1;
+        cardAttack->mainVms0AC[1].flagsWord = main->flagsWord;
         g_AnmManager->DrawNoRotation(&cardAttack->mainVms0AC[1]);
     }
 
     AnmVm *secondaryVm = &cardAttack->secondaryVms5F4[0];
     for (int i = 0; i < 5; ++i, ++secondaryVm)
     {
-        CardAttackVmView *vm = CardAttackVm(secondaryVm);
-        if ((vm->flagsWord & 2) == 0)
+        if ((secondaryVm->flagsWord & 2) == 0)
             continue;
-        vm->pos.x = g_GameManager.TransformPopupX(vm->pos2.x);
-        vm->pos.y = g_GameManager.TransformPopupY(vm->pos2.y);
-        vm->pos.z = 0.0f;
+        secondaryVm->pos.x = g_GameManager.TransformPopupX(secondaryVm->pos2.x);
+        secondaryVm->pos.y = g_GameManager.TransformPopupY(secondaryVm->pos2.y);
+        secondaryVm->pos.z = 0.0f;
         g_AnmManager->DrawNoRotation(secondaryVm);
     }
     return 1;

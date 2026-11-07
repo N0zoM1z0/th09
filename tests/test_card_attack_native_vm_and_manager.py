@@ -10,20 +10,22 @@ class CardAttackNativeVmAndManager(unittest.TestCase):
     def test_native_anm_vm_fields_replace_duplicate_card_view(self):
         header=(ROOT/'src/CardAttack.hpp').read_text()
         source=(ROOT/'src/CardAttack.cpp').read_text()
-        self.assertIn('typedef AnmVm CardAttackVmView;',header)
-        self.assertNotIn('struct CardAttackVmView\n{',header)
+        self.assertNotIn('CardAttackVmView',header)
         self.assertIn('CardAttackVmNativeStorage',header)
         for name,offset in (('scale','0x18'),('color1','0x1F0'),
                             ('flagsWord','0x1F8'),('pos','0x208'),('pos2','0x288')):
             with self.subTest(name=name):
-                self.assertIn('offsetof(CardAttackVmView, '+name+') == '+offset,header)
+                self.assertIn('offsetof(AnmVm, '+name+') == '+offset,header)
         self.assertIn('AnmVm mainVms0AC[2];',header)
         self.assertIn('AnmVm secondaryVms5F4[5];',header)
-        self.assertIn('return vm;',source)
+        self.assertNotIn('CardAttackVm(',source)
+        self.assertNotIn('CardAttackVmView',source)
+        self.assertIn('cardAttack->mainVms0AC[1].scale.x',source)
+        self.assertIn('cardAttack->mainVms0AC[0].flagsWord',source)
+        self.assertIn('secondaryVm->pos.x',source)
         self.assertIn('main->pos.x',source)
         self.assertIn('main->pos2.x',source)
         self.assertIn('main->flagsWord',source)
-        self.assertNotIn('reinterpret_cast<CardAttackVmView *>(vm)',source)
 
     def test_card_attack_side_uses_the_one_native_game_manager_record(self):
         header=(ROOT/'src/CardAttack.hpp').read_text()

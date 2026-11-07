@@ -21,30 +21,15 @@ typedef char CardAttackSideStateSizeIs38[
     (sizeof(CardAttackSideStateView) == 0x38 &&
      offsetof(CardAttackSideStateView, background00) == 0x00) ? 1 : -1];
 
-struct CardAttackFloat2
-{
-    float x;
-    float y;
-};
-
-struct CardAttackFloat3
-{
-    float x;
-    float y;
-    float z;
-};
-
-// CardAttack already owns genuine AnmVm main/secondary arrays at +0x0AC
-// and +0x5F4. Their sprite/matrix/position words are the same native
-// 0x2A4-byte ANM VM, not a private draw-only structure.
-typedef AnmVm CardAttackVmView;
+// CardAttack's main and secondary draw owners use the actual AnmVm arrays,
+// whose scalar, color, flags and coordinate offsets are independently exact.
 typedef char CardAttackVmNativeStorage[
-    (sizeof(CardAttackVmView) == 0x2A4 &&
-     offsetof(CardAttackVmView, scale) == 0x18 &&
-     offsetof(CardAttackVmView, color1) == 0x1F0 &&
-     offsetof(CardAttackVmView, flagsWord) == 0x1F8 &&
-     offsetof(CardAttackVmView, pos) == 0x208 &&
-     offsetof(CardAttackVmView, pos2) == 0x288) ? 1 : -1];
+    (sizeof(AnmVm) == 0x2A4 &&
+     offsetof(AnmVm, scale) == 0x18 &&
+     offsetof(AnmVm, color1) == 0x1F0 &&
+     offsetof(AnmVm, flagsWord) == 0x1F8 &&
+     offsetof(AnmVm, pos) == 0x208 &&
+     offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
 struct CardAttack;
 typedef int (*CardAttackUpdateCallback)(CardAttack *cardAttack);
