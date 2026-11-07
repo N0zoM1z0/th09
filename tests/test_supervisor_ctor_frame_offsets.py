@@ -16,7 +16,14 @@ class SupervisorCtorFrameOffsets(unittest.TestCase):
         s=(ROOT/'src/SupervisorUpdate.cpp').read_text()
         self.assertIn('float frameOffsetX;',h)
         self.assertIn('float frameOffsetY;',h)
-        self.assertIn('unknown000[0xE8]',h)
+        # The former opaque 0xE8-byte prefix is now the native D3D viewport
+        # written by InitializeD3DRendering, with the same trailing XY words.
+        self.assertIn('Float3 cameraPosition00;',h)
+        self.assertIn('D3DMATRIX viewMatrix4C;',h)
+        self.assertIn('D3DVIEWPORT8 viewportCC;',h)
+        self.assertIn('Float2 screenShakeOffsetE8;',h)
+        self.assertIn('offsetof(SupervisorCtorArrayElement, frameOffsetX) == 0xE8',h)
+        self.assertIn('offsetof(SupervisorCtorArrayElement, viewportCC) == 0xCC',h)
         self.assertIn('SupervisorCtorFrameOffsetsAtE8',h)
         self.assertIn('sizeof(SupervisorCtorArrayElement) == 0xF0',h)
         self.assertNotIn('struct SupervisorUpdateFrameOffsetsView',s)

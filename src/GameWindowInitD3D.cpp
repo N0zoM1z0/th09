@@ -137,25 +137,6 @@ extern char sD3DUsingTlHal[];
 extern char sD3DMaxTextureTooSmall[];
 extern char sD3DA8R8G8B8Unsupported[];
 
-struct D3DInitViewportConfiguration
-{
-    Float3 cameraPosition00;
-    Float3 cameraLookAtOffset0C;
-    Float3 cameraUp18;
-    Float3 cameraForward24;
-    Float3 cameraRight30;
-    Float3 cameraPositionOffset3C;
-    float fieldOfView48;
-    D3DMATRIX viewMatrix4C;
-    D3DMATRIX projectionMatrix8C;
-    D3DVIEWPORT8 viewportCC;
-    int viewportModeE4;
-    Float2 screenShakeOffsetE8;
-};
-
-typedef char D3DInitViewportConfigurationSizeIsF0[
-    (sizeof(D3DInitViewportConfiguration) == 0xF0) ? 1 : -1];
-
 // Camera-array projection and register-sensitive flags: all other D3D
 // initialization fields now use the native Supervisor object. The flags
 // writes deliberately retain the current local receiver across device calls;
@@ -163,7 +144,7 @@ typedef char D3DInitViewportConfigurationSizeIsF0[
 struct SupervisorD3DInitView
 {
     unsigned char unknown000[0x78];
-    D3DInitViewportConfiguration viewports078[3];
+    SupervisorCtorArrayElement viewports078[3];
     unsigned char unknown348[0x5D4 - 0x348];
     unsigned int flags5D4;
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameConfiguration.hpp"
+#include "Float3.hpp"
 #include "SupervisorFrameQueueStorageView.hpp"
 #include <d3d8.h>
 
@@ -20,9 +21,24 @@ struct DummyMidiTimerStartup;
 
 struct SupervisorCtorArrayElement
 {
-    unsigned char unknown000[0xE8];
-    float frameOffsetX;
-    float frameOffsetY;
+    // D3D8 viewport state also written by InitializeD3DRendering and consumed
+    // by the original gameplay/screen camera update owners.
+    Float3 cameraPosition00;
+    Float3 cameraLookAtOffset0C;
+    Float3 cameraUp18;
+    Float3 cameraForward24;
+    Float3 cameraRight30;
+    Float3 cameraPositionOffset3C;
+    float fieldOfView48;
+    D3DMATRIX viewMatrix4C;
+    D3DMATRIX projectionMatrix8C;
+    D3DVIEWPORT8 viewportCC;
+    int viewportModeE4;
+    union
+    {
+        Float2 screenShakeOffsetE8;
+        struct { float frameOffsetX; float frameOffsetY; };
+    };
 
     // Declaration only: the target callback is a shared/folded three-byte
     // constructor whose original owner and source mapping remain unresolved.
@@ -30,7 +46,16 @@ struct SupervisorCtorArrayElement
 };
 
 typedef char SupervisorCtorFrameOffsetsAtE8[
-    (offsetof(SupervisorCtorArrayElement, frameOffsetX) == 0xE8 &&
+    (offsetof(SupervisorCtorArrayElement, cameraPosition00) == 0x00 &&
+     offsetof(SupervisorCtorArrayElement, cameraLookAtOffset0C) == 0x0C &&
+     offsetof(SupervisorCtorArrayElement, cameraUp18) == 0x18 &&
+     offsetof(SupervisorCtorArrayElement, fieldOfView48) == 0x48 &&
+     offsetof(SupervisorCtorArrayElement, viewMatrix4C) == 0x4C &&
+     offsetof(SupervisorCtorArrayElement, projectionMatrix8C) == 0x8C &&
+     offsetof(SupervisorCtorArrayElement, viewportCC) == 0xCC &&
+     offsetof(SupervisorCtorArrayElement, viewportModeE4) == 0xE4 &&
+     offsetof(SupervisorCtorArrayElement, screenShakeOffsetE8) == 0xE8 &&
+     offsetof(SupervisorCtorArrayElement, frameOffsetX) == 0xE8 &&
      offsetof(SupervisorCtorArrayElement, frameOffsetY) == 0xEC) ? 1 : -1];
 
 typedef char SupervisorCtorArrayElementSizeCheck[
