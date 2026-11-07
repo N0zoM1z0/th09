@@ -508,6 +508,7 @@ struct PlayerLifecycleView
     void UpdateShots();
     void __fastcall SpawnShots(int value, int powerLevel);
     int UpdateChargeAttack();
+    void AddRespawnResource(float value);
     void SubtractResourceClamped(float amount);
     Effect *ConfigureState3Effect13();
     Effect *ConfigureState3Effect14();

@@ -72,6 +72,16 @@ original machine-code bytes/82 fields remain unchanged, with the open
 ReplayMenu/ResultUpdate boss residuals untouched. See
 [native ResultDraw keyboard proof](TH09_TITLE_RESULT_DRAW_NATIVE_KEYBOARD_20261107.md).
 
+### 2026-11-07: Player respawn resource is a real Player member
+
+The exact 162-byte resource-add method at 0x41BC90 now belongs directly
+to `PlayerLifecycleView`, not a fabricated 4-byte state prefix receiver.
+Its exact 400-byte and 852-byte callers and the nonexact 862-byte Player
+bullet-collision boss target that one native method. Scoped original PE
+comparison protects 109 whole exact owners, while the collision boss still
+lacks 13 original bytes. See
+[native Player resource owner](TH09_PLAYER_NATIVE_RESPAWN_RESOURCE_BOSS_20261107.md).
+
 ### 2026-11-07: ResultDraw uses the same native Title keyboard as ReplaySave
 
 The exact 1,939-byte ResultDraw now expresses its 6×16 name-entry grid,

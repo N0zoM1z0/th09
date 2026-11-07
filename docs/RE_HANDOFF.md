@@ -561,6 +561,17 @@ proof of remote publication.
   byte-exact; 178 focused Title tests pass. See
   [native ResultDraw keyboard proof](TH09_TITLE_RESULT_DRAW_NATIVE_KEYBOARD_20261107.md).
 
+- **Player native 162-byte respawn-resource leaf and 862-byte collision
+  boss:** real `PlayerLifecycleView::AddRespawnResource` replaces the
+  artificial four-byte PlayerState4 method owner. The exact 400-byte
+  PlayerCheckState4 and 852-byte UpdateBeforeState and the complete open
+  CheckBulletCollision now call the same original entry 0x41BC90 without
+  a receiver cast. **109 exact functions / 36,467 physical bytes / 1,709
+  fields** pass scoped cold replay; **26 original fields / 12 calls /
+  13 missing bytes** remain in the collision big boss. Twenty-five
+  compiler-private Player/ECL labels are original-VA audited. See
+  [native Player respawn resource proof](TH09_PLAYER_NATIVE_RESPAWN_RESOURCE_BOSS_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

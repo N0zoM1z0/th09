@@ -485,9 +485,9 @@ extern float g_PlayerState4MinY;
 extern float g_PlayerState4Width;
 extern float g_PlayerState4Height;
 
-void PlayerState4OpsView::AddRespawnResource(float value)
+void PlayerLifecycleView::AddRespawnResource(float value)
 {
-    PlayerLifecycleView *player = reinterpret_cast<PlayerLifecycleView *>(this);
+    PlayerLifecycleView *player = this;
     int previousLevel = static_cast<int>(player->scalar30388) / 100;
 
     player->scalar30388 += value;
@@ -724,7 +724,7 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
         respawnValue = 130.0f - player->header24.state84 * 10.0f;
 
     PlayerState4OpsView *ops = reinterpret_cast<PlayerState4OpsView *>(player);
-    ops->AddRespawnResource(respawnValue);
+    player->AddRespawnResource(respawnValue);
     ops->SetUpdateState(3);
     *timer = 60;
     ops->SpawnTransitionA(&player->position1B88, 16.0f, 20.0f, 8, 0);
@@ -908,8 +908,7 @@ void PlayerLifecycleView::UpdateBeforeState()
             switch (state->type00)
             {
             case 0:
-                reinterpret_cast<PlayerState4OpsView *>(this)
-                    ->AddRespawnResource(400.0f);
+                AddRespawnResource(400.0f);
                 break;
             case 1:
                 for (i = 0;

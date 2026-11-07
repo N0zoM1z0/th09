@@ -647,7 +647,7 @@ TitleScreenView::DrawReplaySave
 TitleScreenView::DrawReplayMenu
 TitleScreenView::DrawResult
 Float3::operator/
-PlayerState4OpsView::AddRespawnResource
+PlayerLifecycleView::AddRespawnResource
 PlayerLifecycleView::CalcItemCollectionCollision
 PlayerLifecycleView::UpdateBeforeState
 PlayerLifecycleView::CheckBulletCollision

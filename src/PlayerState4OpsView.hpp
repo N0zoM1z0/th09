@@ -10,7 +10,6 @@ struct PlayerState4OpsView
 {
     int updateState00;
 
-    void AddRespawnResource(float value);
     void SetUpdateState(int state);
     void SpawnTransitionA(
         PlayerPositionView *position, float x, float y, int kind, int zero);

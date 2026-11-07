@@ -7,7 +7,6 @@
 #include "RngRuntimeLeaves.hpp"
 #include "ZunTimer.hpp"
 #include "PlayerCollisionRegionCreate.hpp"
-#include "PlayerState4OpsView.hpp"
 #include "GameManagerSideScoreView.hpp"
 
 void RotatePlayerCollisionVector(
@@ -121,8 +120,7 @@ int PlayerLifecycleView::CheckBulletCollision(
                 static_cast<short>(bullet->controller->sideIndex);
             effect->cancel.extraAttribute = bullet->extraAttribute10BD;
 
-            reinterpret_cast<PlayerState4OpsView *>(this)
-                ->AddRespawnResource(0.2f);
+            this->AddRespawnResource(0.2f);
             g_SoundPlayer.PlaySoundByIdx(
                 46, this->sideIndex != 0 ? 500 : -500);
 

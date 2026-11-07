@@ -156,7 +156,7 @@ class PlayerBulletOriginalTests(unittest.TestCase):
                 '?g_SoundPlayer@@3UPlayerCancelSoundView@@A',
             '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z':
                 '?PlaySoundByIdx@PlayerCancelSoundView@@QAEXHH@Z',
-            '?AddRespawnResource@PlayerState4OpsView@@QAEXM@Z':
+            '?AddRespawnResource@PlayerLifecycleView@@QAEXM@Z':
                 '?AddRespawnResource@PlayerCancelState4OpsView@@QAEXM@Z',
             '?AddScore@GameManagerSideStateView@@QAEXH@Z':
                 '?AddScore@PlayerCancelSideView@@QAEXH@Z',
