@@ -424,6 +424,16 @@ proof of remote publication.
   caller and 18-byte VM interrupt leaf pass source-cold replay. See
   [typed focus-input original comparison](TH09_PLAYER_MOVEMENT_TYPED_FOCUS_INPUT_20261107.md).
 
+- **485-byte Title result boss uses genuine PLST unlock capacity:**
+  the 3×16 native `characterUnlocked` array and 16-entry Title cursor
+  character order now share a compile-time checked full 16-slot extent;
+  the separate 14 normal unlock characters remain distinct. The complete
+  485/484-byte boss keeps **34 fields / 9 calls / 218 unlike overlap
+  bytes + 1 missing**. **41 existing exact Title functions / 18,972
+  bytes / 953 fields** pass scoped cold replay. Nine compiler-private
+  start-menu names retain verified original destinations. See
+  [native Title result unlock audit](TH09_TITLE_NATIVE_RESULT_UNLOCK_CAPACITY_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

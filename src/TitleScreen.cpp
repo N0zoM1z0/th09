@@ -376,6 +376,12 @@ extern i32 g_TitleCharacterReturnSelection;
 extern char g_TitleCharacterOrder[16];
 extern char g_TitleCharacterOrder14[16];
 extern char g_TitleResultCharacterOrder[16];
+// Title result cursor ordering and PLST unlock flags share precisely one
+// sixteen-character native extent. A separate guessed cursor capacity may
+// silently let the unlock scan wrap outside the original stored row.
+typedef char TitleResultNativeFullCharacterCapacity[
+    (sizeof(g_TitleResultCharacterOrder) ==
+     sizeof(((PlayStatsRecordView *)0)->characterUnlocked[0])) ? 1 : -1];
 extern char g_TitleCharacterOrderMode123[16];
 extern char g_TitleScreen16Order[16];
 extern char g_TitleScreen16Entries[16];
@@ -2399,6 +2405,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
 
 int TitleScreenView::OnUpdateResult()
 {
+    enum { FullCharacterSlots = sizeof(g_PlayStatsRecord.characterUnlocked[0]) };
     switch (currentScreenState)
     {
     case 0:
@@ -2411,7 +2418,7 @@ int TitleScreenView::OnUpdateResult()
             g_AnmManager->ExecuteScriptArray(reinterpret_cast<AnmVm *>(vms), vmCount);
             keyboardSelection = 0;
             nameBankIndex = 0;
-            SetCharacterCursorInactive(g_TitleResultCharacterOrder[0], 60, 16, 2);
+            SetCharacterCursorInactive(g_TitleResultCharacterOrder[0], 60, FullCharacterSlots, 2);
             currentScreenState = 0;
             stateTimer = 0;
             currentHelpTextVm = 0;
@@ -2455,7 +2462,7 @@ int TitleScreenView::OnUpdateResult()
 
         if (g_TitleResultUnlockStep >= 10)
         {
-            for (i32 i = 0; i < 16; i++)
+            for (i32 i = 0; i < FullCharacterSlots; i++)
                 g_PlayStatsRecord.characterUnlocked[0][(char)i] = 1;
             for (i32 i = 0; i <= 13; i++)
             {
@@ -2474,16 +2481,16 @@ int TitleScreenView::OnUpdateResult()
             {
                 keyboardSelection += direction;
                 if (keyboardSelection < 0)
-                    keyboardSelection += 16;
-                if (keyboardSelection >= 16)
-                    keyboardSelection -= 16;
+                    keyboardSelection += FullCharacterSlots;
+                if (keyboardSelection >= FullCharacterSlots)
+                    keyboardSelection -= FullCharacterSlots;
             }
 
             // Use the stable character-table slot for the cursor argument
             // and retain its pre-call value for the selected result bank.
             char *characterSlot = &g_TitleResultCharacterOrder[keyboardSelection];
             char character = *characterSlot;
-            SetCharacterCursorInactive(*characterSlot, 60, 16, 2);
+            SetCharacterCursorInactive(*characterSlot, 60, FullCharacterSlots, 2);
             nameBankIndex = character;
         }
 

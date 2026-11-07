@@ -61,6 +61,16 @@ original-bound; 28 exact related owners protect 6,024 bytes and 308 fields.
 The charge boss remains **1,197 candidate / 1,210 target** with 13 missing
 bytes. See [ChargeAttack native owner](TH09_PLAYER_NATIVE_CHARGE_BOSS_20261107.md).
 
+### 2026-11-07: Result-page 16-slot unlock capacity is native PLST storage
+
+The full 485-byte Title OnUpdateResult original reads a native 3×16-byte
+PLST `characterUnlocked` array and selects from a 16-entry character
+order. Cursor wraps, full unlock and both cursor-control calls now use the
+actual array-derived capacity; indices 0..13 remain the distinct normal
+unlock subset. All 41 exact Title source owners remain original byte-exact
+under scoped replay; the result boss retains its 218-plus-one deficit. See
+[native Title result character extent](TH09_TITLE_NATIVE_RESULT_UNLOCK_CAPACITY_20261107.md).
+
 ### 2026-11-07: Movement's focus input is a true ReplayInputState array member
 
 The entire 1,900-byte Player UpdateMovementAndOptions boss now reads
