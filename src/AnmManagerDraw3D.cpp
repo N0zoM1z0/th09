@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "VertexDiffuseXyzrhw.hpp"
 #include "AnmManagerRenderCacheView.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
@@ -15,12 +16,6 @@ D3DXMATRIX *WINAPI D3DXMatrixRotationY(D3DXMATRIX *out, float angle);
 D3DXMATRIX *WINAPI D3DXMatrixRotationZ(D3DXMATRIX *out, float angle);
 // Neutral view of the shared 0x0040F1C0 float absolute-value helper; owner/origin remain review.
 long double __stdcall AnmDraw3DAbs(float value);
-
-struct VertexDiffuseXyzrhw
-{
-    float x, y, z, rhw;
-    unsigned long diffuse;
-};
 
 typedef char VertexDiffuseXyzrhwSizeIs14[(sizeof(VertexDiffuseXyzrhw) == 0x14) ? 1 : -1];
 

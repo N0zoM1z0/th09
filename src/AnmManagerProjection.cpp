@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "VertexDiffuseXyzrhw.hpp"
 #include "AsciiManager.hpp"
 #include <stddef.h>
 #include <math.h>
@@ -6,7 +7,7 @@
 #include <d3d8.h>
 #include "AnmCameraProjectionViews.hpp"
 struct VertexTex1DiffuseXyzrhw { float x,y,z,rhw; unsigned long diffuse; float u,v; };
-struct VertexDiffuseXyzrhw { float x,y,z,rhw; unsigned long diffuse; };
+
 typedef char VertexProjectionSourceSizeIs14[(sizeof(VertexDiffuseXyzrhw)==0x14)?1:-1];
 extern VertexTex1DiffuseXyzrhw g_AnmRenderQuad[4];
 struct AnmManagerProjectionView {
