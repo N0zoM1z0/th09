@@ -20,6 +20,7 @@ typedef char TitleResultNativeFieldLayout[
 #include "AnmManager.hpp"
 #include "SoundPlayer.hpp"
 #include "Supervisor.hpp"
+#include "SupervisorThreadStartView.hpp"
 #include "Chain.hpp"
 #include "FileSystem.hpp"
 #include "ScreenEffect.hpp"
@@ -214,12 +215,10 @@ struct TitleSelectionRandomView {
 // the separately original-bound Title method identities remain in this
 // zero-extra-storage source-facing class.  Its anonymous status/FPs window
 // is owned by Supervisor at +0x77C..+0x793, not duplicated here.
-struct TitleSupervisorView : Supervisor {
+struct TitleSupervisorView : SupervisorThreadStartView {
     int ClearRecordingFpsWarningState();
     void SetupLoadingVms(TitleFloat3View *position);
     void SetupLoadingVmsAndInitCapture(TitleFloat3View *position);
-    void StartEffect(i32 index);
-    int ThreadStart(LPTHREAD_START_ROUTINE startFunction, void *startParam);
     void HideLoadingVms();
 };
 
