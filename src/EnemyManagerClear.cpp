@@ -1,4 +1,5 @@
 #include "AsciiManager.hpp"
+#include "EnemyNativePoolCapacity.hpp"
 #include "EclRunRemote.inl"
 #include "EclRunState.inl"
 
@@ -29,7 +30,7 @@ int EnemyManagerCoreView::KillAllNonBossEnemies(
     int popupValue = 2000;
     EnemyView *enemy = manager->enemies5758;
 
-    for (int i = 0; i < 128; ++i, ++enemy)
+    for (int i = 0; i < EnemyNativePoolCapacity::ActiveSlots; ++i, ++enemy)
     {
         if ((enemy->primaryFlags337C & 1) == 0 ||
             (enemy->primaryFlags337C & 2) != 0 ||

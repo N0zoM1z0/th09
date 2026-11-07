@@ -206,6 +206,16 @@ proof of remote publication.
   original-bound replay (including nine target-VA-checked compiler-private
   labels). See [Title name keyboard review](TH09_TITLE_NATIVE_NAME_KEYBOARD_20261107.md).
 
+- **Native Enemy active-pool/sentinel model:** the genuine 129 × 0x5430-byte
+  array holds **128 active scan/spawn records plus one terminal sentinel**.
+  The 3,900-byte OnUpdate boss and seven exact manager clear/lookup/release/
+  spawn owners now derive their counts and failure index from one shared
+  `EnemyNativePoolCapacity` type. Scoped original checks pass **90 exact
+  owners / 31,366 physical bytes / 1,429 fields**; Enemy OnUpdate remains
+  13 bytes different and RunEcl 30. Two independently target-checked ECL
+  compiler-private `$L` names were refreshed without repointing relocations.
+  See [native Enemy pool checkpoint](TH09_ENEMY_NATIVE_POOL_CAPACITY_20261107.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

@@ -18,6 +18,19 @@ share one **0x38-byte** native layout. Consult
 [the current next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
+### 2026-11-07: Native Enemy active pool and failed-spawn sentinel
+
+Original TH09 manager storage owns 129 consecutive 0x5430-byte Enemy records
+starting at +0x5758, including the dedicated final record at +0x2A6F58.
+Update/spawn/clear/find/release use only the first 128 slots. The two
+spawn pathways publish their failure flag using that same terminal index,
+although an ECL-initialization failure may terminate on an earlier pointer.
+Typed array-derived bounds preserve the large Enemy update and exact native
+manager owners under their pinned compiler profiles; the Enemy boss is still
+13 bytes nonexact and the ECL boss 30. Two ECL local compiler-label names
+were reverified against fixed original target operands and corrected in the
+manifest. See [native Enemy pool evidence](TH09_ENEMY_NATIVE_POOL_CAPACITY_20261107.md).
+
 ### 2026-11-07: Source-facing ScreenEffect envelope phases (current binding)
 
 The real 0x38-byte ScreenEffect keeps raw input fields at +0x1C/+0x20/+0x24;

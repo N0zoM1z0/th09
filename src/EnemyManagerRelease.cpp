@@ -1,4 +1,5 @@
 #include "EnemyManager.hpp"
+#include "EnemyNativePoolCapacity.hpp"
 #include "EnemyChildEclBlocks.hpp"
 
 #include "AnmManager.hpp"
@@ -12,7 +13,7 @@ extern Chain g_Chain;
 static int EnemyManagerReleaseCore(EnemyManagerView *manager)
 {
     EnemyView *enemy = &manager->enemies5758[0];
-    int remaining = 128;
+    int remaining = EnemyNativePoolCapacity::ActiveSlots;
     do
     {
         EnemyCoreReleaseChildEclBlocks(enemy);
@@ -50,7 +51,7 @@ extern unsigned char g_EnemySubroutineSchedule[256];
 void EnemyManagerView::ResetForGameplayCleanup()
 {
     EnemyView *enemy = &enemies5758[0];
-    int remaining = 128;
+    int remaining = EnemyNativePoolCapacity::ActiveSlots;
     do
     {
         EnemyCoreReleaseChildEclBlocks(enemy);

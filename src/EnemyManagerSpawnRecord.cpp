@@ -1,5 +1,6 @@
 #include "EnemyManagerCardAttackSpawn.hpp"
 #include "EnemyManager.hpp"
+#include "EnemyNativePoolCapacity.hpp"
 
 void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
     int subroutine,
@@ -15,7 +16,7 @@ void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
     EnemyView *enemy;
 
     enemy = &manager->enemies5758[0];
-    for (enemyIndex = 0; enemyIndex < 128; ++enemyIndex, ++enemy)
+    for (enemyIndex = 0; enemyIndex < EnemyNativePoolCapacity::ActiveSlots; ++enemyIndex, ++enemy)
     {
         if ((enemy->flags337C & 1) != 0)
             continue;
@@ -40,7 +41,7 @@ void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
                     enemy) == -1)
             {
                 enemy->flags337C &= ~1U;
-                enemyIndex = 128;
+                enemyIndex = EnemyNativePoolCapacity::FailureSentinelIndex;
                 break;
             }
         }
@@ -53,7 +54,7 @@ void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
                     enemy) == -1)
             {
                 enemy->flags337C &= ~1U;
-                enemyIndex = 128;
+                enemyIndex = EnemyNativePoolCapacity::FailureSentinelIndex;
                 break;
             }
         }
@@ -67,6 +68,6 @@ void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
         break;
     }
 
-    manager->spawnFailure2AC42C = enemyIndex == 128;
+    manager->spawnFailure2AC42C = enemyIndex == EnemyNativePoolCapacity::FailureSentinelIndex;
     return enemy;
 }

@@ -1,4 +1,5 @@
 #include "EnemyNativeTrailRenderCapacity.hpp"
+#include "EnemyNativePoolCapacity.hpp"
 #include "GameManagerSideScoreView.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "PlayerDamageView.hpp"
@@ -322,8 +323,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
     // Keep this loop's signed integer comparison: promoting enemyIndex to
     // size_t changes the original branch at the callback's loop tail.
     for (enemyIndex = 0;
-         enemyIndex < static_cast<int>(
-             sizeof(manager->enemies5758) / sizeof(manager->enemies5758[0]) - 1);
+         enemyIndex < EnemyNativePoolCapacity::ActiveSlots;
          ++enemyIndex, ++enemy)
     {
         EnemyView **drawHead;

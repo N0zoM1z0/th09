@@ -1,4 +1,5 @@
 #include "EnemyManager.hpp"
+#include "EnemyNativePoolCapacity.hpp"
 
 #include <string.h>
 
@@ -15,7 +16,7 @@ EnemyView *EnemyManagerView::SpawnEnemy(
     EnemyView *enemy = &manager->enemies5758[0];
     int enemyIndex;
 
-    for (enemyIndex = 0; enemyIndex < 128; ++enemyIndex, ++enemy)
+    for (enemyIndex = 0; enemyIndex < EnemyNativePoolCapacity::ActiveSlots; ++enemyIndex, ++enemy)
     {
         if ((enemy->flags337C & 1) != 0)
             continue;
@@ -41,7 +42,7 @@ EnemyView *EnemyManagerView::SpawnEnemy(
                     enemy) == -1)
             {
                 enemy->flags337C &= ~1U;
-                enemyIndex = 128;
+                enemyIndex = EnemyNativePoolCapacity::FailureSentinelIndex;
                 break;
             }
         }
@@ -58,7 +59,7 @@ EnemyView *EnemyManagerView::SpawnEnemy(
                     enemy) == -1)
             {
                 enemy->flags337C &= ~1U;
-                enemyIndex = 128;
+                enemyIndex = EnemyNativePoolCapacity::FailureSentinelIndex;
                 break;
             }
         }
@@ -76,6 +77,6 @@ EnemyView *EnemyManagerView::SpawnEnemy(
         break;
     }
 
-    manager->spawnFailure2AC42C = enemyIndex == 128;
+    manager->spawnFailure2AC42C = enemyIndex == EnemyNativePoolCapacity::FailureSentinelIndex;
     return enemy;
 }
