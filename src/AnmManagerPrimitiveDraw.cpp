@@ -48,11 +48,9 @@ typedef char PrimitiveNativeVmDrawFields[
      offsetof(AnmVmBase, loadedSprite) == 0x224 &&
      sizeof(AnmVm) == 0x2A4) ? 1 : -1];
 
-struct SupervisorPrimitiveView
-{
-    unsigned char unknown000[0x08];
-    IDirect3DDevice8 *d3dDevice;
-};
+// Native D3D device is owned by the real shared Supervisor, at +0x08.
+typedef char AnmPrimitiveRealDeviceAt08[
+    (offsetof(Supervisor, d3dDevice08) == 0x08) ? 1 : -1];
 
 struct AnmManagerPrimitiveView : AnmManagerRenderCacheView
 {
@@ -79,9 +77,9 @@ static __inline AnmManagerPrimitiveView *PrimitiveManager(AnmManager *manager)
     return reinterpret_cast<AnmManagerPrimitiveView *>(manager);
 }
 
-static __inline SupervisorPrimitiveView *PrimitiveSupervisor()
+static __inline Supervisor *PrimitiveSupervisor()
 {
-    return reinterpret_cast<SupervisorPrimitiveView *>(&g_Supervisor);
+    return &g_Supervisor;
 }
 
 void AnmManager::ClearBlendMode() { PrimitiveManager(this)->currentBlendMode = 3; }
@@ -94,37 +92,37 @@ void AnmManager::ClearZWrite() { PrimitiveManager(this)->disableZWrite = 0xff; }
 int AnmManager::DrawVertices(AnmVm *vmObject, VertexTex1DiffuseXyzrhw *vertices, int vertexCount)
 {
     AnmManagerPrimitiveView *anm = PrimitiveManager(this);
-    SupervisorPrimitiveView *supervisor = PrimitiveSupervisor();
+    Supervisor *supervisor = PrimitiveSupervisor();
     if (!vmObject->IsVisible()) return -1;
     if ((vmObject->flagsWord & 2) == 0) return -1;
     if (vmObject->color1Script.a == 0) return -1;
     if (anm->spritesToDraw != 0) this->FlushVertexBuffer();
     if (anm->currentTexture != vmObject->loadedSprite->texture) {
         anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vmObject->loadedSprite->texture);
-        supervisor->d3dDevice->SetTexture(0, anm->currentTexture);
+        supervisor->d3dDevice08->SetTexture(0, anm->currentTexture);
     }
     if (anm->currentVertexShader != 3) {
-        supervisor->d3dDevice->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+        supervisor->d3dDevice08->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
         anm->currentVertexShader = 3;
     }
     this->SetRenderStateForVm(vmObject);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-    supervisor->d3dDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, vertexCount - 2, vertices, sizeof(VertexTex1DiffuseXyzrhw));
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+    supervisor->d3dDevice08->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, vertexCount - 2, vertices, sizeof(VertexTex1DiffuseXyzrhw));
     return 0;
 }
 
 int AnmManager::QueueSpriteQuad(AnmVm *vmObject, VertexTex1DiffuseXyzrhw *vertices)
 {
     AnmManagerPrimitiveView *anm = PrimitiveManager(this);
-    SupervisorPrimitiveView *supervisor = PrimitiveSupervisor();
+    Supervisor *supervisor = PrimitiveSupervisor();
     if (!vmObject->IsVisible()) return -1;
     if ((vmObject->flagsWord & 2) == 0) return -1;
     if (vmObject->color1Script.a == 0) return -1;
     if (anm->currentTexture != vmObject->loadedSprite->texture) {
         anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vmObject->loadedSprite->texture);
         this->FlushVertexBuffer();
-        supervisor->d3dDevice->SetTexture(0, anm->currentTexture);
+        supervisor->d3dDevice08->SetTexture(0, anm->currentTexture);
     }
     if (anm->currentVertexShader != 1) {
         this->FlushVertexBuffer();
@@ -138,75 +136,75 @@ int AnmManager::QueueSpriteQuad(AnmVm *vmObject, VertexTex1DiffuseXyzrhw *vertic
 int AnmManager::DrawTriangleStrip(AnmVm *vm, VertexDiffuseXyzrhw *vertices, int vertexCount)
 {
     AnmManagerPrimitiveView *anm = PrimitiveManager(this);
-    SupervisorPrimitiveView *supervisor = PrimitiveSupervisor();
+    Supervisor *supervisor = PrimitiveSupervisor();
     if (anm->spritesToDraw != 0) this->FlushVertexBuffer();
     if (anm->currentVertexShader != 4) {
-        supervisor->d3dDevice->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+        supervisor->d3dDevice08->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
         anm->currentVertexShader = 4;
     }
     this->SetRenderStateForVm(vm);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
     g_Supervisor.SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    supervisor->d3dDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, vertexCount - 2, vertices, sizeof(VertexDiffuseXyzrhw));
+    supervisor->d3dDevice08->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, vertexCount - 2, vertices, sizeof(VertexDiffuseXyzrhw));
     g_AnmManager->ClearVertexShader();
     g_AnmManager->ClearColorOp();
     g_AnmManager->ClearBlendMode();
     g_AnmManager->ClearZWrite();
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
     return 0;
 }
 
 int AnmManager::DrawTriangleFan(AnmVm *vm, VertexDiffuseXyzrhw *vertices, int vertexCount)
 {
     AnmManagerPrimitiveView *anm = PrimitiveManager(this);
-    SupervisorPrimitiveView *supervisor = PrimitiveSupervisor();
+    Supervisor *supervisor = PrimitiveSupervisor();
     if (anm->spritesToDraw != 0) this->FlushVertexBuffer();
     if (anm->currentVertexShader != 4) {
-        supervisor->d3dDevice->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+        supervisor->d3dDevice08->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
         anm->currentVertexShader = 4;
     }
     this->SetRenderStateForVm(vm);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
     g_Supervisor.SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    supervisor->d3dDevice->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, vertexCount - 2, vertices, sizeof(VertexDiffuseXyzrhw));
+    supervisor->d3dDevice08->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, vertexCount - 2, vertices, sizeof(VertexDiffuseXyzrhw));
     g_AnmManager->ClearVertexShader();
     g_AnmManager->ClearColorOp();
     g_AnmManager->ClearBlendMode();
     g_AnmManager->ClearZWrite();
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
     return 0;
 }
 
 int AnmManager::DrawTexturedTriangleFan(AnmVm *vmObject, VertexTex1DiffuseXyzrhw *vertices, int vertexCount)
 {
     AnmManagerPrimitiveView *anm = PrimitiveManager(this);
-    SupervisorPrimitiveView *supervisor = PrimitiveSupervisor();
+    Supervisor *supervisor = PrimitiveSupervisor();
     if (anm->spritesToDraw != 0) this->FlushVertexBuffer();
     if (anm->currentVertexShader != 3) {
-        supervisor->d3dDevice->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+        supervisor->d3dDevice08->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
         anm->currentVertexShader = 3;
     }
     this->SetRenderStateForVm(vmObject);
     if (anm->currentTexture != vmObject->loadedSprite->texture) {
         anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vmObject->loadedSprite->texture);
-        supervisor->d3dDevice->SetTexture(0, anm->currentTexture);
+        supervisor->d3dDevice08->SetTexture(0, anm->currentTexture);
     }
     g_Supervisor.SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-    supervisor->d3dDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-    supervisor->d3dDevice->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, vertexCount - 2, vertices, sizeof(VertexTex1DiffuseXyzrhw));
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+    supervisor->d3dDevice08->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+    supervisor->d3dDevice08->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, vertexCount - 2, vertices, sizeof(VertexTex1DiffuseXyzrhw));
     return 0;
 }
 
@@ -245,13 +243,13 @@ void AnmManager::SetupVertexBuffer()
     g_BackgroundQuadVertices[2].textureUV = anm->untexturedVector[2].textureUV;
     g_BackgroundQuadVertices[3].textureUV = anm->untexturedVector[3].textureUV;
 
-    PrimitiveSupervisor()->d3dDevice->CreateVertexBuffer(
+    PrimitiveSupervisor()->d3dDevice08->CreateVertexBuffer(
         sizeof(anm->untexturedVector), 0, D3DFVF_XYZ | D3DFVF_TEX1,
         D3DPOOL_MANAGED, &anm->quadVertexBuffer);
     anm->quadVertexBuffer->Lock(0, 0, reinterpret_cast<BYTE **>(&lockedVertexBuffer), 0);
     memcpy(lockedVertexBuffer, anm->untexturedVector, sizeof(anm->untexturedVector));
     anm->quadVertexBuffer->Unlock();
-    PrimitiveSupervisor()->d3dDevice->SetStreamSource(
+    PrimitiveSupervisor()->d3dDevice08->SetStreamSource(
         0, PrimitiveManager(g_AnmManager)->quadVertexBuffer,
         sizeof(VertexTex1Xyz));
 }
