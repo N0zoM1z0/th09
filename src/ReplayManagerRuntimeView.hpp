@@ -35,6 +35,8 @@ struct ReplayRecordingCapacity
         FpsStreamBytes = 0x79,
         InputStreamCount = sizeof(((ReplayBufferLink *)0)->input) /
                            sizeof(((ReplayBufferLink *)0)->input[0]),
+        StageCount = sizeof(((ReplayDataView *)0)->fpsStart) /
+                     sizeof(((ReplayDataView *)0)->fpsStart[0]),
         LinkBytes = InputStreamCount * InputStreamBytes + FpsStreamBytes,
         StageHeadersBytes = InputStreamCount * sizeof(ReplayFrameDataStartView),
         InitialPayloadBytes = 0x10000
@@ -42,6 +44,7 @@ struct ReplayRecordingCapacity
 };
 typedef char ReplayRecordingCapacityPhysicalSizes[
     (ReplayRecordingCapacity::InputStreamCount == 3 &&
+     ReplayRecordingCapacity::StageCount == 10 &&
      ReplayRecordingCapacity::LinkBytes == 0x54D9 &&
      ReplayRecordingCapacity::StageHeadersBytes == 0x60 &&
      sizeof(ReplayDataView) == 0x1EC) ? 1 : -1];
@@ -85,6 +88,16 @@ struct ReplayManagerView
 typedef char ReplayManagerInput0At0C[(offsetof(ReplayManagerView, inputCursor0) == 0x0C) ? 1 : -1];
 typedef char ReplayManagerFpsAt18[(offsetof(ReplayManagerView, fpsCursor) == 0x18) ? 1 : -1];
 typedef char ReplayManagerStageBuffersAt1C[(offsetof(ReplayManagerView, stageBuffers) == 0x1C) ? 1 : -1];
+typedef char ReplayRecordingStageArrayMatchesWire[
+    (sizeof(((ReplayManagerView *)0)->stageBuffers) /
+     sizeof(((ReplayManagerView *)0)->stageBuffers[0]) ==
+     ReplayRecordingCapacity::StageCount &&
+     sizeof(((ReplayDataView *)0)->frameStart[0]) /
+     sizeof(((ReplayDataView *)0)->frameStart[0][0]) ==
+     ReplayRecordingCapacity::StageCount &&
+     sizeof(((ReplayDataView *)0)->frameStart) /
+     sizeof(((ReplayDataView *)0)->frameStart[0]) ==
+     ReplayRecordingCapacity::InputStreamCount) ? 1 : -1];
 typedef char ReplayManagerCurrentBufferAt10C[(offsetof(ReplayManagerView, currentBuffer) == 0x10C) ? 1 : -1];
 typedef char ReplayManagerUnknown110At110[(offsetof(ReplayManagerView, unknown110) == 0x110) ? 1 : -1];
 typedef char ReplayManagerModeAt114[(offsetof(ReplayManagerView, replayMode) == 0x114) ? 1 : -1];

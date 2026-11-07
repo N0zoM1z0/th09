@@ -214,7 +214,7 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
             decodedReplay->exeVersion, decodedReplay->value1D4, decodedReplay->value1D8))
         goto err2;
 
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < ReplayRecordingCapacity::StageCount; i++)
     {
         if (decodedReplay->frameOffset[0][i] != 0)
             decodedReplay->frameStart[0][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + decodedReplay->frameOffset[0][i]);
@@ -363,7 +363,7 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
         replayManager->replayData->value1E9 = g_GameManager.sides[1].value30;
         memcpy(replayData->playerName, "NO NAME", 4);
         memcpy(&replayData->configSnapshot, g_GameManager.configurationE8, sizeof(replayData->configSnapshot));
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < ReplayRecordingCapacity::StageCount; i++)
         {
             replayData->frameStart[0][i] = NULL;
             replayData->frameStart[1][i] = NULL;
@@ -637,7 +637,7 @@ void ReplayManagerView::Release()
     if (this == NULL)
         return;
 
-    for (int stage = 0; stage < 10; stage++)
+    for (int stage = 0; stage < ReplayRecordingCapacity::StageCount; stage++)
     {
         ReplayBufferLink *first = &this->stageBuffers[stage];
         ReplayBufferLink *link = first;
@@ -660,7 +660,7 @@ void ReplayManagerView::Release()
 
         if (!g_GameManager.IsReplayNeutral())
         {
-            for (int stream = 0; stream < 3; stream++)
+            for (int stream = 0; stream < ReplayRecordingCapacity::InputStreamCount; stream++)
             {
                 if (this->replayData->frameStart[stream][stage] != NULL)
                     g_ZunMemory.Free(this->replayData->frameStart[stream][stage]);
@@ -712,7 +712,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         // Walk the inline stage roots separately from each immutable source
         // link chain. Saving reads their recorded data but never mutates it.
         const ReplayBufferLink *stageRoot = &replayManager->stageBuffers[0];
-        for (; loopIndex < 10; loopIndex++, stageRoot++)
+        for (; loopIndex < ReplayRecordingCapacity::StageCount; loopIndex++, stageRoot++)
         {
             if (replayCopy.frameStart[0][loopIndex] != NULL)
             {
@@ -727,9 +727,9 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     replayCopy = *replayManager->replayData;
     int currentOffset = sizeof(ReplayDataView);
 
-    for (int stream = 0; stream < 3; stream++)
+    for (int stream = 0; stream < ReplayRecordingCapacity::InputStreamCount; stream++)
     {
-        for (loopIndex = 0; loopIndex < 10; loopIndex++)
+        for (loopIndex = 0; loopIndex < ReplayRecordingCapacity::StageCount; loopIndex++)
         {
             const ReplayFrameDataStartView *frameHeader = replayCopy.frameStart[stream][loopIndex];
             if (frameHeader != NULL)
@@ -749,7 +749,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     }
 
     // Each stage owns a distinct FPS chain; link contents remain live reads.
-    for (loopIndex = 0; loopIndex < 10; loopIndex++)
+    for (loopIndex = 0; loopIndex < ReplayRecordingCapacity::StageCount; loopIndex++)
     {
         if (replayCopy.fpsStart[loopIndex] != NULL)
         {

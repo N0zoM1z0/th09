@@ -82,7 +82,9 @@ proof of remote publication.
 - **Replay recording storage sizes:** native three-stream `ReplayBufferLink`
   and 0x20-byte stage headers now drive the allocation/zeroing capacities
   shared by exact Replay recording producers and near-exact 1,238-byte
-  SaveReplay. Twelve scoped siblings remain exact (4,093 bytes/232 fields);
+  SaveReplay. Wire, FPS, and runtime stage array counts now also drive
+  the original 3-by-10 loader/releaser/save loops. Twelve scoped siblings
+  remain exact (4,093 bytes/232 fields);
   SaveReplay still has two unequal bytes. See
   [recording capacity review](TH09_REPLAY_RECORDING_CAPACITY_20261107.md).
 

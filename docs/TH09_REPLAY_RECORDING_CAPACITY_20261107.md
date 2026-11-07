@@ -40,6 +40,25 @@ bytes of residual and no field/graph drift. This is bounded negative
 compiler evidence, not a proof that the remaining machine-code difference
 is irreducible. No experiment was adopted merely for appearance.
 
+## Native stage and stream counts (second scoped checkpoint)
+
+The serialized `ReplayDataView` defines a 3-by-10 `frameStart` table, a
+10-element FPS table and the runtime `ReplayManagerView` owns ten
+`ReplayBufferLink` stage roots. `ReplayRecordingCapacity::StageCount` now
+comes from the **actual FPS wire array length**, and `InputStreamCount`
+comes from the native link input array; compile-time identity assertions
+prove the wire/frame table and runtime stage buffer have the same dimensions.
+Eight actual loop bounds in `LoadReplayData`, `BeginRecordingStage`,
+`Release`, and the complete `SaveReplay` now use these shared extents rather
+than unrelated literals. The original logic (including fixed header copy
+sizes, stage flags, and zero-based indexing) is unchanged.
+
+A new serial original-bound `--owner replaysave` invocation checked all
+12 exact same-TU functions (4,093 physical bytes, 232 fields), unchanged
+and exact. The nonexact 1,238-byte SaveReplay still has the same two
+unlike bytes at `+0xB7` and `+0xBB`, 53 fields, 23 calls and 49 matching
+blocks. No whole-build or new exact credit is claimed.
+
 The live original-bound source/machine-code results and temporary compiler
 objects are under `.analysis/gptweb-replay-capacity-owner.log` and
 `build/matching/`. Neither private artifacts nor the original executable
