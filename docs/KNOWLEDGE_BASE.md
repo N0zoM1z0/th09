@@ -93,6 +93,15 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Type1 shot callback uses real SHT descriptor owner
+
+The original-exact 151-byte Type1 callback now takes the full native
+`PlayerShtDescriptorView` already shared with SHT loading; its +0x04/+0x08
+float offsets and +0x20 option index are true members. Original codegen,
+all two call operands and 111 exact related functions remain unchanged;
+Player Movement's 122 unlike bytes are not credited. See
+[native SHT Type1 descriptor](TH09_SHOT_SPAWN_TYPE1_NATIVE_SHT_DESCRIPTOR_20261108.md).
+
 ### 2026-11-08: Type1 shot callback uses full real Player Shot owner
 
 The exact 151-byte Type1 shot spawn now consumes a real

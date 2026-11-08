@@ -861,6 +861,15 @@ proof of remote publication.
   and RunEcl nonexact residuals are unchanged. See
   [Type1 native full Shot](TH09_SHOT_SPAWN_TYPE1_NATIVE_FULL_SHOT_20261108.md).
 
+- **Type1 shot spawn uses the real loader-owned SHT descriptor:**
+  `PlayerShtDescriptorView` now exposes +0x04/+0x08 float offsets and
+  +0x20 source-option index; the exact 151-byte callback no longer
+  declares another prefix. Full Player, Shot, shot-state and descriptor
+  receivers are native. **111 complete exact functions / 38,156 bytes /
+  1,827 fields** survive scoped original replay; 1,900-byte Player
+  Movement remains 122 ordinary bytes unlike, without regression.
+  See [native Type1 SHT descriptor](TH09_SHOT_SPAWN_TYPE1_NATIVE_SHT_DESCRIPTOR_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

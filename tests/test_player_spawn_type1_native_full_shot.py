@@ -24,10 +24,12 @@ class NativeType1ShotOwner(unittest.TestCase):
         self.assertIn('player->state3031C.shot0C = shot;',src)
         self.assertIn('shot->trailVectors2B0[i].x = -999.0f;',src)
         self.assertIn('shot->position2A4.x = -999.0f;',src)
-        self.assertIn('shot->sourceOption468 = entry->sourceOption20;',src)
+        self.assertIn('shot->sourceOption468 = entry->sourceOptionIndex20;',src)
         self.assertIn('shot->field46A = 15;',src)
         self.assertIn('shot->shotType464 = 2;',src)
         self.assertIn('PlayerShotNativeSourceAndField',native)
+        self.assertIn('PlayerShtNativeType1SpawnFields',native)
+        self.assertNotIn('PlayerShotSpawn1DescriptorView',src)
         for name,offset in (('sourceOption468','0x468'),('field46A','0x46A'),
                             ('animationIndex46C','0x46C')):
             with self.subTest(field=name):
@@ -40,7 +42,7 @@ class NativeType1ShotOwner(unittest.TestCase):
         s=self.units['player-shot-spawn-callback-type1']
         self.assertEqual((s['target_address'],s['size'],len(s['relocations'])),
                          (0x00441EF0,151,2))
-        self.assertEqual(s['symbol'],'?PlayerShotSpawnCallbackType1@@YIHPAUPlayerLifecycleView@@PAUPlayerShotCtorView@@HPAUPlayerShotSpawn1DescriptorView@@@Z')
+        self.assertEqual(s['symbol'],'?PlayerShotSpawnCallbackType1@@YIHPAUPlayerLifecycleView@@PAUPlayerShotCtorView@@HPAUPlayerShtDescriptorView@@@Z')
         self.assertEqual([(r['offset'],r['target']) for r in s['relocations']],
                          [(0x27,0x00401500),(0x5D,0x0041F350)])
         self.assertEqual(self.units['player-state3031c-constructor']['size'],12)
