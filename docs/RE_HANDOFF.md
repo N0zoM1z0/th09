@@ -767,6 +767,19 @@ proof of remote publication.
   Both large Enemy and Player collision nonexact frontiers remain open.
   See [native Player owner PrepareReset](TH09_PLAYER_NATIVE_OWNER_PREPARE_RESET_20261108.md).
 
+- **Corrected 41-byte Player owner Reset semantics inside 572-byte
+  physical InitializeAddedState:** `ReleaseHandle @0x40F860` was a false
+  interpretation of the already-exact native side `AddScore`. The owner
+  +0x0C/+0x10 values are reward counters, not handles. Real
+  `PlayerOwnerStateView::Reset` calls real PrepareReset @0x40F8C0 and
+  AddScore @0x40F860, clears counters and timer, while
+  `PlayerLifecycleView::InitializeAddedState` calls this genuine member
+  at its unchanged original 0x41D7E0 target. Scoped cold replay protects
+  **132 full exact functions / 40,858 physical bytes / 1,937 fields**.
+  Six initializer private labels have verified original PE VAs; Enemy,
+  Player collision and RunEcl nonexact deficits are unchanged. See
+  [native Player Reset actually publishes score](TH09_PLAYER_NATIVE_OWNER_RESET_IS_SCORE_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

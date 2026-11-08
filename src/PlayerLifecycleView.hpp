@@ -385,6 +385,7 @@ struct PlayerOwnerStateView
 
     PlayerOwnerStateView();
     void PrepareReset();
+    void Reset();
     void ApplyReward(PlayerPositionView *position,
                     int value0, int value1, int value2, int value3);
     void ApplyRewardWithStateAdvance(PlayerPositionView *position,

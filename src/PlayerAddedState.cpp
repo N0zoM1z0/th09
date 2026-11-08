@@ -47,32 +47,18 @@ typedef char PlayerAddedHeaderResetSizeIs78[
 typedef char PlayerAddedNativeHeaderAt24[
     (offsetof(PlayerLifecycleView, header24) == 0x24) ? 1 : -1];
 
-struct PlayerAddedHandleManagerView
-{
-    void ReleaseHandle(void *handle);
-};
-
-struct PlayerAddedOwnerContextView
-{
-    unsigned char unknown00[0x0C];
-    PlayerAddedHandleManagerView *manager0C;
-};
-
-struct PlayerAddedOwnerStateView
-{
-    PlayerAddedOwnerContextView *owner00;
-    unsigned char unknown04[0x08];
-    void *field0C;
-    void *handle10;
-    ZunTimer timer14;
-    unsigned char unknown20[0x1C];
-    int activeFrameCounter3C;
-    void *callback40;
-
-    void Reset();
-};
-typedef char PlayerAddedOwnerStateSizeIs44[
-    (sizeof(PlayerAddedOwnerStateView) == 0x44) ? 1 : -1];
+// The original 0x41D7E0 reset receiver is already the genuine native
+// 0x44-byte PlayerOwnerStateView, not an extra owner/handle allocation.
+// The old ReleaseHandle label at 0x40F860 actually names the exact
+// AsciiGameManagerSideView::AddScore method on Player+0x0C sideState.
+typedef char PlayerAddedRealNativeOwnerAt30410[
+    (sizeof(PlayerOwnerStateView) == 0x44 &&
+     offsetof(PlayerLifecycleView, ownerState30410) == 0x30410 &&
+     offsetof(PlayerOwnerStateView, playerOwner00) == 0x00 &&
+     offsetof(PlayerOwnerStateView, value0C) == 0x0C &&
+     offsetof(PlayerOwnerStateView, maxValue10) == 0x10 &&
+     offsetof(PlayerOwnerStateView, timer14) == 0x14 &&
+     offsetof(PlayerLifecycleView, sideState) == 0x0C) ? 1 : -1];
 
 struct PlayerAddedStateLayout
 {
@@ -121,7 +107,7 @@ struct PlayerAddedStateLayout
     unsigned char unknown303E0[0x08];
     int field303E8;
     unsigned char unknown303EC[0x30410 - 0x303EC];
-    PlayerAddedOwnerStateView ownerState30410;
+    PlayerOwnerStateView ownerState30410;
     unsigned char tailStates30454[0xB10];
     unsigned char unknown30F64[0x0C];
 };
@@ -168,13 +154,13 @@ void PlayerAddedHeaderResetView::Reset()
     this->flags74 &= ~3u;
 }
 
-void PlayerAddedOwnerStateView::Reset()
+void PlayerOwnerStateView::Reset()
 {
-    reinterpret_cast<PlayerOwnerStateView *>(this)->PrepareReset();
-    this->owner00->manager0C->ReleaseHandle(this->handle10);
-    this->handle10 = NULL;
-    this->field0C = NULL;
-    this->timer14 = 0;
+    PrepareReset();
+    playerOwner00->sideState->AddScore(maxValue10);
+    maxValue10 = 0;
+    value0C = 0;
+    timer14 = 0;
 }
 
 void PlayerLifecycleView::InitializeAddedState()
@@ -230,7 +216,7 @@ void PlayerLifecycleView::InitializeAddedState()
     if (randomValue >= 400.0f)
         player->randomRange7C = 400.0f;
 
-    player->ownerState30410.Reset();
+    this->ownerState30410.Reset();
     player->timer1B74 = 0;
     this->scalar30384 = 0.0f;
 

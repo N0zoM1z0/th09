@@ -39,7 +39,7 @@ EXTERNALS = {
     '?SampleRange@PlayerAddedRngView@@QAEMM@Z': 0x00404910,
     '__real@42c80000': 0x0048E3C8,
     '__real@43c80000': 0x0048E3C4,
-    '?Reset@PlayerAddedOwnerStateView@@QAEXXZ': 0x0041D7E0,
+    '?Reset@PlayerOwnerStateView@@QAEXXZ': 0x0041D7E0,
     '?g_PlayerAddedSideTable@@3PAHA': 0x004A8108,
     '?g_PlayerAddedClampValue@@3HA': 0x004A7E90,
     '?g_PlayerAddedModeSelector@@3HA': 0x004A7EAC,

@@ -93,6 +93,17 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Player owner Reset at 0x41D7E0 actually calls AddScore
+
+The exact original 41-byte reset previously misidentified the call to
+0x40F860 as `ReleaseHandle`. It is the independently exact
+`AsciiGameManagerSideView::AddScore`; supposed handles +0x0C/+0x10 on
+native `PlayerOwnerStateView` are genuine reward counters. The full
+572-byte physical `InitializeAddedState` calls the true native Reset.
+A 132-function scoped replay keeps all original bytes/field operands and
+unchanged big Enemy/Player/ECL residuals. See
+[native Player owner Reset score correction](TH09_PLAYER_NATIVE_OWNER_RESET_IS_SCORE_20261108.md).
+
 ### 2026-11-08: Player owner PrepareReset belongs to the native 0x44-byte state
 
 The original exact 29-byte reset at 0x40F8C0 is now a native
