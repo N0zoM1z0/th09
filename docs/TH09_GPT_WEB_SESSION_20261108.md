@@ -125,3 +125,42 @@ Every job below was an individual `forced-recompile` against a clean source snap
 | `EnemyView::ClampPositionToMovementBounds` | `0x004101D0` | 127 | `f791db3c06dc81a6557cf3ae213faa4d33898b31` | `receipt:c3a8c562153520aec636859b33ad7a9825db10b38bdd5631387fcd06a4e78c93` |
 
 The latest registry summary after these jobs still reports `candidates=1189`, `accepted=0`, `rejected=1189`, `invalid=0`. Earlier `factory_query_accepted_facts` returned zero facts for `target:th09-main` / `codegen_exact`. Do not conflate the individual job outcomes with a globally incorporated accepted-facts snapshot.
+
+## Three additional accepted Player collision leaves (fresh HEAD `7015f8d6d4a9aac7a4e46aa9063863f1c64898fd`)
+
+Fresh focused builds of `player-calc-item-box-collision`, `player-calc-circle-collision`, and `player-calc-laser-hitbox` each produced 100.00% structural bytes with no differing bytes. Each was then submitted as its own forced-recompile replay against the clean source binding at the HEAD above. All three completed with `receipt_verdict=pass`, `acceptance_decision=accepted`, and no acceptance reasons:
+
+| Function | Address | Bytes | Receipt |
+|---|---:|---:|---|
+| `PlayerLifecycleView::CalcItemBoxCollision` | `0x0041BDF0` | 121 | `receipt:6bcd1921a483942868d2990292664c953c6ac7524c581d7a08b13487b2b38c41` |
+| `PlayerLifecycleView::CalcCircleCollision` | `0x0041BE70` | 106 | `receipt:7ab13b9d6638567f854eaa3af80ac35042f67e220528748c42c45e238d8c83bf` |
+| `PlayerLifecycleView::CalcLaserHitbox` | `0x0041BFC0` | 422 | `receipt:26be6ed742b0e09c57d00e5927bb6980237ddf47ccdb75a9e7c70423f6752ca7` |
+
+These are three independent accepted leaves. They do not promote the adjacent `CheckBulletCollision` owner or any caller.
+
+## Re-examined `EnemyManagerView::OnUpdate` 13-byte frontier
+
+A fresh focused `enemy-attached-effect-update` build and `inspect-enemy-manager-update.py` report still show 3,900/3,900 bytes, 97/97 relocation fields, 69/69 ordered direct calls, and 170/170 reviewed control-flow blocks. The 13 differences group into a small number of instruction-selection/register-allocation sites:
+
+- `0x19C, 0x1A3`: target uses EAX for the zero-extended draw-group byte and the resulting indexed head address; candidate uses ECX for the index and EAX for the address.
+- `0x252, 0x263`: target uses EAX for the side-state/effect-manager pointer chain; candidate uses EDX.
+- `0x26D, 0x272`: target loads the special-attack threshold into EDX and pushes EDX; candidate uses EAX.
+- `0x294, 0x29A, 0x29C, 0x2A5, 0x2A9, 0x2B7, 0x2BD`: target and candidate copy the same three-float enemy position into the descriptor, but choose different source/base registers and load/store scheduling around the FPU speed calculation.
+
+Additional natural source probes were compiled and discarded: local `EffectManager *`, local `EnemySideStateView *` / reference, threshold value and pointer locals, descriptor reference through the whole constructor carrier, draw-group element reference and pointer arithmetic, per-loop side-state alias, and changing `EnemyView::position2D74` from the POD `EnemyFloat3` view to `Float3` with the three dependent call-site/assignment casts adapted. The `Float3` field-type hypothesis compiled but retained the exact same 13 offsets; it was restored. No speculative change was retained.
+
+## Re-examined `EnemyEclManagerView::RunEcl` 30-byte frontier
+
+The original-bound complete-owner comparison still has 30 ordinary differences. Target/candidate instruction inspection confirms the two concentrated regions without treating an IDA decompile as an exactness receipt:
+
+- Opcode 4 (`0x408937`): target loads the raw dword operand into ECX, pushes ECX, then loads `enemy->activeContext2CE0`, adds the timer field offset, and calls `ZunTimer::operator=(int)`. Current baseline loads the same operand into EAX, loads the timer receiver into ECX, then pushes EAX. Five C++ forms (raw-union reference, pointer, explicit operator, and direct field forms) retained EAX and increased the total difference count from 30 to 42. They were discarded.
+- Opcode `0x9B` (`0x40B770`): target uses `movzx ecx, byte ptr [instruction+0x0C]`, loads the old primary flags into ESI, computes the masked XOR, copies ESI to EAX, XORs the masked bit into EAX, and stores EAX. Baseline source uses a byte `memcpy` snapshot plus `AssignTimeoutSpellBit`, which keeps the 30-byte owner frontier but emits a byte-register load/zero-extension and reuses the result register. Changing the helper parameter or local snapshot to `unsigned int` does produce the target's direct memory `movzx`, but changes the old-flags/result register allocation and shortens the case body; the switch tail shifts and the whole-owner difference count rises to 2,290. Explicit result-local variants did not restore the original switch layout. All were discarded.
+
+No RunEcl source change was retained. The original 30-byte baseline remains reproducible; opcode 4 and opcode `0x9B` remain independent unresolved source/codegen frontiers.
+
+## Current focused state
+
+- No full cold replay was run.
+- Focused builds were limited to `enemy-attached-effect-update`, the three Player collision leaf units, and `player-check-graze-collision`.
+- `CheckBulletCollision` remains at 849 candidate bytes versus 862 target bytes, 266 versus 277 instructions, 32 versus 33 direct blocks, with all 26 relocation fields and 12 ordered calls agreeing. The `hasBullet` local briefly reached 861 bytes but still had 271 instructions, 32 blocks, and one missing target byte; it was discarded. The committed source remains the 849-byte baseline.
+- The worktree was restored after all probes; only this session record is being committed in this checkpoint.
