@@ -780,6 +780,18 @@ proof of remote publication.
   Player collision and RunEcl nonexact deficits are unchanged. See
   [native Player Reset actually publishes score](TH09_PLAYER_NATIVE_OWNER_RESET_IS_SCORE_20261108.md).
 
+- **Native Player now owns its entire 512×0x44-byte collision-region
+  pool:** replaced opaque +0x28BC..+0xB0BC storage and the duplicate
+  `PlayerAddedCollisionRegionView` with the real
+  `PlayerCollisionRegionCreateRegionView` (interval34 at +0x34).
+  `InitializeAddedState` populates the native +0xB100/+0xB908 lists and
+  derives the 512 bound from the actual array; its complete **572
+  physical bytes/25 fields**, the 23-byte Reset and independently exact
+  110-byte allocator all preserve original PE. Scoped cold replay
+  protects **123 exact functions / 39,702 bytes / 1,871 fields**;
+  Player collision, Enemy update and RunEcl deficits remain unchanged.
+  See [native full collision pool](TH09_PLAYER_NATIVE_FULL_COLLISION_POOL_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

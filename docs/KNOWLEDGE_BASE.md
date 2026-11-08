@@ -93,6 +93,17 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: All 512 Player collision regions are the real 0x44-byte records
+
+The native Player region allocation from +0x28BC to +0xB0BC is now a typed
+512-record array of genuine `PlayerCollisionRegionCreateRegionView` values,
+not a source-only opaque pool. The exact 23-byte `Reset` at 0x41BDA0
+is shared by the original 110-byte allocator and 572-physical-byte
+AddedState initializer, which uses the real Player pointer arrays and
+compile-time pool bound. Scoped replay preserves 123 existing exact
+functions and all three large nonexact residuals. See
+[native full Player collision region pool](TH09_PLAYER_NATIVE_FULL_COLLISION_POOL_20261108.md).
+
 ### 2026-11-08: Player owner Reset at 0x41D7E0 actually calls AddScore
 
 The exact original 41-byte reset previously misidentified the call to

@@ -29,7 +29,7 @@ EXTERNALS = {
     '??BPlayerPositionView@@QAEPAMXZ': 0x004343D0,
     '?g_PlayerAddedStartY@@3MA': 0x004A80EC,
     '__real@42800000': 0x0048E4A8,
-    '?Reset@PlayerAddedCollisionRegionView@@QAEHXZ': 0x0041BDA0,
+    '?Reset@PlayerCollisionRegionCreateRegionView@@QAEHXZ': 0x0041BDA0,
     '?SetState@PlayerAddedStateSetterView@@QAEHH@Z': 0x00403C20,
     '??4PlayerAddedTimerView@@QAEXH@Z': 0x00401500,
     '??4ZunTimer@@QAEXH@Z': 0x00401500,

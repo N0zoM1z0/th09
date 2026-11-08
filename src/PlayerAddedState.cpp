@@ -20,17 +20,6 @@ struct PlayerAddedRngView
     float SampleRange(float max);
 };
 
-struct PlayerAddedCollisionRegionView
-{
-    unsigned char unknown00[0x34];
-    int defaultValue34;
-    unsigned char unknown38[0x0C];
-
-    int Reset();
-};
-typedef char PlayerAddedCollisionRegionSizeIs44[
-    (sizeof(PlayerAddedCollisionRegionView) == 0x44) ? 1 : -1];
-
 struct PlayerAddedHeaderResetView
 {
     unsigned char unknown00[0x5C];
@@ -84,10 +73,10 @@ struct PlayerAddedStateLayout
     unsigned char unknown1C60[0x1CD8 - 0x1C60];
     unsigned char unknown1CD8[0x1CEC - 0x1CD8];
     unsigned char unknown1CEC[0x28BC - 0x1CEC];
-    PlayerAddedCollisionRegionView collisionRegions28BC[512];
-    unsigned char embeddedCollisionB0BC[0x44];
-    PlayerAddedCollisionRegionView *activeRegionsB100[514];
-    PlayerAddedCollisionRegionView *releasedRegionsB908[514];
+    PlayerCollisionRegionCreateRegionView collisionRegions28BC[512];
+    PlayerCollisionRegionCreateRegionView embeddedCollisionB0BC;
+    PlayerCollisionRegionCreateRegionView *activeRegionsB100[514];
+    PlayerCollisionRegionCreateRegionView *releasedRegionsB908[514];
     int activeRegionCountC110;
     int releasedRegionCountC114;
     unsigned char unknownC118[0xC11C - 0xC118];
@@ -140,10 +129,10 @@ extern int g_PlayerAddedClampValue;
 extern int g_PlayerAddedModeSelector;
 extern PlayerAddedRngView g_PlayerAddedRng;
 
-int PlayerAddedCollisionRegionView::Reset()
+int PlayerCollisionRegionCreateRegionView::Reset()
 {
     memset(this, 0, sizeof(*this));
-    this->defaultValue34 = 1;
+    this->interval34 = 1;
     return 0;
 }
 
@@ -178,14 +167,15 @@ void PlayerLifecycleView::InitializeAddedState()
     static_cast<volatile float &>(position->y) = g_GameManager.coordinate35C - 64.0f;
     static_cast<volatile float &>(position->z) = 0.49f;
 
-    for (i = 0; i < 512; ++i)
+    for (i = 0; i < sizeof(this->collisionRegions28BC) /
+                 sizeof(this->collisionRegions28BC[0]); ++i)
     {
-        player->collisionRegions28BC[i].Reset();
-        player->releasedRegionsB908[i] = &player->collisionRegions28BC[i];
-        player->activeRegionsB100[i] = NULL;
+        this->collisionRegions28BC[i].Reset();
+        this->releasedB908[i] = &this->collisionRegions28BC[i];
+        this->activeB100[i] = NULL;
     }
-    player->activeRegionCountC110 = 0;
-    player->releasedRegionCountC114 = 512;
+    this->collisionRegionActiveCountC110 = 0;
+    this->collisionRegionReleasedCountC114 = 512;
     player->field30358 = 0;
     player->ownerState30410.activeFrameCounter3C = 0;
 

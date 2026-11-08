@@ -469,7 +469,7 @@ struct PlayerLifecycleView
     PlayerOptionStateCtorView optionStates[4];
     // Native collision-region state within this Player allocation. The
     // separate CreateRegion receiver uses these same physical coordinates.
-    unsigned char unknown28BC[0xB0BC - 0x28BC];
+    PlayerCollisionRegionCreateRegionView collisionRegions28BC[512];
     PlayerCollisionRegionCreateRegionView collisionRegionB0BC;
     PlayerCollisionRegionCreateRegionView *activeB100[514];
     PlayerCollisionRegionCreateRegionView *releasedB908[514];
@@ -554,6 +554,18 @@ struct PlayerLifecycleView
     static int __fastcall OnDrawHighPrio(PlayerLifecycleView *player);
     static int __fastcall OnDrawLowPrio(PlayerLifecycleView *player);
 };
+
+// All 512 recyclable 0x44-byte region records are native Player members.
+// The same concrete record class serves CreateRegion, the Player collision
+// boss, and exact AddedState initialization, without new constructors.
+typedef char PlayerLifecycleNativeFullRegionPool[
+    (offsetof(PlayerLifecycleView, collisionRegions28BC) == 0x28BC &&
+     sizeof(((PlayerLifecycleView *)0)->collisionRegions28BC) == 512 * 0x44 &&
+     offsetof(PlayerLifecycleView, collisionRegionB0BC) == 0xB0BC &&
+     offsetof(PlayerLifecycleView, activeB100) == 0xB100 &&
+     offsetof(PlayerLifecycleView, releasedB908) == 0xB908 &&
+     sizeof(((PlayerLifecycleView *)0)->collisionRegions28BC[0]) ==
+         sizeof(PlayerCollisionRegionCreateRegionView)) ? 1 : -1];
 
 typedef char PlayerLifecycleNativeRegionAllocation[
     (offsetof(PlayerLifecycleView, collisionRegionB0BC) ==
