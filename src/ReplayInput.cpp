@@ -23,6 +23,10 @@ typedef unsigned int u32;
 typedef int i32;
 
 #include "ReplayManagerRuntimeView.hpp"
+
+// Keep this slot read explicit: without a volatile pointer-slot access, VC7.1
+// hoists it ahead of the original value1E7 publication in BeginPlaybackStage.
+typedef AsciiGameSideRuntimeView *volatile ReplaySideRuntimeSlotView;
 #include "ReplayNativeInputGateCapacity.hpp"
 
 // Replay side pointers at 0x4A7DAC/0x4A7DE4 alias the true
@@ -537,9 +541,10 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     // once before publishing 1E8. Preserve that distinct global pointer
     // read: an ordinary C++ alias gets hoisted ahead of the 1E7 store by
     // VC7.1. Later side-0 fields intentionally read the global again.
-    AsciiGameSideRuntimeView *firstSide0 =
-        *reinterpret_cast<AsciiGameSideRuntimeView *volatile *>(
+    ReplaySideRuntimeSlotView *side0RuntimeSlot =
+        reinterpret_cast<ReplaySideRuntimeSlotView *>(
             &g_GameManager.sides[0].runtime);
+    AsciiGameSideRuntimeView *firstSide0 = *side0RuntimeSlot;
     g_GameManager.sides[0].value30 = replayManager->replayData->value1E8;
     g_GameManager.sides[1].value30 = replayManager->replayData->value1E9;
     firstSide0->value08 = frame0->value00;
