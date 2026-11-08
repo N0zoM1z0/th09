@@ -366,7 +366,9 @@ typedef char PlayerNativeTransitionStateWords[
 struct PlayerOwnerStateView
 {
     void *owner00;
-    unsigned char unknown04[0x34];
+    unsigned char unknown04[0x04];
+    int maxState08;
+    unsigned char unknown0C[0x2C];
     int state38;
     int activeFrameCounter3C;
     void *callback40;

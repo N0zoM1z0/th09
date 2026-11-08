@@ -715,6 +715,17 @@ proof of remote publication.
   Player bullet collision remains 862/849 with 13 missing. See
   [native side score proof](TH09_NATIVE_GAMEMANAGER_SIDE_SCORE_20261108.md).
 
+- **Original-exact FrontResult now consumes the complete native Player
+  and GameManager:** removed the duplicate partial FrontResultPlayer/
+  FrontResultSide/GameManager structs; real `PlayerHeaderStateView` at
+  Player +0xA8/+0xB0/+0xB4/+0xB8 and `PlayerOwnerStateView::maxState08`
+  at +0x30418 now directly feed the 553-byte bonus renderer. Both native
+  gameplay sides, score runtime, phase word and exact AddScore leaf are
+  shared. **119 related exact functions / 39,978 physical bytes / 1,891
+  fields** pass original-bound scoped replay; 25 ECL/Player/reward
+  compiler-private labels are original-VA audited. See
+  [native FrontResult Player/Manager proof](TH09_FRONT_RESULT_NATIVE_FULL_PLAYER_MANAGER_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

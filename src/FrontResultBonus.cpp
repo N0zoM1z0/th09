@@ -2,47 +2,10 @@
 #include "AsciiManager.hpp"
 #include "GameConfiguration.hpp"
 #include "GameManagerRuntimeView.hpp"
+#include "PlayerLifecycleView.hpp"
 #include "PlayStats.hpp"
 
 #include <stddef.h>
-
-struct FrontResultPlayerView
-{
-    unsigned char unknown00000[0xA8];
-    int valueA8;
-    unsigned char unknown000AC[0xB0 - 0xAC];
-    int valueB0;
-    int valueB4;
-    int valueB8;
-    unsigned char unknown000BC[0x30418 - 0xBC];
-    int value30418;
-};
-
-struct FrontResultSideRuntimeView
-{
-    float value00;
-    unsigned char unknown04[0x10 - 0x04];
-    int value10;
-};
-
-struct FrontResultSideView
-{
-    unsigned char unknown00[0x04];
-    FrontResultPlayerView *player04;
-    unsigned char unknown08[0x1C - 0x08];
-    FrontResultSideRuntimeView *runtime1C;
-    int shotType20;
-    unsigned char unknown24[0x38 - 0x24];
-
-
-};
-
-struct FrontResultGameManagerLayout
-{
-    FrontResultSideView sides[2];
-    unsigned char unknown070[0xFC - 0x70];
-    int field0FC;
-};
 
 struct FrontResultBonusView
 {
@@ -63,13 +26,19 @@ typedef char FrontResultVmAt11154[
     (offsetof(FrontResultBonusView, resultVms11154) == 0x11154) ? 1 : -1];
 typedef char FrontResultBonusAt11E88[
     (offsetof(FrontResultBonusView, bonus11E88) == 0x11E88) ? 1 : -1];
+// The result score uses the real native Player and side allocations.
+typedef char FrontResultRealNativePlayerScores[
+    (offsetof(PlayerLifecycleView, header24) + offsetof(PlayerHeaderStateView, state84) == 0xA8 &&
+     offsetof(PlayerLifecycleView, header24) + offsetof(PlayerHeaderStateView, state8C) == 0xB0 &&
+     offsetof(PlayerLifecycleView, header24) + offsetof(PlayerHeaderStateView, state90) == 0xB4 &&
+     offsetof(PlayerLifecycleView, header24) + offsetof(PlayerHeaderStateView, state94) == 0xB8 &&
+     offsetof(PlayerLifecycleView, ownerState30410) + offsetof(PlayerOwnerStateView, maxState08) == 0x30418 &&
+     sizeof(AsciiGameManagerSideView) == 0x38 &&
+     offsetof(AsciiGameManagerSideView, player04) == 0x04 &&
+     offsetof(AsciiGameManagerSideView, state) == 0x1C &&
+     offsetof(AsciiGameSideRuntimeView, phase10) == 0x10) ? 1 : -1];
 
 extern GameConfiguration *g_GameConfiguration;
-
-static __inline FrontResultGameManagerLayout *FrontResultGameManager()
-{
-    return reinterpret_cast<FrontResultGameManagerLayout *>(&g_GameManager);
-}
 
 void FrontResultBonusView::InitializeResultBonus()
 {
@@ -81,40 +50,40 @@ void FrontResultBonusView::InitializeResultBonus()
     this->updateState1095C = 2;
 
     this->bonus11E88[0] =
-        100000 * FrontResultGameManager()->sides[side].player04->valueA8;
+        100000 * g_GameManager.sides[side].player04->header24.state84;
 
     {
-        FrontResultPlayerView *player =
-            FrontResultGameManager()->sides[side].player04;
-        if (player->value30418 < 1000)
+        PlayerLifecycleView *player =
+            g_GameManager.sides[side].player04;
+        if (player->ownerState30410.maxState08 < 1000)
             this->bonus11E88[1] =
                 10000 *
-                FrontResultGameManager()->sides[side].player04->value30418;
+                g_GameManager.sides[side].player04->ownerState30410.maxState08;
         else
             this->bonus11E88[1] = 9999990;
     }
 
-    if (FrontResultGameManager()->sides[side].player04->valueB0 > 66)
+    if (g_GameManager.sides[side].player04->header24.state8C > 66)
         this->bonus11E88[2] = 9999990;
     else
         this->bonus11E88[2] =
-            150000 * FrontResultGameManager()->sides[side].player04->valueB0;
+            150000 * g_GameManager.sides[side].player04->header24.state8C;
 
-    if (FrontResultGameManager()->sides[side].player04->valueB4 > 33)
+    if (g_GameManager.sides[side].player04->header24.state90 > 33)
         this->bonus11E88[3] = 9999990;
     else
         this->bonus11E88[3] =
-            300000 * FrontResultGameManager()->sides[side].player04->valueB4;
+            300000 * g_GameManager.sides[side].player04->header24.state90;
 
-    if (FrontResultGameManager()->sides[side].player04->valueB8 > 33)
+    if (g_GameManager.sides[side].player04->header24.state94 > 33)
         this->bonus11E88[4] = 9999990;
     else
         this->bonus11E88[4] =
-            300000 * FrontResultGameManager()->sides[side].player04->valueB8;
+            300000 * g_GameManager.sides[side].player04->header24.state94;
 
-    if (FrontResultGameManager()->field0FC == 8)
+    if (g_GameManager.field0FC == 8)
     {
-        if (FrontResultGameManager()->sides[side].runtime1C->value00 >= 10.0f)
+        if (g_GameManager.sides[side].state->value00 >= 10.0f)
         {
             this->bonus11E88[5] = 99999990;
         }
@@ -122,7 +91,7 @@ void FrontResultBonusView::InitializeResultBonus()
         {
             this->bonus11E88[5] =
                 static_cast<int>(
-                    FrontResultGameManager()->sides[side].runtime1C->value00) *
+                    g_GameManager.sides[side].state->value00) *
                 10000000;
         }
     }
@@ -143,12 +112,12 @@ void FrontResultBonusView::InitializeResultBonus()
         side == 0)
     {
         g_PlayStatsRecord.SetCharacterUnlocked0(
-            FrontResultGameManager()->sides[1].shotType20);
+            g_GameManager.sides[1].shotType20);
 
-        if (FrontResultGameManager()->field0FC == 8)
+        if (g_GameManager.field0FC == 8)
         {
             this->frontAnm08->ExecuteAnmIdx(&this->resultVms11154[1], 64);
-            FrontResultGameManager()->sides[0].runtime1C->value10 = 9999;
+            g_GameManager.sides[0].state->phase10 = 9999;
         }
 
         if (g_GameConfiguration->valueAC > 0 &&
@@ -159,5 +128,5 @@ void FrontResultBonusView::InitializeResultBonus()
         }
     }
 
-    reinterpret_cast<AsciiGameManagerSideView *>(&FrontResultGameManager()->sides[this->side10964])->AddScore(this->bonus11E88[6]);
+    g_GameManager.sides[this->side10964].AddScore(this->bonus11E88[6]);
 }

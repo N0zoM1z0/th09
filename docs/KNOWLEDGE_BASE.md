@@ -93,6 +93,17 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: FrontResult exact bonus uses real full native Player and sides
+
+The 553-byte original-exact FrontResult bonus calculation no longer
+maintains duplicate prefix-only Player/side/GameManager classes. Its four
+Player header counters at +0xA8/+0xB0/+0xB4/+0xB8 and native owner-state
+`maxState08` at +0x30418 are the genuine fields; GameManager side state
+and final AddScore share other exact owners. The original reload through
+GameManager on the +0x30418 score arm is preserved, and 119 related exact
+functions remain fully target-bound. See
+[native FrontResult full Player/Manager](TH09_FRONT_RESULT_NATIVE_FULL_PLAYER_MANAGER_20261108.md).
+
 ### 2026-11-08: GameManager side score owner is one native 0x38-byte side
 
 The complete original-exact 33-byte AddScore now lives on the genuine
