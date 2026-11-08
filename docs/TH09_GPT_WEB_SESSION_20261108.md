@@ -254,3 +254,7 @@ The complete owner remains 15,564 bytes with 30 byte differences. Fresh source-s
 - Opcode `0x9B` at `0x0040B770` remains a masked XOR of the primary Enemy flags word. Direct bitfield assignment and direct compound-update spellings alter the dense switch layout or register allocation and expand the full-owner difference count (up to 2,290 / 2,140); unsigned-int local forms preserve the 30-byte frontier but still do not reproduce the target's ESI/ECX/EAX allocation.
 
 All probes were restored to the committed baseline. No full cold replay was run; validation stayed on the affected match units and bounded IDA reads.
+
+## Fifth additional accepted Enemy/ECL leaf
+
+`EnemyCoreUpdateAttachedEffects` at `0x0040F4C0` was rebuilt and compared independently: 151/151 bytes, both relocations exact (`0x3E99999A` and `AddNormalizeAngle` at `0x0042AED0`), and its literal definition matched. Its forced-recompile replay completed with `receipt_verdict=pass`, `acceptance_decision=accepted`, and no acceptance reasons: `receipt:c61933924ad3ec7e846d08533504a06ee5a0a91346b9faafac2cad553c39c515`.
