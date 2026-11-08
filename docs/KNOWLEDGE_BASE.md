@@ -93,6 +93,16 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Player reward boss uses native GameManager and Supervisor
+
+The 1,540-byte exact physical `PlayerOwnerStateView::ApplyReward` now uses
+real `g_GameManager` and `g_Supervisor` globals, not reward-only partial
+classes. The 16 changed external source referents preserve their original
+addresses, while real popup transforms and four side selections target
+independently exact methods. The complete original 91 fields and 33 calls
+remain exact, with 13 scoped exact source owners. See
+[native Player reward manager ownership](TH09_PLAYER_REWARD_NATIVE_GAMEMANAGER_SUPERVISOR_20261108.md).
+
 ### 2026-11-08: PlayerRuntime shares the genuine Supervisor frame/viewport owner
 
 The original 522-byte Player OnUpdate and 852-byte physical UpdateBeforeState,
@@ -103,6 +113,15 @@ viewport methods are original-bound. Twenty-one PlayerRuntime exact
 functions/5,391 bytes and eight exact Supervisor provider siblings remain
 strictly matched. See
 [native PlayerRuntime Supervisor](TH09_PLAYER_RUNTIME_NATIVE_SUPERVISOR_20261108.md).
+
+### 2026-11-08: Player Runtime shares the real Supervisor frame-time and viewports
+
+Player OnUpdate, four side selections, two exact draw owners, and exact
+UpdateShots now use one true `Supervisor` at 0x4B3100 rather than an
+invented 0x5B8-byte prefix. The physical +0x5B8 frame multiplier also
+belongs to the exact GameManager CutChain source. Source-cold comparison
+protects 21 existing exact Player functions and original viewport/call
+addresses. See [native Player Supervisor proof](TH09_PLAYER_RUNTIME_NATIVE_SUPERVISOR_20261108.md).
 
 ### 2026-11-08: GameManager CutChain resets real Supervisor frame rate
 

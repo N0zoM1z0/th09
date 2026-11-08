@@ -684,6 +684,26 @@ proof of remote publication.
   Player bullet collision boss retains its 26 fields/12 calls/13-byte gap.
   See [native PlayerRuntime Supervisor owner](TH09_PLAYER_RUNTIME_NATIVE_SUPERVISOR_20261108.md).
 
+- **PlayerRuntime uses genuine Supervisor side/viewport/time scale:**
+  the 522-byte OnUpdate, 166/31-byte draw owners and 251-byte UpdateShots
+  plus the complete 852-byte UpdateBeforeState now consume real
+  `g_Supervisor` at 0x4B3100. The fake +0x5B8 PlayerSupervisor prefix
+  is removed; +0x5B8 time scale and `SelectSide`/two viewport call VAs
+  remain original. Scoped PE replay passes **21 exact owners / 5,391
+  bytes / 288 fields**, with 17 private labels independently bound to
+  their immutable original PE destinations. See
+  [native Player/Supervisor owner](TH09_PLAYER_RUNTIME_NATIVE_SUPERVISOR_20261108.md).
+
+- **The complete 1,540-byte physical Player ApplyReward now uses the
+  true GameManager and Supervisor:** deleted both duplicate reward-only
+  global receiver classes. Four Supervisor::SelectSide calls and four
+  native popup-transform calls keep original VAs 0x401440/0x401680/
+  0x4016B0; all **1,519 code bytes, 1,540 physical bytes, 91 fields
+  and 33 calls** remain exact. Six local `$L` names were PE/COFF
+  verified, and source-cold closure passes **13 exact reward/manager/
+  viewport owners / 3,254 bytes / 205 fields**. See
+  [native Player reward manager ownership](TH09_PLAYER_REWARD_NATIVE_GAMEMANAGER_SUPERVISOR_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

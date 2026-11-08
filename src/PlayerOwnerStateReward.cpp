@@ -3,6 +3,8 @@
 #include "EffectManager.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "ZunTimer.hpp"
+#include "Supervisor.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 #include <stddef.h>
 
@@ -11,16 +13,9 @@ struct PlayerRewardSharedRuntimeView
     int IsRewardBlocked();
 };
 
-struct PlayerRewardSupervisorView
-{
-    void SelectSide(int sideIndex);
-};
 
-struct PlayerRewardGameManagerView
-{
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-};
+
+
 
 struct EnemyView;
 
@@ -81,8 +76,6 @@ typedef char PlayerOwnerRewardCallbackAt40[
     (offsetof(PlayerOwnerRewardStateView, callback40) == 0x40) ? 1 : -1];
 
 extern PlayerRewardSharedRuntimeView *g_PlayerSharedRuntime;
-extern PlayerRewardSupervisorView g_PlayerSupervisorRuntime;
-extern PlayerRewardGameManagerView g_PlayerGameManagerRuntime;
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_PlayerRewardEffectManager;
 extern int g_PlayerRewardBaseValue;
@@ -195,14 +188,14 @@ void PlayerOwnerStateView::ApplyReward(
             if (reinterpret_cast<PlayerRewardAttackTargetView *>(state->owner00->opponentState->attackTarget10)->activeRewardCount2AC3B8 < 25)
             {
                 effectPosition.x =
-                    g_PlayerGameManagerRuntime.TransformPopupX(position->x) +
+                    g_GameManager.TransformPopupX(position->x) +
                     g_ReplayRng.GetRandomF32SignedInRange(32.0f);
                 effectPosition.y =
-                    g_PlayerGameManagerRuntime.TransformPopupY(position->y) +
+                    g_GameManager.TransformPopupY(position->y) +
                     g_ReplayRng.GetRandomF32SignedInRange(32.0f);
                 effectPosition.z = 0.0f;
 
-                g_PlayerSupervisorRuntime.SelectSide(1 - state->owner00->sideIndex);
+                g_Supervisor.SelectSide(1 - state->owner00->sideIndex);
 
                 velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
                     g_PlayerRewardVelocitySpan * 0.5f - 8.0f);
@@ -214,7 +207,7 @@ void PlayerOwnerStateView::ApplyReward(
                         state->owner00->sideIndex + 3, &effectPosition, &velocity,
                         1, static_cast<unsigned int>(-1));
 
-                g_PlayerSupervisorRuntime.SelectSide(state->owner00->sideIndex);
+                g_Supervisor.SelectSide(state->owner00->sideIndex);
                 effect->playerReward.valueA4 = 0;
                 effect->playerReward.valueA6 = 1;
                 effect->playerReward.scale =
@@ -234,14 +227,14 @@ void PlayerOwnerStateView::ApplyReward(
                4 * (30 - g_PlayerRewardBaseValue))
         {
             effectPosition.x =
-                g_PlayerGameManagerRuntime.TransformPopupX(position->x) +
+                g_GameManager.TransformPopupX(position->x) +
                 g_ReplayRng.GetRandomF32SignedInRange(32.0f);
             effectPosition.y =
-                g_PlayerGameManagerRuntime.TransformPopupY(position->y) +
+                g_GameManager.TransformPopupY(position->y) +
                 g_ReplayRng.GetRandomF32SignedInRange(32.0f);
             effectPosition.z = 0.0f;
 
-            g_PlayerSupervisorRuntime.SelectSide(1 - state->owner00->sideIndex);
+            g_Supervisor.SelectSide(1 - state->owner00->sideIndex);
 
             velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
                 g_PlayerRewardVelocitySpan * 0.5f - 8.0f);
@@ -253,7 +246,7 @@ void PlayerOwnerStateView::ApplyReward(
                     state->owner00->sideIndex + 1, &effectPosition, &velocity,
                     1, static_cast<unsigned int>(-1));
 
-            g_PlayerSupervisorRuntime.SelectSide(state->owner00->sideIndex);
+            g_Supervisor.SelectSide(state->owner00->sideIndex);
             effect->playerReward.valueA4 = 0;
             effect->playerReward.valueA6 = 4;
 
