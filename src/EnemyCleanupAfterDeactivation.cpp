@@ -56,8 +56,8 @@ void EnemyView::CleanupAfterDeactivation()
     *timerThreshold = -1;
     EnemyCoreReleaseChildEclBlocks(this);
 
-    PlayerLifecycleView *player = reinterpret_cast<PlayerLifecycleView *>(
-        enemy->manager00->sideState320->player04);
+    PlayerLifecycleView *player =
+        enemy->manager00->sideState320->playerLifecycle04;
     if (player->tracking30364.homingTarget18 == this)
         player->tracking30364.homingTarget18 = 0;
 }

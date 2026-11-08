@@ -63,8 +63,7 @@ void EnemyAppendCollisionView::AppendPlayerCollisionBox(
     Float3 scaledSize;
     scaledSize = *size / 1.5f;
 
-    reinterpret_cast<PlayerLifecycleView *>(
-        manager00->sideState320->player04)->collisionQuery36C.AppendBoxRecord(
+    manager00->sideState320->playerLifecycle04->collisionQuery36C.AppendBoxRecord(
             reinterpret_cast<const PlayerPositionView *>(position),
             reinterpret_cast<const PlayerPositionView *>(&scaledSize),
             0);
@@ -427,8 +426,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             }
 
             if (((enemy->primaryFlags337C & ENEMY_CORE_PAUSE_WITH_PLAYER) != 0 &&
-                 reinterpret_cast<PlayerLifecycleView *>(
-                     manager->sideState320->player04)->GetUpdateState() != 0) ||
+                 manager->sideState320->playerLifecycle04->GetUpdateState() != 0) ||
                 (enemy->secondaryFlags3380 & 0x10) != 0)
             {
                 enemy->bossTimer2E64--;
@@ -657,13 +655,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                     EnemyCoreSideStateView *side = manager->sideState320;
                     Float3 oldTargetDelta =
                         reinterpret_cast<const Float3 &>(
-                            reinterpret_cast<PlayerLifecycleView *>(
-                                side->player04)->tracking30364.trackedX00) -
+                            side->playerLifecycle04->tracking30364.trackedX00) -
                         reinterpret_cast<const Float3 &>(
-                            reinterpret_cast<PlayerLifecycleView *>(
-                                side->player04)->position1B88);
-                    PlayerLifecycleView *player = reinterpret_cast<PlayerLifecycleView *>(
-                        side->player04);
+                            side->playerLifecycle04->position1B88);
+                    PlayerLifecycleView *player = side->playerLifecycle04;
                     Float3 newTargetDelta =
                         reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4) -
                         reinterpret_cast<const Float3 &>(player->position1B88);
@@ -677,8 +672,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                             reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4);
                     }
 
-                    player = reinterpret_cast<PlayerLifecycleView *>(
-                        manager->sideState320->player04);
+                    player = manager->sideState320->playerLifecycle04;
                     if (static_cast<float>(AnmProjectionAbs(
                             enemy->worldPosition2DD4.x -
                             player->position1B88.x)) < 64.0f)
@@ -749,12 +743,11 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                         1,
                         static_cast<unsigned int>(-1));
                 }
-                PlayerLifecycleView *player = reinterpret_cast<PlayerLifecycleView *>(
-                    manager->sideState320->player04);
+                PlayerLifecycleView *player = manager->sideState320->playerLifecycle04;
                 if (player->GetUpdateState() == 0)
                 {
                     player->timer303C8 = 90;
-                    reinterpret_cast<PlayerLifecycleView *>(manager->sideState320->player04)->SetUpdateState(3);
+                    manager->sideState320->playerLifecycle04->SetUpdateState(3);
                 }
                 enemy->primaryFlags337C &= 0xE7FFFFFF;
                 break;

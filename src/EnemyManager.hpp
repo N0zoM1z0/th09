@@ -117,6 +117,7 @@ class Background;
 struct CardAttack;
 struct EnemyManagerView;
 struct EnemyView;
+struct PlayerLifecycleView;
 
 // TH09 side +0x34 low bit is modified by the exact opcode-1 callback.
 // Preserve all other side protocol bits without assigning speculative names.
@@ -131,7 +132,11 @@ typedef char EnemySideFlagBitsSizeIs04[
 struct EnemySideStateView
 {
     Background *background00;
-    EnemyRewardPlayerView *player04;
+    union
+    {
+        EnemyRewardPlayerView *player04;
+        PlayerLifecycleView *playerLifecycle04;
+    };
     EtamaController *etama08;
     EffectManager *effectManager0C;
     EnemyManagerView *enemyManager10;
@@ -144,6 +149,9 @@ struct EnemySideStateView
 typedef char EnemySideNativeFlagBitAt34[
     (offsetof(EnemySideStateView, flags34) == 0x34 &&
      offsetof(EnemySideStateView, flagBits34) == 0x34) ? 1 : -1];
+typedef char EnemySideStatePlayerViewsAt04[
+    (offsetof(EnemySideStateView, player04) == 0x04 &&
+     offsetof(EnemySideStateView, playerLifecycle04) == 0x04) ? 1 : -1];
 typedef char EnemySideStateSizeIs38[
     (sizeof(EnemySideStateView) == 0x38) ? 1 : -1];
 typedef char EnemySideStateEtamaAt08[
