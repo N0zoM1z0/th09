@@ -796,7 +796,7 @@ RUNECL_REAL_ETAMA_REMOVE_CALLEES = (
 def validate_runecl_real_etama_callees(units: dict) -> None:
     fragment = (ROOT/'src/EclRunLate.inl').read_text()
     shared = (ROOT/'src/EclRunState.inl').read_text()
-    native = (ROOT/'src/EnemyManager.hpp').read_text()
+    native = (ROOT/'src/GameManagerSideState.hpp').read_text()
     audit = (ROOT/'scripts/audit-ecl-callsite-identities.py').read_text()
     if (fragment.count('typedef ::EnemyCoreSideStateView SideStateView;') != 1 or
             shared.count('typedef EnemySideStateView EnemyCoreSideStateView;') != 1 or

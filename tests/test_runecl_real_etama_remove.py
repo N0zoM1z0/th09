@@ -28,7 +28,7 @@ class RealEtamaRemoveCallees(unittest.TestCase):
         late=(ROOT/'src/EclRunLate.inl').read_text()
         audit=(ROOT/'scripts/audit-ecl-callsite-identities.py').read_text()
         side=(ROOT/'src/EclRunState.inl').read_text()
-        native=(ROOT/'src/EnemyManager.hpp').read_text()
+        native=(ROOT/'src/GameManagerSideState.hpp').read_text()
         self.assertIn('typedef ::EnemyCoreSideStateView SideStateView;',late)
         self.assertIn('typedef EnemySideStateView EnemyCoreSideStateView;',side)
         self.assertIn('EtamaController *etama08;',native)
