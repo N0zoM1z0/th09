@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# Use the shared Wine runtime with this repository's configured prefix.
+factory_repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+export PATH="$factory_repo_root/.tools/factory-bin:$PATH"
+unset WINEPREFIX WINEARCH
+export DISPLAY= WAYLAND_DISPLAY=
 set -euo pipefail
 
 repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)

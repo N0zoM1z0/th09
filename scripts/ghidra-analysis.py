@@ -7,6 +7,8 @@ function boundaries are provisional and confer no source exactness credit.
 """
 from __future__ import annotations
 
+from shared_runtime import command as shared_command
+
 import argparse
 from datetime import datetime, timezone
 import fcntl
@@ -99,10 +101,25 @@ def main() -> int:
             pe['image_base'] + text['rva'] + text['virtual_size'] for value in functions):
         raise ValueError('function selectors must be distinct original .text addresses')
     ghidra = args.ghidra_dir.expanduser().resolve()
+    factory = (ROOT / '.tools/factory-runtime.py').resolve().parents[1]
+    if ghidra != (factory / '.factory/shared-tools' / ghidra.name).resolve():
+        raise ValueError('select a Factory-provisioned Ghidra installation')
     identity = dict(target_sha256=TARGET_SHA256, tool=tool_identity(ghidra))
-    key = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()[:16]
+    def content(binding):
+        return dict(target_sha256=binding['target_sha256'],
+                    components=binding['tool']['components'])
+    key = hashlib.sha256(json.dumps(content(identity), sort_keys=True).encode()).hexdigest()[:16]
     base = ROOT / '.analysis/ghidra-direct'
     cache = base / key
+    if not (cache / 'state.json').exists():
+        # Installation paths are informational. Reuse a byte-attested existing
+        # database after relocation without changing its historical state file.
+        matches = [p.parent for p in sorted(base.glob('*/state.json'))
+                   if content(json.loads(p.read_text())) == content(identity)]
+        if len(matches) > 1:
+            raise ValueError('multiple matching Ghidra projects; inspect before reuse')
+        if matches:
+            cache = matches[0]
     output = (args.output or base / ('export-' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')
                                     + '-' + str(os.getpid()))).resolve()
     if not output.is_relative_to((ROOT / '.analysis').resolve()):
@@ -116,7 +133,7 @@ def main() -> int:
         state_path = cache / 'state.json'
         reuse = state_path.exists()
         if reuse:
-            if json.loads(state_path.read_text()) != identity or not (cache / 'th09.gpr').is_file():
+            if content(json.loads(state_path.read_text())) != content(identity) or not (cache / 'th09.gpr').is_file():
                 raise ValueError('Ghidra project identity or saved database changed')
         elif (cache / 'th09.gpr').exists() or (cache / 'th09.rep').exists():
             raise ValueError('unverified Ghidra project exists; preserve and inspect it before reuse')
@@ -145,6 +162,7 @@ def main() -> int:
             alias = Path(temporary) / 'project'
             alias.symlink_to(cache, target_is_directory=True)
             command[8] = str(alias)
+            command[7:8] = shared_command("ghidra", ghidra=ghidra.name)
             with (output / 'launcher.log').open('w') as log:
                 run = subprocess.run(command, cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT)
         receipt = dict(command=command, exit=run.returncode, reused_project=reuse,

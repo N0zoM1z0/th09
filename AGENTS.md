@@ -209,3 +209,13 @@ analysis database is working state; mirror durable conclusions into the repo.
   documentation validation for status claims, and relevant tooling tests.
   `python3 scripts/ci.py` remains available for full public checks. Accepted
   receipts are source-commit scoped; never report a pending replay as accepted.
+
+## Shared Factory runtime
+
+Follow [the shared tools instructions](docs/SHARED_TOOLS.md). Ghidra/JDK and
+Wine executables are shared through Factory; repository scripts also work
+without MCP. Use `scripts/shared_runtime.py` and the existing compiler/analysis
+frontends. Keep this game's prefix, analyzer project, Java home/cache, target
+and compiler profile isolated. Do not install duplicate tools or inherit
+another game's `WINEPREFIX`. This shared-runtime procedure supersedes older
+per-repository installation instructions; pinned versions/hashes still apply.
