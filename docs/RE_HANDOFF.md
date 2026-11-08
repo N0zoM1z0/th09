@@ -673,6 +673,17 @@ proof of remote publication.
   1,689-byte setup boss retains its 1,682-byte candidate/694-plus-seven
   deficit. See [native cut-chain rate](TH09_GAMEMANAGER_CUTCHAIN_NATIVE_SUPERVISOR_RATE_20261108.md).
 
+- **PlayerRuntime now uses the real Supervisor viewport/frame-rate owner:**
+  removed the duplicate `PlayerSupervisorRuntimeView` and its fake
+  `PreparePlayerDraw` method; native `g_Supervisor` now owns the original
+  SelectSide, ConfigureGameplayViewport and ConfigureScreenViewport calls
+  and the +0x5B8 shot velocity factor. **21 exact PlayerRuntime functions /
+  5,391 physical bytes / 288 fields** and eight exact Supervisor viewport
+  siblings (1,530 bytes/106 fields) pass scoped original replay. Seventeen
+  compiler-private Player labels were PE/COFF audited. The 862/849-byte
+  Player bullet collision boss retains its 26 fields/12 calls/13-byte gap.
+  See [native PlayerRuntime Supervisor owner](TH09_PLAYER_RUNTIME_NATIVE_SUPERVISOR_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

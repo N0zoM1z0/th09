@@ -93,6 +93,17 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: PlayerRuntime shares the genuine Supervisor frame/viewport owner
+
+The original 522-byte Player OnUpdate and 852-byte physical UpdateBeforeState,
+251-byte UpdateShots and 166/31-byte draw owners now use the real
+`Supervisor` at 0x4B3100 rather than the fake `PlayerSupervisorRuntimeView`.
+Its +0x5B8 frame multiplier and exact 0x401440/0x401390/0x403D90
+viewport methods are original-bound. Twenty-one PlayerRuntime exact
+functions/5,391 bytes and eight exact Supervisor provider siblings remain
+strictly matched. See
+[native PlayerRuntime Supervisor](TH09_PLAYER_RUNTIME_NATIVE_SUPERVISOR_20261108.md).
+
 ### 2026-11-08: GameManager CutChain resets real Supervisor frame rate
 
 The exact 98-byte `GameManager_CutChain` now writes the genuine

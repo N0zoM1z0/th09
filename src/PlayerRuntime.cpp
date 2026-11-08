@@ -9,6 +9,7 @@
 #include "RngRuntimeLeaves.hpp"
 #include "PlayerEnemyTrackingStateView.hpp"
 #include "PlayerSharedRuntimeView.hpp"
+#include "Supervisor.hpp"
 
 #include <stddef.h>
 
@@ -421,18 +422,12 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
     }
 }
 
-struct PlayerSupervisorRuntimeView
-{
-    void SelectSide(int sideIndex);
-    void PreparePlayerDraw(int sideIndex);
-    void ConfigureGameplayViewport(int sideIndex);
-
-    unsigned char unknown000[0x5B8];
-    float framerateMultiplier5B8;
-};
-typedef char PlayerSupervisorFramerateAt5B8[
-    (offsetof(PlayerSupervisorRuntimeView, framerateMultiplier5B8) == 0x5B8) ? 1 : -1];
-extern PlayerSupervisorRuntimeView g_PlayerSupervisorRuntime;
+// All Player update/draw/shot paths use the same original native
+// Supervisor: +0x5B8 frame multiplier and original viewport/side methods.
+// No second 0x5B8-byte Supervisor prefix is allocated.
+typedef char PlayerRuntimeNativeSupervisorAt5B8[
+    (sizeof(Supervisor) == 0x7B0 &&
+     offsetof(Supervisor, framerateMultiplier5B8) == 0x5B8) ? 1 : -1];
 
 typedef char PlayerRuntimeNativeBulletSpriteDimensions[
     (sizeof(AnmLoadedSprite) == 0x44 &&
@@ -782,7 +777,7 @@ int __fastcall PlayerLifecycleView::OnUpdate(PlayerLifecycleView *player)
     if (player->GetUpdateState() == 5)
         return 1;
 
-    g_PlayerSupervisorRuntime.SelectSide(player->sideIndex);
+    g_Supervisor.SelectSide(player->sideIndex);
 
     if (player->GetUpdateState() == 4)
     {
@@ -916,7 +911,7 @@ void PlayerLifecycleView::UpdateBeforeState()
                              2 * g_PlayerRewardModeValue + 10;
                      ++i)
                 {
-                    g_PlayerSupervisorRuntime.SelectSide(sideIndex);
+                    g_Supervisor.SelectSide(sideIndex);
 
                     EffectFloat3 position;
                     position.x =
@@ -927,7 +922,7 @@ void PlayerLifecycleView::UpdateBeforeState()
                         g_ReplayRng.GetRandomF32SignedInRange(64.0f);
                     position.z = 0.0f;
 
-                    g_PlayerSupervisorRuntime.SelectSide(1 - sideIndex);
+                    g_Supervisor.SelectSide(1 - sideIndex);
 
                     EffectFloat3 velocity;
                     velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
@@ -971,7 +966,7 @@ void PlayerLifecycleView::UpdateBeforeState()
                     effect->playerReward.side = static_cast<short>(sideIndex);
                     effect->playerRewardDelay98 = static_cast<float>(i) * 2.0f;
                 }
-                g_PlayerSupervisorRuntime.SelectSide(sideIndex);
+                g_Supervisor.SelectSide(sideIndex);
                 break;
             case 2:
                 ownerState30410.ApplyReward(
@@ -1047,7 +1042,7 @@ void PlayerLifecycleView::DrawTailStates()
 
 int __fastcall PlayerLifecycleView::OnDrawHighPrio(PlayerLifecycleView *player)
 {
-    g_PlayerSupervisorRuntime.PreparePlayerDraw(player->sideIndex);
+    g_Supervisor.ConfigureScreenViewport(player->sideIndex);
     if (player->GetUpdateState() == 5)
         goto drawOptions;
 
@@ -1075,7 +1070,7 @@ drawOptions:
 
 int __fastcall PlayerLifecycleView::OnDrawLowPrio(PlayerLifecycleView *player)
 {
-    g_PlayerSupervisorRuntime.ConfigureGameplayViewport(player->sideIndex);
+    g_Supervisor.ConfigureGameplayViewport(player->sideIndex);
     player->DrawHitShots();
     return 1;
 }
@@ -1099,8 +1094,8 @@ void PlayerLifecycleView::UpdateShots()
 
         float *position = shot->position2A4.operator float *();
         float &positionY = position[1];
-        position[0] += g_PlayerSupervisorRuntime.framerateMultiplier5B8 * shot->velocity43C.x;
-        positionY += g_PlayerSupervisorRuntime.framerateMultiplier5B8 * shot->velocity43C.y;
+        position[0] += g_Supervisor.framerateMultiplier5B8 * shot->velocity43C.x;
+        positionY += g_Supervisor.framerateMultiplier5B8 * shot->velocity43C.y;
 
         if (shot->shotType464 != 2 &&
             !g_PlayerGameManagerRuntime.IsWithinPlayfield(
