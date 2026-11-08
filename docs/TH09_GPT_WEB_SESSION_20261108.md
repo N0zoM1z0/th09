@@ -258,3 +258,44 @@ All probes were restored to the committed baseline. No full cold replay was run;
 ## Fifth additional accepted Enemy/ECL leaf
 
 `EnemyCoreUpdateAttachedEffects` at `0x0040F4C0` was rebuilt and compared independently: 151/151 bytes, both relocations exact (`0x3E99999A` and `AddNormalizeAngle` at `0x0042AED0`), and its literal definition matched. Its forced-recompile replay completed with `receipt_verdict=pass`, `acceptance_decision=accepted`, and no acceptance reasons: `receipt:c61933924ad3ec7e846d08533504a06ee5a0a91346b9faafac2cad553c39c515`.
+
+## Fresh RunEcl owner investigation (second pass, 2026-11-08)
+
+The live source was re-read rather than assuming the previous opcode notes were correct. A focused build of `enemy-attached-effect-update` and a fresh full-owner `inspect-ecl-complete.py` report reconfirmed the unchanged `EnemyEclManagerView::RunEcl` extent: 15,564 bytes, 598 relocation records, 30 ordinary differing bytes. There are only two difference clusters:
+
+- `+0x278..+0x280` (`0x00408938` onward): opcode 4, `JUMP`, assignment to `context->time008`.
+- `+0x30B0..+0x30CA` (`0x0040B770` onward): opcode 155, `SET_TIMEOUT_SPELL`.
+
+### Opcode 4: argument-before-this evaluation
+
+Fresh IDA disassembly of the target at `0x00408937`:
+
+```asm
+mov ecx, [ebx+0Ch]
+push ecx
+mov ecx, [edi+2CE0h]
+add ecx, 8
+call 00401500 ; ZunTimer::operator=(int)
+add ebx, [ebx+10h]
+```
+
+The current C++ snapshot copies the raw argument into a `Th09EclWireArgument` local before assigning `context->time008`. It compiles to the same call and target but schedules the argument in EAX, loads `this` into ECX, then pushes EAX. Replacing the local with direct union access, `RawInt`, explicit `operator=`, timer pointer/reference, raw context-offset access, `volatile` argument reads, register locals, and several `__forceinline __fastcall` value-first helpers all retained that EAX-before-this sequence. Direct-expression variants expanded the complete owner from 30 to 42 differing bytes because the surrounding switch layout changed; none was retained.
+
+### Opcode 155: masked XOR register allocation
+
+The target block at `0x0040B770` is:
+
+```asm
+movzx ecx, byte ptr [ebx+0Ch]
+mov esi, [edi+337Ch]
+shl ecx, 18h
+xor ecx, esi
+and ecx, 1000000h
+mov eax, esi
+xor eax, ecx
+mov [edi+337Ch], eax
+```
+
+This implements `flags ^= (flags ^ (rawByte << 24)) & 0x01000000`. The current helper-based C++ preserves the semantics but reuses EAX for the old flags and ECX for the result. Fresh natural-source probes covered raw byte/union reads, signed and unsigned locals, helper and direct masked-XOR spellings, compound assignment, references/pointers, `register` and `const` locals, bitfield assignment, and return-value helpers. None reproduced the target register schedule. Direct bitfield assignment kept the old word in ESI but selected EAX for the shifted input and ECX for the result; it also disturbed dense switch layout and expanded the full-owner difference count to 2,140. A volatile local bitfield overlay was worse (31 differences and AND/OR code instead of the target XOR). An inline-assembly experiment reproduced the local instruction sequence but shifted/changed the surrounding switch owner (2,220 differences), so it was discarded rather than replacing natural source with a non-matching workaround.
+
+All probes were restored. No RunEcl source or helper changes from this investigation were retained. No full cold replay was run; each candidate used the existing focused match-unit build and bounded owner diagnostics only.
