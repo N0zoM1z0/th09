@@ -837,6 +837,14 @@ proof of remote publication.
   **1,037 source-present / 1,024 exact / 13 nonexact**. See
   [native state constructor exact proof](TH09_PLAYER_STATE3031C_CONSTRUCTOR_EXACT_20261108.md).
 
+- **Type1 shot spawn now borrows actual constructed Player state:**
+  the original-exact 151-byte `PlayerShotSpawnCallbackType1` no longer
+  declares its own 0x1C-byte shot-state prefix. It uses genuine
+  `PlayerState3031CView::timer00` and `shot0C`, shared with the exact
+  12-byte constructor. Scoped cold replay protects **23 exact owners /
+  5,554 bytes / 291 fields**, without a Player collision-boss regression.
+  See [Type1 native shot state](TH09_SHOT_SPAWN_TYPE1_NATIVE_STATE_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

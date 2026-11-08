@@ -93,6 +93,15 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Type1 shot callback shares the constructed native Player state
+
+The original-exact 151-byte Type1 shot spawn now borrows native
+`PlayerState3031CView` at Player +0x3031C, publishing its timer00 and
+shot0C pointer in the same allocation as the independently exact 12-byte
+constructor. A direct natural C++ member form preserved all original
+bytes/fields; a stack-local pointer variant did not. See
+[Type1 native shot state](TH09_SHOT_SPAWN_TYPE1_NATIVE_STATE_20261108.md).
+
 ### 2026-11-08: Exact 12-byte Player state ctor restores timer and shot pointer
 
 The original 0x41EE20 single-ZunTimer constructor is now the canonical

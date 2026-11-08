@@ -1,5 +1,6 @@
 #include "PlayerShotInitializeView.hpp"
 #include "ZunTimer.hpp"
+#include "PlayerLifecycleView.hpp"
 
 struct PlayerShotSpawn1Vec3
 {
@@ -35,19 +36,20 @@ struct PlayerShotSpawn1ShotView
     unsigned char unknown46C[0x484 - 0x46C];
 };
 
-struct PlayerShotSpawn1StateView
-{
-    ZunTimer timer00;
-    PlayerShotSpawn1ShotView *shot0C;
-    unsigned char unknown10[0x0C];
-};
-
+// This callback's +0x3031C timer/shot record is the same genuine
+// PlayerState3031CView constructed by Player at 0x41EE20. It is not
+// a second source-only 0x1C-byte callback state allocation.
 struct PlayerShotSpawn1PlayerView
 {
     unsigned char unknown0000[0x3031C];
-    PlayerShotSpawn1StateView state3031C;
-
+    PlayerState3031CView state3031C;
 };
+typedef char PlayerShotSpawn1RealNativeState[
+    (sizeof(PlayerState3031CView) == 0x1C &&
+     offsetof(PlayerShotSpawn1PlayerView, state3031C) == 0x3031C &&
+     offsetof(PlayerState3031CView, timer00) == 0x00 &&
+     offsetof(PlayerState3031CView, shot0C) == 0x0C &&
+     sizeof(PlayerShotCtorView) == 0x484) ? 1 : -1];
 
 int __fastcall PlayerShotSpawnCallbackType1(
     PlayerShotSpawn1PlayerView *player,
@@ -59,7 +61,7 @@ int __fastcall PlayerShotSpawnCallbackType1(
         return 0;
 
     player->state3031C.timer00 = 30;
-    player->state3031C.shot0C = shot;
+    player->state3031C.shot0C = reinterpret_cast<PlayerShotCtorView *>(shot);
 
     shot->sourceOption468 = entry->sourceOption20;
     shot->velocity43C.z = entry->value04;
