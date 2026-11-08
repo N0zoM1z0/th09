@@ -232,6 +232,17 @@ __forceinline void AssignFlagField(
     flags = (flags & ~mask) | (shiftedValue & mask);
 }
 
+// Opcode 155 updates the one true timeout bit of the shared flags word.
+// TH09's physical target uses a masked XOR of the previous word with the
+// shifted wire byte. Only bit 24 changes, for every possible wire byte.
+// This is a TU-inline implementation detail, not a separate target boundary.
+inline unsigned int AssignTimeoutSpellBit(unsigned int old,
+                                                 unsigned char value)
+{
+    return old ^ ((old ^ (static_cast<unsigned int>(value) << 24)) &
+                   ENEMY_STATE_TIMEOUT_SPELL);
+}
+
 } // namespace Th09EclRunState
 
 #endif // TH09_ECL_RUN_STATE_DECLARATIONS
@@ -535,10 +546,14 @@ __forceinline void AssignFlagField(
 
     case TH09_ECL_OPCODE_SET_TIMEOUT_SPELL:
     {
-        // Opcode 155 writes only the one-bit timeout field in the native
-        // +0x337C flags word. A one-bit assignment preserves every other bit.
-        unsigned int value = instruction->arguments[0].bytes[0];
-        enemy->primaryFlagBits337C.timeoutSpell24 = value;
+        // The timeout bit is the native Enemy's primary word at +0x337C;
+        // a second EnemyStateView reference would describe identical storage.
+        // Read the existing wire byte once. The target's masked XOR leaves
+        // all other flag bits intact, rather than clearing and OR-ing them.
+        unsigned char value;
+        memcpy(&value, &Th09EclRunState::RawByte(instruction, 0), sizeof(value));
+        enemy->primaryFlags337C =
+            Th09EclRunState::AssignTimeoutSpellBit(enemy->primaryFlags337C, value);
         break;
     }
 
