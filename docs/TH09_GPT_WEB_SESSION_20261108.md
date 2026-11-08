@@ -315,3 +315,14 @@ The target disassembly and fresh decompile localize these to three instruction s
 Fresh natural C++ source-shape probes included direct array indexing and pointer arithmetic; signed/unsigned/byte index locals; register index and pointer locals; moving or hoisting the draw-head local; force-inline index/head getters; effect-manager pointer/reference and side-state locals (including function-scope and register locals); threshold pointer, volatile, unsigned, explicit-operator and function-scope locals; and `Float3`/`EnemyFloat3` assignment, pointer/reference, temporary, component-wise and `memcpy` position transfers. All pointer/struct-copy forms retained the same 13 offsets. Component-wise position assignment expanded the difference count to 469, so it was rejected. Hoisting side state before the loop changed the owner extent and was also rejected. Combined register-local variants did not change the 13-byte frontier.
 
 The existing struct-copy source remains the best candidate; no speculative register-forcing or inline-assembly workaround was retained. The exact 13 offsets and the four accepted Enemy/ECL leaf receipts are recorded above. All probes were restored, the focused unit was rebuilt, and the working tree was clean. No full cold replay was run.
+
+## Two more accepted Enemy/ECL leaf receipts confirmed in this pass
+
+The durable replay history also confirms the attached-effect updater and child-ECL release helper as independently accepted exact owners (both forced-recompile receipts, not just source comparisons):
+
+| Function | Address | Bytes | Receipt |
+|---|---:|---:|---|
+| `EnemyCoreUpdateAttachedEffects` | `0x0040F4C0` | 151 | `receipt:c61933924ad3ec7e846d08533504a06ee5a0a91346b9faafac2cad553c39c515` |
+| `EnemyCoreReleaseChildEclBlocks` | `0x004100E0` | 48 | `receipt:436cd3c54d9705295ebe859ae23ef9c3e2d66201efe5a6ed1dbcabc164c6feb5` |
+
+The latter was resubmitted from the live `enemy-core-release-child-ecl-blocks` unit in this pass and completed `receipt_verdict=pass`, `acceptance_decision=accepted`, with no acceptance reasons. Its two ordered free/clear operations are also the exact child-block release calls used by `EnemyView::CleanupAfterDeactivation` at `0x00410110`.
