@@ -153,7 +153,6 @@ extern int g_PlayerAddedSideTable[];
 extern int g_PlayerAddedClampValue;
 extern int g_PlayerAddedModeSelector;
 extern PlayerAddedRngView g_PlayerAddedRng;
-extern void PlayerAddedOwnerPrepareReset();
 
 int PlayerAddedCollisionRegionView::Reset()
 {
@@ -171,7 +170,7 @@ void PlayerAddedHeaderResetView::Reset()
 
 void PlayerAddedOwnerStateView::Reset()
 {
-    PlayerAddedOwnerPrepareReset();
+    reinterpret_cast<PlayerOwnerStateView *>(this)->PrepareReset();
     this->owner00->manager0C->ReleaseHandle(this->handle10);
     this->handle10 = NULL;
     this->field0C = NULL;

@@ -564,7 +564,7 @@ SupervisorThreadStartView::ThreadClose,0x00430230,function
 PlayerUpdateOwnerState,0x0041D760,function
 AsciiManager::SetScale,0x004234DD,function
 AsciiGameManagerSideView::AddScore,0x0040F860,function
-PlayerOwnerStateResetView::PrepareReset,0x0040F8C0,function
+PlayerOwnerStateView::PrepareReset,0x0040F8C0,function
 PlayerAngleView::AngleToPoint,0x0041BB70,function
 AddNormalizeAngle,0x0042AED0,function
 SoundPlayer::PlaySoundByIdx,0x0043E2F0,function

@@ -757,6 +757,16 @@ proof of remote publication.
   boss remains unchanged. See
   [native Player reward callback owner](TH09_PLAYER_REWARD_CALLBACKS_NATIVE_OWNER_20261108.md).
 
+- **Native 29-byte PlayerOwnerState PrepareReset and exact 41-byte
+  AddedState caller:** moved the real +0x20 timer / +0x04 state / +0x38
+  reset method off a redundant 0x44-byte source class and removed a fake
+  global `PlayerAddedOwnerPrepareReset` call. Original +0x04 REL32 target
+  remains 0x40F8C0. Three natural C++ models preserve both complete exact
+  functions; scoped cold replay passes **116 exact functions / 39,254
+  physical bytes / 1,858 fields** with 25 PE/COFF-reviewed local labels.
+  Both large Enemy and Player collision nonexact frontiers remain open.
+  See [native Player owner PrepareReset](TH09_PLAYER_NATIVE_OWNER_PREPARE_RESET_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

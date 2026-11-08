@@ -563,7 +563,7 @@ SupervisorThreadStartView::ThreadClose
 PlayerUpdateOwnerState
 AsciiManager::SetScale
 AsciiGameManagerSideView::AddScore
-PlayerOwnerStateResetView::PrepareReset
+PlayerOwnerStateView::PrepareReset
 PlayerAngleView::AngleToPoint
 AddNormalizeAngle
 SoundPlayer::PlaySoundByIdx

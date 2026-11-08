@@ -93,6 +93,16 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Player owner PrepareReset belongs to the native 0x44-byte state
+
+The original exact 29-byte reset at 0x40F8C0 is now a native
+`PlayerOwnerStateView::PrepareReset`, not another 0x44-byte prefix. Its
+41-byte exact `PlayerAddedOwnerStateView::Reset` caller no longer uses a
+fictitious global symbol; the original +0x04 call reaches the same
+real thiscall entry. All original bytes, timer fields and the existing
+116 exact affected functions remain source-cold intact. See
+[native Player owner PrepareReset](TH09_PLAYER_NATIVE_OWNER_PREPARE_RESET_20261108.md).
+
 ### 2026-11-08: All 16 reward callbacks use one native Player owner-state
 
 The sixteen original-exact fastcall ExAttack reward callbacks no longer

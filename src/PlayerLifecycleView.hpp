@@ -384,6 +384,7 @@ struct PlayerOwnerStateView
     union { void *callback40; PlayerOwnerRewardCallback rewardCallback40; };
 
     PlayerOwnerStateView();
+    void PrepareReset();
     void ApplyReward(PlayerPositionView *position,
                     int value0, int value1, int value2, int value3);
     void ApplyRewardWithStateAdvance(PlayerPositionView *position,
