@@ -93,6 +93,17 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Exact 28-byte Player Header constructor now has a source owner
+
+The original constructor at 0x41EE00 is now a fully original-bound
+`player-header-constructor` source unit. Natural VC7.1 emits 28/28
+bytes and exactly three ZunTimer ctor calls from the real native Header
+fields, both under `/Ob0` and `/Ob1`. The original explicit-vs-implicit
+special-member provenance remains unknown. This adds **one fully exact
+function** to the canonical ledger: 1,035 source-present / 1,022 exact /
+13 nonexact. See
+[new exact Player Header constructor](TH09_PLAYER_HEADER_CONSTRUCTOR_EXACT_20261108.md).
+
 ### 2026-11-08: Player Header constructor calls three real native timers
 
 Retail `0x41EE00` is a 28-byte constructor that calls three exact
@@ -101,7 +112,7 @@ prior opaque +0x78-byte Header prefix with actual timers keeps the 243-byte
 Player ctor, 29-byte Header reset, and 572-byte physical initializer
 source-cold exact. Opponent timing reads the original Header +0x5C native
 timer; 121 related exact owners remain target-bound. The 28-byte
-standalone probe remains unclassified, not new exact credit. See
+standalone probe is now a separately canonical exact source unit. See
 [native three-timer Header](TH09_PLAYER_HEADER_NATIVE_THREE_TIMERS_20261108.md).
 
 ### 2026-11-08: All 512 Player collision regions are the real 0x44-byte records

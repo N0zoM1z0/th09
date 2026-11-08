@@ -1,4 +1,4 @@
-# TH09 reconstruction — live handoff (refreshed 2026-11-07)
+# TH09 reconstruction — live handoff (refreshed 2026-11-08)
 
 **Start here:** [next-agent execution checklist](TH09_NEXT_AGENT_HANDOFF_20261107.md),
 [workflow](RE_WORKFLOW.md), [original-byte/VC7.1 Oracles](ORACLES.md),
@@ -16,18 +16,18 @@ history; check live Git and original-bound evidence before accepting them.
 | --- | ---: |
 | Function candidates | 2,248 |
 | Boundary/origin unreviewed | 0 |
-| Reviewed but origin-unresolved | 38 |
-| Confirmed authored | 1,034 |
+| Reviewed but origin-unresolved | 37 |
+| Confirmed authored | 1,035 |
 | Classified exclusions | 1,176 |
-| Source-present authored mappings | 1,034 |
-| Canonical exact functions | 1,021 |
+| Source-present authored mappings | 1,035 |
+| Canonical exact functions | 1,022 |
 | Source-present non-exact functions | 13 |
 | Source-present non-exact bytes | 29,834 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 262,034 |
+| Canonical exact authored bytes | 262,062 |
 
-**1034 source-present / 1021 exact / 13 non-exact**.
-**262,034 / 291,868 reviewed-authored bytes = 89.7783% exact**.
+**1035 source-present / 1022 exact / 13 non-exact**.
+**262,062 / 291,896 reviewed-authored bytes = 89.7792% exact**.
 To reach 98% of the currently classified authored denominator, another **23,997 bytes**
 must become *fully original-bound exact*; similarity to
 existing bytes is not exact credit. This target could change if further
@@ -798,11 +798,22 @@ proof of remote publication.
   Reset belongs to this same class, PlayerRuntime opponent-metric reads
   the real timer5C, and the exact 552-code/572-physical-byte initializer
   calls its native Reset. Pinned independent VC7.1 `/Ob0` and `/Ob1`
-  probes recreate the original **28-byte Header constructor** at 0x41EE00
-  but do not yet claim new tracking credit. Scoped original-bound replay
+  probes recreate the original **28-byte Header constructor** at 0x41EE00;
+  it is now separately tracked by `player-header-constructor`. Scoped original-bound replay
   passes **121 preexisting exact functions / 40,996 bytes / 2,068 fields**,
   including the 243-byte Player ctor. See
   [native three-timer Player Header](TH09_PLAYER_HEADER_NATIVE_THREE_TIMERS_20261108.md).
+
+- **NEW byte-exact source owner:** `PlayerHeaderStateView` constructor
+  at original 0x41EE00 is now the independently tracked
+  `player-header-constructor` **28/28 byte** exact unit with three
+  original 0x403390 ZunTimer ctor fields. This ordinary empty-body native
+  C++ special member is byte-identical under pinned VC7.1 `/Ob0` and
+  independently `/Ob1`; explicit-vs-implicit historical C++ authorship
+  remains unknown. Focused source-cold closure covers **27 exact owners /
+  6,096 bytes / 322 fields**. Ledger is now **1,035 source-present /
+  1,022 exact / 13 nonexact**. See
+  [new exact Header constructor](TH09_PLAYER_HEADER_CONSTRUCTOR_EXACT_20261108.md).
 
 ## Reconstruction frontiers
 

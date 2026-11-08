@@ -61,9 +61,10 @@ class PlayerHeaderNativeThreeTimers(unittest.TestCase):
         self.assertEqual((player['target_address'],player['size']), (0x0041F070,243))
         self.assertTrue(any(r['symbol']=='??0PlayerHeaderStateView@@QAE@XZ'
                             and r['target']==0x0041EE00 for r in player['relocations']))
-        # The 28-byte 0x41EE00 provider is unclassified until a complete
-        # independently tracked cold source owner has been committed.
-        self.assertFalse(any(u['target_address']==0x0041EE00
-                             for u in self.units.values()))
+        header=self.units['player-header-constructor']
+        self.assertEqual((header['target_address'],header['size'],len(header['relocations'])),
+                         (0x0041EE00,28,3))
+        self.assertEqual(header['symbol'],'??0PlayerHeaderStateView@@QAE@XZ')
+        self.assertEqual(header['source'],'src/PlayerHeaderConstructor.cpp')
 
 if __name__ == '__main__':unittest.main()

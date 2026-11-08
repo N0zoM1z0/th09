@@ -40,6 +40,17 @@ formerly borrowed `header24.unknown00[0x5C]`; it now borrows the
 same genuine `header24.timer5C`, keeping its original metric function
 and receiver projection without speculative new method ownership.
 
+## Subsequent canonical exact constructor checkpoint
+
+The standalone original-PE-matching 28-byte constructor has since been
+promoted from a private probe into a separately maintained and canonical
+`player-header-constructor` unit, with source and all ledgers registered.
+See [new 28-byte exact Header constructor](TH09_PLAYER_HEADER_CONSTRUCTOR_EXACT_20261108.md).
+The exact ledger now lists **1,035 source-present / 1,022 exact / 13
+nonexact**; the original private experiment remains independent evidence.
+The details below describe the status *at the preceding structural
+checkpoint*, before the separate exactness registration.
+
 ## Independent pinned compiler and original-bound whole-owner proof
 
 An isolated pinned VC7.1 constructor translation unit using the real

@@ -7584,6 +7584,20 @@ relocations = [
   { offset = 0x14, type = "REL32", symbol = "?DrawHitShots@PlayerLifecycleView@@QAEXXZ", target = 0x0041F760 },
 ]
 
+[units.player-header-constructor]
+source = "src/PlayerHeaderConstructor.cpp"
+object = "build/matching/PlayerHeaderConstructor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["PlayerHeaderStateView::PlayerHeaderStateView"]
+symbol = "??0PlayerHeaderStateView@@QAE@XZ"
+target_address = 0x0041EE00
+size = 0x1C
+relocations = [
+  { offset = 0x04, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x0C, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x14, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+]
+
 [units.player-constructor]
 source = "src/PlayerRuntime.cpp"
 object = "build/matching/PlayerRuntimeCtor.obj"

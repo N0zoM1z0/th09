@@ -364,6 +364,7 @@ PlayerLifecycleView::PlayerLifecycleView,0x0041F070,function
 PlayerLifecycleView::DrawActiveShots,0x0041F680,function
 PlayerLifecycleView::DrawHitShots,0x0041F760,function
 PlayerCollisionRegionCreateRegionView::Reset,0x0041BDA0,function
+PlayerHeaderStateView::PlayerHeaderStateView,0x0041EE00,function
 PlayerHeaderStateView::Reset,0x0041BDC0,function
 PlayerOwnerStateView::Reset,0x0041D7E0,function
 PlayerLifecycleView::CalcItemBoxCollision,0x0041BDF0,function
