@@ -85,3 +85,36 @@ from these probes. Current exactness totals and original-owner boundaries are
 unchanged. The next useful attack is the setup worker's case-sharing/control
 flow and the Enemy callback's live-register/source-expression schedule, not
 another cosmetic pointer alias or a whole-project cold replay.
+
+## `TitleScreenView::DrawReplayMenu` — 1,280-byte replay-menu boss
+
+A fresh standalone build and original-bound
+`inspect-title-replay-menu-draw.py` reproduce **1,280 bytes**, **376
+instructions**, **57 bound fields**, **13 ordered calls**, and **72 direct
+blocks**, with **29** unequal overlapping bytes and no missing/extra bytes.
+The residual offsets are:
+
+`+0x185 +0x18B +0x193 +0x19D +0x19E +0x1A0 +0x1A1 +0x1B6 +0x1BC +0x1D3 +0x25A +0x266 +0x26A +0x271 +0x272 +0x29D +0x2A3 +0x2C6 +0x2D7 +0x2F0 +0x2F5 +0x2FD +0x304 +0x308 +0x316 +0x319 +0x31C +0x31E +0x321`.
+
+The decoded residuals form a consistent register-allocation family around the
+selected replay row and state timer. The original carries the selected index
+in EDX and the timer value in ECX; the current candidate carries the selected
+index in ECX and the timer in EDX. This swaps the local-store order at
+`+0x193..+0x19E` and propagates to row-coordinate, name, difficulty and mode
+formatting. Fresh selected-local declaration order, function-scope local,
+reference/pointer, const/mutable, signed-width, and timer-reference probes did
+not reduce the 29-byte frontier. Some alternate lifetimes changed the owner to
+1,271 bytes or 50/85/860 differences and were rejected. No source model was
+adopted.
+
+The first context probe was stale: it expected `TitleSetupThread`'s static
+member declaration inside `TitleScreen.cpp`, while the real declaration now
+lives in `TitleScreenReplayView.hpp`. The probe was repaired to use the current
+header and to append the complete menu source (including its own native SDK,
+layout and slot declarations). A fresh three-context run then compared the
+standalone menu, the real TitleScreen declaration prefix, and the complete
+TitleScreen native TU. All three independently produced the same raw function
+and COFF fields: **1,280 bytes / 376 instructions / 57 fields / 13 calls /
+72 blocks / 29 differences**. Translation-unit context therefore does not
+explain the residual register schedule. The repaired probe still grants no
+exactness credit to other functions emitted by the native TU.

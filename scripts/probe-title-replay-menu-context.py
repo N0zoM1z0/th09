@@ -19,34 +19,36 @@ import tempfile
 import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
-SETUP_DECLARATION = '    static void __cdecl TitleSetupThread(void *unused);'
 SETUP_DEFINITION = '\nvoid __cdecl TitleScreenView::TitleSetupThread('
 MENU_GLOBALS = 'extern AsciiManager g_AsciiManager;'
 MENU_DEFINITION = 'int TitleScreenView::DrawReplayMenu()'
+TITLE_VIEW_INCLUDE = '#include "TitleScreenReplayView.hpp"'
 
 
 def make_contexts(title: str, menu: str, mode: str = 'all') -> dict[str, str]:
-    """Use the real owner declarations, retaining the complete menu body."""
+    """Build bounded contexts from the current native TitleScreen owner.
+
+    The TitleScreenView declaration moved to TitleScreenReplayView.hpp. Keep
+    the original native TU prefix (rather than looking for a stale in-.cpp
+    static declaration), and append the complete replay-menu source so its
+    SDK/layout declarations and actual function body remain in the carrier.
+    """
     if mode not in ('declarations', 'native', 'all'):
         raise ValueError('unknown TitleScreen context')
-    if (title.count(SETUP_DECLARATION) != 1 or
-            title.count(SETUP_DEFINITION) != 1 or
+    if (title.count(SETUP_DEFINITION) != 1 or
             'DrawReplayMenu' in title or
+            title.count(TITLE_VIEW_INCLUDE) != 1 or
             menu.count(MENU_GLOBALS) != 1 or
             menu.count(MENU_DEFINITION) != 1 or
-            '#include "ReplayDataOriginalView.hpp"' not in title or
-            '#include "ReplayDataOriginalView.hpp"' not in menu):
-        raise ValueError('TitleScreen declaration/body markers changed; review the probe')
-    title = title.replace(SETUP_DECLARATION,
-                          '    int DrawReplayMenu();\n' + SETUP_DECLARATION, 1)
+            menu.count(TITLE_VIEW_INCLUDE) != 1):
+        raise ValueError('current TitleScreen TU/header/body markers changed; review the probe')
     boundary = title.index(SETUP_DEFINITION)
-    tail = menu[menu.index(MENU_GLOBALS):]
     prefix = '#include <d3dx8math.h>\n#include <stdio.h>\n#include <string.h>\n'
     result = {'standalone': menu}
     if mode in ('declarations', 'all'):
-        result['declarations'] = prefix + title[:boundary] + '\n' + tail
+        result['declarations'] = prefix + title[:boundary] + '\n' + menu
     if mode in ('native', 'all'):
-        result['native'] = prefix + title + '\n' + tail
+        result['native'] = prefix + title + '\n' + menu
     return result
 
 
