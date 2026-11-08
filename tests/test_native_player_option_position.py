@@ -65,7 +65,9 @@ class NativePlayerOptionPosition(unittest.TestCase):
         self.assertNotIn('struct PlayerShotInitOptionView',shot)
         self.assertIn('PlayerShotInitOptionSizeIs2F4',shot)
         self.assertIn('PlayerShotInitOptionView optionStates1CEC[4];',shot)
-        self.assertIn('optionStates1CEC[entry->sourceOptionIndex20 - 1].position2A4;',body)
+        self.assertIn('nativePlayer.optionStates[nativeEntry.sourceOptionIndex20 - 1].position2A4;',body)
+        self.assertIn('nativeShot.position2A4 = nativePlayer.position1B88;',body)
+        self.assertIn('nativePlayer.header24.anmFile98->SetAndExecuteScriptIdx(',body)
         with (ROOT/'config/match-units.toml').open('rb') as f:
             units=tomllib.load(f)['units']
         owner=units['player-initialize-shot']

@@ -8,38 +8,42 @@ void __fastcall PlayerShotInitPlayerView::InitializeShot(
     PlayerShotInitShotView *shot,
     PlayerShotInitDescriptorView *entry)
 {
-    if (entry->sourceOptionIndex20 == 0)
-        shot->position2A4 = position1B88;
+    PlayerLifecycleView &nativePlayer = *reinterpret_cast<PlayerLifecycleView *>(this);
+    PlayerShotCtorView &nativeShot = *reinterpret_cast<PlayerShotCtorView *>(shot);
+    PlayerShtDescriptorView &nativeEntry =
+        *reinterpret_cast<PlayerShtDescriptorView *>(entry);
+    if (nativeEntry.sourceOptionIndex20 == 0)
+        nativeShot.position2A4 = nativePlayer.position1B88;
     else
-        shot->position2A4 =
-            optionStates1CEC[entry->sourceOptionIndex20 - 1].position2A4;
+        reinterpret_cast<Float3 &>(nativeShot.position2A4) =
+            nativePlayer.optionStates[nativeEntry.sourceOptionIndex20 - 1].position2A4;
 
-    float *position = shot->position2A4.operator float *();
-    position[0] += entry->positionOffset04.x;
+    float *position = reinterpret_cast<Float3 &>(nativeShot.position2A4).operator float *();
+    position[0] += nativeEntry.positionOffsetX04;
     float &positionY = position[1];
-    positionY += entry->positionOffset04.y;
+    positionY += nativeEntry.positionOffsetY08;
     position[2] = 0.495f;
 
-    shot->hitbox430.x = entry->hitbox0C.x;
-    shot->hitbox430.y = entry->hitbox0C.y;
-    shot->hitbox430.z = 1.0f;
+    nativeShot.hitbox430.x = nativeEntry.hitboxX0C;
+    nativeShot.hitbox430.y = nativeEntry.hitboxY10;
+    nativeShot.hitbox430.z = 1.0f;
 
-    shot->angle450 = entry->angle14;
-    shot->speed44C = entry->speed18;
-    shot->velocity43C.x = cosf(entry->angle14) * entry->speed18;
-    shot->velocity43C.y = sinf(entry->angle14) * entry->speed18;
+    nativeShot.angle450 = nativeEntry.angle14;
+    nativeShot.speed44C = nativeEntry.speed18;
+    nativeShot.velocity43C.x = cosf(nativeEntry.angle14) * nativeEntry.speed18;
+    nativeShot.velocity43C.y = sinf(nativeEntry.angle14) * nativeEntry.speed18;
 
-    shot->timer454 = 0;
-    shot->field470 = 0;
-    shot->shotType464 = entry->shotType22;
-    shot->damage460 = entry->damage1C;
-    shot->animationIndex46C = entry->animationIndex24;
+    nativeShot.timer454 = 0;
+    nativeShot.field470 = 0;
+    nativeShot.shotType464 = nativeEntry.shotType22;
+    nativeShot.damage460 = nativeEntry.damage1C;
+    nativeShot.animationIndex46C = nativeEntry.animationIndex24;
 
-    if (entry->soundIndex26 >= 0)
+    if (nativeEntry.soundIndex26 >= 0)
         g_SoundPlayer.PlaySoundPositionedByIdx(
-            entry->soundIndex26, position1B88.x);
+            nativeEntry.soundIndex26, nativePlayer.position1B88.x);
 
-    anmFileBC->SetAndExecuteScriptIdx(
-        reinterpret_cast<AnmVm *>(shot), entry->animationIndex24 + 5);
-    shot->tintFlag46E = 0;
+    nativePlayer.header24.anmFile98->SetAndExecuteScriptIdx(
+        reinterpret_cast<AnmVm *>(shot), nativeEntry.animationIndex24 + 5);
+    nativeShot.tintFlag46E = 0;
 }

@@ -93,6 +93,17 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Exact InitializeShot borrows real Player/Shot/SHT owners
+
+The 309-byte original-exact `PlayerInitializeShot` now reads/writes the
+actual native Player position and options, 0x484-byte Shot and 0x38-byte
+SHT descriptor. New native short fields preserve shot damage +0x460,
+field +0x470 and SHT hitbox/animation/sound original positions. Full
+309 bytes/seven fields and 111 exact related owners remain source-cold
+original-bound. Its old public method ABI is still tracked for a separate
+cross-TU migration. See
+[native shot initializer](TH09_SHOT_INITIALIZE_NATIVE_COMPONENTS_20261108.md).
+
 ### 2026-11-08: Enemy OnUpdate special bullet path uses native GameManager side
 
 The original 3,900-byte Enemy update now reads +0x20 character and calls

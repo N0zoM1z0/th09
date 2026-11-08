@@ -882,6 +882,16 @@ proof of remote publication.
   audit](TH09_ENEMY_BOSS_NATIVE_GAMEMANAGER_SPAWN_SIDE_20261108.md)
   preserves the separate original-bound probe details.
 
+- **Exact 309-byte InitializeShot now uses native Player/Shot/SHT
+  members throughout its entire body:** recovered native descriptor
+  hitbox/damage/type/animation/sound fields, native shot damage and +0x470
+  halfword, and real Player position/options/ANM. Six natural VC7.1
+  models and the adopted combined body preserve **309/309 bytes, all
+  seven original callee/global fields**. Scope replay keeps **111 exact
+  functions / 37,912 physical bytes / 1,807 fields**; 1,900-byte
+  Movement/Enemy/Player collision/RunEcl deficits remain unchanged.
+  See [native shot initializer components](TH09_SHOT_INITIALIZE_NATIVE_COMPONENTS_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

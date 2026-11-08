@@ -39,12 +39,16 @@ struct PlayerShtDescriptorView
     unsigned char unknown02[0x02];
     float positionOffsetX04;
     float positionOffsetY08;
-    unsigned char unknown0C[0x08];
+    float hitboxX0C;
+    float hitboxY10;
     float angle14;
     float speed18;
-    unsigned char unknown1C[0x04];
+    short damage1C;
+    short unknown1E;
     short sourceOptionIndex20;
-    unsigned char unknown22[0x06];
+    short shotType22;
+    short animationIndex24;
+    short soundIndex26;
     void *spawnCallback;
     void *updateCallback;
     void *drawCallback;
@@ -341,7 +345,7 @@ struct PlayerShotCtorView
     float speed44C;
     float angle450;
     PlayerTimerCtorView timer454;
-    short unknown460;
+    short damage460;
     short state462;
     short shotType464;
     unsigned char unknown466[2];
@@ -349,7 +353,9 @@ struct PlayerShotCtorView
     short field46A;
     short animationIndex46C;
     unsigned char tintFlag46E;
-    unsigned char unknown46F[0x474 - 0x46F];
+    unsigned char unknown46F;
+    short field470;
+    unsigned char unknown472[0x474 - 0x472];
     PlayerShotUpdateCallback updateCallback474;
     PlayerShotDrawCallback drawCallback478;
     // Complete native 0x484-byte Player shot tail. The shooter publishes
@@ -372,6 +378,18 @@ typedef char PlayerShotStateAt462[(offsetof(PlayerShotCtorView, state462) == 0x4
 typedef char PlayerShotTypeAt464[(offsetof(PlayerShotCtorView, shotType464) == 0x464) ? 1 : -1];
 // Original-exact shot callbacks and SHT descriptors share these short
 // fields in the native 0x484-byte PlayerShotCtor allocation.
+typedef char PlayerShtNativeShotInitFullFields[
+    (offsetof(PlayerShtDescriptorView, hitboxX0C) == 0x0C &&
+     offsetof(PlayerShtDescriptorView, hitboxY10) == 0x10 &&
+     offsetof(PlayerShtDescriptorView, damage1C) == 0x1C &&
+     offsetof(PlayerShtDescriptorView, shotType22) == 0x22 &&
+     offsetof(PlayerShtDescriptorView, animationIndex24) == 0x24 &&
+     offsetof(PlayerShtDescriptorView, soundIndex26) == 0x26) ? 1 : -1];
+typedef char PlayerShotNativeInitializationFields[
+    (offsetof(PlayerShotCtorView, damage460) == 0x460 &&
+     offsetof(PlayerShotCtorView, field470) == 0x470 &&
+     offsetof(PlayerShotCtorView, timer454) == 0x454) ? 1 : -1];
+
 typedef char PlayerShotNativeSourceAndField[
     (offsetof(PlayerShotCtorView, sourceOption468) == 0x468 &&
      offsetof(PlayerShotCtorView, field46A) == 0x46A &&
