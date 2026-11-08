@@ -326,3 +326,24 @@ The durable replay history also confirms the attached-effect updater and child-E
 | `EnemyCoreReleaseChildEclBlocks` | `0x004100E0` | 48 | `receipt:436cd3c54d9705295ebe859ae23ef9c3e2d66201efe5a6ed1dbcabc164c6feb5` |
 
 The latter was resubmitted from the live `enemy-core-release-child-ecl-blocks` unit in this pass and completed `receipt_verdict=pass`, `acceptance_decision=accepted`, with no acceptance reasons. Its two ordered free/clear operations are also the exact child-block release calls used by `EnemyView::CleanupAfterDeactivation` at `0x00410110`.
+
+## Second RunEcl opcode-155 allocation pass and fresh Initialize receipt
+
+A further set of focused `enemy-attached-effect-update` builds explored the timeout-bit operation with direct compound XOR, raw-first and old-first XOR operand orders, references, byte locals, explicit result temporaries, and register locals. The direct compound form
+
+```cpp
+enemy->primaryFlags337C ^=
+    (enemy->primaryFlags337C ^ input) & ENEMY_STATE_TIMEOUT_SPELL;
+```
+
+causes VC7.1 to keep the old flags in ESI, a useful new observation. Its actual sequence is still not the target: it puts the shifted byte in EAX and the final flags in ECX. Reversing XOR operand order restores the byte in ECX but also moves the old flags back to EAX. Splitting old/input/changed/result into four C++ temporaries is optimized back to the prior EAX/ECX form. The target specifically needs byte=ECX, old flags=ESI, final value=EAX. No source variant was retained; all 30 RunEcl byte differences remain.
+
+Opcode 4 was also retried with function-scope register/ordinary locals and four `__forceinline` helper signatures using `ZunTimer*`, `ZunTimer&`, and context pointers in both argument orders. VC7.1 consistently emits the argument in EAX and the timer receiver in ECX, unlike the target's ECX argument -> push -> ECX receiver sequence. All source helpers and locals were discarded.
+
+A fresh strict forced-recompile receipt was obtained for the already source-exact 554-byte `EnemyManagerView::Initialize` (`0x0040FA70`):
+
+- job: `job:4a8d7138f95841249704f4acc270f49d`
+- receipt: `receipt:366554259337feeb7ba932470a054e1c5ccce670c25bf1de5bf1fa901ea6e4ed`
+- verdict: `pass`; acceptance: `accepted`; no acceptance reasons.
+
+This re-verifies the larger EnemyManager initialization boundary against the current clean source snapshot; it is not a full cold replay. The RunEcl/OnUpdate probes were restored and the focused match-unit was rebuilt. No unreviewed source changes remain.
