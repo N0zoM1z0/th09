@@ -185,3 +185,38 @@ A new source-level hypothesis was that the target's early `mov ebx, [ebp+0x10]` 
 ## Additional `SaveReplay` pointer-qualification probes
 
 The two target-relative differences remain `0xB7` and `0xBB`. Marking the temporary buffer pointer itself `volatile` expanded the candidate's code layout and was rejected. `register` and top-level `const` pointer forms retained exactly the two original differences. A `__restrict` spelling was rejected by the VC7.1 compiler. No source change was retained.
+
+## Additional accepted Player leaves (clean source binding `d16853cdc966df259548c1050fe9b8c1f30974f1`)
+
+Two more focused builds were exact and each was independently forced through the factory replay. Both completed with `receipt_verdict=pass`, `acceptance_decision=accepted`, and no acceptance reasons:
+
+| Function | Address | Bytes | Receipt |
+|---|---:|---:|---|
+| `PlayerDamagePlayerView::CalcDamageToEnemy` | `0x0041FCD0` | 996 | `receipt:51f7214cfc347bd1a863e12bd7d997a707d6915942636d10007e6e4eed899d94` |
+| `PlayerCheckState2` | `0x0044AB20` | 3 | `receipt:9f45cb894428e244b2c019e4debd0ddde0fc0f2552cc9fdbd59cabb68990ac9a` |
+
+`PlayerCheckState2` is the accepted symbol/unit claim for the three-byte `xor eax,eax; ret` body. The `OnUpdate` inspector separately identifies the same physical address as a folded callback body used by multiple semantic callback names. Do not infer exclusive physical ownership from the Player unit name.
+
+## Fresh IDA source-shape review of the two large owners
+
+### `EnemyManagerView::OnUpdate` (`0x00410730`)
+
+A fresh IDA decompile of the target confirms the special-attack descriptor local starts at EBP-`0x2A8`; the position floats are at EBP-`0x2A4`, `-0x2A0`, and `-0x29C`. The speed expression is evaluated independently (`dword_4A7E44 * 0.1 + 1.0`) and interleaved with the position copy. This supports the existing 12-byte descriptor-position interpretation, but does not establish that the current `Float3` wrapper is the original source type.
+
+Additional natural source experiments were compiled and discarded: direct draw-head pointer arithmetic, pointer increment, local draw-group base, side-state plus effect-manager locals, effect-manager reference/pointer-to-field, signed/cast index locals, non-const position reference/pointer/value temporary, `__forceinline` getters returning draw index/effect-manager/position, and a D3DXVECTOR3 descriptor-prefix view. Every audited build retained the exact same 13 owner offsets (`0x19C`, `0x1A3`, `0x252`, `0x263`, `0x26D`, `0x272`, `0x294`, `0x29A`, `0x29C`, `0x2A5`, `0x2A9`, `0x2B7`, `0x2BD`). The experiments were restored; no speculative code was kept.
+
+### `EnemyEclManagerView::RunEcl` (`0x004086C0`)
+
+A fresh IDA decompile independently confirms opcode 4 calls `ZunTimer::operator=(int)` with the raw dword at instruction+`0x0C`, and opcode `0x9B` is the masked compound update:
+
+`flags ^= (flags ^ (unsigned int)instruction[0x0C] << 24) & 0x01000000;`
+
+The current C++ baseline deliberately retains the wire-argument snapshot and byte snapshot/helper form because it gives the 30-byte complete-owner frontier. Direct raw-union access, direct compound assignment, reference/pointer aliases, and explicit local flags all compile, but currently expand the whole-owner difference count to 42 or 2,290 because they change the compiler's register allocation and/or switch layout. The direct opcode-4 forms also change the following opcode-7/8 register choices; this is not an isolated seven-byte patch. The baseline was restored after each probe.
+
+## Current progress and validation scope
+
+- The latest source checkpoint remains `d16853cdc966df259548c1050fe9b8c1f30974f1`; worktree clean.
+- This session added two more accepted leaves on top of the seven leaves already recorded in the prior checkpoint.
+- The current `OnUpdate` owner remains 3,900 bytes with 97/97 relocation fields, 69/69 ordered direct calls, 170/170 reviewed control-flow blocks, and 13 byte differences.
+- The current `RunEcl` owner remains at 30 byte differences. No speculative large-owner source variant has been retained.
+- All work used focused match-unit builds and bounded IDA reads. No full cold replay was run.
