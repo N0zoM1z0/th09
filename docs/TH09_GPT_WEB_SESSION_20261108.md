@@ -54,3 +54,37 @@ These are independent accepted leaves. They do not imply that `OnUpdate` or `Run
 2. Continue attacking `RunEcl` as a large owner; keep opcode 4 and opcode `0x9B` isolated so one experiment cannot shift the other 598 relocation fields.
 3. Continue with additional small leaves and replay each exact claim independently.
 4. Revalidate every adopted source variant against the live original target; imported notes and historical trials are leads, not proof.
+
+## Additional accepted leaves and shared getter audit
+
+Three further individual forced-recompile jobs were completed against source HEAD `4b4fd022be6fb803a72b204c8c64ce98c54c196c`. Each job's `outcome` reports `receipt_verdict=pass`, `acceptance_decision=accepted`, and no acceptance reasons:
+
+| Function | Address | Bytes | Receipt |
+|---|---:|---:|---|
+| `PlayerLifecycleView::SetUpdateState` | `0x00403C20` | 12 | `receipt:239c12a4b66cd6c68cdc86a51de2bc1bf38aba358764ff4adb3979460a85b8cd` |
+| `EnemyView::IntegrateMotion` | `0x0040F9B0` | 188 | `receipt:18fb8ea5d2fceea6afd1276c30ca173491318375080f1a063c87a9a1ea51cd1f` |
+| `EnemyView::ClampPositionToMovementBounds` | `0x004101D0` | 127 | `receipt:620fb06abe32ed938ca6b5e7d1ea73a3c22c90882c2470fdf86ce5071def6561` |
+
+A fresh native IDA decompile of `0x00435EC0` is a one-field getter (`return *(_DWORD *)this`) with 19 call sites. The source layout confirms three semantically distinct methods whose first fields are at offset zero: `PlayerLifecycleView::GetUpdateState`, `TextHelper::GetFormat`, and `SoundManagerProcessView::GetDirectSound`. Their identical three-byte body is therefore shared/folded code; no unique physical C++ owner is asserted. The function remains unclassified rather than assigning the same physical body to one arbitrary class.
+
+## Additional large-owner probe: `ReplayManagerView::SaveReplay`
+
+Fresh focused build: `scripts/build-match-unit.py --unit replay-manager-capture-frame-sync-state`; fresh compare: `scripts/inspect-replay-save.py build/matching/ReplayInput.obj --json`.
+
+- Target and candidate extents: 1,238 bytes each; 53 relocation fields agree.
+- Exactly two byte differences remain, at owner-relative offsets `0xB7` and `0xBB`.
+- Target-attested IDA disassembly shows the difference is the base register used for the destination address: target loads the temporary-buffer pointer into EDI and forms `[EDI + EBX - 0xC0]`; candidate loads the same stack local into ECX and forms `[ECX + EBX - 0xC0]` before the same `rep movsd` copy.
+- Tested natural source variants included a destination cursor local, add-then-sub pointer arithmetic, array-index address, non-const link pointer, `register` buffer/destination locals, and const buffer pointer. Every compiling variant retained the same two offsets. Void/char pointer variants without all required API casts failed compilation and were discarded. No source change was retained; the two-byte register-allocation frontier remains open.
+
+## Acceptance-registry cross-check caveat
+
+The seven individual replay jobs above report pass/accepted outcomes. A separate current global registry summary returned `accepted=0`, `rejected=1182`, and a `factory_query_accepted_facts` query for `target:th09-main` / `codegen_exact` returned zero facts. This conflicts with the per-job outcomes and is unresolved. Treat the per-job receipt outcomes as recorded job results, but do not claim the global accepted-facts snapshot has incorporated them until this registry discrepancy is explained.
+
+## Additional `OnUpdate` / `RunEcl` probes
+
+Further source-only experiments did not reduce either large owner:
+
+- `OnUpdate`: pointer aliases at both draw-group assignments, byte/dword index locals, a reference to the draw-group head at the append label, shared side-state pointer in the special-attack block, threshold reference, non-const `Float3` reference, and pointer-dereference `Float3` copy. Variants that moved literal-field positions were rejected by the owner inspector; the baseline 13 differences remain.
+- `RunEcl`: `RawInt` accessor for opcode 4, local-union bitfield and local-reference bitfield forms for opcode `0x9B`. None improved the 30-byte baseline; all source files were restored.
+
+No source experiment from this section was retained. The next productive step is a new source-level hypothesis, not repeating these register-alias variants.
