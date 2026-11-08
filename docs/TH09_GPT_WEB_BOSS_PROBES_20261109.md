@@ -118,3 +118,110 @@ and COFF fields: **1,280 bytes / 376 instructions / 57 fields / 13 calls /
 72 blocks / 29 differences**. Translation-unit context therefore does not
 explain the residual register schedule. The repaired probe still grants no
 exactness credit to other functions emitted by the native TU.
+
+## Second focused sweep — current owner receipts and source-order controls
+
+### Replay menu: repair the context probe, then prove the residual is TU-independent
+
+The old `probe-title-replay-menu-context.py` expected a `TitleSetupThread`
+member declaration inside `TitleScreen.cpp`. That declaration actually lives
+in `TitleScreenReplayView.hpp`; the stale marker made the probe reject before
+it reached the compiler. The probe was repaired to use the real current
+TitleScreen TU prefix/header and the complete replay-menu source. This is a
+probe correction only, not a source-code match change.
+
+A fresh `--context all` run now builds three independent carriers:
+
+| Context | Bytes / instructions | Fields / calls / blocks | Differences | Raw + field identity |
+| --- | ---: | ---: | ---: | --- |
+| Standalone | 1280 / 376 | 57 / 13 / 72 | 29 | baseline |
+| Current Title declarations | 1280 / 376 | 57 / 13 / 72 | 29 | identical |
+| Current full native Title TU | 1280 / 376 | 57 / 13 / 72 | 29 | identical |
+
+All three have the same candidate raw SHA and exact 57 COFF field identities.
+The 29 offsets are unchanged. This rules out the current standalone-vs-Title
+TU split as the cause of the selected-path register differences; it does not
+prove the historical retail TU partition.
+
+A second natural-C++ sweep tested array pointer addition, typed byte-offset
+lookup with both `sizeof(ReplayDataView)` and the reviewed `0x1EC` stride,
+unsigned index casts, `+0` index expressions, pointer aliases, uninitialized
+pointer/index declaration and assignment order, and local `playerName` /
+`playTime` aliases. The byte-offset and array forms retained the exact 29-byte
+frontier. Reordering or replacing the selected-index snapshot often changed
+the local homes and shrank the owner to 1,264 or 1,271 bytes (371/375
+instructions), creating 858–860 unequal overlapping positions; those forms
+were rejected. Explicit formatting aliases either retained the same 29 bytes
+or changed the real literal-reference inventory and were rejected by the
+strict COFF audit. No source variant was adopted.
+
+Compiler controls were also checked without changing the maintained profile:
+`/O1 /Ob2` and `/O1` without `/Gr` retain the same 1,280/376/57/13/72/29
+frontier. `/O2`, `/Os`, `/Ob0`, and `/Oi` change the actual literal-reference
+inventory or owner shape; none is evidence for changing the established
+Title `/O1 /Ob1 /Oy-` source profile.
+
+The focused canonical frontier command passed:
+
+```bash
+python3 -B scripts/check-boss-frontiers.py --owner replaymenu --skip-exact-siblings
+```
+
+It independently rechecked 1,280 target/candidate bytes, 57 fields, 16 actual
+literal definitions, 30 literal references, 13 ordered calls, 72 blocks,
+identical direct graphs, zero missing target bytes, and 29 residual bytes.
+Exactness credit remains **none**.
+
+### Gameplay setup: inspect the actual shared store and reject the wrong branch models
+
+The original disassembly pins the fixed `valueC8 = 22` store at owner `+0x431`
+inside the case-4 block. The fixed-mode branches from cases 3 and 2 jump back
+to that store. The maintained `/Os` candidate instead merges the equivalent
+fixed-22 publication into a later common block at `+0x524`; the case-4 path
+therefore reaches that later block rather than leaving the switch from its
+original block. This is the concrete branch-layout difference behind part of
+the existing CFG mismatch, not an unbound address or missing call.
+
+New source controls put a backward `goto` label immediately before the
+case-4 store and sent the fixed-mode case-3/case-2 branches to it, first in the
+switch and then in split condition arms. Both retained the 1,682-byte,
+413-instruction, 172-field, 35-call, 78-block candidate with 694 ordinary
+differences, seven missing bytes, and a nonmatching direct graph. Rewriting
+the full mode switch as a natural `if/else if` chain with the same backward
+label compiled to 1,672 bytes / 413 instructions / 172 fields / 35 calls /
+78 blocks, but expanded the physical difference to 702 bytes and 17 missing
+target bytes. That rewrite is rejected; the maintained switch is restored.
+
+The focused canonical frontier command passed and rechecked both the boss and
+its exact siblings:
+
+```bash
+python3 -B scripts/check-boss-frontiers.py --owner gamemgr --skip-exact-siblings
+```
+
+Current receipt: `GameplaySetupThread` 1,689 target / 1,682 candidate bytes,
+172/172 fields, 35/35 calls, 78/78 blocks, 694 ordinary differences, seven
+missing bytes, and a nonmatching graph. In the same run,
+`GameManager::OnUpdate` remains 1,230/1,230 bytes exact with 87 relocations;
+`GameManager::CleanupGameplayState` remains 425/425 bytes exact with 43
+relocations. The new if-chain/goto variants were not adopted.
+
+### Enemy manager: fresh owner check
+
+The focused canonical command also passed:
+
+```bash
+python3 -B scripts/check-boss-frontiers.py --owner enemy --skip-exact-siblings
+```
+
+`EnemyManagerView::OnUpdate` remains 3,900/3,900 bytes, 97 bound fields,
+69 ordered calls, matching direct graph and switch destinations, with 13
+ordinary differences. `AppendPlayerCollisionBox` remains 82/82 bytes exact
+with two bound fields and its two original calls. This is a fresh current
+receipt; the extra pointer/reference/local aliases did not change the boss
+frontier.
+
+No full-project cold replay was run. All rejected source experiments restored
+the maintained source before the next build. The canonical owner checks above
+rebuild only their selected carriers and deliberately grant no exactness to
+non-exact owners.
