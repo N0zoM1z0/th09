@@ -321,6 +321,7 @@ PlayerLifecycleView::DrawHitShots
 PlayerCollisionRegionCreateRegionView::Reset
 PlayerHeaderStateView::PlayerHeaderStateView
 PlayerOwnerStateView::PlayerOwnerStateView
+PlayerState3031CView::PlayerState3031CView
 PlayerHeaderStateView::Reset
 PlayerOwnerStateView::Reset
 PlayerLifecycleView::CalcItemBoxCollision

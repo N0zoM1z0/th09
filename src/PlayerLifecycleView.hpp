@@ -367,7 +367,10 @@ typedef char PlayerShotDrawCallbackAt478[
 // share this actual 0x1C-byte state allocation with other Player owners.
 struct PlayerState3031CView
 {
-    unsigned char unknown00[0x10];
+    // Original ctor at 0x41EE20 calls the 12-byte ZunTimer constructor
+    // on this first word; exact shot spawn publishes a pointer at +0x0C.
+    ZunTimer timer00;
+    PlayerShotCtorView *shot0C;
     int stateWord10;
     unsigned char unknown14[4];
     int transitionCounter18;
@@ -375,7 +378,10 @@ struct PlayerState3031CView
 };
 typedef char PlayerState3031CSizeIs1C[(sizeof(PlayerState3031CView) == 0x1C) ? 1 : -1];
 typedef char PlayerNativeTransitionStateWords[
-    (offsetof(PlayerState3031CView, stateWord10) == 0x10 &&
+    (offsetof(PlayerState3031CView, timer00) == 0x00 &&
+     sizeof(((PlayerState3031CView *)0)->timer00) == 0x0C &&
+     offsetof(PlayerState3031CView, shot0C) == 0x0C &&
+     offsetof(PlayerState3031CView, stateWord10) == 0x10 &&
      offsetof(PlayerState3031CView, transitionCounter18) == 0x18) ? 1 : -1];
 
 struct PlayerOwnerStateView;

@@ -93,6 +93,17 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Exact 12-byte Player state ctor restores timer and shot pointer
+
+The original 0x41EE20 single-ZunTimer constructor is now the canonical
+`player-state3031c-constructor`, matching all 12 bytes and its original
+0x403390 call. The native `PlayerState3031CView` at Player +0x3031C
+exposes timer00 and shot0C, consistent with the independently exact
+151-byte shot-spawn callback. Complete original replay covers 111 exact
+siblings; original explicit/implicit C++ provenance remains unknown.
+Canonical tally increases to 1,024 exact functions. See
+[exact Player state3031C constructor](TH09_PLAYER_STATE3031C_CONSTRUCTOR_EXACT_20261108.md).
+
 ### 2026-11-08: Exact 23-byte PlayerOwnerState constructor is now source-bound
 
 Original 0x41EE30 naturally compiles as a complete 23-byte exact

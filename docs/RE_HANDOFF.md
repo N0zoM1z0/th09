@@ -16,18 +16,18 @@ history; check live Git and original-bound evidence before accepting them.
 | --- | ---: |
 | Function candidates | 2,248 |
 | Boundary/origin unreviewed | 0 |
-| Reviewed but origin-unresolved | 36 |
-| Confirmed authored | 1,036 |
+| Reviewed but origin-unresolved | 35 |
+| Confirmed authored | 1,037 |
 | Classified exclusions | 1,176 |
-| Source-present authored mappings | 1,036 |
-| Canonical exact functions | 1,023 |
+| Source-present authored mappings | 1,037 |
+| Canonical exact functions | 1,024 |
 | Source-present non-exact functions | 13 |
 | Source-present non-exact bytes | 29,834 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 262,085 |
+| Canonical exact authored bytes | 262,097 |
 
-**1036 source-present / 1023 exact / 13 non-exact**.
-**262,085 / 291,919 reviewed-authored bytes = 89.7800% exact**.
+**1037 source-present / 1024 exact / 13 non-exact**.
+**262,097 / 291,931 reviewed-authored bytes = 89.7805% exact**.
 To reach 98% of the currently classified authored denominator, another **23,996 bytes**
 must become *fully original-bound exact*; similarity to
 existing bytes is not exact credit. This target could change if further
@@ -825,6 +825,17 @@ proof of remote publication.
   special-member syntax remains unknown. Canonical ledger now
   **1,036 source-present / 1,023 exact / 13 nonexact**. See
   [native OwnerState constructor exact proof](TH09_PLAYER_OWNER_STATE_CONSTRUCTOR_EXACT_20261108.md).
+
+- **NEW exact 12-byte Player +0x3031C state constructor at 0x41EE20:**
+  `PlayerState3031CView` now holds the original `ZunTimer timer00` and
+  shot pointer +0x0C instead of opaque bytes; the new native ctor emits
+  12/12 original bytes and one exact 0x403390 call. The outer 243-byte
+  Player ctor and exact 151-byte shot callback preserve original fields.
+  Scoped original PE/COFF replay covers **111 exact functions / 37,615
+  bytes / 1,801 fields** including ECL siblings; three large nonexact
+  frontier residuals remain unchanged. The canonical ledger is now
+  **1,037 source-present / 1,024 exact / 13 nonexact**. See
+  [native state constructor exact proof](TH09_PLAYER_STATE3031C_CONSTRUCTOR_EXACT_20261108.md).
 
 ## Reconstruction frontiers
 
