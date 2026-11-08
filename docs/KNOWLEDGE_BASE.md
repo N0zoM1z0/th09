@@ -93,6 +93,15 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Type1 shot callback uses full real Player Shot owner
+
+The exact 151-byte Type1 shot spawn now consumes a real
+`PlayerShotCtorView *`, not a second partial Shot/Vec3 allocation.
+Native shot +0x468/+0x46A/+0x46C halfwords and original 32-element
+trail vector remain byte-exact, and 111 exact ECL/Player siblings retain
+original full matches. See
+[native full Type1 shot owner](TH09_SHOT_SPAWN_TYPE1_NATIVE_FULL_SHOT_20261108.md).
+
 ### 2026-11-08: Type1 shot callback receives the full actual Player
 
 The exact 151-byte Type1 shot callback now uses `PlayerLifecycleView *`

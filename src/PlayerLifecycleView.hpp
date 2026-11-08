@@ -332,7 +332,10 @@ struct PlayerShotCtorView
     short unknown460;
     short state462;
     short shotType464;
-    unsigned char unknown466[0x46E - 0x466];
+    unsigned char unknown466[2];
+    short sourceOption468;
+    short field46A;
+    short animationIndex46C;
     unsigned char tintFlag46E;
     unsigned char unknown46F[0x474 - 0x46F];
     PlayerShotUpdateCallback updateCallback474;
@@ -355,6 +358,12 @@ typedef char PlayerShotVelocityAt43C[(offsetof(PlayerShotCtorView, velocity43C) 
 typedef char PlayerShotTimerAt454[(offsetof(PlayerShotCtorView, timer454) == 0x454) ? 1 : -1];
 typedef char PlayerShotStateAt462[(offsetof(PlayerShotCtorView, state462) == 0x462) ? 1 : -1];
 typedef char PlayerShotTypeAt464[(offsetof(PlayerShotCtorView, shotType464) == 0x464) ? 1 : -1];
+// Original-exact shot callbacks and SHT descriptors share these short
+// fields in the native 0x484-byte PlayerShotCtor allocation.
+typedef char PlayerShotNativeSourceAndField[
+    (offsetof(PlayerShotCtorView, sourceOption468) == 0x468 &&
+     offsetof(PlayerShotCtorView, field46A) == 0x46A &&
+     offsetof(PlayerShotCtorView, animationIndex46C) == 0x46C) ? 1 : -1];
 typedef char PlayerShotTintAt46E[(offsetof(PlayerShotCtorView, tintFlag46E) == 0x46E) ? 1 : -1];
 typedef char PlayerShotUpdateCallbackAt474[
     (offsetof(PlayerShotCtorView, updateCallback474) == 0x474) ? 1 : -1];

@@ -2,13 +2,6 @@
 #include "ZunTimer.hpp"
 #include "PlayerLifecycleView.hpp"
 
-struct PlayerShotSpawn1Vec3
-{
-    float x;
-    float y;
-    float z;
-};
-
 struct PlayerShotSpawn1DescriptorView
 {
     short scheduleValue00;
@@ -20,22 +13,6 @@ struct PlayerShotSpawn1DescriptorView
     unsigned char unknown22[0x16];
 };
 
-struct PlayerShotSpawn1ShotView
-{
-    unsigned char unknown000[0x2A4];
-    PlayerShotSpawn1Vec3 position2A4;
-    PlayerShotSpawn1Vec3 trail2B0[32];
-    PlayerShotSpawn1Vec3 hitbox430;
-    PlayerShotSpawn1Vec3 velocity43C;
-    float auxiliary448;
-    unsigned char unknown44C[0x464 - 0x44C];
-    short shotType464;
-    unsigned char unknown466[0x468 - 0x466];
-    short sourceOption468;
-    short field46A;
-    unsigned char unknown46C[0x484 - 0x46C];
-};
-
 // This callback's +0x3031C timer/shot record is the same genuine
 // PlayerState3031CView constructed by Player at 0x41EE20. It is not
 // a second source-only 0x1C-byte callback state allocation.
@@ -45,11 +22,14 @@ typedef char PlayerShotSpawn1RealNativeState[
      offsetof(PlayerLifecycleView, state3031C) == 0x3031C &&
      offsetof(PlayerState3031CView, timer00) == 0x00 &&
      offsetof(PlayerState3031CView, shot0C) == 0x0C &&
-     sizeof(PlayerShotCtorView) == 0x484) ? 1 : -1];
+     sizeof(PlayerShotCtorView) == 0x484 &&
+     offsetof(PlayerShotCtorView, sourceOption468) == 0x468 &&
+     offsetof(PlayerShotCtorView, field46A) == 0x46A &&
+     offsetof(PlayerShotCtorView, trailVectors2B0) == 0x2B0) ? 1 : -1];
 
 int __fastcall PlayerShotSpawnCallbackType1(
     PlayerLifecycleView *player,
-    PlayerShotSpawn1ShotView *shot,
+    PlayerShotCtorView *shot,
     int value,
     PlayerShotSpawn1DescriptorView *entry)
 {
@@ -57,7 +37,7 @@ int __fastcall PlayerShotSpawnCallbackType1(
         return 0;
 
     player->state3031C.timer00 = 30;
-    player->state3031C.shot0C = reinterpret_cast<PlayerShotCtorView *>(shot);
+    player->state3031C.shot0C = shot;
 
     shot->sourceOption468 = entry->sourceOption20;
     shot->velocity43C.z = entry->value04;
@@ -70,7 +50,7 @@ int __fastcall PlayerShotSpawnCallbackType1(
     shot->shotType464 = 2;
 
     for (int i = 31; i >= 0; --i)
-        shot->trail2B0[i].x = -999.0f;
+        shot->trailVectors2B0[i].x = -999.0f;
     shot->position2A4.x = -999.0f;
 
     return 1;

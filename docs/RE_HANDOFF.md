@@ -852,6 +852,15 @@ proof of remote publication.
   exact owners / 5,554 bytes / 291 fields pass scoped original replay.
   See [full native Player shot callback](TH09_SHOT_SPAWN_TYPE1_NATIVE_FULL_PLAYER_20261108.md).
 
+- **Type1 spawn now uses the true full native 0x484-byte Player Shot:**
+  removed the callback's duplicate Shot/Vec3 prefixes and exposed real
+  +0x468/+0x46A/+0x46C halfwords, 32 native trail vectors and native
+  state shot pointer. Whole **151-byte callback / two original fields**
+  stays byte-exact. Scoped ECL/Player replay preserves **111 exact
+  functions / 38,156 bytes / 1,827 fields**; Enemy, Player collision
+  and RunEcl nonexact residuals are unchanged. See
+  [Type1 native full Shot](TH09_SHOT_SPAWN_TYPE1_NATIVE_FULL_SHOT_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
