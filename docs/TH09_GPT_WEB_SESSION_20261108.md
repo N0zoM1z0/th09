@@ -409,3 +409,78 @@ optimized back to the same nonmatching allocation. Opcode 4 helper accessors
 and function-scope timer temporaries also failed to change the receiver/argument
 schedule. Both bosses remain explicitly nonexact; no leaf result is promoted
 to boss credit.
+
+## Second pass: boss-owner register/lifetime experiments (no promotion)
+
+A second independent source-cold pass challenged the 13-byte `OnUpdate`
+frontier rather than accepting the earlier negative notes. The maintained
+source was restored after every trial; the final baseline remains the same
+3,900-byte owner, 97 original-bound fields, 69 ordered calls and 13 ordinary
+bytes at `0x19C, 0x1A3, 0x252, 0x263, 0x26D, 0x272, 0x294, 0x29A,
+0x29C, 0x2A5, 0x2A9, 0x2B7, 0x2BD`.
+
+New focused trials included:
+
+- Replacing the descriptor's `Float3` position with a same-sized POD XYZ
+  carrier and, separately, `D3DXVECTOR3`; dependent in-TU assignment sites
+  were temporarily adapted so the complete owner could compile. Both retained
+  exactly 3,900 bytes / 97 fields / 13 differences.
+- Pointer/reference/direct-storage forms of the 0x214-byte descriptor;
+  `EnemyView **` draw-head register hints; volatile and nonvolatile draw-group
+  byte pointer/reference forms; explicit byte-offset and typed-array pointer
+  arithmetic; function-scope draw-head; and all five reorderings of the
+  function's leading scalar locals. None changed the 13 offsets.
+- Side pointer/reference lifetime moved ahead of the timer call, effect-manager
+  pointer extraction, and threshold snapshots before/after the effect call.
+  Some variants changed the owner's extent or instruction layout (3,852,
+  3,884 or 3,868 bytes) and were rejected; the variants that retained the
+  complete physical owner did not improve the 13-byte frontier.
+
+The register-level reading remains useful: retail keeps the draw-group byte
+in EAX for its LEA, while the current source uses ECX. In the special attack
+block retail transports the side pointer in EAX and threshold in EDX, then
+uses EAX as the XYZ base; the current source swaps the first two registers and
+uses ECX as the XYZ base. No register forcing, assembly, target patch, or
+partial-byte credit was used.
+
+## Second pass: RunEcl opcode 4 and opcode 155
+
+For opcode 4 (timer assignment), the following natural forms were rebuilt:
+explicit `ZunTimer::operator=`, direct raw operand access, `ZunTimer&` and
+`ZunTimer*` aliases, volatile and nonvolatile operand references/pointers,
+reused `lhsInt`/`rhsInt` locals, and pre-read instruction offsets. The direct
+forms still load the argument into EAX, then materialize the timer receiver
+before pushing it; a volatile stack temporary pushes ECX in the right order
+but adds a spill. Pre-reading the instruction offset changes the 15,564-byte
+owner to 15,576 bytes and is rejected. None reproduces retail's
+`mov ecx,[instruction+0x0C]; push ecx; mov ecx,[enemy+0x2CE0]; add ecx,8`
+sequence without collateral codegen changes.
+
+For opcode 155 (timeout-spell bit), `volatile` byte input plus the real
+Enemy bitfield gets the correct 15,564-byte / 598-relocation owner shape and
+preserves the ESI old-flags load, but its input/changed value is in EAX and
+its final store value in ECX, opposite retail's ECX changed value and EAX
+final value. A volatile bitfield lvalue instead emits an AND/OR update and
+has 31 total differences, one worse than the 30-byte baseline. Direct
+four-temporary masked-XOR forms produce 2,290 differences and were rejected.
+Register-qualified byte/word locals, local bitfield copies and volatile source
+pointers did not alter the EAX/ESI/ECX schedule. The pointer-input variant's
+full linked identity audit was incomplete at a shifted external field and is
+not counted as a complete-owner comparison.
+
+The accepted resolver-family forced replays completed after the local label
+refresh:
+
+- `ResolveInt` (`0x00405760`): job
+  `job:b90f1983e50145eca48f2b1160bd5402`, receipt
+  `receipt:4e2343af50b060673d113097cd6235acc815a1a634115d7667ab3fd8587aa4f7`.
+- `ResolveIntLValue` (`0x00405F20`): job
+  `job:7fcf5efbf1214b4f918a180d1b0bfa7f`, receipt
+  `receipt:04651c1edf9eed2776e8a1c60bad1739bf8195b5856d4a963c69847668813ff1`.
+- `ResolveFloatLValue` (`0x00406210`): job
+  `job:92039d9d7661468ba9f877fef13f99ac`, receipt
+  `receipt:d67e9bdd85a8ebe93263f59a97da761c87750956a159ccf109dea48f89234707`.
+
+All three receipts report `pass` / `accepted`. They are independent leaf
+acceptances; `EnemyManagerView::OnUpdate` and `EclManager::RunEcl` remain
+nonexact and receive no inferred partial credit. No full cold replay was run.
