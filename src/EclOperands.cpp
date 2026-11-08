@@ -87,9 +87,9 @@ typedef char EclOperandEnemyLifeThresholdsAt33B0[
 #define TH09_ECL_OPERAND_CONTEXT(owner) \
     ((owner)->activeContext2CE0)
 #define TH09_ECL_OPERAND_PLAYER(owner) \
-    ((owner)->manager00->sideState320->player04)
+    ((owner)->manager00->sideState320->rewardPlayer04)
 #define TH09_ECL_OPERAND_OPPOSING_PLAYER(owner) \
-    ((owner)->manager00->opposingSideState324->player04)
+    ((owner)->manager00->opposingSideState324->rewardPlayer04)
 // Opcode 0x2739 reads the native GameManager's +0xB4 signed word.
 typedef char EclOperandNativeGameManagerB4[
     (offsetof(AsciiGameManagerView, valueB4) == 0x00B4) ? 1 : -1];

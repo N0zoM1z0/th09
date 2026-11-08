@@ -246,11 +246,11 @@ static void MoveRandomBiased(
 
     if (Th09EclRunControl::g_Rng.GetRandomU32InRange(4) != 0)
     {
-        if (enemy->manager00->sideState320->player04->position1B88.x < view->position2D74.x)
+        if (enemy->manager00->sideState320->rewardPlayer04->position1B88.x < view->position2D74.x)
         {
             if (view->position2D74.x -
-                    enemy->manager00->sideState320->player04->position1B88.x <
-                enemy->manager00->sideState320->player04->position1B88.x +
+                    enemy->manager00->sideState320->rewardPlayer04->position1B88.x <
+                enemy->manager00->sideState320->rewardPlayer04->position1B88.x +
                     384.0f - view->position2D74.x)
             {
                 angle = Th09EclRunControl::AddNormalizeAngle(
@@ -268,10 +268,10 @@ static void MoveRandomBiased(
         }
         else
         {
-            if (enemy->manager00->sideState320->player04->position1B88.x -
+            if (enemy->manager00->sideState320->rewardPlayer04->position1B88.x -
                     view->position2D74.x <
                 view->position2D74.x -
-                    (enemy->manager00->sideState320->player04->position1B88.x -
+                    (enemy->manager00->sideState320->rewardPlayer04->position1B88.x -
                      384.0f))
             {
                 angle =

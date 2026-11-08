@@ -102,7 +102,7 @@ inline void *PrimaryAnmVm(EnemyView *enemy)
 
 inline EnemyRewardPlayerView *Player(EnemyView *enemy)
 {
-    return enemy->manager00->sideState320->player04;
+    return enemy->manager00->sideState320->rewardPlayer04;
 }
 
 inline EnemyPrimaryFlagBits *PrimaryFlagBits(EnemyView *enemy)
@@ -168,7 +168,7 @@ static void BeginBoundaryAwareMove(
 #define TH09_EXPR_MOVEMENT_PRIMARY_ANM_VM(owner) \
     (static_cast<void *>(&(owner)->primaryAnmVm0008))
 #define TH09_EXPR_MOVEMENT_PLAYER(owner) \
-    (static_cast<void *>((owner)->manager00->sideState320->player04))
+    (static_cast<void *>((owner)->manager00->sideState320->rewardPlayer04))
 #define TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(owner) \
     (&(owner)->primaryFlagBits337C)
 #define TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(owner) \

@@ -3,6 +3,7 @@
 #include <stddef.h>
 
 struct EffectManager;
+struct EnemyRewardPlayerView;
 class EtamaController;
 struct PlayerLifecycleView;
 struct Background;
@@ -16,6 +17,16 @@ struct AsciiGameSideRuntimeView;
 
 // Shared 0x38-byte gameplay side allocation. Legacy Player names below
 // identify the same slots; original C++ names and several roles are unknown.
+// TH09 side +0x34 low bit is modified by the exact Enemy ECL callback.
+// Keep the bitfield in the shared allocation view, not an Enemy-only copy.
+struct EnemySideFlagBits34
+{
+    unsigned int bit0 : 1;
+    unsigned int unknown01_31 : 31;
+};
+typedef char EnemySideFlagBitsSizeIs04[
+    (sizeof(EnemySideFlagBits34) == sizeof(unsigned int)) ? 1 : -1];
+
 struct AsciiGameManagerSideView
 {
     // Native exact 0x40F860 score publication through side +0x1C.
@@ -26,6 +37,8 @@ struct AsciiGameManagerSideView
     union {
         AsciiPlayerPopupPositionView *player;
         PlayerLifecycleView *player04;
+        PlayerLifecycleView *playerLifecycle04;
+        EnemyRewardPlayerView *rewardPlayer04;
         FrontSidePlayerRuntimeView *hudPlayer04;
         void *subsystem1;
         void *manager04;
@@ -33,10 +46,10 @@ struct AsciiGameManagerSideView
     union { EtamaController *etama08; void *subsystem2; unsigned char unknown08[4]; };
     union { EffectManager *effectManager0C; void *subsystem3; };
     union { void *subsystem4; EnemyManagerView *enemyManager10; void *attackTarget10; };
-    union { void *subsystem5; CardAttack *cardAttack14; void *attackOwner14; };
+    union { void *subsystem5; CardAttack *cardAttack14; CardAttack *owner14; void *attackOwner14; };
     union { void *subsystem6; FrontSide *frontSide18; };
     union { AsciiGameSideRuntimeView *runtime; AsciiGameSideRuntimeView *state; FrontSideSideRuntimeView *runtime1C; unsigned char unknown1C[4]; };
-    union { int character20; int value20; int shotType20; };
+    union { int character20; int characterIndex20; int value20; int shotType20; };
     union { unsigned char unknown24[4]; int value24; int previousShotType24; };
     union { int replaySelector28; int selector; unsigned char unknown28[4]; };
     union {
@@ -44,7 +57,7 @@ struct AsciiGameManagerSideView
         struct { union { unsigned int value2C; int selectedParameter2C; }; unsigned int value30; };
         struct { int characterIndex2C; union { unsigned char unknown30[4]; int auxPathIndex30; }; };
     };
-    union { unsigned int flags; unsigned int flags34; };
+    union { unsigned int flags; unsigned int flags34; EnemySideFlagBits34 flagBits34; };
 };
 
 typedef char AsciiGameManagerSideViewSizeIs38[
@@ -59,6 +72,13 @@ typedef char AsciiGameManagerTypedSubsystemsAtOffsets[
      offsetof(AsciiGameManagerSideView, enemyManager10) == 0x10 &&
      offsetof(AsciiGameManagerSideView, cardAttack14) == 0x14 &&
      offsetof(AsciiGameManagerSideView, frontSide18) == 0x18) ? 1 : -1];
+
+typedef char AsciiGameManagerEnemySideAliases[
+    (offsetof(AsciiGameManagerSideView, rewardPlayer04) == 0x04 &&
+     offsetof(AsciiGameManagerSideView, playerLifecycle04) == 0x04 &&
+     offsetof(AsciiGameManagerSideView, owner14) == 0x14 &&
+     offsetof(AsciiGameManagerSideView, characterIndex20) == 0x20 &&
+     offsetof(AsciiGameManagerSideView, flagBits34) == 0x34) ? 1 : -1];
 
 typedef char AsciiGameManagerNativeSetupSideOffsets[
     (offsetof(AsciiGameManagerSideView, subsystem0) == 0x00 &&

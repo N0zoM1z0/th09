@@ -73,8 +73,8 @@ typedef char Th09EclLateSideOwnerAt14[
 typedef char Th09EclLateSharedNativeSideLayout[
     (offsetof(EnemySideStateView, background00) ==
          offsetof(SideStateView, background00) &&
-     offsetof(EnemySideStateView, player04) ==
-         offsetof(SideStateView, player04) &&
+     offsetof(EnemySideStateView, rewardPlayer04) ==
+         offsetof(SideStateView, rewardPlayer04) &&
      offsetof(EnemySideStateView, etama08) ==
          offsetof(SideStateView, etama08) &&
      offsetof(EnemySideStateView, owner14) ==
@@ -181,7 +181,7 @@ static void MoveRandomBiased(
 
     case TH09_ECL_OPCODE_RANDOM_HORIZONTAL_ANGLE:
         if ((enemy->manager00->sideState320->
-                 player04->position1B88.x <
+                 rewardPlayer04->position1B88.x <
                  enemy->position2D74.x &&
              enemy->position2D74.x > 96.0f) ||
             enemy->position2D74.x > 288.0f)
@@ -286,7 +286,7 @@ static void MoveRandomBiased(
                     enemy->manager00->opposingSideState324->
                         background00->spellVmScriptBase +
                     enemy->manager00->opposingSideState324->
-                        player04->tableValue303F4;
+                        rewardPlayer04->tableValue303F4;
                 Th09EclRunMovement::SetAndExecuteAnmScript(
                     enemy->manager00->opposingSideState324->
                         background00->sideAnm,
