@@ -93,6 +93,16 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Full 0x44-byte Player owner-state is one original allocation
+
+The exact 1,540-byte physical `PlayerOwnerStateView::ApplyReward` no longer
+casts its real `PlayerOwnerStateView` receiver to an independently authored
+0x44-byte shadow class. Native Player +0x30410 state now exposes its
++0x14/+0x20 timers, reward counters, typed Player pointer and callback
+on the real C++ owner, with original offsets and codegen fully preserved.
+131 exact associated functions remain source-cold original-bound. See
+[native full Player owner-state](TH09_PLAYER_NATIVE_FULL_OWNER_STATE_20261108.md).
+
 ### 2026-11-08: FrontResult exact bonus uses real full native Player and sides
 
 The 553-byte original-exact FrontResult bonus calculation no longer

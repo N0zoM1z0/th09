@@ -35,37 +35,6 @@ struct PlayerRewardAttackOwnerView
 
 
 
-typedef int (__fastcall *PlayerOwnerRewardCallback)(
-    PlayerOwnerStateView *state, PlayerPositionView *position);
-
-struct PlayerOwnerRewardStateView
-{
-    PlayerLifecycleView *owner00;
-    int state04;
-    int maxState08;
-    int value0C;
-    int maxValue10;
-    ZunTimer timer14;
-    ZunTimer timer20;
-    int rewardMeter2C;
-    int spawnCounter30;
-    int value34;
-    int state38;
-    int activeFrameCounter3C;
-    PlayerOwnerRewardCallback callback40;
-};
-
-typedef char PlayerOwnerRewardSizeIs44[
-    (sizeof(PlayerOwnerRewardStateView) == 0x44) ? 1 : -1];
-typedef char PlayerOwnerRewardTimer14At14[
-    (offsetof(PlayerOwnerRewardStateView, timer14) == 0x14) ? 1 : -1];
-typedef char PlayerOwnerRewardTimer20At20[
-    (offsetof(PlayerOwnerRewardStateView, timer20) == 0x20) ? 1 : -1];
-typedef char PlayerOwnerRewardMeterAt2C[
-    (offsetof(PlayerOwnerRewardStateView, rewardMeter2C) == 0x2C) ? 1 : -1];
-typedef char PlayerOwnerRewardCallbackAt40[
-    (offsetof(PlayerOwnerRewardStateView, callback40) == 0x40) ? 1 : -1];
-
 extern PlayerRewardSharedRuntimeView *g_PlayerSharedRuntime;
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_PlayerRewardEffectManager;
@@ -78,8 +47,7 @@ void PlayerOwnerStateView::ApplyReward(
     PlayerPositionView *position,
     int value0, int value1, int value2, int value3)
 {
-    PlayerOwnerRewardStateView *state =
-        reinterpret_cast<PlayerOwnerRewardStateView *>(this);
+    PlayerOwnerStateView *state = this;
     int oldValue = state->value0C;
     int blocked = g_PlayerSharedRuntime->IsRewardBlocked();
     if (blocked)
@@ -97,23 +65,23 @@ void PlayerOwnerStateView::ApplyReward(
     if (state->value0C > 999990)
     {
         state->value0C = 999990;
-        state->owner00->sideState->AddScore(5000);
+        state->playerOwner00->sideState->AddScore(5000);
     }
 
     if (state->value0C >= 500000 && oldValue < 500000)
     {
-        reinterpret_cast<PlayerRewardAttackOwnerView *>(state->owner00->opponentState->attackOwner14)->Configure(1, 1, 0, state->owner00->primaryShtFile->modePath1);
-        if (!reinterpret_cast<PlayerRewardAttackTargetView *>(state->owner00->opponentState->attackTarget10)->FindActiveEnemyBySideCategory(3))
-            reinterpret_cast<PlayerRewardAttackOwnerView *>(state->owner00->opponentState->attackOwner14)->Configure(2, 2, 0, state->owner00->primaryShtFile->modePath2);
+        reinterpret_cast<PlayerRewardAttackOwnerView *>(state->playerOwner00->opponentState->attackOwner14)->Configure(1, 1, 0, state->playerOwner00->primaryShtFile->modePath1);
+        if (!reinterpret_cast<PlayerRewardAttackTargetView *>(state->playerOwner00->opponentState->attackTarget10)->FindActiveEnemyBySideCategory(3))
+            reinterpret_cast<PlayerRewardAttackOwnerView *>(state->playerOwner00->opponentState->attackOwner14)->Configure(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
     }
     else if (state->value0C >= 300000 && oldValue < 300000)
     {
-        if (!reinterpret_cast<PlayerRewardAttackTargetView *>(state->owner00->opponentState->attackTarget10)->FindActiveEnemyBySideCategory(3))
-            reinterpret_cast<PlayerRewardAttackOwnerView *>(state->owner00->opponentState->attackOwner14)->Configure(2, 2, 0, state->owner00->primaryShtFile->modePath2);
+        if (!reinterpret_cast<PlayerRewardAttackTargetView *>(state->playerOwner00->opponentState->attackTarget10)->FindActiveEnemyBySideCategory(3))
+            reinterpret_cast<PlayerRewardAttackOwnerView *>(state->playerOwner00->opponentState->attackOwner14)->Configure(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
     }
     else if (state->value0C >= 100000 && oldValue < 100000)
     {
-        reinterpret_cast<PlayerRewardAttackOwnerView *>(state->owner00->opponentState->attackOwner14)->Configure(2, 2, 0, state->owner00->primaryShtFile->modePath2);
+        reinterpret_cast<PlayerRewardAttackOwnerView *>(state->playerOwner00->opponentState->attackOwner14)->Configure(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
     }
 
     if (state->value0C >= 999990)
@@ -126,7 +94,7 @@ void PlayerOwnerStateView::ApplyReward(
         if ((state->state04 % 2) == 0)
         {
             g_AsciiManager.CreateScorePopup(
-                state->owner00->sideIndex,
+                state->playerOwner00->sideIndex,
                 reinterpret_cast<Float3 *>(position), value3,
                 static_cast<unsigned long>(
                     state->value0C >= 300000 ? 0xFFFFFF00UL :
@@ -138,7 +106,7 @@ void PlayerOwnerStateView::ApplyReward(
         if ((state->state04 % 5) == 0)
         {
             g_AsciiManager.CreateScorePopup(
-                state->owner00->sideIndex,
+                state->playerOwner00->sideIndex,
                 reinterpret_cast<Float3 *>(position), value3,
                 static_cast<unsigned long>(
                     state->value0C >= 300000 ? 0xFFFFFF00UL :
@@ -150,7 +118,7 @@ void PlayerOwnerStateView::ApplyReward(
         if ((state->state04 % 10) == 0)
         {
             g_AsciiManager.CreateScorePopup(
-                state->owner00->sideIndex,
+                state->playerOwner00->sideIndex,
                 reinterpret_cast<Float3 *>(position), value3,
                 static_cast<unsigned long>(
                     state->value0C >= 300000 ? 0xFFFFFF00UL :
@@ -170,12 +138,12 @@ void PlayerOwnerStateView::ApplyReward(
         state->rewardMeter2C += value0;
         state->spawnCounter30 += value1;
         state->value34 += value2;
-        state->callback40(this, position);
+        state->rewardCallback40(this, position);
 
         while (state->spawnCounter30 >=
                60 - 3 * g_PlayerRewardBaseValue / 2)
         {
-            if (reinterpret_cast<PlayerRewardAttackTargetView *>(state->owner00->opponentState->attackTarget10)->activeRewardCount2AC3B8 < 25)
+            if (reinterpret_cast<PlayerRewardAttackTargetView *>(state->playerOwner00->opponentState->attackTarget10)->activeRewardCount2AC3B8 < 25)
             {
                 effectPosition.x =
                     g_GameManager.TransformPopupX(position->x) +
@@ -185,7 +153,7 @@ void PlayerOwnerStateView::ApplyReward(
                     g_ReplayRng.GetRandomF32SignedInRange(32.0f);
                 effectPosition.z = 0.0f;
 
-                g_Supervisor.SelectSide(1 - state->owner00->sideIndex);
+                g_Supervisor.SelectSide(1 - state->playerOwner00->sideIndex);
 
                 velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
                     g_PlayerRewardVelocitySpan * 0.5f - 8.0f);
@@ -194,17 +162,17 @@ void PlayerOwnerStateView::ApplyReward(
 
                 Effect *effect =
                     g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                        state->owner00->sideIndex + 3, &effectPosition, &velocity,
+                        state->playerOwner00->sideIndex + 3, &effectPosition, &velocity,
                         1, static_cast<unsigned int>(-1));
 
-                g_Supervisor.SelectSide(state->owner00->sideIndex);
+                g_Supervisor.SelectSide(state->playerOwner00->sideIndex);
                 effect->playerReward.valueA4 = 0;
                 effect->playerReward.valueA6 = 1;
                 effect->playerReward.scale =
                     g_ReplayRng.GetRandomF32InRange(0.5f) *
                         0.016666668f +
                     g_PlayerRewardBaseValue * 0.0016666667f;
-                effect->playerReward.side = static_cast<short>(state->owner00->sideIndex);
+                effect->playerReward.side = static_cast<short>(state->playerOwner00->sideIndex);
             }
 
             state->spawnCounter30 += 2 * g_PlayerRewardBaseValue - 60;
@@ -224,7 +192,7 @@ void PlayerOwnerStateView::ApplyReward(
                 g_ReplayRng.GetRandomF32SignedInRange(32.0f);
             effectPosition.z = 0.0f;
 
-            g_Supervisor.SelectSide(1 - state->owner00->sideIndex);
+            g_Supervisor.SelectSide(1 - state->playerOwner00->sideIndex);
 
             velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
                 g_PlayerRewardVelocitySpan * 0.5f - 8.0f);
@@ -233,10 +201,10 @@ void PlayerOwnerStateView::ApplyReward(
 
             Effect *effect =
                 g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                    state->owner00->sideIndex + 1, &effectPosition, &velocity,
+                    state->playerOwner00->sideIndex + 1, &effectPosition, &velocity,
                     1, static_cast<unsigned int>(-1));
 
-            g_Supervisor.SelectSide(state->owner00->sideIndex);
+            g_Supervisor.SelectSide(state->playerOwner00->sideIndex);
             effect->playerReward.valueA4 = 0;
             effect->playerReward.valueA6 = 4;
 
@@ -265,7 +233,7 @@ void PlayerOwnerStateView::ApplyReward(
             default:
                 break;
             }
-            effect->playerReward.side = static_cast<short>(state->owner00->sideIndex);
+            effect->playerReward.side = static_cast<short>(state->playerOwner00->sideIndex);
 
             state->rewardMeter2C +=
                 4 * g_PlayerRewardBaseValue - 120;

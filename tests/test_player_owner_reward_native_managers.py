@@ -31,7 +31,9 @@ class PlayerOwnerRewardNativeManagers(unittest.TestCase):
         self.assertIn('state->rewardMeter2C',source)
         self.assertIn('state->spawnCounter30',source)
         self.assertEqual(source.count('SpawnEffectWithVelocity('),2)
-        self.assertIn('state->owner00->sideIndex',source)
+        self.assertIn('state->playerOwner00->sideIndex',source)
+        self.assertIn('PlayerOwnerStateView *state = this;',source)
+        self.assertNotIn('PlayerOwnerRewardStateView',source)
 
     def test_real_original_addresses_and_exact_callee_providers(self):
         owner=self.units['player-owner-apply-reward']

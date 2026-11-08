@@ -726,6 +726,16 @@ proof of remote publication.
   compiler-private labels are original-VA audited. See
   [native FrontResult Player/Manager proof](TH09_FRONT_RESULT_NATIVE_FULL_PLAYER_MANAGER_20261108.md).
 
+- **Native 0x44-byte Player owner-state now directly owns exact ApplyReward:**
+  removed `PlayerOwnerRewardStateView` and typed the real Player
+  +0x30410 owner with both constructed ZunTimers, counters and callback.
+  The complete 1,540-byte reward physical function and its 91 original
+  fields remain exact. Scoped cold replay protects **131 complete exact
+  functions / 40,829 physical bytes / 1,936 fields**. Twenty-five
+  Player/Reward/ECL private-label names are original-VA audited; Enemy and
+  Player bullet collision nonexact frontiers remain unchanged. See
+  [native full Player owner state](TH09_PLAYER_NATIVE_FULL_OWNER_STATE_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

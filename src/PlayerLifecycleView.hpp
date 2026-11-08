@@ -363,15 +363,25 @@ typedef char PlayerNativeTransitionStateWords[
     (offsetof(PlayerState3031CView, stateWord10) == 0x10 &&
      offsetof(PlayerState3031CView, transitionCounter18) == 0x18) ? 1 : -1];
 
+struct PlayerOwnerStateView;
+typedef int (__fastcall *PlayerOwnerRewardCallback)(
+    PlayerOwnerStateView *state, PlayerPositionView *position);
+
 struct PlayerOwnerStateView
 {
-    void *owner00;
-    unsigned char unknown04[0x04];
+    union { void *owner00; PlayerLifecycleView *playerOwner00; };
+    int state04;
     int maxState08;
-    unsigned char unknown0C[0x2C];
+    int value0C;
+    int maxValue10;
+    ZunTimer timer14;
+    ZunTimer timer20;
+    int rewardMeter2C;
+    int spawnCounter30;
+    int value34;
     int state38;
     int activeFrameCounter3C;
-    void *callback40;
+    union { void *callback40; PlayerOwnerRewardCallback rewardCallback40; };
 
     PlayerOwnerStateView();
     void ApplyReward(PlayerPositionView *position,
@@ -380,6 +390,20 @@ struct PlayerOwnerStateView
                     int value0, int value1, int value2, int value3);
 };
 typedef char PlayerOwnerStateSizeIs44[(sizeof(PlayerOwnerStateView) == 0x44) ? 1 : -1];
+typedef char PlayerOwnerStateNativeFullMembers[
+    (offsetof(PlayerOwnerStateView, owner00) == 0x00 &&
+     offsetof(PlayerOwnerStateView, state04) == 0x04 &&
+     offsetof(PlayerOwnerStateView, maxState08) == 0x08 &&
+     offsetof(PlayerOwnerStateView, value0C) == 0x0C &&
+     offsetof(PlayerOwnerStateView, maxValue10) == 0x10 &&
+     offsetof(PlayerOwnerStateView, timer14) == 0x14 &&
+     offsetof(PlayerOwnerStateView, timer20) == 0x20 &&
+     offsetof(PlayerOwnerStateView, rewardMeter2C) == 0x2C &&
+     offsetof(PlayerOwnerStateView, spawnCounter30) == 0x30 &&
+     offsetof(PlayerOwnerStateView, value34) == 0x34 &&
+     offsetof(PlayerOwnerStateView, state38) == 0x38 &&
+     offsetof(PlayerOwnerStateView, activeFrameCounter3C) == 0x3C &&
+     offsetof(PlayerOwnerStateView, callback40) == 0x40) ? 1 : -1];
 
 struct PlayerTailStateCtorView
 {
