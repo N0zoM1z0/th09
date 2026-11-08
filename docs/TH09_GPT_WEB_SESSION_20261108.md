@@ -220,3 +220,37 @@ The current C++ baseline deliberately retains the wire-argument snapshot and byt
 - The current `OnUpdate` owner remains 3,900 bytes with 97/97 relocation fields, 69/69 ordered direct calls, 170/170 reviewed control-flow blocks, and 13 byte differences.
 - The current `RunEcl` owner remains at 30 byte differences. No speculative large-owner source variant has been retained.
 - All work used focused match-unit builds and bounded IDA reads. No full cold replay was run.
+
+## Four additional accepted Enemy/ECL leaves (forced-recompile receipts)
+
+Focused VC7.1 builds and relocation-aware comparisons were run for four existing source owners. Each exact comparison was then independently submitted through the strict live replay driver with forced recompilation. All four jobs completed with `receipt_verdict=pass`, `acceptance_decision=accepted`, and no acceptance reasons:
+
+| Function | Address | Bytes | Receipt |
+|---|---:|---:|---|
+| `EnemyView::IntegrateMotion` | `0x0040F9B0` | 188 | `receipt:8eb93888601ed84bd24e9daa83409c855cb3dec81b7d0d25ec1dabbca359fd31` |
+| `EnemyView::ClampPositionToMovementBounds` | `0x004101D0` | 127 | `receipt:71eabacf15ce814592db7f7d02a4d28f5ba4f57279ad8f20284fd220ee4cea69` |
+| `Th09EclRunState::ReleaseAttachedEffects` | `0x0040F560` | 64 | `receipt:03bdc394869c8eb4aab4fe8ea73eb8f2ed8df8818220464b7bf789fb066efdef` |
+| `EnemyView::CleanupAfterDeactivation` | `0x00410110` | 184 | `receipt:2b01c0b531c2304026e1e89db5696e104db7d71b2d698a182618e7db7f96f558` |
+
+`CleanupAfterDeactivation`'s two ordered calls resolve to `ReleaseAttachedEffects` at `0x0040F560` and `EnemyCoreReleaseChildEclBlocks` at `0x004100E0`. These accepted leaves add evidence to the same Enemy/ECL lifecycle chain used by `OnUpdate` and `RunEcl`; they do not imply either large owner is exact.
+
+## Fresh large-owner probes after the four receipts
+
+### `EnemyManagerView::OnUpdate` (`0x00410730`)
+
+A fresh IDA decompile and linked disassembly review reconfirmed the 13-byte owner frontier: 3,900 bytes, 97/97 relocation fields, and the existing 69 ordered calls / 170 reviewed blocks. The differences group into:
+
+- `0x19C`, `0x1A3`: draw-group byte index is loaded into ECX in the candidate but EAX in the target (`0x004108CA`); the computed head pointer itself is in EAX in both.
+- `0x252`, `0x263`: effect-manager side-state pointer uses EDX in the candidate but EAX in the target (`0x00410981..0x00410992`).
+- `0x26D`, `0x272`, `0x294`, `0x29A`, `0x29C`, `0x2A5`, `0x2A9`, `0x2B7`, `0x2BD`: special-attack threshold argument register and the position-copy register/store scheduling in the 0x0041099C..0x004109EB block.
+
+New source-shape probes were compiled and discarded: flattening the side-category gate to the target's OR form; hoisting a side-state pointer ahead of counter reset; force-inline draw-group index/head getters; pointer/reference/volatile threshold locals; effect-manager pointer/reference locals; and direct position component stores / Float3 temporaries. The flattened gate and getter variants retained the same 13 offsets. The hoisted side-state pointer changed the owner extent to 3,756 bytes and was rejected. Volatile threshold and direct component-store variants expanded the differences substantially. No speculative variant was retained.
+
+### `EnemyEclManagerView::RunEcl` (`0x004086C0`)
+
+The complete owner remains 15,564 bytes with 30 byte differences. Fresh source-shape probes revisited opcode 4 and opcode `0x9B`:
+
+- Opcode 4 at `0x00408937` still differs in the order/register used to push the raw dword and form the active-context Timer `this` pointer. Direct assignment, explicit `operator=`, raw-operand, integer-local, pointer/reference, and inline wrapper variants did not improve the complete owner; wrapper declarations also failed the lexical compile when placed outside the correct declaration scope.
+- Opcode `0x9B` at `0x0040B770` remains a masked XOR of the primary Enemy flags word. Direct bitfield assignment and direct compound-update spellings alter the dense switch layout or register allocation and expand the full-owner difference count (up to 2,290 / 2,140); unsigned-int local forms preserve the 30-byte frontier but still do not reproduce the target's ESI/ECX/EAX allocation.
+
+All probes were restored to the committed baseline. No full cold replay was run; validation stayed on the affected match units and bounded IDA reads.
