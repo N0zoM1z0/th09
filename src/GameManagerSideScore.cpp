@@ -1,6 +1,6 @@
-#include "GameManagerSideScoreView.hpp"
+#include "GameManagerRuntimeView.hpp"
 
-void GameManagerSideStateView::AddScore(int score)
+void AsciiGameManagerSideView::AddScore(int score)
 {
-    this->state1C->score08 += score / 10;
+    this->state->score08 += score / 10;
 }

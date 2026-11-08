@@ -562,7 +562,7 @@ PlayerLifecycleView::DrawTailStates
 SupervisorThreadStartView::ThreadClose
 PlayerUpdateOwnerState
 AsciiManager::SetScale
-GameManagerSideStateView::AddScore
+AsciiGameManagerSideView::AddScore
 PlayerOwnerStateResetView::PrepareReset
 PlayerAngleView::AngleToPoint
 AddNormalizeAngle

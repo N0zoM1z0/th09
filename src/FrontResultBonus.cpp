@@ -34,7 +34,7 @@ struct FrontResultSideView
     int shotType20;
     unsigned char unknown24[0x38 - 0x24];
 
-    void AddScore(int score);
+
 };
 
 struct FrontResultGameManagerLayout
@@ -159,5 +159,5 @@ void FrontResultBonusView::InitializeResultBonus()
         }
     }
 
-    FrontResultGameManager()->sides[this->side10964].AddScore(this->bonus11E88[6]);
+    reinterpret_cast<AsciiGameManagerSideView *>(&FrontResultGameManager()->sides[this->side10964])->AddScore(this->bonus11E88[6]);
 }

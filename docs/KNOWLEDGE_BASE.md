@@ -93,6 +93,17 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: GameManager side score owner is one native 0x38-byte side
+
+The complete original-exact 33-byte AddScore now lives on the genuine
+`AsciiGameManagerSideView`: side +0x1C points at the 0xA0-byte side runtime,
+whose +0x08 word is both unsigned gameplay score and signed `score08`
+accumulated as score/10. The exact PlayerReward and FrontResult functions,
+nonexact Enemy update and Player bullet collision all call the same original
+0x40F860 leaf. Player reward's former timer getter uses native ZunTimer
+conversion at 0x435F00, with 102 original-bound exact siblings protected.
+See [native GameManager side score](TH09_NATIVE_GAMEMANAGER_SIDE_SCORE_20261108.md).
+
 ### 2026-11-08: Player reward boss uses native GameManager and Supervisor
 
 The 1,540-byte exact physical `PlayerOwnerStateView::ApplyReward` now uses

@@ -158,7 +158,7 @@ class PlayerBulletOriginalTests(unittest.TestCase):
                 '?PlaySoundByIdx@PlayerCancelSoundView@@QAEXHH@Z',
             '?AddRespawnResource@PlayerLifecycleView@@QAEXM@Z':
                 '?AddRespawnResource@PlayerCancelState4OpsView@@QAEXM@Z',
-            '?AddScore@GameManagerSideStateView@@QAEXH@Z':
+            '?AddScore@AsciiGameManagerSideView@@QAEXH@Z':
                 '?AddScore@PlayerCancelSideView@@QAEXH@Z',
         }
         self.assertEqual(set(aliases), set(aliases) & set(player.SOURCE_TARGETS))

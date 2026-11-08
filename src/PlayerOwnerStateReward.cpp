@@ -31,18 +31,9 @@ struct PlayerRewardAttackOwnerView
     void Configure(int mode0, int mode1, int zero, const char *path);
 };
 
-struct PlayerRewardSideScoreView
-{
-    void AddScore(int score);
-};
 
-struct PlayerRewardTimerCurrentView
-{
-    int previous;
-    float subFrame;
-    int current;
-    int GetCurrent();
-};
+
+
 
 typedef int (__fastcall *PlayerOwnerRewardCallback)(
     PlayerOwnerStateView *state, PlayerPositionView *position);
@@ -106,8 +97,7 @@ void PlayerOwnerStateView::ApplyReward(
     if (state->value0C > 999990)
     {
         state->value0C = 999990;
-        reinterpret_cast<PlayerRewardSideScoreView *>(state->owner00->sideState)
-            ->AddScore(5000);
+        state->owner00->sideState->AddScore(5000);
     }
 
     if (state->value0C >= 500000 && oldValue < 500000)
@@ -293,8 +283,7 @@ void PlayerOwnerStateView::ApplyReward(
     if (state->maxValue10 <= result)
     {
         state->maxValue10 = result;
-        int current = reinterpret_cast<PlayerRewardTimerCurrentView *>(
-            &state->timer20)->GetCurrent();
+        int current = static_cast<int>(state->timer20);
         state->timer14 = current + 45;
     }
 }

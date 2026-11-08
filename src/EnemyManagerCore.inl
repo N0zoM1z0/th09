@@ -1,6 +1,5 @@
 #include "EnemyNativeTrailRenderCapacity.hpp"
 #include "EnemyNativePoolCapacity.hpp"
-#include "GameManagerSideScoreView.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "PlayerDamageView.hpp"
 #include "FrontEnemyIndicatorView.hpp"
@@ -752,7 +751,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             }
 
             case 1:
-                reinterpret_cast<GameManagerSideStateView *>(
+                reinterpret_cast<AsciiGameManagerSideView *>(
                     manager->sideState320)->AddScore(enemy->score2E54);
                 enemy->primaryFlags337C =
                     (enemy->primaryFlags337C & 0xFFEFFFB3) |
@@ -760,7 +759,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 goto release_death_effects;
 
             case 0:
-                reinterpret_cast<GameManagerSideStateView *>(
+                reinterpret_cast<AsciiGameManagerSideView *>(
                     manager->sideState320)->AddScore(enemy->score2E54);
                 enemy->primaryFlags337C &= ~ENEMY_CORE_ACTIVE;
             release_death_effects:

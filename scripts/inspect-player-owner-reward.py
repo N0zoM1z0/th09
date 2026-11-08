@@ -21,7 +21,7 @@ SYMBOL = '?ApplyReward@PlayerOwnerStateView@@QAEXPAUPlayerPositionView@@HHHH@Z'
 DESTINATIONS = {
     '?IsRewardBlocked@PlayerRewardSharedRuntimeView@@QAEHXZ': 0x40D4F0,
     '?GetTransitionBlockFlag@PlayerRewardSharedRuntimeView@@QAEHXZ': 0x40D4F0,
-    '?AddScore@PlayerRewardSideScoreView@@QAEXH@Z': 0x40F860,
+    '?AddScore@AsciiGameManagerSideView@@QAEXH@Z': 0x40F860,
     '?Configure@PlayerRewardAttackOwnerView@@QAEXHHHPBD@Z': 0x403E50,
     '?CheckMode@PlayerRewardAttackTargetView@@QAEHH@Z': 0x40F7D0,
     '?FindActiveEnemyBySideCategory@PlayerRewardAttackTargetView@@QAEPAUEnemyView@@H@Z': 0x40F7D0,
@@ -34,7 +34,7 @@ DESTINATIONS = {
     '?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z': 0x40CCC0,
     '??MZunTimer@@QAEIH@Z': 0x401540,
     '??YZunTimer@@QAEXH@Z': 0x406640,
-    '?GetCurrent@PlayerRewardTimerCurrentView@@QAEHXZ': 0x435F00,
+    '??BZunTimer@@QAEHXZ': 0x435F00,
     '??4ZunTimer@@QAEXH@Z': 0x401500,
     '?g_PlayerSharedRuntime@@3PAUPlayerRewardSharedRuntimeView@@A': 0x4A7E38,
     '?g_PlayerRewardBaseValue@@3HA': 0x4A7E44,

@@ -69,7 +69,7 @@ SOURCE_TARGETS = {
     '?g_SoundPlayer@@3VSoundPlayer@@A': 0x004DC698,
     '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z': 0x0043E2F0,
     '?ApplyReward@PlayerOwnerStateView@@QAEXPAUPlayerPositionView@@HHHH@Z': 0x0041D150,
-    '?AddScore@GameManagerSideStateView@@QAEXH@Z': 0x0040F860,
+    '?AddScore@AsciiGameManagerSideView@@QAEXH@Z': 0x0040F860,
 }
 
 

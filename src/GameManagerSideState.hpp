@@ -18,6 +18,8 @@ struct AsciiGameSideRuntimeView;
 // identify the same slots; original C++ names and several roles are unknown.
 struct AsciiGameManagerSideView
 {
+    // Native exact 0x40F860 score publication through side +0x1C.
+    void AddScore(int score);
     union { unsigned char unknown00[4]; void *subsystem0; Background *background00; };
     // The same original +0x04..+0x1C gameplay side controllers are consumed
     // by GameManager setup, ECL/Enemy and the replay/ASCII owners.

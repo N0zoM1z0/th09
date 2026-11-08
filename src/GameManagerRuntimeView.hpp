@@ -30,14 +30,28 @@ struct AsciiGameSideRuntimeView
 {
     float value00;
     unsigned int value04;
-    unsigned int value08;
+    union { unsigned int value08; int score08; };
     unsigned int value0C;
     union { unsigned char unknown10[4]; int phase10; };
     union { unsigned char counter14; unsigned char value14; };
     unsigned char unknown15[0x8B];
 };
 
+// Both the independently exact 33-byte score leaf and real GameManager
+// setup operate on the same side +0x1C, runtime +0x08 native score word.
+typedef char AsciiGameSideNativeScoreAt08[
+    (offsetof(AsciiGameSideRuntimeView, value08) == 0x08 &&
+     offsetof(AsciiGameManagerSideView, state) == 0x1C) ? 1 : -1];
+
 typedef AsciiGameSideRuntimeView SetupStateBuffer;
+// The 33-byte original score leaf adds signed score/10 at side-runtime
+// +0x08. This shares the exact native scoreboard word with value08;
+// no second side-score allocation or signedness-changing memory copy.
+typedef char AsciiGameSideNativeScoreWordAt08[
+    (sizeof(AsciiGameSideRuntimeView) == 0xA0 &&
+     offsetof(AsciiGameSideRuntimeView, value08) == 0x08 &&
+     offsetof(AsciiGameSideRuntimeView, score08) == 0x08) ? 1 : -1];
+
 typedef char AsciiGameSideNativeScoreSizeIsA0[
     (sizeof(AsciiGameSideRuntimeView) == 0xA0 &&
      offsetof(AsciiGameSideRuntimeView, phase10) == 0x10 &&

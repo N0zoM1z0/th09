@@ -704,6 +704,17 @@ proof of remote publication.
   viewport owners / 3,254 bytes / 205 fields**. See
   [native Player reward manager ownership](TH09_PLAYER_REWARD_NATIVE_GAMEMANAGER_SUPERVISOR_20261108.md).
 
+- **GameManager native side AddScore across Enemy/Player/FrontResult:**
+  33-byte exact `AsciiGameManagerSideView::AddScore` replaces a separate
+  0x1C-byte side-score prefix; genuine side+0x1C runtime+0x08 score
+  aliases the original `value08` word and preserves signed score/10.
+  The full 1,540-byte reward and 553-byte FrontResult owners remain
+  byte-exact; reward also uses real `ZunTimer::operator int` @0x435F00.
+  Scoped replay protects **102 exact functions / 36,193 physical bytes /
+  1,782 fields**. Enemy OnUpdate remains 3,900 bytes / 13 unlike;
+  Player bullet collision remains 862/849 with 13 missing. See
+  [native side score proof](TH09_NATIVE_GAMEMANAGER_SIDE_SCORE_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

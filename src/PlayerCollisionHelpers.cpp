@@ -7,7 +7,6 @@
 #include "RngRuntimeLeaves.hpp"
 #include "ZunTimer.hpp"
 #include "PlayerCollisionRegionCreate.hpp"
-#include "GameManagerSideScoreView.hpp"
 
 void RotatePlayerCollisionVector(
     PlayerPositionView *outVector,
@@ -136,8 +135,7 @@ int PlayerLifecycleView::CheckBulletCollision(
             this->ownerState30410.ApplyReward(
                 position, rewardMode, 2, 0, rewardValue);
 
-            reinterpret_cast<GameManagerSideStateView *>(this->sideState)
-                ->AddScore(50);
+            this->sideState->AddScore(50);
         }
 
         ++(*slot)->hitCount2C;
