@@ -746,6 +746,17 @@ proof of remote publication.
   bullet-collision boss still lacks 13 bytes. See
   [native Player owner-state update](TH09_NATIVE_PLAYER_OWNER_STATE_UPDATE_20261108.md).
 
+- **All 16 ExAttack reward callbacks now borrow the real 0x44-byte Player
+  owner state:** removed `PlayerOwnerRewardCallbackStateView`; each
+  callback uses native owner +0x00 and value +0x34, with Type7 updating
+  the actual +0x30 `spawnCounter30` also used by exact ApplyReward.
+  Three natural VC7.1 pointer/reference models preserve all **16 exact
+  callbacks / 1,604 bytes / 79 fields**. Scoped original replay including
+  the 1,540-byte reward boss and PlayerRuntime protects **38 full exact
+  functions / 8,535 bytes / 458 fields**. The open 862/849-byte collision
+  boss remains unchanged. See
+  [native Player reward callback owner](TH09_PLAYER_REWARD_CALLBACKS_NATIVE_OWNER_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

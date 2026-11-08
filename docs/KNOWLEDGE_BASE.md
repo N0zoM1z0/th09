@@ -93,6 +93,16 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: All 16 reward callbacks use one native Player owner-state
+
+The sixteen original-exact fastcall ExAttack reward callbacks no longer
+cast the real `PlayerOwnerStateView *` to a source-only prefix class.
+They share the exact +0x00 native Player pointer and +0x34 reward
+accumulator; Type7 adjusts the original +0x30 spawn counter used by
+ApplyReward. Original VC7.1 source-cold replay preserves 1,604 full
+callback bytes and 79 fields, plus 38 exact related owners. See
+[native reward callbacks](TH09_PLAYER_REWARD_CALLBACKS_NATIVE_OWNER_20261108.md).
+
 ### 2026-11-08: Exact PlayerUpdateOwnerState uses native owner and AddScore
 
 The 126-byte `PlayerUpdateOwnerState` now reads real `PlayerOwnerStateView`
