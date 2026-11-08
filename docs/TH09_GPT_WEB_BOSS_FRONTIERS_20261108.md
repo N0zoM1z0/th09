@@ -153,3 +153,47 @@ or remote push is claimed.
 At the two source commits the branch was `main`, two commits ahead of
 `origin/main`, and the worktree was clean. The ignored `.analysis/`
 experiments are local scratch evidence, not source inputs or accepted receipts.
+
+## 2026-11-08 fresh RunEcl opcode-4 / opcode-155 register-lifetime probes
+
+Rebuilt only `enemy-attached-effect-update` and re-ran the original-bound
+complete RunEcl inspector. The current carrier remains **15,564 physical bytes /
+598 bound fields / 30 ordinary differences / zero field or table differences**.
+The independently attested original PE decompilation of `RunEcl @ 0x004086C0`
+was read around both handlers, rather than relying only on earlier notes:
+
+- Opcode 4 at `+0x0277` is a direct `ZunTimer::operator=(int)` call with the
+  raw instruction DWORD at `instruction + 0x0C`; the target loads that value
+  into ECX and pushes ECX before loading the timer receiver. The four natural
+  direct-expression / integer-local / pointer / reference trials retain the
+  seven opcode-4 differences. Reusing the existing `rhsInt` local also retains
+  them. Removing the copied wire-word declaration moves twelve unrelated
+  opcode-5 bytes, so the whole-owner score worsens from 30 to 42; that shape is
+  rejected.
+- Opcode 155's decompiler expression is the native primary-word XOR update:
+  `flags ^= (flags ^ (byte << 24)) & 0x01000000`. The target zero-extends the
+  wire byte into ECX, preserves the old flags in ESI, masks in ECX, copies ESI
+  to EAX and stores the XOR result from EAX. This confirms the bit-level
+  semantics, not the unique source declaration.
+
+Fresh natural C++ trials distinguish three compiler shapes. Keeping the
+current `memcpy` byte snapshot emits `mov cl`, loads the old word into EAX,
+then zero-extends CL; the block stays 31 bytes but retains the 23 opcode-155
+unlike bytes. Direct byte reads with the same XOR/helper or compound-XOR
+semantics emit a 29-byte block, missing the target's two-byte `mov eax,esi`;
+the resulting two-byte code shift changes later handler/table placement and
+the complete inspector reports **2,290** differences (2,048 ordinary, 242
+field, 26 table). Native bitfield and local bitfield-copy variants emit a
+30-byte block with the shorter accumulator-specific AND encoding; the
+complete inspector reports **2,140** differences (1,938 ordinary, 202 field,
+26 table). All these are rejected as whole-owner regressions. No inline
+assembly, target-byte patch, volatile local, compiler-profile change, or
+relocation/table masking is used or accepted.
+
+Scratch objects, compile logs and complete reports are retained under
+`.analysis/gpt-web-th09-boss-leaf-20261108/runecl-probes/`. The 30-byte
+baseline remains the maintained source frontier; these experiments award no
+partial exactness credit. The next useful search is for a natural source form
+that preserves the target's two-register live range in opcode 155 while
+retaining the original 31-byte handler, and independently selects ECX for the
+opcode-4 stack argument without perturbing opcode 5.
