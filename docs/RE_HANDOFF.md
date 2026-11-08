@@ -792,6 +792,18 @@ proof of remote publication.
   Player collision, Enemy update and RunEcl deficits remain unchanged.
   See [native full collision pool](TH09_PLAYER_NATIVE_FULL_COLLISION_POOL_20261108.md).
 
+- **Player Header's three genuine constructed ZunTimers are now native:**
+  opaque `PlayerHeaderStateView::unknown00[0x78]` was replaced by native
+  timers at +0x00/+0x5C/+0x68 and flags +0x74. The exact 29-byte header
+  Reset belongs to this same class, PlayerRuntime opponent-metric reads
+  the real timer5C, and the exact 552-code/572-physical-byte initializer
+  calls its native Reset. Pinned independent VC7.1 `/Ob0` and `/Ob1`
+  probes recreate the original **28-byte Header constructor** at 0x41EE00
+  but do not yet claim new tracking credit. Scoped original-bound replay
+  passes **121 preexisting exact functions / 40,996 bytes / 2,068 fields**,
+  including the 243-byte Player ctor. See
+  [native three-timer Player Header](TH09_PLAYER_HEADER_NATIVE_THREE_TIMERS_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

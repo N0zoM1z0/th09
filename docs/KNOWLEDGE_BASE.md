@@ -93,6 +93,17 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Player Header constructor calls three real native timers
+
+Retail `0x41EE00` is a 28-byte constructor that calls three exact
+`ZunTimer::ZunTimer` leaves at Header +0x00/+0x5C/+0x68. Replacing the
+prior opaque +0x78-byte Header prefix with actual timers keeps the 243-byte
+Player ctor, 29-byte Header reset, and 572-byte physical initializer
+source-cold exact. Opponent timing reads the original Header +0x5C native
+timer; 121 related exact owners remain target-bound. The 28-byte
+standalone probe remains unclassified, not new exact credit. See
+[native three-timer Header](TH09_PLAYER_HEADER_NATIVE_THREE_TIMERS_20261108.md).
+
 ### 2026-11-08: All 512 Player collision regions are the real 0x44-byte records
 
 The native Player region allocation from +0x28BC to +0xB0BC is now a typed

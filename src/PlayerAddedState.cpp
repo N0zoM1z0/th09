@@ -20,17 +20,6 @@ struct PlayerAddedRngView
     float SampleRange(float max);
 };
 
-struct PlayerAddedHeaderResetView
-{
-    unsigned char unknown00[0x5C];
-    ZunTimer timer5C;
-    ZunTimer timer68;
-    unsigned int flags74;
-
-    void Reset();
-};
-typedef char PlayerAddedHeaderResetSizeIs78[
-    (sizeof(PlayerAddedHeaderResetView) == 0x78) ? 1 : -1];
 // The independently exact Player registration and this update share the
 // header subobject at Player +0x24, not another byte-offset allocation.
 typedef char PlayerAddedNativeHeaderAt24[
@@ -136,7 +125,7 @@ int PlayerCollisionRegionCreateRegionView::Reset()
     return 0;
 }
 
-void PlayerAddedHeaderResetView::Reset()
+void PlayerHeaderStateView::Reset()
 {
     this->timer5C = 0;
     this->timer68 = 0;
@@ -254,6 +243,6 @@ void PlayerLifecycleView::InitializeAddedState()
     player->timer303A4 = -1;
     this->movementFields1CCC.movementAngle1CD8 = -1.57079637f;
     this->focusEffect364 = NULL;
-    reinterpret_cast<PlayerAddedHeaderResetView *>(&this->header24)->Reset();
+    this->header24.Reset();
     memset(player->tailStates30454, 0, sizeof(player->tailStates30454));
 }

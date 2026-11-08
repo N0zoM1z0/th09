@@ -136,7 +136,11 @@ class AnmLoadedSprite;
 
 struct PlayerHeaderStateView
 {
-    unsigned char unknown00[0x78];
+    ZunTimer timer00;
+    unsigned char unknown0C[0x5C - 0x0C];
+    ZunTimer timer5C;
+    ZunTimer timer68;
+    unsigned int flags74;
     void *selfLink78;
     int state7C;
     int state80;
@@ -148,8 +152,19 @@ struct PlayerHeaderStateView
     AnmLoaded *anmFile98;
 
     PlayerHeaderStateView();
+    void Reset();
 };
 typedef char PlayerHeaderStateSizeIs9C[(sizeof(PlayerHeaderStateView) == 0x9C) ? 1 : -1];
+// Original unclassified 0x41EE00 constructor calls exact ZunTimer::ZunTimer
+// at Header +0x00, +0x5C and +0x68; VC7.1 naturally emits those calls.
+typedef char PlayerHeaderNativeConstructedTimers[
+    (offsetof(PlayerHeaderStateView, timer00) == 0x00 &&
+     offsetof(PlayerHeaderStateView, timer5C) == 0x5C &&
+     offsetof(PlayerHeaderStateView, timer68) == 0x68 &&
+     offsetof(PlayerHeaderStateView, flags74) == 0x74 &&
+     offsetof(PlayerHeaderStateView, selfLink78) == 0x78 &&
+     sizeof(PlayerHeaderStateView) == 0x9C) ? 1 : -1];
+
 typedef char PlayerHeaderNativeAnmAt98[(offsetof(PlayerHeaderStateView, anmFile98) == 0x98) ? 1 : -1];
 
 // Preserve the original Player-specific ctor/rotation method symbols but

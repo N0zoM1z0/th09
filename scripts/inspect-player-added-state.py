@@ -43,7 +43,7 @@ EXTERNALS = {
     '?g_PlayerAddedSideTable@@3PAHA': 0x004A8108,
     '?g_PlayerAddedClampValue@@3HA': 0x004A7E90,
     '?g_PlayerAddedModeSelector@@3HA': 0x004A7EAC,
-    '?Reset@PlayerAddedHeaderResetView@@QAEXXZ': 0x0041BDC0,
+    '?Reset@PlayerHeaderStateView@@QAEXXZ': 0x0041BDC0,
 }
 TARGET_FIELDS = {
     0x019: ('REL32', 0x00403E00), 0x024: ('REL32', 0x004343D0),
