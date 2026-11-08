@@ -88,3 +88,14 @@ Further source-only experiments did not reduce either large owner:
 - `RunEcl`: `RawInt` accessor for opcode 4, local-union bitfield and local-reference bitfield forms for opcode `0x9B`. None improved the 30-byte baseline; all source files were restored.
 
 No source experiment from this section was retained. The next productive step is a new source-level hypothesis, not repeating these register-alias variants.
+
+## Large owner correction: `PlayerLifecycleView::CheckBulletCollision`
+
+A fresh build of `player-calc-laser-hitbox` and target disassembly at `0x0041DFF0` exposed a real loop-semantics mismatch in `src/PlayerCollisionHelpers.cpp`.
+
+- The target initializes the loop index to zero, then increments it before comparing against `active->count`; the array address is formed with that incremented index. The target therefore scans indices `[1, count)`, not `[0, count)`.
+- The prior source used `for (u32 i = 0; i < active->count; ++i)`, which included index zero and placed the increment at the bottom of the loop.
+- The source now uses `for (u32 i = 0; ++i < active->count; )`, matching the target's pre-increment loop and reserved first slot.
+- After this change, the structural inspector reports 277 target / 277 candidate instructions, 33 / 33 direct blocks, `direct_graphs_agree=true`, and `missing_bytes=0`. The physical function extent is still 862 target bytes versus 849 candidate bytes, with 799 unequal overlapping bytes; this is structural progress, not exact codegen.
+- The unrelated `player-calc-laser-hitbox` sibling function remains exact after the change.
+- No canonical `codegen_exact` claim for `CheckBulletCollision` was available, so no replay was submitted and no exactness is claimed.
