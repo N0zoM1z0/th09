@@ -13,12 +13,9 @@ extern OpponentSelectionEntry *g_OpponentLists[];
 extern int g_OpponentParameterTable[];
 extern int g_OpponentModeValues[];
 
-void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
+void AsciiGameManagerView::SelectOpponentConfiguration()
 {
-    AsciiGameManagerView *modeView =
-        reinterpret_cast<AsciiGameManagerView *>(this);
-
-    if (modeView->IsGameMode0() || modeView->IsGameMode1())
+    if (IsGameMode0() || IsGameMode1())
     {
         OpponentSelectionEntry *entry =
             g_OpponentLists[sides[0].value20];
@@ -100,7 +97,7 @@ void GameManagerOpponentSelectionView::SelectOpponentConfiguration()
         usedCharacters[sides[1].value20] = 1;
         selectedEntryF0 = selected;
 
-        OpponentSelectionState *state = sides[0].state1C;
+        AsciiGameSideRuntimeView *state = sides[0].state;
         // The target also takes this arm for an unordered float comparison.
         if (state->value14 != 0 || !(state->value00 > 0.0f))
         {

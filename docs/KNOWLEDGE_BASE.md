@@ -82,6 +82,28 @@ reload; 110 exact related complete owners remain PE-bound, including
 selector jump-table data. The Enemy boss is still 13 bytes unlike.
 See [native Player state setter](TH09_PLAYER_NATIVE_SET_UPDATE_STATE_20261107.md).
 
+### 2026-11-08: GameManager opponent selector and setup thread share one native owner
+
+The existing exact 799-byte `SelectOpponentConfiguration` at 0x415910 now
+belongs directly to `AsciiGameManagerView`, not a duplicate opponent
+manager/side prefix. Its +0xD8 used-character table, +0xF0 selected entry,
++0x138 selector and side +0x2C parameter share actual native GameManager
+storage. Four original callsites in the complete nonexact 1,689-byte
+GameplaySetupThread now invoke that real method; 18 exact owner replays
+protect their machine bytes, while 694-plus-seven setup residual bytes
+remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
+
+### 2026-11-08: Opponent selection and setup share the native GameManager D8 array
+
+The exact 799-byte `SelectOpponentConfiguration` now belongs to the native
+`AsciiGameManagerView`, not a separate GameManager/side overlay. Its
++0xD8 16-byte used-character table is the **same memory** that gameplay
+setup resets through `clearD8`; the +0xF0 entry pointer, +0xF4 result,
++0xFC round counter, +0x11C mode, +0x138 selector and side +0x2C
+parameter are original-backed. The nonexact 1,689-byte GameplaySetupThread
+retains its 1,682-byte candidate and prior 694-plus-seven frontier.
+See [native GameManager opponent owner](TH09_GAMEMANAGER_NATIVE_OPPONENT_SELECTION_20261108.md).
+
 ### 2026-11-08: FrontMessage audio calls the genuine Supervisor object
 
 The original 2,968-byte FrontMessage code/table owner now uses the real

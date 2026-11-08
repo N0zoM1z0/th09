@@ -32,7 +32,7 @@ def baseline():
                 dict(symbol='?DispatchReplayStage@@YIXPAUReplayStageDispatchView@@H@Z',
                      target=0x4217E0, count=2)],
         'native_opponent_selection_calls': dict(
-                symbol='?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ',
+                symbol='?SelectOpponentConfiguration@AsciiGameManagerView@@QAEXXZ',
                 target=0x415910, count=4),
         'native_creator_calls': [
             dict(unit=unit, symbol=symbol, target=target, count=count)

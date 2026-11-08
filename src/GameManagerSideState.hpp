@@ -39,7 +39,7 @@ struct AsciiGameManagerSideView
     union { int replaySelector28; int selector; unsigned char unknown28[4]; };
     union {
         unsigned char unknown2C[8];
-        struct { unsigned int value2C; unsigned int value30; };
+        struct { union { unsigned int value2C; int selectedParameter2C; }; unsigned int value30; };
         struct { int characterIndex2C; union { unsigned char unknown30[4]; int auxPathIndex30; }; };
     };
     union { unsigned int flags; unsigned int flags34; };

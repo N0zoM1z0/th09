@@ -16,6 +16,7 @@ struct FrontSide;
 struct ReplayManagerView;
 struct GameConfiguration;
 struct ReplayStageDispatchView;
+struct OpponentSelectionEntry;
 
 struct AsciiPlayerPopupPositionView
 {
@@ -56,11 +57,11 @@ struct AsciiGameManagerView
     int valueCC;
     int valueD0;
     union { void *stageObjectD4; ReplayManagerView *replayManagerD4; ReplayStageDispatchView *replayDispatchD4; };
-    unsigned char clearD8[0x10];
+    union { unsigned char clearD8[0x10]; unsigned char usedCharactersD8[16]; };
     union { ReplayInputGateView *replayInputGateE8; GameConfiguration *configurationE8; void *heapE8; };
     float speedEC;
-    unsigned char unknown0F0[4];
-    int valueF4;
+    union { unsigned char unknown0F0[4]; OpponentSelectionEntry *selectedEntryF0; };
+    union { int valueF4; int selectedValueF4; };
     int valueF8;
     union { int field0FC; int counterFC; };
     int value100;
@@ -88,7 +89,7 @@ struct AsciiGameManagerView
             unsigned int highFlags134 : 19;
         };
     };
-    union { unsigned char unknown138[4]; int value138; };
+    union { unsigned char unknown138[4]; int value138; int selector138; };
     unsigned char inGameMenu;
     union { unsigned char menuState97C8Active; unsigned char menuBlock13D; };
     union { unsigned char menuStateA7A8Active; unsigned char menuBlock13E; };
@@ -128,6 +129,7 @@ struct AsciiGameManagerView
     int IsGameMode0();
     int IsGameMode1();
     int IsGameMode2();
+    void SelectOpponentConfiguration();
     int IsReplayNeutral();
     int HasFlagBit0();
 };
@@ -237,3 +239,18 @@ struct RenderCoordinateOriginView
 };
 
 extern RenderCoordinateOriginView *g_RenderCoordinateOrigin;
+
+// Opponent selection's original 799-byte exact owner uses these same
+// physical +0xD8/+0xF0/+0xF4/+0xFC/+0x11C/+0x138 manager words.
+// No independent source-only 0x13C-byte opponent manager is allocated.
+typedef char NativeGameManagerOpponentSelectionOffsets[
+    (sizeof(AsciiGameManagerView) == 0x390 &&
+     offsetof(AsciiGameManagerView, usedCharactersD8) == 0xD8 &&
+     sizeof(((AsciiGameManagerView *)0)->usedCharactersD8) == 16 &&
+     offsetof(AsciiGameManagerView, selectedEntryF0) == 0xF0 &&
+     offsetof(AsciiGameManagerView, selectedValueF4) == 0xF4 &&
+     offsetof(AsciiGameManagerView, counterFC) == 0xFC &&
+     offsetof(AsciiGameManagerView, setupMode11C) == 0x11C &&
+     offsetof(AsciiGameManagerView, selector138) == 0x138 &&
+     offsetof(AsciiGameManagerSideView, selectedParameter2C) == 0x2C &&
+     sizeof(AsciiGameManagerSideView) == 0x38) ? 1 : -1];

@@ -23,7 +23,6 @@
 #include "AnmManager.hpp"
 #include "Chain.hpp"
 #include "GameConfiguration.hpp"
-#include "GameManagerOpponentSelectionView.hpp"
 #include "ScreenEffect.hpp"
 #include "ReplayInputState.hpp"
 #include "ReplayManagerRuntimeView.hpp"
@@ -766,16 +765,14 @@ mode_ready:
         if ((g_GameManager.flags & 8) == 0)
         {
             g_GameManager.seedCopy346 = g_Rng.seed;
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
-                ->SelectOpponentConfiguration();
+            g_GameManager.SelectOpponentConfiguration();
             g_GameManager.replayManagerD4 = ReplayManagerView::Create(0, NULL);
         }
         else
         {
             g_GameManager.replayManagerD4 = ReplayManagerView::Create(
                 1, reinterpret_cast<const char *>(&g_GameManager.modeByte145));
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
-                ->SelectOpponentConfiguration();
+            g_GameManager.SelectOpponentConfiguration();
         }
     }
     else
@@ -798,8 +795,7 @@ mode_ready:
         if ((g_GameManager.flags & 8) == 0)
         {
             g_GameManager.seedCopy346 = g_Rng.seed;
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
-                ->SelectOpponentConfiguration();
+            g_GameManager.SelectOpponentConfiguration();
             DispatchReplayStage(
                 g_GameManager.replayDispatchD4, 0);
         }
@@ -807,8 +803,7 @@ mode_ready:
         {
             DispatchReplayStage(
                 g_GameManager.replayDispatchD4, 1);
-            reinterpret_cast<GameManagerOpponentSelectionView *>(&g_GameManager)
-                ->SelectOpponentConfiguration();
+            g_GameManager.SelectOpponentConfiguration();
         }
 
         if (g_GameManager.gameMode == 0 || g_GameManager.gameMode == 1)

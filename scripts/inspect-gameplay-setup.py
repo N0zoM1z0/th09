@@ -46,7 +46,7 @@ DESTINATIONS = {
     '?ResetGameManager@@YIXPAUGameManagerSetupLayout@@@Z': 0x41A7C3,
     '?SetStageObjectMode@@YIXPAXH@Z': 0x4217E0,
     '?SupervisorCalculateFps@@YIXH@Z': 0x4316B0,
-    '?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ': 0x415910,
+    '?SelectOpponentConfiguration@AsciiGameManagerView@@QAEXXZ': 0x415910,
     '?g_GameConfiguration@@3PAUGameConfiguration@@A': 0x4A7E78,
     '?g_GameManager@@3UAsciiGameManagerView@@A': 0x4A7D90,
     '?g_ReplayPlayTimeText@@3PADA': 0x4AC879,
@@ -241,10 +241,10 @@ def main():
                 for symbol in ('?Create@ReplayManagerView@@SIPAU1@HPBD@Z',
                                '?DispatchReplayStage@@YIXPAUReplayStageDispatchView@@H@Z')],
             'native_opponent_selection_calls': dict(
-                symbol='?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ',
+                symbol='?SelectOpponentConfiguration@AsciiGameManagerView@@QAEXXZ',
                 target=0x415910,
                 count=sum(r['symbol'] ==
-                          '?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ'
+                          '?SelectOpponentConfiguration@AsciiGameManagerView@@QAEXXZ'
                           and r['type'] == 'REL32' and r['addend'] == 0
                           for r in rows)),
             'original_blocks': len(target_cfg), 'candidate_blocks': len(candidate_cfg),

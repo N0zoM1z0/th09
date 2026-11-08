@@ -2546,7 +2546,7 @@ def guard_gameplay_setup_thread(result: dict) -> None:
                  target=0x4217E0, count=2)]:
         raise RuntimeError('GameplaySetupThread native Replay Create/Dispatch identities drifted')
     if result.get('native_opponent_selection_calls') != dict(
-            symbol='?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ',
+            symbol='?SelectOpponentConfiguration@AsciiGameManagerView@@QAEXXZ',
             target=0x415910, count=4):
         raise RuntimeError('GameplaySetupThread native opponent-selection identity drifted')
     creators = result.get('native_creator_calls')

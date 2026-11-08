@@ -16,7 +16,7 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 ADDRESS = 0x00415910
 SIZE = 799
-SYMBOL = '?SelectOpponentConfiguration@GameManagerOpponentSelectionView@@QAEXXZ'
+SYMBOL = '?SelectOpponentConfiguration@AsciiGameManagerView@@QAEXXZ'
 # These private table names have no exact function-owner manifest of their own.
 # Their physical identities were reviewed from the original table/caller data.
 TABLE_IDENTITIES = {

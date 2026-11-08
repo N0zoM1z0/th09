@@ -642,6 +642,28 @@ proof of remote publication.
   PE-verified compiler-private labels. See
   [native FrontMessage Supervisor audio](TH09_FRONTMESSAGE_NATIVE_SUPERVISOR_AUDIO_20261108.md).
 
+- **Real opponent-selection owner inside the full 1,689-byte gameplay
+  setup boss:** the exact **799-byte `SelectOpponentConfiguration`** now
+  belongs to the genuine `AsciiGameManagerView`, with native +0xD8 used
+  characters, +0xF0 opponent pointer, +0x138 selector and side +0x2C
+  parameter. **Four original GameplaySetupThread calls** directly use
+  `g_GameManager` instead of an unrelated 0x13C-byte prefix. The full
+  worker retains its **1,682-byte candidate / 172 fields / 35 calls /
+  694 overlapping differences + 7 missing bytes**. Scoped source-cold
+  replay preserves **18 exact functions / 6,854 bytes / 442 fields**,
+  including 30 PE-audited private FrontMessage labels. See
+  [native GameManager opponent-selection review](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
+
+- **The exact 799-byte opponent selector now belongs to real GameManager:**
+  removed `GameManagerOpponentSelectionView` and its duplicate side prefix,
+  restoring native +0xD8 `usedCharactersD8[16]` as the *same physical
+  storage* as setup's `clearD8[16]`, plus genuine +0xF0/+0xF4/+0xFC/
+  +0x11C/+0x138 selection fields. The **1,689-byte GameplaySetupThread**
+  calls the native method four times; its **1,682-byte candidate, 172
+  fields, 35 calls, 694 unlike overlap + 7 missing** remain unchanged.
+  Scoped cold replay protects **18 exact owners / 6,854 bytes / 442
+  fields**. See [native GameManager opponent owner](TH09_GAMEMANAGER_NATIVE_OPPONENT_SELECTION_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
