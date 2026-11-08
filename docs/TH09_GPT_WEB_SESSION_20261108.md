@@ -299,3 +299,19 @@ mov [edi+337Ch], eax
 This implements `flags ^= (flags ^ (rawByte << 24)) & 0x01000000`. The current helper-based C++ preserves the semantics but reuses EAX for the old flags and ECX for the result. Fresh natural-source probes covered raw byte/union reads, signed and unsigned locals, helper and direct masked-XOR spellings, compound assignment, references/pointers, `register` and `const` locals, bitfield assignment, and return-value helpers. None reproduced the target register schedule. Direct bitfield assignment kept the old word in ESI but selected EAX for the shifted input and ECX for the result; it also disturbed dense switch layout and expanded the full-owner difference count to 2,140. A volatile local bitfield overlay was worse (31 differences and AND/OR code instead of the target XOR). An inline-assembly experiment reproduced the local instruction sequence but shifted/changed the surrounding switch owner (2,220 differences), so it was discarded rather than replacing natural source with a non-matching workaround.
 
 All probes were restored. No RunEcl source or helper changes from this investigation were retained. No full cold replay was run; each candidate used the existing focused match-unit build and bounded owner diagnostics only.
+
+## Fresh EnemyManagerView::OnUpdate register/temporary investigation (2026-11-08)
+
+A fresh relocation-aware comparison of `EnemyManagerView::OnUpdate` (`0x00410730`) reconfirmed the complete 3,900-byte extent and all 97 relocation fields. The candidate remains at 13 ordinary differing bytes, at offsets:
+
+`0x19C, 0x1A3, 0x252, 0x263, 0x26D, 0x272, 0x294, 0x29A, 0x29C, 0x2A5, 0x2A9, 0x2B7, 0x2BD`.
+
+The target disassembly and fresh decompile localize these to three instruction sequences:
+
+- Draw-group head: target loads the byte index into EAX and forms the slot address in EAX; candidate loads the index into ECX and forms the same address in EAX.
+- Special-attack effect/timer: target loads `manager->sideState320` into EAX (candidate uses EDX), and target loads `specialAttackThreshold2AC44C` into EDX for the `ZunTimer::operator>` argument (candidate uses EAX).
+- Bullet descriptor position: target forms `&enemy->position2D74` in EAX, reads X/Y/Z, and writes the three stack fields in X/Y/Z order. Candidate forms the same pointer in ECX, then stores Z before X/Y. The target decompile separately materializes the three float values before initializing the bullet descriptor.
+
+Fresh natural C++ source-shape probes included direct array indexing and pointer arithmetic; signed/unsigned/byte index locals; register index and pointer locals; moving or hoisting the draw-head local; force-inline index/head getters; effect-manager pointer/reference and side-state locals (including function-scope and register locals); threshold pointer, volatile, unsigned, explicit-operator and function-scope locals; and `Float3`/`EnemyFloat3` assignment, pointer/reference, temporary, component-wise and `memcpy` position transfers. All pointer/struct-copy forms retained the same 13 offsets. Component-wise position assignment expanded the difference count to 469, so it was rejected. Hoisting side state before the loop changed the owner extent and was also rejected. Combined register-local variants did not change the 13-byte frontier.
+
+The existing struct-copy source remains the best candidate; no speculative register-forcing or inline-assembly workaround was retained. The exact 13 offsets and the four accepted Enemy/ECL leaf receipts are recorded above. All probes were restored, the focused unit was rebuilt, and the working tree was clean. No full cold replay was run.
