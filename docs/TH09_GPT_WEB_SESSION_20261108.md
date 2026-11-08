@@ -347,3 +347,65 @@ A fresh strict forced-recompile receipt was obtained for the already source-exac
 - verdict: `pass`; acceptance: `accepted`; no acceptance reasons.
 
 This re-verifies the larger EnemyManager initialization boundary against the current clean source snapshot; it is not a full cold replay. The RunEcl/OnUpdate probes were restored and the focused match-unit was rebuilt. No unreviewed source changes remain.
+
+## Resolver-family local-symbol refresh and accepted replay receipts
+
+The same compiler-private label drift found in `EnemyPostEclUpdateMovement`
+and `ResolveFloat` also affected three larger ECL operand owners. I rebuilt
+only the three affected match units and compared every local COFF relocation
+against its immutable target VA before changing the manifest:
+
+- `ResolveInt` (`ecl-resolve-int`): 103 stale `$L...` spellings.
+- `ResolveIntLValue` (`ecl-resolve-int-lvalue`): 37 stale spellings.
+- `ResolveFloatLValue` (`ecl-resolve-float-lvalue`): 48 stale spellings.
+
+For all 188 entries, relocation offset/type remained unchanged, the symbol
+was a same-section owner-local COFF definition, and `target_address +
+symbol_value` equaled the existing PE destination. Only the local symbol names
+were refreshed; no destination, function bytes, source, profile or target
+extent was changed. Focused `compare-coff-function.py --json` now returns
+`exact` for all three units (1,572/1,980; 491/726; and 702/968 compared
+bytes respectively, with the remainder being independently bound relocation
+fields). No canonical replay claim was available for these three units in the
+factory claim index at this point, so this is focused local compare evidence,
+not a new accepted factory receipt.
+
+Additional accepted strict forced-recompile receipts against clean source
+snapshots:
+
+- `EnemyManagerView::Initialize` (`0x0040FA70`, 554 bytes): job
+  `job:4a8d7138f95841249704f4acc270f49d`, receipt
+  `receipt:366554259337feeb7ba932470a054e1c5ccce670c25bf1de5bf1fa901ea6e4ed`.
+- `EnemyPostEclUpdateMovement` (`0x00408180`, 967 bytes): job
+  `job:6c3df113e4f746b0b9d593b47eafa337`, receipt
+  `receipt:b69f466a33deacd5e27d17900a47ee5c3c49ba4eb02a60069addbd387b8cc383`.
+- `EnemyView::ResolveFloat` (`0x004068A0`, 1,633 bytes): job
+  `job:c02a7edd03ef4935ab17e81334807081`, receipt
+  `receipt:7a2d3cd2497a597a3024d7d0f17f287edfe9dc1d263da498105411dbd6d5c0ee`.
+- `EnemyView::HandleDeathRewards` (`0x004102B0`, 1,142 bytes): job
+  `job:89a8fd9b7a854d43bf2154dc0b90a924`, receipt
+  `receipt:07e4b40856ff45231116db770d1556ca1c2f7db2e5225a3acabe36f24466de3e`.
+- `Th09EclRunControl::CompareOperands` (`0x00407700`, 842 bytes): job
+  `job:142899d6ef1241308bfbf7beb89b677c`, receipt
+  `receipt:832c3eed70589985401b3df892f1419efe9049f59b5b751a4837c6f7acd5d7c7`.
+
+Each listed receipt reports `pass` and `accepted`. Earlier rejected/incomplete
+attempts remain visible in the job history and are not counted as successes.
+
+## Additional OnUpdate / RunEcl register-allocation trials
+
+The 3,900-byte `EnemyManagerView::OnUpdate` owner was rebuilt after another
+set of natural source probes. `EffectManager*` and reference aliases,
+threshold value/pointer locals, and live `Float3*` / `Float3&` position
+aliases all retained the same 13 ordinary byte differences. The special
+branch still needs a source-level lifetime arrangement that naturally yields
+its original EAX side-state / EDX threshold / EAX position-base sequence;
+no qualifier, assembly or register hint was introduced.
+
+RunEcl opcode 155's XOR variants were revisited. A compound XOR can keep the
+old flags word in ESI, but its new-byte and result register schedule still
+differs from retail. Four-temp, explicit-result, raw-byte, and reference forms
+optimized back to the same nonmatching allocation. Opcode 4 helper accessors
+and function-scope timer temporaries also failed to change the receiver/argument
+schedule. Both bosses remain explicitly nonexact; no leaf result is promoted
+to boss credit.
