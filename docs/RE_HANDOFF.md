@@ -845,6 +845,13 @@ proof of remote publication.
   5,554 bytes / 291 fields**, without a Player collision-boss regression.
   See [Type1 native shot state](TH09_SHOT_SPAWN_TYPE1_NATIVE_STATE_20261108.md).
 
+- **Type1 exact shot callback uses the full real Player receiver:**
+  deleted the remaining opaque 0x3031C-byte `PlayerShotSpawn1PlayerView`
+  and declared the true `PlayerLifecycleView *` fastcall argument. All
+  **151 bytes / two original fields** remain byte-exact; 23 associated
+  exact owners / 5,554 bytes / 291 fields pass scoped original replay.
+  See [full native Player shot callback](TH09_SHOT_SPAWN_TYPE1_NATIVE_FULL_PLAYER_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

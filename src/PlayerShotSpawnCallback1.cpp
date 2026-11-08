@@ -39,20 +39,16 @@ struct PlayerShotSpawn1ShotView
 // This callback's +0x3031C timer/shot record is the same genuine
 // PlayerState3031CView constructed by Player at 0x41EE20. It is not
 // a second source-only 0x1C-byte callback state allocation.
-struct PlayerShotSpawn1PlayerView
-{
-    unsigned char unknown0000[0x3031C];
-    PlayerState3031CView state3031C;
-};
+
 typedef char PlayerShotSpawn1RealNativeState[
     (sizeof(PlayerState3031CView) == 0x1C &&
-     offsetof(PlayerShotSpawn1PlayerView, state3031C) == 0x3031C &&
+     offsetof(PlayerLifecycleView, state3031C) == 0x3031C &&
      offsetof(PlayerState3031CView, timer00) == 0x00 &&
      offsetof(PlayerState3031CView, shot0C) == 0x0C &&
      sizeof(PlayerShotCtorView) == 0x484) ? 1 : -1];
 
 int __fastcall PlayerShotSpawnCallbackType1(
-    PlayerShotSpawn1PlayerView *player,
+    PlayerLifecycleView *player,
     PlayerShotSpawn1ShotView *shot,
     int value,
     PlayerShotSpawn1DescriptorView *entry)
