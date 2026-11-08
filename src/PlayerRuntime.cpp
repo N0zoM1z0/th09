@@ -72,38 +72,17 @@ typedef char PlayerRewardTailActiveAt1C[
 typedef char PlayerRewardTailVmAt20[
     (offsetof(PlayerRewardTailStateView, vm20) == 0x20) ? 1 : -1];
 
-struct PlayerOwnerStateSideView
-{
-    void AdjustOwnerMetric(int value);
-};
-
-struct PlayerOwnerStatePlayerView
-{
-    unsigned char unknown00[0x0C];
-    PlayerOwnerStateSideView *sideState0C;
-};
-
-struct PlayerOwnerStateUpdateView
-{
-    PlayerOwnerStatePlayerView *owner00;
-    int state04;
-    unsigned char unknown08[0x04];
-    int value0C;
-    int value10;
-    ZunTimer timer14;
-    ZunTimer timer20;
-    unsigned char unknown2C[0x0C];
-    int state38;
-    int activeFrameCounter3C;
-    void *callback40;
-};
-
-typedef char PlayerOwnerStateUpdateSizeIs44[
-    (sizeof(PlayerOwnerStateUpdateView) == 0x44) ? 1 : -1];
-typedef char PlayerOwnerStateTimer14At14[
-    (offsetof(PlayerOwnerStateUpdateView, timer14) == 0x14) ? 1 : -1];
-typedef char PlayerOwnerStateTimer20At20[
-    (offsetof(PlayerOwnerStateUpdateView, timer20) == 0x20) ? 1 : -1];
+// The fastcall owner-state update operates on the genuine 0x44-byte
+// PlayerOwnerStateView embedded at Player +0x30410. Its +0x10 signed
+// score threshold and +0x14/+0x20 native timers are the reward's fields.
+// The expired timer calls the real side AddScore at 0x0040F860.
+typedef char PlayerRuntimeNativeOwnerStateAt30410[
+    (offsetof(PlayerLifecycleView, ownerState30410) == 0x30410 &&
+     sizeof(PlayerOwnerStateView) == 0x44 &&
+     offsetof(PlayerOwnerStateView, maxValue10) == 0x10 &&
+     offsetof(PlayerOwnerStateView, timer14) == 0x14 &&
+     offsetof(PlayerOwnerStateView, timer20) == 0x20 &&
+     offsetof(PlayerOwnerStateView, activeFrameCounter3C) == 0x3C) ? 1 : -1];
 
 // These runtime callbacks traverse the same true Player/ANM allocations
 // as the Player movement, selector, constructor and title-render owners.
@@ -519,8 +498,7 @@ extern void PlayerUpdateStageE();
 extern void __fastcall PlayerUpdateSelectorState(void *state);
 void __fastcall PlayerUpdateOwnerState(void *opaqueState)
 {
-    PlayerOwnerStateUpdateView *state =
-        reinterpret_cast<PlayerOwnerStateUpdateView *>(opaqueState);
+    PlayerOwnerStateView *state = static_cast<PlayerOwnerStateView *>(opaqueState);
 
     if (state->timer20 > 0)
     {
@@ -539,8 +517,8 @@ void __fastcall PlayerUpdateOwnerState(void *opaqueState)
         state->timer14--;
         if (state->timer14 <= 0)
         {
-            state->owner00->sideState0C->AdjustOwnerMetric(state->value10);
-            state->value10 = 0;
+            state->playerOwner00->sideState->AddScore(state->maxValue10);
+            state->maxValue10 = 0;
             state->value0C = 0;
             state->timer14 = 0;
         }

@@ -736,6 +736,16 @@ proof of remote publication.
   Player bullet collision nonexact frontiers remain unchanged. See
   [native full Player owner state](TH09_PLAYER_NATIVE_FULL_OWNER_STATE_20261108.md).
 
+- **PlayerUpdateOwnerState's exact 126-byte fastcall now uses the real
+  native 0x44-byte PlayerOwnerStateView:** removed a third local state and
+  Player prefix plus fake `AdjustOwnerMetric`; the original +0x68 REL32
+  call now resolves by true `AsciiGameManagerSideView::AddScore` at
+  0x40F860. All 126 code bytes/9 fields remain exact; **23 full scoped
+  exact functions / 6,964 bytes / 379 fields** pass cold replay and eleven
+  PlayerRuntime local labels have PE-audited original VAs. The 862/849
+  bullet-collision boss still lacks 13 bytes. See
+  [native Player owner-state update](TH09_NATIVE_PLAYER_OWNER_STATE_UPDATE_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

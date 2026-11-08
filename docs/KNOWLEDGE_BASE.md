@@ -93,6 +93,16 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Exact PlayerUpdateOwnerState uses native owner and AddScore
+
+The 126-byte `PlayerUpdateOwnerState` now reads real `PlayerOwnerStateView`
+fields instead of its duplicate 0x44-byte temporary view. The side prefix
+method `AdjustOwnerMetric` was actually native
+`AsciiGameManagerSideView::AddScore` at 0x40F860, with exactly the same
+fastcall caller field and original target. 23 complete affected exact
+owners are original-PE-bound; no nonexact function was promoted. See
+[native owner-state update](TH09_NATIVE_PLAYER_OWNER_STATE_UPDATE_20261108.md).
+
 ### 2026-11-08: Full 0x44-byte Player owner-state is one original allocation
 
 The exact 1,540-byte physical `PlayerOwnerStateView::ApplyReward` no longer
