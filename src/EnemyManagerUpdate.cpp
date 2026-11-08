@@ -17,16 +17,16 @@ void EnemyView::HandleDeathRewards(int hitKind)
     float rewardScalar;
 
     if (hitKind != 0)
-        this->manager00->sideState320->player04->rewardAttack30410
+        this->manager00->sideState320->rewardPlayer04->rewardAttack30410
             .ResetForEnemyReward();
 
     if ((this->rewardFlags3380 & 0x2000) != 0)
     {
         EnemyFloat3 *worldPosition = &this->worldPosition2DD4;
         g_SoundPlayer.PlaySoundPositionedByIdx(18, worldPosition->x);
-        this->manager00->sideState320->player04->rewardAttack30410
+        this->manager00->sideState320->rewardPlayer04->rewardAttack30410
             .QueueEnemyReward(worldPosition, 400, 0, 300, 1000);
-        this->manager00->sideState320->player04->SpawnDefeatToken(
+        this->manager00->sideState320->rewardPlayer04->SpawnDefeatToken(
             this->defeatTokenType335C, &this->position2D74);
         return;
     }
@@ -34,7 +34,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
     if ((this->rewardFlags3380 & 0x0C00) != 0)
     {
         g_SoundPlayer.PlaySoundPositionedByIdx(18, this->worldPosition2DD4.x);
-        this->manager00->sideState320->player04->SpawnDefeatToken(
+        this->manager00->sideState320->rewardPlayer04->SpawnDefeatToken(
             g_ReplayRng.GetRandomU16InRange(4), &this->position2D74);
     }
 
@@ -70,7 +70,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
             else
                 rewardScalar = 6.25f;
             reinterpret_cast<PlayerCollisionRegionCreateView *>(
-                this->manager00->sideState320->player04)
+                this->manager00->sideState320->rewardPlayer04)
                 ->CreateCircleType2(
                 reinterpret_cast<const PlayerRegionPointView *>(worldPosition),
                 32.0f,
@@ -90,7 +90,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
             else
                 rewardScalar = 6.25f;
             reinterpret_cast<PlayerCollisionRegionCreateView *>(
-                this->manager00->sideState320->player04)
+                this->manager00->sideState320->rewardPlayer04)
                 ->CreateCircleType2(
                 reinterpret_cast<const PlayerRegionPointView *>(worldPosition),
                 32.0f,
@@ -114,7 +114,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
     else
         count = 50;
 
-    EnemyRewardPlayerView *player = this->manager00->sideState320->player04;
+    EnemyRewardPlayerView *player = this->manager00->sideState320->rewardPlayer04;
     int interval = player->rewardAttack30410.rewardLevel38 > 10
         ? 60 : player->rewardAttack30410.rewardLevel38 * 3 + 30;
     int spread;
@@ -138,7 +138,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
     player->rewardAttack30410.QueueEnemyReward(
         worldPosition, interval, spread, count, value);
     // The reward wrapper advances state38. Reacquire both the Player and level.
-    player = this->manager00->sideState320->player04;
+    player = this->manager00->sideState320->rewardPlayer04;
     int rewardLevel = player->rewardAttack30410.rewardLevel38;
 
     rewardScalar = rewardLevel > 128
