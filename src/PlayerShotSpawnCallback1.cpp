@@ -36,9 +36,7 @@ int __fastcall PlayerShotSpawnCallbackType1(
     shot->auxiliary448 = entry->positionOffsetY08;
     shot->field46A = 15;
 
-    reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
-            reinterpret_cast<PlayerShotInitShotView *>(shot),
-            reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
+    player->InitializeShot(shot, entry);
     shot->shotType464 = 2;
 
     for (int i = 31; i >= 0; --i)

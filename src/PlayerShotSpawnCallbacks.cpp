@@ -68,9 +68,9 @@ int __fastcall PlayerShotSpawnCallbackType2(
 {
     if (value == entry->scheduleValue00)
     {
-        reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
-            reinterpret_cast<PlayerShotInitShotView *>(shot),
-            reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
+        reinterpret_cast<PlayerLifecycleView *>(player)->InitializeShot(
+            reinterpret_cast<PlayerShotCtorView *>(shot),
+            reinterpret_cast<PlayerShtDescriptorView *>(entry));
         shot->velocity43C.x = 0.0f;
         shot->velocity43C.y = 0.0f;
         shot->angle450 = entry->angle14;
@@ -107,9 +107,9 @@ int __fastcall PlayerShotSpawnCallbackType5(
     if (effect->activeC4 == 0 &&
         value == entry->scheduleValue00)
     {
-        reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
-            reinterpret_cast<PlayerShotInitShotView *>(shot),
-            reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
+        reinterpret_cast<PlayerLifecycleView *>(player)->InitializeShot(
+            reinterpret_cast<PlayerShotCtorView *>(shot),
+            reinterpret_cast<PlayerShtDescriptorView *>(entry));
         return 1;
     }
 

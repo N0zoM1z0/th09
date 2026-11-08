@@ -8,7 +8,9 @@ int __fastcall PlayerSpawnFrameView::SpawnShotWhenFrameMatches(
 {
     if (value == entry->fireInterval00)
     {
-        reinterpret_cast<PlayerShotInitPlayerView *>(this)->InitializeShot(shot, entry);
+        reinterpret_cast<PlayerLifecycleView *>(this)->InitializeShot(
+            reinterpret_cast<PlayerShotCtorView *>(shot),
+            reinterpret_cast<PlayerShtDescriptorView *>(entry));
         return 1;
     }
     return 0;

@@ -11780,7 +11780,7 @@ symbol = "?SpawnShotWhenFrameMatches@PlayerSpawnFrameView@@QAIHPAUPlayerShotInit
 target_address = 0x0041F490
 size = 0x25
 relocations = [
-  { offset = 0x12, type = "REL32", symbol = "?InitializeShot@PlayerShotInitPlayerView@@QAIXPAUPlayerShotInitShotView@@PAUPlayerShotInitDescriptorView@@@Z", target = 0x0041F350 },
+  { offset = 0x12, type = "REL32", symbol = "?InitializeShot@PlayerLifecycleView@@QAIXPAUPlayerShotCtorView@@PAUPlayerShtDescriptorView@@@Z", target = 0x0041F350 },
 ]
 
 [units.player-spawn-shots]
@@ -12765,7 +12765,7 @@ symbol = "?PlayerShotSpawnCallbackType2@@YIHPAUPlayerShotSpawnPlayerView@@PAUPla
 target_address = 0x004423D0
 size = 0x44
 relocations = [
-  { offset = 0x16, type = "REL32", symbol = "?InitializeShot@PlayerShotInitPlayerView@@QAIXPAUPlayerShotInitShotView@@PAUPlayerShotInitDescriptorView@@@Z", target = 0x0041F350 },
+  { offset = 0x16, type = "REL32", symbol = "?InitializeShot@PlayerLifecycleView@@QAIXPAUPlayerShotCtorView@@PAUPlayerShtDescriptorView@@@Z", target = 0x0041F350 },
 ]
 
 [units.player-shot-spawn-callback-type4]
@@ -12790,7 +12790,7 @@ target_address = 0x00445CB0
 size = 0x48
 relocations = [
   { offset = 0x12, type = "REL32", symbol = "?GetFixedSlotEffect@PlayerShotSpawnEffectManagerView@@QAEPAUPlayerShotSpawnEffectView@@H@Z", target = 0x00445560 },
-  { offset = 0x31, type = "REL32", symbol = "?InitializeShot@PlayerShotInitPlayerView@@QAIXPAUPlayerShotInitShotView@@PAUPlayerShotInitDescriptorView@@@Z", target = 0x0041F350 },
+  { offset = 0x31, type = "REL32", symbol = "?InitializeShot@PlayerLifecycleView@@QAIXPAUPlayerShotCtorView@@PAUPlayerShtDescriptorView@@@Z", target = 0x0041F350 },
 ]
 
 [units.player-shot-update-callback-type5]
@@ -12844,7 +12844,7 @@ symbol = "?PlayerShotSpawnCallbackType3@@YIHPAUPlayerShotSpawn3PlayerView@@PAUPl
 target_address = 0x004432A0
 size = 0x56
 relocations = [
-  { offset = 0x1A, type = "REL32", symbol = "?InitializeShot@PlayerShotInitPlayerView@@QAIXPAUPlayerShotInitShotView@@PAUPlayerShotInitDescriptorView@@@Z", target = 0x0041F350 },
+  { offset = 0x1A, type = "REL32", symbol = "?InitializeShot@PlayerLifecycleView@@QAIXPAUPlayerShotCtorView@@PAUPlayerShtDescriptorView@@@Z", target = 0x0041F350 },
 ]
 
 [units.player-shot-spawn-callback-type6]
@@ -12856,7 +12856,7 @@ symbol = "?PlayerShotSpawnCallbackType6@@YIHPAUPlayerShotSpawn6PlayerView@@PAUPl
 target_address = 0x00445D00
 size = 0x77
 relocations = [
-  { offset = 0x19, type = "REL32", symbol = "?InitializeShot@PlayerShotInitPlayerView@@QAIXPAUPlayerShotInitShotView@@PAUPlayerShotInitDescriptorView@@@Z", target = 0x0041F350 },
+  { offset = 0x19, type = "REL32", symbol = "?InitializeShot@PlayerLifecycleView@@QAIXPAUPlayerShotCtorView@@PAUPlayerShtDescriptorView@@@Z", target = 0x0041F350 },
   { offset = 0x26, type = "REL32", symbol = "?GetFixedSlotEffect@PlayerShotSpawn6EffectManagerView@@QAEPAUPlayerShotSpawn6EffectView@@H@Z", target = 0x00445560 },
 ]
 
@@ -12871,7 +12871,7 @@ size = 0x8B
 relocations = [
   { offset = 0x1F, type = "REL32", symbol = "?AngleFromPlayerToPoint@PlayerForwardAngleView@@QAEMPAUPlayerForwardAngleFloat3View@@@Z", target = 0x0041BB00 },
   { offset = 0x31, type = "DIR32", symbol = "__real@c3100000", target = 0x0048E808 },
-  { offset = 0x49, type = "REL32", symbol = "?InitializeShot@PlayerShotInitPlayerView@@QAIXPAUPlayerShotInitShotView@@PAUPlayerShotInitDescriptorView@@@Z", target = 0x0041F350 },
+  { offset = 0x49, type = "REL32", symbol = "?InitializeShot@PlayerLifecycleView@@QAIXPAUPlayerShotCtorView@@PAUPlayerShtDescriptorView@@@Z", target = 0x0041F350 },
   { offset = 0x52, type = "REL32", symbol = "@cosf@4", target = 0x00401060 },
   { offset = 0x61, type = "REL32", symbol = "@sinf@4", target = 0x00401070 },
 ]
@@ -12886,7 +12886,7 @@ target_address = 0x00441EF0
 size = 0x97
 relocations = [
   { offset = 0x27, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
-  { offset = 0x5D, type = "REL32", symbol = "?InitializeShot@PlayerShotInitPlayerView@@QAIXPAUPlayerShotInitShotView@@PAUPlayerShotInitDescriptorView@@@Z", target = 0x0041F350 },
+  { offset = 0x5D, type = "REL32", symbol = "?InitializeShot@PlayerLifecycleView@@QAIXPAUPlayerShotCtorView@@PAUPlayerShtDescriptorView@@@Z", target = 0x0041F350 },
 ]
 
 [units.player-shot-update-callback-type3]
@@ -18091,8 +18091,8 @@ relocations = [
 source = "src/PlayerInitializeShot.cpp"
 object = "build/matching/PlayerInitializeShot.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
-functions = ["PlayerShotInitPlayerView::InitializeShot"]
-symbol = "?InitializeShot@PlayerShotInitPlayerView@@QAIXPAUPlayerShotInitShotView@@PAUPlayerShotInitDescriptorView@@@Z"
+functions = ["PlayerLifecycleView::InitializeShot"]
+symbol = "?InitializeShot@PlayerLifecycleView@@QAIXPAUPlayerShotCtorView@@PAUPlayerShtDescriptorView@@@Z"
 target_address = 0x0041F350
 size = 0x135
 relocations = [

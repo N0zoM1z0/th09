@@ -59,9 +59,9 @@ int __fastcall PlayerShotSpawnCallbackType6(
 {
     if (value == entry->scheduleValue00)
     {
-        reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
-            reinterpret_cast<PlayerShotInitShotView *>(shot),
-            reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
+        reinterpret_cast<PlayerLifecycleView *>(player)->InitializeShot(
+            reinterpret_cast<PlayerShotCtorView *>(shot),
+            reinterpret_cast<PlayerShtDescriptorView *>(entry));
         shot->position2A4 =
             player->sideState0C->effectManager0C->GetFixedSlotEffect(5)
                 ->position0C;

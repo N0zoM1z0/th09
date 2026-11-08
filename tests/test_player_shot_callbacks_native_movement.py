@@ -20,7 +20,7 @@ class PlayerShotCallbacksNativeMovement(unittest.TestCase):
         self.assertIn('reinterpret_cast<PlayerLifecycleView *>(player);', s)
         self.assertIn('lifecycle->movementFields1CCC.speedMultiplier1CE0 = 0.5f;', s)
         self.assertIn('lifecycle->movementFields1CCC.speedMultiplier1CDC = 0.5f;', s)
-        self.assertIn('reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(', s)
+        self.assertIn('reinterpret_cast<PlayerLifecycleView *>(player)->InitializeShot(', s)
 
     def test_update_type4_uses_native_player_position_and_scalars(self):
         s = (ROOT/'src/PlayerShotUpdateCallback4.cpp').read_text()

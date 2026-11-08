@@ -4,14 +4,13 @@
 
 #include <math.h>
 
-void __fastcall PlayerShotInitPlayerView::InitializeShot(
-    PlayerShotInitShotView *shot,
-    PlayerShotInitDescriptorView *entry)
+void __fastcall PlayerLifecycleView::InitializeShot(
+    PlayerShotCtorView *shot,
+    PlayerShtDescriptorView *entry)
 {
-    PlayerLifecycleView &nativePlayer = *reinterpret_cast<PlayerLifecycleView *>(this);
-    PlayerShotCtorView &nativeShot = *reinterpret_cast<PlayerShotCtorView *>(shot);
-    PlayerShtDescriptorView &nativeEntry =
-        *reinterpret_cast<PlayerShtDescriptorView *>(entry);
+    PlayerLifecycleView &nativePlayer = *this;
+    PlayerShotCtorView &nativeShot = *shot;
+    PlayerShtDescriptorView &nativeEntry = *entry;
     if (nativeEntry.sourceOptionIndex20 == 0)
         nativeShot.position2A4 = nativePlayer.position1B88;
     else

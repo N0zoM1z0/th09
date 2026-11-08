@@ -67,34 +67,7 @@ struct PlayerShotInitDescriptorView
 typedef char PlayerShotInitDescriptorSizeIs38[
     (sizeof(PlayerShotInitDescriptorView) == 0x38) ? 1 : -1];
 
-// Shot initialization consumes the same source-native options as the
-// unsplit 1,900-byte movement boss; their +0x2A4 position has one owner.
-typedef PlayerOptionStateCtorView PlayerShotInitOptionView;
-
-typedef char PlayerShotInitOptionSizeIs2F4[
-    (sizeof(PlayerShotInitOptionView) == 0x2F4 &&
-     offsetof(PlayerShotInitOptionView, position2A4) == 0x2A4) ? 1 : -1];
-
-
-
-
-
-
-struct PlayerShotInitPlayerView
-{
-    unsigned char unknown0000[0xBC];
-    AnmLoaded *anmFileBC;
-    unsigned char unknown0C0[0x1B88 - 0xC0];
-    PlayerShotInitFloat3 position1B88;
-    unsigned char unknown1B94[0x1CEC - 0x1B94];
-    PlayerShotInitOptionView optionStates1CEC[4];
-
-    void __fastcall InitializeShot(
-        PlayerShotInitShotView *shot,
-        PlayerShotInitDescriptorView *entry);
-};
-
-typedef char PlayerShotInitPlayerPosAt1B88[
-    (offsetof(PlayerShotInitPlayerView, position1B88) == 0x1B88) ? 1 : -1];
-typedef char PlayerShotInitOptionsAt1CEC[
-    (offsetof(PlayerShotInitPlayerView, optionStates1CEC) == 0x1CEC) ? 1 : -1];
+// Shot/descriptor prefix views remain solely for exact legacy callback
+// signatures. Their real physical objects are PlayerShotCtorView and
+// PlayerShtDescriptorView. The full 309-byte InitializeShot method is now
+// declared on native PlayerLifecycleView itself.

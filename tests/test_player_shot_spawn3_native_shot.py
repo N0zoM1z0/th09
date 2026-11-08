@@ -23,7 +23,7 @@ class ExactShotSpawn3NativeShot(unittest.TestCase):
         self.assertIn('nativeShot->velocity43C.y = -24.0f;', source)
         self.assertIn('PlayerPositionView velocity43C;', player)
         self.assertIn('PlayerShotCtorView', player)
-        self.assertIn('reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(', source)
+        self.assertIn('reinterpret_cast<PlayerLifecycleView *>(player)->InitializeShot(', source)
 
     def test_original_callback_callee_and_peer_are_pinned(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:

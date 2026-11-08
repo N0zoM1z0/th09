@@ -594,6 +594,8 @@ struct PlayerLifecycleView
         PlayerPositionView *origin,
         float angle,
         int expandForGraze);
+    void __fastcall InitializeShot(PlayerShotCtorView *shot,
+                                    PlayerShtDescriptorView *entry);
     void UpdateShots();
     void __fastcall SpawnShots(int value, int powerLevel);
     int UpdateChargeAttack();

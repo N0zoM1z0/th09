@@ -60,8 +60,10 @@ class NativePlayerShotInitializerComponents(unittest.TestCase):
         self.assertEqual(self.units['player-constructor']['size'],243)
         self.assertEqual(self.units['player-shot-spawn-callback-type1']['size'],151)
         self.assertEqual(self.units['player-shot-spawn-callback-type3']['size'],86)
-        # The public InitializeShot method still has its independently
-        # exact legacy structural declaration pending cross-TU ABI migration.
-        self.assertIn('@PlayerShotInitPlayerView@@',unit['symbol'])
+        # The full method is now the actual native Player owner, with
+        # genuine shot/SHT types and the unchanged original 0x41F350 VA.
+        self.assertIn('?InitializeShot@PlayerLifecycleView@@',unit['symbol'])
+        self.assertIn('PlayerShotCtorView',unit['symbol'])
+        self.assertIn('PlayerShtDescriptorView',unit['symbol'])
 
 if __name__=='__main__':unittest.main()

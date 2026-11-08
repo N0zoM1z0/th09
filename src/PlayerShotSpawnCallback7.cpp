@@ -22,9 +22,9 @@ int __fastcall PlayerShotSpawnCallbackType7(
         if (tracking.trackedX00 < -144.0f)
             angle = -1.5707964f;
 
-        reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
-            reinterpret_cast<PlayerShotInitShotView *>(shot),
-            reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
+        reinterpret_cast<PlayerLifecycleView *>(player)->InitializeShot(
+            reinterpret_cast<PlayerShotCtorView *>(shot),
+            reinterpret_cast<PlayerShtDescriptorView *>(entry));
 
         shot->velocity43C.x = cosf(angle) * entry->speed18;
         shot->velocity43C.y = sinf(angle) * entry->speed18;

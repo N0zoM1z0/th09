@@ -681,7 +681,7 @@ EnemyEclManagerView::GetSubroutine
 EnemyView::ResetBulletRankInfluence
 ZunTimer::operator-=(int)
 PlayerLifecycleView::SubtractResourceClamped
-PlayerShotInitPlayerView::InitializeShot
+PlayerLifecycleView::InitializeShot
 PlayerSpawnFrameView::SpawnShotWhenFrameMatches
 PlayerLifecycleView::SpawnShots
 EnemyManagerView::FindActiveEnemyBySideCategory

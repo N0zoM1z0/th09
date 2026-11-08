@@ -24,9 +24,9 @@ int __fastcall PlayerShotSpawnCallbackType3(
 {
     if (value == entry->scheduleValue00)
     {
-        reinterpret_cast<PlayerShotInitPlayerView *>(player)->InitializeShot(
-            reinterpret_cast<PlayerShotInitShotView *>(shot),
-            reinterpret_cast<PlayerShotInitDescriptorView *>(entry));
+        reinterpret_cast<PlayerLifecycleView *>(player)->InitializeShot(
+            reinterpret_cast<PlayerShotCtorView *>(shot),
+            reinterpret_cast<PlayerShtDescriptorView *>(entry));
         PlayerShotCtorView *nativeShot =
             reinterpret_cast<PlayerShotCtorView *>(shot);
         nativeShot->velocity43C.x = 0.0f;
