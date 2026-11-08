@@ -89,13 +89,32 @@ Further source-only experiments did not reduce either large owner:
 
 No source experiment from this section was retained. The next productive step is a new source-level hypothesis, not repeating these register-alias variants.
 
-## Large owner correction: `PlayerLifecycleView::CheckBulletCollision`
+## Re-review correction: `PlayerLifecycleView::CheckBulletCollision`
 
-A fresh build of `player-calc-laser-hitbox` and target disassembly at `0x0041DFF0` exposed a real loop-semantics mismatch in `src/PlayerCollisionHelpers.cpp`.
+The prior note claiming that this source had been changed to a pre-increment `active->count` scan was incorrect. A fresh source search and rebuild disproved it; no such source form exists in `src/PlayerCollisionHelpers.cpp`, and no code change was retained for this owner.
 
-- The target initializes the loop index to zero, then increments it before comparing against `active->count`; the array address is formed with that incremented index. The target therefore scans indices `[1, count)`, not `[0, count)`.
-- The prior source used `for (u32 i = 0; i < active->count; ++i)`, which included index zero and placed the increment at the bottom of the loop.
-- The source now uses `for (u32 i = 0; ++i < active->count; )`, matching the target's pre-increment loop and reserved first slot.
-- After this change, the structural inspector reports 277 target / 277 candidate instructions, 33 / 33 direct blocks, `direct_graphs_agree=true`, and `missing_bytes=0`. The physical function extent is still 862 target bytes versus 849 candidate bytes, with 799 unequal overlapping bytes; this is structural progress, not exact codegen.
-- The unrelated `player-calc-laser-hitbox` sibling function remains exact after the change.
-- No canonical `codegen_exact` claim for `CheckBulletCollision` was available, so no replay was submitted and no exactness is claimed.
+- Current source still walks the null-terminated pointer array with `for (; *slot != NULL; ++slot)`.
+- The target-attested IDA disassembly at `0x0041DFF0` shows a null-terminated `activeB100` pointer walk: it initializes the slot pointer in ESI, jumps to the loop header at `0x0041E010`, loads/tests `[esi]`, and advances by four bytes before jumping back to that header. It does not compare a loop index against `active->count`.
+- Fresh current-source baseline: target 862 bytes / 277 instructions / 33 direct blocks; candidate 849 bytes / 266 instructions / 32 direct blocks. All 26 relocation fields and 12 ordered calls agree; 799 overlapping bytes differ and 13 target bytes are missing. No exactness credit.
+- The target prologue loads the Bullet argument from `[ebp+0x10]` into EBX and retains it across the loop; position is reloaded from `[ebp+8]` in the geometry paths. The current candidate instead keeps position in EBX and rotates the null check to the loop tail, preloading `[esi+4]`. This register-liveness and loop-scheduling difference is the real source frontier.
+- A natural `const bool hasBullet = bullet != NULL` local moved the candidate to 861 bytes, but it still had only 271 instructions / 32 blocks, 818 overlapping byte differences, and one missing target byte. It is not a near-exact result and was discarded.
+- Top-level volatile position, volatile slot, explicit goto, and `for (;;)` variants were also compiled. They produced 876–890 byte bodies, changed the return/loop layout, or failed the inspector's three-RET12 contract. None was retained.
+
+The prior pre-increment scan conclusion is withdrawn. Do not use it as evidence or repeat it as an adopted fix.
+
+## Further large-owner C++ probes
+
+Additional variants were tested after the earlier frontier note; every source file was restored to HEAD afterwards.
+
+- `EnemyManagerView::OnUpdate`: repeated both draw-group assignments using pointer aliases and byte/dword indices; moved the head reference to the append label; widened the side-state alias lifetime across the special-attack block; used threshold references; and tried non-const `Float3` references and pointer-dereference copies. None reduced the 13-byte frontier. A tail-reference form moved literal positions and was not accepted by the strict owner inspector.
+- `EnemyEclManagerView::RunEcl`: integer locals, references, raw pointers, and explicit operator calls for opcode 4 all increased the difference count from 30 to 42. A copied-union `memcpy` form retained the 30-byte baseline. Direct byte/helper and flag-local variants for opcode `0x9B` shifted the owner/switch layout to 2,290 differences; those were discarded. The original wire-argument snapshot and `memcpy` byte snapshot remain the baseline.
+- No speculative source variant from these probes was kept. The focused build was restored to the committed source state after each batch.
+
+## Fresh replay revalidation at HEAD `381a3b508072811f0fb26026ab035094bfc7a3c7`
+
+`EnemyCoreUpdateAttachedEffects` was independently forced-recompiled again against the later clean HEAD. The new job completed with `receipt_verdict=pass` and `acceptance_decision=accepted`:
+
+- Address `0x0040F4C0`, 151 bytes.
+- Receipt: `receipt:70f7589044ab171b92f48d1457fe52dfa5d2d57ec4891d94bb9acbda9d43e599`.
+
+This revalidates that leaf against the newer source binding; it does not promote either large owner.
