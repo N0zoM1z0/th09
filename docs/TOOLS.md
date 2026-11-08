@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-The November 7 operator requested cleanup and next-agent handoff;
+The November 8 operator requested clean source/docs and next-agent handoff;
 reconstruction remains unfinished and may be resumed in a later session.
 For reconstruction, use the live registered worktree
 (via repository shell/connector if available), the pinned VC7.1 compiler
@@ -15,7 +15,7 @@ A Factory connector can execute repository operations but cannot replace
 attested Ghidra/target bytes or give exactness credit by itself. Do **not**
 substitute historical IDA/REA exports as new original-backed evidence.
 For the current scope, read
-[the 2026-11-07 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md);
+[the 2026-11-08 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261108.md);
 [RE_HANDOFF.md](RE_HANDOFF.md) holds concise live frontiers and storage recovery;
 [the history archive](RE_HANDOFF_HISTORY_20261106.md) retains dated evidence.
 

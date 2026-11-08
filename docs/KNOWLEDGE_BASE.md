@@ -1,8 +1,8 @@
 # TH09 evidence index and historical experiment archive
 
-**Supersession notice updated 2026-11-07:** This is an append-only
-historical evidence index, **not** one current-state specification.
-Use [the 2026-11-07 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md)
+**Supersession notice updated 2026-11-08:** This is an append-only
+historical evidence index, **not** a current-state specification.
+Use [the November 8 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261108.md)
 for recent owner boundaries and independently checked source state. In
 particular the earlier Player movement **129-difference** checkpoints were
 superseded by the original-bound **122** frontier; neither is exact.
@@ -15,7 +15,7 @@ the October 17 eight-byte `AnmLoadedResidentView.hpp` was later deleted.
 The shared `Supervisor` is **0x7B0 bytes**; Startup, deletion, frame queue
 and DInput owners now use that same object. GameManager's two side records
 share one **0x38-byte** native layout. Consult
-[the current next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261107.md) and current
+[the current next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261108.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
 
 ### 2026-11-07: RunEcl native union byte accessor, not raw prefix alias

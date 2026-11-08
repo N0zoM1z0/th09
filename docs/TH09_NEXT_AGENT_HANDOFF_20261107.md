@@ -1,3 +1,8 @@
+> **Historical November 7 snapshot.** This guide was superseded by the
+> [November 8 next-agent handoff](TH09_NEXT_AGENT_HANDOFF_20261108.md).
+> The figures and “latest/current” notes below describe the November 7
+> checkpoint, not the present worktree or cache state.
+
 # TH09 — next-agent handoff, current source and storage (2026-11-07)
 
 This is the **operational restart guide**, refreshed after the November 7 ANM

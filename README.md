@@ -56,29 +56,28 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-The current operator is preparing a clean handoff to another agent after
-substantial November 7 C++ reconstruction. Reconstruction remains unfinished. The canonical ledger reports **2,248
-candidates, 1,034 authored mappings, 1,021 exact functions and 13 non-exact
-functions /29,834 authored bytes**. Exact authored-byte coverage is
-**262,034 /291,868 (89.7783%)**; the 98% milestone still needs23,997 exact
-authored bytes at the present denominator. Whole-product closure and runtime
-validation remain open; semantic reconstruction and portability have not started.
+At the November 8 handoff, the canonical ledger records **2,248
+candidates, 1,037 source-present authored mappings, 1,024 complete exact
+functions and 13 nonexact functions** (29,834 physical original bytes).
+Whole-original-byte exactness is **262,097 / 291,931 = 89.7805%**; the
+98% authored-byte milestone needs another **23,996 fully exact bytes** at
+the current denominator. The inventory is not proven complete and the
+game is not a linked, runtime-tested native Windows product.
 
-Use [the current November 7 handoff](docs/TH09_NEXT_AGENT_HANDOFF_20261107.md)
-and [the live handoff](docs/RE_HANDOFF.md), then check actual Git status/log and
-ledgers. The latter lists all13 nonexact owners and current source-bound
-receipts. RunEcl remains30 unlike bytes, Enemy update13, Player movement122,
-SaveReplay two; Setup is1682/1689 bytes with694 unequal overlaps plus seven
-missing. Historical handoff prose was moved to
-[the dated archive](docs/RE_HANDOFF_HISTORY_20261106.md). The earlier interrupted RunEcl prototype was recovered as unaccepted evidence.
-The subsequent November 7 ANM/Player source commits improved native C++
-layout but did not change the 1,021/1,034 exact-function count.
+Start with the [November 8 next-agent guide](docs/TH09_NEXT_AGENT_HANDOFF_20261108.md)
+and [live frontier/ledger](docs/RE_HANDOFF.md). These are current routing
+references; the [November 7 guide](docs/TH09_NEXT_AGENT_HANDOFF_20261107.md)
+and [November 8 history snapshot](docs/RE_HANDOFF_HISTORY_20261108.md)
+contain historical source experiments, not the current HEAD. Three native
+Player constructors were newly recovered as complete exact owners (28, 23,
+12 bytes). The 309-byte `PlayerLifecycleView::InitializeShot` now belongs
+to the real Player and all seven exact shot callers retain its original
+`0x41F350` target. See the next-agent guide for current big-boss residuals.
 
-Use focused complete-owner builds/replays for the changed units only. Do not
-run a full cold replay for routine iteration. Commits use
-`gpt-web: <concise English summary>` after each substantive checkpoint; keep
-code and documentation commits coherent and make multiple checkpoints when a
-session produces multiple reviewable advances.
+Only rebuild and compare affected exact owners and their dependencies;
+never do routine full cold replay. Use `gpt-web: <English summary>` for
+coherent local commits and preserve dirty/untracked work rather than
+silently discarding it.
 
 The PE and Rich header identify Microsoft Visual C++ .NET 2003 build 3077.
 Some runtime-library contributions and compiler-generated helpers are proven,
@@ -148,7 +147,8 @@ not an acceptable shortcut around the native-product stage.
 - [`config/build.toml`](config/build.toml) — whole-product graph and explicit unknowns.
 - [`docs/RE_WORKFLOW.md`](docs/RE_WORKFLOW.md) — bounded reconstruction loop and stage gates.
 - [`docs/ORACLES.md`](docs/ORACLES.md) — what can falsify or accept each claim.
-- [`docs/TH09_NEXT_AGENT_HANDOFF_20261107.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261107.md) — **current** next-agent entry, owner frontiers, affected-source checkpoints, cache recovery.
+- [`docs/TH09_NEXT_AGENT_HANDOFF_20261108.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261108.md) — **current** next-agent restart, exact source state, 13 big bosses and safe cache cleanup.
+- [`docs/TH09_NEXT_AGENT_HANDOFF_20261107.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261107.md) — historical November 7 guide, not the current worktree.
 - [`docs/TH09_NEXT_AGENT_HANDOFF_20261106.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261106.md) — historical November 6 cleanup snapshot, not the current HEAD.
 - [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — concise live ledger, all13 nonexact frontiers and evidence routing.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — target facts and maintained source/verification map.

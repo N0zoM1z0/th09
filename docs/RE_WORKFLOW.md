@@ -19,7 +19,7 @@ pinned VC7.1 compiler for byte-exact comparisons. These are separate evidence
 sources. New English commits use `gpt-web: <concise summary>`; checkpoint every
 substantive advance and create multiple commits when a session has multiple
 reviewable advances. Compile serially at lowered priority and preserve complete
-affected-owner/callee proofs. See [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261107.md)
+affected-owner/callee proofs. See [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261108.md)
 for current source boundaries/residuals, and `RE_HANDOFF.md` for live
 ledger totals plus dated supporting evidence.
 
@@ -82,7 +82,7 @@ project stay below `.analysis/ghidra-direct/`; no MCP service is needed.
 
 ### What to read at a fresh handoff
 
-Use [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261107.md) for the
+Use [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261108.md) for the
 active owner priorities and [RE_HANDOFF.md](RE_HANDOFF.md) for ledger-backed
 historical tables and unresolved
 large/small function fronts, exact-sibling scopes, and restart/cleanup gates.

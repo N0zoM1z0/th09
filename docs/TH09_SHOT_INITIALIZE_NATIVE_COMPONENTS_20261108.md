@@ -62,10 +62,14 @@ The **1,900-byte Player Movement** remains 122 ordinary bytes unlike
 with 66 original fields/23 calls; Enemy OnUpdate remains 3,900/3,900
 with 13 unlike; Player CheckBulletCollision remains 862/849 with 13
 missing; RunEcl remains 30 unlike bytes in 15,564 physical bytes.
-The source's public method signature still refers to the legacy
-`PlayerShotInit*View` types, although its implementation now consumes
-native Player/Shot/SHT members. Unifying that cross-translation-unit
-call ABI is a distinct next step, not silently claimed here.
+At the time of this original field-recovery checkpoint the public
+method still used legacy `PlayerShotInit*View` parameter types. That
+remaining step was **subsequently completed** in `e861abb0`:
+`PlayerLifecycleView::InitializeShot` now owns the real method and takes
+native PlayerShotCtorView/SHT parameter types. All seven exact caller
+objects were original PE/COFF-verified to retain the same 0x41F350 target
+(8 complete owners / 981 physical bytes / 21 fields). See the
+[current November 8 handoff](TH09_NEXT_AGENT_HANDOFF_20261108.md).
 
 Local bounded compiler evidence and strict source-cold proof:
 `.analysis/gpt-web-player-shot-native-init-20261108/`.

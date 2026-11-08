@@ -48,26 +48,24 @@ actual exactness, target identity, natural-source and state-isolation rules.
 
 ## Current operator status
 
-At the 2026-11-07 handoff, the operator requested documentation and storage
-cleanup for another agent. On reconstruction tasks, work seriously on both complete large bosses and small leaves, challenge old
-notes against the original executable and pinned compiler, and produce actual
-source progress rather than only inspections. Recover all dirty/untracked work
-before editing, and do not discard interrupted attempts. Use English commit
-subjects in the format `gpt-web: <summary>` after each substantive checkpoint;
-make multiple reviewable commits in each productive session. Rebuild/replay only
-affected owners and their dependencies, never a routine full cold replay.
+At the **2026-11-08 handoff**, the operator asked for clean source/docs and
+safe storage reduction so another agent can continue. For reconstruction,
+work on both big nonexact bosses and exact leaves. Challenge previous
+hypotheses against the original target and pinned compiler; retain and
+finish dirty/untracked work instead of resetting it. Commit coherent advances
+using `gpt-web: <English subject>`. Use only affected complete source-cold
+PE/COFF comparisons and bounded boss diagnostics, not routine all-owner replay.
 
-The **2026-11-07 current handoff guide** is
-`docs/TH09_NEXT_AGENT_HANDOFF_20261107.md`. The November 6 guide is a
-historical earlier cleanup snapshot, not current source/HEAD/cache state. Earlier source checkpoints
-(`e4ea703b`, `80313a4f` and October/early-November handoffs) are
-historical, not statements about current HEAD. Re-read `git log -1
---oneline`, the real Git status and the ledgers for each session: a
-handoff/cleanup commit may advance HEAD without modifying source.
-`docs/RE_HANDOFF.md` is the concise live entry;
-`docs/RE_HANDOFF_HISTORY_20261106.md` and older dated guides retain historical
-evidence, including superseded "current" and "goal active" claims. Commit hashes are not Factory
-acceptance, original-byte, or remote-publication proofs.
+The **current execution guide** is
+`docs/TH09_NEXT_AGENT_HANDOFF_20261108.md`, with a concise current ledger
+and all 13 open frontiers in `docs/RE_HANDOFF.md`. The November 7 guide
+and `docs/RE_HANDOFF_HISTORY_20261108.md` are **historical snapshots**,
+not current statements about HEAD, remaining cache, exactness counts or
+active next steps. The new guide records the last source checkpoint and
+hash-reviewed cleanup. Always inspect `git status`, `git log` and canonical
+ledgers again: documentation commits can advance HEAD without source changes.
+Git commits are not Factory receipt, byte-exact, full product, or remote-push
+acceptance proofs.
 
 Use the live registered repository worktree exposed to the current agent for
 Git, source and build operations; do not switch to an arbitrary checkout or
