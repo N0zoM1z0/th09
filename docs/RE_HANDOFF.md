@@ -870,6 +870,18 @@ proof of remote publication.
   Movement remains 122 ordinary bytes unlike, without regression.
   See [native Type1 SHT descriptor](TH09_SHOT_SPAWN_TYPE1_NATIVE_SHT_DESCRIPTOR_20261108.md).
 
+- **3,900-byte Enemy OnUpdate uses the real GameManager Etama side:**
+  its special attack now borrows `AsciiGameManagerSideView` (+0x08
+  Etama / +0x20 character) through the actual `sideState320`, not a
+  second Enemy-only side receiver. Ten bounded natural VC7.1 source
+  trials re-examined the 13 remaining bytes; the source candidate still
+  preserves all **3,900 bytes / 97 fields / 69 calls / 170 CFG blocks**.
+  Scoped original ECL/Enemy source replay passes **83 exact owners /
+  29,856 physical bytes / 1,389 fields**. See
+  [native Enemy Etama side proof](TH09_ENEMY_ONUPDATE_NATIVE_GAMEMANAGER_SIDE_20261108.md). Supplementary [whole-boss native Etama
+  audit](TH09_ENEMY_BOSS_NATIVE_GAMEMANAGER_SPAWN_SIDE_20261108.md)
+  preserves the separate original-bound probe details.
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact

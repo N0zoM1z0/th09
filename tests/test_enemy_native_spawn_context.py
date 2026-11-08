@@ -32,10 +32,10 @@ class EnemyNativeSpawnContext(unittest.TestCase):
         source = (ROOT/'src/EnemyManagerCore.inl').read_text()
         result = probe.scalar_copy_context(source, 'standalone-scalar-all')
         for declaration in ('unsigned char drawGroup;', 'int specialAttackThreshold;',
-                            'EnemySideStateView *spawnSidePtr;', 'int characterIndex;'):
+                            'AsciiGameManagerSideView *spawnSidePtr;', 'int characterIndex;'):
             self.assertIn(declaration, result)
         self.assertEqual(result.count('memcpy(')-source.count('memcpy('), 4)
-        self.assertIn('EnemySideStateView &spawnSide = *spawnSidePtr;', result)
+        self.assertIn('AsciiGameManagerSideView &spawnSide = *spawnSidePtr;', result)
         self.assertEqual(result.count('&manager->drawGroupHeads2AC410[enemy->drawGroup3387]'), 1)
         self.assertNotIn('volatile', result)
         self.assertIn('SpawnBulletPatternPrimary(', result)

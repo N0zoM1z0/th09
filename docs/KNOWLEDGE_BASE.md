@@ -93,6 +93,16 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Enemy OnUpdate special bullet path uses native GameManager side
+
+The original 3,900-byte Enemy update now reads +0x20 character and calls
++0x08 Etama through `AsciiGameManagerSideView`, the actual shared
+0x38-byte gameplay side. Ten bounded natural compiler experiments retain
+13 unlike ordinary bytes, with all 97 original fields, 69 calls and 170
+CFG blocks unchanged. Eighty-three exact ECL/Enemy sibling functions
+remain source-cold original-bound. See
+[native Enemy Etama side](TH09_ENEMY_ONUPDATE_NATIVE_GAMEMANAGER_SIDE_20261108.md).
+
 ### 2026-11-08: Type1 shot callback uses real SHT descriptor owner
 
 The original-exact 151-byte Type1 callback now takes the full native

@@ -118,6 +118,18 @@ typedef char EnemyCoreTrailVertexSizeIs1C[
 struct EnemyCoreView;
 
 
+// The live +0x320 side pointer in the 3,900-byte Enemy calc callback
+// addresses the same 0x38-byte GameManager side as ECL/Etama. Its +0x08
+// Etama and +0x20 character value are not a separate Enemy side copy.
+typedef char EnemyCoreRealGameManagerSpawnSide[
+    (sizeof(AsciiGameManagerSideView) == 0x38 &&
+     sizeof(EnemySideStateView) == 0x38 &&
+     offsetof(AsciiGameManagerSideView, etama08) == 0x08 &&
+     offsetof(AsciiGameManagerSideView, character20) == 0x20 &&
+     offsetof(EnemySideStateView, etama08) == 0x08 &&
+     offsetof(EnemySideStateView, characterIndex20) == 0x20 &&
+     offsetof(EnemyManagerView, sideState320) == 0x320) ? 1 : -1];
+
 typedef char EnemyCoreSideStateSizeIs38[
     (sizeof(EnemyCoreSideStateView) == 0x38 &&
      offsetof(EnemyCoreSideStateView, owner14) == 0x14 &&
@@ -393,11 +405,16 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                         reinterpret_cast<const Float3 &>(enemy->position2D74);
                     // Borrow the actual GameManager side record shared with
                     // Enemy, ECL and Etama; no per-opcode side overlay exists.
-                    EnemySideStateView &spawnSide = *manager->sideState320;
+                    // The actual 0x38-byte gameplay side also owns the
+                    // original Etama producer and +0x20 character value.
+                    // Reuse its native GameManager type, not another side.
+                    AsciiGameManagerSideView &spawnSide =
+                        *reinterpret_cast<AsciiGameManagerSideView *>(
+                            manager->sideState320);
                     descriptor.bulletType = 1;
                     descriptor.aimMode = 0;
                     descriptor.count1 =
-                        static_cast<short>(spawnSide.characterIndex20 == 13 ? 1 : 3);
+                        static_cast<short>(spawnSide.character20 == 13 ? 1 : 3);
                     descriptor.speed1 =
                         static_cast<float>(g_GameManager.valueB4) * 0.1f +
                         1.0f;
