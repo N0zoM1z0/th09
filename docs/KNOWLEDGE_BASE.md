@@ -93,6 +93,17 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: Exact 23-byte PlayerOwnerState constructor is now source-bound
+
+Original 0x41EE30 naturally compiles as a complete 23-byte exact
+`PlayerOwnerStateView` special member, constructing its native timer14
+and timer20 at +0x14/+0x20. Both calls use the independently exact
+0x403390 timer ctor, and the exact 243-byte Player constructor calls
+this original entry. Full source-cold replay protects 23 exact related
+owners; historical explicit/implicit C++ syntax remains uncertain.
+This adds the 1,023rd complete exact function. See
+[native PlayerOwnerState constructor exact proof](TH09_PLAYER_OWNER_STATE_CONSTRUCTOR_EXACT_20261108.md).
+
 ### 2026-11-08: Exact 28-byte Player Header constructor now has a source owner
 
 The original constructor at 0x41EE00 is now a fully original-bound

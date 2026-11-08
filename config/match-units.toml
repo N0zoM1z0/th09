@@ -7598,6 +7598,19 @@ relocations = [
   { offset = 0x14, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
 ]
 
+[units.player-owner-state-constructor]
+source = "src/PlayerOwnerStateConstructor.cpp"
+object = "build/matching/PlayerOwnerStateConstructor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["PlayerOwnerStateView::PlayerOwnerStateView"]
+symbol = "??0PlayerOwnerStateView@@QAE@XZ"
+target_address = 0x0041EE30
+size = 0x17
+relocations = [
+  { offset = 0x7, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0xF, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+]
+
 [units.player-constructor]
 source = "src/PlayerRuntime.cpp"
 object = "build/matching/PlayerRuntimeCtor.obj"

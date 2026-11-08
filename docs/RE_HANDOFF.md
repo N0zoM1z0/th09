@@ -16,19 +16,19 @@ history; check live Git and original-bound evidence before accepting them.
 | --- | ---: |
 | Function candidates | 2,248 |
 | Boundary/origin unreviewed | 0 |
-| Reviewed but origin-unresolved | 37 |
-| Confirmed authored | 1,035 |
+| Reviewed but origin-unresolved | 36 |
+| Confirmed authored | 1,036 |
 | Classified exclusions | 1,176 |
-| Source-present authored mappings | 1,035 |
-| Canonical exact functions | 1,022 |
+| Source-present authored mappings | 1,036 |
+| Canonical exact functions | 1,023 |
 | Source-present non-exact functions | 13 |
 | Source-present non-exact bytes | 29,834 |
 | Authored without maintained source | 0 |
-| Canonical exact authored bytes | 262,062 |
+| Canonical exact authored bytes | 262,085 |
 
-**1035 source-present / 1022 exact / 13 non-exact**.
-**262,062 / 291,896 reviewed-authored bytes = 89.7792% exact**.
-To reach 98% of the currently classified authored denominator, another **23,997 bytes**
+**1036 source-present / 1023 exact / 13 non-exact**.
+**262,085 / 291,919 reviewed-authored bytes = 89.7800% exact**.
+To reach 98% of the currently classified authored denominator, another **23,996 bytes**
 must become *fully original-bound exact*; similarity to
 existing bytes is not exact credit. This target could change if further
 origins are resolved.
@@ -814,6 +814,17 @@ proof of remote publication.
   6,096 bytes / 322 fields**. Ledger is now **1,035 source-present /
   1,022 exact / 13 nonexact**. See
   [new exact Header constructor](TH09_PLAYER_HEADER_CONSTRUCTOR_EXACT_20261108.md).
+
+- **NEW exact 23-byte PlayerOwnerState native constructor:** the
+  original **0x41EE30** owner is now maintained as
+  `player-owner-state-constructor`, emitting two genuine timer ctor
+  calls at +0x07/+0x0F to 0x403390. A complete original PE/COFF replay
+  verifies 23/23 bytes and both fields, along with **23 exact source
+  owners / 6,954 bytes / 381 fields** across PlayerRuntime/Reward.
+  Game-specific ownership is proved; original explicit versus implicit
+  special-member syntax remains unknown. Canonical ledger now
+  **1,036 source-present / 1,023 exact / 13 nonexact**. See
+  [native OwnerState constructor exact proof](TH09_PLAYER_OWNER_STATE_CONSTRUCTOR_EXACT_20261108.md).
 
 ## Reconstruction frontiers
 
