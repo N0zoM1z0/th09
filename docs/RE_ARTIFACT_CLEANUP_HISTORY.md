@@ -3932,3 +3932,61 @@ This cleanup establishes **no new matching credit**, full Windows linkage,
 semantic accuracy or Factory acceptance. Avoid adding this new number to
 historical cleanup totals as though they were one simultaneously recoverable
 pool; their measurements belong to different source/cache epochs.
+
+## 2026-11-08 — agent handoff refresh and targeted scratch cleanup
+
+This maintenance refreshed the live handoff after the latest Enemy/GameManager
+side-projection and RunEcl source changes. The source baseline was `6d3a3618`
+(`main`, clean and in sync with `origin/main` before these documentation-only
+commits); the latest source-affecting commit remains `f40b2755`. No tracked
+source or match-ledger entry was changed by this maintenance. No full cold
+replay, full product link or runtime test was run.
+
+### Superseded experiment trees removed
+
+After recording the outcomes in `docs/TH09_NEXT_AGENT_HANDOFF_20261108.md`
+and `docs/TH09_GPT_WEB_BOSS_FRONTIERS_20261108.md`, 13 non-adopted
+compiler/source-shape experiment directories were removed:
+
+| Measure | Removed |
+| --- | ---: |
+| Experiment directories | 13 |
+| Files | 24,356 |
+| Logical file bytes | 189,165,842 |
+
+These directories contained only copied source snapshots, per-variant objects,
+PDBs, compile logs and result JSON for unsuccessful natural-source trials.
+They did not contain canonical source, the original target, accepted receipts,
+Ghidra projects or historical archives. The ignored per-file path/size/SHA-256
+inventory is `.analysis/handoff-cleanup-20261108-agent/removed-scratch.json`.
+The baseline investigation tree and `runecl-probes/` were retained.
+
+### Guarded build/debug cache cleanup
+
+After previewing `scripts/clean-generated-artifacts.py`, its default `--apply`
+removed only ignored build outputs and compiler debug/bytecode caches:
+
+| Scope | Files | Logical bytes |
+| --- | ---: | ---: |
+| `build/` generated outputs | 32 | 3,197,466 |
+| `.analysis/` PDB/bytecode/PCH/ILK caches | 1,325 | 276,140,032 |
+| **Total** | **1,357** | **279,337,498** |
+
+No `.analysis/*.obj` was selected because no explicit object-review list was
+provided. Objects inside the 13 deleted scratch directories were removed only
+as part of those exact directory deletions. The cleaner's local audit remains
+at `.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`.
+
+### Result and protected state
+
+The two reviewed deletions reclaimed **468,503,340 logical bytes (about
+446.9 MiB)**. `build/` is absent and is expected to regenerate during a future
+focused build. The remaining `.analysis/` tree is **1,231,904,579 logical
+bytes**; `.tools/wine/` remains **604,127,593 bytes**. The original target,
+Wine/VC7.1 toolchain, saved Ghidra projects, compressed historical archives,
+retained Enemy/RunEcl baseline evidence and current `runecl-probes/` were not
+bulk-deleted. Git history/reflogs were not repacked or pruned.
+
+A dry-run after cleanup is expected to select zero remaining compiler-cache
+files. The next agent should rebuild only the selected match unit or owner
+diagnostic; do not restore all old variant objects or run a full cold replay.
