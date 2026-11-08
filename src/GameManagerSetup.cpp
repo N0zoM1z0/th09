@@ -1011,17 +1011,12 @@ void __fastcall ResetGameManager(GameManagerSetupLayout *manager)
     reinterpret_cast<AsciiGameManagerView *>(manager)->value380 = 0;
 }
 
-namespace
-{
-struct GameManagerCutChainSupervisorView
-{
-    unsigned char unknown000[0x5B8];
-    float frameRateMultiplier5B8;
-};
-
-typedef char GameManagerCutChainSupervisorRateAt5B8[
-    (offsetof(GameManagerCutChainSupervisorView, frameRateMultiplier5B8) == 0x5B8) ? 1 : -1];
-}
+// The gameplay cleanup resets the actual native Supervisor frame-time
+// multiplier at +0x5B8, the same field consumed by Player movement, ECL,
+// bullet integration and Title. There is no extra cut-chain Supervisor.
+typedef char GameManagerCutChainNativeSupervisorRateAt5B8[
+    (offsetof(Supervisor, framerateMultiplier5B8) == 0x5B8 &&
+     sizeof(Supervisor) == 0x7B0) ? 1 : -1];
 
 void __fastcall GameManager_CutChain()
 {
@@ -1038,8 +1033,7 @@ void __fastcall GameManager_CutChain()
     globalManager.sides[1].state->value04 =
         globalManager.sides[1].state->value08;
 
-    reinterpret_cast<GameManagerCutChainSupervisorView *>(&g_Supervisor)
-        ->frameRateMultiplier5B8 = 1.0f;
+    g_Supervisor.framerateMultiplier5B8 = 1.0f;
     g_Chain.Cut(&g_GameManagerCalcChain);
     g_Chain.Cut(&g_GameManagerDrawChain);
 }

@@ -93,6 +93,15 @@ GameplaySetupThread now invoke that real method; 18 exact owner replays
 protect their machine bytes, while 694-plus-seven setup residual bytes
 remain open. See [native opponent selection in setup boss](TH09_GAMEMANAGER_NATIVE_OPPONENT_SETUP_BOSS_20261108.md).
 
+### 2026-11-08: GameManager CutChain resets real Supervisor frame rate
+
+The exact 98-byte `GameManager_CutChain` now writes the genuine
+`Supervisor::framerateMultiplier5B8` instead of a fake 0x5B8-byte
+Supervisor prefix. The original 0x4B3100+0x5B8 field operand, both chain
+cuts, all ten relocation fields and all machine bytes remain exact;
+11 same-source owners preserve 2,991 original bytes. See
+[native GameManager cut-chain rate](TH09_GAMEMANAGER_CUTCHAIN_NATIVE_SUPERVISOR_RATE_20261108.md).
+
 ### 2026-11-08: Opponent selection and setup share the native GameManager D8 array
 
 The exact 799-byte `SelectOpponentConfiguration` now belongs to the native

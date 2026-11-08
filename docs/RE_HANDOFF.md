@@ -664,6 +664,15 @@ proof of remote publication.
   Scoped cold replay protects **18 exact owners / 6,854 bytes / 442
   fields**. See [native GameManager opponent owner](TH09_GAMEMANAGER_NATIVE_OPPONENT_SELECTION_20261108.md).
 
+- **98-byte GameManager_CutChain uses real Supervisor +0x5B8**:
+  deleted the invented 0x5B8-byte `GameManagerCutChainSupervisorView`
+  and directly writes `g_Supervisor.framerateMultiplier5B8`. Three
+  natural compiler models reproduce the exact **98/98 bytes and ten
+  original fields**; 11 same-source exact GameManagerSetup owners /
+  2,991 physical bytes / 243 fields pass scoped replay. The separate
+  1,689-byte setup boss retains its 1,682-byte candidate/694-plus-seven
+  deficit. See [native cut-chain rate](TH09_GAMEMANAGER_CUTCHAIN_NATIVE_SUPERVISOR_RATE_20261108.md).
+
 ## Reconstruction frontiers
 
 Counts below are **complete-owner noncrediting diagnostics**, not exact
