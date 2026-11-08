@@ -403,18 +403,11 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                     // use the same three-float vector storage.
                     descriptor.position =
                         reinterpret_cast<const Float3 &>(enemy->position2D74);
-                    // Borrow the actual GameManager side record shared with
-                    // Enemy, ECL and Etama; no per-opcode side overlay exists.
-                    // The actual 0x38-byte gameplay side also owns the
-                    // original Etama producer and +0x20 character value.
-                    // Reuse its native GameManager type, not another side.
-                    AsciiGameManagerSideView &spawnSide =
-                        *reinterpret_cast<AsciiGameManagerSideView *>(
-                            manager->sideState320);
+                    EnemySideStateView &spawnSide = *manager->sideState320;
                     descriptor.bulletType = 1;
                     descriptor.aimMode = 0;
                     descriptor.count1 =
-                        static_cast<short>(spawnSide.character20 == 13 ? 1 : 3);
+                        static_cast<short>(spawnSide.characterIndex20 == 13 ? 1 : 3);
                     descriptor.speed1 =
                         static_cast<float>(g_GameManager.valueB4) * 0.1f +
                         1.0f;
