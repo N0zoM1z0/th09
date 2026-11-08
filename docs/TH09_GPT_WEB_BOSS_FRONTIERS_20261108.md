@@ -1,8 +1,11 @@
 # TH09 boss and leaf re-investigation — 2026-11-08
 
-> This is a fresh, source-bound investigation record for the live `main`
-> worktree. It does not claim that the large open owners below are exact, and
-> does not treat older handoff hypotheses as evidence. The target is the
+> Historical source-bound investigation snapshot from 2026-11-08. Its
+> per-owner compiler observations remain useful, but its branch/HEAD and
+> “latest” statements are not live status. Use
+> [the refreshed next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261108.md) and
+> [live ledger](RE_HANDOFF.md) for current state. It does not claim that the
+> large open owners below are exact. The target is the
 > Japanese TH09 v1.50a PE with SHA-256
 > `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 
@@ -123,6 +126,25 @@ base initialization, matching the target's out-of-line 18-byte call to the
 payload constructor. This byte evidence does not establish the retail
 constructors' authored/compiler-generated origin.
 
+## Follow-up probes after this snapshot (same date)
+
+Additional natural C++ experiments were run against the complete owners after
+this snapshot. For Enemy `OnUpdate`, index-local widths, pointer arithmetic,
+inline helper returns, copied/reference/bitfield flag views, descriptor POD and
+`D3DXVECTOR3` overlays, `Float3` copy operators, descriptor-field ordering and
+split speed temporaries did not reduce the 13-byte residual. Moving the side
+alias across the branch changed the physical extent and was rejected; custom
+assignment and split-speed trials worsened codegen.
+
+For `RunEcl`, 90 combinations of opcode-4 timer-operand forms and opcode-155
+masked-bit expressions compiled. None improved the 30-difference baseline.
+The current source retains the raw instruction-word snapshot for opcode 4 and
+the masked XOR helper for opcode 155. Alternate local/union/bitfield result
+forms changed register allocation or shifted subsequent code. No source
+variant from these trials was adopted. Their scratch objects and copied source
+trees were removed during the handoff cleanup; this summary is the durable
+result. See the current next-agent guide for the exact maintained source state.
+
 ## Focused reproduction
 
 These are bounded commands for the current owners; no full cold replay is
@@ -150,8 +172,9 @@ candidates, 1,037 mappings, 1,024 exact**; the 13 open mappings remain open.
 No full cold replay, full product link, runtime/port test, Factory acceptance
 or remote push is claimed.
 
-At the two source commits the branch was `main`, two commits ahead of
-`origin/main`, and the worktree was clean. The ignored `.analysis/`
+At the time of this snapshot, the branch was `main`, two commits ahead of
+`origin/main`, and the worktree was clean. That branch relation is historical;
+current Git state is recorded in the next-agent guide. The ignored `.analysis/`
 experiments are local scratch evidence, not source inputs or accepted receipts.
 
 ## 2026-11-08 fresh RunEcl opcode-4 / opcode-155 register-lifetime probes

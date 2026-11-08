@@ -43,13 +43,20 @@ ignored local inputs, not versioned Git files.
 
 ## Current implementation and corrected assumptions
 
-- The most recent source checkpoint in this handoff is `e861abb0`:
-  **309-byte `PlayerLifecycleView::InitializeShot`** is now truly on the
-  native Player, with native `PlayerShotCtorView *` and
-  `PlayerShtDescriptorView *`. Its **seven independently exact callers**
-  still target `0x0041F350`. Whole eight-owner original PE/COFF proof:
-  **981 physical bytes / 21 fields**, including seven actual callee-name
-  migrations. Evidence:
+- **Source baseline for this handoff:** `main` at `6d3a3618`, clean and in
+  sync with `origin/main` before the handoff-only documentation commits. The
+  latest source-affecting commit is `f40b2755`; `6d3a3618` updates only the
+  boss diagnostic and its test.
+  Since the earlier Player shot checkpoint, source work has unified the Enemy
+  and GameManager side projections (`4d7b9e6e`, `7e29e4e8`, `34f4016d`,
+  `cf584baf`) and refined the two remaining RunEcl handlers
+  (`a99405bd`, `76c61837`, `f40b2755`). These are source-history pointers, not
+  exactness claims beyond the canonical ledger.
+- The **309-byte `PlayerLifecycleView::InitializeShot`** remains on the native
+  Player, with native `PlayerShotCtorView *` and `PlayerShtDescriptorView *`.
+  Its **seven independently exact callers** still target `0x0041F350`.
+  Whole eight-owner original PE/COFF proof: **981 physical bytes / 21 fields**,
+  including seven actual callee-name migrations. Evidence:
   `.analysis/gpt-web-native-initialize-shot-owner-20261108/original-proof.json`.
   See [native shot field recovery](TH09_SHOT_INITIALIZE_NATIVE_COMPONENTS_20261108.md).
 - **Three previously unclassified constructors are already exact:**
@@ -131,22 +138,23 @@ reset it to evade failing original-bound comparisons. Checkpoints use
 
 ## Local cache state and history
 
-A reviewed cache cleanup deleted **1,967 disposable generated files /
-117,570,122 logical bytes (about 112.12 MiB)**, including all of the
-current `build/` cache and SHA-256-reviewed experiment `.obj` objects.
-A second cleaner dry run selected **zero** files. A missing `build/matching`
-object after handoff is expected: regenerate only the chosen matching
-unit. The ignored audit is saved in
-`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`; the
-559 explicitly reviewed `.obj` digests are under
-`.analysis/handoff-cleanup-20261108/reviewed-analysis-objects.json`.
+The 2026-11-08 handoff cleanup removed **13 failed experiment directories /
+24,356 files / 189,165,842 logical bytes** and **1,357 guarded cache files /
+279,337,498 logical bytes**. The latter comprised 32 `build/` files /
+3,197,466 bytes and 1,325 `.analysis/` debug/bytecode files /
+276,140,032 bytes. Combined reduction: **468,503,340 bytes (about 446.9 MiB)**.
 
-**Not removed:** original target `resources/th09.exe`, `.tools/wine/`
-(pinned compiler), `.analysis/ghidra-direct/` (Ghidra projects),
-`.analysis/handoff-archive-*/` (historic compressed evidence), ignored
-source experiments and original PE/COFF proof reports. A plain Git
-clone lacks these private/local inputs. For further cleanup use
-`python3 -B scripts/clean-generated-artifacts.py` to preview first;
-apply only a reviewed plan. The [November 8 history archive](RE_HANDOFF_HISTORY_20261108.md)
-and [historical knowledge journal](KNOWLEDGE_BASE.md) retain older trial
-narratives without cluttering the live restart.
+`build/` is absent and will be recreated by a focused compile. Remaining
+`.analysis/` logical size is **1,231,904,579 bytes**; saved Ghidra projects,
+historical archives, the retained Enemy/RunEcl baseline evidence and
+`runecl-probes/` remain. `.tools/wine/` remains intact. The default cleaner
+preserves analysis `.obj` files unless an explicit reviewed path/SHA-256 list
+is supplied. Local ignored inventories:
+
+- `.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`
+- `.analysis/handoff-cleanup-20261108-agent/removed-scratch.json`
+
+The November 8 next-agent guide records the exact cleanup scope and the
+retained inputs. Do not delete `.analysis/` wholesale; a plain Git clone does
+not include the private target, compiler runtime, Ghidra projects or local
+historical evidence.

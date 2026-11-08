@@ -92,38 +92,15 @@ Run `python3 scripts/progress.py` to regenerate the status card,
 changing shared validation/CI tooling. Ordinary exact checkpoints use affected
 complete-owner comparisons and checks relevant to the diff; see
 the validation scope in `docs/RE_WORKFLOW.md`.
-Canonical build caches may be absent after reviewed cleanup; replay a function
-by running `python3 scripts/build-match-unit.py --unit NAME` before its
-corresponding comparison or non-crediting inspector. Preview disposable-cache
-cleanup with `python3 scripts/clean-generated-artifacts.py`. Analysis objects
-are preserved by default; `--reviewed-objects` accepts an explicit path/SHA-256
-list for obsolete objects. Changed files invalidate the reviewed plan.
-Git-backed old source/config/doc copies can be restored with
-`scripts/restore-analysis-snapshots.py`; the handoff names the recovery
-manifest. The 2026-11-03 handoff includes a **locally retained, verified lossless
-archive of unreferenced historical experiments** and reviewed `build/`
-cache cleanup; about **590.5 MiB of net logical file bytes** were reclaimed.
-See `docs/RE_ARTIFACT_CLEANUP_HISTORY.md` for archive SHA-256, protected
-scopes and selective restoration. The archive is ignored and not cloned.
-
-The November 6 cleanup historically reclaimed approximately **402.85 MiB**
-of logical file bytes. Original build objects and selected large JSON/TOML
-evidence were saved in a SHA-verified local archive. Focused compiler work
-afterward recreated `build/`, which is disposable and may be removed again
-by a reviewed cleanup; its presence is not a handoff invariant.
-
-The November 7 handoff cleanup additionally removed **183 disposable build and
-debug artifacts**, and non-pruningly repacked local Git objects, reclaiming
-**215,166,500 logical bytes (205.20 MiB)** while retaining all three older
-archives, original target, protected Ghidra projects and independent analysis
-objects. `build/` is absent again and may regenerate during future local
-compiles. See [the audited cleanup entry](docs/RE_ARTIFACT_CLEANUP_HISTORY.md#2026-11-07--current-handoff-refresh-reviewed-caches-and-no-prune-git-repack).
-Use the current handoff for `restore-analysis-archive.py --bundle ...
---prefix ...` recovery commands and restore archived inputs before running
-a dated private verifier.
-
-Use `docs/RE_ARTIFACT_CLEANUP_HISTORY.md` for the actual cleaned
-scopes and retained evidence.
+Generated compiler caches can reappear after focused builds. Preview cleanup
+with `python3 scripts/clean-generated-artifacts.py`; its default policy removes
+only ignored `build/` outputs and disposable debug/bytecode caches under
+`.analysis/`. Analysis `.obj` files are preserved unless a separate reviewed
+path/SHA-256 list explicitly authorizes their removal. Do not delete `.analysis/`
+wholesale: it also contains original-bound evidence, saved Ghidra projects and
+lossless historical archives. Use `scripts/restore-analysis-archive.py` for
+selective recovery. The dated cleanup history records exact scopes, hashes and
+restore instructions in `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`.
 
 ## Required phase order
 

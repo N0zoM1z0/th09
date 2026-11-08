@@ -57,15 +57,17 @@ using `gpt-web: <English subject>`. Use only affected complete source-cold
 PE/COFF comparisons and bounded boss diagnostics, not routine all-owner replay.
 
 The **current execution guide** is
-`docs/TH09_NEXT_AGENT_HANDOFF_20261108.md`, with a concise current ledger
-and all 13 open frontiers in `docs/RE_HANDOFF.md`. The November 7 guide
-and `docs/RE_HANDOFF_HISTORY_20261108.md` are **historical snapshots**,
-not current statements about HEAD, remaining cache, exactness counts or
-active next steps. The new guide records the last source checkpoint and
-hash-reviewed cleanup. Always inspect `git status`, `git log` and canonical
-ledgers again: documentation commits can advance HEAD without source changes.
-Git commits are not Factory receipt, byte-exact, full product, or remote-push
-acceptance proofs.
+`docs/TH09_NEXT_AGENT_HANDOFF_20261108.md`, with the live ledger and all 13
+open frontiers in `docs/RE_HANDOFF.md`. The source baseline for this refresh
+is `6d3a3618`; `main` was clean and in sync with `origin/main` before the
+handoff-only documentation commits. The latest source-affecting commit is
+`f40b2755`, while `6d3a3618` changes only the boss diagnostic and its
+regression test. The November 7 guide and
+`docs/RE_HANDOFF_HISTORY_20261108.md` are **historical snapshots**, not current
+statements about HEAD, remaining cache or active next steps. Always inspect
+`git status`, `git log` and canonical ledgers again: documentation commits can
+advance HEAD without source changes. Git commits are not Factory receipt,
+byte-exact, full product, or remote-push acceptance proofs.
 
 Use the live registered repository worktree exposed to the current agent for
 Git, source and build operations; do not switch to an arbitrary checkout or
