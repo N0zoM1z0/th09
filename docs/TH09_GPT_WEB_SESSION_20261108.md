@@ -78,7 +78,7 @@ Fresh focused build: `scripts/build-match-unit.py --unit replay-manager-capture-
 
 ## Acceptance-registry cross-check caveat
 
-The seven individual replay jobs above report pass/accepted outcomes. A separate current global registry summary returned `accepted=0`, `rejected=1182`, and a `factory_query_accepted_facts` query for `target:th09-main` / `codegen_exact` returned zero facts. This conflicts with the per-job outcomes and is unresolved. Treat the per-job receipt outcomes as recorded job results, but do not claim the global accepted-facts snapshot has incorporated them until this registry discrepancy is explained.
+The seven individual replay jobs above report pass/accepted outcomes. A separate current global registry summary returned `candidates=1189`, `accepted=0`, `rejected=1189`, `invalid=0`, and a prior `factory_query_accepted_facts` query for `target:th09-main` / `codegen_exact` returned zero facts. This conflicts with the per-job outcomes and is unresolved. Treat the per-job receipt outcomes as recorded job results, but do not claim the global accepted-facts snapshot has incorporated them until this registry discrepancy is explained.
 
 ## Additional `OnUpdate` / `RunEcl` probes
 
@@ -110,11 +110,18 @@ Additional variants were tested after the earlier frontier note; every source fi
 - `EnemyEclManagerView::RunEcl`: integer locals, references, raw pointers, and explicit operator calls for opcode 4 all increased the difference count from 30 to 42. A copied-union `memcpy` form retained the 30-byte baseline. Direct byte/helper and flag-local variants for opcode `0x9B` shifted the owner/switch layout to 2,290 differences; those were discarded. The original wire-argument snapshot and `memcpy` byte snapshot remain the baseline.
 - No speculative source variant from these probes was kept. The focused build was restored to the committed source state after each batch.
 
-## Fresh replay revalidation at HEAD `381a3b508072811f0fb26026ab035094bfc7a3c7`
+## Fresh forced-replay revalidation on later clean source bindings
 
-`EnemyCoreUpdateAttachedEffects` was independently forced-recompiled again against the later clean HEAD. The new job completed with `receipt_verdict=pass` and `acceptance_decision=accepted`:
+Every job below was an individual `forced-recompile` against a clean source snapshot and completed with `receipt_verdict=pass`, `acceptance_decision=accepted`, and no acceptance reasons. These are per-job outcomes; the global acceptance-registry discrepancy below remains unresolved.
 
-- Address `0x0040F4C0`, 151 bytes.
-- Receipt: `receipt:70f7589044ab171b92f48d1457fe52dfa5d2d57ec4891d94bb9acbda9d43e599`.
+| Function | Address | Bytes | Source binding | Receipt |
+|---|---:|---:|---|---|
+| `EnemyCoreUpdateAttachedEffects` | `0x0040F4C0` | 151 | `381a3b508072811f0fb26026ab035094bfc7a3c7` | `receipt:70f7589044ab171b92f48d1457fe52dfa5d2d57ec4891d94bb9acbda9d43e599` |
+| `EnemyCoreReleaseChildEclBlocks` | `0x004100E0` | 48 | `f791db3c06dc81a6557cf3ae213faa4d33898b31` | `receipt:751a7fc9ecaf7009e14b5fda545c5bd37e9a5d9d8bc4e5f3bd11a91cc8342822` |
+| `EnemyView::CleanupAfterDeactivation` | `0x00410110` | 184 | `f791db3c06dc81a6557cf3ae213faa4d33898b31` | `receipt:7e292801a7e9272158828ac9ef951603de8fd9309e9d5fdd5e8b97102171bcd0` |
+| `EnemyAppendCollisionView::AppendPlayerCollisionBox` | `0x00410250` | 82 | `f791db3c06dc81a6557cf3ae213faa4d33898b31` | `receipt:f6cd12f9a06c84ebc7f247c3a4f2062b2decacb25a20dd734865569733e900d8` |
+| `PlayerLifecycleView::SetUpdateState` | `0x00403C20` | 12 | `f791db3c06dc81a6557cf3ae213faa4d33898b31` | `receipt:552b38dc803a97fd62c34359c88ca34a27ac69de16e07dbd267a6d5ecc5f9b61` |
+| `EnemyView::IntegrateMotion` | `0x0040F9B0` | 188 | `f791db3c06dc81a6557cf3ae213faa4d33898b31` | `receipt:1bcc85ff27f73ac174ed5a6295344294e6a494b50a308344a7f77530e7192f94` |
+| `EnemyView::ClampPositionToMovementBounds` | `0x004101D0` | 127 | `f791db3c06dc81a6557cf3ae213faa4d33898b31` | `receipt:c3a8c562153520aec636859b33ad7a9825db10b38bdd5631387fcd06a4e78c93` |
 
-This revalidates that leaf against the newer source binding; it does not promote either large owner.
+The latest registry summary after these jobs still reports `candidates=1189`, `accepted=0`, `rejected=1189`, `invalid=0`. Earlier `factory_query_accepted_facts` returned zero facts for `target:th09-main` / `codegen_exact`. Do not conflate the individual job outcomes with a globally incorporated accepted-facts snapshot.
