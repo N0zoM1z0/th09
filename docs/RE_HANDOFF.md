@@ -1,5 +1,11 @@
 # TH09 reconstruction — live handoff (refreshed 2026-11-08)
 
+> Current workflow: follow the **Highest priority** section in `AGENTS.md`.
+> Prefer affected exact comparisons and useful Markdown knowledge. Ordinary
+> notes do not require full CI, native replay or document-hash/pin refreshes.
+> Older broad validation instructions apply only when their impact is relevant.
+
+
 **Start here:** [next-agent execution checklist](TH09_NEXT_AGENT_HANDOFF_20261107.md),
 [workflow](RE_WORKFLOW.md), [original-byte/VC7.1 Oracles](ORACLES.md),
 [tool routing](TOOLS.md), [accepted receipt archive](RE_ACCEPTED_RECEIPTS.md),

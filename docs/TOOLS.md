@@ -1,5 +1,11 @@
 # Tool routing
 
+> Current workflow: follow the **Highest priority** section in `AGENTS.md`.
+> Prefer affected exact comparisons and useful Markdown knowledge. Ordinary
+> notes do not require full CI, native replay or document-hash/pin refreshes.
+> Older broad validation instructions apply only when their impact is relevant.
+
+
 The November 7 operator requested cleanup and next-agent handoff;
 reconstruction remains unfinished and may be resumed in a later session.
 For reconstruction, use the live registered worktree

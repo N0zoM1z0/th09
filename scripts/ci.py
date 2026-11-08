@@ -1,60 +1,50 @@
 #!/usr/bin/env python3
-"""Run the small target-independent validation used by public CI."""
-
-from __future__ import annotations
-
-import os
+"""Check changed machine inputs; exact comparisons are selected by affected scope."""
 from pathlib import Path
+import ast
+import json
+import os
 import subprocess
 import sys
-
+import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def tracked(pattern: str) -> list[str]:
-    output = subprocess.run(
-        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z", pattern],
-        cwd=ROOT,
-        check=True,
-        stdout=subprocess.PIPE,
-    ).stdout
-    return [raw.decode() for raw in output.split(b"\0") if raw and (ROOT / raw.decode()).is_file()]
-
-
-def run(label: str, command: list[str]) -> None:
-    print(f"\n==> {label}", flush=True)
-    environment = os.environ.copy()
-    environment["PYTHONPYCACHEPREFIX"] = str(ROOT / "build" / "pycache")
-    subprocess.run(command, cwd=ROOT, env=environment, check=True)
-
-
-def validate_public_tree() -> None:
-    forbidden = {".exe", ".dll", ".dat", ".gpr", ".i64", ".id0", ".id1", ".id2", ".nam", ".til"}
-    for relative in tracked("*"):
-        if Path(relative).suffix.lower() in forbidden:
-            raise ValueError(f"private binary or database is trackable: {relative}")
-
-
-def main() -> int:
-    try:
-        validate_public_tree()
-        # Git omits this scratch directory on a clean checkout. Tests stage
-        # generated compiler inputs here rather than in the public source tree.
-        (ROOT / ".analysis").mkdir(exist_ok=True)
-        run("Compile workflow Python", [sys.executable, "-m", "py_compile", *tracked("scripts/*.py")])
-        run(
-            "Run target-independent tests without site packages",
-            [sys.executable, "-S", "-m", "unittest", "discover", "-s", "tests"],
-        )
-        run("Validate ledgers", [sys.executable, "scripts/validate-tracking.py"])
-        run("Validate documentation", [sys.executable, "scripts/validate-docs.py"])
-        run("Check generated progress", [sys.executable, "scripts/progress.py", "--check"])
-        run("Check whitespace", ["git", "diff", "--check"])
-    except (OSError, ValueError, subprocess.CalledProcessError) as exc:
-        print(f"error: CI validation failed: {exc}", file=sys.stderr)
-        return 1
-    print("\nTH09 target-independent checks passed")
+def main():
+    if sys.argv[1:] in (["--help"], ["-h"]):
+        print("usage: ci.py [--full | existing explicit check options]\nDefault: changed machine-input syntax and diff checks. Run affected exact/tool commands for the task.")
+        return 0
+    if len(sys.argv) > 1:
+        arguments = sys.argv[1:]
+        if not any(flag in arguments for flag in ('--full',)):
+            print("Unknown CI option; use no arguments for scoped checks or --full for the broad suite.", file=sys.stderr)
+            return 2
+        arguments = [arg for arg in arguments if arg != "--full"]
+        return subprocess.call([sys.executable, str(ROOT / "scripts/ci-full.py"), *arguments], cwd=ROOT)
+    names = set()
+    for command in (["git", "diff", "HEAD", "--name-only", "-z"],
+                    ["git", "ls-files", "--others", "--exclude-standard", "-z"]):
+        names.update(n for n in subprocess.check_output(command, cwd=ROOT).decode().split("\0") if n)
+    if os.environ.get("CI"):
+        # Clean CI checkouts have no worktree diff. Inspect the commit being checked.
+        names.update(n for n in subprocess.check_output(
+            ["git", "show", "--format=", "--first-parent", "--name-only", "-z", "HEAD"],
+            cwd=ROOT).decode().split("\0") if n)
+    for name in sorted(names):
+        path = ROOT / name
+        if not path.is_file() or path.is_symlink():
+            continue
+        if path.suffix == ".py":
+            ast.parse(path.read_text(), filename=name)
+        elif path.suffix == ".json":
+            json.loads(path.read_text())
+        elif path.suffix == ".toml":
+            tomllib.loads(path.read_text())
+        elif path.suffix == ".sh":
+            subprocess.run(["bash", "-n", str(path)], check=True)
+    subprocess.run(["git", "diff", "--check"], cwd=ROOT, check=True)
+    print("Changed machine inputs checked. Use affected exact/tool checks; --full explicitly selects the broad suite.")
     return 0
 
 
