@@ -164,3 +164,24 @@ No RunEcl source change was retained. The original 30-byte baseline remains repr
 - Focused builds were limited to `enemy-attached-effect-update`, the three Player collision leaf units, and `player-check-graze-collision`.
 - `CheckBulletCollision` remains at 849 candidate bytes versus 862 target bytes, 266 versus 277 instructions, 32 versus 33 direct blocks, with all 26 relocation fields and 12 ordered calls agreeing. The `hasBullet` local briefly reached 861 bytes but still had 271 instructions, 32 blocks, and one missing target byte; it was discarded. The committed source remains the 849-byte baseline.
 - The worktree was restored after all probes; only this session record is being committed in this checkpoint.
+
+## Four more independently accepted Player collision leaves
+
+The following focused units each built and compared at 100.00% before individual forced-recompile replay. All four replay jobs completed with `receipt_verdict=pass`, `acceptance_decision=accepted`, and no acceptance reasons, against clean source HEAD `51ea9ad4aaa48e9fa6a9cf65f79048feffbc0e5a`:
+
+| Function | Address | Bytes | Receipt |
+|---|---:|---:|---|
+| `PlayerLifecycleView::CheckGrazeCollision` | `0x0041E350` | 204 | `receipt:2bfaebb0dc6086ae6b92d886dca5f8aa3f11d9712baa43da4351803b6f645d5f` |
+| `PlayerLifecycleView::CalcItemCollectionCollision` | `0x0041BEE0` | 209 | `receipt:060893ca43148c8f5b37792fdce06628136bc4de942a420532c03043c67dc2a4` |
+| `PlayerCollisionQueryStateView::FindCollision` | `0x0041D810` | 602 | `receipt:d1072f6ced10d27c53467266f1848cd96eac73a07e8fa161140c2a6a4872ff02` |
+| `PlayerCollisionQueryStateView::FindCollisionAtPlayer` | `0x0041DA70` | 279 | `receipt:3d6a03f4628610c79d995c44e94a51f0e6175c2cc73db063b5b89711ee78d42d` |
+
+Together with the three Player collision leaves recorded immediately above, this session has seven new accepted exact Player collision leaves. `CheckBulletCollision` remains an independent unresolved owner and is not promoted by the exact `CheckGrazeCollision` caller.
+
+## Additional `CheckBulletCollision` register/lifetime probes
+
+A new source-level hypothesis was that the target's early `mov ebx, [ebp+0x10]` preserves the Bullet parameter across the region loop while the candidate keeps the position parameter in EBX. A top-level `volatile` position pointer with one ordinary pointer snapshot per circle/rotated/AABB/effect path did load the Bullet parameter in EBX and restore the 33-block graph, but the best combined form (including a precomputed `hasBullet` local) was 872 bytes / 274 instructions / 33 blocks / zero missing target bytes and still 815 unequal overlapping bytes. The non-`hasBullet` path-local snapshot form was 856 bytes / 267 instructions / 31 blocks / six missing bytes. `register` parameter/local variants did not improve these results. All were discarded; the committed 849-byte baseline remains unchanged.
+
+## Additional `SaveReplay` pointer-qualification probes
+
+The two target-relative differences remain `0xB7` and `0xBB`. Marking the temporary buffer pointer itself `volatile` expanded the candidate's code layout and was rejected. `register` and top-level `const` pointer forms retained exactly the two original differences. A `__restrict` spelling was rejected by the VC7.1 compiler. No source change was retained.
