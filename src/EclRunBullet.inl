@@ -362,7 +362,7 @@ static void DispatchShotInstruction(
                 Th09EclRunControl::ReadFloat(enemy, instruction, 1);
             enemy->laserSlots32D8[laserIndex]->angle =
                 reinterpret_cast<PlayerAngleView *>(
-                    enemy->manager00->sideState320->player04)->AngleToPoint(
+                    enemy->manager00->sideState320->playerLifecycle04)->AngleToPoint(
                         reinterpret_cast<PlayerAngleFloat3View *>(
                             &Th09EclRunBullet::View(enemy)->
                                 laserSlots32D8[laserIndex]->position)) +

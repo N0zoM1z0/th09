@@ -99,7 +99,7 @@ static __forceinline EnemyEclPlayerView *PostEclPlayer(
     EnemyPostEclRuntimeView *enemy)
 {
     return reinterpret_cast<EnemyEclPlayerView *>(
-        enemy->manager00->sideState320->player04);
+        enemy->manager00->sideState320->playerLifecycle04);
 }
 
 static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
