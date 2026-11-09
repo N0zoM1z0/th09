@@ -663,10 +663,7 @@ th09_ecl_after_dispatch:
                 continue;
 
             slot->timer04 += g_GameManager.speedEC;
-            // Use the shared read-only comparator for this 12-byte timer view.
-            // This bridge follows the pinned VC7.1 target layout; it is not a
-            // claim of portable C++ aliasing or a uniquely recovered original TU.
-            if (reinterpret_cast<ZunTimer *>(&slot->timer04)->operator>=(slot->duration10))
+            if (slot->timer04 >= slot->duration10)
                 slot->timer04 = slot->duration10;
 
             progress = static_cast<float>(slot->timer04) / slot->duration10;
@@ -702,7 +699,7 @@ th09_ecl_after_dispatch:
             interpolationCallback = slot->callback00;
             interpolationCallback(enemy, slot, progress);
 
-            if (reinterpret_cast<ZunTimer *>(&slot->timer04)->operator>=(slot->duration10))
+            if (slot->timer04 >= slot->duration10)
                 slot->callback00 = NULL;
 
             affectedVariableBits =
