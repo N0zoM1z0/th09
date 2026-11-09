@@ -34,15 +34,16 @@ class ReplayNativePlaybackFrameRow(unittest.TestCase):
         sites = [
             'g_GameManager.value37C = replayManager->replayData->value1E7;',
             'const u8 side0Value1E8 = replayManager->replayData->value1E8;',
-            'ReplaySideRuntimeSlotView *side0RuntimeSlot =',
-            'AsciiGameSideRuntimeView *firstSide0 = *side0RuntimeSlot;',
+            'AsciiGameSideRuntimeView *volatile &side0RuntimeSlot =',
+            'AsciiGameSideRuntimeView *firstSide0 = side0RuntimeSlot;',
             'g_GameManager.sides[0].value30 = side0Value1E8;',
         ]
         offsets = [body.index(site) for site in sites]
         self.assertEqual(offsets, sorted(offsets))
         self.assertEqual(body.count('g_GameManager.sides[0].value30 ='),1)
-        self.assertIn('typedef AsciiGameSideRuntimeView *volatile ReplaySideRuntimeSlotView;',
-                      source)
+        self.assertIn('g_GameManager.sides[0].runtime;', body)
+        self.assertNotIn('ReplaySideRuntimeSlotView', source)
+        self.assertNotIn('reinterpret_cast<ReplaySideRuntimeSlotView', body)
         # The target's separate side owner accesses must not be merged into
         # a single potentially stale runtime pointer through the whole body.
         self.assertIn('g_GameManager.sides[0].runtime->value04 = frame0->value00;',body)

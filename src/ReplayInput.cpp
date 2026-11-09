@@ -24,9 +24,6 @@ typedef int i32;
 
 #include "ReplayManagerRuntimeView.hpp"
 
-// Keep this slot read explicit: without a volatile pointer-slot access, VC7.1
-// hoists it ahead of the original value1E7 publication in BeginPlaybackStage.
-typedef AsciiGameSideRuntimeView *volatile ReplaySideRuntimeSlotView;
 #include "ReplayNativeInputGateCapacity.hpp"
 
 // Replay side pointers at 0x4A7DAC/0x4A7DE4 alias the true
@@ -542,10 +539,11 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     // source-level chronology explicitly; VC7.1 still chooses the same
     // nonexact register ordering, so the full-owner oracle remains required.
     const u8 side0Value1E8 = replayManager->replayData->value1E8;
-    ReplaySideRuntimeSlotView *side0RuntimeSlot =
-        reinterpret_cast<ReplaySideRuntimeSlotView *>(
-            &g_GameManager.sides[0].runtime);
-    AsciiGameSideRuntimeView *firstSide0 = *side0RuntimeSlot;
+    // Retain the original source-visible publication order: VC7.1 hoists
+    // the ordinary pointer read across value1E7 when volatile is omitted.
+    AsciiGameSideRuntimeView *volatile &side0RuntimeSlot =
+        g_GameManager.sides[0].runtime;
+    AsciiGameSideRuntimeView *firstSide0 = side0RuntimeSlot;
     g_GameManager.sides[0].value30 = side0Value1E8;
     g_GameManager.sides[1].value30 = replayManager->replayData->value1E9;
     firstSide0->value08 = frame0->value00;
