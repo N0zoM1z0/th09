@@ -11555,8 +11555,8 @@ relocations = [
 source = "src/PlayerCollisionRegionCreate.cpp"
 object = "build/matching/PlayerCollisionRegionCreate.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["PlayerCollisionRegionCreateView::AllocateCollisionRegion"]
-symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z"
+functions = ["PlayerLifecycleView::AllocateCollisionRegion"]
+symbol = "?AllocateCollisionRegion@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z"
 target_address = 0x0041CF30
 size = 0x6E
 relocations = [
@@ -11572,7 +11572,7 @@ symbol = "?CreateRectType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisio
 target_address = 0x0041CFA0
 size = 0x37
 relocations = [
-  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
   { offset = 0x19, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x2C, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
 ]
@@ -11586,7 +11586,7 @@ symbol = "?CreateCircleType1@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCre
 target_address = 0x0041CFE0
 size = 0x2B
 relocations = [
-  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
 ]
 
 [units.player-create-rect-type0]
@@ -11598,7 +11598,7 @@ symbol = "?CreateRectType0@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisio
 target_address = 0x0041D010
 size = 0x3D
 relocations = [
-  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
   { offset = 0x19, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x32, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
 ]
@@ -11612,7 +11612,7 @@ symbol = "?CreateCircleType0@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollis
 target_address = 0x0041D050
 size = 0x31
 relocations = [
-  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
 ]
 
 [units.player-create-rect-type4]
@@ -11624,7 +11624,7 @@ symbol = "?CreateRectType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisio
 target_address = 0x0041D090
 size = 0x3D
 relocations = [
-  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
   { offset = 0x19, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x32, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
 ]
@@ -11638,7 +11638,7 @@ symbol = "?CreateCircleType4@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCre
 target_address = 0x0041D0D0
 size = 0x31
 relocations = [
-  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
 ]
 
 [units.player-create-circle-type2]
@@ -11650,7 +11650,7 @@ symbol = "?CreateCircleType2@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollis
 target_address = 0x0041D110
 size = 0x31
 relocations = [
-  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
+  { offset = 0x10, type = "REL32", symbol = "?AllocateCollisionRegion@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@HH@Z", target = 0x0041CF30 },
 ]
 
 [units.player-update-stage-d]

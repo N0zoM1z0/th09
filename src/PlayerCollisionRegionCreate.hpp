@@ -44,8 +44,6 @@ struct PlayerCollisionRegionCreateView
     int activeCountC110;
     int releasedCountC114;
 
-    PlayerCollisionRegionCreateRegionView *AllocateCollisionRegion(
-        const PlayerRegionPointView *center, int lifetime, int delay);
     PlayerCollisionRegionCreateRegionView *CreateRectType1(
         const PlayerRegionPointView *center, float width, float height,
         int lifetime, int delay);

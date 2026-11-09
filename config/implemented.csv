@@ -662,7 +662,7 @@ PlayerCollisionRegionRuntimeView::Deactivate
 PreloadPlayerAnmResources
 PlayerTransitionSpecial
 PlayerUpdateCommon
-PlayerCollisionRegionCreateView::AllocateCollisionRegion
+PlayerLifecycleView::AllocateCollisionRegion
 PlayerCollisionRegionCreateView::CreateRectType1
 PlayerLifecycleView::CreateCircleType1
 PlayerCollisionRegionCreateView::CreateRectType0

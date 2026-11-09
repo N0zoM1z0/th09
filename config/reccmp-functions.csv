@@ -663,7 +663,7 @@ PlayerCollisionRegionRuntimeView::Deactivate,0x0041BD90,function
 PreloadPlayerAnmResources,0x0041CDE0,function
 PlayerTransitionSpecial,0x0041CB50,function
 PlayerUpdateCommon,0x0041CC80,function
-PlayerCollisionRegionCreateView::AllocateCollisionRegion,0x0041CF30,function
+PlayerLifecycleView::AllocateCollisionRegion,0x0041CF30,function
 PlayerCollisionRegionCreateView::CreateRectType1,0x0041CFA0,function
 PlayerLifecycleView::CreateCircleType1,0x0041CFE0,function
 PlayerCollisionRegionCreateView::CreateRectType0,0x0041D010,function

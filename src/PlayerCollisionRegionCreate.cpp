@@ -2,21 +2,21 @@
 #include "PlayerLifecycleView.hpp"
 
 PlayerCollisionRegionCreateRegionView *
-PlayerCollisionRegionCreateView::AllocateCollisionRegion(
+PlayerLifecycleView::AllocateCollisionRegion(
     const PlayerRegionPointView *center, int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region;
-    if (releasedCountC114 <= 1)
+    if (collisionRegionReleasedCountC114 <= 1)
     {
-        region = &embeddedB0BC;
+        region = &collisionRegionB0BC;
     }
     else
     {
-        --releasedCountC114;
-        region = releasedB908[releasedCountC114];
-        releasedB908[releasedCountC114] = 0;
-        activeB100[activeCountC110] = region;
-        ++activeCountC110;
+        --collisionRegionReleasedCountC114;
+        region = releasedB908[collisionRegionReleasedCountC114];
+        releasedB908[collisionRegionReleasedCountC114] = 0;
+        activeB100[collisionRegionActiveCountC110] = region;
+        ++collisionRegionActiveCountC110;
     }
 
     region->Reset();
@@ -34,7 +34,8 @@ PlayerCollisionRegionCreateView::CreateRectType1(
     int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        AllocateCollisionRegion(center, lifetime, delay);
+        reinterpret_cast<PlayerLifecycleView *>(this)->AllocateCollisionRegion(
+            center, lifetime, delay);
     region->halfWidth10 = width * 0.5f;
     region->halfHeight14 = height * 0.5f;
     region->type38 = 1;
@@ -47,7 +48,7 @@ PlayerLifecycleView::CreateCircleType1(
     int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->AllocateCollisionRegion(center, lifetime, delay);
+        AllocateCollisionRegion(center, lifetime, delay);
     region->radius08 = radius;
     region->radiusGrowth0C = radiusGrowth;
     region->type38 = 1;
@@ -60,7 +61,8 @@ PlayerCollisionRegionCreateView::CreateRectType0(
     int value, int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        AllocateCollisionRegion(center, lifetime, delay);
+        reinterpret_cast<PlayerLifecycleView *>(this)->AllocateCollisionRegion(
+            center, lifetime, delay);
     region->value28 = value;
     region->type38 = 0;
     region->halfWidth10 = width * 0.5f;
@@ -74,7 +76,8 @@ PlayerCollisionRegionCreateView::CreateCircleType0(
     int value, int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        AllocateCollisionRegion(center, lifetime, delay);
+        reinterpret_cast<PlayerLifecycleView *>(this)->AllocateCollisionRegion(
+            center, lifetime, delay);
     region->radius08 = radius;
     region->radiusGrowth0C = radiusGrowth;
     region->value28 = value;
@@ -88,7 +91,8 @@ PlayerCollisionRegionCreateView::CreateRectType4(
     int value, int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        AllocateCollisionRegion(center, lifetime, delay);
+        reinterpret_cast<PlayerLifecycleView *>(this)->AllocateCollisionRegion(
+            center, lifetime, delay);
     region->value28 = value;
     region->type38 = 4;
     region->halfWidth10 = width * 0.5f;
@@ -102,7 +106,7 @@ PlayerLifecycleView::CreateCircleType4(
     int value, int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->AllocateCollisionRegion(center, lifetime, delay);
+        AllocateCollisionRegion(center, lifetime, delay);
     region->radius08 = radius;
     region->radiusGrowth0C = radiusGrowth;
     region->value28 = value;
@@ -116,7 +120,8 @@ PlayerCollisionRegionCreateView::CreateCircleType2(
     int value, int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        AllocateCollisionRegion(center, lifetime, delay);
+        reinterpret_cast<PlayerLifecycleView *>(this)->AllocateCollisionRegion(
+            center, lifetime, delay);
     region->radius08 = radius;
     region->radiusGrowth0C = radiusGrowth;
     region->value28 = value;

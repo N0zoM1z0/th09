@@ -573,6 +573,8 @@ struct PlayerLifecycleView
     void UpdateBeforeState();
     int GetUpdateState();
     void SetUpdateState(int state);
+    PlayerCollisionRegionCreateRegionView *AllocateCollisionRegion(
+        const PlayerRegionPointView *center, int lifetime, int delay);
     PlayerCollisionRegionCreateRegionView *CreateCircleType1(
         const PlayerRegionPointView *center, float radius, float radiusGrowth,
         int lifetime, int delay);

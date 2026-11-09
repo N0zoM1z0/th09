@@ -88,12 +88,16 @@ def validate_connection(consumer, header, producer, units):
     require(owner['releasedB908'] == (0xB908, REGION + '*', 514), 'wrong released pointer pool')
     require(owner['activeCountC110'] == (0xC110, 'int', 1), 'wrong active count')
     require(owner['releasedCountC114'] == (0xC114, 'int', 1), 'wrong released count')
-    allocation = producer.split(OWNER + '::AllocateCollisionRegion(', 1)[1]
+    require('PlayerCollisionRegionCreateRegionView *AllocateCollisionRegion(' in native,
+            'true native Player no longer declares the allocator')
+    require('PlayerCollisionRegionCreateView::AllocateCollisionRegion(' not in producer,
+            'duplicate old Player allocator source still exists')
+    allocation = producer.split('PlayerLifecycleView::AllocateCollisionRegion(', 1)[1]
     allocation = allocation.split(OWNER + '::CreateRectType1(', 1)[0]
     normalized = re.sub(r'\s+', '', allocation)
     for expression in (
-        'region=&embeddedB0BC;', 'region=releasedB908[releasedCountC114];',
-        'activeB100[activeCountC110]=region;', '++activeCountC110;',
+        'region=&collisionRegionB0BC;', 'region=releasedB908[collisionRegionReleasedCountC114];',
+        'activeB100[collisionRegionActiveCountC110]=region;', '++collisionRegionActiveCountC110;',
         'region->Reset();', 'region->centerX00=center->x;',
         'region->centerY04=center->y;', 'region->delay40=delay;', 'returnregion;'):
         require(expression in normalized, 'producer connection changed: ' + expression)
@@ -139,8 +143,8 @@ class PlayerCollisionRegionOwner(unittest.TestCase):
 
     def test_reject_producer_publishing_to_other_pool(self):
         with self.assertRaisesRegex(ValueError, 'producer connection'):
-            self.check(producer=self.producer.replace('activeB100[activeCountC110] = region;',
-                                                     'releasedB908[activeCountC110] = region;', 1))
+            self.check(producer=self.producer.replace('activeB100[collisionRegionActiveCountC110] = region;',
+                                                     'releasedB908[collisionRegionActiveCountC110] = region;', 1))
 
     def test_reject_consumer_scanning_other_pool(self):
         original='PlayerCollisionRegionCreateRegionView **slot = activeB100;'
