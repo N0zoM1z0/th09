@@ -1,7 +1,6 @@
 #include "AnmManager.hpp"
 #include "SoundPlayer.hpp"
 #include "AsciiManager.hpp"
-#include "FrontSupport.hpp"
 #include "ScreenEffect.hpp"
 #include "ZunTimer.hpp"
 #include "FrontFactoryConstructView.hpp"

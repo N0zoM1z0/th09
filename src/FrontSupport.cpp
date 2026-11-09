@@ -1,9 +1,9 @@
-#include "FrontSupport.hpp"
+#include "FrontFactoryConstructView.hpp"
 
 #include <string.h>
 
-int Front::Reset()
+int FrontFactoryConstructView::Reset()
 {
-    memset(this, 0, sizeof(Front));
+    memset(this, 0, sizeof(*this));
     return 0;
 }

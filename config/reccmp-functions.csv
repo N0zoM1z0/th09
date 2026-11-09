@@ -483,7 +483,7 @@ ZunTimer::Greater,0x00403DE0,function
 Supervisor::SelectSide,0x00401440,function
 GameManager::IsReplayNeutral,0x00415D20,function
 GameManager::IsGameMode2,0x00415D30,function
-Front::Reset,0x00415D40,function
+FrontFactoryConstructView::Reset,0x00415D40,function
 PlayerAnmVmView::SetZRotation,0x0040F840,function
 AnmLoaded::SetSprite,0x00436AC0,function
 Float3::operator/=,0x004010D0,function

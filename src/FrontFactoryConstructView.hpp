@@ -50,6 +50,7 @@ struct FrontFactoryConstructView
     AnmVm markerVms123F4[2];
 
     FrontFactoryConstructView();
+    int Reset();
     void InitializeMessageRuntime();
     int ReleaseCore();
     void InitializeResultBonus();

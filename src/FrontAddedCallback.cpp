@@ -4,7 +4,6 @@
 // Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
-#include "FrontSupport.hpp"
 #include "FrontFactoryConstructView.hpp"
 #include "GameManagerRuntimeView.hpp"
 

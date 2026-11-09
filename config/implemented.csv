@@ -482,7 +482,7 @@ ZunTimer::Greater
 Supervisor::SelectSide
 GameManager::IsReplayNeutral
 GameManager::IsGameMode2
-Front::Reset
+FrontFactoryConstructView::Reset
 PlayerAnmVmView::SetZRotation
 AnmLoaded::SetSprite
 Float3::operator/=

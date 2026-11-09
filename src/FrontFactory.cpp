@@ -1,5 +1,4 @@
 #include "Chain.hpp"
-#include "FrontSupport.hpp"
 #include "FrontFactoryConstructView.hpp"
 #include "ZunMemory.hpp"
 
@@ -19,7 +18,7 @@ void *__fastcall CreateGameSubsystem()
             constructed, sizeof(FrontFactoryConstructView),
             const_cast<char *>("FrontInf")));
 
-    reinterpret_cast<Front *>(front)->Reset();
+    front->Reset();
 
     front->calcChain00 =
         g_Chain.CreateElem(reinterpret_cast<ChainCallback>(FrontCalcCallback));

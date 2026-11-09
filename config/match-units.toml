@@ -10043,8 +10043,8 @@ relocations = []
 source = "src/FrontSupport.cpp"
 object = "build/matching/FrontSupport.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["Front::Reset"]
-symbol = "?Reset@Front@@QAEHXZ"
+functions = ["FrontFactoryConstructView::Reset"]
+symbol = "?Reset@FrontFactoryConstructView@@QAEHXZ"
 target_address = 0x00415D40
 size = 0xE
 relocations = []
@@ -14176,7 +14176,7 @@ relocations = [
   { offset = 0x41, type = "DIR32", symbol = "??_C@_08IOKLCOKE@FrontInf?$AA@", target = 0x0048EEEC },
   { offset = 0x4C, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x58, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
-  { offset = 0x61, type = "REL32", symbol = "?Reset@Front@@QAEHXZ", target = 0x00415D40 },
+  { offset = 0x61, type = "REL32", symbol = "?Reset@FrontFactoryConstructView@@QAEHXZ", target = 0x00415D40 },
   { offset = 0x66, type = "DIR32", symbol = "?FrontCalcCallback@@YIHPAX@Z", target = 0x00417630 },
   { offset = 0x6B, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
   { offset = 0x70, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
