@@ -5,30 +5,17 @@
 #include "ScreenEffect.hpp"
 #include "ZunTimer.hpp"
 #include "FrontMessageRandomView.hpp"
+#include "FrontFactoryConstructView.hpp"
 
 #include <stddef.h>
 
-struct FrontCalcVertex
-{
-    Float3 pos;
-    float rhw;
-    unsigned long diffuse;
-};
-typedef char FrontCalcVertexSizeIs14[
-    (sizeof(FrontCalcVertex) == 0x14) ? 1 : -1];
-
+// The exact TH09 call targets retain this source-facing method ABI.
+// Their actual storage is the nested FrontMessageRuntimeView in Front.
 struct FrontCalcMessageRuntimeView
 {
-    unsigned char unknown00[0x08];
-    int currentIndex08;
-    unsigned char unknown0C[0x1D70 - 0x0C];
-
     int Update();
     void Setup(int index, int unused);
 };
-
-typedef char FrontCalcMessageSizeIs1D70[
-    (sizeof(FrontCalcMessageRuntimeView) == 0x1D70) ? 1 : -1];
 
 struct FrontCalcRuntimeView
 {
@@ -121,44 +108,6 @@ struct FrontCalcCollisionView
         int delay);
 };
 
-struct FrontCalcView
-{
-    unsigned char unknown00000[0x08];
-    AnmLoaded *frontAnm08;
-    AnmVm baseVms00C[7];
-    unsigned char unknown01288[0xE86C - 0x1288];
-    FrontCalcVertex panelVerticesE86C[2][5];
-    int panelColorsE934[2];
-    int panelTimersE93C[2];
-    FrontCalcMessageRuntimeView messageRuntimeE944;
-    AnmVm dynamicVm106B4;
-    int dynamicSprite10958;
-    int transitionVmCount1095C;
-    int transitionFrame10960;
-    int transitionSide10964;
-    AnmVm transitionVms10968[7];
-    unsigned char unknown11BE4[0x11EA4 - 0x11BE4];
-    int transitionStarted11EA4;
-    int transitionState11EA8;
-    AnmVm resultVm11EAC;
-    AnmVm resultVm12150;
-    AnmVm markerVm123F4;
-    AnmVm markerVm12698;
-};
-
-typedef char FrontCalcSizeIs1293C[
-    (sizeof(FrontCalcView) == 0x1293C) ? 1 : -1];
-typedef char FrontCalcPanelsAtE86C[
-    (offsetof(FrontCalcView, panelVerticesE86C) == 0xE86C) ? 1 : -1];
-typedef char FrontCalcMessageAtE944[
-    (offsetof(FrontCalcView, messageRuntimeE944) == 0xE944) ? 1 : -1];
-typedef char FrontCalcDynamicVmAt106B4[
-    (offsetof(FrontCalcView, dynamicVm106B4) == 0x106B4) ? 1 : -1];
-typedef char FrontCalcTransitionAt1095C[
-    (offsetof(FrontCalcView, transitionVmCount1095C) == 0x1095C) ? 1 : -1];
-typedef char FrontCalcResultAt11EAC[
-    (offsetof(FrontCalcView, resultVm11EAC) == 0x11EAC) ? 1 : -1];
-
 extern FrontCalcGameManagerView g_GameManager;
 extern int g_FrontDynamicSprite;
 extern int g_EndingLifecycleState;
@@ -179,27 +128,27 @@ struct GameManagerSetupLayout
 };
 int __fastcall FrontCalcCallback(void *frontArg)
 {
-    FrontCalcView *front = static_cast<FrontCalcView *>(frontArg);
+    FrontFactoryConstructView *front = static_cast<FrontFactoryConstructView *>(frontArg);
 
-    g_AnmManager->ExecuteScript(&front->baseVms00C[0]);
-    g_AnmManager->ExecuteScript(&front->baseVms00C[1]);
-    g_AnmManager->ExecuteScript(&front->baseVms00C[2]);
-    g_AnmManager->ExecuteScript(&front->baseVms00C[3]);
-    g_AnmManager->ExecuteScript(&front->baseVms00C[4]);
-    g_AnmManager->ExecuteScript(&front->baseVms00C[5]);
-    g_AnmManager->ExecuteScript(&front->baseVms00C[6]);
-    g_AnmManager->ExecuteScript(&front->resultVm11EAC);
-    g_AnmManager->ExecuteScript(&front->resultVm12150);
-    g_AnmManager->ExecuteScript(&front->dynamicVm106B4);
+    g_AnmManager->ExecuteScript(&front->frontVms00C[0]);
+    g_AnmManager->ExecuteScript(&front->frontVms00C[1]);
+    g_AnmManager->ExecuteScript(&front->frontVms00C[2]);
+    g_AnmManager->ExecuteScript(&front->frontVms00C[3]);
+    g_AnmManager->ExecuteScript(&front->frontVms00C[4]);
+    g_AnmManager->ExecuteScript(&front->frontVms00C[5]);
+    g_AnmManager->ExecuteScript(&front->frontVms00C[6]);
+    g_AnmManager->ExecuteScript(&front->resultVms11EAC[0]);
+    g_AnmManager->ExecuteScript(&front->resultVms11EAC[1]);
+    g_AnmManager->ExecuteScript(&front->vm106B4);
 
     if (g_FrontDynamicSprite != front->dynamicSprite10958)
     {
         front->dynamicSprite10958 = g_FrontDynamicSprite;
         if (g_FrontDynamicSprite >= 0)
         {
-            front->frontAnm08->ExecuteAnmIdx(&front->dynamicVm106B4, 87);
+            front->frontAnm08->ExecuteAnmIdx(&front->vm106B4, 87);
             front->frontAnm08->SetSprite(
-                &front->dynamicVm106B4, g_FrontDynamicSprite + 82);
+                &front->vm106B4, g_FrontDynamicSprite + 82);
         }
     }
 
@@ -227,21 +176,22 @@ int __fastcall FrontCalcCallback(void *frontArg)
         }
     }
 
-    front->messageRuntimeE944.Update();
+    reinterpret_cast<FrontCalcMessageRuntimeView *>(
+        &front->messageRuntimeE944)->Update();
 
     if (front->transitionVmCount1095C == 0)
         return 1;
 
-    g_AnmManager->ExecuteScript(&front->transitionVms10968[0]);
-    g_AnmManager->ExecuteScript(&front->transitionVms10968[1]);
-    g_AnmManager->ExecuteScript(&front->transitionVms10968[2]);
+    g_AnmManager->ExecuteScript(&front->resultVms10968[0]);
+    g_AnmManager->ExecuteScript(&front->resultVms10968[1]);
+    g_AnmManager->ExecuteScript(&front->resultVms10968[2]);
 
     if (front->transitionVmCount1095C >= 2)
     {
-        g_AnmManager->ExecuteScript(&front->transitionVms10968[3]);
-        g_AnmManager->ExecuteScript(&front->transitionVms10968[4]);
-        g_AnmManager->ExecuteScript(&front->transitionVms10968[5]);
-        g_AnmManager->ExecuteScript(&front->transitionVms10968[6]);
+        g_AnmManager->ExecuteScript(&front->resultVms10968[3]);
+        g_AnmManager->ExecuteScript(&front->resultVms10968[4]);
+        g_AnmManager->ExecuteScript(&front->resultVms10968[5]);
+        g_AnmManager->ExecuteScript(&front->resultVms10968[6]);
 
         if (front->messageRuntimeE944.currentIndex08 < 0)
         {
@@ -355,14 +305,16 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 }
                 else if (front->transitionSide10964 == 0)
                 {
-                    front->messageRuntimeE944.Setup(
+                    reinterpret_cast<FrontCalcMessageRuntimeView *>(
+                        &front->messageRuntimeE944)->Setup(
                         *reinterpret_cast<short *>(
                             static_cast<unsigned char *>(g_NeutralMessageSource) + 8),
                         0);
                 }
                 else
                 {
-                    front->messageRuntimeE944.Setup(
+                    reinterpret_cast<FrontCalcMessageRuntimeView *>(
+                        &front->messageRuntimeE944)->Setup(
                         *reinterpret_cast<short *>(
                             static_cast<unsigned char *>(g_NeutralMessageSource) + 10),
                         0);
