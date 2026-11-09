@@ -74,6 +74,10 @@ extern EnemyLifecycleCharacterResources g_EnemyCharacterResources[];
 extern EnemyLifecycleRngView g_Rng;
 extern unsigned char g_EnemySubroutineSchedule[256];
 
+EnemyEclTimelineStateView::EnemyEclTimelineStateView()
+{
+}
+
 EnemyEclManagerView::EnemyEclManagerView()
 {
 }

@@ -84,7 +84,9 @@ class NativeEclContextStorage(unittest.TestCase):
         self.assertIn('enemy->secondaryFlags3380',resolver)
         self.assertIn('this->lifeCallbackThresholds33B0[0]',resolver)
         self.assertIn('((owner)->activeContext2CE0)',resolver)
-        self.assertIn('((owner)->manager00->sideState320->player04)',resolver)
+        # The exact operand resolvers use the native +0x04 reward-Player
+        # alias, not the earlier generic player04 spelling.
+        self.assertIn('((owner)->manager00->sideState320->rewardPlayer04)',resolver)
 
     def test_bullet_laser_family_shares_native_enemy_descriptors(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()

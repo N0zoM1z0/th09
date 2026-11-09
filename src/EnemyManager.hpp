@@ -148,12 +148,20 @@ struct EnemyEclTimelineStateView
 {
     // These words are shared by exact ECL operand resolvers and the
     // 0x20-byte RunEcl subroutine variable publication at +0x168.
-    unsigned char storage000[0x160];
+    unsigned char storage000[0x100];
+    // The actual timeline subobject constructor at 0x40FCA0 invokes the
+    // VC7.1 8-element / 0x0C-stride vector constructor here.
+    Float3 constructedPositions100[8];
     int sharedInts160[4];
     float sharedFloats170[4];
 
     EnemyEclTimelineStateView();
 };
+typedef char EnemyEclTimelineNativeVectorArrayAt100[
+    (offsetof(EnemyEclTimelineStateView, constructedPositions100) == 0x100 &&
+     sizeof(((EnemyEclTimelineStateView *)0)->constructedPositions100) == 8 * 0x0C &&
+     sizeof(((EnemyEclTimelineStateView *)0)->constructedPositions100[0]) == 0x0C)
+    ? 1 : -1];
 typedef char EnemyEclTimelineNativeSharedStorage[
     (offsetof(EnemyEclTimelineStateView, sharedInts160) == 0x160 &&
      offsetof(EnemyEclTimelineStateView, sharedFloats170) == 0x170) ? 1 : -1];

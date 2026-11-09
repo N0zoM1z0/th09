@@ -329,3 +329,31 @@ the 1,323-byte BeginRecordingStage passes the strict exact comparator.
 A source-input regression test preserves the relative snapshot/pointer/store
 chronology without pretending that source order proves emitted instruction
 order. No full cold replay or new exactness credit.
+
+## Newly recovered ECL timeline/submanager native constructor chain
+
+The original 0x0040FCA0, 28-byte special-member-like body constructs exactly
+eight 0x0C-byte vectors beginning at the timeline-state object's +0x100.
+IDA and a fresh target-bound PE disassembly independently identify the real
+VC7.1 vector-ctor iterator at 0x00401470 and the shared/folded empty
+Float3 constructor callback at 0x004343D0. No explicit call to the compiler
+iterator is necessary.
+
+EnemyEclTimelineStateView now declares the native constructedPositions100[8]
+array and its ordinary empty C++ constructor in EnemyManagerLifecycle.cpp.
+VC7.1 /O2 /Ob0 emits the exact 28/28-byte body at 0x0040FCA0 with both
+original DIR32/REL32 operands. It also naturally emits the 15/15-byte
+EnemyEclManagerView constructor at 0x00412090, which invokes the former
+on its +8 timeline-state member. Both target byte hashes and independently
+verified relocation roles are pinned in
+scripts/inspect-enemy-ecl-constructors.py, a diagnostic-only proof.
+
+The real EnemyManagerView constructor remains canonical exact at 101/101 bytes
+with all nine fields, and EnemyManagerView::Create remains exact at
+328/328 with all 29 fields. Both compiled from the same updated source.
+The 3,900-byte EnemyManager::OnUpdate frontier remains at 13 ordinary
+differences and 97 fields. The 15,564-byte RunEcl frontier remains at 30
+ordinary differences and 598 fields, with zero field/table differences.
+Only those impacted carriers were rebuilt. The original authoring status
+of 0x0040FCA0/0x00412090 is still unknown; these special members remain
+unclassified and receive zero authored exactness credit.
