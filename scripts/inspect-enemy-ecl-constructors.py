@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Original-bound, non-crediting native Enemy ECL constructor-chain audit.
 
-These two compiler-emitted-looking special members at 0x40FCA0 / 0x412090
-have unknown authored-vs-implicit origin. Reproducing them exactly from C++
+These four compiler-emitted-looking special members at 0x40FCA0 / 0x412090
+and 0x4120C0 / 0x4120D0 have unknown authored-vs-implicit origin. Reproducing them exactly from C++
 does not change their unclassified ledger status or grant authored credit.
 """
 from __future__ import annotations
@@ -35,6 +35,29 @@ CHAIN = (
         'sha256': 'e365ff772cfca0d89f78089c221e4a9d74e88052bb3a435843feabed16b97eaa',
         'fields': (
             (0x07, 'REL32', '??0EnemyEclTimelineStateView@@QAE@XZ', 0x0040FCA0),
+        ),
+    },
+    {
+        'name': 'Th09EclInterpolationSlotView',
+        'base': 0x004120C0,
+        'size': 15,
+        'symbol': '??0Th09EclInterpolationSlotView@@QAE@XZ',
+        'sha256': '3c2c3023df47aafdf493182ccc17b61a4e32ad456b4332af6d662cda1c68c9eb',
+        'fields': (
+            (0x07, 'REL32', '??0ZunTimer@@QAE@XZ', 0x00403390),
+        ),
+    },
+    {
+        'name': 'Th09EclContextView',
+        'base': 0x004120D0,
+        'size': 47,
+        'symbol': '??0Th09EclContextView@@QAE@XZ',
+        'sha256': '8057ab5d8e434e5db8598c391f3d527bd7ee8665b15948ca28036748d86520a9',
+        'fields': (
+            (0x07, 'REL32', '??0ZunTimer@@QAE@XZ', 0x00403390),
+            (0x12, 'REL32', '??0ZunTimer@@QAE@XZ', 0x00403390),
+            (0x17, 'DIR32', '??0Th09EclInterpolationSlotView@@QAE@XZ', 0x004120C0),
+            (0x27, 'REL32', '??_H@YGXPAXIHP6EPAX0@Z@Z', 0x00401470),
         ),
     },
 )

@@ -287,6 +287,7 @@ typedef char Th09EclTimerCurrentAt08[
 
 struct Th09EclInterpolationSlotView
 {
+    Th09EclInterpolationSlotView();
     Th09EclInterpolationCallback callback00;
     Th09EclTimerStorageView timer04;
     int duration10;
@@ -310,6 +311,7 @@ typedef char Th09EclInterpolationVariableAt2C[
 // The callback and interpolation role names describe target-observed use.
 struct Th09EclContextView
 {
+    Th09EclContextView();
     EnemyEclManagerView *selectedManager000;
     Th09EclRawInstructionHeaderView *currentInstruction004;
     Th09EclTimerStorageView time008;

@@ -74,6 +74,14 @@ extern EnemyLifecycleCharacterResources g_EnemyCharacterResources[];
 extern EnemyLifecycleRngView g_Rng;
 extern unsigned char g_EnemySubroutineSchedule[256];
 
+Th09EclInterpolationSlotView::Th09EclInterpolationSlotView()
+{
+}
+
+Th09EclContextView::Th09EclContextView()
+{
+}
+
 EnemyEclTimelineStateView::EnemyEclTimelineStateView()
 {
 }

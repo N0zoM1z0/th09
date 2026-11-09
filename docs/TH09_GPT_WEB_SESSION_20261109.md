@@ -357,3 +357,30 @@ ordinary differences and 598 fields, with zero field/table differences.
 Only those impacted carriers were rebuilt. The original authoring status
 of 0x0040FCA0/0x00412090 is still unknown; these special members remain
 unclassified and receive zero authored exactness credit.
+
+## Follow-on: native ECL interpolation-slot and context constructor chain
+
+The original 0x004120C0 special member is an ordinary thiscall constructor
+that calls the real ZunTimer constructor at member +0x04; the object is the
+current 0x30-byte Th09EclInterpolationSlotView.
+
+The original 0x004120D0 context constructor calls the exact ZunTimer
+constructor twice, for members +0x08/+0x94, then invokes the actual VC7.1
+vector-construction helper over eight 0x30-byte interpolation slots starting
+at +0xA0, with callback to the 0x004120C0 slot constructor.
+
+Adding normal out-of-line C++ empty constructors for these two existing
+native-sized structures makes the same compiler naturally generate the exact
+15/15-byte slot ctor (1 REL32 field) and 47/47-byte context ctor (4 original
+address fields). Neither the layout nor the compiler profile was altered.
+The original target SHA-256 and each operand role are now independently
+checked as part of the four-owner diagnostic constructor-chain script.
+
+Focused regression: the 101-byte EnemyManager constructor and 328-byte
+EnemyManager::Create remain strictly canonical exact; the 3,900-byte
+OnUpdate stays 13 ordinary differences / 97 fields, and the 15,564-byte
+RunEcl stays 30 ordinary differences / 598 fields with no field/table drift.
+All three constructor-chain and 35 ECL native storage unit tests pass.
+The two new constructor bodies at 0x4120C0 and 0x4120D0 remain origin-unknown
+special members in functions.csv; matching their bytes does not establish
+explicit authored source and grants no exactness credit.
