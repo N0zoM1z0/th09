@@ -10,6 +10,7 @@
 #include <stddef.h>
 
 struct Bullet;
+struct PlayerDamageFloat3;
 struct EffectManager;
 struct Effect;
 class AnmLoaded;
@@ -573,6 +574,9 @@ struct PlayerLifecycleView
     void UpdateBeforeState();
     int GetUpdateState();
     void SetUpdateState(int state);
+    int CalcDamageToEnemy(PlayerDamageFloat3 *position, PlayerDamageFloat3 *hitbox,
+                          int *primaryAccumulator, int *bombHit,
+                          int *secondaryAccumulator);
     PlayerCollisionRegionCreateRegionView *CreateRectType1(
         const PlayerRegionPointView *center, float width, float height,
         int lifetime, int delay);

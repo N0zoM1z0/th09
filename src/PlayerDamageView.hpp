@@ -140,12 +140,6 @@ struct PlayerDamagePlayerView
     unsigned char unknown3031C[0x303C8 - 0x3031C];
     PlayerDamageTimer timer303C8;
 
-    int CalcDamageToEnemy(
-        PlayerDamageFloat3 *position,
-        PlayerDamageFloat3 *hitbox,
-        int *primaryAccumulator,
-        int *bombHit,
-        int *secondaryAccumulator);
 };
 
 typedef char PlayerDamageSideAt0C[

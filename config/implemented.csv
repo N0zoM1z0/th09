@@ -673,7 +673,7 @@ PlayerLifecycleView::CreateCircleType2
 PlayerUpdateStageD
 PlayerForwardAngleView::AngleFromPlayerToPoint
 PlayerBuildAabb
-PlayerDamagePlayerView::CalcDamageToEnemy
+PlayerLifecycleView::CalcDamageToEnemy
 ZunTimer::HasTicked
 AnmProjectionAbs
 EnemyEclManagerView::GetSubroutineCount

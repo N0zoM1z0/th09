@@ -592,8 +592,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 enemy->lastDamage33AC = 0;
                 if ((enemy->primaryFlags337C & ENEMY_CORE_ACCEPTS_DAMAGE) != 0)
                 {
-                    int damage = reinterpret_cast<PlayerDamagePlayerView *>(
-                        manager->sideState320->playerLifecycle04)->CalcDamageToEnemy(
+                    int damage = manager->sideState320->playerLifecycle04->CalcDamageToEnemy(
                         reinterpret_cast<PlayerDamageFloat3 *>(
                             &enemy->worldPosition2DD4),
                         reinterpret_cast<PlayerDamageFloat3 *>(
@@ -603,8 +602,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                         &enemy->secondaryDamageAccumulator2E60);
                     if (enemy->secondaryHitboxDimensions2DC8.x > 0.0f)
                     {
-                        reinterpret_cast<PlayerDamagePlayerView *>(
-                            manager->sideState320->playerLifecycle04)->CalcDamageToEnemy(
+                        manager->sideState320->playerLifecycle04->CalcDamageToEnemy(
                             reinterpret_cast<PlayerDamageFloat3 *>(
                                 &enemy->worldPosition2DD4),
                             reinterpret_cast<PlayerDamageFloat3 *>(

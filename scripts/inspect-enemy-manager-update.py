@@ -46,7 +46,7 @@ PLAYER_STATE_CALLS = (
     (0xBE5, '?GetUpdateState@PlayerLifecycleView@@QAEHXZ', 0x00435EC0),
     (0xC06, '?SetUpdateState@PlayerLifecycleView@@QAEXH@Z', 0x00403C20),
 )
-PLAYER_DAMAGE_SYMBOL = '?CalcDamageToEnemy@PlayerDamagePlayerView@@QAEHPAUPlayerDamageFloat3@@0PAH11@Z'
+PLAYER_DAMAGE_SYMBOL = '?CalcDamageToEnemy@PlayerLifecycleView@@QAEHPAUPlayerDamageFloat3@@0PAH11@Z'
 PLAYER_DAMAGE_FIELDS = (0x8BF, 0x8FF)
 TIMER_GREATER_SYMBOL = '??OZunTimer@@QAEIH@Z'
 TIMER_GREATER_FIELDS = (0x0A1, 0x276, 0x921, 0xEC6)

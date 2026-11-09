@@ -1,6 +1,8 @@
 #include "PlayerDamageView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "SoundPlayer.hpp"
+#include "EffectManager.hpp"
+#include "AnmManager.hpp"
 
 static void PlayerBuildAabb(
     PlayerDamageFloat3 *topLeft,
@@ -14,7 +16,7 @@ static void PlayerBuildAabb(
     bottomRight->y = center->y + size->y * 0.5f;
 }
 
-int PlayerDamagePlayerView::CalcDamageToEnemy(
+int PlayerLifecycleView::CalcDamageToEnemy(
     PlayerDamageFloat3 *position,
     PlayerDamageFloat3 *hitbox,
     int *primaryAccumulator,
@@ -34,7 +36,7 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
 
     PlayerBuildAabb(&enemyTopLeft, &enemyBottomRight, position, hitbox);
 
-    shot = shotsC11C;
+    shot = reinterpret_cast<PlayerDamageShotView *>(shots);
     if (bombHit != NULL)
         *bombHit = 0;
     for (int i = 0; i < 128; ++i, ++shot)
@@ -58,7 +60,8 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
             continue;
 
         if (shot->collisionCallback47C != NULL &&
-            shot->collisionCallback47C(this, shot, position))
+            shot->collisionCallback47C(
+                reinterpret_cast<PlayerDamagePlayerView *>(this), shot, position))
             continue;
 
         damage += shot->damage460;
@@ -69,8 +72,8 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
             {
                 savedRotation =
                     shot->rotationZ08;
-                anmFileBC->SetAndExecuteScriptIdx(
-                    shot, shot->animationIndex46C + 6);
+                header24.anmFile98->SetAndExecuteScriptIdx(
+                    reinterpret_cast<AnmVm *>(shot), shot->animationIndex46C + 6);
                 shot->rotationZ08 =
                     savedRotation;
                 reinterpret_cast<PlayerDamageFloat3 *>(
@@ -84,15 +87,15 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
             if (shot->shotType464 == 4)
             {
                 PlayerDamageFloat3 *effectPosition =
-                    &shotsC11C[0].position2A4;
-                sideState0C->effectManager0C->SpawnEffectInFixedSlot(
-                    34, effectPosition, 6,
+                    &reinterpret_cast<PlayerDamageShotView *>(shots)[0].position2A4;
+                sideState->effectManager0C->SpawnEffectInFixedSlot(
+                    34, reinterpret_cast<const EffectFloat3 *>(effectPosition), 6,
                     static_cast<unsigned int>(-1));
                 reinterpret_cast<PlayerLifecycleView *>(this)
                     ->CreateCircleType0(
                         reinterpret_cast<const PlayerRegionPointView *>(effectPosition), 0.0f, 1.6f, 6, 70, 0);
                 g_SoundPlayer.PlaySoundByIdx(
-                    16, sideIndex08 != 0 ? 500 : -500);
+                    16, sideIndex != 0 ? 500 : -500);
             }
         }
     }
@@ -100,7 +103,7 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
     *primaryAccumulator = damage;
 
     // Keep the slot authoritative across rotation and region-state writes.
-    PlayerDamageRegionView **slot = activeRegionsB100;
+    PlayerDamageRegionView **slot = reinterpret_cast<PlayerDamageRegionView **>(activeB100);
     while (*slot != NULL)
     {
 
