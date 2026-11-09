@@ -22,50 +22,9 @@ struct PlayerDeathAttackOwnerView
     void Configure(int mode0, int mode1, int zero, const char *path);
 };
 
-struct PlayerDeathTimerView
-{
-    int previous;
-    float subFrame;
-    int current;
-
-    void operator=(int value);
-};
-
-typedef char PlayerDeathTimerSizeIsC[(sizeof(PlayerDeathTimerView) == 0x0C) ? 1 : -1];
-
-struct PlayerDeathVmHandleView
-{
-    unsigned char unknown00[0x04];
-    void *vm04;
-};
-
-struct PlayerDeathActiveView
-{
-    unsigned char unknown00[0xC4];
-    unsigned char activeC4;
-};
-
-typedef char PlayerDeathActiveAtC4[
-    (offsetof(PlayerDeathActiveView, activeC4) == 0xC4) ? 1 : -1];
-
 struct PlayerDeathCounterView
 {
     void Add(int value);
-};
-
-struct PlayerDeathHeaderResetView
-{
-    void Reset();
-};
-
-struct PlayerDeathOwnerResetView
-{
-    void Reset();
-};
-
-struct PlayerDeathInterruptView
-{
-    void SetInterrupt(short interrupt);
 };
 
 extern int g_PlayerDeathCounter;
@@ -147,8 +106,8 @@ void PlayerLifecycleView::EnterDeathState()
         }
     }
 
-    *reinterpret_cast<int *>(this) = 4;
-    reinterpret_cast<PlayerDeathTimerView *>(&timer303C8)->operator=(0);
+    updateState00 = 4;
+    timer303C8 = 0;
 
     float angle = g_ReplayRng.GetRandomF32SignedInRange(3.1415927f);
     movementFields1CCC.movementAngle1CD8 = angle;
@@ -157,15 +116,13 @@ void PlayerLifecycleView::EnterDeathState()
     g_GameManager.frontFactoryA8->panelTimersE93C[sideIndex] = 60;
     g_GameManager.frontFactoryA8->panelColorsE934[sideIndex] = 0x80FF0000u;
 
-    PlayerDeathVmHandleView *vmHandle =
-        reinterpret_cast<PlayerDeathVmHandleView *>(focusEffect364);
+    Effect *vmHandle = focusEffect364;
     if (vmHandle != NULL)
     {
-        reinterpret_cast<PlayerDeathInterruptView *>(vmHandle->vm04)->SetInterrupt(1);
-        PlayerDeathActiveView *active =
-            reinterpret_cast<PlayerDeathActiveView *>(secondaryEffect368);
+        vmHandle->vms->SetInterrupt(1);
+        Effect *active = secondaryEffect368;
         focusEffect364 = NULL;
-        active->activeC4 = 0;
+        active->active = 0;
         secondaryEffect368 = NULL;
     }
 
@@ -175,6 +132,6 @@ void PlayerLifecycleView::EnterDeathState()
     else if (g_PlayerDeathCounter > 2)
         --g_PlayerDeathCounter;
 
-    reinterpret_cast<PlayerDeathOwnerResetView *>(&ownerState30410)->Reset();
-    reinterpret_cast<PlayerDeathHeaderResetView *>(&header24)->Reset();
+    ownerState30410.Reset();
+    header24.Reset();
 }

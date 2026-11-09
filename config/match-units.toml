@@ -17718,19 +17718,19 @@ relocations = [
   { offset = 0x1FD, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
   { offset = 0x202, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z", target = 0x0043E2F0 },
   { offset = 0x20E, type = "REL32", symbol = "?ClearState@FrontSide@@QAEXH@Z", target = 0x0041A380 },
-  { offset = 0x22A, type = "REL32", symbol = "??4PlayerDeathTimerView@@QAEXH@Z", target = 0x00401500 },
+  { offset = 0x22A, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x234, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x239, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
   { offset = 0x256, type = "REL32", symbol = "?SetPolar2D@@YIXPAUFloat2@@MM@Z", target = 0x00441890 },
   { offset = 0x25F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xA8 },
   { offset = 0x273, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xA8 },
-  { offset = 0x292, type = "REL32", symbol = "?SetInterrupt@PlayerDeathInterruptView@@QAEXF@Z", target = 0x00406790 },
+  { offset = 0x292, type = "REL32", symbol = "?SetInterrupt@AnmVm@@QAEXF@Z", target = 0x00406790 },
   { offset = 0x2B4, type = "DIR32", symbol = "?g_PlayerDeathCounterState@@3UPlayerDeathCounterView@@A", target = 0x004A7E40 },
   { offset = 0x2B9, type = "REL32", symbol = "?Add@PlayerDeathCounterView@@QAEXH@Z", target = 0x00403E30 },
   { offset = 0x2BE, type = "DIR32", symbol = "?g_PlayerDeathCounter@@3HA", target = 0x004A7E48 },
   { offset = 0x2D3, type = "DIR32", symbol = "?g_PlayerDeathCounter@@3HA", target = 0x004A7E48 },
-  { offset = 0x2DE, type = "REL32", symbol = "?Reset@PlayerDeathOwnerResetView@@QAEXXZ", target = 0x0041D7E0 },
-  { offset = 0x2E6, type = "REL32", symbol = "?Reset@PlayerDeathHeaderResetView@@QAEXXZ", target = 0x0041BDC0 },
+  { offset = 0x2DE, type = "REL32", symbol = "?Reset@PlayerOwnerStateView@@QAEXXZ", target = 0x0041D7E0 },
+  { offset = 0x2E6, type = "REL32", symbol = "?Reset@PlayerHeaderStateView@@QAEXXZ", target = 0x0041BDC0 },
 ]
 
 [units.supervisor-constructor]

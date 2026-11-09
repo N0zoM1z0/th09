@@ -24,6 +24,16 @@ class NativeDeathSideReceivers(unittest.TestCase):
         self.assertIn('sideState->frontSide18->ClearState(0);', s)
         self.assertIn('g_SoundPlayer.PlaySoundPositionedByIdx(', s)
         self.assertIn('g_SoundPlayer.PlaySoundByIdx(', s)
+        self.assertIn('updateState00 = 4;', s)
+        self.assertIn('timer303C8 = 0;', s)
+        self.assertIn('vmHandle->vms->SetInterrupt(1);', s)
+        self.assertIn('active->active = 0;', s)
+        self.assertIn('ownerState30410.Reset();', s)
+        self.assertIn('header24.Reset();', s)
+        for old in ('PlayerDeathTimerView', 'PlayerDeathVmHandleView',
+                    'PlayerDeathActiveView', 'PlayerDeathOwnerResetView',
+                    'PlayerDeathHeaderResetView', 'PlayerDeathInterruptView'):
+            self.assertNotIn(old, s)
 
     def test_original_complete_function_and_calls(self):
         u = self.unit
@@ -43,6 +53,17 @@ class NativeDeathSideReceivers(unittest.TestCase):
                 row = rows[offset]
                 self.assertEqual((row['symbol'], row['target'], row['type']),
                                  (symbol, target, kind))
+        native = (
+            (0x22A, '??4ZunTimer@@QAEXH@Z', 0x00401500),
+            (0x292, '?SetInterrupt@AnmVm@@QAEXF@Z', 0x00406790),
+            (0x2DE, '?Reset@PlayerOwnerStateView@@QAEXXZ', 0x0041D7E0),
+            (0x2E6, '?Reset@PlayerHeaderStateView@@QAEXXZ', 0x0041BDC0),
+        )
+        for offset, symbol, target in native:
+            with self.subTest(native_offset=offset):
+                row = rows[offset]
+                self.assertEqual((row['symbol'], row['target'], row['type']),
+                                 (symbol, target, 'REL32'))
 
 
 if __name__ == '__main__':
