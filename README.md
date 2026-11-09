@@ -56,7 +56,7 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-At the November 8 handoff, the canonical ledger records **2,248
+At the November 9 handoff, the canonical ledger still records **2,248
 candidates, 1,037 source-present authored mappings, 1,024 complete exact
 functions and 13 nonexact functions** (29,834 physical original bytes).
 Whole-original-byte exactness is **262,097 / 291,931 = 89.7805%**; the
@@ -64,13 +64,18 @@ Whole-original-byte exactness is **262,097 / 291,931 = 89.7805%**; the
 the current denominator. The inventory is not proven complete and the
 game is not a linked, runtime-tested native Windows product.
 
-Start with the [November 8 next-agent guide](docs/TH09_NEXT_AGENT_HANDOFF_20261108.md)
+Start with the [November 9 next-agent guide](docs/TH09_NEXT_AGENT_HANDOFF_20261109.md)
 and [live frontier/ledger](docs/RE_HANDOFF.md). These are current routing
-references; the [November 7 guide](docs/TH09_NEXT_AGENT_HANDOFF_20261107.md)
+references; the [November 8 guide](docs/TH09_NEXT_AGENT_HANDOFF_20261108.md),
+[November 7 guide](docs/TH09_NEXT_AGENT_HANDOFF_20261107.md)
 and [November 8 history snapshot](docs/RE_HANDOFF_HISTORY_20261108.md)
-contain historical source experiments, not the current HEAD. Three native
-Player constructors were newly recovered as complete exact owners (28, 23,
-12 bytes). The 309-byte `PlayerLifecycleView::InitializeShot` now belongs
+contain historical source experiments, not the current HEAD.
+
+Additional exact-byte Enemy/ECL constructor-shaped members were recovered
+on November 9 (28, 15, 15, 47 and 207 bytes). Those five remain
+origin-unclassified, so no authored exact ledger credit is added.
+The three native Player constructors previously recovered (28, 23, 12 bytes)
+remain tracked exact. The 309-byte `PlayerLifecycleView::InitializeShot` now belongs
 to the real Player and all seven exact shot callers retain its original
 `0x41F350` target. See the next-agent guide for current big-boss residuals.
 
@@ -124,10 +129,11 @@ not an acceptable shortcut around the native-product stage.
 - [`config/build.toml`](config/build.toml) — whole-product graph and explicit unknowns.
 - [`docs/RE_WORKFLOW.md`](docs/RE_WORKFLOW.md) — bounded reconstruction loop and stage gates.
 - [`docs/ORACLES.md`](docs/ORACLES.md) — what can falsify or accept each claim.
-- [`docs/TH09_NEXT_AGENT_HANDOFF_20261108.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261108.md) — **current** next-agent restart, exact source state, 13 big bosses and safe cache cleanup.
+- [`docs/TH09_NEXT_AGENT_HANDOFF_20261109.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261109.md) — **current** next-agent restart, corrected source facts, 13 boss frontiers and verified lossless archive cleanup.
+- [`docs/TH09_NEXT_AGENT_HANDOFF_20261108.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261108.md) — historical November 8 source and storage snapshot.
 - [`docs/TH09_NEXT_AGENT_HANDOFF_20261107.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261107.md) — historical November 7 guide, not the current worktree.
 - [`docs/TH09_NEXT_AGENT_HANDOFF_20261106.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261106.md) — historical November 6 cleanup snapshot, not the current HEAD.
-- [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — concise live ledger, all13 nonexact frontiers and evidence routing.
+- [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — concise live ledger, all 13 nonexact frontiers and evidence routing.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — target facts and maintained source/verification map.
 - [`docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`](docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md) — frozen historical checkpoints; use the active handoff, not this archive, for current facts.
 - [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) — durable TH09-only facts.

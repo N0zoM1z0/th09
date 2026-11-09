@@ -1,5 +1,12 @@
 # TH09 complete ChargeAttack is a native Player member, not a derived overlay
 
+> **Historical ownership evidence.** The older 1,197-byte and 1,195-byte
+> candidate numbers below are superseded by the 2026-11-09 complete-size
+> 1,210/1,210 source candidate (70 fields, 58 calls, 53 direct blocks,
+> 235 unlike ordinary bytes). For the current live frontier, see
+> [RE_HANDOFF](RE_HANDOFF.md) and
+> [the November 9 restart guide](TH09_NEXT_AGENT_HANDOFF_20261109.md).
+
 Original: SHA-256-pinned Japanese TH09 v1.50a retail PE
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
 This is a natural C++ source and actual ABI reconstruction, not byte-exact

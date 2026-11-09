@@ -1,5 +1,12 @@
 # TH09 boss reconstruction probes — 2026-11-09
 
+> Historical experiment packet, not the final November 9 source state.
+> For the complete ChargeAttack source/CFG recovery, the six native
+> Enemy/ECL constructor-interface proofs and the verified storage cleanup,
+> read the [current handoff](TH09_NEXT_AGENT_HANDOFF_20261109.md).
+> Local trial objects removed by cleanup can be selectively restored from
+> the SHA-256-verified 2026-11-09 source-probe archive.
+
 This is a fresh focused compiler/PE investigation against the maintained
 pinned-VC7.1 sources. It records both negative and positive observations; it
 does not grant exactness, runtime, product, or Factory credit. No full-project

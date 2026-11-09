@@ -1,9 +1,9 @@
 # TH09 evidence index and historical experiment archive
 
-**Supersession notice updated 2026-11-08:** This is an append-only
+**Supersession notice updated 2026-11-09:** This is an append-only
 historical evidence index, **not** a current-state specification.
-Use [the November 8 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261108.md)
-for recent owner boundaries and independently checked source state. In
+Use [the November 9 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261109.md)
+for current owner boundaries, constructor interfaces and source state. In
 particular the earlier Player movement **129-difference** checkpoints were
 superseded by the original-bound **122** frontier; neither is exact.
 Compiler-private label spellings and old private memory projections are
@@ -15,8 +15,37 @@ the October 17 eight-byte `AnmLoadedResidentView.hpp` was later deleted.
 The shared `Supervisor` is **0x7B0 bytes**; Startup, deletion, frame queue
 and DInput owners now use that same object. GameManager's two side records
 share one **0x38-byte** native layout. Consult
-[the current next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261108.md) and current
+[the current next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261109.md) and current
 source/ledger before reviving an old layout or exactness hypothesis.
+
+### 2026-11-09: Corrected current code facts, before historical checkpoints
+
+The 2026-11-09 original-bound VC7.1 reconstructions supersede several older
+snapshots in this index. The original Enemy constructor actually constructs
+**194 x 0x1C trail vertices at +0x3E68**, ending at +0x53A0. The known
+draw path uses 192 vertices for 96 samples; the meaning of the two extra
+elements is not established. The historical inference of a 56-byte
+opaque gap from +0x5368 to +0x53A0 was false.
+
+The Enemy constructor at 0x412100 is now **207/207** complete-byte exact
+with 18 original fields, as part of a six-interface native constructor
+chain checked in `scripts/inspect-enemy-ecl-constructors.py`. The five
+newly recovered construction bodies retain **unknown origin**, not accepted
+authored exactness; the sixth is a logical C++ alias of the already tracked
+0x40D500 constructor.
+
+`PlayerLifecycleView::UpdateChargeAttack` now has a **1,210/1,210**
+candidate with 70 bound fields, 58 calls, 350 instructions, 53 direct
+blocks and **235 ordinary differences**. Earlier November 7/9 notes below
+describing 1,195/1,197-byte candidates, a 42-position guard or missing
+15/13 bytes are strictly historical. The live guard now protects 975
+target-equal positions. See [the active frontier](RE_HANDOFF.md) and
+[the November 9 handoff](TH09_NEXT_AGENT_HANDOFF_20261109.md).
+
+The previously reported three-byte `TitleScreenView::DrawResult`
+diagnostic allowance was also stale: a fresh source-cold check is
+**1,939/1,939 byte exact**, with 82 fields and zero residual positions.
+Do not confuse that with still-nonexact `OnUpdateResult`.
 
 ### 2026-11-07: RunEcl native union byte accessor, not raw prefix alias
 

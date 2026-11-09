@@ -48,32 +48,40 @@ actual exactness, target identity, natural-source and state-isolation rules.
 
 ## Current operator status
 
-At the **2026-11-08 handoff**, the operator asked for clean source/docs and
-safe storage reduction so another agent can continue. For reconstruction,
-work on both big nonexact bosses and exact leaves. Challenge previous
-hypotheses against the original target and pinned compiler; retain and
-finish dirty/untracked work instead of resetting it. Commit coherent advances
-using `gpt-web: <English subject>`. Use only affected complete source-cold
-PE/COFF comparisons and bounded boss diagnostics, not routine all-owner replay.
+At the **2026-11-09 handoff**, the operator requested a usable source/docs
+checkpoint and safe storage reduction for the next reconstruction agent.
+Keep pursuing complete big-boss and leaf functions, challenge previous
+hypotheses against the original TH09 target and pinned VC7.1 compiler,
+preserve valuable dirty/untracked work, and commit substantive progress with
+`gpt-web: <English subject>`. Use only affected complete original-bound
+PE/COFF comparisons; routine full-project cold replay is forbidden.
 
-The **current execution guide** is
-`docs/TH09_NEXT_AGENT_HANDOFF_20261108.md`, with the live ledger and all 13
-open frontiers in `docs/RE_HANDOFF.md`. The source baseline for this refresh
-is `6d3a3618`; `main` was clean and in sync with `origin/main` before the
-handoff-only documentation commits. The latest source-affecting commit is
-`f40b2755`, while `6d3a3618` changes only the boss diagnostic and its
-regression test. The November 7 guide and
-`docs/RE_HANDOFF_HISTORY_20261108.md` are **historical snapshots**, not current
-statements about HEAD, remaining cache or active next steps. Always inspect
-`git status`, `git log` and canonical ledgers again: documentation commits can
-advance HEAD without source changes. Git commits are not Factory receipt,
-byte-exact, full product, or remote-push acceptance proofs.
+The **current restart guide** is
+`docs/TH09_NEXT_AGENT_HANDOFF_20261109.md`; live ledger/boss frontiers are
+in `docs/RE_HANDOFF.md`. The latest source-affecting checkpoint before
+this handoff is `e7964962`, preceded by native constructor recovery
+`6527b101` and `6cc6bfe8`. Do not repeat the old November 8 HEAD claim
+`6d3a3618` or describe older experimental candidate sizes as current:
+the ChargeAttack candidate now fills all 1,210 original bytes, with 235
+remaining differences; Enemy OnUpdate remains 13 bytes unlike and RunEcl
+30 unlike. Five exact-byte Enemy/ECL construction bodies remain
+origin-unclassified, so the canonical authored ledger still records
+**1,024 exact / 13 nonexact**. The source commit and new handoff commits are
+different kinds of checkpoints; check Git before every change.
+
+The 2026-11-09 cleanup archived selected historical probe copies under
+`.analysis/handoff-archive-20261109/` with full-file SHA-256 verification
+and deleted regenerated `build/` caches. The private original, Wine
+runtime, saved analyzer databases, accepted proofs, Ghidra projects and
+retained Enemy/RunEcl baseline trees remain protected. The November 8 and
+November 7 guides and `docs/RE_HANDOFF_HISTORY_20261108.md` are
+**historical**, not current state or remaining-cache inventories.
 
 Use the live registered repository worktree exposed to the current agent for
 Git, source and build operations; do not switch to an arbitrary checkout or
 assume a previous session's working directory. For static analysis use the
-target-attested local Ghidra runner and pinned VC7.1 compiler Oracles. Direct
-Ghidra analysis is distinct from the compiler/byte-exact Oracle. Compile
+target-attested local IDA/Ghidra providers and pinned VC7.1 compiler
+Oracles. Analyzer evidence is distinct from the compiler/byte-exact Oracle. Compile
 serially at lowered priority, bound resources and reuse unchanged
 source/profile/object proofs. Recover dirty work rather than discarding or
 hiding it.

@@ -1,12 +1,13 @@
-# TH09 reconstruction — live handoff (2026-11-08)
+# TH09 reconstruction — live handoff (2026-11-09)
 
-**Start with the [November 8 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261108.md).**
-It covers the current native code, targeted compiler loop, important
-corrected assumptions and safe cache cleanup. Also read
+**Start with the [November 9 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261109.md).**
+It covers the current native code, targeted compiler loop, corrected
+assumptions and verified lossless experiment archiving. Also read
 [AGENTS.md](../AGENTS.md), the [original PE/VC7.1 Oracles](ORACLES.md),
 and the [workflow](RE_WORKFLOW.md).
-The older [November 7 guide](TH09_NEXT_AGENT_HANDOFF_20261107.md) is
-**historical**, not a current checkout snapshot. The cumulative 971-line
+The older [November 8](TH09_NEXT_AGENT_HANDOFF_20261108.md) and
+[November 7](TH09_NEXT_AGENT_HANDOFF_20261107.md) guides are **historical**,
+not current checkout snapshots. The cumulative 971-line
 pre-cleanup live journal is preserved in
 [the November 8 history archive](RE_HANDOFF_HISTORY_20261108.md);
 do not use its individual “latest” or “still pending” notes as live facts.
@@ -43,15 +44,37 @@ ignored local inputs, not versioned Git files.
 
 ## Current implementation and corrected assumptions
 
-- **Source baseline for this handoff:** `main` at `6d3a3618`, clean and in
-  sync with `origin/main` before the handoff-only documentation commits. The
-  latest source-affecting commit is `f40b2755`; `6d3a3618` updates only the
-  boss diagnostic and its test.
-  Since the earlier Player shot checkpoint, source work has unified the Enemy
-  and GameManager side projections (`4d7b9e6e`, `7e29e4e8`, `34f4016d`,
-  `cf584baf`) and refined the two remaining RunEcl handlers
-  (`a99405bd`, `76c61837`, `f40b2755`). These are source-history pointers, not
-  exactness claims beyond the canonical ledger.
+- **Source baseline for this handoff:** last source-affecting commit
+  `e7964962` (native `EnemyView` ctor/layout), preceded by
+  `6527b101` (ECL context/interpolation ctors) and `6cc6bfe8`
+  (timeline/manager ctors). These commits are present in `main`;
+  run `git status` and `git log` again, since handoff maintenance can
+  advance `HEAD` without changing reconstructed code.
+- **Five native Enemy/ECL special members now have byte-perfect
+  source-equivalent C++ constructors** at `0x40FCA0` (28),
+  `0x412090` (15), `0x4120C0` (15), `0x4120D0` (47) and
+  `0x412100` (207). The 28-byte descriptor constructor
+  `0x40D500` also admits a new logical C++ alias. All six are independently
+  bound in `scripts/inspect-enemy-ecl-constructors.py`. The five special
+  members **stay ledger-unclassified** (explicit vs implicit authorship
+  unknown), so the 1,024 authored exact count is unchanged. At Enemy +0x3E68
+  **194 x 0x1C vertices are constructed**, while the known renderer consumes
+  only 192. The older supposed opaque +0x5368–+0x53A0 gap is disproven;
+  purpose of the extra two constructed records remains unknown.
+- **Complete ChargeAttack source/CFG recovery:** the source-cold candidate
+  now fills all 1,210 target bytes, preserving all 70 fields, 58 calls,
+  350 instructions and 53 direct blocks, with **235 ordinary differences**.
+  The previous 1,195/1,210 and 1,197/1,210 candidates are historical.
+- **Title DrawResult** at `0x00423D16` is strictly exact (1,939 bytes,
+  82 fields). The older three-byte frontier allowance was stale and
+  removed; do not confuse this exact draw function with the nonexact
+  485-byte `TitleScreenView::OnUpdateResult` callback.
+- **Replay SaveReplay** remains 1,238/1,238 with two unlike bytes at
+  +0xB7/+0xBB. Both frame copy and serialized cursor step now use
+  `sizeof(*frameHeader)`. **BeginPlaybackStage** remains 538/540 with
+  39 unlike overlap bytes; side-0 value1E8 is explicitly snapshotted
+  before reading its runtime owner. Source chronology is not emitted
+  register equivalence.
 - The **309-byte `PlayerLifecycleView::InitializeShot`** remains on the native
   Player, with native `PlayerShotCtorView *` and `PlayerShtDescriptorView *`.
   Its **seven independently exact callers** still target `0x0041F350`.
@@ -99,7 +122,7 @@ pinned compiler when you make a source change. Use only its focused
 | **RunEcl** | 0x004086C0 | 15,564 physical bytes, 598 original fields, **30** ordinary unlike | Opcodes 4 (timer transport, 7 bytes) and 155 (flag write, 23 bytes); preserve complete owned jump tables. `--owner runecl`. Source `src/EclManager.cpp`. |
 | **Enemy OnUpdate** | 0x00410730 | 3,900/3,900 physical, 97 fields, 69 calls, **13** unlike | Draw-index register and descriptor position/threshold transport. Current source uses actual GameManager Etama side. `--owner enemy`. Source `src/EnemyManagerCore.inl`. |
 | **Player movement** | 0x0041C170 | 1,900/1,900, 66 fields, 23 calls, **122** unlike | Loop/index register scheduling; retain authentic native option/position arrays. `--owner movement`. Source `src/PlayerMovement.cpp`. |
-| **Player ChargeAttack** | 0x0041F810 | 1,210 original / 1,197 candidate, 70 fields, 58 calls, **13 missing** | Recover source chronology, register lifetime and missing code; old volatile length-only variants were not exact. `--owner charge`. |
+| **Player ChargeAttack** | 0x0041F810 | **1,210/1,210**, 70 fields, 58 calls, **235** unlike, 0 missing; 350 instructions, 53 direct blocks, matching CFG | Mode byte [EBP-1] and input receiver register allocation; complete extent has already been recovered. `--owner charge`. |
 | **Title OnUpdateResult** | 0x004266B5 | 485 original / 484 candidate, 34 fields, 9 calls; 218 unlike overlaps + 1 missing | Character/score snapshot and result branch transport. `--owner resultdraw`. |
 | **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 57 fields, 13 calls, **29** unlike | Menu record/bank chronology. `--owner replaymenu`. |
 | **GameplaySetupThread** | 0x0041AF2D | 1,689 original / 1,682 candidate, 172 fields, 35 calls, 694 unlike overlaps + 7 missing | Gameplay rate and side/rank ordering. `--owner gamemgr`. |
@@ -136,25 +159,32 @@ all affected exact siblings. Preserve dirty/untracked work and do not
 reset it to evade failing original-bound comparisons. Checkpoints use
 `gpt-web: <English subject>`.
 
-## Local cache state and history
+## Current local storage and archival history
 
-The 2026-11-08 handoff cleanup removed **13 failed experiment directories /
-24,356 files / 189,165,842 logical bytes** and **1,357 guarded cache files /
-279,337,498 logical bytes**. The latter comprised 32 `build/` files /
-3,197,466 bytes and 1,325 `.analysis/` debug/bytecode files /
-276,140,032 bytes. Combined reduction: **468,503,340 bytes (about 446.9 MiB)**.
+The 2026-11-09 cleanup archived **140 experiment subdirectories / 24,862
+files / 383,162,789 logical bytes** into the ignored, SHA-256 verified
+`.analysis/handoff-archive-20261109/source-probes.tar.zst` (**24,643,109
+bytes**). A manifest individually hashes every file; the entire archive was
+stream-verified **before** removal. It contains the previous trial sources,
+objects, logs and result snapshots; selectively restore via `tar -I zstd`.
 
-`build/` is absent and will be recreated by a focused compile. Remaining
-`.analysis/` logical size is **1,231,904,579 bytes**; saved Ghidra projects,
-historical archives, the retained Enemy/RunEcl baseline evidence and
-`runecl-probes/` remain. `.tools/wine/` remains intact. The default cleaner
-preserves analysis `.obj` files unless an explicit reviewed path/SHA-256 list
-is supplied. Local ignored inventories:
+An independent safe cache clean removed **158 ignored `build/` files /
+12,328,681 bytes**. Allowing for the archive, manifest and receipts, the
+current operation reclaimed approximately **365 MB** of logical storage.
+The old November 8 cleanup totals remain only in
+[historical cleanup notes](RE_ARTIFACT_CLEANUP_HISTORY.md), not an additive
+estimate of remaining files.
 
-- `.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`
-- `.analysis/handoff-cleanup-20261108-agent/removed-scratch.json`
+**Preserved**: original Japanese `resources/th09.exe`, `.tools/wine/`,
+saved Ghidra/IDA project data, older lossless archives, the parent
+`gpt-web-th09-boss-leaf-20261108` baseline proof, its `runecl-probes/`,
+`enemy-probes/`, and playback analyzer evidence. After cleanup `build/`
+is absent; recreate only the necessary carrier with `build-match-unit.py`.
+The new archive, file manifest, verification result and cleanup receipt
+are ignored local state and are **not** included in Git. A fresh Git clone
+must separately receive the original target/compiler/analyzer inputs.
 
-The November 8 next-agent guide records the exact cleanup scope and the
-retained inputs. Do not delete `.analysis/` wholesale; a plain Git clone does
-not include the private target, compiler runtime, Ghidra projects or local
-historical evidence.
+The authoritative restoration commands, corrected boss rankings and
+source-change handoff are in the
+[November 9 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261109.md).
+Do not delete `.analysis/` wholesale.

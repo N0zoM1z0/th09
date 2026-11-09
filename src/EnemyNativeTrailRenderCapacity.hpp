@@ -5,8 +5,8 @@
 
 // The original 96 history samples render as 192 ANM vertices (two per
 // sample), but the Enemy constructor actually constructs 194 vertices.
-// The final two are allocated/constructed tail sentinels, not extra
-// samples to render; do not conflate render capacity with owner extent.
+// The final two are constructed but not rendered by the known trail draw
+// path; their original gameplay role is not yet established.
 struct EnemyNativeTrailRenderCapacity
 {
     enum

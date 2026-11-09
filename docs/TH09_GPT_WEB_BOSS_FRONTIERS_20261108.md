@@ -3,7 +3,7 @@
 > Historical source-bound investigation snapshot from 2026-11-08. Its
 > per-owner compiler observations remain useful, but its branch/HEAD and
 > “latest” statements are not live status. Use
-> [the refreshed next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261108.md) and
+> [the refreshed next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261109.md) and
 > [live ledger](RE_HANDOFF.md) for current state. It does not claim that the
 > large open owners below are exact. The target is the
 > Japanese TH09 v1.50a PE with SHA-256

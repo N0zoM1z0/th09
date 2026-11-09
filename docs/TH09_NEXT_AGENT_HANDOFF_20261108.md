@@ -1,5 +1,11 @@
 # TH09 — next agent: clean restart (2026-11-08)
 
+> **Historical snapshot; superseded 2026-11-09.** Start with the
+> [November 9 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261109.md)
+> and [live handoff](RE_HANDOFF.md) instead. This note's HEAD,
+> generated-object availability, and ChargeAttack candidate size are
+> accurate only for its original November 8 checkpoint.
+
 **Use the actual Git worktree, not a remembered checkpoint.** Read
 [AGENTS.md](../AGENTS.md), the [live ledger/frontiers](RE_HANDOFF.md),
 [original-byte Oracles](ORACLES.md), and [workflow](RE_WORKFLOW.md).
