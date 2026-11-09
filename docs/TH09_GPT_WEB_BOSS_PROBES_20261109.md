@@ -351,3 +351,78 @@ above do not close it.
 No production source change was accepted from this sweep. The target PE hash,
 original-bound inventories, current exact siblings and canonical match units
 remain unchanged. No full-project cold replay was run.
+
+## Fifth focused sweep — separate branch-shape and register-lifetime causes
+
+### `GameplaySetupThread`: isolate the remaining fixed-value block
+
+The strongest natural source candidate in this sweep uses a fixed-22 label in
+the mode-4 arm, a fall-through `if (gameMode == 2)` form in mode 3, and a
+nested `switch (gameMode)` in mode 2. Its fresh pinned build is **1,689 / 1,689
+physical bytes**, **414 / 413 instructions**, **172 / 172 bound fields**,
+**374 unequal bytes**, and **zero missing target bytes**. The direct graph is
+still not identical, and the extra instruction means this is not an exact
+owner.
+
+The complete disassembly alignment narrows the remaining structural issue to
+three small regions, not a vague whole-function mismatch:
+
+- target `+0x431` contains the fixed `valueC8 = 22` store in the case-4 block;
+  the candidate moves that same store to `+0x545` in the shared mode-2 tail;
+- target `+0x521` is `cmp [gameMode], edi; jne ...`; the nested-switch
+  candidate uses `mov eax,[gameMode]; sub eax,edi; je ...` at `+0x513`;
+- the candidate's corresponding shared-tail jump/store adds one instruction
+  relative to the target.
+
+New controls separated these causes. Replacing the mode-2 nested switch with
+an `if (gameMode == 2)` plus `goto fixed_mode_value_c8` restores the target's
+`cmp [gameMode],edi; jne` branch shape, but the compiler duplicates/moves the
+fixed-22 store and returns to **1,682 bytes / 413 instructions / 694
+unequal bytes / seven missing bytes**. Inverting that `if` keeps a memory
+compare but reverses the conditional edge and yields **1,688 bytes / 413
+instructions / 684 unequal bytes / one missing byte**. Comparing against a
+local setup-mode snapshot or switching on `gameMode - 2` adds fields or
+instructions and is worse. These results establish that the fixed-store
+placement and conditional edge must be solved together; neither a local alias
+nor a cosmetic condition inversion is sufficient. No setup source variant is
+adopted.
+
+### `EnemyManagerView::OnUpdate`: exact register and local-home schedule
+
+The 13-byte owner frontier was re-decoded at instruction boundaries. The
+residuals are register selection and three stack-home placements:
+
+- `+0x19A`: target reads `drawGroup3387` into EAX and indexes the draw-head
+  table with EAX; candidate reads it into ECX and indexes with ECX;
+- `+0x251/+0x262`: target loads `sideState320` into EAX and fetches the effect
+  receiver through `[eax+0x0C]`; candidate uses EDX and `[edx+0x0C]`;
+- `+0x26C/+0x272`: target loads the special-attack threshold into EDX and
+  pushes EDX; candidate uses EAX;
+- `+0x293..+0x2BF`: target loads position x/y/z through EAX and stores them
+  to the descriptor's three consecutive homes `-0x2A4/-0x2A0/-0x29C`.
+  Candidate loads through ECX with a cyclic EDX/EAX/ECX assignment and writes
+  the same values to `-0x29C/-0x2A4/-0x2A0`.
+
+An explicit natural `descriptor.position.x/y/z` assignment in x/y/z order
+reproduces the target's x/y/z register-to-stack-home ordering. However, it
+changes the owner-bound literal-reference positions and is rejected by the
+strict original-field guard; it is not integrated. Pointer/reference aliases
+reused across both the periodic effect call and descriptor construction retain
+the original 13-byte frontier. The canonical owner remains **3,900 / 3,900
+bytes, 97 fields, 69 calls, 170 blocks, 13 differences**. No guard or literal
+identity check is weakened.
+
+### `BeginPlaybackStage`: lexical lifetime controls
+
+Four natural nested-scope variants were compiled: the entire stage section,
+frame pointer selection through seed publication, header publication through
+seed publication, and cursor publication through seed publication. Each
+retains **538 / 540 bytes, 151 / 152 instructions, 32 / 32 fields, 5 / 5
+ordered calls, 12 / 12 blocks, 39 overlapping differences, and two missing
+bytes**. The final `inputDelay = 0` store remains before the saved-register
+pops, and the target's zero-extend-through-EDX seed argument remains
+unexplained. The source was restored; no lifetime-only scope is adopted.
+
+All probes compiled only the touched translation unit/carrier. The
+maintained sources were restored after every experiment. No full-project cold
+replay ran, and no exactness credit or target denominator changed.
