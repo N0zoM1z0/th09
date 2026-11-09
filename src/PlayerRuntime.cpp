@@ -8,7 +8,6 @@
 #include "EffectManager.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "PlayerEnemyTrackingStateView.hpp"
-#include "PlayerSharedRuntimeView.hpp"
 #include "FrontFactoryConstructView.hpp"
 #include "GameManagerRuntimeView.hpp"
 #include "Supervisor.hpp"
@@ -330,7 +329,6 @@ static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
 }
 
 
-extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 
 struct PlayerInputRuntimeView
 {
@@ -352,7 +350,7 @@ struct PlayerBombOwnerRuntimeView
 
 static void UpdatePlayerBombState(PlayerLifecycleView *player)
 {
-    if (g_PlayerSharedRuntime->updateBlock1095C != 0)
+    if (g_GameManager.frontFactoryA8->transitionVmCount1095C != 0)
         return;
     if (player->GetUpdateState() == 4)
         return;
@@ -819,12 +817,12 @@ afterTransition:
             }
         }
 
-        if (g_PlayerSharedRuntime->updateBlock1095C == 0)
+        if (g_GameManager.frontFactoryA8->transitionVmCount1095C == 0)
             player->UpdateChargeAttack();
     }
 
     if ((player->sideState->flags34 & 1) == 0 &&
-        g_PlayerSharedRuntime->updateBlock1095C == 0)
+        g_GameManager.frontFactoryA8->transitionVmCount1095C == 0)
         PlayerUpdateStageC(player);
 
     PlayerUpdateStageD(player);
@@ -982,7 +980,7 @@ void PlayerLifecycleView::SpawnRewardTailState(
     PlayerRewardTailStateView *state =
         reinterpret_cast<PlayerRewardTailStateView *>(tailStates30454);
 
-    if (g_PlayerSharedRuntime->updateBlock1095C != 0)
+    if (g_GameManager.frontFactoryA8->transitionVmCount1095C != 0)
         return;
 
     for (int index = 0; index < 4; ++index, ++state)
@@ -1031,9 +1029,9 @@ int __fastcall PlayerLifecycleView::OnDrawHighPrio(PlayerLifecycleView *player)
     player->DrawActiveShots();
     if (player->header24.state84 == 0)
     {
-        if (g_PlayerSharedRuntime->updateBlock1095C >= 2)
+        if (g_GameManager.frontFactoryA8->transitionVmCount1095C >= 2)
             return 1;
-        if (g_PlayerSharedRuntime->drawCounter10960 > 30)
+        if (g_GameManager.frontFactoryA8->transitionFrame10960 > 30)
             return 1;
     }
 

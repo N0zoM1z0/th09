@@ -58,8 +58,10 @@ class PlayerNativeStateSetterAcrossBosses(unittest.TestCase):
     def test_enemy_big_boss_calls_native_method_at_original_va(self):
         source=(ROOT/'src/EnemyManagerCore.inl').read_text()
         checker=(ROOT/'scripts/inspect-enemy-manager-update.py').read_text()
-        self.assertIn('reinterpret_cast<PlayerLifecycleView *>(manager->sideState320->player04)->SetUpdateState(3);',source)
+        self.assertIn('manager->sideState320->playerLifecycle04->SetUpdateState(3);',source)
         self.assertNotIn('PlayerState4OpsView',source)
+        self.assertIn('typedef AsciiGameManagerSideView EnemySideStateView;',
+                      (ROOT/'src/EnemyManager.hpp').read_text())
         self.assertIn(SYMBOL,checker)
         self.assertIn('0x00403C20',checker)
         self.assertIn('(0xC06,',checker)

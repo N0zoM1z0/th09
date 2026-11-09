@@ -61,5 +61,28 @@ class NativeSharedPlayerRuntime(unittest.TestCase):
         self.assertEqual(self.units['player-on-update']['size'],522)
 
 
+    def test_player_runtime_native_front_transition_reads(self):
+        runtime = (ROOT/'src/PlayerRuntime.cpp').read_text()
+        self.assertNotIn('g_PlayerSharedRuntime->', runtime)
+        self.assertNotIn('#include "PlayerSharedRuntimeView.hpp"', runtime)
+        self.assertEqual(runtime.count('g_GameManager.frontFactoryA8->transitionVmCount1095C'),5)
+        self.assertEqual(runtime.count('g_GameManager.frontFactoryA8->transitionFrame10960'),1)
+        reference = '?g_GameManager@@3UAsciiGameManagerView@@A'
+        affected = {'player-on-update':(0x1AD,0x1CD),
+                    'player-update-bomb-state':(0x01,),
+                    'player-draw-high-prio':(0x2F,),
+                    'player-spawn-reward-tail-state':(0x05,)}
+        for name, offsets in affected.items():
+            actual = {r['offset']:r for r in self.units[name]['relocations']}
+            for offset in offsets:
+                with self.subTest(unit=name, offset=offset):
+                    r = actual[offset]
+                    self.assertEqual((r['symbol'],r['target'],r.get('addend',0),r['type']),
+                                     (reference,0x004A7D90,0xA8,'DIR32'))
+        self.assertEqual(self.units['player-on-update']['size'],522)
+        self.assertEqual(self.units['player-update-bomb-state']['size'],335)
+        self.assertEqual(self.units['player-draw-high-prio']['size'],166)
+
+
 if __name__ == '__main__':
     unittest.main()
