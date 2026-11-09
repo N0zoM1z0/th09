@@ -785,7 +785,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
                 const ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
                 memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), frameHeader, sizeof(*frameHeader));
                 replayCopy.frameOffset[stream][loopIndex] = currentOffset;
-                currentOffset += sizeof(ReplayFrameDataStartView);
+                currentOffset += sizeof(*frameHeader);
                 for (; link != NULL; link = link->next)
                 {
                     int streamSize = ReplayRecordingCapacity::InputFrameBytes * link->frameCount;

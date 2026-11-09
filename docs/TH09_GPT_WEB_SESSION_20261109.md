@@ -293,3 +293,19 @@ continues to pass a full strict canonical byte/field comparison. Several
 natural destination-pointer, typed struct-copy, helper and loop-lifetime
 alternatives for the remaining two SaveReplay register differences were
 rejected after whole-owner comparison; none was incorporated.
+
+
+## Replay SaveReplay: align typed copy and cursor advance
+
+Following the committed pointer-sized frame copy, the stream cursor now uses
+currentOffset += sizeof(*frameHeader) instead of a separately spelled
+sizeof(ReplayFrameDataStartView). The actual native frame-start pointer is a
+32-byte POD record, so both expressions are type- and behavior-equivalent.
+Keeping the cursor step tied to the copied object prevents accidental drift if
+a future layout reconstruction adjusts that type.
+
+The same focused no-EH carrier rebuild gives 1,238/1,238 SaveReplay bytes,
+53 independently bound relocations and the same two register-only residuals
+(+0xB7, +0xBB). BeginPlaybackStage remains 538/540, 32 fields, 39 residuals
+and a matching CFG. This change is a maintained C++ source-model refinement,
+not an exactness claim for either boss.

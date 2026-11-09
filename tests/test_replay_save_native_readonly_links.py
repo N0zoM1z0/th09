@@ -22,6 +22,9 @@ class ReplaySaveNativeReadOnlyLinks(unittest.TestCase):
         # whose complete 0x20-byte extent is independently layout-guarded.
         self.assertIn('ReplayFrameDataStartSizeIs20',
                       (ROOT/'src/ReplayDataOriginalView.hpp').read_text())
+        # Copy and serialized cursor must advance by the same native record.
+        self.assertIn('currentOffset += sizeof(*frameHeader);', save)
+        self.assertNotIn('currentOffset += sizeof(ReplayFrameDataStartView);', save)
         self.assertNotIn('memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), frameHeader, 32)',save)
         self.assertIn('memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->input[stream], streamSize);',save)
         self.assertIn('memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->fps, fpsSize);',save)
