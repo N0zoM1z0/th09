@@ -225,3 +225,71 @@ No full-project cold replay was run. All rejected source experiments restored
 the maintained source before the next build. The canonical owner checks above
 rebuild only their selected carriers and deliberately grant no exactness to
 non-exact owners.
+
+## Third focused sweep — mixed switch branches, playback seed codegen, Enemy register allocation
+
+### GameplaySetupThread: mixed branch forms move the frontier by a byte, but do not close the shared-store seam
+
+All candidates below were rebuilt only from `src/GameManagerSetup.cpp` with
+the reviewed `/MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Os /Ob1 /Oy-`
+profile. The original PE remains the sole target. Every candidate retained
+172 address fields and 35 ordered calls; every candidate decoded the same
+78 direct blocks, but none had an identical direct graph.
+
+- Inverting only the `case 2` mode test (`if (gameMode != 2) normal; else fixed`) while retaining the case-4 shared label and case-3 forward spelling produces **1,688 bytes / 413 instructions / 684 unequal bytes / one missing target byte**. This is ten fewer unequal bytes and six more candidate bytes than the maintained 1,682/694/seven-missing frontier. It is a genuine natural C++ spelling and remains a non-exact probe, not yet adopted.
+- Inverting both case-3 and case-2 tests gives 1,685/413/693/four-missing. Explicit normal-path labels for both cases give the same frontier. Putting only the explicit normal-path label on case 2 is equivalent to the 1,688/684/one-missing result above.
+- A nested `switch (gameMode)` in case 2 produces 1,689 bytes, 414 instructions, 374 unequal bytes and no missing bytes. However, it changes the target's `cmp [gameMode], edi; jne normal` into `mov eax,[gameMode]; sub eax,edi; je ...`, adds one instruction, changes the direct graph, and still places the shared fixed-22 store in a later common block rather than the target's case-4 block. It is not accepted as a source improvement merely because its physical overlap count is smaller.
+- Nested-switch forms in case 3 or both cases, `do/while(0)` and `if(1)` label wrappers, a constant `switch(0)` label wrapper, and volatile lvalue casts do not improve the maintained branch/store topology. The volatile forms are explicitly rejected as anti-optimization hypotheses, not natural source candidates.
+
+The decisive original seam remains: the retail case-4 block stores `valueC8 = 22`
+at `+0x431`, and the fixed-mode case-3/case-2 paths jump backward to that
+store. The maintained compiler candidate factors the same store into a
+later common block. The new mixed case-2 spelling is promising for raw extent
+and residual count, but it does not yet reproduce the retail branch destination
+or complete owner. No production source or strict inspector gate was changed.
+
+### BeginPlaybackStage: more seed-local and receiver-order controls
+
+A fresh no-EH `ReplayInputNoEh.obj` baseline reproduces the complete 540-byte
+original-bound diagnostic: 538 candidate bytes, 151 instructions, 32 fields,
+5 ordered calls, 12 direct blocks, 39 unequal overlapping bytes and two
+missing target bytes. The complete field inventory, call order and direct
+control-flow graph agree; all field-change spans remain empty.
+
+The target seed call tail is:
+
+```text
+xor edx,edx
+mov dx,[eax+4]
+mov ecx,0x4ACE0C
+push edx
+call SetSeed
+```
+
+The maintained candidate uses `movzx eax,word ptr [eax+4]; push eax; mov ecx,...; call`.
+New `u32` zero plus low-half aliasing, a byte-addressed low-half alias, local
+pointer/reference copies of the seed, and function-scope or block-scope RNG
+pointer/reference aliases all retain the 538/151/32/5/12/39/two-missing
+baseline. Making the low-half alias volatile expands the owner to 545 bytes,
+153 instructions and 42 differences, and changes the accepted field/call
+order; it is rejected. These results do not justify assembly or ABI forcing.
+
+### EnemyManagerView::OnUpdate: source aliases do not explain the thirteen register bytes
+
+Fresh whole-owner probes retain 3,900 bytes, 97 fields, 1,026 instructions,
+69 ordered calls, 170 direct blocks, matching reviewed control flow and switch
+destinations, with the same 13 differences at
+`+0x19C +0x1A3 +0x252 +0x263 +0x26D +0x272 +0x294 +0x29A +0x29C +0x2A5 +0x2A9 +0x2B7 +0x2BD`.
+
+New variants used effect-side pointer/reference aliases, explicit enemy-position
+pointer/reference aliases, both alias groups together, mask-before-shift side
+category arithmetic, direct repeated side-category expressions, a narrowed
+side-category scope, local declaration reordering, and a `register` draw-head
+pointer. The strict audit retains the same 13-byte residual for all ordinary
+forms. A byte-sized side-category changes the actual literal definition/
+reference inventory and is rejected before byte comparison. No source change
+is adopted and no literal guard is relaxed.
+
+No whole-project cold replay was run. All rejected source probes restored the
+maintained source and the canonical object was rebuilt after the experiments.
+The current non-exact owner statuses and exactness ledger are unchanged.
