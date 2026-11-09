@@ -34,6 +34,7 @@ struct FrontMessageRuntimeView
 
     FrontMessageRuntimeView();
     int Update();
+    void Setup(int messageIndex, int mode);
     int Draw();
     void ReleaseForSideCount(int startIndex);
     int LoadForSideCount(char *primaryPath, char *secondaryPath, int startIndex);

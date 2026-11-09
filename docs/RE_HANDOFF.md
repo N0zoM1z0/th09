@@ -137,6 +137,16 @@ ignored local inputs, not versioned Git files.
   constructor origins remain unknown. See
   [Ascii native global construction](TH09_ASCII_NATIVE_CONSTRUCTORS_20261109.md).
 
+- **Front message native runtime fully shared:** original-exact
+  `FrontMessageRuntimeView::Update` 2,968 physical bytes/167 fields and
+  `Setup` 357/10 now compile against the same constructed 0x1D70-byte
+  runtime. The 1,491-byte Front calc and 133-byte message initializer call
+  their actual native method symbols, not fake C++ receiver classes. All
+  11 affected Front exact functions/9,713 bytes and 11 GameManager exact
+  siblings retain their full original-bound source proofs. See
+  [native Front Update](TH09_FRONT_MESSAGE_UPDATE_NATIVE_OWNER_20261109.md)
+  and [native Setup/callers](TH09_FRONT_MESSAGE_NATIVE_SETUP_OWNER_20261109.md).
+
 ## Reconstruction frontiers
 
 All 13 entries below are **nonexact** complete physical owners, not exact

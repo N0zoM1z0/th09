@@ -1,15 +1,11 @@
 #pragma once
 
 #include <stddef.h>
+#include "FrontMessageRuntimeView.hpp"
 
 // The independently reviewed Front/shared message-runtime owner: the same
 // 0xE944 offset and thiscall are consumed by gameplay cleanup and added callbacks.
 // Names are reconstruction views, not original retail identifiers.
-struct FrontMessageSetupView
-{
-    void Setup(int messageIndex, int mode);
-};
-
 struct FrontMessageInitSourceView
 {
     unsigned char unknown00[0x06];
@@ -19,8 +15,8 @@ struct FrontMessageInitSourceView
 struct FrontMessageOwnerView
 {
     unsigned char unknown00000[0xE944];
-    FrontMessageSetupView messageRuntimeE944;
-    unsigned char unknown0E948[0x1095C - 0xE948];
+    FrontMessageRuntimeView messageRuntimeE944;
+    unsigned char unknown106B4[0x1095C - 0x106B4];
     int transitionVmCount1095C;
     int transitionFrame10960;
     int transitionSide10964;

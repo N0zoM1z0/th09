@@ -909,7 +909,7 @@ ExAttackInitializeCallbackType14,0x00443C70,function
 ExAttackDrawCallbackType19_21,0x0044B940,function
 PlayerGameplayMethods::ResolvePatternOffset,0x00404710,function
 FrontDrawLineStrip,0x00422330,function
-FrontMessageSetupView::Setup,0x00416160,function
+FrontMessageRuntimeView::Setup,0x00416160,function
 ExAttackUpdateCallbackType17,0x00448490,function
 ExAttackInitializeCallbackType13,0x00443440,function
 ExAttackUpdateCallbackType13,0x004435E0,function

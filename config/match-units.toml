@@ -15506,8 +15506,8 @@ relocations = [
 source = "src/FrontMessageSetup.cpp"
 object = "build/matching/FrontMessageSetup.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["FrontMessageSetupView::Setup"]
-symbol = "?Setup@FrontMessageSetupView@@QAEXHH@Z"
+functions = ["FrontMessageRuntimeView::Setup"]
+symbol = "?Setup@FrontMessageRuntimeView@@QAEXHH@Z"
 target_address = 0x00416160
 size = 0x165
 relocations = [
@@ -17802,7 +17802,7 @@ relocations = [
   { offset = 0x41, type = "REL32", symbol = "?IsHeld@ReplayInputState@@QAEGG@Z", target = 0x00415CB0 },
   { offset = 0x58, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x6E, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
-  { offset = 0x93, type = "DIR32", symbol = "$L61996", target = 0x004170B4 },
+  { offset = 0x93, type = "DIR32", symbol = "$L61999", target = 0x004170B4 },
   { offset = 0x9F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
   { offset = 0xA6, type = "REL32", symbol = "?SetUpdateState@PlayerLifecycleView@@QAEXH@Z", target = 0x00403C20 },
   { offset = 0xB5, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
@@ -17936,35 +17936,35 @@ relocations = [
   { offset = 0xB01, type = "REL32", symbol = "?IsGameMode1@AsciiGameManagerView@@QAEHXZ", target = 0x00404970 },
   { offset = 0xB0B, type = "DIR32", symbol = "?g_StageTransitionState@@3HA", target = 0x004B3690 },
   { offset = 0xB1A, type = "DIR32", symbol = "?g_FrontOtherModeDone@@3EA", target = 0x004A7ECE },
-  { offset = 0xB24, type = "DIR32", symbol = "$L61790", target = 0x00417043 },
-  { offset = 0xB28, type = "DIR32", symbol = "$L61854", target = 0x0041693C },
-  { offset = 0xB2C, type = "DIR32", symbol = "$L61869", target = 0x00416A08 },
-  { offset = 0xB30, type = "DIR32", symbol = "$L61886", target = 0x00416AE2 },
-  { offset = 0xB34, type = "DIR32", symbol = "$L61903", target = 0x00416CDE },
-  { offset = 0xB38, type = "DIR32", symbol = "$L61911", target = 0x00416D5A },
-  { offset = 0xB3C, type = "DIR32", symbol = "$L61918", target = 0x00416D8D },
-  { offset = 0xB40, type = "DIR32", symbol = "$L61919", target = 0x00416D98 },
-  { offset = 0xB44, type = "DIR32", symbol = "$L61925", target = 0x00416DE8 },
-  { offset = 0xB48, type = "DIR32", symbol = "$L61928", target = 0x00416E1D },
-  { offset = 0xB4C, type = "DIR32", symbol = "$run_scripts$61909", target = 0x00416EF3 },
-  { offset = 0xB50, type = "DIR32", symbol = "$L61941", target = 0x0041705B },
-  { offset = 0xB54, type = "DIR32", symbol = "$L61929", target = 0x00416E28 },
-  { offset = 0xB58, type = "DIR32", symbol = "$L61931", target = 0x00416E69 },
-  { offset = 0xB5C, type = "DIR32", symbol = "$L61930", target = 0x00416E3C },
-  { offset = 0xB60, type = "DIR32", symbol = "$L61792", target = 0x0041665B },
-  { offset = 0xB64, type = "DIR32", symbol = "$L61895", target = 0x00416BC3 },
-  { offset = 0xB68, type = "DIR32", symbol = "$L61823", target = 0x00416803 },
-  { offset = 0xB6C, type = "DIR32", symbol = "$L61933", target = 0x00416E74 },
-  { offset = 0xB70, type = "DIR32", symbol = "$L61938", target = 0x00416EC1 },
-  { offset = 0xB74, type = "DIR32", symbol = "$L61938", target = 0x00416EC1 },
-  { offset = 0xB78, type = "DIR32", symbol = "$L61938", target = 0x00416EC1 },
-  { offset = 0xB7C, type = "DIR32", symbol = "$L61938", target = 0x00416EC1 },
-  { offset = 0xB80, type = "DIR32", symbol = "$L61791", target = 0x00416627 },
-  { offset = 0xB84, type = "DIR32", symbol = "$L61935", target = 0x00416E7F },
-  { offset = 0xB88, type = "DIR32", symbol = "$L61936", target = 0x00416E8E },
-  { offset = 0xB8C, type = "DIR32", symbol = "$L61851", target = 0x00416927 },
-  { offset = 0xB90, type = "DIR32", symbol = "$L61938", target = 0x00416EC1 },
-  { offset = 0xB94, type = "DIR32", symbol = "$L61937", target = 0x00416EA6 },
+  { offset = 0xB24, type = "DIR32", symbol = "$L61793", target = 0x00417043 },
+  { offset = 0xB28, type = "DIR32", symbol = "$L61857", target = 0x0041693C },
+  { offset = 0xB2C, type = "DIR32", symbol = "$L61872", target = 0x00416A08 },
+  { offset = 0xB30, type = "DIR32", symbol = "$L61889", target = 0x00416AE2 },
+  { offset = 0xB34, type = "DIR32", symbol = "$L61906", target = 0x00416CDE },
+  { offset = 0xB38, type = "DIR32", symbol = "$L61914", target = 0x00416D5A },
+  { offset = 0xB3C, type = "DIR32", symbol = "$L61921", target = 0x00416D8D },
+  { offset = 0xB40, type = "DIR32", symbol = "$L61922", target = 0x00416D98 },
+  { offset = 0xB44, type = "DIR32", symbol = "$L61928", target = 0x00416DE8 },
+  { offset = 0xB48, type = "DIR32", symbol = "$L61931", target = 0x00416E1D },
+  { offset = 0xB4C, type = "DIR32", symbol = "$run_scripts$61912", target = 0x00416EF3 },
+  { offset = 0xB50, type = "DIR32", symbol = "$L61944", target = 0x0041705B },
+  { offset = 0xB54, type = "DIR32", symbol = "$L61932", target = 0x00416E28 },
+  { offset = 0xB58, type = "DIR32", symbol = "$L61934", target = 0x00416E69 },
+  { offset = 0xB5C, type = "DIR32", symbol = "$L61933", target = 0x00416E3C },
+  { offset = 0xB60, type = "DIR32", symbol = "$L61795", target = 0x0041665B },
+  { offset = 0xB64, type = "DIR32", symbol = "$L61898", target = 0x00416BC3 },
+  { offset = 0xB68, type = "DIR32", symbol = "$L61826", target = 0x00416803 },
+  { offset = 0xB6C, type = "DIR32", symbol = "$L61936", target = 0x00416E74 },
+  { offset = 0xB70, type = "DIR32", symbol = "$L61941", target = 0x00416EC1 },
+  { offset = 0xB74, type = "DIR32", symbol = "$L61941", target = 0x00416EC1 },
+  { offset = 0xB78, type = "DIR32", symbol = "$L61941", target = 0x00416EC1 },
+  { offset = 0xB7C, type = "DIR32", symbol = "$L61941", target = 0x00416EC1 },
+  { offset = 0xB80, type = "DIR32", symbol = "$L61794", target = 0x00416627 },
+  { offset = 0xB84, type = "DIR32", symbol = "$L61938", target = 0x00416E7F },
+  { offset = 0xB88, type = "DIR32", symbol = "$L61939", target = 0x00416E8E },
+  { offset = 0xB8C, type = "DIR32", symbol = "$L61854", target = 0x00416927 },
+  { offset = 0xB90, type = "DIR32", symbol = "$L61941", target = 0x00416EC1 },
+  { offset = 0xB94, type = "DIR32", symbol = "$L61940", target = 0x00416EA6 },
 ]
 
 [units.front-message-decode-string]
@@ -18206,7 +18206,7 @@ relocations = [
   { offset = 0x29, type = "DIR32", symbol = "?g_FrontMessageSource@@3PAUFrontMessageInitSourceView@@A", target = 0x004A7E80 },
   { offset = 0x34, type = "DIR32", symbol = "?g_FrontMessageOverride@@3HA", target = 0x004A7E90 },
   { offset = 0x3E, type = "DIR32", symbol = "?g_FrontMessageSource@@3PAUFrontMessageInitSourceView@@A", target = 0x004A7E80 },
-  { offset = 0x57, type = "REL32", symbol = "?Setup@FrontMessageSetupView@@QAEXHH@Z", target = 0x00416160 },
+  { offset = 0x57, type = "REL32", symbol = "?Setup@FrontMessageRuntimeView@@QAEXHH@Z", target = 0x00416160 },
 ]
 
 
@@ -22166,9 +22166,9 @@ relocations = [
   { offset = 0x48a, type = "DIR32", symbol = "?g_GameManager@@3UFrontCalcGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x493, type = "DIR32", symbol = "__real@3f800000", target = 0x48e2a4 },
   { offset = 0x4af, type = "DIR32", symbol = "?g_NeutralMessageSource@@3PAXA", target = 0x4a7e80 },
-  { offset = 0x4bd, type = "REL32", symbol = "?Setup@FrontCalcMessageRuntimeView@@QAEXHH@Z", target = 0x416160 },
+  { offset = 0x4bd, type = "REL32", symbol = "?Setup@FrontMessageRuntimeView@@QAEXHH@Z", target = 0x416160 },
   { offset = 0x4c8, type = "DIR32", symbol = "?g_NeutralMessageSource@@3PAXA", target = 0x4a7e80 },
-  { offset = 0x4d6, type = "REL32", symbol = "?Setup@FrontCalcMessageRuntimeView@@QAEXHH@Z", target = 0x416160 },
+  { offset = 0x4d6, type = "REL32", symbol = "?Setup@FrontMessageRuntimeView@@QAEXHH@Z", target = 0x416160 },
   { offset = 0x4e0, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x4a7e90 },
   { offset = 0x4e6, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x4a7e90 },
   { offset = 0x4ee, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x4a7e90 },

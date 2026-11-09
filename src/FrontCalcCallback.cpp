@@ -9,14 +9,6 @@
 
 #include <stddef.h>
 
-// The exact TH09 call targets retain this source-facing method ABI.
-// Their actual storage is the nested FrontMessageRuntimeView in Front.
-struct FrontCalcMessageRuntimeView
-{
-    // The separate Setup producer still uses its own original ABI symbol.
-    void Setup(int index, int unused);
-};
-
 struct FrontCalcRuntimeView
 {
     float value00;
@@ -304,16 +296,14 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 }
                 else if (front->transitionSide10964 == 0)
                 {
-                    reinterpret_cast<FrontCalcMessageRuntimeView *>(
-                        &front->messageRuntimeE944)->Setup(
+                    front->messageRuntimeE944.Setup(
                         *reinterpret_cast<short *>(
                             static_cast<unsigned char *>(g_NeutralMessageSource) + 8),
                         0);
                 }
                 else
                 {
-                    reinterpret_cast<FrontCalcMessageRuntimeView *>(
-                        &front->messageRuntimeE944)->Setup(
+                    front->messageRuntimeE944.Setup(
                         *reinterpret_cast<short *>(
                             static_cast<unsigned char *>(g_NeutralMessageSource) + 10),
                         0);
