@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Original-PE/COFF proof for three origin-unclassified TH09 VM group constructors.
+"""Original-PE/COFF proof for the native AsciiManager construction chain.
 
 Compile src/NativeVmGroupConstructors.cpp using pinned VC7.1 /O2 /Ob0 first.
 A byte-perfect construction pattern does not establish authored origin.
@@ -20,6 +20,10 @@ F = '??0NativeVmFivePlusOneView@@QAE@XZ'
 H = '??0NativeVmThreeView@@QAE@XZ'
 R = '??0NativeVmTimerRecord38View@@QAE@XZ'
 T = '??0ZunTimer@@QAE@XZ'
+C = '??0AsciiManagerString@@QAE@XZ'
+P = '??0AsciiManagerPopup@@QAE@XZ'
+M = '??0PauseMenu@@QAE@XZ'
+N = '??0AsciiMenuState5@@QAE@XZ'
 PATTERNS = (
     ('NativeVmSevenPlusOneView', 0x00435D40, 39,
      'f74fc7f11f55152256e04324dea05774c7f440b60dff38a6d9802a9a13be85bb',
@@ -43,10 +47,10 @@ PATTERNS = (
          (48, 'REL32', A), (59, 'REL32', A),
          (70, 'REL32', A), (81, 'REL32', A),
          (92, 'REL32', A), (97, 'DIR32', A),
-         (116, 'REL32', V), (121, 'DIR32', E),
-         (140, 'REL32', V), (151, 'REL32', S),
-         (162, 'REL32', F), (173, 'REL32', H),
-         (184, 'REL32', A), (189, 'DIR32', R),
+         (116, 'REL32', V), (121, 'DIR32', C),
+         (140, 'REL32', V), (151, 'REL32', M),
+         (162, 'REL32', N), (173, 'REL32', H),
+         (184, 'REL32', A), (189, 'DIR32', P),
          (208, 'REL32', V), (219, 'REL32', A),
      )),
 )
@@ -54,16 +58,47 @@ DESTINATION = {
     A: 0x00403A10, V: 0x00401470, E: 0x004343D0,
     S: 0x00435D40, F: 0x00435D70, H: 0x00435DA0,
     R: 0x00435AF0, T: 0x00403390,
+    C: 0x004343D0, P: 0x00435AF0,
+    M: 0x00435D40, N: 0x00435D70,
 }
 
+# Authentic current AsciiManager subobject types are a second independent
+# compiler witness for four original constructor bodies; several are folded
+# aliases rather than unique physical functions.
+ASCII_TYPES = (
+    ('AsciiManagerString', 0x004343D0, 3,
+     '58367ffa2a0179375018fa0f5c26da24391e42ebe0ed8fdda35a21fc7bdc396f', ()),
+    ('AsciiManagerPopup', 0x00435AF0, 15,
+     '8d8690a189eac94b8dd6afc1220e24118d844d997c60326466f5be8d6573172c',
+     ((7, 'REL32', T),)),
+    ('PauseMenu', 0x00435D40, 39,
+     'f74fc7f11f55152256e04324dea05774c7f440b60dff38a6d9802a9a13be85bb',
+     ((2, 'DIR32', A), (20, 'REL32', V), (31, 'REL32', A))),
+    ('AsciiMenuState5', 0x00435D70, 39,
+     '616ed6b8c857d1935256aaac9d24eaec9e59c654bb93e86cddfc5e040ca8f3e8',
+     ((2, 'DIR32', A), (20, 'REL32', V), (31, 'REL32', A))),
+)
 
-def inspect(object_path):
+
+def check_ascii_global_startup(stub):
+    # Original CRT initializer at 0x48D950: mov ecx, &g_AsciiManager;
+    # jmp original 227-byte constructor. Verify this owner is not invented.
+    if (len(stub) != 10 or stub[0] != 0xB9 or stub[5] != 0xE9 or
+            struct.unpack_from('<I', stub, 1)[0] != 0x004CE458 or
+            0x0048D95A + struct.unpack_from('<i', stub, 6)[0] != 0x00435DC0):
+        raise ValueError('original global AsciiManager construction root differs')
+    return {'startup_va': '0x48d950', 'global_object_va': '0x4ce458',
+            'constructor_va': '0x435dc0'}
+
+
+def inspect(object_path, patterns=PATTERNS):
     spec = importlib.util.spec_from_file_location('coff', ROOT/'scripts/compare-coff-function.py')
     coff = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(coff)
     image = coff.verified_target()
+    global_root = check_ascii_global_startup(coff.pe_bytes_at(image, 0x0048D950, 10))
     results = []
-    for name, address, extent, digest, expected in PATTERNS:
+    for name, address, extent, digest, expected in patterns:
         original = coff.pe_bytes_at(image, address, extent)
         if hashlib.sha256(original).hexdigest() != digest:
             raise ValueError('wrong TH09 original constructor: ' + name)
@@ -88,15 +123,21 @@ def inspect(object_path):
                         'bound_fields': len(fields), 'difference_offsets': unequal,
                         'complete_equal': not unequal})
     return {'diagnostic_only': True, 'exactness_credit': 'none',
-            'origin': 'unclassified', 'constructors': results}
+            'origin': 'unclassified', 'original_global_root': global_root,
+            'constructors': results}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
+    parser.add_argument('--ascii-object', type=Path,
+                        help='also compare four authentic AsciiManager member constructors')
     args = parser.parse_args()
     try:
         result = inspect(args.object)
+        if args.ascii_object is not None:
+            result['constructors'].extend(
+                inspect(args.ascii_object, ASCII_TYPES)['constructors'])
     except (ValueError, KeyError, OSError, struct.error) as err:
         print(json.dumps({'error': str(err)}))
         return 2

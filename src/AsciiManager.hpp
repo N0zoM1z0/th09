@@ -21,6 +21,7 @@ typedef char AnmVmLoadedSpriteAt224[(offsetof(AnmVm, loadedSprite) == 0x224) ? 1
 
 struct AsciiManagerString
 {
+    AsciiManagerString();
     char text[64];
     Float3 position;
     unsigned long color;
@@ -34,6 +35,7 @@ typedef char AsciiManagerStringSizeIs60[(sizeof(AsciiManagerString) == 0x60) ? 1
 
 struct AsciiManagerPopup
 {
+    AsciiManagerPopup();
     char text[12];
     Float3 position;
     unsigned long color;
@@ -50,6 +52,7 @@ typedef char AsciiManagerPopupSizeIs38[(sizeof(AsciiManagerPopup) == 0x38) ? 1 :
 
 struct PauseMenu
 {
+    PauseMenu();
     int state;
     int frames;
     AnmVm menuSprites[7];
@@ -63,6 +66,7 @@ typedef char PauseMenuSizeIs1528[(sizeof(PauseMenu) == 0x1528) ? 1 : -1];
 
 struct AsciiMenuState5
 {
+    AsciiMenuState5();
     int state;
     int frames;
     AnmVm menuSprites[5];

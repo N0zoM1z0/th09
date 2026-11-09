@@ -126,6 +126,17 @@ ignored local inputs, not versioned Git files.
   These are origin-unclassified source-equivalent bodies, not newly
   authored exact credit. See [native Front constructor chain](TH09_FRONT_FACTORY_NATIVE_CTORS_20261109.md).
 
+- **Native global AsciiManager constructor chain:** the original CRT
+  initialization thunk at `0x48D950` sets `ECX=0x4CE458` (`g_AsciiManager`)
+  and jumps to the 227-byte constructor `0x435DC0`. Its typed 0xE0AC-byte
+  allocation now uses genuine `AsciiManagerString`, `AsciiManagerPopup`,
+  `PauseMenu`, and `AsciiMenuState5` member constructors. The parent 227-byte
+  body and all six original constructor addresses retain complete exact
+  byte/field proofs under VC7.1. All 28 directly affected Ascii exact owners
+  replay, and ECL/Enemy boss residuals remain 30/13. Explicit vs implicit
+  constructor origins remain unknown. See
+  [Ascii native global construction](TH09_ASCII_NATIVE_CONSTRUCTORS_20261109.md).
+
 ## Reconstruction frontiers
 
 All 13 entries below are **nonexact** complete physical owners, not exact

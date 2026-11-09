@@ -2,6 +2,7 @@
 
 #include "AnmVmLifecycle.hpp"
 #include "ZunTimer.hpp"
+#include "AsciiManager.hpp"
 #include <stddef.h>
 
 // Three original TH09 1.50a constructor bodies initialize independent groups
@@ -76,13 +77,13 @@ struct NativeVmCompositeOwnerView
     AnmVm vm1520;
     AnmVm vmArray17C4[4];
     unsigned char unknown2254[0x10];
-    NativeVmEmptyRecord60View emptyRecords2264[256];
+    AsciiManagerString strings2264[256];
     unsigned char unknown8264[0x3C];
-    NativeVmSevenPlusOneView seven82A0;
-    NativeVmFivePlusOneView five97C8;
+    PauseMenu pause82A0;
+    AsciiMenuState5 menu97C8;
     NativeVmThreeView threeA7A8;
     AnmVm vmAF9C;
-    NativeVmTimerRecord38View timerRecordsB240[200];
+    AsciiManagerPopup scorePopupsB240[2][100];
     unsigned char unknownDE00[8];
     AnmVm vmDE08;
 
@@ -94,11 +95,27 @@ typedef char NativeVmCompositeSourceLayout[
      offsetof(NativeVmTimerRecord38View, timer1C) == 0x1C &&
      sizeof(NativeVmEmptyRecord60View) == 0x60 &&
      offsetof(NativeVmCompositeOwnerView, vmArray17C4) == 0x17C4 &&
-     offsetof(NativeVmCompositeOwnerView, emptyRecords2264) == 0x2264 &&
-     offsetof(NativeVmCompositeOwnerView, seven82A0) == 0x82A0 &&
-     offsetof(NativeVmCompositeOwnerView, five97C8) == 0x97C8 &&
+     offsetof(NativeVmCompositeOwnerView, strings2264) == 0x2264 &&
+     offsetof(NativeVmCompositeOwnerView, pause82A0) == 0x82A0 &&
+     offsetof(NativeVmCompositeOwnerView, menu97C8) == 0x97C8 &&
      offsetof(NativeVmCompositeOwnerView, threeA7A8) == 0xA7A8 &&
      offsetof(NativeVmCompositeOwnerView, vmAF9C) == 0xAF9C &&
-     offsetof(NativeVmCompositeOwnerView, timerRecordsB240) == 0xB240 &&
+     offsetof(NativeVmCompositeOwnerView, scorePopupsB240) == 0xB240 &&
      offsetof(NativeVmCompositeOwnerView, vmDE08) == 0xDE08 &&
      sizeof(NativeVmCompositeOwnerView) == 0xE0AC) ? 1 : -1];
+
+// The original CRT initializer loads &g_AsciiManager (0x4CE458) before
+// jumping to the 227-byte composite constructor. This view shares the real
+// global's storage and field offsets, not an independent object instance.
+typedef char NativeVmCompositeIsAsciiManagerStorage[
+    (sizeof(NativeVmCompositeOwnerView) == sizeof(AsciiManager) &&
+     offsetof(NativeVmCompositeOwnerView, strings2264) ==
+         offsetof(AsciiManager, strings) &&
+     offsetof(NativeVmCompositeOwnerView, pause82A0) ==
+         offsetof(AsciiManager, pauseMenu) &&
+     offsetof(NativeVmCompositeOwnerView, menu97C8) ==
+         offsetof(AsciiManager, menuState97C8) &&
+     offsetof(NativeVmCompositeOwnerView, threeA7A8) ==
+         offsetof(AsciiManager, menuStateA7A8) &&
+     offsetof(NativeVmCompositeOwnerView, scorePopupsB240) ==
+         offsetof(AsciiManager, scorePopups)) ? 1 : -1];
