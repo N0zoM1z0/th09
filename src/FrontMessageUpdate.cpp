@@ -8,15 +8,14 @@
 #include "Background.hpp"
 #include "ReplayNativeInputGateCapacity.hpp"
 #include "Supervisor.hpp"
+#include "FrontMessageRuntimeView.hpp"
 
 #include <stddef.h>
 
-struct FrontMessageInstructionView
+// Extended arguments exist only for opcodes carrying this larger payload.
+// The shared wire header retains its true variable-length 8-byte prefix.
+struct FrontMessageLongInstructionView : FrontMessageInstructionView
 {
-    unsigned short time00;
-    unsigned char opcode02;
-    unsigned char size03;
-    int argument04;
     int argument08;
     int argument0C;
 };
@@ -28,7 +27,14 @@ struct FrontMessagePortraitPair
 };
 
 typedef char FrontMessagePortraitPairSizeIs548[
-    (sizeof(FrontMessagePortraitPair) == 0x548) ? 1 : -1];
+    (sizeof(FrontMessagePortraitPair) == 0x548 &&
+     sizeof(((FrontMessageRuntimeView *)0)->messageVms14) ==
+         4 * sizeof(FrontMessagePortraitPair) &&
+     offsetof(FrontMessageRuntimeView, messageVms14) == 0x14) ? 1 : -1];
+typedef char FrontMessageLongWireArgsAt08And0C[
+    (sizeof(FrontMessageLongInstructionView) == 0x10 &&
+     offsetof(FrontMessageLongInstructionView, argument08) == 0x08 &&
+     offsetof(FrontMessageLongInstructionView, argument0C) == 0x0C) ? 1 : -1];
 
 
 
@@ -93,48 +99,6 @@ struct FrontMessageResultOwnerView
     void InitializeResultBonus();
 };
 
-struct FrontMessageRuntimeView
-{
-    void *primary00;
-    FrontMessageInstructionView *current04;
-    int currentIndex08;
-    void *secondary0C;
-    int mode10;
-    FrontMessagePortraitPair portraits14[4];
-    AnmVm textVms1534[2];
-    AnmVm introVm1A7C;
-    unsigned long textColors1D20[4];
-    unsigned long shadowColors1D30[4];
-    ZunTimer timer1D40;
-    int framesElapsed1D4C;
-    int waitThreshold1D50;
-    int glyphSize1D54;
-    ZunTimer secondaryTimer1D58;
-    unsigned char colorIndex1D64;
-    unsigned char resetText1D65;
-    unsigned char textLineIndex1D66;
-    unsigned char currentPortrait1D67;
-    unsigned int ignoreWait1D68;
-    unsigned char skippable1D6C;
-    unsigned char textBoxVisible1D6D;
-    unsigned char unknown1D6E[2];
-
-    int Update();
-};
-
-typedef char FrontMessageRuntimeSizeIs1D70[
-    (sizeof(FrontMessageRuntimeView) == 0x1D70) ? 1 : -1];
-typedef char FrontMessagePortraitsAt14[
-    (offsetof(FrontMessageRuntimeView, portraits14) == 0x14) ? 1 : -1];
-typedef char FrontMessageTextAt1534[
-    (offsetof(FrontMessageRuntimeView, textVms1534) == 0x1534) ? 1 : -1];
-typedef char FrontMessageIntroAt1A7C[
-    (offsetof(FrontMessageRuntimeView, introVm1A7C) == 0x1A7C) ? 1 : -1];
-typedef char FrontMessageTimerAt1D40[
-    (offsetof(FrontMessageRuntimeView, timer1D40) == 0x1D40) ? 1 : -1];
-typedef char FrontMessageTailAt1D64[
-    (offsetof(FrontMessageRuntimeView, colorIndex1D64) == 0x1D64) ? 1 : -1];
-
 extern AsciiGameManagerView g_GameManager;
 extern FrontMessageNeutralSourceView *g_FrontMessageSource;
 extern FrontMessageResultOwnerView *g_FrontMessageOwner;
@@ -195,7 +159,8 @@ int FrontMessageRuntimeView::Update()
 
         case 0x0F:
         {
-            FrontMessageInstructionView *instruction = current04;
+            FrontMessageLongInstructionView *instruction =
+                reinterpret_cast<FrontMessageLongInstructionView *>(current04);
             int requestedSide = instruction->argument04;
             if (requestedSide >= 0)
             {
@@ -210,25 +175,25 @@ int FrontMessageRuntimeView::Update()
                     {
                         if (i != side)
                         {
-                            portraits14[i].first00.pendingInterrupt = 4;
-                            portraits14[i].second2A4.pendingInterrupt = 4;
+                            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[i].first00.pendingInterrupt = 4;
+                            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[i].second2A4.pendingInterrupt = 4;
                         }
                     }
                 }
 
-                portraits14[side].first00.pendingInterrupt = 3;
-                portraits14[side].second2A4.pendingInterrupt = 3;
+                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00.pendingInterrupt = 3;
+                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4.pendingInterrupt = 3;
                 currentPortrait1D67 = (unsigned char)side;
                 colorIndex1D64 = (unsigned char)side;
 
                 if (instruction->argument08 >= 0)
                 {
                     g_GameManager.sides[mode10].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&portraits14[mode10].first00,
+                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[mode10].first00,
                         g_GameManager.sides[mode10].player04->tableValue303FC +
                         instruction->argument08);
                     g_GameManager.sides[mode10].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&portraits14[mode10].second2A4,
+                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[mode10].second2A4,
                         g_GameManager.sides[mode10].player04->tableValue303FC +
                         instruction->argument08 + 9);
                 }
@@ -236,21 +201,21 @@ int FrontMessageRuntimeView::Update()
                 if (instruction->argument0C >= 0)
                 {
                     g_GameManager.sides[1 - mode10].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&portraits14[1 - mode10].first00,
+                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1 - mode10].first00,
                         g_GameManager.sides[1 - mode10].player04->tableValue303FC +
                         instruction->argument0C);
                     g_GameManager.sides[1 - mode10].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&portraits14[1 - mode10].second2A4,
+                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1 - mode10].second2A4,
                         g_GameManager.sides[1 - mode10].player04->tableValue303FC +
                         instruction->argument0C + 9);
                 }
             }
             else
             {
-                portraits14[0].first00.pendingInterrupt = 4;
-                portraits14[1].first00.pendingInterrupt = 4;
-                portraits14[0].second2A4.pendingInterrupt = 4;
-                portraits14[1].second2A4.pendingInterrupt = 4;
+                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[0].first00.pendingInterrupt = 4;
+                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1].first00.pendingInterrupt = 4;
+                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[0].second2A4.pendingInterrupt = 4;
+                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1].second2A4.pendingInterrupt = 4;
             }
 
             resetText1D65 = 1;
@@ -259,7 +224,8 @@ int FrontMessageRuntimeView::Update()
 
         case 0x11:
         {
-            FrontMessageInstructionView *instruction = current04;
+            FrontMessageLongInstructionView *instruction =
+                reinterpret_cast<FrontMessageLongInstructionView *>(current04);
             int requested = instruction->argument04;
             int side;
             if (requested < 2)
@@ -278,14 +244,14 @@ int FrontMessageRuntimeView::Update()
                 {
                     if (i != side)
                     {
-                        portraits14[i].first00.pendingInterrupt = 4;
-                        portraits14[i].second2A4.pendingInterrupt = 4;
+                        reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[i].first00.pendingInterrupt = 4;
+                        reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[i].second2A4.pendingInterrupt = 4;
                     }
                 }
             }
 
-            portraits14[side].first00.pendingInterrupt = 3;
-            portraits14[side].second2A4.pendingInterrupt = 3;
+            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00.pendingInterrupt = 3;
+            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4.pendingInterrupt = 3;
             currentPortrait1D67 = (unsigned char)side;
 
             if (instruction->argument08 >= 0)
@@ -293,21 +259,21 @@ int FrontMessageRuntimeView::Update()
                 if (side < 2)
                 {
                     g_GameManager.sides[side].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&portraits14[side].first00,
+                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00,
                         g_GameManager.sides[side].player04->tableValue303FC +
                         instruction->argument08);
                     g_GameManager.sides[side].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&portraits14[side].second2A4,
+                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4,
                         g_GameManager.sides[side].player04->tableValue303FC +
                         instruction->argument08 + 9);
                 }
                 else
                 {
                     g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04
-                        ->SetSprite(&portraits14[side].first00,
+                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00,
                         instruction->argument08);
                     g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04
-                        ->SetSprite(&portraits14[side].second2A4,
+                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4,
                         instruction->argument08 + 6);
                 }
             }
@@ -341,21 +307,21 @@ int FrontMessageRuntimeView::Update()
                 AnmLoaded *anm =
                     g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
                 anm->SetAndExecuteScriptIdx(
-                    &portraits14[side].first00, script);
+                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00, script);
                 script = g_GameManager.sides[side].player04->tableValue303F8 + side + 4;
                 anm = g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
                 anm->SetAndExecuteScriptIdx(
-                    &portraits14[side].second2A4, script);
+                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4, script);
             }
             else
             {
                 AnmLoaded *anm =
                     g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetAndExecuteScriptIdx(
-                    &portraits14[portrait].first00, portrait);
+                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[portrait].first00, portrait);
                 anm = g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetAndExecuteScriptIdx(
-                    &portraits14[portrait].second2A4, portrait + 4);
+                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[portrait].second2A4, portrait + 4);
             }
             break;
         }
@@ -377,13 +343,13 @@ int FrontMessageRuntimeView::Update()
                 AnmLoaded *anm =
                     g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
                 anm->SetSprite(
-                    &portraits14[side].first00, spriteBase);
+                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00, spriteBase);
                 spriteBase =
                     g_GameManager.sides[side].player04->tableValue303FC +
                     arguments[1] + 9;
                 anm = g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
                 anm->SetSprite(
-                    &portraits14[side].second2A4, spriteBase);
+                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4, spriteBase);
             }
             else
             {
@@ -391,10 +357,10 @@ int FrontMessageRuntimeView::Update()
                 AnmLoaded *anm =
                     g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetSprite(
-                    &portraits14[portrait].first00, arguments[1]);
+                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[portrait].first00, arguments[1]);
                 anm = g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetSprite(
-                    &portraits14[portrait].second2A4, arguments[1] + 6);
+                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[portrait].second2A4, arguments[1] + 6);
             }
             break;
         }
@@ -500,9 +466,9 @@ int FrontMessageRuntimeView::Update()
         {
             short *arguments =
                 reinterpret_cast<short *>(&current04->argument04);
-            portraits14[arguments[0]].first00.pendingInterrupt =
+            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[arguments[0]].first00.pendingInterrupt =
                 reinterpret_cast<unsigned char *>(arguments)[2];
-            portraits14[arguments[0]].second2A4.pendingInterrupt =
+            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[arguments[0]].second2A4.pendingInterrupt =
                 reinterpret_cast<unsigned char *>(arguments)[2];
             break;
         }
@@ -615,14 +581,14 @@ int FrontMessageRuntimeView::Update()
     timer1D40++;
 
 run_scripts:
-    g_AnmManager->ExecuteScript(&portraits14[0].first00);
-    g_AnmManager->ExecuteScript(&portraits14[1].first00);
-    g_AnmManager->ExecuteScript(&portraits14[0].second2A4);
-    g_AnmManager->ExecuteScript(&portraits14[1].second2A4);
-    g_AnmManager->ExecuteScript(&portraits14[2].first00);
-    g_AnmManager->ExecuteScript(&portraits14[3].first00);
-    g_AnmManager->ExecuteScript(&portraits14[2].second2A4);
-    g_AnmManager->ExecuteScript(&portraits14[3].second2A4);
+    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[0].first00);
+    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1].first00);
+    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[0].second2A4);
+    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1].second2A4);
+    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[2].first00);
+    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[3].first00);
+    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[2].second2A4);
+    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[3].second2A4);
     g_AnmManager->ExecuteScript(&textVms1534[0]);
     g_AnmManager->ExecuteScript(&textVms1534[1]);
     g_AnmManager->ExecuteScript(&introVm1A7C);
