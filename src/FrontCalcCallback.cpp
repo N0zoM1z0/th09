@@ -7,46 +7,9 @@
 #include "FrontSide.hpp"
 #include "Background.hpp"
 #include "CardAttack.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 #include <stddef.h>
-
-struct FrontCalcRuntimeView
-{
-    float value00;
-    unsigned char unknown04[0x30];
-    float value34;
-};
-
-struct FrontCalcSideView
-{
-    Background *background00;
-    PlayerLifecycleView *player04;
-    unsigned char unknown08[0x0C];
-    CardAttack *cardAttack14;
-    FrontSide *frontSide18;
-    FrontCalcRuntimeView *runtime1C;
-    unsigned char unknown20[0x14];
-    unsigned int flags34;
-};
-typedef char FrontCalcSideViewSizeIs38[
-    (sizeof(FrontCalcSideView) == 0x38) ? 1 : -1];
-
-struct FrontCalcGameManagerView
-{
-    FrontCalcSideView sides[2];
-    unsigned char unknown70[0xA8 - 0x70];
-    unsigned int flagsA8;
-    unsigned char unknownAC[0x118 - 0xAC];
-    int gameMode118;
-    int setupMode11C;
-    unsigned char unknown120[0x14];
-    unsigned int flags134;
-
-    int IsGameMode0();
-    int IsGameMode1();
-    int IsGameMode2();
-    int IsReplayNeutral();
-};
 
 struct FrontCalcPlayerCollisionPoint
 {
@@ -72,7 +35,7 @@ struct FrontCalcCollisionView
         int delay);
 };
 
-extern FrontCalcGameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 extern int g_FrontDynamicSprite;
 extern int g_EndingLifecycleState;
 extern unsigned char g_FrontMode0Done;
@@ -209,8 +172,8 @@ int __fastcall FrontCalcCallback(void *frontArg)
         {
             unsigned int targetBit =
                 (1u << (1 - front->transitionSide10964)) << 11;
-            g_GameManager.flags134 ^=
-                (g_GameManager.flags134 ^ targetBit) & 0x1800u;
+            g_GameManager.flags ^=
+                (g_GameManager.flags ^ targetBit) & 0x1800u;
 
             g_GameManager.sides[1 - front->transitionSide10964]
                 .cardAttack14->timer98 = 0;
@@ -259,10 +222,10 @@ int __fastcall FrontCalcCallback(void *frontArg)
             if (!g_GameManager.IsGameMode2())
             {
                 if (front->transitionSide10964 != 0 &&
-                    g_GameManager.sides[0].runtime1C->value00 > 0.0f)
+                    g_GameManager.sides[0].runtime->value00 > 0.0f)
                 {
-                    g_GameManager.sides[0].runtime1C->value00 -= 1.0f;
-                    g_GameManager.sides[0].runtime1C->value34 += 1.0f;
+                    g_GameManager.sides[0].runtime->value00 -= 1.0f;
+                    g_GameManager.sides[0].runtime->resultTransition34 += 1.0f;
                     front->transitionStarted11EA4 = 1;
                 }
                 else if (front->transitionSide10964 == 0)
@@ -308,7 +271,7 @@ int __fastcall FrontCalcCallback(void *frontArg)
             {
                 int modeValue = g_FrontRuntimeValues90[0];
                 if (modeValue >= 4 &&
-                    (g_GameManager.flags134 & 0x4000u) != 0)
+                    (g_GameManager.flags & 0x4000u) != 0)
                 {
                     g_SelectedOpponentParameter =
                         g_TransitionResultTableAlt[

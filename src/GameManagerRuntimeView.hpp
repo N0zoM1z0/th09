@@ -35,7 +35,10 @@ struct AsciiGameSideRuntimeView
     unsigned int value0C;
     union { unsigned char unknown10[4]; int phase10; };
     union { unsigned char counter14; unsigned char value14; };
-    unsigned char unknown15[0x8B];
+    unsigned char unknown15[0x34 - 0x15];
+    // The original Front transition reads/writes this float at side runtime +0x34.
+    float resultTransition34;
+    unsigned char unknown38[0xA0 - 0x38];
 };
 
 // Both the independently exact 33-byte score leaf and real GameManager
@@ -55,6 +58,7 @@ typedef char AsciiGameSideNativeScoreWordAt08[
 
 typedef char AsciiGameSideNativeScoreSizeIsA0[
     (sizeof(AsciiGameSideRuntimeView) == 0xA0 &&
+     offsetof(AsciiGameSideRuntimeView, resultTransition34) == 0x34 &&
      offsetof(AsciiGameSideRuntimeView, phase10) == 0x10 &&
      offsetof(AsciiGameSideRuntimeView, value14) == 0x14) ? 1 : -1];
 

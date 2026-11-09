@@ -66,7 +66,9 @@ class NativeGameManagerSideScoreOwner(unittest.TestCase):
         self.assertEqual(enemy.count('reinterpret_cast<AsciiGameManagerSideView *>('),2)
         self.assertEqual(enemy.count('manager->sideState320)->AddScore(enemy->score2E54);'),2)
         self.assertIn('this->sideState->AddScore(50);',player)
-        self.assertIn('state->owner00->sideState->AddScore(5000);',reward)
+        self.assertIn('state->playerOwner00->sideState->AddScore(5000);',reward)
+        self.assertIn('g_GameManager.sides[0].runtime->resultTransition34',
+                      (ROOT/'src/FrontCalcCallback.cpp').read_text())
         self.assertIn('static_cast<int>(state->timer20)',reward)
         self.assertNotIn('PlayerRewardSideScoreView',reward)
         self.assertNotIn('PlayerRewardTimerCurrentView',reward)
