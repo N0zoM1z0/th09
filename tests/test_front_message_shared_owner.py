@@ -9,14 +9,15 @@ import tomllib
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-SYMBOL = '?InitializeMessageRuntime@FrontMessageOwnerView@@QAEXXZ'
+SYMBOL = '?InitializeMessageRuntime@FrontFactoryConstructView@@QAEXXZ'
 VA = 0x004181E0
 
 
 class SharedFrontMessageOwner(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.header = (ROOT/'src/FrontMessageOwnerView.hpp').read_text()
+        cls.header = (ROOT/'src/FrontFactoryConstructView.hpp').read_text()
+        cls.old_header = (ROOT/'src/FrontMessageOwnerView.hpp').read_text()
         cls.impl = (ROOT/'src/FrontMessageInitializeRuntime.cpp').read_text()
         cls.game = (ROOT/'src/GameManagerSetup.cpp').read_text()
         cls.front = (ROOT/'src/FrontAddedCallback.cpp').read_text()
@@ -26,16 +27,20 @@ class SharedFrontMessageOwner(unittest.TestCase):
             cls.units = tomllib.load(f)['units']
 
     def test_one_real_owner_layout_with_target_offsets(self):
-        self.assertEqual(self.header.count('struct FrontMessageOwnerView\n'), 1)
-        for fragment in ('offsetof(FrontMessageOwnerView,messageRuntimeE944)==0xE944',
-                         'offsetof(FrontMessageOwnerView,transitionVmCount1095C)==0x1095C',
-                         'offsetof(FrontMessageOwnerView,transitionState11EA8)==0x11EA8',
-                         'sizeof(FrontMessageOwnerView)==0x11EAC',
-                         'offsetof(FrontMessageOwnerView,transitionFrame10960)==0x10960',
-                         'offsetof(FrontMessageOwnerView,transitionSide10964)==0x10964',
+        # The initializer now works on the whole 0x1293C-byte factory object;
+        # an independent 0x11EAC-byte allocation is no longer a valid owner.
+        self.assertEqual(self.header.count('struct FrontFactoryConstructView\n'), 1)
+        self.assertNotIn('struct FrontMessageOwnerView', self.old_header)
+        for fragment in ('offsetof(FrontFactoryConstructView, messageRuntimeE944) == 0xE944',
+                         'offsetof(FrontFactoryConstructView, transitionVmCount1095C) == 0x1095C',
+                         'offsetof(FrontFactoryConstructView, transitionState11EA8) == 0x11EA8',
+                         'sizeof(FrontFactoryConstructView) == 0x1293C',
+                         'offsetof(FrontFactoryConstructView, transitionFrame10960) == 0x10960',
+                         'offsetof(FrontFactoryConstructView, transitionSide10964) == 0x10964',
                          'void InitializeMessageRuntime();'):
             with self.subTest(fragment=fragment):
                 self.assertIn(fragment, self.header)
+        self.assertIn('void FrontFactoryConstructView::InitializeMessageRuntime()', self.impl)
 
     def test_cleanup_calls_the_complete_native_message_owner(self):
         # The actual original CALL at +0x1B binds its REL32 field at +0x1C.
@@ -57,11 +62,13 @@ class SharedFrontMessageOwner(unittest.TestCase):
         self.assertIn("'" + SYMBOL + "':0x004181E0", self.game_inspector)
 
     def test_preserves_both_distinct_nonexact_callers(self):
-        # Cleanup now has a complete canonical425-byte replay. Front Added
-        # remains a distinct nonexact caller; the signature alone proves neither.
+        # Cleanup and FrontAdded are distinct original-exact owners; both
+        # must continue to call the exact 133-byte native Front member.
         self.assertIn('CleanupGameplayState()', self.game)
         self.assertIn('int FrontAddedCallback(void *frontArg)', self.front)
-        self.assertIn('425', self.game_inspector)
+        self.assertEqual(self.units['game-manager-cleanup-gameplay-state']['size'], 425)
+        self.assertEqual(self.units['front-added-callback']['size'], 706)
+        self.assertIn('gui->InitializeMessageRuntime()', self.front)
         self.assertIn('41', self.game_inspector)
 
 

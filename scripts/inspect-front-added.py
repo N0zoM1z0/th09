@@ -33,7 +33,7 @@ DESTINATIONS = {
     '?Reset@FrontMessageRuntimeResetView@@QAEHXZ': 0x00415C90,
     '?g_PlayerResourcePaths@@3PAY05PBDA': 0x004A1238,
     '?LoadForSideCount@FrontMessageRuntimeView@@QAEHPAD0H@Z': 0x004182E0,
-    '?InitializeMessageRuntime@FrontMessageOwnerView@@QAEXXZ': 0x004181E0,
+    '?InitializeMessageRuntime@FrontFactoryConstructView@@QAEXXZ': 0x004181E0,
 }
 
 

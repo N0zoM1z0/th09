@@ -1652,7 +1652,7 @@ FRONT_ADDED_CALLEES = (
     ('front-message-release-for-side-count', 'src/FrontMessageReleaseForSideCount.cpp',
      '?ReleaseForSideCount@FrontMessageRuntimeView@@QAEXH@Z', 0x00417520, 271),
     ('front-message-initialize-runtime', 'src/FrontMessageInitializeRuntime.cpp',
-     '?InitializeMessageRuntime@FrontMessageOwnerView@@QAEXXZ', 0x004181E0, 133),
+     '?InitializeMessageRuntime@FrontFactoryConstructView@@QAEXXZ', 0x004181E0, 133),
 )
 
 
@@ -2686,7 +2686,7 @@ def run_game_manager(*, protect_exact: bool,
         build('supervisor-setup-loading-vms-and-capture')
         owners.append(canonical('supervisor-setup-loading-vms-and-capture'))
         # Gameplay cleanup now calls the same exact, 133-byte
-        # FrontMessageOwnerView::InitializeMessageRuntime as FrontAddedCallback.
+        # FrontFactoryConstructView::InitializeMessageRuntime as FrontAddedCallback.
         # The --owner all Front sweep already replayed this true member;
         # a focused gamemgr replay must independently build and check it.
         if not replay_callees_prechecked:

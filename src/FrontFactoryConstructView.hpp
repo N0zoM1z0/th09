@@ -49,6 +49,7 @@ struct FrontFactoryConstructView
     AnmVm markerVms123F4[2];
 
     FrontFactoryConstructView();
+    void InitializeMessageRuntime();
 };
 
 typedef char FrontPanelVertexNativeSize[

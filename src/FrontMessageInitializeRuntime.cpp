@@ -1,12 +1,13 @@
 #include "GameManagerRuntimeView.hpp"
 #include "FrontMessageOwnerView.hpp"
+#include "FrontFactoryConstructView.hpp"
 
 #include <stddef.h>
 
 extern FrontMessageInitSourceView *g_FrontMessageSource;
 extern int g_FrontMessageOverride;
 
-void FrontMessageOwnerView::InitializeMessageRuntime()
+void FrontFactoryConstructView::InitializeMessageRuntime()
 {
     if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
     {

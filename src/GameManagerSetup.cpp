@@ -3,7 +3,7 @@
 #include "CardAttack.hpp"
 #include "FrontSide.hpp"
 #include "TitleScoreRecordView.hpp"
-#include "FrontMessageOwnerView.hpp"
+#include "FrontFactoryConstructView.hpp"
 #include "EnemyManager.hpp"
 #include "BulletManager.hpp"
 #include "ExAttackController.hpp"
@@ -594,7 +594,7 @@ void GameManagerSetupLayout::CleanupGameplayState()
 
     ResetGameManager(&globalManager);
     g_AsciiManager.Reset();
-    static_cast<FrontMessageOwnerView *>(globalManager.gameSubsystem)->InitializeMessageRuntime();
+    static_cast<FrontFactoryConstructView *>(globalManager.gameSubsystem)->InitializeMessageRuntime();
     ResetExAttackRecords(static_cast<ExAttackController *>(globalManager.secondarySubsystem));
 
     for (int sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)

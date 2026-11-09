@@ -5,7 +5,6 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "FrontSupport.hpp"
-#include "FrontMessageOwnerView.hpp"
 #include "FrontFactoryConstructView.hpp"
 #include "GameManagerRuntimeView.hpp"
 
@@ -102,6 +101,6 @@ int FrontAddedCallback(void *frontArg)
             return -1;
         }
     }
-    reinterpret_cast<FrontMessageOwnerView *>(gui)->InitializeMessageRuntime();
+    gui->InitializeMessageRuntime();
     return 0;
 }

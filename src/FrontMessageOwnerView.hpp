@@ -1,40 +1,10 @@
 #pragma once
 
-#include <stddef.h>
-#include "FrontMessageRuntimeView.hpp"
-
-// The independently reviewed Front/shared message-runtime owner: the same
-// 0xE944 offset and thiscall are consumed by gameplay cleanup and added callbacks.
-// Names are reconstruction views, not original retail identifiers.
+// Original source data pointer for Front message initialization.
+// The actual runtime owner is FrontFactoryConstructView, not a short
+// separately instantiated 0x11EAC-byte shadow Front object.
 struct FrontMessageInitSourceView
 {
     unsigned char unknown00[0x06];
     short messageIndex06;
 };
-
-struct FrontMessageOwnerView
-{
-    unsigned char unknown00000[0xE944];
-    FrontMessageRuntimeView messageRuntimeE944;
-    unsigned char unknown106B4[0x1095C - 0x106B4];
-    int transitionVmCount1095C;
-    int transitionFrame10960;
-    int transitionSide10964;
-    unsigned char unknown10968[0x11EA8 - 0x10968];
-    int transitionState11EA8;
-
-    void InitializeMessageRuntime();
-};
-
-typedef char FrontMessageInitRuntimeAtE944[
-    (offsetof(FrontMessageOwnerView,messageRuntimeE944)==0xE944)?1:-1];
-typedef char FrontMessageInitVmCountAt1095C[
-    (offsetof(FrontMessageOwnerView,transitionVmCount1095C)==0x1095C)?1:-1];
-typedef char FrontMessageInitStateAt11EA8[
-    (offsetof(FrontMessageOwnerView,transitionState11EA8)==0x11EA8)?1:-1];
-typedef char FrontMessageOwnerSizeIs11EAC[
-    (sizeof(FrontMessageOwnerView)==0x11EAC)?1:-1];
-typedef char FrontMessageInitFrameAt10960[
-    (offsetof(FrontMessageOwnerView,transitionFrame10960)==0x10960)?1:-1];
-typedef char FrontMessageInitSideAt10964[
-    (offsetof(FrontMessageOwnerView,transitionSide10964)==0x10964)?1:-1];
