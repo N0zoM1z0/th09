@@ -537,15 +537,16 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     g_GameManager.difficulty = replayManager->replayData->value0D7;
     g_GameManager.value378 = replayManager->replayData->value1E6;
     g_GameManager.value37C = replayManager->replayData->value1E7;
-    // The original first publishes header 1E7, then loads the side-0 owner
-    // once before publishing 1E8. Preserve that distinct global pointer
-    // read: an ordinary C++ alias gets hoisted ahead of the 1E7 store by
-    // VC7.1. Later side-0 fields intentionally read the global again.
+    // The original loads header 1E8 into a byte-sized value between
+    // publishing 1E7 and reading the side-0 runtime owner. Record that
+    // source-level chronology explicitly; VC7.1 still chooses the same
+    // nonexact register ordering, so the full-owner oracle remains required.
+    const u8 side0Value1E8 = replayManager->replayData->value1E8;
     ReplaySideRuntimeSlotView *side0RuntimeSlot =
         reinterpret_cast<ReplaySideRuntimeSlotView *>(
             &g_GameManager.sides[0].runtime);
     AsciiGameSideRuntimeView *firstSide0 = *side0RuntimeSlot;
-    g_GameManager.sides[0].value30 = replayManager->replayData->value1E8;
+    g_GameManager.sides[0].value30 = side0Value1E8;
     g_GameManager.sides[1].value30 = replayManager->replayData->value1E9;
     firstSide0->value08 = frame0->value00;
     g_GameManager.sides[1].runtime->value08 = frame1->value00;

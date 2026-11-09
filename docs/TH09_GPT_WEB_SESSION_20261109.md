@@ -309,3 +309,23 @@ The same focused no-EH carrier rebuild gives 1,238/1,238 SaveReplay bytes,
 (+0xB7, +0xBB). BeginPlaybackStage remains 538/540, 32 fields, 39 residuals
 and a matching CFG. This change is a maintained C++ source-model refinement,
 not an exactness claim for either boss.
+
+
+## Replay BeginPlaybackStage: source-level byte snapshot chronology
+
+Target-bound instruction review resolves the earlier ambiguous comment:
+original +0x151/+0x154 loads the header 1E8 byte into EDX, +0x15B
+reads the side-0 runtime owner into ESI, and +0x161 publishes 1E8
+to GameManager. Source now expresses the byte load ahead of the native
+volatile pointer-slot access as a const u8 snapshot. The separate side-0
+runtime accesses remain independent, as required by the target evidence.
+
+This C++ source-model change has not repaired the optimizer's register
+assignment. A focused no-EH Replay build still has a 538/540-byte
+BeginPlaybackStage owner, 32 independently bound fields, 39 unlike overlap
+bytes, two missing bytes, 5 ordered calls and matching CFG. The same carrier's
+SaveReplay remains 1,238 bytes/53 fields with two register-only residuals;
+the 1,323-byte BeginRecordingStage passes the strict exact comparator.
+A source-input regression test preserves the relative snapshot/pointer/store
+chronology without pretending that source order proves emitted instruction
+order. No full cold replay or new exactness credit.

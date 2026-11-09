@@ -27,6 +27,26 @@ class ReplayNativePlaybackFrameRow(unittest.TestCase):
         self.assertIn('ReplayFrameDataStartView *frameStart[3][10]',header)
         self.assertIn('ReplayDataFrame0At20',header)
 
+    def test_side0_snapshot_and_runtime_owner_follow_native_load_order(self):
+        source = (ROOT/'src/ReplayInput.cpp').read_text()
+        body = source.split('int ReplayManagerView::BeginPlaybackStage(',1)[1].split(
+            '\nint ReplayManagerView::CaptureFrameSyncState(',1)[0]
+        sites = [
+            'g_GameManager.value37C = replayManager->replayData->value1E7;',
+            'const u8 side0Value1E8 = replayManager->replayData->value1E8;',
+            'ReplaySideRuntimeSlotView *side0RuntimeSlot =',
+            'AsciiGameSideRuntimeView *firstSide0 = *side0RuntimeSlot;',
+            'g_GameManager.sides[0].value30 = side0Value1E8;',
+        ]
+        offsets = [body.index(site) for site in sites]
+        self.assertEqual(offsets, sorted(offsets))
+        self.assertEqual(body.count('g_GameManager.sides[0].value30 ='),1)
+        self.assertIn('typedef AsciiGameSideRuntimeView *volatile ReplaySideRuntimeSlotView;',
+                      source)
+        # The target's separate side owner accesses must not be merged into
+        # a single potentially stale runtime pointer through the whole body.
+        self.assertIn('g_GameManager.sides[0].runtime->value04 = frame0->value00;',body)
+
     def test_unmatched_boss_and_exact_same_source_are_separate(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:
             units=tomllib.load(f)['units']
