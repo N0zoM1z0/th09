@@ -11,9 +11,13 @@ class AnmLoaded;
 // The front panel contains ten real 0x14-byte vertex records. Their
 // original constructor has no calls; Float3's nontrivial constructor
 // must not be introduced into this original vertex array.
-struct FrontPanelVertexView
+struct FrontPanelPositionView
 {
     float x, y, z;
+};
+struct FrontPanelVertexView
+{
+    FrontPanelPositionView pos;
     float rhw;
     unsigned long diffuse;
 
@@ -28,7 +32,7 @@ struct FrontFactoryConstructView
     ChainElem *drawChain04;
     AnmLoaded *frontAnm08;
     AnmVm frontVms00C[88];
-    FrontPanelVertexView panelVerticesE86C[10];
+    FrontPanelVertexView panelVerticesE86C[2][5];
     unsigned char unknownE934[0x10];
     FrontMessageRuntimeView messageRuntimeE944;
     AnmVm vm106B4;
@@ -42,7 +46,11 @@ struct FrontFactoryConstructView
 };
 
 typedef char FrontPanelVertexNativeSize[
-    (sizeof(FrontPanelVertexView) == 0x14) ? 1 : -1];
+    (sizeof(FrontPanelVertexView) == 0x14 &&
+     sizeof(FrontPanelPositionView) == 0x0C &&
+     offsetof(FrontPanelVertexView, pos) == 0x00 &&
+     offsetof(FrontPanelVertexView, rhw) == 0x0C &&
+     offsetof(FrontPanelVertexView, diffuse) == 0x10) ? 1 : -1];
 typedef char FrontFactoryConstructNativeLayout[
     (sizeof(FrontFactoryConstructView) == 0x1293C &&
      offsetof(FrontFactoryConstructView, frontVms00C) == 0x0C &&

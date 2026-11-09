@@ -6,53 +6,17 @@
 #include "AsciiManager.hpp"
 #include "FrontSupport.hpp"
 #include "FrontMessageOwnerView.hpp"
-#include "FrontMessageRuntimeView.hpp"
+#include "FrontFactoryConstructView.hpp"
 #include "GameManagerRuntimeView.hpp"
 
 #include <stddef.h>
-
-struct FrontAddedVertex
-{
-    Float3 pos;
-    float rhw;
-    unsigned long diffuse;
-};
-typedef char FrontAddedVertexSizeIs14[
-    (sizeof(FrontAddedVertex) == 0x14) ? 1 : -1];
-
-struct FrontAddedView
-{
-    unsigned char unknown00000[0x08];
-    AnmLoaded *frontAnm08;
-    AnmVm frontVms00C[7];
-    unsigned char unknown01288[0xE86C - 0x1288];
-    FrontAddedVertex panelVerticesE86C[2][5];
-    unsigned char unknown0E934[0xE944 - 0xE934];
-    FrontMessageRuntimeView messageRuntimeE944;
-    unsigned char unknown106B4[0x11EAC - 0x106B4];
-    AnmVm resultVm11EAC;
-    AnmVm resultVm12150;
-    AnmVm markerVm123F4;
-    AnmVm markerVm12698;
-};
-
-typedef char FrontAddedSizeIs1293C[
-    (sizeof(FrontAddedView) == 0x1293C) ? 1 : -1];
-typedef char FrontAddedVerticesAtE86C[
-    (offsetof(FrontAddedView, panelVerticesE86C) == 0xE86C) ? 1 : -1];
-typedef char FrontAddedMessageAtE944[
-    (offsetof(FrontAddedView, messageRuntimeE944) == 0xE944) ? 1 : -1];
-typedef char FrontAddedResultAt11EAC[
-    (offsetof(FrontAddedView, resultVm11EAC) == 0x11EAC) ? 1 : -1];
-typedef char FrontAddedMarkerAt123F4[
-    (offsetof(FrontAddedView, markerVm123F4) == 0x123F4) ? 1 : -1];
 
 extern AsciiManager g_AsciiManager;
 extern const char *g_PlayerResourcePaths[][6];
 
 int FrontAddedCallback(void *frontArg)
 {
-    FrontAddedView *gui = static_cast<FrontAddedView *>(frontArg);
+    FrontFactoryConstructView *gui = static_cast<FrontFactoryConstructView *>(frontArg);
     int i;
     int j;
     AnmManager *se = g_AnmManager;
@@ -77,15 +41,15 @@ int FrontAddedCallback(void *frontArg)
     gui->frontAnm08->ExecuteAnmIdx(&gui->frontVms00C[4], 4);
     gui->frontAnm08->ExecuteAnmIdx(&gui->frontVms00C[5], 5);
     gui->frontAnm08->ExecuteAnmIdx(&gui->frontVms00C[6], 6);
-    g_AsciiManager.asciiAnm->ExecuteAnmIdx(&gui->markerVm123F4, 0);
-    g_AsciiManager.asciiAnm->ExecuteAnmIdx(&gui->markerVm12698, 0);
-    gui->markerVm123F4.color1Script.a = 0;
-    gui->markerVm12698.color1Script.a = 0;
+    g_AsciiManager.asciiAnm->ExecuteAnmIdx(&gui->markerVms123F4[0], 0);
+    g_AsciiManager.asciiAnm->ExecuteAnmIdx(&gui->markerVms123F4[1], 0);
+    gui->markerVms123F4[0].color1Script.a = 0;
+    gui->markerVms123F4[1].color1Script.a = 0;
     if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
     {
-        gui->frontAnm08->ExecuteAnmIdx(&gui->resultVm11EAC, 0x55);
-        gui->frontAnm08->ExecuteAnmIdx(&gui->resultVm12150, 0x56);
-        gui->frontAnm08->SetSprite(&gui->resultVm12150, g_GameManager.field0FC + 0x49);
+        gui->frontAnm08->ExecuteAnmIdx(&gui->resultVms11EAC[0], 0x55);
+        gui->frontAnm08->ExecuteAnmIdx(&gui->resultVms11EAC[1], 0x56);
+        gui->frontAnm08->SetSprite(&gui->resultVms11EAC[1], g_GameManager.field0FC + 0x49);
     }
     for (i = 0; i < 2; i++)
     {
