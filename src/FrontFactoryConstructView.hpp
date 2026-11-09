@@ -51,6 +51,7 @@ struct FrontFactoryConstructView
     FrontFactoryConstructView();
     void InitializeMessageRuntime();
     void InitializeResultBonus();
+    void SelectOpponentSide(int sideIndex);
 };
 
 typedef char FrontPanelVertexNativeSize[

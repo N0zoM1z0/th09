@@ -2,25 +2,19 @@
 #include "AsciiManager.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "RngRuntimeLeaves.hpp"
+#include "FrontFactoryConstructView.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 #include <stddef.h>
 
 struct PlayerDeathSideStateView;
 
+// Original +0xA8 Front pointer remains used by a separately authored
+// transition-block getter; its native retyping is a distinct caller scope.
 struct PlayerDeathSharedView
 {
-    unsigned char unknown0000[0xE934];
-    unsigned int transitionColorE934[2];
-    int transitionFramesE93C[2];
-
     int IsDeathTransitionBlocked();
-    void SelectOpponentSide(int sideIndex);
 };
-
-typedef char PlayerDeathSharedColorAtE934[
-    (offsetof(PlayerDeathSharedView, transitionColorE934) == 0xE934) ? 1 : -1];
-typedef char PlayerDeathSharedFramesAtE93C[
-    (offsetof(PlayerDeathSharedView, transitionFramesE93C) == 0xE93C) ? 1 : -1];
 
 struct PlayerDeathAttackTargetView
 {
@@ -177,7 +171,7 @@ void PlayerLifecycleView::EnterDeathState()
         }
 
         header24.state84 = 0;
-        g_PlayerDeathShared->SelectOpponentSide(1 - sideIndex);
+        g_GameManager.frontFactoryA8->SelectOpponentSide(1 - sideIndex);
         reinterpret_cast<PlayerDeathSideStateView *>(sideState)
             ->effectManager0C->SpawnEffectInFixedSlot(
             19, &position1B88, 4, 0xFF4040FFu);
@@ -205,8 +199,8 @@ void PlayerLifecycleView::EnterDeathState()
     movementFields1CCC.movementAngle1CD8 = angle;
     SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(&movementFields1CCC.velocity1CCC)), angle, 1.0f);
 
-    g_PlayerDeathShared->transitionFramesE93C[sideIndex] = 60;
-    g_PlayerDeathShared->transitionColorE934[sideIndex] = 0x80FF0000u;
+    g_GameManager.frontFactoryA8->panelTimersE93C[sideIndex] = 60;
+    g_GameManager.frontFactoryA8->panelColorsE934[sideIndex] = 0x80FF0000u;
 
     PlayerDeathVmHandleView *vmHandle =
         reinterpret_cast<PlayerDeathVmHandleView *>(focusEffect364);

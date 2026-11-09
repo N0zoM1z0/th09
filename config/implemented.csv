@@ -872,7 +872,7 @@ ResolveShortcut
 CheckForRunningGameInstance
 ResetRenderState
 Controller::GetControllerState
-PlayerDeathSharedView::SelectOpponentSide
+FrontFactoryConstructView::SelectOpponentSide
 FrontMessageRuntimeView::LoadForSideCount
 TitleDrawCallback
 ExAttackInitializeCallbackType2
