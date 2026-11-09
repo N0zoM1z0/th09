@@ -39,7 +39,7 @@ class PlayerNativeUpdateStateOwner(unittest.TestCase):
         self.assertNotIn('PlayerState4OpsView',selector)
         self.assertEqual(state3.count('SetUpdateState(3);'),3)
         self.assertNotIn('PlayerState4OpsView',state3)
-        self.assertIn('reinterpret_cast<PlayerLifecycleView *>(manager->sideState320->player04)->SetUpdateState(3);',enemy)
+        self.assertIn('manager->sideState320->playerLifecycle04->SetUpdateState(3);',enemy)
         self.assertNotIn('PlayerState4OpsView',enemy)
         self.assertIn('PlayerState4OpsView *ops',player)
 

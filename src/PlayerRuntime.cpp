@@ -9,6 +9,8 @@
 #include "RngRuntimeLeaves.hpp"
 #include "PlayerEnemyTrackingStateView.hpp"
 #include "PlayerSharedRuntimeView.hpp"
+#include "FrontFactoryConstructView.hpp"
+#include "GameManagerRuntimeView.hpp"
 #include "Supervisor.hpp"
 
 #include <stddef.h>
@@ -782,7 +784,7 @@ afterTransition:
         PlayerUpdateSelectorState(&player->header24);
 
     UpdatePlayerCollisionRegions(player);
-    if (!g_PlayerSharedRuntime->IsBlocked())
+    if (!g_GameManager.frontFactoryA8->IsBlocked())
         UpdatePlayerBombState(player);
 
     if (player->GetUpdateState() != 2 && player->GetUpdateState() != 4 &&
@@ -792,7 +794,7 @@ afterTransition:
     g_AnmManager->ExecuteScript(reinterpret_cast<AnmVm *>(&player->mainVm));
     player->UpdateShots();
 
-    if (!g_PlayerSharedRuntime->IsBlocked())
+    if (!g_GameManager.frontFactoryA8->IsBlocked())
     {
         ++player->ownerState30410.activeFrameCounter3C;
         if ((player->flags1B80 & 8) != 0)

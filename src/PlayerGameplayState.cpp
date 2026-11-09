@@ -3,7 +3,7 @@
 #include "FrontSide.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "ReplayInputState.hpp"
-#include "PlayerSharedRuntimeView.hpp"
+#include "FrontFactoryConstructView.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
@@ -12,7 +12,6 @@
 // The selector uses the same physical 0x4ACE0C RNG allocation as the
 // other Player and replay owners, not a private game-pattern RNG record.
 extern RngRuntimeView g_ReplayRng;
-extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 // This 0x4A7E4C word is published here and consumed by Player::EnterDeathState.
 extern int g_PlayerDeathCounterBonus;
 
@@ -266,8 +265,8 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     float offsetY;
     PlayerPositionView candidate;
 
-    if (g_PlayerSharedRuntime->updateBlock1095C != 0 ||
-        g_PlayerSharedRuntime->IsBlocked())
+    if (g_GameManager.frontFactoryA8->transitionVmCount1095C != 0 ||
+        g_GameManager.frontFactoryA8->IsBlocked())
         return;
 
     // Preserve the initial receiver across the mode and timer calls.

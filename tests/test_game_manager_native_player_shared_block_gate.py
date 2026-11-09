@@ -13,10 +13,12 @@ class GameManagerNativePlayerSharedBlockGate(unittest.TestCase):
         self.assertIn('#include "PlayerSharedRuntimeView.hpp"',s)
         self.assertNotIn('struct GameSubsystemSetupView',s)
         self.assertNotIn('->IsActive()',s)
-        self.assertIn('!globalManager.playerSharedRuntimeA8->IsBlocked()',s)
+        self.assertIn('!globalManager.gameSubsystem->IsBlocked()',s)
         self.assertIn('PlayerSharedRuntimeView *playerSharedRuntimeA8;',layout)
         self.assertIn('offsetof(GameManagerSetupLayout, playerSharedRuntimeA8) == 0xA8',layout)
-        self.assertIn('int IsBlocked();',real)
+        self.assertNotIn('int IsBlocked();',real)
+        self.assertIn('int IsBlocked();',
+                      (ROOT/'src/FrontFactoryConstructView.hpp').read_text())
         self.assertIn('int blockStateE94C;',real)
 
     def test_original_bound_call_and_exact_callee(self):

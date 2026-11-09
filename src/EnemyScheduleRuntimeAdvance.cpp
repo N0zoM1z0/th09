@@ -2,6 +2,7 @@
 #include "EnemyManagerCardAttackSpawn.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "GameManagerRuntimeView.hpp"
+#include "FrontFactoryConstructView.hpp"
 #include "ZunTimer.hpp"
 #include "ZunTimerEqual.inl"
 
@@ -44,11 +45,6 @@ struct EnemyTimelineSpawnManagerView
         int useOpposingEclManager);
 };
 
-struct EnemyTimelineSharedRuntimeView
-{
-    int IsBlocked();
-};
-
 struct EnemyScheduleRuntimeAdvanceOverlay
 {
     ZunTimer timer00;
@@ -65,7 +61,6 @@ typedef char EnemyScheduleAdvanceManagerAt1C[
 typedef char EnemyScheduleAdvanceInstructionAt20[
     (offsetof(EnemyScheduleRuntimeAdvanceOverlay, instruction20) == 0x20) ? 1 : -1];
 
-extern EnemyTimelineSharedRuntimeView *g_PlayerSharedRuntime;
 extern float g_EnemyTimelineStep;
 extern unsigned char g_FrontMode0Done;
 extern RngRuntimeView g_Rng;
@@ -74,7 +69,7 @@ int EnemyScheduleRuntimeView::Run()
 {
     EnemyScheduleRuntimeAdvanceOverlay *runtime =
         reinterpret_cast<EnemyScheduleRuntimeAdvanceOverlay *>(this);
-    if (g_PlayerSharedRuntime->IsBlocked())
+    if (g_GameManager.frontFactoryA8->IsBlocked())
         return 0;
 
     if (static_cast<float>(runtime->delayTimer0C) > 0.0f)

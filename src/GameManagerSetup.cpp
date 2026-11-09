@@ -213,7 +213,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         return CHAIN_CALLBACK_RESULT_BREAK;
     }
 
-    if (!globalManager.playerSharedRuntimeA8->IsBlocked())
+    if (!globalManager.gameSubsystem->IsBlocked())
     {
         g_GameManager.valueD0++;
 

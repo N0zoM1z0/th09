@@ -53,6 +53,7 @@ struct FrontFactoryConstructView
     void InitializeResultBonus();
     void SelectOpponentSide(int sideIndex);
     int GetTransitionBlockFlag();
+    int IsBlocked();
 };
 
 typedef char FrontPanelVertexNativeSize[

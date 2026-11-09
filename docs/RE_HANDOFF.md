@@ -42,6 +42,18 @@ Pinned compiler: original-profile VC7.1. The original game, saved Ghidra
 project, Wine compiler runtime and `.analysis` experiment receipts are
 ignored local inputs, not versioned Git files.
 
+## 2026-11-09 verified native Front blocked gate
+
+The exact 24-byte signed `IsBlocked` at 0x404980 is now a real
+`FrontFactoryConstructView` method reading constructed message state at
+Front+0xE94C. Player pattern selector (3,238 bytes), Player OnUpdate
+(522), GameManager OnUpdate (1,230), Replay frame advance (59) and
+Enemy timeline Run (1,048 physical bytes) call the same native interface.
+Whole-source scoped replay covers 53 complete exact owners / 24,540 bytes
+/ 1,418 bound fields, plus five constructor-source equivalents. The Enemy
+timeline owner **was previously exact**; canonical exact remains 1,024.
+See [native Front blocked gate](TH09_NATIVE_FRONT_SIGNED_BLOCK_GATE_20261109.md).
+
 ## Current implementation and corrected assumptions
 
 - **Source baseline for this handoff:** last codegen-changing commit

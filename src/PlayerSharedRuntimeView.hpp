@@ -2,12 +2,13 @@
 
 #include <stddef.h>
 
-// Observed global Player shared-runtime allocation; these are native words
-// read independently by exact Player/Title/Replay callers. The ordinary
-// state at +0xE94C belongs to this allocation, not a second global.
+// Partial compatibility projection of the actual constructed Front allocation,
+// not an independently allocated Player runtime. Unmigrated Player owners still
+// read native words at +0x1095C/+0x10960 through this older source-facing view.
+// The +0xE94C signed state is the real Front message current index at
+// Front +0xE944 + message +0x08; its getter belongs to FrontFactoryConstructView.
 struct PlayerSharedRuntimeView
 {
-    int IsBlocked();
     unsigned char unknown0000[0xE94C];
     int blockStateE94C;
     unsigned char unknownE950[0x1095C - 0xE950];
