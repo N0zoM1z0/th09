@@ -426,3 +426,49 @@ unexplained. The source was restored; no lifetime-only scope is adopted.
 All probes compiled only the touched translation unit/carrier. The
 maintained sources were restored after every experiment. No full-project cold
 replay ran, and no exactness credit or target denominator changed.
+
+## Sixth focused sweep — replay writer/return-expression controls and canonical receipts
+
+### `ReplayManagerView::SaveReplay`: register hints and destination cursor mutations
+
+The guarded original-bound 1,238-byte writer was rebuilt for each of six
+`register` controls (`tempBuffer`, `currentOffset`, `frameHeader`, and their
+combinations). Every build remains **1,238 bytes / 380 instructions / 53
+fields / 23 ordered calls / two differences**, at `+0xB7/+0xBB`. Four natural
+cursor spellings were also tested: mutate and restore `tempBuffer`, add then
+subtract the `0xC0` header bias, a separate pointer cursor, and a pointer-to-
+pointer cursor. The first three preserve the same two-byte frontier; the
+pointer-to-pointer spelling is rejected by the original-bound guard. No
+register hint or pointer mutation is retained.
+
+### `BeginPlaybackStage`: final-store expression controls
+
+The final `inputDelay = 0; return 0;` was tested as a returned assignment,
+return-after-read, comma expression, typed zero assignment, local-zero
+assignment, and an explicit empty scope. All six retain **538 / 540 bytes,
+151 / 152 instructions, 32 fields, five calls, 12 blocks, 39 overlapping
+differences and two missing bytes**. The target's `pop edi; pop esi; store
+inputDelay; xor eax,eax` order is therefore not explained by a source-level
+return-expression or simple lexical scope. No source change is adopted.
+
+### Fresh canonical owner receipts after all probes
+
+The three focused boss-frontier commands completed successfully, with no
+whole-project cold replay:
+
+- `check-boss-frontiers.py --owner gamemgr --skip-exact-siblings`: the setup
+  worker remains **1,689 / 1,682 bytes**, 172/172 fields, 35 calls, 78/78
+  blocks, 694 differences and seven missing bytes; `GameManager::OnUpdate`
+  and `CleanupGameplayState` remain exact at 1,230 and 425 bytes.
+- `check-boss-frontiers.py --owner enemy --skip-exact-siblings`:
+  `EnemyManagerView::OnUpdate` remains **3,900 / 3,900 bytes**, 97 fields,
+  69 calls, matching direct graph/switch destinations and 13 differences;
+  `AppendPlayerCollisionBox` remains exact at 82 bytes.
+- `check-boss-frontiers.py --owner replaymenu --skip-exact-siblings`:
+  `DrawReplayMenu` remains **1,280 / 1,280 bytes**, 57 fields, 16 literal
+  definitions, 30 literal references, 13 calls, 72 blocks, matching direct
+  graph, zero missing bytes and 29 differences.
+
+These are current diagnostic receipts, not exactness credit. All production
+sources remain restored to the committed baseline, all target/original-field
+guards remain enabled, and the repository is clean after the focused builds.
