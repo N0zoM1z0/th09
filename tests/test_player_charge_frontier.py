@@ -30,8 +30,10 @@ class ChargeFrontierTests(unittest.TestCase):
                     original_fields=70, bound_fields=70, ordered_calls=58,
                     ordered_calls_agree=True, target_blocks=53, candidate_blocks=53,
                     direct_graphs_agree=False, literal_definitions_checked=5,
-                    same_carrier_timer_bytes_exact=20, overlap_differences=len(offsets),
-                    difference_offsets=offsets, missing_target_bytes=13,
+                    same_carrier_timer_bytes_exact=20,
+                    original_stack_byte_minus_one=frontier.PLAYER_CHARGE_ORIGINAL_MODE_BYTE,
+                    candidate_stack_byte_minus_one=[],
+                    overlap_differences=len(offsets), difference_offsets=offsets, missing_target_bytes=13,
                     extra_candidate_bytes=0, complete_bytes_equal=False)
 
     def test_entire_current_frontier_and_actual_reductions_remain_noncrediting(self):
@@ -50,6 +52,8 @@ class ChargeFrontierTests(unittest.TestCase):
                        {'ordered_calls': 57}, {'ordered_calls_agree': False},
                        {'literal_definitions_checked': 4},
                        {'same_carrier_timer_bytes_exact': 19},
+                       {'original_stack_byte_minus_one': []},
+                       {'candidate_stack_byte_minus_one': None},
                        {'missing_target_bytes': 0}, {'extra_candidate_bytes': 1},
                        {'exactness_credit': 'accepted'}, {'complete_bytes_equal': True},
                        {'difference_offsets': [True]}, {'difference_offsets': [{}]}):

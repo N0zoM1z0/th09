@@ -66,3 +66,36 @@ Only the involved source carriers were recompiled. Whole-product Windows
 linking, semantic/runtime execution, full cold replay, remote Git push
 and Factory acceptance remain open. Source-present/exact/nonexact totals
 remain **1,034 / 1,021 / 13**.
+
+## November 9: re-established the original charge mode-byte lifetime
+
+A fresh target-bound disassembly of 0x0041F810 confirms the original
+one-byte mode local is not inferred from a decompiler variable name alone.
+The retail body stores AL to [EBP-1] at function offset +0x55, compares
+that same byte at +0x1C7, then reloads it at +0x1DB. The complete
+1,210-byte target still has 350 instructions, 70 original fields, 58 ordered
+calls and 53 direct-flow blocks.
+
+A fresh fixed-profile source-cold build of the maintained Player member
+repeats 1,197 candidate bytes, 342 instructions, 70 fields, 58 calls and
+53 blocks, with 1,160 unlike overlapping bytes and 13 missing target bytes.
+Its candidate has no byte access at [EBP-1]; the mode value is kept in BL.
+The target instead keeps side index in EDI and the replay-input receiver in
+EBX; the candidate reverses those register roles. This identifies a real
+source-lifetime/register-allocation mismatch, not a missing COFF field or a
+wrong call destination.
+
+New cold controls rechecked declaration order, pointer/reference input aliases,
+direct side-index member reads and same-TU visibility of SpawnShots,
+resource subtraction and all three State3 effect helpers. They either reproduce
+the same 1,197-byte stream, regress to 1,195 bytes, or fail the independently
+reviewed field census; none is adopted. The earlier signed/unsigned/short,
+bool, structured-local, comma-expression and initialized-local controls also
+remain rejected. No volatile, fake stack home, register hint, assembly or
+compiler-profile change is used.
+
+The complete inspector and boss frontier now pin the three actual original
+EBP-1 instruction accesses while leaving the candidate's stack-access list
+diagnostic-only, so a later natural reconstruction can add the original
+lifetime without weakening the existing 37 equal-byte positions. This is a
+new target-evidence guard, not exactness credit or a semantic/runtime claim.

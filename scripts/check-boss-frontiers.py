@@ -1393,6 +1393,11 @@ def guard_player_bullet_collision(result: dict) -> dict:
 
 
 PLAYER_CHARGE_TARGET_SHA = '6c24be1a012fc3fa6148bd09954443318cc9db33d6b69a26ca1a778dfe6e5015'
+PLAYER_CHARGE_ORIGINAL_MODE_BYTE = [
+    {'offset': '0x55', 'mnemonic': 'mov', 'operands': 'byte ptr [ebp - 1], al'},
+    {'offset': '0x1c7', 'mnemonic': 'cmp', 'operands': 'byte ptr [ebp - 1], 1'},
+    {'offset': '0x1db', 'mnemonic': 'mov', 'operands': 'al, byte ptr [ebp - 1]'},
+]
 # Every position that already equals the original in the 1197-byte candidate.
 # The other 1160 overlaps and 13 absent bytes remain an open full-owner claim.
 PLAYER_CHARGE_MATCHED = frozenset((
@@ -1421,6 +1426,8 @@ def guard_player_charge(result: dict) -> dict:
             type(result.get('direct_graphs_agree')) is not bool or
             result.get('literal_definitions_checked') != 5 or
             result.get('same_carrier_timer_bytes_exact') != 20 or
+            result.get('original_stack_byte_minus_one') != PLAYER_CHARGE_ORIGINAL_MODE_BYTE or
+            not isinstance(result.get('candidate_stack_byte_minus_one'), list) or
             type(count) is not int or not 0 <= count <= 1160 or
             not isinstance(offsets, list) or
             any(type(o) is not int or not 0 <= o < size for o in offsets) or

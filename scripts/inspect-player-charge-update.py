@@ -21,6 +21,35 @@ SYMBOL = '?UpdateChargeAttack@PlayerLifecycleView@@QAEHXZ'
 TARGET_SHA256 = '6c24be1a012fc3fa6148bd09954443318cc9db33d6b69a26ca1a778dfe6e5015'
 TARGET_BLOCKS = 53
 
+# The retail function keeps the mode byte in one real stack home across the
+# first condition's calls and reuses it in the following else-if. These are
+# original instruction offsets, not a candidate-shape requirement.
+TARGET_STACK_BYTE_MINUS_ONE = (
+    ('0x55', 'mov', 'byte ptr [ebp - 1], al'),
+    ('0x1c7', 'cmp', 'byte ptr [ebp - 1], 1'),
+    ('0x1db', 'mov', 'al, byte ptr [ebp - 1]'),
+)
+
+
+def stack_byte_accesses(instructions):
+    import capstone
+    return [
+        {'offset': hex(i.address - BASE), 'mnemonic': i.mnemonic,
+         'operands': i.op_str}
+        for i in instructions if any(
+            op.type == capstone.x86.X86_OP_MEM and op.size == 1 and
+            op.mem.base == capstone.x86.X86_REG_EBP and op.mem.disp == -1
+            for op in i.operands)
+    ]
+
+
+def validate_original_stack_byte_minus_one(accesses):
+    actual = tuple((row.get('offset'), row.get('mnemonic'), row.get('operands'))
+                   for row in accesses)
+    if actual != TARGET_STACK_BYTE_MINUS_ONE:
+        raise ValueError('charge original mode-byte EBP-1 lifetime changed')
+    return accesses
+
 REFERENTS = {
     '??4ZunTimer@@QAEXH@Z': 0x00401500,
     '??8ZunTimer@@QAEHH@Z': 0x00404950,
@@ -299,13 +328,9 @@ def diagnose(path):
     if len(original_graph) != TARGET_BLOCKS:
         raise ValueError('charge original complete graph changed')
     differences = [i for i, (a, b) in enumerate(zip(target, linked)) if a != b]
-    def stack_byte_accesses(instructions):
-        return [{'offset': hex(i.address - BASE), 'mnemonic': i.mnemonic,
-                 'operands': i.op_str}
-                for i in instructions if any(
-                    op.type == capstone.x86.X86_OP_MEM and op.size == 1 and
-                    op.mem.base == capstone.x86.X86_REG_EBP and op.mem.disp == -1
-                    for op in i.operands)]
+    original_stack = validate_original_stack_byte_minus_one(
+        stack_byte_accesses(original))
+    candidate_stack = stack_byte_accesses(candidate)
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_bytes': SIZE, 'candidate_bytes': len(raw),
@@ -323,8 +348,8 @@ def diagnose(path):
         'complete_bytes_equal': target == linked,
         'literal_definitions_checked': len(literals),
         'same_carrier_timer_bytes_exact': verify_timer_sibling(coff, path, image),
-        'original_stack_byte_minus_one': stack_byte_accesses(original),
-        'candidate_stack_byte_minus_one': stack_byte_accesses(candidate),
+        'original_stack_byte_minus_one': original_stack,
+        'candidate_stack_byte_minus_one': candidate_stack,
         'bindings': rows,
     }
 

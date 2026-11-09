@@ -96,6 +96,22 @@ class ChargeCompleteTests(unittest.TestCase):
                   self.assertRaisesRegex(ValueError, 'symbol')):
                 oracle.bind_candidate(source, changed, target)
 
+    def test_original_mode_byte_has_one_stack_home_reused_across_else_if(self):
+        expected = [
+            {'offset': '0x55', 'mnemonic': 'mov', 'operands': 'byte ptr [ebp - 1], al'},
+            {'offset': '0x1c7', 'mnemonic': 'cmp', 'operands': 'byte ptr [ebp - 1], 1'},
+            {'offset': '0x1db', 'mnemonic': 'mov', 'operands': 'al, byte ptr [ebp - 1]'},
+        ]
+        self.assertEqual(oracle.TARGET_STACK_BYTE_MINUS_ONE, tuple(
+            (row['offset'], row['mnemonic'], row['operands']) for row in expected))
+        self.assertEqual(oracle.validate_original_stack_byte_minus_one(expected), expected)
+        for invalid in (expected[:-1], list(reversed(expected)),
+                        [dict(expected[0], offset='0x54'), *expected[1:]],
+                        [dict(expected[1], mnemonic='mov'), *expected[1:]]):
+            with self.subTest(invalid=invalid), self.assertRaisesRegex(
+                    ValueError, 'mode-byte EBP-1'):
+                oracle.validate_original_stack_byte_minus_one(invalid)
+
     def test_literal_uses_real_bounded_section_definition(self):
         payload = struct.pack('<I', 0x42C80000)
         data = bytearray(64)
