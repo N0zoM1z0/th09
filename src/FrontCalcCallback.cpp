@@ -13,7 +13,7 @@
 // Their actual storage is the nested FrontMessageRuntimeView in Front.
 struct FrontCalcMessageRuntimeView
 {
-    int Update();
+    // The separate Setup producer still uses its own original ABI symbol.
     void Setup(int index, int unused);
 };
 
@@ -176,8 +176,7 @@ int __fastcall FrontCalcCallback(void *frontArg)
         }
     }
 
-    reinterpret_cast<FrontCalcMessageRuntimeView *>(
-        &front->messageRuntimeE944)->Update();
+    front->messageRuntimeE944.Update();
 
     if (front->transitionVmCount1095C == 0)
         return 1;

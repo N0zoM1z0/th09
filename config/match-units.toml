@@ -22110,7 +22110,7 @@ relocations = [
   { offset = 0xdf, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x401560 },
   { offset = 0xe4, type = "DIR32", symbol = "?g_FrontDynamicSprite@@3HA", target = 0x4dc690 },
   { offset = 0xf1, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x436ac0 },
-  { offset = 0x187, type = "REL32", symbol = "?Update@FrontCalcMessageRuntimeView@@QAEHXZ", target = 0x416590 },
+  { offset = 0x187, type = "REL32", symbol = "?Update@FrontMessageRuntimeView@@QAEHXZ", target = 0x416590 },
   { offset = 0x19b, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x4dc550 },
   { offset = 0x1a7, type = "REL32", symbol = "?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x436f30 },
   { offset = 0x1ad, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x4dc550 },
