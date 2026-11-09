@@ -230,3 +230,29 @@ Focused validation:
   every currently equal byte and non-crediting residual shrink.
 - test_player_charge_native_boss_owner.py: 2 tests passed, including the
   playable-side creation invariant.
+
+## Fresh exact Title DrawResult and stale diagnostic guard cleanup
+
+A new pinned-profile build of src/TitleScreenResultDraw.cpp into
+build/matching/TitleResultDraw.obj was checked against the immutable original
+at 0x00423D16. Its complete 1,939-byte physical owner and all 82 original
+relocations are identical; the strict canonical comparator reports
+matched_bytes = matched_compared_bytes = 1,939, result = exact. The standalone
+original-bound diagnostic independently confirms 577/577 decoded instructions,
+16 ordered calls, 92/92 CFG blocks, 15 literal definitions and zero difference
+offsets. The DrawResult source had already converged before this work; it is
+not a new exact-function promotion.
+
+The previous noncrediting DrawResult frontier still allowed three historical
+register-encoding differences at +0x1D, +0x23 and +0x39. That allowance was
+stale relative to the current source and could mask future regressions. The
+guard now requires zero differences and complete byte equality, all 577
+aligned instructions and zero unpaired branch destinations. Tests include
+the three former residual locations and other original bytes as regression
+cases. The diagnostic still awards no credit by itself: the separately
+invoked strict canonical full-owner comparison remains mandatory.
+
+Focused validation: 64 tests in test_boss_frontiers.py passed;
+check-boss-frontiers.py --owner resultdraw --skip-exact-siblings passed,
+rebuilt only the selected DrawResult carrier and reported 0 differences.
+No all-project replay was performed.

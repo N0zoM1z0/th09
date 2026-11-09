@@ -1296,10 +1296,10 @@ class BossFrontierChecks(TestCase):
             'ordered_calls': 16, 'ordered_calls_agree': True,
             'original_blocks': 92, 'candidate_blocks': 92,
             'direct_graphs_agree': True,
-            'aligned_instructions': 574, 'paired_branch_conflicts': [],
-            'unpaired_branch_destinations': 1,
-            'complete_differences': 3, 'complete_bytes_equal': False,
-            'difference_offsets': [hex(i) for i in (0x1D, 0x23, 0x39)],
+            'aligned_instructions': 577, 'paired_branch_conflicts': [],
+            'unpaired_branch_destinations': 0,
+            'complete_differences': 0, 'complete_bytes_equal': True,
+            'difference_offsets': [],
         }
 
     def test_title_draw_result_whole_owner_byte_frontier(self):
@@ -1316,20 +1316,21 @@ class BossFrontierChecks(TestCase):
                         {'ordered_calls': 15}, {'ordered_calls_agree': False},
                         {'original_blocks': 91}, {'candidate_blocks': 91},
                         {'direct_graphs_agree': False},
-                        {'aligned_instructions': 573},
+                        {'aligned_instructions': 576},
                         {'paired_branch_conflicts': [{'branch': 4}]},
-                        {'unpaired_branch_destinations': 2},
-                        {'complete_differences': 4},
-                        {'complete_bytes_equal': True},
-                        {'difference_offsets': original['difference_offsets'][:-1]},
-                        {'difference_offsets': original['difference_offsets'] + ['0x40']},
+                        {'unpaired_branch_destinations': 1},
+                        {'complete_differences': 1},
+                        {'complete_bytes_equal': False},
+                        {'difference_offsets': ['0x1d']},
+                        {'difference_offsets': ['0x23']},
+                        {'difference_offsets': ['0x39']},
+                        {'difference_offsets': ['0x40']},
                         {'difference_offsets': ['0x0e'] * 22},
-                        {'difference_offsets': list(reversed(original['difference_offsets']))},
-                        {'difference_offsets': ['bad'] + original['difference_offsets'][1:]},
-                        {'difference_offsets': original['difference_offsets'][:-1] + ['0x25']},
-                        {'difference_offsets': original['difference_offsets'][:-1] + ['0x38']},
-                        {'difference_offsets': original['difference_offsets'][:-1] + ['0x3a']},
-                        {'difference_offsets': original['difference_offsets'][:-1] + ['0x100']},
+                        {'difference_offsets': ['bad']},
+                        {'difference_offsets': ['0x25']},
+                        {'difference_offsets': ['0x38']},
+                        {'difference_offsets': ['0x3a']},
+                        {'difference_offsets': ['0x100']},
                         {'exactness_credit': 'accepted'}):
             with self.subTest(changes=changes), self.assertRaises(RuntimeError):
                 frontiers.guard_title_draw_result({**original, **changes})
@@ -1350,31 +1351,23 @@ class BossFrontierChecks(TestCase):
                 frontiers.guard_title_draw_result({**baseline,
                     'game_manager_fields': fields})
 
-    def test_title_draw_result_protects_all_other_original_bytes(self):
+    def test_title_draw_result_protects_all_1939_exact_bytes(self):
         baseline = self.title_draw_result_evidence()
-        old = set(map(lambda x: int(x, 16), baseline['difference_offsets']))
-        self.assertEqual(old, frontiers.TITLE_DRAW_RESULT_ORIGINAL_RESIDUAL_OFFSETS)
-        self.assertEqual(len(old), 3)
-        for damaged in (0x13, 0x18, 0x0E, 0x24):
-            self.assertNotIn(damaged, old)
-            # A same-count replacement must never move the residual into a
-            # previously matched byte, even after the windows are narrowed.
-            replaced = sorted((old - {0x1D}) | {damaged})
-            with self.subTest(damaged=hex(damaged)), self.assertRaisesRegex(
-                    RuntimeError, 'Physical owner residual changed previously matched code'):
-                frontiers.guard_title_draw_result({**baseline,
-                    'difference_offsets': [hex(x) for x in replaced]})
+        self.assertEqual(frontiers.TITLE_DRAW_RESULT_ORIGINAL_RESIDUAL_OFFSETS,
+                         frozenset())
+        for damaged in (0x00, 0x0E, 0x1D, 0x23, 0x39, 0x100, 0x792):
+            with self.subTest(damaged=hex(damaged)), self.assertRaises(RuntimeError):
+                frontiers.guard_title_draw_result({
+                    **baseline,
+                    'complete_differences': 1,
+                    'complete_bytes_equal': False,
+                    'difference_offsets': [hex(damaged)]})
 
-    def test_title_draw_result_bound_future_narrowing_not_exact_credit(self):
-        baseline = self.title_draw_result_evidence()
-        narrowed = {**baseline, 'complete_differences': 2,
-                    'difference_offsets': baseline['difference_offsets'][:-1]}
-        frontiers.guard_title_draw_result(narrowed)
-        # Full owner convergence would still be a noncrediting diagnosis,
-        # not a canonical match without the separate function-level replay.
-        converged = {**baseline, 'complete_differences': 0,
-                     'difference_offsets': [], 'complete_bytes_equal': True}
+    def test_title_draw_result_zero_byte_diagnostic_needs_canonical_receipt(self):
+        converged = self.title_draw_result_evidence()
         frontiers.guard_title_draw_result(converged)
+        # The diagnostic remains non-crediting. run_title_result separately
+        # checks the complete function with the strict canonical comparator.
         self.assertEqual(converged['exactness_credit'], 'none')
 
     @staticmethod

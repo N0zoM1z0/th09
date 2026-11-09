@@ -4037,12 +4037,10 @@ def run_exattack_controller(*, protect_exact: bool,
 
 
 TITLE_DRAW_RESULT_SHA256 = '92279dc6d2b9ad5051fb902e6172d88eb7f9febe460d44459f16af0f45c74b0a'
-TITLE_DRAW_RESULT_RESIDUAL_WINDOWS = ((0x1D, 0x1E, 1), (0x23, 0x24, 1),
-                                       (0x39, 0x3A, 1))
-# Complete SHA-pinned 1,939-byte DrawResult PE/COFF physical residuals.
-# The original 22-byte entry/snapshot ordering residual has narrowed to three
-# register-encoding bytes. Preserve the other 1,936 physical bytes.
-TITLE_DRAW_RESULT_ORIGINAL_RESIDUAL_OFFSETS = frozenset((0x1D, 0x23, 0x39))
+# Source-cold /O1 /Ob1 TitleResultDraw.obj now agrees with the entire
+# 1,939-byte retail owner. The earlier three-byte residual mask is retired:
+# no source mismatch can be accepted in this already-exact owner.
+TITLE_DRAW_RESULT_ORIGINAL_RESIDUAL_OFFSETS = frozenset()
 
 
 def guard_title_draw_result(result: dict) -> None:
@@ -4071,23 +4069,16 @@ def guard_title_draw_result(result: dict) -> None:
             result.get('original_blocks') != 92 or
             result.get('candidate_blocks') != 92 or
             not result.get('direct_graphs_agree') or
-            not isinstance(result.get('aligned_instructions'), int) or
-            result['aligned_instructions'] < 574 or
+            result.get('aligned_instructions') != 577 or
             result.get('paired_branch_conflicts') != [] or
-            result.get('unpaired_branch_destinations', 2) > 1 or
-            type(result.get('complete_differences')) is not int or
-            not 0 <= result['complete_differences'] <= 3):
+            result.get('unpaired_branch_destinations') != 0 or
+            result.get('complete_differences') != 0 or
+            result.get('complete_bytes_equal') is not True or
+            result.get('difference_offsets') != []):
         raise RuntimeError('Title DrawResult 1939-byte/82-field/16-call/92-block frontier drifted')
-    # Noncrediting future narrowing is allowed only within these *actual*
-    # unbound source-mismatched original byte positions. Preserve the entire
-    # remaining 1,939-byte owner, including source COFF fields and jump graph.
-    physical_difference_windows(
-        result, count_key='complete_differences',
-        windows=TITLE_DRAW_RESULT_RESIDUAL_WINDOWS,
-        equality_key='complete_bytes_equal')
-    observed = {int(x, 16) for x in result['difference_offsets']}
-    if not observed.issubset(TITLE_DRAW_RESULT_ORIGINAL_RESIDUAL_OFFSETS):
-        raise RuntimeError('Title DrawResult damaged an already matched original byte')
+    # Diagnostic source/target equality is independently rechecked by the
+    # mandatory canonical title-screen-draw-result comparison in run_title_result.
+    # Keep this function strictly non-crediting even for equal diagnostic bytes.
 
 
 # Original-bound current-source residuals; no previously equal byte may regress.
