@@ -66,8 +66,8 @@ int FrontMessageRuntimeView::Draw()
     g_AnmManager->DrawNoRotationFlippedX(&messageVms14[3]);
 
     float height;
-    if (timer1D58 < 40)
-        height = static_cast<float>(timer1D58) * 1.5f;
+    if (secondaryTimer1D58 < 40)
+        height = static_cast<float>(secondaryTimer1D58) * 1.5f;
     else
         height = 60.0f;
 
@@ -92,7 +92,7 @@ int FrontMessageRuntimeView::Draw()
 
     g_AnmManager->FlushVertexBuffer();
 
-    if (boxVisible1D6D != 0)
+    if (textBoxVisible1D6D != 0)
     {
         reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor)->d3dDevice08->SetTextureStageState(
             0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
@@ -129,8 +129,8 @@ int FrontMessageRuntimeView::Draw()
         }
     }
 
-    g_AnmManager->DrawNoRotation(&messageVms1534[0]);
-    g_AnmManager->DrawNoRotation(&messageVms1534[1]);
-    g_AnmManager->DrawNoRotation(&messageVm1A7C);
+    g_AnmManager->DrawNoRotation(&textVms1534[0]);
+    g_AnmManager->DrawNoRotation(&textVms1534[1]);
+    g_AnmManager->DrawNoRotation(&introVm1A7C);
     return 0;
 }

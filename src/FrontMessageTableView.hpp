@@ -8,7 +8,7 @@
 // pointer. ReleaseForSideCount consumes only already-converted entries.
 struct FrontMessageInstructionView
 {
-    short time00;
+    unsigned short time00;
     unsigned char opcode02;
     unsigned char size03;
     int argument04;
