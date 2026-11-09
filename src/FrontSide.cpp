@@ -91,14 +91,6 @@ extern const char *g_FrontSideAuxPaths[];
 
 #define FrontSideState(state) (state)
 
-FrontSideAuxView::FrontSideAuxView()
-{
-}
-
-FrontSide::FrontSide()
-{
-}
-
 static int ReleaseOptionalAnm(FrontSide *frontSide)
 {
     if (frontSide->auxA678.optionalAnm04 != NULL)

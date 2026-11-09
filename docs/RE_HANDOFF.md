@@ -109,6 +109,14 @@ ignored local inputs, not versioned Git files.
   9,776-physical-byte exact script interpreter and independent leaves.
   See [original-bound ANM counter witnesses](TH09_NEXT_AGENT_HANDOFF_20261107.md#2-corrected-facts-to-carry-forward).
 
+- **FrontSide native special members** at 0x41A470 (28 bytes) and
+  0x41A490 (307 bytes) now reproduce both complete original bodies under
+  an independent /Ob0 constructor carrier, with **28 matching original
+  relocation fields**. All 15 exact FrontSide.cpp siblings survive the
+  separation. Their explicit-versus-implicit origin remains unresolved; no
+  authored ledger credit is added. See
+  [FrontSide constructor proof](TH09_FRONT_SIDE_CTOR_ORIGINAL_20261109.md).
+
 ## Reconstruction frontiers
 
 All 13 entries below are **nonexact** complete physical owners, not exact
