@@ -14,6 +14,12 @@ import struct
 ROOT = Path(__file__).resolve().parents[1]
 A = '??0AnmVm@@QAE@XZ'
 V = '??_H@YGXPAXIHP6EPAX0@Z@Z'
+E = '??0NativeVmEmptyRecord60View@@QAE@XZ'
+S = '??0NativeVmSevenPlusOneView@@QAE@XZ'
+F = '??0NativeVmFivePlusOneView@@QAE@XZ'
+H = '??0NativeVmThreeView@@QAE@XZ'
+R = '??0NativeVmTimerRecord38View@@QAE@XZ'
+T = '??0ZunTimer@@QAE@XZ'
 PATTERNS = (
     ('NativeVmSevenPlusOneView', 0x00435D40, 39,
      'f74fc7f11f55152256e04324dea05774c7f440b60dff38a6d9802a9a13be85bb',
@@ -24,8 +30,31 @@ PATTERNS = (
     ('NativeVmThreeView', 0x00435DA0, 28,
      'f043d384874961df1fcf44f6a1108ccf398e2f57d2150e26e5465c5c7f74f393',
      ((2, 'DIR32', A), (20, 'REL32', V))),
+    ('NativeVmEmptyRecord60View', 0x004343D0, 3,
+     '58367ffa2a0179375018fa0f5c26da24391e42ebe0ed8fdda35a21fc7bdc396f', ()),
+    ('NativeVmTimerRecord38View', 0x00435AF0, 15,
+     '8d8690a189eac94b8dd6afc1220e24118d844d997c60326466f5be8d6573172c',
+     ((7, 'REL32', T),)),
+    ('NativeVmCompositeOwnerView', 0x00435DC0, 227,
+     '4b5240359f68c78419f4a132962cd878a579a382d1a93a4878b390b2897bc2c0',
+     (
+         (4, 'REL32', A), (15, 'REL32', A),
+         (26, 'REL32', A), (37, 'REL32', A),
+         (48, 'REL32', A), (59, 'REL32', A),
+         (70, 'REL32', A), (81, 'REL32', A),
+         (92, 'REL32', A), (97, 'DIR32', A),
+         (116, 'REL32', V), (121, 'DIR32', E),
+         (140, 'REL32', V), (151, 'REL32', S),
+         (162, 'REL32', F), (173, 'REL32', H),
+         (184, 'REL32', A), (189, 'DIR32', R),
+         (208, 'REL32', V), (219, 'REL32', A),
+     )),
 )
-DESTINATION = {A: 0x00403A10, V: 0x00401470}
+DESTINATION = {
+    A: 0x00403A10, V: 0x00401470, E: 0x004343D0,
+    S: 0x00435D40, F: 0x00435D70, H: 0x00435DA0,
+    R: 0x00435AF0, T: 0x00403390,
+}
 
 
 def inspect(object_path):

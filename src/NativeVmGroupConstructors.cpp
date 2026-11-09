@@ -13,3 +13,15 @@ NativeVmFivePlusOneView::NativeVmFivePlusOneView()
 NativeVmThreeView::NativeVmThreeView()
 {
 }
+
+NativeVmTimerRecord38View::NativeVmTimerRecord38View()
+{
+}
+
+NativeVmEmptyRecord60View::NativeVmEmptyRecord60View()
+{
+}
+
+NativeVmCompositeOwnerView::NativeVmCompositeOwnerView()
+{
+}

@@ -34,3 +34,6 @@ The three rows in `config/functions.csv` now indicate maintained candidate
 source, but remain **unclassified**. These constructor bodies must not enter
 the canonical authored exact ledger before independent authorship review.
 They do not change the thirteen still-nonexact authored bosses.
+
+The surrounding 227-byte owner and its timer-bearing record have since been
+reconstructed. See [the native VM composite layout](TH09_NATIVE_VM_COMPOSITE_OWNER_20261109.md).
