@@ -58,7 +58,7 @@ PE/COFF comparisons; routine full-project cold replay is forbidden.
 
 The **current restart guide** is
 `docs/TH09_NEXT_AGENT_HANDOFF_20261109.md`; live ledger/boss frontiers are
-in `docs/RE_HANDOFF.md`. The latest source-affecting checkpoint before
+in `docs/RE_HANDOFF.md`. The latest codegen-changing reconstruction checkpoint before
 this handoff is `e7964962`, preceded by native constructor recovery
 `6527b101` and `6cc6bfe8`. Do not repeat the old November 8 HEAD claim
 `6d3a3618` or describe older experimental candidate sizes as current:

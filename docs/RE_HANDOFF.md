@@ -44,7 +44,7 @@ ignored local inputs, not versioned Git files.
 
 ## Current implementation and corrected assumptions
 
-- **Source baseline for this handoff:** last source-affecting commit
+- **Source baseline for this handoff:** last codegen-changing commit
   `e7964962` (native `EnemyView` ctor/layout), preceded by
   `6527b101` (ECL context/interpolation ctors) and `6cc6bfe8`
   (timeline/manager ctors). These commits are present in `main`;

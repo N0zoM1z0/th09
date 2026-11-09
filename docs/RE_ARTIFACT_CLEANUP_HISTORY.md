@@ -3990,3 +3990,88 @@ bulk-deleted. Git history/reflogs were not repacked or pruned.
 A dry-run after cleanup is expected to select zero remaining compiler-cache
 files. The next agent should rebuild only the selected match unit or owner
 diagnostic; do not restore all old variant objects or run a full cold replay.
+
+## 2026-11-09 — lossless old-probe archival and bounded build-cache cleanup
+
+The operator requested preparation for another agent, correction of stale
+handoff facts, and storage reduction. The tracked source/ledgers and all
+independently accepted original-bound function records were preserved.
+The latest code reconstruction checkpoint was e7964962 (full EnemyView
+native constructor), preceded by 6527b101 and 6cc6bfe8.
+
+### Verified package instead of destructive experiment deletion
+
+The ignored investigation root
+`.analysis/gpt-web-th09-boss-leaf-20261108/` had many failed/superseded
+C/C++ trial folders containing copies of source, object files, logs and JSON.
+A path-level review identified 140 historic experiment directories without
+active tracked-script/document links to their child trial paths. Three
+actively useful subdirectories were excluded and retained unpacked:
+
+- `runecl-probes/`
+- `enemy-probes/`
+- `replay-begin-playback-ghidra/`
+
+The baseline's root-level reports, pseudocode, scripts and JSON were retained.
+Both unrelated Ghidra/IDA project trees, the compiler and original target
+remain untouched.
+
+The 140 directories were packed in a lossless original-path tar.zst bundle.
+A manifest records each of the 24,862 files' exact path, length and SHA-256.
+Before removal the compressed archive was fully stream-decoded and **every
+member's content** checked against the original inventory; all 24,862
+matched. The live originals were then independently rehashed against the
+same manifest before deleting just those selected directories. This was
+archival, not destruction of the only experiment evidence.
+
+| Storage component | Files | Logical bytes |
+| --- | ---: | ---: |
+| Original loose source-experiment trees | 24,862 | 383,162,789 |
+| Verified compressed tar.zst | 1 | 24,643,109 |
+| Manifest, selection and proof receipts | 5 | 5,834,825 |
+| Regenerated `build/` caches deleted | 158 | 12,328,681 |
+| **Net newly reclaimed logical file bytes** | | **365,013,536 (348.10 MiB)** |
+
+Exact ignored package and receipts:
+- `.analysis/handoff-archive-20261109/source-probes.tar.zst`
+- `.analysis/handoff-archive-20261109/source-probe-manifest.json`
+- `.analysis/handoff-archive-20261109/source-probe-dirs.txt`
+- `.analysis/handoff-archive-20261109/source-probe-receipt.json`
+- `.analysis/handoff-archive-20261109/source-probe-verified.json`
+- `.analysis/handoff-archive-20261109/source-probe-cleanup-result.json`
+
+Archive SHA-256:
+`259de92f23166a443de2c306b2608c8919a26adc37781dcd4557cd20d1a9ff2f`.
+
+For selective recovery from the repository root:
+
+    tar -I zstd -tf .analysis/handoff-archive-20261109/source-probes.tar.zst
+    tar -I zstd -xf .analysis/handoff-archive-20261109/source-probes.tar.zst \
+      .analysis/gpt-web-th09-boss-leaf-20261108/onupdate-scope-register-v25b
+
+Do not extract old variants over newly edited source. Use the manifest to
+verify restored member SHA-256 values.
+
+### Regenerable build outputs and protected identity
+
+The existing guarded cache cleaner first previewed 158 files and
+12,328,681 bytes under ignored `build/`, then removed exactly them using
+`scripts/clean-generated-artifacts.py --apply`. No loose
+`.analysis/*.obj` outside the archived historical experiments was
+selected. Its local append-only audit remains at
+`.analysis/handoff-cleanup-20261013/generated-cache-manifest.json`.
+
+Original target SHA-256 after cleanup remains:
+`resources/th09.exe` =
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+The archive SHA was also rechecked after cleanup. `.analysis/`,
+`.tools/wine/`, earlier archives, accepted diagnostics, and analyzer
+projects were not deleted. `build/` is absent as intended; use fresh
+focused builds when resuming.
+
+This **348.10 MiB logical reduction** is specific to this source/cache epoch;
+do not sum it with historical dated reductions as a simultaneous cache pool.
+The package is ignored local state, not shipped with Git clones. See the
+November 9 next-agent guide for current source facts and restart checks.
+No function-exactness credit or native Windows link follows from storage
+maintenance.

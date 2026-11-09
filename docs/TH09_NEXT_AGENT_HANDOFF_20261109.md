@@ -5,7 +5,7 @@
 [original-bound validation rules](ORACLES.md) and [workflow](RE_WORKFLOW.md).
 The November 8 and earlier `TH09_NEXT_AGENT_HANDOFF_*.md` guides document
 their own dates; they are not current source or storage inventories.
-The latest source-affecting checkpoint in this handoff is
+The latest codegen-changing reconstruction checkpoint in this handoff is
 `e7964962 gpt-web: reconstruct full native EnemyView constructor and trail extent`.
 Git `HEAD` may advance with maintenance commits; always run `git status`
 and `git log` again.
