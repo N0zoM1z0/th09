@@ -110,11 +110,15 @@ class AsciiManager
     void Reset();
     void SetSpaceWidth(int spaceWidth);
     void SetBossMarkerState(int slot, int state);
+    void SetBossMarkerInterrupt(int slot, short interrupt);
+    void SetBossMarkerPosition(int slot, const Float3 *position);
 
     AnmVm largeText;
     AnmVm smallScoreText;
     AnmVm popupText;
-    unsigned char unknown_07EC[0x2264 - 0x7EC];
+    unsigned char unknown_07EC[0x17C4 - 0x7EC];
+    AnmVm bossMarkerVms17C4[4];
+    int bossMarkerStates2254[4];
     AsciiManagerString strings[256];
     int numStrings;
     unsigned long color;
@@ -139,6 +143,10 @@ class AsciiManager
 };
 
 typedef char AsciiManagerSizeIsE0AC[(sizeof(AsciiManager) == 0xE0AC) ? 1 : -1];
+typedef char NativeAsciiBossMarkerFields[
+    (offsetof(AsciiManager, bossMarkerVms17C4) == 0x17C4 &&
+     offsetof(AsciiManager, bossMarkerStates2254) == 0x2254 &&
+     offsetof(AnmVmBase, pos) == 0x208) ? 1 : -1];
 typedef char AsciiManagerScaleXAt826C[(offsetof(AsciiManager, scaleX) == 0x826C) ? 1 : -1];
 typedef char AsciiManagerScaleYAt8270[(offsetof(AsciiManager, scaleY) == 0x8270) ? 1 : -1];
 typedef char AsciiManagerFrameCounterAt8284[(offsetof(AsciiManager, frameCounter) == 0x8284) ? 1 : -1];

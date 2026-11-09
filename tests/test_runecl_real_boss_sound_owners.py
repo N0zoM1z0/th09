@@ -50,15 +50,15 @@ class RealEclBossSoundOwners(unittest.TestCase):
         self.assertEqual(self.units['ascii-manager-set-boss-marker-state']['target_address'], 0x40F890)
         self.assertEqual(self.units['ascii-boss-marker-set-position']['target_address'], 0x4067F0)
         self.assertNotEqual(0x4067D0,0x40F890)
-        self.assertEqual(self.run_state.count('->SetBossMarkerInterrupt('), 2)
-        self.assertEqual(self.run_state.count('->SetBossMarkerPosition('), 1)
+        self.assertEqual(self.run_state.count('::g_AsciiManager.SetBossMarkerInterrupt('), 2)
+        self.assertEqual(self.run_state.count('::g_AsciiManager.SetBossMarkerPosition('), 1)
         self.assertNotIn('.SetBossMarkerState(', self.run_state)
         self.assertNotIn('struct BossUiView', self.run_state)
         self.assertNotIn('g_BossUi', self.run_state)
         self.assertNotIn('BossUiView@Th09EclRunState', self.legacy)
 
     def test_two_original_globals_and_three_sources_use_real_symbols(self):
-        self.assertIn('#include "AsciiBossMarkerVmView.hpp"', self.run_state)
+        self.assertIn('#include "AsciiManager.hpp"', self.run_state)
         self.assertIn('#include "SoundPlayer.hpp"', self.run_state)
         self.assertIn('extern AsciiManager g_AsciiManager;', self.run_state)
         self.assertEqual(self.run_state.count('::g_AsciiManager'), 3)
@@ -71,9 +71,9 @@ class RealEclBossSoundOwners(unittest.TestCase):
     def test_four_distinct_exact_callees_stay_on_true_vas(self):
         expectations = {
             'ascii-boss-marker-set-interrupt': (0x4067D0, 32,
-                '?SetBossMarkerInterrupt@AsciiBossMarkerVmView@@QAEXHF@Z'),
+                '?SetBossMarkerInterrupt@AsciiManager@@QAEXHF@Z'),
             'ascii-boss-marker-set-position': (0x4067F0, 42,
-                '?SetBossMarkerPosition@AsciiBossMarkerVmView@@QAEXHPBUFloat3@@@Z'),
+                '?SetBossMarkerPosition@AsciiManager@@QAEXHPBUFloat3@@@Z'),
             'soundplayer-play-sound-by-idx': (0x43E2F0, 140,
                 '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z'),
             'soundplayer-play-positioned-sound-by-idx': (0x43E380, 153,

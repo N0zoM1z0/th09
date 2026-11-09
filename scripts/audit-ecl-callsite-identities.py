@@ -337,9 +337,9 @@ def target_data(ins):
 # particular @0x4067D0 is SetBossMarkerInterrupt(slot, short) and is NEVER
 # AsciiManager::SetBossMarkerState @0x40F890. These are distinct behaviors.
 RUNECL_REAL_RUNSTATE_CALLS = {
-    0x2503: ('?SetBossMarkerInterrupt@AsciiBossMarkerVmView@@QAEXHF@Z', 0x4067D0),
-    0x2542: ('?SetBossMarkerInterrupt@AsciiBossMarkerVmView@@QAEXHF@Z', 0x4067D0),
-    0x2572: ('?SetBossMarkerPosition@AsciiBossMarkerVmView@@QAEXHPBUFloat3@@@Z', 0x4067F0),
+    0x2503: ('?SetBossMarkerInterrupt@AsciiManager@@QAEXHF@Z', 0x4067D0),
+    0x2542: ('?SetBossMarkerInterrupt@AsciiManager@@QAEXHF@Z', 0x4067D0),
+    0x2572: ('?SetBossMarkerPosition@AsciiManager@@QAEXHPBUFloat3@@@Z', 0x4067F0),
     0x2605: ('?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z', 0x43E380),
 }
 RUNECL_REAL_RUNSTATE_GLOBALS = {

@@ -16,7 +16,6 @@
 #include "Supervisor.hpp"
 #include "SoundPlayer.hpp"
 #include "AnmManager.hpp"
-#include "AsciiBossMarkerVmView.hpp"
 #include "ZunMemory.hpp"
 #include "PlayerEnemyTrackingNative.hpp"
 #include "PlayerSharedRuntimeView.hpp"
@@ -842,7 +841,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                     markerPosition.x = -999.0f;
                 markerPosition.y = 472.0f;
                 markerPosition.z = 0.0f;
-                reinterpret_cast<AsciiBossMarkerVmView *>(&g_AsciiManager)->SetBossMarkerPosition(enemy->bossSlot336B,
+                g_AsciiManager.SetBossMarkerPosition(enemy->bossSlot336B,
                                                    &markerPosition);
                 int markerState = (enemy->secondaryFlags3380 >> 1) & 3;
                 if (markerState == 0)

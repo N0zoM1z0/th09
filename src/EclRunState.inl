@@ -21,7 +21,7 @@
 #include "EnemyEclExInstructions.hpp"
 #include "EffectManager.hpp"
 #include "EnemyAttachedEffectStateView.hpp"
-#include "AsciiBossMarkerVmView.hpp"
+#include "AsciiManager.hpp"
 #include "SoundPlayer.hpp"
 #include "Background.hpp"
 #include "CardAttack.hpp"
@@ -270,7 +270,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
                     Th09EclRunControl::ReadInt(enemy, instruction, 0));
             // Retail calls exact SetBossMarkerInterrupt @0x4067D0 here,
             // not the distinct AsciiManager::SetBossMarkerState @0x40F890.
-            reinterpret_cast<AsciiBossMarkerVmView *>(&::g_AsciiManager)->SetBossMarkerInterrupt(
+            ::g_AsciiManager.SetBossMarkerInterrupt(
                 enemy->bossSlot336B,
                 1);
             enemy->minimumPlayerDistanceSquared33A8 =
@@ -281,11 +281,11 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
             enemy->manager00->remoteSlots2AC388[
                 enemy->bossSlot336B] = 0;
             enemy->primaryFlagBits337C.boss01 = 0;
-            reinterpret_cast<AsciiBossMarkerVmView *>(&::g_AsciiManager)->SetBossMarkerInterrupt(
+            ::g_AsciiManager.SetBossMarkerInterrupt(
                 enemy->bossSlot336B,
                 2);
             Th09EclRunState::ReleaseAttachedEffects(enemy);
-            reinterpret_cast<AsciiBossMarkerVmView *>(&::g_AsciiManager)->SetBossMarkerPosition(
+            ::g_AsciiManager.SetBossMarkerPosition(
                 enemy->bossSlot336B,
                 &Float3(-999.0f, -999.0f, 0.0f));
         }

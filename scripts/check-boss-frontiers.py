@@ -732,9 +732,9 @@ def replay_runecl_real_timer_exact() -> list[dict]:
 RUNECL_REAL_STATE_EXACT_CARRIERS = (
     ('src/AsciiBossMarkerVm.cpp', (
         ('ascii-boss-marker-set-interrupt', 0x004067D0,
-         '?SetBossMarkerInterrupt@AsciiBossMarkerVmView@@QAEXHF@Z'),
+         '?SetBossMarkerInterrupt@AsciiManager@@QAEXHF@Z'),
         ('ascii-boss-marker-set-position', 0x004067F0,
-         '?SetBossMarkerPosition@AsciiBossMarkerVmView@@QAEXHPBUFloat3@@@Z'))),
+         '?SetBossMarkerPosition@AsciiManager@@QAEXHPBUFloat3@@@Z'))),
     ('src/SoundPlayerProcessQueues.cpp', (
         ('soundplayer-play-sound-by-idx', 0x0043E2F0,
          '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z'),
@@ -2832,9 +2832,9 @@ ENEMY_REAL_CALLEE_EXACT_CARRIERS = (
        '?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z'),)),
     ('src/AsciiBossMarkerVm.cpp',
      (('ascii-boss-marker-set-position', 0x004067F0,
-       '?SetBossMarkerPosition@AsciiBossMarkerVmView@@QAEXHPBUFloat3@@@Z'),
+       '?SetBossMarkerPosition@AsciiManager@@QAEXHPBUFloat3@@@Z'),
       ('ascii-boss-marker-set-interrupt', 0x004067D0,
-       '?SetBossMarkerInterrupt@AsciiBossMarkerVmView@@QAEXHF@Z'))),
+       '?SetBossMarkerInterrupt@AsciiManager@@QAEXHF@Z'))),
     ('src/AsciiManagerBossMarker.cpp',
      (('ascii-manager-set-boss-marker-state', 0x0040F890,
        '?SetBossMarkerState@AsciiManager@@QAEXHH@Z'),)),

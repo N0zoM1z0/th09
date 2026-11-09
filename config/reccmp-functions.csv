@@ -740,8 +740,8 @@ Th09EclRunState::ReleaseAttachedEffects,0x0040F560,function
 EnemyDrawInterpolateWrappedAngle,0x0040F5E0,function
 EnemyEclManagerView::InitializeSubroutine,0x00406850,function
 EnemyManagerCoreView::KillAllNonBossEnemies,0x0040F640,function
-AsciiBossMarkerVmView::SetBossMarkerInterrupt,0x004067D0,function
-AsciiBossMarkerVmView::SetBossMarkerPosition,0x004067F0,function
+AsciiManager::SetBossMarkerInterrupt,0x004067D0,function
+AsciiManager::SetBossMarkerPosition,0x004067F0,function
 Background::BeginSpellBackground,0x004067B0,function
 PlayerPositionCallbackView::InvokePositionCallback,0x00406820,function
 EnemyEclManagerReleaseView::ReleaseRawFile,0x00406830,function

@@ -1,13 +1,11 @@
-#include "AsciiBossMarkerVmView.hpp"
+#include "AsciiManager.hpp"
 
-void AsciiBossMarkerVmView::SetBossMarkerInterrupt(
-    int slot, short interrupt)
+void AsciiManager::SetBossMarkerInterrupt(int slot, short interrupt)
 {
     bossMarkerVms17C4[slot].SetInterrupt(interrupt);
 }
 
-void AsciiBossMarkerVmView::SetBossMarkerPosition(
-    int slot, const Float3 *position)
+void AsciiManager::SetBossMarkerPosition(int slot, const Float3 *position)
 {
-    bossMarkerVms17C4[slot].pos208 = *position;
+    bossMarkerVms17C4[slot].pos = *position;
 }

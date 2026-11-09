@@ -20,7 +20,7 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
         cls.enemy = (ROOT/'src/EnemyManagerCore.inl').read_text()
         cls.storage = (ROOT/'src/EclRunState.inl').read_text()
         cls.ascii_marker = (ROOT/'src/AsciiBossMarkerVm.cpp').read_text()
-        cls.marker_header = (ROOT/'src/AsciiBossMarkerVmView.hpp').read_text()
+        cls.marker_header = (ROOT/'src/AsciiManager.hpp').read_text()
         cls.sound_header = (ROOT/'src/SoundPlayer.hpp').read_text()
         cls.anm_header = (ROOT/'src/AnmManager.hpp').read_text()
         cls.ascii_header = (ROOT/'src/AsciiManager.hpp').read_text()
@@ -62,16 +62,19 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
                           '?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z'))
 
     def test_boss_marker_proven_original_receiver_shared_across_tus(self):
-        self.assertEqual(self.enemy.count('#include "AsciiBossMarkerVmView.hpp"'), 1)
-        self.assertIn('#include "AsciiBossMarkerVmView.hpp"', self.ascii_marker)
-        self.assertNotIn('struct AsciiBossMarkerVmView\n', self.ascii_marker)
-        self.assertEqual(self.marker_header.count('struct AsciiBossMarkerVmView\n'), 1)
-        self.assertIn('offsetof(AsciiBossMarkerVmView, bossMarkerVms17C4) == 0x17C4',
+        self.assertEqual(self.enemy.count('#include "AsciiManager.hpp"'), 1)
+        self.assertIn('#include "AsciiManager.hpp"', self.ascii_marker)
+        self.assertNotIn('AsciiBossMarkerVmView', self.ascii_marker)
+        self.assertFalse((ROOT/'src/AsciiBossMarkerVmView.hpp').exists())
+        self.assertIn('offsetof(AsciiManager, bossMarkerVms17C4) == 0x17C4',
                       self.marker_header)
-        self.assertIn('sizeof(AsciiBossMarkerAnmVmView) == 0x2A4', self.marker_header)
+        self.assertIn('offsetof(AsciiManager, bossMarkerStates2254) == 0x2254',
+                      self.marker_header)
+        self.assertIn('offsetof(AnmVmBase, pos) == 0x208', self.marker_header)
+        self.assertIn('AnmVm bossMarkerVms17C4[4];', self.marker_header)
         self.assertIn('void SetBossMarkerPosition(int slot, const Float3 *position);',
                       self.marker_header)
-        self.assertEqual(self.enemy.count('reinterpret_cast<AsciiBossMarkerVmView *>(&g_AsciiManager)->SetBossMarkerPosition('), 1)
+        self.assertEqual(self.enemy.count('g_AsciiManager.SetBossMarkerPosition('), 1)
         self.assertEqual(self.enemy.count('g_AsciiManager.SetBossMarkerState('), 2)
         self.assertIn('extern AsciiManager g_AsciiManager;',self.enemy)
         self.assertIn('void SetBossMarkerState(int slot, int state);',self.ascii_header)
@@ -81,9 +84,9 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
     def test_real_original_callees_keep_distinct_original_exact_units(self):
         expected = {
             'ascii-boss-marker-set-position':
-                (0x004067F0, 42, '?SetBossMarkerPosition@AsciiBossMarkerVmView@@QAEXHPBUFloat3@@@Z'),
+                (0x004067F0, 42, '?SetBossMarkerPosition@AsciiManager@@QAEXHPBUFloat3@@@Z'),
             'ascii-boss-marker-set-interrupt':
-                (0x004067D0, 32, '?SetBossMarkerInterrupt@AsciiBossMarkerVmView@@QAEXHF@Z'),
+                (0x004067D0, 32, '?SetBossMarkerInterrupt@AsciiManager@@QAEXHF@Z'),
             'ascii-manager-set-boss-marker-state':
                 (0x0040F890, 20, '?SetBossMarkerState@AsciiManager@@QAEXHH@Z'),
         }
@@ -118,7 +121,7 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
         self.assertIn('EnemyCleanupNativeSharedFields',leaf)
         self.assertIn('EnemyView *enemy = this;',leaf)
-        self.assertIn('enemy->manager00->sideState320->player04',leaf)
+        self.assertIn('enemy->manager00->sideState320->playerLifecycle04',leaf)
         self.assertIn('enemy->manager00->remoteSlots2AC388[',leaf)
         self.assertIn('enemy->attachedEffectState53B4.count60',leaf)
         self.assertIn('enemy->lifeCallbackThresholds33B0[0] = -1;',leaf)
@@ -136,7 +139,8 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
         self.assertIn('EnemyManagerView *nativeManager = nativeEnemy->manager00;',self.enemy)
         self.assertIn('nativeEnemy->bulletDescriptor2E74 =',self.enemy)
         self.assertIn('nativeManager->spawnTemplate328.bulletDescriptor2E74;',self.enemy)
-        self.assertIn('BulletSpawnDescriptor bulletDescriptor2E74;',native)
+        self.assertIn('EnemyBulletDescriptorView bulletDescriptor2E74;',native)
+        self.assertIn('EnemyBulletDescriptorSizeIs214',native)
         self.assertNotIn('owner->spawnTemplate328.bulletState2E74',self.enemy)
 
     def test_runecl_context_calls_use_native_enemy_stack_and_context(self):

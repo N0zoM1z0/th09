@@ -739,8 +739,8 @@ Th09EclRunState::ReleaseAttachedEffects
 EnemyDrawInterpolateWrappedAngle
 EnemyEclManagerView::InitializeSubroutine
 EnemyManagerCoreView::KillAllNonBossEnemies
-AsciiBossMarkerVmView::SetBossMarkerInterrupt
-AsciiBossMarkerVmView::SetBossMarkerPosition
+AsciiManager::SetBossMarkerInterrupt
+AsciiManager::SetBossMarkerPosition
 Background::BeginSpellBackground
 PlayerPositionCallbackView::InvokePositionCallback
 EnemyEclManagerReleaseView::ReleaseRawFile
