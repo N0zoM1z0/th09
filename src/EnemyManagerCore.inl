@@ -2,7 +2,7 @@
 #include "EnemyNativePoolCapacity.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "PlayerDamageView.hpp"
-#include "FrontEnemyIndicatorView.hpp"
+#include "FrontFactoryConstructView.hpp"
 #include "BulletSpawnDescriptorCtorView.hpp"
 #include "ZunTimer.hpp"
 // Lexical member of EclManager.cpp; reuses Th09EclRunState::ManagerStateView.
@@ -289,7 +289,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
     if ((g_GameManager.flags & 0x1800) != 0)
         return 1;
 
-    reinterpret_cast<FrontEnemyIndicatorView *>(g_PlayerSharedRuntime)->SetSideEnemyIndicatorPosition(
+    g_GameManager.frontFactoryA8->SetSideEnemyIndicatorPosition(
         manager->sideIndex31C, &Float3(-999.0f, 0.0f, 0.0f));
     g_Supervisor.SelectSide(manager->sideIndex31C);
 
@@ -869,7 +869,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 manager->firstActiveEnemy2AC448 = enemy;
             if ((enemy->secondaryFlags3380 & 0x0C00) == 0x0C00)
             {
-                reinterpret_cast<FrontEnemyIndicatorView *>(g_PlayerSharedRuntime)->SetSideEnemyIndicatorPosition(
+                g_GameManager.frontFactoryA8->SetSideEnemyIndicatorPosition(
                     manager->sideIndex31C, reinterpret_cast<const Float3 *>(&enemy->position2D74));
                 manager->priorityEnemy2AC444 = enemy;
             }

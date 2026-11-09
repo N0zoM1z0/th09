@@ -286,8 +286,12 @@ def require_external_runecl_call(caller_fields, target):
 
 GAME_MANAGER_SYMBOL = '?g_GameManager@@3UAsciiGameManagerView@@A'
 PLAYFIELD_SYMBOL = '?IsWithinPlayfield@AsciiGameManagerView@@QAEHMMMM@Z'
-GAME_MANAGER_FIELDS = {0x0A: 0x134, 0x28F: 0xB4,
-                       0x60E: 0, 0x669: 0, 0x69D: 0, 0x6D4: 0}
+# The native constructed Front receiver is a real GameManager +0xA8 field.
+# Both indicator calls use it; the third earlier +0x70 reference still uses
+# the old shared-prefix projection for the independent timeline gate.
+GAME_MANAGER_FIELDS = {0x0A: 0x134, 0x34: 0xA8, 0x28F: 0xB4,
+                       0x60E: 0, 0x669: 0, 0x69D: 0, 0x6D4: 0,
+                       0xE91: 0xA8}
 PLAYFIELD_CALLS = (0x613, 0x66E, 0x6A2, 0x6D9)
 
 
@@ -301,7 +305,7 @@ def require_game_manager_fields(rows, units, target):
                 or r['offset'] in GAME_MANAGER_FIELDS]
     calls = [r for r in rows if r['symbol'] == PLAYFIELD_SYMBOL
              or r['offset'] in PLAYFIELD_CALLS]
-    if (len(target) != OWNER_SIZE or len(globals_) != 6 or len(calls) != 4
+    if (len(target) != OWNER_SIZE or len(globals_) != 8 or len(calls) != 4
             or {r['offset'] for r in globals_} != set(GAME_MANAGER_FIELDS)
             or {r['offset'] for r in calls} != set(PLAYFIELD_CALLS)):
         raise ValueError('native GameManager field/call inventory differs')
@@ -321,7 +325,7 @@ def require_game_manager_fields(rows, units, target):
                     (0x41A6EB - (BASE + offset + 4)) & 0xFFFFFFFF)
         if actual != expected or (not is_global and target[offset-1] != 0xE8):
             raise ValueError('original GameManager field/call target differs')
-    return dict(global_symbol=GAME_MANAGER_SYMBOL, fields=6, calls=4,
+    return dict(global_symbol=GAME_MANAGER_SYMBOL, fields=8, calls=4,
                 valueB4_addend=0xB4, flags_addend=0x134,
                 playfield_unit='game-manager-is-within-playfield',
                 playfield_bytes=116, same_object_definition=False)

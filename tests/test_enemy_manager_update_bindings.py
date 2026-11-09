@@ -69,12 +69,12 @@ class EnemyUpdateBindingTests(TestCase):
     def test_front_indicator_uses_implemented_member_and_shared_global(self):
         units, functions, registry = inspector.reference_index()
         cases = (
-            ('?SetSideEnemyIndicatorPosition@FrontEnemyIndicatorView@@QAEXHPBUFloat3@@@Z',
+            ('?SetSideEnemyIndicatorPosition@FrontFactoryConstructView@@QAEXHPBUFloat3@@@Z',
              '?SetSideEnemyIndicatorPosition@EnemyCoreFrontView@@QAEXHPAUFloat3@@@Z',
              0x416080, 'REL32'),
-            ('?g_PlayerSharedRuntime@@3PAUPlayerSharedRuntimeView@@A',
+            ('?g_GameManager@@3UAsciiGameManagerView@@A',
              '?g_EnemyCoreFront@@3PAUEnemyCoreFrontView@@A',
-             0x4A7E38, 'DIR32'),
+             0x4A7D90, 'DIR32'),
         )
         for actual, legacy, destination, kind in cases:
             with self.subTest(symbol=actual):
@@ -99,7 +99,7 @@ class EnemyUpdateBindingTests(TestCase):
             struct.pack_into('<i', target, offset,
                              0x41A6EB-(inspector.BASE+offset+4))
         report = inspector.require_game_manager_fields(rows, units, target)
-        self.assertEqual((report['fields'], report['calls']), (6, 4))
+        self.assertEqual((report['fields'], report['calls']), (8, 4))
         self.assertFalse(report['same_object_definition'])
         for index, edits in (
                 (0, dict(symbol='?g_EnemyCoreRuntimeFlags@@3IA', addend=0)),
@@ -108,8 +108,8 @@ class EnemyUpdateBindingTests(TestCase):
                 (2, dict(symbol='?g_EnemyCoreGameManager@@3UEnemyCoreGameManagerPlayfieldView@@A')),
                 (2, dict(addend=False)), (2, dict(symbol_value=False)),
                 (2, dict(symbol_section=False)), (2, dict(symbol_section=7)),
-                (6, dict(symbol='?IsWithinPlayfield@EnemyCoreGameManagerPlayfieldView@@QAEHMMMM@Z')),
-                (6, dict(type='DIR32')), (6, dict(offset=0x614))):
+                (8, dict(symbol='?IsWithinPlayfield@EnemyCoreGameManagerPlayfieldView@@QAEHMMMM@Z')),
+                (8, dict(type='DIR32')), (8, dict(offset=0x614))):
             changed = list(rows)
             changed[index] = dict(rows[index], **edits)
             with self.subTest(index=index, edits=edits), self.assertRaises(ValueError):
@@ -117,7 +117,7 @@ class EnemyUpdateBindingTests(TestCase):
         for changed in (rows[:-1], rows+rows[:1]):
             with self.assertRaises(ValueError):
                 inspector.require_game_manager_fields(changed, units, target)
-        for offset in (0x0A, 0x28F, 0x60E, 0x613-1, 0x613):
+        for offset in (0x0A, 0x34, 0x28F, 0x60E, 0xE91, 0x613-1, 0x613):
             bad = bytearray(target)
             bad[offset] ^= 1
             with self.subTest(offset=offset), self.assertRaises(ValueError):
@@ -202,15 +202,17 @@ class EnemyUpdateBindingTests(TestCase):
         storage = (SOURCE.parents[1] / 'src/EclRunState.inl').read_text()
         self.assertIn('#include "BulletManager.hpp"', text)
         self.assertIn('typedef EnemySideStateView EnemyCoreSideStateView;', storage)
-        self.assertIn('EtamaController *etama08;',
-                      (SOURCE.parents[1] / 'src/EnemyManager.hpp').read_text())
+        side_header = (SOURCE.parents[1] / 'src/GameManagerSideState.hpp').read_text()
+        enemy_header = (SOURCE.parents[1] / 'src/EnemyManager.hpp').read_text()
+        self.assertIn('EtamaController *etama08;', side_header)
+        self.assertIn('typedef AsciiGameManagerSideView EnemySideStateView;', enemy_header)
+        self.assertIn('offsetof(EnemySideStateView, etama08) == 0x08',enemy_header)
         self.assertIn('EnemyCoreBulletDescriptorMatchesEtamaFields', text)
         self.assertIn('sizeof(BulletSpawnDescriptor) == 0x214', text)
         self.assertNotIn('struct EnemyCoreBulletSpawnDescriptorView', text)
         self.assertIn('BulletSpawnDescriptorCtorView storage;', text)
-        self.assertIn('AsciiGameManagerSideView &spawnSide =', text)
-        self.assertIn('reinterpret_cast<AsciiGameManagerSideView *>(', text)
-        self.assertIn('spawnSide.character20 == 13',text)
+        self.assertIn('EnemySideStateView &spawnSide = *manager->sideState320;',text)
+        self.assertIn('spawnSide.characterIndex20 == 13',text)
         self.assertIn('spawnSide.etama08->SpawnBulletPatternPrimary(', text)
         self.assertIn('BulletSpawnDescriptor &descriptor = storage.descriptor;', text)
         self.assertIn('descriptor.position =', text)

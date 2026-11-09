@@ -7,6 +7,7 @@
 #include <stddef.h>
 
 class AnmLoaded;
+struct Float3;
 
 // The front panel contains ten real 0x14-byte vertex records. Their
 // original constructor has no calls; Float3's nontrivial constructor
@@ -54,6 +55,7 @@ struct FrontFactoryConstructView
     void SelectOpponentSide(int sideIndex);
     int GetTransitionBlockFlag();
     int IsBlocked();
+    void SetSideEnemyIndicatorPosition(int sideIndex, const Float3 *enemyPosition);
 };
 
 typedef char FrontPanelVertexNativeSize[

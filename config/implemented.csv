@@ -854,7 +854,7 @@ SupervisorNetworkState::CreateHostAddress
 SupervisorNetworkState::HostSession
 SupervisorNetworkState::ConnectSession
 SupervisorNetworkState::InitializePeer
-FrontEnemyIndicatorView::SetSideEnemyIndicatorPosition
+FrontFactoryConstructView::SetSideEnemyIndicatorPosition
 AnmManager::ServiceCaptureRequests
 GameWindowProc
 CreateGameWindow
