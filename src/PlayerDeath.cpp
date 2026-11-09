@@ -7,21 +7,13 @@
 #include "FrontSide.hpp"
 #include "EffectManager.hpp"
 #include "SoundPlayer.hpp"
+#include "CardAttackStartView.hpp"
+#include "EnemyManager.hpp"
 
 #include <stddef.h>
 
 // The original side allocation at +0x0C/+0x10/+0x14/+0x18 is the
 // constructed 0x38-byte AsciiGameManagerSideView, not a second side.
-struct PlayerDeathAttackTargetView
-{
-    int CheckMode(int mode);
-};
-
-struct PlayerDeathAttackOwnerView
-{
-    void Configure(int mode0, int mode1, int zero, const char *path);
-};
-
 struct PlayerDeathCounterView
 {
     void Add(int value);
@@ -50,16 +42,16 @@ void PlayerLifecycleView::EnterDeathState()
         {
             if (scalar30388 >= 400.0f)
             {
-                if (!reinterpret_cast<PlayerDeathAttackTargetView *>(opponentState->attackTarget10)->CheckMode(3))
+                if (!opponentState->enemyManager10->FindActiveEnemyBySideCategory(3))
                 {
-                    reinterpret_cast<PlayerDeathAttackOwnerView *>(opponentState->attackOwner14)->Configure(2, 2, 0, primaryShtFile->modePath2);
+                    reinterpret_cast<CardAttackStartView *>(opponentState->cardAttack14)->StartAttack(2, 2, 0, primaryShtFile->modePath2);
                     scalar30384 = 0.0f;
                     scalar30388 = 0.0f;
                     SetBombMode2();
                     return;
                 }
 
-                reinterpret_cast<PlayerDeathAttackOwnerView *>(opponentState->attackOwner14)->Configure(1, 1, 0, primaryShtFile->modePath1);
+                reinterpret_cast<CardAttackStartView *>(opponentState->cardAttack14)->StartAttack(1, 1, 0, primaryShtFile->modePath1);
                 scalar30384 = 100.0f;
                 scalar30388 = 100.0f;
                 SetBombMode1();
@@ -67,7 +59,7 @@ void PlayerLifecycleView::EnterDeathState()
             }
             if (scalar30388 >= 300.0f)
             {
-                reinterpret_cast<PlayerDeathAttackOwnerView *>(opponentState->attackOwner14)->Configure(1, 1, 0, primaryShtFile->modePath1);
+                reinterpret_cast<CardAttackStartView *>(opponentState->cardAttack14)->StartAttack(1, 1, 0, primaryShtFile->modePath1);
                 scalar30384 = 0.0f;
                 scalar30388 = 0.0f;
                 SetBombMode1();
@@ -76,7 +68,7 @@ void PlayerLifecycleView::EnterDeathState()
 
             if (scalar30388 >= 200.0f)
             {
-                reinterpret_cast<PlayerDeathAttackOwnerView *>(opponentState->attackOwner14)->Configure(0, 0, 0, primaryShtFile->modePath0);
+                reinterpret_cast<CardAttackStartView *>(opponentState->cardAttack14)->StartAttack(0, 0, 0, primaryShtFile->modePath0);
                 scalar30384 = 0.0f;
                 scalar30388 = 0.0f;
                 SetBombMode0();

@@ -30,6 +30,10 @@ class NativeDeathSideReceivers(unittest.TestCase):
         self.assertIn('active->active = 0;', s)
         self.assertIn('ownerState30410.Reset();', s)
         self.assertIn('header24.Reset();', s)
+        self.assertNotIn('PlayerDeathAttackTargetView', s)
+        self.assertNotIn('PlayerDeathAttackOwnerView', s)
+        self.assertIn('opponentState->enemyManager10->FindActiveEnemyBySideCategory(3)', s)
+        self.assertEqual(s.count('CardAttackStartView *>(opponentState->cardAttack14)->StartAttack('), 4)
         for old in ('PlayerDeathTimerView', 'PlayerDeathVmHandleView',
                     'PlayerDeathActiveView', 'PlayerDeathOwnerResetView',
                     'PlayerDeathHeaderResetView', 'PlayerDeathInterruptView'):
@@ -61,6 +65,18 @@ class NativeDeathSideReceivers(unittest.TestCase):
         )
         for offset, symbol, target in native:
             with self.subTest(native_offset=offset):
+                row = rows[offset]
+                self.assertEqual((row['symbol'], row['target'], row['type']),
+                                 (symbol, target, 'REL32'))
+        attacks = (
+            (0x9D, '?FindActiveEnemyBySideCategory@EnemyManagerView@@QAEPAUEnemyView@@H@Z', 0x0040F7D0),
+            (0xBD, '?StartAttack@CardAttackStartView@@QAEXHHHPBD@Z', 0x00403E50),
+            (0xF1, '?StartAttack@CardAttackStartView@@QAEXHHHPBD@Z', 0x00403E50),
+            (0x13D, '?StartAttack@CardAttackStartView@@QAEXHHHPBD@Z', 0x00403E50),
+            (0x186, '?StartAttack@CardAttackStartView@@QAEXHHHPBD@Z', 0x00403E50),
+        )
+        for offset, symbol, target in attacks:
+            with self.subTest(attack_offset=offset):
                 row = rows[offset]
                 self.assertEqual((row['symbol'], row['target'], row['type']),
                                  (symbol, target, 'REL32'))
