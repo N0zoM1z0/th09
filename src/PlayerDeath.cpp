@@ -9,19 +9,14 @@
 #include "SoundPlayer.hpp"
 #include "CardAttackStartView.hpp"
 #include "EnemyManager.hpp"
+#include "GameManagerValueCC.hpp"
 
 #include <stddef.h>
 
 // The original side allocation at +0x0C/+0x10/+0x14/+0x18 is the
 // constructed 0x38-byte AsciiGameManagerSideView, not a second side.
-struct PlayerDeathCounterView
-{
-    void Add(int value);
-};
-
 extern int g_PlayerDeathCounter;
 extern int g_PlayerDeathCounterBonus;
-extern PlayerDeathCounterView g_PlayerDeathCounterState;
 extern RngRuntimeView g_ReplayRng;
 
 void PlayerLifecycleView::EnterDeathState()
@@ -118,7 +113,8 @@ void PlayerLifecycleView::EnterDeathState()
         secondaryEffect368 = NULL;
     }
 
-    g_PlayerDeathCounterState.Add(1500);
+    reinterpret_cast<GameManagerValueCCView *>(&g_GameManager.valueB0)->
+        SubtractSaturating(1500);
     if (g_PlayerDeathCounter > 4)
         g_PlayerDeathCounter -= 2;
     else if (g_PlayerDeathCounter > 2)

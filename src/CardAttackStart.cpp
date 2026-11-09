@@ -4,6 +4,7 @@
 #include "EnemyManager.hpp"
 #include "FrontSide.hpp"
 #include "Background.hpp"
+#include "GameManagerValueCC.hpp"
 
 #include <stddef.h>
 #include <string.h>
@@ -42,14 +43,6 @@ typedef char CardAttackStartNativeSideRecord[
      offsetof(CardAttackStartSideView, enemyManager10) == 0x10 &&
      offsetof(CardAttackStartSideView, frontSide18) == 0x18) ? 1 : -1];
 
-struct CardAttackStartValueCCView
-{
-    unsigned char unknown00[0x1C];
-    int value1C;
-
-    void SubtractSaturating(int amount);
-};
-
 // The original 0x20-byte value helper starts at the native GameManager
 // valueB0, whose +0x1C member is precisely canonical GameManager.valueCC.
 // Its original method name/ABI are retained without a second GameManager.
@@ -58,7 +51,7 @@ typedef char CardAttackStartNativeManagerFields[
      offsetof(AsciiGameManagerView, valueCC) == 0xCC &&
      offsetof(AsciiGameManagerView, flags) == 0x134 &&
      sizeof(AsciiGameManagerView) == 0x390 &&
-     offsetof(CardAttackStartValueCCView, value1C) == 0x1C) ? 1 : -1];
+     offsetof(GameManagerValueCCView, value1C) == 0x1C) ? 1 : -1];
 
 typedef int (*CardAttackBeginCallback)(CardAttack *cardAttack);
 
@@ -82,7 +75,7 @@ void CardAttackStartView::StartAttack(
     else
         displayValue = startOtherSideState08->player04->header24.state80;
 
-    reinterpret_cast<CardAttackStartValueCCView *>(
+    reinterpret_cast<GameManagerValueCCView *>(
         &g_GameManager.valueB0)->SubtractSaturating(500);
 
     if (attackClass == 2)

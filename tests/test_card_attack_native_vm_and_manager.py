@@ -47,6 +47,8 @@ class CardAttackNativeVmAndManager(unittest.TestCase):
         self.assertNotIn('struct CardAttackStartGameManagerView',start)
         self.assertNotIn('extern CardAttackStartGameManagerView g_GameManager;',start)
         self.assertIn('CardAttackStartNativeManagerFields',start)
+        self.assertNotIn('struct CardAttackStartValueCCView',start)
+        self.assertIn('#include "GameManagerValueCC.hpp"',start)
         self.assertIn('&g_GameManager.valueB0)->SubtractSaturating(500);',start)
         self.assertIn('g_GameManager.transitionBits134 |=',start)
         with (ROOT/'config/match-units.toml').open('rb') as f:
@@ -57,7 +59,7 @@ class CardAttackNativeVmAndManager(unittest.TestCase):
         self.assertEqual([(r['offset'],r['target'],r.get('addend',0)) for r in refs],
                          [(0x2B,0x4A7D90,0xB0),(0x2D4,0x4A7D90,0x134),
                           (0x2F7,0x4A7D90,0x134)])
-        self.assertTrue(any(r['symbol']=='?SubtractSaturating@CardAttackStartValueCCView@@QAEXH@Z' and
+        self.assertTrue(any(r['symbol']=='?SubtractSaturating@GameManagerValueCCView@@QAEXH@Z' and
                             r['target']==0x403E30 for r in u['relocations']))
         for n,size in (('card-attack-on-update',536),('card-attack-on-draw',334),
                        ('card-attack-create',264),('card-attack-constructor',66)):

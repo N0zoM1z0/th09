@@ -30,6 +30,10 @@ class NativeDeathSideReceivers(unittest.TestCase):
         self.assertIn('active->active = 0;', s)
         self.assertIn('ownerState30410.Reset();', s)
         self.assertIn('header24.Reset();', s)
+        self.assertIn('GameManagerValueCCView *>(&g_GameManager.valueB0)', s)
+        self.assertIn('SubtractSaturating(1500);', s)
+        self.assertNotIn('PlayerDeathCounterView', s)
+        self.assertNotIn('g_PlayerDeathCounterState', s)
         self.assertNotIn('PlayerDeathAttackTargetView', s)
         self.assertNotIn('PlayerDeathAttackOwnerView', s)
         self.assertIn('opponentState->enemyManager10->FindActiveEnemyBySideCategory(3)', s)
@@ -68,6 +72,10 @@ class NativeDeathSideReceivers(unittest.TestCase):
                 row = rows[offset]
                 self.assertEqual((row['symbol'], row['target'], row['type']),
                                  (symbol, target, 'REL32'))
+        self.assertEqual((rows[0x2B4]['symbol'],rows[0x2B4]['target'],rows[0x2B4].get('addend',0)),
+                         ('?g_GameManager@@3UAsciiGameManagerView@@A',0x004A7D90,0xB0))
+        self.assertEqual((rows[0x2B9]['symbol'],rows[0x2B9]['target'],rows[0x2B9]['type']),
+                         ('?SubtractSaturating@GameManagerValueCCView@@QAEXH@Z',0x00403E30,'REL32'))
         attacks = (
             (0x9D, '?FindActiveEnemyBySideCategory@EnemyManagerView@@QAEPAUEnemyView@@H@Z', 0x0040F7D0),
             (0xBD, '?StartAttack@CardAttackStartView@@QAEXHHHPBD@Z', 0x00403E50),
