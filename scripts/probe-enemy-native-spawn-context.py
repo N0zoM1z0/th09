@@ -61,7 +61,7 @@ NATIVE_OWNERS = {
     'bullet-pattern-primary': (0x4130F0, 203,
         '?SpawnBulletPatternPrimary@EtamaController@@QAEPAUBullet@@PAUBulletSpawnDescriptor@@@Z', 1),
     'enemy-collision-append-box': (
-        0x410250, 82, '?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z', 2),
+        0x410250, 82, '?AppendPlayerCollisionBox@EnemyView@@QAEXPBUFloat3@@0@Z', 2),
     'float3-divide': (0x40F5A0, 56, '??KFloat3@@QBE?AU0@M@Z', 2),
     'float3-constructor': (0x4010B0, 26, '??0Float3@@QAE@MMM@Z', 1),
     'float3-add': (0x401100, 54, '??HFloat3@@QBE?AU0@ABU0@@Z', 3),

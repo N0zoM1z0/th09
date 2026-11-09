@@ -229,7 +229,7 @@ symbol_aliases={
 }
 semantic_aliases={
  RUNECL_SYMBOL:'EclManager::RunEcl',
- '?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z':'EnemyAppendCollisionView::AppendPlayerCollisionBox',
+ '?AppendPlayerCollisionBox@EnemyView@@QAEXPBUFloat3@@0@Z':'EnemyView::AppendPlayerCollisionBox',
 }
 
 

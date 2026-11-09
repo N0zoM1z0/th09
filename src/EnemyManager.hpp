@@ -222,6 +222,7 @@ typedef char EnemyBulletDescriptorSizeIs214[
 
 struct EnemyView
 {
+    void AppendPlayerCollisionBox(const Float3 *position, const Float3 *size);
     EnemyManagerView *manager00;
     // The original Enemy/ECL activation pointer lives inside the common
     // Enemy allocation, not in a separate late-opcode-only byte view.

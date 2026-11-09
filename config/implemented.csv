@@ -751,7 +751,7 @@ Controller::SetButtonFromJoystickButtons
 Controller::GetControllerInput
 DispatchReplayStage
 PlayerCollisionQueryStateView::AppendBoxRecord
-EnemyAppendCollisionView::AppendPlayerCollisionBox
+EnemyView::AppendPlayerCollisionBox
 PlayerShotCollisionCallbackType1
 PlayerShotCollisionCallbackType2
 EffectFixedSlotManagerView::GetFixedSlotEffect

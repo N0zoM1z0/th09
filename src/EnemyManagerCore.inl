@@ -11,7 +11,6 @@
 #include "EnemyChildEclBlocks.hpp"
 #include "EnemyAttachedEffectStateView.hpp"
 #include "BulletManager.hpp"
-#include "EnemyAppendCollisionView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "PlayerCollisionQueryCapacity.hpp"
 #include "Supervisor.hpp"
@@ -56,7 +55,7 @@ void PlayerCollisionQueryStateView::AppendBoxRecord(
     ++count1804;
 }
 
-void EnemyAppendCollisionView::AppendPlayerCollisionBox(
+void EnemyView::AppendPlayerCollisionBox(
     const Float3 *position,
     const Float3 *size)
 {
@@ -556,8 +555,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                     ((enemy->secondaryFlags3380 & 0x01C0) == 0 ||
                      manager->sideState320->characterIndex20 != 11))
                 {
-                    reinterpret_cast<EnemyAppendCollisionView *>(enemy)
-                        ->AppendPlayerCollisionBox(
+                    enemy->AppendPlayerCollisionBox(
                             reinterpret_cast<const Float3 *>(
                                 &enemy->worldPosition2DD4),
                             reinterpret_cast<const Float3 *>(
@@ -580,8 +578,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                                     static_cast<float>(
                                         enemy->trailCollisionLength53A4);
                             }
-                            reinterpret_cast<EnemyAppendCollisionView *>(enemy)
-                                ->AppendPlayerCollisionBox(
+                            enemy->AppendPlayerCollisionBox(
                                     &enemy->trailSamples33E8[
                                         trailIndex].position00,
                                     &trailHitbox);

@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x00410250
 SIZE = 82
 TARGET_SHA256 = "e2be799860dde7b752f525cb13f4135c4666917745006a511e734e10cd2ff9c0"
-SYMBOL = '?AppendPlayerCollisionBox@EnemyAppendCollisionView@@QAEXPBUFloat3@@0@Z'
+SYMBOL = '?AppendPlayerCollisionBox@EnemyView@@QAEXPBUFloat3@@0@Z'
 CALL_TARGETS = {
     '??KFloat3@@QBE?AU0@M@Z': 0x0040F5A0,
     '?AppendBoxRecord@PlayerCollisionQueryStateView@@QAEXPBUPlayerPositionView@@0H@Z': 0x0040F8E0,
