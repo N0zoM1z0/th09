@@ -6,26 +6,10 @@
 #include "Supervisor.hpp"
 #include "GameManagerRuntimeView.hpp"
 #include "FrontFactoryConstructView.hpp"
+#include "CardAttackStartView.hpp"
+#include "EnemyManager.hpp"
 
 #include <stddef.h>
-
-
-
-
-
-struct EnemyView;
-
-struct PlayerRewardAttackTargetView
-{
-    EnemyView *FindActiveEnemyBySideCategory(int sideCategory);
-    unsigned char unknown000[0x2AC3B8];
-    int activeRewardCount2AC3B8;
-};
-
-struct PlayerRewardAttackOwnerView
-{
-    void Configure(int mode0, int mode1, int zero, const char *path);
-};
 
 
 
@@ -65,18 +49,18 @@ void PlayerOwnerStateView::ApplyReward(
 
     if (state->value0C >= 500000 && oldValue < 500000)
     {
-        reinterpret_cast<PlayerRewardAttackOwnerView *>(state->playerOwner00->opponentState->attackOwner14)->Configure(1, 1, 0, state->playerOwner00->primaryShtFile->modePath1);
-        if (!reinterpret_cast<PlayerRewardAttackTargetView *>(state->playerOwner00->opponentState->attackTarget10)->FindActiveEnemyBySideCategory(3))
-            reinterpret_cast<PlayerRewardAttackOwnerView *>(state->playerOwner00->opponentState->attackOwner14)->Configure(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
+        reinterpret_cast<CardAttackStartView *>(state->playerOwner00->opponentState->cardAttack14)->StartAttack(1, 1, 0, state->playerOwner00->primaryShtFile->modePath1);
+        if (!state->playerOwner00->opponentState->enemyManager10->FindActiveEnemyBySideCategory(3))
+            reinterpret_cast<CardAttackStartView *>(state->playerOwner00->opponentState->cardAttack14)->StartAttack(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
     }
     else if (state->value0C >= 300000 && oldValue < 300000)
     {
-        if (!reinterpret_cast<PlayerRewardAttackTargetView *>(state->playerOwner00->opponentState->attackTarget10)->FindActiveEnemyBySideCategory(3))
-            reinterpret_cast<PlayerRewardAttackOwnerView *>(state->playerOwner00->opponentState->attackOwner14)->Configure(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
+        if (!state->playerOwner00->opponentState->enemyManager10->FindActiveEnemyBySideCategory(3))
+            reinterpret_cast<CardAttackStartView *>(state->playerOwner00->opponentState->cardAttack14)->StartAttack(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
     }
     else if (state->value0C >= 100000 && oldValue < 100000)
     {
-        reinterpret_cast<PlayerRewardAttackOwnerView *>(state->playerOwner00->opponentState->attackOwner14)->Configure(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
+        reinterpret_cast<CardAttackStartView *>(state->playerOwner00->opponentState->cardAttack14)->StartAttack(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
     }
 
     if (state->value0C >= 999990)
@@ -138,7 +122,7 @@ void PlayerOwnerStateView::ApplyReward(
         while (state->spawnCounter30 >=
                60 - 3 * g_PlayerRewardBaseValue / 2)
         {
-            if (reinterpret_cast<PlayerRewardAttackTargetView *>(state->playerOwner00->opponentState->attackTarget10)->activeRewardCount2AC3B8 < 25)
+            if (state->playerOwner00->opponentState->enemyManager10->rewardEnemyCount2AC3B8 < 25)
             {
                 effectPosition.x =
                     g_GameManager.TransformPopupX(position->x) +

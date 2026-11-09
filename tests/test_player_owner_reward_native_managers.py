@@ -36,6 +36,11 @@ class PlayerOwnerRewardNativeManagers(unittest.TestCase):
         self.assertNotIn('PlayerOwnerRewardStateView',source)
         self.assertIn('g_GameManager.frontFactoryA8->GetTransitionBlockFlag()',source)
         self.assertNotIn('PlayerRewardSharedRuntimeView',source)
+        self.assertNotIn('PlayerRewardAttackTargetView',source)
+        self.assertNotIn('PlayerRewardAttackOwnerView',source)
+        self.assertEqual(source.count('CardAttackStartView *>(state->playerOwner00->opponentState->cardAttack14)->StartAttack('),4)
+        self.assertEqual(source.count('opponentState->enemyManager10->FindActiveEnemyBySideCategory(3)'),2)
+        self.assertIn('opponentState->enemyManager10->rewardEnemyCount2AC3B8',source)
 
     def test_real_original_addresses_and_exact_callee_providers(self):
         owner=self.units['player-owner-apply-reward']
@@ -69,6 +74,14 @@ class PlayerOwnerRewardNativeManagers(unittest.TestCase):
                             ('game-manager-transform-popup-y',0x004016B0),
                             ('supervisor-select-side',0x00401440)):
             self.assertEqual(self.units[unit]['target_address'],target)
+        for offset,symbol,target in (
+            (0xBC,'?StartAttack@CardAttackStartView@@QAEXHHHPBD@Z',0x00403E50),
+            (0xCB,'?FindActiveEnemyBySideCategory@EnemyManagerView@@QAEPAUEnemyView@@H@Z',0x0040F7D0),
+            (0xEF,'?FindActiveEnemyBySideCategory@EnemyManagerView@@QAEPAUEnemyView@@H@Z',0x0040F7D0),
+            (0x139,'?StartAttack@CardAttackStartView@@QAEXHHHPBD@Z',0x00403E50)):
+            with self.subTest(attack_offset=offset):
+                got=next(r for r in fields if r['offset']==offset)
+                self.assertEqual((got['symbol'],got['target'],got['type']),(symbol,target,'REL32'))
         private=[r for r in fields if r['symbol'].startswith('$L')]
         self.assertEqual(len(private),6)
         self.assertTrue(any(r['offset']>=1519 for r in private))

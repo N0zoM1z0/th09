@@ -21,9 +21,8 @@ SYMBOL = '?ApplyReward@PlayerOwnerStateView@@QAEXPAUPlayerPositionView@@HHHH@Z'
 DESTINATIONS = {
     '?GetTransitionBlockFlag@FrontFactoryConstructView@@QAEHXZ': 0x40D4F0,
     '?AddScore@AsciiGameManagerSideView@@QAEXH@Z': 0x40F860,
-    '?Configure@PlayerRewardAttackOwnerView@@QAEXHHHPBD@Z': 0x403E50,
-    '?CheckMode@PlayerRewardAttackTargetView@@QAEHH@Z': 0x40F7D0,
-    '?FindActiveEnemyBySideCategory@PlayerRewardAttackTargetView@@QAEPAUEnemyView@@H@Z': 0x40F7D0,
+    '?StartAttack@CardAttackStartView@@QAEXHHHPBD@Z': 0x403E50,
+    '?FindActiveEnemyBySideCategory@EnemyManagerView@@QAEPAUEnemyView@@H@Z': 0x40F7D0,
     '?CreateScorePopup@AsciiManager@@QAEXHPAUFloat3@@HK@Z': 0x4346A0,
     '?TransformPopupX@AsciiGameManagerView@@QAEMM@Z': 0x401680,
     '?TransformPopupY@AsciiGameManagerView@@QAEMM@Z': 0x4016B0,
