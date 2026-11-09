@@ -117,3 +117,65 @@ differences around 0x00408938; opcode 155 has 23 around 0x0040B770; and
 EnemyManagerView::OnUpdate has 13 ordinary differences in its 3,900-byte
 owner. Continue with focused carrier builds and complete diagnostics for only
 the owner being changed; no full-project cold replay is needed.
+
+## Follow-up: exact instruction evidence and three current boss frontiers
+
+The opcode-155 audit now includes the exact bytes, mnemonics and operands for
+both eight-instruction flag-update prefixes. The latest focused source-cold
+build remains 15,564 physical bytes / 598 relocation fields / 30 ordinary
+differences / zero field differences / zero table differences. Its target
+prefix begins 0f b6 4b 0c (movzx ecx, byte [ebx+0x0C]) and loads the old
+flags into ESI; the candidate begins 8a 4b 0c (mov cl, byte [ebx+0x0C]),
+loads old flags into EAX, and then zero-extends CL. Both prefixes execute
+identically for all 3,072 combinations in the independent decoded-instruction
+audit. This is a byte-width/semantic result, not exactness credit.
+
+A direct instruction->arguments[0].bytes[0] helper expression does generate
+the target's first movzx ecx, byte [ebx+0x0C], but it changes the complete
+RunEcl owner to 2,048 ordinary differences, 242 field differences and 26
+switch-table differences. Union snapshots preserve the 30-difference owner
+but generate a DWORD load followed by movzx ecx,cl. Direct member assignment,
+explicit operator=, raw-pointer indexing and shared switch-local attempts
+for opcode 4 grow the owner to 42 ordinary differences. Moving a union
+snapshot to the JUMP displacement operand changes the receiver/argument
+schedule again. None of these probes is adopted.
+
+The seven-byte opcode-4 target/candidate schedule is now pinned more
+specifically. At owner offset 0x277 (VA 0x00408937), the target loads
+[ebx+0x0C] into ECX, pushes ECX, then loads [edi+0x2CE0] into ECX and
+adds eight before calling the exact ZunTimer::operator=(int) at
+0x00401500. The maintained union-snapshot source loads the operand into
+EAX, computes the receiver, then pushes EAX. The called setter remains an
+independently exact nine-byte leaf; only the caller's argument/receiver
+register schedule is open.
+
+A fresh EclManager carrier also rechecked the 3,900-byte
+EnemyManagerView::OnUpdate boss: 97 bound fields, 69 ordered calls,
+170 direct blocks, agreed reviewed control flow and switch destinations,
+and 13 ordinary differences. The two draw-group-index bytes at offsets
+0x19C/0x1A3 are ECX-vs-EAX allocation. The remaining 11 bytes at
+0x252..0x2BD are side-effect receiver, threshold register and descriptor
+XYZ-copy scheduling. Pointer-add/index locals, byte/int/register index
+locals, the prior AsciiGameManagerSideView spelling, side references and
+pointer aliases, explicit Float3 copy helpers, and position component/pointer/
+reference/memcpy spellings were rebuilt. They did not reduce the 13-byte
+frontier; the componentwise and explicit-copy alternatives instead changed
+large parts of the owner and were rejected.
+
+The current charge-boss source was also rebuilt from a clean object using the
+reviewed player-on-update VC7.1 profile. Its fresh result is 1,210 target /
+1,195 candidate bytes, 70/70 bound fields, 58 ordered calls, 53 blocks,
+1,153 unlike overlapping bytes, 15 missing target bytes and no extra bytes.
+The target's mode byte still has its three EBP-1 accesses at +0x55, +0x1C7
+and +0x1DB; the candidate has none and keeps the value in BL. The target
+keeps side index in EDI and replay-input receiver in EBX, while the candidate
+uses the opposite register roles. The earlier 1,197/13 checkpoint is
+superseded by this fresh 1,195/15 observation; no exact or fractional credit
+is claimed. The 58 ordered calls and all 70 field bindings still agree.
+
+Focused tests test_ecl_timeout_bit_semantics and
+test_runecl_real_timer_opcode4 pass (18 tests). The timeout audit and only
+the involved ECL/Enemy/charge carriers were run; no full-project cold replay
+was run. The only accepted source change in this follow-up is the more
+transparent, byte-exact timeout-prefix diagnostic; all exploratory C++
+rewrites were restored.
