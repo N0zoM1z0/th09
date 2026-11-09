@@ -15,6 +15,14 @@ class ReplaySaveNativeReadOnlyLinks(unittest.TestCase):
         self.assertIn('for (const ReplayBufferLink *link = stageRoot; link != NULL; link = link->next)',save)
         self.assertEqual(save.count('const ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];'),2)
         self.assertEqual(save.count('link = link->next'),3)
+        self.assertIn(
+            'memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), frameHeader, sizeof(*frameHeader));',
+            save)
+        # The size is taken from the native wire record's declared type,
+        # whose complete 0x20-byte extent is independently layout-guarded.
+        self.assertIn('ReplayFrameDataStartSizeIs20',
+                      (ROOT/'src/ReplayDataOriginalView.hpp').read_text())
+        self.assertNotIn('memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), frameHeader, 32)',save)
         self.assertIn('memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->input[stream], streamSize);',save)
         self.assertIn('memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->fps, fpsSize);',save)
         self.assertEqual(save.count('replayCopy.frameOffset[stream][loopIndex] = currentOffset;'),1)

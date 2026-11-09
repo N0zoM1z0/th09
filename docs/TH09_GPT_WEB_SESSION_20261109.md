@@ -272,3 +272,24 @@ bytes and 82 source relocations. The canonical whole-function comparator
 returns exact; the independent full-owner inspector reports zero differences,
 577 instructions and matching direct graph. Both focused native Title owner
 tests passed. Neither compile flags nor the original target changed.
+
+## Replay SaveReplay: typed full-frame serialization extent
+
+In the 1,238-byte SaveReplay boss, the first streamed frame-header copy now
+takes its count from the pointed-to native ReplayFrameDataStartView object,
+rather than repeating that type's name in a separate sizeof expression.
+ReplayDataOriginalView.hpp independently guards the 0x20-byte frame layout,
+and the link chain remains const/read-only throughout serialization. This is
+a source correctness/readability improvement, not a reconstructed original
+authoring claim.
+
+The focused no-EH Replay carrier rebuilt cleanly: all 1,238 owner bytes
+remain present, all 53 target-bound fields and 380 instructions remain
+reviewed, and only the preexisting two register-allocation bytes +0xB7
+and +0xBB differ. The separate 540-byte BeginPlaybackStage remains at
+538 source bytes, 32 bound fields, 39 unlike overlaps, two missing bytes
+and matching direct CFG. Its 1,323-byte BeginRecordingStage sibling
+continues to pass a full strict canonical byte/field comparison. Several
+natural destination-pointer, typed struct-copy, helper and loop-lifetime
+alternatives for the remaining two SaveReplay register differences were
+rejected after whole-owner comparison; none was incorporated.

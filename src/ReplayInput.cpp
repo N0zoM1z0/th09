@@ -783,7 +783,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             if (frameHeader != NULL)
             {
                 const ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
-                memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), frameHeader, sizeof(ReplayFrameDataStartView));
+                memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), frameHeader, sizeof(*frameHeader));
                 replayCopy.frameOffset[stream][loopIndex] = currentOffset;
                 currentOffset += sizeof(ReplayFrameDataStartView);
                 for (; link != NULL; link = link->next)
