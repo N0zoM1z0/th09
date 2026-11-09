@@ -44,21 +44,6 @@ struct PlayerCollisionRegionCreateView
     int activeCountC110;
     int releasedCountC114;
 
-    PlayerCollisionRegionCreateRegionView *CreateRectType1(
-        const PlayerRegionPointView *center, float width, float height,
-        int lifetime, int delay);
-    PlayerCollisionRegionCreateRegionView *CreateRectType0(
-        const PlayerRegionPointView *center, float width, float height,
-        int value, int lifetime, int delay);
-    PlayerCollisionRegionCreateRegionView *CreateCircleType0(
-        const PlayerRegionPointView *center, float radius, float radiusGrowth,
-        int value, int lifetime, int delay);
-    PlayerCollisionRegionCreateRegionView *CreateRectType4(
-        const PlayerRegionPointView *center, float width, float height,
-        int value, int lifetime, int delay);
-    PlayerCollisionRegionCreateRegionView *CreateCircleType2(
-        const PlayerRegionPointView *center, float radius, float radiusGrowth,
-        int value, int lifetime, int delay);
 };
 
 typedef char PlayerCreateEmbeddedAtB0BC[

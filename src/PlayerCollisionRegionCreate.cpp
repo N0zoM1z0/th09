@@ -29,13 +29,12 @@ PlayerLifecycleView::AllocateCollisionRegion(
 }
 
 PlayerCollisionRegionCreateRegionView *
-PlayerCollisionRegionCreateView::CreateRectType1(
+PlayerLifecycleView::CreateRectType1(
     const PlayerRegionPointView *center, float width, float height,
     int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        reinterpret_cast<PlayerLifecycleView *>(this)->AllocateCollisionRegion(
-            center, lifetime, delay);
+        AllocateCollisionRegion(center, lifetime, delay);
     region->halfWidth10 = width * 0.5f;
     region->halfHeight14 = height * 0.5f;
     region->type38 = 1;
@@ -56,13 +55,12 @@ PlayerLifecycleView::CreateCircleType1(
 }
 
 PlayerCollisionRegionCreateRegionView *
-PlayerCollisionRegionCreateView::CreateRectType0(
+PlayerLifecycleView::CreateRectType0(
     const PlayerRegionPointView *center, float width, float height,
     int value, int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        reinterpret_cast<PlayerLifecycleView *>(this)->AllocateCollisionRegion(
-            center, lifetime, delay);
+        AllocateCollisionRegion(center, lifetime, delay);
     region->value28 = value;
     region->type38 = 0;
     region->halfWidth10 = width * 0.5f;
@@ -71,13 +69,12 @@ PlayerCollisionRegionCreateView::CreateRectType0(
 }
 
 PlayerCollisionRegionCreateRegionView *
-PlayerCollisionRegionCreateView::CreateCircleType0(
+PlayerLifecycleView::CreateCircleType0(
     const PlayerRegionPointView *center, float radius, float radiusGrowth,
     int value, int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        reinterpret_cast<PlayerLifecycleView *>(this)->AllocateCollisionRegion(
-            center, lifetime, delay);
+        AllocateCollisionRegion(center, lifetime, delay);
     region->radius08 = radius;
     region->radiusGrowth0C = radiusGrowth;
     region->value28 = value;
@@ -86,13 +83,12 @@ PlayerCollisionRegionCreateView::CreateCircleType0(
 }
 
 PlayerCollisionRegionCreateRegionView *
-PlayerCollisionRegionCreateView::CreateRectType4(
+PlayerLifecycleView::CreateRectType4(
     const PlayerRegionPointView *center, float width, float height,
     int value, int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        reinterpret_cast<PlayerLifecycleView *>(this)->AllocateCollisionRegion(
-            center, lifetime, delay);
+        AllocateCollisionRegion(center, lifetime, delay);
     region->value28 = value;
     region->type38 = 4;
     region->halfWidth10 = width * 0.5f;
@@ -115,13 +111,12 @@ PlayerLifecycleView::CreateCircleType4(
 }
 
 PlayerCollisionRegionCreateRegionView *
-PlayerCollisionRegionCreateView::CreateCircleType2(
+PlayerLifecycleView::CreateCircleType2(
     const PlayerRegionPointView *center, float radius, float radiusGrowth,
     int value, int lifetime, int delay)
 {
     PlayerCollisionRegionCreateRegionView *region =
-        reinterpret_cast<PlayerLifecycleView *>(this)->AllocateCollisionRegion(
-            center, lifetime, delay);
+        AllocateCollisionRegion(center, lifetime, delay);
     region->radius08 = radius;
     region->radiusGrowth0C = radiusGrowth;
     region->value28 = value;

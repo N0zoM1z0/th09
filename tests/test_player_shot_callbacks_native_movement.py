@@ -1,7 +1,7 @@
 """Two original-exact Player shot callbacks share native movement scalars.
 
-Their externally consumed callback and rectangle method symbol spellings stay
-unchanged. Exactness is independently proven by the focused original/COFF
+The callback ABIs remain unchanged, while rectangle call targets now use
+the actual native Player method symbols. Exactness is independently proven by the focused original/COFF
 match-unit replays, not by this source-side test.
 """
 
@@ -30,8 +30,8 @@ class PlayerShotCallbacksNativeMovement(unittest.TestCase):
         self.assertIn('&lifecycle->position1B88', s)
         self.assertIn('lifecycle->movementFields1CCC.speedMultiplier1CE0 = 1.0f;', s)
         self.assertIn('lifecycle->movementFields1CCC.speedMultiplier1CDC = 1.0f;', s)
-        self.assertIn('player->CreateRectType0(', s)
-        self.assertIn('player->CreateRectType1(', s)
+        self.assertIn('lifecycle->CreateRectType0(', s)
+        self.assertIn('lifecycle->CreateRectType1(', s)
 
     def test_original_callback_and_callee_owners_remain_pinned(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:

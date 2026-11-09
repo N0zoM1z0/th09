@@ -1,4 +1,5 @@
 #include "ZunTimer.hpp"
+#include "PlayerLifecycleView.hpp"
 
 struct PlayerShotUpdate2Vec3
 {
@@ -15,10 +16,6 @@ struct PlayerShotUpdate2PlayerView
     ZunTimer shotStateTimer3031C;
     void *activeShot30328;
 
-    void *CreateRectType4(
-        const PlayerShotUpdate2Vec3 *center,
-        float width, float height,
-        int value, int lifetime, int delay);
 };
 
 struct PlayerShotUpdate2ShotView
@@ -75,7 +72,9 @@ int __fastcall PlayerShotUpdateCallbackType2(
     {
         PlayerShotUpdate2Vec3 *point = &shot->history2B0[i * 2];
         if (point->x >= -900.0f)
-            player->CreateRectType4(point, 4.0f, 448.0f, 1, 1, 0);
+            reinterpret_cast<PlayerLifecycleView *>(player)->CreateRectType4(
+                reinterpret_cast<const PlayerRegionPointView *>(point),
+                4.0f, 448.0f, 1, 1, 0);
     }
 
     shot->history2B0[0] = shot->position2A4;

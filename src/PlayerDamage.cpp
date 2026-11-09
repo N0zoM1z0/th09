@@ -1,4 +1,5 @@
 #include "PlayerDamageView.hpp"
+#include "PlayerLifecycleView.hpp"
 #include "SoundPlayer.hpp"
 
 static void PlayerBuildAabb(
@@ -87,9 +88,9 @@ int PlayerDamagePlayerView::CalcDamageToEnemy(
                 sideState0C->effectManager0C->SpawnEffectInFixedSlot(
                     34, effectPosition, 6,
                     static_cast<unsigned int>(-1));
-                reinterpret_cast<PlayerDamageRegionCreateView *>(this)
+                reinterpret_cast<PlayerLifecycleView *>(this)
                     ->CreateCircleType0(
-                        effectPosition, 0.0f, 1.6f, 6, 70, 0);
+                        reinterpret_cast<const PlayerRegionPointView *>(effectPosition), 0.0f, 1.6f, 6, 70, 0);
                 g_SoundPlayer.PlaySoundByIdx(
                     16, sideIndex08 != 0 ? 500 : -500);
             }

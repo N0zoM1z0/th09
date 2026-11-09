@@ -27,15 +27,7 @@ typedef char PlayerShotUpdate4NativeShotOffsets[
 // The recorded C++ symbol for the rectangle-making helpers is kept for
 // genuine call identity; the callback's Player position/speed storage
 // itself comes from the native PlayerLifecycleView.
-struct PlayerShotUpdate4PlayerView
-{
-    void *CreateRectType1(
-        const PlayerShotUpdate4RegionPointView *center,
-        float width, float height, int lifetime, int delay);
-    void *CreateRectType0(
-        const PlayerShotUpdate4RegionPointView *center,
-        float width, float height, int value, int lifetime, int delay);
-};
+struct PlayerShotUpdate4PlayerView;
 
 int __fastcall PlayerShotUpdateCallbackType4(
     PlayerShotUpdate4PlayerView *player,
@@ -71,10 +63,10 @@ int __fastcall PlayerShotUpdateCallbackType4(
         center.y -= 16.0f;
         center.x -= (width - 96.0f) * 0.5f;
 
-        player->CreateRectType0(
-            &center, width, 40.0f, 15, 0, 0);
-        player->CreateRectType1(
-            &center, width, 30.0f, 0, 0);
+        lifecycle->CreateRectType0(
+            reinterpret_cast<const PlayerRegionPointView *>(&center), width, 40.0f, 15, 0, 0);
+        lifecycle->CreateRectType1(
+            reinterpret_cast<const PlayerRegionPointView *>(&center), width, 30.0f, 0, 0);
     }
 
     return 0;

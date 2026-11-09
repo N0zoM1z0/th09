@@ -26,8 +26,11 @@ class ExactShotUpdate4NativeShot(unittest.TestCase):
             self.assertIn(field, header)
         self.assertIn('reinterpret_cast<ZunTimer *>(&nativeShot->timer454)', source)
         self.assertIn('nativeShot->state462 == 1', source)
-        self.assertIn('player->CreateRectType0(', source)
-        self.assertIn('player->CreateRectType1(', source)
+        self.assertIn('lifecycle->CreateRectType0(', source)
+        self.assertIn('lifecycle->CreateRectType1(', source)
+        self.assertNotIn('struct PlayerShotUpdate4PlayerView\n{', source)
+        self.assertIn('PlayerCollisionRegionCreateRegionView *CreateRectType1(', header)
+        self.assertIn('PlayerCollisionRegionCreateRegionView *CreateRectType0(', header)
 
     def test_real_original_x87_operand_order_preserved_by_snapshot(self):
         source = (ROOT / 'src/PlayerShotUpdateCallback4.cpp').read_text()

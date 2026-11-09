@@ -1,4 +1,5 @@
 #include "EnemyManager.hpp"
+#include "PlayerLifecycleView.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "PlayerCollisionRegionCreate.hpp"
 #include "RngRuntimeLeaves.hpp"
@@ -69,9 +70,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
                 rewardScalar = 6.0f;
             else
                 rewardScalar = 6.25f;
-            reinterpret_cast<PlayerCollisionRegionCreateView *>(
-                this->manager00->sideState320->rewardPlayer04)
-                ->CreateCircleType2(
+            this->manager00->sideState320->playerLifecycle04->CreateCircleType2(
                 reinterpret_cast<const PlayerRegionPointView *>(worldPosition),
                 32.0f,
                 rewardScalar,
@@ -89,9 +88,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
                 rewardScalar = 6.0f;
             else
                 rewardScalar = 6.25f;
-            reinterpret_cast<PlayerCollisionRegionCreateView *>(
-                this->manager00->sideState320->rewardPlayer04)
-                ->CreateCircleType2(
+            this->manager00->sideState320->playerLifecycle04->CreateCircleType2(
                 reinterpret_cast<const PlayerRegionPointView *>(worldPosition),
                 32.0f,
                 rewardScalar,
