@@ -5,13 +5,9 @@
 #include "ZunTimer.hpp"
 #include "Supervisor.hpp"
 #include "GameManagerRuntimeView.hpp"
+#include "FrontFactoryConstructView.hpp"
 
 #include <stddef.h>
-
-struct PlayerRewardSharedRuntimeView
-{
-    int IsRewardBlocked();
-};
 
 
 
@@ -35,7 +31,6 @@ struct PlayerRewardAttackOwnerView
 
 
 
-extern PlayerRewardSharedRuntimeView *g_PlayerSharedRuntime;
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_PlayerRewardEffectManager;
 extern int g_PlayerRewardBaseValue;
@@ -49,7 +44,7 @@ void PlayerOwnerStateView::ApplyReward(
 {
     PlayerOwnerStateView *state = this;
     int oldValue = state->value0C;
-    int blocked = g_PlayerSharedRuntime->IsRewardBlocked();
+    int blocked = g_GameManager.frontFactoryA8->GetTransitionBlockFlag();
     if (blocked)
         return;
 

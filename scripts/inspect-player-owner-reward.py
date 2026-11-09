@@ -19,8 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE, CODE_SIZE, PHYSICAL_SIZE = 0x41D150, 1519, 1540
 SYMBOL = '?ApplyReward@PlayerOwnerStateView@@QAEXPAUPlayerPositionView@@HHHH@Z'
 DESTINATIONS = {
-    '?IsRewardBlocked@PlayerRewardSharedRuntimeView@@QAEHXZ': 0x40D4F0,
-    '?GetTransitionBlockFlag@PlayerRewardSharedRuntimeView@@QAEHXZ': 0x40D4F0,
+    '?GetTransitionBlockFlag@FrontFactoryConstructView@@QAEHXZ': 0x40D4F0,
     '?AddScore@AsciiGameManagerSideView@@QAEXH@Z': 0x40F860,
     '?Configure@PlayerRewardAttackOwnerView@@QAEXHHHPBD@Z': 0x403E50,
     '?CheckMode@PlayerRewardAttackTargetView@@QAEHH@Z': 0x40F7D0,
@@ -36,7 +35,6 @@ DESTINATIONS = {
     '??YZunTimer@@QAEXH@Z': 0x406640,
     '??BZunTimer@@QAEHXZ': 0x435F00,
     '??4ZunTimer@@QAEXH@Z': 0x401500,
-    '?g_PlayerSharedRuntime@@3PAUPlayerRewardSharedRuntimeView@@A': 0x4A7E38,
     '?g_PlayerRewardBaseValue@@3HA': 0x4A7E44,
     '?g_PlayerRewardModeValue@@3HA': 0x4A7EAC,
     '?g_GameManager@@3UAsciiGameManagerView@@A': 0x4A7D90,
