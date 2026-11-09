@@ -221,7 +221,7 @@ RUNECL_NATIVE_TRANSITION_CALLS = {
                  0x004101D0, 'enemy-position-clamp'),
     0x0040B5B1: ('?ClearBulletsForTransition@EtamaController@@QAEXXZ',
                  0x00405650, 'etama-controller-clear-bullets-for-transition'),
-    0x0040BD13: ('?BeginSpellBackground@BackgroundSpellStateView@@QAEXXZ',
+    0x0040BD13: ('?BeginSpellBackground@Background@@QAEXXZ',
                  0x004067B0, 'background-begin-spell'),
 }
 
@@ -604,7 +604,7 @@ def audit(object_path, owner_symbol=POINTER_OWNER_SYMBOL):
     if accounted != set(by_offset):
         failures.append('incomplete_relocation_accounting')
     source_paths = ['src/EclManager.cpp', 'src/EclOpcodes.hpp',
-                    'src/BackgroundSpellStateView.hpp', 'src/GameManagerRuntimeView.hpp',
+                    'src/Background.hpp', 'src/GameManagerRuntimeView.hpp',
                     'src/EnemyEclExInstructions.hpp', 'src/EnemyExAttackLeaves.cpp']
     source_paths += [str(path.relative_to(ROOT)) for path in sorted((ROOT / 'src').glob('EclRun*.inl'))]
     source_paths += ['config/match-units.toml', 'config/functions.csv']

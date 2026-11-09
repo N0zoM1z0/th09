@@ -116,6 +116,7 @@ typedef char RawStageInstrSizeIs14[(sizeof(RawStageInstr) == 0x14) ? 1 : -1];
 struct Background
 {
     Background();
+    void BeginSpellBackground();
 
     static Background *Create(int viewportIndex);
     static int OnUpdate(Background *background);

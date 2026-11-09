@@ -1,7 +1,7 @@
-#include "BackgroundSpellStateView.hpp"
+#include "Background.hpp"
 
-void BackgroundSpellStateView::BeginSpellBackground()
+void Background::BeginSpellBackground()
 {
-    spellBackgroundStateCCC = 1;
-    spellBackgroundFrameCD0 = 0;
+    spellBackgroundState = 1;
+    spellBackgroundFrame = 0;
 }

@@ -741,7 +741,7 @@ EnemyEclManagerView::InitializeSubroutine
 EnemyManagerCoreView::KillAllNonBossEnemies
 AsciiBossMarkerVmView::SetBossMarkerInterrupt
 AsciiBossMarkerVmView::SetBossMarkerPosition
-BackgroundSpellStateView::BeginSpellBackground
+Background::BeginSpellBackground
 PlayerPositionCallbackView::InvokePositionCallback
 EnemyEclManagerReleaseView::ReleaseRawFile
 PlayStatsRecordView::IncrementCharacterStat5

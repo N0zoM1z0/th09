@@ -17,7 +17,7 @@
 #define TH09_ECL_RUN_LATE_DECLARATIONS
 
 #include "EclRunState.inl"
-#include "BackgroundSpellStateView.hpp"
+#include "Background.hpp"
 
 #include <stddef.h>
 
@@ -273,9 +273,7 @@ static void MoveRandomBiased(
                 break;
             enemy->manager00->sideState320->
                 owner14->secondaryPresentationCounterA8 = 2;
-            reinterpret_cast<BackgroundSpellStateView *>(
-                enemy->manager00->sideState320->background00)
-                ->BeginSpellBackground();
+            enemy->manager00->sideState320->background00->BeginSpellBackground();
             for (lateIndex = 0;
                  lateIndex <
                      enemy->manager00->sideState320->
