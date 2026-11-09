@@ -54,8 +54,8 @@ TIMER_GREATER_SHA256 = 'f4946c0b7b22e556c3b758435c2c7bdd468104acc285e40dda5ec2a7
 FOLDED_CALLBACK_ADDRESS = 0x0044AB20
 FOLDED_CALLBACK_BODY = bytes.fromhex('33c0c3')
 FOLDED_CALLBACK_CALLS = (
-    (0x6E8, '?EnemyCoreRunLifeCallback@@YIHPAUEnemyCoreView@@@Z'),
-    (0x6FF, '?EnemyCoreRunTimerCallback@@YIHPAUEnemyCoreView@@@Z'),
+    (0x6E8, '?EnemyCoreRunLifeCallback@@YIHPAUEnemyView@@@Z'),
+    (0x6FF, '?EnemyCoreRunTimerCallback@@YIHPAUEnemyView@@@Z'),
 )
 
 

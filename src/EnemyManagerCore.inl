@@ -208,12 +208,12 @@ extern unsigned char g_EnemyCoreSchedule[];
 // Reconstruction aliases for the shared physical leaf at 0x0044AB20.
 // Its complete body is xor eax,eax;ret, not an unreconstructed callback stub.
 // The ignored receiver and original source ownership remain unresolved.
-int EnemyCoreRunLifeCallback(EnemyCoreView *enemy)
+int EnemyCoreRunLifeCallback(EnemyView *enemy)
 {
     return 0;
 }
 
-int EnemyCoreRunTimerCallback(EnemyCoreView *enemy)
+int EnemyCoreRunTimerCallback(EnemyView *enemy)
 {
     return 0;
 }
@@ -523,10 +523,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 }
             }
 
-            if (EnemyCoreRunLifeCallback(reinterpret_cast<EnemyCoreView *>(enemy)))
+            if (EnemyCoreRunLifeCallback(enemy))
                 goto run_enemy_ecl;
             if (enemy->timerCallbackThreshold33D0 >= 0 &&
-                EnemyCoreRunTimerCallback(reinterpret_cast<EnemyCoreView *>(enemy)))
+                EnemyCoreRunTimerCallback(enemy))
                 goto run_enemy_ecl;
 
             enemy->primaryAnmVm0008.color1 = enemy->displayColor2E70;
