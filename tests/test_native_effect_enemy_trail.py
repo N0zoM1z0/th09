@@ -37,7 +37,16 @@ class NativeEffectEnemyTrail(unittest.TestCase):
         owner = units['effect-update-enemy-trail-type3-type4']
         self.assertEqual((owner['target_address'],owner['size'],len(owner['relocations'])),
                          (0x0040D9E0,464,20))
-        self.assertEqual(sum('g_GameManager' in r['symbol'] for r in owner['relocations']),3)
+        gm = [r for r in owner['relocations'] if 'g_GameManager' in r['symbol']]
+        self.assertEqual(len(gm), 4)
+        front = [r for r in gm if r['offset'] == 0xBB]
+        self.assertEqual([(r['target'], r.get('addend', 0), r['type']) for r in front],
+                         [(0x004A7D90, 0xA8, 'DIR32')])
+        self.assertIn('g_GameManager.frontFactoryA8->GetTransitionBlockFlag()', source)
+        self.assertEqual([(r['target'], r['symbol']) for r in owner['relocations']
+                          if r['offset'] == 0xC0],
+                         [(0x0040D4F0,
+                           '?GetTransitionBlockFlag@FrontFactoryConstructView@@QAEHXZ')])
         spawn = units['enemy-manager-spawn-record']
         self.assertTrue(any(r['symbol']==spawn['symbol'] and
                             r['target']==spawn['target_address']==0x0040F1D0

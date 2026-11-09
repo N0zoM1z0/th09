@@ -3,7 +3,7 @@
 #include "EnemyManager.hpp"
 #include "EnemyManagerCardAttackSpawn.hpp"
 #include "PlayerAngleView.hpp"
-#include "PlayerSharedTransitionView.hpp"
+#include "FrontFactoryConstructView.hpp"
 #include "RngRuntimeLeaves.hpp"
 
 struct PlayerSharedRuntimeView;
@@ -50,8 +50,7 @@ int __fastcall EffectUpdateCallbackType3Type4(Effect *effect)
         return 1;
     }
 
-    if (reinterpret_cast<PlayerSharedTransitionView *>(g_PlayerSharedRuntime)
-            ->GetTransitionBlockFlag() == 0 &&
+    if (g_GameManager.frontFactoryA8->GetTransitionBlockFlag() == 0 &&
         EffectTrailOpponent(state)->enemyManager10->rewardEnemyCount2AC3B8 < 10)
     {
         EnemyView *enemy = reinterpret_cast<EnemyView *>(

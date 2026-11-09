@@ -1,9 +1,9 @@
 #include "PlayerLifecycleView.hpp"
-#include "PlayerSharedTransitionView.hpp"
+#include "FrontFactoryConstructView.hpp"
 
-int PlayerSharedTransitionView::GetTransitionBlockFlag()
+int FrontFactoryConstructView::GetTransitionBlockFlag()
 {
-    return transitionBlock11EA8;
+    return transitionState11EA8;
 }
 
 void PlayerOwnerStateView::ApplyRewardWithStateAdvance(

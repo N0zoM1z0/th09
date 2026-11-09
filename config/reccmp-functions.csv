@@ -687,7 +687,7 @@ PlayerSpawnFrameView::SpawnShotWhenFrameMatches,0x0041F490,function
 PlayerLifecycleView::SpawnShots,0x0041F4C0,function
 EnemyManagerView::FindActiveEnemyBySideCategory,0x0040F7D0,function
 AsciiManager::SetBossMarkerState,0x0040F890,function
-PlayerSharedTransitionView::GetTransitionBlockFlag,0x0040D4F0,function
+FrontFactoryConstructView::GetTransitionBlockFlag,0x0040D4F0,function
 PlayerOwnerStateView::ApplyRewardWithStateAdvance,0x0040F8B0,function
 PlayerLifecycleView::SetUpdateState,0x00403C20,function
 AsciiGameManagerView::HasFlagBit0,0x004343B0,function

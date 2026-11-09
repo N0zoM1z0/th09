@@ -686,7 +686,7 @@ PlayerSpawnFrameView::SpawnShotWhenFrameMatches
 PlayerLifecycleView::SpawnShots
 EnemyManagerView::FindActiveEnemyBySideCategory
 AsciiManager::SetBossMarkerState
-PlayerSharedTransitionView::GetTransitionBlockFlag
+FrontFactoryConstructView::GetTransitionBlockFlag
 PlayerOwnerStateView::ApplyRewardWithStateAdvance
 PlayerLifecycleView::SetUpdateState
 AsciiGameManagerView::HasFlagBit0

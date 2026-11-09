@@ -1,6 +1,6 @@
 #include "EffectRandomAxesRuntimeView.hpp"
 #include "BulletSpawnDescriptorCtorView.hpp"
-#include "PlayerSharedTransitionView.hpp"
+#include "FrontFactoryConstructView.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "BulletManager.hpp"
 #include "RngRuntimeLeaves.hpp"
@@ -52,8 +52,7 @@ int __fastcall EffectUpdateCallbackType1Type2(Effect *effect)
 
     else
     {
-        if (reinterpret_cast<PlayerSharedTransitionView *>(g_PlayerSharedRuntime)
-                ->GetTransitionBlockFlag() == 0)
+        if (g_GameManager.frontFactoryA8->GetTransitionBlockFlag() == 0)
         {
             BulletSpawnDescriptorCtorView storage;
             BulletSpawnDescriptor &descriptor =
