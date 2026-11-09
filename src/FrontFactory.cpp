@@ -5,15 +5,6 @@
 
 #include <stddef.h>
 
-struct FrontFactoryView
-{
-    ChainElem *calcChain00;
-    ChainElem *drawChain04;
-    unsigned char storage008[0x1293C - 0x08];
-};
-typedef char FrontFactorySizeIs1293C[
-    (sizeof(FrontFactoryView) == 0x1293C) ? 1 : -1];
-
 extern Chain g_Chain;
 
 int FrontCalcCallback(void *front);
@@ -23,9 +14,10 @@ int FrontAddedCallback(void *front);
 void *__fastcall CreateGameSubsystem()
 {
     FrontFactoryConstructView *constructed = new FrontFactoryConstructView;
-    FrontFactoryView *front = reinterpret_cast<FrontFactoryView *>(
+    FrontFactoryConstructView *front = static_cast<FrontFactoryConstructView *>(
         g_ZunMemory.AddToRegistry(
-            constructed, sizeof(FrontFactoryView), const_cast<char *>("FrontInf")));
+            constructed, sizeof(FrontFactoryConstructView),
+            const_cast<char *>("FrontInf")));
 
     reinterpret_cast<Front *>(front)->Reset();
 

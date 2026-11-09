@@ -30,6 +30,27 @@ ZunTimer members at +0x1D40 and +0x1D58. This upgrades a former opaque
 0x1D60-byte region to a real nested typed layout. Offset and total-size
 assertions in the headers enforce those observed positions.
 
+## Native factory caller integration
+
+The factory's original 220-byte CreateGameSubsystem body at 0x00418840
+has also been reconstructed with the native FrontFactoryConstructView
+pointer throughout allocation, registry publication and callback wiring.
+The old duplicate opaque FrontFactoryView has been removed. The only
+remaining Front* cast is the existing independently bound Reset interface.
+
+Recompiling this exact /Ob1 canonical caller and checking the entire
+physical original owner yields **220/220 matching bytes, 22/22 actual PE
+relocation fields, and zero differences**. The call to the natural /Ob0
+FrontFactoryConstructView constructor remains bound to original 0x004187B0.
+The compiler emits no changed relocation operands, control flow or ABI.
+
+The independent same-body constructor recheck, previously an untracked
+script, passed all 3/85/143 complete owners. Its complete source snapshot
+is preserved in the ignored
+.analysis/gpt-web-front-constructors-20261109/independent-front-factory-inspector.py;
+the maintained original-bound implementation remains
+scripts/inspect-front-constructors.py with --factory-object.
+
 The previous FrontFactory.cpp had the right constructor *callee identity*
 but hid the whole allocation behind a raw storage buffer. Source
 definitions are now in FrontFactoryCtor.cpp with a typed header; the
