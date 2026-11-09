@@ -48,11 +48,3 @@ struct FrontMessageSourceView
 };
 typedef char FrontMessageSourceMusicAt0C[
     (offsetof(FrontMessageSourceView, musicId0C) == 0x0C) ? 1 : -1];
-
-struct FrontMessageRuntimeResetView
-{
-    unsigned char storage[0x1D70];
-    int Reset();
-};
-typedef char FrontMessageRuntimeResetSizeIs1D70[
-    (sizeof(FrontMessageRuntimeResetView) == 0x1D70) ? 1 : -1];

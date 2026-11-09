@@ -27,7 +27,7 @@ TARGET_SHA256 = 'c298c2b6287729365cf88504307a0db350e0b1fd27bdbb680823d7e0463dafb
 # by reading each source function's unresolved relocation field from the PE.
 DESTINATIONS = {
     '?ReleaseForSideCount@FrontMessageRuntimeView@@QAEXH@Z': 0x00417520,
-    '?Reset@FrontMessageRuntimeResetView@@QAEHXZ': 0x00415C90,
+    '?Reset@FrontMessageRuntimeView@@QAEHXZ': 0x00415C90,
     '?g_FrontMessagePrimaryCache@@3PAUFrontMessageTableView@@A': 0x004A7D88,
     '?OpenFile@FileSystem@@YIPAEPBDPAHH@Z': 0x0042C970,
     '?g_GameManager@@3UAsciiGameManagerView@@A': 0x004A7D90,

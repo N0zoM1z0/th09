@@ -33,6 +33,7 @@ struct FrontMessageRuntimeView
     unsigned char unknown1D6E[0x02];
 
     FrontMessageRuntimeView();
+    int Reset();
     int Update();
     void Setup(int messageIndex, int mode);
     int Draw();

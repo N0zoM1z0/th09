@@ -31,7 +31,7 @@ DESTINATIONS = {
     '?Free@ZunMemory@@QAEXPAX@Z': 0x00401360,
     '?g_FrontMessagePrimaryCache@@3PAUFrontMessageTableView@@A': 0x004A7D88,
     '?g_FrontMessageSecondaryCache@@3PAUFrontMessageTableView@@A': 0x004A7D8C,
-    '?Reset@FrontMessageRuntimeResetView@@QAEHXZ': 0x00415C90,
+    '?Reset@FrontMessageRuntimeView@@QAEHXZ': 0x00415C90,
 }
 TARGET_CALLS = [0x00415D30, 0x0042FD90, 0x0042FD90,
                 0x00401360, 0x00401360, 0x00415C90]

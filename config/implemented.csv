@@ -733,7 +733,7 @@ ResetGameManager
 GameManager_CutChain
 FormatCurrentDateString
 FrontSideAuxTransitionView::BeginAuxTransition
-FrontMessageRuntimeResetView::Reset
+FrontMessageRuntimeView::Reset
 EnemyEclExInstruction2
 Th09EclRunState::ReleaseAttachedEffects
 EnemyDrawInterpolateWrappedAngle

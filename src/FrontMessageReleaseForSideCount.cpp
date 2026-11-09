@@ -65,5 +65,5 @@ void FrontMessageRuntimeView::ReleaseForSideCount(int startIndex)
 
     g_FrontMessagePrimaryCache = 0;
     g_FrontMessageSecondaryCache = 0;
-    reinterpret_cast<FrontMessageRuntimeResetView *>(this)->Reset();
+    Reset();
 }

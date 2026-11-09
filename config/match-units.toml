@@ -12518,8 +12518,8 @@ relocations = [
 source = "src/FrontMessageRuntimeReset.cpp"
 object = "build/matching/FrontMessageRuntimeReset.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["FrontMessageRuntimeResetView::Reset"]
-symbol = "?Reset@FrontMessageRuntimeResetView@@QAEHXZ"
+functions = ["FrontMessageRuntimeView::Reset"]
+symbol = "?Reset@FrontMessageRuntimeView@@QAEHXZ"
 target_address = 0x00415C90
 size = 0x17
 relocations = []
@@ -17802,7 +17802,7 @@ relocations = [
   { offset = 0x41, type = "REL32", symbol = "?IsHeld@ReplayInputState@@QAEGG@Z", target = 0x00415CB0 },
   { offset = 0x58, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x6E, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
-  { offset = 0x93, type = "DIR32", symbol = "$L61999", target = 0x004170B4 },
+  { offset = 0x93, type = "DIR32", symbol = "$L61989", target = 0x004170B4 },
   { offset = 0x9F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
   { offset = 0xA6, type = "REL32", symbol = "?SetUpdateState@PlayerLifecycleView@@QAEXH@Z", target = 0x00403C20 },
   { offset = 0xB5, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
@@ -17936,35 +17936,35 @@ relocations = [
   { offset = 0xB01, type = "REL32", symbol = "?IsGameMode1@AsciiGameManagerView@@QAEHXZ", target = 0x00404970 },
   { offset = 0xB0B, type = "DIR32", symbol = "?g_StageTransitionState@@3HA", target = 0x004B3690 },
   { offset = 0xB1A, type = "DIR32", symbol = "?g_FrontOtherModeDone@@3EA", target = 0x004A7ECE },
-  { offset = 0xB24, type = "DIR32", symbol = "$L61793", target = 0x00417043 },
-  { offset = 0xB28, type = "DIR32", symbol = "$L61857", target = 0x0041693C },
-  { offset = 0xB2C, type = "DIR32", symbol = "$L61872", target = 0x00416A08 },
-  { offset = 0xB30, type = "DIR32", symbol = "$L61889", target = 0x00416AE2 },
-  { offset = 0xB34, type = "DIR32", symbol = "$L61906", target = 0x00416CDE },
-  { offset = 0xB38, type = "DIR32", symbol = "$L61914", target = 0x00416D5A },
-  { offset = 0xB3C, type = "DIR32", symbol = "$L61921", target = 0x00416D8D },
-  { offset = 0xB40, type = "DIR32", symbol = "$L61922", target = 0x00416D98 },
-  { offset = 0xB44, type = "DIR32", symbol = "$L61928", target = 0x00416DE8 },
-  { offset = 0xB48, type = "DIR32", symbol = "$L61931", target = 0x00416E1D },
-  { offset = 0xB4C, type = "DIR32", symbol = "$run_scripts$61912", target = 0x00416EF3 },
-  { offset = 0xB50, type = "DIR32", symbol = "$L61944", target = 0x0041705B },
-  { offset = 0xB54, type = "DIR32", symbol = "$L61932", target = 0x00416E28 },
-  { offset = 0xB58, type = "DIR32", symbol = "$L61934", target = 0x00416E69 },
-  { offset = 0xB5C, type = "DIR32", symbol = "$L61933", target = 0x00416E3C },
-  { offset = 0xB60, type = "DIR32", symbol = "$L61795", target = 0x0041665B },
-  { offset = 0xB64, type = "DIR32", symbol = "$L61898", target = 0x00416BC3 },
-  { offset = 0xB68, type = "DIR32", symbol = "$L61826", target = 0x00416803 },
-  { offset = 0xB6C, type = "DIR32", symbol = "$L61936", target = 0x00416E74 },
-  { offset = 0xB70, type = "DIR32", symbol = "$L61941", target = 0x00416EC1 },
-  { offset = 0xB74, type = "DIR32", symbol = "$L61941", target = 0x00416EC1 },
-  { offset = 0xB78, type = "DIR32", symbol = "$L61941", target = 0x00416EC1 },
-  { offset = 0xB7C, type = "DIR32", symbol = "$L61941", target = 0x00416EC1 },
-  { offset = 0xB80, type = "DIR32", symbol = "$L61794", target = 0x00416627 },
-  { offset = 0xB84, type = "DIR32", symbol = "$L61938", target = 0x00416E7F },
-  { offset = 0xB88, type = "DIR32", symbol = "$L61939", target = 0x00416E8E },
-  { offset = 0xB8C, type = "DIR32", symbol = "$L61854", target = 0x00416927 },
-  { offset = 0xB90, type = "DIR32", symbol = "$L61941", target = 0x00416EC1 },
-  { offset = 0xB94, type = "DIR32", symbol = "$L61940", target = 0x00416EA6 },
+  { offset = 0xB24, type = "DIR32", symbol = "$L61783", target = 0x00417043 },
+  { offset = 0xB28, type = "DIR32", symbol = "$L61847", target = 0x0041693C },
+  { offset = 0xB2C, type = "DIR32", symbol = "$L61862", target = 0x00416A08 },
+  { offset = 0xB30, type = "DIR32", symbol = "$L61879", target = 0x00416AE2 },
+  { offset = 0xB34, type = "DIR32", symbol = "$L61896", target = 0x00416CDE },
+  { offset = 0xB38, type = "DIR32", symbol = "$L61904", target = 0x00416D5A },
+  { offset = 0xB3C, type = "DIR32", symbol = "$L61911", target = 0x00416D8D },
+  { offset = 0xB40, type = "DIR32", symbol = "$L61912", target = 0x00416D98 },
+  { offset = 0xB44, type = "DIR32", symbol = "$L61918", target = 0x00416DE8 },
+  { offset = 0xB48, type = "DIR32", symbol = "$L61921", target = 0x00416E1D },
+  { offset = 0xB4C, type = "DIR32", symbol = "$run_scripts$61902", target = 0x00416EF3 },
+  { offset = 0xB50, type = "DIR32", symbol = "$L61934", target = 0x0041705B },
+  { offset = 0xB54, type = "DIR32", symbol = "$L61922", target = 0x00416E28 },
+  { offset = 0xB58, type = "DIR32", symbol = "$L61924", target = 0x00416E69 },
+  { offset = 0xB5C, type = "DIR32", symbol = "$L61923", target = 0x00416E3C },
+  { offset = 0xB60, type = "DIR32", symbol = "$L61785", target = 0x0041665B },
+  { offset = 0xB64, type = "DIR32", symbol = "$L61888", target = 0x00416BC3 },
+  { offset = 0xB68, type = "DIR32", symbol = "$L61816", target = 0x00416803 },
+  { offset = 0xB6C, type = "DIR32", symbol = "$L61926", target = 0x00416E74 },
+  { offset = 0xB70, type = "DIR32", symbol = "$L61931", target = 0x00416EC1 },
+  { offset = 0xB74, type = "DIR32", symbol = "$L61931", target = 0x00416EC1 },
+  { offset = 0xB78, type = "DIR32", symbol = "$L61931", target = 0x00416EC1 },
+  { offset = 0xB7C, type = "DIR32", symbol = "$L61931", target = 0x00416EC1 },
+  { offset = 0xB80, type = "DIR32", symbol = "$L61784", target = 0x00416627 },
+  { offset = 0xB84, type = "DIR32", symbol = "$L61928", target = 0x00416E7F },
+  { offset = 0xB88, type = "DIR32", symbol = "$L61929", target = 0x00416E8E },
+  { offset = 0xB8C, type = "DIR32", symbol = "$L61844", target = 0x00416927 },
+  { offset = 0xB90, type = "DIR32", symbol = "$L61931", target = 0x00416EC1 },
+  { offset = 0xB94, type = "DIR32", symbol = "$L61930", target = 0x00416EA6 },
 ]
 
 [units.front-message-decode-string]
@@ -22408,7 +22408,7 @@ relocations = [
   { offset = 0xEF, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
   { offset = 0xF7, type = "DIR32", symbol = "?g_FrontMessagePrimaryCache@@3PAUFrontMessageTableView@@A", target = 0x004A7D88 },
   { offset = 0xFD, type = "DIR32", symbol = "?g_FrontMessageSecondaryCache@@3PAUFrontMessageTableView@@A", target = 0x004A7D8C },
-  { offset = 0x102, type = "REL32", symbol = "?Reset@FrontMessageRuntimeResetView@@QAEHXZ", target = 0x00415C90 },
+  { offset = 0x102, type = "REL32", symbol = "?Reset@FrontMessageRuntimeView@@QAEHXZ", target = 0x00415C90 },
 ]
 
 [units.front-message-load-for-side-count]
@@ -22421,7 +22421,7 @@ target_address = 0x004182E0
 size = 0x195
 relocations = [
   { offset = 0x13, type = "REL32", symbol = "?ReleaseForSideCount@FrontMessageRuntimeView@@QAEXH@Z", target = 0x00417520 },
-  { offset = 0x1A, type = "REL32", symbol = "?Reset@FrontMessageRuntimeResetView@@QAEHXZ", target = 0x00415C90 },
+  { offset = 0x1A, type = "REL32", symbol = "?Reset@FrontMessageRuntimeView@@QAEHXZ", target = 0x00415C90 },
   { offset = 0x1F, type = "DIR32", symbol = "?g_FrontMessagePrimaryCache@@3PAUFrontMessageTableView@@A", target = 0x004A7D88 },
   { offset = 0x30, type = "REL32", symbol = "?OpenFile@FileSystem@@YIPAEPBDPAHH@Z", target = 0x0042C970 },
   { offset = 0x37, type = "DIR32", symbol = "?g_FrontMessagePrimaryCache@@3PAUFrontMessageTableView@@A", target = 0x004A7D88 },
@@ -25081,7 +25081,7 @@ relocations = [
   { offset = 0x114, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
   { offset = 0x11A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x127, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
-  { offset = 0x245, type = "REL32", symbol = "?Reset@FrontMessageRuntimeResetView@@QAEHXZ", target = 0x00415C90 },
+  { offset = 0x245, type = "REL32", symbol = "?Reset@FrontMessageRuntimeView@@QAEHXZ", target = 0x00415C90 },
   { offset = 0x24A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x24F, type = "REL32", symbol = "?IsGameMode0@AsciiGameManagerView@@QAEHXZ", target = 0x0040E470 },
   { offset = 0x258, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },

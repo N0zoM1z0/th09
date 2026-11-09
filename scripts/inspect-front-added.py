@@ -30,7 +30,7 @@ DESTINATIONS = {
     '?IsGameMode0@AsciiGameManagerView@@QAEHXZ': 0x0040E470,
     '?IsGameMode1@AsciiGameManagerView@@QAEHXZ': 0x00404970,
     '?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z': 0x00436AC0,
-    '?Reset@FrontMessageRuntimeResetView@@QAEHXZ': 0x00415C90,
+    '?Reset@FrontMessageRuntimeView@@QAEHXZ': 0x00415C90,
     '?g_PlayerResourcePaths@@3PAY05PBDA': 0x004A1238,
     '?LoadForSideCount@FrontMessageRuntimeView@@QAEHPAD0H@Z': 0x004182E0,
     '?InitializeMessageRuntime@FrontFactoryConstructView@@QAEXXZ': 0x004181E0,

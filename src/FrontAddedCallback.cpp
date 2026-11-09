@@ -84,7 +84,7 @@ int FrontAddedCallback(void *frontArg)
     gui->panelVerticesE86C[1][3].pos.y = 15.0f;
     gui->panelVerticesE86C[1][3].pos.z = 0.0f;
     gui->panelVerticesE86C[1][4].pos = gui->panelVerticesE86C[1][0].pos;
-    reinterpret_cast<FrontMessageRuntimeResetView *>(&gui->messageRuntimeE944)->Reset();
+    gui->messageRuntimeE944.Reset();
     if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
     {
         if (gui->messageRuntimeE944.LoadForSideCount(const_cast<char *>(g_PlayerResourcePaths[g_GameManager.sides[0].character20][3]), NULL,

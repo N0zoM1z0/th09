@@ -20,7 +20,7 @@ int FrontMessageRuntimeView::LoadForSideCount(
     char *errorPath;
 
     ReleaseForSideCount(startIndex);
-    reinterpret_cast<FrontMessageRuntimeResetView *>(this)->Reset();
+    Reset();
 
     if (g_FrontMessagePrimaryCache == 0)
     {

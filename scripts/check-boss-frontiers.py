@@ -1646,7 +1646,7 @@ FRONT_ADDED_RESIDUAL_MASK = bytes.fromhex(
 )
 FRONT_ADDED_CALLEES = (
     ('front-message-runtime-reset', 'src/FrontMessageRuntimeReset.cpp',
-     '?Reset@FrontMessageRuntimeResetView@@QAEHXZ', 0x00415C90, 23),
+     '?Reset@FrontMessageRuntimeView@@QAEHXZ', 0x00415C90, 23),
     ('front-message-load-for-side-count', 'src/FrontMessageLoad.cpp',
      '?LoadForSideCount@FrontMessageRuntimeView@@QAEHPAD0H@Z', 0x004182E0, 405),
     ('front-message-release-for-side-count', 'src/FrontMessageReleaseForSideCount.cpp',
