@@ -62,8 +62,7 @@ int PlayerLifecycleView::CalcDamageToEnemy(
 
         if (shot->collisionCallback47C != NULL &&
             reinterpret_cast<PlayerDamageShotCollisionCallback>(shot->collisionCallback47C)(
-                reinterpret_cast<PlayerDamagePlayerView *>(this),
-                reinterpret_cast<PlayerDamageShotView *>(shot), position))
+                this, shot, position))
             continue;
 
         damage += shot->damage460;
