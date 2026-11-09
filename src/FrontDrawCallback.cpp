@@ -6,30 +6,15 @@
 
 #include <stddef.h>
 
-struct FrontLineVertex
-{
-    float x;
-    float y;
-    float z;
-    float rhw;
-    unsigned long diffuse;
-};
-typedef char FrontDrawLineVertexSizeIs14[
-    (sizeof(FrontLineVertex) == sizeof(FrontPanelVertexView) &&
-     offsetof(FrontLineVertex, x) == offsetof(FrontPanelVertexView, pos) &&
-     offsetof(FrontLineVertex, rhw) == offsetof(FrontPanelVertexView, rhw) &&
-     offsetof(FrontLineVertex, diffuse) == offsetof(FrontPanelVertexView, diffuse)) ? 1 : -1];
-
-struct FrontDrawTextPosition
-{
-    float x;
-    float y;
-    float z;
-};
+// Render the two five-vertex panel strips from their constructed native
+// FrontPanelVertexView storage, without a separate vertex allocation.
+typedef char FrontDrawNativePanelVertex[
+    (sizeof(FrontPanelVertexView) == 0x14 &&
+     offsetof(FrontPanelVertexView, rhw) == 0x0C &&
+     offsetof(FrontPanelVertexView, diffuse) == 0x10) ? 1 : -1];
 
 int __fastcall FrontDrawLineStrip(
-    FrontLineVertex *vertices,
-    int primitiveCount);
+    FrontPanelVertexView *vertices, int primitiveCount);
 
 extern AsciiManager g_AsciiManager;
 extern int g_GameTimeFrames;
@@ -51,14 +36,14 @@ int __fastcall FrontDrawCallback(void *frontArg)
     g_AnmManager->DrawNoRotation(&front->markerVms123F4[0]);
     g_AnmManager->DrawNoRotation(&front->markerVms123F4[1]);
 
-    FrontDrawLineStrip(reinterpret_cast<FrontLineVertex *>(&front->panelVerticesE86C[0][0]), 4);
-    FrontDrawLineStrip(reinterpret_cast<FrontLineVertex *>(&front->panelVerticesE86C[1][0]), 4);
+    FrontDrawLineStrip((&front->panelVerticesE86C[0][0]), 4);
+    FrontDrawLineStrip((&front->panelVerticesE86C[1][0]), 4);
 
     front->messageRuntimeE944.Draw();
 
     if (front->transitionVmCount1095C != 0)
     {
-        FrontDrawTextPosition scorePosition;
+        Float3 scorePosition;
         scorePosition.z = 0.0f;
 
         g_AnmManager->DrawNoRotation(&front->resultVms10968[0]);
@@ -155,7 +140,7 @@ int __fastcall FrontDrawCallback(void *frontArg)
             front->transitionFrame10960 > 20)
         {
             Float3 *position =
-                reinterpret_cast<Float3 *>(&scorePosition);
+                &scorePosition;
 
             g_AsciiManager.AddFormatText(
                 position, "%7d", front->resultValues11E88[0]);

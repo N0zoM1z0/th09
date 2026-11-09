@@ -1,19 +1,13 @@
 #include "AnmManager.hpp"
 #include "Supervisor.hpp"
+#include "FrontFactoryConstructView.hpp"
 
 #include <d3d8.h>
 #include <stddef.h>
 
-struct FrontLineVertex
-{
-    float x;
-    float y;
-    float z;
-    float rhw;
-    unsigned long diffuse;
-};
-typedef char FrontLineVertexSizeIs14[
-    (sizeof(FrontLineVertex) == 0x14) ? 1 : -1];
+// Native Front panel vertices, not a separate source-only line record.
+typedef char FrontLineNativePanelVertexSize[
+    (sizeof(FrontPanelVertexView) == 0x14) ? 1 : -1];
 
 // Original +0x08 D3D8 device belongs to the full native Supervisor,
 // already used by the neighboring Front-message draw callback.
@@ -21,7 +15,7 @@ typedef char FrontLineNativeSupervisorDeviceAt08[
     (offsetof(Supervisor, d3dDevice08) == 0x08) ? 1 : -1];
 
 int __fastcall FrontDrawLineStrip(
-    FrontLineVertex *vertices,
+    FrontPanelVertexView *vertices,
     int primitiveCount)
 {
     g_AnmManager->FlushVertexBuffer();
@@ -42,7 +36,7 @@ int __fastcall FrontDrawLineStrip(
         D3DPT_LINESTRIP,
         primitiveCount,
         vertices,
-        sizeof(FrontLineVertex));
+        sizeof(FrontPanelVertexView));
 
     g_AnmManager->ClearVertexShader();
     g_AnmManager->ClearSprite();

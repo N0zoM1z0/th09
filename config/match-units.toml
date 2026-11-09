@@ -15470,7 +15470,7 @@ source = "src/FrontLineStrip.cpp"
 object = "build/matching/FrontLineStrip.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["FrontDrawLineStrip"]
-symbol = "?FrontDrawLineStrip@@YIHPAUFrontLineVertex@@H@Z"
+symbol = "?FrontDrawLineStrip@@YIHPAUFrontPanelVertexView@@H@Z"
 target_address = 0x00422330
 size = 0x13E
 relocations = [
@@ -16145,8 +16145,8 @@ relocations = [
   { offset = 0xA3, type = "REL32", symbol = "?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043A950 },
   { offset = 0xA9, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0xB5, type = "REL32", symbol = "?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043A950 },
-  { offset = 0xC5, type = "REL32", symbol = "?FrontDrawLineStrip@@YIHPAUFrontLineVertex@@H@Z", target = 0x00422330 },
-  { offset = 0xD5, type = "REL32", symbol = "?FrontDrawLineStrip@@YIHPAUFrontLineVertex@@H@Z", target = 0x00422330 },
+  { offset = 0xC5, type = "REL32", symbol = "?FrontDrawLineStrip@@YIHPAUFrontPanelVertexView@@H@Z", target = 0x00422330 },
+  { offset = 0xD5, type = "REL32", symbol = "?FrontDrawLineStrip@@YIHPAUFrontPanelVertexView@@H@Z", target = 0x00422330 },
   { offset = 0xE0, type = "REL32", symbol = "?Draw@FrontMessageRuntimeView@@QAEHXZ", target = 0x00417130 },
   { offset = 0xF4, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x107, type = "REL32", symbol = "?DrawNoRotation@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043A950 },
