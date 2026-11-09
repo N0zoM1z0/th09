@@ -117,6 +117,15 @@ ignored local inputs, not versioned Git files.
   authored ledger credit is added. See
   [FrontSide constructor proof](TH09_FRONT_SIDE_CTOR_ORIGINAL_20261109.md).
 
+- **Front gameplay HUD construction** now has matching native C++ constructor
+  bodies at 0x4187B0 (143/143, 12 relocated fields) and 0x418750
+  (85/85, 7 fields), plus the shared three-byte vertex constructor alias
+  at 0x4343D0. The typed 0x1293C Front allocation and 0x1D70 embedded
+  message runtime are independently checked; the existing factory caller
+  and three affected FrontMessage exact consumers still replay exactly.
+  These are origin-unclassified source-equivalent bodies, not newly
+  authored exact credit. See [native Front constructor chain](TH09_FRONT_FACTORY_NATIVE_CTORS_20261109.md).
+
 ## Reconstruction frontiers
 
 All 13 entries below are **nonexact** complete physical owners, not exact

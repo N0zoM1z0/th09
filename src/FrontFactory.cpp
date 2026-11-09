@@ -1,14 +1,9 @@
 #include "Chain.hpp"
 #include "FrontSupport.hpp"
+#include "FrontFactoryConstructView.hpp"
 #include "ZunMemory.hpp"
 
 #include <stddef.h>
-
-struct FrontFactoryConstructView
-{
-    unsigned char storage[0x1293C];
-    FrontFactoryConstructView();
-};
 
 struct FrontFactoryView
 {

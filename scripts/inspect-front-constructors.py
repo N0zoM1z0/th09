@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Compare the two still-origin-unclassified FrontSide constructors to TH09 PE.
+"""Compare native FrontSide and Front constructor families against original PE.
 
-Compile src/FrontSideCtor.cpp with the pinned VC7.1 /O2 /Ob0 profile first.
-Exact code generation here does not classify implicit versus authored origin.
+Compile their separate constructor-only carriers with pinned VC7.1 /O2 /Ob0.
+Identical constructor code does not establish explicit-versus-implicit origin
+or unique ownership of the shared three-byte constructor helper.
 """
 import argparse
 import hashlib
@@ -17,6 +18,8 @@ SYMBOL_TARGETS = {
     '??_H@YGXPAXIHP6EPAX0@Z@Z': 0x00401470,
     '??0FrontSideAuxView@@QAE@XZ': 0x0041A470,
     '??0ZunTimer@@QAE@XZ': 0x00403390,
+    '??0FrontPanelVertexView@@QAE@XZ': 0x004343D0,
+    '??0FrontMessageRuntimeView@@QAE@XZ': 0x00418750,
 }
 # Exact field identities, including the whole 307-byte owner's 26 relocations.
 A = '??0AnmVm@@QAE@XZ'
@@ -51,14 +54,45 @@ FRONT = (
 )
 
 
-def inspect(obj):
+# The three-byte target body at 0x4343D0 is a shared empty-constructor
+# address. FrontPanelVertexView is one source-equivalent alias, not evidence
+# of unique physical or original-language ownership.
+P = '??0FrontPanelVertexView@@QAE@XZ'
+M = '??0FrontMessageRuntimeView@@QAE@XZ'
+FACTORY = (
+    ('FrontPanelVertexView alias', P, 0x004343D0, 3,
+     '58367ffa2a0179375018fa0f5c26da24391e42ebe0ed8fdda35a21fc7bdc396f',
+     ()),
+    ('FrontMessageRuntimeView', M, 0x00418750, 85,
+     'c66179ad1c650862cf09293b76f98f5704f05a3c4b311d06268fa111be5b74f3',
+     (
+         (0x02, 'DIR32', A), (0x14, 'REL32', V),
+         (0x19, 'DIR32', A), (0x2C, 'REL32', V),
+         (0x37, 'REL32', A), (0x42, 'REL32', T),
+         (0x4D, 'REL32', T),
+     )),
+    ('FrontFactoryConstructView', '??0FrontFactoryConstructView@@QAE@XZ',
+     0x004187B0, 143,
+     '4c9727cf46c3c995c989490f3cd0d6d693c966e07ba214e365c88726b81d6973',
+     (
+         (0x02, 'DIR32', A), (0x14, 'REL32', V),
+         (0x19, 'DIR32', P), (0x29, 'REL32', V),
+         (0x34, 'REL32', M), (0x3F, 'REL32', A),
+         (0x44, 'DIR32', A), (0x57, 'REL32', V),
+         (0x5C, 'DIR32', A), (0x6F, 'REL32', V),
+         (0x74, 'DIR32', A), (0x87, 'REL32', V),
+     )),
+)
+
+
+def inspect(obj, constructors=FRONT):
     spec = importlib.util.spec_from_file_location(
         'original_pe_coff', ROOT / 'scripts/compare-coff-function.py')
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     original_image = module.verified_target()
     rows = []
-    for label, symbol, addr, size, digest, expected_fields in FRONT:
+    for label, symbol, addr, size, digest, expected_fields in constructors:
         target = module.pe_bytes_at(original_image, addr, size)
         if hashlib.sha256(target).hexdigest() != digest:
             raise ValueError('original target changed: ' + label)
@@ -91,9 +125,15 @@ def inspect(obj):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('object', type=Path)
+    parser.add_argument(
+        '--factory-object', type=Path,
+        help='also check FrontFactoryCtor /Ob0 and its three original-bound bodies')
     args = parser.parse_args()
     try:
         result = inspect(args.object)
+        if args.factory_object is not None:
+            result['constructors'].extend(
+                inspect(args.factory_object, FACTORY)['constructors'])
     except (KeyError, ValueError, OSError, struct.error) as exc:
         print(json.dumps({'error': str(exc)}))
         return 2
