@@ -51,6 +51,7 @@ struct FrontFactoryConstructView
 
     FrontFactoryConstructView();
     void InitializeMessageRuntime();
+    int ReleaseCore();
     void InitializeResultBonus();
     void SelectOpponentSide(int sideIndex);
     int GetTransitionBlockFlag();

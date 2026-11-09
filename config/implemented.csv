@@ -806,7 +806,7 @@ TitleScreenView::SetIndexedSpriteChoice
 TitleScreenView::SetRangeSelectionInterrupts
 AnmVmView::ConfigurePositionInterpolation
 AnmVmView::ConfigureColorInterpolation
-FrontReleaseView::ReleaseCore
+FrontFactoryConstructView::ReleaseCore
 TitleScreenView::SetTwoDigitVmValue
 TitleScreenView::SwapDuplicateCharacterIndex
 EnemyCoreReleaseChildEclBlocks

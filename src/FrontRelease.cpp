@@ -1,4 +1,5 @@
 #include "Chain.hpp"
+#include "FrontFactoryConstructView.hpp"
 #include "StageResourcePolicy.hpp"
 
 #include <stddef.h>
@@ -14,30 +15,14 @@ int ShouldReleaseStageResources()
     return g_StageResourceReleasePolicy;
 }
 
-struct FrontMessageRuntimeView
-{
-    void ReleaseForSideCount(int count);
-};
+// The original +0xE944 message subobject and chain heads are members of
+// the constructed 0x1293C-byte Front object, not a separate release view.
+typedef char NativeFrontReleaseChainAndMessageOffsets[
+    (offsetof(FrontFactoryConstructView, calcChain00) == 0x00 &&
+     offsetof(FrontFactoryConstructView, drawChain04) == 0x04 &&
+     offsetof(FrontFactoryConstructView, messageRuntimeE944) == 0xE944) ? 1 : -1];
 
-struct FrontReleaseView
-{
-    ChainElem *calcChain00;
-    ChainElem *drawChain04;
-    unsigned char unknown008[0xE93C];
-    FrontMessageRuntimeView messageRuntimeE944;
-
-    int ReleaseCore();
-};
-
-typedef char FrontReleaseCalcAt00[
-    (offsetof(FrontReleaseView, calcChain00) == 0x00) ? 1 : -1];
-typedef char FrontReleaseDrawAt04[
-    (offsetof(FrontReleaseView, drawChain04) == 0x04) ? 1 : -1];
-
-typedef char FrontReleaseMessageRuntimeAtE944[
-    (offsetof(FrontReleaseView, messageRuntimeE944) == 0xE944) ? 1 : -1];
-
-int FrontReleaseView::ReleaseCore()
+int FrontFactoryConstructView::ReleaseCore()
 {
     if (ShouldReleaseStageResources())
         messageRuntimeE944.ReleaseForSideCount(10 * g_GameSide1Value20);
@@ -47,7 +32,7 @@ int FrontReleaseView::ReleaseCore()
 
 void __fastcall ReleaseGameSubsystem(void *object)
 {
-    FrontReleaseView *front = static_cast<FrontReleaseView *>(object);
+    FrontFactoryConstructView *front = static_cast<FrontFactoryConstructView *>(object);
     if (front != NULL)
     {
         front->ReleaseCore();
