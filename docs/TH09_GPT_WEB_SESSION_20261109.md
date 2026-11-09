@@ -179,3 +179,54 @@ the involved ECL/Enemy/charge carriers were run; no full-project cold replay
 was run. The only accepted source change in this follow-up is the more
 transparent, byte-exact timeout-prefix diagnostic; all exploratory C++
 rewrites were restored.
+
+## PlayerLifecycleView::UpdateChargeAttack — complete extent and CFG recovery
+
+The 1,210-byte charge boss now emits its full target extent instead of the
+previous 1,195-byte candidate. A fresh pinned-profile player-on-update
+probe reports 1,210/1,210 physical bytes, all 70 relocation fields bound,
+58 ordered calls, 350 instructions, 53 blocks, and matching direct control-flow
+graphs. There are 235 ordinary byte differences, with zero missing or extra
+bytes. The separate real 20-byte ZunTimer::operator> sibling remains exact.
+This is still diagnostic-only; no partial or exactness credit is claimed.
+
+The adopted source model uses a short-lived playable-side index and one
+reused input receiver:
+
+    short side = static_cast<short>(sideIndex);
+    volatile u8 sideMode;
+    u8 modeSnapshot;
+    int previousLevel;
+    ReplayInputState *input = g_ReplayInputStates + side;
+
+The narrowing is justified by the actual creation path, not an assumed input
+domain: GameManagerSetup.cpp creates players only inside the loop bounded by
+GameplaySetupNativeSides::PlayableCount; that count is compile-time asserted
+to be two, and the only PlayerRegisterChain call passes that loop index.
+PlayerRegisterChain stores the same value in player->sideIndex. The charge
+translation unit now carries the same two-playable-side compile-time guard,
+and test_player_charge_native_boss_owner checks the creation path.
+
+The residual mask now protects the 975 positions that match the target in
+this complete-size candidate. Compared with the prior 1,195-byte candidate,
+three previously matching byte positions (84, 128, 253) became residual during
+the source-model rebase; this is explicitly recorded rather than silently
+discarded. The new model gains the full 15 missing bytes and restores the
+reviewed 53-block direct CFG. All future candidates must keep every byte
+outside the 235-position residual mask equal to the original.
+
+The remaining early-mode mismatch is tightly identified: target stores AL to
+[ebp-1] at +0x55, while the candidate stores BL at +0x56; the subsequent
+stack compare/read at +0x1C7/+0x1DB agree. Side/input register roles and the
+initial branch encoding still account for most residual bytes. More natural
+C++ register-lifetime and evaluation-order probes continue from this full
+extent baseline; no assembly, forced register hints, or profile search was
+introduced.
+
+Focused validation:
+- scripts/check-boss-frontiers.py --owner charge: passed; only the charge
+  owner was rebuilt and inspected.
+- test_player_charge_frontier.py: 5 tests passed, including protection of
+  every currently equal byte and non-crediting residual shrink.
+- test_player_charge_native_boss_owner.py: 2 tests passed, including the
+  playable-side creation invariant.

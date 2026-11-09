@@ -11,6 +11,7 @@
 #include "SoundPlayer.hpp"
 #include "GameConfiguration.hpp"
 #include "GameManagerRuntimeView.hpp"
+#include "GameplaySetupNativeSides.hpp"
 // The original g_GameConfiguration pointer has its own canonical symbol at
 // 0x004A7E78, the same address as the GameManager's +0xE8 pointer field.
 // Its independent FrontResultBonus caller binds this actual global directly.
@@ -24,22 +25,23 @@ typedef unsigned short u16;
 
 typedef char PlayerChargeConfigurationModeAtB4[
     (offsetof(GameConfiguration, sideFocusMode) == 0xB4) ? 1 : -1];
+typedef char PlayerChargePlayableSideCountIsTwo[
+    (GameplaySetupNativeSides::PlayableCount == 2) ? 1 : -1];
 
 // Player and FrontSide use the shared 0x38-byte side allocation.
 int PlayerLifecycleView::UpdateChargeAttack()
 {
-    int side;
-    u8 sideMode;
+    // PlayerRegisterChain is only called from GameManagerSetup's two-side
+    // setup loop; the playable side index is therefore always 0 or 1.
+    short side = static_cast<short>(sideIndex);
+    volatile u8 sideMode;
+    u8 modeSnapshot;
     int previousLevel;
-    ReplayInputState *input;
-
-    side = sideIndex;
-    // All six input queries in this branch use the same native side record.
-    input = &g_ReplayInputStates[side];
+    ReplayInputState *input = g_ReplayInputStates + side;
     if ((input->WasPressed(1) &&
          !(g_GameConfiguration->sideFocusMode[side] == 1 &&
            input->IsHeld(4))) ||
-        ((sideMode = g_GameConfiguration->sideFocusMode[side]) == 1 &&
+        ((modeSnapshot = g_GameConfiguration->sideFocusMode[side], sideMode = modeSnapshot, modeSnapshot == 1) &&
          input->IsHeld(1) &&
          !input->IsHeld(4)))
     {

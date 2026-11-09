@@ -1398,13 +1398,34 @@ PLAYER_CHARGE_ORIGINAL_MODE_BYTE = [
     {'offset': '0x1c7', 'mnemonic': 'cmp', 'operands': 'byte ptr [ebp - 1], 1'},
     {'offset': '0x1db', 'mnemonic': 'mov', 'operands': 'al, byte ptr [ebp - 1]'},
 ]
-# Every position that equals the original in the current 1195-byte input-
-# pointer candidate. The other 1153 overlaps and 15 absent bytes remain open.
-PLAYER_CHARGE_MATCHED = frozenset((
-    45, 75, 84, 128, 253, 273, 274, 459, 535, 548, 659, 660, 663, 664,
-    665, 676, 688, 689, 690, 705, 707, 708, 709, 735, 754, 780, 817,
-    842, 854, 859, 863, 918, 942, 944, 948, 984, 997, 999, 1010, 1022,
-    1095, 1107,
+PLAYER_CHARGE_CANDIDATE_MODE_BYTE = [
+    {'offset': '0x56', 'mnemonic': 'mov', 'operands': 'byte ptr [ebp - 1], bl'},
+    {'offset': '0x1c7', 'mnemonic': 'cmp', 'operands': 'byte ptr [ebp - 1], 1'},
+    {'offset': '0x1db', 'mnemonic': 'mov', 'operands': 'al, byte ptr [ebp - 1]'},
+]
+# Complete 1,210-byte candidate with 235 residual bytes. This mask is the
+# current monotonic frontier: all other 975 positions must remain target-equal.
+PLAYER_CHARGE_RESIDUAL_OFFSETS = frozenset((
+    8, 9, 10, 12, 13, 14, 15, 16, 17, 20, 21, 22,
+    23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35,
+    36, 37, 38, 39, 40, 41, 48, 55, 59, 69, 71, 77,
+    78, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 94,
+    95, 96, 97, 98, 99, 100, 101, 103, 104, 105, 106, 107,
+    108, 109, 110, 112, 113, 114, 115, 116, 117, 118, 119, 121,
+    122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 133, 135,
+    136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147,
+    148, 149, 150, 151, 152, 153, 154, 156, 157, 158, 159, 160,
+    161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172,
+    173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184,
+    185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196,
+    197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208,
+    209, 210, 211, 212, 213, 214, 216, 217, 218, 219, 220, 221,
+    222, 223, 224, 225, 226, 227, 228, 229, 230, 232, 233, 234,
+    235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246,
+    247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258,
+    259, 260, 261, 262, 263, 264, 271, 464, 489, 571, 574, 576,
+    578, 584, 589, 603, 606, 640, 651, 686, 691, 692, 693, 697,
+    698, 699, 700, 701, 702, 703, 704,
 ))
 
 
@@ -1414,26 +1435,24 @@ def guard_player_charge(result: dict) -> dict:
     size, count = result.get('candidate_bytes'), result.get('overlap_differences')
     offsets = result.get('difference_offsets')
     if (result.get('target_sha256') != PLAYER_CHARGE_TARGET_SHA or
-            type(size) is not int or not 1195 <= size <= 1210 or
+            size != 1210 or
             result.get('target_instructions') != 350 or
-            type(result.get('candidate_instructions')) is not int or
-            not 342 <= result['candidate_instructions'] <= 350 or
+            result.get('candidate_instructions') != 350 or
             result.get('original_fields') != 70 or
             result.get('ordered_calls') != 58 or
             result.get('ordered_calls_agree') is not True or
             result.get('target_blocks') != 53 or
-            type(result.get('candidate_blocks')) is not int or
-            not 1 <= result['candidate_blocks'] <= result['candidate_instructions'] or
-            type(result.get('direct_graphs_agree')) is not bool or
+            result.get('candidate_blocks') != 53 or
+            result.get('direct_graphs_agree') is not True or
             result.get('literal_definitions_checked') != 5 or
             result.get('same_carrier_timer_bytes_exact') != 20 or
             result.get('original_stack_byte_minus_one') != PLAYER_CHARGE_ORIGINAL_MODE_BYTE or
-            not isinstance(result.get('candidate_stack_byte_minus_one'), list) or
-            type(count) is not int or not 0 <= count <= 1160 or
+            result.get('candidate_stack_byte_minus_one') != PLAYER_CHARGE_CANDIDATE_MODE_BYTE or
+            type(count) is not int or not 0 <= count <= len(PLAYER_CHARGE_RESIDUAL_OFFSETS) or
             not isinstance(offsets, list) or
             any(type(o) is not int or not 0 <= o < size for o in offsets) or
             offsets != sorted(set(offsets)) or len(offsets) != count or
-            PLAYER_CHARGE_MATCHED.intersection(offsets) or
+            not set(offsets).issubset(PLAYER_CHARGE_RESIDUAL_OFFSETS) or
             result.get('missing_target_bytes') != 1210 - size or
             result.get('extra_candidate_bytes') != 0 or
             result.get('complete_bytes_equal') is not (size == 1210 and count == 0) or
