@@ -147,6 +147,16 @@ ignored local inputs, not versioned Git files.
   [native Front Update](TH09_FRONT_MESSAGE_UPDATE_NATIVE_OWNER_20261109.md)
   and [native Setup/callers](TH09_FRONT_MESSAGE_NATIVE_SETUP_OWNER_20261109.md).
 
+- **Etama native Bullet/Laser constructor chain:** three previously
+  origin-unclassified constructors now have maintained native C++ source:
+  `BulletTypeSprites` 56/5, `Bullet` 58/5, and `Laser` 34/3, all
+  exact against original PE bytes/fields. `Bullet` also emits the actual
+  12-byte `BulletExState` default constructor sharing target code at
+  0x41EE20. The 121-byte Etama owner and 283-byte Register caller both
+  remain exact. These source-equivalent special members retain unknown
+  authored/implicit origin. See
+  [Etama native construction](TH09_NATIVE_BULLET_LASER_CONSTRUCTORS_20261109.md).
+
 ## Reconstruction frontiers
 
 All 13 entries below are **nonexact** complete physical owners, not exact
