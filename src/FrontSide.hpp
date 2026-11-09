@@ -41,6 +41,7 @@ struct FrontSide
     static int OnUpdate(FrontSide *frontSide);
     static int OnDraw(FrontSide *frontSide);
 
+    void BeginAuxTransition();
     void LoadScript67();
     void ResetTransitionState();
     void ActivateMeterVms();

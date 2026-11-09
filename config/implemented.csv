@@ -732,7 +732,7 @@ EffectFollowPlayerUpdate
 ResetGameManager
 GameManager_CutChain
 FormatCurrentDateString
-FrontSideAuxTransitionView::BeginAuxTransition
+FrontSide::BeginAuxTransition
 FrontMessageRuntimeView::Reset
 EnemyEclExInstruction2
 Th09EclRunState::ReleaseAttachedEffects

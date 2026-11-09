@@ -51,7 +51,7 @@ DESTINATIONS = {
     "?Setup@FrontCalcMessageRuntimeView@@QAEXHH@Z": 0x00416160,
     "?g_FrontRuntimeValues90@@3PAHA": 0x004A7E90,
     "?SetupRandomForSide@FrontCalcMessageRuntimeView@@QAEXH@Z": 0x004162D0,
-    "?BeginAuxTransition@FrontCalcFrontSideView@@QAEXXZ": 0x00415D50,
+    "?BeginAuxTransition@FrontSide@@QAEXXZ": 0x00415D50,
     "?CleanupGameplayState@GameManagerSetupLayout@@SIXXZ": 0x0041B5C6,
     "?IsGameMode0@FrontCalcGameManagerView@@QAEHXZ": 0x0040E470,
     "?IsGameMode1@FrontCalcGameManagerView@@QAEHXZ": 0x00404970,

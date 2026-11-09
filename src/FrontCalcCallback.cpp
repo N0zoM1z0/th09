@@ -4,6 +4,7 @@
 #include "ScreenEffect.hpp"
 #include "ZunTimer.hpp"
 #include "FrontFactoryConstructView.hpp"
+#include "FrontSide.hpp"
 
 #include <stddef.h>
 
@@ -69,11 +70,6 @@ struct FrontCalcGameManagerView
     int IsReplayNeutral();
 };
 
-struct FrontCalcFrontSideView
-{
-    void BeginAuxTransition();
-};
-
 struct FrontCalcPlayerCollisionPoint
 {
     float x;
@@ -110,7 +106,6 @@ extern int g_SelectedOpponentParameter;
 extern int g_TransitionResultTable[];
 extern int g_TransitionResultTableAlt[];
 extern void *g_NeutralMessageSource;
-extern FrontCalcFrontSideView *g_FrontSides[2];
 
 struct GameManagerSetupLayout
 {
@@ -322,9 +317,9 @@ int __fastcall FrontCalcCallback(void *frontArg)
         else if (
             front->transitionStarted11EA4 != 0 && frame == 160)
         {
-            reinterpret_cast<FrontCalcFrontSideView *>(
+            static_cast<FrontSide *>(
                 g_GameManager.sides[0].frontSide18)->BeginAuxTransition();
-            reinterpret_cast<FrontCalcFrontSideView *>(
+            static_cast<FrontSide *>(
                 g_GameManager.sides[1].frontSide18)->BeginAuxTransition();
         }
         else if (
