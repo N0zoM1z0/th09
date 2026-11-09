@@ -293,3 +293,61 @@ is adopted and no literal guard is relaxed.
 No whole-project cold replay was run. All rejected source probes restored the
 maintained source and the canonical object was rebuilt after the experiments.
 The current non-exact owner statuses and exactness ledger are unchanged.
+
+## Fourth sweep — native IDA pseudocode cross-checks and the limits of decompiler structure
+
+The original-bound `th09-ida` provider was used to decompile the retail
+functions directly, rather than treating earlier reconstruction notes as
+source truth.
+
+### `GameplaySetupThread`
+
+IDA pseudocode independently exposes two local integer temporaries (the
+values used for the normal-path `limitB4` and `valueC8` publications), fixed
+mode exits for 20/22/16, and the shared fixed-22 destination reached by cases
+2, 3 and 4. The pseudocode presents case 0 as an outer `else` and cases 1–4 as
+a nested switch. The raw target dispatch, however, begins with a single
+`setupMode` load, subtracts the zero base, branches to the mode-0 block, and
+then uses the decrement chain for the other mode values. Therefore the
+pseudocode's `if/else` presentation is not sufficient evidence that the
+original C++ used two separate constructs; it may be Hex-Rays structuring of
+the switch CFG.
+
+A candidate with the decompiler-shaped outer `if`, case-1..4 switch, normal
+path locals and a separate case-0 path compiles to **1,682 bytes / 413
+instructions / 171 fields / 35 calls / 77 blocks / 692 ordinary differences /
+seven missing bytes**. The single-switch form with local `nextLimit` and
+`nextValueC8` temporaries reaches the same frontier. Neither reproduces the
+retail 172-field / 78-block graph or relocates the fixed-22 store to the retail
+case-4 block. Both are rejected as source changes. This demonstrates that
+recovering the decompiler's temporary variables alone does not explain the
+remaining codegen difference.
+
+### `DrawReplayMenu`
+
+IDA pseudocode shows the selected record pointer being acquired before the
+selected-index snapshot, consistent with the maintained `const ReplayDataView
+&` model. The ten stage-detail rows are represented in the decompilation as a
+pointer starting at the first frame-start row (`replay + 0x20`), advancing by
+four bytes per iteration, and reading the second side at `+0x28`.
+
+New source experiments reproduced that representation using a typed pointer
+increment and a post-tested `do/while`, plus a raw-byte pointer stepping by
+`sizeof(void*)`. The typed pointer forms expand the original 29-byte frontier
+to 63 differences; an indexed `do/while` retains the original 29. This is
+useful negative evidence: the decompiler's pointer walk is not, by itself,
+proof of the original C++ loop idiom. No pointer-walk variant is adopted.
+
+### `BeginPlaybackStage`
+
+IDA pseudocode confirms the maintained high-level dataflow: frame-start row
+pointers are selected for both sides and the shared stream, replay header
+fields are published, configuration is copied, then the RNG seed is passed
+from the low word at `frame0 + 4`. The remaining two-byte deficit is at the
+call-site register/argument schedule, not an incorrect replay-field offset or
+an omitted helper call. The fresh natural seed/receiver experiments recorded
+above do not close it.
+
+No production source change was accepted from this sweep. The target PE hash,
+original-bound inventories, current exact siblings and canonical match units
+remain unchanged. No full-project cold replay was run.
