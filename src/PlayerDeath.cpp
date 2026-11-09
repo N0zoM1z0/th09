@@ -9,13 +9,6 @@
 
 struct PlayerDeathSideStateView;
 
-// Original +0xA8 Front pointer remains used by a separately authored
-// transition-block getter; its native retyping is a distinct caller scope.
-struct PlayerDeathSharedView
-{
-    int IsDeathTransitionBlocked();
-};
-
 struct PlayerDeathAttackTargetView
 {
     int CheckMode(int mode);
@@ -105,7 +98,6 @@ struct PlayerDeathInterruptView
     void SetInterrupt(short interrupt);
 };
 
-extern PlayerDeathSharedView *g_PlayerDeathShared;
 extern PlayerDeathSoundView g_PlayerDeathSound;
 extern int g_PlayerDeathCounter;
 extern int g_PlayerDeathCounterBonus;
@@ -114,7 +106,7 @@ extern RngRuntimeView g_ReplayRng;
 
 void PlayerLifecycleView::EnterDeathState()
 {
-    if (g_PlayerDeathShared->IsDeathTransitionBlocked())
+    if (g_GameManager.frontFactoryA8->GetTransitionBlockFlag())
         return;
 
     g_PlayerDeathSound.PlaySoundPositionedByIdx(4, position1B88.x);
