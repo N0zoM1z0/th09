@@ -1,6 +1,8 @@
 #include "AnmManager.hpp"
+#include "Supervisor.hpp"
 
 #include <d3d8.h>
+#include <stddef.h>
 
 struct FrontLineVertex
 {
@@ -13,15 +15,10 @@ struct FrontLineVertex
 typedef char FrontLineVertexSizeIs14[
     (sizeof(FrontLineVertex) == 0x14) ? 1 : -1];
 
-struct FrontLineSupervisorView
-{
-    unsigned char unknown00[0x08];
-    IDirect3DDevice8 *d3dDevice08;
-};
-
-extern FrontLineSupervisorView g_Supervisor;
-
-#define FRONT_LINE_DEVICE (g_Supervisor.d3dDevice08)
+// Original +0x08 D3D8 device belongs to the full native Supervisor,
+// already used by the neighboring Front-message draw callback.
+typedef char FrontLineNativeSupervisorDeviceAt08[
+    (offsetof(Supervisor, d3dDevice08) == 0x08) ? 1 : -1];
 
 int __fastcall FrontDrawLineStrip(
     FrontLineVertex *vertices,
@@ -29,19 +26,19 @@ int __fastcall FrontDrawLineStrip(
 {
     g_AnmManager->FlushVertexBuffer();
 
-    FRONT_LINE_DEVICE->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-    FRONT_LINE_DEVICE->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-    FRONT_LINE_DEVICE->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-    FRONT_LINE_DEVICE->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-    FRONT_LINE_DEVICE->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    FRONT_LINE_DEVICE->SetRenderState(
+    g_Supervisor.d3dDevice08->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    g_Supervisor.d3dDevice08->SetRenderState(
         D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-    FRONT_LINE_DEVICE->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
-    FRONT_LINE_DEVICE->DrawPrimitiveUP(
+    g_Supervisor.d3dDevice08->SetVertexShader(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+    g_Supervisor.d3dDevice08->DrawPrimitiveUP(
         D3DPT_LINESTRIP,
         primitiveCount,
         vertices,
@@ -54,12 +51,12 @@ int __fastcall FrontDrawLineStrip(
     g_AnmManager->ClearBlendMode();
     g_AnmManager->ClearZWrite();
 
-    FRONT_LINE_DEVICE->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-    FRONT_LINE_DEVICE->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-    FRONT_LINE_DEVICE->SetTextureStageState(
+    g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    return FRONT_LINE_DEVICE->SetTextureStageState(
+    return g_Supervisor.d3dDevice08->SetTextureStageState(
         0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 }

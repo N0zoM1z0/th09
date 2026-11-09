@@ -18,16 +18,10 @@ struct FrontMessageDrawVertex
 typedef char FrontMessageDrawVertexSizeIs14[
     (sizeof(FrontMessageDrawVertex) == 0x14) ? 1 : -1];
 
-struct FrontMessageDrawSupervisorView
-{
-    unsigned char unknown00[0x08];
-    IDirect3DDevice8 *d3dDevice08;
-};
-
-static __inline FrontMessageDrawSupervisorView *FrontMessageDrawSupervisor()
-{
-    return reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor);
-}
+// The actual Supervisor has its D3D8 device pointer at native +0x08.
+// Use that full original-PE-proven object rather than a second prefix view.
+typedef char FrontMessageSupervisorNativeD3D8Device[
+    (offsetof(Supervisor, d3dDevice08) == 0x08) ? 1 : -1];
 
 int FrontMessageRuntimeView::Draw()
 {
@@ -94,20 +88,20 @@ int FrontMessageRuntimeView::Draw()
 
     if (textBoxVisible1D6D != 0)
     {
-        reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor)->d3dDevice08->SetTextureStageState(
+        g_Supervisor.d3dDevice08->SetTextureStageState(
             0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-        reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor)->d3dDevice08->SetTextureStageState(
+        g_Supervisor.d3dDevice08->SetTextureStageState(
             0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-        reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor)->d3dDevice08->SetTextureStageState(
+        g_Supervisor.d3dDevice08->SetTextureStageState(
             0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-        reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor)->d3dDevice08->SetTextureStageState(
+        g_Supervisor.d3dDevice08->SetTextureStageState(
             0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 
         g_Supervisor.SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-        reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor)->d3dDevice08->SetVertexShader(
+        g_Supervisor.d3dDevice08->SetVertexShader(
             D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
-        reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor)->d3dDevice08->DrawPrimitiveUP(
+        g_Supervisor.d3dDevice08->DrawPrimitiveUP(
             D3DPT_TRIANGLESTRIP,
             2,
             vertices,
@@ -118,13 +112,13 @@ int FrontMessageRuntimeView::Draw()
         g_AnmManager->ClearBlendMode();
         g_AnmManager->ClearZWrite();
 
-        reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor)->d3dDevice08->SetTextureStageState(
+        g_Supervisor.d3dDevice08->SetTextureStageState(
             0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-        reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor)->d3dDevice08->SetTextureStageState(
+        g_Supervisor.d3dDevice08->SetTextureStageState(
             0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-        reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor)->d3dDevice08->SetTextureStageState(
+        g_Supervisor.d3dDevice08->SetTextureStageState(
             0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-        reinterpret_cast<FrontMessageDrawSupervisorView *>(&g_Supervisor)->d3dDevice08->SetTextureStageState(
+        g_Supervisor.d3dDevice08->SetTextureStageState(
             0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
         }
     }
