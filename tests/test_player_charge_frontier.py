@@ -23,9 +23,9 @@ charge = load('charge_inspector', 'inspect-player-charge-update.py')
 
 class ChargeFrontierTests(unittest.TestCase):
     def evidence(self):
-        offsets = [i for i in range(1197) if i not in frontier.PLAYER_CHARGE_MATCHED]
+        offsets = [i for i in range(1195) if i not in frontier.PLAYER_CHARGE_MATCHED]
         return dict(diagnostic_only=True, exactness_credit='none', target_bytes=1210,
-                    candidate_bytes=1197, target_sha256=frontier.PLAYER_CHARGE_TARGET_SHA,
+                    candidate_bytes=1195, target_sha256=frontier.PLAYER_CHARGE_TARGET_SHA,
                     target_instructions=350, candidate_instructions=342,
                     original_fields=70, bound_fields=70, ordered_calls=58,
                     ordered_calls_agree=True, target_blocks=53, candidate_blocks=53,
@@ -33,12 +33,12 @@ class ChargeFrontierTests(unittest.TestCase):
                     same_carrier_timer_bytes_exact=20,
                     original_stack_byte_minus_one=frontier.PLAYER_CHARGE_ORIGINAL_MODE_BYTE,
                     candidate_stack_byte_minus_one=[],
-                    overlap_differences=len(offsets), difference_offsets=offsets, missing_target_bytes=13,
+                    overlap_differences=len(offsets), difference_offsets=offsets, missing_target_bytes=15,
                     extra_candidate_bytes=0, complete_bytes_equal=False)
 
     def test_entire_current_frontier_and_actual_reductions_remain_noncrediting(self):
         report = self.evidence()
-        self.assertEqual(len(frontier.PLAYER_CHARGE_MATCHED), 37)
+        self.assertEqual(len(frontier.PLAYER_CHARGE_MATCHED), 42)
         self.assertIs(frontier.guard_player_charge(report), report)
         report['difference_offsets'].pop()
         report['overlap_differences'] -= 1
@@ -47,7 +47,7 @@ class ChargeFrontierTests(unittest.TestCase):
 
     def test_wrong_target_incomplete_census_or_forged_exactness_fails(self):
         for change in ({'target_sha256': '0' * 64}, {'target_bytes': 1197},
-                       {'candidate_bytes': 1196}, {'candidate_bytes': 1211},
+                       {'candidate_bytes': 1194}, {'candidate_bytes': 1211},
                        {'bound_fields': 69}, {'original_fields': 69},
                        {'ordered_calls': 57}, {'ordered_calls_agree': False},
                        {'literal_definitions_checked': 4},

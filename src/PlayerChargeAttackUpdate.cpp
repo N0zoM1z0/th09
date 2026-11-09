@@ -31,14 +31,17 @@ int PlayerLifecycleView::UpdateChargeAttack()
     int side;
     u8 sideMode;
     int previousLevel;
+    ReplayInputState *input;
 
     side = sideIndex;
-    if ((g_ReplayInputStates[side].WasPressed(1) &&
+    // All six input queries in this branch use the same native side record.
+    input = &g_ReplayInputStates[side];
+    if ((input->WasPressed(1) &&
          !(g_GameConfiguration->sideFocusMode[side] == 1 &&
-           g_ReplayInputStates[side].IsHeld(4))) ||
+           input->IsHeld(4))) ||
         ((sideMode = g_GameConfiguration->sideFocusMode[side]) == 1 &&
-         g_ReplayInputStates[side].IsHeld(1) &&
-         !g_ReplayInputStates[side].IsHeld(4)))
+         input->IsHeld(1) &&
+         !input->IsHeld(4)))
     {
         if (timer303B0 == 0)
         {
@@ -66,8 +69,8 @@ int PlayerLifecycleView::UpdateChargeAttack()
             goto afterCharge;
         }
     }
-    else if ((sideMode == 1 && g_ReplayInputStates[side].IsHeld(4)) ||
-             (sideMode == 0 && g_ReplayInputStates[side].IsHeld(1)))
+    else if ((sideMode == 1 && input->IsHeld(4)) ||
+             (sideMode == 0 && input->IsHeld(1)))
     {
         timer303BC++;
         if (timer303BC >= 10 && (flags1B80 & 4u) == 0)

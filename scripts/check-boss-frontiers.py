@@ -1398,12 +1398,13 @@ PLAYER_CHARGE_ORIGINAL_MODE_BYTE = [
     {'offset': '0x1c7', 'mnemonic': 'cmp', 'operands': 'byte ptr [ebp - 1], 1'},
     {'offset': '0x1db', 'mnemonic': 'mov', 'operands': 'al, byte ptr [ebp - 1]'},
 ]
-# Every position that already equals the original in the 1197-byte candidate.
-# The other 1160 overlaps and 13 absent bytes remain an open full-owner claim.
+# Every position that equals the original in the current 1195-byte input-
+# pointer candidate. The other 1153 overlaps and 15 absent bytes remain open.
 PLAYER_CHARGE_MATCHED = frozenset((
-    129, 268, 275, 282, 288, 304, 305, 310, 316, 322, 331, 354, 392,
-    393, 457, 471, 483, 484, 493, 524, 650, 704, 736, 807, 816, 874,
-    961, 967, 985, 995, 996, 997, 999, 1034, 1072, 1119, 1168,
+    45, 75, 84, 128, 253, 273, 274, 459, 535, 548, 659, 660, 663, 664,
+    665, 676, 688, 689, 690, 705, 707, 708, 709, 735, 754, 780, 817,
+    842, 854, 859, 863, 918, 942, 944, 948, 984, 997, 999, 1010, 1022,
+    1095, 1107,
 ))
 
 
@@ -1413,7 +1414,7 @@ def guard_player_charge(result: dict) -> dict:
     size, count = result.get('candidate_bytes'), result.get('overlap_differences')
     offsets = result.get('difference_offsets')
     if (result.get('target_sha256') != PLAYER_CHARGE_TARGET_SHA or
-            type(size) is not int or not 1197 <= size <= 1210 or
+            type(size) is not int or not 1195 <= size <= 1210 or
             result.get('target_instructions') != 350 or
             type(result.get('candidate_instructions')) is not int or
             not 342 <= result['candidate_instructions'] <= 350 or

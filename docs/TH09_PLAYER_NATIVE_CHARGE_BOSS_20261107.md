@@ -99,3 +99,30 @@ EBP-1 instruction accesses while leaving the candidate's stack-access list
 diagnostic-only, so a later natural reconstruction can add the original
 lifetime without weakening the existing 37 equal-byte positions. This is a
 new target-evidence guard, not exactness credit or a semantic/runtime claim.
+
+## November 9: shared native replay-input pointer improves the complete owner
+
+The six WasPressed/IsHeld queries in the initial charge branch address the
+same side-specific 0x8E-byte ReplayInputState. The source now binds that
+native record once as ReplayInputState *input and uses the same receiver
+for all six queries. This is an ordinary pointer alias to the existing
+global array element; it adds no storage to Player and changes no external
+signature, input ordering or compiler option.
+
+A fresh fixed-profile source-cold build produces a 1,195-byte candidate with
+342 instructions, all 70 original-bound fields, 58 ordered calls and 53
+direct-flow blocks. Complete linked comparison has 1,153 unlike overlapping
+bytes and 15 missing target bytes. Forty-two overlapping positions now equal
+the original, versus 37 in the preceding candidate: 40 new equal positions
+and 35 former equal positions are exchanged, for a net gain of five equal
+bytes after accounting for the two additional missing bytes. The candidate
+remains NONEXACT and its complete direct graph still differs.
+
+The original mode-byte accesses remain pinned independently at +0x55, +0x1C7
+and +0x1DB; the candidate still has no [EBP-1] access. This pointer alias
+does not claim to solve the mode-byte lifetime or restore the target's
+EBX-input/EDI-side register assignment. It is retained because the complete
+original-bound comparison improves by five total byte positions without
+changing any of the 70 field destinations or 58 ordered calls. The previous
+37-position frontier is superseded by the new 42-position set in
+scripts/check-boss-frontiers.py; no exactness or fractional credit follows.

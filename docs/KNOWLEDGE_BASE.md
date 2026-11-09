@@ -33066,3 +33066,19 @@ caller/callee units retain5543/206. See
   291 fields) replay under canonical VC7.1 profiles; 11 private labels were
   reverified by COFF section/value before updating only their symbol names.
   See [the complete source/identity check](TH09_PLAYER_SHARED_RUNTIME_NATIVE_GATE_20261106.md).
+
+## November 9: ChargeAttack input-record alias improves its full-owner frontier
+
+PlayerLifecycleView::UpdateChargeAttack at 0x0041F810 now binds the
+side-specific ReplayInputState once and reuses that pointer for its six
+ordered input queries. A fresh fixed-profile source-cold build measures
+1,195/1,210 bytes, 70 original-bound fields, 58 ordered calls, 342
+instructions, 53 blocks, 1,153 unequal overlapping bytes and 15 missing
+bytes. The preceding candidate had 1,197 bytes, 1,160 unequal overlaps and
+13 missing bytes. Forty-two current positions equal the original (five more
+than before after counting missing positions); 35 previous equal positions
+are exchanged for 40 new equal positions. The full owner remains NONEXACT,
+the original three EBP-1 mode-byte accesses remain absent from the candidate,
+and no exactness credit is claimed. The 42-position frontier is pinned by
+PLAYER_CHARGE_MATCHED; the complete inspector continues to bind all70
+fields,58 calls and the same-carrier 20-byte Timer >= sibling.
