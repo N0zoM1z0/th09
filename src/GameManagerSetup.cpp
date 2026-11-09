@@ -594,7 +594,7 @@ void GameManagerSetupLayout::CleanupGameplayState()
 
     ResetGameManager(&globalManager);
     g_AsciiManager.Reset();
-    static_cast<FrontFactoryConstructView *>(globalManager.gameSubsystem)->InitializeMessageRuntime();
+    globalManager.gameSubsystem->InitializeMessageRuntime();
     ResetExAttackRecords(static_cast<ExAttackController *>(globalManager.secondarySubsystem));
 
     for (int sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)
@@ -812,7 +812,8 @@ mode_ready:
 
     g_Supervisor.InitializeViewports();
     g_GameManager.valueB0 = 0;
-    globalManager.gameSubsystem = CreateGameSubsystem();
+    globalManager.gameSubsystem =
+        static_cast<FrontFactoryConstructView *>(CreateGameSubsystem());
     if (globalManager.gameSubsystem == NULL)
         goto setup_failed;
 

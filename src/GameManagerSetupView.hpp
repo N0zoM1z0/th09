@@ -10,6 +10,7 @@
 struct ReplayManagerView;
 struct ReplayStageDispatchView;
 struct PlayerSharedRuntimeView;
+struct FrontFactoryConstructView;
 typedef AsciiGameManagerSideView SetupSideState;
 typedef char SetupSideStateSizeCheck[(sizeof(SetupSideState) == 0x38) ? 1 : -1];
 
@@ -23,9 +24,10 @@ struct GameManagerSetupLayout
                           sizeof(((AsciiGameManagerView *)0)->sides[0]) + 1
     };
     SetupSideState sides[SideRecordCount];
-    // The gameplay update's +0xA8 IsBlocked receiver is this same actual
-    // shared-runtime allocation. Preserve the raw allocation/cleanup API.
-    union { void *gameSubsystem; PlayerSharedRuntimeView *playerSharedRuntimeA8; };
+    // The +0xA8 gameplay subsystem is the exact native Front allocation
+    // returned by CreateGameSubsystem. Its other receiver projection still
+    // shares this physical pointer cell for the update path.
+    union { FrontFactoryConstructView *gameSubsystem; PlayerSharedRuntimeView *playerSharedRuntimeA8; };
     void *secondarySubsystem;
     unsigned int valueB0;
     int limitB4;
