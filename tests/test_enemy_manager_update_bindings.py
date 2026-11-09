@@ -99,7 +99,7 @@ class EnemyUpdateBindingTests(TestCase):
             struct.pack_into('<i', target, offset,
                              0x41A6EB-(inspector.BASE+offset+4))
         report = inspector.require_game_manager_fields(rows, units, target)
-        self.assertEqual((report['fields'], report['calls']), (8, 4))
+        self.assertEqual((report['fields'], report['calls']), (9, 4))
         self.assertFalse(report['same_object_definition'])
         for index, edits in (
                 (0, dict(symbol='?g_EnemyCoreRuntimeFlags@@3IA', addend=0)),
@@ -108,8 +108,8 @@ class EnemyUpdateBindingTests(TestCase):
                 (2, dict(symbol='?g_EnemyCoreGameManager@@3UEnemyCoreGameManagerPlayfieldView@@A')),
                 (2, dict(addend=False)), (2, dict(symbol_value=False)),
                 (2, dict(symbol_section=False)), (2, dict(symbol_section=7)),
-                (8, dict(symbol='?IsWithinPlayfield@EnemyCoreGameManagerPlayfieldView@@QAEHMMMM@Z')),
-                (8, dict(type='DIR32')), (8, dict(offset=0x614))):
+                (9, dict(symbol='?IsWithinPlayfield@EnemyCoreGameManagerPlayfieldView@@QAEHMMMM@Z')),
+                (9, dict(type='DIR32')), (9, dict(offset=0x614))):
             changed = list(rows)
             changed[index] = dict(rows[index], **edits)
             with self.subTest(index=index, edits=edits), self.assertRaises(ValueError):
@@ -117,7 +117,7 @@ class EnemyUpdateBindingTests(TestCase):
         for changed in (rows[:-1], rows+rows[:1]):
             with self.assertRaises(ValueError):
                 inspector.require_game_manager_fields(changed, units, target)
-        for offset in (0x0A, 0x34, 0x28F, 0x60E, 0xE91, 0x613-1, 0x613):
+        for offset in (0x0A, 0x34, 0x70, 0x28F, 0x60E, 0xE91, 0x613-1, 0x613):
             bad = bytearray(target)
             bad[offset] ^= 1
             with self.subTest(offset=offset), self.assertRaises(ValueError):
