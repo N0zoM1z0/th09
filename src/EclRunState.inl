@@ -546,14 +546,13 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
 
     case TH09_ECL_OPCODE_SET_TIMEOUT_SPELL:
     {
-        // The timeout bit is the native Enemy's primary word at +0x337C;
-        // a second EnemyStateView reference would describe identical storage.
-        // Read the existing wire byte once. The target's masked XOR leaves
-        // all other flag bits intact, rather than clearing and OR-ing them.
-        unsigned char value;
-        memcpy(&value, &Th09EclRunState::RawByte(instruction, 0), sizeof(value));
+        // This opcode consumes byte zero of its native four-byte wire argument.
+        // Preserve the argument as a typed union snapshot; the masked XOR
+        // updates only timeout-spell bit 24 in the Enemy's shared flags word.
+        Th09EclWireArgument value = instruction->arguments[0];
         enemy->primaryFlags337C =
-            Th09EclRunState::AssignTimeoutSpellBit(enemy->primaryFlags337C, value);
+            Th09EclRunState::AssignTimeoutSpellBit(
+                enemy->primaryFlags337C, value.bytes[0]);
         break;
     }
 
