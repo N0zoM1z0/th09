@@ -29,7 +29,13 @@ class PlayerDamageNativeOwner(unittest.TestCase):
         self.assertIn('&shot->vm, shot->animationIndex46C + 6',body)
         self.assertIn('PlayerPositionView *effectPosition = &shots[0].position2A4;',body)
         self.assertNotIn('shot->hitboxSize430',body)
-        self.assertIn('reinterpret_cast<PlayerDamageRegionView **>(activeB100)',body)
+        self.assertIn('PlayerCollisionRegionCreateRegionView **slot = activeB100;',body)
+        self.assertIn('(*slot)->BottomY()',body)
+        self.assertIn('(*slot)->hitCount2C',body)
+        self.assertIn('(*slot)->interval34',body)
+        self.assertNotIn('PlayerDamageRegionView **slot',body)
+        self.assertIn('float BottomY() const { return centerY04 + halfHeight14; }',
+                      (ROOT/'src/PlayerCollisionRegionCreate.hpp').read_text())
         self.assertEqual(self.enemy.count('playerLifecycle04->CalcDamageToEnemy('),2)
         self.assertNotIn('PlayerDamagePlayerView *>(\n',self.enemy)
 

@@ -30,6 +30,8 @@ struct PlayerCollisionRegionCreateRegionView
     int delay40;
 
     int Reset();
+    // This exact geometry is consumed by the native Player damage owner.
+    float BottomY() const { return centerY04 + halfHeight14; }
 };
 
 typedef char PlayerCreateRegionSizeIs44[

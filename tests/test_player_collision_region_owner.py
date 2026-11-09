@@ -27,6 +27,11 @@ def struct_layout(source, name, known):
     match = re.search(r'\bstruct\s+' + name + r'\s*\{(.*?)^\};', source, re.S | re.M)
     require(match is not None, 'missing shared structure ' + name)
     body = re.sub(r'//[^\n]*|/\*.*?\*/', '', match.group(1), flags=re.S)
+    # Ordinary inline member helpers have no instance storage. Remove only
+    # complete, non-nested member bodies before splitting field declarations;
+    # malformed declarations or unknown field types still fail below.
+    body = re.sub(r'\b(?:float|int)\s+\w+\s*\([^{};]*\)\s*(?:const\s*)?\{[^{}]*\}',
+                  '', body)
     fields = {}
     size = 0
     alignment = 1

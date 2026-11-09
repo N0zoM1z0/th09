@@ -104,7 +104,7 @@ int PlayerLifecycleView::CalcDamageToEnemy(
     *primaryAccumulator = damage;
 
     // Keep the slot authoritative across rotation and region-state writes.
-    PlayerDamageRegionView **slot = reinterpret_cast<PlayerDamageRegionView **>(activeB100);
+    PlayerCollisionRegionCreateRegionView **slot = activeB100;
     while (*slot != NULL)
     {
 
@@ -114,7 +114,7 @@ int PlayerLifecycleView::CalcDamageToEnemy(
             goto nextRegion;
         if ((*slot)->delay40 > 0)
             goto nextRegion;
-        if ((*slot)->lifetime24 % (*slot)->collisionInterval34 != 0)
+        if ((*slot)->lifetime24 % (*slot)->interval34 != 0)
             goto nextRegion;
 
         if ((*slot)->radius08 == 0.0f)
@@ -160,13 +160,13 @@ int PlayerLifecycleView::CalcDamageToEnemy(
         }
 
         damage += (*slot)->value28;
-        (*slot)->hitAccumulator2C += (*slot)->value28;
+        (*slot)->hitCount2C += (*slot)->value28;
         if ((*slot)->hitCap30 > 0 &&
-            (*slot)->hitCap30 <= (*slot)->hitAccumulator2C)
+            (*slot)->hitCap30 <= (*slot)->hitCount2C)
         {
             (*slot)->value28 = 0;
             damage +=
-                (*slot)->hitCap30 - (*slot)->hitAccumulator2C;
+                (*slot)->hitCap30 - (*slot)->hitCount2C;
         }
 
         if ((*slot)->type38 == 4)
