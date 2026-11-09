@@ -50,6 +50,7 @@ struct FrontFactoryConstructView
 
     FrontFactoryConstructView();
     void InitializeMessageRuntime();
+    void InitializeResultBonus();
 };
 
 typedef char FrontPanelVertexNativeSize[
@@ -71,6 +72,8 @@ typedef char FrontFactoryConstructNativeLayout[
      offsetof(FrontFactoryConstructView, transitionFrame10960) == 0x10960 &&
      offsetof(FrontFactoryConstructView, transitionSide10964) == 0x10964 &&
      offsetof(FrontFactoryConstructView, resultVms10968) == 0x10968 &&
+     offsetof(FrontFactoryConstructView, resultVms10968) +
+         3 * sizeof(AnmVm) == 0x11154 &&
      offsetof(FrontFactoryConstructView, resultValues11E88) == 0x11E88 &&
      offsetof(FrontFactoryConstructView, transitionStarted11EA4) == 0x11EA4 &&
      offsetof(FrontFactoryConstructView, transitionState11EA8) == 0x11EA8 &&

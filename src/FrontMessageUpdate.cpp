@@ -9,6 +9,7 @@
 #include "ReplayNativeInputGateCapacity.hpp"
 #include "Supervisor.hpp"
 #include "FrontMessageRuntimeView.hpp"
+#include "FrontFactoryConstructView.hpp"
 
 #include <stddef.h>
 
@@ -94,14 +95,8 @@ struct FrontMessageNeutralSourceView
 
 
 
-struct FrontMessageResultOwnerView
-{
-    void InitializeResultBonus();
-};
-
 extern AsciiGameManagerView g_GameManager;
 extern FrontMessageNeutralSourceView *g_FrontMessageSource;
-extern FrontMessageResultOwnerView *g_FrontMessageOwner;
 extern Supervisor g_Supervisor;
 extern AnmLoaded *g_FrontMessageAnm;
 extern AnmManager *g_AnmManager;
@@ -506,7 +501,7 @@ int FrontMessageRuntimeView::Update()
         }
 
         case 9:
-            g_FrontMessageOwner->InitializeResultBonus();
+            g_GameManager.frontFactoryA8->InitializeResultBonus();
             // fall through
         case 0x0C:
         {

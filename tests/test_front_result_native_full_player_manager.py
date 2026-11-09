@@ -28,12 +28,16 @@ class FrontResultNativePlayerManager(unittest.TestCase):
         self.assertIn('#include "PlayerLifecycleView.hpp"',source)
         self.assertIn('#include "GameManagerRuntimeView.hpp"',source)
         self.assertIn('FrontResultRealNativePlayerScores',source)
+        self.assertIn('void FrontFactoryConstructView::InitializeResultBonus()',source)
+        self.assertIn('#include "FrontFactoryConstructView.hpp"',source)
+        self.assertNotIn('struct FrontResultBonusView',source)
+        self.assertIn('FrontFactoryConstructView *frontFactoryA8',manager)
         self.assertIn('PlayerLifecycleView *player =',source)
         self.assertIn('PlayerOwnerStateView ownerState30410;',player)
         self.assertIn('int maxState08;',player)
         self.assertIn('AsciiGameManagerSideView sides[2];',manager)
         self.assertIn('int field0FC;',manager)
-        self.assertIn('g_GameManager.sides[this->side10964].AddScore(this->bonus11E88[6]);',source)
+        self.assertIn('g_GameManager.sides[this->transitionSide10964].AddScore(this->resultValues11E88[6]);',source)
         self.assertIn('g_GameManager.sides[0].state->phase10 = 9999;',source)
         self.assertIn('g_GameManager.sides[1].shotType20',source)
 
@@ -57,7 +61,7 @@ class FrontResultNativePlayerManager(unittest.TestCase):
         u=self.units['front-result-initialize-bonus']
         self.assertEqual((u['target_address'],u['size'],len(u['relocations'])),
                          (0x00415E50,553,27))
-        self.assertEqual(u['symbol'],'?InitializeResultBonus@FrontResultBonusView@@QAEXXZ')
+        self.assertEqual(u['symbol'],'?InitializeResultBonus@FrontFactoryConstructView@@QAEXXZ')
         calls=[r for r in u['relocations']
                if r['symbol']=='?AddScore@AsciiGameManagerSideView@@QAEXH@Z']
         self.assertEqual([(r['offset'],r['target'],r['type']) for r in calls],

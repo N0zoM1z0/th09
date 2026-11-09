@@ -17,6 +17,7 @@ struct ReplayManagerView;
 struct GameConfiguration;
 struct ReplayStageDispatchView;
 struct OpponentSelectionEntry;
+struct FrontFactoryConstructView;
 
 struct AsciiPlayerPopupPositionView
 {
@@ -60,7 +61,11 @@ typedef char AsciiGameSideNativeScoreSizeIsA0[
 struct AsciiGameManagerView
 {
     AsciiGameManagerSideView sides[2];
-    unsigned char unknown070[0x40];
+    unsigned char unknown070[0x38];
+    // Original +0xA8 pointer is the same 0x1293C-byte Front allocation
+    // constructed by CreateGameSubsystem and used by gameplay cleanup.
+    union { void *gameSubsystemA8; FrontFactoryConstructView *frontFactoryA8; };
+    unsigned char unknown0AC[0x04];
     unsigned int valueB0;
     union { int valueB4; int limitB4; };
     int valueB8;
@@ -268,3 +273,7 @@ typedef char NativeGameManagerOpponentSelectionOffsets[
      offsetof(AsciiGameManagerView, selector138) == 0x138 &&
      offsetof(AsciiGameManagerSideView, selectedParameter2C) == 0x2C &&
      sizeof(AsciiGameManagerSideView) == 0x38) ? 1 : -1];
+
+typedef char NativeGameManagerFrontOwnerAtA8[
+    (offsetof(AsciiGameManagerView, frontFactoryA8) == 0xA8 &&
+     offsetof(AsciiGameManagerView, gameSubsystemA8) == 0xA8) ? 1 : -1];

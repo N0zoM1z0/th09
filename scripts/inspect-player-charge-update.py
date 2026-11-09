@@ -233,7 +233,7 @@ def require_configuration_alias():
     found = [row for row in native['relocations']
              if row.get('offset') == 0x1D4]
     if (native['target_address'] != 0x00415E50 or
-            native['symbol'] != '?InitializeResultBonus@FrontResultBonusView@@QAEXXZ' or
+            native['symbol'] != '?InitializeResultBonus@FrontFactoryConstructView@@QAEXXZ' or
             len(found) != 1 or found[0].get('type') != 'DIR32' or
             found[0].get('symbol') != '?g_GameConfiguration@@3PAUGameConfiguration@@A' or
             found[0].get('target') != 0x004A7E78 or

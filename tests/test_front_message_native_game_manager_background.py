@@ -54,14 +54,24 @@ class FrontMessageNativeGameManagerBackground(unittest.TestCase):
         self.assertIn('case 0x1C:',src)
         self.assertIn('current04->argument04;',src)
 
-    def test_original_global_37_bound_fields_and_real_game_mode_targets(self):
+    def test_original_global_38_bound_fields_and_real_game_mode_targets(self):
         u=self.units['front-message-update']
         self.assertEqual((u['target_address'],u['size'],u['compare_size'],len(u['relocations'])),
                          (0x00416590,2852,2968,167))
         gm=[r for r in u['relocations'] if r['symbol']==GLOBAL]
-        self.assertEqual(len(gm),37)
+        self.assertEqual(len(gm),38)
         self.assertTrue(all(r['type']=='DIR32' and r['target']==0x004A7D90 for r in gm))
-        self.assertTrue(all(r.get('addend',0) in (0,4,0x18,0x38,0x3C,0x50) for r in gm))
+        self.assertTrue(all(r.get('addend',0) in (0,4,0x18,0x38,0x3C,0x50,0xA8) for r in gm))
+        front_owner=[r for r in gm if r['offset']==0x88F]
+        self.assertEqual([(r['target']+r.get('addend',0),r['addend']) for r in front_owner],
+                         [(0x004A7E38,0xA8)])
+        self.assertIn('g_GameManager.frontFactoryA8->InitializeResultBonus();',
+                      (ROOT/'src/FrontMessageUpdate.cpp').read_text())
+        self.assertIn('offsetof(AsciiGameManagerView, frontFactoryA8) == 0xA8',
+                      (ROOT/'src/GameManagerRuntimeView.hpp').read_text())
+        direct=[r for r in u['relocations'] if r['offset']==0x894]
+        self.assertEqual([(r['symbol'],r['target']) for r in direct],
+                         [('?InitializeResultBonus@FrontFactoryConstructView@@QAEXXZ',0x00415E50)])
         for name,target in MODE.items():
             with self.subTest(name=name):
                 expected='?%s@AsciiGameManagerView@@QAEHXZ'%name
