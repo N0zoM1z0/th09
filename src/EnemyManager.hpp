@@ -237,8 +237,9 @@ struct EnemyView
         float floatVariables2DB0[3];
         EnemyFloat3 displacement2DB0;
     };
-    EnemyFloat2 hitboxDimensions2DBC;
-    unsigned char unknown2DC4[0x2DC8 - 0x2DC4];
+    // Player damage and trail collision both consume the primary hitbox as
+    // a full XYZ vector; its third component occupies the former +0x2DC4 gap.
+    EnemyFloat3 hitboxDimensions2DBC;
     EnemyFloat2 secondaryHitboxDimensions2DC8;
     unsigned char unknown2DD0[0x2DD4 - 0x2DD0];
     EnemyFloat3 worldPosition2DD4;
@@ -437,6 +438,7 @@ typedef char EnemyViewMovementTimerIsNativeZunTimer[
 typedef char EnemyViewMovementGeometryAt2DBC[
     (offsetof(EnemyView, velocity2D8C) == 0x2D8C &&
      offsetof(EnemyView, hitboxDimensions2DBC) == 0x2DBC &&
+     sizeof(((EnemyView *)0)->hitboxDimensions2DBC) == 0x0C &&
      offsetof(EnemyView, secondaryHitboxDimensions2DC8) == 0x2DC8 &&
      offsetof(EnemyView, radialVelocity2E00) == 0x2E00 &&
      offsetof(EnemyView, shootOffset2E04) == 0x2E04 &&
