@@ -54,6 +54,22 @@ class Opcode155TargetSemantics(unittest.TestCase):
         self.assertEqual(AUDIT.validate_transition(AUDIT.prefix(ORIGINAL),
                                                    AUDIT.prefix(CANDIDATE)), 3072)
 
+    def test_prefix_diagnostic_rows_keep_exact_machine_bytes(self):
+        rows = AUDIT.instruction_rows([
+            SimpleNamespace(bytes=bytes.fromhex('0fb64b0c'),
+                            mnemonic='movzx',
+                            op_str='ecx, byte ptr [ebx + 0xc]'),
+            SimpleNamespace(bytes=bytes.fromhex('8bb77c330000'),
+                            mnemonic='mov',
+                            op_str='esi, dword ptr [edi + 0x337c]'),
+        ])
+        self.assertEqual(rows, [
+            {'bytes': '0fb64b0c', 'mnemonic': 'movzx',
+             'operands': 'ecx, byte ptr [ebx + 0xc]'},
+            {'bytes': '8bb77c330000', 'mnemonic': 'mov',
+             'operands': 'esi, dword ptr [edi + 0x337c]'},
+        ])
+
     def test_wire_odd_even_sets_only_timeout_flag_bit_24(self):
         opcode = AUDIT.prefix(ORIGINAL)
         previous = 0xFEDCBA98

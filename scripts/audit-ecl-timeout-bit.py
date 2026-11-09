@@ -129,6 +129,16 @@ def emulate(instructions: list[tuple], previous: int, wire_byte: int) -> int:
     return flags
 
 
+def instruction_rows(instructions: list) -> list[dict]:
+    """Expose the exact bytes/operands behind the non-crediting prefix audit."""
+    return [
+        {'bytes': instruction.bytes.hex(),
+         'mnemonic': instruction.mnemonic,
+         'operands': instruction.op_str}
+        for instruction in instructions
+    ]
+
+
 def validate_transition(original: list[tuple], candidate: list[tuple]) -> int:
     """Exhaust the original wire byte and representative full 32-bit flags."""
     flags = (0, FLAG_MASK, ~FLAG_MASK & 0xFFFFFFFF, 0xFFFFFFFF,
@@ -195,6 +205,10 @@ def audit(object_path: Path) -> dict:
             'original_instructions': len(target_ins), 'candidate_instructions': len(candidate_ins),
             'original_flag_prefix_instructions': len(target_prefix),
             'candidate_flag_prefix_instructions': len(candidate_prefix),
+            'original_flag_prefix': instruction_rows(
+                target_ins[:len(target_prefix)]),
+            'candidate_flag_prefix': instruction_rows(
+                candidate_ins[:len(candidate_prefix)]),
             'flags_tested': 12, 'wire_values_tested': 256,
             'behavior_cases': cases, 'flag_transition_equal': True,
             'full_owner_original_sha256': report['target_owner_sha256'],
