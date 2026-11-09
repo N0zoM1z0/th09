@@ -6,7 +6,7 @@
 #include "AsciiManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "RngRuntimeLeaves.hpp"
-#include "FrontMessageRandomView.hpp"
+#include "FrontMessageRuntimeView.hpp"
 
 #include <stddef.h>
 #include <string.h>
@@ -14,7 +14,7 @@
 extern AnmLoaded *g_FrontMessageAnm;
 extern RngRuntimeView g_Rng;
 
-void FrontMessageRandomView::SetupRandomForSide(int side)
+void FrontMessageRuntimeView::SetupRandomForSide(int side)
 {
     int i;
     int roll;
@@ -29,7 +29,7 @@ void FrontMessageRandomView::SetupRandomForSide(int side)
     {
         msgFile = msgFile2;
     }
-    this->side10 = side;
+    this->mode10 = side;
     roll = g_Rng.GetRandomU16InRange(0x100);
     for (i = first; i < first + 10; i++)
     {
@@ -62,8 +62,8 @@ void FrontMessageRandomView::SetupRandomForSide(int side)
         }
     }
     this->current04 = msgFile->entries04[i].instructions00;
-    this->textVmA1534.scriptIndex = -1;
-    this->textVmB17D8.scriptIndex = -1;
+    this->textVms1534[0].scriptIndex = -1;
+    this->textVms1534[1].scriptIndex = -1;
     this->glyphSize1D54 = 24;
     this->textColors1D20[0] = 0xe8f0ff;
     this->textColors1D20[1] = 0xf0e8ff;
@@ -73,17 +73,17 @@ void FrontMessageRandomView::SetupRandomForSide(int side)
     this->shadowColors1D30[1] = 0;
     this->shadowColors1D30[2] = 0;
     this->shadowColors1D30[3] = 0;
-    this->fontFlag1D6C = 1;
+    this->skippable1D6C = 1;
     this->textSelectorCount1D50 = 6;
-    this->fontFlag1D6D = 1;
+    this->textBoxVisible1D6D = 1;
     this->colorIndex1D64 = 0;
-    this->flag1D65 = 1;
-    this->flag1D66 = 0;
-    this->flag1D67 = 0xff;
-    g_FrontMessageAnm->SetAndExecuteScriptIdx(&this->textVmA1534, 0);
-    g_FrontMessageAnm->SetAndExecuteScriptIdx(&this->textVmB17D8, 1);
-    this->textVmA1534.fontWidth = this->textVmA1534.fontHeight = this->glyphSize1D54;
-    this->textVmB17D8.fontWidth = this->textVmB17D8.fontHeight = this->glyphSize1D54;
-    g_AnmManager->DrawTextLeft(&this->textVmA1534, this->textColors1D20[this->colorIndex1D64], this->shadowColors1D30[this->colorIndex1D64], " ");
-    g_AnmManager->DrawTextLeft(&this->textVmB17D8, this->textColors1D20[this->colorIndex1D64], this->shadowColors1D30[this->colorIndex1D64], " ");
+    this->resetText1D65 = 1;
+    this->textLineIndex1D66 = 0;
+    this->currentPortrait1D67 = 0xff;
+    g_FrontMessageAnm->SetAndExecuteScriptIdx(&this->textVms1534[0], 0);
+    g_FrontMessageAnm->SetAndExecuteScriptIdx(&this->textVms1534[1], 1);
+    this->textVms1534[0].fontWidth = this->textVms1534[0].fontHeight = this->glyphSize1D54;
+    this->textVms1534[1].fontWidth = this->textVms1534[1].fontHeight = this->glyphSize1D54;
+    g_AnmManager->DrawTextLeft(&this->textVms1534[0], this->textColors1D20[this->colorIndex1D64], this->shadowColors1D30[this->colorIndex1D64], " ");
+    g_AnmManager->DrawTextLeft(&this->textVms1534[1], this->textColors1D20[this->colorIndex1D64], this->shadowColors1D30[this->colorIndex1D64], " ");
 }

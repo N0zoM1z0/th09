@@ -19,7 +19,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 0x004162D0
 SIZE = 693
-SYMBOL = '?SetupRandomForSide@FrontMessageRandomView@@QAEXH@Z'
+SYMBOL = '?SetupRandomForSide@FrontMessageRuntimeView@@QAEXH@Z'
 TARGET_SHA256 = '915acb9e918496d6397b6fe577ae5250628892741d94a8961c3555b7ab94ddda'
 
 # Independently decoded ORIGINAL physical operands, in original byte order.
