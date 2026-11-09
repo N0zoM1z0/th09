@@ -29,14 +29,14 @@ int PlayerLifecycleView::CalcDamageToEnemy(
     PlayerDamageFloat3 shotBottomRight;
     float savedRotation;
     int damage = 0;
-    PlayerDamageShotView *shot;
+    PlayerShotCtorView *shot;
 
     if (!timer303C8.HasTicked())
         return 0;
 
     PlayerBuildAabb(&enemyTopLeft, &enemyBottomRight, position, hitbox);
 
-    shot = reinterpret_cast<PlayerDamageShotView *>(shots);
+    shot = shots;
     if (bombHit != NULL)
         *bombHit = 0;
     for (int i = 0; i < 128; ++i, ++shot)
@@ -48,7 +48,8 @@ int PlayerLifecycleView::CalcDamageToEnemy(
 
         PlayerBuildAabb(
             &shotTopLeft, &shotBottomRight,
-            &shot->position2A4, &shot->hitboxSize430);
+            reinterpret_cast<const PlayerDamageFloat3 *>(&shot->position2A4),
+            reinterpret_cast<const PlayerDamageFloat3 *>(&shot->hitbox430));
 
         if (shotTopLeft.y > enemyBottomRight.y ||
             shotTopLeft.x > enemyBottomRight.x ||
@@ -60,8 +61,9 @@ int PlayerLifecycleView::CalcDamageToEnemy(
             continue;
 
         if (shot->collisionCallback47C != NULL &&
-            shot->collisionCallback47C(
-                reinterpret_cast<PlayerDamagePlayerView *>(this), shot, position))
+            reinterpret_cast<PlayerDamageShotCollisionCallback>(shot->collisionCallback47C)(
+                reinterpret_cast<PlayerDamagePlayerView *>(this),
+                reinterpret_cast<PlayerDamageShotView *>(shot), position))
             continue;
 
         damage += shot->damage460;
@@ -71,10 +73,10 @@ int PlayerLifecycleView::CalcDamageToEnemy(
             if (shot->state462 == 1)
             {
                 savedRotation =
-                    shot->rotationZ08;
+                    shot->vm.rotation.z;
                 header24.anmFile98->SetAndExecuteScriptIdx(
-                    reinterpret_cast<AnmVm *>(shot), shot->animationIndex46C + 6);
-                shot->rotationZ08 =
+                    &shot->vm, shot->animationIndex46C + 6);
+                shot->vm.rotation.z =
                     savedRotation;
                 reinterpret_cast<PlayerDamageFloat3 *>(
                     shot->position2A4.operator float *())->z = 0.1f;
@@ -86,8 +88,7 @@ int PlayerLifecycleView::CalcDamageToEnemy(
 
             if (shot->shotType464 == 4)
             {
-                PlayerDamageFloat3 *effectPosition =
-                    &reinterpret_cast<PlayerDamageShotView *>(shots)[0].position2A4;
+                PlayerPositionView *effectPosition = &shots[0].position2A4;
                 sideState->effectManager0C->SpawnEffectInFixedSlot(
                     34, reinterpret_cast<const EffectFloat3 *>(effectPosition), 6,
                     static_cast<unsigned int>(-1));

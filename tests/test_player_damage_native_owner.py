@@ -23,7 +23,12 @@ class PlayerDamageNativeOwner(unittest.TestCase):
         self.assertIn('timer303C8.HasTicked()',body)
         self.assertIn('header24.anmFile98->SetAndExecuteScriptIdx(',body)
         self.assertIn('sideState->effectManager0C->SpawnEffectInFixedSlot(',body)
-        self.assertIn('PlayerDamageShotView *shot',body)
+        self.assertIn('PlayerShotCtorView *shot;',body)
+        self.assertIn('shot = shots;',body)
+        self.assertIn('shot->vm.rotation.z',body)
+        self.assertIn('&shot->vm, shot->animationIndex46C + 6',body)
+        self.assertIn('PlayerPositionView *effectPosition = &shots[0].position2A4;',body)
+        self.assertNotIn('shot->hitboxSize430',body)
         self.assertIn('reinterpret_cast<PlayerDamageRegionView **>(activeB100)',body)
         self.assertEqual(self.enemy.count('playerLifecycle04->CalcDamageToEnemy('),2)
         self.assertNotIn('PlayerDamagePlayerView *>(\n',self.enemy)
@@ -37,6 +42,11 @@ class PlayerDamageNativeOwner(unittest.TestCase):
         for off,target,stem in ((0x17,0x0040F810,'?HasTicked@ZunTimer'),
                                 (0x15A,0x00403E00,'?SetAndExecuteScriptIdx@AnmLoaded'),
                                 (0x1BF,0x0040CD70,'?SpawnEffectInFixedSlot@EffectManager')):
+            with self.subTest(offset=off):
+                self.assertEqual((rows[off]['type'],rows[off]['target']),('REL32',target))
+                self.assertTrue(rows[off]['symbol'].startswith(stem))
+        for off,target,stem in ((0xEB,0x0040F830,'??LZunTimer'),
+                                (0x16B,0x004343D0,'??BPlayerPositionView')):
             with self.subTest(offset=off):
                 self.assertEqual((rows[off]['type'],rows[off]['target']),('REL32',target))
                 self.assertTrue(rows[off]['symbol'].startswith(stem))
