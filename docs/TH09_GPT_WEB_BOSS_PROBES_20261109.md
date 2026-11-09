@@ -472,3 +472,19 @@ whole-project cold replay:
 These are current diagnostic receipts, not exactness credit. All production
 sources remain restored to the committed baseline, all target/original-field
 guards remain enabled, and the repository is clean after the focused builds.
+
+## Seventh focused sweep — setup case-order controls
+
+The fixed-22 label plus the two natural `if (gameMode == 2) goto label`
+branches was held constant while the five outer setup-mode cases were
+permuted. Orders beginning with cases 4/3/2 in different permutations all
+reproduced the **1,682-byte / 413-instruction / 172-field / 694-difference /
+seven-missing-byte** baseline. Moving the 4/3/2 group behind cases 0/1
+produced **1,691 bytes / 413 instructions / 172 fields / 691 differences /
+two excess bytes**. Case order by itself therefore does not place the shared
+fixed-22 store at target `+0x431`; this family of permutations is exhausted
+for the maintained switch shape and should not be repeated unchanged.
+
+No production source edit was retained. The two current checkpoint commits
+preserve the compiler receipts and all canonical owner checks; the worktree
+remains clean and no full-project cold replay was run.
