@@ -256,3 +256,19 @@ Focused validation: 64 tests in test_boss_frontiers.py passed;
 check-boss-frontiers.py --owner resultdraw --skip-exact-siblings passed,
 rebuilt only the selected DrawResult carrier and reported 0 differences.
 No all-project replay was performed.
+
+## Read-only result-score bank with unchanged exact machine body
+
+The full ResultDraw owner uses the score-bank rows only as read inputs while
+the score cursor advances across five rank groups. Its local now initializes a
+const pointee directly from the existing native title bank index:
+
+    const TitleScoreRecordView (*scores)[5] = g_TitleScoreTable[nameBankIndex];
+
+This is a natural C++ const-correctness improvement; it does not establish
+the original author's exact source spelling. A fresh fixed-profile build of
+the updated TitleScreenResultDraw.cpp reproduces all 1,939 original physical
+bytes and 82 source relocations. The canonical whole-function comparator
+returns exact; the independent full-owner inspector reports zero differences,
+577 instructions and matching direct graph. Both focused native Title owner
+tests passed. Neither compile flags nor the original target changed.

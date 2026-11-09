@@ -29,8 +29,9 @@ class TitleResultDrawFullNativeOwner(unittest.TestCase):
                              ('stateTimer2','0x1B230')):
             with self.subTest(field=field):
                 self.assertIn('offsetof(TitleScreenView, '+field+')',draw)
-        self.assertIn('TitleScoreRecordView (*scores)[5];',draw)
-        self.assertIn('g_TitleScoreTable[this->nameBankIndex]',draw)
+        self.assertIn('const TitleScoreRecordView (*scores)[5] =',draw)
+        self.assertIn('g_TitleScoreTable[nameBankIndex]',draw)
+        self.assertNotIn('scores = g_TitleScoreTable',draw)
         self.assertNotIn('unknown00030[0x1B228 - 0x30]',draw)
 
     def test_exact_full_result_draw_and_open_bosses_remain_distinct(self):

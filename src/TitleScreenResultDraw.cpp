@@ -50,9 +50,8 @@ int TitleScreenView::DrawResult()
     int alpha;
     float scale;
     char str[16];
-    TitleScoreRecordView (*scores)[5];
-
-    scores = g_TitleScoreTable[this->nameBankIndex];
+    // Score entries are read while rendering; only the bank cursor advances.
+    const TitleScoreRecordView (*scores)[5] = g_TitleScoreTable[nameBankIndex];
     if (this->currentScreen == 13)
     {
         mask = 0xff;
