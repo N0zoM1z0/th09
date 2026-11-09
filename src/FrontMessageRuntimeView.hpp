@@ -23,6 +23,7 @@ struct FrontMessageRuntimeView
     unsigned char unknown1D64[0x0C];
 
     FrontMessageRuntimeView();
+    int Draw();
     void ReleaseForSideCount(int startIndex);
     int LoadForSideCount(char *primaryPath, char *secondaryPath, int startIndex);
 };

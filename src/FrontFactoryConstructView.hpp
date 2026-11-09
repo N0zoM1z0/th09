@@ -33,12 +33,18 @@ struct FrontFactoryConstructView
     AnmLoaded *frontAnm08;
     AnmVm frontVms00C[88];
     FrontPanelVertexView panelVerticesE86C[2][5];
-    unsigned char unknownE934[0x10];
+    int panelColorsE934[2];
+    int panelTimersE93C[2];
     FrontMessageRuntimeView messageRuntimeE944;
     AnmVm vm106B4;
-    unsigned char unknown10958[0x10];
+    int dynamicSprite10958;
+    int transitionVmCount1095C;
+    int transitionFrame10960;
+    int transitionSide10964;
     AnmVm resultVms10968[8];
-    unsigned char unknown11E88[0x24];
+    int resultValues11E88[7];
+    int transitionStarted11EA4;
+    int transitionState11EA8;
     AnmVm resultVms11EAC[2];
     AnmVm markerVms123F4[2];
 
@@ -56,7 +62,16 @@ typedef char FrontFactoryConstructNativeLayout[
      offsetof(FrontFactoryConstructView, frontVms00C) == 0x0C &&
      offsetof(FrontFactoryConstructView, panelVerticesE86C) == 0xE86C &&
      offsetof(FrontFactoryConstructView, messageRuntimeE944) == 0xE944 &&
+     offsetof(FrontFactoryConstructView, panelColorsE934) == 0xE934 &&
+     offsetof(FrontFactoryConstructView, panelTimersE93C) == 0xE93C &&
      offsetof(FrontFactoryConstructView, vm106B4) == 0x106B4 &&
+     offsetof(FrontFactoryConstructView, dynamicSprite10958) == 0x10958 &&
+     offsetof(FrontFactoryConstructView, transitionVmCount1095C) == 0x1095C &&
+     offsetof(FrontFactoryConstructView, transitionFrame10960) == 0x10960 &&
+     offsetof(FrontFactoryConstructView, transitionSide10964) == 0x10964 &&
      offsetof(FrontFactoryConstructView, resultVms10968) == 0x10968 &&
+     offsetof(FrontFactoryConstructView, resultValues11E88) == 0x11E88 &&
+     offsetof(FrontFactoryConstructView, transitionStarted11EA4) == 0x11EA4 &&
+     offsetof(FrontFactoryConstructView, transitionState11EA8) == 0x11EA8 &&
      offsetof(FrontFactoryConstructView, resultVms11EAC) == 0x11EAC &&
      offsetof(FrontFactoryConstructView, markerVms123F4) == 0x123F4) ? 1 : -1];

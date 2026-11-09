@@ -2,6 +2,7 @@
 #include "AsciiGameManagerView.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
+#include "FrontFactoryConstructView.hpp"
 
 #include <stddef.h>
 
@@ -14,16 +15,10 @@ struct FrontLineVertex
     unsigned long diffuse;
 };
 typedef char FrontDrawLineVertexSizeIs14[
-    (sizeof(FrontLineVertex) == 0x14) ? 1 : -1];
-
-int __fastcall FrontDrawLineStrip(
-    FrontLineVertex *vertices,
-    int primitiveCount);
-
-struct FrontMessageRuntimeView
-{
-    int Draw();
-};
+    (sizeof(FrontLineVertex) == sizeof(FrontPanelVertexView) &&
+     offsetof(FrontLineVertex, x) == offsetof(FrontPanelVertexView, pos) &&
+     offsetof(FrontLineVertex, rhw) == offsetof(FrontPanelVertexView, rhw) &&
+     offsetof(FrontLineVertex, diffuse) == offsetof(FrontPanelVertexView, diffuse)) ? 1 : -1];
 
 struct FrontDrawTextPosition
 {
@@ -32,43 +27,9 @@ struct FrontDrawTextPosition
     float z;
 };
 
-struct FrontDrawView
-{
-    unsigned char unknown00000[0x0C];
-    AnmVm baseVms00C[7];
-    unsigned char unknown01288[0xE86C - 0x1288];
-    FrontLineVertex panelVerticesE86C[2][5];
-    unsigned char panelTailE934[0x10];
-    unsigned char messageRuntimeE944[0x1D70];
-    AnmVm dynamicVm106B4;
-    int dynamicSprite10958;
-    int transitionVmCount1095C;
-    int transitionFrame10960;
-    int transitionSide10964;
-    AnmVm transitionVms10968[8];
-    int resultValues11E88[7];
-    int transitionStarted11EA4;
-    int transitionState11EA8;
-    AnmVm resultVm11EAC;
-    AnmVm resultVm12150;
-    AnmVm markerVm123F4;
-    AnmVm markerVm12698;
-};
-
-typedef char FrontDrawSizeIs1293C[
-    (sizeof(FrontDrawView) == 0x1293C) ? 1 : -1];
-typedef char FrontDrawPanelAtE86C[
-    (offsetof(FrontDrawView, panelVerticesE86C) == 0xE86C) ? 1 : -1];
-typedef char FrontDrawMessageAtE944[
-    (offsetof(FrontDrawView, messageRuntimeE944) == 0xE944) ? 1 : -1];
-typedef char FrontDrawDynamicAt106B4[
-    (offsetof(FrontDrawView, dynamicVm106B4) == 0x106B4) ? 1 : -1];
-typedef char FrontDrawTransitionAt10968[
-    (offsetof(FrontDrawView, transitionVms10968) == 0x10968) ? 1 : -1];
-typedef char FrontDrawValuesAt11E88[
-    (offsetof(FrontDrawView, resultValues11E88) == 0x11E88) ? 1 : -1];
-typedef char FrontDrawResultAt11EAC[
-    (offsetof(FrontDrawView, resultVm11EAC) == 0x11EAC) ? 1 : -1];
+int __fastcall FrontDrawLineStrip(
+    FrontLineVertex *vertices,
+    int primitiveCount);
 
 extern AsciiManager g_AsciiManager;
 extern int g_GameTimeFrames;
@@ -76,81 +37,80 @@ extern int g_GameStageValue;
 
 int __fastcall FrontDrawCallback(void *frontArg)
 {
-    FrontDrawView *front = static_cast<FrontDrawView *>(frontArg);
+    FrontFactoryConstructView *front = static_cast<FrontFactoryConstructView *>(frontArg);
 
     g_Supervisor.ConfigureScreenViewport(2);
 
-    g_AnmManager->DrawNoRotation(&front->baseVms00C[0]);
-    g_AnmManager->DrawNoRotation(&front->baseVms00C[1]);
-    g_AnmManager->DrawNoRotation(&front->baseVms00C[2]);
-    g_AnmManager->DrawNoRotation(&front->baseVms00C[3]);
-    g_AnmManager->DrawNoRotation(&front->baseVms00C[4]);
-    g_AnmManager->DrawNoRotation(&front->baseVms00C[5]);
-    g_AnmManager->DrawNoRotation(&front->baseVms00C[6]);
-    g_AnmManager->DrawNoRotation(&front->markerVm123F4);
-    g_AnmManager->DrawNoRotation(&front->markerVm12698);
+    g_AnmManager->DrawNoRotation(&front->frontVms00C[0]);
+    g_AnmManager->DrawNoRotation(&front->frontVms00C[1]);
+    g_AnmManager->DrawNoRotation(&front->frontVms00C[2]);
+    g_AnmManager->DrawNoRotation(&front->frontVms00C[3]);
+    g_AnmManager->DrawNoRotation(&front->frontVms00C[4]);
+    g_AnmManager->DrawNoRotation(&front->frontVms00C[5]);
+    g_AnmManager->DrawNoRotation(&front->frontVms00C[6]);
+    g_AnmManager->DrawNoRotation(&front->markerVms123F4[0]);
+    g_AnmManager->DrawNoRotation(&front->markerVms123F4[1]);
 
-    FrontDrawLineStrip(&front->panelVerticesE86C[0][0], 4);
-    FrontDrawLineStrip(&front->panelVerticesE86C[1][0], 4);
+    FrontDrawLineStrip(reinterpret_cast<FrontLineVertex *>(&front->panelVerticesE86C[0][0]), 4);
+    FrontDrawLineStrip(reinterpret_cast<FrontLineVertex *>(&front->panelVerticesE86C[1][0]), 4);
 
-    reinterpret_cast<FrontMessageRuntimeView *>(
-        &front->messageRuntimeE944)->Draw();
+    front->messageRuntimeE944.Draw();
 
     if (front->transitionVmCount1095C != 0)
     {
         FrontDrawTextPosition scorePosition;
         scorePosition.z = 0.0f;
 
-        g_AnmManager->DrawNoRotation(&front->transitionVms10968[0]);
+        g_AnmManager->DrawNoRotation(&front->resultVms10968[0]);
 
         g_Supervisor.ConfigureScreenViewport(0);
 
-        front->transitionVms10968[1].pos.x =
+        front->resultVms10968[1].pos.x =
             g_GameManager.TransformPopupX(
-                front->transitionVms10968[1].pos2.x);
-        front->transitionVms10968[1].pos.y =
+                front->resultVms10968[1].pos2.x);
+        front->resultVms10968[1].pos.y =
             g_GameManager.TransformPopupY(
-                front->transitionVms10968[1].pos2.y);
-        g_AnmManager->DrawNoRotation(&front->transitionVms10968[1]);
+                front->resultVms10968[1].pos2.y);
+        g_AnmManager->DrawNoRotation(&front->resultVms10968[1]);
 
         if (front->transitionVmCount1095C >= 2 &&
             front->transitionSide10964 == 0)
         {
-            front->transitionVms10968[3].pos.x =
+            front->resultVms10968[3].pos.x =
                 g_GameManager.TransformPopupX(
-                    front->transitionVms10968[3].pos2.x);
-            front->transitionVms10968[3].pos.y =
+                    front->resultVms10968[3].pos2.x);
+            front->resultVms10968[3].pos.y =
                 g_GameManager.TransformPopupY(
-                    front->transitionVms10968[3].pos2.y);
+                    front->resultVms10968[3].pos2.y);
             g_AnmManager->DrawNoRotation(
-                &front->transitionVms10968[3]);
+                &front->resultVms10968[3]);
 
-            front->transitionVms10968[4].pos.x =
+            front->resultVms10968[4].pos.x =
                 g_GameManager.TransformPopupX(
-                    front->transitionVms10968[4].pos2.x);
-            front->transitionVms10968[4].pos.y =
+                    front->resultVms10968[4].pos2.x);
+            front->resultVms10968[4].pos.y =
                 g_GameManager.TransformPopupY(
-                    front->transitionVms10968[4].pos2.y);
+                    front->resultVms10968[4].pos2.y);
             g_AnmManager->DrawNoRotation(
-                &front->transitionVms10968[4]);
+                &front->resultVms10968[4]);
 
-            front->transitionVms10968[5].pos.x =
+            front->resultVms10968[5].pos.x =
                 g_GameManager.TransformPopupX(
-                    front->transitionVms10968[5].pos2.x);
-            front->transitionVms10968[5].pos.y =
+                    front->resultVms10968[5].pos2.x);
+            front->resultVms10968[5].pos.y =
                 g_GameManager.TransformPopupY(
-                    front->transitionVms10968[5].pos2.y);
+                    front->resultVms10968[5].pos2.y);
             g_AnmManager->DrawNoRotation(
-                &front->transitionVms10968[5]);
+                &front->resultVms10968[5]);
 
-            front->transitionVms10968[6].pos.x =
+            front->resultVms10968[6].pos.x =
                 g_GameManager.TransformPopupX(
-                    front->transitionVms10968[6].pos2.x);
-            front->transitionVms10968[6].pos.y =
+                    front->resultVms10968[6].pos2.x);
+            front->resultVms10968[6].pos.y =
                 g_GameManager.TransformPopupY(
-                    front->transitionVms10968[6].pos2.y);
+                    front->resultVms10968[6].pos2.y);
             g_AnmManager->DrawNoRotation(
-                &front->transitionVms10968[6]);
+                &front->resultVms10968[6]);
 
             scorePosition.x = 224.0f;
             scorePosition.y = 226.0f;
@@ -158,34 +118,34 @@ int __fastcall FrontDrawCallback(void *frontArg)
 
         g_Supervisor.ConfigureScreenViewport(1);
 
-        front->transitionVms10968[2].pos.x =
+        front->resultVms10968[2].pos.x =
             g_GameManager.TransformPopupX(
-                front->transitionVms10968[2].pos2.x);
-        front->transitionVms10968[2].pos.y =
+                front->resultVms10968[2].pos2.x);
+        front->resultVms10968[2].pos.y =
             g_GameManager.TransformPopupY(
-                front->transitionVms10968[2].pos2.y);
-        g_AnmManager->DrawNoRotation(&front->transitionVms10968[2]);
+                front->resultVms10968[2].pos2.y);
+        g_AnmManager->DrawNoRotation(&front->resultVms10968[2]);
 
         if (front->transitionVmCount1095C >= 2 &&
             front->transitionSide10964 == 1)
         {
-            front->transitionVms10968[3].pos.x =
+            front->resultVms10968[3].pos.x =
                 g_GameManager.TransformPopupX(
-                    front->transitionVms10968[3].pos2.x);
-            front->transitionVms10968[3].pos.y =
+                    front->resultVms10968[3].pos2.x);
+            front->resultVms10968[3].pos.y =
                 g_GameManager.TransformPopupY(
-                    front->transitionVms10968[3].pos2.y);
+                    front->resultVms10968[3].pos2.y);
             g_AnmManager->DrawNoRotation(
-                &front->transitionVms10968[3]);
+                &front->resultVms10968[3]);
 
-            front->transitionVms10968[6].pos.x =
+            front->resultVms10968[6].pos.x =
                 g_GameManager.TransformPopupX(
-                    front->transitionVms10968[6].pos2.x);
-            front->transitionVms10968[6].pos.y =
+                    front->resultVms10968[6].pos2.x);
+            front->resultVms10968[6].pos.y =
                 g_GameManager.TransformPopupY(
-                    front->transitionVms10968[6].pos2.y);
+                    front->resultVms10968[6].pos2.y);
             g_AnmManager->DrawNoRotation(
-                &front->transitionVms10968[6]);
+                &front->resultVms10968[6]);
 
             scorePosition.x = 544.0f;
             scorePosition.y = 226.0f;
@@ -248,8 +208,8 @@ int __fastcall FrontDrawCallback(void *frontArg)
             (g_GameTimeFrames / 60) % 60);
     }
 
-    g_AnmManager->DrawNoRotation(&front->dynamicVm106B4);
-    g_AnmManager->DrawNoRotation(&front->resultVm11EAC);
-    g_AnmManager->DrawNoRotation(&front->resultVm12150);
+    g_AnmManager->DrawNoRotation(&front->vm106B4);
+    g_AnmManager->DrawNoRotation(&front->resultVms11EAC[0]);
+    g_AnmManager->DrawNoRotation(&front->resultVms11EAC[1]);
     return 1;
 }
