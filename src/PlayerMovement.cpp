@@ -15,17 +15,15 @@ typedef unsigned short u16;
 
 // The Player side-state +0x0C effect owner is the same 0x38-byte
 // GameManager side slot used by the lifecycle and death controllers.
-typedef PlayerSideStateView PlayerMovementSideView;
 typedef char PlayerMovementSideEffectAt0C[
-    (offsetof(PlayerMovementSideView, effectManager0C) == 0x0C) ? 1 : -1];
+    (offsetof(PlayerSideStateView, effectManager0C) == 0x0C) ? 1 : -1];
 typedef char PlayerMovementSideShotAt20[
-    (offsetof(PlayerMovementSideView, shotType20) == 0x20) ? 1 : -1];
+    (offsetof(PlayerSideStateView, shotType20) == 0x20) ? 1 : -1];
 
 // Consume the actual Player option record at +0x1CEC; do not maintain a
 // second unrelated 0x2F4-byte view for the movement interpreter.
-typedef PlayerOptionStateCtorView PlayerMovementOptionView;
 typedef char PlayerMovementOptionSizeIs2F4[
-    (sizeof(PlayerMovementOptionView) == 0x2F4) ? 1 : -1];
+    (sizeof(PlayerOptionStateCtorView) == 0x2F4) ? 1 : -1];
 // Movement speed/velocity comes from the native Player object, not an
 // independent scratch buffer or second layout projection.
 typedef char PlayerMovementNativeFieldsAt1CCC[
@@ -33,9 +31,9 @@ typedef char PlayerMovementNativeFieldsAt1CCC[
      sizeof(PlayerMovementFields) == 0x20) ? 1 : -1];
 
 typedef char PlayerMovementOptionTimerAt2E0[
-    (offsetof(PlayerMovementOptionView, timer2E0) == 0x2E0) ? 1 : -1];
+    (offsetof(PlayerOptionStateCtorView, timer2E0) == 0x2E0) ? 1 : -1];
 typedef char PlayerMovementOptionCallbackAt2EC[
-    (offsetof(PlayerMovementOptionView, updateCallback2EC) == 0x2EC) ? 1 : -1];
+    (offsetof(PlayerOptionStateCtorView, updateCallback2EC) == 0x2EC) ? 1 : -1];
 
 // These existing Player vectors are three consecutive floats. Arithmetic
 // uses the implemented Float3 providers without changing Player construction.
@@ -199,9 +197,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     {
         if (player->focusEffect364 != NULL)
         {
-            reinterpret_cast<AnmVm *>(
-                player->focusEffect364->vms)
-                ->SetInterrupt(1);
+            player->focusEffect364->vms->SetInterrupt(1);
             player->focusEffect364 = NULL;
             player->secondaryEffect368->active = 0;
             player->secondaryEffect368 = NULL;
@@ -342,7 +338,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         PositionHistoryLast = sizeof(player->positions1BA0) /
                               sizeof(player->positions1BA0[0]) - 1
     };
-    PlayerMovementOptionView *option = player->optionStates;
+    PlayerOptionStateCtorView *option = player->optionStates;
     for (int optionCount = OptionCount; optionCount != 0; --optionCount, ++option)
     {
         if (option->updateCallback2EC != NULL)

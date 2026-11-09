@@ -23,9 +23,9 @@ class PlayerMovementNativeOptions(unittest.TestCase):
         self.assertIn('offsetof(PlayerOptionStateCtorView, timer2E0) == 0x2E0', header)
         self.assertIn('offsetof(PlayerOptionStateCtorView, updateCallback2EC) == 0x2EC', header)
         self.assertIn('PlayerOptionStateCtorView optionStates[4];', header)
-        self.assertIn('typedef PlayerOptionStateCtorView PlayerMovementOptionView;', source)
+        self.assertNotIn('typedef PlayerOptionStateCtorView PlayerMovementOptionView;', source)
         self.assertNotIn('struct PlayerMovementOptionView', source)
-        self.assertIn('PlayerMovementOptionView *option = player->optionStates;', source)
+        self.assertIn('PlayerOptionStateCtorView *option = player->optionStates;', source)
         self.assertNotIn('reinterpret_cast<unsigned char *>(player) + 0x1CEC', source)
 
     def test_native_callback_and_timer_are_consumed_by_full_boss(self):

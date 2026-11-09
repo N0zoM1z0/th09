@@ -34,8 +34,8 @@ class PlayerMovementRealInterrupt(unittest.TestCase):
     def test_real_source_declaration_and_18_byte_callee(self):
         source = (ROOT/'src/PlayerMovement.cpp').read_text()
         self.assertNotIn('PlayerMovementEffectVmView', source)
-        self.assertIn('reinterpret_cast<AnmVm *>(\n'
-                      '                player->focusEffect364->vms)', source)
+        self.assertIn('player->focusEffect364->vms->SetInterrupt(1);', source)
+        self.assertNotIn('reinterpret_cast<AnmVm *>(\\n', source)
         header = (ROOT/'src/AnmVmLifecycle.hpp').read_text()
         self.assertIn('void SetInterrupt(short interrupt);', header)
         frontier.validate_player_movement_interrupt_abi(self.units)
