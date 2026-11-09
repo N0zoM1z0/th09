@@ -11,30 +11,6 @@
 
 #include <stddef.h>
 
-struct FrontCalcPlayerCollisionPoint
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct FrontCalcCollisionView
-{
-    void *CreateCircleType1(
-        const FrontCalcPlayerCollisionPoint *center,
-        float radius,
-        float radiusGrowth,
-        int lifetime,
-        int delay);
-    void *CreateCircleType4(
-        const FrontCalcPlayerCollisionPoint *center,
-        float radius,
-        float radiusGrowth,
-        int value,
-        int lifetime,
-        int delay);
-};
-
 extern AsciiGameManagerView g_GameManager;
 extern int g_FrontDynamicSprite;
 extern int g_EndingLifecycleState;
@@ -178,23 +154,23 @@ int __fastcall FrontCalcCallback(void *frontArg)
             g_GameManager.sides[1 - front->transitionSide10964]
                 .cardAttack14->timer98 = 0;
 
-            FrontCalcPlayerCollisionPoint point;
+            PlayerPositionView point;
             point.x = 0.0f;
             point.y = 224.0f;
             point.z = 0.0f;
 
-            reinterpret_cast<FrontCalcCollisionView *>(
+            reinterpret_cast<PlayerCollisionRegionCreateView *>(
                 g_GameManager.sides[0].player04)->CreateCircleType1(
-                    &point, 500.0f, 0.0f, 30000, 0);
-            reinterpret_cast<FrontCalcCollisionView *>(
+                    reinterpret_cast<const PlayerRegionPointView *>(&point), 500.0f, 0.0f, 30000, 0);
+            reinterpret_cast<PlayerCollisionRegionCreateView *>(
                 g_GameManager.sides[0].player04)->CreateCircleType4(
-                    &point, 500.0f, 0.0f, 200, 30000, 0);
-            reinterpret_cast<FrontCalcCollisionView *>(
+                    reinterpret_cast<const PlayerRegionPointView *>(&point), 500.0f, 0.0f, 200, 30000, 0);
+            reinterpret_cast<PlayerCollisionRegionCreateView *>(
                 g_GameManager.sides[1].player04)->CreateCircleType1(
-                    &point, 500.0f, 0.0f, 30000, 0);
-            reinterpret_cast<FrontCalcCollisionView *>(
+                    reinterpret_cast<const PlayerRegionPointView *>(&point), 500.0f, 0.0f, 30000, 0);
+            reinterpret_cast<PlayerCollisionRegionCreateView *>(
                 g_GameManager.sides[1].player04)->CreateCircleType4(
-                    &point, 500.0f, 0.0f, 200, 30000, 0);
+                    reinterpret_cast<const PlayerRegionPointView *>(&point), 500.0f, 0.0f, 200, 30000, 0);
 
             g_GameManager.sides[0].player04->ownerState30410.Reset();
             g_GameManager.sides[1].player04->ownerState30410.Reset();
