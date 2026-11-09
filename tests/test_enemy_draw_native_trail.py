@@ -27,7 +27,8 @@ class EnemyDrawNativeTrail(unittest.TestCase):
         self.assertNotIn('EnemyDrawTrailSampleView trailSamples33E8[96];',draw)
         self.assertNotIn('EnemyDrawVertex trailVertices3E68[192];',draw)
         self.assertIn('EnemyTrailSampleView trailSamples33E8[96];',native)
-        self.assertIn('EnemyTrailVertexView trailVertices3E68[192];',native)
+        # The full owner constructs 194 records; the renderer uses 192.
+        self.assertIn('EnemyTrailVertexView trailVertices3E68[194];',native)
         self.assertIn('enemy->trailVertices3E68',draw)
         for name in ('trailSamples33E8','trailFlags53A0','trailHistoryLength53A2',
                      'trailSampleStride53A6'):

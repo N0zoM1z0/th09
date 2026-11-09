@@ -171,10 +171,10 @@ typedef char EnemyCoreTrailHistoryEndsAtVertices[
     (offsetof(EnemyView, trailSamples33E8) +
      sizeof(((EnemyView *)0)->trailSamples33E8) ==
      offsetof(EnemyView, trailVertices3E68)) ? 1 : -1];
-typedef char EnemyCoreTrailVerticesEndAt5368[
+typedef char EnemyCoreTrailVerticesEndAt53A0[
     (offsetof(EnemyView, trailVertices3E68) +
      sizeof(((EnemyView *)0)->trailVertices3E68) ==
-     offsetof(EnemyView, unknown5368)) ? 1 : -1];
+     offsetof(EnemyView, trailFlags53A0)) ? 1 : -1];
 typedef char EnemyCoreTrailFlagsAt53A0[
     (offsetof(EnemyView, trailFlags53A0) == 0x53A0) ? 1 : -1];
 typedef char EnemyCoreAttachedEffectStateAt53B4[

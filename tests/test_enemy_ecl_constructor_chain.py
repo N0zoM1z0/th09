@@ -1,4 +1,4 @@
-"""Noncrediting tests for four physical Enemy ECL constructor boundaries."""
+"""Noncrediting tests for the complete Enemy ECL constructor hierarchy."""
 from __future__ import annotations
 
 import csv
@@ -34,9 +34,14 @@ class EnemyEclConstructorChain(unittest.TestCase):
         self.assertIn('Th09EclInterpolationSlotSizeIs30',opcode)
         self.assertIn('Th09EclContextSizeIs22C',opcode)
         self.assertIn('Th09EclContextInterpolationsAt0A0',opcode)
+        self.assertIn('EnemyView::EnemyView()',source)
+        self.assertIn('EnemyBulletDescriptorView::EnemyBulletDescriptorView()',source)
+        self.assertIn('ZunTimer frameTimer3370;',header)
+        self.assertIn('EnemyTrailVertexView trailVertices3E68[194];',header)
+        self.assertIn('EnemyViewSizeIs5430',header)
 
     def test_fixed_target_roles_and_failure_on_any_operand_drift(self):
-        first, second, slot, context = ctor.CHAIN
+        first, second, slot, context, descriptor, enemy = ctor.CHAIN
         self.assertEqual((first['base'], first['size']), (0x0040FCA0, 28))
         self.assertEqual((second['base'], second['size']), (0x00412090, 15))
         self.assertEqual(first['fields'], (
@@ -57,7 +62,21 @@ class EnemyEclConstructorChain(unittest.TestCase):
             (0x17, 'DIR32', '??0Th09EclInterpolationSlotView@@QAE@XZ', 0x004120C0),
             (0x27, 'REL32', '??_H@YGXPAXIHP6EPAX0@Z@Z', 0x00401470),
         ))
+        self.assertEqual((descriptor['base'], descriptor['size']), (0x0040D500, 28))
+        self.assertEqual(descriptor['fields'], ())
+        self.assertEqual((enemy['base'], enemy['size']), (0x00412100, 207))
+        self.assertEqual(len(enemy['fields']), 18)
+        self.assertEqual(enemy['fields'][8],
+                         (0x63, 'REL32', '??0EnemyBulletDescriptorView@@QAE@XZ', 0x0040D500))
+        self.assertEqual(enemy['fields'][10],
+                         (0x79, 'REL32', '??0EnemyBulletDescriptorView@@QAE@XZ', 0x0040D500))
+        self.assertEqual(enemy['fields'][12],
+                         (0x89, 'DIR32', '??0EnemyTrailSampleView@@QAE@XZ', 0x004343D0))
+        self.assertEqual(enemy['fields'][14],
+                         (0x9E, 'DIR32', '??0EnemyTrailVertexView@@QAE@XZ', 0x004343D0))
         for entry in ctor.CHAIN:
+            if not entry['fields']:
+                continue  # The descriptor alias has zero native relocation fields.
             rows = [dict(offset=o, type=k, symbol=s, addend=0)
                     for o, k, s, _ in entry['fields']]
             ctor.validate_fields(rows, entry['fields'])
@@ -72,8 +91,9 @@ class EnemyEclConstructorChain(unittest.TestCase):
     def test_constructor_origins_stay_unclassified_not_authored(self):
         with (ROOT / 'config/functions.csv').open(newline='') as stream:
             rows = {r['address']: r for r in csv.DictReader(stream)}
-        for address in ('0x0040FCA0', '0x00412090', '0x004120C0', '0x004120D0'):
+        for address in ('0x0040FCA0', '0x00412090', '0x004120C0', '0x004120D0', '0x00412100'):
             self.assertEqual(rows[address]['status'], 'unclassified')
+        self.assertEqual(rows['0x0040D500']['status'], 'matching')
         self.assertIn('unknown', ctor.audit.__doc__ or 'unknown')
         self.assertIn('exactness_credit', (ROOT/'scripts/inspect-enemy-ecl-constructors.py').read_text())
 

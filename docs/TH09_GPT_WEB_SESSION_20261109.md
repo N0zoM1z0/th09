@@ -384,3 +384,48 @@ All three constructor-chain and 35 ECL native storage unit tests pass.
 The two new constructor bodies at 0x4120C0 and 0x4120D0 remain origin-unknown
 special members in functions.csv; matching their bytes does not establish
 explicit authored source and grants no exactness credit.
+
+## EnemyView construction: exact 207-byte full body and 194-vertex allocation
+
+The target constructor at 0x00412100 has an original-bound 207-byte body
+with 18 relocation fields. A normal empty EnemyView::EnemyView definition
+in the genuine EnemyManagerLifecycle.cpp originally produced only 174 bytes:
+three actual subobject constructor calls were missing, and the last array
+constructor used an incorrect count of 192.
+
+Target disassembly independently fixes these native members and roles:
+
+- At Enemy +0x2E74 and +0x30C4, two 0x214-byte bullet/laser descriptors
+  invoke the exact 0x0040D500 descriptor constructor. A derived
+  EnemyBulletDescriptorView preserves all existing BulletSpawnDescriptor
+  member access and adds only the constructor; its own 28-byte body is
+  independently byte-identical to that same original function. The nominal
+  class alias is source-facing, not a new uniquely owned physical function.
+- At +0x3370, a genuine 0x0C-byte ZunTimer occupies the previously opaque
+  bytes preceding the flags word at +0x337C.
+- At +0x3E68, the original vector-ctor iterator constructs 194 records of
+  0x1C bytes, ending at +0x53A0. The previous header had incorrectly
+  modelled 192 records and 56 opaque bytes. The visual renderer still
+  consumes exactly 192 vertices: two per 96 trail samples. Capacity now
+  distinguishes 194 actually constructed records from 192 rendered records.
+
+The resulting full EnemyView constructor builds to precisely 207/207 bytes,
+18/18 original fields, zero unlike bytes, and SHA256
+7e6f3bc55de672d1eb9e6c5dd0464a3d0be2ff8055ec3c3ec1c8227c41ed8f75
+against the original Japanese TH09 v1.50a PE. Both generic constructor-
+iterator callbacks and the shared empty trail-element constructor aliases
+are bound at their actual original addresses. The augmented diagnostic
+scripts/inspect-enemy-ecl-constructors.py now checks six construction
+interfaces, including the existing 0x40D500 source alias; all six verify.
+
+A focused source rebuild keeps EnemyManager ctor 101/101, EnemyManager
+Create 328/328, and EnemyManager DrawImpl 1758/1758 canonical exact.
+EnemyManager OnUpdate remains 3900 bytes with 13 unlike ordinary bytes
+and all 97 fields; RunEcl remains 15564 bytes with 30 unlike bytes, 598
+fields and zero field/table drift. The four targeted test groups pass:
+3 constructor-chain, 4 trail capacity, 5 draw storage, and 35 native ECL
+context tests. No full cold replay was run.
+
+The original explicit-vs-generated source authorship of EnemyView::EnemyView
+at 0x00412100 is still unknown. This byte-perfect member is not promoted
+from unclassified to authored exact by these results.

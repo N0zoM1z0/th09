@@ -40,13 +40,13 @@ typedef char EnemyDrawVmPosAt208[(offsetof(AnmVmBase, pos) == 0x208) ? 1 : -1];
 typedef char EnemyDrawVmSpriteAt224[(offsetof(AnmVmBase, loadedSprite) == 0x224) ? 1 : -1];
 typedef char EnemyDrawVmPos2At288[(offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
-// All 192 textured trail vertices live in the native EnemyView array.
-// The original ANM draw primitive consumes its identical 0x1C-byte records.
+// The native array constructs 194 vertices; drawing consumes only the
+// first 192 (two for each of 96 samples), all with 0x1C-byte records.
 typedef EnemyTrailVertexView EnemyDrawVertex;
 typedef char EnemyDrawVertexSizeIs1C[(sizeof(EnemyTrailVertexView) == 0x1C) ? 1 : -1];
 typedef char EnemyDrawNativeVertexLayoutAt3E68[
     (offsetof(EnemyView, trailVertices3E68) == 0x3E68 &&
-     sizeof(((EnemyView *)0)->trailVertices3E68) == 192 * 0x1C &&
+     sizeof(((EnemyView *)0)->trailVertices3E68) == 194 * 0x1C &&
      offsetof(EnemyTrailVertexView, position00) == 0x00 &&
      offsetof(EnemyTrailVertexView, rhw0C) == 0x0C &&
      offsetof(EnemyTrailVertexView, diffuse10) == 0x10 &&

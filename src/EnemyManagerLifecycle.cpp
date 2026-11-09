@@ -82,6 +82,16 @@ Th09EclContextView::Th09EclContextView()
 {
 }
 
+EnemyBulletDescriptorView::EnemyBulletDescriptorView()
+{
+    memset(this, 0, sizeof(*this));
+    transformSound = -1;
+}
+
+EnemyView::EnemyView()
+{
+}
+
 EnemyEclTimelineStateView::EnemyEclTimelineStateView()
 {
 }

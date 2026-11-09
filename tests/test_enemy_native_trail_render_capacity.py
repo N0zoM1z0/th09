@@ -1,4 +1,4 @@
-"""Shared native 96-sample/192-vertex Enemy trail and four draw buckets.
+"""Shared 96-sample/192-render/194-constructed Enemy trail capacity.
 
 The real original-bound PE/COFF replay for the 3900-byte calc and 1758-byte
 DrawImpl is independently run by the focused owner harness. These tests guard
@@ -21,17 +21,19 @@ class EnemyNativeTrailRenderCapacityTests(unittest.TestCase):
 
     def test_actual_array_shape_and_all_four_owned_cardinalities(self):
         for name,count in (('drawGroupHeads2AC410',4),('secondaryVms2AC',2),
-                           ('trailSamples33E8',96),('trailVertices3E68',192)):
+                           ('trailSamples33E8',96),('trailVertices3E68',194)):
             with self.subTest(name=name):
                 self.assertIn(name+f'[{count}]',self.native)
         h=self.layout
         for key,name in (('DrawGroupCount','drawGroupHeads2AC410'),
                          ('SecondaryVmCount','secondaryVms2AC'),
                          ('TrailSampleCount','trailSamples33E8'),
-                         ('TrailVertexCount','trailVertices3E68')):
+                         ('ConstructedTrailVertexCount','trailVertices3E68')):
             with self.subTest(key=key):
                 self.assertIn(key+' = sizeof(',h)
                 self.assertIn('->'+name+')',h)
+        self.assertIn('TrailVertexCount = TrailSampleCount * 2',h)
+        self.assertIn('ConstructedTrailVertexCount == 194',h)
         self.assertIn('VerticesPerSample = TrailVertexCount / TrailSampleCount',h)
         self.assertIn('EnemyNativeTrailRenderCapacityLayout',h)
         self.assertIn('sizeof(EnemyTrailSampleView) == 0x1C',h)
@@ -42,9 +44,11 @@ class EnemyNativeTrailRenderCapacityTests(unittest.TestCase):
         self.assertEqual(192//96,2)
         self.assertEqual(192%96,0)
         self.assertEqual(96*0x1c,0xA80)
-        self.assertEqual(192*0x1c,0x1500)
+        self.assertEqual(192*0x1c,0x1500)  # rendered, not fully constructed
+        self.assertEqual(194*0x1c,0x1538)  # full constructor iterator
         self.assertEqual(0x33E8+0xA80,0x3E68)
-        self.assertEqual(0x3E68+0x1500,0x5368)
+        self.assertEqual(0x3E68+0x1538,0x53A0)
+        self.assertNotIn('unknown5368',self.native)
         self.assertIn('EnemyNativeTrailRenderCapacity::VerticesPerSample',self.draw)
         self.assertIn('vertexCount += EnemyNativeTrailRenderCapacity::VerticesPerSample',self.draw)
         self.assertIn('vertexCount -= EnemyNativeTrailRenderCapacity::VerticesPerSample',self.draw)

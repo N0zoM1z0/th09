@@ -3,8 +3,10 @@
 #include "EnemyManager.hpp"
 #include <stddef.h>
 
-// The original 96 consecutive history samples and 192 native ANM vertices
-// occupy one EnemyView; each rendered strip point owns two vertices.
+// The original 96 history samples render as 192 ANM vertices (two per
+// sample), but the Enemy constructor actually constructs 194 vertices.
+// The final two are allocated/constructed tail sentinels, not extra
+// samples to render; do not conflate render capacity with owner extent.
 struct EnemyNativeTrailRenderCapacity
 {
     enum
@@ -15,8 +17,9 @@ struct EnemyNativeTrailRenderCapacity
                            sizeof(((EnemyView *)0)->secondaryVms2AC[0]),
         TrailSampleCount = sizeof(((EnemyView *)0)->trailSamples33E8) /
                            sizeof(((EnemyView *)0)->trailSamples33E8[0]),
-        TrailVertexCount = sizeof(((EnemyView *)0)->trailVertices3E68) /
-                           sizeof(((EnemyView *)0)->trailVertices3E68[0]),
+        ConstructedTrailVertexCount = sizeof(((EnemyView *)0)->trailVertices3E68) /
+                                      sizeof(((EnemyView *)0)->trailVertices3E68[0]),
+        TrailVertexCount = TrailSampleCount * 2,
         VerticesPerSample = TrailVertexCount / TrailSampleCount
     };
 };
@@ -25,6 +28,7 @@ typedef char EnemyNativeTrailRenderCapacityLayout[
      EnemyNativeTrailRenderCapacity::SecondaryVmCount == 2 &&
      EnemyNativeTrailRenderCapacity::TrailSampleCount == 96 &&
      EnemyNativeTrailRenderCapacity::TrailVertexCount == 192 &&
+     EnemyNativeTrailRenderCapacity::ConstructedTrailVertexCount == 194 &&
      EnemyNativeTrailRenderCapacity::VerticesPerSample == 2 &&
      sizeof(EnemyTrailSampleView) == 0x1C &&
      sizeof(EnemyTrailVertexView) == 0x1C &&

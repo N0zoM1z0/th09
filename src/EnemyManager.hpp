@@ -210,6 +210,16 @@ typedef char EnemyScheduleRuntimeViewSizeIs18[
 typedef char EnemyScheduleRuntimeTimer0C[
     (offsetof(EnemyScheduleRuntimeView, timer0C) == 0x0C) ? 1 : -1];
 
+// Same 0x214 native descriptor storage as the already exact 0x40D500
+// constructor. The subclass supplies the Enemy array with its own C++
+// construction interface while preserving ordinary BulletSpawnDescriptor use.
+struct EnemyBulletDescriptorView : BulletSpawnDescriptor
+{
+    EnemyBulletDescriptorView();
+};
+typedef char EnemyBulletDescriptorSizeIs214[
+    (sizeof(EnemyBulletDescriptorView) == 0x214) ? 1 : -1];
+
 struct EnemyView
 {
     EnemyManagerView *manager00;
@@ -286,11 +296,11 @@ struct EnemyView
     unsigned int displayColor2E70;
     // Original 0x214-byte bullet and laser descriptors are contiguous with
     // the 44-byte pending instruction, interval and timer region.
-    BulletSpawnDescriptor bulletDescriptor2E74;
+    EnemyBulletDescriptorView bulletDescriptor2E74;
     unsigned char pendingShotInstruction3088[0x2C];
     int shootIntervalFrames30B4;
     ZunTimer shootIntervalTimer30B8;
-    BulletSpawnDescriptor laserDescriptor30C4;
+    EnemyBulletDescriptorView laserDescriptor30C4;
     Laser *laserSlots32D8[32];
     int selectedLaserSlot3358;
     // ECL reads the signed item-drop code; reward processing writes the
@@ -306,7 +316,9 @@ struct EnemyView
     unsigned char deathEffectVariant336A;
     unsigned char bossSlot336B;
     unsigned char damageFlashTimer336C;
-    unsigned char unknown336D[0x337C - 0x336D];
+    unsigned char unknown336D[0x3370 - 0x336D];
+    // The native Enemy constructor invokes a third timer ctor at +0x3370.
+    ZunTimer frameTimer3370;
     union
     {
         unsigned int flags337C;
@@ -342,8 +354,8 @@ struct EnemyView
     int timerCallbackSubId33D4;
     void *childEclBlocks33D8[4];
     EnemyTrailSampleView trailSamples33E8[96];
-    EnemyTrailVertexView trailVertices3E68[192];
-    unsigned char unknown5368[0x53A0 - 0x5368];
+    // Full 194-entry native vertex allocation ends exactly at +0x53A0.
+    EnemyTrailVertexView trailVertices3E68[194];
     unsigned char trailFlags53A0;
     unsigned char unknown53A1;
     short trailHistoryLength53A2;
@@ -517,7 +529,7 @@ typedef char EnemyViewNativeTrailAndAttachedEffectOwnership[
     (offsetof(EnemyView, trailSamples33E8) == 0x33E8 &&
      sizeof(((EnemyView *)0)->trailSamples33E8) == 0x0A80 &&
      offsetof(EnemyView, trailVertices3E68) == 0x3E68 &&
-     sizeof(((EnemyView *)0)->trailVertices3E68) == 0x1500 &&
+     sizeof(((EnemyView *)0)->trailVertices3E68) == 0x1538 &&
      offsetof(EnemyView, trailFlags53A0) == 0x53A0 &&
      offsetof(EnemyView, trailHistoryLength53A2) == 0x53A2 &&
      offsetof(EnemyView, trailCollisionLength53A4) == 0x53A4 &&
