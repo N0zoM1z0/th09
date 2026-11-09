@@ -40,7 +40,7 @@ DESTINATIONS = {
     "??4ZunTimer@@QAEXH@Z": 0x00401500,
     "?CreateCircleType1@FrontCalcCollisionView@@QAEPAXPBUFrontCalcPlayerCollisionPoint@@MMHH@Z": 0x0041CFE0,
     "?CreateCircleType4@FrontCalcCollisionView@@QAEPAXPBUFrontCalcPlayerCollisionPoint@@MMHHH@Z": 0x0041D0D0,
-    "?Reset@FrontCalcAddedOwnerStateView@@QAEXXZ": 0x0041D7E0,
+    "?Reset@PlayerOwnerStateView@@QAEXXZ": 0x0041D7E0,
     "?g_SoundPlayer@@3VSoundPlayer@@A": 0x004DC698,
     "?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z": 0x0043E2F0,
     "?RegisterChain@ScreenEffect@@SIPAU1@W4ScreenEffectType@@HHHHHH@Z": 0x00422D20,

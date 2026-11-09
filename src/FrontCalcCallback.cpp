@@ -5,6 +5,8 @@
 #include "ZunTimer.hpp"
 #include "FrontFactoryConstructView.hpp"
 #include "FrontSide.hpp"
+#include "Background.hpp"
+#include "CardAttack.hpp"
 
 #include <stddef.h>
 
@@ -15,37 +17,13 @@ struct FrontCalcRuntimeView
     float value34;
 };
 
-struct FrontCalcSideStateObject
-{
-    unsigned char unknown00[0x1C];
-    int field1C;
-    int field20;
-};
-
-struct FrontCalcSideTransitionOwner
-{
-    unsigned char unknown00[0x98];
-    ZunTimer timer98;
-};
-
-struct FrontCalcAddedOwnerStateView
-{
-    void Reset();
-};
-
-struct FrontCalcPlayerView
-{
-    unsigned char unknown00000[0x30410];
-    FrontCalcAddedOwnerStateView addedOwner30410;
-};
-
 struct FrontCalcSideView
 {
-    FrontCalcSideStateObject *stateObject00;
-    FrontCalcPlayerView *player04;
+    Background *background00;
+    PlayerLifecycleView *player04;
     unsigned char unknown08[0x0C];
-    FrontCalcSideTransitionOwner *transitionOwner14;
-    void *frontSide18;
+    CardAttack *cardAttack14;
+    FrontSide *frontSide18;
     FrontCalcRuntimeView *runtime1C;
     unsigned char unknown20[0x14];
     unsigned int flags34;
@@ -235,7 +213,7 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 (g_GameManager.flags134 ^ targetBit) & 0x1800u;
 
             g_GameManager.sides[1 - front->transitionSide10964]
-                .transitionOwner14->timer98 = 0;
+                .cardAttack14->timer98 = 0;
 
             FrontCalcPlayerCollisionPoint point;
             point.x = 0.0f;
@@ -255,17 +233,17 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 g_GameManager.sides[1].player04)->CreateCircleType4(
                     &point, 500.0f, 0.0f, 200, 30000, 0);
 
-            g_GameManager.sides[0].player04->addedOwner30410.Reset();
-            g_GameManager.sides[1].player04->addedOwner30410.Reset();
+            g_GameManager.sides[0].player04->ownerState30410.Reset();
+            g_GameManager.sides[1].player04->ownerState30410.Reset();
         }
         else if (frame == 30)
         {
             g_SoundPlayer.PlaySoundByIdx(49, 0);
 
             g_GameManager.sides[1 - front->transitionSide10964]
-                .stateObject00->field1C = 1;
+                .background00->transitionMode = 1;
             g_GameManager.sides[1 - front->transitionSide10964]
-                .stateObject00->field20 = 30;
+                .background00->transitionFrames = 30;
 
             ScreenEffect::RegisterChain(
                 SCREEN_EFFECT_SHAKE,
@@ -317,10 +295,8 @@ int __fastcall FrontCalcCallback(void *frontArg)
         else if (
             front->transitionStarted11EA4 != 0 && frame == 160)
         {
-            static_cast<FrontSide *>(
-                g_GameManager.sides[0].frontSide18)->BeginAuxTransition();
-            static_cast<FrontSide *>(
-                g_GameManager.sides[1].frontSide18)->BeginAuxTransition();
+            g_GameManager.sides[0].frontSide18->BeginAuxTransition();
+            g_GameManager.sides[1].frontSide18->BeginAuxTransition();
         }
         else if (
             front->transitionStarted11EA4 != 0 && frame == 190)
