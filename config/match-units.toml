@@ -11581,8 +11581,8 @@ relocations = [
 source = "src/PlayerCollisionRegionCreate.cpp"
 object = "build/matching/PlayerCollisionRegionCreate.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["PlayerCollisionRegionCreateView::CreateCircleType1"]
-symbol = "?CreateCircleType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z"
+functions = ["PlayerLifecycleView::CreateCircleType1"]
+symbol = "?CreateCircleType1@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z"
 target_address = 0x0041CFE0
 size = 0x2B
 relocations = [
@@ -11633,8 +11633,8 @@ relocations = [
 source = "src/PlayerCollisionRegionCreate.cpp"
 object = "build/matching/PlayerCollisionRegionCreate.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["PlayerCollisionRegionCreateView::CreateCircleType4"]
-symbol = "?CreateCircleType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z"
+functions = ["PlayerLifecycleView::CreateCircleType4"]
+symbol = "?CreateCircleType4@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z"
 target_address = 0x0041D0D0
 size = 0x31
 relocations = [
@@ -13731,8 +13731,8 @@ symbol = "?ConfigureState3Effect13@PlayerLifecycleView@@QAEPAUEffect@@XZ"
 target_address = 0x00403C30
 size = 0x5B
 relocations = [
-  { offset = 0x17, type = "REL32", symbol = "?CreateCircleType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x0041CFE0 },
-  { offset = 0x2C, type = "REL32", symbol = "?CreateCircleType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x0041D0D0 },
+  { offset = 0x17, type = "REL32", symbol = "?CreateCircleType1@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x0041CFE0 },
+  { offset = 0x2C, type = "REL32", symbol = "?CreateCircleType4@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x0041D0D0 },
   { offset = 0x35, type = "REL32", symbol = "?SetUpdateState@PlayerLifecycleView@@QAEXH@Z", target = 0x00403C20 },
   { offset = 0x42, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x54, type = "REL32", symbol = "?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z", target = 0x0040CC00 },
@@ -13748,8 +13748,8 @@ symbol = "?ConfigureState3Effect14@PlayerLifecycleView@@QAEPAUEffect@@XZ"
 target_address = 0x00403C90
 size = 0x5B
 relocations = [
-  { offset = 0x17, type = "REL32", symbol = "?CreateCircleType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x0041CFE0 },
-  { offset = 0x2C, type = "REL32", symbol = "?CreateCircleType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x0041D0D0 },
+  { offset = 0x17, type = "REL32", symbol = "?CreateCircleType1@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x0041CFE0 },
+  { offset = 0x2C, type = "REL32", symbol = "?CreateCircleType4@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x0041D0D0 },
   { offset = 0x35, type = "REL32", symbol = "?SetUpdateState@PlayerLifecycleView@@QAEXH@Z", target = 0x00403C20 },
   { offset = 0x42, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x54, type = "REL32", symbol = "?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z", target = 0x0040CC00 },
@@ -13828,8 +13828,8 @@ symbol = "?ConfigureState3Effect15@PlayerLifecycleView@@QAEPAUEffect@@XZ"
 target_address = 0x00403CF0
 size = 0x64
 relocations = [
-  { offset = 0x1A, type = "REL32", symbol = "?CreateCircleType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x0041CFE0 },
-  { offset = 0x32, type = "REL32", symbol = "?CreateCircleType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x0041D0D0 },
+  { offset = 0x1A, type = "REL32", symbol = "?CreateCircleType1@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x0041CFE0 },
+  { offset = 0x32, type = "REL32", symbol = "?CreateCircleType4@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x0041D0D0 },
   { offset = 0x3B, type = "REL32", symbol = "?SetUpdateState@PlayerLifecycleView@@QAEXH@Z", target = 0x00403C20 },
   { offset = 0x4B, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x5D, type = "REL32", symbol = "?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z", target = 0x0040CC00 },
@@ -22141,13 +22141,13 @@ relocations = [
   { offset = 0x2e2, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x2fa, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x401500 },
   { offset = 0x300, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
-  { offset = 0x32c, type = "REL32", symbol = "?CreateCircleType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x41cfe0 },
+  { offset = 0x32c, type = "REL32", symbol = "?CreateCircleType1@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x41cfe0 },
   { offset = 0x332, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
-  { offset = 0x34e, type = "REL32", symbol = "?CreateCircleType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x41d0d0 },
+  { offset = 0x34e, type = "REL32", symbol = "?CreateCircleType4@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x41d0d0 },
   { offset = 0x366, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
-  { offset = 0x36b, type = "REL32", symbol = "?CreateCircleType1@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x41cfe0 },
+  { offset = 0x36b, type = "REL32", symbol = "?CreateCircleType1@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHH@Z", target = 0x41cfe0 },
   { offset = 0x371, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
-  { offset = 0x38d, type = "REL32", symbol = "?CreateCircleType4@PlayerCollisionRegionCreateView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x41d0d0 },
+  { offset = 0x38d, type = "REL32", symbol = "?CreateCircleType4@PlayerLifecycleView@@QAEPAUPlayerCollisionRegionCreateRegionView@@PBUPlayerRegionPointView@@MMHHH@Z", target = 0x41d0d0 },
   { offset = 0x393, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x39e, type = "REL32", symbol = "?Reset@PlayerOwnerStateView@@QAEXXZ", target = 0x41d7e0 },
   { offset = 0x3a4, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },

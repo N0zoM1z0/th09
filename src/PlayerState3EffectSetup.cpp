@@ -13,10 +13,10 @@ typedef char PlayerState3NativeRegionProducer[
 
 Effect *PlayerLifecycleView::ConfigureState3Effect13()
 {
-    reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->CreateCircleType1(
+    CreateCircleType1(
         reinterpret_cast<PlayerRegionPointView *>(&position1B88),
         0.0f, 4.0f, 0x30, 0);
-    reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->CreateCircleType4(
+    CreateCircleType4(
         reinterpret_cast<PlayerRegionPointView *>(&position1B88),
         0.0f, 4.0f, 2, 0x30, 0);
     SetUpdateState(3);
@@ -27,10 +27,10 @@ Effect *PlayerLifecycleView::ConfigureState3Effect13()
 
 Effect *PlayerLifecycleView::ConfigureState3Effect14()
 {
-    reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->CreateCircleType1(
+    CreateCircleType1(
         reinterpret_cast<PlayerRegionPointView *>(&position1B88),
         0.0f, 4.0f, 0x40, 0);
-    reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->CreateCircleType4(
+    CreateCircleType4(
         reinterpret_cast<PlayerRegionPointView *>(&position1B88),
         0.0f, 4.0f, 2, 0x40, 0);
     SetUpdateState(3);
@@ -41,10 +41,10 @@ Effect *PlayerLifecycleView::ConfigureState3Effect14()
 
 Effect *PlayerLifecycleView::ConfigureState3Effect15()
 {
-    reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->CreateCircleType1(
+    CreateCircleType1(
         reinterpret_cast<PlayerRegionPointView *>(&position1B88),
         0.0f, 3.5f, 0x80, 0);
-    reinterpret_cast<PlayerCollisionRegionCreateView *>(this)->CreateCircleType4(
+    CreateCircleType4(
         reinterpret_cast<PlayerRegionPointView *>(&position1B88),
         0.0f, 3.5f, 2, 0x80, 0);
     SetUpdateState(3);

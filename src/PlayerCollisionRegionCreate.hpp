@@ -49,9 +49,6 @@ struct PlayerCollisionRegionCreateView
     PlayerCollisionRegionCreateRegionView *CreateRectType1(
         const PlayerRegionPointView *center, float width, float height,
         int lifetime, int delay);
-    PlayerCollisionRegionCreateRegionView *CreateCircleType1(
-        const PlayerRegionPointView *center, float radius, float radiusGrowth,
-        int lifetime, int delay);
     PlayerCollisionRegionCreateRegionView *CreateRectType0(
         const PlayerRegionPointView *center, float width, float height,
         int value, int lifetime, int delay);
@@ -60,9 +57,6 @@ struct PlayerCollisionRegionCreateView
         int value, int lifetime, int delay);
     PlayerCollisionRegionCreateRegionView *CreateRectType4(
         const PlayerRegionPointView *center, float width, float height,
-        int value, int lifetime, int delay);
-    PlayerCollisionRegionCreateRegionView *CreateCircleType4(
-        const PlayerRegionPointView *center, float radius, float radiusGrowth,
         int value, int lifetime, int delay);
     PlayerCollisionRegionCreateRegionView *CreateCircleType2(
         const PlayerRegionPointView *center, float radius, float radiusGrowth,

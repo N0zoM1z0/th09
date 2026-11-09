@@ -159,17 +159,13 @@ int __fastcall FrontCalcCallback(void *frontArg)
             point.y = 224.0f;
             point.z = 0.0f;
 
-            reinterpret_cast<PlayerCollisionRegionCreateView *>(
-                g_GameManager.sides[0].player04)->CreateCircleType1(
+            g_GameManager.sides[0].player04->CreateCircleType1(
                     reinterpret_cast<const PlayerRegionPointView *>(&point), 500.0f, 0.0f, 30000, 0);
-            reinterpret_cast<PlayerCollisionRegionCreateView *>(
-                g_GameManager.sides[0].player04)->CreateCircleType4(
+            g_GameManager.sides[0].player04->CreateCircleType4(
                     reinterpret_cast<const PlayerRegionPointView *>(&point), 500.0f, 0.0f, 200, 30000, 0);
-            reinterpret_cast<PlayerCollisionRegionCreateView *>(
-                g_GameManager.sides[1].player04)->CreateCircleType1(
+            g_GameManager.sides[1].player04->CreateCircleType1(
                     reinterpret_cast<const PlayerRegionPointView *>(&point), 500.0f, 0.0f, 30000, 0);
-            reinterpret_cast<PlayerCollisionRegionCreateView *>(
-                g_GameManager.sides[1].player04)->CreateCircleType4(
+            g_GameManager.sides[1].player04->CreateCircleType4(
                     reinterpret_cast<const PlayerRegionPointView *>(&point), 500.0f, 0.0f, 200, 30000, 0);
 
             g_GameManager.sides[0].player04->ownerState30410.Reset();

@@ -23,8 +23,15 @@ class PlayerState3NativeRegionOwner(unittest.TestCase):
         self.assertIn('struct PlayerCollisionRegionCreateView',region)
         self.assertNotIn('struct PlayerCollisionRegionCreateView\n{',source)
         self.assertNotIn('struct PlayerRegionPointView\n{',source)
-        self.assertEqual(source.count('->CreateCircleType1('),3)
-        self.assertEqual(source.count('->CreateCircleType4('),3)
+        self.assertNotIn('reinterpret_cast<PlayerCollisionRegionCreateView *>(this)',source)
+        for method in ('CreateCircleType1(', 'CreateCircleType4('):
+            self.assertIn(method,native)
+        self.assertIn('PlayerLifecycleView::CreateCircleType1(',
+                      (ROOT/'src/PlayerCollisionRegionCreate.cpp').read_text())
+        self.assertIn('PlayerLifecycleView::CreateCircleType4(',
+                      (ROOT/'src/PlayerCollisionRegionCreate.cpp').read_text())
+        self.assertEqual(source.count('    CreateCircleType1('),3)
+        self.assertEqual(source.count('    CreateCircleType4('),3)
 
     def test_three_full_original_bound_state_effects(self):
         with (ROOT/'config/match-units.toml').open('rb') as f:
@@ -40,5 +47,9 @@ class PlayerState3NativeRegionOwner(unittest.TestCase):
                 self.assertEqual(callee_targets,[0x0041CFE0,0x0041D0D0])
                 self.assertTrue(any(r['target']==0x0040CC00
                                     for r in unit['relocations']))
+                self.assertEqual([r['symbol'].split('@@')[0] for r in unit['relocations']
+                                  if 'CreateCircleType' in r['symbol']],
+                                 ['?CreateCircleType1@PlayerLifecycleView',
+                                  '?CreateCircleType4@PlayerLifecycleView'])
 
 if __name__=='__main__':unittest.main()
