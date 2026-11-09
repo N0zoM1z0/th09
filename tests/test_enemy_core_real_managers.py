@@ -78,6 +78,11 @@ class EnemyUpdateSharedRealOwner(unittest.TestCase):
         self.assertEqual(self.enemy.count('g_AsciiManager.SetBossMarkerState('), 2)
         self.assertIn('extern AsciiManager g_AsciiManager;',self.enemy)
         self.assertIn('void SetBossMarkerState(int slot, int state);',self.ascii_header)
+        marker_state = (ROOT/'src/AsciiManagerBossMarker.cpp').read_text()
+        self.assertIn('bossMarkerStates2254[slot] = state;',marker_state)
+        self.assertNotIn('AsciiBossMarkerStateView',marker_state)
+        self.assertIn('offsetof(AsciiManager, bossMarkerStates2254) == 0x2254',
+                      self.ascii_header)
         self.assertNotIn('EnemyCoreUiView', self.enemy)
         self.assertNotIn('g_EnemyCoreUi', self.enemy)
 
