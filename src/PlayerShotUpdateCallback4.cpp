@@ -1,20 +1,6 @@
 #include "ZunTimer.hpp"
 #include "PlayerLifecycleView.hpp"
 
-struct PlayerShotUpdate4Vec3
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct PlayerShotUpdate4RegionPointView
-{
-    float x;
-    float y;
-    float z;
-};
-
 // Preserve the canonical callback's parameter type in its mangled ABI.
 // The actual shot record used by this callback is PlayerShotCtorView.
 struct PlayerShotUpdate4ShotView;
@@ -24,9 +10,8 @@ typedef char PlayerShotUpdate4NativeShotOffsets[
      offsetof(PlayerShotCtorView, timer454) == 0x454 &&
      offsetof(PlayerShotCtorView, state462) == 0x462) ? 1 : -1];
 
-// The recorded C++ symbol for the rectangle-making helpers is kept for
-// genuine call identity; the callback's Player position/speed storage
-// itself comes from the native PlayerLifecycleView.
+// Preserve only the original callback parameter type; the Player and shot
+// data are the constructed native allocations, including position/center.
 struct PlayerShotUpdate4PlayerView;
 
 int __fastcall PlayerShotUpdateCallbackType4(
@@ -37,10 +22,8 @@ int __fastcall PlayerShotUpdateCallbackType4(
         reinterpret_cast<PlayerLifecycleView *>(player);
     PlayerShotCtorView *nativeShot =
         reinterpret_cast<PlayerShotCtorView *>(shot);
-    PlayerShotUpdate4Vec3 *position =
-        reinterpret_cast<PlayerShotUpdate4Vec3 *>(&nativeShot->position2A4);
-    *position = *reinterpret_cast<const PlayerShotUpdate4Vec3 *>(
-        &lifecycle->position1B88);
+    PlayerPositionView *position = &nativeShot->position2A4;
+    *position = lifecycle->position1B88;
     // Retain the target's FLD position.y / FADD velocity.y order on VC7.1.
     // The temporary also keeps this 249-byte callback's exact x87 schedule
     // while the shot storage belongs to the native PlayerShotCtorView.
@@ -58,8 +41,7 @@ int __fastcall PlayerShotUpdateCallbackType4(
     if (nativeShot->state462 == 1)
     {
         float width = (float)*timer + 80.0f;
-        PlayerShotUpdate4RegionPointView center =
-            *reinterpret_cast<PlayerShotUpdate4RegionPointView *>(position);
+        PlayerPositionView center = *position;
         center.y -= 16.0f;
         center.x -= (width - 96.0f) * 0.5f;
 

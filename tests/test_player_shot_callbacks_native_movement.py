@@ -27,7 +27,7 @@ class PlayerShotCallbacksNativeMovement(unittest.TestCase):
         self.assertIn('#include "PlayerLifecycleView.hpp"', s)
         self.assertIn('struct PlayerShotUpdate4PlayerView', s)
         self.assertNotIn('unsigned char unknown0000[0x1B88]', s)
-        self.assertIn('&lifecycle->position1B88', s)
+        self.assertIn('*position = lifecycle->position1B88;', s)
         self.assertIn('lifecycle->movementFields1CCC.speedMultiplier1CE0 = 1.0f;', s)
         self.assertIn('lifecycle->movementFields1CCC.speedMultiplier1CDC = 1.0f;', s)
         self.assertIn('lifecycle->CreateRectType0(', s)
