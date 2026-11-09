@@ -218,7 +218,7 @@ int EnemyCoreRunTimerCallback(EnemyCoreView *enemy)
     return 0;
 }
 // Use the actual Th09EclRunState release API declared by EclRunState.inl.
-static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy);
+static void EnemyCoreUpdateAttachedEffects(EnemyView *enemy);
 
 // This exact Enemy effect updater and the Effect ring/fan callbacks touch
 // the same physical per-effect origin, radius and phase. Keep one shared
@@ -232,11 +232,10 @@ typedef char EnemyCoreAttachedEffectNativeOffsets[
 #include "RuntimeAngleMath.hpp"
 extern long double __stdcall AnmProjectionAbs(float value);
 
-static void EnemyCoreUpdateAttachedEffects(EnemyCoreView *enemy)
+static void EnemyCoreUpdateAttachedEffects(EnemyView *nativeEnemy)
 {
-    // Preserve the original, independently exact helper symbol while
-    // accessing the same native Enemy effect slots used by ECL and cleanup.
-    EnemyView *nativeEnemy = reinterpret_cast<EnemyView *>(enemy);
+    // The exact effect updater shares the constructed Enemy with RunEcl,
+    // EnemyManager::OnUpdate and native Enemy cleanup.
     for (int i = 0; i < nativeEnemy->attachedEffectState53B4.count60; ++i)
     {
         EffectRingRuntimeView *effect =
@@ -871,7 +870,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 manager->priorityEnemy2AC444 = enemy;
             }
 
-            EnemyCoreUpdateAttachedEffects(reinterpret_cast<EnemyCoreView *>(enemy));
+            EnemyCoreUpdateAttachedEffects(enemy);
             enemy->bossTimer2E64++;
             if (enemy->damageReductionTimer53A8 > 0)
                 enemy->damageReductionTimer53A8--;

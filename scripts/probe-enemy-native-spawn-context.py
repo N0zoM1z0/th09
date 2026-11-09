@@ -68,7 +68,7 @@ NATIVE_OWNERS = {
     'player-collision-append-box': (
         0x40F8E0, 205, '?AppendBoxRecord@PlayerCollisionQueryStateView@@QAEXPBUPlayerPositionView@@0H@Z', 1),
     'enemy-attached-effect-update': (
-        0x40F4C0, 151, '?EnemyCoreUpdateAttachedEffects@@YIXPAUEnemyCoreView@@@Z', 1),
+        0x40F4C0, 151, '?EnemyCoreUpdateAttachedEffects@@YIXPAUEnemyView@@@Z', 1),
     'zun-timer-greater': (0x403DE0, 20, '??OZunTimer@@QAEIH@Z', 4),
     'effect-manager-spawn-effect': (
         0x40CC00, 184, '?SpawnEffect@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@HI@Z', 4),
