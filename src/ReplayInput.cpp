@@ -752,7 +752,8 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         UserInfoWithNulBytes = sizeof(ReplayUserDataHeaderView) + 1,
     };
     ReplayDataView replayCopy;
-    int allocationSize = (sizeof(ReplayDataView) + ReplayRecordingCapacity::InitialPayloadBytes);
+    // Retail reserves serialized replay bytes with native modulo-32 arithmetic.
+    unsigned int allocationSize = (sizeof(ReplayDataView) + ReplayRecordingCapacity::InitialPayloadBytes);
     int loopIndex;
     {
         loopIndex = 0;
@@ -772,7 +773,8 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
 
     u8 *tempBuffer = (u8 *)g_ZunMemory.Alloc(allocationSize, "rep tmp");
     replayCopy = *replayManager->replayData;
-    int currentOffset = sizeof(ReplayDataView);
+    // This offset is a serialized byte count, not a C++ array index.
+    unsigned int currentOffset = sizeof(ReplayDataView);
 
     for (int stream = 0; stream < ReplayRecordingCapacity::InputStreamCount; stream++)
     {
@@ -782,13 +784,26 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             if (frameHeader != NULL)
             {
                 const ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
-                memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), frameHeader, sizeof(*frameHeader));
+                // A packed byte address can cross the header and its payload.
+                memcpy(
+                    reinterpret_cast<unsigned char *>(
+                        reinterpret_cast<unsigned int>(tempBuffer) +
+                        static_cast<unsigned int>(currentOffset) -
+                        sizeof(ReplayHeaderView)),
+                    frameHeader, sizeof(*frameHeader));
                 replayCopy.frameOffset[stream][loopIndex] = currentOffset;
                 currentOffset += sizeof(*frameHeader);
                 for (; link != NULL; link = link->next)
                 {
-                    int streamSize = ReplayRecordingCapacity::InputFrameBytes * link->frameCount;
-                    memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->input[stream], streamSize);
+                    unsigned int streamSize =
+                        static_cast<unsigned int>(ReplayRecordingCapacity::InputFrameBytes) *
+                        static_cast<unsigned int>(link->frameCount);
+                    memcpy(
+                        reinterpret_cast<unsigned char *>(
+                            reinterpret_cast<unsigned int>(tempBuffer) +
+                            static_cast<unsigned int>(currentOffset) -
+                            sizeof(ReplayHeaderView)),
+                        link->input[stream], streamSize);
                     currentOffset += streamSize;
                 }
             }
@@ -805,7 +820,12 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             for (; link != NULL; link = link->next)
             {
                 int fpsSize = link->frameCount / ReplayRecordingCapacity::FramesPerFpsSample;
-                memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->fps, fpsSize);
+                memcpy(
+                    reinterpret_cast<unsigned char *>(
+                        reinterpret_cast<unsigned int>(tempBuffer) +
+                        static_cast<unsigned int>(currentOffset) -
+                        sizeof(ReplayHeaderView)),
+                    link->fps, fpsSize);
                 currentOffset += fpsSize;
             }
         }
@@ -856,24 +876,29 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     int compressedSize = replayCopy.compressedSize;
 
     u32 checksum = 0x3F000318;
-    u8 *checksumCursor = &replayCopy.obfuscationKey;
-    for (loopIndex = 0; loopIndex < ChecksumHeaderBytes; loopIndex++, checksumCursor++)
-        checksum += *checksumCursor;
+    // Header checksums begin inside a scalar member and traverse neighboring
+    // wire fields; advancing a native address word preserves that layout.
+    unsigned int checksumAddress =
+        reinterpret_cast<unsigned int>(&replayCopy.obfuscationKey);
+    for (loopIndex = 0; loopIndex < ChecksumHeaderBytes; loopIndex++, checksumAddress++)
+        checksum += *reinterpret_cast<const u8 *>(checksumAddress);
     for (loopIndex = 0; loopIndex < compressedSize; loopIndex++)
         checksum += compressedData[loopIndex];
     replayCopy.checksum = checksum;
 
     u8 obfuscationOffset = replayCopy.obfuscationKey;
-    u8 *obfuscationCursor = (u8 *)&replayCopy.compressedSize;
-    for (loopIndex = 0; loopIndex < ObfuscatedHeaderBytes; loopIndex++, obfuscationCursor++)
+    // The obfuscated header and compressed payload are counted byte streams.
+    unsigned int obfuscationAddress =
+        reinterpret_cast<unsigned int>(&replayCopy.compressedSize);
+    for (loopIndex = 0; loopIndex < ObfuscatedHeaderBytes; loopIndex++, ++obfuscationAddress)
     {
-        *obfuscationCursor += obfuscationOffset;
+        *reinterpret_cast<u8 *>(obfuscationAddress) += obfuscationOffset;
         obfuscationOffset += 7;
     }
-    obfuscationCursor = compressedData;
-    for (loopIndex = 0; loopIndex < compressedSize; loopIndex++, obfuscationCursor++)
+    obfuscationAddress = reinterpret_cast<unsigned int>(compressedData);
+    for (loopIndex = 0; loopIndex < compressedSize; loopIndex++, ++obfuscationAddress)
     {
-        *obfuscationCursor += obfuscationOffset;
+        *reinterpret_cast<u8 *>(obfuscationAddress) += obfuscationOffset;
         obfuscationOffset += 7;
     }
     replayCopy.fileSize = compressedSize + sizeof(ReplayHeaderView);

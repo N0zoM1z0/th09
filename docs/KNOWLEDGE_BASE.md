@@ -206,6 +206,29 @@ CheckBulletCollision remains 849 candidate bytes against 862 original, with
 allocator and reconstructed collision pool when investigating branch chronology.
 Do not introduce a replacement pool to improve codegen.
 
+## 2026-11-10 SaveReplay native serialized-byte arithmetic
+
+`ReplayManagerView::SaveReplay @ 0x00420C60` now maintains allocation and
+serialized payload positions as unsigned i386 words. Three `memcpy` destinations
+are formed by modulo-32 address addition, rather than unchecked C++ pointer
+subscripts outside an individual source object. The link's two-byte-per-frame
+serialized length likewise multiplies native unsigned words, preserving the
+original i386 shift/add results without C++ signed-overflow UB. Checksum and
+obfuscation cursors cross adjacent wire fields in the 0x1EC-byte replay
+record; native address-word advances preserve those exact locations instead
+of incrementing a one-byte/one-word scalar subobject pointer out of bounds.
+No error-handling or allocation behavior was inserted or removed.
+
+Individual and combined signedness, buffer-expression, checksum and
+obfuscation trials were genuinely compiled under the existing pinned VC7.1
+profile. The installed final source retains **1,238/1,238** complete physical
+bytes, **53/53** original-bound fields and **23** calls, with only the same
+`+0xB7/+0xBB` destination-register differences. It remains **NONEXACT**.
+`BeginPlaybackStage` retains its previous 538/540 candidate/target lengths,
+32 bound fields and 39 overlap differences. Scoped two-carrier cold replay of
+the final installed source passed **12 exact owners, 4,093 physical bytes,
+232 relocation fields**; no new exact owner or whole-product claim follows.
+
 ## Replay SaveReplay and BeginPlaybackStage
 
 SaveReplay is 1,238 bytes/53 fields/23 calls, with only +0xB7/+0xBB differing.
