@@ -4641,6 +4641,23 @@ TITLE_MUSIC_NATIVE_ORIGINAL_SITES = {
     'title-screen-draw-music-room': (
         (0x07C,'G'), (0x081,'R'), (0x0B6,'G'), (0x0BC,'R')),
 }
+# These eleven ORIGINAL absolute memory operands are indexed data addresses,
+# not references to the bare array roots. Source-independent original PE
+# dwords were checked before recording the observed COFF addends.
+TITLE_MUSIC_ORIGINAL_INDEXED_ARRAY_FIELDS = {
+    0x091: ('?g_TitleBgmNotUnlockedWarning@@3PAPBDA', 0x004A1DBC, 0x004),
+    0x0CF: ('?g_TitleBgmNotUnlockedWarning@@3PAPBDA', 0x004A1DBC, 0x008),
+    0x10D: ('?g_TitleBgmNotUnlockedWarning@@3PAPBDA', 0x004A1DBC, 0x00C),
+    0x14B: ('?g_TitleBgmNotUnlockedWarning@@3PAPBDA', 0x004A1DBC, 0x010),
+    0x189: ('?g_TitleBgmNotUnlockedWarning@@3PAPBDA', 0x004A1DBC, 0x014),
+    0x1C4: ('?g_TitleBgmNotUnlockedWarning@@3PAPBDA', 0x004A1DBC, 0x018),
+    0x1FF: ('?g_TitleBgmNotUnlockedWarning@@3PAPBDA', 0x004A1DBC, 0x01C),
+    0x339: ('?g_ReplayInputStates@@3PAUReplayInputState@@A', 0x004ACE18, 0x122),
+    0x356: ('?g_ReplayInputStates@@3PAUReplayInputState@@A', 0x004ACE18, 0x123),
+    0x394: ('?g_ReplayInputStates@@3PAUReplayInputState@@A', 0x004ACE18, 0x123),
+    0x3DC: ('?g_ReplayInputStates@@3PAUReplayInputState@@A', 0x004ACE18, 0x122),
+}
+
 TITLE_MUSIC_NATIVE_BOUNDS = {
     'title-screen-music-room': (0x00426E05,2258,74),
     'title-screen-draw-music-room': (0x004244A9,209,6),
@@ -4661,6 +4678,7 @@ TITLE_MUSIC_REAL_INDEPENDENT_CALLEES = {
 def validate_title_music_native_abi(units: dict) -> None:
     """Protect original large MusicRoom source and 29 actual native call fields."""
     source=(ROOT/'src/TitleScreenMusicRoom.cpp').read_text()
+    native=(ROOT/'src/TitleScreenReplayView.hpp').read_text()
     inspector=(ROOT/'scripts/inspect-title-music-room.py').read_text()
     if (source.count('#include "AnmManager.hpp"')!=1 or
             source.count('#include "Supervisor.hpp"')!=1 or
@@ -4671,10 +4689,15 @@ def validate_title_music_native_abi(units: dict) -> None:
             'g_TitleAnmManager' in source or
             'g_TitleSupervisor' in source or
             'extern AnmLoaded *g_TitleMusicDescriptionAnm;' not in source or
-            'AnmLoaded *musicAnm;' not in source or
+            '#include "TitleScreenReplayView.hpp"' not in source or
+            'struct TitleScreenView {' in source or
+            'TitleAnmView *titleAnm;' not in native or
+            'MusicRoomTrackDescriptor musicTracks[32];' not in native or
+            'titleAnm->SetAndExecuteScriptIdx(' not in source or
             'g_AnmManager->DrawTextLeft(' not in source or
             'g_Supervisor.PlayAudio(' not in source or
-            'offsetof(TitleScreenView, musicAnm) == 0x11B90' not in source or
+            'offsetof(TitleScreenView, titleAnm) == 0x11B90' not in source or
+            'TitleMusicRoomNativeFields' not in native or
             'DrawTitleMusicText' in inspector or
             '?DrawTextLeft@AnmManager@@QAAXPAUAnmVm@@KKPBDZZ' not in inspector):
         raise RuntimeError('MusicRoom exact game source still uses fabricated ANM/Supervisor ABI')
@@ -4694,6 +4717,14 @@ def validate_title_music_native_abi(units: dict) -> None:
         sites={off for off,k in TITLE_MUSIC_NATIVE_ORIGINAL_SITES[name]}
         actual=[(f.get('offset'),f.get('symbol'),f.get('type'),f.get('target'),f.get('addend',0))
                 for f in unit['relocations'] if f.get('offset') in sites]
+        if name == 'title-screen-music-room':
+            by_offset={f.get('offset'):f for f in unit['relocations']}
+            for offset,(symbol,root,addend) in TITLE_MUSIC_ORIGINAL_INDEXED_ARRAY_FIELDS.items():
+                row=by_offset.get(offset)
+                if (not isinstance(row,dict) or
+                        (row.get('symbol'),row.get('target'),row.get('addend',0),row.get('type')) !=
+                        (symbol,root,addend,'DIR32')):
+                    raise RuntimeError('MusicRoom ORIGINAL indexed-array PE field identity drifted: '+hex(offset))
         if actual!=expected or any('TitleAnm' in f.get('symbol','') or
                                    'TitleSupervisorView' in f.get('symbol','') or
                                    'DrawTitleMusicText' in f.get('symbol','')

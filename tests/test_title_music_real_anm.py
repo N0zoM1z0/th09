@@ -32,7 +32,13 @@ class NativeMusicRoom(unittest.TestCase):
                     'struct TitleSupervisorView','DrawTitleMusicText(',
                     'g_TitleAnmManager','g_TitleSupervisor'):
             self.assertNotIn(bad,source)
-        self.assertIn('AnmLoaded *musicAnm;',source)
+        native=(ROOT/'src/TitleScreenReplayView.hpp').read_text()
+        self.assertIn('#include "TitleScreenReplayView.hpp"',source)
+        self.assertNotIn('struct TitleScreenView {',source)
+        self.assertIn('TitleAnmView *titleAnm;',native)
+        self.assertIn('MusicRoomTrackDescriptor musicTracks[32];',native)
+        self.assertIn('TitleMusicRoomNativeFields',native)
+        self.assertIn('titleAnm->SetAndExecuteScriptIdx(',source)
         self.assertIn('extern AnmLoaded *g_TitleMusicDescriptionAnm;',source)
         self.assertIn('g_AnmManager->DrawTextLeft(',source)
         self.assertIn('g_Supervisor.PlayAudio(',source)
@@ -59,6 +65,23 @@ class NativeMusicRoom(unittest.TestCase):
                 self.assertEqual(actual,expected)
         self.assertEqual(len(front.TITLE_MUSIC_REAL_INDEPENDENT_CALLEES),3)
         self.assertEqual(sum(x[3] for x in front.TITLE_MUSIC_REAL_INDEPENDENT_CALLEES.values()),697)
+
+    def test_original_indexed_array_addends_and_mutation_rejection(self):
+        offsets=front.TITLE_MUSIC_ORIGINAL_INDEXED_ARRAY_FIELDS
+        self.assertEqual(len(offsets),11)
+        owner=self.units['title-screen-music-room']
+        actual={r['offset']:r for r in owner['relocations']}
+        for offset,(symbol,root,addend) in offsets.items():
+            with self.subTest(offset=hex(offset)):
+                r=actual[offset]
+                self.assertEqual((r['symbol'],r['target'],r.get('addend',0),r['type']),
+                                 (symbol,root,addend,'DIR32'))
+                forged=deepcopy(self.units)
+                row=next(r for r in forged['title-screen-music-room']['relocations']
+                         if r['offset']==offset)
+                row['addend']=addend+4
+                with self.assertRaises(RuntimeError):
+                    front.validate_title_music_native_abi(forged)
 
     def test_corrupt_any_of_original_29_field_offsets_symbols_types_targets_is_rejected(self):
         for name,sites in front.TITLE_MUSIC_NATIVE_ORIGINAL_SITES.items():

@@ -37,6 +37,17 @@ struct TitleConfigSnapshotView {
     };
 };
 
+// Original 0x292-byte music descriptor stored in Title +0xC934.
+// Char-only POD fields must not introduce synthetic constructor calls.
+struct MusicRoomTrackDescriptor
+{
+    char path[64];
+    char title[66];
+    char descriptions[8][66];
+};
+typedef char MusicRoomTrackDescriptorSizeIs292[
+    (sizeof(MusicRoomTrackDescriptor) == 0x292) ? 1 : -1];
+
 struct TitleScreenView {
     i32 keyboardSelection;                    // +0x00000
     i32 replayNameCursor;                     // +0x00004
@@ -69,7 +80,12 @@ struct TitleScreenView {
     union { i32 unknown0C918; i32 optionsUiReady; }; // +0x0C918
     u8 unknown0C91C[4];
     i32 optionResetCounter;                   // +0x0C920
-    u8 unknown0C924[0x5260];
+    u8 unknown0C924[0x10];
+    MusicRoomTrackDescriptor musicTracks[32];  // +0x0C934..+0x11B73
+    i32 musicSelectedSongIndex;              // +0x11B74
+    i32 musicTrackCount;                     // +0x11B78
+    i32 musicListingOffset;                  // +0x11B7C
+    i32 musicPaused;                         // +0x11B80
     i32 side0CharacterSetting;                // +0x11B84
     i32 side1CharacterSetting;                // +0x11B88
     i32 characterSettingInputActive;
@@ -169,6 +185,15 @@ typedef char TitleNativeOptionsSnapshotFields[
      offsetof(TitleConfigSnapshotView, windowed) == 0xB1 &&
      offsetof(TitleScreenView, optionsFrameCounter) == 0xC910 &&
      offsetof(TitleScreenView, optionsUiReady) == 0xC918) ? 1 : -1];
+
+typedef char TitleMusicRoomNativeFields[
+    (offsetof(TitleScreenView, musicTracks) == 0xC934 &&
+     sizeof(((TitleScreenView *)0)->musicTracks) == 0x5240 &&
+     offsetof(TitleScreenView, musicSelectedSongIndex) == 0x11B74 &&
+     offsetof(TitleScreenView, musicTrackCount) == 0x11B78 &&
+     offsetof(TitleScreenView, musicListingOffset) == 0x11B7C &&
+     offsetof(TitleScreenView, musicPaused) == 0x11B80 &&
+     offsetof(TitleScreenView, titleAnm) == 0x11B90) ? 1 : -1];
 
 typedef char TitleReplayNativeFullOwnerExtent[
     (sizeof(TitleScreenView) == 0x1B388 &&

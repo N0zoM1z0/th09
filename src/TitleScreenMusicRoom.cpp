@@ -8,6 +8,7 @@
 #include "ReplayInputState.hpp"
 #include "Supervisor.hpp"
 #include "SoundPlayer.hpp"
+#include "TitleScreenReplayView.hpp"
 
 #include <stddef.h>
 
@@ -25,15 +26,8 @@ typedef char MusicRoomAnmVmFlagsAt1F8[(offsetof(AnmVm, flagsWord) == 0x1F8) ? 1 
 typedef char MusicRoomAnmVmInterruptAt1FE[(offsetof(AnmVm, pendingInterrupt) == 0x1FE) ? 1 : -1];
 typedef char MusicRoomAnmVmPosAt208[(offsetof(AnmVm, pos) == 0x208) ? 1 : -1];
 
-struct MusicRoomTrackDescriptor {
-    char path[64];
-    char title[66];
-    char descriptions[8][66];
-};
-
-typedef char MusicRoomTrackDescriptorSizeIs292[(sizeof(MusicRoomTrackDescriptor) == 0x292) ? 1 : -1];
-
-
+// Music-room track records are fields of the full TitleScreenView.
+// Their 0x292-byte POD shape is checked in TitleScreenReplayView.hpp.
 
 extern AnmLoaded *g_TitleMusicDescriptionAnm;
 
@@ -43,44 +37,12 @@ extern u8 g_TitleBgmUnlocked[32];
 extern const char *g_TitleBgmNotUnlockedWarning[8];
 
 
-struct TitleScreenView {
-    i32 keyboardSelection;                    // +0x00000
-    u8 unknown00004[0x24];
-    i32 currentScreenState;                   // +0x00028
-    i32 stateTimer;                           // +0x0002C
-    u8 unknown00030[0xC8E0];
-    i32 screenFrameCounter;                   // +0x0C910
-    u8 unknown0C914[0x20];
-    MusicRoomTrackDescriptor musicTracks[32]; // +0x0C934
-    i32 musicSelectedSongIndex;               // +0x11B74
-    i32 musicTrackCount;                      // +0x11B78
-    i32 musicListingOffset;                   // +0x11B7C
-    i32 musicPaused;                          // +0x11B80
-    u8 unknown11B84[0x0C];
-    AnmLoaded *musicAnm;             // +0x11B90
-    u8 unknown11B94[0x04];
-    AnmVm *vms;                           // +0x11B98
-    i32 uiAux;                                // +0x11B9C
-    AnmVm embeddedVms[57];                // +0x11BA0
-    i32 vmCount;                              // +0x1B224
-    i32 currentScreen;                        // +0x1B228
-    u8 unknown1B22C[4];
-    i32 stateTimer2;                          // +0x1B230
-
-    i32 PlayMenuSound(i32 soundId, i32 unused);
-    i32 ChangeCurrentScreen(i32 screen);
-    i32 MoveCursorVertical(i32 count);
-    void SetRangeSelectionInterrupts(i32 selected, i32 start, i32 count);
-    i32 OnUpdateMusicRoom();
-    i32 DrawMusicRoom();
-};
-
 typedef char MusicRoomTracksAtC934[(offsetof(TitleScreenView, musicTracks) == 0xC934) ? 1 : -1];
 typedef char MusicRoomSelectedAt11B74[(offsetof(TitleScreenView, musicSelectedSongIndex) == 0x11B74) ? 1 : -1];
 typedef char MusicRoomCountAt11B78[(offsetof(TitleScreenView, musicTrackCount) == 0x11B78) ? 1 : -1];
 typedef char MusicRoomListingAt11B7C[(offsetof(TitleScreenView, musicListingOffset) == 0x11B7C) ? 1 : -1];
 typedef char MusicRoomPausedAt11B80[(offsetof(TitleScreenView, musicPaused) == 0x11B80) ? 1 : -1];
-typedef char MusicRoomAnmAt11B90[(offsetof(TitleScreenView, musicAnm) == 0x11B90) ? 1 : -1];
+typedef char MusicRoomAnmAt11B90[(offsetof(TitleScreenView, titleAnm) == 0x11B90) ? 1 : -1];
 typedef char MusicRoomVmsAt11B98[(offsetof(TitleScreenView, vms) == 0x11B98) ? 1 : -1];
 typedef char MusicRoomEmbeddedAt11BA0[(offsetof(TitleScreenView, embeddedVms) == 0x11BA0) ? 1 : -1];
 typedef char MusicRoomVmCountAt1B224[(offsetof(TitleScreenView, vmCount) == 0x1B224) ? 1 : -1];
@@ -353,7 +315,7 @@ int TitleScreenView::OnUpdateMusicRoom()
                 i32 rowY = 18;
                 do
                 {
-                    musicAnm->SetAndExecuteScriptIdx(&vms[159 + vmIndex], i);
+                    titleAnm->SetAndExecuteScriptIdx(&vms[159 + vmIndex], i);
                     // vmIndex is the descriptor row; i is the 159-based script id.
                     if (g_TitleBgmUnlocked[vmIndex])
                     {
