@@ -18,8 +18,8 @@ establish target identity or exactness. Start with [RE_HANDOFF.md](RE_HANDOFF.md
 | Audit runtime origins | `python3 -B scripts/audit-runtime-origins.py` |
 | Inspect open product graph | `python3 -B scripts/build.py --check` |
 | Check documentation links/frontiers | `python3 -B scripts/validate-docs.py` |
-| Check changed machine-input syntax | `python3 -B scripts/ci.py` |
-| Full public target-independent checks | `python3 -B scripts/ci.py --full` |
+| Basic syntax/public-file, ledger, link/progress and whitespace checks | `python3 -B scripts/ci.py` |
+| Optional complete target-independent unit suite | `python3 -B scripts/ci.py --full` |
 
 The Ghidra runner checks disk/Program identity, i386 language, base/entry and
 every file-backed mapped PE byte before analysis/export. It imports once and

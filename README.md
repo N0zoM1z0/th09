@@ -84,9 +84,10 @@ unit's object. A small experimental context is worth keeping only when an
 unresolved question depends on it and it is difficult to rebuild.
 
 Use `python3 -B scripts/validate-docs.py` for links and frontier consistency,
-`python3 -B scripts/ci.py` for changed-input syntax/diff checks, and
-`python3 -B scripts/ci.py --full` for the full public target-independent suite
-when changing shared validation/CI tooling.
+`python3 -B scripts/ci.py` for fast basic syntax/public-file, ledger,
+link/progress and whitespace checks. This is also the GitHub Actions command.
+Run affected tool tests separately; `python3 -B scripts/ci.py --full` adds the
+optional complete unit suite. Routine commits do not require that full suite.
 
 ## Required phase order
 

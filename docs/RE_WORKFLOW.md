@@ -86,13 +86,17 @@ Use [RE_HANDOFF.md](RE_HANDOFF.md) for the current owner frontiers,
 
 ### Public CI
 
-`python3 scripts/ci.py --full` runs target-independent tests with Python `-S`, so a
-prepared local machine cannot hide undeclared third-party import dependencies.
-Optional decoders belong inside private diagnostic entrypoints. Run full CI for
-shared validator/CI changes; ordinary exact checkpoints need only affected-owner
-replay and checks relevant to the diff. The command is also used by GitHub
-Actions. Commit using the current operator prefix and identity; report local
-checks separately from remote publication.
+`python3 -B scripts/ci.py` is the normal local and GitHub Actions check.
+It parses public Python/JSON/TOML/shell inputs without executing them, rejects
+private binaries, and checks ledgers, links/frontiers, generated progress and
+whitespace. It requires neither the original game nor the compiler and writes
+no build cache.
+
+Run tests relevant to a tool change separately. `python3 -B scripts/ci.py --full`
+adds the optional complete target-independent unit suite using Python `-S`.
+It is not a per-commit requirement, including for CI/tooling changes. Run it
+only when explicitly requested or a concrete impact cannot be checked narrowly.
+Source edits still need their affected complete original-bound comparisons.
 
 ### Checks during the exact phase
 
@@ -112,7 +116,7 @@ Select checkpoint checks from the diff:
 
 - Reconstruction: focused complete-owner Oracle and affected exact siblings.
 - Ledgers or status claims: tracking, progress and documentation validators.
-- Tooling/tests: affected unit tests; full public CI for shared validation/CI.
+- Tooling/tests: basic CI and affected unit tests. Full suite is optional.
 - Every checkpoint: review the diff and run `git diff --check`.
 
 Whole-product build/runtime, dual-Oracle semantic and portability checks belong

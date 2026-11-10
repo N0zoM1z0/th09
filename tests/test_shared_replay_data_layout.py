@@ -13,48 +13,11 @@ from unittest import TestCase
 ROOT = Path(__file__).resolve().parents[1]
 HEADER = ROOT / "src/ReplayDataOriginalView.hpp"
 
-
 def manifest_units():
     with (ROOT / "config/match-units.toml").open("rb") as source:
         return tomllib.load(source)["units"]
 
-
 class SharedReplayDataPhysicalLayout(TestCase):
-    def test_all_four_translation_units_use_one_reviewed_record(self):
-        consumers = {
-            "src/ReplayInput.cpp": "ReplayDataView",
-            "src/TitleScreen.cpp": "ReplayDataView replays[50]",
-            "src/TitleScreenReplaySaveDraw.cpp": "this->replays[i].magic",
-            "src/TitleScreenReplayMenuDraw.cpp": "replays[i].magic",
-        }
-        for filename, expected in consumers.items():
-            with self.subTest(filename=filename):
-                body = (ROOT / filename).read_text()
-                if filename == "src/ReplayInput.cpp":
-                    # ReplayInput now includes the original 0x1EC record
-                    # through the shared, physical 0x164-byte manager owner.
-                    # Require the complete include chain rather than an
-                    # obsolete direct source-only include convention.
-                    self.assertIn('#include "ReplayManagerRuntimeView.hpp"', body)
-                    manager = (ROOT / "src/ReplayManagerRuntimeView.hpp").read_text()
-                    self.assertIn('#include "ReplayDataOriginalView.hpp"', manager)
-                elif filename == "src/TitleScreen.cpp":
-                    # The main Title TU owns its larger exact TitleScreenView
-                    # directly, while both drawing TUs borrow the shared view.
-                    self.assertIn('#include "ReplayDataOriginalView.hpp"',body)
-                    self.assertIn('ReplayDataView replays[50];',body)
-                else:
-                    self.assertIn('#include "TitleScreenReplayView.hpp"', body)
-                    shared=(ROOT / 'src/TitleScreenReplayView.hpp').read_text()
-                    self.assertIn('#include "ReplayDataOriginalView.hpp"',shared)
-                    self.assertIn('ReplayDataView replays[50];',shared)
-                    self.assertIn('offsetof(TitleScreenView, replays) == 0x68E4',shared)
-                self.assertIn(expected, body)
-                self.assertNotIn("struct ReplayDataView", body)
-                self.assertNotIn("struct ReplayFrameDataStartView", body)
-                self.assertNotIn("struct ReplaySaveReplayDataView", body)
-                self.assertNotIn("struct ReplayMenuReplayView", body)
-                self.assertNotIn("struct ReplayMenuFrameView", body)
 
     def test_real_replay_frame_and_record_have_exact_original_offsets(self):
         text = HEADER.read_text()

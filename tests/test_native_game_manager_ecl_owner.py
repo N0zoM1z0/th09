@@ -32,7 +32,7 @@ class NativeGameManagerEclOwner(unittest.TestCase):
         self.assertEqual((unit['target_address'],unit['size'],unit['compare_size'],len(unit['relocations'])),
                          (0x0040FCC0,974,1048,42))
         self.assertEqual([(r['offset'],r['type'],r['symbol'],r['target'],r.get('addend'))
-                          for r in unit['relocations'] if 'g_GameManager' in r['symbol']],
+                          for r in unit['relocations'] if r['offset'] == 0x6C],
                          [(0x6C,'DIR32','?g_GameManager@@3UAsciiGameManagerView@@A',0x004A7D90,0x120)])
 
     def test_main_ecl_interpreter_reads_native_word_and_duplicate_header_is_retired(self):

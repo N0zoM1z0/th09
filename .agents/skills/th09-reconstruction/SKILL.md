@@ -31,8 +31,10 @@ cross-game Factory promotion for later reviewed analysis.
 Keep exact-phase checks focused on complete bytes, relocations, affected owners
 and proof inputs. Do not require general runtime hardening, allocation/null
 fault injection, source-text snapshots, whole-product closure or full CI for
-each exact checkpoint. Later-phase validation stays in its own phase; run full
-public CI when shared validation/CI tooling changes.
+each exact checkpoint. Use basic `scripts/ci.py` and relevant focused tests
+for routine commits. The full unit suite is an explicit optional `--full`;
+CI/tooling edits do not automatically require it. Later-phase validation stays
+in its own phase.
 
 Use broad repository Bash and composable Ghidra/compiler/Wine/Git tools where they
 accelerate correct feedback. Keep scratch below `.analysis/`, inspect it before

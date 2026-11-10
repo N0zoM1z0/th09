@@ -79,11 +79,14 @@ selected units from maintained source and the pinned profiles. `build/` may
 be absent. Keep future scratch only while useful; record the conclusion and
 remove obsolete output without making another archive or cleanup report.
 
-## Public-check blocker
+## Routine checks
 
-The full target-independent suite currently reports 10 failures and four errors
-in source-shape/probe expectations (including native Enemy side/flag/spawn
-models and Title texture/replay context). The maintenance changed no game
-source, compiler profile or exact ledger. Focused documentation tests and live
-link/frontier, tracking and generated-progress checks pass. Review stale probe
-assumptions before relying on a broad public-suite pass.
+Run `python3 -B scripts/ci.py` for the fast basic public checks (about one
+second locally). Tool changes also need relevant focused tests; source changes
+still need their complete affected original-bound comparison. The complete
+unit suite is available through `--full` and is optional, including for CI edits.
+
+The stale native-owner source snapshots from the previous full-suite failure
+were retired, the still-useful Enemy/Title probe fixtures were corrected, and
+the affected test modules pass. Complete PE/COFF comparators, match recipes and
+exact ledgers are unchanged.

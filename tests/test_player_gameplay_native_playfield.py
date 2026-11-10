@@ -33,10 +33,11 @@ class PlayerGameplayNativePlayfield(unittest.TestCase):
         self.assertEqual((resolver['target_address'],resolver['size'],resolver['compare_size']),
                          (0x00404710,346,412))
         self.assertEqual(len(resolver['relocations']),18)
-        # 34 original source address operands were independently proved as
-        # GameManager+0x360..+0x36C, not synthetic game-wide float globals.
+        # Keep base-owner references separate from the native Front pointer
+        # operand, whose GameManager addend is +0xA8.
         bound=[r for r in selector['relocations']
-               if r['symbol']=='?g_GameManager@@3UAsciiGameManagerView@@A']
+               if r['symbol']=='?g_GameManager@@3UAsciiGameManagerView@@A'
+               and r.get('addend', 0) == 0]
         self.assertEqual(len(bound),38)
         self.assertTrue(all(r['target']==0x004A7D90 for r in bound))
 

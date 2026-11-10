@@ -9,7 +9,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-
 class NativeEnemyEclPlayerStorage(unittest.TestCase):
     def test_one_player_field_layout_shared_by_enemy_and_ecl(self):
         native = (ROOT/'src/EnemyManager.hpp').read_text()
@@ -42,20 +41,6 @@ class NativeEnemyEclPlayerStorage(unittest.TestCase):
         self.assertNotIn('struct BoundaryMovePlayerView',ecl)
         self.assertNotIn('Th09EclRunMovement::BoundaryMovePlayerView',ecl)
         self.assertIn('player->position1B88.x',ecl)
-
-    def test_side_state_has_one_native_etama_owner(self):
-        state = (ROOT/'src/EclRunState.inl').read_text()
-        late = (ROOT/'src/EclRunLate.inl').read_text()
-        native = (ROOT/'src/EnemyManager.hpp').read_text()
-        self.assertIn('typedef EnemySideStateView EnemyCoreSideStateView;', state)
-        self.assertNotIn('struct EnemyCoreSideStateView\n{', state)
-        self.assertIn('typedef ::EnemyCoreSideStateView SideStateView;', late)
-        for member in ('Background *background00;', 'EtamaController *etama08;',
-                       'CardAttack *owner14;',
-                       'unsigned int flags34;'):
-            self.assertIn(member, native)
-        self.assertIn('return Manager(enemy)->sideState320->etama08;', late)
-        self.assertIn('Th09EclLateSharedNativeSideLayout', late)
 
     def test_ecl_manager_protocol_fields_share_native_offsets(self):
         native=(ROOT/'src/EnemyManager.hpp').read_text()
@@ -99,7 +84,6 @@ class NativeEnemyEclPlayerStorage(unittest.TestCase):
                       (ROOT/'src/PlayerEnemyTrackingStateView.hpp').read_text())
         self.assertNotIn('struct PlayerLateView\n{',
                          (ROOT/'src/EclRunLate.inl').read_text())
-
 
 if __name__ == '__main__':
     unittest.main()

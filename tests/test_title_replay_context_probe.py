@@ -10,18 +10,14 @@ spec = importlib.util.spec_from_file_location(
 probe = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(probe)
 
-TITLE = '''#include "ReplayDataOriginalView.hpp"
-struct TitleScreenView {
-    int real_owner_field;
-    static void __cdecl TitleSetupThread(void *unused);
-};
+TITLE = '''#include "TitleScreenReplayView.hpp"
+int title_prefix_global;
 void __cdecl TitleScreenView::TitleSetupThread(void *unused)
 {
     native_setup_body();
 }
 '''
-MENU = '''#include "ReplayDataOriginalView.hpp"
-struct TitleScreenView { int provisional_owner; int DrawReplayMenu(); };
+MENU = '''#include "TitleScreenReplayView.hpp"
 extern AsciiManager g_AsciiManager;
 static int real_selector() { return 1; }
 int TitleScreenView::DrawReplayMenu()
@@ -38,9 +34,7 @@ class TitleReplayContextProbe(unittest.TestCase):
         self.assertEqual(rows['standalone'], MENU)
         for name in ('declarations', 'native'):
             text = rows[name]
-            self.assertIn('int real_owner_field;', text)
-            self.assertNotIn('provisional_owner', text)
-            self.assertEqual(text.count('    int DrawReplayMenu();'), 1)
+            self.assertIn('int title_prefix_global;', text)
             self.assertEqual(text.count('complete_menu_body();'), 1)
             self.assertEqual(text.count('static int real_selector()'), 1)
             self.assertTrue(text.endswith(MENU[MENU.index(probe.MENU_GLOBALS):]))
@@ -56,8 +50,8 @@ class TitleReplayContextProbe(unittest.TestCase):
 
     def test_missing_duplicate_or_already_integrated_definitions_fail_closed(self):
         for title, menu in (
-            (TITLE.replace(probe.SETUP_DECLARATION, ''), MENU),
-            (TITLE + probe.SETUP_DECLARATION, MENU),
+            (TITLE.replace(probe.TITLE_VIEW_INCLUDE, ''), MENU),
+            (TITLE + probe.TITLE_VIEW_INCLUDE, MENU),
             (TITLE.replace(probe.SETUP_DEFINITION, '\nvoid OtherSetup('), MENU),
             (TITLE + probe.SETUP_DEFINITION, MENU),
             (TITLE + 'int DrawReplayMenu();', MENU),
@@ -65,7 +59,8 @@ class TitleReplayContextProbe(unittest.TestCase):
             (TITLE, MENU + probe.MENU_GLOBALS),
             (TITLE, MENU.replace(probe.MENU_DEFINITION, 'int OtherMenu()')),
             (TITLE, MENU + probe.MENU_DEFINITION),
-            (TITLE, MENU.replace('#include "ReplayDataOriginalView.hpp"', '')),
+            (TITLE, MENU.replace(probe.TITLE_VIEW_INCLUDE, '')),
+            (TITLE, MENU + probe.TITLE_VIEW_INCLUDE),
         ):
             with self.subTest(title=title[-60:], menu=menu[-60:]), self.assertRaises(ValueError):
                 probe.make_contexts(title, menu)

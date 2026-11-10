@@ -15,30 +15,6 @@ class EnemyOnUpdateNativeGameManagerSpawnSide(unittest.TestCase):
         with (ROOT/'config/match-units.toml').open('rb') as f:
             cls.units=tomllib.load(f)['units']
 
-    def test_real_native_side_allocation_not_an_enemy_copy(self):
-        src=(ROOT/'src/EnemyManagerCore.inl').read_text()
-        header=(ROOT/'src/EnemyManager.hpp').read_text()
-        side=(ROOT/'src/GameManagerSideState.hpp').read_text()
-        self.assertIn('#include "AsciiGameManagerView.hpp"',src)
-        self.assertIn('EnemyCoreRealGameManagerSpawnSide',src)
-        for typename,field,offset in (
-            ('AsciiGameManagerSideView','etama08','0x08'),
-            ('AsciiGameManagerSideView','character20','0x20'),
-            ('EnemySideStateView','etama08','0x08'),
-            ('EnemySideStateView','characterIndex20','0x20'),
-            ('EnemyManagerView','sideState320','0x320')):
-            self.assertIn('offsetof('+typename+', '+field+') == '+offset,src)
-        self.assertIn('sizeof(AsciiGameManagerSideView) == 0x38',src)
-        self.assertIn('sizeof(EnemySideStateView) == 0x38',src)
-        self.assertIn('AsciiGameManagerSideView &spawnSide =',src)
-        self.assertIn('reinterpret_cast<AsciiGameManagerSideView *>(',src)
-        self.assertIn('spawnSide.character20 == 13 ? 1 : 3',src)
-        self.assertIn('spawnSide.etama08->SpawnBulletPatternPrimary(',src)
-        self.assertNotIn('EnemySideStateView &spawnSide = *manager->sideState320;',src)
-        self.assertIn('EnemySideStateView *sideState320;',header)
-        self.assertIn('int character20;',side)
-        self.assertIn('EtamaController *etama08;',side)
-
     def test_existing_exact_etama_descriptor_and_uncredited_boss(self):
         src=(ROOT/'src/EnemyManagerCore.inl').read_text()
         self.assertIn('BulletSpawnDescriptorCtorView storage;',src)

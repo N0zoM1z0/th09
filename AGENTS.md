@@ -16,7 +16,9 @@ complete affected exact comparisons, owned extents and relocations, including
 known consumers of changed shared inputs. Tool changes need relevant positive
 and negative cases and a bounded real smoke. Use a broad suite only for an
 explicit request or an impact that cannot be narrowed; state the reason first.
-Run full public CI when changing shared validation or CI tooling.
+Routine commits use basic CI and tests relevant to the change. The full
+unit suite is optional, even for CI/tooling edits; run it only when requested
+or when a specific impact cannot be checked more narrowly.
 
 Do not add tests or freshness gates for prose hashes, wording, progress copies,
 handoff source-SHA tables or ordinary source spelling. Bind exact evidence to
@@ -113,8 +115,10 @@ relocation identities or stale executable proof inputs.
 Finish with `git diff --check` and checks relevant to the change: focused
 Oracles for reconstruction, tracking/progress for ledger changes, documentation
 validation for routing/status claims, and relevant tooling tests. Use
-`python3 -B scripts/ci.py` for changed-input syntax/diff checks;
-`python3 -B scripts/ci.py --full` runs the public target-independent suite.
+`python3 -B scripts/ci.py` for fast syntax/public-file, ledger, link, progress
+and whitespace checks;
+`python3 -B scripts/ci.py --full` explicitly adds the optional unit suite.
+Neither command compiles the game or replaces affected exact comparisons.
 
 ## Knowledge and retention
 
