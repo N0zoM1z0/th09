@@ -8,11 +8,13 @@ run `python3 -B scripts/report-reconstruction-status.py` or read the generated
 
 ## Current work
 
-The latest reconstruction source checkpoint is `746b0e6d`. Title draw, calc
+The earlier Title-source reconstruction checkpoint is `746b0e6d`. Title draw, calc
 and MusicRoom use the complete native Title owner. Their already-exact
 functions stay exact; Replay-menu drawing remains nonexact. Recent Player,
 Front, Enemy/ECL and Ascii native-owner work likewise preserves existing
-exact owners. Git records the individual source changes.
+exact owners. The current ECL/Enemy native-word source changes preserve both
+large owner frontiers and cold-pass 83 affected exact units in two carriers.
+Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,
 origin-unclassified constructor equivalents, runtime validation and

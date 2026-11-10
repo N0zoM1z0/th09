@@ -92,6 +92,35 @@ the canonical ledger says unknown. Source equivalence adds no authored credit.
 Likewise the 15-byte angle wrapper at `0x405700` is reproducible by both SDK
 `atan2f` and a game wrapper; it remains origin-unresolved.
 
+## 2026-11-10 ECL and Enemy native address-word arithmetic
+
+Original TH09 advances ECL instructions through i386 32-bit address arithmetic:
+`nextOffset06` is sign-extended from 16 bits, and the jump displacement is a
+signed 32-bit word. In the maintained RunEcl source, three next-instruction
+paths now add those bits to the instruction's unsigned 32-bit address before
+reconstructing its typed pointer. `EnemyManagerView::OnUpdate` also forms the
+native draw-list head address with the unsigned group byte times a four-byte
+pointer stride, rather than indexing beyond a C++ array's nominal extent.
+These are source-level Win32 semantics corrections, not claims of matching
+original C++ spelling.
+
+Current-source VC7.1 complete-owner checks retain RunEcl at 15,564 bytes,
+598 independently bound fields and the same 30 ordinary differences (only
+opcodes 4 and 155). Enemy OnUpdate retains 3,900 bytes, 97 bound fields, 69
+calls and the same 13 differences. A selected two-carrier cold replay
+preserved all **83 exact sibling units**, **29,856 physical bytes** and
+**1,389 original-bound relocation fields**. Eight renamed compiler-private
+`$L` labels were independently checked against their actual COFF section
+positions and original PE destinations before updating their manifest names.
+No new exact function was admitted.
+
+Natural opcode-4 timer-lifetime, opcode-155 masked-flag, SaveReplay frame-copy,
+and Enemy draw-index/descriptor-copy source trials failed to improve their
+complete original-bound residuals, so none was installed. A broader lexical
+ECL jump change also renumbered local symbols in the separately compiled
+EclOperands unit; it remains an experiment rather than widening this patch
+or changing unrelated exact-unit manifests.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,
@@ -231,6 +260,13 @@ GetAnm/PreloadAnm's resource. Bytes +0x0E..+0x32 already match; residuals are
 +0x03..+0x09 and +0x0D. Borrowed owner/captured receiver/interface variants
 left eight or eleven differences. RET at +0x32 ends the owner; the following
 thirteen CC bytes are unowned. Keep the independently exact Create caller.
+
+Eighteen additional current-source VC7.1 trials varied the order of owner and
+ANM manager initialization, cached versus direct GetAnm receiver, reference
+versus pointer owner, conditional assignment and result destination storage.
+All complete 51-byte/4-field comparisons either retained the original eight
+register-scheduling differences or regressed to eleven; a pointer-reference
+trial changed the actual relocation count and was rejected. None was adopted.
 
 ## Reference integration and phase limits
 

@@ -483,8 +483,9 @@ static void CallSubroutine(
 {
     enemy->activeContext2CE0->currentInstruction004 =
         reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-            reinterpret_cast<unsigned char *>(instruction) +
-            static_cast<short>(instruction->nextOffset06));
+            reinterpret_cast<unsigned int>(instruction) +
+            static_cast<unsigned int>(
+                static_cast<short>(instruction->nextOffset06)));
 
     if ((enemy->primaryFlags337C &
          Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
@@ -547,8 +548,9 @@ th09_ecl_restart_context:
 th09_ecl_enter_pending_subroutine:
     enemy->activeContext2CE0->currentInstruction004 =
         reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-            reinterpret_cast<unsigned char *>(instruction) +
-            static_cast<short>(instruction->nextOffset06));
+            reinterpret_cast<unsigned int>(instruction) +
+            static_cast<unsigned int>(
+                static_cast<short>(instruction->nextOffset06)));
 
     if ((enemy->primaryFlags337C &
          Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
@@ -626,8 +628,9 @@ th09_ecl_instruction_loop:
 
 th09_ecl_advance_instruction:
             instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-                reinterpret_cast<unsigned char *>(instruction) +
-                static_cast<short>(instruction->nextOffset06));
+                reinterpret_cast<unsigned int>(instruction) +
+                static_cast<unsigned int>(
+                    static_cast<short>(instruction->nextOffset06)));
 
 th09_ecl_redispatch_instruction:
             goto th09_ecl_instruction_loop;

@@ -351,7 +351,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             {
                 if ((flags & ENEMY_CORE_NO_SPRITE) == 0)
                 {
-                    drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
+                    drawHead = reinterpret_cast<EnemyView **>(
+                        reinterpret_cast<unsigned int>(manager->drawGroupHeads2AC410) +
+                        static_cast<unsigned int>(enemy->drawGroup3387) *
+                        static_cast<unsigned int>(sizeof(manager->drawGroupHeads2AC410[0])));
                     goto append_enemy_to_draw_group;
                 }
                 continue;
@@ -879,7 +882,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         if ((enemy->primaryFlags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
             (enemy->primaryFlags337C & ENEMY_CORE_ACTIVE) != 0)
         {
-            drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
+            drawHead = reinterpret_cast<EnemyView **>(
+                        reinterpret_cast<unsigned int>(manager->drawGroupHeads2AC410) +
+                        static_cast<unsigned int>(enemy->drawGroup3387) *
+                        static_cast<unsigned int>(sizeof(manager->drawGroupHeads2AC410[0])));
         }
         else
             continue;
