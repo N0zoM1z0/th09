@@ -19,9 +19,9 @@ pinned VC7.1 compiler for byte-exact comparisons. These are separate evidence
 sources. New English commits use `gpt-web: <concise summary>`; checkpoint every
 substantive advance and create multiple commits when a session has multiple
 reviewable advances. Compile serially at lowered priority and preserve complete
-affected-owner/callee proofs. See [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261110.md)
-for current source boundaries/residuals, and `RE_HANDOFF.md` for live
-ledger totals plus dated supporting evidence.
+affected-owner/callee proofs. See [the current restart guide](RE_HANDOFF.md)
+for current source boundaries/residuals and useful commands. Generate totals
+from the canonical ledgers.
 
 Historical negative results are bounded measurements, not proof that all natural
 source models are exhausted. Exact code, the authored denominator, the Windows
@@ -75,30 +75,18 @@ project stay below `.analysis/ghidra-direct/`; no MCP service is needed.
    checkpoint. Reuse hash-matched evidence for unchanged functions; do not run
    the whole historical cohort or repeat cold builds after every edit. Each new
    exact owner still needs complete byte/relocation/source proof and a
-   reproducible canonical local build/replay. Historical Factory receipts remain
-   scoped historical evidence. The reconstruction workflow uses direct local
-   Ghidra with mapped-byte attestation and target-bound pinned compiler Oracles. This
-   focused replay scope supersedes older broad replay wording.
+   reproducible canonical local build/replay. Use direct local Ghidra with
+   mapped-byte attestation and target-bound pinned compiler Oracles.
 
 ### What to read at a fresh handoff
 
-Use [the current restart guide](TH09_NEXT_AGENT_HANDOFF_20261110.md) for the
-active owner priorities and [RE_HANDOFF.md](RE_HANDOFF.md) for ledger-backed
-historical tables and unresolved
-large/small function fronts, exact-sibling scopes, and restart/cleanup gates.
-The separately preserved [accepted Factory receipts](RE_ACCEPTED_RECEIPTS.md)
-are a **historical source-commit-bound archive**, not a new acceptance claim
-for the current HEAD; [artifact cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md)
-records what was actually deleted and what remained untouched. The current
-standalone 1,280-byte Title DrawReplayMenu PE/COFF auditor is
-`scripts/inspect-title-replay-menu-draw.py`; the focused
-`python3 scripts/check-boss-frontiers.py --owner title` command now
-cold-compiles and verifies it automatically, in addition to the other
-original-bound Title owners.
+Use [RE_HANDOFF.md](RE_HANDOFF.md) for the current owner frontiers,
+[PROGRESS.md](PROGRESS.md) for generated totals and
+[KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for findings relevant to the chosen owner.
 
 ### Public CI
 
-`python3 scripts/ci.py` runs target-independent tests with Python `-S`, so a
+`python3 scripts/ci.py --full` runs target-independent tests with Python `-S`, so a
 prepared local machine cannot hide undeclared third-party import dependencies.
 Optional decoders belong inside private diagnostic entrypoints. Run full CI for
 shared validator/CI changes; ordinary exact checkpoints need only affected-owner
@@ -136,12 +124,10 @@ it is no longer part of exact-phase public CI.
 ### Current-state documentation hygiene
 
 Keep the current handoff concise and sufficient to resume: current state, changed
-claims, unresolved work and useful commands. Put lengthy experiment details in
-Git history or `docs/KNOWLEDGE_BASE.md`; headings, dates and line counts are not
-validation gates.
+claims, unresolved work and useful commands. Keep findings and useful failed
+approaches in `docs/KNOWLEDGE_BASE.md`; Git retains the source history.
 
-Do not use a knowledge-base `Recorded state` cell or old packet wording as a
-current exactness ledger. When a function changes exactness, update or remove
+Do not use old knowledge wording as a current exactness ledger. When a function changes exactness, update or remove
 any active handoff or routing claim in the same checkpoint. Prefer a
 reproducible command over copying transient whole-owner counts into long-lived
 prose.
@@ -167,59 +153,15 @@ dual-Oracle semantic baseline, in a distinct product configuration.
 
 ## Artifact lifecycle
 
-`.analysis/` contains local working state and retained evidence. Promote durable
-facts into tracked source/ledgers/docs, and keep the smallest source-bound packet
-needed to reproduce an unresolved or accepted claim. Verified archives may
-replace loose duplicates. Remove compiler objects, PDBs and copied inputs only
-after checking that the retained recipe and evidence reproduce their useful
-claims; the adopted selected-ECL-manager objects are retained proof, not caches.
+Retain necessary private inputs, maintained source/ledgers/replay scripts, and
+short useful knowledge. The original executable, toolchain/Wine runtime and
+saved Ghidra projects are inputs. `build/` and analysis exports, objects and
+old trials are disposable outputs. A document reference does not justify
+retention. Do not archive obsolete outputs or produce cleanup audit journals.
 
-Clear generated object/PDB/bytecode caches routinely, but distinguish them
-from unique, still-reproducible experimental C++ sources, analysis tables and
-JSON audit evidence. A source-copy tree is **not automatically safe to delete**
-merely because its files look generated: first verify how to reproduce the
-original trial and whether its negative result was recorded. The handoff must
-state exactly what was removed and what large scratch archives remain.
-`python3 scripts/clean-generated-artifacts.py` is dry-run by default and
-cleans the ignored `build/` tree plus debug/bytecode caches under `.analysis/`
-only when called with `--apply`. Analysis objects remain unless an explicit
-`--reviewed-objects` path/SHA-256 manifest selects them. Changed files or build
-contents invalidate the plan before deletion. Ambiguous `.idb` files are preserved because
-they may be IDA databases. It intentionally leaves copied experiment sources,
-JSON evidence, and original/IDA inputs intact until separately audited. Classify deletion by reproducibility, tracked
-references, and whether the useful fact has been promoted. Do not blindly
-delete a recovered scratch tree before that audit. Once the remaining scratch
-has no tracked consumers and every still-useful unresolved fact is recorded in
-tracked source/ledgers/docs, remove only individually reviewed scratch paths.
-Never bulk-delete `.analysis/` or remove unclassified legacy artifacts, provider
-databases, toolchains, or Wine prefixes. Record the paths, classification,
-reproducibility and retained evidence in docs/RE_HANDOFF.md so future agents
-can distinguish deliberately cleaned outputs from missing canonical evidence.
-
-When old copies are byte-recoverable from reachable Git blobs,retain their
-original SHA-256,path and checkout line endings in a recovery manifest before
-deletion. `scripts/restore-analysis-snapshots.py MANIFEST --prefix .analysis/PACKET`
-previews recovery;`--apply` restores absent files without overwriting later work.
-Unique research variants and pending candidates do not qualify merely because
-some of their dependencies are Git-backed.
-
-The 2026-11-04 **reviewed** archive differs from an unsafe JSON deletion:
-1,258 older large generated JSON snapshots were first saved in a local-only
-`tar.zst`, and **every member and original file passed SHA-256 validation**
-before the original duplicate was removed. The new
-`python3 -B scripts/restore-analysis-archive.py --path .analysis/FILE.json`
-previews the selective restore; add `--apply` to restore only an absent,
-manifest-listed file after original content verification. It never overwrites
-operator changes. The manifest/receipt/archive are ignored local state and
-may be absent in a fresh clone. Read the measured cleanup history and
-regenerate a selected match unit when needed; do **not** full-replay all units
-or bulk-delete current source/unique unarchived experiments.
-
-The November6 cleanup also preserves build OBJ and large private TOML inputs
-in a separate verified bundle. Use
-`python3 -B scripts/restore-analysis-archive.py --bundle .analysis/handoff-archive-20261106 --prefix build/analysis/PACKET`
-with the actual packet name (preview, then `--apply`); `--path` selects one
-manifest-listed OBJ/JSON/TOML and an analysis prefix selects archived packet
-inputs. The default November4 JSON archive is unchanged. See the current
-handoff for hashes, protected inputs and actual reclaimed bytes. Missing
-`build/` is expected; restore retained evidence or rebuild the affected unit.
+If an unresolved question really needs a compiler context that cannot readily
+be rebuilt, keep that small context and explain the dependency in the handoff.
+Otherwise record the conclusion and useful failed approach in the knowledge
+base, then remove the scratch. Preserve dirty/untracked operator work and
+private inputs when cleaning. Exactness comes from complete reproducible
+comparison, not from retaining historical receipts.

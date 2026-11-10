@@ -1,249 +1,173 @@
 # TH09 reconstruction agent rules
 
-## Highest priority: lightweight exact reconstruction and useful knowledge
+## Working loop
 
-These are the user's current workflow requirements. They override older
-instructions that mandate broad CI, repeated preflights, document/source-pin
-refreshes, per-checkpoint audits or extra workflow machinery. Preserve the
-actual exactness, target identity, natural-source and state-isolation rules.
+Prioritize exact reconstruction and useful knowledge. Use the shortest useful
+loop: inspect relevant state, analyze/edit, compile and compare the affected
+scope, retain useful learning, and create a coherent checkpoint.
 
-- Prioritize exact reconstruction and reusable knowledge. Use the shortest
-  useful loop: inspect relevant state, analyze/edit, compile and compare the
-  affected scope, retain useful learning, and create a coherent checkpoint.
-- Use existing repository scripts and composable Bash. Add only the smallest
-  change needed for an observed problem. Do not introduce a framework, schema,
-  registry, state machine, generalized validator, test family or reporting
-  process merely to make a local reconstruction task look more engineered.
-- Documentation, knowledge and handoff edits require no compiler, analyzer,
-  full CI, cold replay or receipt refresh. Inspect the diff. Check syntax only
-  for machine-readable inputs actually changed.
-- Source changes need the complete affected exact comparison, including its
-  owned extents and relocations. Recheck known consumers of changed shared
-  inputs. Tool changes need relevant positive/negative cases and a bounded
-  real smoke. Run a broad suite only for an explicit request or a demonstrated
-  impact that cannot be narrowed; state that reason first.
-- Do not add tests or live freshness gates for prose hashes, prompt wording,
-  progress totals, handoff source-SHA tables or ordinary source spelling.
-  Bind exact evidence to executable inputs and relevant verification settings.
-  Keep Git metadata as provenance. A document genuinely consumed by a build
-  remains a build input. Never edit historical receipts to manufacture a pass.
-- Plain Markdown is sufficient for knowledge: record the finding, applicable
-  target/compiler/scope, evidence links, useful failed attempts and open
-  questions. No mandatory JSON conversion, promotion workflow or test per note.
-  Search relevant sections; do not read an entire large knowledge journal.
-- Write documentation and knowledge in natural, fluent English. Lead with the
-  concrete finding and connect the evidence and next action clearly. Remove
-  filler, circular restatements, repeated conclusions and unnecessary jargon.
-  Do not add defensive-claim boilerplate. State a real uncertainty or scope
-  limit once when it changes a decision; do not repeat disclaimers about what
-  a note does not prove, certify or authorize. Prefer a small useful note over
-  an exhaustive report that is difficult to read.
-- Keep handoff focused on current work, evidence references, blockers and the
-  next useful action. Generate progress from canonical ledgers; avoid manual
-  duplicate counts, recurring full reports and unrelated documentation chores.
-- Preserve dirty/untracked work, targets, useful evidence, game-specific Wine
-  prefixes and analyzer projects. Exactness still requires a complete strict
-  comparison; knowledge and successful commands alone confer no exact credit.
+Use existing scripts and composable Bash. Add only the smallest change needed
+for an observed problem. Do not add frameworks, registries, state machines or
+reporting processes for routine reconstruction or cleanup.
 
+Documentation and knowledge edits need diff review, not compiler/Ghidra replay.
+Check syntax for machine-readable inputs actually changed. Source changes need
+complete affected exact comparisons, owned extents and relocations, including
+known consumers of changed shared inputs. Tool changes need relevant positive
+and negative cases and a bounded real smoke. Use a broad suite only for an
+explicit request or an impact that cannot be narrowed; state the reason first.
+Run full public CI when changing shared validation or CI tooling.
 
-## Current operator status
+Do not add tests or freshness gates for prose hashes, wording, progress copies,
+handoff source-SHA tables or ordinary source spelling. Bind exact evidence to
+executable inputs and relevant comparison settings; Git supplies provenance.
+Never edit a historical result to manufacture a pass.
 
-At the **2026-11-10 handoff**, the operator requested an up-to-date
-next-agent guide, correction of stale status/ownership claims, and reviewed
-storage reduction. The **current restart guide** is
-`docs/TH09_NEXT_AGENT_HANDOFF_20261110.md`. The old November 9/8/7 guides
-are historical snapshots, **not** the current source commit, disk inventory,
-or accepted frontier. Use live `git status`, the canonical ledger and scoped
-PE/COFF Oracles before continuing reconstruction.
-
-As of source checkpoint `746b0e6d`, the recent native TitleDraw, TitleCalc,
-Replay-menu text view and MusicRoom changes all preserve the earlier exact
-owners. Title `DrawReplayMenu` remains **nonexact (1,280 bytes, 29 unlike)**.
-RunEcl and Enemy OnUpdate remain **30** and **13** bytes unlike; the current
-canonical ledger remains **1,024 exact / 13 nonexact**. These are dated
-orientation facts, not a substitute for checking the live repository.
-
-The verified original is only Japanese TH09 v1.50a at ignored
-`resources/th09.exe`, SHA-256
-`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Preserve private source inputs, Ghidra/IDA projects, game-specific Wine
-compiler/runtime, hashes and useful experiment evidence. After a clean
-handoff `build/` may be absent; recreate selected COFF units as needed.
-Do not run project-wide cold replay in routine iteration.
-
-## Mandatory session recovery
+## Session recovery
 
 Before changing anything:
 
-1. Read docs/RE_HANDOFF.md and the instructions relevant to the change. For
-   reconstruction also read docs/RE_WORKFLOW.md, docs/ORACLES.md and affected
-   source/ledger rows.
-2. Run git status --short --branch. Inspect tracked, staged, dirty and untracked
-   work; review diffs and recover/supersede valuable interrupted work rather
-   than silently working around it.
-3. Before target-dependent work, run python3 scripts/verify-target.py,
-   python3 scripts/validate-tracking.py --require-target and
-   python3 scripts/report-reconstruction-status.py. Before Ghidra analysis,
-   attest disk and Program SHA-256, i386 language, image base, entry point and
-   every file-backed PE byte mapped into the Program. Metadata hashes alone do
-   not prove the mapped database is unchanged. Ghidra is not an exactness
-   Oracle. Documentation-only work does not need compiler/Ghidra replay.
-4. Work on one bounded owner or coherent maintenance batch and leave a
-   reviewable local checkpoint. Rebuild/replay affected owners only; no full
-   cold replay for routine iteration.
+1. Read [docs/RE_HANDOFF.md](docs/RE_HANDOFF.md) and instructions relevant to
+   the change. For reconstruction also read [workflow](docs/RE_WORKFLOW.md),
+   [Oracles](docs/ORACLES.md), affected source and canonical ledger rows.
+2. Run `git status --short --branch`. Inspect staged, dirty and untracked
+   work. Recover useful interrupted work instead of silently bypassing it.
+3. Before target-dependent work, run:
 
-Consult the Factory ontology, semantic-reconstruction, agent-autonomy and
-worktree-recovery guidance when those documents are available in the current
-agent environment. Adjacent TH08/TH095 repositories are read-only hypothesis
-sources only; they never provide TH09 byte/layout/ownership evidence.
+   ```bash
+   python3 -B scripts/verify-target.py
+   python3 -B scripts/validate-tracking.py --require-target
+   python3 -B scripts/report-reconstruction-status.py
+   ```
+
+   Before Ghidra analysis, attest disk and Program SHA-256, i386 language,
+   image base, entry point and every file-backed PE byte mapped into the
+   Program. Metadata hashes alone are insufficient. Ghidra is not an
+   exactness Oracle. Documentation-only work needs no compiler/Ghidra replay.
+4. Work on one bounded owner or coherent maintenance batch. Replay affected
+   owners only and leave a reviewable local checkpoint. Do not run a routine
+   project-wide cold replay.
+
+Consult Factory ontology, semantic-reconstruction, agent-autonomy and
+worktree-recovery guidance when available and relevant. Current operator
+retention rules below supersede older archive and cleanup-audit requirements.
+
+## Original target and evidence
+
+The only verified target is Japanese TH09 v1.50a at ignored
+`resources/th09.exe`, SHA-256
+`10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+Use the pinned VC7.1 compiler/profile. Never patch target bytes.
+
+Keep target, Ghidra, compiler, runtime and adjacent-game observations distinct
+from inference and unknowns. Ghidra names, types, boundaries and decompilation
+are provisional semantic evidence. They do not establish original authorship,
+object ownership or exactness.
+
+Keep boundary review, origin, source presence, exact codegen, native build
+closure, runtime validation and port status independent. Only a complete,
+reproducible, target-bound VC7.1 comparison may enter `config/matches.csv`.
+Near matches remain candidates. A comparison must cover all original code,
+physical tails/tables and relocation offsets, types, targets, addends and call
+identities. Compiler-private label names may change; verify actual same-section
+COFF definitions against original PE operands before rebinding their spelling.
+
+Use natural source. Do not copy target bytes, manufacture fake returns, add
+inert padding, misrepresent the ABI, introduce assembly/register hints,
+variable-order hints, dummy clobbers or compiler-profile roulette to force a
+match. Do not add barriers as a codegen tactic. The old `_ReadWriteBarrier()`
+in Title result drawing was removed after natural source reproduced the full
+1,939-byte/82-field owner; do not restore it.
+
+Ghidra metadata writes for reviewed names, types, prototypes and comments are
+allowed when useful and must be read back. Preserve analysis databases; mirror
+durable conclusions into the repository.
 
 ## Adjacent-game hypothesis sources
 
-The Factory mounts two adjacent reconstructions read-only for TH09 work:
+These Factory mounts are read-only:
 
 - `/home/pentester/coding/codex_ida/th08-reconstruction/th08`
 - `/home/pentester/coding/codex_ida/th095-reconstruction/th095`
 
-Inspect their source, history, scripts, and game-local knowledge when a TH09
-subsystem has a plausible analogue. They may suggest source shape, names, engine
-structure, compiler idioms, and useful probes, but they are hypothesis material
-only. TH095 is itself undergoing semantic reconstruction, so its semantic names,
-owners, layouts, and abstractions are especially provisional. Neither adjacent
-game's addresses, bytes, layouts, ownership, behavior, or exactness claims are
-TH09 evidence. Accept every TH09 conclusion only from TH09-local target, Ghidra,
-xref, ABI, compiler, exact-byte, build, or runtime evidence. When the games
-differ or the comparison is inconclusive, keep the TH09 fact unknown.
+Inspect analogous source, history and local knowledge when useful. Their
+names, source shapes and compiler idioms are hypotheses, never TH09 address,
+byte, layout, ownership or behavioral evidence. TH095 semantic work is itself
+provisional. Accept TH09 conclusions only from TH09-local target, xref, ABI,
+compiler, build or runtime evidence. Keep inconclusive facts unknown.
 
-## Evidence and state
-
-- Keep target observations, Ghidra observations, compiler observations, runtime
-  observations, cross-game corroboration, inference, and unknowns distinct.
-- Ghidra names, types, boundaries, and decompilation are provisional semantic
-  evidence. They do not establish authorship, object ownership, or exactness.
-- Keep boundary review, origin, source presence, exact codegen, native build
-  closure, runtime validation, and port status independent.
-- Only a target-bound, complete, reproducible VC7.1 comparison may enter
-  `config/matches.csv`. Near matches remain candidates.
-- Use natural source. Never copy target bytes, manufacture fake returns, add
-  inert padding, lie about the ABI, or patch target code to force equality.
-  Do not introduce assembly, register/variable-order hints, dummy clobbers or
-  compiler-profile roulette to force a match.
-- The former no-code _ReadWriteBarrier() exception in
-  TitleScreenResultDraw.cpp was removed after the Cirno-Labs reference
-  integration reproduced the complete 1939-byte/82-field owner using natural
-  source. Do not restore it or add new barriers/assembly/register hints as a
-  generic codegen tactic. See docs/CIRNO_LABS_INTEGRATION_20261105.md.
-- Record durable TH09 facts in `docs/KNOWLEDGE_BASE.md`. Cross-game promotion
-  belongs to a later Factory review and is not performed by a game session.
-
-## Phase gates
+## Phase and validation scope
 
 The required order is exact reconstruction, faithful Windows i386 product
-closure, semantic reconstruction with target-plus-native dual Oracles, and only
-then portability. These later phases are not prerequisites for an exact-source
-checkpoint. Do not treat exact units as proof that the executable builds or runs.
+closure, semantic reconstruction against target-plus-native runtime Oracles,
+and then portability. Later phases are not prerequisites for an exact-source
+checkpoint. Exact functions alone do not prove that the executable builds/runs.
 
-## Exact-phase validation scope
+Recover original branches without adding defensive game behavior. Routine
+exact work does not need allocation-failure injection, null-pointer matrices,
+malformed-input campaigns, fuzzing or general runtime hardening. Extra
+behavioral tests need a specific reconstruction question or operator request.
+Keep checks that detect wrong targets, incomplete extents, changed bytes,
+relocation identities or stale executable proof inputs.
 
-- Verify the affected complete functions, physical tails/tables and relocations
-  with the pinned VC7.1 Oracle. Include affected exact siblings and callees;
-  reuse unchanged source/profile-bound proofs.
-- Do not add allocation-failure injection, null-pointer matrices, malformed game
-  input, fuzzing or general defensive-runtime tests as routine exact-phase work.
-  Recover branches present in the original; do not add defensive game behavior.
-  Extra behavioral tests need a specific reconstruction question or operator request.
-- Keep tests that detect wrong targets, incomplete comparisons, changed bytes,
-  relocation identities or stale proof inputs. Source spelling, whitespace,
-  include-count and handoff-format snapshots are not acceptance criteria.
-- Run checks relevant to the changed files. Documentation/test-only edits need
-  no compiler replay or Ghidra attestation. Full public CI is optional for ordinary
-  exact checkpoints; run it when changing shared validation or CI tooling.
-- Whole-product builds, runtime scenarios, dual-Oracle semantics and portability
-  validation belong to their later phases, not each exact iteration.
+Finish with `git diff --check` and checks relevant to the change: focused
+Oracles for reconstruction, tracking/progress for ledger changes, documentation
+validation for routing/status claims, and relevant tooling tests. Use
+`python3 -B scripts/ci.py` for changed-input syntax/diff checks;
+`python3 -B scripts/ci.py --full` runs the public target-independent suite.
 
-This scope supersedes historical full-check lists in handoff/experiment notes.
+## Knowledge and retention
 
-## Autonomy and tools
+Keep only:
 
-Agents may use broad repository Bash and compose small Ghidra, compiler, Wine,
-comparison, and Git tools as needed. The framework exists to improve feedback,
-accuracy, and resumability, not to restrict competent investigation. Each
-important operation must still fail closed on the wrong target.
+- Necessary inputs: the original program, toolchain/game-specific Wine runtime,
+  shared-runtime selectors and saved Ghidra projects.
+- Current results: maintained source, canonical exact ledgers and scripts that
+  can rebuild and completely compare the affected scope.
+- Useful knowledge: current blockers, verified conclusions and failed approaches
+  worth avoiding, recorded briefly in [docs/KNOWLEDGE_BASE.md](docs/KNOWLEDGE_BASE.md).
 
-Ghidra metadata writes for reviewed names, types, prototypes, and comments are
-allowed when useful and must be read back. Never patch target bytes. The
-analysis database is working state; mirror durable conclusions into the repo.
+A document reference alone does not justify keeping a file. Delete obsolete
+archives, duplicate evidence, old trial outputs and cleanup reports, removing
+their obsolete references too. Do not create replacement archives, recovery
+manifests or another audit process just to delete old evidence.
 
-## Checkpoints and artifacts
+Keep a small experimental compiler context only if an unresolved problem
+actually depends on it and it is difficult to reconstruct. Explain that
+specific dependency in the handoff. Otherwise keep the useful conclusion and
+rebuild from maintained source when needed. Exactness comes from reproducible
+complete comparison, not historical file accumulation.
 
-- Use concise, coherent local commits prefixed **gpt-web: ...**. Commit after
-  each substantive advance and create multiple commits in a session when there
-  are multiple reviewable checkpoints. Report local checkpoints separately
-  from independently verified remote state.
-- Route current work through `docs/RE_HANDOFF.md`; original-bound
-  accepted receipts now live in `docs/RE_ACCEPTED_RECEIPTS.md` with
-  immutable source commit bindings. Superseded long-form checkpoint details
-  are preserved in `docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`, not
-  appended to the active handoff; previous file deletions are recorded in
-  `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`. Archival receipts are **not**
-  current-source exactness credit; clean handoffs may have no `build/`.
-- Keep decompiler dumps, logs, experiments, screenshots, and generated reports
-  below `.analysis/`; keep builds below `build/` and downloaded tools below
-  `.tools/`.
-- Do not accumulate scratch indefinitely. At the end of a bounded unit, retain
-  only evidence needed to reproduce an unresolved claim, turn reusable work
-  into a script or durable note, and remove superseded disposable artifacts.
-- `scripts/clean-generated-artifacts.py` previews by default; `--apply`
-  removes ignored `build/` and disposable debug/bytecode caches under `.analysis/`.
-  Analysis OBJ files are preserved unless `--reviewed-objects` supplies an explicit
-  path/SHA-256 list. A file or build-tree change after inspection rejects cleanup.
-  **After a clean handoff, `build/` may be absent**. Build each exact unit and
-  diagnostic object afresh before comparing; do not treat the absence of an
-  old `.obj`/`.pdb` as lost canonical evidence. Preserve original executable,
-  tracked source and unreproduced analysis/experiment evidence.
-- The 2026-11-03 local archive of unreferenced old experiments is a
-  **lossless, per-file SHA-verified ignored tar.zst**, not a deletion of
-  original evidence; see `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`. Referenced
-  analysis directories and both Ghidra projects remain unpacked. Restore
-  selected old packets when required before trying historical scripts.
-- The 2026-11-04 local cleanup additionally archived 1,258 older large
-  generated JSON snapshots with **per-file SHA-256** into a separate ignored
-  `tar.zst`. To restore one original JSON without unpacking the whole archive,
-  preview `python3 -B scripts/restore-analysis-archive.py --path FILE`, then
-  repeat with `--apply`. The helper refuses divergent files, symlinks and
-  unknown paths. `build/` was intentionally cleared, and Git objects were
-  repacked with `git gc --prune=never` while preserving all live refs; neither
-  storage action changes accepted source-exact evidence. See the newest
-  2026-11-04 audit and handoff before deleting any other evidence.
-- The 2026-11-06 cleanup losslessly archived 1,208 build OBJ plus 209 large
-  analysis JSON and 96 private TOML files, with per-member SHA-256 validation.
-  `build/` was absent at that historical checkpoint and may reappear after
-  focused compiles or disappear again after a reviewed cache clean. Read the current handoff before replay; use
-  `scripts/restore-analysis-archive.py --bundle .analysis/handoff-archive-20261106`
-  with `--path` or `--prefix` (preview, then `--apply`) to recover named inputs.
-  The interrupted RunEcl reference-parameter object is recovered but unaccepted;
-  its postcompile harness failed. Never promote it from object existence alone.
-- The 2026-11-07 next-agent handoff also reviewed and removed 183 newly
-  generated cache files, then repacked Git with `gc --prune=never` and
-  reflog expiry disabled. It retained all refs/reflogs, three archives,
-  original/unique analysis objects, both Ghidra projects and the canonical
-  private target. `build/` is now absent again; focused compiles recreate it.
-  Precise logical-byte measurements and local proof receipts are in
-  `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`.
-- Never commit the original executable, game archives/data, IDA databases,
-  Ghidra projects, toolchains, generated decompiler text, credentials, or private endpoints.
-- Finish with `git diff --check` and the checks required by the change: the
-  focused Oracle for reconstruction, tracking/progress for ledger changes,
-  documentation validation for status claims, and relevant tooling tests.
-  `python3 scripts/ci.py` remains available for full public checks. Accepted
-  receipts are source-commit scoped; never report a pending replay as accepted.
+Preserve dirty/untracked operator work, targets, toolchains, game-specific
+prefixes and analyzer projects. `.analysis/` mixes protected Ghidra state and
+disposable output; identify those inputs before deleting scratch. Builds belong
+under `build/`, scratch under `.analysis/`, downloaded tools under `.tools/`.
+`build/` may be absent after cleanup; recreate selected objects before comparing.
 
-## Shared Factory runtime
+Use fluent English for repository documentation. Lead with the finding, identify
+the applicable target/compiler/scope, and explain a real uncertainty once when
+it matters. Plain Markdown is sufficient. No append-only experiment journal,
+mandatory JSON promotion or test per note is needed. Search relevant knowledge
+sections instead of reading an entire large journal. Cross-game knowledge
+promotion belongs to a later Factory review.
 
-Follow [the shared tools instructions](docs/SHARED_TOOLS.md). Ghidra/JDK and
-Wine executables are shared through Factory; repository scripts also work
-without MCP. Use `scripts/shared_runtime.py` and the existing compiler/analysis
-frontends. Keep this game's prefix, analyzer project, Java home/cache, target
-and compiler profile isolated. Do not install duplicate tools or inherit
-another game's `WINEPREFIX`. This shared-runtime procedure supersedes older
-per-repository installation instructions; pinned versions/hashes still apply.
+Route current work through [docs/RE_HANDOFF.md](docs/RE_HANDOFF.md). Keep it
+focused on current work, blockers and the next useful command. Generate
+progress from canonical ledgers rather than manually copying totals into
+multiple guides. Git retains source history; old receipts do not establish
+current-source exactness.
+
+## Tools and checkpoints
+
+Use broad repository Bash and small Ghidra/compiler/Wine/comparison/Git commands
+as needed. Every important target-dependent operation must fail closed on the
+wrong target. Follow [docs/SHARED_TOOLS.md](docs/SHARED_TOOLS.md): Ghidra/JDK
+and Wine executables are shared through Factory; use `scripts/shared_runtime.py`
+and the existing compiler/analysis frontends. Keep this game's prefix, project,
+Java home/cache, target and compiler profile isolated. Do not install duplicate
+tools or inherit another game's `WINEPREFIX`.
+
+Create concise coherent local commits prefixed `gpt-web: ...` after substantive
+advances. Report local checkpoints separately from independently verified remote
+state. Never commit original executables/game data, analyzer databases,
+toolchains, generated decompiler output, credentials or private endpoints.

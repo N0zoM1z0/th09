@@ -1,89 +1,41 @@
 # Tool routing
 
-> Current workflow: follow the **Highest priority** section in `AGENTS.md`.
-> Prefer affected exact comparisons and useful Markdown knowledge. Ordinary
-> notes do not require full CI, native replay or document-hash/pin refreshes.
-> Older broad validation instructions apply only when their impact is relevant.
+Use the registered live worktree, pinned VC7.1 compiler and direct local
+Ghidra. A Factory repository shell can run these commands but does not itself
+establish target identity or exactness. Start with [RE_HANDOFF.md](RE_HANDOFF.md).
 
+| Need | Command |
+| --- | --- |
+| Verify original | `python3 -B scripts/verify-target.py` |
+| Validate ledgers | `python3 -B scripts/validate-tracking.py --require-target` |
+| Report current status | `python3 -B scripts/report-reconstruction-status.py` |
+| Regenerate progress | `python3 -B scripts/progress.py` |
+| Analyze one function | `python3 -B scripts/ghidra-analysis.py --function 0x004086c0` |
+| Build exact unit | `python3 -B scripts/build-match-unit.py --unit NAME` |
+| Compare complete unit | `python3 -B scripts/compare-coff-function.py --unit NAME --json` |
+| Select affected exact consumers | `python3 -B scripts/replay-scoped-exact.py --changed-file PATH --dry-run` |
+| Diagnose one nonexact owner | `python3 -B scripts/check-boss-frontiers.py --owner enemy --skip-exact-siblings` |
+| Audit runtime origins | `python3 -B scripts/audit-runtime-origins.py` |
+| Inspect open product graph | `python3 -B scripts/build.py --check` |
+| Check documentation links/frontiers | `python3 -B scripts/validate-docs.py` |
+| Check changed machine-input syntax | `python3 -B scripts/ci.py` |
+| Full public target-independent checks | `python3 -B scripts/ci.py --full` |
 
-The November 8 operator requested clean source/docs and next-agent handoff;
-reconstruction remains unfinished and may be resumed in a later session.
-For reconstruction, use the live registered worktree
-(via repository shell/connector if available), the pinned VC7.1 compiler
-for codegen, and **direct local Ghidra** for new original-binary analysis.
-A Factory connector can execute repository operations but cannot replace
-attested Ghidra/target bytes or give exactness credit by itself. Do **not**
-substitute historical IDA/REA exports as new original-backed evidence.
-For the current scope, read
-[the 2026-11-08 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261108.md);
-[RE_HANDOFF.md](RE_HANDOFF.md) holds concise live frontiers and storage recovery;
-[the history archive](RE_HANDOFF_HISTORY_20261106.md) retains dated evidence.
+The Ghidra runner checks disk/Program identity, i386 language, base/entry and
+every file-backed mapped PE byte before analysis/export. It imports once and
+reuses the saved project under `.analysis/ghidra-direct/` with
+`-noanalysis -readOnly`. Preserve the saved project roots when removing exports.
+Ghidra names/types/body ranges are provisional; compare complete physical
+extents, tails/tables, actual fields and calls through the compiler Oracle.
 
-| Need | Command | Claim established |
-| --- | --- | --- |
-| Verify private target | `python3 scripts/verify-target.py` | exact identity and PE structure |
-| Analyze/export with Ghidra | `python3 -B scripts/ghidra-analysis.py --function 0x004086c0` | disk/Program identity, i386 language, base/entry and every file-backed mapped PE byte agree before export |
-| Validate tracking | `python3 scripts/validate-tracking.py --require-target` | ledger consistency only |
-| Report current state | `python3 scripts/report-reconstruction-status.py` | ledger-derived source/exact totals |
-| Regenerate progress | `python3 scripts/progress.py` | generated Markdown/SVG |
-| Replay one match | `python3 scripts/build-match-unit.py --unit NAME`, then `python3 scripts/compare-coff-function.py --unit NAME --json` | complete original-bound VC7.1 bytes and relocations |
-| Inspect complete RunEcl | `python3 scripts/inspect-ecl-complete.py build/matching/EclManager.obj` | every physical byte and independently bound field; diagnostic only |
-| Locate RunEcl handler drift | `python3 scripts/report-ecl-handler-shapes.py --explain all build/matching/EclManager.obj` | normalized instruction shapes; diagnostic only |
-| Replay an affected owner | `nice -n 10 python3 scripts/check-boss-frontiers.py --owner enemy` | complete diagnostic plus the selected affected exact-owner scope |
-| Audit runtime origins | `python3 scripts/audit-runtime-origins.py` | pinned library/import evidence |
-| Check product graph | `python3 scripts/build.py --check` | explicit open/closed graph state |
-| Validate documentation | `python3 scripts/validate-docs.py` | ledger-derived totals, links and frontier consistency |
-| Run public checks | `python3 scripts/ci.py` | target-independent repository consistency; required for shared validation/CI changes |
-| Preview cache cleanup | `python3 scripts/clean-generated-artifacts.py` | build caches removed on apply; analysis OBJ retained unless explicitly path/SHA-256 reviewed |
-| Recover old Git-backed copies | `python3 scripts/restore-analysis-snapshots.py MANIFEST --prefix .analysis/PACKET` | preview original bytes/EOL recovery; add `--apply` for absent files |
-| Restore archived old JSON | `python3 -B scripts/restore-analysis-archive.py --path .analysis/FILE.json` | preview SHA-pinned local tar.zst member; add `--apply` for exclusive, verified restore |
-| Restore archived objects/private inputs | `python3 -B scripts/restore-analysis-archive.py --bundle .analysis/handoff-archive-20261106 --prefix build/analysis/PACKET` | preview manifest-listed OBJ/JSON/TOML; use actual packet prefix or `--path`, then `--apply` |
+Use [shared Factory tools](SHARED_TOOLS.md). Do not duplicate Ghidra/JDK/Wine
+installations or borrow another game's mutable runtime. `compile-probe.sh`
+checks pinned compiler DLL hashes and clears ambient `CL`/`_CL_` options.
+Canonical build/compare parses PE/COFF without Capstone; some decoded
+inspectors use system Capstone. Rebuild a selected unit after cache cleanup.
+A complete nonexact diagnostic may return 1; an exact comparator must return 0.
 
-The installed Ghidra12.1.4 is available via the ignored `.tools/ghidra` symlink;
-`--ghidra-dir` accepts another explicit installation. The runner imports once
-and reuses its project below `.analysis/ghidra-direct/` with
-`-noanalysis -readOnly`. It checks all685056 file-backed PE header/section bytes
-on every export. Metadata hashes alone are insufficient. Ghidra's inferred
-names, types and boundaries remain provisional and do not establish exactness
-or unique source ownership. Keep reviewed physical tails/tables for comparison.
-
-Legacy IDA/REA inventory clients and the former Python MCP bootstrap were
-removed from the tracked reconstruction toolchain during historical maintenance.
-This does **not** forbid a connected operator-managed repository shell; it
-means the exactness and original-analysis Oracles are not that shell. Historical code is recoverable from Git history;
-historical receipts remain records,not current commands. The Ghidra runner has
-no dependency on those clients or their MCP Python package. Preserve the working
-Ghidra project and operator-managed analysis databases during cache cleanup.
-
-Rebuild the relevant canonical unit before comparing an object. For the main
-ECL/Enemy profile, `exattack-type21-update` builds `build/matching/EclManager.obj`;
-`ecl-pop-context` uses that same source/profile. Other ECL units may use a
-different profile or object. Use the unit's own configured build for canonical
-replay. A nonexact inspector may return1 after a complete comparison; distinguish
-ordinary differences from a failed/incomplete identity audit. Exact comparators
-must return0. Missing build caches after cleanup are expected.
-
-Canonical build/comparison parses PE/COFF directly and does not depend on
-Capstone. Several decoded diagnostic inspectors use the system Python Capstone;
-that diagnostic dependency does not alter the compiler profile or exact bytes.
-`compile-probe.sh` checks pinned `cl.exe`, `c1.dll`, `c1xx.dll` and `c2.dll`
-hashes from `config/tools.lock.toml`, and clears ambient `CL`/`_CL_` options.
-Those pins do not prove original retail switches or complete SDK/link ownership.
-
-Use the ignored `resources/th09.exe`. Do not search `/mnt`, mount a Windows
-game directory, or commit original game files, databases, tools or decompiler
-exports. Keep generated analysis below `.analysis/`, builds below `build/` and
-downloaded tools below `.tools/`. The cleaner preserves `.analysis/*.obj` by default; any object deletion
-requires an explicit path/SHA-256 review, because old objects may represent
-nonreproducible experimental source. Keep `.analysis/ghidra-direct/` projects.
-Old unreferenced experiments may be losslessly compressed for this local
-handoff, as recorded in
-[RE_ARTIFACT_CLEANUP_HISTORY.md](RE_ARTIFACT_CLEANUP_HISTORY.md).
-Rebuild ignored `build/` objects before every exact comparison. At the current reviewed handoff,
-all 312 reviewed disposable compiler-cache files were removed;
-a `build/` *directory* may still exist without any matching OBJ. See the
-[current cleanup receipt](RE_ARTIFACT_CLEANUP_HISTORY.md); never infer that
-empty directories mean a missing original input.
-
-TH08 and TH095 remain read-only hypothesis sources. Only TH09-local target,
-ABI, compiler, linker or runtime evidence can accept a TH09 claim.
+Keep necessary private inputs and reusable scripts. Old archives, trial
+objects, dumps and cleanup journals are disposable; a document reference does
+not make them inputs. Record useful conclusions in the knowledge base. See
+[AGENTS.md](../AGENTS.md) for retention and exactness requirements.

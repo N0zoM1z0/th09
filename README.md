@@ -56,70 +56,37 @@ downloaded tools are private and never committed.
 
 ## Current status
 
-At the November 10 handoff, the canonical ledger still records **2,248
-candidates, 1,037 source-present authored mappings, 1,024 complete exact
-functions and 13 nonexact functions** (29,834 physical original bytes).
-Whole-original-byte exactness is **262,097 / 291,931 = 89.7805%**; the
-98% authored-byte milestone needs another **23,996 fully exact bytes** at
-the current denominator. The inventory is not proven complete and the
-game is not a linked, runtime-tested native Windows product.
+Current ledger-derived counts and exact bytes are in
+[docs/PROGRESS.md](docs/PROGRESS.md). Generate them with
+`python3 -B scripts/progress.py`, or inspect the live report:
 
-Start with the [November 10 next-agent guide](docs/TH09_NEXT_AGENT_HANDOFF_20261110.md)
-and [live frontier/ledger](docs/RE_HANDOFF.md). These are current routing
-references; the [November 9 guide](docs/TH09_NEXT_AGENT_HANDOFF_20261109.md),
-[November 8 guide](docs/TH09_NEXT_AGENT_HANDOFF_20261108.md),
-[November 7 guide](docs/TH09_NEXT_AGENT_HANDOFF_20261107.md)
-and [November 8 history snapshot](docs/RE_HANDOFF_HISTORY_20261108.md)
-contain historical source experiments, not the current HEAD.
+```bash
+python3 -B scripts/report-reconstruction-status.py
+```
 
-November 10 source checkpoints `f32ca36b`, `096077ac`, `6bba2cc7`
-and `746b0e6d` restore the full native Title draw/calc/MusicRoom owner
-relationships and preserve the nonexact Replay-menu draw's 29-byte residual.
-They do not increase the already-exact ledger count. See the new handoff
-before interpreting any older source hypothesis.
+[docs/RE_HANDOFF.md](docs/RE_HANDOFF.md) is the single restart guide: current
+source work, all nonexact owners and focused comparison commands.
+[docs/KNOWLEDGE_BASE.md](docs/KNOWLEDGE_BASE.md) keeps verified findings,
+current blockers and useful failed approaches. The candidate inventory is not
+proven complete; the native Windows product is not yet linked/runtime-validated.
 
-Additional exact-byte Enemy/ECL constructor-shaped members were recovered
-on November 9 (28, 15, 15, 47 and 207 bytes). Those five remain
-origin-unclassified, so no authored exact ledger credit is added.
-The three native Player constructors previously recovered (28, 23, 12 bytes)
-remain tracked exact. The 309-byte `PlayerLifecycleView::InitializeShot` now belongs
-to the real Player and all seven exact shot callers retain its original
-`0x41F350` target. See the next-agent guide for current big-boss residuals.
+Only rebuild and compare affected complete owners and their dependencies.
+Use `gpt-web: <English summary>` for coherent local checkpoints and preserve
+dirty/untracked operator work. `config/build.toml` records open whole-product
+questions; exact functions do not establish that graph.
 
-Only rebuild and compare affected exact owners and their dependencies;
-never do routine full cold replay. Use `gpt-web: <English summary>` for
-coherent local commits and preserve dirty/untracked work rather than
-silently discarding it.
+Retain the original executable, toolchain/game-specific Wine runtime, saved
+Ghidra projects, maintained source/ledgers/replay scripts and concise knowledge.
+Remove obsolete archives, duplicate evidence and old trial outputs without
+creating another archive or cleanup report. A document reference alone is not
+a reason to retain a file. `build/` may be absent; recreate only the selected
+unit's object. A small experimental context is worth keeping only when an
+unresolved question depends on it and it is difficult to rebuild.
 
-The PE and Rich header identify Microsoft Visual C++ .NET 2003 build 3077.
-Some runtime-library contributions and compiler-generated helpers are proven,
-but the complete translation-unit graph, resources, data owners, compiler
-profiles, and link order remain open. `config/build.toml` records that state
-instead of pretending the project is buildable.
-
-Run `python3 scripts/progress.py` to regenerate the status card,
-`python3 scripts/validate-docs.py` to catch stale handoff totals, percentage,
-98% gap, non-exact routing and accepted-owner manifest/receipt entries, and
-`python3 scripts/ci.py` for the full target-independent validation set when
-changing shared validation/CI tooling. Ordinary exact checkpoints use affected
-complete-owner comparisons and checks relevant to the diff; see
-the validation scope in `docs/RE_WORKFLOW.md`.
-The reviewed November 10 storage handoff retained two lossless, SHA-256
-verified old-probe archives under ignored `.analysis/handoff-archive-20261110/`
-and reclaimed approximately **155.6 MiB net logical storage**. The ignored
-`build/` cache is absent on this checkpoint; recreate only a needed scoped
-COFF unit before comparison. Restoration and protected file lists are in
-[the cleanup history](docs/RE_ARTIFACT_CLEANUP_HISTORY.md).
-
-Generated compiler caches can reappear after focused builds. Preview cleanup
-with `python3 scripts/clean-generated-artifacts.py`; its default policy removes
-only ignored `build/` outputs and disposable debug/bytecode caches under
-`.analysis/`. Analysis `.obj` files are preserved unless a separate reviewed
-path/SHA-256 list explicitly authorizes their removal. Do not delete `.analysis/`
-wholesale: it also contains original-bound evidence, saved Ghidra projects and
-lossless historical archives. Use `scripts/restore-analysis-archive.py` for
-selective recovery. The dated cleanup history records exact scopes, hashes and
-restore instructions in `docs/RE_ARTIFACT_CLEANUP_HISTORY.md`.
+Use `python3 -B scripts/validate-docs.py` for links and frontier consistency,
+`python3 -B scripts/ci.py` for changed-input syntax/diff checks, and
+`python3 -B scripts/ci.py --full` for the full public target-independent suite
+when changing shared validation/CI tooling.
 
 ## Required phase order
 
@@ -138,25 +105,19 @@ not an acceptable shortcut around the native-product stage.
 
 ## Project map
 
-- [`AGENTS.md`](AGENTS.md) — mandatory session, evidence, and checkpoint rules.
-- [`config/target.toml`](config/target.toml) — exact target and observed PE/toolchain facts.
-- [`config/build.toml`](config/build.toml) — whole-product graph and explicit unknowns.
-- [`docs/RE_WORKFLOW.md`](docs/RE_WORKFLOW.md) — bounded reconstruction loop and stage gates.
-- [`docs/ORACLES.md`](docs/ORACLES.md) — what can falsify or accept each claim.
-- [`docs/TH09_NEXT_AGENT_HANDOFF_20261110.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261110.md) — **current** restart guide, latest native Title source, 13 frontier routes, safe cache recovery.
-- [`docs/TH09_NEXT_AGENT_HANDOFF_20261109.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261109.md) — historical November 9 source/cleanup snapshot, not the current HEAD.
-- [`docs/TH09_NEXT_AGENT_HANDOFF_20261108.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261108.md) — historical November 8 source and storage snapshot.
-- [`docs/TH09_NEXT_AGENT_HANDOFF_20261107.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261107.md) — historical November 7 guide, not the current worktree.
-- [`docs/TH09_NEXT_AGENT_HANDOFF_20261106.md`](docs/TH09_NEXT_AGENT_HANDOFF_20261106.md) — historical November 6 cleanup snapshot, not the current HEAD.
-- [`docs/RE_HANDOFF.md`](docs/RE_HANDOFF.md) — concise live ledger, all 13 nonexact frontiers and evidence routing.
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — target facts and maintained source/verification map.
-- [`docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md`](docs/RE_HANDOFF_CHECKPOINT_ARCHIVE_20261018.md) — frozen historical checkpoints; use the active handoff, not this archive, for current facts.
-- [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md) — durable TH09-only facts.
-- [`docs/TOOLS.md`](docs/TOOLS.md) — direct Ghidra and pinned compiler routing.
-- [`docs/PROGRESS.md`](docs/PROGRESS.md) — generated ledger totals.
-- [`docs/SMALL_FUNCTION_FRONTIER.md`](docs/SMALL_FUNCTION_FRONTIER.md) — short open leaf owners.
-- [`docs/RE_ARTIFACT_CLEANUP_HISTORY.md`](docs/RE_ARTIFACT_CLEANUP_HISTORY.md) — verified generated-cache deletion audits and preservation policy.
-- [Touhou Reconstruction Factory](https://github.com/N0zoM1z0/touhou-reconstruction-factory) — shared ontology, workflow, and cross-game knowledge.
+- [AGENTS.md](AGENTS.md) — session, evidence, retention and checkpoint rules.
+- [config/target.toml](config/target.toml) — original target identity.
+- [config/match-units.toml](config/match-units.toml) — rebuild/comparison recipes.
+- [config/matches.csv](config/matches.csv) — canonical exact ledger.
+- [config/build.toml](config/build.toml) — whole-product graph and unknowns.
+- [docs/RE_HANDOFF.md](docs/RE_HANDOFF.md) — current restart guide and frontiers.
+- [docs/KNOWLEDGE_BASE.md](docs/KNOWLEDGE_BASE.md) — useful conclusions and failures.
+- [docs/RE_WORKFLOW.md](docs/RE_WORKFLOW.md) and [docs/ORACLES.md](docs/ORACLES.md) — bounded loop and acceptance boundaries.
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — observed target and source map.
+- [docs/TOOLS.md](docs/TOOLS.md) and [docs/SHARED_TOOLS.md](docs/SHARED_TOOLS.md) — compiler/Ghidra/runtime routing.
+- [docs/PROGRESS.md](docs/PROGRESS.md) — generated ledger totals.
+- [docs/TH09_SCOPED_EXACT_REPLAY.md](docs/TH09_SCOPED_EXACT_REPLAY.md) — affected-source replay selection.
+- [Touhou Reconstruction Factory](https://github.com/N0zoM1z0/touhou-reconstruction-factory) — shared workflow and cross-game knowledge.
 
 ## Credits
 
