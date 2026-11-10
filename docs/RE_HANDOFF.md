@@ -69,6 +69,12 @@ byte addresses for the three 0x20-byte frame headers; the 538/540
 BeginPlaybackStage and 1,238/1,238 SaveReplay frontiers remain unchanged.
 Both ReplayInput carrier profiles cold-pass 12 exact functions / 4,093
 physical bytes / 232 relocation fields.
+Replay `LoadReplayData` LZSS decoding and `SaveReplay` initial payload
+copy now use actual native 32-bit replay-base-plus-payload addresses rather
+than scalar-byte member pointer spans. The complete 591-byte load leaf and
+two still-nonexact Replay bosses preserve their original frontiers; the
+source-specific two-carrier replay passes 12 exact owners / 4,093 bytes /
+232 relocations.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

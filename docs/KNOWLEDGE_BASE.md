@@ -485,6 +485,28 @@ interfaces) did not eliminate its `+0xB7/+0xBB` EDI/ECX residual; `memmove`
 changed original call/field inventory and was rejected. None of these
 neutral or regressive alternatives was installed.
 
+## 2026-11-10 Replay LZSS payload base and serialized payload copy
+
+The `0xC0`-offset `ReplayDataView::randomPayloadByte` anchors a **variable
+length contiguous replay payload**, not an independent one-byte C++ array.
+`LoadReplayData` previously passed addresses of that scalar field directly
+to `Lzss::Decode` with the complete packed/unpacked stream lengths.
+`SaveReplay` likewise copied the entire `ReplayPayloadView` beginning at
+that one-byte field. The maintained implementations now calculate the
+actual payload addresses from each complete replay object base plus the
+reviewed `offsetof(ReplayDataView, randomPayloadByte)` in native i386
+unsigned address words, without changing the retail copy sizes, seed,
+checksum, compressor, allocators or error paths.
+
+Independent load, save and combined VC7.1 source-cold probes preserved the
+entire canonical 591-byte LoadReplayData and its 14 relocation fields, and
+the 1,238-byte SaveReplay boss with only the original two unlike register
+bytes. The installed combined source cold-replayed both affected ReplayInput
+compiler profiles: **12 exact functions, 4,093 physical bytes, 232 fields**.
+The separate BeginPlaybackStage remains 538/540 bytes, 32 fields, 39
+overlapping differences, five calls and the same CFG. No exact ledger
+promotion or product-closure claim follows from this source-semantics fix.
+
 ## Replay SaveReplay and BeginPlaybackStage
 
 SaveReplay is 1,238 bytes/53 fields/23 calls, with only +0xB7/+0xBB differing.

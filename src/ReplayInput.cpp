@@ -235,9 +235,16 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
         decompressedSize - replayData->fileSize + fileSize + sizeof(ReplayHeaderView),
         "./system\\global.h");
     memcpy(decodedReplay, replayData, sizeof(ReplayHeaderView));
+    // The packed stream begins at the payload byte inside the flat wire buffer.
     Lzss::Decode(
-        &replayData->randomPayloadByte, replayData->compressedSize,
-        &decodedReplay->randomPayloadByte, replayData->decompressedSize);
+        reinterpret_cast<u8 *>(
+            reinterpret_cast<unsigned int>(replayData) +
+            static_cast<unsigned int>(offsetof(ReplayDataView, randomPayloadByte))),
+        replayData->compressedSize,
+        reinterpret_cast<u8 *>(
+            reinterpret_cast<unsigned int>(decodedReplay) +
+            static_cast<unsigned int>(offsetof(ReplayDataView, randomPayloadByte))),
+        replayData->decompressedSize);
     memcpy(
         reinterpret_cast<u8 *>(
             reinterpret_cast<unsigned int>(decodedReplay) +
@@ -893,7 +900,12 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     replayCopy.value1D0 = ReplayRecordingCapacity::FramesPerFpsSample;
     replayCopy.randomPayloadByte = (u8)g_ReplayRng.GetRandomU16InRange(0x100);
     replayCopy.unknown14 = (u8)g_ReplayRng.GetRandomU16InRange(0x100);
-    memcpy(tempBuffer, &replayCopy.randomPayloadByte, sizeof(ReplayPayloadView));
+    // The initial payload extends beyond the one-byte offset anchor.
+    memcpy(tempBuffer,
+        reinterpret_cast<const u8 *>(
+            reinterpret_cast<unsigned int>(&replayCopy) +
+            static_cast<unsigned int>(offsetof(ReplayDataView, randomPayloadByte))),
+        sizeof(ReplayPayloadView));
 
     replayCopy.decompressedSize = currentOffset - sizeof(ReplayHeaderView);
     u8 *compressedData = Lzss::Encode(tempBuffer, replayCopy.decompressedSize, &replayCopy.compressedSize);
