@@ -102,6 +102,11 @@ four unlock increments and the character selection cursor. The nonexact
 484/485-byte result owner remains at 218 differing overlaps and 34 fields;
 two TitleScreen compiler carriers pass 41 exact owners / 18,972 bytes /
 953 fields after independently proving nine compiler-local `$L` rebindings.
+Player movement now forms the second focus-effect's side argument as a
+native 32-bit `sideIndex + 2` word before the same signed callee argument;
+its entire 1,900-byte/66-field/23-call/122-residual original-bound owner is
+unchanged. This TU has no selected exact siblings, so only the full scoped
+boss inspection was run; no unrelated cold replay was requested.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

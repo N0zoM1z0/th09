@@ -435,6 +435,39 @@ they kept the 849-byte shape or changed return/relocation inventory. An
 early bullet-type snapshot expanded the body but changed when memory is
 read, so it was not adopted as an original-source reconstruction.
 
+## 2026-11-10 Player movement native focus-effect side word
+
+`PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` chooses the
+second focus-effect's side slot as `sideIndex + 2`, passed unchanged to the
+existing exact `EffectManager::SpawnEffectInFixedSlot` callee. The original
+Win32 `LEA/ADD` address-sized addition wraps modulo 2^32 even if the signed
+source value overflows. The maintained source now forms the two-word sum as
+native unsigned arithmetic before casting to the original signed call
+argument. No focus condition, effect index, allocation, branch, or callee
+signature was changed.
+
+The pinned VC7.1 private probe and live complete owner rebuild retained all
+**1,900/1,900 physical bytes, 1,835 code bytes, 66 original-bound fields,
+23 ordered calls, 435 aligned instructions, and precisely 122 unlike
+ordinary bytes**. This independently compiled PlayerMovement carrier has
+no mapped exact units within the source itself; the official source-specific
+cold-replay selector therefore correctly reports an empty exact scope. The
+fully original-bound movement owner check supplies the relevant verification;
+no whole-product cold replay or exactness credit is claimed.
+
+Other new source-cold probes investigated the actual remaining register
+transport rather than treating all 122 positions as independent: 24 focused
+x/y coordinate clamp spellings were neutral or regressed, while fourteen
+`Float3` result-copy representations increased unmatched full-owner bytes
+from 122 to 318--547 despite preserving call/field identities; they were
+not installed. Eleven different explicitly inline two-operand `ZunTimer`
+assignment adapters for RunEcl opcode 4 also retained its full 15,564-byte
+owner and original 30-byte residual, so none was adopted. A new natural
+Player collision shape with an early shared hit block brought source length
+from 849 to 854 against 862 retail bytes, but raised overlapping mismatches
+from 799 to 817 and still had only 32 of 33 original blocks. It was rejected
+rather than promoting an apparent length-only improvement.
+
 ## Player movement, charge and collision
 
 Movement remains 1,900 bytes/66 fields/122 differences. Horizontal and vertical

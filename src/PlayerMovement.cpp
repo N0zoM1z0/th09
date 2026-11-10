@@ -123,7 +123,8 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
                 player->sideState->effectManager0C->SpawnEffectInFixedSlot(
                     g_PlayerFocusEffectIds[player->sideState->shotType20],
                     effectPosition,
-                    player->sideIndex + 2,
+                    static_cast<int>(
+                        static_cast<unsigned int>(player->sideIndex) + 2u),
                     static_cast<unsigned int>(-1));
         }
 
