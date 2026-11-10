@@ -107,6 +107,12 @@ native 32-bit `sideIndex + 2` word before the same signed callee argument;
 its entire 1,900-byte/66-field/23-call/122-residual original-bound owner is
 unchanged. This TU has no selected exact siblings, so only the full scoped
 boss inspection was run; no unrelated cold replay was requested.
+RunEcl opcode 128 attached-effect `count60` now uses a native wrapping
+DWORD increment; opcode 5 integer lvalue decrement uses the same native word
+semantics. The full 15,564-byte RunEcl and 3,900-byte Enemy OnUpdate frontiers
+remain unchanged. Six affected carrier profiles cold-pass 91 exact functions /
+36,301 complete bytes / 1,783 fields, with eight same-section COFF `$L`
+renames verified against original PE before rebinding.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

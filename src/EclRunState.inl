@@ -300,8 +300,8 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     case TH09_ECL_OPCODE_ATTACH_SPELL_EFFECT:
         enemy->attachedEffectState53B4.distance64 =
             Th09EclRunControl::RawFloat(instruction, 4);
-        enemy->attachedEffectState53B4.count60 =
-            enemy->attachedEffectState53B4.count60 + 1;
+        enemy->attachedEffectState53B4.count60 = static_cast<int>(
+            static_cast<unsigned int>(enemy->attachedEffectState53B4.count60) + 1u);
         break;
 
     case TH09_ECL_OPCODE_SET_DRAW_GROUP:

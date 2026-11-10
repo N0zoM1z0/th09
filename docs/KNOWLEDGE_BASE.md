@@ -310,6 +310,35 @@ bytes and 1,409 relocation fields**. The independent target-bound physical
 proof found no changed local label destinations or byte differences. The
 change is native-address semantic reconstruction, not newly exact code.
 
+## 2026-11-10 ECL attached-effect counter and conditional decrement DWORD semantics
+
+Two remaining ECL arithmetic paths relied on C++ signed-int overflow behavior
+despite target i386 performing native wrapping DWORD operations. Opcode 128
+`TH09_ECL_OPCODE_ATTACH_SPELL_EFFECT` loads `Enemy + 0x5414` (`count60`),
+executes `INC EAX` and stores the original incremented DWORD after updating
+the attached effect's distance. The maintained source now increments this
+word via unsigned arithmetic before storing into its signed field. Opcode 5
+`TH09_ECL_OPCODE_JUMP_DEC` decrements the resolved mutable ECL integer
+through an unsigned DWORD lvalue, retaining its exact resolver call, reread,
+conditional branch and original signed comparison. No opcode cases, argument
+width, loop boundaries, timers or error paths were added or changed.
+
+Eleven individually and jointly compiled pinned-VC7.1 source probes were
+original-bound against the **complete 15,564-byte RunEcl** including its 598
+relocation fields and all switch data; the selected combined patch preserves
+**30 unlike ordinary bytes** (opcode 4: seven, opcode 155: 23), with zero
+field/table deviations. `Enemy OnUpdate` retains the full 3,900-byte,
+97-field, 69-call, 13-unlike physical owner.
+
+The official source-specific cold replay then passed **91 exact functions in
+six actual compiler profiles, 36,301 complete physical bytes and 1,783
+relocation fields**, including the independently exact 892-byte
+`CompareOperands` leaf. Eight newly renumbered VC7.1 compiler-private `$L`
+labels (one `CompareOperands`, seven `EnemyPostEclUpdateMovement`) were rebound
+in `match-units.toml` only after a separate complete PE/actual COFF proof
+confirmed their same-section definitions, original target operands and zero
+non-field mismatches. No new exactness credit or product closure is claimed.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,
