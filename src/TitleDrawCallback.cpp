@@ -1,35 +1,21 @@
+#define TH09_ANM_MANAGER_LIFECYCLE_LAYOUT 1
 #include "AnmManager.hpp"
-#include "AnmManagerBackgroundView.hpp"
+#include "TitleScreenReplayView.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
 
 #include <stddef.h>
 
-struct TitleDrawView
-{
-    unsigned char unknown00000[0x11B98];
-    AnmVm *vms11B98;
-    AnmVm *auxVm11B9C;
-    unsigned char unknown11BA0[0x1B224 - 0x11BA0];
-    int vmCount1B224;
-    int currentScreen1B228;
-    unsigned char unknown1B22C[0x1B238 - 0x1B22C];
-    int chainState1B238;
-
-    int DrawReplayMenu();
-    int DrawReplaySave();
-    int DrawResult();
-    int DrawMusicRoom();
-};
-
-typedef char TitleDrawVmsAt11B98[
-    (offsetof(TitleDrawView, vms11B98) == 0x11B98) ? 1 : -1];
-typedef char TitleDrawVmCountAt1B224[
-    (offsetof(TitleDrawView, vmCount1B224) == 0x1B224) ? 1 : -1];
-typedef char TitleDrawScreenAt1B228[
-    (offsetof(TitleDrawView, currentScreen1B228) == 0x1B228) ? 1 : -1];
-typedef char TitleDrawChainStateAt1B238[
-    (offsetof(TitleDrawView, chainState1B238) == 0x1B238) ? 1 : -1];
+// The complete 0x1B388-byte TitleScreenView owns the VM prefix and all
+// four draw methods; no second owner allocation or local shadow class.
+typedef char TitleDrawFullOwnerCoordinates[
+    (sizeof(TitleScreenView) == 0x1B388 &&
+     offsetof(TitleScreenView, vms) == 0x11B98 &&
+     offsetof(TitleScreenView, currentHelpTextVm) == 0x11B9C &&
+     offsetof(TitleScreenView, vmCount) == 0x1B224 &&
+     offsetof(TitleScreenView, currentScreen) == 0x1B228 &&
+     offsetof(TitleScreenView, chainState) == 0x1B238 &&
+     offsetof(AnmManager, currentTexture12880) == 0x12880) ? 1 : -1];
 // The draw branch checks native VM rotation.z, not an unrelated float at
 // a manually computed +0x08 byte offset.
 typedef char TitleDrawNativeVmRotationZAt08[
@@ -37,17 +23,16 @@ typedef char TitleDrawNativeVmRotationZAt08[
 
 int __fastcall TitleDrawCallback(void *object)
 {
-    TitleDrawView *title = static_cast<TitleDrawView *>(object);
+    TitleScreenView *title = static_cast<TitleScreenView *>(object);
 
     g_Supervisor.ConfigureGameplayViewport(2);
-    if (title->chainState1B238 == 0)
+    if (title->chainState == 0)
     {
-        reinterpret_cast<AnmManagerBackgroundView *>(g_AnmManager)
-            ->currentTexture = NULL;
+        g_AnmManager->currentTexture12880 = NULL;
         g_AnmManager->CopySurfaceToBackbuffer(0, 0, 0, 0, 0);
 
-        AnmVm *vm = title->vms11B98;
-        for (int i = 0; i < title->vmCount1B224; ++i, ++vm)
+        AnmVm *vm = title->vms;
+        for (int i = 0; i < title->vmCount; ++i, ++vm)
         {
             if (g_AnmManager->SpriteHasTexture(vm))
             {
@@ -65,10 +50,10 @@ int __fastcall TitleDrawCallback(void *object)
             }
         }
 
-        if (title->auxVm11B9C != 0)
-            g_AnmManager->DrawNoRotation(title->auxVm11B9C);
+        if (title->currentHelpTextVm != 0)
+            g_AnmManager->DrawNoRotation(title->currentHelpTextVm);
 
-        switch (title->currentScreen1B228)
+        switch (title->currentScreen)
         {
         // Distinct no-draw screen branches share the existing final flush.
         case 3:

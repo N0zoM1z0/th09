@@ -211,7 +211,10 @@ class AnmManager
     // background and vertex-buffer owners; they share this same allocation.
     unsigned char unknown12308[0x1287C - 0x12308];
     unsigned long currentTextureFactor1287C;
+  public:
+    // Original +0x12880 renderer cache is shared by native Title/ANM owners.
     void *currentTexture12880;
+  private:
     unsigned char currentBlendMode12884;
     unsigned char unknown12885;
     unsigned char currentVertexShader12886;

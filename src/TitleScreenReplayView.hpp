@@ -137,6 +137,7 @@ struct TitleScreenView {
     int UpdateScreen16();
     int DrawReplayMenu();
     int DrawReplaySave();
+    int DrawMusicRoom();
     int DrawResult();
 };
 
