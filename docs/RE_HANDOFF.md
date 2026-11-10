@@ -119,6 +119,12 @@ storage. Its full 3,900-byte/97-field/13-unlike owner and RunEcl's 15,564-byte
 owner do not regress; the 83 affected exact functions cold-pass across two
 actual carrier profiles (29,856 bytes, 1,389 fields), following two original
 PE-backed VC7.1 private-label rebinding checks.
+Exact Replay playback and recording now increment two frame counters,
+the recording link frame count and the input-delay word using native 32-bit
+wraparound arithmetic. The exact 299-byte and 460-byte leaves are unchanged;
+both affected ReplayInput profiles cold-pass 12 exact units / 4,093 physical
+bytes / 232 relocation fields. SaveReplay and BeginPlaybackStage full owner
+frontiers are unchanged (2 and 39 overlap differences respectively).
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

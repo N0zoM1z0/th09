@@ -661,6 +661,32 @@ The separate BeginPlaybackStage remains 538/540 bytes, 32 fields, 39
 overlapping differences, five calls and the same CFG. No exact ledger
 promotion or product-closure claim follows from this source-semantics fix.
 
+## 2026-11-10 Replay recording/playback native DWORD counters
+
+Both exact `ReplayManagerView::PlaybackInputAndFps @ 0x004204B0` and
+`RecordInputAndFps @ 0x004202A0` increment the signed `ReplayManagerView`
+frame-count word with native i386 `INC`, and recording also increments the
+linked `ReplayBufferLink::frameCount` DWORD and the signed input-delay
+counter. Four former C++ `++` operations on signed `int` fields could
+invoke signed-overflow undefined behavior, whereas the target instructions
+wrap modulo 2^32. The maintained source now applies unsigned 32-bit word
+increments before writing back the original signed fields. Replay cursor
+increments, buffer rollover threshold, FPS schedule, input-delay limit,
+stream writes, code paths and the original counter types remain unchanged.
+
+Seven independent and combined private source-cold VC7.1 probes verified
+that both directly affected exact code bodies retain **299/299 physical
+bytes with 22 relocations** (playback) and **460/460 bytes with 25 fields**
+(recording), including identical raw COFF machine bytes and all field names.
+The installed combined source then passed the canonical ReplayInput-only
+cold replay in its **two actual compiler profiles: 12 exact units, 4,093
+complete physical bytes and 232 original-bound relocation fields**.
+The two nonexact Replay owners share that source carrier but are unaffected:
+SaveReplay remains 1,238/1,238 with precisely two unlike register bytes,
+53 fields and 23 calls; BeginPlaybackStage remains 538/540 with 39 overlap
+differences, 32 fields, five calls and the same CFG. No new exact unit is
+claimed, and no unrelated all-source cold replay was run.
+
 ## Replay SaveReplay and BeginPlaybackStage
 
 SaveReplay is 1,238 bytes/53 fields/23 calls, with only +0xB7/+0xBB differing.

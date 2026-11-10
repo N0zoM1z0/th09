@@ -190,7 +190,7 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
             g_Supervisor.playbackFpsWarning = (char)replayManager->fpsCursor[1] >> 7;
             replayManager->fpsCursor++;
         }
-        replayManager->frameCounter++;
+        replayManager->frameCounter = static_cast<int>(static_cast<unsigned int>(replayManager->frameCounter) + 1u);
     }
     return 1;
 }
@@ -336,7 +336,7 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
         {
             if (replayManager->inputDelay >= 3)
                 return 1;
-            replayManager->inputDelay++;
+            replayManager->inputDelay = static_cast<int>(static_cast<unsigned int>(replayManager->inputDelay) + 1u);
         }
 
         if (g_GameManager.sides[0].replaySelector28 == 0)
@@ -346,7 +346,7 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
         *replayManager->inputCursors[2] =
             g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].historyCurrent;
 
-        replayManager->currentBuffer->frameCount++;
+        replayManager->currentBuffer->frameCount = static_cast<int>(static_cast<unsigned int>(replayManager->currentBuffer->frameCount) + 1u);
         replayManager->inputCursors[0]++;
         replayManager->inputCursors[1]++;
         replayManager->inputCursors[2]++;
@@ -382,7 +382,7 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
             memset(replayManager->fpsCursor, 0, ReplayRecordingCapacity::FpsStreamBytes);
         }
 
-        replayManager->frameCounter++;
+        replayManager->frameCounter = static_cast<int>(static_cast<unsigned int>(replayManager->frameCounter) + 1u);
     }
 
     return 1;
