@@ -250,6 +250,17 @@ reset it to evade failing original-bound comparisons. Checkpoints use
 
 ## Local storage, cleanup and recovery
 
+The **November 10 reviewed cleanup** made two SHA-256-verified ignored
+archives at `.analysis/handoff-archive-20261110/`: 17,894 original files
+(161,902,770 loose bytes) became two 11,376,682-byte compressed bundles.
+After removing only reviewed old directories and generated build/object/bytecode
+caches, the total net logical saving was **163,162,263 bytes (155.6 MiB)**
+including manifests. The complete packages were streamed and individually
+hash-verified before deleting loose source experiments; selective recovery
+was separately tested. See [dated cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md)
+for both bundle hashes, exact paths and restoration commands. The current
+`build/` is intentionally absent; it is a generated cache.
+
 The November 9 cleanup was historical: it archived 140 experiment folders
 (24,862 files / 383,162,789 loose bytes) into the verified ignored
 `.analysis/handoff-archive-20261109/source-probes.tar.zst` bundle. It also
@@ -258,7 +269,7 @@ removed a then-current set of 158 generated build files. Those figures
 cleanup results. The [dated cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md)
 contains verified paths, checksums and extraction instructions.
 
-The current repository may have no `build/` after maintenance. Recompile
+The repository may have no `build/` after maintenance. Recompile
 only the requested source unit; the ignored original, Wine toolchain,
 Ghidra/IDA projects, archival bundles and useful source experiments must be
 preserved. Old `.analysis/` evidence may now be archived rather than loose.

@@ -104,6 +104,13 @@ Run `python3 scripts/progress.py` to regenerate the status card,
 changing shared validation/CI tooling. Ordinary exact checkpoints use affected
 complete-owner comparisons and checks relevant to the diff; see
 the validation scope in `docs/RE_WORKFLOW.md`.
+The reviewed November 10 storage handoff retained two lossless, SHA-256
+verified old-probe archives under ignored `.analysis/handoff-archive-20261110/`
+and reclaimed approximately **155.6 MiB net logical storage**. The ignored
+`build/` cache is absent on this checkpoint; recreate only a needed scoped
+COFF unit before comparison. Restoration and protected file lists are in
+[the cleanup history](docs/RE_ARTIFACT_CLEANUP_HISTORY.md).
+
 Generated compiler caches can reappear after focused builds. Preview cleanup
 with `python3 scripts/clean-generated-artifacts.py`; its default policy removes
 only ignored `build/` outputs and disposable debug/bytecode caches under

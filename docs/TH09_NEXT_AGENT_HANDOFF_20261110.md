@@ -127,3 +127,27 @@ Earlier source notes may refer to old `.analysis/` paths that are now inside
 an archive. Check the cleanup history before concluding that their evidence
 was lost. Keep accepted original-bound ledgers, scripts, tracked source and
 tests untouched by storage cleanup.
+
+The **2026-11-10 cleanup is complete** and independently checked:
+
+- `.analysis/handoff-archive-20261110/reviewed-probes.tar.zst` holds 12,362
+  source/expt/object files (114,274,916 original bytes) in a 10,275,832-byte
+  verified bundle. Eleven obsolete experiment subtrees and 133 hash-reviewed
+  `.obj` files were removed only after archive verification.
+- `.analysis/handoff-archive-20261110/old-branches.tar.zst` holds another
+  5,532 reviewed obsolete probe files (47,627,854 original bytes) in a
+  1,100,850-byte bundle. The loose five old experiment roots were removed.
+- The guarded cleaner removed 15,023,797 bytes from `build/` plus
+  38,172,367 bytes of reviewed analysis compiler/bytecode files; 3,280,923
+  bytes of ignored `scripts`/`tests` Python bytecode were also removed.
+- The new bundle/manifest folder occupies 17,176,299 bytes. Approximate
+  **net reclaimed logical storage: 163,162,263 bytes (155.6 MiB)**.
+  `python3 -B scripts/clean-generated-artifacts.py` now previews zero
+  remaining generated files.
+
+**Restore a single old file only when needed:** `tar -I zstd -tf
+.analysis/handoff-archive-20261110/reviewed-probes.tar.zst` lists paths;
+`tar -I zstd -xf <bundle> <exact-archived-path>` extracts one absent path.
+Check the archived path, size and SHA-256 in the package's manifest before
+using restored evidence. The [cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md)
+records both full archive digests, exact scope and a tested example.
