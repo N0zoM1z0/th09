@@ -136,6 +136,12 @@ uses native i386 modulo-32 DWORD arithmetic before the signed timer check.
 Its full 336-byte/20-field/26-unlike owner remains unchanged. Three affected
 carriers cold-pass 18 exact units / 2,562 bytes / 164 relocations; nine
 compiler-private RegisterChain labels were PE/COFF proven before rebinding.
+Replay playback/recording sample and FPS cursors now use native 32-bit
+base-plus-byte-stride addresses (six input DWORD offsets by 2, two FPS cursor
+steps by 1). Both exact 299/460-byte leaf functions preserve all original
+field and raw code bytes, with two scoped profiles passing 12 exact units /
+4,093 complete bytes / 232 relocations. SaveReplay and BeginPlaybackStage
+nonexact original-bound frontiers remain unchanged.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

@@ -180,15 +180,22 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
             }
         }
 
-        replayManager->inputCursors[0]++;
-        replayManager->inputCursors[1]++;
-        replayManager->inputCursors[2]++;
+        replayManager->inputCursors[0] = reinterpret_cast<u16 *>(
+            reinterpret_cast<unsigned int>(replayManager->inputCursors[0]) +
+            static_cast<unsigned int>(sizeof(u16)));
+        replayManager->inputCursors[1] = reinterpret_cast<u16 *>(
+            reinterpret_cast<unsigned int>(replayManager->inputCursors[1]) +
+            static_cast<unsigned int>(sizeof(u16)));
+        replayManager->inputCursors[2] = reinterpret_cast<u16 *>(
+            reinterpret_cast<unsigned int>(replayManager->inputCursors[2]) +
+            static_cast<unsigned int>(sizeof(u16)));
 
         if (replayManager->frameCounter % ReplayRecordingCapacity::FramesPerFpsSample == 0)
         {
             g_Supervisor.recordedFps = (char)replayManager->fpsCursor[1] & 0x7F;
             g_Supervisor.playbackFpsWarning = (char)replayManager->fpsCursor[1] >> 7;
-            replayManager->fpsCursor++;
+            replayManager->fpsCursor = reinterpret_cast<u8 *>(
+                reinterpret_cast<unsigned int>(replayManager->fpsCursor) + sizeof(u8));
         }
         replayManager->frameCounter = static_cast<int>(static_cast<unsigned int>(replayManager->frameCounter) + 1u);
     }
@@ -347,14 +354,21 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
             g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].historyCurrent;
 
         replayManager->currentBuffer->frameCount = static_cast<int>(static_cast<unsigned int>(replayManager->currentBuffer->frameCount) + 1u);
-        replayManager->inputCursors[0]++;
-        replayManager->inputCursors[1]++;
-        replayManager->inputCursors[2]++;
+        replayManager->inputCursors[0] = reinterpret_cast<u16 *>(
+            reinterpret_cast<unsigned int>(replayManager->inputCursors[0]) +
+            static_cast<unsigned int>(sizeof(u16)));
+        replayManager->inputCursors[1] = reinterpret_cast<u16 *>(
+            reinterpret_cast<unsigned int>(replayManager->inputCursors[1]) +
+            static_cast<unsigned int>(sizeof(u16)));
+        replayManager->inputCursors[2] = reinterpret_cast<u16 *>(
+            reinterpret_cast<unsigned int>(replayManager->inputCursors[2]) +
+            static_cast<unsigned int>(sizeof(u16)));
 
         if (replayManager->frameCounter % ReplayRecordingCapacity::FramesPerFpsSample == 0)
         {
             *replayManager->fpsCursor = (u8)g_Supervisor.recordedFps;
-            replayManager->fpsCursor++;
+            replayManager->fpsCursor = reinterpret_cast<u8 *>(
+                reinterpret_cast<unsigned int>(replayManager->fpsCursor) + sizeof(u8));
         }
 
         if (replayManager->currentBuffer->frameCount >= ReplayRecordingCapacity::LinkRolloverFrames)

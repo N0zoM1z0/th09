@@ -687,6 +687,32 @@ SaveReplay remains 1,238/1,238 with precisely two unlike register bytes,
 differences, 32 fields, five calls and the same CFG. No new exact unit is
 claimed, and no unrelated all-source cold replay was run.
 
+## 2026-11-10 Replay playback and recording wire cursor byte addresses
+
+The exact `ReplayManagerView::PlaybackInputAndFps @ 0x004204B0` and
+`RecordInputAndFps @ 0x004202A0` move three 16-bit sample cursors through
+raw allocated/reconstituted replay payloads, and advance an 8-bit FPS stream
+cursor at each sample interval. These are byte-stream offsets in original
+Win32 allocation, not necessarily a constructed C++ `u16[]` or `u8[]`
+object for standard pointer arithmetic. The maintained code now explicitly
+forms each cursor's **native i386 unsigned 32-bit address plus `sizeof(u16)`
+(two bytes)** and advances FPS pointers by **`sizeof(u8)` (one byte)**.
+The exact original lookup, stream order, input decoding, FPS scheduling and
+counter behavior are unchanged; no new end-of-stream checks were added.
+
+Nine independent and combined source-cold VC7.1 cursor variants were
+compiled against the genuine ReplayInput profile: both exact playback
+(**299/299 physical bytes, 22 fields**) and exact recording (**460/460
+physical bytes, 25 fields**) emitted identical raw COFF code and relocation
+identities. With the native byte-address source installed, the official
+source-specific replay passed both actual compiler profiles, **12 exact
+functions, 4,093 complete physical bytes and 232 original-bound relocation
+fields**. The two other nonexact bosses in that source still match their
+prior physical frontiers: SaveReplay is 1,238/1,238 with only two ordinary
+register bytes unlike, and BeginPlaybackStage is 538/540 with 39 unlike
+overlaps and all 32 fields. This source-semantics recovery adds no new exact
+ledger credit or whole-game build claim.
+
 ## Replay SaveReplay and BeginPlaybackStage
 
 SaveReplay is 1,238 bytes/53 fields/23 calls, with only +0xB7/+0xBB differing.
