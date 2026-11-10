@@ -86,6 +86,11 @@ the full 862-target/849-source collision frontier is unchanged. Three
 source-affected carrier profiles pass five exact siblings, 1,220 physical
 bytes and 32 relocation fields. Its 13 missing bytes and original 33 versus
 candidate 32 CFG blocks remain unresolved.
+Gameplay setup's counter and phase threshold arithmetic now uses native
+unsigned 32-bit word increments and fixed-mode offsets. The large
+GameplaySetupThread preserves its 1,682/1,689-byte/172-field frontier; the
+exact 88-byte AdvanceTimedState and ten further exact siblings cold-pass in
+two real compiler profiles (11 functions / 2,991 physical bytes / 243 fields).
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

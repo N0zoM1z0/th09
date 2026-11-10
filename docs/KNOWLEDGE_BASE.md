@@ -633,6 +633,31 @@ each current COFF same-section definition and original PE operand target was
 verified before changing its manifest name. The source remains nonexact in
 the complete shake owner, and there is no new exact credit.
 
+## 2026-11-10 Gameplay setup native phase and round-count arithmetic
+
+The gameplay setup worker and its independently exact `AdvanceTimedState`
+leaf share native i386 **signed storage with modulo-32 arithmetic**. The
+maintained source now advances the real `SetupStateBuffer::phase10` and
+`GameManagerSetupLayout::counterFC` as unsigned address-sized DWORDs before
+reinterpreting their results as signed counters. Stage-mode-one's
+`500000u * (phase10 + 1)` likewise now performs the inner increment as a
+native unsigned word, rather than permitting C++ signed overflow before its
+already-unsigned multiply. The four fixed-mode round offsets (`counterFC +
+1/3/6/10`) are likewise constructed as original i386 word sums. All mode,
+threshold, score, allocation and failure branches remain unchanged.
+
+Eleven individual/combined VC7.1 source-cold worker probes retained its
+complete 1,682-byte candidate / 1,689-byte SHA-pinned target, 172 bound
+fields, 35 ordered calls and 78 blocks, with 694 overlap differences and
+seven missing bytes. Three separate phase-increment probes reproduced the
+complete **88/88-byte `AdvanceTimedState` leaf with all eight original-bound
+fields**. The installed combined code then passed its **two actual affected
+compiler profiles and 11 exact units**, covering **2,991 complete physical
+bytes and 243 relocations**. This preserves native arithmetic semantics
+without new exactness credit; the worker's branch-layout/field scheduling
+remains nonexact. Previous `switch`-sharing / `if/else` worker hypotheses
+displaced code and did not resolve its remaining original branch layout.
+
 ## Gameplay setup, ScreenEffect, network and Effect callback
 
 GameplaySetupThread remains 1,682/1,689 bytes, 172 fields and 694 differing

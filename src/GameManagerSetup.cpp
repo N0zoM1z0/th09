@@ -571,7 +571,7 @@ void GameManagerSetupLayout::AdvanceTimedState()
         state = globalManager.sides[0].state;
     }
 
-    state->phase10++;
+    state->phase10 = static_cast<int>(static_cast<unsigned int>(state->phase10) + 1u);
 
     SetupStateBuffer *thresholdState =
         globalManager.sides[0].state;
@@ -716,7 +716,7 @@ void __fastcall GameplaySetupThread(void *unused)
     }
 
     if (previousMode == 0 || previousMode == 1)
-        globalManager.counterFC++;
+        globalManager.counterFC = static_cast<int>(static_cast<unsigned int>(globalManager.counterFC) + 1u);
 
 mode_ready:
     if (globalManager.configurationE8 != NULL)
@@ -788,7 +788,7 @@ mode_ready:
         {
             SetupStateBuffer *state =
                 g_GameManager.sides[0].state;
-            if (state->value04 >= 500000u * (state->phase10 + 1))
+            if (state->value04 >= 500000u * (static_cast<unsigned int>(state->phase10) + 1u))
                 globalManager.AdvanceTimedState();
         }
 
@@ -882,7 +882,7 @@ mode_ready:
         else
         {
             g_GameManager.valueC4 = 720;
-            g_GameManager.limitB4 = g_GameManager.counterFC + 6;
+            g_GameManager.limitB4 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 6u);
             g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 17;
         }
         break;
@@ -901,7 +901,7 @@ mode_ready:
         else
         {
             g_GameManager.valueC4 = 900;
-            g_GameManager.limitB4 = g_GameManager.counterFC + 3;
+            g_GameManager.limitB4 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 3u);
             g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 15;
         }
         break;
@@ -920,8 +920,8 @@ mode_ready:
         else
         {
             g_GameManager.valueC4 = 1200;
-            g_GameManager.limitB4 = g_GameManager.counterFC + 1;
-            g_GameManager.valueC8 = g_GameManager.counterFC + 10;
+            g_GameManager.limitB4 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 1u);
+            g_GameManager.valueC8 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 10u);
         }
         break;
 
