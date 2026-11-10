@@ -738,6 +738,30 @@ fields; they did not reproduce retail `mov cl` plus `movsx edi,cl` and were
 not installed. The register-lifetime problem remains separate from this
 native arithmetic correction.
 
+## 2026-11-10 Title replay selection native displayed-index DWORD
+
+`TitleScreenView::DrawReplayMenu @ 0x004234F6` formats the selected replay
+number via `selectedReplay + 1` when the highlighted entry is in the first
+25-record column. The pinned original i386 instruction at owner offset
+`+0x271` is `INC EDX` immediately before the formatted-value push: that
+operation wraps modulo 2^32 independently of C++ signed-overflow rules.
+The maintained expression now adds one to the selected DWORD as an unsigned
+native word and converts it back to the original signed formatting argument.
+No replay-table bounds checks, index range, text layout, dispatch ordering or
+memory accesses were changed.
+
+Twenty-one source-cold VC7.1 candidate variants were compared to the entire
+original 1,280-byte menu owner. Moving the replay path into an earlier local
+pointer, even with the identical native 0x200-byte record stride, displaced
+30 physical bytes and generated more than 600 unlike positions; other
+record-cache rewrites likewise regressed. The selected native-number variant
+retains **1,280/1,280 bytes, 57 original-bound relocations, all 16 checked
+literal definitions, 30 literal references, 13 ordered calls, 72 identical
+control-flow blocks and the original 29 unlike bytes**. This source carrier
+has no canonical exact siblings, so only its full target-bound owner was
+replayed rather than starting unrelated all-product cold compiles. It remains
+a nonexact function with no new ledger exactness credit.
+
 ## Title replay-menu and result update
 
 DrawReplayMenu remains 1,280 bytes/57 fields/13 calls/29 differences. Its native

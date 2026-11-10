@@ -125,6 +125,12 @@ wraparound arithmetic. The exact 299-byte and 460-byte leaves are unchanged;
 both affected ReplayInput profiles cold-pass 12 exact units / 4,093 physical
 bytes / 232 relocation fields. SaveReplay and BeginPlaybackStage full owner
 frontiers are unchanged (2 and 39 overlap differences respectively).
+Title DrawReplayMenu's selected-replay display number now uses native
+unsigned 32-bit `selected + 1` before the original signed format argument,
+matching the retail `INC EDX`. Its entire 1,280-byte, 57-field, 13-call,
+72-block, 29-unlike frontier remains original-bound and unchanged. The
+independent source carrier has no tracked exact siblings, so only its focused
+boss was compiled and compared.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

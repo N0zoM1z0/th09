@@ -113,7 +113,7 @@ int TitleScreenView::DrawReplayMenu()
             g_AsciiManager.AddFormatText(
                 &textPosition,
                 "No.%.2d %8s %8s",
-                selected + 1,
+                static_cast<int>(static_cast<unsigned int>(selected) + 1u),
                 (replayValue.magic ? replayValue.playerName : "--------"),
                 (replayValue.magic ? replayValue.playTime : "--/--/--"));
         }
