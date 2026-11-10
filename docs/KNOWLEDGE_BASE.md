@@ -158,6 +158,35 @@ value, addend and original PE destination before running the unchanged strict
 replay. This advances native-source semantics without new exact owner credit,
 or any original C++ spelling, product or runtime claim.
 
+## 2026-11-10 native variable-length ECL argument views
+
+The 0x0C-byte TH09 ECL instruction prefix ends in an actual variable-length
+sequence of four-byte union arguments. `arguments[0]` preserves the zero-size
+native prefix and target layout, but C++ zero-length array indexing has no
+ordinary in-bounds object semantics. `RawInt`, `RawFloat`, `RawByte`, and
+`RawShort` now form their lvalue addresses as native unsigned i386 words,
+adding `offsetof(arguments)` and the byte/word operand displacement. Byte and
+halfword accesses address that same four-byte sequence without an invented
+second payload. No decoder bounds checks or changes to retail error handling
+were added, and all four accessors remain lexical/inlined rather than invented
+external owners.
+
+Seven isolated and combined pinned VC7.1 source probes kept the whole 15,564
+byte RunEcl owner, its 598 original fields and all tables at the same physical
+locations, with the same 30 codegen differences in opcodes 4 and 155. The
+maintained combined source was then cold-rebuilt through its six actually
+affected compiler carriers. Internal VC7.1 `$L` labels were renumbered at 20
+locations in `CompareOperands`/post-ECL movement and 291 more in the separately
+compiled ECL resolver leaves. Each one was checked against the exact COFF
+same-section definition, real owner-relative label destination, addend, and
+original PE field before updating the name in the exact-unit manifest. Final
+**scoped cold replay passed all 91 exact functions, 36,301 physical bytes and
+1,783 original-bound relocation fields**. This is a source semantics improvement;
+it does **not** promote the RunEcl boss to exact or change the 1,024-function
+exact ledger. RunEcl opcode-155 reverse-parameter, bitfield, old-flag lifetime,
+and mutating-helper trial variants were separately compiled; they were neutral
+or caused extensive table/branch regressions, so were not installed.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,

@@ -27,6 +27,11 @@ wire address arithmetic rather than indexing a zero-size C++ member. Complete
 RunEcl and Enemy boss frontiers remain unchanged; the six affected compiler
 carriers cold-pass 91 exact owners / 36,301 bytes / 1,783 relocations with
 291 independently verified compiler-label rebindings.
+Both ECL operand fragments now read the zero-length trailing wire data with
+native unsigned address arithmetic. The combined change was cold-rebuilt in
+six affected carriers and kept 91 exact owners/36,301 bytes/1,783 fields,
+with all 311 changed private labels independently checked against original
+addresses; the RunEcl boss remains nonexact at 30 ordinary differences.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,
