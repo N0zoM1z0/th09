@@ -209,8 +209,9 @@ __forceinline float *WriteFloat(
         context->time008 = value.integer;
     }
         instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-            reinterpret_cast<unsigned char *>(instruction) +
-            Th09EclRunControl::RawInt(instruction, 1));
+            reinterpret_cast<unsigned int>(instruction) +
+            static_cast<unsigned int>(
+                Th09EclRunControl::RawInt(instruction, 1)));
         goto th09_ecl_redispatch_instruction;
 
     case TH09_ECL_OPCODE_SET_INT:

@@ -12,8 +12,11 @@ The earlier Title-source reconstruction checkpoint is `746b0e6d`. Title draw, ca
 and MusicRoom use the complete native Title owner. Their already-exact
 functions stay exact; Replay-menu drawing remains nonexact. Recent Player,
 Front, Enemy/ECL and Ascii native-owner work likewise preserves existing
-exact owners. The current ECL/Enemy native-word source changes preserve both
-large owner frontiers and cold-pass 83 affected exact units in two carriers.
+exact owners. Current ECL/Enemy native-word changes preserve both large
+owner frontiers: the initial two-carrier proof covers 83 exact units; the
+follow-up opcode-4 relative-jump change cold-replays 91 units in six actual
+carriers with 299 checked same-section label rebindings. Reproduce the latter
+with `python3 -B scripts/replay-scoped-exact.py --changed-file src/EclRunControl.inl`.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

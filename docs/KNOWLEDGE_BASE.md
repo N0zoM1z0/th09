@@ -116,10 +116,23 @@ No new exact function was admitted.
 
 Natural opcode-4 timer-lifetime, opcode-155 masked-flag, SaveReplay frame-copy,
 and Enemy draw-index/descriptor-copy source trials failed to improve their
-complete original-bound residuals, so none was installed. A broader lexical
-ECL jump change also renumbered local symbols in the separately compiled
-EclOperands unit; it remains an experiment rather than widening this patch
-or changing unrelated exact-unit manifests.
+complete original-bound residuals, so none was installed. The later focused
+Effect AddedCallback receiver-lifetime trials were also either byte-neutral
+(eight original differences) or regressed to eleven.
+
+The opcode-4 relative JUMP now likewise adds the signed instruction displacement
+as an unsigned i386 address word; the prior `unsigned char *` addition could
+leave the bounds of the instruction object for backward ECL branches. That
+lexical ECL change was compiled in all six actual affected carriers, including
+the standalone EclOperands/EnemyManagerClear leaves. **91** complete canonical
+units cold-replayed exactly across **36,301** physical bytes and **1,783**
+relocations. VC7.1 renumbered **299** same-section `$L` definitions in six
+owners; each changed name was rebound only after checking actual COFF offset,
+addend, owner-local destination and the corresponding original PE operand.
+RunEcl still has the same 30 opcode-4/155 ordinary differences, including all
+598 target fields and tables; Enemy OnUpdate still has 13 ordinary differences
+and 97 fields. This is native integer-address semantic progress, not a new
+exact owner or whole-product closure.
 
 ## RunEcl: opcode 4 and opcode 155
 
