@@ -629,8 +629,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
 
                             if ((enemy->secondaryFlags3380 & 0x01C0) != 0)
                             {
-                                int secondaryPart =
-                                    damage - enemy->primaryDamageAccumulator2E5C;
+                                int secondaryPart = static_cast<int>(
+                                    static_cast<unsigned int>(damage) -
+                                    static_cast<unsigned int>(enemy->primaryDamageAccumulator2E5C));
                                 int primaryPart;
                                 if ((enemy->secondaryFlags3380 & 0x1000) == 0)
                                     primaryPart =
@@ -638,10 +639,14 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                                 else
                                     primaryPart =
                                         enemy->primaryDamageAccumulator2E5C / 2;
-                                damage = primaryPart + secondaryPart * 4;
+                                damage = static_cast<int>(
+                                    static_cast<unsigned int>(primaryPart) +
+                                    static_cast<unsigned int>(secondaryPart) * 4u);
                             }
 
-                            enemy->life2E48 -= damage;
+                            enemy->life2E48 = static_cast<int>(
+                                static_cast<unsigned int>(enemy->life2E48) -
+                                static_cast<unsigned int>(damage));
                             enemy->lastDamage33AC = damage;
                         }
                         damageOccurred = 1;

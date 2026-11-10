@@ -497,6 +497,34 @@ from 849 to 854 against 862 retail bytes, but raised overlapping mismatches
 from 799 to 817 and still had only 32 of 33 original blocks. It was rejected
 rather than promoting an apparent length-only improvement.
 
+## 2026-11-10 Enemy OnUpdate native damage and life DWORD arithmetic
+
+`EnemyManagerView::OnUpdate @ 0x00410730` has a distinct damage-balancing
+branch for secondary hit types. The original i386 target first computes
+`damage - primaryDamageAccumulator2E5C` with `SUB`, divides the retained
+primary accumulator by two or four with signed semantics, forms
+`primaryPart + secondaryPart * 4` using native DWORD arithmetic (including
+its target LEA), then subtracts the resulting damage directly from the
+`life2E48` DWORD. The old signed C++ subtraction/multiplication could invoke
+undefined behavior at overflow boundaries. The maintained source now performs
+the three word operations as native unsigned 32-bit sums/differences, then
+reinterprets the same stored signed fields. Its original signed division,
+branch predicates, overflow wraparound, hit-kind selection, callbacks and
+other side effects are unchanged.
+
+Eight isolated and combined source-cold VC7.1 variants were compared against
+the complete original 3,900-byte Enemy OnUpdate extent. All retained the
+same **97 independent relocation fields, 69 ordered calls, complete CFG,
+switch destinations and precisely 13 unlike ordinary bytes**. The installed
+combined source also preserves RunEcl's complete 15,564-byte/598-field
+owner and switch data, still with seven opcode-4 and 23 opcode-155 unlike
+bytes. The source-selected two-carrier exact cold replay passed **83 exact
+units, 29,856 full physical bytes and 1,389 relocation fields**, including
+the independently exact 892-byte `CompareOperands` leaf. Two newly numbered
+VC7.1 `$L` definitions were rebound in the manifest only after independent
+actual COFF same-section destination and original PE operand proofs. No new
+exact unit or whole-game closure is claimed.
+
 ## Player movement, charge and collision
 
 Movement remains 1,900 bytes/66 fields/122 differences. Horizontal and vertical

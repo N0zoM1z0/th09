@@ -113,6 +113,12 @@ semantics. The full 15,564-byte RunEcl and 3,900-byte Enemy OnUpdate frontiers
 remain unchanged. Six affected carrier profiles cold-pass 91 exact functions /
 36,301 complete bytes / 1,783 fields, with eight same-section COFF `$L`
 renames verified against original PE before rebinding.
+Enemy OnUpdate's secondary damage decomposition, fourfold weighted hit
+sum and life subtraction now use native DWORD wraparound before signed
+storage. Its full 3,900-byte/97-field/13-unlike owner and RunEcl's 15,564-byte
+owner do not regress; the 83 affected exact functions cold-pass across two
+actual carrier profiles (29,856 bytes, 1,389 fields), following two original
+PE-backed VC7.1 private-label rebinding checks.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,
