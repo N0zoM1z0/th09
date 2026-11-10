@@ -128,7 +128,7 @@ class GameManagerColdRegression(unittest.TestCase):
         # the ten canonical full-owner exact GameManager callbacks.
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
-            'target_bytes': 1689, 'candidate_bytes': 1682,
+            'target_bytes': 1689, 'candidate_bytes': 1692,
             'target_instructions': 413, 'candidate_instructions': 413,
             'original_fields': 172, 'bound_fields': 172,
             'ordered_calls': 35, 'candidate_calls': 35,
@@ -154,19 +154,19 @@ class GameManagerColdRegression(unittest.TestCase):
                     ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 1))],
             'original_blocks': 78, 'candidate_blocks': 78,
             'direct_graphs_agree': False,
-            'aligned_field_identities': 171,
+            'aligned_field_identities': 170,
             'field_change_spans': 2,
             'original_only_field_referents': [dict(type=t, address=a, count=n)
                 for t,a,n in boss.GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS],
             'source_only_field_referents': [dict(type=t, address=a, count=n)
                 for t,a,n in boss.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS],
-            'aligned_instructions': 412,
+            'aligned_instructions': 409,
             'target_sha256': boss.GAMEPLAY_SETUP_TARGET_SHA,
             'difference_offsets': [i for i in range(1689) if
                 boss.GAMEPLAY_SETUP_RESIDUAL_MASK[i // 8] & (1 << (i % 8))],
-            'overlap_differences': 694,
+            'overlap_differences': 170,
             'complete_bytes_equal': False,
-        'missing_target_bytes': 7, 'extra_candidate_bytes': 0,
+        'missing_target_bytes': 0, 'extra_candidate_bytes': 3,
         }
 
     def test_gameplay_setup_all172_original_referents_and_multiplicities_agree(self):
@@ -261,7 +261,7 @@ class GameManagerColdRegression(unittest.TestCase):
                 boss, 'canonical', side_effect=lambda name: {'unit': name}) as canonical:
             owners, exact = boss.run_game_manager(
                 protect_exact=True, replay_callees_prechecked=True)
-        self.assertEqual(owners['gameplay_setup_thread']['ordinary_differences'], 694)
+        self.assertEqual(owners['gameplay_setup_thread']['ordinary_differences'], 170)
         self.assertEqual(len(exact), 13)
         self.assertEqual(exact[-1]['unit'], 'game-manager-select-opponent')
         self.assertNotIn('replay-manager-create', [r['unit'] for r in exact])

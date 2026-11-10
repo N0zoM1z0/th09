@@ -148,6 +148,14 @@ at 13 unlike bytes and preserves its 97 fields/69 calls. The shared RunEcl
 owner remains full 15,564 bytes/598 fields/30 unlike; two affected compiler
 profiles cold-pass 83 exact functions / 29,856 physical bytes / 1,389 fields.
 Two compiler-private `$L` labels were independently PE/COFF proven and rebound.
+GameplaySetupThread now has a real physical-code improvement: natural
+fixed-rate early breaks in difficulty 2/3, inverted difficulty-1 split and an
+explicit empty switch default move the C8=22 DIR32 back to original +0x433.
+Its complete `/Os` candidate is 1,692/1,689 bytes, 172 fields, 35 calls,
+78 CFG blocks, 170 unlike overlapping bytes and three **extra candidate**
+bytes (previously 1,682 bytes, 694 unlike and seven missing). Updated
+source-scoped strict mask/negative tests pass, as do all 11 exact siblings in
+two carriers (2,991 physical bytes, 243 relocations). Nonexact; product open.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,
@@ -170,7 +178,7 @@ pinned compiler when you make a source change. Use only its focused
 | **Player ChargeAttack** | 0x0041F810 | **1,210/1,210**, 70 fields, 58 calls, **235** unlike, 0 missing; 350 instructions, 53 direct blocks, matching CFG | Mode byte [EBP-1] and input receiver register allocation; complete extent has already been recovered. `--owner charge`. |
 | **Title OnUpdateResult** | 0x004266B5 | 485 original / 484 candidate, 34 fields, 9 calls; 218 unlike overlaps + 1 missing | Character/score snapshot and result branch transport. `--owner resultdraw`. |
 | **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 57 fields, 13 calls, **29** unlike | Selected ReplayData register chronology; pure Float3 math and early index snapshots regressed. `--owner replaymenu`. |
-| **GameplaySetupThread** | 0x0041AF2D | 1,689 original / 1,682 candidate, 172 fields, 35 calls, 694 unlike overlaps + 7 missing | Gameplay rate and side/rank ordering. `--owner gamemgr`. |
+| **GameplaySetupThread** | 0x0041AF2D | 1,689 original / 1,692 candidate, 172 fields, 35 calls, 170 unlike overlaps + 3 extra candidate bytes | Fixed-rate `C8=22` original field recovered at +0x433; still nonexact CFG. `--owner gamemgr`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | 862 original / 849 candidate, 26 fields, 12 calls, 799 unlike overlaps + 13 missing | Actual collision region allocation and branch chronology. `--owner player`. |
 | **Replay SaveReplay** | 0x00420C60 | 1,238/1,238, 53 fields, 23 calls, **2** unlike bytes | Original EDI/ECX destination-register selection at +0xB7/+0xBB. `--owner replaysave`. |
 | **Replay BeginPlaybackStage** | 0x00420840 | 540 original / 538 candidate, 32 fields, 5 calls, 39 unlike overlaps + 2 missing | Seed/tail chronology. `--owner replay`. |

@@ -878,13 +878,11 @@ mode_ready:
         {
             g_GameManager.valueC4 = 900;
             g_GameManager.valueC8 = 22;
+            break;
         }
-        else
-        {
-            g_GameManager.valueC4 = 720;
-            g_GameManager.limitB4 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 6u);
-            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 17;
-        }
+        g_GameManager.valueC4 = 720;
+        g_GameManager.limitB4 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 6u);
+        g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 17;
         break;
 
     case 2:
@@ -897,13 +895,11 @@ mode_ready:
         {
             g_GameManager.valueC4 = 720;
             g_GameManager.valueC8 = 22;
+            break;
         }
-        else
-        {
-            g_GameManager.valueC4 = 900;
-            g_GameManager.limitB4 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 3u);
-            g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 15;
-        }
+        g_GameManager.valueC4 = 900;
+        g_GameManager.limitB4 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 3u);
+        g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 15;
         break;
 
     case 1:
@@ -912,16 +908,16 @@ mode_ready:
         g_GameManager.sides[0].player04->header24.state80 = 1;
         g_GameManager.sides[1].player04->header24.state7C = 1;
         g_GameManager.sides[1].player04->header24.state80 = 1;
-        if (g_GameManager.gameMode == 2)
-        {
-            g_GameManager.valueC4 = 900;
-            g_GameManager.valueC8 = 20;
-        }
-        else
+        if (g_GameManager.gameMode != 2)
         {
             g_GameManager.valueC4 = 1200;
             g_GameManager.limitB4 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 1u);
             g_GameManager.valueC8 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 10u);
+        }
+        else
+        {
+            g_GameManager.valueC4 = 900;
+            g_GameManager.valueC8 = 20;
         }
         break;
 
@@ -943,6 +939,9 @@ mode_ready:
             g_GameManager.valueC8 = 16;
         }
         break;
+    default:
+        // Other setup modes preserve the currently published rank fields.
+        {}
     }
 
     SupervisorCalculateFps(0);

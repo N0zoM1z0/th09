@@ -21,7 +21,7 @@ def baseline():
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_sha256': front.GAMEPLAY_SETUP_TARGET_SHA,
-        'target_bytes': 1689, 'candidate_bytes': 1682,
+        'target_bytes': 1689, 'candidate_bytes': 1692,
         'target_instructions': 413, 'candidate_instructions': 413,
         'original_fields': 172, 'bound_fields': 172,
         'ordered_calls': 35, 'candidate_calls': 35,
@@ -47,8 +47,8 @@ def baseline():
                 ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 1))],
         'original_blocks': 78, 'candidate_blocks': 78,
         'direct_graphs_agree': False,
-        'aligned_field_identities': 171, 'field_change_spans': 2,
-        # The real full-owner decoded 172/171-field *referent multisets*
+        'aligned_field_identities': 170, 'field_change_spans': 2,
+        # The real full-owner decoded 172/172-field *referent multisets*
         # are part of the source-cold guard, not optional diagnostic data.
         'original_only_field_referents': [
             dict(type=t, address=address, count=count)
@@ -56,21 +56,21 @@ def baseline():
         'source_only_field_referents': [
             dict(type=t, address=address, count=count)
             for t, address, count in front.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS],
-        'aligned_instructions': 412,
+        'aligned_instructions': 409,
         'overlap_differences': len(differences),
         'difference_offsets': differences, 'complete_bytes_equal': False,
-        'missing_target_bytes': 7, 'extra_candidate_bytes': 0,
+        'missing_target_bytes': 0, 'extra_candidate_bytes': 3,
     }
 
 
 class GameplaySetupOriginalBoundFrontier(TestCase):
-    def test_complete_candidate_accounts_for_694_differences_and_seven_missing_bytes(self):
+    def test_complete_candidate_accounts_for_170_differences_and_three_extra_bytes(self):
         report = baseline()
         self.assertEqual(len(front.GAMEPLAY_SETUP_RESIDUAL_MASK), 212)
-        self.assertEqual(report['overlap_differences'], 694)
-        self.assertEqual(report['missing_target_bytes'], 7)
+        self.assertEqual(report['overlap_differences'], 170)
+        self.assertEqual(report['extra_candidate_bytes'], 3)
         self.assertNotIn(0, report['difference_offsets'])
-        self.assertTrue(all(off < 1682 for off in report['difference_offsets']))
+        self.assertTrue(all(off < 1689 for off in report['difference_offsets']))
         front.guard_gameplay_setup_thread(report)
 
     def test_genuinely_narrower_full_extent_still_receives_no_local_exact_credit(self):
@@ -129,11 +129,11 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
             {'difference_offsets': differences[:-1] + [1689]},
             {'difference_offsets': differences[:-1] + [-1]},
             {'difference_offsets': differences[:-1] + [True]},
-            {'overlap_differences': 695},
-            {'overlap_differences': '694'},
+            {'overlap_differences': 171},
+            {'overlap_differences': '170'},
             {'complete_bytes_equal': True},
-            {'missing_target_bytes': 0}, {'missing_target_bytes': 6},
-            {'missing_target_bytes': True}, {'extra_candidate_bytes': 1},
+            {'missing_target_bytes': 1}, {'missing_target_bytes': 7},
+            {'missing_target_bytes': True}, {'extra_candidate_bytes': 2},
             {'exactness_credit': 'accepted'},
             {'diagnostic_only': False},
             {'original_only_field_referents': None},
@@ -172,9 +172,9 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
             {'ordered_calls_agree': False},
             {'original_blocks': 77}, {'candidate_blocks': 77},
             {'direct_graphs_agree': True},
-            {'aligned_field_identities': 170},
+            {'aligned_field_identities': 169},
             {'field_change_spans': 3},
-            {'aligned_instructions': 411},
+            {'aligned_instructions': 408},
         )
         for change in invalid:
             with self.subTest(change=change), self.assertRaises(RuntimeError):

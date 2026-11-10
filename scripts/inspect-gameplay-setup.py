@@ -171,8 +171,8 @@ def main():
     if len(target) != SIZE or hashlib.sha256(target).hexdigest() != TARGET_SHA256:
         raise ValueError('TH09 original GameplaySetupThread PE SHA256/extent changed')
     code, rows = coff.object_function(args.object, SYMBOL)
-    if len(code) != 1682:
-        raise ValueError('GameManager gameplay setup must use the reviewed /Os 1682-byte candidate')
+    if len(code) != 1692:
+        raise ValueError('GameManager gameplay setup must use the reviewed /Os 1692-byte candidate')
     raw_hash = hashlib.sha256(code).hexdigest()
     for row in rows:
         if row['symbol'] not in DESTINATIONS:

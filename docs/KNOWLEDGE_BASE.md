@@ -949,16 +949,67 @@ actual COFF owner-and-field proof confirmed same-section definitions,
 original target addresses and zero physical mismatches. No exactness credit
 or full-product replay is claimed.
 
+## 2026-11-10 GameplaySetupThread fixed-rate branch layout breakthrough
+
+`GameplaySetupThread @ 0x0041AF2D` has an independently SHA-attested
+**1,689-byte** original body, 413 instructions, 172 address operands,
+35 ordered calls and 78 CFG blocks. Its previous pinned `/Os` VC7.1 source
+had **1,682 bytes, 694 unlike overlapping bytes and seven missing bytes**.
+The original `g_GameManager.valueC8 = 22` fixed-rate publication is a
+seven-byte instruction with its DIR32 operand at owner offset **`+0x433`**;
+in the previous candidate that operand was incorrectly scheduled at `+0x524`.
+This was a control-flow-block placement problem, not an unknown global or an
+unreviewed relocation.
+
+Source-cold TH09 experiments exhaustively varied natural difficulty-case
+order, each fixed-versus-round branch predicate, shared-publishing labels,
+early-exit forms and the explicit switch default. The accepted **natural**
+source leaves all fixed and round values unchanged. For difficulty 3/2 it
+handles game mode 2 with its original fixed-rate stores and an early `break`,
+then publishes the round-derived rate in the remaining fallthrough path.
+For difficulty 1 it instead tests `gameMode != 2` first, with the same two
+original bodies. An explicit empty default arm leaves other setup modes
+unchanged. Together these changes direct VC7.1's physical shared-branch
+scheduling toward the original, without assembler, padding, dummy clobbers,
+changed compiler flags or game-behavior patches.
+
+The **live source-compiled, complete original-bound owner** now measures
+**1,692 candidate bytes, 170 unlike overlaps, three extra candidate bytes**:
+**524 fewer unlike overlapping bytes** than the previous 694-difference
+frontier. Both have 413 instructions; the candidate keeps all 172 actual
+COFF relocation operands with their correct original destination multiset,
+35 original-ordered calls, 78 candidate/target CFG blocks and all eight
+reviewed native subsystem-creator interfaces. Crucially the fixed-rate
+`valueC8` DIR32 field is now at the original **`+0x433`**. This is still
+**not exact**: the physical length is three bytes too large, the complete
+branch graph differs, the ordered aligned operand identities score 170/172
+(previously 171/172) and the aligned instruction count is 409 (previously
+412). These narrower diagnostics are reported alongside, not hidden behind,
+the major physical mismatch reduction. The candidate retains the full
+original replay, Supervisor, GameManager and opposite-side call contracts.
+
+The original-bound 1692-byte diagnostic, its 212-byte bitmap of all 170
+observed unlike target-overlap offsets, source-specific frontier guard and
+two focused negative-test suites were updated together rather than changing
+old result files to manufacture a pass. The **official two-carrier**
+`replay-scoped-exact.py --changed-file src/GameManagerSetup.cpp` recompiled
+and fully compared **11/11 existing exact functions, 2,991 physical bytes,
+243 relocations**, all exact. The full nonexact worker also passes the
+updated `--owner gamemgr --skip-exact-siblings` original PE/COFF guard.
+No new exact unit, whole-product cold replay or Windows runtime closure is
+claimed. Further work should isolate the remaining three extra bytes and
+misplaced mode-1/2/3 writeback graph, preserving the fixed-rate +0x433
+original-bound milestone.
+
 ## Gameplay setup, ScreenEffect, network and Effect callback
 
-GameplaySetupThread remains 1,682/1,689 bytes, 172 fields and 694 differing
-overlaps plus seven missing bytes. Original fixed-mode difficulty 2/3 paths
-join difficulty 4's C8=22 publication; counter-derived paths bypass it.
-The target field at +0x433 appears at candidate +0x524. Explicit goto sharing
-and isolating the worker retained the baseline; nested conditions and post-switch
-publication changed dispatch/fields. A helper left five extra calls absent
-from the original and was rejected. Explore genuine case sharing and rate
-chronology rather than a cosmetic rewrite.
+GameplaySetupThread's current native `/Os` owner is 1,692/1,689 bytes,
+172 fields and 170 differing overlaps plus three extra candidate bytes;
+its 35 ordered calls are unchanged. Fixed-mode difficulty 2/3 paths and
+round-derived paths now use an early-break source shape, bringing the C8=22
+field to the original `+0x433` (previously +0x524). The graph and length are
+still nonexact; see the newer breakthrough section above. Historical shared
+`goto`/helper attempts alone did not restore the full original branch shape.
 
 ScreenEffect shake remains 336 bytes/20 fields/26 differences. The final phase
 extends endFrame by rawParameter1 + rawParameter2, and both the final guard and

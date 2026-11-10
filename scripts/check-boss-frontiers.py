@@ -2512,11 +2512,11 @@ def guard_gameplay_setup_field_referents(result: dict) -> None:
 GAMEPLAY_SETUP_RESIDUAL_MASK = bytes.fromhex(
     '0000000000000000000000000000000000000000000000000000000000000000'
     '0000000000000000000000000000000000000000000000000000000000000000'
-    '0000000000000000000000000000000000000000000000000000020000000000'
-    '0800000400100000200080000002000800000000000800f8ffffffffffffdfff'
-    'fffeeffffe6fbe7defffffffffffdff77ffff77fffdffffffffdfffff9fdfdff'
-    'fbbffffffebffffffffffffffbdffffeefffbf5fefffffff9fff7ffffbdffffd'
-    'ffffffffffffbffffffffffffffffff7ffff0300'
+    '0000000000000000000000000000000000000000000000000000000000000000'
+    '0000000000000000000000000000000000000000000000000000000040000000'
+    '0000000000000010000000000000040000000000000000000000000001000000'
+    '0000000000000000000008000000000000f0ff7ffffffffe3f01000000000000'
+    '0010000000f8dffffbfffffffffffff7ffffff01'
 )
 
 
@@ -2533,12 +2533,12 @@ def guard_gameplay_setup_thread(result: dict) -> None:
     count = result.get('overlap_differences')
     if (result.get('target_sha256') != GAMEPLAY_SETUP_TARGET_SHA or
             len(GAMEPLAY_SETUP_RESIDUAL_MASK) != 212 or
-            sum(bin(x).count('1') for x in GAMEPLAY_SETUP_RESIDUAL_MASK) != 694 or
-            result.get('candidate_bytes') != 1682 or
+            sum(bin(x).count('1') for x in GAMEPLAY_SETUP_RESIDUAL_MASK) != 170 or
+            result.get('candidate_bytes') != 1692 or
             type(result.get('missing_target_bytes')) is not int or
-            result['missing_target_bytes'] != 7 or
+            result['missing_target_bytes'] != 0 or
             type(result.get('extra_candidate_bytes')) is not int or
-            result['extra_candidate_bytes'] != 0 or
+            result['extra_candidate_bytes'] != 3 or
             result.get('target_instructions') != 413 or
             result.get('candidate_instructions') != 413 or
             result.get('original_fields') != 172 or
@@ -2549,23 +2549,23 @@ def guard_gameplay_setup_thread(result: dict) -> None:
             result.get('candidate_blocks') != 78 or
             result.get('direct_graphs_agree') is not False or
             type(result.get('aligned_field_identities')) is not int or
-            result['aligned_field_identities'] < 171 or
+            result['aligned_field_identities'] < 170 or
             type(result.get('field_change_spans')) is not int or
             not 0 <= result['field_change_spans'] <= 2 or
             type(result.get('aligned_instructions')) is not int or
             # The current coherent int producer/caller restores full ECX
             # zeroing. Instruction correspondence never substitutes for the
-            # whole physical overlap and seven missing original bytes.
-            result['aligned_instructions'] < 412 or
-            type(count) is not int or not 0 <= count <= 694 or
+            # whole physical overlap and three extra candidate bytes.
+            result['aligned_instructions'] < 409 or
+            type(count) is not int or not 0 <= count <= 170 or
             result.get('complete_bytes_equal') is not False or
             not isinstance(differences, list) or len(differences) != count or
-            any(type(i) is not int or not 0 <= i < 1682
+            any(type(i) is not int or not 0 <= i < 1689
                 for i in differences) or
             differences != sorted(set(differences)) or
             any(not (GAMEPLAY_SETUP_RESIDUAL_MASK[i // 8] & (1 << (i % 8)))
                 for i in differences)):
-        raise RuntimeError('GameplaySetupThread 1682-byte/172-field/35-call/694-plus-seven-missing frontier drifted')
+        raise RuntimeError('GameplaySetupThread 1692-byte/172-field/35-call/170-unlike-plus-three-extra frontier drifted')
     if result.get('native_replay_calls') != [
             dict(symbol='?Create@ReplayManagerView@@SIPAU1@HPBD@Z',
                  target=0x421670, count=2),
@@ -2639,8 +2639,8 @@ def run_game_manager(*, protect_exact: bool,
                'game-manager-format-current-date')
     build('game-manager-on-update')
     owners = [canonical('game-manager-on-update')]
-    # The worker compares its complete1682-byte /Os candidate against all1689
-    # original bytes, including seven missing bytes. The loading sibling
+    # The worker compares its complete 1692-byte /Os candidate against all
+    # 1689 original bytes, including three extra candidate bytes. The loading sibling
     # intentionally uses a separately compiled no-/Os profile.
     gameplay = noncrediting(parsed(['scripts/inspect-gameplay-setup.py',
                                     'build/matching/GameManagerSetup.obj', '--json']),
