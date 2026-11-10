@@ -46,6 +46,8 @@ int TitleScreenView::DrawReplayMenu()
 {
     D3DXVECTOR3 position;
     char buffer[256];
+    // This one verified 12-byte view is passed to the native ASCII text API.
+    Float3 &textPosition = reinterpret_cast<Float3 &>(position);
 
     if (currentScreenState == 1)
     {
@@ -67,7 +69,7 @@ int TitleScreenView::DrawReplayMenu()
             if (i < TitleReplayNativeSlots::RowsPerColumn)
             {
                 g_AsciiManager.AddFormatText(
-                    reinterpret_cast<Float3 *>(&position),
+                    &textPosition,
                     "No.%.2d %8s %8s",
                     i + 1,
                     (replays[i].magic ? replays[i].playerName : "--------"),
@@ -76,7 +78,7 @@ int TitleScreenView::DrawReplayMenu()
             else
             {
                 g_AsciiManager.AddFormatText(
-                    reinterpret_cast<Float3 *>(&position), "%c%c%c%c  %8s %8s",
+                    &textPosition, "%c%c%c%c  %8s %8s",
                     replays[i].magic ? replayPaths[i][15] : 'u',
                     replays[i].magic ? replayPaths[i][16] : 's',
                     replays[i].magic ? replayPaths[i][17] : 'e',
@@ -99,14 +101,17 @@ int TitleScreenView::DrawReplayMenu()
         D3DXVECTOR3 target(216.5f, 160.0f, 0.0f);
         i32 frame = stateTimer2;
         if (frame < 10)
-            position = position + (target - position) * (float)frame * 0.1f;
+        {
+            D3DXVECTOR3 displacement = target - position;
+            position = position + displacement * (float)frame * 0.1f;
+        }
         else
             position = target;
 
         if (selected < TitleReplayNativeSlots::RowsPerColumn)
         {
             g_AsciiManager.AddFormatText(
-                reinterpret_cast<Float3 *>(&position),
+                &textPosition,
                 "No.%.2d %8s %8s",
                 selected + 1,
                 (replayValue.magic ? replayValue.playerName : "--------"),
@@ -115,7 +120,7 @@ int TitleScreenView::DrawReplayMenu()
         else
         {
             g_AsciiManager.AddFormatText(
-                reinterpret_cast<Float3 *>(&position), "%c%c%c%c  %8s %8s",
+                &textPosition, "%c%c%c%c  %8s %8s",
                 replayValue.magic ? replayPaths[selected][15] : 'u',
                 replayValue.magic ? replayPaths[selected][16] : 's',
                 replayValue.magic ? replayPaths[selected][17] : 'e',
@@ -134,13 +139,13 @@ int TitleScreenView::DrawReplayMenu()
                 g_ReplayStoryModeName[0],
                 g_ReplayDifficultyNames[replayValue.value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
-            g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&position), buffer);
+            g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
         else if (replays[selected].value1E4 == 1)
         {
             sprintf(buffer, "%s", g_ReplayExtraModeName[0]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
-            g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&position), buffer);
+            g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
         else if (replays[selected].value1E4 == 2)
         {
@@ -149,7 +154,7 @@ int TitleScreenView::DrawReplayMenu()
                 g_ReplayModeNames[replayValue.value1E5],
                 g_ReplayDifficultyNames[replayValue.value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
-            g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&position), buffer);
+            g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
 
         position.x = 230.0f;
@@ -162,7 +167,7 @@ int TitleScreenView::DrawReplayMenu()
                 g_AsciiManager.color =
                     (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
                 g_AsciiManager.AddFormatText(
-                    reinterpret_cast<Float3 *>(&position),
+                    &textPosition,
                     "%.8s vs %.8s",
                     g_ReplayCharacterNames[replayValue.frameStart[0][i]->value06],
                     g_ReplayCharacterNames[replayValue.frameStart[1][i]->value06]);
