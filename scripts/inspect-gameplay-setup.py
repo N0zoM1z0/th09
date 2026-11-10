@@ -171,8 +171,8 @@ def main():
     if len(target) != SIZE or hashlib.sha256(target).hexdigest() != TARGET_SHA256:
         raise ValueError('TH09 original GameplaySetupThread PE SHA256/extent changed')
     code, rows = coff.object_function(args.object, SYMBOL)
-    if len(code) != 1692:
-        raise ValueError('GameManager gameplay setup must use the reviewed /Os 1692-byte candidate')
+    if len(code) != 1689:
+        raise ValueError('GameManager gameplay setup must use the exact original-bound /Os 1689-byte candidate')
     raw_hash = hashlib.sha256(code).hexdigest()
     for row in rows:
         if row['symbol'] not in DESTINATIONS:
@@ -251,8 +251,8 @@ def main():
             'direct_graphs_agree': target_cfg == candidate_cfg,
             'aligned_field_identities': aligned['paired_field_identities'],
             'field_change_spans': len(aligned['changes']),
-            # Every differing PHYSICAL operand referent, not an aligned-score
-            # guess: the genuine target is 172 fields, source is 171.
+            # Independently resolve every original PE and actual source COFF
+            # field. Exactness requires the full 172-field physical identity.
             'original_only_field_referents': target_only,
             'source_only_field_referents': source_only,
             'aligned_instructions': sum(z.size for z in matcher.get_matching_blocks()),

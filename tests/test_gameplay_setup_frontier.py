@@ -21,7 +21,7 @@ def baseline():
     return {
         'diagnostic_only': True, 'exactness_credit': 'none',
         'target_sha256': front.GAMEPLAY_SETUP_TARGET_SHA,
-        'target_bytes': 1689, 'candidate_bytes': 1692,
+        'target_bytes': 1689, 'candidate_bytes': 1689,
         'target_instructions': 413, 'candidate_instructions': 413,
         'original_fields': 172, 'bound_fields': 172,
         'ordered_calls': 35, 'candidate_calls': 35,
@@ -46,8 +46,8 @@ def baseline():
                 ('front-side-create', '?Create@FrontSide@@SIPAU1@H@Z', 0x41A5D0, 1),
                 ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 1))],
         'original_blocks': 78, 'candidate_blocks': 78,
-        'direct_graphs_agree': False,
-        'aligned_field_identities': 170, 'field_change_spans': 2,
+        'direct_graphs_agree': True,
+        'aligned_field_identities': 172, 'field_change_spans': 0,
         # The real full-owner decoded 172/172-field *referent multisets*
         # are part of the source-cold guard, not optional diagnostic data.
         'original_only_field_referents': [
@@ -56,34 +56,33 @@ def baseline():
         'source_only_field_referents': [
             dict(type=t, address=address, count=count)
             for t, address, count in front.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS],
-        'aligned_instructions': 409,
+        'aligned_instructions': 413,
         'overlap_differences': len(differences),
-        'difference_offsets': differences, 'complete_bytes_equal': False,
-        'missing_target_bytes': 0, 'extra_candidate_bytes': 3,
+        'difference_offsets': differences, 'complete_bytes_equal': True,
+        'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
     }
 
 
 class GameplaySetupOriginalBoundFrontier(TestCase):
-    def test_complete_candidate_accounts_for_170_differences_and_three_extra_bytes(self):
+    def test_complete_candidate_matches_all_original_bytes_and_fields(self):
         report = baseline()
         self.assertEqual(len(front.GAMEPLAY_SETUP_RESIDUAL_MASK), 212)
-        self.assertEqual(report['overlap_differences'], 170)
-        self.assertEqual(report['extra_candidate_bytes'], 3)
+        self.assertEqual(report['overlap_differences'], 0)
+        self.assertEqual(report['extra_candidate_bytes'], 0)
         self.assertNotIn(0, report['difference_offsets'])
         self.assertTrue(all(off < 1689 for off in report['difference_offsets']))
         front.guard_gameplay_setup_thread(report)
 
-    def test_genuinely_narrower_full_extent_still_receives_no_local_exact_credit(self):
+    def test_complete_exact_diagnostic_is_not_a_substitute_for_canonical_replay(self):
         report = baseline()
-        narrower = {**report,
-                    'difference_offsets': report['difference_offsets'][:-10],
-                    'overlap_differences': report['overlap_differences'] - 10}
-        front.guard_gameplay_setup_thread(narrower)
-        self.assertEqual(narrower['exactness_credit'], 'none')
-        apparent_zero = {**report, 'difference_offsets': [],
-                         'overlap_differences': 0, 'complete_bytes_equal': False}
-        front.guard_gameplay_setup_thread(apparent_zero)
-        self.assertEqual(apparent_zero['exactness_credit'], 'none')
+        front.guard_gameplay_setup_thread(report)
+        self.assertEqual(report['exactness_credit'], 'none')
+        # A diagnostic alone never mints another exact row; the canonical
+        # match unit and cold replay prove original-bound code separately.
+        for change in ({'complete_bytes_equal': False},
+                       {'difference_offsets': [0], 'overlap_differences': 1}):
+            with self.subTest(change=change), self.assertRaises(RuntimeError):
+                front.guard_gameplay_setup_thread({**report, **change})
 
     def test_reject_any_newly_different_byte_anywhere_in_original_owner(self):
         report = baseline()
@@ -119,31 +118,27 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
 
     def test_reject_malformed_byte_inventory_and_forged_acceptance(self):
         report = baseline()
-        differences = report['difference_offsets']
         invalid = (
             {'difference_offsets': None},
-            {'difference_offsets': differences[:-1]},
-            {'difference_offsets': list(reversed(differences))},
-            {'difference_offsets': [differences[0]] * len(differences)},
-            {'difference_offsets': ['0'] + differences[1:]},
-            {'difference_offsets': differences[:-1] + [1689]},
-            {'difference_offsets': differences[:-1] + [-1]},
-            {'difference_offsets': differences[:-1] + [True]},
-            {'overlap_differences': 171},
-            {'overlap_differences': '170'},
-            {'complete_bytes_equal': True},
+            {'difference_offsets': [0]},
+            {'difference_offsets': [1, 0]},
+            {'difference_offsets': ['0']},
+            {'difference_offsets': [1689]},
+            {'difference_offsets': [-1]},
+            {'difference_offsets': [True]},
+            {'overlap_differences': 1},
+            {'overlap_differences': '0'},
+            {'complete_bytes_equal': False},
             {'missing_target_bytes': 1}, {'missing_target_bytes': 7},
-            {'missing_target_bytes': True}, {'extra_candidate_bytes': 2},
+            {'missing_target_bytes': True}, {'extra_candidate_bytes': 1},
             {'exactness_credit': 'accepted'},
             {'diagnostic_only': False},
             {'original_only_field_referents': None},
             {'source_only_field_referents': None},
             {'original_only_field_referents': [dict(type='DIR32',
-                address=0x4A7D90, count=4),
-                *report['original_only_field_referents'][1:]]},
+                address=0x4A7D90, count=4)]},
             {'source_only_field_referents': [
-                dict(type='DIR32',address=0x4A7DA0,count=1),
-                *report['source_only_field_referents'][1:]]},
+                dict(type='DIR32', address=0x4A7DA0, count=1)]},
         )
         for change in invalid:
             with self.subTest(change=str(change)[:60]), self.assertRaises(RuntimeError):
@@ -171,10 +166,10 @@ class GameplaySetupOriginalBoundFrontier(TestCase):
             {'ordered_calls': 34}, {'candidate_calls': 34},
             {'ordered_calls_agree': False},
             {'original_blocks': 77}, {'candidate_blocks': 77},
-            {'direct_graphs_agree': True},
-            {'aligned_field_identities': 169},
-            {'field_change_spans': 3},
-            {'aligned_instructions': 408},
+            {'direct_graphs_agree': False},
+            {'aligned_field_identities': 171},
+            {'field_change_spans': 1},
+            {'aligned_instructions': 412},
         )
         for change in invalid:
             with self.subTest(change=change), self.assertRaises(RuntimeError):

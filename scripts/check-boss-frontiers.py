@@ -2505,40 +2505,30 @@ def guard_gameplay_setup_field_referents(result: dict) -> None:
         raise RuntimeError('GameplaySetupThread referent multiset count does not reconcile')
 
 
-# Bit i is 1 iff the cold VC7.1 candidate still differs at original PE
-# physical offset i. This is an independently reviewed, SOURCE-BOUND
-# NON-CREDITING residual mask; it does not contain or patch target bytes.
-# A future improvement may clear bits, never change already equal bytes.
-GAMEPLAY_SETUP_RESIDUAL_MASK = bytes.fromhex(
-    '0000000000000000000000000000000000000000000000000000000000000000'
-    '0000000000000000000000000000000000000000000000000000000000000000'
-    '0000000000000000000000000000000000000000000000000000000000000000'
-    '0000000000000000000000000000000000000000000000000000000040000000'
-    '0000000000000010000000000000040000000000000000000000000001000000'
-    '0000000000000000000008000000000000f0ff7ffffffffe3f01000000000000'
-    '0010000000f8dffffbfffffffffffff7ffffff01'
-)
+# Every original owner byte is now exact. Keep a full-sized zero bitmask so
+# any future newly mismatched physical offset fails independently of the
+# canonical 1,689-byte/172-field exact-unit replay below.
+GAMEPLAY_SETUP_RESIDUAL_MASK = bytes(212)
 
 
 def guard_gameplay_setup_thread(result: dict) -> None:
-    """Fail closed against regressions outside the 1,689-byte original.
+    """Guard the fully exact 1,689-byte original against ANY regression.
 
-    The entire target/code owner, ALL original relocation/call identities,
-    branch graph and every source-linked residual byte are checked upstream by
-    inspect-gameplay-setup.py. Neither a close match nor zero local residuals
-    bypasses the separate canonical, source-commit-bound exactness workflow.
+    The inspector binds all 172 authentic COFF/PE field identities before
+    comparing every physical byte and complete branch graph. Canonical
+    exactness still requires the separate match-unit source-cold replay.
     """
     noncrediting(result, name='Gameplay setup thread', target_size=1689, fields=172)
     differences = result.get('difference_offsets')
     count = result.get('overlap_differences')
     if (result.get('target_sha256') != GAMEPLAY_SETUP_TARGET_SHA or
             len(GAMEPLAY_SETUP_RESIDUAL_MASK) != 212 or
-            sum(bin(x).count('1') for x in GAMEPLAY_SETUP_RESIDUAL_MASK) != 170 or
-            result.get('candidate_bytes') != 1692 or
+            sum(bin(x).count('1') for x in GAMEPLAY_SETUP_RESIDUAL_MASK) != 0 or
+            result.get('candidate_bytes') != 1689 or
             type(result.get('missing_target_bytes')) is not int or
             result['missing_target_bytes'] != 0 or
             type(result.get('extra_candidate_bytes')) is not int or
-            result['extra_candidate_bytes'] != 3 or
+            result['extra_candidate_bytes'] != 0 or
             result.get('target_instructions') != 413 or
             result.get('candidate_instructions') != 413 or
             result.get('original_fields') != 172 or
@@ -2547,25 +2537,25 @@ def guard_gameplay_setup_thread(result: dict) -> None:
             result.get('ordered_calls_agree') is not True or
             result.get('original_blocks') != 78 or
             result.get('candidate_blocks') != 78 or
-            result.get('direct_graphs_agree') is not False or
+            result.get('direct_graphs_agree') is not True or
             type(result.get('aligned_field_identities')) is not int or
-            result['aligned_field_identities'] < 170 or
+            result['aligned_field_identities'] != 172 or
             type(result.get('field_change_spans')) is not int or
-            not 0 <= result['field_change_spans'] <= 2 or
+            result['field_change_spans'] != 0 or
             type(result.get('aligned_instructions')) is not int or
             # The current coherent int producer/caller restores full ECX
             # zeroing. Instruction correspondence never substitutes for the
-            # whole physical overlap and three extra candidate bytes.
-            result['aligned_instructions'] < 409 or
-            type(count) is not int or not 0 <= count <= 170 or
-            result.get('complete_bytes_equal') is not False or
+            # zero physical mismatch, no missing or extra bytes.
+            result['aligned_instructions'] != 413 or
+            type(count) is not int or count != 0 or
+            result.get('complete_bytes_equal') is not True or
             not isinstance(differences, list) or len(differences) != count or
             any(type(i) is not int or not 0 <= i < 1689
                 for i in differences) or
             differences != sorted(set(differences)) or
             any(not (GAMEPLAY_SETUP_RESIDUAL_MASK[i // 8] & (1 << (i % 8)))
                 for i in differences)):
-        raise RuntimeError('GameplaySetupThread 1692-byte/172-field/35-call/170-unlike-plus-three-extra frontier drifted')
+        raise RuntimeError('GameplaySetupThread exact 1689-byte/172-field/35-call/78-block owner regressed')
     if result.get('native_replay_calls') != [
             dict(symbol='?Create@ReplayManagerView@@SIPAU1@HPBD@Z',
                  target=0x421670, count=2),
@@ -2639,14 +2629,17 @@ def run_game_manager(*, protect_exact: bool,
                'game-manager-format-current-date')
     build('game-manager-on-update')
     owners = [canonical('game-manager-on-update')]
-    # The worker compares its complete 1692-byte /Os candidate against all
-    # 1689 original bytes, including three extra candidate bytes. The loading sibling
-    # intentionally uses a separately compiled no-/Os profile.
+    # The worker is now a full canonical exact 1,689-byte/172-field owner.
+    # Its extra original-bound inspector remains a separate full-code guard.
+    # The loading sibling uses a distinct no-/Os compiler profile.
     gameplay = noncrediting(parsed(['scripts/inspect-gameplay-setup.py',
                                     'build/matching/GameManagerSetup.obj', '--json']),
                            name='Gameplay setup thread', target_size=1689,
                            fields=172)
     guard_gameplay_setup_thread(gameplay)
+    # The focused owner mode must now verify this newly exact LARGE function
+    # itself, not just the 1,230-byte OnUpdate and 425-byte cleanup siblings.
+    owners.append(canonical('game-manager-gameplay-setup-thread'))
     diagnostics = {'gameplay_setup_thread': {
         'target_bytes': 1689, 'candidate_bytes': gameplay['candidate_bytes'],
         'original_fields': gameplay['original_fields'],

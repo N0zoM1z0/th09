@@ -124,11 +124,11 @@ class GameManagerExactSource(unittest.TestCase):
 class GameManagerColdRegression(unittest.TestCase):
     @staticmethod
     def evidence():
-        # Non-exact worker remains explicitly noncrediting and distinct from
-        # the ten canonical full-owner exact GameManager callbacks.
+        # The separately canonical-exact worker still has a noncrediting
+        # diagnostic alongside the ten already exact GameManager callbacks.
         return {
             'diagnostic_only': True, 'exactness_credit': 'none',
-            'target_bytes': 1689, 'candidate_bytes': 1692,
+            'target_bytes': 1689, 'candidate_bytes': 1689,
             'target_instructions': 413, 'candidate_instructions': 413,
             'original_fields': 172, 'bound_fields': 172,
             'ordered_calls': 35, 'candidate_calls': 35,
@@ -153,20 +153,20 @@ class GameManagerColdRegression(unittest.TestCase):
                     ('front-side-create', '?Create@FrontSide@@SIPAU1@H@Z', 0x41A5D0, 1),
                     ('exattack-register', '?Register@ExAttackController@@SIPAU1@XZ', 0x4157D0, 1))],
             'original_blocks': 78, 'candidate_blocks': 78,
-            'direct_graphs_agree': False,
-            'aligned_field_identities': 170,
-            'field_change_spans': 2,
+            'direct_graphs_agree': True,
+            'aligned_field_identities': 172,
+            'field_change_spans': 0,
             'original_only_field_referents': [dict(type=t, address=a, count=n)
                 for t,a,n in boss.GAMEPLAY_SETUP_TARGET_ONLY_REFERENTS],
             'source_only_field_referents': [dict(type=t, address=a, count=n)
                 for t,a,n in boss.GAMEPLAY_SETUP_SOURCE_ONLY_REFERENTS],
-            'aligned_instructions': 409,
+            'aligned_instructions': 413,
             'target_sha256': boss.GAMEPLAY_SETUP_TARGET_SHA,
             'difference_offsets': [i for i in range(1689) if
                 boss.GAMEPLAY_SETUP_RESIDUAL_MASK[i // 8] & (1 << (i % 8))],
-            'overlap_differences': 170,
-            'complete_bytes_equal': False,
-        'missing_target_bytes': 0, 'extra_candidate_bytes': 3,
+            'overlap_differences': 0,
+            'complete_bytes_equal': True,
+        'missing_target_bytes': 0, 'extra_candidate_bytes': 0,
         }
 
     def test_gameplay_setup_all172_original_referents_and_multiplicities_agree(self):
@@ -233,8 +233,8 @@ class GameManagerColdRegression(unittest.TestCase):
             owners, exact = boss.run_game_manager(protect_exact=True)
         self.assertEqual(owners['gameplay_setup_thread']['bound_fields'],172)
         self.assertEqual(owners['game_manager_cleanup']['candidate_bytes'],425)
-        self.assertFalse(owners['gameplay_setup_thread']['direct_graphs_agree'])
-        self.assertEqual(len(exact),16)
+        self.assertTrue(owners['gameplay_setup_thread']['direct_graphs_agree'])
+        self.assertEqual(len(exact),17)
         self.assertEqual(exact[0]['unit'],'game-manager-on-update')
         self.assertIn('front-message-initialize-runtime', [a['unit'] for a in exact])
         self.assertEqual([row['unit'] for row in exact[-6:]],
@@ -249,7 +249,7 @@ class GameManagerColdRegression(unittest.TestCase):
                           'front-message-initialize-runtime',
                           'replay-manager-release', 'replay-manager-create',
                           'replay-stage-dispatch', 'game-manager-select-opponent'])
-        self.assertEqual(canonical.call_count,16)
+        self.assertEqual(canonical.call_count,17)
 
     def test_full_all_mode_does_not_double_count_either_replay_callee(self):
         # The full suite now runs both original ReplayInput VC7.1 profiles
@@ -261,8 +261,8 @@ class GameManagerColdRegression(unittest.TestCase):
                 boss, 'canonical', side_effect=lambda name: {'unit': name}) as canonical:
             owners, exact = boss.run_game_manager(
                 protect_exact=True, replay_callees_prechecked=True)
-        self.assertEqual(owners['gameplay_setup_thread']['ordinary_differences'], 170)
-        self.assertEqual(len(exact), 13)
+        self.assertEqual(owners['gameplay_setup_thread']['ordinary_differences'], 0)
+        self.assertEqual(len(exact), 14)
         self.assertEqual(exact[-1]['unit'], 'game-manager-select-opponent')
         self.assertNotIn('replay-manager-create', [r['unit'] for r in exact])
         self.assertNotIn('replay-manager-release', [r['unit'] for r in exact])
@@ -271,14 +271,14 @@ class GameManagerColdRegression(unittest.TestCase):
             'game-manager-on-update',
             'supervisor-setup-loading-vms-and-capture', 'replay-stage-dispatch',
             'game-manager-select-opponent'])
-        self.assertEqual(canonical.call_count, 13)
+        self.assertEqual(canonical.call_count, 14)
 
     def test_skip_siblings_never_drops_the_new_large_boss_or_nonexact_worker(self):
         with patch.object(boss, 'build') as build, patch.object(
                 boss, 'parsed', side_effect=[self.evidence(), self.cleanup_evidence()]), patch.object(
                 boss, 'canonical',side_effect=lambda name: {'unit':name}):
             owners, exact = boss.run_game_manager(protect_exact=False)
-        self.assertEqual([x['unit'] for x in exact], ['game-manager-on-update', 'game-manager-cleanup-gameplay-state'])
+        self.assertEqual([x['unit'] for x in exact], ['game-manager-on-update', 'game-manager-gameplay-setup-thread', 'game-manager-cleanup-gameplay-state'])
         self.assertEqual(owners['gameplay_setup_thread']['original_fields'],172)
         self.assertTrue(owners['game_manager_cleanup']['mode2_lower_bound_branch_present'])
         build.assert_called_once_with('game-manager-on-update')
