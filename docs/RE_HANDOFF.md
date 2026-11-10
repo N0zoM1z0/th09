@@ -155,7 +155,12 @@ Its complete `/Os` candidate is 1,692/1,689 bytes, 172 fields, 35 calls,
 78 CFG blocks, 170 unlike overlapping bytes and three **extra candidate**
 bytes (previously 1,682 bytes, 694 unlike and seven missing). Updated
 source-scoped strict mask/negative tests pass, as do all 11 exact siblings in
-two carriers (2,991 physical bytes, 243 relocations). Nonexact; product open.
+two carriers (2,991 physical bytes, 243 relocations). **Remaining +3 bytes
+have a concrete instruction cause**: original `+0x062B` short jump `EB 95`
+to `+0x05C2` (-107), candidate near `E9 79 FF FF FF` to `+0x05A9`
+(-135); original mode-one `JNE` is still candidate `JE` at `+0x058C`.
+Preserve fixed-rate +0x433 while recovering the mode-one block schedule.
+Nonexact; product open.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

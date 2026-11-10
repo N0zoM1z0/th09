@@ -997,9 +997,27 @@ and fully compared **11/11 existing exact functions, 2,991 physical bytes,
 243 relocations**, all exact. The full nonexact worker also passes the
 updated `--owner gamemgr --skip-exact-siblings` original PE/COFF guard.
 No new exact unit, whole-product cold replay or Windows runtime closure is
-claimed. Further work should isolate the remaining three extra bytes and
-misplaced mode-1/2/3 writeback graph, preserving the fixed-rate +0x433
-original-bound milestone.
+claimed. The precise three-byte length delta is now pinned to the **mode-zero
+backward jump at physical owner offset `+0x062B`**. The original PE encodes
+`EB 95` (two-byte short jump, signed displacement **-107**) to the round-rate
+`valueC8` writer at original offset `+0x05C2`. The current source compiler
+emits `E9 79 FF FF FF` (five-byte near jump, signed displacement **-135**)
+to its corresponding writer at candidate offset `+0x05A9`. Moving the
+mode-one fixed-rate branch ahead of its round-derived branch is what makes
+the jump target near enough for the original short encoding. The source
+currently still emits `JE` at `+0x058C` while the target uses `JNE`,
+reflecting this mode-one branch-block reversal. These facts were verified
+from complete original PE and bound COFF disassemblies, not guessed from
+source labels. Additional natural early-return, `goto` to switch exit,
+`do/while`, nested-`switch` and conditional-expression source compiles did
+not reduce the 170 complete-overlap differences without regressing earlier
+original-bound fields. The remaining issue is block scheduling, **not**
+missing instructions or an unbound 172nd relocation.
+
+Further work should restore the mode-one fixed branch before its round-rate
+block **without displacing** the already matched case-4/3/2 sequence and
+fixed-rate `+0x433` relocation. Never force `EB` or insert padding to
+manufacture a byte score; preserve natural VC7.1 source and the full owner.
 
 ## Gameplay setup, ScreenEffect, network and Effect callback
 
