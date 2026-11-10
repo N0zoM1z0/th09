@@ -180,6 +180,16 @@ def validate_accepted_owner_table(
         if not all((address, sizes, fields, unit_name, commit, receipt)):
             raise ValueError(f"accepted-owner evidence is incomplete: {owner}")
         canonical_name = unit_name.group(1)
+        # Source class ownership was refined after the original Factory
+        # receipt. Keep its historical name/commit/hash immutable, while
+        # requiring the *current* unit and ledger to agree on the new owner.
+        historic_owner = owner.strip("`")
+        current_owner = (
+            "EnemyView::AppendPlayerCollisionBox"
+            if canonical_name == "enemy-collision-append-box"
+            and historic_owner == "EnemyAppendCollisionView::AppendPlayerCollisionBox"
+            else historic_owner
+        )
         if canonical_name in seen:
             raise ValueError(f"duplicate accepted exact unit: {canonical_name}")
         seen.add(canonical_name)
@@ -190,8 +200,8 @@ def validate_accepted_owner_table(
         expected_size = int(unit["size"])
         if not (
             int(unit["target_address"]) == int(address.group(1), 16)
-            and unit["functions"] == [owner.strip("`")]
-            and match["name"] == owner.strip("`")
+            and unit["functions"] == [current_owner]
+            and match["name"] == current_owner
             and match["unit"] == canonical_name
             and match["status"] == "matching"
             and int(sizes.group(1).replace(",", "")) == expected_size

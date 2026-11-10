@@ -1,5 +1,8 @@
 # TH09 — next-agent handoff (2026-11-09)
 
+> **Historical snapshot.** Current handoff: [2026-11-10](TH09_NEXT_AGENT_HANDOFF_20261110.md).
+> Source commit `e7964962` below is historical, not current HEAD.
+
 **Start from the real worktree, not historical experiment snapshots.** Read
 [AGENTS.md](../AGENTS.md), [live frontier table](RE_HANDOFF.md),
 [original-bound validation rules](ORACLES.md) and [workflow](RE_WORKFLOW.md).

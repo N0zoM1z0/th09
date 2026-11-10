@@ -1843,6 +1843,15 @@ new functions. All 3,900 bytes of the large Enemy update remain NON-EXACT
 
 ## Closed codegen landmarks and accepted receipts
 
+**Historical names in this section are source-commit-bound.** The accepted
+`EnemyAppendCollisionView::AppendPlayerCollisionBox` receipt at `0x410250`
+precedes the native source-owner migration to
+`EnemyView::AppendPlayerCollisionBox` (`864dca30`); both names refer to the
+same original 82-byte function. Do not rewrite the old receipt's name or hash
+to imply that it accepted a later source commit. Current owner identity and
+canonical totals belong to [the live handoff](RE_HANDOFF.md), not the
+historical 940-exact-era statement below.
+
 The exact-function ledger is the authority for **940 canonical exact functions**, including the newly Factory-accepted crypt-table selector and earlier collision wrapper.
 The following representative independently accepted owners have their
 identities validated against the canonical match-unit manifest:

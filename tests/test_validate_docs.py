@@ -192,6 +192,33 @@ class AcceptedOwnerTableTests(unittest.TestCase):
             )
 
 
+class HistoricalNativeOwnerMigrationTests(unittest.TestCase):
+    def test_enemy_accepted_receipt_keeps_old_name_but_live_owner_is_native(self):
+        """Do not rewrite the historical Factory receipt to satisfy a rename."""
+        import copy
+        old = "EnemyAppendCollisionView::AppendPlayerCollisionBox"
+        new = "EnemyView::AppendPlayerCollisionBox"
+        row = ("| `" + old + "` | `0x00410250`, **82/82**, 2 fields | "
+               "`enemy-collision-append-box` | `5fdb2c1`; `receipt:" + "a" * 64 + "` |")
+        table = (AcceptedOwnerTableTests.HEADER + AcceptedOwnerTableTests.TABLE + row)
+        good = {"enemy-collision-append-box": {
+            "size": 82, "target_address": 0x00410250,
+            "functions": [new], "relocations": [{}] * 2,
+        }}
+        matches = [{"address": "0x00410250", "name": new,
+                    "unit": "enemy-collision-append-box", "status": "matching"}]
+        VALIDATE_DOCS.validate_accepted_owner_table(table, matches, good)
+        for bad_name, unit in (("legacy", old), ("unrelated", "Wrong::Callback")):
+            modified = copy.deepcopy(good)
+            modified["enemy-collision-append-box"]["functions"] = [unit]
+            with self.subTest(name=bad_name), self.assertRaisesRegex(ValueError, "differs"):
+                VALIDATE_DOCS.validate_accepted_owner_table(table, matches, modified)
+        modified = copy.deepcopy(good)
+        modified["enemy-collision-append-box"]["target_address"] += 1
+        with self.assertRaisesRegex(ValueError, "differs"):
+            VALIDATE_DOCS.validate_accepted_owner_table(table, matches, modified)
+
+
 class AcceptedReceiptArchiveRoutingTests(unittest.TestCase):
     def test_actual_archive_table_is_bound_to_live_canonical_manifest(self) -> None:
         receipt_text = VALIDATE_DOCS.RECEIPTS_ARCHIVE.read_text(encoding="utf-8")

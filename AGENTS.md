@@ -48,54 +48,28 @@ actual exactness, target identity, natural-source and state-isolation rules.
 
 ## Current operator status
 
-At the **2026-11-09 handoff**, the operator requested a usable source/docs
-checkpoint and safe storage reduction for the next reconstruction agent.
-Keep pursuing complete big-boss and leaf functions, challenge previous
-hypotheses against the original TH09 target and pinned VC7.1 compiler,
-preserve valuable dirty/untracked work, and commit substantive progress with
-`gpt-web: <English subject>`. Use only affected complete original-bound
-PE/COFF comparisons; routine full-project cold replay is forbidden.
+At the **2026-11-10 handoff**, the operator requested an up-to-date
+next-agent guide, correction of stale status/ownership claims, and reviewed
+storage reduction. The **current restart guide** is
+`docs/TH09_NEXT_AGENT_HANDOFF_20261110.md`. The old November 9/8/7 guides
+are historical snapshots, **not** the current source commit, disk inventory,
+or accepted frontier. Use live `git status`, the canonical ledger and scoped
+PE/COFF Oracles before continuing reconstruction.
 
-The **current restart guide** is
-`docs/TH09_NEXT_AGENT_HANDOFF_20261109.md`; live ledger/boss frontiers are
-in `docs/RE_HANDOFF.md`. The latest codegen-changing reconstruction checkpoint before
-this handoff is `e7964962`, preceded by native constructor recovery
-`6527b101` and `6cc6bfe8`. Do not repeat the old November 8 HEAD claim
-`6d3a3618` or describe older experimental candidate sizes as current:
-the ChargeAttack candidate now fills all 1,210 original bytes, with 235
-remaining differences; Enemy OnUpdate remains 13 bytes unlike and RunEcl
-30 unlike. Five exact-byte Enemy/ECL construction bodies remain
-origin-unclassified, so the canonical authored ledger still records
-**1,024 exact / 13 nonexact**. The source commit and new handoff commits are
-different kinds of checkpoints; check Git before every change.
+As of source checkpoint `746b0e6d`, the recent native TitleDraw, TitleCalc,
+Replay-menu text view and MusicRoom changes all preserve the earlier exact
+owners. Title `DrawReplayMenu` remains **nonexact (1,280 bytes, 29 unlike)**.
+RunEcl and Enemy OnUpdate remain **30** and **13** bytes unlike; the current
+canonical ledger remains **1,024 exact / 13 nonexact**. These are dated
+orientation facts, not a substitute for checking the live repository.
 
-The 2026-11-09 cleanup archived selected historical probe copies under
-`.analysis/handoff-archive-20261109/` with full-file SHA-256 verification
-and deleted regenerated `build/` caches. The private original, Wine
-runtime, saved analyzer databases, accepted proofs, Ghidra projects and
-retained Enemy/RunEcl baseline trees remain protected. The November 8 and
-November 7 guides and `docs/RE_HANDOFF_HISTORY_20261108.md` are
-**historical**, not current state or remaining-cache inventories.
-
-Use the live registered repository worktree exposed to the current agent for
-Git, source and build operations; do not switch to an arbitrary checkout or
-assume a previous session's working directory. For static analysis use the
-target-attested local IDA/Ghidra providers and pinned VC7.1 compiler
-Oracles. Analyzer evidence is distinct from the compiler/byte-exact Oracle. Compile
-serially at lowered priority, bound resources and reuse unchanged
-source/profile/object proofs. Recover dirty work rather than discarding or
-hiding it.
-
-This repository targets only the original Japanese TH09 version 1.50a
-executable identified by SHA-256
+The verified original is only Japanese TH09 v1.50a at ignored
+`resources/th09.exe`, SHA-256
 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-Never substitute a localized, modified, Steam, trial, or earlier executable.
-
-The canonical private game file is resources/th09.exe from the repository root.
-It is read-only, ignored operator input and must never be committed. Repository
-tools use this path by default. Do not search /mnt, add a Windows game-directory
-mount, or set TH09_TARGET_PATH during normal work; that variable is only an
-explicit local override.
+Preserve private source inputs, Ghidra/IDA projects, game-specific Wine
+compiler/runtime, hashes and useful experiment evidence. After a clean
+handoff `build/` may be absent; recreate selected COFF units as needed.
+Do not run project-wide cold replay in routine iteration.
 
 ## Mandatory session recovery
 

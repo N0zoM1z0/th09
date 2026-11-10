@@ -1,16 +1,14 @@
-# TH09 reconstruction — live handoff (2026-11-09)
+# TH09 reconstruction — live handoff (2026-11-10)
 
-**Start with the [November 9 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261109.md).**
-It covers the current native code, targeted compiler loop, corrected
-assumptions and verified lossless experiment archiving. Also read
-[AGENTS.md](../AGENTS.md), the [original PE/VC7.1 Oracles](ORACLES.md),
-and the [workflow](RE_WORKFLOW.md).
-The older [November 8](TH09_NEXT_AGENT_HANDOFF_20261108.md) and
-[November 7](TH09_NEXT_AGENT_HANDOFF_20261107.md) guides are **historical**,
-not current checkout snapshots. The cumulative 971-line
-pre-cleanup live journal is preserved in
-[the November 8 history archive](RE_HANDOFF_HISTORY_20261108.md);
-do not use its individual “latest” or “still pending” notes as live facts.
+**Start with the [November 10 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261110.md).**
+It documents the current reconstructed C++ owner relationships, next focused
+compiler checks and safe storage recovery. Read [AGENTS.md](../AGENTS.md),
+[the original PE/VC7.1 Oracles](ORACLES.md) and [workflow](RE_WORKFLOW.md).
+The [November 9 handoff](TH09_NEXT_AGENT_HANDOFF_20261109.md) and earlier
+versions are **historical source/disk snapshots**, not the current checkout.
+The November 8 cumulative journal remains in
+[the history archive](RE_HANDOFF_HISTORY_20261108.md); its dated “latest”
+and “pending” entries are not live facts.
 
 ## Verified ledger state
 
@@ -42,7 +40,44 @@ Pinned compiler: original-profile VC7.1. The original game, saved Ghidra
 project, Wine compiler runtime and `.analysis` experiment receipts are
 ignored local inputs, not versioned Git files.
 
-## 2026-11-09 verified native Front blocked gate
+## Current source checkpoint and corrected ownership
+
+The [source-bound accepted-receipt archive](RE_ACCEPTED_RECEIPTS.md) is
+**historical**: it keeps the old `EnemyAppendCollisionView` name for the
+originally accepted 82-byte wrapper, while the live source and ledger now
+use `EnemyView::AppendPlayerCollisionBox` at the same original address.
+Do not change the original receipt hash or interpret its old 940-exact
+milestone as today's count.
+
+
+The latest source checkpoint before this documentation pass is
+**`746b0e6d`**, not the old November 9 `e7964962` constructor checkpoint.
+The November 10 Title work completed four coherent changes:
+
+- [`f32ca36b`](TH09_TITLE_DRAW_FULL_NATIVE_OWNER_20261110.md):
+  `TitleDrawCallback` (329 bytes/20 fields) uses the real 0x1B388-byte
+  `TitleScreenView` and native ANM texture cache. Four original draw-method
+  REL32s remain unchanged; 63 affected Title/ANM owners stayed exact.
+- [`096077ac`](TH09_TITLE_CALC_COMPLETE_NATIVE_OWNER_20261110.md):
+  TitleCalc's 328-byte physical body including its switch tables uses that
+  same Title owner; 36/36 fields remain exact.
+- [`6bba2cc7`](TH09_TITLE_REPLAY_MENU_NATIVE_FLOAT3_TEXT_VIEW_20261110.md):
+  `DrawReplayMenu` now borrows one checked `Float3` text view. It is **still
+  nonexact**, 1,280/1,280 with 57 fields and 29 unlike bytes.
+- [`746b0e6d`](TH09_TITLE_MUSIC_ROOM_COMPLETE_NATIVE_OWNER_20261110.md):
+  the 2,258-byte MusicRoom update and 209-byte draw use the real Title,
+  32 POD music tracks and ANM owner. Both are exact; 49 affected owners
+  reproduced 26,914 bytes/1,350 relocation fields. Eleven original
+  indexed-global COFF addends were recovered from immutable PE operands.
+
+The recent native Player death/reward/CardAttack/region/shot/damage, Enemy
+append-collision, RunEcl background spell and AsciiManager boss-marker
+source changes also **preserve previously exact functions**. These are C++
+owner/layout advances, not additional ledger exact-credit. See the
+[November 10 guide](TH09_NEXT_AGENT_HANDOFF_20261110.md) and their dated
+`TH09_*_20261109.md` / `TH09_*_20261110.md` notes for original-bound evidence.
+
+## Previously verified native Front blocked gate (2026-11-09)
 
 The exact 24-byte signed `IsBlocked` at 0x404980 is now a real
 `FrontFactoryConstructView` method reading constructed message state at
@@ -54,14 +89,8 @@ Whole-source scoped replay covers 53 complete exact owners / 24,540 bytes
 timeline owner **was previously exact**; canonical exact remains 1,024.
 See [native Front blocked gate](TH09_NATIVE_FRONT_SIGNED_BLOCK_GATE_20261109.md).
 
-## Current implementation and corrected assumptions
+## Earlier proven findings and corrected assumptions (dated evidence, not current HEAD)
 
-- **Source baseline for this handoff:** last codegen-changing commit
-  `e7964962` (native `EnemyView` ctor/layout), preceded by
-  `6527b101` (ECL context/interpolation ctors) and `6cc6bfe8`
-  (timeline/manager ctors). These commits are present in `main`;
-  run `git status` and `git log` again, since handoff maintenance can
-  advance `HEAD` without changing reconstructed code.
 - **Five native Enemy/ECL special members now have byte-perfect
   source-equivalent C++ constructors** at `0x40FCA0` (28),
   `0x412090` (15), `0x4120C0` (15), `0x4120D0` (47) and
@@ -184,7 +213,7 @@ pinned compiler when you make a source change. Use only its focused
 | **Player movement** | 0x0041C170 | 1,900/1,900, 66 fields, 23 calls, **122** unlike | Loop/index register scheduling; retain authentic native option/position arrays. `--owner movement`. Source `src/PlayerMovement.cpp`. |
 | **Player ChargeAttack** | 0x0041F810 | **1,210/1,210**, 70 fields, 58 calls, **235** unlike, 0 missing; 350 instructions, 53 direct blocks, matching CFG | Mode byte [EBP-1] and input receiver register allocation; complete extent has already been recovered. `--owner charge`. |
 | **Title OnUpdateResult** | 0x004266B5 | 485 original / 484 candidate, 34 fields, 9 calls; 218 unlike overlaps + 1 missing | Character/score snapshot and result branch transport. `--owner resultdraw`. |
-| **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 57 fields, 13 calls, **29** unlike | Menu record/bank chronology. `--owner replaymenu`. |
+| **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 57 fields, 13 calls, **29** unlike | Selected ReplayData register chronology; pure Float3 math and early index snapshots regressed. `--owner replaymenu`. |
 | **GameplaySetupThread** | 0x0041AF2D | 1,689 original / 1,682 candidate, 172 fields, 35 calls, 694 unlike overlaps + 7 missing | Gameplay rate and side/rank ordering. `--owner gamemgr`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | 862 original / 849 candidate, 26 fields, 12 calls, 799 unlike overlaps + 13 missing | Actual collision region allocation and branch chronology. `--owner player`. |
 | **Replay SaveReplay** | 0x00420C60 | 1,238/1,238, 53 fields, 23 calls, **2** unlike bytes | Original EDI/ECX destination-register selection at +0xB7/+0xBB. `--owner replaysave`. |
@@ -219,32 +248,20 @@ all affected exact siblings. Preserve dirty/untracked work and do not
 reset it to evade failing original-bound comparisons. Checkpoints use
 `gpt-web: <English subject>`.
 
-## Current local storage and archival history
+## Local storage, cleanup and recovery
 
-The 2026-11-09 cleanup archived **140 experiment subdirectories / 24,862
-files / 383,162,789 logical bytes** into the ignored, SHA-256 verified
-`.analysis/handoff-archive-20261109/source-probes.tar.zst` (**24,643,109
-bytes**). A manifest individually hashes every file; the entire archive was
-stream-verified **before** removal. It contains the previous trial sources,
-objects, logs and result snapshots; selectively restore via `tar -I zstd`.
+The November 9 cleanup was historical: it archived 140 experiment folders
+(24,862 files / 383,162,789 loose bytes) into the verified ignored
+`.analysis/handoff-archive-20261109/source-probes.tar.zst` bundle. It also
+removed a then-current set of 158 generated build files. Those figures
+**must not** be presented as the current disk inventory or added to new
+cleanup results. The [dated cleanup history](RE_ARTIFACT_CLEANUP_HISTORY.md)
+contains verified paths, checksums and extraction instructions.
 
-An independent safe cache clean removed **158 ignored `build/` files /
-12,328,681 bytes**. Allowing for the archive, manifest and receipts, the
-current operation reclaimed approximately **365 MB** of logical storage.
-The old November 8 cleanup totals remain only in
-[historical cleanup notes](RE_ARTIFACT_CLEANUP_HISTORY.md), not an additive
-estimate of remaining files.
-
-**Preserved**: original Japanese `resources/th09.exe`, `.tools/wine/`,
-saved Ghidra/IDA project data, older lossless archives, the parent
-`gpt-web-th09-boss-leaf-20261108` baseline proof, its `runecl-probes/`,
-`enemy-probes/`, and playback analyzer evidence. After cleanup `build/`
-is absent; recreate only the necessary carrier with `build-match-unit.py`.
-The new archive, file manifest, verification result and cleanup receipt
-are ignored local state and are **not** included in Git. A fresh Git clone
-must separately receive the original target/compiler/analyzer inputs.
-
-The authoritative restoration commands, corrected boss rankings and
-source-change handoff are in the
-[November 9 next-agent guide](TH09_NEXT_AGENT_HANDOFF_20261109.md).
-Do not delete `.analysis/` wholesale.
+The current repository may have no `build/` after maintenance. Recompile
+only the requested source unit; the ignored original, Wine toolchain,
+Ghidra/IDA projects, archival bundles and useful source experiments must be
+preserved. Old `.analysis/` evidence may now be archived rather than loose.
+Git clones do not include these ignored local inputs. The current recovery
+and protection rules are in the [November 10 next-agent guide]
+(TH09_NEXT_AGENT_HANDOFF_20261110.md). **Do not delete `.analysis/` wholesale.**
