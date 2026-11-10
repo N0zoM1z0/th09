@@ -949,6 +949,45 @@ actual COFF owner-and-field proof confirmed same-section definitions,
 original target addresses and zero physical mismatches. No exactness credit
 or full-product replay is claimed.
 
+## 2026-11-10 GameplaySetupThread complete 1,689-byte byte-exact closure
+
+**Exact function promoted:** `GameplaySetupThread @ 0x0041AF2D`, target
+`th09.exe` original Japanese v1.50a, 1,689/1,689 complete physical bytes,
+SHA-256 of original `8dc5dd11495f34c6b1998653e0094195d6d891fff374d403750141e9936f0d6a`.
+The true pinned `/O2 /Os /Ob1` VC7.1 compiler, unchanged ABI/toolchain and
+actual `src/GameManagerSetup.cpp` produce exactly **413/413 original x86
+instructions, 172/172 independently bound COFF fields** (139 DIR32,
+33 REL32), **35 original-ordered calls, 78/78 identical control-flow blocks,
+original control-flow edges and one verified original static literal**.
+All 1,689 bytes compare equal *after* canonical original PE field relocation;
+no executable byte is patched or padded. The `game-manager-gameplay-setup-thread`
+exact manifest records every offset/type/actual symbol and independently
+reviewed target address. `functions.csv` and `matches.csv` now credit the
+function `matching / 100.00`, not just a similar partial body.
+
+The source recovery came from two *semantically equivalent* VC7.1 switch
+structure changes: present the mode cases in C++ lexical order `4,1,3,2,0`,
+and test difficulty one's `gameMode == 2` fixed-rate branch first rather
+than the round-dependent arm first. `case 1` still returns neither early nor
+fallthrough; all original values, original signed/unsigned arithmetic,
+case/side boundaries, exact native creator calls and empty default behavior
+are unchanged. The compiler now schedules difficulty 2/3 fixed-rate
+`valueC8=22` at exact original owner field offset `+0x433`, and restores
+mode zero's original *two-byte short backward jump* (`EB 95` at `+0x062B`)
+instead of the former five-byte near jump. That resolves the last three
+bytes and the entire earlier 170-byte residual naturally. No assembly,
+`volatile` lifetime hack, dummy branch, forced jump encoding or compiler
+flag change was introduced.
+
+The **official `--changed-file src/GameManagerSetup.cpp` scoped cold replay**
+passes **12/12 canonical exact units**, **4,680 complete physical bytes and
+415 relocation fields** in **two actual translation-unit carrier profiles**.
+The new 1,689-byte function coexists with the 11 previously exact GameManager
+siblings, all independently verified. This is one newly exact source-present
+function, not evidence for the still-open whole Windows i386 native product,
+linker closure or runtime semantics. The immediately following section
+records the now-superseded 1,682/1,692-byte diagnostic experiments.
+
 ## 2026-11-10 GameplaySetupThread fixed-rate branch layout breakthrough
 
 `GameplaySetupThread @ 0x0041AF2D` has an independently SHA-attested
@@ -973,8 +1012,8 @@ unchanged. Together these changes direct VC7.1's physical shared-branch
 scheduling toward the original, without assembler, padding, dummy clobbers,
 changed compiler flags or game-behavior patches.
 
-The **live source-compiled, complete original-bound owner** now measures
-**1,692 candidate bytes, 170 unlike overlaps, three extra candidate bytes**:
+At that historical checkpoint, the **live source-compiled original-bound
+owner** measured **1,692 candidate bytes, 170 unlike overlaps, three extra candidate bytes**:
 **524 fewer unlike overlapping bytes** than the previous 694-difference
 frontier. Both have 413 instructions; the candidate keeps all 172 actual
 COFF relocation operands with their correct original destination multiset,
@@ -1021,7 +1060,8 @@ manufacture a byte score; preserve natural VC7.1 source and the full owner.
 
 ## Gameplay setup, ScreenEffect, network and Effect callback
 
-GameplaySetupThread's current native `/Os` owner is 1,692/1,689 bytes,
+At that historical checkpoint GameplaySetupThread's `/Os` owner was
+1,692/1,689 bytes,
 172 fields and 170 differing overlaps plus three extra candidate bytes;
 its 35 ordered calls are unchanged. Fixed-mode difficulty 2/3 paths and
 round-derived paths now use an early-break source shape, bringing the C8=22

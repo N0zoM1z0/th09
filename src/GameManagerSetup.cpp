@@ -868,6 +868,28 @@ mode_ready:
         g_GameManager.valueC8 = 22;
         break;
 
+    case 1:
+        g_GameManager.limitB4 = 1;
+        g_GameManager.sides[0].player04->header24.state7C = 1;
+        g_GameManager.sides[0].player04->header24.state80 = 1;
+        g_GameManager.sides[1].player04->header24.state7C = 1;
+        g_GameManager.sides[1].player04->header24.state80 = 1;
+        if (g_GameManager.gameMode == 2)
+        {
+            g_GameManager.valueC4 = 900;
+            g_GameManager.valueC8 = 20;
+        }
+        else
+        {
+            g_GameManager.valueC4 = 1200;
+            g_GameManager.limitB4 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 1u);
+            g_GameManager.valueC8 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 10u);
+        }
+        break;
+
+    // The mode-1 fixed-rate arm is kept before the mode-3/2 cases in the
+    // source switch. VC7.1 then schedules its shared publishing blocks as
+    // in the original binary, including the mode-0 short back-jump.
     case 3:
         g_GameManager.limitB4 = 8;
         g_GameManager.sides[0].player04->header24.state7C = 8;
@@ -902,25 +924,6 @@ mode_ready:
         g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 15;
         break;
 
-    case 1:
-        g_GameManager.limitB4 = 1;
-        g_GameManager.sides[0].player04->header24.state7C = 1;
-        g_GameManager.sides[0].player04->header24.state80 = 1;
-        g_GameManager.sides[1].player04->header24.state7C = 1;
-        g_GameManager.sides[1].player04->header24.state80 = 1;
-        if (g_GameManager.gameMode != 2)
-        {
-            g_GameManager.valueC4 = 1200;
-            g_GameManager.limitB4 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 1u);
-            g_GameManager.valueC8 = static_cast<int>(static_cast<unsigned int>(g_GameManager.counterFC) + 10u);
-        }
-        else
-        {
-            g_GameManager.valueC4 = 900;
-            g_GameManager.valueC8 = 20;
-        }
-        break;
-
     case 0:
         g_GameManager.limitB4 = 1;
         g_GameManager.sides[0].player04->header24.state7C = 1;
@@ -940,7 +943,6 @@ mode_ready:
         }
         break;
     default:
-        // Other setup modes preserve the currently published rank fields.
         {}
     }
 
