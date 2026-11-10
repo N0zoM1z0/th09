@@ -197,9 +197,9 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
 
 ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 fileSize)
 {
-    u8 *obfuscateCursor;
+    unsigned int obfuscateAddress;
     u8 obfuscateOffset;
-    u8 *checksumCursor;
+    unsigned int checksumAddress;
     u32 checksum;
     i32 i;
     ReplayDataView *decodedReplay;
@@ -214,18 +214,18 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
     if (replayData->value06 != 0)
         goto err1;
 
-    obfuscateCursor = reinterpret_cast<u8 *>(&replayData->compressedSize);
+    obfuscateAddress = reinterpret_cast<unsigned int>(&replayData->compressedSize);
     obfuscateOffset = replayData->obfuscationKey;
-    for (i = 0; i < replayData->fileSize - static_cast<i32>(offsetof(ReplayDataView, compressedSize)); i++, obfuscateCursor++)
+    for (i = 0; i < replayData->fileSize - static_cast<i32>(offsetof(ReplayDataView, compressedSize)); i++, obfuscateAddress++)
     {
-        *obfuscateCursor -= obfuscateOffset;
+        *reinterpret_cast<u8 *>(obfuscateAddress) -= obfuscateOffset;
         obfuscateOffset += 7;
     }
 
-    checksumCursor = &replayData->obfuscationKey;
+    checksumAddress = reinterpret_cast<unsigned int>(&replayData->obfuscationKey);
     checksum = 0x3F000318;
-    for (i = 0; i < replayData->fileSize - static_cast<i32>(offsetof(ReplayDataView, obfuscationKey)); i++, checksumCursor++)
-        checksum += *checksumCursor;
+    for (i = 0; i < replayData->fileSize - static_cast<i32>(offsetof(ReplayDataView, obfuscationKey)); i++, checksumAddress++)
+        checksum += *reinterpret_cast<const u8 *>(checksumAddress);
 
     if (checksum != replayData->checksum)
         goto err1;
@@ -239,8 +239,13 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
         &replayData->randomPayloadByte, replayData->compressedSize,
         &decodedReplay->randomPayloadByte, replayData->decompressedSize);
     memcpy(
-        &decodedReplay->randomPayloadByte + replayData->decompressedSize,
-        (u8 *)replayData + replayData->fileSize,
+        reinterpret_cast<u8 *>(
+            reinterpret_cast<unsigned int>(decodedReplay) +
+            static_cast<unsigned int>(offsetof(ReplayDataView, randomPayloadByte)) +
+            static_cast<unsigned int>(replayData->decompressedSize)),
+        reinterpret_cast<u8 *>(
+            reinterpret_cast<unsigned int>(replayData) +
+            static_cast<unsigned int>(replayData->fileSize)),
         fileSize - replayData->fileSize);
 
     if (g_Supervisor.CheckVersion(
@@ -250,13 +255,21 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
     for (i = 0; i < ReplayRecordingCapacity::StageCount; i++)
     {
         if (decodedReplay->frameOffset[0][i] != 0)
-            decodedReplay->frameStart[0][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + decodedReplay->frameOffset[0][i]);
+            decodedReplay->frameStart[0][i] = reinterpret_cast<ReplayFrameDataStartView *>(
+                reinterpret_cast<unsigned int>(decodedReplay) +
+                static_cast<unsigned int>(decodedReplay->frameOffset[0][i]));
         if (decodedReplay->frameOffset[1][i] != 0)
-            decodedReplay->frameStart[1][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + decodedReplay->frameOffset[1][i]);
+            decodedReplay->frameStart[1][i] = reinterpret_cast<ReplayFrameDataStartView *>(
+                reinterpret_cast<unsigned int>(decodedReplay) +
+                static_cast<unsigned int>(decodedReplay->frameOffset[1][i]));
         if (decodedReplay->frameOffset[2][i] != 0)
-            decodedReplay->frameStart[2][i] = (ReplayFrameDataStartView *)((u8 *)decodedReplay + decodedReplay->frameOffset[2][i]);
+            decodedReplay->frameStart[2][i] = reinterpret_cast<ReplayFrameDataStartView *>(
+                reinterpret_cast<unsigned int>(decodedReplay) +
+                static_cast<unsigned int>(decodedReplay->frameOffset[2][i]));
         if (decodedReplay->fpsOffset[i] != 0)
-            decodedReplay->fpsStart[i] = (u8 *)decodedReplay + decodedReplay->fpsOffset[i];
+            decodedReplay->fpsStart[i] = reinterpret_cast<u8 *>(
+                reinterpret_cast<unsigned int>(decodedReplay) +
+                static_cast<unsigned int>(decodedReplay->fpsOffset[i]));
     }
 
     g_ZunMemory.Free(data);

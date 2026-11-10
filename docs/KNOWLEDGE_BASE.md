@@ -435,6 +435,30 @@ compiler carriers cold-pass **12 exact owners / 4,093 physical bytes / 232
 relocations**. This is a meaningful native-source semantics correction;
 `BeginPlaybackStage` is still **NONEXACT** and there is no new exact credit.
 
+## 2026-11-10 LoadReplayData native linear-buffer addresses
+
+`ReplayManagerView::LoadReplayData` at `0x004205E0` decodes a contiguous
+replay file. The obfuscation pass starts at `compressedSize`, the checksum
+starts at `obfuscationKey`, and both byte walks cross multiple serialized
+header fields. Their previous C++ pointers were incremented past a single
+scalar subobject; the maintained source now increments native unsigned 32-bit
+addresses and reconstructs byte pointers only for each access. The LZSS
+output append likewise uses the actual `randomPayloadByte` offset in the
+allocated file buffer, rather than indexing past the one-byte struct member.
+The saved `frameOffset[3][10]` and `fpsOffset[10]` words are reconstituted as
+native base-plus-byte-offset pointers, not object-out-of-bounds `u8 *`
+addition. All original signed file-size conditions, allocation and error
+branches remain unchanged.
+
+Four independent pinned-VC7.1 probes and their combined candidate matched
+the **entire 591-byte original LoadReplayData** with **14/14 canonical
+relocation fields**. The installed source then cold-passed both relevant
+ReplayInput profiles: **12 existing exact units, 4,093 full physical bytes and
+232 relocation fields**. The separate nonexact SaveReplay remains 1,238/1,238
+with two differing bytes; BeginPlaybackStage remains 538/540 with 39
+nonmatching overlaps and 32 bound fields. No new exact entry or whole-product
+claim follows from the source-semantics correction.
+
 ## Replay SaveReplay and BeginPlaybackStage
 
 SaveReplay is 1,238 bytes/53 fields/23 calls, with only +0xB7/+0xBB differing.

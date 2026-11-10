@@ -54,6 +54,11 @@ Laser and shot ECL wire payloads now use native unsigned i386 operand
 addresses in `EclRunBullet.inl`/`EclPostRuntime.inl`. The five affected
 carrier profiles pass all 87 exact owners, 30,583 bytes and 1,409 relocation
 fields; the full RunEcl/Enemy owner frontiers are unchanged.
+Replay `LoadReplayData` now reads its complete packed file using native
+32-bit byte addresses for codec/checksum walks, stream concatenation and
+frame/FPS offset fixups. The exact 591-byte leaf and both nonexact Replay
+owners retain their complete target-bound frontiers; two affected carriers
+cold-pass 12 exact functions / 4,093 bytes / 232 relocation fields.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,
