@@ -2329,28 +2329,32 @@ int TitleScreenView::OnUpdateResult()
         if (g_TitleResultUnlockStep < 3)
         {
             if (g_ReplayInputStates[2].word06 & 0x2000)
-                g_TitleResultUnlockStep++;
+                g_TitleResultUnlockStep = static_cast<int>(
+                    static_cast<unsigned int>(g_TitleResultUnlockStep) + 1u);
             else if (g_ReplayInputStates[2].word06)
                 g_TitleResultUnlockStep = 0;
         }
         else if (g_TitleResultUnlockStep < 7)
         {
             if (g_ReplayInputStates[2].word06 & 0x400)
-                g_TitleResultUnlockStep++;
+                g_TitleResultUnlockStep = static_cast<int>(
+                    static_cast<unsigned int>(g_TitleResultUnlockStep) + 1u);
             else if (g_ReplayInputStates[2].word06)
                 g_TitleResultUnlockStep = 0;
         }
         else if (g_TitleResultUnlockStep < 8)
         {
             if (g_ReplayInputStates[2].word06 & 0x200)
-                g_TitleResultUnlockStep++;
+                g_TitleResultUnlockStep = static_cast<int>(
+                    static_cast<unsigned int>(g_TitleResultUnlockStep) + 1u);
             else if (g_ReplayInputStates[2].word06)
                 g_TitleResultUnlockStep = 0;
         }
         else if (g_TitleResultUnlockStep < 10)
         {
             if (g_ReplayInputStates[2].word06 & 0x4000)
-                g_TitleResultUnlockStep++;
+                g_TitleResultUnlockStep = static_cast<int>(
+                    static_cast<unsigned int>(g_TitleResultUnlockStep) + 1u);
             else if (g_ReplayInputStates[2].word06)
                 g_TitleResultUnlockStep = 0;
         }
@@ -2374,11 +2378,17 @@ int TitleScreenView::OnUpdateResult()
             while (!g_PlayStatsRecord.characterUnlocked[1][keyboardSelection] &&
                    !g_PlayStatsRecord.characterUnlocked[2][keyboardSelection])
             {
-                keyboardSelection += direction;
+                keyboardSelection = static_cast<int>(
+                    static_cast<unsigned int>(keyboardSelection) +
+                    static_cast<unsigned int>(direction));
                 if (keyboardSelection < 0)
-                    keyboardSelection += FullCharacterSlots;
+                    keyboardSelection = static_cast<int>(
+                        static_cast<unsigned int>(keyboardSelection) +
+                        static_cast<unsigned int>(FullCharacterSlots));
                 if (keyboardSelection >= FullCharacterSlots)
-                    keyboardSelection -= FullCharacterSlots;
+                    keyboardSelection = static_cast<int>(
+                        static_cast<unsigned int>(keyboardSelection) -
+                        static_cast<unsigned int>(FullCharacterSlots));
             }
 
             // Use the stable character-table slot for the cursor argument

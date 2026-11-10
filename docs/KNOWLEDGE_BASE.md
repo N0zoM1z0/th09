@@ -591,6 +591,37 @@ zero-plus-memcpy seed locals did not close it. A wider SetSeed implementation
 can itself be byte-identical: callee bytes do not uniquely determine formal
 width. Keep the pre-runtime-read snapshot of side-0 value1E8.
 
+## 2026-11-10 Title result native unlock and character cursor words
+
+`TitleScreenView::OnUpdateResult @ 0x004266B5` updates the hidden-unlock
+sequence in four separate arms and wraps a selected character index after
+`MoveCursorHorizontal(14)`. The original VC7.1/i386 instructions perform
+native modulo-32 integer arithmetic in both paths. The maintained C++ now
+increments `g_TitleResultUnlockStep` via an unsigned native DWORD and applies
+the same unsigned word add/subtract to `keyboardSelection` before signed
+boundary comparisons. This preserves the original decision predicates,
+byte-addressed character order and exact `SetCharacterCursorInactive` calls;
+no input filtering, new branch or array-size assumption was introduced.
+
+Independent unlock-only, selection-only and combined source-cold probes
+retained **484 candidate bytes / 485 target bytes, all 34 original-bound
+fields, nine ordered calls, full CFG and the baseline 218 overlapping
+ordinary differences**. The installed source was then compiled across both
+actual Title compiler profiles and the canonical source-specific cold replay
+passed **41 exact units, 18,972 physical bytes and 953 original relocation
+fields**. Nine compiler-private `$L` names in `OnUpdateStartMenu` were rebound
+only after an independent full PE/COFF physical proof established unchanged
+owner-local destinations, original operands, addends, and all other bytes.
+The exact original-bound `OnUpdateStartMenu` (1,592 physical bytes, 107 fields)
+remains intact. Title OnUpdateResult is still nonexact with one missing byte;
+no new ledger exactness or native product closure is implied.
+
+Additional signed-byte/volatile/reference experiments at result-selection
+produced 483/485, 488/485 or 489/485 candidate extents or extra external
+fields; they did not reproduce retail `mov cl` plus `movsx edi,cl` and were
+not installed. The register-lifetime problem remains separate from this
+native arithmetic correction.
+
 ## Title replay-menu and result update
 
 DrawReplayMenu remains 1,280 bytes/57 fields/13 calls/29 differences. Its native
