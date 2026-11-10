@@ -248,7 +248,7 @@ ledger credit or whole-product claim is made.
 
 ## 2026-11-10 CompareOperands signed ECL back-jump addresses
 
-`Th09EclRunControl::CompareOperands` (`0x00405E80`, full canonical extent
+`Th09EclRunControl::CompareOperands` (`0x00407700`, full canonical extent
 892 bytes) advances from its current instruction on a successful comparison
 using a signed 32-bit wire displacement. Its previous `unsigned char * + int`
 C++ spelling could perform out-of-object pointer arithmetic for backward
@@ -323,6 +323,14 @@ context and then pushes EAX. Both call real Timer assignment at `0x401500`;
 seven physical bytes differ. Explicit operator syntax and direct wire-lvalue
 forms with the integer copy were neutral. Removing that copy left opcode 4
 unchanged and introduced twelve differences in opcode 5.
+
+A further targeted set of 18 VC7.1 opcode-155 trials used compound XOR
+assignment, temporary bitfield copies, masked clear/OR, and direct versus
+memcpy byte snapshots. Full-owner comparison showed the only variants with
+unshifted original tables/fields still retain all 30 baseline differences;
+other variants changed hundreds or thousands of bytes and moved table
+bindings. None was installed. Treat the ESI/EAX/ECX value lifetime as still
+unresolved, not a license to patch instructions or compiler flags.
 
 At original opcode 155 (`0x40B770`), ECX receives the zero-extended wire byte,
 ESI holds old flags, and bit-24 masked XOR is computed in ECX before the store
