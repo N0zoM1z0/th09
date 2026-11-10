@@ -131,6 +131,11 @@ matching the retail `INC EDX`. Its entire 1,280-byte, 57-field, 13-call,
 72-block, 29-unlike frontier remains original-bound and unchanged. The
 independent source carrier has no tracked exact siblings, so only its focused
 boss was compiled and compared.
+ScreenEffect shake envelope hold-phase threshold (`fadeIn + hold`) now
+uses native i386 modulo-32 DWORD arithmetic before the signed timer check.
+Its full 336-byte/20-field/26-unlike owner remains unchanged. Three affected
+carriers cold-pass 18 exact units / 2,562 bytes / 164 relocations; nine
+compiler-private RegisterChain labels were PE/COFF proven before rebinding.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

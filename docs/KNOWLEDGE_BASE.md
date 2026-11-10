@@ -862,6 +862,32 @@ physical bytes and 93 relocation fields**. Both native network source-owner
 and queue-call contract tests passed. No whole-product cold replay or native
 build/semantics closure is claimed.
 
+## 2026-11-10 ScreenEffect native hold-phase threshold DWORD
+
+`ScreenEffect::CalcShakeEnvelope @ 0x004227A0` compares its exact `ZunTimer`
+clock to a *signed* threshold formed from fade-in frames plus hold frames.
+The retail i386 code uses a 32-bit `ADD` before calling the timer's signed
+comparison; the old C++ `endFrame + holdFrames` could overflow a signed
+`int`. The maintained source now constructs the threshold by **unsigned
+modulo-32 word addition and signed reinterpretation**, without changing the
+original timer conversion, phase selection, fade math, RNG selection or
+error/return behavior. This completes the previously recovered unsigned
+fade-out endpoint with the independently verified hold-phase threshold.
+
+Nineteen new VC7.1 source-cold owner/timer-lifetime variants were compiled
+and checked against the entire **336-byte, 20-field, eight-call** original
+shake body; ordinary references/pointers produced the prior 26 differences,
+while volatile/premature timer lifetimes displaced the original layout.
+The selected native hold-threshold form preserves **336/336 physical bytes,
+all 20 original relocation destinations, eight ordered calls, its direct
+CFG, and the exact former 26 ordinary differences**. After installing it,
+the actual three ScreenEffect source profiles cold-passed **18 exact units,
+2,562 physical bytes and 164 relocation fields**. Nine VC7.1 `$L` names in
+`RegisterChain` were rebound only after an independent full original PE /
+actual COFF owner-and-field proof confirmed same-section definitions,
+original target addresses and zero physical mismatches. No exactness credit
+or full-product replay is claimed.
+
 ## Gameplay setup, ScreenEffect, network and Effect callback
 
 GameplaySetupThread remains 1,682/1,689 bytes, 172 fields and 694 differing

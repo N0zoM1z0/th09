@@ -238,7 +238,9 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
     {
         shakeAmount = (float)clock / endFrame;
     }
-    else if (clock < endFrame + screenEffect->shakeEnvelope.holdFrames)
+    else if (clock < static_cast<int>(
+        static_cast<unsigned int>(endFrame) +
+        static_cast<unsigned int>(screenEffect->shakeEnvelope.holdFrames)))
     {
         shakeAmount = 1.0f;
     }
