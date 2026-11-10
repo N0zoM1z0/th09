@@ -142,6 +142,12 @@ steps by 1). Both exact 299/460-byte leaf functions preserve all original
 field and raw code bytes, with two scoped profiles passing 12 exact units /
 4,093 complete bytes / 232 relocations. SaveReplay and BeginPlaybackStage
 nonexact original-bound frontiers remain unchanged.
+Enemy OnUpdate's four per-frame signed population counters now increment
+with original i386 wrapping DWORD semantics; the full 3,900-byte owner remains
+at 13 unlike bytes and preserves its 97 fields/69 calls. The shared RunEcl
+owner remains full 15,564 bytes/598 fields/30 unlike; two affected compiler
+profiles cold-pass 83 exact functions / 29,856 physical bytes / 1,389 fields.
+Two compiler-private `$L` labels were independently PE/COFF proven and rebound.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

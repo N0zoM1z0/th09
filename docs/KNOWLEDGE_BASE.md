@@ -525,6 +525,41 @@ VC7.1 `$L` definitions were rebound in the manifest only after independent
 actual COFF same-section destination and original PE operand proofs. No new
 exact unit or whole-game closure is claimed.
 
+## 2026-11-10 Enemy per-frame population counter native DWORDs
+
+In `EnemyManagerView::OnUpdate @ 0x00410730`, all four population counts
+(`activeEnemyCount2AC3AC`, `normalEnemyCount2AC3B0`, `specialEnemyCount2AC3B4`
+and `rewardEnemyCount2AC3B8`) are reset once per frame and then incremented
+on the appropriate live-enemy path. The original pinned PE explicitly uses
+four `INC DWORD PTR [ESI+offset]` operations, at owner offsets `+0x1F4`,
+`+0x206`, `+0x217` and `+0x229`. All four underlying C++ fields are signed
+`int`; their former `++` expressions depended on signed-overflow undefined
+behavior. The maintained source now applies native modulo-32 unsigned-word
+increments before storing each signed count, retaining all original enemy
+filters, classification masks and loop/exiting behavior. The separate
+`scheduleIndex2AC3D4` is correctly a byte, and the two ZunTimer counters
+remain their original typed objects; neither was rewritten as an int.
+
+Four individual and one combined source-cold VC7.1 candidate each maintained
+the complete original-bound **3,900-byte Enemy OnUpdate physical extent, 97
+relocation fields, 69 ordered direct calls, switch targets, original CFG and
+precisely 13 ordinary unlike bytes**. The installed combined source also
+preserves the complete 15,564-byte RunEcl and its 598 fields/jump tables,
+with 30 existing unlike bytes. The official two-carrier scoped cold replay
+passed **83 exact units, 29,856 physical bytes and 1,389 original relocation
+fields**. Two changed private `$L` names (CompareOperands and post-ECL
+movement) were verified with independent full PE/COFF owner/field proofs
+before updating the manifest; the proof rerun reports zero name or physical
+errors. No newly exact function or whole-product closure is claimed.
+
+A separate set of 23 actual Enemy spawn-descriptor scheduling probes
+reordered the three-float position copy, speed snapshot and side manager
+lifetime. They either retained the same 13 ordinary bytes or moved original
+literal/call fields, so none were installed as fake matching code. Player
+collision's new forward-goto, do/while and sentinel-loop tests likewise
+either retained its 849-byte/32-block candidate or broke the genuine ABI
+exit conditions; they remain private rejected probes.
+
 ## Player movement, charge and collision
 
 Movement remains 1,900 bytes/66 fields/122 differences. Horizontal and vertical
