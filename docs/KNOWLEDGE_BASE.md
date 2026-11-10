@@ -134,6 +134,30 @@ RunEcl still has the same 30 opcode-4/155 ordinary differences, including all
 and 97 fields. This is native integer-address semantic progress, not a new
 exact owner or whole-product closure.
 
+## 2026-11-10 Variable-length ECL operand native-word access
+
+The TH09 ECL header ends at +0x0C, followed by four-byte tagged instruction
+operands and opcode-defined byte/halfword views. The maintained VC7.1 view
+uses `arguments[0]` only to describe that zero-size trailing field; indexing
+that C++ member to reach any operand does not itself define a valid object
+extent. `RawInt`, `RawFloat`, `RawByte`, and `RawShort` now compute native
+modulo-32 addresses from the instruction base plus the attested prefix width,
+then return their typed views. The byte/short helpers keep the same packed
+wire-address interpretation as the integer/float helpers. No defensive bounds
+check or branch has been added: the retail interpreter uses those raw offsets.
+
+Seven independent single/combined VC7.1 source probes preserved the complete
+**15,564-byte** RunEcl candidate, **598** original-bound references, all
+owned tables and the same 30 ordinary differences in opcodes 4 and 155.
+Enemy OnUpdate remains 3,900 bytes/97 fields/13 differences. Across the six
+actual affected compiler carriers, the installed source cold-replayed **91
+exact units**, **36,301 physical bytes**, and **1,783 relocation fields**.
+The compiler changed **291 private `$L` names** in four genuine ECL operand
+leaves; every rebind was checked against its actual same-section COFF symbol
+value, addend and original PE destination before running the unchanged strict
+replay. This advances native-source semantics without new exact owner credit,
+or any original C++ spelling, product or runtime claim.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,

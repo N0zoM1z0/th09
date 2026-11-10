@@ -203,14 +203,18 @@ inline int &BackgroundScriptLabel(EnemyView *enemy)
     return enemy->manager00->sideState320->background00->pendingStageLabel18;
 }
 
+// Byte and halfword views address the same counted wire payload; these
+// native 32-bit byte offsets do not subscript the zero-length C++ member.
 inline unsigned char &RawByte(
     Th09EclRawInstructionHeaderView *instruction,
     int byteOffset)
 {
     // Byte offsets traverse the packed four-byte native wire arguments,
     // not the instruction prefix or a second synthetic payload layout.
-    return instruction->arguments[byteOffset / sizeof(Th09EclWireArgument)]
-        .bytes[byteOffset % sizeof(Th09EclWireArgument)];
+    return *reinterpret_cast<unsigned char *>(
+        reinterpret_cast<unsigned int>(instruction) +
+        static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)) +
+        static_cast<unsigned int>(byteOffset));
 }
 
 inline short &RawShort(
@@ -220,8 +224,10 @@ inline short &RawShort(
     // The original short operand is an element of the same packed 4-byte
     // union word used by RawByte, RawInt, and RawFloat. The observed callers
     // use aligned byte offsets 0 and 4; no shadow short-buffer allocation.
-    return instruction->arguments[byteOffset / sizeof(Th09EclWireArgument)]
-        .halfWords[(byteOffset % sizeof(Th09EclWireArgument)) / sizeof(short)];
+    return *reinterpret_cast<short *>(
+        reinterpret_cast<unsigned int>(instruction) +
+        static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)) +
+        static_cast<unsigned int>(byteOffset));
 }
 
 __forceinline void AssignFlagField(

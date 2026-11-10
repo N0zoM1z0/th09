@@ -97,18 +97,26 @@ static void CallSubroutine(
     int rawSubroutineId);
 static int PopContext(EnemyView *enemy);
 
+// The operand sequence follows a zero-size C++ trailing member. Perform
+// native Win32 address arithmetic instead of indexing that abstract array.
 inline int &RawInt(
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
 {
-    return instruction->arguments[operandIndex].integer;
+    return *reinterpret_cast<int *>(
+        reinterpret_cast<unsigned int>(instruction) +
+        static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)) +
+        static_cast<unsigned int>(operandIndex) * sizeof(Th09EclWireArgument));
 }
 
 inline float &RawFloat(
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
 {
-    return instruction->arguments[operandIndex].real;
+    return *reinterpret_cast<float *>(
+        reinterpret_cast<unsigned int>(instruction) +
+        static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)) +
+        static_cast<unsigned int>(operandIndex) * sizeof(Th09EclWireArgument));
 }
 
 // Target RunEcl inlines these four operand wrappers at every call site while

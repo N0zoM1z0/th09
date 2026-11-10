@@ -22,6 +22,11 @@ SaveReplay's native serialized-byte arithmetic now compiles with unchanged
 uses the original native `0x20 + stage*0x28` address without out-of-range C++
 row indexing; both bosses retain their original residuals. The affected
 ReplayInput source cold-passes 12 exact siblings in two real carriers.
+The four ECL raw operand views now use the original `+0x0C` variable-length
+wire address arithmetic rather than indexing a zero-size C++ member. Complete
+RunEcl and Enemy boss frontiers remain unchanged; the six affected compiler
+carriers cold-pass 91 exact owners / 36,301 bytes / 1,783 relocations with
+291 independently verified compiler-label rebindings.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,
