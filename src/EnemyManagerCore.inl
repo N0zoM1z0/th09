@@ -689,9 +689,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
 
         process_enemy_death:
             enemy->secondaryFlags3380 |= 1;
+            // The retail signed quotient follows a native i386 DWORD
+            // subtraction: perform that subtraction modulo 2^32 before
+            // interpreting its result as a signed frame count.
             enemy->phaseEndSeconds5420 =
-                (enemy->timerCallbackThreshold33D0 -
-                 static_cast<int>(enemy->bossTimer2E64)) / 60;
+                static_cast<int>(
+                    static_cast<unsigned int>(enemy->timerCallbackThreshold33D0) -
+                    static_cast<unsigned int>(static_cast<int>(enemy->bossTimer2E64))) / 60;
             enemy->timerCallbackThreshold33D0 = -1;
             for (int callbackIndex = 0;
                  callbackIndex < static_cast<int>(

@@ -75,6 +75,11 @@ than scalar-byte member pointer spans. The complete 591-byte load leaf and
 two still-nonexact Replay bosses preserve their original frontiers; the
 source-specific two-carrier replay passes 12 exact owners / 4,093 bytes /
 232 relocations.
+Enemy OnUpdate now expresses the death-frame signed quotient after
+native modulo-32 subtraction, preserving exact Timer helpers, the complete
+3,900-byte/97-field/13-difference owner and RunEcl's full frontier. Both
+affected EclManager compiler carriers cold-pass 83 exact units / 29,856
+bytes / 1,389 fields after two original-backed local label rebindings.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

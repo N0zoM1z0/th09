@@ -371,6 +371,39 @@ Moving the side reference before the position copy changed literal ordering
 and worsened the comparison; the strict literal check rejected it. An alias
 rename alone is not a new codegen hypothesis.
 
+## 2026-11-10 Enemy OnUpdate native death-frame wraparound
+
+The death branch in `EnemyManagerView::OnUpdate @ 0x00410730` computes the
+signed seconds until its boss-timer callback from the threshold and the
+current `ZunTimer` value. Retail i386 subtracts these two DWORD values
+**modulo 2^32**, then performs signed division by 60. The former C++ signed
+subtraction could overflow before division. The maintained source now
+performs unsigned native-word subtraction and interprets its result as a
+signed frame count before applying the same divisor. The independent timer
+conversion, all lifecycle branches and original return behavior remain
+unchanged; the `sideTimer2AC3C8` and `frameTimer2AC404` fields are **real
+`ZunTimer` objects**, not scalar counters, and their exact overloads were
+preserved rather than replaced by naive integer increments.
+
+Four pinned-VC7.1 source-cold versions (inline, intermediate native word,
+operand snapshots and signed intermediate) maintained the complete original
+owner shape. The installed version preserves **3,900/3,900 physical bytes,
+97 independent fields, 69 calls, complete flow/switch and 13 ordinary
+nonmatching bytes**. Its shared RunEcl definition remains a full 15,564
+byte/598-field owner with only its previous 30 nonmatching bytes and no
+table changes. Two actual affected compiler carriers cold-pass **83 exact
+functions, 29,856 physical bytes and 1,389 relocation fields**. VC7.1
+renumbered two same-section `$L` symbols; their PE addresses and owner-local
+COFF definitions were checked before updating their manifest names. No new
+exact credit or whole-product build claim follows.
+
+Separately compiled direct vector-copy/index variations in the Enemy
+spawn/draw path kept the same 13 residuals when they preserved original
+literal provenance; attempts to force individual component copies changed
+constant field positions. Player charge `short`->`int` index tests and
+mode-byte lifetime variations likewise regressed 1,210-byte owner codegen,
+so those unrelated candidates were not installed.
+
 ## Player movement, charge and collision
 
 Movement remains 1,900 bytes/66 fields/122 differences. Horizontal and vertical
