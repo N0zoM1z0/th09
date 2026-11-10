@@ -227,6 +227,25 @@ differences. Direct character/index spellings for Title lost another byte;
 whole-switch direct `.sht` reads in Player movement rearranged many original
 switch blocks. Keep those variants out of maintained source.
 
+## 2026-11-10 CompareOperands native ECL conditional jump target
+
+The independently exact `Th09EclRunControl::CompareOperands` returns the next
+raw ECL instruction after a successful branch. Its displacement comes from
+operand 3 as a signed 32-bit word, including backward-branch offsets. The
+maintained source previously added that word to an `unsigned char*`, potentially
+leaving its C++ object bounds. It now forms the same native i386 modular sum
+from the 32-bit instruction address and displacement bits, without adding a
+retail-absent bounds check or changing the comparison operators.
+
+The complete **892/892 physical-byte** `CompareOperands` target (842 logical
+bytes plus owned trailing table data) remains strict-exact. Both affected ECL
+VC7.1 carriers cold-replayed **83/83 exact units, 29,856 physical bytes and
+1,389 original relocation fields**; eight renamed same-section compiler
+labels were independently checked against real COFF definitions and target
+operands before updating manifest names. The 15,564-byte RunEcl boss remains
+nonexact by 30 ordinary bytes, and Enemy OnUpdate by 13; no new exact
+ledger credit or whole-product claim is made.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,

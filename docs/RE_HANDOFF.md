@@ -38,6 +38,9 @@ shared jump union copy and trail record. The `/Ob0` movement leaf still replays
 516/516 original bytes, the `/Ob1` RunEcl retains its complete 15,564-byte
 frontier, and 91 affected exact units cold-pass in six carriers. See the newest
 knowledge-base section for the rejected out-of-line helper variant.
+The exact `CompareOperands` branch target also uses native unsigned i386
+addition for signed ECL jumps. A two-carrier, 83-unit selected replay retained
+all original bytes/fields, and eight private labels were rechecked.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

@@ -442,8 +442,11 @@ static Th09EclRawInstructionHeaderView *CompareOperands(
 comparison_succeeded:
     enemy->activeContext2CE0->time008.current =
         RawInt(instruction, 2);
+    // The ECL jump displacement is signed, but the target i386 ADD wraps
+    // the instruction address as a native 32-bit word (including back-jumps).
     return reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-        reinterpret_cast<unsigned char *>(instruction) + RawInt(instruction, 3));
+        reinterpret_cast<unsigned int>(instruction) +
+        static_cast<unsigned int>(RawInt(instruction, 3)));
 }
 
 static void ApplyInterpolationOperation(
