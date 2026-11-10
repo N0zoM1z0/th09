@@ -289,6 +289,27 @@ checking their COFF owner-relative locations, addends and retail PE operands.
 The canonical exact count is unchanged: this is faithful native source
 semantics work, not a newly exact RunEcl boss or Windows product closure.
 
+## 2026-11-10 Laser and shot wire payload address arithmetic
+
+The remaining native ECL laser and shot decoders shared the same zero-length
+`Th09EclRawInstructionHeaderView::arguments` byte tail as RunEcl's basic
+operand readers. `EclRunBullet.inl` now builds laser float/int/color views
+from an unsigned i386 instruction address plus the reviewed `0x0C` operand
+offset and the requested byte displacement; the laser creation handler
+uses the same tail address for its structured packet. `EclPostRuntime.inl`
+reads the separate shot instruction descriptor from that native byte address.
+The new names and types remain transparent views of the existing binary
+payload, not new allocation/decoder owners or altered original error handling.
+
+Source-cold full RunEcl (15,564 physical bytes, 598 independently bound fields
+and complete dispatch tables) still differs only at opcode 4 (seven bytes)
+and opcode 155 (23 bytes), with no new field/table differences. Enemy OnUpdate
+preserves its 3,900-byte/97-field/13-byte frontier. The five affected real
+compiler profiles cold-replayed **87 exact owners, 30,583 complete physical
+bytes and 1,409 relocation fields**. The independent target-bound physical
+proof found no changed local label destinations or byte differences. The
+change is native-address semantic reconstruction, not newly exact code.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,

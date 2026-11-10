@@ -50,6 +50,10 @@ address the native variable-length ECL payload instead of a zero-size C++
 array. Five changed carriers cold-pass 87 exact units / 30,583 physical bytes
 / 1,409 fields, with the 516-byte biased-movement leaf still exact. Both big
 ECL/Enemy owner frontiers remain unchanged.
+Laser and shot ECL wire payloads now use native unsigned i386 operand
+addresses in `EclRunBullet.inl`/`EclPostRuntime.inl`. The five affected
+carrier profiles pass all 87 exact owners, 30,583 bytes and 1,409 relocation
+fields; the full RunEcl/Enemy owner frontiers are unchanged.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,
