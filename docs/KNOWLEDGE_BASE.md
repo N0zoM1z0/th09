@@ -246,6 +246,23 @@ operands before updating manifest names. The 15,564-byte RunEcl boss remains
 nonexact by 30 ordinary bytes, and Enemy OnUpdate by 13; no new exact
 ledger credit or whole-product claim is made.
 
+## 2026-11-10 CompareOperands signed ECL back-jump addresses
+
+`Th09EclRunControl::CompareOperands` (`0x00405E80`, full canonical extent
+892 bytes) advances from its current instruction on a successful comparison
+using a signed 32-bit wire displacement. Its previous `unsigned char * + int`
+C++ spelling could perform out-of-object pointer arithmetic for backward
+branches. The maintained source now adds the operand's modulo-32 bits to the
+instruction's unsigned native address, then reconstructs the typed pointer;
+no new branch or error policy is introduced. With pinned VC7.1 on both actual
+`EclManager.cpp` profiles the canonical `CompareOperands` remains **892/892
+exact**, and the complete two-carrier scoped cold replay passes **83 existing
+exact owners, 29,856 physical bytes and 1,389 original-bound relocation
+fields**. The complete RunEcl boss keeps 15,564 physical bytes, 598 fields,
+all tables and the same 30 nonmatching code bytes. Enemy OnUpdate keeps its
+3,900-byte/97-field/13-byte frontier. This is native-source semantics
+progress, not a new exactness claim.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,

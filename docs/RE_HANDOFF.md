@@ -41,6 +41,10 @@ knowledge-base section for the rejected out-of-line helper variant.
 The exact `CompareOperands` branch target also uses native unsigned i386
 addition for signed ECL jumps. A two-carrier, 83-unit selected replay retained
 all original bytes/fields, and eight private labels were rechecked.
+The `CompareOperands` jump-success path now adds signed wire displacements
+using native i386 address words. The specific `EclManager.cpp` two-carrier
+replay passes 83 existing exact functions / 29,856 bytes / 1,389 fields;
+RunEcl and Enemy OnUpdate preserve their complete owner frontiers.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,
