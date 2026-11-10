@@ -574,7 +574,8 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     {
         Th09EclRunState::TrailInstructionArgs *trailArgs =
             reinterpret_cast<Th09EclRunState::TrailInstructionArgs *>(
-                instruction->arguments);
+                reinterpret_cast<unsigned int>(instruction) +
+                static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)));
 
         enemy->trailFlags53A0 = trailArgs->flags00;
 

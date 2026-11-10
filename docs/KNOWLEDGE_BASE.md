@@ -187,6 +187,46 @@ exact ledger. RunEcl opcode-155 reverse-parameter, bitfield, old-flag lifetime,
 and mutating-helper trial variants were separately compiled; they were neutral
 or caused extensive table/branch regressions, so were not installed.
 
+## 2026-11-10 ECL movement, jump and trail native wire consumers
+
+The four recovered `RawInt`/`RawFloat`/byte/halfword accessors were not the
+last consumers of `Th09EclRawInstructionHeaderView::arguments[0]`. The
+`StartTimedPolarDisplacement` and `MoveRandomBiased` owner bodies still used
+16 direct array-member reads, opcode 4's jump still copied element 0 from
+that zero-size C++ array, and the trail handler cast the same trailing
+member to a packed record. Their source now builds the i386 operand byte
+address from the real `offsetof(arguments) == 0x0C` and reads a typed wire
+union at that address. The original opcode-4 **union-by-value** copy is
+retained; replacing it with `value.integer = RawInt(...)` incorrectly changes
+12 more bytes in the adjacent opcode-5 path.
+
+A source-only call through `RawInt`/`RawFloat` looked identical in the
+15,564-byte `/Ob1` RunEcl but **regressed the real `/Ob0` helper carrier**:
+VC7.1 did not inline those functions there, displacing the exact 288-byte
+`StartTimedPolarDisplacement` and 516-byte `MoveRandomBiased`. The native
+union-pointer view within each helper instead maintains their independent
+original byte/call shape in both compiler profiles. Individual jump, trail,
+movement and combined full-boss probes establish no new RunEcl exactness:
+RunEcl still has 598 reviewed fields, its complete switch tables, and the
+same 30 ordinary differences (7 opcode-4, 23 opcode-155); Enemy OnUpdate
+still has 3,900 bytes, 97 fields and 13 ordinary differences.
+
+The final edited sources were compiled in only six actually affected carrier
+profiles. The strict targeted cold replay passed all **91** existing exact
+functions over **36,301** physical bytes and **1,783** relocation fields.
+The 20 renamed compiler-local `$L` entries (13 in `CompareOperands`, seven in
+post-ECL movement) were rebound only after a separate complete original PE /
+actual COFF comparison confirmed same-section definitions, unchanged label
+positions, addends and original target operands. Exact ledger remains 1,024;
+none of these useful source corrections is incorrectly promoted.
+
+Separate source-cold register/lifetime explorations did not yield a safe boss
+byte improvement: Player movement remains 1,900/1,900 with 122 different
+bytes, and Title `OnUpdateResult` remains 484/485 with 218 overlapping
+differences. Direct character/index spellings for Title lost another byte;
+whole-switch direct `.sht` reads in Player movement rearranged many original
+switch blocks. Keep those variants out of maintained source.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,

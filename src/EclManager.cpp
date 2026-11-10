@@ -139,38 +139,44 @@ static void StartTimedPolarDisplacement(
     float angle)
 {
     EnemyMovementView *view = enemy;
+    // Arguments are a variable-length wire stream after the 0x0C prefix.
+    // Form its i386 address without subscripting the zero-length header member.
+    const Th09EclWireArgument *const wireArgs =
+        reinterpret_cast<const Th09EclWireArgument *>(
+            reinterpret_cast<unsigned int>(instruction) +
+            static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)));
     float (*cosineOperation)(float) = ::cosf;
     float (*sineOperation)(float) = ::sinf;
 
     view->movementDelta2E10.x =
         cosineOperation(angle) *
         ((instruction->parameterMask0A & 4U)
-             ? enemy->ResolveFloat(instruction->arguments[2].real)
-             : instruction->arguments[2].real) *
+             ? enemy->ResolveFloat(wireArgs[2].real)
+             : wireArgs[2].real) *
         ((instruction->parameterMask0A & 1U)
-             ? Th09EclRunControl::ResolveInt(enemy, instruction->arguments[0].integer)
-             : instruction->arguments[0].integer);
+             ? Th09EclRunControl::ResolveInt(enemy, wireArgs[0].integer)
+             : wireArgs[0].integer);
     view->movementDelta2E10.y =
         sineOperation(angle) *
         ((instruction->parameterMask0A & 4U)
-             ? enemy->ResolveFloat(instruction->arguments[2].real)
-             : instruction->arguments[2].real) *
+             ? enemy->ResolveFloat(wireArgs[2].real)
+             : wireArgs[2].real) *
         ((instruction->parameterMask0A & 1U)
-             ? Th09EclRunControl::ResolveInt(enemy, instruction->arguments[0].integer)
-             : instruction->arguments[0].integer);
+             ? Th09EclRunControl::ResolveInt(enemy, wireArgs[0].integer)
+             : wireArgs[0].integer);
     view->movementDelta2E10.z = 0.0f;
     view->movementOrigin2E1C = view->worldPosition2DD4;
 
     int duration = ((instruction->parameterMask0A & 1U)
-             ? Th09EclRunControl::ResolveInt(enemy, instruction->arguments[0].integer)
-             : instruction->arguments[0].integer);
+             ? Th09EclRunControl::ResolveInt(enemy, wireArgs[0].integer)
+             : wireArgs[0].integer);
     view->movementDuration2E34 = duration;
     view->movementTimer2E28 = duration;
     view->primaryFlags337C =
         (view->primaryFlags337C & ~0x3A00U) |
         ((((instruction->parameterMask0A & 2U)
-             ? Th09EclRunControl::ResolveInt(enemy, instruction->arguments[1].integer)
-             : instruction->arguments[1].integer) & 7) << 11) |
+             ? Th09EclRunControl::ResolveInt(enemy, wireArgs[1].integer)
+             : wireArgs[1].integer) & 7) << 11) |
         0x400U;
 }
 
@@ -242,6 +248,12 @@ static void MoveRandomBiased(
 {
     Th09EclRunMovement::EnemyMovementView *view =
         enemy;
+    // Arguments are a variable-length wire stream after the 0x0C prefix.
+    // Form its i386 address without subscripting the zero-length header member.
+    const Th09EclWireArgument *const wireArgs =
+        reinterpret_cast<const Th09EclWireArgument *>(
+            reinterpret_cast<unsigned int>(instruction) +
+            static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)));
     float angle;
 
     if (Th09EclRunControl::g_Rng.GetRandomU32InRange(4) != 0)
@@ -301,14 +313,14 @@ static void MoveRandomBiased(
         angle = -angle;
 
     if (((instruction->parameterMask0A & 1U)
-             ? Th09EclRunControl::ResolveInt(enemy, instruction->arguments[0].integer)
-             : instruction->arguments[0].integer) <= 0)
+             ? Th09EclRunControl::ResolveInt(enemy, wireArgs[0].integer)
+             : wireArgs[0].integer) <= 0)
     {
         view->movementAngle2DE0 = angle;
         view->speed2DF4 =
             ((instruction->parameterMask0A & 4U)
-             ? enemy->ResolveFloat(instruction->arguments[2].real)
-             : instruction->arguments[2].real);
+             ? enemy->ResolveFloat(wireArgs[2].real)
+             : wireArgs[2].real);
         view->primaryFlags337C =
             (view->primaryFlags337C &
              ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |

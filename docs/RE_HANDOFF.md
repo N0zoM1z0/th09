@@ -32,6 +32,12 @@ native unsigned address arithmetic. The combined change was cold-rebuilt in
 six affected carriers and kept 91 exact owners/36,301 bytes/1,783 fields,
 with all 311 changed private labels independently checked against original
 addresses; the RunEcl boss remains nonexact at 30 ordinary differences.
+All remaining direct zero-length ECL operand users are now routed through
+native union-pointer views, including the polar and biased-movement leaves,
+shared jump union copy and trail record. The `/Ob0` movement leaf still replays
+516/516 original bytes, the `/Ob1` RunEcl retains its complete 15,564-byte
+frontier, and 91 affected exact units cold-pass in six carriers. See the newest
+knowledge-base section for the rejected out-of-line helper variant.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

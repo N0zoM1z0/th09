@@ -213,7 +213,9 @@ __forceinline float *WriteFloat(
     // Snapshot the raw time operand before assigning the active context timer.
     case TH09_ECL_OPCODE_JUMP:
     {
-        Th09EclWireArgument value = instruction->arguments[0];
+        Th09EclWireArgument value = *reinterpret_cast<const Th09EclWireArgument *>(
+            reinterpret_cast<unsigned int>(instruction) +
+            static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)));
         context->time008 = value.integer;
     }
         instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
