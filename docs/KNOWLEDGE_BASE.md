@@ -229,6 +229,28 @@ bytes, **53/53** original-bound fields and **23** calls, with only the same
 the final installed source passed **12 exact owners, 4,093 physical bytes,
 232 relocation fields**; no new exact owner or whole-product claim follows.
 
+## 2026-11-10 BeginPlaybackStage native frame-table row address
+
+At `0x00420840`, the original `BeginPlaybackStage` computes the frame-row
+address `replayData + 0x20 + stage*0x28` and tests that address, **not** the
+pointer in `frameStart[0][stage]`. The maintained `frameStart[stage]`
+expression happened to generate that same i386 `LEA`, but the true record
+contains only **three C++ row arrays**, while replay stages are indexed 0..9.
+That expression therefore has undefined out-of-bounds C++ array semantics
+for stages 3..9. The new source forms the same native row address through
+unsigned 32-bit arithmetic from `&frameStart[0][0]` and the actual row size.
+It preserves the original (unusual) address test and adds no substituted
+null-data-pointer check or defensive behavior.
+
+Six independently compiled natural native-word formulations preserved the
+complete owner. The installed version retains **538 candidate bytes against
+540 original**, **32/32** independently original-bound fields, **five** calls,
+twelve blocks, 39 overlapping differences and the two-byte missing tail.
+SaveReplay retains its same-size two-byte frontier. Two actual ReplayInput
+compiler carriers cold-pass **12 exact owners / 4,093 physical bytes / 232
+relocations**. This is a meaningful native-source semantics correction;
+`BeginPlaybackStage` is still **NONEXACT** and there is no new exact credit.
+
 ## Replay SaveReplay and BeginPlaybackStage
 
 SaveReplay is 1,238 bytes/53 fields/23 calls, with only +0xB7/+0xBB differing.

@@ -18,8 +18,10 @@ follow-up opcode-4 relative-jump change cold-replays 91 units in six actual
 carriers with 299 checked same-section label rebindings. Reproduce the latter
 with `python3 -B scripts/replay-scoped-exact.py --changed-file src/EclRunControl.inl`.
 SaveReplay's native serialized-byte arithmetic now compiles with unchanged
-1,238-byte/two-register residual and cold-passes 12 exact sibling owners in
-two real compiler carriers; `BeginPlaybackStage` is also unchanged.
+1,238-byte/two-register residual. The linked BeginPlaybackStage row check also
+uses the original native `0x20 + stage*0x28` address without out-of-range C++
+row indexing; both bosses retain their original residuals. The affected
+ReplayInput source cold-passes 12 exact siblings in two real carriers.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

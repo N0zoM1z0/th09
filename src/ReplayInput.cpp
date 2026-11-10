@@ -512,7 +512,13 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     // The original tests the frame-table ROW ADDRESS (0x20 + stage*0x28),
     // not the pointer stored in frameStart[0][stage]. Keep its observed
     // address test; changing to a data-pointer check alters game behavior.
-    if (replayManager->replayData->frameStart[stage] == NULL)
+    // Use the native 32-bit row address, not frameStart[stage]: the latter
+    // subscripts the three-row C++ array out of bounds for stages 3..9.
+    const unsigned int rowAddress =
+        reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[0][0]) +
+        static_cast<unsigned int>(stage) *
+        static_cast<unsigned int>(sizeof(replayManager->replayData->frameStart[0]));
+    if (rowAddress == 0u)
         return -1;
     if ((g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1()) && stage > 0)
     {
