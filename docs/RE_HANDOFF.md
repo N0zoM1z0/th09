@@ -91,6 +91,12 @@ unsigned 32-bit word increments and fixed-mode offsets. The large
 GameplaySetupThread preserves its 1,682/1,689-byte/172-field frontier; the
 exact 88-byte AdvanceTimedState and ten further exact siblings cold-pass in
 two real compiler profiles (11 functions / 2,991 physical bytes / 243 fields).
+`SupervisorServiceUpdate` now uses native 32-bit word arithmetic for its
+two signed frame-counter increments and packet frame publication. Its own
+1,627/1,633-byte nonexact frontier is unchanged. Fresh exact caller/queue
+checks pass six selected owners (1,663 bytes, 93 fields); 40 compiler-local
+Supervisor::OnUpdate `$L`/`$title$` renames were independently checked against
+actual COFF same-section targets and original PE before rebinding.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

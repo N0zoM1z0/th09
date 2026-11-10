@@ -658,6 +658,39 @@ without new exactness credit; the worker's branch-layout/field scheduling
 remains nonexact. Previous `switch`-sharing / `if/else` worker hypotheses
 displaced code and did not resolve its remaining original branch layout.
 
+## 2026-11-10 Supervisor network native frame-word publication
+
+`SupervisorServiceUpdate @ 0x00430AA0` has two integer `frameCounter`
+advances (predicted-frame and packet-ready paths) and publishes the network
+frame number as `60 / syncRate + frameCounter - 1`. Their original i386
+instructions operate on **native 32-bit words**, wrapping even if the signed
+counter reaches its limit. The C++ source now performs both increments and
+the packet-frame sum with unsigned 32-bit operations before interpreting the
+saved fields as signed, avoiding signed-overflow undefined behavior. The
+DirectPlay session, queue methods, sender, packet checksums, scheduling,
+error-handling and original arithmetic operands are otherwise unchanged.
+
+Ten natural counter/packet source-cold probes and seven natural wait-block
+probes were compiled with the pinned VC7.1 service profile. All selected
+native-word variants emitted the **identical 1,627-byte raw service owner**,
+including its 106 fields and 41 direct calls; original PE still owns 1,633
+bytes with 1,381 unlike overlapping positions, six missing bytes and six
+call-order positions caused by the still-unresolved early-wait block layout.
+Relocating C++ wait labels alone did not repair that physical scheduling.
+This remains a nonexact boss, not exactness credit.
+
+The live source was separately recompiled and the full raw owner compared to
+the earlier source-cold object byte-for-byte. Cold rebuild of exact caller
+`Supervisor::OnUpdate` surfaced **40** changed private `$L` / `$title$`
+label names in its own compiler carrier; these were re-bound in
+`match-units.toml` only after an independent original PE / actual same-section
+COFF proof found all **996 physical bytes and 92 relocation fields exact**.
+Five related exact queue/packet leaves also cold passed (191 + 213 + 119 +
+49 + 95 bytes). Total tested exact subset: **six functions, 1,663 full
+physical bytes and 93 relocation fields**. Both native network source-owner
+and queue-call contract tests passed. No whole-product cold replay or native
+build/semantics closure is claimed.
+
 ## Gameplay setup, ScreenEffect, network and Effect callback
 
 GameplaySetupThread remains 1,682/1,689 bytes, 172 fields and 694 differing

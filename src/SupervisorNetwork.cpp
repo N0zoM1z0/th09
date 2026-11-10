@@ -146,7 +146,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             s->InsertPredictedFrame(
                 1 - g_SupervisorNetworkState->localSide, s->networkTiming458.frameCounter,
                 (short)g_ReplayRng.GetSeed());
-            s->networkTiming458.frameCounter++;
+            // The original service increments the signed frame counter with
+            // an i386 DWORD INC, whose physical result wraps modulo 2^32.
+            s->networkTiming458.frameCounter = static_cast<int>(
+                static_cast<unsigned int>(s->networkTiming458.frameCounter) + 1u);
         }
         else
         {
@@ -206,7 +209,8 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             HAVE_PACKET:
                 g_NetworkFramePacket.words.input =
                     (unsigned short)Controller::GetInput(g_SupervisorNetworkState->localSide);
-                s->networkTiming458.frameCounter++;
+                s->networkTiming458.frameCounter = static_cast<int>(
+                    static_cast<unsigned int>(s->networkTiming458.frameCounter) + 1u);
                 s->networkTiming458.frameStartTime = timeGetTime();
             }
 
@@ -217,9 +221,11 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             // The checksum uses the side captured before GetSeed.
             signed char packetSide = (signed char)g_SupervisorNetworkState->localSide;
             g_NetworkFramePacket.side = packetSide;
-            g_NetworkFramePacket.frame =
-                60 / g_SupervisorNetworkState->syncRate +
-                s->networkTiming458.frameCounter - 1;
+            // The packet's signed frame field is serialized from a native
+            // DWORD sum; preserve the same wraparound at the boundary.
+            g_NetworkFramePacket.frame = static_cast<int>(
+                static_cast<unsigned int>(60 / g_SupervisorNetworkState->syncRate) +
+                static_cast<unsigned int>(s->networkTiming458.frameCounter) - 1u);
             g_NetworkFramePacket.seed =
                 g_ReplayRng.GetSeed();
 
