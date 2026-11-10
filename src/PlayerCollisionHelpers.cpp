@@ -83,7 +83,8 @@ int PlayerLifecycleView::CheckBulletCollision(
             goto cancel_hit;
         if ((*slot)->type38 == 3)
             goto cancel_hit;
-        ++(*slot)->hitCount2C;
+        (*slot)->hitCount2C = static_cast<int>(
+            static_cast<unsigned int>((*slot)->hitCount2C) + 1u);
         return 2;
 
     cancel_hit:
@@ -98,7 +99,8 @@ int PlayerLifecycleView::CheckBulletCollision(
                 g_GameManager.TransformPopupY(position->y);
             effectPosition.z = 0.0f;
 
-            g_Supervisor.SelectSide(1 - this->sideIndex);
+            g_Supervisor.SelectSide(static_cast<int>(
+                1u - static_cast<unsigned int>(this->sideIndex)));
 
             EffectFloat3 velocity;
             velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
@@ -128,7 +130,8 @@ int PlayerLifecycleView::CheckBulletCollision(
             if (rewardValue > 100)
                 rewardValue = 1000;
             else
-                rewardValue *= 10;
+                rewardValue = static_cast<int>(
+                    static_cast<unsigned int>(rewardValue) * 10u);
 
             int rewardMode =
                 (g_GameManager.difficulty11C >= 3) + 2;
@@ -138,7 +141,8 @@ int PlayerLifecycleView::CheckBulletCollision(
             this->sideState->AddScore(50);
         }
 
-        ++(*slot)->hitCount2C;
+        (*slot)->hitCount2C = static_cast<int>(
+            static_cast<unsigned int>((*slot)->hitCount2C) + 1u);
         return 2;
 
     }

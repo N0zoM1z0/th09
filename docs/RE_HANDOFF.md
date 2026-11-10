@@ -80,6 +80,12 @@ native modulo-32 subtraction, preserving exact Timer helpers, the complete
 3,900-byte/97-field/13-difference owner and RunEcl's full frontier. Both
 affected EclManager compiler carriers cold-pass 83 exact units / 29,856
 bytes / 1,389 fields after two original-backed local label rebindings.
+Player `CheckBulletCollision` now reconstructs native modulo-32 math for
+opponent-side selection, reward scaling and both hit-counter increments;
+the full 862-target/849-source collision frontier is unchanged. Three
+source-affected carrier profiles pass five exact siblings, 1,220 physical
+bytes and 32 relocation fields. Its 13 missing bytes and original 33 versus
+candidate 32 CFG blocks remain unresolved.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

@@ -404,6 +404,37 @@ constant field positions. Player charge `short`->`int` index tests and
 mode-byte lifetime variations likewise regressed 1,210-byte owner codegen,
 so those unrelated candidates were not installed.
 
+## 2026-11-10 Player collision native side/reward/hit-count words
+
+`PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` uses ordinary i386
+DWORD subtraction, multiply and increment instructions for three related
+operations: choosing the opposite player side from `1 - sideIndex`, computing
+a reward of `ownerState30410.state38 * 10` on the lower-score branch, and
+incrementing `PlayerCollisionRegionCreateRegionView::hitCount2C` on either
+successful hit path. The former C++ signed arithmetic could overflow even
+though the original instructions wrap modulo 2^32. The maintained source
+uses unsigned 32-bit word operations for those steps, with an explicit
+signed interpretation at the original destination. No new collision, reward,
+score or error-handling branch was introduced.
+
+Seven independent and combined source-cold variants under pinned VC7.1
+preserved the complete existing 849-byte candidate with all **26 native
+relocations, 12 calls, 32 candidate CFG blocks and 799 overlapping byte
+differences** against the independently SHA-attested 862-byte/33-block
+original. The three actual affected compiler profiles then cold-passed all
+**five existing exact siblings**, with **1,220 physical bytes and 32 complete
+relocation fields**. This is semantic fidelity progress in a large nonexact
+owner; its missing 13 bytes and 33-versus-32 target block issue remain open.
+
+Original-to-candidate x86 analysis explains why generic source reordering
+has not fixed that boundary: retail preserves `bullet` in EBX at the
+prologue and places the shared collision-hit block after the circle test;
+the present source holds `position` in EBX and schedules the hit block later.
+Several real for/while/goto/early-hit source probes were rejected because
+they kept the 849-byte shape or changed return/relocation inventory. An
+early bullet-type snapshot expanded the body but changed when memory is
+read, so it was not adopted as an original-source reconstruction.
+
 ## Player movement, charge and collision
 
 Movement remains 1,900 bytes/66 fields/122 differences. Horizontal and vertical
