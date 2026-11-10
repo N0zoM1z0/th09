@@ -352,8 +352,10 @@ static void DispatchShotInstruction(
     Th09EclRawInstructionHeaderView *instruction)
 {
     EnemyBulletView *view = View(enemy);
+    // The shot packet starts immediately after the native 0x0C-byte header.
     ShotInstructionArgs *args = reinterpret_cast<ShotInstructionArgs *>(
-        reinterpret_cast<unsigned char *>(instruction->arguments));
+        reinterpret_cast<unsigned int>(instruction) +
+        static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)));
     BulletSpawnDescriptor *descriptor = &view->bulletDescriptor2E74;
 
     // The native Enemy fields are POD XYZ storage; the exact bullet math

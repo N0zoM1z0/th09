@@ -263,6 +263,32 @@ all tables and the same 30 nonmatching code bytes. Enemy OnUpdate keeps its
 3,900-byte/97-field/13-byte frontier. This is native-source semantics
 progress, not a new exactness claim.
 
+## 2026-11-10 native ECL laser and shot-packet argument addressing
+
+After the main four ECL scalar readers and the movement/compare handlers were
+recovered, two lexical consumers still formed C++ pointers from the header's
+zero-length `arguments[0]`: `EclRunBullet.inl` read typed laser float/int and
+color fields from that pseudo-array, and `EclPostRuntime.inl` interpreted the
+same tail as a shot packet. Both now form the real packed ECL wire payload
+address as `unsigned i386 instruction address + offsetof(arguments)`; the
+laser float/int readers add their native byte offset as an unsigned 32-bit
+word. The color reader preserves the signed two-byte wire field and its
+existing scalar-resolution mask. The bullet and laser packet structures
+retain their genuine field sizes and offsets; no callable replacement,
+defensive branch, or new runtime behavior was introduced.
+
+Pinned VC7.1 builds under both original `/Ob0` and `/Ob1` profiles confirm
+that local typed pointer views preserve the **516/516** exact biased-movement
+leaf as well as the whole **15,564-byte** RunEcl owner, its **598** address
+fields and complete switch tables. The original 30 RunEcl differences in
+opcodes 4 and 155, plus the Enemy OnUpdate 13-byte residual, remain unchanged.
+The five actually affected compiler carriers cold-replayed **87/87** exact
+functions over **30,583** physical bytes and **1,409** original-bound fields.
+Twenty VC7.1 same-section `$L` names were rebound only after independently
+checking their COFF owner-relative locations, addends and retail PE operands.
+The canonical exact count is unchanged: this is faithful native source
+semantics work, not a newly exact RunEcl boss or Windows product closure.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,

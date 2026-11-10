@@ -45,6 +45,11 @@ The `CompareOperands` jump-success path now adds signed wire displacements
 using native i386 address words. The specific `EclManager.cpp` two-carrier
 replay passes 83 existing exact functions / 29,856 bytes / 1,389 fields;
 RunEcl and Enemy OnUpdate preserve their complete owner frontiers.
+The laser float/int/color readers and packed shot/laser packet casts now
+address the native variable-length ECL payload instead of a zero-size C++
+array. Five changed carriers cold-pass 87 exact units / 30,583 physical bytes
+/ 1,409 fields, with the 516-byte biased-movement leaf still exact. Both big
+ECL/Enemy owner frontiers remain unchanged.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,
