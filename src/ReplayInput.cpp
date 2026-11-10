@@ -572,10 +572,16 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     g_GameManager.sides[0].runtime->value00 = (float)frame0->value08;
     g_GameManager.sides[1].runtime->value00 = (float)frame1->value08;
     g_GameManager.sides[0].runtime->phase10 = frame0->value10;
-    replayManager->inputCursors[1] = reinterpret_cast<u16 *>(frame1 + 1);
+    // Saved frames contain a 0x20-byte wire header followed by input samples.
+    // The samples are byte-addressed payloads, not another array element
+    // of the C++ frame-header type; retain native Win32 address addition.
+    replayManager->inputCursors[1] = reinterpret_cast<u16 *>(
+        reinterpret_cast<unsigned int>(frame1) + sizeof(*frame1));
     replayManager->fpsCursor = fpsStart;
-    replayManager->inputCursors[0] = reinterpret_cast<u16 *>(frame0 + 1);
-    replayManager->inputCursors[2] = reinterpret_cast<u16 *>(frame2 + 1);
+    replayManager->inputCursors[0] = reinterpret_cast<u16 *>(
+        reinterpret_cast<unsigned int>(frame0) + sizeof(*frame0));
+    replayManager->inputCursors[2] = reinterpret_cast<u16 *>(
+        reinterpret_cast<unsigned int>(frame2) + sizeof(*frame2));
     *g_GameManager.configurationE8 = replayManager->replayData->configSnapshot;
     g_ReplayRng.SetSeed(frame0->stageSeed);
     replayManager->inputDelay = 0;

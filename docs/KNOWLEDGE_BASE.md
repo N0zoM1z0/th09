@@ -459,6 +459,32 @@ with two differing bytes; BeginPlaybackStage remains 538/540 with 39
 nonmatching overlaps and 32 bound fields. No new exact entry or whole-product
 claim follows from the source-semantics correction.
 
+## 2026-11-10 BeginPlaybackStage native input payload cursors
+
+The genuine 0x20-byte `ReplayFrameDataStartView` header in each serialized
+stream is followed immediately by 16-bit input samples. The original
+`BeginPlaybackStage` stores pointers to those sample bytes, not to another
+C++ frame-header element. The three maintained cursor assignments now form
+the same native i386 32-bit `frame address + sizeof(*frame)` word rather
+than using `frame + 1` outside a single header object and reinterpreting
+that one-past pointer. The original order of the three cursor stores and
+the FPS pointer store is unchanged.
+
+Five full-source natural pointer forms and three independent single-stream
+forms were source-cold compiled under the pinned no-EH VC7.1 profile. All
+preserved the complete **538/540** nonexact `BeginPlaybackStage` extent,
+**32** bound fields, **five** calls and **39** overlap differences. The
+selected source then cold-passed both true ReplayInput carrier profiles:
+**12 existing exact functions, 4,093 physical bytes and 232 relocation
+fields**. The unrelated SaveReplay boss remains 1,238/1,238 with precisely
+two differing ordinary bytes. No new exact ledger credit is claimed.
+
+A separate set of 18 SaveReplay frame-header copy probes (typed structure
+copy, explicit native pointer, inline serialization helpers, CRT copy
+interfaces) did not eliminate its `+0xB7/+0xBB` EDI/ECX residual; `memmove`
+changed original call/field inventory and was rejected. None of these
+neutral or regressive alternatives was installed.
+
 ## Replay SaveReplay and BeginPlaybackStage
 
 SaveReplay is 1,238 bytes/53 fields/23 calls, with only +0xB7/+0xBB differing.

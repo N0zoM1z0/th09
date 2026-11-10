@@ -64,6 +64,11 @@ instead of signed-overflow-dependent additions. The full 336-byte shake boss
 preserves its 26-byte residual; three affected compiler profiles cold-pass 18
 exact functions / 2,562 physical bytes / 164 fields, after nine genuine
 RegisterChain same-section local label rebinding checks.
+Replay playback stream cursors now use native Win32 32-bit base-plus-header
+byte addresses for the three 0x20-byte frame headers; the 538/540
+BeginPlaybackStage and 1,238/1,238 SaveReplay frontiers remain unchanged.
+Both ReplayInput carrier profiles cold-pass 12 exact functions / 4,093
+physical bytes / 232 relocation fields.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,
