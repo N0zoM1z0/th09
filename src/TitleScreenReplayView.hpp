@@ -99,6 +99,7 @@ struct TitleScreenView {
     static int DeletedCallback(TitleScreenView *titleScreen);
 
     int OnUpdateResult();
+    int OnUpdateMusicRoom();
     int OnUpdateReplayMenu();
     int UpdateReplaySave();
     int OnUpdateStartMenu();
@@ -117,6 +118,7 @@ struct TitleScreenView {
     void SetIndexedSpriteChoice(i32 choice, i32 vmIndex);
     void SetRangeSelectionInterrupts(i32 selected, i32 start, i32 count);
     int OnUpdateOptions();
+    int OnUpdateKeyConfig();
     int OnUpdateCharacterSelect();
     int OnUpdateResultNameEntry();
     void *MoveCharacterCursor(i32 side, i32 direction, char *order, i32 count);

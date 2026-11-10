@@ -1,40 +1,19 @@
 // Original TH09 Title calc callback: 264 code bytes and a 16-entry table.
 // Layout views preserve observed fields without claiming the original TU.
 #include "AnmManager.hpp"
+#include "AnmVmLifecycle.hpp"
+#include "TitleScreenReplayView.hpp"
 #include <stddef.h>
 
-struct TitleScreenView
-{
-    unsigned char unknown00000[0x11B98];
-    AnmVm *vms;
-    AnmVm *currentHelpTextVm;
-    unsigned char unknown11BA0[0x1B224 - 0x11BA0];
-    int vmCount;
-    int currentScreen;
-    unsigned char unknown1B22C[0x1B238 - 0x1B22C];
-    int chainState;
-
-    int OnUpdateStartMenu();
-    int OnUpdateModeSelect();
-    int OnUpdateDifficultySelect();
-    int OnUpdateCharacterSelect();
-    int UpdateScreen8Mode0();
-    int UpdateScreen8Mode123();
-    int UpdateScreen16();
-    int OnUpdateOptions();
-    int OnUpdateKeyConfig();
-    int OnUpdateReplayMenu();
-    int UpdateReplaySave();
-    int OnUpdateMusicRoom();
-    int OnUpdateResultNameEntry();
-    int OnUpdateResult();
-};
-
-typedef char TitleCalcVmsAt11B98[(offsetof(TitleScreenView, vms)==0x11B98)?1:-1];
-typedef char TitleCalcHelpAt11B9C[(offsetof(TitleScreenView, currentHelpTextVm)==0x11B9C)?1:-1];
-typedef char TitleCalcVmCountAt1B224[(offsetof(TitleScreenView, vmCount)==0x1B224)?1:-1];
-typedef char TitleCalcScreenAt1B228[(offsetof(TitleScreenView, currentScreen)==0x1B228)?1:-1];
-typedef char TitleCalcChainStateAt1B238[(offsetof(TitleScreenView, chainState)==0x1B238)?1:-1];
+// The original 0x1B388-byte Title owner is now shared by its calc/draw
+// callbacks and all TitleScreen state-machine methods.
+typedef char TitleCalcFullOwnerFields[
+    (sizeof(TitleScreenView) == 0x1B388 &&
+     offsetof(TitleScreenView, vms) == 0x11B98 &&
+     offsetof(TitleScreenView, currentHelpTextVm) == 0x11B9C &&
+     offsetof(TitleScreenView, vmCount) == 0x1B224 &&
+     offsetof(TitleScreenView, currentScreen) == 0x1B228 &&
+     offsetof(TitleScreenView, chainState) == 0x1B238) ? 1 : -1];
 
 extern int g_TitleModeSelection;
 
