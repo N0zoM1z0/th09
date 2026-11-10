@@ -251,8 +251,11 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
         // scalar load scheduling without changing the hold + fade result.
         const volatile int &fade = screenEffect->shakeEnvelope.fadeOutFrames;
         const volatile int &hold = screenEffect->shakeEnvelope.holdFrames;
-        int update = hold + fade;
-        endFrame += update;
+        // The original i386 endpoint additions wrap as native DWORDs.
+        // Preserve the signed timer comparison on the resulting word.
+        unsigned int update =
+            static_cast<unsigned int>(hold) + static_cast<unsigned int>(fade);
+        endFrame = static_cast<unsigned int>(endFrame) + update;
         if (clock < endFrame)
         {
             shakeAmount =

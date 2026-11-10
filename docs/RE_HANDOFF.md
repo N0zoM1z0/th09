@@ -59,6 +59,11 @@ Replay `LoadReplayData` now reads its complete packed file using native
 frame/FPS offset fixups. The exact 591-byte leaf and both nonexact Replay
 owners retain their complete target-bound frontiers; two affected carriers
 cold-pass 12 exact functions / 4,093 bytes / 232 relocation fields.
+ScreenEffect's shake-envelope final endpoint uses modulo-32 arithmetic
+instead of signed-overflow-dependent additions. The full 336-byte shake boss
+preserves its 26-byte residual; three affected compiler profiles cold-pass 18
+exact functions / 2,562 physical bytes / 164 fields, after nine genuine
+RegisterChain same-section local label rebinding checks.
 Git records the individual source changes.
 
 Native Windows i386 product closure is still open. Exact-source functions,

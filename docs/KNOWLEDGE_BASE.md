@@ -496,6 +496,31 @@ Simple snapshots/accessors combine the load and extension and did not recover
 that schedule. DrawResult is already fully exact at 1,939 bytes/82 fields;
 its former barrier and three-byte allowance must not return.
 
+## 2026-11-10 ScreenEffect envelope native 32-bit phase endpoint
+
+`ScreenEffect::CalcShakeEnvelope @ 0x004227A0` accumulates its fade-in,
+hold and fade-out frame counts into the 32-bit envelope endpoint. The original
+Win32 `add` wraps modulo 2^32; the previous signed `int update = hold + fade;
+endFrame += update` depended on C++ signed-overflow behavior. The maintained
+source now forms `update` and the endpoint using native unsigned-word
+arithmetic, then keeps the same signed `ZunTimer` comparison and native float
+conversion for the falling edge. It does not add range checks, new branches
+or change the unusual original fade-phase behavior.
+
+The full pinned-target 336-byte/20-field/8-call shake owner retains precisely
+its previous **26 nonmatching ordinary bytes**, confined to receiver/timer
+and flag transport, and the complete original branch graph. Twenty-five
+isolated natural forms of the fade/hold computation were actually compiled:
+nonvolatile direct forms produced a shorter 334-byte owner with displaced
+relocations and ~249 overlapping differences; the selected unsigned-word
+form retained the exact former instruction layout. All **three** affected
+ScreenEffect compilation profiles were rebuilt, with full canonical cold
+replay of **18 existing exact functions, 2,562 physical bytes and 164
+relocations**. VC7.1 renumbered nine `RegisterChain` private `$L` symbols;
+each current COFF same-section definition and original PE operand target was
+verified before changing its manifest name. The source remains nonexact in
+the complete shake owner, and there is no new exact credit.
+
 ## Gameplay setup, ScreenEffect, network and Effect callback
 
 GameplaySetupThread remains 1,682/1,689 bytes, 172 fields and 694 differing
