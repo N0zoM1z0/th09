@@ -342,6 +342,27 @@ in `match-units.toml` only after a separate complete PE/actual COFF proof
 confirmed their same-section definitions, original target operands and zero
 non-field mismatches. No new exactness credit or product closure is claimed.
 
+## 2026-11-11 Enemy death-reward native word arithmetic
+
+The independently exact 1,142-byte `EnemyView::HandleDeathRewards` owner at
+`0x004102B0` now computes four reward paths with defined unsigned 32-bit
+arithmetic before restoring their original signed-word representation:
+`rewardLevel * 3 + 30` for the interval, both tier-dependent reward values
+(`level * 30 + 10` and `(level + 5) * 200`), and the hit-related value doubling.
+The old signed C++ multiplication could overflow for extreme negative level
+words even on the guarded small-positive-level branches. Retail i386 uses
+native 32-bit word arithmetic, and its real argument/result bit patterns are
+preserved. No bounds checks, clamping, type-layout changes, new calls or
+extra storage were introduced; signed tier comparisons stay signed.
+
+Seven independent and combined original-profile VC7.1 source-cold versions
+were compared against the full original PE owner and its 39 typed COFF fields.
+All retained **1,142/1,142 exact bytes, 39/39 original-bound relocations**.
+The official **one affected carrier / one exact function** scoped cold replay
+and strict canonical comparator also passed after installing the combined
+source. This corrects maintained-source overflow semantics without creating
+new exact function credit or asserting a whole-game build.
+
 ## 2026-11-11 RunEcl native integer opcode arithmetic
 
 Nine integer handlers in the shared `RunEcl` switch now explicitly use

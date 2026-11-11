@@ -34,6 +34,12 @@ the canonical ledgers. Git holds prior source revisions.
   were independently verified against original PE/actual COFF before rebinding.
   This is source-semantic progress, not a new exact function. See the
   2026-11-11 note in [knowledge](KNOWLEDGE_BASE.md).
+- **Enemy death-reward leaf arithmetic also uses native 32-bit words.**
+  All four reward interval/value/doubling paths now preserve original i386
+  word-wrap behavior even for extreme negative levels. Its dedicated source
+  carrier recompiled and canonical replay passed **1,142/1,142 exact bytes
+  and 39/39 relocations**. No exact-count change; see the 2026-11-11
+  [knowledge note](KNOWLEDGE_BASE.md).
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

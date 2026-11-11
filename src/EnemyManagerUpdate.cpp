@@ -112,8 +112,11 @@ void EnemyView::HandleDeathRewards(int hitKind)
         count = 50;
 
     EnemyRewardPlayerView *player = this->manager00->sideState320->rewardPlayer04;
+    // The native reward math uses modulo-32 arithmetic for negative levels
+    // too; preserve those bits without C++ signed-overflow behavior.
     int interval = player->rewardAttack30410.rewardLevel38 > 10
-        ? 60 : player->rewardAttack30410.rewardLevel38 * 3 + 30;
+        ? 60 : static_cast<int>(
+            static_cast<unsigned int>(player->rewardAttack30410.rewardLevel38) * 3u + 30u);
     int spread;
     if (((this->rewardFlags3380 >> 6) & 7u) != 0)
         spread = 0;
@@ -125,12 +128,14 @@ void EnemyView::HandleDeathRewards(int hitKind)
     int value;
     if (((this->rewardFlags3380 >> 6) & 7u) == 0)
         value = player->rewardAttack30410.rewardLevel38 > 100
-            ? 3000 : player->rewardAttack30410.rewardLevel38 * 30 + 10;
+            ? 3000 : static_cast<int>(
+                  static_cast<unsigned int>(player->rewardAttack30410.rewardLevel38) * 30u + 10u);
     else
         value = player->rewardAttack30410.rewardLevel38 > 50
-            ? 11000 : (player->rewardAttack30410.rewardLevel38 + 5) * 200;
+            ? 11000 : static_cast<int>(
+                  (static_cast<unsigned int>(player->rewardAttack30410.rewardLevel38) + 5u) * 200u);
     if (hitKind != 0)
-        value *= 2;
+        value = static_cast<int>(static_cast<unsigned int>(value) * 2u);
 
     player->rewardAttack30410.QueueEnemyReward(
         worldPosition, interval, spread, count, value);
