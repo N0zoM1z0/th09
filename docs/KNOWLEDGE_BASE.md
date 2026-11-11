@@ -532,6 +532,35 @@ operand-target checks and independent full byte equality proof for all
 83 exact functions. The nonexact Enemy boss is not promoted, and the
 native complete-product build remains open.
 
+## 2026-11-11 Player collision traversal native DWORD pointer steps
+
+The still-nonexact PlayerLifecycleView::CheckBulletCollision traverses the
+real Player active-region pointer list at +0xB100 and rereads the live
+null-terminated 32-bit pointer at each visit. Its previous C++ for-loop
+used ++slot pointer arithmetic, which could become undefined when the
+original list is corrupted or longer than its declared 514 slots.
+Retail i386 simply advances that real pointer address as a native
+modulo-32 4-byte word. The maintained loop now expresses that physical
+step without inventing a bounds check or changing the original per-region
+predicate, collision geometry, cancel effects or return branches.
+
+The independently exact FindCollisionAtPlayer uses the real Player
+collision query's 0x30-byte record layout and a signed count gate.
+The original i386 advances the physical query record address by 0x30
+bytes; the maintained loop now expresses this as a native modulo-32
+byte increment, while retaining the original signed i<count test, live
+record pointer accesses, exact laser/circle/box helpers, and hit returns.
+
+Three isolated/combined pinned VC7.1 experiments preserved the full
+**279-byte FindCollisionAtPlayer leaf / nine original relocations** and
+left the still-nonexact CheckBulletCollision owner at exactly its prior
+**849/862-byte source/target, 26 fields, 12 calls, 32/33 CFG blocks,
+799 overlapping differences and 13 missing original bytes**. The
+installed combined source passed canonical affected-only cold replay
+of the three real PlayerCollisionHelpers compiler profiles: **five
+complete byte-exact owners / 1,220 physical bytes / 32 real relocation
+fields**. No newly exact function or native whole-game closure follows.
+
 ## 2026-11-11 Player collision region pool native pointer and counter words
 
 `PlayerLifecycleView::AllocateCollisionRegion @ 0x0041CF30` is an

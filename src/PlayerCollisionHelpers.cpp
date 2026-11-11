@@ -36,7 +36,11 @@ int PlayerLifecycleView::CheckBulletCollision(
 
     PlayerCollisionRegionCreateRegionView **slot = activeB100;
 
-    for (; *slot != NULL; ++slot)
+    // Original i386 walks the actual active-region pointer words by native
+    // modulo-32 byte strides, preserving every live null test and lookup.
+    for (; *slot != NULL;
+         slot = reinterpret_cast<PlayerCollisionRegionCreateRegionView **>(
+            reinterpret_cast<unsigned int>(slot) + sizeof(*slot)))
     {
         PlayerCollisionRegionCreateRegionView *region = *slot;
         const int regionType = region->type38;
@@ -256,7 +260,11 @@ PlayerCollisionQueryRecordView *PlayerCollisionQueryStateView::FindCollisionAtPl
     player = player00;
     player->collisionBoundsMax1C6C = player->position1B88 + player->hurtboxHalfSize;
 
-    for (int i = 0; i < count1804; ++i, ++record)
+    // Retail traverses the real 0x30-byte collision records as unsigned
+    // Win32 byte addresses while keeping the original signed count gate.
+    for (int i = 0; i < count1804;
+         ++i, record = reinterpret_cast<PlayerCollisionQueryRecordView *>(
+            reinterpret_cast<unsigned int>(record) + sizeof(*record)))
     {
         int hit;
         if (record->radius24 == 0.0f)

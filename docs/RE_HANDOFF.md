@@ -313,6 +313,12 @@ the canonical ledgers. Git holds prior source revisions.
   32-bit byte math. Two EclManager carriers cold-pass 83 exact owners /
   29,856 bytes / 1,389 fields; eight private labels were PE/COFF-proven.
   The separate RunEcl remains nonexact by the same 30 register bytes.
+- **Player collision traversal now advances native pointer words.**
+  CheckBulletCollision walks the real active-region list with DWORD
+  byte steps and FindCollisionAtPlayer advances actual 0x30-byte query
+  records. Three affected compiler carriers pass five exact functions,
+  1,220 complete bytes and 32 relocations. The large collision owner
+  remains 849/862 bytes with its original 13 missing bytes/one CFG block.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
