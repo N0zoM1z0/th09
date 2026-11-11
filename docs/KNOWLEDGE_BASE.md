@@ -469,6 +469,40 @@ then passed two independent official scoped cold replays, one for each
 native compiler carrier, not a whole-game build. No new exact-function
 count, runtime semantics claim or unverified product closure is implied.
 
+## 2026-11-11 Enemy timeline native remote slots and wire-step address
+
+The independently exact `EnemyScheduleRuntimeView::Run @ 0x0040FCC0`
+executes variable-length native Enemy timeline instructions and uses the
+same actual nine remote-enemy pointer slots at
+`EnemyManagerView::remoteSlots2AC388` as the large Enemy/ECL owners.
+Opcode 8 writes to the selected remote enemy and opcode 10 tests the
+same remotely selected enemy twice with distinct live table reads. Their
+indices come from signed instruction operand words. The original i386
+computes each slot address from the real manager table base and
+`unsigned(index) * sizeof(Enemy *)` modulo 2^32, without a new bounds
+check. The maintained source now uses one genuine inline lvalue helper,
+retaining every original read, callback, branch and field write. It
+also advances the authentic variable-length `instruction20` through a
+native DWORD `original instruction pointer + live size06` byte address,
+rather than potentially out-of-bounds C++ pointer arithmetic. No
+instruction buffer, loop bound, RNG call or manager owner has changed.
+
+Five independent/combined pinned VC7.1 source probes first showed the
+same complete physical function extent and relocation count. Their
+renumbered compiler-private `$L` references were then independently
+proved against actual same-section COFF symbol definitions and original
+PE destinations: **all five candidate forms matched the original 974-byte
+code plus its 74-byte owned jump table (1,048 physical bytes / 42 target-
+bound relocation fields)**, and the accompanying exact 20-byte
+`ZunTimer::operator==(int)` helper remained completely exact. After
+installing the combined source, the one genuinely affected native
+compiler carrier passed canonical scoped cold replay of **2 exact
+functions / 1,068 complete physical bytes / 42 relocation fields**.
+The 19 private label spellings in the original-owner ledger were updated
+only after this PE/COFF/full-body proof. No newly exact owner or
+whole-product closure is claimed; the separate 3,900-byte Enemy
+OnUpdate boss retains its original unresolved 13 register bytes.
+
 ## 2026-11-11 Enemy OnUpdate native global schedule byte addressing
 
 The large `EnemyManagerView::OnUpdate @ 0x00410730` reads a byte from the

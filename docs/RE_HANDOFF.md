@@ -271,6 +271,12 @@ the canonical ledgers. Git holds prior source revisions.
   cold-pass 87 exact owners / 30,583 bytes / 1,409 fields; twenty private
   labels were independently COFF/PE-proven before rebinding. RunEcl's
   complete 15,564-byte/598-field owner keeps only its 30 old mismatches.
+- **Enemy timeline Run now uses native remote slots and bytecode advance.**
+  The same nine remote Enemy slots used by large Enemy/ECL owners and
+  the variable-length instruction pointer use real 32-bit byte addresses.
+  The one affected VC7.1 carrier cold-passes two exact functions,
+  1,068 complete bytes including the 74-byte original table, and
+  42 relocations; 19 private labels were independently PE/COFF-proven.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

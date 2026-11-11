@@ -65,6 +65,17 @@ extern float g_EnemyTimelineStep;
 extern unsigned char g_FrontMode0Done;
 extern RngRuntimeView g_Rng;
 
+// EX timeline opcodes 8/10 index the real nine EnemyManager remote
+// pointer slots using a signed wire word and original i386 DWORD stride.
+// Preserve all three live lvalue reads; do not cache or clamp the slot.
+static __forceinline EnemyView *&TimelineRemoteSlot(
+    EnemyManagerView *manager, int index)
+{
+    return *reinterpret_cast<EnemyView **>(
+        reinterpret_cast<unsigned int>(&manager->remoteSlots2AC388[0]) +
+        static_cast<unsigned int>(index) * sizeof(manager->remoteSlots2AC388[0]));
+}
+
 int EnemyScheduleRuntimeView::Run()
 {
     EnemyScheduleRuntimeAdvanceOverlay *runtime =
@@ -219,7 +230,7 @@ int EnemyScheduleRuntimeView::Run()
                 {
                     int *args8 = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) + 8);
-                    runtime->manager1C->remoteSlots2AC388[args8[0]]
+                    TimelineRemoteSlot(runtime->manager1C, args8[0])
                         ->pendingSubroutineId2D70 =
                             static_cast<short>(args8[1]);
                     break;
@@ -229,8 +240,8 @@ int EnemyScheduleRuntimeView::Run()
                 {
                     int *args10 = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) + 8);
-                    if (runtime->manager1C->remoteSlots2AC388[args10[0]] != 0 &&
-                        (runtime->manager1C->remoteSlots2AC388[args10[0]]->primaryFlags337C &
+                    if (TimelineRemoteSlot(runtime->manager1C, args10[0]) != 0 &&
+                        (TimelineRemoteSlot(runtime->manager1C, args10[0])->primaryFlags337C &
                          1u) != 0)
                     {
                         runtime->timer00--;
@@ -283,9 +294,12 @@ int EnemyScheduleRuntimeView::Run()
             break;
         }
 
+        // The original timeline instruction is a variable-length byte
+        // record. Advance the genuine live pointer as an i386 DWORD;
+        // the source record's size06 remains a separately reread byte.
         runtime->instruction20 = reinterpret_cast<EnemyTimelineInstructionView *>(
-            reinterpret_cast<unsigned char *>(runtime->instruction20) +
-            runtime->instruction20->size06);
+            reinterpret_cast<unsigned int>(runtime->instruction20) +
+            static_cast<unsigned int>(runtime->instruction20->size06));
     }
 
 finish:
