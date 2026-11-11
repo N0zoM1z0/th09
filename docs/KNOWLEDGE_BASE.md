@@ -1330,6 +1330,30 @@ zero-plus-memcpy seed locals did not close it. A wider SetSeed implementation
 can itself be byte-identical: callee bytes do not uniquely determine formal
 width. Keep the pre-runtime-read snapshot of side-0 value1E8.
 
+## 2026-11-11 native Title replay-record, path and allocation slots
+
+The complete, exact `TitleScreenView::OnUpdateReplayMenu @ 0x0042689A`
+uses three live allocations inside the same genuine Title object:
+`replays[50]` at `+0x68E4` with 0x1EC-byte wire records,
+`replayPaths[50][0x200]` at `+0x28C`, and `replayAllocations[50]`
+at `+0x681C` with genuine four-byte pointers. The maintained source now
+forms the original Win32 unsigned-DWORD `base + uint32(index)*stride`
+addresses for the dynamic scanned/selected replay metadata, string paths
+and owned pointers. The actual cursor and scan indices, repeat reads,
+file enumeration, allocation/free lifetime and failure branches are
+unchanged; there is no shadow pool or extra bounds gate.
+
+Isolated and combined VC7.1 /O1 `/Ob1` source probes retained the full
+**1,387/1,387-byte exact replay-menu update** and **1,825/1,825-byte
+exact replay-save update**, including their original relocations. The final
+source-cold replay checked both actually affected TitleScreen carriers:
+**41/41 exact functions, 18,972 complete original bytes and 953 relocation
+fields**. Nine `OnUpdateStartMenu` compiler-private `$L` names were updated
+only after confirming each actual COFF same-section definition, original
+PE destination and unchanged relocation offset/kind. This does not add
+new exact owner credit; the separate 484/485-byte `OnUpdateResult`
+remains nonexact by 218 overlapping bytes and one absent target byte.
+
 ## 2026-11-11 native Title score-name table bank/row/record addresses
 
 The original global `g_TitleNameTable @ 0x004A8398` is a three-level

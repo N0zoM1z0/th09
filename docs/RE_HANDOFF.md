@@ -53,8 +53,11 @@ Git retains earlier source revisions.
   Title owners (18,972 bytes / 953 fields) remain verified. Seven
   score-name table lvalues in two Title update owners now share real
   0x44C/0xDC/0x2C native bank/row/record strides; those 41 exact Title
-  functions still pass their two-carrier scoped cold replay. The standalone
-  Player movement boss now advances its real `0x2F4`-byte option records and
+  functions still pass their two-carrier scoped cold replay. Title replay
+  metadata, path and allocation indices now use the real 0x1EC/0x200/4-byte
+  record strides; the exact 1,387-byte replay-menu update and 1,825-byte
+  replay-save update remain byte-exact across those same 41 Title owners.
+  The standalone Player movement boss now advances its real `0x2F4`-byte option records and
   `0x0C`-byte position-history slots through native DWORD addresses; its
   full 1,900-byte, 66-field owner guard still reports just 122 differences.
   These patches preserved exact siblings but **did not** promote any of the twelve
