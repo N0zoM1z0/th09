@@ -195,6 +195,30 @@ not an integer array; an experimental arithmetic rewrite failed its real
 operator ABI and was not installed. This improves native script-pointer
 semantics but does not grant new exact owners or whole-game runtime proof.
 
+## 2026-11-11 native Background RenderObjects stage and VM record indices
+
+The original exact `Background::RenderObjects` (3,274 complete physical
+bytes) walks variable-length stage object instances and quad records.
+Its signed on-disk `instance->objectId` selects the original
+`Background::stageObjects` pointer allocation with **four-byte pointer
+slots**; the quad's signed `vmIndex` selects a genuine 0x2A4-byte
+`stageObjectVms` allocation, whose fields are shared with the exact
+ANM loader. Special-effect point publication uses the real inline
+`BackgroundSpecialEffectPoint[32]` records (0x0C-byte stride) in the
+same Background allocation. Both independent live reads of
+`specialEffectPointCount` remain at their original source positions.
+The maintained code forms all three lvalues as
+`uint32(real base) + uint32(live index) * sizeof(actual entry)`, without
+inventing a new guard, cache, object, or altered render/fog decision.
+
+Four individual and combined pinned VC7.1 compiler experiments preserved
+**3,274/3,274 full original PE bytes**. The installed combination passed
+the one actual `BackgroundRender.cpp` compiler carrier's scoped cold
+replay with **1/1 exact function, 3,274 complete bytes and 113
+original-bound relocation fields**. No private-label manifest rebindings
+were needed. This improves source-level native stage-memory semantics,
+not the number of exact functions, complete native product or runtime.
+
 ## 2026-11-11 native Background stage interpolation record indices
 
 The original `BackgroundStageView` owns three interpolation arrays:

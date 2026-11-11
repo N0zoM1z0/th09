@@ -207,7 +207,10 @@ int Background::RenderObjects(int mode)
 
     for (; instance->objectId >= 0; ++instance)
     {
-        object = this->stageObjects[instance->objectId];
+        // The script's signed object id indexes the original pointer table.
+        object = *reinterpret_cast<RawStageObject **>(
+            reinterpret_cast<unsigned int>(&this->stageObjects[0]) +
+            static_cast<unsigned int>(instance->objectId) * sizeof(this->stageObjects[0]));
         if (object->zLevel == mode)
         {
             quad = &object->firstQuad;
@@ -253,8 +256,10 @@ int Background::RenderObjects(int mode)
                  quad = reinterpret_cast<RawStageQuadBasic *>(
                      reinterpret_cast<u8 *>(quad) + quad->byteSize))
             {
+                // Real ANM VMs are 0x2A4-byte entries indexed by the wire VM id.
                 quadVm = reinterpret_cast<BackgroundRenderAnmVmView *>(
-                    &this->stageObjectVms[quad->vmIndex]);
+                    reinterpret_cast<unsigned int>(&this->stageObjectVms[0]) +
+                    static_cast<unsigned int>(quad->vmIndex) * sizeof(this->stageObjectVms[0]));
 
                 switch (quad->type)
                 {
@@ -377,12 +382,16 @@ int Background::RenderObjects(int mode)
                             this->skyFog.nearPlane > quadWidth &&
                             this->collectSpecialEffectPoints != 0)
                         {
-                            this->specialEffectPoints[
-                                this->specialEffectPointCount].point =
+                            (*reinterpret_cast<BackgroundSpecialEffectPoint *>(
+                                reinterpret_cast<unsigned int>(&this->specialEffectPoints[0]) +
+                                static_cast<unsigned int>(this->specialEffectPointCount) *
+                                    sizeof(this->specialEffectPoints[0]))).point =
                                     *reinterpret_cast<BackgroundPoint *>(
                                         &quadPosition);
-                            this->specialEffectPoints[
-                                this->specialEffectPointCount].point.z = 0.0f;
+                            (*reinterpret_cast<BackgroundSpecialEffectPoint *>(
+                                reinterpret_cast<unsigned int>(&this->specialEffectPoints[0]) +
+                                static_cast<unsigned int>(this->specialEffectPointCount) *
+                                    sizeof(this->specialEffectPoints[0]))).point.z = 0.0f;
                             ++this->specialEffectPointCount;
                         }
 

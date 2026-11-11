@@ -110,6 +110,9 @@ Git retains earlier source revisions.
   2,381-byte OnUpdate also computes its dynamic 0x2A4-byte HUD VM records
   natively; its create/callback side and auxiliary path indices join a
   one-carrier 15/15 exact replay (4,087 bytes / 176 relocation fields).
+  `Background::RenderObjects` now reads actual stage-object pointer slots,
+  0x2A4-byte VM entries and 0x0C-byte effect-point records by native
+  DWORD index addressing; its full 3,274-byte/113-field exact owner passes.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.
