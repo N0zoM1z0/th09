@@ -162,20 +162,25 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
         g_ReplayInputStates[1].Update();
         g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].Update();
 
+        // Each side is a native 0x8E-byte input-state record. Resolve the
+        // live i386 word-scaled address rather than a C++ array subscript.
         u8 *sideMode = g_GameManager.configurationE8->sideFocusMode;
         for (int side = 0; side < ReplayNativeInputGateCapacity::SideCount; side++, sideMode++)
         {
+            ReplayInputState &sideInput = *reinterpret_cast<ReplayInputState *>(
+                reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
+                static_cast<unsigned int>(side) * sizeof(g_ReplayInputStates[0]));
             if (*sideMode == 1)
             {
-                if (g_ReplayInputStates[side].IsHeld(1))
+                if (sideInput.IsHeld(1))
                 {
-                    g_ReplayInputStates[side].auxiliary2A++;
-                    if (g_ReplayInputStates[side].auxiliary2A >= 8)
-                        g_ReplayInputStates[side].auxiliary2A = 8;
+                    sideInput.auxiliary2A++;
+                    if (sideInput.auxiliary2A >= 8)
+                        sideInput.auxiliary2A = 8;
                 }
                 else
                 {
-                    g_ReplayInputStates[side].auxiliary2A = 0;
+                    sideInput.auxiliary2A = 0;
                 }
             }
         }
@@ -688,21 +693,25 @@ int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
     g_ReplayInputStates[1].Update();
     g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].Update();
 
+    // Frame-sync capture uses the same 0x8E-byte native side-state stride.
     int side = 0;
     GameConfiguration *inputGate = g_GameManager.configurationE8;
     for (; side < ReplayNativeInputGateCapacity::SideCount; side++)
     {
         if (inputGate != NULL && inputGate->sideFocusMode[side] == 1)
         {
-            if (g_ReplayInputStates[side].IsHeld(1))
+            ReplayInputState &sideInput = *reinterpret_cast<ReplayInputState *>(
+                reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
+                static_cast<unsigned int>(side) * sizeof(g_ReplayInputStates[0]));
+            if (sideInput.IsHeld(1))
             {
-                g_ReplayInputStates[side].auxiliary2A++;
-                if (g_ReplayInputStates[side].auxiliary2A >= 8)
-                    g_ReplayInputStates[side].auxiliary2A = 8;
+                sideInput.auxiliary2A++;
+                if (sideInput.auxiliary2A >= 8)
+                    sideInput.auxiliary2A = 8;
             }
             else
             {
-                g_ReplayInputStates[side].auxiliary2A = 0;
+                sideInput.auxiliary2A = 0;
             }
         }
     }

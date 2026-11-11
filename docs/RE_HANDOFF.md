@@ -29,7 +29,9 @@ Git retains earlier source revisions.
   Title, Effect, Sound, ANM, ExAttack, and Supervisor frame queues.
   Replay BeginRecordingStage now also uses native signed-stage strides for
   three frame-pointer rows, the FPS row and inline 0x18-byte buffer links;
-  its 1,323-byte owner and all 12 same-source exact units remain verified.
+  the two Replay focus loops now address their original 0x8E-byte side-state
+  records by native DWORD side strides. The 1,323-byte stage initializer and
+  all 12 same-source exact units (4,093 bytes / 232 fields) remain verified.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

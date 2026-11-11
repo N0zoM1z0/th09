@@ -1330,6 +1330,28 @@ each current COFF same-section definition and original PE operand target was
 verified before changing its manifest name. The source remains nonexact in
 the complete shake owner, and there is no new exact credit.
 
+## 2026-11-11 Replay focus side-state native address and exact carriers
+
+The exact `ReplayManagerView::PlaybackInputAndFps` (299 bytes) and
+`ReplayManagerView::CaptureFrameSyncState` (257 bytes) both update per-side
+focus history at the live `g_ReplayInputStates` base. They now form each
+`ReplayInputState` receiver with native i386 DWORD arithmetic:
+`uint32(side) * sizeof(ReplayInputState)` (actual size 0x8E), rather than
+`g_ReplayInputStates[side]` C++ indexing. The playback path retains its
+independent `sideFocusMode` cursor and the capture path retains the nullable
+configuration gate. Each continues to call `IsHeld(1)` and to read/update the
+original `auxiliary2A` word at +0x2A; no additional boundary or fallback
+behavior is added.
+
+Separate and combined VC7.1 source-cold tests preserve the **complete 299-
+and 257-byte owners and their 22+28 relocations**. The combined installed
+source passes the full **12 exact ReplayInput.cpp siblings / 4,093 physical
+bytes / 232 original-bound fields** on the two affected compiler profiles.
+The nonexact SaveReplay and BeginPlaybackStage retain their preexisting
+1,238/1,238-byte (two differences) and 538/540-byte (39 overlapping
+ordinary differences) frontiers. This is native source fidelity, not a newly
+exact function or product/runtime verification.
+
 ## Network queue and Replay input native frame addresses
 
 The real Supervisor frame queues occupy twenty 0x0C-byte entries
