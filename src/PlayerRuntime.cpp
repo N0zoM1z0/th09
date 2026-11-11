@@ -140,6 +140,15 @@ extern ZunMemory g_ZunMemory;
 
 extern float __fastcall PlayerSin(float value);
 
+// Original i386 index words address actual SHT, Player and callback tables
+// by Win32 modulo-32 physical byte strides, never via C++ array bounds.
+template <typename T>
+static __forceinline T &PlayerNativeWordSlot(T *base, unsigned int index)
+{
+    return *reinterpret_cast<T *>(
+        reinterpret_cast<unsigned int>(base) + index * sizeof(T));
+}
+
 static int LoadPlayerShtFile(PlayerShtFileView **header, const char *path)
 {
     int i;
@@ -157,19 +166,19 @@ static int LoadPlayerShtFile(PlayerShtFileView **header, const char *path)
 
     for (i = 0; i < (*header)->shotPowerLevelCount; ++i)
     {
-        reinterpret_cast<unsigned int &>((*header)->shotPowerLevels[i].descriptors) +=
+        reinterpret_cast<unsigned int &>(PlayerNativeWordSlot(&(*header)->shotPowerLevels[0], static_cast<unsigned int>(i)).descriptors) +=
             reinterpret_cast<unsigned int>(*header);
-        descriptor = (*header)->shotPowerLevels[i].descriptors;
+        descriptor = PlayerNativeWordSlot(&(*header)->shotPowerLevels[0], static_cast<unsigned int>(i)).descriptors;
         while (descriptor->fireInterval >= 0)
         {
             descriptor->spawnCallback =
-                g_PlayerShotSpawnCallbacks[reinterpret_cast<unsigned int>(descriptor->spawnCallback)];
+                PlayerNativeWordSlot(&g_PlayerShotSpawnCallbacks[0], reinterpret_cast<unsigned int>(descriptor->spawnCallback));
             descriptor->updateCallback =
-                g_PlayerShotUpdateCallbacks[reinterpret_cast<unsigned int>(descriptor->updateCallback)];
+                PlayerNativeWordSlot(&g_PlayerShotUpdateCallbacks[0], reinterpret_cast<unsigned int>(descriptor->updateCallback));
             descriptor->drawCallback =
-                g_PlayerShotDrawCallbacks[reinterpret_cast<unsigned int>(descriptor->drawCallback)];
+                PlayerNativeWordSlot(&g_PlayerShotDrawCallbacks[0], reinterpret_cast<unsigned int>(descriptor->drawCallback));
             descriptor->collisionCallback =
-                g_PlayerShotCollisionCallbacks[reinterpret_cast<unsigned int>(descriptor->collisionCallback)];
+                PlayerNativeWordSlot(&g_PlayerShotCollisionCallbacks[0], reinterpret_cast<unsigned int>(descriptor->collisionCallback));
             ++descriptor;
         }
     }
@@ -179,30 +188,30 @@ static int LoadPlayerShtFile(PlayerShtFileView **header, const char *path)
 int __fastcall PlayerLifecycleView::AddedCallback(PlayerLifecycleView *player)
 {
     PlayerSideStateView *sideState;
-    if (g_PlayerShtFilesBySide[player->sideIndex] != NULL)
+    if (PlayerNativeWordSlot(&g_PlayerShtFilesBySide[0], static_cast<unsigned int>(player->sideIndex)) != NULL)
     {
         if (player->sideState->shotType20 == player->sideState->previousShotType24)
         {
-            player->primaryShtFile = g_PlayerShtFilesBySide[player->sideIndex];
+            player->primaryShtFile = PlayerNativeWordSlot(&g_PlayerShtFilesBySide[0], static_cast<unsigned int>(player->sideIndex));
             goto resourceReady;
         }
     }
-    if (g_PlayerShtFilesBySide[player->sideIndex] != NULL)
-        g_ZunMemory.Free(g_PlayerShtFilesBySide[player->sideIndex]);
+    if (PlayerNativeWordSlot(&g_PlayerShtFilesBySide[0], static_cast<unsigned int>(player->sideIndex)) != NULL)
+        g_ZunMemory.Free(PlayerNativeWordSlot(&g_PlayerShtFilesBySide[0], static_cast<unsigned int>(player->sideIndex)));
 
     if (LoadPlayerShtFile(&player->primaryShtFile,
-                          g_PlayerResourcePaths[player->sideState->shotType20].shtPath) != 0)
+                          PlayerNativeWordSlot(&g_PlayerResourcePaths[0], static_cast<unsigned int>(player->sideState->shotType20)).shtPath) != 0)
         return -1;
-    g_PlayerShtFilesBySide[player->sideIndex] = player->primaryShtFile;
+    PlayerNativeWordSlot(&g_PlayerShtFilesBySide[0], static_cast<unsigned int>(player->sideIndex)) = player->primaryShtFile;
 
 resourceReady:
     sideState = player->sideState;
-    player->tableValue303F0 = g_PlayerTable303F0[sideState->shotType20];
-    player->tableValue303F4 = g_PlayerTable303F4[sideState->shotType20];
-    player->tableValue303F8 = g_PlayerTable303F8[sideState->shotType20];
-    player->tableValue303FC = g_PlayerTable303FC[sideState->shotType20];
-    player->tableValue30400 = g_PlayerTable30400[sideState->shotType20];
-    player->header24.anmFile98 = g_AnmManager->GetAnm(player->sideIndex + 5);
+    player->tableValue303F0 = PlayerNativeWordSlot(&g_PlayerTable303F0[0], static_cast<unsigned int>(sideState->shotType20));
+    player->tableValue303F4 = PlayerNativeWordSlot(&g_PlayerTable303F4[0], static_cast<unsigned int>(sideState->shotType20));
+    player->tableValue303F8 = PlayerNativeWordSlot(&g_PlayerTable303F8[0], static_cast<unsigned int>(sideState->shotType20));
+    player->tableValue303FC = PlayerNativeWordSlot(&g_PlayerTable303FC[0], static_cast<unsigned int>(sideState->shotType20));
+    player->tableValue30400 = PlayerNativeWordSlot(&g_PlayerTable30400[0], static_cast<unsigned int>(sideState->shotType20));
+    player->header24.anmFile98 = g_AnmManager->GetAnm(static_cast<int>(static_cast<unsigned int>(player->sideIndex) + 5u));
 
     PlayerShtFileView *sht = player->primaryShtFile;
     player->hurtboxHalfSize.y = sht->hurtboxSize * 0.5f;
@@ -217,7 +226,7 @@ resourceReady:
 
     player->scalar30388 = 100.0f;
     player->ownerState30410.owner00 = player;
-    player->ownerState30410.callback40 = g_PlayerCallback30450[sideState->shotType20];
+    player->ownerState30410.callback40 = PlayerNativeWordSlot(&g_PlayerCallback30450[0], static_cast<unsigned int>(sideState->shotType20));
     player->header24.state7C = 1;
     player->header24.state80 = 1;
     player->header24.selfLink78 = player;
@@ -226,8 +235,8 @@ resourceReady:
     player->header24.state8C = 0;
     player->header24.state90 = 0;
     player->header24.state94 = 0;
-    player->callback30404 = g_PlayerCallback30404[sideState->shotType20];
-    player->callback30408 = g_PlayerCallback30408[sideState->shotType20];
+    player->callback30404 = PlayerNativeWordSlot(&g_PlayerCallback30404[0], static_cast<unsigned int>(sideState->shotType20));
+    player->callback30408 = PlayerNativeWordSlot(&g_PlayerCallback30408[0], static_cast<unsigned int>(sideState->shotType20));
     player->InitializeAddedState();
     return 0;
 }

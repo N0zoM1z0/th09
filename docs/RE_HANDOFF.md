@@ -295,6 +295,13 @@ the canonical ledgers. Git holds prior source revisions.
   native modulo-32 pointer strides; the released/active counters wrap
   as original DWORD decrement/increment. One affected compiler carrier
   passes all eight exact functions / 477 bytes / 14 relocation fields.
+- **Player SHT and shot callback tables now use native DWORD addresses.**
+  The variable-length SHT power levels, two-side SHT cache, resource-path
+  rows, four shot callback tables, five shot-type parameter tables and
+  three Player callback tables all retain original live reads while using
+  native physical strides. Five affected compiler profiles cold-pass 21
+  exact owners / 5,391 bytes / 288 fields; eleven private labels
+  were independently PE/COFF-proven before rebinding.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

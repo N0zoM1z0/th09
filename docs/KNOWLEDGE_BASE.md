@@ -1340,6 +1340,46 @@ source then passed the canonical original-bound scoped cold replay of the
 physical bytes / zero relocation fields**. This does not promote any newly
 exact function or prove the full Windows i386 product is closed.
 
+## 2026-11-11 Player SHT loader and AddedCallback native table addresses
+
+The exact Player resource setup routines operate on the one actual
+SHT file allocation shared with the nonexact movement/ChargeAttack owners.
+The SHT header's shot-power-level table is physically variable-length,
+although its C++ view declares the first 0x08-byte entry only. The
+maintained LoadPlayerShtFile now obtains both original per-power-level
+descriptor pointers with native Win32 base + unsigned(i) * 8 addresses.
+It also resolves the four distinct shot callback pointer words from their
+actual global spawn/update/draw/collision tables using the original encoded
+32-bit descriptor index. The in-file descriptor relocation, four live
+callback reads, fire-interval loop and original allocated SHT owner are
+unchanged.
+
+The exact PlayerLifecycleView::AddedCallback now fetches, rechecks,
+releases and republishes the real two-side SHT pointer words through
+native modulo-32 byte addresses. It similarly reads the genuine 0x18-byte
+SHT resource path rows, five independent per-shot-type integer tables and
+three installed Player callback tables from their distinct original bases.
+The ANM slot argument's signed sideIndex + 5 is also explicitly summed
+as a 32-bit DWORD before passing the original signed ABI word. A small
+typed PlayerNativeWordSlot inline helper expresses these authentic
+physical lvalue addresses while retaining the original repeated side/type
+field reads, SHT reload, callbacks and VM initialization order; no input
+clamping, placeholder table or synthetic buffer is introduced.
+
+Independent source-cold pinned VC7.1 experiments verified four original
+table families and three more data/callback families individually and in
+combination. The 172-byte LoadPlayerShtFile owner (six fields) and the
+438-byte AddedCallback owner (20 fields) were each completely byte-exact
+under their original distinct profiles in every accepted variant.
+After installing the maintainable combined helper shape, independent
+real COFF/same-section private-label and PE-target-bound proof established
+**21 complete exact owners / 5,391 physical bytes / 288 original fields**
+in the five actually affected PlayerRuntime.cpp compiler carriers.
+Eleven internal compiler-private label name changes were rebound only after
+that full proof; canonical affected-only cold replay then passed. The large
+ChargeAttack/Movement owners and whole Windows i386 product remain open;
+no new exactness credit follows.
+
 ## 2026-11-11 Player ChargeAttack native input and focus-mode byte addresses
 
 `PlayerLifecycleView::UpdateChargeAttack @ 0x0041F810` is still an open
