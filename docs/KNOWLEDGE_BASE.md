@@ -634,6 +634,29 @@ cold replay, covering **16 exact functions**. This is native-source
 semantic fidelity for timer users, including gameplay Enemy updates,
 not newly exact-function or whole-product closure credit.
 
+## 2026-11-11 AnmManager surface arrays native pointer/descriptor addresses
+
+The eight exact `AnmManagerUtility.cpp` owners share an original
+`AnmManagerSurfaceView` overlay with four physically distinct arrays:
+32 D3D surface pointers at +0x123FC, 32 secondary surface pointers at
++0x1247C, 32 raw data pointers at +0x124FC, and 32 0x14-byte D3D surface
+information records at +0x125FC. The maintained source previously
+used signed `surfaceIndex` as a C++ array subscript on those allocations,
+which is undefined for out-of-range signed selectors. Their native i386
+addresses are instead 32-bit `real array base + unsigned(selector) *
+sizeof(actual element)` words, with no extra bounds gate. One
+`NativeAnmSurfaceSlot` inline lvalue helper now expresses this original
+addressing while preserving all 33 live, repeated reads and writes,
+actual D3D COM method calls, failure checks, texture owners and original
+releases/RT fallback chronology.
+
+Four independent per-array source-cold VC7.1 probes and their combined
+variant reproduced **all eight complete original function bodies:
+1,723/1,723 bytes and 49/49 original-bound relocation fields**. The
+installed native combined source then passed the canonical scoped cold
+replay of the sole affected AnmManagerUtility compiler carrier. No
+newly exact owner or complete-product build is claimed.
+
 ## 2026-11-11 ANM SetSprite native 0x44-byte sprite address
 
 The original exact `AnmLoaded::SetSprite @ 0x00436AC0` loads a dynamic

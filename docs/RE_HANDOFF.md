@@ -253,6 +253,11 @@ the canonical ledgers. Git holds prior source revisions.
   cold-pass 83 exact owners / 29,856 bytes / 1,389 fields; eight private
   labels were independently PE/COFF-proven before rebinding. RunEcl stays
   15,564 bytes/598 fields with exactly the old 30 opcode-4/155 differences.
+- **AnmManager surface tables now use native pointer/descriptor strides.**
+  Thirty-three live accesses across four actual 32-slot allocations
+  form original modulo-32 byte addresses, preserving distinct 0x04 and
+  0x14 element strides. Its sole affected VC7.1 compiler carrier
+  cold-passes all eight exact function owners (1,723 bytes, 49 fields).
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

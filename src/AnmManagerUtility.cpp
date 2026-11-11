@@ -95,6 +95,18 @@ static __inline AnmSurfaceSlotView *SurfaceSlots(AnmManager *manager)
     return reinterpret_cast<AnmSurfaceSlotView *>(manager);
 }
 
+// The four original Manager surface arrays have different real bases and
+// strides (0x04-byte pointers versus 0x14-byte D3D descriptors). Keep every
+// repeated source read, but use Win32 modulo-32 address math for the signed
+// surface selector instead of out-of-bounds C++ indexing.
+template <typename T>
+static __forceinline T &NativeAnmSurfaceSlot(T *records, int index)
+{
+    return *reinterpret_cast<T *>(
+        reinterpret_cast<unsigned int>(records) +
+        static_cast<unsigned int>(index) * sizeof(T));
+}
+
 void AnmManager::DrawTextInner(
     IDirect3DTexture8 *outTexture, int x, int y, int width, int height,
     int fontWidth, int fontHeight, unsigned long textColor,
@@ -173,25 +185,25 @@ void AnmManager::DrawTextCentered(
 void AnmManager::ReleaseSurface(int surfaceIndex)
 {
     AnmManagerSurfaceView *manager = SurfaceManager(this);
-    if (manager->surfaces[surfaceIndex] != NULL)
+    if (NativeAnmSurfaceSlot(manager->surfaces, surfaceIndex) != NULL)
     {
-        manager->surfaces[surfaceIndex]->Release();
-        manager->surfaces[surfaceIndex] = NULL;
+        NativeAnmSurfaceSlot(manager->surfaces, surfaceIndex)->Release();
+        NativeAnmSurfaceSlot(manager->surfaces, surfaceIndex) = NULL;
     }
-    if (manager->surfacesBis[surfaceIndex] != NULL)
+    if (NativeAnmSurfaceSlot(manager->surfacesBis, surfaceIndex) != NULL)
     {
-        manager->surfacesBis[surfaceIndex]->Release();
-        manager->surfacesBis[surfaceIndex] = NULL;
+        NativeAnmSurfaceSlot(manager->surfacesBis, surfaceIndex)->Release();
+        NativeAnmSurfaceSlot(manager->surfacesBis, surfaceIndex) = NULL;
     }
-    if (manager->surfaceData[surfaceIndex] != NULL)
-        g_ZunMemory.Free(manager->surfaceData[surfaceIndex]);
-    manager->surfaceData[surfaceIndex] = NULL;
+    if (NativeAnmSurfaceSlot(manager->surfaceData, surfaceIndex) != NULL)
+        g_ZunMemory.Free(NativeAnmSurfaceSlot(manager->surfaceData, surfaceIndex));
+    NativeAnmSurfaceSlot(manager->surfaceData, surfaceIndex) = NULL;
 }
 
 void AnmManager::CopySurfaceToBackbuffer(
     int surfaceIndex, int left, int top, int x, int y)
 {
-    if (reinterpret_cast<AnmManagerSurfaceView *>(this)->surfacesBis[surfaceIndex] == NULL)
+    if (NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfacesBis, surfaceIndex) == NULL)
         return;
 
     IDirect3DSurface8 *destSurface;
@@ -199,28 +211,28 @@ void AnmManager::CopySurfaceToBackbuffer(
             0, D3DBACKBUFFER_TYPE_MONO, &destSurface) != D3D_OK)
         return;
 
-    if (reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex] == NULL)
+    if (NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces, surfaceIndex) == NULL)
     {
         if (g_Supervisor.d3dDevice08->CreateRenderTarget(
-                reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Width,
-                reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Height,
+                NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo, surfaceIndex).Width,
+                NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo, surfaceIndex).Height,
                 g_Supervisor.presentParameters350.BackBufferFormat,
                 D3DMULTISAMPLE_NONE, TRUE,
-                &reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex]) != D3D_OK)
+                &NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces, surfaceIndex)) != D3D_OK)
         {
             if (g_Supervisor.d3dDevice08->CreateImageSurface(
-                    reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Width,
-                    reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Height,
+                    NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo, surfaceIndex).Width,
+                    NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo, surfaceIndex).Height,
                     g_Supervisor.presentParameters350.BackBufferFormat,
-                    &reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex]) != D3D_OK)
+                    &NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces, surfaceIndex)) != D3D_OK)
             {
                 destSurface->Release();
                 return;
             }
         }
         if (D3DXLoadSurfaceFromSurface(
-                reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex], NULL, NULL,
-                reinterpret_cast<AnmManagerSurfaceView *>(this)->surfacesBis[surfaceIndex], NULL, NULL, 1, 0) != D3D_OK)
+                NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces, surfaceIndex), NULL, NULL,
+                NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfacesBis, surfaceIndex), NULL, NULL, 1, 0) != D3D_OK)
         {
             destSurface->Release();
             return;
@@ -231,12 +243,12 @@ void AnmManager::CopySurfaceToBackbuffer(
     POINT destPoint;
     sourceRect.left = left;
     sourceRect.top = top;
-    sourceRect.right = reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Width;
-    sourceRect.bottom = reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Height;
+    sourceRect.right = NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo, surfaceIndex).Width;
+    sourceRect.bottom = NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo, surfaceIndex).Height;
     destPoint.x = x;
     destPoint.y = y;
     g_Supervisor.d3dDevice08->CopyRects(
-        reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex], &sourceRect, 1, destSurface,
+        NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces, surfaceIndex), &sourceRect, 1, destSurface,
         &destPoint);
     destSurface->Release();
 }
@@ -245,7 +257,7 @@ void AnmManager::CopySurfaceToBackbuffer2(
     int surfaceIndex, int rectX, int rectY, int rectLeft, int rectTop,
     int width, int height)
 {
-    if (reinterpret_cast<AnmManagerSurfaceView *>(this)->surfacesBis[surfaceIndex] == NULL)
+    if (NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfacesBis, surfaceIndex) == NULL)
         return;
 
     IDirect3DSurface8 *backbuffer;
@@ -253,28 +265,28 @@ void AnmManager::CopySurfaceToBackbuffer2(
             0, D3DBACKBUFFER_TYPE_MONO, &backbuffer) != D3D_OK)
         return;
 
-    if (reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex] == NULL)
+    if (NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces, surfaceIndex) == NULL)
     {
         if (g_Supervisor.d3dDevice08->CreateRenderTarget(
-                reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Width,
-                reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Height,
+                NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo, surfaceIndex).Width,
+                NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo, surfaceIndex).Height,
                 g_Supervisor.presentParameters350.BackBufferFormat,
                 D3DMULTISAMPLE_NONE, TRUE,
-                &reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex]) != D3D_OK)
+                &NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces, surfaceIndex)) != D3D_OK)
         {
             if (g_Supervisor.d3dDevice08->CreateImageSurface(
-                    reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Width,
-                    reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo[surfaceIndex].Height,
+                    NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo, surfaceIndex).Width,
+                    NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaceInfo, surfaceIndex).Height,
                     g_Supervisor.presentParameters350.BackBufferFormat,
-                    &reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex]) != D3D_OK)
+                    &NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces, surfaceIndex)) != D3D_OK)
             {
                 backbuffer->Release();
                 return;
             }
         }
         if (D3DXLoadSurfaceFromSurface(
-                reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex], NULL, NULL,
-                reinterpret_cast<AnmManagerSurfaceView *>(this)->surfacesBis[surfaceIndex], NULL, NULL, 1, 0) != D3D_OK)
+                NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces, surfaceIndex), NULL, NULL,
+                NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfacesBis, surfaceIndex), NULL, NULL, 1, 0) != D3D_OK)
         {
             backbuffer->Release();
             return;
@@ -290,7 +302,7 @@ void AnmManager::CopySurfaceToBackbuffer2(
     point.x = rectX;
     point.y = rectY;
     g_Supervisor.d3dDevice08->CopyRects(
-        reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces[surfaceIndex], &rect, 1, backbuffer, &point);
+        NativeAnmSurfaceSlot(reinterpret_cast<AnmManagerSurfaceView *>(this)->surfaces, surfaceIndex), &rect, 1, backbuffer, &point);
     backbuffer->Release();
 }
 
