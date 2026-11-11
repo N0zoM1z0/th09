@@ -277,6 +277,12 @@ the canonical ledgers. Git holds prior source revisions.
   The one affected VC7.1 carrier cold-passes two exact functions,
   1,068 complete bytes including the 74-byte original table, and
   42 relocations; 19 private labels were independently PE/COFF-proven.
+- **SoundPlayer LoadSound uses real native 128-buffer pointer addresses.**
+  All six signed SFX index lvalues use original modulo-32 index*4 byte
+  math; every DirectSound method/field read remains live. Eight affected
+  VC7.1 profiles cold-pass 20 exact owners / 5,400 full bytes / 184
+  fields, including the original owned ProcessQueues switch table.
+  Eleven private-label names were independently PE/COFF-proven.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

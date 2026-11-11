@@ -697,6 +697,33 @@ cold replay, covering **16 exact functions**. This is native-source
 semantic fidelity for timer users, including gameplay Enemy updates,
 not newly exact-function or whole-product closure credit.
 
+## 2026-11-11 SoundPlayer LoadSound native DirectSound buffer slot lvalues
+
+`SoundPlayer::LoadSound @ 0x0043E770` reads and writes the genuine
+128-entry `SoundPlayer::soundBuffers` pointer table inside the original
+0x6224-byte SoundPlayer allocation. Its incoming signed `index` is used
+without a new guard in retail i386; six distinct accesses form the
+actual physical slot address as `&soundBuffers[0] + index * 4` using
+modulo-32 byte arithmetic. Previously the maintained C++ used the
+potentially out-of-bounds signed `soundBuffers[index]` subscript. One
+`NativeActiveSound` inline lvalue now preserves the real buffer pointer
+base, the six live reads/writes, existing releases and overwrites,
+DirectSound `CreateSoundBuffer`, `Lock` and `Unlock` calls, and the real
+WAV format ownership. It neither caches/omits any original dereference
+nor adds an index clamp, allocation or alternate DirectSound object.
+
+Direct native-address, inline lvalue and local-reference pinned VC7.1
+source probes each reproduced the complete **614-byte original LoadSound
+body and all 30 true relocation fields**. The installed inline version
+passed the complete original-bound scoped cold replay of the **eight
+actually affected SoundPlayer compiler profiles: 20 exact owners,
+5,400 full physical bytes and 184 relocation fields**. Eleven compiler-
+private `$L` labels in the already-exact ProcessQueues owner were
+rebound only after independent same-section COFF symbol definitions,
+original PE destination/addend checks and complete byte equality of
+all 20 owners, including its owned switch table. No newly exact
+function or whole-product closure is claimed.
+
 ## 2026-11-11 AnmManager surface arrays native pointer/descriptor addresses
 
 The eight exact `AnmManagerUtility.cpp` owners share an original

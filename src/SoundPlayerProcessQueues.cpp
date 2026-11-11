@@ -180,6 +180,18 @@ int SoundPlayer::InitSoundBuffers()
     return 0;
 }
 
+
+// Original i386 builds each active-sound slot address from the real 128
+// DirectSound pointers, using modulo-32 index*4 byte arithmetic. Do not
+// replace the six genuine live reads or add a new index guard.
+static __forceinline LPDIRECTSOUNDBUFFER &NativeActiveSound(
+    SoundPlayer *player, int index)
+{
+    return *reinterpret_cast<LPDIRECTSOUNDBUFFER *>(
+        reinterpret_cast<unsigned int>(&player->soundBuffers[0]) +
+        static_cast<unsigned int>(index) * sizeof(player->soundBuffers[0]));
+}
+
 int SoundPlayer::LoadSound(int index, char *path)
 {
     unsigned char *soundFileData;
@@ -197,10 +209,10 @@ int SoundPlayer::LoadSound(int index, char *path)
     if (this->manager == NULL)
         return 0;
 
-    if (this->soundBuffers[index] != NULL)
+    if (NativeActiveSound(this, index) != NULL)
     {
-        this->soundBuffers[index]->Release();
-        this->soundBuffers[index] = NULL;
+        NativeActiveSound(this, index)->Release();
+        NativeActiveSound(this, index) = NULL;
     }
 
     soundFileData = FileSystem::OpenFile(path, NULL, 0);
@@ -251,13 +263,13 @@ int SoundPlayer::LoadSound(int index, char *path)
     soundBufferDesc.dwBufferBytes = formatSize;
     soundBufferDesc.lpwfxFormat = &wavData;
     if (FAILED(this->dsoundHdl->CreateSoundBuffer(
-            &soundBufferDesc, &this->soundBuffers[index], NULL)))
+            &soundBufferDesc, &NativeActiveSound(this, index), NULL)))
     {
         g_ZunMemory.Free(soundFileData);
         return -1;
     }
 
-    if (FAILED(this->soundBuffers[index]->Lock(
+    if (FAILED(NativeActiveSound(this, index)->Lock(
             0,
             formatSize,
             reinterpret_cast<LPVOID *>(&audioPtr1),
@@ -274,7 +286,7 @@ int SoundPlayer::LoadSound(int index, char *path)
     if (audioSize2 != 0)
         CopyMemory(audioPtr2, reinterpret_cast<char *>(wavDataPtr) + audioSize1, audioSize2);
 
-    this->soundBuffers[index]->Unlock(audioPtr1, audioSize1, audioPtr2, audioSize2);
+    NativeActiveSound(this, index)->Unlock(audioPtr1, audioSize1, audioPtr2, audioSize2);
     g_ZunMemory.Free(soundFileData);
     return 0;
 }
