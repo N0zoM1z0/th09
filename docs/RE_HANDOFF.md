@@ -125,6 +125,10 @@ Git retains earlier source revisions.
   config/history accesses; two impacted compiler carriers protect both
   exact functions (3,650 full bytes / 154 fields), including 18 independently
   verified private-label rebindings in ResolvePatternOffset.
+  The 209-byte DrawMusicRoom leaf now reads/writes the selected actual
+  0x2A4-byte song VM through native DWORD addresses; the same-source
+  2,258-byte OnUpdateMusicRoom remains exact, with 2/2 owners and
+  2,467 full bytes / 80 fields scoped cold-verified.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

@@ -403,21 +403,28 @@ common_tail:
 #undef TH09_MUSIC_NATIVE_TRACK
 #undef TH09_MUSIC_NATIVE_UNLOCK
 
+// The selected-song VM is a live 0x2A4-byte AnmVm entry in the genuine
+// TitleScreen VM allocation. Keep every read/write at its original site.
+#define TH09_MUSIC_DRAW_NATIVE_VM(index) \
+    (*reinterpret_cast<AnmVm *>( \
+        reinterpret_cast<unsigned int>(&vms[0]) + \
+        static_cast<unsigned int>(index) * sizeof(vms[0])))
+
 int TitleScreenView::DrawMusicRoom()
 {
     if (currentScreenState == 1)
     {
         i32 songVmIndex = musicSelectedSongIndex + 159;
-        Float3 savedPosition = vms[songVmIndex].pos;
-        u32 savedColor = vms[songVmIndex].color1;
+        Float3 savedPosition = TH09_MUSIC_DRAW_NATIVE_VM(songVmIndex).pos;
+        u32 savedColor = TH09_MUSIC_DRAW_NATIVE_VM(songVmIndex).color1;
 
-        vms[songVmIndex].color1 = 0xFFFFFFFF;
-        vms[songVmIndex].pos.x = 208.0f;
-        vms[songVmIndex].pos.y = 293.0f;
-        g_AnmManager->DrawNoRotation(&vms[songVmIndex]);
+        TH09_MUSIC_DRAW_NATIVE_VM(songVmIndex).color1 = 0xFFFFFFFF;
+        TH09_MUSIC_DRAW_NATIVE_VM(songVmIndex).pos.x = 208.0f;
+        TH09_MUSIC_DRAW_NATIVE_VM(songVmIndex).pos.y = 293.0f;
+        g_AnmManager->DrawNoRotation(&TH09_MUSIC_DRAW_NATIVE_VM(songVmIndex));
 
-        vms[songVmIndex].pos = savedPosition;
-        vms[songVmIndex].color1 = savedColor;
+        TH09_MUSIC_DRAW_NATIVE_VM(songVmIndex).pos = savedPosition;
+        TH09_MUSIC_DRAW_NATIVE_VM(songVmIndex).color1 = savedColor;
 
         for (i32 i = 0; i < 8; ++i)
             g_AnmManager->DrawNoRotation(&embeddedVms[49 + i]);
@@ -425,3 +432,5 @@ int TitleScreenView::DrawMusicRoom()
 
     return 1;
 }
+
+#undef TH09_MUSIC_DRAW_NATIVE_VM

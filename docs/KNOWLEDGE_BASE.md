@@ -301,6 +301,28 @@ private `$L` references, rebound only after verifying actual same-section
 COFF definitions, unchanged offsets/types and original PE jump targets.
 No new exact owner or Windows native runtime credit is claimed.
 
+## 2026-11-11 native MusicRoom selected-song VM lvalues
+
+The original `TitleScreenView::DrawMusicRoom` is a fully exact 209-byte
+leaf. It reads and temporarily changes a live selected-song ANM VM
+at `vms[musicSelectedSongIndex + 159]` and restores its original color
+and position after the draw. The maintained source now forms **eight
+independent reads/writes/call receivers** from the real TitleScreen
+`AnmVm` allocation via `uint32(&vms[0]) + uint32(songVmIndex)*0x2A4`,
+using the canonical `sizeof(AnmVm) == 0x2A4` layout with no new bounds
+gate, cached VM pointer, caller, or changed save/draw/restore order.
+
+During the same targeted research the 2,258-byte `OnUpdateMusicRoom`
+was separately probed with signed script-record, native music-track,
+help-VM and track-list edits. Those variants differed only in four
+x86 SIB base/index order bytes (`[eax+edi+disp]` vs
+`[edi+eax+disp]`) or additional codegen, so were *not installed*;
+the exact update owner is still protected. The accepted DrawMusicRoom
+edit passed one original-bound two-unit scoped VC7.1 replay:
+**2/2 exact functions, 2,467 complete bytes and 80 original relocations**,
+including 209/209 DrawMusicRoom bytes. No new exact owner or original
+Windows product/runtime credit was claimed.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.
