@@ -76,6 +76,17 @@ static __forceinline EnemyView *&TimelineRemoteSlot(
         static_cast<unsigned int>(index) * sizeof(manager->remoteSlots2AC388[0]));
 }
 
+// Timeline opcodes 13/14 traverse the actual four EnemyManager event
+// DWORDs at +0x2AC430 using native index-scaled 32-bit addresses.
+static __forceinline int &NativeEnemyTimelineEvent(
+    EnemyManagerView *manager, unsigned int index)
+{
+    return *reinterpret_cast<int *>(
+        reinterpret_cast<unsigned char *>(&manager->timelineEventSlots2AC430[0]) +
+        static_cast<unsigned int>(index) *
+            sizeof(manager->timelineEventSlots2AC430[0]));
+}
+
 int EnemyScheduleRuntimeView::Run()
 {
     EnemyScheduleRuntimeAdvanceOverlay *runtime =
@@ -255,13 +266,13 @@ int EnemyScheduleRuntimeView::Run()
                     int matchCount = 0;
                     for (unsigned int i = 0; i < 4; ++i)
                     {
-                        if (runtime->manager1C->timelineEventSlots2AC430[i] ==
+                        if (NativeEnemyTimelineEvent(runtime->manager1C, i) ==
                             reinterpret_cast<int *>(
                                 reinterpret_cast<unsigned char *>(
                                     runtime->instruction20) + 8)[0])
                         {
                             ++matchCount;
-                            runtime->manager1C->timelineEventSlots2AC430[i] = -1;
+                            NativeEnemyTimelineEvent(runtime->manager1C, i) = -1;
                         }
                     }
                     if (matchCount == 0)
@@ -275,9 +286,9 @@ int EnemyScheduleRuntimeView::Run()
                 case 14:
                     for (unsigned int j = 0; j < 4; ++j)
                     {
-                        if (runtime->manager1C->timelineEventSlots2AC430[j] >= 0)
+                        if (NativeEnemyTimelineEvent(runtime->manager1C, j) >= 0)
                             continue;
-                        runtime->manager1C->timelineEventSlots2AC430[j] =
+                        NativeEnemyTimelineEvent(runtime->manager1C, j) =
                             reinterpret_cast<int *>(
                                 reinterpret_cast<unsigned char *>(
                                     runtime->instruction20) + 8)[0];

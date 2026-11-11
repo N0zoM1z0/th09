@@ -339,6 +339,31 @@ only after this PE/COFF/full-body proof. No newly exact owner or
 whole-product closure is claimed; the separate 3,900-byte Enemy
 OnUpdate boss retains its original unresolved 13 register bytes.
 
+## Enemy timeline opcode 13/14 native event-slot words
+
+The existing exact EnemyScheduleRuntimeView::Run owner at 0x0040FCC0
+has a 974-byte function body and 74-byte owned switch table. Its
+opcodes 13 and 14 enumerate the real four DWORD event slots within
+EnemyManagerView at +0x2AC430, testing for an instruction event,
+clearing matched slots, or filling each available negative slot.
+The maintained source now forms each word's original Win32 address
+as a native byte pointer to the actual manager slot allocation plus
+uint32(cursor)*sizeof(int); no separate event table, new bounds
+guard, read caching, reordering, or loop break is introduced.
+
+Pinned VC7.1 /O2 /Ob1 probes of direct DWORD/byte/char addressing and
+the shared native helper reproduced the entire original
+1,048-byte owner and **42 reviewed relocation fields**, including the
+switch table. Compiler-private $L spellings can change when this TU
+is rebuilt; those must be proved against same-section COFF definitions,
+actual original PE operands and full bytes before rebinding. The
+actual cold compiler carrier passed **2/2 exact owners: 1,068 full
+original bytes and 42 relocation fields**. Nineteen proven private
+$L symbol spellings were rebound without altering their offsets,
+addends or original target destinations. The independently exact
+20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
+a fidelity improvement to existing exact functions, not new credit.
+
 ## 2026-11-11 RunEcl and PopContext native child/stack record addresses
 
 The exact 147-byte `Th09EclRunControl::PopContext` and still-nonexact
