@@ -293,6 +293,17 @@ typedef char EnemyCoreCalcNativePoolAndFields[
      offsetof(EnemyView, shootIntervalFrames30B4) == 0x30B4 &&
      offsetof(EnemyView, trailSamples33E8) == 0x33E8) ? 1 : -1];
 
+// Script-controlled trail lengths index the real 0x1C-byte Enemy sample
+// records as native Win32 byte addresses. No C++ array bounds gate is added.
+static __forceinline EnemyTrailSampleView &NativeEnemyTrailSample(
+    EnemyView *enemy, int index)
+{
+    return *reinterpret_cast<EnemyTrailSampleView *>(
+        reinterpret_cast<unsigned char *>(&enemy->trailSamples33E8[0]) +
+        static_cast<unsigned int>(index) *
+            sizeof(enemy->trailSamples33E8[0]));
+}
+
 int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
 {
     int bombHit = 0;
@@ -500,12 +511,12 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 for (trailIndex = enemy->trailHistoryLength53A2 - 1;
                      trailIndex > 0; --trailIndex)
                 {
-                    enemy->trailSamples33E8[trailIndex].position00 =
-                        enemy->trailSamples33E8[trailIndex - 1].position00;
-                    enemy->trailSamples33E8[trailIndex].velocity0C =
-                        enemy->trailSamples33E8[trailIndex - 1].velocity0C;
-                    enemy->trailSamples33E8[trailIndex].angle18 =
-                        enemy->trailSamples33E8[trailIndex - 1].angle18;
+                    NativeEnemyTrailSample(enemy, trailIndex).position00 =
+                        NativeEnemyTrailSample(enemy, trailIndex - 1).position00;
+                    NativeEnemyTrailSample(enemy, trailIndex).velocity0C =
+                        NativeEnemyTrailSample(enemy, trailIndex - 1).velocity0C;
+                    NativeEnemyTrailSample(enemy, trailIndex).angle18 =
+                        NativeEnemyTrailSample(enemy, trailIndex - 1).angle18;
                 }
                 enemy->trailSamples33E8[0].position00 =
                     reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4);
@@ -549,10 +560,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                         enemy->primaryAnmVm0008.loadedSprite->widthPx,
                         enemy->primaryAnmVm0008.loadedSprite->heightPx) &&
                      !g_GameManager.IsWithinPlayfield(
-                        enemy->trailSamples33E8[
-                            enemy->trailHistoryLength53A2 - 1].position00.x,
-                        enemy->trailSamples33E8[
-                            enemy->trailHistoryLength53A2 - 1].position00.y,
+                        NativeEnemyTrailSample(enemy, enemy->trailHistoryLength53A2 - 1).position00.x,
+                        NativeEnemyTrailSample(enemy, enemy->trailHistoryLength53A2 - 1).position00.y,
                         enemy->primaryAnmVm0008.loadedSprite->widthPx,
                         enemy->primaryAnmVm0008.loadedSprite->heightPx)))
                 {

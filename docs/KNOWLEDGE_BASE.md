@@ -586,6 +586,38 @@ Moving the side reference before the position copy changed literal ordering
 and worsened the comparison; the strict literal check rejected it. An alias
 rename alone is not a new codegen hypothesis.
 
+## Enemy OnUpdate native history-shift and tail sample words
+
+The still-nonexact 3,900-byte EnemyManagerView::OnUpdate has a
+script-controlled signed trail length. Its six history-shift
+position/velocity/angle reads and writes, plus two last-sample
+in-bounds tests, use the real EnemyView trailSamples33E8 array
+of 0x1C-byte records. The maintained source now uses the actual
+byte pointer to this native Enemy suballocation and a wrapping
+uint32(index) * sizeof(sample) offset. Both trailIndex and
+trailHistoryLength53A2 - 1 retain their original signed operands,
+without introducing a C++ subscript's bounds requirement, clamping,
+or a separate trail allocation. The earlier collision append already
+uses its original native sample address and is unchanged.
+
+A pinned VC7.1 diagnostic tested all eight sites individually
+and in history/tail groups with typed char, byte, and integer base
+addresses. The natural byte-pointer form (including one inline
+shared accessor) retained **all 3,900 physical bytes, 97 original
+relocation fields, 69 calls, 170 blocks and precisely the preexisting
+13 unmatched register bytes**. An integer-cast base displaced original
+literal operand fields and was rejected. This is faithful Enemy
+history layout recovery, not Enemy OnUpdate exact promotion.
+
+The installed /Ob0 and /Ob1 include-consumer compiler carriers passed
+cold replay of **83 existing exact owners, 29,856 full original
+bytes, and 1,389 relocation fields**. Two private VC7.1 $L names
+changed in the exact CompareOperands and post-update movement owners.
+Their actual same-section COFF labels, unchanged original PE operand
+addresses and the entire 83-owner physical byte corpus were
+independently proved equal before updating the two manifest spellings.
+
+
 ## Enemy OnUpdate native trail collision sample address
 
 The nonexact `EnemyManagerView::OnUpdate` traverses the native 96-entry
