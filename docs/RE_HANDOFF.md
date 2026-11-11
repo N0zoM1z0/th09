@@ -227,6 +227,12 @@ the canonical ledgers. Git holds prior source revisions.
   both use signed-index-as-DWORD * 4 byte offsets; their separate source
   cold replays pass four original exact functions / 147 bytes / two
   relocations, without changing lookup or initialization behavior.
+- **RunEcl and PopContext now use native child/context-stack addresses.**
+  Live child-slot reads and 0x22C-stride call stack accesses form original
+  32-bit byte addresses; child iteration increments wrap natively. Two
+  affected EclManager profiles cold-pass 83 exact owners / 29,856 bytes /
+  1,389 fields after proving 20 compiler-private label renamings. RunEcl
+  retains only its original 30 opcode 4/155 bytes of difference.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

@@ -560,6 +560,34 @@ retained the 51-byte callback's eight differences or regressed to eleven.
 The exact FrontAddedCallback's analogous ANM preload pattern was reviewed,
 but it does not alone reproduce the small Effect callback's register schedule.
 
+## 2026-11-11 RunEcl and PopContext native child/stack record addresses
+
+The exact 147-byte `Th09EclRunControl::PopContext` and still-nonexact
+15,564-byte `RunEcl` share one genuine EnemyView allocation, including
+four 32-bit child ECL pointers at +0x33D8 and a 0x22C-byte context stack
+whose base is read live from +0x2CE4. The original VC7.1 code addresses
+these fields with native modulo-32 byte offsets from signed child index
+and signed-short call depth. The maintained `EclManager.cpp` now reuses
+the independently verified `Th09EclRunState::ChildSlotRef` for all three
+PopContext child accesses and three RunEcl current/next child reads, and
+explicitly scales the three call-stack entry addresses by `sizeof
+(Th09EclContextView)` as unsigned Win32 words. The context-selection
+loop's starting index and stored ordinal similarly wrap as native 32-bit
+additions. All existing call stack bookkeeping, original field-read
+chronology, transitions, copying, frees and error paths remain intact.
+
+Seven separate or combined pinned VC7.1 source-cold experiments each
+reproduced **147/147 bytes and two original relocation fields** for
+PopContext, plus the entire **15,564-byte RunEcl with all 598 fields,
+identical jump tables and the pre-existing 30 ordinary mismatches**.
+The installed source recompiled only the two actual affected EclManager
+profiles and passed the strict canonical cold replay of **83 byte-exact
+functions / 29,856 complete bytes / 1,389 original relocation fields**.
+Twenty compiler-private `$L` label renamings were rebounded only after
+independent PE/actual COFF same-section targets and entire original owner
+bytes were proved. Opcode 4/155 audits still pass 90/3,072 behavior cases;
+no newly exact function or whole-game closure is claimed.
+
 ## 2026-11-11 ECL call-stack depth and child-ordinal native words
 
 `Th09EclRunControl::PopContext @ 0x00406680` is an independently exact

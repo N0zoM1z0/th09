@@ -38,16 +38,23 @@ static int PopContext(EnemyView *enemy)
         // Child ordinal subtraction is the original i386 native DWORD decrement.
         int childIndex = static_cast<int>(
             static_cast<unsigned int>(enemy->activeContext2CE0->contextOrdinal224) - 1u);
-        if (enemy->childEclBlocks33D8[childIndex] != NULL)
-            g_ZunMemory.Free(enemy->childEclBlocks33D8[childIndex]);
-        enemy->childEclBlocks33D8[childIndex] = NULL;
+        // Retail addresses child slots using the signed ordinal as a native
+        // 32-bit 4-byte stride and rereads each original lvalue on demand.
+        if (Th09EclRunState::ChildSlotRef(enemy, childIndex) != NULL)
+            g_ZunMemory.Free(Th09EclRunState::ChildSlotRef(enemy, childIndex));
+        Th09EclRunState::ChildSlotRef(enemy, childIndex) = NULL;
         enemy->activeCallStack2CE4 = enemy->mainCallStack0A20;
         enemy->activeContext2CE0 = &enemy->mainContext07F4;
         enemy->activeCallDepth2D2A = enemy->mainCallDepth2D28;
         return 1;
     }
+    // The original call-stack entry is a 0x22C-byte native context record;
+    // signed short depth scales modulo 2^32 from the live stack pointer.
     *enemy->activeContext2CE0 =
-        enemy->activeCallStack2CE4[enemy->activeCallDepth2D2A];
+        *reinterpret_cast<Th09EclContextView *>(
+            reinterpret_cast<unsigned int>(enemy->activeCallStack2CE4) +
+            static_cast<unsigned int>(static_cast<int>(enemy->activeCallDepth2D2A)) *
+                sizeof(Th09EclContextView));
     return 0;
 }
 
@@ -508,7 +515,10 @@ static void CallSubroutine(
 
     if ((enemy->primaryFlags337C &
          Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
-        enemy->activeCallStack2CE4[enemy->activeCallDepth2D2A] =
+        *reinterpret_cast<Th09EclContextView *>(
+            reinterpret_cast<unsigned int>(enemy->activeCallStack2CE4) +
+            static_cast<unsigned int>(static_cast<int>(enemy->activeCallDepth2D2A)) *
+                sizeof(Th09EclContextView)) =
             *enemy->activeContext2CE0;
 
     enemy->activeContext2CE0->selectedManager000->InitializeSubroutine(
@@ -576,7 +586,10 @@ th09_ecl_enter_pending_subroutine:
          Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
     {
         memcpy(
-            &enemy->activeCallStack2CE4[enemy->activeCallDepth2D2A],
+            &*reinterpret_cast<Th09EclContextView *>(
+            reinterpret_cast<unsigned int>(enemy->activeCallStack2CE4) +
+            static_cast<unsigned int>(static_cast<int>(enemy->activeCallDepth2D2A)) *
+                sizeof(Th09EclContextView)),
             savedMainContext,
             sizeof(Th09EclContextView));
     }
@@ -758,7 +771,7 @@ th09_ecl_after_dispatch:
     else
     {
         child = reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-            enemy->childEclBlocks33D8[childIndex]);
+            Th09EclRunState::ChildSlotRef(enemy, childIndex));
         child->callStackDepth06 = enemy->activeCallDepth2D2A;
     }
 
@@ -766,18 +779,20 @@ th09_ecl_after_dispatch:
     enemy->activeContext2CE0->time008 += g_GameManager.speedEC;
 
 th09_ecl_select_next_context:
-    for (int next = childIndex + 1;
+    // The child iterator starts from an original DWORD increment; all child
+    // block reads use the same live EnemyView allocation as PopContext.
+    for (int next = static_cast<int>(static_cast<unsigned int>(childIndex) + 1u);
          next < TH09_ECL_CHILD_CONTEXT_COUNT;
          ++next)
     {
-        if (enemy->childEclBlocks33D8[next] != NULL)
+        if (Th09EclRunState::ChildSlotRef(enemy, next) != NULL)
         {
             child = reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-                enemy->childEclBlocks33D8[next]);
+                Th09EclRunState::ChildSlotRef(enemy, next));
             enemy->activeCallStack2CE4 = child->callStack0234;
             enemy->activeContext2CE0 = &child->context08;
             instruction = enemy->activeContext2CE0->currentInstruction004;
-            enemy->activeContext2CE0->contextOrdinal224 = next + 1;
+            enemy->activeContext2CE0->contextOrdinal224 = static_cast<int>(static_cast<unsigned int>(next) + 1u);
             enemy->activeCallDepth2D2A = child->callStackDepth06;
             childIndex = next;
             goto th09_ecl_instruction_loop;
