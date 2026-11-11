@@ -234,6 +234,11 @@ The 2,652-byte script boss and four exact siblings pass one scoped
 compiler carrier: **5/5 exact functions, 3,231 bytes and 160 original
 relocations**, with 45 actual original-PE-target-verified private labels.
 
+The separate 1,236-byte exact `AsciiMenuState5::OnUpdate` now also
+addresses its nine live 0x2A4-byte HUD ANM VM slots through native DWORD
+arithmetic, protecting all 1,236 bytes and 86 relocation fields in one
+carrier with six original-target-verified private label changes.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact

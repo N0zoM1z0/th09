@@ -796,6 +796,28 @@ code equality and independent same-section COFF definition / unchanged
 original PE branch-target proof. No exactness count increase or whole
 Windows native runtime claim is implied.
 
+## 2026-11-11 native ASCII MenuState5 ANM VM slot addressing
+
+The original exact `AsciiMenuState5::OnUpdate` is **1,236 complete
+physical bytes** and owns its live `menuSprites` ANM VM allocation.
+Nine dynamic `menuSprites[i]` accesses (initial script executions,
+visibility interrupts and exit-time `SetInvisible` calls) now form
+true Win32 unsigned-DWORD byte addresses from the real VM base and
+`sizeof(AnmVm) == 0x2A4`. The original five-VM and three-VM menu
+loops, cursor/color changes, state/timer branches and GameManager
+mode transitions remain at their original call sites. No new range
+gate, cache, VM allocation or additional helper call was introduced.
+
+Three separately compiled native pointer/byte-pointer/inline forms
+retained the complete original 1,236-byte owner and 86 relocation
+fields. The installed lexical variant passed the sole source compiler
+carrier's scoped cold replay: **1/1 exact owner, 1,236 complete bytes,
+86 original-bound relocation fields**. Six VC7.1 private `$L` label
+spellings were rebound only after verifying their same-section COFF
+definitions, unchanged relocation offsets/types and unchanged original
+PE targets. This strengthens existing exact source fidelity but does
+not promote another owner or prove Windows runtime completeness.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.
