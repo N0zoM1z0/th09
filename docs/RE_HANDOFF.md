@@ -73,9 +73,11 @@ Git retains earlier source revisions.
   pass two-carrier scoped cold replay with 148 independently verified private
   `$L` reference rebindings. RunEcl's polar/bias movement helpers now form
   16 real four-byte wire-argument accesses through native DWORD addresses;
-  the full 15,564-byte RunEcl frontier remains at 30 bytes, while two
-  EclManager carriers still protect 83/83 exact functions (29,856 bytes /
-  1,389 relocations) with 20 independently verified private label rebindings.
+  the laser-creation opcode also writes its original 32-slot pointer table
+  through the native signed selected-slot address. The full 15,564-byte
+  RunEcl frontier remains at 30 unlike bytes, while the latter change's
+  five involved carriers protect 87/87 exact functions (30,583 full bytes /
+  1,409 relocations) with eight fresh independently verified private labels.
   ANM D3D capture now computes 17 surface, descriptor and file-slot accesses
   through authentic 0x04/0x14/0x120-byte native strides; all eight affected
   AnmManagerUtility owners (1,723 bytes / 49 fields) cold-replay exact.

@@ -95,8 +95,8 @@ inline EtamaController *Controller(EnemyView *enemy)
 // and the actual EnemyView 32-pointer table; no new index guard is inserted.
 // Target-observed laser control opcodes index the genuine thirty-two
 // EnemyView laser pointers as native 32-bit byte offsets. Preserve the
-// selected-slot creation spelling separately: its target-bound callsite
-// identity has a distinct, still-unresolved comparison contract.
+// selected-slot creation as a lexical native lvalue: using the shared
+// accessor changes its distinct original-bound compiler callsite shape.
 inline Laser *&LaserSlot(EnemyView *enemy, int slot)
 {
     return *reinterpret_cast<Laser **>(
@@ -344,8 +344,13 @@ static void DispatchShotInstruction(
         laserDescriptor->transformFlags = laserArgs->transformFlags30;
         laserDescriptor->aimMode =
             instruction->opcode04 != TH09_ECL_OPCODE_CREATE_LASER_AIMED;
-        enemy->laserSlots32D8[
-            enemy->selectedLaserSlot3358] =
+        // The retail selected-laser DWORD indexes the same real 32-slot
+        // Enemy pointer table as the later laser control opcodes. Keep the
+        // create call's original lexical lvalue and native 32-bit stride.
+        *reinterpret_cast<Laser **>(
+            reinterpret_cast<unsigned int>(&enemy->laserSlots32D8[0]) +
+            static_cast<unsigned int>(enemy->selectedLaserSlot3358) *
+                sizeof(enemy->laserSlots32D8[0])) =
             Th09EclRunBullet::Controller(enemy)->SpawnLaserPattern(
                 laserDescriptor);
         break;

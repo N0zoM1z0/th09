@@ -676,6 +676,34 @@ original PE target and complete byte equality of all 83 owners.
 The separate original-bound opcode 4/155 semantic audits still passed
 90/3,072 cases. Neither exact count nor native-product closure changed.
 
+## 2026-11-11 native selected laser creation slot in RunEcl
+
+The reviewed 15,564-byte `EclManager::RunEcl @ 0x004086C0` creates a
+laser through its genuine `EtamaController` and stores the result in
+`EnemyView::laserSlots32D8[32]` (the original +0x32D8 DWORD pointer
+array) at the script-owned signed `selectedLaserSlot3358` index.
+Subsequent laser control opcodes already use the native `LaserSlot`
+lvalue. The creation opcode now also forms the actual i386 byte address
+`uint32(&laserSlots[0]) + uint32(selected slot) * sizeof(pointer)`
+without a new range gate, second table, pointer cache or changed
+`SpawnLaserPattern` call. The spelling must remain **lexical**: a
+call through `LaserSlot` itself changed the original-bound callsite
+shape and was rejected. The lexical form retained all native reads,
+script dispatch edges and original switch-table bytes.
+
+Four isolated source probes were compiled against pinned VC7.1.
+The installed lexical form passed the **complete original-bound RunEcl
+boss guard: 15,564/15,564 physical bytes, all 598 original relocation
+fields and intact dispatch tables**, with only the existing 30 unlike
+opcode-4/155 bytes (7+23). The changed `.inl` affects five real
+compiler carriers; scoped cold replay passed **87/87 exact sibling
+functions, 30,583 complete bytes and 1,409 original-bound relocation
+fields**. Eight private `$L` references were rebound only after
+confirming their actual same-section COFF definitions, unchanged
+field offsets/types and original PE branch destinations. This is
+substantive ECL native laser-state source fidelity, not newly exact
+RunEcl credit, full product or runtime closure.
+
 ## 2026-11-11 native ECL movement wire argument words
 
 The `RunEcl` movement helpers `StartTimedPolarDisplacement` and
