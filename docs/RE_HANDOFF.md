@@ -41,7 +41,10 @@ Git retains earlier source revisions.
   attached-effect updater now computes the real 24 pointer slots by native
   DWORD addressing; both affected ECL compiler carriers protect 83 exact
   units (29,856 bytes / 1,389 fields) and preserve both large Enemy/ECL
-  nonexact frontiers.
+  nonexact frontiers. The already-exact 1,758-byte Enemy draw renderer now
+  uses native 0x1C-byte sample addresses and wrapped trail/vertex index
+  arithmetic; its four same-source exact owners (1,922 bytes / 61 fields)
+  remain verified.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

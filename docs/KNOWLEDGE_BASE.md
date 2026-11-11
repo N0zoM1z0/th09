@@ -592,6 +592,31 @@ owner still has 30 ordinary differences and all 598 fields and switch
 tables intact. This is semantic native-pointer fidelity, not additional
 exactness or Windows product/runtime proof.
 
+## 2026-11-11 native Enemy draw trail sample and loop words
+
+The original 1,758-byte `EnemyManagerDrawImpl @ 0x00411670` reads the same
+`EnemyView::trailSamples33E8` allocation as the ECL updater: the 96 genuine
+trail samples are 0x1C-byte records at `Enemy+0x33E8`. Its trail length and
+step are live signed fields, including the strip, vertex and interpolation
+paths. Eleven dynamic reads now form `uint32(enemy sample base) +
+uint32(index) * 0x1C` before dereferencing a **const** view of that real
+record. The fixed sample zero is left untouched. This removes assumptions
+about C++ array bounds without adding fallback reads, a shadow allocation,
+or caching the live sample values.
+
+The two trail loop increments, one decrement, the previous/next sample
+address arithmetic and both vertex-count updates now explicitly wrap as
+Win32 unsigned DWORD words, restoring the original i386 arithmetic for
+extreme script-controlled step/count values. All signed comparisons, draw
+calls, NaN-sensitive angle tests, taper/fade handling, vertex emission and
+original branch structure remain unchanged. Isolated helper and arithmetic
+probes matched the entire original body, not just individual disassembly
+windows. The installed pinned VC7.1 **one-carrier scoped cold replay passed
+all four exact EnemyManagerDraw owners / 1,922 full physical bytes / 61
+relocation fields**, including the full **1,758/1,758-byte renderer with
+53 original-bound fields**. This is a native-source semantic improvement;
+it does not promote a new exact function or prove complete game runtime.
+
 ## Enemy OnUpdate
 
 The current 3,900-byte owner retains 97 fields, 69 calls and 13 differences:
