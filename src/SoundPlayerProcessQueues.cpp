@@ -656,6 +656,32 @@ void SoundPlayer::UpdateFades()
     }
 }
 
+// Real i386 sound paths use the original queue, 12x128 pan data,
+// 0x08-byte volume rows, DirectSound pointers and BGM file allocations.
+// Each live selector forms an unsigned native DWORD address without a new guard.
+#define TH09_SOUND_NATIVE_QUEUE(index) \
+    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&this->soundQueue[0]) + \
+        static_cast<unsigned int>(index) * sizeof(this->soundQueue[0])))
+#define TH09_SOUND_NATIVE_COUNT(index) \
+    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&this->soundQueueRequestCounts[0]) + \
+        static_cast<unsigned int>(index) * sizeof(this->soundQueueRequestCounts[0])))
+#define TH09_SOUND_NATIVE_PAN(row, index) \
+    (*reinterpret_cast<unsigned int *>(reinterpret_cast<unsigned int>(&this->soundQueuePanData[0][0]) + \
+        static_cast<unsigned int>(row) * sizeof(this->soundQueuePanData[0]) + \
+        static_cast<unsigned int>(index) * sizeof(this->soundQueuePanData[0][0])))
+#define TH09_SOUND_NATIVE_BUFFER(index) \
+    (*reinterpret_cast<LPDIRECTSOUNDBUFFER *>(reinterpret_cast<unsigned int>(&this->duplicateSoundBuffers[0]) + \
+        static_cast<unsigned int>(index) * sizeof(this->duplicateSoundBuffers[0])))
+#define TH09_SOUND_NATIVE_VOLUME(index) \
+    (*reinterpret_cast<const SoundBufferIdxVolume *>(reinterpret_cast<unsigned int>(&g_SoundBufferIdxVol[0]) + \
+        static_cast<unsigned int>(index) * sizeof(g_SoundBufferIdxVol[0]))).volume
+#define TH09_SOUND_NATIVE_BGM_PATH(index) \
+    (*reinterpret_cast<char (*)[256]>(reinterpret_cast<unsigned int>(&this->bgmFileNames[0]) + \
+        static_cast<unsigned int>(index) * sizeof(this->bgmFileNames[0])))
+#define TH09_SOUND_NATIVE_BGM_FMT(index) \
+    (*reinterpret_cast<ThBgmFormatProcessView *>(reinterpret_cast<unsigned int>(&this->bgmFmtData[0]) + \
+        static_cast<unsigned int>(index) * sizeof(this->bgmFmtData[0])))
+
 int SoundPlayer::ProcessQueues()
 {
     SoundPlayerCommand *commandCursor;
@@ -753,9 +779,9 @@ loop:
         }
         else if (commandCursor->step == 2)
         {
-            bgmPath = commandCursor->argument >= 0 ? this->bgmFileNames[commandCursor->argument] : commandCursor->path;
+            bgmPath = commandCursor->argument >= 0 ? TH09_SOUND_NATIVE_BGM_PATH(commandCursor->argument) : commandCursor->path;
             bgmFormatIndex = this->GetFmtIndexByName(bgmPath);
-            this->bgm->GetWaveFile()->Reopen(&this->bgmFmtData[bgmFormatIndex]);
+            this->bgm->GetWaveFile()->Reopen(&TH09_SOUND_NATIVE_BGM_FMT(bgmFormatIndex));
         }
         else if (commandCursor->step == 3)
         {
@@ -900,24 +926,24 @@ loop:
 
     for (queuePhase = 0; queuePhase < 12; queuePhase++)
     {
-        if (this->soundQueue[queuePhase] < 0)
+        if (TH09_SOUND_NATIVE_QUEUE(queuePhase) < 0)
             break;
 
-        soundIndex = this->soundQueue[queuePhase];
-        this->soundQueue[queuePhase] = -1;
+        soundIndex = TH09_SOUND_NATIVE_QUEUE(queuePhase);
+        TH09_SOUND_NATIVE_QUEUE(queuePhase) = -1;
 
         averagedPan = 0;
-        for (j = 0; j < this->soundQueueRequestCounts[queuePhase]; j++)
-            averagedPan += this->soundQueuePanData[queuePhase][j];
-        averagedPan /= this->soundQueueRequestCounts[queuePhase];
-        this->soundQueueRequestCounts[queuePhase] = 0;
+        for (j = 0; j < TH09_SOUND_NATIVE_COUNT(queuePhase); j++)
+            averagedPan += TH09_SOUND_NATIVE_PAN(queuePhase, j);
+        averagedPan /= TH09_SOUND_NATIVE_COUNT(queuePhase);
+        TH09_SOUND_NATIVE_COUNT(queuePhase) = 0;
 
-        if (this->duplicateSoundBuffers[soundIndex] == NULL)
+        if (TH09_SOUND_NATIVE_BUFFER(soundIndex) == NULL)
             continue;
 
-        this->duplicateSoundBuffers[soundIndex]->Stop();
-        this->duplicateSoundBuffers[soundIndex]->SetCurrentPosition(0);
-        this->duplicateSoundBuffers[soundIndex]->SetPan(averagedPan);
+        TH09_SOUND_NATIVE_BUFFER(soundIndex)->Stop();
+        TH09_SOUND_NATIVE_BUFFER(soundIndex)->SetCurrentPosition(0);
+        TH09_SOUND_NATIVE_BUFFER(soundIndex)->SetPan(averagedPan);
 
         volumeScale = (float)g_SoundPlayer.sfxVolume / 100.0f;
         if (g_SoundPlayer.sfxVolume != 0)
@@ -925,19 +951,27 @@ loop:
             volumeScale = 1.0f - volumeScale;
             volumeScale = volumeScale * volumeScale * volumeScale;
             volumeScale = 1.0f - volumeScale;
-            this->duplicateSoundBuffers[soundIndex]->SetVolume(
-                (int)((g_SoundBufferIdxVol[soundIndex].volume + 5000) * volumeScale) - 5000);
+            TH09_SOUND_NATIVE_BUFFER(soundIndex)->SetVolume(
+                (int)((TH09_SOUND_NATIVE_VOLUME(soundIndex) + 5000) * volumeScale) - 5000);
         }
         else
         {
-            this->duplicateSoundBuffers[soundIndex]->SetVolume(-10000);
+            TH09_SOUND_NATIVE_BUFFER(soundIndex)->SetVolume(-10000);
         }
 
-        this->duplicateSoundBuffers[soundIndex]->Play(0, 0, 0);
+        TH09_SOUND_NATIVE_BUFFER(soundIndex)->Play(0, 0, 0);
     }
 
     return this->commandQueue[0].opcode;
 }
+
+#undef TH09_SOUND_NATIVE_QUEUE
+#undef TH09_SOUND_NATIVE_COUNT
+#undef TH09_SOUND_NATIVE_PAN
+#undef TH09_SOUND_NATIVE_BUFFER
+#undef TH09_SOUND_NATIVE_VOLUME
+#undef TH09_SOUND_NATIVE_BGM_PATH
+#undef TH09_SOUND_NATIVE_BGM_FMT
 
 void SoundPlayer::FadeOut(float seconds)
 {

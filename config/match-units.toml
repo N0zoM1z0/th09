@@ -20527,7 +20527,7 @@ target_address = 0x0043F1F0
 size = 0x586
 compare_size = 0x5B0
 relocations = [
-  { offset = 0x3C, type = "DIR32", symbol = "$L57891", target = 0x0043F778 },
+  { offset = 0x3C, type = "DIR32", symbol = "$L57943", target = 0x0043F778 },
   { offset = 0x56, type = "REL32", symbol = "?SetVolume@SoundProcessView@@QAEHH@Z", target = 0x0043FB10 },
   { offset = 0x60, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
   { offset = 0x65, type = "REL32", symbol = "?IsMusicPreloaded@SupervisorProcessQueuesView@@QAEHXZ", target = 0x0042ED40 },
@@ -20577,14 +20577,14 @@ relocations = [
   { offset = 0x51E, type = "REL32", symbol = "__ftol2", target = 0x0047B1D4 },
   { offset = 0x588, type = "DIR32", symbol = "$L57473", target = 0x0043F24F },
   { offset = 0x58C, type = "DIR32", symbol = "$L57478", target = 0x0043F295 },
-  { offset = 0x590, type = "DIR32", symbol = "$L57542", target = 0x0043F44E },
-  { offset = 0x594, type = "DIR32", symbol = "$L57522", target = 0x0043F3F0 },
-  { offset = 0x598, type = "DIR32", symbol = "$L57549", target = 0x0043F473 },
-  { offset = 0x59C, type = "DIR32", symbol = "$L57552", target = 0x0043F486 },
-  { offset = 0x5A0, type = "DIR32", symbol = "$L57557", target = 0x0043F4A9 },
+  { offset = 0x590, type = "DIR32", symbol = "$L57548", target = 0x0043F44E },
+  { offset = 0x594, type = "DIR32", symbol = "$L57528", target = 0x0043F3F0 },
+  { offset = 0x598, type = "DIR32", symbol = "$L57555", target = 0x0043F473 },
+  { offset = 0x59C, type = "DIR32", symbol = "$L57558", target = 0x0043F486 },
+  { offset = 0x5A0, type = "DIR32", symbol = "$L57563", target = 0x0043F4A9 },
   { offset = 0x5A4, type = "DIR32", symbol = "$L57469", target = 0x0043F230 },
-  { offset = 0x5A8, type = "DIR32", symbol = "$L57562", target = 0x0043F4CC },
-  { offset = 0x5AC, type = "DIR32", symbol = "$L57519", target = 0x0043F3D5 },
+  { offset = 0x5A8, type = "DIR32", symbol = "$L57568", target = 0x0043F4CC },
+  { offset = 0x5AC, type = "DIR32", symbol = "$L57525", target = 0x0043F3D5 },
 ]
 
 [units.ascii-menu-state5-update]

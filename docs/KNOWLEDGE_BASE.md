@@ -519,6 +519,39 @@ original-bound relocations**. This is native source ownership/stride
 fidelity on already-exact code; no newly exact boss or Windows runtime
 claim is implied.
 
+## 2026-11-11 native SoundPlayer queues, DirectSound pointers and BGM records
+
+The original `SoundPlayer::ProcessQueues` owns 1,414 reviewed logical
+bytes and **1,456 complete physical bytes**, including its owned
+switch tails. Its 12 real `soundQueue` DWORDs and 12 separate request
+counts, `soundQueuePanData[12][128]` DWORDs, 128 live DirectSound buffer
+pointers and global `SoundBufferIdxVolume[54]` eight-byte records are
+all part of the original SoundPlayer/SFX allocations. The maintained
+source now forms 15 live queue, pan, buffer and volume lvalues through
+`uint32(real base) + uint32(index) * sizeof(native record)`. The BGM
+command dispatch has two further original-format lookups: the true
+`bgmFileNames[32][256]` byte rows and the actual `bgmFmtData` format
+record allocation. Their signed command/format indices now likewise
+form native unsigned-DWORD byte addresses, retaining the original
+pointer/array lvalues. All original sound queue loops, 12×128 pan
+averaging, wave-format lookup, DirectSound calls, command phases,
+active record reads, and audio-volume transformations remain live.
+No new bounds gate, cache, shadow array, command or buffer ownership is
+introduced.
+
+All seven independent native-address variants and the installed
+combined source matched the complete original **1,456/1,456-byte
+ProcessQueues owner and all 58 relocations**. Eight compiler-private
+`$L` references were rebound only after verifying actual same-section
+COFF definitions, unchanged field offset/type and identical original
+PE targets. The installed source passed a scoped cold replay of all
+**eight genuinely affected VC7.1 compiler profiles**, protecting
+**20/20 exact source functions, 5,400 complete physical bytes and
+184 original-bound relocations**. This improves native audio-memory
+fidelity in both major queue processing and related exact leaf carriers,
+without promoting any of the still-open source-present functions or
+claiming a native Windows product/runtime.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

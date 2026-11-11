@@ -168,6 +168,13 @@ Its one-carrier scoped replay verifies both large 1,776/1,172-byte
 menu updates plus eight exact siblings: **10/10 owners, 4,206 bytes,
 264 relocations**, with 19 COFF-proven compiler-private label rebindings.
 
+The exact SoundPlayer queue processor now indexes all original audio
+queue/pan/buffer/volume and BGM row/format storage with native unsigned
+DWORD words. The full 1,456-byte `ProcessQueues` physical owner and
+all its 58 fields matched; eight affected compiler carriers preserve
+**20/20 exact SoundPlayer functions (5,400 bytes / 184 relocation fields)**,
+with eight PE-target-verified private-label rebindings.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact
