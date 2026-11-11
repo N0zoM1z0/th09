@@ -485,6 +485,40 @@ owners were also guarded independently against the complete original:
 53 fields, 23 ordered calls and only two original register bytes unlike.
 No full cold replay was run, nor was any open function promoted to exact.
 
+## 2026-11-11 native ASCII pause-menu VMs and score-popup rows
+
+The original `AsciiManagerMenu.cpp` owns ten exact functions, including
+the **1,776-byte physical `PauseMenu::OnUpdate`** and **1,172-byte
+`AsciiMenuState4::OnUpdate`**. Their real `menuSprites[7/5/4]` arrays
+contain canonical **0x2A4-byte AnmVm records**. Twenty-four dynamic
+`menuSprites[i]` accesses now use native Win32 `uint32(actual base) +
+uint32(i) * sizeof(AnmVm)` addresses, preserving each independently
+live VM interrupt, script call, and visibility test. The actual
+`AsciiManager::scorePopups[2][100]` allocation contains **0x38-byte
+`AsciiManagerPopup` records**. The popup row is now selected by native
+`uint32(playerIndex) * 100 * sizeof(AsciiManagerPopup)`; advancing the
+bank by 100 records likewise computes a native byte address rather
+than stepping a C++ pointer outside its inner 100-record row. Popup
+processing also uses the real 0x38-byte GameManager side records and
+forms the last text character address from the popup's live byte
+character count. The original two-side traversal, 100-entry loop,
+draw calls, and timer/alpha update remain unchanged. No new bounds
+gates, caches, shadow objects, or altered callbacks were added.
+
+Isolated native menu-VM and popup-path trials, plus their combination,
+were compiled with pinned VC7.1 against every complete original
+physical owner. **All ten functions match 4,206/4,206 bytes and all
+264 relocation fields**, including the 503-byte popup renderer and
+253-byte AsciiManager OnUpdate. Nineteen compiler-private `$L` reference
+names differed already under the clean baseline; each was rebound only
+after an independent same-section COFF definition and original PE
+branch-target proof, without changing any relocation offset/type/target.
+The installed source passed the one genuine compiler-carrier scoped
+cold replay: **10/10 exact owners, 4,206 original bytes and 264
+original-bound relocations**. This is native source ownership/stride
+fidelity on already-exact code; no newly exact boss or Windows runtime
+claim is implied.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

@@ -162,6 +162,12 @@ Git retains earlier source revisions.
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.
 
+The complete ASCII pause-menu and popup source now also uses true
+0x2A4-byte VM and 0x38-byte score-popup/side native byte addresses.
+Its one-carrier scoped replay verifies both large 1,776/1,172-byte
+menu updates plus eight exact siblings: **10/10 owners, 4,206 bytes,
+264 relocations**, with 19 COFF-proven compiler-private label rebindings.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact

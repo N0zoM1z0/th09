@@ -88,6 +88,14 @@ int AsciiGameManagerView::HasFlagBit0()
     return this->flags & 1;
 }
 
+// Both pause-menu owners use genuine 0x2A4-byte AnmVm records, with
+// independent live cursor reads in the original 7/5/4-slot arrays.
+// The native address word preserves VC7.1's original call and loop order.
+#define TH09_ASCII_NATIVE_MENU_VM(owner, index) \
+    (*reinterpret_cast<AnmVm *>( \
+        reinterpret_cast<unsigned int>(&(owner)->menuSprites[0]) + \
+        static_cast<unsigned int>(index) * sizeof((owner)->menuSprites[0])))
+
 int PauseMenu::OnUpdate()
 {
     unsigned int i;
@@ -96,8 +104,8 @@ int PauseMenu::OnUpdate()
         g_SoundPlayer.PlaySoundByIdx(10, 0);
         this->state = PAUSE_MENU_STATE_CLOSING;
         for (i = 0; i < 7; i++) {
-            if (this->menuSprites[i].IsVisible()) {
-                this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+            if (TH09_ASCII_NATIVE_MENU_VM(this, i).IsVisible()) {
+                TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
             }
         }
         this->frames = 0;
@@ -108,8 +116,8 @@ int PauseMenu::OnUpdate()
         g_SoundPlayer.PlaySoundByIdx(10, 0);
         this->state = PAUSE_MENU_STATE_ACTION_A;
         for (i = 0; i < 7; i++) {
-            if (this->menuSprites[i].IsVisible()) {
-                this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+            if (TH09_ASCII_NATIVE_MENU_VM(this, i).IsVisible()) {
+                TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
             }
         }
         this->frames = 0;
@@ -119,10 +127,10 @@ int PauseMenu::OnUpdate()
     switch (stateAtDispatch) {
     case PAUSE_MENU_STATE_INIT:
         for (i = 0; i < 7; i++) {
-            g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&this->menuSprites[i], i + 1);
+            g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&TH09_ASCII_NATIVE_MENU_VM(this, i), i + 1);
         }
         for (i = 0; i < 3; i++) {
-            this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
+            TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
         }
         g_AsciiManager.asciiAnm->SetSprite(
             &this->menuSprites[PAUSE_SPRITE_DIFFICULTY], g_GameManager.difficulty + 125);
@@ -154,7 +162,7 @@ int PauseMenu::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 this->state = PAUSE_MENU_STATE_CLOSING;
                 this->frames = 0;
@@ -188,10 +196,10 @@ int PauseMenu::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 for (; i < 6; i++) {
-                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
+                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
                 }
                 this->state = PAUSE_MENU_STATE_CONFIRM_A_NO;
                 this->frames = 0;
@@ -204,7 +212,7 @@ int PauseMenu::OnUpdate()
             this->state = PAUSE_MENU_STATE_INIT;
             g_GameManager.inGameMenu = 0;
             for (i = 0; i < 7; i++) {
-                this->menuSprites[i].SetInvisible();
+                TH09_ASCII_NATIVE_MENU_VM(this, i).SetInvisible();
             }
             g_SoundPlayer.ResumeAfterPause();
             AsciiSupervisor()->systemTime79C = timeGetTime();
@@ -229,7 +237,7 @@ int PauseMenu::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 3; i < 6; i++) {
-                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 this->state = this->state == PAUSE_MENU_STATE_CONFIRM_A_YES
                                   ? PAUSE_MENU_STATE_ACTION_A
@@ -257,10 +265,10 @@ int PauseMenu::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
+                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
                 }
                 for (; i < 6; i++) {
-                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 if (this->state == PAUSE_MENU_STATE_CONFIRM_A_NO) {
                     this->state = PAUSE_MENU_STATE_SECONDARY_SELECTED;
@@ -298,7 +306,7 @@ int PauseMenu::OnUpdate()
     }
 
     for (i = 0; i < 7; i++) {
-        g_AnmManager->ExecuteScript(&this->menuSprites[i]);
+        g_AnmManager->ExecuteScript(&TH09_ASCII_NATIVE_MENU_VM(this, i));
     }
     if (g_Supervisor.flags5D4 & 2) {
         g_AnmManager->ExecuteScript(&this->menuBackground);
@@ -320,8 +328,8 @@ int AsciiMenuState4::OnUpdate()
     switch (this->state) {
     case 0:
         for (i = 0; i < 3; i++) {
-            g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&this->menuSprites[i], i + 13);
-            this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
+            g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&TH09_ASCII_NATIVE_MENU_VM(this, i), i + 13);
+            TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
         }
         this->state++;
         this->frames = 0;
@@ -347,7 +355,7 @@ int AsciiMenuState4::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 this->state = 4;
                 this->frames = 0;
@@ -375,7 +383,7 @@ int AsciiMenuState4::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 this->state = 5;
                 this->frames = 0;
@@ -403,7 +411,7 @@ int AsciiMenuState4::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 this->state = 6;
                 this->frames = 0;
@@ -443,7 +451,7 @@ int AsciiMenuState4::OnUpdate()
     }
 
     for (i = 0; i < 3; i++) {
-        g_AnmManager->ExecuteScript(&this->menuSprites[i]);
+        g_AnmManager->ExecuteScript(&TH09_ASCII_NATIVE_MENU_VM(this, i));
     }
     this->frames++;
     return 0;
@@ -463,7 +471,11 @@ int AsciiManager::OnUpdate(AsciiManager *ascii)
             for (sideFlags = reinterpret_cast<unsigned char *>(&g_GameManager.sides[0].flags);
                  reinterpret_cast<int>(sideFlags) <
                      reinterpret_cast<int>(&g_GameManager.sides[2].flags);
-                 popupBank += 100, sideFlags += sizeof(AsciiGameManagerSideView)) {
+                 popupBank = reinterpret_cast<AsciiManagerPopup *>(
+                    reinterpret_cast<unsigned int>(popupBank) +
+                    sizeof(ascii->scorePopups[0])), sideFlags = reinterpret_cast<unsigned char *>(
+                    reinterpret_cast<unsigned int>(sideFlags) +
+                    sizeof(AsciiGameManagerSideView))) {
                 if ((*reinterpret_cast<unsigned int *>(sideFlags) & 1u) != 0) {
                     continue;
                 }
@@ -512,8 +524,8 @@ void AsciiMenuState5::OnDraw()
         g_AnmManager->DrawNoRotation(&this->menuBackground);
     }
     for (i = 0; i < 5; i++) {
-        if (this->menuSprites[i].IsVisible()) {
-            g_AnmManager->DrawNoRotation(&this->menuSprites[i]);
+        if (TH09_ASCII_NATIVE_MENU_VM(this, i).IsVisible()) {
+            g_AnmManager->DrawNoRotation(&TH09_ASCII_NATIVE_MENU_VM(this, i));
         }
     }
 }
@@ -529,8 +541,8 @@ void AsciiMenuState4::OnDraw()
     g_AnmManager->FlushVertexBuffer();
     g_Supervisor.ConfigureGameplayViewport(2);
     for (i = 0; i < 3; i++) {
-        if (this->menuSprites[i].IsVisible()) {
-            g_AnmManager->DrawNoRotation(&this->menuSprites[i]);
+        if (TH09_ASCII_NATIVE_MENU_VM(this, i).IsVisible()) {
+            g_AnmManager->DrawNoRotation(&TH09_ASCII_NATIVE_MENU_VM(this, i));
         }
     }
 }
@@ -594,7 +606,9 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
     int i;
     int j;
 
-    popup = &this->scorePopups[playerIndex][0];
+    popup = reinterpret_cast<AsciiManagerPopup *>(
+        reinterpret_cast<unsigned int>(&this->scorePopups[0][0]) +
+        static_cast<unsigned int>(playerIndex) * sizeof(this->scorePopups[0]));
 
     if (!g_Supervisor.IsFogDisabled()) {
         g_Supervisor.DisableFog();
@@ -613,8 +627,12 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
             g_GameManager.TransformPopupY(popup->position.y);
         this->smallScoreText.color1 = popup->color;
 
-        dx = g_GameManager.sides[playerIndex].player->position.x - popup->position.x;
-        dy = g_GameManager.sides[playerIndex].player->position.y - popup->position.y;
+        dx = (*reinterpret_cast<AsciiGameManagerSideView *>(
+            reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
+            static_cast<unsigned int>(playerIndex) * sizeof(g_GameManager.sides[0]))).player->position.x - popup->position.x;
+        dy = (*reinterpret_cast<AsciiGameManagerSideView *>(
+            reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
+            static_cast<unsigned int>(playerIndex) * sizeof(g_GameManager.sides[0]))).player->position.y - popup->position.y;
         alpha = (int)(dx * dx + dy * dy);
         if (alpha > 4096) {
             alpha = 208;
@@ -625,7 +643,9 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
         }
 
         character = reinterpret_cast<unsigned char *>(
-            &popup->text[popup->characterCount - 1]);
+            reinterpret_cast<char *>(
+                reinterpret_cast<unsigned int>(&popup->text[0]) +
+                static_cast<unsigned int>(popup->characterCount) - 1u));
         for (i = popup->characterCount; i > 0; i--) {
             if (popup->timer < 52) {
                 this->smallScoreText.loadedSprite =
@@ -651,3 +671,5 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
         }
     }
 }
+
+#undef TH09_ASCII_NATIVE_MENU_VM
