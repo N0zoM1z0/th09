@@ -26,8 +26,11 @@ Git retains earlier source revisions.
   and runtime closure, dual-Oracle semantic baseline or port is proven.
 - **Current source:** native Win32 32-bit address math and word-wrap
   semantics have been recovered across Enemy/ECL, Player/collision, Replay,
-  Title, Effect, Sound, ANM, ExAttack, and Supervisor frame queues. The recent
-  patches preserved exact siblings but **did not** promote any of the twelve
+  Title, Effect, Sound, ANM, ExAttack, and Supervisor frame queues.
+  Replay BeginRecordingStage now also uses native signed-stage strides for
+  three frame-pointer rows, the FPS row and inline 0x18-byte buffer links;
+  its 1,323-byte owner and all 12 same-source exact units remain verified.
+  These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.
 

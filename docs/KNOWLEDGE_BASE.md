@@ -1094,6 +1094,29 @@ carrier's complete strict cold replay and the callback boss guard. This
 is a source-ownership/native-address improvement, not a newly exact
 function or whole-product closure claim.
 
+## 2026-11-11 BeginRecordingStage native signed stage-slot addressing
+
+`ReplayManagerView::BeginRecordingStage @ 0x00421140` reads the live signed
+`g_GameManager.field0FC` stage. The retail VC7.1 code calculates native
+Win32 pointer-word addresses from each of the three actual ten-stage frame
+row bases and the FPS base, plus a 0x18-byte stride into the manager's inline
+stage-buffer links. Ordinary `table[stage]` C++ subscripts imposed array
+bounds requirements that the original i386 address math does not have. The
+maintained source now forms each native 32-bit base + uint32(stage) * sizeof
+slot address before reading/freeing/replacing the four stage pointers and
+both link receivers. It preserves separate live reads, original call order,
+allocations, failure paths and source storage identity, with no extra guards.
+
+All five families were compiled separately and in combination under pinned
+VC7.1. The **complete 1,323-byte BeginRecordingStage owner and all 82
+original-bound relocation fields remained exact** for every individual and
+combined variant. Both genuine ReplayInput compiler profiles then replayed
+**12 exact owners / 4,093 complete original bytes / 232 relocations**.
+The still-nonexact SaveReplay stays 1,238 bytes, with the same two differing
+bytes at +0xB7/+0xBB and all 53 fields; BeginPlaybackStage stays 538/540
+candidate/target bytes with 39 overlapping differences and 32 fields. This is
+semantic address fidelity, not a new exact owner or runtime/product proof.
+
 ## 2026-11-11 Replay SaveReplay native frame, FPS and stage slot words
 
 The still-nonexact SaveReplay at 0x00420C60 serializes the genuine

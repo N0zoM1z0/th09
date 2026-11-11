@@ -451,31 +451,59 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
         }
     }
 
+    // The retail game-stage word indexes the three frame-pointer rows, FPS
+    // pointer table and inline buffer links using native 32-bit strides.
+    // Preserve independent reads at each free, and do not impose C++ array
+    // subscript bounds on the original signed stage index.
     int stage = g_GameManager.field0FC;
-    if (replayData->frameStart[0][stage] != NULL)
-        g_ZunMemory.Free(replayData->frameStart[0][stage]);
-    if (replayData->frameStart[1][stage] != NULL)
-        g_ZunMemory.Free(replayData->frameStart[1][stage]);
-    if (replayData->frameStart[2][stage] != NULL)
-        g_ZunMemory.Free(replayData->frameStart[2][stage]);
-    if (replayData->fpsStart[stage] != NULL)
-        g_ZunMemory.Free(replayData->fpsStart[stage]);
+    if ((*reinterpret_cast<ReplayFrameDataStartView **>(
+            reinterpret_cast<unsigned int>(&replayData->frameStart[0][0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->frameStart[0][0]))) != NULL)
+        g_ZunMemory.Free((*reinterpret_cast<ReplayFrameDataStartView **>(
+            reinterpret_cast<unsigned int>(&replayData->frameStart[0][0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->frameStart[0][0]))));
+    if ((*reinterpret_cast<ReplayFrameDataStartView **>(
+            reinterpret_cast<unsigned int>(&replayData->frameStart[1][0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->frameStart[1][0]))) != NULL)
+        g_ZunMemory.Free((*reinterpret_cast<ReplayFrameDataStartView **>(
+            reinterpret_cast<unsigned int>(&replayData->frameStart[1][0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->frameStart[1][0]))));
+    if ((*reinterpret_cast<ReplayFrameDataStartView **>(
+            reinterpret_cast<unsigned int>(&replayData->frameStart[2][0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->frameStart[2][0]))) != NULL)
+        g_ZunMemory.Free((*reinterpret_cast<ReplayFrameDataStartView **>(
+            reinterpret_cast<unsigned int>(&replayData->frameStart[2][0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->frameStart[2][0]))));
+    if ((*reinterpret_cast<u8 **>(
+            reinterpret_cast<unsigned int>(&replayData->fpsStart[0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->fpsStart[0]))) != NULL)
+        g_ZunMemory.Free((*reinterpret_cast<u8 **>(
+            reinterpret_cast<unsigned int>(&replayData->fpsStart[0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->fpsStart[0]))));
 
     ReplayFrameDataStartView *frame0 = (ReplayFrameDataStartView *)g_ZunMemory.AddToRegistry(
         (ReplayFrameDataStartView *)operator new(sizeof(ReplayFrameDataStartView)),
         sizeof(ReplayFrameDataStartView), "ReplayFrameDataStartInf");
-    replayData->frameStart[0][stage] = frame0;
+    (*reinterpret_cast<ReplayFrameDataStartView **>(
+            reinterpret_cast<unsigned int>(&replayData->frameStart[0][0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->frameStart[0][0]))) = frame0;
     ReplayFrameDataStartView *frame1 = (ReplayFrameDataStartView *)g_ZunMemory.AddToRegistry(
         (ReplayFrameDataStartView *)operator new(sizeof(ReplayFrameDataStartView)),
         sizeof(ReplayFrameDataStartView), "ReplayFrameDataStartInf");
-    replayData->frameStart[1][stage] = frame1;
+    (*reinterpret_cast<ReplayFrameDataStartView **>(
+            reinterpret_cast<unsigned int>(&replayData->frameStart[1][0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->frameStart[1][0]))) = frame1;
     ReplayFrameDataStartView *frame2 = (ReplayFrameDataStartView *)g_ZunMemory.AddToRegistry(
         (ReplayFrameDataStartView *)operator new(sizeof(ReplayFrameDataStartView)),
         sizeof(ReplayFrameDataStartView), "ReplayFrameDataStartInf");
-    replayData->frameStart[2][stage] = frame2;
+    (*reinterpret_cast<ReplayFrameDataStartView **>(
+            reinterpret_cast<unsigned int>(&replayData->frameStart[2][0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->frameStart[2][0]))) = frame2;
     u8 *fpsStart = (u8 *)g_ZunMemory.AddToRegistry(
         (u8 *)operator new(1), 1, "ReplayFPSTblStartInf");
-    replayData->fpsStart[stage] = fpsStart;
+    (*reinterpret_cast<u8 **>(
+            reinterpret_cast<unsigned int>(&replayData->fpsStart[0]) +
+            static_cast<unsigned int>(stage) * sizeof(replayData->fpsStart[0]))) = fpsStart;
 
     memset(frame0, 0, sizeof(ReplayFrameDataStartView));
     memset(frame1, 0, sizeof(ReplayFrameDataStartView));
@@ -504,8 +532,12 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
     replayManager->inputCursors[2] = (u16 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::InputStreamBytes, "rep data");
     replayManager->fpsCursor = (u8 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::FpsStreamBytes, "rep data");
 
-    ReplayBufferLink *first = &replayManager->stageBuffers[stage];
-    ReplayBufferLink *current = &replayManager->stageBuffers[stage];
+    ReplayBufferLink *first = reinterpret_cast<ReplayBufferLink *>(
+        reinterpret_cast<unsigned int>(&replayManager->stageBuffers[0]) +
+        static_cast<unsigned int>(stage) * sizeof(replayManager->stageBuffers[0]));
+    ReplayBufferLink *current = reinterpret_cast<ReplayBufferLink *>(
+        reinterpret_cast<unsigned int>(&replayManager->stageBuffers[0]) +
+        static_cast<unsigned int>(stage) * sizeof(replayManager->stageBuffers[0]));
     replayManager->currentBuffer = first;
     while (current != NULL)
     {
