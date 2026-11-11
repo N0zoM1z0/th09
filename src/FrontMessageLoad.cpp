@@ -12,6 +12,26 @@ extern FrontMessageSourceView *g_FrontMessageSource;
 extern GameErrorContext g_GameErrorContext;
 extern const char g_FrontMessageLoadError[];
 
+// The file-backed table contains count00 native 0x08-byte entries, although
+// its C++ wire projection declares only the first entry.
+static inline FrontMessageTableEntryView &NativeFrontEntry(
+    FrontMessageTableView *file, int index)
+{
+    return *reinterpret_cast<FrontMessageTableEntryView *>(
+        reinterpret_cast<unsigned int>(&file->entries04[0]) +
+        static_cast<unsigned int>(index) * sizeof(file->entries04[0]));
+}
+
+// The wire music identifier is an i386 DWORD offset into this stack
+// byte map. Retail does not insert a C++ array-bounds check.
+static inline unsigned char &NativeFrontMusicFlag(
+    unsigned char *flags, int index)
+{
+    return *reinterpret_cast<unsigned char *>(
+        reinterpret_cast<unsigned int>(&flags[0]) +
+        static_cast<unsigned int>(index));
+}
+
 int FrontMessageRuntimeView::LoadForSideCount(
     char *primaryPath,
     char *secondaryPath,
@@ -41,10 +61,10 @@ int FrontMessageRuntimeView::LoadForSideCount(
 
         for (int i = 0; i < primary00->count00; ++i)
         {
-            unsigned int offset = primary00->entries04[i].offset00;
+            unsigned int offset = NativeFrontEntry(primary00, i).offset00;
             if (offset != 0)
             {
-                primary00->entries04[i].instructions00 =
+                NativeFrontEntry(primary00, i).instructions00 =
                     reinterpret_cast<FrontMessageInstructionView *>(
                         reinterpret_cast<unsigned char *>(primary00) + offset);
             }
@@ -62,23 +82,23 @@ int FrontMessageRuntimeView::LoadForSideCount(
 
         // A bounded outer do/while preserves the original zero-trip guard
         // and the pre-body table-count exit from TH09's message worker.
-        int endIndex = startIndex + 10;
+        int endIndex = static_cast<int>(static_cast<unsigned int>(startIndex) + 10u);
         if (startIndex < endIndex)
         {
             do
             {
                 if (startIndex >= primary00->count00)
                     break;
-                current04 = primary00->entries04[startIndex].instructions00;
+                current04 = NativeFrontEntry(primary00, startIndex).instructions00;
                 if (current04 != 0)
                 {
                     while (current04->opcode02 != 0)
                     {
                         if (current04->opcode02 == 7 &&
-                            loadedMusic[current04->argument04] == 0)
+                            NativeFrontMusicFlag(loadedMusic, current04->argument04) == 0)
                         {
                             g_Supervisor.LoadMusic(current04->argument04);
-                            loadedMusic[current04->argument04] = 1;
+                            NativeFrontMusicFlag(loadedMusic, current04->argument04) = 1;
                         }
 
                         FrontMessageInstructionView *next =
@@ -89,7 +109,7 @@ int FrontMessageRuntimeView::LoadForSideCount(
                     }
                 }
 
-                ++startIndex;
+                startIndex = static_cast<int>(static_cast<unsigned int>(startIndex) + 1u);
             }
             while (startIndex < endIndex);
         }
@@ -115,7 +135,7 @@ int FrontMessageRuntimeView::LoadForSideCount(
 
         for (int i = 0; i < secondary0C->count00; ++i)
         {
-            secondary0C->entries04[i].offset00 +=
+            NativeFrontEntry(secondary0C, i).offset00 +=
                 reinterpret_cast<unsigned int>(secondary0C);
         }
     }

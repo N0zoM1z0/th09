@@ -732,6 +732,33 @@ definitions, unchanged original target operands and the entire owner bytes.
 This is faithful semantics and a preserved existing exact owner, not an
 additional exact-function promotion.
 
+## Front message file-table Setup/Load/Release native entry addressing
+
+The existing exact FrontMessageRuntimeView::Setup, LoadForSideCount and
+ReleaseForSideCount owners all read the same variable-length, file-backed
+FrontMessageTableView. Its C++ projection declares only entries04[1],
+but retail indexes the entire actual allocation via the signed input
+DWORD and a native 0x08-byte entry stride. These three maintained sources
+now recover the real base + uint32(index) * 8 read/write, without adding
+an artificial array-bound condition or second allocation. They preserve
+the raw-to-pointer union conversion, the two table caches and the
+original signed loop/count tests.
+
+Load and Release also test/update a 256-byte stack music marker using
+the script instruction's signed music ID as a native byte offset rather
+than a bounded C++ array subscript. The startIndex + 10 endpoint and
+the original loop post-increments use native 32-bit wrapping addition
+before each signed bound comparison. Neither music call ordering nor
+the original empty-entry, free or error paths changed.
+
+Pinned VC7.1 /O2 /Ob1 individual and combined source experiments
+reproduced the complete owners: **357 / 405 / 271 physical bytes** with
+**10 / 18 / 14 original-bound relocation fields**, respectively.
+All three affected exact compiler carriers were independently
+cold-replayed and passed: **1,033 full physical bytes, 42 reviewed
+relocations, three existing exact functions**. This is native
+source-semantics recovery, not promotion of a new exact owner.
+
 ## Front message 2,968-byte Update native wire indexing
 
 The existing exact FrontMessageRuntimeView::Update physical owner at

@@ -7,6 +7,16 @@
 
 extern AnmLoaded *g_FrontMessageAnm;
 
+// The file-backed table contains count00 native 0x08-byte entries, although
+// its C++ wire projection declares only the first entry.
+static inline FrontMessageTableEntryView &NativeFrontEntry(
+    FrontMessageTableView *file, int index)
+{
+    return *reinterpret_cast<FrontMessageTableEntryView *>(
+        reinterpret_cast<unsigned int>(&file->entries04[0]) +
+        static_cast<unsigned int>(index) * sizeof(file->entries04[0]));
+}
+
 void FrontMessageRuntimeView::Setup(int messageIndex, int mode)
 {
     FrontMessageTableView *primary = primary00;
@@ -22,7 +32,7 @@ void FrontMessageRuntimeView::Setup(int messageIndex, int mode)
 
     mode10 = mode;
     currentIndex08 = messageIndex;
-    current04 = primary->entries04[messageIndex].instructions00;
+    current04 = NativeFrontEntry(primary, messageIndex).instructions00;
 
     textVms1534[0].scriptIndex = -1;
     textVms1534[1].scriptIndex = -1;

@@ -9,6 +9,26 @@ extern FrontMessageTableView *g_FrontMessagePrimaryCache;
 extern FrontMessageTableView *g_FrontMessageSecondaryCache;
 extern FrontMessageSourceView *g_FrontMessageSource;
 
+// The file-backed table contains count00 native 0x08-byte entries, although
+// its C++ wire projection declares only the first entry.
+static inline FrontMessageTableEntryView &NativeFrontEntry(
+    FrontMessageTableView *file, int index)
+{
+    return *reinterpret_cast<FrontMessageTableEntryView *>(
+        reinterpret_cast<unsigned int>(&file->entries04[0]) +
+        static_cast<unsigned int>(index) * sizeof(file->entries04[0]));
+}
+
+// The wire music identifier is an i386 DWORD offset into this stack
+// byte map. Retail does not insert a C++ array-bounds check.
+static inline unsigned char &NativeFrontMusicFlag(
+    unsigned char *flags, int index)
+{
+    return *reinterpret_cast<unsigned char *>(
+        reinterpret_cast<unsigned int>(&flags[0]) +
+        static_cast<unsigned int>(index));
+}
+
 void FrontMessageRuntimeView::ReleaseForSideCount(int startIndex)
 {
     if (primary00 == 0)
@@ -20,7 +40,7 @@ void FrontMessageRuntimeView::ReleaseForSideCount(int startIndex)
     if (!g_GameManager.IsGameMode2())
     {
         int tableIndex = startIndex;
-        int endIndex = startIndex + 10;
+        int endIndex = static_cast<int>(static_cast<unsigned int>(startIndex) + 10u);
         if (tableIndex < endIndex)
         {
             do
@@ -28,7 +48,7 @@ void FrontMessageRuntimeView::ReleaseForSideCount(int startIndex)
                 if (tableIndex >= primary00->count00)
                     break;
 
-                current04 = primary00->entries04[tableIndex].instructions00;
+                current04 = NativeFrontEntry(primary00, tableIndex).instructions00;
                 if (current04 != 0)
                 {
                     // The pre-test loop preserves the original empty-entry
@@ -36,10 +56,10 @@ void FrontMessageRuntimeView::ReleaseForSideCount(int startIndex)
                     while (current04->opcode02 != 0)
                     {
                         if (current04->opcode02 == 7 &&
-                            releasedMusic[current04->argument04] == 0)
+                            NativeFrontMusicFlag(releasedMusic, current04->argument04) == 0)
                         {
                             g_Supervisor.ReleaseMusic(current04->argument04);
-                            releasedMusic[current04->argument04] = 1;
+                            NativeFrontMusicFlag(releasedMusic, current04->argument04) = 1;
                         }
 
                         current04 =
@@ -49,7 +69,7 @@ void FrontMessageRuntimeView::ReleaseForSideCount(int startIndex)
                     }
                 }
 
-                ++tableIndex;
+                tableIndex = static_cast<int>(static_cast<unsigned int>(tableIndex) + 1u);
             }
             while (tableIndex < endIndex);
         }
