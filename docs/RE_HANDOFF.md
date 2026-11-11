@@ -62,6 +62,7 @@ Git retains earlier source revisions.
   full 1,900-byte, 66-field owner guard still reports just 122 differences.
   ANM file-loading now computes 33 sprite/texture/script/file-slot addresses
   from the actual 0x44/0x0C/4/0x120-byte record bases and signed indices;
+  nine format/pixel-stride table reads also use real native DWORD addresses;
   both affected compiler carriers preserve 17 exact ANM owners (3,258 full
   bytes / 133 fields). The 9,776-byte exact ANM script interpreter also now
   computes its six instruction-stream jumps/advances as native 32-bit byte

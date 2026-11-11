@@ -120,6 +120,28 @@ physical bytes and 26 original-bound relocation fields**. Seven
 after confirming real same-section COFF definitions and original PE
 jump targets. No new exact owner or native-game/runtime credit is claimed.
 
+## 2026-11-11 native ANM texture-format and byte-stride table reads
+
+The exact ANM texture-loading path (`AnmGetFormat`, `CreateEmptyTexture`,
+`CreateTextureFromFile` and `CreateTextureFromAnm`) reads seven independently
+live entries from the real `g_AnmTextureFormats` table and two entries
+from the real `g_AnmTextureBytesPerPixel` table. The file-controlled
+`format`/`textureHeader->format` values select genuine four-byte table
+words. The maintained source now forms native i386 DWORD byte addresses
+from each actual initialized table base instead of depending on C++
+array-bound preconditions. Original texture creation, source-pitch and
+D3D error paths remain unchanged, without new range checks or caches.
+
+An inline **const lvalue** for D3D formats is essential: returning the
+D3DFORMAT by value shortened the exact `CreateTextureFromFile` and
+`CreateTextureFromAnm` owners by one byte each, while reference, lexical
+and native macro forms retained their entire original instruction streams.
+The installed const-reference and native pixel-byte reader passed scoped
+cold replay for both genuinely affected compiler profiles: **17/17 exact
+ANM owners, 3,258 complete bytes and 133 original-bound relocations**.
+This is source-semantic Win32 address fidelity, not added exact-function
+credit or whole-game runtime closure.
+
 ## 2026-11-11 native ANM sprite, texture, script and file-slot addressing
 
 The original ANM resource-loading path owns real dynamically allocated

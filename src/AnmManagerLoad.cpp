@@ -178,14 +178,30 @@ static __inline AnmManagerLoadSlotView *AnmLoadSlot(AnmManager *manager, int anm
     return reinterpret_cast<AnmManagerLoadSlotView *>(manager) + anmIdx;
 }
 
+// Both genuine texture-format and pixel-stride tables hold 4-byte words.
+// A const element lvalue retains each retail load from the native Win32
+// table base + unsigned-DWORD indexed byte stride, without a new guard.
+static inline const D3DFORMAT &NativeAnmFormatRef(int index)
+{
+    return *reinterpret_cast<const D3DFORMAT *>(
+        reinterpret_cast<unsigned int>(&g_AnmTextureFormats[0]) +
+        static_cast<unsigned int>(index) * sizeof(g_AnmTextureFormats[0]));
+}
+static inline unsigned int NativeAnmTextureBytesPerPixel(int index)
+{
+    return *reinterpret_cast<const unsigned int *>(
+        reinterpret_cast<unsigned int>(&g_AnmTextureBytesPerPixel[0]) +
+        static_cast<unsigned int>(index) * sizeof(g_AnmTextureBytesPerPixel[0]));
+}
+
 static int __fastcall AnmGetFormat(int format)
 {
     if (g_Supervisor.Is16BitTexturesForced() != 0)
     {
-        if (g_AnmTextureFormats[format] == D3DFMT_A8R8G8B8 ||
-            g_AnmTextureFormats[format] == D3DFMT_UNKNOWN)
+        if (NativeAnmFormatRef(format) == D3DFMT_A8R8G8B8 ||
+            NativeAnmFormatRef(format) == D3DFMT_UNKNOWN)
             return 5;
-        if (g_AnmTextureFormats[format] == D3DFMT_R8G8B8)
+        if (NativeAnmFormatRef(format) == D3DFMT_R8G8B8)
             return 3;
     }
     return format;
@@ -195,7 +211,7 @@ int AnmManager::CreateEmptyTexture(
     IDirect3DTexture8 **outTexture, int width, int height, int format)
 {
     D3DXCreateTexture(AnmSupervisor()->d3dDevice, width, height, 1, 0,
-                      g_AnmTextureFormats[format], D3DPOOL_MANAGED, outTexture);
+                      NativeAnmFormatRef(format), D3DPOOL_MANAGED, outTexture);
     return 0;
 }
 
@@ -205,7 +221,7 @@ int AnmManager::CreateTextureFromFile(
     format = AnmGetFormat(format);
     if (D3DXCreateTextureFromFileInMemoryEx(
             AnmSupervisor()->d3dDevice, entry->rawData, entry->size,
-            0, 0, 0, 0, g_AnmTextureFormats[format], D3DPOOL_MANAGED,
+            0, 0, 0, 0, NativeAnmFormatRef(format), D3DPOOL_MANAGED,
             3, static_cast<unsigned long>(-1), colorKey, NULL, NULL,
             &entry->texture) != D3D_OK)
         return -1;
@@ -223,21 +239,21 @@ int AnmManager::CreateTextureFromAnm(
     format = AnmGetFormat(format);
     AnmSupervisor()->d3dDevice->CreateImageSurface(
         textureHeader->width, textureHeader->height,
-        g_AnmTextureFormats[textureHeader->format], &surface);
+        NativeAnmFormatRef(textureHeader->format), &surface);
     surface->LockRect(&lockedRect, NULL, 0);
     for (currentY = 0; currentY < textureHeader->height; currentY++)
     {
         void *textureDest = static_cast<unsigned char *>(lockedRect.pBits) + currentY * lockedRect.Pitch;
         const void *textureSrc = reinterpret_cast<unsigned char *>(textureHeader) + sizeof(AnmTextureHeader) +
-            currentY * textureHeader->width * g_AnmTextureBytesPerPixel[textureHeader->format];
+            currentY * textureHeader->width * NativeAnmTextureBytesPerPixel(textureHeader->format);
         memcpy(textureDest, textureSrc,
-               textureHeader->width * g_AnmTextureBytesPerPixel[textureHeader->format]);
+               textureHeader->width * NativeAnmTextureBytesPerPixel(textureHeader->format));
     }
     surface->UnlockRect();
 
     if (D3DXCreateTexture(AnmSupervisor()->d3dDevice,
                           textureHeader->width, textureHeader->height, 1, 0,
-                          g_AnmTextureFormats[format], D3DPOOL_MANAGED,
+                          NativeAnmFormatRef(format), D3DPOOL_MANAGED,
                           outTexture) != D3D_OK)
         goto error;
 
