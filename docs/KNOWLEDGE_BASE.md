@@ -588,6 +588,26 @@ verified. The opcode-4 timer and opcode-155 flag semantic audits still
 pass 90 and 3,072 cases respectively. No new exactness credit or native
 product/runtime closure follows.
 
+## 2026-11-11 ECL subroutine lookup and initialization native pointer addresses
+
+Two genuine ECL runtime leaves now form their original physical 32-bit
+subroutine-pointer addresses instead of using C++ array subscripts on
+signed script indices. `EnemyEclManagerView::GetSubroutine` indexes the
+variable-length resolved subroutine table physically beginning at the
+real ECL file header's first offset word. `InitializeSubroutine` obtains
+its script entry from the separate, relocated `subroutineTable04`, using
+native modulo-32 `base + signed-index-as-DWORD * 4` arithmetic. Both
+functions retain their original calls/returns, the short signed
+subroutine-ID gate, live object fields, and all actual allocations;
+no bounds checks or artificial data tables are introduced.
+
+Independent pinned VC7.1 compiler probes preserved the complete original
+**16-byte GetSubroutine** and **73-byte InitializeSubroutine / two actual
+relocations**. Installed-source strict cold replays covered only their
+two relevant compiler carriers: **three exact EnemySmallLeaves owners /
+74 physical bytes / no fields**, and **one exact InitializeSubroutine /
+73 bytes / two fields**. No previously nonexact owner was promoted.
+
 ## 2026-11-11 Enemy ECL loader native variable-length offset tables
 
 `EnemyEclManagerView::Load @ 0x00405660` is an independently exact

@@ -222,6 +222,11 @@ the canonical ledgers. Git holds prior source revisions.
   remote pointer helper. Five affected profiles cold-pass 87 exact siblings
   (30,583 bytes / 1,409 fields), with 20 independently PE/COFF-proven
   private-label renames; RunEcl remains 15,564/598 with 30 old residuals.
+- **ECL subroutine lookup and initialization now address native pointer words.**
+  The real variable-length ECL file table and relocated runtime table
+  both use signed-index-as-DWORD * 4 byte offsets; their separate source
+  cold replays pass four original exact functions / 147 bytes / two
+  relocations, without changing lookup or initialization behavior.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

@@ -5,9 +5,13 @@ int EnemyEclManagerView::GetSubroutineCount()
     return rawFile00->subroutineCount;
 }
 
+// Retail treats the variable-length ECL subroutine table as physical
+// pointer words and scales the signed lookup index modulo 2^32.
 void *EnemyEclManagerView::GetSubroutine(int index)
 {
-    return rawFile00->resolvedSubroutines[index];
+    return *reinterpret_cast<void *const *>(
+        reinterpret_cast<unsigned int>(&rawFile00->resolvedSubroutines[0]) +
+        static_cast<unsigned int>(index) * sizeof(rawFile00->resolvedSubroutines[0]));
 }
 
 void EnemyView::ResetBulletRankInfluence()
