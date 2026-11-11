@@ -108,6 +108,13 @@ the canonical ledgers. Git holds prior source revisions.
   Four shared helper functions now wrap primary/secondary/sentinel count
   arithmetic at 32 bits. One actual carrier cold-passes 15 exact owners
   (2,530 bytes / 100 fields); AddedCallback retains eight differences.
+- **RunEcl primary/alternate ANM sequence offsets now wrap natively.**
+  Ten signed-wire `movementInt+1..5` arguments now use unsigned DWORD
+  additions before passing signed script indices. RunEcl remains 15,564
+  bytes/598 fields with only the same 30 opcode-4/155 differences.
+  Affected-only cold replay passed 87 exact functions / 30,583 bytes /
+  1,409 fields in five compiler carriers; eight private labels were
+  independently verified against full PE/COFF evidence before rebinding.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

@@ -480,6 +480,32 @@ retained the 51-byte callback's eight differences or regressed to eleven.
 The exact FrontAddedCallback's analogous ANM preload pattern was reviewed,
 but it does not alone reproduce the small Effect callback's register schedule.
 
+## 2026-11-11 RunEcl primary/alternate ANM sequence native wrap
+
+The primary and alternate ANM-sequence ECL handlers in
+`EclRunMovement.inl` each decode a **signed 32-bit wire `movementInt`** and
+pass six consecutive ANM script identifiers to the original
+`Th09EclRunMovement::SetPrimaryAnmScripts` helper. Their five incremented
+identifiers previously used signed C++ `movementInt + 1` through `+ 5`,
+which is undefined at the upper signed boundary. The retail i386 32-bit
+additions/LEAs are modulo-2^32; both maintained handlers now compute each
+increment as an unsigned native DWORD and pass the identical original
+signed argument bits. Both alternate-bank flag effects, the original first
+index, call order and all six native ANM destinations are unchanged.
+
+Three separately compiled pinned VC7.1 sources (primary-only,
+alternate-only, combined) reproduced the **complete 15,564-byte RunEcl**
+owner, **598 reviewed relocation fields**, original owned switch tables,
+and its exact pre-existing **30 ordinary residuals** (7 in opcode 4,
+23 in opcode 155). The installed combined source passed only the **five
+actually affected compiler carriers**: **87 exact functions, 30,583
+complete physical bytes and 1,409 actual original-bound relocation
+fields**. Eight compiler-private `$L` renumberings were accepted only after
+independent same-section COFF definition/original PE operand/full-body
+proof; then canonical scoped cold replay passed. Original-bound opcode 4
+and 155 behavior audits still passed 90 and 3,072 cases. No new exact
+function or whole-native-product closure follows.
+
 ## 2026-11-11 RunEcl late Spell VM script-index native word arithmetic
 
 Opcode 186's side-owner spell presentation builds an ANM script index

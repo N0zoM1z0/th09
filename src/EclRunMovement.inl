@@ -189,10 +189,16 @@ static void BeginBoundaryAwareMove(
 
     case TH09_ECL_OPCODE_SET_PRIMARY_ANM_SEQUENCE:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        // Retail increments this signed ECL wire script id as a native
+        // unsigned DWORD, wrapping before the ANM call's signed arguments.
         Th09EclRunMovement::SetPrimaryAnmScripts(
             enemy, instruction,
-            movementInt, movementInt + 1, movementInt + 2,
-            movementInt + 3, movementInt + 4, movementInt + 5);
+            movementInt,
+            static_cast<int>(static_cast<unsigned int>(movementInt) + 1u),
+            static_cast<int>(static_cast<unsigned int>(movementInt) + 2u),
+            static_cast<int>(static_cast<unsigned int>(movementInt) + 3u),
+            static_cast<int>(static_cast<unsigned int>(movementInt) + 4u),
+            static_cast<int>(static_cast<unsigned int>(movementInt) + 5u));
         TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &=
             ~Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
         break;
@@ -227,10 +233,16 @@ static void BeginBoundaryAwareMove(
 
     case TH09_ECL_OPCODE_SET_PRIMARY_ANM_SEQUENCE_ALTERNATE:
         movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
+        // Retail increments this signed ECL wire script id as a native
+        // unsigned DWORD, wrapping before the ANM call's signed arguments.
         Th09EclRunMovement::SetPrimaryAnmScripts(
             enemy, instruction,
-            movementInt, movementInt + 1, movementInt + 2,
-            movementInt + 3, movementInt + 4, movementInt + 5);
+            movementInt,
+            static_cast<int>(static_cast<unsigned int>(movementInt) + 1u),
+            static_cast<int>(static_cast<unsigned int>(movementInt) + 2u),
+            static_cast<int>(static_cast<unsigned int>(movementInt) + 3u),
+            static_cast<int>(static_cast<unsigned int>(movementInt) + 4u),
+            static_cast<int>(static_cast<unsigned int>(movementInt) + 5u));
         TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
             Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
         break;
