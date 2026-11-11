@@ -480,6 +480,34 @@ retained the 51-byte callback's eight differences or regressed to eleven.
 The exact FrontAddedCallback's analogous ANM preload pattern was reviewed,
 but it does not alone reproduce the small Effect callback's register schedule.
 
+## 2026-11-11 ECL call-stack depth and child-ordinal native words
+
+`Th09EclRunControl::PopContext @ 0x00406680` is an independently exact
+147-byte leaf shared with the nonexact 15,564-byte RunEcl interpreter.
+The retail body decrements `EnemyView::activeCallDepth2D2A` with an i386
+`DEC WORD`, then uses native 32-bit arithmetic to convert the active
+context's signed child ordinal to the zero-based child record index.
+Its maintained source now explicitly wraps the native depth at 16 bits
+and the ordinal subtraction at 32 bits before restoring the original
+signed field/lookup interpretation. The two additional depth increments
+in the `CallSubroutine` and `RunEcl` paths also use 16-bit native-word
+arithmetic, keeping the original bounds gates, context copies, stack
+ownership, Free calls and ABI unchanged.
+
+Three individual and one combined pinned VC7.1 source-cold experiments
+reproduced the **complete 147-byte PopContext (two original fields)**,
+while preserving the entire **15,564-byte RunEcl owner, 598 relocation
+fields, original switch tables and exactly 30 existing residual bytes**
+(seven opcode 4, 23 opcode 155). The installed combined source passed only
+the **two actual affected EclManager compiler profiles**: **83 exact
+functions / 29,856 full physical bytes / 1,389 target-bound fields**.
+Twenty compiler-private `$L` renames were accepted only after real
+same-section COFF definitions, original PE target operands and full
+byte-exact comparisons of all 83 affected owners were independently
+verified. The opcode-4 timer and opcode-155 flag semantic audits still
+pass 90 and 3,072 cases respectively. No new exactness credit or native
+product/runtime closure follows.
+
 ## 2026-11-11 RunEcl primary/alternate ANM sequence native wrap
 
 The primary and alternate ANM-sequence ECL handlers in

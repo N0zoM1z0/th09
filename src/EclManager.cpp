@@ -30,10 +30,14 @@ namespace Th09EclRunControl
 
 static int PopContext(EnemyView *enemy)
 {
-    --enemy->activeCallDepth2D2A;
+    // The original DEC WORD wraps the native signed call-stack depth at 16 bits.
+    enemy->activeCallDepth2D2A = static_cast<short>(
+        static_cast<unsigned short>(enemy->activeCallDepth2D2A) - 1u);
     if (enemy->activeCallDepth2D2A < 0)
     {
-        int childIndex = enemy->activeContext2CE0->contextOrdinal224 - 1;
+        // Child ordinal subtraction is the original i386 native DWORD decrement.
+        int childIndex = static_cast<int>(
+            static_cast<unsigned int>(enemy->activeContext2CE0->contextOrdinal224) - 1u);
         if (enemy->childEclBlocks33D8[childIndex] != NULL)
             g_ZunMemory.Free(enemy->childEclBlocks33D8[childIndex]);
         enemy->childEclBlocks33D8[childIndex] = NULL;
@@ -518,7 +522,8 @@ static void CallSubroutine(
     if ((enemy->primaryFlags337C &
          Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0 &&
         enemy->activeCallDepth2D2A < TH09_ECL_MAIN_CALL_STACK_CAPACITY - 1)
-        ++enemy->activeCallDepth2D2A;
+        enemy->activeCallDepth2D2A = static_cast<short>(
+            static_cast<unsigned short>(enemy->activeCallDepth2D2A) + 1u);
 }
 
 } // namespace Th09EclRunControl
@@ -583,7 +588,8 @@ th09_ecl_enter_pending_subroutine:
     if (enemy->activeCallDepth2D2A <
         TH09_ECL_MAIN_CALL_STACK_CAPACITY - 1)
     {
-        ++enemy->activeCallDepth2D2A;
+        enemy->activeCallDepth2D2A = static_cast<short>(
+            static_cast<unsigned short>(enemy->activeCallDepth2D2A) + 1u);
     }
     enemy->pendingSubroutineId2D70 = -1;
     goto th09_ecl_restart_context;

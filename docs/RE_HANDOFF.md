@@ -145,6 +145,13 @@ the canonical ledgers. Git holds prior source revisions.
   exact owners / 2,562 bytes / 164 fields; nine private labels were
   independently PE/COFF-proven before rebinding. CalcShakeEnvelope's
   separate 336-byte boss remains nonexact by 26 bytes.
+- **ECL PopContext and RunEcl call-stack depth now use native words.**
+  The exact 147-byte PopContext retains its two original relocations after
+  explicit 16-bit depth decrement and 32-bit child-ordinal subtraction;
+  the two increment sites also wrap at 16 bits. The complete RunEcl still
+  has only the old 30 differences. Two affected VC7.1 profiles cold-pass
+  83 exact owners / 29,856 bytes / 1,389 fields; twenty private labels
+  were independently COFF/PE-proven before rebinding.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
