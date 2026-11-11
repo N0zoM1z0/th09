@@ -264,6 +264,13 @@ the canonical ledgers. Git holds prior source revisions.
   3,900-byte boss retains 97 relocations, 69 calls and 13 residual bytes.
   Two EclManager profiles pass 83 exact owners / 29,856 bytes / 1,389
   fields after independently PE/COFF-proving two private label names.
+- **RunEcl EX instruction table accesses now use native DWORD slots.**
+  The immediate call and repeating-callback install use the authentic
+  twelve-function table and unsigned 32-bit index scale, preserving the
+  latter's two separate wire operand reads. Five affected VC7.1 carriers
+  cold-pass 87 exact owners / 30,583 bytes / 1,409 fields; twenty private
+  labels were independently COFF/PE-proven before rebinding. RunEcl's
+  complete 15,564-byte/598-field owner keeps only its 30 old mismatches.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

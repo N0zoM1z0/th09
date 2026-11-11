@@ -110,6 +110,17 @@ typedef ::EnemyCoreTrailSampleView TrailSampleView;
 typedef ::EnemyCoreTrailVertexView TrailVertexView;
 typedef ::EnemyView EnemyStateView;
 
+// Retail ECL opcode dispatch uses the twelve original 32-bit callback
+// pointer words at the authentic EX instruction table base. The signed
+// script index is scaled modulo 2^32 without an extra C++ array bound;
+// preserve both distinct ReadInt calls in the repeating-callback handler.
+inline EnemyEclExInstruction &ExInstruction(int index)
+{
+    return *reinterpret_cast<EnemyEclExInstruction *>(
+        reinterpret_cast<unsigned int>(&g_EnemyEclExInstructions[0]) +
+        static_cast<unsigned int>(index) * sizeof(g_EnemyEclExInstructions[0]));
+}
+
 // These five indices are signed native ECL wire words into the one genuine
 // EnemyView allocation. Retail i386 calculates base + index * element-size
 // modulo 2^32, without a C++ array-bound guard. Keep every original lookup
@@ -492,8 +503,8 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_CALL_EX_INSTRUCTION:
-        g_EnemyEclExInstructions[
-            Th09EclRunControl::ReadInt(enemy, instruction, 0)](
+        Th09EclRunState::ExInstruction(
+            Th09EclRunControl::ReadInt(enemy, instruction, 0))(
                 enemy,
                 reinterpret_cast<EnemyEclExInstructionView *>(instruction));
         break;
@@ -505,7 +516,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
             stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
             reinterpret_cast<EnemyEclCallbackContextView *>(
                 enemy->activeContext2CE0)->callback014 =
-                    g_EnemyEclExInstructions[stateIndex];
+                    Th09EclRunState::ExInstruction(stateIndex);
             reinterpret_cast<EnemyEclCallbackContextView *>(
                 enemy->activeContext2CE0)->instruction018 =
                     reinterpret_cast<EnemyEclExInstructionView *>(instruction);

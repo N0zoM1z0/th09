@@ -771,6 +771,38 @@ scoped exact cold replay of the **one actual EnemyEclLoad.cpp compiler
 carrier**. The RunEcl owner's 30 existing residual bytes and whole-native-
 product status were not changed or credited by this standalone leaf edit.
 
+## 2026-11-11 RunEcl EX instruction dispatch native callback addresses
+
+`RunEcl @ 0x004086C0` has two distinct EX-instruction opcodes: one calls
+a table entry immediately with the original Enemy and instruction
+parameters, while another can store the table entry for a repeating
+callback in the active ECL context. The genuine twelve-callable prefix
+of `g_EnemyEclExInstructions` lives at the original TH09 EX function
+table address, with four-byte pointer words. The signed script index
+comes from `ReadInt`; retail i386 calculates each callback address as
+`original table base + unsigned(index) * sizeof(EnemyEclExInstruction)`
+modulo 2^32. The maintained source formerly used ordinary C++ array
+subscripting, which is undefined for out-of-range wire indices. A
+`Th09EclRunState::ExInstruction` native-address lvalue now covers both
+uses without inventing additional table entries, pointer validity checks,
+a fallback callback, or a new allocation. Importantly, the repeating
+handler still performs its two distinct original `ReadInt` calls (one
+for the signed gate and one for the indexed load), preserving all resolver
+side effects and the original context publication order.
+
+Immediate-call-only, callback-store-only, combined inline helper and
+direct-byte-address VC7.1 probes reproduced the **full 15,564-byte
+RunEcl, 598 original-bound relocation fields, both original jump tables,
+and its same 30 ordinary mismatches** (seven opcode 4, 23 opcode 155).
+The installed source cold-replayed only its **five affected compiler
+carriers**, proving **87 exact functions / 30,583 complete bytes /
+1,409 real relocation fields**. Twenty private `$L` spellings were
+rebound only after checking actual same-section COFF definitions,
+original PE targets and complete byte equality of all 87 owners.
+The original-bound opcode 4 and opcode 155 semantic checks continue
+passing 90 and 3,072 cases. Neither exactness count nor Windows i386
+product closure has changed.
+
 ## 2026-11-11 RunEcl native state and callback-slot DWORD addressing
 
 The maintained `RunEcl @ 0x004086C0` now uses native byte-address lvalue
