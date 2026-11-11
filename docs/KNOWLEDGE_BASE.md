@@ -759,6 +759,34 @@ cold-replayed and passed: **1,033 full physical bytes, 42 reviewed
 relocations, three existing exact functions**. This is native
 source-semantics recovery, not promotion of a new exact owner.
 
+## Title MusicRoom selected track and unlock flags native addresses
+
+The existing exact TitleScreenView::OnUpdateMusicRoom owner
+(0x00426E05) uses the real 32-track TitleScreen music table: each
+file-backed music record is 0x292 bytes. Its live signed
+musicSelectedSongIndex is now converted into the original Win32
+byte address (&musicTracks[0] + uint32(index) * 0x292) for the
+eight description renders and selected replay path. The per-song
+unlock tests and script-generated vmIndex likewise read the
+actual 32-byte g_TitleBgmUnlocked global at a native DWORD byte
+offset. No music-record guard, second cache, fabricated song record,
+or reordered sound calls have been introduced.
+
+Pinned VC7.1 /O1 /Ob1 trial builds found a source-sensitive codegen
+distinction: casting the record base to unsigned int changed four
+unrelated VM SIB operand bytes (0x38 to 0x07); a true byte-pointer
+base in a lexical expression restores full original codegen. Applying
+a second pointer change at the keyboard-selection/track-parse sites
+also made those four original SIB bytes differ, so those speculative
+changes were rejected. The installed combination covers selected
+record and unlock reads without displacing the original loop schedule.
+
+Complete target PE/COFF comparisons of the affected source retain
+the preexisting 2,258-byte OnUpdateMusicRoom exact owner with
+74 relocation fields, plus its separate 209-byte DrawMusicRoom
+exact leaf with six relocation fields. This corrects native
+source-address semantics without promoting any new exact function.
+
 ## Front message 2,968-byte Update native wire indexing
 
 The existing exact FrontMessageRuntimeView::Update physical owner at
