@@ -40,6 +40,12 @@ the canonical ledgers. Git holds prior source revisions.
   carrier recompiled and canonical replay passed **1,142/1,142 exact bytes
   and 39/39 relocations**. No exact-count change; see the 2026-11-11
   [knowledge note](KNOWLEDGE_BASE.md).
+- **Opcode 148 native GameManager counter semantics are restored.**
+  RunEcl's 1,800-frame addition now explicitly wraps at 32 bits, matching
+  the original direct DWORD `ADD` at `0x40B2F1`. Its complete owner still
+  has only the 30 existing differences. Scoped replay passed 87 exact
+  functions / 30,583 bytes / 1,409 relocations in five carriers; eight
+  private labels were independently COFF/PE-attested before rebinding.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

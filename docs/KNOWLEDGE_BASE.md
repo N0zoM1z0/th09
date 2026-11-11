@@ -400,6 +400,27 @@ was adopted. Reproduce only the relevant owner with
 `check-boss-frontiers.py --owner runecl --skip-exact-siblings` and exact
 consumer scopes with `replay-scoped-exact.py --changed-file src/EclRunControl.inl`.
 
+## 2026-11-11 RunEcl opcode 148 GameManager counter overflow
+
+Opcode 148 updates the **real GameManager signed DWORD** at `+0x380` by
+1,800. The attested Japanese v1.50a PE executes `ADD DWORD PTR
+[0x004A8110], 0x708` at `0x0040B2F1`, so its result wraps modulo
+2^32 when the signed counter crosses its range. The maintained
+`EclRunState.inl` now makes that unsigned-word addition explicit before
+storing the identical 32-bit result in the original `int` field. No game
+condition, receiver, field layout, extra operation or error behavior changed.
+
+The pinned VC7.1 complete **15,564-byte RunEcl** owner still has all
+**598 original relocations**, unchanged switch tables and precisely 30
+ordinary differences (only opcodes 4/155). Original-PE/COFF opcode 4
+and 155 behavior checks still pass 90 and 3,072 cases. The affected
+five compiler carriers cold-replayed **87 exact functions / 30,583
+physical bytes / 1,409 relocation fields**. Eight renumbered private
+`$L` spellings were rebound only after separately proving all 91
+complete same-source physical owners byte-exact against target and
+verifying their actual COFF same-section label coordinates. No new
+function exactness or whole-game build claim follows.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,

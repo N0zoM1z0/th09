@@ -490,7 +490,10 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_ADD_GAME_MANAGER_VALUE380:
-        g_GameManager.value380 += 1800;
+        // Retail uses ADD DWORD [GameManager+0x380], 0x708: retain its
+        // modulo-32 result even when the signed counter crosses INT_MAX.
+        g_GameManager.value380 = static_cast<int>(
+            static_cast<unsigned int>(g_GameManager.value380) + 1800u);
         break;
 
     {
