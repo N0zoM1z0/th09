@@ -894,6 +894,30 @@ collision's new forward-goto, do/while and sentinel-loop tests likewise
 either retained its 849-byte/32-block candidate or broke the genuine ABI
 exit conditions; they remain private rejected probes.
 
+## 2026-11-11 GameManager side score and saturating value native words
+
+Two independent exact GameManager-associated leaves now spell their actual
+native i386 integer semantics without relying on signed C++ overflow.
+`AsciiGameManagerSideView::AddScore @ 0x0040F860` divides its original
+signed argument by ten and adds the signed quotient to the actual side
+runtime `score08` field through a Win32 DWORD `ADD`. The maintained source
+now adds their unsigned 32-bit representations before publishing the same
+signed result, leaving the original signed quotient and actual side runtime
+owner untouched. `GameManagerValueCCView::SubtractSaturating @ 0x00403E30`
+substracts its signed argument from the genuine GameManager +0xCC DWORD
+with one native 32-bit `SUB`, then checks the **signed wrapped result**
+with `JNS` before optionally writing zero. Its maintained source now
+expresses that exact unsigned-word subtraction before the original signed
+comparison; it does not introduce an integer-underflow rejection or change
+the saturation branch.
+
+Both independent pinned VC7.1 source-cold probes and final installed-source
+replays reproduced the complete original bodies: **33/33 bytes / zero
+relocations** for AddScore and **27/27 bytes / zero relocations** for
+SubtractSaturating. Only their **two actual separate compiler carriers**
+were compiled. The exact-function count and unclosed native executable
+product remain unchanged.
+
 ## 2026-11-11 PlayStats native signed character and record addresses
 
 All seven real `PlayStatsRecordView` leaf functions are already original-

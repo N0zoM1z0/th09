@@ -195,6 +195,12 @@ the canonical ledgers. Git holds prior source revisions.
   modulo-32 byte offsets. Its one affected compiler carrier cold-passes
   all 213 original bytes, with no relocations. The unrelated 1,633-byte
   network service owner remains nonexact and unpromoted.
+- **Two GameManager arithmetic leaves now preserve native word wrap.**
+  Side AddScore retains its exact signed division and 33-byte physical
+  owner while wrapping the subsequent score addition. The exact 27-byte
+  GameManager +0xCC saturation helper now performs native DWORD subtraction
+  before the original signed nonnegative test. Both independent compiler
+  carriers passed their own scoped cold replay, with zero relocations.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
