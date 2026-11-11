@@ -17,6 +17,14 @@ static inline FrontMessageTableEntryView &NativeFrontEntry(
         static_cast<unsigned int>(index) * sizeof(file->entries04[0]));
 }
 
+// The original text/shadow colors are independently read DWORD words in
+// this FrontMessage allocation. Keep the live byte color selector without
+// imposing the bounded C++ array indexing precondition.
+#define FRONT_MSG_COLOR_SLOT(table, index) \
+    (*reinterpret_cast<const unsigned long *>( \
+        reinterpret_cast<unsigned int>(&(table)[0]) + \
+        static_cast<unsigned int>(index) * sizeof((table)[0])))
+
 void FrontMessageRuntimeView::Setup(int messageIndex, int mode)
 {
     FrontMessageTableView *primary = primary00;
@@ -66,12 +74,14 @@ void FrontMessageRuntimeView::Setup(int messageIndex, int mode)
 
     g_AnmManager->DrawTextLeft(
         &textVms1534[0],
-        textColors1D20[colorIndex1D64],
-        shadowColors1D30[colorIndex1D64],
+        FRONT_MSG_COLOR_SLOT(textColors1D20, colorIndex1D64),
+        FRONT_MSG_COLOR_SLOT(shadowColors1D30, colorIndex1D64),
         " ");
     g_AnmManager->DrawTextLeft(
         &textVms1534[1],
-        textColors1D20[colorIndex1D64],
-        shadowColors1D30[colorIndex1D64],
+        FRONT_MSG_COLOR_SLOT(textColors1D20, colorIndex1D64),
+        FRONT_MSG_COLOR_SLOT(shadowColors1D30, colorIndex1D64),
         " ");
 }
+
+#undef FRONT_MSG_COLOR_SLOT

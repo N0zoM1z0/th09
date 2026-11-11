@@ -1060,6 +1060,25 @@ relocation fields**, without a manifest change. This is improved source
 memory semantics on already-exact substantial HUD code, not new exact
 credit or Windows runtime closure.
 
+## 2026-11-11 FrontMessage Setup native text and shadow color words
+
+The original exact `FrontMessageRuntimeView::Setup` owns two separate
+inline four-entry color arrays, `textColors1D20` at +0x1D20 and
+`shadowColors1D30` at +0x1D30. Its four `DrawTextLeft` arguments
+read the two live table words selected by the genuine `u8
+colorIndex1D64` at +0x1D64. The maintained source now forms native
+Win32 `uint32(real array base) + uint32(color index)*4` addresses
+on each independent read rather than relying on a C++ four-element
+array subscript precondition. The original reset/ANM calls, text
+colors, shadow colors, glyph dimensions and owner allocation remain
+untouched, without bounds checks, cache or shadow tables.
+
+Three independent/combined VC7.1 probes each preserved the complete
+**357-byte original owner**. Installed source passed the only actual
+`FrontMessageSetup.cpp` compiler carrier's scoped cold replay:
+**1/1 exact function, 357/357 bytes, all 10 original relocations**.
+No extra exact function or complete product/runtime credit was claimed.
+
 ## Front random-message selection native variable-length wire entries
 
 `FrontMessageRuntimeView::SetupRandomForSide @ 0x004162D0` selects from a

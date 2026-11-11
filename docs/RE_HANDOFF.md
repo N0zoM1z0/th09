@@ -116,6 +116,9 @@ Git retains earlier source revisions.
   The 3,094-byte exact `FrontSide::OnDraw` now advances eleven real VM
   position cursors by native 0x2A4-byte address words, and both viewport
   side slots use the Supervisor 0xF0-byte stride (209 bound fields).
+  The 357-byte exact FrontMessage Setup leaf now also reads four text
+  and shadow color values through real native DWORD table addresses,
+  retaining all 10 relocations.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.
