@@ -46,6 +46,12 @@ the canonical ledgers. Git holds prior source revisions.
   has only the 30 existing differences. Scoped replay passed 87 exact
   functions / 30,583 bytes / 1,409 relocations in five carriers; eight
   private labels were independently COFF/PE-attested before rebinding.
+- **Replay LoadReplayData 32-bit wire arithmetic is now defined.**
+  Its complete 591-byte exact body and all 14 relocations are unchanged.
+  Both ReplayInput compiler carriers passed 12 exact owners / 4,093
+  bytes / 232 fields. The related SaveReplay and BeginPlaybackStage
+  frontiers remain at two differing bytes and two missing bytes,
+  respectively; see the 2026-11-11 knowledge note.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

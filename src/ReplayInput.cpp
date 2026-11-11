@@ -223,7 +223,12 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
 
     obfuscateAddress = reinterpret_cast<unsigned int>(&replayData->compressedSize);
     obfuscateOffset = replayData->obfuscationKey;
-    for (i = 0; i < replayData->fileSize - static_cast<i32>(offsetof(ReplayDataView, compressedSize)); i++, obfuscateAddress++)
+    // The original Win32 length subtraction wraps before the signed bound
+    // comparison; the serialized fields themselves remain signed DWORDs.
+    for (i = 0; i < static_cast<i32>(
+             static_cast<u32>(replayData->fileSize) -
+             static_cast<u32>(offsetof(ReplayDataView, compressedSize)));
+         i++, obfuscateAddress++)
     {
         *reinterpret_cast<u8 *>(obfuscateAddress) -= obfuscateOffset;
         obfuscateOffset += 7;
@@ -231,15 +236,21 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
 
     checksumAddress = reinterpret_cast<unsigned int>(&replayData->obfuscationKey);
     checksum = 0x3F000318;
-    for (i = 0; i < replayData->fileSize - static_cast<i32>(offsetof(ReplayDataView, obfuscationKey)); i++, checksumAddress++)
+    for (i = 0; i < static_cast<i32>(
+             static_cast<u32>(replayData->fileSize) -
+             static_cast<u32>(offsetof(ReplayDataView, obfuscationKey)));
+         i++, checksumAddress++)
         checksum += *reinterpret_cast<const u8 *>(checksumAddress);
 
     if (checksum != replayData->checksum)
         goto err1;
 
+    // Allocation size and trailing copy count are also native 32-bit word
+    // expressions, even when an input header contains extreme signed values.
     i32 decompressedSize = replayData->decompressedSize;
     decodedReplay = (ReplayDataView *)g_ZunMemory.Alloc(
-        decompressedSize - replayData->fileSize + fileSize + sizeof(ReplayHeaderView),
+        (static_cast<u32>(decompressedSize) - static_cast<u32>(replayData->fileSize)) +
+        static_cast<u32>(fileSize) + sizeof(ReplayHeaderView),
         "./system\\global.h");
     memcpy(decodedReplay, replayData, sizeof(ReplayHeaderView));
     // The packed stream begins at the payload byte inside the flat wire buffer.
@@ -260,7 +271,7 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
         reinterpret_cast<u8 *>(
             reinterpret_cast<unsigned int>(replayData) +
             static_cast<unsigned int>(replayData->fileSize)),
-        fileSize - replayData->fileSize);
+        static_cast<u32>(fileSize) - static_cast<u32>(replayData->fileSize));
 
     if (g_Supervisor.CheckVersion(
             decodedReplay->exeVersion, decodedReplay->value1D4, decodedReplay->value1D8))

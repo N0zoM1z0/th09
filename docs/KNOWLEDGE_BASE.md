@@ -661,6 +661,32 @@ CheckBulletCollision remains 849 candidate bytes against 862 original, with
 allocator and reconstructed collision pool when investigating branch chronology.
 Do not introduce a replacement pool to improve codegen.
 
+## 2026-11-11 Replay loader native 32-bit wire lengths
+
+The exact 591-byte `ReplayManagerView::LoadReplayData @ 0x004205E0`
+reads signed file/decompressed lengths from TH09's original replay
+header. The original i386 `SUB`/`ADD` instructions operate modulo
+2^32, but four maintained C++ expressions previously subtracted or
+multiplied signed values before conversion: the compressed-input
+and checksum loop bounds, allocation size (`decompressed - stored +
+input + header`), and trailing `memcpy` length. Each now explicitly
+performs unsigned 32-bit arithmetic, then restores the **signed loop
+bound interpretation** where applicable. The decoder's branches,
+allocation, wire offsets, checksum, copies and error paths remain
+unchanged; no extra validation or buffer-size policy was introduced.
+
+Five individual/combined VC7.1 experiments reproduced the **entire
+591-byte original PE owner and all 14/14 actual relocation identities**.
+The installed source cold-replayed the two genuine ReplayInput compiler
+carriers: **12 exact functions, 4,093 complete bytes and 232 relocation
+fields**. The two nonexact same-source bosses were independently
+guarded afterward: `SaveReplay` retained **1,238/1,238 bytes, 53
+fields, 23 calls and only +0xB7/+0xBB different**, while
+`BeginPlaybackStage` retained **538/540 bytes, all 32 bound fields,
+39 overlapping differences and two missing bytes**. The exact credit
+is unchanged; this is native C++ semantic fidelity, not a whole-game
+runtime or product-closure claim.
+
 ## 2026-11-10 SaveReplay native serialized-byte arithmetic
 
 `ReplayManagerView::SaveReplay @ 0x00420C60` now maintains allocation and
