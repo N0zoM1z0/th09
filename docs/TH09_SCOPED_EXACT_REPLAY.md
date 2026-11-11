@@ -26,7 +26,7 @@ quoted local `#include` edges** (including nested include chains) to find the
 involved `.cpp` sources, then expands all canonical exact carrier profiles:
 
 ```sh
-# The ECL state fragment affects four source files across five actual profiles.
+# The ECL state fragment currently selects five actual compiler carriers.
 python3 scripts/replay-scoped-exact.py --changed-file src/EclRunState.inl --dry-run
 python3 scripts/replay-scoped-exact.py --changed-file src/EclRunState.inl
 # A narrower Effect34 lexical fragment affects only EclManager.cpp.
