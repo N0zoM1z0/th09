@@ -233,6 +233,11 @@ the canonical ledgers. Git holds prior source revisions.
   affected EclManager profiles cold-pass 83 exact owners / 29,856 bytes /
   1,389 fields after proving 20 compiler-private label renamings. RunEcl
   retains only its original 30 opcode 4/155 bytes of difference.
+- **ANM script and sprite lookups now use real native byte addresses.**
+  The two exact script-entry helpers and exact sprite getter retain
+  193 complete original bytes and four relocation fields, with two
+  source-local cold replays, while replacing potentially out-of-bounds
+  signed pointer subscripts with modulo-32 physical address arithmetic.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

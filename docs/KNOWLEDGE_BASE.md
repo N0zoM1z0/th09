@@ -616,6 +616,28 @@ verified. The opcode-4 timer and opcode-155 flag semantic audits still
 pass 90 and 3,072 cases respectively. No new exactness credit or native
 product/runtime closure follows.
 
+## 2026-11-11 ANM script and sprite native indexed addresses
+
+The exact ANM helpers `AnmLoaded::SetAndExecuteScriptIdx` (41 bytes),
+`AnmLoaded::ExecuteAnmIdx` (134 bytes), and `AnmLoaded::GetSprite`
+(18 bytes) read from the actual dynamically allocated ANM script-pointer
+and sprite-record arrays. Their script/sprite indices are signed native
+DWORDs; retail i386 calculates physical byte addresses using modulo-32
+`array base + index * sizeof(element)` math. The source formerly used
+signed C++ array subscripts, which can be undefined before the physical
+address calculation at unusual script indices. The maintained source
+now computes native Win32 byte addresses, preserves the exact manager,
+VM and resource allocation, and does not change the original calls,
+script-index publication, animation VM field writes or index gates.
+
+Three isolated and combined pinned VC7.1 source probes reproduced the
+entire original owners: **41 + 134 + 18 = 193 physical bytes, four original
+relocation fields**. Installed-source canonical cold replay covered just
+the two affected source compiler carriers: both AnmLoadedExecute exact
+owners (175 bytes / four fields) and GetSprite (18 bytes / no fields).
+No previously nonexact owner was promoted and the original Windows i386
+product remains open.
+
 ## 2026-11-11 ECL subroutine lookup and initialization native pointer addresses
 
 Two genuine ECL runtime leaves now form their original physical 32-bit

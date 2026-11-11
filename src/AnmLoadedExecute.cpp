@@ -20,6 +20,8 @@ struct AnmVmExecuteLayout
     unsigned char fontHeight;
 };
 
+// The original ANM script-list receiver is a native 32-bit pointer table.
+// The signed script id is scaled in DWORD arithmetic, without adding a gate.
 void AnmLoaded::SetAndExecuteScriptIdx(AnmVm *vm, int scriptIndex)
 {
     AnmLoadedExecuteLayout *anm =
@@ -27,7 +29,9 @@ void AnmLoaded::SetAndExecuteScriptIdx(AnmVm *vm, int scriptIndex)
 
     vm->anmFile = this;
     vm->scriptIndex = static_cast<short>(scriptIndex);
-    this->SetAndExecuteScript(vm, anm->scripts[scriptIndex]);
+    this->SetAndExecuteScript(vm, *reinterpret_cast<AnmRawInstr **>(
+        reinterpret_cast<unsigned int>(anm->scripts) +
+        static_cast<unsigned int>(scriptIndex) * sizeof(anm->scripts[0])));
 }
 
 void AnmLoaded::ExecuteAnmIdx(AnmVm *vm, int scriptIndex)
@@ -40,5 +44,7 @@ void AnmLoaded::ExecuteAnmIdx(AnmVm *vm, int scriptIndex)
     layout->secondaryPosition = Float3(0.0f, 0.0f, 0.0f);
     layout->fontHeight = 15;
     layout->fontWidth = 15;
-    this->SetAndExecuteScript(vm, anm->scripts[scriptIndex]);
+    this->SetAndExecuteScript(vm, *reinterpret_cast<AnmRawInstr **>(
+        reinterpret_cast<unsigned int>(anm->scripts) +
+        static_cast<unsigned int>(scriptIndex) * sizeof(anm->scripts[0])));
 }
