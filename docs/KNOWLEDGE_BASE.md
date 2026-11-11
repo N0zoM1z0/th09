@@ -1353,6 +1353,38 @@ each current COFF same-section definition and original PE operand target was
 verified before changing its manifest name. The source remains nonexact in
 the complete shake owner, and there is no new exact credit.
 
+## Network queue and Replay input native frame addresses
+
+The real Supervisor frame queues occupy twenty 0x0C-byte entries
+starting at +0x47C, with two 0x0C-byte last-received entries at
++0x56C. The exact InsertPredictedFrame and PopFrame methods now
+address these actual word records by native uint32(side)*10
+and uint32(flatIndex) strides instead of assuming a C++ array
+bounds precondition. Their 0x78-byte per-side scan cursor and
+flatIndex = side*10+index now perform the retail i386 modulo-32
+arithmetic before computing the real queue addresses. Every
+original PopFrame load and the shift loop remains distinct.
+
+The exact AreFrameQueuesSynchronized uses the same true queue base
+for its signed side-selected head; its fixed heads remain untouched.
+The exact ApplyNetworkInput callback now addresses the real
+0x8E-byte ReplayInputState global array by signed side index as
+an unsigned native DWORD byte offset. PopFrame's live fallback
+ReplayInput lookup and its last-received side record are similarly
+recovered, without new caching, range guards or schedule changes.
+The SupervisorServiceUpdate boss is separately nonexact and is
+not promoted by these changes.
+
+All three source families were compiled with pinned VC7.1 /O2 /Ob1:
+isolated native pointer variants and the combined queue helpers
+preserved the original four complete bodies -- ApplyNetworkInput
+131 bytes, AreFrameQueuesSynchronized 49 bytes,
+InsertPredictedFrame 191 bytes, PopFrame 119 bytes -- and their
+two original relocation fields. The installed maintained sources
+passed scoped cold replay of **four exact functions, 490 complete
+physical bytes and both original relocation fields** across the four
+actually affected compiler carriers. No new exact function was claimed.
+
 ## 2026-11-10 Supervisor network native frame-word publication
 
 `SupervisorServiceUpdate @ 0x00430AA0` has two integer `frameCounter`

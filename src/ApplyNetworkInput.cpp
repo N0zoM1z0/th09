@@ -14,7 +14,9 @@ typedef char ApplyNetworkInputNativeOwner[
 
 int __fastcall ApplyNetworkInput(int stateIndex, int input)
 {
-    ReplayInputState *state = &g_ReplayInputStates[stateIndex];
+    ReplayInputState *state = reinterpret_cast<ReplayInputState *>(
+        reinterpret_cast<unsigned char *>(&g_ReplayInputStates[0]) +
+        static_cast<unsigned int>(stateIndex) * sizeof(g_ReplayInputStates[0]));
     state->networkPrevious02 = state->currentInput;
     state->currentInput = (u16)input;
 
