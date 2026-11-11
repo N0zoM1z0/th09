@@ -58,6 +58,12 @@ the canonical ledgers. Git holds prior source revisions.
   carrier cold-passed all 15 exact functions (2,530 bytes / 100 fields);
   the 51-byte AddedCallback still has only its prior eight register
   differences. See the 2026-11-11 knowledge note.
+- **SaveReplay mode/user-info lengths now honor native DWORD overflow.**
+  The three retail `ADD` operations at mode selection and user-info size
+  construction use explicit unsigned 32-bit source arithmetic. The
+  1,238-byte source candidate still differs only at `+0xB7/+0xBB`; both
+  ReplayInput carriers pass 12 exact siblings (4,093 bytes, 232 fields),
+  while BeginPlaybackStage keeps its old nonexact frontier.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

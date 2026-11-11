@@ -899,7 +899,9 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoDifficultyFormat, g_ReplayDifficultyNames[g_GameManager.difficulty]);
     int mode = g_GameManager.gameMode;
     if (mode == 2)
-        mode = g_GameManager.replayMode114 + 2;
+        // Retail adds to a native DWORD before indexing the replay mode names.
+        mode = static_cast<int>(
+            static_cast<unsigned int>(g_GameManager.replayMode114) + 2u);
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoModeFormat, g_ReplayModeNames[mode]);
     if (!g_GameManager.IsGameMode2())
     {
@@ -915,8 +917,15 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoInitialHealthFormat,
         g_GameManager.value378 * 0.5f, g_GameManager.value37C * 0.5f);
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoVersionFormat, g_ReplayVersionText);
-    infoHeader.size = (int)strlen(infoBuffer) + UserInfoWithNulBytes;
-    infoHeader.size += infoHeader.size & 1;
+    // The resulting wire header length is a signed 32-bit field; the retail
+    // ADD itself wraps as a native DWORD before its value is stored.
+    infoHeader.size = static_cast<int>(
+        static_cast<unsigned int>(strlen(infoBuffer)) +
+        static_cast<unsigned int>(UserInfoWithNulBytes));
+    // Padding the user info to an even length is another native DWORD ADD.
+    infoHeader.size = static_cast<int>(
+        static_cast<unsigned int>(infoHeader.size) +
+        (static_cast<unsigned int>(infoHeader.size) & 1u));
 
     replayCopy.value07 = 1;
     strcpy(replayCopy.playerName, replayName);

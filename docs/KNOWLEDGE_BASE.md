@@ -661,6 +661,30 @@ CheckBulletCollision remains 849 candidate bytes against 862 original, with
 allocator and reconstructed collision pool when investigating branch chronology.
 Do not introduce a replacement pool to improve codegen.
 
+## 2026-11-11 SaveReplay mode and user-info length native words
+
+`ReplayManagerView::SaveReplay @ 0x00420C60` uses a signed GameManager
+`replayMode114` value and an `int` length in the 12-byte user-info header.
+The target's i386 `ADD ECX, 2` at original `+0x224` forms the selected mode
+word, while `ADD EAX, 0xD` and the subsequent masked parity `ADD` at
+`+0x2E9/+0x2F1` form the padded serialized user-info size. The maintained
+source now performs all three as unsigned 32-bit additions before storing
+the identical signed bit patterns. This avoids dependence on C++ signed
+overflow with extreme wire/manager values. It does not change the original
+indexing, capacity, formatting, allocation, error paths or game-state gates.
+
+Three isolated and a combined natural source-cold VC7.1 probe reproduced
+the entire **1,238-byte** SaveReplay owner, all **53 target-bound fields**,
+**23 calls**, 49 original blocks, actual literals, and exactly its two
+old register-byte residuals `+0xB7/+0xBB`; the parity-word addition was
+then separately compiled and independently original-bound checked on top
+of the combined candidate. Installed-source cold replay of the **two
+actual ReplayInput compiler profiles** passed all **12 exact siblings /
+4,093 physical bytes / 232 fields**. The separately rebuilt, original-
+bound `BeginPlaybackStage` still has 538/540 bytes, all 32 fields and its
+prior 39 overlapping differences. SaveReplay and playback remain NONEXACT;
+no additional exactness or whole-product credit is claimed.
+
 ## 2026-11-11 EffectManager update and spawning native DWORD arithmetic
 
 The original Japanese v1.50a uses ordinary Win32 32-bit ADD/INC/DEC
