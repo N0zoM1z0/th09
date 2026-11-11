@@ -195,6 +195,28 @@ not an integer array; an experimental arithmetic rewrite failed its real
 operator ABI and was not installed. This improves native script-pointer
 semantics but does not grant new exact owners or whole-game runtime proof.
 
+## 2026-11-11 native FrontSide draw position cursors and camera side slots
+
+The original exact `FrontSide::OnDraw` (3,094 complete bytes) walks eleven
+HUD VM position arrays by a projection cursor at `AnmVm+0x208`. The second
+position is at `+0x288`, and consecutive genuine VM records have the
+original **0x2A4-byte stride**. The maintained source now advances each
+cursor using the native Win32 word `uint32(cursor) + sizeof(AnmVm)` rather
+than incrementing a C++ projection pointer across a different object's
+array. The two initial camera-shake clears likewise select the actual
+`Supervisor::ctorArray078[3]` 0xF0-byte viewport record using the live
+signed `frontSide->sideIndexA66C` via `uint32(base) + uint32(side)*0xF0`.
+This retains all original independent writes, viewport configuration,
+HUD draw calls, transitions, primitive construction, and loop bounds,
+without an additional safety check, pointer cache, allocation, or call.
+
+Three separate and combined VC7.1 `/Ob0` trials proved **3,094/3,094
+complete bytes**, and the installed combination passed the sole
+`FrontSideDraw.cpp` compiler carrier's scoped cold replay: **1/1 exact
+owner, 3,094 physical bytes, all 209 original-bound relocations**.
+There were no compiler-private label rebindings, no new exact owner
+credit, and no claim about native product or runtime closure.
+
 ## 2026-11-11 native Background RenderObjects stage and VM record indices
 
 The original exact `Background::RenderObjects` (3,274 complete physical

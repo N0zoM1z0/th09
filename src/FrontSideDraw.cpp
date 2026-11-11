@@ -67,16 +67,24 @@ typedef char FrontSideDrawVertexSizeIs14[
 #define FRONT_SIDE_DRAW_BASE(cursor) \
     reinterpret_cast<AnmVm *>(reinterpret_cast<u8 *>(cursor) - offsetof(AnmVm, pos))
 
+// Retail advances eleven HUD position cursors through real 0x2A4-byte
+// AnmVm storage. The viewport selector likewise indexes authentic 0xF0-byte
+// Supervisor camera records using the signed side DWORD on native Win32.
 int FrontSide::OnDraw(FrontSide *frontSide)
 {
     int i;
 
-    g_Supervisor.ctorArray078[frontSide->sideIndexA66C].screenShakeOffsetE8.x = 0.0f;
-    g_Supervisor.ctorArray078[frontSide->sideIndexA66C].screenShakeOffsetE8.y = 0.0f;
+    (*reinterpret_cast<SupervisorCtorArrayElement *>(
+        reinterpret_cast<unsigned int>(&g_Supervisor.ctorArray078[0]) +
+        static_cast<unsigned int>(frontSide->sideIndexA66C) * sizeof(g_Supervisor.ctorArray078[0]))).screenShakeOffsetE8.x = 0.0f;
+    (*reinterpret_cast<SupervisorCtorArrayElement *>(
+        reinterpret_cast<unsigned int>(&g_Supervisor.ctorArray078[0]) +
+        static_cast<unsigned int>(frontSide->sideIndexA66C) * sizeof(g_Supervisor.ctorArray078[0]))).screenShakeOffsetE8.y = 0.0f;
     g_Supervisor.ConfigureScreenViewport(frontSide->sideIndexA66C);
 
     FrontSideDrawVmCursor *cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->statusVms0000[0]);
-    for (i = 0; i < 11; ++i, ++cursor)
+    for (i = 0; i < 11; ++i, cursor = reinterpret_cast<FrontSideDrawVmCursor *>(
+        reinterpret_cast<unsigned int>(cursor) + sizeof(AnmVm)))
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
@@ -85,7 +93,8 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     }
 
     cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->stockVms1D0C[0]);
-    for (i = 0; i < 5; ++i, ++cursor)
+    for (i = 0; i < 5; ++i, cursor = reinterpret_cast<FrontSideDrawVmCursor *>(
+        reinterpret_cast<unsigned int>(cursor) + sizeof(AnmVm)))
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
@@ -94,7 +103,8 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     }
 
     cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->gaugeVms2A40[0]);
-    for (i = 0; i < 7; ++i, ++cursor)
+    for (i = 0; i < 7; ++i, cursor = reinterpret_cast<FrontSideDrawVmCursor *>(
+        reinterpret_cast<unsigned int>(cursor) + sizeof(AnmVm)))
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
@@ -103,7 +113,8 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     }
 
     cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->auxA678.vms0C[0]);
-    for (i = 0; i < 2; ++i, ++cursor)
+    for (i = 0; i < 2; ++i, cursor = reinterpret_cast<FrontSideDrawVmCursor *>(
+        reinterpret_cast<unsigned int>(cursor) + sizeof(AnmVm)))
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
@@ -118,7 +129,8 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
 
     cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->scoreVms3F60[0]);
-    for (i = 0; i < 10; ++i, ++cursor)
+    for (i = 0; i < 10; ++i, cursor = reinterpret_cast<FrontSideDrawVmCursor *>(
+        reinterpret_cast<unsigned int>(cursor) + sizeof(AnmVm)))
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
@@ -132,7 +144,8 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
 
     cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->meterVms5C6C[0]);
-    for (i = 0; i < 4; ++i, ++cursor)
+    for (i = 0; i < 4; ++i, cursor = reinterpret_cast<FrontSideDrawVmCursor *>(
+        reinterpret_cast<unsigned int>(cursor) + sizeof(AnmVm)))
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
             frontSide->sideStateA670->player04->position1B88.x +
@@ -144,7 +157,8 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     }
 
     cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->markerVms66FC[0]);
-    for (i = 0; i < 3; ++i, ++cursor)
+    for (i = 0; i < 3; ++i, cursor = reinterpret_cast<FrontSideDrawVmCursor *>(
+        reinterpret_cast<unsigned int>(cursor) + sizeof(AnmVm)))
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
             frontSide->sideStateA670->player04->position1B88.x +
@@ -158,7 +172,8 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     }
 
     cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->timingVms76D4[0]);
-    for (i = 0; i < 6; ++i, ++cursor)
+    for (i = 0; i < 6; ++i, cursor = reinterpret_cast<FrontSideDrawVmCursor *>(
+        reinterpret_cast<unsigned int>(cursor) + sizeof(AnmVm)))
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
             frontSide->sideStateA670->player04->position1B88.x +
@@ -170,7 +185,8 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     }
 
     cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->stateVms6EE8[0]);
-    for (i = 0; i < 2; ++i, ++cursor)
+    for (i = 0; i < 2; ++i, cursor = reinterpret_cast<FrontSideDrawVmCursor *>(
+        reinterpret_cast<unsigned int>(cursor) + sizeof(AnmVm)))
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(
             frontSide->sideStateA670->player04->position1B88.x +
@@ -192,7 +208,8 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     g_AnmManager->DrawNoRotation(FRONT_SIDE_DRAW_BASE(cursor));
 
     cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->rankVms86AC[0]);
-    for (i = 0; i < 7; ++i, ++cursor)
+    for (i = 0; i < 7; ++i, cursor = reinterpret_cast<FrontSideDrawVmCursor *>(
+        reinterpret_cast<unsigned int>(cursor) + sizeof(AnmVm)))
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
@@ -200,7 +217,8 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     }
 
     cursor = FRONT_SIDE_DRAW_CURSOR(&frontSide->counterVms9928[0]);
-    for (i = 0; i < 5; ++i, ++cursor)
+    for (i = 0; i < 5; ++i, cursor = reinterpret_cast<FrontSideDrawVmCursor *>(
+        reinterpret_cast<unsigned int>(cursor) + sizeof(AnmVm)))
     {
         cursor->pos00.x = g_GameManager.TransformPopupX(cursor->pos80.x);
         cursor->pos00.y = g_GameManager.TransformPopupY(cursor->pos80.y);
