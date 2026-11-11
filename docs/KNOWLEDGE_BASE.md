@@ -616,6 +616,17 @@ no new exactness credit follows.
 
 ## Player movement, charge and collision
 
+The still-nonexact 1,900-byte Player movement owner reads the focus-effect
+ID from the native table at `0x004A1A10`. Original instruction
+`0x0041C322` is `mov ecx, [edx*4 + 0x004A1A10]`: it scales the signed
+side-state `shotType20` DWORD by four in native Win32 address arithmetic,
+without a C++ array-bound precondition. The maintained source now computes
+that modulo-32 byte address from the actual table base, with no new guard or
+replacement table. A fresh VC7.1 full-owner comparison retained 1,900 physical
+bytes, all 66 original-bound relocation fields, all 23 calls, and exactly the
+prior 122 unmatched bytes; this is a wire-address fidelity correction, **not**
+a new exact owner.
+
 Movement remains 1,900 bytes/66 fields/122 differences. Horizontal and vertical
 speed already occupy the original EBP-8/EBP-4 homes. Several residuals are
 register choices in bounds clamps and position/history transport, not swapped
