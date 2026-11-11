@@ -560,6 +560,34 @@ verified. The opcode-4 timer and opcode-155 flag semantic audits still
 pass 90 and 3,072 cases respectively. No new exactness credit or native
 product/runtime closure follows.
 
+## 2026-11-11 RunEcl remote enemy slot native DWORD addressing
+
+`RunEcl @ 0x004086C0` uses the actual nine pointer slots at
+`EnemyManagerView::remoteSlots2AC388` for opcode 86–89 remote
+operand resolve, float read, remote subroutine call and deferred callback.
+The signed ECL wire index was previously used with a C++ array subscript,
+which becomes undefined when outside the nine declared elements. The
+original i386 forms a 32-bit byte address from the real slot-base and
+`unsigned(index) * sizeof(EnemyView *)`, with no added clamp. The shared
+`Th09EclRunRemote::RemoteEnemy` helper now returns the lvalue at that
+native address, and both the remote-slot macro and opcode 86's
+volatile-qualified parameter read reuse it without changing repeated
+resolver side effects, real slot ownership, read chronology or ABI.
+
+Seven isolated/combined native VC7.1 source probes produced the entire
+**15,564-byte RunEcl original-bound candidate with all 598 reviewed
+relocations, unchanged native jump tables, and precisely 30 existing
+ordinary differences** (seven opcode 4, 23 opcode 155). The installed
+combined source cold-replayed only the **five genuinely affected compiler
+carriers**: **87 exact function owners / 30,583 complete original bytes /
+1,409 original relocation fields**. Twenty VC7.1 compiler-private `$L`
+names were rebound only after independent target-PE operand and real
+same-section COFF definition proof verified all 87 complete owners.
+The official complete-RunEcl audit continued passing **90 original-
+bound opcode-4 behavior cases and 3,072 opcode-155 transition cases**.
+This is stronger source-level Win32 ownership fidelity, not a newly exact
+owner or native whole-game product closure.
+
 ## 2026-11-11 RunEcl primary/alternate ANM sequence native wrap
 
 The primary and alternate ANM-sequence ECL handlers in

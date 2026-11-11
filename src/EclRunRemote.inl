@@ -40,9 +40,14 @@ typedef char Th09EclSpawnPacketSizeIs1C[
 typedef char Th09EclSpawnPacketPositionAt04[
     (offsetof(SpawnPacket, position04) == 0x04) ? 1 : -1];
 
+// TH09 indexes the real nine remote slots using the signed ECL wire word
+// as a native modulo-32 byte offset. The original does not first clamp the
+// index to the C++ nine-element array's bounds.
 inline EnemyView *&RemoteEnemy(EnemyView *enemy, int slot)
 {
-    return enemy->manager00->remoteSlots2AC388[slot];
+    return *reinterpret_cast<EnemyView **>(
+        reinterpret_cast<unsigned int>(&enemy->manager00->remoteSlots2AC388[0]) +
+        static_cast<unsigned int>(slot) * sizeof(enemy->manager00->remoteSlots2AC388[0]));
 }
 
 inline Th09EclContextView *ActiveContext(EnemyView *enemy)
@@ -97,11 +102,12 @@ __forceinline void ResolveSpawnPosition(
 #error EclRunRemote.inl must be included lexically inside RunEcl's switch
 #endif
 
-// Resolve each effectful index before reading the manager's table. The comma
-// expressions below preserve the original call-before-lookup sequencing;
-// repeated conditional lookups still resolve their operand again.
+// Resolve each effectful index before reading the manager's real slot table.
+// The native slot helper retains 32-bit address arithmetic without changing
+// repeated resolver calls or their order. The macro still evaluates its slot
+// operand only once at each use.
 #define TH09_ECL_REMOTE_SLOT(owner, index) \
-    ((owner)->manager00->remoteSlots2AC388[(index)])
+    Th09EclRunRemote::RemoteEnemy((owner), (index))
 
     int remoteIndex;
     int remoteValue;
@@ -112,12 +118,12 @@ __forceinline void ResolveSpawnPosition(
         if ((instruction->parameterMask0A & (1U << 1)) != 0)
         {
             remoteIndex = Th09EclRunControl::ReadInt(enemy, instruction, 2);
-            // This input pair is read directly from the existing bytecode
-            // and remote-slot lvalues. A bounded qualified read keeps the
-            // real ResolveInt parameter preparation in target order.
+            // This input pair uses the original bytecode lvalue and an
+            // actual remote-slot lvalue. Keep the volatile field read and
+            // original ResolveInt parameter evaluation chronology.
             lhsInt = Th09EclRunControl::ResolveInt(
                 static_cast<EnemyView *const volatile &>(
-                    enemy->manager00->remoteSlots2AC388[remoteIndex]),
+                    Th09EclRunRemote::RemoteEnemy(enemy, remoteIndex)),
                 static_cast<const volatile int &>(
                     Th09EclRunControl::RawInt(instruction, 1)));
         }

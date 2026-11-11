@@ -182,6 +182,13 @@ the canonical ledgers. Git holds prior source revisions.
   while computing the live record address as a 32-bit 0x30-byte stride,
   preserving the original signed upper bound and DWORD counter increment.
   Each standalone source carrier passed its own exact cold replay.
+- **RunEcl remote ECL slot lookups now use native DWORD byte offsets.**
+  The shared nine-slot helper, opcode 86's volatile lvalue and the
+  repeated-resolver macro address real `remoteSlots2AC388` words by
+  original modulo-32 multiplication, without adding bounds checks.
+  RunEcl remains at 15,564 bytes/598 fields and its 30 old differences;
+  five affected profiles cold-pass 87 exact functions / 30,583 bytes /
+  1,409 fields. Twenty compiler-private labels were independently proven.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
