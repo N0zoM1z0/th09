@@ -16,7 +16,14 @@ void *EnemyManagerCardAttackSpawnView::SpawnEnemyRecord(
     EnemyView *enemy;
 
     enemy = &manager->enemies5758[0];
-    for (enemyIndex = 0; enemyIndex < EnemyNativePoolCapacity::ActiveSlots; ++enemyIndex, ++enemy)
+    // Retail advances the 128 active Enemy records by native DWORD stride;
+    // the signed index also increments modulo 2^32 without a C++ overflow.
+    for (enemyIndex = 0;
+         enemyIndex < EnemyNativePoolCapacity::ActiveSlots;
+         enemyIndex = static_cast<int>(
+             static_cast<unsigned int>(enemyIndex) + 1u),
+         enemy = reinterpret_cast<EnemyView *>(
+             reinterpret_cast<unsigned int>(enemy) + sizeof(EnemyView)))
     {
         if ((enemy->flags337C & 1) != 0)
             continue;

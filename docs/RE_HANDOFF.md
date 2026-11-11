@@ -325,6 +325,10 @@ the canonical ledgers. Git holds prior source revisions.
   decrements/increments for lifetime/delay and released/active counters.
   Five affected PlayerRuntime profiles cold-pass 21 exact owners /
   5,391 bytes / 288 fields after proving 11 private PE/COFF labels.
+- **Exact Enemy spawn record iterator now preserves native DWORD stride.**
+  The 128 active Enemy slots and the real 129th sentinel are traversed
+  with modulo-32 record-pointer and signed index increments. The one
+  affected compiler carrier retains all 364 original bytes/four fields.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

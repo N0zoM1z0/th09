@@ -503,6 +503,27 @@ only after this PE/COFF/full-body proof. No newly exact owner or
 whole-product closure is claimed; the separate 3,900-byte Enemy
 OnUpdate boss retains its original unresolved 13 register bytes.
 
+## 2026-11-11 Enemy spawn record loop native DWORD increments
+
+The original exact EnemyManagerCardAttackSpawnView::SpawnEnemyRecord
+at 0x0040F1D0 walks the 128 active EnemyView records in the genuine
+129-record EnemyManager allocation, including a real trailing sentinel.
+Retail i386 advances the iterator by the true sizeof(EnemyView) stride
+in 32-bit native address arithmetic and increments the signed loop
+index with a native DWORD instruction. The maintained C++ now spells
+both modulo-32 operations explicitly, retaining the original signed
+index bound, real sentinel behavior, each original template copy,
+ECL subroutine initialization, immediate RunEcl call, failure flags
+and score/life stores.
+
+Independent pinned VC7.1 trials for the count-only, record-pointer-only
+and combined variants each reproduced the **complete original 364-byte
+owner and all four original relocations**. The installed combined source
+passed a one-carrier canonical original-bound cold replay. The separate
+3,900-byte EnemyManager::OnUpdate owner is independently checked and
+remains nonexact by 13 register bytes; no new exact-function credit
+or entire native-product closure is claimed.
+
 ## 2026-11-11 Enemy OnUpdate native global schedule byte addressing
 
 The large `EnemyManagerView::OnUpdate @ 0x00410730` reads a byte from the
