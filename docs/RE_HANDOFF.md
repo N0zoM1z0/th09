@@ -152,6 +152,13 @@ the canonical ledgers. Git holds prior source revisions.
   has only the old 30 differences. Two affected VC7.1 profiles cold-pass
   83 exact owners / 29,856 bytes / 1,389 fields; twenty private labels
   were independently COFF/PE-proven before rebinding.
+- **The exact collision box-append leaf now addresses native records.**
+  `AppendBoxRecord` retains its original 205 bytes/two fields while
+  rereading the live signed count and using explicit modulo-32 0x30-byte
+  record strides; the final count increment also wraps natively.
+  Enemy OnUpdate remains 3,900 bytes/97 fields/69 calls and 13 unlike
+  bytes. Two EclManager profiles cold-pass 83 exact siblings / 29,856
+  bytes / 1,389 fields; two private labels were PE/COFF-proven first.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

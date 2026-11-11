@@ -44,14 +44,33 @@ void PlayerCollisionQueryStateView::AppendBoxRecord(
     if (count1804 >= PlayerCollisionQueryCapacity::RecordCount)
         return;
 
-    records[count1804].position00 = *position;
-    records[count1804].halfSize18 = *size;
-    records[count1804].halfSize18.x *= 0.5f;
-    records[count1804].halfSize18.y *= 0.5f;
-    records[count1804].radius24 = 0.0f;
-    records[count1804].angle28 = 0.0f;
-    records[count1804].unknown2C = unknown;
-    ++count1804;
+    // Retail recomputes the live count seven times, addressing the original
+    // 0x30-byte records through native modulo-32 byte arithmetic. A negative
+    // native count must not become a C++ out-of-bounds array subscript.
+
+    (*reinterpret_cast<PlayerCollisionQueryRecordView *>(
+        reinterpret_cast<unsigned int>(&records[0]) +
+        static_cast<unsigned int>(count1804) * sizeof(records[0]))).position00 = *position;
+    (*reinterpret_cast<PlayerCollisionQueryRecordView *>(
+        reinterpret_cast<unsigned int>(&records[0]) +
+        static_cast<unsigned int>(count1804) * sizeof(records[0]))).halfSize18 = *size;
+    (*reinterpret_cast<PlayerCollisionQueryRecordView *>(
+        reinterpret_cast<unsigned int>(&records[0]) +
+        static_cast<unsigned int>(count1804) * sizeof(records[0]))).halfSize18.x *= 0.5f;
+    (*reinterpret_cast<PlayerCollisionQueryRecordView *>(
+        reinterpret_cast<unsigned int>(&records[0]) +
+        static_cast<unsigned int>(count1804) * sizeof(records[0]))).halfSize18.y *= 0.5f;
+    (*reinterpret_cast<PlayerCollisionQueryRecordView *>(
+        reinterpret_cast<unsigned int>(&records[0]) +
+        static_cast<unsigned int>(count1804) * sizeof(records[0]))).radius24 = 0.0f;
+    (*reinterpret_cast<PlayerCollisionQueryRecordView *>(
+        reinterpret_cast<unsigned int>(&records[0]) +
+        static_cast<unsigned int>(count1804) * sizeof(records[0]))).angle28 = 0.0f;
+    (*reinterpret_cast<PlayerCollisionQueryRecordView *>(
+        reinterpret_cast<unsigned int>(&records[0]) +
+        static_cast<unsigned int>(count1804) * sizeof(records[0]))).unknown2C = unknown;
+    // The final INC DWORD wraps before the next append's signed bound test.
+    count1804 = static_cast<int>(static_cast<unsigned int>(count1804) + 1u);
 }
 
 void EnemyView::AppendPlayerCollisionBox(

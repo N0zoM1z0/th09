@@ -444,6 +444,33 @@ scoped exact replay: **five exact functions, 1,220 complete bytes and
 Player collision query. This is a source semantics correction; the
 nonexact boss still needs a genuine extra CFG block to be promoted.
 
+## 2026-11-11 Player collision box-append native 0x30-byte records
+
+The exact `PlayerCollisionQueryStateView::AppendBoxRecord @ 0x0040F8E0`
+is a real 205-byte TH09 leaf in the same native compiler carrier as the
+3,900-byte `EnemyManagerView::OnUpdate` boss. The original i386 leaf rereads
+the signed `count1804` seven times, computing each physical record address
+from the genuine `records[0]` base and native 0x30-byte stride, using
+modulo-32 multiplication/addition even for an unusual negative signed
+count. The maintained source formerly used C++ `records[count1804]`
+subscripts; these seven sites now form the original 32-bit byte address
+explicitly, without caching the live count or introducing another record
+allocation. The native `INC DWORD [count1804]` is also expressed as a
+32-bit unsigned increment before retaining the original signed count.
+
+Independent pinned VC7.1 address-only, increment-only and combined source
+probes reproduced the complete original **205-byte owner / two original
+relocation fields**. The combined source also retained the entire
+**3,900-byte Enemy OnUpdate** owner, all **97 fields, 69 ordered calls,
+full original CFG and exactly its prior 13 unlike register bytes**.
+The installed source then cold-replayed only the two actually affected
+EclManager compiler profiles: **83 exact functions / 29,856 complete
+physical bytes / 1,389 original-bound fields**. Two compiler-private
+`$L` spellings were rebound in the canonical ledger only after independent
+actual COFF same-section definitions, PE operand targets and complete
+byte equality of all 83 exact owners were established. No new function
+exactness or native whole-product closure is claimed.
+
 ## 2026-11-11 native side-index arithmetic across network and enemy reward
 
 The original TH09 i386 code subtracts the `SupervisorNetworkState::localSide`
