@@ -67,7 +67,11 @@ Git retains earlier source revisions.
   computes its six instruction-stream jumps/advances as native 32-bit byte
   addresses; all five affected exact owners (10,496 full bytes / 421 fields)
   pass two-carrier scoped cold replay with 148 independently verified private
-  `$L` reference rebindings.
+  `$L` reference rebindings. RunEcl's polar/bias movement helpers now form
+  16 real four-byte wire-argument accesses through native DWORD addresses;
+  the full 15,564-byte RunEcl frontier remains at 30 bytes, while two
+  EclManager carriers still protect 83/83 exact functions (29,856 bytes /
+  1,389 relocations) with 20 independently verified private label rebindings.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

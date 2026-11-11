@@ -62,7 +62,17 @@ static int PopContext(EnemyView *enemy)
 
 namespace Th09EclRunMovement
 {
+// The variable-length ECL movement wire stream has 0x04-byte operands.
+// A lexical native Win32 DWORD address keeps the original /Ob0 and /Ob1
+// operand loads and resolver calls without introducing a helper ABI.
+#define TH09_NATIVE_ECL_WIRE(args, index) \
+    (*reinterpret_cast<const Th09EclWireArgument *>( \
+        reinterpret_cast<unsigned int>(args) + \
+        static_cast<unsigned int>(index) * sizeof(Th09EclWireArgument)))
 
+// The variable-length ECL operand stream begins at the true +0x0C
+// instruction payload. Preserve each original 4-byte read and resolver
+// call while forming native i386 32-bit byte addresses from this base.
 static void SetPrimaryAnmScripts(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *,
@@ -162,32 +172,32 @@ static void StartTimedPolarDisplacement(
     view->movementDelta2E10.x =
         cosineOperation(angle) *
         ((instruction->parameterMask0A & 4U)
-             ? enemy->ResolveFloat(wireArgs[2].real)
-             : wireArgs[2].real) *
+             ? enemy->ResolveFloat(TH09_NATIVE_ECL_WIRE(wireArgs, 2).real)
+             : TH09_NATIVE_ECL_WIRE(wireArgs, 2).real) *
         ((instruction->parameterMask0A & 1U)
-             ? Th09EclRunControl::ResolveInt(enemy, wireArgs[0].integer)
-             : wireArgs[0].integer);
+             ? Th09EclRunControl::ResolveInt(enemy, TH09_NATIVE_ECL_WIRE(wireArgs, 0).integer)
+             : TH09_NATIVE_ECL_WIRE(wireArgs, 0).integer);
     view->movementDelta2E10.y =
         sineOperation(angle) *
         ((instruction->parameterMask0A & 4U)
-             ? enemy->ResolveFloat(wireArgs[2].real)
-             : wireArgs[2].real) *
+             ? enemy->ResolveFloat(TH09_NATIVE_ECL_WIRE(wireArgs, 2).real)
+             : TH09_NATIVE_ECL_WIRE(wireArgs, 2).real) *
         ((instruction->parameterMask0A & 1U)
-             ? Th09EclRunControl::ResolveInt(enemy, wireArgs[0].integer)
-             : wireArgs[0].integer);
+             ? Th09EclRunControl::ResolveInt(enemy, TH09_NATIVE_ECL_WIRE(wireArgs, 0).integer)
+             : TH09_NATIVE_ECL_WIRE(wireArgs, 0).integer);
     view->movementDelta2E10.z = 0.0f;
     view->movementOrigin2E1C = view->worldPosition2DD4;
 
     int duration = ((instruction->parameterMask0A & 1U)
-             ? Th09EclRunControl::ResolveInt(enemy, wireArgs[0].integer)
-             : wireArgs[0].integer);
+             ? Th09EclRunControl::ResolveInt(enemy, TH09_NATIVE_ECL_WIRE(wireArgs, 0).integer)
+             : TH09_NATIVE_ECL_WIRE(wireArgs, 0).integer);
     view->movementDuration2E34 = duration;
     view->movementTimer2E28 = duration;
     view->primaryFlags337C =
         (view->primaryFlags337C & ~0x3A00U) |
         ((((instruction->parameterMask0A & 2U)
-             ? Th09EclRunControl::ResolveInt(enemy, wireArgs[1].integer)
-             : wireArgs[1].integer) & 7) << 11) |
+             ? Th09EclRunControl::ResolveInt(enemy, TH09_NATIVE_ECL_WIRE(wireArgs, 1).integer)
+             : TH09_NATIVE_ECL_WIRE(wireArgs, 1).integer) & 7) << 11) |
         0x400U;
 }
 
@@ -324,14 +334,14 @@ static void MoveRandomBiased(
         angle = -angle;
 
     if (((instruction->parameterMask0A & 1U)
-             ? Th09EclRunControl::ResolveInt(enemy, wireArgs[0].integer)
-             : wireArgs[0].integer) <= 0)
+             ? Th09EclRunControl::ResolveInt(enemy, TH09_NATIVE_ECL_WIRE(wireArgs, 0).integer)
+             : TH09_NATIVE_ECL_WIRE(wireArgs, 0).integer) <= 0)
     {
         view->movementAngle2DE0 = angle;
         view->speed2DF4 =
             ((instruction->parameterMask0A & 4U)
-             ? enemy->ResolveFloat(wireArgs[2].real)
-             : wireArgs[2].real);
+             ? enemy->ResolveFloat(TH09_NATIVE_ECL_WIRE(wireArgs, 2).real)
+             : TH09_NATIVE_ECL_WIRE(wireArgs, 2).real);
         view->primaryFlags337C =
             (view->primaryFlags337C &
              ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |

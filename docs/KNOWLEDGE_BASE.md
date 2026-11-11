@@ -536,6 +536,31 @@ original PE target and complete byte equality of all 83 owners.
 The separate original-bound opcode 4/155 semantic audits still passed
 90/3,072 cases. Neither exact count nor native-product closure changed.
 
+## 2026-11-11 native ECL movement wire argument words
+
+The `RunEcl` movement helpers `StartTimedPolarDisplacement` and
+`MoveRandomBiased` consume a true **variable-length** instruction stream.
+Its 0x0C-byte header is followed by native 0x04-byte wire arguments; the
+maintained source forms the original `wireArgs` pointer from the physical
+header base and now calculates **16 actual operand reads** through
+`uint32(wireArgs) + uint32(index) * sizeof(Th09EclWireArgument)`.
+All repeated resolves, operand masks, float/int bit interpretations and
+original call ordering remain live; there is no extra bounds gate,
+alternate argument pool, cache or change in the zero-sized header layout.
+
+A callable inline accessor matched the full `RunEcl` body but made the
+independently exact `MoveRandomBiased` fail its `/Ob0` 516-byte owner extent.
+Both lexical and macro-native variants preserved **516/516 bytes** of
+`MoveRandomBiased`, **288/288 bytes** of `StartTimedPolarDisplacement`, and
+the complete **15,564-byte original-bound RunEcl candidate** with **598
+relocations**, unchanged original switch tables and just its existing
+**30 nonexact opcode-4/155 bytes**. The selected lexical native macro
+preserves both compiler profiles. The final two-carrier scoped cold replay
+passed **83/83 exact siblings, 29,856 complete bytes and 1,389 relocation
+fields**; 20 VC7.1 private `$L` labels were rebound only after confirming
+actual same-section COFF definitions and unchanged original PE addresses.
+This is source-level ECL wire-memory fidelity, not new RunEcl exact credit.
+
 ## RunEcl native pending-subroutine, remote boss and bullet-transform slots
 
 Three script-controlled table accesses in the complete 15,564-byte RunEcl
