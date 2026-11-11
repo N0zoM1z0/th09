@@ -89,6 +89,22 @@ extern FrontSideGameManagerView g_GameManager;
 
 extern const char *g_FrontSideAuxPaths[];
 
+// The real HUD allocation stores 0x2A4-byte ANM VMs, while its GameManager
+// side receivers and ANM filename table use 0x38-byte and DWORD strides.
+// Keep every live index, call and C++ lvalue without new range checks.
+#define FRONT_NATIVE_VM(arr, index) \
+    (*reinterpret_cast<AnmVm *>( \
+        reinterpret_cast<unsigned int>(&(arr)[0]) + \
+        static_cast<unsigned int>(index) * sizeof((arr)[0])))
+#define FRONT_NATIVE_SIDE(index) \
+    (*reinterpret_cast<FrontSideSideStateView *>( \
+        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) + \
+        static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0])))
+#define FRONT_NATIVE_PATH(index) \
+    (*reinterpret_cast<const char *const *>( \
+        reinterpret_cast<unsigned int>(&g_FrontSideAuxPaths[0]) + \
+        static_cast<unsigned int>(index) * sizeof(g_FrontSideAuxPaths[0])))
+
 #define FrontSideState(state) (state)
 
 static int ReleaseOptionalAnm(FrontSide *frontSide)
@@ -114,32 +130,32 @@ int FrontSide::AddedCallback(FrontSide *frontSide)
     {
         frontSide->auxA678.optionalAnm04 =
             g_AnmManager->PreloadAnm(
-                7, g_FrontSideAuxPaths[g_GameManager.sides[0].auxPathIndex30]);
+                7, FRONT_NATIVE_PATH(g_GameManager.sides[0].auxPathIndex30));
         if (frontSide->auxA678.optionalAnm04 == NULL)
             return -1;
     }
 
     for (unsigned int i = 0; i < 11; ++i)
     {
-        frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->statusVms0000[i], i + 7);
+        frontSide->frontAnmA668->ExecuteAnmIdx(&FRONT_NATIVE_VM(frontSide->statusVms0000, i), i + 7);
         (frontSide->statusVms0000 + i)->pos2 =
             (frontSide->statusVms0000 + i)->pos;
     }
     for (unsigned int i = 0; i < 5; ++i)
-        frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->stockVms1D0C[i], i + 35);
+        frontSide->frontAnmA668->ExecuteAnmIdx(&FRONT_NATIVE_VM(frontSide->stockVms1D0C, i), i + 35);
     for (unsigned int i = 0; i < 7; ++i)
-        frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->gaugeVms2A40[i], i + 52);
+        frontSide->frontAnmA668->ExecuteAnmIdx(&FRONT_NATIVE_VM(frontSide->gaugeVms2A40, i), i + 52);
     for (unsigned int i = 0; i < 10; ++i)
-        frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->scoreVms3F60[i], i + 20);
+        frontSide->frontAnmA668->ExecuteAnmIdx(&FRONT_NATIVE_VM(frontSide->scoreVms3F60, i), i + 20);
     frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->vm3CBC, 59);
 
     if (!g_GameManager.IsMode2())
     {
         for (unsigned int i = 0; i < 7; ++i)
-            frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->rankVms86AC[i], i + 40);
+            frontSide->frontAnmA668->ExecuteAnmIdx(&FRONT_NATIVE_VM(frontSide->rankVms86AC, i), i + 40);
     }
     for (unsigned int i = 0; i < 5; ++i)
-        frontSide->frontAnmA668->ExecuteAnmIdx(&frontSide->counterVms9928[i], i + 47);
+        frontSide->frontAnmA668->ExecuteAnmIdx(&FRONT_NATIVE_VM(frontSide->counterVms9928, i), i + 47);
 
     frontSide->updateTimerABDC = 0;
     memset(&frontSide->vm59C8, 0, sizeof(frontSide->vm59C8));
@@ -158,9 +174,9 @@ FrontSide *FrontSide::Create(int sideIndex)
         g_ZunMemory.AddToRegistry(new FrontSide, sizeof(FrontSide), "FrontSideInf"));
     frontSide->Reset();
 
-    frontSide->sideStateA670 = &g_GameManager.sides[sideIndex];
+    frontSide->sideStateA670 = &FRONT_NATIVE_SIDE(sideIndex);
     frontSide->sideIndexA66C = sideIndex;
-    frontSide->otherSideStateA674 = &g_GameManager.sides[1 - sideIndex];
+    frontSide->otherSideStateA674 = &FRONT_NATIVE_SIDE(static_cast<int>(1u - static_cast<unsigned int>(sideIndex)));
 
     frontSide->calcChainA660 =
         g_Chain.CreateElem(reinterpret_cast<ChainCallback>(FrontSide::OnUpdate));
@@ -295,7 +311,7 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     g_Supervisor.SelectSide(frontSide->sideIndexA66C);
 
     for (int i = 0; i < 11; ++i)
-        g_AnmManager->ExecuteScript(&frontSide->statusVms0000[i]);
+        g_AnmManager->ExecuteScript(&FRONT_NATIVE_VM(frontSide->statusVms0000, i));
 
     int value = FRONT_SIDE_PLAYER(frontSide)->value30414;
     if (value > 999)
@@ -400,16 +416,16 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     int stock = FRONT_SIDE_PLAYER(frontSide)->valueA8;
     for (int i = 0; i < 5; ++i)
     {
-        g_AnmManager->ExecuteScript(&frontSide->stockVms1D0C[i]);
+        g_AnmManager->ExecuteScript(&FRONT_NATIVE_VM(frontSide->stockVms1D0C, i));
         int shown = stock >= 2 ? 2 : stock;
-        frontSide->frontAnmA668->SetSprite(&frontSide->stockVms1D0C[i], shown + 35);
+        frontSide->frontAnmA668->SetSprite(&FRONT_NATIVE_VM(frontSide->stockVms1D0C, i), shown + 35);
         stock -= 2;
         if (stock < 0)
             stock = 0;
     }
 
     for (int i = 0; i < 7; ++i)
-        g_AnmManager->ExecuteScript(&frontSide->gaugeVms2A40[i]);
+        g_AnmManager->ExecuteScript(&FRONT_NATIVE_VM(frontSide->gaugeVms2A40, i));
     FrontSideSideStateView *side = FRONT_SIDE_STATE(frontSide);
     (&frontSide->gaugeVms2A40[0])->scale.x = side->hudPlayer04->meter30388 * 0.0025f;
     (&frontSide->gaugeVms2A40[1])->scale.x = side->hudPlayer04->meter30384 * 0.0025f;
@@ -467,9 +483,9 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     {
         int rankIndex = 0;
         for (; rankIndex < static_cast<int>(g_GameManager.sides[frontSide->sideIndexA66C].runtime->value00); ++rankIndex)
-            (&frontSide->rankVms86AC[rankIndex])->flagsWord |= 2;
+            (&FRONT_NATIVE_VM(frontSide->rankVms86AC, rankIndex))->flagsWord |= 2;
         for (; static_cast<unsigned int>(rankIndex) < 7; ++rankIndex)
-            (&frontSide->rankVms86AC[rankIndex])->flagsWord &= ~2U;
+            (&FRONT_NATIVE_VM(frontSide->rankVms86AC, rankIndex))->flagsWord &= ~2U;
         g_AnmManager->ExecuteScriptArray(frontSide->rankVms86AC, 7);
     }
 
@@ -478,9 +494,9 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
         markerCount = 5;
     int markerIndex = 0;
     for (; markerIndex < markerCount; ++markerIndex)
-        (&frontSide->counterVms9928[markerIndex])->flagsWord |= 2;
+        (&FRONT_NATIVE_VM(frontSide->counterVms9928, markerIndex))->flagsWord |= 2;
     for (; static_cast<unsigned int>(markerIndex) < 5; ++markerIndex)
-        (&frontSide->counterVms9928[markerIndex])->flagsWord &= ~2U;
+        (&FRONT_NATIVE_VM(frontSide->counterVms9928, markerIndex))->flagsWord &= ~2U;
     g_AnmManager->ExecuteScriptArray(frontSide->counterVms9928, 5);
 
     if (frontSide->auxA678.unknown554 == 1)
@@ -502,3 +518,7 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
 #undef FRONT_SIDE_RUNTIME
 
 #undef FrontSideState
+
+#undef FRONT_NATIVE_VM
+#undef FRONT_NATIVE_SIDE
+#undef FRONT_NATIVE_PATH

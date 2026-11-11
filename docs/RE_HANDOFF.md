@@ -106,7 +106,10 @@ Git retains earlier source revisions.
   trail, 0x2A4-byte VM and 0x38-byte opponent-side addresses, preserving its
   739 complete bytes and 28 original-bound relocations. Type3's matching
   32-record history and live VM/side selections are native too, with its
-  780-byte exact body and 38 relocations still verified.
+  780-byte exact body and 38 relocations still verified. FrontSide's exact
+  2,381-byte OnUpdate also computes its dynamic 0x2A4-byte HUD VM records
+  natively; its create/callback side and auxiliary path indices join a
+  one-carrier 15/15 exact replay (4,087 bytes / 176 relocation fields).
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

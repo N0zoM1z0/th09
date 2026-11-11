@@ -988,6 +988,32 @@ relocation fields**. The game-mode and FrontScore lifetime remain
 unchanged; this is native source-address fidelity, not newly exact
 owner credit or Windows runtime closure.
 
+## 2026-11-11 native FrontSide HUD VM, side and auxiliary path records
+
+The complete exact `FrontSide::OnUpdate` at its original **2,381-byte**
+owner operates on six real ANM HUD VM arrays inside `FrontSide`:
+`statusVms0000`, `stockVms1D0C`, `gaugeVms2A40`, `scoreVms3F60`,
+`rankVms86AC` and `counterVms9928`. Each slot is the canonical
+**0x2A4-byte `AnmVm`**. Fourteen dynamic VM calls/flag updates now form
+the native i386 unsigned DWORD `base + uint32(index) * sizeof(AnmVm)`
+address on every original use. The exact FrontSide create function also
+forms both live 0x38-byte GameManager side lvalues with native DWORD
+arithmetic (`sideIndex` and original `1 - sideIndex`), and AddedCallback
+reads the actual global auxiliary ANM path pointer at `uint32(base) +
+uint32(g_GameManager.sides[0].auxPathIndex30)*4`. No new bounds checks,
+extra ANM calls, cached side snapshots or second object allocations were
+introduced, and the original HUD animation and side-selection chronology
+is preserved.
+
+Four isolated/combined pinned VC7.1 builds maintained the complete
+**2,381-byte OnUpdate**, 460-byte AddedCallback and 283-byte Create
+machine-code owners. The installed lexical native lvalues passed the
+single actually affected compiler-carrier scoped cold replay:
+**15/15 exact functions, 4,087 complete original bytes and 176 original
+relocation fields**, without a manifest change. This is improved source
+memory semantics on already-exact substantial HUD code, not new exact
+credit or Windows runtime closure.
+
 ## Front random-message selection native variable-length wire entries
 
 `FrontMessageRuntimeView::SetupRandomForSide @ 0x004162D0` selects from a
