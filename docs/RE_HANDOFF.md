@@ -30,8 +30,11 @@ Git retains earlier source revisions.
   Replay BeginRecordingStage now also uses native signed-stage strides for
   three frame-pointer rows, the FPS row and inline 0x18-byte buffer links;
   the two Replay focus loops now address their original 0x8E-byte side-state
-  records by native DWORD side strides. The 1,323-byte stage initializer and
-  all 12 same-source exact units (4,093 bytes / 232 fields) remain verified.
+  records by native DWORD side strides. EffectManager's nine indexed
+  template fields now use the real table's native 0x18-byte DWORD stride;
+  its 15 exact owners (2,530 bytes / 100 fields) remain cold-verified.
+  The 1,323-byte Replay stage initializer and all 12 ReplayInput exact units
+  (4,093 bytes / 232 fields) also remain verified.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

@@ -55,6 +55,25 @@ not instructions to restore old scratch experiments or previous snapshots.
   all-owner cold replay, do not change VC7.1 profiles to chase registers,
   and do not treat adjacent-game decompilation as an original TH09 Oracle.
 
+## 2026-11-11 native Effect template indexed storage
+
+`EffectManager::InitializeEffect @ 0x0040CA60` reads nine fields from the
+original `g_EffectTemplates` table at `0x004A0B48`. Its signed effect ID
+selects a genuine 0x18-byte `EffectTemplate` record: retail Win32 forms
+`base + uint32(effectId) * sizeof(EffectTemplate)` modulo 2^32. Ordinary
+`g_EffectTemplates[effectId]` imposed a C++ array-bound requirement absent
+from the original index calculation. A single inline const reference to the
+real table entry now preserves the native address word at every access,
+without caching a read, creating a new backing table, or adding a guard.
+
+After applying the maintained source change, the pinned VC7.1 one-carrier
+scoped cold replay passed **15 complete exact EffectManager owners / 2,530
+physical bytes / 100 relocation fields**, including all **407 bytes and 17
+fields** of `InitializeEffect`. The separately original-bound 51-byte
+`AddedCallback` still has four bound fields, both correct calls and its
+existing eight nonexact register bytes. This improves source semantics but
+adds no exact function or whole-product/runtime credit.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.
