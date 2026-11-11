@@ -130,6 +130,18 @@ void Ending::UpdateFade()
     }
 }
 
+// Original ending script VM selectors address one actual 0x2A4-byte AnmVm
+// array. Script text bytes are written through the real 68-byte stack buffer.
+// Preserve independent live wire reads and i386 modulo-32 address arithmetic.
+#define TH09_ENDING_NATIVE_VM(owner, index) \
+    (*reinterpret_cast<AnmVm *>( \
+        reinterpret_cast<unsigned int>(&(owner)->endingVms[0]) + \
+        static_cast<unsigned int>(index) * sizeof((owner)->endingVms[0])))
+#define TH09_ENDING_NATIVE_TEXT(buffer, index) \
+    (*reinterpret_cast<char *>( \
+        reinterpret_cast<unsigned int>(&(buffer)[0]) + \
+        static_cast<unsigned int>(index)))
+
 int Ending::RunEndingScript()
 {
     char textBuffer[68];
@@ -158,7 +170,7 @@ int Ending::RunEndingScript()
         if (this->pageWaitTimer <= 0)
         {
             for (int i = 0; i < 15; i++)
-                this->endingVms[i].SetInterrupt(2);
+                TH09_ENDING_NATIVE_VM(this, i).SetInterrupt(2);
             this->nextTextVmIndex = 0;
         }
         else
@@ -202,8 +214,8 @@ int Ending::RunEndingScript()
                 int vmIndex = this->ReadScriptParameter();
                 int scriptIndex = this->ReadScriptParameter();
                 int spriteIndex = this->ReadScriptParameter();
-                this->endingAnm->ExecuteAnmIdx(&this->endingVms[vmIndex], scriptIndex);
-                this->endingAnm->SetSprite(&this->endingVms[vmIndex], spriteIndex);
+                this->endingAnm->ExecuteAnmIdx(&TH09_ENDING_NATIVE_VM(this, vmIndex), scriptIndex);
+                this->endingAnm->SetSprite(&TH09_ENDING_NATIVE_VM(this, vmIndex), spriteIndex);
                 break;
             }
 
@@ -232,7 +244,7 @@ int Ending::RunEndingScript()
                 for (int i = 0; i < 16; i++)
                 {
                     reinterpret_cast<EndingAnmVmScriptView *>(
-                        &this->endingVms[i])->scriptIndex = 0;
+                        &TH09_ENDING_NATIVE_VM(this, i))->scriptIndex = 0;
                 }
                 break;
 
@@ -315,9 +327,9 @@ int Ending::RunEndingScript()
             if (textIndex != 0)
             {
                 g_AnmManager->DrawTextLeft(
-                    &this->endingVms[this->nextTextVmIndex], this->textColor, 0,
+                    &TH09_ENDING_NATIVE_VM(this, this->nextTextVmIndex), this->textColor, 0,
                     textBuffer);
-                this->endingVms[this->nextTextVmIndex].SetInterrupt(1);
+                TH09_ENDING_NATIVE_VM(this, this->nextTextVmIndex).SetInterrupt(1);
             }
             while (*this->scriptCursor == '\n' || *this->scriptCursor == '\0' ||
                    *this->scriptCursor == '\r')
@@ -340,8 +352,8 @@ lineWaitConfigured:
 
         default:
             temporary = textIndex;
-            textBuffer[textIndex] = *this->scriptCursor;
-            textBuffer[temporary + 1] = *(this->scriptCursor + 1);
+            TH09_ENDING_NATIVE_TEXT(textBuffer, textIndex) = *this->scriptCursor;
+            TH09_ENDING_NATIVE_TEXT(textBuffer, static_cast<unsigned int>(temporary) + 1u) = *(this->scriptCursor + 1);
             textIndex = temporary + 2;
             this->scriptCursor += 2;
             break;
@@ -401,7 +413,7 @@ loop:
         return 0;
 
     for (int i = 0; i < 15; i++)
-        g_AnmManager->ExecuteScript(&ending->endingVms[i]);
+        g_AnmManager->ExecuteScript(&TH09_ENDING_NATIVE_VM(ending, i));
 
     if (ending->hasSeenEnding && g_AsciiInput.IsHeld(0x100) && frameSkip < 8)
     {
@@ -416,7 +428,7 @@ int Ending::OnDraw(Ending *ending)
     g_AnmManager->CopySurfaceToBackbuffer2(
         0, 0, 0, (int)ending->backgroundPosX, (int)ending->backgroundPosY, 640, 480);
     for (int i = 0; i < 15; i++)
-        g_AnmManager->Draw2D(&ending->endingVms[i]);
+        g_AnmManager->Draw2D(&TH09_ENDING_NATIVE_VM(ending, i));
     ending->DrawFade();
     return 1;
 }
@@ -452,3 +464,6 @@ int Ending::RegisterChain()
     g_Chain.AddToDrawChain(ending->drawChain, 4);
     return 0;
 }
+
+#undef TH09_ENDING_NATIVE_VM
+#undef TH09_ENDING_NATIVE_TEXT

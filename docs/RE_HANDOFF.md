@@ -175,6 +175,13 @@ all its 58 fields matched; eight affected compiler carriers preserve
 **20/20 exact SoundPlayer functions (5,400 bytes / 184 relocation fields)**,
 with eight PE-target-verified private-label rebindings.
 
+The `Ending::RunEndingScript` interpreter also now advances its live
+0x2A4-byte ANM VM records and 68-byte text buffer by native DWORD
+addresses. Its **1,727-byte complete original PE owner / 88 fields**
+remains exact, as do all nine affected exact siblings across two
+compiler carriers (**10/10 functions, 3,015 bytes / 159 fields**), with
+31 COFF/PE-target-proven private label rebindings.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact

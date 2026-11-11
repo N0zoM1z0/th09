@@ -552,6 +552,38 @@ fidelity in both major queue processing and related exact leaf carriers,
 without promoting any of the still-open source-present functions or
 claiming a native Windows product/runtime.
 
+## 2026-11-11 native Ending script ANM VM and live text byte slots
+
+The exact `Ending::RunEndingScript` interpreter has **1,499 reviewed
+logical bytes and 1,727 complete original physical bytes**, including
+its owned original switch table and tails. `@a` takes a signed `vmIndex`
+from the actual ending script file and addresses one of the real
+`Ending::endingVms` 0x2A4-byte ANM records. Text events select the same
+VM storage using the live signed `nextTextVmIndex`. The runtime also
+updates a genuine 68-byte stack text buffer through its `textIndex` and
+`temporary + 1` positions. The maintained code now forms these
+independent VM and text-buffer lvalues as native Win32 unsigned-DWORD
+byte addresses, including script-driven out-of-range indices without
+a synthetic bounds gate. The two 15-VM callback loops and the 16-VM
+script-index reset likewise advance through the actual 0x2A4-byte VM
+allocation. All original OnUpdate, OnDraw, cursor movement, text
+rendering, audio and resource reload calls are preserved at their
+original execution points, without caching, alternate arrays or
+additional conditions.
+
+Seven isolated and one combined pinned VC7.1 trial proved the entire
+**1,727/1,727-byte interpreter owner and 88 original-bound relocation
+fields** unchanged. The installed lexical macros passed scoped cold
+replay for the two genuinely affected compiler carriers:
+**10/10 exact source owners, 3,015 complete bytes and 159 relocations**.
+The compiler renumbered 25 private `$L` references in the interpreter
+and six in the `UpdateFade` function; each was rebound only after
+independently proving identical same-section COFF targets and original
+PE relocation offset/type/target, plus complete machine-code equality.
+The former 1,499-byte logical interpreter and all short leaf functions
+remain exact; no new exact owner or native runtime/product credit is
+claimed.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.
