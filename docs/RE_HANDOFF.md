@@ -200,6 +200,14 @@ terminating NUL. The exact WinMain and CreateGameWindow source owners
 remain **2/2 exact, 1,636 complete bytes / 171 fields** under the sole
 relevant VC7.1 carrier.
 
+The Title character-select family now uses true native byte addresses
+for 55 live mode-0/mode-123 order, unlock and Screen16 character slots.
+Its two affected VC7.1 carriers still protect **41/41 exact functions,
+18,972 original bytes and 953 relocation fields**; nine StartMenu
+private-label rebindings were original-target verified. The independent
+OnUpdateResult nonexact owner guard remains at its prior 484/485-byte
+candidate/target boundary and 218 unlike overlapping bytes.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact

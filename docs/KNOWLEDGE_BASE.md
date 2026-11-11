@@ -657,6 +657,37 @@ comprising **1,351/1,351 WinMain bytes (152 fields)** plus
 **285/285 CreateGameWindow bytes (19 fields)**. No compiler-private
 label rebinding, newly exact owner, or native-runtime closure is implied.
 
+## 2026-11-11 native Title character-order, unlock and Screen16 tables
+
+The exact Title character-select family uses two distinct 16-byte
+character-order arrays (`g_TitleCharacterOrder` for mode 0 and
+`g_TitleCharacterOrderMode123` for modes 1/2/3), three real 16-byte
+character-unlock tables, and the genuine 16-byte Screen16 order/entry
+arrays. **Fifty-five independent runtime byte lvalues** now form the
+original i386 address `uint32(real byte base) + uint32(live signed
+character/cursor/index)`: 18 mode-0 order reads, 11 mode-123 order
+reads, 17 unlock reads across normal/alternate modes, and 9 Screen16
+order, selection and result reads/writes. The original per-use character
+loads, unlock branches, cursor searches, ANM calls and menu transitions
+remain live. No range gates, shadow arrays, copied character maps or
+additional helper calls have been introduced.
+
+The distinct mode-0, mode-123, unlock, Screen16 and combined variants
+were compiled with the target's pinned VC7.1 settings. The final
+combined source preserved the entire character select mode-0 **2,241
+bytes / 116 relocations**, mode-123 **2,153 bytes / 89 relocations**,
+Screen16 **897 bytes / 62 relocations**, and all other same-source
+original owners. The actual two-carrier scoped cold replay passed
+**41/41 exact units, 18,972 complete original physical bytes and 953
+relocation fields**. Nine optimizer-private `$L` references in
+`OnUpdateStartMenu` were rebound only after separately proving their
+real same-section COFF definitions, unchanged offsets/types and
+original PE destinations; no other manifest values were modified.
+The still-nonexact sibling `TitleScreen::OnUpdateResult` was also
+checked separately and retains its previous full 485-byte target,
+484-byte candidate, 34 fields and 218 unlike overlapping bytes.
+No exact-function promotion or native Windows runtime proof is claimed.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

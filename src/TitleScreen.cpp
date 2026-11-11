@@ -285,6 +285,18 @@ extern TitleCharacterConfigView g_TitleCharacterConfig;
 extern u8 g_TitleCharacterUnlocked[16];
 extern u8 g_TitleCharacterUnlockedNormal[16];
 extern u8 g_TitleCharacterUnlockedMode4[16];
+// Real TH09 character order, unlock and screen-16 tables are indexed as
+// native i386 unsigned DWORD byte addresses, retaining signed cursor input.
+// Do not add range checks, duplicate character arrays or cached lookups.
+#define TH09_TITLE_NATIVE_CHARACTER(table, index) \
+    (*reinterpret_cast<char *>( \
+        reinterpret_cast<unsigned int>(&(table)[0]) + \
+        static_cast<unsigned int>(index)))
+#define TH09_TITLE_NATIVE_UNLOCK(table, index) \
+    (*reinterpret_cast<u8 *>( \
+        reinterpret_cast<unsigned int>(&(table)[0]) + \
+        static_cast<unsigned int>(index)))
+
 extern i32 g_TitleResultUnlockStep;
 extern ScreenEffect *g_TitleFadeReleaseEffect;
 extern TitleSideInputView g_TitleSide0Input;
@@ -718,7 +730,7 @@ void *TitleScreenView::MoveCharacterCursor(i32 side, i32 direction, char *order,
     {
         i32 *cursor = &side0CharacterCursor + side;
         result = cursor;
-        while (!g_TitleCharacterUnlocked[order[*cursor]])
+        while (!TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlocked, order[*cursor]))
         {
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(direction));
             if (*cursor < 0)
@@ -738,7 +750,7 @@ void *TitleScreenView::MoveCharacterCursorNormal(i32 side, i32 direction, char *
     {
         i32 *cursor = &side0CharacterCursor + side;
         result = cursor;
-        while (!g_TitleCharacterUnlockedNormal[order[*cursor]])
+        while (!TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedNormal, order[*cursor]))
         {
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(direction));
             if (*cursor < 0)
@@ -758,7 +770,7 @@ void *TitleScreenView::MoveCharacterCursorMode4(i32 side, i32 direction, char *o
     {
         i32 *cursor = &side0CharacterCursor + side;
         result = cursor;
-        while (!g_TitleCharacterUnlockedMode4[order[*cursor]])
+        while (!TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedMode4, order[*cursor]))
         {
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(direction));
             if (*cursor < 0)
@@ -983,18 +995,18 @@ void TitleScreenView::UpdateCharacterSelectionVisuals(
         {
             if (currentScreen == 8)
             {
-                if (g_TitleCharacterUnlocked[character] ||
+                if (TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlocked, character) ||
                     g_SupervisorNetworkState->active)
                     selectedVisibleIndex++;
             }
             else if (currentScreen == 3)
             {
-                if (g_TitleCharacterUnlockedNormal[character] != 0)
+                if (TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedNormal, character) != 0)
                     selectedVisibleIndex++;
             }
             else
             {
-                if (g_TitleCharacterUnlockedMode4[character] != 0)
+                if (TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedMode4, character) != 0)
                     selectedVisibleIndex++;
             }
         }
@@ -1019,18 +1031,18 @@ void TitleScreenView::UpdateCharacterSelectionVisuals(
         {
             if (currentScreen == 8)
             {
-                if (g_TitleCharacterUnlocked[character] ||
+                if (TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlocked, character) ||
                     g_SupervisorNetworkState->active)
                     otherVisibleIndex++;
             }
             else if (currentScreen == 3)
             {
-                if (g_TitleCharacterUnlockedNormal[character] != 0)
+                if (TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedNormal, character) != 0)
                     otherVisibleIndex++;
             }
             else
             {
-                if (g_TitleCharacterUnlockedMode4[character] != 0)
+                if (TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedMode4, character) != 0)
                     otherVisibleIndex++;
             }
         }
@@ -1044,7 +1056,7 @@ void TitleScreenView::UpdateCharacterSelectionVisuals(
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
     {
         i32 character = order[orderIndex];
-        if (g_TitleCharacterUnlocked[character] ||
+        if (TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlocked, character) ||
             g_SupervisorNetworkState->active)
         {
             AnmVmView *vm = &vms[191 + visibleIndex];
@@ -1072,7 +1084,7 @@ void TitleScreenView::UpdateScreen16SelectionVisuals(i32 unusedSide, i32 selecte
         i32 character = order[orderIndex];
         if (selectedCharacter != character)
         {
-            if (orderIndex > 13 || g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
+            if (orderIndex > 13 || TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlocked, character) || g_SupervisorNetworkState->active)
                 selectedVisibleIndex++;
         }
         else
@@ -1097,7 +1109,7 @@ void TitleScreenView::UpdateScreen16SelectionVisuals(i32 unusedSide, i32 selecte
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
     {
         i32 character = order[orderIndex];
-        if (g_TitleCharacterUnlocked[character] || orderIndex > 13 || g_SupervisorNetworkState->active)
+        if (TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlocked, character) || orderIndex > 13 || g_SupervisorNetworkState->active)
         {
             AnmVmView *vm = &vms[207 + visibleIndex];
             if (selectedVisibleIndex == visibleIndex)
@@ -1153,8 +1165,8 @@ int TitleScreenView::OnUpdateCharacterSelect()
             for (value = 0; value < 14; value++)
             {
                 i32 character = g_TitleCharacterOrder14[value];
-                if ((g_TitleDifficulty == 4 && g_TitleCharacterUnlockedMode4[character]) ||
-                    (g_TitleDifficulty != 4 && g_TitleCharacterUnlockedNormal[character]))
+                if ((g_TitleDifficulty == 4 && TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedMode4, character)) ||
+                    (g_TitleDifficulty != 4 && TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedNormal, character)))
                 {
                     titleAnm->SetSprite(reinterpret_cast<AnmVmView *>(
                         reinterpret_cast<unsigned char *>(vms) +
@@ -1414,8 +1426,8 @@ int TitleScreenView::UpdateScreen8Mode0()
                 i32 visibleCount = 0;
                 for (value = 0; value < 16; value++)
                 {
-                    char character = g_TitleCharacterOrder[value];
-                    if (g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
+                    char character = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, value);
+                    if (TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlocked, character) || g_SupervisorNetworkState->active)
                     {
                         titleAnm->SetSprite(
                             &vms[191 + visibleCount],
@@ -1432,21 +1444,21 @@ int TitleScreenView::UpdateScreen8Mode0()
             vms[190].flags |= 2;
 
             side0CharacterCursor = 0;
-            while (g_TitleCharacterOrder[side0CharacterCursor] != g_GameSide0Value20)
+            while (TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side0CharacterCursor) != g_GameSide0Value20)
                 side0CharacterCursor++;
             side1CharacterCursor = 0;
-            while (g_TitleCharacterOrder[side1CharacterCursor] != g_GameSide1Value20)
+            while (TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side1CharacterCursor) != g_GameSide1Value20)
                 side1CharacterCursor++;
 
             MoveCharacterCursor(0, 1, g_TitleCharacterOrder, 16);
             MoveCharacterCursor(1, 1, g_TitleCharacterOrder, 16);
 
-            characters[1] = g_TitleCharacterOrder[side1CharacterCursor];
-            value = g_TitleCharacterOrder[side0CharacterCursor];
+            characters[1] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side1CharacterCursor);
+            value = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side0CharacterCursor);
             SetCharacterCursorActive(value, 92, 16, 2);
-            SetCharacterCursorActive(g_TitleCharacterOrder[side1CharacterCursor], 93, 16, 2);
-            SetCharacterCursorActive(g_TitleCharacterOrder[side0CharacterCursor], 60, 16, 2);
-            SetCharacterCursorActive(g_TitleCharacterOrder[side1CharacterCursor], 61, 16, 2);
+            SetCharacterCursorActive(TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side1CharacterCursor), 93, 16, 2);
+            SetCharacterCursorActive(TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side0CharacterCursor), 60, 16, 2);
+            SetCharacterCursorActive(TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side1CharacterCursor), 61, 16, 2);
 
             unknown0C918 = 1;
             side1CharacterConfirmed = 0;
@@ -1497,8 +1509,8 @@ int TitleScreenView::UpdateScreen8Mode0()
                 if (value != 0)
                 {
                     MoveCharacterCursor(0, value, g_TitleCharacterOrder, 16);
-                    characters[0] = g_TitleCharacterOrder[side0CharacterCursor];
-                    characters[1] = g_TitleCharacterOrder[side1CharacterCursor];
+                    characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side0CharacterCursor);
+                    characters[1] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side1CharacterCursor);
                     if (value > 0)
                     {
                         SetCharacterCursorActive(characters[0], 92, 16, 2);
@@ -1534,8 +1546,8 @@ int TitleScreenView::UpdateScreen8Mode0()
                 if (side0CharacterCursor >= 16)
                     side0CharacterCursor -= 16;
                 MoveCharacterCursor(0, 1, g_TitleCharacterOrder, 16);
-                characters[0] = g_TitleCharacterOrder[side0CharacterCursor];
-                characters[1] = g_TitleCharacterOrder[side1CharacterCursor];
+                characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side0CharacterCursor);
+                characters[1] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side1CharacterCursor);
                 SetCharacterCursorActive(characters[0], 92, 16, 2);
                 SetCharacterCursorActive(characters[0], 60, 16, 2);
                 UpdateCharacterSelectionVisuals(0, characters[0], characters[1], g_TitleCharacterOrder);
@@ -1550,8 +1562,8 @@ int TitleScreenView::UpdateScreen8Mode0()
                 if (value != 0)
                 {
                     MoveCharacterCursor(1, value, g_TitleCharacterOrder, 16);
-                    characters[0] = g_TitleCharacterOrder[side0CharacterCursor];
-                    characters[1] = g_TitleCharacterOrder[side1CharacterCursor];
+                    characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side0CharacterCursor);
+                    characters[1] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side1CharacterCursor);
                     if (value < 0)
                     {
                         SetCharacterCursorActive(characters[1], 93, 16, 2);
@@ -1587,16 +1599,16 @@ int TitleScreenView::UpdateScreen8Mode0()
                 if (side1CharacterCursor >= 16)
                     side1CharacterCursor -= 16;
                 MoveCharacterCursor(1, 1, g_TitleCharacterOrder, 16);
-                characters[0] = g_TitleCharacterOrder[side0CharacterCursor];
-                value = g_TitleCharacterOrder[side1CharacterCursor];
+                characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side0CharacterCursor);
+                value = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side1CharacterCursor);
                 SetCharacterCursorActive(value, 93, 16, 2);
                 SetCharacterCursorActive(value, 61, 16, 2);
                 UpdateCharacterSelectionVisuals(1, value, characters[0], g_TitleCharacterOrder);
             }
         }
 
-        characters[0] = g_TitleCharacterOrder[side0CharacterCursor];
-        characters[1] = g_TitleCharacterOrder[side1CharacterCursor];
+        characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side0CharacterCursor);
+        characters[1] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder, side1CharacterCursor);
 
         if ((g_TitleSide0Input.repeatInput & 0x1001) && side0CharacterConfirmed == 0)
         {
@@ -1716,8 +1728,8 @@ int TitleScreenView::UpdateScreen8Mode123()
             i32 visibleCount = 0;
             for (value = 0; value < 16; value++)
             {
-                char character = g_TitleCharacterOrderMode123[value];
-                if (g_TitleCharacterUnlocked[character])
+                char character = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrderMode123, value);
+                if (TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlocked, character))
                 {
                     titleAnm->SetSprite(&vms[191 + visibleCount], character + 235);
                     vms[191 + visibleCount].flags |= 2;
@@ -1731,17 +1743,17 @@ int TitleScreenView::UpdateScreen8Mode123()
             vms[190].flags &= ~2u;
 
             side0CharacterCursor = 0;
-            while (g_TitleCharacterOrderMode123[side0CharacterCursor] != g_GameSide0Value20)
+            while (TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrderMode123, side0CharacterCursor) != g_GameSide0Value20)
                 side0CharacterCursor++;
             side1CharacterCursor = 0;
-            while (g_TitleCharacterOrderMode123[side1CharacterCursor] != g_GameSide1Value20)
+            while (TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrderMode123, side1CharacterCursor) != g_GameSide1Value20)
                 side1CharacterCursor++;
 
             MoveCharacterCursor(0, 1, g_TitleCharacterOrderMode123, 16);
             MoveCharacterCursor(1, 1, g_TitleCharacterOrderMode123, 16);
 
-            characters[0] = g_TitleCharacterOrderMode123[side0CharacterCursor];
-            characters[1] = g_TitleCharacterOrderMode123[side1CharacterCursor];
+            characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrderMode123, side0CharacterCursor);
+            characters[1] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrderMode123, side1CharacterCursor);
 
             vms[93 + characters[0] * 2].color1Bytes[2] = 0xFF;
             vms[93 + characters[0] * 2].color1Bytes[1] = 0xFF;
@@ -1780,8 +1792,8 @@ int TitleScreenView::UpdateScreen8Mode123()
 
     case 1:
     {
-        characters[0] = g_TitleCharacterOrderMode123[side0CharacterCursor];
-        characters[1] = g_TitleCharacterOrderMode123[side1CharacterCursor];
+        characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrderMode123, side0CharacterCursor);
+        characters[1] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrderMode123, side1CharacterCursor);
 
         if (side0CharacterConfirmed == 0)
         {
@@ -1791,8 +1803,8 @@ int TitleScreenView::UpdateScreen8Mode123()
                 if (value != 0)
                 {
                     MoveCharacterCursor(0, value, g_TitleCharacterOrderMode123, 16);
-                    characters[0] = g_TitleCharacterOrderMode123[side0CharacterCursor];
-                    characters[1] = g_TitleCharacterOrderMode123[side1CharacterCursor];
+                    characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrderMode123, side0CharacterCursor);
+                    characters[1] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrderMode123, side1CharacterCursor);
                     if (value > 0)
                     {
                         SetCharacterCursorActive(characters[0], 92, 16, 2);
@@ -1831,8 +1843,8 @@ int TitleScreenView::UpdateScreen8Mode123()
                 if (value != 0)
                 {
                     MoveCharacterCursor(1, value, g_TitleCharacterOrderMode123, 16);
-                    characters[0] = g_TitleCharacterOrderMode123[side0CharacterCursor];
-                    characters[1] = g_TitleCharacterOrderMode123[side1CharacterCursor];
+                    characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrderMode123, side0CharacterCursor);
+                    characters[1] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrderMode123, side1CharacterCursor);
                     if (value < 0)
                     {
                         SetCharacterCursorActive(characters[1], 93, 16, 2);
@@ -1984,12 +1996,12 @@ int TitleScreenView::UpdateScreen16()
             i32 orderIndex = 0;
             for (; orderIndex < 16; orderIndex++)
             {
-                char character = g_TitleScreen16Order[orderIndex];
-                if (character > 13 || g_TitleCharacterUnlocked[character] || g_SupervisorNetworkState->active)
+                char character = TH09_TITLE_NATIVE_CHARACTER(g_TitleScreen16Order, orderIndex);
+                if (character > 13 || TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlocked, character) || g_SupervisorNetworkState->active)
                 {
                     titleAnm->SetSprite(&vms[207 + visibleCount], character + 251);
                     vms[207 + visibleCount].flags |= 2;
-                    g_TitleScreen16Entries[visibleCount] = g_TitleScreen16Order[orderIndex];
+                    TH09_TITLE_NATIVE_CHARACTER(g_TitleScreen16Entries, visibleCount) = TH09_TITLE_NATIVE_CHARACTER(g_TitleScreen16Order, orderIndex);
                     visibleCount++;
                 }
             }
@@ -2009,7 +2021,7 @@ int TitleScreenView::UpdateScreen16()
 
             vms[189].flags |= 2;
             vms[190].flags |= 2;
-            char selectedCharacter = g_TitleScreen16Entries[keyboardSelection];
+            char selectedCharacter = TH09_TITLE_NATIVE_CHARACTER(g_TitleScreen16Entries, keyboardSelection);
             currentScreenState = 0;
             stateTimer = 0;
             uiAux = 0;
@@ -2027,9 +2039,9 @@ int TitleScreenView::UpdateScreen16()
         i32 direction = MoveCursorFourWay(16);
         if (direction != 0)
         {
-            while (g_TitleScreen16Entries[keyboardSelection] < 0)
+            while (TH09_TITLE_NATIVE_CHARACTER(g_TitleScreen16Entries, keyboardSelection) < 0)
                 keyboardSelection = (direction + keyboardSelection) % 16;
-            UpdateScreen16SelectionVisuals(0, g_TitleScreen16Entries[keyboardSelection],
+            UpdateScreen16SelectionVisuals(0, TH09_TITLE_NATIVE_CHARACTER(g_TitleScreen16Entries, keyboardSelection),
                                            g_TitleScreen16Order);
         }
 
@@ -2038,7 +2050,7 @@ int TitleScreenView::UpdateScreen16()
             keyboardSelection += g_TitleSelectionRandom.NextU32() & 0xF;
             if (keyboardSelection >= 16)
                 keyboardSelection -= 16;
-            UpdateScreen16SelectionVisuals(0, g_TitleScreen16Entries[keyboardSelection],
+            UpdateScreen16SelectionVisuals(0, TH09_TITLE_NATIVE_CHARACTER(g_TitleScreen16Entries, keyboardSelection),
                                            g_TitleScreen16Order);
         }
 
@@ -2098,13 +2110,13 @@ int TitleScreenView::UpdateScreen16()
             g_GameSide0CharacterSetting = side0CharacterSetting;
             g_GameSide1CharacterSetting = side1CharacterSetting;
 
-            g_TitleScreen16SelectionResult = g_TitleScreen16Entries[keyboardSelection];
+            g_TitleScreen16SelectionResult = TH09_TITLE_NATIVE_CHARACTER(g_TitleScreen16Entries, keyboardSelection);
             if (g_TitleScreen16SelectionResult == 14)
                 g_TitleScreen16SelectionResult = -1;
             else if (g_TitleScreen16SelectionResult == 15)
                 g_TitleScreen16SelectionResult = -2;
             else
-                g_TitleScreen16SelectionResult = g_TitleScreen16Entries[keyboardSelection];
+                g_TitleScreen16SelectionResult = TH09_TITLE_NATIVE_CHARACTER(g_TitleScreen16Entries, keyboardSelection);
             return 0;
         }
 
@@ -3552,3 +3564,6 @@ int TitleSupervisorView::ClearRecordingFpsWarningState()
     this->recordingFpsState78C = 0;
     return 0;
 }
+
+#undef TH09_TITLE_NATIVE_CHARACTER
+#undef TH09_TITLE_NATIVE_UNLOCK
