@@ -50,7 +50,10 @@ Git retains earlier source revisions.
   siblings remain verified. Title OnUpdateResult now also reads the
   selected character-order byte through its native 32-bit table address;
   its 484/485-byte frontier remains open, while all 41 same-source exact
-  Title owners (18,972 bytes / 953 fields) remain verified.
+  Title owners (18,972 bytes / 953 fields) remain verified. Seven
+  score-name table lvalues in two Title update owners now share real
+  0x44C/0xDC/0x2C native bank/row/record strides; those 41 exact Title
+  functions still pass their two-carrier scoped cold replay.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

@@ -1306,6 +1306,32 @@ zero-plus-memcpy seed locals did not close it. A wider SetSeed implementation
 can itself be byte-identical: callee bytes do not uniquely determine formal
 width. Keep the pre-runtime-read snapshot of side-0 value1E8.
 
+## 2026-11-11 native Title score-name table bank/row/record addresses
+
+The original global `g_TitleNameTable @ 0x004A8398` is a three-level
+`TitleNameRecordView[][5][5]` allocation: a genuine 0x2C-byte record, a
+0xDC-byte five-record row and a 0x44C-byte five-row bank. Two distinct
+Title update owners use its **seven live reads/writes** of the selected
+`nameBankIndex`, `g_TitleNameTableIndex` and `nameSlotIndex`. The maintained
+source now shares one inline lvalue that computes the authentic base plus
+`uint32(bank)*0x44C + uint32(table)*0xDC + uint32(slot)*0x2C`, each term
+in Win32 modulo-32 arithmetic. It preserves separately evaluated live
+indices and all original per-character reads/stores. It neither clamps
+inputs, caches the chosen record across callbacks nor creates a new table.
+
+Both direct complete-owner probes stayed byte-exact:
+`OnUpdateResultNameEntry` **966/966 bytes** and the replay-save update
+**1,825/1,825 bytes**, including their original relocation owners.
+Installing the combined source passed the pinned VC7.1 **41/41 exact
+TitleScreen units, 18,972 complete physical bytes, 953 relocation fields
+in two actually affected compiler carriers**. Nine private `OnUpdateStartMenu`
+`$L` symbol names shifted; each canonical rebind was accepted only after
+checking the same-section COFF definition against the unchanged original
+PE destination, followed by full 41-owner replay. The separate nonexact
+`OnUpdateResult` remains 484/485 bytes and 218 unlike overlapping bytes.
+This advances native source data/layout fidelity but no new exact-owner,
+link, or runtime claim.
+
 ## 2026-11-11 Title result native character-order cursor lookup
 
 `TitleScreenView::OnUpdateResult @ 0x004266B5` reads the active signed

@@ -2141,6 +2141,23 @@ int TitleScreenView::UpdateScreen16()
 }
 
 
+// The actual 0x2C-byte name records use 5-record rows and 5-row banks.
+// Keep each live signed index as an unsigned Win32 address word; neither
+// a second table allocation nor a retail-absent bounds gate is introduced.
+typedef char TitleNativeNameTableStrides[
+    (sizeof(g_TitleNameTable[0][0][0]) == 0x2C &&
+     sizeof(g_TitleNameTable[0][0]) == 0xDC &&
+     sizeof(g_TitleNameTable[0]) == 0x44C) ? 1 : -1];
+static inline TitleNameRecordView &NativeTitleNameRecord(
+    int bankIndex, int tableIndex, int recordIndex)
+{
+    return *reinterpret_cast<TitleNameRecordView *>(
+        reinterpret_cast<unsigned int>(&g_TitleNameTable[0][0][0]) +
+        static_cast<unsigned int>(bankIndex) * sizeof(g_TitleNameTable[0]) +
+        static_cast<unsigned int>(tableIndex) * sizeof(g_TitleNameTable[0][0]) +
+        static_cast<unsigned int>(recordIndex) * sizeof(g_TitleNameTable[0][0][0]));
+}
+
 int TitleScreenView::OnUpdateResultNameEntry()
 {
     switch (currentScreenState)
@@ -2184,7 +2201,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             else
             {
                 strcpy(
-                    g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name,
+                    NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name,
                     g_ReplayName);
             }
         }
@@ -2259,7 +2276,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
                 {
                     strcpy(
                         g_ReplayName,
-                        g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name);
+                        NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name);
                 }
                 return 1;
             }
@@ -2269,7 +2286,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
                 value = ' ';
             else
                 value = g_TitleAlphabet[keyboardSelection];
-            g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor] = value;
+            NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name[replayNameCursor] = value;
             PlayMenuSound(10, 0);
             if (replayNameCursor < 7)
                 replayNameCursor++;
@@ -2282,14 +2299,14 @@ int TitleScreenView::OnUpdateResultNameEntry()
         {
             PlayMenuSound(11, 0);
             if (replayNameCursor == 7 &&
-                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] != ' ')
+                NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name[7] != ' ')
             {
-                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] = ' ';
+                NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name[7] = ' ';
             }
             else if (replayNameCursor > 0)
             {
                 replayNameCursor--;
-                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor] = ' ';
+                NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name[replayNameCursor] = ' ';
             }
             stateTimer = 0;
         }
@@ -2781,7 +2798,7 @@ int TitleScreenView::UpdateReplaySave()
             keyboardSelection = 0;
             strcpy(
                 g_ReplayName,
-                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name);
+                NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name);
             return 1;
         }
 
