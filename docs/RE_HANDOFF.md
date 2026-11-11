@@ -102,6 +102,9 @@ Git retains earlier source revisions.
   The already-exact 1,436-byte ExAttack Type18/24 boss now uses native
   0x0C-byte position, 4-byte angle and 0x2A4-byte VM lvalue addresses;
   its one-carrier 1,436-byte / 44-relocation exact replay remains verified.
+  The separate exact Type4 attack callback now also forms live 0x0C-byte
+  trail, 0x2A4-byte VM and 0x38-byte opponent-side addresses, preserving its
+  739 complete bytes and 28 original-bound relocations.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

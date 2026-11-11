@@ -1168,6 +1168,28 @@ three affected compiler carriers: **four exact function bodies,
 This recovers authentic native leaf semantics; all four were
 already exact before the change.
 
+## 2026-11-11 ExAttack Type4 native trail, VM and opponent-side lvalues
+
+The complete exact `ExAttackUpdateCallbackType4` owns a 739-byte TH09
+handler over one real +0x10 `Float3 history10[32]` allocation (0x0C-byte
+entries), the original `record->vms1C` 0x2A4-byte native ANM VMs and the
+shared 0x38-byte `g_GameManager.sides` records. The maintained source
+now computes the moving history index and its immediate previous record
+using unsigned-DWORD native byte address words. It likewise uses the
+real live VM pointer for nine script/position/interrupt receiver accesses
+and the original signed `opponentSide04` for five collision-query side
+receivers. The original loops, method calls, state/timer conditions and
+five opponent collision checks remain in place, without adding bounds
+checks, side caches, copies or independent allocations.
+
+Four separate/combined VC7.1 probes each preserved the complete 739-byte
+physical owner, and the installed combined source passed **1/1 exact
+function, 739/739 original bytes and 28 independently bound relocation
+fields** on only the relevant compiler carrier. No manifest rebindings
+were necessary. This is a native-layout fidelity improvement on a
+previously exact attack callback, not a newly exact function or native
+product/runtime proof.
+
 ## 2026-11-11 ExAttack 18/24 native history and ANM VM byte addresses
 
 The exact `ExAttackUpdateCallbackType18_24` owner (1,436 target bytes)
