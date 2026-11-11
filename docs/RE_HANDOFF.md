@@ -187,6 +187,13 @@ addresses for its replay side record (0x8E stride), Supervisor controller
 mode bytes and sixteen live 16-bit held-key cursor advances. The one-carrier
 scoped replay remains **1/1 exact, 1,507 bytes / 13 relocations**.
 
+The full GameManager setup/update/cleanup chain now selects the original
+0x38-byte side records by native DWORD addresses at 48 dynamic sites.
+The 1,230-byte OnUpdate, 1,689-byte GameplaySetupThread, 425-byte
+CleanupGameplayState and nine other exact owners remain protected across
+their two original VC7.1 carriers: **12/12 functions, 4,680 original bytes
+and 415 relocation fields**.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact

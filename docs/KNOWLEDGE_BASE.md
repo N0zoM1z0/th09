@@ -607,6 +607,35 @@ scoped cold replay: **1/1 exact owner, 1,507 bytes, 13 fields**, with no
 manifest label changes. This is source-memory fidelity in an already-exact
 network input owner, not a newly exact function or native runtime claim.
 
+## 2026-11-11 native GameManager gameplay side record addressing
+
+The original `GameManagerSetupLayout` contains the actual three contiguous
+**0x38-byte GameManager side records**, with two playable sides and a
+third shared EffectManager side. `OnUpdate` walks both real 0xA0-byte
+per-side score/phase buffers through the `sideIndex` selection and
+`CleanupGameplayState` dispatches the same actual background, Player,
+Etama, Effect, Enemy, CardAttack and FrontSide owners. The
+`GameplaySetupThread` allocates and registers each playable subsystem
+using the same original side pointer slots. Forty-eight independent
+source lvalues previously indexed `globalManager.sides[sideIndex]` (26)
+or `g_GameManager.sides[sideIndex]` (22); all now form native Win32
+`uint32(actual base) + uint32(sideIndex)*sizeof(0x38-byte record)`
+addresses rather than relying on C++ array-bound assumptions. Each
+original score publication, allocation/call, failure branch, release
+and side-scoped setup order remains unchanged, without caching a second
+side object, inserting bounds checks, or changing the three-record ABI.
+
+Isolated update/cleanup, setup-thread and combined pinned VC7.1 probes
+matched the complete original physical owners, including **1,230 bytes
+and 87 original relocations for OnUpdate**, **425 bytes / 43 fields for
+CleanupGameplayState** and **1,689 bytes / 172 fields for
+GameplaySetupThread**. The installed lexical native lvalues passed a
+scoped cold replay of both actually affected compiler carriers:
+**12/12 exact functions, 4,680 complete original bytes and 415 bound
+relocation fields**; no private-label manifest rewrite was needed.
+No new exact owner was promoted and Windows product/runtime closure
+remains open.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.
