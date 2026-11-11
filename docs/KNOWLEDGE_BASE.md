@@ -1396,6 +1396,43 @@ source then passed the canonical original-bound scoped cold replay of the
 physical bytes / zero relocation fields**. This does not promote any newly
 exact function or prove the full Windows i386 product is closed.
 
+## 2026-11-11 Player runtime collision-region native words and list strides
+
+The independently exact Player UpdatePlayerCollisionRegions owner maintains
+the real Player active-region pointer table at +0xB100 and released-region
+pointer table at +0xB908, with separate native signed counts at +0xC110
+and +0xC114. Retail i386 uses a physical four-byte pointer stride for
+active and released entries and for the removal/shift traversal of the
+active list. The maintained source now forms those array/iterator
+addresses as unsigned 32-bit base-plus-stride words, without a new bound
+check or a different region pool. It retains every original live field
+read, Deactivate call, list shift, early return and embedded region
+activation path.
+
+The original lifetime/delay decrements for both dynamic and embedded
+regions use native DEC DWORD instructions; these now operate through
+the corresponding unsigned integer object representation, avoiding
+signed C++ overflow when those timer fields contain INT_MIN. The
+released-region count post-increment similarly operates on its native
+unsigned DWORD word, while the active count and loop index decrements
+use explicit modulo-32 arithmetic. The signed tests and recorded
+integer field bit patterns remain unchanged.
+
+Independent physical-pointer/array-slot/counter probes (including
+a rejected common-helper form for the released-slot postincrement)
+proved the complete original 273-byte UpdatePlayerCollisionRegions
+owner and two relocation fields. The accepted direct native-released
+address, unsigned count postincrement and four duration decrements
+combined without introducing any byte differences. Five genuinely
+affected PlayerRuntime VC7.1 profiles were rebuilt and all **21 exact
+original owners / 5,391 full physical bytes / 288 original relocation
+fields** were independently proven against the original PE. Eleven
+private compiler-label spellings were rebound only after checking
+actual same-section COFF definitions and complete original owner
+bytes, then canonical affected-only cold replay passed. The larger
+Player collision/ChargeAttack owners remain nonexact and the whole
+Windows i386 product is not yet closed.
+
 ## 2026-11-11 Player SHT loader and AddedCallback native table addresses
 
 The exact Player resource setup routines operate on the one actual

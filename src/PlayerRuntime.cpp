@@ -282,33 +282,45 @@ static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
     PlayerCollisionRuntimeView *runtime =
         reinterpret_cast<PlayerCollisionRuntimeView *>(player);
     PlayerCollisionRegionRuntimeView **slot = runtime->activeRegions;
+    // The real Player pool has separate +0xB100 active and +0xB908
+    // released pointer-word tables. Retail decrements lifetime/delay and
+    // advances all live list pointers as native unsigned 32-bit words.
+    // The released count's post-increment also wraps before the next use.
 
     for (int index = 0; index < runtime->activeRegionCount; ++index)
     {
         if ((*slot)->delay > 0)
         {
-            --(*slot)->delay;
+            --reinterpret_cast<unsigned int &>((*slot)->delay);
         }
         else
         {
-            --(*slot)->lifetime;
+            --reinterpret_cast<unsigned int &>((*slot)->lifetime);
             (*slot)->valueX += (*slot)->growthX;
             (*slot)->valueY += (*slot)->growthY;
             (*slot)->valueZ += (*slot)->growthZ;
             if ((*slot)->lifetime <= 0)
             {
                 (*slot)->Deactivate();
-                runtime->releasedRegions[runtime->releasedRegionCount++] = *slot;
+                (*reinterpret_cast<PlayerCollisionRegionRuntimeView **>(
+                    reinterpret_cast<unsigned int>(&runtime->releasedRegions[0]) +
+                    static_cast<unsigned int>(
+                        reinterpret_cast<unsigned int &>(runtime->releasedRegionCount)++) *
+                        sizeof(runtime->releasedRegions[0]))) = *slot;
 
                 PlayerCollisionRegionRuntimeView **current = slot;
-                while ((*current = current[1]) != NULL)
-                    ++current;
-                --runtime->activeRegionCount;
-                --index;
+                while ((*current = *reinterpret_cast<PlayerCollisionRegionRuntimeView **>(
+                        reinterpret_cast<unsigned int>(current) + sizeof(*current))) != NULL)
+                    current = reinterpret_cast<PlayerCollisionRegionRuntimeView **>(
+                        reinterpret_cast<unsigned int>(current) + sizeof(*current));
+                runtime->activeRegionCount = static_cast<int>(
+                    static_cast<unsigned int>(runtime->activeRegionCount) - 1u);
+                index = static_cast<int>(static_cast<unsigned int>(index) - 1u);
                 continue;
             }
         }
-        ++slot;
+        slot = reinterpret_cast<PlayerCollisionRegionRuntimeView **>(
+            reinterpret_cast<unsigned int>(slot) + sizeof(*slot));
     }
 
     PlayerCollisionRegionRuntimeView *embedded = &runtime->embeddedRegion;
@@ -316,11 +328,11 @@ static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
     {
         if (embedded->delay > 0)
         {
-            --embedded->delay;
+            --reinterpret_cast<unsigned int &>(embedded->delay);
             return;
         }
 
-        --embedded->lifetime;
+        --reinterpret_cast<unsigned int &>(embedded->lifetime);
         embedded->valueX += embedded->growthX;
         embedded->valueY += embedded->growthY;
         embedded->valueZ += embedded->growthZ;
@@ -329,11 +341,11 @@ static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
             embedded->Deactivate();
             return;
         }
-        runtime->activeRegions[runtime->activeRegionCount] = embedded;
+        PlayerNativeWordSlot(&runtime->activeRegions[0], static_cast<unsigned int>(runtime->activeRegionCount)) = embedded;
     }
     else
     {
-        runtime->activeRegions[runtime->activeRegionCount] = NULL;
+        PlayerNativeWordSlot(&runtime->activeRegions[0], static_cast<unsigned int>(runtime->activeRegionCount)) = NULL;
     }
 }
 
