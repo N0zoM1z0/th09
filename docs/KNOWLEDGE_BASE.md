@@ -349,6 +349,32 @@ one actual compiler-carrier scoped cold replay: **2/2 exact functions,
 (2,045-byte OnUpdateOptions and 34-byte PlayMenuSound). No exact owner
 was newly promoted, and no Windows native runtime/product proof follows.
 
+## 2026-11-11 native Title key configuration help and digit VM strides
+
+The original exact `TitleScreenView::OnUpdateKeyConfig` (2,803 complete
+physical bytes) has a live help-row index and several display-digit VM
+pointers in the actual TitleScreen state. The help-row source addresses
+one of ten real global `g_TitleKeyConfigHelpText` pointers (four-byte
+entries), and the embedded helper VMs use the canonical **0x2A4-byte
+`AnmVmView`** records starting at TitleScreen+0x11BA0. During display
+construction, `vmPair` also walks eight two-VM increments of the actual
+TitleScreen `vms` allocation. The maintained source now forms **ten
+native byte-address operations** (one helper-text pointer, one helper
+VM receiver, eight two-VM advances) from their live bases, without
+introducing a second table, memory snapshot, added bounds guard or extra
+callee. The result preserves the original opaque `AnmVmView*` ABI and
+repeated live side/key bindings.
+
+The pinned VC7.1 `/O1 /Ob1` trial matrix showed that directly forming
+help/VM addresses as integer-DWORD base operations changed codegen,
+whereas original native `u8*` byte-base expressions retained exact
+instruction scheduling. The combined installed variant cold-replayed
+the one affected source carrier with **2/2 exact owners, 2,909 complete
+PE bytes, 118 original-bound relocation fields** (2,803-byte options
+updater plus 106-byte duplicate-key leaf). Side-selection experiments
+which changed byte-exact code were rejected. No additional exactness
+credit, native product or runtime completion is claimed.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

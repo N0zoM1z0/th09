@@ -132,6 +132,10 @@ Git retains earlier source revisions.
   Title options updater now uses native help VM, selected menu VM and
   global help-text pointer addresses; both its source owners remain exact
   (2,079 complete bytes / 138 original relocation fields).
+  The distinct exact 2,803-byte Title key-config updater now also uses
+  native help-text/VM byte bases and eight real 0x2A4-byte paired digit
+  advances; its two same-source owners remain byte exact (2,909 bytes /
+  118 original-bound relocation fields).
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

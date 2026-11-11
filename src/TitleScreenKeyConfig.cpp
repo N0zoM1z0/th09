@@ -164,6 +164,18 @@ short *TitleScreenView::SwapDuplicateCharacterIndex(
         reinterpret_cast<unsigned int>(controllerState) + \
         static_cast<unsigned int>(index)))
 
+// The key-config page's help pointers are real four-byte global slots;
+// help VMs and paired digit VMs are canonical 0x2A4-byte ANM records.
+// Retain the native Win32 byte-base arithmetic under the original /O1 ABI.
+#define TH09_KEY_HELP_TEXT_NATIVE(index) \
+    (*reinterpret_cast<const char *const *>( \
+        reinterpret_cast<const u8 *>(&g_TitleKeyConfigHelpText[0]) + \
+        static_cast<unsigned int>(index) * sizeof(g_TitleKeyConfigHelpText[0])))
+#define TH09_KEY_HELP_VM_PTR(index) \
+    reinterpret_cast<AnmVmView *>( \
+        reinterpret_cast<u8 *>(&helpTextVms[0]) + \
+        static_cast<unsigned int>(index) * sizeof(helpTextVms[0]))
+
 i32 TitleScreenView::OnUpdateKeyConfig()
 {
     AnmVmView *vmPair;
@@ -198,13 +210,17 @@ i32 TitleScreenView::OnUpdateKeyConfig()
 
             vmPair = &vms[50];
             SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[0]);
-            vmPair += 2;
+            vmPair = reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
             SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[1]);
-            vmPair += 2;
+            vmPair = reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
             SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[2]);
-            vmPair += 2;
+            vmPair = reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
             SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[8]);
-            vmPair += 2;
+            vmPair = reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
             SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[3]);
             previousCursor = -1;
         }
@@ -214,10 +230,10 @@ i32 TitleScreenView::OnUpdateKeyConfig()
         {
             DrawTitleHelpText(
                 static_cast<TitleKeyAnmManagerView *>(g_AnmManager),
-                &helpTextVms[helpIndex],
+                TH09_KEY_HELP_VM_PTR(helpIndex),
                 0x00FFF0E0u,
                 0x300000,
-                g_TitleKeyConfigHelpText[helpIndex]);
+                TH09_KEY_HELP_TEXT_NATIVE(helpIndex));
         }
     case 1:
         i = MoveCursorVertical(10);
@@ -240,13 +256,17 @@ i32 TitleScreenView::OnUpdateKeyConfig()
 
     vmPair = &vms[50];
     SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[0]);
-    vmPair += 2;
+    vmPair = reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
     SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[1]);
-    vmPair += 2;
+    vmPair = reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
     SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[2]);
-    vmPair += 2;
+    vmPair = reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
     SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[8]);
-    vmPair += 2;
+    vmPair = reinterpret_cast<AnmVmView *>(
+                reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
     SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[3]);
 
     if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) < 2)
@@ -552,3 +572,6 @@ afterControllerBinding:
 #undef TH09_KEY_NATIVE_BYTE
 #undef TH09_KEY_NATIVE_HELP_VM
 #undef TH09_KEY_NATIVE_CONTROLLER_BYTE
+
+#undef TH09_KEY_HELP_TEXT_NATIVE
+#undef TH09_KEY_HELP_VM_PTR
