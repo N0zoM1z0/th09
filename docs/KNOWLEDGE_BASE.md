@@ -570,6 +570,28 @@ and post-update movement were renamed only after independent full-body proof
 of actual same-section COFF definitions and unchanged original PE operands.
 Neither internal label target nor any authored-code bytes were changed.
 
+## 2026-11-11 Enemy attached-effect pointer slots
+
+`EnemyCoreUpdateAttachedEffects @ 0x0040F4C0` walks the original 24
+`Effect *` slots in the shared `EnemyView` allocation at `+0x53B4`, using
+the live signed count at `+0x5414`. The retail i386 addressing multiplies the
+index by four as a native 32-bit word; direct C++ array subscripting would
+impose an array-bound precondition not present in that code. The maintained
+inline lvalue uses the real `effects00[0]` base plus `uint32(index) * 4`,
+without an alternate pool, snapshot, call, guard, or changed loop limit.
+
+Both affected VC7.1 EclManager compiler carriers cold-replayed **83 exact
+owners / 29,856 physical bytes / 1,389 relocation fields**, including the
+complete 151-byte attached-effect updater. `CompareOperands` and
+`EnemyPostEclUpdateMovement` received two compiler-private `$L` name updates
+only after verifying the actual same-section COFF definitions and unaltered
+original PE destinations (`0x00407A4C` and `0x00408548`). The complete
+3,900-byte Enemy OnUpdate still has exactly 13 register bytes different
+(with 97 fields / 69 ordered calls), and the entire 15,564-byte RunEcl
+owner still has 30 ordinary differences and all 598 fields and switch
+tables intact. This is semantic native-pointer fidelity, not additional
+exactness or Windows product/runtime proof.
+
 ## Enemy OnUpdate
 
 The current 3,900-byte owner retains 97 fields, 69 calls and 13 differences:

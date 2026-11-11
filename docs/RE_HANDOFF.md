@@ -37,7 +37,11 @@ Git retains earlier source revisions.
   strides; all 18 same-source exact owners (2,562 bytes / 164 fields) pass,
   with nine verified VC7.1 private-label name rebindings in RegisterChain.
   The 1,323-byte Replay stage initializer and all 12 ReplayInput exact units
-  (4,093 bytes / 232 fields) also remain verified.
+  (4,093 bytes / 232 fields) also remain verified. The exact 151-byte Enemy
+  attached-effect updater now computes the real 24 pointer slots by native
+  DWORD addressing; both affected ECL compiler carriers protect 83 exact
+  units (29,856 bytes / 1,389 fields) and preserve both large Enemy/ECL
+  nonexact frontiers.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

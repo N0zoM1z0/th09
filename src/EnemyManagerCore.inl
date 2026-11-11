@@ -251,6 +251,15 @@ typedef char EnemyCoreAttachedEffectNativeOffsets[
 #include "RuntimeAngleMath.hpp"
 extern long double __stdcall AnmProjectionAbs(float value);
 
+// Address attached effect pointers as native Win32 DWORD-stride slots in
+// the actual Enemy+0x53B4 allocation, without an extra C++ bounds gate.
+static inline Effect *& NativeEnemyAttachedEffectSlot(EnemyView *enemy, int index)
+{
+    return *reinterpret_cast<Effect **>(
+        reinterpret_cast<unsigned int>(&enemy->attachedEffectState53B4.effects00[0]) +
+        static_cast<unsigned int>(index) * sizeof(enemy->attachedEffectState53B4.effects00[0]));
+}
+
 static void EnemyCoreUpdateAttachedEffects(EnemyView *nativeEnemy)
 {
     // The exact effect updater shares the constructed Enemy with RunEcl,
@@ -259,7 +268,7 @@ static void EnemyCoreUpdateAttachedEffects(EnemyView *nativeEnemy)
     {
         EffectRingRuntimeView *effect =
             reinterpret_cast<EffectRingRuntimeView *>(
-                nativeEnemy->attachedEffectState53B4.effects00[i]);
+                NativeEnemyAttachedEffectSlot(nativeEnemy, i));
         if (effect != 0)
         {
             effect->origin48 =
