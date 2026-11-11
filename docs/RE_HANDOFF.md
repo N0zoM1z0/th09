@@ -120,7 +120,11 @@ Git retains earlier source revisions.
   side slots use the Supervisor 0xF0-byte stride (209 bound fields).
   The 357-byte exact FrontMessage Setup leaf now also reads four text
   and shadow color values through real native DWORD table addresses,
-  retaining all 10 relocations.
+  retaining all 10 relocations. The full 3,238-byte exact Player pattern
+  selector now uses native word addresses for 38 flag/grid/ReplayInput/
+  config/history accesses; two impacted compiler carriers protect both
+  exact functions (3,650 full bytes / 154 fields), including 18 independently
+  verified private-label rebindings in ResolvePatternOffset.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

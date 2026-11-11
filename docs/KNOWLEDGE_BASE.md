@@ -267,6 +267,40 @@ same-section COFF definition, relocation identity and original PE jump
 target. Existing exactness was preserved; no new exact owner or native
 runtime-product closure is implied.
 
+## 2026-11-11 native Player strategy selector, grid and replay input records
+
+The original `PlayerUpdateSelectorState` is a **3,238-byte** authored
+combat-pattern selector. It consumes actual global `g_PlayerPatternGrid`
+(12 rows of 10 signed DWORDs), `g_PlayerPatternFlags` (signed DWORD
+entries), `g_PlayerPatternAlternates` (signed DWORD candidates) and the
+real `g_PlayerPatternConfigs` (0x1C-byte configuration records), not
+separate bounded or checked duplicate tables. The original on-player
+inputs are `g_ReplayInputStates` records of **0x8E bytes**, whose +0x2C,
++0x32 and +0x34 protocol words are shared with independently exact
+ReplayInput owners. Finally, the selector's two eight-entry recent-flag
+history shifts write `PlayerGameplayHeaderView::recentPatternFlags30`
+from its true record base. The maintained code now uses original Win32
+unsigned-DWORD base-plus-scaled-index lvalues for **38 live accesses**:
+12 flag reads, two grid reads/writes, 20 replay-input state reads/writes,
+one alternate pattern, one configuration receiver, and two history moves.
+No new range checks, side-state caches, shadow global arrays or changes
+to collision-path predicates, Player callback order or RNG calls were
+introduced. Signed indices retain the original modulo-32 address-word
+behavior, including the previous history slot as current address minus
+one DWORD.
+
+Six independent native-address families and the combined core source
+were compiled using pinned VC7.1, maintaining the complete original
+**3,238/3,238-byte selector owner and all 136 relocations** in every
+trial. The installed combined source, including history copies, passed
+the two actual affected compiler carriers' scoped cold replay:
+**2/2 exact units, 3,650 complete physical bytes, 154 original-bound
+relocation fields**. `PlayerGameplayMethods::ResolvePatternOffset`
+remained byte exact at 412 bytes; the compiler renumbered eighteen
+private `$L` references, rebound only after verifying actual same-section
+COFF definitions, unchanged offsets/types and original PE jump targets.
+No new exact owner or Windows native runtime credit is claimed.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.
