@@ -1794,6 +1794,33 @@ bytes, **53/53** original-bound fields and **23** calls, with only the same
 the final installed source passed **12 exact owners, 4,093 physical bytes,
 232 relocation fields**; no new exact owner or whole-product claim follows.
 
+## 2026-11-11 Replay SaveReplay native frame, FPS and stage slot words
+
+The still-nonexact SaveReplay at 0x00420C60 serializes the genuine
+three-by-ten stage frame-pointer and offset tables plus ten FPS-pointer
+and offset slots from ReplayDataView. Their signed stream/stage indices
+use original native i386 modulo-32 byte addresses from the real array
+bases, rather than potentially invalid C++ array subscripts. The two
+serialized frame-table reads and frame-offset write use the true 10-stage
+row width and four-byte word size. The FPS reads and writes use their
+actual one-dimensional table bases. Both stage-buffer link lookups use
+the original 10-stage ReplayManager allocation and real
+sizeof(ReplayBufferLink) stride, while retaining distinct live reads,
+source chain ordering, original loop bounds, memcpy sizes and offset
+bookkeeping. The original serializer's allocation, compression, mode,
+user-info and checksum behavior has not been changed.
+
+Six independent table-family native-address probes and three combined
+variants reproduced the complete **1,238/1,238-byte SaveReplay candidate,
+all 53 bound fields, 23 calls, 49 CFG blocks and precisely its prior
+two differing register bytes at +0xB7/+0xBB**. Installed-source
+original-bound full-owner checks confirm those same two mismatches;
+the separate nonexact BeginPlaybackStage remains 538/540 bytes with
+32 fields and 39 ordinary overlaps. The two genuinely affected
+ReplayInput compiler profiles cold-pass **12 exact sibling owners,
+4,093 complete original bytes and 232 real relocation fields**.
+No SaveReplay exactness credit or complete native-product claim follows.
+
 ## 2026-11-11 BeginPlaybackStage native frame/FPS table slot addresses
 
 The nonexact 540-byte `ReplayManagerView::BeginPlaybackStage @ 0x00420840`

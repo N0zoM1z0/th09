@@ -821,6 +821,9 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
                                 offsetof(ReplayHeaderView, compressedSize),
         UserInfoWithNulBytes = sizeof(ReplayUserDataHeaderView) + 1,
     };
+    // The original serialized replay and ten-stage source buffer are
+    // addressed through live native 32-bit frame/FPS/record byte offsets.
+    // Keep distinct stream and FPS table reads, and do not add bounds gates.
     ReplayDataView replayCopy;
     // Retail reserves serialized replay bytes with native modulo-32 arithmetic.
     unsigned int allocationSize = (sizeof(ReplayDataView) + ReplayRecordingCapacity::InitialPayloadBytes);
@@ -832,7 +835,9 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         const ReplayBufferLink *stageRoot = &replayManager->stageBuffers[0];
         for (; loopIndex < ReplayRecordingCapacity::StageCount; loopIndex++, stageRoot++)
         {
-            if (replayCopy.frameStart[0][loopIndex] != NULL)
+            if ((*reinterpret_cast<ReplayFrameDataStartView **>(
+                reinterpret_cast<unsigned int>(&replayCopy.frameStart[0][0]) +
+                static_cast<unsigned int>(loopIndex) * sizeof(replayCopy.frameStart[0][0]))) != NULL)
             {
                 allocationSize += ReplayRecordingCapacity::StageHeadersBytes;
                 for (const ReplayBufferLink *link = stageRoot; link != NULL; link = link->next)
@@ -850,10 +855,15 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     {
         for (loopIndex = 0; loopIndex < ReplayRecordingCapacity::StageCount; loopIndex++)
         {
-            const ReplayFrameDataStartView *frameHeader = replayCopy.frameStart[stream][loopIndex];
+            const ReplayFrameDataStartView *frameHeader = (*reinterpret_cast<ReplayFrameDataStartView **>(
+                reinterpret_cast<unsigned int>(&replayCopy.frameStart[0][0]) +
+                (static_cast<unsigned int>(stream) * ReplayRecordingCapacity::StageCount +
+                 static_cast<unsigned int>(loopIndex)) * sizeof(replayCopy.frameStart[0][0])));
             if (frameHeader != NULL)
             {
-                const ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
+                const ReplayBufferLink *link = reinterpret_cast<const ReplayBufferLink *>(
+                reinterpret_cast<unsigned int>(&replayManager->stageBuffers[0]) +
+                static_cast<unsigned int>(loopIndex) * sizeof(replayManager->stageBuffers[0]));
                 // A packed byte address can cross the header and its payload.
                 memcpy(
                     reinterpret_cast<unsigned char *>(
@@ -861,7 +871,10 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
                         static_cast<unsigned int>(currentOffset) -
                         sizeof(ReplayHeaderView)),
                     frameHeader, sizeof(*frameHeader));
-                replayCopy.frameOffset[stream][loopIndex] = currentOffset;
+                (*reinterpret_cast<unsigned int *>(
+                reinterpret_cast<unsigned int>(&replayCopy.frameOffset[0][0]) +
+                (static_cast<unsigned int>(stream) * ReplayRecordingCapacity::StageCount +
+                 static_cast<unsigned int>(loopIndex)) * sizeof(replayCopy.frameOffset[0][0]))) = currentOffset;
                 currentOffset += sizeof(*frameHeader);
                 for (; link != NULL; link = link->next)
                 {
@@ -883,10 +896,16 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     // Each stage owns a distinct FPS chain; link contents remain live reads.
     for (loopIndex = 0; loopIndex < ReplayRecordingCapacity::StageCount; loopIndex++)
     {
-        if (replayCopy.fpsStart[loopIndex] != NULL)
+        if ((*reinterpret_cast<u8 **>(
+                reinterpret_cast<unsigned int>(&replayCopy.fpsStart[0]) +
+                static_cast<unsigned int>(loopIndex) * sizeof(replayCopy.fpsStart[0]))) != NULL)
         {
-            const ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
-            replayCopy.fpsOffset[loopIndex] = currentOffset;
+            const ReplayBufferLink *link = reinterpret_cast<const ReplayBufferLink *>(
+                reinterpret_cast<unsigned int>(&replayManager->stageBuffers[0]) +
+                static_cast<unsigned int>(loopIndex) * sizeof(replayManager->stageBuffers[0]));
+            (*reinterpret_cast<unsigned int *>(
+                reinterpret_cast<unsigned int>(&replayCopy.fpsOffset[0]) +
+                static_cast<unsigned int>(loopIndex) * sizeof(replayCopy.fpsOffset[0]))) = currentOffset;
             for (; link != NULL; link = link->next)
             {
                 int fpsSize = link->frameCount / ReplayRecordingCapacity::FramesPerFpsSample;

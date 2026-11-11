@@ -340,6 +340,12 @@ the canonical ledgers. Git holds prior source revisions.
   ADD without altering the real queue/seed calls. Complete source-cold
   owner audit retains 1,627/1,633 bytes, 106 fields and 1,381 overlap
   mismatches; a superficially same-length but worse variant was rejected.
+- **SaveReplay frame/FPS and stage-buffer slots now use native addresses.**
+  Actual three-by-ten frame/offset tables and ten FPS slots use the
+  original 32-bit row/word strides; source-chain reads keep original
+  order. Both affected ReplayInput profiles cold-pass 12 exact functions,
+  4,093 complete bytes and 232 fields. The 1,238-byte SaveReplay
+  owner still differs at +0xB7/+0xBB only and remains nonexact.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
