@@ -377,6 +377,16 @@ out:
     return scoreFile;
 }
 
+// The original 16-by-5-by-5 high-score owner uses the same native
+// 0x44C-byte bank, 0xDC-byte difficulty row and 0x2C-byte record strides
+// as the exact Title result renderer, without shadow storage or bounds gates.
+#define TH09_SCORE_NATIVE_AT(bank, row, rank) \
+    (*reinterpret_cast<TitleScoreRecordView *>( \
+        reinterpret_cast<unsigned int>(&g_TitleScoreTable[0][0][0]) + \
+        static_cast<unsigned int>(bank) * sizeof(g_TitleScoreTable[0]) + \
+        static_cast<unsigned int>(row) * sizeof(g_TitleScoreTable[0][0]) + \
+        static_cast<unsigned int>(rank) * sizeof(g_TitleScoreTable[0][0][0])))
+
 int ScoreFileView::LoadScoreRecords()
 {
     i32 category0;
@@ -391,20 +401,20 @@ int ScoreFileView::LoadScoreRecords()
         {
             for (rank = 0; rank < 5; rank++)
             {
-                g_TitleScoreTable[category0][category1][rank].score = 100000 - 20000 * rank;
-                g_TitleScoreTable[category0][category1][rank].value10 = 0.0f;
-                g_TitleScoreTable[category0][category1][rank].category0 = (u8)category0;
-                g_TitleScoreTable[category0][category1][rank].category1 = (u8)category1;
-                g_TitleScoreTable[category0][category1][rank].rank = (u8)rank;
-                g_TitleScoreTable[category0][category1][rank].unknown17 = 0;
-                g_TitleScoreTable[category0][category1][rank].magic = 0x52435348u;
-                g_TitleScoreTable[category0][category1][rank].chapterSizeCopy = sizeof(TitleScoreRecordView);
-                g_TitleScoreTable[category0][category1][rank].chapterSize = sizeof(TitleScoreRecordView);
-                g_TitleScoreTable[category0][category1][rank].version = 2;
-                g_TitleScoreTable[category0][category1][rank].runtimeMarker = 0;
-                strcpy(g_TitleScoreTable[category0][category1][rank].name, "No Name ");
-                strcpy(g_TitleScoreTable[category0][category1][rank].date, "--/--");
-                g_TitleScoreTable[category0][category1][rank].scoreDigit = 0;
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).score = 100000 - 20000 * rank;
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).value10 = 0.0f;
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).category0 = (u8)category0;
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).category1 = (u8)category1;
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).rank = (u8)rank;
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).unknown17 = 0;
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).magic = 0x52435348u;
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).chapterSizeCopy = sizeof(TitleScoreRecordView);
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).chapterSize = sizeof(TitleScoreRecordView);
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).version = 2;
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).runtimeMarker = 0;
+                strcpy(TH09_SCORE_NATIVE_AT(category0, category1, rank).name, "No Name ");
+                strcpy(TH09_SCORE_NATIVE_AT(category0, category1, rank).date, "--/--");
+                TH09_SCORE_NATIVE_AT(category0, category1, rank).scoreDigit = 0;
             }
         }
     }
@@ -416,7 +426,7 @@ int ScoreFileView::LoadScoreRecords()
     {
         if (inputRecord->magic == 0x52435348u && inputRecord->version == 2)
         {
-            g_TitleScoreTable[inputRecord->category0][inputRecord->category1][inputRecord->rank] =
+            TH09_SCORE_NATIVE_AT(inputRecord->category0, inputRecord->category1, inputRecord->rank) =
                 *inputRecord;
         }
 
@@ -508,3 +518,5 @@ int ScoreFileView::LoadPlayStats()
 
     return 0;
 }
+
+#undef TH09_SCORE_NATIVE_AT

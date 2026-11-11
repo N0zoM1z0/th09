@@ -222,6 +222,12 @@ carriers protect **18/18 exact source functions, 6,711 physical bytes
 and 259 original relocation fields**, with seven independently proven
 private-label rebindings across major bullet owners.
 
+The exact score.dat record producer now writes/initializes its original
+16x5x5 high-score table using native 0x44C-byte bank, 0xDC-byte row and
+0x2C-byte rank-record address words, matching Title DrawResult's table.
+Six `ScoreData.cpp` compiler carriers protect **7/7 exact functions,
+2,572 complete bytes and 169 original relocation fields**.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact

@@ -744,6 +744,30 @@ unchanged field offsets/types, original PE targets and complete bytes.
 No additional exact function, full cold replay or Windows runtime
 closure is claimed.
 
+## 2026-11-11 native score.dat record initialization and import lvalues
+
+The original `ScoreFileView::LoadScoreRecords` producer uses the same
+`g_TitleScoreTable[16][5][5]` actual allocation as the separately exact
+Title result browser and DrawResult renderer. Each ranked score record is
+**0x2C bytes**; one bank is **0x44C bytes** and one difficulty row is
+**0xDC bytes**. Fourteen initialization-time lvalues and one live
+score.dat input record selector now compute the original i386 byte
+address `uint32(real table base) + uint32(bank)*0x44C +
+uint32(difficulty)*0xDC + uint32(rank)*0x2C`. The importer continues
+reading category/rank bytes directly from each wire score record and
+publishes the whole original record at that address, without a new
+bounds gate, alternate record table, copy, or changed chapter traversal.
+
+Independent initialization/import and combined pinned VC7.1 source
+trials matched the complete **441/441-byte LoadScoreRecords owner and
+all 26 original-bound relocations**. The installed combined source
+passed the full *affected* `ScoreData.cpp` scope, not a global replay:
+**7/7 exact owners, 2,572 complete original physical bytes and
+169 relocations across six genuine compiler carriers**. No compiler-
+private label rebindings were necessary. This is native score-table
+source semantics and writer/reader ownership agreement on previously
+exact code, not newly exact function or Windows runtime credit.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.
