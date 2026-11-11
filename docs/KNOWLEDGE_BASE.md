@@ -503,6 +503,30 @@ only after this PE/COFF/full-body proof. No newly exact owner or
 whole-product closure is claimed; the separate 3,900-byte Enemy
 OnUpdate boss retains its original unresolved 13 register bytes.
 
+## 2026-11-11 Enemy OnUpdate native pool iterator words
+
+The still-nonexact EnemyManagerView::OnUpdate at 0x00410730 and the
+independently exact SpawnEnemyRecord leaf traverse the same actual
+EnemyManager allocation: 128 active EnemyView records with one separate
+129th failure sentinel. The maintained big-owner loop now uses the
+original native i386 signed-index DWORD increment and physical
+sizeof(EnemyView) byte stride for the Enemy pointer iterator, keeping
+the existing signed index comparison, exact 129th sentinel owner and
+every live enemy field/flag read. The ECL, draw, spawn descriptor,
+targeting, reward and shutdown branches are unchanged. No new
+validation or array allocation is introduced.
+
+Three independent pinned VC7.1 source-cold probes (counter only,
+record-pointer only and both) reproduced the whole **3,900-byte
+Enemy OnUpdate**, all **97 original relocation fields, 69 calls,
+complete original CFG and its prior 13 register-byte mismatches**.
+The installed source cold-replayed only its two real EclManager
+compiler profiles: **83 exact owners / 29,856 complete PE bytes /
+1,389 original-bound relocations**. Two private compiler label names
+were rebound only after independent actual same-section COFF symbol
+definition, original PE target check and complete 83-owner byte proof.
+The boss is still NONEXACT and product-level closure remains open.
+
 ## 2026-11-11 Enemy spawn record loop native DWORD increments
 
 The original exact EnemyManagerCardAttackSpawnView::SpawnEnemyRecord

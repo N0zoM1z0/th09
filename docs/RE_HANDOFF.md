@@ -329,6 +329,12 @@ the canonical ledgers. Git holds prior source revisions.
   The 128 active Enemy slots and the real 129th sentinel are traversed
   with modulo-32 record-pointer and signed index increments. The one
   affected compiler carrier retains all 364 original bytes/four fields.
+- **Enemy OnUpdate now uses original native enemy-pool iterator words.**
+  The signed index and full-size EnemyView pointer advance in the
+  large 3,900-byte loop are modulo-32. The separate spawn leaf remains
+  exact. Two affected EclManager profiles cold-pass 83 exact siblings,
+  29,856 complete bytes and 1,389 relocation fields; two private label
+  changes were PE/COFF-proven. Its 13 existing boss mismatches remain.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

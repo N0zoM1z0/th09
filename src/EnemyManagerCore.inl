@@ -354,9 +354,15 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
     // One of 129 native records is reserved as the full-pool sentinel.
     // Keep this loop's signed integer comparison: promoting enemyIndex to
     // size_t changes the original branch at the callback's loop tail.
+    // Retail increments the signed index as a native DWORD and advances
+    // the actual EnemyView allocation by its full record byte stride.
+    // Keep the original signed comparison and 129th failure sentinel.
     for (enemyIndex = 0;
          enemyIndex < EnemyNativePoolCapacity::ActiveSlots;
-         ++enemyIndex, ++enemy)
+         enemyIndex = static_cast<int>(
+             static_cast<unsigned int>(enemyIndex) + 1u),
+         enemy = reinterpret_cast<EnemyView *>(
+             reinterpret_cast<unsigned int>(enemy) + sizeof(EnemyView)))
     {
         EnemyView **drawHead;
         unsigned int flags = enemy->primaryFlags337C;
