@@ -1237,6 +1237,31 @@ All three affected compiler carriers passed scoped cold replay:
 **8/8 exact, 1,020 complete physical bytes, 42 original relocation
 fields**. None of these were newly exact functions.
 
+## 2026-11-11 native Etama sprite-script row and column reads
+
+The exact **832-byte** `EtamaController::AddedCallback` initializes 23
+real sprite templates by reading a private `kBulletSpriteScripts[23][5]`
+table. Its seven live reads (five distinct startup scripts and two
+later sprite-type switches) now form the authentic Win32 byte address
+`uint32(&table[0][0]) + uint32(row) * 0x14 + uint32(column) * 4`.
+For the second script column the source retains the **const int element
+lvalue** at the original column-2 row base; VC7.1 `/Ob0` otherwise
+coalesces its source expression and shortens the callback by 20 bytes,
+violating the complete physical owner. All other six reads use lexical
+native-DWORD addresses. No bounds check, new script table, shadow data,
+extra function call or altered switch branch is introduced.
+
+Individual column probes established that column 0/1/3/4 lvalues preserve
+the full original 832-byte body (30 relocation fields). A combined
+column-2 const-reference variant also matches **832/832 bytes** and all
+original relocation offsets/kinds/targets. The installed source passed
+the one actual `EtamaControllerDraw.cpp` `/Ob0` compiler carrier:
+**3/3 exact owners, 1,664 complete physical bytes, 73 relocation
+fields**. Eleven compiler-private `$L` references were rebound only
+after independently confirming same-section COFF definitions and the
+unchanged original PE destinations. This is native script-table indexing
+fidelity; it does not promote any new exact function or runtime claim.
+
 ## 2026-11-11 native Etama draw bucket and bullet-template records
 
 The complete exact `EtamaController::OnDraw` reads the six real draw-bucket

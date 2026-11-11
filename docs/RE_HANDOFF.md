@@ -87,8 +87,10 @@ Git retains earlier source revisions.
   resource slots by native DWORD stride; 12 exact functions across three
   compiler carriers (603 bytes / 26 fields) remain verified. Etama's six
   draw heads and 23 active 0xD48-byte sprite templates now use native
-  index addressing; the 3 same-source exact draw/added owners (1,664 bytes /
-  73 fields) remain exact with 15 verified private-label rebindings.
+  index addressing, as do seven live script reads from the real 23x5
+  0x14-byte sprite-script rows (column two via an original element const
+  reference). The 3 same-source exact draw/added owners (1,664 bytes /
+  73 fields) remain exact; 11 further private-label bindings were verified.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

@@ -157,6 +157,8 @@ int EtamaController::AddedCallback(EtamaController *controller)
             return -1;
     }
 
+    // The 23 genuine 0x14-byte script rows hold five native DWORD values;
+    // keep each live script lookup at its original call and switch site.
     for (unsigned int i = 0; i < sizeof(kBulletSpriteScripts) / sizeof(kBulletSpriteScripts[0]); ++i)
     {
         // The active 23 template slots are 0xD48-byte native records;
@@ -165,15 +167,31 @@ int EtamaController::AddedCallback(EtamaController *controller)
             reinterpret_cast<unsigned int>(&controller->bulletTypeSprites[0]) +
             static_cast<unsigned int>(i) * sizeof(controller->bulletTypeSprites[0]));
         controller->bulletAnm
-            ->SetAndExecuteScriptIdx(&sprites->bulletVm, kBulletSpriteScripts[i][0]);
+            ->SetAndExecuteScriptIdx(&sprites->bulletVm, (*reinterpret_cast<const int *>(
+            reinterpret_cast<unsigned int>(&kBulletSpriteScripts[0][0]) +
+            static_cast<unsigned int>(i) * sizeof(kBulletSpriteScripts[0]) +
+            0u * sizeof(kBulletSpriteScripts[0][0]))));
         controller->bulletAnm
-            ->SetAndExecuteScriptIdx(&sprites->spawnFastVm, kBulletSpriteScripts[i][1]);
+            ->SetAndExecuteScriptIdx(&sprites->spawnFastVm, (*reinterpret_cast<const int *>(
+            reinterpret_cast<unsigned int>(&kBulletSpriteScripts[0][0]) +
+            static_cast<unsigned int>(i) * sizeof(kBulletSpriteScripts[0]) +
+            1u * sizeof(kBulletSpriteScripts[0][0]))));
+        // Preserve the original element lvalue across the VM script call.
+        const int &normalScript = *reinterpret_cast<const int *>(
+            reinterpret_cast<unsigned int>(&kBulletSpriteScripts[0][2]) +
+            static_cast<unsigned int>(i) * sizeof(kBulletSpriteScripts[0]));
         controller->bulletAnm
-            ->SetAndExecuteScriptIdx(&sprites->spawnNormalVm, kBulletSpriteScripts[i][2]);
+            ->SetAndExecuteScriptIdx(&sprites->spawnNormalVm, normalScript);
         controller->bulletAnm
-            ->SetAndExecuteScriptIdx(&sprites->spawnSlowVm, kBulletSpriteScripts[i][3]);
+            ->SetAndExecuteScriptIdx(&sprites->spawnSlowVm, (*reinterpret_cast<const int *>(
+            reinterpret_cast<unsigned int>(&kBulletSpriteScripts[0][0]) +
+            static_cast<unsigned int>(i) * sizeof(kBulletSpriteScripts[0]) +
+            3u * sizeof(kBulletSpriteScripts[0][0]))));
         controller->bulletAnm
-            ->SetAndExecuteScriptIdx(&sprites->despawnVm, kBulletSpriteScripts[i][4]);
+            ->SetAndExecuteScriptIdx(&sprites->despawnVm, (*reinterpret_cast<const int *>(
+            reinterpret_cast<unsigned int>(&kBulletSpriteScripts[0][0]) +
+            static_cast<unsigned int>(i) * sizeof(kBulletSpriteScripts[0]) +
+            4u * sizeof(kBulletSpriteScripts[0][0]))));
 
         sprites->bulletVm.flagsWord |= 0x2000;
         sprites->spawnFastVm.flagsWord |= 0x2000;
@@ -194,7 +212,10 @@ int EtamaController::AddedCallback(EtamaController *controller)
         }
         else if (sprites->bulletVm.loadedSprite->heightPx <= 16.0f)
         {
-            switch (kBulletSpriteScripts[i][0])
+            switch ((*reinterpret_cast<const int *>(
+            reinterpret_cast<unsigned int>(&kBulletSpriteScripts[0][0]) +
+            static_cast<unsigned int>(i) * sizeof(kBulletSpriteScripts[0]) +
+            0u * sizeof(kBulletSpriteScripts[0][0]))))
             {
             case 2: case 4: case 6: case 96: case 97: case 98:
             case 101: case 102:
@@ -220,7 +241,10 @@ int EtamaController::AddedCallback(EtamaController *controller)
         }
         else if (sprites->bulletVm.loadedSprite->heightPx <= 32.0f)
         {
-            switch (kBulletSpriteScripts[i][0])
+            switch ((*reinterpret_cast<const int *>(
+            reinterpret_cast<unsigned int>(&kBulletSpriteScripts[0][0]) +
+            static_cast<unsigned int>(i) * sizeof(kBulletSpriteScripts[0]) +
+            0u * sizeof(kBulletSpriteScripts[0][0]))))
             {
             case 8: case 103: case 104: case 105: case 107:
                 sprites->collisionSize.x = 5.0f;
