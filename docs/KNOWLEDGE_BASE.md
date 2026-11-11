@@ -792,6 +792,30 @@ physical bytes / 167 relocation fields**. The function was already
 exact: this improves native wire semantics without changing exact-function
 credit.
 
+## ExAttack callback difficulty limits and side-state native words
+
+ExAttackController::AddedCallback at 0x00415750 reads each side's signed
+selector from the genuine 0x38-byte GameManager side records and forms
+the difficulty-scaled spawn limit from the real global int32 coefficient
+and base tables. The maintained source now reads the table words with
+native DWORD base + uint32(selector)*4 addressing and performs the
+coefficient*difficulty+base calculation modulo 2^32 before storing the
+signed limit. This avoids a C++ bounded-array precondition or signed
+overflow assumption while retaining the two separate selector loads,
+real tables, original 9 relocation fields and existing Reset callback.
+
+The independent ExAttackRecordSideView::GetSideState exact leaf at
+0x00440CB0 also forms the live GameManager side pointer by unsigned
+DWORD(index)*0x38 from the actual two-row allocation, rather than a
+bounded array subscript. No memory backing, side clamp, call, or
+original data identity was introduced.
+
+Isolated pinned VC7.1 codegen probes remained exact for all **three**
+owners in these two TUs: AddedCallback 66 bytes / nine relocations,
+ResetExAttackRecords 88 bytes / two relocations, GetSideState
+12 bytes / one relocation. These are semantic improvements to existing
+exact sources; no new exact-function promotion was claimed.
+
 ## ExAttack Spawn native type/side dispatch words
 
 ExAttackController::Spawn at 0x004151F0 is an existing 321-byte exact
