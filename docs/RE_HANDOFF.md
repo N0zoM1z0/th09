@@ -182,6 +182,11 @@ remains exact, as do all nine affected exact siblings across two
 compiler carriers (**10/10 functions, 3,015 bytes / 159 fields**), with
 31 COFF/PE-target-proven private label rebindings.
 
+The 1,507-byte exact `SampleNetworkInput` now also uses native DWORD
+addresses for its replay side record (0x8E stride), Supervisor controller
+mode bytes and sixteen live 16-bit held-key cursor advances. The one-carrier
+scoped replay remains **1/1 exact, 1,507 bytes / 13 relocations**.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact

@@ -584,6 +584,29 @@ The former 1,499-byte logical interpreter and all short leaf functions
 remain exact; no new exact owner or native runtime/product credit is
 claimed.
 
+## 2026-11-11 native SampleNetworkInput side and held-key records
+
+The exact `SampleNetworkInput` owner (1,507 complete physical bytes)
+selects one real `g_ReplayInputStates[3]` record by the incoming signed
+`side`, with the **0x8E-byte original record stride** shared by
+ReplayInput, Player and network consumers. Its three keyboard/DirectInput
+controller-mode reads use the actual consecutive Supervisor configuration
+bytes at config +0xB7/+0xB8, indexed by the same side word. The maintained
+source now forms all four lvalues through unsigned i386 DWORD byte
+addresses, rather than relying on C++ array bounds or a pointer outside
+the single byte member. The repeat-key loop advances across the sixteen
+original 16-bit `networkHeldFrames0A` counters by native `+sizeof(u16)`
+address words. Each existing input poll, repeat threshold, key mask and
+controller call remains in its original execution position; no bounds
+check, cache, shadow state or extra call was introduced.
+
+Four individual/combined pinned VC7.1 source probes matched the complete
+**1,507/1,507 original bytes and all 13 bound relocation fields**. The
+installed source passed the only actually affected compiler carrier's
+scoped cold replay: **1/1 exact owner, 1,507 bytes, 13 fields**, with no
+manifest label changes. This is source-memory fidelity in an already-exact
+network input owner, not a newly exact function or native runtime claim.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

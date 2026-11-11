@@ -57,11 +57,16 @@ extern int g_WindowActivateWParam;
 #define KEYBOARD_KEY_PRESSED(button, key) \
     ((keyboardState[(key)] & 0x80) ? (button) : 0)
 
+// The true three 0x8E-byte ReplayInputState records and two Supervisor
+// controller-mode bytes are selected by native i386 unsigned DWORD offsets.
+// Repeat counters advance over sixteen live 16-bit words in the same state.
 short __fastcall SampleNetworkInput(int side)
 {
     u8 keyboardState[256];
     u16 buttons = 0;
-    ReplayInputState *inputState = &g_ReplayInputStates[side];
+    ReplayInputState *inputState = reinterpret_cast<ReplayInputState *>(
+        reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
+        static_cast<unsigned int>(side) * sizeof(g_ReplayInputStates[0]));
 
     if (g_WindowActivateWParam != 0)
     {
@@ -89,7 +94,9 @@ short __fastcall SampleNetworkInput(int side)
             }
             else
             {
-                switch ((&g_Supervisor.config388.valueB7)[side])
+                switch ((*reinterpret_cast<const u8 *>(
+                        reinterpret_cast<unsigned int>(&g_Supervisor.config388.valueB7) +
+                        static_cast<unsigned int>(side))))
                 {
                     case 2:
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, 'Z');
@@ -184,7 +191,9 @@ short __fastcall SampleNetworkInput(int side)
                 }
                 else
                 {
-                    switch ((&g_Supervisor.config388.valueB7)[side])
+                    switch ((*reinterpret_cast<const u8 *>(
+                        reinterpret_cast<unsigned int>(&g_Supervisor.config388.valueB7) +
+                        static_cast<unsigned int>(side))))
                     {
                         case 2:
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, DIK_Z);
@@ -257,7 +266,9 @@ short __fastcall SampleNetworkInput(int side)
     }
     else
     {
-        u8 assignment = (&g_Supervisor.config388.valueB7)[side];
+        u8 assignment = (*reinterpret_cast<const u8 *>(
+                        reinterpret_cast<unsigned int>(&g_Supervisor.config388.valueB7) +
+                        static_cast<unsigned int>(side)));
         if (assignment == 0 || assignment == 1)
             buttons = Controller::GetControllerInput(side, assignment != 0, buttons);
     }
@@ -286,7 +297,8 @@ short __fastcall SampleNetworkInput(int side)
             *held = 0;
         }
         currentBits >>= 1;
-        held++;
+        held = reinterpret_cast<u16 *>(
+            reinterpret_cast<unsigned int>(held) + sizeof(*held));
         repeatBit <<= 1;
         remaining--;
     } while (remaining != 0);
