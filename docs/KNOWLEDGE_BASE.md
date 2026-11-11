@@ -835,6 +835,33 @@ proof; then canonical scoped cold replay passed. Original-bound opcode 4
 and 155 behavior audits still passed 90 and 3,072 cases. No new exact
 function or whole-native-product closure follows.
 
+## 2026-11-11 RunEcl spell-background VM native stride and loop word
+
+The late `TH09_ECL_OPCODE_TRIGGER_SIDE_OWNER_STATE` handler in the
+15,564-byte `RunEcl` traverses the real `Background::spellVms[32]` array
+at +0xCE0. The VM stride is the independently proved 0x2A4-byte native
+`AnmVm`, and the count is read live from the authentic `spellVmCount`
+at +0xCD8. The original i386 forms the VM pointer as native 32-bit
+`base + signed lateIndex * sizeof(AnmVm)` before calling the existing
+`SetAndExecuteScriptIdx`; the maintained code had used C++ potentially
+out-of-range `spellVms[lateIndex]` subscripting. The loop's signed
+index increment now also wraps modulo 2^32 before its original signed
+count gate. Existing opposing-side ANM/script bases, original replay
+RNG order, per-iteration manager reads and the already preserved native
+script-index sum are unchanged. No extra index clamp or alternate VM
+allocation was introduced.
+
+Five independent and combined pinned VC7.1 compilations reproduced
+**15,564 source bytes, 598 original-bound relocations, unchanged switch
+and jump tables and exactly 30 existing ordinary residual bytes**.
+The installed source cold-replayed only its **two genuine affected
+EclManager profiles: 83 byte-exact functions / 29,856 physical bytes /
+1,389 real relocation fields**. Eight private VC7.1 `$L` names were
+rebound only after independently verifying same-section COFF definition,
+original PE target and complete byte equality of all 83 owners.
+The separate original-bound opcode 4/155 semantic audits still passed
+90/3,072 cases. Neither exact count nor native-product closure changed.
+
 ## 2026-11-11 RunEcl late Spell VM script-index native word arithmetic
 
 Opcode 186's side-owner spell presentation builds an ANM script index

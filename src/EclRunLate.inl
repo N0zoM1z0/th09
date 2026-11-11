@@ -274,11 +274,14 @@ static void MoveRandomBiased(
             enemy->manager00->sideState320->
                 owner14->secondaryPresentationCounterA8 = 2;
             enemy->manager00->sideState320->background00->BeginSpellBackground();
+            // The original spell VM loop advances its signed index as an
+            // i386 DWORD and addresses the real 32-entry VM allocation by
+            // a native 0x2A4-byte stride without changing the count gate.
             for (lateIndex = 0;
                  lateIndex <
                      enemy->manager00->sideState320->
                          background00->spellVmCount;
-                 ++lateIndex)
+                 lateIndex = static_cast<int>(static_cast<unsigned int>(lateIndex) + 1u))
             {
                 // These three native signed DWORD sources add modulo 2^32
                 // before the resulting script index is passed as signed.
@@ -293,8 +296,12 @@ static void MoveRandomBiased(
                 Th09EclRunMovement::SetAndExecuteAnmScript(
                     enemy->manager00->opposingSideState324->
                         background00->sideAnm,
-                    &enemy->manager00->sideState320->
-                        background00->spellVms[lateIndex],
+                    reinterpret_cast<AnmVm *>(
+                        reinterpret_cast<unsigned int>(
+                            &enemy->manager00->sideState320->
+                                background00->spellVms[0]) +
+                        static_cast<unsigned int>(lateIndex) *
+                            sizeof(AnmVm)),
                     lateScript);
             }
         }

@@ -247,6 +247,12 @@ the canonical ledgers. Git holds prior source revisions.
   original signed Increment(int) argument, matching the original i386
   on INT_MIN as well as ordinary values. All 16 exact owners in its
   affected compiler carrier pass their bounded canonical cold replay.
+- **RunEcl late spell VMs now use native 0x2A4-byte record addresses.**
+  The original 32-VM Background array uses signed-index-as-DWORD physical
+  addressing and a native wrapping iteration word. Two compiler carriers
+  cold-pass 83 exact owners / 29,856 bytes / 1,389 fields; eight private
+  labels were independently PE/COFF-proven before rebinding. RunEcl stays
+  15,564 bytes/598 fields with exactly the old 30 opcode-4/155 differences.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
