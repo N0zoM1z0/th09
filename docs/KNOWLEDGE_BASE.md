@@ -10,11 +10,31 @@ spellings and receipts are recoverable through Git history.
 
 **Never promote a near match** from these notes. Only a complete target-bound
 VC7.1 comparison of code, owned tables/tails and real relocation identities
-establishes exactness. Dated paragraphs below preserve the *observations
-from that point in the investigation*; any statement describing a "current"
-candidate is historical unless confirmed in the active handoff. In particular,
+establishes exactness. Dated paragraphs below preserve *observations at the time of each experiment*,
+not live compiler receipts. Old exact counts, label names and temporary build
+paths can be superseded; do not apply them without checking live source and
+canonical ledgers. Any claim describing a "current" candidate is historical
+unless confirmed in the active handoff. In particular,
 GameplaySetupThread and Title DrawResult are exact; the 12 active nonexact
 owners and the unfinished product/runtime gates remain separate.
+
+## Where to look
+
+- **Current exactness/frontiers and safe rebuild commands:**
+  [RE_HANDOFF.md](RE_HANDOFF.md); generated figures in
+  [PROGRESS.md](PROGRESS.md).
+- **ECL/Enemy:** [RunEcl opcode 4/155](#runecl-opcode-4-and-opcode-155),
+  [Enemy OnUpdate](#enemy-onupdate), and the canonical `EclRun*.inl` views.
+  Original switch tables and private-label bindings matter more than local
+  instruction similarity.
+- **Player/Replay:** [movement, charge and collision](#player-movement-charge-and-collision),
+  [SaveReplay/BeginPlaybackStage](#replay-savereplay-and-beginplaybackstage).
+- **Title/UI:** [replay-menu and result-update blockers](#title-replay-menu-and-result-update).
+- **Other open owners:** [ScreenEffect, network, Effect callback](#remaining-screeneffect-network-and-effect-callback-frontiers).
+
+Keep the canonical match manifests, compiler source profiles and original PE
+as the proof inputs. The longer sections below are topic-specific evidence,
+not instructions to restore old scratch experiments or previous snapshots.
 
 ## Practical interpretation
 
@@ -153,35 +173,6 @@ value, addend and original PE destination before running the unchanged strict
 replay. This advances native-source semantics without new exact owner credit,
 or any original C++ spelling, product or runtime claim.
 
-## 2026-11-10 native variable-length ECL argument views
-
-The 0x0C-byte TH09 ECL instruction prefix ends in an actual variable-length
-sequence of four-byte union arguments. `arguments[0]` preserves the zero-size
-native prefix and target layout, but C++ zero-length array indexing has no
-ordinary in-bounds object semantics. `RawInt`, `RawFloat`, `RawByte`, and
-`RawShort` now form their lvalue addresses as native unsigned i386 words,
-adding `offsetof(arguments)` and the byte/word operand displacement. Byte and
-halfword accesses address that same four-byte sequence without an invented
-second payload. No decoder bounds checks or changes to retail error handling
-were added, and all four accessors remain lexical/inlined rather than invented
-external owners.
-
-Seven isolated and combined pinned VC7.1 source probes kept the whole 15,564
-byte RunEcl owner, its 598 original fields and all tables at the same physical
-locations, with the same 30 codegen differences in opcodes 4 and 155. The
-maintained combined source was then cold-rebuilt through its six actually
-affected compiler carriers. Internal VC7.1 `$L` labels were renumbered at 20
-locations in `CompareOperands`/post-ECL movement and 291 more in the separately
-compiled ECL resolver leaves. Each one was checked against the exact COFF
-same-section definition, real owner-relative label destination, addend, and
-original PE field before updating the name in the exact-unit manifest. Final
-**scoped cold replay passed all 91 exact functions, 36,301 physical bytes and
-1,783 original-bound relocation fields**. This is a source semantics improvement;
-it does **not** promote the RunEcl boss to exact or change the 1,024-function
-exact ledger. RunEcl opcode-155 reverse-parameter, bitfield, old-flag lifetime,
-and mutating-helper trial variants were separately compiled; they were neutral
-or caused extensive table/branch regressions, so were not installed.
-
 ## 2026-11-10 ECL movement, jump and trail native wire consumers
 
 The four recovered `RawInt`/`RawFloat`/byte/halfword accessors were not the
@@ -212,8 +203,9 @@ functions over **36,301** physical bytes and **1,783** relocation fields.
 The 20 renamed compiler-local `$L` entries (13 in `CompareOperands`, seven in
 post-ECL movement) were rebound only after a separate complete original PE /
 actual COFF comparison confirmed same-section definitions, unchanged label
-positions, addends and original target operands. Exact ledger remains 1,024;
-none of these useful source corrections is incorrectly promoted.
+positions, addends and original target operands. This source-only change
+created no new exact-function credit; consult current canonical ledgers rather
+than the count recorded during that experiment.
 
 Separate source-cold register/lifetime explorations did not yield a safe boss
 byte improvement: Player movement remains 1,900/1,900 with 122 different
@@ -241,23 +233,6 @@ operands before updating manifest names. The 15,564-byte RunEcl boss remains
 nonexact by 30 ordinary bytes, and Enemy OnUpdate by 13; no new exact
 ledger credit or whole-product claim is made.
 
-## 2026-11-10 CompareOperands signed ECL back-jump addresses
-
-`Th09EclRunControl::CompareOperands` (`0x00407700`, full canonical extent
-892 bytes) advances from its current instruction on a successful comparison
-using a signed 32-bit wire displacement. Its previous `unsigned char * + int`
-C++ spelling could perform out-of-object pointer arithmetic for backward
-branches. The maintained source now adds the operand's modulo-32 bits to the
-instruction's unsigned native address, then reconstructs the typed pointer;
-no new branch or error policy is introduced. With pinned VC7.1 on both actual
-`EclManager.cpp` profiles the canonical `CompareOperands` remains **892/892
-exact**, and the complete two-carrier scoped cold replay passes **83 existing
-exact owners, 29,856 physical bytes and 1,389 original-bound relocation
-fields**. The complete RunEcl boss keeps 15,564 physical bytes, 598 fields,
-all tables and the same 30 nonmatching code bytes. Enemy OnUpdate keeps its
-3,900-byte/97-field/13-byte frontier. This is native-source semantics
-progress, not a new exactness claim.
-
 ## 2026-11-10 native ECL laser and shot-packet argument addressing
 
 After the main four ECL scalar readers and the movement/compare handlers were
@@ -283,27 +258,6 @@ Twenty VC7.1 same-section `$L` names were rebound only after independently
 checking their COFF owner-relative locations, addends and retail PE operands.
 The canonical exact count is unchanged: this is faithful native source
 semantics work, not a newly exact RunEcl boss or Windows product closure.
-
-## 2026-11-10 Laser and shot wire payload address arithmetic
-
-The remaining native ECL laser and shot decoders shared the same zero-length
-`Th09EclRawInstructionHeaderView::arguments` byte tail as RunEcl's basic
-operand readers. `EclRunBullet.inl` now builds laser float/int/color views
-from an unsigned i386 instruction address plus the reviewed `0x0C` operand
-offset and the requested byte displacement; the laser creation handler
-uses the same tail address for its structured packet. `EclPostRuntime.inl`
-reads the separate shot instruction descriptor from that native byte address.
-The new names and types remain transparent views of the existing binary
-payload, not new allocation/decoder owners or altered original error handling.
-
-Source-cold full RunEcl (15,564 physical bytes, 598 independently bound fields
-and complete dispatch tables) still differs only at opcode 4 (seven bytes)
-and opcode 155 (23 bytes), with no new field/table differences. Enemy OnUpdate
-preserves its 3,900-byte/97-field/13-byte frontier. The five affected real
-compiler profiles cold-replayed **87 exact owners, 30,583 complete physical
-bytes and 1,409 relocation fields**. The independent target-bound physical
-proof found no changed local label destinations or byte differences. The
-change is native-address semantic reconstruction, not newly exact code.
 
 ## 2026-11-11 Enemy timeline native remote slots and wire-step address
 

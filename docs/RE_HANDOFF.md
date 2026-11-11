@@ -12,21 +12,24 @@ Git retains earlier source revisions.
   `0x00400000`, ignored `resources/th09.exe`, SHA-256
   `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
   Never patch or delete it.
-- **At this handoff:** **1,025 / 1,037** source-present authored functions
+- **Last verified 2026-11-11:** **1,025 / 1,037** source-present functions
   byte-exact; **12 nonexact / 28,145 original bytes**. Another 35 candidate
   origins remain reviewed but unresolved; inventory completeness is unproven.
-  Regenerate totals with `python3 -B scripts/report-reconstruction-status.py`.
-  Canonical authority is `config/matches.csv`, `config/functions.csv` and
+  These are *snapshots*, not a new agent's live proof: regenerate totals with
+  `python3 -B scripts/report-reconstruction-status.py`. Canonical authority
+  is `config/matches.csv`, `config/functions.csv` and
   `config/match-units.toml`, not manually copied status prose.
 - **Closed large owners:** `GameplaySetupThread @ 0x0041AF2D` is exact
   (1,689 bytes / 172 relocations). `Title DrawResult` is also exact
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
-- **Recent source:** native Win32 32-bit address math and word-wrap semantics
-  have been recovered across Enemy/ECL, Player/collision, Replay, Title,
-  Effect, Sound and ANM. They preserve exact siblings but have **not**
-  promoted any of the twelve open functions. See Git for individual changes.
+- **Current source:** native Win32 32-bit address math and word-wrap
+  semantics have been recovered across Enemy/ECL, Player/collision, Replay,
+  Title, Effect, Sound, ANM, ExAttack, and Supervisor frame queues. The recent
+  patches preserved exact siblings but **did not** promote any of the twelve
+  open functions. Use `git log --oneline` for the actual commits; do not
+  restore scratch files as if they were accepted changes.
 
 ## Remaining source-present nonexact owners
 
@@ -118,27 +121,42 @@ Work on large bosses **and** small leaves. Previous changes to natural
 - **Effect callback:** eight receiver/manager register bytes remain;
   pointer/ref/inline wrappers seldom change them. Its Create caller
   remains exact.
+- **Supervisor network service:** the retail owner has 1,633 bytes versus
+  the 1,627-byte candidate, with 106 relocations and 41 direct calls but a
+  different wait/success block schedule. Reversing branches or sharing an
+  exit did not restore the original layout; do not mistake fewer overlapping
+  differences in a longer candidate for a strict improvement.
+- **Title OnUpdateResult / DrawReplayMenu:** distinguish them from the exact
+  DrawResult leaf. The result updater needs its actual signed character-byte
+  read and one missing byte; replay menu has 29 register-lifetime differences.
+  Pure pointer casts and cached source-index snapshots have not fixed either.
 
-The immutable neighboring `_reference/Cirno-Labs-th09`, TH08 and TH095
+The pinned neighboring `_reference/Cirno-Labs-th09`, TH08 and TH095
 code are hypothesis sources, **not** original TH09 evidence.
 
 ## Protected inputs and scratch lifecycle
 
-Ignored `build/` is rebuildable. Historical `build/gpt-web/` source copies,
-PDBs, objects and diagnostics and the old `build/matching/` cache were
-cleared for this handoff. Rebuild selected exact owners from the maintained
-source and canonical manifests, not old object receipts.
+The obsolete ignored `build/` cache was removed for this handoff,
+including `build/gpt-web/` trial copies/PDBs/diagnostics and
+`build/matching/` compiled objects. **The absence of an object is expected**:
+use `scripts/build-match-unit.py --unit <unit-id>` for a selected exact
+owner or `scripts/replay-scoped-exact.py --changed-file <source>` for its
+*affected* exact cohorts. For a standalone nonexact probe, recreate
+`build/matching/` and use `scripts/compile-probe.sh` with the pinned profile
+above. Do not run project-wide `--owner all` or cold replay to rebuild caches.
+Removing generated objects does not revoke existing ledger matches, nor does
+an old receipt prove the current source without recompilation.
 
-**Preserve** ignored `resources/th09.exe`, `.tools/wine/` (private compiler
-and Wine prefix), `.analysis/ghidra-direct/` (saved Ghidra projects),
-`.analysis/factory-runtime/`, shared Factory tools, and `_reference/`.
-Six small, ignored `.analysis/gpt-web/20261111-prove-*.py` PE/COFF
-private-label proof helpers were retained **in this live worktree only**.
-They require rebuilding their selected `build/matching/` objects first;
-they are not canonical evidence or part of the tracked source.
-Do not commit originals, SDKs, executable assets or analysis databases,
-and do not push without a request. See [tool routing](TOOLS.md) and
-[shared runtimes](SHARED_TOOLS.md).
+**Preserve** ignored `resources/th09.exe`, `.tools/wine/` (the game-specific
+VC7.1/Wine runtime and prefix), `.analysis/ghidra-direct/` (saved Ghidra
+projects), `.analysis/factory-runtime/`, shared Factory tools and
+`_reference/`. The six small ignored
+`.analysis/gpt-web/20261111-prove-*.py` scripts are retained *only in this
+live worktree* as optional private-label same-section PE/COFF proof helpers;
+they are not canonical evidence and require fresh selected objects first.
+Do not delete these protected inputs to save space, or commit originals,
+SDKs, executable assets or analysis databases. No remote push was requested.
+See [tool routing](TOOLS.md) and [shared runtimes](SHARED_TOOLS.md).
 
 Commit real improvements as `gpt-web: ...`. Always inspect and recover
 dirty/untracked work instead of deleting it. Check live Git ahead/behind
