@@ -356,6 +356,8 @@ static void SetExtraAnmScript(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
 {
+    // Retail ECL takes the signed VM slot word without a bounds check and
+    // scales it as a native DWORD from the actual secondary-VM storage.
     int unusedIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
     int script = Th09EclRunControl::ReadInt(enemy, instruction, 1);
 
@@ -365,23 +367,23 @@ static void SetExtraAnmScript(
         {
             reinterpret_cast<AnmLoaded *>(AlternateAnm(enemy))->
                 SetAndExecuteScriptIdx(
-                    &enemy->secondaryVms2AC[
-                        Th09EclRunControl::ReadInt(enemy, instruction, 0)],
+                    &Th09EclRunState::SecondaryVm(
+                        enemy, Th09EclRunControl::ReadInt(enemy, instruction, 0)),
                     Th09EclRunControl::ReadInt(enemy, instruction, 1));
         }
         else
         {
             reinterpret_cast<AnmLoaded *>(PrimaryAnm(enemy))->
                 SetAndExecuteScriptIdx(
-                    &enemy->secondaryVms2AC[
-                        Th09EclRunControl::ReadInt(enemy, instruction, 0)],
+                    &Th09EclRunState::SecondaryVm(
+                        enemy, Th09EclRunControl::ReadInt(enemy, instruction, 0)),
                     Th09EclRunControl::ReadInt(enemy, instruction, 1));
         }
     }
     else
     {
-        enemy->secondaryVms2AC[
-            Th09EclRunControl::ReadInt(enemy, instruction, 0)].scriptIndex = -1;
+        Th09EclRunState::SecondaryVm(
+            enemy, Th09EclRunControl::ReadInt(enemy, instruction, 0)).scriptIndex = -1;
     }
     (void)unusedIndex;
 }

@@ -523,6 +523,24 @@ ECL's native 0x0C instruction header precedes four-byte union operands. Byte
 and halfword access now index inside those words; an extra raw-prefix storage
 projection is unnecessary.
 
+## 2026-11-11 RunEcl extra ANM VM native slot addresses
+
+`SetExtraAnmScript` serves two distinct RunEcl opcodes and rereads the
+signed wire slot index on every branch. Its two `SetAndExecuteScriptIdx`
+receivers and the negative-script `scriptIndex = -1` write now use the
+existing `Th09EclRunState::SecondaryVm` native address view of the **actual**
+secondary VM array at Enemy +`0x2AC`. The helper computes Win32 modulo-32
+`base + index * sizeof(AnmVm)` without adding an index guard or eliding any
+wire reads. A fresh pinned /Ob1 VC7.1 build of the complete 15,564-byte
+RunEcl owner retained exactly 30 ordinary differences, 598 independently
+resolved relocation fields and unchanged tables; no new exactness credit.
+Both affected /Ob0 and /Ob1 carriers were cold-built and all **83**
+canonical exact owners replayed successfully: **29,856 physical bytes and
+1,389 relocation fields**. Two VC7.1 private `$L` labels in CompareOperands
+and post-update movement were renamed only after independent full-body proof
+of actual same-section COFF definitions and unchanged original PE operands.
+Neither internal label target nor any authored-code bytes were changed.
+
 ## Enemy OnUpdate
 
 The current 3,900-byte owner retains 97 fields, 69 calls and 13 differences:
