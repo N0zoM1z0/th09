@@ -177,6 +177,11 @@ the canonical ledgers. Git holds prior source revisions.
   addresses, three distinct unlock-byte bases, and five independent
   short-circuiting reads. Only its one compiler carrier was cold-replayed;
   no new exact function was credited. See the 2026-11-11 knowledge note.
+- **Circle and laser Player collision record appends use native strides.**
+  Their exact 95-byte and 245-byte bodies retain all original bytes/fields
+  while computing the live record address as a 32-bit 0x30-byte stride,
+  preserving the original signed upper bound and DWORD counter increment.
+  Each standalone source carrier passed its own exact cold replay.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

@@ -444,6 +444,31 @@ scoped exact replay: **five exact functions, 1,220 complete bytes and
 Player collision query. This is a source semantics correction; the
 nonexact boss still needs a genuine extra CFG block to be promoted.
 
+## 2026-11-11 Player circle/laser collision record native byte addresses
+
+The original TH09 Player collision query has three independently compiled,
+exact record append methods, all sharing one actual 0x1808-byte Player
+allocation of 128 0x30-byte records plus a signed count. The earlier
+box-append method already retains the native byte address behavior; its
+**circle** and **laser** siblings are now restored too. Each original
+i386 owner forms every record field address from `&records[0]` and a
+fresh signed `count1804` read multiplied by the 0x30 stride as a
+**modulo-32 native integer**. The previous maintained source used a
+C++ signed array subscript that could be out of bounds even while the
+original only checked the upper count limit. The count guard, all
+position/origin/half-size/radius/angle/input stores and order remain
+unchanged. Each final `INC DWORD` is now explicit unsigned 32-bit
+arithmetic before publishing the original signed counter.
+
+Circle index-only, increment-only and combined source probes each
+reproduced **95/95 original bytes and zero relocation fields**.
+The same three independent VC7.1 probes for the laser owner reproduced
+**245/245 original bytes and two bound relocation fields**, including
+the source's genuine floating-point constant. The installed sources
+then passed two independent official scoped cold replays, one for each
+native compiler carrier, not a whole-game build. No new exact-function
+count, runtime semantics claim or unverified product closure is implied.
+
 ## 2026-11-11 Player collision box-append native 0x30-byte records
 
 The exact `PlayerCollisionQueryStateView::AppendBoxRecord @ 0x0040F8E0`

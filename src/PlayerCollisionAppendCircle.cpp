@@ -11,8 +11,19 @@ void PlayerCollisionQueryStateView::AppendCircleRecord(
     if (count1804 >= PlayerCollisionQueryCapacity::RecordCount)
         return;
 
-    records[count1804].position00 = *position;
-    records[count1804].radius24 = radius;
-    records[count1804].unknown2C = unknown;
-    ++count1804;
+    // The original 0x30-byte collision records are addressed with a live
+    // signed DWORD count and native modulo-32 byte strides, not by C++
+    // out-of-bounds array subscripting. Preserve each distinct live read.
+
+    (*reinterpret_cast<PlayerCollisionQueryRecordView *>(
+        reinterpret_cast<unsigned int>(&records[0]) +
+        static_cast<unsigned int>(count1804) * sizeof(records[0]))).position00 = *position;
+    (*reinterpret_cast<PlayerCollisionQueryRecordView *>(
+        reinterpret_cast<unsigned int>(&records[0]) +
+        static_cast<unsigned int>(count1804) * sizeof(records[0]))).radius24 = radius;
+    (*reinterpret_cast<PlayerCollisionQueryRecordView *>(
+        reinterpret_cast<unsigned int>(&records[0]) +
+        static_cast<unsigned int>(count1804) * sizeof(records[0]))).unknown2C = unknown;
+    // Final native INC DWORD preserves modulo-32 counter state.
+    count1804 = static_cast<int>(static_cast<unsigned int>(count1804) + 1u);
 }
