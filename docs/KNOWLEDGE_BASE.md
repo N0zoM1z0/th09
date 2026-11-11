@@ -782,6 +782,27 @@ all seven original-bound relocation fields. Other exact functions from
 ExAttackController.cpp require affected-carrier replay before acceptance.
 This corrects native semantics, not the exact-function count.
 
+## Bullet transform installer leaves and AdvanceTransformProgram native indices
+
+The independent exact Bullet and BulletSpawnDescriptor InstallTransformRecord
+leaves at 0x00412610 / 0x00412650 receive a signed transform index, without
+a lower-bound test. Each record is physically 0x18 bytes in its actual
+18-element transform array. The maintained code now explicitly computes
+native modulo-32 base + DWORD(index) * 0x18 instead of relying on an
+in-bounds C++ array subscript. Pinned VC7.1 /O2 /Ob1 builds preserve
+both complete owners, 54 and 37 bytes, with no relocations.
+
+The much larger existing exact Bullet::AdvanceTransformProgram at
+0x004141C0 uses the same native 18-record storage and accepts a signed
+current transform index. It now computes that record's modulo-32 address
+and explicitly wraps index + 1 before storing the next DWORD. Its fresh
+full original-bound PE/COFF comparison retained **1,320 / 1,320
+physical bytes** (including the complete owned tail/table) and
+**all 26 relocation fields**. Seven private VC7.1 switch-label
+renames were verified against actual same-section definitions,
+independent original PE operands and full-body equality before
+rebinding the manifest. Exact-function totals do not change.
+
 ## Player movement focused input uses the real side-slot stride
 
 The 1,900-byte still-nonexact Player movement owner reads the 0x2A

@@ -84,7 +84,11 @@ nextRecord:
         return;
 
     index = this->transformIndex;
-    record = &this->transforms[index];
+    // The native transform-index word may be negative: retail forms
+    // a modulo-32 address from the actual 18-record transform allocation.
+    record = reinterpret_cast<BulletTransformRecord *>(
+        reinterpret_cast<unsigned int>(&this->transforms[0]) +
+        static_cast<unsigned int>(index) * sizeof(this->transforms[0]));
     if (record->kind == ADVANCE_TRANSFORM_NONE)
         return;
 
@@ -96,7 +100,8 @@ nextRecord:
 
     if ((this->transformFlags & record->kind) == 0)
     {
-        this->transformIndex = index + 1;
+        this->transformIndex = static_cast<int>(
+            static_cast<unsigned int>(index) + 1u);
         goto nextRecord;
     }
 

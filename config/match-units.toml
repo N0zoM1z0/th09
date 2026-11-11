@@ -16329,8 +16329,8 @@ relocations = [
   { offset = 0xEC, type = "REL32", symbol = "?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z", target = 0x0043E380 },
   { offset = 0x123, type = "REL32", symbol = "??0BulletSpawnDescriptorAdvanceView@@QAE@XZ", target = 0x0040D500 },
   { offset = 0x1E0, type = "REL32", symbol = "?SpawnBulletPatternPrimary@EtamaController@@QAEPAUBullet@@PAUBulletSpawnDescriptor@@@Z", target = 0x004130F0 },
-  { offset = 0x22E, type = "DIR32", symbol = "$L59230", target = 0x004146A8 },
-  { offset = 0x235, type = "DIR32", symbol = "$L59241", target = 0x00414694 },
+  { offset = 0x22E, type = "DIR32", symbol = "$L59373", target = 0x004146A8 },
+  { offset = 0x235, type = "DIR32", symbol = "$L59384", target = 0x00414694 },
   { offset = 0x249, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x27F, type = "DIR32", symbol = "__real@c4778000", target = 0x0048E5E4 },
   { offset = 0x2A4, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
@@ -16345,11 +16345,11 @@ relocations = [
   { offset = 0x407, type = "DIR32", symbol = "__real@c479c000", target = 0x0048E3C0 },
   { offset = 0x42C, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x4C3, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
-  { offset = 0x4D4, type = "DIR32", symbol = "$L59164", target = 0x004143F9 },
-  { offset = 0x4D8, type = "DIR32", symbol = "$L59166", target = 0x0041442B },
-  { offset = 0x4DC, type = "DIR32", symbol = "$L59169", target = 0x004144D0 },
-  { offset = 0x4E0, type = "DIR32", symbol = "$L59171", target = 0x004145B1 },
-  { offset = 0x4E4, type = "DIR32", symbol = "$L59161", target = 0x00414687 },
+  { offset = 0x4D4, type = "DIR32", symbol = "$L59307", target = 0x004143F9 },
+  { offset = 0x4D8, type = "DIR32", symbol = "$L59309", target = 0x0041442B },
+  { offset = 0x4DC, type = "DIR32", symbol = "$L59312", target = 0x004144D0 },
+  { offset = 0x4E0, type = "DIR32", symbol = "$L59314", target = 0x004145B1 },
+  { offset = 0x4E4, type = "DIR32", symbol = "$L59304", target = 0x00414687 },
 ]
 
 [units.sample-network-input]
