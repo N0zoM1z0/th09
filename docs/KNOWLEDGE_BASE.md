@@ -813,6 +813,34 @@ collision's new forward-goto, do/while and sentinel-loop tests likewise
 either retained its 849-byte/32-block candidate or broke the genuine ABI
 exit conditions; they remain private rejected probes.
 
+## 2026-11-11 PlayStats native signed character and record addresses
+
+All seven real `PlayStatsRecordView` leaf functions are already original-
+byte-exact; this edit improves the maintained C++ physical memory semantics.
+TH09's Japanese v1.50a PE sign-extends its `char` character argument, then
+forms addresses inside the original PLST allocation using **native 32-bit
+integer row/column multiplication/addition**, including values outside
+one ordinary C++ table row. The maintained source now expresses native
+unsigned-DWORD byte addresses from the real `characterStats[0][0]` and
+`characterUnlocked[row][0]` subobjects. The individual stat increment
+uses the original signed `statIndex` DWORD; the fixed stat-5 read and
+increment use the original six-cell row stride; the three unlock writers
+still modify their distinct physical 16-byte rows. The query still makes
+five ordered, individually short-circuiting native DWORD reads, without
+moving them into a cached helper row pointer. Its existing signed `<999999`
+statistic cap and all stores/returns remain unchanged.
+
+Seven isolated source-cold probes and combinations on pinned VC7.1 showed
+that the native-address variants for all seven owners can preserve their
+**complete 213 original physical bytes**. In particular, introducing a
+local/native row reference in `HasAnyPrimaryCharacterStat` changed its
+75-byte owner, whereas **five direct native DWORD loads** produced the
+complete original body with original branch layout. The installed combined
+source then passed the canonical original-bound scoped cold replay of the
+**one actual PlayStats compiler carrier: seven byte-exact owners / 213 full
+physical bytes / zero relocation fields**. This does not promote any newly
+exact function or prove the full Windows i386 product is closed.
+
 ## 2026-11-11 Player movement native replay input and focus-mode addresses
 
 `PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` is still a

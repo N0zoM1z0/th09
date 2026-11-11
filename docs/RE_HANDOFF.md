@@ -171,6 +171,12 @@ the canonical ledgers. Git holds prior source revisions.
   now use 32-bit base+side arithmetic. Original-bound full-owner checks
   retain 1,900 bytes, 66 fields, 23 calls, both tables and precisely 122
   remaining differences. No other compiler carrier was affected.
+- **PlayStats character/stat table pointers now use native DWORD offsets.**
+  All seven exact PlayStats leaves preserve their complete 213 original
+  bytes with the actual signed character and native six-cell stat-row
+  addresses, three distinct unlock-byte bases, and five independent
+  short-circuiting reads. Only its one compiler carrier was cold-replayed;
+  no new exact function was credited. See the 2026-11-11 knowledge note.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
