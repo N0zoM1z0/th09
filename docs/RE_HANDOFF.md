@@ -92,6 +92,12 @@ the canonical ledgers. Git holds prior source revisions.
   fields). The source ABI guard still checks authentic GameManager
   addresses and rejects false relocated targets. The 51-byte callback
   remains nonexact by eight bytes; see the 2026-11-11 knowledge note.
+- **ScreenEffect arcade pulse and alpha packing now use native DWORDs.**
+  The repetition decrement and six alpha-color shifts retain the original
+  physical Win32 results. Three affected VC7.1 profiles cold-pass all 18
+  exact functions (2,562 bytes / 164 fields); nine private `$L` names
+  were independently COFF/PE-proven before rebinding. The 336-byte shake
+  envelope remains nonexact with its original 26 differences.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

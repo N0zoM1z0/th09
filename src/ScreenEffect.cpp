@@ -162,7 +162,9 @@ int ScreenEffect::CalcArcadePulse(ScreenEffect *screenEffect)
     else
     {
         screenEffect->overlayAlpha = 0;
-        screenEffect->rawParameter0--;
+        // Retail decrements this signed storage as a native DWORD.
+        screenEffect->rawParameter0 = static_cast<int>(
+            static_cast<unsigned int>(screenEffect->rawParameter0) - 1u);
         if (screenEffect->rawParameter0 <= 0)
             return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
         screenEffect->timer = 0;
@@ -373,6 +375,8 @@ void ScreenEffect::DrawSquare(ScreenEffectRect *rect, unsigned int color)
         0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 }
 
+// Original color packing shifts the alpha bits in an unsigned native DWORD.
+// All fade draw variants use this same 32-bit color operation.
 int ScreenEffect::DrawFullFade(ScreenEffect *screenEffect)
 {
     ScreenEffectRect rect;
@@ -385,7 +389,7 @@ int ScreenEffect::DrawFullFade(ScreenEffect *screenEffect)
     g_Supervisor.ConfigureGameplayViewport(2);
     ScreenEffect::DrawSquare(
         &rect,
-        screenEffect->rawParameter0 | (screenEffect->overlayAlpha << 24));
+        screenEffect->rawParameter0 | (static_cast<unsigned int>(screenEffect->overlayAlpha) << 24));
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
@@ -398,7 +402,7 @@ int ScreenEffect::DrawArcadeFade(ScreenEffect *screenEffect)
     rect.bottom = 464.0f;
     ScreenEffect::DrawSquare(
         &rect,
-        screenEffect->rawParameter0 | (screenEffect->overlayAlpha << 24));
+        screenEffect->rawParameter0 | (static_cast<unsigned int>(screenEffect->overlayAlpha) << 24));
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
@@ -411,7 +415,7 @@ int ScreenEffect::DrawPartialFade(ScreenEffect *screenEffect)
     rect.bottom = 480.0f;
     ScreenEffect::DrawSquare(
         &rect,
-        screenEffect->rawParameter0 | (screenEffect->overlayAlpha << 24));
+        screenEffect->rawParameter0 | (static_cast<unsigned int>(screenEffect->overlayAlpha) << 24));
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
@@ -424,7 +428,7 @@ int ScreenEffect::DrawSplitFade(ScreenEffect *screenEffect)
     rect.bottom = 464.0f;
     ScreenEffect::DrawSquare(
         &rect,
-        screenEffect->rawParameter0 | (screenEffect->overlayAlpha << 24));
+        screenEffect->rawParameter0 | (static_cast<unsigned int>(screenEffect->overlayAlpha) << 24));
 
     rect.left = 336.0f;
     rect.top = 16.0f;
@@ -432,7 +436,7 @@ int ScreenEffect::DrawSplitFade(ScreenEffect *screenEffect)
     rect.bottom = 464.0f;
     ScreenEffect::DrawSquare(
         &rect,
-        screenEffect->rawParameter0 | (screenEffect->overlayAlpha << 24));
+        screenEffect->rawParameter0 | (static_cast<unsigned int>(screenEffect->overlayAlpha) << 24));
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
@@ -445,7 +449,7 @@ int ScreenEffect::DrawArcadePulse(ScreenEffect *screenEffect)
     rect.bottom = 464.0f;
     ScreenEffect::DrawSquare(
         &rect,
-        (screenEffect->overlayAlpha << 24) |
+        (static_cast<unsigned int>(screenEffect->overlayAlpha) << 24) |
             ((unsigned int)screenEffect->rawParameter1 & 0xFFFFFF));
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }

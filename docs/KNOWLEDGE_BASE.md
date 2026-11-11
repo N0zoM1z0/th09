@@ -1208,6 +1208,35 @@ physical bytes and 93 relocation fields**. Both native network source-owner
 and queue-call contract tests passed. No whole-product cold replay or native
 build/semantics closure is claimed.
 
+## 2026-11-11 ScreenEffect alpha packing and arcade pulse native DWORDs
+
+`ScreenEffect::CalcArcadePulse` decrements a signed repetition counter at
+`rawParameter0` using the target's original i386 DWORD decrement. Its
+maintained source now explicitly computes the result as an unsigned
+32-bit subtraction and stores the resulting original signed word. This
+avoids signed C++ decrement overflow at `INT_MIN` without changing the
+fade, duration, removal, time, or frame-update decisions.
+
+Five separately exact fade/pulse drawing owners combine packed alpha with
+RGB color via six total left shifts by 24 bits. The original native x86
+shifts the **32-bit word**, including when the signed `overlayAlpha` would
+otherwise overflow a signed C++ shift. Each maintained expression now casts
+to unsigned 32-bit before `<< 24`, while preserving the exact original
+color bits, drawing calls, target pointers and x87 operations.
+
+The isolated decrement, isolated unsigned shift and combined VC7.1 probes
+produced **557/557 original bytes and 17 original-bound relocation fields**
+across the six directly affected functions. The installed combined source
+then cold-replayed the **three actual ScreenEffect compiler carriers**:
+**18 exact functions / 2,562 complete physical bytes / 164 relocations**.
+Nine compiler-private `$L` labels in `RegisterChain` were rebound only
+after independent original-PE and real same-section COFF definition proofs
+established the same original operand targets and complete byte equality of
+all 18 exact owners. The separately original-bound 336-byte
+`CalcShakeEnvelope` remains nonexact with the same **20 fields, eight
+calls, complete CFG and 26 ordinary differences**. No new exactness or
+native product/runtime closure is claimed.
+
 ## 2026-11-10 ScreenEffect native hold-phase threshold DWORD
 
 `ScreenEffect::CalcShakeEnvelope @ 0x004227A0` compares its exact `ZunTimer`
