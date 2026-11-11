@@ -496,6 +496,34 @@ actual COFF same-section definitions, PE operand targets and complete
 byte equality of all 83 exact owners were established. No new function
 exactness or native whole-product closure is claimed.
 
+## 2026-11-11 Supervisor received-frame native queue addresses
+
+The independently exact `Supervisor::InsertReceivedFrame @ 0x0042E9E0`
+uses real in-object Supervisor network queues: twenty contiguous
+**0x0C-byte `SupervisorFrameEntryStorageView` records** at +0x47C,
+organized as two 10-entry queues (0x78-byte side stride), followed by
+one `lastReceived56C` record per side at +0x56C. The original i386
+computes signed `side * 10 + index` as a native 32-bit DWORD word and then
+multiplies by 12; there is no new input validation in the retail owner.
+The maintained source previously indexed C++ arrays with this signed
+expression, which could overflow or become out of bounds before a native
+address is formed. Two actual inline accessors now return references to
+the authentic Supervisor allocations through unsigned 32-bit base+scaled
+byte addresses. They retain repeated live accesses and the exact original
+frame/seed/packed-input/flag store order and queue-shift loop, including
+the existing signed local iteration bounds.
+
+Received-record-only, queue-record-only, combined, explicit inline-helper
+and local-macro candidate source probes all reproduced the original
+**213/213-byte physical owner, with zero relocation fields** under the
+pinned VC7.1 profile. The installed source uses the real inline helper
+shape, and the one genuinely affected `SupervisorFrameQueueInsert.cpp`
+compiler carrier passed the canonical original-bound cold replay of its
+sole exact owner. `SupervisorServiceUpdate` remains independently nonexact
+at 1,627/1,633 candidate/target bytes; this edit does not affect or credit
+its compiler carrier. No newly exact function or whole-product closure
+is claimed.
+
 ## 2026-11-11 native side-index arithmetic across network and enemy reward
 
 The original TH09 i386 code subtracts the `SupervisorNetworkState::localSide`

@@ -189,6 +189,12 @@ the canonical ledgers. Git holds prior source revisions.
   RunEcl remains at 15,564 bytes/598 fields and its 30 old differences;
   five affected profiles cold-pass 87 exact functions / 30,583 bytes /
   1,409 fields. Twenty compiler-private labels were independently proven.
+- **Supervisor InsertReceivedFrame now uses native frame queue addresses.**
+  The exact 213-byte queue leaf accesses its two authentic 0x78-byte side
+  queues of 0x0C-byte entries and separate last-received slots using native
+  modulo-32 byte offsets. Its one affected compiler carrier cold-passes
+  all 213 original bytes, with no relocations. The unrelated 1,633-byte
+  network service owner remains nonexact and unpromoted.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
