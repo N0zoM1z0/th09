@@ -101,7 +101,13 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     if (*reinterpret_cast<const unsigned char *>(
             reinterpret_cast<unsigned int>(focusModes) +
             static_cast<unsigned int>(player->sideIndex)) == 1)
-        focused = g_ReplayInputStates[inputSide].auxiliary2A >= 8;
+        // Retail rereads the live side input through the genuine 0x8E-byte
+        // ReplayInputState array stride. Do not reuse the earlier receiver:
+        // that changes VC7.1's original operand schedule in this boss.
+        focused = (*reinterpret_cast<ReplayInputState *>(
+            reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
+            static_cast<unsigned int>(inputSide) *
+                sizeof(g_ReplayInputStates[0]))).auxiliary2A >= 8;
     else
         focused = input->IsHeld(4) != 0;
 

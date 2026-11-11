@@ -782,6 +782,23 @@ all seven original-bound relocation fields. Other exact functions from
 ExAttackController.cpp require affected-carrier replay before acceptance.
 This corrects native semantics, not the exact-function count.
 
+## Player movement focused input uses the real side-slot stride
+
+The 1,900-byte still-nonexact Player movement owner reads the 0x2A
+auxiliary focus counter from the original ReplayInputState array at
+0x004ACE18. The signed side DWORD scales by the native 0x8E-byte record
+stride and the input pointer is read again at the focus decision point;
+the old g_ReplayInputStates[inputSide] expression incorrectly required
+a valid C++ array subscript. The maintained source now computes the
+genuine Win32 base + DWORD-scaled address for that separate read.
+Using the earlier cached input receiver was rejected by the complete
+COFF operand checker, so no new read-caching or bounds gate was introduced.
+
+The pinned VC7.1 complete 1,900-byte / 66-field / 23-call owner
+comparison retains the previous 122 different bytes and the same original
+field identities. It is a native wire-access correction, not new
+byte-exact function credit.
+
 ## Player movement, charge and collision
 
 The still-nonexact 1,900-byte Player movement owner reads the focus-effect
