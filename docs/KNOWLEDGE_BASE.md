@@ -768,6 +768,34 @@ private label rebindings were necessary. This is native score-table
 source semantics and writer/reader ownership agreement on previously
 exact code, not newly exact function or Windows runtime credit.
 
+## 2026-11-11 native Background stage camera viewport record selectors
+
+The exact 2,652-byte `BackgroundRunStageScriptPhase` interprets
+stage-script camera targets and interpolations for the live signed
+`background->viewportIndex00C` selector. Nineteen separate writes/reads
+of camera position, look-at, up, forward, and field of view now address
+the original `g_Supervisor.ctorArray078[3]` storage as native i386
+`uint32(real base) + uint32(index) * 0xF0`. Its actual
+`SupervisorCtorArrayElement` is **0xF0 bytes**, established by the
+independently exact Supervisor viewport and Front draw source and
+original ABI layout assertions. These remain independent live source
+lvalues inside the script opcode handlers and the camera interpolator;
+no new view allocation, bounds gate, timer snapshot, call, or altered
+camera event ordering was introduced.
+
+Three pinned VC7.1 prototype source forms (native original record type,
+native alias, and byte-pointer base) all matched the **complete
+2,652-byte physical stage script owner and all 133 relocation fields**.
+The installed lexical native-camera lvalue passed the one actually
+affected compiler carrier's scoped cold replay, protecting **5/5 exact
+source functions, 3,231 complete physical bytes and 160 relocations**,
+including the 448-byte camera interpolation leaf and 91-byte Hermite
+scalar leaf. Forty-four optimized `$L` references in the stage-script
+boss and one in the interpolation leaf were rebound only after complete
+code equality and independent same-section COFF definition / unchanged
+original PE branch-target proof. No exactness count increase or whole
+Windows native runtime claim is implied.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

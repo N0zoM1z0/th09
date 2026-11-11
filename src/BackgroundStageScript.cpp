@@ -248,6 +248,15 @@ static void InterpolateBackgroundCameraVector(
 
 #undef TH09_BG_NATIVE_SLOT
 
+// All 19 live stage-camera selectors target the same three original
+// 0xF0-byte Supervisor viewport records as exact viewport/routing code.
+// Form the native Win32 signed-DWORD address without a bounded array view.
+#define TH09_BG_NATIVE_CAMERA(owner) \
+    (*reinterpret_cast<BackgroundStageCameraRecord *>( \
+        reinterpret_cast<unsigned int>(&g_Supervisor.ctorArray078[0]) + \
+        static_cast<unsigned int>((owner)->viewportIndex00C) * \
+            sizeof(g_Supervisor.ctorArray078[0])))
+
 void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
 {
     BackgroundStageView *background =
@@ -303,7 +312,7 @@ read_instruction:
             background->cameraTarget834.cameraPosition00 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             if (background->interpolationDurationBF4[0] == 0)
-                g_Supervisor.ctorArray078[background->viewportIndex00C]
+                TH09_BG_NATIVE_CAMERA(background)
                     .cameraPosition00 =
                     *reinterpret_cast<Float3 *>(instruction->args);
             break;
@@ -320,7 +329,7 @@ read_instruction:
             background->cameraTarget834.cameraLookAtOffset0C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             if (background->interpolationDurationBF4[1] == 0)
-                g_Supervisor.ctorArray078[background->viewportIndex00C]
+                TH09_BG_NATIVE_CAMERA(background)
                     .cameraLookAtOffset0C =
                     *reinterpret_cast<Float3 *>(instruction->args);
             break;
@@ -337,7 +346,7 @@ read_instruction:
             background->cameraTarget834.cameraUp18 =
                 *reinterpret_cast<Float3 *>(instruction->args);
             if (background->interpolationDurationBF4[2] == 0)
-                g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18 =
+                TH09_BG_NATIVE_CAMERA(background).cameraUp18 =
                     *reinterpret_cast<Float3 *>(instruction->args);
             break;
 
@@ -353,7 +362,7 @@ read_instruction:
             background->cameraTarget834.fieldOfView48 =
                 *reinterpret_cast<float *>(&instruction->args[0]);
             if (background->interpolationDurationBF4[3] == 0)
-                g_Supervisor.ctorArray078[background->viewportIndex00C]
+                TH09_BG_NATIVE_CAMERA(background)
                     .fieldOfView48 =
                     *reinterpret_cast<float *>(&instruction->args[0]);
             break;
@@ -485,7 +494,7 @@ read_instruction:
             break;
 
         case 32:
-            g_Supervisor.ctorArray078[background->viewportIndex00C]
+            TH09_BG_NATIVE_CAMERA(background)
                 .cameraPositionOffset3C =
                 *reinterpret_cast<Float3 *>(instruction->args);
             break;
@@ -511,7 +520,7 @@ script_done:
         InterpolateBackgroundCameraVector(
             background,
             0,
-            &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraPosition00,
+            &TH09_BG_NATIVE_CAMERA(background).cameraPosition00,
             &background->cameraStart924.cameraPosition00,
             &background->cameraTarget834.cameraPosition00,
             &background->cameraTangentStartB04.cameraPosition00,
@@ -521,7 +530,7 @@ script_done:
         InterpolateBackgroundCameraVector(
             background,
             1,
-            &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraLookAtOffset0C,
+            &TH09_BG_NATIVE_CAMERA(background).cameraLookAtOffset0C,
             &background->cameraStart924.cameraLookAtOffset0C,
             &background->cameraTarget834.cameraLookAtOffset0C,
             &background->cameraTangentStartB04.cameraLookAtOffset0C,
@@ -531,7 +540,7 @@ script_done:
         InterpolateBackgroundCameraVector(
             background,
             2,
-            &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18,
+            &TH09_BG_NATIVE_CAMERA(background).cameraUp18,
             &background->cameraStart924.cameraUp18,
             &background->cameraTarget834.cameraUp18,
             &background->cameraTangentStartB04.cameraUp18,
@@ -580,7 +589,7 @@ script_done:
             break;
         }
 
-        g_Supervisor.ctorArray078[background->viewportIndex00C].fieldOfView48 =
+        TH09_BG_NATIVE_CAMERA(background).fieldOfView48 =
             (background->cameraTarget834.fieldOfView48 -
              background->cameraStart924.fieldOfView48) *
                 time +
@@ -589,9 +598,9 @@ script_done:
 
     D3DXVec3Normalize(
         reinterpret_cast<D3DXVECTOR3 *>(
-            &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraForward24),
+            &TH09_BG_NATIVE_CAMERA(background).cameraForward24),
         reinterpret_cast<D3DXVECTOR3 *>(
-            &g_Supervisor.ctorArray078[background->viewportIndex00C].cameraLookAtOffset0C));
+            &TH09_BG_NATIVE_CAMERA(background).cameraLookAtOffset0C));
 
     if (background->cameraMotionMode6438 != 0)
     {
@@ -599,7 +608,7 @@ script_done:
         {
         case 1:
         {
-            g_Supervisor.ctorArray078[background->viewportIndex00C]
+            TH09_BG_NATIVE_CAMERA(background)
                 .cameraPositionOffset3C.x = sinf(
                     (float)background->interpolationTimersC08[4] *
                         0.01308997f - 3.1415927f) * 40.0f;
@@ -613,9 +622,9 @@ script_done:
             float angle =
                 (float)background->interpolationTimersC08[4] * 0.01308997f -
                 3.1415927f;
-            g_Supervisor.ctorArray078[background->viewportIndex00C]
+            TH09_BG_NATIVE_CAMERA(background)
                 .cameraPositionOffset3C.x = sinf(angle) * 70.0f;
-            g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18.x =
+            TH09_BG_NATIVE_CAMERA(background).cameraUp18.x =
                 sinf(angle) * -0.1f;
             background->interpolationTimersC08[4]++;
             if (background->interpolationTimersC08[4] >= 480)
@@ -627,11 +636,11 @@ script_done:
             float angle =
                 (float)background->interpolationTimersC08[4] * 0.0030679617f -
                 3.1415927f;
-            g_Supervisor.ctorArray078[background->viewportIndex00C]
+            TH09_BG_NATIVE_CAMERA(background)
                 .cameraPositionOffset3C.x = sinf(angle) * 30.0f;
-            g_Supervisor.ctorArray078[background->viewportIndex00C]
+            TH09_BG_NATIVE_CAMERA(background)
                 .cameraPositionOffset3C.z = cosf(angle) * 30.0f;
-            g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18.x =
+            TH09_BG_NATIVE_CAMERA(background).cameraUp18.x =
                 sinf(angle) * -0.1f;
             background->interpolationTimersC08[4]++;
             if (background->interpolationTimersC08[4] >= 2048)
@@ -643,9 +652,9 @@ script_done:
             float angle =
                 (float)background->interpolationTimersC08[4] * 0.0013089969f -
                 3.1415927f;
-            g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18.x =
+            TH09_BG_NATIVE_CAMERA(background).cameraUp18.x =
                 sinf(angle);
-            g_Supervisor.ctorArray078[background->viewportIndex00C].cameraUp18.z =
+            TH09_BG_NATIVE_CAMERA(background).cameraUp18.z =
                 cosf(angle);
             background->interpolationTimersC08[4]++;
             if (background->interpolationTimersC08[4] >= 4800)
@@ -690,3 +699,5 @@ script_done:
             background->skyFogDurationCB8 = 0;
     }
 }
+
+#undef TH09_BG_NATIVE_CAMERA

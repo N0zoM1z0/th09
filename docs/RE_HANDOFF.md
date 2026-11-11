@@ -228,6 +228,12 @@ The exact score.dat record producer now writes/initializes its original
 Six `ScoreData.cpp` compiler carriers protect **7/7 exact functions,
 2,572 complete bytes and 169 original relocation fields**.
 
+The exact Background stage-script camera path now forms 19 actual
+Supervisor 0xF0-byte viewport record addresses by native DWORD index.
+The 2,652-byte script boss and four exact siblings pass one scoped
+compiler carrier: **5/5 exact functions, 3,231 bytes and 160 original
+relocations**, with 45 actual original-PE-target-verified private labels.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact
