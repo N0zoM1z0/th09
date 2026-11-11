@@ -127,6 +127,12 @@ the canonical ledgers. Git holds prior source revisions.
   exact siblings / 18,972 bytes / 953 fields; nine renamed internal labels
   were independently PE/COFF-proven before ledger rebinding. Nonexact
   Title OnUpdateResult retains its 484/485-byte residual.
+- **Five additional Title menu/focus cursor helpers now wrap natively.**
+  The two affected native compiler carriers cold-pass all 41 exact
+  functions (18,972 bytes / 953 fields); nine private `$L` spellings
+  were rebound only after complete PE/COFF address and byte proof.
+  OnUpdateResult remains 484/485 nonexact, DrawReplayMenu remains 29
+  register-byte differences. See the 2026-11-11 knowledge note.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

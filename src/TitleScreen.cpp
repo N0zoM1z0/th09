@@ -500,6 +500,8 @@ int TitleScreenView::DeletedCallback(TitleScreenView *titleScreen)
 
 
 
+// Retail menu cursor movement uses i386 DWORD increments, decrements and
+// wrap adjustments; retain signed comparisons on each 32-bit result.
 int TitleScreenView::MoveCursorVertical(i32 count)
 {
     if (count == 0)
@@ -507,20 +509,20 @@ int TitleScreenView::MoveCursorVertical(i32 count)
 
     if (g_TitleInput.IsPressedScrolling(0x10))
     {
-        keyboardSelection--;
+        keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) - 1u);
         g_SoundPlayer.PlaySoundByIdx(12, 0);
         if (keyboardSelection < 0)
-            keyboardSelection = count - 1;
+            keyboardSelection = static_cast<i32>(static_cast<u32>(count) - 1u);
         if (keyboardSelection >= count)
             keyboardSelection = 0;
         return -1;
     }
     else if (g_TitleInput.IsPressedScrolling(0x20))
     {
-        keyboardSelection++;
+        keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) + 1u);
         g_SoundPlayer.PlaySoundByIdx(12, 0);
         if (keyboardSelection < 0)
-            keyboardSelection = count - 1;
+            keyboardSelection = static_cast<i32>(static_cast<u32>(count) - 1u);
         if (keyboardSelection >= count)
             keyboardSelection = 0;
         return 1;
@@ -538,14 +540,14 @@ int TitleScreenView::MoveCursorHorizontal(i32 count)
     i32 direction;
     if (g_TitleInput.IsPressedScrolling(0x40))
     {
-        if (--keyboardSelection < 0)
-            keyboardSelection += count;
+        if ((keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) - 1u)) < 0)
+            keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) + static_cast<u32>(count));
         direction = -1;
     }
     else if (g_TitleInput.IsPressedScrolling(0x80))
     {
-        if (++keyboardSelection >= count)
-            keyboardSelection -= count;
+        if ((keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) + 1u)) >= count)
+            keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) - static_cast<u32>(count));
         direction = 1;
     }
     else
@@ -666,26 +668,26 @@ int TitleScreenView::MoveCursorFourWay(i32 count)
 
     if (g_TitleInput.IsPressedScrolling(0x40))
     {
-        if (--keyboardSelection < 0)
-            keyboardSelection += count;
+        if ((keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) - 1u)) < 0)
+            keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) + static_cast<u32>(count));
         g_SoundPlayer.PlaySoundByIdx(12, 0);
         return -1;
     }
 
     if (g_TitleInput.IsPressedScrolling(0x80))
     {
-        if (++keyboardSelection >= count)
-            keyboardSelection -= count;
+        if ((keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) + 1u)) >= count)
+            keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) - static_cast<u32>(count));
         g_SoundPlayer.PlaySoundByIdx(12, 0);
         return 1;
     }
 
     if (g_TitleInput.IsPressedScrolling(0x10))
     {
-        keyboardSelection--;
+        keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) - 1u);
         g_SoundPlayer.PlaySoundByIdx(12, 0);
         if (keyboardSelection < 0)
-            keyboardSelection = count - 1;
+            keyboardSelection = static_cast<i32>(static_cast<u32>(count) - 1u);
         if (keyboardSelection >= count)
             keyboardSelection = 0;
         return -1;
@@ -693,10 +695,10 @@ int TitleScreenView::MoveCursorFourWay(i32 count)
 
     if (g_TitleInput.IsPressedScrolling(0x20))
     {
-        keyboardSelection++;
+        keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) + 1u);
         g_SoundPlayer.PlaySoundByIdx(12, 0);
         if (keyboardSelection < 0)
-            keyboardSelection = count - 1;
+            keyboardSelection = static_cast<i32>(static_cast<u32>(count) - 1u);
         if (keyboardSelection >= count)
             keyboardSelection = 0;
         return 1;
@@ -778,33 +780,33 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
     if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x40))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
-        --*cursor;
+        *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
         if (*cursor < 0)
-            *cursor += count;
+            *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
     else if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x80))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
-        ++*cursor;
+        *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
         if (*cursor >= count)
-            *cursor -= count;
+            *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
         direction = 1;
     }
     else if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x10))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
-        --*cursor;
+        *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
         if (*cursor < 0)
-            *cursor += count;
+            *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
     else if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x20))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
-        ++*cursor;
+        *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
         if (*cursor >= count)
-            *cursor -= count;
+            *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
         direction = 1;
     }
     else
@@ -826,33 +828,33 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
     if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x40))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
-        --*cursor;
+        *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
         if (*cursor < 0)
-            *cursor += count;
+            *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
     else if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x80))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
-        ++*cursor;
+        *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
         if (*cursor >= count)
-            *cursor -= count;
+            *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
         direction = 1;
     }
     else if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x10))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
-        --*cursor;
+        *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
         if (*cursor < 0)
-            *cursor += count;
+            *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
     else if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x20))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
-        ++*cursor;
+        *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
         if (*cursor >= count)
-            *cursor -= count;
+            *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
         direction = 1;
     }
     else

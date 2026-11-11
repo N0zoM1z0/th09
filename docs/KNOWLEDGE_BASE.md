@@ -1122,6 +1122,37 @@ zero-plus-memcpy seed locals did not close it. A wider SetSeed implementation
 can itself be byte-identical: callee bytes do not uniquely determine formal
 width. Keep the pre-runtime-read snapshot of side-0 value1E8.
 
+## 2026-11-11 Title menu/focus cursor native DWORD arithmetic
+
+Five more independently exact Title cursor helpers now express their
+original i386 32-bit behavior without signed C++ overflow:
+`MoveCursorVertical`, `MoveCursorHorizontal`, `MoveCursorFourWay`,
+`MoveCharacterCursorHorizontal` and `MoveCharacterCursorHorizontalForInput`.
+The original native DWORD increment/decrement, dynamic `count` wrap
+adjustments and `count-1` selection wrap are all preserved as unsigned
+32-bit sums/differences before interpreting the stored signed cursor.
+The replay-input owner, selection sounds, branch order, zero-count gates,
+shared two-side character cursor storage and return directions are unchanged.
+
+Five isolated changes and their combined pinned VC7.1 compile reproduced
+**all five reviewed physical owners** (135, 112, 217, 167, 167 bytes;
+**798 complete bytes / 37 original relocation fields**). The installed
+combined source then cold-replayed the **two genuinely affected compiler
+carriers**: **41 exact functions, 18,972 original bytes and 953 actual
+relocation fields**. Nine private `$L` names in exact `OnUpdateStartMenu`
+were rebound only after independent same-section COFF definitions,
+original PE operands and complete 41-function byte equality were proved.
+Nonexact `OnUpdateResult` retained its exact prior 484/485-byte size,
+34 fields, nine ordered calls, original CFG, 218 unlike overlap bytes
+and one absent target byte.
+
+Separate experiments on the nonexact 1,280-byte `DrawReplayMenu` tested nine
+fresh selected-index and record-reference source lifetimes. The unchanged
+1280-byte forms retained all 29 original register-byte differences; moving
+the selected-index lifetime earlier shrank the compiled owner to 1264/1271
+bytes and regressed the control-flow layout. Those candidates were rejected.
+There is no new function-exactness credit or whole-game build claim.
+
 ## 2026-11-11 Title character-unlock cursor native DWORDs
 
 The three independently exact character selection helpers
