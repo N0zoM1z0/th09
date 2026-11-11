@@ -690,6 +690,31 @@ at 1,627/1,633 candidate/target bytes; this edit does not affect or credit
 its compiler carrier. No newly exact function or whole-product closure
 is claimed.
 
+## 2026-11-11 Supervisor service prefill signed DWORD comparison
+
+The still-nonexact SupervisorServiceUpdate at 0x00430AA0 preloads the
+real two-side Supervisor frame queues using a signed queuedFrame that
+begins at -9998. Its original i386 loop compares the signed result of
+the native DWORD operation queuedFrame + 9998 against the existing
+60/syncRate - 1 bound. The maintained source now explicitly performs
+that addition modulo 2^32 before the signed comparison, without moving
+either InsertReceivedFrame call, seed acquisition, post-increment site,
+the local side/queue ownership or the actual loop bound.
+
+Baseline, comparison-only, unsigned-alias increment-only and combined
+pinned VC7.1 cold probes showed the comparison-only version preserved
+**the exact prior 1,627-byte candidate against the 1,633-byte target,
+106 original-bound relocations, 421 source instructions, 1,381 unlike
+overlapping bytes and the unchanged candidate direct-call sequence**.
+The alias increment candidate happened to reach 1,633 bytes but grew
+the mismatch census to 1,451 and was rejected; physical length alone
+is not match evidence. The installed comparison-only source passed
+the standalone original-bound complete-owner audit, compared directly
+against the independently compiled baseline. This network service
+still has six missing target bytes, and its existing direct-call
+differences remain; no new exactness credit or native product closure
+is claimed. The unrelated exact Supervisor queue source was untouched.
+
 ## 2026-11-11 native side-index arithmetic across network and enemy reward
 
 The original TH09 i386 code subtracts the `SupervisorNetworkState::localSide`

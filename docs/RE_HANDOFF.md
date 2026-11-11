@@ -335,6 +335,11 @@ the canonical ledgers. Git holds prior source revisions.
   exact. Two affected EclManager profiles cold-pass 83 exact siblings,
   29,856 complete bytes and 1,389 relocation fields; two private label
   changes were PE/COFF-proven. Its 13 existing boss mismatches remain.
+- **Supervisor service prefill bound now uses native signed DWORD wrap.**
+  The queued-frame comparison preserves the original i386 modulo-32
+  ADD without altering the real queue/seed calls. Complete source-cold
+  owner audit retains 1,627/1,633 bytes, 106 fields and 1,381 overlap
+  mismatches; a superficially same-length but worse variant was rejected.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

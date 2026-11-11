@@ -172,7 +172,11 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                             g_Supervisor.InsertReceivedFrame(
                                 1, queuedFrame++, 0,
                                 (short)g_ReplayRng.GetSeed());
-                        } while (queuedFrame + 9998 <
+                        // Retail compares the signed result of a native
+                        // i386 DWORD ADD, including its 32-bit wraparound.
+                        } while (static_cast<int>(
+                                     static_cast<unsigned int>(queuedFrame) +
+                                     9998u) <
                                  60 / frameNetwork->syncRate - 1);
                     }
 
