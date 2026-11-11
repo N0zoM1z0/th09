@@ -63,7 +63,11 @@ Git retains earlier source revisions.
   ANM file-loading now computes 33 sprite/texture/script/file-slot addresses
   from the actual 0x44/0x0C/4/0x120-byte record bases and signed indices;
   both affected compiler carriers preserve 17 exact ANM owners (3,258 full
-  bytes / 133 fields).
+  bytes / 133 fields). The 9,776-byte exact ANM script interpreter also now
+  computes its six instruction-stream jumps/advances as native 32-bit byte
+  addresses; all five affected exact owners (10,496 full bytes / 421 fields)
+  pass two-carrier scoped cold replay with 148 independently verified private
+  `$L` reference rebindings.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

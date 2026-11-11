@@ -158,6 +158,9 @@ enum AnmOpcode
     AnmOpcode_ReturnFromInterrupt = 89
 };
 
+// Retail ANM jump offsets and variable-length instruction advances form
+// native i386 32-bit byte addresses relative to the actual script buffer.
+// Keep the original signed wire offsets and instruction-size reads live.
 #define ANM_MAX_ARGS 10
 
 struct AnmRawInstr
@@ -334,7 +337,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             break;
         case AnmOpcode_Jmp:
             vm->currentTimeInScript = instruction->intArgs[1];
-            vm->currentInstruction = (AnmRawInstr *)(((u8 *)vm->beginningOfScript) + instruction->intArgs[0]);
+            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(instruction->intArgs[0]));
             continue;
         case AnmOpcode_JmpDec:
             *GET_INT_VAR_PTR(0) -= 1;
@@ -342,7 +345,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             if (GET_INT_VAR(0) > 0)
             {
                 vm->currentTimeInScript = instruction->intArgs[2];
-                vm->currentInstruction = (AnmRawInstr *)(((u8 *)vm->beginningOfScript) + instruction->intArgs[1]);
+                vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(instruction->intArgs[1]));
                 continue;
             }
             break;
@@ -473,7 +476,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
                 {
                     nextInstruction = instruction;
                 }
-                instruction = (AnmRawInstr *)((u8 *)instruction + instruction->instructionSize);
+                instruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(instruction) + static_cast<unsigned int>(instruction->instructionSize));
             }
 
             vm->pendingInterrupt = 0;
@@ -491,7 +494,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
             vm->interruptReturnTime = vm->currentTimeInScript;
             vm->interruptReturnInstruction = vm->currentInstruction;
-            instruction = (AnmRawInstr *)((u8 *)instruction + instruction->instructionSize);
+            instruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(instruction) + static_cast<unsigned int>(instruction->instructionSize));
             vm->currentInstruction = instruction;
             vm->currentTimeInScript = vm->currentInstruction->time;
             vm->visible = true;
@@ -807,7 +810,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             break;
         jump:
             vm->currentTimeInScript = instruction->intArgs[3];
-            vm->currentInstruction = (AnmRawInstr *)(((u8 *)vm->beginningOfScript) + instruction->intArgs[2]);
+            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(instruction->intArgs[2]));
             continue;
         default:
             break;
@@ -817,7 +820,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 #undef GET_FLOAT_VAR
 #undef GET_INT_VAR
 
-        vm->currentInstruction = (AnmRawInstr *)((u8 *)instruction + instruction->instructionSize);
+        vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(instruction) + static_cast<unsigned int>(instruction->instructionSize));
     }
 stop:
     if (vm->angleVel.x != 0.0f)

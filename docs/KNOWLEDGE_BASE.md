@@ -99,6 +99,34 @@ The installed combined source passed the **two affected compiler carriers,
 original-bound relocations**. This improves real memory-model fidelity; it
 does not increase the exact owner count or establish a native product/runtime.
 
+## 2026-11-11 ANM interpreter native instruction-byte addressing
+
+The exact `AnmManager::ExecuteScript @ 0x00436F30` (9,358 covered code
+bytes, **9,776 complete original physical bytes** including its owned
+jump tables and tails) consumes the genuine variable-length ANM script
+buffer. Three `instruction->instructionSize` advances now form the original
+Win32 `uint32(instruction address) + uint32(u16 instructionSize)` word.
+Three branch/interrupt targets now form `uint32(vm->beginningOfScript) +
+uint32(instruction->intArgs[0/1/2])`, preserving the original signed wire
+DWords, authentic script base, execution/interrupt branches and every
+separate live read. These are byte offsets within the *same script allocation*,
+not native C++ array elements; there is no new bounds gate, shadow script
+storage, alternate instruction representation or call.
+
+Three pinned VC7.1 candidate combinations (step-only, jump-only, both)
+were compared against **every one of the 9,776 physical bytes and all 368
+original-bound relocation fields**. Each remained byte-identical after
+rebinding actual same-section COFF definitions. The installed combined
+candidate rebinds **107 compiler-private `$L` references in the interpreter**
+and **41 references in the four same-source AnmVm variable helpers**; every
+reference's original PE target, COFF definition, offset and kind was verified
+before updating `config/match-units.toml`. The genuine two-carrier scoped
+cold replay passed **5/5 exact functions, 10,496 full physical bytes and
+421 relocation fields**. `interpCurrentTimers[i]` is a native `ZunTimer`,
+not an integer array; an experimental arithmetic rewrite failed its real
+operator ABI and was not installed. This improves native script-pointer
+semantics but does not grant new exact owners or whole-game runtime proof.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.
