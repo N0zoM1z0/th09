@@ -141,6 +141,10 @@ Git retains earlier source revisions.
   through native DWORD addresses; two affected compiler carriers preserve
   both exact source functions (3,007 bytes / 167 fields), with 30
   PE-target-proven private/internal label rebindings.
+  The already-exact 1,939-byte Title DrawResult owner now uses native
+  0x44C-byte score banks, 0xDC-byte difficulty rows, 0x2C-byte rank
+  records and genuine label/alphabet indices; all 82 relocation fields
+  remain exact under its single-carrier replay.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

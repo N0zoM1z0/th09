@@ -403,6 +403,33 @@ physical bytes and 167 relocation fields** (the main interpreter and its
 independent 39-byte text decode leaf). There is no new exact owner or
 native Windows runtime/product claim.
 
+## 2026-11-11 native Title DrawResult score banks and rank records
+
+The original exact `TitleScreenView::DrawResult` (1,939 physical bytes)
+reads the real `g_TitleScoreTable` owner: **16 banks × 5 difficulty rows ×
+5 ranked `TitleScoreRecordView` entries**, 0x2C bytes per score record.
+The maintained source now forms the live bank pointer with the actual
+0x44C-byte bank stride; four difficulty-row advances use the 0xDC-byte
+row stride, and fifteen rank name/score/digit reads take their lvalues
+from the true 0x2C-byte record addresses. Five rank-label pointers are
+independently read from the original global four-byte pointer table,
+and the 6×16 name keyboard's live alphabet character is read through
+its real byte base with native 32-bit index addition. These address
+calculations preserve the source's repeated reads, score string formatting,
+branch decisions, keyboard highlight and original AsciiManager calls.
+No new bounds gate, cache, array allocation or alternate score table
+has been introduced.
+
+Individual pinned VC7.1 trials for bank, rank, label, alphabet and
+row stride, plus their combination, all preserved **1,939/1,939 complete
+original PE bytes**. The installed combined lexical lvalues passed the
+single affected `TitleScreenResultDraw.cpp` compiler carrier's scoped
+cold replay: **1/1 exact owner, 1,939 physical bytes, all 82
+original-bound relocation fields**. No changed private labels were
+needed. The score producer and renderer still share the original table;
+this is a source-memory fidelity gain, not a new exact function or native
+Windows runtime claim.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.
