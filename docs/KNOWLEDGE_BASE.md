@@ -537,6 +537,18 @@ Moving the side reference before the position copy changed literal ordering
 and worsened the comparison; the strict literal check rejected it. An alias
 rename alone is not a new codegen hypothesis.
 
+## Enemy death reward spread native DWORD addition
+
+The independently exact 1,142-byte `EnemyView::HandleDeathRewards`
+(`0x004102B0`) computes the tier-zero spread from the live signed
+`rewardAttack30410.rewardLevel38` plus four. The path accepts negative
+levels; the original i386 addition wraps at 32 bits, whereas plain signed
+C++ addition would rely on overflow behavior. The maintained source now uses
+unsigned DWORD addition before restoring the signed result. A fresh pinned
+VC7.1 complete-owner replay remains **exact**: all 1,142 bytes and 39
+original-bound relocations agree. This is a native-semantics correction, not
+a new function-exactness promotion.
+
 ## 2026-11-11 Player runtime collision-region native words and list strides
 
 The independently exact Player UpdatePlayerCollisionRegions owner maintains

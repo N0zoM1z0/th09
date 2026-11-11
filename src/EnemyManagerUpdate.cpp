@@ -123,7 +123,10 @@ void EnemyView::HandleDeathRewards(int hitKind)
     else if (player->rewardAttack30410.rewardLevel38 > 24)
         spread = 28;
     else
-        spread = player->rewardAttack30410.rewardLevel38 + 4;
+        // Retail adds four to the signed reward level as an i386 DWORD.
+        // This branch also accepts negative levels, so preserve wraparound.
+        spread = static_cast<int>(
+            static_cast<unsigned int>(player->rewardAttack30410.rewardLevel38) + 4u);
 
     int value;
     if (((this->rewardFlags3380 >> 6) & 7u) == 0)
