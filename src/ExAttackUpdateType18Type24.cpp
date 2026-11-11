@@ -85,6 +85,27 @@ static __forceinline AsciiGameManagerSideView &NativeExAttackSide(int index)
 
 
 
+// The live attack allocation owns 0x0C-byte trail positions, 0x04-byte
+// trail angles and 0x2A4-byte ANM VMs. Retain native i386 DWORD address
+// words instead of relying on bounded C++ indexing, with no new guards.
+#define TH09_EX_TRAIL_POS(owner, idx) \
+    (*reinterpret_cast<Float3 *>( \
+        reinterpret_cast<unsigned int>(&(owner)->trailPositions58[0]) + \
+        static_cast<unsigned int>(idx) * sizeof((owner)->trailPositions58[0])))
+#define TH09_EX_TRAIL_PREV(owner, idx) \
+    (*reinterpret_cast<Float3 *>( \
+        reinterpret_cast<unsigned int>(&(owner)->trailPositions58[0]) + \
+        static_cast<unsigned int>(idx) * sizeof((owner)->trailPositions58[0]) - \
+        sizeof((owner)->trailPositions58[0])))
+#define TH09_EX_TRAIL_ANGLE(owner, idx) \
+    (*reinterpret_cast<float *>( \
+        reinterpret_cast<unsigned int>(&(owner)->trailAngles118[0]) + \
+        static_cast<unsigned int>(idx) * sizeof((owner)->trailAngles118[0])))
+#define TH09_EX_NATIVE_VM(record, idx) \
+    (*reinterpret_cast<PlayerAnmVmView *>( \
+        reinterpret_cast<unsigned int>((record)->dynamicData1C) + \
+        static_cast<unsigned int>(idx) * sizeof(PlayerAnmVmView)))
+
 int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
 {
     ExAttackType1824RecordView *record =
@@ -109,16 +130,16 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
         {
             NativeExAttackSide(record->side08).player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
-                    &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[0]), 9);
+                    &TH09_EX_NATIVE_VM(record, 0)), 9);
             NativeExAttackSide(record->side08).player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
-                    &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1]), 10);
+                    &TH09_EX_NATIVE_VM(record, 1)), 10);
             NativeExAttackSide(record->side08).player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
-                    &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2]), 10);
+                    &TH09_EX_NATIVE_VM(record, 2)), 10);
             NativeExAttackSide(record->side08).player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
-                    &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3]), 10);
+                    &TH09_EX_NATIVE_VM(record, 3)), 10);
 
             extra->state00 = static_cast<int>(
                 static_cast<unsigned int>(extra->state00) + 1u);
@@ -136,8 +157,8 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
 
             for (int i = 0; i < 16; ++i)
             {
-                extra->trailPositions58[i] = record->position20;
-                extra->trailAngles118[i] = record->rotation3C;
+                TH09_EX_TRAIL_POS(extra, i) = record->position20;
+                TH09_EX_TRAIL_ANGLE(extra, i) = record->rotation3C;
             }
         }
         return 0;
@@ -155,28 +176,29 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
 
     for (int i = 15; i > 0; --i)
     {
-        extra->trailPositions58[i] = extra->trailPositions58[i - 1];
-        extra->trailAngles118[i] = extra->trailAngles118[i - 1];
+        TH09_EX_TRAIL_POS(extra, i) = TH09_EX_TRAIL_PREV(extra, i);
+        TH09_EX_TRAIL_ANGLE(extra, i) = TH09_EX_TRAIL_ANGLE(
+            extra, static_cast<int>(static_cast<unsigned int>(i) - 1u));
     }
 
     extra->trailPositions58[0] = record->position20;
     extra->trailAngles118[0] = extra->angle4C;
 
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[0].SetZRotation(extra->angle4C);
+    TH09_EX_NATIVE_VM(record, 0).SetZRotation(extra->angle4C);
 
     // One sequenced publication keeps all three returned trail values alive
     // through the last VM rotation; each value is consumed by its pos2 copy.
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1].pos2 =
+    TH09_EX_NATIVE_VM(record, 1).pos2 =
         extra->trailPositions58[1] - record->position20,
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1].SetZRotation(extra->trailAngles118[1]),
+    TH09_EX_NATIVE_VM(record, 1).SetZRotation(extra->trailAngles118[1]),
 
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2].pos2 =
+    TH09_EX_NATIVE_VM(record, 2).pos2 =
         extra->trailPositions58[3] - record->position20,
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2].SetZRotation(extra->trailAngles118[3]),
+    TH09_EX_NATIVE_VM(record, 2).SetZRotation(extra->trailAngles118[3]),
 
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3].pos2 =
+    TH09_EX_NATIVE_VM(record, 3).pos2 =
         extra->trailPositions58[5] - record->position20,
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3].SetZRotation(extra->trailAngles118[5]);
+    TH09_EX_NATIVE_VM(record, 3).SetZRotation(extra->trailAngles118[5]);
 
     if (record->timer10 > 20)
     {
@@ -192,10 +214,10 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
         {
             extra->state00 = 2;
             record->timer10 = 0;
-            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[0].SetInterrupt(1);
-            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1].SetInterrupt(1);
-            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2].SetInterrupt(1);
-            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3].SetInterrupt(1);
+            TH09_EX_NATIVE_VM(record, 0).SetInterrupt(1);
+            TH09_EX_NATIVE_VM(record, 1).SetInterrupt(1);
+            TH09_EX_NATIVE_VM(record, 2).SetInterrupt(1);
+            TH09_EX_NATIVE_VM(record, 3).SetInterrupt(1);
             return 0;
         }
 
@@ -235,3 +257,8 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
 
     return 0;
 }
+
+#undef TH09_EX_TRAIL_POS
+#undef TH09_EX_TRAIL_PREV
+#undef TH09_EX_TRAIL_ANGLE
+#undef TH09_EX_NATIVE_VM

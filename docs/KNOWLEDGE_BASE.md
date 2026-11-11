@@ -1168,6 +1168,30 @@ three affected compiler carriers: **four exact function bodies,
 This recovers authentic native leaf semantics; all four were
 already exact before the change.
 
+## 2026-11-11 ExAttack 18/24 native history and ANM VM byte addresses
+
+The exact `ExAttackUpdateCallbackType18_24` owner (1,436 target bytes)
+initializes and shifts 16 real `Float3` trail positions at extra +0x58
+(0x0C-byte records), 16 independent float trail angles at extra +0x118
+(4-byte records), and updates four native 0x2A4-byte `PlayerAnmVmView`
+objects in the attack's actual `dynamicData1C` allocation.
+The maintained source now forms the real Win32 `uint32(base) +
+uint32(index)*native_stride` lvalues for three dynamic position loads/stores,
+three dynamic angle loads/stores and fifteen exact VM method/field receivers.
+The previous position slot is addressed as **current native word address
+minus one original 0x0C-byte record**, avoiding an out-of-bounds C++ index.
+The original 16-entry loops, sequence of four ANM script calls,
+independent interpolation reads, rotation and interrupt calls remain in
+place; no new allocation, bounds gate, copy, or cached pointer was added.
+
+Initial i-1-base expressions shortened the owner by one byte; four
+current-slot/previous-slot source forms retained the complete original
+body. The installed lexical native version was verified with the *only*
+actual pinned VC7.1 `/O2 /Ob1` compiler carrier: **1/1 exact function,
+1,436/1,436 original physical bytes and 44 original-bound relocation
+fields**, without a manifest change. This improves native memory-model
+fidelity of an already-exact substantial boss, not the exact-function count.
+
 ## ExAttack Type18/24 update native GameManager side and state counter
 
 The full ExAttackUpdateCallbackType18_24 original physical owner
