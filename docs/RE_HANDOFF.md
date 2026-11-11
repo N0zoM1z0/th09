@@ -128,7 +128,10 @@ Git retains earlier source revisions.
   The 209-byte DrawMusicRoom leaf now reads/writes the selected actual
   0x2A4-byte song VM through native DWORD addresses; the same-source
   2,258-byte OnUpdateMusicRoom remains exact, with 2/2 owners and
-  2,467 full bytes / 80 fields scoped cold-verified.
+  2,467 full bytes / 80 fields scoped cold-verified. The 2,045-byte exact
+  Title options updater now uses native help VM, selected menu VM and
+  global help-text pointer addresses; both its source owners remain exact
+  (2,079 complete bytes / 138 original relocation fields).
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

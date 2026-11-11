@@ -323,6 +323,32 @@ edit passed one original-bound two-unit scoped VC7.1 replay:
 including 209/209 DrawMusicRoom bytes. No new exact owner or original
 Windows product/runtime credit was claimed.
 
+## 2026-11-11 native Title Options help-text and ANM VM selector slots
+
+The original exact `TitleScreenView::OnUpdateOptions` (2,045 complete
+physical bytes) uses the genuine TitleScreen embedded 0x2A4-byte ANM VMs
+for the nine help-text rows and the selected help cursor, and the real
+TitleScreen `vms` allocation for the current keyboard/menu selection.
+Seven independent runtime accesses now use native Win32 byte-address
+lvalues: two help VM pointers (`i` and `keyboardSelection`), four
+selected menu-VM receivers and one global `g_TitleOptionsHelpText[i]`
+pointer table entry. Help VM pointer lvalues keep the original opaque
+`AnmVmView*` ABI, not an incompatible `AnmVm*`; the help-text pointer
+read keeps the original byte-base calculation into four-byte global
+pointer slots. Original audio volume, help message, UI fade, and
+`PlayMenuSound` calls stay in place. No bounds checks, new allocation,
+cache, additional calls or alternate TitleScreen view were introduced.
+
+Five independent and combined pinned VC7.1 `/O1 /Ob1` probes showed
+which native expression spellings preserve the original exact code:
+a direct DWORD-base `const` help-text lvalue grew the owner two bytes
+and was rejected; the real byte-base pointer returned to the correct
+original instruction schedule. The installed combined source passed
+one actual compiler-carrier scoped cold replay: **2/2 exact functions,
+2,079 complete original bytes and 138 bound relocation fields**
+(2,045-byte OnUpdateOptions and 34-byte PlayMenuSound). No exact owner
+was newly promoted, and no Windows native runtime/product proof follows.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

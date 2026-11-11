@@ -90,6 +90,22 @@ typedef char OptionsMenuCountAt1B244[(offsetof(TitleScreenView, menuItemCount) =
 typedef char OptionsConfigAt1B2BC[(offsetof(TitleScreenView, configSnapshot) == 0x1B2BC) ? 1 : -1];
 typedef char OptionsTitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) ? 1 : -1];
 
+// The real TitleScreen owns 0x2A4-byte ANM VMs and a separate
+// four-byte help-text pointer table. These live selectors form original
+// Win32 byte addresses without a new clamp, copy or auxiliary allocation.
+#define TH09_OPTIONS_HELP_VM_PTR(index) \
+    reinterpret_cast<AnmVmView *>( \
+        reinterpret_cast<unsigned int>(&this->embeddedVms[0]) + \
+        static_cast<unsigned int>(index) * sizeof(this->embeddedVms[0]))
+#define TH09_OPTIONS_VM(index) \
+    (*reinterpret_cast<AnmVm *>( \
+        reinterpret_cast<unsigned int>(&this->vms[0]) + \
+        static_cast<unsigned int>(index) * sizeof(this->vms[0])))
+#define TH09_OPTIONS_HELP_TEXT(index) \
+    (*reinterpret_cast<const char *const *>( \
+        reinterpret_cast<const u8 *>(&g_TitleOptionsHelpText[0]) + \
+        static_cast<unsigned int>(index) * sizeof(g_TitleOptionsHelpText[0])))
+
 int TitleScreenView::OnUpdateOptions()
 {
     int i;
@@ -111,7 +127,7 @@ int TitleScreenView::OnUpdateOptions()
         this->currentScreenState = 1;
         for (i = 0; i < sizeof(g_TitleOptionsHelpText) / sizeof(g_TitleOptionsHelpText[0]); i++)
         {
-            DrawTitleHelpText(reinterpret_cast<TitleAnmManagerView *>(g_AnmManager), reinterpret_cast<AnmVmView *>(&this->embeddedVms[i]), 0xfff0e0, 0x300000, g_TitleOptionsHelpText[i]);
+            DrawTitleHelpText(reinterpret_cast<TitleAnmManagerView *>(g_AnmManager), reinterpret_cast<AnmVmView *>(TH09_OPTIONS_HELP_VM_PTR(i)), 0xfff0e0, 0x300000, TH09_OPTIONS_HELP_TEXT(i));
         }
     case 1:
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) >= 100)
@@ -168,7 +184,7 @@ int TitleScreenView::OnUpdateOptions()
         }
         if (this->previousCursor != this->keyboardSelection)
         {
-            this->currentHelpTextVm = &this->embeddedVms[this->keyboardSelection];
+            this->currentHelpTextVm = TH09_OPTIONS_HELP_VM_PTR(this->keyboardSelection);
             this->currentHelpTextVm->pendingInterrupt = 1;
         }
         this->previousCursor = this->keyboardSelection;
@@ -428,9 +444,9 @@ int TitleScreenView::OnUpdateOptions()
                 }
                 return 1;
             }
-            this->titleAnm->SetSprite(&this->vms[this->keyboardSelection + 9], this->vms[this->keyboardSelection + 9].baseSpriteIndex + 1);
+            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(this->keyboardSelection + 9), TH09_OPTIONS_VM(this->keyboardSelection + 9).baseSpriteIndex + 1);
             this->keyboardSelection = 8;
-            this->titleAnm->SetSprite(&this->vms[this->keyboardSelection + 9], this->vms[this->keyboardSelection + 9].baseSpriteIndex);
+            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(this->keyboardSelection + 9), TH09_OPTIONS_VM(this->keyboardSelection + 9).baseSpriteIndex);
             this->PlayMenuSound(11, 0);
         }
     }
@@ -445,3 +461,7 @@ int TitleScreenView::PlayMenuSound(i32 soundId, i32 unused)
     g_SoundPlayer.PlaySoundByIdx(soundId, unused);
     return g_SoundPlayer.ProcessQueues();
 }
+
+#undef TH09_OPTIONS_HELP_VM_PTR
+#undef TH09_OPTIONS_VM
+#undef TH09_OPTIONS_HELP_TEXT
