@@ -22,6 +22,15 @@ typedef char FrontResultRealNativePlayerScores[
 
 extern GameConfiguration *g_GameConfiguration;
 
+// The result transition uses genuine 0x38-byte GameManager side slots.
+// Preserve independent live reads and modulo-32 native index addresses.
+static inline AsciiGameManagerSideView &NativeResultBonusSide(int index)
+{
+    return *reinterpret_cast<AsciiGameManagerSideView *>(
+        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
+        static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0]));
+}
+
 void FrontFactoryConstructView::InitializeResultBonus()
 {
     this->frontAnm08->ExecuteAnmIdx(&this->resultVms10968[3], 63);
@@ -32,40 +41,40 @@ void FrontFactoryConstructView::InitializeResultBonus()
     this->transitionVmCount1095C = 2;
 
     this->resultValues11E88[0] =
-        100000 * g_GameManager.sides[side].player04->header24.state84;
+        100000 * NativeResultBonusSide(side).player04->header24.state84;
 
     {
         PlayerLifecycleView *player =
-            g_GameManager.sides[side].player04;
+            NativeResultBonusSide(side).player04;
         if (player->ownerState30410.maxState08 < 1000)
             this->resultValues11E88[1] =
                 10000 *
-                g_GameManager.sides[side].player04->ownerState30410.maxState08;
+                NativeResultBonusSide(side).player04->ownerState30410.maxState08;
         else
             this->resultValues11E88[1] = 9999990;
     }
 
-    if (g_GameManager.sides[side].player04->header24.state8C > 66)
+    if (NativeResultBonusSide(side).player04->header24.state8C > 66)
         this->resultValues11E88[2] = 9999990;
     else
         this->resultValues11E88[2] =
-            150000 * g_GameManager.sides[side].player04->header24.state8C;
+            150000 * NativeResultBonusSide(side).player04->header24.state8C;
 
-    if (g_GameManager.sides[side].player04->header24.state90 > 33)
+    if (NativeResultBonusSide(side).player04->header24.state90 > 33)
         this->resultValues11E88[3] = 9999990;
     else
         this->resultValues11E88[3] =
-            300000 * g_GameManager.sides[side].player04->header24.state90;
+            300000 * NativeResultBonusSide(side).player04->header24.state90;
 
-    if (g_GameManager.sides[side].player04->header24.state94 > 33)
+    if (NativeResultBonusSide(side).player04->header24.state94 > 33)
         this->resultValues11E88[4] = 9999990;
     else
         this->resultValues11E88[4] =
-            300000 * g_GameManager.sides[side].player04->header24.state94;
+            300000 * NativeResultBonusSide(side).player04->header24.state94;
 
     if (g_GameManager.field0FC == 8)
     {
-        if (g_GameManager.sides[side].state->value00 >= 10.0f)
+        if (NativeResultBonusSide(side).state->value00 >= 10.0f)
         {
             this->resultValues11E88[5] = 99999990;
         }
@@ -73,7 +82,7 @@ void FrontFactoryConstructView::InitializeResultBonus()
         {
             this->resultValues11E88[5] =
                 static_cast<int>(
-                    g_GameManager.sides[side].state->value00) *
+                    NativeResultBonusSide(side).state->value00) *
                 10000000;
         }
     }
@@ -110,5 +119,5 @@ void FrontFactoryConstructView::InitializeResultBonus()
         }
     }
 
-    g_GameManager.sides[this->transitionSide10964].AddScore(this->resultValues11E88[6]);
+    NativeResultBonusSide(this->transitionSide10964).AddScore(this->resultValues11E88[6]);
 }

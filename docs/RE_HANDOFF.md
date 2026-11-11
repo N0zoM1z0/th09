@@ -91,6 +91,9 @@ Git retains earlier source revisions.
   0x14-byte sprite-script rows (column two via an original element const
   reference). The 3 same-source exact draw/added owners (1,664 bytes /
   73 fields) remain exact; 11 further private-label bindings were verified.
+  Front's 553-byte exact `InitializeResultBonus` now uses native
+  0x38-byte GameManager side addresses for 12 live Player/result reads,
+  including final AddScore (553 bytes / 27 relocation fields).
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

@@ -940,6 +940,28 @@ that full proof; canonical affected-only cold replay then passed. The large
 ChargeAttack/Movement owners and whole Windows i386 product remain open;
 no new exactness credit follows.
 
+## 2026-11-11 native Front result bonus side-record addressing
+
+`FrontFactoryConstructView::InitializeResultBonus` at the original
+553-byte owner computes Player score/charge/result totals for the live
+`transitionSide10964`. Twelve separate accesses to
+`g_GameManager.sides[side]` or the stored `transitionSide10964` now use
+the **same real GameManager 0x38-byte side allocation** as GameplaySetup,
+Etama and Player, via
+`uint32(&sides[0]) + uint32(sideIndex) * sizeof(native side)`.
+The source keeps each original side/Player/Front read and the final
+`AsciiGameManagerSideView::AddScore` call at its existing position;
+there is no new bounds gate, cached side pointer, alternate score owner
+or changed scoring arithmetic.
+
+Five individual/combined pinned VC7.1 probes kept the full **553/553
+physical bytes** exact, including all original-bound relocations. The
+installed helper-based variant passed the one real compiler carrier's
+scoped cold replay: **one exact owner / 553 original bytes / 27
+relocation fields**. The game-mode and FrontScore lifetime remain
+unchanged; this is native source-address fidelity, not newly exact
+owner credit or Windows runtime closure.
+
 ## Front random-message selection native variable-length wire entries
 
 `FrontMessageRuntimeView::SetupRandomForSide @ 0x004162D0` selects from a
