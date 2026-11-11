@@ -280,11 +280,16 @@ static void MoveRandomBiased(
                          background00->spellVmCount;
                  ++lateIndex)
             {
-                lateScript = lateIndex +
-                    enemy->manager00->opposingSideState324->
-                        background00->spellVmScriptBase +
-                    enemy->manager00->opposingSideState324->
-                        rewardPlayer04->tableValue303F4;
+                // These three native signed DWORD sources add modulo 2^32
+                // before the resulting script index is passed as signed.
+                lateScript = static_cast<int>(
+                    static_cast<unsigned int>(lateIndex) +
+                    static_cast<unsigned int>(
+                        enemy->manager00->opposingSideState324->
+                            background00->spellVmScriptBase) +
+                    static_cast<unsigned int>(
+                        enemy->manager00->opposingSideState324->
+                            rewardPlayer04->tableValue303F4));
                 Th09EclRunMovement::SetAndExecuteAnmScript(
                     enemy->manager00->opposingSideState324->
                         background00->sideAnm,

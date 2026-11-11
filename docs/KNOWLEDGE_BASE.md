@@ -421,6 +421,37 @@ complete same-source physical owners byte-exact against target and
 verifying their actual COFF same-section label coordinates. No new
 function exactness or whole-game build claim follows.
 
+## 2026-11-11 RunEcl late Spell VM script-index native word arithmetic
+
+Opcode 186's side-owner spell presentation builds an ANM script index
+from three **actual signed Win32 DWORDs**: the bounded Spell VM loop index,
+the opposing Background's `spellVmScriptBase` at `+0xCDC`, and the opposing
+Player's `tableValue303F4`. The retail interpreter's integer additions
+wrap modulo 2^32 before passing the resulting signed script index to the
+real ANM executor. The maintained `EclRunLate.inl` now makes both additions
+unsigned 32-bit operations and restores their signed final representation;
+all original side ownership, loop limits, ANM targets, and presentation
+conditions are retained. No new checks or compiler settings were added.
+
+Three separate native-word source expressions compiled with the pinned
+VC7.1 EclManager profile and reproduced the complete **15,564-byte** RunEcl
+owner, all **598 relocation fields**, the entire original jump tables and
+only the same 30 ordinary differences (seven in opcode 4, 23 in opcode
+155). After installing the direct expression, the two genuinely affected
+`EclManager` compiler profiles cold-passed **83 exact functions / 29,856
+physical bytes / 1,389 relocation fields**. The compiler renumbered eight
+private `$L` names; each rebinding was independently accepted only after
+verifying its actual same-section COFF definition, original PE operand,
+and byte equality of all 83 complete owners. Original-bound timer/timeout
+semantic audits remained at 90 and 3,072 passing cases. This advances
+source-level Win32 fidelity, not the exact-function count.
+
+Separate new opcode-155 bitfield/reference/pointer trials did **not**
+recover the original register lifetime. All twelve variants either
+shifted the handler and spoiled its switch-table operand targets, or
+failed the complete original-bound owner audit. Their local similarity
+cannot replace the preserved baseline 30-byte frontier. None was adopted.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,

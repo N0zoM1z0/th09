@@ -64,6 +64,13 @@ the canonical ledgers. Git holds prior source revisions.
   1,238-byte source candidate still differs only at `+0xB7/+0xBB`; both
   ReplayInput carriers pass 12 exact siblings (4,093 bytes, 232 fields),
   while BeginPlaybackStage keeps its old nonexact frontier.
+- **RunEcl late Spell VM index arithmetic now matches native wraparound.**
+  The three signed original fields are combined as unsigned 32-bit words,
+  preserving the original signed ANM script argument. Only the two
+  affected EclManager profiles were cold-rebuilt: 83 exact owners,
+  29,856 bytes and 1,389 fields. The complete 15,564-byte interpreter
+  still differs at only the existing opcode-4/155 bytes; twelve new
+  opcode-155 variants were rejected for whole-owner regressions.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
