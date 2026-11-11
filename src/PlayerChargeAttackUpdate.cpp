@@ -37,11 +37,24 @@ int PlayerLifecycleView::UpdateChargeAttack()
     volatile u8 sideMode;
     u8 modeSnapshot;
     int previousLevel;
-    ReplayInputState *input = g_ReplayInputStates + side;
+    // The original input receiver uses the real 0x8E-byte ReplayInputState
+    // stride and this owner's signed-short side snapshot as a native DWORD.
+    // Keep that snapshot and all original input calls in the same order.
+    ReplayInputState *input = reinterpret_cast<ReplayInputState *>(
+        reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
+        static_cast<unsigned int>(static_cast<int>(side)) *
+        sizeof(g_ReplayInputStates[0]));
+    // The two focus-mode tests and the post-charge test read the genuine
+    // configuration byte row through native 32-bit byte addresses. No new
+    // side clamping or cached mode snapshot has been added.
     if ((input->WasPressed(1) &&
-         !(g_GameConfiguration->sideFocusMode[side] == 1 &&
+         !(*reinterpret_cast<const u8 *>(
+            reinterpret_cast<unsigned int>(&g_GameConfiguration->sideFocusMode[0]) +
+            static_cast<unsigned int>(static_cast<int>(side))) == 1 &&
            input->IsHeld(4))) ||
-        ((modeSnapshot = g_GameConfiguration->sideFocusMode[side], sideMode = modeSnapshot, modeSnapshot == 1) &&
+        ((modeSnapshot = *reinterpret_cast<const u8 *>(
+            reinterpret_cast<unsigned int>(&g_GameConfiguration->sideFocusMode[0]) +
+            static_cast<unsigned int>(static_cast<int>(side))), sideMode = modeSnapshot, modeSnapshot == 1) &&
          input->IsHeld(1) &&
          !input->IsHeld(4)))
     {
@@ -66,7 +79,9 @@ int PlayerLifecycleView::UpdateChargeAttack()
         {
             timer303B0--;
         }
-        if (g_GameConfiguration->sideFocusMode[sideIndex] != 1)
+        if (*reinterpret_cast<const u8 *>(
+            reinterpret_cast<unsigned int>(&g_GameConfiguration->sideFocusMode[0]) +
+            static_cast<unsigned int>(sideIndex)) != 1)
         {
             goto afterCharge;
         }

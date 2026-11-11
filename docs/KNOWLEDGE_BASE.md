@@ -1311,6 +1311,32 @@ source then passed the canonical original-bound scoped cold replay of the
 physical bytes / zero relocation fields**. This does not promote any newly
 exact function or prove the full Windows i386 product is closed.
 
+## 2026-11-11 Player ChargeAttack native input and focus-mode byte addresses
+
+`PlayerLifecycleView::UpdateChargeAttack @ 0x0041F810` is still an open
+1,210-byte native i386 owner. It obtains an actual `ReplayInputState`
+from the genuine global three-slot 0x8E-byte input array, then tests the
+real `GameConfiguration::sideFocusMode` byte row three times. Its previous
+C++ indexed the real input array by a signed-short side snapshot and
+subscripted the two-byte mode row with both the snapshot and the original
+signed side DWORD. All four pointer calculations now explicitly form the
+physical native unsigned 32-bit byte address from each actual original
+subobject base and the correct element stride. The existing short side
+snapshot, original three focus-byte loads, modeSnapshot/sideMode stack
+storage, button call order, and all charge, timer, sound and ECL attack
+branches are unchanged. No side clamp, substitute allocation, or new
+resource behavior has been introduced.
+
+Seven isolated/combined pinned VC7.1 source experiments produced the
+entire **1,210/1,210-byte candidate with all 70 original-bound fields,
+58 ordered calls, 53 original CFG blocks and exactly its prior 235
+ordinary byte differences**. The installed combined source was separately
+rebuilt and reverified with the original-target-bound full-charge owner
+inspector and `--owner charge` boss guard. This standalone nonexact source
+carrier has no canonical exact siblings; a no-unit scoped replay is not
+applicable, and no unrelated compiler or full project was rebuilt.
+The function remains NONEXACT and the Windows i386 product remains open.
+
 ## 2026-11-11 Player movement native replay input and focus-mode addresses
 
 `PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` is still a

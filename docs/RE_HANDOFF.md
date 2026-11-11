@@ -283,6 +283,12 @@ the canonical ledgers. Git holds prior source revisions.
   VC7.1 profiles cold-pass 20 exact owners / 5,400 full bytes / 184
   fields, including the original owned ProcessQueues switch table.
   Eleven private-label names were independently PE/COFF-proven.
+- **Player ChargeAttack now uses native input and mode-byte addresses.**
+  The genuine 0x8E-stride ReplayInputState receiver and three actual
+  focus-mode byte reads use modulo-32 address arithmetic. Its complete
+  original-bound boss replay retains 1,210 bytes, 70 fields, 58 calls,
+  53 blocks and the former 235 differences. This standalone source has
+  no exact siblings, so only its complete owner was cold-compiled.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
