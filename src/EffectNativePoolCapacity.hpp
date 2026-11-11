@@ -40,7 +40,12 @@ struct EffectNativePoolCapacity
     }
     static Effect *FailureSentinel(EffectManager &manager)
     {
-        return manager.effects + ActiveCount(manager);
+        // The original sentinel address is a native 32-bit byte address:
+        // base + (primary + secondary) * sizeof(Effect), modulo 2^32.
+        return reinterpret_cast<Effect *>(
+            reinterpret_cast<unsigned int>(manager.effects) +
+            static_cast<unsigned int>(ActiveCount(manager)) *
+            static_cast<unsigned int>(sizeof(Effect)));
     }
 };
 typedef char EffectNativePoolCapacityLayout[

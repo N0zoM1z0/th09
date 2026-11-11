@@ -115,6 +115,12 @@ the canonical ledgers. Git holds prior source revisions.
   Affected-only cold replay passed 87 exact functions / 30,583 bytes /
   1,409 fields in five compiler carriers; eight private labels were
   independently verified against full PE/COFF evidence before rebinding.
+- **Effect pool pointer addresses now use native 0xD8-stride DWORD math.**
+  FailureSentinel, both spawners and the fixed-slot allocator form byte
+  addresses from the original effect array base and wrapped count/index
+  words, not out-of-bounds C++ pointer arithmetic. The one affected VC7.1
+  carrier cold-passed 15 exact owners / 2,530 bytes / 100 fields;
+  AddedCallback stays at its eight original differences.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

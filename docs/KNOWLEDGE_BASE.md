@@ -838,6 +838,30 @@ Twelve pinned VC7.1 complete-owner probes either retained its existing
 other bytes. No source candidate was adopted; current SaveReplay remains a
 near-exact 1,238-byte owner with 53 fields and two real residual bytes.
 
+## 2026-11-11 Effect pool native 0xD8-stride byte addresses
+
+The real `EffectManager` owns 0xD8-byte effect records and returns the
+allocation's one trailing sentinel on a full-pool spawn failure. Four
+source sites previously formed dynamic C++ pointers using signed pool
+indexes: the `EffectNativePoolCapacity::FailureSentinel` helper,
+`SpawnEffect`, `SpawnEffectWithVelocity`, and `SpawnEffectInFixedSlot`.
+Each now forms the **original Win32 unsigned 32-bit byte address** from
+the observed live effects allocation base and native record stride. The
+fixed slot's `primaryCount + slotIndex` similarly wraps as native DWORDs
+before scaling, rather than depending on signed C++ overflow and array
+subscript behavior. These expressions preserve source-visible live field
+reads, caller arguments, short-circuit decisions, return values and the
+real failure sentinel, without inventing a second pool or expanding it.
+
+Four independent and one combined pinned VC7.1 probes preserved all **15
+original-bound exact owners (2,530 physical bytes, 100 relocation fields)**
+and the separate 51-byte `EffectManager::AddedCallback` retained its four
+real fields, two calls and eight current nonexact register bytes. The
+installed combined source re-passed the one actually affected compiler
+carrier's complete strict cold replay and the callback boss guard. This
+is a source-ownership/native-address improvement, not a newly exact
+function or whole-product closure claim.
+
 ## 2026-11-11 EffectNativePoolCapacity native allocation/count arithmetic
 
 Four shared capacity functions now explicitly add the dynamic primary and
