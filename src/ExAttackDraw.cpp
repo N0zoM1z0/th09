@@ -47,6 +47,13 @@ struct ExAttackDrawControllerView
 typedef char ExAttackDrawControllerSizeIs4C80[
     (sizeof(ExAttackDrawControllerView) == 0x4C80) ? 1 : -1];
 
+// Real ExAttack VM storage is a native 0x2A4-byte record sequence,
+// indexed by the current signed draw word without a C++ bounds gate.
+#define TH09_EXATTACK_DRAW_VM(rec, index) \
+    (*reinterpret_cast<AnmVm *>( \
+        reinterpret_cast<unsigned char *>((rec)->vms1C) + \
+        static_cast<unsigned int>(index) * sizeof(AnmVm)))
+
 int ExAttackController::OnDraw0(ExAttackController *controller)
 {
     ExAttackDrawControllerView *view =
@@ -66,22 +73,22 @@ int ExAttackController::OnDraw0(ExAttackController *controller)
             {
                 do
                 {
-                    if (record->vms1C[vmIndex].type != 0)
+                    if (TH09_EXATTACK_DRAW_VM(record, vmIndex).type != 0)
                     {
-                        record->vms1C[vmIndex].SetZRotation(record->rotation3C);
+                        TH09_EXATTACK_DRAW_VM(record, vmIndex).SetZRotation(record->rotation3C);
                     }
 
-                    record->vms1C[vmIndex].pos.x =
+                    TH09_EXATTACK_DRAW_VM(record, vmIndex).pos.x =
                         g_GameManager.TransformPopupX(
-                            record->vms1C[vmIndex].pos2.x +
+                            TH09_EXATTACK_DRAW_VM(record, vmIndex).pos2.x +
                             record->position20.x);
-                    record->vms1C[vmIndex].pos.y =
+                    TH09_EXATTACK_DRAW_VM(record, vmIndex).pos.y =
                         g_GameManager.TransformPopupY(
-                            record->vms1C[vmIndex].pos2.y +
+                            TH09_EXATTACK_DRAW_VM(record, vmIndex).pos2.y +
                             record->position20.y);
-                    record->vms1C[vmIndex].pos.z = 0.06f;
+                    TH09_EXATTACK_DRAW_VM(record, vmIndex).pos.z = 0.06f;
                     g_AnmManager->Draw2D(
-                        &record->vms1C[vmIndex]);
+                        &TH09_EXATTACK_DRAW_VM(record, vmIndex));
 
                     ++vmIndex;
                 }
@@ -116,20 +123,20 @@ int ExAttackController::OnDraw1(ExAttackController *controller)
         {
             do
             {
-                if (record->vms1C[vmIndex].type != 0)
+                if (TH09_EXATTACK_DRAW_VM(record, vmIndex).type != 0)
                 {
-                    record->vms1C[vmIndex].SetZRotation(record->rotation3C);
+                    TH09_EXATTACK_DRAW_VM(record, vmIndex).SetZRotation(record->rotation3C);
                 }
 
-                record->vms1C[vmIndex].pos.x =
-                    record->vms1C[vmIndex].pos2.x +
+                TH09_EXATTACK_DRAW_VM(record, vmIndex).pos.x =
+                    TH09_EXATTACK_DRAW_VM(record, vmIndex).pos2.x +
                     record->position20.x;
-                record->vms1C[vmIndex].pos.y =
-                    record->vms1C[vmIndex].pos2.y +
+                TH09_EXATTACK_DRAW_VM(record, vmIndex).pos.y =
+                    TH09_EXATTACK_DRAW_VM(record, vmIndex).pos2.y +
                     record->position20.y;
-                record->vms1C[vmIndex].pos.z = 0.06f;
+                TH09_EXATTACK_DRAW_VM(record, vmIndex).pos.z = 0.06f;
                 g_AnmManager->Draw2D(
-                    &record->vms1C[vmIndex]);
+                    &TH09_EXATTACK_DRAW_VM(record, vmIndex));
 
                 ++vmIndex;
             }
@@ -143,3 +150,5 @@ int ExAttackController::OnDraw1(ExAttackController *controller)
 
     return 1;
 }
+
+#undef TH09_EXATTACK_DRAW_VM

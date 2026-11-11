@@ -927,6 +927,29 @@ combined function retains **all 1,436 original physical bytes and
 source-semantics repair to an already exact large owner, not another
 new exact function.
 
+## ExAttack draw native VM record indexing
+
+Both ExAttackController::OnDraw0 (0x00415460) and OnDraw1
+(0x00415580) render a live array of ANM VMs, whose physical
+0x2A4-byte record count is read from the ExAttack record at +0x2C.
+The existing source used 16 C++ subscripts on vms1C[vmIndex].
+The current lexical TH09_EXATTACK_DRAW_VM expression explicitly forms
+the original i386 native address from the actual record-owned VM
+pointer plus uint32(vmIndex) * 0x2A4. It retains the distinct type,
+rotation, position, Draw2D and draw-callback operations in each
+original list path, with no range clamping or extra helper call.
+
+The pinned VC7.1 /O2 /Ob1 trials compared all record uses.
+Direct DWORD, byte-pointer and char-pointer addresses all emitted
+the exact original two owners. A callable inline VM accessor
+lengthened OnDraw0 and was rejected; the lexical native expression
+preserved **OnDraw0 286/286 bytes and nine relocations, and OnDraw1
+193/193 bytes and five relocations**. The source is already exact;
+this recovers the explicitly native word/record-address semantics,
+not a new exact-function promotion. The installed source separately
+cold-replayed **2/2 owners, 479 physical original bytes and 14
+relocations** in its single affected VC7.1 compiler carrier.
+
 ## ExAttack callback difficulty limits and side-state native words
 
 ExAttackController::AddedCallback at 0x00415750 reads each side's signed
