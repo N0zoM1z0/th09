@@ -458,6 +458,33 @@ needed. The score producer and renderer still share the original table;
 this is a source-memory fidelity gain, not a new exact function or native
 Windows runtime claim.
 
+## 2026-11-11 native Replay capture focus and release buffer slots
+
+The canonical `ReplayManagerView` owns real 0x18-byte
+`stageBuffers[10]` link records at +0x1C. Its recorded replay payload
+contains three 10-pointer frame-start rows and a separate 10-pointer
+FPS row. The exact `ReplayManagerView::Release` now forms the stage link,
+three independently read/written `frameStart[stream][stage]` lvalues,
+and FPS read/write from actual native unsigned-DWORD word addresses.
+The stream index is scaled by the original 10-pointer row before the
+stage pointer index, with no second ownership model, new guard, cache,
+or altered free/zero chronology. The exact
+`ReplayManagerView::CaptureFrameSyncState` also reads the genuine
+`GameConfiguration::sideFocusMode` byte at +0xB4 by native side-DWORD
+address rather than bounded array indexing. Eight source lvalues were
+changed; original input calls and focus-mode branches remain live.
+
+Five independent/combined pinned VC7.1 source probes preserved the
+entire 257-byte capture callback and 318-byte release owner. The
+installed source passed both real `ReplayInput.cpp` compiler carriers:
+**12/12 exact functions, 4,093 complete physical bytes and 232
+original-bound relocation fields**. Both affected-source nonexact
+owners were also guarded independently against the complete original:
+`BeginPlaybackStage` remains 538/540 bytes, 32 relocation fields and
+39 unlike overlapping bytes; `SaveReplay` remains 1,238/1,238 bytes,
+53 fields, 23 ordered calls and only two original register bytes unlike.
+No full cold replay was run, nor was any open function promoted to exact.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

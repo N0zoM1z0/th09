@@ -37,7 +37,13 @@ Git retains earlier source revisions.
   strides; all 18 same-source exact owners (2,562 bytes / 164 fields) pass,
   with nine verified VC7.1 private-label name rebindings in RegisterChain.
   The 1,323-byte Replay stage initializer and all 12 ReplayInput exact units
-  (4,093 bytes / 232 fields) also remain verified. Playback's prior-stage
+  (4,093 bytes / 232 fields) also remain verified.
+  Replay capture now reads its original config focus byte through a native
+  side offset; Replay Release now addresses real 0x18-byte stage links,
+  3x10 frame pointers and FPS pointer slots by unsigned DWORD strides.
+  The two affected ReplayInput carriers still protect 12/12 exact units
+  (4,093 bytes / 232 fields), with both original-bound open replay guards
+  checked and unchanged. Playback's prior-stage
   character marker byte and SaveReplay's compressed checksum stream now
   use genuine Win32 DWORD byte-address reads, while both complete nonexact
   Replay owner guards retain their previous 39 overlapping playback differences and 2 SaveReplay register bytes. The exact 151-byte Enemy
