@@ -68,6 +68,17 @@ static inline const char *NativeReplayTextName(const char **table, int index)
         static_cast<unsigned int>(index) * sizeof(table[0]));
 }
 
+// The live replay header holds three contiguous ten-pointer frame rows.
+// Preserve the original per-use pointer reads and DWORD stage/side strides.
+static inline ReplayFrameDataStartView *NativeMenuFrameStart(
+    const ReplayDataView &replay, int side, int stage)
+{
+    return *reinterpret_cast<ReplayFrameDataStartView *const *>(
+        reinterpret_cast<unsigned int>(&replay.frameStart[0][0]) +
+        (static_cast<unsigned int>(side) * TitleReplayNativeSlots::StageCount +
+         static_cast<unsigned int>(stage)) * sizeof(replay.frameStart[0][0]));
+}
+
 int TitleScreenView::DrawReplayMenu()
 {
     D3DXVECTOR3 position;
@@ -98,19 +109,19 @@ int TitleScreenView::DrawReplayMenu()
                     &textPosition,
                     "No.%.2d %8s %8s",
                     i + 1,
-                    (replays[i].magic ? replays[i].playerName : "--------"),
-                    (replays[i].magic ? replays[i].playTime : "--/--/--"));
+                    (NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayRecord(&replays[0], i).playerName : "--------"),
+                    (NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayRecord(&replays[0], i).playTime : "--/--/--"));
             }
             else
             {
                 g_AsciiManager.AddFormatText(
                     &textPosition, "%c%c%c%c  %8s %8s",
-                    replays[i].magic ? replayPaths[i][15] : 'u',
-                    replays[i].magic ? replayPaths[i][16] : 's',
-                    replays[i].magic ? replayPaths[i][17] : 'e',
-                    replays[i].magic ? replayPaths[i][18] : 'r',
-                    replays[i].magic ? replays[i].playerName : "--------",
-                    replays[i].magic ? replays[i].playTime : "--/--/--");
+                    NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayPath(&replayPaths[0][0], i)[15] : 'u',
+                    NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayPath(&replayPaths[0][0], i)[16] : 's',
+                    NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayPath(&replayPaths[0][0], i)[17] : 'e',
+                    NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayPath(&replayPaths[0][0], i)[18] : 'r',
+                    NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayRecord(&replays[0], i).playerName : "--------",
+                    NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayRecord(&replays[0], i).playTime : "--/--/--");
             }
             position.y += 13.0f;
         }
@@ -188,15 +199,15 @@ int TitleScreenView::DrawReplayMenu()
 
         for (i32 i = 0; i < TitleReplayNativeSlots::StageCount; ++i)
         {
-            if (replayValue.frameStart[0][i] != 0)
+            if (NativeMenuFrameStart(replayValue, 0, i) != 0)
             {
                 g_AsciiManager.color =
                     (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
                 g_AsciiManager.AddFormatText(
                     &textPosition,
                     "%.8s vs %.8s",
-                    NativeReplayTextName(g_ReplayCharacterNames, replayValue.frameStart[0][i]->value06),
-                    NativeReplayTextName(g_ReplayCharacterNames, replayValue.frameStart[1][i]->value06));
+                    NativeReplayTextName(g_ReplayCharacterNames, NativeMenuFrameStart(replayValue, 0, i)->value06),
+                    NativeReplayTextName(g_ReplayCharacterNames, NativeMenuFrameStart(replayValue, 1, i)->value06));
                 position.y += 13.0f;
             }
         }

@@ -78,7 +78,7 @@ owner after editing it. `--owner` routes refer to
 | **Player movement** | 0x0041C170 | 1,900/1,900 bytes, 66 fields, 23 calls; 122 unlike | Option/index scheduling and Float3/history transport. `--owner movement`. |
 | **Player ChargeAttack** | 0x0041F810 | 1,210/1,210 bytes, 70 fields, 58 calls; 235 unlike | Mode byte and input receiver; 53-block CFG retained. `--owner charge`. |
 | **Title OnUpdateResult** | 0x004266B5 | 484/485 bytes, 34 fields, 9 calls; 218 unlike overlaps, 1 missing | Character byte load/sign extension. **Use `inspect-title-update-result.py`**, not `--owner resultdraw` (which checks the already-exact DrawResult). |
-| **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280 bytes, 57 fields, 13 calls; 29 unlike | Selected record EDX/ECX lifetime. `--owner replaymenu`. |
+| **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280 bytes, 57 fields, 13 calls; 29 unlike | Selected record EDX/ECX lifetime; 19 list/path/stage-frame reads now use native 32-bit strides. `--owner replaymenu`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | 849/862 bytes, 26 fields, 12 calls; 799 unlike overlaps, 13 missing | Original 33 CFG blocks vs candidate 32; needs a real branch. `--owner player`. |
 | **Replay SaveReplay** | 0x00420C60 | 1,238/1,238 bytes, 53 fields, 23 calls; 2 unlike | First frame-header copy uses EDI vs ECX at +0xB7/+0xBB. `--owner replaysave`. |
 | **Replay BeginPlaybackStage** | 0x00420840 | 538/540 bytes, 32 fields, 5 calls; 39 unlike overlaps, 2 missing | Seed-load/input-delay tail. `--owner replay`. |

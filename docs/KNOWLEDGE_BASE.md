@@ -1429,6 +1429,31 @@ COFF definitions, target PE addresses/operands and all complete original
 owners before manifest rebinding. `OnUpdateResult` remains **NONEXACT**;
 no exact ledger entry was promoted and whole-game build remains open.
 
+## 2026-11-11 DrawReplayMenu complete native list and frame-pointer indexing
+
+`TitleScreenView::DrawReplayMenu @ 0x004234F6` is a still-nonexact,
+complete **1,280-byte** renderer. The first list branch reads twelve
+separately live fields from the true 50-row `TitleScreenView::replays`
+allocation (0x1EC-byte records) and four name characters from the 0x200-byte
+`replayPaths` rows. The selected-record branch reads the two native ECL
+replay frame-pointer rows and stage positions from the original 0xC0-byte
+replay header (`frameStart[3][10]`), including repeated tests and values.
+The source now forms these nineteen dynamic addresses from their real
+record/row bases and `uint32(index)*sizeof(element)` Win32 DWORD strides;
+the third row remains untouched. There is no new bounds check, backing table,
+field cache, call, or changed branch. The existing native selected-record,
+selected-path and replay name-table views are reused rather than duplicated.
+
+Five isolated and combined pinned VC7.1 owner trials kept the **complete
+1,280-byte** physical candidate, **57 independently original-bound
+relocations, 13 calls, 16 literal definitions / 30 literal references,
+376 instructions, 72 original CFG blocks and precisely the same 29
+unmatched ordinary bytes**. The installed combined form passed the focused
+`--owner replaymenu --skip-exact-siblings` original-bound full-owner guard.
+The separate lexical carrier has no canonical exact siblings; no whole-source
+cold replay was run. The 29 EDX/ECX register/lifetime differences are still
+open; this change improves native-source indexing semantics, not exactness.
+
 ## Title DrawReplayMenu native replay-name table slots
 
 In the still-nonexact TitleScreenView::DrawReplayMenu owner at 0x004234F6,
