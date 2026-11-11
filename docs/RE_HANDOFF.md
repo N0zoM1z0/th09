@@ -159,6 +159,13 @@ the canonical ledgers. Git holds prior source revisions.
   Enemy OnUpdate remains 3,900 bytes/97 fields/69 calls and 13 unlike
   bytes. Two EclManager profiles cold-pass 83 exact siblings / 29,856
   bytes / 1,389 fields; two private labels were PE/COFF-proven first.
+- **BeginPlaybackStage now uses actual native frame/FPS slot addresses.**
+  Five frame-table reads use original 32-bit row-base+stage*4 word
+  addresses instead of potentially out-of-bounds C++ subscript syntax.
+  This 538/540-byte boss retains its original 32 fields, five calls,
+  39 overlaps and two missing bytes; both affected ReplayInput profiles
+  cold-pass 12 exact functions / 4,093 bytes / 232 fields. SaveReplay
+  remains 1,238/1,238 with the same two register-byte residuals.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

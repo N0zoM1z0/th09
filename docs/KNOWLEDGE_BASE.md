@@ -1011,6 +1011,34 @@ bytes, **53/53** original-bound fields and **23** calls, with only the same
 the final installed source passed **12 exact owners, 4,093 physical bytes,
 232 relocation fields**; no new exact owner or whole-product claim follows.
 
+## 2026-11-11 BeginPlaybackStage native frame/FPS table slot addresses
+
+The nonexact 540-byte `ReplayManagerView::BeginPlaybackStage @ 0x00420840`
+reads three stage-frame header pointers, one FPS stream pointer and the
+prior-stage clear marker from the real, 0x1EC-byte replay layout. The
+original i386 loads these words through native 32-bit **row base + stage *
+sizeof(pointer)** addresses; the signed game-stage word is not clamped
+before the original read. The maintained source previously expressed the
+five reads as C++ `frameStart[row][stage]` and `fpsStart[stage]`
+subscripts, which depend on in-bounds array indexing. All five reads now
+form the actual unsigned 32-bit byte addresses from the independently
+verified `frameStart[0/1/2][0]` and `fpsStart[0]` subobject bases, followed
+by the same pointer-word load. The prior-stage loop continues to reread its
+live index and the current-stage pointers retain their original ordering.
+No bounds check, null check, backing array, input cursor, seed call, or
+failure behavior was added or removed.
+
+Five isolated and three combined pinned VC7.1 compiler probes reproduced
+the complete existing **538-byte candidate against the 540-byte original**,
+all **32 target-bound fields**, five ordered calls, full direct CFG, **39
+unlike overlapping bytes**, and the same two still-missing target bytes.
+The installed combined source cold-replayed **both genuine ReplayInput
+compiler carriers**: **12 exact sibling functions / 4,093 full original
+bytes / 232 relocation fields**. The separately original-bound 1,238-byte
+`SaveReplay` owner retained all 53 fields, 23 calls and precisely its old
+two differing register bytes `+0xB7/+0xBB`. These are meaningful native
+wire-address semantics, not newly exact owners or whole-product closure.
+
 ## 2026-11-10 BeginPlaybackStage native frame-table row address
 
 At `0x00420840`, the original `BeginPlaybackStage` computes the frame-row

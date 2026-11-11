@@ -568,12 +568,25 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     if ((g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1()) && stage > 0)
     {
         for (i32 i = 0; i < stage; i++)
-            g_GameManager.clearD8[replayManager->replayData->frameStart[1][i]->value06] = 1;
+            g_GameManager.clearD8[(*reinterpret_cast<ReplayFrameDataStartView **>(
+                reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[1][0]) +
+                static_cast<unsigned int>(i) * sizeof(replayManager->replayData->frameStart[1][0])))->value06] = 1;
     }
-    ReplayFrameDataStartView *frame1 = replayManager->replayData->frameStart[1][stage];
-    ReplayFrameDataStartView *frame0 = replayManager->replayData->frameStart[0][stage];
-    ReplayFrameDataStartView *frame2 = replayManager->replayData->frameStart[2][stage];
-    u8 *fpsStart = replayManager->replayData->fpsStart[stage];
+    // Original playback reads frame/FPS table pointers by native Win32
+    // 32-bit byte offsets; the stage DWORD is not a bounded C++ subscript.
+    // Preserve separate physical row bases and the original read order.
+    ReplayFrameDataStartView *frame1 = (*reinterpret_cast<ReplayFrameDataStartView **>(
+        reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[1][0]) +
+        static_cast<unsigned int>(stage) * sizeof(replayManager->replayData->frameStart[1][0])));
+    ReplayFrameDataStartView *frame0 = (*reinterpret_cast<ReplayFrameDataStartView **>(
+        reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[0][0]) +
+        static_cast<unsigned int>(stage) * sizeof(replayManager->replayData->frameStart[0][0])));
+    ReplayFrameDataStartView *frame2 = (*reinterpret_cast<ReplayFrameDataStartView **>(
+        reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[2][0]) +
+        static_cast<unsigned int>(stage) * sizeof(replayManager->replayData->frameStart[2][0])));
+    u8 *fpsStart = (*reinterpret_cast<u8 **>(
+        reinterpret_cast<unsigned int>(&replayManager->replayData->fpsStart[0]) +
+        static_cast<unsigned int>(stage) * sizeof(replayManager->replayData->fpsStart[0])));
     g_GameManager.sides[0].character20 = frame0->value06;
     g_GameManager.sides[1].character20 = frame1->value06;
     g_GameManager.sides[0].replaySelector28 = frame0->value07;
