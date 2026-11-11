@@ -147,6 +147,23 @@ short *TitleScreenView::SwapDuplicateCharacterIndex(
     return slots;
 }
 
+// The real Supervisor settings occupy adjacent native byte addresses.
+// The existing Title runtime has no added side-selection bounds gate.
+#define TH09_KEY_NATIVE_BYTE(first, index) \
+    (*reinterpret_cast<unsigned char *>( \
+        reinterpret_cast<unsigned int>(first) + \
+        static_cast<unsigned int>(index)))
+
+#define TH09_KEY_NATIVE_HELP_VM(index) \
+    (*reinterpret_cast<AnmVmView *>( \
+        reinterpret_cast<unsigned int>(&helpTextVms[0]) + \
+        static_cast<unsigned int>(index) * sizeof(helpTextVms[0])))
+
+#define TH09_KEY_NATIVE_CONTROLLER_BYTE(index) \
+    (*reinterpret_cast<unsigned char *>( \
+        reinterpret_cast<unsigned int>(controllerState) + \
+        static_cast<unsigned int>(index)))
+
 i32 TitleScreenView::OnUpdateKeyConfig()
 {
     AnmVmView *vmPair;
@@ -175,9 +192,9 @@ i32 TitleScreenView::OnUpdateKeyConfig()
 
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB7)[keyConfigSide], 48);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide), 48);
             SetIndexedSpriteChoice(
-                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
 
             vmPair = &vms[50];
             SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[0]);
@@ -206,7 +223,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
         i = MoveCursorVertical(10);
     if (i != 0)
     {
-        if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
+        if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 2)
         {
             while (keyboardSelection >= 3 && keyboardSelection <= 7)
                 keyboardSelection += i;
@@ -216,7 +233,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
 
     if (previousCursor != keyboardSelection)
     {
-        currentHelpTextVm = &helpTextVms[keyboardSelection];
+        currentHelpTextVm = &TH09_KEY_NATIVE_HELP_VM(keyboardSelection);
         currentHelpTextVm->pendingInterrupt = 1;
     }
     previousCursor = keyboardSelection;
@@ -232,14 +249,14 @@ i32 TitleScreenView::OnUpdateKeyConfig()
     vmPair += 2;
     SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[3]);
 
-    if ((&g_Supervisor.config388.valueB7)[keyConfigSide] < 2)
+    if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) < 2)
     {
         controllerState = Controller::GetControllerState(
-            (&g_Supervisor.config388.valueB7)[keyConfigSide]);
+            TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide));
 
         for (keyToChange = 0; keyToChange < 32; ++keyToChange)
         {
-            if ((controllerState[keyToChange] & 0x80) != 0)
+            if ((TH09_KEY_NATIVE_CONTROLLER_BYTE(keyToChange) & 0x80) != 0)
                 break;
         }
 
@@ -304,12 +321,12 @@ afterControllerBinding:
             keyConfigSide = 1 - keyConfigSide;
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
-                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB7)[keyConfigSide], 48);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide), 48);
             SetIndexedSpriteChoice(
-                g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
-            if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 42);
+            if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 2)
             {
                 for (i = 0; i < 5; ++i)
                     vms[i + 40].color1Script.d3dColor = 0xFF606060u;
@@ -328,29 +345,29 @@ afterControllerBinding:
         case 1:
             do
             {
-                if ((&g_Supervisor.config388.valueB7)[keyConfigSide] <= 0)
-                    (&g_Supervisor.config388.valueB7)[keyConfigSide] += 5;
-                --(&g_Supervisor.config388.valueB7)[keyConfigSide];
+                if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) <= 0)
+                    TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) += 5;
+                --TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide);
             }
             while (
-                (((&g_Supervisor.config388.valueB7)[1 - keyConfigSide] == 1) &&
-                 ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 1)) ||
-                (((&g_Supervisor.config388.valueB7)[1 - keyConfigSide] == 0) &&
-                 ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 0)) ||
-                (((&g_Supervisor.config388.valueB7)[1 - keyConfigSide] == 2) &&
-                 (((&g_Supervisor.config388.valueB7)[keyConfigSide] == 2) ||
-                  ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 3) ||
-                  ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 4))) ||
-                (((&g_Supervisor.config388.valueB7)[1 - keyConfigSide] == 3) &&
-                 (((&g_Supervisor.config388.valueB7)[keyConfigSide] == 2) ||
-                  ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 3))) ||
-                (((&g_Supervisor.config388.valueB7)[1 - keyConfigSide] == 4) &&
-                 (((&g_Supervisor.config388.valueB7)[keyConfigSide] == 2) ||
-                  ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 4))));
+                ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, static_cast<int>(1u - static_cast<unsigned int>(keyConfigSide))) == 1) &&
+                 (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 1)) ||
+                ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, static_cast<int>(1u - static_cast<unsigned int>(keyConfigSide))) == 0) &&
+                 (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 0)) ||
+                ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, static_cast<int>(1u - static_cast<unsigned int>(keyConfigSide))) == 2) &&
+                 ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 2) ||
+                  (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 3) ||
+                  (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 4))) ||
+                ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, static_cast<int>(1u - static_cast<unsigned int>(keyConfigSide))) == 3) &&
+                 ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 2) ||
+                  (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 3))) ||
+                ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, static_cast<int>(1u - static_cast<unsigned int>(keyConfigSide))) == 4) &&
+                 ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 2) ||
+                  (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 4))));
 
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB7)[keyConfigSide], 48);
-            if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide), 48);
+            if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 2)
             {
                 for (i = 0; i < 5; ++i)
                     vms[i + 40].color1Script.d3dColor = 0xFF606060u;
@@ -367,13 +384,13 @@ afterControllerBinding:
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         case 2:
-            if (g_Supervisor.config388.sideFocusMode[keyConfigSide] <= 0)
-                g_Supervisor.config388.sideFocusMode[keyConfigSide] += 2;
-            --g_Supervisor.config388.sideFocusMode[keyConfigSide];
+            if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide) <= 0)
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide) += 2;
+            --TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide);
             SetIndexedSpriteChoice(
-                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
             SetIndexedSpriteChoice(
-                g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 42);
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         default:
@@ -389,12 +406,12 @@ afterControllerBinding:
             keyConfigSide = 1 - keyConfigSide;
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
-                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB7)[keyConfigSide], 48);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide), 48);
             SetIndexedSpriteChoice(
-                g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
-            if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 42);
+            if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 2)
             {
                 for (i = 0; i < 5; ++i)
                     vms[i + 40].color1Script.d3dColor = 0xFF606060u;
@@ -413,29 +430,29 @@ afterControllerBinding:
         case 1:
             do
             {
-                ++(&g_Supervisor.config388.valueB7)[keyConfigSide];
-                if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 5)
-                    (&g_Supervisor.config388.valueB7)[keyConfigSide] -= 5;
+                ++TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide);
+                if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 5)
+                    TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) -= 5;
             }
             while (
-                (((&g_Supervisor.config388.valueB7)[1 - keyConfigSide] == 1) &&
-                 ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 1)) ||
-                (((&g_Supervisor.config388.valueB7)[1 - keyConfigSide] == 0) &&
-                 ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 0)) ||
-                (((&g_Supervisor.config388.valueB7)[1 - keyConfigSide] == 2) &&
-                 (((&g_Supervisor.config388.valueB7)[keyConfigSide] == 2) ||
-                  ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 3) ||
-                  ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 4))) ||
-                (((&g_Supervisor.config388.valueB7)[1 - keyConfigSide] == 3) &&
-                 (((&g_Supervisor.config388.valueB7)[keyConfigSide] == 2) ||
-                  ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 3))) ||
-                (((&g_Supervisor.config388.valueB7)[1 - keyConfigSide] == 4) &&
-                 (((&g_Supervisor.config388.valueB7)[keyConfigSide] == 2) ||
-                  ((&g_Supervisor.config388.valueB7)[keyConfigSide] == 4))));
+                ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, static_cast<int>(1u - static_cast<unsigned int>(keyConfigSide))) == 1) &&
+                 (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 1)) ||
+                ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, static_cast<int>(1u - static_cast<unsigned int>(keyConfigSide))) == 0) &&
+                 (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 0)) ||
+                ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, static_cast<int>(1u - static_cast<unsigned int>(keyConfigSide))) == 2) &&
+                 ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 2) ||
+                  (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 3) ||
+                  (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 4))) ||
+                ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, static_cast<int>(1u - static_cast<unsigned int>(keyConfigSide))) == 3) &&
+                 ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 2) ||
+                  (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 3))) ||
+                ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, static_cast<int>(1u - static_cast<unsigned int>(keyConfigSide))) == 4) &&
+                 ((TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 2) ||
+                  (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) == 4))));
 
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB7)[keyConfigSide], 48);
-            if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide), 48);
+            if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 2)
             {
                 for (i = 0; i < 5; ++i)
                     vms[i + 40].color1Script.d3dColor = 0xFF606060u;
@@ -452,13 +469,13 @@ afterControllerBinding:
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         case 2:
-            ++g_Supervisor.config388.sideFocusMode[keyConfigSide];
-            if (g_Supervisor.config388.sideFocusMode[keyConfigSide] >= 2)
-                g_Supervisor.config388.sideFocusMode[keyConfigSide] -= 2;
+            ++TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide);
+            if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide) >= 2)
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide) -= 2;
             SetIndexedSpriteChoice(
-                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
             SetIndexedSpriteChoice(
-                g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 42);
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         default:
@@ -492,18 +509,18 @@ afterControllerBinding:
                 &keyMapping.serialized,
                 &g_Supervisor.config388.controllerMapping,
                 sizeof(keyMapping.serialized));
-            g_Supervisor.config388.sideFocusMode[keyConfigSide] = 0;
-            (&g_Supervisor.config388.valueB7)[keyConfigSide] =
+            TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide) = 0;
+            TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) =
                 (u8)keyConfigSide;
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
-                g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
             SetIndexedSpriteChoice(
-                (&g_Supervisor.config388.valueB7)[keyConfigSide], 48);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide), 48);
             SetIndexedSpriteChoice(
-                g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
+                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 42);
 
-            if ((&g_Supervisor.config388.valueB7)[keyConfigSide] >= 2)
+            if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 2)
             {
                 for (i = 0; i < 5; ++i)
                     vms[i + 40].color1Script.d3dColor = 0xFF606060u;
@@ -531,3 +548,7 @@ afterControllerBinding:
     ++stateTimer2;
     return 1;
 }
+
+#undef TH09_KEY_NATIVE_BYTE
+#undef TH09_KEY_NATIVE_HELP_VM
+#undef TH09_KEY_NATIVE_CONTROLLER_BYTE

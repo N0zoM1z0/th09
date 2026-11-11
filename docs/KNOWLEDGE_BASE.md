@@ -759,6 +759,34 @@ cold-replayed and passed: **1,033 full physical bytes, 42 reviewed
 relocations, three existing exact functions**. This is native
 source-semantics recovery, not promotion of a new exact owner.
 
+## Title key configuration native per-side byte settings and help VM slots
+
+The complete original exact OnUpdateKeyConfig at 0x00427EE8 is a
+2,803-byte switch owner with 118 reviewed address/relocation fields.
+The key/controller UI uses the real Supervisor configuration at +0x388.
+In particular valueB7 is **one byte** in that native configuration,
+not a two-element C++ array: the retail side-selected read/write uses
+an i386 DWORD offset from the address of valueB7, including the
+opposing-side selector computed as 1 - keyConfigSide modulo 2^32.
+The side-focus mode byte array is at its own genuine address; it too
+is indexed by the native side word rather than a bounded C++ subscript.
+
+The maintained owner now uses explicit native byte addresses for those
+two settings, plus the keyboard-selected VM in the actual 57-entry
+helpTextVms allocation (0x2A4 stride) and the controller input byte
+indexed by the live short key code. No bounds clamping, new storage,
+new input reads or other behavior were introduced. The 0x36-byte
+key-mapping side view and the help-text pointer table were deliberately
+left alone: tested typed pointer rewrites of those other views displaced
+original instruction bytes or physical extent.
+
+Direct DWORD byte-pointer and grouped lexical-expression forms were
+compiled under the pinned VC7.1 /O1 /Ob1 profile. The combined maintained
+source retains the **entire 2,803/2,803 physical bytes and 118 relocations**
+of OnUpdateKeyConfig and the independent exact
+SwapDuplicateCharacterIndex 106/106-byte leaf with no relocations.
+These were already exact functions: there is no new exactness credit.
+
 ## Title MusicRoom selected track and unlock flags native addresses
 
 The existing exact TitleScreenView::OnUpdateMusicRoom owner
