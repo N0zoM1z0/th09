@@ -44,7 +44,10 @@ Git retains earlier source revisions.
   nonexact frontiers. The already-exact 1,758-byte Enemy draw renderer now
   uses native 0x1C-byte sample addresses and wrapped trail/vertex index
   arithmetic; its four same-source exact owners (1,922 bytes / 61 fields)
-  remain verified.
+  remain verified. Enemy OnUpdate now shares the native ECL secondary VM,
+  life-threshold and child-pointer slot lvalues at eight read/write sites;
+  the 3,900-byte boss remains at 13 unlike bytes and the same 83 ECL exact
+  siblings remain verified.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

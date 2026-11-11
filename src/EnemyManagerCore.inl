@@ -589,16 +589,18 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             enemy->primaryAnmVm0008.color1 = enemy->displayColor2E70;
             g_AnmManager->ExecuteScript(&enemy->primaryAnmVm0008);
             enemy->displayColor2E70 = enemy->primaryAnmVm0008.color1;
+            // The renderer and ECL dispatcher address the same native
+            // secondary VM allocation; reread each original slot on demand.
             for (int vmIndex = 0;
                  vmIndex < static_cast<int>(
                      EnemyNativeTrailRenderCapacity::SecondaryVmCount);
                  ++vmIndex)
             {
-                if (enemy->secondaryVms2AC[vmIndex].scriptIndex >= 0 &&
+                if (Th09EclRunState::SecondaryVm(enemy, vmIndex).scriptIndex >= 0 &&
                     g_AnmManager->ExecuteScript(
-                        &enemy->secondaryVms2AC[vmIndex]))
+                        &Th09EclRunState::SecondaryVm(enemy, vmIndex)))
                 {
-                    enemy->secondaryVms2AC[vmIndex].scriptIndex = -1;
+                    Th09EclRunState::SecondaryVm(enemy, vmIndex).scriptIndex = -1;
                 }
             }
 
@@ -764,21 +766,23 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                     static_cast<unsigned int>(enemy->timerCallbackThreshold33D0) -
                     static_cast<unsigned int>(static_cast<int>(enemy->bossTimer2E64))) / 60;
             enemy->timerCallbackThreshold33D0 = -1;
+            // Death resets the native ECL callback and child-pointer rows,
+            // preserving the original distinct reads and frees.
             for (int callbackIndex = 0;
                  callbackIndex < static_cast<int>(
                      sizeof(enemy->lifeCallbackThresholds33B0) /
                      sizeof(enemy->lifeCallbackThresholds33B0[0]));
                  ++callbackIndex)
-                enemy->lifeCallbackThresholds33B0[callbackIndex] = -1;
+                Th09EclRunState::LifeCallbackThreshold(enemy, callbackIndex) = -1;
             for (int childIndex = 0;
                  childIndex < static_cast<int>(
                      sizeof(enemy->childEclBlocks33D8) / sizeof(enemy->childEclBlocks33D8[0]));
                  ++childIndex)
             {
-                if (enemy->childEclBlocks33D8[childIndex] != 0)
+                if (Th09EclRunState::ChildSlotRef(enemy, childIndex) != 0)
                 {
-                    g_ZunMemory.Free(enemy->childEclBlocks33D8[childIndex]);
-                    enemy->childEclBlocks33D8[childIndex] = 0;
+                    g_ZunMemory.Free(Th09EclRunState::ChildSlotRef(enemy, childIndex));
+                    Th09EclRunState::ChildSlotRef(enemy, childIndex) = 0;
                 }
             }
 
@@ -857,7 +861,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                      sizeof(enemy->lifeCallbackThresholds33B0) /
                      sizeof(enemy->lifeCallbackThresholds33B0[0]));
                  ++callbackIndex)
-                    enemy->lifeCallbackThresholds33B0[callbackIndex] = -1;
+                    Th09EclRunState::LifeCallbackThreshold(enemy, callbackIndex) = -1;
                 enemy->timerCallbackThreshold33D0 = -1;
                 EnemyCoreReleaseChildEclBlocks(
                     enemy);

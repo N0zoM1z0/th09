@@ -617,6 +617,29 @@ relocation fields**, including the full **1,758/1,758-byte renderer with
 53 original-bound fields**. This is a native-source semantic improvement;
 it does not promote a new exact function or prove complete game runtime.
 
+## 2026-11-11 Enemy OnUpdate native ECL-owned slot sharing
+
+The still-nonexact `EnemyManagerView::OnUpdate @ 0x00410730` is the
+original 3,900-byte Enemy update boss. Three secondary-ANM-VM reads/writes,
+two death/reset life-threshold stores, and three child-ECL-slot reads/frees/
+writes now use the **same already-maintained native EnemyView accessors** as
+`RunEcl`: `Th09EclRunState::SecondaryVm`, `LifeCallbackThreshold`, and
+`ChildSlotRef`. These form the original allocation's physical 32-bit base
+plus signed-index * 0x2A4 (VM), 4 (threshold) or 4 (child pointer), without
+creating parallel Enemy pools, bounds gates or cached copies. Each original
+lvalue is still reread independently at its existing point, and loop bounds,
+callbacks, frees, exits and ownership stay unchanged.
+
+Four isolated/combined VC7.1 experiments yielded the **complete 3,900-byte
+Enemy OnUpdate candidate**, all **97 target-bound relocations, 69 ordered
+calls, matching CFG and precisely its prior 13 ordinary register bytes**.
+The installed combined source cold-replayed the two actual EclManager
+compiler carriers: **83/83 exact siblings, 29,856 physical bytes and
+1,389 relocations**. The complete **15,564-byte RunEcl** boss, including
+all 598 relocations and both owned switch tables, still has only its former
+30 opcode-4/155 differences. This is shared native storage semantics, not a
+new exact function or native-product/runtime closure.
+
 ## Enemy OnUpdate
 
 The current 3,900-byte owner retains 97 fields, 69 calls and 13 differences:
