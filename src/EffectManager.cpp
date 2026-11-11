@@ -117,7 +117,8 @@ Effect *EffectManager::InitializeEffect(
         {
             this->effectAnm->SetAndExecuteScriptIdx(
                     &effect->vms[i], scriptIndex);
-            scriptIndex += g_EffectTemplates[effectId].scriptStep;
+            scriptIndex = static_cast<int>(static_cast<unsigned int>(scriptIndex) +
+                static_cast<unsigned int>(g_EffectTemplates[effectId].scriptStep));
             effect->vms[i].flagsWord |= 0x2000;
             effect->vms[i].color1 = color;
             effect->vms[i].pos2.x = 0.0f;
@@ -143,7 +144,7 @@ Effect *EffectManager::SpawnEffect(
 
     for (i = 0; i < this->primaryCount; ++i)
     {
-        effectIndex++;
+        effectIndex = static_cast<int>(static_cast<unsigned int>(effectIndex) + 1u);
         this->nextEffectIndex = effectIndex;
         if (effectIndex >= this->primaryCount)
             this->nextEffectIndex = 0;
@@ -153,7 +154,7 @@ Effect *EffectManager::SpawnEffect(
             this->InitializeEffect(
                 effect, effectId, position, color,
                 reinterpret_cast<const EffectFloat3 *>(&velocity));
-            count--;
+            count = static_cast<int>(static_cast<unsigned int>(count) - 1u);
             if (count == 0)
                 break;
         }
@@ -179,14 +180,15 @@ Effect *EffectManager::SpawnEffectWithVelocity(
 
     for (i = 0; i < this->primaryCount; ++i)
     {
-        this->nextEffectIndex++;
+        this->nextEffectIndex = static_cast<int>(
+            static_cast<unsigned int>(this->nextEffectIndex) + 1u);
         if (this->nextEffectIndex >= this->primaryCount)
             this->nextEffectIndex = 0;
 
         if (effect->active == 0)
         {
             this->InitializeEffect(effect, effectId, position, color, velocity);
-            count--;
+            count = static_cast<int>(static_cast<unsigned int>(count) - 1u);
             if (count == 0)
                 break;
         }
@@ -251,7 +253,8 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
             continue;
         }
 
-        effectManager->activeCount++;
+        effectManager->activeCount = static_cast<int>(
+            static_cast<unsigned int>(effectManager->activeCount) + 1u);
         if (effect->updateCallback != NULL && effect->updateCallback(effect) != 1)
         {
             effect->active = 0;
@@ -263,7 +266,8 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
         {
             if (g_AnmManager->ExecuteScript(
                     &effect->vms[vmIndex]) != 0)
-                --liveVmCount;
+                liveVmCount = static_cast<int>(
+                    static_cast<unsigned int>(liveVmCount) - 1u);
         }
         if (liveVmCount == 0)
         {
@@ -291,7 +295,8 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
             effectManager->drawTail0 = effect;
         }
     }
-    effectManager->updateCounter++;
+    effectManager->updateCounter = static_cast<int>(
+        static_cast<unsigned int>(effectManager->updateCounter) + 1u);
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 

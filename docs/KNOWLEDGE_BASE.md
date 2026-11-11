@@ -661,6 +661,32 @@ CheckBulletCollision remains 849 candidate bytes against 862 original, with
 allocator and reconstructed collision pool when investigating branch chronology.
 Do not introduce a replacement pool to improve codegen.
 
+## 2026-11-11 EffectManager update and spawning native DWORD arithmetic
+
+The original Japanese v1.50a uses ordinary Win32 32-bit ADD/INC/DEC
+arithmetic for effect manager state. The maintained `EffectManager.cpp`
+now explicitly wraps arithmetic through unsigned 32-bit words for eight
+source locations across **four exact function owners**: template script
+index advances, two spawning cursors, the two effect-request count
+decrements, active effect count, the live VM count decrement, and the
+per-frame update counter. The original signed fields remain signed for
+loop decisions, comparisons, and callback interfaces; no pool shape,
+allocation, callback order, branch, retry or error behavior was added.
+
+Seven isolated probes and the combined candidate compiled under the
+pinned native VC7.1 EffectManager profile. All reproduced the complete
+original bodies for `InitializeEffect` (407 bytes/17 fields),
+`SpawnEffect` (184/2), `SpawnEffectWithVelocity` (175/1), and `OnUpdate`
+(475/11). The installed source then passed **all 15 exact functions**
+sharing the one real compiler carrier: **2,530 original physical bytes,
+100 relocation fields**. The complete same-carrier nonexact 51-byte
+`EffectManager::AddedCallback` was separately rebuilt and kept its
+four original fields, two calls, and existing eight ordinary register
+bytes different. Conditional-operator and receiver/resource-lifetime
+source probes for the open callback were byte-neutral (eight residuals)
+or changed the callback's original field inventory, so were not
+installed. This is source semantic fidelity, not a newly exact owner.
+
 ## 2026-11-11 Replay loader native 32-bit wire lengths
 
 The exact 591-byte `ReplayManagerView::LoadReplayData @ 0x004205E0`

@@ -52,6 +52,12 @@ the canonical ledgers. Git holds prior source revisions.
   bytes / 232 fields. The related SaveReplay and BeginPlaybackStage
   frontiers remain at two differing bytes and two missing bytes,
   respectively; see the 2026-11-11 knowledge note.
+- **EffectManager's native effect counters are preserved in source.**
+  Eight operations across spawning, initialization and update now
+  explicitly perform modulo-32 arithmetic. One affected compiler
+  carrier cold-passed all 15 exact functions (2,530 bytes / 100 fields);
+  the 51-byte AddedCallback still has only its prior eight register
+  differences. See the 2026-11-11 knowledge note.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
