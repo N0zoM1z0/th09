@@ -21,6 +21,32 @@ extern GameErrorContext g_GameErrorContext;
 
 LARGE_INTEGER g_DummyMidiTimerPerformanceCounter;
 
+// The original MidiOutput owns 32 DWORD file/header pointers, real 0x20-byte
+// track records, and 0x17-byte MIDI channel state. Access every live index
+// through an unsigned Win32 address word, retaining original call order.
+#define TH09_MIDI_NATIVE_FILE_DATA(idx) \
+    (*reinterpret_cast<LPBYTE *>( \
+        reinterpret_cast<unsigned int>(&this->fileData[0]) + \
+        static_cast<unsigned int>(idx) * sizeof(this->fileData[0])))
+#define TH09_MIDI_NATIVE_HEADER(idx) \
+    (*reinterpret_cast<LPMIDIHDR *>( \
+        reinterpret_cast<unsigned int>(&this->pendingLongMessageHeaders[0]) + \
+        static_cast<unsigned int>(idx) * sizeof(this->pendingLongMessageHeaders[0])))
+#define TH09_MIDI_NATIVE_TRACK(idx) \
+    (*reinterpret_cast<MidiTrack *>( \
+        reinterpret_cast<unsigned int>(this->tracks) + \
+        static_cast<unsigned int>(idx) * sizeof(MidiTrack)))
+#define TH09_MIDI_NATIVE_CHANNEL(idx) \
+    (*reinterpret_cast<MidiChannel *>( \
+        reinterpret_cast<unsigned int>(&this->channels[0]) + \
+        static_cast<unsigned int>(idx) * sizeof(this->channels[0])))
+#define TH09_MIDI_NATIVE_SYSEX_BYTE(idx) \
+    (*reinterpret_cast<char *>( \
+        reinterpret_cast<unsigned int>(longMessageHeader->lpData) + \
+        static_cast<unsigned int>(idx) + 1u))
+
+
+
 void MidiTimer::OnTimerElapsed()
 {
 }
@@ -210,7 +236,7 @@ MidiOutput::MidiOutput()
 
     for (int i = 0; i < 32; i++)
     {
-        this->pendingLongMessageHeaders[i] = NULL;
+        TH09_MIDI_NATIVE_HEADER(i) = NULL;
     }
 
     this->activeFileIndex = -1;
@@ -236,8 +262,8 @@ ZunResult MidiOutput::ReadFileData(int idx, LPCSTR path)
 
     ReleaseFileData(idx);
 
-    this->fileData[idx] = FileSystem::OpenFile((LPSTR)path, NULL, false);
-    if (this->fileData[idx] == NULL)
+    TH09_MIDI_NATIVE_FILE_DATA(idx) = FileSystem::OpenFile((LPSTR)path, NULL, false);
+    if (TH09_MIDI_NATIVE_FILE_DATA(idx) == NULL)
     {
         g_GameErrorContext.Log("error : MIDI File \x82\xAA\x93\xC7\x82\xDD\x8D\x9E\x82\xDF\x82\xC8\x82\xA2 %s \rv\r\n", path);
         return ZUN_ERROR;
@@ -248,15 +274,15 @@ ZunResult MidiOutput::ReadFileData(int idx, LPCSTR path)
 
 void MidiOutput::ReleaseFileData(int idx)
 {
-    g_ZunMemory.Free(this->fileData[idx]);
-    this->fileData[idx] = NULL;
+    g_ZunMemory.Free(TH09_MIDI_NATIVE_FILE_DATA(idx));
+    TH09_MIDI_NATIVE_FILE_DATA(idx) = NULL;
 }
 
 void MidiOutput::ClearTracks()
 {
     for (i32 trackIndex = 0; trackIndex < this->numTracks; trackIndex++)
     {
-        g_ZunMemory.Free(this->tracks[trackIndex].data);
+        g_ZunMemory.Free(TH09_MIDI_NATIVE_TRACK(trackIndex).data);
     }
 
     g_ZunMemory.Free(this->tracks);
@@ -274,7 +300,7 @@ ZunResult MidiOutput::ParseFile(int fileIdx)
     u32 hdrLength;
 
     ClearTracks();
-    currentCursor = this->fileData[fileIdx];
+    currentCursor = TH09_MIDI_NATIVE_FILE_DATA(fileIdx);
     fileData = currentCursor;
     if (currentCursor == NULL)
     {
@@ -318,10 +344,10 @@ ZunResult MidiOutput::ParseFile(int fileIdx)
         //
         // First, read the length of the chunk
         trackLength = MidiOutput::Ntohl(*(u32 *)&currentCursorTrack[4]);
-        this->tracks[trackIdx].dataSize = trackLength;
-        this->tracks[trackIdx].data = (LPBYTE)g_ZunMemory.Alloc(trackLength, "midi");
-        this->tracks[trackIdx].trackPlaying = TRUE;
-        memcpy(this->tracks[trackIdx].data, currentCursor, trackLength);
+        TH09_MIDI_NATIVE_TRACK(trackIdx).dataSize = trackLength;
+        TH09_MIDI_NATIVE_TRACK(trackIdx).data = (LPBYTE)g_ZunMemory.Alloc(trackLength, "midi");
+        TH09_MIDI_NATIVE_TRACK(trackIdx).trackPlaying = TRUE;
+        memcpy(TH09_MIDI_NATIVE_TRACK(trackIdx).data, currentCursor, trackLength);
         currentCursor += trackLength;
     }
     this->microsecondsPerQuarterNote = 1000000;
@@ -397,9 +423,9 @@ ZunResult MidiOutput::StopPlayback()
 
     for (i32 i = 0; i < 32; i++)
     {
-        if (this->pendingLongMessageHeaders[i] != NULL)
+        if (TH09_MIDI_NATIVE_HEADER(i) != NULL)
         {
-            UnprepareHeader(this->pendingLongMessageHeaders[i]);
+            UnprepareHeader(TH09_MIDI_NATIVE_HEADER(i));
         }
     }
 
@@ -414,9 +440,9 @@ ZunResult MidiOutput::UnprepareHeader(LPMIDIHDR pmh)
 {
     for (i32 i = 0; i < 32; i++)
     {
-        if (this->pendingLongMessageHeaders[i] == pmh)
+        if (TH09_MIDI_NATIVE_HEADER(i) == pmh)
         {
-            this->pendingLongMessageHeaders[i] = NULL;
+            TH09_MIDI_NATIVE_HEADER(i) = NULL;
             goto success;
         }
     }
@@ -469,14 +495,14 @@ void MidiOutput::OnTimerElapsed()
     i32 trackIndex;
     for (trackIndex = 0; trackIndex < this->numTracks; trackIndex++)
     {
-        if (this->tracks[trackIndex].trackPlaying)
+        if (TH09_MIDI_NATIVE_TRACK(trackIndex).trackPlaying)
         {
             trackLoaded = TRUE;
-            while (this->tracks[trackIndex].trackPlaying)
+            while (TH09_MIDI_NATIVE_TRACK(trackIndex).trackPlaying)
             {
-                if (this->tracks[trackIndex].nextEventTick <= currentPlaybackTick)
+                if (TH09_MIDI_NATIVE_TRACK(trackIndex).nextEventTick <= currentPlaybackTick)
                 {
-                    ProcessMsg(&this->tracks[trackIndex]);
+                    ProcessMsg(&TH09_MIDI_NATIVE_TRACK(trackIndex));
                     currentPlaybackTick =
                         this->elapsedTicksBeforeTempoChange +
                         (this->elapsedMillisecondsAtCurrentTempo * this->ticksPerQuarterNote * 1000 /
@@ -524,12 +550,12 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
     case MIDI_OPCODE_SYSTEM_EXCLUSIVE:
         if (statusByte == MIDI_OPCODE_SYSTEM_EXCLUSIVE)
         {
-            if (this->pendingLongMessageHeaders[this->pendingLongMessageHeaderCursor] != NULL)
+            if (TH09_MIDI_NATIVE_HEADER(this->pendingLongMessageHeaderCursor) != NULL)
             {
-                UnprepareHeader(this->pendingLongMessageHeaders[this->pendingLongMessageHeaderCursor]);
+                UnprepareHeader(TH09_MIDI_NATIVE_HEADER(this->pendingLongMessageHeaderCursor));
             }
 
-            longMessageHeader = this->pendingLongMessageHeaders[this->pendingLongMessageHeaderCursor] =
+            longMessageHeader = TH09_MIDI_NATIVE_HEADER(this->pendingLongMessageHeaderCursor) =
                 (LPMIDIHDR)g_ZunMemory.Alloc(sizeof(MIDIHDR), "midiHDR");
             eventDataLength = MidiOutput::SkipVariableLength(&track->cursor);
             memset(longMessageHeader, 0, sizeof(MIDIHDR));
@@ -539,14 +565,14 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
             longMessageHeader->dwBufferLength = eventDataLength + 1;
             for (index = 0; index < eventDataLength; index++)
             {
-                longMessageHeader->lpData[index + 1] = *track->cursor;
+                TH09_MIDI_NATIVE_SYSEX_BYTE(index) = *track->cursor;
                 track->cursor++;
             }
             if (this->outputDevice.SendLongMsg(longMessageHeader))
             {
                 g_ZunMemory.Free(longMessageHeader->lpData);
                 g_ZunMemory.Free(longMessageHeader);
-                this->pendingLongMessageHeaders[this->pendingLongMessageHeaderCursor] = NULL;
+                TH09_MIDI_NATIVE_HEADER(this->pendingLongMessageHeaderCursor) = NULL;
             }
             this->pendingLongMessageHeaderCursor += 1;
             this->pendingLongMessageHeaderCursor = this->pendingLongMessageHeaderCursor % 32;
@@ -609,27 +635,27 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
         if (eventData2 != 0)
         {
             eventData1 += this->noteTranspose;
-            this->channels[channel].keyPressedFlags[eventData1 >> 3] |= (u8)(1 << (eventData1 & 7));
+            TH09_MIDI_NATIVE_CHANNEL(channel).keyPressedFlags[eventData1 >> 3] |= (u8)(1 << (eventData1 & 7));
             break;
         }
     case MIDI_OPCODE_NOTE_OFF:
         eventData1 += this->noteTranspose;
-        this->channels[channel].keyPressedFlags[eventData1 >> 3] &= (u8)(~(1 << (eventData1 & 7)));
+        TH09_MIDI_NATIVE_CHANNEL(channel).keyPressedFlags[eventData1 >> 3] &= (u8)(~(1 << (eventData1 & 7)));
         break;
     case MIDI_OPCODE_PROGRAM_CHANGE:
         // Program Change
-        this->channels[channel].instrument = eventData1;
+        TH09_MIDI_NATIVE_CHANNEL(channel).instrument = eventData1;
         break;
     case MIDI_OPCODE_CONTROL_CHANGE:
         switch (eventData1)
         {
         case MIDI_CONTROLLER_BANK_SELECT:
             // Bank Select
-            this->channels[channel].instrumentBank = eventData2;
+            TH09_MIDI_NATIVE_CHANNEL(channel).instrumentBank = eventData2;
             break;
         case MIDI_CONTROLLER_CHANNEL_VOLUME:
             // Channel Volume
-            this->channels[channel].channelVolume = eventData2;
+            TH09_MIDI_NATIVE_CHANNEL(channel).channelVolume = eventData2;
             adjustedChannelVolume = (f32)eventData2 * this->fadeOutVolumeMultiplier;
             if (adjustedChannelVolume < 0)
             {
@@ -639,19 +665,19 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
             {
                 adjustedChannelVolume = 0x7f;
             }
-            eventData2 = this->channels[channel].modifiedVolume = adjustedChannelVolume;
+            eventData2 = TH09_MIDI_NATIVE_CHANNEL(channel).modifiedVolume = adjustedChannelVolume;
             break;
         case MIDI_CONTROLLER_EFFECT_ONE_DEPTH:
             // Effects 1 Depth
-            this->channels[channel].effectOneDepth = eventData2;
+            TH09_MIDI_NATIVE_CHANNEL(channel).effectOneDepth = eventData2;
             break;
         case MIDI_CONTROLLER_EFFECT_THREE_DEPTH:
             // Effects 3 Depth
-            this->channels[channel].effectThreeDepth = eventData2;
+            TH09_MIDI_NATIVE_CHANNEL(channel).effectThreeDepth = eventData2;
             break;
         case MIDI_CONTROLLER_PAN:
             // Pan
-            this->channels[channel].pan = eventData2;
+            TH09_MIDI_NATIVE_CHANNEL(channel).pan = eventData2;
             break;
         case MIDI_CONTROLLER_LOOP_START:
             // TH08 repurposes breath control as the MIDI loop checkpoint.
@@ -707,7 +733,7 @@ void MidiOutput::FadeOutSetVolume(i32 volumeOffset)
     {
         statusByte = (u8)(channelIndex + MIDI_OPCODE_CONTROL_CHANGE);
         volumeClamped =
-            (i32)(this->channels[channelIndex].channelVolume * this->fadeOutVolumeMultiplier) + volumeOffset;
+            (i32)(TH09_MIDI_NATIVE_CHANNEL(channelIndex).channelVolume * this->fadeOutVolumeMultiplier) + volumeOffset;
         if (volumeClamped < 0)
         {
             volumeClamped = 0;
@@ -736,3 +762,9 @@ void MidiTimer::StopTimer()
 {
     StopTimerImpl();
 }
+
+#undef TH09_MIDI_NATIVE_FILE_DATA
+#undef TH09_MIDI_NATIVE_HEADER
+#undef TH09_MIDI_NATIVE_TRACK
+#undef TH09_MIDI_NATIVE_CHANNEL
+#undef TH09_MIDI_NATIVE_SYSEX_BYTE

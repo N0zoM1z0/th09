@@ -245,6 +245,13 @@ used/unlock character bytes and 0x38-byte randomly chosen GameManager
 side. Its sole compiler carrier remains **1/1 exact, 799 bytes and 32
 original relocation fields**.
 
+The 1,574-byte exact `MidiOutput::ProcessMsg` mainline now uses the
+true 0x17-byte channel, 0x20-byte track and native long-header/file
+pointer slots alongside other Midi leaves (34 live address lvalues).
+The official one-carrier scoped replay protects **32 exact units,
+4,270 original bytes and 132 bound relocations**; 23 ProcessMsg local
+labels were PE-target verified before manifest rebinding.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact

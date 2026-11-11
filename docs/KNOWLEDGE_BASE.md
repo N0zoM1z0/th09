@@ -846,6 +846,38 @@ passed the sole affected compiler-carrier scoped cold replay:
 credit while improving native source/storage fidelity; original Windows
 runtime and product closure remain open.
 
+## 2026-11-11 native MIDI ProcessMsg channels and source-buffer slots
+
+The original `MidiOutput` is a genuine 0x300-byte Win32 MIDI owner.
+Its main `ProcessMsg` interpreter is **1,574 complete physical bytes**,
+including 43 original-bound relocation fields. Its 16 `MidiChannel`
+records have the exact **0x17-byte layout**; the long MIDI message
+header queue and source `fileData` pool each hold 32 native DWORD
+pointers. The real variable-length track array uses **0x20-byte
+`MidiTrack` records**, shared by the parser, timer processing and
+cleanup leaves. The maintained source now forms **34 independently
+live address lvalues** with native `uint32(actual base) +
+uint32(index)*sizeof(real record)`: dynamic channel/member receivers,
+long-message header slots, file pointers, parsed track rows, timer
+track traversal, fade-volume channel state, and the actual SysEx
+payload byte at `uint32(lpData) + uint32(index) + 1`. Each original
+MIDI event, loop meta-event, tempo change, DirectSound MIDI call,
+buffer release and system-exclusive payload write remains at its
+original position, without new range gates, caches or buffer owners.
+
+Isolated/combined pinned VC7.1 probes showed the header/channel/SysEx
+mainline retained **1,574/1,574 exact original bytes and 43 fields**;
+separate file/track/header-cleanup/fade-leaf groups also retained their
+full target owners. Replacing the nested key-pressed bitfield byte
+lookup *did* create 22 unlike bytes, so that variant was rejected.
+The installed combined source passed the single MIDI carrier's official
+scoped cold replay: **32 exact units, 4,270 complete original physical
+bytes and 132 relocation fields**. Twenty-three optimizer-private
+`$L` names in ProcessMsg were rebound only after confirming actual
+same-section COFF definitions, field offset/type identities, unchanged
+original PE destinations, and complete byte equality. No function was
+newly promoted to exact, and native product/runtime gates remain open.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.
