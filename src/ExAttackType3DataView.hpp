@@ -4,7 +4,7 @@
 #include "ExAttackHistory32ExtraView.hpp"
 #include <stddef.h>
 
-// TH09 Type3 exact initializer and nonexact 780-byte update allocate/use
+// TH09 Type3 exact initializer and exact 780-byte update allocate/use
 // the same 0x190-byte Extra object: state +0, motion +4, 32 history vectors
 // starting at +0x10. Original authored class names remain unverified.
 // Init also consumes the two tail arguments at +0x38/+0x3C; update uses

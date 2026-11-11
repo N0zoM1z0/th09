@@ -1168,6 +1168,29 @@ three affected compiler carriers: **four exact function bodies,
 This recovers authentic native leaf semantics; all four were
 already exact before the change.
 
+## 2026-11-11 native ExAttack Type3 history, VM and side selectors
+
+The original exact `ExAttackUpdateCallbackType3` handler has **780
+physical bytes** and shares the authentic 0x190-byte Type3/Type4 extra
+layout: one 0x04-byte state, one 0x0C-byte motion vector, and 32 genuine
+0x0C-byte `Float3` history records starting at +0x10. The update's
+moving history index and previous slot now form native unsigned-DWORD
+byte addresses from the real array base, with the predecessor at
+`current byte address - sizeof(Float3)`. Nine ANM VM position/interrupt
+receivers likewise use the real 0x2A4-byte `AnmVm` allocation,
+and three enemy-collision receiver lookups use the true
+`g_GameManager.sides` 0x38-byte records and the signed live
+`opponentSide04` word. The original loops, short-circuit three-part
+collision test, exit conditions and callee identities remain untouched.
+
+The independent history/VM/side and combined pinned VC7.1 probes all
+matched the complete original owner. The installed source passed
+**1/1 exact unit, 780/780 complete physical bytes and 38 original-bound
+relocation fields** in the sole genuinely affected compiler carrier.
+The Type3 shared-layout header's stale claim that this update is nonexact
+was corrected after verification. No new exact-function credit or native
+runtime/product claim is implied.
+
 ## 2026-11-11 ExAttack Type4 native trail, VM and opponent-side lvalues
 
 The complete exact `ExAttackUpdateCallbackType4` owns a 739-byte TH09

@@ -104,7 +104,9 @@ Git retains earlier source revisions.
   its one-carrier 1,436-byte / 44-relocation exact replay remains verified.
   The separate exact Type4 attack callback now also forms live 0x0C-byte
   trail, 0x2A4-byte VM and 0x38-byte opponent-side addresses, preserving its
-  739 complete bytes and 28 original-bound relocations.
+  739 complete bytes and 28 original-bound relocations. Type3's matching
+  32-record history and live VM/side selections are native too, with its
+  780-byte exact body and 38 relocations still verified.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.
