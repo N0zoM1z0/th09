@@ -375,6 +375,34 @@ updater plus 106-byte duplicate-key leaf). Side-selection experiments
 which changed byte-exact code were rejected. No additional exactness
 credit, native product or runtime completion is claimed.
 
+## 2026-11-11 native FrontMessage variable-length operands and input state
+
+The large original `FrontMessageRuntimeView::Update` interpreter has an
+original **2,968-byte physical owner** (including its native dispatch
+information) and 167 relocation fields. Its opcodes 2/3/5 read two
+`short` values from packed instruction bytes immediately after the
+real variable-length wire header; opcode 5 also reads a live third
+control byte. Twenty halfword and two byte operand reads now use the
+actual wire pointer plus native unsigned-DWORD byte offsets, rather than
+C++ indexing an artificial array of unknown extent. Five skip/confirm
+input reads likewise use the genuine global third `ReplayInputState`
+record at base + `2 * 0x8E`, shared with other Replay and Player owners.
+No bounds checks, alternate state allocations, cached operands, extra
+calls or reordering of instruction dispatch and message/ANM updates were
+introduced.
+
+Four grouped pinned VC7.1 compiler experiments showed the installed
+combined source retains **2,968/2,968 complete original PE bytes and all
+167 original-bound relocations**, including intact table bytes. The
+compiled source renumbered **29 `$L` references and one `run_scripts`
+local branch symbol**; each new source symbol was rebound only after
+proving its actual same-section COFF definition, identical relocation
+offset/type and unchanged original PE target. The final two-carrier
+scoped cold replay passed **2/2 exact source functions, 3,007 complete
+physical bytes and 167 relocation fields** (the main interpreter and its
+independent 39-byte text decode leaf). There is no new exact owner or
+native Windows runtime/product claim.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

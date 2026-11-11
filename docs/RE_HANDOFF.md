@@ -136,6 +136,11 @@ Git retains earlier source revisions.
   native help-text/VM byte bases and eight real 0x2A4-byte paired digit
   advances; its two same-source owners remain byte exact (2,909 bytes /
   118 original-bound relocation fields).
+  The 2,968-byte exact FrontMessage opcode interpreter now reads 20 packed
+  halfwords, two live wire bytes and five third-input-state references
+  through native DWORD addresses; two affected compiler carriers preserve
+  both exact source functions (3,007 bytes / 167 fields), with 30
+  PE-target-proven private/internal label rebindings.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

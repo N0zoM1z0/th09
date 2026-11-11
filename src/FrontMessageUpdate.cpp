@@ -148,6 +148,19 @@ static inline AsciiGameManagerSideView &NativeFrontMessageSide(int index)
     (*reinterpret_cast<type *>(reinterpret_cast<unsigned int>(&array[0]) + \
      static_cast<unsigned int>(index) * sizeof(array[0])))
 
+// The packed FrontMessage payload is a variable-length native byte stream.
+// Its 16-bit/8-bit operands and the shared 0x8E-byte ReplayInputState
+// are addressed as actual i386 DWORD words, without a bounded shadow array.
+#define FRONT_NATIVE_SHORT_ARG(arguments, index) \
+    (*reinterpret_cast<short *>(reinterpret_cast<unsigned int>(arguments) + \
+        static_cast<unsigned int>(index) * sizeof(short)))
+#define FRONT_NATIVE_BYTE_ARG(arguments, index) \
+    (*reinterpret_cast<unsigned char *>(reinterpret_cast<unsigned int>(arguments) + \
+        static_cast<unsigned int>(index)))
+#define FRONT_NATIVE_SHARED_INPUT \
+    (*reinterpret_cast<ReplayInputState *>(reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) + \
+        ReplayNativeInputGateCapacity::SharedInputStateIndex * sizeof(g_ReplayInputStates[0])))
+
 int FrontMessageRuntimeView::Update()
 {
     char textA[64];
@@ -159,7 +172,7 @@ int FrontMessageRuntimeView::Update()
     if (ignoreWait1D68 > 0)
         --ignoreWait1D68;
 
-    if (skippable1D6C && g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].IsHeld(0x100))
+    if (skippable1D6C && FRONT_NATIVE_SHARED_INPUT.IsHeld(0x100))
         timer1D40 = current04->time00;
 
     while (timer1D40 >= static_cast<int>(current04->time00))
@@ -351,14 +364,14 @@ int FrontMessageRuntimeView::Update()
         {
             short *arguments =
                 reinterpret_cast<short *>(&current04->argument04);
-            if (arguments[0] < 2)
+            if (FRONT_NATIVE_SHORT_ARG(arguments, 0) < 2)
             {
                 int side;
                 if (!mode10)
-                    side = arguments[0];
+                    side = FRONT_NATIVE_SHORT_ARG(arguments, 0);
                 else
-                    side = 1 - arguments[0];
-                int sprite = arguments[1];
+                    side = 1 - FRONT_NATIVE_SHORT_ARG(arguments, 0);
+                int sprite = FRONT_NATIVE_SHORT_ARG(arguments, 1);
                 int spriteBase =
                     NativeFrontMessageSide(side).player04->tableValue303FC + sprite;
                 AnmLoaded *anm =
@@ -367,21 +380,21 @@ int FrontMessageRuntimeView::Update()
                     &NativeMessagePortrait(this, side).first00, spriteBase);
                 spriteBase =
                     NativeFrontMessageSide(side).player04->tableValue303FC +
-                    arguments[1] + 9;
+                    FRONT_NATIVE_SHORT_ARG(arguments, 1) + 9;
                 anm = NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00;
                 anm->SetSprite(
                     &NativeMessagePortrait(this, side).second2A4, spriteBase);
             }
             else
             {
-                int portrait = arguments[0];
+                int portrait = FRONT_NATIVE_SHORT_ARG(arguments, 0);
                 AnmLoaded *anm =
                     g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetSprite(
-                    &NativeMessagePortrait(this, portrait).first00, arguments[1]);
+                    &NativeMessagePortrait(this, portrait).first00, FRONT_NATIVE_SHORT_ARG(arguments, 1));
                 anm = g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetSprite(
-                    &NativeMessagePortrait(this, portrait).second2A4, arguments[1] + 6);
+                    &NativeMessagePortrait(this, portrait).second2A4, FRONT_NATIVE_SHORT_ARG(arguments, 1) + 6);
             }
             break;
         }
@@ -390,28 +403,28 @@ int FrontMessageRuntimeView::Update()
         {
             short *arguments =
                 reinterpret_cast<short *>(&current04->argument04);
-            if (arguments[1] == 0 && textVms1534[1].scriptIndex >= 0)
+            if (FRONT_NATIVE_SHORT_ARG(arguments, 1) == 0 && textVms1534[1].scriptIndex >= 0)
             {
                 g_AnmManager->DrawTextLeft(
                     &textVms1534[1],
-                    FRONT_MESSAGE_NATIVE_SLOT(unsigned long, textColors1D20, arguments[0]),
-                    FRONT_MESSAGE_NATIVE_SLOT(unsigned long, shadowColors1D30, arguments[0]),
+                    FRONT_MESSAGE_NATIVE_SLOT(unsigned long, textColors1D20, FRONT_NATIVE_SHORT_ARG(arguments, 0)),
+                    FRONT_MESSAGE_NATIVE_SLOT(unsigned long, shadowColors1D30, FRONT_NATIVE_SHORT_ARG(arguments, 0)),
                     " ");
             }
 
             g_FrontMessageAnm->SetAndExecuteScriptIdx(
-                &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, arguments[1]), arguments[1]);
-            reinterpret_cast<unsigned char *>(&FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, arguments[1]))[0x298] =
-                reinterpret_cast<unsigned char *>(&FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, arguments[1]))[0x299] =
+                &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, FRONT_NATIVE_SHORT_ARG(arguments, 1)), FRONT_NATIVE_SHORT_ARG(arguments, 1));
+            reinterpret_cast<unsigned char *>(&FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, FRONT_NATIVE_SHORT_ARG(arguments, 1)))[0x298] =
+                reinterpret_cast<unsigned char *>(&FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, FRONT_NATIVE_SHORT_ARG(arguments, 1)))[0x299] =
                 (unsigned char)glyphSize1D54;
 
             DecodeFrontMessageString(
                 textA,
                 reinterpret_cast<unsigned char *>(arguments) + 4);
             g_AnmManager->DrawTextLeft(
-                &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, arguments[1]),
-                FRONT_MESSAGE_NATIVE_SLOT(unsigned long, textColors1D20, arguments[0]),
-                FRONT_MESSAGE_NATIVE_SLOT(unsigned long, shadowColors1D30, arguments[0]),
+                &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, FRONT_NATIVE_SHORT_ARG(arguments, 1)),
+                FRONT_MESSAGE_NATIVE_SLOT(unsigned long, textColors1D20, FRONT_NATIVE_SHORT_ARG(arguments, 0)),
+                FRONT_MESSAGE_NATIVE_SLOT(unsigned long, shadowColors1D30, FRONT_NATIVE_SHORT_ARG(arguments, 0)),
                 textA);
             framesElapsed1D4C = 0;
             break;
@@ -460,10 +473,10 @@ int FrontMessageRuntimeView::Update()
         case 4:
         {
             FrontMessageInstructionView *instruction = current04;
-            if (skippable1D6C && g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].IsHeld(0x100))
+            if (skippable1D6C && FRONT_NATIVE_SHARED_INPUT.IsHeld(0x100))
                 break;
 
-            if (g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].WasPressed(1) &&
+            if (FRONT_NATIVE_SHARED_INPUT.WasPressed(1) &&
                 framesElapsed1D4C >= waitThreshold1D50)
             {
                 resetText1D65 = 1;
@@ -487,10 +500,10 @@ int FrontMessageRuntimeView::Update()
         {
             short *arguments =
                 reinterpret_cast<short *>(&current04->argument04);
-            NativeMessagePortrait(this, arguments[0]).first00.pendingInterrupt =
-                reinterpret_cast<unsigned char *>(arguments)[2];
-            NativeMessagePortrait(this, arguments[0]).second2A4.pendingInterrupt =
-                reinterpret_cast<unsigned char *>(arguments)[2];
+            NativeMessagePortrait(this, FRONT_NATIVE_SHORT_ARG(arguments, 0)).first00.pendingInterrupt =
+                FRONT_NATIVE_BYTE_ARG(arguments, 2);
+            NativeMessagePortrait(this, FRONT_NATIVE_SHORT_ARG(arguments, 0)).second2A4.pendingInterrupt =
+                FRONT_NATIVE_BYTE_ARG(arguments, 2);
             break;
         }
 
@@ -615,7 +628,7 @@ run_scripts:
     g_AnmManager->ExecuteScript(&introVm1A7C);
 
     if (timer1D40 < 60 && skippable1D6C &&
-        g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].IsHeld(0x100))
+        FRONT_NATIVE_SHARED_INPUT.IsHeld(0x100))
     {
         timer1D40 = 60;
     }
@@ -623,7 +636,7 @@ run_scripts:
     if (secondaryTimer1D58 >= 1)
     {
         if (secondaryTimer1D58 < 60 && skippable1D6C &&
-            g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].IsHeld(0x100))
+            FRONT_NATIVE_SHARED_INPUT.IsHeld(0x100))
         {
             timer1D40 = 60;
         }
@@ -634,3 +647,7 @@ run_scripts:
 }
 
 #undef FRONT_MESSAGE_NATIVE_SLOT
+
+#undef FRONT_NATIVE_SHORT_ARG
+#undef FRONT_NATIVE_BYTE_ARG
+#undef FRONT_NATIVE_SHARED_INPUT
