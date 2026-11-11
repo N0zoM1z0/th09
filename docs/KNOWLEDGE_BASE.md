@@ -878,6 +878,28 @@ same-section COFF definitions, field offset/type identities, unchanged
 original PE destinations, and complete byte equality. No function was
 newly promoted to exact, and native product/runtime gates remain open.
 
+## 2026-11-11 native PlayerShot Type2 trail collision sample address
+
+The exact `PlayerShotUpdateCallbackType2` uses the original
+`PlayerShotCtorView` allocation: its shot record is **0x484 bytes**,
+with an inline array of genuine 0x0C-byte `Float3` trail samples at
++0x2B0. The collision-region loop chooses the active sample using the
+live even index `i * 2`, and now forms its pointer as the native i386
+`uint32(&trailVectors2B0[0]) + uint32(i * 2) * sizeof(Float3)` byte
+address, without a bounded-array precondition or changing the original
+collision query. This retains the exact timer, velocity, 31-entry
+history shift and `CreateRectType4` call chronology.
+
+Five isolated/combined pinned VC7.1 probes were compiled. Replacing
+the **history-copy and predecessor** source expressions changed two
+original relocation offsets and over 300 physical bytes, so those
+variants were rejected. Replacing only the real even-index collision
+sample preserved the complete **643/643-byte owner and all 16 original
+relocations**. The installed source passed the sole actual compiler
+carrier's scoped cold replay: **1/1 exact function, 643 complete bytes,
+16 fields**, with no private-label rebindings. Existing exactness was
+preserved; there is no newly exact function or Windows runtime claim.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

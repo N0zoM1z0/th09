@@ -252,6 +252,12 @@ The official one-carrier scoped replay protects **32 exact units,
 4,270 original bytes and 132 bound relocations**; 23 ProcessMsg local
 labels were PE-target verified before manifest rebinding.
 
+The exact 643-byte PlayerShot Type2 callback now also selects its
+live even-index trail collision samples from the true 0x0C-byte
+Float3 array at shot +0x2B0 using a native DWORD byte address.
+The sole compiler carrier retains **643/643 exact bytes and 16 fields**;
+history-copy edits that shifted actual relocations were rejected.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact
