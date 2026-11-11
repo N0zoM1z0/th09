@@ -604,10 +604,16 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
         return -1;
     if ((g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1()) && stage > 0)
     {
+        // The replay's live character byte selects one real GameManager
+        // clear-marker byte at +0xD8. Preserve the unsigned i386 address.
         for (i32 i = 0; i < stage; i++)
-            g_GameManager.clearD8[(*reinterpret_cast<ReplayFrameDataStartView **>(
-                reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[1][0]) +
-                static_cast<unsigned int>(i) * sizeof(replayManager->replayData->frameStart[1][0])))->value06] = 1;
+            *reinterpret_cast<unsigned char *>(
+                reinterpret_cast<unsigned int>(&g_GameManager.clearD8[0]) +
+                static_cast<unsigned int>(
+                    (*reinterpret_cast<ReplayFrameDataStartView **>(
+                        reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[1][0]) +
+                        static_cast<unsigned int>(i) *
+                            sizeof(replayManager->replayData->frameStart[1][0])))->value06)) = 1;
     }
     // Original playback reads frame/FPS table pointers by native Win32
     // 32-bit byte offsets; the stage DWORD is not a bounded C++ subscript.
@@ -1033,8 +1039,12 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         reinterpret_cast<unsigned int>(&replayCopy.obfuscationKey);
     for (loopIndex = 0; loopIndex < ChecksumHeaderBytes; loopIndex++, checksumAddress++)
         checksum += *reinterpret_cast<const u8 *>(checksumAddress);
+    // The compressed payload is a counted native byte stream, not a
+    // bounded C++ indexed object when the signed wire size is unusual.
     for (loopIndex = 0; loopIndex < compressedSize; loopIndex++)
-        checksum += compressedData[loopIndex];
+        checksum += *reinterpret_cast<const u8 *>(
+            reinterpret_cast<unsigned int>(compressedData) +
+            static_cast<unsigned int>(loopIndex));
     replayCopy.checksum = checksum;
 
     u8 obfuscationOffset = replayCopy.obfuscationKey;

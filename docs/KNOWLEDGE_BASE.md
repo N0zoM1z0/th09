@@ -1447,6 +1447,30 @@ ReplayInput compiler profiles cold-pass **12 exact sibling owners,
 4,093 complete original bytes and 232 real relocation fields**.
 No SaveReplay exactness credit or complete native-product claim follows.
 
+## 2026-11-11 native Replay playback marker and compressed checksum reads
+
+The still-nonexact `ReplayManagerView::BeginPlaybackStage @ 0x00420840`
+marks previously cleared characters using the real GameManager marker byte
+array at +0xD8. The index is read live from the original previous-stage
+frame header's `value06` wire byte, with no retail range check. The source
+now uses `uint32(&clearD8[0]) + uint32(header->value06)` to address the
+same physical marker rather than relying on a 16-element C++ array bound.
+The still-nonexact `SaveReplay @ 0x00420C60` similarly counts checksums
+through the actual `Lzss::Encode` allocation using native unsigned-DWORD
+byte offset `uint32(compressedData) + uint32(loopIndex)`. Its original
+signed loop exit, source byte reads, checksum and serialization order
+remain unchanged; no extra allocation, guard, or cached data was added.
+
+Three isolated/combined pinned VC7.1 probes all retained the complete
+**538-byte BeginPlaybackStage candidate vs 540-byte original** (32
+relocations / 39 unlike overlapping bytes / two missing tail bytes), and
+the **1,238-byte SaveReplay candidate vs 1,238-byte original** (53 fields,
+23 calls, 49 blocks and only existing +0xB7/+0xBB unlike register bytes).
+The installed combined source passed both original-bound boss guards and
+the **two actually affected ReplayInput compiler carriers: 12/12 exact
+siblings / 4,093 complete physical bytes / 232 relocations**. These are
+native data-lvalue reconstructions, not newly exact owners or runtime proof.
+
 ## 2026-11-11 BeginPlaybackStage native frame/FPS table slot addresses
 
 The nonexact 540-byte `ReplayManagerView::BeginPlaybackStage @ 0x00420840`
