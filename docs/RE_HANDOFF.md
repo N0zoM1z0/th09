@@ -26,6 +26,14 @@ the canonical ledgers. Git holds prior source revisions.
   `4339d22e` records the source/match promotion; `a4dc6af5` adds strict
   byte/field/graph regression checks. Both GameManagerSetup compiler profiles
   cold-pass **12 exact units / 4,680 bytes / 415 fields**.
+- **RunEcl now preserves native 32-bit overflow in nine integer opcodes.**
+  The original-bound 15,564-byte interpreter still has only its existing
+  30 differences (opcodes 4/155), with all 598 fields/tables intact. Six
+  affected VC7.1 compiler carriers cold-pass **91 exact functions / 36,301
+  bytes / 1,783 relocations**; eight changed internal compiler-label names
+  were independently verified against original PE/actual COFF before rebinding.
+  This is source-semantic progress, not a new exact function. See the
+  2026-11-11 note in [knowledge](KNOWLEDGE_BASE.md).
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

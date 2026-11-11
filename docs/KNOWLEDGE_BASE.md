@@ -342,6 +342,43 @@ in `match-units.toml` only after a separate complete PE/actual COFF proof
 confirmed their same-section definitions, original target operands and zero
 non-field mismatches. No new exactness credit or product closure is claimed.
 
+## 2026-11-11 RunEcl native integer opcode arithmetic
+
+Nine integer handlers in the shared `RunEcl` switch now explicitly use
+unsigned 32-bit arithmetic on the existing, independently resolved integer
+word: random-sign assignment; compound and noncompound add, subtract and
+multiply; and increment/decrement. This preserves native i386 modulo-32
+overflow and its stored bit pattern without depending on signed C++ overflow
+(including negation of `INT_MIN`). Operand resolution, signed comparison,
+division/modulo, RNG calls and the existing control-flow structure are unchanged.
+The signed and unsigned views alias the same Win32 32-bit integer storage;
+no new runtime allocation, state copy, fake helper or compiler profile was added.
+
+Independent individual and combined pinned VC7.1 compilations kept the complete
+**15,564-byte** RunEcl owner, **598 relocations** and original jump tables,
+with exactly **30 ordinary residual differences**, seven in opcode 4 and
+23 in opcode 155. The installed source passed the official original-bound
+owner inspector and both timer/timeout semantic audits (90 and 3,072 cases).
+An affected-include-only cold replay across **six genuine compiler carriers**
+passed **91 still-exact functions / 36,301 physical bytes / 1,783 relocation
+fields**. Eight changed VC7.1 private `$L` spellings were rebound in the
+canonical match ledger only after their actual same-section COFF definitions,
+all original PE operands and all 91 complete physical owners were independently
+verified. No function was newly promoted to exact, and whole-product closure
+remains open.
+
+Further source-cold near-match probes did not close the remaining functions:
+11 native timer operand variants either retained the RunEcl 30-byte frontier
+or regressed to 42 (12 extra differences in adjacent opcode 5). Twelve
+SaveReplay frame-copy address/typed-copy variants retained its two register
+bytes or regressed to 27 differences. EffectManager callback owner and cached
+ANM receiver spellings retained eight or regressed to eleven differences;
+changing the fastcall's formal parameter also conflicts with the existing
+callback contract without explicit adaptation. None of these negative variants
+was adopted. Reproduce only the relevant owner with
+`check-boss-frontiers.py --owner runecl --skip-exact-siblings` and exact
+consumer scopes with `replay-scoped-exact.py --changed-file src/EclRunControl.inl`.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,

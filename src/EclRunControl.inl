@@ -233,14 +233,18 @@ __forceinline float *WriteFloat(
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         break;
 
+    // The retail i386 integer handlers wrap at 32 bits. Arithmetic stores
+    // use the unsigned view of the same wire word, leaving signed operands
+    // and the division/comparison handlers' signed interpretation intact.
     case TH09_ECL_OPCODE_SET_INT_RANDOM_SIGN:
     {
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         int *randomSignedResult =
             Th09EclRunControl::WriteInt(enemy, instruction, 0);
-        *randomSignedResult =
-            rhsInt *
-            ((Th09EclRunControl::g_Rng.NextU16() & 1U) ? 1 : -1);
+        *reinterpret_cast<unsigned int *>(randomSignedResult) =
+            static_cast<unsigned int>(rhsInt) *
+            static_cast<unsigned int>(
+                (Th09EclRunControl::g_Rng.NextU16() & 1U) ? 1 : -1);
         break;
     }
 
@@ -260,7 +264,9 @@ __forceinline float *WriteFloat(
     // dataflow is different.
     case TH09_ECL_OPCODE_INT_ADD_ASSIGN:
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) += rhsInt;
+        *reinterpret_cast<unsigned int *>(
+            Th09EclRunControl::WriteInt(enemy, instruction, 0)) +=
+            static_cast<unsigned int>(rhsInt);
         break;
     case TH09_ECL_OPCODE_FLOAT_ADD_ASSIGN:
     {
@@ -270,7 +276,9 @@ __forceinline float *WriteFloat(
     }
     case TH09_ECL_OPCODE_INT_SUBTRACT_ASSIGN:
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) -= rhsInt;
+        *reinterpret_cast<unsigned int *>(
+            Th09EclRunControl::WriteInt(enemy, instruction, 0)) -=
+            static_cast<unsigned int>(rhsInt);
         break;
     case TH09_ECL_OPCODE_FLOAT_SUBTRACT_ASSIGN:
     {
@@ -280,7 +288,9 @@ __forceinline float *WriteFloat(
     }
     case TH09_ECL_OPCODE_INT_MULTIPLY_ASSIGN:
         rhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) *= rhsInt;
+        *reinterpret_cast<unsigned int *>(
+            Th09EclRunControl::WriteInt(enemy, instruction, 0)) *=
+            static_cast<unsigned int>(rhsInt);
         break;
     case TH09_ECL_OPCODE_FLOAT_MULTIPLY_ASSIGN:
     {
@@ -310,9 +320,12 @@ __forceinline float *WriteFloat(
         break;
 
     case TH09_ECL_OPCODE_INT_ADD:
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) =
-            Th09EclRunControl::ReadInt(enemy, instruction, 1) +
-            Th09EclRunControl::ReadInt(enemy, instruction, 2);
+        *reinterpret_cast<unsigned int *>(
+            Th09EclRunControl::WriteInt(enemy, instruction, 0)) =
+            static_cast<unsigned int>(
+                Th09EclRunControl::ReadInt(enemy, instruction, 1)) +
+            static_cast<unsigned int>(
+                Th09EclRunControl::ReadInt(enemy, instruction, 2));
         break;
     case TH09_ECL_OPCODE_FLOAT_ADD:
         *Th09EclRunControl::WriteFloat(enemy, instruction, 0) =
@@ -320,9 +333,12 @@ __forceinline float *WriteFloat(
             Th09EclRunControl::ReadFloat(enemy, instruction, 2);
         break;
     case TH09_ECL_OPCODE_INT_SUBTRACT:
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) =
-            Th09EclRunControl::ReadInt(enemy, instruction, 1) -
-            Th09EclRunControl::ReadInt(enemy, instruction, 2);
+        *reinterpret_cast<unsigned int *>(
+            Th09EclRunControl::WriteInt(enemy, instruction, 0)) =
+            static_cast<unsigned int>(
+                Th09EclRunControl::ReadInt(enemy, instruction, 1)) -
+            static_cast<unsigned int>(
+                Th09EclRunControl::ReadInt(enemy, instruction, 2));
         break;
     case TH09_ECL_OPCODE_FLOAT_SUBTRACT:
         *Th09EclRunControl::WriteFloat(enemy, instruction, 0) =
@@ -330,9 +346,12 @@ __forceinline float *WriteFloat(
             Th09EclRunControl::ReadFloat(enemy, instruction, 2);
         break;
     case TH09_ECL_OPCODE_INT_MULTIPLY:
-        *Th09EclRunControl::WriteInt(enemy, instruction, 0) =
-            Th09EclRunControl::ReadInt(enemy, instruction, 1) *
-            Th09EclRunControl::ReadInt(enemy, instruction, 2);
+        *reinterpret_cast<unsigned int *>(
+            Th09EclRunControl::WriteInt(enemy, instruction, 0)) =
+            static_cast<unsigned int>(
+                Th09EclRunControl::ReadInt(enemy, instruction, 1)) *
+            static_cast<unsigned int>(
+                Th09EclRunControl::ReadInt(enemy, instruction, 2));
         break;
     case TH09_ECL_OPCODE_FLOAT_MULTIPLY:
         *Th09EclRunControl::WriteFloat(enemy, instruction, 0) =
@@ -362,10 +381,12 @@ __forceinline float *WriteFloat(
         break;
 
     case TH09_ECL_OPCODE_INT_INCREMENT:
-        ++*Th09EclRunControl::WriteInt(enemy, instruction, 0);
+        ++*reinterpret_cast<unsigned int *>(
+            Th09EclRunControl::WriteInt(enemy, instruction, 0));
         break;
     case TH09_ECL_OPCODE_INT_DECREMENT:
-        --*Th09EclRunControl::WriteInt(enemy, instruction, 0);
+        --*reinterpret_cast<unsigned int *>(
+            Th09EclRunControl::WriteInt(enemy, instruction, 0));
         break;
 
     case TH09_ECL_OPCODE_FLOAT_SINE:
