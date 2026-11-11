@@ -106,7 +106,10 @@ int EtamaController::OnDraw(EtamaController *mgr)
     }
     for (i = 0; i < 6; i++)
     {
-        bullet = mgr->drawBuckets[i];
+        // The six draw heads live in the real controller DWORD array.
+        bullet = *reinterpret_cast<Bullet **>(
+            reinterpret_cast<unsigned int>(&mgr->drawBuckets[0]) +
+            static_cast<unsigned int>(i) * sizeof(mgr->drawBuckets[0]));
         while (bullet != NULL)
         {
             DrawSingleBullet(bullet);
@@ -156,7 +159,11 @@ int EtamaController::AddedCallback(EtamaController *controller)
 
     for (unsigned int i = 0; i < sizeof(kBulletSpriteScripts) / sizeof(kBulletSpriteScripts[0]); ++i)
     {
-        BulletTypeSprites *sprites = &controller->bulletTypeSprites[i];
+        // The active 23 template slots are 0xD48-byte native records;
+        // preserve the actual controller allocation and its live index.
+        BulletTypeSprites *sprites = reinterpret_cast<BulletTypeSprites *>(
+            reinterpret_cast<unsigned int>(&controller->bulletTypeSprites[0]) +
+            static_cast<unsigned int>(i) * sizeof(controller->bulletTypeSprites[0]));
         controller->bulletAnm
             ->SetAndExecuteScriptIdx(&sprites->bulletVm, kBulletSpriteScripts[i][0]);
         controller->bulletAnm

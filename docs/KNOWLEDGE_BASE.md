@@ -1215,6 +1215,26 @@ All three affected compiler carriers passed scoped cold replay:
 **8/8 exact, 1,020 complete physical bytes, 42 original relocation
 fields**. None of these were newly exact functions.
 
+## 2026-11-11 native Etama draw bucket and bullet-template records
+
+The complete exact `EtamaController::OnDraw` reads the six real draw-bucket
+head pointers at `EtamaController+0x25E198`; the exact `AddedCallback`
+iterates the first 23 entries of the authentic `bulletTypeSprites[32]`
+allocation. The maintained code now computes the two live addresses as
+`uint32(real base) + uint32(i) * sizeof(native record)` using the true
+four-byte draw-head and **0xD48-byte `BulletTypeSprites`** strides. This
+preserves independent live reads, original loop bounds and all draw/ANM
+calls; there is no new clamping, allocation, copy or stored view.
+
+Native table rewrites for `kBulletSpriteScripts[23][5]` were rejected:
+that spelling shortened the exact `AddedCallback` owner by 20 bytes.
+The two accepted lvalues cold-replayed only the actual /Ob0 compiler
+carrier. All **three exact functions, 1,664 original physical bytes and
+73 relocation fields** matched completely. Fifteen affected compiler-
+private `$L` references in `DrawSingleBullet` and `AddedCallback` were
+rebound only after confirming the actual same-section COFF definitions and
+unchanged original PE destinations. No additional exact owner was claimed.
+
 ## 2026-11-11 Etama native side and sprite-offset table selectors
 
 `EtamaController::Register` stores two pointers into the original

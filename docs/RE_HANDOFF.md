@@ -81,7 +81,10 @@ Git retains earlier source revisions.
   bytes / 259 fields), with 16 original-target-verified private labels.
   `GetAnm` and `SpriteHasTexture` now address the same real 0x120-byte ANM
   resource slots by native DWORD stride; 12 exact functions across three
-  compiler carriers (603 bytes / 26 fields) remain verified.
+  compiler carriers (603 bytes / 26 fields) remain verified. Etama's six
+  draw heads and 23 active 0xD48-byte sprite templates now use native
+  index addressing; the 3 same-source exact draw/added owners (1,664 bytes /
+  73 fields) remain exact with 15 verified private-label rebindings.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.
