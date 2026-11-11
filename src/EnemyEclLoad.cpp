@@ -24,24 +24,35 @@ int EnemyEclManagerView::Load(char *path)
         return -1;
     }
 
+    // The on-disk ECL header declares only the first offset, but retail
+    // relocates a variable-length table through native 32-bit byte addresses.
     for (int i = 0;
          i < this->rawFile00->subroutineCount;
          ++i)
     {
-        unsigned int *offset = &this->rawFile00->subroutineOffsets[i];
+        unsigned int *offset = reinterpret_cast<unsigned int *>(
+            reinterpret_cast<unsigned int>(&this->rawFile00->subroutineOffsets[0]) +
+            static_cast<unsigned int>(i) * sizeof(this->rawFile00->subroutineOffsets[0]));
         *offset += reinterpret_cast<unsigned int>(this->rawFile00);
     }
 
+    // The secondary table begins immediately after the signed-count primary
+    // table. Keep signed loop gates and live file/manager field reloads.
     EnemyEclRawFileView *raw = this->rawFile00;
     this->subroutineTable04 = reinterpret_cast<Th09EclRawInstructionHeaderView **>(
-        &raw->subroutineOffsets[raw->subroutineCount]);
+        reinterpret_cast<unsigned int>(
+            &raw->subroutineOffsets[0]) +
+            static_cast<unsigned int>(raw->subroutineCount) *
+            sizeof(raw->subroutineOffsets[0]));
 
     for (int i = 0;
          i < this->rawFile00->secondaryTableCount;
          ++i)
     {
         unsigned int *offset =
-            reinterpret_cast<unsigned int *>(this->subroutineTable04) + i;
+            reinterpret_cast<unsigned int *>(
+                reinterpret_cast<unsigned int>(this->subroutineTable04) +
+                static_cast<unsigned int>(i) * sizeof(unsigned int));
         *offset += reinterpret_cast<unsigned int>(this->rawFile00);
     }
 

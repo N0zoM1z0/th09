@@ -209,6 +209,12 @@ the canonical ledgers. Git holds prior source revisions.
   exact functions / 30,583 bytes / 1,409 fields; the 15,564-byte RunEcl
   keeps exactly its former 30 opcode-4/155 residual bytes. Twenty private
   compiler labels were separately original-PE/COFF-proven before rebinding.
+- **Exact Enemy ECL file loader uses native variable-table byte addresses.**
+  Three original 32-bit address calculations now span the real on-disk
+  variable-length subroutine/secondary tables without C++ one-element
+  placeholder subscripting. The one source carrier cold-replayed the
+  complete 154-byte leaf with all five original relocations; no new
+  exact function was added.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

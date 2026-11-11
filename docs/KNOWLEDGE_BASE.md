@@ -588,6 +588,31 @@ verified. The opcode-4 timer and opcode-155 flag semantic audits still
 pass 90 and 3,072 cases respectively. No new exactness credit or native
 product/runtime closure follows.
 
+## 2026-11-11 Enemy ECL loader native variable-length offset tables
+
+`EnemyEclManagerView::Load @ 0x00405660` is an independently exact
+154-byte ECL resource leaf. The real ECL file header owns a
+variable-length table of 32-bit subroutine offsets beginning at byte
++0x08; the maintained `EnemyEclRawFileView` correctly models that
+physical format using a one-element C++ placeholder. However, loading
+`subroutineOffsets[i]`, taking the address of
+`subroutineOffsets[subroutineCount]`, and walking secondary records
+through `subroutineTable04 + i` previously used potentially out-of-
+bounds C++ array/pointer arithmetic. Their maintained source now uses
+native **unsigned i386 byte addresses**, starting at the actual first
+subroutine-offset word, adding signed-index representations modulo 2^32,
+and using original four-byte table elements. This preserves the exact
+real file pointer reloading, signed short loop limits, in-place relocation
+stores, version/error gates, target labels and original file header owner;
+no new bounds checks or substitute buffers were introduced.
+
+Three isolated and one combined pinned VC7.1 probes independently produced
+the complete original **154/154-byte body and all five original-bound
+relocation fields**. The installed combined source passed the canonical
+scoped exact cold replay of the **one actual EnemyEclLoad.cpp compiler
+carrier**. The RunEcl owner's 30 existing residual bytes and whole-native-
+product status were not changed or credited by this standalone leaf edit.
+
 ## 2026-11-11 RunEcl laser controls native 32-pointer slot addresses
 
 The laser-control handlers of `RunEcl @ 0x004086C0` use the actual
