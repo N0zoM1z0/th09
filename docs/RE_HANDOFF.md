@@ -104,6 +104,10 @@ the canonical ledgers. Git holds prior source revisions.
   profiles passed 41 exact siblings (18,972 bytes, 953 fields); nine
   compiler-private labels were independently PE/COFF-proven before
   manifest rebinding. See the 2026-11-11 knowledge note.
+- **EffectNativePoolCapacity now preserves original dynamic DWORD sums.**
+  Four shared helper functions now wrap primary/secondary/sentinel count
+  arithmetic at 32 bits. One actual carrier cold-passes 15 exact owners
+  (2,530 bytes / 100 fields); AddedCallback retains eight differences.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

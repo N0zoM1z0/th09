@@ -812,6 +812,25 @@ Twelve pinned VC7.1 complete-owner probes either retained its existing
 other bytes. No source candidate was adopted; current SaveReplay remains a
 near-exact 1,238-byte owner with 53 fields and two real residual bytes.
 
+## 2026-11-11 EffectNativePoolCapacity native allocation/count arithmetic
+
+Four shared capacity functions now explicitly add the dynamic primary and
+secondary EffectManager pool counts modulo 2^32, returning their original
+signed 32-bit word: `ActiveCount`, `ActiveCountWithNativeOrder`,
+`AllocatedCount`, and `AllocatedFromCounts` (including the one sentinel
+record). The frame-bound helper keeps its native volatile primary-count
+read and the existing ordering; sentinel and caller interfaces are
+unchanged. This avoids relying on signed C++ integer overflow to model
+retail i386 DWORD add/LEA semantics.
+
+Four isolated and one combined pinned VC7.1 source-cold probes independently
+reproduced all **15 exact** EffectManager owners (**2,530 physical bytes,
+100 original-bound relocations**) and left the 51-byte `AddedCallback`
+near match at exactly its previous **eight** register-byte differences.
+The installed shared header passed the official one-carrier scoped exact
+cold replay and the full original-bound callback guard. No newly exact
+owner, expanded source footprint, or whole-product claim follows.
+
 ## 2026-11-11 EffectManager update and spawning native DWORD arithmetic
 
 The original Japanese v1.50a uses ordinary Win32 32-bit ADD/INC/DEC

@@ -7,23 +7,36 @@
 struct EffectNativePoolCapacity
 {
     enum { SentinelRecords = 1 };
+    // The original i386 pool counts and sentinel address arithmetic wrap
+    // modulo 2^32; convert back to signed only at the existing interfaces.
+    // Preserve the volatile first read in the per-frame update bound.
     static int ActiveCount(const EffectManager &manager)
     {
-        return manager.primaryCount + manager.secondaryCount;
+        return static_cast<int>(
+            static_cast<unsigned int>(manager.primaryCount) +
+            static_cast<unsigned int>(manager.secondaryCount));
     }
     static int ActiveCountWithNativeOrder(const EffectManager &manager)
     {
         // The original update reloads the live primary count as volatile.
-        return static_cast<const volatile int &>(manager.primaryCount) +
-               manager.secondaryCount;
+        return static_cast<int>(
+            static_cast<unsigned int>(
+                static_cast<const volatile int &>(manager.primaryCount)) +
+            static_cast<unsigned int>(manager.secondaryCount));
     }
     static int AllocatedCount(const EffectManager &manager)
     {
-        return manager.primaryCount + manager.secondaryCount + SentinelRecords;
+        return static_cast<int>(
+            static_cast<unsigned int>(manager.primaryCount) +
+            static_cast<unsigned int>(manager.secondaryCount) +
+            static_cast<unsigned int>(SentinelRecords));
     }
     static int AllocatedFromCounts(int primaryCount, int secondaryCount)
     {
-        return primaryCount + secondaryCount + SentinelRecords;
+        return static_cast<int>(
+            static_cast<unsigned int>(primaryCount) +
+            static_cast<unsigned int>(secondaryCount) +
+            static_cast<unsigned int>(SentinelRecords));
     }
     static Effect *FailureSentinel(EffectManager &manager)
     {
