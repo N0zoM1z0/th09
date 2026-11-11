@@ -1,256 +1,102 @@
-# TH09 current handoff
+# TH09 agent handoff
 
-Start here, then read [AGENTS.md](../AGENTS.md), [workflow](RE_WORKFLOW.md)
-and [Oracles](ORACLES.md). Current counts come from the canonical ledgers:
-run `python3 -B scripts/report-reconstruction-status.py` or read the generated
-[progress](PROGRESS.md). Useful findings and failed approaches are in the
-[knowledge base](KNOWLEDGE_BASE.md).
+This page is the **current** restart guide. Read [AGENTS.md](../AGENTS.md),
+[workflow](RE_WORKFLOW.md), and [Oracle policy](ORACLES.md) before editing.
+The [knowledge base](KNOWLEDGE_BASE.md) retains older experiments as **history**;
+its intermediate code sizes and match counts must not override this page or
+the canonical ledgers. Git holds prior source revisions.
 
-## Current work
+## Verified state
 
-**NEW EXACT: `GameplaySetupThread` @ `0x0041AF2D` (2026-11-10).** The
-reviewed native VC7.1 `/O2 /Os /Ob1` source now reproduces the complete
-**1,689/1,689 byte** original with **172/172 independently bound COFF
-relocations, 413 instructions, 35 ordered calls, 78 matching CFG blocks and
-one verified static literal**. The natural C++ change places `case 1`
-between `case 4` and `case 3` and tests the fixed-rate `gameMode == 2`
-branch first; the compiler restores the original short mode-zero back-jump
-and all shared publication blocks without assembler or padding. The unit is
-now canonically tracked as `game-manager-gameplay-setup-thread`; the official
-source-scoped **two-carrier, 12-exact-unit** cold replay passes **4,680
-physical bytes / 415 relocation fields**. The older experimental notes below
-show historical 1,682- and 1,692-byte versions and are superseded, **not**
-current nonexact frontiers. Windows product/runtime closure is still open.
+- Target: original **Japanese TH09 v1.50a**, ignored `resources/th09.exe`;
+  SHA-256 `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+  PE: Windows i386, image base `0x00400000`. Do not modify the target.
+- At this handoff, **1,025 of 1,037 source-present authored functions are
+  byte-exact**; **12 functions / 28,145 original bytes** remain nonexact.
+  These totals are generated from `config/functions.csv`, `config/matches.csv`
+  and `config/match-units.toml`. Refresh them with
+  `python3 -B scripts/report-reconstruction-status.py` and see
+  [generated progress](PROGRESS.md).
+- **GameplaySetupThread @ `0x0041AF2D` is now exact, not an open boss.**
+  The canonical unit `game-manager-gameplay-setup-thread` reproduces all
+  **1,689/1,689 bytes**, 172 actual original-bound relocation fields,
+  35 ordered calls, 413 instructions, 78 control-flow blocks, and the
+  original literal. Natural C++ switch case order `4,1,3,2,0` with mode 1's
+  fixed-rate branch first resolved the old 3-byte near-jump mismatch.
+  `4339d22e` records the source/match promotion; `a4dc6af5` adds strict
+  byte/field/graph regression checks. Both GameManagerSetup compiler profiles
+  cold-pass **12 exact units / 4,680 bytes / 415 fields**.
+- **The whole native Windows i386 product is not closed.** Original compiler
+  project partition/linkage, some origins/data ownership and runtime behavior
+  remain unproven. Exact source is not product or semantic/port completion.
 
-The earlier Title-source reconstruction checkpoint is `746b0e6d`. Title draw, calc
-and MusicRoom use the complete native Title owner. Their already-exact
-functions stay exact; Replay-menu drawing remains nonexact. Recent Player,
-Front, Enemy/ECL and Ascii native-owner work likewise preserves existing
-exact owners. Current ECL/Enemy native-word changes preserve both large
-owner frontiers: the initial two-carrier proof covers 83 exact units; the
-follow-up opcode-4 relative-jump change cold-replays 91 units in six actual
-carriers with 299 checked same-section label rebindings. Reproduce the latter
-with `python3 -B scripts/replay-scoped-exact.py --changed-file src/EclRunControl.inl`.
-SaveReplay's native serialized-byte arithmetic now compiles with unchanged
-1,238-byte/two-register residual. The linked BeginPlaybackStage row check also
-uses the original native `0x20 + stage*0x28` address without out-of-range C++
-row indexing; both bosses retain their original residuals. The affected
-ReplayInput source cold-passes 12 exact siblings in two real carriers.
-The four ECL raw operand views now use the original `+0x0C` variable-length
-wire address arithmetic rather than indexing a zero-size C++ member. Complete
-RunEcl and Enemy boss frontiers remain unchanged; the six affected compiler
-carriers cold-pass 91 exact owners / 36,301 bytes / 1,783 relocations with
-291 independently verified compiler-label rebindings.
-Both ECL operand fragments now read the zero-length trailing wire data with
-native unsigned address arithmetic. The combined change was cold-rebuilt in
-six affected carriers and kept 91 exact owners/36,301 bytes/1,783 fields,
-with all 311 changed private labels independently checked against original
-addresses; the RunEcl boss remains nonexact at 30 ordinary differences.
-All remaining direct zero-length ECL operand users are now routed through
-native union-pointer views, including the polar and biased-movement leaves,
-shared jump union copy and trail record. The `/Ob0` movement leaf still replays
-516/516 original bytes, the `/Ob1` RunEcl retains its complete 15,564-byte
-frontier, and 91 affected exact units cold-pass in six carriers. See the newest
-knowledge-base section for the rejected out-of-line helper variant.
-The exact `CompareOperands` branch target also uses native unsigned i386
-addition for signed ECL jumps. A two-carrier, 83-unit selected replay retained
-all original bytes/fields, and eight private labels were rechecked.
-The `CompareOperands` jump-success path now adds signed wire displacements
-using native i386 address words. The specific `EclManager.cpp` two-carrier
-replay passes 83 existing exact functions / 29,856 bytes / 1,389 fields;
-RunEcl and Enemy OnUpdate preserve their complete owner frontiers.
-The laser float/int/color readers and packed shot/laser packet casts now
-address the native variable-length ECL payload instead of a zero-size C++
-array. Five changed carriers cold-pass 87 exact units / 30,583 physical bytes
-/ 1,409 fields, with the 516-byte biased-movement leaf still exact. Both big
-ECL/Enemy owner frontiers remain unchanged.
-Laser and shot ECL wire payloads now use native unsigned i386 operand
-addresses in `EclRunBullet.inl`/`EclPostRuntime.inl`. The five affected
-carrier profiles pass all 87 exact owners, 30,583 bytes and 1,409 relocation
-fields; the full RunEcl/Enemy owner frontiers are unchanged.
-Replay `LoadReplayData` now reads its complete packed file using native
-32-bit byte addresses for codec/checksum walks, stream concatenation and
-frame/FPS offset fixups. The exact 591-byte leaf and both nonexact Replay
-owners retain their complete target-bound frontiers; two affected carriers
-cold-pass 12 exact functions / 4,093 bytes / 232 relocation fields.
-ScreenEffect's shake-envelope final endpoint uses modulo-32 arithmetic
-instead of signed-overflow-dependent additions. The full 336-byte shake boss
-preserves its 26-byte residual; three affected compiler profiles cold-pass 18
-exact functions / 2,562 physical bytes / 164 fields, after nine genuine
-RegisterChain same-section local label rebinding checks.
-Replay playback stream cursors now use native Win32 32-bit base-plus-header
-byte addresses for the three 0x20-byte frame headers; the 538/540
-BeginPlaybackStage and 1,238/1,238 SaveReplay frontiers remain unchanged.
-Both ReplayInput carrier profiles cold-pass 12 exact functions / 4,093
-physical bytes / 232 relocation fields.
-Replay `LoadReplayData` LZSS decoding and `SaveReplay` initial payload
-copy now use actual native 32-bit replay-base-plus-payload addresses rather
-than scalar-byte member pointer spans. The complete 591-byte load leaf and
-two still-nonexact Replay bosses preserve their original frontiers; the
-source-specific two-carrier replay passes 12 exact owners / 4,093 bytes /
-232 relocations.
-Enemy OnUpdate now expresses the death-frame signed quotient after
-native modulo-32 subtraction, preserving exact Timer helpers, the complete
-3,900-byte/97-field/13-difference owner and RunEcl's full frontier. Both
-affected EclManager compiler carriers cold-pass 83 exact units / 29,856
-bytes / 1,389 fields after two original-backed local label rebindings.
-Player `CheckBulletCollision` now reconstructs native modulo-32 math for
-opponent-side selection, reward scaling and both hit-counter increments;
-the full 862-target/849-source collision frontier is unchanged. Three
-source-affected carrier profiles pass five exact siblings, 1,220 physical
-bytes and 32 relocation fields. Its 13 missing bytes and original 33 versus
-candidate 32 CFG blocks remain unresolved.
-Gameplay setup's counter and phase threshold arithmetic now uses native
-unsigned 32-bit word increments and fixed-mode offsets. The large
-Historical checkpoint (superseded by the exact closure above):
-GameplaySetupThread once had a 1,682/1,689-byte/172-field frontier, while
-ten further GameManager exact units passed. This was prior to its own
-1,689-byte exact-source reconstruction.
-`SupervisorServiceUpdate` now uses native 32-bit word arithmetic for its
-two signed frame-counter increments and packet frame publication. Its own
-1,627/1,633-byte nonexact frontier is unchanged. Fresh exact caller/queue
-checks pass six selected owners (1,663 bytes, 93 fields); 40 compiler-local
-Supervisor::OnUpdate `$L`/`$title$` renames were independently checked against
-actual COFF same-section targets and original PE before rebinding.
-Title `OnUpdateResult` now preserves native unsigned 32-bit wraparound in
-four unlock increments and the character selection cursor. The nonexact
-484/485-byte result owner remains at 218 differing overlaps and 34 fields;
-two TitleScreen compiler carriers pass 41 exact owners / 18,972 bytes /
-953 fields after independently proving nine compiler-local `$L` rebindings.
-Player movement now forms the second focus-effect's side argument as a
-native 32-bit `sideIndex + 2` word before the same signed callee argument;
-its entire 1,900-byte/66-field/23-call/122-residual original-bound owner is
-unchanged. This TU has no selected exact siblings, so only the full scoped
-boss inspection was run; no unrelated cold replay was requested.
-RunEcl opcode 128 attached-effect `count60` now uses a native wrapping
-DWORD increment; opcode 5 integer lvalue decrement uses the same native word
-semantics. The full 15,564-byte RunEcl and 3,900-byte Enemy OnUpdate frontiers
-remain unchanged. Six affected carrier profiles cold-pass 91 exact functions /
-36,301 complete bytes / 1,783 fields, with eight same-section COFF `$L`
-renames verified against original PE before rebinding.
-Enemy OnUpdate's secondary damage decomposition, fourfold weighted hit
-sum and life subtraction now use native DWORD wraparound before signed
-storage. Its full 3,900-byte/97-field/13-unlike owner and RunEcl's 15,564-byte
-owner do not regress; the 83 affected exact functions cold-pass across two
-actual carrier profiles (29,856 bytes, 1,389 fields), following two original
-PE-backed VC7.1 private-label rebinding checks.
-Exact Replay playback and recording now increment two frame counters,
-the recording link frame count and the input-delay word using native 32-bit
-wraparound arithmetic. The exact 299-byte and 460-byte leaves are unchanged;
-both affected ReplayInput profiles cold-pass 12 exact units / 4,093 physical
-bytes / 232 relocation fields. SaveReplay and BeginPlaybackStage full owner
-frontiers are unchanged (2 and 39 overlap differences respectively).
-Title DrawReplayMenu's selected-replay display number now uses native
-unsigned 32-bit `selected + 1` before the original signed format argument,
-matching the retail `INC EDX`. Its entire 1,280-byte, 57-field, 13-call,
-72-block, 29-unlike frontier remains original-bound and unchanged. The
-independent source carrier has no tracked exact siblings, so only its focused
-boss was compiled and compared.
-ScreenEffect shake envelope hold-phase threshold (`fadeIn + hold`) now
-uses native i386 modulo-32 DWORD arithmetic before the signed timer check.
-Its full 336-byte/20-field/26-unlike owner remains unchanged. Three affected
-carriers cold-pass 18 exact units / 2,562 bytes / 164 relocations; nine
-compiler-private RegisterChain labels were PE/COFF proven before rebinding.
-Replay playback/recording sample and FPS cursors now use native 32-bit
-base-plus-byte-stride addresses (six input DWORD offsets by 2, two FPS cursor
-steps by 1). Both exact 299/460-byte leaf functions preserve all original
-field and raw code bytes, with two scoped profiles passing 12 exact units /
-4,093 complete bytes / 232 relocations. SaveReplay and BeginPlaybackStage
-nonexact original-bound frontiers remain unchanged.
-Enemy OnUpdate's four per-frame signed population counters now increment
-with original i386 wrapping DWORD semantics; the full 3,900-byte owner remains
-at 13 unlike bytes and preserves its 97 fields/69 calls. The shared RunEcl
-owner remains full 15,564 bytes/598 fields/30 unlike; two affected compiler
-profiles cold-pass 83 exact functions / 29,856 physical bytes / 1,389 fields.
-Two compiler-private `$L` labels were independently PE/COFF proven and rebound.
-Prior, superseded checkpoint: GameplaySetupThread reduced its residual
-through natural fixed-rate early breaks and an empty switch default, placing
-the C8=22 DIR32 back at original +0x433.
-Its complete `/Os` candidate is 1,692/1,689 bytes, 172 fields, 35 calls,
-78 CFG blocks, 170 unlike overlapping bytes and three **extra candidate**
-bytes (previously 1,682 bytes, 694 unlike and seven missing). Updated
-source-scoped strict mask/negative tests pass, as do all 11 exact siblings in
-two carriers (2,991 physical bytes, 243 relocations). **Remaining +3 bytes
-have a concrete instruction cause**: original `+0x062B` short jump `EB 95`
-to `+0x05C2` (-107), candidate near `E9 79 FF FF FF` to `+0x05A9`
-(-135); original mode-one `JNE` is still candidate `JE` at `+0x058C`.
-The subsequent exact source closure above recovered the original mode-one
-schedule and short back-jump. This paragraph records historical experiments,
-not the current state; the whole product is still open.
-Git records the individual source changes.
+## Remaining source-present nonexact owners
 
-Native Windows i386 product closure is still open. Exact-source functions,
-origin-unclassified constructor equivalents, runtime validation and
-portability are separate facts.
-
-## Reconstruction frontiers
-
-All 12 entries below are **nonexact** complete physical owners, not exact
-credit. Offsets, calls, fields and residuals are starting evidence from
-focused original-bound checks; refresh the chosen owner with the actual
-pinned compiler when you make a source change. Use only its focused
-`--owner` diagnostic, **never** `--owner all` as routine work.
+These are complete original PE extents, **not partial exactness credit**.
+Recheck the chosen owner with its actual compiler and target-bound inspector.
+Do not blindly replace a source with the adjacent-game reference version.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| **RunEcl** | 0x004086C0 | 15,564 physical bytes, 598 original fields, **30** ordinary unlike | Opcodes 4 (timer transport, 7 bytes) and 155 (flag write, 23 bytes); preserve complete owned jump tables. `--owner runecl`. Source `src/EclManager.cpp`. |
-| **Enemy OnUpdate** | 0x00410730 | 3,900/3,900 physical, 97 fields, 69 calls, **13** unlike | Draw-index register and descriptor position/threshold transport. Current source uses actual GameManager Etama side. `--owner enemy`. Source `src/EnemyManagerCore.inl`. |
-| **Player movement** | 0x0041C170 | 1,900/1,900, 66 fields, 23 calls, **122** unlike | Loop/index register scheduling; retain authentic native option/position arrays. `--owner movement`. Source `src/PlayerMovement.cpp`. |
-| **Player ChargeAttack** | 0x0041F810 | **1,210/1,210**, 70 fields, 58 calls, **235** unlike, 0 missing; 350 instructions, 53 direct blocks, matching CFG | Mode byte [EBP-1] and input receiver register allocation; complete extent has already been recovered. `--owner charge`. |
-| **Title OnUpdateResult** | 0x004266B5 | 485 original / 484 candidate, 34 fields, 9 calls; 218 unlike overlaps + 1 missing | Character/score snapshot and result branch transport. `--owner resultdraw`. |
-| **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 57 fields, 13 calls, **29** unlike | Selected ReplayData register chronology; pure Float3 math and early index snapshots regressed. `--owner replaymenu`. |
-| **Player CheckBulletCollision** | 0x0041DFF0 | 862 original / 849 candidate, 26 fields, 12 calls, 799 unlike overlaps + 13 missing | Actual collision region allocation and branch chronology. `--owner player`. |
-| **Replay SaveReplay** | 0x00420C60 | 1,238/1,238, 53 fields, 23 calls, **2** unlike bytes | Original EDI/ECX destination-register selection at +0xB7/+0xBB. `--owner replaysave`. |
-| **Replay BeginPlaybackStage** | 0x00420840 | 540 original / 538 candidate, 32 fields, 5 calls, 39 unlike overlaps + 2 missing | Seed/tail chronology. `--owner replay`. |
-| **ScreenEffect shake** | 0x004227A0 | 336/336, 20 fields, 8 calls, **26** unlike | ESI/EDI receiver lifetime and fade transport. `--owner screen`. |
-| **Supervisor network** | 0x00430AA0 | 1,633 original / 1,627 candidate, 106 fields; 1,381 unlike overlaps + 6 missing | Queue/input transport and stack lifetime. `--owner network`. |
-| **Effect AddedCallback** | 0x0040D1C0 | 51/51, 4 fields, 2 calls, **8** unlike | Receiver register choice. `--owner effect`. |
+| **RunEcl** | 0x004086C0 | 15,564/15,564 bytes, 598 fields; 30 unlike | Opcode 4 timer register schedule (7), opcode 155 flag write (23). Includes original owned tables. `--owner runecl`. |
+| **Enemy OnUpdate** | 0x00410730 | 3,900/3,900 bytes, 97 fields, 69 calls; 13 unlike | Draw-index and spawn-descriptor register lifetime. `--owner enemy`. |
+| **Player movement** | 0x0041C170 | 1,900/1,900 bytes, 66 fields, 23 calls; 122 unlike | Option/index scheduling and Float3 transport. `--owner movement`. |
+| **Player ChargeAttack** | 0x0041F810 | 1,210/1,210 bytes, 70 fields, 58 calls; 235 unlike | Mode byte and input receiver register lifetime; same 53-block CFG. `--owner charge`. |
+| **Title OnUpdateResult** | 0x004266B5 | 484/485 bytes, 34 fields, 9 calls; 218 unlike overlaps, 1 missing | Character snapshot and result selection. `--owner resultdraw`. |
+| **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280 bytes, 57 fields, 13 calls; 29 unlike | Selected record EDX/ECX scheduling. `--owner replaymenu`. |
+| **Player CheckBulletCollision** | 0x0041DFF0 | 849/862 bytes, 26 fields, 12 calls; 799 unlike overlaps, 13 missing | Original has 33 CFG blocks versus 32 candidate; branch/layout and bullet receiver. `--owner player`. |
+| **Replay SaveReplay** | 0x00420C60 | 1,238/1,238 bytes, 53 fields, 23 calls; 2 unlike | First frame-header copy: destination EDI versus ECX at +0xB7/+0xBB. `--owner replaysave`. |
+| **Replay BeginPlaybackStage** | 0x00420840 | 538/540 bytes, 32 fields, 5 calls; 39 unlike overlaps, 2 missing | Seed load and input-delay tail. `--owner replay`. |
+| **ScreenEffect shake** | 0x004227A0 | 336/336 bytes, 20 fields, 8 calls; 26 unlike | ESI/EDI timer/owner lifetime. `--owner screen`. |
+| **Supervisor network service** | 0x00430AA0 | 1,627/1,633 bytes, 106 fields; 1,381 unlike overlaps, 6 missing | Waiting-block scheduling and queued frame packet. Use **`scripts/inspect-supervisor-service.py`** with its separately compiled `SupervisorNetwork.cpp` (the `--owner network` route tests other network/queue owners). |
+| **Effect AddedCallback** | 0x0040D1C0 | 51/51 bytes, 4 fields, 2 calls; 8 unlike | ANM manager/owner EDI/ESI scheduling; keep exact Create caller. `--owner effect`. |
 
-
-## Resume a bounded owner
+## Resume with a bounded build
 
 ```bash
-git status --short --branch
-git log -8 --oneline
+git status --short --branch       # inspect and resolve all dirty/untracked work
+git log -6 --oneline
 python3 -B scripts/verify-target.py
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
 
-# Recreate an exact unit's generated object, then compare its complete extent.
-nice -n 12 python3 -B scripts/build-match-unit.py --unit title-screen-music-room
-python3 -B scripts/compare-coff-function.py --unit title-screen-music-room --json
+# Complete nonexact owner inspection (builds only the relevant carrier):
+nice -n 12 python3 -B scripts/check-boss-frontiers.py --owner runecl --skip-exact-siblings
 
-# Select one unfinished owner and its complete diagnostic.
-nice -n 12 python3 -B scripts/check-boss-frontiers.py --owner enemy --skip-exact-siblings
+# For an already exact unit, rebuild its real compiler carrier and compare:
+nice -n 12 python3 -B scripts/build-match-unit.py --unit game-manager-gameplay-setup-thread
+python3 -B scripts/compare-coff-function.py --unit game-manager-gameplay-setup-thread --json
+
+# After editing a source or included .inl/.hpp, replay only affected exact owners:
+python3 -B scripts/replay-scoped-exact.py --changed-file src/GameManagerSetup.cpp --dry-run
+nice -n 12 python3 -B scripts/replay-scoped-exact.py --changed-file src/GameManagerSetup.cpp
+
+# Fast housekeeping/ledger/docs checks; not a substitute for source cold replay:
+python3 -B scripts/ci.py
 ```
 
-When a source/header changes, also replay its affected exact siblings and
-callees. Use `scripts/replay-scoped-exact.py --changed-file PATH --dry-run`
-to inspect the scope. See [scoped replay](TH09_SCOPED_EXACT_REPLAY.md).
-Do not use `--owner all` for routine iteration.
+`build/matching/` is a small generated object cache. It can be rebuilt with
+`build-match-unit.py`. Historical `build/gpt-web/` trial objects, PDBs and
+copied candidate sources were **deleted to save storage**; the maintained
+source, canonical manifests, tests and key conclusions in the knowledge base
+replace those outputs. New experiments may recreate their own scratch builds.
+Do not use `--owner all`, the all-unit cold replay or `ci.py --full` for
+routine work. Do not change VC7.1 flags to manufacture a match.
 
-## Local inputs and scratch
+## Next-agent priorities and protected inputs
 
-Keep `resources/th09.exe`, `.tools/` and the two saved projects under
-`.analysis/ghidra-direct/{1fd4b11bcd723dd1,243bffea8dcbe99a}/`.
-The shared tool/runtime configuration is described in [SHARED_TOOLS.md](SHARED_TOOLS.md).
-These private inputs do not travel with a Git clone.
+Start with **large bosses and small leaves together**. A high-leverage path is
+RunEcl opcode 4/155 or Enemy's 13 register bytes, alternating with
+SaveReplay's two bytes or Effect AddedCallback's eight. The collision owner
+needs an actual 33rd CFG block, not a padding or `goto` size trick.
+Previous semantic DWORD/byte-cursor fixes are committed; further equivalent
+arithmetic spellings often preserve the same residual. Historical failed
+forms and exact x86 evidence are in the relevant knowledge-base sections.
 
-Historical experiment outputs and local archives were removed under the
-operator's simplified retention policy. There is no pending source candidate
-or unresolved claim that requires an old compiler object/context. Rebuild
-selected units from maintained source and the pinned profiles. `build/` may
-be absent. Keep future scratch only while useful; record the conclusion and
-remove obsolete output without making another archive or cleanup report.
-
-## Routine checks
-
-Run `python3 -B scripts/ci.py` for the fast basic public checks (about one
-second locally). Tool changes also need relevant focused tests; source changes
-still need their complete affected original-bound comparison. The complete
-unit suite is available through `--full` and is optional, including for CI edits.
-
-The stale native-owner source snapshots from the previous full-suite failure
-were retired, the still-useful Enemy/Title probe fixtures were corrected, and
-the affected test modules pass. Complete PE/COFF comparators, match recipes and
-exact ledgers are unchanged.
+Preserve ignored `resources/th09.exe`, the pinned VC7.1/game-specific Wine
+prefix under `.tools/wine/`, analyzer state in `.analysis/ghidra-direct/`,
+shared tools and `_reference/` hypothesis source. `.analysis/gpt-web/`
+contains compact private probe **scripts** that may assist further exploration;
+old generated diagnostics were cleared. No push is implied by local commits;
+recheck branch state rather than trusting the previous session's ahead count.
+Use `gpt-web: <description>` for every substantive Git checkpoint.

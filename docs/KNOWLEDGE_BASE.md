@@ -1,8 +1,11 @@
 # TH09 useful findings
 
-This file keeps conclusions and useful failed approaches for the original
-Japanese TH09 v1.50a and pinned VC7.1 compiler. Current exactness comes from
-`config/matches.csv` and complete replay, not an old experiment result.
+This file keeps verified conclusions and useful failed approaches for the
+original Japanese TH09 v1.50a and pinned VC7.1 compiler. **Dated experimental
+sections are historical snapshots**; language such as "current candidate" or
+"remaining mismatch" inside them is not a live status claim. In particular,
+GameplaySetupThread is now **1,689/1,689 byte-exact**. Current exactness comes
+from `config/matches.csv` and complete replay, not an old experiment result.
 Use [the handoff](RE_HANDOFF.md) for the active owner table and
 [generated progress](PROGRESS.md) for totals. Git retains previous source and
 investigations; obsolete local outputs and archives are no longer retained.
@@ -988,86 +991,26 @@ function, not evidence for the still-open whole Windows i386 native product,
 linker closure or runtime semantics. The immediately following section
 records the now-superseded 1,682/1,692-byte diagnostic experiments.
 
-## 2026-11-10 GameplaySetupThread fixed-rate branch layout breakthrough
+## Historical GameplaySetupThread codegen probes (now resolved)
 
-`GameplaySetupThread @ 0x0041AF2D` has an independently SHA-attested
-**1,689-byte** original body, 413 instructions, 172 address operands,
-35 ordered calls and 78 CFG blocks. Its previous pinned `/Os` VC7.1 source
-had **1,682 bytes, 694 unlike overlapping bytes and seven missing bytes**.
-The original `g_GameManager.valueC8 = 22` fixed-rate publication is a
-seven-byte instruction with its DIR32 operand at owner offset **`+0x433`**;
-in the previous candidate that operand was incorrectly scheduled at `+0x524`.
-This was a control-flow-block placement problem, not an unknown global or an
-unreviewed relocation.
+Before exact closure, the `/Os` worker compiled to 1,682/1,689 physical
+bytes with 694 differing overlaps, later 1,692/1,689 with 170 differing
+overlaps and three extra bytes. Both candidate shapes preserved 172 bound
+field referents and 35 calls. The central issue was code-block ordering:
+mode-2/3 fixed-rate publication `valueC8 = 22` had been displaced from its
+original DIR32 operand at `+0x433`, and a mode-0 backward jump compiled as
+five-byte `E9 79 FF FF FF` instead of original short `EB 95` at `+0x062B`.
+Simple shared `goto` labels, helper extraction and conditional reshuffling
+either retained or worsened the full original-bound difference set. The
+**subsequent exact solution** uses source switch order `4,1,3,2,0` with
+mode-1's fixed-rate arm first; see the preceding complete closure section.
+The historical residual masks and 11-unit replay results are **superseded**.
 
-Source-cold TH09 experiments exhaustively varied natural difficulty-case
-order, each fixed-versus-round branch predicate, shared-publishing labels,
-early-exit forms and the explicit switch default. The accepted **natural**
-source leaves all fixed and round values unchanged. For difficulty 3/2 it
-handles game mode 2 with its original fixed-rate stores and an early `break`,
-then publishes the round-derived rate in the remaining fallthrough path.
-For difficulty 1 it instead tests `gameMode != 2` first, with the same two
-original bodies. An explicit empty default arm leaves other setup modes
-unchanged. Together these changes direct VC7.1's physical shared-branch
-scheduling toward the original, without assembler, padding, dummy clobbers,
-changed compiler flags or game-behavior patches.
+## Remaining ScreenEffect, network and Effect callback frontiers
 
-At that historical checkpoint, the **live source-compiled original-bound
-owner** measured **1,692 candidate bytes, 170 unlike overlaps, three extra candidate bytes**:
-**524 fewer unlike overlapping bytes** than the previous 694-difference
-frontier. Both have 413 instructions; the candidate keeps all 172 actual
-COFF relocation operands with their correct original destination multiset,
-35 original-ordered calls, 78 candidate/target CFG blocks and all eight
-reviewed native subsystem-creator interfaces. Crucially the fixed-rate
-`valueC8` DIR32 field is now at the original **`+0x433`**. This is still
-**not exact**: the physical length is three bytes too large, the complete
-branch graph differs, the ordered aligned operand identities score 170/172
-(previously 171/172) and the aligned instruction count is 409 (previously
-412). These narrower diagnostics are reported alongside, not hidden behind,
-the major physical mismatch reduction. The candidate retains the full
-original replay, Supervisor, GameManager and opposite-side call contracts.
-
-The original-bound 1692-byte diagnostic, its 212-byte bitmap of all 170
-observed unlike target-overlap offsets, source-specific frontier guard and
-two focused negative-test suites were updated together rather than changing
-old result files to manufacture a pass. The **official two-carrier**
-`replay-scoped-exact.py --changed-file src/GameManagerSetup.cpp` recompiled
-and fully compared **11/11 existing exact functions, 2,991 physical bytes,
-243 relocations**, all exact. The full nonexact worker also passes the
-updated `--owner gamemgr --skip-exact-siblings` original PE/COFF guard.
-No new exact unit, whole-product cold replay or Windows runtime closure is
-claimed. The precise three-byte length delta is now pinned to the **mode-zero
-backward jump at physical owner offset `+0x062B`**. The original PE encodes
-`EB 95` (two-byte short jump, signed displacement **-107**) to the round-rate
-`valueC8` writer at original offset `+0x05C2`. The current source compiler
-emits `E9 79 FF FF FF` (five-byte near jump, signed displacement **-135**)
-to its corresponding writer at candidate offset `+0x05A9`. Moving the
-mode-one fixed-rate branch ahead of its round-derived branch is what makes
-the jump target near enough for the original short encoding. The source
-currently still emits `JE` at `+0x058C` while the target uses `JNE`,
-reflecting this mode-one branch-block reversal. These facts were verified
-from complete original PE and bound COFF disassemblies, not guessed from
-source labels. Additional natural early-return, `goto` to switch exit,
-`do/while`, nested-`switch` and conditional-expression source compiles did
-not reduce the 170 complete-overlap differences without regressing earlier
-original-bound fields. The remaining issue is block scheduling, **not**
-missing instructions or an unbound 172nd relocation.
-
-Further work should restore the mode-one fixed branch before its round-rate
-block **without displacing** the already matched case-4/3/2 sequence and
-fixed-rate `+0x433` relocation. Never force `EB` or insert padding to
-manufacture a byte score; preserve natural VC7.1 source and the full owner.
-
-## Gameplay setup, ScreenEffect, network and Effect callback
-
-At that historical checkpoint GameplaySetupThread's `/Os` owner was
-1,692/1,689 bytes,
-172 fields and 170 differing overlaps plus three extra candidate bytes;
-its 35 ordered calls are unchanged. Fixed-mode difficulty 2/3 paths and
-round-derived paths now use an early-break source shape, bringing the C8=22
-field to the original `+0x433` (previously +0x524). The graph and length are
-still nonexact; see the newer breakthrough section above. Historical shared
-`goto`/helper attempts alone did not restore the full original branch shape.
+GameplaySetupThread is exact and is no longer part of this unfinished-owner
+group. The comparisons below describe still-nonexact functions, not the
+separate original-bound GameManager worker already closed above.
 
 ScreenEffect shake remains 336 bytes/20 fields/26 differences. The final phase
 extends endFrame by rawParameter1 + rawParameter2, and both the final guard and

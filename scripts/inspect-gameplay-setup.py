@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only complete gameplay setup replay; diagnostic only, no match credit."""
+"""Read-only full GameplaySetupThread PE/COFF diagnostic; canonical exactness is separate."""
 import argparse
 from collections import Counter
 import difflib

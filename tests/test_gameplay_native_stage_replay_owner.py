@@ -1,8 +1,8 @@
 """Native +0xD4 gameplay stage resource owner and authentic replay ABI.
 
-The complete original GameplaySetupThread remains nonexact, but all real
-Create/Release/Dispatch call targets and its physical source-cold frontier are
-checked independently alongside the 1230-byte GameManager OnUpdate exact owner.
+GameplaySetupThread is now canonically exact (1,689 bytes, 172 relocations).
+The authentic Create/Release/Dispatch contracts and its source-cold owner
+remain independently checked alongside the exact GameManager OnUpdate.
 """
 from pathlib import Path
 import tomllib
@@ -30,6 +30,7 @@ class NativeGameStageReplayOwner(unittest.TestCase):
             units=tomllib.load(f)['units']
         for name,size,fields in (
             ('game-manager-on-update',1230,87),
+            ('game-manager-gameplay-setup-thread',1689,172),
             ('game-manager-cleanup-gameplay-state',425,43),
             ('replay-manager-create',361,28),
             ('replay-manager-release',318,20),
