@@ -215,6 +215,13 @@ the canonical ledgers. Git holds prior source revisions.
   placeholder subscripting. The one source carrier cold-replayed the
   complete 154-byte leaf with all five original relocations; no new
   exact function was added.
+- **RunEcl now uses native byte addresses for five state-table families.**
+  ECL signed-word indices into subroutine slots, life callback thresholds/
+  handlers, child ECL blocks and secondary VMs all form original modulo-32
+  physical byte addresses. The Boss remote-slot clear reuses the native
+  remote pointer helper. Five affected profiles cold-pass 87 exact siblings
+  (30,583 bytes / 1,409 fields), with 20 independently PE/COFF-proven
+  private-label renames; RunEcl remains 15,564/598 with 30 old residuals.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

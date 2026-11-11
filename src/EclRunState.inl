@@ -109,6 +109,45 @@ typedef ::EnemyManagerCoreView ManagerStateView;
 typedef ::EnemyCoreTrailSampleView TrailSampleView;
 typedef ::EnemyCoreTrailVertexView TrailVertexView;
 typedef ::EnemyView EnemyStateView;
+
+// These five indices are signed native ECL wire words into the one genuine
+// EnemyView allocation. Retail i386 calculates base + index * element-size
+// modulo 2^32, without a C++ array-bound guard. Keep every original lookup
+// at its execution point; the child block source deliberately rereads it.
+inline short &SubroutineSlot(EnemyView *enemy, int index)
+{
+    return *reinterpret_cast<short *>(
+        reinterpret_cast<unsigned int>(&enemy->subroutineSlots2D30[0]) +
+        static_cast<unsigned int>(index) * sizeof(enemy->subroutineSlots2D30[0]));
+}
+
+inline int &LifeCallbackThreshold(EnemyView *enemy, int index)
+{
+    return *reinterpret_cast<int *>(
+        reinterpret_cast<unsigned int>(&enemy->lifeCallbackThresholds33B0[0]) +
+        static_cast<unsigned int>(index) * sizeof(enemy->lifeCallbackThresholds33B0[0]));
+}
+
+inline int &LifeCallbackSubId(EnemyView *enemy, int index)
+{
+    return *reinterpret_cast<int *>(
+        reinterpret_cast<unsigned int>(&enemy->lifeCallbackSubIds33C0[0]) +
+        static_cast<unsigned int>(index) * sizeof(enemy->lifeCallbackSubIds33C0[0]));
+}
+
+inline void * &ChildSlotRef(EnemyView *enemy, int index)
+{
+    return *reinterpret_cast<void * *>(
+        reinterpret_cast<unsigned int>(&enemy->childEclBlocks33D8[0]) +
+        static_cast<unsigned int>(index) * sizeof(enemy->childEclBlocks33D8[0]));
+}
+
+inline AnmVm &SecondaryVm(EnemyView *enemy, int index)
+{
+    return *reinterpret_cast<AnmVm *>(
+        reinterpret_cast<unsigned int>(&enemy->secondaryVms2AC[0]) +
+        static_cast<unsigned int>(index) * sizeof(enemy->secondaryVms2AC[0]));
+}
 typedef char Th09EclStateSideEffectAt0C[(offsetof(SideStateView, effectManager0C) == 0x0C) ? 1 : -1];
 typedef char Th09EclStateManagerSideAt320[(offsetof(ManagerStateView, sideState320) == 0x320) ? 1 : -1];
 typedef char Th09EclStateTrailSampleSizeIs1C[(sizeof(TrailSampleView) == 0x1C) ? 1 : -1];
@@ -284,8 +323,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         }
         else
         {
-            enemy->manager00->remoteSlots2AC388[
-                enemy->bossSlot336B] = 0;
+            Th09EclRunRemote::RemoteEnemy(enemy, enemy->bossSlot336B) = 0;
             enemy->primaryFlagBits337C.boss01 = 0;
             ::g_AsciiManager.SetBossMarkerInterrupt(
                 enemy->bossSlot336B,
@@ -330,7 +368,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     case TH09_ECL_OPCODE_SET_SUBROUTINE_SLOT:
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        enemy->subroutineSlots2D30[stateIndex] =
+        Th09EclRunState::SubroutineSlot(enemy, stateIndex) =
             static_cast<short>(stateInt);
         break;
 
@@ -355,11 +393,11 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     case TH09_ECL_OPCODE_SET_LIFE_CALLBACK:
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        enemy->lifeCallbackThresholds33B0[stateIndex] =
+        Th09EclRunState::LifeCallbackThreshold(enemy, stateIndex) =
             stateInt;
         stateCallback = Th09EclRunControl::ReadInt(enemy, instruction, 2);
         stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        enemy->lifeCallbackSubIds33C0[stateIndex] =
+        Th09EclRunState::LifeCallbackSubId(enemy, stateIndex) =
             stateCallback;
         break;
 
@@ -371,36 +409,36 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
 
     case TH09_ECL_OPCODE_SET_CHILD_ECL:
         stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (enemy->childEclBlocks33D8[stateIndex])
+        if (Th09EclRunState::ChildSlotRef(enemy, stateIndex))
         {
             g_ZunMemory.Free(
-                enemy->childEclBlocks33D8[stateIndex]);
+                Th09EclRunState::ChildSlotRef(enemy, stateIndex));
         }
-        enemy->childEclBlocks33D8[stateIndex] = 0;
+        Th09EclRunState::ChildSlotRef(enemy, stateIndex) = 0;
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
         if (stateInt < 0)
             break;
         childEcl = static_cast<Th09EclRunState::ChildEclBlock *>(
             g_ZunMemory.Alloc(sizeof(*childEcl), "ECLInt"));
-        enemy->childEclBlocks33D8[stateIndex] =
+        Th09EclRunState::ChildSlotRef(enemy, stateIndex) =
             childEcl;
         if (!childEcl)
             break;
         memset(childEcl, 0, sizeof(*childEcl));
         reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-            enemy->childEclBlocks33D8[stateIndex])->subroutineId00 =
+            Th09EclRunState::ChildSlotRef(enemy, stateIndex))->subroutineId00 =
                     Th09EclRunControl::ReadInt(enemy, instruction, 1);
         enemy->manager00->primaryEclManager000.InitializeSubroutine(
             &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-                enemy->childEclBlocks33D8[stateIndex])->
+                Th09EclRunState::ChildSlotRef(enemy, stateIndex))->
                     context08,
             static_cast<short>(
                 reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-                    enemy->childEclBlocks33D8[stateIndex])->subroutineId00));
+                    Th09EclRunState::ChildSlotRef(enemy, stateIndex))->subroutineId00));
         memcpy(
             reinterpret_cast<unsigned char *>(
                 &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-                    enemy->childEclBlocks33D8[stateIndex])->context08) +
+                    Th09EclRunState::ChildSlotRef(enemy, stateIndex))->context08) +
                 0x1C,
             reinterpret_cast<unsigned char *>(
                 enemy->activeContext2CE0) + 0x1C,
@@ -510,7 +548,7 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
 
     case TH09_ECL_OPCODE_INTERRUPT_SECONDARY_ANM:
         stateIndex = Th09EclRunControl::RawInt(instruction, 0);
-        enemy->secondaryVms2AC[stateIndex].
+        Th09EclRunState::SecondaryVm(enemy, stateIndex).
             pendingInterrupt = Th09EclRunState::RawShort(instruction, 4);
         break;
 

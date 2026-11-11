@@ -613,6 +613,37 @@ scoped exact cold replay of the **one actual EnemyEclLoad.cpp compiler
 carrier**. The RunEcl owner's 30 existing residual bytes and whole-native-
 product status were not changed or credited by this standalone leaf edit.
 
+## 2026-11-11 RunEcl native state and callback-slot DWORD addressing
+
+The maintained `RunEcl @ 0x004086C0` now uses native byte-address lvalue
+helpers for **five real EnemyView state-table families**: the 32-element
+signed-short subroutine table (+0x2D30), four-word life callback thresholds
+(+0x33B0), four-word life callback subroutine IDs (+0x33C0), four child ECL
+block pointers (+0x33D8), and two secondary ANM VM records (+0x02AC,
+stride 0x2A4). Their indices originate from signed script ECL wire words.
+Retail i386 uses modulo-32 `actual subobject base + index * element size`
+math; the old source used C++ array indexing that could become undefined
+on out-of-bounds signed inputs. Each helper preserves the actual native
+allocated field, every repeated live read, the original resolver and
+subroutine call ordering, exact primary/secondary manager ownership and
+all branch/error paths. Boss-slot remote clearing also now reuses the
+previously original-bound `Th09EclRunRemote::RemoteEnemy` pointer lvalue.
+No bounds checks, synthetic tables or alternate storage were introduced.
+
+Five independent slot-family probes and their complete combination plus
+boss-remote clearing compiled under the pinned VC7.1 EclManager profile.
+Every accepted candidate retained the **full 15,564-byte RunEcl**, all
+**598 original-bound relocation fields**, original switch/jump tables and
+precisely its existing **30 ordinary differences** (seven in opcode 4,
+23 in opcode 155). The installed combined source cold-replayed only its
+**five affected compiler carriers**: **87 exact functions, 30,583 complete
+physical bytes and 1,409 true original-bound relocations**. Twenty
+compiler-private `$L` names were rebound only after independent real
+same-section COFF definition, original PE operand destination and full
+byte-exact owner proof. The original-bound opcode-4 and opcode-155
+behavior audits still passed 90 and 3,072 cases respectively. No newly
+exact function or Windows i386 product closure is claimed.
+
 ## 2026-11-11 RunEcl laser controls native 32-pointer slot addresses
 
 The laser-control handlers of `RunEcl @ 0x004086C0` use the actual
