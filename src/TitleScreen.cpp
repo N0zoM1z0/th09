@@ -706,6 +706,9 @@ int TitleScreenView::MoveCursorFourWay(i32 count)
 }
 
 
+// The three character-unlock cursor loops use original i386 DWORD
+// arithmetic for direction advances and bound wrapping. Preserve signed
+// comparisons on the resulting bit pattern without signed C++ overflow.
 void *TitleScreenView::MoveCharacterCursor(i32 side, i32 direction, char *order, i32 count)
 {
     void *result = g_SupervisorNetworkState;
@@ -715,11 +718,11 @@ void *TitleScreenView::MoveCharacterCursor(i32 side, i32 direction, char *order,
         result = cursor;
         while (!g_TitleCharacterUnlocked[order[*cursor]])
         {
-            *cursor += direction;
+            *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(direction));
             if (*cursor < 0)
-                *cursor += count;
+                *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
             if (*cursor >= count)
-                *cursor -= count;
+                *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
         }
     }
     return result;
@@ -735,11 +738,11 @@ void *TitleScreenView::MoveCharacterCursorNormal(i32 side, i32 direction, char *
         result = cursor;
         while (!g_TitleCharacterUnlockedNormal[order[*cursor]])
         {
-            *cursor += direction;
+            *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(direction));
             if (*cursor < 0)
-                *cursor += count;
+                *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
             if (*cursor >= count)
-                *cursor -= count;
+                *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
         }
     }
     return result;
@@ -755,11 +758,11 @@ void *TitleScreenView::MoveCharacterCursorMode4(i32 side, i32 direction, char *o
         result = cursor;
         while (!g_TitleCharacterUnlockedMode4[order[*cursor]])
         {
-            *cursor += direction;
+            *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(direction));
             if (*cursor < 0)
-                *cursor += count;
+                *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
             if (*cursor >= count)
-                *cursor -= count;
+                *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
         }
     }
     return result;

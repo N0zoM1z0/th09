@@ -121,6 +121,12 @@ the canonical ledgers. Git holds prior source revisions.
   words, not out-of-bounds C++ pointer arithmetic. The one affected VC7.1
   carrier cold-passed 15 exact owners / 2,530 bytes / 100 fields;
   AddedCallback stays at its eight original differences.
+- **Three Title character-cursor helpers now preserve native DWORD wrap.**
+  Nine direction/bounds updates use explicit modulo-32 arithmetic with
+  unchanged signed comparisons. Two affected compiler carriers pass 41
+  exact siblings / 18,972 bytes / 953 fields; nine renamed internal labels
+  were independently PE/COFF-proven before ledger rebinding. Nonexact
+  Title OnUpdateResult retains its 484/485-byte residual.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

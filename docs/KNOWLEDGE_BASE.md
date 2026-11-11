@@ -1122,6 +1122,33 @@ zero-plus-memcpy seed locals did not close it. A wider SetSeed implementation
 can itself be byte-identical: callee bytes do not uniquely determine formal
 width. Keep the pre-runtime-read snapshot of side-0 value1E8.
 
+## 2026-11-11 Title character-unlock cursor native DWORDs
+
+The three independently exact character selection helpers
+`MoveCharacterCursor`, `MoveCharacterCursorNormal` and
+`MoveCharacterCursorMode4` store their index in a native signed DWORD.
+Their original i386 advance by the caller's direction and subsequent
+underflow/upper-bound correction execute modulo 2^32, with signed
+comparisons after each operation. The maintained `TitleScreen.cpp` now
+expressly performs those nine additions/subtractions as unsigned
+32-bit words before restoring the signed cursor result. The actual
+unlock table, order table, game/network predicate, input arguments,
+loop chronology, address ownership and return pointer are unchanged.
+
+Three isolated updates and the combined pinned VC7.1 probe independently
+reproduced **89/89 exact bytes with three original relocations** for each
+of the three genuine leaf functions. The installed source then cold-replayed
+only the two genuinely affected TitleScreen compiler carriers: **41 exact
+functions, 18,972 complete physical bytes and 953 original-bound fields**.
+Nine changed compiler-private `$L` labels in `OnUpdateStartMenu` were rebound
+only after independent same-section COFF definition, original PE operand,
+and full-owner byte proof for all 41 functions. The separate original-bound
+`OnUpdateResult` boss remains **484/485 bytes, 34 fields, nine calls, 218
+unlike overlapping bytes and one missing byte**. Fourteen natural source
+variants targeting that boss's 8-bit character load/sign extension either
+retained its prior single-byte gap or regressed; none was adopted.
+No new exact function or whole-game closure is claimed.
+
 ## 2026-11-11 Title result three native DWORD frame increments
 
 `TitleScreenView::OnUpdateResult @ 0x004266B5` exits the update switch by
