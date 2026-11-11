@@ -936,6 +936,24 @@ COFF definitions, target PE addresses/operands and all complete original
 owners before manifest rebinding. `OnUpdateResult` remains **NONEXACT**;
 no exact ledger entry was promoted and whole-game build remains open.
 
+## Title DrawReplayMenu native replay-name table slots
+
+In the still-nonexact TitleScreenView::DrawReplayMenu owner at 0x004234F6,
+the selected replay header and its stage frame headers supply the unsigned
+difficulty/mode/character IDs used to fetch character and mode text from
+global pointer tables. Retail reads the *real* four-byte pointer slot at
+base + unsigned(header ID) * sizeof(pointer), with no range check. The C++
+array indexing had an implicit in-bounds assumption; the source now uses a
+single lexical NativeReplayTextName view for the two difficulty reads,
+one mode read and two stage-character reads. The array layout and the
+13 ordered native calls are unchanged, with no new guard or cache.
+
+Individual and combined pinned VC7.1 /O1 /Ob1 probes preserved the
+entire 1,280-byte candidate against the original SHA-pinned Japanese PE:
+**57 reviewed relocation fields, 13 calls, 376 decoded instructions,
+72 CFG blocks and the same 29 remaining register-choice bytes**. This is
+native wire-address fidelity, not byte-exact status or a new ledger entry.
+
 ## 2026-11-11 Title DrawReplayMenu selected record and path native addresses
 
 The still-nonexact 1,280-byte TitleScreenView::DrawReplayMenu renders one
