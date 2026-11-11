@@ -174,9 +174,25 @@ int ScreenEffect::CalcArcadePulse(ScreenEffect *screenEffect)
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
+// The signed shake side index selects the original 0x38-byte side record.
+static inline AsciiGameManagerSideView &ScreenShakeSideAtNativeIndex(int side)
+{
+    return *reinterpret_cast<AsciiGameManagerSideView *>(
+        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
+        static_cast<unsigned int>(side) * sizeof(g_GameManager.sides[0]));
+}
+
+// Each original Supervisor camera/shake slot is a 0xF0-byte record.
+static inline SupervisorCtorArrayElement &ScreenShakeViewportAtNativeIndex(int side)
+{
+    return *reinterpret_cast<SupervisorCtorArrayElement *>(
+        reinterpret_cast<unsigned int>(&g_Supervisor.ctorArray078[0]) +
+        static_cast<unsigned int>(side) * sizeof(g_Supervisor.ctorArray078[0]));
+}
+
 int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
 {
-    if ((g_GameManager.sides[screenEffect->contextIndex].flags & 1u) != 0)
+    if ((ScreenShakeSideAtNativeIndex(screenEffect->contextIndex).flags & 1u) != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
 
     if ((g_GameManager.flags & 0x1800) != 0)
@@ -203,26 +219,26 @@ int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
     switch (g_ReplayRng.GetRandomU32InRange(3))
     {
     case 0:
-        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetX = 0.0f;
+        ScreenShakeViewportAtNativeIndex(screenEffect->contextIndex).frameOffsetX = 0.0f;
         break;
     case 1:
-        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetX = shakeAmount;
+        ScreenShakeViewportAtNativeIndex(screenEffect->contextIndex).frameOffsetX = shakeAmount;
         break;
     case 2:
-        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetX = -shakeAmount;
+        ScreenShakeViewportAtNativeIndex(screenEffect->contextIndex).frameOffsetX = -shakeAmount;
         break;
     }
 
     switch (g_ReplayRng.GetRandomU32InRange(3))
     {
     case 0:
-        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetY = 0.0f;
+        ScreenShakeViewportAtNativeIndex(screenEffect->contextIndex).frameOffsetY = 0.0f;
         break;
     case 1:
-        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetY = shakeAmount;
+        ScreenShakeViewportAtNativeIndex(screenEffect->contextIndex).frameOffsetY = shakeAmount;
         break;
     case 2:
-        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetY = -shakeAmount;
+        ScreenShakeViewportAtNativeIndex(screenEffect->contextIndex).frameOffsetY = -shakeAmount;
         break;
     }
 

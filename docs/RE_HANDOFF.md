@@ -33,6 +33,9 @@ Git retains earlier source revisions.
   records by native DWORD side strides. EffectManager's nine indexed
   template fields now use the real table's native 0x18-byte DWORD stride;
   its 15 exact owners (2,530 bytes / 100 fields) remain cold-verified.
+  ScreenEffect's shake side/camera indices now use native 0x38/0xF0-byte
+  strides; all 18 same-source exact owners (2,562 bytes / 164 fields) pass,
+  with nine verified VC7.1 private-label name rebindings in RegisterChain.
   The 1,323-byte Replay stage initializer and all 12 ReplayInput exact units
   (4,093 bytes / 232 fields) also remain verified.
   These patches preserved exact siblings but **did not** promote any of the twelve

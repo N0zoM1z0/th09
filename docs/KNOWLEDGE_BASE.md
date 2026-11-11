@@ -1436,6 +1436,32 @@ physical bytes and 93 relocation fields**. Both native network source-owner
 and queue-call contract tests passed. No whole-product cold replay or native
 build/semantics closure is claimed.
 
+## 2026-11-11 ScreenEffect CalcShake native side and camera words
+
+The exact `ScreenEffect::CalcShake @ 0x00422660` reads its live signed
+`contextIndex` against two different original storage owners:
+`g_GameManager.sides[0]` (a 0x38-byte side record) for the low flag and
+`g_Supervisor.ctorArray078[0]` (a 0xF0-byte camera/shake record) for all
+six X/Y writes across the random switch arms. The maintained source now
+uses two inline typed lvalue accessors on those real subobjects, scaling
+the signed index as an **unsigned 32-bit byte-address word**. This removes
+the ordinary C++ array-subscript bounds precondition without clamping a
+side, introducing parallel arrays, caching either value or changing the
+original RNG order.
+
+Independent side-only, viewport-only, combined lexical, and combined inline
+VC7.1 probes all reproduced the **complete 316/316-byte** original
+`CalcShake` owner with its **16 exact relocation fields**. The installed
+inline version passed the official source-scoped cold replay of all **18
+exact ScreenEffect owners / 2,562 physical bytes / 164 fields** across
+three genuine compiler profiles. Nine compiler-private `$L` labels in the
+unchanged 480-byte `RegisterChain` owner were renamed only after checking
+each actual same-section COFF definition, local offset, zero addend and
+unchanged original PE destination, including the owned switch-table tail.
+The separate nonexact 336-byte `CalcShakeEnvelope` still has its previous
+26 unlike bytes and 20 bound fields. This is native-source fidelity, not a
+new exact function or a completed game/runtime claim.
+
 ## 2026-11-11 ScreenEffect CalcShake native signed amplitude delta
 
 The exact `ScreenEffect::CalcShake @ 0x00422660` computes a floating-point
