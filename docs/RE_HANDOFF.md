@@ -75,6 +75,10 @@ Git retains earlier source revisions.
   ANM D3D capture now computes 17 surface, descriptor and file-slot accesses
   through authentic 0x04/0x14/0x120-byte native strides; all eight affected
   AnmManagerUtility owners (1,723 bytes / 49 fields) cold-replay exact.
+  Etama controller registration and sprite selection now address the real
+  0x38-byte GameManager sides and four live sprite-offset DWORD table entries;
+  three affected BulletManager carriers retain 18 exact functions (6,711
+  bytes / 259 fields), with 16 original-target-verified private labels.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

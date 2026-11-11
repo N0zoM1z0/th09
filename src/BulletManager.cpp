@@ -127,6 +127,24 @@ enum BulletAimMode
     BULLET_AIM_RANDOM = 8,
 };
 
+// Etama's playable sides use the actual 0x38-byte GameManager records.
+// An out-of-range signed selector still forms the original Win32 address.
+static inline BulletSideStateView &NativeEtamaGameSide(int index)
+{
+    return *reinterpret_cast<BulletSideStateView *>(
+        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
+        static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0]));
+}
+
+// Both retail sprite-offset tables contain native DWORD entries, indexed
+// independently from the live color/offset without an added bounds gate.
+static inline int NativeEtamaSpriteOffset(const int *table, int index)
+{
+    return *reinterpret_cast<const int *>(
+        reinterpret_cast<unsigned int>(table) +
+        static_cast<unsigned int>(index) * sizeof(int));
+}
+
 static AnmLoadedSprite *GetLoadedSprite(const AnmVm *vm)
 {
     return vm->loadedSprite;
@@ -149,13 +167,13 @@ void EtamaController::SelectBulletSprite(
         if (sprite->heightPx <= 16.0f)
         {
             this->bulletAnm->SetSprite(
-                dst, baseSprite + g_BulletSpriteOffsetSmall[offset]);
+                dst, baseSprite + NativeEtamaSpriteOffset(g_BulletSpriteOffsetSmall, offset));
             return;
         }
         else if (sprite->heightPx <= 32.0f)
         {
             this->bulletAnm->SetSprite(
-                dst, baseSprite + g_BulletSpriteOffsetMedium[offset]);
+                dst, baseSprite + NativeEtamaSpriteOffset(g_BulletSpriteOffsetMedium, offset));
             return;
         }
         else
@@ -506,14 +524,14 @@ Bullet *EtamaController::SpawnSingleBullet(
             this->bulletAnm->SetSprite(
                 &bullet->sprites.despawnVm,
                 despawnBaseSprite +
-                    g_BulletSpriteOffsetSmall[descriptor->color]);
+                    NativeEtamaSpriteOffset(g_BulletSpriteOffsetSmall, descriptor->color));
         }
         else if (bullet->sprites.bulletVm.loadedSprite->heightPx <= 32.0f)
         {
             this->bulletAnm->SetSprite(
                 &bullet->sprites.despawnVm,
                 despawnBaseSprite +
-                    g_BulletSpriteOffsetMedium[descriptor->color]);
+                    NativeEtamaSpriteOffset(g_BulletSpriteOffsetMedium, descriptor->color));
         }
         else
         {
@@ -952,9 +970,10 @@ EtamaController *EtamaController::Register(int sideIndex)
     controller = static_cast<EtamaController *>(g_ZunMemory.AddToRegistry(
         controller, sizeof(EtamaController), const_cast<char *>("EtamaCtrlInf")));
     controller->Initialize();
-    controller->sideState = &g_GameManager.sides[sideIndex];
+    controller->sideState = &NativeEtamaGameSide(sideIndex);
     controller->sideIndex = sideIndex;
-    controller->opponentSideState = &g_GameManager.sides[1 - sideIndex];
+    controller->opponentSideState = &NativeEtamaGameSide(
+        static_cast<int>(1u - static_cast<unsigned int>(sideIndex)));
 
     controller->calcChain = g_Chain.CreateElem(
         reinterpret_cast<ChainCallback>(EtamaController::OnUpdate));

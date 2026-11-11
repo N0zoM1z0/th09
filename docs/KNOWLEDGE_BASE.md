@@ -1191,6 +1191,30 @@ All three affected compiler carriers passed scoped cold replay:
 **8/8 exact, 1,020 complete physical bytes, 42 original relocation
 fields**. None of these were newly exact functions.
 
+## 2026-11-11 Etama native side and sprite-offset table selectors
+
+`EtamaController::Register` stores two pointers into the original
+`g_GameManager.sides` allocation, using the genuine `0x38`-byte side
+stride. Both the caller-supplied signed `sideIndex` and the retail
+opponent-side `1 - sideIndex` calculation now use native Win32 32-bit
+address/word arithmetic, rather than potentially out-of-range C++ array
+subscripting. `EtamaController::SelectBulletSprite` and
+`SpawnSingleBullet` also fetch four independently live color/offset
+entries through real small/medium sprite-offset DWORD tables. They use
+the original signed runtime color/offset, without clamping, shadow arrays,
+new calls or additional caching.
+
+Three isolated and combined pinned VC7.1 compiler profiles were built.
+The installed source passed the official three-carrier scoped cold replay:
+**18/18 exact owners, 6,711 complete physical bytes and 259 original-bound
+relocation fields**, including the 283-byte `Register`, 161-byte
+`SelectBulletSprite`, 203-byte primary bullet pattern and full 1,932-byte
+`SpawnSingleBullet`. The two large `OnUpdate`/`SpawnSingleBullet` switch
+owners had **16 compiler-private `$L` reference renamings**, all rebound
+only after verifying the real same-section COFF definitions and the
+unchanged original PE addresses, kinds and offsets. Existing exactness is
+preserved; no newly exact function or runtime/port claim is implied.
+
 ## Bullet transform installer leaves and AdvanceTransformProgram native indices
 
 The independent exact Bullet and BulletSpawnDescriptor InstallTransformRecord
