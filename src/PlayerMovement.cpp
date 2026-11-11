@@ -67,12 +67,13 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     if (player->header24.state84 == 0)
         return 0;
 
-    // This Player side indexes the real three-slot 0x8E-byte replay-input
-    // array for both movement direction and focus history. The compiler
-    // preserves the original 66 field/call identities with native indexing;
-    // an untyped byte-offset/reinterpret-cast view is unnecessary.
+    // The real three-slot 0x8E-byte replay-input array owns movement input
+    // and focus history. TH09 computes its input receiver from the original
+    // array base with a native DWORD-scaled side index, not another layout.
     const int inputSide = player->sideIndex;
-    ReplayInputState *input = &g_ReplayInputStates[inputSide];
+    ReplayInputState *input = reinterpret_cast<ReplayInputState *>(
+        reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
+        static_cast<unsigned int>(inputSide) * sizeof(g_ReplayInputStates[0]));
 
     if (input->IsHeld(0x50) == 0x50)
         player->movementDirection30358 = 5;
@@ -94,7 +95,12 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         player->movementDirection30358 = 0;
 
     int focused;
-    if (g_GameConfiguration->sideFocusMode[player->sideIndex] == 1)
+    // TH09 reads the configuration focus byte by native row-base plus
+    // side DWORD, rather than a C++ array subscript on a two-byte row.
+    const unsigned char *focusModes = g_GameConfiguration->sideFocusMode;
+    if (*reinterpret_cast<const unsigned char *>(
+            reinterpret_cast<unsigned int>(focusModes) +
+            static_cast<unsigned int>(player->sideIndex)) == 1)
         focused = g_ReplayInputStates[inputSide].auxiliary2A >= 8;
     else
         focused = input->IsHeld(4) != 0;

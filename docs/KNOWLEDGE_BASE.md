@@ -813,6 +813,33 @@ collision's new forward-goto, do/while and sentinel-loop tests likewise
 either retained its 849-byte/32-block candidate or broke the genuine ABI
 exit conditions; they remain private rejected probes.
 
+## 2026-11-11 Player movement native replay input and focus-mode addresses
+
+`PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` is still a
+nonexact, but full **1,900-byte** reconstructed boss. The original i386
+forms its input receiver by multiplying the signed Player side DWORD by
+the genuine **0x8E-byte ReplayInputState** stride and adding that offset
+to the real `g_ReplayInputStates[0]` allocation base. Its focus-mode test
+also reads the actual `GameConfiguration::sideFocusMode[0]` byte-row
+base plus the native 32-bit Player side index. The maintained source now
+expresses both original DWORD byte addresses instead of relying on C++
+array indexing of a possibly invalid side value. The two real backing
+allocations, input calls, branch conditions, focus history, option
+updates and Player side snapshot remain unchanged.
+
+Seven individual focus-row source-cold variants and five input+focus
+combinations were compiled with the pinned original Player profile.
+Natural pointer/base forms kept the complete **1,900/1,900 physical
+bytes**, **1,835-byte code**, both original jump tables, **66 original
+operand fields, 23 ordered calls** and its prior **122 ordinary residual
+bytes**. Replacing the independently reloaded focus-history field with
+an input-pointer alias changed genuine PE operand coverage, so that
+candidate was rejected. The installed combined source passed the
+original-bound complete-owner inspector and the public `--owner movement`
+boss guard. No canonical exact unit belongs to this standalone Player
+source carrier, so no unrelated project-wide or exact-unit cold replay
+was run. No newly exact function or native product closure is claimed.
+
 ## Player movement, charge and collision
 
 Movement remains 1,900 bytes/66 fields/122 differences. Horizontal and vertical

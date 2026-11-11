@@ -166,6 +166,11 @@ the canonical ledgers. Git holds prior source revisions.
   39 overlaps and two missing bytes; both affected ReplayInput profiles
   cold-pass 12 exact functions / 4,093 bytes / 232 fields. SaveReplay
   remains 1,238/1,238 with the same two register-byte residuals.
+- **Player movement uses native ReplayInput/focus-mode byte addresses.**
+  Its real 0x8E-stride input receiver and configuration focus-byte read
+  now use 32-bit base+side arithmetic. Original-bound full-owner checks
+  retain 1,900 bytes, 66 fields, 23 calls, both tables and precisely 122
+  remaining differences. No other compiler carrier was affected.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
