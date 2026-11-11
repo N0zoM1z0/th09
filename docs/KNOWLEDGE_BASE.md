@@ -880,6 +880,32 @@ physical bytes / 167 relocation fields**. The function was already
 exact: this improves native wire semantics without changing exact-function
 credit.
 
+## ASCII and Front enemy marker leaf native slot pointers
+
+The two AsciiManager Boss Marker VM leaves SetBossMarkerInterrupt
+(0x004067D0) and SetBossMarkerPosition (0x004067F0) use the
+real four-entry AnmVm array at +0x17C4. The separate
+SetBossMarkerState leaf (0x0040F890) writes one of four 32-bit state
+words at +0x2254. Their signed slot selectors are now scaled modulo
+2^32 from those actual allocations, with 0x2A4-byte VM records and
+four-byte state words, rather than assuming C++ in-bounds subscripts.
+
+The FrontFactoryConstructView::SetSideEnemyIndicatorPosition
+(0x00416080) uses two actual marker VMs at +0x123F4 and the
+GameManager's real pair of 0x38-byte side records. Its signed
+sideIndex is now used for the original native byte addresses for
+all six marker writes and the opposing Player X lookup, keeping
+the existing transparent/offscreen branch, playfield threshold and
+original Draw/Transform calls. No extra range checks, aliases to
+other allocations, new branches or changed write order were added.
+
+Pinned VC7.1 /O2 /Ob1 isolated probes verified every owner after
+native addressing. The maintained source cold-replayed all
+three affected compiler carriers: **four exact function bodies,
+307 complete physical bytes and 11 original relocation fields**.
+This recovers authentic native leaf semantics; all four were
+already exact before the change.
+
 ## ExAttack Type18/24 update native GameManager side and state counter
 
 The full ExAttackUpdateCallbackType18_24 original physical owner

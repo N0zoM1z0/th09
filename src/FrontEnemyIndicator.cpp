@@ -15,6 +15,22 @@ typedef char FrontEnemyIndicatorNativeVmFields[
 extern AsciiGameManagerView g_GameManager;
 extern Supervisor g_Supervisor;
 
+// Retail uses 0x2A4-byte native VM slots in the real FrontFactory
+// allocation and two 0x38-byte side records in the real GameManager.
+static __forceinline AnmVm &NativeFrontIndicatorVm(
+    FrontFactoryConstructView *owner, int side)
+{
+    return *reinterpret_cast<AnmVm *>(
+        reinterpret_cast<unsigned char *>(&owner->markerVms123F4[0]) +
+        static_cast<unsigned int>(side) * sizeof(owner->markerVms123F4[0]));
+}
+static __forceinline AsciiGameManagerSideView &NativeFrontIndicatorSide(int side)
+{
+    return *reinterpret_cast<AsciiGameManagerSideView *>(
+        reinterpret_cast<unsigned char *>(&g_GameManager.sides[0]) +
+        static_cast<unsigned int>(side) * sizeof(g_GameManager.sides[0]));
+}
+
 void FrontFactoryConstructView::SetSideEnemyIndicatorPosition(
     int sideIndex, const Float3 *enemyPosition)
 {
@@ -22,24 +38,24 @@ void FrontFactoryConstructView::SetSideEnemyIndicatorPosition(
 
     if (enemyPosition->x < -112.0f || enemyPosition->x > 112.0f)
     {
-        this->markerVms123F4[sideIndex].color1Script.a = 0;
+        NativeFrontIndicatorVm(this, sideIndex).color1Script.a = 0;
         return;
     }
 
     float distance =
-        g_GameManager.sides[sideIndex].player->position.x -
+        NativeFrontIndicatorSide(sideIndex).player->position.x -
         enemyPosition->x;
     if (distance < 0.0f)
         distance = -distance;
 
     if (distance < 64.0f)
-        this->markerVms123F4[sideIndex].color1Script.a =
+        NativeFrontIndicatorVm(this, sideIndex).color1Script.a =
             static_cast<unsigned char>(distance) * 3 + 64;
     else
-        this->markerVms123F4[sideIndex].color1Script.a = 0xFF;
+        NativeFrontIndicatorVm(this, sideIndex).color1Script.a = 0xFF;
 
-    this->markerVms123F4[sideIndex].pos.x =
+    NativeFrontIndicatorVm(this, sideIndex).pos.x =
         g_GameManager.TransformPopupX(enemyPosition->x);
-    this->markerVms123F4[sideIndex].pos.y = 472.0f;
-    this->markerVms123F4[sideIndex].pos.z = 0.0f;
+    NativeFrontIndicatorVm(this, sideIndex).pos.y = 472.0f;
+    NativeFrontIndicatorVm(this, sideIndex).pos.z = 0.0f;
 }
