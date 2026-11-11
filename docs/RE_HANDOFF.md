@@ -238,6 +238,10 @@ the canonical ledgers. Git holds prior source revisions.
   193 complete original bytes and four relocation fields, with two
   source-local cold replays, while replacing potentially out-of-bounds
   signed pointer subscripts with modulo-32 physical address arithmetic.
+- **AnmLoaded SetSprite now uses the original native sprite stride.**
+  The independently exact 189-byte SetSprite forms the signed-index
+  `0x44`-byte physical sprite address using native DWORD arithmetic.
+  Its single compiler carrier cold-passes all 189 bytes/four relocations.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

@@ -45,7 +45,11 @@ int AnmLoaded::SetSprite(AnmVm *vm, int spriteIndex)
 
     target->activeSpriteIndex = (short)spriteIndex;
     target->anmFile = this;
-    target->loadedSprite = &self->sprites0C[spriteIndex];
+    // The real ANM sprite storage is a 0x44-byte record array; retail i386
+    // indexes the signed sprite id as a modulo-32 physical byte address.
+    target->loadedSprite = reinterpret_cast<AnmLoadedSprite *>(
+        reinterpret_cast<unsigned int>(self->sprites0C) +
+        static_cast<unsigned int>(spriteIndex) * sizeof(self->sprites0C[0]));
     target->spriteSize.x = target->loadedSprite->widthPx;
     target->spriteSize.y = target->loadedSprite->heightPx;
 

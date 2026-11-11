@@ -616,6 +616,24 @@ verified. The opcode-4 timer and opcode-155 flag semantic audits still
 pass 90 and 3,072 cases respectively. No new exactness credit or native
 product/runtime closure follows.
 
+## 2026-11-11 ANM SetSprite native 0x44-byte sprite address
+
+The original exact `AnmLoaded::SetSprite @ 0x00436AC0` loads a dynamic
+sprite record by forming `spriteIndex * 0x44 + sprites0C` as native i386
+DWORD arithmetic. Its maintained source previously formed a possibly
+out-of-range signed C++ `&sprites0C[spriteIndex]` pointer. The source
+now computes the 32-bit unsigned byte address using the real
+`AnmLoadedSprite` stride and unchanged loaded ANM allocation before
+publishing `AnmVm::loadedSprite`. The original VM data owner, error
+conditions, x87 scaling order and both actual matrix initialization
+calls are retained without adding an index check.
+
+Four independent pinned VC7.1 source forms each reproduced **all 189
+original bytes and all four original-bound relocations**. The installed
+source passed the only affected AnmLoadedSetSprite compiler carrier's
+canonical scoped cold replay. The function was already exact; no exact
+ledger row was promoted and the native whole product remains open.
+
 ## 2026-11-11 ANM script and sprite native indexed addresses
 
 The exact ANM helpers `AnmLoaded::SetAndExecuteScriptIdx` (41 bytes),
