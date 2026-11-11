@@ -258,6 +258,12 @@ the canonical ledgers. Git holds prior source revisions.
   form original modulo-32 byte addresses, preserving distinct 0x04 and
   0x14 element strides. Its sole affected VC7.1 compiler carrier
   cold-passes all eight exact function owners (1,723 bytes, 49 fields).
+- **Enemy OnUpdate reads its genuine global schedule as native bytes.**
+  Both high-bit and advancing low-seven-bit reads now use original 32-bit
+  address arithmetic while preserving the live u8 post-increment. The
+  3,900-byte boss retains 97 relocations, 69 calls and 13 residual bytes.
+  Two EclManager profiles pass 83 exact owners / 29,856 bytes / 1,389
+  fields after independently PE/COFF-proving two private label names.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

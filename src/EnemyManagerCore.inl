@@ -322,11 +322,18 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         else if (manager->normalEnemyCount2AC3B0 == 0 ||
                  (manager->sideTimer2AC3C8 > 0))
         {
+            // Native TH09 schedule bytes are read from the real global
+            // table by unsigned 32-bit address arithmetic. The second
+            // original read still post-increments the live u8 schedule index.
             manager->scheduleHighBit2AC3F8 =
-                g_EnemyCoreSchedule[manager->scheduleIndex2AC3D4] >> 7;
+                (*reinterpret_cast<const unsigned char *>(
+                    reinterpret_cast<unsigned int>(&g_EnemyCoreSchedule[0]) +
+                    static_cast<unsigned int>(manager->scheduleIndex2AC3D4))) >> 7;
             manager->scheduledSubroutine2AC400 =
                 manager->primaryEclManager000.GetSubroutine(
-                    g_EnemyCoreSchedule[manager->scheduleIndex2AC3D4++] & 0x7F);
+                    (*reinterpret_cast<const unsigned char *>(
+                    reinterpret_cast<unsigned int>(&g_EnemyCoreSchedule[0]) +
+                    static_cast<unsigned int>(manager->scheduleIndex2AC3D4++))) & 0x7F);
             manager->scheduleRuntime2AC3E0.timer00 = 0;
         }
     }

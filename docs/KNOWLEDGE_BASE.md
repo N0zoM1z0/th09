@@ -469,6 +469,35 @@ then passed two independent official scoped cold replays, one for each
 native compiler carrier, not a whole-game build. No new exact-function
 count, runtime semantics claim or unverified product closure is implied.
 
+## 2026-11-11 Enemy OnUpdate native global schedule byte addressing
+
+The large `EnemyManagerView::OnUpdate @ 0x00410730` reads a byte from the
+real original `g_EnemyCoreSchedule` table to publish its high category
+bit, then rereads its low seven bits for the authentic ECL subroutine
+lookup while post-incrementing the real **unsigned-byte**
+`scheduleIndex2AC3D4`. The retail i386 makes both table addresses from
+the original byte-array base and the native DWORD representation of the
+live schedule index. The maintained source previously used two C++
+array subscripts on a table with an unknown compiled array bound; the
+two accesses now form original 32-bit byte addresses explicitly. The
+second post-increment still occurs at the read site, and the existing
+0x80 split, ECL resource owner, timer initialization, gates and call
+order remain unchanged. No new bounds check or replacement schedule
+allocation has been introduced.
+
+The high-bit-only, advancing read-only and combined pinned VC7.1
+source-cold experiments each retained the original-bound **3,900-byte
+Enemy OnUpdate**, **97 target-bound relocation fields, 69 ordered calls,
+170 CFG blocks**, the authentic switch table and exactly the previous
+**13 ordinary differing bytes**. The installed combined source passed
+strict scoped cold replay of the **two genuine EclManager compiler
+carriers**: **83 exact owners / 29,856 complete original bytes /
+1,389 real relocation fields**. Two VC7.1 compiler-private `$L` labels
+were rebound only after real same-section COFF definitions, original PE
+operand-target checks and independent full byte equality proof for all
+83 exact functions. The nonexact Enemy boss is not promoted, and the
+native complete-product build remains open.
+
 ## 2026-11-11 Player collision box-append native 0x30-byte records
 
 The exact `PlayerCollisionQueryStateView::AppendBoxRecord @ 0x0040F8E0`
