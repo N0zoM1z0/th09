@@ -79,6 +79,9 @@ Git retains earlier source revisions.
   0x38-byte GameManager sides and four live sprite-offset DWORD table entries;
   three affected BulletManager carriers retain 18 exact functions (6,711
   bytes / 259 fields), with 16 original-target-verified private labels.
+  `GetAnm` and `SpriteHasTexture` now address the same real 0x120-byte ANM
+  resource slots by native DWORD stride; 12 exact functions across three
+  compiler carriers (603 bytes / 26 fields) remain verified.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

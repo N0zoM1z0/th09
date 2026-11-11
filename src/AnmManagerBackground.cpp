@@ -35,5 +35,9 @@ void AnmManager::Draw2DAndFlush(AnmVm *vm)
 AnmLoaded *AnmManager::GetAnm(int anmIdx)
 {
     AnmManagerReadView *manager = reinterpret_cast<AnmManagerReadView *>(this);
-    return &manager->slots[anmIdx].loaded;
+    // The exact resource loader addresses these same real 0x120-byte
+    // file records from manager +0x24, not a shadow ANM instance.
+    return &reinterpret_cast<AnmManagerReadSlotView *>(
+        reinterpret_cast<unsigned int>(&manager->slots[0]) +
+        static_cast<unsigned int>(anmIdx) * sizeof(manager->slots[0]))->loaded;
 }

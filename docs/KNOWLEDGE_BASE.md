@@ -96,6 +96,30 @@ There was no full cold replay and no additional exact function credit; the
 result is native D3D capture/source-memory fidelity rather than product or
 runtime completion.
 
+## 2026-11-11 native ANM file-slot lookup consumers
+
+`AnmManager::GetAnm` and `AnmManager::SpriteHasTexture` now share the
+same genuine Win32 0x120-byte file-slot stride as the exact resource loader.
+The former addresses the real loaded resource at manager +0x24 through
+`uint32(anmIdx)`; the latter reads the live texture pointer at manager
++0x38 through the signed sprite-owned ANM index. Crucially, the runtime's
+lexical `anmFiles[1]` is a *one-slot view* over the larger original file
+allocation: indexing it as a C++ one-element array would impose a bound
+missing from the original i386 address arithmetic. The maintained source
+forms both lvalues from their real bases plus `uint32(index) * 0x120`.
+It preserves the original null and negative-index tests, repeated live
+reads, callee identities and physical resource ownership, with no new
+validation, cache, or storage object.
+
+Five isolated VC7.1 inline/lexical variants matched all **47 bytes of
+SpriteHasTexture** and all **20 bytes of GetAnm**. The installed sources
+passed focused cold replays for their two actual translation units and
+three compiler carriers: **12/12 previously exact functions, 603 complete
+physical bytes and 26 original-bound relocation fields**. Seven
+`DrawPlayerBullet` compiler-private `$L` references were rebound only
+after confirming real same-section COFF definitions and original PE
+jump targets. No new exact owner or native-game/runtime credit is claimed.
+
 ## 2026-11-11 native ANM sprite, texture, script and file-slot addressing
 
 The original ANM resource-loading path owns real dynamically allocated
