@@ -201,6 +201,14 @@ the canonical ledgers. Git holds prior source revisions.
   GameManager +0xCC saturation helper now performs native DWORD subtraction
   before the original signed nonnegative test. Both independent compiler
   carriers passed their own scoped cold replay, with zero relocations.
+- **RunEcl laser-control slots now use native DWORD pointer addressing.**
+  The genuine 32-pointer `EnemyView::laserSlots32D8` is indexed by live
+  signed ECL words using original modulo-32 byte offsets. The distinct
+  laser-creation selected-slot write was not altered because its physical
+  input-shape audit rejected that candidate. Five carriers cold-pass 87
+  exact functions / 30,583 bytes / 1,409 fields; the 15,564-byte RunEcl
+  keeps exactly its former 30 opcode-4/155 residual bytes. Twenty private
+  compiler labels were separately original-PE/COFF-proven before rebinding.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

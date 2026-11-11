@@ -91,6 +91,19 @@ inline EtamaController *Controller(EnemyView *enemy)
     return enemy->manager00->sideState320->etama08;
 }
 
+// The original i386 forms the physical pointer slot from a signed ECL word
+// and the actual EnemyView 32-pointer table; no new index guard is inserted.
+// Target-observed laser control opcodes index the genuine thirty-two
+// EnemyView laser pointers as native 32-bit byte offsets. Preserve the
+// selected-slot creation spelling separately: its target-bound callsite
+// identity has a distinct, still-unresolved comparison contract.
+inline Laser *&LaserSlot(EnemyView *enemy, int slot)
+{
+    return *reinterpret_cast<Laser **>(
+        reinterpret_cast<unsigned int>(&enemy->laserSlots32D8[0]) +
+        static_cast<unsigned int>(slot) * sizeof(enemy->laserSlots32D8[0]));
+}
+
 inline Th09EclContextView *ActiveContext(EnemyView *enemy)
 {
     return enemy->activeContext2CE0;
@@ -338,54 +351,52 @@ static void DispatchShotInstruction(
 
     case TH09_ECL_OPCODE_ROTATE_LASER:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (enemy->laserSlots32D8[laserIndex] != 0)
+        if (Th09EclRunBullet::LaserSlot(enemy, laserIndex) != 0)
         {
-            enemy->laserSlots32D8[laserIndex]->angle =
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->angle =
                 Th09EclRunControl::AddNormalizeAngle(
-                    Th09EclRunBullet::View(enemy)->
-                        laserSlots32D8[laserIndex]->angle,
+                    Th09EclRunBullet::LaserSlot(enemy, laserIndex)->angle,
                     Th09EclRunControl::ReadFloat(enemy, instruction, 1));
         }
         break;
 
     case TH09_ECL_OPCODE_SET_LASER_ANGLE:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (enemy->laserSlots32D8[laserIndex] != 0)
+        if (Th09EclRunBullet::LaserSlot(enemy, laserIndex) != 0)
         {
-            enemy->laserSlots32D8[laserIndex]->angle =
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->angle =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         }
         break;
 
     case TH09_ECL_OPCODE_AIM_LASER_AT_PLAYER:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (enemy->laserSlots32D8[laserIndex] != 0)
+        if (Th09EclRunBullet::LaserSlot(enemy, laserIndex) != 0)
         {
             float angleOffset =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-            enemy->laserSlots32D8[laserIndex]->angle =
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->angle =
                 reinterpret_cast<PlayerAngleView *>(
                     enemy->manager00->sideState320->playerLifecycle04)->AngleToPoint(
                         reinterpret_cast<PlayerAngleFloat3View *>(
-                            &Th09EclRunBullet::View(enemy)->
-                                laserSlots32D8[laserIndex]->position)) +
+                            &Th09EclRunBullet::LaserSlot(enemy, laserIndex)->position)) +
                 angleOffset;
         }
         break;
 
     case TH09_ECL_OPCODE_SET_LASER_POSITION:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (enemy->laserSlots32D8[laserIndex] != 0)
+        if (Th09EclRunBullet::LaserSlot(enemy, laserIndex) != 0)
         {
-            enemy->laserSlots32D8[laserIndex]->
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->
                 position.x =
                     Th09EclRunControl::ReadFloat(enemy, instruction, 1) +
                     Th09EclRunBullet::View(enemy)->worldPosition2DD4.x;
-            enemy->laserSlots32D8[laserIndex]->
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->
                 position.y =
                     Th09EclRunControl::ReadFloat(enemy, instruction, 2) +
                     Th09EclRunBullet::View(enemy)->worldPosition2DD4.y;
-            enemy->laserSlots32D8[laserIndex]->
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->
                 position.z =
                     Th09EclRunControl::ReadFloat(enemy, instruction, 3) +
                     Th09EclRunBullet::View(enemy)->worldPosition2DD4.z;
@@ -394,9 +405,9 @@ static void DispatchShotInstruction(
 
     case TH09_ECL_OPCODE_SET_LASER_START_CAP_HIDDEN:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (enemy->laserSlots32D8[laserIndex] != 0)
+        if (Th09EclRunBullet::LaserSlot(enemy, laserIndex) != 0)
         {
-            enemy->laserSlots32D8[laserIndex]->
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->
                 hideCapDuringStartup =
                     static_cast<unsigned char>(
                         Th09EclRunControl::ReadInt(enemy, instruction, 1));
@@ -405,7 +416,7 @@ static void DispatchShotInstruction(
 
     case TH09_ECL_OPCODE_TEST_LASER_ACTIVE:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        laser = enemy->laserSlots32D8[laserIndex];
+        laser = Th09EclRunBullet::LaserSlot(enemy, laserIndex);
         if (laser != 0 && laser->inUse != 0)
             Th09EclRunBullet::ConditionResult(enemy) = 1;
         else
@@ -414,26 +425,26 @@ static void DispatchShotInstruction(
 
     case TH09_ECL_OPCODE_CANCEL_LASER:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        laser = enemy->laserSlots32D8[laserIndex];
+        laser = Th09EclRunBullet::LaserSlot(enemy, laserIndex);
         if (laser != 0 && laser->inUse != 0 && laser->state < 2)
         {
-            enemy->laserSlots32D8[laserIndex]->state = 2;
-            enemy->laserSlots32D8[laserIndex]->timer = 0;
-            laser = enemy->laserSlots32D8[laserIndex];
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->state = 2;
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->timer = 0;
+            laser = Th09EclRunBullet::LaserSlot(enemy, laserIndex);
             laser->width = laser->currentWidth;
         }
         break;
 
     case TH09_ECL_OPCODE_CLEAR_LASER_SLOTS:
         for (int i = 0; i < 0x20; ++i)
-            enemy->laserSlots32D8[i] = 0;
+            Th09EclRunBullet::LaserSlot(enemy, i) = 0;
         break;
 
     case TH09_ECL_OPCODE_SET_LASER_START_LENGTH:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (enemy->laserSlots32D8[laserIndex] != 0)
+        if (Th09EclRunBullet::LaserSlot(enemy, laserIndex) != 0)
         {
-            enemy->laserSlots32D8[laserIndex]->
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->
                 startLength =
                     Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         }
@@ -441,12 +452,12 @@ static void DispatchShotInstruction(
 
     case TH09_ECL_OPCODE_SET_LASER_OFFSETS:
         laserIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        if (enemy->laserSlots32D8[laserIndex] != 0)
+        if (Th09EclRunBullet::LaserSlot(enemy, laserIndex) != 0)
         {
-            enemy->laserSlots32D8[laserIndex]->
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->
                 startOffset =
                     Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-            enemy->laserSlots32D8[laserIndex]->
+            Th09EclRunBullet::LaserSlot(enemy, laserIndex)->
                 endOffset =
                     Th09EclRunControl::ReadFloat(enemy, instruction, 2);
         }

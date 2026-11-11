@@ -588,6 +588,37 @@ verified. The opcode-4 timer and opcode-155 flag semantic audits still
 pass 90 and 3,072 cases respectively. No new exactness credit or native
 product/runtime closure follows.
 
+## 2026-11-11 RunEcl laser controls native 32-pointer slot addresses
+
+The laser-control handlers of `RunEcl @ 0x004086C0` use the actual
+`EnemyView::laserSlots32D8[32]` allocation, one 0x80-byte table of native
+pointers at enemy offset +0x32D8. Their ECL wire-selected `laserIndex` is a
+signed 32-bit word; retail i386 calculates the physical slot address with
+modulo-32 `base + index * sizeof(Laser *)` arithmetic, not a C++ subscript
+with an implicit declared-array bound. The maintained source now exposes
+`Th09EclRunBullet::LaserSlot` for the 32-pointer table and retains each
+native lookup at its original point in the laser rotate, aim, position,
+cap, active-test, cancel, length, offsets and clear handlers. It does not
+cache or omit repeated slot reads, change the real Enemy owner, alter
+parameter resolution or introduce bounds/failure conditions.
+
+The *new laser creation* write through `selectedLaserSlot3358` is left as
+its existing source expression: changing that separate store caused an
+independent target-bound callsite/physical owner audit to reject the
+candidate's original input shape, so it is explicitly not adopted.
+
+Isolated helper, index, view, clear and combined pinned VC7.1 probes
+reproduced the entire **15,564-byte RunEcl**, all **598 original-bound
+fields**, both original jump tables, and only the original **30 ordinary
+differences** (seven in opcode 4, 23 in opcode 155). The installed source
+then passed the affected-only real-compiler cold replay: **five compiler
+carriers, 87 exact functions, 30,583 physical bytes and 1,409 relocation
+fields**. Twenty private `$L` label names were rebound only after proving
+the same-section actual COFF definitions, original PE destinations and
+full byte equality of all 87 exact owners. The original-bound opcode 4
+and 155 behavior audits continue passing 90 and 3,072 cases respectively.
+No new exact function or whole-product closure is claimed.
+
 ## 2026-11-11 RunEcl remote enemy slot native DWORD addressing
 
 `RunEcl @ 0x004086C0` uses the actual nine pointer slots at
