@@ -8,6 +8,15 @@ struct BulletPlayerView
 
 extern int g_LaserColorSpriteOffsets[];
 
+// The original sprite offset table contains 32-bit native words selected
+// by the descriptor color. Retail has no C++ array-bounds condition.
+static __forceinline int NativeLaserColorOffset(int color)
+{
+    return *reinterpret_cast<const int *>(
+        reinterpret_cast<unsigned int>(&g_LaserColorSpriteOffsets[0]) +
+        static_cast<unsigned int>(color) * sizeof(g_LaserColorSpriteOffsets[0]));
+}
+
 Laser *EtamaController::SpawnLaserPattern(BulletSpawnDescriptor *descriptor)
 {
     Laser *laser = &this->lasers[0];
@@ -36,7 +45,7 @@ Laser *EtamaController::SpawnLaserPattern(BulletSpawnDescriptor *descriptor)
         this->bulletAnm->
             InitializeAndSetSprite(
                 &laser->startCapVm,
-                g_LaserColorSpriteOffsets[descriptor->color] + 146);
+                NativeLaserColorOffset(descriptor->color) + 146);
 
         laser->startCapVm.flagsWord =
             (laser->startCapVm.flagsWord & ~0x20u) | 0x10u;

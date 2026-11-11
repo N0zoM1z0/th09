@@ -35,8 +35,13 @@ int PreloadPlayerAnmResources()
             continue;
 
         int pathIndex = side->mode30 != 0 ? 5 : 1;
+        // The native source selector scales by six 32-bit path pointers;
+        // retail does not impose a C++ bound on the shot-type word.
         if (anmManager->PreloadAnm(
-                slot, g_PlayerResourcePaths[side->shotType20][pathIndex]) == 0)
+                slot, (*reinterpret_cast<const char *const *>(
+        reinterpret_cast<unsigned int>(&g_PlayerResourcePaths[0][0]) +
+        static_cast<unsigned int>(side->shotType20) * sizeof(g_PlayerResourcePaths[0]) +
+        static_cast<unsigned int>(pathIndex) * sizeof(g_PlayerResourcePaths[0][0])))) == 0)
             return -1;
 
         anmManager = g_AnmManager;

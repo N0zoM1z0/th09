@@ -968,6 +968,38 @@ all seven original-bound relocation fields. Other exact functions from
 ExAttackController.cpp require affected-carrier replay before acceptance.
 This corrects native semantics, not the exact-function count.
 
+## CardAttack/Player preload/Laser leaf native table addresses
+
+The six independently exact CardAttackBeginPl00/01Type0/1/2 callbacks
+use the genuine GameManager.sides[0] array to find the side's Enemy
+manager. Their signed sideIndex00 is now interpreted as a native 32-bit
+word scaled by the original 0x38-byte side record stride without a
+C++ array-bound gate; the original six SpawnFromCardAttack calls,
+allocation paths, and target relocations stay unchanged.
+
+PreloadPlayerAnmResources selects a path from the real global six-column
+ANM resource path table by the signed live shotType20 DWORD and the
+mode-selected pathIndex (1 or 5). The source now addresses that actual
+table at base + uint32(shotType)*24 + uint32(pathIndex)*4 instead of
+using two bounded array subscripts. Each original receiver refresh,
+lookup, allocation and error path remains in place.
+
+The exact EtamaController::SpawnLaserPattern owner reads the integer
+color sprite offset from the true g_LaserColorSpriteOffsets table by
+the signed descriptor color. A native base + uint32(color)*4 lookup
+replaces the bounded C++ subscript without changing any laser spawn,
+ANM or Player aim handling.
+
+Isolated pinned VC7.1 native-address and source-helper probes retained
+all **eight existing exact owners**: CardAttack callbacks 456 bytes
+and 30 relocation fields, Player resource preload 114 bytes / six
+fields, Etama laser spawn 450 bytes / six fields. The callable
+resource-path helper changed four unrelated bytes and was rejected;
+the lexical native address expression preserved the original copy.
+All three affected compiler carriers passed scoped cold replay:
+**8/8 exact, 1,020 complete physical bytes, 42 original relocation
+fields**. None of these were newly exact functions.
+
 ## Bullet transform installer leaves and AdvanceTransformProgram native indices
 
 The independent exact Bullet and BulletSpawnDescriptor InstallTransformRecord
