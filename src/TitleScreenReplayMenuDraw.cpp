@@ -42,6 +42,23 @@ extern const char *g_ReplayCharacterNames[];
 extern const char *g_ReplayStoryModeName[];
 extern const char *g_ReplayExtraModeName[];
 
+// The original 50-entry Title replay arrays use genuine 32-bit native
+// record and path byte strides for the signed selected-replay word.
+static __forceinline const ReplayDataView &NativeMenuReplayRecord(
+    const ReplayDataView *records, int index)
+{
+    return *reinterpret_cast<const ReplayDataView *>(
+        reinterpret_cast<unsigned int>(records) +
+        static_cast<unsigned int>(index) * sizeof(ReplayDataView));
+}
+static __forceinline const char *NativeMenuReplayPath(
+    const char *bytes, int index)
+{
+    return reinterpret_cast<const char *>(
+        reinterpret_cast<unsigned int>(bytes) +
+        static_cast<unsigned int>(index) * sizeof(((TitleScreenView *)0)->replayPaths[0]));
+}
+
 int TitleScreenView::DrawReplayMenu()
 {
     D3DXVECTOR3 position;
@@ -91,7 +108,7 @@ int TitleScreenView::DrawReplayMenu()
     }
     else if (currentScreenState == 2)
     {
-        const ReplayDataView &replayValue = replays[selectedReplay];
+        const ReplayDataView &replayValue = NativeMenuReplayRecord(&replays[0], selectedReplay);
         i32 selected = selectedReplay;
 
         position.x = selected < TitleReplayNativeSlots::RowsPerColumn ? 32.0f : 352.0f;
@@ -121,10 +138,10 @@ int TitleScreenView::DrawReplayMenu()
         {
             g_AsciiManager.AddFormatText(
                 &textPosition, "%c%c%c%c  %8s %8s",
-                replayValue.magic ? replayPaths[selected][15] : 'u',
-                replayValue.magic ? replayPaths[selected][16] : 's',
-                replayValue.magic ? replayPaths[selected][17] : 'e',
-                replayValue.magic ? replayPaths[selected][18] : 'r',
+                replayValue.magic ? NativeMenuReplayPath(&replayPaths[0][0], selected)[15] : 'u',
+                replayValue.magic ? NativeMenuReplayPath(&replayPaths[0][0], selected)[16] : 's',
+                replayValue.magic ? NativeMenuReplayPath(&replayPaths[0][0], selected)[17] : 'e',
+                replayValue.magic ? NativeMenuReplayPath(&replayPaths[0][0], selected)[18] : 'r',
                 replayValue.magic ? replayValue.playerName : "--------",
                 replayValue.magic ? replayValue.playTime : "--/--/--");
         }
@@ -132,7 +149,7 @@ int TitleScreenView::DrawReplayMenu()
         position.x = 221.0f;
         position.y = 240.0f;
 
-        if (replays[selected].value1E4 == 0)
+        if (NativeMenuReplayRecord(&replays[0], selected).value1E4 == 0)
         {
             sprintf(
                 buffer, "%s  -%s-",
@@ -141,13 +158,13 @@ int TitleScreenView::DrawReplayMenu()
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
-        else if (replays[selected].value1E4 == 1)
+        else if (NativeMenuReplayRecord(&replays[0], selected).value1E4 == 1)
         {
             sprintf(buffer, "%s", g_ReplayExtraModeName[0]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
-        else if (replays[selected].value1E4 == 2)
+        else if (NativeMenuReplayRecord(&replays[0], selected).value1E4 == 2)
         {
             sprintf(
                 buffer, "%s  -%s-",

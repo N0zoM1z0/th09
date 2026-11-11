@@ -1966,6 +1966,34 @@ fields; they did not reproduce retail `mov cl` plus `movsx edi,cl` and were
 not installed. The register-lifetime problem remains separate from this
 native arithmetic correction.
 
+## 2026-11-11 Title DrawReplayMenu selected record and path native addresses
+
+The still-nonexact 1,280-byte TitleScreenView::DrawReplayMenu renders one
+runtime-selected replay from the real TitleScreen allocation: 50 native
+0x1EC-byte ReplayDataView records beginning at +0x68E4 and 50 native
+0x200-byte replay-path rows beginning at +0x028C. The signed selectedReplay
+word and its separately maintained selected display index are converted to
+native 32-bit byte offsets for both the selected replay reference and the
+three repeated type tests, plus the four character-name path bytes. Two
+natural inline lvalue/pointer accessors preserve the distinct physical
+record/path bases, original separate reads, text calls, SDK Float3 math,
+selection states, and the bounds of the unrelated 50-row display loop.
+No selected-index validation, cached replay reference or second allocation
+was introduced.
+
+Eight source-cold indexed physical-address variants and three inline-helper
+forms were compiled with the pinned VC7.1 Title profile. The selected-only
+and inline forms retained **all 1,280 candidate bytes, 57 original-bound
+fields, 13 ordered calls, 72 original CFG blocks and precisely the
+existing 29 ordinary register-byte differences**. A different cached
+selected-record reference failed the complete physical-extent audit and
+was rejected. The installed two-inline-helper source passed both the
+full-original-bound standalone owner inspector and the official
+result-specific replay-menu boss guard. This standalone nonexact source
+carrier has no canonical exact siblings; no unrelated cold replay was run.
+The selected record owner remains NONEXACT and the Windows i386 product
+is still unclosed.
+
 ## 2026-11-10 Title replay selection native displayed-index DWORD
 
 `TitleScreenView::DrawReplayMenu @ 0x004234F6` formats the selected replay

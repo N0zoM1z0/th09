@@ -302,6 +302,11 @@ the canonical ledgers. Git holds prior source revisions.
   native physical strides. Five affected compiler profiles cold-pass 21
   exact owners / 5,391 bytes / 288 fields; eleven private labels
   were independently PE/COFF-proven before rebinding.
+- **Title DrawReplayMenu now uses native selected replay and path addresses.**
+  The real 50 records of 0x1EC bytes and 50 paths of 0x200 bytes use
+  original modulo-32 selected index strides. Its standalone complete
+  boss check retains 1,280 bytes, 57 relocations, 13 ordered calls,
+  72 CFG blocks and the prior 29 unlike bytes; no exact credit claimed.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
