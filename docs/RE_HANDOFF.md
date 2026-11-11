@@ -94,6 +94,11 @@ Git retains earlier source revisions.
   Front's 553-byte exact `InitializeResultBonus` now uses native
   0x38-byte GameManager side addresses for 12 live Player/result reads,
   including final AddScore (553 bytes / 27 relocation fields).
+  Background stage camera interpolation now uses real 0x04-byte
+  duration/mode and 0x0C-byte ZunTimer slot strides for ten live reads
+  and writes; its 2,652-byte stage-script boss and four exact siblings
+  remain cold-verified (3,231 complete bytes / 160 relocation fields)
+  with 55 original-target-verified compiler-private label references.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

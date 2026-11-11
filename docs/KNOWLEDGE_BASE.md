@@ -195,6 +195,32 @@ not an integer array; an experimental arithmetic rewrite failed its real
 operator ABI and was not installed. This improves native script-pointer
 semantics but does not grant new exact owners or whole-game runtime proof.
 
+## 2026-11-11 native Background stage interpolation record indices
+
+The original `BackgroundStageView` owns three interpolation arrays:
+`interpolationDurationBF4[5]` at +0xBF4 (4-byte entries),
+`interpolationTimersC08[5]` at +0xC08 (the canonical 0x0C-byte
+`ZunTimer` records) and `interpolationModesC44[5]` at +0xC44
+(4-byte entries). `InterpolateBackgroundCameraVector` reads and writes
+**ten independent lvalues** selected by its live signed `index`, in
+addition to receiving the original four camera-vector inputs.
+The maintained code now calculates each access from its actual array
+base plus `uint32(index) * sizeof(native record)` in an in-place lexical
+macro; there is no helper ABI, alternate timer class, added range gate,
+reordered timer increment, changed easing mode or cached read.
+
+Four independent and combined pinned VC7.1 `/Ob0` source probes proved
+**2,652/2,652 complete bytes of BackgroundRunStageScriptPhase**
+(including its owned tables/tails and 133 original-bound relocations)
+and **448/448 bytes of InterpolateBackgroundCameraVector** (23 fields).
+The installed lexical version cold-replayed the one affected compiler
+carrier, passing **5/5 exact functions, 3,231 complete bytes and 160
+relocation fields**. The optimizer's 55 changed private `$L` reference
+spellings were rebound only after independently verifying each actual
+same-section COFF definition, relocation identity and original PE jump
+target. Existing exactness was preserved; no new exact owner or native
+runtime-product closure is implied.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

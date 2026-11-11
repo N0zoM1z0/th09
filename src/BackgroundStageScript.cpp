@@ -172,6 +172,13 @@ float __stdcall CubicHermiteInterpolateScalar(
            endTangentWeight * endTangent;
 }
 
+// A lexical view of the three native Background interpolation arrays.
+// Preserve the original call/slot lvalues under the /Ob0 owner profile.
+#define TH09_BG_NATIVE_SLOT(array, elementType, index) \
+    (*reinterpret_cast<elementType *>( \
+        reinterpret_cast<unsigned int>(&(array)[0]) + \
+        static_cast<unsigned int>(index) * sizeof((array)[0])))
+
 static void InterpolateBackgroundCameraVector(
     BackgroundStageView *background,
     int index,
@@ -183,22 +190,22 @@ static void InterpolateBackgroundCameraVector(
 {
     float time;
 
-    if (background->interpolationTimersC08[index] <
-        background->interpolationDurationBF4[index])
+    if (TH09_BG_NATIVE_SLOT(background->interpolationTimersC08, ZunTimer, index) <
+        TH09_BG_NATIVE_SLOT(background->interpolationDurationBF4, int, index))
     {
-        background->interpolationTimersC08[index]++;
-        time = (float)background->interpolationTimersC08[index] /
-               background->interpolationDurationBF4[index];
+        TH09_BG_NATIVE_SLOT(background->interpolationTimersC08, ZunTimer, index)++;
+        time = (float)TH09_BG_NATIVE_SLOT(background->interpolationTimersC08, ZunTimer, index) /
+               TH09_BG_NATIVE_SLOT(background->interpolationDurationBF4, int, index);
     }
     else
     {
-        background->interpolationTimersC08[index] =
-            background->interpolationDurationBF4[index];
+        TH09_BG_NATIVE_SLOT(background->interpolationTimersC08, ZunTimer, index) =
+            TH09_BG_NATIVE_SLOT(background->interpolationDurationBF4, int, index);
         time = 1.0f;
-        background->interpolationDurationBF4[index] = 0;
+        TH09_BG_NATIVE_SLOT(background->interpolationDurationBF4, int, index) = 0;
     }
 
-    switch (background->interpolationModesC44[index])
+    switch (TH09_BG_NATIVE_SLOT(background->interpolationModesC44, int, index))
     {
     case 1:
         time = 1.0f - time;
@@ -223,7 +230,7 @@ static void InterpolateBackgroundCameraVector(
         break;
     }
 
-    if (background->interpolationModesC44[index] != 7)
+    if (TH09_BG_NATIVE_SLOT(background->interpolationModesC44, int, index) != 7)
     {
         *out = *end - *start;
         *out = (*out * time) + *start;
@@ -238,6 +245,8 @@ static void InterpolateBackgroundCameraVector(
             start->z, end->z, startTangent->z, endTangent->z, time);
     }
 }
+
+#undef TH09_BG_NATIVE_SLOT
 
 void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
 {
