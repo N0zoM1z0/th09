@@ -956,6 +956,31 @@ bytes / 232 relocation fields**. The separately original-bound 1,238-byte
 two differing register bytes `+0xB7/+0xBB`. These are meaningful native
 wire-address semantics, not newly exact owners or whole-product closure.
 
+## Replay SaveReplay native name-table indexes
+
+The still-nonexact ReplayManagerView::SaveReplay (0x00420C60) formats
+replay metadata using the signed difficulty, mode and side-character
+indices from live GameManager words. Retail addresses the real
+g_ReplayDifficultyNames / g_ReplayModeNames / g_ReplayCharacterNames
+pointer arrays by 32-bit base + uint32(index)*4. Ordinary C++ table
+subscripting imposes a bounded-array precondition that was not present
+in the original Win32 lookup. The maintained source now uses one
+lexical native DWORD slot expression for five reads at their original
+execution points, retaining separate side-0/side-1 inputs, format-call
+order and original table identities. A callable inline accessor altered
+VC7.1 register scheduling; the lexical form did not add a new call,
+guard, array or temporary cache.
+
+Direct native-address probes and the combined lexical form were
+compiled with pinned VC7.1. They preserve the **full 1,238-byte
+original-owned SaveReplay extent, 53 original-bound relocation fields,
+23 ordered calls, 49 CFG blocks and precisely the previous two
+different register bytes at +0xB7/+0xBB**. The function remains
+NONEXACT. The installed source passed the two existing ReplayInput
+compiler carriers: **12 previously exact functions / 4,093 full
+original bytes / 232 actual relocation fields**; BeginPlaybackStage
+still has its existing 39 unlike bytes in 538/540 candidate bytes.
+
 ## Replay SaveReplay and BeginPlaybackStage
 
 SaveReplay is 1,238 bytes/53 fields/23 calls, with only +0xB7/+0xBB differing.

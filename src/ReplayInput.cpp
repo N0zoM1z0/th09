@@ -808,6 +808,13 @@ static char *AppendReplayFormat(char *buffer, const char *format, ...)
     return buffer + strlen(buffer);
 }
 
+// Lexical native DWORD pointer-table lookup: callable accessors change the
+// original VC7.1 register lifetime in this nearly exact serializer.
+#define TH09_REPLAY_SAVE_TEXT(table, index) \
+    (*reinterpret_cast<const char *const *>( \
+        reinterpret_cast<unsigned int>(&(table)[0]) + \
+        static_cast<unsigned int>(index) * sizeof((table)[0])))
+
 int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *replayPath, const char *replayName)
 {
     if (replayManager == NULL || replayPath == NULL)
@@ -928,23 +935,23 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     char *infoCursor = infoBuffer;
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoPlayerNameFormat, replayName);
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoPlayTimeFormat, g_ReplayPlayTimeText);
-    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoDifficultyFormat, g_ReplayDifficultyNames[g_GameManager.difficulty]);
+    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoDifficultyFormat, TH09_REPLAY_SAVE_TEXT(g_ReplayDifficultyNames, g_GameManager.difficulty));
     int mode = g_GameManager.gameMode;
     if (mode == 2)
         // Retail adds to a native DWORD before indexing the replay mode names.
         mode = static_cast<int>(
             static_cast<unsigned int>(g_GameManager.replayMode114) + 2u);
-    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoModeFormat, g_ReplayModeNames[mode]);
+    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoModeFormat, TH09_REPLAY_SAVE_TEXT(g_ReplayModeNames, mode));
     if (!g_GameManager.IsGameMode2())
     {
         infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoCharacterFormat,
-            g_ReplayCharacterNames[g_GameManager.sides[0].character20]);
+            TH09_REPLAY_SAVE_TEXT(g_ReplayCharacterNames, g_GameManager.sides[0].character20));
     }
     else
     {
         infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoVersusCharactersFormat,
-            g_ReplayCharacterNames[g_GameManager.sides[0].character20],
-            g_ReplayCharacterNames[g_GameManager.sides[1].character20]);
+            TH09_REPLAY_SAVE_TEXT(g_ReplayCharacterNames, g_GameManager.sides[0].character20),
+            TH09_REPLAY_SAVE_TEXT(g_ReplayCharacterNames, g_GameManager.sides[1].character20));
     }
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoInitialHealthFormat,
         g_GameManager.value378 * 0.5f, g_GameManager.value37C * 0.5f);
@@ -1022,6 +1029,8 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     return 0;
 }
 
+
+#undef TH09_REPLAY_SAVE_TEXT
 
 ReplayInputState::ReplayInputState()
 {
