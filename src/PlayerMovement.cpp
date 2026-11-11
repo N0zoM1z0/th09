@@ -58,6 +58,16 @@ typedef char PlayerMovementPlayfieldHeightAt36C[
 extern int g_PlayerFocusEffectIds[];
 extern AnmManager *g_AnmManager;
 
+// The sixteen native Player position-history entries are 0x0C-byte records.
+// Use the same Win32 DWORD stride as the original history shift/copy.
+static inline PlayerConstructedVector3View &NativeMovementHistorySlot(
+    PlayerLifecycleView *player, int index)
+{
+    return *reinterpret_cast<PlayerConstructedVector3View *>(
+        reinterpret_cast<unsigned int>(&player->positions1BA0[0]) +
+        static_cast<unsigned int>(index) * sizeof(player->positions1BA0[0]));
+}
+
 int PlayerLifecycleView::UpdateMovementAndOptions()
 {
     PlayerLifecycleView *player = this;
@@ -357,7 +367,10 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
                               sizeof(player->positions1BA0[0]) - 1
     };
     PlayerOptionStateCtorView *option = player->optionStates;
-    for (int optionCount = OptionCount; optionCount != 0; --optionCount, ++option)
+    // Advance through the true 0x2F4-byte native option records.
+    for (int optionCount = OptionCount; optionCount != 0; --optionCount,
+         option = reinterpret_cast<PlayerOptionStateCtorView *>(
+             reinterpret_cast<unsigned int>(option) + sizeof(*option)))
     {
         if (option->updateCallback2EC != NULL)
         {
@@ -371,8 +384,9 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     if (verticalSpeed != 0.0f || horizontalSpeed != 0.0f)
     {
         for (int historyIndex = PositionHistoryLast; historyIndex > 0; --historyIndex)
-            player->positions1BA0[historyIndex] =
-                player->positions1BA0[historyIndex - 1];
+            NativeMovementHistorySlot(player, historyIndex) =
+                NativeMovementHistorySlot(
+                    player, static_cast<int>(static_cast<unsigned int>(historyIndex) - 1u));
         player->positions1BA0[0] =
             *reinterpret_cast<PlayerConstructedVector3View *>(&player->position1B88);
     }

@@ -53,7 +53,10 @@ Git retains earlier source revisions.
   Title owners (18,972 bytes / 953 fields) remain verified. Seven
   score-name table lvalues in two Title update owners now share real
   0x44C/0xDC/0x2C native bank/row/record strides; those 41 exact Title
-  functions still pass their two-carrier scoped cold replay.
+  functions still pass their two-carrier scoped cold replay. The standalone
+  Player movement boss now advances its real `0x2F4`-byte option records and
+  `0x0C`-byte position-history slots through native DWORD addresses; its
+  full 1,900-byte, 66-field owner guard still reports just 122 differences.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

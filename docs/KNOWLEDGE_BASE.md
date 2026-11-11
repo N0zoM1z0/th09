@@ -1129,6 +1129,30 @@ comparison retains the previous 122 different bytes and the same original
 field identities. It is a native wire-access correction, not new
 byte-exact function credit.
 
+## 2026-11-11 Player movement native option/history record addresses
+
+`PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` steps through
+four real option records at `Player+0x1CEC`, each `0x2F4` bytes, then shifts
+the sixteen actual `Player+0x1BA0` position history records, each `0x0C`
+bytes. The maintained pointer increment now forms an unsigned i386 DWORD
+`option address + sizeof(option record)`; the history reads and writes use
+one inline lvalue from the authentic history array base plus
+`uint32(index) * sizeof(history record)`. Each read/write stays at the
+original site; the original finite counts, call order, callbacks and
+history-copy predicate are unchanged. This records native address transport
+without inventing a second allocation, boundary check or helper function.
+
+Three isolated/combined pinned VC7.1 source probes matched the complete
+**1,900-byte** maintained movement candidate against the original-bound
+physical owner, including both original eight-entry switch tables and
+**66 relocation fields / 23 ordered calls**, with precisely the former
+**122 ordinary register/transport differences**. A separate cached history
+pointer trial regressed to 1,896 bytes / 191 differences and was rejected.
+The installed source passed the targeted `--owner movement
+--skip-exact-siblings` full-owner guard; this standalone nonexact TU has no
+existing exact siblings to cold replay. No movement exactness credit or
+whole-product/runtime completion is implied.
+
 ## Player movement, charge and collision
 
 The still-nonexact 1,900-byte Player movement owner reads the focus-effect
