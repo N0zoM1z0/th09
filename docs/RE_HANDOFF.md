@@ -139,6 +139,12 @@ the canonical ledgers. Git holds prior source revisions.
   calls and 218 overlapping differences. Its two affected compiler
   profiles cold-pass 41 exact siblings / 18,972 bytes / 953 fields;
   nine renumbered private labels were independently PE/COFF-proven.
+- **ScreenEffect CalcShake uses native DWORD amplitude subtraction.**
+  Its original 316-byte body/16 fields remain exact after restoring signed
+  32-bit subtraction semantics. Three affected profiles cold-pass 18
+  exact owners / 2,562 bytes / 164 fields; nine private labels were
+  independently PE/COFF-proven before rebinding. CalcShakeEnvelope's
+  separate 336-byte boss remains nonexact by 26 bytes.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

@@ -190,9 +190,13 @@ int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
     if (screenEffect->timer >= duration)
         return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
 
+    // The native i386 amplitude delta wraps as a 32-bit word before its
+    // signed result enters the original float shake calculation.
     float shakeAmount =
         (float)screenEffect->timer *
-            (screenEffect->rawParameter1 - screenEffect->rawParameter0) /
+            static_cast<int>(
+                static_cast<unsigned int>(screenEffect->rawParameter1) -
+                static_cast<unsigned int>(screenEffect->rawParameter0)) /
             duration +
         screenEffect->rawParameter0;
 

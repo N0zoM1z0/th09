@@ -1387,6 +1387,32 @@ physical bytes and 93 relocation fields**. Both native network source-owner
 and queue-call contract tests passed. No whole-product cold replay or native
 build/semantics closure is claimed.
 
+## 2026-11-11 ScreenEffect CalcShake native signed amplitude delta
+
+The exact `ScreenEffect::CalcShake @ 0x00422660` computes a floating-point
+shake envelope from two signed effect parameters. Retail VC7.1 first
+subtracts the original `rawParameter0` from `rawParameter1` using native
+i386 32-bit integer arithmetic and then converts the **signed result**
+for the existing floating-point calculation. The maintained C++ formerly
+used a potentially overflowing signed subtraction. Its source now
+subtracts the two unsigned DWORDs, restoring the 32-bit signed result
+before multiplication, while keeping the original timer, RNG branches,
+float order, side writes and removal conditions unchanged.
+
+Two independent natural-word source variants compiled to the complete
+**316-byte exact owner with 16 original-bound relocation fields**.
+A variant introducing a separate new signed local changed the owner and
+was rejected. The installed source cold-replayed the **three genuinely
+affected ScreenEffect compiler carriers**: **18 exact functions / 2,562
+physical bytes / 164 relocation fields**. Nine renumbered VC7.1 private
+`$L` labels in the exact `RegisterChain` owner were accepted only after
+independent original PE operands and same-section actual COFF definitions
+proved the same addresses and all eighteen complete physical owners were
+byte-exact. The separate nonexact **336-byte CalcShakeEnvelope** retained
+20 fields, eight calls, its complete control graph and exactly the prior
+26 ordinary differences. This is source-level native fidelity, not new
+exact-function credit or a complete-product claim.
+
 ## 2026-11-11 ScreenEffect alpha packing and arcade pulse native DWORDs
 
 `ScreenEffect::CalcArcadePulse` decrements a signed repetition counter at
