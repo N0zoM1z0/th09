@@ -133,6 +133,12 @@ the canonical ledgers. Git holds prior source revisions.
   were rebound only after complete PE/COFF address and byte proof.
   OnUpdateResult remains 484/485 nonexact, DrawReplayMenu remains 29
   register-byte differences. See the 2026-11-11 knowledge note.
+- **Title OnUpdateResult now uses native unlock-table byte addresses.**
+  Both character-unlocked rows use original 32-bit row-base+cursor byte
+  accesses. The nonexact owner retains 484/485 bytes, 34 fields, nine
+  calls and 218 overlapping differences. Its two affected compiler
+  profiles cold-pass 41 exact siblings / 18,972 bytes / 953 fields;
+  nine renumbered private labels were independently PE/COFF-proven.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

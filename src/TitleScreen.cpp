@@ -2380,8 +2380,16 @@ int TitleScreenView::OnUpdateResult()
         i32 direction = MoveCursorHorizontal(14);
         if (direction != 0)
         {
-            while (!g_PlayStatsRecord.characterUnlocked[1][keyboardSelection] &&
-                   !g_PlayStatsRecord.characterUnlocked[2][keyboardSelection])
+            // Retail reads both unlock bytes at native row-base + signed
+            // selection DWORD addresses, not via a bounded C++ array index.
+            while (!*reinterpret_cast<const u8 *>(
+                       reinterpret_cast<unsigned int>(
+                           &g_PlayStatsRecord.characterUnlocked[1][0]) +
+                       static_cast<unsigned int>(keyboardSelection)) &&
+                   !*reinterpret_cast<const u8 *>(
+                       reinterpret_cast<unsigned int>(
+                           &g_PlayStatsRecord.characterUnlocked[2][0]) +
+                       static_cast<unsigned int>(keyboardSelection)))
             {
                 keyboardSelection = static_cast<int>(
                     static_cast<unsigned int>(keyboardSelection) +

@@ -1122,6 +1122,31 @@ zero-plus-memcpy seed locals did not close it. A wider SetSeed implementation
 can itself be byte-identical: callee bytes do not uniquely determine formal
 width. Keep the pre-runtime-read snapshot of side-0 value1E8.
 
+## 2026-11-11 Title OnUpdateResult native unlock-table row addresses
+
+Inside the still-open `TitleScreenView::OnUpdateResult @ 0x004266B5`,
+the original Japanese TH09 i386 code reads the two character-unlock
+bytes through native 32-bit **row base + signed cursor word** addresses.
+The maintained source formerly subscripts `characterUnlocked[1/2]`
+with that signed index; the current expressions instead form the actual
+byte address from `&g_PlayStatsRecord.characterUnlocked[1/2][0]` and the
+unsigned 32-bit index, then read the same byte. No index clamping, loop
+bound, unlock predicate, sound/input behavior, or different backing array
+was introduced. This retains the original physical access semantics even
+when an extreme selected DWORD would be outside one C++ array subobject.
+
+Primary-row-only, secondary-row-only and combined pinned VC7.1 probes each
+kept the complete **484-byte candidate against the 485-byte original**,
+**34 reviewed fields, nine calls, identical direct graph, 218 unlike
+overlapping bytes and one absent byte**. The installed combined source
+cold-replayed exactly the two affected compiler carriers: **41 still-exact
+functions, 18,972 complete physical bytes and 953 actual original-bound
+relocations**. Nine compiler-private `$L` spellings in the exact
+`OnUpdateStartMenu` were independently checked against real same-section
+COFF definitions, target PE addresses/operands and all complete original
+owners before manifest rebinding. `OnUpdateResult` remains **NONEXACT**;
+no exact ledger entry was promoted and whole-game build remains open.
+
 ## 2026-11-11 Title menu/focus cursor native DWORD arithmetic
 
 Five more independently exact Title cursor helpers now express their
