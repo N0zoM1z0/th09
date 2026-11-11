@@ -1450,6 +1450,33 @@ three affected compiler carriers: **four exact function bodies,
 This recovers authentic native leaf semantics; all four were
 already exact before the change.
 
+## 2026-11-11 native ExAttack Type14/22 fan and random rows
+
+The pinned `ExAttackUpdateCallbackType14_22` works on the same real
+0xF48-byte extra state used by the original Type14/22 draw and
+initialization callbacks. The stage-three fan generation writes the
+first of 33 actual **0x14-byte vertex entries** in each of four
+`fanGroups2E8` rows, with physical row stride **0x294**. Its random
+phase writes one of 33 four-byte floats in each of four `randomD38`
+rows (stride **0x84**). Each loop index forms the native Win32 DWORD
+address from the actual allocation base, not a bounded C++ projection.
+Five further live gameplay side lookups (one `side08`, four
+`opponentSide04`) now address the authentic `g_GameManager.sides`
+**0x38-byte** records by signed DWORD scaled offset. The original
+`GetRandomF32SignedInRange` calls, ANM script, collision tests, phase
+transitions and source chronology remain untouched; no range guards,
+cache, shadow fan storage, call or extra view was introduced.
+
+Four individual and combined pinned VC7.1 `/O2 /Ob1` builds were
+attested against **all 824 complete physical owner bytes** (805-byte
+canonical body and owned tail), including **44 original relocation
+fields**. All four remained byte-identical after checking real
+same-section COFF definitions. The installed lexical macro form
+passed the only relevant carrier's **1/1 exact, 824/824 bytes and 44
+fields** scoped cold replay. Its five `$L` symbol renames were rebound
+only after confirming unchanged field offsets/types and original PE
+jump destinations. No new exact owner or Windows runtime claim follows.
+
 ## 2026-11-11 native ExAttack Type3 history, VM and side selectors
 
 The original exact `ExAttackUpdateCallbackType3` handler has **780

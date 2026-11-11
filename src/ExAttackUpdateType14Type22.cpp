@@ -26,6 +26,23 @@ struct ExAttackType1422VmView
 extern AsciiGameManagerView g_GameManager;
 extern RngRuntimeView g_ReplayRng;
 
+// Native TH09 Type14/22 extra: four 33-vertex fan rows (0x294 bytes),
+// four 33-float random rows (0x84 bytes) and actual 0x38-byte GameManager
+// side records. The signed live indices form original Win32 DWORD words.
+#define TH09_EX1422_FAN(extra, group) \
+    (*reinterpret_cast<ExAttackType1422Vertex *>( \
+        reinterpret_cast<unsigned int>(&(extra)->fanGroups2E8[0][0]) + \
+        static_cast<unsigned int>(group) * sizeof((extra)->fanGroups2E8[0])))
+#define TH09_EX1422_RANDOM(extra, group, i) \
+    (*reinterpret_cast<float *>( \
+        reinterpret_cast<unsigned int>(&(extra)->randomD38[0][0]) + \
+        static_cast<unsigned int>(group) * sizeof((extra)->randomD38[0]) + \
+        static_cast<unsigned int>(i) * sizeof((extra)->randomD38[0][0])))
+#define TH09_EX1422_SIDE(index) \
+    (*reinterpret_cast<AsciiGameManagerSideView *>( \
+        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) + \
+        static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0])))
+
 int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
 {
     ExAttackType1422Record *record =
@@ -47,7 +64,7 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
 
         if (record->timer10 > 90)
         {
-            g_GameManager.sides[record->side08]
+            TH09_EX1422_SIDE(record->side08)
                 .player04->header24.anmFile98->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C),
                     9);
@@ -61,13 +78,13 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
     case 1:
     {
         PlayerPositionView delta;
-        delta = g_GameManager.sides[record->opponentSide04]
+        delta = TH09_EX1422_SIDE(record->opponentSide04)
                     .player04->position1B88 -
                 *reinterpret_cast<PlayerPositionView *>(&record->position20);
 
         record->position20 += extra->motion04;
 
-        if (g_GameManager.sides[record->opponentSide04]
+        if (TH09_EX1422_SIDE(record->opponentSide04)
                 .player04->CheckBulletCollision(
                     reinterpret_cast<PlayerPositionView *>(&record->position20),
                     reinterpret_cast<PlayerPositionView *>(&collisionSize),
@@ -105,7 +122,7 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
 
         if (record->timer10 > 1)
         {
-            if (g_GameManager.sides[record->opponentSide04]
+            if (TH09_EX1422_SIDE(record->opponentSide04)
                     .player04->CheckBulletCollision(
                         reinterpret_cast<PlayerPositionView *>(&record->position20),
                         reinterpret_cast<PlayerPositionView *>(&collisionSize),
@@ -116,7 +133,7 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
             }
             else
             {
-                g_GameManager.sides[record->opponentSide04]
+                TH09_EX1422_SIDE(record->opponentSide04)
                     .player04->collisionQuery36C.AppendCircleRecord(
                         reinterpret_cast<PlayerPositionView *>(&record->position20),
                         extra->value50 * 0.80000001f,
@@ -141,8 +158,8 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
                 if (angle >= 3.1415927f)
                     angle -= 6.2831855f;
 
-                extra->fanGroups2E8[group][0].pos.z = 0.0f;
-                extra->randomD38[group][i] =
+                TH09_EX1422_FAN(extra, group).pos.z = 0.0f;
+                TH09_EX1422_RANDOM(extra, group, i) =
                     g_ReplayRng.GetRandomF32SignedInRange(
                         record->timer10);
                 angle += 0.2026834f;
@@ -162,3 +179,7 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
 
     return 0;
 }
+
+#undef TH09_EX1422_FAN
+#undef TH09_EX1422_RANDOM
+#undef TH09_EX1422_SIDE

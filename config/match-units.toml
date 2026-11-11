@@ -21661,7 +21661,7 @@ addend = 0
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x30
 type = "DIR32"
-symbol = "$L59680"
+symbol = "$L60202"
 target = 0x444118
 addend = 0
 
@@ -21934,28 +21934,28 @@ addend = 0
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x328
 type = "DIR32"
-symbol = "$L59596"
+symbol = "$L60096"
 target = 0x443e24
 addend = 0
 
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x32c
 type = "DIR32"
-symbol = "$L59599"
+symbol = "$L60102"
 target = 0x443ea9
 addend = 0
 
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x330
 type = "DIR32"
-symbol = "$L59611"
+symbol = "$L60120"
 target = 0x443f91
 addend = 0
 
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x334
 type = "DIR32"
-symbol = "$L59621"
+symbol = "$L60136"
 target = 0x444047
 addend = 0
 
