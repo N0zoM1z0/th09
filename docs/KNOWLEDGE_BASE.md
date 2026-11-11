@@ -714,6 +714,36 @@ proving the same-section COFF definitions, unchanged field offsets/kinds
 and exact original PE jump destinations. No new exact owner, full cold
 replay, native product or runtime credit is implied.
 
+## 2026-11-11 native Etama bullet type templates and draw-bucket heads
+
+The exact `EtamaController::SpawnBulletPatternPrimary` and
+`SpawnBulletPatternSecondary` take the live signed bullet type from the
+original `BulletSpawnDescriptor`, and now address the real
+`bulletTypeSprites` allocation at native **0xD48-byte
+`BulletTypeSprites`** strides instead of requiring a bounded C++
+subscript. The complete 2,216-byte original `EtamaController::OnUpdate`
+owner also uses the actual six-entry DWORD draw-bucket pointer array:
+four independent head read/write lvalues are indexed by each bullet's
+live `sprites.drawBucketIndex` byte. These become native Win32
+`uint32(real base) + uint32(index) * sizeof(actual record)` addresses
+without a new bounds gate, cached head, duplicate sprite allocation,
+changed spawn loop or reordered drawing/ANM calls. The native bullet
+template size and draw-head ownership are shared with the already exact
+Etama draw and registration owners.
+
+Separate primary/secondary template, bucket-head and combined pinned
+VC7.1 probes retained complete original PE bytes in the major
+1,932-byte `SpawnSingleBullet`, 2,216-byte `OnUpdate` and both
+203-byte bullet-pattern functions. The installed combined source
+passed **three genuinely affected compiler profiles, 18/18 exact
+functions, 6,711 complete original physical bytes and all 259 bound
+relocation fields**. Seven compiler-private `$L` references changed
+spellings (one in SpawnSingleBullet and six in OnUpdate); each was
+rebound only after confirming actual same-section COFF definitions,
+unchanged field offsets/types, original PE targets and complete bytes.
+No additional exact function, full cold replay or Windows runtime
+closure is claimed.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

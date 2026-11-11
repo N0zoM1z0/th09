@@ -585,13 +585,17 @@ Bullet *EtamaController::SpawnSingleBullet(
     return bullet;
 }
 
+// Script-owned signed bullet type indexes real 0xD48-byte template records.
+// Preserve the original live descriptor/VM and generation call order.
 Bullet *EtamaController::SpawnBulletPatternPrimary(BulletSpawnDescriptor *descriptor)
 {
     int index1;
     float angleToPlayer;
     int index2;
     Bullet *result;
-    descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
+    descriptor->templateSprites = reinterpret_cast<BulletTypeSprites *>(
+        reinterpret_cast<unsigned int>(&this->bulletTypeSprites[0]) +
+        static_cast<unsigned int>(descriptor->bulletType) * sizeof(this->bulletTypeSprites[0]));
     angleToPlayer = reinterpret_cast<BulletPlayerView *>(this->sideState->player04)->AngleToPoint(&descriptor->position);
     for (index2 = 0; index2 < descriptor->count2; ++index2)
     {
@@ -614,7 +618,9 @@ Bullet *EtamaController::SpawnBulletPatternSecondary(BulletSpawnDescriptor *desc
     float angleToPlayer;
     int index2;
     Bullet *result;
-    descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
+    descriptor->templateSprites = reinterpret_cast<BulletTypeSprites *>(
+        reinterpret_cast<unsigned int>(&this->bulletTypeSprites[0]) +
+        static_cast<unsigned int>(descriptor->bulletType) * sizeof(this->bulletTypeSprites[0]));
     angleToPlayer = reinterpret_cast<BulletPlayerView *>(this->sideState->player04)->AngleToPoint(&descriptor->position);
     for (index2 = 0; index2 < descriptor->count2; ++index2)
     {
@@ -631,6 +637,8 @@ done:
     return result;
 }
 
+// The live sprite bucket byte selects the original DWORD pointer array.
+// Native address arithmetic retains the retail unsigned-32 wrap semantics.
 int EtamaController::OnUpdate(EtamaController *controller)
 {
     float currentWidth;
@@ -653,8 +661,14 @@ int EtamaController::OnUpdate(EtamaController *controller)
         if ((controller->sideState->flags & 1) != 0)
         {
             bullet->nextInDrawBucket =
-                controller->drawBuckets[bullet->sprites.drawBucketIndex];
-            controller->drawBuckets[bullet->sprites.drawBucketIndex] = bullet;
+                (*reinterpret_cast<Bullet **>(
+                reinterpret_cast<unsigned int>(&controller->drawBuckets[0]) +
+                static_cast<unsigned int>(bullet->sprites.drawBucketIndex) *
+                    sizeof(controller->drawBuckets[0])));
+            (*reinterpret_cast<Bullet **>(
+                reinterpret_cast<unsigned int>(&controller->drawBuckets[0]) +
+                static_cast<unsigned int>(bullet->sprites.drawBucketIndex) *
+                    sizeof(controller->drawBuckets[0]))) = bullet;
             continue;
         }
 
@@ -823,8 +837,14 @@ updateTimers:
         bullet->stateTimer++;
         bullet->activeTimer++;
         bullet->nextInDrawBucket =
-            controller->drawBuckets[bullet->sprites.drawBucketIndex];
-        controller->drawBuckets[bullet->sprites.drawBucketIndex] = bullet;
+            (*reinterpret_cast<Bullet **>(
+                reinterpret_cast<unsigned int>(&controller->drawBuckets[0]) +
+                static_cast<unsigned int>(bullet->sprites.drawBucketIndex) *
+                    sizeof(controller->drawBuckets[0])));
+        (*reinterpret_cast<Bullet **>(
+                reinterpret_cast<unsigned int>(&controller->drawBuckets[0]) +
+                static_cast<unsigned int>(bullet->sprites.drawBucketIndex) *
+                    sizeof(controller->drawBuckets[0]))) = bullet;
     }
 
     if ((controller->sideState->flags & 1) != 0)

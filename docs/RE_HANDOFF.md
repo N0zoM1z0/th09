@@ -215,6 +215,13 @@ Its two scoped VC7.1 compiler carriers verify **5/5 exact functions,
 10,496 complete bytes and 421 relocation fields**, with 22 original-
 PE-target-verified private-label rebindings across boss and operand leaves.
 
+The Etama spawn/update mainline also now accesses live bullet sprite
+templates by native 0xD48-byte records and all four dynamic draw-bucket
+head reads/writes through genuine DWORD slots. Three actual VC7.1
+carriers protect **18/18 exact source functions, 6,711 physical bytes
+and 259 original relocation fields**, with seven independently proven
+private-label rebindings across major bullet owners.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact
