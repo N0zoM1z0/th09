@@ -208,6 +208,13 @@ private-label rebindings were original-target verified. The independent
 OnUpdateResult nonexact owner guard remains at its prior 484/485-byte
 candidate/target boundary and 218 unlike overlapping bytes.
 
+The **9,776-byte original ANM ExecuteScript interpreter** now addresses
+all seven live interpolation channels through the actual 0x0C-byte
+current/end timer records and single-byte easing-mode entries.
+Its two scoped VC7.1 compiler carriers verify **5/5 exact functions,
+10,496 complete bytes and 421 relocation fields**, with 22 original-
+PE-target-verified private-label rebindings across boss and operand leaves.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact

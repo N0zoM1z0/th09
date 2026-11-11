@@ -688,6 +688,32 @@ checked separately and retains its previous full 485-byte target,
 484-byte candidate, 34 fields and 218 unlike overlapping bytes.
 No exact-function promotion or native Windows runtime proof is claimed.
 
+## 2026-11-11 native ANM ExecuteScript interpolation timer and mode records
+
+The original exact `AnmManager::ExecuteScript` is a **9,776-byte complete
+physical owner**, including its original ANM opcode dispatch and tables.
+After executing the native script instruction stream, it advances seven
+interpolation channels in the real `AnmVm` allocation. Its live per-channel
+`interpCurrentTimers` and `interpEndTimers` are separate **0x0C-byte
+`ZunTimer` records** at VM +0x50/+0xA4; `interpModes` are seven real
+single-byte modes at +0xF8. The maintained source now forms all eight
+runtime `i` accesses as original Win32 unsigned-DWORD base-plus-index
+addresses (three current-timer, four end-timer, one easing-mode read).
+No new interpolation buffer, index guard, timer snapshot, external
+helper call, switch branch or mode calculation was introduced.
+
+Four isolated/combined pinned VC7.1 trials preserved the **entire
+9,776/9,776 original PE bytes and all 368 relocation fields**. The
+installed lexical-native source passed its two genuinely affected compiler
+carriers: **5/5 exact owners, 10,496 complete physical bytes and 421
+original-bound relocations** (the large interpreter and four original
+operand-accessor leaves). Eighteen compiler-private `$L` references in
+the interpreter and one in each of the four leaf owners were rebound
+*only* after comparing the complete original code and independently
+proving the same-section COFF definitions, unchanged field offsets/kinds
+and exact original PE jump destinations. No new exact owner, full cold
+replay, native product or runtime credit is implied.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

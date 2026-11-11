@@ -841,22 +841,33 @@ stop:
         vm->updateRotation = true;
     }
 
+    // The seven interpolator channels occupy the original AnmVm arrays:
+    // 0x0C-byte ZunTimer records at +0x50/+0xA4 and mode bytes at +0xF8.
+    // Keep independent live per-channel reads and native 32-bit offsets.
+#define TH09_ANM_NATIVE_INTERP_TIMER(member, index) \
+    (*reinterpret_cast<ZunTimer *>( \
+        reinterpret_cast<unsigned int>(&vm->member[0]) + \
+        static_cast<unsigned int>(index) * sizeof(vm->member[0])))
+#define TH09_ANM_NATIVE_INTERP_MODE(index) \
+    (*reinterpret_cast<unsigned char *>( \
+        reinterpret_cast<unsigned int>(&vm->interpModes[0]) + \
+        static_cast<unsigned int>(index)))
     for (i = 0; i < AnmInterp_Last; i++)
     {
-        if (vm->interpEndTimers[i] > 0)
+        if (TH09_ANM_NATIVE_INTERP_TIMER(interpEndTimers, i) > 0)
         {
-            vm->interpCurrentTimers[i]++;
-            if (vm->interpCurrentTimers[i] >= (int)vm->interpEndTimers[i])
+            TH09_ANM_NATIVE_INTERP_TIMER(interpCurrentTimers, i)++;
+            if (TH09_ANM_NATIVE_INTERP_TIMER(interpCurrentTimers, i) >= (int)TH09_ANM_NATIVE_INTERP_TIMER(interpEndTimers, i))
             {
                 interp = 1.0f;
-                vm->interpEndTimers[i] = 0;
+                TH09_ANM_NATIVE_INTERP_TIMER(interpEndTimers, i) = 0;
             }
             else
             {
-                interp = (float)vm->interpCurrentTimers[i] / (float)vm->interpEndTimers[i];
+                interp = (float)TH09_ANM_NATIVE_INTERP_TIMER(interpCurrentTimers, i) / (float)TH09_ANM_NATIVE_INTERP_TIMER(interpEndTimers, i);
             }
 
-            switch (vm->interpModes[i])
+            switch (TH09_ANM_NATIVE_INTERP_MODE(i))
             {
             case AnmInterpMode_EaseIn:
                 interp = interp * interp;
@@ -981,3 +992,6 @@ stop:
 
     return FALSE;
 }
+
+#undef TH09_ANM_NATIVE_INTERP_TIMER
+#undef TH09_ANM_NATIVE_INTERP_MODE
