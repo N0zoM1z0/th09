@@ -307,6 +307,12 @@ the canonical ledgers. Git holds prior source revisions.
   original modulo-32 selected index strides. Its standalone complete
   boss check retains 1,280 bytes, 57 relocations, 13 ordered calls,
   72 CFG blocks and the prior 29 unlike bytes; no exact credit claimed.
+- **ECL interpolation callback table now uses native DWORD slots.**
+  The exact 255-byte InstallInterpolationSlot accesses the genuine
+  eight-pointer table with signed ECL index converted to unsigned
+  32-bit byte math. Two EclManager carriers cold-pass 83 exact owners /
+  29,856 bytes / 1,389 fields; eight private labels were PE/COFF-proven.
+  The separate RunEcl remains nonexact by the same 30 register bytes.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

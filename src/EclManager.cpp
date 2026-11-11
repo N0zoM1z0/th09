@@ -489,7 +489,13 @@ static void InstallInterpolationSlot(
         slot->duration10 = ReadInt(enemy, instruction, 1);
         slot->callbackIndex14 = ReadInt(enemy, instruction, 2);
         slot->easing18 = ReadInt(enemy, instruction, 3);
-        slot->callback00 = g_EclInterpolationCallbacks[slot->callbackIndex14];
+        // The eight actual EX interpolation callbacks are native four-byte
+        // words at their original global base. Preserve the live callback
+        // index and use modulo-32 byte arithmetic without adding a gate.
+        slot->callback00 = *reinterpret_cast<Th09EclInterpolationCallback *>(
+            reinterpret_cast<unsigned int>(&g_EclInterpolationCallbacks[0]) +
+            static_cast<unsigned int>(slot->callbackIndex14) *
+                sizeof(g_EclInterpolationCallbacks[0]));
         slot->parameters1C[0] =
             ReadFloat(enemy, instruction, 4);
         slot->parameters1C[1] =

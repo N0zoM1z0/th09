@@ -893,6 +893,33 @@ The original-bound opcode 4 and opcode 155 semantic checks continue
 passing 90 and 3,072 cases. Neither exactness count nor Windows i386
 product closure has changed.
 
+## 2026-11-11 ECL interpolation callback native pointer-word addressing
+
+The original exact InstallInterpolationSlot owner stores a function pointer
+from the genuine eight-entry ECL interpolation callback table at original
+global address 0x004A0AF4. Its callbackIndex14 comes from a signed ECL
+wire argument. Retail i386 calculates the physical callable pointer word
+with 32-bit array base plus unsigned(index) * 4 arithmetic; the previous
+maintained C++ used a potentially out-of-bounds signed table subscript.
+The source now explicitly reads the actual Th09EclInterpolationCallback
+word at its native unsigned DWORD address. No index checks, alternative
+callables or different dispatch owner are introduced, and all original
+interpolation slot fields, RawFloat/ReadInt calls and ordered runtime
+side effects remain as in the exact original.
+
+Three individually compiled pinned VC7.1 natural forms reproduced the
+entire **255-byte InstallInterpolationSlot owner with all nine original
+relocations**, while also preserving the full **15,564-byte RunEcl,
+598 reviewed relocation fields, original jump tables and its unchanged
+30 ordinary register differences**. The installed source passed only
+the two genuinely affected EclManager compiler carriers: **83 exact
+owners / 29,856 original physical bytes / 1,389 original-bound fields**.
+Eight compiler-private label spellings were rebound only after proof
+against actual same-section COFF definitions and original PE operands
+and full byte equality of all 83 owners. The original-bound opcode
+4/155 semantic checks still pass 90/3,072 cases. No previously nonexact
+function was promoted, and the native Windows product remains open.
+
 ## 2026-11-11 RunEcl native state and callback-slot DWORD addressing
 
 The maintained `RunEcl @ 0x004086C0` now uses native byte-address lvalue
