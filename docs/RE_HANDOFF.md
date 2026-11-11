@@ -289,6 +289,12 @@ the canonical ledgers. Git holds prior source revisions.
   original-bound boss replay retains 1,210 bytes, 70 fields, 58 calls,
   53 blocks and the former 235 differences. This standalone source has
   no exact siblings, so only its complete owner was cold-compiled.
+- **Player collision-region pool uses native slot and counter words.**
+  The exact `AllocateCollisionRegion` now fetches/clears genuine
+  +0xB908 released slots and publishes into +0xB100 active slots via
+  native modulo-32 pointer strides; the released/active counters wrap
+  as original DWORD decrement/increment. One affected compiler carrier
+  passes all eight exact functions / 477 bytes / 14 relocation fields.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

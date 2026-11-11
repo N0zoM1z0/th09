@@ -12,11 +12,28 @@ PlayerLifecycleView::AllocateCollisionRegion(
     }
     else
     {
-        --collisionRegionReleasedCountC114;
-        region = releasedB908[collisionRegionReleasedCountC114];
-        releasedB908[collisionRegionReleasedCountC114] = 0;
-        activeB100[collisionRegionActiveCountC110] = region;
-        ++collisionRegionActiveCountC110;
+        // Original i386 decrements this native signed DWORD before indexing
+        // the real released collision-region pointer array.
+        collisionRegionReleasedCountC114 = static_cast<int>(
+            static_cast<unsigned int>(collisionRegionReleasedCountC114) - 1u);
+        // Both released-slot reads and the active-slot write use real
+        // Player +0xB908/+0xB100 pointer-word bases and modulo-32 strides.
+        // Preserve repeated live accesses and the original count chronology.
+        region = (*reinterpret_cast<PlayerCollisionRegionCreateRegionView **>(
+            reinterpret_cast<unsigned int>(&releasedB908[0]) +
+            static_cast<unsigned int>(collisionRegionReleasedCountC114) *
+                sizeof(releasedB908[0])));
+        (*reinterpret_cast<PlayerCollisionRegionCreateRegionView **>(
+            reinterpret_cast<unsigned int>(&releasedB908[0]) +
+            static_cast<unsigned int>(collisionRegionReleasedCountC114) *
+                sizeof(releasedB908[0]))) = 0;
+        (*reinterpret_cast<PlayerCollisionRegionCreateRegionView **>(
+            reinterpret_cast<unsigned int>(&activeB100[0]) +
+            static_cast<unsigned int>(collisionRegionActiveCountC110) *
+                sizeof(activeB100[0]))) = region;
+        // Original INC DWORD wraps the published active count at 32 bits.
+        collisionRegionActiveCountC110 = static_cast<int>(
+            static_cast<unsigned int>(collisionRegionActiveCountC110) + 1u);
     }
 
     region->Reset();

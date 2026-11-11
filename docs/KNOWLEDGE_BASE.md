@@ -532,6 +532,35 @@ operand-target checks and independent full byte equality proof for all
 83 exact functions. The nonexact Enemy boss is not promoted, and the
 native complete-product build remains open.
 
+## 2026-11-11 Player collision region pool native pointer and counter words
+
+`PlayerLifecycleView::AllocateCollisionRegion @ 0x0041CF30` is an
+independently exact 110-byte owner used by seven other exact region-creation
+helpers. It allocates from the real Player allocation's 514-element
+released-region pointer array at +0xB908 and publishes into the separate
+514-element active-region pointer array at +0xB100. The original i386
+re-reads the live signed released counter for both the pointer fetch and
+clearing that released slot, and separately reads the active counter
+for insertion. Its record addresses are native modulo-32 `array base +
+unsigned(index) * sizeof(pointer)` words. The maintained source formerly
+used C++ array subscripting, potentially undefined for a noncanonical
+signed index; both table lvalues now form the actual byte addresses
+explicitly. The original `DEC DWORD` of the released count and `INC DWORD`
+of the active count likewise use unsigned 32-bit calculations before
+publishing the signed words. The early `releasedCount <= 1` gate,
+embedded-region fallback, original distinct live reads, Reset, activation,
+position and lifetime fields remain unchanged, with no new bounds check
+or another pool.
+
+Four individual and one combined pinned VC7.1 source-cold experiments
+reproduced all **eight exact original-owner bodies (477/477 physical
+bytes and 14 original-bound relocation fields)**. The installed combined
+source also passed the canonical scoped cold replay of the one affected
+`PlayerCollisionRegionCreate.cpp` compiler carrier. The larger original-
+byte-nonexact `Player CheckBulletCollision` remains independent at
+849/862 candidate/target bytes; no exact ledger credit or whole-native
+product closure follows from this exact-leaf fidelity improvement.
+
 ## 2026-11-11 Player collision box-append native 0x30-byte records
 
 The exact `PlayerCollisionQueryStateView::AppendBoxRecord @ 0x0040F8E0`
