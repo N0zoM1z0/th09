@@ -818,6 +818,34 @@ definitions, unchanged relocation offsets/types and unchanged original
 PE targets. This strengthens existing exact source fidelity but does
 not promote another owner or prove Windows runtime completeness.
 
+## 2026-11-11 native opponent selection tables and candidate byte slots
+
+The original exact `AsciiGameManagerView::SelectOpponentConfiguration`
+selects opponent characters from live 0x10-byte `OpponentSelectionEntry`
+records. Its 16-entry stack candidate pointer array, external list of
+entry pointers, mutable GameManager `usedCharactersD8` byte row, and
+16-byte global `g_TitleCharacterUnlocked` state all address the real
+original allocations. The maintained source now computes **21 live
+selection lvalues** through native unsigned-DWORD byte addresses:
+five stack candidate-pointer reads/writes, one source list pointer,
+four currently-used character bytes, six unlock bytes, two weighted
+opponent parameter table words, two mode-value table words and one
+randomly selected 0x38-byte GameManager side. No bounds gates,
+character list clones, RNG refactoring or cached byte snapshots were
+added. The original weighted selection, rejection, fallback, online
+availability check and ordered game-mode decisions remain unchanged.
+
+Seven isolated native-address families and their combined source were
+compiled with the original pinned VC7.1 profile; a first combination
+mistakenly rewrote an `extern ...[16]` declaration and was rejected
+before compilation. Restricting all rewrites to the function body
+preserved the complete original **799/799 physical bytes and 32
+relocation fields** with no private label changes. The installed source
+passed the sole affected compiler-carrier scoped cold replay:
+**1/1 exact owner, 799 bytes, 32 fields**. This preserves existing exact
+credit while improving native source/storage fidelity; original Windows
+runtime and product closure remain open.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

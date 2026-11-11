@@ -239,6 +239,12 @@ addresses its nine live 0x2A4-byte HUD ANM VM slots through native DWORD
 arithmetic, protecting all 1,236 bytes and 86 relocation fields in one
 carrier with six original-target-verified private label changes.
 
+The exact 799-byte opponent selector now also uses true native DWORD
+addresses for its stack candidates, pointer/parameter/mode lists, live
+used/unlock character bytes and 0x38-byte randomly chosen GameManager
+side. Its sole compiler carrier remains **1/1 exact, 799 bytes and 32
+original relocation fields**.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact

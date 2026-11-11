@@ -13,12 +13,32 @@ extern OpponentSelectionEntry *g_OpponentLists[];
 extern int g_OpponentParameterTable[];
 extern int g_OpponentModeValues[];
 
+// Retail opponent selection reads native DWORD list/weight/mode tables,
+// 0x38-byte gameplay side records and individual live used/unlock bytes.
+// No range checks, candidate caches or secondary record allocation are added.
+#define TH09_OPP_DWORD(table, idx) \
+    (*reinterpret_cast<const int *>( \
+        reinterpret_cast<unsigned int>(&(table)[0]) + \
+        static_cast<unsigned int>(idx) * sizeof((table)[0])))
+#define TH09_OPP_PTR(table, idx) \
+    (*reinterpret_cast<OpponentSelectionEntry **>( \
+        reinterpret_cast<unsigned int>(&(table)[0]) + \
+        static_cast<unsigned int>(idx) * sizeof((table)[0])))
+#define TH09_OPP_BYTE(table, idx) \
+    (*reinterpret_cast<unsigned char *>( \
+        reinterpret_cast<unsigned int>(&(table)[0]) + \
+        static_cast<unsigned int>(idx)))
+#define TH09_OPP_SIDE(idx) \
+    (*reinterpret_cast<AsciiGameManagerSideView *>( \
+        reinterpret_cast<unsigned int>(&sides[0]) + \
+        static_cast<unsigned int>(idx) * sizeof(sides[0])))
+
 void AsciiGameManagerView::SelectOpponentConfiguration()
 {
     if (IsGameMode0() || IsGameMode1())
     {
         OpponentSelectionEntry *entry =
-            g_OpponentLists[sides[0].value20];
+            TH09_OPP_PTR(g_OpponentLists, sides[0].value20);
         OpponentSelectionEntry *candidates[16];
         int candidateCount = 0;
         int totalWeight = 0;
@@ -35,7 +55,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
                 if (key == targetKey)
                 {
                     totalWeight += entry->weight0E;
-                    candidates[candidateCount++] = entry;
+                    TH09_OPP_PTR(candidates, candidateCount++) = entry;
                 }
 
                 key = entry[1].key00;
@@ -55,13 +75,13 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
             for (;;)
             {
                 OpponentSelectionEntry *candidate =
-                    candidates[selectedIndex];
+                    TH09_OPP_PTR(candidates, selectedIndex);
                 unsigned short weight =
                     static_cast<unsigned short>(candidate->weight0E);
 
                 if (static_cast<short>(roll) <
                         static_cast<short>(weight) &&
-                    usedCharacters[candidate->character04] == 0)
+                    TH09_OPP_BYTE(usedCharacters, candidate->character04) == 0)
                 {
                     break;
                 }
@@ -75,26 +95,24 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
         if (selectedIndex >= candidateCount)
         {
             selectedIndex = 0;
-            if (usedCharacters[
-                    candidates[0]->character04] != 0)
+            if (TH09_OPP_BYTE(usedCharacters, TH09_OPP_PTR(candidates, 0)->character04) != 0)
             {
                 do
                 {
                     ++selectedIndex;
                 }
-                while (usedCharacters[
-                    candidates[selectedIndex]->character04] != 0);
+                while (TH09_OPP_BYTE(usedCharacters, TH09_OPP_PTR(candidates, selectedIndex)->character04) != 0);
             }
         }
 
         OpponentSelectionEntry *selected =
-            candidates[selectedIndex];
+            TH09_OPP_PTR(candidates, selectedIndex);
 
         selectedValueF4 = selected->valueF4_02;
         sides[1].value20 = selected->character04;
         g_PlayStatsRecord.IncrementCharacterStat5(
             static_cast<char>(selected->character04));
-        usedCharacters[sides[1].value20] = 1;
+        TH09_OPP_BYTE(usedCharacters, sides[1].value20) = 1;
         selectedEntryF0 = selected;
 
         AsciiGameSideRuntimeView *state = sides[0].state;
@@ -106,13 +124,13 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
                 variant = 3;
             int index = counterFC + 9 * setupMode11C;
             sides[1].selectedParameter2C =
-                g_OpponentParameterTable[5 * index + 1 + variant];
+                TH09_OPP_DWORD(g_OpponentParameterTable, 5 * index + 1 + variant);
         }
         else
         {
             int index = counterFC + 9 * setupMode11C;
             sides[1].selectedParameter2C =
-                g_OpponentParameterTable[5 * index];
+                TH09_OPP_DWORD(g_OpponentParameterTable, 5 * index);
         }
 
         return;
@@ -129,7 +147,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
         selected = g_OpponentEntries;
         if (selected->key00 >= 0)
         {
-            int wantedCharacter = sides[randomSide].value20;
+            int wantedCharacter = TH09_OPP_SIDE(randomSide).value20;
             do
             {
                 if (selected->character04 == wantedCharacter)
@@ -146,13 +164,13 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
              countCharacter <= 13;
              countCharacter += 2)
         {
-            if (g_TitleCharacterUnlocked[countCharacter] ||
+            if (TH09_OPP_BYTE(g_TitleCharacterUnlocked, countCharacter) ||
                 g_SupervisorNetworkState->active)
             {
                 ++availableCount;
             }
 
-            if (g_TitleCharacterUnlocked[countCharacter + 1] ||
+            if (TH09_OPP_BYTE(g_TitleCharacterUnlocked, countCharacter + 1) ||
                 g_SupervisorNetworkState->active)
             {
                 ++availableCount;
@@ -166,7 +184,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
 
         for (;;)
         {
-            if (g_TitleCharacterUnlocked[character] ||
+            if (TH09_OPP_BYTE(g_TitleCharacterUnlocked, character) ||
                 g_SupervisorNetworkState->active)
             {
                 if (visibleIndex == static_cast<int>(selectedVisible))
@@ -174,7 +192,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
                 ++visibleIndex;
             }
 
-            if (g_TitleCharacterUnlocked[character + 1] ||
+            if (TH09_OPP_BYTE(g_TitleCharacterUnlocked, character + 1) ||
                 g_SupervisorNetworkState->active)
             {
                 if (visibleIndex == static_cast<int>(selectedVisible))
@@ -185,7 +203,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
                 ++visibleIndex;
             }
 
-            if (g_TitleCharacterUnlocked[character + 2] ||
+            if (TH09_OPP_BYTE(g_TitleCharacterUnlocked, character + 2) ||
                 g_SupervisorNetworkState->active)
             {
                 if (visibleIndex == static_cast<int>(selectedVisible))
@@ -196,7 +214,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
                 ++visibleIndex;
             }
 
-            if (g_TitleCharacterUnlocked[character + 3] ||
+            if (TH09_OPP_BYTE(g_TitleCharacterUnlocked, character + 3) ||
                 g_SupervisorNetworkState->active)
             {
                 if (visibleIndex == static_cast<int>(selectedVisible))
@@ -235,8 +253,13 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
 
     // Keep the mode snapshot, but reread the table after the first side store.
     int mode = setupMode11C;
-    sides[0].selectedParameter2C = g_OpponentModeValues[mode];
-    sides[1].selectedParameter2C = g_OpponentModeValues[mode];
+    sides[0].selectedParameter2C = TH09_OPP_DWORD(g_OpponentModeValues, mode);
+    sides[1].selectedParameter2C = TH09_OPP_DWORD(g_OpponentModeValues, mode);
     selectedValueF4 = selected->valueF4_02;
     selectedEntryF0 = selected;
 }
+
+#undef TH09_OPP_DWORD
+#undef TH09_OPP_PTR
+#undef TH09_OPP_BYTE
+#undef TH09_OPP_SIDE
