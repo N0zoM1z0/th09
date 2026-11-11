@@ -193,6 +193,14 @@ static int CreateGameWindow(HINSTANCE instance)
     return 0;
 }
 
+// Retail executable-path scanning uses an i386 DWORD address even when
+// strlen(path)-1 is signed. Do not turn the original initial byte read into
+// a checked C++ array access or cache the live characters across the loop.
+#define TH09_NATIVE_EXE_PATH_CHAR(index) \
+    (*reinterpret_cast<char *>( \
+        reinterpret_cast<unsigned int>(&g_ExecutableDirectory[0]) + \
+        static_cast<unsigned int>(index)))
+
 int WINAPI WinMain(
     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR commandLine, int showCommand)
 {
@@ -202,17 +210,17 @@ int WINAPI WinMain(
     if (GetModuleFileNameA(NULL, g_ExecutableDirectory, MAX_PATH) != 0)
     {
         int pathIndex = (int)strlen(g_ExecutableDirectory) - 1;
-        if (g_ExecutableDirectory[pathIndex] != '\\')
+        if (TH09_NATIVE_EXE_PATH_CHAR(pathIndex) != '\\')
         {
             do
             {
-                if (g_ExecutableDirectory[pathIndex] == '/')
+                if (TH09_NATIVE_EXE_PATH_CHAR(pathIndex) == '/')
                     break;
                 if (pathIndex <= 0)
                     goto executable_path_fallback;
                 pathIndex--;
             }
-            while (g_ExecutableDirectory[pathIndex] != '\\');
+            while (TH09_NATIVE_EXE_PATH_CHAR(pathIndex) != '\\');
         }
 
         if (pathIndex <= 0)
@@ -222,8 +230,8 @@ int WINAPI WinMain(
         }
         else
         {
-            g_ExecutableDirectory[pathIndex] = '/';
-            g_ExecutableDirectory[pathIndex + 1] = '\0';
+            TH09_NATIVE_EXE_PATH_CHAR(pathIndex) = '/';
+            TH09_NATIVE_EXE_PATH_CHAR(static_cast<unsigned int>(pathIndex) + 1u) = '\0';
         }
     }
     else
@@ -439,3 +447,5 @@ stop:
 
     return 0;
 }
+
+#undef TH09_NATIVE_EXE_PATH_CHAR

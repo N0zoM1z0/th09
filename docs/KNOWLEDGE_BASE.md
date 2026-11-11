@@ -636,6 +636,27 @@ relocation fields**; no private-label manifest rewrite was needed.
 No new exact owner was promoted and Windows product/runtime closure
 remains open.
 
+## 2026-11-11 native WinMain executable directory byte indexing
+
+The exact original `WinMain` starts with `GetModuleFileNameA` filling
+`g_ExecutableDirectory[MAX_PATH]`, then scans backward for the last
+path separator. The initial signed `pathIndex` is `strlen(...) - 1`
+and the retail path performs its first character read before testing
+whether that index is nonpositive. The maintained source now forms all
+four live scan/read/write characters and the subsequent terminating
+NUL address as genuine i386 `uint32(&g_ExecutableDirectory[0]) +
+uint32(index)` byte words; it does not introduce a new range gate,
+cache, path buffer, or branch. The fallback `./` string and existing
+CreateWindow/DirectInput initialization call order are unchanged.
+
+Three independent/combined pinned VC7.1 `/Ob0` probes matched both
+original source owners in full. The installed source passed the only
+affected compiler carrier's scoped cold replay: **2/2 exact functions,
+1,636 complete original physical bytes and 171 relocation fields**,
+comprising **1,351/1,351 WinMain bytes (152 fields)** plus
+**285/285 CreateGameWindow bytes (19 fields)**. No compiler-private
+label rebinding, newly exact owner, or native-runtime closure is implied.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

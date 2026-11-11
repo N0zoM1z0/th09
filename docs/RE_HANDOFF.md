@@ -194,6 +194,12 @@ CleanupGameplayState and nine other exact owners remain protected across
 their two original VC7.1 carriers: **12/12 functions, 4,680 original bytes
 and 415 relocation fields**.
 
+`WinMain` now also scans its original executable directory by native
+unsigned-DWORD byte addressing, including the signed initial index and
+terminating NUL. The exact WinMain and CreateGameWindow source owners
+remain **2/2 exact, 1,636 complete bytes / 171 fields** under the sole
+relevant VC7.1 carrier.
+
 ## Remaining source-present nonexact owners
 
 Each row describes the **complete original PE owner**, not partial exact
