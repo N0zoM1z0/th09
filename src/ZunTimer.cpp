@@ -82,7 +82,9 @@ void ZunTimer::Decrement(float value)
 
 void ZunTimer::Decrement(int value)
 {
-    this->Increment(-value);
+    // Retail i386 NEG wraps the signed argument as a native DWORD, including
+    // INT_MIN, before the existing integer-to-float Increment overload.
+    this->Increment(static_cast<int>(0u - static_cast<unsigned int>(value)));
 }
 
 void ZunTimer::operator+=(int value)

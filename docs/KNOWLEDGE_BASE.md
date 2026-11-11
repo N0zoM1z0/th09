@@ -616,6 +616,24 @@ verified. The opcode-4 timer and opcode-155 flag semantic audits still
 pass 90 and 3,072 cases respectively. No new exactness credit or native
 product/runtime closure follows.
 
+## 2026-11-11 ZunTimer Decrement(int) native NEG wrap
+
+The exact `ZunTimer::Decrement(int) @ 0x00406620` physically loads a
+signed 32-bit argument, executes the i386 `NEG EAX`, and passes the
+result to the real `ZunTimer::Increment(int)` overload. Retail `NEG`
+wraps modulo 2^32 even for `INT_MIN`; the previous C++ source used
+`-value`, which has undefined signed overflow at that boundary. The
+maintained source now computes `0u - unsigned(value)` before retaining
+the original signed argument to `Increment(int)`. Timer framing, the
+native call target, and all other ZunTimer overloads remain unchanged.
+
+Two independent pinned VC7.1 natural-word variants each reproduced the
+complete **18/18-byte leaf and its one real relocation**. The installed
+source passed the one actual ZunTimer compiler carrier's scoped exact
+cold replay, covering **16 exact functions**. This is native-source
+semantic fidelity for timer users, including gameplay Enemy updates,
+not newly exact-function or whole-product closure credit.
+
 ## 2026-11-11 ANM SetSprite native 0x44-byte sprite address
 
 The original exact `AnmLoaded::SetSprite @ 0x00436AC0` loads a dynamic

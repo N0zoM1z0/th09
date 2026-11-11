@@ -242,6 +242,11 @@ the canonical ledgers. Git holds prior source revisions.
   The independently exact 189-byte SetSprite forms the signed-index
   `0x44`-byte physical sprite address using native DWORD arithmetic.
   Its single compiler carrier cold-passes all 189 bytes/four relocations.
+- **ZunTimer Decrement(int) now preserves native DWORD negation.**
+  The exact 18-byte NEG wrapper uses modulo-32 subtraction before the
+  original signed Increment(int) argument, matching the original i386
+  on INT_MIN as well as ordinary values. All 16 exact owners in its
+  affected compiler carrier pass their bounded canonical cold replay.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
