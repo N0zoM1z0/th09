@@ -421,6 +421,29 @@ complete same-source physical owners byte-exact against target and
 verifying their actual COFF same-section label coordinates. No new
 function exactness or whole-game build claim follows.
 
+## 2026-11-11 Player bullet-cancel reward effect side word
+
+`PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` calls the real
+`EffectManager::SpawnEffectWithVelocity` when an eligible bullet is
+canceled by a player region. Its effect id is the source Player's signed
+`sideIndex + 1`. The target i386 computation is a native 32-bit word
+addition, so the maintained source now performs the addition as an
+unsigned DWORD before passing its original signed argument. The side
+selection, RNG order, effect payload, reward bookkeeping, scoring,
+collision shape branches and lookup remain unchanged; no bounds checks
+or synthetic collision block were introduced.
+
+Two separately compiled Win32 source expressions preserved the complete
+existing **849-byte candidate against the 862-byte original PE owner**,
+with **26 original-bound fields, 12 ordered calls**, the source's 32
+versus target's 33 CFG blocks, **799 differing overlapping bytes** and
+13 still-missing target bytes. The chosen installed version then passed
+the official owner inspector and the actual three-compiler-carrier
+scoped exact replay: **five exact functions, 1,220 complete bytes and
+32 target-bound relocation fields**, including the independently exact
+Player collision query. This is a source semantics correction; the
+nonexact boss still needs a genuine extra CFG block to be promoted.
+
 ## 2026-11-11 native side-index arithmetic across network and enemy reward
 
 The original TH09 i386 code subtracts the `SupervisorNetworkState::localSide`

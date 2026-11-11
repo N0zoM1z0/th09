@@ -108,9 +108,12 @@ int PlayerLifecycleView::CheckBulletCollision(
             velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
             velocity.z = 0.0f;
 
+            // Retail forms the side-based reward effect id as a DWORD sum.
             Effect *effect =
                 g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                    this->sideIndex + 1, &effectPosition, &velocity,
+                    static_cast<int>(
+                        static_cast<unsigned int>(this->sideIndex) + 1u),
+                    &effectPosition, &velocity,
                     1, static_cast<unsigned int>(-1));
             g_Supervisor.SelectSide(this->sideIndex);
 

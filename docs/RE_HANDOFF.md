@@ -79,6 +79,11 @@ the canonical ledgers. Git holds prior source revisions.
   is unchanged. The reward leaf cold-replayed 1,142/1,142 exact bytes,
   all 39 fields, with one actual compiler carrier. See the 2026-11-11
   knowledge note; no new exact function is credited.
+- **Player bullet-cancel reward id uses native side-index arithmetic.**
+  The still-open 862-byte collision owner retains its existing 849-byte
+  candidate, all 26 fields, twelve calls and 33/32 target/candidate CFG
+  blocks. Three affected VC7.1 profiles cold-pass five exact siblings
+  (1,220 bytes / 32 fields); the 13 missing bytes remain unresolved.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
