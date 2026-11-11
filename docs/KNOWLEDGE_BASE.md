@@ -555,6 +555,25 @@ Moving the side reference before the position copy changed literal ordering
 and worsened the comparison; the strict literal check rejected it. An alias
 rename alone is not a new codegen hypothesis.
 
+## Enemy OnUpdate native trail collision sample address
+
+The nonexact `EnemyManagerView::OnUpdate` traverses the native 96-entry
+`EnemyView::trailSamples33E8` array (stride `0x1C`) in its collision pass.
+The signed collision index is controlled by the live trail length. The
+original i386 code forms a 32-bit `base + index * 0x1C` address without a
+bounds check, whereas `trailSamples33E8[trailIndex]` imposed C++ array
+bounds requirements. The `AppendPlayerCollisionBox` argument now uses the
+native word address of the **actual** Enemy sample array, with no new check,
+layout, call or owner. A pinned VC7.1 complete 3,900-byte owner probe retained
+all 97 relocation fields, 69 calls, 170 direct CFG blocks and exactly the
+prior 13 different register bytes. This corrects native addressing, not
+byte-exact owner status. The actual /Ob0 and /Ob1 source carriers were cold-built and all **83**
+exact functions replayed successfully: **29,856 complete original bytes and
+1,389 relocation fields**. VC7.1 changed two compiler-private `$L` spellings
+in unchanged `CompareOperands` and post-update movement. Independent
+same-section COFF label-definition, original-PE operand and full-byte proofs
+confirmed identical targets before the manifest spellings were updated.
+
 ## Enemy death reward spread native DWORD addition
 
 The independently exact 1,142-byte `EnemyView::HandleDeathRewards`

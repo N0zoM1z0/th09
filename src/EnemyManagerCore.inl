@@ -616,8 +616,16 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                                         enemy->trailCollisionLength53A4);
                             }
                             enemy->AppendPlayerCollisionBox(
-                                    &enemy->trailSamples33E8[
-                                        trailIndex].position00,
+                                    // Trail collision length is script-controlled.
+                                    // Retail scales this signed index by the
+                                    // native 0x1C-byte sample stride with i386
+                                    // modulo-32 address arithmetic, not a
+                                    // bounded C++ subscript.
+                                    &reinterpret_cast<EnemyTrailSampleView *>(
+                                        reinterpret_cast<unsigned int>(
+                                            &enemy->trailSamples33E8[0]) +
+                                        static_cast<unsigned int>(trailIndex) *
+                                            sizeof(enemy->trailSamples33E8[0]))->position00,
                                     &trailHitbox);
                         }
                     }
