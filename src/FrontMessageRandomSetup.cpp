@@ -14,8 +14,9 @@
 extern AnmLoaded *g_FrontMessageAnm;
 extern RngRuntimeView g_Rng;
 
-// The table's one declared C++ entry anchors variable-length wire storage.
-// Retail scales any signed slot by eight in a native 32-bit address word.
+// The on-disk message table declares just its first entry; the actual
+// allocation holds count00 entries. A signed selection index is a native
+// 32-bit word scaled by the original eight-byte entry stride.
 static inline FrontMessageTableEntryView &NativeMessageEntry(
     FrontMessageTableView *file, int index)
 {
@@ -28,13 +29,14 @@ void FrontMessageRuntimeView::SetupRandomForSide(int side)
 {
     int i;
     int roll;
-    // Two sides share the native 0x38-byte GameManager row storage. The
-    // opposite-side selection and ten-message bank offset are DWORD math.
+    // The original reads GameManager side 1 minus the signed side word at
+    // its native 0x38-byte stride. Its character selector scales by ten
+    // with i386 DWORD multiplication before the signed loop comparison.
     int first = static_cast<int>(
         static_cast<unsigned int>(reinterpret_cast<AsciiGameManagerSideView *>(
-            reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
-            (1u - static_cast<unsigned int>(side)) *
-                sizeof(g_GameManager.sides[0]))->character20) * 10u);
+            reinterpret_cast<unsigned int>(&g_GameManager.sides[1]) -
+            static_cast<unsigned int>(side) * sizeof(g_GameManager.sides[0]))->
+            character20) * 10u);
     FrontMessageTableView *msgFile = this->primary00;
     FrontMessageTableView *msgFile2 = this->secondary0C;
 

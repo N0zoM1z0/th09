@@ -109,6 +109,15 @@ diagnostics require it. Do not change a compiler profile to chase residuals.
   reads Front +0xE94C; Player, GameManager, Replay and Enemy timeline use
   that native interface. Front message Update/Setup share the constructed
   runtime rather than unrelated receiver classes.
+- Front message random selection at 0x004162D0 indexes a variable-length
+  eight-byte message-entry table whose C++ wire view declares only one entry.
+  The maintained source now uses the actual entry base plus signed-index
+  modulo-32 byte stride for all weight/pointer reads and final selection.
+  GameManager side lookup also uses the original 0x38-byte side-record stride,
+  while the character-range math and weight subtraction retain signed results
+  of native DWORD operations. Pinned VC7.1 replay of the whole 693-byte owner
+  and all 15 original relocation fields remains exact; no new bounds guards,
+  resource layout or behavior were introduced.
 - The CRT thunk at `0x48D950` sets ECX to `g_AsciiManager` at `0x4CE458`
   and jumps to the 227-byte constructor at `0x435DC0`. The 0xE0AC-byte owner
   uses genuine string, popup, PauseMenu and menu-state member constructors.
