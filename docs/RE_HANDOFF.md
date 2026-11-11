@@ -47,7 +47,10 @@ Git retains earlier source revisions.
   remain verified. Enemy OnUpdate now shares the native ECL secondary VM,
   life-threshold and child-pointer slot lvalues at eight read/write sites;
   the 3,900-byte boss remains at 13 unlike bytes and the same 83 ECL exact
-  siblings remain verified.
+  siblings remain verified. Title OnUpdateResult now also reads the
+  selected character-order byte through its native 32-bit table address;
+  its 484/485-byte frontier remains open, while all 41 same-source exact
+  Title owners (18,972 bytes / 953 fields) remain verified.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

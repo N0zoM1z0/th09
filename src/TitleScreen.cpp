@@ -2406,7 +2406,11 @@ int TitleScreenView::OnUpdateResult()
 
             // Use the stable character-table slot for the cursor argument
             // and retain its pre-call value for the selected result bank.
-            char *characterSlot = &g_TitleResultCharacterOrder[keyboardSelection];
+            // TH09 looks up the live signed cursor as a native Win32 byte
+            // address from the original character-order array base.
+            char *characterSlot = reinterpret_cast<char *>(
+                reinterpret_cast<unsigned int>(&g_TitleResultCharacterOrder[0]) +
+                static_cast<unsigned int>(keyboardSelection));
             char character = *characterSlot;
             SetCharacterCursorInactive(*characterSlot, 60, FullCharacterSlots, 2);
             nameBankIndex = character;

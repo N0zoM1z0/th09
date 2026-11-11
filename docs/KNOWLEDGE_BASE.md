@@ -1306,6 +1306,30 @@ zero-plus-memcpy seed locals did not close it. A wider SetSeed implementation
 can itself be byte-identical: callee bytes do not uniquely determine formal
 width. Keep the pre-runtime-read snapshot of side-0 value1E8.
 
+## 2026-11-11 Title result native character-order cursor lookup
+
+`TitleScreenView::OnUpdateResult @ 0x004266B5` reads the active signed
+`keyboardSelection` from its live Title object and looks up one byte in
+the independently identified `g_TitleResultCharacterOrder` table at
+`0x004A1DAC`. Original Win32 i386 computes the full DWORD indexed address
+(`mov cl, [ecx + 0x4A1DAC]`) without an additional C++ array-bound check.
+The maintained source now forms `uint32(&table[0]) + uint32(selection)`
+before taking the same byte lvalue. It retains the original separate
+pre-call `character` snapshot, second live dereference, cursor call and
+post-call `nameBankIndex` store, without clamping or caching the table row.
+
+Three signed-address source probes left the entire original-bound
+**484/485-byte** result update owner at its existing **218 unlike overlap
+bytes, one missing byte, 34 relocations, nine ordered calls and 40-block
+direct graph**; this owner remains NONEXACT. The installed source also
+cold-replayed both genuine TitleScreen compiler carriers: **41/41 exact
+owners, 18,972 physical bytes and 953 relocations**, including the exact
+1,939-byte DrawResult (a different function). Nine `OnUpdateStartMenu`
+compiler-private `$L` labels were rebound only after verifying actual
+same-section COFF definitions and all their unchanged original PE target
+addresses. This is native lookup fidelity, not a newly exact result updater
+or native product proof.
+
 ## 2026-11-11 Title OnUpdateResult native unlock-table row addresses
 
 Inside the still-open `TitleScreenView::OnUpdateResult @ 0x004266B5`,
