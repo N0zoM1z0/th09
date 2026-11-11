@@ -60,6 +60,10 @@ Git retains earlier source revisions.
   The standalone Player movement boss now advances its real `0x2F4`-byte option records and
   `0x0C`-byte position-history slots through native DWORD addresses; its
   full 1,900-byte, 66-field owner guard still reports just 122 differences.
+  ANM file-loading now computes 33 sprite/texture/script/file-slot addresses
+  from the actual 0x44/0x0C/4/0x120-byte record bases and signed indices;
+  both affected compiler carriers preserve 17 exact ANM owners (3,258 full
+  bytes / 133 fields).
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

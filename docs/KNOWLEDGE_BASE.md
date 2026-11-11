@@ -74,6 +74,31 @@ fields** of `InitializeEffect`. The separately original-bound 51-byte
 existing eight nonexact register bytes. This improves source semantics but
 adds no exact function or whole-product/runtime credit.
 
+## 2026-11-11 native ANM sprite, texture, script and file-slot addressing
+
+The original ANM resource-loading path owns real dynamically allocated
+`AnmLoaded` sprite, texture and script-pointer arrays, plus the real
+`AnmManagerReadView::slots` beginning at manager +0x24. The C++ loader now
+forms each record lvalue as `uint32(real allocation base) +
+uint32(signed index) * sizeof(native entry)` for **19 sprite reads/writes**
+(`0x44` bytes per `AnmLoadedSprite`), **nine texture reads/writes** (`0x0C`
+bytes per `AnmEntry`), **one script entry store** (four-byte pointer), and
+**four manager file-slot uses** (`0x120` bytes per slot). These live indices
+come from ANM file entries, the caller's sprite/script IDs and the manager
+file-slot ID. No new range gate, alias allocation, separate layout or
+read-value cache was introduced; every original lookup remains at its own
+execution point.
+
+Three source-cold sprite-address variants and five texture/script/manager
+combinations were compiled with pinned VC7.1. The four directly impacted
+canonical units (`AnmLoaded::LoadSprite`, `LoadExternalTextureData`,
+`LoadTextureData`, `ReadAnmEntries`) all remained completely byte exact,
+including the `138`-, `150`-, `558`- and `390`-byte original physical owners.
+The installed combined source passed the **two affected compiler carriers,
+17/17 existing exact ANM owners, 3,258 complete physical bytes and 133
+original-bound relocations**. This improves real memory-model fidelity; it
+does not increase the exact owner count or establish a native product/runtime.
+
 ## Complete comparison and compiler context
 
 Compare physical contributions, including owned alignment and switch tables.

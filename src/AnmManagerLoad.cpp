@@ -269,6 +269,40 @@ error:
     return -1;
 }
 
+// The ANM loader works with authentic Win32 allocations, not bounded
+// shadow arrays: 0x44-byte sprite records, 0x0C-byte texture entries,
+// 4-byte script pointers and 0x120-byte AnmManager file-slot records.
+// A native signed index scales in an unsigned 32-bit address word; each
+// consumer retains its original independent load/store and null gates.
+static inline AnmEntry &NativeAnmTextureEntry(AnmLoaded *owner, int index)
+{
+    return *reinterpret_cast<AnmEntry *>(
+        reinterpret_cast<unsigned int>(owner->textures14) +
+        static_cast<unsigned int>(index) * sizeof(AnmEntry));
+}
+
+static inline AnmRawInstr *&NativeAnmScriptEntry(AnmLoaded *owner, int index)
+{
+    return *reinterpret_cast<AnmRawInstr **>(
+        reinterpret_cast<unsigned int>(owner->scripts10) +
+        static_cast<unsigned int>(index) * sizeof(owner->scripts10[0]));
+}
+
+static inline AnmManagerReadSlotView &NativeAnmManagerReadSlot(
+    AnmManagerReadView *manager, int index)
+{
+    return *reinterpret_cast<AnmManagerReadSlotView *>(
+        reinterpret_cast<unsigned int>(&manager->slots[0]) +
+        static_cast<unsigned int>(index) * sizeof(manager->slots[0]));
+}
+
+static inline AnmLoadedSprite &NativeAnmLoadedSprite(AnmLoaded *owner, int index)
+{
+    return *reinterpret_cast<AnmLoadedSprite *>(
+        reinterpret_cast<unsigned int>(owner->sprites0C) +
+        static_cast<unsigned int>(index) * sizeof(AnmLoadedSprite));
+}
+
 int AnmManager::LoadExternalTextureData(
     AnmLoaded *anmLoadedObject, int entryNumber, int *, int *,
     AnmRawEntry *rawEntry)
@@ -303,8 +337,8 @@ int AnmManager::LoadExternalTextureData(
                     path);
                 return -1;
             }
-            anmLoaded->textures14[entryNumber].size = fileSize;
-            anmLoaded->textures14[entryNumber].rawData = fileData;
+            NativeAnmTextureEntry(anmLoaded, entryNumber).size = fileSize;
+            NativeAnmTextureEntry(anmLoaded, entryNumber).rawData = fileData;
         }
     }
     return 1;
@@ -325,27 +359,27 @@ void AnmLoaded::LoadSprite(int spriteIndex, AnmLoadedSprite *loadedSprite)
 {
     AnmLoaded *anm = reinterpret_cast<AnmLoaded *>(this);
     AnmLoadedSprite *source = loadedSprite;
-    anm->sprites0C[spriteIndex] = *source;
+    NativeAnmLoadedSprite(anm, spriteIndex) = *source;
 
-    anm->sprites0C[spriteIndex].uvStartX =
-        anm->sprites0C[spriteIndex].startPixelX08 /
-        anm->sprites0C[spriteIndex].textureWidth1C;
-    anm->sprites0C[spriteIndex].uvEndX =
-        anm->sprites0C[spriteIndex].endPixelX10 /
-        anm->sprites0C[spriteIndex].textureWidth1C;
-    anm->sprites0C[spriteIndex].uvStartY =
-        anm->sprites0C[spriteIndex].startPixelY0C /
-        anm->sprites0C[spriteIndex].textureHeight18;
-    anm->sprites0C[spriteIndex].uvEndY =
-        anm->sprites0C[spriteIndex].endPixelY14 /
-        anm->sprites0C[spriteIndex].textureHeight18;
-    anm->sprites0C[spriteIndex].widthPx =
-        (anm->sprites0C[spriteIndex].endPixelX10 -
-         anm->sprites0C[spriteIndex].startPixelX08) /
+    NativeAnmLoadedSprite(anm, spriteIndex).uvStartX =
+        NativeAnmLoadedSprite(anm, spriteIndex).startPixelX08 /
+        NativeAnmLoadedSprite(anm, spriteIndex).textureWidth1C;
+    NativeAnmLoadedSprite(anm, spriteIndex).uvEndX =
+        NativeAnmLoadedSprite(anm, spriteIndex).endPixelX10 /
+        NativeAnmLoadedSprite(anm, spriteIndex).textureWidth1C;
+    NativeAnmLoadedSprite(anm, spriteIndex).uvStartY =
+        NativeAnmLoadedSprite(anm, spriteIndex).startPixelY0C /
+        NativeAnmLoadedSprite(anm, spriteIndex).textureHeight18;
+    NativeAnmLoadedSprite(anm, spriteIndex).uvEndY =
+        NativeAnmLoadedSprite(anm, spriteIndex).endPixelY14 /
+        NativeAnmLoadedSprite(anm, spriteIndex).textureHeight18;
+    NativeAnmLoadedSprite(anm, spriteIndex).widthPx =
+        (NativeAnmLoadedSprite(anm, spriteIndex).endPixelX10 -
+         NativeAnmLoadedSprite(anm, spriteIndex).startPixelX08) /
         source->scaleX38;
-    anm->sprites0C[spriteIndex].heightPx =
-        (anm->sprites0C[spriteIndex].endPixelY14 -
-         anm->sprites0C[spriteIndex].startPixelY0C) /
+    NativeAnmLoadedSprite(anm, spriteIndex).heightPx =
+        (NativeAnmLoadedSprite(anm, spriteIndex).endPixelY14 -
+         NativeAnmLoadedSprite(anm, spriteIndex).startPixelY0C) /
         source->scaleY3C;
 }
 
@@ -376,10 +410,10 @@ int AnmManager::LoadTextureData(
         path = reinterpret_cast<const char *>(rawEntry) + rawEntry->nameOffset;
         if (path[0] == '@')
         {
-            this->CreateEmptyTexture(&anmLoaded->textures14[entryNumber].texture,
+            this->CreateEmptyTexture(&NativeAnmTextureEntry(anmLoaded, entryNumber).texture,
                                   rawEntry->width, rawEntry->height, rawEntry->format);
         }
-        else if (this->CreateTextureFromFile(&anmLoaded->textures14[entryNumber],
+        else if (this->CreateTextureFromFile(&NativeAnmTextureEntry(anmLoaded, entryNumber),
                                           rawEntry->format, rawEntry->colorKey) != 0)
         {
             // Texture creation failure (original CP932 text).
@@ -394,7 +428,7 @@ int AnmManager::LoadTextureData(
         }
     }
     else if (this->CreateTextureFromAnm(
-                 &anmLoaded->textures14[entryNumber].texture,
+                 &NativeAnmTextureEntry(anmLoaded, entryNumber).texture,
                  reinterpret_cast<AnmTextureHeader *>(
                      reinterpret_cast<unsigned char *>(rawEntry) + rawEntry->textureOffset),
                  rawEntry->format) != 0)
@@ -403,9 +437,9 @@ int AnmManager::LoadTextureData(
         return -1;
     }
 
-    anmLoaded->textures14[entryNumber].texture->SetPriority(rawEntry->priority);
-    anmLoaded->textures14[entryNumber].texture->PreLoad();
-    anmLoaded->textures14[entryNumber].texture->GetLevelDesc(0, &surfaceDesc);
+    NativeAnmTextureEntry(anmLoaded, entryNumber).texture->SetPriority(rawEntry->priority);
+    NativeAnmTextureEntry(anmLoaded, entryNumber).texture->PreLoad();
+    NativeAnmTextureEntry(anmLoaded, entryNumber).texture->GetLevelDesc(0, &surfaceDesc);
 
     currentOffset = reinterpret_cast<unsigned int *>(
         reinterpret_cast<unsigned char *>(rawEntry) + sizeof(AnmRawEntry));
@@ -414,7 +448,7 @@ int AnmManager::LoadTextureData(
         AnmRawSpriteView *rawSprite = reinterpret_cast<AnmRawSpriteView *>(
             reinterpret_cast<unsigned char *>(rawEntry) + *currentOffset);
         loadedSprite.anmIdx = anmLoaded->anmIdx;
-        loadedSprite.texture = anmLoaded->textures14[entryNumber].texture;
+        loadedSprite.texture = NativeAnmTextureEntry(anmLoaded, entryNumber).texture;
         loadedSprite.scaleX38 = surfaceDesc.Width / static_cast<float>(rawEntry->width);
         loadedSprite.scaleY3C = surfaceDesc.Height / static_cast<float>(rawEntry->height);
         loadedSprite.startPixelX08 = rawSprite->x * loadedSprite.scaleX38;
@@ -429,7 +463,7 @@ int AnmManager::LoadTextureData(
 
     for (i = 0; i < rawEntry->numScripts; i++, currentOffset += 2)
     {
-        anmLoaded->scripts10[currentScriptNumber] = reinterpret_cast<AnmRawInstr *>(
+        NativeAnmScriptEntry(anmLoaded, currentScriptNumber) = reinterpret_cast<AnmRawInstr *>(
             reinterpret_cast<unsigned char *>(rawEntry) + currentOffset[1]);
         currentScriptNumber++;
     }
@@ -446,10 +480,10 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
 
     AnmManagerReadView *manager =
         reinterpret_cast<AnmManagerReadView *>(this);
-    if (manager->slots[anmIdx].loaded.rawData04 != NULL)
+    if (NativeAnmManagerReadSlot(manager, anmIdx).loaded.rawData04 != NULL)
     {
-        manager->slots[anmIdx].releasePending = 1;
-        while (manager->slots[anmIdx].releasePending != 0 &&
+        NativeAnmManagerReadSlot(manager, anmIdx).releasePending = 1;
+        while (NativeAnmManagerReadSlot(manager, anmIdx).releasePending != 0 &&
                !AnmSupervisor()->subthreadCloseRequestActive)
             Sleep(1);
     }
@@ -457,7 +491,7 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
     AnmRawEntry *entry = reinterpret_cast<AnmRawEntry *>(
         FileSystem::OpenFile(filename, NULL, 0));
     int currentEntryNumber = 0;
-    AnmManagerReadSlotView *slot = &manager->slots[anmIdx];
+    AnmManagerReadSlotView *slot = &NativeAnmManagerReadSlot(manager, anmIdx);
     AnmLoaded *anmLoaded = &slot->loaded;
     if (entry == NULL)
         return NULL;
