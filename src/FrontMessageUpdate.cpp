@@ -122,6 +122,32 @@ static void DecodeFrontMessageString(
     } while (decoded != 0);
 }
 
+// The actual portrait VMs are four 0x548-byte pairs in the native eight-VM
+// allocation. The wire side/index word has no retail bounds check.
+static inline FrontMessagePortraitPair &NativeMessagePortrait(
+    FrontMessageRuntimeView *owner, int index)
+{
+    return *reinterpret_cast<FrontMessagePortraitPair *>(
+        reinterpret_cast<unsigned int>(&owner->messageVms14[0]) +
+        static_cast<unsigned int>(index) * sizeof(FrontMessagePortraitPair));
+}
+
+// The shared GameManager side records use their original 0x38-byte
+// stride, including when a wire index is outside the playable pair.
+static inline AsciiGameManagerSideView &NativeFrontMessageSide(int index)
+{
+    return *reinterpret_cast<AsciiGameManagerSideView *>(
+        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
+        static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0]));
+}
+
+// Keep original VC7.1 scalar load scheduling: a callable palette/VM
+// adapter alters this switch owner's register and jump-table layout.
+// This lexical expression is the native i386 array-word address instead.
+#define FRONT_MESSAGE_NATIVE_SLOT(type, array, index) \
+    (*reinterpret_cast<type *>(reinterpret_cast<unsigned int>(&array[0]) + \
+     static_cast<unsigned int>(index) * sizeof(array[0])))
+
 int FrontMessageRuntimeView::Update()
 {
     char textA[64];
@@ -147,8 +173,8 @@ int FrontMessageRuntimeView::Update()
 
         case 0x17:
         {
-            g_GameManager.sides[current04->argument04].player04->SetUpdateState(1);
-            g_GameManager.sides[current04->argument04].player04->timer303C8 = 0;
+            NativeFrontMessageSide(current04->argument04).player04->SetUpdateState(1);
+            NativeFrontMessageSide(current04->argument04).player04->timer303C8 = 0;
             break;
         }
 
@@ -163,45 +189,45 @@ int FrontMessageRuntimeView::Update()
                 if (!mode10)
                     side = requestedSide;
                 else
-                    side = 1 - requestedSide;
+                    side = static_cast<int>(1u - static_cast<unsigned int>(requestedSide));
                 if (currentPortrait1D67 != side)
                 {
                     for (int i = 0; i < 4; ++i)
                     {
                         if (i != side)
                         {
-                            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[i].first00.pendingInterrupt = 4;
-                            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[i].second2A4.pendingInterrupt = 4;
+                            NativeMessagePortrait(this, i).first00.pendingInterrupt = 4;
+                            NativeMessagePortrait(this, i).second2A4.pendingInterrupt = 4;
                         }
                     }
                 }
 
-                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00.pendingInterrupt = 3;
-                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4.pendingInterrupt = 3;
+                NativeMessagePortrait(this, side).first00.pendingInterrupt = 3;
+                NativeMessagePortrait(this, side).second2A4.pendingInterrupt = 3;
                 currentPortrait1D67 = (unsigned char)side;
                 colorIndex1D64 = (unsigned char)side;
 
                 if (instruction->argument08 >= 0)
                 {
-                    g_GameManager.sides[mode10].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[mode10].first00,
-                        g_GameManager.sides[mode10].player04->tableValue303FC +
+                    NativeFrontMessageSide(mode10).frontSide18->auxA678.sideAnm00
+                        ->SetSprite(&NativeMessagePortrait(this, mode10).first00,
+                        NativeFrontMessageSide(mode10).player04->tableValue303FC +
                         instruction->argument08);
-                    g_GameManager.sides[mode10].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[mode10].second2A4,
-                        g_GameManager.sides[mode10].player04->tableValue303FC +
+                    NativeFrontMessageSide(mode10).frontSide18->auxA678.sideAnm00
+                        ->SetSprite(&NativeMessagePortrait(this, mode10).second2A4,
+                        NativeFrontMessageSide(mode10).player04->tableValue303FC +
                         instruction->argument08 + 9);
                 }
 
                 if (instruction->argument0C >= 0)
                 {
-                    g_GameManager.sides[1 - mode10].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1 - mode10].first00,
-                        g_GameManager.sides[1 - mode10].player04->tableValue303FC +
+                    NativeFrontMessageSide(static_cast<int>(1u - static_cast<unsigned int>(mode10))).frontSide18->auxA678.sideAnm00
+                        ->SetSprite(&NativeMessagePortrait(this, static_cast<int>(1u - static_cast<unsigned int>(mode10))).first00,
+                        NativeFrontMessageSide(static_cast<int>(1u - static_cast<unsigned int>(mode10))).player04->tableValue303FC +
                         instruction->argument0C);
-                    g_GameManager.sides[1 - mode10].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1 - mode10].second2A4,
-                        g_GameManager.sides[1 - mode10].player04->tableValue303FC +
+                    NativeFrontMessageSide(static_cast<int>(1u - static_cast<unsigned int>(mode10))).frontSide18->auxA678.sideAnm00
+                        ->SetSprite(&NativeMessagePortrait(this, static_cast<int>(1u - static_cast<unsigned int>(mode10))).second2A4,
+                        NativeFrontMessageSide(static_cast<int>(1u - static_cast<unsigned int>(mode10))).player04->tableValue303FC +
                         instruction->argument0C + 9);
                 }
             }
@@ -228,7 +254,7 @@ int FrontMessageRuntimeView::Update()
                 if (!mode10)
                     side = requested;
                 else
-                    side = 1 - requested;
+                    side = static_cast<int>(1u - static_cast<unsigned int>(requested));
             }
             else
                 side = requested;
@@ -239,36 +265,36 @@ int FrontMessageRuntimeView::Update()
                 {
                     if (i != side)
                     {
-                        reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[i].first00.pendingInterrupt = 4;
-                        reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[i].second2A4.pendingInterrupt = 4;
+                        NativeMessagePortrait(this, i).first00.pendingInterrupt = 4;
+                        NativeMessagePortrait(this, i).second2A4.pendingInterrupt = 4;
                     }
                 }
             }
 
-            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00.pendingInterrupt = 3;
-            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4.pendingInterrupt = 3;
+            NativeMessagePortrait(this, side).first00.pendingInterrupt = 3;
+            NativeMessagePortrait(this, side).second2A4.pendingInterrupt = 3;
             currentPortrait1D67 = (unsigned char)side;
 
             if (instruction->argument08 >= 0)
             {
                 if (side < 2)
                 {
-                    g_GameManager.sides[side].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00,
-                        g_GameManager.sides[side].player04->tableValue303FC +
+                    NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00
+                        ->SetSprite(&NativeMessagePortrait(this, side).first00,
+                        NativeFrontMessageSide(side).player04->tableValue303FC +
                         instruction->argument08);
-                    g_GameManager.sides[side].frontSide18->auxA678.sideAnm00
-                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4,
-                        g_GameManager.sides[side].player04->tableValue303FC +
+                    NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00
+                        ->SetSprite(&NativeMessagePortrait(this, side).second2A4,
+                        NativeFrontMessageSide(side).player04->tableValue303FC +
                         instruction->argument08 + 9);
                 }
                 else
                 {
                     g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04
-                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00,
+                        ->SetSprite(&NativeMessagePortrait(this, side).first00,
                         instruction->argument08);
                     g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04
-                        ->SetSprite(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4,
+                        ->SetSprite(&NativeMessagePortrait(this, side).second2A4,
                         instruction->argument08 + 6);
                 }
             }
@@ -296,27 +322,27 @@ int FrontMessageRuntimeView::Update()
                 if (!mode10)
                     side = portrait;
                 else
-                    side = 1 - portrait;
+                    side = static_cast<int>(1u - static_cast<unsigned int>(portrait));
                 int script =
-                    g_GameManager.sides[side].player04->tableValue303F8 + side;
+                    NativeFrontMessageSide(side).player04->tableValue303F8 + side;
                 AnmLoaded *anm =
-                    g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
+                    NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00;
                 anm->SetAndExecuteScriptIdx(
-                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00, script);
-                script = g_GameManager.sides[side].player04->tableValue303F8 + side + 4;
-                anm = g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
+                    &NativeMessagePortrait(this, side).first00, script);
+                script = NativeFrontMessageSide(side).player04->tableValue303F8 + side + 4;
+                anm = NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00;
                 anm->SetAndExecuteScriptIdx(
-                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4, script);
+                    &NativeMessagePortrait(this, side).second2A4, script);
             }
             else
             {
                 AnmLoaded *anm =
                     g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetAndExecuteScriptIdx(
-                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[portrait].first00, portrait);
+                    &NativeMessagePortrait(this, portrait).first00, portrait);
                 anm = g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetAndExecuteScriptIdx(
-                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[portrait].second2A4, portrait + 4);
+                    &NativeMessagePortrait(this, portrait).second2A4, portrait + 4);
             }
             break;
         }
@@ -334,17 +360,17 @@ int FrontMessageRuntimeView::Update()
                     side = 1 - arguments[0];
                 int sprite = arguments[1];
                 int spriteBase =
-                    g_GameManager.sides[side].player04->tableValue303FC + sprite;
+                    NativeFrontMessageSide(side).player04->tableValue303FC + sprite;
                 AnmLoaded *anm =
-                    g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
+                    NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00;
                 anm->SetSprite(
-                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].first00, spriteBase);
+                    &NativeMessagePortrait(this, side).first00, spriteBase);
                 spriteBase =
-                    g_GameManager.sides[side].player04->tableValue303FC +
+                    NativeFrontMessageSide(side).player04->tableValue303FC +
                     arguments[1] + 9;
-                anm = g_GameManager.sides[side].frontSide18->auxA678.sideAnm00;
+                anm = NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00;
                 anm->SetSprite(
-                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[side].second2A4, spriteBase);
+                    &NativeMessagePortrait(this, side).second2A4, spriteBase);
             }
             else
             {
@@ -352,10 +378,10 @@ int FrontMessageRuntimeView::Update()
                 AnmLoaded *anm =
                     g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetSprite(
-                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[portrait].first00, arguments[1]);
+                    &NativeMessagePortrait(this, portrait).first00, arguments[1]);
                 anm = g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetSprite(
-                    &reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[portrait].second2A4, arguments[1] + 6);
+                    &NativeMessagePortrait(this, portrait).second2A4, arguments[1] + 6);
             }
             break;
         }
@@ -368,24 +394,24 @@ int FrontMessageRuntimeView::Update()
             {
                 g_AnmManager->DrawTextLeft(
                     &textVms1534[1],
-                    textColors1D20[arguments[0]],
-                    shadowColors1D30[arguments[0]],
+                    FRONT_MESSAGE_NATIVE_SLOT(unsigned long, textColors1D20, arguments[0]),
+                    FRONT_MESSAGE_NATIVE_SLOT(unsigned long, shadowColors1D30, arguments[0]),
                     " ");
             }
 
             g_FrontMessageAnm->SetAndExecuteScriptIdx(
-                &textVms1534[arguments[1]], arguments[1]);
-            reinterpret_cast<unsigned char *>(&textVms1534[arguments[1]])[0x298] =
-                reinterpret_cast<unsigned char *>(&textVms1534[arguments[1]])[0x299] =
+                &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, arguments[1]), arguments[1]);
+            reinterpret_cast<unsigned char *>(&FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, arguments[1]))[0x298] =
+                reinterpret_cast<unsigned char *>(&FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, arguments[1]))[0x299] =
                 (unsigned char)glyphSize1D54;
 
             DecodeFrontMessageString(
                 textA,
                 reinterpret_cast<unsigned char *>(arguments) + 4);
             g_AnmManager->DrawTextLeft(
-                &textVms1534[arguments[1]],
-                textColors1D20[arguments[0]],
-                shadowColors1D30[arguments[0]],
+                &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, arguments[1]),
+                FRONT_MESSAGE_NATIVE_SLOT(unsigned long, textColors1D20, arguments[0]),
+                FRONT_MESSAGE_NATIVE_SLOT(unsigned long, shadowColors1D30, arguments[0]),
                 textA);
             framesElapsed1D4C = 0;
             break;
@@ -401,29 +427,29 @@ int FrontMessageRuntimeView::Update()
                 {
                     g_AnmManager->DrawTextLeft(
                         &textVms1534[1],
-                        textColors1D20[colorIndex1D64],
-                        shadowColors1D30[colorIndex1D64],
+                        FRONT_MESSAGE_NATIVE_SLOT(unsigned long, textColors1D20, colorIndex1D64),
+                        FRONT_MESSAGE_NATIVE_SLOT(unsigned long, shadowColors1D30, colorIndex1D64),
                         " ");
                 }
                 textLineIndex1D66 = 0;
             }
 
             g_FrontMessageAnm->SetAndExecuteScriptIdx(
-                &textVms1534[textLineIndex1D66],
+                &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, textLineIndex1D66),
                 textLineIndex1D66);
             reinterpret_cast<unsigned char *>(
-                &textVms1534[textLineIndex1D66])[0x298] =
+                &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, textLineIndex1D66))[0x298] =
                 reinterpret_cast<unsigned char *>(
-                    &textVms1534[textLineIndex1D66])[0x299] =
+                    &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, textLineIndex1D66))[0x299] =
                 (unsigned char)glyphSize1D54;
 
             DecodeFrontMessageString(
                 textB,
                 text);
             g_AnmManager->DrawTextLeft(
-                &textVms1534[textLineIndex1D66],
-                textColors1D20[colorIndex1D64],
-                shadowColors1D30[colorIndex1D64],
+                &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, textLineIndex1D66),
+                FRONT_MESSAGE_NATIVE_SLOT(unsigned long, textColors1D20, colorIndex1D64),
+                FRONT_MESSAGE_NATIVE_SLOT(unsigned long, shadowColors1D30, colorIndex1D64),
                 textB);
             framesElapsed1D4C = 0;
             resetText1D65 = 0;
@@ -461,9 +487,9 @@ int FrontMessageRuntimeView::Update()
         {
             short *arguments =
                 reinterpret_cast<short *>(&current04->argument04);
-            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[arguments[0]].first00.pendingInterrupt =
+            NativeMessagePortrait(this, arguments[0]).first00.pendingInterrupt =
                 reinterpret_cast<unsigned char *>(arguments)[2];
-            reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[arguments[0]].second2A4.pendingInterrupt =
+            NativeMessagePortrait(this, arguments[0]).second2A4.pendingInterrupt =
                 reinterpret_cast<unsigned char *>(arguments)[2];
             break;
         }
@@ -606,3 +632,5 @@ run_scripts:
 
     return 0;
 }
+
+#undef FRONT_MESSAGE_NATIVE_SLOT

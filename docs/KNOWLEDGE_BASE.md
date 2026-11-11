@@ -732,6 +732,39 @@ definitions, unchanged original target operands and the entire owner bytes.
 This is faithful semantics and a preserved existing exact owner, not an
 additional exact-function promotion.
 
+## Front message 2,968-byte Update native wire indexing
+
+The existing exact FrontMessageRuntimeView::Update physical owner at
+0x00416590 is 2,852 instruction bytes plus 116 owned switch-table
+bytes. Script-provided signed indices select real message portrait pairs
+(0x548-byte stride), text VMs (0x2A4-byte stride), text/shadow palette
+DWORDs, and 0x38-byte GameManager side records. The maintained source now
+takes every dynamic slot through its original base + signed-index-scaled
+native i386 DWORD address, rather than assuming C++ array bounds. This
+includes the instruction's side argument, selected or alternate
+portrait slots, text line and color script words; literal fixed slots
+remain unchanged. Three signed opposing-side expressions also explicitly
+use native wrapping DWORD subtraction.
+
+The portrait and side lexical inline views keep the native owner and
+object storage; scalar palette/text VM accesses use a single lexical
+address macro because callable inline replacements changed VC7.1's
+register/switch-table layout. No new table, index check, synthetic
+helper call or original program bytes were introduced.
+
+All parts were probed individually and in combination. The final
+maintained-source pinned VC7.1 /O2 /Ob1 build reproduced the complete
+**2,968 / 2,968 original physical bytes** with **167 original-bound
+relocation fields**. Thirty compiler-private local/jump-table label
+spellings were re-bound only after proving their actual same-section
+COFF definitions, unchanged original PE destination operands and
+complete function equality. Both affected compiler carriers were
+cold-replayed: the full Update owner and independently exact 39-byte
+DecodeFrontMessageString leaf, totaling **2 exact functions / 3,007
+physical bytes / 167 relocation fields**. The function was already
+exact: this improves native wire semantics without changing exact-function
+credit.
+
 ## ExAttack Spawn native type/side dispatch words
 
 ExAttackController::Spawn at 0x004151F0 is an existing 321-byte exact
