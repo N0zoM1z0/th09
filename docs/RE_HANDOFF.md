@@ -72,6 +72,9 @@ Git retains earlier source revisions.
   the full 15,564-byte RunEcl frontier remains at 30 bytes, while two
   EclManager carriers still protect 83/83 exact functions (29,856 bytes /
   1,389 relocations) with 20 independently verified private label rebindings.
+  ANM D3D capture now computes 17 surface, descriptor and file-slot accesses
+  through authentic 0x04/0x14/0x120-byte native strides; all eight affected
+  AnmManagerUtility owners (1,723 bytes / 49 fields) cold-replay exact.
   These patches preserved exact siblings but **did not** promote any of the twelve
   open functions. Use `git log --oneline` for the actual commits; do not
   restore scratch files as if they were accepted changes.

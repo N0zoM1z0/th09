@@ -74,6 +74,28 @@ fields** of `InitializeEffect`. The separately original-bound 51-byte
 existing eight nonexact register bytes. This improves source semantics but
 adds no exact function or whole-product/runtime credit.
 
+## 2026-11-11 native ANM capture surface and file-slot selectors
+
+The exact `AnmManager::CaptureToSurface` and `CaptureToTexture` consumers
+use genuine native arrays in the one `AnmManager` allocation: surface
+pointers at +0x123FC and +0x1247C (four-byte pointer strides), D3D
+surface information at +0x125FC (0x14-byte descriptors), and 0x120-byte
+file-slot records with the native loaded texture pointer at each slot +0x38.
+Seventeen dynamic surface/descriptor/file-slot lookups now reuse the same
+`NativeAnmSurfaceSlot` lvalue already used by the exact backbuffer copy
+path. Each signed index is converted into the actual unsigned 32-bit
+`base + index * native stride` byte address; original null/Direct3D return
+checks, `ReleaseSurface` calls, repeated member reads and allocation
+ownership are preserved without a new cache, guard or backing object.
+
+Three isolated and combined pinned VC7.1 source builds stayed fully exact
+for all eight actual `AnmManagerUtility.cpp` owners. The installed combined
+change passed the **one-carrier targeted cold replay: 8/8 complete exact
+functions, 1,723 target bytes and 49 original-bound relocation fields**.
+There was no full cold replay and no additional exact function credit; the
+result is native D3D capture/source-memory fidelity rather than product or
+runtime completion.
+
 ## 2026-11-11 native ANM sprite, texture, script and file-slot addressing
 
 The original ANM resource-loading path owns real dynamically allocated

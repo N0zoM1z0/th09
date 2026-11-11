@@ -96,9 +96,10 @@ static __inline AnmSurfaceSlotView *SurfaceSlots(AnmManager *manager)
 }
 
 // The four original Manager surface arrays have different real bases and
-// strides (0x04-byte pointers versus 0x14-byte D3D descriptors). Keep every
-// repeated source read, but use Win32 modulo-32 address math for the signed
-// surface selector instead of out-of-bounds C++ indexing.
+// strides (0x04-byte pointers versus 0x14-byte D3D descriptors); the
+// capture-ANM file-slot records have their own 0x120-byte stride. Keep every
+// repeated live source read and use native Win32 DWORD address arithmetic
+// for each signed selector, without adding bounds checks or new pools.
 template <typename T>
 static __forceinline T &NativeAnmSurfaceSlot(T *records, int index)
 {
@@ -310,7 +311,7 @@ void AnmManager::CaptureToTexture(
     int captureAnmIndex, int srcX, int srcY, int srcW, int srcH,
     int dstX, int dstY, int dstW, int dstH)
 {
-    if (SurfaceSlots(this)[captureAnmIndex].textures[0].texture == NULL)
+    if (NativeAnmSurfaceSlot(SurfaceSlots(this), captureAnmIndex).textures[0].texture == NULL)
         return;
 
     this->FlushVertexBuffer();
@@ -321,7 +322,7 @@ void AnmManager::CaptureToTexture(
         return;
 
     IDirect3DSurface8 *textureSurface;
-    if (SurfaceSlots(this)[captureAnmIndex].textures[0].texture->GetSurfaceLevel(
+    if (NativeAnmSurfaceSlot(SurfaceSlots(this), captureAnmIndex).textures[0].texture->GetSurfaceLevel(
             0, &textureSurface) != D3D_OK)
     {
         backbuffer->Release();
@@ -359,7 +360,7 @@ void AnmManager::CaptureToSurface(
     AnmManagerSurfaceView *manager = SurfaceManager(this);
     this->FlushVertexBuffer();
 
-    if (manager->surfaces[captureSurfaceIndex] != NULL)
+    if (NativeAnmSurfaceSlot(manager->surfaces, captureSurfaceIndex) != NULL)
         this->ReleaseSurface(captureSurfaceIndex);
 
     RECT srcRect;
@@ -378,40 +379,40 @@ void AnmManager::CaptureToSurface(
             0, D3DBACKBUFFER_TYPE_MONO, &backbuffer) != D3D_OK)
         return;
 
-    manager->surfaceInfo[captureSurfaceIndex].Width = dstW;
-    manager->surfaceInfo[captureSurfaceIndex].Height = dstH;
+    NativeAnmSurfaceSlot(manager->surfaceInfo, captureSurfaceIndex).Width = dstW;
+    NativeAnmSurfaceSlot(manager->surfaceInfo, captureSurfaceIndex).Height = dstH;
 
     if (g_Supervisor.d3dDevice08->CreateRenderTarget(
-            manager->surfaceInfo[captureSurfaceIndex].Width,
-            manager->surfaceInfo[captureSurfaceIndex].Height,
+            NativeAnmSurfaceSlot(manager->surfaceInfo, captureSurfaceIndex).Width,
+            NativeAnmSurfaceSlot(manager->surfaceInfo, captureSurfaceIndex).Height,
             g_Supervisor.presentParameters350.BackBufferFormat,
             D3DMULTISAMPLE_NONE, TRUE,
-            &manager->surfaces[captureSurfaceIndex]) != D3D_OK)
+            &NativeAnmSurfaceSlot(manager->surfaces, captureSurfaceIndex)) != D3D_OK)
     {
         if (g_Supervisor.d3dDevice08->CreateImageSurface(
-                manager->surfaceInfo[captureSurfaceIndex].Width,
-                manager->surfaceInfo[captureSurfaceIndex].Height,
+                NativeAnmSurfaceSlot(manager->surfaceInfo, captureSurfaceIndex).Width,
+                NativeAnmSurfaceSlot(manager->surfaceInfo, captureSurfaceIndex).Height,
                 g_Supervisor.presentParameters350.BackBufferFormat,
-                &manager->surfaces[captureSurfaceIndex]) != D3D_OK)
+                &NativeAnmSurfaceSlot(manager->surfaces, captureSurfaceIndex)) != D3D_OK)
             goto out;
     }
 
     if (g_Supervisor.d3dDevice08->CreateImageSurface(
-            manager->surfaceInfo[captureSurfaceIndex].Width,
-            manager->surfaceInfo[captureSurfaceIndex].Height,
+            NativeAnmSurfaceSlot(manager->surfaceInfo, captureSurfaceIndex).Width,
+            NativeAnmSurfaceSlot(manager->surfaceInfo, captureSurfaceIndex).Height,
             g_Supervisor.presentParameters350.BackBufferFormat,
-            &manager->surfacesBis[captureSurfaceIndex]) != D3D_OK)
+            &NativeAnmSurfaceSlot(manager->surfacesBis, captureSurfaceIndex)) != D3D_OK)
         goto out;
 
     if (D3DXLoadSurfaceFromSurface(
-            manager->surfaces[captureSurfaceIndex], NULL, &dstRect,
+            NativeAnmSurfaceSlot(manager->surfaces, captureSurfaceIndex), NULL, &dstRect,
             backbuffer, NULL, &srcRect, static_cast<unsigned long>(-1),
             0) != D3D_OK)
         goto out;
 
     D3DXLoadSurfaceFromSurface(
-        manager->surfacesBis[captureSurfaceIndex], NULL, NULL,
-        manager->surfaces[captureSurfaceIndex], NULL, NULL,
+        NativeAnmSurfaceSlot(manager->surfacesBis, captureSurfaceIndex), NULL, NULL,
+        NativeAnmSurfaceSlot(manager->surfaces, captureSurfaceIndex), NULL, NULL,
         static_cast<unsigned long>(-1), 0);
 
 out:
