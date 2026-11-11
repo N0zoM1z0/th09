@@ -663,6 +663,26 @@ that full proof; canonical affected-only cold replay then passed. The large
 ChargeAttack/Movement owners and whole Windows i386 product remain open;
 no new exactness credit follows.
 
+## Player ApplyReward native DWORD counters and thresholds
+
+The original-bound `PlayerOwnerStateView::ApplyReward @ 0x0041D150` is
+**1,519 authored bytes plus 21 bytes of owned physical table/tail**.
+Its reward score/product/rounding arithmetic, state counter, reward meter,
+spawn counter, side-number inversion, effect type sum and timer assignment
+use signed results of **i386 modulo-32 operations**. The source now makes
+those intermediate word widths explicit while retaining the original
+signed division/modulus, loop tests, real Player owner and exact external
+calls. In particular, multiplication is truncated to a native DWORD before
+signed division; only the original integer mathematics is reproduced.
+
+The combined maintained-source VC7.1 /O2 /Ob1 build, not merely isolated
+probes, is **byte-exact across all 1,540 physical bytes, 91 relocation fields
+and their original PE referents**. Six VC7.1-private `$L` label spellings
+were rebound only after independently proving their actual same-section COFF
+definitions, unchanged original target operands and the entire owner bytes.
+This is faithful semantics and a preserved existing exact owner, not an
+additional exact-function promotion.
+
 ## Player movement, charge and collision
 
 The still-nonexact 1,900-byte Player movement owner reads the focus-effect

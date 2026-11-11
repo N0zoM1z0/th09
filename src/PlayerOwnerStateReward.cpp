@@ -33,13 +33,23 @@ void PlayerOwnerStateView::ApplyReward(
         return;
 
     state->activeFrameCounter3C = 0;
-    ++state->state04;
+    // Retail counter increments and scaling products wrap at 32 bits before
+    // the signed tests and divisions below.
+    state->state04 = static_cast<int>(
+        static_cast<unsigned int>(state->state04) + 1u);
     if (state->maxState08 < state->state04)
         state->maxState08 = state->state04;
 
-    state->value0C += value3 + value3 * g_PlayerRewardBaseValue / 10;
+    state->value0C = static_cast<int>(
+        static_cast<unsigned int>(state->value0C) +
+        static_cast<unsigned int>(value3) +
+        static_cast<unsigned int>(static_cast<int>(
+            static_cast<unsigned int>(value3) *
+            static_cast<unsigned int>(g_PlayerRewardBaseValue)) / 10));
     if (state->value0C % 10 != 0)
-        state->value0C = state->value0C - state->value0C % 10 + 10;
+        state->value0C = static_cast<int>(
+            static_cast<unsigned int>(state->value0C) -
+            static_cast<unsigned int>(state->value0C % 10) + 10u);
 
     if (state->value0C > 999990)
     {
@@ -110,17 +120,26 @@ void PlayerOwnerStateView::ApplyReward(
     if (value0 != 0)
     {
         if (g_PlayerRewardModeValue == 2)
-            value0 = value0 * 5 / 4;
+            value0 = static_cast<int>(
+                static_cast<unsigned int>(value0) * 5u) / 4;
         else if (g_PlayerRewardModeValue == 3)
-            value0 = value0 * 4 / 3;
+            value0 = static_cast<int>(
+                static_cast<unsigned int>(value0) * 4u) / 3;
 
-        state->rewardMeter2C += value0;
-        state->spawnCounter30 += value1;
-        state->value34 += value2;
+        state->rewardMeter2C = static_cast<int>(
+            static_cast<unsigned int>(state->rewardMeter2C) +
+            static_cast<unsigned int>(value0));
+        state->spawnCounter30 = static_cast<int>(
+            static_cast<unsigned int>(state->spawnCounter30) +
+            static_cast<unsigned int>(value1));
+        state->value34 = static_cast<int>(
+            static_cast<unsigned int>(state->value34) +
+            static_cast<unsigned int>(value2));
         state->rewardCallback40(this, position);
 
         while (state->spawnCounter30 >=
-               60 - 3 * g_PlayerRewardBaseValue / 2)
+               static_cast<int>(60u - static_cast<unsigned int>(
+                   static_cast<int>(3u * static_cast<unsigned int>(g_PlayerRewardBaseValue)) / 2)))
         {
             if (state->playerOwner00->opponentState->enemyManager10->rewardEnemyCount2AC3B8 < 25)
             {
@@ -132,7 +151,8 @@ void PlayerOwnerStateView::ApplyReward(
                     g_ReplayRng.GetRandomF32SignedInRange(32.0f);
                 effectPosition.z = 0.0f;
 
-                g_Supervisor.SelectSide(1 - state->playerOwner00->sideIndex);
+                g_Supervisor.SelectSide(static_cast<int>(
+                    1u - static_cast<unsigned int>(state->playerOwner00->sideIndex)));
 
                 velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
                     g_PlayerRewardVelocitySpan * 0.5f - 8.0f);
@@ -141,7 +161,8 @@ void PlayerOwnerStateView::ApplyReward(
 
                 Effect *effect =
                     g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                        state->playerOwner00->sideIndex + 3, &effectPosition, &velocity,
+                        static_cast<int>(static_cast<unsigned int>(
+                            state->playerOwner00->sideIndex) + 3u), &effectPosition, &velocity,
                         1, static_cast<unsigned int>(-1));
 
                 g_Supervisor.SelectSide(state->playerOwner00->sideIndex);
@@ -154,14 +175,17 @@ void PlayerOwnerStateView::ApplyReward(
                 effect->playerReward.side = static_cast<short>(state->playerOwner00->sideIndex);
             }
 
-            state->spawnCounter30 += 2 * g_PlayerRewardBaseValue - 60;
-            state->rewardMeter2C -= 10;
+            state->spawnCounter30 = static_cast<int>(
+                static_cast<unsigned int>(state->spawnCounter30) +
+                2u * static_cast<unsigned int>(g_PlayerRewardBaseValue) - 60u);
+            state->rewardMeter2C = static_cast<int>(
+                static_cast<unsigned int>(state->rewardMeter2C) - 10u);
             if (state->rewardMeter2C < 0)
                 state->rewardMeter2C = 0;
         }
 
-        while (state->rewardMeter2C >=
-               4 * (30 - g_PlayerRewardBaseValue))
+        while (state->rewardMeter2C >= static_cast<int>(
+            4u * (30u - static_cast<unsigned int>(g_PlayerRewardBaseValue))))
         {
             effectPosition.x =
                 g_GameManager.TransformPopupX(position->x) +
@@ -171,7 +195,8 @@ void PlayerOwnerStateView::ApplyReward(
                 g_ReplayRng.GetRandomF32SignedInRange(32.0f);
             effectPosition.z = 0.0f;
 
-            g_Supervisor.SelectSide(1 - state->playerOwner00->sideIndex);
+            g_Supervisor.SelectSide(static_cast<int>(
+                1u - static_cast<unsigned int>(state->playerOwner00->sideIndex)));
 
             velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
                 g_PlayerRewardVelocitySpan * 0.5f - 8.0f);
@@ -180,7 +205,8 @@ void PlayerOwnerStateView::ApplyReward(
 
             Effect *effect =
                 g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                    state->playerOwner00->sideIndex + 1, &effectPosition, &velocity,
+                    static_cast<int>(static_cast<unsigned int>(
+                        state->playerOwner00->sideIndex) + 1u), &effectPosition, &velocity,
                     1, static_cast<unsigned int>(-1));
 
             g_Supervisor.SelectSide(state->playerOwner00->sideIndex);
@@ -214,8 +240,9 @@ void PlayerOwnerStateView::ApplyReward(
             }
             effect->playerReward.side = static_cast<short>(state->playerOwner00->sideIndex);
 
-            state->rewardMeter2C +=
-                4 * g_PlayerRewardBaseValue - 120;
+            state->rewardMeter2C = static_cast<int>(
+                static_cast<unsigned int>(state->rewardMeter2C) +
+                4u * static_cast<unsigned int>(g_PlayerRewardBaseValue) - 120u);
         }
     }
 
@@ -231,6 +258,7 @@ void PlayerOwnerStateView::ApplyReward(
     {
         state->maxValue10 = result;
         int current = static_cast<int>(state->timer20);
-        state->timer14 = current + 45;
+        state->timer14 = static_cast<int>(
+            static_cast<unsigned int>(current) + 45u);
     }
 }
