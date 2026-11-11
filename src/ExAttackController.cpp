@@ -10,6 +10,16 @@ extern ZunMemory g_ZunMemory;
 
 extern ExAttackTemplate g_ExAttackTemplates[];
 
+// The original callback table is indexed as a signed native DWORD with
+// 0x10-byte template stride; a C++ array bound is not a retail condition.
+static inline ExAttackTemplate &NativeExAttackTemplate(int type)
+{
+    return *reinterpret_cast<ExAttackTemplate *>(
+        reinterpret_cast<unsigned int>(&g_ExAttackTemplates[0]) +
+        static_cast<unsigned int>(type) * sizeof(g_ExAttackTemplates[0]));
+}
+
+
 ExAttackRecord::ExAttackRecord()
 {
 }
@@ -59,7 +69,9 @@ ExAttackRecord *ExAttackController::Spawn(
         if (record->active && record->side == side)
             activeForSide++;
     }
-    if (activeForSide >= this->sideLimits[side])
+    if (activeForSide >= *reinterpret_cast<const int *>(
+        reinterpret_cast<unsigned int>(&this->sideLimits[0]) +
+        static_cast<unsigned int>(side) * sizeof(this->sideLimits[0])))
         return &this->records[256];
 
     g_SoundPlayer.PlaySoundByIdx(45, side != 0 ? 500 : -500);
@@ -80,13 +92,14 @@ found_slot:
     record->active = 1;
     record->position = *reinterpret_cast<const ExAttackVec3 *>(position);
     record->side = side;
-    record->opponentSide = 1 - side;
+    record->opponentSide = static_cast<int>(
+        1u - static_cast<unsigned int>(side));
     record->parameter38 = parameter;
-    record->updateCallback = g_ExAttackTemplates[type].updateCallback;
-    record->drawCallback = g_ExAttackTemplates[type].drawCallback;
-    record->releaseCallback = g_ExAttackTemplates[type].releaseCallback;
+    record->updateCallback = NativeExAttackTemplate(type).updateCallback;
+    record->drawCallback = NativeExAttackTemplate(type).drawCallback;
+    record->releaseCallback = NativeExAttackTemplate(type).releaseCallback;
     record->timer = 0;
-    if (g_ExAttackTemplates[type].initializeCallback(record) != 0)
+    if (NativeExAttackTemplate(type).initializeCallback(record) != 0)
         record->active = 0;
     return record;
 }

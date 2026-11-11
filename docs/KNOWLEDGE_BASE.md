@@ -732,6 +732,23 @@ definitions, unchanged original target operands and the entire owner bytes.
 This is faithful semantics and a preserved existing exact owner, not an
 additional exact-function promotion.
 
+## ExAttack Spawn native type/side dispatch words
+
+ExAttackController::Spawn at 0x004151F0 is an existing 321-byte exact
+owner. Retail's template dispatcher uses the signed type DWORD shifted
+four bits, then reads the original callback words at 0x004A0F78..0x004A0F84
+(no C++ bounds check). The controller's side limit is a native index into
+its real two-word limit table (this + 0x14, four-byte stride). The
+opponent-side selector is computed by native i386 (1 - side) DWORD subtraction.
+Source now expresses these actual 32-bit address/arithmetic semantics instead
+of relying on C++ signed-array bounds or overflow rules, without introducing
+guards, a second table, or changing the callback/lifetime order.
+
+Fresh pinned VC7.1 combined-source comparison retained all 321 bytes and
+all seven original-bound relocation fields. Other exact functions from
+ExAttackController.cpp require affected-carrier replay before acceptance.
+This corrects native semantics, not the exact-function count.
+
 ## Player movement, charge and collision
 
 The still-nonexact 1,900-byte Player movement owner reads the focus-effect
