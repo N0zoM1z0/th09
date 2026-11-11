@@ -775,6 +775,43 @@ bound `BeginPlaybackStage` still has 538/540 bytes, all 32 fields and its
 prior 39 overlapping differences. SaveReplay and playback remain NONEXACT;
 no additional exactness or whole-product credit is claimed.
 
+## 2026-11-11 EffectManager Create native GameManager side addresses
+
+The already-exact `EffectManager::Create @ 0x0040D320` builds two physical
+GameManager side pointers from 32-bit addresses with the attested 0x38-byte
+side stride: the current side from `g_GameManager.sides[0] + index * 0x38`,
+and the opposing side from `g_GameManager.sides[1] - index * 0x38`. The
+original i386 owner performs `IMUL EAX,0x38`, an address `LEA` and a native
+`SUB` in that order. The old maintained expression used
+`sides[1 - sideIndex]`, which could overflow a signed C++ word before
+indexing an array. The maintained source now uses the native unsigned 32-bit
+address sum/difference on both authentic GameManager side subobject bases.
+Its two chain priority arguments likewise add the signed `sideIndex` and 19
+through an unsigned word before passing the same signed 32-bit result; the
+original `LEA EDI,[EBX+0x13]` has exactly that wraparound behavior.
+
+Seven isolated/combined pinned VC7.1 compilation probes preserved **all
+327/327 original PE owner bytes, 27 reviewed relocation fields**, the
+original GameManager globals and full callback/callee identities. The
+installed source passed the only affected original compiler carrier's
+strict cold replay: **15 exact functions, 2,530 complete physical bytes
+and 100 relocation fields**. The separately built nonexact 51-byte
+`EffectManager::AddedCallback` still has only the same eight register-byte
+differences. The existing Effect GameManager ABI guard was updated from
+its stale source-text array-index assumption to check both native physical
+bases and 0x38 strides while **retaining** its exact reviewed PE addresses,
+owner/profiles and relocation targets. A deliberately incorrect original
+GameManager relocation target was rejected by the guard's negative smoke.
+This is proven native-source fidelity, not new exactness credit or a native
+product build claim.
+
+Separate SaveReplay experiments changed actual frame-header source lifetime,
+position of offset publication, copy destination types, and the stage iterator.
+Twelve pinned VC7.1 complete-owner probes either retained its existing
+`+0xB7/+0xBB` register-byte differences or regressed by moving 4–1,000+
+other bytes. No source candidate was adopted; current SaveReplay remains a
+near-exact 1,238-byte owner with 53 fields and two real residual bytes.
+
 ## 2026-11-11 EffectManager update and spawning native DWORD arithmetic
 
 The original Japanese v1.50a uses ordinary Win32 32-bit ADD/INC/DEC

@@ -2407,8 +2407,14 @@ def validate_effect_real_game_manager_abi(units: dict) -> None:
             'EffectGameManager' in source or
             'g_GameManager.sides[0].flags' not in source or
             source.count('sideIndex < GameplaySetupNativeSides::PlayableCount') != 2 or
-            'effectManager->sideState = &g_GameManager.sides[sideIndex]' not in source or
-            'effectManager->opposingSideState = &g_GameManager.sides[1 - sideIndex]' not in source or
+            # Playable side addresses are now native modulo-32 DWORDs,
+            # not unbounded signed C++ array indexing. Require both genuine
+            # GameManager subobject bases and the two original 0x38 strides.
+            'effectManager->sideState = reinterpret_cast<AsciiGameManagerSideView *>' not in source or
+            'effectManager->opposingSideState = reinterpret_cast<AsciiGameManagerSideView *>' not in source or
+            'reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +' not in source or
+            'reinterpret_cast<unsigned int>(&g_GameManager.sides[1]) -' not in source or
+            source.count('static_cast<unsigned int>(sideIndex) * sizeof(AsciiGameManagerSideView)') != 2 or
             'sideIndex * sizeof(AsciiGameManagerSideView)' not in source or
             'effectManager->opposingSideState = effectManager->sideState' not in source or
             'g_GameManager.sides[GameplaySetupNativeSides::SharedEffectIndex]' in source):

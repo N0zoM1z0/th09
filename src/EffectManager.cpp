@@ -426,8 +426,15 @@ EffectManager *EffectManager::Create(int sideIndex, int primaryCount, int second
     // The physical third record is a separate shared-effect setup slot.
     if (sideIndex < GameplaySetupNativeSides::PlayableCount)
     {
-        effectManager->sideState = &g_GameManager.sides[sideIndex];
-        effectManager->opposingSideState = &g_GameManager.sides[1 - sideIndex];
+        // Retail forms both native side addresses from the GameManager base
+        // using a 0x38-byte stride, with modulo-32 arithmetic. Do not form
+        // 1 - sideIndex as a potentially overflowing signed C++ expression.
+        effectManager->sideState = reinterpret_cast<AsciiGameManagerSideView *>(
+            reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
+            static_cast<unsigned int>(sideIndex) * sizeof(AsciiGameManagerSideView));
+        effectManager->opposingSideState = reinterpret_cast<AsciiGameManagerSideView *>(
+            reinterpret_cast<unsigned int>(&g_GameManager.sides[1]) -
+            static_cast<unsigned int>(sideIndex) * sizeof(AsciiGameManagerSideView));
     }
     else
     {
@@ -448,14 +455,18 @@ EffectManager *EffectManager::Create(int sideIndex, int primaryCount, int second
     effectManager->calcChain = g_Chain.CreateElem(reinterpret_cast<ChainCallback>(EffectManager::OnUpdate));
     effectManager->calcChain->arg = effectManager;
     effectManager->calcChain->addedCallback = EffectManager::AddedCallback;
-    if (g_Chain.AddToCalcChain(effectManager->calcChain, sideIndex + 19) != 0)
+    if (g_Chain.AddToCalcChain(
+            effectManager->calcChain,
+            static_cast<int>(static_cast<unsigned int>(sideIndex) + 19u)) != 0)
         return NULL;
 
     if (sideIndex < GameplaySetupNativeSides::PlayableCount)
     {
         effectManager->drawChain = g_Chain.CreateElem(reinterpret_cast<ChainCallback>(EffectManager::OnDraw));
         effectManager->drawChain->arg = effectManager;
-        g_Chain.AddToDrawChain(effectManager->drawChain, sideIndex + 19);
+        g_Chain.AddToDrawChain(
+            effectManager->drawChain,
+            static_cast<int>(static_cast<unsigned int>(sideIndex) + 19u));
     }
     else
     {

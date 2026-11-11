@@ -84,6 +84,14 @@ the canonical ledgers. Git holds prior source revisions.
   candidate, all 26 fields, twelve calls and 33/32 target/candidate CFG
   blocks. Three affected VC7.1 profiles cold-pass five exact siblings
   (1,220 bytes / 32 fields); the 13 missing bytes remain unresolved.
+- **EffectManager Create now uses original native side arithmetic.**
+  The exact 327-byte factory retains all 27 relocation fields while
+  reconstructing GameManager side/other-side addresses as original 0x38
+  stride DWORD expressions and both chain priority adds as modulo-32
+  words. One carrier cold-passes 15 exact siblings (2,530 bytes, 100
+  fields). The source ABI guard still checks authentic GameManager
+  addresses and rejects false relocated targets. The 51-byte callback
+  remains nonexact by eight bytes; see the 2026-11-11 knowledge note.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
