@@ -162,7 +162,9 @@ void EnemyView::HandleDeathRewards(int hitKind)
     effectPosition.y = g_GameManager.TransformPopupY(this->position2D74.y);
     effectPosition.z = 0.0f;
 
-    g_Supervisor.SelectSide(1 - manager->sideIndex31C);
+    // Select the other side with the original i386 DWORD subtraction.
+    g_Supervisor.SelectSide(static_cast<int>(
+        1u - static_cast<unsigned int>(manager->sideIndex31C)));
 
     EnemyFloat3 velocity;
     velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
@@ -171,7 +173,8 @@ void EnemyView::HandleDeathRewards(int hitKind)
     velocity.z = 0.0f;
 
     Effect *effect = g_SharedEffectManager->SpawnEffectWithVelocity(
-        this->manager00->sideIndex31C + 3,
+        static_cast<int>(static_cast<unsigned int>(
+            this->manager00->sideIndex31C) + 3u),
         reinterpret_cast<EffectFloat3 *>(&effectPosition),
         reinterpret_cast<EffectFloat3 *>(&velocity),
         1,

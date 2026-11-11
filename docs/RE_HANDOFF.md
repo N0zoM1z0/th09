@@ -71,6 +71,14 @@ the canonical ledgers. Git holds prior source revisions.
   29,856 bytes and 1,389 fields. The complete 15,564-byte interpreter
   still differs at only the existing opcode-4/155 bytes; twelve new
   opcode-155 variants were rejected for whole-owner regressions.
+- **Network and reward side-index arithmetic now honors native i386 wrap.**
+  Both network service side inversions and the reward leaf's opposing-side
+  and effect-index arguments use explicit DWORD arithmetic. The network
+  service remains nonexact at 1,627/1,633 candidate/target bytes, 106
+  fields and 1,381 unlike overlaps; its current COFF body/call inventory
+  is unchanged. The reward leaf cold-replayed 1,142/1,142 exact bytes,
+  all 39 fields, with one actual compiler carrier. See the 2026-11-11
+  knowledge note; no new exact function is credited.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.

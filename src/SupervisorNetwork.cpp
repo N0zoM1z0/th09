@@ -144,7 +144,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 frameNetwork->localSide, frame,
                 (short)g_ReplayRng.GetSeed());
             s->InsertPredictedFrame(
-                1 - g_SupervisorNetworkState->localSide, s->networkTiming458.frameCounter,
+                static_cast<int>(
+                    1u - static_cast<unsigned int>(
+                        g_SupervisorNetworkState->localSide)),
+                s->networkTiming458.frameCounter,
                 (short)g_ReplayRng.GetSeed());
             // The original service increments the signed frame counter with
             // an i386 DWORD INC, whose physical result wraps modulo 2^32.
@@ -249,7 +252,11 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         }
     }
 
-    if (!s->AreFrameQueuesSynchronized(1 - g_SupervisorNetworkState->localSide))
+    // Retail side inversion uses i386 32-bit subtraction even if the
+    // network-side DWORD is outside the expected zero/one range.
+    if (!s->AreFrameQueuesSynchronized(static_cast<int>(
+            1u - static_cast<unsigned int>(
+                g_SupervisorNetworkState->localSide))))
     {
         now = timeGetTime();
         s->networkTiming458.waitTime = now;

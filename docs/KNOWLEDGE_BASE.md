@@ -421,6 +421,42 @@ complete same-source physical owners byte-exact against target and
 verifying their actual COFF same-section label coordinates. No new
 function exactness or whole-game build claim follows.
 
+## 2026-11-11 native side-index arithmetic across network and enemy reward
+
+The original TH09 i386 code subtracts the `SupervisorNetworkState::localSide`
+signed DWORD from one when predicting the opposing frame and checking the
+opposing frame queue. `SupervisorServiceUpdate @ 0x00430AA0` now spells both
+subtractions as 32-bit unsigned-word arithmetic before passing the original
+signed side index, preserving modulo-32 behavior even at the extreme signed
+DWORD boundary. No queue-order, packet, wait, retry, session, or failure branch
+was changed. Three isolated/combined VC7.1 probes and a direct compilation
+of the installed source produced the **same raw 1,627-byte source COFF** as
+the original maintained candidate, with all **106 existing relocation
+fields**, exactly the former 1,381 overlapping byte differences against the
+attested **1,633-byte target**, and the same 41-call inventory/order residual.
+This large owner is still **NONEXACT** and was not promoted.
+
+The independently exact `EnemyView::HandleDeathRewards @ 0x004102B0` also
+uses `1 - sideIndex31C` when selecting the opposing side, and `sideIndex31C
++ 3` when requesting a reward effect. Both operations now explicitly wrap as
+native 32-bit words and retain their signed call-argument interpretation.
+Each isolated change and their combination matched the complete original
+**1,142-byte body/39 relocation fields** under its pinned VC7.1 profile;
+final installed-source, one-carrier, one-owner canonical cold replay passed.
+The normal playable 0/1 side behavior is unchanged. This corrects source
+arithmetic semantics, not the exact-function count or native product closure.
+
+A separate current-source experiment compared the still-nonexact 1,280-byte
+Title DrawReplayMenu's selected-record register lifetime, including a true
+selected-before-record variant and pointer/reference rephrasings. The early
+selected snapshot shrank the candidate by 16 bytes and regressed the full
+physical comparison; retaining the original record-first lifetime left its
+existing 29 differences, so no Title candidate was installed. Nineteen
+other natural Effect AddedCallback conditional/owner/load order variants
+retained the 51-byte callback's eight differences or regressed to eleven.
+The exact FrontAddedCallback's analogous ANM preload pattern was reviewed,
+but it does not alone reproduce the small Effect callback's register schedule.
+
 ## 2026-11-11 RunEcl late Spell VM script-index native word arithmetic
 
 Opcode 186's side-owner spell presentation builds an ANM script index
