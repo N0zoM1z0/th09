@@ -2411,9 +2411,12 @@ int TitleScreenView::OnUpdateResult()
     }
     }
 
-    stateTimer++;
-    screenFrameCounter++;
-    phaseTimer++;
+    // Retail increments these three signed state counters as native
+    // i386 DWORDs, wrapping at 32 bits before storing their signed values.
+    stateTimer = static_cast<int>(static_cast<unsigned int>(stateTimer) + 1u);
+    screenFrameCounter = static_cast<int>(
+        static_cast<unsigned int>(screenFrameCounter) + 1u);
+    phaseTimer = static_cast<int>(static_cast<unsigned int>(phaseTimer) + 1u);
     return 1;
 }
 

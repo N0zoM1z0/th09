@@ -1053,6 +1053,33 @@ zero-plus-memcpy seed locals did not close it. A wider SetSeed implementation
 can itself be byte-identical: callee bytes do not uniquely determine formal
 width. Keep the pre-runtime-read snapshot of side-0 value1E8.
 
+## 2026-11-11 Title result three native DWORD frame increments
+
+`TitleScreenView::OnUpdateResult @ 0x004266B5` exits the update switch by
+incrementing three *signed* TitleScreen fields: `stateTimer` (+0x2C),
+`screenFrameCounter` (+0xC910), and `phaseTimer` (+0x1B230). The original
+owner ends in three `INC DWORD PTR` instructions at `+0x1CF/+0x1D2/+0x1D8`:
+these wrap modulo 2^32 even at INT_MAX. The maintained C++ now performs
+explicit unsigned 32-bit additions before storing the identical signed
+field words; state transitions, callbacks, timers' use, and on-screen
+selection behavior remain unchanged. Four isolated and combined native
+VC7.1 source probes retained the complete **484-byte candidate against the
+485-byte target**, 34 original fields, nine calls, direct CFG, exactly 218
+unlike overlap positions and one still-absent target byte.
+
+With the installed source, the two affected real Title compiler carriers
+cold-passed **41 exact siblings / 18,972 physical bytes / 953 relocation
+fields**. Nine VC7.1 private `$L` names in the already exact StartMenu
+owner were renamed only after independently proving their same-section
+COFF definitions, original PE destinations, original operands, and complete
+byte equality of all 41 owners; strict canonical replay then passed.
+`OnUpdateResult` remains **NONEXACT** and no whole-product claim follows.
+
+Ten additional natural RunEcl opcode-155 masked flag-word forms were also
+source-cold compiled. Despite recovering the localized wire-byte semantics,
+those variants displaced native switch fields/tables and expanded total
+ordinary differences from 30 to more than 2,000; none was installed.
+
 ## 2026-11-10 Title result native unlock and character cursor words
 
 `TitleScreenView::OnUpdateResult @ 0x004266B5` updates the hidden-unlock

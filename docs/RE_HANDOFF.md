@@ -98,6 +98,12 @@ the canonical ledgers. Git holds prior source revisions.
   exact functions (2,562 bytes / 164 fields); nine private `$L` names
   were independently COFF/PE-proven before rebinding. The 336-byte shake
   envelope remains nonexact with its original 26 differences.
+- **Title OnUpdateResult three frame counters now use native DWORD increments.**
+  The nonexact 484/485-byte owner still has 34 fields, nine calls, 218
+  unlike overlap bytes and one missing byte. Both affected compiler
+  profiles passed 41 exact siblings (18,972 bytes, 953 fields); nine
+  compiler-private labels were independently PE/COFF-proven before
+  manifest rebinding. See the 2026-11-11 knowledge note.
 - **The whole native Windows i386 product is not closed.** Original compiler
   project partition/linkage, some origins/data ownership and runtime behavior
   remain unproven. Exact source is not product or semantic/port completion.
