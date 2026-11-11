@@ -74,6 +74,17 @@ typedef char ExAttackType1824NativeVmLayout[
 extern AsciiGameManagerView g_GameManager;
 float __stdcall AddNormalizeAngle(float angle, float delta);
 
+// Both ExAttack sides are the actual GameManager 0x38-byte side records.
+// Native i386 uses the signed side DWORD scaled modulo 2^32, without a gate.
+static __forceinline AsciiGameManagerSideView &NativeExAttackSide(int index)
+{
+    return *reinterpret_cast<AsciiGameManagerSideView *>(
+        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
+        static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0]));
+}
+
+
+
 int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
 {
     ExAttackType1824RecordView *record =
@@ -96,27 +107,28 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
 
         if (record->timer10 > 90)
         {
-            g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
+            NativeExAttackSide(record->side08).player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
                     &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[0]), 9);
-            g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
+            NativeExAttackSide(record->side08).player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
                     &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1]), 10);
-            g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
+            NativeExAttackSide(record->side08).player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
                     &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2]), 10);
-            g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
+            NativeExAttackSide(record->side08).player04->header24.anmFile98->ExecuteAnmIdx(
                 reinterpret_cast<AnmVm *>(
                     &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3]), 10);
 
-            ++extra->state00;
+            extra->state00 = static_cast<int>(
+                static_cast<unsigned int>(extra->state00) + 1u);
             record->position20 = extra->spawn40;
             record->unknown00 = record->opponentSide04;
             record->timer10 = 0;
 
             extra->angle4C =
                 reinterpret_cast<PlayerAngleView *>(
-                    g_GameManager.sides[record->opponentSide04].player04)
+                    NativeExAttackSide(record->opponentSide04).player04)
                     ->AngleToPoint(
                         reinterpret_cast<PlayerAngleFloat3View *>(&record->position20));
             extra->speed50 = 0.2f;
@@ -172,7 +184,7 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
             extra->angle4C, extra->speed50);
         extra->speed50 += 0.1f;
 
-        if (g_GameManager.sides[record->opponentSide04]
+        if (NativeExAttackSide(record->opponentSide04)
                 .player04->CheckBulletCollision(
                     reinterpret_cast<PlayerPositionView *>(&record->position20),
                     reinterpret_cast<PlayerPositionView *>(&collisionSize),
@@ -211,7 +223,7 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
         SetPolar2D(reinterpret_cast<Float2 *>(&(collisionPoint)),
             extra->angle4C, extra->speed50);
         collisionPoint += record->position20;
-        g_GameManager.sides[record->opponentSide04]
+        NativeExAttackSide(record->opponentSide04)
             .player04->collisionQuery36C.AppendCircleRecord(
                 reinterpret_cast<PlayerPositionView *>(&collisionPoint),
                 12.0f,

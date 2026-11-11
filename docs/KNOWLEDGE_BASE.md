@@ -848,6 +848,27 @@ physical bytes / 167 relocation fields**. The function was already
 exact: this improves native wire semantics without changing exact-function
 credit.
 
+## ExAttack Type18/24 update native GameManager side and state counter
+
+The full ExAttackUpdateCallbackType18_24 original physical owner
+at 0x004491E0 is 1,436 bytes with 44 original-bound relocation fields.
+It reads the actual GameManager side record by the signed side08 word
+for four ANM calls, and the native opposing-side04 word for both
+AngleToPoint and collision/target queries. A local source inline view
+now forms the genuine base + uint32(side)*0x38 record address from
+g_GameManager.sides[0], without a C++ bounded-subscript assumption
+or an invented side owner. No new call, branch, allocation or clamp
+was introduced. The native attack state transition also explicitly
+increments the signed state00 using a 32-bit wrapping DWORD ADD.
+
+Independent pinned VC7.1 /O2 /Ob1 /Oi source experiments tested
+integer address casts, typed byte pointers, side subsets, explicit
+counter wrap and the combined native inline helper. The installed
+combined function retains **all 1,436 original physical bytes and
+44 original PE/COFF relocation fields**. This is a faithful Win32
+source-semantics repair to an already exact large owner, not another
+new exact function.
+
 ## ExAttack callback difficulty limits and side-state native words
 
 ExAttackController::AddedCallback at 0x00415750 reads each side's signed
