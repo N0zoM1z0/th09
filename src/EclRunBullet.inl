@@ -223,8 +223,14 @@ static void DispatchShotInstruction(
     case TH09_ECL_OPCODE_SET_BULLET_TRANSFORM:
         bulletInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         bulletTransform =
-            &Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transforms[
-                bulletInt];
+            // The wire index scales modulo 2^32 from the native
+            // 0x18-byte transform record array, with no clamp.
+            reinterpret_cast<BulletTransformRecord *>(
+                reinterpret_cast<unsigned int>(
+                    &Th09EclRunBullet::View(enemy)->bulletDescriptor2E74.transforms[0]) +
+                static_cast<unsigned int>(bulletInt) *
+                    sizeof(Th09EclRunBullet::View(enemy)->
+                           bulletDescriptor2E74.transforms[0]));
         bulletTransform->kind =
             Th09EclRunControl::ReadInt(enemy, instruction, 1);
         bulletTransform->allowWhileActive =

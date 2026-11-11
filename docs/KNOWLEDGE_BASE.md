@@ -485,6 +485,28 @@ original PE target and complete byte equality of all 83 owners.
 The separate original-bound opcode 4/155 semantic audits still passed
 90/3,072 cases. Neither exact count nor native-product closure changed.
 
+## RunEcl native pending-subroutine, remote boss and bullet-transform slots
+
+Three script-controlled table accesses in the complete 15,564-byte RunEcl
+interpreter now use the real native bases and DWORD-wrapped byte strides
+rather than C++ array subscripts: the 0x02-byte Enemy pending-subroutine
+slot, the manager's nine DWORD remote boss pointers, and the descriptor's
+0x18-byte bullet-transform records. The ECL wire resolver is still called
+at each original site; no range checks, new storage or ordering changes were
+added. The selected-laser creation subscript was deliberately **not** changed:
+the attempted rewrite failed the full-owner layout/identity comparison.
+
+The combined pinned VC7.1 original-bound candidate retained **15,564/15,564
+physical bytes, all 598 relocation fields and tables, with the same 30
+nonmatching opcode-4/155 bytes**. This is native semantics recovery, not
+RunEcl byte-exact promotion. All five include-affected VC7.1 compiler
+carriers were cold-rebuilt and the **87 existing exact functions** passed:
+**30,583 complete original bytes and 1,409 relocation fields**. Eight
+compiler-private $L label spellings changed, but independent same-section
+COFF definition/PE operand/full-byte checks proved the identical real targets
+before manifest rebinding. No target bytes, toolchain flags or exact status
+were modified.
+
 ## RunEcl: opcode 4 and opcode 155
 
 The maintained 15,564-byte/598-field owner has 30 ordinary differences,

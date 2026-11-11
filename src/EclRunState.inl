@@ -318,8 +318,10 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         stateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
         if (stateInt >= 0)
         {
-            enemy->manager00->remoteSlots2AC388[
-                Th09EclRunControl::ReadInt(enemy, instruction, 0)] = enemy;
+            // The wire index is a native DWORD address into the nine real
+            // manager remote slots, not a bounded C++ array subscript.
+            Th09EclRunRemote::RemoteEnemy(
+                enemy, Th09EclRunControl::ReadInt(enemy, instruction, 0)) = enemy;
             enemy->primaryFlagBits337C.boss01 = 1;
             enemy->bossSlot336B =
                 static_cast<unsigned char>(

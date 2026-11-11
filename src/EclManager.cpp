@@ -604,8 +604,10 @@ th09_ecl_enter_pending_subroutine:
 
     enemy->manager00->primaryEclManager000.InitializeSubroutine(
         savedMainContext,
-        enemy->subroutineSlots2D30[
-            enemy->pendingSubroutineId2D70]);
+        // Read the signed pending slot as a native 0x02-byte stride from the
+        // actual Enemy subroutine table, without an array-bounds guard.
+        Th09EclRunState::SubroutineSlot(
+            enemy, enemy->pendingSubroutineId2D70));
     if (enemy->activeCallDepth2D2A <
         TH09_ECL_MAIN_CALL_STACK_CAPACITY - 1)
     {
