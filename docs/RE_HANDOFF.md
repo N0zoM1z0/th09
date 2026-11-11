@@ -124,7 +124,10 @@ Git retains earlier source revisions.
   side slots use the Supervisor 0xF0-byte stride (209 bound fields).
   The 357-byte exact FrontMessage Setup leaf now also reads four text
   and shadow color values through real native DWORD table addresses,
-  retaining all 10 relocations. The full 3,238-byte exact Player pattern
+  retaining all 10 relocations. The separate 1,491-byte exact FrontCalc
+  callback now uses original 0x64-byte panel rows/0x14-byte vertices,
+  DWORD timer/color/result slots and 0x38-byte opponent-side addresses;
+  all 107 original relocations remain exact. The full 3,238-byte exact Player pattern
   selector now uses native word addresses for 38 flag/grid/ReplayInput/
   config/history accesses; two impacted compiler carriers protect both
   exact functions (3,650 full bytes / 154 fields), including 18 independently

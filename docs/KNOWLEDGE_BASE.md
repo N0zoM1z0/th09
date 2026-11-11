@@ -195,6 +195,34 @@ not an integer array; an experimental arithmetic rewrite failed its real
 operator ABI and was not installed. This improves native script-pointer
 semantics but does not grant new exact owners or whole-game runtime proof.
 
+## 2026-11-11 native FrontCalc panel vertices, timers and result words
+
+The exact `FrontCalcCallback` owner at its original 1,491-byte extent
+walks the same real `FrontFactoryConstructView` allocation used by the
+already-exact FrontSide and FrontMessage callbacks. Each of its two
+`panelVerticesE86C` rows is five true **0x14-byte** vertex records
+(row stride **0x64**), with separate two-element DWORD arrays of
+`panelColorsE934` and `panelTimersE93C`. The nested `side` and `vertex`
+loop indices now address the original inline storage with Win32
+unsigned-DWORD base-plus-index arithmetic. The three transition side
+receivers use the live signed `1 - transitionSide10964` over real
+**0x38-byte GameManager side records**. Two score/result table reads
+from the actual global `g_TransitionResultTable` and
+`g_TransitionResultTableAlt` use original DWORD addressing. The
+maintained code changes **12 live lvalues** in place (three vertices,
+three timers, one color, three side receivers, two result values), without
+adding a range check, second table, cache, call, or changing the timer,
+score or transition state machine.
+
+The pinned VC7.1 `/O2 /Ob1` probe matrix separately compiled panel
+vertices, timer words, colors, side receivers and both result tables;
+all individual and combined variants matched the whole **1,491/1,491
+physical bytes**. The installed combined source passed the single
+original-profile compiler carrier's scoped cold replay: **1/1 exact
+owner and all 107 original-bound relocation fields**, with no private
+label rebindings. This is better native data addressing of an already
+exact callback, not an additional exact owner or a native runtime proof.
+
 ## 2026-11-11 native FrontSide draw position cursors and camera side slots
 
 The original exact `FrontSide::OnDraw` (3,094 complete bytes) walks eleven

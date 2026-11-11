@@ -28,6 +28,23 @@ struct GameManagerSetupLayout
 {
     static void CleanupGameplayState();
 };
+// The native Front allocation owns two 0x64-byte panel rows containing
+// five 0x14-byte vertices each; colors/timers and result-table entries
+// are independent DWORDs. Preserve live signed selectors and original
+// Win32 address words without adding a bounds guard or shadow storage.
+#define FRONT_NATIVE_VERTEX(front, side, vertex) \
+    (*reinterpret_cast<FrontPanelVertexView *>(reinterpret_cast<unsigned int>(&(front)->panelVerticesE86C[0][0]) + \
+        static_cast<unsigned int>(side) * sizeof((front)->panelVerticesE86C[0]) + \
+        static_cast<unsigned int>(vertex) * sizeof((front)->panelVerticesE86C[0][0])))
+#define FRONT_NATIVE_TIMER(front, side) \
+    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(front)->panelTimersE93C[0]) + static_cast<unsigned int>(side) * sizeof((front)->panelTimersE93C[0])))
+#define FRONT_NATIVE_COLOR(front, side) \
+    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(front)->panelColorsE934[0]) + static_cast<unsigned int>(side) * sizeof((front)->panelColorsE934[0])))
+#define FRONT_NATIVE_SIDE(index) \
+    (*reinterpret_cast<AsciiGameManagerSideView *>(reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) + static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0])))
+#define FRONT_NATIVE_RESULT(table, index) \
+    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(table)[0]) + static_cast<unsigned int>(index) * sizeof((table)[0])))
+
 int __fastcall FrontCalcCallback(void *frontArg)
 {
     FrontFactoryConstructView *front = static_cast<FrontFactoryConstructView *>(frontArg);
@@ -56,25 +73,25 @@ int __fastcall FrontCalcCallback(void *frontArg)
 
     for (int side = 0; side < 2; ++side)
     {
-        if (front->panelTimersE93C[side] > 0)
+        if (FRONT_NATIVE_TIMER(front, side) > 0)
         {
-            if ((front->panelTimersE93C[side] & 1) != 0)
+            if ((FRONT_NATIVE_TIMER(front, side) & 1) != 0)
             {
                 for (int vertex = 0; vertex < 5; ++vertex)
-                    front->panelVerticesE86C[side][vertex].diffuse =
-                        front->panelColorsE934[side];
+                    FRONT_NATIVE_VERTEX(front, side, vertex).diffuse =
+                        FRONT_NATIVE_COLOR(front, side);
             }
             else
             {
                 for (int vertex = 0; vertex < 5; ++vertex)
-                    front->panelVerticesE86C[side][vertex].diffuse = 0xFFFFFFFFUL;
+                    FRONT_NATIVE_VERTEX(front, side, vertex).diffuse = 0xFFFFFFFFUL;
             }
-            --front->panelTimersE93C[side];
+            --FRONT_NATIVE_TIMER(front, side);
         }
         else
         {
             for (int vertex = 0; vertex < 5; ++vertex)
-                front->panelVerticesE86C[side][vertex].diffuse = 0x80FFFFFFUL;
+                FRONT_NATIVE_VERTEX(front, side, vertex).diffuse = 0x80FFFFFFUL;
         }
     }
 
@@ -151,7 +168,7 @@ int __fastcall FrontCalcCallback(void *frontArg)
             g_GameManager.flags ^=
                 (g_GameManager.flags ^ targetBit) & 0x1800u;
 
-            g_GameManager.sides[1 - front->transitionSide10964]
+            FRONT_NATIVE_SIDE(static_cast<int>(1u - static_cast<unsigned int>(front->transitionSide10964)))
                 .cardAttack14->timer98 = 0;
 
             PlayerPositionView point;
@@ -175,9 +192,9 @@ int __fastcall FrontCalcCallback(void *frontArg)
         {
             g_SoundPlayer.PlaySoundByIdx(49, 0);
 
-            g_GameManager.sides[1 - front->transitionSide10964]
+            FRONT_NATIVE_SIDE(static_cast<int>(1u - static_cast<unsigned int>(front->transitionSide10964)))
                 .background00->transitionMode = 1;
-            g_GameManager.sides[1 - front->transitionSide10964]
+            FRONT_NATIVE_SIDE(static_cast<int>(1u - static_cast<unsigned int>(front->transitionSide10964)))
                 .background00->transitionFrames = 30;
 
             ScreenEffect::RegisterChain(
@@ -246,14 +263,12 @@ int __fastcall FrontCalcCallback(void *frontArg)
                     (g_GameManager.flags & 0x4000u) != 0)
                 {
                     g_SelectedOpponentParameter =
-                        g_TransitionResultTableAlt[
-                            45 * g_TitleNameTableIndex + 5 * g_GameStageValue];
+                        FRONT_NATIVE_RESULT(g_TransitionResultTableAlt, 45 * g_TitleNameTableIndex + 5 * g_GameStageValue);
                 }
                 else
                 {
                     g_SelectedOpponentParameter =
-                        g_TransitionResultTable[
-                            45 * g_TitleNameTableIndex + 5 * g_GameStageValue + modeValue];
+                        FRONT_NATIVE_RESULT(g_TransitionResultTable, 45 * g_TitleNameTableIndex + 5 * g_GameStageValue + modeValue);
                 }
             }
         }
@@ -263,3 +278,9 @@ int __fastcall FrontCalcCallback(void *frontArg)
     ++front->transitionFrame10960;
     return 1;
 }
+
+#undef FRONT_NATIVE_VERTEX
+#undef FRONT_NATIVE_TIMER
+#undef FRONT_NATIVE_COLOR
+#undef FRONT_NATIVE_SIDE
+#undef FRONT_NATIVE_RESULT
