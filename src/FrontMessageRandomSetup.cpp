@@ -14,11 +14,27 @@
 extern AnmLoaded *g_FrontMessageAnm;
 extern RngRuntimeView g_Rng;
 
+// The table's one declared C++ entry anchors variable-length wire storage.
+// Retail scales any signed slot by eight in a native 32-bit address word.
+static inline FrontMessageTableEntryView &NativeMessageEntry(
+    FrontMessageTableView *file, int index)
+{
+    return *reinterpret_cast<FrontMessageTableEntryView *>(
+        reinterpret_cast<unsigned int>(&file->entries04[0]) +
+        static_cast<unsigned int>(index) * sizeof(file->entries04[0]));
+}
+
 void FrontMessageRuntimeView::SetupRandomForSide(int side)
 {
     int i;
     int roll;
-    int first = g_GameManager.sides[1 - side].character20 * 10;
+    // Two sides share the native 0x38-byte GameManager row storage. The
+    // opposite-side selection and ten-message bank offset are DWORD math.
+    int first = static_cast<int>(
+        static_cast<unsigned int>(reinterpret_cast<AsciiGameManagerSideView *>(
+            reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
+            (1u - static_cast<unsigned int>(side)) *
+                sizeof(g_GameManager.sides[0]))->character20) * 10u);
     FrontMessageTableView *msgFile = this->primary00;
     FrontMessageTableView *msgFile2 = this->secondary0C;
 
@@ -31,29 +47,36 @@ void FrontMessageRuntimeView::SetupRandomForSide(int side)
     }
     this->mode10 = side;
     roll = g_Rng.GetRandomU16InRange(0x100);
-    for (i = first; i < first + 10; i++)
+    for (i = first;
+         i < static_cast<int>(static_cast<unsigned int>(first) + 10u);
+         i = static_cast<int>(static_cast<unsigned int>(i) + 1u))
     {
-        if (msgFile->entries04[i].instructions00 != NULL)
+        if (NativeMessageEntry(msgFile, i).instructions00 != NULL)
         {
-            if (roll < msgFile->entries04[i].weight04)
+            if (roll < NativeMessageEntry(msgFile, i).weight04)
             {
                 break;
             }
-            roll -= msgFile->entries04[i].weight04;
+            roll = static_cast<int>(
+                static_cast<unsigned int>(roll) -
+                static_cast<unsigned int>(NativeMessageEntry(msgFile, i).weight04));
         }
     }
-    if (i >= first + 10)
+    if (i >= static_cast<int>(static_cast<unsigned int>(first) + 10u))
     {
         roll = g_Rng.GetRandomU16InRange(0x100);
-        for (i = 210; i < 220; i++)
+        for (i = 210; i < 220;
+             i = static_cast<int>(static_cast<unsigned int>(i) + 1u))
         {
-            if (msgFile->entries04[i].instructions00 != NULL && i < msgFile->count00)
+            if (NativeMessageEntry(msgFile, i).instructions00 != NULL && i < msgFile->count00)
             {
-                if (roll < msgFile->entries04[i].weight04)
+                if (roll < NativeMessageEntry(msgFile, i).weight04)
                 {
                     break;
                 }
-                roll -= msgFile->entries04[i].weight04;
+                roll = static_cast<int>(
+                    static_cast<unsigned int>(roll) -
+                    static_cast<unsigned int>(NativeMessageEntry(msgFile, i).weight04));
             }
         }
         if (i >= 220 || i >= msgFile->count00)
@@ -61,7 +84,7 @@ void FrontMessageRuntimeView::SetupRandomForSide(int side)
             i = 210;
         }
     }
-    this->current04 = msgFile->entries04[i].instructions00;
+    this->current04 = NativeMessageEntry(msgFile, i).instructions00;
     this->textVms1534[0].scriptIndex = -1;
     this->textVms1534[1].scriptIndex = -1;
     this->glyphSize1D54 = 24;

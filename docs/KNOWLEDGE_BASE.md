@@ -663,6 +663,24 @@ that full proof; canonical affected-only cold replay then passed. The large
 ChargeAttack/Movement owners and whole Windows i386 product remain open;
 no new exactness credit follows.
 
+## Front random-message selection native variable-length wire entries
+
+`FrontMessageRuntimeView::SetupRandomForSide @ 0x004162D0` selects from a
+file-backed table with 8-byte entries. The C++ wire header declares only
+`entries04[1]`, but the original accesses character banks and the fallback
+entries **210..219** through `table + 4 + signedIndex * 8`, with i386
+modulo-32 addressing and no extra bounds check. The maintained source now
+uses one local inline projection of the actual `FrontMessageTableView`
+storage for all seven live pointer/weight reads. It also preserves native
+DWORD subtraction for signed weights, the opposite-side 0x38-byte address,
+character-bank scaling, both first-bank end tests and loop increments.
+No message-validation gates, extra table owner, cached reads or random calls
+were added.
+
+A pinned VC7.1 source-cold build proves the **complete 693/693 original
+bytes and all 15 target-bound relocation fields** remain exact, so this is
+faithful wire-layout and integer-word behavior, not a new match promotion.
+
 ## Player ApplyReward native DWORD counters and thresholds
 
 The original-bound `PlayerOwnerStateView::ApplyReward @ 0x0041D150` is
