@@ -226,10 +226,12 @@ int SoundPlayer::LoadSound(int index, char *path)
         g_ZunMemory.Free(soundFileData);
         return -1;
     }
-    soundFileCursor += 4;
+    soundFileCursor = reinterpret_cast<unsigned char *>(
+        reinterpret_cast<unsigned int>(soundFileCursor) + 4u);
 
     fileSize = *reinterpret_cast<int *>(soundFileCursor);
-    soundFileCursor += 4;
+    soundFileCursor = reinterpret_cast<unsigned char *>(
+        reinterpret_cast<unsigned int>(soundFileCursor) + 4u);
 
     if (strncmp(reinterpret_cast<char *>(soundFileCursor), "WAVE", 4) != 0)
     {
@@ -237,7 +239,8 @@ int SoundPlayer::LoadSound(int index, char *path)
         g_ZunMemory.Free(soundFileData);
         return -1;
     }
-    soundFileCursor += 4;
+    soundFileCursor = reinterpret_cast<unsigned char *>(
+        reinterpret_cast<unsigned int>(soundFileCursor) + 4u);
 
     wavDataPtr = GetWavFormatData(soundFileCursor, "fmt ", &formatSize, fileSize - 12);
     if (wavDataPtr == NULL)
@@ -284,13 +287,18 @@ int SoundPlayer::LoadSound(int index, char *path)
 
     CopyMemory(audioPtr1, wavDataPtr, audioSize1);
     if (audioSize2 != 0)
-        CopyMemory(audioPtr2, reinterpret_cast<char *>(wavDataPtr) + audioSize1, audioSize2);
+        CopyMemory(audioPtr2, reinterpret_cast<char *>(
+            reinterpret_cast<unsigned int>(wavDataPtr) +
+            static_cast<unsigned int>(audioSize1)), audioSize2);
 
     NativeActiveSound(this, index)->Unlock(audioPtr1, audioSize1, audioPtr2, audioSize2);
     g_ZunMemory.Free(soundFileData);
     return 0;
 }
 
+// This WAV chunk walk uses untrusted, file-backed word counts. The native
+// 1.50a i386 code wraps both the remaining-byte count and the cursor
+// advance modulo 2^32 without clamping malformed source chunk sizes.
 static WAVEFORMATEX *GetWavFormatData(
     unsigned char *soundData,
     char *formatString,
@@ -299,12 +307,17 @@ static WAVEFORMATEX *GetWavFormatData(
 {
     while (fileSizeExcludingFormat > 0)
     {
-        *formatSize = *reinterpret_cast<int *>(soundData + 4);
+        *formatSize = *reinterpret_cast<int *>(
+            reinterpret_cast<unsigned int>(soundData) + 4u);
         if (strncmp(reinterpret_cast<char *>(soundData), formatString, 4) == 0)
-            return reinterpret_cast<WAVEFORMATEX *>(soundData + 8);
+            return reinterpret_cast<WAVEFORMATEX *>(
+                reinterpret_cast<unsigned int>(soundData) + 8u);
 
-        fileSizeExcludingFormat -= *formatSize + 8;
-        soundData += *formatSize + 8;
+        fileSizeExcludingFormat -=
+            static_cast<unsigned int>(*formatSize) + 8u;
+        soundData = reinterpret_cast<unsigned char *>(
+            reinterpret_cast<unsigned int>(soundData) +
+            static_cast<unsigned int>(*formatSize) + 8u);
     }
     return NULL;
 }

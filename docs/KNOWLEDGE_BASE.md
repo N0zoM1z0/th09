@@ -1163,6 +1163,28 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 SoundPlayer file-backed WAV cursor and chunk word arithmetic
+
+SoundPlayer::LoadSound parses original RIFF/WAVE file data as an i386
+byte stream. Its three successive 4-byte header cursor advances,
+the GetWavFormatData length header at +4 and data at +8, and the
+second locked DirectSound buffer copy now form unsigned modulo-32
+native addresses from their real source pointers. The format scanner
+also subtracts each signed on-disk chunk length plus eight as an
+unsigned DWORD and advances the cursor by that same native word,
+rather than invoking C++ signed overflow for unusual chunk lengths.
+These are ordinary retail operations: no new bounds checks, caps,
+allocation, format repair or error branches have been added.
+
+The eight actual VC7.1 SoundPlayer compiler carriers cold-replayed
+**20/20 existing exact owners, 5,400 complete physical bytes and
+184 relocation fields**, including the 1,456-byte ProcessQueues
+owner and both BGM/WAV file handling paths. The eleven changed
+compiler-private $L spellings were independently verified against
+actual same-section COFF definitions and original-PE target
+addresses before updating only manifest symbol names. No new
+exact owner or executable runtime closure is claimed.
+
 ## 2026-11-12 Title menu, result, replay and start-state DWORD counters
 
 The TitleScreenView owner uses one real screen-state allocation for

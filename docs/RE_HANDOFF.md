@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 SoundPlayer WAV checkpoint:** eight file-backed
+  RIFF/WAVE and chunk size/cursor operations now reproduce native
+  unsigned i386 address and word arithmetic. Eight affected VC7.1
+  carriers protect 20/20 exact owners, 5,400 bytes and 184 fields;
+  11 private labels were original-PE/COFF-proven.
 - **2026-11-12 Title menu/update checkpoint:** 32 live signed
   screen/phase/frame counter increments now use native DWORD wrap.
   Two VC7.1 carriers retain 41/41 exact functions, 18,972 bytes and
