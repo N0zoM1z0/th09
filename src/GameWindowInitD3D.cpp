@@ -162,18 +162,12 @@ typedef char SupervisorD3DInitNativeFlags[
     (offsetof(SupervisorD3DInitView, flags5D4) == 0x5D4 &&
      offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
 
-struct GameWindowD3DInitView
-{
-    HWND window00;
-    int windowIsClosing04;
-    unsigned char unknown008[0x1C - 0x08];
-    unsigned char startupPathDiffers1C;
-};
-
+// The +0x04 closing flag and +0x1C startup path byte belong to the
+// single real GameWindow, also referenced from WinMain and Present.
 typedef char GameWindowD3DInitClosingAt04[
-    (offsetof(GameWindowD3DInitView, windowIsClosing04) == 0x04) ? 1 : -1];
+    (offsetof(GameWindow, windowIsClosing04) == 0x04) ? 1 : -1];
 typedef char GameWindowD3DInitPathAt1C[
-    (offsetof(GameWindowD3DInitView, startupPathDiffers1C) == 0x1C) ? 1 : -1];
+    (offsetof(GameWindow, startupPathDiffers1C) == 0x1C) ? 1 : -1];
 
 void __fastcall ResetRenderState();
 
@@ -200,8 +194,6 @@ int InitializeD3DRendering()
 
     SupervisorD3DInitView *supervisor =
         reinterpret_cast<SupervisorD3DInitView *>(&g_Supervisor);
-    GameWindowD3DInitView *gameWindow =
-        reinterpret_cast<GameWindowD3DInitView *>(&g_GameWindow);
     SupervisorCtorArrayElement (&viewports)[3] = g_Supervisor.ctorArray078;
 
     usingHardwareRenderer = 1;
@@ -229,7 +221,7 @@ int InitializeD3DRendering()
                     D3DFMT_R5G6B5 : D3DFMT_X8R8G8B8;
         }
 
-        if (gameWindow->startupPathDiffers1C)
+        if (g_GameWindow.startupPathDiffers1C)
             g_Supervisor.disableVsync = 1;
 
         if (!g_Supervisor.disableVsync)
@@ -280,7 +272,7 @@ int InitializeD3DRendering()
             if (g_Supervisor.d3d04->CreateDevice(
                     D3DADAPTER_DEFAULT,
                     D3DDEVTYPE_HAL,
-                    gameWindow->window00,
+                    g_GameWindow.window00,
                     D3DCREATE_HARDWARE_VERTEXPROCESSING,
                     &presentParameters,
                     &g_Supervisor.d3dDevice08) < 0)
@@ -291,7 +283,7 @@ int InitializeD3DRendering()
                 if (g_Supervisor.d3d04->CreateDevice(
                         D3DADAPTER_DEFAULT,
                         D3DDEVTYPE_HAL,
-                        gameWindow->window00,
+                        g_GameWindow.window00,
                         D3DCREATE_SOFTWARE_VERTEXPROCESSING,
                         &presentParameters,
                         &g_Supervisor.d3dDevice08) < 0)
@@ -303,7 +295,7 @@ int InitializeD3DRendering()
                     if (g_Supervisor.d3d04->CreateDevice(
                             D3DADAPTER_DEFAULT,
                             D3DDEVTYPE_REF,
-                            gameWindow->window00,
+                            g_GameWindow.window00,
                             D3DCREATE_SOFTWARE_VERTEXPROCESSING,
                             &presentParameters,
                             &g_Supervisor.d3dDevice08) < 0)
@@ -449,7 +441,7 @@ int InitializeD3DRendering()
 
     ResetRenderState();
     ScreenEffect::SetViewport(0xff000000);
-    gameWindow->windowIsClosing04 = 0;
+    g_GameWindow.windowIsClosing04 = 0;
     g_Supervisor.lastFrameTime5B4 = 0;
     return 0;
 }

@@ -50,16 +50,13 @@ class MainChainReleaseView
     void Release();
 };
 
-// The original startup loop is a consumer of the same native 0x44-byte
-// GameWindow object used by the exact Present/Render/Timestamp owners.
-// The unsigned four-byte closing flag is the real prefix at +0x04.
+// Use the actual window-closure DWORD in the same 0x44-byte GameWindow
+// allocation as Render/Present, rather than a byte-prefix type overlay.
 typedef char WinMainNativeGameWindowLayout[
     (sizeof(GameWindow) == 0x44 &&
-     offsetof(GameWindow, unknown04) == 0x04 &&
+     offsetof(GameWindow, windowIsClosing04) == 0x04 &&
      offsetof(GameWindow, performanceFrequency14) == 0x14 &&
      offsetof(GameWindow, lastFrameTime3C) == 0x3C) ? 1 : -1];
-#define TH09_WINMAIN_NATIVE_CLOSING_WORD \
-    (*reinterpret_cast<const int *>(&g_GameWindow.unknown04[0]))
 
 class MainSupervisorView
 {
@@ -307,7 +304,7 @@ restart:
     g_GameWindow.framesSinceRedraw10 = -4;
     g_GameWindow.currentTimestamp2C = 0.0;
 
-    if (TH09_WINMAIN_NATIVE_CLOSING_WORD != 0)
+    if (g_GameWindow.windowIsClosing04 != 0)
         goto release_runtime;
 
     for (;;)
@@ -343,7 +340,7 @@ restart:
             }
         }
 
-        if (TH09_WINMAIN_NATIVE_CLOSING_WORD != 0)
+        if (g_GameWindow.windowIsClosing04 != 0)
             goto release_runtime;
     }
 
@@ -442,5 +439,3 @@ stop:
 }
 
 #undef TH09_NATIVE_EXE_PATH_CHAR
-
-#undef TH09_WINMAIN_NATIVE_CLOSING_WORD

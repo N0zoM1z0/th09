@@ -1457,6 +1457,30 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-13 Actual GameWindow closing DWORD across startup, D3D and main loop
+
+The actual `GameWindow` is a **0x44-byte process-global allocation**.
+Original `InitializeD3DRendering` clears its +0x04 closing DWORD, and the
+exact WinMain loop polls the same word twice before and after message
+processing. The native `GameWindow` type now identifies that real
+`windowIsClosing04` signed DWORD in the original 0x0C-byte prefix (with
+the byte layout preserved as an overlapping union), instead of projecting
+two independent synthetic `GameWindowD3DInitView` and `unsigned char[12]`
+receivers. The D3D initialization and main startup use
+`g_GameWindow.windowIsClosing04` directly, while all real adjacent fields
+(window handle, frame skip, x87 timestamps and startup path byte) retain
+their separately proven offsets and load/write chronology. The original
+receiver lifetime, D3D setup, screen effects, main event loop and Release
+calls are unchanged. No copied window object, extra range guard or method
+boundary is introduced.
+
+The eight source-affected pinned VC7.1 carriers passed full scoped replay
+of **9/9 pre-existing exact owners, 5,155 full original PE bytes and 502
+relocations**, including 1,561-byte `InitializeD3DRendering`, 1,351-byte
+WinMain, 285-byte CreateGameWindow, game window Render/Present/Timestamp and
+the independent 3D capability wrappers. No new exact-function or whole
+Windows product/runtime credit is implied.
+
 ## 2026-11-13 WinMain uses the authentic constructed GameWindow allocation
 
 The exact **1,351-byte original-bound `WinMain`** and independent **285-byte

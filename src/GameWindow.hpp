@@ -7,7 +7,13 @@
 struct GameWindow
 {
     HWND window00;
-    unsigned char unknown04[0x0C];
+    // Startup initializes this very DWORD to zero and the main loop polls
+    // it twice. Preserve the 0x0C-byte original window-state prefix.
+    union
+    {
+        struct { int windowIsClosing04; unsigned char unknown08[8]; };
+        unsigned char unknown04[0x0C];
+    };
     signed char framesSinceRedraw10;
     unsigned char unknown11[3];
     LARGE_INTEGER performanceFrequency14;
@@ -24,6 +30,9 @@ struct GameWindow
 #pragma pack(pop)
 
 typedef char GameWindowSizeIs44[(sizeof(GameWindow) == 0x44) ? 1 : -1];
+typedef char GameWindowClosingWordAt04[
+    (offsetof(GameWindow, windowIsClosing04) == 0x04 &&
+     offsetof(GameWindow, unknown04) == 0x04) ? 1 : -1];
 typedef char GameWindowFramesSinceRedrawAt10[
     (offsetof(GameWindow, framesSinceRedraw10) == 0x10) ? 1 : -1];
 typedef char GameWindowPerformanceFrequencyAt14[
