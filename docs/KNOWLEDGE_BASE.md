@@ -1163,6 +1163,27 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 FrontMessage script and portrait ID DWORD sums
+
+The FrontMessageRuntimeView::Update interpreter publishes script and
+sprite indices after combining signed side values, Player's live
+tableValue303F8/tableValue303FC words, and file-backed portrait
+parameters. Four expressions in its portrait/script switch paths now
+explicitly form modulo-32 unsigned i386 sums and restore the signed
+result before the existing ANM calls. This retains the repeated real
+GameManager/Player reads, call chronology, branch gates, and the
+original native portrait tables without clamping inputs.
+
+The two actually affected VC7.1 FrontMessageUpdate carrier objects
+replayed **2/2 exact owners, 3,007 physical bytes and 167 fields**
+(2,968-byte script switch and 39-byte decoder). 24 compiler-local
+jump/dispatch labels changed spellings, including the run_scripts
+label. Each current same-section COFF definition and PE operand
+destination and every original byte was independently compared
+before changing only the symbol names in the exact manifest.
+This repairs signed-wire source arithmetic in an already-exact
+large boss; it does not promote a new exact function.
+
 ## 2026-11-12 FrontSide HUD live side and marker-count DWORD slots
 
 The complete FrontSide::OnUpdate reads the current side's native

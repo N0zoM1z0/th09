@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 FrontMessage script-index checkpoint:** four live
+  portrait/ANM script index sums use native signed-result DWORD wrap.
+  The 2,968-byte script boss and 39-byte decoder remain exact:
+  2/2 owners, 3,007 bytes and 167 fields in two VC7.1 carriers.
+  24 compiler-private jump labels were independently COFF/PE-proven.
 - **2026-11-12 FrontSide HUD checkpoint:** live signed HUD
   side/rank reads and the separate +0x108 marker-count lookup now
   address real GameManager storage with original DWORD byte strides.

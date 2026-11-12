@@ -336,13 +336,21 @@ int FrontMessageRuntimeView::Update()
                     side = portrait;
                 else
                     side = static_cast<int>(1u - static_cast<unsigned int>(portrait));
+                // ECL-side signed script ids combine as i386 DWORD sums;
+                // preserve wrap before passing the resulting signed index.
                 int script =
-                    NativeFrontMessageSide(side).player04->tableValue303F8 + side;
+                    static_cast<int>(
+                    static_cast<unsigned int>(
+                        NativeFrontMessageSide(side).player04->tableValue303F8) +
+                    static_cast<unsigned int>(side));
                 AnmLoaded *anm =
                     NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00;
                 anm->SetAndExecuteScriptIdx(
                     &NativeMessagePortrait(this, side).first00, script);
-                script = NativeFrontMessageSide(side).player04->tableValue303F8 + side + 4;
+                script = static_cast<int>(
+                    static_cast<unsigned int>(
+                        NativeFrontMessageSide(side).player04->tableValue303F8) +
+                    static_cast<unsigned int>(side) + 4u);
                 anm = NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00;
                 anm->SetAndExecuteScriptIdx(
                     &NativeMessagePortrait(this, side).second2A4, script);
@@ -355,7 +363,8 @@ int FrontMessageRuntimeView::Update()
                     &NativeMessagePortrait(this, portrait).first00, portrait);
                 anm = g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetAndExecuteScriptIdx(
-                    &NativeMessagePortrait(this, portrait).second2A4, portrait + 4);
+                    &NativeMessagePortrait(this, portrait).second2A4,
+                    static_cast<int>(static_cast<unsigned int>(portrait) + 4u));
             }
             break;
         }
@@ -373,7 +382,10 @@ int FrontMessageRuntimeView::Update()
                     side = 1 - FRONT_NATIVE_SHORT_ARG(arguments, 0);
                 int sprite = FRONT_NATIVE_SHORT_ARG(arguments, 1);
                 int spriteBase =
-                    NativeFrontMessageSide(side).player04->tableValue303FC + sprite;
+                    static_cast<int>(
+                        static_cast<unsigned int>(
+                            NativeFrontMessageSide(side).player04->tableValue303FC) +
+                        static_cast<unsigned int>(sprite));
                 AnmLoaded *anm =
                     NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00;
                 anm->SetSprite(
