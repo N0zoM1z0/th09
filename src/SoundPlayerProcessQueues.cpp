@@ -149,6 +149,24 @@ int SoundPlayer::InitializeDSound(HWND gameWindow)
 // Original i386 builds each active-sound slot address from the real 128
 // DirectSound pointers, using modulo-32 index*4 byte arithmetic. Do not
 // replace the six genuine live reads or add a new index guard.
+// SFX source paths and duplicate-volume metadata are the original
+// process-global 39 DWORD path pointers and 54 authentic 0x08-byte rows.
+// Retain independent live reads and one unsigned Win32 index stride.
+typedef char SoundBufferIdxVolumeNativeStride[
+    (sizeof(SoundBufferIdxVolume) == 0x08) ? 1 : -1];
+static __forceinline char * &NativeSoundSfxPath(int index)
+{
+    return *reinterpret_cast<char **>(
+        reinterpret_cast<unsigned int>(&g_SfxList[0]) +
+        static_cast<unsigned int>(index) * sizeof(g_SfxList[0]));
+}
+static __forceinline const SoundBufferIdxVolume &NativeSoundIndexVolume(int index)
+{
+    return *reinterpret_cast<const SoundBufferIdxVolume *>(
+        reinterpret_cast<unsigned int>(&g_SoundBufferIdxVol[0]) +
+        static_cast<unsigned int>(index) * sizeof(g_SoundBufferIdxVol[0]));
+}
+
 static __forceinline LPDIRECTSOUNDBUFFER &NativeActiveSound(
     SoundPlayer *player, int index)
 {
@@ -172,9 +190,9 @@ int SoundPlayer::InitSoundBuffers()
 
     for (i = 0; i < 39; ++i)
     {
-        if (this->LoadSound(i, g_SfxList[i]) != 0)
+        if (this->LoadSound(i, NativeSoundSfxPath(i)) != 0)
         {
-            g_GameErrorContext.Log(g_SoundLoadErrorMessage, g_SfxList[i]);
+            g_GameErrorContext.Log(g_SoundLoadErrorMessage, NativeSoundSfxPath(i));
             return -1;
         }
     }
@@ -182,10 +200,10 @@ int SoundPlayer::InitSoundBuffers()
     for (i = 0; i < sizeof(g_SoundBufferIdxVol) / sizeof(g_SoundBufferIdxVol[0]); ++i)
     {
         this->dsoundHdl->DuplicateSoundBuffer(
-            NativeActiveSound(this, g_SoundBufferIdxVol[i].bufferIdx),
+            NativeActiveSound(this, NativeSoundIndexVolume(i).bufferIdx),
             &this->duplicateSoundBuffers[i]);
         this->duplicateSoundBuffers[i]->SetCurrentPosition(0);
-        this->duplicateSoundBuffers[i]->SetVolume(g_SoundBufferIdxVol[i].volume);
+        this->duplicateSoundBuffers[i]->SetVolume(NativeSoundIndexVolume(i).volume);
     }
 
     return 0;
@@ -705,8 +723,7 @@ void SoundPlayer::UpdateFades()
     (*reinterpret_cast<LPDIRECTSOUNDBUFFER *>(reinterpret_cast<unsigned int>(&this->duplicateSoundBuffers[0]) + \
         static_cast<unsigned int>(index) * sizeof(this->duplicateSoundBuffers[0])))
 #define TH09_SOUND_NATIVE_VOLUME(index) \
-    (*reinterpret_cast<const SoundBufferIdxVolume *>(reinterpret_cast<unsigned int>(&g_SoundBufferIdxVol[0]) + \
-        static_cast<unsigned int>(index) * sizeof(g_SoundBufferIdxVol[0]))).volume
+    NativeSoundIndexVolume(index).volume
 #define TH09_SOUND_NATIVE_BGM_PATH(index) \
     (*reinterpret_cast<char (*)[256]>(reinterpret_cast<unsigned int>(&this->bgmFileNames[0]) + \
         static_cast<unsigned int>(index) * sizeof(this->bgmFileNames[0])))

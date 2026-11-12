@@ -3327,6 +3327,30 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Shared native SoundPlayer SFX paths and 0x08-byte volume rows
+
+`SoundPlayer::InitSoundBuffers` owns an exact 245-byte controller that loads
+the 39 actual SFX path pointers and creates 54 original DirectSound duplicate
+buffers from the true 0x08-byte `SoundBufferIdxVolume` records. Both repeated
+path reads and the buffer-index/volume field reads now share actual original
+Win32 memory addresses (`base + uint32(index)*sizeof(row)`), rather than
+requiring a separate bounded C++ projected path or metadata table.
+The same native row accessor is reused **inside the existing 1,456-byte
+SoundPlayer::ProcessQueues boss**, at the original SFX volume calculation
+site. Its queued commands, 12x128 native pan words, request counts, original
+DirectSound calls and live snapshot/read order are unchanged. There are
+no new arrays, signed-index gates, caches, functions or audio timing paths.
+
+Only the eight affected pinned VC7.1 SoundPlayer carriers were replayed:
+**20/20 previously exact source-present owners, 5,400 complete original PE
+bytes and 184 relocated fields** passed, including the 245-byte initializer,
+1,456-byte physical ProcessQueues and independent leaf callbacks.
+The inline accessor changed 11 compiler-private `$L` label spellings in
+ProcessQueues. They were applied only after independent proof of all
+same-section COFF definitions, their original PE destinations, and the
+entire physical function. This is stronger original memory-ownership
+semantics, not new exact-function or whole-product credit.
+
 ## 2026-11-12 Player Shot Type2 even-trail index and loop DWORD arithmetic
 
 The **643-byte exact PlayerShotUpdateCallbackType2** draws collision regions
