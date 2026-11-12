@@ -55,6 +55,14 @@ Git retains earlier source revisions.
   advance 0x0C-byte history records by original i386
   DWORD addresses. Three scoped VC7.1 carriers preserve
   3/3 exact owners, 968 physical bytes, 30 relocations.
+- **2026-11-12 Background renderer instance checkpoint:**
+  the true variable-length file-loaded stage instance
+  array now advances by full native record strides; the
+  existing Float3 conversion call feeds named XYZ fields
+  of the genuine 12-byte ANM position instead of cross-
+  subobject float-pointer indexing. One pinned VC7.1
+  carrier preserves the entire 3,274-byte RenderObjects
+  boss and all 113 original-bound relocation fields.
 - **2026-11-12 FrontSide stock/ANM checkpoint:** signed
   HUD stock subtract-two now wraps as a native i386 DWORD
   before the original negative clamp; caller-supplied side,

@@ -205,7 +205,11 @@ int Background::RenderObjects(int mode)
         reinterpret_cast<D3DXVECTOR3 *>(&cameraVector),
         reinterpret_cast<D3DXVECTOR3 *>(&cameraVector));
 
-    for (; instance->objectId >= 0; ++instance)
+    // Stage instances form a real file-loaded array terminated by a
+    // negative object ID. Move by each native full-sized record address.
+    for (; instance->objectId >= 0;
+         instance = reinterpret_cast<RawStageObjectInstance *>(
+             reinterpret_cast<unsigned int>(instance) + sizeof(*instance)))
     {
         // The script's signed object id indexes the original pointer table.
         object = *reinterpret_cast<RawStageObject **>(
@@ -286,10 +290,15 @@ int Background::RenderObjects(int mode)
 
                     if ((quadVm->renderMode1FC & 0x0F) == 2)
                     {
-                        float *vmPosition = quadVm->pos208.operator float *();
-                        worldMatrix.m[3][0] = vmPosition[0];
-                        worldMatrix.m[3][1] = vmPosition[1];
-                        worldMatrix.m[3][2] = vmPosition[2];
+                        // The source still executes the native Float3
+                        // conversion but reads actual position members,
+                        // not an out-of-subobject float[3] projection.
+                        float *vmPositionWords = quadVm->pos208.operator float *();
+                        const Float3 &vmPosition =
+                            *reinterpret_cast<const Float3 *>(vmPositionWords);
+                        worldMatrix.m[3][0] = vmPosition.x;
+                        worldMatrix.m[3][1] = vmPosition.y;
+                        worldMatrix.m[3][2] = vmPosition.z;
 
                         D3DXVec3Project(
                             reinterpret_cast<D3DXVECTOR3 *>(&quadPosition),

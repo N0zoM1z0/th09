@@ -1273,6 +1273,31 @@ original PE bytes and 30 relocations**: homing update
 Draw Type2 293 bytes / five fields. No compiler-private
 labels, new exact owner, or whole-Windows runtime claim.
 
+## 2026-11-12 Background renderer native stage instance and projected XYZ
+
+The full 3,274-byte Background::RenderObjects boss traverses the
+real file-loaded sequence of RawStageObjectInstance records, ending
+at the original negative object-ID sentinel. Its live instance
+cursor now moves by the genuine full native record size using
+modulo-32 i386 byte addresses, rather than presuming a separate
+C++ array object for each stage instance. No new instance-count
+gate or cache is introduced, and the original culling/draw
+semantics, camera matrix calculations and object pointers remain.
+
+The sprite-projection path retains its independently original-bound
+Float3::operator float*() conversion on the ANM VM's genuine
++0x208 position. The returned address is now interpreted as
+the real 12-byte Float3 object and its x/y/z named members
+are read into the world-matrix translation slots. This avoids
+C++ cross-member pointer subscripting from a pointer to x,
+without deleting the original call or changing any float
+operations, matrix publication or draw order.
+
+The single affected pinned VC7.1 BackgroundRender carrier
+cold-replayed **1/1 exact complete RenderObjects owner,
+3,274 original physical PE bytes and 113 relocation fields**.
+No compiler-private labels or new exactness/runtime claims.
+
 ## 2026-11-12 FrontSide HUD stock and dynamic chain/ANM IDs are DWORDs
 
 The complete FrontSide::OnUpdate displays the signed live stock count
