@@ -294,6 +294,18 @@ extern u8 g_TitleCharacterUnlockedMode4[16];
 // Real TH09 character order, unlock and screen-16 tables are indexed as
 // native i386 unsigned DWORD byte addresses, retaining signed cursor input.
 // Do not add range checks, duplicate character arrays or cached lookups.
+// The original name-entry keyboard alphabet is a file/resource-backed
+// byte pointer, not a C++ object with a bounded row for signed selections.
+#define TH09_TITLE_NATIVE_ALPHABET(index) \
+    (*reinterpret_cast<const char *>( \
+        reinterpret_cast<unsigned int>(g_TitleAlphabet) + \
+        static_cast<unsigned int>(index)))
+// The live name-bank and replay name bytes use original Win32 byte strides.
+#define TH09_TITLE_NATIVE_NAME_BYTE(name, index) \
+    (*reinterpret_cast<char *>( \
+        reinterpret_cast<unsigned int>(&((name)[0])) + \
+        static_cast<unsigned int>(index)))
+
 #define TH09_TITLE_NATIVE_CHARACTER(table, index) \
     (*reinterpret_cast<char *>( \
         reinterpret_cast<unsigned int>(&(table)[0]) + \
@@ -2303,8 +2315,8 @@ int TitleScreenView::OnUpdateResultNameEntry()
             if (keyboardSelection == TitleNativeNameKeyboard::SpaceKey)
                 value = ' ';
             else
-                value = g_TitleAlphabet[keyboardSelection];
-            NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name[replayNameCursor] = value;
+                value = TH09_TITLE_NATIVE_ALPHABET(keyboardSelection);
+            TH09_TITLE_NATIVE_NAME_BYTE(NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name, replayNameCursor) = value;
             PlayMenuSound(10, 0);
             if (replayNameCursor < 7)
                 replayNameCursor++;
@@ -2324,7 +2336,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             else if (replayNameCursor > 0)
             {
                 replayNameCursor--;
-                NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name[replayNameCursor] = ' ';
+                TH09_TITLE_NATIVE_NAME_BYTE(NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name, replayNameCursor) = ' ';
             }
             stateTimer = 0;
         }
@@ -3025,8 +3037,8 @@ int TitleScreenView::UpdateReplaySave()
             if (keyboardSelection == TitleNativeNameKeyboard::SpaceKey)
                 value = ' ';
             else
-                value = g_TitleAlphabet[keyboardSelection];
-            replayName[replayNameCursor] = value;
+                value = TH09_TITLE_NATIVE_ALPHABET(keyboardSelection);
+            TH09_TITLE_NATIVE_NAME_BYTE(replayName, replayNameCursor) = value;
             PlayMenuSound(10, 0);
             if (replayNameCursor < 7)
                 replayNameCursor++;
@@ -3045,7 +3057,7 @@ int TitleScreenView::UpdateReplaySave()
             else if (replayNameCursor > 0)
             {
                 replayNameCursor--;
-                replayName[replayNameCursor] = ' ';
+                TH09_TITLE_NATIVE_NAME_BYTE(replayName, replayNameCursor) = ' ';
             }
             else
             {
@@ -3573,3 +3585,5 @@ int TitleSupervisorView::ClearRecordingFpsWarningState()
 
 #undef TH09_TITLE_NATIVE_CHARACTER
 #undef TH09_TITLE_NATIVE_UNLOCK
+#undef TH09_TITLE_NATIVE_ALPHABET
+#undef TH09_TITLE_NATIVE_NAME_BYTE

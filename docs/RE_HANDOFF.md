@@ -53,6 +53,15 @@ Git retains earlier source revisions.
   VC7.1 carriers preserve 5/5 exact owners, 445 bytes,
   26 original-bound relocations, including DrawMain and
   its three small leaf helpers.
+- **2026-11-12 Title result/replay name checkpoint:** six
+  original result-bank and replay save-name character accesses
+  now resolve the true title alphabet and live name buffers
+  through native signed-index i386 DWORD byte addresses.
+  Two TitleScreen VC7.1 carriers preserve 41/41 exact owners,
+  18,972 bytes and 953 relocations, with nine proven
+  private labels. The separate nonexact OnUpdateResult
+  still has its old 484/485-byte, 34-field, 218-difference
+  diagnostic and is not promoted.
 - **2026-11-12 ASCII text and popup checkpoint:** genuine
   256-by-0x60 ASCII text queue records, NUL-terminated text
   byte cursors, and two-by-100 0x38-byte score popup

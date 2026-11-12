@@ -1263,6 +1263,32 @@ SupervisorDrawMain, three 62-byte DrawMainLeaves in total, and the
 71-byte SupervisorDrawLoading callback. No compiler-private label
 rebinding or newly exact function/native runtime claim was involved.
 
+## 2026-11-12 Title result and replay name-entry native byte slots
+
+The TitleScreenView result-name editor and Replay save-name editor
+consume the actual g_TitleAlphabet runtime byte pointer, genuine
+0x2C-byte title score name records and a separate eight-character
+replay-name buffer. Six original dynamic character reads/writes
+now compute the live signed keyboardSelection/replayNameCursor
+offset as an unsigned modulo-32 i386 byte address from each
+actual backing allocation. The source preserves all separate
+table lookups, space-key paths, erase behavior and original
+PlayMenuSound, SaveReplay, and ANM calls. It introduces no
+new index gate, string allocation, alternate row layout or
+register-specific compiler decoration.
+
+The two actually affected pinned VC7.1 TitleScreen compiler
+carriers cold-replayed **41/41 already exact owners, 18,972
+complete original PE bytes and 953 relocations**, including
+large title menu, result-name and replay-save update owners
+and their smaller helpers. Nine compiler-private jump labels
+were verified from current COFF same-section definitions
+and original PE operand targets before their manifest names
+were updated. The separate nonexact OnUpdateResult remains
+484/485 physical bytes, 34 fields and 218 ordinary
+differences (one missing byte); no newly exact function,
+native-product or runtime closure is claimed.
+
 ## 2026-11-12 ASCII text queue and score popup native records
 
 AsciiManager owns a real 256-entry string queue at its original
