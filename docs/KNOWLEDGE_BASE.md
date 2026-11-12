@@ -3327,6 +3327,29 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Title StartMenu's native help text and demo replay pointer rows
+
+The exact **1,592-byte physical `TitleScreenView::OnUpdateStartMenu`**
+reads the real eight-element `g_TitleHelpText` pointer table and the actual
+three-element `g_DemoReplayPaths` pointer table at their original global
+storage addresses. Two dynamic selector reads now use native Win32
+`uint32(base)+uint32(index)*sizeof(pointer)` addressing instead of a C++
+array subscript on the terminal `stateTimer2`/demo byte. This preserves
+the separately observed live text/ANM calls, real `embeddedVms` storage,
+recorded input and cursor chronology, demo index modulo 3, and original
+idle/transition logic, without an extra bounds guard or path copy.
+
+The two affected pinned VC7.1 Title carriers passed the full scoped replay
+of **41/41 previously exact canonical owners, 18,972 complete original
+PE bytes and all 953 relocations**, including the StartMenu boss and
+its associated Character/Score/Title leaves. Nine compiler-private `$L`
+labels changed; all nine current same-section COFF definitions, their
+independently determined original PE destinations and complete physical
+owner bytes were verified before rebinding manifest *names*. The separate
+nonexact `OnUpdateResult` remains **484 candidate vs 485 original bytes,
+218 unlike bytes and one missing byte, 34 fields**. No new exact-function
+or Windows runtime/product credit follows.
+
 ## 2026-11-12 Supervisor frame callbacks use exact AnmManager surface owners
 
 The 517-byte `SupervisorCheckFps` and 312-byte `SupervisorDrawMain` originally

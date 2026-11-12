@@ -3132,6 +3132,17 @@ int TitleScreenView::UpdateReplaySave()
 }
 
 
+// Start menu reads its 8 help text pointers and three demo replay path
+// pointers from original global arrays by native Win32 DWORD byte strides.
+#define TH09_TITLE_NATIVE_HELP_TEXT(index) \
+    (*reinterpret_cast<const char *const *>( \
+        reinterpret_cast<unsigned int>(&g_TitleHelpText[0]) + \
+        static_cast<unsigned int>(index) * sizeof(g_TitleHelpText[0])))
+#define TH09_TITLE_NATIVE_DEMO_PATH(index) \
+    (*reinterpret_cast<const char *const *>( \
+        reinterpret_cast<unsigned int>(&g_DemoReplayPaths[0]) + \
+        static_cast<unsigned int>(index) * sizeof(g_DemoReplayPaths[0])))
+
 // Native Win32 indexing into the real 57-record embedded VM allocation.
 #define TH09_TITLE_NATIVE_EMBEDDED_VM(index) \
     (*reinterpret_cast<AnmVmView *>(reinterpret_cast<u32>(&embeddedVms[0]) + \
@@ -3194,7 +3205,7 @@ int TitleScreenView::OnUpdateStartMenu()
         if ((u32)stateTimer2 < 8)
         {
             DrawTitleHelpText(static_cast<TitleAnmManagerView *>(g_AnmManager), &TH09_TITLE_NATIVE_EMBEDDED_VM(stateTimer2), 0xFFF0E0, 0x300000,
-                              g_TitleHelpText[stateTimer2]);
+                              TH09_TITLE_NATIVE_HELP_TEXT(stateTimer2));
             TH09_TITLE_NATIVE_INCREMENT(stateTimer2);
             return 1;
         }
@@ -3235,7 +3246,7 @@ int TitleScreenView::OnUpdateStartMenu()
             if (idleFrames > 1500)
             {
                 g_TitleGameFlags |= 2u;
-                strcpy(g_SelectedReplayPath, g_DemoReplayPaths[g_DemoReplayIndex]);
+                strcpy(g_SelectedReplayPath, TH09_TITLE_NATIVE_DEMO_PATH(g_DemoReplayIndex));
                 g_DemoReplayIndex++;
                 g_DemoReplayIndex %= 3;
                 g_TitleGameFlags |= 8u;
@@ -3375,6 +3386,8 @@ int TitleScreenView::OnUpdateStartMenu()
 }
 
 
+#undef TH09_TITLE_NATIVE_HELP_TEXT
+#undef TH09_TITLE_NATIVE_DEMO_PATH
 #undef TH09_TITLE_NATIVE_EMBEDDED_VM
 
 int TitleScreenView::OnUpdateDifficultySelect()
