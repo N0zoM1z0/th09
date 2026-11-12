@@ -1163,6 +1163,24 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 FrontSide HUD live side and marker-count DWORD slots
+
+The complete FrontSide::OnUpdate reads the current side's native
+0x38-byte GameManager runtime record (the HUD rank count) and a
+different two-entry marker-count DWORD table at GameManager +0x108.
+The live sideIndexA66C is a signed native i386 word. These two reads
+now use the already verified FRONT_NATIVE_SIDE lvalue and a direct
+modulo-32 byte address from the real markerCounts108[0] member,
+respectively, without imposing a bounded C++ array-index condition,
+copying a count, or changing the rank/marker loops and ANM calls.
+
+The single pinned FrontSide VC7.1 carrier passed **15/15 exact
+functions, 4,087 complete physical PE bytes and 176 relocation
+fields**, covering the full 2,381-byte OnUpdate boss and its create,
+meter, transition and score leaves. No compiler-private label change
+or new exactness credit was needed; this repairs source-level native
+storage access, not an unproved product/runtime boundary.
+
 ## 2026-11-12 FrontMessage interpreter native packet stride and frame word
 
 The complete FrontMessageRuntimeView::Update switch owner traverses a
