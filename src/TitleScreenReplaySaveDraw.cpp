@@ -14,6 +14,7 @@ typedef int i32;
 #include "TitleScreenReplayView.hpp"
 #include "TitleNativeNameKeyboard.hpp"
 #include "TitleReplayNativeSlots.hpp"
+#include "TitleReplayNativeRecords.hpp"
 
 // The text API reads the same three-float representation through its shared view.
 typedef char ReplaySdkVectorSizeIs0C[(sizeof(D3DXVECTOR3) == sizeof(Float3)) ? 1 : -1];
@@ -59,16 +60,8 @@ int TitleScreenView::DrawReplaySave()
         {
             g_AsciiManager.color = i == this->keyboardSelection ? 0xffffffff : 0xff808080;
             g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "No.%.2d %.8s %8s", i + 1,
-                                  (*reinterpret_cast<const ReplayDataView *>(
-                        reinterpret_cast<u32>(&this->replays[0]) +
-                        static_cast<u32>(i) * sizeof(this->replays[0]))).magic != 0 ? (*reinterpret_cast<const ReplayDataView *>(
-                        reinterpret_cast<u32>(&this->replays[0]) +
-                        static_cast<u32>(i) * sizeof(this->replays[0]))).playerName : "--------",
-                                  (*reinterpret_cast<const ReplayDataView *>(
-                        reinterpret_cast<u32>(&this->replays[0]) +
-                        static_cast<u32>(i) * sizeof(this->replays[0]))).magic != 0 ? (*reinterpret_cast<const ReplayDataView *>(
-                        reinterpret_cast<u32>(&this->replays[0]) +
-                        static_cast<u32>(i) * sizeof(this->replays[0]))).playTime : "--/--/--");
+                                  TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).magic != 0 ? TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).playerName : "--------",
+                                  TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).magic != 0 ? TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).playTime : "--/--/--");
             pos.y += 13.0f;
         }
     }
@@ -156,3 +149,5 @@ int TitleScreenView::DrawReplaySave()
     g_AsciiManager.scaleY = 1.0f;
     return 1;
 }
+
+#undef TH09_TITLE_NATIVE_REPLAY_RECORD

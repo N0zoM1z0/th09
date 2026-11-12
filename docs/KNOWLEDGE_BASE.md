@@ -3437,6 +3437,30 @@ owners, 2,965 original PE bytes and 234 relocation fields**. No new
 exact-function or whole Windows product/runtime credit follows; this
 is native wire-pointer and integer-source fidelity in both large callbacks.
 
+## 2026-11-12 Shared physical Title replay record addressing in both renderers
+
+The independent `TitleScreenView::DrawReplaySave` and
+`TitleScreenView::DrawReplayMenu` renderers use the *same actual* 50-record
+`TitleScreenView::replays` storage, rooted at Title +0x68E4 with a verified
+`ReplayDataView` stride of **0x1EC bytes**. The new
+`TitleReplayNativeRecords.hpp` provides one lexical
+`TH09_TITLE_NATIVE_REPLAY_RECORD(owner,index)` lvalue, preserving signed
+runtime selectors as native 32-bit byte offsets without a second replay
+record allocation. Four independent replay header reads in the save screen
+and sixteen independent reads in the menu screen now share exactly this
+one authentic owner and no extra snapshot, check, cached magic, or callable
+helper boundary. The existing `NativeMenuFrameStart` reads still select
+real 0x20-byte stage headers from each original ReplayData record.
+
+One pinned VC7.1 replay-save-draw carrier cold-replayed **1/1 previously
+exact function, 800 original PE bytes and 41 relocations**. The separate
+nonexact replay-menu boss was also actually rebuilt: it retained its
+**1,280-byte physical extent, 57 bound fields, 13 ordered calls, reviewed
+control graph and the same 29 unlike ordinary bytes**, with no regression
+and **no claimed exactness credit** for that boss. Neither renderer's text,
+frame, animation or selection chronology changed. This is big-function
+cross-owner source fidelity, not a whole-product/runtime result.
+
 ## 2026-11-12 Unified authentic six-bucket Etama draw-head ownership across update and draw
 
 `EtamaController::OnUpdate` and `EtamaController::OnDraw` share the **same
