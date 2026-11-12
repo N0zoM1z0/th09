@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 MusicRoom checkpoint:** the 2,258-byte script/BGM
+  boss now uses native DWORD music pause/state counter semantics.
+  Its 209-byte draw leaf also remains exact: 2/2 owners, 2,467
+  physical bytes and 80 fields from one scoped VC7.1 carrier.
+  Cursor/track-pointer variants shifting four SIB bytes were rejected.
 - **2026-11-12 Title KeyConfig checkpoint:** three signed
   frame/phase counters now use native i386 DWORD increments. The
   complete 2,803-byte key-config boss and its 106-byte swap helper

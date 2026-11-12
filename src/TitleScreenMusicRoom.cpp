@@ -190,7 +190,8 @@ int TitleScreenView::OnUpdateMusicRoom()
                 g_SoundPlayer.QueueCommand(6, 0, "Pause");
             else
                 g_SoundPlayer.QueueCommand(7, 0, "UnPause");
-            musicPaused = 1 - musicPaused;
+            musicPaused = static_cast<i32>(
+                1u - static_cast<u32>(musicPaused));
         }
 
         if (g_ReplayInputStates[2].word06 & 0x4000)
@@ -394,9 +395,11 @@ int TitleScreenView::OnUpdateMusicRoom()
 common_tail:
     for (i = 0; i < 8; i++)
         g_AnmManager->ExecuteScript(&embeddedVms[49 + i]);
-    stateTimer++;
-    screenFrameCounter++;
-    stateTimer2++;
+    // Retail advances these persistent signed Title state words as native
+    // modulo-32 i386 INC DWORD operations after the music/ANM callbacks.
+    ++*reinterpret_cast<u32 *>(&stateTimer);
+    ++*reinterpret_cast<u32 *>(&screenFrameCounter);
+    ++*reinterpret_cast<u32 *>(&stateTimer2);
     return 1;
 }
 

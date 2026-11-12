@@ -1163,6 +1163,27 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 MusicRoom pause and state counters use native i386 words
+
+The complete TitleScreen::OnUpdateMusicRoom owner runs the file-backed
+music-comment parser, list management, BGM play/pause, animation calls,
+and three persistent signed state counters. Retail computes the
+musicPaused inversion as a native DWORD subtraction, and advances
+stateTimer, screenFrameCounter, stateTimer2 with wrapping 32-bit
+INC instructions. The maintained source now expresses those operations
+without signed C++ overflow while preserving every original branch
+and live input/memory access.
+
+The sole affected pinned VC7.1 carrier cold-replayed **both existing
+exact owners, 2,467 complete original bytes and 80 relocation fields**
+(the 2,258-byte OnUpdateMusicRoom boss and 209-byte DrawMusicRoom leaf).
+No new exactness credit is asserted. Eight separate and combined
+native cursor-address probes, and a direct native song-track lookup,
+preserved the owned extent but changed exactly four SIB address-encoding
+bytes (+0x71F/+0x746/+0x755/+0x762). These source variants were
+rejected and the correct compiled bytes restored; no target bytes
+or relocations were altered.
+
 ## 2026-11-12 Title KeyConfig native frame and phase DWORD wrap
 
 The exact TitleScreenView::OnUpdateKeyConfig code owns three persistent
