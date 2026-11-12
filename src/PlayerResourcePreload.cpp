@@ -28,7 +28,14 @@ int PreloadPlayerAnmResources()
     int slot = 5;
     PlayerPreloadSideTailView *side = g_PlayerPreloadSides;
 
-    for (int i = 0; i < 2; ++i, ++side, ++slot)
+    // Two genuine 0x38-byte GameManager side records drive resource slots
+    // five and six. Retail advances the live side pointer by its native
+    // record stride and increments the signed ANM slot as an i386 DWORD.
+    for (int i = 0; i < 2;
+         ++i,
+         side = reinterpret_cast<PlayerPreloadSideTailView *>(
+             reinterpret_cast<unsigned int>(side) + sizeof(*side)),
+         ++*reinterpret_cast<unsigned int *>(&slot))
     {
         if (rawView->GetAnmRawData(slot) != 0 &&
             side->shotType20 == side->previousShotType24)

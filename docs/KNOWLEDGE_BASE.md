@@ -1346,6 +1346,27 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 Player ANM preload side-record and slot DWORD traversal
+
+The original PreloadPlayerAnmResources leaf walks two real
+0x38-byte GameManager side records, testing each side's live
+shot type, previous shot type and resource mode before loading
+the corresponding ANM file into slots five and six. The
+source now advances its true side-state pointer through an
+unsigned i386 DWORD address plus the full native record size,
+and increments the live signed ANM slot as a native DWORD.
+The already native six-pointer-per-shot-type resource path
+lookup, GetAnmRawData calls, preload early return, distinct
+manager reload and two-side limit remain intact.
+
+The single affected pinned VC7.1 PlayerResourcePreload
+carrier cold-replayed **1/1 already-exact owner, 114
+complete physical original PE bytes and six relocation
+fields**. No new side/shot bounds check, private label
+change, new exact owner or product/runtime closure is
+implied. This extends the same genuine GameManager
+side-record fidelity used by ANM and Player owners.
+
 ## 2026-11-12 FrontMessage script ID and decoded text byte cursors
 
 The 2,968-byte FrontMessageRuntimeView::Update story interpreter
