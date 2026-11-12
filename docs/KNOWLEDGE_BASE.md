@@ -1346,6 +1346,30 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 Replay SaveReplay native inline stage-root traversal
+
+The 1,238-byte nonexact ReplayManagerView::SaveReplay serializer
+computes the amount of serialized frame and FPS data by visiting
+ten original 0x18-byte ReplayBufferLink stage roots embedded
+directly in its 0x164-byte manager, then traverses each linked
+continuation. The first loop now advances the genuine inline
+stage-root pointer by its native unsigned i386 byte address
+plus sizeof(ReplayBufferLink), rather than assuming it
+belongs to an independent bound-checked C++ array. The ten
+stage gate, frame-header reads, link chain contents and
+allocation arithmetic remain unchanged: no second
+stage-table allocation, new bounds check or cached pointer.
+
+A complete target-bound SaveReplay guard still reports **1,238
+target and 1,238 candidate physical bytes**, all **53 original
+relocation fields**, 23 direct calls, 49 control-flow blocks
+and only the original **two nonmatching register bytes at
++0xB7/+0xBB**. The two affected pinned VC7.1 ReplayInput
+carriers also cold-replayed **12/12 separately exact siblings,
+4,093 complete original PE bytes and 232 relocation fields**.
+The SaveReplay boss remains NONEXACT and is not credited as
+a new exact owner or native runtime/product closure.
+
 ## 2026-11-12 EnemyManager trailing collision index native stride
 
 The complete 3,900-byte nonexact EnemyManagerView::OnUpdate boss

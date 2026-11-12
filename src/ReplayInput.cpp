@@ -940,7 +940,13 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         // Walk the inline stage roots separately from each immutable source
         // link chain. Saving reads their recorded data but never mutates it.
         const ReplayBufferLink *stageRoot = &replayManager->stageBuffers[0];
-        for (; loopIndex < ReplayRecordingCapacity::StageCount; loopIndex++, stageRoot++)
+        // The file serializer walks ten genuine 0x18-byte inline stage
+        // roots in this ReplayManager allocation. Advance the original
+        // Win32 pointer by the native record stride with no new limit.
+        for (; loopIndex < ReplayRecordingCapacity::StageCount;
+             loopIndex++,
+             stageRoot = reinterpret_cast<const ReplayBufferLink *>(
+                 reinterpret_cast<unsigned int>(stageRoot) + sizeof(*stageRoot)))
         {
             if ((*reinterpret_cast<ReplayFrameDataStartView **>(
                 reinterpret_cast<unsigned int>(&replayCopy.frameStart[0][0]) +

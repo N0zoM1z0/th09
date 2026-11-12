@@ -79,6 +79,13 @@ Git retains earlier source revisions.
   The full 2,381-byte HUD boss and 14 helper owners replay
   15/15 exact, 4,087 original bytes and 176 relocations
   in one focused VC7.1 carrier.
+- **2026-11-12 Replay stage-root checkpoint:** the
+  nonexact SaveReplay 1,238-byte serializer now traverses
+  all ten original embedded 0x18-byte stage root records
+  through native i386 DWORD byte addresses. Its old two
+  register differences, 53 fields, 23 calls and 49 blocks
+  are unchanged; two scoped VC7.1 carriers preserve 12/12
+  exact siblings, 4,093 bytes and 232 fields.
 - **2026-11-12 Enemy trail collision checkpoint:** the
   full 3,900-byte nonexact EnemyManager OnUpdate boss
   now advances signed trail collision indices by six as
