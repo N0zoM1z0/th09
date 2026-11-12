@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Effect pool/VM checkpoint:** the runtime-counted
+  0xD8-byte Effect pool and 0x2A4-byte ANM VM allocations now
+  use native i386 DWORD record traversal in the initialize,
+  update, spawn, draw and release paths. The 8 affected VC7.1
+  carriers preserve 15/15 exact owners, 2,530 physical bytes
+  and 100 fields. AddedCallback remains 51/51 with 4 fields
+  and its unchanged 8 nonexact register bytes.
 - **2026-11-12 Replay Save Draw index checkpoint:** selected
   replay row+1 and the signed name-edit cursor's underline offset
   now form original unsigned 32-bit i386 arithmetic before use.

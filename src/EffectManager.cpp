@@ -46,6 +46,13 @@ typedef char EffectUpdateVmNativeCoordinates[
      offsetof(AnmVmBase, intVar0) == 0x100 &&
      offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
+// The variable-count Effect animation allocation uses genuine native
+// 0x2A4-byte ANM VM records; keep every original reread at its caller.
+#define TH09_EFFECT_NATIVE_VM(owner, ordinal) \
+    (*reinterpret_cast<AnmVm *>( \
+        reinterpret_cast<unsigned int>((owner)->vms) + \
+        static_cast<unsigned int>(ordinal) * sizeof(AnmVm)))
+
 int __fastcall EffectUpdateFromVm(Effect *effect)
 {
     AnmVm *vm = effect->vms;
@@ -69,7 +76,7 @@ void EffectManager::ResetPool()
 {
     Effect *effect = this->effects;
     this->drawSentinel0.nextInDrawGroup = NULL;
-    for (int i = 0; i < EffectNativePoolCapacity::AllocatedCount(*this); ++i, ++effect)
+    for (int i = 0; i < EffectNativePoolCapacity::AllocatedCount(*this); ++i, effect = reinterpret_cast<Effect *>(reinterpret_cast<unsigned int>(effect) + sizeof(Effect)))
     {
         if (effect->vertices != NULL)
         {
@@ -121,18 +128,21 @@ Effect *EffectManager::InitializeEffect(
             g_ZunMemory.Alloc(
                 sizeof(AnmVm) * EffectTemplateAtNativeIndex(effectId).vmCount,
                 "./system\\global.h"));
+        // Script-template VM counts select real allocated 0x2A4-byte
+        // ANM VMs by their i386 DWORD ordinal, preserving every distinct
+        // live call and publish/read in the original loop.
         int scriptIndex = EffectTemplateAtNativeIndex(effectId).scriptIndex;
         for (int i = 0; i < EffectTemplateAtNativeIndex(effectId).vmCount; ++i)
         {
             this->effectAnm->SetAndExecuteScriptIdx(
-                    &effect->vms[i], scriptIndex);
+                    &TH09_EFFECT_NATIVE_VM(effect, i), scriptIndex);
             scriptIndex = static_cast<int>(static_cast<unsigned int>(scriptIndex) +
                 static_cast<unsigned int>(EffectTemplateAtNativeIndex(effectId).scriptStep));
-            effect->vms[i].flagsWord |= 0x2000;
-            effect->vms[i].color1 = color;
-            effect->vms[i].pos2.x = 0.0f;
-            effect->vms[i].pos2.y = 0.0f;
-            effect->vms[i].pos2.z = 0.0f;
+            TH09_EFFECT_NATIVE_VM(effect, i).flagsWord |= 0x2000;
+            TH09_EFFECT_NATIVE_VM(effect, i).color1 = color;
+            TH09_EFFECT_NATIVE_VM(effect, i).pos2.x = 0.0f;
+            TH09_EFFECT_NATIVE_VM(effect, i).pos2.y = 0.0f;
+            TH09_EFFECT_NATIVE_VM(effect, i).pos2.z = 0.0f;
         }
     }
     effect->updateCallback = EffectTemplateAtNativeIndex(effectId).updateCallback;
@@ -175,7 +185,7 @@ Effect *EffectManager::SpawnEffect(
         if (effectIndex == 0)
             effect = this->effects;
         else
-            effect++;
+            effect = reinterpret_cast<Effect *>(reinterpret_cast<unsigned int>(effect) + sizeof(Effect));
     }
 
     return i >= this->primaryCount
@@ -210,7 +220,7 @@ Effect *EffectManager::SpawnEffectWithVelocity(
         if (this->nextEffectIndex == 0)
             effect = this->effects;
         else
-            effect++;
+            effect = reinterpret_cast<Effect *>(reinterpret_cast<unsigned int>(effect) + sizeof(Effect));
     }
 
     return i >= this->primaryCount
@@ -254,7 +264,7 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
     // to the EffectManager layout or the other pool consumers.
     for (int i = 0;
          i < EffectNativePoolCapacity::ActiveCountWithNativeOrder(*effectManager);
-         ++i, ++effect)
+         ++i, effect = reinterpret_cast<Effect *>(reinterpret_cast<unsigned int>(effect) + sizeof(Effect)))
     {
         if (effect->active == 0)
         {
@@ -279,11 +289,14 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
             continue;
         }
 
+        // Every effect owns a runtime-counted collection of actual 0x2A4
+        // animation VM records. Resolve the signed VM ordinal through native
+        // i386 DWORD addresses without imposing a C++ fixed-array bound.
         int liveVmCount = effect->vmCount;
         for (int vmIndex = 0; vmIndex < effect->vmCount; ++vmIndex)
         {
             if (g_AnmManager->ExecuteScript(
-                    &effect->vms[vmIndex]) != 0)
+                    &TH09_EFFECT_NATIVE_VM(effect, vmIndex)) != 0)
                 liveVmCount = static_cast<int>(
                     static_cast<unsigned int>(liveVmCount) - 1u);
         }
@@ -342,7 +355,8 @@ int EffectManager::OnDraw(EffectManager *effectManager)
                     vm->pos.z = 0.08f;
                     vm->pos += vm->pos2;
                     g_AnmManager->Draw2D(vm);
-                    ++vm;
+                    vm = reinterpret_cast<AnmVm *>(
+                        reinterpret_cast<unsigned int>(vm) + sizeof(AnmVm));
                 } while (--vmCount != 0);
             }
         }
@@ -373,7 +387,8 @@ int EffectManager::OnDrawShared(EffectManager *effectManager)
                     vm->pos.z = 0.0f;
                     vm->pos += vm->pos2;
                     g_AnmManager->Draw2D(vm);
-                    ++vm;
+                    vm = reinterpret_cast<AnmVm *>(
+                        reinterpret_cast<unsigned int>(vm) + sizeof(AnmVm));
                 } while (--vmCount != 0);
             }
         }
@@ -397,7 +412,7 @@ int EffectManager::AddedCallback(void *context)
 int EffectManager::ReleasePool()
 {
     Effect *effect = this->effects;
-    for (int i = 0; i < EffectNativePoolCapacity::AllocatedCount(*this); ++i, ++effect)
+    for (int i = 0; i < EffectNativePoolCapacity::AllocatedCount(*this); ++i, effect = reinterpret_cast<Effect *>(reinterpret_cast<unsigned int>(effect) + sizeof(Effect)))
     {
         if (effect->vertices != NULL)
         {
@@ -494,3 +509,5 @@ EffectManager *EffectManager::Create(int sideIndex, int primaryCount, int second
     }
     return effectManager;
 }
+
+#undef TH09_EFFECT_NATIVE_VM

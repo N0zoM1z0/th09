@@ -1163,6 +1163,32 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Effect pool and animation VM native record traversal
+
+The actual EffectManager pool contains live 0xD8-byte Effect records,
+and each active effect owns a separately allocated runtime-counted
+0x2A4-byte AnmVm list. ResetPool, SpawnEffect, SpawnEffectWithVelocity,
+OnUpdate and ReleasePool now advance real Effect pointers as native
+unsigned i386 DWORD addresses plus sizeof(Effect), rather than C++
+pointer arithmetic presuming an independently constructed array.
+InitializeEffect's six original distinct VM writes and calls and
+OnUpdate's repeated runtime VM script calls resolve the real VM
+allocation by base + uint32(index)*sizeof(AnmVm). Both draw loops
+also advance the genuine 0x2A4-byte VM record cursor using its native
+DWORD stride. A lexical lvalue macro keeps the six initialization
+accesses readable while preserving their separate original loads.
+No pool capacity, sentinel, allocation, bounds gate, call or drawing
+behavior was introduced or changed.
+
+The eight affected pinned VC7.1 EffectManager carriers cold-replayed
+**15/15 already-exact owners, 2,530 complete physical original PE
+bytes and 100 bound relocations**. The separate 51-byte AddedCallback
+owner remains nonexact with its original four relocation fields,
+two ordered calls and precisely eight ordinary register bytes
+unmatched; that result was independently rechecked after the edits.
+The source repair is native storage fidelity for genuine pool and
+script-driven VM lifetimes, not new exactness or native runtime closure.
+
 ## 2026-11-12 Title replay-save selected-row and name-cursor DWORDs
 
 TitleScreenView::DrawReplaySave renders the live selected replay
