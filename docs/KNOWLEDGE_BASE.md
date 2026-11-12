@@ -3327,6 +3327,29 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Title key-config boss's native side and menu cursor DWORD writes
+
+The exact **2,803-byte `TitleScreenView::OnUpdateKeyConfig`** owns one
+actual signed `keyConfigSide` DWORD at Title+0xC920, and an independent
+signed `keyboardSelection` DWORD. Both left/right side-selection handlers
+perform the original i386 `1-keyConfigSide` subtraction through the
+**real unsigned DWORD lvalue** of that original signed word. The scrolling
+menu's repeated `keyboardSelection+=MoveCursorVertical(10)` likewise adds
+through its actual DWORD before retaining the existing signed range checks.
+No mirrored selectors, extra bounds, derived state or new C++ array object
+is introduced; the two real 0x36-byte controller mapping side records,
+0x2A4-byte help VMs, settings byte lanes and original controller checks
+remain authoritative.
+
+Generic `static_cast<i32>(1u-uint32(side))` and value-returning unsigned
+addition trial forms produced **two changed bytes** in VC7.1's otherwise
+exact OnUpdateKeyConfig and were explicitly rejected. The original lvalue
+form preserves both native wrap semantics and original compiler register
+schedule. The single affected pinned VC7.1 carrier replayed **2/2 existing
+exact functions, 2,909 original PE bytes and all 118 relocations**, including
+the entire key-config boss and the 106-byte duplicate key mapping helper.
+No new exact-owner or Windows runtime/product credit is claimed.
+
 ## 2026-11-12 Bullet transform interpreter's authentic packed child-spawn bytes
 
 `Bullet::AdvanceTransformProgram` is an exact **1,320-byte physical

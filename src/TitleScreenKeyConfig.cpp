@@ -242,7 +242,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
         if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 2)
         {
             while (keyboardSelection >= 3 && keyboardSelection <= 7)
-                keyboardSelection += i;
+                *reinterpret_cast<u32 *>(&keyboardSelection) += static_cast<u32>(i);
         }
         UpdateMenuSelection();
     }
@@ -333,12 +333,15 @@ afterControllerBinding:
         g_TitleLastControllerButton = keyToChange;
     }
 
+    // Both side-toggle branches perform original i386 DWORD subtraction
+    // directly on the signed +0xC920 selector; the input cursor step above
+    // also adds in the same native 32-bit word before the signed 3..7 test.
     if (g_TitleInput.IsPressedScrolling(0x40))
     {
         switch (keyboardSelection)
         {
         case 0:
-            keyConfigSide = 1 - keyConfigSide;
+            *reinterpret_cast<u32 *>(&keyConfigSide) = 1u - static_cast<u32>(keyConfigSide);
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
                 TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
@@ -423,7 +426,7 @@ afterControllerBinding:
         switch (keyboardSelection)
         {
         case 0:
-            keyConfigSide = 1 - keyConfigSide;
+            *reinterpret_cast<u32 *>(&keyConfigSide) = 1u - static_cast<u32>(keyConfigSide);
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
                 TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
