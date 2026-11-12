@@ -5,8 +5,10 @@ and the unsolved source questions worth pursuing** for Japanese TH09 v1.50a.
 It is not a commit-by-commit journal or a live exactness ledger.
 The authoritative [current handoff](RE_HANDOFF.md) lists every open owner,
 its current comparison and the right inspector; [generated progress](PROGRESS.md)
-is derived from the canonical ledgers. Older omitted experiments, source
-spellings and receipts are recoverable through Git history.
+is derived from the canonical ledgers. This is a historical evidence notebook;
+its dated experiments and prior source spellings can be superseded, and
+original-bound diagnostic differences do not mean canonical exactness.
+Old full handoff checkpoints are recoverable through Git history.
 
 **Never promote a near match** from these notes. Only a complete target-bound
 VC7.1 comparison of code, owned tables/tails and real relocation identities
@@ -19,6 +21,15 @@ GameplaySetupThread and Title DrawResult are exact; the 12 active nonexact
 owners and the unfinished product/runtime gates remain separate.
 
 ## Where to look
+
+**Size accounting:** the canonical nonexact total (28,145 bytes) sums
+twelve authored `functions.csv` logical extents. The original-bound
+RunEcl, Enemy OnUpdate and Player movement inspections additionally
+cover 772, 17 and 65 bytes of owned physical code/tails/tables respectively,
+so summing the twelve physical comparison sizes instead yields 28,999 bytes.
+Do not conflate physical-owner proof with the exact authored-byte ledger:
+as of 2026-11-12, 263,786/291,931 reviewed-authored bytes (90.3590%) are
+exact; the independent complete-image inventory and Windows product remain open.
 
 - **Current exactness/frontiers and safe rebuild commands:**
   [RE_HANDOFF.md](RE_HANDOFF.md); generated figures in

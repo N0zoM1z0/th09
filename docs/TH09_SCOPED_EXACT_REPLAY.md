@@ -3,7 +3,13 @@
 This workflow does **not** run the all-owner cold replay. It expands an
 explicit canonical `--unit` or source path into only the **exact** functions in
 that one source, including all distinct compiler profiles and physical COFF
-carriers. It compiles each selected carrier **once**, with the pinned VC7.1
+carriers. Objects, PDBs and comparison JSON under ignored `build/` are disposable
+and may have been cleaned for the next-agent handoff. The selected replay
+regenerates missing carrier objects from source. Historical scratch receipts
+are not substitutes for compiling the current source. Do not repopulate
+`build/` by invoking all-owner replay.
+
+It compiles each selected carrier **once**, with the pinned VC7.1
 source/profile recorded in `config/match-units.toml`, then strictly checks every
 matched owner against the original Japanese 1.50a PE, its complete physical
 code/tail/table and every reviewed relocation. The target and tracking ledgers
