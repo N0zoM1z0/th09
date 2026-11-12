@@ -146,9 +146,12 @@ int SaveTitleScoreData()
     if (g_ScoreFileHeader.version == 0)
         return 1;
 
+    // score.dat chapters are packed into one live output allocation. Retail
+    // advances each file-relative signed byte offset through a wrapping
+    // i386 address before writing, rather than a C++ array-subscript bound.
     int currentOffset = 0;
     u8 *scoreData = static_cast<u8 *>(g_ZunMemory.Alloc(0x640000, "scoretmp"));
-    memcpy(scoreData + currentOffset, &g_ScoreFileHeader, sizeof(g_ScoreFileHeader));
+    memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), &g_ScoreFileHeader, sizeof(g_ScoreFileHeader));
     currentOffset += sizeof(g_ScoreFileHeader);
 
     {
@@ -157,7 +160,7 @@ int SaveTitleScoreData()
         th9k.chapterSizeCopy = sizeof(th9k);
         th9k.chapterSize = sizeof(th9k);
         th9k.version = 1;
-        memcpy(scoreData + currentOffset, &th9k, sizeof(th9k));
+        memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), &th9k, sizeof(th9k));
         currentOffset += sizeof(th9k);
     }
 
@@ -166,13 +169,13 @@ int SaveTitleScoreData()
         u32 recordType = g_ReplayRng.GetRandomU32InRange(3);
         if ((pendingMask & 1) && recordType == 0)
         {
-            memcpy(scoreData + currentOffset, g_TitleScoreTable, sizeof(g_TitleScoreTable));
+            memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), g_TitleScoreTable, sizeof(g_TitleScoreTable));
             currentOffset += sizeof(g_TitleScoreTable);
             pendingMask ^= 1;
         }
         else if ((pendingMask & 2) && recordType == 1)
         {
-            memcpy(scoreData + currentOffset, &g_LastNameRecord, sizeof(g_LastNameRecord));
+            memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), &g_LastNameRecord, sizeof(g_LastNameRecord));
             currentOffset += sizeof(g_LastNameRecord);
             pendingMask ^= 2;
         }
@@ -181,7 +184,7 @@ int SaveTitleScoreData()
             reinterpret_cast<ScoreSupervisorView *>(&g_Supervisor)->UpdatePlayTime();
             if (g_PlayStatsRecord.version != 0)
             {
-                memcpy(scoreData + currentOffset, &g_PlayStatsRecord, sizeof(g_PlayStatsRecord));
+                memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), &g_PlayStatsRecord, sizeof(g_PlayStatsRecord));
                 currentOffset += sizeof(g_PlayStatsRecord);
                 pendingMask ^= 4;
             }
@@ -198,7 +201,7 @@ int SaveTitleScoreData()
     ScoreSupervisorView *supervisor = reinterpret_cast<ScoreSupervisorView *>(&g_Supervisor);
     vrsm.exeSize = supervisor->exeSize7A4;
     vrsm.exeChecksum = supervisor->exeChecksum7A0;
-    memcpy(scoreData + currentOffset, &vrsm, sizeof(vrsm));
+    memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), &vrsm, sizeof(vrsm));
     currentOffset += sizeof(vrsm);
 
     ScoreFileView *header = reinterpret_cast<ScoreFileView *>(scoreData);
@@ -219,9 +222,9 @@ int SaveTitleScoreData()
 
     int byteIdx;
     for (byteIdx = offsetof(ScoreFileView, version); byteIdx < currentOffset; byteIdx++)
-        header->checksum += scoreData[byteIdx];
+        header->checksum += *reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(byteIdx));
 
-    u8 *bytes = scoreData + 1;
+    u8 *bytes = reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + 1u);
     byteIdx = currentOffset - offsetof(ScoreFileView, checksum);
     u8 xorValue = *bytes;
     u8 byteValue;

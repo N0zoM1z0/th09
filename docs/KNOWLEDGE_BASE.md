@@ -1163,6 +1163,25 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 score.dat writer's packed chapter and checksum byte addresses
+
+SaveTitleScoreData writes original TH09 score.dat chapters to a live
+0x640000-byte allocated output buffer, appending the TH9K, score,
+last-name, PLST and version payloads at its original signed byte
+offset. Six packed-record destinations now form native unsigned i386
+base + uint32(currentOffset) addresses instead of C++ pointer arithmetic
+over a projected chapter subobject. The checksum loop similarly indexes
+the genuine output allocation with uint32(byteIdx), and the trailing
+obfuscation cursor begins at the native byte address scoreData+1.
+All RNG order, chapter widths, checksum/encryption calls and file writes
+remain unchanged; no extra bounds check or alternate buffer is introduced.
+
+The six source-scoped pinned VC7.1 carriers cold-replayed **7/7 existing
+exact functions, 2,572 complete original PE bytes and 169 relocations**,
+including the 745-byte SaveTitleScoreData boss and its original score
+parsing/timekeeping leaves. No compiler-private label changes or
+new exact-function/runtime claims were needed.
+
 ## 2026-11-12 PBG file mode and module path native byte cursors
 
 PbgFileView::Open examines the real caller-provided NUL-terminated
