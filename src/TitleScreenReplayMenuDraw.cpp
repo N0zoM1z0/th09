@@ -79,6 +79,15 @@ static inline ReplayFrameDataStartView *NativeMenuFrameStart(
          static_cast<unsigned int>(stage)) * sizeof(replay.frameStart[0][0]));
 }
 
+// The custom replay-name characters live at fixed +15..+18 byte offsets
+// in the genuine file-backed 0x200-byte Title replay path records.
+// Resolve each real path and its byte through the original i386 addresses,
+// keeping the eight distinct source loads at their original call sites.
+#define TH09_REPLAY_MENU_PATH_CHAR(index, offset) \
+    (*reinterpret_cast<const char *>( \
+        reinterpret_cast<unsigned int>(NativeMenuReplayPath( \
+            &replayPaths[0][0], (index))) + static_cast<unsigned int>(offset)))
+
 int TitleScreenView::DrawReplayMenu()
 {
     D3DXVECTOR3 position;
@@ -116,10 +125,10 @@ int TitleScreenView::DrawReplayMenu()
             {
                 g_AsciiManager.AddFormatText(
                     &textPosition, "%c%c%c%c  %8s %8s",
-                    NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayPath(&replayPaths[0][0], i)[15] : 'u',
-                    NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayPath(&replayPaths[0][0], i)[16] : 's',
-                    NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayPath(&replayPaths[0][0], i)[17] : 'e',
-                    NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayPath(&replayPaths[0][0], i)[18] : 'r',
+                    NativeMenuReplayRecord(&replays[0], i).magic ? TH09_REPLAY_MENU_PATH_CHAR(i, 15) : 'u',
+                    NativeMenuReplayRecord(&replays[0], i).magic ? TH09_REPLAY_MENU_PATH_CHAR(i, 16) : 's',
+                    NativeMenuReplayRecord(&replays[0], i).magic ? TH09_REPLAY_MENU_PATH_CHAR(i, 17) : 'e',
+                    NativeMenuReplayRecord(&replays[0], i).magic ? TH09_REPLAY_MENU_PATH_CHAR(i, 18) : 'r',
                     NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayRecord(&replays[0], i).playerName : "--------",
                     NativeMenuReplayRecord(&replays[0], i).magic ? NativeMenuReplayRecord(&replays[0], i).playTime : "--/--/--");
             }
@@ -158,10 +167,10 @@ int TitleScreenView::DrawReplayMenu()
         {
             g_AsciiManager.AddFormatText(
                 &textPosition, "%c%c%c%c  %8s %8s",
-                replayValue.magic ? NativeMenuReplayPath(&replayPaths[0][0], selected)[15] : 'u',
-                replayValue.magic ? NativeMenuReplayPath(&replayPaths[0][0], selected)[16] : 's',
-                replayValue.magic ? NativeMenuReplayPath(&replayPaths[0][0], selected)[17] : 'e',
-                replayValue.magic ? NativeMenuReplayPath(&replayPaths[0][0], selected)[18] : 'r',
+                replayValue.magic ? TH09_REPLAY_MENU_PATH_CHAR(selected, 15) : 'u',
+                replayValue.magic ? TH09_REPLAY_MENU_PATH_CHAR(selected, 16) : 's',
+                replayValue.magic ? TH09_REPLAY_MENU_PATH_CHAR(selected, 17) : 'e',
+                replayValue.magic ? TH09_REPLAY_MENU_PATH_CHAR(selected, 18) : 'r',
                 replayValue.magic ? replayValue.playerName : "--------",
                 replayValue.magic ? replayValue.playTime : "--/--/--");
         }
@@ -217,3 +226,5 @@ int TitleScreenView::DrawReplayMenu()
     g_AsciiManager.isSelected = 0;
     return 1;
 }
+
+#undef TH09_REPLAY_MENU_PATH_CHAR

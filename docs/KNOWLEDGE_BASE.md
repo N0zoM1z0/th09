@@ -1216,6 +1216,35 @@ GameplaySetupThread and 425-byte cleanup callback.
 No private label changes, new exactness credit or native
 Windows runtime closure is asserted.
 
+## 2026-11-12 Title replay-menu native filename suffix byte reads
+
+The complete TitleScreenView::DrawReplayMenu owner displays both
+the 50-row replay listing and the runtime-selected replay entry.
+Custom replay files carry a four-character user-name signature at
+byte positions +15..+18 of the actual 0x200-byte replayPaths row,
+not four independently owned C++ character arrays. The eight
+original conditional byte reads now form the native Win32 address
+of the real signed-index replay path plus each original fixed byte
+offset using unsigned modulo-32 arithmetic. A lexical macro
+retains every separate path read and original format argument,
+so the original 13 text/SDK-related calls and 72 control-flow
+blocks are unchanged. No filename guard, duplicate path
+allocation or extra load is introduced.
+
+The pinned original-PE/VC7.1 full nonexact owner guard was rerun:
+**1,280/1,280 physical bytes, all 57 original relocation fields,
+16 literal definitions/30 literal references, 13 ordered calls
+and 72 direct CFG blocks** are preserved, along with the
+prior **29 ordinary register-choice byte differences**. This
+is still NONEXACT and earns zero new exact-function credit.
+Nine additional selected replay/record-reference declaration
+order and lifetime variants were tested against the complete
+original owner; several shortened it by nine or sixteen bytes
+and damaged hundreds of previously matching bytes, while the
+ABI-preserving variants retained the same 29 differences.
+All failed declaration variants were restored and did not
+enter the maintained source.
+
 ## 2026-11-12 Player shot homing position and history-trail native storage
 
 The independently exact 471-byte PlayerShotUpdateCallbackType1

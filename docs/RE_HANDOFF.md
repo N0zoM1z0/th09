@@ -39,6 +39,16 @@ Git retains earlier source revisions.
   Two VC7.1 GameManagerSetup carriers preserve 12/12
   exact owners, 4,680 original bytes, 415 relocations
   including full OnUpdate and GameplaySetupThread.
+- **2026-11-12 Replay menu filename checkpoint:** the
+  eight displayed custom-replay filename signature bytes
+  at +15..+18 of the true 0x200-byte replay path record
+  now resolve through native i386 DWORD addresses.
+  The complete 1,280-byte nonexact DrawReplayMenu remains
+  at precisely 29 ordinary unlike bytes, preserving
+  all 57 fields, 13 calls, 72 blocks, 16 literal
+  definitions and 30 references; no exact credit.
+  Nine new selected-record lifetime trials did not improve
+  its original-bound physical match and were rejected.
 - **2026-11-12 PlayerShot homing/trail checkpoint:** the original
   float* conversion call now feeds named x/y members of
   the real homing-shot position, while two draw callbacks
