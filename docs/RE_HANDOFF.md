@@ -107,6 +107,13 @@ Git retains earlier source revisions.
   draw order. One pinned VC7.1 carrier preserves the
   complete 693-byte SetupRandomForSide owner and all
   15 original PE relocation fields.
+- **2026-11-12 Player damage/hitbox checkpoint:** the
+  true 128-by-0x484 shot pool, animation index, signed
+  hitbox/region damage counters and region pointer slots
+  now use original i386 DWORD strides and wrap arithmetic.
+  The full 996-byte CalcDamageToEnemy boss and the
+  55-byte AABB leaf replay 2/2 exact, 1,051 PE bytes
+  and all 21 original-bound fields in one VC7.1 carrier.
 - **2026-11-12 Enemy reward/effect-ID checkpoint:**
   HandleDeathRewards now combines the signed,
   script-provided death effect ID with +20/+8 as

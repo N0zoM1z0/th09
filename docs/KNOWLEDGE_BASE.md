@@ -1446,6 +1446,34 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-12 Player hitbox damage accumulation and shot-pool DWORDs
+
+The complete PlayerLifecycleView::CalcDamageToEnemy boss scans
+the actual 128-by-0x484-byte PlayerShot array before it
+accumulates damage from the original live Player collision
+region-pointer slots. The shot scan now advances the real
+shot record address and signed loop index with unsigned
+i386 DWORD operations, preserving all original hitbox,
+type, timer, state and callback gates. Shot damage and
+collision-region value additions, the region's signed
+hitCount2C accumulator, secondary damage accumulator and
+the cap-minus-current-hit correction now explicitly preserve
+native 32-bit wrap before restoring their original
+signed result. The hit animationIndex+6 also uses native
+DWORD addition. The active region slot cursor advances
+through the genuine contiguous four-byte pointer entries
+rather than presuming an unrelated constructed C++ array.
+
+The original signed/float rectangle and circular collision
+tests, region type dispatch, primary/secondary return values,
+animation callbacks and effect/sound calls all retain their
+original order. The single affected pinned VC7.1 PlayerDamage
+carrier cold-replayed **2/2 existing exact functions,
+1,051 complete original PE bytes and 21 relocation fields**,
+including the complete 996-byte CalcDamageToEnemy owner
+and its 55-byte PlayerBuildAabb leaf. No extra bounds
+check, new exact owner or product/runtime closure is claimed.
+
 ## 2026-11-12 Enemy defeat/reward native effect and region ID words
 
 The complete 1,142-byte EnemyView::HandleDeathRewards receives a

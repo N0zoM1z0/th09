@@ -39,7 +39,12 @@ int PlayerLifecycleView::CalcDamageToEnemy(
     shot = shots;
     if (bombHit != NULL)
         *bombHit = 0;
-    for (int i = 0; i < 128; ++i, ++shot)
+    // The player's genuine shot pool contains 128 native 0x484-byte
+    // records, consumed with an i386 DWORD cursor and signed index.
+    for (int i = 0; i < 128;
+         ++*reinterpret_cast<unsigned int *>(&i),
+         shot = reinterpret_cast<PlayerShotCtorView *>(
+             reinterpret_cast<unsigned int>(shot) + sizeof(*shot)))
     {
         if (shot->state462 == 0)
             continue;
@@ -65,7 +70,9 @@ int PlayerLifecycleView::CalcDamageToEnemy(
                 this, shot, position))
             continue;
 
-        damage += shot->damage460;
+        damage = static_cast<int>(
+            static_cast<unsigned int>(damage) +
+            static_cast<unsigned int>(shot->damage460));
 
         if (shot->shotType464 != 2 && shot->shotType464 != 3)
         {
@@ -74,7 +81,8 @@ int PlayerLifecycleView::CalcDamageToEnemy(
                 savedRotation =
                     shot->vm.rotation.z;
                 header24.anmFile98->SetAndExecuteScriptIdx(
-                    &shot->vm, shot->animationIndex46C + 6);
+                    &shot->vm, static_cast<int>(
+                        static_cast<unsigned int>(shot->animationIndex46C) + 6u));
                 shot->vm.rotation.z =
                     savedRotation;
                 reinterpret_cast<PlayerDamageFloat3 *>(
@@ -158,21 +166,28 @@ int PlayerLifecycleView::CalcDamageToEnemy(
                 goto nextRegion;
         }
 
-        damage += (*slot)->value28;
-        (*slot)->hitCount2C += (*slot)->value28;
+        damage = static_cast<int>(
+            static_cast<unsigned int>(damage) +
+            static_cast<unsigned int>((*slot)->value28));
+        *reinterpret_cast<unsigned int *>(&(*slot)->hitCount2C) +=
+            static_cast<unsigned int>((*slot)->value28);
         if ((*slot)->hitCap30 > 0 &&
             (*slot)->hitCap30 <= (*slot)->hitCount2C)
         {
             (*slot)->value28 = 0;
-            damage +=
-                (*slot)->hitCap30 - (*slot)->hitCount2C;
+            damage = static_cast<int>(
+                static_cast<unsigned int>(damage) +
+                (static_cast<unsigned int>((*slot)->hitCap30) -
+                 static_cast<unsigned int>((*slot)->hitCount2C)));
         }
 
         if ((*slot)->type38 == 4)
-            *secondaryAccumulator += (*slot)->value28;
+            *reinterpret_cast<unsigned int *>(secondaryAccumulator) +=
+                static_cast<unsigned int>((*slot)->value28);
 
 nextRegion:
-        ++slot;
+        slot = reinterpret_cast<PlayerCollisionRegionCreateRegionView **>(
+            reinterpret_cast<unsigned int>(slot) + sizeof(*slot));
     }
 
     return damage;
