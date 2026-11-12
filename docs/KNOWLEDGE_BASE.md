@@ -3302,7 +3302,7 @@ exact owner or executable runtime closure is claimed.
 
 ## 2026-11-12 Exact 1,939-byte result-renderer native color and cursor words
 
-The existing complete `TitleScreenView::DrawResult @ 0x00423423`
+The existing complete `TitleScreenView::DrawResult @ 0x00423D16`
 owner calculates the active difficulty's mask, packs its replay/name-entry
 alpha into the high byte of each display color, and draws five live
 ranking tables. Its full result-renderer body now uses the actual Win32
@@ -3750,6 +3750,17 @@ context and then pushes EAX. Both call real Timer assignment at `0x401500`;
 seven physical bytes differ. Explicit operator syntax and direct wire-lvalue
 forms with the integer copy were neutral. Removing that copy left opcode 4
 unchanged and introduced twelve differences in opcode 5.
+
+A fresh 2026-11-12 targeted ten-variant current-worktree probe also tested
+raw-operand assignment, explicit `operator=`, signed/const/unsigned local
+snapshots, direct packed-wire pointer dereferences, reference variants,
+volatile wire reads, and split timer pointers. All ten compiled under the
+original pinned VC7.1 RunEcl profile, but each yielded **42 ordinary
+nonmatching bytes** in the complete **15,564-byte / 598-field** owner,
+versus **30** in the maintained source. No candidate was installed. This
+is register/operand-evaluation evidence, not a newly exact ECL handler.
+The local probe is saved in ignored `.analysis/gpt-web/20261112-ecl-jump-opcode4-trials.py`;
+its conclusions are recorded here without adding a repository-wide replay.
 
 A further targeted set of 18 VC7.1 opcode-155 trials used compound XOR
 assignment, temporary bitfield copies, masked clear/OR, and direct versus
