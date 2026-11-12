@@ -3502,6 +3502,29 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 ANM interpreter direct VM-write opcodes use real wire DWORDs
+
+`AnmManager::ExecuteScript` is a single 9,358-byte authored interpreter
+with a **9,776-byte complete physical original owner**, including its
+switch tables. Its variable-length ANM file instruction has an authentic
+8-byte prefix and variable packed DWORD arguments. Six direct setters —
+`PosMode`, `Visible`, `Ins25/type`, `ZWriteDisable`, `Ins31/flag15` and
+`Ins83/player-bullet-hit-animation` — now fetch their live immediate
+operand via the same native `instruction + 8 + uint32(index)*4` lexical
+source lvalue previously proved for jumps. That lvalue was renamed from
+the jump-only spelling to `TH09_ANM_NATIVE_WIRE_INT` to express its shared
+role. There is no second record, bounds gate, temporary snapshot or
+callable opcode boundary; switches and real ANM VM fields are unchanged.
+
+The two affected pinned VC7.1 compiler profiles passed the scoped replay
+of **5/5 pre-existing exact owners, 10,496 complete PE bytes and all
+421 relocations**. The entire 9,776-byte interpreter physical span,
+including its target-owned jump tables, matched. Ninety-eight compiler-
+private `$L` label spellings were updated only after proving the actual
+same-section COFF definitions, their original PE operand destinations
+and complete owner bytes. This is native script-wire fidelity, not
+additional exact-function or full-product/runtime credit.
+
 ## 2026-11-12 Background stage script native fog color bytes
 
 The original `BackgroundRunStageScriptPhase` boss interpolates a four-byte

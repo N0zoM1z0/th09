@@ -291,10 +291,11 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
     while (instruction = vm->currentInstruction, instruction->time <= (int)vm->currentTimeInScript)
     {
-// Jumps are encoded in packed, variable-length file records. The original
-// i386 instruction uses the byte address of each live four-byte argument,
-// without imposing an in-memory ten-element C++ array ownership model.
-#define TH09_ANM_NATIVE_JUMP_INT(index) \
+// Animation opcodes, including jumps and direct VM writes, decode packed,
+// variable-length file records. Each native operand lvalue is the actual
+// buffer's +8 payload and a 32-bit word stride, not an owned intArgs[10]
+// allocation. Preserve the individual live reads at every opcode site.
+#define TH09_ANM_NATIVE_WIRE_INT(index) \
     (*reinterpret_cast<const i32 *>( \
         reinterpret_cast<u32>(instruction) + \
         static_cast<u32>(offsetof(AnmRawInstr, intArgs)) + \
@@ -352,8 +353,8 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
         case AnmOpcode_Jmp:
             // Script records have varying physical argument lengths. The
             // original reads this packed DWORD via the native file address.
-            vm->currentTimeInScript = TH09_ANM_NATIVE_JUMP_INT(1);
-            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_JUMP_INT(0)));
+            vm->currentTimeInScript = TH09_ANM_NATIVE_WIRE_INT(1);
+            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_WIRE_INT(0)));
             continue;
         // The animation interpreter's jump counter is a script-controlled
         // signed DWORD; retail decrements its native bits modulo 2^32.
@@ -362,8 +363,8 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
             if (GET_INT_VAR(0) > 0)
             {
-                vm->currentTimeInScript = TH09_ANM_NATIVE_JUMP_INT(2);
-                vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_JUMP_INT(1)));
+                vm->currentTimeInScript = TH09_ANM_NATIVE_WIRE_INT(2);
+                vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_WIRE_INT(1)));
                 continue;
             }
             break;
@@ -373,7 +374,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->updateScale = true;
             break;
         case AnmOpcode_PosMode:
-            vm->usePosOffset = instruction->intArgs[0];
+            vm->usePosOffset = TH09_ANM_NATIVE_WIRE_INT(0);
             break;
         case AnmOpcode_FlipY:
             vm->flip ^= (1 << 1);
@@ -522,13 +523,13 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->currentInstruction = vm->interruptReturnInstruction;
             continue;
         case AnmOpcode_Visible:
-            vm->visible = instruction->intArgs[0];
+            vm->visible = TH09_ANM_NATIVE_WIRE_INT(0);
             break;
         case AnmOpcode_AnchorTopLeft:
             vm->anchor = 3;
             break;
         case AnmOpcode_Ins25:
-            vm->type = instruction->intArgs[0];
+            vm->type = TH09_ANM_NATIVE_WIRE_INT(0);
             break;
         case AnmOpcode_AddU:
             vm->uvScrollPos.x += GET_FLOAT_VAR(0);
@@ -566,10 +567,10 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->uvScrollVel.y = GET_FLOAT_VAR(0);
             break;
         case AnmOpcode_ZWriteDisable:
-            vm->disableZWrite = instruction->intArgs[0];
+            vm->disableZWrite = TH09_ANM_NATIVE_WIRE_INT(0);
             break;
         case AnmOpcode_Ins31:
-            vm->flag15 = instruction->intArgs[0];
+            vm->flag15 = TH09_ANM_NATIVE_WIRE_INT(0);
             break;
         case AnmOpcode_PosTime:
             vm->interpCurrentTimers[AnmInterp_Pos] = 0;
@@ -659,7 +660,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->updateScale = true;
             break;
         case AnmOpcode_Ins83:
-            vm->playerBulletHitAnimationType = instruction->intArgs[0];
+            vm->playerBulletHitAnimationType = TH09_ANM_NATIVE_WIRE_INT(0);
             break;
         case AnmOpcode_ISet:
             *GET_INT_VAR_PTR(0) = GET_INT_VAR(1);
@@ -832,13 +833,13 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->flag17 = instruction->byteArgs[1];
             break;
         jump:
-            vm->currentTimeInScript = TH09_ANM_NATIVE_JUMP_INT(3);
-            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_JUMP_INT(2)));
+            vm->currentTimeInScript = TH09_ANM_NATIVE_WIRE_INT(3);
+            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_WIRE_INT(2)));
             continue;
         default:
             break;
         }
-#undef TH09_ANM_NATIVE_JUMP_INT
+#undef TH09_ANM_NATIVE_WIRE_INT
 #undef GET_FLOAT_VAR_PTR
 #undef GET_INT_VAR_PTR
 #undef GET_FLOAT_VAR
