@@ -3502,6 +3502,35 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 MIDI 1,574-byte ProcessMsg native channel key lanes and endian words
+
+`MidiOutput::ProcessMsg` consumes the genuine 0x17-byte `MidiChannel`
+records in its source-facing 16-channel allocation. On NOTE ON and NOTE OFF,
+the eight-bit translated note selects one bit in the real 16-byte
+`keyPressedFlags` array. Both branches now calculate the live slot from
+the actual channel bitmap byte base plus `uint32(note) >> 3`, rather than
+using a second projected array index. The final source uses byte-pointer
+addition over the authentic bitmap, preserving VC7.1's original
+EDX/ECX/EAX ordering; an integer-base variant was explicitly rejected
+because it changed 22 ordinary opcode bytes. There is no extra check,
+buffer, changed MIDI channel, note transpose, or event ordering.
+
+The two exact endian conversion leaves `MidiOutput::Ntohs` and `Ntohl`
+now read byte 0..1 of the real on-stack 16-bit word and byte 0..3 of the
+32-bit word through the original Win32 byte address. They retain the
+original temporary destination bytes, swap order and result reads.
+
+The one affected pinned VC7.1 MIDI carrier passed the full scoped replay
+of **32/32 canonical exact owners, 4,270 complete original PE bytes and
+132 relocation fields**, including all **1,574 physical bytes** of
+`ProcessMsg` and both 18-/38-byte endian leaves. The same actual object
+contains the separately noncrediting 1-byte MidiTimer callback (33 physical
+units, 4,271 bytes), checked by an independent COFF/PE proof. Twenty-three
+compiler-private `$L` labels in ProcessMsg were rebound only after proving
+the actual same-section COFF definitions, original PE destinations and
+complete owner bytes. No additional exact-function or Windows product
+credit follows.
+
 ## 2026-11-12 FrontSide 3,094-byte HUD draw owner-based position cursors
 
 The full `FrontSide::OnDraw` boss walks multiple native ANM VM arrays and

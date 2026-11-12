@@ -40,6 +40,12 @@ LARGE_INTEGER g_DummyMidiTimerPerformanceCounter;
     (*reinterpret_cast<MidiChannel *>( \
         reinterpret_cast<unsigned int>(&this->channels[0]) + \
         static_cast<unsigned int>(idx) * sizeof(this->channels[0])))
+// A MIDI note byte selects one packed bit in the real sixteen-byte
+// pressed-key bitmap owned by its actual 0x17-byte MidiChannel. The retail
+// i386 uses this native 32-bit byte offset, not a C++ checked subarray.
+#define TH09_MIDI_NATIVE_KEY_FLAG(channelIdx, note) \
+    (*(reinterpret_cast<u8 *>(&TH09_MIDI_NATIVE_CHANNEL(channelIdx).keyPressedFlags[0]) + (static_cast<u32>(note) >> 3)))
+
 #define TH09_MIDI_NATIVE_SYSEX_BYTE(idx) \
     (*reinterpret_cast<char *>( \
         reinterpret_cast<unsigned int>(longMessageHeader->lpData) + \
@@ -188,12 +194,18 @@ void CALLBACK MidiTimer::DefaultTimerCallback(u32 uTimerID, u32 uMsg, DWORD_PTR 
     timer->OnTimerElapsed();
 }
 
+// Swap the byte lanes of the actual local 16-/32-bit endian conversion
+// words. The file wire is byte-addressed, not a C++ u8[] alias allocation.
+#define TH09_MIDI_NATIVE_ENDIAN_BYTE(word, ordinal) \
+    (*reinterpret_cast<const u8 *>( \
+        reinterpret_cast<u32>(&(word)) + static_cast<u32>(ordinal)))
+
 u16 MidiOutput::Ntohs(u16 val)
 {
     u8 tmp[2];
 
-    tmp[0] = ((u8 *)&val)[1];
-    tmp[1] = ((u8 *)&val)[0];
+    tmp[0] = TH09_MIDI_NATIVE_ENDIAN_BYTE(val, 1);
+    tmp[1] = TH09_MIDI_NATIVE_ENDIAN_BYTE(val, 0);
 
     return *(const u16 *)(&tmp);
 }
@@ -370,10 +382,10 @@ u32 MidiOutput::Ntohl(u32 val)
 {
     u8 tmp[4];
 
-    tmp[0] = ((u8 *)&val)[3];
-    tmp[1] = ((u8 *)&val)[2];
-    tmp[2] = ((u8 *)&val)[1];
-    tmp[3] = ((u8 *)&val)[0];
+    tmp[0] = TH09_MIDI_NATIVE_ENDIAN_BYTE(val, 3);
+    tmp[1] = TH09_MIDI_NATIVE_ENDIAN_BYTE(val, 2);
+    tmp[2] = TH09_MIDI_NATIVE_ENDIAN_BYTE(val, 1);
+    tmp[3] = TH09_MIDI_NATIVE_ENDIAN_BYTE(val, 0);
 
     return *(const u32 *)tmp;
 }
@@ -661,12 +673,12 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
         if (eventData2 != 0)
         {
             eventData1 += this->noteTranspose;
-            TH09_MIDI_NATIVE_CHANNEL(channel).keyPressedFlags[eventData1 >> 3] |= (u8)(1 << (eventData1 & 7));
+            TH09_MIDI_NATIVE_KEY_FLAG(channel, eventData1) |= (u8)(1 << (eventData1 & 7));
             break;
         }
     case MIDI_OPCODE_NOTE_OFF:
         eventData1 += this->noteTranspose;
-        TH09_MIDI_NATIVE_CHANNEL(channel).keyPressedFlags[eventData1 >> 3] &= (u8)(~(1 << (eventData1 & 7)));
+        TH09_MIDI_NATIVE_KEY_FLAG(channel, eventData1) &= (u8)(~(1 << (eventData1 & 7)));
         break;
     case MIDI_OPCODE_PROGRAM_CHANGE:
         // Program Change
