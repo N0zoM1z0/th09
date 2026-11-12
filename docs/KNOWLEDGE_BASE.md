@@ -3327,6 +3327,29 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Background RenderObjects native color lanes in both quad paths
+
+The **3,274-byte exact Background::RenderObjects** boss traverses file-backed
+stage quad records and uses two actual native 32-bit colors: the drawn
+ANM VM's `color1F0` and the stage `skyFog.color`. Twenty-three
+fog-interpolation channel reads in the projected-quad and strip-quad
+branches now use the genuine source DWORD's +0/+1/+2/+3 bytes rather
+than treating a DWORD field as a separately allocated `BackgroundRenderColor`
+union. Four whole-color reads similarly use the original VM DWORD directly.
+The first path's interpolated color is mutated as four byte lanes of the
+**same** VM DWORD, not a separate C++ overlay object; the path still restores
+its saved original DWORD after drawing. The real vertex-local diffuse
+colors remain actual `BackgroundRenderColor` values with their original
+component assignments and drawing chronology unchanged. A source layout
+assertion verifies the exact 4-byte color and byte lane order.
+
+The pinned VC7.1 single affected carrier replayed the complete
+**3,274/3,274 original PE bytes and all relocations** of `RenderObjects`.
+There are no additional alpha caches, clamps, buffers, helper calls, or
+changes to x87 interpolation, quad dispatch, D3DX calls or switch ownership.
+This improves the original data aliasing fidelity of a large already-exact
+renderer; it is not new exact-function or whole-Windows-build credit.
+
 ## 2026-11-12 Title options signed-volume byte writes use native i386 arithmetic
 
 The 2,045-byte exact `TitleScreenView::OnUpdateOptions` changes actual
