@@ -79,6 +79,13 @@ Git retains earlier source revisions.
   The full 2,381-byte HUD boss and 14 helper owners replay
   15/15 exact, 4,087 original bytes and 176 relocations
   in one focused VC7.1 carrier.
+- **2026-11-12 FrontMessage random-color checkpoint:**
+  both original text VMs now independently load their
+  four live text/shadow-color DWORDs through native i386
+  scaled color indices, retaining RNG selection and text
+  draw order. One pinned VC7.1 carrier preserves the
+  complete 693-byte SetupRandomForSide owner and all
+  15 original PE relocation fields.
 - **2026-11-12 Network HandleMessage checkpoint:**
   actual two-word DirectPlay peer slots, side inversion and
   two predicted handshake frame IDs now use native Win32

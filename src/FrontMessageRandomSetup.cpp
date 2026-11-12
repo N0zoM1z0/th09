@@ -25,6 +25,14 @@ static inline FrontMessageTableEntryView &NativeMessageEntry(
         static_cast<unsigned int>(index) * sizeof(file->entries04[0]));
 }
 
+// Four native color DWORDs per table are part of the real message VM.
+// Retail indexes the live byte-sized color selector with i386 word scale
+// but does not add a separate C++ bounds check on this signed caller state.
+#define TH09_FRONT_RANDOM_NATIVE_COLOR(table, index) \
+    (*reinterpret_cast<unsigned int *>( \
+        reinterpret_cast<unsigned int>(&(table)[0]) + \
+        static_cast<unsigned int>(index) * sizeof((table)[0])))
+
 void FrontMessageRuntimeView::SetupRandomForSide(int side)
 {
     int i;
@@ -109,6 +117,8 @@ void FrontMessageRuntimeView::SetupRandomForSide(int side)
     g_FrontMessageAnm->SetAndExecuteScriptIdx(&this->textVms1534[1], 1);
     this->textVms1534[0].fontWidth = this->textVms1534[0].fontHeight = this->glyphSize1D54;
     this->textVms1534[1].fontWidth = this->textVms1534[1].fontHeight = this->glyphSize1D54;
-    g_AnmManager->DrawTextLeft(&this->textVms1534[0], this->textColors1D20[this->colorIndex1D64], this->shadowColors1D30[this->colorIndex1D64], " ");
-    g_AnmManager->DrawTextLeft(&this->textVms1534[1], this->textColors1D20[this->colorIndex1D64], this->shadowColors1D30[this->colorIndex1D64], " ");
+    g_AnmManager->DrawTextLeft(&this->textVms1534[0], TH09_FRONT_RANDOM_NATIVE_COLOR(this->textColors1D20, this->colorIndex1D64), TH09_FRONT_RANDOM_NATIVE_COLOR(this->shadowColors1D30, this->colorIndex1D64), " ");
+    g_AnmManager->DrawTextLeft(&this->textVms1534[1], TH09_FRONT_RANDOM_NATIVE_COLOR(this->textColors1D20, this->colorIndex1D64), TH09_FRONT_RANDOM_NATIVE_COLOR(this->shadowColors1D30, this->colorIndex1D64), " ");
 }
+
+#undef TH09_FRONT_RANDOM_NATIVE_COLOR

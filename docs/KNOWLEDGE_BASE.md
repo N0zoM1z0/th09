@@ -1346,6 +1346,28 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 FrontMessage random-dialogue native text and shadow color rows
+
+FrontMessageRuntimeView::SetupRandomForSide selects a file-backed
+dialogue through the original RNG and weighted byte-stream table
+and initializes two live 0x2A4-byte ANM text VMs. Both
+DrawTextLeft calls independently fetch their text and shadow
+colors using the live colorIndex1D64 byte. The four original
+reads now resolve actual i386 DWORD addresses from the
+respective four-element textColors1D20 and shadowColors1D30
+allocations with a native scaled unsigned index, avoiding an
+independently bounded C++ array-subscript contract on the
+runtime-selected color. The original RNG calls, weight
+subtraction, selected message record, VM setup and text
+draw order remain unchanged; no new color clamp or
+extra draw/cached storage was introduced.
+
+The single affected pinned VC7.1 FrontMessageRandomSetup
+carrier cold-replayed **1/1 exact complete 693-byte owner,
+15 original-bound relocation fields**. No compiler-private
+labels, newly exact function, or Windows product/runtime
+closure is implied.
+
 ## 2026-11-12 Network HandleMessage peer slots and prediction frame words
 
 The original complete SupervisorNetworkMessageView::HandleMessage
