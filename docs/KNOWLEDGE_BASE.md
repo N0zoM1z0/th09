@@ -1163,6 +1163,24 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 D3D startup capabilities formatter native byte cursor
+
+The retail initialization reports Direct3D capabilities by repeatedly
+writing to the same stack-backed output buffer. AppendD3DCapabilitySupportLine
+and FormatD3DCapabilities advance their live char pointers by each
+sprintf result. Eleven increments now form native unsigned i386
+DWORD base + native byte-count addresses, rather than requiring
+C++ pointer-in-array arithmetic for arbitrarily sized formatted text.
+The unchanged sprintf arguments and order guarantee no new error
+path, buffer guard, scratch allocation or external call.
+
+Only the three affected pinned VC7.1 carriers cold-replayed:
+**3/3 existing exact owners, 2,444 complete original PE bytes and 245
+relocation fields**, including the 1,561-byte InitializeD3DRendering
+boss, the 809-byte format routine and the 74-byte append leaf.
+No private-label rebinding was required, and this does not establish
+a whole-product Windows runtime or another newly exact function.
+
 ## 2026-11-12 FrontSide draw cursor recovers native ANM VM base
 
 The 3,094-byte complete FrontSide::OnDraw boss walks real

@@ -47,14 +47,19 @@ extern char sEnd[];
 extern char sCan[];
 extern char sCannot[];
 
+// The original formatter advances its live buffer cursor by native
+// 32-bit unsigned byte-address arithmetic after each sprintf.
 static char *AppendD3DCapabilitySupportLine(
     char *capabilityName, u32 capabilityFlags, u32 mask, char *buf)
 {
-    buf += sprintf(buf, capabilityName);
+    buf = reinterpret_cast<char *>(reinterpret_cast<u32>(buf) +
+            static_cast<u32>(sprintf(buf, capabilityName)));
     if ((capabilityFlags & mask) == 0)
-        buf += sprintf(buf, sCannot);
+        buf = reinterpret_cast<char *>(reinterpret_cast<u32>(buf) +
+            static_cast<u32>(sprintf(buf, sCannot)));
     else
-        buf += sprintf(buf, sCan);
+        buf = reinterpret_cast<char *>(reinterpret_cast<u32>(buf) +
+            static_cast<u32>(sprintf(buf, sCan)));
     return buf;
 }
 
@@ -62,13 +67,15 @@ static void FormatD3DCapabilities(D3DCAPS8 *caps, char *buf)
 {
     char *strPos = buf;
 
-    strPos += sprintf(strPos, sCapsStart);
+    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
+            static_cast<u32>(sprintf(strPos, sCapsStart)));
     strPos = AppendD3DCapabilitySupportLine(sReadScanline, caps->Caps, D3DCAPS_READ_SCANLINE, strPos);
     strPos = AppendD3DCapabilitySupportLine(sWindowed, caps->Caps2, D3DCAPS2_CANRENDERWINDOWED, strPos);
     strPos = AppendD3DCapabilitySupportLine(sImmediate, caps->PresentationIntervals, D3DPRESENT_INTERVAL_IMMEDIATE, strPos);
     strPos = AppendD3DCapabilitySupportLine(sVsync, caps->PresentationIntervals, D3DPRESENT_INTERVAL_ONE, strPos);
 
-    strPos += sprintf(strPos, sDeviceStart);
+    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
+            static_cast<u32>(sprintf(strPos, sDeviceStart)));
     strPos = AppendD3DCapabilitySupportLine(sNonlocalBlit, caps->DevCaps, D3DDEVCAPS_CANBLTSYSTONONLOCAL, strPos);
     strPos = AppendD3DCapabilitySupportLine(sHardwareTl, caps->DevCaps, D3DDEVCAPS_HWTRANSFORMANDLIGHT, strPos);
     strPos = AppendD3DCapabilitySupportLine(sTexNonlocal, caps->DevCaps, D3DDEVCAPS_TEXTURENONLOCALVIDMEM, strPos);
@@ -77,7 +84,8 @@ static void FormatD3DCapabilities(D3DCAPS8 *caps, char *buf)
     strPos = AppendD3DCapabilitySupportLine(sVertexSystem, caps->DevCaps, D3DDEVCAPS_TLVERTEXSYSTEMMEMORY, strPos);
     strPos = AppendD3DCapabilitySupportLine(sVertexVideo, caps->DevCaps, D3DDEVCAPS_TLVERTEXVIDEOMEMORY, strPos);
 
-    strPos += sprintf(strPos, sPrimitiveStart);
+    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
+            static_cast<u32>(sprintf(strPos, sPrimitiveStart)));
     strPos = AppendD3DCapabilitySupportLine(sAlphaBlend, caps->PrimitiveMiscCaps, D3DPMISCCAPS_BLENDOP, strPos);
     strPos = AppendD3DCapabilitySupportLine(sPointClip, caps->PrimitiveMiscCaps, D3DPMISCCAPS_CLIPPLANESCALEDPOINTS, strPos);
     strPos = AppendD3DCapabilitySupportLine(sPrimitiveClip, caps->PrimitiveMiscCaps, D3DPMISCCAPS_CLIPTLVERTS, strPos);
@@ -86,7 +94,8 @@ static void FormatD3DCapabilities(D3DCAPS8 *caps, char *buf)
     strPos = AppendD3DCapabilitySupportLine(sCullNone, caps->PrimitiveMiscCaps, D3DPMISCCAPS_CULLNONE, strPos);
     strPos = AppendD3DCapabilitySupportLine(sMaskZ, caps->PrimitiveMiscCaps, D3DPMISCCAPS_MASKZ, strPos);
 
-    strPos += sprintf(strPos, sRasterStart);
+    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
+            static_cast<u32>(sprintf(strPos, sRasterStart)));
     strPos = AppendD3DCapabilitySupportLine(sAnisotropy, caps->RasterCaps, D3DPRASTERCAPS_ANISOTROPY, strPos);
     strPos = AppendD3DCapabilitySupportLine(sAntialias, caps->RasterCaps, D3DPRASTERCAPS_ANTIALIASEDGES, strPos);
     strPos = AppendD3DCapabilitySupportLine(sDither, caps->RasterCaps, D3DPRASTERCAPS_DITHER, strPos);
@@ -96,19 +105,23 @@ static void FormatD3DCapabilities(D3DCAPS8 *caps, char *buf)
     strPos = AppendD3DCapabilitySupportLine(sFogVertex, caps->RasterCaps, D3DPRASTERCAPS_FOGVERTEX, strPos);
     strPos = AppendD3DCapabilitySupportLine(sZTest, caps->RasterCaps, D3DPRASTERCAPS_ZTEST, strPos);
 
-    strPos += sprintf(strPos, sShadeStart);
+    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
+            static_cast<u32>(sprintf(strPos, sShadeStart)));
     strPos = AppendD3DCapabilitySupportLine(sGouraud, caps->ShadeCaps, D3DPSHADECAPS_COLORGOURAUDRGB, strPos);
     strPos = AppendD3DCapabilitySupportLine(sAlphaGouraud, caps->ShadeCaps, D3DPSHADECAPS_ALPHAGOURAUDBLEND, strPos);
     strPos = AppendD3DCapabilitySupportLine(sFogGouraud, caps->ShadeCaps, D3DPSHADECAPS_FOGGOURAUD, strPos);
 
-    strPos += sprintf(strPos, sTextureStart);
-    strPos += sprintf(strPos, sMaxTexture, caps->MaxTextureWidth, caps->MaxTextureHeight);
+    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
+            static_cast<u32>(sprintf(strPos, sTextureStart)));
+    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
+            static_cast<u32>(sprintf(strPos, sMaxTexture, caps->MaxTextureWidth, caps->MaxTextureHeight)));
     strPos = AppendD3DCapabilitySupportLine(sTextureAlpha, caps->TextureCaps, D3DPTEXTURECAPS_ALPHA, strPos);
     strPos = AppendD3DCapabilitySupportLine(sTextureProjected, caps->TextureCaps, D3DPTEXTURECAPS_PROJECTED, strPos);
     strPos = AppendD3DCapabilitySupportLine(sMagLinear, caps->TextureFilterCaps, D3DPTFILTERCAPS_MAGFLINEAR, strPos);
     strPos = AppendD3DCapabilitySupportLine(sMinLinear, caps->TextureFilterCaps, D3DPTFILTERCAPS_MINFLINEAR, strPos);
 
-    strPos += sprintf(strPos, sEnd);
+    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
+            static_cast<u32>(sprintf(strPos, sEnd)));
 }
 
 #include "AsciiManager.hpp"

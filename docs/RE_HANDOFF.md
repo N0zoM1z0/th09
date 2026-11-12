@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 D3D formatter checkpoint:** 11 live formatted
+  capability-buffer pointer advances now preserve original i386
+  DWORD byte-address arithmetic. Three affected VC7.1 carriers
+  retain 3/3 exact owners, 2,444 physical bytes and 245 fields,
+  including the 1,561-byte D3D startup boss and two formatter leaves.
 - **2026-11-12 FrontSide draw checkpoint:** the complete
   3,094-byte OnDraw boss now recovers each genuine ANM VM
   owner from its +0x208 position cursor via wrapping native
