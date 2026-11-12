@@ -88,6 +88,12 @@ struct TitleCharacterConfigView {
 
     int GetOptionState(char character, i32 option);
 };
+// The getter and character-select UI must address the same physical
+// 0x7C-start, 16 x 6 native DWORD matrix; no second option bank is owned.
+typedef char TitleNativeCharacterOptionMatrix[
+    (offsetof(TitleCharacterConfigView, optionValues) == 0x7C &&
+     sizeof(((TitleCharacterConfigView *)0)->optionValues) == 16 * 6 * sizeof(i32) &&
+     sizeof(((TitleCharacterConfigView *)0)->optionValues[0]) == 0x18) ? 1 : -1];
 
 
 
@@ -1000,16 +1006,27 @@ int TitleScreenView::SetCharacterSettingIndicator(i32 side, i32 value)
 }
 
 
+// Shared physical Title +0x7C configuration matrix: sixteen 0x18-byte
+// character rows, six native DWORD option values each. Both the exact
+// getter and the large character-select UI resolve the same live storage.
+#define TH09_TITLE_CONFIG_NATIVE_OPTION(owner, character, option) \
+    (*reinterpret_cast<const i32 *>( \
+        reinterpret_cast<unsigned int>(&((owner)->optionValues[0][0])) + \
+        static_cast<unsigned int>(static_cast<i32>(character)) * \
+            sizeof((owner)->optionValues[0]) + \
+        static_cast<unsigned int>(option) * \
+            sizeof((owner)->optionValues[0][0])))
+
 int TitleCharacterConfigView::GetOptionState(char character, i32 option)
 {
     if (option >= 0)
-        return optionValues[character][option];
+        return TH09_TITLE_CONFIG_NATIVE_OPTION(this, character, option);
     else
     {
-        return optionValues[character][0] |
-               optionValues[character][1] |
-               optionValues[character][2] |
-               optionValues[character][3];
+        return TH09_TITLE_CONFIG_NATIVE_OPTION(this, character, 0) |
+               TH09_TITLE_CONFIG_NATIVE_OPTION(this, character, 1) |
+               TH09_TITLE_CONFIG_NATIVE_OPTION(this, character, 2) |
+               TH09_TITLE_CONFIG_NATIVE_OPTION(this, character, 3);
     }
 }
 
@@ -1272,7 +1289,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
             }
 
             if (g_TitleDifficulty == 4)
-                SetCharacterSettingIndicator(0, g_TitleCharacterConfig.optionValues[characters[0]][4]);
+                SetCharacterSettingIndicator(0, TH09_TITLE_CONFIG_NATIVE_OPTION(&g_TitleCharacterConfig, characters[0], 4));
             else
                 SetCharacterSettingIndicator(0, g_TitleCharacterConfig.GetOptionState(characters[0], g_TitleDifficulty));
         }
@@ -1297,7 +1314,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
 
                     characters[0] = g_TitleCharacterOrder14[side0CharacterCursor];
                     if (g_TitleDifficulty == 4)
-                        SetCharacterSettingIndicator(0, g_TitleCharacterConfig.optionValues[characters[0]][4]);
+                        SetCharacterSettingIndicator(0, TH09_TITLE_CONFIG_NATIVE_OPTION(&g_TitleCharacterConfig, characters[0], 4));
                     else
                         SetCharacterSettingIndicator(0, g_TitleCharacterConfig.GetOptionState(characters[0], g_TitleDifficulty));
 
@@ -1439,6 +1456,8 @@ int TitleScreenView::OnUpdateCharacterSelect()
     return 1;
 }
 
+
+#undef TH09_TITLE_CONFIG_NATIVE_OPTION
 
 int TitleScreenView::UpdateScreen8Mode0()
 {

@@ -3281,6 +3281,29 @@ Player InitializeShot 309, EX-attack Type4 739. These were already exact;
 this correction removes accidental C++ pointer-to-float-subobject array
 assumptions and makes no new exact-function or whole-product claim.
 
+## 2026-11-12 Native Title character-option matrix shared with selection boss
+
+The original Title configuration owns one **16 x 6 x 4-byte** option-word
+matrix at +`0x7C`, with 0x18-byte character rows. The independent exact
+`TitleCharacterConfigView::GetOptionState` uses a signed `char` character
+selector and signed runtime option number, while the full character-select
+owner reads its fixed fifth option word for the selected signed character.
+Both now share a single lexical native lvalue computing real base plus
+`uint32(sign_extended_character)*0x18 + uint32(option)*4` modulo 2^32.
+The new static layout check identifies the same backing allocation; no
+second options array, new validation or cached snapshot is introduced.
+All original branch gates, four independently reloaded options for a
+negative setting selector, and character-selection UI calls remain intact.
+
+The pinned VC7.1 two-carrier source replay proved **41/41 previously exact
+Title owners / 18,972 complete physical bytes / 953 original-bound
+relocation fields**, including the **2,241-byte** `OnUpdateCharacterSelect`
+and the **54-byte** option getter. Nine compiler-private `$L` spellings
+inside the exact start-menu owner were rebased only after proving actual
+same-section COFF definitions, unchanged PE relocation targets, and every
+full owner. This is native source-data fidelity, not new exact-owner or
+Windows/runtime-product credit.
+
 ## 2026-11-12 Enemy OnUpdate unified native draw-group head addresses
 
 `EnemyManagerView::OnUpdate @ 0x00410730` stores the visible enemies in the
