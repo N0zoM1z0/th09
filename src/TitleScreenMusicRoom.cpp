@@ -208,7 +208,7 @@ int TitleScreenView::OnUpdateMusicRoom()
                 g_SoundPlayer.QueueCommand(7, 0, "UnPause");
             musicSelectedSongIndex = keyboardSelection;
             musicPaused = 0;
-            g_Supervisor.PlayAudio(musicTracks[keyboardSelection].path, 0);
+            g_Supervisor.PlayAudio(TH09_MUSIC_NATIVE_TRACK(keyboardSelection).path, 0);
             stateTimer2 = 0;
             for (i = 0; i < 8; i++)
                 g_TitleMusicDescriptionAnm->SetAndExecuteScriptIdx(&embeddedVms[49 + i], 6 + i);
@@ -256,14 +256,14 @@ int TitleScreenView::OnUpdateMusicRoom()
                 if (*cursor == '@')
                 {
                     cursor++;
-                    trackIndex++;
+                    ++*reinterpret_cast<u32 *>(&trackIndex);
                     i32 charIndex = 0;
 
                     while (*cursor != '\n' && *cursor != '\r')
                     {
-                        musicTracks[trackIndex].path[charIndex] = *cursor;
+                        TH09_MUSIC_NATIVE_TRACK(trackIndex).path[charIndex] = *cursor;
                         cursor++;
-                        charIndex++;
+                        ++*reinterpret_cast<u32 *>(&charIndex);
                         if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                             goto parse_done;
                     }
@@ -277,9 +277,9 @@ int TitleScreenView::OnUpdateMusicRoom()
                     charIndex = 0;
                     while (*cursor != '\n' && *cursor != '\r')
                     {
-                        musicTracks[trackIndex].title[charIndex] = *cursor;
+                        TH09_MUSIC_NATIVE_TRACK(trackIndex).title[charIndex] = *cursor;
                         cursor++;
-                        charIndex++;
+                        ++*reinterpret_cast<u32 *>(&charIndex);
                         if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                             goto parse_done;
                     }
@@ -290,19 +290,19 @@ int TitleScreenView::OnUpdateMusicRoom()
                             goto parse_done;
                     }
 
-                    for (i32 descriptionLine = 0; descriptionLine < 7; descriptionLine++)
+                    for (i32 descriptionLine = 0; descriptionLine < 7; ++*reinterpret_cast<u32 *>(&descriptionLine))
                     {
                         if (*cursor == '@')
                             break;
 
-                        memset(musicTracks[trackIndex].descriptions[descriptionLine], 0,
-                               sizeof(musicTracks[trackIndex].descriptions[descriptionLine]));
+                        memset(TH09_MUSIC_NATIVE_TRACK(trackIndex).descriptions[descriptionLine], 0,
+                               sizeof(TH09_MUSIC_NATIVE_TRACK(trackIndex).descriptions[descriptionLine]));
                         charIndex = 0;
                         while (*cursor != '\n' && *cursor != '\r')
                         {
-                            musicTracks[trackIndex].descriptions[descriptionLine][charIndex] = *cursor;
+                            TH09_MUSIC_NATIVE_TRACK(trackIndex).descriptions[descriptionLine][charIndex] = *cursor;
                             cursor++;
-                            charIndex++;
+                            ++*reinterpret_cast<u32 *>(&charIndex);
                             if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                                 goto parse_done;
                         }
@@ -354,9 +354,10 @@ int TitleScreenView::OnUpdateMusicRoom()
                     vms[159 + vmIndex].pos.z = 0.0f;
                     vms[159 + vmIndex].anchor = 3;
                     i++;
-                    musicTrack++;
-                    vmIndex++;
-                    rowY += 18;
+                    musicTrack = reinterpret_cast<MusicRoomTrackDescriptor *>(
+                        reinterpret_cast<u32>(musicTrack) + sizeof(*musicTrack));
+                    ++*reinterpret_cast<u32 *>(&vmIndex);
+                    *reinterpret_cast<u32 *>(&rowY) += 18u;
                 } while (vmIndex < musicTrackCount);
             }
 

@@ -3977,6 +3977,30 @@ before updating manifest *names* alone. The co-compiled RunEcl retains its
 **13 differences / 97 fields / 69 calls**; this source change is not a new
 exact owner or complete Windows runtime credit.
 
+## 2026-11-13 Music-room parser authentic dynamic descriptor rows and counters
+
+The **2,258-byte exact `TitleScreenView::OnUpdateMusicRoom`** parses
+file-backed track paths, titles and description lines into the *real*
+0x292-byte `MusicRoomTrackDescriptor` records in its full TitleScreen
+allocation. Six dynamic path/title/description writes and selected-song
+playback reads now use the same verified `TH09_MUSIC_NATIVE_TRACK(index)`
+lvalue as the other music-room consumers. The original run-time track
+number, three separate `charIndex` increments, seven-line description
+counter, displayed `vmIndex`, and row-Y progression now advance the
+existing signed native i386 **DWORD** storage with modulo-32 arithmetic.
+The actual descriptor cursor walks native `uint32(musicTrack)+0x292` byte
+addresses, never a shadow C++ track array. Every live string read, original
+file-size/line parser gate, unlock flag, `DrawTextLeft` and audio call stays
+at the same point. An attempt to replace the inner 66-byte description
+line's native indexing with a second projected row changed codegen and
+was rejected.
+
+The one affected pinned VC7.1 carrier replayed **2/2 previously exact
+functions, 2,467 original PE bytes and all 80 relocations**, including
+the update boss and independently exact 209-byte music-room Draw leaf.
+This is source-level file/data and overflow fidelity, not a new exact
+function or full Windows runtime/product claim.
+
 ## 2026-11-12 Music-room comment parser's native file byte offsets
 
 The **2,258-byte** exact `TitleScreenView::OnUpdateMusicRoom` parser reads
