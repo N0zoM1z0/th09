@@ -1346,6 +1346,31 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 Replay input held-frame and FPS stream native cursors
+
+ReplayInputState::Update reads sixteen consecutive native u16
+held-frame counters inside the real 0x8E-byte input-state
+allocation. The live held cursor now advances by its genuine
+two-byte word stride using a modulo-32 i386 address, preserving
+all original repeat/press/release bit manipulations and
+held-duration resets. PlaybackInputAndFps similarly traverses
+the two GameConfiguration focus-mode bytes with native
+unsigned one-byte addresses, and its two independently live
+FPS lookahead reads now form the real fpsCursor+1 address
+instead of relying on C++ array-subscript provenance.
+The original FPS high-bit split, signed counter, input
+history update and three playback stream advances are unchanged.
+
+Only the two actually affected pinned VC7.1 ReplayInput
+compiler profiles were cold-compiled; exact source-scoped
+replay passed **12/12 already-exact owners, 4,093 complete
+original PE bytes and all 232 bound relocation fields**.
+Independent full nonexact guards also confirm SaveReplay
+remains 1,238/1,238 bytes and 53 fields with its original
+two register differences, while BeginPlaybackStage remains
+538/540 bytes and 32 fields. No new exactness, product
+link or runtime validation is claimed.
+
 ## 2026-11-12 Player ANM preload side-record and slot DWORD traversal
 
 The original PreloadPlayerAnmResources leaf walks two real

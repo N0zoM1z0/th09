@@ -165,7 +165,10 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
         // Each side is a native 0x8E-byte input-state record. Resolve the
         // live i386 word-scaled address rather than a C++ array subscript.
         u8 *sideMode = g_GameManager.configurationE8->sideFocusMode;
-        for (int side = 0; side < ReplayNativeInputGateCapacity::SideCount; side++, sideMode++)
+        for (int side = 0; side < ReplayNativeInputGateCapacity::SideCount;
+             side++,
+             sideMode = reinterpret_cast<u8 *>(
+                 reinterpret_cast<unsigned int>(sideMode) + 1u))
         {
             ReplayInputState &sideInput = *reinterpret_cast<ReplayInputState *>(
                 reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
@@ -197,8 +200,10 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
 
         if (replayManager->frameCounter % ReplayRecordingCapacity::FramesPerFpsSample == 0)
         {
-            g_Supervisor.recordedFps = (char)replayManager->fpsCursor[1] & 0x7F;
-            g_Supervisor.playbackFpsWarning = (char)replayManager->fpsCursor[1] >> 7;
+            g_Supervisor.recordedFps = (char)*reinterpret_cast<const u8 *>(
+                reinterpret_cast<unsigned int>(replayManager->fpsCursor) + 1u) & 0x7F;
+            g_Supervisor.playbackFpsWarning = (char)*reinterpret_cast<const u8 *>(
+                reinterpret_cast<unsigned int>(replayManager->fpsCursor) + 1u) >> 7;
             replayManager->fpsCursor = reinterpret_cast<u8 *>(
                 reinterpret_cast<unsigned int>(replayManager->fpsCursor) + sizeof(u8));
         }
@@ -339,6 +344,9 @@ err2:
     return NULL;
 }
 
+// Sixteen held-frame counters reside in one real 0x8E-byte input-state
+// record. Advance that native cursor by one 16-bit physical word, without
+// claiming an unrelated C++ array object for the successive fields.
 void ReplayInputState::Update()
 {
     u16 currentBits = this->historyCurrent;
@@ -363,7 +371,8 @@ void ReplayInputState::Update()
             *held = 0;
         }
         currentBits >>= 1;
-        held++;
+        held = reinterpret_cast<u16 *>(
+            reinterpret_cast<unsigned int>(held) + sizeof(*held));
         remaining--;
     } while (remaining != 0);
 

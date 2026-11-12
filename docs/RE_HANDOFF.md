@@ -79,6 +79,14 @@ Git retains earlier source revisions.
   The full 2,381-byte HUD boss and 14 helper owners replay
   15/15 exact, 4,087 original bytes and 176 relocations
   in one focused VC7.1 carrier.
+- **2026-11-12 Replay input stream checkpoint:** the actual
+  16-by-u16 held-frame sequence, two live focus-mode bytes
+  and both FPS lookahead bytes now advance/read through
+  native i386 DWORD byte-address expressions. Two
+  ReplayInput VC7.1 carriers preserve 12/12 exact
+  owners, 4,093 bytes and 232 original fields; separate
+  SaveReplay/BeginPlaybackStage nonexact guards are
+  unchanged (2 unlike bytes / 2 missing bytes).
 - **2026-11-12 Player ANM preload checkpoint:** two
   original 0x38-byte GameManager side-state records and
   the signed ANM resource slots five/six now advance by
