@@ -72,15 +72,14 @@ int __fastcall SupervisorDrawMain(Supervisor *supervisor)
 
     if (layout->loadingState != 0)
     {
-        reinterpret_cast<SupervisorDrawMainAnmManagerView *>(g_AnmManager)->CopySurfaceToBackbuffer(
-            8, 0, 0, 0, 0);
+        g_AnmManager->CopySurfaceToBackbuffer(8, 0, 0, 0, 0);
     }
     else
     {
         SupervisorDrawMainAnmManagerView *anm =
             reinterpret_cast<SupervisorDrawMainAnmManagerView *>(g_AnmManager);
         if (anm->GetSurface(8) != NULL)
-            anm->ReleaseSurface(8);
+            reinterpret_cast<AnmManager *>(anm)->ReleaseSurface(8);
     }
 
     return 1;

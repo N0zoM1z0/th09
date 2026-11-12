@@ -6,11 +6,6 @@
 #include <mmsystem.h>
 #include <d3d8.h>
 
-struct SupervisorCheckFpsAnmManagerView
-{
-    int CopySurfaceToBackbuffer(int surfaceIndex, int left, int top, int right, int bottom);
-};
-
 extern GameErrorContext g_GameErrorContext;
 extern const char g_VsyncHighRefreshMessageNoPeriod[];
 extern const char g_Force60FpsMessage[];
@@ -41,7 +36,7 @@ int SupervisorCheckFps()
     while (frameIndex < 600 && sampleCount < 4)
     {
         supervisor->d3dDevice08->BeginScene();
-        reinterpret_cast<SupervisorCheckFpsAnmManagerView *>(g_AnmManager)->CopySurfaceToBackbuffer(
+        g_AnmManager->CopySurfaceToBackbuffer(
             8, 0, 0, 0, 0);
         supervisor->d3dDevice08->EndScene();
         if (supervisor->d3dDevice08->Present(NULL, NULL, NULL, NULL) < 0)

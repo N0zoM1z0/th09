@@ -3327,6 +3327,30 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Supervisor frame callbacks use exact AnmManager surface owners
+
+The 517-byte `SupervisorCheckFps` and 312-byte `SupervisorDrawMain` originally
+called original ANM methods through two temporary unrelated
+`Supervisor*AnmManagerView` source projections. Both now call the real
+`AnmManager::CopySurfaceToBackbuffer` (original PE `0x0043BFA0`), while
+the DrawMain branch additionally calls the real
+`AnmManager::ReleaseSurface` (`0x0043BF30`). Both destinations already
+have canonical exact ANM-manager owners in the original-bound ledger.
+The DrawMain `GetSurface(8)` receiver remains the previously recovered
+17-byte independent view because its nominal original method owner is
+unresolved; after that call, the *same* live returned manager receiver is
+cast to its genuine `AnmManager*` for `ReleaseSurface`, avoiding a second
+read of the global pointer and reproducing original register scheduling.
+
+Three relocation entries were bound from their old provisional view names
+to the **already proven canonical owner symbols**, with identical
+`REL32` kinds, physical offsets, original PE targets and addends. The
+actual VC7.1 COFFs, complete original PE bytes and all fields were
+independently checked rather than changing binary addresses to fit.
+The two affected carriers passed **2/2 complete exact owners, 829 original
+PE bytes, 55 original-bound relocation fields**. No new exact-owner credit,
+new game subsystem ABI, or whole Windows runtime is claimed.
+
 ## 2026-11-12 ANM release of true texture entries and 0x120-byte clearing window
 
 The exact 163-byte `AnmManager::ReleaseAnm` is a game resource callback

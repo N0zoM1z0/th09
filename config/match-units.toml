@@ -1722,7 +1722,7 @@ relocations = [
   { offset = 0x2A, type = "DIR32", symbol = "__imp__timeEndPeriod@4", target = 0x0048E244 },
   { offset = 0x3A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x49, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
-  { offset = 0x58, type = "REL32", symbol = "?CopySurfaceToBackbuffer@SupervisorCheckFpsAnmManagerView@@QAEHHHHHH@Z", target = 0x0043BFA0 },
+  { offset = 0x58, type = "REL32", symbol = "?CopySurfaceToBackbuffer@AnmManager@@QAEXHHHHH@Z", target = 0x0043BFA0 },
   { offset = 0x5D, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x6B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x82, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
@@ -1888,10 +1888,10 @@ relocations = [
   { offset = 0xCD, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
   { offset = 0xD2, type = "REL32", symbol = "?ResetStrings@AsciiManager@@QAEXXZ", target = 0x00430220 },
   { offset = 0xF5, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
-  { offset = 0x104, type = "REL32", symbol = "?CopySurfaceToBackbuffer@SupervisorDrawMainAnmManagerView@@QAEHHHHHH@Z", target = 0x0043BFA0 },
+  { offset = 0x104, type = "REL32", symbol = "?CopySurfaceToBackbuffer@AnmManager@@QAEXHHHHH@Z", target = 0x0043BFA0 },
   { offset = 0x114, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x11D, type = "REL32", symbol = "?GetSurface@SupervisorDrawMainAnmManagerView@@QAEPAXH@Z", target = 0x0042F400 },
-  { offset = 0x12A, type = "REL32", symbol = "?ReleaseSurface@SupervisorDrawMainAnmManagerView@@QAEXH@Z", target = 0x0043BF30 },
+  { offset = 0x12A, type = "REL32", symbol = "?ReleaseSurface@AnmManager@@QAEXH@Z", target = 0x0043BF30 },
 ]
 
 [units.supervisor-draw-loading]
