@@ -3327,6 +3327,31 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 FrontSide status VM position/color and HUD rank word ownership
+
+The full **2,381-byte `FrontSide::OnUpdate`** HUD display boss updates four
+flashing character/health sprite colors from three separate loops. Their
+`5-i` dynamic selectors now reuse the already validated native 0x2A4-byte
+`FRONT_NATIVE_VM` lvalue into the genuine 11-element `statusVms0000` array,
+instead of a second projected C++ subscript. The `AsciiGameManagerSideView`
+side-runtime `counter14` sprite offset now adds 8 as an i386 unsigned DWORD
+before the same signed SetSprite argument, avoiding signed overflow at the
+source boundary while preserving every live read and call order.
+
+Its independent **460-byte `FrontSide::AddedCallback`** initializes and
+copies `pos` to `pos2` through the *same* authentic VM lvalue used for its
+script construction, not a separately projected pointer for the assignment.
+Both records remain true fields of the one original 0x2A4-byte `AnmVm` with
+position +0x208 and position2 +0x288, rather than new temporary arrays.
+No color caching, status bounds guard, animation change or new callable
+boundary is introduced.
+
+The one affected pinned VC7.1 `FrontSide.obj` carrier passed **15/15
+pre-existing exact owners, 4,087 full original PE bytes and 176 relocation
+fields**, including both big OnUpdate and added-callback functions plus
+supporting leaf callbacks. This improves native ownership fidelity without
+new exact-function or complete Windows product credit.
+
 ## 2026-11-12 SampleNetworkInput native keyboard and controller-mode byte lanes
 
 The **1,507-byte original-bound SampleNetworkInput** function scans WinMM

@@ -139,8 +139,9 @@ int FrontSide::AddedCallback(FrontSide *frontSide)
     for (unsigned int i = 0; i < 11; ++i)
     {
         frontSide->frontAnmA668->ExecuteAnmIdx(&FRONT_NATIVE_VM(frontSide->statusVms0000, i), i + 7);
-        (frontSide->statusVms0000 + i)->pos2 =
-            (frontSide->statusVms0000 + i)->pos;
+        // The visible HUD position pair is owned by that same genuine VM.
+        FRONT_NATIVE_VM(frontSide->statusVms0000, i).pos2 =
+            FRONT_NATIVE_VM(frontSide->statusVms0000, i).pos;
     }
     for (unsigned int i = 0; i < 5; ++i)
         frontSide->frontAnmA668->ExecuteAnmIdx(&FRONT_NATIVE_VM(frontSide->stockVms1D0C, i), i + 35);
@@ -346,7 +347,7 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
         {
             for (int i = 4; i != 0; --i)
             {
-                AnmVmScriptColor &color = (&frontSide->statusVms0000[5 - i])->color1Script;
+                AnmVmScriptColor &color = FRONT_NATIVE_VM(frontSide->statusVms0000, 5 - i).color1Script;
                 color.r = 0xFF;
                 color.g = 0x00;
                 color.b = 0x00;
@@ -356,7 +357,7 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
         {
             for (int i = 4; i != 0; --i)
             {
-                AnmVmScriptColor &color = (&frontSide->statusVms0000[5 - i])->color1Script;
+                AnmVmScriptColor &color = FRONT_NATIVE_VM(frontSide->statusVms0000, 5 - i).color1Script;
                 color.r = 0xFF;
                 color.g = 0xFF;
                 color.b = 0xFF;
@@ -367,7 +368,7 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     {
         for (int i = 4; i != 0; --i)
         {
-            AnmVmScriptColor &color = (&frontSide->statusVms0000[5 - i])->color1Script;
+            AnmVmScriptColor &color = FRONT_NATIVE_VM(frontSide->statusVms0000, 5 - i).color1Script;
             color.r = 0xD0;
             color.g = 0x80;
             color.b = 0x80;
@@ -411,7 +412,7 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     wideValue %= 100;
     frontSide->frontAnmA668->SetSprite(&frontSide->scoreVms3F60[7], wideValue / 10 + 8);
     frontSide->frontAnmA668->SetSprite(&frontSide->scoreVms3F60[8], wideValue % 10 + 8);
-    frontSide->frontAnmA668->SetSprite(&frontSide->scoreVms3F60[9], FRONT_SIDE_RUNTIME(frontSide)->counter14 + 8);
+    frontSide->frontAnmA668->SetSprite(&frontSide->scoreVms3F60[9], static_cast<int>(static_cast<unsigned int>(FRONT_SIDE_RUNTIME(frontSide)->counter14) + 8u));
     g_AnmManager->ExecuteScriptArray(frontSide->scoreVms3F60, 10);
 
     int stock = FRONT_SIDE_PLAYER(frontSide)->valueA8;
