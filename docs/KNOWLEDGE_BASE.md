@@ -1273,6 +1273,27 @@ original PE bytes and 30 relocations**: homing update
 Draw Type2 293 bytes / five fields. No compiler-private
 labels, new exact owner, or whole-Windows runtime claim.
 
+## 2026-11-12 FrontSide HUD stock and dynamic chain/ANM IDs are DWORDs
+
+The complete FrontSide::OnUpdate displays the signed live stock count
+by rendering five status ANM VMs. The original i386 subtracts two
+from that signed count on every loop iteration, before the
+subsequent negative/zero clamp. The maintained source now performs
+this subtraction modulo 2^32 and restores the original signed result,
+preserving retail behavior even at INT_MIN where C++ signed subtraction
+would be undefined. The same native source restores modulo-32
+integer additions to the dynamic side's +5 ANM slot, +23/+26
+calc/draw chain priorities, the signed marker level + 53
+and the external state value + 76 animation ID. No new side clamp,
+script call, stock buffer or altered HUD branch is introduced.
+
+The one genuinely affected pinned VC7.1 FrontSide compiler carrier
+cold-replayed **15/15 existing exact owners, 4,087 complete original
+PE bytes and all 176 relocations**, including the full 2,381-byte
+OnUpdate and the corresponding create, callback and sprite helper leaves.
+No compiler-private label changes or newly exact function/runtime
+claim is involved.
+
 ## 2026-11-12 ANM file entry chain and resource counts use native DWORDs
 
 The ANM resource loader consumes the real file-backed linked sequence of

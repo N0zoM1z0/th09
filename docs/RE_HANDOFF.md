@@ -55,6 +55,13 @@ Git retains earlier source revisions.
   advance 0x0C-byte history records by original i386
   DWORD addresses. Three scoped VC7.1 carriers preserve
   3/3 exact owners, 968 physical bytes, 30 relocations.
+- **2026-11-12 FrontSide stock/ANM checkpoint:** signed
+  HUD stock subtract-two now wraps as a native i386 DWORD
+  before the original negative clamp; caller-supplied side,
+  marker and state animation/chain IDs also use DWORD sums.
+  The full 2,381-byte HUD boss and 14 helper owners replay
+  15/15 exact, 4,087 original bytes and 176 relocations
+  in one focused VC7.1 carrier.
 - **2026-11-12 ANM linked-file entries checkpoint:** real
   variable-length .anm 0x40-byte file headers, name/texture
   source offsets, Sprite/Script tables, signed cumulative

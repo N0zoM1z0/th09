@@ -122,7 +122,8 @@ int FrontSide::AddedCallback(FrontSide *frontSide)
 
     int sideIndex = frontSide->sideIndexA66C;
     frontSide->auxA678.sideAnm00 =
-        g_AnmManager->GetAnm(sideIndex + 5);
+        g_AnmManager->GetAnm(static_cast<int>(
+            static_cast<unsigned int>(sideIndex) + 5u));
 
     FrontSideSideStateView *side = FrontSideState(frontSide->sideStateA670);
     if (sideIndex == 0 &&
@@ -183,13 +184,13 @@ FrontSide *FrontSide::Create(int sideIndex)
     frontSide->calcChainA660->arg = frontSide;
     frontSide->calcChainA660->addedCallback =
         reinterpret_cast<ChainLifetimeCallback>(FrontSide::AddedCallback);
-    if (g_Chain.AddToCalcChain(frontSide->calcChainA660, sideIndex + 23) != 0)
+    if (g_Chain.AddToCalcChain(frontSide->calcChainA660, static_cast<int>(static_cast<unsigned int>(sideIndex) + 23u)) != 0)
         return NULL;
 
     frontSide->drawChainA664 =
         g_Chain.CreateElem(reinterpret_cast<ChainCallback>(FrontSide::OnDraw));
     frontSide->drawChainA664->arg = frontSide;
-    g_Chain.AddToDrawChain(frontSide->drawChainA664, sideIndex + 26);
+    g_Chain.AddToDrawChain(frontSide->drawChainA664, static_cast<int>(static_cast<unsigned int>(sideIndex) + 26u));
     return frontSide;
 }
 
@@ -242,13 +243,13 @@ int FrontSide::UpdateMeterHundreds(int level)
     this->frontAnmA668->ExecuteAnmIdx(&this->markerVms66FC[0], 72);
     this->frontAnmA668->ExecuteAnmIdx(&this->markerVms66FC[1], 73);
     this->frontAnmA668->ExecuteAnmIdx(&this->markerVms66FC[2], 74);
-    return this->frontAnmA668->SetSprite(&this->markerVms66FC[2], level + 53);
+    return this->frontAnmA668->SetSprite(&this->markerVms66FC[2], static_cast<int>(static_cast<unsigned int>(level) + 53u));
 }
 
 void FrontSide::ClearState(int value)
 {
     this->frontAnmA668->ExecuteAnmIdx(&this->stateVms6EE8[0], 75);
-    this->frontAnmA668->ExecuteAnmIdx(&this->stateVms6EE8[1], value + 76);
+    this->frontAnmA668->ExecuteAnmIdx(&this->stateVms6EE8[1], static_cast<int>(static_cast<unsigned int>(value) + 76u));
 }
 
 void FrontSide::ResetPatternTiming()
@@ -419,7 +420,10 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
         g_AnmManager->ExecuteScript(&FRONT_NATIVE_VM(frontSide->stockVms1D0C, i));
         int shown = stock >= 2 ? 2 : stock;
         frontSide->frontAnmA668->SetSprite(&FRONT_NATIVE_VM(frontSide->stockVms1D0C, i), shown + 35);
-        stock -= 2;
+        // The real signed HUD stock value is decremented as an i386
+        // DWORD before the original negative/zero clamp. Preserve the
+        // wrap result for even the native INT_MIN edge case.
+        stock = static_cast<int>(static_cast<unsigned int>(stock) - 2u);
         if (stock < 0)
             stock = 0;
     }
