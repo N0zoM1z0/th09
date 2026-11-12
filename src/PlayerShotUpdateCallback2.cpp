@@ -47,13 +47,17 @@ int __fastcall PlayerShotUpdateCallbackType2(
         nativeShot->trailVectors2B0[i].y -= 1.0f;
     }
 
-    for (int i = 0; i < nativeShot->field46A; ++i)
+    // Original unbounded trail count increments its signed i386 loop word
+    // with a wrapping DWORD INC, preserving the comparison below.
+    for (int i = 0; i < nativeShot->field46A;
+         ++*reinterpret_cast<unsigned int *>(&i))
     {
         // The live even-indexed trail samples reside in the original 0x0C-byte
         // Float3 records at shot +0x2B0; use native i386 byte-address math.
         PlayerConstructedVector3View *point = reinterpret_cast<PlayerConstructedVector3View *>(
             reinterpret_cast<unsigned int>(&nativeShot->trailVectors2B0[0]) +
-            static_cast<unsigned int>(i * 2) * sizeof(nativeShot->trailVectors2B0[0]));
+            // Each paired sample index is multiplied in one real DWORD.
+            (static_cast<unsigned int>(i) * 2u) * sizeof(nativeShot->trailVectors2B0[0]));
         if (point->x >= -900.0f)
             lifecycle->CreateRectType4(
                 reinterpret_cast<const PlayerRegionPointView *>(point),

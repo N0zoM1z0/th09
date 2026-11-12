@@ -3327,6 +3327,26 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Player Shot Type2 even-trail index and loop DWORD arithmetic
+
+The **643-byte exact PlayerShotUpdateCallbackType2** draws collision regions
+for the authentic `PlayerShotCtorView`'s 32 embedded 0x0C-byte trail vectors,
+using the shot-owned `field46A` count. Its signed `i` counter now advances
+through the original unsigned 32-bit `INC DWORD` lvalue, preserving the
+comparison and the original behavior even for a malformed/wrapped count.
+Likewise, the second loop's even-sample index is calculated as
+`uint32(i)*2` *before* scaling by the genuine 0x0C-byte record stride,
+instead of relying on signed-C++ `i*2` overflow rules. The real trail pool,
+position/velocity, ZunTimer calls, original CreateRectType4 receiver,
+collision region geometry and historical 31-to-1 shift all remain intact.
+
+The pinned VC7.1 one-carrier scoped replay proved **1/1 existing exact owner,
+643 complete original PE bytes and 16 relocation fields**. Attempts to
+project the whole history as a separate pointer/array and to rewrite the
+fixed descending loop changed original control-flow/codegen and were
+rejected; only the proven native arithmetic changes are committed. No new
+exact-function, full build or runtime claim follows.
+
 ## 2026-11-12 WAVE memory-stream leaves use native Win32 cursor words
 
 The independently exact `WaveFileProcessView::ResetFile` and
