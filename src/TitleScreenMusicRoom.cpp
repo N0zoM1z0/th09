@@ -249,7 +249,9 @@ int TitleScreenView::OnUpdateMusicRoom()
 
             char *cursor = musicCmtFile;
             i32 trackIndex = -1;
-            while ((u32)(cursor - musicCmtFile) < (u32)fileSize)
+            // The loaded text file is one native Win32 address range;
+            // its byte offset is the original i386 DWORD subtraction.
+            while ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) < (u32)fileSize)
             {
                 if (*cursor == '@')
                 {
@@ -262,13 +264,13 @@ int TitleScreenView::OnUpdateMusicRoom()
                         musicTracks[trackIndex].path[charIndex] = *cursor;
                         cursor++;
                         charIndex++;
-                        if ((u32)(cursor - musicCmtFile) >= (u32)fileSize)
+                        if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                             goto parse_done;
                     }
                     while (*cursor == '\n' || *cursor == '\r')
                     {
                         cursor++;
-                        if ((u32)(cursor - musicCmtFile) >= (u32)fileSize)
+                        if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                             goto parse_done;
                     }
 
@@ -278,13 +280,13 @@ int TitleScreenView::OnUpdateMusicRoom()
                         musicTracks[trackIndex].title[charIndex] = *cursor;
                         cursor++;
                         charIndex++;
-                        if ((u32)(cursor - musicCmtFile) >= (u32)fileSize)
+                        if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                             goto parse_done;
                     }
                     while (*cursor == '\n' || *cursor == '\r')
                     {
                         cursor++;
-                        if ((u32)(cursor - musicCmtFile) >= (u32)fileSize)
+                        if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                             goto parse_done;
                     }
 
@@ -301,13 +303,13 @@ int TitleScreenView::OnUpdateMusicRoom()
                             musicTracks[trackIndex].descriptions[descriptionLine][charIndex] = *cursor;
                             cursor++;
                             charIndex++;
-                            if ((u32)(cursor - musicCmtFile) >= (u32)fileSize)
+                            if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                                 goto parse_done;
                         }
                         while (*cursor == '\n' || *cursor == '\r')
                         {
                             cursor++;
-                            if ((u32)(cursor - musicCmtFile) >= (u32)fileSize)
+                            if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                                 goto parse_done;
                         }
                     }

@@ -3327,6 +3327,26 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Music-room comment parser's native file byte offsets
+
+The **2,258-byte** exact `TitleScreenView::OnUpdateMusicRoom` parser reads
+variable-length comments from the real file loaded by `FileSystem::OpenFile`.
+Seven live cursor-vs-file-start comparisons now calculate their original
+i386 byte displacement as `uint32(cursor)-uint32(musicCmtFile)` modulo
+2^32. The previous C++ pointer subtraction was defined only while the
+cursor remained within a common array; the native file parser's signed
+source and return gates are unaffected. The original 32 actual 0x292-byte
+music descriptor slots, file size gates, newline conditions, live cursor
+increments and string publication order are unchanged. A companion trial
+replaced eight pointer increments with native integer-address increments;
+VC7.1 then produced a 2,258-byte target vs 2,254-byte candidate and that
+trial was rejected.
+
+The one affected pinned VC7.1 profile replayed **2/2 previously exact
+owners, 2,467 complete original PE bytes and 80 relocation fields**, including
+all 2,258 physical music-room update bytes and the independent 209-byte
+music-room renderer. No new exact-function or Windows product credit follows.
+
 ## 2026-11-12 Background RenderObjects native color lanes in both quad paths
 
 The **3,274-byte exact Background::RenderObjects** boss traverses file-backed
