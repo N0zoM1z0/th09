@@ -3300,6 +3300,27 @@ actual same-section COFF definitions and original-PE target
 addresses before updating only manifest symbol names. No new
 exact owner or executable runtime closure is claimed.
 
+## 2026-11-12 Exact 1,939-byte result-renderer native color and cursor words
+
+The existing complete `TitleScreenView::DrawResult @ 0x00423423`
+owner calculates the active difficulty's mask, packs its replay/name-entry
+alpha into the high byte of each display color, and draws five live
+ranking tables. Its full result-renderer body now uses the actual Win32
+unsigned DWORD for its mask shift and **25** alpha-mask shifts: retail
+`SHL` permits setting bit 31, which signed source left shifts could
+otherwise make undefined. The renderer also uses unsigned 32-bit
+addition/multiplication before signed conversion in **ten** highlight
+cursor-offset evaluations across all five difficulty panels. Original
+layout, cursor reads, floats, call chronology, colors and normal inputs are
+unchanged; no alternative tables, branches or clipping are introduced.
+
+The pinned VC7.1 one-carrier replay of the complete **1,939-byte**
+DrawResult owner passed **all 82 original-target relocation fields** and
+full byte equality after the combined change. This is a native-expression
+correction within a previously exact large function; the independent
+nonexact Title OnUpdateResult remains open. C++ shift counts outside the
+language range are *not* claimed portable even though retail x86 masks CL.
+
 ## 2026-11-12 Title character scrolling native input-state receivers
 
 Both `TitleScreenView::MoveCharacterCursorHorizontal` and

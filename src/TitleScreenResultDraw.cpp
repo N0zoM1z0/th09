@@ -73,6 +73,9 @@ int TitleScreenView::DrawResult()
     char str[16];
     // Score entries are read while rendering; only the bank cursor advances.
     const TitleScoreRecordView (*scores)[5] = TH09_RESULT_NATIVE_BANK(nameBankIndex);
+    // Name-grid highlight offsets use the 32-bit i386 ADD/IMUL result
+    // before float conversion; unsigned intermediates keep that overflow
+    // behavior for every live cursor without changing the screen gates.
     if (this->currentScreen == 13)
     {
         mask = 0xff;
@@ -80,11 +83,15 @@ int TitleScreenView::DrawResult()
     }
     else if (this->currentScreen == 14)
     {
-        mask = 1 << g_GameManager.difficulty;
+        // The retail SHL operates on a native unsigned DWORD. In particular,
+        // difficulty bit 31 is a valid mask rather than signed-left-shift UB.
+        mask = static_cast<int>(1u << g_GameManager.difficulty);
         highlight = this->nameSlotIndex;
     }
     alpha = this->stateTimer2 < 30 ? this->stateTimer2 * 255 / 30 : 255;
-    g_AsciiManager.color = mask & 1 ? (alpha << 24) | 0xd0ffd0 : (alpha << 24) | 0x808080;
+    // The alpha byte is packed into the high unsigned DWORD bits, including
+    // bit 31, exactly as the original 32-bit SHL does.
+    g_AsciiManager.color = mask & 1 ? (static_cast<unsigned int>(alpha) << 24) | 0xd0ffd0 : (static_cast<unsigned int>(alpha) << 24) | 0x808080;
     pos.x = 102.0f;
     pos.y = 80.0f;
     pos.z = 0.0f;
@@ -97,17 +104,17 @@ int TitleScreenView::DrawResult()
         {
             if (mask & 1)
             {
-                g_AsciiManager.color = highlight == i ? (alpha << 24) | 0xfff0ef : (alpha << 24) | 0xc0f0ff;
+                g_AsciiManager.color = highlight == i ? (static_cast<unsigned int>(alpha) << 24) | 0xfff0ef : (static_cast<unsigned int>(alpha) << 24) | 0xc0f0ff;
             }
             else
             {
-                g_AsciiManager.color = (alpha << 24) | 0x809090;
+                g_AsciiManager.color = (static_cast<unsigned int>(alpha) << 24) | 0x809090;
             }
             if (mask & 1 && highlight == i)
             {
-                pos.x += (this->replayNameCursor + 4) * 9;
+                pos.x += static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
                 g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
-                pos.x -= (this->replayNameCursor + 4) * 9;
+                pos.x -= static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
             }
             g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", TH09_RESULT_NATIVE_LABEL(i), TH09_RESULT_NATIVE_SCORE(i).name, TH09_RESULT_NATIVE_SCORE(i).score,
                                   (char)TH09_RESULT_NATIVE_SCORE(i).scoreDigit);
@@ -115,7 +122,7 @@ int TitleScreenView::DrawResult()
         }
     }
     scores = reinterpret_cast<const TitleScoreRecordView (*)[5]>(reinterpret_cast<unsigned int>(scores) + sizeof(*scores));
-    g_AsciiManager.color = mask & 2 ? (alpha << 24) | 0xd0ffd0 : (alpha << 24) | 0x808080;
+    g_AsciiManager.color = mask & 2 ? (static_cast<unsigned int>(alpha) << 24) | 0xd0ffd0 : (static_cast<unsigned int>(alpha) << 24) | 0x808080;
     pos.x = 358.0f;
     pos.y = 80.0f;
     pos.z = 0.0f;
@@ -127,17 +134,17 @@ int TitleScreenView::DrawResult()
         {
             if (mask & 2)
             {
-                g_AsciiManager.color = highlight == i ? (alpha << 24) | 0xfff0ef : (alpha << 24) | 0xc0f0ff;
+                g_AsciiManager.color = highlight == i ? (static_cast<unsigned int>(alpha) << 24) | 0xfff0ef : (static_cast<unsigned int>(alpha) << 24) | 0xc0f0ff;
             }
             else
             {
-                g_AsciiManager.color = (alpha << 24) | 0x809090;
+                g_AsciiManager.color = (static_cast<unsigned int>(alpha) << 24) | 0x809090;
             }
             if (mask & 2 && highlight == i)
             {
-                pos.x += (this->replayNameCursor + 4) * 9;
+                pos.x += static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
                 g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
-                pos.x -= (this->replayNameCursor + 4) * 9;
+                pos.x -= static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
             }
             g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", TH09_RESULT_NATIVE_LABEL(i), TH09_RESULT_NATIVE_SCORE(i).name, TH09_RESULT_NATIVE_SCORE(i).score,
                                   (char)TH09_RESULT_NATIVE_SCORE(i).scoreDigit);
@@ -145,7 +152,7 @@ int TitleScreenView::DrawResult()
         }
     }
     scores = reinterpret_cast<const TitleScoreRecordView (*)[5]>(reinterpret_cast<unsigned int>(scores) + sizeof(*scores));
-    g_AsciiManager.color = mask & 4 ? (alpha << 24) | 0xfff0d0 : (alpha << 24) | 0x808080;
+    g_AsciiManager.color = mask & 4 ? (static_cast<unsigned int>(alpha) << 24) | 0xfff0d0 : (static_cast<unsigned int>(alpha) << 24) | 0x808080;
     pos.x = 102.0f;
     pos.y = 192.0f;
     pos.z = 0.0f;
@@ -157,17 +164,17 @@ int TitleScreenView::DrawResult()
         {
             if (mask & 4)
             {
-                g_AsciiManager.color = highlight == i ? (alpha << 24) | 0xfff0ef : (alpha << 24) | 0xc0f0ff;
+                g_AsciiManager.color = highlight == i ? (static_cast<unsigned int>(alpha) << 24) | 0xfff0ef : (static_cast<unsigned int>(alpha) << 24) | 0xc0f0ff;
             }
             else
             {
-                g_AsciiManager.color = (alpha << 24) | 0x809090;
+                g_AsciiManager.color = (static_cast<unsigned int>(alpha) << 24) | 0x809090;
             }
             if (mask & 4 && highlight == i)
             {
-                pos.x += (this->replayNameCursor + 4) * 9;
+                pos.x += static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
                 g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
-                pos.x -= (this->replayNameCursor + 4) * 9;
+                pos.x -= static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
             }
             g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", TH09_RESULT_NATIVE_LABEL(i), TH09_RESULT_NATIVE_SCORE(i).name, TH09_RESULT_NATIVE_SCORE(i).score,
                                   (char)TH09_RESULT_NATIVE_SCORE(i).scoreDigit);
@@ -175,7 +182,7 @@ int TitleScreenView::DrawResult()
         }
     }
     scores = reinterpret_cast<const TitleScoreRecordView (*)[5]>(reinterpret_cast<unsigned int>(scores) + sizeof(*scores));
-    g_AsciiManager.color = mask & 8 ? (alpha << 24) | 0xffc0c0 : (alpha << 24) | 0x808080;
+    g_AsciiManager.color = mask & 8 ? (static_cast<unsigned int>(alpha) << 24) | 0xffc0c0 : (static_cast<unsigned int>(alpha) << 24) | 0x808080;
     pos.x = 358.0f;
     pos.y = 192.0f;
     pos.z = 0.0f;
@@ -187,17 +194,17 @@ int TitleScreenView::DrawResult()
         {
             if (mask & 8)
             {
-                g_AsciiManager.color = highlight == i ? (alpha << 24) | 0xfff0ef : (alpha << 24) | 0xc0f0ff;
+                g_AsciiManager.color = highlight == i ? (static_cast<unsigned int>(alpha) << 24) | 0xfff0ef : (static_cast<unsigned int>(alpha) << 24) | 0xc0f0ff;
             }
             else
             {
-                g_AsciiManager.color = (alpha << 24) | 0x809090;
+                g_AsciiManager.color = (static_cast<unsigned int>(alpha) << 24) | 0x809090;
             }
             if (mask & 8 && highlight == i)
             {
-                pos.x += (this->replayNameCursor + 4) * 9;
+                pos.x += static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
                 g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
-                pos.x -= (this->replayNameCursor + 4) * 9;
+                pos.x -= static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
             }
             g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", TH09_RESULT_NATIVE_LABEL(i), TH09_RESULT_NATIVE_SCORE(i).name, TH09_RESULT_NATIVE_SCORE(i).score,
                                   (char)TH09_RESULT_NATIVE_SCORE(i).scoreDigit);
@@ -205,7 +212,7 @@ int TitleScreenView::DrawResult()
         }
     }
     scores = reinterpret_cast<const TitleScoreRecordView (*)[5]>(reinterpret_cast<unsigned int>(scores) + sizeof(*scores));
-    g_AsciiManager.color = mask & 16 ? (alpha << 24) | 0xffc0f0 : (alpha << 24) | 0x808080;
+    g_AsciiManager.color = mask & 16 ? (static_cast<unsigned int>(alpha) << 24) | 0xffc0f0 : (static_cast<unsigned int>(alpha) << 24) | 0x808080;
     pos.x = 102.0f;
     pos.y = 304.0f;
     pos.z = 0.0f;
@@ -217,17 +224,17 @@ int TitleScreenView::DrawResult()
         {
             if (mask & 16)
             {
-                g_AsciiManager.color = highlight == i ? (alpha << 24) | 0xfff0ef : (alpha << 24) | 0xc0f0ff;
+                g_AsciiManager.color = highlight == i ? (static_cast<unsigned int>(alpha) << 24) | 0xfff0ef : (static_cast<unsigned int>(alpha) << 24) | 0xc0f0ff;
             }
             else
             {
-                g_AsciiManager.color = (alpha << 24) | 0x809090;
+                g_AsciiManager.color = (static_cast<unsigned int>(alpha) << 24) | 0x809090;
             }
             if (mask & 16 && highlight == i)
             {
-                pos.x += (this->replayNameCursor + 4) * 9;
+                pos.x += static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
                 g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
-                pos.x -= (this->replayNameCursor + 4) * 9;
+                pos.x -= static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
             }
             g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", TH09_RESULT_NATIVE_LABEL(i), TH09_RESULT_NATIVE_SCORE(i).name, TH09_RESULT_NATIVE_SCORE(i).score,
                                   (char)TH09_RESULT_NATIVE_SCORE(i).scoreDigit);
