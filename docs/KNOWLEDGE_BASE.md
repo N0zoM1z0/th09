@@ -1197,6 +1197,27 @@ one missing byte. The remaining question is the distinct original
 source-load/sign-extension schedule, not an unverified exact match.
 All trial source edits were restored after the comparisons.
 
+## 2026-11-12 GameManager cleanup stage/difficulty native word arithmetic
+
+The exact CleanupGameplayState owner computes difficulty limits from
+the live signed GameManager counterFC, stage value100, limitB4 and
+valueCC words. Its per-mode 600-frame interval formulas, four direct
+counterFC additions, final two-times-stage difficulty adjustment,
+the mode-2 limit decrement and the post-cleanup score decrement now
+explicitly reproduce native modulo-32 i386 arithmetic. The existing
+signed threshold/maximum tests still see those resulting DWORD bits as
+signed integers. No new branch, stage clamp, side state, allocation
+or callback was introduced; the original input read and store order
+is retained.
+
+Only the two actually involved VC7.1 GameManagerSetup carriers were
+cold-compiled. The exact replay passed **12/12 owners, 4,680 complete
+original PE bytes and 415 relocation fields**, including the 425-byte
+CleanupGameplayState, 1,230-byte OnUpdate and 1,689-byte
+GameplaySetupThread. No compiler-private label changes were required.
+This is a source semantic repair in existing exact code, not newly
+promoted exactness or complete Windows product/runtime closure.
+
 ## 2026-11-12 SoundPlayer SFX producer native metadata/pan slots
 
 The two independently exact SFX producers, PlaySoundByIdx and

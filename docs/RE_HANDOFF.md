@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 GameManager cleanup checkpoint:** signed stage,
+  frame threshold, reward and limit arithmetic now reproduces the
+  actual i386 DWORD wrap in CleanupGameplayState, retaining signed
+  final comparisons. Both affected VC7.1 carriers preserve 12/12
+  exact owners, 4,680 physical bytes and 415 relocations, including
+  the update callback and 1,689-byte GameplaySetupThread.
 - **2026-11-12 SoundPlayer SFX producers checkpoint:** signed sound
   IDs and the live post-incremented pan counts now access their real
   8-byte metadata, four-byte state and 12x128 pan allocations through

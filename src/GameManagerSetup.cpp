@@ -632,7 +632,8 @@ void GameManagerSetupLayout::CleanupGameplayState()
 
     if (globalManager.gameMode == 2)
     {
-        globalManager.limitB4 -= 8;
+        globalManager.limitB4 = static_cast<int>(
+            static_cast<unsigned int>(globalManager.limitB4) - 8u);
         if (globalManager.limitB4 < globalManager.value100)
             globalManager.limitB4 = globalManager.value100;
     }
@@ -645,42 +646,57 @@ void GameManagerSetupLayout::CleanupGameplayState()
         case 0:
             globalManager.limitB4 = globalManager.counterFC / 3 + 1;
             globalManager.valueC8 = globalManager.counterFC / 2 + 6;
-            globalManager.valueC4 = 600 * (stageValue + 3);
+            globalManager.valueC4 = static_cast<int>(
+                600u * (static_cast<unsigned int>(stageValue) + 3u));
             break;
         case 1:
-            globalManager.limitB4 = globalManager.counterFC + 1;
-            globalManager.valueC8 = globalManager.counterFC + 10;
-            globalManager.valueC4 = 600 * (stageValue + 2);
+            globalManager.limitB4 = static_cast<int>(
+                static_cast<unsigned int>(globalManager.counterFC) + 1u);
+            globalManager.valueC8 = static_cast<int>(
+                static_cast<unsigned int>(globalManager.counterFC) + 10u);
+            globalManager.valueC4 = static_cast<int>(
+                600u * (static_cast<unsigned int>(stageValue) + 2u));
             break;
         case 2:
-            globalManager.limitB4 = globalManager.counterFC + 3;
+            globalManager.limitB4 = static_cast<int>(
+                static_cast<unsigned int>(globalManager.counterFC) + 3u);
             globalManager.valueC8 = globalManager.counterFC / 2 + 15;
-            globalManager.valueC4 = 600 * stageValue + 900;
+            globalManager.valueC4 = static_cast<int>(
+                600u * static_cast<unsigned int>(stageValue) + 900u);
             break;
         case 3:
-            globalManager.limitB4 = globalManager.counterFC + 6;
+            globalManager.limitB4 = static_cast<int>(
+                static_cast<unsigned int>(globalManager.counterFC) + 6u);
             globalManager.valueC8 = globalManager.counterFC / 2 + 17;
-            globalManager.valueC4 = 600 * stageValue + 900;
+            globalManager.valueC4 = static_cast<int>(
+                600u * static_cast<unsigned int>(stageValue) + 900u);
             break;
         case 4:
             globalManager.limitB4 = 18;
             globalManager.valueC8 = 22;
-            globalManager.valueC4 = 600 * (stageValue + 1);
+            globalManager.valueC4 = static_cast<int>(
+                600u * (static_cast<unsigned int>(stageValue) + 1u));
             break;
         default:
             break;
         }
 
+        // The retail difficulty and stage limits are computed as native
+        // modulo-32 DWORD multiplications and subtractions. Keep the
+        // final signed threshold comparisons after restoring their word bits.
         // The pinned build coalesces the per-case limits into this final
         // publication, followed by the conditional minimum publication.
-        globalManager.limitB4 -= 2 * stageValue;
+        globalManager.limitB4 = static_cast<int>(
+            static_cast<unsigned int>(globalManager.limitB4) -
+            2u * static_cast<unsigned int>(stageValue));
         if (globalManager.limitB4 < 1)
             globalManager.limitB4 = 1;
     }
 
     globalManager.valueB0 = 0;
     globalManager.value348 = 0;
-    globalManager.valueCC -= 1000;
+    globalManager.valueCC = static_cast<int>(
+        static_cast<unsigned int>(globalManager.valueCC) - 1000u);
     if (globalManager.valueCC < 0)
         globalManager.valueCC = 0;
 }
