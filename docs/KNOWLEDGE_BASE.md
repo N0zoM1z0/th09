@@ -3502,6 +3502,35 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 Complete ANM interpreter integer/float variable wire addressing
+
+The **9,776-byte physical `AnmManager::ExecuteScript` boss** decodes
+variable-length ANM instructions from the real loaded script buffer. Its
+constant direct `intArgs[0/1]` reads still crossed nominal C++ array bounds
+without expressing the original signed DWORD index as Win32 pointer
+arithmetic. All 12 remaining direct integer reads — blend/alpha, interrupt
+labels and the interpolation mode selectors — now reuse the previously
+verified native `instruction + offsetof(AnmRawInstr, intArgs) +
+uint32(index)*4` lvalue.
+
+More significantly, **both sides of every variable-mask resolver**
+`GET_INT_VAR` and `GET_FLOAT_VAR`, and their write-lvalue paths
+`GET_INT_VAR_PTR` / `GET_FLOAT_VAR_PTR`, now calculate the same authentic
+four-byte wire addresses. The float path uses its actual union member
+`floatArgs` and real `f32` type; the integer and float lvalues are writable
+where the script VM stores results. No opcode boundary, clone, bounds gate,
+value cache, inline assembly or call-order change was added. Individual
+original operand reads and masked-variable resolution remain distinct.
+
+Two affected pinned VC7.1 compiler profiles replayed **all five
+previously exact canonical owners / 10,496 full original PE bytes / 421
+relocations**, including all **9,776 physical bytes** and the owned jump
+table of the big interpreter. The compiler renumbered 107 private `$L`
+references; each corresponding actual same-section COFF definition,
+relocation addend and original target VA was independently verified before
+updating its *spelling* in the manifest. There is no new exact-function
+or complete Windows product/runtime credit.
+
 ## 2026-11-12 CardAttack StartAttack native callback rows and Player DWORD counters
 
 The complete `CardAttackStartView::StartAttack` (923 bytes) updates either
