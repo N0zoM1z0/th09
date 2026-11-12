@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 PBG file backend checkpoint:** the
+  caller-owned Open mode string and the live MAX_PATH module
+  filename buffer's separator successor now use native i386
+  DWORD byte-address arithmetic. One VC7.1 PbgFile carrier
+  preserves 11/11 exact owners, 794 physical PE bytes and
+  22 bound relocations including the file open/read/seek
+  family and constructor/destructor leaves.
 - **2026-11-12 ASCII popup draw checkpoint:** the genuine
   0x38-byte score popup records now advance by their native
   DWORD byte stride in the high-priority render loop, and

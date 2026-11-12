@@ -1163,6 +1163,29 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 PBG file mode and module path native byte cursors
+
+PbgFileView::Open examines the real caller-provided NUL-terminated
+mode string to select the original Win32 GENERIC_READ/WRITE,
+creation disposition and append behavior. The scanning char*
+cursor now advances through its genuine byte address using an
+unsigned modulo-32 i386 addition instead of relying on a
+separate C++ fixed-size array object. GetFullFilePath likewise
+places the terminating NUL immediately after the last module-path
+separator by a native DWORD +1 byte address in the original
+MAX_PATH buffer. The original filename and module path reads,
+NULL-separator behavior (including its existing lack of
+additional guard), strcpy/strcat calls and all file system
+side effects are unchanged.
+
+The one affected pinned VC7.1 PbgFile compiler carrier
+cold-replayed **11/11 existing exact functions, 794 complete
+original PE bytes and 22 relocation fields**, including
+Open, GetFullFilePath, ReadWholeFile, Read/Write/Seek and
+the small constructor/destructor leaves. No private label
+rebind, new range guard, exact function promotion or native
+Windows-product runtime closure is claimed.
+
 ## 2026-11-12 ASCII score popup consumer native record cursor and frame word
 
 AsciiManager::OnDrawHighPrioImpl is the consumer of the genuine

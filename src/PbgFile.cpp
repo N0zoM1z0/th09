@@ -22,7 +22,11 @@ bool PbgFileView::Open(const char *filename, char *mode)
     Close();
 
     char *curMode;
-    for (curMode = mode; *curMode != '\0'; curMode++)
+    // The mode string belongs to the live caller. Retail advances its
+    // byte cursor with native modulo-32 Win32 pointer arithmetic.
+    for (curMode = mode; *curMode != '\0';
+         curMode = reinterpret_cast<char *>(
+             reinterpret_cast<unsigned int>(curMode) + 1u))
     {
         if (*curMode == 'r')
         {
@@ -164,7 +168,10 @@ void PbgFileView::GetFullFilePath(char *buffer, const char *filename)
         if (endOfModulePath == NULL)
             strcpy(buffer, "");
 
-        endOfModulePath[1] = '\0';
+        // Continue one native byte beyond the last path separator in
+        // the original MAX_PATH allocation; no new null-path handling.
+        *reinterpret_cast<char *>(
+            reinterpret_cast<unsigned int>(endOfModulePath) + 1u) = '\0';
         strcat(buffer, filename);
     }
 }
