@@ -1163,6 +1163,28 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 FrontMessage interpreter native packet stride and frame word
+
+The complete FrontMessageRuntimeView::Update switch owner traverses a
+file-backed variable-length command stream. The next instruction is a
+native 32-bit address computed from the real argument04 byte prefix
+plus the independently reread unsigned instruction size03. The packed
+text handler likewise advances its short-argument payload by exactly
+four bytes as a Win32 unsigned address. The signed framesElapsed1D4C
+counter is now incremented as a DWORD lvalue, matching retail i386
+wrap rather than invoking C++ signed-overflow semantics. No added
+buffer bounds, side clamping, packet cache, or changed callback/VM
+execution order is implied.
+
+Only the two actual FrontMessageUpdate VC7.1 carriers were rebuilt:
+the 2,968-byte complete script owner and 39-byte DecodeFrontMessageString
+leaf are both **exact, 3,007 complete physical bytes and 167 relocation
+fields**. 22 compiler-private COFF label spellings (including the
+run_scripts local label) were independently proved by actual same-section
+definitions, original PE operand targets, and every owner byte before
+rebinding only their manifest names. The source improvement does not
+promote a new exact function.
+
 ## 2026-11-12 Player collision CFG and Title result-byte trials
 
 The original v1.50a Player::CheckBulletCollision at 0x0041DFF0 was

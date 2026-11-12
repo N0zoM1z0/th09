@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 FrontMessage script checkpoint:** variable-length
+  command and text payload addresses now advance as native 32-bit
+  words; the live signed frame-wait count wraps as a DWORD.
+  The 2,968-byte switch owner and 39-byte decode leaf replay 2/2
+  exact, 3,007 bytes/167 fields in two VC7.1 carriers, with 22
+  independently PE/COFF-proven private label rebindings.
 - **2026-11-12 GameManager cleanup checkpoint:** signed stage,
   frame threshold, reward and limit arithmetic now reproduces the
   actual i386 DWORD wrap in CleanupGameplayState, retaining signed

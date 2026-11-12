@@ -420,7 +420,8 @@ int FrontMessageRuntimeView::Update()
 
             DecodeFrontMessageString(
                 textA,
-                reinterpret_cast<unsigned char *>(arguments) + 4);
+                reinterpret_cast<const unsigned char *>(
+                    reinterpret_cast<unsigned int>(arguments) + 4u));
             g_AnmManager->DrawTextLeft(
                 &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, FRONT_NATIVE_SHORT_ARG(arguments, 1)),
                 FRONT_MESSAGE_NATIVE_SLOT(unsigned long, textColors1D20, FRONT_NATIVE_SHORT_ARG(arguments, 0)),
@@ -486,7 +487,7 @@ int FrontMessageRuntimeView::Update()
             {
                 if (framesElapsed1D4C < instruction->argument04)
                 {
-                    ++framesElapsed1D4C;
+                    ++*reinterpret_cast<unsigned int *>(&framesElapsed1D4C);
                     goto run_scripts;
                 }
 
@@ -606,10 +607,13 @@ int FrontMessageRuntimeView::Update()
 
         }
 
+        // Retail advances through the file-backed variable-width command
+        // payload with an unsigned 32-bit byte-address word, not a bounded
+        // C++ struct-member pointer. Keep the original live size03 read.
         FrontMessageInstructionView *next =
             reinterpret_cast<FrontMessageInstructionView *>(
-                reinterpret_cast<unsigned char *>(&current04->argument04) +
-                current04->size03);
+                reinterpret_cast<unsigned int>(&current04->argument04) +
+                static_cast<unsigned int>(current04->size03));
         current04 = next;
     }
     timer1D40++;
