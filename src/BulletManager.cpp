@@ -255,7 +255,9 @@ static void UpdateBulletRelativeDirectionChange(Bullet *bullet)
     {
         if (bullet->transformSound >= 0)
             g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
-        bullet->exStates[3].directionChangesCompleted += 1;
+        bullet->exStates[3].directionChangesCompleted = static_cast<int>(
+            static_cast<unsigned int>(
+                bullet->exStates[3].directionChangesCompleted) + 1u);
         if (bullet->exStates[3].directionChangesCompleted >=
             bullet->exStates[3].directionChangeRepeatCount)
             bullet->activeTransformFlags &= ~BULLET_TRANSFORM_CHANGE_DIRECTION_RELATIVE;
@@ -283,7 +285,9 @@ static void UpdateBulletAbsoluteDirectionChange(Bullet *bullet)
     {
         if (bullet->transformSound >= 0)
             g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
-        bullet->exStates[3].directionChangesCompleted += 1;
+        bullet->exStates[3].directionChangesCompleted = static_cast<int>(
+            static_cast<unsigned int>(
+                bullet->exStates[3].directionChangesCompleted) + 1u);
         if (bullet->exStates[3].directionChangesCompleted >=
             bullet->exStates[3].directionChangeRepeatCount)
             bullet->activeTransformFlags &= ~BULLET_TRANSFORM_CHANGE_DIRECTION_ABSOLUTE;
@@ -311,7 +315,9 @@ static void UpdateBulletAimedDirectionChange(Bullet *bullet)
     {
         if (bullet->transformSound >= 0)
             g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
-        bullet->exStates[3].directionChangesCompleted += 1;
+        bullet->exStates[3].directionChangesCompleted = static_cast<int>(
+            static_cast<unsigned int>(
+                bullet->exStates[3].directionChangesCompleted) + 1u);
         if (bullet->exStates[3].directionChangesCompleted >=
             bullet->exStates[3].directionChangeRepeatCount)
             bullet->activeTransformFlags &= ~BULLET_TRANSFORM_CHANGE_DIRECTION_AIMED;
@@ -355,7 +361,9 @@ static void UpdateBulletBoundaryBounce(Bullet *bullet)
         magnitude = bullet->speed;
         SetPolar2D(reinterpret_cast<Float2 *>(&(bullet->velocity)),
             bullet->angle, magnitude * g_Supervisor.framerateMultiplier5B8);
-        bullet->exStates[4].bouncesCompleted += 1;
+        bullet->exStates[4].bouncesCompleted = static_cast<int>(
+            static_cast<unsigned int>(
+                bullet->exStates[4].bouncesCompleted) + 1u);
         if (bullet->exStates[4].bouncesCompleted >= bullet->exStates[4].bounceLimit)
             bullet->activeTransformFlags &=
                 ~(BULLET_TRANSFORM_BOUNCE_ALL_EDGES | BULLET_TRANSFORM_BOUNCE_EXCEPT_BOTTOM);
@@ -637,6 +645,10 @@ done:
     return result;
 }
 
+// Bullet transform repeat/bounce counters, the cull-delay word and the
+// long-lived controller frame/suppression counters are native signed DWORDs.
+// Their source arithmetic must wrap like the retail i386 INC/DEC instructions,
+// without changing any comparison, transition or callback order.
 // The live sprite bucket byte selects the original DWORD pointer array.
 // Native address arithmetic retains the retail unsigned-32 wrap semantics.
 int EtamaController::OnUpdate(EtamaController *controller)
@@ -756,7 +768,9 @@ int EtamaController::OnUpdate(EtamaController *controller)
             }
 
             if (bullet->offscreenCullDelayFrames != 0)
-                --bullet->offscreenCullDelayFrames;
+                bullet->offscreenCullDelayFrames = static_cast<int>(
+                    static_cast<unsigned int>(
+                        bullet->offscreenCullDelayFrames) - 1u);
             bullet->position += bullet->velocity;
 
             if (bullet->offscreenCullDelayFrames == 0)
@@ -969,9 +983,11 @@ updateTimers:
     }
 
     if (controller->spawnSuppressionFrames != 0)
-        --controller->spawnSuppressionFrames;
+        controller->spawnSuppressionFrames = static_cast<int>(
+            static_cast<unsigned int>(controller->spawnSuppressionFrames) - 1u);
     controller->timer++;
-    ++controller->frameCounter;
+    controller->frameCounter = static_cast<int>(
+        static_cast<unsigned int>(controller->frameCounter) + 1u);
     return 1;
 }
 

@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Etama update checkpoint:** the bullet transform
+  repetition/bounce counters, offscreen-cull delay, spawn-suppression
+  and frame counter now wrap as genuine i386 DWORDs. Three VC7.1
+  carriers protect 18/18 exact owners, 6,711 bytes and 259 fields,
+  with 16 independent COFF/PE private-label proofs.
 - **2026-11-12 SoundPlayer BGM checkpoint:** signed BGM format,
   preload pointer, size and filename selectors now use genuine native
   0x34/4/0x100-byte DWORD-scaled addresses. All eight involved VC7.1

@@ -1197,6 +1197,28 @@ one missing byte. The remaining question is the distinct original
 source-load/sign-extension schedule, not an unverified exact match.
 All trial source edits were restored after the comparisons.
 
+## 2026-11-12 Etama bullet transform and frame-counter DWORD wrap
+
+The original EtamaController::OnUpdate owns the bullet/laser update
+loop and transform-state dispatch. Its three live direction-change
+completion increments, the bounce completion counter, the bullet's
+offscreen-cull delay, the controller's spawn-suppression countdown
+and the long-lived frame counter now use explicit unsigned
+modulo-32 operations before restoring the original signed state.
+The script-controlled transform repeat and bounce counts can carry
+arbitrary signed words, so ordinary C++ signed overflow did not
+faithfully express the existing retail INC/DEC instructions.
+No new game rules, clamp, transition, callback or null check is added.
+
+All three affected original VC7.1 BulletManager carriers cold-replay
+**18/18 existing exact functions, 6,711 complete original physical
+bytes and 259 relocations**, including the large Etama update/
+SpawnSingleBullet functions and their leaf helpers. Sixteen private
+$L label renames were each independently proven through their
+actual COFF same-section definitions and original PE operand targets
+before refreshing the canonical manifest spellings. This is
+verified source meaning, not a newly exact owner or runtime closure.
+
 ## 2026-11-12 SoundPlayer native BGM format and preloaded-slot addressing
 
 The original file-loaded BGM metadata has 0x34-byte
