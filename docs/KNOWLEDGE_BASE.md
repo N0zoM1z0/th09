@@ -3327,6 +3327,25 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Title options signed-volume byte writes use native i386 arithmetic
+
+The 2,045-byte exact `TitleScreenView::OnUpdateOptions` changes actual
+`Supervisor::config388` music/SFX byte volumes. Four +/-4 adjustments and
+four guarded one-step increments/decrements previously wrote through a
+`signed char &` reinterpretation. Retail writes the **same native byte**
+with i386 wrapping `ADD/SUB/INC/DEC`; the maintained source now uses the
+unsigned 8-bit lvalue of each real `GameConfiguration` member for those
+physical stores, avoiding implementation-dependent signed-narrowing
+arithmetic. All *reads* and clamp comparisons keep the original signed
+`int8` meaning (0/100, negative, overflow), with unmodified input/menu
+selection, SoundPlayer calls and exact interrupt/VM field writes.
+
+The one affected pinned VC7.1 carrier passed the full source-scoped
+original-bound replay for **2/2 canonical exact owners, 2,079 complete
+PE bytes and all original relocations**, including the entire 2,045-byte
+options boss and the 34-byte `PlayMenuSound` leaf. This is authentic
+byte-storage semantics, not new exact-function or product credit.
+
 ## 2026-11-12 Enemy OnUpdate hit-flash writes to authentic color2 DWORD
 
 The 3,900-byte source-present nonexact `EnemyManagerView::OnUpdate`
