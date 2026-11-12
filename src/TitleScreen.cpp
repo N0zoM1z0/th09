@@ -238,6 +238,14 @@ typedef char TitleConfigAt1B2BC[(offsetof(TitleScreenView, configSnapshot) == 0x
 typedef char TitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) ? 1 : -1];
 
 extern TitleInputStateTableView g_TitleInputStateTable;
+// The Title scrolling receivers are three real 0x8E-byte InputView records.
+// Source indices are signed runtime cursors; retail forms the native DWORD
+// record stride even when the cursor lies outside the nominal C++ array.
+#define TH09_TITLE_NATIVE_INPUT_STATE(index) \
+    (*reinterpret_cast<TitleInputStatePhysicalView *>( \
+        reinterpret_cast<unsigned int>(&g_TitleInputStateTable.states[0]) + \
+        static_cast<unsigned int>(index) * sizeof(g_TitleInputStateTable.states[0])))
+
 extern u32 g_TitleInputFlags;
 // Read-width view at replay side0 +6, overlapping its known +6/+8 words.
 // This is not an independent data-owner or original-layout claim.
@@ -813,7 +821,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
         return 0;
 
     i32 direction;
-    if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x40))
+    if (TH09_TITLE_NATIVE_INPUT_STATE(cursorIndex).IsPressedScrolling(0x40))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
@@ -821,7 +829,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
-    else if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x80))
+    else if (TH09_TITLE_NATIVE_INPUT_STATE(cursorIndex).IsPressedScrolling(0x80))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
@@ -829,7 +837,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
         direction = 1;
     }
-    else if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x10))
+    else if (TH09_TITLE_NATIVE_INPUT_STATE(cursorIndex).IsPressedScrolling(0x10))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
@@ -837,7 +845,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
-    else if (g_TitleInputStateTable.states[cursorIndex].IsPressedScrolling(0x20))
+    else if (TH09_TITLE_NATIVE_INPUT_STATE(cursorIndex).IsPressedScrolling(0x20))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
@@ -861,7 +869,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
         return 0;
 
     i32 direction;
-    if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x40))
+    if (TH09_TITLE_NATIVE_INPUT_STATE(inputIndex).IsPressedScrolling(0x40))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
@@ -869,7 +877,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
-    else if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x80))
+    else if (TH09_TITLE_NATIVE_INPUT_STATE(inputIndex).IsPressedScrolling(0x80))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
@@ -877,7 +885,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
         direction = 1;
     }
-    else if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x10))
+    else if (TH09_TITLE_NATIVE_INPUT_STATE(inputIndex).IsPressedScrolling(0x10))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
@@ -885,7 +893,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
-    else if (g_TitleInputStateTable.states[inputIndex].IsPressedScrolling(0x20))
+    else if (TH09_TITLE_NATIVE_INPUT_STATE(inputIndex).IsPressedScrolling(0x20))
     {
         i32 *cursor = &side0CharacterCursor + cursorIndex;
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);

@@ -3300,6 +3300,27 @@ actual same-section COFF definitions and original-PE target
 addresses before updating only manifest symbol names. No new
 exact owner or executable runtime closure is claimed.
 
+## 2026-11-12 Title character scrolling native input-state receivers
+
+Both `TitleScreenView::MoveCharacterCursorHorizontal` and
+`MoveCharacterCursorHorizontalForInput` call the original scrolling input
+leaf on the actual three-element `g_TitleInputStateTable` allocation. A
+record is **0x8E bytes**, shared with the independent replay/input view.
+Their eight runtime receiver lookups now use native Win32 modulo-32
+`&states[0] + uint32(inputIndex) * 0x8E` addressing rather than an array
+subscript with additional C++ bounds preconditions. All four original
+priority checks, separate input and cursor selectors, wrap behavior and
+sound/callback calls remain intact; there is no new validation or storage.
+
+After the source change, a fresh VC7.1 two-carrier target-bound proof checked
+**all 41 exact TitleScreen owners, 18,972 complete bytes and 953 fields**.
+Nine compiler-private `$L` renames in the exact start-menu owner were
+accepted only after verifying the actual same-section COFF definitions,
+retail PE operands and full complete-owner bytes. The private spellings,
+not target destinations or source behavior, changed. The separately
+nonexact Title OnUpdateResult is still open and this adds no exact-function
+or executable/runtime credit.
+
 ## 2026-11-12 Title menu, result, replay and start-state DWORD counters
 
 The TitleScreenView owner uses one real screen-state allocation for
