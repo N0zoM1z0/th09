@@ -79,6 +79,12 @@ Git retains earlier source revisions.
   The full 2,381-byte HUD boss and 14 helper owners replay
   15/15 exact, 4,087 original bytes and 176 relocations
   in one focused VC7.1 carrier.
+- **2026-11-12 Enemy SpawnEnemy pool checkpoint:** regular
+  enemy spawning now advances the actual 128-by-0x5430
+  Enemy pool with original i386 DWORD record addresses and
+  signed index wrap, alongside the already recovered card
+  spawn traversal. One pinned VC7.1 carrier preserves the
+  full 373-byte exact owner and all four relocations.
 - **2026-11-12 FrontMessage random-color checkpoint:**
   both original text VMs now independently load their
   four live text/shadow-color DWORDs through native i386

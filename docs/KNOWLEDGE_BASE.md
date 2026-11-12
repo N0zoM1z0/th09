@@ -1346,6 +1346,29 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 Enemy spawn pool full-record native address and index
+
+The genuine EnemyManagerView::SpawnEnemy routine finds an unused
+slot in the original 128-element native Enemy pool at +0x5758,
+each EnemyView exactly 0x5430 bytes. Its source now advances
+the live pool pointer by native i386 DWORD base+sizeof(EnemyView)
+address arithmetic and advances the signed slot index modulo
+2^32 before the existing 128-slot comparison, rather than
+assuming a separate C++ array allocation for the pointer
+and signed defined-overflow semantics. This aligns the
+regular SpawnEnemy path with the independently recovered
+card-attack SpawnEnemyRecord pool traversal. The original
+ECL RunEcl selection, initial variable memcpy, Enemy
+template, position/life/score publications and failure
+sentinel/return paths remain unchanged.
+
+The single affected pinned VC7.1 EnemyManagerSpawnEnemy
+carrier cold-replayed **1/1 exact complete 373-byte
+original PE owner, all four relocation fields**.
+This improves a medium spawn function and its relation
+to the larger Enemy/ECL mainline without introducing a
+new exact owner or native game/runtime claim.
+
 ## 2026-11-12 FrontMessage random-dialogue native text and shadow color rows
 
 FrontMessageRuntimeView::SetupRandomForSide selects a file-backed
