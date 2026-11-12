@@ -24,6 +24,14 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 ASCII popup draw checkpoint:** the genuine
+  0x38-byte score popup records now advance by their native
+  DWORD byte stride in the high-priority render loop, and
+  AsciiManager's signed frame counter uses i386 INC wrap.
+  The changed VC7.1 carrier protects 10/10 exact owners,
+  4,206 bytes and 264 fields; independent two-carrier proof
+  covers 11/11 owners, 5,442 bytes and 350 fields,
+  including 3 PE/COFF-proven private label spellings.
 - **2026-11-12 Title grid cursor checkpoint:** across
   OnUpdateResultNameEntry and UpdateReplaySave the 20
   signed column/row/confirm and name cursor movements now

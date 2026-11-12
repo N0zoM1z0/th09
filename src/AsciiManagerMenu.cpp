@@ -508,7 +508,9 @@ int AsciiManager::OnUpdate(AsciiManager *ascii)
         return CHAIN_CALLBACK_RESULT_BREAK;
     }
 
-    ascii->frameCounter++;
+    // The ASCII manager's live frame count is a signed DWORD updated
+    // with retail i386 INC; preserve modulo-32 wrap on the native word.
+    ++*reinterpret_cast<unsigned int *>(&ascii->frameCounter);
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
@@ -617,7 +619,12 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
     }
     g_Supervisor.SetRenderState(23, 8);
 
-    for (j = 0; j < 100; j++, popup++) {
+    // The popups are genuine 0x38-byte native records. Advancing
+    // the cursor by its full record width preserves the actual i386
+    // address arithmetic and the real two-by-100 backing allocation.
+    for (j = 0; j < 100; j++,
+         popup = reinterpret_cast<AsciiManagerPopup *>(
+             reinterpret_cast<unsigned int>(popup) + sizeof(*popup))) {
         if (!popup->inUse) {
             continue;
         }

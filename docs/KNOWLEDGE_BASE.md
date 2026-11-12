@@ -1163,6 +1163,34 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 ASCII score popup consumer native record cursor and frame word
+
+AsciiManager::OnDrawHighPrioImpl is the consumer of the genuine
+two-by-100 array of 0x38-byte score popup records previously
+recovered in CreateScorePopup. The high-priority draw loop now
+advances its live popup pointer as an unsigned modulo-32 i386
+byte address plus sizeof(AsciiManagerPopup), instead of relying
+on C++ typed-pointer arithmetic over its one-row view. The
+original 100 iterations, live per-side player position lookup,
+score character rendering, pop-up timers, alpha gating and
+draw calls are unchanged. The separately exact
+AsciiManager::OnUpdate callback advances its persistent signed
+frameCounter through the same native i386 DWORD INC lvalue,
+without changing the original menu/chain gates.
+
+The actually changed AsciiManagerMenu pinned VC7.1 carrier
+cold-replayed **10/10 exact functions, 4,206 complete original
+PE bytes and 264 relocation fields**, including the 503-byte
+OnDrawHighPrioImpl, the 253-byte OnUpdate, the 1,776-byte PauseMenu
+boss and the 1,172-byte state-4 menu boss. Independent full
+proof also checked the unaffected state-5 owner in its separate
+carrier: **11/11 physical owners, 5,442 bytes, 350 fields**.
+The three changed private $L labels were verified from actual
+same-section COFF definitions, unchanged PE operands and all
+physical owner bytes before only their symbol spellings were
+refreshed. This preserves existing exactness, not product
+runtime closure or a new exact-function promotion.
+
 ## 2026-11-12 Title name-entry and replay-save grid DWORD cursor wrap
 
 The complete TitleScreenView::OnUpdateResultNameEntry and
