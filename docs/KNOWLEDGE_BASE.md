@@ -3327,6 +3327,28 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Bullet transform interpreter's authentic packed child-spawn bytes
+
+`Bullet::AdvanceTransformProgram` is an exact **1,320-byte physical
+interpreter** for the 18 actual 0x18-byte `BulletTransformRecord` entries.
+Its child-pattern opcode packs bullet type and color into bytes 2 and 1
+of the *same real DWORD* `record->payload.raw.int0`. Both field reads now
+form their original Win32 byte addresses from the genuine integer member
+`uint32(&int0)+uint32(lane)`, instead of projecting an independently owned
+`unsigned char[4]` through the scalar. The real bullet template selection,
+transform flags, count/speed/angle payloads, following 0x18-byte record,
+18-record `memcpy` and `SpawnBulletPatternPrimary` call order remain intact.
+No new parser object, bounds gate, cached input, or callable opcode boundary
+was added.
+
+The affected pinned VC7.1 compiler carrier replayed **1/1 previously
+exact owner, 1,320 complete original PE bytes and 26 relocation fields**.
+The compiler renamed two private `$L` references; their same-section
+actual COFF definitions, source-to-PE offsets and entire physical owner
+were independently proven before only manifest spellings were changed.
+This is source-native script payload recovery, not a new exact-function
+or complete Windows product claim.
+
 ## 2026-11-12 FrontFactory calculation/draw callback native wire and stage arithmetic
 
 The independently exact **1,491-byte FrontCalcCallback** handles end-of-stage

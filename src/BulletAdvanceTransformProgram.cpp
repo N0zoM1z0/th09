@@ -74,6 +74,14 @@ struct BulletSpawnDescriptorAdvanceView
 typedef char BulletAdvanceDescriptorViewSizeIs214[
     (sizeof(BulletSpawnDescriptorAdvanceView) == 0x214) ? 1 : -1];
 
+// Child-spawn opcode 0x01000000 packs type/color bytes inside one real
+// 32-bit transform payload word. Read those exact original Win32 byte
+// lanes without imposing an independent u8[] lifetime on the DWORD.
+#define TH09_BULLET_NATIVE_PAYLOAD_BYTE(word, lane) \
+    (*reinterpret_cast<const unsigned char *>( \
+        reinterpret_cast<unsigned int>(&(word)) + \
+        static_cast<unsigned int>(lane)))
+
 // The transform interpreter owns 18 real 0x18-byte instructions and
 // selects from the controller's 32 real BulletTypeSprites records.
 // Signed runtime indexes and sprite sums wrap as native i386 DWORDs.
@@ -243,11 +251,9 @@ nextRecord:
                 (static_cast<unsigned int>(record->payload.raw.int0) &
                  0x7F000000u) >> 24);
             pattern.bulletType = static_cast<short>(
-                reinterpret_cast<unsigned char *>(
-                    &record->payload.raw.int0)[2]);
+                TH09_BULLET_NATIVE_PAYLOAD_BYTE(record->payload.raw.int0, 2));
             pattern.color = static_cast<short>(
-                reinterpret_cast<unsigned char *>(
-                    &record->payload.raw.int0)[1]);
+                TH09_BULLET_NATIVE_PAYLOAD_BYTE(record->payload.raw.int0, 1));
             pattern.transformStartIndex =
                 static_cast<unsigned int>(record->payload.raw.int0) & 0xFF;
             pattern.count1 =
@@ -290,3 +296,5 @@ nextRecord:
 
     ++*reinterpret_cast<unsigned int *>(&this->transformIndex);
 }
+
+#undef TH09_BULLET_NATIVE_PAYLOAD_BYTE
