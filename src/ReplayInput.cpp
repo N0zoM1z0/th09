@@ -959,12 +959,18 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
                     unsigned int streamSize =
                         static_cast<unsigned int>(ReplayRecordingCapacity::InputFrameBytes) *
                         static_cast<unsigned int>(link->frameCount);
+                    // The stream is a native DWORD selector into the real
+                    // three-pointer ReplayBufferLink input allocation.
+                    // Preserve its independent per-link read and copy order.
                     memcpy(
                         reinterpret_cast<unsigned char *>(
                             reinterpret_cast<unsigned int>(tempBuffer) +
                             static_cast<unsigned int>(currentOffset) -
                             sizeof(ReplayHeaderView)),
-                        link->input[stream], streamSize);
+                        *reinterpret_cast<u16 *const *>(
+                            reinterpret_cast<unsigned int>(&link->input[0]) +
+                            static_cast<unsigned int>(stream) * sizeof(link->input[0])),
+                        streamSize);
                     currentOffset += streamSize;
                 }
             }

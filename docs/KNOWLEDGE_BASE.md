@@ -1163,6 +1163,30 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 SaveReplay linked input-stream native pointer slots
+
+The nonexact 1,238-byte ReplayManagerView::SaveReplay serializes each
+live ReplayBufferLink's three input streams. Within the file-backed
+serialization loop, the stream index selects a real three-DWORD
+input[3] pointer row in the 0x18-byte link object, not an independent
+C++ bounded array lookup on unrelated storage. The source now forms
+the original Win32 unsigned byte address from the live &link->input[0]
+plus uint32(stream)*sizeof(pointer), and rereads the pointer at its
+existing memcpy argument site. All three source streams, chain
+traversal, source size, destination, allocation and serialization
+chronology remain as originally observed. No bound check, shadow
+pointer table or cached source is introduced.
+
+The pinned VC7.1 full nonexact owner guard still reports **1,238
+target and 1,238 candidate physical bytes**, all **53 reviewed
+relocations**, 23 ordered calls, and exactly the previous **two
+unmatched ordinary register encoding bytes** at +0xB7/+0xBB.
+It remains NONEXACT. Both actually affected ReplayInput compiler
+carriers cold-replayed **12/12 separately exact sibling owners,
+4,093 original bytes and 232 bound relocations**, with no
+regression. This is native-address source fidelity; no newly exact
+function or Windows product/runtime completion is claimed.
+
 ## 2026-11-12 MIDI event and SysEx raw track stream cursor semantics
 
 The large MidiOutput::ProcessMsg owner executes note, SysEx and

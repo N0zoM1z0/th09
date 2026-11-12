@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Replay SaveReplay checkpoint:** the signed stream
+  selector now chooses from the actual live ReplayBufferLink
+  three-input pointer row using native i386 DWORD byte addresses.
+  The 1,238-byte nonexact boss retains 53 fields, 23 calls and
+  only its two preexisting EDI/ECX byte differences. Two
+  replay-scoped VC7.1 carriers protect 12/12 exact sibling
+  owners, 4,093 complete bytes and 232 relocations.
 - **2026-11-12 MIDI ProcessMsg cursor checkpoint:** the
   1,574-byte original-bound switch owner now expresses eight
   file-backed event/SysEx/meta cursor steps as modulo-32
