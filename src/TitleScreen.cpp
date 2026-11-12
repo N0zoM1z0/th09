@@ -296,6 +296,7 @@ extern i32 g_GameSide1CharacterSetting;
 extern i32 g_TitleCharacterReturnSelection;
 extern char g_TitleCharacterOrder[16];
 extern char g_TitleCharacterOrder14[16];
+// Runtime character cursor bytes use the original, signed native global selector.
 extern char g_TitleResultCharacterOrder[16];
 // Title result cursor ordering and PLST unlock flags share precisely one
 // sixteen-character native extent. A separate guessed cursor capacity may
@@ -757,6 +758,12 @@ int TitleScreenView::MoveCursorFourWay(i32 count)
     return 0;
 }
 
+
+typedef char TitleCharacterCursorsAreAdjacentDwords[
+    (offsetof(TitleScreenView, side0CharacterCursor) == 0x10 &&
+     offsetof(TitleScreenView, side1CharacterCursor) == 0x14 &&
+     sizeof(((TitleScreenView *)0)->side0CharacterCursor) == sizeof(i32) &&
+     sizeof(((TitleScreenView *)0)->side1CharacterCursor) == sizeof(i32)) ? 1 : -1];
 
 // These are TWO distinct consecutive DWORD fields at Title+0x10/+0x14,
 // not a C++ array beginning at the first cursor. Retail forms the actual
@@ -1223,7 +1230,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
             i32 visibleByteOffset = 0;
             for (value = 0; value < 14; value++)
             {
-                i32 character = g_TitleCharacterOrder14[value];
+                i32 character = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder14, value);
                 if ((g_TitleDifficulty == 4 && TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedMode4, character)) ||
                     (g_TitleDifficulty != 4 && TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedNormal, character)))
                 {
@@ -1254,7 +1261,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
             vms[190].flags &= ~2u;
 
             side0CharacterCursor = 0;
-            while (g_TitleCharacterOrder14[side0CharacterCursor] != g_GameSide0Value20)
+            while (TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder14, side0CharacterCursor) != g_GameSide0Value20)
                 side0CharacterCursor++;
 
             if (g_TitleDifficulty == 4)
@@ -1262,8 +1269,8 @@ int TitleScreenView::OnUpdateCharacterSelect()
             else
                 MoveCharacterCursorNormal(0, 1, g_TitleCharacterOrder14, 14);
 
-            characters[0] = g_TitleCharacterOrder14[side0CharacterCursor];
-            characters[1] = g_TitleCharacterOrder14[side1CharacterCursor];
+            characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder14, side0CharacterCursor);
+            characters[1] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder14, side1CharacterCursor);
 
             i32 selectedCharacter = characters[0];
             vms[93 + selectedCharacter * 2].color1Bytes[2] = 0xFF;
@@ -1322,7 +1329,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
                     else
                         MoveCharacterCursorNormal(0, value, g_TitleCharacterOrder14, 14);
 
-                    characters[0] = g_TitleCharacterOrder14[side0CharacterCursor];
+                    characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder14, side0CharacterCursor);
                     if (g_TitleDifficulty == 4)
                         SetCharacterSettingIndicator(0, TH09_TITLE_CONFIG_NATIVE_OPTION(&g_TitleCharacterConfig, characters[0], 4));
                     else
@@ -1361,7 +1368,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
             }
         }
 
-        characters[0] = g_TitleCharacterOrder14[side0CharacterCursor];
+        characters[0] = TH09_TITLE_NATIVE_CHARACTER(g_TitleCharacterOrder14, side0CharacterCursor);
         if ((static_cast<u16>(g_TitleInputFlags) & 0x1001) && side0CharacterConfirmed == 0)
         {
             PlayMenuSound(10, 0);
@@ -3125,6 +3132,11 @@ int TitleScreenView::UpdateReplaySave()
 }
 
 
+// Native Win32 indexing into the real 57-record embedded VM allocation.
+#define TH09_TITLE_NATIVE_EMBEDDED_VM(index) \
+    (*reinterpret_cast<AnmVmView *>(reinterpret_cast<u32>(&embeddedVms[0]) + \
+        static_cast<u32>(index) * sizeof(embeddedVms[0])))
+
 int TitleScreenView::OnUpdateStartMenu()
 {
     switch (currentScreenState)
@@ -3181,7 +3193,7 @@ int TitleScreenView::OnUpdateStartMenu()
 
         if ((u32)stateTimer2 < 8)
         {
-            DrawTitleHelpText(static_cast<TitleAnmManagerView *>(g_AnmManager), &embeddedVms[stateTimer2], 0xFFF0E0, 0x300000,
+            DrawTitleHelpText(static_cast<TitleAnmManagerView *>(g_AnmManager), &TH09_TITLE_NATIVE_EMBEDDED_VM(stateTimer2), 0xFFF0E0, 0x300000,
                               g_TitleHelpText[stateTimer2]);
             TH09_TITLE_NATIVE_INCREMENT(stateTimer2);
             return 1;
@@ -3206,7 +3218,7 @@ int TitleScreenView::OnUpdateStartMenu()
 
         if (previousCursor != keyboardSelection)
         {
-            currentHelpTextVm = &embeddedVms[keyboardSelection];
+            currentHelpTextVm = &TH09_TITLE_NATIVE_EMBEDDED_VM(keyboardSelection);
             currentHelpTextVm->pendingInterrupt = 1;
         }
         previousCursor = keyboardSelection;
@@ -3362,6 +3374,8 @@ int TitleScreenView::OnUpdateStartMenu()
     return 1;
 }
 
+
+#undef TH09_TITLE_NATIVE_EMBEDDED_VM
 
 int TitleScreenView::OnUpdateDifficultySelect()
 {

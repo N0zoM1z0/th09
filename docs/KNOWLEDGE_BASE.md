@@ -3502,6 +3502,33 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 Title native character table and start-menu embedded VM addresses
+
+The original Title owner has two *distinct adjacent* signed character
+cursor DWORD fields at +0x10 and +0x14. The cursor navigation's existing
+native side-byte addressing now has an independent source-level check of
+the real layout, without pretending the two fields form a C++ array.
+In the **2,241-byte** character-select-mode0 owner and its adjacent
+selection code, six accesses to the true sixteen-byte
+`g_TitleCharacterOrder14` use the same already proven native character
+lookup as the other Title modes. Each actual signed cursor/value is scaled
+modulo 2^32, with the live original global byte and no new bounds check.
+
+The **1,592-byte physical start-menu** owner also now calculates the
+two dynamic `embeddedVms` addresses from its actual 57-entry
+`AnmVmView` allocation at +0x11BA0: one for the staged help-text renderer,
+and one for the selected help-text VM. The exact original argument order,
+reads and in-object VM ownership remain intact, with no new allocation or
+observable helper call.
+
+The two affected pinned VC7.1 compiler carriers reproduced **all 41 exact
+Title owners (18,972 complete PE bytes, 953 original-bound relocations)**.
+The nine source-line-renumbered `$L` references in the start menu were
+accepted only after independent actual COFF same-section definition,
+original PE destination and full-body equality checks, followed by the
+scoped replay. These source semantics corrections do not grant additional
+exact-function credit or prove a whole Windows runtime product.
+
 ## 2026-11-12 SoundPlayer SFX request counters use native DWORD increment
 
 Both exact `SoundPlayer::PlaySoundByIdx` and
