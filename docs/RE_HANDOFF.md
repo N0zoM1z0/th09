@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Etama native spawn checkpoint:** the real
+  generated game object uses named Float3 position.z after
+  its original conversion call, and the fan-index and
+  six ANM sprite/color additions wrap as native DWORDs.
+  Three affected BulletManager VC7.1 carriers protect
+  18/18 exact owners, 6,711 bytes, 259 fields and
+  14 original-PE/COFF-proven private jump labels.
 - **2026-11-12 PlayerShot homing/trail checkpoint:** the original
   float* conversion call now feeds named x/y members of
   the real homing-shot position, while two draw callbacks

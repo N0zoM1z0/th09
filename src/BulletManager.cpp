@@ -451,7 +451,7 @@ Bullet *EtamaController::SpawnSingleBullet(
     case BULLET_AIM_FAN_AIMED:
     case BULLET_AIM_FAN:
         if ((descriptor->count1 & 1) != 0)
-            angle += (float)((index1 + 1) / 2) * descriptor->angleStep;
+            angle += (float)(static_cast<int>(static_cast<unsigned int>(index1) + 1u) / 2) * descriptor->angleStep;
         else
             angle += (float)(index1 / 2) * descriptor->angleStep + descriptor->angleStep * 0.5f;
         if ((index1 & 1) != 0)
@@ -503,8 +503,10 @@ Bullet *EtamaController::SpawnSingleBullet(
     bullet->angle = AddNormalizeAngle(angle, 0.0f);
     bullet->extraAttribute10BD = descriptor->extraAttribute20C;
     bullet->position = descriptor->position;
+    // Keep the retail Float3::operator float*() conversion; the returned
+    // address belongs to this same real bullet position subobject.
     float *bulletPosition = bullet->position;
-    bulletPosition[2] = 0.1f;
+    reinterpret_cast<Float3 *>(bulletPosition)->z = 0.1f;
     SetPolar2D(reinterpret_cast<Float2 *>(&(bullet->velocity)),
         angle, speed * g_Supervisor.framerateMultiplier5B8);
     bullet->activeTransformFlags = descriptor->transformFlags;
@@ -525,35 +527,42 @@ Bullet *EtamaController::SpawnSingleBullet(
     bullet->offscreenCullDelayFrames = 0;
 
     if (bullet->sprites.bulletVm.activeSpriteIndex !=
-        descriptor->templateSprites->bulletVm.activeSpriteIndex + descriptor->color)
+        static_cast<int>(
+            static_cast<unsigned int>(descriptor->templateSprites->bulletVm.activeSpriteIndex) +
+            static_cast<unsigned int>(descriptor->color)))
         this->bulletAnm->SetSprite(
             &bullet->sprites.bulletVm,
-            descriptor->templateSprites->bulletVm.activeSpriteIndex + descriptor->color);
+            static_cast<int>(
+            static_cast<unsigned int>(descriptor->templateSprites->bulletVm.activeSpriteIndex) +
+            static_cast<unsigned int>(descriptor->color)));
 
     int despawnBaseSprite =
         descriptor->templateSprites->despawnVm.activeSpriteIndex;
     if (bullet->sprites.despawnVm.activeSpriteIndex !=
-        descriptor->templateSprites->despawnVm.activeSpriteIndex + descriptor->color)
+        static_cast<int>(
+            static_cast<unsigned int>(descriptor->templateSprites->despawnVm.activeSpriteIndex) +
+            static_cast<unsigned int>(descriptor->color)))
     {
         if (bullet->sprites.bulletVm.loadedSprite->heightPx <= 16.0f)
         {
             this->bulletAnm->SetSprite(
                 &bullet->sprites.despawnVm,
-                despawnBaseSprite +
-                    NativeEtamaSpriteOffset(g_BulletSpriteOffsetSmall, descriptor->color));
+                static_cast<int>(static_cast<unsigned int>(despawnBaseSprite) +
+                    static_cast<unsigned int>(NativeEtamaSpriteOffset(g_BulletSpriteOffsetSmall, descriptor->color))));
         }
         else if (bullet->sprites.bulletVm.loadedSprite->heightPx <= 32.0f)
         {
             this->bulletAnm->SetSprite(
                 &bullet->sprites.despawnVm,
-                despawnBaseSprite +
-                    NativeEtamaSpriteOffset(g_BulletSpriteOffsetMedium, descriptor->color));
+                static_cast<int>(static_cast<unsigned int>(despawnBaseSprite) +
+                    static_cast<unsigned int>(NativeEtamaSpriteOffset(g_BulletSpriteOffsetMedium, descriptor->color))));
         }
         else
         {
             this->bulletAnm->SetSprite(
                 &bullet->sprites.despawnVm,
-                despawnBaseSprite + descriptor->color);
+                static_cast<int>(static_cast<unsigned int>(despawnBaseSprite) +
+            static_cast<unsigned int>(descriptor->color)));
         }
     }
 

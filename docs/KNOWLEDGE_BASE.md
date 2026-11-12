@@ -1163,6 +1163,35 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Etama single-record spawn position and sprite word arithmetic
+
+The exact EtamaController::SpawnSingleBullet owner creates native game
+projectiles from the real BulletSpawnDescriptor and template ANM VMs.
+The original Float3-to-float* conversion callee still executes
+at its original point, but the source now writes the genuine
+bullet position z member through the returned owning Float3
+subobject, rather than indexing beyond a float pointer to x.
+The fan-pattern signed index1+1 expression likewise uses
+i386 modulo-32 DWORD addition before its original signed
+division and floating-angle calculation.
+
+Six further signed sprite-selection word sums in this same
+large owner now combine the original template active sprite ID
+and live color or size-dependent sprite offset through native
+unsigned DWORD addition, restoring the signed result for
+the original SetSprite calls. No pattern clamp, RNG read,
+sprite table, reordering or new callback is introduced.
+
+The three actually affected VC7.1 BulletManager carrier
+profiles replayed **18/18 existing exact functions, 6,711
+complete original PE bytes and 259 relocation fields**,
+including both major Etama update and individual-spawn paths.
+Fourteen private compiler switch labels were independently
+verified from current COFF same-section definitions, exact
+original PE operands and full owner bytes before manifest-only
+renaming. No newly exact owner or native product/runtime
+closure is inferred.
+
 ## 2026-11-12 Player shot homing position and history-trail native storage
 
 The independently exact 471-byte PlayerShotUpdateCallbackType1
