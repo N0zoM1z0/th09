@@ -3260,6 +3260,29 @@ their actual same-section COFF definitions, original PE operands and
 every complete physical owner. This preserves existing codegen exactness;
 the nonexact game functions and whole-product/runtime stages remain open.
 
+## 2026-11-12 Etama update original Float3 collision coordinates
+
+Two original-bound BulletManager consumers call the real, independently
+exact `Float3::operator float*()` at the same site as the retail game:
+`UpdateBulletBoundaryBounce` (the boundary wrap helper) and the full
+`EtamaController::OnUpdate` boss. Both previously indexed `position[1]`
+through the pointer returned to the x float subobject, which unnecessarily
+relied on treating a single float as an array. The source now casts that
+unchanged live conversion result to the **existing** `Float3` allocation
+and reads `.x`/`.y` directly. There is no new vector, no call removed,
+no field snapshot and no new collision gate; x/y retain their observed
+0x00/0x04 layout and all original call arguments.
+
+The pinned VC7.1 exact replay rebuilt only **three BulletManager carriers**
+and proved **18/18 complete owners, 6,711 original bytes and 259 relocation
+fields**. That includes the full **2,216-byte physical Etama OnUpdate**
+and the 113-byte boundary helper. Sixteen private `$L` spellings changed
+in the two large BulletManager functions; each renamed actual same-section
+COFF definition was independently proved against its original PE operand
+and the *entire* related owner before updating only its manifest spelling.
+This is a real native-source semantic recovery inside previously exact
+functions, not new exact-function or Windows/runtime-product credit.
+
 ## 2026-11-12 SoundPlayer original SFX mapping-table receiver
 
 `SoundPlayer::InitSoundBuffers @ 0x0043EC80` duplicates 54 DirectSound

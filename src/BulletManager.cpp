@@ -350,9 +350,10 @@ static void UpdateBulletBoundaryBounce(Bullet *bullet)
 {
     float magnitude;
     AnmLoadedSprite *sprite = bullet->sprites.bulletVm.loadedSprite;
-    float *position = bullet->position.operator float *();
+    Float3 *position = reinterpret_cast<Float3 *>(
+        bullet->position.operator float *());
     if (!g_GameManager.IsWithinPlayfield(
-            position[0], position[1], sprite->widthPx, sprite->heightPx))
+            position->x, position->y, sprite->widthPx, sprite->heightPx))
     {
         if (bullet->transformSound >= 0)
             g_SoundPlayer.PlaySoundByIdx(bullet->transformSound, 0);
@@ -796,9 +797,10 @@ int EtamaController::OnUpdate(EtamaController *controller)
             if (bullet->offscreenCullDelayFrames == 0)
             {
                 AnmLoadedSprite *sprite = bullet->sprites.bulletVm.loadedSprite;
-                float *position = bullet->position.operator float *();
+                Float3 *position = reinterpret_cast<Float3 *>(
+        bullet->position.operator float *());
                 if (!g_GameManager.IsWithinPlayfield(
-                        position[0], position[1], sprite->widthPx, sprite->heightPx))
+                        position->x, position->y, sprite->widthPx, sprite->heightPx))
                 {
                     if ((bullet->activeTransformFlags & 0xDC0) != 0)
                     {
