@@ -55,6 +55,15 @@ Git retains earlier source revisions.
   advance 0x0C-byte history records by original i386
   DWORD addresses. Three scoped VC7.1 carriers preserve
   3/3 exact owners, 968 physical bytes, 30 relocations.
+- **2026-11-12 RunEcl boundary movement checkpoint:**
+  the complete nonexact 15,564-byte interpreter keeps its
+  real Float3 conversion call but now compares x/y from
+  the actual Enemy +0x2D74 position object. All 598
+  relocations/switch tables and the old 30 opcode-4/155
+  unlike bytes remain unchanged. Two pinned VC7.1
+  carriers preserve 83/83 exact sibling owners, 29,856
+  bytes and 1,389 original fields; 20 local labels
+  independently proven against COFF/PE.
 - **2026-11-12 Background renderer instance checkpoint:**
   the true variable-length file-loaded stage instance
   array now advances by full native record strides; the

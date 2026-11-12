@@ -1273,6 +1273,33 @@ original PE bytes and 30 relocations**: homing update
 Draw Type2 293 bytes / five fields. No compiler-private
 labels, new exact owner, or whole-Windows runtime claim.
 
+## 2026-11-12 RunEcl boundary-aware movement reads genuine Enemy position
+
+The full 15,564-byte EnemyEclManagerView::RunEcl dispatches the
+boundary-aware movement opcode against the actual EnemyView
+position2D74 Float3 in the +0x2D74 movement state. The original
+Float3::operator float*() callee still executes at the same
+source location, but the returned address is now treated as
+the containing genuine 12-byte Float3 subobject and its
+x/y members are read for all four original boundary-angle
+comparisons. This avoids cross-member C++ float-pointer
+indexing while preserving the original live receiver, RNG
+calls, signed branch gates and floating-point computations.
+
+The target-bound full-owner inspector continues to report
+**15,564 physical RunEcl bytes, all 598 original relocation
+fields, unchanged switch tables and exactly the same 30
+ordinary nonexact bytes** (opcode 4: seven; opcode 155:
+23). Two affected pinned VC7.1 EclManager carriers were
+independently verified and replayed: **83/83 already-exact
+sibling functions, 29,856 full original PE bytes and 1,389
+bound relocation fields**. Twenty compiler-private $L
+symbol spellings changed; each current COFF same-section
+definition and unchanged original PE jump/call destination
+was proven before rebinding only its manifest name.
+RunEcl remains NONEXACT; no new exactness, game link
+or runtime validation is claimed.
+
 ## 2026-11-12 Background renderer native stage instance and projected XYZ
 
 The full 3,274-byte Background::RenderObjects boss traverses the

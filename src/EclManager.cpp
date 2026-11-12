@@ -217,27 +217,32 @@ static void BeginBoundaryAwareMove(
         angle = Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
                 0.78539819f;
 
-    float *position =
+    // Retain the original independent Float3::operator float*() call.
+    // The result addresses the genuine 12-byte Enemy position, whose
+    // x/y members must be read as one Float3, not as a guessed float array
+    // extending beyond the first member subobject.
+    float *positionWords =
         reinterpret_cast<Float3 *>(&view->position2D74)->operator float *();
+    const Float3 &position = *reinterpret_cast<const Float3 *>(positionWords);
 
-    if (position[0] < view->movementLowerBounds3398.x + 96.0f)
+    if (position.x < view->movementLowerBounds3398.x + 96.0f)
     {
         if (angle > 1.5707964f)
             angle = 3.1415927f - angle;
         else if (angle < -1.5707964f)
             angle = -3.1415927f - angle;
     }
-    if (position[0] > view->movementUpperBounds33A0.x - 96.0f)
+    if (position.x > view->movementUpperBounds33A0.x - 96.0f)
     {
         if (angle < 1.5707964f && angle >= 0.0f)
             angle = 3.1415927f - view->movementAngle2DE0;
         else if (angle > -1.5707964f && angle <= 0.0f)
             angle = -3.1415927f - angle;
     }
-    if (position[1] < view->movementLowerBounds3398.y + 48.0f &&
+    if (position.y < view->movementLowerBounds3398.y + 48.0f &&
         angle < 0.0f)
         angle = -angle;
-    if (position[1] > view->movementUpperBounds33A0.y - 48.0f &&
+    if (position.y > view->movementUpperBounds33A0.y - 48.0f &&
         angle > 0.0f)
         angle = -angle;
 
