@@ -107,6 +107,12 @@ Git retains earlier source revisions.
   draw order. One pinned VC7.1 carrier preserves the
   complete 693-byte SetupRandomForSide owner and all
   15 original PE relocation fields.
+- **2026-11-12 Laser spawn checkpoint:** the real 48-by-
+  0x59C Laser pool advances by native i386 DWORD record
+  addresses, and signed ANM script/body/start-cap Sprite ID
+  arithmetic now wraps as original DWORDs. One pinned
+  VC7.1 carrier protects 1/1 exact SpawnLaserPattern
+  owner, 450 complete original PE bytes, six relocations.
 - **2026-11-12 Network HandleMessage checkpoint:**
   actual two-word DirectPlay peer slots, side inversion and
   two predicted handshake frame IDs now use native Win32

@@ -1446,6 +1446,27 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-12 Laser spawn pool and sprite IDs native DWORD words
+
+The genuine EtamaController::SpawnLaserPattern fills the first unused
+of 48 native 0x59C-byte Laser records. The live signed pool index and
+laser pointer now advance as original modulo-32 i386 word operations,
+without a separate C++ array bound on the pointer. The actual body
+ANM script ID adds the signed descriptor bulletType+10, the body
+activeSpriteIndex adds the live color, and the laser start-cap
+uses the genuine color-offset table value plus 146. All three
+script/sprite sums now form unsigned 32-bit wrap results before
+restoring the original signed ID passed to the ANM calls.
+The original suppression gate, pool sentinel, AngleToPoint
+receiver, position/velocity copies and laser timings remain intact.
+
+The single affected pinned VC7.1 BulletLaserSpawn compiler
+carrier cold-replayed **1/1 exact complete 450-byte owner
+and all six original-bound relocation fields**. This provides
+native source-level fidelity for the laser counterpart of
+the already exact Etama bullet spawning/update mainline,
+not a newly exact function or whole-game runtime claim.
+
 ## 2026-11-12 Network HandleMessage peer slots and prediction frame words
 
 The original complete SupervisorNetworkMessageView::HandleMessage

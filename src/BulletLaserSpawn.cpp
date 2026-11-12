@@ -29,8 +29,12 @@ Laser *EtamaController::SpawnLaserPattern(BulletSpawnDescriptor *descriptor)
         {
             if (laser->inUse == 0)
                 goto found_laser;
-            ++index;
-            ++laser;
+            // Retail scans 48 genuine 0x59C-byte Laser records.
+            // Advance both signed index and record pointer as native
+            // i386 DWORDs, retaining the original inUse and last-slot gates.
+            ++*reinterpret_cast<unsigned int *>(&index);
+            laser = reinterpret_cast<Laser *>(
+                reinterpret_cast<unsigned int>(laser) + sizeof(*laser));
         }
         while (index < 48);
         return laser;
@@ -38,14 +42,19 @@ Laser *EtamaController::SpawnLaserPattern(BulletSpawnDescriptor *descriptor)
     found_laser:
         this->bulletAnm->
             SetAndExecuteScriptIdx(
-                &laser->bodyVm, descriptor->bulletType + 10);
+                &laser->bodyVm, static_cast<int>(
+                    static_cast<unsigned int>(descriptor->bulletType) + 10u));
         this->bulletAnm->SetSprite(
             &laser->bodyVm,
-            laser->bodyVm.activeSpriteIndex + descriptor->color);
+            static_cast<int>(
+                    static_cast<unsigned int>(laser->bodyVm.activeSpriteIndex) +
+                    static_cast<unsigned int>(descriptor->color)));
         this->bulletAnm->
             InitializeAndSetSprite(
                 &laser->startCapVm,
-                NativeLaserColorOffset(descriptor->color) + 146);
+                static_cast<int>(
+                    static_cast<unsigned int>(NativeLaserColorOffset(descriptor->color)) +
+                    146u));
 
         laser->startCapVm.flagsWord =
             (laser->startCapVm.flagsWord & ~0x20u) | 0x10u;
