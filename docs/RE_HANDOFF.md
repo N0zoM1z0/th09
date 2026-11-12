@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 FrontMessage portrait-wire checkpoint:** nine
+  signed script/sprite wire-ID sums now form native modulo-32
+  DWORD results, preserving all live ANM receivers. The exact
+  2,968-byte script boss and 39-byte decode leaf replay 2/2,
+  3,007 bytes/167 original-bound fields, with 27 PE/COFF-proven
+  compiler-private label name rebindings.
 - **2026-11-12 D3D formatter checkpoint:** 11 live formatted
   capability-buffer pointer advances now preserve original i386
   DWORD byte-address arithmetic. Three affected VC7.1 carriers

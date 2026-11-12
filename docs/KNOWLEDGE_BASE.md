@@ -1163,6 +1163,28 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 FrontMessage signed portrait wire sprite ID sums
+
+The exact FrontMessageRuntimeView::Update interpreter executes
+multiple file-backed portrait/script instructions that combine live
+signed Player tableValue303FC with signed argument08/argument0C,
+including second-sprite offsets +9 and +6. Nine original expressions
+across the 0x0F, 0x11 and sprite-selection handlers now use native
+modulo-32 i386 additions before restoring the signed final ANM
+script ID. All separately evaluated receiver and wire reads remain
+at their original sites; no input clamp, extra ANM call or new
+portrait array was introduced.
+
+The two actually affected VC7.1 FrontMessageUpdate carrier objects
+cold-replayed **2/2 existing exact owners, 3,007 physical PE bytes and
+167 relocations** (2,968-byte complete switch owner and 39-byte
+DecodeFrontMessageString leaf). 27 changed compiler-private jump
+labels, including owner-local named dispatch labels, were independently
+checked against actual COFF same-section definitions and unchanged
+original PE operand addresses before refreshing only those manifest
+spellings. This is native source semantics without an exact promotion
+or whole-product claim.
+
 ## 2026-11-12 D3D startup capabilities formatter native byte cursor
 
 The retail initialization reports Direct3D capabilities by repeatedly

@@ -191,6 +191,8 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
+        // Script and sprite identifiers supplied as signed native DWORDs
+        // combine modulo 2^32 before the original ANM calls.
         case 0x0F:
         {
             FrontMessageLongInstructionView *instruction =
@@ -224,24 +226,24 @@ int FrontMessageRuntimeView::Update()
                 {
                     NativeFrontMessageSide(mode10).frontSide18->auxA678.sideAnm00
                         ->SetSprite(&NativeMessagePortrait(this, mode10).first00,
-                        NativeFrontMessageSide(mode10).player04->tableValue303FC +
-                        instruction->argument08);
+                        static_cast<int>(static_cast<unsigned int>(NativeFrontMessageSide(mode10).player04->tableValue303FC) +
+                        static_cast<unsigned int>(instruction->argument08)));
                     NativeFrontMessageSide(mode10).frontSide18->auxA678.sideAnm00
                         ->SetSprite(&NativeMessagePortrait(this, mode10).second2A4,
-                        NativeFrontMessageSide(mode10).player04->tableValue303FC +
-                        instruction->argument08 + 9);
+                        static_cast<int>(static_cast<unsigned int>(NativeFrontMessageSide(mode10).player04->tableValue303FC) +
+                        static_cast<unsigned int>(instruction->argument08) + 9u));
                 }
 
                 if (instruction->argument0C >= 0)
                 {
                     NativeFrontMessageSide(static_cast<int>(1u - static_cast<unsigned int>(mode10))).frontSide18->auxA678.sideAnm00
                         ->SetSprite(&NativeMessagePortrait(this, static_cast<int>(1u - static_cast<unsigned int>(mode10))).first00,
-                        NativeFrontMessageSide(static_cast<int>(1u - static_cast<unsigned int>(mode10))).player04->tableValue303FC +
-                        instruction->argument0C);
+                        static_cast<int>(static_cast<unsigned int>(NativeFrontMessageSide(static_cast<int>(1u - static_cast<unsigned int>(mode10))).player04->tableValue303FC) +
+                        static_cast<unsigned int>(instruction->argument0C)));
                     NativeFrontMessageSide(static_cast<int>(1u - static_cast<unsigned int>(mode10))).frontSide18->auxA678.sideAnm00
                         ->SetSprite(&NativeMessagePortrait(this, static_cast<int>(1u - static_cast<unsigned int>(mode10))).second2A4,
-                        NativeFrontMessageSide(static_cast<int>(1u - static_cast<unsigned int>(mode10))).player04->tableValue303FC +
-                        instruction->argument0C + 9);
+                        static_cast<int>(static_cast<unsigned int>(NativeFrontMessageSide(static_cast<int>(1u - static_cast<unsigned int>(mode10))).player04->tableValue303FC) +
+                        static_cast<unsigned int>(instruction->argument0C) + 9u));
                 }
             }
             else
@@ -294,12 +296,12 @@ int FrontMessageRuntimeView::Update()
                 {
                     NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00
                         ->SetSprite(&NativeMessagePortrait(this, side).first00,
-                        NativeFrontMessageSide(side).player04->tableValue303FC +
-                        instruction->argument08);
+                        static_cast<int>(static_cast<unsigned int>(NativeFrontMessageSide(side).player04->tableValue303FC) +
+                        static_cast<unsigned int>(instruction->argument08)));
                     NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00
                         ->SetSprite(&NativeMessagePortrait(this, side).second2A4,
-                        NativeFrontMessageSide(side).player04->tableValue303FC +
-                        instruction->argument08 + 9);
+                        static_cast<int>(static_cast<unsigned int>(NativeFrontMessageSide(side).player04->tableValue303FC) +
+                        static_cast<unsigned int>(instruction->argument08) + 9u));
                 }
                 else
                 {
@@ -308,7 +310,7 @@ int FrontMessageRuntimeView::Update()
                         instruction->argument08);
                     g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04
                         ->SetSprite(&NativeMessagePortrait(this, side).second2A4,
-                        instruction->argument08 + 6);
+                        static_cast<int>(static_cast<unsigned int>(instruction->argument08) + 6u));
                 }
             }
 
@@ -391,8 +393,10 @@ int FrontMessageRuntimeView::Update()
                 anm->SetSprite(
                     &NativeMessagePortrait(this, side).first00, spriteBase);
                 spriteBase =
-                    NativeFrontMessageSide(side).player04->tableValue303FC +
-                    FRONT_NATIVE_SHORT_ARG(arguments, 1) + 9;
+                    static_cast<int>(
+                        static_cast<unsigned int>(
+                            NativeFrontMessageSide(side).player04->tableValue303FC) +
+                        static_cast<unsigned int>(FRONT_NATIVE_SHORT_ARG(arguments, 1)) + 9u);
                 anm = NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00;
                 anm->SetSprite(
                     &NativeMessagePortrait(this, side).second2A4, spriteBase);
@@ -406,7 +410,7 @@ int FrontMessageRuntimeView::Update()
                     &NativeMessagePortrait(this, portrait).first00, FRONT_NATIVE_SHORT_ARG(arguments, 1));
                 anm = g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetSprite(
-                    &NativeMessagePortrait(this, portrait).second2A4, FRONT_NATIVE_SHORT_ARG(arguments, 1) + 6);
+                    &NativeMessagePortrait(this, portrait).second2A4, static_cast<int>(static_cast<unsigned int>(FRONT_NATIVE_SHORT_ARG(arguments, 1)) + 6u));
             }
             break;
         }
