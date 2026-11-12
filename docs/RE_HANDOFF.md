@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 ANM checkpoint:** the 9,776-byte exact script interpreter
+  now uses native modulo-32 integer arithmetic for six arithmetic bytecode
+  opcodes. Both affected VC7.1 carriers preserve 5/5 exact owners,
+  10,496 physical bytes and 421 original-bound relocation fields. All 62
+  compiler-private label renames were independently PE/COFF-proven.
 - **Current source:** native Win32 32-bit address math and word-wrap
   semantics have been recovered across Enemy/ECL, Player/collision, Replay,
   Title, Effect, Sound, ANM, ExAttack, and Supervisor frame queues.

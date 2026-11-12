@@ -649,20 +649,25 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
         case AnmOpcode_FSet:
             *GET_FLOAT_VAR_PTR(0) = GET_FLOAT_VAR(1);
             break;
+        // The original interpreter performs integer VM arithmetic as
+        // wrapping 32-bit i386 DWORD operations, including negative inputs.
         case AnmOpcode_ISetAdd:
-            *GET_INT_VAR_PTR(0) = GET_INT_VAR(1) + GET_INT_VAR(2);
+            *GET_INT_VAR_PTR(0) = static_cast<i32>(static_cast<u32>(GET_INT_VAR(1)) +
+                static_cast<u32>(GET_INT_VAR(2)));
             break;
         case AnmOpcode_FSetAdd:
             *GET_FLOAT_VAR_PTR(0) = GET_FLOAT_VAR(1) + GET_FLOAT_VAR(2);
             break;
         case AnmOpcode_ISetSub:
-            *GET_INT_VAR_PTR(0) = GET_INT_VAR(1) - GET_INT_VAR(2);
+            *GET_INT_VAR_PTR(0) = static_cast<i32>(static_cast<u32>(GET_INT_VAR(1)) -
+                static_cast<u32>(GET_INT_VAR(2)));
             break;
         case AnmOpcode_FSetSub:
             *GET_FLOAT_VAR_PTR(0) = GET_FLOAT_VAR(1) - GET_FLOAT_VAR(2);
             break;
         case AnmOpcode_ISetMul:
-            *GET_INT_VAR_PTR(0) = GET_INT_VAR(1) * GET_INT_VAR(2);
+            *GET_INT_VAR_PTR(0) = static_cast<i32>(static_cast<u32>(GET_INT_VAR(1)) *
+                static_cast<u32>(GET_INT_VAR(2)));
             break;
         case AnmOpcode_FSetMul:
             *GET_FLOAT_VAR_PTR(0) = GET_FLOAT_VAR(1) * GET_FLOAT_VAR(2);
@@ -680,19 +685,19 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             *GET_FLOAT_VAR_PTR(0) = fmodf(GET_FLOAT_VAR(1), GET_FLOAT_VAR(2));
             break;
         case AnmOpcode_IAdd:
-            *GET_INT_VAR_PTR(0) += GET_INT_VAR(1);
+            *reinterpret_cast<u32 *>(GET_INT_VAR_PTR(0)) += static_cast<u32>(GET_INT_VAR(1));
             break;
         case AnmOpcode_FAdd:
             *GET_FLOAT_VAR_PTR(0) += GET_FLOAT_VAR(1);
             break;
         case AnmOpcode_ISub:
-            *GET_INT_VAR_PTR(0) -= GET_INT_VAR(1);
+            *reinterpret_cast<u32 *>(GET_INT_VAR_PTR(0)) -= static_cast<u32>(GET_INT_VAR(1));
             break;
         case AnmOpcode_FSub:
             *GET_FLOAT_VAR_PTR(0) -= GET_FLOAT_VAR(1);
             break;
         case AnmOpcode_IMul:
-            *GET_INT_VAR_PTR(0) *= GET_INT_VAR(1);
+            *reinterpret_cast<u32 *>(GET_INT_VAR_PTR(0)) *= static_cast<u32>(GET_INT_VAR(1));
             break;
         case AnmOpcode_FMul:
             *GET_FLOAT_VAR_PTR(0) *= GET_FLOAT_VAR(1);

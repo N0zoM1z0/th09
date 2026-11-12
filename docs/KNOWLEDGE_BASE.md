@@ -1163,6 +1163,29 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 ANM integer bytecode arithmetic wraps at the native DWORD width
+
+The 9,776-byte complete physical AnmManager::ExecuteScript owner (9,358
+logical code bytes plus owned tails/tables) consumes signed ANM wire integers.
+The six integer arithmetic instructions ISetAdd, ISetSub, ISetMul,
+IAdd, ISub and IMul now explicitly compute modulo-2^32, then restore
+the signed result when required. In-place operations write through the same
+original integer lvalue using its corresponding unsigned 32-bit type;
+argument evaluation, variable ID resolution and fault behavior for integer
+division are unchanged. This removes C++ signed-overflow assumptions without
+inventing saturation, guards or other runtime behavior.
+
+Both pinned /Ob0 and /Ob1 original-bound compiler carriers cold-replayed
+**5/5 exact functions, 10,496 complete physical bytes and 421 relocation
+fields**, including the full 9,776-byte script interpreter (368 fields) and
+four ANM variable accessors. Four accessor labels and 58 interpreter
+compiler-private $L references changed names; each actual COFF same-section
+definition and original PE operand address was independently checked before
+rebinding names in config/match-units.toml. All 62 spelling updates preserve
+original targets, kinds, addends and byte-identical physical ownership. This
+is source semantic fidelity, not a new codegen-exact owner or native-product
+runtime/port claim.
+
 ## 2026-11-11 RunEcl and PopContext native child/stack record addresses
 
 The exact 147-byte `Th09EclRunControl::PopContext` and still-nonexact
