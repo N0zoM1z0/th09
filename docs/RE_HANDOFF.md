@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 SoundPlayer SFX producers checkpoint:** signed sound
+  IDs and the live post-incremented pan counts now access their real
+  8-byte metadata, four-byte state and 12x128 pan allocations through
+  native DWORD addresses. Two SFX leaves and their big ProcessQueues
+  sibling pass all eight involved VC7.1 carriers: 20/20 exact
+  owners, 5,400 bytes, 184 relocations. One PE/COFF-proven label.
 - **2026-11-12 Etama update checkpoint:** the bullet transform
   repetition/bounce counters, offscreen-cull delay, spawn-suppression
   and frame counter now wrap as genuine i386 DWORDs. Three VC7.1

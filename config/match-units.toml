@@ -20527,7 +20527,7 @@ target_address = 0x0043F1F0
 size = 0x586
 compare_size = 0x5B0
 relocations = [
-  { offset = 0x3C, type = "DIR32", symbol = "$L58089", target = 0x0043F778 },
+  { offset = 0x3C, type = "DIR32", symbol = "$L58109", target = 0x0043F778 },
   { offset = 0x56, type = "REL32", symbol = "?SetVolume@SoundProcessView@@QAEHH@Z", target = 0x0043FB10 },
   { offset = 0x60, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
   { offset = 0x65, type = "REL32", symbol = "?IsMusicPreloaded@SupervisorProcessQueuesView@@QAEHXZ", target = 0x0042ED40 },

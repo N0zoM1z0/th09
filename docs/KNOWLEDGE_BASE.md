@@ -1197,6 +1197,31 @@ one missing byte. The remaining question is the distinct original
 source-load/sign-extension schedule, not an unverified exact match.
 All trial source edits were restored after the comparisons.
 
+## 2026-11-12 SoundPlayer SFX producer native metadata/pan slots
+
+The two independently exact SFX producers, PlaySoundByIdx and
+PlaySoundPositionedByIdx, receive signed sound IDs and use the live
+request-count word as a post-incremented pan-slot index. The native
+8-byte g_SoundBufferIdxVol records, four-byte
+unconsumedMetadataBySound slots and 12x128 four-byte pan table are
+now addressed through the actual allocation bases and unsigned
+DWORD index strides. This recovers retail i386 address formation
+without inventing an index clamp, a shadow queue, or different
+postincrement/callback behavior.
+
+An attempted generic callable inline native-slot accessor enlarged
+the PlaySoundByIdx owner by thirteen bytes and was **rejected**.
+Seven isolated/combined lexical expression probes instead preserved
+the full 140-byte PlaySoundByIdx and 153-byte positioned-sound owner,
+with their reviewed relocations. The installed lexical version
+also cold-replayed **all eight real SoundPlayer compiler carriers:
+20/20 exact functions, 5,400 physical bytes and 184 relocation
+fields**. The one new ProcessQueues compiler-private label was
+independently proven against its actual same-section COFF definition
+and original PE operand target before the manifest was updated.
+The larger ProcessQueues callback stays exact. No previously nonexact
+owner is promoted by this source-level native-address repair.
+
 ## 2026-11-12 Etama bullet transform and frame-counter DWORD wrap
 
 The original EtamaController::OnUpdate owns the bullet/laser update

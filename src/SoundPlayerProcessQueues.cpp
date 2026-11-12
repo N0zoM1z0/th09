@@ -1004,12 +1004,19 @@ void SoundPlayer::FadeOut(float seconds)
         this->bgm->FadeOut(seconds);
 }
 
+// These live producer indices refer to the actual 8-byte SFX metadata
+// table, four-byte per-sound state slots and 12x128 pan words. Form
+// native i386 byte addresses without imposing the C++ array bounds on
+// a signed sound ID or signed, post-incremented pan count. Preserve each
+// independent load and write (a callable helper changes VC7.1 codegen).
 void SoundPlayer::PlaySoundByIdx(int index, int pan)
 {
     int unconsumedMetadata;
     int i;
 
-    unconsumedMetadata = g_SoundBufferIdxVol[index].unconsumedMetadata;
+    unconsumedMetadata = (*reinterpret_cast<const SoundBufferIdxVolume *>(
+    reinterpret_cast<unsigned int>(&g_SoundBufferIdxVol[0]) +
+    static_cast<unsigned int>(index) * sizeof(g_SoundBufferIdxVol[0]))).unconsumedMetadata;
     for (i = 0; i < 12; i++)
     {
         if (this->soundQueue[i] < 0)
@@ -1017,7 +1024,11 @@ void SoundPlayer::PlaySoundByIdx(int index, int pan)
         if (this->soundQueue[i] == index)
         {
             if (this->soundQueueRequestCounts[i] < 0x80)
-                this->soundQueuePanData[i][this->soundQueueRequestCounts[i]++] = pan;
+                *reinterpret_cast<unsigned int *>(
+    reinterpret_cast<unsigned int>(&this->soundQueuePanData[0][0]) +
+    static_cast<unsigned int>(i) * sizeof(this->soundQueuePanData[0]) +
+    static_cast<unsigned int>(this->soundQueueRequestCounts[i]++) *
+    sizeof(this->soundQueuePanData[0][0])) = pan;
             return;
         }
     }
@@ -1026,7 +1037,9 @@ void SoundPlayer::PlaySoundByIdx(int index, int pan)
         return;
 
     this->soundQueue[i] = index;
-    this->unconsumedMetadataBySound[index] = unconsumedMetadata;
+    *reinterpret_cast<int *>(
+    reinterpret_cast<unsigned int>(&this->unconsumedMetadataBySound[0]) +
+    static_cast<unsigned int>(index) * sizeof(this->unconsumedMetadataBySound[0])) = unconsumedMetadata;
     this->soundQueuePanData[i][0] = pan;
     this->soundQueueRequestCounts[i]++;
 }
@@ -1037,7 +1050,9 @@ void SoundPlayer::PlaySoundPositionedByIdx(int index, float positionX)
     int pan;
     int i;
 
-    unconsumedMetadata = g_SoundBufferIdxVol[index].unconsumedMetadata;
+    unconsumedMetadata = (*reinterpret_cast<const SoundBufferIdxVolume *>(
+    reinterpret_cast<unsigned int>(&g_SoundBufferIdxVol[0]) +
+    static_cast<unsigned int>(index) * sizeof(g_SoundBufferIdxVol[0]))).unconsumedMetadata;
     pan = (int)(positionX * 6.9444447f);
     for (i = 0; i < 12; i++)
     {
@@ -1046,7 +1061,11 @@ void SoundPlayer::PlaySoundPositionedByIdx(int index, float positionX)
         if (this->soundQueue[i] == index)
         {
             if (this->soundQueueRequestCounts[i] < 0x80)
-                this->soundQueuePanData[i][this->soundQueueRequestCounts[i]++] = pan;
+                *reinterpret_cast<unsigned int *>(
+    reinterpret_cast<unsigned int>(&this->soundQueuePanData[0][0]) +
+    static_cast<unsigned int>(i) * sizeof(this->soundQueuePanData[0]) +
+    static_cast<unsigned int>(this->soundQueueRequestCounts[i]++) *
+    sizeof(this->soundQueuePanData[0][0])) = pan;
             return;
         }
     }
@@ -1055,7 +1074,9 @@ void SoundPlayer::PlaySoundPositionedByIdx(int index, float positionX)
         return;
 
     this->soundQueue[i] = index;
-    this->unconsumedMetadataBySound[index] = unconsumedMetadata;
+    *reinterpret_cast<int *>(
+    reinterpret_cast<unsigned int>(&this->unconsumedMetadataBySound[0]) +
+    static_cast<unsigned int>(index) * sizeof(this->unconsumedMetadataBySound[0])) = unconsumedMetadata;
     this->soundQueuePanData[i][0] = pan;
     this->soundQueueRequestCounts[i]++;
 }
