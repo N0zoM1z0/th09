@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Background renderer checkpoint:** variable-width
+  stage quads advance by signed-16-to-DWORD native byte strides and
+  the signed special-effect point count wraps as an i386 DWORD.
+  The 3,274-byte RenderObjects owner passes a fresh one-carrier
+  exact replay of all 113 original relocations and physical bytes.
 - **2026-11-12 FrontMessage script-index checkpoint:** four live
   portrait/ANM script index sums use native signed-result DWORD wrap.
   The 2,968-byte script boss and 39-byte decoder remain exact:

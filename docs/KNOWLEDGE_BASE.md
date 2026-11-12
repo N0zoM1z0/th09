@@ -1163,6 +1163,25 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Background render variable-width quad record cursor
+
+The full Background::RenderObjects stage renderer iterates file-backed
+RawStageQuadBasic instructions of variable byte widths. The retail i386
+cursor takes the signed 16-bit byteSize of the live quad, extends it,
+then adds that DWORD to the 32-bit byte address of the current record.
+The source now forms exactly that modulo-32 address instead of applying
+C++ pointer arithmetic beyond the fixed 0x1C-byte quad projection.
+The signed specialEffectPointCount increment uses an unsigned DWORD
+lvalue as well, retaining the original wrap. Neither change adds a
+record-bound check, alters the fog/projection callbacks, changes the
+effect point storage or invents a new stage format.
+
+One pinned VC7.1 compiler carrier cold-replayed **the complete 3,274-byte
+RenderObjects boss and all 113 original-bound relocation fields**.
+No compiler-private label rebindings were required. This is a genuine
+native-storage/source-semantics refinement of an already-exact large
+owner, not a new exactness promotion or runtime claim.
+
 ## 2026-11-12 FrontMessage script and portrait ID DWORD sums
 
 The FrontMessageRuntimeView::Update interpreter publishes script and

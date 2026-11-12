@@ -252,9 +252,13 @@ int Background::RenderObjects(int mode)
 
             object->flags |= 2;
 
+            // The file-backed quad record is variable-width; advance its
+            // signed 16-bit byteSize as an i386 DWORD address, without a
+            // C++ array-subscript or a new range check.
             for (; quad->type >= 0;
                  quad = reinterpret_cast<RawStageQuadBasic *>(
-                     reinterpret_cast<u8 *>(quad) + quad->byteSize))
+                     reinterpret_cast<unsigned int>(quad) +
+                     static_cast<unsigned int>(static_cast<int>(quad->byteSize))))
             {
                 // Real ANM VMs are 0x2A4-byte entries indexed by the wire VM id.
                 quadVm = reinterpret_cast<BackgroundRenderAnmVmView *>(
@@ -392,7 +396,8 @@ int Background::RenderObjects(int mode)
                                 reinterpret_cast<unsigned int>(&this->specialEffectPoints[0]) +
                                 static_cast<unsigned int>(this->specialEffectPointCount) *
                                     sizeof(this->specialEffectPoints[0]))).point.z = 0.0f;
-                            ++this->specialEffectPointCount;
+                            ++*reinterpret_cast<unsigned int *>(
+                                &this->specialEffectPointCount);
                         }
 
                     restoreColor:
