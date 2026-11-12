@@ -1163,6 +1163,24 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Title options state and selection script DWORD arithmetic
+
+The original 2,045-byte TitleScreenView::OnUpdateOptions menu owner
+advances three persistent signed frame/phase counters and constructs
+four live menu-VM script addresses from signed keyboardSelection + 9.
+The source now uses native unsigned 32-bit word arithmetic, restoring
+the signed index for the preexisting actual 0x2A4-byte ANM VM lookup,
+and unsigned lvalue INC for optionsFrameCounter/stateTimer/stateTimer2.
+No menu branch, audio call, or SFX state publication is changed.
+
+The pinned /Ob1 VC7.1 carrier cold-replayed **2/2 existing exact
+functions, 2,079 complete original bytes and 138 relocation fields**
+(the 2,045-byte OnUpdateOptions and the 34-byte PlayMenuSound leaf).
+A separate attempt to convert the help-text pointer-table calculation
+to an integral base changed the owner length by two bytes and was
+rejected before installation. This is source semantics for an
+already-exact boss/leaf pair, not new exact credit or runtime closure.
+
 ## 2026-11-12 MusicRoom pause and state counters use native i386 words
 
 The complete TitleScreen::OnUpdateMusicRoom owner runs the file-backed

@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Title Options checkpoint:** three signed menu
+  state/frame counters and four live selected-VM script indices now
+  use native DWORD arithmetic. OnUpdateOptions (2,045 bytes) and
+  PlayMenuSound leaf (34 bytes) retain 2/2 exact owners, 2,079
+  bytes and 138 fields with a focused VC7.1 replay.
 - **2026-11-12 MusicRoom checkpoint:** the 2,258-byte script/BGM
   boss now uses native DWORD music pause/state counter semantics.
   Its 209-byte draw leaf also remains exact: 2/2 owners, 2,467

@@ -444,15 +444,17 @@ int TitleScreenView::OnUpdateOptions()
                 }
                 return 1;
             }
-            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(this->keyboardSelection + 9), TH09_OPTIONS_VM(this->keyboardSelection + 9).baseSpriteIndex + 1);
+            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)), TH09_OPTIONS_VM(static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)).baseSpriteIndex + 1);
             this->keyboardSelection = 8;
-            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(this->keyboardSelection + 9), TH09_OPTIONS_VM(this->keyboardSelection + 9).baseSpriteIndex);
+            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)), TH09_OPTIONS_VM(static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)).baseSpriteIndex);
             this->PlayMenuSound(11, 0);
         }
     }
-    this->optionsFrameCounter++;
-    this->stateTimer++;
-    this->stateTimer2++;
+    // The persistent signed Title counters advance as native i386
+    // DWORD words rather than overflowing signed C++ integers.
+    ++*reinterpret_cast<u32 *>(&this->optionsFrameCounter);
+    ++*reinterpret_cast<u32 *>(&this->stateTimer);
+    ++*reinterpret_cast<u32 *>(&this->stateTimer2);
     return 1;
 }
 
