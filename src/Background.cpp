@@ -46,6 +46,30 @@ struct BackgroundStageFiles
 };
 extern BackgroundStageFiles g_BackgroundStageFiles[];
 
+// Spell VM and loaded stage VM indices select genuine 0x2A4-byte AnmVm
+// records from two independent allocations, with unsigned DWORD offsets.
+#define TH09_BG_NATIVE_SPELL_VM(owner, index) \
+    (*reinterpret_cast<AnmVm *>( \
+        reinterpret_cast<unsigned int>(&(owner)->spellVms[0]) + \
+        static_cast<unsigned int>(index) * sizeof((owner)->spellVms[0])))
+#define TH09_BG_NATIVE_STAGE_VM(owner, index) \
+    (*reinterpret_cast<AnmVm *>( \
+        reinterpret_cast<unsigned int>((owner)->stageObjectVms) + \
+        static_cast<unsigned int>(index) * sizeof(AnmVm)))
+
+
+// Loaded stage path descriptors occupy the original two 4-byte pointers;
+// the live signed stage selector scales to one native 0x08-byte row.
+typedef char BackgroundNativeStageFileRowSizeIs08[
+    sizeof(BackgroundStageFiles) == 0x08 ? 1 : -1];
+static __forceinline const BackgroundStageFiles &NativeBackgroundStageFile(int index)
+{
+    return *reinterpret_cast<const BackgroundStageFiles *>(
+        reinterpret_cast<unsigned int>(&g_BackgroundStageFiles[0]) +
+        static_cast<unsigned int>(index) * sizeof(g_BackgroundStageFiles[0]));
+}
+
+
 struct BackgroundAnmLoadedView
 {
     unsigned char unknown000[4];
@@ -130,10 +154,16 @@ Background *Background::Create(int viewportIndex)
     Background *background = static_cast<Background *>(
         g_ZunMemory.AddToRegistry(new Background, sizeof(Background), "BGScrollInf"));
 
-    background->sideState = &g_GameManager.sides[viewportIndex];
+    background->sideState = reinterpret_cast<BackgroundSideStateView *>(
+        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
+        static_cast<unsigned int>(viewportIndex) *
+        sizeof(g_GameManager.sides[0]));
     background->frameCounter = 0;
     background->viewportIndex = viewportIndex;
-    background->otherSideState = &g_GameManager.sides[1 - viewportIndex];
+    background->otherSideState = reinterpret_cast<BackgroundSideStateView *>(
+        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
+        static_cast<unsigned int>(static_cast<int>(1u - static_cast<unsigned int>(viewportIndex))) *
+        sizeof(g_GameManager.sides[0]));
 
     background->calcChain = g_Chain.CreateElem((ChainCallback)Background::OnUpdate);
     background->calcChain->arg = background;
@@ -169,18 +199,20 @@ int Background::LoadStageData(const char *path)
     this->stageObjectCount = this->stageData->objectCount;
     this->stageQuadCount = this->stageData->quadCount;
     this->stageObjectInstances = reinterpret_cast<RawStageObjectInstance *>(
-        reinterpret_cast<unsigned char *>(this->stageData) +
-        this->stageData->objectInstancesOffset);
+        reinterpret_cast<unsigned int>(this->stageData) +
+        static_cast<unsigned int>(this->stageData->objectInstancesOffset));
     this->stageScript = reinterpret_cast<RawStageInstr *>(
-        reinterpret_cast<unsigned char *>(this->stageData) +
-        this->stageData->scriptOffset);
+        reinterpret_cast<unsigned int>(this->stageData) +
+        static_cast<unsigned int>(this->stageData->scriptOffset));
     this->stageObjects = reinterpret_cast<RawStageObject **>(
-        reinterpret_cast<unsigned char *>(this->stageData) + sizeof(RawStageHeader));
+        reinterpret_cast<unsigned int>(this->stageData) + sizeof(RawStageHeader));
 
     for (objectIndex = 0; objectIndex < this->stageObjectCount; objectIndex++)
     {
+        // A loaded STD object-pointer slot contains a serialized file
+        // offset. Retail fixes it up using two native Win32 address words.
         this->stageObjects[objectIndex] = reinterpret_cast<RawStageObject *>(
-            reinterpret_cast<unsigned char *>(this->stageObjects[objectIndex]) +
+            reinterpret_cast<unsigned int>(this->stageObjects[objectIndex]) +
             reinterpret_cast<unsigned int>(this->stageData));
     }
 
@@ -196,10 +228,11 @@ int Background::LoadStageData(const char *path)
         while (currentQuad->type >= 0)
         {
             this->stageAnm->ExecuteAnmIdx(
-                &this->stageObjectVms[vmIndex], currentQuad->anmScript);
+                &TH09_BG_NATIVE_STAGE_VM(this, vmIndex), currentQuad->anmScript);
             currentQuad->vmIndex = static_cast<short>(vmIndex++);
             currentQuad = reinterpret_cast<RawStageQuadBasic *>(
-                reinterpret_cast<unsigned char *>(currentQuad) + currentQuad->byteSize);
+                reinterpret_cast<unsigned int>(currentQuad) +
+                static_cast<unsigned int>(currentQuad->byteSize));
         }
     }
     return 0;
@@ -238,21 +271,21 @@ int Background::AddedCallback(Background *background)
     BackgroundAnmLoadedView *loaded =
         reinterpret_cast<BackgroundAnmLoadedView *>(g_AnmManager->GetAnm(4));
     if (loaded->rawData != NULL &&
-        strcmp(loaded->filename, g_BackgroundStageFiles[g_GameManager.currentStage].anmPath) == 0)
+        strcmp(loaded->filename, NativeBackgroundStageFile(g_GameManager.currentStage).anmPath) == 0)
     {
         background->stageAnm = reinterpret_cast<AnmLoaded *>(loaded);
     }
     else
     {
         background->stageAnm = g_AnmManager->PreloadAnm(
-            4, g_BackgroundStageFiles[g_GameManager.currentStage].anmPath);
+            4, NativeBackgroundStageFile(g_GameManager.currentStage).anmPath);
         if (background->stageAnm == NULL)
             return -1;
     }
 
     background->sideAnm = g_AnmManager->GetAnm(background->viewportIndex + 5);
     if (background->LoadStageData(
-            g_BackgroundStageFiles[g_GameManager.currentStage].stdPath) != 0)
+            NativeBackgroundStageFile(g_GameManager.currentStage).stdPath) != 0)
         return -1;
 
     background->skyFog.color = 0xFF000000;
@@ -297,9 +330,11 @@ void Background::ClearSpellBackgroundState()
 
 int Background::OnUpdate(Background *background)
 {
+    // Native stage, spell and transition counters are signed DWORD storage.
+    // The original i386 INC/DEC wraps their live physical words at 32 bits.
     if (background->transitionMode != 0)
     {
-        background->transitionFrames--;
+        --*reinterpret_cast<unsigned int *>(&background->transitionFrames);
         if (background->transitionFrames <= 0)
         {
             background->transitionMode = 0;
@@ -348,10 +383,10 @@ int Background::OnUpdate(Background *background)
     if (background->spellBackgroundState >= 1)
     {
         if (background->spellBackgroundFrame == 60)
-            background->spellBackgroundState++;
-        background->spellBackgroundFrame++;
+            ++*reinterpret_cast<unsigned int *>(&background->spellBackgroundState);
+        ++*reinterpret_cast<unsigned int *>(&background->spellBackgroundFrame);
         for (int i = 0; i < background->spellVmCount; i++)
-            g_AnmManager->ExecuteScript(&background->spellVms[i]);
+            g_AnmManager->ExecuteScript(&TH09_BG_NATIVE_SPELL_VM(background, i));
     }
 
     BackgroundStageVmRuntimeView *stageVm0 =
@@ -373,7 +408,7 @@ int Background::OnUpdate(Background *background)
                 &background->stageVm2)->color1;
     }
 
-    background->frameCounter++;
+    ++*reinterpret_cast<unsigned int *>(&background->frameCounter);
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
@@ -536,7 +571,7 @@ int Background::OnDrawLowPrio(Background *background)
         {
             BackgroundSpellVmDrawView *vm =
                 reinterpret_cast<BackgroundSpellVmDrawView *>(
-                    &background->spellVms[i]);
+                    &TH09_BG_NATIVE_SPELL_VM(background, i));
             AsciiGameManagerView *gameManager =
                 reinterpret_cast<AsciiGameManagerView *>(&g_GameManager);
             vm->position208.x =
@@ -544,7 +579,7 @@ int Background::OnDrawLowPrio(Background *background)
             vm->position208.y =
                 gameManager->TransformPopupY(vm->position288.y);
             vm->position208.z = vm->position288.z;
-            g_AnmManager->Draw2DAndFlush(&background->spellVms[i]);
+            g_AnmManager->Draw2DAndFlush(&TH09_BG_NATIVE_SPELL_VM(background, i));
         }
         if (background->spellBackgroundDrawCallback != NULL)
             background->spellBackgroundDrawCallback();

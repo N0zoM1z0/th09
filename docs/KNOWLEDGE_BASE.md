@@ -3327,6 +3327,36 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Background native stage file, side and spell VM ownership
+
+The Background resource path now uses the original TH09 allocation/address
+rules in several independently exact functions. In `Background::Create`,
+both playable-side receivers are selected from the **one real pair of
+0x38-byte GameManager side records** with modulo-32-bit index and
+`1-viewportIndex` arithmetic. `Background::AddedCallback` selects the
+real `g_BackgroundStageFiles` table's **0x08-byte two-pointer rows**, retaining
+each live ANM/STD path read, resource gate and original stage load sequence.
+
+`Background::LoadStageData` is the **321-byte original-bound STD file loader**.
+Its serialized object offsets, `next` quad byte sizes, object-instance and
+script pointers are now represented as true file-backed Win32 DWORD base +
+offset addresses rather than relying on unrelated C++ array pointer ranges.
+Its runtime `stageObjectVms` allocation remains the actual `quadCount`-sized
+0x2A4-byte ANM records. The variable quad VM lookup and the `OnUpdate` /
+`OnDrawLowPrio` spell VM traversal now share native byte-stride addressing
+over their **separate genuine 32-element embedded spell VM array**.
+The four `OnUpdate` persistent signed stage/transition/spell/frame counters
+now use their original wrapping i386 DWORD increments/decrements; the
+`ZunTimer` methods are unchanged. No clamping, shadow arrays, new file
+loads, changed VM calls, or interpreter boundary was introduced.
+
+Three actually affected pinned VC7.1 compiler carriers replayed **9/9
+previously exact functions, 2,828 complete original PE bytes and all
+171 relocations**, including the stage loader, creator, added callback,
+update and both draw callbacks. This is authentic native data layout and
+file-pointer source fidelity, not a new exact-function or Windows product
+claim.
+
 ## 2026-11-12 Title StartMenu's native help text and demo replay pointer rows
 
 The exact **1,592-byte physical `TitleScreenView::OnUpdateStartMenu`**
