@@ -28,13 +28,20 @@ char *PbgArchive::CopyFileName(const char *filename)
 
 int PbgArchive::SeekPastInt(void **ptr)
 {
-    *ptr = (int *)*ptr + 1;
+    // The packed archive buffer is byte-oriented, not an actual array of
+    // standalone int objects. Retail advances by one native DWORD.
+    *ptr = reinterpret_cast<void *>(
+        reinterpret_cast<unsigned int>(*ptr) + sizeof(int));
     return *(int *)*ptr;
 }
 
 void *PbgArchive::SeekPastString(void **ptr)
 {
-    *ptr = (char *)*ptr + strlen((char *)*ptr) + 1;
+    // Names end in-place in the same packed file buffer. Keep the live
+    // strlen and advance past its terminator with an i386 DWORD address.
+    *ptr = reinterpret_cast<void *>(
+        reinterpret_cast<unsigned int>(*ptr) +
+        static_cast<unsigned int>(strlen((char *)*ptr)) + 1u);
     return *ptr;
 }
 
@@ -45,7 +52,9 @@ PbgArchiveEntry *PbgArchive::AllocEntries(void *entryBuffer, int count,
     int i;
     PbgArchiveEntry *buffer = NULL;
 
-    buffer = new PbgArchiveEntry[count + 1]();
+    // The archive declares its file entry count as a native i386 word.
+    // The extra terminator/sentinel element is counted with DWORD wrap.
+    buffer = new PbgArchiveEntry[static_cast<unsigned int>(count) + 1u]();
     if (buffer == NULL)
         goto buffer_alloc_error;
 

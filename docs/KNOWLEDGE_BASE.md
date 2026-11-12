@@ -1163,6 +1163,28 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 PBG packed entry-count and file cursor words
+
+The native PbgArchive::AllocEntries parser walks the real LZSS-decoded
+PBG file-table buffer, consuming variable-length NUL-terminated
+filenames and three contiguous four-byte words per entry. SeekPastInt
+now advances its original void* cursor by exactly one unsigned
+i386 DWORD address stride, not a typed pointer into a fictional
+C++ int array. SeekPastString uses the real live strlen result plus
+the trailing NUL as a native byte-address addition, preserving
+its original independent read and return. The signed on-disk
+entry count plus the extra end-of-archive sentinel element is
+also formed in native modulo-32 unsigned arithmetic before the
+existing array allocation/construction.
+
+The one affected pinned VC7.1 PbgArchiveHelpers carrier cold-replayed
+**6/6 already-exact physical functions, 441 full original PE bytes
+and 18 bound relocation fields**, covering both packed-file cursor
+leaves, entry allocation, copy, entry construction and release.
+No new bounds gate, file-table buffer, deobfuscation step, runtime
+behavior claim or new exact function is introduced. This preserves
+the original packed archive's actual i386 source semantics.
+
 ## 2026-11-12 Supervisor version file-backed line and byte cursors
 
 SupervisorVersionView::CheckVersion scans the actual opened .ver

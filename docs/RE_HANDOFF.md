@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 PBG packed table checkpoint:** the variable-length
+  filename and four-byte integer SeekPast cursor leaves now
+  advance the genuine LZSS-decoded file buffer through native
+  DWORD addresses. The signed entry count + sentinel allocation
+  size also wraps as an unsigned i386 word. The one pinned
+  PbgArchiveHelpers VC7.1 carrier preserves 6/6 exact owners,
+  441 bytes and 18 original-bound relocation fields.
 - **2026-11-12 Supervisor version parser checkpoint:** the
   opened .ver file's six-byte version tag, newline cursor and
   remaining-length difference now use native 32-bit i386
