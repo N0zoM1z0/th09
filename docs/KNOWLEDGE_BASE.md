@@ -1163,6 +1163,27 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 FrontMessage file-backed table and variable instruction addresses
+
+The exact FrontMessageRuntimeView::LoadForSideCount loader reads
+the primary message table's authentic packed file allocation. Each
+nonzero native DWORD entry offset is rebased from the actual
+file-buffer address, and the opcode-7 music-preload scan moves from
+one variable-length instruction to the next by its original
+size03 byte plus four-byte header. Both source expressions now
+form modulo-32 i386 byte addresses rather than doing C++ pointer
+arithmetic outside the individual projected wire structs. No new
+music guard, cached record, table allocation, changed label or call
+is introduced; the nullable-path/error path and both file caches
+remain unchanged.
+
+Only the affected pinned VC7.1 FrontMessageLoad carrier was
+rebuilt, and complete original-bound replay passed **1/1 exact
+owner, 405 complete physical PE bytes and 18 relocation fields**.
+This improves real file-wire source semantics in an existing exact
+loader; no function promotion, native-product or runtime closure
+is implied.
+
 ## 2026-11-12 Supervisor network config parser file-backed byte cursors
 
 The native Supervisor IP.txt configuration parser walks one real

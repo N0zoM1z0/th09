@@ -59,6 +59,10 @@ int FrontMessageRuntimeView::LoadForSideCount(
         if (primary00 == 0)
             goto load_error;
 
+        // The primary table offsets and variable-length dialogue script
+        // records are packed in the real file-backed allocation. Form their
+        // native Win32 DWORD byte addresses without bounded C++ pointer
+        // arithmetic beyond the fixed wire-header projection.
         for (int i = 0; i < primary00->count00; ++i)
         {
             unsigned int offset = NativeFrontEntry(primary00, i).offset00;
@@ -66,7 +70,8 @@ int FrontMessageRuntimeView::LoadForSideCount(
             {
                 NativeFrontEntry(primary00, i).instructions00 =
                     reinterpret_cast<FrontMessageInstructionView *>(
-                        reinterpret_cast<unsigned char *>(primary00) + offset);
+                        reinterpret_cast<unsigned int>(primary00) +
+                        static_cast<unsigned int>(offset));
             }
         }
     }
@@ -103,8 +108,8 @@ int FrontMessageRuntimeView::LoadForSideCount(
 
                         FrontMessageInstructionView *next =
                             reinterpret_cast<FrontMessageInstructionView *>(
-                                reinterpret_cast<unsigned char *>(current04) +
-                                current04->size03 + 4);
+                                reinterpret_cast<unsigned int>(current04) +
+                                static_cast<unsigned int>(current04->size03) + 4u);
                         current04 = next;
                     }
                 }

@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 FrontMessage loader checkpoint:** primary
+  file-table offsets and variable-width script command strides
+  now resolve true packed wire-data addresses as native
+  unsigned i386 DWORD words. The 405-byte LoadForSideCount
+  owner remains exact, all 18 original-bound relocation fields
+  verified by a single local VC7.1 carrier.
 - **2026-11-12 Network config parser checkpoint:** the
   original IP.txt key, whitespace, comment and value cursors now
   advance through native i386 DWORD byte addresses, with the
