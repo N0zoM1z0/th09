@@ -3437,6 +3437,32 @@ owners, 2,965 original PE bytes and 234 relocation fields**. No new
 exact-function or whole Windows product/runtime credit follows; this
 is native wire-pointer and integer-source fidelity in both large callbacks.
 
+## 2026-11-12 Unified authentic six-bucket Etama draw-head ownership across update and draw
+
+`EtamaController::OnUpdate` and `EtamaController::OnDraw` share the **same
+six contiguous `Bullet *` draw-head words** in the real controller allocation.
+A new lightweight `EtamaNativeDrawBuckets.hpp` now supplies their single
+`TH09_ETAMA_NATIVE_DRAW_BUCKET(owner,index)` original Win32 byte-address
+lvalue. This replaces the duplicated local macro in the **2,216-byte
+physical update boss** and the independently written lookup in the
+**600-byte draw boss**. The selected bucket remains the true on-wire byte
+in the Bullet VM; the native index multiplies the actual pointer stride,
+with no bounds gate, new storage, second owner, or cached head. OnUpdate
+preserves its distinct live reads/writes and linked-list append sequence;
+OnDraw preserves the original six-bucket enumeration, real laser geometry,
+`DrawSingleBullet`, effect-layer calls and exact interleaving.
+
+The **four pinned VC7.1 affected carriers** replayed **21/21 preexisting
+canonical exact functions, 8,375 complete original PE bytes and all
+332 relocation fields**. The 3-byte compiler/SDK view, excluded from exact
+function credit, was additionally independently proven in the 4-owner COFF
+original-bound audit (1,667 bytes/73 fields) of the complete drawing
+carrier. Both update and draw proof scripts independently verified the
+original PE destinations, byte ranges and definitions for **27 renumbered
+private `$L` references** before updating only manifest spellings.
+This removes divergent reconstruction models for the same game allocation;
+it is not a new exact-function or complete Windows runtime claim.
+
 ## 2026-11-12 D3D startup's three physical 0xF0 Supervisor viewports
 
 The exact **1,561-byte InitializeD3DRendering** creates the original D3D8

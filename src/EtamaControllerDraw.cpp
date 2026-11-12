@@ -2,6 +2,7 @@
 // OnDraw adapted from Cirno-Labs/th09 d7653152; original MIT portions retain
 // their grant in LICENSE. See THIRD_PARTY_NOTICES.md.
 #include "BulletManager.hpp"
+#include "EtamaNativeDrawBuckets.hpp"
 #include "AnmManager.hpp"
 #include "EtamaAnmResourceSlot.hpp"
 #include "EffectManager.hpp"
@@ -109,9 +110,7 @@ int EtamaController::OnDraw(EtamaController *mgr)
     for (i = 0; i < 6; i++)
     {
         // The six draw heads live in the real controller DWORD array.
-        bullet = *reinterpret_cast<Bullet **>(
-            reinterpret_cast<unsigned int>(&mgr->drawBuckets[0]) +
-            static_cast<unsigned int>(i) * sizeof(mgr->drawBuckets[0]));
+        bullet = TH09_ETAMA_NATIVE_DRAW_BUCKET(mgr, i);
         while (bullet != NULL)
         {
             DrawSingleBullet(bullet);

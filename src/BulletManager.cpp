@@ -1,6 +1,7 @@
 #include "RuntimePolarMath.hpp"
 #include "BulletManager.hpp"
 #include "EtamaNativePoolLimits.hpp"
+#include "EtamaNativeDrawBuckets.hpp"
 #include "ZunMemory.hpp"
 #include "SoundPlayer.hpp"
 #include "RuntimeAngleMath.hpp"
@@ -662,14 +663,6 @@ done:
         g_SoundPlayer.PlaySoundPositionedByIdx(descriptor->spawnSound, descriptor->position.x);
     return result;
 }
-
-// Retail links each bullet into one of six genuine draw-bucket pointer
-// words, using the live unsigned byte selector as an i386 DWORD stride.
-// Every original read/write stays independent; no cached head or new gate.
-#define TH09_ETAMA_NATIVE_DRAW_BUCKET(owner, index) \
-    (*reinterpret_cast<Bullet **>( \
-        reinterpret_cast<unsigned int>(&(owner)->drawBuckets[0]) + \
-        static_cast<unsigned int>(index) * sizeof((owner)->drawBuckets[0])))
 
 // Bullet transform repeat/bounce counters, the cull-delay word and the
 // long-lived controller frame/suppression counters are native signed DWORDs.
