@@ -1163,6 +1163,29 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Background stage-camera keyframe native next-record pointer
+
+The complete BackgroundRunStageScriptPhase interpreter reads the initial
+camera position from a packed file-backed 0x14-byte RawStageInstrProbe
+record. Opcode zero then reads the next physical instruction to obtain
+the interpolation destination/ending frame. Instead of assuming a
+C++ array containing at least two full instruction objects, the source
+now advances the original instruction pointer by exactly one native
+unsigned i386 DWORD byte stride, sizeof(RawStageInstrProbe).
+The later frame load, camera vector transport and all original
+jump/dispatch paths stay in their original order. No added bounds check,
+shadow record, cache or second source allocation is introduced.
+
+The sole affected pinned VC7.1 carrier replayed **5/5 existing
+exact functions, 3,231 complete physical bytes and 160 original-bound
+relocations**, including the full 2,652-byte stage-script switch owner
+and its camera interpolation, scalar and timer leaves. The compiler
+renamed 48 private $L labels; every actual COFF same-section
+definition, unchanged retail PE destination and complete owner byte
+was proved independently before rebinding only their manifest
+spellings. This improves file-wire source fidelity, not the exact
+function count or Windows native-product closure.
+
 ## 2026-11-12 Title replay-save name-grid and record addresses
 
 The complete TitleScreenView::DrawReplaySave owner reads replay player

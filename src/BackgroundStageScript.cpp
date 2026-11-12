@@ -286,7 +286,13 @@ read_instruction:
             background->stagePositionInitial6418 =
                 *reinterpret_cast<Float3 *>(&position);
             background->stagePositionStartFrame6424 = instruction->frame;
-            ++instruction;
+            // The following camera keyframe is the next physical 0x14-byte
+            // record in the original file-backed instruction stream.
+            // Advance its native i386 byte address, not a bounded C++ array
+            // pointer to a single projected instruction object.
+            instruction = reinterpret_cast<RawStageInstrProbe *>(
+                reinterpret_cast<unsigned int>(instruction) +
+                sizeof(RawStageInstrProbe));
             background->stagePositionEndFrame6414 = instruction->frame;
             background->stagePositionTarget6408 =
                 *reinterpret_cast<Float3 *>(instruction->args);

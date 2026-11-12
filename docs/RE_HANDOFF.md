@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Background keyframe checkpoint:** opcode zero
+  of the 2,652-byte stage-script interpreter advances the packed
+  0x14-byte file-backed instruction pointer via native DWORD
+  arithmetic, retaining the original next-frame read. One focused
+  VC7.1 carrier preserves 5/5 exact owners, 3,231 bytes and
+  160 fields, with 48 independent COFF/PE private-label proofs.
 - **2026-11-12 Replay Save Draw checkpoint:** the real 50-row
   native replay header allocation and 6x16 keyboard character
   pointer now use source-level DWORD byte addresses in the
