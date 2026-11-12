@@ -3327,6 +3327,28 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 D3D startup's three physical 0xF0 Supervisor viewports
+
+The exact **1,561-byte InitializeD3DRendering** creates the original D3D8
+device, checks refresh/vsync and capabilities, and initializes precisely
+three actual `Supervisor::ctorArray078` viewport records: the two game
+sides and the global 640x480 scene. All **33 live member assignments**
+(camera `Float3` position/look/up, FOV, viewport dimensions/depth and
+mode) now reuse a single native Win32 lvalue formed from the **real
+Supervisor +0x78 array** and 0xF0-byte element stride. The source asserts
+that actual allocation contains three records, that each record is 0xF0
+bytes, and that the first begins at +0x78. Those are the same viewport
+fields consumed by the separately exact Supervisor, ScreenEffect, and
+background render owners. The original execution order, float constructors,
+D3D present parameters, adapter capability query and all error fallbacks
+are unchanged, with no duplicated viewport array or new bounds gate.
+
+The three affected pinned VC7.1 carriers replayed **3/3 previously exact
+owners, 2,444 original PE bytes and all 245 relocation fields**, including
+the big D3D initialization function and both exact capability formatter
+leaves. This is authentic Win32 source layout, not new exact-function,
+full executable, or runtime credit.
+
 ## 2026-11-12 Etama big OnUpdate's authentic six-bucket draw heads
 
 The **2,216-byte physical `EtamaController::OnUpdate`** owns two bullet

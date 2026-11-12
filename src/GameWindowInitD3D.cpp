@@ -177,6 +177,19 @@ typedef char GameWindowD3DInitPathAt1C[
 
 void __fastcall ResetRenderState();
 
+typedef char D3DStartupNativeViewportStorage[
+    (offsetof(Supervisor, ctorArray078) == 0x78 &&
+     sizeof(SupervisorCtorArrayElement) == 0xF0 &&
+     sizeof(((Supervisor *)0)->ctorArray078) == 3 * 0xF0) ? 1 : -1];
+
+// The three fullscreen/gameplay D3D viewports share the genuine +0x78
+// SupervisorCtorArrayElement[3] allocation with physical 0xF0 stride.
+// Literal indices retain their original Win32 32-bit record addresses.
+#define TH09_D3D_NATIVE_VIEWPORT(index) \
+    (*reinterpret_cast<SupervisorCtorArrayElement *>( \
+        reinterpret_cast<u32>(&viewports[0]) + \
+        static_cast<u32>(index) * sizeof(viewports[0])))
+
 int InitializeD3DRendering()
 {
     D3DDISPLAYMODE displayMode;
@@ -359,50 +372,50 @@ int InitializeD3DRendering()
         &presentParameters,
         sizeof(presentParameters));
 
-    viewports[2].cameraPosition00 =
+    TH09_D3D_NATIVE_VIEWPORT(2).cameraPosition00 =
         Float3(0.0f, 0.0f, 1000.0f);
-    viewports[2].cameraLookAtOffset0C =
+    TH09_D3D_NATIVE_VIEWPORT(2).cameraLookAtOffset0C =
         Float3(0.0f, 0.0f, 0.0f);
-    viewports[2].cameraUp18 =
+    TH09_D3D_NATIVE_VIEWPORT(2).cameraUp18 =
         Float3(0.0f, 1.0f, 0.0f);
-    viewports[2].fieldOfView48 = 0.52359879f;
-    viewports[2].viewportCC.X = 0;
-    viewports[2].viewportCC.Y = 0;
-    viewports[2].viewportCC.Width = 640;
-    viewports[2].viewportCC.Height = 480;
-    viewports[2].viewportCC.MinZ = 0.0f;
-    viewports[2].viewportCC.MaxZ = 1.0f;
-    viewports[2].viewportModeE4 = 2;
+    TH09_D3D_NATIVE_VIEWPORT(2).fieldOfView48 = 0.52359879f;
+    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.X = 0;
+    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.Y = 0;
+    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.Width = 640;
+    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.Height = 480;
+    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.MinZ = 0.0f;
+    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.MaxZ = 1.0f;
+    TH09_D3D_NATIVE_VIEWPORT(2).viewportModeE4 = 2;
 
-    viewports[0].cameraPosition00 =
+    TH09_D3D_NATIVE_VIEWPORT(0).cameraPosition00 =
         Float3(0.0f, 0.0f, 1000.0f);
-    viewports[0].cameraLookAtOffset0C =
+    TH09_D3D_NATIVE_VIEWPORT(0).cameraLookAtOffset0C =
         Float3(0.0f, 0.0f, 0.0f);
-    viewports[0].cameraUp18 =
+    TH09_D3D_NATIVE_VIEWPORT(0).cameraUp18 =
         Float3(0.0f, 1.0f, 0.0f);
-    viewports[0].fieldOfView48 = 0.52359879f;
-    viewports[0].viewportCC.X = 16;
-    viewports[0].viewportCC.Y = 16;
-    viewports[0].viewportCC.Width = 288;
-    viewports[0].viewportCC.Height = 448;
-    viewports[0].viewportCC.MinZ = 0.0f;
-    viewports[0].viewportCC.MaxZ = 1.0f;
-    viewports[0].viewportModeE4 = 0;
+    TH09_D3D_NATIVE_VIEWPORT(0).fieldOfView48 = 0.52359879f;
+    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.X = 16;
+    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.Y = 16;
+    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.Width = 288;
+    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.Height = 448;
+    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.MinZ = 0.0f;
+    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.MaxZ = 1.0f;
+    TH09_D3D_NATIVE_VIEWPORT(0).viewportModeE4 = 0;
 
-    viewports[1].cameraPosition00 =
+    TH09_D3D_NATIVE_VIEWPORT(1).cameraPosition00 =
         Float3(0.0f, 0.0f, 1000.0f);
-    viewports[1].cameraLookAtOffset0C =
+    TH09_D3D_NATIVE_VIEWPORT(1).cameraLookAtOffset0C =
         Float3(0.0f, 0.0f, 0.0f);
-    viewports[1].cameraUp18 =
+    TH09_D3D_NATIVE_VIEWPORT(1).cameraUp18 =
         Float3(0.0f, 1.0f, 0.0f);
-    viewports[1].fieldOfView48 = 0.52359879f;
-    viewports[1].viewportCC.X = 336;
-    viewports[1].viewportCC.Y = 16;
-    viewports[1].viewportCC.Width = 288;
-    viewports[1].viewportCC.Height = 448;
-    viewports[1].viewportCC.MinZ = 0.0f;
-    viewports[1].viewportCC.MaxZ = 1.0f;
-    viewports[1].viewportModeE4 = 1;
+    TH09_D3D_NATIVE_VIEWPORT(1).fieldOfView48 = 0.52359879f;
+    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.X = 336;
+    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.Y = 16;
+    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.Width = 288;
+    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.Height = 448;
+    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.MinZ = 0.0f;
+    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.MaxZ = 1.0f;
+    TH09_D3D_NATIVE_VIEWPORT(1).viewportModeE4 = 1;
 
     g_Supervisor.ConfigureScreenViewport(2);
     g_Supervisor.d3dDevice08->GetDeviceCaps(&g_Supervisor.d3dCaps5D8);
@@ -440,3 +453,5 @@ int InitializeD3DRendering()
     g_Supervisor.lastFrameTime5B4 = 0;
     return 0;
 }
+
+#undef TH09_D3D_NATIVE_VIEWPORT
