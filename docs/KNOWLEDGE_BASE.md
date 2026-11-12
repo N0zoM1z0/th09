@@ -3327,6 +3327,24 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Supervisor 517-byte FPS sampler native clock and stack float words
+
+The **517-byte original-bound `SupervisorCheckFps`** times the real
+Direct3D scene/present loop with native WinMM `DWORD` milliseconds. Its
+window frame counter and in-window frame count now advance as original
+wrapping i386 DWORDs, and the elapsed-time calculation explicitly keeps
+the modulo-2^32 clock subtraction before its original *signed* threshold
+checks. Both the sample write and subsequent average use native four-byte
+addresses computed from the **actual 30-float local stack array**, not a
+replacement history or one-element projected object. Original render,
+`timeBeginPeriod`/`timeGetTime`, 500/700-ms gates, 57/65/160-fps tests,
+logging and forced vsync actions remain at their exact original sites.
+
+Only its one pinned VC7.1 source carrier was recompiled and compared:
+**517/517 complete original PE bytes, all relocations and exact callback
+order** passed. This is native source semantics in an already exact
+supervisor calibration callback; no new exact-function or product claim.
+
 ## 2026-11-12 Background native stage file, side and spell VM ownership
 
 The Background resource path now uses the original TH09 allocation/address

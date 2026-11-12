@@ -11,6 +11,13 @@ extern const char g_VsyncHighRefreshMessageNoPeriod[];
 extern const char g_Force60FpsMessage[];
 extern const char g_VsyncHighRefreshMessage[];
 
+// All 30 FPS samples share one authentic stack allocation. Signed input
+// indexes form DWORD-scaled 32-bit float byte addresses, not a new array.
+#define TH09_FPS_NATIVE_SAMPLE(index) \
+    (*reinterpret_cast<float *>( \
+        reinterpret_cast<unsigned int>(&samples[0]) + \
+        static_cast<unsigned int>(index) * sizeof(samples[0])))
+
 int SupervisorCheckFps()
 {
     int frameIndex;
@@ -42,12 +49,14 @@ int SupervisorCheckFps()
         if (supervisor->d3dDevice08->Present(NULL, NULL, NULL, NULL) < 0)
             supervisor->d3dDevice08->Reset(&supervisor->presentParameters350);
 
-        frameIndex++;
+        ++*reinterpret_cast<unsigned int *>(&frameIndex);
         timeBeginPeriod(1);
         currentTime = timeGetTime();
         timeEndPeriod(1);
-        framesInWindow++;
-        deltaTime = currentTime - lastTime;
+        ++*reinterpret_cast<unsigned int *>(&framesInWindow);
+        // Retail subtracts the original WinMM clock DWORDs modulo 2^32
+        // before consuming the signed elapsed-time window.
+        deltaTime = static_cast<int>(currentTime - lastTime);
 
         if (deltaTime >= 700)
         {
@@ -58,7 +67,7 @@ int SupervisorCheckFps()
         {
             fps = (float)framesInWindow * 1000.0f / deltaTime;
             if (fps >= 57.0f)
-                samples[sampleCount++] = fps;
+                TH09_FPS_NATIVE_SAMPLE(sampleCount++) = fps;
             lastTime = currentTime;
             framesInWindow = 0;
         }
@@ -71,7 +80,7 @@ int SupervisorCheckFps()
     if (sampleCount >= 2)
     {
         for (averageIndex = 0; averageIndex < sampleCount; averageIndex++)
-            average += samples[averageIndex];
+            average += TH09_FPS_NATIVE_SAMPLE(averageIndex);
         average /= averageIndex;
     }
     else
@@ -97,3 +106,5 @@ int SupervisorCheckFps()
 
     return 0;
 }
+
+#undef TH09_FPS_NATIVE_SAMPLE
