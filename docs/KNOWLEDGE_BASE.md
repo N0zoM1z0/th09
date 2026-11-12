@@ -1446,6 +1446,34 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-12 Bullet transform program next-instruction and Sprite ID DWORDs
+
+The complete 1,320-byte Bullet::AdvanceTransformProgram interprets
+an 18-entry native 0x18-byte transform record sequence inside
+the genuine 0x10C4-byte Bullet object. Runtime transformIndex
+is a signed i386 DWORD; all five continuation increments now
+advance its actual storage with unsigned word wrap. The
+SPAWN_CHILD_PATTERN opcode reads a second real contiguous
+transform instruction through the native base +0x18 address,
+and increments the current index by a native 32-bit word.
+For SET_SPRITE, the live signed type ID selects one of 32
+actual BulletTypeSprites records in the real controller
+allocation using scaled native unsigned byte addressing,
+and the script-selected Sprite ID is the modulo-32 sum
+of the active sprite ID and signed opcode color offset.
+
+The original C++ transform priority, sound effects, scheduler
+gates, secondary pattern descriptor, timer calls, polar
+movement and switch-table order remain unchanged. The sole
+affected pinned VC7.1 BulletAdvanceTransformProgram
+carrier cold-replayed **1/1 exact complete original
+1,320-byte owner and all 26 relocation fields**.
+Two compiler-private labels were independently proved
+against same-section COFF definitions and original PE
+operands before manifest-only name rebinding. This is
+native source fidelity for the large bullet interpreter,
+not new exact-function or whole-product runtime proof.
+
 ## 2026-11-12 Enemy draw-group and trail vertex native record traversal
 
 The original complete 1,758-byte EnemyManagerDrawImpl draws four

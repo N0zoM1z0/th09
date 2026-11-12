@@ -74,6 +74,9 @@ struct BulletSpawnDescriptorAdvanceView
 typedef char BulletAdvanceDescriptorViewSizeIs214[
     (sizeof(BulletSpawnDescriptorAdvanceView) == 0x214) ? 1 : -1];
 
+// The transform interpreter owns 18 real 0x18-byte instructions and
+// selects from the controller's 32 real BulletTypeSprites records.
+// Signed runtime indexes and sprite sums wrap as native i386 DWORDs.
 void Bullet::AdvanceTransformProgram()
 {
     BulletTransformRecord *record;
@@ -187,18 +190,21 @@ nextRecord:
     case ADVANCE_TRANSFORM_SET_CULL_DELAY:
         this->offscreenCullDelayFrames =
             record->payload.raw.int0;
-        ++this->transformIndex;
+        ++*reinterpret_cast<unsigned int *>(&this->transformIndex);
         goto nextRecord;
 
     case ADVANCE_TRANSFORM_SET_SPRITE:
         this->sprites =
-            this->controller->bulletTypeSprites[
-                record->payload.raw.int0];
+            *reinterpret_cast<BulletTypeSprites *>(
+                reinterpret_cast<unsigned int>(&this->controller->bulletTypeSprites[0]) +
+                static_cast<unsigned int>(record->payload.raw.int0) *
+                    sizeof(this->controller->bulletTypeSprites[0]));
         this->controller->bulletAnm->SetSprite(
                 &this->sprites.bulletVm,
-                this->sprites.bulletVm.activeSpriteIndex +
-                    record->payload.raw.int1);
-        ++this->transformIndex;
+                static_cast<int>(
+                    static_cast<unsigned int>(this->sprites.bulletVm.activeSpriteIndex) +
+                    static_cast<unsigned int>(record->payload.raw.int1)));
+        ++*reinterpret_cast<unsigned int *>(&this->transformIndex);
         goto nextRecord;
 
     case ADVANCE_TRANSFORM_WAIT:
@@ -213,7 +219,7 @@ nextRecord:
     case ADVANCE_TRANSFORM_PLAY_SOUND:
         g_SoundPlayer.PlaySoundPositionedByIdx(
             record->payload.raw.int0, this->position.x);
-        ++this->transformIndex;
+        ++*reinterpret_cast<unsigned int *>(&this->transformIndex);
         goto nextRecord;
 
     case ADVANCE_TRANSFORM_WRAP_X:
@@ -249,8 +255,9 @@ nextRecord:
             pattern.speed1 = record->payload.raw.float0;
             pattern.speed2 = record->payload.raw.float1;
 
-            ++record;
-            ++index;
+            record = reinterpret_cast<BulletTransformRecord *>(
+                reinterpret_cast<unsigned int>(record) + sizeof(*record));
+            ++*reinterpret_cast<unsigned int *>(&index);
             this->transformIndex = index;
             pattern.count2 =
                 static_cast<short>(record->payload.raw.int0);
@@ -266,7 +273,7 @@ nextRecord:
 
             this->controller->SpawnBulletPatternPrimary(
                 reinterpret_cast<BulletSpawnDescriptor *>(&pattern));
-            ++this->transformIndex;
+            ++*reinterpret_cast<unsigned int *>(&this->transformIndex);
 
             if (fadeParent != 0)
             {
@@ -281,5 +288,5 @@ nextRecord:
         break;
     }
 
-    ++this->transformIndex;
+    ++*reinterpret_cast<unsigned int *>(&this->transformIndex);
 }

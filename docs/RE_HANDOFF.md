@@ -107,6 +107,15 @@ Git retains earlier source revisions.
   draw order. One pinned VC7.1 carrier preserves the
   complete 693-byte SetupRandomForSide owner and all
   15 original PE relocation fields.
+- **2026-11-12 Bullet transform interpreter checkpoint:**
+  all live transform-index increments, the additional
+  0x18-byte child-spawn instruction cursor, the real
+  32-row controller Sprite table and the signed Sprite ID
+  sum now use native i386 DWORD operations. One VC7.1
+  carrier protects the full 1,320-byte
+  Bullet::AdvanceTransformProgram owner and all 26
+  original-bound fields; two compiler-private label
+  identities were independently proven against PE/COFF.
 - **2026-11-12 Enemy draw-group checkpoint:** the
   1,758-byte EnemyManagerDrawImpl boss now walks
   actual four-group head pointers, 0x2A4-byte secondary
