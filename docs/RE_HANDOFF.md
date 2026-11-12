@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Ending interpreter checkpoint:** the file-backed
+  script parser's 19 single-byte cursor increments and one two-byte
+  advance now use native DWORD address arithmetic. Both affected
+  VC7.1 carriers protect 10/10 exact owners, 3,015 bytes and 159
+  relocation fields, with 31 original-PE/COFF-proven private labels.
 - **2026-11-12 ANM loader checkpoint:** 20 live 32-slot surface
   cache accesses plus the 0x120-byte file-slot cursor now compute
   actual native unsigned DWORD addresses. The two affected VC7.1

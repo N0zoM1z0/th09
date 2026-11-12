@@ -1163,6 +1163,26 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Ending interpreter's native file-backed script cursor
+
+The Ending::ReadScriptParameter and Ending::RunEndingScript owners consume
+the real mutable scriptCursor pointer into the file-loaded ending script,
+not a private fixed-size array. Nineteen one-byte cursor increments and
+one two-byte advance now explicitly form unsigned modulo-32 i386 byte
+addresses and publish the resulting pointer word. The existing end-of-line,
+NUL, control-opcode and skip loops retain their actual read order, as
+do all 0x2A4-byte ending ANM VM slot references and the genuine stack
+text buffer. No new bound, allocation, or sanitization behavior was added.
+
+The pinned VC7.1 scoped build rebuilt only the two real Ending.cpp
+carriers and proved **10/10 exact physical owners, 3,015 original PE
+bytes, and 159 relocations**, including the complete 1,727-byte script
+interpreter and its ReadScriptParameter leaf. 31 compiler-private label
+spellings changed; their actual COFF same-section definitions and all
+original PE operands/owner bytes were checked independently before
+updating only those manifest names. These remain already-exact owners,
+not a new promotion or game product/runtime claim.
+
 ## 2026-11-12 ANM surface cache and file-slot native addresses
 
 The ANM loader's LoadSurface and PreloadSurface paths access actual native

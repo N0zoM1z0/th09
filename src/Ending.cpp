@@ -40,14 +40,21 @@ extern int g_EndingLifecycleState;
 extern unsigned int g_EndingLifecycleFlags;
 extern int g_EndingActive;
 
+// The original file-backed script cursor advances through native i386
+// modulo-32 byte addresses, independently of C++ pointer-array bounds.
+#define TH09_ENDING_NATIVE_ADVANCE_CURSOR(owner, amount) \
+    (owner)->scriptCursor = reinterpret_cast<char *>( \
+        reinterpret_cast<unsigned int>((owner)->scriptCursor) + \
+        static_cast<unsigned int>(amount))
+
 int Ending::ReadScriptParameter()
 {
     int parameter = atol(this->scriptCursor);
 
     while (*this->scriptCursor != '\0')
-        this->scriptCursor++;
+        TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
     while (*this->scriptCursor == '\0')
-        this->scriptCursor++;
+        TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
 
     return parameter;
 }
@@ -199,7 +206,7 @@ int Ending::RunEndingScript()
         switch (*this->scriptCursor)
         {
         case '@':
-            this->scriptCursor++;
+            TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
             switch (*this->scriptCursor)
             {
             case 'b':
@@ -210,7 +217,7 @@ int Ending::RunEndingScript()
 
             case 'a':
             {
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 int vmIndex = this->ReadScriptParameter();
                 int scriptIndex = this->ReadScriptParameter();
                 int spriteIndex = this->ReadScriptParameter();
@@ -221,7 +228,7 @@ int Ending::RunEndingScript()
 
             case 'V':
             {
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 int numerator = this->ReadScriptParameter();
                 int denominator = this->ReadScriptParameter();
                 this->backgroundScrollSpeed = (float)numerator / (float)denominator;
@@ -229,7 +236,7 @@ int Ending::RunEndingScript()
             }
 
             case 'v':
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 this->backgroundPosY = (float)this->ReadScriptParameter();
                 break;
 
@@ -255,19 +262,19 @@ int Ending::RunEndingScript()
                 break;
 
             case 'M':
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 fadeTime = (float)this->ReadScriptParameter();
                 g_Supervisor.FadeOutMusic(fadeTime);
                 break;
 
             case 's':
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 this->defaultLineWaitFrames = this->ReadScriptParameter();
                 this->minimumLineWaitFrames = this->ReadScriptParameter();
                 break;
 
             case 'c':
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 this->textColor = this->ReadScriptParameter();
                 break;
 
@@ -284,31 +291,31 @@ int Ending::RunEndingScript()
                 this->fadeMode = ENDING_FADE_OUT_WHITE;
             set_fade:
                 this->fadeTimer = 0;
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 this->fadeDuration = this->ReadScriptParameter() / 2;
                 this->UpdateFade();
                 break;
 
             case 'r':
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 this->pageWaitTimer = this->ReadScriptParameter();
                 this->pageSkipLockFrames = this->ReadScriptParameter();
                 this->lineWaitTimer = 0;
                 this->lineSkipLockFrames = 0;
                 while (*this->scriptCursor != '\n' && *this->scriptCursor != '\r')
-                    this->scriptCursor++;
+                    TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 while (*this->scriptCursor == '\n' || *this->scriptCursor == '\r')
-                    this->scriptCursor++;
+                    TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 goto end_of_parse;
 
             case 'w':
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 this->lineWaitTimer = this->ReadScriptParameter();
                 this->lineSkipLockFrames = this->ReadScriptParameter();
                 while (*this->scriptCursor != '\n' && *this->scriptCursor != '\r')
-                    this->scriptCursor++;
+                    TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 while (*this->scriptCursor == '\n' || *this->scriptCursor == '\r')
-                    this->scriptCursor++;
+                    TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
                 goto end_of_parse;
 
             case 'z':
@@ -316,9 +323,9 @@ int Ending::RunEndingScript()
             }
 
             while (*this->scriptCursor != '\n' && *this->scriptCursor != '\r')
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
             while (*this->scriptCursor == '\n' || *this->scriptCursor == '\r')
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
             break;
 
         case '\0':
@@ -334,7 +341,7 @@ int Ending::RunEndingScript()
             while (*this->scriptCursor == '\n' || *this->scriptCursor == '\0' ||
                    *this->scriptCursor == '\r')
             {
-                this->scriptCursor++;
+                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
             }
             if (g_AsciiInput.IsHeld(0x1001))
             {
@@ -355,7 +362,7 @@ lineWaitConfigured:
             TH09_ENDING_NATIVE_TEXT(textBuffer, textIndex) = *this->scriptCursor;
             TH09_ENDING_NATIVE_TEXT(textBuffer, static_cast<unsigned int>(temporary) + 1u) = *(this->scriptCursor + 1);
             textIndex = temporary + 2;
-            this->scriptCursor += 2;
+            TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 2);
             break;
         }
     }
