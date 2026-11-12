@@ -1163,6 +1163,34 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 score.dat reader and variable-size chapter traversal
+
+ScoreFileView::OpenScore decodes the actual file-backed score.dat
+allocation, then walks variable-size ScoreChapterView records using
+the signed/unsigned original chapter header fields. The byte cursor
+for checksum de-obfuscation, four next-byte uses, and both source/
+decompressed buffer pointers for the native LZSS call now use i386
+modulo-32 address words. The initial file header's dynamic headerSize
+and each chapterSize additionally select their next packed record
+through true native unsigned base+length addresses rather than
+C++ pointer arithmetic over a single projected header object.
+
+The three real LoadScoreRecords/LoadLastName/LoadPlayStats owners
+likewise derive the first record from the actual ScoreFileView
+headerSize and every subsequent record from that record's real
+chapterSize using the same native address arithmetic. The original
+version/size checks, checksum, LZSS decoder, score table, last-name
+and play-stats publications, failure branches and allocation order
+are unchanged; no parser rewrite or new buffer validation is implied.
+
+All six actually affected pinned VC7.1 ScoreData compiler carriers
+cold-replayed **7/7 already exact functions, 2,572 complete
+original PE bytes and 169 bound relocation fields**. The 523-byte
+OpenScore, 441-byte LoadScoreRecords, 215-byte LoadLastName and
+178-byte LoadPlayStats owners retain their complete exact extents.
+This is packed-file source fidelity, not newly exact credit,
+native Windows executable closure or runtime validation.
+
 ## 2026-11-12 score.dat writer's packed chapter and checksum byte addresses
 
 SaveTitleScoreData writes original TH09 score.dat chapters to a live

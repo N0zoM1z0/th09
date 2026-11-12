@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 score.dat reader checkpoint:** file-backed
+  OpenScore deobfuscation/checksum byte cursors, LZSS payload
+  source/destination and variable-size chapter readers now
+  use original i386 DWORD byte-address operations throughout.
+  Six affected VC7.1 ScoreData carriers remain 7/7 exact,
+  with 2,572 physical bytes and all 169 PE relocation fields.
 - **2026-11-12 score.dat writer checkpoint:** the original
   packed score.dat chapter write cursor, checksum bytes and
   obfuscation starting byte now resolve from the real output

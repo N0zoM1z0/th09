@@ -230,11 +230,11 @@ int SaveTitleScoreData()
     u8 byteValue;
     while (byteIdx > 0)
     {
-        byteValue = bytes[1];
+        byteValue = *reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u);
         xorValue = static_cast<u8>((xorValue & 0xE0) >> 5 | (xorValue & 0x1F) << 3);
-        bytes[1] ^= xorValue;
+        *reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u) ^= xorValue;
         xorValue += byteValue;
-        bytes++;
+        bytes = reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u);
         byteIdx--;
     }
 
@@ -299,18 +299,22 @@ ScoreFileView *ScoreFileView::OpenScore(const char *filename)
     checksum = 0;
     xorValue = 0;
     bytesShifted = 0;
-    bytes = reinterpret_cast<u8 *>(scoreFile) + 1;
+    // The decompressed score file and its variable-size chapter records
+    // remain in the original file-backed allocation. All cursor steps
+    // form native i386 DWORD addresses rather than pointer arithmetic
+    // outside individual projected chapter/header C++ objects.
+    bytes = reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreFile) + 1u);
 
     while (bytesToShift > 0)
     {
         xorValue += *bytes;
         xorValue = (u8)((xorValue & 0xE0) >> 5 | (xorValue & 0x1F) << 3);
-        bytes[1] ^= xorValue;
+        *reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u) ^= xorValue;
 
         if (bytesShifted >= 2)
-            checksum += bytes[1];
+            checksum += *reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u);
 
-        bytes++;
+        bytes = reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u);
         bytesToShift--;
         bytesShifted++;
     }
@@ -336,9 +340,9 @@ ScoreFileView *ScoreFileView::OpenScore(const char *filename)
     expandedScoreFile = reinterpret_cast<ScoreFileView *>(
         g_ZunMemory.Alloc(sizeof(ScoreFileView) + 0xA0000, "scorefile2"));
     memcpy(expandedScoreFile, scoreFile, sizeof(ScoreFileView));
-    Lzss::Decode(reinterpret_cast<u8 *>(scoreFile) + sizeof(ScoreFileView),
+    Lzss::Decode(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreFile) + sizeof(ScoreFileView)),
                  scoreFile->compressedSize,
-                 reinterpret_cast<u8 *>(expandedScoreFile) + sizeof(ScoreFileView),
+                 reinterpret_cast<u8 *>(reinterpret_cast<u32>(expandedScoreFile) + sizeof(ScoreFileView)),
                  scoreFile->decompressedPayloadSize);
     g_ZunMemory.Free(scoreFile);
     scoreFile = expandedScoreFile;
@@ -348,7 +352,7 @@ ScoreFileView *ScoreFileView::OpenScore(const char *filename)
     bytesToRead = scoreFile->totalSize;
     hasFoundTH9K = 0;
     chapter = reinterpret_cast<ScoreChapterView *>(
-        reinterpret_cast<u8 *>(scoreFile) + scoreFile->headerSize);
+        reinterpret_cast<u32>(scoreFile) + static_cast<u32>(scoreFile->headerSize));
     bytesToRead -= scoreFile->headerSize;
 
     while (bytesToRead > 0)
@@ -367,7 +371,7 @@ ScoreFileView *ScoreFileView::OpenScore(const char *filename)
 
         bytesToRead -= chapter->chapterSize;
         chapter = reinterpret_cast<ScoreChapterView *>(
-            reinterpret_cast<u8 *>(chapter) + chapter->chapterSize);
+            reinterpret_cast<u32>(chapter) + static_cast<u32>(chapter->chapterSize));
     }
 
     if (!hasFoundTH9K || th9kChapter->version != 1)
@@ -423,7 +427,7 @@ int ScoreFileView::LoadScoreRecords()
     }
 
     TitleScoreRecordView *inputRecord =
-        reinterpret_cast<TitleScoreRecordView *>(reinterpret_cast<u8 *>(this) + headerSize);
+        reinterpret_cast<TitleScoreRecordView *>(reinterpret_cast<u32>(this) + static_cast<u32>(headerSize));
     i32 bytesToRead = (i32)(totalSize - headerSize);
     while (bytesToRead > 0)
     {
@@ -436,7 +440,7 @@ int ScoreFileView::LoadScoreRecords()
         u16 chapterSize = inputRecord->chapterSize;
         bytesToRead -= chapterSize;
         inputRecord = reinterpret_cast<TitleScoreRecordView *>(
-            reinterpret_cast<u8 *>(inputRecord) + chapterSize);
+            reinterpret_cast<u32>(inputRecord) + static_cast<u32>(chapterSize));
     }
 
     g_TitleScoreRecord.chapterSizeCopy = sizeof(TitleScoreRecordView);
@@ -457,7 +461,7 @@ int ScoreFileView::LoadScoreRecords()
 int ScoreFileView::LoadLastName()
 {
     LastNameRecordView *record = reinterpret_cast<LastNameRecordView *>(
-        reinterpret_cast<u8 *>(this) + headerSize);
+        reinterpret_cast<u32>(this) + static_cast<u32>(headerSize));
 
     memset(&g_LastNameRecord, 0, sizeof(g_LastNameRecord));
     g_LastNameRecord.chapterSize = sizeof(LastNameRecordView);
@@ -478,7 +482,7 @@ int ScoreFileView::LoadLastName()
 
         bytesToRead -= record->chapterSize;
         record = reinterpret_cast<LastNameRecordView *>(
-            reinterpret_cast<u8 *>(record) + record->chapterSize);
+            reinterpret_cast<u32>(record) + static_cast<u32>(record->chapterSize));
     }
 
     return 0;
@@ -507,7 +511,7 @@ int ScoreFileView::LoadPlayStats()
     g_PlayStatsRecord.runtimeMarker = 0;
 
     PlayStatsRecordView *record = reinterpret_cast<PlayStatsRecordView *>(
-        reinterpret_cast<u8 *>(this) + headerSize);
+        reinterpret_cast<u32>(this) + static_cast<u32>(headerSize));
     i32 bytesToRead = (i32)(totalSize - headerSize);
     while (bytesToRead > 0)
     {
@@ -516,7 +520,7 @@ int ScoreFileView::LoadPlayStats()
 
         bytesToRead -= record->chapterSize;
         record = reinterpret_cast<PlayStatsRecordView *>(
-            reinterpret_cast<u8 *>(record) + record->chapterSize);
+            reinterpret_cast<u32>(record) + static_cast<u32>(record->chapterSize));
     }
 
     return 0;
