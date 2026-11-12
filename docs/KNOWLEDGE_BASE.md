@@ -1163,6 +1163,28 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Supervisor network config parser file-backed byte cursors
+
+The native Supervisor IP.txt configuration parser walks one real
+file-backed character stream through whitespace, comments, key names
+and parsed values. SkipNetworkValueWhitespace, ParseNetworkConfigValue
+and PrepareTitleMode4Network now advance their existing cursor by
+native modulo-32 i386 byte addresses, including the original
+strlen(key)-sized advance and six single-byte advances. Each read and
+remaining-length decrement retains its original position, and the
+parser still uses the same genuine 256-byte output and state fields.
+There is no new buffer, alternate parsing grammar, bounds check,
+allocation, or call-order change.
+
+Only the actually affected pinned VC7.1 SupervisorNetworkConfig
+carrier was cold-compiled. The complete source-scoped original-bound
+replay passed **2/2 existing exact owners, 922 physical original PE
+bytes and 23 relocation fields**, including the network config
+parser leaf and the full title mode-4 network setup owner. This
+source-level native-wire repair neither promotes new exact functions
+nor claims the separately nonexact Supervisor network service or
+Windows-game runtime closure.
+
 ## 2026-11-12 RunEcl interpolation slot cursor native record strides
 
 The full 15,564-byte EnemyEclManagerView::RunEcl owns an eight-slot

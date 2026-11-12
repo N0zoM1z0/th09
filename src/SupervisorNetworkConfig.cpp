@@ -18,12 +18,16 @@ static inline bool SkipNetworkValueWhitespace(const char *&cursor, int *remainin
             return false;
         }
 
-        ++cursor;
+        cursor = reinterpret_cast<const char *>(
+                reinterpret_cast<unsigned int>(cursor) + 1u);
         --*remaining;
     }
     return true;
 }
 
+// IP.txt is a file-backed byte stream. Retail scans the live cursor
+// through native i386 32-bit byte addresses, without inventing a
+// second C++ bounded character array or a new input-length guard.
 static const char *ParseNetworkConfigValue(
     const char *cursor, int *remaining, const char *key, char *out)
 {
@@ -31,19 +35,23 @@ static const char *ParseNetworkConfigValue(
 
     if (strncmp(cursor, key, strlen(key)) == 0)
     {
-        cursor += strlen(key);
+        cursor = reinterpret_cast<const char *>(
+            reinterpret_cast<unsigned int>(cursor) +
+            static_cast<unsigned int>(strlen(key)));
         while (*cursor == ' ' || *cursor == '\t')
         {
             if (*remaining <= 0 || *cursor == '\n')
                 return cursor;
 
-            ++cursor;
+            cursor = reinterpret_cast<const char *>(
+                reinterpret_cast<unsigned int>(cursor) + 1u);
             --*remaining;
         }
 
         if (*remaining > 0 && *cursor == '=')
         {
-            ++cursor;
+            cursor = reinterpret_cast<const char *>(
+                reinterpret_cast<unsigned int>(cursor) + 1u);
             --*remaining;
 
             if (SkipNetworkValueWhitespace(cursor, remaining, out))
@@ -57,7 +65,8 @@ static const char *ParseNetworkConfigValue(
                            outIndex < 255)
                     {
                         out[outIndex] = *cursor;
-                        ++cursor;
+                        cursor = reinterpret_cast<const char *>(
+                reinterpret_cast<unsigned int>(cursor) + 1u);
                         --*remaining;
                         ++outIndex;
                     }
@@ -103,7 +112,8 @@ void __fastcall PrepareTitleMode4Network(void *optionState)
             if (fileSize <= 0)
                 goto CLEANUP;
 
-            ++cursor;
+            cursor = reinterpret_cast<const char *>(
+                reinterpret_cast<unsigned int>(cursor) + 1u);
             --fileSize;
             if (*cursor != '\n')
                 goto SKIP_COMMENT;
@@ -171,7 +181,8 @@ void __fastcall PrepareTitleMode4Network(void *optionState)
         continue;
 
     SKIP_CHARACTER:
-        ++cursor;
+        cursor = reinterpret_cast<const char *>(
+                reinterpret_cast<unsigned int>(cursor) + 1u);
         --fileSize;
     }
 

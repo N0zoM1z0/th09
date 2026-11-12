@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Network config parser checkpoint:** the
+  original IP.txt key, whitespace, comment and value cursors now
+  advance through native i386 DWORD byte addresses, with the
+  existing strlen(key) advance and original parser branches.
+  The one pinned VC7.1 carrier preserves 2/2 exact owners,
+  922 complete PE bytes and 23 bound relocation fields.
 - **2026-11-12 RunEcl interpolation cursor checkpoint:** both
   runtime-counted interpolation loops now advance the genuine
   0x30-byte context records through i386 DWORD byte addresses.
