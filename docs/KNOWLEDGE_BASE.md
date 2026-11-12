@@ -3327,6 +3327,29 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Enemy OnUpdate hit-flash writes to authentic color2 DWORD
+
+The 3,900-byte source-present nonexact `EnemyManagerView::OnUpdate`
+writes the RGBA hit-flash color to the one actual `AnmVm::color2` DWORD
+owned by `EnemyView::primaryAnmVm0008`. Four lvalues which projected
+`unsigned char[4]` over that scalar now address the real Win32 word base
+plus native byte offsets 2, 1, 0 and 3. The live alpha source remains
+the high byte of the *other* actual `color1` word, with unchanged sound,
+flash timer, VM flags, field rereads, and write chronology. No duplicate
+palette, byte-array storage, new clipping, or helper call is introduced.
+
+The original-bound whole-boss diagnostic still reproduces **3,900/3,900
+physical bytes, 97 fields, 69 original ordered calls, identical reviewed
+control graph and exactly the previous 13 ordinary register differences**.
+The co-compiled 15,564-byte `RunEcl` retained its 598 field operands,
+owned tables and the 30 previously isolated differences (opcodes 4/155).
+The two selected pinned VC7.1 carriers cold-replayed **83/83 previously
+exact sibling functions, 29,856 physical original bytes and 1,389
+relocations**. Two changed compiler-private `$L` spellings were applied
+to the manifest only after independent same-section COFF/PE target and
+complete-owner byte proof. This is big-boss source ownership fidelity,
+not a newly exact function or whole executable product claim.
+
 ## 2026-11-12 Enemy OnUpdate unified native draw-group head addresses
 
 `EnemyManagerView::OnUpdate @ 0x00410730` stores the visible enemies in the
