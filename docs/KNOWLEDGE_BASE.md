@@ -1163,6 +1163,33 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 RunEcl interpolation slot cursor native record strides
+
+The full 15,564-byte EnemyEclManagerView::RunEcl owns an eight-slot
+array of authentic 0x30-byte Th09EclInterpolationSlotView entries
+in each active 0x22C-byte ECL context. Both the interpolation
+installation loop and the after-dispatch interpolation callback
+loop now advance the actual slot cursor using its native unsigned
+i386 DWORD byte address + sizeof(Th09EclInterpolationSlotView)
+instead of relying on C++ typed-pointer advancement. The original
+eight-slot limits, script-controlled interpolation parameters,
+callback lifetimes, timer comparisons and per-frame call order
+remain unchanged. No extra capacity check, reordering or duplicate
+storage was added.
+
+The original-bound full-owner inspector continues to verify the
+complete **15,564-byte** RunEcl candidate, **all 598 relocations
+and unchanged original switch tables**, with the same 30 ordinary
+nonexact bytes (opcode 4: 7, opcode 155: 23). Both actual
+EclManager VC7.1 carrier profiles cold-replayed **83/83
+already exact sibling functions, 29,856 complete physical
+bytes and 1,389 bound relocation fields**. Eight compiler-private
+$L spellings changed; their current COFF same-section definitions,
+original PE target operands and each complete exact owner were
+verified independently before updating only those manifest names.
+This is source fidelity in the still-NONEXACT interpreter, not
+a new exact owner, runtime proof or whole-game link claim.
+
 ## 2026-11-12 Supervisor music track and unlock native byte slots
 
 The actual Supervisor audio source resolves one of 19 live

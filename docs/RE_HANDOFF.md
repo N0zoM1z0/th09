@@ -24,6 +24,14 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 RunEcl interpolation cursor checkpoint:** both
+  runtime-counted interpolation loops now advance the genuine
+  0x30-byte context records through i386 DWORD byte addresses.
+  Full 15,564-byte RunEcl remains NONEXACT at precisely 30
+  ordinary opcode-4/155 bytes, all 598 fields and switch tables
+  unchanged. Two VC7.1 carriers protect 83/83 exact siblings,
+  29,856 physical bytes, 1,389 relocations; 8 private-label
+  rebindings independently proven against original PE/COFF.
 - **2026-11-12 Supervisor music checkpoint:** eight live
   0x10-byte track record fields and four signed-ID music
   unlock bytes now use genuine original-table native DWORD

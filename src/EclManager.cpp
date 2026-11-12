@@ -483,6 +483,9 @@ static void ApplyInterpolationOperation(
         ReadFloat(enemy, instruction, 2);
 }
 
+// The ECL context owns eight adjacent 0x30-byte interpolation records;
+// cursor advancement in both installation and RunEcl's callback loop
+// follows the actual i386 byte stride of the original context storage.
 static void InstallInterpolationSlot(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
@@ -490,7 +493,8 @@ static void InstallInterpolationSlot(
     Th09EclInterpolationSlotView *slot =
         enemy->activeContext2CE0->interpolationSlots0A0;
     for (int index = 0; index < TH09_ECL_INTERPOLATION_SLOT_COUNT;
-         ++index, ++slot)
+         ++index, slot = reinterpret_cast<Th09EclInterpolationSlotView *>(
+             reinterpret_cast<unsigned int>(slot) + sizeof(Th09EclInterpolationSlotView)))
     {
         if (slot->callback00 != NULL &&
             slot->affectedVariable2C != RawFloat(instruction, 0))
@@ -714,7 +718,8 @@ th09_ecl_after_dispatch:
 
         for (interpolationIndex = TH09_ECL_INTERPOLATION_SLOT_COUNT;
              interpolationIndex > 0;
-             --interpolationIndex, ++slot)
+             --interpolationIndex, slot = reinterpret_cast<Th09EclInterpolationSlotView *>(
+                 reinterpret_cast<unsigned int>(slot) + sizeof(Th09EclInterpolationSlotView)))
         {
             if (slot->callback00 == NULL)
                 continue;
