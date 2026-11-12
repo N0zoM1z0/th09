@@ -24,6 +24,15 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Title grid cursor checkpoint:** across
+  OnUpdateResultNameEntry and UpdateReplaySave the 20
+  signed column/row/confirm and name cursor movements now
+  preserve original native DWORD wrap. Both focused
+  VC7.1 TitleScreen carriers protect 41/41 exact owners,
+  18,972 complete bytes, 953 relocations and nine
+  independently proven compiler-private labels. The separate
+  nonexact OnUpdateResult remains 485/484 bytes, 34 fields
+  and 218 unlike overlaps.
 - **2026-11-12 Enemy timeline arguments checkpoint:** the
   complete 1,048-byte schedule interpreter reads variable
   opcode payload words through native 32-bit byte addresses

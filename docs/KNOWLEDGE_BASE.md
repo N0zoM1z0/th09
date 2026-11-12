@@ -1163,6 +1163,33 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Title name-entry and replay-save grid DWORD cursor wrap
+
+The complete TitleScreenView::OnUpdateResultNameEntry and
+UpdateReplaySave owners share the original 6-by-16 character grid,
+with live signed keyboardSelection and replayNameCursor state words.
+Twenty original instances across the two actual owners now
+explicitly preserve native modulo-32 i386 DWORD semantics:
+row changes of +/-16, wrapping by +/-96, confirm-column
+navigation +/-13, horizontal left/right increments and
+decrements, and name insertion/deletion cursor increments
+and decrements. The existing signed row/wrap tests, gap-key
+handling, real selected name record, replay SaveReplay call,
+ANM state switches and side effects remain unchanged. No new
+index clamp, alternate keyboard or buffer is introduced.
+
+Both actually affected pinned VC7.1 TitleScreen compiler
+carriers cold-replayed **41/41 already exact functions,
+18,972 complete original PE bytes and 953 relocation fields**,
+including both large name-entry/replay-save update owners and
+their small helper leaves. Nine compiler-private labels changed
+spellings, independently proved against current COFF same-section
+definitions, identical original PE target operands and every
+owned byte before manifest-only rebinding. The separate nonexact
+Title OnUpdateResult still has the same 485 target / 484 candidate
+bytes, 34 fields and 218 unequal overlaps; it is not promoted.
+No new exactness or completed Windows runtime is claimed.
+
 ## 2026-11-12 Enemy timeline packed opcode argument words
 
 EnemyScheduleRuntimeView::Run is the native 1,048-byte timeline

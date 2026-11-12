@@ -40,6 +40,12 @@ typedef int i32;
 
 // Persistent Title frame/phase counters are advanced by native 32-bit
 // DWORD INC instructions; avoid signed C++ overflow on those live words.
+// Native menu cursors are signed DWORDs. The original i386 adds/subtracts
+// the key-grid offsets modulo 2^32 before the existing signed wrap tests.
+#define TH09_TITLE_NATIVE_CURSOR_ADD(word, delta) \
+    ((word) = static_cast<i32>(static_cast<u32>(word) + \
+                              static_cast<u32>(delta)))
+
 #define TH09_TITLE_NATIVE_INCREMENT(word) \
     (++*reinterpret_cast<unsigned int *>(&(word)))
 
@@ -2246,9 +2252,9 @@ int TitleScreenView::OnUpdateResultNameEntry()
             if (g_TitleInput.IsPressedScrolling(0x10))
             {
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                keyboardSelection -= TitleNativeNameKeyboard::Columns;
+                TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::Columns);
                 if (keyboardSelection < 0)
-                    keyboardSelection += TitleNativeNameKeyboard::KeyCount;
+                    TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::KeyCount);
                 if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                     keyboardSelection = 77;
                 stateTimer = 0;
@@ -2257,9 +2263,9 @@ int TitleScreenView::OnUpdateResultNameEntry()
             if (g_TitleInput.IsPressedScrolling(0x20))
             {
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
-                keyboardSelection += TitleNativeNameKeyboard::Columns;
+                TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::Columns);
                 if (keyboardSelection >= TitleNativeNameKeyboard::KeyCount)
-                    keyboardSelection -= TitleNativeNameKeyboard::KeyCount;
+                    TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::KeyCount);
                 if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                     keyboardSelection = 13;
                 stateTimer = 0;
@@ -2269,10 +2275,10 @@ int TitleScreenView::OnUpdateResultNameEntry()
             {
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 if (keyboardSelection % TitleNativeNameKeyboard::Columns == 0)
-                    keyboardSelection += TitleNativeNameKeyboard::ConfirmColumn;
+                    TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::ConfirmColumn);
                 else
                 {
-                    keyboardSelection--;
+                    --*reinterpret_cast<u32 *>(&keyboardSelection);
                     if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                         keyboardSelection = 92;
                 }
@@ -2283,10 +2289,10 @@ int TitleScreenView::OnUpdateResultNameEntry()
             {
                 g_SoundPlayer.PlaySoundByIdx(12, 0);
                 if (keyboardSelection % TitleNativeNameKeyboard::Columns == TitleNativeNameKeyboard::ConfirmColumn)
-                    keyboardSelection -= TitleNativeNameKeyboard::ConfirmColumn;
+                    TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::ConfirmColumn);
                 else
                 {
-                    keyboardSelection++;
+                    TH09_TITLE_NATIVE_INCREMENT(keyboardSelection);
                     if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                         keyboardSelection = 94;
                 }
@@ -2319,7 +2325,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             TH09_TITLE_NATIVE_NAME_BYTE(NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name, replayNameCursor) = value;
             PlayMenuSound(10, 0);
             if (replayNameCursor < 7)
-                replayNameCursor++;
+                TH09_TITLE_NATIVE_INCREMENT(replayNameCursor);
             else
                 keyboardSelection = TitleNativeNameKeyboard::ConfirmKey;
             stateTimer = 0;
@@ -2335,7 +2341,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             }
             else if (replayNameCursor > 0)
             {
-                replayNameCursor--;
+                --*reinterpret_cast<u32 *>(&replayNameCursor);
                 TH09_TITLE_NATIVE_NAME_BYTE(NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name, replayNameCursor) = ' ';
             }
             stateTimer = 0;
@@ -2972,9 +2978,9 @@ int TitleScreenView::UpdateReplaySave()
         if (g_TitleInput.IsPressedScrolling(0x10))
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
-            keyboardSelection -= TitleNativeNameKeyboard::Columns;
+            TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::Columns);
             if (keyboardSelection < 0)
-                keyboardSelection += TitleNativeNameKeyboard::KeyCount;
+                TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::KeyCount);
             if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                 keyboardSelection = 77;
             stateTimer = 0;
@@ -2983,9 +2989,9 @@ int TitleScreenView::UpdateReplaySave()
         if (g_TitleInput.IsPressedScrolling(0x20))
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
-            keyboardSelection += TitleNativeNameKeyboard::Columns;
+            TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::Columns);
             if (keyboardSelection >= TitleNativeNameKeyboard::KeyCount)
-                keyboardSelection -= TitleNativeNameKeyboard::KeyCount;
+                TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::KeyCount);
             if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                 keyboardSelection = 13;
             stateTimer = 0;
@@ -2995,10 +3001,10 @@ int TitleScreenView::UpdateReplaySave()
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             if (keyboardSelection % TitleNativeNameKeyboard::Columns == 0)
-                keyboardSelection += TitleNativeNameKeyboard::ConfirmColumn;
+                TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::ConfirmColumn);
             else
             {
-                keyboardSelection--;
+                --*reinterpret_cast<u32 *>(&keyboardSelection);
                 if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                     keyboardSelection = 92;
             }
@@ -3009,10 +3015,10 @@ int TitleScreenView::UpdateReplaySave()
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             if (keyboardSelection % TitleNativeNameKeyboard::Columns == TitleNativeNameKeyboard::ConfirmColumn)
-                keyboardSelection -= TitleNativeNameKeyboard::ConfirmColumn;
+                TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::ConfirmColumn);
             else
             {
-                keyboardSelection++;
+                TH09_TITLE_NATIVE_INCREMENT(keyboardSelection);
                 if (keyboardSelection == TitleNativeNameKeyboard::GapKey)
                     keyboardSelection = 94;
             }
@@ -3041,7 +3047,7 @@ int TitleScreenView::UpdateReplaySave()
             TH09_TITLE_NATIVE_NAME_BYTE(replayName, replayNameCursor) = value;
             PlayMenuSound(10, 0);
             if (replayNameCursor < 7)
-                replayNameCursor++;
+                TH09_TITLE_NATIVE_INCREMENT(replayNameCursor);
             else
                 keyboardSelection = TitleNativeNameKeyboard::ConfirmKey;
             stateTimer = 0;
@@ -3056,7 +3062,7 @@ int TitleScreenView::UpdateReplaySave()
             }
             else if (replayNameCursor > 0)
             {
-                replayNameCursor--;
+                --*reinterpret_cast<u32 *>(&replayNameCursor);
                 TH09_TITLE_NATIVE_NAME_BYTE(replayName, replayNameCursor) = ' ';
             }
             else
@@ -3583,6 +3589,7 @@ int TitleSupervisorView::ClearRecordingFpsWarningState()
     return 0;
 }
 
+#undef TH09_TITLE_NATIVE_CURSOR_ADD
 #undef TH09_TITLE_NATIVE_CHARACTER
 #undef TH09_TITLE_NATIVE_UNLOCK
 #undef TH09_TITLE_NATIVE_ALPHABET
