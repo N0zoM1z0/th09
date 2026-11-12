@@ -282,26 +282,50 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
             decodedReplay->exeVersion, decodedReplay->value1D4, decodedReplay->value1D8))
         goto err2;
 
+    // The decoded header overlays serial u32 frame/FPS offsets with native
+    // pointers in the same 0x1EC-byte ReplayDataView allocation. Resolve
+    // each live stage word by its physical i386 DWORD stride without
+    // imposing a second C++ bounded-array memory model.
+#define TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(row, index) \
+    (*reinterpret_cast<u32 *>( \
+        reinterpret_cast<unsigned int>(&decodedReplay->frameOffset[row][0]) + \
+        static_cast<unsigned int>(index) * sizeof(u32)))
+#define TH09_REPLAY_NATIVE_DECODE_FRAME_START(row, index) \
+    (*reinterpret_cast<ReplayFrameDataStartView **>( \
+        reinterpret_cast<unsigned int>(&decodedReplay->frameStart[row][0]) + \
+        static_cast<unsigned int>(index) * sizeof(decodedReplay->frameStart[0][0])))
+#define TH09_REPLAY_NATIVE_DECODE_FPS_OFFSET(index) \
+    (*reinterpret_cast<u32 *>( \
+        reinterpret_cast<unsigned int>(&decodedReplay->fpsOffset[0]) + \
+        static_cast<unsigned int>(index) * sizeof(u32)))
+#define TH09_REPLAY_NATIVE_DECODE_FPS_START(index) \
+    (*reinterpret_cast<u8 **>( \
+        reinterpret_cast<unsigned int>(&decodedReplay->fpsStart[0]) + \
+        static_cast<unsigned int>(index) * sizeof(decodedReplay->fpsStart[0])))
     for (i = 0; i < ReplayRecordingCapacity::StageCount; i++)
     {
-        if (decodedReplay->frameOffset[0][i] != 0)
-            decodedReplay->frameStart[0][i] = reinterpret_cast<ReplayFrameDataStartView *>(
+        if (TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(0, i) != 0)
+            TH09_REPLAY_NATIVE_DECODE_FRAME_START(0, i) = reinterpret_cast<ReplayFrameDataStartView *>(
                 reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(decodedReplay->frameOffset[0][i]));
-        if (decodedReplay->frameOffset[1][i] != 0)
-            decodedReplay->frameStart[1][i] = reinterpret_cast<ReplayFrameDataStartView *>(
+                static_cast<unsigned int>(TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(0, i)));
+        if (TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(1, i) != 0)
+            TH09_REPLAY_NATIVE_DECODE_FRAME_START(1, i) = reinterpret_cast<ReplayFrameDataStartView *>(
                 reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(decodedReplay->frameOffset[1][i]));
-        if (decodedReplay->frameOffset[2][i] != 0)
-            decodedReplay->frameStart[2][i] = reinterpret_cast<ReplayFrameDataStartView *>(
+                static_cast<unsigned int>(TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(1, i)));
+        if (TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(2, i) != 0)
+            TH09_REPLAY_NATIVE_DECODE_FRAME_START(2, i) = reinterpret_cast<ReplayFrameDataStartView *>(
                 reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(decodedReplay->frameOffset[2][i]));
-        if (decodedReplay->fpsOffset[i] != 0)
-            decodedReplay->fpsStart[i] = reinterpret_cast<u8 *>(
+                static_cast<unsigned int>(TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(2, i)));
+        if (TH09_REPLAY_NATIVE_DECODE_FPS_OFFSET(i) != 0)
+            TH09_REPLAY_NATIVE_DECODE_FPS_START(i) = reinterpret_cast<u8 *>(
                 reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(decodedReplay->fpsOffset[i]));
+                static_cast<unsigned int>(TH09_REPLAY_NATIVE_DECODE_FPS_OFFSET(i)));
     }
 
+#undef TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET
+#undef TH09_REPLAY_NATIVE_DECODE_FRAME_START
+#undef TH09_REPLAY_NATIVE_DECODE_FPS_OFFSET
+#undef TH09_REPLAY_NATIVE_DECODE_FPS_START
     g_ZunMemory.Free(data);
     return decodedReplay;
 

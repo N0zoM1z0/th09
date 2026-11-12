@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Replay decoder checkpoint:** the actual
+  0x1EC-byte ReplayDataView header's 3x10 frame offset/pointer
+  row and ten FPS slots now use native i386 DWORD address
+  computations in LoadReplayData. The two ReplayInput VC7.1
+  carriers retain 12/12 exact owners, 4,093 bytes, 232 fields;
+  the separate SaveReplay and BeginPlaybackStage nonexact
+  extent/field guards also remain unchanged.
 - **2026-11-12 Effect pool/VM checkpoint:** the runtime-counted
   0xD8-byte Effect pool and 0x2A4-byte ANM VM allocations now
   use native i386 DWORD record traversal in the initialize,

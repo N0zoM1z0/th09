@@ -1163,6 +1163,30 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Replay decoded file-header frame and FPS wire slots
+
+ReplayManagerView::LoadReplayData interprets the actual file-backed
+0x1EC-byte ReplayDataView header as u32 frame/FPS offsets and then
+rebases each populated field to its native runtime pointer in the
+same storage. Three separate ten-element frame rows and the ten
+FPS slots are physically four-byte words. The stage loop now
+reads its six original frame-offset values, writes three frame
+pointers, reads two FPS-offset values and writes the FPS pointer
+through native i386 base + uint32(stage)*sizeof(word) addresses.
+The source uses the genuine replay record bases and preserves all
+ten original pointer publications and null tests; it does not
+construct a second header or introduce bounds checks or new calls.
+
+The two affected pinned VC7.1 ReplayInput carriers cold-replayed
+**12/12 exact siblings, 4,093 complete original bytes and 232
+relocations**, including the 591-byte LoadReplayData boss.
+The separately nonexact SaveReplay remains 1,238 bytes with
+53 fields and only its old two register bytes unlike. The
+separately nonexact BeginPlaybackStage remains 538 bytes versus
+540 target bytes with all 32 fields. Neither is promoted.
+The modification strengthens native packed-wire source fidelity,
+not whole-game Windows/runtime closure.
+
 ## 2026-11-12 Effect pool and animation VM native record traversal
 
 The actual EffectManager pool contains live 0xD8-byte Effect records,
