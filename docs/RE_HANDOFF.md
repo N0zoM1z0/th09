@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Enemy timeline arguments checkpoint:** the
+  complete 1,048-byte schedule interpreter reads variable
+  opcode payload words through native 32-bit byte addresses
+  instead of assuming separate C++ int arrays. One VC7.1
+  carrier preserves 2/2 exact owners, 1,068 physical bytes,
+  42 relocations and 16 independently PE/COFF-verified
+  private switch-label identities.
 - **2026-11-12 RunEcl child-context checkpoint:** the real
   0x22C-byte active and child ECL contexts now supply the
   source/destination +0x1C state-copy pointers through native

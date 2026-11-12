@@ -1163,6 +1163,33 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Enemy timeline packed opcode argument words
+
+EnemyScheduleRuntimeView::Run is the native 1,048-byte timeline
+interpreter for Enemy schedule spawn/remote/event opcodes. The
+original instruction header is eight bytes, followed by variable
+numbers of packed four-byte arguments. The six ordinary spawn
+arguments, extended spawn/score fields, range/random-position
+arguments, and remote slot parameters across opcodes 0, 1, 2,
+3, 4, 5, 8, 10, 11, 12, 15 and 17 now use the real
+file-backed payload address plus uint32(ordinal)*4. The
+lexical TH09_TIMELINE_NATIVE_ARG lvalue intentionally rereads
+each operand at its original caller site, rather than treating
+the eight-byte header's successor as a separate C++ int array
+with a new in-bounds contract. No new argument limit, cached
+wire field, memory owner, RNG call or original spawn action
+has been introduced.
+
+The single affected pinned VC7.1 EnemyScheduleRuntimeAdvance
+carrier cold-replayed **2/2 exact functions, 1,068 complete
+physical original PE bytes and 42 relocations**, including the
+1,048-byte Run boss and its 20-byte timer leaf.
+Sixteen private switch-label spellings changed; their actual
+current COFF same-section definitions and unchanged original
+PE operands were independently proved before updating only
+the matching manifest symbol names. These remain existing
+exact owners, not new exactness or game-runtime closure.
+
 ## 2026-11-12 RunEcl child context state-copy raw byte addresses
 
 The 15,564-byte EnemyEclManagerView::RunEcl ECL dispatcher creates a
