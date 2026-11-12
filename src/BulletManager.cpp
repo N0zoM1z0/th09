@@ -156,33 +156,41 @@ static const AnmVm *CopyBulletAnmVmCore(const AnmVm *src, AnmVm *dst)
     return src;
 }
 
+// Original signed sprite IDs and script-selected offsets are added as
+// native i386 DWORD words, including the full signed-overflow boundary.
+#define TH09_ETAMA_NATIVE_SPRITE_ID(baseId, delta) \
+    static_cast<int>(static_cast<unsigned int>(baseId) + \
+                     static_cast<unsigned int>(delta))
+
 void EtamaController::SelectBulletSprite(
     AnmVm *dst, const AnmVm *base, const AnmVm *sizeSource, int offset)
 {
     int baseSprite = base->activeSpriteIndex;
-    if (dst->activeSpriteIndex != baseSprite + offset)
+    if (dst->activeSpriteIndex != TH09_ETAMA_NATIVE_SPRITE_ID(baseSprite, offset))
     {
         AnmLoadedSprite *sprite =
             sizeSource->loadedSprite;
         if (sprite->heightPx <= 16.0f)
         {
             this->bulletAnm->SetSprite(
-                dst, baseSprite + NativeEtamaSpriteOffset(g_BulletSpriteOffsetSmall, offset));
+                dst, TH09_ETAMA_NATIVE_SPRITE_ID(baseSprite, NativeEtamaSpriteOffset(g_BulletSpriteOffsetSmall, offset)));
             return;
         }
         else if (sprite->heightPx <= 32.0f)
         {
             this->bulletAnm->SetSprite(
-                dst, baseSprite + NativeEtamaSpriteOffset(g_BulletSpriteOffsetMedium, offset));
+                dst, TH09_ETAMA_NATIVE_SPRITE_ID(baseSprite, NativeEtamaSpriteOffset(g_BulletSpriteOffsetMedium, offset)));
             return;
         }
         else
         {
-            this->bulletAnm->SetSprite(dst, baseSprite + offset);
+            this->bulletAnm->SetSprite(dst, TH09_ETAMA_NATIVE_SPRITE_ID(baseSprite, offset));
             return;
         }
     }
 }
+
+#undef TH09_ETAMA_NATIVE_SPRITE_ID
 
 void Bullet::Deactivate()
 {

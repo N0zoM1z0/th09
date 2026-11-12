@@ -1190,6 +1190,32 @@ SupervisorDrawMain, three 62-byte DrawMainLeaves in total, and the
 71-byte SupervisorDrawLoading callback. No compiler-private label
 rebinding or newly exact function/native runtime claim was involved.
 
+## 2026-11-12 Etama bullet sprite ID signed DWORD wrap
+
+The full Etama controller's sprite-selection path combines the
+live signed AnmVm::activeSpriteIndex with script-controlled
+sprite offsets, including the two original size-dependent
+g_BulletSpriteOffsetSmall/Medium pointer-table reads. Four
+separate source expressions now compute the resulting original
+sprite ID as unsigned modulo-32 i386 word arithmetic before
+restoring its signed value. This preserves the independently
+reloaded source VM, target sprite size branches and original
+SetSprite call sites. The sprite owner, script tables and
+controller memory remain unchanged; no extra sprite bound
+check or allocation is introduced.
+
+The three genuinely affected pinned VC7.1 BulletManager
+compiler carriers passed **18/18 existing exact functions,
+6,711 complete original PE bytes and 259 relocation fields**,
+including the large EtamaController::OnUpdate and
+SpawnSingleBullet owners. Sixteen compiler-private $L
+jump/switch labels changed their spelling only. Every
+current same-section COFF symbol definition, original PE
+operand and complete owner was independently validated
+before refreshing manifest symbol names. This improves
+native arithmetic semantics in already-exact codegen,
+not the canonical exact count or native Windows runtime gate.
+
 ## 2026-11-12 Player gameplay selector configured timing DWORD arithmetic
 
 The complete 3,238-byte PlayerUpdateSelectorState owner publishes
