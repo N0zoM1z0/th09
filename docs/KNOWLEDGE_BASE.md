@@ -1163,6 +1163,40 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Player collision CFG and Title result-byte trials
+
+The original v1.50a Player::CheckBulletCollision at 0x0041DFF0 was
+re-exported through Ghidra with every mapped PE byte reattested. The
+original is 862 bytes, 277 instructions, 33 direct CFG blocks,
+26 bound external fields and 12 ordered calls. The unchanged source
+candidate is 849 bytes, 266 instructions, 32 blocks, all 26 fields
+and 12 ordered calls, with 13 missing tail/extent bytes and 799 unlike
+overlapping byte positions. The original has distinct rotated-rectangle
+fallthrough and loop-back sites around 0x0041E07E / 0x0041E19E.
+Tests replacing the native pointer loop with ordinary pointer increments,
+positive type-selection predicates, reordered rotated bounds and
+axis-aligned comparison spellings mostly compiled to that same 849-byte
+candidate. The reversed rotated-order trial shortened it to 845 bytes;
+the loop-break/while restructures changed the three original ret 12
+exit contracts and were rejected. There is still one genuine original
+CFG block to reconstruct; no padding, manufactured goto or byte credit
+was installed.
+
+The original TitleScreenView::OnUpdateResult at 0x004266B5 was also
+re-exported from the attested target: 485 bytes, 147 instructions and
+40 direct blocks. Its cursor-table byte supplies both the cursor call
+and a signed selected-character publication. Ten focused VC7.1 source
+trials compared a by-value char/signed-char/int snapshot, live signed
+rereads, reference aliases, and post-call reloads. The candidate ranged
+from 483 to 488 bytes; some variants reduced raw overlapping differences
+by one while growing the owner and changing its complete offset layout.
+None reproduced the complete 485-byte original, although 34 external
+fields, nine calls and 40 CFG blocks stayed bound. The maintained
+484-byte candidate still has 218 differing overlapping positions and
+one missing byte. The remaining question is the distinct original
+source-load/sign-extension schedule, not an unverified exact match.
+All trial source edits were restored after the comparisons.
+
 ## 2026-11-12 SoundPlayer file-backed WAV cursor and chunk word arithmetic
 
 SoundPlayer::LoadSound parses original RIFF/WAVE file data as an i386

@@ -373,6 +373,13 @@ code slice or a similarity score. Do not use `--owner all`, an all-source
 cold replay or `ci.py --full` for routine iteration. Do not change the
 pinned VC7.1 profile or add inert register hints to force a match.
 
+The 2026-11-12 original-attested Player collision and Title result
+experiments are summarized in the knowledge base. Collision loop/type/
+bounds spellings did not recover the missing original CFG block; Title
+selected-character snapshot/reference/reload changes produced 483-488
+byte owners rather than the exact 485. No source candidate from those
+failed trials was installed.
+
 ## Best next questions; avoid repeating failed experiments
 
 Work on large bosses **and** small leaves. Previous changes to natural
