@@ -4372,6 +4372,33 @@ original PE operand destination and complete physical owner bytes. This is
 native source semantic recovery, not new exact-function or whole-product
 credit.
 
+## 2026-11-13 ANM interpreter authentic variable-length instruction prefix
+
+The exact **9,776-byte physical `AnmManager::ExecuteScript`** interprets
+file-backed bytecode with an eight-byte opcode/time/mask header followed by
+a **variable-length argument payload**. The original source projection
+claimed *ten* owned integer/float operands and forty owned argument bytes
+even for zero-argument opcodes. It now describes only a real eight-byte
+prefix plus the **first four-byte operand's integer/float/byte union**.
+All later typed argument reads and writable results already use independently
+proven `uint32(instruction)+offsetof(AnmRawInstr,intArgs/floatArgs)+4*index`
+Win32 byte addresses; `byteArgs[1]` remains a genuine on-wire byte inside
+the first DWORD. A source assertion fixes the exact +8 operand address and
+12-byte prefix size. The original variable-sized stream cursor, zero-operand
+instructions, signed jumps, VM state and all ANM opcode boundaries remain
+unchanged. No new interpreter ABI, bounds check, fixed payload allocation
+or function boundary is introduced.
+
+The **two affected pinned VC7.1 carriers** passed the complete original-bound
+comparison of **5/5 existing exact functions, 10,496 complete PE bytes and
+421 relocations**, including the 9,776-byte interpreter and its four
+independent scalar-variable leaf resolvers. The compiler renumbered **148
+private `$L` references** across those owners; each current same-section COFF
+definition, original PE destination, relocation addend and whole function
+body was checked before changing only manifest spellings. This is
+source-level file format recovery, not new exact-function or full native
+Windows product/runtime credit.
+
 ## 2026-11-12 Complete ANM interpreter integer/float variable wire addressing
 
 The **9,776-byte physical `AnmManager::ExecuteScript` boss** decodes

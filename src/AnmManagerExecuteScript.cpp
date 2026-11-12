@@ -158,11 +158,11 @@ enum AnmOpcode
     AnmOpcode_ReturnFromInterrupt = 89
 };
 
-// Retail ANM jump offsets and variable-length instruction advances form
-// native i386 32-bit byte addresses relative to the actual script buffer.
-// Keep the original signed wire offsets and instruction-size reads live.
-#define ANM_MAX_ARGS 10
-
+// The original ANM instruction is an eight-byte header followed by a
+// variable-length payload (including opcodes with no operands). The
+// one-DWORD union here describes only the first possible wire operand;
+// every other integer/float operand is addressed through the real native
+// script byte cursor, not through a fictional fixed ten-argument array.
 struct AnmRawInstr
 {
     i16 opcode;
@@ -170,11 +170,16 @@ struct AnmRawInstr
     i16 time;
     u16 varMask;
     union {
-        i32 intArgs[ANM_MAX_ARGS];
-        f32 floatArgs[ANM_MAX_ARGS];
-        u8 byteArgs[ANM_MAX_ARGS * sizeof(i32)];
+        i32 intArgs[1];
+        f32 floatArgs[1];
+        u8 byteArgs[sizeof(i32)];
     };
 };
+typedef char AnmWireNativeHeaderAndPayload[
+    (offsetof(AnmRawInstr, intArgs) == 8 &&
+     offsetof(AnmRawInstr, floatArgs) == 8 &&
+     offsetof(AnmRawInstr, byteArgs) == 8 &&
+     sizeof(AnmRawInstr) == 12) ? 1 : -1];
 
 // This 9,358-byte original-bound interpreter consumes the same native
 // 0x2A4-byte AnmVm whose constructor, runtime and Etama owners are rebuilt
