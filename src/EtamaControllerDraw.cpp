@@ -47,13 +47,15 @@ static int DrawSingleBullet(Bullet *bullet)
         break;
     }
 
-    float *position =
-        reinterpret_cast<D3DXVECTOR3 &>(bullet->position).operator float *();
-    float *vmPosition =
-        reinterpret_cast<D3DXVECTOR3 &>(vm->pos).operator float *();
-    vmPosition[0] = g_GameManager.TransformPopupX(position[0]);
-    vmPosition[1] = g_GameManager.TransformPopupY(position[1]);
-    vmPosition[2] = 0.05f;
+    // Keep both exact SDK operator float*() calls, but access the genuine
+    // three-float vectors rather than indexing past a float subobject.
+    D3DXVECTOR3 *position = reinterpret_cast<D3DXVECTOR3 *>(
+        reinterpret_cast<D3DXVECTOR3 &>(bullet->position).operator float *());
+    D3DXVECTOR3 *vmPosition = reinterpret_cast<D3DXVECTOR3 *>(
+        reinterpret_cast<D3DXVECTOR3 &>(vm->pos).operator float *());
+    vmPosition->x = g_GameManager.TransformPopupX(position->x);
+    vmPosition->y = g_GameManager.TransformPopupY(position->y);
+    vmPosition->z = 0.05f;
     vm->color1 |= 0x00FFFFFFu;
 
     if (*reinterpret_cast<short *>(vm->unknown_01FC) != 0)

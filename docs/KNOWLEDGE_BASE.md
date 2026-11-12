@@ -3260,6 +3260,27 @@ their actual same-section COFF definitions, original PE operands and
 every complete physical owner. This preserves existing codegen exactness;
 the nonexact game functions and whole-product/runtime stages remain open.
 
+## 2026-11-12 Etama draw authentic SDK vector component lvalues
+
+`DrawSingleBullet` selects one of the original five bullet ANM VMs,
+then calls both retail `D3DXVECTOR3::operator float*()` conversions: the
+actual bullet position and selected VM position. The source used the
+returned x-float pointer as an ersatz three-element `float` array. It now
+reinterprets each unchanged conversion result as a pointer to the genuine
+12-byte `D3DXVECTOR3`, and names `x`, `y`, and `z` when writing projected
+popup coordinates and the 0.05f depth. The original callback/callee ABI,
+D3DX layout, live reads, component order and target values are retained.
+
+One VC7.1 Etama drawing carrier rebuilt and independently verified **three
+complete canonical owners, 1,664 original-bound bytes and 73 relocation
+fields**, including both `DrawSingleBullet` and the entire
+`EtamaController::OnDraw`. Eleven purely compiler-private `$L` references
+were rebound only after proving each actual same-section COFF definition,
+original PE destination and unchanged complete bytes. The fourth support
+unit in that object (`etama-sdk-vector-pointer-identity-view`) is not in
+the canonical exact cohort and was not credited. No new exact function or
+Windows runtime-product closure is inferred.
+
 ## 2026-11-12 Etama update original Float3 collision coordinates
 
 Two original-bound BulletManager consumers call the real, independently
