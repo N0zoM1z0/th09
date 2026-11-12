@@ -1346,6 +1346,32 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 EnemyManager trailing collision index native stride
+
+The complete 3,900-byte nonexact EnemyManagerView::OnUpdate boss
+creates additional player collision boxes at script-defined
+trail samples. Its signed trailIndex begins at one, advances
+by six each step and is compared as signed against the live
+script-controlled trailCollisionLength53A4 short. That original
+i386 DWORD add now explicitly wraps modulo 2^32 before
+restoring the signed result for the existing condition.
+The original sample record address, Float3 movement math,
+damage handling, collision callbacks and draw-bucket
+scheduling are unchanged; no range guard, trail allocation,
+or new collision branch is added.
+
+The complete original-bound Enemy update guard remains
+**3,900 target and 3,900 candidate bytes**, with all **97
+reviewed relocation fields**, 69 ordered calls, intact
+control flow and exactly the previous **13 unmatched ordinary
+register bytes**. The full two-carrier pinned VC7.1
+EclManager scope replayed **83/83 already-exact siblings,
+29,856 physical original bytes and 1,389 bound fields**.
+Two private switch labels were independently proved against
+current same-section COFF definitions and retail PE operands
+before manifest-only renaming. EnemyManager::OnUpdate remains
+NONEXACT, not a new exact owner or runtime closure.
+
 ## 2026-11-12 ANM file entry chain and resource counts use native DWORDs
 
 The ANM resource loader consumes the real file-backed linked sequence of

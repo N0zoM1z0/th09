@@ -79,6 +79,14 @@ Git retains earlier source revisions.
   The full 2,381-byte HUD boss and 14 helper owners replay
   15/15 exact, 4,087 original bytes and 176 relocations
   in one focused VC7.1 carrier.
+- **2026-11-12 Enemy trail collision checkpoint:** the
+  full 3,900-byte nonexact EnemyManager OnUpdate boss
+  now advances signed trail collision indices by six as
+  native i386 DWORDs. Its 97 fields, 69 calls, graph and
+  prior 13 unlike bytes remain unchanged. Two EclManager
+  VC7.1 carriers preserve 83/83 exact siblings,
+  29,856 bytes and 1,389 fields, including two proven
+  compiler-private label spellings.
 - **2026-11-12 ANM linked-file entries checkpoint:** real
   variable-length .anm 0x40-byte file headers, name/texture
   source offsets, Sprite/Script tables, signed cumulative

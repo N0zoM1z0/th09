@@ -621,9 +621,14 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                     {
                         Float3 trailHitbox = reinterpret_cast<const Float3 &>(
                             enemy->hitboxDimensions2DBC);
+                        // This signed script-controlled trail index is a
+                        // native i386 DWORD incremented by six each step.
+                        // Retain the original signed comparison and exact
+                        // live hitbox reads even after a 32-bit wrap.
                         for (trailIndex = 1;
                              trailIndex < enemy->trailCollisionLength53A4;
-                             trailIndex += 6)
+                             trailIndex = static_cast<int>(
+                                 static_cast<unsigned int>(trailIndex) + 6u))
                         {
                             if ((enemy->trailFlags53A0 & 2) != 0)
                             {
