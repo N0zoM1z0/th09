@@ -3327,6 +3327,30 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Player selector's three native stack collision radius words
+
+The **3,238-byte** exact `PlayerUpdateSelectorState` gameplay boss builds
+three real `PlayerConstructedVector3View` half-size vectors next to a
+three-float local collision radius allocation (`48.0f`, `16.0f`, `0.0f`).
+Two candidate-pattern collision queries previously used direct C++
+`radii[halfSizeIndex]` and `radii[testHalfSize]`. These now read the actual
+stack float words via the original Win32 address `uint32(&radii[0]) +
+uint32(index) * sizeof(float)`, with each live index and original call
+order retained. The fallback grid traversal also advances `gridRadius`
+through its true four-byte word stride as a 32-bit byte address, in parallel
+with the separately genuine 0x0C-byte half-size vector stride.
+
+There is no replacement radius allocation, bounds check, cache, altered
+collision decision or changed RNG/option geometry. The two affected
+pinned VC7.1 profiles reproduced **2/2 existing exact canonical owners,
+3,650 complete original PE bytes and all 154 relocation fields**, including
+the whole selector boss and 412-byte `ResolvePatternOffset` leaf. Two
+compiler-private `$L` names in that exact leaf changed with source lines;
+their real same-section COFF definitions, original PE destinations and
+complete owner bodies were proven independently before manifest updates.
+This is source-level native stack-layout recovery, not added exact-owner
+or Windows product/runtime credit.
+
 ## 2026-11-12 Post-ECL movement's real Float3 z component after conversion
 
 The unsplit `EclManager.cpp` translation unit owns both the **15,564-byte
