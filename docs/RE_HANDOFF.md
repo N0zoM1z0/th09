@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 ANM variable-mask checkpoint:** the genuine
+  GetFloatVarPtr and GetIntVarPtr mask tests now shift an
+  unsigned DWORD instead of potentially shifting a signed
+  one into its sign bit. The two affected VC7.1 carriers
+  preserve 5/5 exact functions, 10,496 original bytes,
+  421 fields including the 9,776-byte ANM script boss.
 - **2026-11-12 Replay decoder checkpoint:** the actual
   0x1EC-byte ReplayDataView header's 3x10 frame offset/pointer
   row and ten FPS slots now use native i386 DWORD address

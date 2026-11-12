@@ -216,9 +216,12 @@ i32 AnmVm::GetIntVar(i32 varId)
     }
 }
 
+// The two script-variable mask resolvers test genuine unsigned
+// 32-bit bit patterns, including the sign-bit position of a mask,
+// without invoking undefined signed C++ left shifts.
 f32 *AnmVm::GetFloatVarPtr(f32 *varPtr, u16 varMask, u32 variableNumber)
 {
-    if ((varMask & (1 << variableNumber)) == 0) return varPtr;
+    if ((varMask & (1u << variableNumber)) == 0) return varPtr;
     switch ((i32)*varPtr) {
     case AnmVariable_F0: return &floatVar0;
     case AnmVariable_F1: return &floatVar1;
@@ -230,7 +233,7 @@ f32 *AnmVm::GetFloatVarPtr(f32 *varPtr, u16 varMask, u32 variableNumber)
 
 i32 *AnmVm::GetIntVarPtr(i32 *varPtr, u16 varMask, u32 variableNumber)
 {
-    if ((varMask & (1 << variableNumber)) == 0) return varPtr;
+    if ((varMask & (1u << variableNumber)) == 0) return varPtr;
     switch (*varPtr) {
     case AnmVariable_I0: return &intVar0;
     case AnmVariable_I1: return &intVar1;

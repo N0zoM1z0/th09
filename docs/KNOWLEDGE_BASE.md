@@ -1163,6 +1163,28 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 ANM variable-mask leaves preserve unsigned bit tests
+
+The real AnmVm::GetFloatVarPtr and GetIntVarPtr resolve dynamic ANM
+script variable arguments from a 16-bit wire mask and a native
+32-bit argument number. Their mask tests now shift an unsigned
+one-bit DWORD, rather than a signed int whose sign-bit shift is
+undefined in C++. This preserves the original i386 zero/nonzero
+mask check without a new guard or variable conversion. The same
+real variable-ID switches, pointer returns and read chronology
+remain unchanged. An explicitly masked shift-count trial changed
+the GetFloatVarPtr complete physical extent and was rejected
+before installation; the natural unsigned-DWORD bit test is
+already byte-identical to retail.
+
+Both genuinely affected VC7.1 carriers cold-replayed **5/5 exact
+functions, 10,496 complete original PE bytes and 421 relocation
+fields**, including both variable-mask leaves and the 9,776-byte
+AnmManager::ExecuteScript complete owner. No compiler-private
+label changes were required. This recovers the unsigned nature
+of the variable-mask bit test in existing exact source, not new
+exact-function or Windows-product/runtime closure.
+
 ## 2026-11-12 Replay decoded file-header frame and FPS wire slots
 
 ReplayManagerView::LoadReplayData interprets the actual file-backed
