@@ -301,9 +301,14 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         &TH09_PATTERN_CONFIG(initialPlayer->sideState->characterIndex2C);
     if (g_GameManager.IsGameMode1())
     {
+        // Configured interval frames are a live signed DWORD; original
+        // gameplay uses native i386 multiply/subtract wrap before sending
+        // its signed remaining-frame value to the front display.
         int openingTime = static_cast<int>(header->openingTimer5C);
         initialPlayer->opponentState->frontSide18->SetTimingDigits(
-            config->openingShort08 * 60 - openingTime);
+            static_cast<int>(
+                static_cast<unsigned int>(config->openingShort08) * 60u -
+                static_cast<unsigned int>(openingTime)));
     }
 
     if ((header->flags74 & 1U) == 0)

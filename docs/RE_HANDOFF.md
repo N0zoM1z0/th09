@@ -31,6 +31,14 @@ Git retains earlier source revisions.
   VC7.1 carriers preserve 5/5 exact owners, 445 bytes,
   26 original-bound relocations, including DrawMain and
   its three small leaf helpers.
+- **2026-11-12 Player pattern selector checkpoint:** the live
+  signed 0x1C-byte pattern-config opening interval now
+  multiplies by 60 and subtracts the timer as an original
+  i386 DWORD before publishing the signed display value.
+  Two VC7.1 carriers retain 2/2 exact owners, 3,650 PE
+  bytes and 154 relocations, including the 3,238-byte
+  PlayerUpdateSelectorState boss. Two compiler-private
+  labels have independent original PE/COFF proofs.
 - **2026-11-12 Supervisor viewport checkpoint:** dynamic
   signed view selectors now address the three true 0xF0-byte
   Supervisor camera/viewport records by modulo-32 native

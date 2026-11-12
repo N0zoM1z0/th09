@@ -1190,6 +1190,30 @@ SupervisorDrawMain, three 62-byte DrawMainLeaves in total, and the
 71-byte SupervisorDrawLoading callback. No compiler-private label
 rebinding or newly exact function/native runtime claim was involved.
 
+## 2026-11-12 Player gameplay selector configured timing DWORD arithmetic
+
+The complete 3,238-byte PlayerUpdateSelectorState owner publishes
+opening pattern timing to the opposing front side. The signed
+PlayerPatternConfig::openingShort08 field is read live from the
+genuine 0x1C-byte pattern configuration row and multiplied by
+60, then the original signed ZunTimer opening-frame value is
+subtracted before calling SetTimingDigits. That combined
+multiply/subtract now uses the native i386 unsigned DWORD word
+arithmetic and returns the original signed word bits, rather
+than depending on C++ signed-overflow behavior for game data.
+No extra clamping, replay input read, timer increment or
+change to RNG/pattern selection is introduced.
+
+Both actually affected pinned VC7.1 carrier profiles cold-replayed
+**2/2 existing exact functions, 3,650 complete original PE
+bytes and 154 bound relocation fields**, including the
+3,238-byte full selector and its 412-byte ResolvePatternOffset
+leaf. Two compiler-private jump labels were renumbered and
+independently proved from current same-section COFF definitions,
+unchanged original PE operands and full owner bytes before
+re-binding only their manifest spellings. No new exact
+function or Windows-native runtime closure is claimed.
+
 ## 2026-11-12 Supervisor camera and viewport native record selection
 
 The original Supervisor allocation owns three actual 0xF0-byte
