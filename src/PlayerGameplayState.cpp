@@ -392,7 +392,8 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     {
         if (header->retryCooldown50 != 0)
         {
-            --header->retryCooldown50;
+            // Retail decrements the live retry timer as a wrapping DWORD.
+            --*reinterpret_cast<unsigned int *>(&header->retryCooldown50);
             for (halfSizeIndex = 0; halfSizeIndex < 2; ++halfSizeIndex)
             {
                 selectedPattern = header->currentPattern54;
@@ -507,7 +508,9 @@ pattern_selected:
                 header->recentPatternFlags30[3] == header->recentPatternFlags30[4] &&
                 header->recentPatternFlags30[4] == header->recentPatternFlags30[5])
             {
-                int candidatePattern = TH09_PATTERN_ALTERNATE(g_ReplayRng.GetRandomU16InRange(2) * 9 + selectedPattern);
+                int candidatePattern = TH09_PATTERN_ALTERNATE(static_cast<int>(
+                    static_cast<unsigned int>(g_ReplayRng.GetRandomU16InRange(2)) * 9u +
+                    static_cast<unsigned int>(selectedPattern)));
                 PlayerLifecycleView *candidatePlayer = header->player78;
 
                 {

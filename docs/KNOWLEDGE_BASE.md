@@ -1163,6 +1163,26 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Player pattern boss native cooldown and alternate-index words
+
+The complete original-bound 3,238-byte PlayerUpdateSelectorState owner
+decrements its live signed retryCooldown50 as an i386 DWORD, which wraps
+at INT_MIN instead of invoking C++ signed-overflow behavior. The selector
+also combines its original RNG value (either zero or one, multiplied by
+nine) with the active selectedPattern as a wrapping native DWORD before
+addressing the original alternate-pattern lookup table. The real lookup
+still uses the existing 32-bit table base and index stride; no clamping,
+extra read, copied table or altered RNG call was introduced.
+
+The two actual VC7.1 carriers for PlayerUpdateSelectorState and its
+ResolvePatternOffset helper cold-replayed **2/2 exact functions, 3,650
+physical bytes, 154 original-bound relocation fields**. The two
+compiler-private local label spellings in the 412-byte helper changed,
+but their actual same-section COFF definitions and original PE operand
+targets were independently checked, together with every source byte and
+field, before rebinding the manifest. This is a native-meaning repair to
+an already-exact large boss and exact helper, not a new exact promotion.
+
 ## 2026-11-12 ANM integer bytecode arithmetic wraps at the native DWORD width
 
 The 9,776-byte complete physical AnmManager::ExecuteScript owner (9,358

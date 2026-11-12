@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Player selector checkpoint:** the 3,238-byte exact pattern
+  boss now preserves signed cooldown decrement and alternate-pattern
+  arithmetic as native wrapping DWORDs. Its helper and full boss pass
+  two VC7.1 carriers (2/2 owners, 3,650 bytes, 154 fields), with two
+  original-PE/COFF-proven compiler-private label rebindings.
 - **2026-11-12 ANM checkpoint:** the 9,776-byte exact script interpreter
   now uses native modulo-32 integer arithmetic for six arithmetic bytecode
   opcodes. Both affected VC7.1 carriers preserve 5/5 exact owners,
