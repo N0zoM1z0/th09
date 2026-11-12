@@ -140,7 +140,9 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
     SupervisorSetupLayout *supervisor =
         reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
 
-    g_GameManager.playtimeFrames12C++;
+    // Retail advances these persistent signed frame and reward words with
+    // native modulo-32 i386 instructions, not C++ signed-overflow behavior.
+    ++*reinterpret_cast<unsigned int *>(&g_GameManager.playtimeFrames12C);
 
     if (g_GameManager.gameMode != 2 ||
         g_GameManager.sides[0].replaySelector28 != 0 ||
@@ -172,7 +174,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
     {
         if (g_GameManager.gameplaySetupState124 == 2)
             return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-        gameManager->gameplaySetupWaitFrames++;
+        ++*reinterpret_cast<unsigned int *>(&gameManager->gameplaySetupWaitFrames);
         return CHAIN_CALLBACK_RESULT_BREAK;
     }
 
@@ -203,7 +205,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         if (g_ReplayInputStates[2].word06 != 0)
             supervisor->state590 = 1;
 
-        gameManager->demoFrameCount++;
+        ++*reinterpret_cast<unsigned int *>(&gameManager->demoFrameCount);
         if (gameManager->demoFrameCount == 6000)
         {
             ScreenEffect::RegisterChain(
@@ -227,11 +229,13 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 
     if (!globalManager.gameSubsystem->IsBlocked())
     {
-        g_GameManager.valueD0++;
+        ++*reinterpret_cast<unsigned int *>(&g_GameManager.valueD0);
 
         if (++g_GameManager.valueB0 % g_GameManager.valueC4 ==
             g_GameManager.valueC4 - 1 &&
-            ++g_GameManager.limitB4 > g_GameManager.valueC8)
+            static_cast<int>(
+                ++*reinterpret_cast<unsigned int *>(&g_GameManager.limitB4)) >
+                    g_GameManager.valueC8)
         {
             g_GameManager.limitB4 = g_GameManager.valueC8;
         }
@@ -268,7 +272,9 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
                 increase = 4;
             else
                 increase = elapsed < 5400u ? 6 : 7;
-            g_GameManager.valueCC += increase;
+            g_GameManager.valueCC = static_cast<int>(
+                static_cast<unsigned int>(g_GameManager.valueCC) +
+                static_cast<unsigned int>(increase));
         }
 
         if (g_GameManager.valueCC > 10000)
@@ -372,7 +378,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         globalManager.AdvanceTimedState();
     }
 
-    gameManager->value348++;
+    ++*reinterpret_cast<unsigned int *>(&gameManager->value348);
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 

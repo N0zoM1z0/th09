@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 GameManager update checkpoint:** seven signed
+  counter/reward operations now preserve i386 DWORD wrap (including
+  signed comparison after limitB4 increment). The two real VC7.1
+  carriers protect 12/12 exact owners, 4,680 physical bytes, and 415
+  original-bound relocations, including OnUpdate and GameplaySetupThread.
 - **2026-11-12 Enemy timeline checkpoint:** ten variable-length
   instruction payload references now use native DWORD header+0x08
   addresses rather than C++ pointer arithmetic past a header view.

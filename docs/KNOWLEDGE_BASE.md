@@ -1163,6 +1163,25 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 GameManager update native frame and reward counters
+
+The already exact GameManagerSetupLayout::OnUpdate callback uses seven
+mutable signed 32-bit words as retail i386 counters. The playtime frame,
+gameplay-setup wait, demo playback frame, difficulty valueD0, running reward
+valueCC, manager value348, and conditional limitB4 increment now explicitly
+use unsigned DWORD bitwise arithmetic before restoring the intended signed
+result where needed. This avoids undefined signed-overflow semantics while
+preserving the original unrestricted 32-bit wrap; limitB4 is still compared
+*as signed* against valueC8 after its increment. The resource/score gates,
+RNG calls, side updates, and original call order are unchanged.
+
+The complete source-scoped VC7.1 check rebuilt only the two actual GameManager
+carriers and proved **12/12 exact owners, 4,680 complete original bytes,
+415 relocation fields**, including the 1,230-byte OnUpdate and the
+1,689-byte GameplaySetupThread. The affected statements compile to the
+original unmodified machine instructions. This is a source-level native
+arithmetic improvement, not a new exactness claim or whole-product closure.
+
 ## 2026-11-12 Enemy timeline variable-length argument address identity
 
 The native EnemyScheduleRuntimeView::Run decodes variable-size timeline
