@@ -317,6 +317,18 @@ static __forceinline EnemyTrailSampleView &NativeEnemyTrailSample(
             sizeof(enemy->trailSamples33E8[0]));
 }
 
+// The active and restricted-side paths append to the same four native
+// EnemyManager draw-head pointer words (+0x2AC410). Runtime group bytes
+// form a full i386 DWORD offset; do not add a C++ four-element subscript
+// precondition or a clamping branch at either original append site.
+static __forceinline EnemyView **NativeEnemyDrawHead(
+    EnemyManagerView *manager, unsigned int group)
+{
+    return reinterpret_cast<EnemyView **>(
+        reinterpret_cast<unsigned int>(&manager->drawGroupHeads2AC410[0]) +
+        group * sizeof(manager->drawGroupHeads2AC410[0]));
+}
+
 int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
 {
     int bombHit = 0;
@@ -407,10 +419,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             {
                 if ((flags & ENEMY_CORE_NO_SPRITE) == 0)
                 {
-                    drawHead = reinterpret_cast<EnemyView **>(
-                        reinterpret_cast<unsigned int>(manager->drawGroupHeads2AC410) +
-                        static_cast<unsigned int>(enemy->drawGroup3387) *
-                        static_cast<unsigned int>(sizeof(manager->drawGroupHeads2AC410[0])));
+                    drawHead = NativeEnemyDrawHead(manager, enemy->drawGroup3387);
                     goto append_enemy_to_draw_group;
                 }
                 continue;
@@ -966,10 +975,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         if ((enemy->primaryFlags337C & ENEMY_CORE_NO_SPRITE) == 0 &&
             (enemy->primaryFlags337C & ENEMY_CORE_ACTIVE) != 0)
         {
-            drawHead = reinterpret_cast<EnemyView **>(
-                        reinterpret_cast<unsigned int>(manager->drawGroupHeads2AC410) +
-                        static_cast<unsigned int>(enemy->drawGroup3387) *
-                        static_cast<unsigned int>(sizeof(manager->drawGroupHeads2AC410[0])));
+            drawHead = NativeEnemyDrawHead(manager, enemy->drawGroup3387);
         }
         else
             continue;

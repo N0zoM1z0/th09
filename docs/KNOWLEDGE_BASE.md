@@ -3281,6 +3281,30 @@ Player InitializeShot 309, EX-attack Type4 739. These were already exact;
 this correction removes accidental C++ pointer-to-float-subobject array
 assumptions and makes no new exact-function or whole-product claim.
 
+## 2026-11-12 Enemy OnUpdate unified native draw-group head addresses
+
+`EnemyManagerView::OnUpdate @ 0x00410730` stores the visible enemies in the
+one actual four-pointer draw-head allocation at manager+`0x2AC410`.
+Both the restricted-side/hidden-visibility path and ordinary active-enemy
+path now use one inlined native address computation: authentic first head
+address plus `uint32(drawGroup3387) * sizeof(EnemyView*)` on the original
+32-bit i386 word. The draw group is a live unsigned byte on each path,
+not a checked C++ subscript or a cloned table; the original append order,
+branch tests, enemy linked-list updates and all field rereads are retained.
+No new callable function boundary, validation or shadow allocation is added.
+
+The complete nonexact **3,900-byte Enemy OnUpdate** still has exactly its
+previous **13 ordinary differences**, all **97 original-bound relocation
+fields** and **69 ordered calls** (same CFG and switch destinations).
+The co-visible **15,564-byte RunEcl** still has exactly its prior **30**
+differences (7 in opcode 4, 23 in opcode 155), **598** fields and both switch
+tables intact. The pinned /Ob0 and /Ob1 VC7.1 source-scoped replay passed
+**83/83 previously exact sibling owners, 29,856 physical bytes and 1,389
+fields**. Only two private `$L` references changed numbering, and each was
+proven from actual same-section COFF definitions, unchanged original PE
+operands and complete linked bytes before updating the manifest spelling.
+This is source-level native owner consolidation, not new exact owner credit.
+
 ## 2026-11-12 ANM 9,358-byte interpreter native jump payload words
 
 `AnmManager::ExecuteScript` executes variable-size ANM file records, not
