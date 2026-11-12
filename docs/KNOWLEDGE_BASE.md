@@ -1446,6 +1446,29 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-12 Enemy defeat/reward native effect and region ID words
+
+The complete 1,142-byte EnemyView::HandleDeathRewards receives a
+signed script-controlled deathEffectVariant3368 from the live
+EnemyView, then publishes the corresponding +20 effect ID or
++8 Player CreateCircleType2 region ID in two distinct branches.
+Those three original additions now form unsigned modulo-32 i386
+DWORD results before restoring the signed ID for the unchanged
+native SpawnEffect/region calls, rather than relying on
+C++ signed-overflow behavior for possibly negative or high
+original script values.
+
+The original return gates, enemy token and death-sound choice,
+reward-tier interval and score arithmetic, RNG sequence,
+other-side switch, pop-up positioning and all recipient
+calls are unchanged. The single affected pinned VC7.1
+EnemyManagerUpdate carrier cold-replayed **1/1 exact
+complete 1,142-byte owner and all 39 original PE
+relocation fields**. This is native source fidelity in
+the large reward callback called by the still-nonexact
+EnemyManager::OnUpdate, not new exact-function credit
+or whole-game runtime completion.
+
 ## 2026-11-12 Bullet transform program next-instruction and Sprite ID DWORDs
 
 The complete 1,320-byte Bullet::AdvanceTransformProgram interprets

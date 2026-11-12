@@ -43,6 +43,9 @@ void EnemyView::HandleDeathRewards(int hitKind)
     g_SoundPlayer.PlaySoundPositionedByIdx(
         this->sequenceIndex2E58 % 2 + 2, worldPosition->x);
 
+    // Script-controlled signed deathEffectVariant chooses three original
+    // effect/region IDs. Retail adds +20/+8 with native i386 DWORD wrap,
+    // including possible negative configuration/script values.
     if ((this->rewardFlags3380 & 0x01C0) != 0 && hitKind != 0 &&
         (this->rewardFlags3380 & 0x1000) == 0)
     {
@@ -55,7 +58,8 @@ void EnemyView::HandleDeathRewards(int hitKind)
     else
     {
         this->manager00->sideState320->effectManager0C->SpawnEffect(
-            this->deathEffectVariant3368 + 20,
+            static_cast<int>(
+                static_cast<unsigned int>(this->deathEffectVariant3368) + 20u),
             reinterpret_cast<EffectFloat3 *>(worldPosition),
             1,
             static_cast<unsigned int>(-1));
@@ -75,7 +79,8 @@ void EnemyView::HandleDeathRewards(int hitKind)
                 32.0f,
                 rewardScalar,
                 3,
-                this->deathEffectVariant3368 + 8,
+                static_cast<int>(
+                    static_cast<unsigned int>(this->deathEffectVariant3368) + 8u),
                 4);
         }
         else
@@ -93,7 +98,8 @@ void EnemyView::HandleDeathRewards(int hitKind)
                 32.0f,
                 rewardScalar,
                 2,
-                this->deathEffectVariant3368 + 8,
+                static_cast<int>(
+                    static_cast<unsigned int>(this->deathEffectVariant3368) + 8u),
                 4);
         }
     }

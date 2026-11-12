@@ -107,6 +107,14 @@ Git retains earlier source revisions.
   draw order. One pinned VC7.1 carrier preserves the
   complete 693-byte SetupRandomForSide owner and all
   15 original PE relocation fields.
+- **2026-11-12 Enemy reward/effect-ID checkpoint:**
+  HandleDeathRewards now combines the signed,
+  script-provided death effect ID with +20/+8 as
+  native i386 DWORD words before calling the original
+  effect and Player circle region functions.
+  The focused VC7.1 compiler carrier preserves the
+  complete 1,142-byte exact owner, all 39 relocations.
+  Its Enemy OnUpdate caller remains nonexact.
 - **2026-11-12 Bullet transform interpreter checkpoint:**
   all live transform-index increments, the additional
   0x18-byte child-spawn instruction cursor, the real
