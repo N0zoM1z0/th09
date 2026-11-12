@@ -2513,6 +2513,9 @@ static inline ReplayDataView *&NativeTitleReplayAllocation(TitleScreenView *titl
         static_cast<unsigned int>(index) * sizeof(title->replayAllocations[0]));
 }
 
+// The replay list and stage selector are live signed DWORDs. Preserve
+// retail's modulo-32 i386 cursor motions and perform the existing wrap
+// comparisons as signed integers, including preincrement/pretdecrement.
 int TitleScreenView::OnUpdateReplayMenu()
 {
     char fullPath[1024];
@@ -2599,31 +2602,31 @@ int TitleScreenView::OnUpdateReplayMenu()
         if (g_TitleInput.IsPressedScrolling(0x10))
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
-            if (--keyboardSelection < 0)
-                keyboardSelection += 50;
+            if (static_cast<i32>(--*reinterpret_cast<u32 *>(&keyboardSelection)) < 0)
+                TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, 50);
             stateTimer = 0;
         }
         if (g_TitleInput.IsPressedScrolling(0x20))
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
-            if (++keyboardSelection >= 50)
-                keyboardSelection -= 50;
+            if (static_cast<i32>(++*reinterpret_cast<u32 *>(&keyboardSelection)) >= 50)
+                TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -50);
             stateTimer = 0;
         }
         if (g_TitleInput.IsPressedScrolling(0x40))
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
-            keyboardSelection -= 25;
+            TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -25);
             if (keyboardSelection < 0)
-                keyboardSelection += 50;
+                TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, 50);
             stateTimer = 0;
         }
         if (g_TitleInput.IsPressedScrolling(0x80))
         {
             g_SoundPlayer.PlaySoundByIdx(12, 0);
-            keyboardSelection += 25;
+            TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, 25);
             if (keyboardSelection >= 50)
-                keyboardSelection -= 50;
+                TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -50);
             stateTimer = 0;
         }
 
@@ -2653,7 +2656,7 @@ int TitleScreenView::OnUpdateReplayMenu()
                 keyboardSelection = 0;
                 phaseTimer = 0;
                 while (NativeTitleReplayRow(this, selectedReplay).frameStart[0][keyboardSelection] == 0)
-                    keyboardSelection++;
+                    TH09_TITLE_NATIVE_INCREMENT(keyboardSelection);
             }
             else
             {
@@ -2669,11 +2672,11 @@ int TitleScreenView::OnUpdateReplayMenu()
         {
             while (NativeTitleReplayRow(this, selectedReplay).frameStart[0][keyboardSelection] == 0)
             {
-                keyboardSelection += direction;
+                TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, direction);
                 if (keyboardSelection >= 10)
-                    keyboardSelection -= 10;
+                    TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -10);
                 if (keyboardSelection < 0)
-                    keyboardSelection += 10;
+                    TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, 10);
             }
         }
 

@@ -1163,6 +1163,30 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Title replay menu list and stage cursor DWORD wrap
+
+The complete TitleScreenView::OnUpdateReplayMenu owner selects one
+of 50 replay-file records and an active stage within its chosen
+replay. Twelve signed keyboardSelection mutations now use native
+i386 DWORD modulo-32 arithmetic: list -1/+1 and their signed
+comparison results, +/-50 and +/-25 wrap, the stage +direction
+increment, +/-10 stage wrap, and the initial invalid-frame
+cursor advance. The source preserves the original signed branch
+gates, selection search, replay-file allocations, title animation
+calls, path publishing and stream start order. No new bounds
+check, record or replay-header validity test is introduced.
+
+Both pinned VC7.1 TitleScreen carriers replayed **41/41 already
+exact owners, 18,972 complete original PE bytes and 953
+relocations**, including the large replay-browse and stage-selection
+owner alongside its exact title leaves. Nine compiler-private
+labels were independently verified against current same-section
+COFF definitions, unchanged original PE targets and complete
+owner bytes before manifest-only rebinding. The separate
+nonexact OnUpdateResult guard remains 485 original / 484
+candidate bytes, 34 fields and 218 unlike overlapping bytes;
+it is not promoted. No whole-product build or runtime claim.
+
 ## 2026-11-12 score.dat reader and variable-size chapter traversal
 
 ScoreFileView::OpenScore decodes the actual file-backed score.dat

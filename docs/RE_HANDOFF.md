@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Replay menu navigation checkpoint:** twelve
+  signed list/stage cursor motions and wrap comparisons in
+  OnUpdateReplayMenu now preserve original i386 DWORD results.
+  Two TitleScreen VC7.1 carriers retain 41/41 exact owners,
+  18,972 bytes/953 PE fields and nine PE/COFF-proven jump
+  labels; nonexact OnUpdateResult remains 485/484 bytes,
+  34 fields and 218 unlike overlaps.
 - **2026-11-12 score.dat reader checkpoint:** file-backed
   OpenScore deobfuscation/checksum byte cursors, LZSS payload
   source/destination and variable-size chapter readers now
