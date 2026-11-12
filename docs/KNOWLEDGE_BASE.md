@@ -3392,6 +3392,26 @@ The one affected pinned VC7.1 source carrier replayed **1/1 previously
 exact owner, 1,939 complete original PE bytes and all 82 relocation fields**.
 No new exact-owner credit or complete Windows runtime/product claim follows.
 
+## 2026-11-13 Title key-config 25 live controller side-row lookups
+
+The **2,803-byte exact `TitleScreenView::OnUpdateKeyConfig`** uses one real
+0x6C-byte serialized `TitleKeyMapping` union containing **two physical
+0x36-byte `TitleKeySideMapping` records**. Twenty-five independent reads
+and writes of `sides[keyConfigSide]` (initial display, repeated five-key
+refresh, and the five duplicate-key remap branches) now share one lexical
+`TH09_KEY_NATIVE_SIDE` row lvalue formed from the actual mapping union base
+plus its signed native row selector. This does not materialize another
+mapping allocation, cache the selector, invent a bounds gate or merge
+successive memory accesses. Both key remap metadata and the externally
+serialized GameConfiguration retain the same original physical storage.
+The original key-swap calls, input chronology, 57 AnmVm owner records,
+0x36-byte row layout and signed side-toggle/cursor DWORD writes remain.
+
+One affected pinned VC7.1 key-config carrier replayed **2/2 preexisting
+exact functions, 2,909 full original PE bytes and 118 relocations**,
+including the 2,803-byte boss and 106-byte duplicate-index leaf. No new
+exact-function count or complete Windows product claim follows.
+
 ## 2026-11-12 Title key-config boss's native side and menu cursor DWORD writes
 
 The exact **2,803-byte `TitleScreenView::OnUpdateKeyConfig`** owns one

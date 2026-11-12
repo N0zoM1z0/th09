@@ -176,6 +176,12 @@ short *TitleScreenView::SwapDuplicateCharacterIndex(
         reinterpret_cast<u8 *>(&helpTextVms[0]) + \
         static_cast<unsigned int>(index) * sizeof(helpTextVms[0]))
 
+// The 0x6C-byte serialized mapping has two genuine 0x36-byte side rows.
+// Use the real mapping storage as the native typed row base, preserving
+// independent signed side-index reads and the original VC7.1 addressing.
+#define TH09_KEY_NATIVE_SIDE(index) \
+    (*(reinterpret_cast<TitleKeySideMapping *>(&keyMapping) + (index)))
+
 i32 TitleScreenView::OnUpdateKeyConfig()
 {
     AnmVmView *vmPair;
@@ -209,19 +215,19 @@ i32 TitleScreenView::OnUpdateKeyConfig()
                 TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
 
             vmPair = &vms[50];
-            SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[0]);
+            SetTwoDigitVmValue(vmPair, TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[0]);
             vmPair = reinterpret_cast<AnmVmView *>(
                 reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
-            SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[1]);
+            SetTwoDigitVmValue(vmPair, TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[1]);
             vmPair = reinterpret_cast<AnmVmView *>(
                 reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
-            SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[2]);
+            SetTwoDigitVmValue(vmPair, TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[2]);
             vmPair = reinterpret_cast<AnmVmView *>(
                 reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
-            SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[8]);
+            SetTwoDigitVmValue(vmPair, TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[8]);
             vmPair = reinterpret_cast<AnmVmView *>(
                 reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
-            SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[3]);
+            SetTwoDigitVmValue(vmPair, TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[3]);
             previousCursor = -1;
         }
 
@@ -255,19 +261,19 @@ i32 TitleScreenView::OnUpdateKeyConfig()
     previousCursor = keyboardSelection;
 
     vmPair = &vms[50];
-    SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[0]);
+    SetTwoDigitVmValue(vmPair, TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[0]);
     vmPair = reinterpret_cast<AnmVmView *>(
                 reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
-    SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[1]);
+    SetTwoDigitVmValue(vmPair, TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[1]);
     vmPair = reinterpret_cast<AnmVmView *>(
                 reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
-    SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[2]);
+    SetTwoDigitVmValue(vmPair, TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[2]);
     vmPair = reinterpret_cast<AnmVmView *>(
                 reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
-    SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[8]);
+    SetTwoDigitVmValue(vmPair, TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[8]);
     vmPair = reinterpret_cast<AnmVmView *>(
                 reinterpret_cast<u8 *>(vmPair) + 2u * sizeof(*vmPair));
-    SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[3]);
+    SetTwoDigitVmValue(vmPair, TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[3]);
 
     if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) < 2)
     {
@@ -286,43 +292,43 @@ i32 TitleScreenView::OnUpdateKeyConfig()
             {
             case 3:
                 SwapDuplicateCharacterIndex(
-                    keyMapping.sides[keyConfigSide].keys,
+                    TH09_KEY_NATIVE_SIDE(keyConfigSide).keys,
                     keyToChange,
-                    keyMapping.sides[keyConfigSide].keys[0],
+                    TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[0],
                     1);
-                keyMapping.sides[keyConfigSide].keys[0] = keyToChange;
+                TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[0] = keyToChange;
                 break;
             case 4:
                 SwapDuplicateCharacterIndex(
-                    keyMapping.sides[keyConfigSide].keys,
+                    TH09_KEY_NATIVE_SIDE(keyConfigSide).keys,
                     keyToChange,
-                    keyMapping.sides[keyConfigSide].keys[1],
+                    TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[1],
                     0);
-                keyMapping.sides[keyConfigSide].keys[1] = keyToChange;
+                TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[1] = keyToChange;
                 break;
             case 5:
                 SwapDuplicateCharacterIndex(
-                    keyMapping.sides[keyConfigSide].keys,
+                    TH09_KEY_NATIVE_SIDE(keyConfigSide).keys,
                     keyToChange,
-                    keyMapping.sides[keyConfigSide].keys[2],
+                    TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[2],
                     1);
-                keyMapping.sides[keyConfigSide].keys[2] = keyToChange;
+                TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[2] = keyToChange;
                 break;
             case 6:
                 SwapDuplicateCharacterIndex(
-                    keyMapping.sides[keyConfigSide].keys,
+                    TH09_KEY_NATIVE_SIDE(keyConfigSide).keys,
                     keyToChange,
-                    keyMapping.sides[keyConfigSide].keys[8],
+                    TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[8],
                     0);
-                keyMapping.sides[keyConfigSide].keys[8] = keyToChange;
+                TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[8] = keyToChange;
                 break;
             case 7:
                 SwapDuplicateCharacterIndex(
-                    keyMapping.sides[keyConfigSide].keys,
+                    TH09_KEY_NATIVE_SIDE(keyConfigSide).keys,
                     keyToChange,
-                    keyMapping.sides[keyConfigSide].keys[3],
+                    TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[3],
                     0);
-                keyMapping.sides[keyConfigSide].keys[3] = keyToChange;
+                TH09_KEY_NATIVE_SIDE(keyConfigSide).keys[3] = keyToChange;
                 break;
             default:
                 goto afterControllerBinding;
@@ -580,3 +586,5 @@ afterControllerBinding:
 
 #undef TH09_KEY_HELP_TEXT_NATIVE
 #undef TH09_KEY_HELP_VM_PTR
+
+#undef TH09_KEY_NATIVE_SIDE
