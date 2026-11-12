@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Etama pool/count checkpoint:** primary and
+  secondary Bullet pool cursors plus the laser cursor now
+  advance through actual native i386 byte addresses, and
+  three live signed Etama activity counters use DWORD INC.
+  All three pinned VC7.1 carriers retain 18/18 exact
+  owners, 6,711 complete original bytes and 259 fields
+  including the large OnUpdate and SpawnSingleBullet bosses.
 - **2026-11-12 Pause/side-gameover menu checkpoint:** state
   and frame counters across PauseMenu, AsciiMenuState4 and
   AsciiMenuState5 use native i386 DWORD INC, and the live

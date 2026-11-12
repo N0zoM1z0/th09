@@ -1163,6 +1163,29 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Etama live bullet/laser pool and count DWORD traversal
+
+EtamaController::OnUpdate walks the actual contiguous primary,
+secondary and laser allocations inside the real 0x25E1C0-byte Etama
+controller. The maintained source now advances its two primary/
+secondary lookup-loop cursors, the full linear bullet update cursor,
+and the laser update cursor as i386 modulo-32 byte addresses plus
+sizeof(Bullet) or sizeof(Laser). It neither invents new storage nor
+changes the pool gates, 176+361 Bullet capacities, 48 laser records,
+draw-bucket writes or any action/timer call. The three persistent
+signed activeTotalCount/activePrimaryCount/activeSecondaryCount
+words are now incremented by native unsigned DWORD lvalues,
+preserving original INC wrap and their separate side/capacity gates.
+
+All three affected pinned VC7.1 Etama compiler carriers were rebuilt.
+An independent original-PE-versus-real-current-COFF check proved the
+complete physical owner bytes, offsets, target operands and
+same-section definitions. Official scoped replay passed **18/18
+already-exact functions, 6,711 original PE bytes and 259
+relocation fields**, including the complete OnUpdate and large
+SpawnSingleBullet owners plus the sprite/template leaves. No
+newly exact function or Windows product/runtime closure is claimed.
+
 ## 2026-11-12 Pause and gameover menu native state/frame counters
 
 The exact pause-menu and side-gameover menu owners share the actual
