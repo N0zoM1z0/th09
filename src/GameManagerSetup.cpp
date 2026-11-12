@@ -305,7 +305,9 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
                     lane = 0;
             }
 
-            g_GameManager.valueCC -= 10000;
+            // This signed spawn-credit accumulator is an actual i386 DWORD;
+            // subtract the redeemed threshold modulo the original word size.
+            *reinterpret_cast<unsigned int *>(&g_GameManager.valueCC) -= 10000u;
             CardAttackSpawnPosition position;
             position.x = 0.0f;
             position.z = 0.0f;

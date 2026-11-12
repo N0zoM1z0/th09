@@ -4434,6 +4434,25 @@ relocation fields**, including all 1,758 bytes of the draw boss, both
 high-/low-priority wrappers and the 91-byte angle interpolation leaf. This is stronger native C++ source
 semantics, not additional exact-function or Windows runtime credit.
 
+## 2026-11-13 GameManager native spawn-credit threshold deduction
+
+The exact **1,230-byte `GameManagerSetupLayout::OnUpdate`** owns the real
+signed `g_GameManager.valueCC` spawn-credit accumulator at +0xCC. Its
+periodic enemy spawn branch redeems precisely 10,000 credits from that
+existing physical DWORD. The source now performs the original wrapping
+i386 `SUB DWORD` via its real unsigned word lvalue instead of relying on
+undefined signed C++ arithmetic in `valueCC -= 10000`. All original
+spawn-lane selection, independent RNG reads, dual 0x38-byte GameManager
+sides, two enemy spawn calls, sound, and threshold checks are unchanged.
+No new resource allocation, accumulator copy, clamp, or branch is added.
+
+The affected pinned VC7.1 GameManagerSetup carriers passed scoped replay of
+**12/12 pre-existing exact owners, 4,680 complete original PE bytes and
+415 relocation fields**, including the 1,230-byte update boss, 1,689-byte
+gameplay setup thread, and the 100-byte reset leaf. This restores signed
+storage's native i386 behavior without adding an exact mapping or proving
+a whole Windows runtime.
+
 ## 2026-11-12 GameManager gameplay setup physical side and focus slots
 
 The complete **1,689-byte GameplaySetupThread** initializes two playable
