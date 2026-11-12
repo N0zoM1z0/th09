@@ -544,6 +544,9 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
     i32 index;
     i32 beatsPerMinute;
 
+    // MIDI events and variable-length meta chunks are file-backed byte
+    // addresses. Preserve native i386 DWORD cursor wrap with no new
+    // file bounds gate or extra read of the original track stream.
     statusByte = *track->cursor;
     if (statusByte < MIDI_OPCODE_NOTE_OFF)
     {
@@ -551,7 +554,8 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
     }
     else
     {
-        track->cursor += 1;
+        track->cursor = reinterpret_cast<LPBYTE>(
+            reinterpret_cast<u32>(track->cursor) + 1u);
     }
     messageType = statusByte & 0xf0;
     channel = statusByte & 0x0f;
@@ -577,7 +581,8 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
             for (index = 0; index < eventDataLength; index++)
             {
                 TH09_MIDI_NATIVE_SYSEX_BYTE(index) = *track->cursor;
-                track->cursor++;
+                track->cursor = reinterpret_cast<LPBYTE>(
+                    reinterpret_cast<u32>(track->cursor) + 1u);
             }
             if (this->outputDevice.SendLongMsg(longMessageHeader))
             {
@@ -597,7 +602,8 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
             // which are events that make sense in the context of a MIDI
             // file, but not in the context of the MIDI protocol itself.
             metaEventType = *track->cursor;
-            track->cursor += 1;
+            track->cursor = reinterpret_cast<LPBYTE>(
+            reinterpret_cast<u32>(track->cursor) + 1u);
             eventDataLength = MidiOutput::SkipVariableLength(&track->cursor);
             // End of Track meta-event.
             if (metaEventType == MIDI_META_END_OF_TRACK)
@@ -618,12 +624,15 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
                     *reinterpret_cast<u32 *>(&this->microsecondsPerQuarterNote) +=
                         static_cast<u32>(this->microsecondsPerQuarterNote) * 0x100u +
                         static_cast<u32>(*track->cursor);
-                    track->cursor += 1;
+                    track->cursor = reinterpret_cast<LPBYTE>(
+            reinterpret_cast<u32>(track->cursor) + 1u);
                 }
                 beatsPerMinute = 60000000 / this->microsecondsPerQuarterNote;
                 break;
             }
-            track->cursor = track->cursor + eventDataLength;
+            track->cursor = reinterpret_cast<LPBYTE>(
+                reinterpret_cast<u32>(track->cursor) +
+                static_cast<u32>(eventDataLength));
         }
         break;
     case MIDI_OPCODE_NOTE_OFF:
@@ -632,14 +641,17 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
     case MIDI_OPCODE_CONTROL_CHANGE:
     case MIDI_OPCODE_PITCH_BEND_CHANGE:
         eventData1 = *track->cursor;
-        track->cursor += 1;
+        track->cursor = reinterpret_cast<LPBYTE>(
+            reinterpret_cast<u32>(track->cursor) + 1u);
         eventData2 = *track->cursor;
-        track->cursor += 1;
+        track->cursor = reinterpret_cast<LPBYTE>(
+            reinterpret_cast<u32>(track->cursor) + 1u);
         break;
     case MIDI_OPCODE_PROGRAM_CHANGE:
     case MIDI_OPCODE_CHANNEL_AFTERTOUCH:
         eventData1 = *track->cursor;
-        track->cursor += 1;
+        track->cursor = reinterpret_cast<LPBYTE>(
+            reinterpret_cast<u32>(track->cursor) + 1u);
         eventData2 = 0;
         break;
     }

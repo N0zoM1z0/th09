@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 MIDI ProcessMsg cursor checkpoint:** the
+  1,574-byte original-bound switch owner now expresses eight
+  file-backed event/SysEx/meta cursor steps as modulo-32
+  DWORD addresses. One VC7.1 carrier retains 32/32 exact
+  canonical owners, 4,270 bytes and 132 fields; independent
+  full-object proof covers 33/33 physical owners (4,271 bytes)
+  and 23 compiler-private labels verified against original PE.
 - **2026-11-12 GameWindow frame loop checkpoint:** the original
   signed BYTE frame-skip counter and signed DWORD transition
   countdown now advance/decrement using their real i386 storage

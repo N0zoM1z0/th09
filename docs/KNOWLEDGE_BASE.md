@@ -1163,6 +1163,32 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 MIDI event and SysEx raw track stream cursor semantics
+
+The large MidiOutput::ProcessMsg owner executes note, SysEx and
+Meta-event dispatch directly from the live MIDI track file stream.
+Six one-byte cursor increments, one identical post-increment during
+the variable-length SysEx payload copy, and one dynamic meta-event
+data-length advance now compute the original unsigned 32-bit i386
+byte addresses from the actual cursor value. Every MIDI event read,
+channel update, allocator call and running-status publication is still
+performed at its original point. No input bounds check, cached track,
+extra stream allocation, or new MIDI validation branch was introduced.
+
+An additional two-site attempt to use a raw byte-address lvalue
+for the transposed per-channel note flags changed 22 physical bytes
+and was rejected; the installed source retains its prior proven
+C++ note-flag expression. The single pinned VC7.1 MIDI carrier
+then cold-replayed **32/32 exact canonical functions, 4,270 physical
+original PE bytes and all 132 relocations**, including the full
+1,574-byte ProcessMsg owner. An independent proof also checked the
+one-byte neighboring virtual timer entry (33/33 physical owners,
+4,271 bytes). The 23 compiler-private switch label spellings
+were verified against actual same-section COFF definitions,
+unchanged original PE destinations, and every owner byte before
+re-binding their names. This is source fidelity in already-exact
+machine code, not a new function-promotion or runtime claim.
+
 ## 2026-11-12 GameWindow frame-skip and D3D present countdown widths
 
 The retail GameWindow::Render loop increments its signed one-byte
