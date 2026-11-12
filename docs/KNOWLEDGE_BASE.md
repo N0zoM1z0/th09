@@ -3885,6 +3885,34 @@ owners, 2,467 complete original PE bytes and 80 relocation fields**, including
 all 2,258 physical music-room update bytes and the independent 209-byte
 music-room renderer. No new exact-function or Windows product credit follows.
 
+## 2026-11-13 Stage-script boss's unified authentic STD wire operands
+
+The complete **2,652-byte `BackgroundRunStageScriptPhase`** interprets
+STD camera, fog, interpolation, sprite and stage-control opcodes directly
+from a file-backed sequence of original 0x14-byte instruction headers.
+The live instruction's operand prefix begins at **+0x08**, with physical
+DWORD/float strides. Twenty-seven direct integer operands, four direct
+floating operands, one packed byte operand, and **twenty-one complete
+12-byte `Float3`/SDK `D3DXVECTOR3` reads** now share authentic native
+`uint32(instruction)+offsetof(RawStageInstrProbe,args)+uint32(index)*4`
+(or + byte index / unchanged vector start) lvalues. The previous source
+mixed `instruction->args[0..2]`, a pointer to an embedded array, and
+unrelated byte/float casts for those very same wire bytes. Its maintained
+source now makes the single real allocation boundary and layout explicit,
+without allocating a second payload, caching operands, checking unobserved
+bounds or changing file-cursor chronology.
+
+The original switch cases, all camera interpolation/`ZunTimer` calls,
+Hermite/x87 math, 0xF0-byte native Supervisor viewport access, fog color
+writes, live STD instruction-index increment and owned jump tables remain
+unchanged. The sole affected pinned VC7.1 carrier passed **all 5/5
+previously exact functions, 3,231 original PE bytes and 160 relocation
+fields**, including the big interpreter, interpolation helper and timer
+leaves. Forty-eight compiler-private `$L` reference names were rebound
+only after checking the real same-section definitions, original PE
+operand destinations and whole physical source/target bodies. No new
+exact-function or complete Windows runtime credit follows.
+
 ## 2026-11-12 Background RenderObjects native color lanes in both quad paths
 
 The **3,274-byte exact Background::RenderObjects** boss traverses file-backed
