@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 PBG archive checkpoint:** three real encrypted
+  header DWORD values now subtract obfuscating offsets modulo
+  2^32 before existing validity checks, and the 0x10-byte
+  next-entry sentinel determines compressed stream extent
+  through a native i386 record address. Two scoped VC7.1
+  carriers preserve 3/3 exact owners, 839 PE bytes and
+  38 original-bound relocations.
 - **2026-11-12 FrontMessage loader checkpoint:** primary
   file-table offsets and variable-width script command strides
   now resolve true packed wire-data addresses as native

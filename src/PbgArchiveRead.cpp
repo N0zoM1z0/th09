@@ -30,7 +30,12 @@ unsigned char *PbgArchive::ReadDecompressEntry(const char *filename,
     if (!state->file->Open(state->archiveFilename, g_PbgFileOpenModes[0]))
         goto read_error;
 
-    compressedSize = entry[1].dataOffset - entry->dataOffset;
+    // AllocEntries creates the following native 0x10-byte sentinel
+    // record. The compressed-size word is the difference between the
+    // next original entry and this one, on their actual i386 addresses.
+    compressedSize = reinterpret_cast<const PbgArchiveEntry *>(
+        reinterpret_cast<unsigned int>(entry) + sizeof(PbgArchiveEntry)
+    )->dataOffset - entry->dataOffset;
     decompressedSize = entry->decompressedSize;
     compressedData = (unsigned char *)GlobalAlloc(0, compressedSize);
     if (compressedData == NULL)

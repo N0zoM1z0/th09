@@ -69,9 +69,15 @@ bool PbgArchive::ParseHeader(const char *filename)
     memcpy(&header, decryptedHeader, sizeof(header));
     g_ZunMemory.Free(decryptedHeader);
 
-    entryCount = header.encodedEntryCount - 123456;
-    fileTableOffset = header.encodedFileTableOffset - 345678;
-    fileTableDecompressedSize = header.encodedFileTableDecompressedSize - 567891;
+    // The encrypted native PBG file table header contains three signed
+    // DWORD fields. Retail subtracts its obfuscating constants modulo 2^32
+    // and only then applies the existing signed validity/range gates.
+    entryCount = static_cast<int>(
+        static_cast<unsigned int>(header.encodedEntryCount) - 123456u);
+    fileTableOffset = static_cast<int>(
+        static_cast<unsigned int>(header.encodedFileTableOffset) - 345678u);
+    fileTableDecompressedSize = static_cast<int>(
+        static_cast<unsigned int>(header.encodedFileTableDecompressedSize) - 567891u);
     if (entryCount <= 0)
         goto parse_error;
 

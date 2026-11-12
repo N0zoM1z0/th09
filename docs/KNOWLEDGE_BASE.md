@@ -1163,6 +1163,34 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 PBG archive encoded header and sentinel entry words
+
+PbgArchive::ParseHeader reads the genuine 12-byte encrypted archive
+header's three signed DWORD fields for the entry count, file-table
+offset and decompressed size. The native original subtracts the
+three obfuscation constants as modulo-32 i386 words before its
+existing signed count and unsigned file-length gates. The
+maintained source now explicitly forms those signed result bits
+from unsigned subtraction rather than invoking C++ signed overflow.
+The actual allocation and LZSS decode sequence remain unchanged.
+
+PbgArchive::ReadDecompressEntry uses a next-record data offset to
+determine compressed size. AllocEntries constructs a real
+entryCount+1 sequence with an end sentinel, each PbgArchiveEntry
+0x10 bytes wide. The source now resolves the next live entry's
+dataOffset as the original i386 base address plus one native
+record stride, not from an imagined independent header allocation.
+The existing difference, seek, read, decompression, and error
+paths are unchanged.
+
+The two truly affected pinned VC7.1 compiler profiles were
+cold-replayed independently: **2/2 exact archive Load/ParseHeader
+owners, 646 complete physical bytes and 31 fields**; **1/1
+exact ReadDecompressEntry, 193 bytes and seven fields**. Combined
+these preserve 3/3 already-exact owners, **839 complete original
+PE bytes and 38 relocation fields**, without changed labels,
+new error gates or exact-function promotion.
+
 ## 2026-11-12 FrontMessage file-backed table and variable instruction addresses
 
 The exact FrontMessageRuntimeView::LoadForSideCount loader reads
