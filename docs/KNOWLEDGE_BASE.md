@@ -3479,6 +3479,29 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 SoundPlayer SFX request counters use native DWORD increment
+
+Both exact `SoundPlayer::PlaySoundByIdx` and
+`PlaySoundPositionedByIdx` update the **same 12 genuine, signed 32-bit
+request-count words** as the large `SoundPlayer::ProcessQueues` owner.
+Four producer post-increments—two selecting a live pan slot and two
+publishing the initial queued request—now act on the unsigned view of
+those original DWORDs, preserving the i386 increment modulo 2^32 rather
+than relying on undefined signed overflow when a count has negative
+bits. The 0x80 gating, metadata load, original pan/value storage,
+original field rereads and all call/return chronology remain unchanged.
+No new queue, clamp, retry or emitted callable boundary is introduced.
+
+Eight actual pinned VC7.1 SoundPlayer carriers cold-replayed **20/20
+previously exact owners, 5,400 original PE bytes and 184 relocations**,
+including the **1,456-byte physical ProcessQueues owner**, both SFX
+producer leaves (140 and 153 bytes), and the BGM paths. One compiler-
+private `$L` reference in ProcessQueues was rebound only after a
+source-cold proof of its actual same-section COFF definition, identical
+original PE destination, and all complete owner bytes. This is native
+source-semantics recovery and not new exact-function or Windows product
+credit.
+
 ## 2026-11-12 Title character scrolling native input-state receivers
 
 Both `TitleScreenView::MoveCharacterCursorHorizontal` and

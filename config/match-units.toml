@@ -18994,7 +18994,7 @@ relocations = [
   { offset = 0x396, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
   { offset = 0x39C, type = "DIR32", symbol = "?g_DemoReplayIndex@@3EA", target = 0x004A7ECF },
   { offset = 0x3A8, type = "DIR32", symbol = "?g_TitleInputFlags@@3IA", target = 0x004ACF3A },
-  { offset = 0x3C2, type = "DIR32", symbol = "$L64601", target = 0x0042A43B },
+  { offset = 0x3C2, type = "DIR32", symbol = "$L64634", target = 0x0042A43B },
   { offset = 0x3C8, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
   { offset = 0x3D2, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x3E7, type = "DIR32", symbol = "?g_TitleLockedMenuItem@@3EA", target = 0x004A81F8 },
@@ -19038,14 +19038,14 @@ relocations = [
   { offset = 0x5E9, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
   { offset = 0x5F3, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x612, type = "DIR32", symbol = "__except_list", target = 0x00000000 },
-  { offset = 0x618, type = "DIR32", symbol = "$L63979", target = 0x0042A1E9 },
-  { offset = 0x61C, type = "DIR32", symbol = "$L63981", target = 0x0042A208 },
-  { offset = 0x620, type = "DIR32", symbol = "$L63984", target = 0x0042A23C },
-  { offset = 0x624, type = "DIR32", symbol = "$L63985", target = 0x0042A286 },
-  { offset = 0x628, type = "DIR32", symbol = "$L63987", target = 0x0042A2D2 },
-  { offset = 0x62C, type = "DIR32", symbol = "$L63986", target = 0x0042A293 },
-  { offset = 0x630, type = "DIR32", symbol = "$L63988", target = 0x0042A302 },
-  { offset = 0x634, type = "DIR32", symbol = "$L63989", target = 0x0042A380 },
+  { offset = 0x618, type = "DIR32", symbol = "$L64012", target = 0x0042A1E9 },
+  { offset = 0x61C, type = "DIR32", symbol = "$L64014", target = 0x0042A208 },
+  { offset = 0x620, type = "DIR32", symbol = "$L64017", target = 0x0042A23C },
+  { offset = 0x624, type = "DIR32", symbol = "$L64018", target = 0x0042A286 },
+  { offset = 0x628, type = "DIR32", symbol = "$L64020", target = 0x0042A2D2 },
+  { offset = 0x62C, type = "DIR32", symbol = "$L64019", target = 0x0042A293 },
+  { offset = 0x630, type = "DIR32", symbol = "$L64021", target = 0x0042A302 },
+  { offset = 0x634, type = "DIR32", symbol = "$L64022", target = 0x0042A380 },
 ]
 
 [units.anm-manager-read-anm-entries]
@@ -20527,7 +20527,7 @@ target_address = 0x0043F1F0
 size = 0x586
 compare_size = 0x5B0
 relocations = [
-  { offset = 0x3C, type = "DIR32", symbol = "$L58136", target = 0x0043F778 },
+  { offset = 0x3C, type = "DIR32", symbol = "$L58140", target = 0x0043F778 },
   { offset = 0x56, type = "REL32", symbol = "?SetVolume@SoundProcessView@@QAEHH@Z", target = 0x0043FB10 },
   { offset = 0x60, type = "DIR32", symbol = "?g_Supervisor@@3USupervisorProcessQueuesView@@A", target = 0x004B3100 },
   { offset = 0x65, type = "REL32", symbol = "?IsMusicPreloaded@SupervisorProcessQueuesView@@QAEHXZ", target = 0x0042ED40 },

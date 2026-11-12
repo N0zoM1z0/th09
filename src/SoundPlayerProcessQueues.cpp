@@ -1022,6 +1022,9 @@ void SoundPlayer::FadeOut(float seconds)
         this->bgm->FadeOut(seconds);
 }
 
+// Native request counts are signed DWORD storage but advance as wrapping
+// unsigned i386 words, including script- or state-corrupted negative counts.
+// The real per-queue indices and original count checks remain live.
 // These live producer indices refer to the actual 8-byte SFX metadata
 // table, four-byte per-sound state slots and 12x128 pan words. Form
 // native i386 byte addresses without imposing the C++ array bounds on
@@ -1045,7 +1048,7 @@ void SoundPlayer::PlaySoundByIdx(int index, int pan)
                 *reinterpret_cast<unsigned int *>(
     reinterpret_cast<unsigned int>(&this->soundQueuePanData[0][0]) +
     static_cast<unsigned int>(i) * sizeof(this->soundQueuePanData[0]) +
-    static_cast<unsigned int>(this->soundQueueRequestCounts[i]++) *
+    static_cast<unsigned int>((*reinterpret_cast<unsigned int *>(&this->soundQueueRequestCounts[i]))++) *
     sizeof(this->soundQueuePanData[0][0])) = pan;
             return;
         }
@@ -1059,7 +1062,7 @@ void SoundPlayer::PlaySoundByIdx(int index, int pan)
     reinterpret_cast<unsigned int>(&this->unconsumedMetadataBySound[0]) +
     static_cast<unsigned int>(index) * sizeof(this->unconsumedMetadataBySound[0])) = unconsumedMetadata;
     this->soundQueuePanData[i][0] = pan;
-    this->soundQueueRequestCounts[i]++;
+    (*reinterpret_cast<unsigned int *>(&this->soundQueueRequestCounts[i]))++;
 }
 
 void SoundPlayer::PlaySoundPositionedByIdx(int index, float positionX)
@@ -1082,7 +1085,7 @@ void SoundPlayer::PlaySoundPositionedByIdx(int index, float positionX)
                 *reinterpret_cast<unsigned int *>(
     reinterpret_cast<unsigned int>(&this->soundQueuePanData[0][0]) +
     static_cast<unsigned int>(i) * sizeof(this->soundQueuePanData[0]) +
-    static_cast<unsigned int>(this->soundQueueRequestCounts[i]++) *
+    static_cast<unsigned int>((*reinterpret_cast<unsigned int *>(&this->soundQueueRequestCounts[i]))++) *
     sizeof(this->soundQueuePanData[0][0])) = pan;
             return;
         }
@@ -1096,7 +1099,7 @@ void SoundPlayer::PlaySoundPositionedByIdx(int index, float positionX)
     reinterpret_cast<unsigned int>(&this->unconsumedMetadataBySound[0]) +
     static_cast<unsigned int>(index) * sizeof(this->unconsumedMetadataBySound[0])) = unconsumedMetadata;
     this->soundQueuePanData[i][0] = pan;
-    this->soundQueueRequestCounts[i]++;
+    (*reinterpret_cast<unsigned int *>(&this->soundQueueRequestCounts[i]))++;
 }
 
 #undef TH09_SOUND_NATIVE_COMMAND
