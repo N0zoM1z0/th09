@@ -3508,6 +3508,29 @@ calls and 32 vs 33 CFG blocks**, with no exactness credit and no regression
 (13 missing bytes, 799 unequal positions). No complete Windows runtime or
 newly exact function is claimed.
 
+## 2026-11-13 Recording, release and save share actual Replay stage-root records
+
+The TH09 `ReplayManagerView` allocation contains exactly ten inline
+0x18-byte `ReplayBufferLink` roots beginning at manager +0x1C. The two
+independently exact **1,323-byte `BeginRecordingStage`** and **318-byte
+`Release`** methods, plus the nearly exact 1,238-byte `SaveReplay`, now
+use the same `ReplayNativeStageRoots.hpp` source-facing lvalue for signed
+stage/index selections. The accessor calculates
+`uint32(&manager->stageBuffers[0])+uint32(index)*sizeof(ReplayBufferLink)`
+over the *real* 0x164-byte manager allocation; the first/second recording
+root snapshots remain distinct, and the serializer continues to use
+immutable source links while release mutates and frees its current chain.
+No fake stage table, bounds gate, new helper call, cached link head or change
+to the ten-stage record layout was introduced.
+
+The **two affected pinned VC7.1 ReplayInput carriers** passed complete
+scoped comparison for **12/12 previously exact owners, 4,093 original PE
+bytes and all 232 relocations**. The separate SaveReplay boss was rebuilt
+and checked: **1,238/1,238 physical bytes, 53 fields, 23 ordered calls and
+exactly its previous two register-byte differences** (+0xB7/+0xBB).
+This is cross-boss data-ownership fidelity rather than new exact-function
+or complete Windows product credit.
+
 ## 2026-11-12 Shared physical Title replay record addressing in both renderers
 
 The independent `TitleScreenView::DrawReplaySave` and

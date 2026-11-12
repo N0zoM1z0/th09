@@ -23,6 +23,7 @@ typedef unsigned int u32;
 typedef int i32;
 
 #include "ReplayManagerRuntimeView.hpp"
+#include "ReplayNativeStageRoots.hpp"
 
 #include "ReplayNativeInputGateCapacity.hpp"
 
@@ -570,12 +571,8 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
     replayManager->inputCursors[2] = (u16 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::InputStreamBytes, "rep data");
     replayManager->fpsCursor = (u8 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::FpsStreamBytes, "rep data");
 
-    ReplayBufferLink *first = reinterpret_cast<ReplayBufferLink *>(
-        reinterpret_cast<unsigned int>(&replayManager->stageBuffers[0]) +
-        static_cast<unsigned int>(stage) * sizeof(replayManager->stageBuffers[0]));
-    ReplayBufferLink *current = reinterpret_cast<ReplayBufferLink *>(
-        reinterpret_cast<unsigned int>(&replayManager->stageBuffers[0]) +
-        static_cast<unsigned int>(stage) * sizeof(replayManager->stageBuffers[0]));
+    ReplayBufferLink *first = &TH09_REPLAY_NATIVE_STAGE_ROOT(replayManager, stage);
+    ReplayBufferLink *current = &TH09_REPLAY_NATIVE_STAGE_ROOT(replayManager, stage);
     replayManager->currentBuffer = first;
     while (current != NULL)
     {
@@ -835,9 +832,7 @@ void ReplayManagerView::Release()
     // Preserve each repeated live read/free/write and all existing guards.
     for (int stage = 0; stage < ReplayRecordingCapacity::StageCount; stage++)
     {
-        ReplayBufferLink *first = reinterpret_cast<ReplayBufferLink *>(
-            reinterpret_cast<unsigned int>(&this->stageBuffers[0]) +
-            static_cast<unsigned int>(stage) * sizeof(this->stageBuffers[0]));
+        ReplayBufferLink *first = &TH09_REPLAY_NATIVE_STAGE_ROOT(this, stage);
         ReplayBufferLink *link = first;
         while (link != NULL)
         {
@@ -983,9 +978,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
                  static_cast<unsigned int>(loopIndex)) * sizeof(replayCopy.frameStart[0][0])));
             if (frameHeader != NULL)
             {
-                const ReplayBufferLink *link = reinterpret_cast<const ReplayBufferLink *>(
-                reinterpret_cast<unsigned int>(&replayManager->stageBuffers[0]) +
-                static_cast<unsigned int>(loopIndex) * sizeof(replayManager->stageBuffers[0]));
+                const ReplayBufferLink *link = &TH09_REPLAY_NATIVE_STAGE_ROOT(replayManager, loopIndex);
                 // A packed byte address can cross the header and its payload.
                 memcpy(
                     reinterpret_cast<unsigned char *>(
@@ -1028,9 +1021,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
                 reinterpret_cast<unsigned int>(&replayCopy.fpsStart[0]) +
                 static_cast<unsigned int>(loopIndex) * sizeof(replayCopy.fpsStart[0]))) != NULL)
         {
-            const ReplayBufferLink *link = reinterpret_cast<const ReplayBufferLink *>(
-                reinterpret_cast<unsigned int>(&replayManager->stageBuffers[0]) +
-                static_cast<unsigned int>(loopIndex) * sizeof(replayManager->stageBuffers[0]));
+            const ReplayBufferLink *link = &TH09_REPLAY_NATIVE_STAGE_ROOT(replayManager, loopIndex);
             (*reinterpret_cast<unsigned int *>(
                 reinterpret_cast<unsigned int>(&replayCopy.fpsOffset[0]) +
                 static_cast<unsigned int>(loopIndex) * sizeof(replayCopy.fpsOffset[0]))) = currentOffset;
