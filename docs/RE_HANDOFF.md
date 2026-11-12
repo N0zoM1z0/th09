@@ -107,6 +107,13 @@ Git retains earlier source revisions.
   draw order. One pinned VC7.1 carrier preserves the
   complete 693-byte SetupRandomForSide owner and all
   15 original PE relocation fields.
+- **2026-11-12 WinMain startup checkpoint:** the
+  1,351-byte WinMain owner and its 285-byte
+  CreateGameWindow callee now use original i386 DWORD
+  signed-system-metric products, executable-directory
+  cursor decrement and options-restart frame countdown.
+  One VC7.1 carrier preserves 2/2 exact functions,
+  1,636 PE bytes and 171 original-bound relocations.
 - **2026-11-12 Player damage/hitbox checkpoint:** the
   true 128-by-0x484 shot pool, animation index, signed
   hitbox/region damage counters and region pointer slots

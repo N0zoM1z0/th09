@@ -1446,6 +1446,29 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-12 WinMain startup system metrics and restart countdown DWORDs
+
+The original WinMain startup calls CreateGameWindow to construct
+the actual fullscreen/windowed TH09 Win32 window. Windowed
+dimensions are the signed GetSystemMetrics dialog-frame width/height
+times two plus the original 640/480/caption components.
+These native i386 DWORD multiply/add operations are now
+expressed through unsigned intermediate bits and their final
+signed original window dimensions, rather than potentially
+overflowing signed C++ arithmetic on unusual OS metric values.
+
+The original WinMain executable-directory backslash search's
+signed pathIndex and the options-restart 60-frame waitFrames
+counter now decrement their actual DWORD lvalues with native
+wrap, retaining the original path fallback, WM dispatch
+loop, resumption and Direct3D/replay state chronologies.
+The sole affected pinned VC7.1 WinMain carrier cold-replayed
+**2/2 existing exact functions, 1,636 complete original
+PE bytes and all 171 relocations**, covering the 1,351-byte
+WinMain and 285-byte CreateGameWindow physical owners.
+No compiler-private label change, exactness promotion,
+whole-game link or runtime closure is claimed.
+
 ## 2026-11-12 Player hitbox damage accumulation and shot-pool DWORDs
 
 The complete PlayerLifecycleView::CalcDamageToEnemy boss scans

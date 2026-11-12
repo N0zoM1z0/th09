@@ -146,6 +146,8 @@ namespace FileSystem
 int __fastcall WriteDataToFile(const char *path, void *data, size_t size);
 }
 
+// The original signed system-metric products and frame/path counters
+// use i386 modulo-32 arithmetic before their existing signed tests.
 static int CreateGameWindow(HINSTANCE instance)
 {
     WNDCLASSA baseClass;
@@ -173,10 +175,11 @@ static int CreateGameWindow(HINSTANCE instance)
     }
     else
     {
-        width = GetSystemMetrics(SM_CXDLGFRAME) * 2 + 640;
-        height =
-            GetSystemMetrics(SM_CYDLGFRAME) * 2 +
-            GetSystemMetrics(SM_CYCAPTION) + 480;
+        width = static_cast<int>(
+            static_cast<unsigned int>(GetSystemMetrics(SM_CXDLGFRAME)) * 2u + 640u);
+        height = static_cast<int>(
+            static_cast<unsigned int>(GetSystemMetrics(SM_CYDLGFRAME)) * 2u +
+            static_cast<unsigned int>(GetSystemMetrics(SM_CYCAPTION)) + 480u);
         window = CreateWindowExA(
             0, "BASE", g_WindowTitle,
             WS_VISIBLE | WS_MINIMIZEBOX | WS_SYSMENU,
@@ -218,7 +221,7 @@ int WINAPI WinMain(
                     break;
                 if (pathIndex <= 0)
                     goto executable_path_fallback;
-                pathIndex--;
+                --*reinterpret_cast<unsigned int *>(&pathIndex);
             }
             while (TH09_NATIVE_EXE_PATH_CHAR(pathIndex) != '\\');
         }
@@ -416,7 +419,7 @@ stop:
                 TranslateMessage(&message);
                 DispatchMessageA(&message);
             }
-            waitFrames--;
+            --*reinterpret_cast<unsigned int *>(&waitFrames);
         } while (waitFrames != 0);
 
         goto restart;
