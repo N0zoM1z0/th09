@@ -339,7 +339,9 @@ int AnmManager::LoadExternalTextureData(
     }
     if (!rawEntry->hasData)
     {
-        const char *path = reinterpret_cast<const char *>(rawEntry) + rawEntry->nameOffset;
+        const char *path = reinterpret_cast<const char *>(
+            reinterpret_cast<unsigned int>(rawEntry) +
+            static_cast<unsigned int>(rawEntry->nameOffset));
         if (path[0] != '@')
         {
             int fileSize;
@@ -426,7 +428,9 @@ int AnmManager::LoadTextureData(
 
     if (!rawEntry->hasData)
     {
-        path = reinterpret_cast<const char *>(rawEntry) + rawEntry->nameOffset;
+        path = reinterpret_cast<const char *>(
+            reinterpret_cast<unsigned int>(rawEntry) +
+            static_cast<unsigned int>(rawEntry->nameOffset));
         if (path[0] == '@')
         {
             this->CreateEmptyTexture(&NativeAnmTextureEntry(anmLoaded, entryNumber).texture,
@@ -449,7 +453,8 @@ int AnmManager::LoadTextureData(
     else if (this->CreateTextureFromAnm(
                  &NativeAnmTextureEntry(anmLoaded, entryNumber).texture,
                  reinterpret_cast<AnmTextureHeader *>(
-                     reinterpret_cast<unsigned char *>(rawEntry) + rawEntry->textureOffset),
+                     reinterpret_cast<unsigned int>(rawEntry) +
+                     static_cast<unsigned int>(rawEntry->textureOffset)),
                  rawEntry->format) != 0)
     {
         g_GameErrorContext.Fatal(g_AnmTextureMessage);
@@ -460,12 +465,16 @@ int AnmManager::LoadTextureData(
     NativeAnmTextureEntry(anmLoaded, entryNumber).texture->PreLoad();
     NativeAnmTextureEntry(anmLoaded, entryNumber).texture->GetLevelDesc(0, &surfaceDesc);
 
+    // The real file-backed Sprite and Script offset words follow each
+    // 0x40-byte header; native byte cursor stepping preserves every original
+    // independently loaded entry rather than constructing C++ arrays.
     currentOffset = reinterpret_cast<unsigned int *>(
-        reinterpret_cast<unsigned char *>(rawEntry) + sizeof(AnmRawEntry));
-    for (i = 0; i < rawEntry->numSprites; i++, currentOffset++)
+        reinterpret_cast<unsigned int>(rawEntry) + sizeof(AnmRawEntry));
+    for (i = 0; i < rawEntry->numSprites; i++, currentOffset = reinterpret_cast<unsigned int *>(
+             reinterpret_cast<unsigned int>(currentOffset) + sizeof(*currentOffset)))
     {
         AnmRawSpriteView *rawSprite = reinterpret_cast<AnmRawSpriteView *>(
-            reinterpret_cast<unsigned char *>(rawEntry) + *currentOffset);
+            reinterpret_cast<unsigned int>(rawEntry) + *currentOffset);
         loadedSprite.anmIdx = anmLoaded->anmIdx;
         loadedSprite.texture = NativeAnmTextureEntry(anmLoaded, entryNumber).texture;
         loadedSprite.scaleX38 = surfaceDesc.Width / static_cast<float>(rawEntry->width);
@@ -477,14 +486,16 @@ int AnmManager::LoadTextureData(
         loadedSprite.textureWidth1C = static_cast<float>(surfaceDesc.Width);
         loadedSprite.textureHeight18 = static_cast<float>(surfaceDesc.Height);
         anmLoadedObject->LoadSprite(currentSpriteNumber, &loadedSprite);
-        currentSpriteNumber++;
+        ++*reinterpret_cast<unsigned int *>(&currentSpriteNumber);
     }
 
-    for (i = 0; i < rawEntry->numScripts; i++, currentOffset += 2)
+    for (i = 0; i < rawEntry->numScripts; i++, currentOffset = reinterpret_cast<unsigned int *>(
+             reinterpret_cast<unsigned int>(currentOffset) + 2u * sizeof(*currentOffset)))
     {
         NativeAnmScriptEntry(anmLoaded, currentScriptNumber) = reinterpret_cast<AnmRawInstr *>(
-            reinterpret_cast<unsigned char *>(rawEntry) + currentOffset[1]);
-        currentScriptNumber++;
+            reinterpret_cast<unsigned int>(rawEntry) +
+            *reinterpret_cast<unsigned int *>(reinterpret_cast<unsigned int>(currentOffset) + sizeof(*currentOffset)));
+        ++*reinterpret_cast<unsigned int *>(&currentScriptNumber);
     }
     return 1;
 }
@@ -519,6 +530,9 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
     anmLoaded->rawData04 = entry;
     strcpy(slot->path, filename);
 
+    // A genuine .anm file chains variable-length 0x40-byte headers.
+    // Its signed counts/offsets are accumulated as native wrapping
+    // i386 DWORDs before the original allocations and per-entry loads.
     int totalEntries = 1;
     int totalScripts = entry->numScripts;
     int totalSprites = entry->numSprites;
@@ -526,10 +540,13 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
     while (currentEntry->nextOffset != 0)
     {
         currentEntry = reinterpret_cast<AnmRawEntry *>(
-            reinterpret_cast<unsigned char *>(currentEntry) + currentEntry->nextOffset);
-        totalEntries++;
-        totalScripts += currentEntry->numScripts;
-        totalSprites += currentEntry->numSprites;
+            reinterpret_cast<unsigned int>(currentEntry) +
+            static_cast<unsigned int>(currentEntry->nextOffset));
+        ++*reinterpret_cast<unsigned int *>(&totalEntries);
+        totalScripts = static_cast<int>(static_cast<unsigned int>(totalScripts) +
+            static_cast<unsigned int>(currentEntry->numScripts));
+        totalSprites = static_cast<int>(static_cast<unsigned int>(totalSprites) +
+            static_cast<unsigned int>(currentEntry->numSprites));
     }
 
     anmLoaded->totalEntries08 = totalEntries;
@@ -550,11 +567,12 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
                                        &totalSprites, &totalScripts,
                                        currentEntry) < 0)
             return NULL;
-        currentEntryNumber++;
+        ++*reinterpret_cast<unsigned int *>(&currentEntryNumber);
         if (currentEntry->nextOffset == 0)
             break;
         currentEntry = reinterpret_cast<AnmRawEntry *>(
-            reinterpret_cast<unsigned char *>(currentEntry) + currentEntry->nextOffset);
+            reinterpret_cast<unsigned int>(currentEntry) +
+            static_cast<unsigned int>(currentEntry->nextOffset));
     }
     return reinterpret_cast<AnmLoaded *>(anmLoaded);
 }
@@ -583,24 +601,29 @@ AnmLoaded *AnmManager::PostloadAnmEntry(AnmLoaded *anmLoadedObject)
 
     while (true)
     {
-        if (entryLoadNumber == anmLoaded->postloadEntryNumber18 - 1 &&
+        if (entryLoadNumber == static_cast<int>(static_cast<unsigned int>(anmLoaded->postloadEntryNumber18) - 1u) &&
             this->LoadTextureData(anmLoadedObject, currentEntryNumber, currentNumSprites,
                                currentNumScripts, rawEntry) < 0)
         {
             anmLoaded->postloadEntryNumber18 = 0;
             return NULL;
         }
-        currentNumSprites += rawEntry->numSprites;
-        currentNumScripts += rawEntry->numScripts;
-        currentEntryNumber++;
+        currentNumSprites = static_cast<int>(
+            static_cast<unsigned int>(currentNumSprites) +
+            static_cast<unsigned int>(rawEntry->numSprites));
+        currentNumScripts = static_cast<int>(
+            static_cast<unsigned int>(currentNumScripts) +
+            static_cast<unsigned int>(rawEntry->numScripts));
+        ++*reinterpret_cast<unsigned int *>(&currentEntryNumber);
         if (rawEntry->nextOffset == 0)
             break;
         rawEntry = reinterpret_cast<AnmRawEntry *>(
-            reinterpret_cast<unsigned char *>(rawEntry) + rawEntry->nextOffset);
-        entryLoadNumber++;
+            reinterpret_cast<unsigned int>(rawEntry) +
+            static_cast<unsigned int>(rawEntry->nextOffset));
+        ++*reinterpret_cast<unsigned int *>(&entryLoadNumber);
         if (entryLoadNumber == anmLoaded->postloadEntryNumber18)
         {
-            anmLoaded->postloadEntryNumber18++;
+            ++*reinterpret_cast<unsigned int *>(&anmLoaded->postloadEntryNumber18);
             return anmLoadedObject;
         }
     }

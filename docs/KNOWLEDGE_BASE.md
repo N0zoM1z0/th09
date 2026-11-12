@@ -1273,6 +1273,32 @@ original PE bytes and 30 relocations**: homing update
 Draw Type2 293 bytes / five fields. No compiler-private
 labels, new exact owner, or whole-Windows runtime claim.
 
+## 2026-11-12 ANM file entry chain and resource counts use native DWORDs
+
+The ANM resource loader consumes the real file-backed linked sequence of
+0x40-byte AnmRawEntry headers. Its entry-specific texture, name, offset
+table, Sprite and Script source addresses, plus the nextOffset traversal
+in both ReadAnmEntries and PostloadAnmEntry, now compute unsigned i386
+base+byte-offset addresses, not C++ pointer arithmetic over fixed header
+subobjects. The offset-table cursor advances by one/four or two/eight
+physical bytes and separately rereads the real wire data on each use.
+
+The native signed current sprite/script indexes, total entry/script/sprite
+counts, stage entry indexes, postload task counter and its -1 comparison
+also now perform explicit modulo-32 DWORD arithmetic before the original
+integer tests, resource allocation and D3D texture/ANM calls. No new
+bounds check, shadow record, texture cache or change to error paths
+is introduced. The source preserves native overflow semantics of counts
+read from the ANM file rather than invoking undefined signed C++ overflow.
+
+Only the two actually affected pinned VC7.1 AnmManagerLoad carriers
+were cold-compiled. A complete source-scoped replay passed **17/17
+already-exact functions, 3,258 original physical PE bytes and
+133 relocation fields**, including LoadTextureData, ReadAnmEntries,
+PostloadAnmEntry, the surface-loading family and manager constructor.
+No private-label rebinding, new exactness credit or full native
+Windows executable/runtime claim is implied.
+
 ## 2026-11-12 ANM variable-argument mask native unsigned shifts
 
 The 9,776-byte original-bound AnmManager::ExecuteScript interpreter
