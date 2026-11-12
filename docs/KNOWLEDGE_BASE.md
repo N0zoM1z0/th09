@@ -3327,6 +3327,35 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Etama big OnUpdate's authentic six-bucket draw heads
+
+The **2,216-byte physical `EtamaController::OnUpdate`** owns two bullet
+pools and a separate **six-element `Bullet *drawBuckets` array** in the
+same genuine EtamaController allocation. The paused-side append path
+and ordinary fired-bullet path now use one lexical native Win32 lvalue
+`uint32(&controller->drawBuckets[0]) +
+uint32(bullet->sprites.drawBucketIndex)*sizeof(Bullet*)` for all four
+independent draw-head loads/stores. This lvalue preserves the original
+per-bullet byte selector, native DWORD wrapping, old-head link order,
+current-bucket writes and iteration of real Bullet records. No shadow
+buckets, copied heads, bounds guard, new call boundary or altered sprite
+program was added.
+
+The independently exact **283-byte `EtamaController::Register`** uses that
+same native signed side word for its two Chain scheduling priorities,
+with modulo-32 sums `sideIndex+12` and `sideIndex+21`. The existing real
+0x38-byte GameManager side lookups, opposing side, allocation, chain
+registration and both callbacks are unchanged.
+
+Three affected pinned VC7.1 Etama carriers passed full source-scoped
+replay of **18/18 pre-existing exact owners, 6,711 original PE bytes and
+259 relocation fields**, including complete OnUpdate, SpawnSingleBullet,
+transform leaves and both pattern-generation functions. The compiler
+renumbered three private `$L` references; their actual same-section
+COFF definitions, target PE destinations and complete physical owners
+were independently verified before changing only manifest spellings.
+No new exact-function credit or complete Windows product is implied.
+
 ## 2026-11-12 FrontSide status VM position/color and HUD rank word ownership
 
 The full **2,381-byte `FrontSide::OnUpdate`** HUD display boss updates four

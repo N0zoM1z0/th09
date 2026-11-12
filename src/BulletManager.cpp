@@ -663,6 +663,14 @@ done:
     return result;
 }
 
+// Retail links each bullet into one of six genuine draw-bucket pointer
+// words, using the live unsigned byte selector as an i386 DWORD stride.
+// Every original read/write stays independent; no cached head or new gate.
+#define TH09_ETAMA_NATIVE_DRAW_BUCKET(owner, index) \
+    (*reinterpret_cast<Bullet **>( \
+        reinterpret_cast<unsigned int>(&(owner)->drawBuckets[0]) + \
+        static_cast<unsigned int>(index) * sizeof((owner)->drawBuckets[0])))
+
 // Bullet transform repeat/bounce counters, the cull-delay word and the
 // long-lived controller frame/suppression counters are native signed DWORDs.
 // Their source arithmetic must wrap like the retail i386 INC/DEC instructions,
@@ -691,14 +699,8 @@ int EtamaController::OnUpdate(EtamaController *controller)
         if ((controller->sideState->flags & 1) != 0)
         {
             bullet->nextInDrawBucket =
-                (*reinterpret_cast<Bullet **>(
-                reinterpret_cast<unsigned int>(&controller->drawBuckets[0]) +
-                static_cast<unsigned int>(bullet->sprites.drawBucketIndex) *
-                    sizeof(controller->drawBuckets[0])));
-            (*reinterpret_cast<Bullet **>(
-                reinterpret_cast<unsigned int>(&controller->drawBuckets[0]) +
-                static_cast<unsigned int>(bullet->sprites.drawBucketIndex) *
-                    sizeof(controller->drawBuckets[0]))) = bullet;
+                TH09_ETAMA_NATIVE_DRAW_BUCKET(controller, bullet->sprites.drawBucketIndex);
+            TH09_ETAMA_NATIVE_DRAW_BUCKET(controller, bullet->sprites.drawBucketIndex) = bullet;
             continue;
         }
 
@@ -873,14 +875,8 @@ updateTimers:
         bullet->stateTimer++;
         bullet->activeTimer++;
         bullet->nextInDrawBucket =
-            (*reinterpret_cast<Bullet **>(
-                reinterpret_cast<unsigned int>(&controller->drawBuckets[0]) +
-                static_cast<unsigned int>(bullet->sprites.drawBucketIndex) *
-                    sizeof(controller->drawBuckets[0])));
-        (*reinterpret_cast<Bullet **>(
-                reinterpret_cast<unsigned int>(&controller->drawBuckets[0]) +
-                static_cast<unsigned int>(bullet->sprites.drawBucketIndex) *
-                    sizeof(controller->drawBuckets[0]))) = bullet;
+            TH09_ETAMA_NATIVE_DRAW_BUCKET(controller, bullet->sprites.drawBucketIndex);
+        TH09_ETAMA_NATIVE_DRAW_BUCKET(controller, bullet->sprites.drawBucketIndex) = bullet;
     }
 
     if ((controller->sideState->flags & 1) != 0)
@@ -1024,6 +1020,8 @@ void EtamaController::Release(EtamaController *controller)
 
 EtamaController *EtamaController::Register(int sideIndex)
 {
+    // Two native chain-priority words use the same signed playable-side
+    // receiver as the real game manager side record, modulo i386 DWORDs.
     EtamaController *controller = new EtamaController;
     controller = static_cast<EtamaController *>(g_ZunMemory.AddToRegistry(
         controller, sizeof(EtamaController), const_cast<char *>("EtamaCtrlInf")));
@@ -1038,12 +1036,12 @@ EtamaController *EtamaController::Register(int sideIndex)
     controller->calcChain->arg = controller;
     controller->calcChain->addedCallback =
         reinterpret_cast<ChainLifetimeCallback>(EtamaController::AddedCallback);
-    if (g_Chain.AddToCalcChain(controller->calcChain, sideIndex + 12) != 0)
+    if (g_Chain.AddToCalcChain(controller->calcChain, static_cast<int>(static_cast<unsigned int>(sideIndex) + 12u)) != 0)
         return NULL;
 
     controller->drawChain = g_Chain.CreateElem(
         reinterpret_cast<ChainCallback>(EtamaController::OnDraw));
     controller->drawChain->arg = controller;
-    g_Chain.AddToDrawChain(controller->drawChain, sideIndex + 21);
+    g_Chain.AddToDrawChain(controller->drawChain, static_cast<int>(static_cast<unsigned int>(sideIndex) + 21u));
     return controller;
 }
