@@ -758,6 +758,14 @@ int TitleScreenView::MoveCursorFourWay(i32 count)
 }
 
 
+// These are TWO distinct consecutive DWORD fields at Title+0x10/+0x14,
+// not a C++ array beginning at the first cursor. Retail forms the actual
+// side selector as a native i386 DWORD byte offset into this Title object.
+#define TH09_TITLE_NATIVE_SIDE_CURSOR(index) \
+    reinterpret_cast<i32 *>( \
+        reinterpret_cast<u32>(&side0CharacterCursor) + \
+        static_cast<u32>(index) * sizeof(side0CharacterCursor))
+
 // The three character-unlock cursor loops use original i386 DWORD
 // arithmetic for direction advances and bound wrapping. Preserve signed
 // comparisons on the resulting bit pattern without signed C++ overflow.
@@ -766,7 +774,7 @@ void *TitleScreenView::MoveCharacterCursor(i32 side, i32 direction, char *order,
     void *result = g_SupervisorNetworkState;
     if (g_SupervisorNetworkState->active == 0)
     {
-        i32 *cursor = &side0CharacterCursor + side;
+        i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(side);
         result = cursor;
         while (!TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlocked, order[*cursor]))
         {
@@ -786,7 +794,7 @@ void *TitleScreenView::MoveCharacterCursorNormal(i32 side, i32 direction, char *
     void *result = g_SupervisorNetworkState;
     if (g_SupervisorNetworkState->active == 0)
     {
-        i32 *cursor = &side0CharacterCursor + side;
+        i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(side);
         result = cursor;
         while (!TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedNormal, order[*cursor]))
         {
@@ -806,7 +814,7 @@ void *TitleScreenView::MoveCharacterCursorMode4(i32 side, i32 direction, char *o
     void *result = g_SupervisorNetworkState;
     if (g_SupervisorNetworkState->active == 0)
     {
-        i32 *cursor = &side0CharacterCursor + side;
+        i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(side);
         result = cursor;
         while (!TH09_TITLE_NATIVE_UNLOCK(g_TitleCharacterUnlockedMode4, order[*cursor]))
         {
@@ -829,7 +837,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
     i32 direction;
     if (TH09_TITLE_NATIVE_INPUT_STATE(cursorIndex).IsPressedScrolling(0x40))
     {
-        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
         if (*cursor < 0)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
@@ -837,7 +845,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
     }
     else if (TH09_TITLE_NATIVE_INPUT_STATE(cursorIndex).IsPressedScrolling(0x80))
     {
-        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
         if (*cursor >= count)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
@@ -845,7 +853,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
     }
     else if (TH09_TITLE_NATIVE_INPUT_STATE(cursorIndex).IsPressedScrolling(0x10))
     {
-        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
         if (*cursor < 0)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
@@ -853,7 +861,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
     }
     else if (TH09_TITLE_NATIVE_INPUT_STATE(cursorIndex).IsPressedScrolling(0x20))
     {
-        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
         if (*cursor >= count)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
@@ -877,7 +885,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
     i32 direction;
     if (TH09_TITLE_NATIVE_INPUT_STATE(inputIndex).IsPressedScrolling(0x40))
     {
-        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
         if (*cursor < 0)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
@@ -885,7 +893,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
     }
     else if (TH09_TITLE_NATIVE_INPUT_STATE(inputIndex).IsPressedScrolling(0x80))
     {
-        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
         if (*cursor >= count)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
@@ -893,7 +901,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
     }
     else if (TH09_TITLE_NATIVE_INPUT_STATE(inputIndex).IsPressedScrolling(0x10))
     {
-        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
         if (*cursor < 0)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
@@ -901,7 +909,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
     }
     else if (TH09_TITLE_NATIVE_INPUT_STATE(inputIndex).IsPressedScrolling(0x20))
     {
-        i32 *cursor = &side0CharacterCursor + cursorIndex;
+        i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
         if (*cursor >= count)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
@@ -954,6 +962,8 @@ void TitleScreenView::SetCharacterCursorInactive(i32 selectedCharacter, i32 star
     vms[selectedCharacter * stride + start].pendingInterrupt = 17;
 }
 
+
+#undef TH09_TITLE_NATIVE_SIDE_CURSOR
 
 int TitleScreenView::SetCharacterSettingSprites(i32 side0Setting, i32 side1Setting)
 {

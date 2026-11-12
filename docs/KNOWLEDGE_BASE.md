@@ -3281,6 +3281,29 @@ Player InitializeShot 309, EX-attack Type4 739. These were already exact;
 this correction removes accidental C++ pointer-to-float-subobject array
 assumptions and makes no new exact-function or whole-product claim.
 
+## 2026-11-12 Native Title two-side cursor DWORD address, not scalar pointer-array
+
+The original `TitleScreenView` stores `side0CharacterCursor` at +0x10 and
+`side1CharacterCursor` at +0x14 as **two distinct `i32` fields**; they are
+not the first two elements of a C++ array. Eleven uses in the three
+`MoveCharacterCursor*` unlock walkers and the two horizontal cursor
+routines formerly formed `&side0CharacterCursor + side` or `+ cursorIndex`.
+Those expressions step out of an actual scalar subobject when the selector
+is nonzero. The maintained source now forms the real Title-owner address
+as `uint32(&side0CharacterCursor) + uint32(side) * 4`, preserving the
+original Win32 modulo-32 selection for both live cursors. Both separate
+input/cursor selector arguments, original cursor writes, unsigned native
+increment/decrement, unlock lookups, sound calls and all loop tests remain
+at their original sites; no new array, bounds gate or helper ABI was added.
+
+The pinned VC7.1 two-carrier **41/41 complete exact Title owners** cold
+replay passed all **18,972 original PE bytes and 953 relocation fields**.
+Nine compiler-private `$L` spellings in `OnUpdateStartMenu` changed solely
+from source renumbering, and each was proven from the actual same-section
+COFF label definition to the unchanged PE operand and full owner before
+rebinding. This strengthens the physical two-side cursor reconstruction,
+not exact-function counts or Windows/runtime-product status.
+
 ## 2026-11-12 Native Title character-option matrix shared with selection boss
 
 The original Title configuration owns one **16 x 6 x 4-byte** option-word
