@@ -252,10 +252,10 @@ int FrontMessageRuntimeView::Update()
             }
             else
             {
-                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[0].first00.pendingInterrupt = 4;
-                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1].first00.pendingInterrupt = 4;
-                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[0].second2A4.pendingInterrupt = 4;
-                reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1].second2A4.pendingInterrupt = 4;
+                NativeMessagePortrait(this, 0).first00.pendingInterrupt = 4;
+                NativeMessagePortrait(this, 1).first00.pendingInterrupt = 4;
+                NativeMessagePortrait(this, 0).second2A4.pendingInterrupt = 4;
+                NativeMessagePortrait(this, 1).second2A4.pendingInterrupt = 4;
             }
 
             resetText1D65 = 1;
@@ -643,14 +643,17 @@ int FrontMessageRuntimeView::Update()
     timer1D40++;
 
 run_scripts:
-    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[0].first00);
-    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1].first00);
-    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[0].second2A4);
-    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[1].second2A4);
-    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[2].first00);
-    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[3].first00);
-    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[2].second2A4);
-    g_AnmManager->ExecuteScript(&reinterpret_cast<FrontMessagePortraitPair *>(messageVms14)[3].second2A4);
+    // As in the preceding script-opcode handlers, the eight ANM VMs are
+    // four real 0x548-byte portrait pairs. Use their one native receiver
+    // rather than subscripting an unrelated projected pair array.
+    g_AnmManager->ExecuteScript(&NativeMessagePortrait(this, 0).first00);
+    g_AnmManager->ExecuteScript(&NativeMessagePortrait(this, 1).first00);
+    g_AnmManager->ExecuteScript(&NativeMessagePortrait(this, 0).second2A4);
+    g_AnmManager->ExecuteScript(&NativeMessagePortrait(this, 1).second2A4);
+    g_AnmManager->ExecuteScript(&NativeMessagePortrait(this, 2).first00);
+    g_AnmManager->ExecuteScript(&NativeMessagePortrait(this, 3).first00);
+    g_AnmManager->ExecuteScript(&NativeMessagePortrait(this, 2).second2A4);
+    g_AnmManager->ExecuteScript(&NativeMessagePortrait(this, 3).second2A4);
     g_AnmManager->ExecuteScript(&textVms1534[0]);
     g_AnmManager->ExecuteScript(&textVms1534[1]);
     g_AnmManager->ExecuteScript(&introVm1A7C);

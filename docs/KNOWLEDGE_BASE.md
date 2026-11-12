@@ -3502,6 +3502,28 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 FrontMessage big Update authentic portrait pair receivers
+
+`FrontMessageRuntimeView::Update` owns the actual eight `AnmVm` portraits
+at +0x14 as four native adjacent pairs, each 0x548 bytes. Twelve fixed
+first/second portrait-field writes and `ExecuteScript` receivers used an
+unrelated projected `FrontMessagePortraitPair *` C++ array; they now reuse
+the already-authenticated `NativeMessagePortrait(this, slot)` lvalue that
+the variable-width script opcodes use. The inlined lookup forms the original
+Win32 byte address from `&messageVms14[0]` plus unsigned pair-index *
+`sizeof(FrontMessagePortraitPair)`. Original 8 ANM calls, lookup order,
+interrupt values and the single physical backing allocation are unchanged;
+there is no added VM object, branch or callable replacement.
+
+Only the two original VC7.1 FrontMessage carriers were replayed. Both
+existing exact owners passed: **3,007 complete original PE bytes, 167
+relocation fields**, including the **2,968-byte physical main Update**
+owner with its trailing switch table and the **39-byte decode leaf**.
+Twenty-seven compiler-private `$L`/`$run_scripts$` labels were accepted
+only after checking each live same-section COFF definition, its independently
+identified original PE destination and all full-owner physical bytes.
+No new exact-function or whole-executable claim follows.
+
 ## 2026-11-12 Player selector's authentic 0x0C-byte stack collision vectors
 
 `PlayerUpdateSelectorState` is one **3,238-byte** gameplay selector boss.
