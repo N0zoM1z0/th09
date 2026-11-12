@@ -41,7 +41,9 @@ int __fastcall SupervisorDrawMain(Supervisor *supervisor)
 
     if (layout->loadingState >= 2)
     {
-        layout->loadingState++;
+        // Retail advances the signed loading-state word using native i386
+        // DWORD INC before the original display/timeout comparisons.
+        ++*reinterpret_cast<unsigned int *>(&layout->loadingState);
         if (layout->loadingState >= 5)
         {
             Float3 position(288.0f, 454.0f, 0.0f);

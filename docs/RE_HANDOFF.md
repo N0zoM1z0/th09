@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Supervisor draw checkpoint:** the native
+  loading-state frame counter, ANM manager's 32 surface slots,
+  and the three real 0x2A4-byte loading VMs now use i386 DWORD
+  arithmetic without extra bounds/call changes. Three focused
+  VC7.1 carriers preserve 5/5 exact owners, 445 bytes,
+  26 original-bound relocations, including DrawMain and
+  its three small leaf helpers.
 - **2026-11-12 Supervisor viewport checkpoint:** dynamic
   signed view selectors now address the three true 0xF0-byte
   Supervisor camera/viewport records by modulo-32 native

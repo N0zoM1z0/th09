@@ -1163,6 +1163,33 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Supervisor loading draw state, ANM surfaces and startup VM strides
+
+The real SupervisorDrawMain callback updates the signed +0x740
+loading-state word before displaying the shot-button prompt and
+copying back-buffer surface eight. The original i386 increment
+is now expressed as an unsigned DWORD lvalue, retaining the
+signed state gates, animation opacity and reset timing without
+introducing new branches.
+
+SupervisorDrawMainAnmManagerView::GetSurface reads from the true
+ANM manager's 32 contiguous 4-byte surface pointers at +0x123FC.
+The live signed surfaceIndex now forms a native unsigned
+base + uint32(index)*sizeof(pointer) slot address rather than
+a bounded C++ array subscript. SupervisorDrawLoading's existing
+three genuine 0x2A4-byte loading animation VM records are likewise
+addressed with a single lexical i386 DWORD stride at all five
+separately evaluated positions (position update, draw, position
+restore). The actual SDK float operations and the original call
+sequence remain unchanged.
+
+The three independently affected pinned VC7.1 compiler carriers
+cold-replayed **5/5 exact existing owners, 445 complete original
+PE bytes and 26 bound relocation fields**: the full 312-byte
+SupervisorDrawMain, three 62-byte DrawMainLeaves in total, and the
+71-byte SupervisorDrawLoading callback. No compiler-private label
+rebinding or newly exact function/native runtime claim was involved.
+
 ## 2026-11-12 Supervisor camera and viewport native record selection
 
 The original Supervisor allocation owns three actual 0xF0-byte

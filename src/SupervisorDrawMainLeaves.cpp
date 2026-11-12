@@ -56,8 +56,13 @@ void SupervisorDrawMainAnmManagerView::ResetDrawState()
 
 void *SupervisorDrawMainAnmManagerView::GetSurface(int surfaceIndex)
 {
-    return reinterpret_cast<SupervisorDrawMainAnmStateView *>(this)
-        ->surfaces[surfaceIndex];
+    // The ANM manager owns 32 real four-byte surface pointers at +0x123FC.
+    // The runtime signed surface ID selects a raw original i386 DWORD slot.
+    SupervisorDrawMainAnmStateView *anm =
+        reinterpret_cast<SupervisorDrawMainAnmStateView *>(this);
+    return *reinterpret_cast<void **>(
+        reinterpret_cast<unsigned int>(&anm->surfaces[0]) +
+        static_cast<unsigned int>(surfaceIndex) * sizeof(anm->surfaces[0]));
 }
 
 void SupervisorDrawMainAsciiManagerView::SetAlpha(int alpha)

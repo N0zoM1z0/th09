@@ -36,18 +36,27 @@ struct SupervisorDrawLoadingAnmManagerView
 
 extern SupervisorLoadingVmView g_SupervisorLoadingVms[3];
 
+// Three live 0x2A4-byte startup animation VMs are stored in the true
+// Supervisor-loading global; use the native i386 byte stride at each read.
+#define TH09_SUPERVISOR_LOADING_VM(index) \
+    (*reinterpret_cast<SupervisorLoadingVmView *>( \
+        reinterpret_cast<unsigned int>(&g_SupervisorLoadingVms[0]) + \
+        static_cast<unsigned int>(index) * sizeof(g_SupervisorLoadingVms[0])))
+
 int __fastcall SupervisorDrawLoading(Supervisor *unused)
 {
     int i = 0;
     int count = 3;
     do
     {
-        g_SupervisorLoadingVms[i].pos += g_SupervisorLoadingVms[i].pos2;
+        TH09_SUPERVISOR_LOADING_VM(i).pos += TH09_SUPERVISOR_LOADING_VM(i).pos2;
         reinterpret_cast<SupervisorDrawLoadingAnmManagerView *>(g_AnmManager)->Draw2D(
-            &g_SupervisorLoadingVms[i]);
-        g_SupervisorLoadingVms[i].pos -= g_SupervisorLoadingVms[i].pos2;
+            &TH09_SUPERVISOR_LOADING_VM(i));
+        TH09_SUPERVISOR_LOADING_VM(i).pos -= TH09_SUPERVISOR_LOADING_VM(i).pos2;
         i++;
     } while (--count != 0);
 
     return 1;
 }
+
+#undef TH09_SUPERVISOR_LOADING_VM
