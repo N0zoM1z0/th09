@@ -1976,6 +1976,30 @@ the small constructor/destructor leaves. No private label
 rebind, new range guard, exact function promotion or native
 Windows-product runtime closure is claimed.
 
+## 2026-11-13 Native ASCII menu VM rows and score-text color byte
+
+The exact **1,776-byte PauseMenu::OnUpdate** and **1,172-byte
+AsciiMenuState4::OnUpdate** draw/update real 0x2A4-byte ANM VM records in
+their original pause/menu arrays. Twenty-one fixed `menuSprites[0/1/2]`
+uses now share the existing `TH09_ASCII_NATIVE_MENU_VM(owner,index)`
+with dynamic pause-button loops. This records the single real allocation
+and its native Win32 record stride rather than two separate indexing
+models; every original read, conditional store and VM method call remains
+at its original point. The exact **503-byte
+AsciiManager::OnDrawHighPrioImpl** now assigns the opacity byte through
+the genuine `AnmVm::color1Bytes[3]` scalar union in each of its three
+live popup glyph drawing branches. The union is the same native +0x1F0
+D3D color DWORD consumed by the exact ANM renderer; there is no shadow
+palette, extra alpha cache or altered draw loop.
+
+One affected pinned VC7.1 compiler carrier replayed **10/10 previously
+exact owners, 4,206 complete original PE bytes and 264 relocations**.
+Eight private `$L` references in the two menu update bosses were
+rebound only after the original PE destinations, current same-section
+COFF definitions and all complete physical owner bytes were proved.
+This is source and memory-layout fidelity, not new exact-function or
+complete Windows runtime/product credit.
+
 ## 2026-11-12 ASCII score popup consumer native record cursor and frame word
 
 AsciiManager::OnDrawHighPrioImpl is the consumer of the genuine

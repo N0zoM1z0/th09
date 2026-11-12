@@ -88,6 +88,8 @@ int AsciiGameManagerView::HasFlagBit0()
     return this->flags & 1;
 }
 
+// Both the fixed and runtime-selected menu sprites are real 0x2A4-byte
+// VMs in their respective native 7/5/4-element owner allocations.
 // Both pause-menu owners use genuine 0x2A4-byte AnmVm records, with
 // independent live cursor reads in the original 7/5/4-slot arrays.
 // The native address word preserves VC7.1's original call and loop order.
@@ -338,12 +340,12 @@ int AsciiMenuState4::OnUpdate()
         // fallthrough
 
     case 1:
-        this->menuSprites[0].color1 = COLOR_WHITE;
-        this->menuSprites[2].color1 = COLOR_MENU_ITEM_NORMAL;
-        this->menuSprites[1].color1 = COLOR_MENU_ITEM_NORMAL;
-        this->menuSprites[0].pos2 = Float3(-4.0f, -4.0f, 0.0f);
-        this->menuSprites[2].pos2 = Float3(0.0f, 0.0f, 0.0f);
-        this->menuSprites[1].pos2 = this->menuSprites[2].pos2;
+        TH09_ASCII_NATIVE_MENU_VM(this, 0).color1 = COLOR_WHITE;
+        TH09_ASCII_NATIVE_MENU_VM(this, 2).color1 = COLOR_MENU_ITEM_NORMAL;
+        TH09_ASCII_NATIVE_MENU_VM(this, 1).color1 = COLOR_MENU_ITEM_NORMAL;
+        TH09_ASCII_NATIVE_MENU_VM(this, 0).pos2 = Float3(-4.0f, -4.0f, 0.0f);
+        TH09_ASCII_NATIVE_MENU_VM(this, 2).pos2 = Float3(0.0f, 0.0f, 0.0f);
+        TH09_ASCII_NATIVE_MENU_VM(this, 1).pos2 = TH09_ASCII_NATIVE_MENU_VM(this, 2).pos2;
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
@@ -366,12 +368,12 @@ int AsciiMenuState4::OnUpdate()
         break;
 
     case 2:
-        this->menuSprites[2].color1 = COLOR_MENU_ITEM_NORMAL;
-        this->menuSprites[0].color1 = COLOR_MENU_ITEM_NORMAL;
-        this->menuSprites[1].color1 = COLOR_WHITE;
-        this->menuSprites[2].pos2 = Float3(0.0f, 0.0f, 0.0f);
-        this->menuSprites[0].pos2 = this->menuSprites[2].pos2;
-        this->menuSprites[1].pos2 = Float3(-4.0f, -4.0f, 0.0f);
+        TH09_ASCII_NATIVE_MENU_VM(this, 2).color1 = COLOR_MENU_ITEM_NORMAL;
+        TH09_ASCII_NATIVE_MENU_VM(this, 0).color1 = COLOR_MENU_ITEM_NORMAL;
+        TH09_ASCII_NATIVE_MENU_VM(this, 1).color1 = COLOR_WHITE;
+        TH09_ASCII_NATIVE_MENU_VM(this, 2).pos2 = Float3(0.0f, 0.0f, 0.0f);
+        TH09_ASCII_NATIVE_MENU_VM(this, 0).pos2 = TH09_ASCII_NATIVE_MENU_VM(this, 2).pos2;
+        TH09_ASCII_NATIVE_MENU_VM(this, 1).pos2 = Float3(-4.0f, -4.0f, 0.0f);
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
@@ -394,12 +396,12 @@ int AsciiMenuState4::OnUpdate()
         break;
 
     case 3:
-        this->menuSprites[1].color1 = COLOR_MENU_ITEM_NORMAL;
-        this->menuSprites[0].color1 = COLOR_MENU_ITEM_NORMAL;
-        this->menuSprites[2].color1 = COLOR_WHITE;
-        this->menuSprites[1].pos2 = Float3(0.0f, 0.0f, 0.0f);
-        this->menuSprites[0].pos2 = this->menuSprites[1].pos2;
-        this->menuSprites[2].pos2 = Float3(-4.0f, -4.0f, 0.0f);
+        TH09_ASCII_NATIVE_MENU_VM(this, 1).color1 = COLOR_MENU_ITEM_NORMAL;
+        TH09_ASCII_NATIVE_MENU_VM(this, 0).color1 = COLOR_MENU_ITEM_NORMAL;
+        TH09_ASCII_NATIVE_MENU_VM(this, 2).color1 = COLOR_WHITE;
+        TH09_ASCII_NATIVE_MENU_VM(this, 1).pos2 = Float3(0.0f, 0.0f, 0.0f);
+        TH09_ASCII_NATIVE_MENU_VM(this, 0).pos2 = TH09_ASCII_NATIVE_MENU_VM(this, 1).pos2;
+        TH09_ASCII_NATIVE_MENU_VM(this, 2).pos2 = Float3(-4.0f, -4.0f, 0.0f);
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
@@ -659,17 +661,17 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
             if (popup->timer < 52) {
                 this->smallScoreText.loadedSprite =
                     this->asciiAnm->GetSprite(*character + 97);
-                reinterpret_cast<unsigned char *>(&this->smallScoreText.color1)[3] =
+                this->smallScoreText.color1Bytes[3] =
                     (unsigned char)alpha;
             } else if (popup->timer < 56) {
                 this->smallScoreText.loadedSprite =
                     this->asciiAnm->GetSprite(*character + 97);
-                reinterpret_cast<unsigned char *>(&this->smallScoreText.color1)[3] =
+                this->smallScoreText.color1Bytes[3] =
                     (unsigned char)alpha;
             } else {
                 this->smallScoreText.loadedSprite =
                     this->asciiAnm->GetSprite(*character + 97);
-                reinterpret_cast<unsigned char *>(&this->smallScoreText.color1)[3] =
+                this->smallScoreText.color1Bytes[3] =
                     (unsigned char)alpha;
             }
             this->smallScoreText.spriteSize.x =
