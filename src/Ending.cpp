@@ -74,6 +74,8 @@ void Ending::DrawFade()
 void Ending::UpdateFade()
 {
     int alpha;
+    // The retail i386 fade product and timer INC operate on modulo-32
+    // DWORDs before the original signed division and alpha-byte shift.
 
     switch (this->fadeMode)
     {
@@ -85,9 +87,11 @@ void Ending::UpdateFade()
         }
         else
         {
-            alpha = 255 - this->fadeTimer * 255 / this->fadeDuration;
+            alpha = static_cast<int>(255u - static_cast<unsigned int>(
+                static_cast<int>(static_cast<unsigned int>(this->fadeTimer) * 255u) /
+                this->fadeDuration));
             this->fadeColor = (unsigned int)alpha << 24;
-            this->fadeTimer++;
+            ++*reinterpret_cast<unsigned int *>(&this->fadeTimer);
         }
         break;
 
@@ -98,9 +102,11 @@ void Ending::UpdateFade()
         }
         else
         {
-            alpha = this->fadeTimer * 255 / this->fadeDuration;
+            alpha = static_cast<int>(
+                static_cast<unsigned int>(this->fadeTimer) * 255u) /
+                this->fadeDuration;
             this->fadeColor = (unsigned int)alpha << 24;
-            this->fadeTimer++;
+            ++*reinterpret_cast<unsigned int *>(&this->fadeTimer);
         }
         break;
 
@@ -112,9 +118,11 @@ void Ending::UpdateFade()
         }
         else
         {
-            alpha = this->fadeTimer * 255 / this->fadeDuration;
+            alpha = static_cast<int>(
+                static_cast<unsigned int>(this->fadeTimer) * 255u) /
+                this->fadeDuration;
             this->fadeColor = (0xFFFFFFFFu - ((unsigned int)alpha << 24)) | 0x00FFFFFFu;
-            this->fadeTimer++;
+            ++*reinterpret_cast<unsigned int *>(&this->fadeTimer);
         }
         break;
 
@@ -125,9 +133,11 @@ void Ending::UpdateFade()
         }
         else
         {
-            alpha = this->fadeTimer * 255 / this->fadeDuration;
+            alpha = static_cast<int>(
+                static_cast<unsigned int>(this->fadeTimer) * 255u) /
+                this->fadeDuration;
             this->fadeColor = ((unsigned int)alpha << 24) | 0x00FFFFFFu;
-            this->fadeTimer++;
+            ++*reinterpret_cast<unsigned int *>(&this->fadeTimer);
         }
         break;
 
@@ -151,6 +161,8 @@ void Ending::UpdateFade()
 
 int Ending::RunEndingScript()
 {
+    // Skip locks, text row selection, and the packed text-cursor index are
+    // live script-owned signed DWORDs. The original i386 arithmetic wraps.
     char textBuffer[68];
     float fadeTime;
     int temporary;
@@ -166,7 +178,7 @@ int Ending::RunEndingScript()
         this->pageWaitTimer--;
         if (this->pageSkipLockFrames != 0)
         {
-            this->pageSkipLockFrames--;
+            --*reinterpret_cast<unsigned int *>(&this->pageSkipLockFrames);
         }
         else if (g_AsciiInput.WasPressed(0x1001) ||
                  (this->hasSeenEnding && g_AsciiInput.IsHeld(0x100)))
@@ -191,7 +203,7 @@ int Ending::RunEndingScript()
         this->lineWaitTimer--;
         if (this->lineSkipLockFrames != 0)
         {
-            this->lineSkipLockFrames--;
+            --*reinterpret_cast<unsigned int *>(&this->lineSkipLockFrames);
         }
         else if (g_AsciiInput.WasPressed(0x1001) ||
                  (this->hasSeenEnding && g_AsciiInput.IsHeld(0x100)))
@@ -354,14 +366,14 @@ int Ending::RunEndingScript()
             this->lineSkipLockFrames = this->minimumLineWaitFrames;
 
 lineWaitConfigured:
-            this->nextTextVmIndex++;
+            ++*reinterpret_cast<unsigned int *>(&this->nextTextVmIndex);
             goto end_of_parse;
 
         default:
             temporary = textIndex;
             TH09_ENDING_NATIVE_TEXT(textBuffer, textIndex) = *this->scriptCursor;
             TH09_ENDING_NATIVE_TEXT(textBuffer, static_cast<unsigned int>(temporary) + 1u) = *(this->scriptCursor + 1);
-            textIndex = temporary + 2;
+            textIndex = static_cast<int>(static_cast<unsigned int>(temporary) + 2u);
             TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 2);
             break;
         }

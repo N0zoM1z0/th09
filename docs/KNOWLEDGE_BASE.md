@@ -3502,6 +3502,37 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 Ending interpreter and fade callback native DWORD arithmetic
+
+The exact `Ending::RunEndingScript` owner is **1,727 complete physical
+bytes**, including its real switch table and file-backed command cursor.
+Its persistent page/line skip-lock counters, next-text-VM index and
+script text-buffer cursor are signed native words, but the original i386
+`DEC/INC/ADD` executes modulo 2^32. The maintained source now decrements
+the two independently owned lock counters and increments the text-row word
+through their unsigned DWORD lvalues; the independent two-character text
+cursor advances with a 32-bit unsigned sum before its original signed
+storage. No new array, limits or script call boundaries were introduced;
+`ZunTimer` methods remain the same actual separately observed objects.
+
+The exact **308-byte** `Ending::UpdateFade` similarly advances its signed
+fade frame as a wrapping DWORD. All four fade-mode `timer*255` products
+now use native unsigned DWORD multiplication, then the original *signed*
+division and unsigned alpha-byte color shift. The black fade-in's
+`255 - quotient` also preserves the original modulo-32 result. The original
+fade gates, timing modes and calls are unchanged, with no zero-divisor
+fallback or validation. That removes signed-C++ overflow dependencies
+without changing documented normal gameplay.
+
+Only the two affected pinned VC7.1 compiler carriers replayed and passed
+**10/10 previously exact Ending owners / 3,015 complete original PE bytes
+/ 159 relocation fields**, including both the large interpreter and fade
+callback. Thirty private `$L` labels in those two owners were rebased only
+after source-cold proof of every actual same-section COFF definition,
+original PE operand destination and complete physical owner bytes. This is
+native source semantic recovery, not new exact-function or whole-product
+credit.
+
 ## 2026-11-12 Complete ANM interpreter integer/float variable wire addressing
 
 The **9,776-byte physical `AnmManager::ExecuteScript` boss** decodes
