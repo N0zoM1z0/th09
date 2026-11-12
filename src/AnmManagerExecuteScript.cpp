@@ -339,8 +339,10 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->currentTimeInScript = instruction->intArgs[1];
             vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(instruction->intArgs[0]));
             continue;
+        // The animation interpreter's jump counter is a script-controlled
+        // signed DWORD; retail decrements its native bits modulo 2^32.
         case AnmOpcode_JmpDec:
-            *GET_INT_VAR_PTR(0) -= 1;
+            --*reinterpret_cast<u32 *>(GET_INT_VAR_PTR(0));
 
             if (GET_INT_VAR(0) > 0)
             {
@@ -993,7 +995,7 @@ stop:
     }
 
     vm->currentTimeInScript++;
-    this->scriptsExecutedThisFrame10++;
+    ++*reinterpret_cast<u32 *>(&this->scriptsExecutedThisFrame10);
 
     return FALSE;
 }

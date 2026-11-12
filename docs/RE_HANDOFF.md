@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 ANM script checkpoint:** JmpDec's live
+  signed script operand and scriptsExecutedThisFrame10 now use
+  native modulo-32 DWORD arithmetic. Both VC7.1 carriers preserve
+  5/5 exact functions, 10,496 bytes and 421 relocation fields,
+  including the full 9,776-byte interpreter. All 100 private
+  label renames were independently PE/COFF-proven.
 - **2026-11-12 FrontMessage portrait-wire checkpoint:** nine
   signed script/sprite wire-ID sums now form native modulo-32
   DWORD results, preserving all live ANM receivers. The exact

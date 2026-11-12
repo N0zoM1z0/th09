@@ -1163,6 +1163,30 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 ANM script jump-decrement and frame word wrap
+
+The full original-bound AnmManager::ExecuteScript owns the ANM
+instruction dispatch and exact data tails. The JmpDec bytecode
+decrements the genuine live VM integer lvalue as an i386 DWORD
+before testing the resulting signed operand. The manager's signed
+scriptsExecutedThisFrame10 counter also advances with a native
+DWORD increment. These two formerly signed C++ operations now
+explicitly preserve the original wrap without introducing a clamp,
+new opcode branch, duplicated variable read or altered wait/interrupt
+path.
+
+The exact script owner and its four independently exact variable
+accessors were cold-compiled in both genuine /Ob0 and /Ob1 VC7.1
+carriers: **5/5 exact functions, 10,496 complete original physical
+bytes and 421 bound relocations**, including the 9,776-byte boss.
+The first carrier introduced four accessor-local label spellings;
+the second compiled switch carrier introduced 96 additional
+compiler-private labels. Every renamed actual same-section COFF
+symbol and original PE operand/physical owner was independently
+verified before only the manifest spellings were refreshed.
+This is source fidelity for existing exact owners, not a newly
+exact function or whole native executable build claim.
+
 ## 2026-11-12 FrontMessage signed portrait wire sprite ID sums
 
 The exact FrontMessageRuntimeView::Update interpreter executes
