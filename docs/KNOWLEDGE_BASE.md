@@ -3502,6 +3502,26 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 Title music-room native selected-song VM ordinal
+
+`TitleScreenView::DrawMusicRoom` draws the selected BGM description from
+the *same* genuine `vms` 0x2A4-byte ANM allocation used by the 2,258-byte
+music-room update boss. The selected script/UI song word is a signed DWORD;
+the original i386 adds 159 modulo 2^32 before computing the real VM
+record address. The maintained source now explicitly performs this unsigned
+addition, then interprets the resulting word with its original signed
+representation. It preserves the live song selection, saved position/color,
+identical original DrawNoRotation calls and independent VM read/writes,
+without a new bounds check, VM clone or changed rendering schedule.
+
+The exact one-carrier VC7.1 scoped replay passed both existing canonical
+owners: **2,467 original PE bytes, 80 relocations**, including the entire
+**2,258-byte update boss** and **209-byte music-room draw**. A separate
+`musicTrackCount = trackIndex + 1` unsigned-wrap trial changed four SIB
+register encodings in the formerly exact update owner and was reverted;
+this commit contains only the validated source improvement. It establishes
+neither new exact-owner credit nor a complete Windows runtime build.
+
 ## 2026-11-12 ANM interpreter direct VM-write opcodes use real wire DWORDs
 
 `AnmManager::ExecuteScript` is a single 9,358-byte authored interpreter

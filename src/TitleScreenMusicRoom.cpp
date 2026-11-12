@@ -417,7 +417,10 @@ int TitleScreenView::DrawMusicRoom()
 {
     if (currentScreenState == 1)
     {
-        i32 songVmIndex = musicSelectedSongIndex + 159;
+        // The selected-song VM ordinal is the retail i386 DWORD sum:
+        // signed file/UI indices are never evaluated through C++ overflow.
+        i32 songVmIndex = static_cast<i32>(
+            static_cast<u32>(musicSelectedSongIndex) + 159u);
         Float3 savedPosition = TH09_MUSIC_DRAW_NATIVE_VM(songVmIndex).pos;
         u32 savedColor = TH09_MUSIC_DRAW_NATIVE_VM(songVmIndex).color1;
 
