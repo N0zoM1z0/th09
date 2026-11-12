@@ -415,7 +415,7 @@ Bullet *EtamaController::SpawnSingleBullet(
         {
             if (bullet->state == BULLET_STATE_UNUSED)
                 break;
-            ++bullet;
+            bullet = reinterpret_cast<Bullet *>(reinterpret_cast<unsigned int>(bullet) + sizeof(*bullet));
             if (bullet->state == BULLET_STATE_SENTINEL)
                 bullet = &this->primaryBullets[0];
         }
@@ -429,7 +429,7 @@ Bullet *EtamaController::SpawnSingleBullet(
         {
             if (bullet->state == BULLET_STATE_UNUSED)
                 break;
-            ++bullet;
+            bullet = reinterpret_cast<Bullet *>(reinterpret_cast<unsigned int>(bullet) + sizeof(*bullet));
             if (bullet->state == BULLET_STATE_SENTINEL)
                 bullet = &this->secondaryBullets[0];
         }
@@ -673,7 +673,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
     controller->activeSecondaryCount = 0;
     controller->ClearDrawBuckets();
 
-    for (int i = 0; i < EtamaNativePoolLimits::LinearScanCount; ++bullet, ++i)
+    for (int i = 0; i < EtamaNativePoolLimits::LinearScanCount; bullet = reinterpret_cast<Bullet *>(reinterpret_cast<unsigned int>(bullet) + sizeof(*bullet)), ++i)
     {
         if (bullet->state == BULLET_STATE_UNUSED || bullet->state == BULLET_STATE_SENTINEL)
             continue;
@@ -692,11 +692,14 @@ int EtamaController::OnUpdate(EtamaController *controller)
             continue;
         }
 
-        ++controller->activeTotalCount;
+        // The live three Etama pool counts are signed DWORDs. The retail
+        // update writes their native i386 INC bit patterns, then evaluates
+        // the original signed capacity/status transitions separately.
+        ++*reinterpret_cast<unsigned int *>(&controller->activeTotalCount);
         if (i < EtamaNativePoolLimits::PrimaryUsableCount)
-            ++controller->activePrimaryCount;
+            ++*reinterpret_cast<unsigned int *>(&controller->activePrimaryCount);
         else
-            ++controller->activeSecondaryCount;
+            ++*reinterpret_cast<unsigned int *>(&controller->activeSecondaryCount);
 
         switch (bullet->state)
             {
@@ -873,7 +876,7 @@ updateTimers:
         return 1;
 
     Laser *laser = &controller->lasers[0];
-    for (int i = 0; i < EtamaNativePoolLimits::LaserRecordCount; ++i, ++laser)
+    for (int i = 0; i < EtamaNativePoolLimits::LaserRecordCount; ++i, laser = reinterpret_cast<Laser *>(reinterpret_cast<unsigned int>(laser) + sizeof(*laser)))
     {
         if (laser->inUse == 0)
             continue;

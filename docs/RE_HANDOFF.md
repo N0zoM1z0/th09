@@ -39,6 +39,14 @@ Git retains earlier source revisions.
   VC7.1 carriers preserve 5/5 exact owners, 445 bytes,
   26 original-bound relocations, including DrawMain and
   its three small leaf helpers.
+- **2026-11-12 Etama bullet/laser pool checkpoint:** real
+  Bullet record cursors in primary/secondary spawning and
+  the full OnUpdate loop, Laser cursor and three signed live
+  active-count words now use native i386 DWORD strides/wrap.
+  Three pinned VC7.1 carriers preserve 18/18 exact owners,
+  6,711 bytes and 259 fields, including the large Etama
+  bosses. Sixteen private label rebindings independently
+  PE/COFF-proven against full original owners.
 - **2026-11-12 Etama sprite checkpoint:** the
   signed ANM VM sprite base and four size/script-selected
   offsets now combine as native modulo-32 i386 DWORD

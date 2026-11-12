@@ -1217,6 +1217,33 @@ SupervisorDrawMain, three 62-byte DrawMainLeaves in total, and the
 71-byte SupervisorDrawLoading callback. No compiler-private label
 rebinding or newly exact function/native runtime claim was involved.
 
+## 2026-11-12 Etama bullet, laser and live pool-count native traversal
+
+The full EtamaController::OnUpdate and SpawnSingleBullet owners
+iterate the genuine native Bullet allocations, including primary
+and secondary pool records and the original sentinel/unused-state
+checks. The source now advances these live Bullet pointers by
+native unsigned i386 base + sizeof(Bullet) addresses in both
+spawn loops and the update scan, without imposing an unrelated
+C++ subobject/array-bound condition or changing the sentinel
+restart. The update's separate Laser pool similarly advances
+by sizeof(Laser) native byte addresses. Three signed live pool
+counts (activeTotalCount, activePrimaryCount, activeSecondaryCount)
+now increment through their real unsigned DWORD lvalues before
+the original signed gate comparisons. No new capacity gate,
+shadow pool, callback or timer behavior is introduced.
+
+The three affected pinned VC7.1 BulletManager carriers cold-replayed
+**18/18 already exact owners, 6,711 complete original PE bytes
+and 259 original-bound relocations**, including the full Etama
+update and SpawnSingleBullet bosses and their small leaves.
+Sixteen compiler-private $L spelling changes were independently
+verified from current COFF same-section definitions, actual
+original PE destinations and every complete owner before
+rebinding only manifest symbol spellings. This recovers native
+i386 pool traversal semantics without promoting a new exact
+function or claiming a completed Windows runtime.
+
 ## 2026-11-12 Etama bullet sprite ID signed DWORD wrap
 
 The full Etama controller's sprite-selection path combines the
