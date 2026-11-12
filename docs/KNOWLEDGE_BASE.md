@@ -1163,6 +1163,27 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Title KeyConfig native frame and phase DWORD wrap
+
+The exact TitleScreenView::OnUpdateKeyConfig code owns three persistent
+signed counters: screenFrameCounter, stateTimer and stateTimer2. The
+original i386 increments their full 32-bit words, even across signed
+INT_MAX, while C++ signed increments would leave overflow undefined.
+All three now advance through unsigned DWORD lvalues, without changing
+the cursor/key-mapping modes or any update/VM calls.
+
+The separate signed keyConfigSide and keyboardSelection expression
+probes produced exactly two SIB-encoding byte differences at +0x82E
+and +0x843 despite preserving the 118 original fields and 2,803-byte
+extent; a 25-read native mapping-table expression changed another
+eight register/SIB bytes. Those forms were rejected rather than
+weakening exactness. Only the three counter expressions were installed.
+
+The one affected pinned VC7.1 carrier cold-replayed **2/2 exact owners,
+2,909 full original bytes and 118 relocations**, including the entire
+2,803-byte key-config boss and its 106-byte SwapDuplicateCharacterIndex
+helper. No new exact owner or Windows runtime proof follows.
+
 ## 2026-11-12 Background render variable-width quad record cursor
 
 The full Background::RenderObjects stage renderer iterates file-backed

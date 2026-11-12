@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Title KeyConfig checkpoint:** three signed
+  frame/phase counters now use native i386 DWORD increments. The
+  complete 2,803-byte key-config boss and its 106-byte swap helper
+  replay 2/2 exact (2,909 bytes, 118 fields) in one VC7.1 carrier;
+  side-index rewrites that changed SIB bytes were not installed.
 - **2026-11-12 Background renderer checkpoint:** variable-width
   stage quads advance by signed-16-to-DWORD native byte strides and
   the signed special-effect point count wraps as an i386 DWORD.
