@@ -1163,6 +1163,27 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Supervisor screenshot D3D lock pitch and bitmap cursors
+
+The original Supervisor::TakeSnapshot owner reads a real Direct3D 8
+locked back buffer and writes a separate RGB24 BMP allocation. The
+signed driver-provided D3DLOCKED_RECT::Pitch is negated as an i386
+DWORD and multiplied by 0x1DF to select the first source row.
+Both the initial source row, its signed per-row negative stride,
+the destination bitmap row advance, and the inner two-byte source
+and one-byte destination cursor advances now explicitly form native
+unsigned modulo-32 byte addresses. This replaces unsafe C++
+signed-pitch overflow and typed-pointer arithmetic assuming a
+single bounded CPU array for a driver-owned surface, while keeping
+all original pixel reads, RGB24 byte order, buffer allocations,
+D3D surface lock/unlock, WriteFile calls and cleanup branches.
+
+The sole affected pinned VC7.1 SupervisorSnapshot carrier passed
+**1/1 exact complete TakeSnapshot owner, 543 original physical
+PE bytes and 23 relocation fields**. No compiler-private label
+rebinding, newly exact owner, alternate file format or Windows
+runtime closure is implied.
+
 ## 2026-11-12 Supervisor network frame queue native record cursors
 
 The original Supervisor owns twenty contiguous 0x0C-byte input/prediction

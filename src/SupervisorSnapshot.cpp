@@ -81,8 +81,15 @@ int Supervisor::TakeSnapshot(const char *filePath)
         infoHeader->biPlanes = 1;
         infoHeader->biCompression = 0;
         backbuffer->LockRect(&lockedRect, NULL, 0);
-        srcRowDelta = -lockedRect.Pitch;
-        srcRow = (unsigned char *)lockedRect.pBits + lockedRect.Pitch * 0x1DF;
+        // D3D supplies a signed pitch into its actual locked back buffer.
+        // Retail negates and scales the pitch as native i386 DWORD words,
+        // then walks that resource and the separately allocated BMP
+        // payload by raw byte addresses (without C++ array provenance).
+        srcRowDelta = static_cast<int>(0u -
+            static_cast<unsigned int>(lockedRect.Pitch));
+        srcRow = reinterpret_cast<unsigned char *>(
+            reinterpret_cast<unsigned int>(lockedRect.pBits) +
+            static_cast<unsigned int>(lockedRect.Pitch) * 0x1DFu);
         dstRow = pixels;
         for (y = 0x1E0; y != 0; y--)
         {
@@ -91,15 +98,19 @@ int Supervisor::TakeSnapshot(const char *filePath)
             for (x = 0; x < 0x280; x++)
             {
                 *dst = *src++;
-                dst++;
+                dst = reinterpret_cast<unsigned char *>(reinterpret_cast<unsigned int>(dst) + 1u);
                 *dst = *src++;
-                dst++;
+                dst = reinterpret_cast<unsigned char *>(reinterpret_cast<unsigned int>(dst) + 1u);
                 *dst = *src;
-                src += 2;
-                dst++;
+                src = reinterpret_cast<unsigned char *>(reinterpret_cast<unsigned int>(src) + 2u);
+                dst = reinterpret_cast<unsigned char *>(reinterpret_cast<unsigned int>(dst) + 1u);
             }
-            srcRow += srcRowDelta;
-            dstRow += widthBytes;
+            srcRow = reinterpret_cast<unsigned char *>(
+                reinterpret_cast<unsigned int>(srcRow) +
+                static_cast<unsigned int>(srcRowDelta));
+            dstRow = reinterpret_cast<unsigned char *>(
+                reinterpret_cast<unsigned int>(dstRow) +
+                static_cast<unsigned int>(widthBytes));
         }
         backbuffer->UnlockRect();
         file = CreateFileA(filePath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);

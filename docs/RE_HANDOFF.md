@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Supervisor screenshot checkpoint:** signed
+  Direct3D lock pitch, first/next source rows, destination BMP
+  row and inner RGB24 pixel cursor strides now form native
+  i386 DWORD byte addresses in the original screenshot owner.
+  One pinned VC7.1 carrier protects 1/1 exact 543-byte
+  TakeSnapshot function with all 23 relocation fields.
 - **2026-11-12 Supervisor frame queue checkpoint:** the
   original Supervisor +0x47C twenty-record network queue and
   +0x56C last-received frame slots, separate Replay input
