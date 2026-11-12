@@ -3839,6 +3839,29 @@ sound-buffer/streaming callers. The DSUtil SDK manager core's third-party
 provenance is unchanged; this is source fidelity in the target-specific
 file-backed WAVE extension, not new exact-function or full product credit.
 
+## 2026-11-13 Player selector's fixed and dynamic half-size vectors share stack rows
+
+The exact **3,238-byte PlayerUpdateSelectorState** gameplay-pattern boss
+constructs three genuine 0x0C-byte `PlayerConstructedVector3View` objects
+on its own stack, then views them as `PlayerPositionView` hitbox extents.
+Seven fixed accesses in the initial half-size initialization and later
+collision-query branches now use the *same*
+`TH09_PATTERN_NATIVE_HALF_SIZE(index)` real Win32 base-plus-0x0C-byte
+stride already used by the dynamic 0..2 selector. This unifies the
+source-facing allocation/alias model without a new bounds gate, second
+vector array, cached dimensions or helper call. The original 16-bit
+pattern input flags, timer thresholds, collision geometry, vector copy
+and RNG/control-flow ordering remain unchanged; the grid cursor still
+uses its independently observed original pointer increment.
+
+The two affected pinned VC7.1 compiler carriers replayed **2/2 existing
+exact owners, 3,650 complete original PE bytes and 154 relocation fields**,
+including the giant selector and its 412-byte `ResolvePatternOffset` leaf.
+Two private `$L` spellings in the leaf were rebound only after proof of
+the current COFF section definitions and their original PE target words.
+This is original-source memory ownership fidelity, not a newly exact
+function or complete Windows runtime claim.
+
 ## 2026-11-12 Player selector's three native stack collision radius words
 
 The **3,238-byte** exact `PlayerUpdateSelectorState` gameplay boss builds

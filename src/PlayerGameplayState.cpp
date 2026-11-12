@@ -391,11 +391,11 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     if (header->player78->position1B88.y < 192.0f)
         cell += 4;
 
-    halfSizes[0].x = 28.0f;
-    halfSizes[0].y = 28.0f;
-    halfSizes[1].x = 10.0f;
-    halfSizes[1].y = 10.0f;
-    halfSizes[2] = header->player78->hurtboxHalfSize;
+    TH09_PATTERN_NATIVE_HALF_SIZE(0).x = 28.0f;
+    TH09_PATTERN_NATIVE_HALF_SIZE(0).y = 28.0f;
+    TH09_PATTERN_NATIVE_HALF_SIZE(1).x = 10.0f;
+    TH09_PATTERN_NATIVE_HALF_SIZE(1).y = 10.0f;
+    TH09_PATTERN_NATIVE_HALF_SIZE(2) = header->player78->hurtboxHalfSize;
 
     {
         EnemyManagerView *manager = header->player78->sideState->enemyManager10;
@@ -647,7 +647,7 @@ pattern_selected:
                                 else if (candidate.y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
                                     candidate.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
                             }
-                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, halfSizes[1], 0.0f) == NULL)
+                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, TH09_PATTERN_NATIVE_HALF_SIZE(1), 0.0f) == NULL)
                                 TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |=
                                     static_cast<unsigned short>(TH09_PATTERN_FLAG(pattern));
                             else
@@ -675,7 +675,7 @@ pattern_selected:
                                 else if (candidate.y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
                                     candidate.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
                             }
-                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, halfSizes[1], 0.0f) == NULL)
+                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, TH09_PATTERN_NATIVE_HALF_SIZE(1), 0.0f) == NULL)
                                 TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |=
                                     static_cast<unsigned short>(TH09_PATTERN_FLAG(pattern));
                             else
