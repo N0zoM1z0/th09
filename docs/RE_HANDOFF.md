@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 PlayerShot homing/trail checkpoint:** the original
+  float* conversion call now feeds named x/y members of
+  the real homing-shot position, while two draw callbacks
+  advance 0x0C-byte history records by original i386
+  DWORD addresses. Three scoped VC7.1 carriers preserve
+  3/3 exact owners, 968 physical bytes, 30 relocations.
 - **2026-11-12 Replay menu navigation checkpoint:** twelve
   signed list/stage cursor motions and wrap comparisons in
   OnUpdateReplayMenu now preserve original i386 DWORD results.

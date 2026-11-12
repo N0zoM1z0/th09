@@ -1163,6 +1163,34 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Player shot homing position and history-trail native storage
+
+The independently exact 471-byte PlayerShotUpdateCallbackType1
+homes a constructed 0x484-byte Shot against the genuine Player
+tracking position. The source still executes the original
+PlayerPositionView::operator float*() callee at the original
+site, but interprets the returned address as the real
+PlayerPositionView subobject and loads x/y by their named
+members, not by indexing past a pointer to its first float.
+The angle, speed, sqrt, tracking gates and all original
+callee chronology remain unchanged.
+
+PlayerShotDrawCallbackType1 and Type2 render separate native
+0x0C-byte history/trajectory point records from the true
+shot storage at +0x2B0. Both draw paths now advance their
+live point cursors by modulo-32 i386 byte addresses plus
+sizeof(the physical point), rather than C++ typed-pointer
+increments that presume a bounded projected subarray.
+The invalid-history sentinel, color/alpha restoration,
+draw order and actual ANM VM remain unchanged.
+
+The three independently affected pinned VC7.1 carriers
+cold-replayed **3/3 already exact functions, 968 complete
+original PE bytes and 30 relocations**: homing update
+471 bytes / 19 fields, Draw Type1 204 bytes / six fields,
+Draw Type2 293 bytes / five fields. No compiler-private
+labels, new exact owner, or whole-Windows runtime claim.
+
 ## 2026-11-12 Title replay menu list and stage cursor DWORD wrap
 
 The complete TitleScreenView::OnUpdateReplayMenu owner selects one

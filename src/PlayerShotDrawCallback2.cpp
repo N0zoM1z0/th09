@@ -51,7 +51,11 @@ int __fastcall PlayerShotDrawCallbackType2(
             reinterpret_cast<AnmVm *>(shot));
 
         ++index;
-        ++point;
+        // The original drawn trail advances through genuine contiguous
+        // 0x0C-byte shot history records using an i386 DWORD address,
+        // not a guessed independent C++ pointer/array bound.
+        point = reinterpret_cast<PlayerPositionView *>(
+            reinterpret_cast<unsigned int>(point) + sizeof(*point));
         redAccumulator += savedRed;
         greenAccumulator += savedGreen;
         alphaAccumulator += savedAlpha;

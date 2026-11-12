@@ -23,9 +23,14 @@ int __fastcall PlayerShotUpdateCallbackType1(
         const PlayerEnemyTrackingNativeView &tracking = player->tracking30364;
         if (tracking.trackedX00 > -900.0f)
         {
-            float *position = shot->position2A4.operator float *();
-            xDelta = tracking.trackedX00 - position[0];
-            yDelta = tracking.trackedY04 - position[1];
+            // Preserve the independently original-bound operator float*()
+            // call, but access the actual PlayerPositionView x/y subobject
+            // rather than indexing past a pointer to its first float member.
+            float *positionBytes = shot->position2A4.operator float *();
+            const PlayerPositionView &position =
+                *reinterpret_cast<const PlayerPositionView *>(positionBytes);
+            xDelta = tracking.trackedX00 - position.x;
+            yDelta = tracking.trackedY04 - position.y;
 
             magnitude =
                 sqrtf(xDelta * xDelta + yDelta * yDelta) /

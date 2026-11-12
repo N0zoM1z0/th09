@@ -60,7 +60,11 @@ int __fastcall PlayerShotDrawCallbackType1(
                 reinterpret_cast<AnmVm *>(shot));
 
             ++index;
-            ++point;
+            // The original drawn trail advances through genuine contiguous
+        // 0x0C-byte shot history records using an i386 DWORD address,
+        // not a guessed independent C++ pointer/array bound.
+        point = reinterpret_cast<PlayerShotDraw1Vec3 *>(
+            reinterpret_cast<unsigned int>(point) + sizeof(*point));
             alphaAccumulator += alpha;
         }
         while (index < 2 * shot->trailSegmentCount46A);
