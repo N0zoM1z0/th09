@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 FrontSide draw checkpoint:** the complete
+  3,094-byte OnDraw boss now recovers each genuine ANM VM
+  owner from its +0x208 position cursor via wrapping native
+  DWORD subtraction. One pinned VC7.1 carrier preserves all
+  209 original bound fields and complete bytes.
 - **2026-11-12 FrontCalc transition checkpoint:** panel timers,
   front frame, dynamic sprite ID, opposing side and native
   stage/result-table expressions now wrap as real i386 DWORDs.

@@ -1163,6 +1163,26 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 FrontSide draw cursor recovers native ANM VM base
+
+The 3,094-byte complete FrontSide::OnDraw boss walks real
+0x2A4-byte AnmVm records while the local cursor points at each
+VM's +0x208 position. The original native i386 code recovers
+the owning AnmVm address by subtracting the byte offset
+as a 32-bit word, not by performing C++ byte-pointer
+arithmetic outside the interior Float3 member. The lexical
+FRONT_SIDE_DRAW_BASE expression now explicitly forms the
+actual owner address modulo 2^32. All eleven original
+draw/update loops, GameManager transformations, backend draw
+calls, and cursor widths remain unchanged.
+
+The single affected pinned VC7.1 carrier cold-replayed
+**1/1 exact FrontSide::OnDraw, 3,094 complete original PE bytes
+and 209 independently bound relocation fields**. Neither
+the compiler-private labels nor the exactness ledger required
+changes. This is real native source-storage fidelity on an
+already-exact rendering boss, not product/runtime proof.
+
 ## 2026-11-12 Front transition and result-index native DWORD arithmetic
 
 The complete FrontCalcCallback controls the front overlay ANM VMs,

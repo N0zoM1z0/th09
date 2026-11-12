@@ -64,8 +64,11 @@ typedef char FrontSideDrawVertexSizeIs14[
 // even when diagnosing the target's non-inlined vertex-array construction.
 #define FRONT_SIDE_DRAW_CURSOR(vm) \
     reinterpret_cast<FrontSideDrawVmCursor *>(&((vm)->pos))
+// A draw cursor points to the +0x208 native position subobject. Recover
+// the actual ANM owner address as a wrapping i386 DWORD subtraction,
+// instead of C++ pointer subtraction outside the Float3 subobject.
 #define FRONT_SIDE_DRAW_BASE(cursor) \
-    reinterpret_cast<AnmVm *>(reinterpret_cast<u8 *>(cursor) - offsetof(AnmVm, pos))
+    reinterpret_cast<AnmVm *>(reinterpret_cast<u32>(cursor) - static_cast<u32>(offsetof(AnmVm, pos)))
 
 // Retail advances eleven HUD position cursors through real 0x2A4-byte
 // AnmVm storage. The viewport selector likewise indexes authentic 0xF0-byte
