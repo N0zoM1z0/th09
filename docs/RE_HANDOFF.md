@@ -107,6 +107,14 @@ Git retains earlier source revisions.
   draw order. One pinned VC7.1 carrier preserves the
   complete 693-byte SetupRandomForSide owner and all
   15 original PE relocation fields.
+- **2026-11-12 Enemy draw-group checkpoint:** the
+  1,758-byte EnemyManagerDrawImpl boss now walks
+  actual four-group head pointers, 0x2A4-byte secondary
+  ANM VMs and 0x1C-byte trail vertices by original
+  i386 DWORD record addresses; the live vertex count
+  addition wraps as a DWORD. One scoped VC7.1
+  carrier retains 4/4 exact owners, 1,922
+  physical PE bytes and 61 relocation fields.
 - **2026-11-12 Background Quad VM checkpoint:** stage
   object pointer-table and 0x2A4-byte VM indexes now
   form native i386 byte addresses; signed 16-bit

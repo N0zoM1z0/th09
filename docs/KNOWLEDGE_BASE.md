@@ -1446,6 +1446,32 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-12 Enemy draw-group and trail vertex native record traversal
+
+The original complete 1,758-byte EnemyManagerDrawImpl draws four
+authentic EnemyManager draw-group linked lists, primary/secondary
+0x2A4-byte ANM VMs and the real EnemyView's 194-element
+0x1C-byte trail vertex storage. Its live signed draw-group
+index now advances as a native i386 DWORD and selects the actual
+four pointer heads from the true EnemyManager allocation via
+unsigned word-scale addresses. Both secondary-VM loops and the
+two per-trail-sample output vertex advances now use genuine
+native 0x2A4-byte and 0x1C-byte record strides instead of
+C++ pointer arithmetic over one projected subobject.
+The signed vertexCount+1 calculation likewise forms a
+native unsigned DWORD sum before the same signed
+division and UV-spacing calculation.
+
+The original linked Enemy traversal, wrapped-angle math,
+sprite properties, taper/alpha logic, D3D draw calls and
+high/low-priority viewport callbacks remain unchanged.
+The one affected pinned VC7.1 EnemyManagerDraw carrier
+cold-replayed **4/4 existing exact owners, 1,922 complete
+original PE bytes and 61 relocation fields**, including
+the full 1,758-byte draw boss and its three attached
+helper/callback owners. No private-label rebinding,
+new exactness promotion or game-runtime claim is made.
+
 ## 2026-11-12 Background scripted quad VM update native record addresses
 
 Background::UpdateStageObjectVms traverses the actual file-backed

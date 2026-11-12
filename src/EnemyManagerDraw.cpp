@@ -111,16 +111,25 @@ static inline const EnemyTrailSampleView &EnemyDrawTrailSampleNative(
         static_cast<unsigned int>(index) * sizeof(enemy->trailSamples33E8[0]));
 }
 
+// The draw groups and secondary ANM VMs are genuine EnemyManager-owned
+// arrays; both trail vertex records and ANM VMs use their physical
+// i386 DWORD record widths, rather than unrelated C++ subarray bounds.
 static int EnemyManagerDrawImpl(
     EnemyManagerView *enemyManager, int drawGroup, int chainPriority)
 {
-    for (int group = drawGroup; group < chainPriority; ++group)
+    for (int group = drawGroup; group < chainPriority;
+         ++*reinterpret_cast<unsigned int *>(&group))
     {
-        EnemyDrawView *enemy = enemyManager->drawGroupHeads2AC410[group];
+        EnemyDrawView *enemy = *reinterpret_cast<EnemyDrawView **>(
+            reinterpret_cast<unsigned int>(&enemyManager->drawGroupHeads2AC410[0]) +
+            static_cast<unsigned int>(group) *
+                sizeof(enemyManager->drawGroupHeads2AC410[0]));
         while (enemy != NULL)
         {
             EnemyDrawVmView *vm = &enemy->secondaryVms2AC[0];
-            for (int k = 0; k < 1; ++k, ++vm)
+            for (int k = 0; k < 1; ++k,
+                 vm = reinterpret_cast<EnemyDrawVmView *>(
+                     reinterpret_cast<unsigned int>(vm) + sizeof(*vm)))
             {
                 if (vm->scriptIndex >= 0)
                 {
@@ -210,7 +219,8 @@ static int EnemyManagerDrawImpl(
                     {
                         AnmLoadedSprite *sprite = enemy->primaryAnmVm0008.loadedSprite;
                         float uvSpan = sprite->uvEndX - sprite->uvStartX;
-                        float uvStep = uvSpan / ((vertexCount + 1) / EnemyNativeTrailRenderCapacity::VerticesPerSample - 1);
+                        float uvStep = uvSpan / (static_cast<int>(static_cast<unsigned int>(vertexCount) + 1u) /
+                            EnemyNativeTrailRenderCapacity::VerticesPerSample - 1);
                         float uv = sprite->uvEndX + enemy->primaryAnmVm0008.uvScrollPos.x;
                         EnemyDrawVertex *vertices = enemy->trailVertices3E68;
                         float previousAngle;
@@ -313,7 +323,9 @@ static int EnemyManagerDrawImpl(
                             vertices[0].v18 =
                                 enemy->primaryAnmVm0008.loadedSprite->uvStartY +
                                 enemy->primaryAnmVm0008.uvScrollPos.y;
-                            ++vertices;
+                            vertices = reinterpret_cast<EnemyDrawVertex *>(
+                                reinterpret_cast<unsigned int>(vertices) +
+                                sizeof(*vertices));
 
                             vertices[0].position00 = EnemyDrawTrailSampleNative(enemy, k).position00;
                             vertices[0].position00.x +=
@@ -324,7 +336,9 @@ static int EnemyManagerDrawImpl(
                             vertices[0].v18 =
                                 enemy->primaryAnmVm0008.loadedSprite->uvEndY +
                                 enemy->primaryAnmVm0008.uvScrollPos.y;
-                            ++vertices;
+                            vertices = reinterpret_cast<EnemyDrawVertex *>(
+                                reinterpret_cast<unsigned int>(vertices) +
+                                sizeof(*vertices));
                         }
 
                         if (vertexCount > EnemyNativeTrailRenderCapacity::VerticesPerSample)
@@ -347,7 +361,10 @@ static int EnemyManagerDrawImpl(
                 g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(&enemy->primaryAnmVm0008));
             }
 
-            for (int k = 1; k < EnemyNativeTrailRenderCapacity::SecondaryVmCount; ++k, ++vm)
+            for (int k = 1; k < EnemyNativeTrailRenderCapacity::SecondaryVmCount;
+                 ++k,
+                 vm = reinterpret_cast<EnemyDrawVmView *>(
+                     reinterpret_cast<unsigned int>(vm) + sizeof(*vm)))
             {
                 if (vm->scriptIndex >= 0)
                 {
