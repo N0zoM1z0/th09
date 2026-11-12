@@ -70,7 +70,9 @@ int GameWindow::Render()
             return 2;
         }
 
-        ++this->framesSinceRedraw10;
+        // The retail frame-skip counter is a live signed BYTE at +0x10.
+        // Increment its native bits, preserving i386 8-bit wrap.
+        ++*reinterpret_cast<unsigned char *>(&this->framesSinceRedraw10);
         if (supervisor->frameskipConfig43A < this->framesSinceRedraw10)
         {
             supervisor->d3dDevice08->BeginScene();

@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 GameWindow frame loop checkpoint:** the original
+  signed BYTE frame-skip counter and signed DWORD transition
+  countdown now advance/decrement using their real i386 storage
+  widths. Two focused VC7.1 carrier replays preserve 2/2 exact
+  owners (GameWindow Render 326 bytes / 30 fields, Present
+  232 bytes / 22 fields).
 - **2026-11-12 Background keyframe checkpoint:** opcode zero
   of the 2,652-byte stage-script interpreter advances the packed
   0x14-byte file-backed instruction pointer via native DWORD

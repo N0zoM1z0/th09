@@ -54,6 +54,8 @@ void GameWindow::Present()
     if (supervisor->screenTransitionCountdown != 0 &&
         g_TitleRegistrationByte == 0)
     {
-        --supervisor->screenTransitionCountdown;
+        // The original D3D reset/transition countdown is a native
+        // i386 DWORD. Keep its wrap without a C++ signed-overflow rule.
+        --*reinterpret_cast<unsigned int *>(&supervisor->screenTransitionCountdown);
     }
 }

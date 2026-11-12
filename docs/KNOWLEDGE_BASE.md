@@ -1163,6 +1163,27 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 GameWindow frame-skip and D3D present countdown widths
+
+The retail GameWindow::Render loop increments its signed one-byte
+framesSinceRedraw10 at +0x10 with an i386 BYTE operation, then compares
+that actual signed byte against the live Supervisor frameskip setting.
+The source now increments the same physical byte through its unsigned
+view, retaining the native eight-bit wrap without relying on narrowing
+a signed C++ integer. In GameWindow::Present the signed
+screenTransitionCountdown field at Supervisor +0x5A4 is similarly
+decremented through its real 32-bit storage, matching the retail
+i386 DWORD wrap while preserving the original nonzero/registration
+guard, D3D reset, snapshot and swap-chain calls.
+
+The two separate pinned VC7.1 carrier replays both passed their
+complete original physical owners: **GameWindow::Render 326/326
+bytes and 30 relocations; GameWindow::Present 232/232 bytes and
+22 relocations** (2/2 existing exact units, 558 bytes / 52 fields).
+No compiler-private label rename or new exactness credit is involved;
+the modification preserves original integer width and loop timing
+semantics rather than proving native runtime closure.
+
 ## 2026-11-12 Background stage-camera keyframe native next-record pointer
 
 The complete BackgroundRunStageScriptPhase interpreter reads the initial
