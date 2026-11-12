@@ -3502,6 +3502,30 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 Controller native replay input, device and joystick slots
+
+The exact `Controller::GetControllerInput` owner receives two signed
+runtime selectors, the replay input slot and the hardware pad. The
+source now resolves the original 0x8E-byte `ReplayInputState` source
+from the real three-record `g_ReplayInputStates` allocation instead of
+a potentially out-of-range C++ array expression. Four live DirectInput
+poll/acquire/state receivers use the real two `IDirectInputDevice8A*`
+slots at `Supervisor+0x14/+0x18` via original Win32 DWORD-scaled pad
+addresses. Twelve WinMM threshold/capability reads likewise address the
+two authentic process-global JOYCAPSA records with their true record
+stride. Both callback systems, retry logic, button order and original
+threshold tests are unchanged; no fallback or new device list is created.
+
+The independent `SetButtonFromDirectInputState` leaf now reads the true
+DirectInput `rgbButtons` byte buffer at `uint32(base)+uint32(int16(button))`
+after the original negative-index check. Both repeated live reads remain
+separate, with no upper-bound cap. An experiment to explicitly mask the
+joystick bit-shift count changed the other exact leaf's extent and was
+rejected. The pinned VC7.1 one-carrier scoped replay passed **all 3
+previously exact owners / 892 complete original PE bytes / all original
+relocation fields**, including 808-byte GetControllerInput and the
+37-/47-byte helper leaves. No new exact-function or product credit follows.
+
 ## 2026-11-12 Enemy 1,758-byte draw boss authentic alpha-byte receivers
 
 The retained **1,758-byte** `EnemyManagerDrawImpl` controls both high-/low-
@@ -3516,10 +3540,10 @@ on a scalar subobject. The new formulation keeps every original live
 read, assignment, fade formula and VM/vertex ownership without additional
 buffers, bounds guards, changes to the float trail math or callable code.
 
-The pinned VC7.1 one-carrier scoped replay verified **all 3 canonical
-EnemyManagerDraw functions, 1,831 complete original PE bytes and their
-relocation fields**, including all 1,758 bytes of the draw boss plus
-both high- and low-priority wrappers. This is stronger native C++ source
+The pinned VC7.1 one-carrier scoped replay verified **all 4 canonical
+EnemyManagerDraw functions, 1,922 complete original PE bytes and all 61
+relocation fields**, including all 1,758 bytes of the draw boss, both
+high-/low-priority wrappers and the 91-byte angle interpolation leaf. This is stronger native C++ source
 semantics, not additional exact-function or Windows runtime credit.
 
 ## 2026-11-12 GameManager gameplay setup physical side and focus slots
