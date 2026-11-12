@@ -186,7 +186,10 @@ int WaveFileProcessView::ResetFile(bool loop)
         if (format->totalLength > 0)
             dataSize = format->totalLength;
         if (loop && format->introLength > 0)
-            dataCursor += format->introLength;
+            // The in-memory WAVE cursor is one real file-backed Win32 byte
+            // address. The loop intro advances its original DWORD word.
+            dataCursor = reinterpret_cast<BYTE *>(
+                reinterpret_cast<DWORD>(dataCursor) + format->introLength);
     }
     else
     {
@@ -242,11 +245,16 @@ int WaveFileProcessView::Read(BYTE *buffer, DWORD sizeToRead, DWORD *sizeRead)
         if (sizeRead != NULL)
             *sizeRead = 0;
 
-        if (dataCursor + sizeToRead > data + dataSize)
-            sizeToRead = dataSize - (DWORD)(dataCursor - data);
+        // Retail compares byte addresses after native 32-bit addition and
+        // measures the consumed file span by native 32-bit subtraction.
+        if (reinterpret_cast<DWORD>(dataCursor) + sizeToRead >
+            reinterpret_cast<DWORD>(data) + dataSize)
+            sizeToRead = dataSize -
+                (reinterpret_cast<DWORD>(dataCursor) - reinterpret_cast<DWORD>(data));
 
         CopyMemory(buffer, dataCursor, sizeToRead);
-        dataCursor += sizeToRead;
+        dataCursor = reinterpret_cast<BYTE *>(
+            reinterpret_cast<DWORD>(dataCursor) + sizeToRead);
         if (sizeRead != NULL)
             *sizeRead = sizeToRead;
         return S_OK;

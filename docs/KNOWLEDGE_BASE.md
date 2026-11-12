@@ -3327,6 +3327,30 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 WAVE memory-stream leaves use native Win32 cursor words
+
+The independently exact `WaveFileProcessView::ResetFile` and
+`WaveFileProcessView::Read` consume the actual file-backed WAVE buffer
+owned by the original sound-stream manager, not a synthetic fixed-size
+C++ array. The in-memory ResetFile loop intro now advances `dataCursor`
+through its true Win32 byte address `uint32(dataCursor)+introLength`.
+The Read path compares the original native cursor-plus-request address
+against the actual buffer-end word, calculates the remaining bytes from
+`uint32(dataCursor)-uint32(data)`, and advances that same real cursor by
+the effective read size. This removes out-of-array pointer arithmetic
+and non-array pointer subtraction while preserving the original i386
+wrap, signed/unsigned comparison semantics and byte-for-byte Windows
+code generation. No new file-size gate, memory copy, buffer allocation
+or DirectSound call was introduced.
+
+The pinned VC7.1 source-scoped cold replay covered only the **five affected
+SoundManager carriers** and passed **25/25 previously exact owners,
+4,004 complete original PE bytes and 80 relocation fields**. This includes
+the **215-byte ResetFile** and **218-byte Read** leaves and the exact
+sound-buffer/streaming callers. The DSUtil SDK manager core's third-party
+provenance is unchanged; this is source fidelity in the target-specific
+file-backed WAVE extension, not new exact-function or full product credit.
+
 ## 2026-11-12 Player selector's three native stack collision radius words
 
 The **3,238-byte** exact `PlayerUpdateSelectorState` gameplay boss builds
