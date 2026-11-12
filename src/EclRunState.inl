@@ -448,13 +448,17 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
             static_cast<short>(
                 reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
                     Th09EclRunState::ChildSlotRef(enemy, stateIndex))->subroutineId00));
+        // The child ECL context and active context are genuine separately
+        // owned 0x22C-byte records. The memcpy payload starts at the real
+        // +0x1C native Win32 address in both, not a constructed C++ array.
         memcpy(
             reinterpret_cast<unsigned char *>(
-                &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-                    Th09EclRunState::ChildSlotRef(enemy, stateIndex))->context08) +
-                0x1C,
-            reinterpret_cast<unsigned char *>(
-                enemy->activeContext2CE0) + 0x1C,
+                reinterpret_cast<unsigned int>(
+                    &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
+                        Th09EclRunState::ChildSlotRef(enemy, stateIndex))->context08) +
+                0x1Cu),
+            reinterpret_cast<const unsigned char *>(
+                reinterpret_cast<unsigned int>(enemy->activeContext2CE0) + 0x1Cu),
             0x78);
         break;
 

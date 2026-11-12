@@ -1163,6 +1163,31 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 RunEcl child context state-copy raw byte addresses
+
+The 15,564-byte EnemyEclManagerView::RunEcl ECL dispatcher creates a
+genuine ChildEclBlock (with a 0x22C-byte context), initializes its
+subroutine and copies exactly 0x78 bytes of native context-local
+state from the active ECL context's +0x1C payload to the child's
+own +0x1C payload. Both memcpy operands now explicitly use original
+i386 modulo-32 addresses based on the real distinct context
+subobjects. This avoids C++ pointer arithmetic outside a projected
+0x22C-byte object; the actual ChildSlotRef reread, memcpy size,
+state layout, allocation, null gate and subroutine call remain intact.
+
+Original-target full-owner inspection still reports the complete
+15,564-byte RunEcl, 598 correctly bound relocation fields and
+unaltered switch tables. The original 30 unlike opcode-4/opcode-155
+ordinary bytes remain: **this boss is still NONEXACT**.
+The two actually affected pinned VC7.1 EclManager carriers separately
+cold-replayed **83/83 already-exact sibling functions, 29,856
+complete physical original bytes and 1,389 relocation fields**.
+Eight private $L symbols changed spelling; their actual current
+COFF same-section definitions, retail PE target operands and
+complete exact-owner bytes were independently proved before the
+manifest symbol names were updated. No exact promotion or Windows
+runtime closure is claimed.
+
 ## 2026-11-12 Replay metadata formatting native append cursor
 
 The original ReplayManagerView::SaveReplay builds a file-backed user

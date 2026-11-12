@@ -24,6 +24,15 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 RunEcl child-context checkpoint:** the real
+  0x22C-byte active and child ECL contexts now supply the
+  source/destination +0x1C state-copy pointers through native
+  i386 DWORD arithmetic, retaining the 0x78-byte memcpy.
+  Full 15,564-byte RunEcl remains NONEXACT with its old 30
+  opcode-4/155 byte differences, 598 fields and switch tables
+  unchanged; two affected VC7.1 carriers preserve 83/83 exact
+  siblings, 29,856 physical bytes, 1,389 fields and eight
+  independently PE/COFF-proven private-label names.
 - **2026-11-12 Replay formatting checkpoint:** AppendReplayFormat's
   live caller-owned byte-buffer append cursor now uses native
   DWORD base+strlen address arithmetic. Both affected VC7.1
