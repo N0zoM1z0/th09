@@ -3260,6 +3260,30 @@ their actual same-section COFF definitions, original PE operands and
 every complete physical owner. This preserves existing codegen exactness;
 the nonexact game functions and whole-product/runtime stages remain open.
 
+## 2026-11-12 Player state-4 and shot update native XYZ members
+
+The complete `PlayerCheckState4` state transition clamps the live
+Player+0x1B88 position after calling its actual `Float3::operator float*()`.
+The independent `PlayerLifecycleView::UpdateShots` likewise advances
+all 128 shot records through their real `Float3` positions at shot+0x2A4
+and tests each projected x/y against the playfield. Both source bodies
+previously used `[0]`/`[1]` through the conversion's `float*`, treating the
+first float subobject as if it were a three-element float array. They now
+preserve the conversion call **and** access the genuine `Float3` x/y
+members. No shot allocation, update cadence, clamp, call order or branch
+has changed. `UpdateShots` also retains its independently bound y-lvalue,
+without caching a new source value.
+
+The five affected pinned-VC7.1 source carriers passed a complete scoped
+cold replay of **21/21 existing exact PlayerRuntime owners / 5,391 original
+bytes / 288 relocation fields**. The 400-byte state-4 transition and the
+251-byte UpdateShots are both fully byte/field exact. Eleven private `$L`
+spellings shifted in another owner solely due to the compiler's source
+numbering; before rebinding these the proof verified actual same-section
+COFF label definitions, unchanged PE operands and all 21 complete bodies.
+The separately nonexact Player movement, charge attack and bullet-collision
+owners were not promoted by these source semantics changes.
+
 ## 2026-11-12 Etama draw authentic SDK vector component lvalues
 
 `DrawSingleBullet` selects one of the original five bullet ANM VMs,

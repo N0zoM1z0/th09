@@ -694,17 +694,19 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
                 &player->movementFields1CCC.velocity1CCC) *
             (60.0f - (float)*timer) / 20.0f;
 
-        float *position =
-            reinterpret_cast<Float3 *>(&player->position1B88)->operator float *();
-        if (position[0] < g_PlayerState4MinX)
-            position[0] = g_PlayerState4MinX;
-        else if (position[0] > g_PlayerState4MinX + g_PlayerState4Width)
-            position[0] = g_PlayerState4MinX + g_PlayerState4Width;
+        // Keep the independently exact float-pointer conversion, then name
+        // members of the actual Player XYZ rather than indexing a float x.
+        Float3 *position = reinterpret_cast<Float3 *>(
+            reinterpret_cast<Float3 *>(&player->position1B88)->operator float *());
+        if (position->x < g_PlayerState4MinX)
+            position->x = g_PlayerState4MinX;
+        else if (position->x > g_PlayerState4MinX + g_PlayerState4Width)
+            position->x = g_PlayerState4MinX + g_PlayerState4Width;
 
-        if (position[1] < g_PlayerState4MinY)
-            position[1] = g_PlayerState4MinY;
-        else if (position[1] > g_PlayerState4MinY + g_PlayerState4Height)
-            position[1] = g_PlayerState4MinY + g_PlayerState4Height;
+        if (position->y < g_PlayerState4MinY)
+            position->y = g_PlayerState4MinY;
+        else if (position->y > g_PlayerState4MinY + g_PlayerState4Height)
+            position->y = g_PlayerState4MinY + g_PlayerState4Height;
 
         int timerCurrent =
             reinterpret_cast<PlayerState4TimerCurrentView *>(timer)->GetCurrent();
@@ -1093,14 +1095,17 @@ void PlayerLifecycleView::UpdateShots()
             continue;
         }
 
-        float *position = shot->position2A4.operator float *();
-        float &positionY = position[1];
-        position[0] += g_Supervisor.framerateMultiplier5B8 * shot->velocity43C.x;
+        // The exact conversion still executes; the returned native address
+        // belongs to a complete Float3, not to a float[3] subobject.
+        Float3 *position = reinterpret_cast<Float3 *>(
+            shot->position2A4.operator float *());
+        float &positionY = position->y;
+        position->x += g_Supervisor.framerateMultiplier5B8 * shot->velocity43C.x;
         positionY += g_Supervisor.framerateMultiplier5B8 * shot->velocity43C.y;
 
         if (shot->shotType464 != 2 &&
             !g_PlayerGameManagerRuntime.IsWithinPlayfield(
-                position[0], position[1], shot->vm.loadedSprite->widthPx,
+                position->x, position->y, shot->vm.loadedSprite->widthPx,
                 shot->vm.loadedSprite->heightPx))
             shot->state462 = 0;
 
