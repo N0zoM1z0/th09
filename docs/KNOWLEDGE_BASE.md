@@ -4393,6 +4393,30 @@ actual same-section COFF definitions, original PE destinations and all
 complete linked owner bytes. This improves native source memory semantics
 but does not increase exact-function credit or establish a Windows build.
 
+## 2026-11-13 FrontMessage Update/Setup real ANM font dimensions
+
+The complete **2,968-byte original-bound `FrontMessageRuntimeView::Update`**
+sets the widths/heights of actual text `AnmVm` records at offsets +0x298
+and +0x299 in script opcodes 3/0x10. Both chained stores now target the
+real `AnmVm::fontWidth` and `AnmVm::fontHeight` byte members, instead of
+writing through an unrelated `unsigned char*` cast from the beginning of a
+0x2A4-byte VM. The opcode still rereads the live runtime text index and
+uses the existing native byte-stride VM selection, without an extra cache,
+clamp or helper call. The **357-byte `FrontMessageRuntimeView::Setup`**
+now addresses the very same authentic two font members in the two actual
+text VMs, preserving its original height-then-width store order and script
+initialization. These fields are independently verified and consumed by
+`AnmManager::DrawTextLeft` / text rendering in other exact owners.
+
+Only the three affected pinned VC7.1 function carriers replayed: **3/3
+pre-existing exact functions, 3,364 complete original PE bytes and all
+177 relocation fields** passed, including the giant script interpreter,
+39-byte string decoder and setup callback. The optimizer renumbered 22
+private `$L` references, and each same-section COFF definition, original
+PE target and whole physical function was independently proven *before*
+updating manifest labels. This is native source/member recovery, not a new
+exact-function or complete Windows runtime/product claim.
+
 ## 2026-11-12 FrontMessage big Update authentic portrait pair receivers
 
 `FrontMessageRuntimeView::Update` owns the actual eight `AnmVm` portraits

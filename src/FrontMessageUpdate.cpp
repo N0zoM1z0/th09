@@ -434,8 +434,8 @@ int FrontMessageRuntimeView::Update()
 
             g_FrontMessageAnm->SetAndExecuteScriptIdx(
                 &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, FRONT_NATIVE_SHORT_ARG(arguments, 1)), FRONT_NATIVE_SHORT_ARG(arguments, 1));
-            reinterpret_cast<unsigned char *>(&FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, FRONT_NATIVE_SHORT_ARG(arguments, 1)))[0x298] =
-                reinterpret_cast<unsigned char *>(&FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, FRONT_NATIVE_SHORT_ARG(arguments, 1)))[0x299] =
+            FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, FRONT_NATIVE_SHORT_ARG(arguments, 1)).fontWidth =
+                FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, FRONT_NATIVE_SHORT_ARG(arguments, 1)).fontHeight =
                 (unsigned char)glyphSize1D54;
 
             DecodeFrontMessageString(
@@ -471,10 +471,8 @@ int FrontMessageRuntimeView::Update()
             g_FrontMessageAnm->SetAndExecuteScriptIdx(
                 &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, textLineIndex1D66),
                 textLineIndex1D66);
-            reinterpret_cast<unsigned char *>(
-                &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, textLineIndex1D66))[0x298] =
-                reinterpret_cast<unsigned char *>(
-                    &FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, textLineIndex1D66))[0x299] =
+            FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, textLineIndex1D66).fontWidth =
+                FRONT_MESSAGE_NATIVE_SLOT(AnmVm, textVms1534, textLineIndex1D66).fontHeight =
                 (unsigned char)glyphSize1D54;
 
             DecodeFrontMessageString(

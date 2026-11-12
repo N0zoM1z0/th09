@@ -67,10 +67,10 @@ void FrontMessageRuntimeView::Setup(int messageIndex, int mode)
     g_FrontMessageAnm->SetAndExecuteScriptIdx(&textVms1534[1], 1);
 
     unsigned char glyphSize = static_cast<unsigned char>(glyphSize1D54);
-    reinterpret_cast<unsigned char *>(&textVms1534[0])[0x299] = glyphSize;
-    reinterpret_cast<unsigned char *>(&textVms1534[0])[0x298] = glyphSize;
-    reinterpret_cast<unsigned char *>(&textVms1534[1])[0x299] = glyphSize;
-    reinterpret_cast<unsigned char *>(&textVms1534[1])[0x298] = glyphSize;
+    textVms1534[0].fontHeight = glyphSize;
+    textVms1534[0].fontWidth = glyphSize;
+    textVms1534[1].fontHeight = glyphSize;
+    textVms1534[1].fontWidth = glyphSize;
 
     g_AnmManager->DrawTextLeft(
         &textVms1534[0],
