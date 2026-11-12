@@ -3327,6 +3327,27 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 ChargeAttack boss shared physical focus-mode byte lvalue
+
+The nonexact **1,210-byte `PlayerLifecycleView::UpdateChargeAttack`**
+reads one real `GameConfiguration::sideFocusMode` pair at `+0xB4` in three
+separate gameplay branches, with distinct signed-short `side` and signed
+Player `sideIndex` selectors. Those three receiver expressions now share a
+lexical `TH09_CHARGE_NATIVE_FOCUS_MODE(index)` that forms the genuine Win32
+byte address from the original global GameConfiguration allocation. It does
+not cache the read, add a range check, change the volatile `sideMode` stack
+snapshot, or merge the short-side and Player-side input conditions. The
+actual three 0x8E-byte ReplayInputState slots, independently observed input
+calls, charge sound/rate, timers, FrontSide callbacks and attack thresholds
+are unchanged.
+
+The affected pinned VC7.1 ChargeAttack compiler profile reproduces its
+previous **1,210/1,210 physical bytes, 70 original relocation operands,
+58 ordered calls and 53 reviewed control blocks**, with exactly the same
+**235 ordinary unlike bytes**. This remains a nonexact boss; the work
+recovers source-level data ownership and repeated wire-byte access, not
+new exact-function credit. No whole-product/runtime claim is made.
+
 ## 2026-11-12 Title Result Draw original i386 fade alpha multiplication
 
 The complete **1,939-byte exact `TitleScreenView::DrawResult`** renders all

@@ -29,6 +29,14 @@ typedef char PlayerChargePlayableSideCountIsTwo[
     (GameplaySetupNativeSides::PlayableCount == 2) ? 1 : -1];
 
 // Player and FrontSide use the shared 0x38-byte side allocation.
+// The three charge input branches read the *same* two focus-mode bytes
+// in the actual GameConfiguration at +0xB4. This accessor is one native
+// 32-bit byte address and does not cache any of their live source reads.
+#define TH09_CHARGE_NATIVE_FOCUS_MODE(side) \
+    (*reinterpret_cast<const u8 *>( \
+        reinterpret_cast<unsigned int>(&g_GameConfiguration->sideFocusMode[0]) + \
+        static_cast<unsigned int>(side)))
+
 int PlayerLifecycleView::UpdateChargeAttack()
 {
     // PlayerRegisterChain is only called from GameManagerSetup's two-side
@@ -48,13 +56,9 @@ int PlayerLifecycleView::UpdateChargeAttack()
     // configuration byte row through native 32-bit byte addresses. No new
     // side clamping or cached mode snapshot has been added.
     if ((input->WasPressed(1) &&
-         !(*reinterpret_cast<const u8 *>(
-            reinterpret_cast<unsigned int>(&g_GameConfiguration->sideFocusMode[0]) +
-            static_cast<unsigned int>(static_cast<int>(side))) == 1 &&
+         !(TH09_CHARGE_NATIVE_FOCUS_MODE(static_cast<int>(side)) == 1 &&
            input->IsHeld(4))) ||
-        ((modeSnapshot = *reinterpret_cast<const u8 *>(
-            reinterpret_cast<unsigned int>(&g_GameConfiguration->sideFocusMode[0]) +
-            static_cast<unsigned int>(static_cast<int>(side))), sideMode = modeSnapshot, modeSnapshot == 1) &&
+        ((modeSnapshot = TH09_CHARGE_NATIVE_FOCUS_MODE(static_cast<int>(side)), sideMode = modeSnapshot, modeSnapshot == 1) &&
          input->IsHeld(1) &&
          !input->IsHeld(4)))
     {
@@ -79,9 +83,7 @@ int PlayerLifecycleView::UpdateChargeAttack()
         {
             timer303B0--;
         }
-        if (*reinterpret_cast<const u8 *>(
-            reinterpret_cast<unsigned int>(&g_GameConfiguration->sideFocusMode[0]) +
-            static_cast<unsigned int>(sideIndex)) != 1)
+        if (TH09_CHARGE_NATIVE_FOCUS_MODE(sideIndex) != 1)
         {
             goto afterCharge;
         }
@@ -193,3 +195,5 @@ afterCharge:
     }
     return 0;
 }
+
+#undef TH09_CHARGE_NATIVE_FOCUS_MODE
