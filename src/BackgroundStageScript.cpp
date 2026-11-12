@@ -678,6 +678,13 @@ script_done:
 
     }
 
+    // Every sky/fog channel is one byte in the original four-byte color
+    // word. Native address arithmetic operates on the real color field.
+#define TH09_BG_NATIVE_FOG_COLOR_BYTE(color, index) \
+    (*reinterpret_cast<unsigned char *>( \
+        reinterpret_cast<unsigned int>(&(color)) + \
+        static_cast<unsigned int>(index)))
+
     if (background->skyFogDurationCB8 != 0)
     {
         background->skyFogTimerCBC++;
@@ -687,15 +694,12 @@ script_done:
             fogRatio = 1.0f;
 
         for (int i = 0; i < 4; ++i)
-            reinterpret_cast<unsigned char *>(&background->skyFogC94.color)[i] =
+            TH09_BG_NATIVE_FOG_COLOR_BYTE(background->skyFogC94.color, i) =
                 static_cast<unsigned char>(
-                    ((float)reinterpret_cast<unsigned char *>(
-                         &background->skyFogFinalCAC.color)[i] -
-                     (float)reinterpret_cast<unsigned char *>(
-                         &background->skyFogInitialCA0.color)[i]) *
+                    ((float)TH09_BG_NATIVE_FOG_COLOR_BYTE(background->skyFogFinalCAC.color, i) -
+                     (float)TH09_BG_NATIVE_FOG_COLOR_BYTE(background->skyFogInitialCA0.color, i)) *
                         fogRatio +
-                    (float)reinterpret_cast<unsigned char *>(
-                        &background->skyFogInitialCA0.color)[i]);
+                    (float)TH09_BG_NATIVE_FOG_COLOR_BYTE(background->skyFogInitialCA0.color, i));
 
         background->skyFogC94.nearPlane =
             (background->skyFogFinalCAC.nearPlane -
@@ -714,3 +718,5 @@ script_done:
 }
 
 #undef TH09_BG_NATIVE_CAMERA
+
+#undef TH09_BG_NATIVE_FOG_COLOR_BYTE

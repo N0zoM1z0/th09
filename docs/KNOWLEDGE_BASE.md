@@ -3502,6 +3502,27 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 Background stage script native fog color bytes
+
+The original `BackgroundRunStageScriptPhase` boss interpolates a four-byte
+sky/fog color from two authentic DWORDs, at its active/final/initial fog
+fields. Four dynamic byte lvalues in the live fog loop now use the actual
+`unsigned int &color` allocation's Win32 address plus `uint32(i)` rather
+than relying on C++ subscript arithmetic from an unsigned-byte cast to a
+single member. The original loop count (four), each repeated initial
+color read, x87 interpolation and signed/float conversions remain intact;
+there is no second palette, index guard, cached value or helper call.
+
+The one affected pinned-VC7.1 `/O2 /Ob0` compiler carrier reproduced
+**5/5 previously exact owners, 3,231 complete original PE bytes and 160
+relocation fields**. This includes all **2,652 physical bytes** of the
+stage-script boss, its switch table, **448 bytes** of the camera
+interpolation helper and the timer/math leaves. Five compiler-private
+`$L` name changes were accepted only after independently proving their
+actual same-section COFF definitions, original PE destinations and all
+complete linked owner bytes. This improves native source memory semantics
+but does not increase exact-function credit or establish a Windows build.
+
 ## 2026-11-12 FrontMessage big Update authentic portrait pair receivers
 
 `FrontMessageRuntimeView::Update` owns the actual eight `AnmVm` portraits
