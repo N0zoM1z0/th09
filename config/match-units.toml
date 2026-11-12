@@ -8217,7 +8217,7 @@ target_address = 0x00413AF0
 size = 0xD7
 compare_size = 0xE8
 relocations = [
-  { offset = 0x17, type = "DIR32", symbol = "$L65235", target = 0x00413BC8 },
+  { offset = 0x17, type = "DIR32", symbol = "$L65234", target = 0x00413BC8 },
   { offset = 0x46, type = "REL32", symbol = "??BD3DXVECTOR3@@QAEPAMXZ", target = 0x004343D0 },
   { offset = 0x54, type = "REL32", symbol = "??BD3DXVECTOR3@@QAEPAMXZ", target = 0x004343D0 },
   { offset = 0x61, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -11243,18 +11243,18 @@ relocations = [
   { offset = 0x142, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
   { offset = 0x163, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
   { offset = 0x170, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
-  { offset = 0x17F, type = "DIR32", symbol = "$L65262", target = 0x004140A4 },
-  { offset = 0x186, type = "DIR32", symbol = "$L65271", target = 0x00414098 },
+  { offset = 0x17F, type = "DIR32", symbol = "$L65261", target = 0x004140A4 },
+  { offset = 0x186, type = "DIR32", symbol = "$L65270", target = 0x00414098 },
   { offset = 0x1CF, type = "DIR32", symbol = "__real@42000000", target = 0x0048E5E0 },
   { offset = 0x1DC, type = "DIR32", symbol = "_kBulletSpriteScripts", target = 0x0048E628 },
-  { offset = 0x1EB, type = "DIR32", symbol = "$L65263", target = 0x0041411C },
-  { offset = 0x1F2, type = "DIR32", symbol = "$L65272", target = 0x00414110 },
-  { offset = 0x258, type = "DIR32", symbol = "$L65096", target = 0x00413FCA },
-  { offset = 0x25C, type = "DIR32", symbol = "$L65097", target = 0x00413FDB },
-  { offset = 0x260, type = "DIR32", symbol = "$L65099", target = 0x00413FFC },
-  { offset = 0x2D0, type = "DIR32", symbol = "$L65109", target = 0x00414036 },
-  { offset = 0x2D4, type = "DIR32", symbol = "$L65110", target = 0x00414044 },
-  { offset = 0x2D8, type = "DIR32", symbol = "$L65111", target = 0x00414052 },
+  { offset = 0x1EB, type = "DIR32", symbol = "$L65262", target = 0x0041411C },
+  { offset = 0x1F2, type = "DIR32", symbol = "$L65271", target = 0x00414110 },
+  { offset = 0x258, type = "DIR32", symbol = "$L65095", target = 0x00413FCA },
+  { offset = 0x25C, type = "DIR32", symbol = "$L65096", target = 0x00413FDB },
+  { offset = 0x260, type = "DIR32", symbol = "$L65098", target = 0x00413FFC },
+  { offset = 0x2D0, type = "DIR32", symbol = "$L65108", target = 0x00414036 },
+  { offset = 0x2D4, type = "DIR32", symbol = "$L65109", target = 0x00414044 },
+  { offset = 0x2D8, type = "DIR32", symbol = "$L65110", target = 0x00414052 },
 ]
 
 [units.anm-manager-load-surface]

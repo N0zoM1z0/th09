@@ -59,7 +59,9 @@ static int DrawSingleBullet(Bullet *bullet)
     vmPosition->z = 0.05f;
     vm->color1 |= 0x00FFFFFFu;
 
-    if (*reinterpret_cast<short *>(vm->unknown_01FC) != 0)
+    // VM script `type` is the real native signed 16-bit +0x1FC word;
+    // it aliases unknown_01FC and the ANM interpreter's opcode field.
+    if (vm->type != 0)
         vm->SetZRotation(AddNormalizeAngle(1.5707964f + bullet->angle, 0.0f));
 
     return g_AnmManager->Draw2D(vm);

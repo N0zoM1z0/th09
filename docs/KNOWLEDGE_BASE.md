@@ -3580,6 +3580,28 @@ the big D3D initialization function and both exact capability formatter
 leaves. This is authentic Win32 source layout, not new exact-function,
 full executable, or runtime credit.
 
+## 2026-11-13 Etama DrawSingleBullet's actual ANM VM type word
+
+The exact **232-byte physical `DrawSingleBullet`** callback checks the
+active ANM VM's native signed `type` at byte offset **+0x1FC** before
+setting its Z rotation. The maintained source previously read a `short`
+through a cast from the nominal `unknown_01FC` byte prefix. It now
+uses the *same real* `AnmVm::type` 16-bit union member that the exact
+ANM script interpreter sets. This preserves the original test, call
+ordering, two exact D3DX float-vector conversions, real bullet/VM
+positions and native color update; no alternative VM allocation or
+artificial byte-array owner is introduced.
+
+The sole affected pinned VC7.1 Etama drawing carrier replayed **3/3
+previously exact functions, 1,664 full original PE bytes and all 73
+relocations**, including the 600-byte OnDraw boss and 832-byte AddedCallback.
+Its separate noncrediting three-byte SDK conversion view was independently
+checked as part of the **1,667-byte four-owner COFF/PE proof**.
+Eleven compiler-private `$L` spelling updates were allowed only after
+verifying current same-section definitions, original PE destinations,
+relocation addends and entire physical owner bytes. No new exact-function
+or whole Windows runtime claim follows.
+
 ## 2026-11-12 Etama big OnUpdate's authentic six-bucket draw heads
 
 The **2,216-byte physical `EtamaController::OnUpdate`** owns two bullet
