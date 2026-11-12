@@ -1192,6 +1192,30 @@ original PE operands and full owner bytes before manifest-only
 renaming. No newly exact owner or native product/runtime
 closure is inferred.
 
+## 2026-11-12 GameManager per-side difficulty and stage gate DWORD words
+
+The full GameManagerSetupLayout::OnUpdate runs two real Player side
+difficulty counters (state7C/state80 in each authentic Player
+header), the GameManager's persistent signed valueB8 and
+its timed stage threshold. The four side counters and valueB8
+now increment through their actual unsigned 32-bit i386 word
+lvalues, retaining their original signed less-than-16/six
+gates and independently repeated receiver reads. The stage
+threshold in game mode 1 forms the genuine unsigned-DWORD
+sum phase10+1 *before* the original unsigned 500000 multiplier,
+rather than allowing a C++ signed-overflow step on the live
+mode/stage data. This preserves native wrap at INT_MAX without
+changing the frame gate, side state, ANM/sound interactions,
+score accumulation or transition call order.
+
+Only two affected pinned VC7.1 GameManagerSetup compiler
+carriers cold-replayed **12/12 existing exact functions,
+4,680 complete original PE bytes and 415 relocation fields**,
+including the entire 1,230-byte OnUpdate owner, 1,689-byte
+GameplaySetupThread and 425-byte cleanup callback.
+No private label changes, new exactness credit or native
+Windows runtime closure is asserted.
+
 ## 2026-11-12 Player shot homing position and history-trail native storage
 
 The independently exact 471-byte PlayerShotUpdateCallbackType1

@@ -243,22 +243,29 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         g_GameManager.valueC0++;
         // These difficulty counters belong to each side's subsystem1 object;
         // the separate state buffer is allocated as 0xA0 bytes.
+        // These four genuine Player side counters are signed 32-bit words.
+        // Match the original i386 INC DWORD stores while keeping the
+        // original per-side below-16 bounds tests and read chronology.
         if (g_GameManager.valueB0 % 3600u == 3599u)
         {
             if (globalManager.sides[0].player04->header24.state7C < 16)
-                globalManager.sides[0].player04->header24.state7C++;
+                ++*reinterpret_cast<unsigned int *>(
+                    &globalManager.sides[0].player04->header24.state7C);
             if (globalManager.sides[0].player04->header24.state80 < 16)
-                globalManager.sides[0].player04->header24.state80++;
+                ++*reinterpret_cast<unsigned int *>(
+                    &globalManager.sides[0].player04->header24.state80);
             if (globalManager.sides[1].player04->header24.state7C < 16)
-                globalManager.sides[1].player04->header24.state7C++;
+                ++*reinterpret_cast<unsigned int *>(
+                    &globalManager.sides[1].player04->header24.state7C);
             if (globalManager.sides[1].player04->header24.state80 < 16)
-                globalManager.sides[1].player04->header24.state80++;
+                ++*reinterpret_cast<unsigned int *>(
+                    &globalManager.sides[1].player04->header24.state80);
         }
 
         if (g_GameManager.valueB8 < 6 &&
             g_GameManager.valueC0 % 720u == 719u)
         {
-            g_GameManager.valueB8++;
+            ++*reinterpret_cast<unsigned int *>(&g_GameManager.valueB8);
         }
 
         if ((globalManager.flags & 0x1800u) == 0 &&
@@ -373,7 +380,8 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
     }
     if (g_GameManager.gameMode == 1 &&
         globalManager.sides[0].state->value04 >=
-            500000u * (globalManager.sides[0].state->phase10 + 1))
+            500000u * (static_cast<unsigned int>(
+            globalManager.sides[0].state->phase10) + 1u))
     {
         globalManager.AdvanceTimedState();
     }

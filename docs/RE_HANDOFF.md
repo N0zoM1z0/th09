@@ -31,6 +31,14 @@ Git retains earlier source revisions.
   Three affected BulletManager VC7.1 carriers protect
   18/18 exact owners, 6,711 bytes, 259 fields and
   14 original-PE/COFF-proven private jump labels.
+- **2026-11-12 GameManager live difficulty checkpoint:** the
+  two native Player side counters each have two persistent
+  signed DWORD increments, the signed game difficulty step
+  increments as a DWORD, and the timed stage gate now
+  multiplies the original unsigned phase+1 word.
+  Two VC7.1 GameManagerSetup carriers preserve 12/12
+  exact owners, 4,680 original bytes, 415 relocations
+  including full OnUpdate and GameplaySetupThread.
 - **2026-11-12 PlayerShot homing/trail checkpoint:** the original
   float* conversion call now feeds named x/y members of
   the real homing-shot position, while two draw callbacks
