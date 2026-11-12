@@ -221,16 +221,18 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 }
                 else if (front->transitionSide10964 == 0)
                 {
+                    // Neutral message variant words live at native +8/+10
+                    // offsets in the real file-backed message record.
                     front->messageRuntimeE944.Setup(
                         *reinterpret_cast<short *>(
-                            static_cast<unsigned char *>(g_NeutralMessageSource) + 8),
+                            reinterpret_cast<unsigned int>(g_NeutralMessageSource) + 8u),
                         0);
                 }
                 else
                 {
                     front->messageRuntimeE944.Setup(
                         *reinterpret_cast<short *>(
-                            static_cast<unsigned char *>(g_NeutralMessageSource) + 10),
+                            reinterpret_cast<unsigned int>(g_NeutralMessageSource) + 10u),
                         0);
                 }
             }

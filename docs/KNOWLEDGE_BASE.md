@@ -3327,6 +3327,30 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 FrontFactory calculation/draw callback native wire and stage arithmetic
+
+The independently exact **1,491-byte FrontCalcCallback** handles end-of-stage
+transitions and consumes a genuinely file-backed neutral message source
+through two live 16-bit words at original Win32 byte offsets `+8` and
+`+10`. Both source reads now form `uint32(g_NeutralMessageSource)+8u/+10u`
+before casting to their actual wire `short` lvalues; the prior C++ byte
+pointer arithmetic imposed a non-evidenced array extent on an opaque
+message record. The message setup calls, side/transition conditions,
+actual FrontFactory state and byte order are unchanged. A shift-count
+mask trial in the transition flag expression altered three bytes of the
+physical owner and was rejected rather than changing the existing match.
+
+The independently exact **1,474-byte FrontDrawCallback** displays the
+stage number with the original i386 wrapping `g_GameStageValue+1` DWORD,
+then passes the signed value to the exact `AsciiManager::AddFormatText`
+call. Its existing genuine panel vertices, real 0x2A4 ANM VMs, score
+positions and other formatting calls remain unchanged.
+
+The two affected pinned VC7.1 carriers replayed **2/2 previously exact
+owners, 2,965 original PE bytes and 234 relocation fields**. No new
+exact-function or whole Windows product/runtime credit follows; this
+is native wire-pointer and integer-source fidelity in both large callbacks.
+
 ## 2026-11-12 D3D startup's three physical 0xF0 Supervisor viewports
 
 The exact **1,561-byte InitializeD3DRendering** creates the original D3D8

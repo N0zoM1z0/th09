@@ -188,7 +188,7 @@ int __fastcall FrontDrawCallback(void *frontArg)
         g_AsciiManager.AddFormatText(
             &position,
             "STAGE %d %.2d:%.2d",
-            g_GameStageValue + 1,
+            static_cast<int>(static_cast<unsigned int>(g_GameStageValue) + 1u),
             g_GameTimeFrames / 3600,
             (g_GameTimeFrames / 60) % 60);
     }
