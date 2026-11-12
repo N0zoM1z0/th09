@@ -116,7 +116,11 @@ static void DecodeFrontMessageString(
     char *output = destination;
     do
     {
-        *output++ = (char)(decoded = *source++ ^ key);
+        *output = static_cast<char>(decoded = *source ^ key);
+        output = reinterpret_cast<char *>(
+            reinterpret_cast<unsigned int>(output) + 1u);
+        source = reinterpret_cast<const unsigned char *>(
+            reinterpret_cast<unsigned int>(source) + 1u);
         key += step;
         step += 0x10;
     } while (decoded != 0);
@@ -549,7 +553,11 @@ int FrontMessageRuntimeView::Update()
         case 8:
         {
             AsciiGameManagerSideView *side = &g_GameManager.sides[1];
-            int script = side->player04->tableValue303F0 + 4;
+            // This signed Player table word is combined with the opcode-8
+            // script offset as a native modulo-32 i386 DWORD before the
+            // original ANM call, without any new script bounds gate.
+            int script = static_cast<int>(
+                static_cast<unsigned int>(side->player04->tableValue303F0) + 4u);
             side->frontSide18->auxA678.sideAnm00
                 ->SetAndExecuteScriptIdx(&introVm1A7C, script);
             framesElapsed1D4C = 0;

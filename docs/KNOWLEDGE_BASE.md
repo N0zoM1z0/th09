@@ -1346,6 +1346,35 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 FrontMessage script ID and decoded text byte cursors
+
+The 2,968-byte FrontMessageRuntimeView::Update story interpreter
+selects an animation for script opcode eight from the genuine
+side-1 Player's signed tableValue303F0 plus four. That addition
+now produces the original modulo-32 i386 DWORD result before
+calling the same ANM SetAndExecuteScriptIdx, without a new
+script gate or cached Player value.
+
+The 39-byte DecodeFrontMessageString helper processes a
+file-backed XOR-obfuscated text stream into the real 64-byte
+local destination. Both source and destination byte pointers
+now advance using explicit unsigned native Win32 addresses
+after the original input/output byte transfer. The decoder's
+byte-sized key and step arithmetic, decoded-NUL test and
+retail absence of an extra text-length guard remain intact.
+The source still makes the same exact original byte reads
+and writes in order.
+
+Only the two affected pinned VC7.1 FrontMessageUpdate
+carriers were cold-compiled, and source-scoped replay passed
+**2/2 existing exact owners, 3,007 complete original PE
+bytes and 167 relocations** (2,968-byte Update boss and
+39-byte decoder leaf). Thirty compiler-private labels were
+independently verified from current same-section COFF
+definitions, unchanged original PE targets and complete
+owner bytes before manifest-only rebinding. No new exact
+owner or Windows runtime closure is implied.
+
 ## 2026-11-12 SoundPlayer native BGM command queue record traversal
 
 SoundPlayer owns an authentic 32-element commandQueue of 0x10C-byte

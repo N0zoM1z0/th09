@@ -79,6 +79,14 @@ Git retains earlier source revisions.
   The full 2,381-byte HUD boss and 14 helper owners replay
   15/15 exact, 4,087 original bytes and 176 relocations
   in one focused VC7.1 carrier.
+- **2026-11-12 FrontMessage script/decode checkpoint:**
+  opcode eight's live signed Player script ID +4 now
+  wraps as a native DWORD, and the file-backed XOR text
+  decoder advances its input/output byte addresses as
+  i386 DWORDs. Two VC7.1 FrontMessage carriers preserve
+  2/2 exact owners, 3,007 bytes/167 fields, including
+  the 2,968-byte interpreter and 39-byte decode leaf,
+  with 30 independently PE/COFF-proven private labels.
 - **2026-11-12 SoundPlayer BGM command queue checkpoint:**
   QueueCommand and the full ProcessQueues boss now access
   real 32-by-0x10C-byte command records through original
