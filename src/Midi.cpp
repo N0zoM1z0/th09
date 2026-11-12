@@ -705,11 +705,17 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
             // Pan
             TH09_MIDI_NATIVE_CHANNEL(channel).pan = eventData2;
             break;
+        // Both loop markers traverse the real runtime-counted 0x20-byte
+        // MIDI track records, keeping the live pointer and opcode scheduling.
+        // A raw native byte address does not assume a separate C++ array for
+        // a file-provided track count.
         case MIDI_CONTROLLER_LOOP_START:
             // TH08 repurposes breath control as the MIDI loop checkpoint.
             for (loopCheckpointTrack = &this->tracks[0], index = 0;
                  index < this->numTracks;
-                 index += 1, loopCheckpointTrack += 1)
+                 index += 1,
+                 loopCheckpointTrack = reinterpret_cast<MidiTrack *>(
+                     reinterpret_cast<u32>(loopCheckpointTrack) + sizeof(*loopCheckpointTrack)))
             {
                 loopCheckpointTrack->loopCursor = loopCheckpointTrack->cursor;
                 loopCheckpointTrack->loopNextEventTick = loopCheckpointTrack->nextEventTick;
@@ -722,7 +728,9 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
             // TH08 repurposes the foot controller as the loop jump.
             for (loopResetTrack = &this->tracks[0], index = 0;
                  index < this->numTracks;
-                 index += 1, loopResetTrack += 1)
+                 index += 1,
+                 loopResetTrack = reinterpret_cast<MidiTrack *>(
+                     reinterpret_cast<u32>(loopResetTrack) + sizeof(*loopResetTrack)))
             {
                 loopResetTrack->cursor = (u8 *)loopResetTrack->loopCursor;
                 loopResetTrack->nextEventTick = loopResetTrack->loopNextEventTick;

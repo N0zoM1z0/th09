@@ -1346,6 +1346,32 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 MIDI ProcessMsg loop checkpoint and reset track cursors
+
+The original 1,574-byte MidiOutput::ProcessMsg dispatcher handles
+the two repurposed MIDI loop markers by saving or restoring the
+live cursor and next-event tick of every current MidiTrack. Those
+tracks are real separately allocated 0x20-byte records, as
+independently supported by LoadTracks and the original MIDI
+device playback. Both the loop-checkpoint and loop-reset
+record cursors now compute native unsigned i386 DWORD
+base + sizeof(MidiTrack) addresses rather than doing
+typed-pointer arithmetic with an implicit C++ array-bound
+assumption on a file-controlled track count.
+
+The original running-status, tempo snapshot, stream position,
+event timing, track count and two controller switch branches
+are unchanged. The one affected pinned VC7.1 MIDI carrier
+cold-replayed **32/32 already-exact functions, 4,270 complete
+original PE bytes and all 132 relocation fields**, including
+the complete 1,574-byte ProcessMsg boss. Independent full-COFF
+comparison also verified the adjacent one-byte virtual timer
+owner: **33/33 physical owners, 4,271 bytes and 132 fields**.
+Eight compiler-private switch-label spellings were proven
+against actual same-section COFF definitions, unchanged
+retail PE destinations and complete bytes before manifest-only
+rebinding. No new exactness or native-runtime claim is made.
+
 ## 2026-11-12 Replay input held-frame and FPS stream native cursors
 
 ReplayInputState::Update reads sixteen consecutive native u16

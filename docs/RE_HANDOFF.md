@@ -79,6 +79,14 @@ Git retains earlier source revisions.
   The full 2,381-byte HUD boss and 14 helper owners replay
   15/15 exact, 4,087 original bytes and 176 relocations
   in one focused VC7.1 carrier.
+- **2026-11-12 MIDI loop track checkpoint:** the native
+  MIDI loop-start/end event handlers now traverse each
+  allocated 0x20-byte track by real i386 DWORD byte
+  addresses, preserving original cursor/tick snapshots.
+  One pinned VC7.1 carrier retains 32/32 exact owners,
+  4,270 original bytes and 132 relocations; independent
+  33/33 whole-object proof includes a one-byte timer
+  thunk and eight original-PE-proven private labels.
 - **2026-11-12 Replay input stream checkpoint:** the actual
   16-by-u16 held-frame sequence, two live focus-mode bytes
   and both FPS lookahead bytes now advance/read through
