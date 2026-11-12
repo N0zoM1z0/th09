@@ -79,6 +79,13 @@ Git retains earlier source revisions.
   The full 2,381-byte HUD boss and 14 helper owners replay
   15/15 exact, 4,087 original bytes and 176 relocations
   in one focused VC7.1 carrier.
+- **2026-11-12 SoundPlayer BGM command queue checkpoint:**
+  QueueCommand and the full ProcessQueues boss now access
+  real 32-by-0x10C-byte command records through original
+  i386 DWORD array/shift addresses, preserving all 31-slot
+  gates and memcpy ordering. Eight affected VC7.1 carriers
+  protect 20/20 exact owners, 5,400 original bytes,
+  184 relocations and 11 independently proven private labels.
 - **2026-11-12 Replay stage-root checkpoint:** the
   nonexact SaveReplay 1,238-byte serializer now traverses
   all ten original embedded 0x18-byte stage root records

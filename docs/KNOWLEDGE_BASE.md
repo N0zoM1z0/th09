@@ -1346,6 +1346,31 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 SoundPlayer native BGM command queue record traversal
+
+SoundPlayer owns an authentic 32-element commandQueue of 0x10C-byte
+SoundPlayerCommand records, each holding the original opcode,
+argument, step and 256-byte path. QueueCommand now resolves each
+of its five original live field reads/writes from the true
+array base plus a native unsigned i386 index*record-width
+address, rather than a separately bounded C++ array
+subscript. The complete 1,456-byte ProcessQueues command
+dispatcher also advances its live retirement cursor by a
+native record stride; the source and destination of each
+one-element memcpy are the genuine adjacent record addresses.
+No command ordering, 31-slot vacancy threshold, recording
+allocation, BGM callback or shift-loop exit condition changed.
+
+The eight affected pinned VC7.1 SoundPlayer carriers cold-replayed
+**20/20 already-exact owners, 5,400 complete original PE bytes
+and 184 relocation fields**, including ProcessQueues and the
+QueueCommand leaf. Eleven compiler-private switch labels were
+proved against their current same-section COFF definitions,
+unchanged original PE operand targets and complete physical
+owner bytes before manifest-only rebinding. This recovers the
+actual native command queue's address calculation; no newly
+exact owner or Windows runtime closure is claimed.
+
 ## 2026-11-12 Replay SaveReplay native inline stage-root traversal
 
 The 1,238-byte nonexact ReplayManagerView::SaveReplay serializer

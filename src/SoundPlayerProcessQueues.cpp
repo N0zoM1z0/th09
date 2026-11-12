@@ -600,19 +600,25 @@ void SoundPlayer::StopBGM()
     }
 }
 
+// The original SoundPlayer owns 32 contiguous 0x10C-byte command records.
+#define TH09_SOUND_NATIVE_COMMAND(owner, slot) \
+    (*reinterpret_cast<SoundPlayerCommand *>( \
+        reinterpret_cast<unsigned int>(&(owner)->commandQueue[0]) + \
+        static_cast<unsigned int>(slot) * sizeof((owner)->commandQueue[0])))
+
 void SoundPlayer::QueueCommand(int opcode, int argument, char *path)
 {
     int i;
 
     for (i = 0; i < 31; i++)
     {
-        if (this->commandQueue[i].opcode != SOUNDPLAYER_COMMAND_NONE)
+        if (TH09_SOUND_NATIVE_COMMAND(this, i).opcode != SOUNDPLAYER_COMMAND_NONE)
             continue;
 
-        this->commandQueue[i].opcode = opcode;
-        this->commandQueue[i].argument = argument;
-        strcpy(this->commandQueue[i].path, path);
-        this->commandQueue[i].step = 0;
+        TH09_SOUND_NATIVE_COMMAND(this, i).opcode = opcode;
+        TH09_SOUND_NATIVE_COMMAND(this, i).argument = argument;
+        strcpy(TH09_SOUND_NATIVE_COMMAND(this, i).path, path);
+        TH09_SOUND_NATIVE_COMMAND(this, i).step = 0;
         break;
     }
 }
@@ -937,11 +943,20 @@ loop:
         break;
 
     next_command:
-        for (i = 0; i < 31; i++, commandCursor++)
+        // Retire each real native 0x10C-byte command record in sequence,
+        // preserving the original fixed-capacity shift and memcpy order.
+        for (i = 0; i < 31; i++,
+             commandCursor = reinterpret_cast<SoundPlayerCommand *>(
+                 reinterpret_cast<unsigned int>(commandCursor) +
+                 sizeof(*commandCursor)))
         {
             if (commandCursor->opcode == SOUNDPLAYER_COMMAND_NONE)
                 break;
-            memcpy(commandCursor, commandCursor + 1, sizeof(*commandCursor));
+            memcpy(commandCursor,
+                   reinterpret_cast<const SoundPlayerCommand *>(
+                       reinterpret_cast<unsigned int>(commandCursor) +
+                       sizeof(*commandCursor)),
+                   sizeof(*commandCursor));
         }
 
         if (queuePhase)
@@ -1082,3 +1097,5 @@ void SoundPlayer::PlaySoundPositionedByIdx(int index, float positionX)
     this->soundQueuePanData[i][0] = pan;
     this->soundQueueRequestCounts[i]++;
 }
+
+#undef TH09_SOUND_NATIVE_COMMAND
