@@ -900,7 +900,12 @@ static char *AppendReplayFormat(char *buffer, const char *format, ...)
     va_start(args, format);
     vsprintf(buffer, format, args);
     va_end(args);
-    return buffer + strlen(buffer);
+    // Formatting appends to the caller's live replay-info byte stream;
+    // the original i386 computes the next write cursor by a native
+    // 32-bit base-plus-length address, without a new text bound.
+    return reinterpret_cast<char *>(
+        reinterpret_cast<unsigned int>(buffer) +
+        static_cast<unsigned int>(strlen(buffer)));
 }
 
 // Lexical native DWORD pointer-table lookup: callable accessors change the

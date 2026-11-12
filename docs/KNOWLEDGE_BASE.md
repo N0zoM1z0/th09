@@ -1163,6 +1163,29 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Replay metadata formatting native append cursor
+
+The original ReplayManagerView::SaveReplay builds a file-backed user
+information block through several calls to the shared exact
+AppendReplayFormat leaf. That leaf computes the destination for the
+next formatted field as the actual caller-owned byte-buffer base
+plus the full strlen of the newly formatted text. The source now
+forms this next write cursor with native modulo-32 i386 address
+arithmetic rather than applying typed C++ pointer arithmetic
+requiring a bounded array inside the generic helper. There is
+no additional text bound, duplicated buffer, modified va_list,
+or changed format/read chronology.
+
+Both affected pinned VC7.1 ReplayInput carriers cold-replayed
+**12/12 exact sibling owners, 4,093 complete original bytes and
+232 bound relocation fields**, including the 45-byte append
+leaf. The complete still-nonexact 1,238-byte SaveReplay owner
+was separately recompiled and compared to the retail PE; it
+continues to preserve all 53 fields and 23 ordered calls, with
+exactly the preexisting two register bytes at +0xB7/+0xBB
+different. This is a native source-level leaf improvement,
+not new SaveReplay exact credit or a product/runtime claim.
+
 ## 2026-11-12 Etama live bullet/laser pool and count DWORD traversal
 
 EtamaController::OnUpdate walks the actual contiguous primary,
