@@ -1163,6 +1163,30 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Supervisor music track and unlock native byte slots
+
+The actual Supervisor audio source resolves one of 19 live
+0x10-byte g_SupervisorMusicTracks records by track ID, then
+rereads the resolved track, path, sound-player ID or unlock ID
+at each original PlayMusic/LoadMusic/ReleaseMusic call site.
+Eight such record references now form native unsigned i386
+base + uint32(index)*sizeof(SupervisorMusicTrackRecord) addresses.
+The four dynamic g_MusicUnlocked byte writes, which accept a
+signed ID from the original table or the PlayAudio caller, likewise
+form real native byte addresses without C++ array-subscript
+bounds assumptions. Original search order, replay-state gates,
+MIDI/BGM calls and all separate live reads remain intact, with
+no new unlock checks or storage buffers.
+
+The sole pinned SupervisorAudio VC7.1 carrier cold-replayed
+**8/8 existing exact functions, 1,054 complete physical PE
+bytes and 82 original-bound relocation fields**, including
+PlayMusic, PlayAudio, LoadMusic, ReleaseMusic, StopAudio and
+their related leaves. The natural lexical lvalue expressions
+introduce no extra call, label remapping or new exactness.
+This improves source fidelity to actual i386 music storage,
+not Windows-native product or runtime closure.
+
 ## 2026-11-12 Supervisor state-machine frame and screen-effect counters
 
 The complete Supervisor::OnUpdate handles the network service
@@ -1220,7 +1244,7 @@ reads its six original frame-offset values, writes three frame
 pointers, reads two FPS-offset values and writes the FPS pointer
 through native i386 base + uint32(stage)*sizeof(word) addresses.
 The source uses the genuine replay record bases and preserves all
-ten original pointer publications and null tests; it does not
+original conditional pointer publications and null tests; it does not
 construct a second header or introduce bounds checks or new calls.
 
 The two affected pinned VC7.1 ReplayInput carriers cold-replayed

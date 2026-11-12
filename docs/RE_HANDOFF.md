@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Supervisor music checkpoint:** eight live
+  0x10-byte track record fields and four signed-ID music
+  unlock bytes now use genuine original-table native DWORD
+  addresses. The one SupervisorAudio VC7.1 carrier preserves
+  8/8 exact owners, 1,054 physical bytes and all 82 fields,
+  including PlayMusic, LoadMusic and ReleaseMusic.
 - **2026-11-12 Supervisor core update checkpoint:** the
   signed persistent version-check frame counter and screen
   effect countdown now advance/decrement as native i386 DWORDs.
