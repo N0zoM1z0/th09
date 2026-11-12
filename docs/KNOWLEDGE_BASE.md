@@ -1457,6 +1457,34 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-13 WinMain uses the authentic constructed GameWindow allocation
+
+The exact **1,351-byte original-bound `WinMain`** and independent **285-byte
+`CreateGameWindow`** previously used a second `MainGameWindowView` shadow
+struct and a provisional `g_MainGameWindow` global name for the real
+0x44-byte process-global GameWindow at **0x004B30B0**. Both now consume the
+*actual existing* `GameWindow` native type and `g_GameWindow` allocation,
+shared with the separately exact Render, Present, timestamp and D3D
+startup owners. The 0x04 closing DWORD is read through the genuine
+`GameWindow::unknown04` prefix rather than inventing an independently
+allocated member; native asserts pin the object size and +0x04/+0x14/+0x3C
+Windows fields. All live window handle, frame skip, timing, cooperative
+D3D loop, restart and release accesses retain their original chronology.
+The main render call now uses the already exact
+`GameWindow::Render` at **0x0042DC40**, not a duplicate fake caller symbol.
+
+Fifteen manifest relocation spellings (14 in WinMain, one in
+CreateGameWindow) were rebound from the provisional view names to these
+*existing independently proven* GameWindow identities. Every actual
+current VC7.1 COFF relocation kind, offset and addend was checked against
+the **same original PE target address/operand word**; all complete owner
+bytes matched before manifest changes. The one affected pinned VC7.1
+carrier replayed **2/2 preexisting exact functions, 1,636 complete PE
+bytes and all 171 relocations**. No executable bytes, linker identities,
+original target or exact counts were modified. This is substantial
+native source-class ownership recovery, not a new exact-function or
+complete Windows product/runtime claim.
+
 ## 2026-11-12 WinMain startup system metrics and restart countdown DWORDs
 
 The original WinMain startup calls CreateGameWindow to construct

@@ -7,6 +7,7 @@
 // transport naturally; no dummy caller or register forcing is used.
 
 #include "GameConfiguration.hpp"
+#include "GameWindow.hpp"
 #include "GameErrorContext.hpp"
 #include "Midi.hpp"
 #include "SupervisorNetworkState.hpp"
@@ -49,24 +50,16 @@ class MainChainReleaseView
     void Release();
 };
 
-#pragma pack(push, 4)
-struct MainGameWindowView
-{
-    HWND window00;
-    int windowIsClosing04;
-    unsigned char unknown08[8];
-    signed char framesSinceRedraw10;
-    unsigned char unknown11[3];
-    LARGE_INTEGER performanceFrequency14;
-    unsigned char startupPathDiffers1C;
-    unsigned char unknown1D[0x0F];
-    double currentTimestamp2C;
-    double lastTimestamp34;
-    double lastFrameTime3C;
-
-    int Render();
-};
-#pragma pack(pop)
+// The original startup loop is a consumer of the same native 0x44-byte
+// GameWindow object used by the exact Present/Render/Timestamp owners.
+// The unsigned four-byte closing flag is the real prefix at +0x04.
+typedef char WinMainNativeGameWindowLayout[
+    (sizeof(GameWindow) == 0x44 &&
+     offsetof(GameWindow, unknown04) == 0x04 &&
+     offsetof(GameWindow, performanceFrequency14) == 0x14 &&
+     offsetof(GameWindow, lastFrameTime3C) == 0x3C) ? 1 : -1];
+#define TH09_WINMAIN_NATIVE_CLOSING_WORD \
+    (*reinterpret_cast<const int *>(&g_GameWindow.unknown04[0]))
 
 class MainSupervisorView
 {
@@ -89,8 +82,6 @@ class MainSupervisorView
     unsigned int flags5D4;
 };
 
-typedef char MainGameWindowSizeIs44[
-    sizeof(MainGameWindowView) == 0x44 ? 1 : -1];
 typedef char MainSupervisorPresentAt350[
     offsetof(MainSupervisorView, present350) == 0x350 ? 1 : -1];
 typedef char MainSupervisorConfigAt388[
@@ -100,7 +91,6 @@ typedef char MainSupervisorCountdownAt5A4[
 typedef char MainSupervisorFlagsAt5D4[
     offsetof(MainSupervisorView, flags5D4) == 0x5D4 ? 1 : -1];
 
-extern MainGameWindowView g_MainGameWindow;
 extern MainSupervisorView g_MainSupervisor;
 extern MainSoundPlayer g_MainSoundPlayer;
 extern MainAnmManager *g_MainAnmManager;
@@ -187,7 +177,7 @@ static int CreateGameWindow(HINSTANCE instance)
             NULL, NULL, instance, NULL);
     }
 
-    g_MainGameWindow.window00 = window;
+    g_GameWindow.window00 = window;
     g_SupervisorGameWindow = window;
     if (window == NULL)
         return 1;
@@ -266,7 +256,7 @@ int WINAPI WinMain(
         goto stop;
 
     ComputeExecutableChecksum();
-    QueryPerformanceFrequency(&g_MainGameWindow.performanceFrequency14);
+    QueryPerformanceFrequency(&g_GameWindow.performanceFrequency14);
 
 restart:
     if (SupervisorInitializeD3D() != 0)
@@ -276,7 +266,7 @@ restart:
     if (InitializeD3DRendering() != 0)
         goto stop;
 
-    g_MainSoundPlayer.InitializeDSound(g_MainGameWindow.window00);
+    g_MainSoundPlayer.InitializeDSound(g_GameWindow.window00);
     Controller::GetJoystickCaps();
     SanitizeKeyboardState();
 
@@ -311,13 +301,13 @@ restart:
         goto release_runtime;
     }
 
-    g_MainGameWindow.lastFrameTime3C = 0.0;
+    g_GameWindow.lastFrameTime3C = 0.0;
     renderResult = 0;
-    g_MainGameWindow.lastTimestamp34 = 0.0;
-    g_MainGameWindow.framesSinceRedraw10 = -4;
-    g_MainGameWindow.currentTimestamp2C = 0.0;
+    g_GameWindow.lastTimestamp34 = 0.0;
+    g_GameWindow.framesSinceRedraw10 = -4;
+    g_GameWindow.currentTimestamp2C = 0.0;
 
-    if (g_MainGameWindow.windowIsClosing04 != 0)
+    if (TH09_WINMAIN_NATIVE_CLOSING_WORD != 0)
         goto release_runtime;
 
     for (;;)
@@ -334,7 +324,7 @@ restart:
 
             if (cooperativeResult == D3D_OK)
             {
-                renderResult = g_MainGameWindow.Render();
+                renderResult = g_GameWindow.Render();
                 if (renderResult != 0)
                     goto release_runtime;
 
@@ -353,7 +343,7 @@ restart:
             }
         }
 
-        if (g_MainGameWindow.windowIsClosing04 != 0)
+        if (TH09_WINMAIN_NATIVE_CLOSING_WORD != 0)
             goto release_runtime;
     }
 
@@ -393,12 +383,12 @@ stop:
         g_SupervisorNetworkState = NULL;
     }
 
-    if (g_MainGameWindow.window00 != NULL)
+    if (g_GameWindow.window00 != NULL)
     {
-        ShowWindow(g_MainGameWindow.window00, SW_HIDE);
-        MoveWindow(g_MainGameWindow.window00, 0, 0, 0, 0, FALSE);
-        DestroyWindow(g_MainGameWindow.window00);
-        g_MainGameWindow.window00 = NULL;
+        ShowWindow(g_GameWindow.window00, SW_HIDE);
+        MoveWindow(g_GameWindow.window00, 0, 0, 0, 0, FALSE);
+        DestroyWindow(g_GameWindow.window00);
+        g_GameWindow.window00 = NULL;
     }
 
     ShowCursor(TRUE);
@@ -452,3 +442,5 @@ stop:
 }
 
 #undef TH09_NATIVE_EXE_PATH_CHAR
+
+#undef TH09_WINMAIN_NATIVE_CLOSING_WORD
