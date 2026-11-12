@@ -3502,6 +3502,31 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 CardAttack StartAttack native callback rows and Player DWORD counters
+
+The complete `CardAttackStartView::StartAttack` (923 bytes) updates either
+the primary or secondary attack from the *same actual* table of four callback
+pointers per 0x10-byte row. Eight `begin/update/draw/end` uses now share a
+native i386 `base + uint32(primaryRow134C or secondaryRow1358)*0x10`
+address instead of an implicitly bounded C++ table subscript. Each live row
+is reread at its original call/assignment site; no external new ABI or
+cached callback snapshot was added. The original source-facing table is
+retained, and a static source assertion fixes the row's physical stride.
+
+Six independently used Player header words at +0xA0/+0xA4/+0xB0/+0xB4/+0xB8
+are incremented through their unsigned DWORD lvalues, matching native Win32
+`INC DWORD` even when a signed source value would overflow. The three live
+Player +0x303F0 script-VM ID additions (+1/+2/+3) likewise use modulo-32
+arithmetic before preserving the original signed callee argument. The
+original side/attack choice, runtime caps, update/draw/end pointers, display,
+callback order and animation launch are unchanged. A dynamic side-bit shift
+mask experiment was **rejected** because it changed the owner's length.
+
+The one affected pinned VC7.1 carrier passed a complete original-bound
+cold comparison of **923/923 physical bytes and all 29 relocations**.
+No additional exact function or runtime-product credit follows; this is
+genuine original memory/overflow semantics inside an already exact boss.
+
 ## 2026-11-12 Title music-room native selected-song VM ordinal
 
 `TitleScreenView::DrawMusicRoom` draws the selected BGM description from

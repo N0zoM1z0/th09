@@ -64,6 +64,19 @@ struct CardAttackCallbackRow
 };
 
 extern CardAttackCallbackRow g_CardAttackCallbackRows[];
+// The original attack callback dispatch uses 0x10-byte rows in the sole
+// global four-function table. Runtime primary/secondary row words are signed
+// DWORDs scaled by their native i386 offset, not bounded C++ array indices.
+static __forceinline CardAttackCallbackRow &NativeCardAttackCallbackRow(int index)
+{
+    return *reinterpret_cast<CardAttackCallbackRow *>(
+        reinterpret_cast<unsigned int>(&g_CardAttackCallbackRows[0]) +
+        static_cast<unsigned int>(index) * sizeof(g_CardAttackCallbackRows[0]));
+}
+
+typedef char CardAttackCallbackNativeRowSizeIs10[
+    sizeof(CardAttackCallbackRow) == 0x10 ? 1 : -1];
+
 
 
 void CardAttackStartView::StartAttack(
@@ -88,9 +101,13 @@ void CardAttackStartView::StartAttack(
             EnemyView *enemy =
                 startOtherSideState08->enemyManager10->FindActiveEnemyBySideCategory(3);
             enemy->flags337C |= 0x100u;
-            ++startOtherSideState08->player04->header24.state94;
+            // Retail increments live signed Player header counters as native
+            // 32-bit words, including their modulo-2^32 overflow behavior.
+            ++*reinterpret_cast<unsigned int *>(
+                &startOtherSideState08->player04->header24.state94);
         }
-        ++startOtherSideState08->player04->header24.state90;
+        ++*reinterpret_cast<unsigned int *>(
+            &startOtherSideState08->player04->header24.state90);
 
         if (secondaryUpdate1334 != 0)
         {
@@ -106,19 +123,21 @@ void CardAttackStartView::StartAttack(
         secondaryClass135C = 2;
         strcpy(text18, text);
 
-        g_CardAttackCallbackRows[secondaryRow1358].begin(
+        NativeCardAttackCallbackRow(secondaryRow1358).begin(
             this);
         secondaryUpdate1334 =
-            g_CardAttackCallbackRows[secondaryRow1358].update;
+            NativeCardAttackCallbackRow(secondaryRow1358).update;
         secondaryDraw1338 =
-            g_CardAttackCallbackRows[secondaryRow1358].draw;
+            NativeCardAttackCallbackRow(secondaryRow1358).draw;
         secondaryEnd133C =
-            g_CardAttackCallbackRows[secondaryRow1358].end;
+            NativeCardAttackCallbackRow(secondaryRow1358).end;
 
         if (startOtherSideState08->player04->header24.state80 < 16)
-            ++startOtherSideState08->player04->header24.state80;
+            ++*reinterpret_cast<unsigned int *>(
+            &startOtherSideState08->player04->header24.state80);
         if (startSideState04->player04->header24.state80 < 16)
-            ++startSideState04->player04->header24.state80;
+            ++*reinterpret_cast<unsigned int *>(
+            &startSideState04->player04->header24.state80);
 
         g_SoundPlayer.PlaySoundByIdx(53, 0);
     }
@@ -137,19 +156,21 @@ void CardAttackStartView::StartAttack(
         primaryValue1348 = value;
         primaryClass1350 = attackClass;
         strcpy(text18, text);
-        ++startOtherSideState08->player04->header24.state8C;
+        ++*reinterpret_cast<unsigned int *>(
+            &startOtherSideState08->player04->header24.state8C);
 
-        g_CardAttackCallbackRows[primaryRow134C].begin(
+        NativeCardAttackCallbackRow(primaryRow134C).begin(
             this);
         primaryUpdate1328 =
-            g_CardAttackCallbackRows[primaryRow134C].update;
+            NativeCardAttackCallbackRow(primaryRow134C).update;
         primaryDraw132C =
-            g_CardAttackCallbackRows[primaryRow134C].draw;
+            NativeCardAttackCallbackRow(primaryRow134C).draw;
         primaryEnd1330 =
-            g_CardAttackCallbackRows[primaryRow134C].end;
+            NativeCardAttackCallbackRow(primaryRow134C).end;
 
         if (startOtherSideState08->player04->header24.state7C < 16)
-            ++startOtherSideState08->player04->header24.state7C;
+            ++*reinterpret_cast<unsigned int *>(
+            &startOtherSideState08->player04->header24.state7C);
 
         g_SoundPlayer.PlaySoundByIdx(14, 0);
     }
@@ -183,15 +204,15 @@ void CardAttackStartView::StartAttack(
             startOtherSideState08->player04->tableValue303F0);
         startOtherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
             &startOtherSideState08->frontSide18->auxA678.vms0C[1],
-            startOtherSideState08->player04->tableValue303F0 + 1);
+            static_cast<int>(static_cast<unsigned int>(startOtherSideState08->player04->tableValue303F0) + 1u));
     }
     else
     {
         startOtherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
             &startOtherSideState08->frontSide18->auxA678.vms0C[0],
-            startOtherSideState08->player04->tableValue303F0 + 2);
+            static_cast<int>(static_cast<unsigned int>(startOtherSideState08->player04->tableValue303F0) + 2u));
         startOtherSideState08->frontSide18->auxA678.sideAnm00->ExecuteAnmIdx(
             &startOtherSideState08->frontSide18->auxA678.vms0C[1],
-            startOtherSideState08->player04->tableValue303F0 + 3);
+            static_cast<int>(static_cast<unsigned int>(startOtherSideState08->player04->tableValue303F0) + 3u));
     }
 }
