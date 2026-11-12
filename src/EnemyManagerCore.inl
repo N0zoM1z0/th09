@@ -302,13 +302,17 @@ typedef char EnemyCoreCalcNativePoolAndFields[
      offsetof(EnemyView, shootIntervalFrames30B4) == 0x30B4 &&
      offsetof(EnemyView, trailSamples33E8) == 0x33E8) ? 1 : -1];
 
-// Script-controlled trail lengths index the real 0x1C-byte Enemy sample
-// records as native Win32 byte addresses. No C++ array bounds gate is added.
+// Script-controlled trail positions belong to the genuine 0x5430-byte
+// Enemy owner and begin at its independently verified +0x33E8 member.
+// Form the original native byte pointer from that owning allocation,
+// not from a projected one-element trail sample subarray. Do not
+// impose a new index/capacity gate on the original script value.
 static __forceinline EnemyTrailSampleView &NativeEnemyTrailSample(
     EnemyView *enemy, int index)
 {
     return *reinterpret_cast<EnemyTrailSampleView *>(
-        reinterpret_cast<unsigned char *>(&enemy->trailSamples33E8[0]) +
+        reinterpret_cast<unsigned char *>(enemy) +
+        offsetof(EnemyView, trailSamples33E8) +
         static_cast<unsigned int>(index) *
             sizeof(enemy->trailSamples33E8[0]));
 }

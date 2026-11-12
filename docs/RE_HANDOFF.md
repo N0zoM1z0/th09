@@ -79,6 +79,15 @@ Git retains earlier source revisions.
   The full 2,381-byte HUD boss and 14 helper owners replay
   15/15 exact, 4,087 original bytes and 176 relocations
   in one focused VC7.1 carrier.
+- **2026-11-12 Enemy trail owner checkpoint:** the
+  complete 3,900-byte nonexact EnemyManager::OnUpdate
+  now derives script-selected 0x1C-byte trail samples
+  from the real 0x5430-byte Enemy owner plus +0x33E8,
+  not a projected one-element sample subarray. Original
+  97 fields, 69 calls and 13 unlike register bytes
+  remain unchanged; two ECL VC7.1 carriers preserve
+  83/83 exact sibling owners, 29,856 original bytes
+  and 1,389 fields, with two proven private labels.
 - **2026-11-12 Player shot spawning checkpoint:** live
   SHT power-level descriptors (eight-byte rows), the actual
   128-by-0x484 PlayerShot pool and the 0x38-byte SHT

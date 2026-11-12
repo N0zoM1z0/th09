@@ -1346,6 +1346,36 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 Enemy OnUpdate trail samples derive from actual Enemy owner
+
+The still-nonexact 3,900-byte EnemyManagerView::OnUpdate boss
+reads and shifts 0x1C-byte trailing position/velocity/angle
+records starting at the genuine +0x33E8 offset of its live
+0x5430-byte EnemyView. The source now derives that sample
+cursor from the full real Enemy object pointer and its
+independently verified member offset, rather than assuming
+that each runtime/script-selected sample index belongs to
+a separately constructed bounded C++ array of one sample.
+The original sample widths, volatile Enemy pool state,
+signed script-provided sample indices, 3D copy/read
+sequence, damage and draw-group callbacks are unchanged.
+No bounds gate, second sample array or extra function
+call was introduced.
+
+The complete original-bound Enemy OnUpdate diagnostic
+continues to verify **3,900 target and candidate physical
+bytes, all 97 relocation fields and 69 ordered calls**,
+with precisely the same **13 unlike ordinary bytes** and
+the original control graph/switch destinations. The two
+actually affected pinned VC7.1 EclManager compiler
+carriers separately cold-replayed **83/83 existing
+exact sibling functions, 29,856 complete original PE
+bytes and 1,389 relocations**. Two private switch
+label spellings were independently proved from current
+same-section COFF symbols and original PE destinations
+before manifest-only rebinding. The Enemy OnUpdate boss
+remains NONEXACT; no new exactness or runtime closure.
+
 ## 2026-11-12 Player shot spawning uses native SHT power and shot record strides
 
 The original PlayerLifecycleView::SpawnShots consumes a variable-count
