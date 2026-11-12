@@ -181,24 +181,24 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
             extra, static_cast<int>(static_cast<unsigned int>(i) - 1u));
     }
 
-    extra->trailPositions58[0] = record->position20;
-    extra->trailAngles118[0] = extra->angle4C;
+    TH09_EX_TRAIL_POS(extra, 0) = record->position20;
+    TH09_EX_TRAIL_ANGLE(extra, 0) = extra->angle4C;
 
     TH09_EX_NATIVE_VM(record, 0).SetZRotation(extra->angle4C);
 
     // One sequenced publication keeps all three returned trail values alive
     // through the last VM rotation; each value is consumed by its pos2 copy.
     TH09_EX_NATIVE_VM(record, 1).pos2 =
-        extra->trailPositions58[1] - record->position20,
-    TH09_EX_NATIVE_VM(record, 1).SetZRotation(extra->trailAngles118[1]),
+        TH09_EX_TRAIL_POS(extra, 1) - record->position20,
+    TH09_EX_NATIVE_VM(record, 1).SetZRotation(TH09_EX_TRAIL_ANGLE(extra, 1)),
 
     TH09_EX_NATIVE_VM(record, 2).pos2 =
-        extra->trailPositions58[3] - record->position20,
-    TH09_EX_NATIVE_VM(record, 2).SetZRotation(extra->trailAngles118[3]),
+        TH09_EX_TRAIL_POS(extra, 3) - record->position20,
+    TH09_EX_NATIVE_VM(record, 2).SetZRotation(TH09_EX_TRAIL_ANGLE(extra, 3)),
 
     TH09_EX_NATIVE_VM(record, 3).pos2 =
-        extra->trailPositions58[5] - record->position20,
-    TH09_EX_NATIVE_VM(record, 3).SetZRotation(extra->trailAngles118[5]);
+        TH09_EX_TRAIL_POS(extra, 5) - record->position20,
+    TH09_EX_NATIVE_VM(record, 3).SetZRotation(TH09_EX_TRAIL_ANGLE(extra, 5));
 
     if (record->timer10 > 20)
     {

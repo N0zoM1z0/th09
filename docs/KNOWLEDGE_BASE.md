@@ -3437,6 +3437,28 @@ owners, 2,965 original PE bytes and 234 relocation fields**. No new
 exact-function or whole Windows product/runtime credit follows; this
 is native wire-pointer and integer-source fidelity in both large callbacks.
 
+## 2026-11-12 ExAttack Type18/24 actual trail positions and angles across update phases
+
+The exact **1,436-byte `ExAttackUpdateCallbackType18_24`** owns one actual
+0x158-byte `ExAttackType1824UpdateExtra` record, with sixteen 0x0C-byte
+`Float3` trail positions at +0x58 and sixteen four-byte angle words at
++0x118. The existing native trail lvalues already handled the variable
+initialization/shifting loop. Eight fixed uses at indices 0, 1, 3, 5
+(including zeroing the newest position and assigning three ANM VM `pos2`
+/rotation pairs) now reuse those **same physical `TH09_EX_TRAIL_POS` and
+`TH09_EX_TRAIL_ANGLE` lvalues**, removing two competing address/ownership
+idioms inside the big state-machine callback. All observed individual
+Float3 operations, timer tests, 0x2A4-byte VMs, reflection, homing collision
+calls and original sequencing are retained without a second trail buffer.
+
+A separate attempted rewrite of the previous trail element as
+`NativeTrail(i-1)` produced a 1,435-byte candidate and was rejected; the
+true original compiler shape retains the explicit native byte-minus-stride
+`TH09_EX_TRAIL_PREV` expression for that loop. The one pinned VC7.1 carrier
+passed the full original-bound replay of **1/1 preexisting exact owner,
+1,436 complete PE bytes and all 44 relocated fields**. This is source
+layout fidelity, not new exact-function or complete Windows runtime credit.
+
 ## 2026-11-12 Shared native Player active collision-region slot cursor
 
 The original `PlayerLifecycleView` allocation holds an `activeB100` chain
