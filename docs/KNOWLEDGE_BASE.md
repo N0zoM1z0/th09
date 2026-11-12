@@ -3502,6 +3502,26 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 FrontSide 3,094-byte HUD draw owner-based position cursors
+
+The full `FrontSide::OnDraw` boss walks multiple native ANM VM arrays and
+single instances in its actual HUD allocation, drawing 0x2A4-byte VM
+records from the corresponding embedded +0x208 position cursor. The
+existing `FRONT_SIDE_DRAW_CURSOR` constructed a projected 0x2A4-byte
+cursor pointer from `&(vm->pos)` — a C++ Float3 subobject, not an owning
+full record. Its address is now derived as `uint32(real AnmVm owner) +
+offsetof(AnmVm,pos)` modulo 2^32, before the unchanged lexical position
+window projects `pos` and `pos2` at the original +0x80 spacing.
+
+This preserves all actual cursor advances, original `Draw2D` and
+`DrawNoRotation` receiver reconstruction, player-relative HUD offsets,
+local vertex construction, Direct3D state calls and floating-point draw
+ordering. Neither a shadow VM array nor an additional branch/callee has
+been introduced. The pinned VC7.1 one-carrier scoped replay proved the
+entire **3,094-byte physical FrontSide draw owner and its original-bound
+relocation fields** still byte-exact. No new exact-function or whole
+Windows runtime credit is implied.
+
 ## 2026-11-12 Controller native replay input, device and joystick slots
 
 The exact `Controller::GetControllerInput` owner receives two signed

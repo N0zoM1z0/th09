@@ -60,10 +60,12 @@ struct FrontSideDrawVertex
 typedef char FrontSideDrawVertexSizeIs14[
     (sizeof(FrontSideDrawVertex) == 0x14) ? 1 : -1];
 
-// These are layout casts, not calls in the target. Keep the expressions visible
-// even when diagnosing the target's non-inlined vertex-array construction.
+// The cursor addresses the position subobject at +0x208 of the actual
+// complete 0x2A4-byte VM allocation. Form that original native Win32
+// address from the owner base instead of projecting a C++ subobject array.
 #define FRONT_SIDE_DRAW_CURSOR(vm) \
-    reinterpret_cast<FrontSideDrawVmCursor *>(&((vm)->pos))
+    reinterpret_cast<FrontSideDrawVmCursor *>( \
+        reinterpret_cast<u32>(vm) + static_cast<u32>(offsetof(AnmVm, pos)))
 // A draw cursor points to the +0x208 native position subobject. Recover
 // the actual ANM owner address as a wrapping i386 DWORD subtraction,
 // instead of C++ pointer subtraction outside the Float3 subobject.
