@@ -100,10 +100,13 @@ int __fastcall ExAttackUpdateCallbackType4(ExAttackRecord *base)
             record->parameter38->extra34;
 
         PlayerPositionView collisionSize;
-        float *collision = collisionSize.operator float *();
-        collision[0] = 12.0f;
-        collision[1] = 12.0f;
-        collision[2] = 0.0f;
+        // Retain the exact conversion's call and write through the actual
+        // three-float PlayerPositionView, not its x-float subobject.
+        PlayerPositionView *collision = reinterpret_cast<PlayerPositionView *>(
+            collisionSize.operator float *());
+        collision->x = 12.0f;
+        collision->y = 12.0f;
+        collision->z = 0.0f;
 
         if (sourceExtra == 0 || sourceExtra->state00 != 0)
         {

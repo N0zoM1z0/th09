@@ -3260,6 +3260,27 @@ their actual same-section COFF definitions, original PE operands and
 every complete physical owner. This preserves existing codegen exactness;
 the nonexact game functions and whole-product/runtime stages remain open.
 
+## 2026-11-12 Enemy clamp, Player shot init and EX4 native vector fields
+
+Three additional gameplay owners retain their **original external**
+`Float3::operator float*()` / `PlayerPositionView::operator float*()`
+conversion calls while replacing byte-adjacent `float*` indexing with
+members of the same genuinely allocated three-float vector:
+`EnemyView::ClampPositionToMovementBounds` clamps the Enemy's native
++0x2D74 x/y fields; `PlayerLifecycleView::InitializeShot` applies the
+signed-format shot offset and 0.495f depth at shot +0x2A4; and the
+739-byte EX-attack type 4 updater builds its live (12,12,0) collision
+size in `PlayerPositionView`. The original conversion calls, exact
+branch/callee order, signed comparisons and all allocated storage are
+unchanged. No fallback, bounds check or replacement aggregate is added.
+
+Only their three changed compiler carriers were rebuilt under pinned
+VC7.1 and all **3/3 full original PE owners (1,175 bytes, 36 relocation
+fields)** passed canonical byte/field comparison: Enemy clamp 127 bytes,
+Player InitializeShot 309, EX-attack Type4 739. These were already exact;
+this correction removes accidental C++ pointer-to-float-subobject array
+assumptions and makes no new exact-function or whole-product claim.
+
 ## 2026-11-12 Player state-4 and shot update native XYZ members
 
 The complete `PlayerCheckState4` state transition clamps the live

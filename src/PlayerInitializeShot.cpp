@@ -17,11 +17,14 @@ void __fastcall PlayerLifecycleView::InitializeShot(
         reinterpret_cast<Float3 &>(nativeShot.position2A4) =
             nativePlayer.optionStates[nativeEntry.sourceOptionIndex20 - 1].position2A4;
 
-    float *position = reinterpret_cast<Float3 &>(nativeShot.position2A4).operator float *();
-    position[0] += nativeEntry.positionOffsetX04;
-    float &positionY = position[1];
+    // The original conversion is retained; its result points at the x
+    // member of the genuine shot Float3, not a stand-alone float array.
+    Float3 *position = reinterpret_cast<Float3 *>(
+        reinterpret_cast<Float3 &>(nativeShot.position2A4).operator float *());
+    position->x += nativeEntry.positionOffsetX04;
+    float &positionY = position->y;
     positionY += nativeEntry.positionOffsetY08;
-    position[2] = 0.495f;
+    position->z = 0.495f;
 
     nativeShot.hitbox430.x = nativeEntry.hitboxX0C;
     nativeShot.hitbox430.y = nativeEntry.hitboxY10;
