@@ -1163,6 +1163,30 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Supervisor state-machine frame and screen-effect counters
+
+The complete Supervisor::OnUpdate handles the network service
+state machine, game/title/ending transitions, D3D reset paths and
+per-frame ANM/sound updates. Two original persistent signed
+i386 DWORDs are updated at the end of its existing branch graph:
+Supervisor::calcCount454 increments before the modulo-4000
+version-check cadence, and global g_ScreenEffectCounter decrements
+when nonzero. Their source now writes through the same native
+unsigned 32-bit lvalues, removing C++ signed-overflow undefined
+behavior while retaining the original signed modulo/test and
+network/transition-call chronology. No new frame gate, state
+clamp, branch or callback is introduced.
+
+The one affected pinned VC7.1 carrier independently proved and
+cold-replayed **1/1 exact complete Supervisor::OnUpdate owner,
+996 original bytes and all 92 original-bound relocations**.
+Fourteen compiler-private state-machine jump labels were
+verified against actual COFF same-section definitions and the
+original PE operand targets before updating only manifest
+symbol spellings. This is native source fidelity on a previously
+exact core state-machine boss, not a newly exact function or
+whole-Windows-game runtime claim.
+
 ## 2026-11-12 ANM variable-mask leaves preserve unsigned bit tests
 
 The real AnmVm::GetFloatVarPtr and GetIntVarPtr resolve dynamic ANM

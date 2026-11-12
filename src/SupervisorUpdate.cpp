@@ -248,7 +248,10 @@ int Supervisor::OnUpdate(Supervisor *app)
         }
     }
     app->wantedState58C = app->curState590;
-    app->calcCount454++;
+    // Both the global screen-effect countdown and Supervisor's persistent
+    // frame-check counter are native signed DWORD storage. The original
+    // i386 INC/DEC wrap, then retain their signed tests and update cadence.
+    ++*reinterpret_cast<unsigned int *>(&app->calcCount454);
     if (app->calcCount454 % 4000 == 3999)
     {
         if (static_cast<SupervisorVersionView *>(&g_Supervisor)->CheckVersion("0150a", g_Supervisor.exeSize7A4, g_Supervisor.exeChecksum7A0) != 0)
@@ -258,7 +261,7 @@ int Supervisor::OnUpdate(Supervisor *app)
     }
     if (g_ScreenEffectCounter != 0)
     {
-        g_ScreenEffectCounter--;
+        --*reinterpret_cast<unsigned int *>(&g_ScreenEffectCounter);
     }
     return 1;
 }

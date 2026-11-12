@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Supervisor core update checkpoint:** the
+  signed persistent version-check frame counter and screen
+  effect countdown now advance/decrement as native i386 DWORDs.
+  One pinned VC7.1 carrier preserves the entire 996-byte
+  Supervisor::OnUpdate owner, all 92 relocations and 14
+  independently original-PE/COFF-proven local jump labels.
 - **2026-11-12 ANM variable-mask checkpoint:** the genuine
   GetFloatVarPtr and GetIntVarPtr mask tests now shift an
   unsigned DWORD instead of potentially shifting a signed
