@@ -1163,6 +1163,28 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Supervisor network frame queue native record cursors
+
+The original Supervisor owns twenty contiguous 0x0C-byte input/prediction
+queue records at +0x47C and two last-received records at +0x56C;
+replay input samples live separately in the real 0x8E-byte
+g_ReplayInputStates array. The full InsertPredictedFrame and PopFrame
+owners now form these real byte addresses from their live bases using
+unsigned i386 DWORD strides, including the signed side selector and
+combined queue index. The 0x480/0x0C-byte scan increments, native
++0x4E8 insertion tail address, and both previous/next record shifts
+also use modulo-32 native pointer words rather than C++ typed-pointer
+arithmetic over a projected single queue element. Lexical PREV/NEXT
+macros preserve all four independently read fields and the original
+shift/copy/loop order, with no added queue, bounds check or frame
+prediction logic.
+
+The two genuinely affected pinned VC7.1 carrier replays verify
+**2/2 existing exact functions, 310 complete original PE bytes and
+one original-bound relocation**, covering both native queue
+insert/predict and consume owners. No private label rebinding, newly
+exact owner, whole-product build or runtime validation is claimed.
+
 ## 2026-11-12 PBG packed entry-count and file cursor words
 
 The native PbgArchive::AllocEntries parser walks the real LZSS-decoded

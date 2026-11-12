@@ -24,6 +24,13 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Supervisor frame queue checkpoint:** the
+  original Supervisor +0x47C twenty-record network queue and
+  +0x56C last-received frame slots, separate Replay input
+  states, insertion/scan cursor and two shift loops now use
+  authentic i386 DWORD byte-address strides. Two affected
+  VC7.1 carriers protect 2/2 exact owners, 310 physical
+  bytes and one bound PE relocation field.
 - **2026-11-12 PBG packed table checkpoint:** the variable-length
   filename and four-byte integer SeekPast cursor leaves now
   advance the genuine LZSS-decoded file buffer through native
