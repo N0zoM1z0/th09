@@ -175,7 +175,10 @@ static __inline SupervisorAnmLoadView *AnmSupervisor()
 
 static __inline AnmManagerLoadSlotView *AnmLoadSlot(AnmManager *manager, int anmIdx)
 {
-    return reinterpret_cast<AnmManagerLoadSlotView *>(manager) + anmIdx;
+    // The loader's 0x120-byte resource slots advance by native DWORDs.
+    return reinterpret_cast<AnmManagerLoadSlotView *>(
+        reinterpret_cast<unsigned int>(manager) +
+        static_cast<unsigned int>(anmIdx) * sizeof(AnmManagerLoadSlotView));
 }
 
 // Both genuine texture-format and pixel-stride tables hold 4-byte words.
@@ -758,6 +761,17 @@ static __inline AnmManagerSurfaceLoadView *SurfaceLoadView(AnmManager *manager)
     return reinterpret_cast<AnmManagerSurfaceLoadView *>(manager);
 }
 
+// Surface slots are native 32-bit addresses with 4-byte pointer/size
+// entries and 0x14-byte D3DX metadata entries. The signed caller index
+// is multiplied as a wrapping DWORD, not bounded by the C++ array view.
+template <class T>
+static __forceinline T &NativeAnmSurfaceSlot(T *base, int index)
+{
+    return *reinterpret_cast<T *>(
+        reinterpret_cast<unsigned int>(base) +
+        static_cast<unsigned int>(index) * sizeof(T));
+}
+
 int AnmManager::LoadSurface(int surfaceIndex, const char *path)
 {
     unsigned char *fileData;
@@ -765,10 +779,10 @@ int AnmManager::LoadSurface(int surfaceIndex, const char *path)
     IDirect3DSurface8 *surface;
     AnmManagerSurfaceLoadView *manager = SurfaceLoadView(this);
 
-    if (manager->surfaces[surfaceIndex] != NULL)
+    if (NativeAnmSurfaceSlot(manager->surfaces, surfaceIndex) != NULL)
         this->ReleaseSurface(surfaceIndex);
 
-    if (manager->surfaceData[surfaceIndex] == NULL)
+    if (NativeAnmSurfaceSlot(manager->surfaceData, surfaceIndex) == NULL)
     {
         fileData = FileSystem::OpenFile(path, &fileSize, 0);
         if (fileData == NULL)
@@ -779,9 +793,9 @@ int AnmManager::LoadSurface(int surfaceIndex, const char *path)
     }
     else
     {
-        fileData = manager->surfaceData[surfaceIndex];
-        fileSize = manager->surfaceDataSizes[surfaceIndex];
-        manager->surfaceData[surfaceIndex] = NULL;
+        fileData = NativeAnmSurfaceSlot(manager->surfaceData, surfaceIndex);
+        fileSize = NativeAnmSurfaceSlot(manager->surfaceDataSizes, surfaceIndex);
+        NativeAnmSurfaceSlot(manager->surfaceData, surfaceIndex) = NULL;
     }
 
     if (g_Supervisor.d3dDevice08->CreateImageSurface(
@@ -792,37 +806,37 @@ int AnmManager::LoadSurface(int surfaceIndex, const char *path)
 
     if (D3DXLoadSurfaceFromFileInMemory(
             surface, NULL, NULL, fileData, fileSize, NULL, 1, 0,
-            &manager->surfaceInfo[surfaceIndex]) != D3D_OK)
+            &NativeAnmSurfaceSlot(manager->surfaceInfo, surfaceIndex)) != D3D_OK)
         goto error;
 
     if (g_Supervisor.d3dDevice08->CreateRenderTarget(
-            manager->surfaceInfo[surfaceIndex].Width,
-            manager->surfaceInfo[surfaceIndex].Height,
+            NativeAnmSurfaceSlot(manager->surfaceInfo, surfaceIndex).Width,
+            NativeAnmSurfaceSlot(manager->surfaceInfo, surfaceIndex).Height,
             g_Supervisor.presentParameters350.BackBufferFormat,
-            D3DMULTISAMPLE_NONE, TRUE, &manager->surfaces[surfaceIndex]) != D3D_OK)
+            D3DMULTISAMPLE_NONE, TRUE, &NativeAnmSurfaceSlot(manager->surfaces, surfaceIndex)) != D3D_OK)
     {
         if (g_Supervisor.d3dDevice08->CreateImageSurface(
-                manager->surfaceInfo[surfaceIndex].Width,
-                manager->surfaceInfo[surfaceIndex].Height,
+                NativeAnmSurfaceSlot(manager->surfaceInfo, surfaceIndex).Width,
+                NativeAnmSurfaceSlot(manager->surfaceInfo, surfaceIndex).Height,
                 g_Supervisor.presentParameters350.BackBufferFormat,
-                &manager->surfaces[surfaceIndex]) != D3D_OK)
+                &NativeAnmSurfaceSlot(manager->surfaces, surfaceIndex)) != D3D_OK)
             goto error;
     }
 
     if (g_Supervisor.d3dDevice08->CreateImageSurface(
-            manager->surfaceInfo[surfaceIndex].Width,
-            manager->surfaceInfo[surfaceIndex].Height,
+            NativeAnmSurfaceSlot(manager->surfaceInfo, surfaceIndex).Width,
+            NativeAnmSurfaceSlot(manager->surfaceInfo, surfaceIndex).Height,
             g_Supervisor.presentParameters350.BackBufferFormat,
-            &manager->surfacesBis[surfaceIndex]) != D3D_OK)
+            &NativeAnmSurfaceSlot(manager->surfacesBis, surfaceIndex)) != D3D_OK)
         goto error;
 
     if (D3DXLoadSurfaceFromSurface(
-            manager->surfaces[surfaceIndex], NULL, NULL,
+            NativeAnmSurfaceSlot(manager->surfaces, surfaceIndex), NULL, NULL,
             surface, NULL, NULL, 1, 0) != D3D_OK)
         goto error;
 
     if (D3DXLoadSurfaceFromSurface(
-            manager->surfacesBis[surfaceIndex], NULL, NULL,
+            NativeAnmSurfaceSlot(manager->surfacesBis, surfaceIndex), NULL, NULL,
             surface, NULL, NULL, 1, 0) != D3D_OK)
         goto error;
 
@@ -849,7 +863,7 @@ int AnmManager::PreloadSurface(int surfaceIndex, const char *path)
     AnmManagerSurfaceLoadView *manager = SurfaceLoadView(this);
     int fileSize;
 
-    if (manager->surfaces[surfaceIndex] != NULL)
+    if (NativeAnmSurfaceSlot(manager->surfaces, surfaceIndex) != NULL)
         this->ReleaseSurface(surfaceIndex);
 
     unsigned char *fileData = FileSystem::OpenFile(path, &fileSize, 0);
@@ -859,7 +873,7 @@ int AnmManager::PreloadSurface(int surfaceIndex, const char *path)
         return -1;
     }
 
-    manager->surfaceData[surfaceIndex] = fileData;
-    manager->surfaceDataSizes[surfaceIndex] = fileSize;
+    NativeAnmSurfaceSlot(manager->surfaceData, surfaceIndex) = fileData;
+    NativeAnmSurfaceSlot(manager->surfaceDataSizes, surfaceIndex) = fileSize;
     return 0;
 }

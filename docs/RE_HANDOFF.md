@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 ANM loader checkpoint:** 20 live 32-slot surface
+  cache accesses plus the 0x120-byte file-slot cursor now compute
+  actual native unsigned DWORD addresses. The two affected VC7.1
+  carriers preserve 17/17 exact owners (3,258 physical bytes,
+  133 bound relocation fields).
 - **2026-11-12 GameManager update checkpoint:** seven signed
   counter/reward operations now preserve i386 DWORD wrap (including
   signed comparison after limitB4 increment). The two real VC7.1

@@ -1163,6 +1163,30 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 ANM surface cache and file-slot native addresses
+
+The ANM loader's LoadSurface and PreloadSurface paths access actual native
+32-slot storage within the AnmManager owner. Twenty lvalue expressions
+across the primary/secondary D3D surfaces, preloaded file data, file
+sizes, and 0x14-byte D3DXIMAGE_INFO records now use one templated
+native slot reference. Every address is formed as the real member-array
+base plus uint32(surfaceIndex) times the actual element size. The source
+does not impose new C++ bounded-array pointer arithmetic or clamp the
+signed surface index. It preserves each independent read, publication,
+D3D call, cleanup and original error path.
+
+The resource loading and service path also now advances its original
+0x120-byte ANM manager file-slot records from the live manager base
+using native modulo-32 word arithmetic rather than treating the manager
+as an unbounded C++ array of file slots. No shadow storage is introduced.
+
+The two actually affected pinned VC7.1 compiler carriers cold-replayed
+**17/17 existing exact functions, 3,258 complete physical bytes and 133
+original-bound relocation fields**, including both surface owners,
+PreloadAnm/LoadAnm and the manager constructor. The complete original
+PE fields and code are unchanged. This is source fidelity for real
+array backing, not a new function promotion or runtime/port claim.
+
 ## 2026-11-12 GameManager update native frame and reward counters
 
 The already exact GameManagerSetupLayout::OnUpdate callback uses seven
