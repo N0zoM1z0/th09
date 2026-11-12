@@ -1163,6 +1163,29 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Title menu, result, replay and start-state DWORD counters
+
+The TitleScreenView owner uses one real screen-state allocation for
+stateTimer, stateTimer2/phaseTimer, screenFrameCounter/replayUiFrameCounter
+and idleFrames. Thirty-two persistent-frame/phase increments across
+character/difficulty/mode/result menus, replay browsing/saving, and
+start-menu updates now use unsigned DWORD lvalues, preserving retail
+i386 INC wrap instead of invoking undefined C++ signed overflow. The
+result updater's separately installed native counter increments are
+left unchanged. No new frame gate, clamped index, reordered callback
+or helper call is introduced.
+
+The two actual source/profile carriers cold-replayed **41/41 already
+exact functions, 18,972 complete original bytes and 953 relocation
+fields**, including the large title menu and save/update owners and
+their small helper leaves. Nine compiler-private label spellings
+changed solely due to the source edits. Each was independently bound
+from an actual same-section COFF definition to the unchanged retail PE
+target before the manifest names were rebased. The separately
+nonexact OnUpdateResult remains 484/485 bytes, all 34 target-bound
+fields, nine ordered calls, 40 graph blocks, and 218 unequal overlapping
+bytes; no new exact function is claimed.
+
 ## 2026-11-12 Ending interpreter's native file-backed script cursor
 
 The Ending::ReadScriptParameter and Ending::RunEndingScript owners consume

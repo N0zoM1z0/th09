@@ -38,6 +38,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int i32;
 
+// Persistent Title frame/phase counters are advanced by native 32-bit
+// DWORD INC instructions; avoid signed C++ overflow on those live words.
+#define TH09_TITLE_NATIVE_INCREMENT(word) \
+    (++*reinterpret_cast<unsigned int *>(&(word)))
+
+
 extern "C" int __cdecl sprintf(char *, const char *, ...);
 extern "C" char *__cdecl strcpy(char *, const char *);
 extern "C" char *__cdecl strcat(char *, const char *);
@@ -1401,9 +1407,9 @@ int TitleScreenView::OnUpdateCharacterSelect()
     }
     }
 
-    stateTimer++;
-    screenFrameCounter++;
-    stateTimer2++;
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer);
+    TH09_TITLE_NATIVE_INCREMENT(screenFrameCounter);
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer2);
     return 1;
 }
 
@@ -1707,9 +1713,9 @@ int TitleScreenView::UpdateScreen8Mode0()
     }
     }
 
-    stateTimer++;
-    screenFrameCounter++;
-    stateTimer2++;
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer);
+    TH09_TITLE_NATIVE_INCREMENT(screenFrameCounter);
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer2);
     return 1;
 }
 
@@ -1975,9 +1981,9 @@ int TitleScreenView::UpdateScreen8Mode123()
     }
     }
 
-    stateTimer++;
-    screenFrameCounter++;
-    stateTimer2++;
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer);
+    TH09_TITLE_NATIVE_INCREMENT(screenFrameCounter);
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer2);
     return 1;
 }
 
@@ -2146,9 +2152,9 @@ int TitleScreenView::UpdateScreen16()
     }
     }
 
-    stateTimer++;
-    screenFrameCounter++;
-    stateTimer2++;
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer);
+    TH09_TITLE_NATIVE_INCREMENT(screenFrameCounter);
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer2);
     return 1;
 }
 
@@ -2325,9 +2331,9 @@ int TitleScreenView::OnUpdateResultNameEntry()
         break;
     }
 
-    stateTimer++;
-    screenFrameCounter++;
-    stateTimer2++;
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer);
+    TH09_TITLE_NATIVE_INCREMENT(screenFrameCounter);
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer2);
     return 1;
 }
 
@@ -2735,9 +2741,9 @@ int TitleScreenView::OnUpdateReplayMenu()
     }
     }
 
-    replayUiFrameCounter++;
-    stateTimer++;
-    phaseTimer++;
+    TH09_TITLE_NATIVE_INCREMENT(replayUiFrameCounter);
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer);
+    TH09_TITLE_NATIVE_INCREMENT(phaseTimer);
     return 1;
 }
 
@@ -3054,9 +3060,9 @@ int TitleScreenView::UpdateReplaySave()
         break;
     }
 
-    stateTimer++;
-    replayUiFrameCounter++;
-    phaseTimer++;
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer);
+    TH09_TITLE_NATIVE_INCREMENT(replayUiFrameCounter);
+    TH09_TITLE_NATIVE_INCREMENT(phaseTimer);
     return 1;
 }
 
@@ -3119,7 +3125,7 @@ int TitleScreenView::OnUpdateStartMenu()
         {
             DrawTitleHelpText(static_cast<TitleAnmManagerView *>(g_AnmManager), &embeddedVms[stateTimer2], 0xFFF0E0, 0x300000,
                               g_TitleHelpText[stateTimer2]);
-            stateTimer2++;
+            TH09_TITLE_NATIVE_INCREMENT(stateTimer2);
             return 1;
         }
 
@@ -3155,7 +3161,7 @@ int TitleScreenView::OnUpdateStartMenu()
             if (g_TitleInput.currentInput != 0)
                 idleFrames = 0;
 
-            idleFrames++;
+            TH09_TITLE_NATIVE_INCREMENT(idleFrames);
             if (idleFrames > 1500)
             {
                 g_TitleGameFlags |= 2u;
@@ -3292,9 +3298,9 @@ int TitleScreenView::OnUpdateStartMenu()
         break;
     }
 
-    screenFrameCounter++;
-    stateTimer++;
-    stateTimer2++;
+    TH09_TITLE_NATIVE_INCREMENT(screenFrameCounter);
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer);
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer2);
     return 1;
 }
 
@@ -3461,9 +3467,9 @@ int TitleScreenView::OnUpdateDifficultySelect()
         break;
     }
 
-    stateTimer++;
-    screenFrameCounter++;
-    stateTimer2++;
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer);
+    TH09_TITLE_NATIVE_INCREMENT(screenFrameCounter);
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer2);
     return 1;
 }
 
@@ -3549,9 +3555,9 @@ int TitleScreenView::OnUpdateModeSelect()
         break;
     }
 
-    stateTimer++;
-    screenFrameCounter++;
-    stateTimer2++;
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer);
+    TH09_TITLE_NATIVE_INCREMENT(screenFrameCounter);
+    TH09_TITLE_NATIVE_INCREMENT(stateTimer2);
     return 1;
 }
 

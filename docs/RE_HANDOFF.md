@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Title menu/update checkpoint:** 32 live signed
+  screen/phase/frame counter increments now use native DWORD wrap.
+  Two VC7.1 carriers retain 41/41 exact functions, 18,972 bytes and
+  953 fields; nine compiler-label bindings proven against COFF/PE.
+  The separate nonexact OnUpdateResult stays at 484/485 bytes,
+  34 fields, 218 unlike overlaps and unchanged call/CFG structure.
 - **2026-11-12 Ending interpreter checkpoint:** the file-backed
   script parser's 19 single-byte cursor increments and one two-byte
   advance now use native DWORD address arithmetic. Both affected
