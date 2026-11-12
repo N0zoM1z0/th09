@@ -1163,6 +1163,28 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Supervisor camera and viewport native record selection
+
+The original Supervisor allocation owns three actual 0xF0-byte
+camera/view/projection/viewport records at +0x78. SelectSide,
+ConfigureScreenViewport and ConfigureGameplayViewport receive
+a signed native view selector and compute the live camera owner
+as the base of that real array plus uint32(index)*0xF0.
+The maintained source now expresses all three dynamic selections
+through one lexical native i386 lvalue, rather than applying
+a potentially out-of-range C++ array subscript to the three
+configured views. The existing ApplyScreenCamera, ApplyGameplayViewport,
+D3D SetViewport, projected math, and currentIndex publishing calls
+retain their original ordering. The three fixed setup camera records
+also remain unchanged; there is no new index gate, alternate
+camera, or backing allocation.
+
+The single affected pinned VC7.1 SupervisorViewport compiler
+carrier cold-replayed **8/8 exact owners, 1,530 complete original
+PE bytes and all 106 relocations**, including the full viewport
+initialization and both screen/gameplay camera application paths.
+No changed private labels or new exact-function/runtime claims.
+
 ## 2026-11-12 Supervisor screenshot D3D lock pitch and bitmap cursors
 
 The original Supervisor::TakeSnapshot owner reads a real Direct3D 8

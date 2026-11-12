@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Supervisor viewport checkpoint:** dynamic
+  signed view selectors now address the three true 0xF0-byte
+  Supervisor camera/viewport records by modulo-32 native
+  i386 DWORD strides. The complete local SupervisorViewport
+  VC7.1 carrier preserves 8/8 exact owners, 1,530 original
+  bytes and 106 relocation fields.
 - **2026-11-12 Supervisor screenshot checkpoint:** signed
   Direct3D lock pitch, first/next source rows, destination BMP
   row and inner RGB24 pixel cursor strides now form native

@@ -231,18 +231,26 @@ void Supervisor::InitializeViewports()
         Float3(0.0f, 0.0f, 0.0f);
 }
 
+// Supervisor owns three contiguous 0xF0-byte camera/viewport records.
+// A signed view selector is scaled as an unsigned i386 DWORD without
+// imposing C++ array bounds on its original native address operation.
+#define TH09_VIEWPORT_NATIVE_AT(owner, ordinal) \
+    (*reinterpret_cast<SupervisorViewportConfiguration *>( \
+        reinterpret_cast<unsigned int>(&(owner)->configurations[0]) + \
+        static_cast<unsigned int>(ordinal) * sizeof((owner)->configurations[0])))
+
 void Supervisor::SelectSide(int index)
 {
     SupervisorViewportView *supervisor =
         reinterpret_cast<SupervisorViewportView *>(this);
-    supervisor->current = &supervisor->configurations[index];
+    supervisor->current = &TH09_VIEWPORT_NATIVE_AT(supervisor, index);
 }
 
 void Supervisor::ConfigureScreenViewport(int index)
 {
     SupervisorViewportView *supervisor =
         reinterpret_cast<SupervisorViewportView *>(this);
-    supervisor->current = &supervisor->configurations[index];
+    supervisor->current = &TH09_VIEWPORT_NATIVE_AT(supervisor, index);
     supervisor->ApplyScreenCamera(supervisor->current);
     supervisor->d3dDevice->SetViewport(&supervisor->current->viewport);
     supervisor->currentIndex = index;
@@ -252,7 +260,7 @@ void Supervisor::ConfigureGameplayViewport(int index)
 {
     SupervisorViewportView *supervisor =
         reinterpret_cast<SupervisorViewportView *>(this);
-    supervisor->current = &supervisor->configurations[index];
+    supervisor->current = &TH09_VIEWPORT_NATIVE_AT(supervisor, index);
     supervisor->ApplyGameplayViewport(supervisor->current);
     supervisor->d3dDevice->SetViewport(&supervisor->current->viewport);
     supervisor->currentIndex = index;
@@ -273,3 +281,5 @@ void Supervisor::ApplyCameraMode1()
     supervisor->ApplyGameplayViewport(supervisor->current);
     supervisor->d3dDevice->SetViewport(&supervisor->current->viewport);
 }
+
+#undef TH09_VIEWPORT_NATIVE_AT
