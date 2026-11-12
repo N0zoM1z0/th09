@@ -1190,6 +1190,31 @@ PE operands were independently proved before updating only
 the matching manifest symbol names. These remain existing
 exact owners, not new exactness or game-runtime closure.
 
+## 2026-11-12 Enemy timeline variable-width argument word references
+
+The original EnemyScheduleRuntimeView::Run reads a sequence of variable
+length packed ECL/timeline instructions, whose argument DWORDs follow the
+fixed eight-byte instruction header in the same file-backed allocation.
+For the real enemy-spawn position/flag argument vectors, ranged random
+spawn arguments, and remote-slot state handlers, each indexed argument
+read now computes its native i386 address as the live payload byte base
+plus uint32(argumentOrdinal) * 4, rather than a C++ int array subscript
+that requires independently bounded array provenance. The original
+float-word aliasing, independent repeated reads, RNG call order,
+remote-slot accesses and original spawn/control CFG remain untouched.
+No new record length check, table allocation, argument caching or
+bounds guard was introduced.
+
+One genuinely affected pinned VC7.1 timeline compiler carrier
+cold-replayed **2/2 existing exact physical owners, 1,068 complete
+original PE bytes and 42 reviewed relocations**, including the
+1,048-byte Run timeline boss and its timer helper leaf. Sixteen
+compiler-private switch/jump labels were each independently proved
+against the actual same-section COFF definitions, unmodified PE
+operands and every owner byte before updating only their manifest
+symbol spellings. This is native packed-wire semantics in existing
+byte-exact code, not a new exact owner or Windows runtime closure.
+
 ## 2026-11-12 RunEcl child context state-copy raw byte addresses
 
 The 15,564-byte EnemyEclManagerView::RunEcl ECL dispatcher creates a

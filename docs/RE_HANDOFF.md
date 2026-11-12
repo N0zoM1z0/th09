@@ -69,6 +69,13 @@ Git retains earlier source revisions.
   VC7.1 carriers preserve 5/5 exact owners, 445 bytes,
   26 original-bound relocations, including DrawMain and
   its three small leaf helpers.
+- **2026-11-12 Enemy timeline argument checkpoint:** the
+  1,048-byte packed timeline Run boss now reads variable-length
+  spawn/remote args through authentic native DWORD byte offsets
+  from the file payload, preserving original RNG/call/flag order.
+  One local VC7.1 carrier protects 2/2 exact owners,
+  1,068 full physical bytes and 42 relocation fields.
+  Sixteen original PE/COFF-proven private labels were rebound.
 - **2026-11-12 Title result/replay name checkpoint:** six
   original result-bank and replay save-name character accesses
   now resolve the true title alphabet and live name buffers
