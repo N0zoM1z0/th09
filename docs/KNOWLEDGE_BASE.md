@@ -1273,6 +1273,28 @@ original PE bytes and 30 relocations**: homing update
 Draw Type2 293 bytes / five fields. No compiler-private
 labels, new exact owner, or whole-Windows runtime claim.
 
+## 2026-11-12 ANM variable-argument mask native unsigned shifts
+
+The 9,776-byte original-bound AnmManager::ExecuteScript interpreter
+looks up file-backed integer and float opcode arguments according
+to its true unsigned 16-bit ANM variable mask. Both lexical
+GET_INT_VAR and GET_FLOAT_VAR source paths now shift an unsigned
+32-bit single bit by the original argument number, rather than
+performing a C++ signed left shift that is undefined when the
+result has the sign bit set. The pinned VC7.1 compiler still
+emits the genuine i386 shift instruction and low-five-bit shift
+count behavior; no new ordinal clamp, read cache or alternate
+mask was added. Both original variable-resolver calls, source
+reads and opcode dispatch remain intact.
+
+Only the two actually affected VC7.1 ANM interpreter carriers
+were rebuilt. The complete original PE comparison passes
+**5/5 already-exact functions, 10,496 physical bytes and
+421 bound relocations**, including the complete 9,776-byte
+ExecuteScript and four variable resolver leaves. No
+compiler-private label rebinding, newly exact owner or
+whole-product runtime assertion is implied.
+
 ## 2026-11-12 Title replay menu list and stage cursor DWORD wrap
 
 The complete TitleScreenView::OnUpdateReplayMenu owner selects one

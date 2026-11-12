@@ -55,6 +55,12 @@ Git retains earlier source revisions.
   advance 0x0C-byte history records by original i386
   DWORD addresses. Three scoped VC7.1 carriers preserve
   3/3 exact owners, 968 physical bytes, 30 relocations.
+- **2026-11-12 ANM argument-mask checkpoint:** the
+  9,776-byte ExecuteScript boss's dynamic integer/float
+  operand masks now use original unsigned i386 32-bit
+  shifts, not signed C++ shift into the sign bit.
+  Two scoped ANM VC7.1 carriers retain 5/5 exact owners,
+  10,496 physical original bytes and 421 relocations.
 - **2026-11-12 Replay menu navigation checkpoint:** twelve
   signed list/stage cursor motions and wrap comparisons in
   OnUpdateReplayMenu now preserve original i386 DWORD results.

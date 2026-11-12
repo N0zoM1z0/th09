@@ -291,11 +291,14 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
     while (instruction = vm->currentInstruction, instruction->time <= (int)vm->currentTimeInScript)
     {
+// The original variable mask is a wire u16 and a dynamic i386 shift
+// count. Shift an unsigned DWORD, preserving even bit 31 without C++
+// undefined signed-shift behavior or an extra instruction.
 #define GET_INT_VAR(argNumber)                                                                                         \
-    ((instruction->varMask & (1 << argNumber)) ? vm->GetIntVar(instruction->intArgs[argNumber])                        \
+    ((instruction->varMask & (1u << argNumber)) ? vm->GetIntVar(instruction->intArgs[argNumber])                        \
                                                : instruction->intArgs[argNumber])
 #define GET_FLOAT_VAR(argNumber)                                                                                       \
-    ((instruction->varMask & (1 << argNumber)) ? vm->GetFloatVar(instruction->floatArgs[argNumber])                    \
+    ((instruction->varMask & (1u << argNumber)) ? vm->GetFloatVar(instruction->floatArgs[argNumber])                    \
                                                : instruction->floatArgs[argNumber])
 
 #define GET_INT_VAR_PTR(idx) vm->GetIntVarPtr(&instruction->intArgs[idx], instruction->varMask, idx)
