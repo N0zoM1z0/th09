@@ -12,13 +12,18 @@ typedef char BackgroundAnmVmActivityAt220[
     (offsetof(BackgroundAnmVmActivityView, currentInstruction220) == 0x220)
         ? 1 : -1];
 
+// The stage owns a file-backed object pointer table and an independently
+// allocated 0x2A4-byte animation VM array. Opcode quad widths are signed
+// 16-bit byte strides and original counters wrap as i386 DWORD words.
 int Background::UpdateStageObjectVms()
 {
     for (int objectIndex = 0;
          objectIndex < this->stageObjectCount;
-         ++objectIndex)
+         ++*reinterpret_cast<unsigned int *>(&objectIndex))
     {
-        RawStageObject *object = this->stageObjects[objectIndex];
+        RawStageObject *object = *reinterpret_cast<RawStageObject **>(
+            reinterpret_cast<unsigned int>(&this->stageObjects[0]) +
+            static_cast<unsigned int>(objectIndex) * sizeof(this->stageObjects[0]));
         if ((object->flags & 1) != 0)
         {
             RawStageQuadBasic *quad = &object->firstQuad;
@@ -28,7 +33,10 @@ int Background::UpdateStageObjectVms()
                 do
                 {
                     AnmVm *vm =
-                        &this->stageObjectVms[quad->vmIndex];
+                        reinterpret_cast<AnmVm *>(
+                            reinterpret_cast<unsigned int>(&this->stageObjectVms[0]) +
+                            static_cast<unsigned int>(quad->vmIndex) *
+                                sizeof(this->stageObjectVms[0]));
                     switch (quad->type)
                     {
                     case 0:
@@ -44,12 +52,12 @@ int Background::UpdateStageObjectVms()
                     if (reinterpret_cast<BackgroundAnmVmActivityView *>(vm)
                             ->currentInstruction220 != 0)
                     {
-                        ++activeScriptCount;
+                        ++*reinterpret_cast<unsigned int *>(&activeScriptCount);
                     }
 
                     quad = reinterpret_cast<RawStageQuadBasic *>(
-                        reinterpret_cast<unsigned char *>(quad) +
-                        quad->byteSize);
+                        reinterpret_cast<unsigned int>(quad) +
+                        static_cast<unsigned int>(static_cast<int>(quad->byteSize)));
                 }
                 while (quad->type >= 0);
             }

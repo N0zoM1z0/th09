@@ -1446,6 +1446,31 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-12 Background scripted quad VM update native record addresses
+
+Background::UpdateStageObjectVms traverses the actual file-backed
+stageObjectCount pointer table, separately allocated runtime
+0x2A4-byte AnmVm records and variable-width RawStageQuadBasic
+instructions from the original .std stage file. The signed
+object index and active script counter now increment as
+native i386 DWORD words, while the real object-pointer and
+ANM VM indexes form modulo-32 base + index*record-size addresses
+from their distinct genuine allocations. Each stage quad's
+signed 16-bit byteSize is sign-extended into its original
+32-bit byte stride, without treating the 0x1C-byte quad
+header as an independently allocated array object.
+
+The original ExecuteScript calls for types zero and one,
+currentInstruction220 liveness check, object flags,
+variable-length terminator and original call order
+remain unchanged, with no new file bounds checks or VM cache.
+The sole affected pinned VC7.1 BackgroundUpdateStageObjectVms
+carrier cold-replayed **1/1 exact complete 190-byte
+original PE owner and both relocation fields**. This
+joins the matching 3,274-byte BackgroundRender boss and
+2,652-byte stage-script interpreter's native allocation model,
+not a new exact-function/runtime claim.
+
 ## 2026-11-12 Laser spawn pool and sprite IDs native DWORD words
 
 The genuine EtamaController::SpawnLaserPattern fills the first unused

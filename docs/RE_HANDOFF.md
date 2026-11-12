@@ -107,6 +107,13 @@ Git retains earlier source revisions.
   draw order. One pinned VC7.1 carrier preserves the
   complete 693-byte SetupRandomForSide owner and all
   15 original PE relocation fields.
+- **2026-11-12 Background Quad VM checkpoint:** stage
+  object pointer-table and 0x2A4-byte VM indexes now
+  form native i386 byte addresses; signed 16-bit
+  file-backed Quad lengths and signed liveness count
+  preserve original 32-bit word semantics.
+  One pinned VC7.1 carrier retains 1/1 exact complete
+  UpdateStageObjectVms (190 bytes, two relocations).
 - **2026-11-12 Laser spawn checkpoint:** the real 48-by-
   0x59C Laser pool advances by native i386 DWORD record
   addresses, and signed ANM script/body/start-cap Sprite ID
