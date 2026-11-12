@@ -291,6 +291,14 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
     while (instruction = vm->currentInstruction, instruction->time <= (int)vm->currentTimeInScript)
     {
+// Jumps are encoded in packed, variable-length file records. The original
+// i386 instruction uses the byte address of each live four-byte argument,
+// without imposing an in-memory ten-element C++ array ownership model.
+#define TH09_ANM_NATIVE_JUMP_INT(index) \
+    (*reinterpret_cast<const i32 *>( \
+        reinterpret_cast<u32>(instruction) + \
+        static_cast<u32>(offsetof(AnmRawInstr, intArgs)) + \
+        static_cast<u32>(index) * sizeof(i32)))
 // The original variable mask is a wire u16 and a dynamic i386 shift
 // count. Shift an unsigned DWORD, preserving even bit 31 without C++
 // undefined signed-shift behavior or an extra instruction.
@@ -342,8 +350,10 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->color2Script.b = GET_INT_VAR(2);
             break;
         case AnmOpcode_Jmp:
-            vm->currentTimeInScript = instruction->intArgs[1];
-            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(instruction->intArgs[0]));
+            // Script records have varying physical argument lengths. The
+            // original reads this packed DWORD via the native file address.
+            vm->currentTimeInScript = TH09_ANM_NATIVE_JUMP_INT(1);
+            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_JUMP_INT(0)));
             continue;
         // The animation interpreter's jump counter is a script-controlled
         // signed DWORD; retail decrements its native bits modulo 2^32.
@@ -352,8 +362,8 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
             if (GET_INT_VAR(0) > 0)
             {
-                vm->currentTimeInScript = instruction->intArgs[2];
-                vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(instruction->intArgs[1]));
+                vm->currentTimeInScript = TH09_ANM_NATIVE_JUMP_INT(2);
+                vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_JUMP_INT(1)));
                 continue;
             }
             break;
@@ -822,12 +832,13 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->flag17 = instruction->byteArgs[1];
             break;
         jump:
-            vm->currentTimeInScript = instruction->intArgs[3];
-            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(instruction->intArgs[2]));
+            vm->currentTimeInScript = TH09_ANM_NATIVE_JUMP_INT(3);
+            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_JUMP_INT(2)));
             continue;
         default:
             break;
         }
+#undef TH09_ANM_NATIVE_JUMP_INT
 #undef GET_FLOAT_VAR_PTR
 #undef GET_INT_VAR_PTR
 #undef GET_FLOAT_VAR

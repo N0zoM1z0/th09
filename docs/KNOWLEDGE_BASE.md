@@ -3281,6 +3281,28 @@ Player InitializeShot 309, EX-attack Type4 739. These were already exact;
 this correction removes accidental C++ pointer-to-float-subobject array
 assumptions and makes no new exact-function or whole-product claim.
 
+## 2026-11-12 ANM 9,358-byte interpreter native jump payload words
+
+`AnmManager::ExecuteScript` executes variable-size ANM file records, not
+heap-allocated fixed `intArgs[10]` objects. Six independent live script
+DWORD reads in ordinary jump, conditional jump and decrement/jump handlers
+now address the genuine file-backed operand bytes via the original 32-bit
+`instruction + offsetof(AnmRawInstr, intArgs) + uint32(index)*4`. The
+original interpreter's signed branch inputs, timer assignments, subroutine
+calls, continue targets, bit masks and shared jump tail remain unchanged.
+There is no new bounds guard, operand snapshot, buffer or invented callable
+opcode boundary; each argument is read at its original use site.
+
+The pinned VC7.1 two-carrier target-bound proof reproduced **5/5 existing
+exact units, 10,496 complete original PE bytes and 421 relocation fields**,
+including every **9,358 byte** of the single massive ANM interpreter. A
+source-line change renumbered 101 compiler-private `$L` references in that
+large switch and its four exact TU leaves; the manifest was updated only
+after independently checking each actual same-section COFF definition,
+original PE target and every full owner, then scoped cold-replaying both
+actual compiler profiles. This improves original wire/address semantics,
+not the number of byte-exact functions or the whole Windows build status.
+
 ## 2026-11-12 Player state-4 and shot update native XYZ members
 
 The complete `PlayerCheckState4` state transition clamps the live
