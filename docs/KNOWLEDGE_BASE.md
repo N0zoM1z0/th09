@@ -1163,6 +1163,28 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Supervisor version file-backed line and byte cursors
+
+SupervisorVersionView::CheckVersion scans the actual opened .ver
+file's packed version/name/size/checksum lines. The original i386
+advances the file cursor six bytes past a matching version tag,
+then moves one byte past the next newline; its remaining-byte
+count decrements by the native difference of these two cursor
+addresses. The source now computes both cursor increments as
+unsigned modulo-32 i386 byte addresses and the consumed span
+as their unsigned DWORD difference, rather than relying on C++
+pointer arithmetic outside an individual fixed-size line object.
+The live strcmp/sscanf paths, newline search, version gates and
+error returns are unchanged, without a new bounds check or
+file buffer allocation.
+
+The two affected pinned VC7.1 SupervisorVersion compiler carriers
+cold-replayed **2/2 existing exact owners, 344 original physical
+PE bytes and 22 relocation fields**, including CheckVersion
+and its original data-load companion. No compiler-private label
+rebinding, exact-function promotion or whole-product/runtime
+claim was involved.
+
 ## 2026-11-12 PBG archive encoded header and sentinel entry words
 
 PbgArchive::ParseHeader reads the genuine 12-byte encrypted archive

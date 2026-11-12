@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Supervisor version parser checkpoint:** the
+  opened .ver file's six-byte version tag, newline cursor and
+  remaining-length difference now use native 32-bit i386
+  byte-address words. Two focused VC7.1 carriers retain
+  2/2 exact owners, 344 physical bytes and 22 relocations.
 - **2026-11-12 PBG archive checkpoint:** three real encrypted
   header DWORD values now subtract obfuscating offsets modulo
   2^32 before existing validity checks, and the 0x10-byte

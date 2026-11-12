@@ -65,11 +65,15 @@ int SupervisorVersionView::CheckVersion(const char *version, i32 exeSize, i32 ex
     if (strcmp("0150a", "debug") == 0)
         return 0;
 
+    // Version records share the real loaded .ver file buffer; retail
+    // advances its cursor and remaining native DWORD count in i386
+    // modulo-32 byte-address arithmetic, retaining the original scan.
     while (versionDataSize > 0)
     {
         if (strncmp(version, versionData, 5) == 0)
         {
-            versionData += 6;
+            versionData = reinterpret_cast<const char *>(
+                reinterpret_cast<u32>(versionData) + 6u);
             sscanf(versionData, "%d %d", &versionDataExeSize, &versionDataExeChecksum);
             if (versionDataExeSize == exeSize && versionDataExeChecksum == exeChecksum)
                 return 0;
@@ -79,8 +83,10 @@ int SupervisorVersionView::CheckVersion(const char *version, i32 exeSize, i32 ex
         versionData = strchr(versionData, '\n');
         if (versionData == NULL)
             return -1;
-        versionData++;
-        versionDataSize -= (u32)(versionData - oldPos);
+        versionData = reinterpret_cast<const char *>(
+            reinterpret_cast<u32>(versionData) + 1u);
+        versionDataSize -= reinterpret_cast<u32>(versionData) -
+            reinterpret_cast<u32>(oldPos);
     }
     return -1;
 }
