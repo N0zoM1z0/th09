@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Background script checkpoint:** the 2,652-byte exact
+  stage-dispatch owner now uses the original native 0x14-byte record
+  indexing and unsigned DWORD index wrap. Its camera/scalar/timer leaves
+  all remain exact: 5/5 owners, 3,231 physical bytes, 160 relocation
+  fields; 49 local compiler-label rebindings have PE/COFF proof.
 - **2026-11-12 Player selector checkpoint:** the 3,238-byte exact pattern
   boss now preserves signed cooldown decrement and alternate-pattern
   arithmetic as native wrapping DWORDs. Its helper and full boss pass

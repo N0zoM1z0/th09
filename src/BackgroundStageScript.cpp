@@ -265,8 +265,12 @@ void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
     RawStageInstrProbe *instruction;
 
 read_instruction:
-    instruction = background->stageScript028 +
-                  background->stageScriptInstructionIndexC64;
+    // Native stage instructions use a 0x14-byte signed wire index scaled as
+    // an unsigned i386 word, without a C++ pointer-in-array precondition.
+    instruction = reinterpret_cast<RawStageInstrProbe *>(
+        reinterpret_cast<unsigned int>(background->stageScript028) +
+        static_cast<unsigned int>(background->stageScriptInstructionIndexC64) *
+            sizeof(RawStageInstrProbe));
     if (background->stageScriptTimerC58 >= instruction->frame)
     {
         if (instruction->frame == -1)
@@ -511,7 +515,10 @@ read_instruction:
             break;
         }
 
-        background->stageScriptInstructionIndexC64++;
+        // Retail advances this signed wire index with an i386 INC DWORD.
+        // Preserve its modulo-32 result instead of signed C++ overflow.
+        ++*reinterpret_cast<unsigned int *>(
+            &background->stageScriptInstructionIndexC64);
         goto read_instruction;
     }
 

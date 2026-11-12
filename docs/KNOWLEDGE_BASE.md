@@ -1163,6 +1163,28 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Background stage-script native record address and index wrap
+
+The complete 2,652-byte BackgroundRunStageScriptPhase physical owner
+includes the stage instruction dispatch/switch table. Its 0x14-byte
+RawStageInstrProbe records belong to the actual stageScript028 buffer.
+Retrieval now forms the native 32-bit base address plus
+uint32(stageScriptInstructionIndexC64) * sizeof(RawStageInstrProbe), without
+assuming an in-bounds C++ pointer subscript. The script instruction index
+is separately incremented as an unsigned DWORD lvalue, preserving the
+original i386 INC DWORD wrap when signed INT_MAX is crossed. Neither change
+adds a bounds clamp, instruction copy, new execution branch or other state.
+
+The pinned VC7.1 carrier cold-replayed **five exact owners, 3,231 complete
+physical bytes and 160 original-bound relocation fields**, including the
+2,652-byte stage interpreter, 448-byte camera interpolator and three
+related scalar/timer leaves. The combined native-address and signed-index
+changes shift 49 compiler-private $L spellings; each current same-section
+COFF definition, original PE operand destination and every byte of all
+five owners were independently compared before updating names in the
+manifest. Exactness is preserved, not newly granted, and does not certify
+portable runtime closure.
+
 ## 2026-11-12 Player pattern boss native cooldown and alternate-index words
 
 The complete original-bound 3,238-byte PlayerUpdateSelectorState owner
