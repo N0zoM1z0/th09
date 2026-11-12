@@ -1163,6 +1163,30 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 MIDI timer, SysEx and tempo native DWORD arithmetic
+
+The full MIDI ProcessMsg switch/dispatch owner handles file-backed
+running-status messages, SysEx long-message slots and tempo changes.
+Its signed pendingLongMessageHeaderCursor now increments as a native
+i386 DWORD before the original modulo-32 slot selector. The signed
+microsecondsPerQuarterNote accumulator uses 32-bit wrapping
+multiply/add with live MIDI wire bytes; nextEventTick restores the
+signed result of its native word addition. The signed fadeOutElapsedMs
+counter in OnTimerElapsed also uses a wrapping DWORD lvalue. These
+edits preserve MIDI event ordering, hardware calls, track cursors,
+speed/volume controls and the actual 32-pointer header array.
+
+The official pinned VC7.1 source-scoped replay passed **32/32 exact
+owners, 4,270 complete physical original bytes and 132 relocations**
+including the 1,574-byte ProcessMsg boss and MIDI timer/device leaves.
+An additional unchanged one-byte MidiTimer::OnTimerElapsed virtual
+owner shares the physical compiler object: independent proof of
+**33/33 owners, 4,271 physical bytes and the same 132 relocations**.
+The 23 renamed compiler-local ProcessMsg switch labels were rebound
+only after validating real same-section COFF definitions, unchanged
+PE jump-table targets, and complete bytes. These were existing exact
+owners, not a new function promotion.
+
 ## 2026-11-12 Title options state and selection script DWORD arithmetic
 
 The original 2,045-byte TitleScreenView::OnUpdateOptions menu owner

@@ -484,7 +484,7 @@ void MidiOutput::OnTimerElapsed()
                 FadeOutSetVolume(0);
             }
             this->fadeOutLastSetVolume = this->fadeOutVolumeMultiplier * 128.0f;
-            this->fadeOutElapsedMs++;
+            ++*reinterpret_cast<u32 *>(&this->fadeOutElapsedMs);
         }
         else
         {
@@ -574,7 +574,9 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
                 g_ZunMemory.Free(longMessageHeader);
                 TH09_MIDI_NATIVE_HEADER(this->pendingLongMessageHeaderCursor) = NULL;
             }
-            this->pendingLongMessageHeaderCursor += 1;
+            // Retail advances the signed 32-slot MIDI long-header cursor
+            // with a native i386 DWORD before applying modulo 32.
+            ++*reinterpret_cast<u32 *>(&this->pendingLongMessageHeaderCursor);
             this->pendingLongMessageHeaderCursor = this->pendingLongMessageHeaderCursor % 32;
         }
         else if (statusByte == MIDI_OPCODE_SYSTEM_RESET)
@@ -602,8 +604,9 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
                 this->microsecondsPerQuarterNote = 0;
                 for (index = 0; index < eventDataLength; index += 1)
                 {
-                    this->microsecondsPerQuarterNote +=
-                        this->microsecondsPerQuarterNote * 0x100 + *track->cursor;
+                    *reinterpret_cast<u32 *>(&this->microsecondsPerQuarterNote) +=
+                        static_cast<u32>(this->microsecondsPerQuarterNote) * 0x100u +
+                        static_cast<u32>(*track->cursor);
                     track->cursor += 1;
                 }
                 beatsPerMinute = 60000000 / this->microsecondsPerQuarterNote;
@@ -713,7 +716,9 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
     }
     track->runningStatus = statusByte;
     nextEventDeltaTicks = MidiOutput::SkipVariableLength(&track->cursor);
-    track->nextEventTick = track->nextEventTick + nextEventDeltaTicks;
+    track->nextEventTick = static_cast<i32>(
+        static_cast<u32>(track->nextEventTick) +
+        static_cast<u32>(nextEventDeltaTicks));
 }
 
 void MidiOutput::FadeOutSetVolume(i32 volumeOffset)

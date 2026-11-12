@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 MIDI word checkpoint:** long-message ring cursor,
+  tempo DWORD, signed next-event tick and fade-time word now use
+  native i386 wrap. A scoped MIDI VC7.1 replay preserves 32/32 exact
+  owners, 4,270 bytes and 132 original-bound fields; independent
+  same-carrier proof includes the extra one-byte timer virtual owner
+  (33/33, 4,271 bytes). 23 compiler-private labels PE/COFF-proven.
 - **2026-11-12 Title Options checkpoint:** three signed menu
   state/frame counters and four live selected-VM script indices now
   use native DWORD arithmetic. OnUpdateOptions (2,045 bytes) and
