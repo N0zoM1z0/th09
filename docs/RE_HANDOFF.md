@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 SoundPlayer command checkpoint:** five BGM
+  command-step increments, one retry decrement and the SFX pan
+  mean's accumulator now use explicit native i386 DWORD arithmetic.
+  Eight VC7.1 carriers preserve 20/20 exact owners, 5,400 bytes
+  and 184 relocation fields with nine PE/COFF-proven local labels.
 - **2026-11-12 ANM script checkpoint:** JmpDec's live
   signed script operand and scriptsExecutedThisFrame10 now use
   native modulo-32 DWORD arithmetic. Both VC7.1 carriers preserve

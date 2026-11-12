@@ -731,6 +731,8 @@ int SoundPlayer::ProcessQueues()
 loop:
     queuePhase = FALSE;
 
+    // The live signed BGM command step is a native i386 DWORD state word.
+    // Advance/retry it modulo 2^32, retaining original state transitions.
     switch (commandCursor->opcode)
     {
     case SOUNDPLAYER_COMMAND_SET_VOLUME:
@@ -743,7 +745,7 @@ loop:
         {
             if (commandCursor->step != 0)
             {
-                commandCursor->step++;
+                ++*reinterpret_cast<unsigned int *>(&commandCursor->step);
                 break;
             }
             this->StopBGM();
@@ -824,7 +826,7 @@ loop:
         {
             goto next_command;
         }
-        commandCursor->step++;
+        ++*reinterpret_cast<unsigned int *>(&commandCursor->step);
         break;
 
     case SOUNDPLAYER_COMMAND_START_LOADED_BGM:
@@ -850,7 +852,7 @@ loop:
             if (WaitForSingleObject(this->bgmThreadHandle, 256))
             {
                 PostThreadMessageA(this->bgmThreadId, WM_QUIT, 0, 0);
-                commandCursor->step--;
+                --*reinterpret_cast<unsigned int *>(&commandCursor->step);
             }
             else
             {
@@ -872,7 +874,7 @@ loop:
         {
             goto next_command;
         }
-        commandCursor->step++;
+        ++*reinterpret_cast<unsigned int *>(&commandCursor->step);
         break;
 
     case SOUNDPLAYER_COMMAND_STOP_BGM:
@@ -886,7 +888,7 @@ loop:
         {
             goto next_command;
         }
-        commandCursor->step++;
+        ++*reinterpret_cast<unsigned int *>(&commandCursor->step);
         break;
 
     case SOUNDPLAYER_COMMAND_FADE_OUT:
@@ -918,7 +920,7 @@ loop:
         {
             if (commandCursor->step != 0)
             {
-                commandCursor->step++;
+                ++*reinterpret_cast<unsigned int *>(&commandCursor->step);
                 break;
             }
             this->StopBGM();
@@ -959,7 +961,7 @@ loop:
 
         averagedPan = 0;
         for (j = 0; j < TH09_SOUND_NATIVE_COUNT(queuePhase); j++)
-            averagedPan += TH09_SOUND_NATIVE_PAN(queuePhase, j);
+            averagedPan = static_cast<int>(static_cast<unsigned int>(averagedPan) + TH09_SOUND_NATIVE_PAN(queuePhase, j));
         averagedPan /= TH09_SOUND_NATIVE_COUNT(queuePhase);
         TH09_SOUND_NATIVE_COUNT(queuePhase) = 0;
 

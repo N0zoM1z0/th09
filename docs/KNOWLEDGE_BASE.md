@@ -1163,6 +1163,26 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 SoundPlayer queue commands and pan accumulator DWORDs
+
+The full SoundPlayer::ProcessQueues dispatch executes BGM preload,
+load, stop, and release steps from real signed commandQueue.step
+words. Five native increments and one retry decrement now write the
+same original signed step storage as unsigned 32-bit i386 DWORDs,
+so stage progression/retry wraps instead of depending on signed
+C++ overflow. The accumulated SFX pan value likewise uses explicit
+unsigned 32-bit addition before the existing signed mean and pan
+publication. Each live command, pan word and count is still reread
+at its original source point, with no new guard or helper callback.
+
+The eight actual pinned VC7.1 SoundPlayer carriers cold-replayed
+**20/20 existing exact owners, 5,400 complete physical original PE
+bytes and 184 relocation fields**, including the 1,456-byte
+ProcessQueues boss and its real SFX/BGM leaves. Nine compiler-private
+jump labels changed names; their actual same-section COFF definitions
+and unchanged PE operands were independently proved before the
+manifest symbol spellings were updated. No new exact owner is claimed.
+
 ## 2026-11-12 ANM script jump-decrement and frame word wrap
 
 The full original-bound AnmManager::ExecuteScript owns the ANM
