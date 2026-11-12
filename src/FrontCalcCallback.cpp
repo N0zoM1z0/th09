@@ -67,7 +67,8 @@ int __fastcall FrontCalcCallback(void *frontArg)
         {
             front->frontAnm08->ExecuteAnmIdx(&front->vm106B4, 87);
             front->frontAnm08->SetSprite(
-                &front->vm106B4, g_FrontDynamicSprite + 82);
+                &front->vm106B4,
+                static_cast<int>(static_cast<unsigned int>(g_FrontDynamicSprite) + 82u));
         }
     }
 
@@ -86,7 +87,7 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 for (int vertex = 0; vertex < 5; ++vertex)
                     FRONT_NATIVE_VERTEX(front, side, vertex).diffuse = 0xFFFFFFFFUL;
             }
-            --FRONT_NATIVE_TIMER(front, side);
+            --*reinterpret_cast<unsigned int *>(&FRONT_NATIVE_TIMER(front, side));
         }
         else
         {
@@ -200,7 +201,8 @@ int __fastcall FrontCalcCallback(void *frontArg)
             ScreenEffect::RegisterChain(
                 SCREEN_EFFECT_SHAKE,
                 60, 16, 0, 0, 35,
-                1 - front->transitionSide10964);
+                static_cast<int>(
+                    1u - static_cast<unsigned int>(front->transitionSide10964)));
             ScreenEffect::RegisterChain(
                 SCREEN_EFFECT_SHAKE,
                 60, 4, 0, 0, 35,
@@ -263,19 +265,26 @@ int __fastcall FrontCalcCallback(void *frontArg)
                     (g_GameManager.flags & 0x4000u) != 0)
                 {
                     g_SelectedOpponentParameter =
-                        FRONT_NATIVE_RESULT(g_TransitionResultTableAlt, 45 * g_TitleNameTableIndex + 5 * g_GameStageValue);
+                        FRONT_NATIVE_RESULT(g_TransitionResultTableAlt,
+                            static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
+                                             5u * static_cast<unsigned int>(g_GameStageValue)));
                 }
                 else
                 {
                     g_SelectedOpponentParameter =
-                        FRONT_NATIVE_RESULT(g_TransitionResultTable, 45 * g_TitleNameTableIndex + 5 * g_GameStageValue + modeValue);
+                        FRONT_NATIVE_RESULT(g_TransitionResultTable,
+                            static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
+                                             5u * static_cast<unsigned int>(g_GameStageValue) +
+                                             static_cast<unsigned int>(modeValue)));
                 }
             }
         }
 
     }
 
-    ++front->transitionFrame10960;
+    // The original transition frame advances as an i386 DWORD, with a
+    // signed state comparison performed before the increment.
+    ++*reinterpret_cast<unsigned int *>(&front->transitionFrame10960);
     return 1;
 }
 

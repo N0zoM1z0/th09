@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 FrontCalc transition checkpoint:** panel timers,
+  front frame, dynamic sprite ID, opposing side and native
+  stage/result-table expressions now wrap as real i386 DWORDs.
+  The complete 1,491-byte FrontCalcCallback passes one scoped VC7.1
+  carrier with all 107 bound original relocations and owner bytes.
 - **2026-11-12 MIDI word checkpoint:** long-message ring cursor,
   tempo DWORD, signed next-event tick and fade-time word now use
   native i386 wrap. A scoped MIDI VC7.1 replay preserves 32/32 exact

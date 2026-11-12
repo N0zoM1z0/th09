@@ -1163,6 +1163,26 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Front transition and result-index native DWORD arithmetic
+
+The complete FrontCalcCallback controls the front overlay ANM VMs,
+two panel color/timer rows, scene transitions, popup effect triggers
+and original result-table publication. Six source expressions now
+explicitly restore native modulo-32 i386 operations: dynamic
+sprite ID + 82, each live signed panel-timer decrement, opposing
+side subtraction, both 45*title + 5*stage result-table indices
+(with the live mode term on the second), and the final signed
+transitionFrame10960 increment. Signed branch guards and all target
+calls remain in the original order; the existing exact native result
+tables and GameManager side allocation are not replaced.
+
+The one pinned VC7.1 original-bound FrontCalcCallback carrier
+cold-replayed **1/1 existing exact owner, 1,491 complete physical
+bytes and 107 relocation fields**. No manifest label rebindings
+or new exactness credit were needed; the changed C++ avoids
+overflow undefined behavior but retains the original wire-word
+results and every physical instruction.
+
 ## 2026-11-12 MIDI timer, SysEx and tempo native DWORD arithmetic
 
 The full MIDI ProcessMsg switch/dispatch owner handles file-backed
