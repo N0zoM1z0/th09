@@ -1,5 +1,6 @@
 #include "PlayerDamageView.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "PlayerNativeCollisionSlots.hpp"
 #include "SoundPlayer.hpp"
 #include "EffectManager.hpp"
 #include "AnmManager.hpp"
@@ -186,8 +187,7 @@ int PlayerLifecycleView::CalcDamageToEnemy(
                 static_cast<unsigned int>((*slot)->value28);
 
 nextRegion:
-        slot = reinterpret_cast<PlayerCollisionRegionCreateRegionView **>(
-            reinterpret_cast<unsigned int>(slot) + sizeof(*slot));
+        slot = TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot);
     }
 
     return damage;

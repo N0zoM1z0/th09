@@ -3437,6 +3437,31 @@ owners, 2,965 original PE bytes and 234 relocation fields**. No new
 exact-function or whole Windows product/runtime credit follows; this
 is native wire-pointer and integer-source fidelity in both large callbacks.
 
+## 2026-11-12 Shared native Player active collision-region slot cursor
+
+The original `PlayerLifecycleView` allocation holds an `activeB100` chain
+of live `PlayerCollisionRegionCreateRegionView*` words, consumed by two
+independent collision calculations. The exact **996-byte
+`CalcDamageToEnemy`** and the nonexact **862-byte target
+`CheckBulletCollision`** now share `PlayerNativeCollisionSlots.hpp`, a
+single lexical `TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot)` lvalue that
+advances the genuine pointer slot by its 4-byte native i386 stride.
+This preserves repeated live region dereferences, existing signed gates,
+circular/rotated AABB tests and direct reward/effect calls; no array copy,
+bounds check, alternate list owner, pointer cache or new function boundary
+was introduced. The source-recovered address is the actual Player-owned
+chain, not a second projected collision-region array.
+
+Four affected pinned VC7.1 compiler profiles replayed **7/7 existing
+exact canonical functions, 2,271 complete original PE bytes and all 53
+relocation operands**, including CalcDamageToEnemy and the Graze, laser,
+item and query support leaves. The separately reconstructed
+`CheckBulletCollision` was also rebuilt: it retained its prior
+**849-byte candidate vs 862-byte original, 26 relocations, 12 ordered
+calls and 32 vs 33 CFG blocks**, with no exactness credit and no regression
+(13 missing bytes, 799 unequal positions). No complete Windows runtime or
+newly exact function is claimed.
+
 ## 2026-11-12 Shared physical Title replay record addressing in both renderers
 
 The independent `TitleScreenView::DrawReplaySave` and

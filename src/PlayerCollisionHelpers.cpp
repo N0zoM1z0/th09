@@ -2,6 +2,7 @@
 #include "Supervisor.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "PlayerNativeCollisionSlots.hpp"
 #include "BulletManager.hpp"
 #include "EffectManager.hpp"
 #include "RngRuntimeLeaves.hpp"
@@ -39,8 +40,7 @@ int PlayerLifecycleView::CheckBulletCollision(
     // Original i386 walks the actual active-region pointer words by native
     // modulo-32 byte strides, preserving every live null test and lookup.
     for (; *slot != NULL;
-         slot = reinterpret_cast<PlayerCollisionRegionCreateRegionView **>(
-            reinterpret_cast<unsigned int>(slot) + sizeof(*slot)))
+         slot = TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot))
     {
         PlayerCollisionRegionCreateRegionView *region = *slot;
         const int regionType = region->type38;
