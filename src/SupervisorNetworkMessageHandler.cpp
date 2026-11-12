@@ -37,6 +37,14 @@ extern int g_NetworkHandshakeToken;
 extern unsigned int g_NetworkLastReceiveTime;
 extern unsigned int g_NetworkCurrentTime;
 
+// DirectPlay local/remote sides select the two actual peer ID words.
+// The retail signed side expression is evaluated as an i386 DWORD and
+// then scaled by the native four-byte pointer/ID row width.
+#define TH09_NETWORK_NATIVE_PEER_ID(index) \
+    (*reinterpret_cast<DPNID *>( \
+        reinterpret_cast<unsigned int>(&this->peerIds[0]) + \
+        static_cast<unsigned int>(index) * sizeof(this->peerIds[0])))
+
 int SupervisorNetworkMessageView::HandleMessage(void *userContext, unsigned long messageId, void *message)
 {
     NetworkFramePacketView *packet;
@@ -69,7 +77,8 @@ int SupervisorNetworkMessageView::HandleMessage(void *userContext, unsigned long
         {
             if (packet->side == this->localSide)
             {
-                this->localSide = 1 - packet->side;
+                this->localSide = static_cast<int>(
+                    1u - static_cast<unsigned int>(packet->side));
             }
             if (this->localSide == 1)
             {
@@ -80,8 +89,8 @@ int SupervisorNetworkMessageView::HandleMessage(void *userContext, unsigned long
                 {
                     for (i = 0; i < 60 / this->syncRate - 1; i++)
                     {
-                        g_Supervisor.InsertReceivedFrame(0, i - 9998, 0, g_ReplayRng.GetSeed());
-                        g_Supervisor.InsertReceivedFrame(1, i - 9998, 0, g_ReplayRng.GetSeed());
+                        g_Supervisor.InsertReceivedFrame(0, static_cast<int>(static_cast<unsigned int>(i) - 9998u), 0, g_ReplayRng.GetSeed());
+                        g_Supervisor.InsertReceivedFrame(1, static_cast<int>(static_cast<unsigned int>(i) - 9998u), 0, g_ReplayRng.GetSeed());
                     }
                 }
             }
@@ -105,11 +114,12 @@ int SupervisorNetworkMessageView::HandleMessage(void *userContext, unsigned long
         }
         if (info->dwPlayerFlags & DPNPLAYER_LOCAL)
         {
-            this->peerIds[this->localSide] = ((DPNMSG_CREATE_PLAYER *)message)->dpnidPlayer;
+            TH09_NETWORK_NATIVE_PEER_ID(this->localSide) = ((DPNMSG_CREATE_PLAYER *)message)->dpnidPlayer;
         }
         else
         {
-            this->peerIds[1 - this->localSide] = ((DPNMSG_CREATE_PLAYER *)message)->dpnidPlayer;
+            TH09_NETWORK_NATIVE_PEER_ID(
+                static_cast<int>(1u - static_cast<unsigned int>(this->localSide))) = ((DPNMSG_CREATE_PLAYER *)message)->dpnidPlayer;
         }
         delete info;
         g_Supervisor.LeaveCriticalSectionWrapper(4);
@@ -143,3 +153,5 @@ int SupervisorNetworkMessageView::HandleMessage(void *userContext, unsigned long
     }
     return 0;
 }
+
+#undef TH09_NETWORK_NATIVE_PEER_ID

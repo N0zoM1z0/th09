@@ -79,6 +79,14 @@ Git retains earlier source revisions.
   The full 2,381-byte HUD boss and 14 helper owners replay
   15/15 exact, 4,087 original bytes and 176 relocations
   in one focused VC7.1 carrier.
+- **2026-11-12 Network HandleMessage checkpoint:**
+  actual two-word DirectPlay peer slots, side inversion and
+  two predicted handshake frame IDs now use native Win32
+  DWORD addresses/arithmetic. The focused VC7.1 original
+  comparison protects the full 808-byte HandleMessage
+  owner and all 46 relocations; six compiler-private labels
+  are independently proven against original PE/COFF.
+  The separate network-service boss remains nonexact.
 - **2026-11-12 MIDI loop track checkpoint:** the native
   MIDI loop-start/end event handlers now traverse each
   allocated 0x20-byte track by real i386 DWORD byte

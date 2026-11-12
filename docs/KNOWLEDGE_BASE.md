@@ -1346,6 +1346,33 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 Network HandleMessage peer slots and prediction frame words
+
+The original complete SupervisorNetworkMessageView::HandleMessage
+dispatches DirectPlay receive, join/host handshake and peer
+creation/deletion callbacks. The real peerIds table contains two
+native four-byte DPNID entries. Both the local-side index and
+one-minus-the-live-local-side index now resolve their original
+i386 unsigned base + uint32(side)*four-byte slot addresses
+without a C++ array-bound assumption. The handshake's
+one-minus-packet-side calculation and the two predicted
+frame IDs (loopIndex-9998) likewise preserve the original
+signed results of native wrapping DWORD subtraction.
+The actual DirectPlay identities, received frame buffers,
+original InsertReceivedFrame/RNG calls and packet state
+branches remain unchanged. No new network validation,
+packet boundary guard, array or synthesized callback is added.
+
+The single affected pinned VC7.1 SupervisorNetworkMessageHandler
+carrier cold-replayed **1/1 exact complete 808-byte original PE
+owner, all 46 target-bound relocation fields**, including
+the complete original jump-table tail. Six compiler-private
+jump/switch labels were proved from actual same-section COFF
+definitions, unchanged original PE destinations and full
+owner bytes before rebinding only their manifest spellings.
+This is an already-exact source owner and does not establish
+the separate nonexact SupervisorServiceUpdate or game runtime.
+
 ## 2026-11-12 MIDI ProcessMsg loop checkpoint and reset track cursors
 
 The original 1,574-byte MidiOutput::ProcessMsg dispatcher handles
