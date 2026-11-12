@@ -3502,6 +3502,26 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 Enemy 1,758-byte draw boss authentic alpha-byte receivers
+
+The retained **1,758-byte** `EnemyManagerDrawImpl` controls both high-/low-
+priority Enemy drawing callbacks, including the two different trail
+rendering paths. Eight saved-VM/vertex color alpha reads and writes now
+share one native lvalue accessing byte three of the **actual 32-bit
+color word** at the original Win32 address `uint32(&color)+3`. These are
+three distinct real storage owners: live primary ANM VM `color1`, the
+local `savedColor`, and the true 0x1C-byte trail vertices' `diffuse10`.
+The prior `reinterpret_cast<u8 *>(&color)[3]` imposed an array fiction
+on a scalar subobject. The new formulation keeps every original live
+read, assignment, fade formula and VM/vertex ownership without additional
+buffers, bounds guards, changes to the float trail math or callable code.
+
+The pinned VC7.1 one-carrier scoped replay verified **all 3 canonical
+EnemyManagerDraw functions, 1,831 complete original PE bytes and their
+relocation fields**, including all 1,758 bytes of the draw boss plus
+both high- and low-priority wrappers. This is stronger native C++ source
+semantics, not additional exact-function or Windows runtime credit.
+
 ## 2026-11-12 GameManager gameplay setup physical side and focus slots
 
 The complete **1,689-byte GameplaySetupThread** initializes two playable

@@ -111,6 +111,13 @@ static inline const EnemyTrailSampleView &EnemyDrawTrailSampleNative(
         static_cast<unsigned int>(index) * sizeof(enemy->trailSamples33E8[0]));
 }
 
+// The fade alpha is byte three of the *real* native 32-bit color DWORD,
+// both in the live VM and in its independently saved/vertex color words.
+// Form that original Win32 byte address without a fake unsigned-char array.
+#define TH09_ENEMY_NATIVE_ALPHA(word) \
+    (*reinterpret_cast<unsigned char *>( \
+        reinterpret_cast<unsigned int>(&(word)) + 3u))
+
 // The draw groups and secondary ANM VMs are genuine EnemyManager-owned
 // arrays; both trail vertex records and ANM VMs use their physical
 // i386 DWORD record widths, rather than unrelated C++ subarray bounds.
@@ -184,9 +191,9 @@ static int EnemyManagerDrawImpl(
                                     static_cast<float>(enemy->trailHistoryLength53A2);
 
                         if ((enemy->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
-                            reinterpret_cast<unsigned char *>(&enemy->primaryAnmVm0008.color1)[3] =
-                                reinterpret_cast<unsigned char *>(&savedColor)[3] -
-                                reinterpret_cast<unsigned char *>(&savedColor)[3] * k /
+                            TH09_ENEMY_NATIVE_ALPHA(enemy->primaryAnmVm0008.color1) =
+                                TH09_ENEMY_NATIVE_ALPHA(savedColor) -
+                                TH09_ENEMY_NATIVE_ALPHA(savedColor) * k /
                                     enemy->trailHistoryLength53A2;
 
                         enemy->primaryAnmVm0008.pos =
@@ -306,12 +313,12 @@ static int EnemyManagerDrawImpl(
                             vertices[0].diffuse10 = vertices[1].diffuse10;
                             if ((enemy->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
                             {
-                                reinterpret_cast<unsigned char *>(&vertices[1].diffuse10)[3] =
-                                    reinterpret_cast<unsigned char *>(&savedColor)[3] -
-                                    reinterpret_cast<unsigned char *>(&savedColor)[3] * k /
+                                TH09_ENEMY_NATIVE_ALPHA(vertices[1].diffuse10) =
+                                    TH09_ENEMY_NATIVE_ALPHA(savedColor) -
+                                    TH09_ENEMY_NATIVE_ALPHA(savedColor) * k /
                                         enemy->trailHistoryLength53A2;
-                                reinterpret_cast<unsigned char *>(&vertices[0].diffuse10)[3] =
-                                    reinterpret_cast<unsigned char *>(&vertices[1].diffuse10)[3];
+                                TH09_ENEMY_NATIVE_ALPHA(vertices[0].diffuse10) =
+                                    TH09_ENEMY_NATIVE_ALPHA(vertices[1].diffuse10);
                             }
 
                             vertices[0].position00 = EnemyDrawTrailSampleNative(enemy, k).position00;
@@ -401,3 +408,5 @@ int __fastcall EnemyManagerView::OnDrawLowPrio(EnemyManagerView *enemyManager)
     g_Supervisor.ConfigureScreenViewport(enemyManager->sideIndex31C);
     return EnemyManagerDrawImpl(enemyManager, EnemyNativeTrailRenderCapacity::DrawGroupCount / 2, EnemyNativeTrailRenderCapacity::DrawGroupCount);
 }
+
+#undef TH09_ENEMY_NATIVE_ALPHA
