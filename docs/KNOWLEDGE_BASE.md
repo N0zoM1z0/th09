@@ -3502,6 +3502,30 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 Player selector's authentic 0x0C-byte stack collision vectors
+
+`PlayerUpdateSelectorState` is one **3,238-byte** gameplay selector boss.
+Its three temporary collision half-sizes are actually constructed on the
+stack as `PlayerConstructedVector3View[3]`, each 0x0C bytes. The existing
+`PlayerPositionView*` cast used for collision testing was incorrectly
+advanced or indexed as if it owned a *separate* C++ array of this second
+type. The two dynamic collision-query arguments now use an inlined native
+Win32 `uint32(&constructedHalfSizes[0]) + uint32(index)*0x0C` lvalue;
+the matching grid cursor also advances by an unsigned native 0x0C-byte
+address. The real three-vector allocation, exact Float3 geometry, the
+independent float radii array, all collision tests/branches and retry
+ordering remain unchanged. No bounds cap, side-buffer or new callee is
+introduced.
+
+The pinned VC7.1 profiles replayed **2/2 existing exact PlayerGameplayState
+owners, 3,650 full original PE bytes and 154 relocation fields**. The
+large selector itself still matched all 3,238 original bytes and its
+independent `ResolvePatternOffset` leaf stayed exact. Two compiler-private
+`$L` spellings in that leaf were separately bound to real same-section
+COFF definitions and unchanged original PE addresses, with all complete
+bytes verified before the manifest name update. This improves original
+native stack ownership but grants no new exact function or product credit.
+
 ## 2026-11-12 Title native character table and start-menu embedded VM addresses
 
 The original Title owner has two *distinct adjacent* signed character

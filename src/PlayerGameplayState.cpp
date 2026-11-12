@@ -270,6 +270,14 @@ typedef char PlayerSelectorNativeOpponentAndCollisionCounters[
     (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(history)[0]) + \
         static_cast<unsigned int>(index) * sizeof((history)[0]) - sizeof((history)[0])))
 
+// The three collision half-sizes are native 0x0C-byte *constructed*
+// Player vectors in this stack frame. The separately projected PlayerPosition
+// view must not impose an unrelated C++ PlayerPositionView[] array bound.
+#define TH09_PATTERN_NATIVE_HALF_SIZE(index) \
+    (*reinterpret_cast<PlayerPositionView *>( \
+        reinterpret_cast<unsigned int>(&constructedHalfSizes[0]) + \
+        static_cast<unsigned int>(index) * sizeof(constructedHalfSizes[0])))
+
 void __fastcall PlayerUpdateSelectorState(void *state)
 {
     PlayerGameplayHeaderView *header =
@@ -419,7 +427,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
                     else if (candidate.y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
                         candidate.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
                 }
-                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, halfSizes[halfSizeIndex], radii[halfSizeIndex]) != NULL))
+                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, TH09_PATTERN_NATIVE_HALF_SIZE(halfSizeIndex), radii[halfSizeIndex]) != NULL))
                     goto pattern_selected;
             }
         }
@@ -430,7 +438,10 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             PlayerPositionView *gridHalfSize = halfSizes;
             float *gridRadius = radii;
             for (; halfSizeIndex < 3;
-                ++halfSizeIndex, ++gridRadius, ++gridHalfSize)
+                ++halfSizeIndex, ++gridRadius,
+                gridHalfSize = reinterpret_cast<PlayerPositionView *>(
+                    reinterpret_cast<unsigned int>(gridHalfSize) +
+                    sizeof(constructedHalfSizes[0])))
             {
                 for (int patternIndex = halfSizeIndex; patternIndex < 10; ++patternIndex)
                 {
@@ -536,7 +547,7 @@ pattern_selected:
                 int testHalfSize = halfSizeIndex < 2
                 ? halfSizeIndex + 1
                     : halfSizeIndex;
-                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, halfSizes[testHalfSize], radii[testHalfSize]) != NULL))
+                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, TH09_PATTERN_NATIVE_HALF_SIZE(testHalfSize), radii[testHalfSize]) != NULL))
                 {
                     selectedPattern = candidatePattern;
                     header->retryCooldown50 = 8;
@@ -712,3 +723,5 @@ pattern_selected:
         header->frameTimer00++;
     }
 }
+
+#undef TH09_PATTERN_NATIVE_HALF_SIZE
