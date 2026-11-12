@@ -12,8 +12,11 @@ void AsciiManager::AddString(Float3 *position, const char *string)
         return;
     }
 
-    nextString = &this->strings[this->numStrings];
-    this->numStrings++;
+    // The signed queue count selects one of the real 0x60-byte records.
+    nextString = reinterpret_cast<AsciiManagerString *>(
+        reinterpret_cast<unsigned int>(&this->strings[0]) +
+        static_cast<unsigned int>(this->numStrings) * sizeof(this->strings[0]));
+    ++*reinterpret_cast<unsigned int *>(&this->numStrings);
 
     strcpy(nextString->text, string);
     nextString->position = *position;

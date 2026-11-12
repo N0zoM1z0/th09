@@ -1240,6 +1240,38 @@ SupervisorDrawMain, three 62-byte DrawMainLeaves in total, and the
 71-byte SupervisorDrawLoading callback. No compiler-private label
 rebinding or newly exact function/native runtime claim was involved.
 
+## 2026-11-12 ASCII text queue and score popup native records
+
+AsciiManager owns a real 256-entry string queue at its original
++0x2254-relative allocation, each AsciiManagerString 0x60 bytes.
+The complete DrawStrings owner now advances its live string-record
+cursor by one native unsigned i386 0x60-byte stride and scans
+each NUL-terminated input text byte with the same native
+32-bit byte-address arithmetic. AddString resolves the
+real queue write lvalue from the signed numStrings field as
+base + uint32(index)*0x60, then increments that live
+count through an unsigned 32-bit DWORD. The original text
+copy, scale, viewport switch, draw and call chronology is
+unchanged; no new buffer or bound guard is introduced.
+
+CreateScorePopup likewise selects the real two-by-100 array
+of 0x38-byte AsciiManagerPopup records at +0xB240 using
+native 32-bit side*row-width plus write-index*record-width
+addresses. Its signed nextScorePopupIndex increments with
+the original modulo-32 DWORD behavior before the existing
+wrap-at-100 logic; the popup score formatting and timer
+initialization remain intact.
+
+The three separately affected VC7.1 carriers replayed
+**4/4 existing exact functions, 680 complete original PE
+bytes and 15 relocation fields**: DrawStrings (341 bytes
+and 12 fields), AddString/AddFormatText (185 bytes and
+two fields), and CreateScorePopup (154 bytes and one
+field). No compiler-private labels or newly exact
+functions were needed. This restores source fidelity
+to actual text/popup storage rather than proving
+native Windows runtime closure.
+
 ## 2026-11-12 Etama bullet, laser and live pool-count native traversal
 
 The full EtamaController::OnUpdate and SpawnSingleBullet owners

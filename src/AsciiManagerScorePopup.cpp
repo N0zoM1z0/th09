@@ -9,7 +9,14 @@ void AsciiManager::CreateScorePopup(int playerIndex, Float3 *position, int numbe
         this->nextScorePopupIndex = 0;
     }
 
-    popup = &this->scorePopups[playerIndex][this->nextScorePopupIndex];
+    // The real AsciiManager owns two rows of 100 live 0x38-byte
+    // popup records. The side ID and rolling write index form original
+    // unsigned i386 DWORD strides without an extra C++ bounds gate.
+    popup = reinterpret_cast<AsciiManagerPopup *>(
+        reinterpret_cast<unsigned int>(&this->scorePopups[0][0]) +
+        static_cast<unsigned int>(playerIndex) * sizeof(this->scorePopups[0]) +
+        static_cast<unsigned int>(this->nextScorePopupIndex) *
+            sizeof(this->scorePopups[0][0]));
     popup->inUse = 1;
 
     characterCount = 0;
@@ -33,5 +40,5 @@ void AsciiManager::CreateScorePopup(int playerIndex, Float3 *position, int numbe
     popup->color = color;
     popup->timer = 0;
     popup->position = *position;
-    this->nextScorePopupIndex++;
+    ++*reinterpret_cast<unsigned int *>(&this->nextScorePopupIndex);
 }

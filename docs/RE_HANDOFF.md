@@ -46,6 +46,12 @@ Git retains earlier source revisions.
   VC7.1 carriers preserve 5/5 exact owners, 445 bytes,
   26 original-bound relocations, including DrawMain and
   its three small leaf helpers.
+- **2026-11-12 ASCII text and popup checkpoint:** genuine
+  256-by-0x60 ASCII text queue records, NUL-terminated text
+  byte cursors, and two-by-100 0x38-byte score popup
+  records now use native DWORD addresses. Three local
+  VC7.1 carriers protect 4/4 exact owners, 680 physical
+  bytes and 15 original-bound relocations.
 - **2026-11-12 Etama bullet/laser pool checkpoint:** real
   Bullet record cursors in primary/secondary spawning and
   the full OnUpdate loop, Laser cursor and three signed live
