@@ -655,13 +655,19 @@ void AnmManager::ReleaseAnm(int anmIdx)
     if (AnmLoadSlot(this, anmIdx)->loaded.rawData04 != NULL)
     {
         AnmManagerLoadSlotView *slot = AnmLoadSlot(this, anmIdx);
-        for (int i = 0; i < slot->loaded.totalEntries08; i++)
-            this->ReleaseAnmEntry(&slot->loaded.textures14[i]);
+        for (int i = 0; i < slot->loaded.totalEntries08;
+             ++*reinterpret_cast<unsigned int *>(&i))
+            this->ReleaseAnmEntry(&NativeAnmTextureEntry(&slot->loaded, i));
         g_ZunMemory.Free(slot->loaded.textures14);
         g_ZunMemory.Free(slot->loaded.sprites0C);
         g_ZunMemory.Free(slot->loaded.scripts10);
         g_ZunMemory.Free(slot->loaded.rawData04);
-        memset(&slot->loaded, 0, 0x120);
+        // The original 0x120-byte clearing window begins at the real
+        // manager slot's +0x24 loaded-record address. It deliberately
+        // spans beyond a standalone 0x1C-byte AnmLoaded C++ subobject.
+        memset(reinterpret_cast<unsigned char *>(
+            reinterpret_cast<unsigned int>(slot) +
+            offsetof(AnmManagerLoadSlotView, loaded)), 0, 0x120);
     }
 }
 

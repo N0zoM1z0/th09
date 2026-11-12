@@ -3327,6 +3327,28 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 ANM release of true texture entries and 0x120-byte clearing window
+
+The exact 163-byte `AnmManager::ReleaseAnm` is a game resource callback
+on the authentic 0x120-byte manager load-slot allocation, not a duplicate
+ANM resource-table object. Its runtime-counted 0x0C-byte texture entries
+now reuse `NativeAnmTextureEntry(&slot->loaded, i)`, the same real
+texture backing pointer and unsigned Win32 byte stride used by the loader.
+The signed texture index advances as a real wrapping i386 DWORD while
+retaining its original signed bound test and the ordered ReleaseAnmEntry
+calls. The original final `memset` deliberately starts at the slot's
+`+0x24` loaded-member address and clears **0x120 bytes**, not merely the
+0x1C-byte `AnmLoaded` subobject. Its pointer is now expressed from the
+full slot's native address + `offsetof(...,loaded)`, without shortening,
+clamping or redirecting this observed cross-subobject clearing range.
+All four original resource frees, null gate, and record ownership remain.
+
+The two affected pinned VC7.1 carriers passed local exact replay for
+**17/17 pre-existing exact owners, 3,258 complete original PE bytes and
+133 relocation fields**, including the loader's constructor and all
+16 ANM resource-load/release functions. No private label changes were
+required and no newly exact owner or whole-Windows runtime credit follows.
+
 ## 2026-11-12 Shared native SoundPlayer SFX paths and 0x08-byte volume rows
 
 `SoundPlayer::InitSoundBuffers` owns an exact 245-byte controller that loads
