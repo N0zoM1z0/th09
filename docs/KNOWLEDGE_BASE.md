@@ -3260,6 +3260,24 @@ their actual same-section COFF definitions, original PE operands and
 every complete physical owner. This preserves existing codegen exactness;
 the nonexact game functions and whole-product/runtime stages remain open.
 
+## 2026-11-12 SoundPlayer original SFX mapping-table receiver
+
+`SoundPlayer::InitSoundBuffers @ 0x0043EC80` duplicates 54 DirectSound
+buffers selected by the *signed* `bufferIdx` field of the actual 8-byte
+`g_SoundBufferIdxVol` records. The selected index is not the loop ordinal.
+Its native source now uses the same `NativeActiveSound` lvalue as `LoadSound`,
+computing `uint32(&soundBuffers[0]) + uint32(bufferIdx) * 4` rather than a
+potentially out-of-bounds C++ array subscript. The genuine mapping table,
+original live lookup, volume, `DuplicateSoundBuffer` receiver and all calls
+remain untouched. The accessor definition was moved before its new caller;
+no duplicate buffer storage or index guard was introduced.
+
+Pinned VC7.1 proved the complete **245/245-byte InitSoundBuffers owner and
+all eight original-bound relocation fields**. The affected one-file scoped
+replay passed **all 20 canonical SoundPlayer owners / 5,400 physical bytes /
+184 fields in eight compiler carriers**. This improves native source semantics;
+there is no new exact-function or runtime-product claim.
+
 ## 2026-11-12 SoundPlayer file-backed WAV cursor and chunk word arithmetic
 
 SoundPlayer::LoadSound parses original RIFF/WAVE file data as an i386

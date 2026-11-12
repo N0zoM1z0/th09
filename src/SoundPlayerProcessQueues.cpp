@@ -146,6 +146,17 @@ int SoundPlayer::InitializeDSound(HWND gameWindow)
     return 0;
 }
 
+// Original i386 builds each active-sound slot address from the real 128
+// DirectSound pointers, using modulo-32 index*4 byte arithmetic. Do not
+// replace the six genuine live reads or add a new index guard.
+static __forceinline LPDIRECTSOUNDBUFFER &NativeActiveSound(
+    SoundPlayer *player, int index)
+{
+    return *reinterpret_cast<LPDIRECTSOUNDBUFFER *>(
+        reinterpret_cast<unsigned int>(&player->soundBuffers[0]) +
+        static_cast<unsigned int>(index) * sizeof(player->soundBuffers[0]));
+}
+
 int SoundPlayer::InitSoundBuffers()
 {
     int i;
@@ -171,7 +182,7 @@ int SoundPlayer::InitSoundBuffers()
     for (i = 0; i < sizeof(g_SoundBufferIdxVol) / sizeof(g_SoundBufferIdxVol[0]); ++i)
     {
         this->dsoundHdl->DuplicateSoundBuffer(
-            this->soundBuffers[g_SoundBufferIdxVol[i].bufferIdx],
+            NativeActiveSound(this, g_SoundBufferIdxVol[i].bufferIdx),
             &this->duplicateSoundBuffers[i]);
         this->duplicateSoundBuffers[i]->SetCurrentPosition(0);
         this->duplicateSoundBuffers[i]->SetVolume(g_SoundBufferIdxVol[i].volume);
@@ -181,16 +192,6 @@ int SoundPlayer::InitSoundBuffers()
 }
 
 
-// Original i386 builds each active-sound slot address from the real 128
-// DirectSound pointers, using modulo-32 index*4 byte arithmetic. Do not
-// replace the six genuine live reads or add a new index guard.
-static __forceinline LPDIRECTSOUNDBUFFER &NativeActiveSound(
-    SoundPlayer *player, int index)
-{
-    return *reinterpret_cast<LPDIRECTSOUNDBUFFER *>(
-        reinterpret_cast<unsigned int>(&player->soundBuffers[0]) +
-        static_cast<unsigned int>(index) * sizeof(player->soundBuffers[0]));
-}
 
 int SoundPlayer::LoadSound(int index, char *path)
 {
