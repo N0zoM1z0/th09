@@ -24,6 +24,14 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 MIDI parser checkpoint:** the real file-backed SMF
+  header, chunk and variable-length input cursors now use native
+  32-bit byte addresses, including authentic +2/+4 field reads.
+  The one MIDI VC7.1 carrier protects 32/32 exact units,
+  4,270 bytes and 132 original-bound relocations; independent
+  same-object proof covers 33/33 physical owners including the
+  one-byte virtual timer thunk. All 23 changed private labels
+  are PE/COFF-proven.
 - **2026-11-12 Player movement checkpoint:** the genuine
   Player +0x1B88/+0x1B8C position x/y members now replace
   cross-member float-pointer indexing while retaining the original

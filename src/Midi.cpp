@@ -207,7 +207,8 @@ u32 MidiOutput::SkipVariableLength(LPBYTE *curTrackDataCursor)
     do
     {
         tmp = **curTrackDataCursor;
-        *curTrackDataCursor = *curTrackDataCursor + 1;
+        *curTrackDataCursor = reinterpret_cast<LPBYTE>(
+            reinterpret_cast<u32>(*curTrackDataCursor) + 1u);
         length = length * 0x80 + (tmp & 0x7f);
     } while ((tmp & 0x80) != 0);
 
@@ -307,16 +308,21 @@ ZunResult MidiOutput::ParseFile(int fileIdx)
         return ZUN_ERROR;
     }
 
+    // MIDI input is a file-backed variable-length byte stream. The original
+    // i386 cursor additions wrap through a full DWORD; no C++ array-object
+    // pointer arithmetic or new file bounds gate is introduced.
     // Read midi header chunk
     // First, read the header len
     memcpy(&hdrRaw, currentCursor, 8);
 
     // Get a pointer to the end of the header chunk
-    currentCursor += sizeof(hdrRaw);
+    currentCursor = reinterpret_cast<LPBYTE>(
+        reinterpret_cast<u32>(currentCursor) + sizeof(hdrRaw));
     hdrLength = MidiOutput::Ntohl(*(u32 *)(&hdrRaw[4]));
 
     endOfHeaderPointer = currentCursor;
-    currentCursor += hdrLength;
+    currentCursor = reinterpret_cast<LPBYTE>(
+        reinterpret_cast<u32>(currentCursor) + static_cast<u32>(hdrLength));
 
     // Read the SMF format. Only three values are specified:
     //  0: the file contains a single multi-channel track
@@ -328,9 +334,11 @@ ZunResult MidiOutput::ParseFile(int fileIdx)
 
     // Read the divisions in this track. Note that this doesn't appear to support
     // "negative SMPTE format", which happens when the MSB is set.
-    this->ticksPerQuarterNote = MidiOutput::Ntohs(*(u16 *)(endOfHeaderPointer + 4));
+    this->ticksPerQuarterNote = MidiOutput::Ntohs(*(u16 *)(reinterpret_cast<LPBYTE>(
+        reinterpret_cast<u32>(endOfHeaderPointer) + 4u)));
     // Read the number of tracks in this midi file.
-    this->numTracks = MidiOutput::Ntohs(*(u16 *)(endOfHeaderPointer + 2));
+    this->numTracks = MidiOutput::Ntohs(*(u16 *)(reinterpret_cast<LPBYTE>(
+        reinterpret_cast<u32>(endOfHeaderPointer) + 2u)));
 
     // Allocate one runtime state record per track.
     this->tracks = (MidiTrack *)g_ZunMemory.Alloc(sizeof(MidiTrack) * this->numTracks, "midi");
@@ -338,17 +346,20 @@ ZunResult MidiOutput::ParseFile(int fileIdx)
     for (trackIdx = 0; trackIdx < this->numTracks; trackIdx += 1)
     {
         currentCursorTrack = currentCursor;
-        currentCursor += 8;
+        currentCursor = reinterpret_cast<LPBYTE>(
+            reinterpret_cast<u32>(currentCursor) + 8u);
 
         // Read a track (MTrk) chunk.
         //
         // First, read the length of the chunk
-        trackLength = MidiOutput::Ntohl(*(u32 *)&currentCursorTrack[4]);
+        trackLength = MidiOutput::Ntohl(*(u32 *)reinterpret_cast<LPBYTE>(
+            reinterpret_cast<u32>(currentCursorTrack) + 4u));
         TH09_MIDI_NATIVE_TRACK(trackIdx).dataSize = trackLength;
         TH09_MIDI_NATIVE_TRACK(trackIdx).data = (LPBYTE)g_ZunMemory.Alloc(trackLength, "midi");
         TH09_MIDI_NATIVE_TRACK(trackIdx).trackPlaying = TRUE;
         memcpy(TH09_MIDI_NATIVE_TRACK(trackIdx).data, currentCursor, trackLength);
-        currentCursor += trackLength;
+        currentCursor = reinterpret_cast<LPBYTE>(
+            reinterpret_cast<u32>(currentCursor) + static_cast<u32>(trackLength));
     }
     this->microsecondsPerQuarterNote = 1000000;
     this->activeFileIndex = fileIdx;

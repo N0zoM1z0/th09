@@ -1163,6 +1163,31 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 MIDI file-backed SMF parser and variable-length cursor words
+
+MidiOutput::ParseFile reads native SMF file data through a live byte cursor:
+the eight-byte header, variable-length header payload and each eight-byte
+MTrk prefix and variable-size track body. The maintained source now forms
+those four cursor advances through real unsigned modulo-32 i386 byte
+addresses. It also reads the authentic big-endian header fields at +2/+4
+and each track length word at +4 through that same native address arithmetic,
+without assuming a fixed C++ array object beyond the input pointer.
+MidiOutput::SkipVariableLength likewise advances the actual caller-owned
+byte cursor by one native DWORD byte address per variable-length chunk
+byte. No new null check, file bounds limit, MIDI allocation, read cache,
+or call-order change was added.
+
+The original-bound pinned VC7.1 MIDI carrier cold-replayed **32/32 exact
+units, 4,270 physical original bytes and 132 bound relocations**, including
+the 358-byte ParseFile, 32-byte SkipVariableLength and 1,574-byte
+ProcessMsg complete owner. A separate independent full-COFF proof also
+verified the adjacent one-byte virtual timer thunk: **33/33 physical
+owners, 4,271 bytes and 132 fields**. The 23 private switch/jump labels
+renumbered by the compiler were each proven against their actual
+same-section COFF definition and original PE target before only
+their manifest spelling was updated. Existing exactness is preserved,
+not newly granted; product/native/runtime closure is still open.
+
 ## 2026-11-12 Player movement native x/y position member accesses
 
 The 1,900-byte nonexact PlayerLifecycleView::UpdateMovementAndOptions
