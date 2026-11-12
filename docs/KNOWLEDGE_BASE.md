@@ -3327,6 +3327,26 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 SampleNetworkInput native keyboard and controller-mode byte lanes
+
+The **1,507-byte original-bound SampleNetworkInput** function scans WinMM
+and DirectInput keyboard state from the **same genuine 256-byte stack buffer**.
+Its two keyboard families use over a hundred independent scan-code reads;
+all now select bytes by native `uint32(&keyboardState[0])+uint32(key)` rather
+than treating unrelated input API metadata as an independent C++ array.
+The input source remains the exact GetKeyboardState/DirectInput GetDeviceState
+backing buffer, with no key filtering, new buffer or changed held/pressed
+state timing. Three separate branch selectors now share the real Supervisor
+GameConfiguration controller-assignment bytes at +0x43F/+0x440 through
+one physical native byte lvalue. The output remains the authentic
+three-record 0x8E-byte ReplayInputState allocation, with its original
+16-word repeat counters and signed short keys unchanged.
+
+The sole pinned VC7.1 compiler carrier reproduced **1/1 previously exact
+owner, 1,507 complete original PE bytes and all original relocations**, with
+the full branch graph, input calls and original keyboard/controller path
+ordering preserved. No additional exact-function or Windows product credit.
+
 ## 2026-11-12 Supervisor 517-byte FPS sampler native clock and stack float words
 
 The **517-byte original-bound `SupervisorCheckFps`** times the real

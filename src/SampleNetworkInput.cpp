@@ -54,8 +54,21 @@ typedef char SampleNetworkNativeSupervisorOwner[
 
 extern int g_WindowActivateWParam;
 
+// The WinMM and DirectInput branches both fill the same genuine 256-byte
+// stack keyboard state. Read each physical byte through its native Win32
+// address, preserving independent checks and scan-code source values.
+#define TH09_NETWORK_NATIVE_KEY(key) \
+    (*reinterpret_cast<const u8 *>( \
+        reinterpret_cast<unsigned int>(&keyboardState[0]) + \
+        static_cast<unsigned int>(key)))
+// Each physical controller assignment is one byte of the genuine
+// Supervisor GameConfiguration (+0x43F/+0x440), selected by a DWORD side.
+#define TH09_NETWORK_NATIVE_CONTROLLER_MODE(index) \
+    (*reinterpret_cast<const u8 *>( \
+        reinterpret_cast<unsigned int>(&g_Supervisor.config388.valueB7) + \
+        static_cast<unsigned int>(index)))
 #define KEYBOARD_KEY_PRESSED(button, key) \
-    ((keyboardState[(key)] & 0x80) ? (button) : 0)
+    ((TH09_NETWORK_NATIVE_KEY(key) & 0x80) ? (button) : 0)
 
 // The true three 0x8E-byte ReplayInputState records and two Supervisor
 // controller-mode bytes are selected by native i386 unsigned DWORD offsets.
@@ -94,9 +107,7 @@ short __fastcall SampleNetworkInput(int side)
             }
             else
             {
-                switch ((*reinterpret_cast<const u8 *>(
-                        reinterpret_cast<unsigned int>(&g_Supervisor.config388.valueB7) +
-                        static_cast<unsigned int>(side))))
+                switch (TH09_NETWORK_NATIVE_CONTROLLER_MODE(side))
                 {
                     case 2:
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, 'Z');
@@ -191,9 +202,7 @@ short __fastcall SampleNetworkInput(int side)
                 }
                 else
                 {
-                    switch ((*reinterpret_cast<const u8 *>(
-                        reinterpret_cast<unsigned int>(&g_Supervisor.config388.valueB7) +
-                        static_cast<unsigned int>(side))))
+                    switch (TH09_NETWORK_NATIVE_CONTROLLER_MODE(side))
                     {
                         case 2:
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, DIK_Z);
@@ -266,9 +275,7 @@ short __fastcall SampleNetworkInput(int side)
     }
     else
     {
-        u8 assignment = (*reinterpret_cast<const u8 *>(
-                        reinterpret_cast<unsigned int>(&g_Supervisor.config388.valueB7) +
-                        static_cast<unsigned int>(side)));
+        u8 assignment = TH09_NETWORK_NATIVE_CONTROLLER_MODE(side);
         if (assignment == 0 || assignment == 1)
             buttons = Controller::GetControllerInput(side, assignment != 0, buttons);
     }
@@ -309,4 +316,6 @@ short __fastcall SampleNetworkInput(int side)
     return buttons;
 }
 
+#undef TH09_NETWORK_NATIVE_CONTROLLER_MODE
+#undef TH09_NETWORK_NATIVE_KEY
 #undef KEYBOARD_KEY_PRESSED
