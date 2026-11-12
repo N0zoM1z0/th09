@@ -1346,6 +1346,31 @@ OnUpdate and the corresponding create, callback and sprite helper leaves.
 No compiler-private label changes or newly exact function/runtime
 claim is involved.
 
+## 2026-11-12 Player shot spawning uses native SHT power and shot record strides
+
+The original PlayerLifecycleView::SpawnShots consumes a variable-count
+power-level descriptor list from the file-backed PlayerShtFileView
+at +0x42C. Each PlayerShtPowerLevelView occupies a true eight-byte
+native record, though the C++ wire projection exposes only its
+first element. The live signed powerLevel now selects that
+real record using unsigned i386 base + index*eight addressing.
+The original 128-slot Player shot pool consists of 0x484-byte
+PlayerShotCtorView records. The scan loop now increments both
+its signed slot index and physical shot pointer with native
+DWORD arithmetic. The file-loaded SHT descriptor cursor
+likewise advances by its genuine 0x38-byte physical record
+stride, not a typed pointer over a separate C++ array.
+
+The original shot state/availability check, fireInterval
+sentinel, callback dispatch, VM flag mutation and jump back
+to processEntry remain unchanged; there are no new bounds
+tests, RNG calls or caching of the live descriptors.
+The one pinned VC7.1 PlayerSpawnShots carrier cold-replayed
+**1/1 exact complete 190-byte original owner and its sole
+relocation field**. The source strengthens the tie between
+Player spawn mainline and the existing 0x38-byte SHT callback
+leaves, without new exactness or native product/runtime closure.
+
 ## 2026-11-12 Enemy spawn pool full-record native address and index
 
 The genuine EnemyManagerView::SpawnEnemy routine finds an unused

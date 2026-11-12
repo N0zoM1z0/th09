@@ -79,6 +79,12 @@ Git retains earlier source revisions.
   The full 2,381-byte HUD boss and 14 helper owners replay
   15/15 exact, 4,087 original bytes and 176 relocations
   in one focused VC7.1 carrier.
+- **2026-11-12 Player shot spawning checkpoint:** live
+  SHT power-level descriptors (eight-byte rows), the actual
+  128-by-0x484 PlayerShot pool and the 0x38-byte SHT
+  entry cursor now use native Win32 DWORD byte addresses.
+  The one affected VC7.1 carrier retains the full
+  190-byte exact SpawnShots owner and its one relocation.
 - **2026-11-12 Enemy SpawnEnemy pool checkpoint:** regular
   enemy spawning now advances the actual 128-by-0x5430
   Enemy pool with original i386 DWORD record addresses and
