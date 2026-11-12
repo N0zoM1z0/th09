@@ -64,6 +64,8 @@ static const unsigned short ASCII_INTERRUPT_SHOW = 1;
         reinterpret_cast<unsigned int>(&this->menuSprites[0]) + \
         static_cast<unsigned int>(index) * sizeof(this->menuSprites[0])))
 
+// The side-gameover menu updates its own two signed DWORD counters and
+// the true GameManager side-owned BYTE retry counter with native INC.
 int AsciiMenuState5::OnUpdate()
 {
     unsigned int i;
@@ -100,7 +102,7 @@ int AsciiMenuState5::OnUpdate()
                 TH09_ASCII_STATE5_VM(i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
             }
         }
-        this->state++;
+        ++*reinterpret_cast<unsigned int *>(&this->state);
         this->frames = 0;
         // fallthrough
 
@@ -170,7 +172,7 @@ int AsciiMenuState5::OnUpdate()
                 for (i = 0; i < 5; i++) {
                     TH09_ASCII_STATE5_VM(i).SetInvisible();
                 }
-                g_GameManager.sides[0].runtime->counter14++;
+                ++*reinterpret_cast<unsigned char *>(&g_GameManager.sides[0].runtime->counter14);
                 g_GameManager.flags |= 0x2000u;
                 g_GameManager.sides[0].runtime->value04 = 0;
                 g_GameManager.sides[0].runtime->value08 = 0;
@@ -211,7 +213,7 @@ int AsciiMenuState5::OnUpdate()
     if (AsciiSupervisor()->flags5D4 & 2) {
         g_AnmManager->ExecuteScript(&this->menuBackground);
     }
-    this->frames++;
+    ++*reinterpret_cast<unsigned int *>(&this->frames);
     return 0;
 }
 

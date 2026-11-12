@@ -1163,6 +1163,33 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Pause and gameover menu native state/frame counters
+
+The exact pause-menu and side-gameover menu owners share the actual
+AsciiManager and native GameManager side storage. PauseMenu::OnUpdate,
+AsciiMenuState4::OnUpdate and AsciiMenuState5::OnUpdate now advance their
+signed state and frames words using native modulo-32 i386 DWORD
+increments, preserving the existing signed selection and timeout
+comparisons. PauseMenu's live difficulty-based sprite index also
+forms an unsigned native DWORD addition before restoring the signed
+script ID for the original SetSprite call. State5's side-owned
+GameManager runtime retry counter at +0x14 is **a BYTE**, not an int;
+its native one-byte increment is expressly preserved. An initial
+DWORD-sized attempt was rejected after a complete 1-byte PE mismatch
+and before committing the correction. No alternate VM allocation,
+new selection guard or changed menu call was introduced.
+
+Independent full COFF-versus-original-PE proof covered all
+11 source-present exact owners in the two affected actual compiler
+carriers: **5,442 complete original bytes and 350 relocation
+fields**. Twenty-three renamed compiler-private jump labels were
+proven against actual same-section COFF definitions, the unmodified
+PE operand targets and every complete owner before updating only
+their manifest spellings. Official focused cold replay then passed
+10/10 AsciiManagerMenu exact owners (4,206 bytes, 264 fields) and
+1/1 AsciiMenuState5Update owner (1,236 bytes, 86 fields). These
+were already exact; no new exact function or runtime closure is claimed.
+
 ## 2026-11-12 Supervisor loading draw state, ANM surfaces and startup VM strides
 
 The real SupervisorDrawMain callback updates the signed +0x740

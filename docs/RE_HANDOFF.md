@@ -24,6 +24,14 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Pause/side-gameover menu checkpoint:** state
+  and frame counters across PauseMenu, AsciiMenuState4 and
+  AsciiMenuState5 use native i386 DWORD INC, and the live
+  difficulty sprite script ID wraps at 32 bits. The original
+  GameManager retry counter is a BYTE and remains an 8-bit INC.
+  Two pinned VC7.1 carriers protect 11/11 exact owners,
+  5,442 full PE bytes, 350 relocation fields and 23
+  independently proven private compiler-label rebindings.
 - **2026-11-12 Supervisor draw checkpoint:** the native
   loading-state frame counter, ANM manager's 32 surface slots,
   and the three real 0x2A4-byte loading VMs now use i386 DWORD

@@ -96,6 +96,8 @@ int AsciiGameManagerView::HasFlagBit0()
         reinterpret_cast<unsigned int>(&(owner)->menuSprites[0]) + \
         static_cast<unsigned int>(index) * sizeof((owner)->menuSprites[0])))
 
+// The native menu state and frame fields are persistent signed DWORDs.
+// Retail uses i386 wrapping INC for both pause and replay-neutral menus.
 int PauseMenu::OnUpdate()
 {
     unsigned int i;
@@ -133,8 +135,8 @@ int PauseMenu::OnUpdate()
             TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
         }
         g_AsciiManager.asciiAnm->SetSprite(
-            &this->menuSprites[PAUSE_SPRITE_DIFFICULTY], g_GameManager.difficulty + 125);
-        this->state++;
+            &this->menuSprites[PAUSE_SPRITE_DIFFICULTY], static_cast<int>(static_cast<unsigned int>(g_GameManager.difficulty) + 125u));
+        ++*reinterpret_cast<unsigned int *>(&this->state);
         this->frames = 0;
         // fallthrough
     case PAUSE_MENU_STATE_PRIMARY_SELECTED:
@@ -311,7 +313,7 @@ int PauseMenu::OnUpdate()
     if (g_Supervisor.flags5D4 & 2) {
         g_AnmManager->ExecuteScript(&this->menuBackground);
     }
-    this->frames++;
+    ++*reinterpret_cast<unsigned int *>(&this->frames);
     return 0;
 }
 
@@ -331,7 +333,7 @@ int AsciiMenuState4::OnUpdate()
             g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&TH09_ASCII_NATIVE_MENU_VM(this, i), i + 13);
             TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
         }
-        this->state++;
+        ++*reinterpret_cast<unsigned int *>(&this->state);
         this->frames = 0;
         // fallthrough
 
@@ -453,7 +455,7 @@ int AsciiMenuState4::OnUpdate()
     for (i = 0; i < 3; i++) {
         g_AnmManager->ExecuteScript(&TH09_ASCII_NATIVE_MENU_VM(this, i));
     }
-    this->frames++;
+    ++*reinterpret_cast<unsigned int *>(&this->frames);
     return 0;
 }
 
