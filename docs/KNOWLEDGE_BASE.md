@@ -3327,6 +3327,26 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Title Result Draw original i386 fade alpha multiplication
+
+The complete **1,939-byte exact `TitleScreenView::DrawResult`** renders all
+five difficulty score rows from the real on-disk Rank table with a live
+Title-owned signed fade frame `stateTimer2`. Its fading branch previously
+multiplied this signed source word by 255 in C++, where extreme negative
+frame values could overflow before the signed divide by 30. It now forms
+the original i386 modulo-32-bit product as
+`int(uint32(stateTimer2)*255u)/30` before the same signed alpha clamp
+and the already authenticated unsigned high-byte D3D color packing.
+All four title/rank display quadrants, real 0x2C-byte score rows, signed
+name input cursor, ASCII text calls and native `stateTimer2 < 30` gate
+retain their exact original read and call ordering. A separate experiment
+to mask the runtime difficulty shift count explicitly changed the compiled
+owner by three bytes and was discarded.
+
+The one affected pinned VC7.1 source carrier replayed **1/1 previously
+exact owner, 1,939 complete original PE bytes and all 82 relocation fields**.
+No new exact-owner credit or complete Windows runtime/product claim follows.
+
 ## 2026-11-12 Title key-config boss's native side and menu cursor DWORD writes
 
 The exact **2,803-byte `TitleScreenView::OnUpdateKeyConfig`** owns one

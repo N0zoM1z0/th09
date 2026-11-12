@@ -88,7 +88,11 @@ int TitleScreenView::DrawResult()
         mask = static_cast<int>(1u << g_GameManager.difficulty);
         highlight = this->nameSlotIndex;
     }
-    alpha = this->stateTimer2 < 30 ? this->stateTimer2 * 255 / 30 : 255;
+    // Result-fade alpha uses the retail signed DWORD product after an
+    // original i386 modulo-32 multiplication, before signed division.
+    alpha = this->stateTimer2 < 30
+        ? static_cast<int>(static_cast<unsigned int>(this->stateTimer2) * 255u) / 30
+        : 255;
     // The alpha byte is packed into the high unsigned DWORD bits, including
     // bit 31, exactly as the original 32-bit SHL does.
     g_AsciiManager.color = mask & 1 ? (static_cast<unsigned int>(alpha) << 24) | 0xd0ffd0 : (static_cast<unsigned int>(alpha) << 24) | 0x808080;
