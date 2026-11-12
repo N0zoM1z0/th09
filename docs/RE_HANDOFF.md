@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Replay Save Draw checkpoint:** the real 50-row
+  native replay header allocation and 6x16 keyboard character
+  pointer now use source-level DWORD byte addresses in the
+  800-byte complete DrawReplaySave owner. One pinned VC7.1 carrier
+  preserves 800/800 physical bytes and all 41 relocations.
 - **2026-11-12 MIDI parser checkpoint:** the real file-backed SMF
   header, chunk and variable-length input cursors now use native
   32-bit byte addresses, including authentic +2/+4 field reads.

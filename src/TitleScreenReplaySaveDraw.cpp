@@ -49,6 +49,9 @@ int TitleScreenView::DrawReplaySave()
     float scale;
     char str[16];
 
+    // The 50 replay headers and native 6x16 name-key data belong to
+    // the true Title allocation. Resolve their original 32-bit record
+    // and byte addresses from live indices without an extra bounds gate.
     if (this->replaySaveState == 2)
     {
         pos.y = 90.0f;
@@ -56,8 +59,16 @@ int TitleScreenView::DrawReplaySave()
         {
             g_AsciiManager.color = i == this->keyboardSelection ? 0xffffffff : 0xff808080;
             g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "No.%.2d %.8s %8s", i + 1,
-                                  this->replays[i].magic != 0 ? this->replays[i].playerName : "--------",
-                                  this->replays[i].magic != 0 ? this->replays[i].playTime : "--/--/--");
+                                  (*reinterpret_cast<const ReplayDataView *>(
+                        reinterpret_cast<u32>(&this->replays[0]) +
+                        static_cast<u32>(i) * sizeof(this->replays[0]))).magic != 0 ? (*reinterpret_cast<const ReplayDataView *>(
+                        reinterpret_cast<u32>(&this->replays[0]) +
+                        static_cast<u32>(i) * sizeof(this->replays[0]))).playerName : "--------",
+                                  (*reinterpret_cast<const ReplayDataView *>(
+                        reinterpret_cast<u32>(&this->replays[0]) +
+                        static_cast<u32>(i) * sizeof(this->replays[0]))).magic != 0 ? (*reinterpret_cast<const ReplayDataView *>(
+                        reinterpret_cast<u32>(&this->replays[0]) +
+                        static_cast<u32>(i) * sizeof(this->replays[0]))).playTime : "--/--/--");
             pos.y += 13.0f;
         }
     }
@@ -113,7 +124,10 @@ int TitleScreenView::DrawReplaySave()
                         g_AsciiManager.scaleY = 1.0f;
                     }
                     D3DXVECTOR3 charPos = D3DXVECTOR3(offsetX, offsetY, 0.0f) + pos;
-                    str[0] = g_TitleAlphabet[row * TitleNativeNameKeyboard::Columns + col];
+                    str[0] = *reinterpret_cast<const char *>(
+                        reinterpret_cast<u32>(g_TitleAlphabet) +
+                        static_cast<u32>(row) * TitleNativeNameKeyboard::Columns +
+                        static_cast<u32>(col));
                     str[1] = 0;
                     if (row == TitleNativeNameKeyboard::LastRow)
                     {

@@ -1163,6 +1163,26 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Title replay-save name-grid and record addresses
+
+The complete TitleScreenView::DrawReplaySave owner reads replay player
+names and play times from the real TitleScreen 50-row ReplayDataView
+allocation (0x1EC bytes per entry), then draws the 6x16 native
+name-entry grid using the original g_TitleAlphabet byte buffer.
+Two independent magic reads and one each of the playerName/playTime
+fields now resolve the real replay record from 32-bit base +
+uint32(row)*sizeof(ReplayDataView); the name-grid byte likewise
+comes from its own genuine pointer plus uint32(row)*16+uint32(col).
+No extra bounds gate, copied record, cached source or changed
+text-drawing call was introduced; the original finite loops remain.
+
+The one pinned VC7.1 TitleReplaySave carrier passed **1/1 exact
+complete 800-byte owner with all 41 original PE/COFF relocation
+fields**. Neither compiler-private labels nor the canonical exact
+function ledger required modification. This is native record and
+pointer storage fidelity for an existing exact drawing function,
+not new exact-function or runtime closure credit.
+
 ## 2026-11-12 MIDI file-backed SMF parser and variable-length cursor words
 
 MidiOutput::ParseFile reads native SMF file data through a live byte cursor:
