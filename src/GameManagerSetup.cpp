@@ -131,6 +131,14 @@ extern void __fastcall GameplaySetupThread(void *unused);
     (*reinterpret_cast<AsciiGameManagerSideView *>( \
         reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) + \
         static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0])))
+// The reset owner traverses all three physical +0x38 side records,
+// including the shared EffectManager slot. Its receiver is the passed
+// GameManager pointer, not the global side-base used in setup.
+#define TH09_SETUP_PARAMETER_SIDE(manager, index) \
+    (*reinterpret_cast<SetupSideState *>( \
+        reinterpret_cast<unsigned int>(&(manager)->sides[0]) + \
+        static_cast<unsigned int>(index) * sizeof((manager)->sides[0])))
+
 
 int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 {
@@ -864,7 +872,10 @@ mode_ready:
     for (sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)
     {
         if (TH09_SETUP_GLOBAL_SIDE(sideIndex).selector != 0)
-            g_GameManager.configurationE8->sideFocusMode[sideIndex] = 0;
+            *reinterpret_cast<unsigned char *>(
+                reinterpret_cast<unsigned int>(
+                    &g_GameManager.configurationE8->sideFocusMode[0]) +
+                static_cast<unsigned int>(sideIndex)) = 0;
         TH09_SETUP_GLOBAL_SIDE(sideIndex).flags &= ~1u;
 
         TH09_SETUP_GLOBAL_SIDE(sideIndex).background00 = Background::Create(sideIndex);
@@ -1038,7 +1049,7 @@ void SupervisorSetupLayout::SetupLoadingVmsAndInitCapture(
 void __fastcall ResetGameManager(GameManagerSetupLayout *manager)
 {
     for (int i = 0; i < 3; ++i)
-        manager->sides[i].flags &= ~1u;
+        TH09_SETUP_PARAMETER_SIDE(manager, i).flags &= ~1u;
 
     manager->valueB0 = 0;
     manager->valueB8 = 2;
@@ -1091,3 +1102,5 @@ void __fastcall FormatCurrentDateString(char *buffer)
 
 #undef TH09_SETUP_LOCAL_SIDE
 #undef TH09_SETUP_GLOBAL_SIDE
+
+#undef TH09_SETUP_PARAMETER_SIDE

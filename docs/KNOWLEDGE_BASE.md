@@ -3502,6 +3502,32 @@ correction within a previously exact large function; the independent
 nonexact Title OnUpdateResult remains open. C++ shift counts outside the
 language range are *not* claimed portable even though retail x86 masks CL.
 
+## 2026-11-12 GameManager gameplay setup physical side and focus slots
+
+The complete **1,689-byte GameplaySetupThread** initializes two playable
+GameManager side records from the real `GameManagerSetupLayout` and the
+separately allocated `GameConfiguration`. Its per-side focus-reset byte now
+uses the real `configurationE8->sideFocusMode[0]` byte address plus the
+native 32-bit unsigned loop index, matching the direct Win32 lookup in
+independently exact Player/Replay owners. No additional clamp or stale
+cached focus field is introduced; only the original two playable sides
+are passed to the Player/Bullet/Background constructors.
+
+The exact **100-byte ResetGameManager** separately visits *three* physical
+0x38-byte side records at +0x00, +0x38 and +0x70: the third contains the
+shared EffectManager receiver, not a third playable Player. Its original
+index loop now uses the same authentic passed GameManager allocation base
+and `uint32(i) * sizeof(SetupSideState)` native byte stride as the existing
+setup and cleanup paths. These are real allocation members, not a fourth
+side, a replacement table or a change in reset chronology.
+
+The two affected pinned VC7.1 profiles passed the complete scoped comparison
+of **12/12 previously exact GameManagerSetup owners, 4,680 original PE bytes
+and 415 relocation fields**. The 1,689-byte thread, 100-byte reset, other
+GameManager callbacks and Supervisor loading owner all retained byte/field
+exactness. This improves native source/address semantics rather than
+adding an exact function or establishing a Windows runtime product.
+
 ## 2026-11-12 Ending interpreter and fade callback native DWORD arithmetic
 
 The exact `Ending::RunEndingScript` owner is **1,727 complete physical
