@@ -1163,6 +1163,27 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Player movement native x/y position member accesses
+
+The 1,900-byte nonexact PlayerLifecycleView::UpdateMovementAndOptions
+owner operates on the genuine Player position at +0x1B88, with x/y
+at +0x1B88/+0x1B8C. The independently original-bound Float3 conversion
+callee PlayerPositionView::operator float*() still executes at its
+original call site. The source now treats its returned address as the
+real PlayerPositionView subobject and updates/clamps position.x and
+position.y directly, rather than indexing position[1] through a
+pointer to the first float member. This removes a cross-member C++
+pointer arithmetic assumption without deleting the retail conversion
+call or introducing any copied position state.
+
+The refreshed full-owner VC7.1 original PE/COFF inspector verifies
+**1,900/1,900 physical bytes, 66 bound relocation fields and all
+23 ordered direct calls**, with the unchanged 122 ordinary register/
+transport differences. That is strictly nonexact; no exact-function
+credit or runtime success is claimed. A direct reference to the object
+without the operator float*() call shortened the physical owner
+and dropped an original relocation, so that control was rejected.
+
 ## 2026-11-12 SoundPlayer queue commands and pan accumulator DWORDs
 
 The full SoundPlayer::ProcessQueues dispatch executes BGM preload,

@@ -24,6 +24,12 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Player movement checkpoint:** the genuine
+  Player +0x1B88/+0x1B8C position x/y members now replace
+  cross-member float-pointer indexing while retaining the original
+  exact operator float*() call. The complete nonexact 1,900-byte
+  owner stays at 66 fields, 23 calls, and 122 ordinary differences;
+  no exactness is claimed.
 - **2026-11-12 SoundPlayer command checkpoint:** five BGM
   command-step increments, one retry decrement and the SFX pan
   mean's accumulator now use explicit native i386 DWORD arithmetic.

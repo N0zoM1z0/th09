@@ -330,19 +330,23 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     runtime.velocity1CCC.y =
         verticalSpeed * g_Supervisor.framerateMultiplier5B8;
 
-    float *position = player->position1B88;
-    position[0] += runtime.velocity1CCC.x;
-    position[1] += runtime.velocity1CCC.y;
+    // Keep retail's separate exact operator float*() call at this site,
+    // but name the genuine Player position's x/y members instead of
+    // indexing past the first float subobject through that returned pointer.
+    float *positionWords = player->position1B88;
+    PlayerPositionView &position = *reinterpret_cast<PlayerPositionView *>(positionWords);
+    position.x += runtime.velocity1CCC.x;
+    position.y += runtime.velocity1CCC.y;
 
-    if (position[0] < g_GameManager.coordinate360)
-        position[0] = g_GameManager.coordinate360;
-    else if (position[0] > g_GameManager.coordinate360 + g_GameManager.coordinate368)
-        position[0] = g_GameManager.coordinate360 + g_GameManager.coordinate368;
+    if (position.x < g_GameManager.coordinate360)
+        position.x = g_GameManager.coordinate360;
+    else if (position.x > g_GameManager.coordinate360 + g_GameManager.coordinate368)
+        position.x = g_GameManager.coordinate360 + g_GameManager.coordinate368;
 
-    if (position[1] < g_GameManager.coordinate364)
-        position[1] = g_GameManager.coordinate364;
-    else if (position[1] > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
-        position[1] = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
+    if (position.y < g_GameManager.coordinate364)
+        position.y = g_GameManager.coordinate364;
+    else if (position.y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
+        position.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
 
     const Float3 &positionVector =
         reinterpret_cast<const Float3 &>(player->position1B88);
