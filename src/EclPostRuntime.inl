@@ -148,7 +148,11 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
             enemy->speed2DF4;
         SetPolar2D(reinterpret_cast<Float2 *>(&(reinterpret_cast<Float3 &>(enemy->velocity2D8C))),
             enemy->movementAngle2DE0, enemy->speed2DF4);
-        reinterpret_cast<Float3 &>(enemy->velocity2D8C).operator float *()[2] = 0.0f;
+        // Preserve the original Float3::operator float* conversion, then
+        // write the z member of that real three-float native vector. The
+        // returned first-float pointer does not own an independent float[3].
+        reinterpret_cast<Float3 *>(
+            reinterpret_cast<Float3 &>(enemy->velocity2D8C).operator float *())->z = 0.0f;
         if (enemy->movementDuration2E34 > 0)
         {
             enemy->movementTimer2E28--;

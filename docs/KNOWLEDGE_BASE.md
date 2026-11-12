@@ -3327,6 +3327,32 @@ same-section COFF definitions, unchanged PE relocation targets, and every
 full owner. This is native source-data fidelity, not new exact-owner or
 Windows/runtime-product credit.
 
+## 2026-11-12 Post-ECL movement's real Float3 z component after conversion
+
+The unsplit `EclManager.cpp` translation unit owns both the **15,564-byte
+RunEcl** and the exact `EnemyPostEclUpdateMovement` alongside Enemy calc.
+In the polar-velocity handler, the original VC7.1 executable makes a
+`Float3::operator float*()` conversion and then stores a zero at the *third*
+component of the native `EnemyView::velocity2D8C` (offset +0x2D94).
+The maintained source now retains the exact conversion invocation but
+interprets its result as the original real `Float3*` and writes the `z`
+member; it no longer treats a returned pointer to the first float as an
+independently owned `float[3]`. This preserves all x/y polar motion,
+movement-angle updates, timer/deceleration calls, and live field rereads.
+An initial `float *` temporary declaration was rejected by the pinned
+compiler's case-label lifetime checks, and replaced with the verified
+single expression rather than introducing a different function boundary.
+
+Only the two affected pinned VC7.1 carriers were replayed: **83/83 previously
+exact owners, 29,856 complete original PE bytes and 1,389 relocation fields**
+passed, including the entire Post-ECL movement owner. Eight compiler-private
+`$L` label spellings changed, but every same-section COFF definition,
+original PE destination and entire owner body was independently proved
+before updating manifest *names* alone. The co-compiled RunEcl retains its
+**30 ordinary differences / 598 fields**, and Enemy OnUpdate retains its
+**13 differences / 97 fields / 69 calls**; this source change is not a new
+exact owner or complete Windows runtime credit.
+
 ## 2026-11-12 Music-room comment parser's native file byte offsets
 
 The **2,258-byte** exact `TitleScreenView::OnUpdateMusicRoom` parser reads
