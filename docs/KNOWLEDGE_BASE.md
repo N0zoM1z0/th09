@@ -1457,6 +1457,30 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-13 WinMain shares real SoundPlayer owner and all three audio callbacks
+
+The exact **1,351-byte original-bound `WinMain`** no longer declares a
+second miniature `MainSoundPlayer` source class for the true 0x6224-byte
+SoundPlayer global at **0x004DC698**. Startup now calls
+`g_SoundPlayer.InitializeDSound` (original 0x0043E500), the main release
+loop calls `g_SoundPlayer.ProcessQueues` (0x0043F1F0), and final cleanup
+calls `g_SoundPlayer.Release` (0x0043EEB0). Each callee is already separately
+original-bound and exact. Their chronological order, signed loop control,
+live window handle, original three distinct global reads and all source
+arguments remain unchanged. No shadow audio state, helper call, queue
+rebuild or different SoundPlayer object lifetime is introduced.
+
+Six provisional symbol identities were replaced by these independently
+proven canonical SoundPlayer names in WinMain's relocation manifest. Every
+existing target PE field, actual current VC7.1 COFF type, offset, addend
+and complete physical function body was checked before rebinding names;
+not one address or binary operand changed. The one affected pinned VC7.1
+carrier passed **2/2 preexisting exact functions, 1,636 complete PE bytes
+and 171 relocations**, including the separately exact 285-byte
+CreateGameWindow leaf. No new exact-function or Windows build/runtime
+credit follows; the improvement is removal of duplicate native audio
+ownership models in main process startup and teardown.
+
 ## 2026-11-13 Actual GameWindow closing DWORD across startup, D3D and main loop
 
 The actual `GameWindow` is a **0x44-byte process-global allocation**.

@@ -8,6 +8,7 @@
 
 #include "GameConfiguration.hpp"
 #include "GameWindow.hpp"
+#include "SoundPlayer.hpp"
 #include "GameErrorContext.hpp"
 #include "Midi.hpp"
 #include "SupervisorNetworkState.hpp"
@@ -36,14 +37,8 @@ class MainAnmManager
     unsigned char storage[0x2B2934];
 };
 
-class MainSoundPlayer
-{
-  public:
-    int InitializeDSound(HWND gameWindow);
-    int Release();
-    int ProcessQueues();
-};
-
+// The main loop uses the actual process-global SoundPlayer with its
+// 0x6224-byte allocation, already bound by the full queue/audio owners.
 class MainChainReleaseView
 {
   public:
@@ -89,7 +84,6 @@ typedef char MainSupervisorFlagsAt5D4[
     offsetof(MainSupervisorView, flags5D4) == 0x5D4 ? 1 : -1];
 
 extern MainSupervisorView g_MainSupervisor;
-extern MainSoundPlayer g_MainSoundPlayer;
 extern MainAnmManager *g_MainAnmManager;
 extern MidiOutput *g_MainMidiOutput;
 extern MainChainReleaseView g_MainChain;
@@ -263,7 +257,7 @@ restart:
     if (InitializeD3DRendering() != 0)
         goto stop;
 
-    g_MainSoundPlayer.InitializeDSound(g_GameWindow.window00);
+    g_SoundPlayer.InitializeDSound(g_GameWindow.window00);
     Controller::GetJoystickCaps();
     SanitizeKeyboardState();
 
@@ -346,12 +340,12 @@ restart:
 
 release_runtime:
     g_MainChain.Release();
-    while (g_MainSoundPlayer.ProcessQueues() != 0)
+    while (g_SoundPlayer.ProcessQueues() != 0)
         ;
 
 stop:
     Sleep(1000);
-    g_MainSoundPlayer.Release();
+    g_SoundPlayer.Release();
 
     if (g_MainAnmManager != NULL)
         delete g_MainAnmManager;
