@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Enemy timeline checkpoint:** ten variable-length
+  instruction payload references now use native DWORD header+0x08
+  addresses rather than C++ pointer arithmetic past a header view.
+  The 1,048-byte boss and 20-byte timer leaf replay byte-exact
+  (2/2 owners, 1,068 bytes, 42 fields); 16 private labels PE/COFF-proven.
 - **2026-11-12 Background script checkpoint:** the 2,652-byte exact
   stage-dispatch owner now uses the original native 0x14-byte record
   indexing and unsigned DWORD index wrap. Its camera/scalar/timer leaves

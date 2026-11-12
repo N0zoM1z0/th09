@@ -1163,6 +1163,29 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Enemy timeline variable-length argument address identity
+
+The native EnemyScheduleRuntimeView::Run decodes variable-size timeline
+opcodes through eight-byte header records followed by raw argument DWORDs.
+Ten caller expressions for these argument words (eight instruction-local
+reads and two live instruction20 event-queue comparisons/publications)
+previously used C++ char-pointer addition past the projected eight-byte
+header object. Those reads now compute uint32(instruction address) plus
+sizeof(EnemyTimelineInstructionView), preserving the same original
+0x08-byte payload position without requiring an in-bounds header array.
+The timeline dispatch, repeated live event-slot reads, RNG calls and
+spawn argument order are unchanged.
+
+Original-bound VC7.1 compilation of the complete timeline Run code and
+owned switch tables plus its genuine ZunTimer::operator== leaf passed
+**2/2 exact owners, 1,068 complete physical bytes and 42 original-bound
+relocation fields** (1,048-byte timeline owner plus 20-byte timer leaf).
+Sixteen compiler-private $L symbol spellings shifted. Every actual
+same-section COFF definition and original PE target was independently
+proved alongside all owner bytes before rebinding only those names in
+the match manifest. This is native source semantics for the already exact
+timeline boss, not new exactness or whole native game closure.
+
 ## 2026-11-12 Background stage-script native record address and index wrap
 
 The complete 2,652-byte BackgroundRunStageScriptPhase physical owner

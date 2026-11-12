@@ -76,6 +76,11 @@ static __forceinline EnemyView *&TimelineRemoteSlot(
         static_cast<unsigned int>(index) * sizeof(manager->remoteSlots2AC388[0]));
 }
 
+// The timeline header is only eight bytes, but its actual file-backed
+// instruction includes variable-length argument words beyond that C++ view.
+// Form each payload pointer as a native 32-bit byte address, not pointer
+// arithmetic outside an eight-byte C++ object.
+//
 // Timeline opcodes 13/14 traverse the actual four EnemyManager event
 // DWORDs at +0x2AC430 using native index-scaled 32-bit addresses.
 static __forceinline int &NativeEnemyTimelineEvent(
@@ -119,7 +124,8 @@ int EnemyScheduleRuntimeView::Run()
                 case 1:
                 {
                     int *args1 = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned char *>(instruction) + 8);
+                        reinterpret_cast<unsigned int>(instruction) +
+                            sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition position1;
                     position1.x = *reinterpret_cast<float *>(&args1[1]);
                     position1.y = *reinterpret_cast<float *>(&args1[2]);
@@ -135,7 +141,8 @@ int EnemyScheduleRuntimeView::Run()
                 case 17:
                 {
                     int *args17 = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned char *>(instruction) + 8);
+                        reinterpret_cast<unsigned int>(instruction) +
+                            sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition position17;
                     position17.x = *reinterpret_cast<float *>(&args17[1]);
                     position17.y = *reinterpret_cast<float *>(&args17[2]);
@@ -155,7 +162,8 @@ int EnemyScheduleRuntimeView::Run()
                 case 15:
                 {
                     int *args15 = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned char *>(instruction) + 8);
+                        reinterpret_cast<unsigned int>(instruction) +
+                            sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition position15;
                     position15.x = *reinterpret_cast<float *>(&args15[1]);
                     position15.y = *reinterpret_cast<float *>(&args15[2]);
@@ -178,7 +186,8 @@ int EnemyScheduleRuntimeView::Run()
                         int *args;
                     } locals;
                     locals.args = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned char *>(instruction) + 8);
+                        reinterpret_cast<unsigned int>(instruction) +
+                            sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition position11;
                     position11.x =
                         *reinterpret_cast<float *>(&locals.args[1]);
@@ -201,7 +210,8 @@ int EnemyScheduleRuntimeView::Run()
                 case 2:
                 {
                     int *argsRange = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned char *>(instruction) + 8);
+                        reinterpret_cast<unsigned int>(instruction) +
+                            sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition positionRange;
                     positionRange.x = g_Rng.GetRandomF32InRange(
                             *reinterpret_cast<float *>(&argsRange[2]) -
@@ -223,7 +233,8 @@ int EnemyScheduleRuntimeView::Run()
                 case 3:
                 {
                     int *argsPlay = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned char *>(instruction) + 8);
+                        reinterpret_cast<unsigned int>(instruction) +
+                            sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition positionPlay;
                     positionPlay.x = g_Rng.GetRandomF32InRange(384.0f);
                     positionPlay.y =
@@ -240,7 +251,8 @@ int EnemyScheduleRuntimeView::Run()
                 case 8:
                 {
                     int *args8 = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned char *>(instruction) + 8);
+                        reinterpret_cast<unsigned int>(instruction) +
+                            sizeof(EnemyTimelineInstructionView));
                     TimelineRemoteSlot(runtime->manager1C, args8[0])
                         ->pendingSubroutineId2D70 =
                             static_cast<short>(args8[1]);
@@ -250,7 +262,8 @@ int EnemyScheduleRuntimeView::Run()
                 case 10:
                 {
                     int *args10 = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned char *>(instruction) + 8);
+                        reinterpret_cast<unsigned int>(instruction) +
+                            sizeof(EnemyTimelineInstructionView));
                     if (TimelineRemoteSlot(runtime->manager1C, args10[0]) != 0 &&
                         (TimelineRemoteSlot(runtime->manager1C, args10[0])->primaryFlags337C &
                          1u) != 0)
@@ -268,8 +281,9 @@ int EnemyScheduleRuntimeView::Run()
                     {
                         if (NativeEnemyTimelineEvent(runtime->manager1C, i) ==
                             reinterpret_cast<int *>(
-                                reinterpret_cast<unsigned char *>(
-                                    runtime->instruction20) + 8)[0])
+                                reinterpret_cast<unsigned int>(
+                                    runtime->instruction20) +
+                                sizeof(EnemyTimelineInstructionView))[0])
                         {
                             ++matchCount;
                             NativeEnemyTimelineEvent(runtime->manager1C, i) = -1;
@@ -290,8 +304,9 @@ int EnemyScheduleRuntimeView::Run()
                             continue;
                         NativeEnemyTimelineEvent(runtime->manager1C, j) =
                             reinterpret_cast<int *>(
-                                reinterpret_cast<unsigned char *>(
-                                    runtime->instruction20) + 8)[0];
+                                reinterpret_cast<unsigned int>(
+                                    runtime->instruction20) +
+                                sizeof(EnemyTimelineInstructionView))[0];
                     }
                     break;
 
