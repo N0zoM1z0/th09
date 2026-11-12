@@ -74,6 +74,9 @@ int TitleScreenView::DrawReplaySave()
     }
     else if (this->replaySaveState == 3 || this->replaySaveState == 4)
     {
+        // The selected replay/keyboard cursor values are signed runtime
+        // DWORDs. Retail performs the displayed 1-based row and underline
+        // character offset arithmetic modulo 2^32 before formatting/moving.
         row = this->selectedReplay;
         pos.y = row * 13.0f + 90.0f;
         D3DXVECTOR3 end = pos;
@@ -87,8 +90,9 @@ int TitleScreenView::DrawReplaySave()
             pos = end;
         }
         g_AsciiManager.color = 0xffffffff;
-        g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "No.%.2d %.8s %8s", row + 1, this->replayName, g_ReplayPlayTimeText);
-        pos.x += (this->replayNameCursor + 6) * 9;
+        g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "No.%.2d %.8s %8s", static_cast<int>(static_cast<u32>(row) + 1u), this->replayName, g_ReplayPlayTimeText);
+        pos.x += static_cast<int>(
+            (static_cast<u32>(this->replayNameCursor) + 6u) * 9u);
         g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "%.8s", "_");
         if (this->replaySaveState == 4)
         {

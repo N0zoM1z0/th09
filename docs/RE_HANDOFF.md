@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 Replay Save Draw index checkpoint:** selected
+  replay row+1 and the signed name-edit cursor's underline offset
+  now form original unsigned 32-bit i386 arithmetic before use.
+  Focused VC7.1 replay preserves the complete 800-byte exact
+  DrawReplaySave owner and all 41 relocations.
 - **2026-11-12 Replay SaveReplay checkpoint:** the signed stream
   selector now chooses from the actual live ReplayBufferLink
   three-input pointer row using native i386 DWORD byte addresses.

@@ -1163,6 +1163,25 @@ addends or original target destinations. The independently exact
 20-byte ZunTimer::operator==(int) leaf remained unchanged. This is
 a fidelity improvement to existing exact functions, not new credit.
 
+## 2026-11-12 Title replay-save selected-row and name-cursor DWORDs
+
+TitleScreenView::DrawReplaySave renders the live selected replay
+index as a one-based row and positions the blinking name-entry
+underline using replayNameCursor. Those two values are signed
+32-bit fields in the authentic TitleScreen allocation. The source
+now computes selectedReplay+1 and
+(replayNameCursor+6)*9 as native unsigned i386 DWORD arithmetic,
+then restores the original signed result for the existing text and
+float-position operations. The state gates, 6x16 name grid, SDK
+vector math and actual ANM/text calls are unchanged.
+
+The pinned VC7.1 TitleReplaySave carrier cold-replayed the
+**complete 800-byte DrawReplaySave owner and all 41 original PE/COFF
+relocation fields, 1/1 exact**. No additional helper, bound, compiler
+profile change, private label rebinding or new exact function is
+claimed. This is source-level recovery of the original 32-bit
+arithmetic at two signed dynamic selectors.
+
 ## 2026-11-12 SaveReplay linked input-stream native pointer slots
 
 The nonexact 1,238-byte ReplayManagerView::SaveReplay serializes each
