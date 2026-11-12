@@ -1197,6 +1197,27 @@ one missing byte. The remaining question is the distinct original
 source-load/sign-extension schedule, not an unverified exact match.
 All trial source edits were restored after the comparisons.
 
+## 2026-11-12 SoundPlayer native BGM format and preloaded-slot addressing
+
+The original file-loaded BGM metadata has 0x34-byte
+ThBgmFormatProcessView rows, and the SoundPlayer owns distinct native
+preload-format, allocation, data, size and 0x100-byte filename slots.
+GetFmtIndexByName, ReopenBGM, PreloadBGM, FreePreloadedBGM and LoadBGM
+now form their actual signed runtime indices as unsigned 32-bit
+base + uint32(index) * element-size addresses. A shared lexical inline
+accessor preserves all original rereads, side effects, call chronology
+and the live backing arrays without introducing new bounds checks,
+shadow storage or a changed BGM state machine.
+
+The pinned VC7.1 source-scoped cold replay rebuilt **eight genuine
+SoundPlayer carriers**, verifying **20/20 exact owners, 5,400 complete
+original bytes and 184 relocation fields**, including the 1,456-byte
+ProcessQueues callback and relevant BGM leaves. Eleven renumbered
+compiler-private labels were rebound only after independently verifying
+their actual same-section COFF definitions, original PE operands and
+every complete physical owner. This preserves existing codegen exactness;
+the nonexact game functions and whole-product/runtime stages remain open.
+
 ## 2026-11-12 SoundPlayer file-backed WAV cursor and chunk word arithmetic
 
 SoundPlayer::LoadSound parses original RIFF/WAVE file data as an i386

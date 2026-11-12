@@ -24,6 +24,11 @@ Git retains earlier source revisions.
   (1,939 bytes); do **not** confuse it with nonexact `OnUpdateResult`.
 - **Phase:** source exactness remains open. No complete Windows i386 link
   and runtime closure, dual-Oracle semantic baseline or port is proven.
+- **2026-11-12 SoundPlayer BGM checkpoint:** signed BGM format,
+  preload pointer, size and filename selectors now use genuine native
+  0x34/4/0x100-byte DWORD-scaled addresses. All eight involved VC7.1
+  carriers retain 20/20 exact owners, 5,400 bytes and 184 fields;
+  11 compiler-private labels have independent original-PE/COFF proof.
 - **2026-11-12 SoundPlayer WAV checkpoint:** eight file-backed
   RIFF/WAVE and chunk size/cursor operations now reproduce native
   unsigned i386 address and word arithmetic. Eight affected VC7.1

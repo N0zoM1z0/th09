@@ -418,6 +418,18 @@ int SoundPlayer::StartBGM(char *path)
     return 0;
 }
 
+// The externally loaded BGM format table has genuine 0x34-byte records;
+// preload slots and filename rows belong to the real SoundPlayer allocation.
+// Original i386 calculates the signed index times each native record width
+// as an unsigned DWORD without an extra C++ array bounds condition.
+template <typename T>
+static __forceinline T &NativeSoundBgmSlot(T *base, int index)
+{
+    return *reinterpret_cast<T *>(
+        reinterpret_cast<unsigned int>(base) +
+        static_cast<unsigned int>(index) * sizeof(T));
+}
+
 int SoundPlayer::GetFmtIndexByName(char *name)
 {
     char *position;
@@ -433,24 +445,24 @@ int SoundPlayer::GetFmtIndexByName(char *name)
     else
         strcpy(buffer, position + 1);
 
-    while (this->bgmFmtData[index].name[0] != '\0')
+    while (NativeSoundBgmSlot(this->bgmFmtData, index).name[0] != '\0')
     {
-        if (strcmp(this->bgmFmtData[index].name, buffer) == 0)
+        if (strcmp(NativeSoundBgmSlot(this->bgmFmtData, index).name, buffer) == 0)
             break;
         ++index;
     }
 
-    if (this->bgmFmtData[index].name[0] == '\0')
+    if (NativeSoundBgmSlot(this->bgmFmtData, index).name[0] == '\0')
         index = 0;
     return index;
 }
 
 void SoundPlayer::FreePreloadedBGM(int index)
 {
-    if (this->bgmPreloadAllocations[index] != NULL)
+    if (NativeSoundBgmSlot(this->bgmPreloadAllocations, index) != NULL)
     {
-        g_ZunMemory.Free(this->bgmPreloadAllocations[index]);
-        this->bgmPreloadAllocations[index] = NULL;
+        g_ZunMemory.Free(NativeSoundBgmSlot(this->bgmPreloadAllocations, index));
+        NativeSoundBgmSlot(this->bgmPreloadAllocations, index) = NULL;
     }
 }
 
@@ -460,7 +472,7 @@ int SoundPlayer::ReopenBGM(char *path)
         return -1;
 
     int index = this->GetFmtIndexByName(path);
-    this->bgm->GetWaveFile()->Reopen(&this->bgmFmtData[index]);
+    this->bgm->GetWaveFile()->Reopen(&NativeSoundBgmSlot(this->bgmFmtData, index));
     return 0;
 }
 
@@ -510,13 +522,13 @@ int SoundPlayer::PreloadBGM(int index, char *path)
     BYTE *buffer;
     DWORD bytesRead;
 
-    if (this->bgmPreloadAllocations[index] != NULL)
+    if (NativeSoundBgmSlot(this->bgmPreloadAllocations, index) != NULL)
     {
-        if (strcmp(path, this->bgmFileNames[index]) == 0)
+        if (strcmp(path, NativeSoundBgmSlot(this->bgmFileNames, index)) == 0)
             return 0;
     }
 
-    strcpy(g_SoundPlayer.bgmFileNames[index], path);
+    strcpy(NativeSoundBgmSlot(g_SoundPlayer.bgmFileNames, index), path);
 
     if (!g_Supervisor.IsMusicPreloaded())
         return 0;
@@ -538,10 +550,10 @@ int SoundPlayer::PreloadBGM(int index, char *path)
         return -1;
 
     formatIndex = this->GetFmtIndexByName(path);
-    SetFilePointer(file, this->bgmFmtData[formatIndex].startOffset, NULL, FILE_BEGIN);
+    SetFilePointer(file, NativeSoundBgmSlot(this->bgmFmtData, formatIndex).startOffset, NULL, FILE_BEGIN);
 
     buffer = static_cast<BYTE *>(g_ZunMemory.Alloc(
-        this->bgmFmtData[formatIndex].preloadAllocSize,
+        NativeSoundBgmSlot(this->bgmFmtData, formatIndex).preloadAllocSize,
         "./system\\global.h"));
     if (buffer == NULL)
     {
@@ -552,15 +564,15 @@ int SoundPlayer::PreloadBGM(int index, char *path)
     ReadFile(
         file,
         buffer,
-        this->bgmFmtData[formatIndex].preloadAllocSize,
+        NativeSoundBgmSlot(this->bgmFmtData, formatIndex).preloadAllocSize,
         &bytesRead,
         NULL);
     CloseHandle(file);
 
-    this->bgmPreloadFmtData[index] = &this->bgmFmtData[formatIndex];
-    this->bgmPreloadAllocations[index] = buffer;
-    this->bgmPreloadData[index] = buffer;
-    this->bgmPreloadAllocSizes[index] = this->bgmPreloadFmtData[index]->preloadAllocSize;
+    NativeSoundBgmSlot(this->bgmPreloadFmtData, index) = &NativeSoundBgmSlot(this->bgmFmtData, formatIndex);
+    NativeSoundBgmSlot(this->bgmPreloadAllocations, index) = buffer;
+    NativeSoundBgmSlot(this->bgmPreloadData, index) = buffer;
+    NativeSoundBgmSlot(this->bgmPreloadAllocSizes, index) = NativeSoundBgmSlot(this->bgmPreloadFmtData, index)->preloadAllocSize;
     return 0;
 }
 
@@ -622,13 +634,13 @@ int SoundPlayer::LoadBGM(int index)
         return -1;
 
     if (!g_Supervisor.IsMusicPreloaded())
-        return this->ReopenBGM(this->bgmFileNames[index]);
+        return this->ReopenBGM(NativeSoundBgmSlot(this->bgmFileNames, index));
 
-    if (this->bgmPreloadAllocations[index] == NULL)
+    if (NativeSoundBgmSlot(this->bgmPreloadAllocations, index) == NULL)
         return -1;
 
-    blockAlign = this->bgmPreloadFmtData[index]->format.nBlockAlign;
-    samplesPerSecond = this->bgmPreloadFmtData[index]->format.nSamplesPerSec;
+    blockAlign = NativeSoundBgmSlot(this->bgmPreloadFmtData, index)->format.nBlockAlign;
+    samplesPerSecond = NativeSoundBgmSlot(this->bgmPreloadFmtData, index)->format.nSamplesPerSec;
     notifySize = samplesPerSecond * 4 * blockAlign / 16;
     notifySize -= notifySize % blockAlign;
 
@@ -643,9 +655,9 @@ int SoundPlayer::LoadBGM(int index)
 
     result = this->manager->CreateStreamingFromMemory(
         &this->bgm,
-        this->bgmPreloadData[index],
-        this->bgmPreloadAllocSizes[index],
-        this->bgmPreloadFmtData[index],
+        NativeSoundBgmSlot(this->bgmPreloadData, index),
+        NativeSoundBgmSlot(this->bgmPreloadAllocSizes, index),
+        NativeSoundBgmSlot(this->bgmPreloadFmtData, index),
         DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_CTRLPOSITIONNOTIFY,
         GUID_NULL,
         16,
