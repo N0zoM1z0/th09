@@ -28,13 +28,22 @@ int PlayerLifecycleView::CheckBulletCollision(
     Bullet *bullet)
 {
 
-    PlayerPositionView delta;
-    PlayerPositionView rotated;
-    PlayerPositionView halfSize;
-    PlayerPositionView boundsMax;
+    union CollisionScratch
+    {
+        struct CollisionVectors
+        {
+            PlayerPositionView halfSize;
+            PlayerPositionView boundsMax;
+            PlayerPositionView delta;
+            PlayerPositionView rotated;
+        } collision;
+        struct RewardVectors
+        {
+                } reward;
+    } scratch;
     float xDelta;
     float yDelta;
-    register Bullet *bulletParameter = bullet;
+    Bullet * volatile bulletParameter = bullet;
     PlayerPositionView * volatile *positionArgument =
         reinterpret_cast<PlayerPositionView * volatile *>(&position);
 
@@ -64,34 +73,34 @@ check_region:
         }
         else if ((*slot)->angle20 != 0.0f)
         {
-            delta.x = (*positionArgument)->x - (*slot)->centerX00;
-            delta.y = (*positionArgument)->y - (*slot)->centerY04;
+            scratch.collision.delta.x = (*positionArgument)->x - (*slot)->centerX00;
+            scratch.collision.delta.y = (*positionArgument)->y - (*slot)->centerY04;
             RotatePlayerCollisionVector(
-                &rotated, &delta, -(*slot)->angle20);
-            halfSize.x = (*slot)->halfWidth10;
-            halfSize.y = (*slot)->halfHeight14;
-            if (!(-halfSize.x <= rotated.x))
+                &scratch.collision.rotated, &scratch.collision.delta, -(*slot)->angle20);
+            scratch.collision.halfSize.x = (*slot)->halfWidth10;
+            scratch.collision.halfSize.y = (*slot)->halfHeight14;
+            if (!(-scratch.collision.halfSize.x <= scratch.collision.rotated.x))
                 goto next_geometry_region;
-            if (!(rotated.x <= halfSize.x))
+            if (!(scratch.collision.rotated.x <= scratch.collision.halfSize.x))
                 goto next_geometry_region;
-            if (!(-halfSize.y <= rotated.y))
+            if (!(-scratch.collision.halfSize.y <= scratch.collision.rotated.y))
                 goto next_geometry_region;
-            if (!(rotated.y <= halfSize.y))
+            if (!(scratch.collision.rotated.y <= scratch.collision.halfSize.y))
                 goto next_geometry_region;
         }
         else
         {
-            halfSize.x = (*slot)->centerX00 - (*slot)->halfWidth10;
-            halfSize.y = (*slot)->centerY04 - (*slot)->halfHeight14;
-            boundsMax.x = (*slot)->halfWidth10 + (*slot)->centerX00;
-            boundsMax.y = (*slot)->halfHeight14 + (*slot)->centerY04;
-            if (halfSize.x > (*positionArgument)->x)
+            scratch.collision.halfSize.x = (*slot)->centerX00 - (*slot)->halfWidth10;
+            scratch.collision.halfSize.y = (*slot)->centerY04 - (*slot)->halfHeight14;
+            scratch.collision.boundsMax.x = (*slot)->halfWidth10 + (*slot)->centerX00;
+            scratch.collision.boundsMax.y = (*slot)->halfHeight14 + (*slot)->centerY04;
+            if (scratch.collision.halfSize.x > (*positionArgument)->x)
                 goto next_geometry_region;
-            if (boundsMax.x < (*positionArgument)->x)
+            if (scratch.collision.boundsMax.x < (*positionArgument)->x)
                 goto next_geometry_region;
-            if (halfSize.y > (*positionArgument)->y)
+            if (scratch.collision.halfSize.y > (*positionArgument)->y)
                 goto next_geometry_region;
-            if (boundsMax.y < (*positionArgument)->y)
+            if (scratch.collision.boundsMax.y < (*positionArgument)->y)
                 goto next_geometry_region;
         }
         if ((*slot)->type38 == 2)
@@ -110,28 +119,26 @@ cancel_hit:
         goto next_cancel_region;
 
     {
-        EffectFloat3 effectPosition;
-        effectPosition.x =
+        scratch.reward.effectPosition.x =
             g_GameManager.TransformPopupX((*positionArgument)->x);
-        effectPosition.y =
+        scratch.reward.effectPosition.y =
             g_GameManager.TransformPopupY((*positionArgument)->y);
-        effectPosition.z = 0.0f;
+        scratch.reward.effectPosition.z = 0.0f;
 
         g_Supervisor.SelectSide(static_cast<int>(
             1u - static_cast<unsigned int>(this->sideIndex)));
 
-        EffectFloat3 velocity;
-        velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
+        scratch.reward.velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
             g_GameManager.coordinate358 * 0.5f - 8.0f);
-        velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
-        velocity.z = 0.0f;
+        scratch.reward.velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
+        scratch.reward.velocity.z = 0.0f;
 
         // Retail forms the side-based reward effect id as a DWORD sum.
         Effect *effect =
             g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
                 static_cast<int>(
                     static_cast<unsigned int>(this->sideIndex) + 1u),
-                &effectPosition, &velocity,
+                &scratch.reward.effectPosition, &scratch.reward.velocity,
                 1, static_cast<unsigned int>(-1));
         g_Supervisor.SelectSide(this->sideIndex);
 
