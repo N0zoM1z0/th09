@@ -406,3 +406,29 @@ The exact `CheckGrazeCollision` sibling still passes its focused comparison:
 its entry/loop schedule, branch layout, some caller-saved register choices,
 and remaining reward/control-flow bytes are still open. Continue with focused
 object builds and this leaf regression guard; do not run a full cold replay.
+
+## 2026-11-13 Collision dispatch/continuation checkpoint
+
+Committed `0c31c589` (`gpt-web: reload collision region and share reject tail`).
+This keeps the 24-byte-prefixed reward overlay and geometry scalar lifetimes,
+then makes the post-geometry region-type read explicitly volatile through the
+active slot. The emitted dispatch now reloads the region pointer from the
+slot before reading `type38`, rather than relying on the compiler's retained
+region register. The null/non-type-0 cancel rejection now shares the ordinary
+invalid-region continuation instead of keeping a duplicate tail.
+
+Focused `/O2 /Ob1 /Oy-` result:
+
+- 868/862 bytes, 275/277 instructions, 33/33 direct blocks;
+- all 26 relocation fields and all 12 ordered calls agree;
+- zero missing bytes, six extra candidate bytes, 798 differing overlapping
+  bytes; direct CFG edges are still not exact.
+- `CheckGrazeCollision` remains exact at 204/204 bytes in the same object.
+
+This is a control-flow/dispatch checkpoint, not an exactness claim. Compared
+with `a311235e`, it recovers the target block count and improves the overlap
+count (804 to 798) while adding two physical bytes. The earlier 850-byte
+union-only candidate remains a useful alternate baseline. Remaining issues
+include the loop-entry hoist/Bullet register lifetime, branch destinations,
+register choices in reward setup and effect publication, and the remaining
+post-hit response path. Keep the full boss diagnostic non-crediting.
