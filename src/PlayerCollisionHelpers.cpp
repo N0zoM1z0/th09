@@ -37,10 +37,8 @@ int PlayerLifecycleView::CheckBulletCollision(
     register Bullet *bulletParameter = bullet;
     PlayerPositionView * volatile *positionArgument =
         reinterpret_cast<PlayerPositionView * volatile *>(&position);
-    Bullet * volatile *bulletArgument =
-        reinterpret_cast<Bullet * volatile *>(&bullet);
 
-    PlayerCollisionRegionCreateRegionView **slot = activeB100;
+    register PlayerCollisionRegionCreateRegionView **slot = activeB100;
 
     // Model the retail slot cursor as a loop-header destination; each
     // rejection retains its own native slot-advance edge.
@@ -108,7 +106,7 @@ check_region:
     }
 
 cancel_hit:
-    if (*bulletArgument == NULL || bulletParameter->bulletType != 0)
+    if (bulletParameter == NULL || bulletParameter->bulletType != 0)
         goto next_cancel_region;
 
     {
