@@ -260,3 +260,12 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 - `CheckBulletCollision` received another target/IDA/Ghidra pass and multiple compile-probe variants. The direct/volatile pointer experiments did not improve whole-function exactness; preserve the recorded measurements and pursue slot-home lifetime/aliasing rather than repeating them.
 - `SaveReplay` and `RunEcl` were reviewed but not modified because their known residuals already have broad, documented failed-variant coverage.
 - No full cold replay was run. Continue with focused owner checks and make a local commit after each genuinely improved source or evidence checkpoint.
+
+## 2026-11-13 continued focused session update
+
+- `CheckBulletCollision` now has a precise remaining CFG hypothesis: retail tests the current slot at loop entry and unconditionally advances/jumps; the candidate has a bottom-of-loop next-slot null test. Removing `register` hints did nothing; volatile slot reads and region-type switch/range rewrites regressed the complete 862-byte owner. Start from the documented original/candidate disassembly, not another volatile alias.
+- `EnemyManager::OnUpdate` remains 3,900 bytes/97 fields/69 calls/170 blocks with 13 residual bytes. The original 28-byte Enemy bullet descriptor constructor was verified, but alternate stack descriptor types, explicit field writes, speed-order changes, and draw/side pointer aliases did not improve the full owner.
+- `BeginPlaybackStage` remains 538/540 bytes with 39 differences. The two missing bytes are in the original `xor edx,edx; mov dx,[eax+4]` seed argument schedule; zeroed locals, memcpy, union and RNG receiver variants did not help.
+- `SaveReplay` remains limited to +0xB7/+0xBB; byte-buffer pointer variants did not help. `EffectManager::AddedCallback` remains at its existing eight-byte frontier.
+- Small leaf review identified `0x00412780` as an external x87 `fsincos` helper and kept several constructor/folded aliases unclassified rather than inventing authored ownership.
+- No full cold replay was run. Continue with focused owners and commit only a real source/evidence advance.

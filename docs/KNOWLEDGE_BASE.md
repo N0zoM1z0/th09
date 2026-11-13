@@ -7239,3 +7239,23 @@ The focused owner check measured a 3,900-byte physical extent, 97 relocation fie
 - `RunEcl`: opcode 4 timer/advance semantics and opcode 155 timeout-bit transitions were rechecked. Existing semantic probes cover 90 timer cases and 3,072 timeout-bit states; prior wire-snapshot and packed-struct variants are already documented and should not be repeated.
 
 No full cold replay was run in this session; work stayed on the selected owners and their focused build/inspection paths.
+
+## 2026-11-13 GPT-web: continued target-bound frontier experiments
+
+### EnemyManager::OnUpdate descriptor and leaf boundary
+
+A fresh IDA decompilation of `0x00410730` confirms the special-attack path constructs the 0x214-byte Enemy bullet descriptor, copies the Enemy's three position floats, computes speed1 from `GameManager+0xB4`, then publishes the descriptor through the side Etama controller. The separate `EnemyBulletDescriptorView` constructor is independently byte-identical to the original 28-byte constructor at `0x0040D500`; substituting that type for the stack descriptor did not change the 13-byte OnUpdate frontier. Directly assigning `EnemyFloat3` to `Float3` is ill-formed (VC7.1 C2679). Explicit scalar position writes changed the full owner to 469 differences; moving speed1 ahead of the other descriptor fields changed it to 44. Direct macro/native-address draw-head forms and side-state pointer/reference locals retained the original 13 differences. Do not promote any of these variants.
+
+### CheckBulletCollision loop control-flow frontier
+
+Fresh linked disassembly isolates the CFG discrepancy. Retail checks `*slot` at the loop header (`mov ecx,[esi]; test ecx,ecx`) and each region advance is an unconditional `add esi,4; jmp 0x41E010`. The current candidate transforms the continuation into a bottom-of-loop next-slot load/test/conditional branch, yielding 34 rather than 33 blocks; it also retains a six-byte `lea ebx,[ebx]` at `+0x2A` that retail does not have. Removing the three `register` hints did not change the 862-byte/275-instruction/34-block/729-difference baseline. A volatile slot-element read worsened it to 864 bytes/276 instructions/741 differences; a volatile pointer-element view worsened it to 899 bytes/289 instructions/800 differences. Replacing the region-type guard with `switch` restored 33 blocks but produced only 856 bytes, six missing bytes and 760 differences; an integer range guard produced 857 bytes, five missing and 767 differences. These are rejected probes, not progress receipts. The useful next question remains how the original loop keeps its top-of-loop read and unconditional continuation without synthetic volatility.
+
+### Replay and small-leaf follow-up
+
+- `BeginPlaybackStage` target tail is `xor edx,edx; mov dx,[eax+4]; mov ecx,0x4ACE0C; push edx; call SetSeed`, followed by restoring EDI/ESI before clearing inputDelay. The current candidate instead uses `movzx eax,[eax+4]`, pushes EAX before loading ECX, and stores inputDelay before the pops. Zero-plus-memcpy, low-word pointer, union, u32-local, and RNG pointer/reference receiver variants all retained the 538/540-byte, 39-difference frontier. The two missing bytes are the seed-load schedule; do not repeat these variants without a new register-lifetime hypothesis.
+- `SaveReplay` u8/char buffer types and a separate byte-pointer destination local retained the existing +0xB7/+0xBB two-byte residual.
+- `EffectManager::AddedCallback` local-pointer, declaration-order, reference, const and aggregate variants did not improve the eight-byte baseline; several changed it to eleven. Keep the current source.
+- The 33-byte `0x00412780` `fsincos` leaf is an x87 helper called by Etama drawing but is only declared as an external `__fastcall` function in maintained source. Do not replace it with separate `sinf`/`cosf` calls or claim authored ownership without the actual helper source.
+- The small Enemy constructor wrappers at `0x00412090`..`0x00412100` remain ambiguous between explicit and compiler-generated construction; byte similarity does not settle origin. The three-byte `0x004343D0` conversion remains a shared/folded identity, not a new uniquely owned leaf.
+
+No project-wide cold replay was run. All measurements above are focused, diagnostic-only probes and grant no partial or exact owner credit.
