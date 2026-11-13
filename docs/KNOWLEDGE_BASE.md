@@ -1529,6 +1529,39 @@ not duplicate canonical function credit. The shared header gains only
 nonvirtual member declarations; physical layout and unrelated callers do
 not change. No new exact-function or whole Windows runtime is implied.
 
+## 2026-11-13 WinMain's real 0x2B2934-byte AnmManager allocation and methods
+
+The complete **1,351-byte original-bound WinMain** allocated and published
+the same process-global manager at **0x004DC550** that all 100+ original-bound
+ANM, player, enemy, title, rendering and resource callbacks use. Its former
+local `MainAnmManager` contained an unrelated opaque 0x2B2934-byte storage
+array with separate constructor, ReleaseSurfaces, destructor and global
+symbol names. WinMain now instantiates the *real* `AnmManager` class with
+its original full lifecycle layout enabled: `new AnmManager`,
+`sizeof(AnmManager)==0x2B2934`, native `g_AnmManager`, original-bound
+`AnmManager::AnmManager` (target 0x0043CE30), exact
+`AnmManager::ReleaseSurfaces` (target 0x0042D2F0), and the original
+cleanup/delete sequence. The class exposes a nonvirtual destructor
+*declaration* without changing field offsets, size, or virtual dispatch.
+
+The last WinMain reference targets a **33-byte compiler-emitted deleting
+destructor at 0x0042CC30**. Its full original PE bytes and both call
+instructions were checked: one calls the folded, source-unattributed
+one-byte `ret` at **0x0043D2B0**, then the other invokes the exact
+operator-delete body. This is a verified WinMain *call destination*, not a
+claim to have reconstructed an independently owned `AnmManager` destructor
+body or unique authorship of the folded ret. The destructor's out-of-line
+implementation / final whole-Windows linkage remains unresolved.
+
+All seven global/constructor/release/deleting-destructor symbol spelling
+changes were accepted only after target-hash and original WinMain full
+byte, field, addend and independently identified address proof. The
+**three affected pinned VC7.1 WinMain and ANM-loader carriers** reproduced
+**19/19 pre-existing exact functions, 4,894 full original PE bytes and 304
+relocation fields**, including WinMain and complete authentic ANM resource
+constructor/loader leaves. The source no longer invents a second giant
+ANM owner. No exact owner added; no whole product/runtime closure claimed.
+
 ## 2026-11-13 WinMain shares real SoundPlayer owner and all three audio callbacks
 
 The exact **1,351-byte original-bound `WinMain`** no longer declares a

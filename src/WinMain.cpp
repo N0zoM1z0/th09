@@ -10,6 +10,9 @@
 #include "GameWindow.hpp"
 #include "SoundPlayer.hpp"
 #include "Chain.hpp"
+#define TH09_ANM_MANAGER_LIFECYCLE_LAYOUT
+#include "AnmManager.hpp"
+#undef TH09_ANM_MANAGER_LIFECYCLE_LAYOUT
 #include "Supervisor.hpp"
 #include "GameErrorContext.hpp"
 #include "Midi.hpp"
@@ -28,16 +31,10 @@
 extern "C" BOOL WINAPI WINNLSEnableIME(HWND, BOOL);
 extern "C" __declspec(dllimport) HRESULT WINAPI CoInitializeEx(LPVOID, DWORD);
 
-class MainAnmManager
-{
-  public:
-    MainAnmManager();
-    ~MainAnmManager();
-    void ReleaseSurfaces();
-
-  private:
-    unsigned char storage[0x2B2934];
-};
+// Startup allocates the original fully laid out 0x2B2934-byte AnmManager,
+// not an independent giant byte-storage alias.
+typedef char WinMainNativeAnmManagerSize[
+    (sizeof(AnmManager) == 0x2B2934) ? 1 : -1];
 
 // The main loop uses the actual process-global SoundPlayer with its
 // 0x6224-byte allocation, already bound by the full queue/audio owners.
@@ -60,7 +57,6 @@ typedef char WinMainNativeSupervisorView[
      offsetof(Supervisor, screenTransitionCountdown) == 0x5A4 &&
      offsetof(Supervisor, flags) == 0x5D4) ? 1 : -1];
 
-extern MainAnmManager *g_MainAnmManager;
 extern MidiOutput *g_MainMidiOutput;
 extern Chain g_Chain;
 extern RngRuntimeView g_ReplayRng;
@@ -237,8 +233,8 @@ restart:
     Controller::GetJoystickCaps();
     SanitizeKeyboardState();
 
-    g_MainAnmManager = (MainAnmManager *)g_ZunMemory.AddToRegistry(
-        new MainAnmManager, sizeof(MainAnmManager), (char *)"SprtCtrlInf");
+    g_AnmManager = (AnmManager *)g_ZunMemory.AddToRegistry(
+        new AnmManager, sizeof(AnmManager), (char *)"SprtCtrlInf");
 
     g_ReplayRng.SetSeed((unsigned short)timeGetTime());
     CoInitializeEx(NULL, 0);
@@ -299,7 +295,7 @@ restart:
             }
             else if (cooperativeResult == D3DERR_DEVICENOTRESET)
             {
-                g_MainAnmManager->ReleaseSurfaces();
+                g_AnmManager->ReleaseSurfaces();
                 if (g_Supervisor.d3dDevice08->Reset(
                         &g_Supervisor.presentParameters350) != D3D_OK)
                     goto release_runtime;
@@ -323,9 +319,9 @@ stop:
     Sleep(1000);
     g_SoundPlayer.Release();
 
-    if (g_MainAnmManager != NULL)
-        delete g_MainAnmManager;
-    g_MainAnmManager = NULL;
+    if (g_AnmManager != NULL)
+        delete g_AnmManager;
+    g_AnmManager = NULL;
 
     if (g_Supervisor.d3dDevice08 != NULL)
         g_Supervisor.d3dDevice08->Reset(&g_Supervisor.presentParameters350);

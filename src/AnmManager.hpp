@@ -79,6 +79,7 @@ class AnmManager
 {
   public:
     AnmManager();
+    ~AnmManager();
     void FlushVertexBuffer();
     int AddSpriteToDrawBuffer(VertexTex1DiffuseXyzrhw *vertices);
     int DrawInner(AnmVm *vm, int flags);
