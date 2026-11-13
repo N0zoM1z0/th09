@@ -320,3 +320,31 @@ qualifying the slot cursor itself: that experiment expanded the function to
 Do not rerun a full cold replay. Rebuild this translation unit only, retain
 the exact `CheckGrazeCollision` sibling check, and keep the boss diagnostic
 non-crediting until its full byte/CFG/ABI comparison is exact.
+
+## 2026-11-13 Collision/reward scratch overlay checkpoint
+
+Committed `e1402e15` (`gpt-web: overlay collision and reward scratch`). The
+`CheckBulletCollision` source now expresses the four geometry vectors and the
+cancel reward's two `EffectFloat3` values as overlapping members of a local
+union. This models the retail function's reuse of stack storage after the
+geometry phase and prevents the compiler from keeping both lifetimes live at
+once.
+
+Focused pinned-VC7.1 `/O2 /Ob1 /Oy-` result from
+`build/matching/PlayerCollisionHelpers.obj`:
+
+- Boss candidate: 850/862 bytes, 275/277 instructions, 31/33 CFG blocks,
+  26/26 relocation fields, 12/12 ordered calls, and three `ret 12` exits.
+  The diagnostic reports 485 differing overlapping bytes, 12 missing target
+  bytes, and no extra candidate bytes. This remains a non-exact candidate.
+- Stack frame is back to the retail `0x34` bytes. The slot home is
+  `[ebp-4]`; `delta` occupies `[ebp-1c..-18]` and `rotated` occupies
+  `[ebp-10..-0c]`, matching the target's key geometry temporaries.
+- `CheckGrazeCollision` remains exact at 204/204 bytes in the same object.
+  Verified with `compare-coff-function.py --unit player-check-graze-collision`.
+
+This is a better ABI/local-lifetime frontier than the preceding 878-byte
+candidate, but the loop-entry schedule and two CFG blocks still differ. Do
+not promote the boss to exactness. Continue focused experiments on the loop
+header and remaining geometry/reward instruction ordering; do not run a full
+cold replay.
