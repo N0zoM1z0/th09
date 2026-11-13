@@ -138,8 +138,11 @@ check_region:
         if (hitRegionType == 3)
             goto cancel_hit;
         {
-            volatile int &hitCount = (*slot)->hitCount2C;
-            ++hitCount;
+            PlayerCollisionRegionCreateRegionView *hitRegion = *slot;
+            volatile int &hitCount = hitRegion->hitCount2C;
+            int nextHitCount = hitCount + 1;
+            slotHome = slot;
+            hitCount = nextHitCount;
         }
         return 2;
     }
