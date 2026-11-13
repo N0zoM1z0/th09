@@ -1145,9 +1145,23 @@ PLAYER_MOVEMENT_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
 PLAYER_MOVEMENT_NATIVE_SIDE_FIXED_OFFSETS = frozenset((
     0x186, 0x187, 0x188, 0x18A, 0x18C, 0x18D, 0x18E,
 ))
-PLAYER_MOVEMENT_CURRENT_RESIDUAL_OFFSETS = (
+PLAYER_MOVEMENT_PRE_DIRECT_MEMBER_RESIDUAL_OFFSETS = (
     PLAYER_MOVEMENT_ORIGINAL_RESIDUAL_OFFSETS -
     PLAYER_MOVEMENT_NATIVE_SIDE_FIXED_OFFSETS
+)
+# Direct member reads for the 1CCC movement fields recover 114 further bytes.
+# Only the config-pointer / Player-side-index load order at +0x127..+0x12E
+# remains different in the complete original-bound 1900-byte owner.
+PLAYER_MOVEMENT_DIRECT_MEMBER_RESIDUAL_OFFSETS = frozenset((
+    0x0127, 0x0128, 0x0129, 0x012A, 0x012B, 0x012C, 0x012D, 0x012E,
+))
+PLAYER_MOVEMENT_DIRECT_MEMBER_FIXED_OFFSETS = (
+    PLAYER_MOVEMENT_PRE_DIRECT_MEMBER_RESIDUAL_OFFSETS -
+    PLAYER_MOVEMENT_DIRECT_MEMBER_RESIDUAL_OFFSETS
+)
+PLAYER_MOVEMENT_CURRENT_RESIDUAL_OFFSETS = (
+    PLAYER_MOVEMENT_PRE_DIRECT_MEMBER_RESIDUAL_OFFSETS -
+    PLAYER_MOVEMENT_DIRECT_MEMBER_FIXED_OFFSETS
 )
 
 
@@ -1155,8 +1169,8 @@ def guard_player_movement(result: dict) -> dict:
     """Check the complete 1,900-byte Player boss, not an aligned excerpt.
 
     This non-crediting bound preserves all original relocation/table identities
-    and the source's verified 144 -> 129 -> 122 byte improvement. Source-cold work
-    may narrow the residual further, but similarity does not confer exactness.
+    and the source's verified 144 -> 129 -> 122 -> 8 byte improvement. Similarity
+    does not confer exactness.
     """
     noncrediting(result, name='Player movement boss', target_size=1835,
                  fields=66, size_key='target_code_bytes', fields_key='relocations')
@@ -1185,12 +1199,17 @@ def guard_player_movement(result: dict) -> dict:
             len(PLAYER_MOVEMENT_NATIVE_SIDE_FIXED_OFFSETS) != 7 or
             not PLAYER_MOVEMENT_NATIVE_SIDE_FIXED_OFFSETS.issubset(
                 PLAYER_MOVEMENT_ORIGINAL_RESIDUAL_OFFSETS) or
-            len(PLAYER_MOVEMENT_CURRENT_RESIDUAL_OFFSETS) != 122 or
+            len(PLAYER_MOVEMENT_PRE_DIRECT_MEMBER_RESIDUAL_OFFSETS) != 122 or
+            len(PLAYER_MOVEMENT_DIRECT_MEMBER_RESIDUAL_OFFSETS) != 8 or
+            not PLAYER_MOVEMENT_DIRECT_MEMBER_RESIDUAL_OFFSETS.issubset(
+                PLAYER_MOVEMENT_PRE_DIRECT_MEMBER_RESIDUAL_OFFSETS) or
+            len(PLAYER_MOVEMENT_DIRECT_MEMBER_FIXED_OFFSETS) != 114 or
+            len(PLAYER_MOVEMENT_CURRENT_RESIDUAL_OFFSETS) != 8 or
             not set(changed).issubset(PLAYER_MOVEMENT_CURRENT_RESIDUAL_OFFSETS) or
             result.get('missing_target_bytes') != 0 or
             result.get('extra_candidate_bytes') != 0 or
             result.get('full_byte_agreement') is not (count == 0)):
-        raise RuntimeError('Player movement complete physical owner, 66 fields or 122-byte frontier regressed')
+        raise RuntimeError('Player movement complete physical owner, 66 fields or 8-byte frontier regressed')
     return {'target_bytes': 1900, 'candidate_bytes': 1900,
             'ordinary_differences': count, 'fields': 66,
             'calls': 23, 'aligned_instructions': result['normalized_aligned_instructions']}

@@ -299,3 +299,9 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 - New local declaration order, local scope, function-scope pointer/value, side-state alias/type, flags qualifier, draw-index return helper and direct-index variants do not move the 13 residual offsets in `EnemyManagerView::OnUpdate @ 0x410730`.
 - The accepted candidates all retain `+0x19C,+0x1A3,+0x252,+0x263,+0x26D,+0x272,+0x294,+0x29A,+0x29C,+0x2A5,+0x2A9,+0x2B7,+0x2BD`. A broad distinct-side-type variant changes owner extent/relocations; an inline-assembly append experiment expands the owner to 5,832 bytes/111 relocations. Neither is retained.
 - `/Ob0` is not the EnemyManager boss profile; continue with `/O2 /Ob1 /Oy-`. Full experiment notes are in `KNOWLEDGE_BASE.md` under “EnemyManager::OnUpdate register-allocation probes”.
+
+## 2026-11-13 GPT-web PlayerMovement eight-byte frontier
+
+- `PlayerLifecycleView::UpdateMovementAndOptions` (`0x41C170`) improved from 122 to **8** original-bound physical differences. The fresh 1900-byte diagnostic retains 66 fields, 23 ordered calls and 489 instructions; only `0x127-0x12E` remain different.
+- Use direct `player->movementFields1CCC` member accesses for angle, speed multipliers and velocity members, but retain the local `PlayerMovementFields &runtime` alias solely for `runtime.velocity1CCC.y` at the vertical position update. Removing that one alias changes X87 operand order and creates eight new differences.
+- The eight residual bytes are the load order of `g_GameConfiguration` and `player->sideIndex` before the focus-mode test. No exactness/origin claim; `functions.csv` remains unclassified. The guard in `scripts/check-boss-frontiers.py` now protects the 114 newly converged positions and the final eight-byte residual. See KNOWLEDGE_BASE “PlayerMovement boss reduced to an eight-byte frontier”.
