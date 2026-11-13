@@ -17,7 +17,22 @@
 typedef char EtamaDrawBodyPositionOffsetIs208[
     (offsetof(Laser, bodyVm) + offsetof(AnmVm, pos) == 0x208) ? 1 : -1];
 
-extern void __fastcall fsincos(float *sine, float *cosine, float angle);
+// Native TH09 x87 helper: ECX is the sine destination, EDX is the cosine
+// destination, and the angle is the sole stack word. FSINCOS leaves cosine
+// above sine, so store the two results in that order. Original authored vs
+// library/runtime ownership remains unresolved.
+void __fastcall fsincos(float *sine, float *cosine, float angle)
+{
+    __asm
+    {
+        fld angle
+        fsincos
+        mov eax, cosine
+        fstp dword ptr [eax]
+        mov eax, sine
+        fstp dword ptr [eax]
+    }
+}
 
 // SDK conversions use the same checked three-float storage and this pointer.
 typedef char EtamaSdkVectorLayoutMatchesFloat3[

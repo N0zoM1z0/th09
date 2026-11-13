@@ -25772,3 +25772,13 @@ symbol = "??0PlayerCollisionQueryRecordView@@QAE@XZ"
 target_address = 0x004343D0
 size = 3
 relocations = []
+
+[units.etama-fsincos]
+source = "src/EtamaControllerDraw.cpp"
+object = "build/matching/EtamaControllerDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["fsincos"]
+symbol = "?fsincos@@YIXPAM0M@Z"
+target_address = 0x00412780
+size = 0x21
+relocations = []
