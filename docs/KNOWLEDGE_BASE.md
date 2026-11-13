@@ -4454,6 +4454,34 @@ to the manifest only after independent same-section COFF/PE target and
 complete-owner byte proof. This is big-boss source ownership fidelity,
 not a newly exact function or whole executable product claim.
 
+## 2026-11-13 Enemy calc and draw share one authentic four-head allocation
+
+The nonexact but full **3,900-byte `EnemyManagerView::OnUpdate`** and
+independently exact **1,758-byte `EnemyManagerDrawImpl`** operate on the
+same four `EnemyView*` linked-list heads beginning at manager+0x2AC410.
+The maintained source now uses `EnemyNativeDrawHeads.hpp` for a single
+native Win32 `uint32(&drawGroupHeads2AC410[0])+uint32(group)*4` lvalue.
+The template/view parameter preserves each original consumer's pointer
+representation, without a second draw-only array or a new callable helper.
+OnUpdate's two live append sites still obtain a pointer to the actual
+head slot; the DrawImpl group loop reads that same physical word as an
+`EnemyDrawView*`. The four head resets, animation VM selection, linked
+list order, trail rendering and both enemy chain priorities are unchanged.
+No new group bounds gate, cached list head or additional list allocation
+was introduced.
+
+The three affected pinned VC7.1 carriers (EclManager, its Type11 profile,
+and EnemyManagerDraw) replayed **87/87 preexisting exact owners, 31,778
+complete original PE bytes and 1,450 relocation fields**, including the
+entire 1,758-byte DrawImpl and 83 exact ECL/Enemy support leaves. Twenty
+compiler-private `$L` label references were changed only after proving
+each current same-section COFF definition and its independent original PE
+destination against complete function bytes. The nonexact OnUpdate was
+also rebuilt: **3,900/3,900 physical bytes, 97 bound relocation fields,
+69 ordered calls and precisely 13 remaining register-code differences**,
+unchanged from baseline. This is cross-boss source-level ownership
+recovery, **not** new exact-function credit or a whole Windows runtime.
+
 ## 2026-11-12 Enemy OnUpdate unified native draw-group head addresses
 
 `EnemyManagerView::OnUpdate @ 0x00410730` stores the visible enemies in the

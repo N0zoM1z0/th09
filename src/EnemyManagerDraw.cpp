@@ -4,6 +4,7 @@
 #include "EnemyDrawMath.inl"
 
 #include "EnemyManager.hpp"
+#include "EnemyNativeDrawHeads.hpp"
 #include "AnmManager.hpp"
 #include "Supervisor.hpp"
 #include "AsciiManager.hpp"
@@ -127,10 +128,7 @@ static int EnemyManagerDrawImpl(
     for (int group = drawGroup; group < chainPriority;
          ++*reinterpret_cast<unsigned int *>(&group))
     {
-        EnemyDrawView *enemy = *reinterpret_cast<EnemyDrawView **>(
-            reinterpret_cast<unsigned int>(&enemyManager->drawGroupHeads2AC410[0]) +
-            static_cast<unsigned int>(group) *
-                sizeof(enemyManager->drawGroupHeads2AC410[0]));
+        EnemyDrawView *enemy = TH09_ENEMY_NATIVE_DRAW_HEAD(EnemyDrawView, enemyManager, group);
         while (enemy != NULL)
         {
             EnemyDrawVmView *vm = &enemy->secondaryVms2AC[0];

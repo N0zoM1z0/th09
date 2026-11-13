@@ -8,6 +8,7 @@
 // Lexical member of EclManager.cpp; reuses Th09EclRunState::ManagerStateView.
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
+#include "EnemyNativeDrawHeads.hpp"
 #include "EnemyChildEclBlocks.hpp"
 #include "EnemyAttachedEffectStateView.hpp"
 #include "BulletManager.hpp"
@@ -333,9 +334,7 @@ static __forceinline EnemyTrailSampleView &NativeEnemyTrailSample(
 static __forceinline EnemyView **NativeEnemyDrawHead(
     EnemyManagerView *manager, unsigned int group)
 {
-    return reinterpret_cast<EnemyView **>(
-        reinterpret_cast<unsigned int>(&manager->drawGroupHeads2AC410[0]) +
-        group * sizeof(manager->drawGroupHeads2AC410[0]));
+    return &TH09_ENEMY_NATIVE_DRAW_HEAD(EnemyView, manager, group);
 }
 
 int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
