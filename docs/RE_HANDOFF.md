@@ -274,5 +274,5 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 ## 2026-11-13 GPT-web constructor-chain checkpoint
 
 - Added six exact Enemy/ECL constructor match units to `config/match-units.toml`, `config/functions.csv`, and `config/matches.csv`: `enemy-ecl-manager-constructor`, `enemy-ecl-timeline-state-constructor`, `enemy-schedule-runtime-constructor`, `enemy-ecl-interpolation-slot-constructor`, `enemy-ecl-context-constructor`, and `enemy-view-constructor`.
-- Each unit was rebuilt and canonically compared; all 6/6 have zero differing bytes and all 28 relocation fields bind to reviewed target addresses. Original explicit-vs-implicit special-member origin remains unknown; do not upgrade unique-owner claims.
+- Each focused unit was rebuilt and compared; all 6/6 have zero differing bytes and all 28 relocation fields bind to reviewed target addresses. Original explicit-vs-implicit special-member origin remains unknown, so the six functions remain unclassified with unknown/review origin and are intentionally absent from `matches.csv`/`reccmp-functions.csv`; do not upgrade unique-owner or authored exact claims.
 - This work uses only `EnemyManagerLifecycle.cpp`'s focused `/O2 /Ob0` object. No full cold replay was run. Continue with the 13-byte `EnemyManagerView::OnUpdate` frontier and the larger `CheckBulletCollision` boss.
