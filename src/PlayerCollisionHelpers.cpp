@@ -151,6 +151,9 @@ cancel_hit:
     {
         scratch.reward.effectPosition.x =
             g_GameManager.TransformPopupX(position->x);
+        // Calls below may clobber ESI; preserve the current region slot,
+        // not the initial activeB100 base, for the post-reward hit count.
+        slotHome = slot;
         scratch.reward.effectPosition.y =
             g_GameManager.TransformPopupY((*positionArgument)->y);
         scratch.reward.effectPosition.z = 0.0f;
