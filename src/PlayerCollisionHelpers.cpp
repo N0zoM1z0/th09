@@ -60,13 +60,15 @@ int PlayerLifecycleView::CheckBulletCollision(
     goto check_region;
 
 check_region:
-    if (*reinterpret_cast<PlayerCollisionRegionCreateRegionView * volatile *>(slot) == NULL)
+    PlayerCollisionRegionCreateRegionView * volatile &region =
+        *reinterpret_cast<PlayerCollisionRegionCreateRegionView * volatile *>(slot);
+    if (region == NULL)
         goto no_collision;
     {
-        const int regionType = (*slot)->type38;
+        const int regionType = region->type38;
         if (regionType != 1 && regionType != 2 && regionType != 3)
             goto next_invalid_region;
-        if ((*slot)->delay40 > 0)
+        if (region->delay40 > 0)
             goto next_invalid_region;
 
         if ((*slot)->radius08 != 0.0)
