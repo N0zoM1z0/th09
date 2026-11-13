@@ -3,6 +3,7 @@
 #include "PlayerLifecycleView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "FrontFactoryConstructView.hpp"
+#include "FrontNativePanelState.hpp"
 #include "GameManagerRuntimeView.hpp"
 #include "FrontSide.hpp"
 #include "EffectManager.hpp"
@@ -100,8 +101,8 @@ void PlayerLifecycleView::EnterDeathState()
     movementFields1CCC.movementAngle1CD8 = angle;
     SetPolar2D(reinterpret_cast<Float2 *>(reinterpret_cast<Float3 *>(&movementFields1CCC.velocity1CCC)), angle, 1.0f);
 
-    g_GameManager.frontFactoryA8->panelTimersE93C[sideIndex] = 60;
-    g_GameManager.frontFactoryA8->panelColorsE934[sideIndex] = 0x80FF0000u;
+    FRONT_NATIVE_TIMER(g_GameManager.frontFactoryA8, sideIndex) = 60;
+    FRONT_NATIVE_COLOR(g_GameManager.frontFactoryA8, sideIndex) = 0x80FF0000u;
 
     Effect *vmHandle = focusEffect364;
     if (vmHandle != NULL)

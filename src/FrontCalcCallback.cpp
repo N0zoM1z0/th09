@@ -33,10 +33,7 @@ struct GameManagerSetupLayout
 // are independent DWORDs. Preserve live signed selectors and original
 // Win32 address words without adding a bounds guard or shadow storage.
 #include "FrontNativePanelVertices.hpp"
-#define FRONT_NATIVE_TIMER(front, side) \
-    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(front)->panelTimersE93C[0]) + static_cast<unsigned int>(side) * sizeof((front)->panelTimersE93C[0])))
-#define FRONT_NATIVE_COLOR(front, side) \
-    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(front)->panelColorsE934[0]) + static_cast<unsigned int>(side) * sizeof((front)->panelColorsE934[0])))
+#include "FrontNativePanelState.hpp"
 #define FRONT_NATIVE_SIDE(index) \
     (*reinterpret_cast<AsciiGameManagerSideView *>(reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) + static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0])))
 #define FRONT_NATIVE_RESULT(table, index) \

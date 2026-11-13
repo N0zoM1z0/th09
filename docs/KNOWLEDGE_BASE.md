@@ -3687,6 +3687,28 @@ were independently proven before only manifest spellings were changed.
 This is source-native script payload recovery, not a new exact-function
 or complete Windows product claim.
 
+## 2026-11-13 Player death and FrontFactory Calc share authentic side panel DWORDs
+
+The original **753-byte `PlayerLifecycleView::EnterDeathState`** writes
+a 60-frame hit-flash timer and 0x80FF0000 panel color into the
+*same physical FrontFactory allocation* used by the exact **1,491-byte
+FrontCalcCallback**. Their live signed side selectors now share the
+`FrontNativePanelState.hpp` source-facing native DWORD lvalues rooted in
+the actual FrontFactory+0xE93C (two timers) and +0xE934 (two colors).
+Both use `uint32(sideIndex)*sizeof(int)` over the original two-word
+arrays, rather than having separately bounded C++ side arrays in the
+Player source and native address math in the FrontFactory source.
+No second panel state, hidden cap, alternate player side or new callable
+method was introduced. The death callback's independent hit-effect,
+SoundPlayer, CardAttack, Player flags, panel animation, and 0x38-byte
+GameManager side calls retain their original chronology and semantics.
+
+The two actually affected pinned VC7.1 carriers passed **2/2 existing
+exact functions, 2,244 complete original PE bytes and all 145 relocation
+fields**. Neither needed compiler-private `$L` rebasing. This ties a large
+gameplay death handler to the original FrontFactory state owner, not
+new exact-function count or a whole native Windows runtime claim.
+
 ## 2026-11-13 FrontFactory's three callbacks share two physical panel vertex strips
 
 The exact **706-byte `FrontAddedCallback`**, **1,491-byte
