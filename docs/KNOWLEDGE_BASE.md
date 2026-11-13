@@ -7305,3 +7305,19 @@ Focused `build-match-unit.py` + `compare-coff-function.py` results:
 - `laser-constructor`: 34/34 bytes, three original AnmVm/ZunTimer relocations
 
 The complete-owner `inspect-bullet-native-constructors.py` additionally checks all four bodies: `BulletTypeSprites` 56/56, implicit `BulletExState` 12/12, `Bullet` 58/58 and `Laser` 34/34, with every original relocation field and no byte differences. The `BulletExState` constructor has no independent `functions.csv` row because its 12-byte timer-prefix body is physically shared with the separately reviewed `PlayerState3031CView` constructor at `0x0041EE20`; this does not prove a unique original class/source owner. The three visible constructor rows therefore remain `unclassified` with origin `unknown`: no codegen exactness or authored-origin credit is claimed despite the complete local byte/relocation replay. No runtime or full cold replay was run.
+
+## 2026-11-13 GPT-web: EnemyManager::OnUpdate register-allocation probes
+
+The 3,900-byte `EnemyManagerView::OnUpdate @ 0x00410730` remains at the same 13 differing instruction bytes after a new round of source-level register/lifetime probes. The unchanged offsets are `+0x19C,+0x1A3,+0x252,+0x263,+0x26D,+0x272,+0x294,+0x29A,+0x29C,+0x2A5,+0x2A9,+0x2B7,+0x2BD`.
+
+Newly tested, without retaining any source changes:
+
+- Reordered the five function locals (`bombHit`, `damageOccurred`, `trailIndex`, `hitKind`, `enemyIndex`) in four ways; all four remain at the same 13 offsets.
+- Moved selected locals into the enemy-update scope and tried function-scope pointer/value locals for descriptor position, special-attack threshold and side state. Individual variants remain at 13 differences; combined local lifetimes increase the mismatch substantially.
+- Removed the `spawnSide` reference, moved it before the descriptor, used a function-scope side pointer, and used a separate 0x38-byte side-state view type. The accepted minimal variants all retain the same 13 offsets; broad replacement of the side type changes the complete owner extent/relocation inventory and is rejected.
+- Tried `const`, `register`, function-scope and direct-field variants for the primary flags and draw-group index, a group-index return helper, direct array indexing and pointer arithmetic. All accepted variants retain the same 13 offsets.
+- A temporary inline-assembly attempt to force the target's EAX draw-head sequence caused the complete owner to expand to 5,832 bytes/111 relocation fields; it was discarded. The source remains unchanged.
+
+The current target/candidate register rotation is still localized: target uses EAX for the draw-group byte and side pointer, EDX for the threshold and position Y word, and EAX again for the descriptor position base; candidate chooses ECX/EDX/EAX differently at those sites. No candidate is promoted. Continue with a new liveness/translation-unit hypothesis rather than repeating local declaration-order, simple alias, or array-index variants.
+
+A focused `/Ob0` compile of the complete EnemyManager carrier does not match the `/Ob1` boss profile. The target's 13-byte frontier remains tied to the `/O2 /Ob1 /Oy-` profile. Only focused object compiles/inspectors were run; no full cold replay was run.

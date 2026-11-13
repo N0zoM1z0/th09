@@ -293,3 +293,9 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 - Added three canonical `/O2 /Ob0` match units for `BulletTypeSprites`, `Bullet`, and `Laser` constructors. Focused comparisons pass 56/56 (5 relocs), 58/58 (5 relocs), and 34/34 (3 relocs). The complete-owner inspector also passes implicit `BulletExState` 12/12 and all four relocation inventories.
 - `/Ob1` is not the original Bullet ctor profile: it expands the seven 0x2C state elements into a loop (67 bytes); `/Ob0` emits the target's 0x00401470 EH vector helper call (58 bytes). No manual helper call was added.
 - Keep 0x00414FA0/0x00414FE0/0x00415020 `unclassified` and origin `unknown`: the implicit-vs-authored special-member origin remains unresolved, and `BulletExState` shares the 0x41EE20 timer-prefix constructor body with PlayerState. No exactness credit is claimed. See KNOWLEDGE_BASE “Bullet/Laser constructor `/Ob0` closure”.
+
+## 2026-11-13 GPT-web OnUpdate register follow-up
+
+- New local declaration order, local scope, function-scope pointer/value, side-state alias/type, flags qualifier, draw-index return helper and direct-index variants do not move the 13 residual offsets in `EnemyManagerView::OnUpdate @ 0x410730`.
+- The accepted candidates all retain `+0x19C,+0x1A3,+0x252,+0x263,+0x26D,+0x272,+0x294,+0x29A,+0x29C,+0x2A5,+0x2A9,+0x2B7,+0x2BD`. A broad distinct-side-type variant changes owner extent/relocations; an inline-assembly append experiment expands the owner to 5,832 bytes/111 relocations. Neither is retained.
+- `/Ob0` is not the EnemyManager boss profile; continue with `/O2 /Ob1 /Oy-`. Full experiment notes are in `KNOWLEDGE_BASE.md` under “EnemyManager::OnUpdate register-allocation probes”.
