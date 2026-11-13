@@ -2734,16 +2734,14 @@ def run_game_manager(*, protect_exact: bool,
 # Independent original SHA-256 values for the full physical owner boundaries.
 ENEMY_UPDATE_SHA256 = 'a7f01c2ff0bda79d1fd17ac9170dc3560d4089457455d7928776df8556f1bc75'
 ENEMY_COLLISION_SHA256 = 'e2be799860dde7b752f525cb13f4135c4666917745006a511e734e10cd2ff9c0'
-ENEMY_UPDATE_WINDOWS = ((0x19A, 0x1A8, 2), (0x251, 0x2C1, 11),
+ENEMY_UPDATE_WINDOWS = ((0x19A, 0x1A8, 2), (0x251, 0x2C1, 0),
                         (0x843, 0x854, 0), (0x9BC, 0xA83, 0))
 ENEMY_COLLISION_WINDOWS = ((0x1A, 0x40, 31),)
 
-# Fresh original SHA-pinned PE/full-COFF 3,900-byte owner: only these 13
-# positions remain mismatched. Preserve the other 3,887 matching physical bytes.
-ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
-    0x019C, 0x01A3, 0x0252, 0x0263, 0x026D, 0x0272, 0x0294, 0x029A,
-    0x029C, 0x02A5, 0x02A9, 0x02B7, 0x02BD,
-))
+# Fresh original SHA-pinned PE/full-COFF 3,900-byte owner: the special-attack
+# side-state/threshold/descriptor window is now byte-identical. Only the two
+# draw-group index register bytes remain mismatched.
+ENEMY_UPDATE_ORIGINAL_RESIDUAL_OFFSETS = frozenset((0x019C, 0x01A3))
 
 
 def physical_difference_windows(result: dict, *, count_key: str, windows: tuple,

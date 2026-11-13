@@ -7412,3 +7412,30 @@ The maintained `EnemyManagerView::OnUpdate` source now expresses the side-catego
 The focused `enemy-attached-effect-update` build and `inspect-enemy-manager-update.py --explain --json` report the same 3,900-byte target/candidate extent, all 97 relocation fields agreeing, all 69 ordered calls agreeing, 170 direct CFG blocks on both sides, and reviewed control flow agreeing. Thirteen linked instruction bytes remain different at `+0x19C,+0x1A3,+0x252,+0x263,+0x26D,+0x272,+0x294,+0x29A,+0x29C,+0x2A5,+0x2A9,+0x2B7,+0x2BD`: two bytes for draw-group index register selection and eleven bytes for side-state/threshold and descriptor-position register allocation/store scheduling. The function remains NONEXACT; no owner ledger promotion or Oracle exactness claim is made.
 
 This source change is checkpointed as `4860f289` (`gpt-web: match enemy update side-category branches`). Continue from the current 13-byte diagnostic, not the earlier range-comparison source. Recent scalar-position interleaving and side-state pointer/reference experiments were temporary and restored; they did not replace the committed source. Keep the `/O2 /Ob1 /Oy-` profile and run only this owner/focused sibling guards while working this frontier.
+
+
+## 2026-11-13 GPT-web: Enemy OnUpdate attached-effect register breakthrough
+
+The maintained `EnemyManagerView::OnUpdate @ 0x00410730` now uses a
+`volatile EnemySideStateView` pointee for the special-attack attached-effect
+read. This is not a behavior guard or a new allocation: it preserves the
+original side-state field access and causes VC7.1 `/O2 /Ob1` to retain the
+retail EAX/EDX register schedule across the effect call. The eleven-byte
+special-attack side-state, threshold and three-float descriptor window is now
+byte-identical.
+
+The complete 3,900-byte owner remains the same extent with all 97 original
+relocation fields, 69 ordered calls and 170 direct CFG blocks agreeing. Its
+residual is now exactly **two bytes**, at `+0x19C` and `+0x1A3`: the target
+loads the draw-group byte into EAX and uses EAX as the LEA index, while the
+candidate currently loads it into ECX before the same LEA. The owner remains
+NONEXACT; no partial or Oracle exactness credit is claimed.
+
+The focused `check-boss-frontiers.py --owner enemy` run passed the 77
+same-EclManager exact siblings plus eight external exact callees (Enemy draw,
+bullet descriptor, Etama pattern, Sound, ANM and ASCII marker owners). The
+ECL local switch-label manifest spellings and ANM ExecuteScript local-label
+spellings were refreshed only after resolving their COFF section-relative
+addresses to the same original PE destinations; their logical/physical extents
+and all nonlocal relocation identities remain unchanged. Continue from the
+two-byte draw-group register frontier, not the former thirteen-byte frontier.

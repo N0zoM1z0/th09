@@ -462,7 +462,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             {
                 if (enemy->specialAttackTimer5424.HasTickedEvery(2))
                 {
-                    manager->sideState320->effectManager0C->SpawnEffect(
+                    // Preserve the native volatile side-state field read: VC7.1
+                    // then keeps the following threshold/descriptor schedule.
+                    volatile EnemySideStateView *sideState = manager->sideState320;
+                    sideState->effectManager0C->SpawnEffect(
                         9,
                         reinterpret_cast<EffectFloat3 *>(&enemy->position2D74),
                         1,
