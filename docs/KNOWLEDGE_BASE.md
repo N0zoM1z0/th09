@@ -7181,48 +7181,41 @@ similarity alone does not settle that classification.
 
 ## 2026-11-13 Player CheckBulletCollision boss register-lifetime frontier
 
-The original-bound `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0`
-remains a nonexact boss. The maintained baseline emits **849/862 physical
-bytes**, **266/277 instructions**, and **32/33 direct CFG blocks**. All
-**26 original-bound relocation fields** and **12 ordered calls** agree;
-**799 overlapping bytes** differ and **13 target bytes** are absent. The
-independently exact **204-byte `CheckGrazeCollision`** sibling remains
-protected by its own canonical unit.
+The current PlayerLifecycleView::CheckBulletCollision at 0x0041DFF0 source
+checkpoint is 9656ccd0 (gpt-web: pin collision AABB scratch offsets), following
+3e25037d (gpt-web: place collision cursor in scratch home). It remains a
+NONEXACT boss. Focused pinned-VC7.1 /O2 /Ob1 /Oy- evidence:
 
-The retail entry sequence is decisive: it saves EBX, loads the third stack
-argument (`Bullet *`) into EBX, saves ESI/EDI, then derives the active region
-slot in ESI and stores that slot at `[ebp-4]` before jumping to the aligned
-loop header. The baseline candidate instead keeps the first pointer argument
-(`position`) in EBX and reads the bullet argument from the stack only in the
-cancellation path. Retail reloads the position pointer from its argument slot
-at the geometry/reward groups. This explains the register-lifetime frontier,
-but not the remaining body/control-flow differences.
+- 862/862 physical bytes; 275 candidate / 277 target instructions;
+- 34 candidate / 33 target direct CFG blocks;
+- all 26 relocation fields are bound and all 12 ordered calls agree;
+- zero missing and zero extra physical bytes, but 729 overlapping linked
+  bytes differ and the direct control-flow graphs disagree;
+- the independent CheckGrazeCollision leaf remains exact at 204/204 bytes.
 
-Target-bound source experiments were compiled only in the affected
-`PlayerCollisionHelpers.obj` carrier:
+The current entry matches the retail prologue through the aligned loop header:
+the 0x34 stack frame, EBX Bullet argument, ESI active-region cursor,
+[ebp-4] cursor home, short jump, seven-byte NOP, and first
+mov ecx,[esi] / test ecx,ecx. The source models the reused geometry and reward
+stack storage as CollisionScratch; its CursorHome overlay places the current
+slot pointer after a 48-byte prefix. A volatile scratchHome view is used for
+the initial and final slot-home accesses. Rotated geometry uses the direct
+position parameter. AABB temporaries use the target stack homes [ebp-24h],
+[ebp-34h] and [ebp-30h], and the x-maximum x87 add uses the target operand
+order.
 
-- A top-level volatile position pointer with branch-local position snapshots
-  produced **856/862 bytes**, **267/277 instructions**, and **31/33 blocks**
-  (806 ordinary differences, six missing target bytes). It stopped retaining
-  position in EBX but did not keep the bullet pointer in EBX.
-- Caching `hasBullet = (bullet != NULL)` at entry did move the bullet pointer
-  into EBX and restored the 33-block count, but produced **872 bytes** and
-  **274 instructions**. The extra `test`/`setne` and four-byte stack-frame
-  growth are not present in retail.
-- A top-level volatile bullet pointer plus a local snapshot produced an
-  **861-byte** candidate with the bullet in EBX and only one missing byte.
-  It nevertheless stored the live region-slot pointer into the caller's
-  `[ebp+0x10]` argument slot instead of retail's `[ebp-4]`, and retained the
-  pre-loop null check rather than retail's jump to the aligned loop header.
-  This is not an accepted source model.
-- A plain bullet alias and the `register` storage-class hint were optimized
-  away or did not improve the candidate. Changing the formal to `Float3 *`
-  changed the COFF symbol and did not independently close the frontier.
-  Explicit `for(;;)`/manual-advance rewrites changed the required three
-  `ret 12` exits and were rejected.
+The remaining mismatch is not a missing tail: the candidate occupies the full
+862-byte physical extent. It still has an extra six-byte lea ebx,[ebx] before
+region-type dispatch, a bottom-of-loop next-slot null test instead of the
+target's unconditional loop-back, x87 comparison/branch scheduling
+differences, AABB comparison register/branch differences, reward-effect
+payload register-order differences, and a different final hit-count exit
+layout. The existing byte-emission alignment shim is a narrow retained source
+workaround, not an exactness proof or a pattern to expand.
 
-None of these experimental variants is retained in maintained source or
-receives exactness credit. The baseline source and the exact `CheckGrazeCollision`
-sibling are restored. The next useful target is the native loop-header/slot
-spill chronology, without volatile-based register forcing or reuse of a
-caller-owned argument slot.
+The focused checks in this checkpoint rebuilt only PlayerCollisionHelpers.cpp
+and compared the exact graze sibling. No full cold replay was run. Do not
+promote the boss based on equal extent, relocation inventory or call order;
+require a complete accepted Oracle receipt. Historical collision trials above
+this section remain failed experiments and should not be mistaken for the
+current source or current comparison.
