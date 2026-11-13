@@ -432,3 +432,39 @@ union-only candidate remains a useful alternate baseline. Remaining issues
 include the loop-entry hoist/Bullet register lifetime, branch destinations,
 register choices in reward setup and effect publication, and the remaining
 post-hit response path. Keep the full boss diagnostic non-crediting.
+
+## 2026-11-13 Player collision parameter/slot-home checkpoint
+
+Committed `30a1ca95` (`gpt-web: preserve collision slot and bullet homes`).
+This is the best maintained `CheckBulletCollision` candidate in this session,
+but it remains diagnostic-only and is not exact. Focused pinned VC7.1
+`/O2 /Ob1 /Oy-` results:
+
+- boss: 851/862 physical bytes, 273/277 instructions, 31/33 direct CFG
+  blocks, 26/26 reviewed relocation fields, 12/12 ordered calls;
+- 790 overlapping linked-byte differences, 11 missing target bytes, no
+  extra candidate bytes; all three `ret 12` exits remain;
+- `CheckGrazeCollision` still exact at 204/204 bytes in the same object.
+
+The source now keeps the Bullet pointer parameter object volatile and adds a
+volatile alias to its incoming home, while retaining the local EBX copy. This
+produces the target's early `mov ebx,[ebp+10]` without overwriting the caller's
+argument slot. A volatile active-region-slot home is also retained for the
+post-reward hit-count update. The volatile first slot read keeps the null
+check after ESI is formed and `[ebp-4]` is initialized. The candidate now has
+`EDI=this`, `ESI=activeB100`, `EBX=Bullet*`, and the retail 0x34-byte frame.
+
+The remaining entry mismatch is narrow and explicit: retail jumps from
+`+0x17` to the aligned loop header at `+0x20`, where it loads the region into
+ECX and tests it. The candidate instead emits `cmp dword ptr [esi],0` at
+`+0x17`, followed by the branch and a second load at `+0x20`. It is not yet
+known how to recover the target's exact loop alignment and ECX reuse from
+ordinary source. Later differences remain in the NaN-aware geometry register
+schedule, separate geometry continuation edges, reward setup/register
+transport, and final counter publication. Canonical `while`/`for` rewrites
+and a region-pointer local did not improve this candidate; they were discarded.
+
+The previous `0c31c589` 868-byte candidate remains in history as the earlier
+33-block dispatch checkpoint. Do not promote either candidate to exactness.
+Continue with focused object builds and the exact graze-leaf regression only;
+no full cold replay is needed.
