@@ -7282,3 +7282,14 @@ The useful remaining hypothesis is not merely `for` versus `while`: VC7.1 is rot
 The EnemyManager 13-byte frontier was also rechecked with direct draw-head subscripting/address arithmetic, function-scope side/effect pointer aliases, pointer/reference/field-wise descriptor copies, and a temporary `Float3` view for `EnemyView::position2D74`. All accepted original-bound probes retained the same 13 offsets (`+0x19C,+0x1A3,+0x252,+0x263,+0x26D,+0x272,+0x294,+0x29A,+0x29C,+0x2A5,+0x2A9,+0x2B7,+0x2BD`); the `Float3` field experiment also retained all 13. The temporary type experiment restored every source file after compilation. No source change or exactness credit resulted.
 
 Only focused object builds and inspectors were run; no full cold replay was run.
+
+## 2026-11-13 GPT-web: EffectManager AddedCallback receiver/register follow-up
+
+`EffectManager::AddedCallback @ 0x0040D1C0` remains a 51-byte diagnostic-only leaf with 19 instructions, four bound relocation fields, three matching CFG blocks and eight differing bytes at `+0x03..+0x09` and `+0x0D`. Fresh target/candidate disassembly narrows the issue precisely:
+
+- Retail saves the global ANM manager directly into EDI (`mov edi,[g_AnmManager]`), then saves the incoming context from ECX into ESI (`mov esi,ecx`), pushes slot 8, copies EDI to ECX and calls `GetAnm`.
+- The maintained candidate saves the context into ESI first, loads the global manager into ECX, then copies ECX into EDI before the same call. The fallback, owner store, ordered calls and CFG already agree.
+
+New source probes tried explicit `register` on each pointer/both, pointer and pointee `volatile`, const pointers, references, aggregate locals with both field/assignment orders, comma sequencing, and local/global direct `GetAnm` variants. They either retained eight differences or regressed to eleven; none was retained. The `volatile EffectManager *` plus direct-global `GetAnm` variant retained the eight-byte baseline. The unresolved compiler fact is why an ordinary local manager snapshot is first materialized through ECX rather than directly into the callee-preserved EDI while the context remains in ESI. Do not repeat these declaration-order or alias variants without a new lifetime/visibility hypothesis.
+
+No source was changed. Only `EffectManager.cpp`'s focused object and the 51-byte callback inspector were run; no full cold replay was run.

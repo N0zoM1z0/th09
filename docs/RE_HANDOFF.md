@@ -282,3 +282,8 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 - New `CheckBulletCollision` `for`/shared-tail probes reach 33 CFG blocks, matching the target count, but remain 876-879 bytes with 14-17 extra bytes and 785-797 overlapping differences. They still generate a bottom-of-loop next-slot null test rather than retail's unconditional `add esi,4; jmp header`. The existing entry alignment shim is still required; removing it drops the CFG to 30 blocks.
 - Volatile slot-element reads do not remove the bottom test; a combined volatile pointer/element variant grows to 992 bytes and fails the original-bound extent guard. See the detailed experiment table in `KNOWLEDGE_BASE.md` under “collision loop CFG continuation probes”. No candidate was retained.
 - Repeated `EnemyManagerView::OnUpdate` draw-index, side receiver, threshold alias and descriptor-position view variants all retained the same 13-byte residual. A temporary `Float3` position-member experiment was fully restored and also retained all 13. Continue from the exact register windows already documented; do not repeat these aliases.
+
+## 2026-11-13 GPT-web AddedCallback register follow-up
+
+- `EffectManager::AddedCallback` remains at 8 bytes: target saves `g_AnmManager` directly to EDI then context ECX to ESI; candidate saves context to ESI then loads global through ECX and moves it to EDI. Fallback, owner store, all 4 fields, calls and CFG agree.
+- New `register`, const, pointer/reference, volatile-pointee, aggregate-layout/order, comma-expression and local/global `GetAnm` variants did not improve the baseline; some regress to 11 bytes. Keep the current source. Detailed byte-level evidence is in `KNOWLEDGE_BASE.md` under “EffectManager AddedCallback receiver/register follow-up”.
