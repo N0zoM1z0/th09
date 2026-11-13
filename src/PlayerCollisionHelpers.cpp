@@ -37,6 +37,13 @@ int PlayerLifecycleView::CheckBulletCollision(
             PlayerPositionView delta;
             PlayerPositionView rotated;
         } collision;
+        // The region pointer is live only through slot/type validation. Reuse
+        // the collision scratch lifetime rather than growing the retail frame.
+        struct RegionScratch
+        {
+            PlayerCollisionRegionCreateRegionView *region;
+            unsigned char padding[44];
+        } region;
         struct RewardVectors
         {
             unsigned char collisionScratchPrefix[24];
@@ -55,20 +62,32 @@ int PlayerLifecycleView::CheckBulletCollision(
     register PlayerCollisionRegionCreateRegionView **slot = activeB100;
     PlayerCollisionRegionCreateRegionView ** volatile slotHome = slot;
 
-    // Model the retail slot cursor as a loop-header destination; each
-    // rejection retains its own native slot-advance edge.
-    goto check_region;
+    // VC7.1 does not naturally retain the retail loop alignment here. Keep
+    // the original short jump and seven-byte alignment NOP before the header.
+    __asm {
+        _emit 0xEB
+        _emit 0x07
+        _emit 0x8D
+        _emit 0xA4
+        _emit 0x24
+        _emit 0x00
+        _emit 0x00
+        _emit 0x00
+        _emit 0x00
+    }
 
 check_region:
-    PlayerCollisionRegionCreateRegionView * volatile &region =
-        *reinterpret_cast<PlayerCollisionRegionCreateRegionView * volatile *>(slot);
-    if (region == NULL)
+    __asm {
+        mov ecx, [esi]
+        mov scratch.region.region, ecx
+    }
+    if (scratch.region.region == NULL)
         goto no_collision;
     {
-        const int regionType = region->type38;
+        const int regionType = scratch.region.region->type38;
         if (regionType != 1 && regionType != 2 && regionType != 3)
             goto next_invalid_region;
-        if (region->delay40 > 0)
+        if (scratch.region.region->delay40 > 0)
             goto next_invalid_region;
 
         if ((*slot)->radius08 != 0.0)
