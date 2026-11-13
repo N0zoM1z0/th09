@@ -3596,15 +3596,23 @@ Windows/runtime-product credit.
 
 The nonexact **1,210-byte `PlayerLifecycleView::UpdateChargeAttack`**
 reads one real `GameConfiguration::sideFocusMode` pair at `+0xB4` in three
-separate gameplay branches, with distinct signed-short `side` and signed
-Player `sideIndex` selectors. Those three receiver expressions now share a
-lexical `TH09_CHARGE_NATIVE_FOCUS_MODE(index)` that forms the genuine Win32
-byte address from the original global GameConfiguration allocation. It does
-not cache the read, add a range check, change the volatile `sideMode` stack
-snapshot, or merge the short-side and Player-side input conditions. The
-actual three 0x8E-byte ReplayInputState slots, independently observed input
+separate gameplay branches. Those receiver expressions share a lexical
+`TH09_CHARGE_NATIVE_FOCUS_MODE(index)` that forms the genuine Win32 byte
+address from the original global GameConfiguration allocation. It does not
+cache the read, add a range check, or merge the separate input conditions.
+The three 0x8E-byte ReplayInputState slots, independently observed input
 calls, charge sound/rate, timers, FrontSide callbacks and attack thresholds
-are unchanged.
+remain unchanged.
+
+A later fresh target decompile resolves the original local `v2` as the full
+DWORD at `this+0x08` and the mode snapshot `v6` as one stack `char` at
+`[ebp-1]`; the original prefix is `mov edi,[esi+8]; mov eax,edi;
+imul eax,0x8E; lea ebx,[base+eax]`. The maintained source's signed-short
+`side` is therefore a candidate-side alias, not evidence that the retail
+local was 16-bit. Simply widening it to `int` is semantically closer to the
+observed DWORD read but reverses the target EDI/EBX allocation and expands
+the full-owner residual to 929 bytes. The original source-level local
+spelling and register lifetime remain unresolved.
 
 The affected pinned VC7.1 ChargeAttack compiler profile reproduces its
 previous **1,210/1,210 physical bytes, 70 original relocation operands,
@@ -7365,16 +7373,23 @@ single x87 operation with separate `sinf`/`cosf` calls.
 ## 2026-11-13 GPT-web: ChargeAttack and Enemy OnUpdate follow-up probes
 
 `PlayerLifecycleView::UpdateChargeAttack` was rebuilt from maintained source
-after three focused type/address experiments. Widening the signed-short
-`side` local to `int` changed the candidate to **1,209 bytes / 929 ordinary
-differences**. Keeping the short local but computing the ReplayInputState
-slot from full `sideIndex` changed it to **1,215 bytes / 1,167 differences**.
-A typed `&g_ReplayInputStates[0] + side` pointer expression is byte-neutral
-at the existing 1,210-byte / 235-difference baseline. The existing baseline
-remains **1,210 bytes / 235 differences**, 70 fields, 58 ordered calls and 53
-blocks. No variant was retained. The signed-short side and the Player's full
-side index must not be conflated; a future attempt needs a new lifetime
-hypothesis rather than another width substitution.
+after focused local-width and pointer-lifetime experiments. Fresh target
+decompilation identifies `v2 = *(DWORD *)(this+8)` and one `char v6` at
+`[ebp-1]`; retail keeps `v2` in EDI while it forms the input pointer in EBX
+through an EAX multiply. Widening the maintained signed-short `side` local
+to `int` produced **1,209 bytes / 929 ordinary differences**, with the
+candidate assigning the same logical values to EBX/EDI in the opposite
+roles. Register hints, declaration order, a separate input-offset local and
+char-pointer arithmetic did not change that 929-byte frontier. Keeping the
+short local but computing the ReplayInputState slot from full `sideIndex`
+changed it to **1,215 bytes / 1,167 differences**; removing the local and
+using `sideIndex` directly changed it to **1,211 bytes / 1,144 differences**.
+A typed `&g_ReplayInputStates[0] + side` expression is byte-neutral at the
+existing 1,210-byte / 235-difference baseline. Collapsing the two maintained
+mode locals also regressed the owner (1,196/1,140 and 1,212/1,136 variants).
+The existing baseline remains **1,210 bytes / 235 differences**, 70 fields,
+58 ordered calls and 53 blocks. No variant was retained. The unresolved
+problem is the target local/register lifetime, not a missing function tail.
 
 `EnemyManagerView::OnUpdate` was also rebuilt from maintained source after
 changing `NativeEnemyDrawHead` to take `EnemyView *`, moving its `drawHead`
