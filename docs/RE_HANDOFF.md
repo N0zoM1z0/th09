@@ -269,3 +269,10 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 - `SaveReplay` remains limited to +0xB7/+0xBB; byte-buffer pointer variants did not help. `EffectManager::AddedCallback` remains at its existing eight-byte frontier.
 - Small leaf review identified `0x00412780` as an external x87 `fsincos` helper and kept several constructor/folded aliases unclassified rather than inventing authored ownership.
 - No full cold replay was run. Continue with focused owners and commit only a real source/evidence advance.
+
+
+## 2026-11-13 GPT-web constructor-chain checkpoint
+
+- Added six exact Enemy/ECL constructor match units to `config/match-units.toml`, `config/functions.csv`, and `config/matches.csv`: `enemy-ecl-manager-constructor`, `enemy-ecl-timeline-state-constructor`, `enemy-schedule-runtime-constructor`, `enemy-ecl-interpolation-slot-constructor`, `enemy-ecl-context-constructor`, and `enemy-view-constructor`.
+- Each unit was rebuilt and canonically compared; all 6/6 have zero differing bytes and all 28 relocation fields bind to reviewed target addresses. Original explicit-vs-implicit special-member origin remains unknown; do not upgrade unique-owner claims.
+- This work uses only `EnemyManagerLifecycle.cpp`'s focused `/O2 /Ob0` object. No full cold replay was run. Continue with the 13-byte `EnemyManagerView::OnUpdate` frontier and the larger `CheckBulletCollision` boss.

@@ -25590,3 +25590,97 @@ relocations = [
   { offset = 0x1EE, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x1FA, type = "REL32", symbol = "?StartTimedPolarDisplacement@Th09EclRunMovement@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@M@Z", target = 0x00407200 },
 ]
+
+[units.enemy-ecl-manager-constructor]
+source = "src/EnemyManagerLifecycle.cpp"
+object = "build/matching/EnemyManagerLifecycleCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["EnemyEclManagerView::EnemyEclManagerView"]
+symbol = "??0EnemyEclManagerView@@QAE@XZ"
+target_address = 0x00412090
+size = 0x0F
+relocations = [
+  { offset = 0x7, type = "REL32", symbol = "??0EnemyEclTimelineStateView@@QAE@XZ", target = 0x0040FCA0 },
+]
+
+[units.enemy-ecl-timeline-state-constructor]
+source = "src/EnemyManagerLifecycle.cpp"
+object = "build/matching/EnemyManagerLifecycleCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["EnemyEclTimelineStateView::EnemyEclTimelineStateView"]
+symbol = "??0EnemyEclTimelineStateView@@QAE@XZ"
+target_address = 0x0040FCA0
+size = 0x1C
+relocations = [
+  { offset = 0x2, type = "DIR32", symbol = "??0Float3@@QAE@XZ", target = 0x004343D0 },
+  { offset = 0x14, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+]
+
+[units.enemy-schedule-runtime-constructor]
+source = "src/EnemyManagerLifecycle.cpp"
+object = "build/matching/EnemyManagerLifecycleCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["EnemyScheduleRuntimeView::EnemyScheduleRuntimeView"]
+symbol = "??0EnemyScheduleRuntimeView@@QAE@XZ"
+target_address = 0x004120A0
+size = 0x14
+relocations = [
+  { offset = 0x4, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0xC, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+]
+
+[units.enemy-ecl-interpolation-slot-constructor]
+source = "src/EnemyManagerLifecycle.cpp"
+object = "build/matching/EnemyManagerLifecycleCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["Th09EclInterpolationSlotView::Th09EclInterpolationSlotView"]
+symbol = "??0Th09EclInterpolationSlotView@@QAE@XZ"
+target_address = 0x004120C0
+size = 0x0F
+relocations = [
+  { offset = 0x7, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+]
+
+[units.enemy-ecl-context-constructor]
+source = "src/EnemyManagerLifecycle.cpp"
+object = "build/matching/EnemyManagerLifecycleCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["Th09EclContextView::Th09EclContextView"]
+symbol = "??0Th09EclContextView@@QAE@XZ"
+target_address = 0x004120D0
+size = 0x2F
+relocations = [
+  { offset = 0x7, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x12, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x17, type = "DIR32", symbol = "??0Th09EclInterpolationSlotView@@QAE@XZ", target = 0x004120C0 },
+  { offset = 0x27, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+]
+
+[units.enemy-view-constructor]
+source = "src/EnemyManagerLifecycle.cpp"
+object = "build/matching/EnemyManagerLifecycleCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["EnemyView::EnemyView"]
+symbol = "??0EnemyView@@QAE@XZ"
+target_address = 0x00412100
+size = 0xCF
+relocations = [
+  { offset = 0x7, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0xC, type = "DIR32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x1F, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x2A, type = "REL32", symbol = "??0Th09EclContextView@@QAE@XZ", target = 0x004120D0 },
+  { offset = 0x2F, type = "DIR32", symbol = "??0Th09EclContextView@@QAE@XZ", target = 0x004120D0 },
+  { offset = 0x42, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x4D, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x58, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x63, type = "REL32", symbol = "??0EnemyBulletDescriptorView@@QAE@XZ", target = 0x0040D500 },
+  { offset = 0x6E, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x79, type = "REL32", symbol = "??0EnemyBulletDescriptorView@@QAE@XZ", target = 0x0040D500 },
+  { offset = 0x84, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x89, type = "DIR32", symbol = "??0EnemyTrailSampleView@@QAE@XZ", target = 0x004343D0 },
+  { offset = 0x99, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0x9E, type = "DIR32", symbol = "??0EnemyTrailVertexView@@QAE@XZ", target = 0x004343D0 },
+  { offset = 0xB1, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+  { offset = 0xBC, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0xC7, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+]

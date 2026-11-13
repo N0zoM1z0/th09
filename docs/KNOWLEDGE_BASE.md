@@ -7259,3 +7259,12 @@ Fresh linked disassembly isolates the CFG discrepancy. Retail checks `*slot` at 
 - The small Enemy constructor wrappers at `0x00412090`..`0x00412100` remain ambiguous between explicit and compiler-generated construction; byte similarity does not settle origin. The three-byte `0x004343D0` conversion remains a shared/folded identity, not a new uniquely owned leaf.
 
 No project-wide cold replay was run. All measurements above are focused, diagnostic-only probes and grant no partial or exact owner credit.
+
+
+## 2026-11-13 GPT-web: Enemy constructor chain recovered
+
+Six previously unclassified Enemy/ECL constructor leaves now have dedicated canonical match units in `src/EnemyManagerLifecycle.cpp` under the unchanged `/O2 /Ob0` carrier. The local target-bound replay is exact for every byte and every relocation: `EnemyEclTimelineStateView` (28 bytes, 2 fields), `EnemyEclManagerView` (15, 1), `EnemyScheduleRuntimeView` (20, 2), `Th09EclInterpolationSlotView` (15, 1), `Th09EclContextView` (47, 4), and `EnemyView` (207, 18).
+
+The recovered object graph is concrete: the manager owns two 0x188 ECL managers; each ECL manager constructs its 0x180 timeline state; the timeline state constructs eight Float3 positions; an ECL context constructs two ZunTimers and eight 0x30 interpolation slots; an Enemy constructs its ANM VMs, 16 ECL contexts, two 0x214 bullet descriptors, 96 trail samples, 194 trail vertices and timer members. The manager constructor's existing 101-byte exact replay independently anchors the Enemy spawn template and 129-element pool construction.
+
+All six functions were rebuilt with `scripts/build-match-unit.py` and passed `scripts/compare-coff-function.py --unit` with zero differing bytes and fully reviewed relocation manifests. The `0x004343D0` empty-constructor callback remains a folded/shared physical body with unresolved unique source ownership; the six new function rows therefore keep `owner=unknown`. These are local canonical replay results, not a factory-accepted receipt or whole-image claim.
