@@ -9,6 +9,7 @@
 #include "GameConfiguration.hpp"
 #include "GameWindow.hpp"
 #include "SoundPlayer.hpp"
+#include "Chain.hpp"
 #include "GameErrorContext.hpp"
 #include "Midi.hpp"
 #include "SupervisorNetworkState.hpp"
@@ -39,12 +40,6 @@ class MainAnmManager
 
 // The main loop uses the actual process-global SoundPlayer with its
 // 0x6224-byte allocation, already bound by the full queue/audio owners.
-class MainChainReleaseView
-{
-  public:
-    void Release();
-};
-
 // Use the actual window-closure DWORD in the same 0x44-byte GameWindow
 // allocation as Render/Present, rather than a byte-prefix type overlay.
 typedef char WinMainNativeGameWindowLayout[
@@ -86,7 +81,7 @@ typedef char MainSupervisorFlagsAt5D4[
 extern MainSupervisorView g_MainSupervisor;
 extern MainAnmManager *g_MainAnmManager;
 extern MidiOutput *g_MainMidiOutput;
-extern MainChainReleaseView g_MainChain;
+extern Chain g_Chain;
 extern RngRuntimeView g_ReplayRng;
 extern ZunMemory g_ZunMemory;
 extern GameErrorContext g_GameErrorContext;
@@ -339,7 +334,7 @@ restart:
     }
 
 release_runtime:
-    g_MainChain.Release();
+    g_Chain.Release();
     while (g_SoundPlayer.ProcessQueues() != 0)
         ;
 

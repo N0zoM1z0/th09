@@ -4,16 +4,9 @@
 
 #include <new>
 
-struct ChainReleaseView
-{
-    ChainElem calcChain00;
-    ChainElem drawChain20;
-
-    void ReleaseSingleChain(ChainElem *root);
-    void Release();
-};
-
-void ChainReleaseView::ReleaseSingleChain(ChainElem *root)
+// The release routines are methods of the same actual 0x40-byte Chain
+// allocation that owns the calc/draw roots and exact Cut callbacks.
+void Chain::ReleaseSingleChain(ChainElem *root)
 {
     // The target separates raw allocation from ChainElem construction.
     ChainElem releaseSnapshotHead;
@@ -41,7 +34,7 @@ void ChainReleaseView::ReleaseSingleChain(ChainElem *root)
     current = &releaseSnapshotHead;
     do
     {
-        reinterpret_cast<Chain *>(this)->Cut(current->releaseTarget);
+        this->Cut(current->releaseTarget);
         current = current->next;
     }
     while (current != NULL);
@@ -59,9 +52,9 @@ void ChainReleaseView::ReleaseSingleChain(ChainElem *root)
     }
 }
 
-void ChainReleaseView::Release()
+void Chain::Release()
 {
     static_cast<SupervisorThreadStartView *>(&g_Supervisor)->ThreadClose();
-    ReleaseSingleChain(&calcChain00);
-    ReleaseSingleChain(&drawChain20);
+    ReleaseSingleChain(&calcChain);
+    ReleaseSingleChain(&drawChain);
 }

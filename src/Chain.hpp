@@ -55,6 +55,8 @@ class Chain
     int AddToDrawChain(ChainElem *elem, int priority);
     ChainElem *CreateElem(ChainCallback callback);
     void Cut(ChainElem *toRemove);
+    void ReleaseSingleChain(ChainElem *root);
+    void Release();
     int RunCalcChain();
     int RunDrawChain();
 };

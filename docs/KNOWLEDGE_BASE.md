@@ -1457,6 +1457,41 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-13 Complete Chain release and WinMain share the actual 0x40-byte Chain
+
+The exact original **241-byte `Chain::ReleaseSingleChain`** and **34-byte
+`Chain::Release`** now belong to the same genuine 0x40-byte `Chain` object
+that owns the two actual 0x20-byte calc/draw list heads and the independently
+exact Cut callback. The previous `ChainReleaseView` projection with a cast
+back to `Chain` and WinMain's third independent `MainChainReleaseView`
+allocation alias are gone. ReleaseSingleChain naturally calls `this->Cut`
+on the original live snapshot cursor; Release passes `&calcChain` and
+`&drawChain` directly. WinMain calls the exact same process-global
+`g_Chain` at **0x004ACFC8**, with no second destructor, chain copy or
+cleanup reorder. The two original function identities were renamed in
+`functions.csv`, `reccmp-functions.csv`, `implemented.csv`, `matches.csv`
+and the pinned COFF unit symbols; authored status and exact byte coverage
+were unchanged.
+
+The target's C++ exception machinery was **not** treated as incidental
+padding: the real separately emitted **18-byte EH code at 0x0048D360**
+(three relocations) and **36-byte EH metadata at 0x0049DC2C** (two
+relocations) were reconstructed from the current VC7.1 COFF sections and
+compared against every original disk PE byte and relocated operand.
+The actual 10-byte `__ehhandler` subentry at +8 retains its original
+0x0048D368 address; the unwind info points to the same original targets.
+Only after these independent EH proofs were five call/handler/global
+relocation symbol spellings rebound, with all kinds, offsets, original PE
+addresses and COFF addends unchanged.
+
+The **three source-affected pinned VC7.1 compiler carriers** passed
+**4/4 existing exact owners, 1,911 full original PE function bytes and
+193 relocation fields**, including WinMain's 1,351 bytes and 285-byte
+CreateGameWindow helper. The additional EH extents are distinct evidence,
+not duplicate canonical function credit. The shared header gains only
+nonvirtual member declarations; physical layout and unrelated callers do
+not change. No new exact-function or whole Windows runtime is implied.
+
 ## 2026-11-13 WinMain shares real SoundPlayer owner and all three audio callbacks
 
 The exact **1,351-byte original-bound `WinMain`** no longer declares a

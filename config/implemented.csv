@@ -798,8 +798,8 @@ PlayerPositionCallback30404Type2
 GameManagerValueCCView::SubtractSaturating
 ZunTimer::HasTickedEvery
 SupervisorNetworkMessageThunk
-ChainReleaseView::ReleaseSingleChain
-ChainReleaseView::Release
+Chain::ReleaseSingleChain
+Chain::Release
 SupervisorNetworkState::SupervisorNetworkState
 SupervisorInitializeD3D
 TitleScreenView::SetIndexedSpriteChoice
