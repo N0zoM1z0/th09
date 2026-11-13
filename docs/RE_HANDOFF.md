@@ -524,3 +524,49 @@ reference checkpoint (`3c4b30b9`) remains in history; this aligned union
 candidate improves overlap from 783 to 753 while restoring the target loop
 alignment. Continue with focused object comparisons and the exact graze leaf;
 no full cold replay was run.
+
+## 2026-11-13 Current-slot lifetime, EBX guard, and register-region checkpoint
+
+Three source checkpoints were added after the aligned-entry work:
+
+- `27ef82f9` — `gpt-web: refresh collision slot home before reward calls`.
+  `slotHome` is refreshed from the live slot cursor immediately after the
+  first popup-position call and before the remaining external reward calls.
+  This fixes the stale-initial-base bug: after skipped regions, the reward
+  path now increments the hit counter of the actual current region.
+- `8f3cec4b` — `gpt-web: mirror collision hit-count slot home`.
+  The ordinary-hit path now reads the counter, writes the current cursor to
+  the same volatile home, then publishes the increment. This recovers the
+  retail-style home update on both success exits.
+- `6de8bb42` — `gpt-web: keep bullet cancel guard in EBX`.
+  Removed the unnecessary volatile alias/reload of the Bullet parameter and
+  used the already-preserved `bulletParameter` for the null guard. The
+  emitted guard is now `test ebx,ebx`, matching the retail register use.
+- `882a94c0` — `gpt-web: keep collision region in register`.
+  Removed the region-pointer scratch-union spill and made the current region
+  pointer a register local for the type/delay checks. This recovers the
+  loop-head `mov ecx,[esi]; test ecx,ecx` form and removes the old
+  load/store/reload through `[ebp-34h]`.
+
+Focused pinned VC7.1 `/O2 /Ob1 /Oy-` comparison at `882a94c0`:
+
+- `CheckBulletCollision`: 868 candidate bytes vs 862 target bytes;
+  277/277 instructions, 34/33 direct CFG blocks;
+- all 26 relocation fields and all 12 ordered calls agree;
+- zero missing target bytes, six extra candidate bytes, 746 differing
+  overlapping linked bytes;
+- `CheckGrazeCollision`: exact, 204/204 bytes in the same object.
+
+Compared with the preceding 858-byte candidate, the new region-register
+shape improves the overlap-difference count from 757 to 746 and restores the
+target instruction count while preserving all target bytes. It is still not
+exact: the function is six bytes longer and has one extra direct CFG block.
+The 0x30-byte frame and reuse of the incoming Bullet home for `slotHome`
+remain different from the target's 0x34-byte frame / `[ebp-4]` home. The
+NaN-aware circle/rectangle floating-point schedule, reward-effect payload
+registers, and exit-edge layout also remain open.
+
+All validation here is a focused object build plus the sibling leaf compare;
+no full cold replay was run. Git checkpoints do not establish Oracle
+exactness; keep the boss classified NON-EXACT until a fresh accepted replay
+receipt proves otherwise.
