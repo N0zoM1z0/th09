@@ -963,7 +963,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         }
     }
 
-    u8 *tempBuffer = (u8 *)g_ZunMemory.Alloc(allocationSize, "rep tmp");
+    void *tempBuffer = g_ZunMemory.Alloc(allocationSize, "rep tmp");
     replayCopy = *replayManager->replayData;
     // This offset is a serialized byte count, not a C++ array index.
     unsigned int currentOffset = sizeof(ReplayDataView);
@@ -1093,7 +1093,9 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         sizeof(ReplayPayloadView));
 
     replayCopy.decompressedSize = currentOffset - sizeof(ReplayHeaderView);
-    u8 *compressedData = Lzss::Encode(tempBuffer, replayCopy.decompressedSize, &replayCopy.compressedSize);
+    u8 *compressedData = Lzss::Encode(
+        static_cast<u8 *>(tempBuffer), replayCopy.decompressedSize,
+        &replayCopy.compressedSize);
     g_ZunMemory.Free(tempBuffer);
     int compressedSize = replayCopy.compressedSize;
 
