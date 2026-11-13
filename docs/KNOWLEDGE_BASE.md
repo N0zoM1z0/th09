@@ -4040,6 +4040,34 @@ The two affected pinned VC7.1 carriers passed local exact replay for
 16 ANM resource-load/release functions. No private label changes were
 required and no newly exact owner or whole-Windows runtime credit follows.
 
+## 2026-11-13 SoundPlayer native 128-slot DirectSound duplicate pointer ownership
+
+The exact 245-byte `SoundPlayer::InitSoundBuffers` builds 54 hardware/volume
+pairs from original process-global 0x08-byte SFX metadata records, then
+publishes the duplicate DirectSound buffers in the authentic 128-pointer
+`SoundPlayer::duplicateSoundBuffers` array. Its three separate live
+read/write receivers now share `NativeDuplicateSound(this,i)`, formed from
+the genuine full SoundPlayer allocation and native Win32 `uint32(i)*4`
+byte stride. This complements the already original-bound `NativeActiveSound`
+primary buffer lookup; it does not allocate a shadow array, cache the
+selected pointer or introduce bounds gates. Retaining distinct reads into
+`DuplicateSoundBuffer`, `SetCurrentPosition` and `SetVolume` preserves their
+original side effects and ordering.
+
+The equivalent accessor is **intentionally not applied in the exact
+232-byte `Release` loop**: natural VC7.1 compilation there produced
+234/247 bytes instead of its exact 232-byte original, even though the
+underlying addresses were identical. Both rejected Release edits were
+restored; the existing cleanup order remains exact. The eight affected
+pinned VC7.1 SoundPlayer carriers replayed **20/20 pre-existing exact
+owners, 5,400 original PE bytes and 184 relocations**, including the
+1,456-byte ProcessQueues boss and independent playback/WAV leaves.
+The compiler renumbered 11 private `$L` labels solely inside ProcessQueues;
+their current same-section COFF definitions and complete original PE
+branches were independently proven before changing manifest spellings.
+This is native data ownership recovery, not new exact-function or Windows
+product/runtime credit.
+
 ## 2026-11-12 Shared native SoundPlayer SFX paths and 0x08-byte volume rows
 
 `SoundPlayer::InitSoundBuffers` owns an exact 245-byte controller that loads

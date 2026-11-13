@@ -167,6 +167,17 @@ static __forceinline const SoundBufferIdxVolume &NativeSoundIndexVolume(int inde
         static_cast<unsigned int>(index) * sizeof(g_SoundBufferIdxVol[0]));
 }
 
+// The 128 duplicated DirectSound slots immediately follow the 128 native
+// primary buffer words in one SoundPlayer allocation. Retain independent
+// live reads and Win32 32-bit index*pointer-stride arithmetic.
+static __forceinline LPDIRECTSOUNDBUFFER &NativeDuplicateSound(
+    SoundPlayer *player, int index)
+{
+    return *reinterpret_cast<LPDIRECTSOUNDBUFFER *>(
+        reinterpret_cast<unsigned int>(&player->duplicateSoundBuffers[0]) +
+        static_cast<unsigned int>(index) * sizeof(player->duplicateSoundBuffers[0]));
+}
+
 static __forceinline LPDIRECTSOUNDBUFFER &NativeActiveSound(
     SoundPlayer *player, int index)
 {
@@ -201,9 +212,9 @@ int SoundPlayer::InitSoundBuffers()
     {
         this->dsoundHdl->DuplicateSoundBuffer(
             NativeActiveSound(this, NativeSoundIndexVolume(i).bufferIdx),
-            &this->duplicateSoundBuffers[i]);
-        this->duplicateSoundBuffers[i]->SetCurrentPosition(0);
-        this->duplicateSoundBuffers[i]->SetVolume(NativeSoundIndexVolume(i).volume);
+            &NativeDuplicateSound(this, i));
+        NativeDuplicateSound(this, i)->SetCurrentPosition(0);
+        NativeDuplicateSound(this, i)->SetVolume(NativeSoundIndexVolume(i).volume);
     }
 
     return 0;
