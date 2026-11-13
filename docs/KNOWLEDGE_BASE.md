@@ -3853,6 +3853,33 @@ the big D3D initialization function and both exact capability formatter
 leaves. This is authentic Win32 source layout, not new exact-function,
 full executable, or runtime credit.
 
+## 2026-11-13 Ending script and AddedCallback share authentic ANM VM ownership
+
+The exact **1,727-byte `Ending::RunEndingScript`** and independent
+**800-byte `Ending::AddedCallback`** both operate on the same genuine
+16-element `Ending::endingVms` array, with authentic 0x2A4-byte record
+strides at Ending+0x14. Their native i386 byte-address lvalue is now
+shared through `EndingNativeVm.hpp`, not maintained independently as
+one exact interpreter macro plus separate unchecked C++ array accesses.
+Both live VM reads in AddedCallback (the `ExecuteAnmIdx` receiver argument
+and position write) retain their original scheduling. The callback also
+uses the actual `Supervisor::textAnm5CC` field rather than a second
+`EndingSupervisorTextAnmView` allocation, and assigns the original
+`AnmVm::pos` member rather than a 0x208-byte opaque prefix cast. Its
+character selector now reads the true file-backed 16-DWORD
+`g_EndingFilePaths` table through native Win32 base-plus-index addressing,
+with no extra bounds gate or file-path cache.
+
+The **three affected pinned VC7.1 carriers** replayed **11/11 already
+exact owners, 3,815 complete original PE bytes and all 244 relocations**,
+including the large Ending interpreter, its script/timer/alpha leaves,
+Ending constructor and AddedCallback. Compiler-private `$L` spellings
+changed in 31 Ending functions' relocation occurrences; each actual
+same-section COFF definition, original PE destination and complete physical
+owner was independently verified before changing only manifest labels.
+This is cross-function native data ownership recovery, not newly exact
+function credit or whole Windows runtime completion.
+
 ## 2026-11-13 Etama DrawSingleBullet's actual ANM VM type word
 
 The exact **232-byte physical `DrawSingleBullet`** callback checks the

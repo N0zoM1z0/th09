@@ -8,26 +8,22 @@
 
 #include <stddef.h>
 
-struct EndingAnmVmPositionView
-{
-    unsigned char unknown000[0x208];
-    Float3 pos;
-};
-typedef char EndingAnmVmPositionAt208[
-    (offsetof(EndingAnmVmPositionView, pos) == 0x208) ? 1 : -1];
+#include "EndingNativeVm.hpp"
 
-struct EndingSupervisorTextAnmView
-{
-    unsigned char unknown000[0x5CC];
-    AnmLoaded *textAnm;
-};
-typedef char EndingSupervisorTextAnmAt5CC[
-    (offsetof(EndingSupervisorTextAnmView, textAnm) == 0x5CC) ? 1 : -1];
+// The text ANM pointer belongs to the actual Supervisor at +0x5CC.
+typedef char EndingSupervisorNativeTextOwner[
+    (offsetof(Supervisor, textAnm5CC) == 0x5CC) ? 1 : -1];
 
 extern unsigned int g_EndingLifecycleFlags;
 extern int g_EndingActive;
 extern ScreenEffect *g_TitleFadeReleaseEffect;
 extern const char *g_EndingFilePaths[16];
+
+// Ending scripts select a live path from the original 16-DWORD table.
+#define TH09_ENDING_NATIVE_SCRIPT_PATH(index) \
+    (*reinterpret_cast<const char *const *>( \
+        reinterpret_cast<unsigned int>(&g_EndingFilePaths[0]) + \
+        static_cast<unsigned int>(index) * sizeof(g_EndingFilePaths[0])))
 
 int Ending::AddedCallback(Ending *ending)
 {
@@ -39,12 +35,12 @@ int Ending::AddedCallback(Ending *ending)
     ScreenEffect::Clear(0xFFFFFFFFu);
     g_EndingActive = 1;
 
-    EndingSupervisorTextAnmView *supervisor =
-        reinterpret_cast<EndingSupervisorTextAnmView *>(&g_Supervisor);
+    Supervisor *supervisor = &g_Supervisor;
     for (int i = 0; i < 15; i++)
     {
-        supervisor->textAnm->ExecuteAnmIdx(&ending->endingVms[i], i + 14);
-        reinterpret_cast<EndingAnmVmPositionView *>(&ending->endingVms[i])->pos =
+        reinterpret_cast<AnmLoaded *>(supervisor->textAnm5CC)->ExecuteAnmIdx(
+            &TH09_ENDING_NATIVE_VM(ending, i), i + 14);
+        TH09_ENDING_NATIVE_VM(ending, i).pos =
             Float3(64.0f, i * 16.0f + 400.0f, 0.0f);
     }
 
@@ -128,7 +124,7 @@ int Ending::AddedCallback(Ending *ending)
     }
 
     ending->hasSeenEnding = 1;
-    if (ending->LoadEndingScript(g_EndingFilePaths[g_GameManager.sides[0].character20]) != 0)
+    if (ending->LoadEndingScript(TH09_ENDING_NATIVE_SCRIPT_PATH(g_GameManager.sides[0].character20)) != 0)
         return -1;
 
     if (g_TitleFadeReleaseEffect != 0)
@@ -136,3 +132,7 @@ int Ending::AddedCallback(Ending *ending)
     g_TitleFadeReleaseEffect = 0;
     return 0;
 }
+
+#undef TH09_ENDING_NATIVE_SCRIPT_PATH
+
+#undef TH09_ENDING_NATIVE_VM

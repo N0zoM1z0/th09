@@ -150,10 +150,7 @@ void Ending::UpdateFade()
 // Original ending script VM selectors address one actual 0x2A4-byte AnmVm
 // array. Script text bytes are written through the real 68-byte stack buffer.
 // Preserve independent live wire reads and i386 modulo-32 address arithmetic.
-#define TH09_ENDING_NATIVE_VM(owner, index) \
-    (*reinterpret_cast<AnmVm *>( \
-        reinterpret_cast<unsigned int>(&(owner)->endingVms[0]) + \
-        static_cast<unsigned int>(index) * sizeof((owner)->endingVms[0])))
+#include "EndingNativeVm.hpp"
 #define TH09_ENDING_NATIVE_TEXT(buffer, index) \
     (*reinterpret_cast<char *>( \
         reinterpret_cast<unsigned int>(&(buffer)[0]) + \
