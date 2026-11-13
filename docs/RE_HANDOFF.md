@@ -376,3 +376,33 @@ load before ESI setup, `jmp` to the aligned null-check header) without
 clobbering `[ebp+10]` or introducing the extra alignment NOP. Continue to
 compare the full boss bytes/CFG/ABI; the exact 204-byte graze leaf remains a
 local regression guard. No full cold replay was run.
+
+## 2026-11-13 Collision geometry/reward lifetime checkpoint
+
+Committed `a311235e` (`gpt-web: align collision scratch lifetimes`). This is
+an exploratory source-shape checkpoint for the `0x0041DFF0` boss, not an
+exactness promotion. The focused pinned-VC7.1 `/O2 /Ob1 /Oy-` object reports:
+
+- 866/862 code bytes, 274/277 instructions, 32/33 direct CFG blocks;
+- all 26 relocation fields bound and all 12 ordered calls present;
+- zero missing target bytes and four extra candidate bytes;
+- 804 differing overlapping bytes. The previous 850-byte union-overlay
+  candidate remains a better raw-overlap baseline (485 differing overlaps),
+  so retain it in history as an alternate rather than claiming monotonic byte
+  improvement here.
+
+The new evidence is the local-lifetime mapping. `CollisionVectors` now puts
+`boundsMax` before `halfSize`, keeps `delta` and `rotated` at the original
+geometry homes, and makes `halfWidth` a register scalar. The rotated path
+therefore keeps half-width in x87 state while half-height occupies
+`[ebp-0x24]`. The AABB path keeps `minX` in x87 state and reuses the original
+homes for `minY`, `maxX`, and `maxY` (`[ebp-0x24]`, `[ebp-0x34]`,
+`[ebp-0x30]`). A 24-byte prefix in the reward union member overlays
+`effectPosition` and `velocity` onto the `delta`/`rotated` lifetime, restoring
+retail reward homes `[ebp-0x1c..-0x14]` and `[ebp-0x10..-0x08]`.
+
+The exact `CheckGrazeCollision` sibling still passes its focused comparison:
+204/204 bytes and all seven relocations. The boss itself remains NON-EXACT;
+its entry/loop schedule, branch layout, some caller-saved register choices,
+and remaining reward/control-flow bytes are still open. Continue with focused
+object builds and this leaf regression guard; do not run a full cold replay.
