@@ -613,3 +613,31 @@ branch change was retained.
 
 No full cold replay was run. Treat this as a checkpoint only; exactness still
 requires an accepted Oracle replay receipt.
+
+## 2026-11-13 AABB scratch-home pinning checkpoint
+
+Committed `9656ccd0` (`gpt-web: pin collision AABB scratch offsets`).
+A volatile pointer to the collision scratch union is now used for the initial
+cursor-home write and the final hit-region read, while the intermediate
+normal/cancel cursor refreshes continue to use the union directly. This
+preserves the same machine-code extent and relocation/call inventory but
+forces the compiler to keep the AABB temporaries in the retail stack slots.
+
+Focused pinned VC7.1 `/O2 /Ob1 /Oy-` result remains:
+
+- boss: 862/862 bytes, 275/277 instructions, 34/33 CFG blocks;
+- 26/26 relocation fields, 12/12 ordered calls;
+- 0 missing bytes, 0 extra bytes, 729 differing overlapping bytes;
+- graze leaf remains exact at 204/204 bytes.
+
+The AABB setup now uses the same target stack offsets:
+`halfSize.y=[ebp-24h]`, `boundsMax.x=[ebp-34h]`, and
+`boundsMax.y=[ebp-30h]`. It also matches the target's x-maximum x87
+operand order (`fld [ecx+10h]; fadd [ecx]`) rather than the earlier
+reversed load/add sequence. The four AABB comparisons still differ in
+branch encodings/destinations and register copies; the 6-byte block-alignment
+NOP and extra bottom-of-loop null check remain. This is a local x87/stack
+layout improvement, not whole-function exactness.
+
+No full cold replay was run. Keep `CheckBulletCollision` NON-EXACT until an
+accepted Oracle replay receipt is available.
