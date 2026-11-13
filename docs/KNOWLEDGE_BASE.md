@@ -7293,3 +7293,15 @@ Only focused object builds and inspectors were run; no full cold replay was run.
 New source probes tried explicit `register` on each pointer/both, pointer and pointee `volatile`, const pointers, references, aggregate locals with both field/assignment orders, comma sequencing, and local/global direct `GetAnm` variants. They either retained eight differences or regressed to eleven; none was retained. The `volatile EffectManager *` plus direct-global `GetAnm` variant retained the eight-byte baseline. The unresolved compiler fact is why an ordinary local manager snapshot is first materialized through ECX rather than directly into the callee-preserved EDI while the context remains in ESI. Do not repeat these declaration-order or alias variants without a new lifetime/visibility hypothesis.
 
 No source was changed. Only `EffectManager.cpp`'s focused object and the 51-byte callback inspector were run; no full cold replay was run.
+
+## 2026-11-13 GPT-web: Bullet/Laser constructor `/Ob0` closure
+
+The three native constructors in `src/BulletNativeConstructors.cpp` now have dedicated canonical match units using pinned VC7.1 `/O2 /Ob0` rather than the former `/Ob1` profile. This is a compiler-visibility distinction, not register forcing or manual CRT calls: `/Ob1` expanded `Bullet::exStates[7]` into a per-element loop and emitted a 67-byte Bullet constructor; `/Ob0` emits the original EH vector-constructor call and the original 58-byte body.
+
+Focused `build-match-unit.py` + `compare-coff-function.py` results:
+
+- `bullet-type-sprites-constructor`: 56/56 bytes, five original AnmVm constructor relocations
+- `bullet-constructor`: 58/58 bytes, five original relocations, including `??0BulletExState@@QAE@XZ` at `0x0041EE20` and `??_H@YGXPAXIHP6EPAX0@Z@Z` at `0x00401470`
+- `laser-constructor`: 34/34 bytes, three original AnmVm/ZunTimer relocations
+
+The complete-owner `inspect-bullet-native-constructors.py` additionally checks all four bodies: `BulletTypeSprites` 56/56, implicit `BulletExState` 12/12, `Bullet` 58/58 and `Laser` 34/34, with every original relocation field and no byte differences. The `BulletExState` constructor has no independent `functions.csv` row because its 12-byte timer-prefix body is physically shared with the separately reviewed `PlayerState3031CView` constructor at `0x0041EE20`; this does not prove a unique original class/source owner. The three visible constructor rows therefore remain `unclassified` with origin `unknown`: no codegen exactness or authored-origin credit is claimed despite the complete local byte/relocation replay. No runtime or full cold replay was run.

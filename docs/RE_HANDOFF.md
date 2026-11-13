@@ -287,3 +287,9 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 
 - `EffectManager::AddedCallback` remains at 8 bytes: target saves `g_AnmManager` directly to EDI then context ECX to ESI; candidate saves context to ESI then loads global through ECX and moves it to EDI. Fallback, owner store, all 4 fields, calls and CFG agree.
 - New `register`, const, pointer/reference, volatile-pointee, aggregate-layout/order, comma-expression and local/global `GetAnm` variants did not improve the baseline; some regress to 11 bytes. Keep the current source. Detailed byte-level evidence is in `KNOWLEDGE_BASE.md` under “EffectManager AddedCallback receiver/register follow-up”.
+
+## 2026-11-13 GPT-web Bullet/Laser constructor profile
+
+- Added three canonical `/O2 /Ob0` match units for `BulletTypeSprites`, `Bullet`, and `Laser` constructors. Focused comparisons pass 56/56 (5 relocs), 58/58 (5 relocs), and 34/34 (3 relocs). The complete-owner inspector also passes implicit `BulletExState` 12/12 and all four relocation inventories.
+- `/Ob1` is not the original Bullet ctor profile: it expands the seven 0x2C state elements into a loop (67 bytes); `/Ob0` emits the target's 0x00401470 EH vector helper call (58 bytes). No manual helper call was added.
+- Keep 0x00414FA0/0x00414FE0/0x00415020 `unclassified` and origin `unknown`: the implicit-vs-authored special-member origin remains unresolved, and `BulletExState` shares the 0x41EE20 timer-prefix constructor body with PlayerState. No exactness credit is claimed. See KNOWLEDGE_BASE “Bullet/Laser constructor `/Ob0` closure”.
