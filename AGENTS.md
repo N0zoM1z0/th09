@@ -80,6 +80,11 @@ variable-order hints, dummy clobbers or compiler-profile roulette to force a
 match. Do not add barriers as a codegen tactic. The old `_ReadWriteBarrier()`
 in Title result drawing was removed after natural source reproduced the full
 1,939-byte/82-field owner; do not restore it.
+The maintained PlayerCollisionHelpers.cpp also contains one existing
+byte-emission shim for the CheckBulletCollision loop-entry jump/alignment.
+Treat it as a narrow historical workaround for that one owner, not a general
+codegen technique or an exactness claim. Do not add similar assembly/padding;
+preserve or remove the existing shim only with a focused complete comparison.
 
 Ghidra metadata writes for reviewed names, types, prototypes and comments are
 allowed when useful and must be read back. Preserve analysis databases; mirror
