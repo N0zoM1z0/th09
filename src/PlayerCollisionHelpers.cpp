@@ -25,7 +25,7 @@ extern EffectManager *g_PlayerRewardEffectManager;
 int PlayerLifecycleView::CheckBulletCollision(
     PlayerPositionView *position,
     PlayerPositionView *,
-    Bullet * const volatile bullet)
+    Bullet *bullet)
 {
 
     PlayerPositionView delta;
@@ -34,33 +34,41 @@ int PlayerLifecycleView::CheckBulletCollision(
     PlayerPositionView boundsMax;
     float xDelta;
     float yDelta;
+    register Bullet *bulletParameter = bullet;
+    PlayerPositionView * volatile *positionArgument =
+        reinterpret_cast<PlayerPositionView * volatile *>(&position);
+    Bullet * volatile *bulletArgument =
+        reinterpret_cast<Bullet * volatile *>(&bullet);
 
     PlayerCollisionRegionCreateRegionView **slot = activeB100;
 
-    // Original i386 walks the actual active-region pointer words by native
-    // modulo-32 byte strides, preserving every live null test and lookup.
-    for (; *slot != NULL;
-         slot = TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot))
+    // Model the retail slot cursor as a loop-header destination; each
+    // rejection retains its own native slot-advance edge.
+    goto check_region;
+
+check_region:
+    if (*slot == NULL)
+        goto no_collision;
     {
-        PlayerCollisionRegionCreateRegionView *region = *slot;
-        const int regionType = region->type38;
+        PlayerCollisionRegionCreateRegionView &region = **slot;
+        const int regionType = region.type38;
         if (regionType != 1 && regionType != 2 && regionType != 3)
-            continue;
+            goto next_invalid_region;
         if ((*slot)->delay40 > 0)
-            continue;
+            goto next_invalid_region;
 
         bool intersects;
         if ((*slot)->radius08 != 0.0)
         {
-            xDelta = position->x - (*slot)->centerX00;
-            yDelta = position->y - (*slot)->centerY04;
+            xDelta = (*positionArgument)->x - (*slot)->centerX00;
+            yDelta = (*positionArgument)->y - (*slot)->centerY04;
             intersects = xDelta * xDelta + yDelta * yDelta <
                 (*slot)->radius08 * (*slot)->radius08;
         }
         else if ((*slot)->angle20 != 0.0f)
         {
-            delta.x = position->x - (*slot)->centerX00;
-            delta.y = position->y - (*slot)->centerY04;
+            delta.x = (*positionArgument)->x - (*slot)->centerX00;
+            delta.y = (*positionArgument)->y - (*slot)->centerY04;
             RotatePlayerCollisionVector(
                 &rotated, &delta, -(*slot)->angle20);
             halfSize.x = (*slot)->halfWidth10;
@@ -76,85 +84,94 @@ int PlayerLifecycleView::CheckBulletCollision(
             halfSize.y = (*slot)->centerY04 - (*slot)->halfHeight14;
             boundsMax.x = (*slot)->halfWidth10 + (*slot)->centerX00;
             boundsMax.y = (*slot)->halfHeight14 + (*slot)->centerY04;
-            intersects = !(halfSize.x > position->x) &&
-                !(boundsMax.x < position->x) &&
-                !(halfSize.y > position->y) &&
-                !(boundsMax.y < position->y);
+            intersects = !(halfSize.x > (*positionArgument)->x) &&
+                !(boundsMax.x < (*positionArgument)->x) &&
+                !(halfSize.y > (*positionArgument)->y) &&
+                !(boundsMax.y < (*positionArgument)->y);
         }
         if (!intersects)
-            continue;
+            goto next_geometry_region;
         if ((*slot)->type38 == 2)
             goto cancel_hit;
         if ((*slot)->type38 == 3)
             goto cancel_hit;
-        (*slot)->hitCount2C = static_cast<int>(
-            static_cast<unsigned int>((*slot)->hitCount2C) + 1u);
+        ++region.hitCount2C;
         return 2;
-
-    cancel_hit:
-        if (bullet == NULL || bullet->bulletType != 0)
-            continue;
-
-        {
-            EffectFloat3 effectPosition;
-            effectPosition.x =
-                g_GameManager.TransformPopupX(position->x);
-            effectPosition.y =
-                g_GameManager.TransformPopupY(position->y);
-            effectPosition.z = 0.0f;
-
-            g_Supervisor.SelectSide(static_cast<int>(
-                1u - static_cast<unsigned int>(this->sideIndex)));
-
-            EffectFloat3 velocity;
-            velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
-                g_GameManager.coordinate358 * 0.5f - 8.0f);
-            velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
-            velocity.z = 0.0f;
-
-            // Retail forms the side-based reward effect id as a DWORD sum.
-            Effect *effect =
-                g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                    static_cast<int>(
-                        static_cast<unsigned int>(this->sideIndex) + 1u),
-                    &effectPosition, &velocity,
-                    1, static_cast<unsigned int>(-1));
-            g_Supervisor.SelectSide(this->sideIndex);
-
-            effect->cancel.bulletType = bullet->bulletType;
-            effect->cancel.color = bullet->color;
-            effect->cancel.bulletSpeed = bullet->speed;
-            effect->cancel.side =
-                static_cast<short>(bullet->controller->sideIndex);
-            effect->cancel.extraAttribute = bullet->extraAttribute10BD;
-
-            this->AddRespawnResource(0.2f);
-            g_SoundPlayer.PlaySoundByIdx(
-                46, this->sideIndex != 0 ? 500 : -500);
-
-            int rewardValue =
-                this->ownerState30410.state38;
-            if (rewardValue > 100)
-                rewardValue = 1000;
-            else
-                rewardValue = static_cast<int>(
-                    static_cast<unsigned int>(rewardValue) * 10u);
-
-            int rewardMode =
-                (g_GameManager.difficulty11C >= 3) + 2;
-            this->ownerState30410.ApplyReward(
-                position, rewardMode, 2, 0, rewardValue);
-
-            this->sideState->AddScore(50);
-        }
-
-        (*slot)->hitCount2C = static_cast<int>(
-            static_cast<unsigned int>((*slot)->hitCount2C) + 1u);
-        return 2;
-
     }
 
+cancel_hit:
+    if (*bulletArgument == NULL || bulletParameter->bulletType != 0)
+        goto next_cancel_region;
+
+    {
+        EffectFloat3 effectPosition;
+        effectPosition.x =
+            g_GameManager.TransformPopupX((*positionArgument)->x);
+        effectPosition.y =
+            g_GameManager.TransformPopupY((*positionArgument)->y);
+        effectPosition.z = 0.0f;
+
+        g_Supervisor.SelectSide(static_cast<int>(
+            1u - static_cast<unsigned int>(this->sideIndex)));
+
+        EffectFloat3 velocity;
+        velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
+            g_GameManager.coordinate358 * 0.5f - 8.0f);
+        velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
+        velocity.z = 0.0f;
+
+        // Retail forms the side-based reward effect id as a DWORD sum.
+        Effect *effect =
+            g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
+                static_cast<int>(
+                    static_cast<unsigned int>(this->sideIndex) + 1u),
+                &effectPosition, &velocity,
+                1, static_cast<unsigned int>(-1));
+        g_Supervisor.SelectSide(this->sideIndex);
+
+        effect->cancel.bulletType = bulletParameter->bulletType;
+        effect->cancel.color = bulletParameter->color;
+        effect->cancel.bulletSpeed = bulletParameter->speed;
+        effect->cancel.side =
+            static_cast<short>(bulletParameter->controller->sideIndex);
+        effect->cancel.extraAttribute = bulletParameter->extraAttribute10BD;
+
+        this->AddRespawnResource(0.2f);
+        g_SoundPlayer.PlaySoundByIdx(
+            46, this->sideIndex != 0 ? 500 : -500);
+
+        int rewardValue = this->ownerState30410.state38;
+        if (rewardValue > 100)
+            rewardValue = 1000;
+        else
+            rewardValue = static_cast<int>(
+                static_cast<unsigned int>(rewardValue) * 10u);
+
+        int rewardMode = (g_GameManager.difficulty11C >= 3) + 2;
+        this->ownerState30410.ApplyReward(
+            *positionArgument, rewardMode, 2, 0, rewardValue);
+
+        this->sideState->AddScore(50);
+    }
+
+    (*slot)->hitCount2C = static_cast<int>(
+        static_cast<unsigned int>((*slot)->hitCount2C) + 1u);
+    return 2;
+
+no_collision:
     return 0;
+
+next_invalid_region:
+    slot = TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot);
+    goto check_region;
+
+next_geometry_region:
+    slot = TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot);
+    goto check_region;
+
+next_cancel_region:
+    slot = TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot);
+    goto check_region;
 }
 
 int PlayerLifecycleView::CheckGrazeCollision(
