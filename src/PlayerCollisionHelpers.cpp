@@ -50,20 +50,19 @@ check_region:
     if (*slot == NULL)
         goto no_collision;
     {
-        PlayerCollisionRegionCreateRegionView &region = **slot;
-        const int regionType = region.type38;
+        const int regionType = (*slot)->type38;
         if (regionType != 1 && regionType != 2 && regionType != 3)
             goto next_invalid_region;
         if ((*slot)->delay40 > 0)
             goto next_invalid_region;
 
-        bool intersects;
         if ((*slot)->radius08 != 0.0)
         {
             xDelta = (*positionArgument)->x - (*slot)->centerX00;
             yDelta = (*positionArgument)->y - (*slot)->centerY04;
-            intersects = xDelta * xDelta + yDelta * yDelta <
-                (*slot)->radius08 * (*slot)->radius08;
+            if (!(xDelta * xDelta + yDelta * yDelta <
+                    (*slot)->radius08 * (*slot)->radius08))
+                goto next_geometry_region;
         }
         else if ((*slot)->angle20 != 0.0f)
         {
@@ -73,10 +72,14 @@ check_region:
                 &rotated, &delta, -(*slot)->angle20);
             halfSize.x = (*slot)->halfWidth10;
             halfSize.y = (*slot)->halfHeight14;
-            intersects = -halfSize.x <= rotated.x &&
-                rotated.x <= halfSize.x &&
-                -halfSize.y <= rotated.y &&
-                rotated.y <= halfSize.y;
+            if (!(-halfSize.x <= rotated.x))
+                goto next_geometry_region;
+            if (!(rotated.x <= halfSize.x))
+                goto next_geometry_region;
+            if (!(-halfSize.y <= rotated.y))
+                goto next_geometry_region;
+            if (!(rotated.y <= halfSize.y))
+                goto next_geometry_region;
         }
         else
         {
@@ -84,18 +87,23 @@ check_region:
             halfSize.y = (*slot)->centerY04 - (*slot)->halfHeight14;
             boundsMax.x = (*slot)->halfWidth10 + (*slot)->centerX00;
             boundsMax.y = (*slot)->halfHeight14 + (*slot)->centerY04;
-            intersects = !(halfSize.x > (*positionArgument)->x) &&
-                !(boundsMax.x < (*positionArgument)->x) &&
-                !(halfSize.y > (*positionArgument)->y) &&
-                !(boundsMax.y < (*positionArgument)->y);
+            if (halfSize.x > (*positionArgument)->x)
+                goto next_geometry_region;
+            if (boundsMax.x < (*positionArgument)->x)
+                goto next_geometry_region;
+            if (halfSize.y > (*positionArgument)->y)
+                goto next_geometry_region;
+            if (boundsMax.y < (*positionArgument)->y)
+                goto next_geometry_region;
         }
-        if (!intersects)
-            goto next_geometry_region;
         if ((*slot)->type38 == 2)
             goto cancel_hit;
         if ((*slot)->type38 == 3)
             goto cancel_hit;
-        ++region.hitCount2C;
+        {
+            volatile int &hitCount = (*slot)->hitCount2C;
+            ++hitCount;
+        }
         return 2;
     }
 
