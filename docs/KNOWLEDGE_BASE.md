@@ -4066,6 +4066,34 @@ The two affected pinned VC7.1 carriers passed local exact replay for
 16 ANM resource-load/release functions. No private label changes were
 required and no newly exact owner or whole-Windows runtime credit follows.
 
+## 2026-11-13 SoundPlayer live twelve-slot SFX queue at native DWORD addresses
+
+The two separately exact SFX producer leaves, the **140-byte
+`SoundPlayer::PlaySoundByIdx`** and **153-byte
+`SoundPlayer::PlaySoundPositionedByIdx`**, append commands to one real
+12-element `SoundPlayer::soundQueue` DWORD array, with parallel 12-element
+request counts and real 12x128 pan words in the same 0x6224-byte owner.
+Their six independent selected-command comparisons/stores now share
+`NativeSoundQueue(this,i)`, which forms the physical Win32
+`uint32(&soundQueue[0]) + uint32(i)*4` lvalue without a second queue,
+cached slot, new bounds gate or change to the original queue chronology.
+The two functions still use their separately observed live per-sound
+metadata, 0x80 count cap and native panning words. The same accessor
+also reproduces the exact **245-byte `InitSoundBuffers`** initial queue
+clear. However the initialization loop in the exact **613-byte
+`InitializeDSound`** depends on the original C++ array expression for
+VC7.1's scheduling; forcing the helper there shortens the compiled owner.
+That trial was rejected, keeping its original exact machine-code shape.
+
+The eight affected pinned VC7.1 SoundPlayer carriers passed **20/20
+already exact owners, 5,400 complete original PE bytes and 184 relocation
+fields**, including the 1,456-byte ProcessQueues boss and queue producer,
+DSound initialization, WAV loader and supporting leaves. Eleven private
+`$L` labels in ProcessQueues were updated only after a fresh source-driven
+compile independently confirmed their real same-section definitions,
+original PE branch destinations and complete physical owner. No new
+exact-function or complete Windows product/runtime claim is implied.
+
 ## 2026-11-13 SoundPlayer native 128-slot DirectSound duplicate pointer ownership
 
 The exact 245-byte `SoundPlayer::InitSoundBuffers` builds 54 hardware/volume

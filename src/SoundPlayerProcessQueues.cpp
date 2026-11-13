@@ -63,6 +63,16 @@ enum SoundPlayerCommandOpcode
     SOUNDPLAYER_COMMAND_START_LOADED_BGM = 10,
 };
 
+// The active 12-command SFX queue is one genuine array of DWORD indices
+// inside the same SoundPlayer object as the duplicate buffer table.
+// Read/write each live slot with the original Win32 index*4 byte stride.
+static __forceinline int &NativeSoundQueue(SoundPlayer *player, int index)
+{
+    return *reinterpret_cast<int *>(
+        reinterpret_cast<unsigned int>(&player->soundQueue[0]) +
+        static_cast<unsigned int>(index) * sizeof(player->soundQueue[0]));
+}
+
 SoundPlayer::SoundPlayer()
 {
     ZeroMemory(this, sizeof(SoundPlayer));
@@ -197,7 +207,7 @@ int SoundPlayer::InitSoundBuffers()
         return 0;
 
     for (i = 0; i < 12; ++i)
-        this->soundQueue[i] = -1;
+        NativeSoundQueue(this, i) = -1;
 
     for (i = 0; i < 39; ++i)
     {
@@ -1068,9 +1078,9 @@ void SoundPlayer::PlaySoundByIdx(int index, int pan)
     static_cast<unsigned int>(index) * sizeof(g_SoundBufferIdxVol[0]))).unconsumedMetadata;
     for (i = 0; i < 12; i++)
     {
-        if (this->soundQueue[i] < 0)
+        if (NativeSoundQueue(this, i) < 0)
             break;
-        if (this->soundQueue[i] == index)
+        if (NativeSoundQueue(this, i) == index)
         {
             if (this->soundQueueRequestCounts[i] < 0x80)
                 *reinterpret_cast<unsigned int *>(
@@ -1085,7 +1095,7 @@ void SoundPlayer::PlaySoundByIdx(int index, int pan)
     if (i >= 12)
         return;
 
-    this->soundQueue[i] = index;
+    NativeSoundQueue(this, i) = index;
     *reinterpret_cast<int *>(
     reinterpret_cast<unsigned int>(&this->unconsumedMetadataBySound[0]) +
     static_cast<unsigned int>(index) * sizeof(this->unconsumedMetadataBySound[0])) = unconsumedMetadata;
@@ -1105,9 +1115,9 @@ void SoundPlayer::PlaySoundPositionedByIdx(int index, float positionX)
     pan = (int)(positionX * 6.9444447f);
     for (i = 0; i < 12; i++)
     {
-        if (this->soundQueue[i] < 0)
+        if (NativeSoundQueue(this, i) < 0)
             break;
-        if (this->soundQueue[i] == index)
+        if (NativeSoundQueue(this, i) == index)
         {
             if (this->soundQueueRequestCounts[i] < 0x80)
                 *reinterpret_cast<unsigned int *>(
@@ -1122,7 +1132,7 @@ void SoundPlayer::PlaySoundPositionedByIdx(int index, float positionX)
     if (i >= 12)
         return;
 
-    this->soundQueue[i] = index;
+    NativeSoundQueue(this, i) = index;
     *reinterpret_cast<int *>(
     reinterpret_cast<unsigned int>(&this->unconsumedMetadataBySound[0]) +
     static_cast<unsigned int>(index) * sizeof(this->unconsumedMetadataBySound[0])) = unconsumedMetadata;
