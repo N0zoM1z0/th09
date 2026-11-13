@@ -7,7 +7,7 @@
 extern int g_WindowActivateWParam;
 extern int g_WindowInactive;
 extern unsigned int g_WindowRuntimeFlags;
-extern MidiOutput *g_WindowMidiOutput;
+extern MidiOutput *g_MidiOutput;
 extern Supervisor g_Supervisor;
 
 LRESULT CALLBACK GameWindowProc(
@@ -19,8 +19,8 @@ LRESULT CALLBACK GameWindowProc(
         return 1;
 
     case 969:
-        if (g_WindowMidiOutput != NULL)
-            g_WindowMidiOutput->UnprepareHeader(
+        if (g_MidiOutput != NULL)
+            g_MidiOutput->UnprepareHeader(
                 reinterpret_cast<LPMIDIHDR>(lParam));
         break;
 

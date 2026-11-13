@@ -1529,6 +1529,32 @@ not duplicate canonical function credit. The shared header gains only
 nonvirtual member declarations; physical layout and unrelated callers do
 not change. No new exact-function or whole Windows runtime is implied.
 
+## 2026-11-13 WinMain MIDI shutdown and WindowProc header use one physical output pointer
+
+Two separately original-bound modules observe one genuine
+`MidiOutput*` global at **0x004B36BC**. The exact **1,351-byte WinMain**
+checks it independently before StopPlayback, delete and null publication,
+while the exact **249-byte GameWindowProc** reads the same pointer when
+handling the native 969/MM_MOM_DONE MIDI message and calls the original
+`MidiOutput::UnprepareHeader`. Both previously declared different
+provisional external variables (`g_MainMidiOutput` and
+`g_WindowMidiOutput`) for this *single allocation*. They now use the
+same source-facing `g_MidiOutput` declaration, with unchanged signed
+message dispatch, queue teardown, null branches, deleted-object ordering,
+and real `MidiOutput` class. This neutral maintained name is not claimed
+to be an independently discovered original identifier; the separately
+recovered Title PlayFile convenience caller still has its own provisional
+source-facing external view and is not silently retyped.
+
+Four global-pointer relocation symbols were rebound only after checking
+both target-original PE addresses, complete VC7.1 COFF function bytes,
+all original fields, kinds, offsets and addends, and the independent
+Title consumer's same +0x4B36BC global address. The affected two pinned
+VC7.1 carriers passed **3/3 previously exact owners, 1,885 complete PE
+bytes and 187 relocation fields**, including 285-byte CreateGameWindow.
+The independent 83-byte exact StopPlayback implementation at 0x0043DE30
+remains unchanged. No new exact-function or Windows runtime credit follows.
+
 ## 2026-11-13 WinMain's real 0x2B2934-byte AnmManager allocation and methods
 
 The complete **1,351-byte original-bound WinMain** allocated and published

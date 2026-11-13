@@ -57,7 +57,7 @@ typedef char WinMainNativeSupervisorView[
      offsetof(Supervisor, screenTransitionCountdown) == 0x5A4 &&
      offsetof(Supervisor, flags) == 0x5D4) ? 1 : -1];
 
-extern MidiOutput *g_MainMidiOutput;
+extern MidiOutput *g_MidiOutput;
 extern Chain g_Chain;
 extern RngRuntimeView g_ReplayRng;
 extern ZunMemory g_ZunMemory;
@@ -381,12 +381,12 @@ stop:
     FileSystem::WriteDataToFile(
         "th09.cfg", &g_Supervisor.config388, sizeof(GameConfiguration));
 
-    if (g_MainMidiOutput != NULL)
+    if (g_MidiOutput != NULL)
     {
-        g_MainMidiOutput->StopPlayback();
-        if (g_MainMidiOutput != NULL)
-            delete g_MainMidiOutput;
-        g_MainMidiOutput = NULL;
+        g_MidiOutput->StopPlayback();
+        if (g_MidiOutput != NULL)
+            delete g_MidiOutput;
+        g_MidiOutput = NULL;
     }
 
     g_GameErrorContext.Flush();
