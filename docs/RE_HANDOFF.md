@@ -316,3 +316,10 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 - Focused exact siblings passed: `player-constructor` 243/243, `player-on-update` 522/522, `player-update-stage-c` 74/74, and `player-calc-item-box-collision` 121/121. No full cold replay was run.
 - The `PlayerMovement` boss remains nonexact at eight bytes (`+0x127-0x12E`). Direct array indexing, config/side locals, inline config accessor, materialized focus byte, `this->sideIndex`, branch inversion and raw config-byte indexing did not improve it; reusing the earlier input-side local regressed badly. Avoid repeating those forms without a new lifetime/visibility hypothesis.
 - Preserve the 30 pre-existing untracked `_CL_*` compiler scratch files; no cleanup or reset was performed.
+
+## 2026-11-13 GPT-web EnemyManager side-category branch checkpoint
+
+- Commit `4860f289` (`gpt-web: match enemy update side-category branches`) changes the category guard to `!(sideCategory == 1 || sideCategory == 2)`. This source form produces the retail pair of `cmp eax,1/2` and conditional equality branches instead of the compiler's range-style `jbe` rewrite.
+- Focused `enemy-attached-effect-update` inspection: 3,900/3,900 bytes, 97/97 relocation fields agree, 69 ordered calls agree, 170/170 direct CFG blocks, reviewed control flow agrees, and 13 differing bytes remain at `+0x19C,+0x1A3,+0x252,+0x263,+0x26D,+0x272,+0x294,+0x29A,+0x29C,+0x2A5,+0x2A9,+0x2B7,+0x2BD`.
+- Remaining windows are draw-group index register selection (2 bytes) and side-state/threshold plus descriptor-position register allocation/store scheduling (11 bytes). `EnemyManager::OnUpdate` is still NONEXACT; no ledger promotion or Oracle claim.
+- Continue with the focused `/O2 /Ob1 /Oy-` carrier. Do not run a full cold replay. The 30 pre-existing `_CL_*` scratch files remain untouched.

@@ -7404,3 +7404,11 @@ changes from these probes were retained.
 
 Only the affected Etama, EclManager and PlayerChargeAttack compiler carriers
 were built and inspected. No full cold replay was run.
+
+## 2026-11-13 GPT-web: EnemyManager OnUpdate side-category branch convergence
+
+The maintained `EnemyManagerView::OnUpdate` source now expresses the side-category exception as `!(sideCategory == 1 || sideCategory == 2)`. This is behavior-equivalent to the previous conjunction, but pinned VC7.1 `/O2 /Ob1` emits the retail branch sequence: two independent `cmp eax,1/2` plus `je` instructions before the draw-group append path. The prior source form selected a range-style `jbe` sequence; the current form now matches the original comparison/control-flow instructions at that branch.
+
+The focused `enemy-attached-effect-update` build and `inspect-enemy-manager-update.py --explain --json` report the same 3,900-byte target/candidate extent, all 97 relocation fields agreeing, all 69 ordered calls agreeing, 170 direct CFG blocks on both sides, and reviewed control flow agreeing. Thirteen linked instruction bytes remain different at `+0x19C,+0x1A3,+0x252,+0x263,+0x26D,+0x272,+0x294,+0x29A,+0x29C,+0x2A5,+0x2A9,+0x2B7,+0x2BD`: two bytes for draw-group index register selection and eleven bytes for side-state/threshold and descriptor-position register allocation/store scheduling. The function remains NONEXACT; no owner ledger promotion or Oracle exactness claim is made.
+
+This source change is checkpointed as `4860f289` (`gpt-web: match enemy update side-category branches`). Continue from the current 13-byte diagnostic, not the earlier range-comparison source. Recent scalar-position interleaving and side-state pointer/reference experiments were temporary and restored; they did not replace the committed source. Keep the `/O2 /Ob1 /Oy-` profile and run only this owner/focused sibling guards while working this frontier.
