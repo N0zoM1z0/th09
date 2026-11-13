@@ -32,13 +32,14 @@ int PlayerLifecycleView::CheckBulletCollision(
     {
         struct CollisionVectors
         {
-            PlayerPositionView halfSize;
             PlayerPositionView boundsMax;
+            PlayerPositionView halfSize;
             PlayerPositionView delta;
             PlayerPositionView rotated;
         } collision;
         struct RewardVectors
         {
+            unsigned char collisionScratchPrefix[24];
             EffectFloat3 effectPosition;
             EffectFloat3 velocity;
         } reward;
@@ -79,11 +80,11 @@ check_region:
             scratch.collision.delta.y = (*positionArgument)->y - (*slot)->centerY04;
             RotatePlayerCollisionVector(
                 &scratch.collision.rotated, &scratch.collision.delta, -(*slot)->angle20);
-            scratch.collision.halfSize.x = (*slot)->halfWidth10;
+            register float halfWidth = (*slot)->halfWidth10;
             scratch.collision.halfSize.y = (*slot)->halfHeight14;
-            if (!(-scratch.collision.halfSize.x <= scratch.collision.rotated.x))
+            if (!(-halfWidth <= scratch.collision.rotated.x))
                 goto next_geometry_region;
-            if (!(scratch.collision.rotated.x <= scratch.collision.halfSize.x))
+            if (!(scratch.collision.rotated.x <= halfWidth))
                 goto next_geometry_region;
             if (!(-scratch.collision.halfSize.y <= scratch.collision.rotated.y))
                 goto next_geometry_region;
@@ -92,17 +93,17 @@ check_region:
         }
         else
         {
-            scratch.collision.halfSize.x = (*slot)->centerX00 - (*slot)->halfWidth10;
+            register float minX = (*slot)->centerX00 - (*slot)->halfWidth10;
             scratch.collision.halfSize.y = (*slot)->centerY04 - (*slot)->halfHeight14;
             scratch.collision.boundsMax.x = (*slot)->halfWidth10 + (*slot)->centerX00;
             scratch.collision.boundsMax.y = (*slot)->halfHeight14 + (*slot)->centerY04;
-            if (scratch.collision.halfSize.x > (*positionArgument)->x)
+            if (minX > position->x)
                 goto next_geometry_region;
-            if (scratch.collision.boundsMax.x < (*positionArgument)->x)
+            if (scratch.collision.boundsMax.x < position->x)
                 goto next_geometry_region;
-            if (scratch.collision.halfSize.y > (*positionArgument)->y)
+            if (scratch.collision.halfSize.y > position->y)
                 goto next_geometry_region;
-            if (scratch.collision.boundsMax.y < (*positionArgument)->y)
+            if (scratch.collision.boundsMax.y < position->y)
                 goto next_geometry_region;
         }
         if ((*slot)->type38 == 2)
