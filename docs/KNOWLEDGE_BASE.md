@@ -7219,3 +7219,23 @@ promote the boss based on equal extent, relocation inventory or call order;
 require a complete accepted Oracle receipt. Historical collision trials above
 this section remain failed experiments and should not be mistaken for the
 current source or current comparison.
+
+## 2026-11-13 GPT-web: TH09 boss reconstruction session
+
+### `PlayerLifecycleView::CheckBulletCollision`
+
+A fresh target-bound review confirmed the full 862-byte function extent, 277 target instructions, 33 target basic blocks, 12 external calls, and 26 relocation fields. The baseline candidate remains 862 bytes but has 275 instructions, 34 blocks, and 729 differing bytes. The three shape paths (circle, rotated rectangle, AABB) and the cancel/reward path were all traced against the original PE and IDA/Ghidra views.
+
+Experiments tested volatile stack-home writes, plain versus volatile hit-count locals, direct versus indirect position reads, one-axis pointer changes, reward X/Y argument reads, and difficulty/reward-value load ordering. Volatile stack-home writes make the direct-hit epilogue retain the target's slot-home store, but the whole-function mismatch count rises; direct position-pointer variants also worsen the overall match. Difficulty snapshots preserve the baseline byte count without reducing the residual. Do not repeat these exact variants as if they were new progress. The next useful line of inquiry is the true lifetime/alias relationship of the slot-home local across the direct-hit and cancel/reward exits, rather than adding more volatile aliases blindly.
+
+### `EnemyManagerView::OnUpdate`
+
+The focused owner check measured a 3,900-byte physical extent, 97 relocation fields, 69 calls, 170 matching blocks, and 13 residual bytes grouped into draw-group register selection, side-state/threshold register selection, and the three-float descriptor copy. The `NativeEnemyDrawHead` helper now accepts the native byte-sized draw-group selector (`unsigned char`); the full enemy owner check retained all 77 exact sibling proofs. Direct macro expansion, a local integer group, side-state pointer/reference aliases, and descriptor pointer/reference aliases did not by themselves remove the remaining register windows. Continue from the live disassembly rather than repeating these aliases.
+
+### Other frontiers reviewed
+
+- `EffectManager::AddedCallback`: routing `GetAnm` through the saved manager pointer changes ESI/EDI allocation and moves the residual outside the accepted frontier; that probe was reverted.
+- `ReplayManagerView::SaveReplay`: the two-byte EDI/ECX header-copy residual is already covered by prior pointer, cast, constness, register, size-type, and loop-order experiments. Do not repeat them without a new lifetime hypothesis.
+- `RunEcl`: opcode 4 timer/advance semantics and opcode 155 timeout-bit transitions were rechecked. Existing semantic probes cover 90 timer cases and 3,072 timeout-bit states; prior wire-snapshot and packed-struct variants are already documented and should not be repeated.
+
+No full cold replay was run in this session; work stayed on the selected owners and their focused build/inspection paths.

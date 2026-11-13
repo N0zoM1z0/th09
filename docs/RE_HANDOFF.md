@@ -253,3 +253,10 @@ Ghidra export directories were also removed after hash/content comparison.
 The original target, Wine prefix/toolchain, factory tools, saved Ghidra
 database, reference source and useful private proof scripts were preserved.
 build/ and __pycache__ may be absent; recreate only the selected object.
+
+## 2026-11-13 GPT-web session update
+
+- `EnemyManagerCore.inl`: `NativeEnemyDrawHead` now takes `unsigned char` for the native byte-sized draw-group selector. The full `--owner enemy` check retained all 77 exact sibling proofs. The remaining 13-byte `EnemyManagerView::OnUpdate` frontier is still grouped around draw-group, side/threshold, and descriptor-copy register allocation; see the matching session note in `KNOWLEDGE_BASE.md`.
+- `CheckBulletCollision` received another target/IDA/Ghidra pass and multiple compile-probe variants. The direct/volatile pointer experiments did not improve whole-function exactness; preserve the recorded measurements and pursue slot-home lifetime/aliasing rather than repeating them.
+- `SaveReplay` and `RunEcl` were reviewed but not modified because their known residuals already have broad, documented failed-variant coverage.
+- No full cold replay was run. Continue with focused owner checks and make a local commit after each genuinely improved source or evidence checkpoint.
