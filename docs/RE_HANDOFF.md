@@ -468,3 +468,29 @@ The previous `0c31c589` 868-byte candidate remains in history as the earlier
 33-block dispatch checkpoint. Do not promote either candidate to exactness.
 Continue with focused object builds and the exact graze-leaf regression only;
 no full cold replay is needed.
+
+## 2026-11-13 Volatile region-reference refinement
+
+Committed `3c4b30b9` (`gpt-web: preserve volatile collision region reference`).
+The 41DFF0 boss remains NON-EXACT; this is a measurable partial refinement of
+the 851-byte slot-home candidate, not a claim of closure. Focused pinned
+VC7.1 `/O2 /Ob1 /Oy-` audit:
+
+- 855/862 physical bytes, 275/277 instructions, 31/33 direct CFG blocks;
+- 26/26 original relocation fields and 12/12 ordered calls;
+- 783 differing overlapping linked bytes, seven missing bytes, no extras;
+- exact `CheckGrazeCollision` sibling remains 204/204 bytes.
+
+The loop now binds the active slot's pointer cell as a volatile lvalue
+reference and uses that same reference for the null test, type dispatch, and
+delay guard. Compared with `30a1ca95`, this improves overlap by seven bytes
+(790 to 783) and reduces missing bytes from eleven to seven, at the cost of
+two extra decoded instructions and four extra physical bytes. The compiler
+still emits a memory compare for the null test and reloads the region pointer;
+retail instead has an aligned loop-header jump, one `mov ecx,[esi]`/`test ecx`
+sequence, and reuses ECX for the type/delay fields. The direct CFG remains
+31/33. A register-copy variant produces a closer `mov`/`test` shape but
+regresses to 852 bytes and 815 overlapping differences, so it was discarded.
+
+Continue from `3c4b30b9`, not the discarded experiments. Keep the focused boss
+object audit plus the exact graze-leaf guard; no full cold replay.
