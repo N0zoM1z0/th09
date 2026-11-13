@@ -186,8 +186,9 @@ and never silently push. Do not infer a fixed ahead/behind count from old notes.
 
 ## 2026-11-13 continuation checkpoint
 
-The live `th09` branch is `main`, clean, and three commits ahead of
-`origin/main`. The newest code checkpoint is `fe6ee2c7`:
+At the earlier continuation checkpoint, the live `th09` branch was `main`,
+clean, and three commits ahead of `origin/main`. The newest code checkpoint
+at that time was `fe6ee2c7`:
 
 - `gpt-web: model replay scratch allocation as void`
 - `ReplayManagerView::SaveReplay` now keeps the `Alloc` result as `void *`
@@ -249,3 +250,36 @@ Focused next steps:
 3. Build only `player-check-graze-collision`, run
    `inspect-player-bullet-collision.py` and compare the exact sibling unit;
    no full cold replay is needed.
+
+## 2026-11-13 Player collision parameter-home progress
+
+The current `CheckBulletCollision` source experiment preserves the original
+`PlayerPositionView *` decorated ABI and uses volatile-qualified aliases to
+the two incoming pointer parameter homes. This keeps the original argument
+stack slots readable while the compiler carries `Bullet *` in EBX. The
+candidate now has EDI=`this`, ESI=active region slot, EBX=`Bullet *`, a
+0x34-byte stack frame, and three `ret 12` exits. It does not overwrite either
+caller-owned argument slot.
+
+Focused pinned-VC7.1 `/O2 /Ob1 /Oy-` evidence from the same source:
+
+- `CheckBulletCollision`: 864/862 bytes, 279/277 instructions, 33/33 CFG
+  blocks, 26/26 fields, 12/12 ordered calls, three `ret 12` exits. This is a
+  diagnostic candidate only; no exactness credit.
+- `CheckGrazeCollision`: structural-exact 204-byte extent; all 176
+  non-relocation bytes match and all 28 relocation bytes solve to the reviewed
+  destinations. The leaf remains intact while the boss changes.
+
+The remaining boss mismatch is now concentrated in the loop-entry schedule
+and one local-pointer spill. Retail first forms ESI=`this+0xB100`, stores ESI
+at `[ebp-4]`, jumps to the aligned loop header, then loads `[esi]` into ECX.
+The candidate still hoists the first region load/null test into the prologue
+and later writes EDX (the region pointer) over `[ebp-4]`; retail retains the
+slot pointer there. The next experiment should remove the local region
+reference and return to the direct `(*slot)->hitCount2C` update, then test a
+volatile active-slot dereference while retaining the parameter-home aliases.
+Keep the three exits and both argument homes under every focused build.
+
+Use `scripts/compile-probe.sh` with the `player-check-graze-collision`
+profile, `inspect-player-bullet-collision.py`, and the explicit
+`compare-coff-function.py` leaf comparison. Do not run a full cold replay.

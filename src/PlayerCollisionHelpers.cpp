@@ -25,7 +25,7 @@ extern EffectManager *g_PlayerRewardEffectManager;
 int PlayerLifecycleView::CheckBulletCollision(
     PlayerPositionView *position,
     PlayerPositionView *,
-    Bullet *bullet)
+    Bullet * const volatile bullet)
 {
 
     PlayerPositionView delta;
