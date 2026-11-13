@@ -62,7 +62,7 @@ on them after related source changes. The `--owner` options refer to
 | --- | --- | --- | --- |
 | **RunEcl** | 0x004086C0 | 15,564/15,564 physical bytes; 598 fields; **30 unlike** | Opcode 4 timer registers (7), opcode 155 timeout flag (23). Owned switch tables intact. `--owner runecl`; `src/EclManager.cpp` with `EclRun*.inl`. |
 | **Enemy OnUpdate** | 0x00410730 | 3,900/3,900; 97 fields; 69 calls; **13 unlike** | Draw-group / bullet-descriptor register lifetimes. `--owner enemy`, `src/EnemyManagerCore.inl` included by EclManager. |
-| **Player movement** | 0x0041C170 | 1,900/1,900; 66 fields; 23 calls; **122 unlike** | Option/history, input and Float3 scheduling. `--owner movement`, `src/PlayerMovement.cpp`. |
+| **Player movement** | 0x0041C170 | 1,900/1,900; 66 fields; 23 calls; **8 unlike** | Only `+0x127-0x12E` remain: `g_GameConfiguration` / `sideIndex` load order before focus-mode comparison. `--owner movement`, `src/PlayerMovement.cpp`. |
 | **Player ChargeAttack** | 0x0041F810 | 1,210/1,210; 70 fields; 58 calls; **235 unlike** | Mode byte / input receiver scheduling; 53-block CFG retained. `--owner charge`, `src/PlayerChargeAttackUpdate.cpp`. |
 | **Title OnUpdateResult** | 0x004266B5 | 484 candidate / 485 original; 34 fields; 9 calls; **218 unlike** and 1 missing | Character byte load/sign extension. Dedicated `inspect-title-update-result.py` after building `title-screen-setup-thread`; **not** `--owner resultdraw`. |
 | **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280; 57 fields; 13 calls; **29 unlike** | Selected-record EDX/ECX lifetime. `--owner replaymenu`, `src/TitleScreenReplayMenuDraw.cpp`. |
@@ -136,11 +136,12 @@ tool upgrade.
 1. Verify the original SHA-256, ledger status and clean/dirty worktree via the
    commands above. A clean tree is **not** a prerequisite for continuing:
    inspect and integrate any interrupted edits before starting new ones.
-2. Pick **one nonexact boss** from the table. SaveReplay has only two
-   ordinary register bytes left; RunEcl and Enemy OnUpdate have larger
-   exact-sibling impact. Build its carrier and inspect its **whole physical
-   function**; a `--skip-exact-siblings` diagnostic alone does not certify
-   its existing exact neighbors after an edit.
+2. Pick **one nonexact boss** from the table. Player movement now has only
+   eight load-order bytes left at `+0x127-0x12E`; SaveReplay has two register
+   bytes left; RunEcl and Enemy OnUpdate have larger exact-sibling impact.
+   Build the carrier and inspect its **whole physical function**; a
+   `--skip-exact-siblings` diagnostic alone does not certify existing exact
+   neighbors after an edit.
 3. Keep a natural source improvement only after comparing original code,
    relocation destinations/addends, calls and relevant exact siblings. Commit
    coherent advances with `gpt-web: ...`; never turn partial similarity
@@ -305,3 +306,13 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 - `PlayerLifecycleView::UpdateMovementAndOptions` (`0x41C170`) improved from 122 to **8** original-bound physical differences. The fresh 1900-byte diagnostic retains 66 fields, 23 ordered calls and 489 instructions; only `0x127-0x12E` remain different.
 - Use direct `player->movementFields1CCC` member accesses for angle, speed multipliers and velocity members, but retain the local `PlayerMovementFields &runtime` alias solely for `runtime.velocity1CCC.y` at the vertical position update. Removing that one alias changes X87 operand order and creates eight new differences.
 - The eight residual bytes are the load order of `g_GameConfiguration` and `player->sideIndex` before the focus-mode test. No exactness/origin claim; `functions.csv` remains unclassified. The guard in `scripts/check-boss-frontiers.py` now protects the 114 newly converged positions and the final eight-byte residual. See KNOWLEDGE_BASE “PlayerMovement boss reduced to an eight-byte frontier”.
+
+
+## 2026-11-13 GPT-web Player collision-query constructor leaf
+
+- Reconstructed the small constructor chain around `PlayerCollisionQueryStateView`. Target `0x0041CEB0` is 28 bytes: it calls the native vector-constructor helper `0x00401470` for 128 elements of stride `0x30`, beginning at `this+4`, with element callback `0x004343D0`.
+- `PlayerCollisionQueryStateView` now keeps its default constructor implicit. The out-of-line `PlayerCollisionQueryRecordView` constructor and `PlayerConstructedVector3View` constructor live in `VectorPointerViews.cpp`; both compile to `8B C1 C3`, matching the shared three-byte target body. The state constructor's COFF relocations are `DIR32` to the record constructor and `REL32` to `??_H@YGXPAXIHP6EPAX0@Z@Z`; after binding them to `0x004343D0` and `0x00401470`, the 28-byte sequence matches the target.
+- The explicit-vs-implicit origin of the retail state constructor is still not provable from bytes. The implicit source shape is retained because it reproduces the observed helper call; no `functions.csv`/`matches.csv` promotion or authored exactness claim was made.
+- Focused exact siblings passed: `player-constructor` 243/243, `player-on-update` 522/522, `player-update-stage-c` 74/74, and `player-calc-item-box-collision` 121/121. No full cold replay was run.
+- The `PlayerMovement` boss remains nonexact at eight bytes (`+0x127-0x12E`). Direct array indexing, config/side locals, inline config accessor, materialized focus byte, `this->sideIndex`, branch inversion and raw config-byte indexing did not improve it; reusing the earlier input-side local regressed badly. Avoid repeating those forms without a new lifetime/visibility hypothesis.
+- Preserve the 30 pre-existing untracked `_CL_*` compiler scratch files; no cleanup or reset was performed.

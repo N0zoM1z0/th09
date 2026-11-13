@@ -19,3 +19,15 @@ PlayerPositionView::operator float *()
 {
     return &x;
 }
+
+
+// These empty native constructors share the target's three-byte
+// mov eax, ecx; ret body with the existing pointer-conversion leaves.
+// Their original explicit-vs-implicit authorship remains unproved.
+PlayerConstructedVector3View::PlayerConstructedVector3View()
+{
+}
+
+PlayerCollisionQueryRecordView::PlayerCollisionQueryRecordView()
+{
+}

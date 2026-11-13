@@ -246,7 +246,9 @@ struct PlayerCollisionQueryStateView
     PlayerCollisionQueryRecordView records[128];
     int count1804;
 
-    PlayerCollisionQueryStateView();
+    // Keep the default constructor implicit. With the record constructor
+    // out-of-line, VC7.1 emits the observed 128-element array-helper call.
+    // Retail bytes cannot distinguish this from an explicit empty constructor.
     PlayerCollisionQueryRecordView *FindCollision(
         const PlayerPositionView &center,
         const PlayerPositionView &halfSize,
