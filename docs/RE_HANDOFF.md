@@ -283,3 +283,40 @@ Keep the three exits and both argument homes under every focused build.
 Use `scripts/compile-probe.sh` with the `player-check-graze-collision`
 profile, `inspect-player-bullet-collision.py`, and the explicit
 `compare-coff-function.py` leaf comparison. Do not run a full cold replay.
+
+## 2026-11-13 Player collision slot/exit checkpoint
+
+Committed `2a0306ca` (`gpt-web: preserve collision slot exit paths`). This
+supersedes the earlier 864-byte parameter-home candidate described above.
+The current `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0`
+source uses explicit geometry rejection edges and a volatile reference for
+the ordinary-hit counter. That counter distinction prevents the compiler from
+merging the ordinary-hit and cancel-hit success exits.
+
+Focused pinned-VC7.1 `/O2 /Ob1 /Oy-` result from
+`build/matching/PlayerCollisionHelpers.obj`:
+
+- Boss candidate: 878/862 bytes, 278/277 instructions, 32/33 CFG blocks,
+  26/26 relocation fields, 12/12 ordered calls, and three `ret 12` exits.
+  `inspect-player-bullet-collision.py` remains diagnostic-only: 818
+  overlapping linked bytes differ and exactness credit is none.
+- The earlier bad `[ebp-4] = EDX` region-pointer spill is gone. The candidate
+  retains the slot pointer in the `[ebp-4]` home used by the cancellation
+  path, while the ordinary path uses ESI. This is a structural improvement,
+  not an exact match.
+- `CheckGrazeCollision` remains exact in the same object: 204/204 bytes,
+  all seven relocation records and their targets match. Verified with
+  `compare-coff-function.py --unit player-check-graze-collision`.
+
+The remaining front-end mismatch is still the loop-entry schedule. Retail
+loads Bullet into EBX first, forms ESI=`this+0xB100`, saves ESI at `[ebp-4]`,
+then jumps to the aligned loop header that loads `[esi]`. The candidate
+currently hoists the first `[edi+0xB100]` region load/null test ahead of the
+ESI address formation. It also remains one instruction and 16 bytes larger
+than retail. Continue exploring loop-header scheduling without volatile
+qualifying the slot cursor itself: that experiment expanded the function to
+1,017 bytes / 330 instructions and was rejected.
+
+Do not rerun a full cold replay. Rebuild this translation unit only, retain
+the exact `CheckGrazeCollision` sibling check, and keep the boss diagnostic
+non-crediting until its full byte/CFG/ABI comparison is exact.
