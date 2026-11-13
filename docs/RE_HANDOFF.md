@@ -494,3 +494,33 @@ regresses to 852 bytes and 815 overlapping differences, so it was discarded.
 
 Continue from `3c4b30b9`, not the discarded experiments. Keep the focused boss
 object audit plus the exact graze-leaf guard; no full cold replay.
+
+## 2026-11-13 Aligned collision loop-entry checkpoint
+
+Committed `d426e97d` (`gpt-web: align collision loop entry and reuse scratch`).
+The 41DFF0 boss remains NON-EXACT, but the loop-entry shape is materially
+closer to retail. Focused pinned VC7.1 `/O2 /Ob1 /Oy-` audit:
+
+- 855/862 physical bytes, 278/277 instructions, 34/33 direct CFG blocks;
+- 26/26 relocation fields and 12/12 ordered calls;
+- 753 differing overlapping linked bytes, seven missing target bytes, no
+  extra candidate bytes;
+- exact `CheckGrazeCollision` sibling remains 204/204 bytes.
+
+The entry now exactly reproduces the retail prologue through `+0x22`: the
+0x34-byte frame, EBX Bullet load, ESI active-slot address, `[ebp-4]` slot
+home, short `jmp +7`, seven-byte `lea esp,[esp]` alignment NOP, and
+`mov ecx,[esi]` at `+0x20`. A `RegionScratch` union member overlays the
+region pointer onto the first collision-scratch slot, so the temporary
+pointer does not grow the frame. The inline-assembly move writes that pointer
+into the union slot and C++ uses it for null/type/delay checks.
+
+The remaining immediate mismatch is now isolated: retail performs
+`test ecx,ecx` directly at `+0x22`; this candidate stores ECX to `[ebp-0x34]`,
+reloads it, then tests at `+0x28`. That six-byte detour is the next loop-header
+subproblem. The candidate has 34 rather than 33 direct CFG blocks, so the
+whole boss is still not byte/CFG exact. The previous 855-byte volatile
+reference checkpoint (`3c4b30b9`) remains in history; this aligned union
+candidate improves overlap from 783 to 753 while restoring the target loop
+alignment. Continue with focused object comparisons and the exact graze leaf;
+no full cold replay was run.
