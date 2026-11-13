@@ -25684,3 +25684,51 @@ relocations = [
   { offset = 0xBC, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
   { offset = 0xC7, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
 ]
+
+[units.bullet-type-sprites-constructor]
+source = "src/BulletNativeConstructors.cpp"
+object = "build/matching/BulletNativeConstructors.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["BulletTypeSprites::BulletTypeSprites"]
+symbol = "??0BulletTypeSprites@@QAE@XZ"
+target_address = 0x00414FA0
+size = 0x38
+relocations = [
+  { offset = 0x04, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x0F, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x1A, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x25, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x30, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+]
+
+[units.bullet-constructor]
+source = "src/BulletNativeConstructors.cpp"
+object = "build/matching/BulletNativeConstructors.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["Bullet::Bullet"]
+symbol = "??0Bullet@@QAE@XZ"
+target_address = 0x00414FE0
+size = 0x3A
+relocations = [
+  { offset = 0x07, type = "REL32", symbol = "??0BulletTypeSprites@@QAE@XZ", target = 0x00414FA0 },
+  { offset = 0x12, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  { offset = 0x1D, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+  # BulletExState's implicit timer-prefix constructor is physically shared
+  # with the 0x41EE20 PlayerState timer-prefix constructor in the retail PE.
+  { offset = 0x22, type = "DIR32", symbol = "??0BulletExState@@QAE@XZ", target = 0x0041EE20 },
+  { offset = 0x32, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+]
+
+[units.laser-constructor]
+source = "src/BulletNativeConstructors.cpp"
+object = "build/matching/BulletNativeConstructors.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["Laser::Laser"]
+symbol = "??0Laser@@QAE@XZ"
+target_address = 0x00415020
+size = 0x22
+relocations = [
+  { offset = 0x04, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x0F, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
+  { offset = 0x1A, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
+]

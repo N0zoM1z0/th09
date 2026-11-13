@@ -2,7 +2,9 @@
 
 // Original TH09 constructor semantics arise from the actual native members:
 // AnmVm groups, Bullet's ZunTimer pair and transform-state array, and Laser's
-// two AnmVm members plus its timer. No manual EH vector helper calls.
+// two AnmVm members plus its timer. The Bullet carrier is /Ob0: VC7.1 then
+// emits the native EH vector-constructor call for its seven 0x2C states;
+// /Ob1 instead expands that array into a loop and misses the retail body.
 BulletTypeSprites::BulletTypeSprites()
 {
 }
