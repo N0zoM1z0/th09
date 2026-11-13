@@ -56,8 +56,6 @@ int PlayerLifecycleView::CheckBulletCollision(
     register Bullet *bulletParameter = bullet;
     PlayerPositionView * volatile *positionArgument =
         reinterpret_cast<PlayerPositionView * volatile *>(&position);
-    Bullet * volatile *bulletArgument =
-        reinterpret_cast<Bullet * volatile *>(&bullet);
 
     register PlayerCollisionRegionCreateRegionView **slot = activeB100;
     PlayerCollisionRegionCreateRegionView ** volatile slotHome = slot;
@@ -148,7 +146,7 @@ check_region:
     }
 
 cancel_hit:
-    if (*bulletArgument == NULL || bulletParameter->bulletType != 0)
+    if (bulletParameter == NULL || bulletParameter->bulletType != 0)
         goto next_invalid_region;
 
     {
