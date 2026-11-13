@@ -7255,7 +7255,7 @@ Fresh linked disassembly isolates the CFG discrepancy. Retail checks `*slot` at 
 - `BeginPlaybackStage` target tail is `xor edx,edx; mov dx,[eax+4]; mov ecx,0x4ACE0C; push edx; call SetSeed`, followed by restoring EDI/ESI before clearing inputDelay. The current candidate instead uses `movzx eax,[eax+4]`, pushes EAX before loading ECX, and stores inputDelay before the pops. Zero-plus-memcpy, low-word pointer, union, u32-local, and RNG pointer/reference receiver variants all retained the 538/540-byte, 39-difference frontier. The two missing bytes are the seed-load schedule; do not repeat these variants without a new register-lifetime hypothesis.
 - `SaveReplay` u8/char buffer types and a separate byte-pointer destination local retained the existing +0xB7/+0xBB two-byte residual.
 - `EffectManager::AddedCallback` local-pointer, declaration-order, reference, const and aggregate variants did not improve the eight-byte baseline; several changed it to eleven. Keep the current source.
-- The 33-byte `0x00412780` `fsincos` leaf is an x87 helper called by Etama drawing but is only declared as an external `__fastcall` function in maintained source. Do not replace it with separate `sinf`/`cosf` calls or claim authored ownership without the actual helper source.
+- At this checkpoint the 33-byte `0x00412780` `fsincos` leaf was only an external `__fastcall` declaration. Its later maintained x87 source recovery and 33/33 diagnostic replay are recorded below; original authored-vs-library ownership remains unresolved. Do not replace its single `FSINCOS` operation with separate `sinf`/`cosf` calls.
 - The small Enemy constructor wrappers at `0x00412090`..`0x00412100` remain ambiguous between explicit and compiler-generated construction; byte similarity does not settle origin. The three-byte `0x004343D0` conversion remains a shared/folded identity, not a new uniquely owned leaf.
 
 No project-wide cold replay was run. All measurements above are focused, diagnostic-only probes and grant no partial or exact owner credit.
@@ -7342,3 +7342,50 @@ Focused guards after the source change: `player-constructor` 243/243, `player-on
 ### PlayerMovement eight-byte load-order probes
 
 `PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` remains at eight physical differences (`+0x127-0x12E`) after fresh VC7.1 builds. Target loads `g_GameConfiguration` before reloading `player->sideIndex`; the candidate emits those independent loads in the reverse order. Direct array indexing, explicit config/side locals in either declaration order, an inline `GameConfiguration` accessor, a materialized focus byte, `this->sideIndex`, reversed branches, raw config-byte-base indexing and reuse of the earlier input-side local did not improve the complete owner (the last variant regressed heavily). Keep the eight-byte frontier; do not introduce volatile/barrier/register hints.
+
+
+## 2026-11-13 GPT-web: Etama fsincos leaf source recovery
+
+The 33-byte `fsincos @ 0x00412780` helper is now represented by a maintained
+source body in `src/EtamaControllerDraw.cpp`. Its observed ABI is
+`__fastcall(float *sine, float *cosine, float angle)`: ECX is the sine
+output, EDX is the cosine output, and the angle is the sole stack word. One
+x87 `FSINCOS` leaves cosine above sine; the source stores cosine through EDX
+first and sine through ECX second. The original function ends in `ret 4`.
+
+The new `etama-fsincos` focused unit under the existing EtamaControllerDraw
+`/O2 /Ob0` VC7.1 profile reproduces **33/33 bytes and zero relocations**.
+Rebuilding the co-resident `etama-controller-on-draw` unit also preserves
+**600/600 bytes**, including its call to the now source-present helper. This
+is source and machine-code evidence only: the helper remains
+`unclassified`, with original authored-vs-library/runtime origin unresolved;
+no `matches.csv` or authored exactness credit was added. Do not replace the
+single x87 operation with separate `sinf`/`cosf` calls.
+
+## 2026-11-13 GPT-web: ChargeAttack and Enemy OnUpdate follow-up probes
+
+`PlayerLifecycleView::UpdateChargeAttack` was rebuilt from maintained source
+after three focused type/address experiments. Widening the signed-short
+`side` local to `int` changed the candidate to **1,209 bytes / 929 ordinary
+differences**. Keeping the short local but computing the ReplayInputState
+slot from full `sideIndex` changed it to **1,215 bytes / 1,167 differences**.
+A typed `&g_ReplayInputStates[0] + side` pointer expression is byte-neutral
+at the existing 1,210-byte / 235-difference baseline. The existing baseline
+remains **1,210 bytes / 235 differences**, 70 fields, 58 ordered calls and 53
+blocks. No variant was retained. The signed-short side and the Player's full
+side index must not be conflated; a future attempt needs a new lifetime
+hypothesis rather than another width substitution.
+
+`EnemyManagerView::OnUpdate` was also rebuilt from maintained source after
+changing `NativeEnemyDrawHead` to take `EnemyView *`, moving its `drawHead`
+local to function scope, and trying explicit x/y/z position-member writes.
+The helper receiver and function-scope local both retained the original 13
+residual offsets. The explicit memberwise copy changed literal relocation positions and
+expanded the resolved ordinary difference count to 421, so it was rejected.
+A `memcpy` position copy and a branch-local `register EffectManager *` alias
+both retained the original 13 offsets. The restored baseline remains
+**3,900 bytes, 97 fields, 69 calls, 170 blocks and 13 differences**. No source
+changes from these probes were retained.
+
+Only the affected Etama, EclManager and PlayerChargeAttack compiler carriers
+were built and inspected. No full cold replay was run.
