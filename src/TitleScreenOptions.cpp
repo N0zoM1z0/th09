@@ -135,51 +135,51 @@ int TitleScreenView::OnUpdateOptions()
     case 1:
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) >= 100)
         {
-            this->titleAnm->SetSprite(&this->vms[26], this->vms[26].baseSpriteIndex);
-            this->vms[26].color1Script.a = 0xff;
-            this->vms[26].drawEnabled = 1;
+            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(26), TH09_OPTIONS_VM(26).baseSpriteIndex);
+            TH09_OPTIONS_VM(26).color1Script.a = 0xff;
+            TH09_OPTIONS_VM(26).drawEnabled = 1;
         }
         else
         {
-            this->vms[26].color1Script.a = 0;
-            this->vms[26].drawEnabled = 0;
+            TH09_OPTIONS_VM(26).color1Script.a = 0;
+            TH09_OPTIONS_VM(26).drawEnabled = 0;
         }
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) >= 10)
         {
-            this->titleAnm->SetSprite(&this->vms[27],
-                                 this->vms[27].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) / 10 % 10 * 2);
-            this->vms[27].color1Script.a = 0xff;
-            this->vms[27].drawEnabled = 1;
+            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(27),
+                                 TH09_OPTIONS_VM(27).baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) / 10 % 10 * 2);
+            TH09_OPTIONS_VM(27).color1Script.a = 0xff;
+            TH09_OPTIONS_VM(27).drawEnabled = 1;
         }
         else
         {
-            this->vms[27].color1Script.a = 0;
-            this->vms[27].drawEnabled = 0;
+            TH09_OPTIONS_VM(27).color1Script.a = 0;
+            TH09_OPTIONS_VM(27).drawEnabled = 0;
         }
-        this->titleAnm->SetSprite(&this->vms[28], this->vms[28].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) % 10 * 2);
-        this->titleAnm->SetSprite(&this->vms[29], this->vms[29].baseSpriteIndex);
+        this->titleAnm->SetSprite(&TH09_OPTIONS_VM(28), TH09_OPTIONS_VM(28).baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) % 10 * 2);
+        this->titleAnm->SetSprite(&TH09_OPTIONS_VM(29), TH09_OPTIONS_VM(29).baseSpriteIndex);
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) >= 100)
         {
-            this->titleAnm->SetSprite(&this->vms[30], this->vms[30].baseSpriteIndex);
-            this->vms[30].color1Script.a = 0xff;
-            this->vms[30].drawEnabled = 1;
+            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(30), TH09_OPTIONS_VM(30).baseSpriteIndex);
+            TH09_OPTIONS_VM(30).color1Script.a = 0xff;
+            TH09_OPTIONS_VM(30).drawEnabled = 1;
         }
         else
         {
-            this->vms[30].color1Script.a = 0;
-            this->vms[30].drawEnabled = 0;
+            TH09_OPTIONS_VM(30).color1Script.a = 0;
+            TH09_OPTIONS_VM(30).drawEnabled = 0;
         }
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) >= 10)
         {
-            this->titleAnm->SetSprite(&this->vms[31],
-                                 this->vms[31].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) / 10 % 10 * 2);
-            this->vms[31].color1Script.a = 0xff;
-            this->vms[31].drawEnabled = 1;
+            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(31),
+                                 TH09_OPTIONS_VM(31).baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) / 10 % 10 * 2);
+            TH09_OPTIONS_VM(31).color1Script.a = 0xff;
+            TH09_OPTIONS_VM(31).drawEnabled = 1;
         }
         else
         {
-            this->vms[31].color1Script.a = 0;
-            this->vms[31].drawEnabled = 0;
+            TH09_OPTIONS_VM(31).color1Script.a = 0;
+            TH09_OPTIONS_VM(31).drawEnabled = 0;
         }
         if (this->MoveCursorVertical(9) != 0)
         {

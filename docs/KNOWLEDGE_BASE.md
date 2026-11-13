@@ -4434,6 +4434,26 @@ changes to x87 interpolation, quad dispatch, D3DX calls or switch ownership.
 This improves the original data aliasing fidelity of a large already-exact
 renderer; it is not new exact-function or whole-Windows-build credit.
 
+## 2026-11-13 Title options volume digit VMs share real 0x2A4-byte records
+
+The **2,045-byte exact `TitleScreenView::OnUpdateOptions`** owns the actual
+TitleScreen VM pointer at +0x11B98, referencing 0x2A4-byte `AnmVm`
+records. Its six fixed sprite indices 26..31 are the separate music/SFX
+volume high/low digits and associated display markers. All **28 independent
+member reads/writes** (`baseSpriteIndex`, `color1Script.a`, `drawEnabled`
+and `SetSprite` receivers) now use the same existing native Win32
+`TH09_OPTIONS_VM(index)` lvalue rather than a second bounded typed-array
+lookup model. The dynamic help-text VM selectors, real `AnmVm` storage,
+signed volume comparisons, 8-bit i386 wrap writes and original audio/menu
+input scheduling remain unchanged. No array copy, cache, hidden range check,
+new setter or alternate font/ANM manager owner has been added.
+
+The one affected pinned VC7.1 compiler carrier reproduced **2/2
+pre-existing exact functions, 2,079 complete original PE bytes and all
+138 relocation fields**: the full Options state-machine boss and its
+34-byte PlayMenuSound leaf. No compiler-private `$L` labels changed,
+and no new exact-function or whole Windows runtime is claimed.
+
 ## 2026-11-12 Title options signed-volume byte writes use native i386 arithmetic
 
 The 2,045-byte exact `TitleScreenView::OnUpdateOptions` changes actual
