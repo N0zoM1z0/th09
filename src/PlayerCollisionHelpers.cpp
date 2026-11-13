@@ -25,7 +25,7 @@ extern EffectManager *g_PlayerRewardEffectManager;
 int PlayerLifecycleView::CheckBulletCollision(
     PlayerPositionView *position,
     PlayerPositionView *,
-    Bullet *bullet)
+    Bullet * volatile bullet)
 {
 
     union CollisionScratch
@@ -49,15 +49,18 @@ int PlayerLifecycleView::CheckBulletCollision(
     register Bullet *bulletParameter = bullet;
     PlayerPositionView * volatile *positionArgument =
         reinterpret_cast<PlayerPositionView * volatile *>(&position);
+    Bullet * volatile *bulletArgument =
+        reinterpret_cast<Bullet * volatile *>(&bullet);
 
     register PlayerCollisionRegionCreateRegionView **slot = activeB100;
+    PlayerCollisionRegionCreateRegionView ** volatile slotHome = slot;
 
     // Model the retail slot cursor as a loop-header destination; each
     // rejection retains its own native slot-advance edge.
     goto check_region;
 
 check_region:
-    if (*slot == NULL)
+    if (*reinterpret_cast<PlayerCollisionRegionCreateRegionView * volatile *>(slot) == NULL)
         goto no_collision;
     {
         const int regionType = (*slot)->type38;
@@ -121,7 +124,7 @@ check_region:
     }
 
 cancel_hit:
-    if (bulletParameter == NULL || bulletParameter->bulletType != 0)
+    if (*bulletArgument == NULL || bulletParameter->bulletType != 0)
         goto next_invalid_region;
 
     {
@@ -173,8 +176,8 @@ cancel_hit:
         this->sideState->AddScore(50);
     }
 
-    (*slot)->hitCount2C = static_cast<int>(
-        static_cast<unsigned int>((*slot)->hitCount2C) + 1u);
+    PlayerCollisionRegionCreateRegionView *hitRegion = *slotHome;
+    ++hitRegion->hitCount2C;
     return 2;
 
 no_collision:
