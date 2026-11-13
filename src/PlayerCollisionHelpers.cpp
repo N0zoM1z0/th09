@@ -49,6 +49,7 @@ int PlayerLifecycleView::CheckBulletCollision(
             PlayerCollisionRegionCreateRegionView **slot;
         } cursor;
     } scratch;
+    volatile CollisionScratch *scratchHome = &scratch;
     float xDelta;
     float yDelta;
     register PlayerCollisionRegionCreateRegionView *region;
@@ -57,7 +58,7 @@ int PlayerLifecycleView::CheckBulletCollision(
         reinterpret_cast<PlayerPositionView * volatile *>(&position);
 
     register PlayerCollisionRegionCreateRegionView **slot = activeB100;
-    scratch.cursor.slot = slot;
+    scratchHome->cursor.slot = slot;
 
     // VC7.1 does not naturally retain the retail loop alignment here. Keep
     // the original short jump and seven-byte alignment NOP before the header.
@@ -197,7 +198,7 @@ cancel_hit:
         this->sideState->AddScore(50);
     }
 
-    PlayerCollisionRegionCreateRegionView *hitRegion = *scratch.cursor.slot;
+    PlayerCollisionRegionCreateRegionView *hitRegion = *scratchHome->cursor.slot;
     ++hitRegion->hitCount2C;
     return 2;
 
