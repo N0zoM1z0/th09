@@ -7439,3 +7439,31 @@ spellings were refreshed only after resolving their COFF section-relative
 addresses to the same original PE destinations; their logical/physical extents
 and all nonlocal relocation identities remain unchanged. Continue from the
 two-byte draw-group register frontier, not the former thirteen-byte frontier.
+
+## 2026-11-13 GPT-web: Enemy OnUpdate two-byte draw-head register frontier
+
+The source-cold `enemy-attached-effect-update` carrier was rebuilt after all
+register-allocation probes. `EnemyManagerView::OnUpdate @ 0x00410730` remains
+3,900/3,900 bytes, 97/97 relocation fields, 69/69 ordered calls and 170/170
+direct CFG blocks. The focused Enemy owner guard passes. Its only ordinary
+byte residual is `+0x19C` and `+0x1A3`: retail does `movzx eax,[ebx+3387]`
+then `lea eax,[esi+eax*4+2AC410]`; VC7.1 currently uses ECX for the byte index
+and then the same EAX LEA destination.
+
+IDA's decompilation confirms the original temporary is a draw-head pointer
+computed directly as `manager + 4 * enemy->drawGroup3387 + 0x2AC410`. The
+maintained source already expresses that native address formula through the
+shared helper. This session tested argument order/type, direct array indexing,
+direct integer pointer arithmetic, raw byte addressing, local/function-scope
+index temporaries, pointer types, a category/group union, and helper receiver
+shapes. None changed the two-byte residual without introducing wider code or
+stack-layout differences. Inline assembly at the append site also caused
+large unrelated frame/code changes and was discarded. Do not replace the
+maintained source with any of these probes. The owner is still NONEXACT and
+receives no Oracle exactness credit.
+
+Reproducible baseline: build `enemy-attached-effect-update`, run
+`inspect-enemy-manager-update.py --explain --json`, then run
+`check-boss-frontiers.py --owner enemy --skip-exact-siblings`. Current report:
+2 ordinary differences at `0x19C,0x1A3`; all 97 relocation fields, 69 calls,
+170 CFG blocks and reviewed switch destinations agree.

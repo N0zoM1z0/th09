@@ -323,3 +323,9 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 - Focused `enemy-attached-effect-update` inspection: 3,900/3,900 bytes, 97/97 relocation fields agree, 69 ordered calls agree, 170/170 direct CFG blocks, reviewed control flow agrees, and 13 differing bytes remain at `+0x19C,+0x1A3,+0x252,+0x263,+0x26D,+0x272,+0x294,+0x29A,+0x29C,+0x2A5,+0x2A9,+0x2B7,+0x2BD`.
 - Remaining windows are draw-group index register selection (2 bytes) and side-state/threshold plus descriptor-position register allocation/store scheduling (11 bytes). `EnemyManager::OnUpdate` is still NONEXACT; no ledger promotion or Oracle claim.
 - Continue with the focused `/O2 /Ob1 /Oy-` carrier. Do not run a full cold replay. The 30 pre-existing `_CL_*` scratch files remain untouched.
+
+## 2026-11-13 GPT-web Enemy OnUpdate residual refresh
+
+- Rebuilt the source-cold `enemy-attached-effect-update` object after temporary probes; the maintained source is unchanged.
+- Current owner remains 3,900 bytes, 97 relocations, 69 ordered calls, 170 direct CFG blocks; only `+0x19C,+0x1A3` differ (target uses EAX as the draw-group byte index; candidate uses ECX).
+- Focused `check-boss-frontiers.py --owner enemy --skip-exact-siblings` passes. Keep this 2-byte state; do not accept the temporary inline-assembly variants, which changed unrelated frame/code.
