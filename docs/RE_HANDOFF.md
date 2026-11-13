@@ -348,3 +348,31 @@ candidate, but the loop-entry schedule and two CFG blocks still differ. Do
 not promote the boss to exactness. Continue focused experiments on the loop
 header and remaining geometry/reward instruction ordering; do not run a full
 cold replay.
+
+## 2026-11-13 Collision loop/lifetime follow-up
+
+The committed union overlay remains the best balanced candidate after further
+focused experiments. It preserves the retail `0x34` frame and exact key
+geometry local offsets while reducing the candidate to 850 bytes. Keep it as
+the active source frontier.
+
+Rejected alternatives from this pass:
+
+- A full `CollisionVectors` aggregate without an overlapping reward union
+  produced a 850-byte/275-instruction body with 478 overlapping-byte
+  differences, but expanded the frame to `0x4c`; this is an ABI regression
+  and was not retained.
+- A do-while rewrite of the union-backed loop produced 843 bytes / 277
+  instructions / 31 blocks, but 790 overlapping-byte differences. It did
+  not recover the retail loop header and was reverted.
+- A branch-around-padding shim with the union overlay produced 861 bytes /
+  278 instructions / 33 blocks, but the compiler inserted a second 6-byte
+  alignment NOP after the null test and delayed the Bullet load into the
+  loop body. It had much worse byte alignment and was not retained.
+
+The next useful target is now sharply defined: retain the union's `0x34`
+frame and stack reuse, then recover the retail entry schedule (EBX Bullet
+load before ESI setup, `jmp` to the aligned null-check header) without
+clobbering `[ebp+10]` or introducing the extra alignment NOP. Continue to
+compare the full boss bytes/CFG/ABI; the exact 204-byte graze leaf remains a
+local regression guard. No full cold replay was run.
