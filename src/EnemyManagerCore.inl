@@ -332,7 +332,7 @@ static __forceinline EnemyTrailSampleView &NativeEnemyTrailSample(
 // form a full i386 DWORD offset; do not add a C++ four-element subscript
 // precondition or a clamping branch at either original append site.
 static __forceinline EnemyView **NativeEnemyDrawHead(
-    EnemyManagerView *manager, unsigned int group)
+    EnemyManagerView *manager, unsigned char group)
 {
     return &TH09_ENEMY_NATIVE_DRAW_HEAD(EnemyView, manager, group);
 }
