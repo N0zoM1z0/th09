@@ -122,9 +122,10 @@ not an acceptable shortcut around the native-product stage.
 
 ## Credits
 
-Thanks to [Cirno-Labs/th09](https://github.com/Cirno-Labs/th09) for the reference
-implementations adapted into fourteen exact functions here. File-level credits
-and the pinned upstream revision are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Thanks to [Cirno-Labs/th09](https://github.com/Cirno-Labs/th09) for
+reference implementations adapted into some maintained source functions.
+Not every adapted function is exact; file-level attribution and the pinned
+upstream revision are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## License
 

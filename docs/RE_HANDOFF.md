@@ -1,12 +1,13 @@
-# TH09 exact reconstruction — verified handoff (2026-11-12)
+# TH09 exact reconstruction — agent handoff (verified 2026-11-13)
 
 **Start:** [AGENTS.md](../AGENTS.md) · [workflow](RE_WORKFLOW.md) ·
 [original/VC7.1 Oracles](ORACLES.md) ·
 [historical experiments and target layouts](KNOWLEDGE_BASE.md).
-This document is the **current working checklist**, not an append-only session
-journal. Superseded per-commit notes remain in the knowledge base and Git
-history (for example, `git show 2652d328:docs/RE_HANDOFF.md`).
-**Recheck live state before changing source.**
+This is the **current restart checklist**, not an append-only session log.
+Old source/commit histories remain accessible through Git, but ignored scratch
+reports and compiled objects are disposable and must not be used as current
+exactness evidence. **Start with `git status`, recover any dirty changes,
+then regenerate the current ledger counts and needed compiler objects.**
 
 ## Verified target, counts and evidence boundaries
 
@@ -15,7 +16,8 @@ history (for example, `git show 2652d328:docs/RE_HANDOFF.md`).
   `resources/th09.exe` SHA-256:
   `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
   Do not patch, rename, commit or delete the target.
-- **Checked 2026-11-12:** `config/functions.csv` has 2,248 candidates,
+- **Checked 2026-11-13 against the canonical ledgers:**
+  `config/functions.csv` has 2,248 candidates,
   **1,037 source-present authored mappings**, **1,025 exact**,
   **12 nonexact / 28,145 canonical function bytes**, and
   **35 reviewed unresolved origins**. The 1,025/1,037 figure is a
@@ -23,7 +25,9 @@ history (for example, `git show 2652d328:docs/RE_HANDOFF.md`).
   exact authored bytes are **263,786 / 291,931 = 90.3590%**.
   Complete original-code inventory is **not** proven. Generated
   [progress](PROGRESS.md) and the command below reflect ledgers;
-  counts quoted in old experiment notes are historical.
+  counts quoted in old experiment notes are historical. The branch may be
+  synchronized with the remote; do not assume an ahead/behind count or a
+  particular HEAD from a previous agent message.
 - **Important size distinction:** the 28,145-byte nonexact total is the sum of
   `functions.csv` **logical sizes**, *not* the sum of the larger physical
   original-bound comparison extents. In particular:
@@ -69,9 +73,10 @@ sizes or partial exact claims. The `--owner` options refer to
 
 ## Reproduce *only* the changed compiler carriers
 
-The `build/` and matching `.obj/.pdb/.json` outputs are **disposable
-caches**, intentionally removed during this handoff. Missing objects are
-expected; each selected command regenerates only the necessary carriers.
+`build/` objects, PDBs and comparison JSON are **ignored disposable build
+caches**, removed in the storage cleanup. Missing objects are expected, not
+missing sources or original target data; each selected command regenerates
+only the necessary carriers.
 Do **not** start with `--owner all`, a project-wide cold replay, or
 `ci.py --full` just to repopulate caches.
 
@@ -123,6 +128,22 @@ the imported Program and original mapped PE bytes. The earlier Ghidra
 pseudocode under ignored `.analysis/ghidra-direct/` is a **hypothesis**, not
 a byte-exact source receipt; a fresh import can be necessary after a Ghidra
 tool upgrade.
+
+## Immediate next-agent steps
+
+1. Verify the original SHA-256, ledger status and clean/dirty worktree via the
+   commands above. A clean tree is **not** a prerequisite for continuing:
+   inspect and integrate any interrupted edits before starting new ones.
+2. Pick **one nonexact boss** from the table. SaveReplay has only two
+   ordinary register bytes left; RunEcl and Enemy OnUpdate have larger
+   exact-sibling impact. Build its carrier and inspect its **whole physical
+   function**; a `--skip-exact-siblings` diagnostic alone does not certify
+   its existing exact neighbors after an edit.
+3. Keep a natural source improvement only after comparing original code,
+   relocation destinations/addends, calls and relevant exact siblings. Commit
+   coherent advances with `gpt-web: ...`; never turn partial similarity
+   into a canonical match. The live `docs/PROGRESS.md` must be regenerated
+   from ledgers, not edited as a hand-counted score.
 
 ## Suggested attack order / experiments already rejected
 

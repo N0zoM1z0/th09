@@ -6,8 +6,13 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-The project milestone is at least **98% of reviewed authored bytes exact**,
-using pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
+The **future milestone** is at least **98% of reviewed authored bytes
+exact**. It is **not the current state**: the 2026-11-13 canonical ledger has
+**263,786 / 291,931 authored bytes exact (90.3590%)**, although 1,025 / 1,037
+source-present function owners are exact by *count*. Use
+[`PROGRESS.md`](PROGRESS.md) or the live status script for later changes.
+Both measures are distinct from native Windows build/runtime completion.
+Use pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
 For the next reconstruction session, work seriously
 on complete large bosses as well as leaf functions. Re-investigate old claims
 against current source/target evidence. Use focused complete-owner builds and
