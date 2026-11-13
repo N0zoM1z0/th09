@@ -219,3 +219,33 @@ Effect AddedCallback local-receiver, or SaveReplay pointer-arithmetic
 experiments; their outcomes are recorded in `KNOWLEDGE_BASE.md`. Preserve the
 `gpt-web: ...` commit format and create further checkpoints only for coherent
 source or evidence advances.
+
+## 2026-11-13 Player collision boss frontier
+
+`PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` is still open; do not
+promote any diagnostic variant. The clean maintained baseline is 849/862
+physical bytes, 266/277 instructions, 32/33 CFG blocks, 26/26 relocation
+fields and 12/12 ordered calls, with 799 overlapping byte differences and
+13 missing target bytes. `CheckGrazeCollision` remains a separate exact
+204-byte leaf.
+
+The original loads the `Bullet *` stack argument into EBX at entry, keeps the
+active collision-region slot in ESI and spills that slot to `[ebp-4]` before
+jumping to the aligned loop header. The baseline instead retains `position`
+in EBX and hoists the first region null-check into its prologue. The
+2026-11-13 source experiments established that top-level volatile pointer
+qualifiers can change these register choices, but the best such candidates
+still alter the stack frame, overwrite/reuse the caller argument slot, or
+change the required `ret 12` exits. They were rejected and restored; do not
+reintroduce them as codegen fixes.
+
+Focused next steps:
+
+1. Reproduce the retail region-loop header and `[ebp-4]` slot spill without
+   volatile qualifiers, register hints, or writes to caller-owned argument
+   slots.
+2. Keep the Bullet/position live ranges and the three `ret 12` exits under
+   original-bound comparison.
+3. Build only `player-check-graze-collision`, run
+   `inspect-player-bullet-collision.py` and compare the exact sibling unit;
+   no full cold replay is needed.
