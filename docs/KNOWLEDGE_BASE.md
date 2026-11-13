@@ -1553,6 +1553,29 @@ CreateGameWindow leaf. No new exact-function or Windows build/runtime
 credit follows; the improvement is removal of duplicate native audio
 ownership models in main process startup and teardown.
 
+## 2026-11-13 The real GameWindow zero-initializing constructor
+
+The exact **18-byte constructor** at original TH09 Japanese v1.50a
+`0x0042D290` now belongs to `GameWindow::GameWindow()` in the same
+0x44-byte class used by original-bound WinMain, D3D startup, Present,
+Render, and GetTimestamp. The former separate `GameWindowView` had one
+fake 0x44-byte opaque array and no shared class identity; the actual
+constructor zeroes **the real 0x44-byte instance** in place using the
+same natural VC7.1 `memset` source and unchanged exact bytes. The original
+startup initializer at `0x0048D8E0` passes process-global `g_GameWindow`
+at `0x004B30B0`. The canonical source function, source mapping, exact match,
+unit and implemented rows were renamed together; no target address, source
+extent, status or exactness count was changed.
+
+Since `GameWindow.hpp` is a shared native owner, all **nine impacted pinned
+VC7.1 carriers** were recompiled (one explicit carrier beyond the scope
+runner's default eight-job guard). All **10/10 original-bound exact owners,
+5,173 complete original PE bytes and 502 relocations** passed, including
+1,561-byte InitializeD3DRendering, 1,351-byte WinMain, the constructor,
+CreateGameWindow, window startup, Render/Present and timestamp.
+No new codegen/ABI feature, separate allocation or full Windows product
+closure is implied.
+
 ## 2026-11-13 Actual GameWindow closing DWORD across startup, D3D and main loop
 
 The actual `GameWindow` is a **0x44-byte process-global allocation**.

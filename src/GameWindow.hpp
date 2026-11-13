@@ -23,6 +23,7 @@ struct GameWindow
     double lastTimestamp34;
     double lastFrameTime3C;
 
+    GameWindow();
     int Render();
     static void Present();
     double GetTimestamp();

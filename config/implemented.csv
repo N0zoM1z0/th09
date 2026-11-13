@@ -694,7 +694,7 @@ SoundPlayer::ResumeAfterPause
 ZunMemory::ZunMemory
 GameErrorContext::GameErrorContext
 ReplayInputState::ReplayInputState
-GameWindowView::GameWindowView
+GameWindow::GameWindow
 AnmManager::ReleaseSurfaces
 ScoreFileView::ScoreFileView
 ScoreRecordCtorView::ScoreRecordCtorView
