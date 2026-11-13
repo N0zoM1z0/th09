@@ -43,6 +43,11 @@ int PlayerLifecycleView::CheckBulletCollision(
             EffectFloat3 effectPosition;
             EffectFloat3 velocity;
         } reward;
+        struct CursorHome
+        {
+            unsigned char collisionScratchPrefix[48];
+            PlayerCollisionRegionCreateRegionView **slot;
+        } cursor;
     } scratch;
     float xDelta;
     float yDelta;
@@ -52,7 +57,7 @@ int PlayerLifecycleView::CheckBulletCollision(
         reinterpret_cast<PlayerPositionView * volatile *>(&position);
 
     register PlayerCollisionRegionCreateRegionView **slot = activeB100;
-    PlayerCollisionRegionCreateRegionView ** volatile slotHome = slot;
+    scratch.cursor.slot = slot;
 
     // VC7.1 does not naturally retain the retail loop alignment here. Keep
     // the original short jump and seven-byte alignment NOP before the header.
@@ -89,8 +94,8 @@ check_region:
         }
         else if ((*slot)->angle20 != 0.0f)
         {
-            scratch.collision.delta.x = (*positionArgument)->x - (*slot)->centerX00;
-            scratch.collision.delta.y = (*positionArgument)->y - (*slot)->centerY04;
+            scratch.collision.delta.x = position->x - (*slot)->centerX00;
+            scratch.collision.delta.y = position->y - (*slot)->centerY04;
             RotatePlayerCollisionVector(
                 &scratch.collision.rotated, &scratch.collision.delta, -(*slot)->angle20);
             register float halfWidth = (*slot)->halfWidth10;
@@ -130,7 +135,7 @@ check_region:
             PlayerCollisionRegionCreateRegionView *hitRegion = *slot;
             volatile int &hitCount = hitRegion->hitCount2C;
             int nextHitCount = hitCount + 1;
-            slotHome = slot;
+            scratch.cursor.slot = slot;
             hitCount = nextHitCount;
         }
         return 2;
@@ -145,7 +150,7 @@ cancel_hit:
             g_GameManager.TransformPopupX(position->x);
         // Calls below may clobber ESI; preserve the current region slot,
         // not the initial activeB100 base, for the post-reward hit count.
-        slotHome = slot;
+        scratch.cursor.slot = slot;
         scratch.reward.effectPosition.y =
             g_GameManager.TransformPopupY((*positionArgument)->y);
         scratch.reward.effectPosition.z = 0.0f;
@@ -192,7 +197,7 @@ cancel_hit:
         this->sideState->AddScore(50);
     }
 
-    PlayerCollisionRegionCreateRegionView *hitRegion = *slotHome;
+    PlayerCollisionRegionCreateRegionView *hitRegion = *scratch.cursor.slot;
     ++hitRegion->hitCount2C;
     return 2;
 
