@@ -39,11 +39,13 @@ int PlayerLifecycleView::CheckBulletCollision(
         } collision;
         struct RewardVectors
         {
-                } reward;
+            EffectFloat3 effectPosition;
+            EffectFloat3 velocity;
+        } reward;
     } scratch;
     float xDelta;
     float yDelta;
-    Bullet * volatile bulletParameter = bullet;
+    register Bullet *bulletParameter = bullet;
     PlayerPositionView * volatile *positionArgument =
         reinterpret_cast<PlayerPositionView * volatile *>(&position);
 
