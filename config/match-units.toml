@@ -25732,3 +25732,43 @@ relocations = [
   { offset = 0x0F, type = "REL32", symbol = "??0AnmVm@@QAE@XZ", target = 0x00403A10 },
   { offset = 0x1A, type = "REL32", symbol = "??0ZunTimer@@QAE@XZ", target = 0x00403390 },
 ]
+
+
+# Diagnostic codegen evidence for the native 128-record collision-query
+# constructor. Retail bytes cannot distinguish an explicit empty special
+# member from this implicit default constructor; do not promote to matches.csv.
+[units.player-collision-query-state-constructor-alias]
+source = "src/PlayerRuntime.cpp"
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionQueryStateView::PlayerCollisionQueryStateView"]
+symbol = "??0PlayerCollisionQueryStateView@@QAE@XZ"
+target_address = 0x0041CEB0
+size = 0x1C
+relocations = [
+  { offset = 0x02, type = "DIR32", symbol = "??0PlayerCollisionQueryRecordView@@QAE@XZ", target = 0x004343D0 },
+  { offset = 0x14, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
+]
+
+# Logical constructor aliases for the shared/folded three-byte identity body
+# at 0x004343D0. Original explicit-vs-implicit origin and unique ownership
+# remain unknown; these units carry byte evidence only, not authored credit.
+[units.player-constructed-vector3-constructor-alias]
+source = "src/VectorPointerViews.cpp"
+object = "build/matching/VectorPointerViews.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerConstructedVector3View::PlayerConstructedVector3View"]
+symbol = "??0PlayerConstructedVector3View@@QAE@XZ"
+target_address = 0x004343D0
+size = 3
+relocations = []
+
+[units.player-collision-query-record-constructor-alias]
+source = "src/VectorPointerViews.cpp"
+object = "build/matching/VectorPointerViews.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["PlayerCollisionQueryRecordView::PlayerCollisionQueryRecordView"]
+symbol = "??0PlayerCollisionQueryRecordView@@QAE@XZ"
+target_address = 0x004343D0
+size = 3
+relocations = []
