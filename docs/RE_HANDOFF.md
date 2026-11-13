@@ -570,3 +570,46 @@ All validation here is a focused object build plus the sibling leaf compare;
 no full cold replay was run. Git checkpoints do not establish Oracle
 exactness; keep the boss classified NON-EXACT until a fresh accepted replay
 receipt proves otherwise.
+
+## 2026-11-13 Collision scratch cursor-home checkpoint
+
+Committed `3e25037d` (`gpt-web: place collision cursor in scratch home`).
+This is a significant source-shape improvement for the 41DFF0 boss:
+
+- The 48-byte collision/reward scratch union now has a 52-byte
+  `CursorHome` overlay: 48 bytes of padding followed by the live slot
+  pointer. The compiler places that pointer at `[ebp-4]`, matching the
+  retail slot home and restoring the `sub esp,34h` frame.
+- The current cursor is stored initially, refreshed on the ordinary hit
+  path, and refreshed after the first popup-position call on the cancel
+  path. The post-reward hit-count update reads this same current cursor.
+  This also avoids the previous stale-base bug after skipped regions.
+- The rotated-rectangle delta expressions now use the direct `position`
+  parameter rather than a volatile pointer-to-pointer alias. This removes
+  the duplicate `[ebp+8]` reload and produces the retail temporary offsets:
+  rotated delta at `[ebp-1Ch]` / `[ebp-18h]`, and helper output at
+  `[ebp-10h]`.
+
+Focused pinned VC7.1 `/O2 /Ob1 /Oy-` result:
+
+- `CheckBulletCollision`: 862/862 physical bytes, 275/277 instructions,
+  34/33 direct CFG blocks;
+- all 26 relocation fields and all 12 ordered calls agree;
+- zero missing target bytes and zero extra candidate bytes;
+- 729 differing overlapping linked bytes; direct CFG still not exact;
+- sibling `CheckGrazeCollision` remains exact at 204/204 bytes.
+
+The prologue now matches retail byte-for-byte through the aligned loop
+header, including the 0x34-byte frame, EBX argument load, ESI slot cursor,
+`[ebp-4]` home, short jump, seven-byte alignment NOP, and first
+`mov ecx,[esi]` / `test ecx,ecx`. This does not make the boss exact.
+Remaining mismatches include a compiler-inserted six-byte alignment NOP
+before region-type dispatch, the loop's extra bottom null test, two
+instructions of x87 schedule/branch divergence, AABB operand/register
+selection, reward-effect payload register order, and final hit-count exit
+layout. Making both circle and rotated branches use direct `position`
+actually worsened the current byte-overlap score, so only the rotated
+branch change was retained.
+
+No full cold replay was run. Treat this as a checkpoint only; exactness still
+requires an accepted Oracle replay receipt.
