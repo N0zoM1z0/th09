@@ -37,13 +37,6 @@ int PlayerLifecycleView::CheckBulletCollision(
             PlayerPositionView delta;
             PlayerPositionView rotated;
         } collision;
-        // The region pointer is live only through slot/type validation. Reuse
-        // the collision scratch lifetime rather than growing the retail frame.
-        struct RegionScratch
-        {
-            PlayerCollisionRegionCreateRegionView *region;
-            unsigned char padding[44];
-        } region;
         struct RewardVectors
         {
             unsigned char collisionScratchPrefix[24];
@@ -53,6 +46,7 @@ int PlayerLifecycleView::CheckBulletCollision(
     } scratch;
     float xDelta;
     float yDelta;
+    register PlayerCollisionRegionCreateRegionView *region;
     register Bullet *bulletParameter = bullet;
     PlayerPositionView * volatile *positionArgument =
         reinterpret_cast<PlayerPositionView * volatile *>(&position);
@@ -75,17 +69,14 @@ int PlayerLifecycleView::CheckBulletCollision(
     }
 
 check_region:
-    __asm {
-        mov ecx, [esi]
-        mov scratch.region.region, ecx
-    }
-    if (scratch.region.region == NULL)
+    region = *slot;
+    if (region == NULL)
         goto no_collision;
     {
-        const int regionType = scratch.region.region->type38;
+        const int regionType = region->type38;
         if (regionType != 1 && regionType != 2 && regionType != 3)
             goto next_invalid_region;
-        if (scratch.region.region->delay40 > 0)
+        if (region->delay40 > 0)
             goto next_invalid_region;
 
         if ((*slot)->radius08 != 0.0)
