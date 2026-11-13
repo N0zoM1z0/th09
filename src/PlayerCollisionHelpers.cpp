@@ -106,9 +106,12 @@ check_region:
             if (scratch.collision.boundsMax.y < position->y)
                 goto next_geometry_region;
         }
-        if ((*slot)->type38 == 2)
+        PlayerCollisionRegionCreateRegionView * volatile *regionSlot =
+            reinterpret_cast<PlayerCollisionRegionCreateRegionView * volatile *>(slot);
+        const int hitRegionType = (*regionSlot)->type38;
+        if (hitRegionType == 2)
             goto cancel_hit;
-        if ((*slot)->type38 == 3)
+        if (hitRegionType == 3)
             goto cancel_hit;
         {
             volatile int &hitCount = (*slot)->hitCount2C;
@@ -119,11 +122,11 @@ check_region:
 
 cancel_hit:
     if (bulletParameter == NULL || bulletParameter->bulletType != 0)
-        goto next_cancel_region;
+        goto next_invalid_region;
 
     {
         scratch.reward.effectPosition.x =
-            g_GameManager.TransformPopupX((*positionArgument)->x);
+            g_GameManager.TransformPopupX(position->x);
         scratch.reward.effectPosition.y =
             g_GameManager.TransformPopupY((*positionArgument)->y);
         scratch.reward.effectPosition.z = 0.0f;
@@ -165,7 +168,7 @@ cancel_hit:
 
         int rewardMode = (g_GameManager.difficulty11C >= 3) + 2;
         this->ownerState30410.ApplyReward(
-            *positionArgument, rewardMode, 2, 0, rewardValue);
+            position, rewardMode, 2, 0, rewardValue);
 
         this->sideState->AddScore(50);
     }
@@ -185,9 +188,6 @@ next_geometry_region:
     slot = TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot);
     goto check_region;
 
-next_cancel_region:
-    slot = TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot);
-    goto check_region;
 }
 
 int PlayerLifecycleView::CheckGrazeCollision(
