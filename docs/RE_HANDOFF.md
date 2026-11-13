@@ -183,3 +183,39 @@ Check `git status` on entry and **do not skip dirty changes**; only this
 worktree's current contents are authoritative. Commit actual improvements
 as `gpt-web: <what changed>`, save multiple coherent checkpoints when earned,
 and never silently push. Do not infer a fixed ahead/behind count from old notes.
+
+## 2026-11-13 continuation checkpoint
+
+The live `th09` branch is `main`, clean, and three commits ahead of
+`origin/main`. The newest code checkpoint is `fe6ee2c7`:
+
+- `gpt-web: model replay scratch allocation as void`
+- `ReplayManagerView::SaveReplay` now keeps the `Alloc` result as `void *`
+  until the LZSS byte-input boundary. Its 1,238-byte frontier remains exactly
+  two register-encoding differences at `+0xB7/+0xBB`; all 12 same-TU exact
+  siblings passed `check-boss-frontiers.py --owner replaysave`.
+
+Target verification and `validate-tracking.py --require-target` passed before
+analysis. Focused non-crediting checks currently report:
+
+- Enemy `OnUpdate`: 3,900/3,900 bytes, 97 fields, 69 calls, graph/switches
+  agree, 13 ordinary bytes remain. The 82-byte collision append leaf is
+  byte-equal; its two original calls and fields are bound.
+- Effect `AddedCallback`: 51/51 bytes, four fields and two calls agree, eight
+  register-scheduling bytes remain. Target-attested IDA analysis confirms
+  GetAnm slot 8, `etama.anm` fallback and owner offset `+0x2D4`.
+- Replay `SaveReplay`: two register bytes remain; no exactness credit.
+
+The full `--owner enemy` attempt stopped during the canonical same-source
+cohort phase inside `compare-coff-function.py` while enumerating local COFF
+symbols. The diagnostic-only Enemy check still passes. No experimental Enemy
+source changes remain. Investigate that specific canonical replay failure
+before relying on a full Enemy-owner regression result; do not replace it with
+an unbounded project replay.
+
+Continue with both a large boss and a small leaf. Do not repeat the rejected
+Enemy draw-group cast, direct four-element subscript, descriptor field-copy,
+Effect AddedCallback local-receiver, or SaveReplay pointer-arithmetic
+experiments; their outcomes are recorded in `KNOWLEDGE_BASE.md`. Preserve the
+`gpt-web: ...` commit format and create further checkpoints only for coherent
+source or evidence advances.

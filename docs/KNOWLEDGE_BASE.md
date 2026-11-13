@@ -7091,3 +7091,89 @@ movement and Type29 fans. These successes do not justify copying upstream
 layout assumptions or replacing the remaining large bosses wholesale.
 Whole-product linkage, resources/data owners, runtime behavior, semantic
 reconstruction and portability remain separate unfinished work.
+
+## 2026-11-13 target-attested re-audit: Enemy boss and small leaves
+
+A fresh TH09 1.50a target verification, tracking validation and status report
+were run before this session's target-dependent work. The focused owner
+inspectors below are diagnostic-only; none of their results is promoted to
+canonical exactness by this note.
+
+### EnemyManagerView::OnUpdate and its collision leaf
+
+The complete original `EnemyManagerView::OnUpdate @ 0x00410730` remains
+3,900 physical bytes. The current candidate is also 3,900 bytes, all 97
+original fields bind at their original offsets, all 69 ordered calls agree,
+and the complete direct branch graph and switch destinations agree. The
+remaining frontier is 13 ordinary bytes, not a missing function tail or a
+control-flow mismatch. A fresh target-bound Ghidra export and attested IDA
+semantic read were used to re-audit the owner.
+
+The two residual groups have distinct causes:
+
+- The first two bytes are the draw-group selector: retail zero-extends the
+  native byte into EAX and uses EAX as the scaled array index; the candidate
+  uses ECX for the same zero-extended value. The native helper's DWORD address
+  arithmetic is intentional. A byte-typed helper parameter and removal of
+  the explicit unsigned cast did not alter the emitted instructions; direct
+  four-element C++ subscripting would introduce a bounds precondition absent
+  from the target and was rejected.
+- The remaining eleven bytes are in the special-attack descriptor setup.
+  Retail loads the manager side-state through EAX, the threshold through EDX,
+  and copies the three position components into the descriptor's stack
+  storage in its own register/store schedule. The candidate uses EDX for the
+  side-state pointer and EAX for the threshold, with a different register and
+  store order for the position. A field-by-field x/y/z rewrite moved literal
+  field positions and failed the owner inspector, so it was reverted. Earlier
+  pointer/reference aliases and vector copy forms are already recorded above;
+  do not repeat them as if they were new hypotheses.
+
+The independently maintained 82-byte `EnemyView::AppendPlayerCollisionBox`
+leaf still compares byte-for-byte, with its two original bound fields and
+calls to `0x0040F5A0` and `0x0040F8E0`. The 151-byte attached-effect update
+leaf also remains an exact same-carrier sibling. The focused
+`--owner enemy --skip-exact-siblings` diagnostic passed with the 13/0 boss/leaf
+frontier. A full `--owner enemy` exact-sibling pass was also attempted; its
+canonical phase stopped inside `compare-coff-function.py` while enumerating
+large COFF local-label symbol tables. No Enemy source change was retained
+from that experiment; rerun the canonical cohort separately before relying on
+that full-owner check.
+
+### EffectManager::AddedCallback leaf
+
+Target-attested IDA analysis of `EffectManager::AddedCallback @ 0x0040D1C0`
+confirms a 51-byte function with four bound fields, two ordered calls and the
+same three-block control-flow shape as the candidate. It requests ANM slot 8
+through `GetAnm @ 0x00401660`, tests the returned resource's `+0x04` field,
+falls back to `PreloadAnm @ 0x0043C7A0` with `etama.anm` when that field is
+null, stores the resulting `AnmLoaded *` at owner offset `+0x2D4`, and returns
+zero. `GetAnm` computes the slot entry using the native 288-byte stride and
+36-byte entry offset. The existing source has the same resource and fallback
+semantics; the eight residual bytes are confined to the prologue/receiver
+register schedule (retail loads the manager into EDI before saving the owner
+from ECX into ESI; the candidate saves the owner first and copies the global
+manager load through ECX). A local receiver, delayed owner cast and reference
+aliases did not improve the complete body and some variants regressed to
+eleven differences. None was retained. Keep the exact `Create` caller
+protected when this owner is edited.
+
+### ReplayManagerView::SaveReplay and the replay leaf boundary
+
+`ReplayManagerView::SaveReplay @ 0x00420C60` remains a 1,238-byte function
+with 53/53 original fields, 23 ordered calls, 49 matching direct blocks and
+two ordinary differences at `+0xB7` and `+0xBB`. Retail loads the temporary
+buffer base directly into EDI and forms the destination with
+`lea edi,[edi+ebx-0xC0]`; the candidate loads that same stack local into ECX
+and forms `lea edi,[ecx+ebx-0xC0]`. The pointer-arithmetic and `void *`
+experiments did not change those two instructions. The accepted source
+cleanup is commit `fe6ee2c7` (`gpt-web: model replay scratch allocation as
+void`): `Alloc`'s untyped allocation remains `void *` until the explicit byte
+pointer boundary at `Lzss::Encode`. The focused `--owner replaysave` check
+passed all twelve same-TU canonical exact siblings and retained exactly those
+two differences. This is not an exact-function promotion.
+
+The 15-byte `ReplayPayloadView` constructor leaf was also re-read in IDA: it
+constructs the `GameConfiguration` member at `this + 0x1C` and returns the
+owner. The maintained source expresses the same construction, but its
+compiler-generated-versus-authored origin is still unresolved; byte
+similarity alone does not settle that classification.
