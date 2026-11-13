@@ -10,6 +10,7 @@
 #include "GameWindow.hpp"
 #include "SoundPlayer.hpp"
 #include "Chain.hpp"
+#include "Supervisor.hpp"
 #include "GameErrorContext.hpp"
 #include "Midi.hpp"
 #include "SupervisorNetworkState.hpp"
@@ -48,37 +49,17 @@ typedef char WinMainNativeGameWindowLayout[
      offsetof(GameWindow, performanceFrequency14) == 0x14 &&
      offsetof(GameWindow, lastFrameTime3C) == 0x3C) ? 1 : -1];
 
-class MainSupervisorView
-{
-  public:
-    int LoadConfig(char *path);
-    int IsWindowed();
-    void InitializeCriticalSections();
-    void DeleteCriticalSections();
+// Real Supervisor source allocation and all member/callee identities are
+// independently shared with D3D startup, network and critical-section owners.
+typedef char WinMainNativeSupervisorView[
+    (offsetof(Supervisor, instance00) == 0x00 &&
+     offsetof(Supervisor, d3d04) == 0x04 &&
+     offsetof(Supervisor, d3dDevice08) == 0x08 &&
+     offsetof(Supervisor, presentParameters350) == 0x350 &&
+     offsetof(Supervisor, config388) == 0x388 &&
+     offsetof(Supervisor, screenTransitionCountdown) == 0x5A4 &&
+     offsetof(Supervisor, flags) == 0x5D4) ? 1 : -1];
 
-    HINSTANCE instance00;
-    IDirect3D8 *d3d04;
-    IDirect3DDevice8 *d3dDevice08;
-    unsigned char unknown00C[0x350 - 0x0C];
-    D3DPRESENT_PARAMETERS present350;
-    unsigned char unknown384[4];
-    GameConfiguration config388;
-    unsigned char unknown454[0x5A4 - 0x454];
-    int screenTransitionCountdown5A4;
-    unsigned char unknown5A8[0x5D4 - 0x5A8];
-    unsigned int flags5D4;
-};
-
-typedef char MainSupervisorPresentAt350[
-    offsetof(MainSupervisorView, present350) == 0x350 ? 1 : -1];
-typedef char MainSupervisorConfigAt388[
-    offsetof(MainSupervisorView, config388) == 0x388 ? 1 : -1];
-typedef char MainSupervisorCountdownAt5A4[
-    offsetof(MainSupervisorView, screenTransitionCountdown5A4) == 0x5A4 ? 1 : -1];
-typedef char MainSupervisorFlagsAt5D4[
-    offsetof(MainSupervisorView, flags5D4) == 0x5D4 ? 1 : -1];
-
-extern MainSupervisorView g_MainSupervisor;
 extern MainAnmManager *g_MainAnmManager;
 extern MidiOutput *g_MainMidiOutput;
 extern Chain g_Chain;
@@ -141,7 +122,7 @@ static int CreateGameWindow(HINSTANCE instance)
     RegisterClassA(&baseClass);
 
     HWND window;
-    if (!g_MainSupervisor.IsWindowed())
+    if (!g_Supervisor.IsWindowed())
     {
         width = 640;
         height = 480;
@@ -218,7 +199,7 @@ int WINAPI WinMain(
         strcpy(g_ExecutableDirectory, "./");
     }
 
-    g_MainSupervisor.instance00 = hInstance;
+    g_Supervisor.instance00 = hInstance;
 
     SystemParametersInfoA(
         SPI_GETSCREENSAVEACTIVE, 0, &g_ScreenSaverActive, 0);
@@ -233,12 +214,12 @@ int WINAPI WinMain(
     SystemParametersInfoA(
         SPI_SETPOWEROFFACTIVE, 0, NULL, SPIF_SENDCHANGE);
 
-    g_MainSupervisor.InitializeCriticalSections();
+    g_Supervisor.InitializeCriticalSections();
     g_GameErrorContext.Log(g_MainLogStart);
 
     if (CheckForRunningGameInstance() == -1)
         goto stop;
-    if (g_MainSupervisor.LoadConfig((char *)"th09.cfg") != 0)
+    if (g_Supervisor.LoadConfig((char *)"th09.cfg") != 0)
         goto stop;
 
     ComputeExecutableChecksum();
@@ -272,7 +253,7 @@ restart:
     if (g_SupervisorNetworkState->InitializePeer() != 0)
         g_GameErrorContext.Fatal(g_DirectPlayInitFatal);
 
-    if (!g_MainSupervisor.IsWindowed())
+    if (!g_Supervisor.IsWindowed())
     {
         WINNLSEnableIME(NULL, FALSE);
         ShowCursor(FALSE);
@@ -306,7 +287,7 @@ restart:
         else
         {
             HRESULT cooperativeResult =
-                g_MainSupervisor.d3dDevice08->TestCooperativeLevel();
+                g_Supervisor.d3dDevice08->TestCooperativeLevel();
 
             if (cooperativeResult == D3D_OK)
             {
@@ -314,18 +295,18 @@ restart:
                 if (renderResult != 0)
                     goto release_runtime;
 
-                g_MainSupervisor.flags5D4 &= ~0x10u;
+                g_Supervisor.flags &= ~0x10u;
             }
             else if (cooperativeResult == D3DERR_DEVICENOTRESET)
             {
                 g_MainAnmManager->ReleaseSurfaces();
-                if (g_MainSupervisor.d3dDevice08->Reset(
-                        &g_MainSupervisor.present350) != D3D_OK)
+                if (g_Supervisor.d3dDevice08->Reset(
+                        &g_Supervisor.presentParameters350) != D3D_OK)
                     goto release_runtime;
 
                 ResetRenderState();
-                g_MainSupervisor.screenTransitionCountdown5A4 = 3;
-                g_MainSupervisor.flags5D4 |= 0x10u;
+                g_Supervisor.screenTransitionCountdown = 3;
+                g_Supervisor.flags |= 0x10u;
             }
         }
 
@@ -346,19 +327,19 @@ stop:
         delete g_MainAnmManager;
     g_MainAnmManager = NULL;
 
-    if (g_MainSupervisor.d3dDevice08 != NULL)
-        g_MainSupervisor.d3dDevice08->Reset(&g_MainSupervisor.present350);
+    if (g_Supervisor.d3dDevice08 != NULL)
+        g_Supervisor.d3dDevice08->Reset(&g_Supervisor.presentParameters350);
 
-    if (g_MainSupervisor.d3dDevice08 != NULL)
+    if (g_Supervisor.d3dDevice08 != NULL)
     {
-        g_MainSupervisor.d3dDevice08->Release();
-        g_MainSupervisor.d3dDevice08 = NULL;
+        g_Supervisor.d3dDevice08->Release();
+        g_Supervisor.d3dDevice08 = NULL;
     }
 
-    if (g_MainSupervisor.d3d04 != NULL)
+    if (g_Supervisor.d3d04 != NULL)
     {
-        g_MainSupervisor.d3d04->Release();
-        g_MainSupervisor.d3d04 = NULL;
+        g_Supervisor.d3d04->Release();
+        g_Supervisor.d3d04 = NULL;
     }
 
     if (g_SupervisorNetworkState != NULL)
@@ -384,7 +365,7 @@ stop:
         g_GameErrorContext.ResetContext();
         g_GameErrorContext.Log(g_OptionRestartLog);
 
-        if (!g_MainSupervisor.IsWindowed())
+        if (!g_Supervisor.IsWindowed())
             WINNLSEnableIME(NULL, TRUE);
 
         int waitFrames = 60;
@@ -402,7 +383,7 @@ stop:
     }
 
     FileSystem::WriteDataToFile(
-        "th09.cfg", &g_MainSupervisor.config388, sizeof(GameConfiguration));
+        "th09.cfg", &g_Supervisor.config388, sizeof(GameConfiguration));
 
     if (g_MainMidiOutput != NULL)
     {
@@ -413,7 +394,7 @@ stop:
     }
 
     g_GameErrorContext.Flush();
-    g_MainSupervisor.DeleteCriticalSections();
+    g_Supervisor.DeleteCriticalSections();
     CoUninitialize();
 
     SystemParametersInfoA(

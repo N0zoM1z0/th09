@@ -1457,6 +1457,43 @@ carrier cold-replayed **1/1 exact complete 693-byte owner,
 labels, newly exact function, or Windows product/runtime
 closure is implied.
 
+## 2026-11-13 WinMain and both critical-section leaves use the full native Supervisor
+
+The exact **1,351-byte WinMain** and independently exact **285-byte
+CreateGameWindow** now use the same actual 0x7B0-byte process-global
+`Supervisor` allocation at **0x004B3100** as the full D3D, gameplay,
+network and scheduler functions. The previous synthetic `MainSupervisorView`
+with its partial field layout is gone. The real Supervisor now names the
+original instance handle at +0x00, 0x34-byte D3D present parameters at
++0x350, GameConfiguration at +0x388, window transition at +0x5A4, flags at
++0x5D4, and the five actual **0x18-byte Win32 CRITICAL_SECTION records**
+starting at +0x6C0. The final eight bytes through +0x740 remain in the
+original undisturbed storage overlay. Public layout assertions prove all
+positions and preserve `sizeof(Supervisor)==0x7B0`.
+
+The separate exact **33-byte `Supervisor::InitializeCriticalSections`**
+and **33-byte `Supervisor::DeleteCriticalSections`** now operate directly
+on that same genuine object, not a second short
+`SupervisorCriticalSectionArrayView`. WinMain calls their canonical method
+identities; the two independent exact `Supervisor::IsWindowed` and
+`Supervisor::LoadConfig` identities are reused with their original call
+chronology, unchanged 32-bit field views and no additional helpers.
+All 27 changed COFF relocation symbol identities were checked against
+actual original target PE operand words, offsets, kinds and addends before
+updating names. The original two critical-section mapping names were
+synchronized across source, function, implemented, reccmp and exact ledgers;
+physical ownership, exact counts, target addresses and original callee
+symbols were not invented or redirected.
+
+The **two source-affected pinned VC7.1 carriers** replayed **4/4 existing
+exact owners, 1,702 complete PE bytes and 173 relocations**. Additional
+consumer-focused D3D initializer and GameManager builds reverified **the
+source-header-dependent exact owners and their bound relocations** without
+a project-wide cold replay. All new declarations are nonvirtual; offsets
+and the full Supervisor allocation size remain unchanged. This is source
+ownership and object layout recovery, not new exact-function or a complete
+Windows product/runtime claim.
+
 ## 2026-11-13 Complete Chain release and WinMain share the actual 0x40-byte Chain
 
 The exact original **241-byte `Chain::ReleaseSingleChain`** and **34-byte

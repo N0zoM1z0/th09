@@ -725,8 +725,8 @@ AnmCaptureRequestView::QueueCaptureRequest
 SupervisorSetupLayout::SetupLoadingVmsAndInitCapture
 TitleSupervisorView::HideLoadingVms
 FinishLoading
-SupervisorCriticalSectionArrayView::InitializeCriticalSections
-SupervisorCriticalSectionArrayView::DeleteCriticalSections
+Supervisor::InitializeCriticalSections
+Supervisor::DeleteCriticalSections
 Float3::operator+=
 EffectFollowPlayerUpdate
 ResetGameManager

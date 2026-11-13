@@ -91,6 +91,8 @@ class Supervisor
     int DisableFog();
     int EnableFog();
     void SetRenderState(int state, int value);
+    void InitializeCriticalSections();
+    void DeleteCriticalSections();
     int Is16BitTexturesForced();
     int IsWindowed();
     int IsReferenceRasterizerForced();
@@ -120,7 +122,8 @@ class Supervisor
     unsigned short PopFrame(int side, unsigned short *seed, unsigned int *predicted);
     int AreFrameQueuesSynchronized(int side);
 
-    unsigned char unknown000[0x04];
+    // The real process instance handle published by WinMain at +0x00.
+    union { HINSTANCE instance00; unsigned char unknown000[0x04]; };
     IDirect3D8 *d3d04;
     IDirect3DDevice8 *d3dDevice08;
     IDirectInput8A *directInput0C;
@@ -189,7 +192,12 @@ class Supervisor
     int subthreadCloseRequestActive;
     int subthreadActive;
     union { int startupThreadState6BC; int startupThreadState; };
-    unsigned char unknown6C0[0x740 - 0x6C0];
+    // Five genuine 0x18-byte critical sections; the remaining +0x738..
+    // +0x73F bytes keep their original padding/unknown allocation.
+    union {
+        unsigned char unknown6C0[0x740 - 0x6C0];
+        CRITICAL_SECTION criticalSections6C0[5];
+    };
     int loadingVmsHaveBeenSetup;
     // The Title result/FPs callback observes six native status dwords in
     // this exact +0x77C..+0x793 window. Keep the raw cover for other owners.
@@ -243,6 +251,10 @@ typedef char SupervisorNativeD3DInitFields[
      sizeof(D3DCAPS8) == 0xD4) ? 1 : -1];
 typedef char SupervisorFlagsAt5D4[
     (offsetof(Supervisor, flags5D4) == 0x5D4) ? 1 : -1];
+typedef char SupervisorNativeInstanceAndCriticalSections[
+    (offsetof(Supervisor, instance00) == 0 &&
+     offsetof(Supervisor, criticalSections6C0) == 0x6C0 &&
+     sizeof(((Supervisor *)0)->criticalSections6C0) == 5 * 0x18) ? 1 : -1];
 typedef char SupervisorSizeIs7B0[(sizeof(Supervisor) == 0x7B0) ? 1 : -1];
 // Original deleted-callback tail and config music mode are also part of this
 // same global Supervisor, not a separate +0x7AC lifetime view.
