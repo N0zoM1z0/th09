@@ -5,6 +5,7 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "FrontFactoryConstructView.hpp"
+#include "FrontNativePanelVertices.hpp"
 #include "GameManagerRuntimeView.hpp"
 
 #include <stddef.h>
@@ -53,36 +54,36 @@ int FrontAddedCallback(void *frontArg)
     {
         for (j = 0; j < 5; j++)
         {
-            gui->panelVerticesE86C[i][j].rhw = 1.0f;
-            gui->panelVerticesE86C[i][j].diffuse = 0x80ffffff;
+            FRONT_NATIVE_VERTEX(gui, i, j).rhw = 1.0f;
+            FRONT_NATIVE_VERTEX(gui, i, j).diffuse = 0x80ffffff;
         }
     }
-    gui->panelVerticesE86C[0][0].pos.x = 15.0f;
-    gui->panelVerticesE86C[0][0].pos.y = 15.0f;
-    gui->panelVerticesE86C[0][0].pos.z = 0.0f;
-    gui->panelVerticesE86C[0][1].pos.x = 15.0f;
-    gui->panelVerticesE86C[0][1].pos.y = 464.0f;
-    gui->panelVerticesE86C[0][1].pos.z = 0.0f;
-    gui->panelVerticesE86C[0][2].pos.x = 304.0f;
-    gui->panelVerticesE86C[0][2].pos.y = 464.0f;
-    gui->panelVerticesE86C[0][2].pos.z = 0.0f;
-    gui->panelVerticesE86C[0][3].pos.x = 304.0f;
-    gui->panelVerticesE86C[0][3].pos.y = 15.0f;
-    gui->panelVerticesE86C[0][3].pos.z = 0.0f;
-    gui->panelVerticesE86C[0][4].pos = gui->panelVerticesE86C[0][0].pos;
-    gui->panelVerticesE86C[1][0].pos.x = 335.0f;
-    gui->panelVerticesE86C[1][0].pos.y = 15.0f;
-    gui->panelVerticesE86C[1][0].pos.z = 0.0f;
-    gui->panelVerticesE86C[1][1].pos.x = 335.0f;
-    gui->panelVerticesE86C[1][1].pos.y = 464.0f;
-    gui->panelVerticesE86C[1][1].pos.z = 0.0f;
-    gui->panelVerticesE86C[1][2].pos.x = 624.0f;
-    gui->panelVerticesE86C[1][2].pos.y = 464.0f;
-    gui->panelVerticesE86C[1][2].pos.z = 0.0f;
-    gui->panelVerticesE86C[1][3].pos.x = 624.0f;
-    gui->panelVerticesE86C[1][3].pos.y = 15.0f;
-    gui->panelVerticesE86C[1][3].pos.z = 0.0f;
-    gui->panelVerticesE86C[1][4].pos = gui->panelVerticesE86C[1][0].pos;
+    FRONT_NATIVE_VERTEX(gui, 0, 0).pos.x = 15.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 0).pos.y = 15.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 0).pos.z = 0.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 1).pos.x = 15.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 1).pos.y = 464.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 1).pos.z = 0.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 2).pos.x = 304.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 2).pos.y = 464.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 2).pos.z = 0.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 3).pos.x = 304.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 3).pos.y = 15.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 3).pos.z = 0.0f;
+    FRONT_NATIVE_VERTEX(gui, 0, 4).pos = FRONT_NATIVE_VERTEX(gui, 0, 0).pos;
+    FRONT_NATIVE_VERTEX(gui, 1, 0).pos.x = 335.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 0).pos.y = 15.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 0).pos.z = 0.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 1).pos.x = 335.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 1).pos.y = 464.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 1).pos.z = 0.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 2).pos.x = 624.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 2).pos.y = 464.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 2).pos.z = 0.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 3).pos.x = 624.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 3).pos.y = 15.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 3).pos.z = 0.0f;
+    FRONT_NATIVE_VERTEX(gui, 1, 4).pos = FRONT_NATIVE_VERTEX(gui, 1, 0).pos;
     gui->messageRuntimeE944.Reset();
     if (g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1())
     {

@@ -32,10 +32,7 @@ struct GameManagerSetupLayout
 // five 0x14-byte vertices each; colors/timers and result-table entries
 // are independent DWORDs. Preserve live signed selectors and original
 // Win32 address words without adding a bounds guard or shadow storage.
-#define FRONT_NATIVE_VERTEX(front, side, vertex) \
-    (*reinterpret_cast<FrontPanelVertexView *>(reinterpret_cast<unsigned int>(&(front)->panelVerticesE86C[0][0]) + \
-        static_cast<unsigned int>(side) * sizeof((front)->panelVerticesE86C[0]) + \
-        static_cast<unsigned int>(vertex) * sizeof((front)->panelVerticesE86C[0][0])))
+#include "FrontNativePanelVertices.hpp"
 #define FRONT_NATIVE_TIMER(front, side) \
     (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(front)->panelTimersE93C[0]) + static_cast<unsigned int>(side) * sizeof((front)->panelTimersE93C[0])))
 #define FRONT_NATIVE_COLOR(front, side) \

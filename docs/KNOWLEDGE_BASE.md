@@ -3687,6 +3687,33 @@ were independently proven before only manifest spellings were changed.
 This is source-native script payload recovery, not a new exact-function
 or complete Windows product claim.
 
+## 2026-11-13 FrontFactory's three callbacks share two physical panel vertex strips
+
+The exact **706-byte `FrontAddedCallback`**, **1,491-byte
+`FrontCalcCallback`** and **1,474-byte `FrontDrawCallback`** operate on one
+0x1293C-byte `FrontFactoryConstructView` allocation, with two real panels
+of five **0x14-byte `FrontPanelVertexView` records** each at owner+0xE86C.
+The new `FrontNativePanelVertices.hpp` supplies one actual Win32
+`uint32(&panelVerticesE86C[0][0])+uint32(side)*0x64+uint32(vertex)*0x14`
+lvalue instead of independent construction/draw/runtime vertex addressing
+models. AddedCallback now writes the live `rhw` and `diffuse` words through
+this genuine storage in both dynamic initialization loops, and all 28
+physical corner coordinate writes and duplicate closing vertex copies
+select the same real records. The runtime CalcCallback retains its
+original dynamic side/vertex indices with the identical preexisting
+physical address expression, and DrawCallback passes the two actual
+line-strip starts to `FrontDrawLineStrip` without copying vertices.
+No synthetic panel storage, signed-index range guard, extra function,
+changed vertex constructor, or modified drawing order was introduced.
+
+Only the three affected pinned VC7.1 source carriers were recompiled;
+**3/3 previously exact owners, 3,671 original PE bytes and all 271
+relocation fields** passed a complete function comparison. No private
+`$L` reference needed rebinding. The exact 1,491-byte calculation and
+1,474-byte drawing bosses remain byte-identical, not newly counted exact
+functions. This is cross-callback native allocation and source fidelity;
+no complete Windows runtime or product claim follows.
+
 ## 2026-11-12 FrontFactory calculation/draw callback native wire and stage arithmetic
 
 The independently exact **1,491-byte FrontCalcCallback** handles end-of-stage

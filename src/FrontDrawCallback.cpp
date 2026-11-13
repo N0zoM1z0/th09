@@ -3,6 +3,7 @@
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
 #include "FrontFactoryConstructView.hpp"
+#include "FrontNativePanelVertices.hpp"
 
 #include <stddef.h>
 
@@ -36,8 +37,8 @@ int __fastcall FrontDrawCallback(void *frontArg)
     g_AnmManager->DrawNoRotation(&front->markerVms123F4[0]);
     g_AnmManager->DrawNoRotation(&front->markerVms123F4[1]);
 
-    FrontDrawLineStrip((&front->panelVerticesE86C[0][0]), 4);
-    FrontDrawLineStrip((&front->panelVerticesE86C[1][0]), 4);
+    FrontDrawLineStrip((&FRONT_NATIVE_VERTEX(front, 0, 0)), 4);
+    FrontDrawLineStrip((&FRONT_NATIVE_VERTEX(front, 1, 0)), 4);
 
     front->messageRuntimeE944.Draw();
 
