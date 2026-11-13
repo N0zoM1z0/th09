@@ -7467,3 +7467,36 @@ Reproducible baseline: build `enemy-attached-effect-update`, run
 `check-boss-frontiers.py --owner enemy --skip-exact-siblings`. Current report:
 2 ordinary differences at `0x19C,0x1A3`; all 97 relocation fields, 69 calls,
 170 CFG blocks and reviewed switch destinations agree.
+
+## 2026-11-13 GPT-web: Player bullet-collision CFG frontier investigation
+
+The source-cold `player-check-graze-collision` carrier was rebuilt from the
+maintained `PlayerCollisionHelpers.cpp`. `PlayerLifecycleView::CheckBulletCollision
+@ 0x0041DFF0` is 862/862 physical bytes and 275 candidate instructions, but its
+candidate direct CFG has **34** blocks versus 33 in retail; the current owner
+frontier guard correctly rejects it. The current inspector reports 729
+overlapping-byte differences, no missing target extent, no extra candidate
+extent, and the 26-field/call inventories remain bound. No frontier or exactness
+credit is awarded while the direct graph differs.
+
+The extra block is localized: immediately after the null-region conditional
+branch, candidate offset `+0x2A` contains a six-byte alignment NOP
+(`lea ebx,[ebx]`) before the first region-type load. Retail starts the type load
+at `+0x2A` with no NOP. The preceding retail loop-entry `jmp +7` and seven-byte
+NOP at `+0x17..+0x1F` are present in the candidate too. Removing that manual
+loop-entry alignment sequence is not a valid fix: it drops the candidate to
+851 bytes, 272 instructions and 31 CFG blocks, with 800 overlapping-byte
+differences. A combined null/type predicate can produce 33 CFG blocks, but it
+shrinks the candidate to 846 bytes and breaks 31 of the 50 protected matched
+byte offsets. That variant was discarded; the 34-block source remains intact.
+
+A twelve-commit source-history build sweep locates the transition to 34 CFG
+blocks at the `d426e97d` collision-loop/alignment change. Earlier carriers
+include a 33-block/868-byte version (`0c31c589`) and 31-block/855-byte versions;
+subsequent register/scratch changes improved byte overlap to the current 133
+matching bytes while retaining the extra block. The next repair must suppress
+the `+0x2A` compiler alignment NOP without discarding the matched loop-entry
+alignment or regressing the 50 protected byte offsets. Do not relax the 33-block
+owner guard. The focused `check-boss-frontiers.py --owner player
+--skip-exact-siblings` currently fails specifically with
+`Player 862-byte collision boss target/fields/matching bytes regressed`.

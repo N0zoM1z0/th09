@@ -329,3 +329,10 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 - Rebuilt the source-cold `enemy-attached-effect-update` object after temporary probes; the maintained source is unchanged.
 - Current owner remains 3,900 bytes, 97 relocations, 69 ordered calls, 170 direct CFG blocks; only `+0x19C,+0x1A3` differ (target uses EAX as the draw-group byte index; candidate uses ECX).
 - Focused `check-boss-frontiers.py --owner enemy --skip-exact-siblings` passes. Keep this 2-byte state; do not accept the temporary inline-assembly variants, which changed unrelated frame/code.
+
+## 2026-11-13 GPT-web PlayerCollisionHelpers CFG checkpoint
+
+- Rebuilt `player-check-graze-collision` source-cold. `CheckBulletCollision @ 0x0041DFF0`: 862 bytes, 275 instructions, 34 candidate CFG blocks vs 33 retail; 729 overlapping byte differences; field/call inventories remain bound. The Player owner guard currently fails with `Player 862-byte collision boss target/fields/matching bytes regressed`.
+- Extra candidate block is the six-byte `lea ebx,[ebx]` alignment NOP at `+0x2A`, directly after the null-region branch. Retail starts `mov eax,[ecx+38]` at that offset.
+- Removing the existing loop-entry alignment stub gives 851 bytes/272 instructions/31 blocks and 800 byte differences; combining null/type checks gives 846 bytes/276 instructions/33 blocks but breaks 31/50 protected matched offsets. Both probes were discarded.
+- History sweep associates the 34-block transition with `d426e97d`; later changes raised overlap to 133 matched bytes but retained the extra block. Keep current source and the strict 33-block guard. Next step is to suppress only the `+0x2A` alignment NOP without losing the `+0x17..+0x1F` retail loop-entry stub or protected byte matches.
