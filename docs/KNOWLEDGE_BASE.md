@@ -28,8 +28,9 @@ RunEcl, Enemy OnUpdate and Player movement inspections additionally
 cover 772, 17 and 65 bytes of owned physical code/tails/tables respectively,
 so summing the twelve physical comparison sizes instead yields 28,999 bytes.
 Do not conflate physical-owner proof with the exact authored-byte ledger:
-as of 2026-11-12, 263,786/291,931 reviewed-authored bytes (90.3590%) are
-exact; the independent complete-image inventory and Windows product remain open.
+at the 2026-11-13 ledger check, 263,786/291,931 reviewed-authored bytes
+(90.3590%) were exact. See the live generated [PROGRESS.md](PROGRESS.md)
+for changes; the complete-image inventory and Windows product remain open.
 
 - **Current exactness/frontiers and safe rebuild commands:**
   [RE_HANDOFF.md](RE_HANDOFF.md); generated figures in
@@ -46,6 +47,15 @@ exact; the independent complete-image inventory and Windows product remain open.
 Keep the canonical match manifests, compiler source profiles and original PE
 as the proof inputs. The longer sections below are topic-specific evidence,
 not instructions to restore old scratch experiments or previous snapshots.
+
+**Retention at the 2026-11-13 handoff:** superseded probe binaries, copied
+sources, JSON result dumps and compiler intermediates were removed to save
+space. A small number of ignored `.analysis/gpt-web/*prove*.py` helpers remain
+as **templates**, not current-source proof receipts. Recompile the affected
+carrier and check original PE bytes and all relocations afresh. Do not treat
+a missing historical experiment script or a dated receipt as a blocker.
+The saved `.analysis/ghidra-direct/` analyzer project, original executable,
+compiler/toolchain and Git history have not been pruned.
 
 ## Practical interpretation
 
@@ -5571,8 +5581,11 @@ original pinned VC7.1 RunEcl profile, but each yielded **42 ordinary
 nonmatching bytes** in the complete **15,564-byte / 598-field** owner,
 versus **30** in the maintained source. No candidate was installed. This
 is register/operand-evaluation evidence, not a newly exact ECL handler.
-The local probe is saved in ignored `.analysis/gpt-web/20261112-ecl-jump-opcode4-trials.py`;
-its conclusions are recorded here without adding a repository-wide replay.
+The source variants were diagnostic only; their conclusions are retained
+here. Historical scratch scripts/JSON were pruned during handoff cleanup.
+To retest, rebuild the current `EclManager.obj` from maintained source with
+the pinned profile and compare **the entire** 15,564-byte owner. No
+repository-wide cold replay is necessary.
 
 A further targeted set of 18 VC7.1 opcode-155 trials used compound XOR
 assignment, temporary bitfield copies, masked clear/OR, and direct versus
