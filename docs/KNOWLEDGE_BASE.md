@@ -5655,7 +5655,12 @@ profile; none was kept.
   passed by plain DWORD reloads without `movzx`. The service is still
   nonexact: retail keeps `result` memory-homed (zeroed at entry, reloaded
   at both returns) while VC7.1 folds ours; the reference source folds it
-  too, and `volatile` overshoots.
+  too, and `volatile` overshoots. The first real divergence is earlier: retail
+  keeps the network-state pointer in EDI from the first block and stores
+  the constant 1 as immediates, while our build reuses EDI for a CSE'd
+  constant `1` across the three `= 1` stores and loads the pointer
+  through ECX. That is the same allocator-priority problem as the other
+  residuals.
 - **Random rewrite search (2026-11-14).** A small permuter applying
   commutative comparison/operator swaps and `!= 0`/`== 0` spellings over
   the whole body ran 168 Enemy OnUpdate variants and 246 SaveReplay
