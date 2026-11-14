@@ -5648,6 +5648,11 @@ profile; none was kept.
   tied to its existing local structure.
 - **Effect AddedCallback.** Local order, local-vs-global receiver and cast
   spellings do not change the EDI/ECX order.
+- **Title OnUpdateResult.** Retail loads the selected character as a byte
+  (`mov cl,[ecx+order]`) and widens it once (`movsx edi,cl`) for both the
+  cursor call and `nameBankIndex`. Any plain `g_TitleResultCharacterOrder[
+  keyboardSelection]` form (char/int local, pointer, cast) folds the load
+  into `movsx` and reallocates the whole function (533-540 bytes vs 484).
 
 ## 2026-11-11 RunEcl extra ANM VM native slot addresses
 
