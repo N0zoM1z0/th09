@@ -1,8 +1,8 @@
 #include "SoundPlayer.hpp"
 #include "Supervisor.hpp"
 #include "AsciiGameManagerView.hpp"
+#include "GameManagerResetView.hpp"
 #include "PlayerLifecycleView.hpp"
-#include "PlayerNativeCollisionSlots.hpp"
 #include "BulletManager.hpp"
 #include "EffectManager.hpp"
 #include "RngRuntimeLeaves.hpp"
@@ -15,8 +15,35 @@ void RotatePlayerCollisionVector(
     float angle);
 
 
+struct PlayerCancelEffectView
+{
+    unsigned char unknown000[0xA0];
+    float valueA0;
+    short bulletTypeA4;
+    short colorA6;
+    short sideA8;
+    short extraAA;
+};
+
+typedef char PlayerCancelEffectValueA0[
+    (offsetof(PlayerCancelEffectView, valueA0) == 0xA0) ? 1 : -1];
+typedef char PlayerCancelEffectTypeA4[
+    (offsetof(PlayerCancelEffectView, bulletTypeA4) == 0xA4) ? 1 : -1];
+typedef char PlayerCancelEffectExtraAA[
+    (offsetof(PlayerCancelEffectView, extraAA) == 0xAA) ? 1 : -1];
+
 typedef char PlayerCancelGameManagerCoordinateAt358[
-    (offsetof(AsciiGameManagerView, coordinate358) == 0x358) ? 1 : -1];
+    (offsetof(GameManagerResetView, coordinate358) == 0x358) ? 1 : -1];
+
+struct PlayerCancelSideView
+{
+    void AddScore(int score);
+};
+
+struct PlayerCancelState4OpsView
+{
+    void AddRespawnResource(float value);
+};
 
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_PlayerRewardEffectManager;
@@ -24,199 +51,150 @@ extern EffectManager *g_PlayerRewardEffectManager;
 
 int PlayerLifecycleView::CheckBulletCollision(
     PlayerPositionView *position,
-    PlayerPositionView *,
-    Bullet * volatile bullet)
+    PlayerPositionView *collisionSize,
+    Bullet *bullet)
 {
+    (void)collisionSize;
 
-    union CollisionScratch
-    {
-        struct CollisionVectors
-        {
-            PlayerPositionView boundsMax;
-            PlayerPositionView halfSize;
-            PlayerPositionView delta;
-            PlayerPositionView rotated;
-        } collision;
-        struct RewardVectors
-        {
-            unsigned char collisionScratchPrefix[24];
-            EffectFloat3 effectPosition;
-            EffectFloat3 velocity;
-        } reward;
-        struct CursorHome
-        {
-            unsigned char collisionScratchPrefix[48];
-            PlayerCollisionRegionCreateRegionView **slot;
-        } cursor;
-    } scratch;
-    volatile CollisionScratch *scratchHome = &scratch;
+    PlayerPositionView delta;
+    PlayerPositionView rotated;
+    PlayerPositionView halfSize;
+    PlayerPositionView boundsMax;
     float xDelta;
     float yDelta;
-    register PlayerCollisionRegionCreateRegionView *region;
-    register Bullet *bulletParameter = bullet;
-    PlayerPositionView * volatile *positionArgument =
-        reinterpret_cast<PlayerPositionView * volatile *>(&position);
 
-    register PlayerCollisionRegionCreateRegionView **slot = activeB100;
-    scratchHome->cursor.slot = slot;
+    PlayerLifecycleView *player = this;
+    Bullet *currentBullet = bullet;
+    PlayerCollisionRegionCreateRegionView **slot =
+        reinterpret_cast<PlayerCollisionRegionCreateView *>(player)->activeB100;
 
-    // Keep the retail short jump and seven-byte alignment NOP before the
-    // top-tested region header. VC7.1 currently rotates the two C++ cursor
-    // backedges into a bottom-tested next-slot precheck, adding a separate
-    // aligned block before the type checks. The 33-block retail graph is
-    // therefore still an open source-shaping frontier; do not hide it by
-    // weakening the complete-function CFG audit.
-    __asm {
-        _emit 0xEB
-        _emit 0x07
-        _emit 0x8D
-        _emit 0xA4
-        _emit 0x24
-        _emit 0x00
-        _emit 0x00
-        _emit 0x00
-        _emit 0x00
-    }
-
-check_region:
-    region = *slot;
-    if (region == NULL)
-        goto no_collision;
+    while (*slot != NULL)
     {
-        const int regionType = region->type38;
-        if (regionType != 1 && regionType != 2 && regionType != 3)
-            goto next_invalid_region;
-        if (region->delay40 > 0)
-            goto next_invalid_region;
+        if ((*slot)->type38 != 1 &&
+            (*slot)->type38 != 2 &&
+            (*slot)->type38 != 3)
+            goto next;
+        if ((*slot)->delay40 > 0)
+            goto next;
 
         if ((*slot)->radius08 != 0.0)
         {
-            xDelta = (*positionArgument)->x - (*slot)->centerX00;
-            yDelta = (*positionArgument)->y - (*slot)->centerY04;
-            if (!(xDelta * xDelta + yDelta * yDelta <
-                    (*slot)->radius08 * (*slot)->radius08))
-                goto next_geometry_region;
+            xDelta = position->x - (*slot)->centerX00;
+            yDelta = position->y - (*slot)->centerY04;
+            if (xDelta * xDelta + yDelta * yDelta <
+                (*slot)->radius08 * (*slot)->radius08)
+                goto hit;
+            goto next;
         }
-        else if ((*slot)->angle20 != 0.0f)
+
+        if ((*slot)->angle20 != 0.0f)
         {
-            scratch.collision.delta.x = position->x - (*slot)->centerX00;
-            scratch.collision.delta.y = position->y - (*slot)->centerY04;
+            delta.x = position->x - (*slot)->centerX00;
+            delta.y = position->y - (*slot)->centerY04;
             RotatePlayerCollisionVector(
-                &scratch.collision.rotated, &scratch.collision.delta, -(*slot)->angle20);
-            register float halfWidth = (*slot)->halfWidth10;
-            scratch.collision.halfSize.y = (*slot)->halfHeight14;
-            if (!(-halfWidth <= scratch.collision.rotated.x))
-                goto next_geometry_region;
-            if (!(scratch.collision.rotated.x <= halfWidth))
-                goto next_geometry_region;
-            if (!(-scratch.collision.halfSize.y <= scratch.collision.rotated.y))
-                goto next_geometry_region;
-            if (!(scratch.collision.rotated.y <= scratch.collision.halfSize.y))
-                goto next_geometry_region;
+                &rotated, &delta, -(*slot)->angle20);
+
+            halfSize.x = (*slot)->halfWidth10;
+            halfSize.y = (*slot)->halfHeight14;
+            if (-halfSize.x <= rotated.x &&
+                rotated.x <= halfSize.x &&
+                -halfSize.y <= rotated.y &&
+                rotated.y <= halfSize.y)
+                goto hit;
+            goto next;
         }
-        else
+
+        halfSize.x = (*slot)->centerX00 - (*slot)->halfWidth10;
+        halfSize.y = (*slot)->centerY04 - (*slot)->halfHeight14;
+        boundsMax.x = (*slot)->halfWidth10 + (*slot)->centerX00;
+        boundsMax.y = (*slot)->halfHeight14 + (*slot)->centerY04;
+
+        if (!(halfSize.x > position->x))
         {
-            register float minX = (*slot)->centerX00 - (*slot)->halfWidth10;
-            scratch.collision.halfSize.y = (*slot)->centerY04 - (*slot)->halfHeight14;
-            scratch.collision.boundsMax.x = (*slot)->halfWidth10 + (*slot)->centerX00;
-            scratch.collision.boundsMax.y = (*slot)->halfHeight14 + (*slot)->centerY04;
-            if (minX > position->x)
-                goto next_geometry_region;
-            if (scratch.collision.boundsMax.x < position->x)
-                goto next_geometry_region;
-            if (scratch.collision.halfSize.y > position->y)
-                goto next_geometry_region;
-            if (scratch.collision.boundsMax.y < position->y)
-                goto next_geometry_region;
+            if (!(boundsMax.x < position->x))
+            {
+                if (!(halfSize.y > position->y))
+                {
+                    if (!(boundsMax.y < position->y))
+                        goto hit;
+                }
+            }
         }
-        PlayerCollisionRegionCreateRegionView * volatile *regionSlot =
-            reinterpret_cast<PlayerCollisionRegionCreateRegionView * volatile *>(slot);
-        const int hitRegionType = (*regionSlot)->type38;
-        if (hitRegionType == 2)
+        goto next;
+
+hit:
+        if ((*slot)->type38 == 2)
             goto cancel_hit;
-        if (hitRegionType == 3)
+        if ((*slot)->type38 == 3)
             goto cancel_hit;
-        {
-            PlayerCollisionRegionCreateRegionView *hitRegion = *slot;
-            volatile int &hitCount = hitRegion->hitCount2C;
-            int nextHitCount = hitCount + 1;
-            scratch.cursor.slot = slot;
-            hitCount = nextHitCount;
-        }
+        ++(*slot)->hitCount2C;
         return 2;
+
+    cancel_hit:
+        if (currentBullet == NULL || currentBullet->bulletType != 0)
+            goto next;
+
+        {
+            EffectFloat3 effectPosition;
+            effectPosition.x =
+                g_GameManager.TransformPopupX(position->x);
+            effectPosition.y =
+                g_GameManager.TransformPopupY(position->y);
+            effectPosition.z = 0.0f;
+
+            g_Supervisor.SelectSide(1 - player->sideIndex);
+
+            EffectFloat3 velocity;
+            velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
+                reinterpret_cast<GameManagerResetView *>(&g_GameManager)
+                    ->coordinate358 * 0.5f - 8.0f);
+            velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
+            velocity.z = 0.0f;
+
+            Effect *effectBase =
+                g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
+                    player->sideIndex + 1, &effectPosition, &velocity,
+                    1, static_cast<unsigned int>(-1));
+            g_Supervisor.SelectSide(player->sideIndex);
+
+            PlayerCancelEffectView *effect =
+                reinterpret_cast<PlayerCancelEffectView *>(effectBase);
+            effect->bulletTypeA4 = currentBullet->bulletType;
+            effect->colorA6 = currentBullet->color;
+            effect->valueA0 = currentBullet->speed;
+            effect->sideA8 =
+                static_cast<short>(currentBullet->controller->sideIndex);
+            effect->extraAA = currentBullet->extraAttribute10BD;
+
+            reinterpret_cast<PlayerCancelState4OpsView *>(player)
+                ->AddRespawnResource(0.2f);
+            g_SoundPlayer.PlaySoundByIdx(
+                46, player->sideIndex != 0 ? 500 : -500);
+
+            int rewardValue =
+                player->ownerState30410.state38;
+            if (rewardValue > 100)
+                rewardValue = 1000;
+            else
+                rewardValue *= 10;
+
+            int rewardMode =
+                (g_GameManager.difficulty11C >= 3) + 2;
+            player->ownerState30410.ApplyReward(
+                position, rewardMode, 2, 0, rewardValue);
+
+            reinterpret_cast<PlayerCancelSideView *>(player->sideState)
+                ->AddScore(50);
+        }
+
+        ++(*slot)->hitCount2C;
+        return 2;
+
+next:
+        ++slot;
     }
 
-cancel_hit:
-    if (bulletParameter == NULL || bulletParameter->bulletType != 0)
-        goto next_invalid_region;
-
-    {
-        scratch.reward.effectPosition.x =
-            g_GameManager.TransformPopupX(position->x);
-        // Calls below may clobber ESI; preserve the current region slot,
-        // not the initial activeB100 base, for the post-reward hit count.
-        scratch.cursor.slot = slot;
-        scratch.reward.effectPosition.y =
-            g_GameManager.TransformPopupY((*positionArgument)->y);
-        scratch.reward.effectPosition.z = 0.0f;
-
-        g_Supervisor.SelectSide(static_cast<int>(
-            1u - static_cast<unsigned int>(this->sideIndex)));
-
-        scratch.reward.velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
-            g_GameManager.coordinate358 * 0.5f - 8.0f);
-        scratch.reward.velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
-        scratch.reward.velocity.z = 0.0f;
-
-        // Retail forms the side-based reward effect id as a DWORD sum.
-        Effect *effect =
-            g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                static_cast<int>(
-                    static_cast<unsigned int>(this->sideIndex) + 1u),
-                &scratch.reward.effectPosition, &scratch.reward.velocity,
-                1, static_cast<unsigned int>(-1));
-        g_Supervisor.SelectSide(this->sideIndex);
-
-        effect->cancel.bulletType = bulletParameter->bulletType;
-        effect->cancel.color = bulletParameter->color;
-        effect->cancel.bulletSpeed = bulletParameter->speed;
-        effect->cancel.side =
-            static_cast<short>(bulletParameter->controller->sideIndex);
-        effect->cancel.extraAttribute = bulletParameter->extraAttribute10BD;
-
-        this->AddRespawnResource(0.2f);
-        g_SoundPlayer.PlaySoundByIdx(
-            46, this->sideIndex != 0 ? 500 : -500);
-
-        int rewardValue = this->ownerState30410.state38;
-        if (rewardValue > 100)
-            rewardValue = 1000;
-        else
-            rewardValue = static_cast<int>(
-                static_cast<unsigned int>(rewardValue) * 10u);
-
-        int rewardMode = (g_GameManager.difficulty11C >= 3) + 2;
-        this->ownerState30410.ApplyReward(
-            position, rewardMode, 2, 0, rewardValue);
-
-        this->sideState->AddScore(50);
-    }
-
-    PlayerCollisionRegionCreateRegionView *hitRegion = *scratchHome->cursor.slot;
-    ++hitRegion->hitCount2C;
-    return 2;
-
-no_collision:
     return 0;
-
-next_invalid_region:
-    slot = TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot);
-    goto check_region;
-
-next_geometry_region:
-    slot = TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot);
-    goto check_region;
-
 }
 
 int PlayerLifecycleView::CheckGrazeCollision(
@@ -314,7 +292,7 @@ PlayerCollisionQueryRecordView *PlayerCollisionQueryStateView::FindCollisionAtPl
     PlayerLifecycleView *player = player00;
     if (player->GetUpdateState() != 0)
         return NULL;
-    if (player->timer1B74 > 0)
+    if (*reinterpret_cast<ZunTimer *>(&player->timer1B74) > 0)
         return NULL;
 
     PlayerCollisionQueryRecordView *record = records;
@@ -322,11 +300,7 @@ PlayerCollisionQueryRecordView *PlayerCollisionQueryStateView::FindCollisionAtPl
     player = player00;
     player->collisionBoundsMax1C6C = player->position1B88 + player->hurtboxHalfSize;
 
-    // Retail traverses the real 0x30-byte collision records as unsigned
-    // Win32 byte addresses while keeping the original signed count gate.
-    for (int i = 0; i < count1804;
-         ++i, record = reinterpret_cast<PlayerCollisionQueryRecordView *>(
-            reinterpret_cast<unsigned int>(record) + sizeof(*record)))
+    for (int i = 0; i < count1804; ++i, ++record)
     {
         int hit;
         if (record->radius24 == 0.0f)

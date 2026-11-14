@@ -66,10 +66,13 @@ SOURCE_TARGETS = {
     '?g_PlayerRewardEffectManager@@3PAUEffectManager@@A': 0x004A7E0C,
     '?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z': 0x0040CCC0,
     '?AddRespawnResource@PlayerLifecycleView@@QAEXM@Z': 0x0041BC90,
+    # Keep the historical source-view alias used by the protected 849-byte baseline.
+    '?AddRespawnResource@PlayerCancelState4OpsView@@QAEXM@Z': 0x0041BC90,
     '?g_SoundPlayer@@3VSoundPlayer@@A': 0x004DC698,
     '?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z': 0x0043E2F0,
     '?ApplyReward@PlayerOwnerStateView@@QAEXPAUPlayerPositionView@@HHHH@Z': 0x0041D150,
     '?AddScore@AsciiGameManagerSideView@@QAEXH@Z': 0x0040F860,
+    '?AddScore@PlayerCancelSideView@@QAEXH@Z': 0x0040F860,
 }
 
 
