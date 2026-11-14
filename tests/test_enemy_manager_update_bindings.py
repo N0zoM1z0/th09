@@ -278,12 +278,12 @@ class EnemyUpdateBindingTests(TestCase):
                          (destination - (inspector.BASE + row['offset'] + 4)) & 0xFFFFFFFF)
         self.assertIn('canonical exact unit identity', proof)
 
-    def test_runecl_reference_is_source_present_without_claiming_callee_exactness(self):
+    def test_runecl_reference_binds_the_reviewed_matching_owner(self):
         units, functions, registry = inspector.reference_index()
         destination, proof = inspector.external_destination(
             self.row(symbol=inspector.RUNECL_SYMBOL), units, functions, registry)
         self.assertEqual(destination, 0x004086C0)
-        self.assertIn('source-present non-exact owner', proof)
+        self.assertIn('source-present matching owner', proof)
         self.assertNotIn('canonical exact', proof)
         for old in ('?RunEcl@EclManager@@QAEHPAUEnemyView@@@Z',
                     '?RunEcl@EnemySpawnEclManagerBoundary@@QAEHPAUEnemyView@@@Z',

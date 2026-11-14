@@ -7,8 +7,8 @@
 
 
 The **future milestone** is at least **98% of reviewed authored bytes
-exact**. It is **not the current state**: the 2026-11-13 canonical ledger has
-**263,786 / 291,931 authored bytes exact (90.3590%)**, although 1,025 / 1,037
+exact**. It is **not the current state**: the 2026-11-14 canonical ledger has
+**278,578 / 291,931 authored bytes exact (95.4260%)**, and 1,026 / 1,037
 source-present function owners are exact by *count*. Use
 [`PROGRESS.md`](PROGRESS.md) or the live status script for later changes.
 Both measures are distinct from native Windows build/runtime completion.

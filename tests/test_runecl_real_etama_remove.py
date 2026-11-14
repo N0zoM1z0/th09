@@ -53,10 +53,10 @@ class RealEtamaRemoveCallees(unittest.TestCase):
             (0x4125A0,3,'?RemoveBulletsInRadius@EtamaController@@QAEXPBUFloat3@@M@Z',[]),
         ])
 
-    def test_original_exact_leaves_do_not_give_run_ecl_exactness_credit(self):
+    def test_original_exact_leaves_and_run_ecl_are_separate_exact_rows(self):
         with (ROOT/'config/matches.csv').open(encoding='utf-8') as file:
             matches=file.read()
-        self.assertNotIn('EclManager::RunEcl,',matches)
+        self.assertIn('EclManager::RunEcl,',matches)
         self.assertIn('etama-controller-remove-all-bullets',matches)
         self.assertIn('etama-controller-remove-bullets-in-radius',matches)
 

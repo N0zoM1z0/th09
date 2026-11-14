@@ -19,10 +19,10 @@ import sys
 import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
-COUNTS = {'src/EclManager.cpp': 83, 'src/PlayerRuntime.cpp': 21,
+COUNTS = {'src/EclManager.cpp': 84, 'src/PlayerRuntime.cpp': 21,
           'src/PlayerSetUpdateState.cpp': 1, 'src/PlayerState3EffectSetup.cpp': 3}
 SCOPES = {'state': (COUNTS, 6),
-          'damage': ({'src/EclManager.cpp': 83, 'src/PlayerDamage.cpp': 2}, 3)}
+          'damage': ({'src/EclManager.cpp': 84, 'src/PlayerDamage.cpp': 2}, 3)}
 
 
 def module(name, filename):
@@ -120,7 +120,7 @@ def run(scope='state'):
             frontiers['enemy'] = enemy
             ecl = module('enemy_native_state_ecl', 'inspect-ecl-complete.py').report(obj)
             if (ecl['physical_bytes'] != 15564 or ecl['relocations'] != 598
-                    or ecl['ordinary_different_bytes'] != 30 or ecl['field_different_bytes']
+                    or ecl['ordinary_different_bytes'] != 0 or ecl['field_different_bytes']
                     or ecl['table_different_bytes']):
                 raise ValueError('shared Player state changed the protected RunEcl frontier')
             frontiers['runecl'] = {key: ecl[key] for key in (
