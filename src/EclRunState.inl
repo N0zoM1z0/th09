@@ -288,17 +288,6 @@ __forceinline void AssignFlagField(
     flags = (flags & ~mask) | (shiftedValue & mask);
 }
 
-// Opcode 155 updates the one true timeout bit of the shared flags word.
-// TH09's physical target uses a masked XOR of the previous word with the
-// shifted wire byte. Only bit 24 changes, for every possible wire byte.
-// This is a TU-inline implementation detail, not a separate target boundary.
-inline unsigned int AssignTimeoutSpellBit(unsigned int old,
-                                                 unsigned char value)
-{
-    return old ^ ((old ^ (static_cast<unsigned int>(value) << 24)) &
-                   ENEMY_STATE_TIMEOUT_SPELL);
-}
-
 } // namespace Th09EclRunState
 
 #endif // TH09_ECL_RUN_STATE_DECLARATIONS
@@ -417,8 +406,10 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
     case TH09_ECL_OPCODE_SET_TIMER_CALLBACK:
         enemy->timerCallbackThreshold33D0 =
             Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        stateCallback = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        goto th09_ecl_install_timer_callback;
+        enemy->timerCallbackSubId33D4 =
+            Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        enemy->bossTimer2E64 = 0;
+        break;
 
     case TH09_ECL_OPCODE_SET_CHILD_ECL:
         stateIndex = Th09EclRunControl::ReadInt(enemy, instruction, 0);
@@ -601,22 +592,16 @@ inline unsigned int AssignTimeoutSpellBit(unsigned int old,
         break;
 
     case TH09_ECL_OPCODE_RESET_BOSS_TIMER_CALLBACK:
-        stateCallback =
-            enemy->deathCallbackSubId2D2E;
-    th09_ecl_install_timer_callback:
-        enemy->timerCallbackSubId33D4 = stateCallback;
+        enemy->timerCallbackSubId33D4 = enemy->deathCallbackSubId2D2E;
         enemy->bossTimer2E64 = 0;
         break;
 
     case TH09_ECL_OPCODE_SET_TIMEOUT_SPELL:
     {
-        // The timeout bit is the native Enemy's primary word at +0x337C.
-        // Read exactly byte zero of the four-byte wire argument. The masked
-        // XOR changes bit 24 without disturbing the other primary flags.
-        unsigned char value;
-        memcpy(&value, &Th09EclRunState::RawByte(instruction, 0), sizeof(value));
-        enemy->primaryFlags337C =
-            Th09EclRunState::AssignTimeoutSpellBit(enemy->primaryFlags337C, value);
+        // Bit 24 of the native Enemy primary flag word at +0x337C, assigned
+        // from byte zero of the wire argument as an ordinary bitfield store.
+        enemy->primaryFlagBits337C.timeoutSpell24 =
+            Th09EclRunState::RawByte(instruction, 0);
         break;
     }
 

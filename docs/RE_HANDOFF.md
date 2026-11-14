@@ -16,25 +16,21 @@ then regenerate the current ledger counts and needed compiler objects.**
   `resources/th09.exe` SHA-256:
   `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
   Do not patch, rename, commit or delete the target.
-- **Checked 2026-11-13 against the canonical ledgers:**
+- **Checked 2026-11-14 against the canonical ledgers:**
   `config/functions.csv` has 2,248 candidates,
-  **1,037 source-present authored mappings**, **1,025 exact**,
-  **12 nonexact / 28,145 canonical function bytes**, and
-  **35 reviewed unresolved origins**. The 1,025/1,037 figure is a
-  **98.84% function count**, NOT overall reconstruction completeness:
-  exact authored bytes are **263,786 / 291,931 = 90.3590%**.
-  Complete original-code inventory is **not** proven. Generated
+  **1,037 source-present authored mappings**, **1,026 exact**,
+  **11 nonexact / 13,353 canonical function bytes**, and
+  **35 reviewed unresolved origins**. Exact authored bytes are
+  **278,578 / 291,931 = 95.4260%** (function count 98.94%). Complete
+  original-code inventory is **not** proven. Generated
   [progress](PROGRESS.md) and the command below reflect ledgers;
-  counts quoted in old experiment notes are historical. The branch may be
-  synchronized with the remote; do not assume an ahead/behind count or a
-  particular HEAD from a previous agent message.
-- **Important size distinction:** the 28,145-byte nonexact total is the sum of
-  `functions.csv` **logical sizes**, *not* the sum of the larger physical
-  original-bound comparison extents. In particular:
-  RunEcl = **14,792 logical / 15,564 physical** (includes owned tables/tails);
-  Enemy OnUpdate = **3,883 / 3,900**; Player movement = **1,835 / 1,900**.
-  Those physical extensions add **854** bytes across the three owners.
-  Neither number is a new partial-exactness credit.
+  counts quoted in old experiment notes are historical. Do not assume an
+  ahead/behind count or a particular HEAD from a previous agent message.
+- **Size distinction:** the 13,353-byte nonexact total is the sum of
+  `functions.csv` **logical sizes**, not the larger physical comparison
+  extents (Enemy OnUpdate = **3,883 logical / 3,900 physical**; Player
+  movement = **1,835 / 1,900**). RunEcl is now canonical exact over its
+  complete **15,564-byte** physical owner (unit `ecl-run-ecl`).
 - **Phase:** exact source reconstruction is **unfinished**. A whole Windows
   i386 compile/link/runtime product, dual-Oracle semantic tests and port are
   **not** proven. `GameplaySetupThread` (1,689 bytes) and **Title DrawResult**
@@ -50,6 +46,23 @@ then regenerate the current ledger counts and needed compiler objects.**
   same-section COFF definitions and original PE destinations, not by
   renaming strings blindly.
 
+## 2026-11-14 RunEcl closed (claude-opus-5.5)
+
+- `EclManager::RunEcl @ 0x004086C0` is canonical exact: unit `ecl-run-ecl`,
+  14,792 logical / 15,564 physical bytes, 598 relocation fields, both switch
+  tables. `check-boss-frontiers.py --owner runecl` reports 148/148 handler
+  shapes and 100 exact siblings; the scoped replay of the three changed
+  `.inl` files passes 92 exact units / 51,865 bytes / 2,381 fields.
+- Root cause of the old 7+23 residual: VC7.1 chose EAX vs ECX for the op4 and
+  op155 temporaries based on *neighbouring handlers' IR*, not on those
+  statements. Hand-written `goto` merges and snapshot locals in op5/op6 and
+  op134/op153 (added earlier to match other bytes) shifted the choice. With
+  natural statements there, plain op4 (`time008 = arguments[0].integer`) and
+  plain op155 (`timeoutSpell24 = RawByte(0)`) reproduce retail.
+- Private `$L…`/`$label$…` spellings in 92 EclManager/EclOperands units were
+  rebound only after checking each same-section COFF definition against the
+  manifest target and the original PE operand (all equal).
+
 ## Remaining source-present nonexact owners
 
 Rows below are **full original PE comparison extents**, not logical ledger
@@ -60,8 +73,7 @@ on them after related source changes. The `--owner` options refer to
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| **RunEcl** | 0x004086C0 | 15,564/15,564 physical bytes; 598 fields; **30 unlike** | Opcode 4 JUMP value/receiver register order (7), opcode 155 timeout flag (23); switch tables intact. Direct `RawInt`/DWORD reads and explicit or wrapped timer assignment did not improve JUMP; widening the timeout-byte local changed unrelated handler code. `--owner runecl`; `src/EclManager.cpp` with `EclRun*.inl`. |
-| **Enemy OnUpdate** | 0x00410730 | 3,900/3,900; 97 fields; 69 calls; **13 unlike** | Draw-group / bullet-descriptor register lifetimes. A standalone TU, side-state aliases, direct descriptor-member access, helper receiver changes, `memcpy` position copy, a branch-local register effect pointer and function-scope draw-head local retained the same 13-byte frontier. `--owner enemy`, `src/EnemyManagerCore.inl` included by EclManager. |
+| **Enemy OnUpdate** | 0x00410730 | 3,900/3,900; 97 fields; 69 calls; **2 unlike** | `+0x19C/+0x1A3`: draw-group byte index in ECX instead of EAX. Same TU as exact RunEcl; read the 2026-11-14 register-choice section in the knowledge base first. `--owner enemy`, `src/EnemyManagerCore.inl` included by EclManager. |
 | **Player movement** | 0x0041C170 | 1,900/1,900; 66 fields; 23 calls; **8 unlike** | Only `+0x127-0x12E` remain: `g_GameConfiguration` / `sideIndex` load order before focus-mode comparison. `--owner movement`, `src/PlayerMovement.cpp`. |
 | **Player ChargeAttack** | 0x0041F810 | 1,210/1,210; 70 fields; 58 calls; **235 unlike** | Retail decompile reads `v2` as a DWORD from `this+8` and keeps it in EDI while the input pointer is built in EBX. Candidate int-side snapshots reverse those registers (929 differences); full-index/no-local and collapsed mode-byte variants are worse. `--owner charge`, `src/PlayerChargeAttackUpdate.cpp`. |
 | **Title OnUpdateResult** | 0x004266B5 | 484 candidate / 485 original; 34 fields; 9 calls; **218 unlike** and 1 missing | Character byte load/sign extension. Dedicated `inspect-title-update-result.py` after building `title-screen-setup-thread`; **not** `--owner resultdraw`. |
@@ -91,7 +103,7 @@ python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
 
 # Choose ONE open boss. Diagnostic-only: it cannot claim exactness.
-nice -n 12 python3 -B scripts/check-boss-frontiers.py --owner runecl --skip-exact-siblings
+nice -n 12 python3 -B scripts/check-boss-frontiers.py --owner enemy --skip-exact-siblings
 
 # Preserve all genuinely affected exact siblings after modifying the owner:
 python3 -B scripts/replay-scoped-exact.py --changed-file src/EclRunState.inl --dry-run
@@ -136,15 +148,18 @@ tool upgrade.
 1. Verify the original SHA-256, ledger status and clean/dirty worktree via the
    commands above. A clean tree is **not** a prerequisite for continuing:
    inspect and integrate any interrupted edits before starting new ones.
-2. Pick **one nonexact boss** from the table. Player movement now has only
-   eight load-order bytes left at `+0x127-0x12E`; SaveReplay has two register
-   bytes left; RunEcl and Enemy OnUpdate have larger exact-sibling impact.
+2. Pick **one nonexact boss** from the table. Enemy OnUpdate and SaveReplay
+   have two register bytes left; Player movement has eight load-order bytes.
+   These are the same kind of VC7.1 register-choice residual that RunEcl had:
+   first read the knowledge-base section "VC7.1 register choice is coupled to
+   neighbouring source" and look for *upstream* hand-tuned source, not local
+   spellings of the differing statement.
    Build the carrier and inspect its **whole physical function**; a
    `--skip-exact-siblings` diagnostic alone does not certify existing exact
    neighbors after an edit.
 3. Keep a natural source improvement only after comparing original code,
    relocation destinations/addends, calls and relevant exact siblings. Commit
-   coherent advances with `gpt-web: ...`; never turn partial similarity
+   coherent advances with a `<agent>: ...` prefix; never turn partial similarity
    into a canonical match. The live `docs/PROGRESS.md` must be regenerated
    from ledgers, not edited as a hand-counted score.
 
@@ -155,11 +170,11 @@ tool upgrade.
    `DWORD`/`size_t`, copy and loop-order variants have not changed +0xB7/+0xBB.
    Investigate real value lifetime and original optimization constraints, not
    artificial register directives.
-2. **Enemy OnUpdate / RunEcl:** keep the full 3,900-/15,564-byte graph,
-   literals, relocations and original jump tables. Draw-descriptor forms still
-   differ by 13 register bytes; opcode 4/155 by 7+23. Many bitfield/XOR,
-   timer, pointer-alias and source-order variants have failed or worsened
-   unrelated exact siblings. Detailed hypotheses in [knowledge base](KNOWLEDGE_BASE.md).
+2. **Enemy OnUpdate:** keep the full 3,900-byte graph, literals, relocations
+   and jump tables. RunEcl (same TU) is exact and protected by `ecl-run-ecl`;
+   any EclManager.cpp edit must keep it exact. The earlier "13 bytes / many
+   rejected local variants" history predates the register-coupling finding,
+   so treat those negative results as weak evidence.
 3. **Player movement/charge/collision:** preserve original ABI, calls and
    NaN-aware float control flow. Collision now spans the full physical extent,
    but its CFG is still 34 vs 33 blocks. Do not add new padding or cosmetic
@@ -259,7 +274,6 @@ build/ and __pycache__ may be absent; recreate only the selected object.
 
 - `EnemyManagerCore.inl`: `NativeEnemyDrawHead` now takes `unsigned char` for the native byte-sized draw-group selector. The full `--owner enemy` check retained all 77 exact sibling proofs. The remaining 13-byte `EnemyManagerView::OnUpdate` frontier is still grouped around draw-group, side/threshold, and descriptor-copy register allocation; see the matching session note in `KNOWLEDGE_BASE.md`.
 - `CheckBulletCollision` received another target/IDA/Ghidra pass and multiple compile-probe variants. The direct/volatile pointer experiments did not improve whole-function exactness; preserve the recorded measurements and pursue slot-home lifetime/aliasing rather than repeating them.
-- `SaveReplay` and `RunEcl` were reviewed but not modified because their known residuals already have broad, documented failed-variant coverage.
 - No full cold replay was run. Continue with focused owner checks and make a local commit after each genuinely improved source or evidence checkpoint.
 
 ## 2026-11-13 continued focused session update

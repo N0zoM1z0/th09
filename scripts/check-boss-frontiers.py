@@ -162,7 +162,7 @@ def run_network_message() -> dict:
 # rebuilt rather than silently reusing the main diagnostic's object.
 # These are manifest-verified cardinalities, not historical exactness totals.
 ECL_EXACT_CARRIERS = {
-    'build/matching/EclManager.obj': 77,
+    'build/matching/EclManager.obj': 78,
     'build/matching/EclManager-Type11.obj': 6,
 }
 TITLE_OPTIONS_EXACT_CARRIERS = {'build/matching/TitleScreenOptions.obj': 2}
@@ -900,8 +900,9 @@ def validate_runecl_real_angle_owners(units: dict) -> None:
                     ('REL32', RUNECL_REAL_ANGLE_ORIGINAL_VA, 0)):
                 raise RuntimeError('ECL/ExAttack exact source contains false angle-call identity')
             exact_ref_count += 1
-    if exact_ref_count != 49:
-        raise RuntimeError('ECL/Enemy/position/Effect 49 exact C++ angle callsites missing')
+    # 49 sibling callsites plus RunEcl's eight now that RunEcl is canonical.
+    if exact_ref_count != 57:
+        raise RuntimeError('ECL/Enemy/position/Effect 57 exact C++ angle callsites missing')
 
 
 def guard_runecl_real_angle_callsite_report(report: dict) -> dict:

@@ -28,14 +28,14 @@ RunEcl, Enemy OnUpdate and Player movement inspections additionally
 cover 772, 17 and 65 bytes of owned physical code/tails/tables respectively,
 so summing the twelve physical comparison sizes instead yields 28,999 bytes.
 Do not conflate physical-owner proof with the exact authored-byte ledger:
-at the 2026-11-13 ledger check, 263,786/291,931 reviewed-authored bytes
-(90.3590%) were exact. See the live generated [PROGRESS.md](PROGRESS.md)
+at the 2026-11-14 ledger check, 278,578/291,931 reviewed-authored bytes
+(95.4260%) were exact. See the live generated [PROGRESS.md](PROGRESS.md)
 for changes; the complete-image inventory and Windows product remain open.
 
 - **Current exactness/frontiers and safe rebuild commands:**
   [RE_HANDOFF.md](RE_HANDOFF.md); generated figures in
   [PROGRESS.md](PROGRESS.md).
-- **ECL/Enemy:** [RunEcl opcode 4/155](#runecl-opcode-4-and-opcode-155),
+- **ECL/Enemy:** [VC7.1 register choice is coupled to neighbouring source](#vc71-register-choice-is-coupled-to-neighbouring-source) (how RunEcl was closed),
 - **Player:** [CheckBulletCollision boss register-lifetime frontier](#2026-11-13-player-checkbulletcollision-boss-register-lifetime-frontier).
   [Enemy OnUpdate](#enemy-onupdate), and the canonical `EclRun*.inl` views.
   Original switch tables and private-label bindings matter more than local
@@ -5568,66 +5568,53 @@ COFF definition/PE operand/full-byte checks proved the identical real targets
 before manifest rebinding. No target bytes, toolchain flags or exact status
 were modified.
 
-## RunEcl: opcode 4 and opcode 155
+## VC7.1 register choice is coupled to neighbouring source
 
-The maintained 15,564-byte/598-field owner has 30 ordinary differences,
-concentrated in two handlers. Its fields and tables match. Use
-`check-boss-frontiers.py --owner runecl --skip-exact-siblings` and
-`inspect-ecl-complete.py` for the entire owner.
+**Finding (2026-11-14, pinned VC7.1 `/O2 /Ob1 /Oy-`, EclManager.cpp):** when
+two or three scratch registers are equally free, VC7.1's choice for a
+short-lived temporary depends on the IR of *nearby code in source order*,
+not only on the statement that uses it. RunEcl's last 30 bytes (op4 JUMP: 7,
+op155 timeout bit: 23) were both "retail ECX, candidate EAX" and could not be
+fixed by any spelling of op4 or op155 themselves. RunEcl is now exact
+(`ecl-run-ecl`, 15,564/15,564 bytes, 598 fields).
 
-At original opcode 4 (`0x408937`), ECX receives the integer and is pushed
-before ECX loads the active context. The candidate loads EAX, loads the
-context and then pushes EAX. Both call real Timer assignment at `0x401500`;
-seven physical bytes differ. Explicit operator syntax and direct wire-lvalue
-forms with the integer copy were neutral. Removing that copy left opcode 4
-unchanged and introduced twelve differences in opcode 5.
+How it was found and fixed:
 
-A fresh 2026-11-12 targeted ten-variant current-worktree probe also tested
-raw-operand assignment, explicit `operator=`, signed/const/unsigned local
-snapshots, direct packed-wire pointer dereferences, reference variants,
-volatile wire reads, and split timer pointers. All ten compiled under the
-original pinned VC7.1 RunEcl profile, but each yielded **42 ordinary
-nonmatching bytes** in the complete **15,564-byte / 598-field** owner,
-versus **30** in the maintained source. No candidate was installed. This
-is register/operand-evaluation evidence, not a newly exact ECL handler.
-The source variants were diagnostic only; their conclusions are retained
-here. Historical scratch scripts/JSON were pruned during handoff cleanup.
-To retest, rebuild the current `EclManager.obj` from maintained source with
-the pinned profile and compare **the entire** 15,564-byte owner. No
-repository-wide cold replay is necessary.
+- Diagnostic ablation (blank one handler with an early `break`, compile,
+  read op155's register; never kept) showed op155/op156 rotate together by
+  one register when op134, op150, op151 or op152 is blanked. Many unrelated
+  handlers in between had no effect. Op134 mattered because it `goto`'d into
+  op153's tail.
+- Earlier sessions had added hand-written merges and snapshot locals to
+  match other bytes: op134 → `goto th09_ecl_install_timer_callback` with a
+  `stateCallback` local, op6 → `lhsInt` + `goto th09_ecl_store_int_result`
+  into op86, op5 → a `parameterMask` snapshot, op4 → a by-value union copy,
+  op155 → a `memcpy` byte + XOR helper. Those compensated for each other.
+- Replacing them with the plain statements (the compiler still tail-merges
+  op134/op153 and cross-jumps op6/op86 by itself) makes plain op4
+  `context->time008 = instruction->arguments[0].integer` and plain op155
+  `primaryFlagBits337C.timeoutSpell24 = RawByte(instruction, 0)` match.
+  Op157 (SET_TRAIL) is sensitive to the same state; its existing
+  named-local form is the one that matches after the fix.
+- Cirno-Labs' reference interpreter (`/Ob0`, macros) already produced the
+  retail op4/op155 registers while differing in 3,695 other bytes; under
+  `/Ob1` its op155 flips. That was the first hint that the choice is global.
 
-A further targeted set of 18 VC7.1 opcode-155 trials used compound XOR
-assignment, temporary bitfield copies, masked clear/OR, and direct versus
-memcpy byte snapshots. Full-owner comparison showed the only variants with
-unshifted original tables/fields still retain all 30 baseline differences;
-other variants changed hundreds or thousands of bytes and moved table
-bindings. None was installed. Treat the ESI/EAX/ECX value lifetime as still
-unresolved, not a license to patch instructions or compiler flags.
+Practical rules for the remaining register-choice residuals (Enemy OnUpdate,
+SaveReplay, Player movement, ScreenEffect, AddedCallback):
 
-At original opcode 155 (`0x40B770`), ECX receives the zero-extended wire byte,
-ESI holds old flags, and bit-24 masked XOR is computed in ECX before the store
-through EAX. Twenty-three physical bytes differ. Direct native bitfield forms
-shortened an encoding and displaced later code/table targets, producing far
-more complete-owner differences. Do not judge them only by the local block.
-
-The pinned Cirno-Labs `d7653152` reference gives the desired local instruction
-shapes: opcode 4 matches its whole local block, and opcode 155 has the desired
-operations/registers but starts two bytes earlier. Its complete interpreter
-still differs at 4,149 positions. Child-context initialization, effect spawning
-and ANM rotation are important remaining divergences in that reference.
-Explicit copy, parameter constness, native-word and helper-visibility changes
-did not resolve that complete candidate. It is a hypothesis, not a replacement.
-
-A prior `EnemyView&` RunEcl parameter trial was fully diagnosed: the postcompile
-harness looked in `symbol_aliases` instead of `semantic_aliases`. The recovered
-complete comparison retained 30 RunEcl and 13 Enemy differences; 77 exact
-same-object units survived. Pointer/reference stack transport and RET4 do not
-identify the original source formal. No pending interrupted acceptance remains;
-rebuild from source if this question becomes useful again.
-
-ECL's native 0x0C instruction header precedes four-byte union operands. Byte
-and halfword access now index inside those words; an extra raw-prefix storage
-projection is unnecessary.
+- Local-spelling sweeps of the differing statement are weak evidence. Look
+  for hand-tuned source *before* it (gotos into other cases, snapshot
+  locals, volatile/`memcpy` reads, odd casts) and try the natural form.
+- Ablation is a cheap locator: a register flip from blanking a block marks
+  code that participates in the choice.
+- Declaration order of function-scope locals in RunEcl had no effect
+  (37 permutations, all unchanged).
+- Compile experiment copies inside the repository (for example
+  `.analysis/<scratch>/`); compiling from `/tmp` under Wine was ~8x slower.
+- Renumbered private labels (`$L…`, `$name$…`) are expected after such edits;
+  rebind only after checking the same-section COFF definition, manifest
+  target and original PE operand agree.
 
 ## 2026-11-11 RunEcl extra ANM VM native slot addresses
 

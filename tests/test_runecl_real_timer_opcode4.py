@@ -27,17 +27,6 @@ class RealTimerOpcode4Binding(TestCase):
             offset=5, type='REL32', symbol=setter['symbol'],
             target=setter['target_address'])])
 
-    def test_timeout_reads_one_wire_byte_without_qualified_access(self):
-        text = (ROOT/'src/EclRunState.inl').read_text()
-        start = text.index('case TH09_ECL_OPCODE_SET_TIMEOUT_SPELL:')
-        end = text.index('case TH09_ECL_OPCODE_SET_SPECIAL_INTERACTION:', start)
-        opcode = text[start:end]
-        self.assertNotIn('volatile', opcode)
-        self.assertIn('unsigned char value;', opcode)
-        self.assertIn('memcpy(&value, &Th09EclRunState::RawByte(instruction, 0), sizeof(value));', opcode)
-        self.assertIn('Th09EclRunState::AssignTimeoutSpellBit(enemy->primaryFlags337C, value)', opcode)
-        self.assertIn('enemy->primaryFlags337C =', opcode)
-
     def test_independent_exact_leaf_matches_original_address_and_method(self):
         with (ROOT / 'config/match-units.toml').open('rb') as f:
             units = tomllib.load(f)['units']

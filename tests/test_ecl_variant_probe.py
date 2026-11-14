@@ -70,8 +70,8 @@ class EclVariantFirstIncludeTests(unittest.TestCase):
 
     def test_changed_state_declaration_not_just_changed_late_body(self):
         before = (ROOT/'src/EclRunState.inl').read_text()
-        probe = before.replace('inline unsigned int AssignTimeoutSpellBit(',
-                               'inline unsigned long AssignTimeoutSpellBit(', 1)
+        probe = before.replace('__forceinline void AssignFlagField(',
+                               'inline void AssignFlagField(', 1)
         self.assertNotEqual(probe, before)
         with tempfile.TemporaryDirectory() as folder:
             base = Path(folder)

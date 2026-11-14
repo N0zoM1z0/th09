@@ -201,32 +201,21 @@ __forceinline float *WriteFloat(
     // Target places the decrement handler immediately before the shared jump
     // tail.  Operands 0/1 are raw time/displacement; operand 2 is resolved.
     case TH09_ECL_OPCODE_JUMP_DEC:
-    {
-        // This snapshot is for the lvalue resolver only; ReadInt below reads afresh.
-        const unsigned short parameterMask = instruction->parameterMask0A;
-        --*reinterpret_cast<unsigned int *>(Th09EclRunControl::ResolveIntLValue(
-            enemy, &Th09EclRunControl::RawInt(instruction, 2), parameterMask, 2));
+        (*Th09EclRunControl::WriteInt(enemy, instruction, 2))--;
         if (Th09EclRunControl::ReadInt(enemy, instruction, 2) <= 0)
-            goto th09_ecl_advance_instruction;
-    }
+            break;
 
-    // Snapshot the raw time operand before assigning the active context timer.
     case TH09_ECL_OPCODE_JUMP:
-    {
-        Th09EclWireArgument value = *reinterpret_cast<const Th09EclWireArgument *>(
-            reinterpret_cast<unsigned int>(instruction) +
-            static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)));
-        context->time008 = value.integer;
-    }
+        context->time008 = instruction->arguments[0].integer;
         instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-            reinterpret_cast<unsigned int>(instruction) +
-            static_cast<unsigned int>(
-                Th09EclRunControl::RawInt(instruction, 1)));
+            reinterpret_cast<char *>(instruction) +
+            instruction->arguments[1].integer);
         goto th09_ecl_redispatch_instruction;
 
     case TH09_ECL_OPCODE_SET_INT:
-        lhsInt = Th09EclRunControl::ReadInt(enemy, instruction, 1);
-        goto th09_ecl_store_int_result;
+        *Th09EclRunControl::WriteInt(enemy, instruction, 0) =
+            Th09EclRunControl::ReadInt(enemy, instruction, 1);
+        break;
 
     case TH09_ECL_OPCODE_SET_FLOAT:
         *Th09EclRunControl::WriteFloat(enemy, instruction, 0) =

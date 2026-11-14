@@ -131,7 +131,6 @@ __forceinline void ResolveSpawnPosition(
         {
             lhsInt = Th09EclRunControl::RawInt(instruction, 1);
         }
-th09_ecl_store_int_result:
         *Th09EclRunControl::WriteInt(enemy, instruction, 0) = lhsInt;
         break;
 
