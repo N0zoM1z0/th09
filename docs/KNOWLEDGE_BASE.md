@@ -5669,6 +5669,12 @@ profile; none was kept.
   (`anmManager->GetAnm`) reproduces retail's global-first load, but VC7.1
   then swaps ESI/EDI between the ANM manager and the context; if/else,
   store-then-test and ternary stores keep the same swap.
+  An exhaustive 24-variant sweep (parameter `void *` vs `EffectManager *`,
+  `const` local, named vs direct context, declaration order, local vs
+  global receiver) produces only those two outcomes, decided solely by
+  the GetAnm receiver. Retail's allocation is not reachable from this
+  body; look at declarations/types outside it (e.g. the AnmManager method
+  or global declarations) instead.
 - **Player ChargeAttack.** Retail reads the side as a DWORD into EDI and
   builds the input pointer in EBX; `sideMode` (a byte live across calls)
   spills to `[ebp-1]` because EBX is taken. The maintained `short side`
