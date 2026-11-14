@@ -60,8 +60,12 @@ int PlayerLifecycleView::CheckBulletCollision(
     register PlayerCollisionRegionCreateRegionView **slot = activeB100;
     scratchHome->cursor.slot = slot;
 
-    // VC7.1 does not naturally retain the retail loop alignment here. Keep
-    // the original short jump and seven-byte alignment NOP before the header.
+    // Keep the retail short jump and seven-byte alignment NOP before the
+    // top-tested region header. VC7.1 currently rotates the two C++ cursor
+    // backedges into a bottom-tested next-slot precheck, adding a separate
+    // aligned block before the type checks. The 33-block retail graph is
+    // therefore still an open source-shaping frontier; do not hide it by
+    // weakening the complete-function CFG audit.
     __asm {
         _emit 0xEB
         _emit 0x07

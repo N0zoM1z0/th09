@@ -330,7 +330,11 @@ static __forceinline EnemyTrailSampleView &NativeEnemyTrailSample(
 // The active and restricted-side paths append to the same four native
 // EnemyManager draw-head pointer words (+0x2AC410). Runtime group bytes
 // form a full i386 DWORD offset; do not add a C++ four-element subscript
-// precondition or a clamping branch at either original append site.
+// precondition or a clamping branch at either original append site. The
+// remaining OnUpdate residual is register allocation only: retail reuses
+// EAX for MOVZX plus scaled LEA, while this source currently selects ECX
+// for the byte index. Parameter order, width, direct subscript, and register
+// hints were tested without disturbing the 3,900-byte owner or its 97 edges.
 static __forceinline EnemyView **NativeEnemyDrawHead(
     EnemyManagerView *manager, unsigned char group)
 {
