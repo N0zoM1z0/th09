@@ -12,7 +12,7 @@ typedef char ApplyNetworkInputNativeOwner[
      offsetof(ReplayInputState, networkHeldFrames0A) == 0x0A &&
      offsetof(ReplayInputState, heldFrames) == 0x38) ? 1 : -1];
 
-int __fastcall ApplyNetworkInput(int stateIndex, int input)
+u16 __fastcall ApplyNetworkInput(int stateIndex, u16 input)
 {
     ReplayInputState *state = reinterpret_cast<ReplayInputState *>(
         reinterpret_cast<unsigned char *>(&g_ReplayInputStates[0]) +

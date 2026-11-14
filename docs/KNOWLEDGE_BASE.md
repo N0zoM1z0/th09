@@ -5648,6 +5648,14 @@ profile; none was kept.
   tied to its existing local structure.
 - **Effect AddedCallback.** Local order, local-vs-global receiver and cast
   spellings do not change the EDI/ECX order.
+- **Supervisor network service / ApplyNetworkInput.** The original callee
+  is `u16 __fastcall ApplyNetworkInput(int, u16)` (`?ApplyNetworkInput@@YIGHG@Z`,
+  still 131/131 exact). With that prototype the service's final block takes
+  retail's shape: the two popped inputs are stored as a WORD array and
+  passed by plain DWORD reloads without `movzx`. The service is still
+  nonexact: retail keeps `result` memory-homed (zeroed at entry, reloaded
+  at both returns) while VC7.1 folds ours; the reference source folds it
+  too, and `volatile` overshoots.
 - **Title OnUpdateResult.** Retail loads the selected character as a byte
   (`mov cl,[ecx+order]`) and widens it once (`movsx edi,cl`) for both the
   cursor call and `nameBankIndex`. Any plain `g_TitleResultCharacterOrder[

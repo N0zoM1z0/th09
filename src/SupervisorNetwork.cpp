@@ -40,7 +40,7 @@ extern const char g_NetworkDisconnectedMessage[];
 extern const char g_NetworkWaitingMessage[];
 extern const char g_NetworkSearchingMessage[];
 
-extern int __fastcall ApplyNetworkInput(int side, int input);
+extern unsigned short __fastcall ApplyNetworkInput(int side, unsigned short input);
 extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 
 int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
