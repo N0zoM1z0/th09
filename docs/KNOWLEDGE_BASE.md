@@ -5671,7 +5671,10 @@ profile; none was kept.
   window and 222 whole-body SaveReplay variants, scored against the
   complete original-bound owners. Scores ranged from 2 to 30+; none went
   below 2. Neither residual is reachable by local statement-level
-  rewriting of these regions.
+  rewriting of these regions. The same search over whole bodies of Player
+  movement (240 variants, baseline 4 unmasked bytes), ScreenEffect shake
+  (330, baseline 26) and Title DrawReplayMenu (228, baseline 29, `/O1`)
+  never beat its baseline either.
 - **Effect AddedCallback.** Using the local for both calls
   (`anmManager->GetAnm`) reproduces retail's global-first load, but VC7.1
   then swaps ESI/EDI between the ANM manager and the context; if/else,
