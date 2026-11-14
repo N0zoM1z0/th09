@@ -5616,6 +5616,39 @@ SaveReplay, Player movement, ScreenEffect, AddedCallback):
   rebind only after checking the same-section COFF definition, manifest
   target and original PE operand agree.
 
+### 2026-11-14 follow-up probes on the other register-choice residuals
+
+All measured against the complete original-bound owners with the pinned
+profile; none was kept.
+
+- **Enemy OnUpdate (2 bytes, early draw-group index ECX vs retail EAX).**
+  Statement/`if` ablation finds these steering sites, all at or before the
+  early append: both schedule-table reads, the transition/schedule `if`s,
+  the `focusEffect364` side-timer `if`, the inactive-enemy homing-target
+  clear, and the 0x1000 / `HasTickedEvery(2)` block. Byte-identical natural
+  rewrites of every one of them (plain array schedule reads, local index,
+  plain `++` counters, plain loop increment, no `flags` snapshot, no
+  `sideCategory` local, a 2-bit bitfield for bits 10-11, direct
+  `&heads[group]`, 40 declaration orders) leave the 2 bytes. Removing the
+  `volatile EnemySideStateView *sideState` read restores the old 13-byte
+  residual (the descriptor copy registers rotate by one), so that volatile
+  is itself compensation; no single ablation fixes the descriptor block
+  without it.
+- **SaveReplay (2 bytes).** Every `reinterpret_cast<unsigned int>` address
+  form in the function can be replaced by plain subscripts/pointer
+  arithmetic with identical bytes; the plain first allocation loop is also
+  identical. Struct assignment, a named destination pointer, `u8 *`
+  buffer, signed offset and statement ablation do not move +0xB7/+0xBB.
+- **ScreenEffect shake.** The retail body keeps `fadeIn` in EBX as a plain
+  local (TH08 shape); 48 combinations of alias use, signedness and update
+  spelling all leave the ESI/EDI swap of `screenEffect` and `&timer`
+  (193 bytes in those variants vs 26 in the maintained volatile form).
+- **Player movement.** Plain `&g_ReplayInputStates[side]` and plain focus
+  indexing re-allocate the whole function (~1,380 bytes); the residual is
+  tied to its existing local structure.
+- **Effect AddedCallback.** Local order, local-vs-global receiver and cast
+  spellings do not change the EDI/ECX order.
+
 ## 2026-11-11 RunEcl extra ANM VM native slot addresses
 
 `SetExtraAnmScript` serves two distinct RunEcl opcodes and rereads the
