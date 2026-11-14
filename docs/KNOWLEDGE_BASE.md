@@ -5754,11 +5754,20 @@ profile; none was kept.
   a preceding function, before a minimal-TU AddedCallback leave both
   outcomes unchanged, so the ordering is per-function IR, not TU-wide
   symbol numbering.
-- **Title OnUpdateResult.** Retail loads the selected character as a byte
-  (`mov cl,[ecx+order]`) and widens it once (`movsx edi,cl`) for both the
-  cursor call and `nameBankIndex`. Any plain `g_TitleResultCharacterOrder[
-  keyboardSelection]` form (char/int local, pointer, cast) folds the load
-  into `movsx` and reallocates the whole function (533-540 bytes vs 484).
+- **Title OnUpdateResult (corrected 2026-11-14).** Use the Title profile
+  (`/O1`, no `/Oi`); an earlier note here measured `/O2` builds and was
+  wrong. With `/O1` the maintained 484-byte body matches retail everywhere
+  except one site: retail loads the selected character into CL
+  (`mov ecx,[esi]; mov cl,[ecx+order]`) and widens it separately
+  (`movsx edi,cl`), one byte longer, while VC7.1 folds our load into
+  `movsx edi,byte [...]`. That single site produces the 1-byte shift
+  behind all ~166 differing bytes. Plain `char`/`signed char`/`unsigned
+  char` tables and locals, casts, `int` locals, function- or case-scope
+  declarations, `register`, pointer/address forms, inline accessors and a
+  multi-definition `character` shared with case 0 all fold (483 bytes).
+  The callee `SetCharacterCursorInactive` reads its first argument as a
+  DWORD, so its `int` parameter is correct. A permuter search found
+  485-byte variants only by growing case 0, not by fixing this site.
 
 ## 2026-11-11 RunEcl extra ANM VM native slot addresses
 
