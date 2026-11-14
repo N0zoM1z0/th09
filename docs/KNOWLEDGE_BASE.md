@@ -5744,7 +5744,11 @@ profile; none was kept.
   an order derived from internal symbol/tuple IDs; that would explain the
   sensitivity to IR shape. Mapping ID assignment and the register pick in
   the colouring loop is the remaining manual reverse-engineering work.
-  (No decompiler output is kept in the repository.)
+  (No decompiler output is kept in the repository.) Symbol-ID shifting does not
+  reach it: 0-2,183 unused extern declarations, or 0-1,378 globals used by
+  a preceding function, before a minimal-TU AddedCallback leave both
+  outcomes unchanged, so the ordering is per-function IR, not TU-wide
+  symbol numbering.
 - **Title OnUpdateResult.** Retail loads the selected character as a byte
   (`mov cl,[ecx+order]`) and widens it once (`movsx edi,cl`) for both the
   cursor call and `nameBankIndex`. Any plain `g_TitleResultCharacterOrder[
