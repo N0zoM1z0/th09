@@ -5660,9 +5660,15 @@ profile; none was kept.
   commutative comparison/operator swaps and `!= 0`/`== 0` spellings over
   the whole body ran 168 Enemy OnUpdate variants and 246 SaveReplay
   variants against the complete original-bound owners. None went below
-  2 bytes; these rewrites are almost always byte-neutral, so a future
-  search needs stronger transforms (temporaries, statement splitting,
-  inline-helper removal) rather than more iterations.
+  2 bytes; these rewrites are almost always byte-neutral. A second Enemy
+  run adding increment spellings, compound/expanded assignments and
+  collapsed `static_cast<int>(static_cast<unsigned>(x) + 1u)` wrappers
+  (312 variants) does change code but still never went below 2. A future
+  search needs temporaries, statement splitting or inline-helper removal.
+- **Effect AddedCallback.** Using the local for both calls
+  (`anmManager->GetAnm`) reproduces retail's global-first load, but VC7.1
+  then swaps ESI/EDI between the ANM manager and the context; if/else,
+  store-then-test and ternary stores keep the same swap.
 - **Player ChargeAttack.** Retail reads the side as a DWORD into EDI and
   builds the input pointer in EBX; `sideMode` (a byte live across calls)
   spills to `[ebp-1]` because EBX is taken. The maintained `short side`
