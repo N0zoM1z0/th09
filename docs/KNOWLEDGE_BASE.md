@@ -5809,6 +5809,18 @@ profile; none was kept.
   index the runtime 1,024-bucket table at `0x108807B8`; no static
   ESI/EDI/EBX preference table was found. Backend modules include `dag.c`,
   `x86\mdlist.c`, `x86\mdmisc.c` (scheduler/machine layer, unexplored).
+- **c2.dll allocator map (start):** `0x107821a7` is the colouring driver:
+  `0x10783c65`/`0x10783d3c` coalesce copies and build live ranges,
+  `0x10783f0d` creates per-block sets, then seven candidate bit-sets at
+  `DAT_10882158[6..0]` are coloured by `0x107844a4`, followed by
+  `0x10782473`/`0x10782978`. `0x1071133c` is a second driver (called when
+  function flag bit 0x10 is set). Sets are sparse `{id & ~31, mask}` lists
+  keyed by internal symbol ID, so candidate visiting order is probably
+  ascending ID; the colour pass walks basic blocks with no explicit priority
+  sort found yet. Ablating single Enemy OnUpdate statements never flips the
+  +0x19A temp without rewriting the whole body; 128 SaveReplay cast/plain
+  spellings and 144 AddedCallback shapes are all byte-neutral or reproduce
+  the two known allocations.
 - Multi-variant harness tip: free `__fastcall Vn(...)` copies of a small
   owner appended to its TU compile dozens of variants per Wine run.
 
