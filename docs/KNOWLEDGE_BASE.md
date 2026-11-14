@@ -5728,7 +5728,9 @@ profile; none was kept.
     pointer-to-field stores, dead reads, aliases, inline setters/helpers,
     callee prototype changes (short/unsigned/const/char*) and
     multi-path stores that cross-jump into one final store (early return,
-    if/else) all keep the manager in ESI.
+    if/else) all keep the manager in ESI. Inline loaders that own the
+    manager local (no-arg, storing, by-reference) also give either the
+    manager in ESI or the ECX-first load.
   Conclusion: the tie-break depends on post-optimisation IR beyond simple
   use counts; matching retail needs either the original's exact extra IR
   or a model of c2.dll's ordering, not more source-level rewrites.
