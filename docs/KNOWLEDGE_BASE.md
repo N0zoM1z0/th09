@@ -5663,8 +5663,15 @@ profile; none was kept.
   2 bytes; these rewrites are almost always byte-neutral. A second Enemy
   run adding increment spellings, compound/expanded assignments and
   collapsed `static_cast<int>(static_cast<unsigned>(x) + 1u)` wrappers
-  (312 variants) does change code but still never went below 2. A future
-  search needs temporaries, statement splitting or inline-helper removal.
+  (312 variants) does change code but still never went below 2. A third
+  run reused the Cirno-Labs permuter's rewrite set (adjacent statement
+  swaps/moves, if/else flips, ternary/loop/address/compound/increment
+  forms, operand and `&&`/`||` swaps) as a local, uncommitted tool:
+  300 Enemy OnUpdate variants confined to the schedule-to-descriptor
+  window and 222 whole-body SaveReplay variants, scored against the
+  complete original-bound owners. Scores ranged from 2 to 30+; none went
+  below 2. Neither residual is reachable by local statement-level
+  rewriting of these regions.
 - **Effect AddedCallback.** Using the local for both calls
   (`anmManager->GetAnm`) reproduces retail's global-first load, but VC7.1
   then swaps ESI/EDI between the ANM manager and the context; if/else,
