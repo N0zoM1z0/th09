@@ -5693,6 +5693,16 @@ profile; none was kept.
   pointer, swapped addend, config reference, side local) leaves the
   `g_GameConfiguration`/`sideIndex` load order reversed; the random
   rewrite search ran 320 variants without improvement.
+- **Player CheckBulletCollision (2026-11-14 recheck).** The maintained
+  source now builds 849 bytes (retail 862) with 149/269 aligned
+  instructions. Retail's loop is top-tested and unrotated: `jmp` over
+  alignment padding to an aligned header, with `add esi,4; jmp header`
+  duplicated into four branches. The Cirno-Labs `for (;;) { if (!*slot)
+  return 0; … continue; }` shape with reward code after the loop, a
+  label/`goto` loop, `while (1) { if (!*slot) break; … }` and per-site
+  `++slot; continue;` all still get rotated by VC7.1 (820-830 bytes,
+  ~150 aligned instructions), so loop rotation is not controlled by these
+  spellings.
 - **Title OnUpdateResult.** Retail loads the selected character as a byte
   (`mov cl,[ecx+order]`) and widens it once (`movsx edi,cl`) for both the
   cursor call and `nameBankIndex`. Any plain `g_TitleResultCharacterOrder[
