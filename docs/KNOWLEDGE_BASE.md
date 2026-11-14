@@ -5663,6 +5663,17 @@ profile; none was kept.
   2 bytes; these rewrites are almost always byte-neutral, so a future
   search needs stronger transforms (temporaries, statement splitting,
   inline-helper removal) rather than more iterations.
+- **Player ChargeAttack.** Retail reads the side as a DWORD into EDI and
+  builds the input pointer in EBX; `sideMode` (a byte live across calls)
+  spills to `[ebp-1]` because EBX is taken. The maintained `short side`
+  snapshot and `volatile u8 sideMode` are compensation (they give 183
+  differing bytes); plain `int side` with a plain `u8 sideMode` lets VC7.1
+  put `side` in EBX and `sideMode` in BL (879 bytes), and `int side` alone
+  in the maintained body gives 716. Declaration order has no effect.
+- **Player movement.** Every spelling of the focus-byte condition (array,
+  pointer, swapped addend, config reference, side local) leaves the
+  `g_GameConfiguration`/`sideIndex` load order reversed; the random
+  rewrite search ran 320 variants without improvement.
 - **Title OnUpdateResult.** Retail loads the selected character as a byte
   (`mov cl,[ecx+order]`) and widens it once (`movsx edi,cl`) for both the
   cursor call and `nameBankIndex`. Any plain `g_TitleResultCharacterOrder[
