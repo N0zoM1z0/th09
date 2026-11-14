@@ -2015,15 +2015,14 @@ def run_camera_facing(*, protect_exact: bool) -> tuple[dict, list[dict]]:
 # protected; unlike the old set, the nine residual register bytes have moved.
 # A future proposal may CLEAR any of these, never introduce another.
 REPLAY_BEGIN_TARGET_SHA = 'af0dd0d85e36de147b67c07e8790bd200adb04f2862496dac928b3731dff5f64'
-REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS = frozenset((
-    0x152, 0x156, 0x15C, 0x162, 0x168, 0x16C, 0x172, 0x178, 0x17A,
-    0x1FB, 0x1FC, 0x1FD, 0x1FE,
-    0x200, 0x201, 0x202, 0x203, 0x204, 0x205, 0x206, 0x207,
-    0x208, 0x209, 0x20A, 0x20B, 0x20C, 0x20D, 0x20E, 0x20F,
-    0x210, 0x211, 0x212, 0x213, 0x214, 0x215, 0x216, 0x217,
-    0x218, 0x219,
-))
-REPLAY_BEGIN_CURRENT_FIELD_OFFSET_DELTAS = (0,) * 30 + (-1, -2)
+REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS = frozenset(
+    tuple(range(0x14B, 0x14F)) + tuple(range(0x151, 0x160)))
+REPLAY_BEGIN_CURRENT_FIELD_OFFSET_DELTAS = (0,) * 20 + (-10,) + (0,) * 11
+# The plain source hoists the side-0 runtime load above the +0x37C store;
+# retail issues it after the +0x1E8 load. That is the only field motion.
+REPLAY_BEGIN_FIELD_CHANGE_SPANS = [
+    {'kind': 'insert', 'target': [], 'candidate': [[333, 'DIR32', 4881836]]},
+    {'kind': 'delete', 'target': [[349, 'DIR32', 4881836]], 'candidate': []}]
 
 
 # Original-v1.50a PE/COFF pinned native memory ABI in large replay and
@@ -2178,13 +2177,13 @@ def run_replay_playback(*, protect_exact: bool) -> tuple[dict, list[dict]]:
             current.get('target_blocks') != 12 or
             current.get('candidate_blocks') != 12 or
             not current.get('complete_direct_graphs_agree') or
-            current.get('aligned_field_identities') != 32 or
-            current.get('field_change_spans') != [] or
+            current.get('aligned_field_identities') != 31 or
+            current.get('field_change_spans') != REPLAY_BEGIN_FIELD_CHANGE_SPANS or
             current.get('field_offset_deltas') !=
                 list(REPLAY_BEGIN_CURRENT_FIELD_OFFSET_DELTAS) or
             current.get('target_sha256') != REPLAY_BEGIN_TARGET_SHA or
             type(current.get('complete_overlap_differences')) is not int or
-            current['complete_overlap_differences'] > 39 or
+            current['complete_overlap_differences'] > 19 or
             current['complete_overlap_differences'] < 0 or
             current.get('missing_target_bytes', 999) > 2 or
             current.get('missing_target_bytes') !=
@@ -2195,7 +2194,7 @@ def run_replay_playback(*, protect_exact: bool) -> tuple[dict, list[dict]]:
     # Count-based acceptance was unsafe: a changed compiler candidate could
     # fix one bad byte while breaking another that already equaled the PE.
     offsets = current.get('difference_offsets')
-    if (len(REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS) != 39 or
+    if (len(REPLAY_BEGIN_ORIGINAL_RESIDUAL_OFFSETS) != 19 or
             not isinstance(offsets, list) or
             len(offsets) != current['complete_overlap_differences'] or
             offsets != sorted(set(x for x in offsets if type(x) is int)) or

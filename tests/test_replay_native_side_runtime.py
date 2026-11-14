@@ -46,8 +46,6 @@ class ReplayNativeSideRuntime(unittest.TestCase):
                          (0x4A7D90+0x1C,0x4A7D90+0x38+0x1C))
         self.assertIn('replay-manager-playback-input',u)
         source = (ROOT/'src/ReplayInput.cpp').read_text()
-        self.assertIn('AsciiGameSideRuntimeView *volatile &side0RuntimeSlot =',source)
-        self.assertIn('g_GameManager.sides[0].runtime;',source)
         self.assertNotIn('ReplaySideRuntimeSlotView',source)
         inspector=(ROOT/'scripts/inspect-replay-begin-playback.py').read_text()
         self.assertNotIn('?g_ReplaySideState',inspector)

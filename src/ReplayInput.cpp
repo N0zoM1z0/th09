@@ -610,6 +610,13 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
 int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
 {
     i32 fileSize;
+    i32 stage;
+    i32 i;
+    ReplayFrameDataStartView *frame0;
+    ReplayFrameDataStartView *frame1;
+    ReplayFrameDataStartView *frame2;
+    u8 *fpsStart;
+
     replayManager->frameCounter = 0;
     if (replayManager->replayData == NULL)
     {
@@ -620,46 +627,18 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
             return -1;
         replayManager->unknown110 = 0;
     }
-    i32 stage = g_GameManager.field0FC;
-    // The original tests the frame-table ROW ADDRESS (0x20 + stage*0x28),
-    // not the pointer stored in frameStart[0][stage]. Keep its observed
-    // address test; changing to a data-pointer check alters game behavior.
-    // Use the native 32-bit row address, not frameStart[stage]: the latter
-    // subscripts the three-row C++ array out of bounds for stages 3..9.
-    const unsigned int rowAddress =
-        reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[0][0]) +
-        static_cast<unsigned int>(stage) *
-        static_cast<unsigned int>(sizeof(replayManager->replayData->frameStart[0]));
-    if (rowAddress == 0u)
+    stage = g_GameManager.field0FC;
+    if (replayManager->replayData->frameStart[stage] == NULL)
         return -1;
     if ((g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1()) && stage > 0)
     {
-        // The replay's live character byte selects one real GameManager
-        // clear-marker byte at +0xD8. Preserve the unsigned i386 address.
-        for (i32 i = 0; i < stage; i++)
-            *reinterpret_cast<unsigned char *>(
-                reinterpret_cast<unsigned int>(&g_GameManager.clearD8[0]) +
-                static_cast<unsigned int>(
-                    (*reinterpret_cast<ReplayFrameDataStartView **>(
-                        reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[1][0]) +
-                        static_cast<unsigned int>(i) *
-                            sizeof(replayManager->replayData->frameStart[1][0])))->value06)) = 1;
+        for (i = 0; i < stage; i++)
+            g_GameManager.clearD8[replayManager->replayData->frameStart[1][i]->value06] = 1;
     }
-    // Original playback reads frame/FPS table pointers by native Win32
-    // 32-bit byte offsets; the stage DWORD is not a bounded C++ subscript.
-    // Preserve separate physical row bases and the original read order.
-    ReplayFrameDataStartView *frame1 = (*reinterpret_cast<ReplayFrameDataStartView **>(
-        reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[1][0]) +
-        static_cast<unsigned int>(stage) * sizeof(replayManager->replayData->frameStart[1][0])));
-    ReplayFrameDataStartView *frame0 = (*reinterpret_cast<ReplayFrameDataStartView **>(
-        reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[0][0]) +
-        static_cast<unsigned int>(stage) * sizeof(replayManager->replayData->frameStart[0][0])));
-    ReplayFrameDataStartView *frame2 = (*reinterpret_cast<ReplayFrameDataStartView **>(
-        reinterpret_cast<unsigned int>(&replayManager->replayData->frameStart[2][0]) +
-        static_cast<unsigned int>(stage) * sizeof(replayManager->replayData->frameStart[2][0])));
-    u8 *fpsStart = (*reinterpret_cast<u8 **>(
-        reinterpret_cast<unsigned int>(&replayManager->replayData->fpsStart[0]) +
-        static_cast<unsigned int>(stage) * sizeof(replayManager->replayData->fpsStart[0])));
+    frame1 = replayManager->replayData->frameStart[1][stage];
+    frame0 = replayManager->replayData->frameStart[0][stage];
+    frame2 = replayManager->replayData->frameStart[2][stage];
+    fpsStart = replayManager->replayData->fpsStart[stage];
     g_GameManager.sides[0].character20 = frame0->value06;
     g_GameManager.sides[1].character20 = frame1->value06;
     g_GameManager.sides[0].replaySelector28 = frame0->value07;
@@ -671,35 +650,19 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     g_GameManager.difficulty = replayManager->replayData->value0D7;
     g_GameManager.value378 = replayManager->replayData->value1E6;
     g_GameManager.value37C = replayManager->replayData->value1E7;
-    // The original loads header 1E8 into a byte-sized value between
-    // publishing 1E7 and reading the side-0 runtime owner. Record that
-    // source-level chronology explicitly; VC7.1 still chooses the same
-    // nonexact register ordering, so the full-owner oracle remains required.
-    const u8 side0Value1E8 = replayManager->replayData->value1E8;
-    // Retain the original source-visible publication order: VC7.1 hoists
-    // the ordinary pointer read across value1E7 when volatile is omitted.
-    AsciiGameSideRuntimeView *volatile &side0RuntimeSlot =
-        g_GameManager.sides[0].runtime;
-    AsciiGameSideRuntimeView *firstSide0 = side0RuntimeSlot;
-    g_GameManager.sides[0].value30 = side0Value1E8;
+    g_GameManager.sides[0].value30 = replayManager->replayData->value1E8;
     g_GameManager.sides[1].value30 = replayManager->replayData->value1E9;
-    firstSide0->value08 = frame0->value00;
+    g_GameManager.sides[0].runtime->value08 = frame0->value00;
     g_GameManager.sides[1].runtime->value08 = frame1->value00;
     g_GameManager.sides[0].runtime->value04 = frame0->value00;
     g_GameManager.sides[1].runtime->value04 = frame1->value00;
     g_GameManager.sides[0].runtime->value00 = (float)frame0->value08;
     g_GameManager.sides[1].runtime->value00 = (float)frame1->value08;
     g_GameManager.sides[0].runtime->phase10 = frame0->value10;
-    // Saved frames contain a 0x20-byte wire header followed by input samples.
-    // The samples are byte-addressed payloads, not another array element
-    // of the C++ frame-header type; retain native Win32 address addition.
-    replayManager->inputCursors[1] = reinterpret_cast<u16 *>(
-        reinterpret_cast<unsigned int>(frame1) + sizeof(*frame1));
+    replayManager->inputCursors[0] = (u16 *)(frame0 + 1);
+    replayManager->inputCursors[1] = (u16 *)(frame1 + 1);
+    replayManager->inputCursors[2] = (u16 *)(frame2 + 1);
     replayManager->fpsCursor = fpsStart;
-    replayManager->inputCursors[0] = reinterpret_cast<u16 *>(
-        reinterpret_cast<unsigned int>(frame0) + sizeof(*frame0));
-    replayManager->inputCursors[2] = reinterpret_cast<u16 *>(
-        reinterpret_cast<unsigned int>(frame2) + sizeof(*frame2));
     *g_GameManager.configurationE8 = replayManager->replayData->configSnapshot;
     g_ReplayRng.SetSeed(frame0->stageSeed);
     replayManager->inputDelay = 0;

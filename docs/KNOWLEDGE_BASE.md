@@ -5769,6 +5769,34 @@ profile; none was kept.
   DWORD, so its `int` parameter is correct. A permuter search found
   485-byte variants only by growing case 0, not by fixing this site.
 
+## 2026-11-14 (later) allocator and folding observations
+
+- **BeginPlaybackStage** now uses plain C++ (row test
+  `frameStart[stage] == NULL`, plain `[i][stage]` reads, cursors stored in
+  0/1/2/fps order). That reaches the full 540 bytes; the only residual is
+  one load motion (`sides[0].runtime` hoisted above the +0x37C store). All
+  15 ReplayInput exact siblings replayed exact.
+- **Callee-saved order (VC7.1 /O2):** in small-function probes the value
+  with more references gets ESI first and ties go to the parameter. For
+  Effect AddedCallback, any real extra reference to the context before the
+  final store (even inside the Preload branch) yields retail's exact
+  prologue (`push esi; push edi; mov edi,[g_AnmManager]; mov esi,ecx`); a
+  reference after the final store does not. Dead or self stores, empty
+  inline calls, `(void)` reads and inline wrappers are removed before
+  allocation and do not count. Identifier names have no effect.
+- **Title OnUpdateResult:** a real memory store between the character load
+  and its use un-folds `movsx edi, byte [..]` into retail's `mov r8,[..]` +
+  `movsx`; no zero-code construct does, and retail has no such store.
+- **CheckBulletCollision:** `for(;;)`/`while`/label-`goto` loops are all
+  rotated by VC7.1; retail's unrotated, aligned head with duplicated
+  `add esi,4; jmp head` latches remains unexplained.
+- **Network service:** retail keeps `result` in memory (`[ebp-4]`) and
+  reloads `g_SupervisorNetworkState` after each call; a reference-shaped
+  rewrite (success path first) is worse (1,620 bytes). Profiles without
+  `/Og` are far off, so `/Og` is on.
+- Multi-variant harness tip: free `__fastcall Vn(...)` copies of a small
+  owner appended to its TU compile dozens of variants per Wine run.
+
 ## 2026-11-11 RunEcl extra ANM VM native slot addresses
 
 `SetExtraAnmScript` serves two distinct RunEcl opcodes and rereads the
