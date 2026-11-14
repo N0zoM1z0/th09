@@ -5736,7 +5736,15 @@ profile; none was kept.
   or a model of c2.dll's ordering, not more source-level rewrites. The pinned `c2.dll` (build 3077) names a graph-colouring
   allocator source (`P2\color.c`) among its embedded paths; no register-
   allocation dump switch was found in its strings, so the next step is
-  disassembling that allocator rather than probing options.
+  disassembling that allocator rather than probing options. A headless Ghidra pass
+  over a copy of `c2.dll` finds 23 functions referencing the `color.c`
+  assertion path (largest at 0x1078805C, 0x107115A7, 0x107A96F6,
+  0x107844A4). They index a 1,024-bucket table by `id & 0x3FF` and node
+  free lists by a byte size class, which suggests values are visited in
+  an order derived from internal symbol/tuple IDs; that would explain the
+  sensitivity to IR shape. Mapping ID assignment and the register pick in
+  the colouring loop is the remaining manual reverse-engineering work.
+  (No decompiler output is kept in the repository.)
 - **Title OnUpdateResult.** Retail loads the selected character as a byte
   (`mov cl,[ecx+order]`) and widens it once (`movsx edi,cl`) for both the
   cursor call and `nameBankIndex`. Any plain `g_TitleResultCharacterOrder[
