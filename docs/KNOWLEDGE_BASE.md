@@ -5713,6 +5713,25 @@ profile; none was kept.
   `++slot; continue;` all still get rotated by VC7.1 (820-830 bytes,
   ~150 aligned instructions), so loop rotation is not controlled by these
   spellings.
+- **VC7.1 allocator black-box study (synthetic AddedCallback shape).**
+  Standalone two-value functions (a context parameter stored once, a
+  global pointer used as the receiver of two calls) show:
+  - With calls through the global, VC7.1 loads it into ECX and copies it;
+    with calls through the local it loads straight into a callee-saved
+    register. Retail AddedCallback is the second shape, but with the
+    context in ESI and the manager in EDI.
+  - The ESI/EDI assignment flips only with extra *real* context uses
+    (e.g. two more stores to other fields produced exactly retail's
+    `mov edi,[g]; mov esi,ecx; push 8; mov ecx,edi`), and not
+    monotonically (one more use flips it back).
+  - Source-only extra mentions do not count: self-assignment, chained or
+    pointer-to-field stores, dead reads, aliases, inline setters/helpers,
+    callee prototype changes (short/unsigned/const/char*) and
+    multi-path stores that cross-jump into one final store (early return,
+    if/else) all keep the manager in ESI.
+  Conclusion: the tie-break depends on post-optimisation IR beyond simple
+  use counts; matching retail needs either the original's exact extra IR
+  or a model of c2.dll's ordering, not more source-level rewrites.
 - **Title OnUpdateResult.** Retail loads the selected character as a byte
   (`mov cl,[ecx+order]`) and widens it once (`movsx edi,cl`) for both the
   cursor call and `nameBankIndex`. Any plain `g_TitleResultCharacterOrder[
