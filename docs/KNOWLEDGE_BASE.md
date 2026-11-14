@@ -5678,7 +5678,10 @@ profile; none was kept.
   `/Ob0`, `/Ob2`, `/Ox`, `/G5`, `/G6`, `/GA`, `/Op`, `/O1` and `/G7` do not
   reach retail either (the last two change size). The PE Rich header lists
   88 C++ objects from 13.10.3077, the pinned compiler; the few 13.10.4035
-  entries are probably static-library objects.
+  entries are probably static-library objects. A thiscall member body, 80
+  dead-code insertions (unused locals, self-assignments, inlined empty
+  helpers taking the values) and a global-only body (with or without a
+  `const` global) also never produce retail's allocation.
 - **Player ChargeAttack.** Retail reads the side as a DWORD into EDI and
   builds the input pointer in EBX; `sideMode` (a byte live across calls)
   spills to `[ebp-1]` because EBX is taken. The maintained `short side`
