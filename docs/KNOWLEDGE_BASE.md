@@ -5656,6 +5656,13 @@ profile; none was kept.
   nonexact: retail keeps `result` memory-homed (zeroed at entry, reloaded
   at both returns) while VC7.1 folds ours; the reference source folds it
   too, and `volatile` overshoots.
+- **Random rewrite search (2026-11-14).** A small permuter applying
+  commutative comparison/operator swaps and `!= 0`/`== 0` spellings over
+  the whole body ran 168 Enemy OnUpdate variants and 246 SaveReplay
+  variants against the complete original-bound owners. None went below
+  2 bytes; these rewrites are almost always byte-neutral, so a future
+  search needs stronger transforms (temporaries, statement splitting,
+  inline-helper removal) rather than more iterations.
 - **Title OnUpdateResult.** Retail loads the selected character as a byte
   (`mov cl,[ecx+order]`) and widens it once (`movsx edi,cl`) for both the
   cursor call and `nameBankIndex`. Any plain `g_TitleResultCharacterOrder[
