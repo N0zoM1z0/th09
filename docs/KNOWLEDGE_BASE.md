@@ -5787,9 +5787,15 @@ profile; none was kept.
 - **Title OnUpdateResult:** a real memory store between the character load
   and its use un-folds `movsx edi, byte [..]` into retail's `mov r8,[..]` +
   `movsx`; no zero-code construct does, and retail has no such store.
-- **CheckBulletCollision:** `for(;;)`/`while`/label-`goto` loops are all
-  rotated by VC7.1; retail's unrotated, aligned head with duplicated
-  `add esi,4; jmp head` latches remains unexplained.
+- **CheckBulletCollision:** `for(;;)`/`while`/label-`goto`/`switch` loops
+  are all rotated by VC7.1; retail's unrotated, aligned head (entered by
+  `jmp` over the padding) with duplicated `add esi,4; jmp head` latches
+  remains unexplained. Retail also enregisters `bullet` (EBX, loaded in the
+  prologue) and leaves `position` in memory, the reverse of every candidate.
+- **BeginPlaybackStage residual:** 316 single-line moves (stores, runtime
+  stores, cursors), adjacent swaps, casts, `& 0xFF`, array/loop and
+  side-pointer forms all leave the same runtime-load placement. ESI's last
+  prior use is at +0xC7, so it is not a register anti-dependency.
 - **Network service:** retail keeps `result` in memory (`[ebp-4]`) and
   reloads `g_SupervisorNetworkState` after each call; a reference-shaped
   rewrite (success path first) is worse (1,620 bytes). Profiles without
