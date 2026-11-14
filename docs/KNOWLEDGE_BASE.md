@@ -5800,6 +5800,15 @@ profile; none was kept.
   reloads `g_SupervisorNetworkState` after each call; a reference-shaped
   rewrite (success path first) is worse (1,620 bytes). Profiles without
   `/Og` are far off, so `/Og` is on.
+- **c2.dll internals (build 3077):** the backend's option table (12-byte
+  `{name, dest, flags, type}` entries) includes undocumented `-db#`,
+  `-off#`, `-ef#`, `-f#`, `-Loop#`, `-NoLUR`, `-optref`, `-xoff`, `-vol#`,
+  `-datasort`, `-bzalign`. Passed as `cl /d2<name>`, none of `db1/db3`,
+  `off1-3`, `ef1`, `f1`, `xoff`, `Loop0`, `NoLUR` changes the AddedCallback
+  allocation probe, and none prints a dump. The 23 `P2\color.c` functions
+  index the runtime 1,024-bucket table at `0x108807B8`; no static
+  ESI/EDI/EBX preference table was found. Backend modules include `dag.c`,
+  `x86\mdlist.c`, `x86\mdmisc.c` (scheduler/machine layer, unexplored).
 - Multi-variant harness tip: free `__fastcall Vn(...)` copies of a small
   owner appended to its TU compile dozens of variants per Wine run.
 
