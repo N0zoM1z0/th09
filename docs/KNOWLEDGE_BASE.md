@@ -5673,8 +5673,12 @@ profile; none was kept.
   `const` local, named vs direct context, declaration order, local vs
   global receiver) produces only those two outcomes, decided solely by
   the GetAnm receiver. Retail's allocation is not reachable from this
-  body; look at declarations/types outside it (e.g. the AnmManager method
-  or global declarations) instead.
+  body. A minimal TU containing only the three headers and this function
+  gives the same two outcomes, so TU context is not the factor, and
+  `/Ob0`, `/Ob2`, `/Ox`, `/G5`, `/G6`, `/GA`, `/Op`, `/O1` and `/G7` do not
+  reach retail either (the last two change size). The PE Rich header lists
+  88 C++ objects from 13.10.3077, the pinned compiler; the few 13.10.4035
+  entries are probably static-library objects.
 - **Player ChargeAttack.** Retail reads the side as a DWORD into EDI and
   builds the input pointer in EBX; `sideMode` (a byte live across calls)
   spills to `[ebp-1]` because EBX is taken. The maintained `short side`
