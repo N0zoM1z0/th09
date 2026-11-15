@@ -7961,3 +7961,29 @@ merge all scan failures into one source label.
 
 All measurements were focused pinned-VC7.1 owner builds. No full cold replay
 was run, and no nonexact owner received exactness credit.
+
+## 2026-11-15 GPT-web: AddedCallback current-carrier revalidation
+
+A fresh pinned `effect-added-callback` frontier build revalidated the actual
+maintained `src/EffectManager.cpp` source: it is **51/51 bytes with four
+ordinary differences**, not the one-byte diagnostic described by the earlier
+register-order experiment. The current source uses a local `AnmManager`
+snapshot only for the fallback `PreloadAnm`, while `GetAnm` reads the global
+directly. Its linked register order still saves the callback context in ESI,
+loads the manager through ECX into EDI, and then calls through EDI; retail
+loads the manager directly into EDI before saving ECX in ESI.
+
+Re-tested alternatives against the same focused owner:
+
+- Direct `g_AnmManager` reads for both `GetAnm` and `PreloadAnm` regressed to
+  25 differing bytes.
+- A local manager snapshot for both calls regressed to seven differences and
+  reversed the two saved-register assignments (manager in ESI, context in
+  EDI). Reordering declarations, removing the context local, and taking an
+  alias to the destination field did not change that seven-byte result.
+
+All variants were reverted. The maintained four-difference source is
+restored; the earlier one-byte result remains a historical diagnostic and is
+not the current carrier or an exactness claim. A new attempt needs a genuine
+context lifetime/use hypothesis, not another direct-global or local-snapshot
+spelling.
