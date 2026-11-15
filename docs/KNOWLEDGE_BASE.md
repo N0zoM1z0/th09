@@ -5769,60 +5769,63 @@ profile; none was kept.
   DWORD, so its `int` parameter is correct. A permuter search found
   485-byte variants only by growing case 0, not by fixing this site.
 
-## 2026-11-14 (later) allocator and folding observations
+## 2026-11-14/15 allocator and folding observations
 
-- **BeginPlaybackStage** now uses plain C++ (row test
-  `frameStart[stage] == NULL`, plain `[i][stage]` reads, cursors stored in
-  0/1/2/fps order). That reaches the full 540 bytes; the only residual is
-  one load motion (`sides[0].runtime` hoisted above the +0x37C store). All
-  15 ReplayInput exact siblings replayed exact.
-- **Callee-saved order (VC7.1 /O2):** in small-function probes the value
-  with more references gets ESI first and ties go to the parameter. For
-  Effect AddedCallback, any real extra reference to the context before the
-  final store (even inside the Preload branch) yields retail's exact
-  prologue (`push esi; push edi; mov edi,[g_AnmManager]; mov esi,ecx`); a
-  reference after the final store does not. Dead or self stores, empty
-  inline calls, `(void)` reads and inline wrappers are removed before
-  allocation and do not count. Identifier names have no effect.
-- **Title OnUpdateResult:** a real memory store between the character load
-  and its use un-folds `movsx edi, byte [..]` into retail's `mov r8,[..]` +
-  `movsx`; no zero-code construct does, and retail has no such store.
-- **CheckBulletCollision:** `for(;;)`/`while`/label-`goto`/`switch` loops
-  are all rotated by VC7.1; retail's unrotated, aligned head (entered by
-  `jmp` over the padding) with duplicated `add esi,4; jmp head` latches
-  remains unexplained. Retail also enregisters `bullet` (EBX, loaded in the
-  prologue) and leaves `position` in memory, the reverse of every candidate.
-- **BeginPlaybackStage residual:** 316 single-line moves (stores, runtime
-  stores, cursors), adjacent swaps, casts, `& 0xFF`, array/loop and
-  side-pointer forms all leave the same runtime-load placement. ESI's last
-  prior use is at +0xC7, so it is not a register anti-dependency.
-- **Network service:** retail keeps `result` in memory (`[ebp-4]`) and
-  reloads `g_SupervisorNetworkState` after each call; a reference-shaped
-  rewrite (success path first) is worse (1,620 bytes). Profiles without
-  `/Og` are far off, so `/Og` is on.
-- **c2.dll internals (build 3077):** the backend's option table (12-byte
-  `{name, dest, flags, type}` entries) includes undocumented `-db#`,
-  `-off#`, `-ef#`, `-f#`, `-Loop#`, `-NoLUR`, `-optref`, `-xoff`, `-vol#`,
-  `-datasort`, `-bzalign`. Passed as `cl /d2<name>`, none of `db1/db3`,
-  `off1-3`, `ef1`, `f1`, `xoff`, `Loop0`, `NoLUR` changes the AddedCallback
-  allocation probe, and none prints a dump. The 23 `P2\color.c` functions
-  index the runtime 1,024-bucket table at `0x108807B8`; no static
-  ESI/EDI/EBX preference table was found. Backend modules include `dag.c`,
-  `x86\mdlist.c`, `x86\mdmisc.c` (scheduler/machine layer, unexplored).
-- **c2.dll allocator map (start):** `0x107821a7` is the colouring driver:
-  `0x10783c65`/`0x10783d3c` coalesce copies and build live ranges,
-  `0x10783f0d` creates per-block sets, then seven candidate bit-sets at
-  `DAT_10882158[6..0]` are coloured by `0x107844a4`, followed by
-  `0x10782473`/`0x10782978`. `0x1071133c` is a second driver (called when
-  function flag bit 0x10 is set). Sets are sparse `{id & ~31, mask}` lists
-  keyed by internal symbol ID, so candidate visiting order is probably
-  ascending ID; the colour pass walks basic blocks with no explicit priority
-  sort found yet. Ablating single Enemy OnUpdate statements never flips the
-  +0x19A temp without rewriting the whole body; 128 SaveReplay cast/plain
-  spellings and 144 AddedCallback shapes are all byte-neutral or reproduce
-  the two known allocations.
-- Multi-variant harness tip: free `__fastcall Vn(...)` copies of a small
-  owner appended to its TU compile dozens of variants per Wine run.
+All findings use the pinned VC7.1 3077 profiles of each owner.
+
+- **Plain source is safe and often better.** BeginPlaybackStage in plain C++
+  (row test `frameStart[stage] == NULL`, plain `[i][stage]` reads, cursors in
+  0/1/2/fps order) reaches 540/540 bytes; its only residual is the
+  `sides[0].runtime` load being hoisted above the +0x37C store. SaveReplay
+  (128 spelling combinations) and Player movement (about 25 subscript and
+  branch forms) compile byte-identically with or without the native
+  address casts. ESI's last prior use in BeginPlayback is at +0xC7, so the
+  residual is not a register anti-dependency.
+- **Callee-saved order.** In small probes the value with more references
+  gets ESI and ties go to the parameter. For Effect AddedCallback any real
+  extra context reference before the final store yields retail's exact
+  prologue (`push esi; push edi; mov edi,[g_AnmManager]; mov esi,ecx`); one
+  after the final store does not. Dead or self stores, empty inline calls,
+  `(void)` reads and inline wrappers are removed before allocation, and
+  identifier names have no effect. 144 parameter/local/receiver/branch/
+  store/inline combinations produce only the two known allocations.
+- **Title OnUpdateResult.** Only a real memory store between the character
+  load and its use un-folds `movsx edi, byte [..]` into retail's
+  `mov r8,[..]` + `movsx`; retail has no such store. `/O1 /Ob1` without
+  `/Oi` is confirmed; `/O2` gives 534 bytes and `/Ob0`/`/Ob2` change nothing.
+- **CheckBulletCollision.** `for(;;)`, `while`, label-`goto` and `switch`
+  loops are all rotated by VC7.1; retail's unrotated, aligned head (entered
+  by `jmp` over the padding) with duplicated `add esi,4; jmp head` latches is
+  unexplained. Retail also enregisters `bullet` (EBX) and leaves `position`
+  in memory, the reverse of every candidate.
+- **Player ChargeAttack.** Retail gives the input pointer EBX and `side`
+  EDI, so the byte charge type has no byte-capable callee-saved register
+  and is spilled to `[ebp-1]`; plain forms assign the registers the other
+  way.
+- **Enemy OnUpdate.** Statement ablation never flips the +0x19A temp to
+  EAX without rewriting the body; plain draw-head indexing is
+  byte-identical but renumbers private labels in exact RunEcl and
+  CompareOperands, so it was not adopted.
+- **Network service.** Retail keeps `result` in memory (`[ebp-4]`) and
+  reloads `g_SupervisorNetworkState` after each call; a success-path-first
+  shape is worse (1,620 bytes). Profiles without `/Og` are far off.
+- **Compiler build.** The PE Rich header lists all game C++ objects as
+  13.10.3077; the 13.10.4035 entries are other objects and the available SP1
+  toolchain is 13.10.6030, so a mixed-compiler explanation is ruled out.
+- **c2.dll internals (3077).** The option table (12-byte `{name, dest,
+  flags, type}` entries) includes undocumented `-db#`, `-off#`, `-ef#`,
+  `-f#`, `-Loop#`, `-NoLUR`, `-optref`, `-xoff`, `-vol#`; as `cl /d2<name>`
+  none changes the AddedCallback probe or prints a dump. `0x107821a7` is the
+  colouring driver: `0x10783c65`/`0x10783d3c` coalesce copies and build live
+  ranges, `0x10783f0d` creates per-block sets, then seven candidate bit-sets
+  at `DAT_10882158[6..0]` are coloured by `0x107844a4`. `0x1071133c` is a
+  second driver. Sets are sparse `{id & ~31, mask}` lists keyed by internal
+  symbol ID (runtime hash table at `0x108807B8`), so visiting order is
+  probably ascending ID; no explicit priority sort was found yet.
+- **Harness tips.** Free `__fastcall Vn(...)` copies of a small owner
+  appended to its TU test dozens of variants per Wine run. Compile from a
+  copy next to the edited `.inl`/`.hpp`, because quoted includes resolve
+  beside the including file first.
 
 ## 2026-11-11 RunEcl extra ANM VM native slot addresses
 

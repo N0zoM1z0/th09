@@ -80,13 +80,8 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     if (player->header24.state84 == 0)
         return 0;
 
-    // The real three-slot 0x8E-byte replay-input array owns movement input
-    // and focus history. TH09 computes its input receiver from the original
-    // array base with a native DWORD-scaled side index, not another layout.
     const int inputSide = player->sideIndex;
-    ReplayInputState *input = reinterpret_cast<ReplayInputState *>(
-        reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
-        static_cast<unsigned int>(inputSide) * sizeof(g_ReplayInputStates[0]));
+    ReplayInputState *input = &g_ReplayInputStates[inputSide];
 
     if (input->IsHeld(0x50) == 0x50)
         player->movementDirection30358 = 5;
@@ -108,19 +103,9 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         player->movementDirection30358 = 0;
 
     int focused;
-    // TH09 reads the configuration focus byte by native row-base plus
-    // side DWORD, rather than a C++ array subscript on a two-byte row.
-    const unsigned char *focusModes = g_GameConfiguration->sideFocusMode;
-    if (*reinterpret_cast<const unsigned char *>(
-            reinterpret_cast<unsigned int>(focusModes) +
-            static_cast<unsigned int>(player->sideIndex)) == 1)
-        // Retail rereads the live side input through the genuine 0x8E-byte
-        // ReplayInputState array stride. Do not reuse the earlier receiver:
-        // that changes VC7.1's original operand schedule in this boss.
-        focused = (*reinterpret_cast<ReplayInputState *>(
-            reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
-            static_cast<unsigned int>(inputSide) *
-                sizeof(g_ReplayInputStates[0]))).auxiliary2A >= 8;
+    if (g_GameConfiguration->sideFocusMode[player->sideIndex] == 1)
+        // Retail rereads the input record here instead of reusing input.
+        focused = g_ReplayInputStates[inputSide].auxiliary2A >= 8;
     else
         focused = input->IsHeld(4) != 0;
 
