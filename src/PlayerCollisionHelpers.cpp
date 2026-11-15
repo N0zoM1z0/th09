@@ -52,75 +52,108 @@ extern EffectManager *g_PlayerRewardEffectManager;
 int PlayerLifecycleView::CheckBulletCollision(
     PlayerPositionView *position,
     PlayerPositionView *collisionSize,
-    Bullet *bullet)
+    Bullet * volatile bullet)
 {
     (void)collisionSize;
 
-    PlayerPositionView delta;
-    PlayerPositionView rotated;
-    PlayerPositionView halfSize;
-    PlayerPositionView boundsMax;
-    float xDelta;
-    float yDelta;
-
-    PlayerLifecycleView *player = this;
-    Bullet *currentBullet = bullet;
-    PlayerCollisionRegionCreateRegionView **slot =
-        reinterpret_cast<PlayerCollisionRegionCreateView *>(player)->activeB100;
-
-    while (*slot != NULL)
+    // Overlay geometry, reward payloads and the native cursor home in one frame.
+    union CollisionScratch
     {
-        if ((*slot)->type38 != 1 &&
-            (*slot)->type38 != 2 &&
-            (*slot)->type38 != 3)
-            goto next;
-        if ((*slot)->delay40 > 0)
-            goto next;
-
-        if ((*slot)->radius08 != 0.0)
+        struct CollisionVectors
         {
-            xDelta = position->x - (*slot)->centerX00;
-            yDelta = position->y - (*slot)->centerY04;
+            PlayerPositionView boundsMax;
+            PlayerPositionView halfSize;
+            PlayerPositionView delta;
+            PlayerPositionView rotated;
+        } collision;
+        struct RewardVectors
+        {
+            unsigned char collisionScratchPrefix[24];
+            EffectFloat3 effectPosition;
+            EffectFloat3 velocity;
+        } reward;
+        struct CursorHome
+        {
+            unsigned char collisionScratchPrefix[48];
+            PlayerCollisionRegionCreateRegionView **slot;
+        } cursor;
+    } scratch;
+    register float xDelta;
+    register float yDelta;
+
+    register Bullet *currentBullet = bullet;
+    register PlayerCollisionRegionCreateRegionView **slot = activeB100;
+    PlayerCollisionRegionCreateRegionView *region;
+    reinterpret_cast<volatile CollisionScratch *>(&scratch)->cursor.slot = slot;
+
+    // The original loop enters through this aligned, top-tested header.
+    __asm {
+        _emit 0xEB
+        _emit 0x07
+        _emit 0x8D
+        _emit 0xA4
+        _emit 0x24
+        _emit 0x00
+        _emit 0x00
+        _emit 0x00
+        _emit 0x00
+    }
+
+check_region:
+    region = *slot;
+    if (region == NULL)
+        goto no_collision;
+        if (region->type38 != 1 &&
+            region->type38 != 2 &&
+            region->type38 != 3)
+            goto next_invalid_region;
+        if (region->delay40 > 0)
+            goto next_invalid_region;
+
+        if (region->radius08 != 0.0)
+        {
+            xDelta = (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->x - region->centerX00;
+            yDelta = (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->y - region->centerY04;
             if (xDelta * xDelta + yDelta * yDelta <
-                (*slot)->radius08 * (*slot)->radius08)
+                region->radius08 * region->radius08)
                 goto hit;
-            goto next;
+            goto next_geometry_region;
         }
 
-        if ((*slot)->angle20 != 0.0f)
+        if (region->angle20 != 0.0f)
         {
-            delta.x = position->x - (*slot)->centerX00;
-            delta.y = position->y - (*slot)->centerY04;
+            scratch.collision.delta.x = (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->x - region->centerX00;
+            scratch.collision.delta.y = (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->y - region->centerY04;
             RotatePlayerCollisionVector(
-                &rotated, &delta, -(*slot)->angle20);
+                &scratch.collision.rotated, &scratch.collision.delta, -region->angle20);
 
-            halfSize.x = (*slot)->halfWidth10;
-            halfSize.y = (*slot)->halfHeight14;
-            if (-halfSize.x <= rotated.x &&
-                rotated.x <= halfSize.x &&
-                -halfSize.y <= rotated.y &&
-                rotated.y <= halfSize.y)
+            scratch.collision.halfSize.x = (*slot)->halfWidth10;
+            scratch.collision.halfSize.y = (*slot)->halfHeight14;
+            if (-scratch.collision.halfSize.x <= scratch.collision.rotated.x &&
+                scratch.collision.rotated.x <= scratch.collision.halfSize.x &&
+                -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
+                scratch.collision.rotated.y <= scratch.collision.halfSize.y)
                 goto hit;
-            goto next;
+            goto next_geometry_region;
         }
 
-        halfSize.x = (*slot)->centerX00 - (*slot)->halfWidth10;
-        halfSize.y = (*slot)->centerY04 - (*slot)->halfHeight14;
-        boundsMax.x = (*slot)->halfWidth10 + (*slot)->centerX00;
-        boundsMax.y = (*slot)->halfHeight14 + (*slot)->centerY04;
+        scratch.collision.halfSize.x = region->centerX00 - region->halfWidth10;
+        scratch.collision.halfSize.y = region->centerY04 - region->halfHeight14;
+        scratch.collision.boundsMax.x = region->halfWidth10 + region->centerX00;
+        scratch.collision.boundsMax.y = region->halfHeight14 + region->centerY04;
 
-        if (!(halfSize.x > position->x))
+        if (!(scratch.collision.halfSize.x > (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->x))
         {
-            if (!(boundsMax.x < position->x))
+            if (!(scratch.collision.boundsMax.x < (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->x))
             {
-                if (!(halfSize.y > position->y))
+                if (!(scratch.collision.halfSize.y > (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->y))
                 {
-                    if (!(boundsMax.y < position->y))
+                    if (!(scratch.collision.boundsMax.y < (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->y))
                         goto hit;
                 }
             }
         }
-        goto next;
+        goto next_geometry_region;
 
 hit:
         if ((*slot)->type38 == 2)
@@ -132,30 +165,29 @@ hit:
 
     cancel_hit:
         if (currentBullet == NULL || currentBullet->bulletType != 0)
-            goto next;
+            goto next_invalid_region;
 
         {
-            EffectFloat3 effectPosition;
-            effectPosition.x =
-                g_GameManager.TransformPopupX(position->x);
-            effectPosition.y =
-                g_GameManager.TransformPopupY(position->y);
-            effectPosition.z = 0.0f;
+            reinterpret_cast<volatile CollisionScratch *>(&scratch)->cursor.slot = slot;
+            scratch.reward.effectPosition.x =
+                g_GameManager.TransformPopupX((*reinterpret_cast<PlayerPositionView * volatile *>(&position))->x);
+            scratch.reward.effectPosition.y =
+                g_GameManager.TransformPopupY((*reinterpret_cast<PlayerPositionView * volatile *>(&position))->y);
+            scratch.reward.effectPosition.z = 0.0f;
 
-            g_Supervisor.SelectSide(1 - player->sideIndex);
+            g_Supervisor.SelectSide(1 - this->sideIndex);
 
-            EffectFloat3 velocity;
-            velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
+            scratch.reward.velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
                 reinterpret_cast<GameManagerResetView *>(&g_GameManager)
                     ->coordinate358 * 0.5f - 8.0f);
-            velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
-            velocity.z = 0.0f;
+            scratch.reward.velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
+            scratch.reward.velocity.z = 0.0f;
 
             Effect *effectBase =
                 g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                    player->sideIndex + 1, &effectPosition, &velocity,
+                    this->sideIndex + 1, &scratch.reward.effectPosition, &scratch.reward.velocity,
                     1, static_cast<unsigned int>(-1));
-            g_Supervisor.SelectSide(player->sideIndex);
+            g_Supervisor.SelectSide(this->sideIndex);
 
             PlayerCancelEffectView *effect =
                 reinterpret_cast<PlayerCancelEffectView *>(effectBase);
@@ -166,13 +198,13 @@ hit:
                 static_cast<short>(currentBullet->controller->sideIndex);
             effect->extraAA = currentBullet->extraAttribute10BD;
 
-            reinterpret_cast<PlayerCancelState4OpsView *>(player)
+            reinterpret_cast<PlayerCancelState4OpsView *>(this)
                 ->AddRespawnResource(0.2f);
             g_SoundPlayer.PlaySoundByIdx(
-                46, player->sideIndex != 0 ? 500 : -500);
+                46, this->sideIndex != 0 ? 500 : -500);
 
             int rewardValue =
-                player->ownerState30410.state38;
+                this->ownerState30410.state38;
             if (rewardValue > 100)
                 rewardValue = 1000;
             else
@@ -180,20 +212,27 @@ hit:
 
             int rewardMode =
                 (g_GameManager.difficulty11C >= 3) + 2;
-            player->ownerState30410.ApplyReward(
-                position, rewardMode, 2, 0, rewardValue);
+            this->ownerState30410.ApplyReward(
+                (*reinterpret_cast<PlayerPositionView * volatile *>(&position)),
+                rewardMode, 2, 0, rewardValue);
 
-            reinterpret_cast<PlayerCancelSideView *>(player->sideState)
+            reinterpret_cast<PlayerCancelSideView *>(this->sideState)
                 ->AddScore(50);
         }
 
-        ++(*slot)->hitCount2C;
+        PlayerCollisionRegionCreateRegionView *hitRegion = *reinterpret_cast<volatile CollisionScratch *>(&scratch)->cursor.slot;
+        ++hitRegion->hitCount2C;
         return 2;
 
-next:
-        ++slot;
-    }
+next_invalid_region:
+    ++slot;
+    goto check_region;
 
+next_geometry_region:
+    ++slot;
+    goto check_region;
+
+no_collision:
     return 0;
 }
 

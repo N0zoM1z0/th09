@@ -48,7 +48,12 @@ compiler objects you need.**
   another spelling sweep.
 - A `ScreenEffect::CalcShakeEnvelope` duration-reference probe regressed to
   340/336 bytes / 252 differences and was reverted; its 336-byte/26-offset
-  baseline remains intact. A volatile `positionArgument` alias in
+  baseline remains intact.
+- **Player CheckBulletCollision** improved from 849/862 and 716 differing
+  unmasked offsets to 853/862 and 692. The target prologue/loop-entry carrier
+  now matches through the null check; five exact same-TU siblings passed the
+  scoped replay. See the 2026-11-15 knowledge-base entry for the remaining
+  9-byte extent and body differences. A volatile `positionArgument` alias in
   `CheckBulletCollision` regressed to 876/862 bytes / 742 differences and was
   reverted; its maintained 849/862-byte baseline remains intact.
 
@@ -69,7 +74,7 @@ numbers.
 | **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 29 bytes (Title `/O1 /Ob1`) | Selected-record EDX/ECX. `title-draw-replay-menu`. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540/540**, 13 masked / 19 raw at +0x14B–0x15F (`/O2 /Ob1`) | Plain C++ (no `volatile` alias). VC7.1 hoists the `sides[0].runtime` load above the +0x37C store; retail issues it after the +0x1E8 load. Statement moves/swaps, array and side-pointer forms do not move it. `replay-begin-playback`. |
 | **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Current `short`/`volatile` forms are compensation. `player-charge-attack`. |
-| **Player CheckBulletCollision** | 0x0041DFF0 | **849**/862, ~149/269 aligned instructions (`/O2 /Ob1`) | Retail loop is unrotated with a duplicated latch. Retail also enregisters `bullet` and leaves `position` in memory. `player-bullet-collision`. |
+| **Player CheckBulletCollision** | 0x0041DFF0 | **853/862**, 692 differing unmasked offsets / 26 relocation fields (`/O2 /Ob1`) | Loop-entry carrier now matches the retail prologue through the null check; 9-byte extent gap, extra post-null NOP, x87/AABB/reward scheduling and tail layout remain. Five exact siblings replayed successfully. `player-bullet-collision`. |
 | **Supervisor network service** | 0x00430AA0 | 1,629/1,633, ~266/417 aligned instructions (`/O2 /Ob1`) | Retail keeps the network pointer in EDI and result in `[ebp-4]`; ours CSEs constant `1` into EDI and folds the result home. Snapshot/predicate/return-shape probes did not improve it. `supervisor-network-service`. |
 
 ## Reproduce *only* the changed compiler carriers
@@ -131,7 +136,11 @@ tool upgrade.
    remaining work is the source-to-IR interference difference. The ignored
    scratch project is reusable; rebuild from the hash-checked pinned backend
    outside any `.`-prefixed path only if it is absent.
-2. In parallel, revisit the smallest source frontiers only with a new
+2. Continue the Player CheckBulletCollision boss from its new 853/862
+   carrier: remove the extra post-null alignment NOP without disturbing the
+   exact prologue, then attack the x87/AABB/reward body and the remaining
+   9-byte extent. Preserve its five exact siblings with scoped replay.
+3. In parallel, revisit the smaller source frontiers only with a new
    lifetime/alias hypothesis: BeginPlaybackStage, Effect AddedCallback,
    SaveReplay and ScreenEffect shake. Do not repeat the recorded spelling and
    declaration-order sweeps.

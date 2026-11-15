@@ -64,9 +64,9 @@ profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr",
 symbol = "?CheckBulletCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z"
 address = 0x0041DFF0
 size = 862
-candidate_size = 849
+candidate_size = 853
 target_sha256 = "9dcfe1aca4ac06526072014ee6f956120d9c1d84cc1bba044638556b9b82445c"
-residual = ["7-F", "11-2C", "2F", "31", "34-4A", "4F-66", "68-6D", "6F-8C", "91-BC", "C1-114", "116-122", "124-128", "12A-12E", "130-174", "176-184", "186-1A0", "1A5-1A8", "1AD-1B4", "1B9", "1BE-1CC", "1D1-1D6", "1DE", "1E3-1E4", "1E9-1EA", "1EF-1F0", "1F5-1F8", "1FD-205", "20A", "20F-21E", "223-230", "235-239", "23E-240", "245-24C", "24F-25B", "25D-268", "26A-26E", "270-271", "274-277", "27B-27C", "280-293", "295-296", "29B-2B1", "2B6", "2BB-2F1", "2F6-30E", "313-318", "31D-32C", "32F-346", "349-35D"]
+residual = ["26-27", "2A-55", "5A-6C", "6E-81", "83-85", "88-9D", "A2-B1", "B3-CF", "D1-D3", "D8-14A", "14C-16E", "175-1C7", "1CC", "1D1-1DB", "1E0", "1E5-1EA", "1EC-1EE", "1F0-1F3", "1F8-1FF", "204-205", "20A-20B", "210-211", "216-217", "21C-21F", "224-22C", "231", "236-24B", "250-257", "25C-260", "266-267", "26C-270", "272-276", "279-27E", "280-284", "286-2A1", "2A4-2BA", "2BF-2D3", "2D8", "2DD-2E2", "2E4-2F5", "2FA-315", "31A-31F", "324-334", "336-337", "339-35D"]
 
 [frontier.effect-added-callback]
 function = "EffectManager::AddedCallback"

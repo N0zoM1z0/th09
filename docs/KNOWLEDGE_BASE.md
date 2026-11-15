@@ -7493,6 +7493,46 @@ receipt. Historical collision trials above this section remain failed
 experiments and should not be mistaken for the current source or current
 comparison.
 
+## 2026-11-15 Player CheckBulletCollision loop-carrier improvement
+
+The maintained `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0`
+candidate has advanced from 849/862 bytes and 716 differing unmasked offsets
+to **853/862 bytes and 692 differing unmasked offsets** (26 relocation
+fields). This is a 24-byte reduction in the residual while restoring four
+physical bytes. It remains a NONEXACT boss; the 9-byte extent gap and 692
+remaining differing offsets are not exactness credit. The corresponding
+`config/frontiers.toml` diagnostic baseline is updated to 853/862 and 692.
+
+The useful change was lifetime-driven rather than another comparison rewrite:
+after `RotatePlayerCollisionVector`, the half-width/half-height reads now
+reload through `(*slot)` instead of keeping the earlier `region` pointer live
+across the call. The hit-type and direct hit-count accesses also reload from
+`*slot`. This lets VC7.1 allocate the long-lived active-region cursor to ESI
+and the current region pointer to ECX, matching the target's roles. A
+`Bullet * volatile` parameter plus a register snapshot keeps the bullet in
+EBX from the prologue. The position argument is re-read from its original
+stack slot through an inline pointer-to-volatile-pointer expression rather
+than a separate local alias; the latter had inflated the frame and worsened
+the owner.
+
+`CollisionScratch` overlays the four 12-byte geometry vectors, the reward
+position/velocity payload, and a cursor-home pointer at byte offset 48. The
+volatile cursor-home stores preserve the target `[ebp-4]` slot across the
+cancel/reward calls. The 9-byte short-jump/seven-byte-NOP alignment shim is
+retained narrowly to reproduce the original aligned loop entry. The candidate
+now matches the target prologue through `mov ecx,[esi]; test ecx,ecx`,
+including the 0x34 frame, EBX bullet, ESI cursor, EDI player and `[ebp-4]`
+cursor home. A residual `lea ebx,[ebx]` remains after the null test, and the
+null-exit destination, x87 schedule, AABB branches, reward payload ordering
+and tail layout still differ. Do not expand the alignment shim into a general
+register-forcing or padding technique.
+
+The focused `replay-scoped-exact.py --changed-file
+src/PlayerCollisionHelpers.cpp` replay passed all five exact sibling units:
+1,220 physical bytes and 32 relocation fields across the selected carriers.
+No whole-product cold replay was run. This result is a better nonexact source
+checkpoint, not a complete Oracle receipt.
+
 ## 2026-11-13 GPT-web: TH09 boss reconstruction session
 
 ### `PlayerLifecycleView::CheckBulletCollision`
