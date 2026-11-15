@@ -8078,3 +8078,38 @@ not improve the nonvolatile carrier.
 All source experiments were reverted. The focused baseline checks pass at
 **Enemy OnUpdate 3,900/3,900 with 2 differences** and **Supervisor service
 1,629/1,633 with 1,038 differences**. No whole-product cold replay was run.
+
+## 2026-11-15 GPT-web: Player collision four-latch and hit-block placement follow-up
+
+Continued from the protected `CheckBulletCollision @ 0x0041DFF0` carrier
+(853/862 bytes, 692 differing offsets). Retail's four unconditional backedges
+to the aligned `+0x20` header remain at `+0xB6`, `+0x146`, `+0x1A7`, and
+`+0x1B1`.
+
+Additional focused VC7.1 `/O2 /Ob1` loop-shape probes:
+
+- Four nested retry loops with separate invalid-type, delay, circle, rotated,
+  AABB and cancel advancement produced **845/862 bytes / 661 differences**
+  and six header backedges. The compiler retained separate invalid and delay
+  latches even though they were source-level `continue` paths in one loop.
+- Sharing the invalid-type, delay and circle-miss latch while retaining
+  separate rotated, AABB and cancel loops produced **835/862 bytes / 683
+  differences** and exactly four header backedges (`+0x8C`, `+0x113`,
+  `+0x175`, `+0x19A`). This recovers the target latch count, but not its
+  topology or instruction order: VC7.1 places the type/cancel test after the
+  geometry blocks and branches from the circle test to that tail block, while
+  retail falls through from a successful circle test to the type/cancel block
+  before the square geometry. The candidate also remains 27 bytes short.
+- Moving the shared hit block earlier in source, then placing it inside the
+  nonzero-radius branch so circle success falls through, did not improve the
+  835-byte candidate. The backend still schedules the hit/cancel block after
+  the geometry blocks. The latter spelling grew back to **853/862 bytes**
+  with 670 differing offsets and retained four backedges; it also introduced
+  an extra radius test in the emitted path.
+
+The best diagnostic remains the prior **840/862, 632-difference** circle-first
+candidate, despite its five backedges. None of these sources was promoted.
+The maintained source and frontier remain **853/862, 692 differences**;
+`check-frontier.py player-bullet-collision` passes and the five exact sibling
+units replay **1,220 bytes / 32 relocation fields**. No full cold replay was
+run.
