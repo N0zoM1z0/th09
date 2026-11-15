@@ -8113,3 +8113,63 @@ The maintained source and frontier remain **853/862, 692 differences**;
 `check-frontier.py player-bullet-collision` passes and the five exact sibling
 units replay **1,220 bytes / 32 relocation fields**. No full cold replay was
 run.
+
+## 2026-11-15 GPT-web: TH09 boss register/lifetime negative probes
+
+Further focused VC7.1 experiments were run against the current maintained
+boss carriers. All unsuccessful variants were discarded; the original
+frontier baselines remain protected.
+
+### EnemyManagerView::OnUpdate
+
+The two-byte `+0x19A/+0x1A1` draw-group index allocation remains unchanged after
+these additional source representations:
+
+- A native `EnemyPrimaryFlagsSnapshot` union exposing the same 32-bit primary
+  flags through low/high byte lanes; direct inline side-category expression;
+  and a side-state early-`goto` form all retained the two-byte residual.
+- A pointer alias to `enemy->drawGroup3387`, a volatile pointer-to-draw-head,
+  and native integer-address arithmetic at the early append site all retained
+  the same residual.
+- Narrowing the primary-flags snapshot to `unsigned short` changed the owner
+  beyond the two-byte window and was rejected. A `switch` for side categories
+  selected a range-style `jbe` and expanded the owner to 463 differences.
+
+The maintained owner remains 3,900/3,900 bytes with 97 relocation fields,
+69 calls, and 170 CFG blocks; only `movzx eax/ecx` and its scaled LEA index
+remain different. No register hint, volatile field, dead code, or inline
+assembly was retained.
+
+### PlayerLifecycleView::UpdateChargeAttack
+
+The 1,210-byte owner remains at its protected 183-difference baseline. New
+separate-input-side experiments did not recover the target's EDI side / EBX
+input-pointer allocation:
+
+- Keeping the signed-short focus-mode side and introducing a separate `int`
+  input-side local regressed to 1,215/1,210 bytes and 900 differences.
+- Using an `int` side with a separate short focus-side alias, or with ordinary
+  typed array indexing for `g_ReplayInputStates`, regressed to 1,215/1,210
+  and 1,209/1,210 respectively (900 and 717 differences).
+- Replacing the input pointer with a reference, and adding a `register` hint
+  to the existing input pointer, did not improve the original 183-difference
+  carrier; the register-hint spelling was byte-neutral.
+
+### SupervisorServiceUpdate
+
+The 1,629/1,633-byte, 1,038-difference carrier remains unchanged. The missing
+`[ebp-4]` result home was not recovered by a volatile result, a volatile store
+through the result's address, or reordering the result declaration. The
+volatile variants moved the home to other stack offsets and expanded the
+physical owner. Expressing `localSide = (joinMode != 0)` was optimized back to
+the same EDI constant-one allocation.
+
+Marking every global network-state pointer read volatile expanded the
+candidate to 1,692/1,633 bytes / 1,141 differences. Combining a stable initial
+pointer snapshot with volatile method-call receivers produced 1,676/1,633 /
+1,109 differences; the initial pointer moved to EAX, not retail EDI. Both
+variants were reverted. Continue from the protected baseline and investigate
+the original local/home and receiver lifetimes without blanket volatility.
+
+No full cold replay was run; only the named owners and their focused carriers
+were compiled and compared.
