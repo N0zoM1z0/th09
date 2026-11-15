@@ -70,7 +70,7 @@ numbers.
 | **Replay BeginPlaybackStage** | 0x00420840 | **540/540**, 13 masked / 19 raw at +0x14B–0x15F (`/O2 /Ob1`) | Plain C++ (no `volatile` alias). VC7.1 hoists the `sides[0].runtime` load above the +0x37C store; retail issues it after the +0x1E8 load. Statement moves/swaps, array and side-pointer forms do not move it. `replay-begin-playback`. |
 | **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Current `short`/`volatile` forms are compensation. `player-charge-attack`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **849**/862, ~149/269 aligned instructions (`/O2 /Ob1`) | Retail loop is unrotated with a duplicated latch. Retail also enregisters `bullet` and leaves `position` in memory. `player-bullet-collision`. |
-| **Supervisor network service** | 0x00430AA0 | 1,629/1,633, ~266/417 aligned instructions (`/O2 /Ob1`) | First divergence: retail keeps the network pointer in EDI; ours CSEs constant `1` into EDI. `supervisor-network-service`. |
+| **Supervisor network service** | 0x00430AA0 | 1,629/1,633, ~266/417 aligned instructions (`/O2 /Ob1`) | Retail keeps the network pointer in EDI and result in `[ebp-4]`; ours CSEs constant `1` into EDI and folds the result home. Snapshot/predicate/return-shape probes did not improve it. `supervisor-network-service`. |
 
 ## Reproduce *only* the changed compiler carriers
 

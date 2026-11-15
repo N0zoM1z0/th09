@@ -5862,7 +5862,16 @@ All findings use the pinned VC7.1 3077 profiles of each owner.
   CompareOperands, so it was not adopted.
 - **Network service.** Retail keeps `result` in memory (`[ebp-4]`) and
   reloads `g_SupervisorNetworkState` after each call; a success-path-first
-  shape is worse (1,620 bytes). Profiles without `/Og` are far off.
+  shape is worse (1,620 bytes). Profiles without `/Og` are far off. A local
+  `initialNetwork` snapshot for the first connection-state/join-mode/local-side
+  reads retained the 1,629/1,633-byte, 1,038-difference baseline and still
+  assigned EDI to constant `1`, not the network pointer. Reusing a refreshed
+  pointer through the later connection-state branches, rewriting `== 1` as
+  range predicates or a one-case `switch`, and merging the result returns
+  through a shared label did not recover retail; the shared-return form grew
+  to 1,641 bytes / 980 differences. These probes were reverted. The remaining
+  question is the IR lifetime that lets retail keep the network pointer in EDI
+  while keeping the result home at `[ebp-4]` and using immediate compares.
 - **Compiler build.** The PE Rich header lists all game C++ objects as
   13.10.3077; the 13.10.4035 entries are other objects and the available SP1
   toolchain is 13.10.6030, so a mixed-compiler explanation is ruled out.
