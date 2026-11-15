@@ -8173,3 +8173,46 @@ the original local/home and receiver lifetimes without blanket volatility.
 
 No full cold replay was run; only the named owners and their focused carriers
 were compiled and compared.
+
+## 2026-11-15 GPT-web: Enemy OnUpdate gate-local volatility and C2 color-pass follow-up
+
+The maintained `EnemyManagerView::OnUpdate @ 0x00410730` remains the clean
+3,900/3,900-byte carrier with 97 relocation fields and only the original two
+unmasked bytes at `+0x19C/+0x1A3`. The current candidate still uses ECX for the
+`drawGroup3387` byte load and scaled LEA index where retail reuses EAX.
+
+A narrowly scoped `volatile EnemySideStateView *sideState` local around the
+side-category gate changes that pair to the retail EAX/EAX sequence, but it
+moves four other bytes in the immediately following force-death `Float3::operator+`
+call setup: retail forms the explicit `other` and hidden-return pointers in
+EDX/EAX (`lea edx,[ebx+2d80]`, `lea eax,[ebp-7c]`); the gate-local carrier uses
+ECX/EDX. The owner remains 3,900 bytes and 97 relocations, but the residual
+increases from two to four bytes, so this variant is rejected.
+
+The four-byte result was reproduced with a direct local pointer, a volatile
+reference, a volatile field-overlay type, and a loop-body pointer reused at
+both the gate and special-attack effect site. Pointer-returning/reference-returning
+force-inline accessors, function-scope pointer variants, register hints on
+`drawHead`, `flags`, the loop locals and the category local, plus `Float3`
+reference/pointer aliases did not recover the two argument registers. Direct
+volatile casts/references without a local pointer retain the two-byte baseline
+but do not change the MOVZX register. Explicitly clearing the local pointer
+also retains the four-byte residual. Inline assembly around the vector call
+changes unrelated owner code/frame allocation and is rejected.
+
+The same session deepened the pinned C2 backend trace. The allocator driver
+`FUN_107821a7` calls the graph construction/analysis path (`FUN_1078368e`),
+then `FUN_107833f2`, then `FUN_107831f7`. `FUN_107833f2` clears a 0x4B-entry
+score table at `0x10880680`, walks live/interfering nodes and adds weighted
+costs to candidate register slots; selected spill paths apply a 100x penalty.
+This confirms the remaining pair is a color/weight tie-break outcome, not a
+missing source operation. The exact EAX/ECX tie-break inputs and source-level
+liveness perturbation are still unresolved; do not promote the four-byte
+variant or repeat simple pointer/const/register aliases without a new
+interference hypothesis.
+
+Focused `check-frontier.py enemy-on-update`, `player-bullet-collision`, and
+`supervisor-network-service` checks pass on the maintained carriers. The
+collision owner remains 853/862 bytes with 692 residual offsets; the network
+service remains 1629/1633 bytes with 1038 residual offsets. No full cold replay
+was run, and no source carrier was changed by these diagnostic probes.
