@@ -39,14 +39,16 @@ compiler objects you need.**
 - **SaveReplay** and **Player movement** cast/address scaffolding was
   replaced by plain indexing with byte-identical codegen.
 - No further owner became exact. The pinned `c2.dll` register-choice path is
-  now partially mapped: `FUN_107833f2` scores candidates from weighted
-  interference costs and preserves the first candidate on ties. See the
-  knowledge-base sections "VC7.1 allocator: weighted register-conflict
-  selection" and "VC7.1 C2 internal IDs and color-pass traversal". Enemy
-  OnUpdate's two-byte EAX/ECX residual remains open after further primary-flag
-  union, side-category, pointer-alias, and volatile draw-head probes. The
-  additional variants either retained two bytes or regressed; continue from
-  the exact C2 live-set/weighted-conflict question, not another spelling sweep.
+  now more deeply mapped: `FUN_107821a7` drives graph analysis, then invokes
+  `FUN_107833f2` to clear a 0x4B-entry register-score table and accumulate
+  weighted interference costs, followed by `FUN_107831f7` for the assignment
+  pass. Enemy OnUpdate's two-byte EAX/ECX residual remains open. A gate-local
+  `volatile EnemySideStateView *` changes MOVZX/LEA to retail EAX/EAX, but
+  moves four following Float3 operator+ argument bytes to ECX/EDX; the
+  four-byte variant and its reference/overlay/helper/loop-scope spellings were
+  rejected. The maintained two-byte carrier is restored. Continue from the
+  C2 live-set/weighted-conflict question, not another spelling sweep; details
+  are in the 2026-11-15 knowledge-base entry.
 - `SupervisorServiceUpdate` remains 1,629/1,633 bytes / 1,038 differences.
   Volatile result stores and declaration-order variants did not recover the
   target `[ebp-4]` home. Volatile global network-pointer reads expanded the
@@ -148,10 +150,13 @@ tool upgrade.
 1. **Compiler model (the only open lead).** Continue from the mapped
    `c2.dll` scoring path: identify the virtual value for Enemy's draw-group
    byte and compare its candidate-register availability/weighted conflict
-   costs. Internal node IDs and bitset traversal are already mapped; the
-   remaining work is the source-to-IR interference difference. The ignored
-   scratch project is reusable; rebuild from the hash-checked pinned backend
-   outside any `.`-prefixed path only if it is absent.
+   costs. `FUN_107833f2` clears 75 score slots and accumulates weighted
+   interference costs before `FUN_107831f7` assigns colors. The unresolved
+   question is why the source graph makes ECX win the draw-group byte while
+   the same graph also rotates the following Float3 call's hidden-return and
+   explicit-argument registers when a volatile gate pointer is introduced.
+   The ignored scratch project is reusable; rebuild from the hash-checked
+   pinned backend outside any `.`-prefixed path only if it is absent.
 2. Continue the Player CheckBulletCollision boss from the 840/862
    diagnostic geometry layout while keeping the 853/862 carrier protected.
    The 835/862 candidate now proves that four source-level retry latches can
