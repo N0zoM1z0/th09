@@ -7987,3 +7987,40 @@ restored; the earlier one-byte result remains a historical diagnostic and is
 not the current carrier or an exactness claim. A new attempt needs a genuine
 context lifetime/use hypothesis, not another direct-global or local-snapshot
 spelling.
+
+## 2026-11-15 GPT-web: two-level and three-level collision latch convergence
+
+Continued the `CheckBulletCollision @ 0x0041DFF0` CFG work from the
+protected 853/862-byte, 692-difference carrier. The best known diagnostic
+remains the previous 840/862-byte, 632-difference nested-loop candidate; the
+new work concentrated on matching retail's **four** distinct unconditional
+backedges to the aligned header at `+0x20`.
+
+New focused VC7.1 probes:
+
+- A one-loop, four-label form produced **849/862 bytes / 683 differing
+  bytes**. VC7.1 rotated the null check to a speculative bottom-of-loop
+  `test nextSlot; jne header`, so it lost retail's per-iteration top null
+  check and was rejected.
+- A two-level form with separate invalid-type, delay, circle, rotated-square,
+  AABB and cancel `continue` paths produced **852/862 / 682 differences** and
+  six backedges. The source-level nesting did not converge on the target CFG.
+- Merging invalid-type, delay and circle-miss into one inner latch in a
+  two-level form produced **827/862 / 691 differences** and only three
+  unconditional backedges (`+0x8C`, `+0x113`, `+0x192`). VC7.1 tail-merged
+  rotated-square and AABB failure latches, leaving one fewer than retail.
+  Splitting those two source paths with separate labels and using integer
+  pointer arithmetic for one increment did not prevent the merge; the
+  resulting object remained 827 bytes with the same three backedges.
+- A more deeply nested form with a separate rotated-geometry loop produced
+  **837/862 / 660 differences** and five backedges (`+0x3F`, `+0x4B`,
+  `+0x96`, `+0x11D`, `+0x19C`). It kept separate geometry/cancel latches but
+  retained two inner scan latches (invalid/delay versus circle miss), one too
+  many for retail.
+
+These experiments narrow the source-shape target: the desired graph must
+share invalid-region and circle-miss advancement while keeping rotated-square,
+AABB and cancel-invalid advancement distinct, without triggering VC7.1 loop
+rotation or tail merging. None of these diagnostic sources was promoted. The
+maintained file and frontier metadata are restored to **853/862, 692
+ordinary differences**. No full cold replay was run.
