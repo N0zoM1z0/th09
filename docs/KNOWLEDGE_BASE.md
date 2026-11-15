@@ -7871,3 +7871,39 @@ layout still need investigation; this owner is not exact yet.
 Rejected variants: a local-first/global-second receiver split regressed to 25
 differences; an `AnmManager&` local for both calls reversed ESI/EDI and also
 regressed. The direct-global-for-both form is the maintained best result.
+
+## 2026-11-15 GPT-web: Player collision nested-loop CFG experiments
+
+Starting from the protected `853/862`-byte, 692-difference
+`CheckBulletCollision` carrier, nested infinite-loop source shapes were tested
+against the full original-bound function. The goal was to recover retail's
+four distinct unconditional `add esi,4; jmp 0x41E010` latches instead of the
+candidate's bottom-of-loop next-slot test.
+
+- A three-level infinite-loop form with an explicit current-region scan and
+  separate geometry/hit continuations produced an `851/862`-byte candidate
+  with 684 differing bytes, 277 instructions, 12 calls and all 26 relocation
+  fields. It recovered the retail prologue/register ownership (`EBX` bullet,
+  `ESI` slot cursor, `EDI` Player), the aligned top-tested header, and four
+  unconditional backedges to that header. The four latches were at candidate
+  offsets `+0x36`, `+0xD8`, `+0x110`, and `+0x187`. However, it broke protected
+  byte matches and changed the physical extent, so it was not promoted.
+- Reordering the circle and square paths while retaining the nested loops
+  yielded `858/862` bytes and 647 differences. It retained the exact prologue
+  and the top-tested header, but its x87 radius branch selected the circle
+  block with `JP` while retail selects the square block with `JNP`; its block
+  layout and many protected byte offsets still differed. It was not promoted.
+- A goto-labelled variant yielded `845/862` bytes and 649 differences, but
+  retained the same reversed radius-path layout and changed additional
+  protected offsets. It was also rejected.
+- An inline-assembly attempt to force the radius branch caused VC7.1 to spill
+  the function into a 0x68-byte frame and expand the candidate to 1,133 bytes;
+  it was immediately discarded.
+
+These trials establish a useful structural fact: nested infinite loops can
+recover the retail top-tested loop and its independent unconditional latches.
+They do not yet recover the original block order, x87 branch polarity, or
+protected byte set. Keep the committed `853/862`, 692-difference carrier as
+the baseline; do not update the frontier metadata to any of these diagnostic
+candidates. Only focused Player collision builds were used; no full cold
+replay was run.
