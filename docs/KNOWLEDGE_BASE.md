@@ -5774,6 +5774,49 @@ profile; none was kept.
   DWORD, so its `int` parameter is correct. A permuter search found
   485-byte variants only by growing case 0, not by fixing this site.
 
+## 2026-11-15 VC7.1 allocator: weighted register-conflict selection
+
+A hash-verified copy of the pinned VC7.1 13.10.3077 `c2.dll`
+(`bcd28f39b1798b07989c30a1df471cf87fc20e3802d130901a08f83800e6b81e`) was
+imported into a scratch Ghidra project and inspected without changing the
+toolchain. This is backend-analysis evidence, not an exactness Oracle. The
+register-allocation path is now more concrete:
+
+- `FUN_107821a7` orchestrates copy coalescing (`FUN_10783c65`), live-range
+  construction (`FUN_10783d3c`), per-block allocator-state initialization
+  (`FUN_10783f0d`), and the seven-class coloring pass (`FUN_107844a4`).
+- `FUN_107833f2` scores candidate physical registers. It accumulates weighted
+  interference costs in `DAT_10880680`, applies live-set penalties and
+  exclusions, then walks the candidate list at `PTR_DAT_1086917c[param_4]`.
+  A candidate replaces the current choice only on a strictly lower score, so
+  equal scores retain the first register in that class's table. The class-0
+  candidate order is `1, 2, 3, 7, 8, 4, 6` (zero-terminated). The mapping of
+  every numeric ID to a physical register still needs independent confirmation.
+- The 1,024-bucket virtual-register table starts at `0x108807B8`; bucket
+  selection uses `id & 0x3ff`, the full ID is stored at node `+0x1c`, and
+  collision links are at `+0x30`. `FUN_107b3786` enumerates set bits from a
+  bitset and returns the next virtual ID; it is not the ID allocator.
+  `FUN_107af97b` allocates 12-byte bitset-list nodes; it is not a virtual-ID
+  allocator either. Do not infer ID assignment from either helper.
+
+This revises the old allocator hypothesis: ID/traversal order may affect graph
+construction, but the final register choice is explicitly cost-based, with a
+first-candidate tie-break. For Enemy OnUpdate, the maintained candidate still
+uses ECX for the byte-sized draw-group index while retail uses EAX. The
+remaining useful question is why the two source/IR graphs give EAX and ECX
+different interference costs or availability, not simply how to perturb a
+local's spelling. Focus future experiments on the value's live-set and
+coalescing inputs.
+
+Focused negative probes were reverted: replacing the side-category predicate
+with an unsigned range test expanded the owner to 3,892/3,900 bytes and 3,029
+differences; reversing the equality order retained the original two-byte
+register residual and added two compare-byte differences; comparing the
+invalid category values directly produced 460 differences. Direct pointer
+arithmetic, direct macro expansion, changing the helper to accept the Enemy
+pointer, and reusing the side-category local for the draw-group byte all
+retained the two-byte residual. No source or frontier baseline was changed.
+
 ## 2026-11-14/15 allocator and folding observations
 
 All findings use the pinned VC7.1 3077 profiles of each owner.
