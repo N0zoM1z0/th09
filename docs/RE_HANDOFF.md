@@ -38,12 +38,17 @@ compiler objects you need.**
 - **BeginPlaybackStage** is plain C++ and now 540/540 bytes (was 538/540).
 - **SaveReplay** and **Player movement** cast/address scaffolding was
   replaced by plain indexing with byte-identical codegen.
-- No further owner became exact. Every residual below is a VC7.1
-  register-choice or scheduling tie; source spelling, statement order,
-  profiles (`/O1`, `/O2`, `/G5`–`/G7`), undocumented `c2.dll` options and a
-  different compiler build were all ruled out as levers. The knowledge
-  base section "allocator and folding observations" records what was
-  tried so it is not repeated.
+- No further owner became exact. The pinned `c2.dll` register-choice path is
+  now partially mapped: `FUN_107833f2` scores candidates from weighted
+  interference costs and preserves the first candidate on ties. See the
+  knowledge-base sections "VC7.1 allocator: weighted register-conflict
+  selection" and "VC7.1 C2 internal IDs and color-pass traversal". Enemy
+  OnUpdate's two-byte EAX/ECX residual remains open; the next useful question
+  is the specific live-set/interference cost of its draw-group byte, not
+  another spelling sweep.
+- A `ScreenEffect::CalcShakeEnvelope` duration-reference probe regressed to
+  340/336 bytes / 252 differences and was reverted; its 336-byte/26-offset
+  baseline remains intact.
 
 ## Remaining source-present nonexact owners
 
@@ -117,14 +122,17 @@ tool upgrade.
 
 ## Next steps (ranked)
 
-1. **Compiler model (the only open lead).** Map `c2.dll`'s candidate order
-   and tie-break: colouring driver `0x107821a7`, colour pass `0x107844a4`,
-   and where internal symbol IDs are assigned. Entry points are in the
-   knowledge base; rebuild the scratch Ghidra project from a hash-checked
-   copy of the pinned `c2.dll` outside any `.`-prefixed path.
-2. With a tie-break rule in hand, start with the smallest owners:
-   BeginPlaybackStage (one load placement), Effect AddedCallback (the
-   context needs one more pre-store reference), SaveReplay, Enemy OnUpdate.
+1. **Compiler model (the only open lead).** Continue from the mapped
+   `c2.dll` scoring path: identify the virtual value for Enemy's draw-group
+   byte and compare its candidate-register availability/weighted conflict
+   costs. Internal node IDs and bitset traversal are already mapped; the
+   remaining work is the source-to-IR interference difference. The ignored
+   scratch project is reusable; rebuild from the hash-checked pinned backend
+   outside any `.`-prefixed path only if it is absent.
+2. In parallel, revisit the smallest source frontiers only with a new
+   lifetime/alias hypothesis: BeginPlaybackStage, Effect AddedCallback,
+   SaveReplay and ScreenEffect shake. Do not repeat the recorded spelling and
+   declaration-order sweeps.
 
 ## Practical pitfalls
 

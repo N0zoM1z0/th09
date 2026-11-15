@@ -5647,7 +5647,10 @@ profile; none was kept.
 - **ScreenEffect shake.** The retail body keeps `fadeIn` in EBX as a plain
   local (TH08 shape); 48 combinations of alias use, signedness and update
   spelling all leave the ESI/EDI swap of `screenEffect` and `&timer`
-  (193 bytes in those variants vs 26 in the maintained volatile form).
+  (193 bytes in those variants vs 26 in the maintained volatile form). A
+  further `const float &duration = screenEffect->duration` alias used for
+  the final amplitude multiply expanded the owner to 340/336 bytes and 252
+  differing offsets; it was reverted. Keep the 336-byte/26-offset baseline.
 - **Player movement.** Plain `&g_ReplayInputStates[side]` and plain focus
   indexing re-allocate the whole function (~1,380 bytes); the residual is
   tied to its existing local structure.
