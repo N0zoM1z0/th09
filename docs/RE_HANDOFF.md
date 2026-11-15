@@ -50,11 +50,14 @@ compiler objects you need.**
   C2 live-set/weighted-conflict question, not another spelling sweep; details
   are in the 2026-11-15 knowledge-base entry.
 - `SupervisorServiceUpdate` remains 1,629/1,633 bytes / 1,038 differences.
-  Volatile result stores and declaration-order variants did not recover the
-  target `[ebp-4]` home. Volatile global network-pointer reads expanded the
-  candidate to 1,692/1,633 / 1,141 differences; an initial snapshot plus
-  volatile call receivers reached 1,676/1,633 / 1,109 and put the snapshot in
-  EAX, not retail EDI. All were reverted.
+  Attested Ghidra decomp confirms the retail result local is initialized to
+  zero, set to one on the retry path, and returned from both retry and
+  synchronized-frame exits. The candidate folds this 0/1 local into constants
+  and reuses `[ebp-4]` for a `PopFrame` out-parameter, shifting the seed/predicted
+  scratch layout. Volatile result stores force a home at `[ebp-0xc]` and expand
+  the frame; address-taking, declaration reordering, hoisting/grouping the
+  output scratch, and merging result/returnState did not recover `[ebp-4]`.
+  All variants were reverted; see the 2026-11-15 Supervisor result-home entry.
 - `PlayerLifecycleView::UpdateChargeAttack` remains 1,210/1,210 with 183
   differences. Separate side/input-side locals, typed-array indexing,
   reference input receivers, and a `register` input-pointer hint did not
@@ -157,7 +160,13 @@ tool upgrade.
    explicit-argument registers when a volatile gate pointer is introduced.
    The ignored scratch project is reusable; rebuild from the hash-checked
    pinned backend outside any `.`-prefixed path only if it is absent.
-2. Continue the Player CheckBulletCollision boss from the 840/862
+2. Continue `SupervisorServiceUpdate` from the newly confirmed result-home
+   mismatch. Recover the original `[ebp-4]` local lifetime and the `PopFrame`
+   scratch layout without forcing an enlarged volatile/address-taken frame.
+   The Ghidra export confirms the target's result semantics; the remaining
+   question is the source-scope/stack-slot assignment that keeps the result
+   home live while the two seed outputs occupy the lower slots.
+3. Continue the Player CheckBulletCollision boss from the 840/862
    diagnostic geometry layout while keeping the 853/862 carrier protected.
    The 835/862 candidate now proves that four source-level retry latches can
    be emitted, but the type/cancel block still lands after geometry and the
@@ -166,7 +175,7 @@ tool upgrade.
    before square geometry without losing the shared invalid/circle latch.
    Preserve its five exact siblings with scoped replay; never weaken the
    protected-byte guard.
-3. Continue Enemy OnUpdate's two-byte EAX/ECX allocation question through the
+4. Continue Enemy OnUpdate's two-byte EAX/ECX allocation question through the
    mapped C2 weighted-conflict path, not another local spelling sweep. For
    smaller owners, AddedCallback is currently four bytes (not the historical
    one-byte diagnostic); only reopen it with a real context/global-pointer
