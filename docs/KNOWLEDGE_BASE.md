@@ -8024,3 +8024,57 @@ AABB and cancel-invalid advancement distinct, without triggering VC7.1 loop
 rotation or tail merging. None of these diagnostic sources was promoted. The
 maintained file and frontier metadata are restored to **853/862, 692
 ordinary differences**. No full cold replay was run.
+
+## 2026-11-15 GPT-web: Enemy draw-group weighted-conflict and network local-home probes
+
+### EnemyManagerView::OnUpdate
+
+The complete 3,900-byte owner still has only the two original-bound register
+bytes at `+0x19A` and `+0x1A1`: retail uses `movzx eax,[enemy+0x3387]` followed
+by `lea eax,[manager+eax*4+0x2ac410]`; the maintained candidate uses ECX for
+the byte and the scaled index. The second draw-group path already uses the
+retail EDX/EAX allocation, so the unresolved interference is specific to the
+early side-category branch.
+
+Additional natural source probes (all reverted) confirmed:
+
+- Direct draw-group pointer addition, an explicit DWORD-address expression,
+  helper argument-order reversal, and an `int` side-category temporary all
+  retain the same two-byte residual.
+- Moving the draw-head computation before the `ENEMY_CORE_NO_SPRITE` test
+  changes the local allocation rather than solving it: the group byte moves
+  to EDX and the complete owner expands to **27 differing bytes**. Combining
+  that reorder with a separately scoped category boolean retains the same
+  27-byte result.
+- A boolean category result scoped outside the side-state test retains the
+  original two-byte residual.
+
+The register choice is therefore sensitive to the live-range/interference
+shape at this branch, but simple local type, helper, and address-spelling
+changes do not alter the weighted choice. Continue from the C2 weighted
+candidate-order analysis in `c2-analysis`; do not add dummy uses, volatile
+barriers, or inline assembly to pin a register.
+
+### SupervisorServiceUpdate
+
+The 1,629/1,633-byte, 1,038-difference carrier was tested with a narrowly
+scoped `SupervisorNetworkState *initialNetwork` alias used only for the first
+connection-state/join-mode/local-side checks, with the alias initialized
+immediately after `EnterCriticalSectionWrapper`. It did not restore the
+retail EDI receiver: the candidate continued to use ECX for the global
+network pointer and EDI for the common constant `1`, while the original
+loads the network pointer into EDI and materializes the later `1` in EAX.
+The owner remained 1,629/1,633 with the same 1,038 differences, but the
+missing four-byte result home at `[ebp-4]` still shifted the initial code.
+
+Two result-home probes were also rejected. Marking the local result volatile,
+or reading it through a volatile pointer at the two return sites, expanded
+the frame from `0x14` to `0x18` and produced a 1,641/1,633-byte candidate
+(979-980 differing bytes, depending on spelling); the result was placed at
+`[ebp-0xC]`, not the retail `[ebp-4]`, and the network-pointer allocation did
+not converge. Reordering `result`, `now`, and `returnState` declarations did
+not improve the nonvolatile carrier.
+
+All source experiments were reverted. The focused baseline checks pass at
+**Enemy OnUpdate 3,900/3,900 with 2 differences** and **Supervisor service
+1,629/1,633 with 1,038 differences**. No whole-product cold replay was run.
