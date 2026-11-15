@@ -43,28 +43,35 @@ compiler objects you need.**
   interference costs and preserves the first candidate on ties. See the
   knowledge-base sections "VC7.1 allocator: weighted register-conflict
   selection" and "VC7.1 C2 internal IDs and color-pass traversal". Enemy
-  OnUpdate's two-byte EAX/ECX residual remains open. Moving the draw-head
-  computation before the no-sprite test changes the group-byte register to
-  EDX and expands the owner to 27 differences; the current question remains
-  the exact C2 live-set/weighted-conflict cost, not another spelling sweep.
-- A narrow `SupervisorNetworkState *initialNetwork` alias after the critical
-  section did not change the 1,629/1,633-byte, 1,038-difference network
-  carrier. Volatile result-home probes expanded the frame to 0x18 and were
-  reverted; the target `[ebp-4]` home and EDI network pointer remain open.
+  OnUpdate's two-byte EAX/ECX residual remains open after further primary-flag
+  union, side-category, pointer-alias, and volatile draw-head probes. The
+  additional variants either retained two bytes or regressed; continue from
+  the exact C2 live-set/weighted-conflict question, not another spelling sweep.
+- `SupervisorServiceUpdate` remains 1,629/1,633 bytes / 1,038 differences.
+  Volatile result stores and declaration-order variants did not recover the
+  target `[ebp-4]` home. Volatile global network-pointer reads expanded the
+  candidate to 1,692/1,633 / 1,141 differences; an initial snapshot plus
+  volatile call receivers reached 1,676/1,633 / 1,109 and put the snapshot in
+  EAX, not retail EDI. All were reverted.
+- `PlayerLifecycleView::UpdateChargeAttack` remains 1,210/1,210 with 183
+  differences. Separate side/input-side locals, typed-array indexing,
+  reference input receivers, and a `register` input-pointer hint did not
+  recover retail's EDI side / EBX input-pointer allocation.
 - A `ScreenEffect::CalcShakeEnvelope` duration-reference probe regressed to
   340/336 bytes / 252 differences and was reverted; its 336-byte/26-offset
   baseline remains intact.
 - **Player CheckBulletCollision** has a protected 853/862-byte, 692-difference
-  carrier. The best diagnostic remains **840/862 bytes / 632 differences**
-  with the retail circle-first branch order, but it has five backedges versus
-  the target's four and a short reward tail. New loop-latch probes bracketed
-  the topology: a two-level shared-latch form reached 827/862 / 691 differences
-  with three backedges (geometry latches tail-merged); a deeper form reached
-  837/862 / 660 differences with five backedges (two inner scan latches).
-  A one-loop form rotated the null test to the bottom. None was promoted.
-  The 840-byte candidate's five exact same-TU siblings passed scoped replay
-  (1,220 bytes / 32 fields). The maintained source and frontier metadata
-  remain at 853/862. See the 2026-11-15 collision-latch convergence entry.
+  carrier. The best byte-overlap diagnostic remains **840/862 / 632
+  differences** with the retail circle-first order, but it has five backedges
+  versus the target's four. A new four-latch source reached **835/862 / 683
+  differences** and exactly four header backedges; its type/cancel block is
+  still scheduled after geometry, opposite retail's circle-hit fallthrough.
+  A fallthrough spelling reached 853/862 / 670 differences but retained the
+  wrong block order and added a radius test. A separate six-latch form reached
+  845/862 / 661 differences. None was promoted. The five exact same-TU
+  siblings pass scoped replay (1,220 bytes / 32 fields). Maintained source and
+  frontier remain 853/862. See the 2026-11-15 collision-latch and boss
+  allocation entries.
 
 ## Remaining source-present nonexact owners
 
@@ -82,9 +89,9 @@ numbers.
 | **ScreenEffect shake** | 0x004227A0 | 336/336, 26 bytes (`/O2 /Ob1`) | ESI/EDI `screenEffect`/`&timer` swap. `screen-shake-envelope`. |
 | **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 29 bytes (Title `/O1 /Ob1`) | Selected-record EDX/ECX. `title-draw-replay-menu`. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540/540**, 13 masked / 19 raw at +0x14B–0x15F (`/O2 /Ob1`) | Plain C++ (no `volatile` alias). VC7.1 hoists the `sides[0].runtime` load above the +0x37C store; retail issues it after the +0x1E8 load. Statement moves/swaps, array and side-pointer forms do not move it. `replay-begin-playback`. |
-| **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Current `short`/`volatile` forms are compensation. `player-charge-attack`. |
-| **Player CheckBulletCollision** | 0x0041DFF0 | **853/862**, 692 differing offsets / 26 relocation fields (`/O2 /Ob1`) | Protected carrier. Best unpromoted diagnostic is 840/862 / 632 differences with circle-first layout, 279 instructions, 32 decoded blocks and five backedges (target four). It breaks protected matches and leaves the reward tail short; do not update frontier metadata. Five exact siblings pass. `player-bullet-collision`. |
-| **Supervisor network service** | 0x00430AA0 | 1,629/1,633, **1,038 differing bytes** (`/O2 /Ob1`) | Retail keeps the network pointer in EDI and result in `[ebp-4]`; ours CSEs constant `1` into EDI and folds the result home. Snapshot/predicate/return-shape probes did not improve it. A scratch-union plus cached-pointer candidate regressed to 1,540/1,633 and 1,155 differences and was reverted. `supervisor-network-service`. |
+| **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Separate side/input aliases, typed indexing, reference input and register hints did not change the allocation. `player-charge-attack`. |
+| **Player CheckBulletCollision** | 0x0041DFF0 | **853/862**, 692 differing offsets / 26 relocation fields (`/O2 /Ob1`) | Protected carrier. Best byte-overlap diagnostic is 840/862 / 632 differences with five backedges; a separate 835/862 / 683 candidate has four backedges but wrong hit/cancel block order. Both break protected matches; do not update frontier metadata. Five exact siblings pass. `player-bullet-collision`. |
+| **Supervisor network service** | 0x00430AA0 | 1,629/1,633, **1,038 differing bytes** (`/O2 /Ob1`) | Retail keeps the network pointer in EDI and result in `[ebp-4]`; ours CSEs constant `1` into EDI and folds the result home. Volatile pointer/result probes regressed to 1,676/1,633 and 1,692/1,633; keep the protected baseline. `supervisor-network-service`. |
 
 ## Reproduce *only* the changed compiler carriers
 
@@ -147,12 +154,11 @@ tool upgrade.
    outside any `.`-prefixed path only if it is absent.
 2. Continue the Player CheckBulletCollision boss from the 840/862
    diagnostic geometry layout while keeping the 853/862 carrier protected.
-   The target has four backedges: one shared invalid/circle-miss latch, distinct
-   rotated-square and AABB latches, and a cancel-invalid latch. The two-level
-   probe reached three because geometry latches tail-merged; the deeper probe
-   reached five because invalid/delay and circle miss remained separate.
-   Find a source shape with exactly four while retaining the top-tested header
-   and circle-first branch, then attack the 22-byte shortfall and reward tail.
+   The 835/862 candidate now proves that four source-level retry latches can
+   be emitted, but the type/cancel block still lands after geometry and the
+   reward tail remains short. The 840-byte carrier has better overlap but five
+   backedges. Next, recover retail's circle-hit fallthrough into the type test
+   before square geometry without losing the shared invalid/circle latch.
    Preserve its five exact siblings with scoped replay; never weaken the
    protected-byte guard.
 3. Continue Enemy OnUpdate's two-byte EAX/ECX allocation question through the
