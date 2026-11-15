@@ -7703,3 +7703,49 @@ alignment or regressing the 50 protected byte offsets. Do not relax the 33-block
 owner guard. The focused `check-boss-frontiers.py --owner player
 --skip-exact-siblings` currently fails specifically with
 `Player 862-byte collision boss target/fields/matching bytes regressed`.
+
+## 2026-11-15 GPT-web: VC7.1 C2 internal IDs and color-pass traversal
+
+A fresh Ghidra pass over the hash-pinned VC7.1 `Vc7/bin/c2.dll` mapped the
+allocator's internal node-ID path. This is provisional compiler-tool evidence,
+not target replay evidence.
+
+`FUN_1077c367` initializes the per-function allocation state: it resets the
+node-ID counter at `DAT_10882154` to 1, clears the 0x400-entry node hash table
+at `DAT_108807b8`, and initializes the seven register-class bitset heads at
+`DAT_10882158..DAT_10882170`. `FUN_1077c10f` creates a 0x48-byte allocation
+node. On a fresh allocation it stores the current counter in node offset
+`+0x1c` and increments the counter; on its free-list reuse path it retains the
+reused node's existing ID. It also sets the ID bit in the register-class
+bitset and inserts the node into bucket `ID & 0x3ff`, with the hash-chain link
+at node offset `+0x30`.
+
+`FUN_107b3786` is the bitset cursor used by the color pass. Its EAX argument
+can initialize the cursor from a bitset-list head; a null argument continues
+the current global cursor. Each list node is a three-DWORD record: base ID at
+`+0`, next pointer at `+4`, and a 32-bit membership mask at `+8`. The cursor
+returns `base ID + least_set_bit` and clears the consumed bit, advancing to the
+next 32-ID record when the mask is exhausted. `FUN_1078482f` builds these
+per-function/register-class sets by scanning the node hash table and setting
+the bit corresponding to each node's ID. `FUN_107844a4` consumes the IDs and
+resolves each node through the `ID & 0x3ff` hash bucket.
+
+`FUN_1077ff3b` is the bridge between the function's block/node lists and the
+allocator IDs: it walks the compiler's block-owned node lists, calls
+`FUN_1077c10f` for each node, then uses `FUN_107b3786` to populate the dense
+ID-to-node map. Therefore declaration order alone is not the direct ordering
+input to register coloring. The relevant order is the optimized IR node-list
+traversal (including node reuse), followed by 32-bit bitset enumeration. This
+explains why declaration-only sweeps and dead-code padding did not move the
+remaining register choices. Future source probes should change a real IR
+node's creation/traversal order while preserving the target CFG and semantics;
+do not add dead code or artificial register/volatile/assembly hints.
+
+The current `EnemyManagerView::OnUpdate` residual remains exactly two bytes:
+retail loads `enemy->drawGroup3387` into EAX while the candidate uses ECX.
+Two natural branch-shape probes were tested and reverted: inverting the
+`ENEMY_CORE_NO_SPRITE` branch caused a 3,029-byte difference; spelling its
+fallback as an explicit `else` caused 460 differing bytes. The
+`EffectManager::AddedCallback` local-first/global-second receiver split was
+also tested and reverted (25 differing bytes). The maintained source remains
+unchanged; neither owner receives exactness credit.
