@@ -58,11 +58,12 @@ translation-unit or class partition.
 
 | Work area | Maintained entry | Verification route |
 | --- | --- | --- |
-| ECL interpreter | [EclManager.cpp](../src/EclManager.cpp), with the EclRun lexical fragments | `check-boss-frontiers.py --owner runecl`; full code, tables and actual fields |
-| Enemy update | [EnemyManagerCore.inl](../src/EnemyManagerCore.inl), included by EclManager.cpp | `check-boss-frontiers.py --owner enemy`; retain the shared native helper context |
-| Title result drawing | [TitleScreenResultDraw.cpp](../src/TitleScreenResultDraw.cpp) | `check-boss-frontiers.py --owner title` |
-| ExAttack Type3 update | [ExAttackUpdateType3.cpp](../src/ExAttackUpdateType3.cpp) | `check-boss-frontiers.py --owner type3` |
+| ECL interpreter | [EclManager.cpp](../src/EclManager.cpp), with the EclRun lexical fragments | exact unit `ecl-run-ecl`: `build-match-unit.py` + `compare-coff-function.py` |
+| Enemy update | [EnemyManagerCore.inl](../src/EnemyManagerCore.inl), included by EclManager.cpp | `check-frontier.py enemy-on-update`; edits renumber private labels pinned by exact EclManager units |
+| Title result drawing | [TitleScreenResultDraw.cpp](../src/TitleScreenResultDraw.cpp) | exact unit `title-screen-draw-result` |
+| ExAttack Type3 update | [ExAttackUpdateType3.cpp](../src/ExAttackUpdateType3.cpp) | exact unit `ex-attack-update-type3` |
 | Canonical exact units | [match-units.toml](../config/match-units.toml), including source and compiler profile | `build-match-unit.py --unit NAME`, then the corresponding full comparison |
+| Nonexact functions | [frontiers.toml](../config/frontiers.toml) | `check-frontier.py [NAME]`; `--update` records an improvement |
 | Native product closure | [build.toml](../config/build.toml) | Explicitly open; function-level proofs do not establish a runnable product |
 
 Do not split lexical fragments into independent compiler inputs during cleanup:

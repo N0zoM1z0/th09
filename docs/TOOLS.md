@@ -14,7 +14,8 @@ establish target identity or exactness. Start with [RE_HANDOFF.md](RE_HANDOFF.md
 | Build exact unit | `python3 -B scripts/build-match-unit.py --unit NAME` |
 | Compare complete unit | `python3 -B scripts/compare-coff-function.py --unit NAME --json` |
 | Select affected exact consumers | `python3 -B scripts/replay-scoped-exact.py --changed-file PATH --dry-run` |
-| Diagnose one nonexact owner | `python3 -B scripts/check-boss-frontiers.py --owner enemy --skip-exact-siblings` |
+| Check nonexact functions did not regress | `python3 -B scripts/check-frontier.py [NAME] [--show]` |
+| Record an improved nonexact residual | `python3 -B scripts/check-frontier.py NAME --update` |
 | Audit runtime origins | `python3 -B scripts/audit-runtime-origins.py` |
 | Inspect open product graph | `python3 -B scripts/build.py --check` |
 | Check documentation links/frontiers | `python3 -B scripts/validate-docs.py` |

@@ -53,17 +53,17 @@ numbers.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| **Enemy OnUpdate** | 0x00410730 | 3,900/3,900, **2 bytes** (+0x19C/+0x1A3) (EclManager `/O2 /Ob1`) | Early draw-group index ECX vs EAX. Removing the `volatile sideState` read brings back 13 bytes. `--owner enemy`. |
-| **Replay SaveReplay** | 0x00420C60 | 1,238/1,238, **2 bytes** (+0xB7/+0xBB) (`/O2 /Ob1`) | Header-copy buffer load ECX vs EDI; source is now plain. 128 spelling combinations are byte-neutral. `--owner replaysave`. |
-| **Player movement** | 0x0041C170 | 1,900/1,900, 8 bytes (4 masked) at +0x127 (`/O2 /Ob1`) | `g_GameConfiguration`/`sideIndex` load order; every subscript spelling compiles side-first. `--owner movement`. |
-| **Effect AddedCallback** | 0x0040D1C0 | 51/51, 8 bytes (4 masked) (`/O2 /Ob1`, no `/EHsc`) | ESI/EDI swap; exhaustive sweeps show retail is unreachable from the body alone. `--owner effect`. |
-| **Title OnUpdateResult** | 0x004266B5 | **484/485**, one site at +0xFD (Title `/O1 /Ob1`, no `/Oi`) | Retail keeps the selected character in CL and sign-extends separately; VC7.1 folds ours (only a real intervening store unfolds it). That single site causes the 1-byte shift behind ~166 masked differences. `inspect-title-update-result.py` after building `title-screen-setup-thread`. |
-| **ScreenEffect shake** | 0x004227A0 | 336/336, 26 bytes (`/O2 /Ob1`) | ESI/EDI `screenEffect`/`&timer` swap. `--owner screen`. |
-| **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 29 bytes (Title `/O1 /Ob1`) | Selected-record EDX/ECX. `--owner replaymenu`. |
-| **Replay BeginPlaybackStage** | 0x00420840 | **540/540**, 13 masked / 19 raw at +0x14B–0x15F (`/O2 /Ob1`) | Plain C++ (no `volatile` alias). VC7.1 hoists the `sides[0].runtime` load above the +0x37C store; retail issues it after the +0x1E8 load. Statement moves/swaps, array and side-pointer forms do not move it. `--owner replay`. |
-| **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Current `short`/`volatile` forms are compensation. `--owner charge`. |
-| **Player CheckBulletCollision** | 0x0041DFF0 | **849**/862, ~149/269 aligned instructions (`/O2 /Ob1`) | Retail loop is unrotated with a duplicated latch. Retail also enregisters `bullet` and leaves `position` in memory. `--owner player`. |
-| **Supervisor network service** | 0x00430AA0 | 1,629/1,633, ~266/417 aligned instructions (`/O2 /Ob1`) | First divergence: retail keeps the network pointer in EDI; ours CSEs constant `1` into EDI. Compile `src/SupervisorNetwork.cpp` and run `inspect-supervisor-service.py`. |
+| **Enemy OnUpdate** | 0x00410730 | 3,900/3,900, **2 bytes** (+0x19C/+0x1A3) (EclManager `/O2 /Ob1`) | Early draw-group index ECX vs EAX. Removing the `volatile sideState` read brings back 13 bytes. `check-frontier.py enemy-on-update`. |
+| **Replay SaveReplay** | 0x00420C60 | 1,238/1,238, **2 bytes** (+0xB7/+0xBB) (`/O2 /Ob1`) | Header-copy buffer load ECX vs EDI; source is now plain. 128 spelling combinations are byte-neutral. `replay-save`. |
+| **Player movement** | 0x0041C170 | 1,900/1,900, 8 bytes (4 masked) at +0x127 (`/O2 /Ob1`) | `g_GameConfiguration`/`sideIndex` load order; every subscript spelling compiles side-first. `player-movement`. |
+| **Effect AddedCallback** | 0x0040D1C0 | 51/51, 8 bytes (4 masked) (`/O2 /Ob1`, no `/EHsc`) | ESI/EDI swap; exhaustive sweeps show retail is unreachable from the body alone. `effect-added-callback`. |
+| **Title OnUpdateResult** | 0x004266B5 | **484/485**, one site at +0xFD (Title `/O1 /Ob1`, no `/Oi`) | Retail keeps the selected character in CL and sign-extends separately; VC7.1 folds ours (only a real intervening store unfolds it). That single site causes the 1-byte shift behind ~166 masked differences. `title-update-result`. |
+| **ScreenEffect shake** | 0x004227A0 | 336/336, 26 bytes (`/O2 /Ob1`) | ESI/EDI `screenEffect`/`&timer` swap. `screen-shake-envelope`. |
+| **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 29 bytes (Title `/O1 /Ob1`) | Selected-record EDX/ECX. `title-draw-replay-menu`. |
+| **Replay BeginPlaybackStage** | 0x00420840 | **540/540**, 13 masked / 19 raw at +0x14B–0x15F (`/O2 /Ob1`) | Plain C++ (no `volatile` alias). VC7.1 hoists the `sides[0].runtime` load above the +0x37C store; retail issues it after the +0x1E8 load. Statement moves/swaps, array and side-pointer forms do not move it. `replay-begin-playback`. |
+| **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Current `short`/`volatile` forms are compensation. `player-charge-attack`. |
+| **Player CheckBulletCollision** | 0x0041DFF0 | **849**/862, ~149/269 aligned instructions (`/O2 /Ob1`) | Retail loop is unrotated with a duplicated latch. Retail also enregisters `bullet` and leaves `position` in memory. `player-bullet-collision`. |
+| **Supervisor network service** | 0x00430AA0 | 1,629/1,633, ~266/417 aligned instructions (`/O2 /Ob1`) | First divergence: retail keeps the network pointer in EDI; ours CSEs constant `1` into EDI. `supervisor-network-service`. |
 
 ## Reproduce *only* the changed compiler carriers
 
@@ -82,10 +82,13 @@ python3 -B scripts/verify-target.py
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
 
-# Choose ONE open boss. Diagnostic-only: it cannot claim exactness.
-nice -n 12 python3 -B scripts/check-boss-frontiers.py --owner enemy --skip-exact-siblings
+# Nonexact functions: rebuild and fail if any matching byte regresses
+# (diagnostic only; names and residuals live in config/frontiers.toml).
+nice -n 12 python3 -B scripts/check-frontier.py                 # all, ~80 s
+nice -n 12 python3 -B scripts/check-frontier.py replay-save --show
+python3 -B scripts/check-frontier.py replay-save --update       # record an improvement
 
-# Preserve all genuinely affected exact siblings after modifying the owner:
+# Preserve all genuinely affected exact siblings after modifying a source:
 python3 -B scripts/replay-scoped-exact.py --changed-file src/EclRunState.inl --dry-run
 nice -n 12 python3 -B scripts/replay-scoped-exact.py --changed-file src/EclRunState.inl
 # Or use --source src/ReplayInput.cpp for a single source-owned cohort.
@@ -93,17 +96,6 @@ nice -n 12 python3 -B scripts/replay-scoped-exact.py --changed-file src/EclRunSt
 # One exact function when needed; builds the selected original-bound carrier:
 nice -n 12 python3 -B scripts/build-match-unit.py --unit ecl-pop-context
 python3 -B scripts/compare-coff-function.py --unit ecl-pop-context --json
-
-# A separate Title owner (do not substitute exact DrawResult):
-nice -n 12 python3 -B scripts/build-match-unit.py --unit title-screen-setup-thread
-python3 -B scripts/inspect-title-update-result.py build/matching/TitleScreen.obj
-
-# The standalone, nonexact network service has NO canonical exact sibling:
-mkdir -p build/matching
-nice -n 12 scripts/compile-probe.sh src/SupervisorNetwork.cpp \
-  build/matching/SupervisorNetwork.obj \
-  /MT /EHsc /Gs /DNDEBUG /Zi /Gy /GF /Oi /Gr /O2 /Ob1 /Oy- /I src
-python3 -B scripts/inspect-supervisor-service.py build/matching/SupervisorNetwork.obj
 
 # For documentation/ledger edits (no game compiler necessary):
 python3 -B scripts/validate-docs.py
@@ -156,9 +148,10 @@ tool upgrade.
   CompareOperands units.
 - Parallel Wine compiles can leave `_CL_*` compiler scratch files in the
   repository root; delete them.
-- The optional full unit suite (`scripts/ci.py --full`) already had about
-  120 failures before this session, mostly source-text and inventory
-  snapshots; check whether a failure predates your change before chasing it.
+- `scripts/ci.py --full` runs the 82 target-independent tooling tests in a
+  few seconds and must stay green. Source-spelling snapshot tests and
+  per-owner inspectors were removed on 2026-11-15; exactness evidence is the
+  canonical comparison, and nonexact progress is `check-frontier.py`.
 
 ## Storage / protected inputs / commit discipline
 

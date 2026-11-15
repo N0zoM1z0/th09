@@ -1,0 +1,124 @@
+# Source-present functions that are not exact yet, checked by scripts/check-frontier.py.
+# residual: hex byte offsets (ranges) that differ from the original after relocation
+# fields are masked. Never edit by hand; record improvements with --update.
+
+[frontier.enemy-on-update]
+function = "EnemyManagerView::OnUpdate"
+source = "src/EclManager.cpp"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+symbol = "?OnUpdate@EnemyManagerView@@SIHPAU1@@Z"
+address = 0x00410730
+size = 3900
+candidate_size = 3900
+target_sha256 = "a7f01c2ff0bda79d1fd17ac9170dc3560d4089457455d7928776df8556f1bc75"
+residual = ["19C", "1A3"]
+
+[frontier.replay-save]
+function = "ReplayManagerView::SaveReplay"
+source = "src/ReplayInput.cpp"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+symbol = "?SaveReplay@ReplayManagerView@@SIHPAU1@PBD1@Z"
+address = 0x00420C60
+size = 1238
+candidate_size = 1238
+target_sha256 = "a225c9a1aae3db79d6e31b22e77ccba892b38c44fe9572233cd6df24edb1cef3"
+residual = ["B7", "BB"]
+
+[frontier.replay-begin-playback]
+function = "ReplayManagerView::BeginPlaybackStage"
+source = "src/ReplayInput.cpp"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+symbol = "?BeginPlaybackStage@ReplayManagerView@@SIHPAU1@@Z"
+address = 0x00420840
+size = 540
+candidate_size = 540
+target_sha256 = "af0dd0d85e36de147b67c07e8790bd200adb04f2862496dac928b3731dff5f64"
+residual = ["14B-14C", "151-152", "157-15F"]
+
+[frontier.player-movement]
+function = "PlayerLifecycleView::UpdateMovementAndOptions"
+source = "src/PlayerMovement.cpp"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+symbol = "?UpdateMovementAndOptions@PlayerLifecycleView@@QAEHXZ"
+address = 0x0041C170
+size = 1900
+candidate_size = 1900
+target_sha256 = "64ea64884e978540c718d1691a4ae1b9866aaa8ec2296bafb158c4d8b1c628ca"
+residual = ["127-12A"]
+
+[frontier.player-charge-attack]
+function = "PlayerLifecycleView::UpdateChargeAttack"
+source = "src/PlayerChargeAttackUpdate.cpp"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+symbol = "?UpdateChargeAttack@PlayerLifecycleView@@QAEHXZ"
+address = 0x0041F810
+size = 1210
+candidate_size = 1210
+target_sha256 = "6c24be1a012fc3fa6148bd09954443318cc9db33d6b69a26ca1a778dfe6e5015"
+residual = ["8-A", "C-11", "14-16", "1B-1F", "24-29", "30", "37", "3B", "45", "47", "4D-4E", "53-5C", "5E-63", "68-6E", "70-75", "7A-80", "82-85", "87-8D", "92-9A", "9C-A0", "A5-AD", "B2-B6", "BB-C7", "CC-D4", "D9-DD", "E2-E6", "E8-EA", "EF-F3", "F8-100", "105-108", "10F", "1D0", "1E9", "23B", "23E", "240", "242", "248", "24D", "25B", "25E", "280", "28B", "2AE", "2B3-2B5", "2B9-2C0"]
+
+[frontier.player-bullet-collision]
+function = "PlayerLifecycleView::CheckBulletCollision"
+source = "src/PlayerCollisionHelpers.cpp"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+symbol = "?CheckBulletCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z"
+address = 0x0041DFF0
+size = 862
+candidate_size = 849
+target_sha256 = "9dcfe1aca4ac06526072014ee6f956120d9c1d84cc1bba044638556b9b82445c"
+residual = ["7-F", "11-2C", "2F", "31", "34-4A", "4F-66", "68-6D", "6F-8C", "91-BC", "C1-114", "116-122", "124-128", "12A-12E", "130-174", "176-184", "186-1A0", "1A5-1A8", "1AD-1B4", "1B9", "1BE-1CC", "1D1-1D6", "1DE", "1E3-1E4", "1E9-1EA", "1EF-1F0", "1F5-1F8", "1FD-205", "20A", "20F-21E", "223-230", "235-239", "23E-240", "245-24C", "24F-25B", "25D-268", "26A-26E", "270-271", "274-277", "27B-27C", "280-293", "295-296", "29B-2B1", "2B6", "2BB-2F1", "2F6-30E", "313-318", "31D-32C", "32F-346", "349-35D"]
+
+[frontier.effect-added-callback]
+function = "EffectManager::AddedCallback"
+source = "src/EffectManager.cpp"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+symbol = "?AddedCallback@EffectManager@@SIHPAX@Z"
+address = 0x0040D1C0
+size = 51
+candidate_size = 51
+target_sha256 = "ddad6b720c7c7d539d71ce27f74660951ebb6abb17fb58a616752a91b5760087"
+residual = ["3-5", "D"]
+
+[frontier.screen-shake-envelope]
+function = "ScreenEffect::CalcShakeEnvelope"
+source = "src/ScreenEffect.cpp"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+symbol = "?CalcShakeEnvelope@ScreenEffect@@SIHPAU1@@Z"
+address = 0x004227A0
+size = 336
+candidate_size = 336
+target_sha256 = "1d33957d51f8cc170471b9673a938899281cfa07fbed746eb0843e62e2597472"
+residual = ["B", "D", "12", "18", "1A", "1F", "26", "2A", "36", "44", "5B", "5E", "66", "85", "92", "95", "98", "A4", "109", "115", "123", "12D", "13B", "142", "147", "14B"]
+
+[frontier.title-update-result]
+function = "TitleScreenView::OnUpdateResult"
+source = "src/TitleScreen.cpp"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+symbol = "?OnUpdateResult@TitleScreenView@@QAEHXZ"
+address = 0x004266B5
+size = 485
+candidate_size = 484
+target_sha256 = "526beca1d1f7fe3e410002739257bcf486d0c93e6246fae21f6f7902945e1d48"
+residual = ["E", "15", "CB", "FE-101", "106-10D", "110", "115-119", "11E-122", "125-12A", "12F-136", "13B-13E", "141-143", "146-14F", "154", "159-15A", "15F-168", "16D-17F", "184-187", "18C-18E", "193-19E", "1A3-1AA", "1AF-1CB", "1CE-1D5", "1D7-1E4"]
+
+[frontier.title-draw-replay-menu]
+function = "TitleScreenView::DrawReplayMenu"
+source = "src/TitleScreenReplayMenuDraw.cpp"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+symbol = "?DrawReplayMenu@TitleScreenView@@QAEHXZ"
+address = 0x004234F6
+size = 1280
+candidate_size = 1280
+target_sha256 = "d0201b3aae3727f7aa773187ac9ac6d21727c86342b657c780cb9353cdc39ed0"
+residual = ["185", "18B", "193", "19D-19E", "1A0-1A1", "1B6", "1BC", "1D3", "24A", "25A", "25C", "271-272", "29D", "2A3", "2C6", "2D7", "2F0", "2F5", "2FD", "304", "308", "316", "319", "31C", "31E", "321"]
+
+[frontier.supervisor-network-service]
+function = "SupervisorServiceUpdate"
+source = "src/SupervisorNetwork.cpp"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+symbol = "?SupervisorServiceUpdate@@YIHPAVSupervisor@@@Z"
+address = 0x00430AA0
+size = 1633
+candidate_size = 1629
+target_sha256 = "26d2783077746e99d8ec7240e444ff18c33861508cc63d6af8004bf5c9c1b31f"
+residual = ["D", "12-13", "18-22", "25-29", "2C-30", "33-37", "39-3D", "3F-40", "45", "4A-4B", "50", "55-56", "5B", "60-61", "66-6E", "73", "78-81", "84-8E", "90-92", "97-99", "9E-9F", "A4-A8", "AA", "AF-B8", "BA-BC", "C0-CE", "D0-D9", "DB-E1", "E6", "EB-F9", "FB-101", "106-110", "113", "118-11B", "120-123", "128", "12D-133", "135-138", "13D", "142-143", "148", "14D-154", "159", "15E", "161-163", "165-167", "16C", "171-177", "179-183", "186-187", "18C-1A5", "1AA-1BF", "1C2-1C5", "1C7-1CF", "1D1-1D8", "1DA-1DF", "1E4", "1E9-1FB", "1FD-1FF", "204", "209-20A", "20F-216", "218-21E", "221-22C", "22F-235", "238-239", "23E-257", "259-268", "26B-27C", "281", "286-288", "28A-293", "2A4-2A7", "2A9-2AB", "2AE-2AF", "2B4-2C0", "2C6-2C9", "2CB-2CE", "2D0-2D4", "2D6-2DC", "2DE-2E1", "2E4-2EA", "2EC-2EF", "2F2-2FA", "2FD-2FF", "302-30D", "30F", "322", "33C", "346", "353", "355", "360", "369", "36E-36F", "374-378", "37B-37C", "382", "387-38A", "38F-391", "393-395", "39A", "39F", "3A4-3A6", "3AB-3AE", "3B3", "3B8-3B9", "3BE-3C0", "3C2-3D4", "3D9-3E5", "3EA", "3EF-3F1", "3F4-3F5", "3F8-3FA", "3FF-401", "404-40F", "418-419", "41E-425", "42A-431", "436-43D", "442-449", "44B-44C", "451-452", "457-45A", "45E-461", "466-46A", "46D-46F", "472-47B", "480-484", "489", "48E-48F", "494-49A", "49F-4A4", "4A9-4AA", "4AF-4B3", "4B8-4BA", "4BF-4CA", "4CF-4D3", "4D8-4DB", "4E0-4E2", "4E7-4F2", "4F7-4F8", "4FD-4FF", "501-50D", "512-518", "51A-51B", "520-531", "533-538", "53A-545", "54A-54D", "54F-56A", "56F-57D", "580-581", "586-588", "58D-599", "59E-5A3", "5A8-5C4", "5C9-5F7", "5F9-600", "604", "609-619", "61E-624", "626-629", "62E-630", "632-638", "63D-646", "64B-64F", "654-660"]

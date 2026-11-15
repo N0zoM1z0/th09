@@ -48,9 +48,8 @@ Only true **exact** witnesses are replayed; every nonexact owner still needs its
 own original-bound boss inspector. A default cap of **8** physical compiler
 jobs prevents a broad header from silently launching an enormous cold sweep;
 `--max-carriers N` requires an explicit operator override (maximum 64).
-It intentionally provides no `--all` and refuses a missing selection. It is not a nonexact-boss inspector:
-for a changed ECL, Enemy, Title, or Effect boss, also run its separate
-`check-boss-frontiers.py --owner NAME --skip-exact-siblings` or other complete
-original-bound diagnostic. Do not count equal fragments or “near” percentages as
+It intentionally provides no `--all` and refuses a missing selection. It does not
+check nonexact functions; also run `scripts/check-frontier.py` for any nonexact
+function whose source changed. Do not count equal fragments or “near” percentages as
 exact. A canonical manifest row by itself does not establish the full Windows
 product link/runtime or persistent Factory registry acceptance.

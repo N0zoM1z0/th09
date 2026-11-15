@@ -119,8 +119,10 @@ Oracles for reconstruction, tracking/progress for ledger changes, documentation
 validation for routing/status claims, and relevant tooling tests. Use
 `python3 -B scripts/ci.py` for fast syntax/public-file, ledger, link, progress
 and whitespace checks;
-`python3 -B scripts/ci.py --full` explicitly adds the optional unit suite.
-Neither command compiles the game or replaces affected exact comparisons.
+`python3 -B scripts/ci.py --full` adds the tooling unit tests (seconds; must
+stay green). Neither command compiles the game or replaces affected exact
+comparisons: use `replay-scoped-exact.py` for exact units and
+`check-frontier.py` for nonexact functions touched by a source change.
 
 ## Knowledge and retention
 

@@ -22,6 +22,11 @@ owners and the unfinished product/runtime gates remain separate.
 
 ## Where to look
 
+Per-owner inspector, probe and `check-boss-frontiers.py` scripts named in
+older entries below were removed on 2026-11-15. Their conclusions stand;
+use `scripts/check-frontier.py` (nonexact) or `compare-coff-function.py`
+(exact) to re-measure.
+
 **Size accounting:** the canonical nonexact total (28,145 bytes) sums
 twelve authored `functions.csv` logical extents. The original-bound
 RunEcl, Enemy OnUpdate and Player movement inspections additionally

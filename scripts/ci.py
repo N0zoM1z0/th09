@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fast public checks; the historical test suite is an explicit --full option."""
+"""Fast public checks; --full also runs the target-independent tooling tests."""
 from pathlib import Path
 import argparse
 import json
@@ -39,7 +39,7 @@ def check_file(path: Path) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--full', action='store_true',
-                        help='also run all target-independent unit tests (optional, several minutes)')
+                        help="also run the target-independent tooling tests (a few seconds)")
     args = parser.parse_args()
     try:
         names = subprocess.check_output([
