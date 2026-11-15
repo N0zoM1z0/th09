@@ -38,17 +38,20 @@ compiler objects you need.**
 - **BeginPlaybackStage** is plain C++ and now 540/540 bytes (was 538/540).
 - **SaveReplay** and **Player movement** cast/address scaffolding was
   replaced by plain indexing with byte-identical codegen.
-- No further owner became exact. The pinned `c2.dll` register-choice path is
-  now more deeply mapped: `FUN_107821a7` drives graph analysis, then invokes
-  `FUN_107833f2` to clear a 0x4B-entry register-score table and accumulate
-  weighted interference costs, followed by `FUN_107831f7` for the assignment
-  pass. Enemy OnUpdate's two-byte EAX/ECX residual remains open. A gate-local
-  `volatile EnemySideStateView *` changes MOVZX/LEA to retail EAX/EAX, but
-  moves four following Float3 operator+ argument bytes to ECX/EDX; the
-  four-byte variant and its reference/overlay/helper/loop-scope spellings were
-  rejected. The maintained two-byte carrier is restored. Continue from the
-  C2 live-set/weighted-conflict question, not another spelling sweep; details
-  are in the 2026-11-15 knowledge-base entry.
+- No further owner became exact. The pinned `c2.dll` path is mapped through
+  `FUN_107821a7`, `FUN_1078368e`, `FUN_107833f2` (75 weighted register-score
+  slots), and `FUN_107831f7`. `FUN_1077c10f` creates 0x48-byte live-range records
+  that retain a pointer to their source IR node; `FUN_1077ff3b` walks the
+  live-set/bitset structures. The first observed color pick was an EBX-only
+  value (register ID 4), not the draw-group byte; do not use that score as an
+  explanation for EAX/ECX. A raw-register inline-assembly helper emits the
+  desired EAX/EAX pair but moves five local stack homes and four Float3 call
+  argument bytes, producing 22 other differences. Twenty-four declaration
+  permutations, sixteen local-scope combinations, and six `register` index
+  forms did not improve it. All experiments were reverted; the maintained
+  two-byte carrier is intact. The exact `drawGroup3387` live-range record and
+  candidate costs remain to be identified; see the 2026-11-15 C2 node-trace
+  knowledge-base entry.
 - `SupervisorServiceUpdate` remains 1,629/1,633 bytes / 1,038 differences.
   Attested Ghidra decomp confirms the retail result local is initialized to
   zero, set to one on the retry path, and returned from both retry and
@@ -150,16 +153,16 @@ tool upgrade.
 
 ## Next steps (ranked)
 
-1. **Compiler model (the only open lead).** Continue from the mapped
-   `c2.dll` scoring path: identify the virtual value for Enemy's draw-group
-   byte and compare its candidate-register availability/weighted conflict
-   costs. `FUN_107833f2` clears 75 score slots and accumulates weighted
-   interference costs before `FUN_107831f7` assigns colors. The unresolved
-   question is why the source graph makes ECX win the draw-group byte while
-   the same graph also rotates the following Float3 call's hidden-return and
-   explicit-argument registers when a volatile gate pointer is introduced.
-   The ignored scratch project is reusable; rebuild from the hash-checked
-   pinned backend outside any `.`-prefixed path only if it is absent.
+1. **Compiler model (the only open lead).** Identify the exact
+   `drawGroup3387` load/result live-range record, following the source-IR
+   pointer retained by `FUN_1077c10f` into `FUN_107833f2`'s candidate scoring
+   and `FUN_107831f7`'s assignment. Do not infer the target value from the
+   first observed color pick: it is a different EBX-only virtual value with
+   only register-ID-4 available. The current two-byte carrier is protected;
+   raw inline assembly fixes the branch pair but regresses five stack homes
+   and the following Float3 call. The ignored scratch project is reusable;
+   rebuild from the hash-checked pinned backend outside any `.`-prefixed path
+   only if it is absent.
 2. Continue `SupervisorServiceUpdate` from the newly confirmed result-home
    mismatch. Recover the original `[ebp-4]` local lifetime and the `PopFrame`
    scratch layout without forcing an enlarged volatile/address-taken frame.
