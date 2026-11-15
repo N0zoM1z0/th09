@@ -7474,11 +7474,15 @@ layout. The existing byte-emission alignment shim is a narrow retained source
 workaround, not an exactness proof or a pattern to expand.
 
 The focused checks in this checkpoint rebuilt only PlayerCollisionHelpers.cpp
-and compared the exact graze sibling. No full cold replay was run. Do not
-promote the boss based on equal extent, relocation inventory or call order;
-require a complete accepted Oracle receipt. Historical collision trials above
-this section remain failed experiments and should not be mistaken for the
-current source or current comparison.
+and compared the exact graze sibling. A later dirty `PlayerPositionView *
+volatile *positionArgument` alias that redirected the position reads regressed
+the candidate to 876/862 bytes and 742 differing offsets; it was reverted.
+The maintained baseline remains 849/862 bytes and 716 differing offsets. No
+full cold replay was run. Do not promote the boss based on equal extent,
+relocation inventory or call order; require a complete accepted Oracle
+receipt. Historical collision trials above this section remain failed
+experiments and should not be mistaken for the current source or current
+comparison.
 
 ## 2026-11-13 GPT-web: TH09 boss reconstruction session
 

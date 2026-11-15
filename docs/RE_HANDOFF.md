@@ -48,7 +48,9 @@ compiler objects you need.**
   another spelling sweep.
 - A `ScreenEffect::CalcShakeEnvelope` duration-reference probe regressed to
   340/336 bytes / 252 differences and was reverted; its 336-byte/26-offset
-  baseline remains intact.
+  baseline remains intact. A volatile `positionArgument` alias in
+  `CheckBulletCollision` regressed to 876/862 bytes / 742 differences and was
+  reverted; its maintained 849/862-byte baseline remains intact.
 
 ## Remaining source-present nonexact owners
 
