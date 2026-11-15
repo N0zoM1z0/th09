@@ -7907,3 +7907,57 @@ protected byte set. Keep the committed `853/862`, 692-difference carrier as
 the baseline; do not update the frontier metadata to any of these diagnostic
 candidates. Only focused Player collision builds were used; no full cold
 replay was run.
+
+## 2026-11-15 GPT-web: reversed collision geometry layout and owner follow-ups
+
+A fresh nested-loop `CheckBulletCollision` probe found a better diagnostic
+carrier than the protected 853/862-byte, 692-difference source. It moves the
+circle test/path into the inner scan and exits that scan to the square/rotated
+path only when the radius is zero. This reverses the earlier nested-loop
+layout and recovers the retail branch direction: circle is the fall-through
+path and square geometry is reached by the conditional branch.
+
+The best candidate measured **840/862 bytes, 632 differing offsets, 279
+instructions, 32 directly decoded CFG blocks, 12 calls and all 26 relocation
+fields**. It preserves the original prologue/register ownership, aligned
+header and top-of-loop null read. Its five unconditional backedges to the
+header are one too many (retail has four); the region-type/delay guard is
+three bytes shorter than retail, and the cancel/reward tail has a distinct
+register/order schedule and leaves 22 physical bytes missing. It therefore
+breaks protected byte matches and is **diagnostic only**: the frontier
+metadata and maintained source remain at 853/862 and 692 differences.
+
+The exact-sibling replay for that diagnostic source still passed all five
+unrelated collision units: 1,220 physical bytes and 32 relocation fields.
+A follow-up that merged invalid-region and circle-miss increments into one
+nested-loop latch reduced the body to 835/862 bytes but regressed to 683
+differences and changed the circle block layout. It was rejected. The useful
+next step is to retain the 840-byte path order while recovering the target's
+four-latch topology and then attack the reward-tail live ranges; do not simply
+merge all scan failures into one source label.
+
+### Other owner probes from this session
+
+- `EnemyManagerView::OnUpdate` remains at 3,900/3,900 bytes and the same two
+  register bytes (`movzx eax` versus `movzx ecx` for the draw-group byte). A
+  function-scope `drawHead`, an `unsigned int` helper parameter, direct
+  pointer arithmetic, and a switch for the side-category test did not fix the
+  two-byte residual; the switch changed 463 offsets and was reverted.
+- `SupervisorServiceUpdate` had an uncommitted scratch-union plus cached
+  `SupervisorNetworkState *` experiment. Its focused owner check regressed
+  from the protected 1,629/1,633-byte, 1,038-difference baseline to
+  1,540/1,633 bytes and 1,155 differences. This experiment was reverted; the
+  original baseline is restored.
+- `ScreenEffect::CalcShakeEnvelope` retained its same 26-byte receiver/timer
+  register-swap residual after pointer-versus-reference timer aliases,
+  direct timer-member accesses, a function-scope receiver alias, and local
+  declaration-order probes. Moving `endFrame` before the timer alias worsened
+  the owner to 39 differences; that variant was reverted.
+- `TitleScreenView::OnUpdateResult` retained its 484/485-byte, 167-difference
+  baseline. Passing a saved character value instead of re-reading its table
+  slot, direct array indexing, and a force-inlined fastcall table accessor
+  regressed to 483/485 bytes and 171 differences; these variants were
+  reverted.
+
+All measurements were focused pinned-VC7.1 owner builds. No full cold replay
+was run, and no nonexact owner received exactness credit.
