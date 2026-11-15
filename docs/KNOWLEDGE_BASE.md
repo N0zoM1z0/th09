@@ -5655,7 +5655,10 @@ profile; none was kept.
   indexing re-allocate the whole function (~1,380 bytes); the residual is
   tied to its existing local structure.
 - **Effect AddedCallback.** Local order, local-vs-global receiver and cast
-  spellings do not change the EDI/ECX order.
+  spellings do not change the EDI/ECX order. A reference alias and a pointer
+  alias for `manager->effectAnm` at the final store both retained the 51-byte,
+  four-difference baseline; neither makes the manager snapshot load directly
+  into EDI.
 - **Supervisor network service / ApplyNetworkInput.** The original callee
   is `u16 __fastcall ApplyNetworkInput(int, u16)` (`?ApplyNetworkInput@@YIGHG@Z`,
   still 131/131 exact). With that prototype the service's final block takes
