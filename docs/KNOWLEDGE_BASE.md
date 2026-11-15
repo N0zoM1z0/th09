@@ -8216,3 +8216,42 @@ Focused `check-frontier.py enemy-on-update`, `player-bullet-collision`, and
 collision owner remains 853/862 bytes with 692 residual offsets; the network
 service remains 1629/1633 bytes with 1038 residual offsets. No full cold replay
 was run, and no source carrier was changed by these diagnostic probes.
+
+## 2026-11-15 GPT-web: SupervisorServiceUpdate result-home and out-parameter analysis
+
+Attested Ghidra analysis of `SupervisorServiceUpdate @ 0x00430AA0`
+(`.analysis/ghidra-direct/export-20261115T190745-2/function-00430aa0.c`)
+clarifies the stack-home mismatch. Retail has a zero-initialized result local
+(`local_8`) that is set to `1` on the `uVar9 < 0x4e21` retry path and returned
+on both that exit and the synchronized-frame exit. The two `PopFrame` calls
+share an eight-byte scratch region for the pair of seeds and the predicted
+value; the retail result home occupies `[ebp-4]`, so those outputs begin below
+it. The current candidate optimizes the result's `0/1` value to constants and
+reuses `[ebp-4]` for a `PopFrame` out-parameter, which shifts the later output
+addresses and contributes to the 1,038-byte residual.
+
+Focused source probes:
+
+- Making `result` volatile forces a stack store, but VC7.1 places it at
+  `[ebp-0xc]`, expands the frame from `0x14` to `0x18`, and changes the owner
+  to 1,641/1,633 bytes with 979 differences. Moving its declaration before
+  `Supervisor *s`, or permuting `result/now/returnState`, does not move that
+  home to `[ebp-4]`.
+- Taking `&result` through a volatile pointer/reference expands the frame to
+  `0x1c` and yields 1,644/1,633 bytes / 971 differences; making the pointer
+  itself volatile is worse (1,656/1,633 / 1,113).
+- Hoisting the final block's `inputs[2]`, `seed0`, `seed1`, and `predicted`
+  declarations to function scope increases the frame to `0x1c` (plain result)
+  or `0x20` (volatile result), rather than recovering the retail slot order.
+  Grouping the seed/predicted outputs into a local struct also fails to
+  restore `[ebp-4]`; the volatile form moves the result to `[ebp-0x10]`.
+- Merging the `result` and `returnState` locals into one integer is not an
+  improvement: the compiler still folds the value into branch constants and
+  retains the same 1,038-byte residual.
+
+All probes were reverted. The maintained carrier remains 1,629/1,633 bytes /
+1,038 differing offsets. The next useful experiment must reproduce the
+original result-home lifetime/stack-allocation order without forcing a larger
+volatile/address-taken frame; repeating `volatile result` or simple
+ declaration-order permutations is not productive. No full cold replay was
+run.
