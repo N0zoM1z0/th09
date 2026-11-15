@@ -49,13 +49,15 @@ compiler objects you need.**
 - A `ScreenEffect::CalcShakeEnvelope` duration-reference probe regressed to
   340/336 bytes / 252 differences and was reverted; its 336-byte/26-offset
   baseline remains intact.
-- **Player CheckBulletCollision** improved from 849/862 and 716 differing
-  unmasked offsets to 853/862 and 692. The target prologue/loop-entry carrier
-  now matches through the null check; five exact same-TU siblings passed the
-  scoped replay. See the 2026-11-15 knowledge-base entry for the remaining
-  9-byte extent and body differences. A volatile `positionArgument` alias in
-  `CheckBulletCollision` regressed to 876/862 bytes / 742 differences and was
-  reverted; its maintained 849/862-byte baseline remains intact.
+- **Player CheckBulletCollision** has a protected 853/862-byte, 692-difference
+  carrier. A new nested-loop geometry ordering reached a **diagnostic-only
+  840/862 bytes / 632 differences** and restored the retail circle-first
+  branch layout; it still has five backedges versus the target's four and a
+  mismatching reward tail, so it was not promoted. The 840-byte candidate's
+  five exact same-TU siblings passed scoped replay (1,220 bytes / 32 fields).
+  The maintained source and frontier metadata remain at 853/862. See the
+  2026-11-15 knowledge-base entries for the 840-byte and rejected 835-byte
+  loop carriers.
 
 ## Remaining source-present nonexact owners
 
@@ -65,17 +67,17 @@ numbers.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| **Enemy OnUpdate** | 0x00410730 | 3,900/3,900, **2 bytes** (+0x19C/+0x1A3) (EclManager `/O2 /Ob1`) | Early draw-group index ECX vs EAX. Removing the `volatile sideState` read brings back 13 bytes. `check-frontier.py enemy-on-update`. |
+| **Enemy OnUpdate** | 0x00410730 | 3,900/3,900, **2 bytes** (+0x19A/+0x1A1) (EclManager `/O2 /Ob1`) | Early draw-group index ECX vs EAX. Helper parameter width, direct address arithmetic, function-scope `drawHead`, switch and early-goto shapes retain the two-byte residual. `check-frontier.py enemy-on-update`. |
 | **Replay SaveReplay** | 0x00420C60 | 1,238/1,238, **2 bytes** (+0xB7/+0xBB) (`/O2 /Ob1`) | Header-copy buffer load ECX vs EDI; source is now plain. 128 spelling combinations are byte-neutral. `replay-save`. |
 | **Player movement** | 0x0041C170 | 1,900/1,900, 8 bytes (4 masked) at +0x127 (`/O2 /Ob1`) | `g_GameConfiguration`/`sideIndex` load order; every subscript spelling compiles side-first. `player-movement`. |
-| **Effect AddedCallback** | 0x0040D1C0 | 51/51, 8 bytes (4 masked) (`/O2 /Ob1`, no `/EHsc`) | ESI/EDI swap; exhaustive sweeps show retail is unreachable from the body alone. `effect-added-callback`. |
+| **Effect AddedCallback** | 0x0040D1C0 | 51/51, **4 bytes** in two windows (`/O2 /Ob1`, no `/EHsc`) | Retail uses EDI for the global ANM manager and ESI for callback context; current source reverses the setup order. Direct-global-for-both and local-snapshot-for-both probes regressed to 25 and 7 differences respectively. `effect-added-callback`. |
 | **Title OnUpdateResult** | 0x004266B5 | **484/485**, one site at +0xFD (Title `/O1 /Ob1`, no `/Oi`) | Retail keeps the selected character in CL and sign-extends separately; VC7.1 folds ours (only a real intervening store unfolds it). That single site causes the 1-byte shift behind ~166 masked differences. `title-update-result`. |
 | **ScreenEffect shake** | 0x004227A0 | 336/336, 26 bytes (`/O2 /Ob1`) | ESI/EDI `screenEffect`/`&timer` swap. `screen-shake-envelope`. |
 | **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 29 bytes (Title `/O1 /Ob1`) | Selected-record EDX/ECX. `title-draw-replay-menu`. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540/540**, 13 masked / 19 raw at +0x14B–0x15F (`/O2 /Ob1`) | Plain C++ (no `volatile` alias). VC7.1 hoists the `sides[0].runtime` load above the +0x37C store; retail issues it after the +0x1E8 load. Statement moves/swaps, array and side-pointer forms do not move it. `replay-begin-playback`. |
 | **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Current `short`/`volatile` forms are compensation. `player-charge-attack`. |
-| **Player CheckBulletCollision** | 0x0041DFF0 | **853/862**, 692 differing unmasked offsets / 26 relocation fields (`/O2 /Ob1`) | Loop-entry carrier now matches the retail prologue through the null check; 9-byte extent gap, extra post-null NOP, x87/AABB/reward scheduling and tail layout remain. Five exact siblings replayed successfully. `player-bullet-collision`. |
-| **Supervisor network service** | 0x00430AA0 | 1,629/1,633, ~266/417 aligned instructions (`/O2 /Ob1`) | Retail keeps the network pointer in EDI and result in `[ebp-4]`; ours CSEs constant `1` into EDI and folds the result home. Snapshot/predicate/return-shape probes did not improve it. `supervisor-network-service`. |
+| **Player CheckBulletCollision** | 0x0041DFF0 | **853/862**, 692 differing offsets / 26 relocation fields (`/O2 /Ob1`) | Protected carrier. Best unpromoted diagnostic is 840/862 / 632 differences with circle-first layout, 279 instructions, 32 decoded blocks and five backedges (target four). It breaks protected matches and leaves the reward tail short; do not update frontier metadata. Five exact siblings pass. `player-bullet-collision`. |
+| **Supervisor network service** | 0x00430AA0 | 1,629/1,633, **1,038 differing bytes** (`/O2 /Ob1`) | Retail keeps the network pointer in EDI and result in `[ebp-4]`; ours CSEs constant `1` into EDI and folds the result home. Snapshot/predicate/return-shape probes did not improve it. A scratch-union plus cached-pointer candidate regressed to 1,540/1,633 and 1,155 differences and was reverted. `supervisor-network-service`. |
 
 ## Reproduce *only* the changed compiler carriers
 
@@ -136,14 +138,19 @@ tool upgrade.
    remaining work is the source-to-IR interference difference. The ignored
    scratch project is reusable; rebuild from the hash-checked pinned backend
    outside any `.`-prefixed path only if it is absent.
-2. Continue the Player CheckBulletCollision boss from its new 853/862
-   carrier: remove the extra post-null alignment NOP without disturbing the
-   exact prologue, then attack the x87/AABB/reward body and the remaining
-   9-byte extent. Preserve its five exact siblings with scoped replay.
-3. In parallel, revisit the smaller source frontiers only with a new
-   lifetime/alias hypothesis: BeginPlaybackStage, Effect AddedCallback,
-   SaveReplay and ScreenEffect shake. Do not repeat the recorded spelling and
-   declaration-order sweeps.
+2. Continue the Player CheckBulletCollision boss from the 840/862
+   diagnostic geometry layout while keeping the 853/862 carrier protected:
+   recover the target's four-latch topology without reversing the circle-first
+   path, then attack the 22-byte physical shortfall and reward-tail live ranges.
+   Preserve its five exact siblings with scoped replay; never promote the
+   diagnostic candidate by weakening the protected-byte guard.
+3. Continue Enemy OnUpdate's two-byte EAX/ECX allocation question through the
+   mapped C2 weighted-conflict path, not another local spelling sweep. For
+   smaller owners, AddedCallback is currently four bytes (not the historical
+   one-byte diagnostic); only reopen it with a real context/global-pointer
+   lifetime hypothesis. Do not repeat the failed ScreenEffect aliases,
+   TitleResult table-index forms, or the documented BeginPlaybackStage and
+   SaveReplay variants.
 
 ## Practical pitfalls
 
