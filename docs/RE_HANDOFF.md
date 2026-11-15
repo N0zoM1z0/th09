@@ -43,21 +43,28 @@ compiler objects you need.**
   interference costs and preserves the first candidate on ties. See the
   knowledge-base sections "VC7.1 allocator: weighted register-conflict
   selection" and "VC7.1 C2 internal IDs and color-pass traversal". Enemy
-  OnUpdate's two-byte EAX/ECX residual remains open; the next useful question
-  is the specific live-set/interference cost of its draw-group byte, not
-  another spelling sweep.
+  OnUpdate's two-byte EAX/ECX residual remains open. Moving the draw-head
+  computation before the no-sprite test changes the group-byte register to
+  EDX and expands the owner to 27 differences; the current question remains
+  the exact C2 live-set/weighted-conflict cost, not another spelling sweep.
+- A narrow `SupervisorNetworkState *initialNetwork` alias after the critical
+  section did not change the 1,629/1,633-byte, 1,038-difference network
+  carrier. Volatile result-home probes expanded the frame to 0x18 and were
+  reverted; the target `[ebp-4]` home and EDI network pointer remain open.
 - A `ScreenEffect::CalcShakeEnvelope` duration-reference probe regressed to
   340/336 bytes / 252 differences and was reverted; its 336-byte/26-offset
   baseline remains intact.
 - **Player CheckBulletCollision** has a protected 853/862-byte, 692-difference
-  carrier. A new nested-loop geometry ordering reached a **diagnostic-only
-  840/862 bytes / 632 differences** and restored the retail circle-first
-  branch layout; it still has five backedges versus the target's four and a
-  mismatching reward tail, so it was not promoted. The 840-byte candidate's
-  five exact same-TU siblings passed scoped replay (1,220 bytes / 32 fields).
-  The maintained source and frontier metadata remain at 853/862. See the
-  2026-11-15 knowledge-base entries for the 840-byte and rejected 835-byte
-  loop carriers.
+  carrier. The best diagnostic remains **840/862 bytes / 632 differences**
+  with the retail circle-first branch order, but it has five backedges versus
+  the target's four and a short reward tail. New loop-latch probes bracketed
+  the topology: a two-level shared-latch form reached 827/862 / 691 differences
+  with three backedges (geometry latches tail-merged); a deeper form reached
+  837/862 / 660 differences with five backedges (two inner scan latches).
+  A one-loop form rotated the null test to the bottom. None was promoted.
+  The 840-byte candidate's five exact same-TU siblings passed scoped replay
+  (1,220 bytes / 32 fields). The maintained source and frontier metadata
+  remain at 853/862. See the 2026-11-15 collision-latch convergence entry.
 
 ## Remaining source-present nonexact owners
 
@@ -139,11 +146,15 @@ tool upgrade.
    scratch project is reusable; rebuild from the hash-checked pinned backend
    outside any `.`-prefixed path only if it is absent.
 2. Continue the Player CheckBulletCollision boss from the 840/862
-   diagnostic geometry layout while keeping the 853/862 carrier protected:
-   recover the target's four-latch topology without reversing the circle-first
-   path, then attack the 22-byte physical shortfall and reward-tail live ranges.
-   Preserve its five exact siblings with scoped replay; never promote the
-   diagnostic candidate by weakening the protected-byte guard.
+   diagnostic geometry layout while keeping the 853/862 carrier protected.
+   The target has four backedges: one shared invalid/circle-miss latch, distinct
+   rotated-square and AABB latches, and a cancel-invalid latch. The two-level
+   probe reached three because geometry latches tail-merged; the deeper probe
+   reached five because invalid/delay and circle miss remained separate.
+   Find a source shape with exactly four while retaining the top-tested header
+   and circle-first branch, then attack the 22-byte shortfall and reward tail.
+   Preserve its five exact siblings with scoped replay; never weaken the
+   protected-byte guard.
 3. Continue Enemy OnUpdate's two-byte EAX/ECX allocation question through the
    mapped C2 weighted-conflict path, not another local spelling sweep. For
    smaller owners, AddedCallback is currently four bytes (not the historical
@@ -166,6 +177,10 @@ tool upgrade.
   recorded in the knowledge base.
 - Repository `.cpp/.hpp` files are CRLF in the working tree
   (`.gitattributes`); edit them with CRLF-aware tools.
+- `c2-analysis/` is a local scratch bundle containing the pinned C2 backend,
+  Ghidra project/dumps and source probes. Keep it available for the weighted
+  allocator investigation, but do not stage its DLL, analyzer database or
+  decompiler dumps in source commits.
 - A quoted `#include` resolves next to the including file first. To test an
   edited shared `.inl`/`.hpp`, copy the including `.cpp` next to it; `/I`
   order alone does not override `src/`.
