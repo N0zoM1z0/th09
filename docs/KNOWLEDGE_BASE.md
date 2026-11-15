@@ -7798,3 +7798,23 @@ fallback as an explicit `else` caused 460 differing bytes. The
 `EffectManager::AddedCallback` local-first/global-second receiver split was
 also tested and reverted (25 differing bytes). The maintained source remains
 unchanged; neither owner receives exactness credit.
+
+## 2026-11-15 GPT-web: EffectManager::AddedCallback register-order improvement
+
+Changed `EffectManager::AddedCallback` to use `g_AnmManager` directly for both
+`GetAnm` and the fallback `PreloadAnm`, instead of keeping a local manager
+snapshot used only by the fallback. This is a natural expression of the same
+manager owner; `GetAnm` does not replace the global manager pointer.
+
+The focused frontier moved from four differing bytes to one reported byte.
+The candidate is 50 bytes versus the 51-byte retail extent, and its prologue
+and call/register order now match retail: load the ANM manager into EDI, save
+the callback context in ESI, then call through EDI. The remaining byte is the
+absolute global operand: retail reads `[0x004dc550]`, while the candidate reads
+`[0x004dc54f]`. This points to a one-byte global storage-placement discrepancy,
+not a remaining register-allocation difference. The global's data ownership and
+layout still need investigation; this owner is not exact yet.
+
+Rejected variants: a local-first/global-second receiver split regressed to 25
+differences; an `AnmManager&` local for both calls reversed ESI/EDI and also
+regressed. The direct-global-for-both form is the maintained best result.
