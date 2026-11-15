@@ -8255,3 +8255,62 @@ original result-home lifetime/stack-allocation order without forcing a larger
 volatile/address-taken frame; repeating `volatile result` or simple
  declaration-order permutations is not productive. No full cold replay was
 run.
+
+## 2026-11-15 GPT-web: Enemy OnUpdate C2 node-trace correction and stack-home map
+
+The restricted raw-register inline-assembly helper is a useful diagnostic, not
+an acceptable carrier. It emits the exact early-branch pair
+`movzx eax,byte ptr [ebx+3387h]` / `lea eax,[esi+eax*4+2ac410h]`, but changes
+22 other unmasked bytes while preserving the 3,900-byte owner and 97
+relocations. The differences are not 22 independent logic errors: 18 bytes
+are five local stack-home references moving between two slot layouts, and the
+remaining four bytes rotate the force-death `Float3::operator+` argument setup
+from retail EDX/EAX to ECX/EDX.
+
+The pinned object's CodeView local records give the exact home permutation:
+
+| Local | Maintained carrier | Restricted-asm candidate |
+| --- | ---: | ---: |
+| `trailIndex` | `[ebp-0x0c]` | `[ebp-0x10]` |
+| `enemyIndex` | `[ebp-0x18]` | `[ebp-0x1c]` |
+| `hitKind` | `[ebp-0x10]` | `[ebp-0x14]` |
+| `damageOccurred` | `[ebp-0x1c]` | `[ebp-0x18]` |
+| `bombHit` | `[ebp-0x14]` | `[ebp-0x0c]` |
+
+The local-home map was confirmed directly from the `.debug$S` S_BPREL32
+records, not inferred from disassembly alone. Twenty-four declaration-order
+permutations and sixteen combinations of narrowing `damageOccurred`,
+`trailIndex`, `hitKind`, and `enemyIndex` scopes did not change the 22-byte
+candidate. `register` hints on each local did not change it either. Six
+`register` index/pointer spellings for the draw-group head all returned to
+the original two-byte baseline. A five-int local struct overlay collapsed the
+owner to 3,672 bytes / 3,246 differences and was rejected. Direct named
+inline-assembly at the branch produced 4,000 bytes / 3,388 differences and
+96 relocations, also rejected. No source change was promoted.
+
+Correct an earlier allocator interpretation: the first observed
+`FUN_107833f2` color pick is **not** evidence for the draw-group byte's EAX vs
+ECX choice. In the isolated compiler run it selected register ID 4 (EBX) for
+an opcode-`0xC02` virtual-value node at `0x00d6e630`; its available-register
+bitset had only bit `0x10` set. The node's source pointer is `0x00beef34`, its
+live-list pointer is at `+0x20`, and its register descriptor list is at
+`+0x38`. The trace logged the first 80 color picks, but the source-pointer
+objects and one level of pointer children did not expose the `0x3387` field
+symbol. The stale heap record at `0x00ca43d8` is not referenced by the active
+score-node map and must not be treated as the live draw-group IR node.
+
+The C2 function roles are also clarified: `FUN_1077c10f` creates a 0x48-byte
+interference/live-range record whose first dword points back to the source IR
+node; `FUN_1077ff3b` walks the live-set/bitset structures and is not the
+allocator graph-map builder. `FUN_107833f2` scores a virtual value's candidate
+registers, and `FUN_107831f7` performs the assignment pass. The remaining
+compiler-model task is to map the specific `drawGroup3387` load/result through
+its live-range record and identify the actual EAX/ECX candidate costs; do not
+reuse the EBX-only first-pick score as an explanation.
+
+The maintained `EnemyManagerCore.inl` and all frontier metadata are unchanged.
+Focused `check-frontier.py enemy-on-update player-bullet-collision
+supervisor-network-service` passes at 3,900/3,900 with 2 differences,
+853/862 with 692 differences, and 1,629/1,633 with 1,038 differences
+respectively. No full cold replay was run. The `c2-analysis/` scratch bundle
+remains untracked and must not be staged.
