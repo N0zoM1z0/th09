@@ -9052,6 +9052,19 @@ zero newly mismatching positions. The next step is to recover the shared
 retail branch ordering; a function-wide shared output union reduced the frame
 to 0x10 and introduced one new mismatch at +5, so it was not promoted.
 
+The maintained service return paths now use one natural local
+`ServiceReturnState` aggregate whose two fields carry the existing
+`SupervisorNetworkServiceResult` enum: `frameResult` for the ready/retry path
+and `waitResult` for the wait/reset path. This represents the separate
+network-service outcome lifetimes without a fabricated stack slot or extra
+call. The pinned compiler emits the **same complete 1,629-byte owner, all
+106 relocations, and the identical 1,038-position residual set**, so this is
+a typed state-machine recovery, **not** a matched-byte improvement or proof
+that the target's `[ebp-4]` result home has been reached. An alternative
+aggregate including the late frame outputs reduced the stack allocation to
+0x0C and introduced nine new unmatched positions; it was rejected. The
+nonexact code and the original original-bound frontier remain protected.
+
 ## 2026-11-16 GPT-web: retire CheckBulletCollision loop-entry padding
 
 A source audit found that the maintained `CheckBulletCollision` carrier had a
