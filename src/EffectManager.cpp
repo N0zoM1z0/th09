@@ -396,16 +396,21 @@ int EffectManager::OnDrawShared(EffectManager *effectManager)
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
+// Resolve the already resident shared projectile/Effect ANM first, then
+// preload the native slot if needed. The original callback has one manager
+// receiver live across both calls; it publishes only the final ANM handle.
+static inline AnmLoaded *ResolveEffectAnm(AnmManager *anmManager)
+{
+    AnmLoaded *effectAnm = anmManager->GetAnm(ANM_FILE_SLOT_ETAMA);
+    if (effectAnm->rawData04 == NULL)
+        effectAnm = anmManager->PreloadAnm(ANM_FILE_SLOT_ETAMA, "etama.anm");
+    return effectAnm;
+}
+
 int EffectManager::AddedCallback(void *context)
 {
     EffectManager *manager = static_cast<EffectManager *>(context);
-    AnmManager *anmManager = g_AnmManager;
-    // Keep the ANM manager snapshot for the preload path. The loaded resource
-    // is published to the owner after either lookup or preload completes.
-    AnmLoaded *effectAnm = g_AnmManager->GetAnm(ANM_FILE_SLOT_ETAMA);
-    if (effectAnm->rawData04 == NULL)
-        effectAnm = anmManager->PreloadAnm(ANM_FILE_SLOT_ETAMA, "etama.anm");
-    manager->effectAnm = effectAnm;
+    manager->effectAnm = ResolveEffectAnm(g_AnmManager);
     return 0;
 }
 

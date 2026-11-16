@@ -7996,6 +7996,19 @@ not the current carrier or an exactness claim. A new attempt needs a genuine
 context lifetime/use hypothesis, not another direct-global or local-snapshot
 spelling.
 
+
+Follow-up on 2026-11-16: `AddedCallback` now expresses the native one-manager
+receiver lifetime with a tiny file-local `static inline ResolveEffectAnm`
+helper. It loads `g_AnmManager` once, performs `GetAnm` and only the needed
+`PreloadAnm`, and publishes the final handle to the callback owner after the
+calls. This eliminates the source's former separate direct-global GetAnm
+lookup versus preloaded local snapshot without adding a new physical call or
+changing the lifecycle. Under the pinned target profile, the **complete
+51-byte callback is byte-identical to the previous four-difference carrier**.
+The same-source original-bound replay passes **15 exact Effect functions,
+2,530 physical bytes and 100 relocation fields**. The retail early EDI/ESI
+allocation remains unresolved, so no authored exactness credit was added.
+
 ## 2026-11-15 GPT-web: two-level and three-level collision latch convergence
 
 Continued the `CheckBulletCollision @ 0x0041DFF0` CFG work from the
