@@ -8487,3 +8487,71 @@ allocation-order change that swaps the two pushed Float3 arguments, rather than
 trying more pointer cv-qualifiers or lexical scopes. Preserve the current
 2-difference carrier unless both the EAX/EAX pair and the four Float3 bytes are
 recovered together.
+
+## 2026-11-16 GPT-web: Enemy OnUpdate C2 member remap and CheckBulletCollision CFG
+
+The Enemy OnUpdate two-byte draw-group register question was followed through
+more of the pinned C2 backend. `FUN_1078368e` recognizes AST node kind `0x26a`
+and records the low 12 bits of its `+0x0a` word in `local_14`. When
+`local_20 < local_14` and `local_20 != 2`, it calls `FUN_1073605a`. That helper
+walks the manager's two owned node lists and rewrites the low 12 bits of the
+`+0x0a` words on matching `0x26a` nodes and their linked operands, preserving
+the high `0xf000` flags; operand kind 2 also rebuilds the linked result through
+`FUN_1075ad59`. This is a later member-node normalization step, not the
+weighted register-choice loop.
+
+`FUN_107833f2` clears and accumulates the `0x10880680` weighted score table,
+then stores the selected descriptor pointer in the candidate node. Its
+`line=68814`, `vreg=7` event has an equal zero-score tie between the first two
+class-0 candidates and selects descriptor 1 by candidate order. The following
+`FUN_107831f7` path handles live register sets, interference, spill/cleanup,
+and register-mask bookkeeping. This narrows the remaining question to the
+source lifetime/interference that changes the selected code-generation
+register, rather than a missing member-expression or score-table update.
+
+The dirty gate-local `volatile EnemySideStateView *` experiment was inspected
+rather than ignored. It changes the draw-group `MOVZX`/scaled-LEA pair to EAX,
+but changes four subsequent `Float3::operator+` argument-register bytes at
+`+0x1ba/+0x1bf/+0x1c1/+0x1c3`. A volatile scalar flag local worsens the owner
+substantially; register-qualified Float3 pointer aliases and force-inline flag
+or world-position helpers do not recover the four argument bytes. These are
+rejected probes. The source was restored to the maintained carrier, and the
+focused frontier confirms 3900/3900 bytes with only the original two offsets
+`+0x19a/+0x1a1` differing. Do not reinstate the volatile-pointer variant.
+
+For `PlayerLifecycleView::CheckBulletCollision @ 0x0041dff0`, a fresh attested
+Ghidra export and the original instruction stream establish the target block
+order: the radius-zero test skips the circle path; a successful circle test
+falls through to the shared hit/cancel block; rotated-rectangle and AABB tests
+follow that block and jump backward to it on success. The shared loop advance
+is at `+0x19e`; the cancel-miss, rotated-miss, and AABB-miss paths retain their
+own increment/backedge sites at `+0x0a3`, `+0x133`, and `+0x194`. This four-latch
+layout is the important constraint, not merely the total number of `continue`
+statements.
+
+The saved `nested-840-632` source reproduces an 840/862-byte candidate with
+632 differing bytes, but it is not a ratchet-safe improvement: it changes the
+function extent and introduces new mismatches against the maintained
+853/862-byte carrier. Its hit/cancel block is still laid out after square
+geometry. The saved 835-byte candidate and a new attempt that merged the
+invalid/circle advance and moved the hit label before square geometry both
+compile to 835/862 with 683 differing bytes; C2 still schedules the shared
+hit block after square geometry. These candidates are diagnostic only and
+must not replace the maintained carrier or update `config/frontiers.toml`.
+
+Additional circle-comparison probes confirmed that operand order changes the
+x87 evaluation schedule: `radiusSquared <= distanceSquared` evaluates the
+radius side first and gives 853/862 with 693 differences; the inverted
+`distanceSquared >= radiusSquared` form produces an 847/862, 690-difference
+candidate but introduces new offsets and an unsuitable x87/branch layout.
+A register `distanceSquared` temporary does not repair it. Do not repeat these
+simple comparison inversions. The maintained CheckBulletCollision frontier
+remains 853/862 with 692 differing bytes; the maintained Enemy OnUpdate
+frontier remains 3900/3900 with two differing bytes. No full cold replay was
+run.
+
+Next useful collision work is to understand and influence C2's basic-block
+layout so circle success really falls through to the hit block while square
+success jumps backward, without changing the target x87 operand order or
+adding a fifth loop latch. Keep the current 853-byte carrier protected until
+a candidate introduces no new mismatches and has a deliberate extent decision.
