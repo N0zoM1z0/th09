@@ -78,11 +78,11 @@ int PlayerLifecycleView::CheckBulletCollision(
             PlayerCollisionRegionCreateRegionView **slot;
         } cursor;
     } scratch;
-    register float xDelta;
-    register float yDelta;
+    float xDelta;
+    float yDelta;
 
-    register Bullet *currentBullet = bullet;
-    register PlayerCollisionRegionCreateRegionView **slot = activeB100;
+    Bullet *currentBullet = bullet;
+    PlayerCollisionRegionCreateRegionView **slot = activeB100;
     PlayerCollisionRegionCreateRegionView *region;
     reinterpret_cast<volatile CollisionScratch *>(&scratch)->cursor.slot = slot;
 

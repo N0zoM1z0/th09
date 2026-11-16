@@ -9161,5 +9161,12 @@ set. The dirty nested carrier was examined and saved as an ignored diagnostic;
 `for`-loop. Do not treat this as an accepted frontier reduction or an exact
 owner until the block scheduler mismatch and new differences are resolved.
 
+The four remaining `register` declarations in the maintained C++ collision
+owner (`xDelta`, `yDelta`, `currentBullet`, and `slot`) were removed. Pinned
+VC7.1 produces the **same 842/862-byte, 705-difference owner** without these
+register-allocation hints; the five exact same-source siblings still replay
+successfully (1,220 physical bytes, 32 relocation fields). This is a
+source-integrity change with zero codegen drift, not a claim of exactness.
+
 Only this collision owner and its five same-source exact siblings need
 replay. No whole-product cold replay was run.
