@@ -8873,3 +8873,48 @@ retail global-receiver stores or introducing a new stack home.
 Only `supervisor-network-service` was compiled. The result is diagnostic, not
 accepted Oracle evidence; no frontier, source carrier, exact-match manifest,
 or full cold replay was changed.
+
+## 2026-11-16 GPT-web: CheckBulletCollision hit-dispatch and geometry block-layout probes
+
+The maintained `CheckBulletCollision @ 0x0041DFF0` source/frontier remains
+protected at **853/862 bytes / 692 differences**. This pass focused on the
+large-boss CFG order rather than changing the x87 operands or the existing
+collision predicates. The key target layout remains: nonzero-radius circle
+hit falls through to the small hit dispatcher at `+0x07E`; circle miss advances
+the region at `+0x19E`; zero radius branches to rotated/AABB geometry at
+`+0x0AB`; rotated/AABB success jumps backward to the dispatcher. The dispatcher
+selects the ordinary hit return at `+0x326`, skips to the invalid-region latch
+at `+0x0A3` when the special bullet is absent/invalid, or branches to the
+separate cancel-reward body at `+0x1A6`. Rotated and AABB misses retain their
+own target advances at `+0x133` and `+0x194`.
+
+### New source-shape experiments
+
+- Splitting the small hit dispatcher from the large cancel-reward body, and
+  moving the dispatcher into the nonzero-radius branch, still lets C2 place
+  the dispatcher **after** rotated/AABB geometry. The candidate is
+  `.analysis/PlayerCollisionHelpers.hit-inside-radius.cpp`
+  (`.analysis/player-bullet-collision-hit-inside-radius.obj`),
+  **849/862 bytes / 683 differences**. The generated circle path still jumps
+  forward to the dispatcher rather than falling through to it.
+- Making the rotated/AABB tests an explicit `else` branch of the radius test
+  produces the same **849/862 / 683** output and the same late dispatcher.
+  This shows that simple lexical nesting and an early source label do not
+  constrain the pinned C2 block placer.
+- A `switch`-shaped hit dispatcher is worse: **857/862 / 688 differences**.
+  C2 lowers the two special type cases to range checks (`cmp 2` / `jl`,
+  `cmp 3` / `jg`) rather than the target's equality-branch chain. Reject it.
+- Explicitly spelling separate increments for cancel-invalid, rotated miss,
+  and AABB miss does not preserve separate latches: C2 tail-merges the
+  identical advance sequences back into one loop-backedge block. The resulting
+  candidate remains **849/862 / 683** and still has the late dispatcher.
+
+All candidates were saved under `.analysis/` for disassembly only.
+`src/PlayerCollisionHelpers.cpp` was restored, and no frontier or protected
+match metadata was changed. The current experiment confirms that the remaining
+problem is C2's block ordering and latch merging, not a missing collision test.
+Do not repeat the split-dispatch, radius-branch nesting, switch dispatch, or
+identical inline-increment variants. Next, influence the dispatcher successor
+ordering and preserve the four distinct target backedges without changing x87
+operand order or introducing a boolean hit latch. Only
+`player-bullet-collision` was compiled; no full cold replay was run.
