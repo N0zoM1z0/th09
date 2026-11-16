@@ -576,6 +576,21 @@ fidelity in both major queue processing and related exact leaf carriers,
 without promoting any of the still-open source-present functions or
 claiming a native Windows product/runtime.
 
+Compiler-wrapper provenance reconciliation (2026-11-16): The reviewed
+`0x0043E170` body is a 33-byte i386 `__thiscall` scalar deleting destructor
+(`ECX=this`, stack deletion flags, `RET 4`). The original calls the independent
+`SoundManagerProcessView::~SoundManagerProcessView @ 0x0043F7A0`, conditionally
+calls operator delete at `0x0047B249` when flag bit zero is set, and returns
+the object pointer. Packet 116 pinned VC7.1 evidence independently produced
+the same wrapper; a fresh selected-unit replay also verified the natural
+`SoundPlayer::Release @ 0x0043EEB0` caller as **232/232 byte exact**. The
+`functions.csv` row now records its compiler ABI, descriptive name and
+**excluded** status, agreeing with the existing high-confidence
+`compiler_generated/exclude` origin. It earns **no authored exact credit**;
+the 23-byte DirectX SDK manager destructor remains separately third-party.
+This status correction does not change the authored denominator, 1,026 exact
+owners, or 35 genuinely origin-unresolved candidates.
+
 ## 2026-11-11 native Ending script ANM VM and live text byte slots
 
 The exact `Ending::RunEndingScript` interpreter has **1,499 reviewed
