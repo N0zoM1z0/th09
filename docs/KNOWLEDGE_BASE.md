@@ -53,7 +53,7 @@ not instructions to restore old scratch experiments or previous snapshots.
 
 **Retention at the 2026-11-13 handoff:** superseded probe binaries, copied
 sources, JSON result dumps and compiler intermediates were removed to save
-space. A small number of ignored `.analysis/gpt-web/*prove*.py` helpers remain
+space. A curated set of ignored `.analysis/gpt-web/*prove*.py` helpers remains
 as **templates**, not current-source proof receipts. Recompile the affected
 carrier and check original PE bytes and all relocations afresh. Do not treat
 a missing historical experiment script or a dated receipt as a blocker.
@@ -8905,7 +8905,9 @@ own target advances at `+0x133` and `+0x194`.
   identical advance sequences back into one loop-backedge block. The resulting
   candidate remains **849/862 / 683** and still has the late dispatcher.
 
-All candidates were saved under `.analysis/` for disassembly only.
+The best 849/862 / 683 candidate source/object above is retained for
+follow-up disassembly; the other one-off source copies and compiler objects
+from this batch were pruned after their results were recorded. The maintained
 `src/PlayerCollisionHelpers.cpp` was restored, and no frontier or protected
 match metadata was changed. The current experiment confirms that the remaining
 problem is C2's block ordering and latch merging, not a missing collision test.
