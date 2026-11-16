@@ -179,11 +179,11 @@ tool upgrade.
    `+0x133`, `+0x194`, and `+0x19e`. The saved `840/862`, 632-difference
    diagnostic has five backedges and new offsets; the `835/862`, 683-difference
    candidate has four but C2 still schedules hit/cancel after geometry. The
-   combined common-invalid/circle-latch and pre-square-hit attempt also
-   collapses to that 835-byte shape. Radius comparison inversions change the
-   x87 schedule and are rejected. Next, influence C2 block layout without
-   changing the x87 operand order or adding a latch. Never update the frontier
-   for a candidate with new differences.
+   common-invalid/circle-latch plus pre-square-hit attempt also collapses to
+   that 835-byte shape. Radius-first and comparison-inversion probes alter the
+   x87 schedule or add new mismatches. Next, influence C2 block layout without
+   changing x87 operand order or adding a latch. Never update the frontier for
+   a candidate with new differences.
 2. **SupervisorServiceUpdate (large boss).** Continue from the confirmed
    `[ebp-4]` result-home mismatch. Recover the original local lifetime and the
    `PopFrame` scratch layout without forcing an enlarged volatile/address-taken
@@ -192,19 +192,24 @@ tool upgrade.
    home live while the two seed outputs occupy the lower slots.
 3. **Enemy OnUpdate (two-byte frontier).** The maintained carrier is
    `3900/3900` bytes with only `+0x19a/+0x1a1` differing. C2 line 68814 / vreg 7
-   ties the first two class-0 descriptors at zero score; `FUN_107833f2` chooses
-   descriptor 1 by table order, while `FUN_107831f7` performs later liveness,
-   interference, and spill bookkeeping. `FUN_1078368e`/`FUN_1073605a` also
-   normalize `0x26a` member-node type words, so inspect that IR lifetime path
-   rather than repeating spelling sweeps. The scoped volatile side-state
-   pointer fixes the EAX/EAX pair but regresses four following Float3 argument
-   bytes; scalar volatile, register-pointer, and force-inline helper probes do
-   not recover them. Do not reinstate the rejected volatile-pointer variant.
-4. **Smaller owners.** AddedCallback is currently four bytes (not the
-   historical one-byte diagnostic); only reopen it with a real
-   context/global-pointer lifetime hypothesis. Do not repeat the failed
-   ScreenEffect aliases, TitleResult table-index forms, or the documented
-   BeginPlaybackStage and SaveReplay variants.
+   has live-set mask `0x19E`; class-0 candidates 1 and 2 tie at zero score and
+   ordered scan chooses descriptor 1, which the candidate emits as ECX. Retail
+   uses EAX only at the early restricted-side draw-group site; the ordinary
+   draw-group site already uses EDX in both builds. Descriptor 2's physical
+   mapping is not yet independently proved. Next, trace vreg 7 through
+   `FUN_10770294`/`FUN_10770248` (live-range overlap and kind-`0x0b` bitset
+   interference), with `FUN_10759f2c`/`FUN_1075a28a` as the bitset insert/subtract
+   helpers. Do not repeat pointer, helper, parameter-width, same-local reuse,
+   or register-hint sweeps. The scoped volatile side-state pointer fixes the
+   EAX/EAX pair but regresses four following Float3 argument bytes; do not
+   reinstate it.
+4. **Smaller owners.** `EffectManager::AddedCallback` remains 51/51 bytes with
+   4 differences; `ScreenEffect::CalcShakeEnvelope` remains 336/336 with 26.
+   The ANM-manager receiver-order and ScreenEffect/timer register-hint probes
+   did not improve either owner. Only reopen them with a new, specific
+   live-range hypothesis. Do not repeat the failed ScreenEffect aliases,
+   TitleResult table-index forms, or the documented BeginPlaybackStage and
+   SaveReplay variants.
 
 ## Practical pitfalls
 
