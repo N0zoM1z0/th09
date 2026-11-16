@@ -53,12 +53,12 @@ not instructions to restore old scratch experiments or previous snapshots.
 
 **Retention at the 2026-11-13 handoff:** superseded probe binaries, copied
 sources, JSON result dumps and compiler intermediates were removed to save
-space. A curated set of ignored `.analysis/gpt-web/*prove*.py` helpers remains
-as **templates**, not current-source proof receipts. Recompile the affected
-carrier and check original PE bytes and all relocations afresh. Do not treat
-a missing historical experiment script or a dated receipt as a blocker.
-The saved `.analysis/ghidra-direct/` analyzer project, original executable,
-compiler/toolchain and Git history have not been pruned.
+space. The remaining ignored `.analysis/gpt-web/` proof templates and variant
+corpora were also pruned on 2026-11-16 after their durable conclusions were
+captured here. Recreate only a narrowly scoped helper from current source if a
+new question requires it; a missing historical script or dated receipt is not
+a blocker. The saved `.analysis/ghidra-direct/` and `c2-analysis/` projects,
+original executable, compiler/toolchain and Git history have not been pruned.
 
 ## Practical interpretation
 

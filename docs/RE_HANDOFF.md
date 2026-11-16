@@ -232,10 +232,12 @@ tool upgrade.
 ## Storage / protected inputs / commit discipline
 
 Preserve `resources/th09.exe`, `.tools/` selectors/toolchain, the saved
-`.analysis/ghidra-direct/` project, `c2-analysis/`, `_reference/`, and the
-small `.analysis/gpt-web/*prove*.py` helper templates. Keep only the current
-best diagnostic sources explicitly referenced by this handoff/knowledge base.
-For the open C2 allocator question, retain `.analysis/c2-heap.bin`,
+`.analysis/ghidra-direct/` project, `c2-analysis/`, and `_reference/`. The old
+`.analysis/gpt-web/` proof templates and variant corpora were pruned after
+their conclusions were recorded; recreate a narrowly scoped helper only if a
+new question needs it. Keep only the current best diagnostic sources explicitly
+referenced by this handoff/knowledge base. For the open C2 allocator question,
+retain `.analysis/c2-heap.bin`,
 `.analysis/FUN_107844a4.decomp.txt`, and the selected GDB recipes
 `gdb-c2-member-register-flow.cmd`, `gdb-c2-conflict-predicate.cmd`,
 `gdb-c2-source-less-vreg7.cmd`, and `gdb-c2-offset-proof.cmd`. Their captured
