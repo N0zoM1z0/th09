@@ -9441,3 +9441,26 @@ instruction order but chose the wrong physical registers and caused
 1,109+ mismatches across the full function. These variants remain ignored
 and were not promoted. This is source-semantic fidelity, not an exact codegen
 claim; no cold replay was run.
+
+## 2026-11-16 GPT-web: unify service result ownership in a native union
+
+The maintained large `SupervisorServiceUpdate @ 0x00430AA0` now models
+`ServiceReturnState` as a **single union of two typed enum interpretations**,
+not two independently allocated integer fields. The `frameResult` domain
+contains `NETWORK_SERVICE_FRAME_READY` and `NETWORK_SERVICE_RETRY_FRAME`,
+whereas the mutually exclusive `waitResult` domain contains the
+`NETWORK_SERVICE_WAIT` and `NETWORK_SERVICE_RESET` states. Each branch writes
+only the member subsequently returned on that path; the late fully confirmed
+frame still returns the initialized frame result. This more faithfully
+represents the original single-result stack home and is natural C++ with
+no ASM, padding, naked function or register hint.
+
+The pinned VC7.1 compiler emits **byte-identical 1,629/1,633 codegen**,
+106 relocation fields, and the already ratcheted **966 differing offsets**.
+`volatile` union members did force an early physical result store, but also
+increased stack allocation to 0x18 and introduced hundreds of new
+mismatching positions, so those carriers were rejected. Aggregate brace
+initialization, member order and nonvolatile union storage remain
+byte-neutral. The correct target `[ebp-4]` result home and 4-byte extent
+gap still require further C++ lifetime reconstruction. The maintained source
+is still NONEXACT; no full cold replay or authored-exact claim was made.

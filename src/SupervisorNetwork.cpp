@@ -76,7 +76,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
     Supervisor *s = supervisor;
     // The service uses the real Supervisor queue records at +0x47C/+0x56C.
-    struct ServiceReturnState
+    union ServiceReturnState
     {
         SupervisorNetworkServiceResult frameResult;
         SupervisorNetworkServiceResult waitResult;
