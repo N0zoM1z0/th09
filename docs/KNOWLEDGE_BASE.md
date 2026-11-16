@@ -9614,3 +9614,25 @@ a complete macro-free compiled diagnostic were compared before source
 promotion. This is a meaningful removal of constructed integer-pointer
 views, not a claim of authored exactness. This isolated nonexact carrier has
 no accepted same-source exact units; no whole-product cold replay was run.
+
+## 2026-11-16 GPT-web: name native Enemy active and force-death flag bits
+
+The large `EnemyManagerView::OnUpdate @ 0x00410730` now consumes the actual
+shared `Th09EclEnemyPrimaryFlagBits` view of `EnemyView +0x337C` for its three
+per-record gates. The previously opaque bit 0 is named `active00`, bit 4 is
+`noSprite04`, and bit 8 is `forceDeath08`; the remaining unknown bit ranges
+stay explicitly unknown. The corresponding `EnemyCoreFlags` values
+`0x01`, `0x10`, and `0x100` independently anchor those positions. This
+removes the local copied DWORD/mask interpretation from the large calc and
+uses the real four-byte native bitfield object without changing any branch,
+read, write, callback, or sprite-list append.
+
+The pinned VC7.1 `/O2 /Ob1` owner remains **3,900/3,900 bytes, 97
+relocations, and exactly the two existing differences** at `+0x19A/+0x1A1`.
+All **84 exact EclManager owners** replayed successfully: **45,420 original
+physical bytes and 1,987 relocation fields**. The bitfield renames caused
+compiler-private local labels to be renumbered in three exact owners;
+**215** changed COFF symbols were rebound only after proving identical
+owner/symbol sections, unchanged relocation offsets/types, zero nonrelocation
+byte differences, and the exact same absolute retail PE destination for every
+one. No function received new exactness credit, and no full cold replay ran.

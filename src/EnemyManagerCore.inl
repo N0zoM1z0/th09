@@ -413,9 +413,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
              reinterpret_cast<unsigned int>(enemy) + sizeof(EnemyView)))
     {
         EnemyView **drawHead;
-        unsigned int flags = enemy->primaryFlags337C;
+        const Th09EclEnemyPrimaryFlagBits &primaryFlags = enemy->primaryFlagBits337C;
 
-        if ((flags & ENEMY_CORE_ACTIVE) == 0)
+        if (primaryFlags.active00 == 0)
         {
             // The shared native Player owns the tracking record at +0x30364.
             if (manager->sideState320->playerLifecycle04->tracking30364.homingTarget18 == enemy)
@@ -430,7 +430,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 (enemy->secondaryFlags3380 >> 10) & 3;
             if (sideCategory != 1 && sideCategory != 2)
             {
-                if ((flags & ENEMY_CORE_NO_SPRITE) != 0)
+                if (primaryFlags.noSprite04 != 0)
                     continue;
                 drawHead = NativeEnemyDrawHead(manager, enemy->drawGroup3387);
                 goto append_enemy_to_draw_group;
@@ -440,7 +440,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         {
             damageOccurred = 0;
 
-            if ((flags & ENEMY_CORE_FORCE_DEATH) != 0)
+            if (primaryFlags.forceDeath08 != 0)
             {
                 reinterpret_cast<Float3 &>(enemy->worldPosition2DD4) =
                     reinterpret_cast<const Float3 &>(enemy->position2D74) +

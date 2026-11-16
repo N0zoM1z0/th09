@@ -4,7 +4,7 @@
 // bit positions; unknown ranges do not imply an exhaustive Enemy layout.
 struct Th09EclEnemyPrimaryFlagBits
 {
-    unsigned int unknown00 : 1;
+    unsigned int active00 : 1;
     unsigned int boss01 : 1;
     unsigned int collision02 : 1;
     unsigned int damageable03 : 1;
@@ -12,7 +12,8 @@ struct Th09EclEnemyPrimaryFlagBits
     unsigned int unknown05 : 1;
     unsigned int acceptsDamage06 : 1;
     unsigned int specialInteraction07 : 1;
-    unsigned int unknown08_14 : 7;
+    unsigned int forceDeath08 : 1;
+    unsigned int unknown09_14 : 6;
     unsigned int mirrorMovementX15 : 1;
     unsigned int clampPosition16 : 1;
     unsigned int deathMode17 : 3;
