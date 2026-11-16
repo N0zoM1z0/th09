@@ -142,13 +142,13 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         {
             s->InsertPredictedFrame(
                 frameNetwork->localSide, frame,
-                (short)g_ReplayRng.GetSeed());
+                static_cast<short>(g_ReplayRng.GetSeed()));
             s->InsertPredictedFrame(
                 static_cast<int>(
                     1u - static_cast<unsigned int>(
                         g_SupervisorNetworkState->localSide)),
                 s->networkTiming458.frameCounter,
-                (short)g_ReplayRng.GetSeed());
+                static_cast<short>(g_ReplayRng.GetSeed()));
             // The original service increments the signed frame counter with
             // an i386 DWORD INC, whose physical result wraps modulo 2^32.
             s->networkTiming458.frameCounter = static_cast<int>(
@@ -168,10 +168,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                         {
                             g_Supervisor.InsertReceivedFrame(
                                 0, queuedFrame, 0,
-                                (short)g_ReplayRng.GetSeed());
+                                static_cast<short>(g_ReplayRng.GetSeed()));
                             g_Supervisor.InsertReceivedFrame(
                                 1, queuedFrame++, 0,
-                                (short)g_ReplayRng.GetSeed());
+                                static_cast<short>(g_ReplayRng.GetSeed()));
                         // Retail compares the signed result of a native
                         // i386 DWORD ADD, including its 32-bit wraparound.
                         } while (static_cast<int>(
@@ -185,7 +185,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                     SupervisorNetworkState *handshakeNetwork = g_SupervisorNetworkState;
                     g_NetworkHandshakePacket.type = 2;
                     g_NetworkHandshakePacket.side =
-                        (unsigned char)g_SupervisorNetworkState->localSide;
+                        static_cast<unsigned char>(g_SupervisorNetworkState->localSide);
                     g_NetworkHandshakePacket.syncRate = g_SupervisorNetworkState->syncRate;
                     g_NetworkHandshakePacket.syncValue = g_SupervisorNetworkState->syncValue;
                     g_NetworkHandshakePacket.seed =
@@ -215,7 +215,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
             HAVE_PACKET:
                 g_NetworkFramePacket.words.input =
-                    (unsigned short)Controller::GetInput(g_SupervisorNetworkState->localSide);
+                    static_cast<unsigned short>(Controller::GetInput(g_SupervisorNetworkState->localSide));
                 s->networkTiming458.frameCounter = static_cast<int>(
                     static_cast<unsigned int>(s->networkTiming458.frameCounter) + 1u);
                 s->networkTiming458.frameStartTime = timeGetTime();
@@ -226,7 +226,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             SupervisorNetworkState *packetNetwork = g_SupervisorNetworkState;
             g_NetworkFramePacket.type = 0;
             // The checksum uses the side captured before GetSeed.
-            signed char packetSide = (signed char)g_SupervisorNetworkState->localSide;
+            signed char packetSide = static_cast<signed char>(g_SupervisorNetworkState->localSide);
             g_NetworkFramePacket.side = packetSide;
             // The packet's signed frame field is serialized from a native
             // DWORD sum; preserve the same wraparound at the boundary.
@@ -243,7 +243,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 g_NetworkFramePacket.seed +
                 g_NetworkFramePacket.words.input;
             g_NetworkFramePacket.words.checksum =
-                (unsigned short)checksum;
+                static_cast<unsigned short>(checksum);
 
             packetNetwork->SendPacket(
                 &g_NetworkFramePacket, sizeof(g_NetworkFramePacket));
@@ -252,7 +252,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 g_SupervisorNetworkState->localSide,
                 g_NetworkFramePacket.frame,
                 g_NetworkFramePacket.words.input,
-                (short)g_NetworkFramePacket.seed);
+                static_cast<short>(g_NetworkFramePacket.seed));
         }
     }
 
@@ -301,8 +301,8 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
         s->networkTiming458.confirmedFrame = s->networkTiming458.frameCounter;
         s->networkTiming458.frameMode = 0;
-        inputs[0] = (unsigned short)s->PopFrame(0, &seed0, &predicted);
-        inputs[1] = (unsigned short)s->PopFrame(1, &seed1, &predicted);
+        inputs[0] = static_cast<unsigned short>(s->PopFrame(0, &seed0, &predicted));
+        inputs[1] = static_cast<unsigned short>(s->PopFrame(1, &seed1, &predicted));
         ApplyNetworkInput(0, inputs[0]);
         ApplyNetworkInput(1, inputs[1]);
         ApplyNetworkInput(2, inputs[0] | inputs[1]);

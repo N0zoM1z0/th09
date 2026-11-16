@@ -9015,6 +9015,15 @@ Only focused `enemy-on-update` and `supervisor-network-service` probe objects
 were compiled. No source carrier, frontier, exact-match manifest, or match-unit
 was promoted; no full cold replay was run.
 
+Follow-up natural-source cleanup replaced the C-style narrowing casts in the
+maintained 1,633-byte supervisor service with explicit typed C++ conversions:
+`short` inputs/seeds, unsigned `short` packet checksum and received-frame
+input, and `signed`/`unsigned char` packet sides. These preserve the native
+truncation/sign semantics. The pinned owner remains **1,629/1,633 bytes / 1,038
+masked differences** and keeps the same 97 relocations. The 1,591-byte natural
+clock diagnostic is unchanged and remains unpromoted; this update improves the
+source's type fidelity rather than claiming a new exact match.
+
 ## 2026-11-16 GPT-web: retire CheckBulletCollision loop-entry padding
 
 A source audit found that the maintained `CheckBulletCollision` carrier had a
