@@ -1,9 +1,7 @@
 #pragma once
 
-// Both Title replay renderers consume one actual 50-element ReplayDataView
-// allocation at Title+0x68E4, with the original physical 0x1EC stride.
-// This is a live lvalue: no snapshot, bounds gate, or shadow record owner.
+// Both Title replay renderers index the actual 50-element ReplayDataView
+// array at Title+0x68E4. The caller maintains the original 0..49 slot range;
+// this is a live native record lvalue, not a copied or shadow record.
 #define TH09_TITLE_NATIVE_REPLAY_RECORD(owner, index) \
-    (*reinterpret_cast<const ReplayDataView *>( \
-        reinterpret_cast<unsigned int>(&(owner)->replays[0]) + \
-        static_cast<unsigned int>(index) * sizeof((owner)->replays[0])))
+    ((owner)->replays[(index)])

@@ -43,23 +43,18 @@ extern const char *g_ReplayCharacterNames[];
 extern const char *g_ReplayStoryModeName[];
 extern const char *g_ReplayExtraModeName[];
 
-// The original 50-entry Title replay arrays use genuine 32-bit native
-// record and path byte strides for the signed selected-replay word.
+// The selected slot is one of the 50 real 0x200-byte Title replay paths.
 static __forceinline const char *NativeMenuReplayPath(
-    const char *bytes, int index)
+    const TitleScreenView *title, int index)
 {
-    return reinterpret_cast<const char *>(
-        reinterpret_cast<unsigned int>(bytes) +
-        static_cast<unsigned int>(index) * sizeof(((TitleScreenView *)0)->replayPaths[0]));
+    return title->replayPaths[index];
 }
 
 // Replay header wire values index the original 32-bit pointer table as
 // base + unsigned(index)*4, without a C++ array bounds precondition.
 static inline const char *NativeReplayTextName(const char **table, int index)
 {
-    return *reinterpret_cast<const char * const *>(
-        reinterpret_cast<unsigned int>(&table[0]) +
-        static_cast<unsigned int>(index) * sizeof(table[0]));
+    return table[index];
 }
 
 // The live replay header holds three contiguous ten-pointer frame rows.
@@ -67,10 +62,7 @@ static inline const char *NativeReplayTextName(const char **table, int index)
 static inline ReplayFrameDataStartView *NativeMenuFrameStart(
     const ReplayDataView &replay, int side, int stage)
 {
-    return *reinterpret_cast<ReplayFrameDataStartView *const *>(
-        reinterpret_cast<unsigned int>(&replay.frameStart[0][0]) +
-        (static_cast<unsigned int>(side) * TitleReplayNativeSlots::StageCount +
-         static_cast<unsigned int>(stage)) * sizeof(replay.frameStart[0][0]));
+    return replay.frameStart[side][stage];
 }
 
 // The custom replay-name characters live at fixed +15..+18 byte offsets
@@ -79,8 +71,7 @@ static inline ReplayFrameDataStartView *NativeMenuFrameStart(
 // keeping the eight distinct source loads at their original call sites.
 #define TH09_REPLAY_MENU_PATH_CHAR(index, offset) \
     (*reinterpret_cast<const char *>( \
-        reinterpret_cast<unsigned int>(NativeMenuReplayPath( \
-            &replayPaths[0][0], (index))) + static_cast<unsigned int>(offset)))
+        reinterpret_cast<unsigned int>(NativeMenuReplayPath(this, (index))) + static_cast<unsigned int>(offset)))
 
 int TitleScreenView::DrawReplayMenu()
 {

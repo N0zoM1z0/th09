@@ -9565,3 +9565,26 @@ type reconstruction, **not** a claim that the two remaining register
 bytes are exact. The neighboring `Float3::operator+` argument registers
 continue to be the blocker for the EAX-index alternative; no full cold
 replay was run.
+
+## 2026-11-16 GPT-web: restore native Title replay array indexing
+
+The large `TitleScreenView::DrawReplayMenu @ 0x004234F6` now uses the actual
+C++ array owners for all replay metadata and display tables. The shared
+`TH09_TITLE_NATIVE_REPLAY_RECORD` lvalue indexes the real 50-element
+`replays[]` member, the selected path helper takes a typed
+`TitleScreenView *` and returns `title->replayPaths[index]`, the ten-stage
+frame helper returns `replay.frameStart[side][stage]`, and replay-name
+pointer tables use `table[index]`. The callers retain the original live
+indices and the known 0..49 / 0..1 / 0..9 domain invariants; no new bounds
+checks, snapshots, calls, ASM or padding were introduced. The four
+manual i386 integer-base/stride calculations are removed from this renderer.
+
+The complete pinned VC7.1 `/O1 /Ob1` owner remains **1,280/1,280 bytes,
+57 relocation fields, and the same 29 masked differences**. The selected
+`TitleScreenReplaySaveDraw.cpp` exact sibling was replayed independently:
+**800/800 physical bytes and all 41 relocation fields pass**. The shared
+record macro change therefore preserves the neighboring exact replay-save
+renderer as well as the nonexact replay-menu owner. The remaining menu
+residual is still register allocation (selected replay EDX/ECX, timer
+register swap), not array addressing. No exactness credit or whole cold
+replay is claimed.
