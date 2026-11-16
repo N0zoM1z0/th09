@@ -26,15 +26,38 @@ struct Th09EclEnemyPrimaryFlagBits
 };
 // The same native Enemy +0x3380 DWORD controls no-death behavior in ECL
 // movement. Other bits remain unknown rather than importing another game.
-struct Th09EclEnemySecondaryFlagBits
+union Th09EclEnemySecondaryFlagBits
 {
-    unsigned int unknown00_02 : 3;
-    unsigned int noDeath03 : 1;
-    unsigned int unknown04_05 : 2;
-    // The exact Effect trail callback writes its 3-bit category to +0x3380
-    // bits 6..8 of the same native Enemy secondary flag word.
-    unsigned int effectCategory06_08 : 3;
-    unsigned int unknown09_31 : 23;
+    // ECL movement interprets bits 9..10 as a movement mode.
+    struct Movement
+    {
+        unsigned int unknown00_02 : 3;
+        unsigned int noDeath03 : 1;
+        unsigned int unknown04_05 : 2;
+        // Effect trails and post-ECL interaction share the category at +0x3380.
+        unsigned int effectCategory06_08 : 3;
+        unsigned int movementMode09_10 : 2;
+        unsigned int unknown11 : 1;
+        unsigned int interactionTriggered12 : 1;
+        unsigned int unknown13 : 1;
+        unsigned int secondaryFlag4000_14 : 1;
+        unsigned int unknown15_31 : 17;
+    } movement;
+
+    // ECL late side-category opcodes overlay bits 10..11 of that same word.
+    struct Category
+    {
+        unsigned int unknown00_02 : 3;
+        unsigned int noDeath03 : 1;
+        unsigned int unknown04_05 : 2;
+        unsigned int effectCategory06_08 : 3;
+        unsigned int unknown09 : 1;
+        unsigned int sideCategory10_11 : 2;
+        unsigned int interactionTriggered12 : 1;
+        unsigned int unknown13 : 1;
+        unsigned int secondaryFlag4000_14 : 1;
+        unsigned int unknown15_31 : 17;
+    } category;
 };
 typedef char Th09EclEnemySecondaryFlagsSizeIs4[
     sizeof(Th09EclEnemySecondaryFlagBits) == 4 ? 1 : -1];

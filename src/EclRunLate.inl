@@ -257,7 +257,7 @@ static void MoveRandomBiased(
 
     case TH09_ECL_OPCODE_TRIGGER_SIDE_OWNER_STATE:
         lateCategory =
-            (enemy->secondaryFlags3380 >> 10) & 3;
+            enemy->secondaryFlagBits3380.category.sideCategory10_11;
         if (lateCategory < 3)
         {
             if (enemy->manager00->sideState320->

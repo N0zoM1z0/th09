@@ -9636,3 +9636,34 @@ compiler-private local labels to be renumbered in three exact owners;
 owner/symbol sections, unchanged relocation offsets/types, zero nonrelocation
 byte differences, and the exact same absolute retail PE destination for every
 one. No function received new exactness credit, and no full cold replay ran.
+
+## 2026-11-16 GPT-web: recover overlapping Enemy secondary flag views
+
+The native Enemy secondary DWORD at `+0x3380` is now represented by two
+explicit, overlapping C++ bitfield views rather than pretending that every
+subsystem consumes one disjoint interpretation. The movement view preserves
+the existing `noDeath03` and effect-trail `effectCategory06_08` fields, and
+names the ECL movement mode at bits 9-10. The category view names the late
+ECL side selector at bits 10-11. The views intentionally overlap bit 10:
+`EclPostRuntime` defines the movement mode mask as `0x600`, while
+`EclRunLate::SET_SIDE_CATEGORY` writes `0xC00` and the large Enemy update
+reads that same `0xC00` selector. The shared word also exposes the
+interaction-triggered bit 12 and the ECL-set `0x4000` bit 14; still-unknown
+ranges remain explicitly unknown. The complete native union remains four
+bytes, and all member offsets are compile-time checked.
+
+`EnemyManagerView::OnUpdate` and the late ECL side-owner handler now read the
+actual `category.sideCategory10_11` field. The existing movement no-death
+writes and Effect trail category write use the corresponding `movement`
+view. This is a source-level recovery of the shared flag word's overlapping
+semantics, not a machine-code patch: the 3,900-byte OnUpdate candidate remains
+**byte-for-byte unchanged at 3,900/3,900 with the same two residual bytes**.
+
+The pinned EclManager carrier replayed all **84 exact functions**, covering
+**45,420 physical bytes and 1,987 relocations**. The Effect trail carrier
+replayed its exact **464 bytes and 20 relocations**. The shared header caused
+215 compiler-private local-symbol renames across three EclManager owners;
+every relocation offset/type, same-section ownership and absolute retail PE
+destination was checked before rebinding the names. No code bytes, target
+addresses, exact-match membership or function-origin claims were changed.
+No full cold replay was run.

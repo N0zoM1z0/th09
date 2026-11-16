@@ -39,15 +39,15 @@ compiler objects you need.**
   masked / 19 raw differences; its plain-C++ source is retained.
 - **Enemy OnUpdate** remains 3,900/3,900 bytes with two differences
   (`+0x19A/+0x1A1`). The early draw-group C2 node is mapped to vreg 7 and
-  source `EnemyManagerCore.inl:434`; C2 selects descriptor 1/ECX on an
+  source `EnemyManagerCore.inl:439`; C2 selects descriptor 1/ECX on an
   equal-score tie, while the original's EAX preference and descriptor-2
   physical mapping remain unresolved. The scoped volatile side-state pointer
   fixes the pair but shifts four Float3 call-argument bytes; do not restore it.
-  The maintained restricted-side fallback uses the shared native `+0x34`
-  `EnemySideFlagBits34::bit0` C++ field; the +0x337C primary flag word now
-  exposes its active, no-sprite and force-death bits by name as well. These
-  typed bitfield accesses preserve byte-identical codegen across the 3,900-byte
-  owner and all 84 exact same-source siblings.
+  The maintained side gates now use the native shared `+0x34` and `+0x337C`
+  bitfield views. The `+0x3380` secondary DWORD also has overlapping movement
+  and late-side-category views: movement mode occupies bits 9-10, while the
+  ECL side category occupies bits 10-11. These typed views preserve the
+  complete owner and all 84 exact same-source siblings.
 - **SupervisorServiceUpdate** now has a ratchet-safe maintained natural C++
   baseline of **1,629/1,633 bytes / 966 differences** (72 prior mismatches repaired). The 20-byte stack map and `[ebp-4]` result home are understood.
   A separate natural C++ diagnostic (no ASM) is `.analysis/SupervisorNetwork.natural-ebx-reload.cpp`

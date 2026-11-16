@@ -427,7 +427,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         if (manager->sideState320->flagBits34.bit0 != 0)
         {
             const unsigned int sideCategory =
-                (enemy->secondaryFlags3380 >> 10) & 3;
+                enemy->secondaryFlagBits3380.category.sideCategory10_11;
             if (sideCategory != 1 && sideCategory != 2)
             {
                 if (primaryFlags.noSprite04 != 0)

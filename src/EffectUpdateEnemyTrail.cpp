@@ -59,7 +59,7 @@ int __fastcall EffectUpdateCallbackType3Type4(Effect *effect)
                     state->subroutineA4,
                     reinterpret_cast<CardAttackSpawnPosition *>(&state->velocity18),
                     20, -2, 1000, 0, 0));
-        enemy->secondaryFlagBits3380.effectCategory06_08 = state->colorA6;
+        enemy->secondaryFlagBits3380.movement.effectCategory06_08 = state->colorA6;
         enemy->acceleration2DF8 += state->speedA0;
         int range = EffectTrailOpponent(state)->character20 != 7 ? 5 : 4;
         if (g_Rng.GetRandomU32InRange(range) != 0)

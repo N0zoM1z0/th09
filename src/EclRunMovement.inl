@@ -532,7 +532,7 @@ static void BeginBoundaryAwareMove(
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_ALLOW_OFFSCREEN)
             TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->allowOffscreen25 = 1;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_DEATH)
-            TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(enemy)->noDeath03 = 1;
+            TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(enemy)->movement.noDeath03 = 1;
         break;
 
     case TH09_ECL_OPCODE_ENABLE_INTERACTION_FLAGS:
@@ -548,7 +548,7 @@ static void BeginBoundaryAwareMove(
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_ALLOW_OFFSCREEN)
             TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->allowOffscreen25 = 0;
         if (movementInt & Th09EclRunMovement::ECL_INTERACTION_NO_DEATH)
-            TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(enemy)->noDeath03 = 0;
+            TH09_EXPR_MOVEMENT_SECONDARY_FLAG_BITS(enemy)->movement.noDeath03 = 0;
         break;
 
 #undef TH09_EXPR_MOVEMENT_VIEW
