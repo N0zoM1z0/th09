@@ -86,19 +86,6 @@ int PlayerLifecycleView::CheckBulletCollision(
     PlayerCollisionRegionCreateRegionView *region;
     reinterpret_cast<volatile CollisionScratch *>(&scratch)->cursor.slot = slot;
 
-    // The original loop enters through this aligned, top-tested header.
-    __asm {
-        _emit 0xEB
-        _emit 0x07
-        _emit 0x8D
-        _emit 0xA4
-        _emit 0x24
-        _emit 0x00
-        _emit 0x00
-        _emit 0x00
-        _emit 0x00
-    }
-
 check_region:
     region = *slot;
     if (region == NULL)

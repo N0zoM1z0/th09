@@ -88,7 +88,7 @@ numbers.
 | **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 29 bytes (Title `/O1 /Ob1`) | Selected-record EDX/ECX. `title-draw-replay-menu`. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540/540**, 13 masked / 19 raw at +0x14B–0x15F (`/O2 /Ob1`) | Plain C++ (no `volatile` alias). VC7.1 hoists the `sides[0].runtime` load above the +0x37C store; retail issues it after the +0x1E8 load. Statement moves/swaps, array and side-pointer forms do not move it. `replay-begin-playback`. |
 | **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Separate side/input aliases, typed indexing, reference input and register hints did not change the allocation. `player-charge-attack`. |
-| **Player CheckBulletCollision** | 0x0041DFF0 | **853/862**, 692 differing offsets / 26 relocation fields (`/O2 /Ob1`) | Protected carrier. Best byte-overlap diagnostic remains 840/862 / 632 with five backedges; the 835/862 / 683 four-latch candidate still has wrong block order. New split-dispatch / explicit-else probes reach 849/862 / 683, but C2 still places the dispatcher after geometry; switch dispatch regresses to 857/862 / 688. No candidate is promoted. Five exact siblings pass. `player-bullet-collision`. |
+| **Player CheckBulletCollision** | 0x0041DFF0 | **842/862**, 705 differing offsets / 26 relocation fields (`/O2 /Ob1`, natural C++) | The former 853/862 / 692 baseline included a 9-byte `_emit` loop-entry jump/NOP and has been retired. No inline assembly remains in this owner. Reconstruct the target preheader/loop layout naturally; older padded candidates are diagnostic history only. `player-bullet-collision`. |
 | **Supervisor network service** | 0x00430AA0 | 1,629/1,633 bytes, **1,038 differences** (maintained); diagnostic best **1,591/1,633 / 976 differences** (`/O2 /Ob1`) | The 20-byte frame and `[ebp-4]` result home are mapped. A saved natural-C++ diagnostic (no inline assembly) now reproduces EBX clock-pointer / EDI `connectNow` allocation and the final `0x430fb0` IAT reload, but is still 42 bytes short and is not promoted. Remaining: initial state receiver EAX vs retail EDI, plus final side-inversion register order. `.analysis/SupervisorNetwork.natural-ebx-reload.cpp`; `supervisor-network-service`. |
 
 ## Reproduce *only* the changed compiler carriers
@@ -143,23 +143,21 @@ tool upgrade.
 
 ## Next steps (ranked)
 
-1. **Player CheckBulletCollision (large boss).** Keep the maintained
-   `853/862`-byte, 692-difference carrier protected. Attested target analysis
+1. **Player CheckBulletCollision (large boss).** The maintained natural-C++
+   carrier is now `842/862` bytes with 705 differences. A 9-byte inline
+   `_emit` jump/NOP pad was removed from the loop entry; the old 853/862,
+   692-difference result is invalid as progress and must not be restored. Attested target analysis
    fixes the required order: circle test, small hit dispatcher, then rotated
    and AABB geometry; circle success falls through to the dispatcher, while
    square success jumps backward. The separate cancel-reward body is later in
    the target. Retail has four increment/backedge sites at `+0x0a3`,
-   `+0x133`, `+0x194`, and `+0x19e`. The saved `840/862`, 632-difference
-   diagnostic has five backedges and new offsets; the `835/862`, 683-difference
-   candidate has four but C2 still schedules the dispatcher after geometry.
-   New split-dispatch, hit-inside-radius, explicit-else geometry, and inline
-   advance probes remain **849/862 / 683** with the same late dispatcher; a
-   switch dispatcher is **857/862 / 688** and changes the type compare chain
-   to range checks. C2 also merges the identical inline advance sites. Do not
-   repeat these shapes. Next, influence successor ordering and preserve the
-   four distinct target backedges without changing x87 operand order or adding
-   a boolean latch. Never update the frontier for a candidate with new
-   differences.
+   `+0x133`, `+0x194`, and `+0x19e`. The previous 840/862, 835/862, 849/862
+   and 853/862 measurements were made with the artificial loop-entry pad in
+   place; do not use those byte scores as valid natural-C++ progress. A natural
+   `for`-loop rewrite compiles byte-identically to the unpadded 842/862
+   baseline. Next, recover the target preheader and successor order through
+   genuine C++ control flow while preserving x87 operand order and four
+   distinct backedges. No `_emit`, inline assembly, or byte padding.
 2. **SupervisorServiceUpdate (large boss).** The retail 20-byte frame is now
    mapped: inputs `-0x14/-0x12`, predicted `-0x0c`, seed outputs `-0x08/-0x06`,
    and result `-0x04`. The early second `PopFrame` intentionally overlaps seed

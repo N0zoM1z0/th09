@@ -57,6 +57,9 @@ candidate_size = 1210
 target_sha256 = "6c24be1a012fc3fa6148bd09954443318cc9db33d6b69a26ca1a778dfe6e5015"
 residual = ["8-A", "C-11", "14-16", "1B-1F", "24-29", "30", "37", "3B", "45", "47", "4D-4E", "53-5C", "5E-63", "68-6E", "70-75", "7A-80", "82-85", "87-8D", "92-9A", "9C-A0", "A5-AD", "B2-B6", "BB-C7", "CC-D4", "D9-DD", "E2-E6", "E8-EA", "EF-F3", "F8-100", "105-108", "10F", "1D0", "1E9", "23B", "23E", "240", "242", "248", "24D", "25B", "25E", "280", "28B", "2AE", "2B3-2B5", "2B9-2C0"]
 
+# Intentional rebaseline: removed the non-semantic 9-byte inline-assembly
+# loop-entry jump/NOP sequence from the source. This is a natural-C++ baseline
+# correction (842/862, 705 differences), not a reconstruction improvement.
 [frontier.player-bullet-collision]
 function = "PlayerLifecycleView::CheckBulletCollision"
 source = "src/PlayerCollisionHelpers.cpp"
@@ -64,9 +67,9 @@ profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr",
 symbol = "?CheckBulletCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z"
 address = 0x0041DFF0
 size = 862
-candidate_size = 853
+candidate_size = 842
 target_sha256 = "9dcfe1aca4ac06526072014ee6f956120d9c1d84cc1bba044638556b9b82445c"
-residual = ["26-27", "2A-55", "5A-6C", "6E-81", "83-85", "88-9D", "A2-B1", "B3-CF", "D1-D3", "D8-14A", "14C-16E", "175-1C7", "1CC", "1D1-1DB", "1E0", "1E5-1EA", "1EC-1EE", "1F0-1F3", "1F8-1FF", "204-205", "20A-20B", "210-211", "216-217", "21C-21F", "224-22C", "231", "236-24B", "250-257", "25C-260", "266-267", "26C-270", "272-276", "279-27E", "280-284", "286-2A1", "2A4-2BA", "2BF-2D3", "2D8", "2DD-2E2", "2E4-2F5", "2FA-315", "31A-31F", "324-334", "336-337", "339-35D"]
+residual = ["E-F", "14-2C", "2F", "31", "34-4A", "4F-5C", "5E", "60-75", "77-92", "97-C8", "CE-DA", "DC-10E", "111-119", "11D-125", "127", "129-131", "133-134", "136-15D", "15F-1B5", "1C1", "1C6-1CB", "1CD-1D0", "1D5", "1DA-1E8", "1ED-1F2", "1F4", "1F9-1FA", "1FF-200", "205-206", "20B-20C", "211-214", "219-221", "226", "22B-240", "245-24A", "24C", "251-255", "25A-25C", "261-28B", "28D-2AF", "2B4-2C8", "2CD", "2D2-2DE", "2E1-2EA", "2EF-2F2", "2F4-30A", "30F-314", "319-31B", "31D-35D"]
 
 [frontier.effect-added-callback]
 function = "EffectManager::AddedCallback"

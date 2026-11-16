@@ -8993,3 +8993,35 @@ source remains untouched.
 Only focused `enemy-on-update` and `supervisor-network-service` probe objects
 were compiled. No source carrier, frontier, exact-match manifest, or match-unit
 was promoted; no full cold replay was run.
+
+## 2026-11-16 GPT-web: retire CheckBulletCollision loop-entry padding
+
+A source audit found that the maintained `CheckBulletCollision` carrier had a
+9-byte inline-assembly sequence at the top-tested loop entry:
+`jmp +7; lea esp,[esp]`. It was inserted only to reproduce the target's jump
+and alignment NOP, not to implement game behavior. This is not acceptable
+natural-source reconstruction and has been removed from
+`src/PlayerCollisionHelpers.cpp`. No replacement assembly or byte padding was
+introduced.
+
+The focused pinned-VC7.1 build without the pad is **842/862 bytes / 705
+differing offsets** with 26 relocations. A natural `for (; (region = *slot) !=
+NULL; ++slot)` carrier compiles byte-identically to this 842-byte output, so
+simply changing the two explicit increment/backedge labels to `continue` does
+not recreate the retail preheader. The no-pad source from parent commit
+`77e6dddd` compiles to 849/862 / 716 differences, also worse than the current
+842/862 / 705 carrier. The frontier was deliberately rebaselined
+from 853/862 / 692 to the measured 842/862 / 705 because the old baseline
+depended on artificial bytes; this is a source-integrity correction, not a
+match improvement. The exact target extent remains 862 bytes.
+
+The attested target CFG facts remain useful: the nonzero-radius circle test
+falls through to the small hit dispatcher on success; rotated-rectangle and
+AABB successes jump backward to that dispatcher; the target has four separate
+advances/backedges. The next task is to obtain the preheader and successor
+ordering from real C++ structure, without `_emit`, inline assembly, padding,
+or a changed x87 operand order. Older 840/862, 835/862, 849/862 and 853/862
+results predate de-padding and are historical diagnostics only.
+
+Only the `player-bullet-collision` owner was rebuilt. No full cold replay was
+run.
