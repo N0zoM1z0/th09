@@ -9024,6 +9024,21 @@ masked differences** and keeps the same 97 relocations. The 1,591-byte natural
 clock diagnostic is unchanged and remains unpromoted; this update improves the
 source's type fidelity rather than claiming a new exact match.
 
+The prefill's real alias relationship was also restored in maintained natural
+C++: the first `PopFrame` passes a predicted-DWORD output at relative +0 and a
+seed-word output at +4; the second passes its seed at +2 and its predicted
+DWORD at +4, **overlapping the first seed**. A checked 8-byte
+`NetworkPrefillScratch` union represents the two typed output views without
+hand-coded instructions. Retail uses EBP -0x0c/-0x08 and then
+-0x0a/-0x08; the current compiler places the analogous union at
+-0x14/-0x10/-0x12, so absolute stack addresses are still nonexact.
+Nevertheless, the complete pinned service remains **1,629/1,633 bytes**, 106
+relocations, and exactly the previously recorded **1,038 differing offsets**:
+zero newly mismatching positions. The next step is to recover the shared
+20-byte stack placement and `PopFrame` result lifetime without losing the
+retail branch ordering; a function-wide shared output union reduced the frame
+to 0x10 and introduced one new mismatch at +5, so it was not promoted.
+
 ## 2026-11-16 GPT-web: retire CheckBulletCollision loop-entry padding
 
 A source audit found that the maintained `CheckBulletCollision` carrier had a

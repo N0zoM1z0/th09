@@ -43,6 +43,35 @@ extern const char g_NetworkSearchingMessage[];
 extern unsigned short __fastcall ApplyNetworkInput(int side, unsigned short input);
 extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 
+// The two queue-prefill calls use partially overlapping native output
+// slots. The second prediction spans the first seed location.
+struct NetworkPrefillScratch
+{
+    union
+    {
+        struct First
+        {
+            unsigned int predicted;
+            unsigned short seed;
+            unsigned short overlap;
+        } first;
+        struct Second
+        {
+            unsigned short overlap;
+            unsigned short seed;
+            unsigned int predicted;
+        } second;
+    };
+};
+
+// The target's paired PopFrame arguments use these relative stack offsets:
+// first prediction +0, second seed +2, first seed/second prediction +4.
+typedef char NetworkPrefillScratchLayout[
+    (sizeof(NetworkPrefillScratch) == 8 &&
+     offsetof(NetworkPrefillScratch, first.predicted) == 0 &&
+     offsetof(NetworkPrefillScratch, second.seed) == 2 &&
+     offsetof(NetworkPrefillScratch, first.seed) == 4 &&
+     offsetof(NetworkPrefillScratch, second.predicted) == 4) ? 1 : -1];
 int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
     Supervisor *s = supervisor;
@@ -196,11 +225,9 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
                     if (g_SupervisorNetworkState->syncValue != 0)
                     {
-                        unsigned short ignoredSeed0;
-                        unsigned short ignoredSeed1;
-                        unsigned int ignoredPredicted;
-                        s->PopFrame(0, &ignoredSeed0, &ignoredPredicted);
-                        s->PopFrame(1, &ignoredSeed1, &ignoredPredicted);
+                        NetworkPrefillScratch prefill;
+                        s->PopFrame(0, &prefill.first.seed, &prefill.first.predicted);
+                        s->PopFrame(1, &prefill.second.seed, &prefill.second.predicted);
                     }
                     g_SupervisorNetworkState->initialFramesQueued = 1;
                 }
