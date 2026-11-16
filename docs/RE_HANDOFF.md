@@ -235,6 +235,11 @@ Preserve `resources/th09.exe`, `.tools/` selectors/toolchain, the saved
 `.analysis/ghidra-direct/` project, `c2-analysis/`, `_reference/`, and the
 small `.analysis/gpt-web/*prove*.py` helper templates. Keep only the current
 best diagnostic sources explicitly referenced by this handoff/knowledge base.
+For the open C2 allocator question, retain `.analysis/c2-heap.bin`,
+`.analysis/FUN_107844a4.decomp.txt`, and the selected GDB recipes
+`gdb-c2-member-register-flow.cmd`, `gdb-c2-conflict-predicate.cmd`,
+`gdb-c2-source-less-vreg7.cmd`, and `gdb-c2-offset-proof.cmd`. Their captured
+stdout/log duplicates and the volatile heap variant are disposable.
 `build/`, Python caches, Ghidra packed-db cache/logs, old variant directories,
 compiler objects/PDBs, preprocessed files, duplicate debugger logs and stale
 scratch snapshots are disposable and may be removed. Do not delete the saved
