@@ -121,7 +121,7 @@ numbers.
 | **Replay BeginPlaybackStage** | 0x00420840 | **540/540**, 13 masked / 19 raw at +0x14B–0x15F (`/O2 /Ob1`) | Plain C++ (no `volatile` alias). VC7.1 hoists the `sides[0].runtime` load above the +0x37C store; retail issues it after the +0x1E8 load. Statement moves/swaps, array and side-pointer forms do not move it. `replay-begin-playback`. |
 | **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Separate side/input aliases, typed indexing, reference input and register hints did not change the allocation. `player-charge-attack`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **853/862**, 692 differing offsets / 26 relocation fields (`/O2 /Ob1`) | Protected carrier. Best byte-overlap diagnostic is 840/862 / 632 differences with five backedges; a separate 835/862 / 683 candidate has four backedges but wrong hit/cancel block order. Both break protected matches; do not update frontier metadata. Five exact siblings pass. `player-bullet-collision`. |
-| **Supervisor network service** | 0x00430AA0 | 1,629/1,633, **1,038 differing bytes** (`/O2 /Ob1`) | Retail keeps the network pointer in EDI and result in `[ebp-4]`; ours CSEs constant `1` into EDI and folds the result home. Volatile pointer/result probes regressed to 1,676/1,633 and 1,692/1,633; keep the protected baseline. `supervisor-network-service`. |
+| **Supervisor network service** | 0x00430AA0 | 1,629/1,633 bytes, **1,038 differences** (maintained); diagnostic best **1,591/1,633 / 976 differences** (`/O2 /Ob1`) | The 20-byte frame and `[ebp-4]` result home are mapped. A saved diagnostic now reproduces EBX clock-pointer / EDI `connectNow` allocation and the final `0x430fb0` IAT reload, but is still 42 bytes short and is not promoted. Remaining: initial state receiver EAX vs retail EDI, plus final side-inversion register order. `.analysis/SupervisorNetwork.final-ebx-reload.cpp`; `supervisor-network-service`. |
 
 ## Reproduce *only* the changed compiler carriers
 
@@ -193,17 +193,17 @@ tool upgrade.
 2. **SupervisorServiceUpdate (large boss).** The retail 20-byte frame is now
    mapped: inputs `-0x14/-0x12`, predicted `-0x0c`, seed outputs `-0x08/-0x06`,
    and result `-0x04`. The early second `PopFrame` intentionally overlaps seed
-   `-0x0a` with predicted `-0x08`. A saved diagnostic source reproduces all
-   stack homes plus EDI network pointer / EBX frameCounter / ECX syncRate, but
-   is 1,590/1,633 bytes with 1,049 differences and must not replace the
-   maintained 1,629/1,633-byte carrier (1,038 differences). The remaining
-   register conflict is `timeGetTime` IAT lifetime: retail conditionally loads
-   EBX at `0x430b06`, `0x430b54`, `0x430bc1`, then reuses EBX for frameCounter
-   and reloads at `0x430fb0`; candidate calls still differ at those boundaries.
-   Continue with branch-scoped clock pointer loads while preserving the exact
-   20-byte scratch layout. Do not repeat volatile-result or declaration-order
-   probes, function-wide global-pointer snapshots, or keep the diagnostic
-   aggregate candidate as the maintained carrier.
+   `-0x0a` with predicted `-0x08`. The latest saved diagnostic is
+   **1,591/1,633 bytes / 976 differences** (maintained baseline remains
+   1,629/1,633 / 1,038); it reproduces branch-scoped EBX clock loads, EDI
+   `connectNow`, and the final `0x430fb0` EBX reload, but remains 42 bytes short
+   and must not be promoted. The remaining high-value mismatch is the initial
+   network receiver (candidate EAX vs retail EDI) and the final side-inversion
+   order (candidate reads into EDI, retail EAX then ECX). Continue from
+   `.analysis/SupervisorNetwork.final-ebx-reload.cpp` and preserve the exact
+   20-byte scratch layout. Do not repeat simple `register` hints, volatile
+   receiver qualification, volatile-result or declaration-order probes, or
+   function-wide global-pointer snapshots.
 3. **Enemy OnUpdate (two-byte frontier).** The maintained carrier is
    `3900/3900` bytes with only `+0x19a/+0x1a1` differing. C2 line 68814 / vreg 7
    has live-set mask `0x19E`; class-0 candidates 1 and 2 tie at zero score and
