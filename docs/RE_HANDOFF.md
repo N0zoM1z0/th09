@@ -51,13 +51,20 @@ compiler objects you need.**
   forms did not improve it. All experiments were reverted; the maintained
   two-byte carrier is intact. A live GDB trace of the pinned C2 backend
   captured 897 class-0 weighted-score calls while compiling `EclManager.cpp`.
-  The score node exposes its virtual ID, selected register descriptor,
-  weighted-affinity list and source metadata. The first observed line-449
-  value prefers descriptor ID 2 by one affinity point, but is not proven to
-  be the early draw-group byte. No scored node maps to source line 434;
-  source-less/macro-generated IR nodes and the `FUN_107831f7` assignment path
-  remain to be mapped. Do not infer the target EAX/ECX choice from the first
-  score call or the older EBX-only pick; see the 2026-11-16 live trace entry.
+  The actual restricted-side draw-head expression is now mapped: C2's
+  flattened line 68814 corresponds to physical line 208785 of the preprocessed
+  `EclManager.i`, which is `EnemyManagerCore.inl:439`. Its score node is vreg 7
+  (`IR 0x00b05d04`, opcode `0x200a0805`, AST `0x00b08b8c`) and selects descriptor
+  ID 1. The live-set mask is `0x19E`; candidate IDs 1 and 2 are both eligible,
+  both have zero score and the candidate order starts with ID 1, so the C2
+  tie-break selects ID 1 (the emitted ECX byte load). The later normal draw-head
+  expression maps to preprocessed line 69373 / `EnemyManagerCore.inl:998`, but
+  has no separate score event in this trace. The earlier statement that no
+  node mapped to source line 434 compared flattened C2 line numbers with
+  `.inl` line numbers and is superseded. Descriptor-to-register mapping for
+  the second candidate and the original EAX preference still need proof; see
+  the 2026-11-16 draw-group live-set entry. Do not infer this choice from the
+  first unrelated EBX-only color pick.
 - `SupervisorServiceUpdate` remains 1,629/1,633 bytes / 1,038 differences.
   Attested Ghidra decomp confirms the retail result local is initialized to
   zero, set to one on the retry path, and returned from both retry and
@@ -95,7 +102,7 @@ numbers.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| **Enemy OnUpdate** | 0x00410730 | 3,900/3,900, **2 bytes** (+0x19A/+0x1A1) (EclManager `/O2 /Ob1`) | Early draw-group index ECX vs EAX. Live C2 tracing captured 897 class-0 score calls, but the exact source-less/macro IR node is not yet identified. `check-frontier.py enemy-on-update`. |
+| **Enemy OnUpdate** | 0x00410730 | 3,900/3,900, **2 bytes** (+0x19A/+0x1A1) (EclManager `/O2 /Ob1`) | Early draw-group vreg 7 maps to `EnemyManagerCore.inl:439`; C2 mask `0x19E` leaves descriptors 1/2 tied at zero and selects 1/ECX first. Identify why the original chooses EAX and how to make ECX unavailable without regressing adjacent Float3 setup. `check-frontier.py enemy-on-update`. |
 | **Replay SaveReplay** | 0x00420C60 | 1,238/1,238, **2 bytes** (+0xB7/+0xBB) (`/O2 /Ob1`) | Header-copy buffer load ECX vs EDI; source is now plain. 128 spelling combinations are byte-neutral. `replay-save`. |
 | **Player movement** | 0x0041C170 | 1,900/1,900, 8 bytes (4 masked) at +0x127 (`/O2 /Ob1`) | `g_GameConfiguration`/`sideIndex` load order; every subscript spelling compiles side-first. `player-movement`. |
 | **Effect AddedCallback** | 0x0040D1C0 | 51/51, **4 bytes** in two windows (`/O2 /Ob1`, no `/EHsc`) | Retail uses EDI for the global ANM manager and ESI for callback context; current source reverses the setup order. Direct-global-for-both and local-snapshot-for-both probes regressed to 25 and 7 differences respectively. `effect-added-callback`. |
@@ -159,16 +166,19 @@ tool upgrade.
 
 ## Next steps (ranked)
 
-1. **Compiler model (the only open lead).** Identify the exact
-   `drawGroup3387` load/result live-range record, following the source-IR
-   pointer retained by `FUN_1077c10f` into `FUN_107833f2`'s candidate scoring
-   and `FUN_107831f7`'s assignment. Do not infer the target value from the
-   first observed color pick: it is a different EBX-only virtual value with
-   only register-ID-4 available. The current two-byte carrier is protected;
-   raw inline assembly fixes the branch pair but regresses five stack homes
-   and the following Float3 call. The ignored scratch project is reusable;
-   rebuild from the hash-checked pinned backend outside any `.`-prefixed path
-   only if it is absent.
+1. **Compiler model (the only open lead).** The early draw-group node is
+   identified: vreg 7 at flattened C2 line 68814 maps to
+   `EnemyManagerCore.inl:439`. Its live-set mask `0x19E` admits candidate IDs
+   1 and 2 with equal zero scores, and candidate order selects ID 1 / ECX.
+   Continue by identifying descriptor 2's physical register and which source
+   lifetime/interference difference removes descriptor 1 in the original.
+   Inspect the additional live-set substructures and `FUN_107831f7` assignment;
+   do not repeat same-local reuse or simple helper/array spellings. The later
+   draw-head path at line 998 has no separate score event. The current two-byte
+   carrier is protected; raw inline assembly fixes the branch pair but regresses
+   five stack homes and the following Float3 call. The ignored scratch project
+   is reusable; rebuild from the hash-checked pinned backend outside any
+   `.`-prefixed path only if it is absent.
 2. Continue `SupervisorServiceUpdate` from the newly confirmed result-home
    mismatch. Recover the original `[ebp-4]` local lifetime and the `PopFrame`
    scratch layout without forcing an enlarged volatile/address-taken frame.

@@ -8358,3 +8358,68 @@ supervisor-network-service` passes at 3,900/3,900 with 2 differences,
 853/862 with 692 differences, and 1,629/1,633 with 1,038 differences
 respectively. No full cold replay was run. The `c2-analysis/` scratch bundle
 remains untracked and must not be staged.
+
+
+## 2026-11-16 GPT-web: Enemy OnUpdate draw-group live-set and C2 tie-break
+
+The pinned VC7.1 C2 compiler has now exposed the actual weighted-score node
+for the early restricted-side `drawGroup3387` expression. This supersedes the
+previous negative search that compared the numeric C2 source line directly
+with an `.inl` line number.
+
+### Source/IR mapping
+
+- The expression at `EnemyManagerCore.inl:439` is physical line **208785** in
+  the expanded `EclManager.i`. The C2 AST source counter for that node is
+  flattened line **68814** (`208785 - 139971`); its source-file record still
+  names the root `EclManager.cpp`, because this is a single expanded TU.
+- At `FUN_107833f2` entry, stack `+4` is the 0x60-byte live-range node. For
+  this exact expression it is `0x00afec78`, points to IR node `0x00b05d04`
+  (`opcode 0x200a0805`), whose AST node is `0x00b08b8c`. The live-range virtual
+  ID at `+0x1c` is **7**. Its selected descriptor pointer at `+0x10` is
+  `0x108a9804`, descriptor ID **1**. The candidate object emits
+  `movzx ecx, byte ptr [ebx+0x3387]`, confirming that this selected descriptor
+  produces the candidate's ECX load at this site.
+- The later ordinary draw-head expression at `EnemyManagerCore.inl:998` is
+  physical line **209344** / flattened C2 line **69373**. No separate
+  `FUN_107833f2` score event maps to that line in the 897-call trace; do not
+  assume that the two source expressions create separate scored live ranges.
+
+### Why C2 selects ECX
+
+At the vreg-7 score call, `p3 + 0x20` points to the live-set object
+`0x00afdc00`. Its first bitset node `0x00afd9fc` contains key `0` and mask
+`0x19E`. The class-0 candidate list at `0x108691a0` is:
+
+`[1, 2, 3, 7, 8, 4, 6]`
+
+The score table at `0x10880680` is zero for both candidate IDs 1 and 2, and
+there is no weighted-affinity list at `p3 + 0x38`. Both IDs are therefore
+eligible with equal score; the allocator's ordered scan picks ID 1 first.
+The mask includes bits 1 and 2 (as well as 3, 4, 7 and 8) and excludes bit 6.
+This is a concrete tie-break explanation for the candidate's ECX selection,
+not an explanation of why the original compiler/source chose EAX. The
+physical mapping of descriptor ID 2 is not yet independently established.
+
+Target-bound IDA disassembly/decompilation of `0x00410730` independently
+shows the original reusing EAX: it computes the restricted-side category in
+EAX, compares values 1 and 2, then zero-extends `enemy->drawGroup3387` into
+EAX and uses that same register as the scaled draw-head index. The candidate
+also computes the category in EAX, but its draw-group value is a separate
+vreg whose live set admits both ECX and EAX; C2's first-candidate tie-break
+chooses ECX.
+
+A new mutable `sideCategory` local overwritten with the draw-group byte was
+tried and produced no codegen change: `enemy-on-update` remained 3,900/3,900
+with the same two differences. That probe was reverted. The maintained source
+and frontier metadata remain unchanged. The earlier statement that no scored
+node mapped to source line 434 was a source-line-domain mistake: C2's 68814 is
+a flattened preprocessed line, not an `EnemyManagerCore.inl` line.
+
+**Next:** inspect the remaining live-set substructures and the descriptor-to-
+physical-register mapping through `FUN_107831f7`; then identify a natural
+source lifetime/interference difference that makes descriptor 1 unavailable
+while preserving the following Float3 argument allocation. Do not repeat the
+same-local reuse, parameter order, or simple array/helper spelling probes.
+The focused `check-frontier.py enemy-on-update` baseline remains
+**3,900/3,900 bytes with two differences**. No full cold replay was run.
