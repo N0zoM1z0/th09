@@ -9256,3 +9256,25 @@ source-integrity change with zero codegen drift, not a claim of exactness.
 
 Only this collision owner and its five same-source exact siblings need
 replay. No whole-product cold replay was run.
+
+## 2026-11-16 GPT-web: classify SoundManager generated deletion wrapper
+
+The dirty `config/functions.csv` update for `0x0043E170` was reviewed rather
+than reset. This physical **33-byte** function is the VC7.1 scalar-deleting
+destructor wrapper for `SoundManagerProcessView`; it is **compiler-generated**,
+not an authored gameplay leaf. The target body at `0x0043E170–0x0043E190`
+calls the separately independently identified third-party manager destructor
+`0x0043F7A0`, tests the low deletion-flag bit, optionally calls operator delete
+`0x0047B249`, returns the saved object pointer, and finishes with `ret 4`. Its
+original target SHA-256 is
+`fd55726971a8cccdd243225502ba1204e54b4b5a4797008a5f4c42770872aee7`.
+
+This had already been proven structurally by a pinned VC7.1 generated wrapper
+probe (packet 116) and `config/function-origins.csv` had long marked the
+address `compiler_generated / exclude / high`. The *only* correction is to
+align its inconsistent `functions.csv` display row: proposed compiler wrapper
+name, `excluded` status, `__thiscall` and flag signature. The natural
+`SoundPlayer::Release` caller remains **232/232 exact** under its pinned
+`/Ob0` source unit with the wrapper relocation bound to this target.
+There is no handwritten wrapper source, no manual assembler and **no new
+authored-exact credit**. The 15 following CC bytes remain unowned.
