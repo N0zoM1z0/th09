@@ -9397,3 +9397,22 @@ size gap, initial receiver and late network/clock scheduling are still open.
 Only the service owner was rebuilt to establish the new frontier; there
 are no authored exact units mapped to `src/SupervisorNetwork.cpp`.
 No full cold replay was run.
+
+## 2026-11-16 GPT-web: sequence both network predicted-frame side reads
+
+The improved `SupervisorServiceUpdate` predictive-frame path is now explicit
+on **both** calls. Retail obtains each random 16-bit seed before dereferencing
+the respective network side. For the first insertion the original uses the
+previously captured `frameNetwork` receiver, while for the second it rereads
+`g_SupervisorNetworkState` after `GetSeed()`. Natural C++ `const short firstSeed`
+and `volatile const int &firstSide = frameNetwork->localSide` now sequence the
+first call like the already recovered second seed-before-live-global-side
+path. This retains one real pointer dereference at the original timing and
+does not add a call, synthetic read, or artificial register allocation hint.
+
+The pinned `/O2 /Ob1` original-bound comparison remains **1,629/1,633
+bytes with exactly 966 masked differences and 106 relocations**—no changed
+byte relative to the accepted 72-position monotone improvement. This is an
+additional source-order and receiver-lifetime recovery, not a new exact
+function. The remaining 966 bytes and missing four target bytes are still
+under investigation; no whole-product replay ran.

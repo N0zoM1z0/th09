@@ -173,9 +173,11 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         if (frame != 0 &&
             frame % (60 / g_SupervisorNetworkState->syncRate) != 0)
         {
-            s->InsertPredictedFrame(
-                frameNetwork->localSide, frame,
-                static_cast<short>(g_ReplayRng.GetSeed()));
+            // The first predicted frame uses the captured network receiver,
+            // but reads its side after the seed callback has finished.
+            const short firstSeed = static_cast<short>(g_ReplayRng.GetSeed());
+            volatile const int &firstSide = frameNetwork->localSide;
+            s->InsertPredictedFrame(firstSide, frame, firstSeed);
             // Retail obtains the prediction seed before re-reading the
             // network side; the peer can change during service callbacks.
             const short predictedSeed = static_cast<short>(g_ReplayRng.GetSeed());

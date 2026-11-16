@@ -52,8 +52,9 @@ compiler objects you need.**
   (1,591/1,633 / 976 differences): it recovers the branch-scoped EBX clock
   pointer, EDI `connectNow`, and final `0x430fb0` IAT reload, but remains 42
   bytes short. It is not promoted. The maintained improvement makes the
-  second predicted-frame side a live typed read after acquiring the seed,
-  preserving retail call-argument order. Next resolve the initial receiver
+  predicted-frame sides typed reads after their seed callbacks: the first
+  reads through the captured `frameNetwork` pointer, the second through the
+  refreshed global pointer, preserving retail call-argument order. Next resolve the initial receiver
   (candidate EAX vs retail EDI) and final side-inversion register order.
 - **Player CheckBulletCollision** now uses natural C++ iteration, with its
   protected baseline at **842/862 bytes / 705 masked differences**. The old
