@@ -8758,3 +8758,63 @@ rejected. All probes were reverted; the maintained 1,238/1,238 carrier still
 has exactly two residual offsets. Do not repeat simple pointer cv-qualifiers,
 register hints or arithmetic-order rewrites without a new liveness hypothesis.
 No full cold replay was run.
+
+## 2026-11-16 GPT-web: SupervisorServiceUpdate frame/clock register lifetime map
+
+A fresh round of scoped `SupervisorServiceUpdate @ 0x00430AA0` compilation
+identified the actual value occupying the candidate's unexpected `[ebp-4]`
+slot: it is the cached `frameCounter`, not a missing return-value temporary.
+In the maintained object, the `timeGetTime` IAT pointer remains live in EBX
+through the frame/prediction block, so C2 spills `frameCounter` to `[ebp-4]`.
+Retail instead uses EBX for `frameCounter`, then reuses EBX for the queued-frame
+value and later reloads the clock IAT pointer after the frame block.
+
+The retail 20-byte local map is now concrete:
+
+| EBP home | Retail purpose |
+| --- | --- |
+| `-0x14`, `-0x12` | two `PopFrame` input words |
+| `-0x10` | four-byte scratch/overlap region |
+| `-0x0c` | predicted-frame output |
+| `-0x08` | first seed output |
+| `-0x06` | second seed output |
+| `-0x04` | result local, initialized to zero and set to one on retry |
+
+The early prefill calls deliberately overlap their output pointers: the first
+uses seed `-0x08` and predicted `-0x0c`; the second uses seed `-0x0a` and
+predicted `-0x08`. The later synchronized-frame calls use seed `-0x08` and
+`-0x06`, both with predicted `-0x0c`. A 20-byte `ServiceResultScratch`
+aggregate with an overlapping pointer expression reproduces these exact
+addresses, and the volatile result member recreates the `[ebp-4]` zero/one
+home when the other live ranges are assigned correctly.
+
+The register mapping can also be reproduced together:
+
+- A network-state alias beginning at the post-initial-connection-state
+  boundary keeps the network pointer in EDI.
+- The frame branch then uses ECX for `syncRate` and EBX for `frameCounter`.
+- Once the clock IAT pointer is no longer live across the frame branch, EBX
+  is reused for the frame value and then for queued-frame work.
+- `NativeTimeGetTimeDirect` variants isolate later `frameStartTime`,
+  `lastFrameTime`, and synchronization clock calls from the early cached-IAT
+  range. A volatile IAT pointer or inline `call dword ptr [IAT]` experiment
+  confirmed the backend can emit direct IAT calls without holding the pointer
+  in EBX.
+
+This is a diagnostic success, not yet a ratchet-safe source improvement. The
+best combined candidate is saved at
+`.analysis/SupervisorNetwork.exact-stack-register-inline-IAT.cpp`; its scoped
+frontier is **1,590/1,633 bytes with 1,049 differing offsets**, versus the
+maintained **1,629/1,633 with 1,038 differences**. It reproduces the EDI/EBX/ECX
+roles, the result home, and both overlapping `PopFrame` layouts, but still
+misses the retail conditional clock-IAT reload boundaries at `0x430b06`,
+`0x430b54`, `0x430bc1`, and `0x430fb0`. An earlier noinline-helper variant
+reached 1,570/1,633 with 1,128 differences. Neither candidate was promoted;
+the maintained source remains unchanged.
+
+Next, keep the exact 20-byte aggregate and post-state-0 network alias while
+reconstructing the four conditional clock-pointer load sites. The state-1
+branch currently emits a direct IAT call where retail loads EBX, and the host
+branch reload must not keep EBX live across the frame branch. Do not repeat
+simple declaration reordering or a function-wide global-pointer snapshot.
+No full cold replay was run; only `supervisor-network-service` was compiled.
