@@ -9259,3 +9259,22 @@ source-integrity change with zero codegen drift, not a claim of exactness.
 
 Only this collision owner and its five same-source exact siblings need
 replay. No whole-product cold replay was run.
+
+## 2026-11-16 GPT-web: simplify restricted-side Enemy OnUpdate branch
+
+The maintained `EnemyManagerView::OnUpdate @ 0x00410730` source now expresses
+restricted-side sprite fallback through a direct natural C++ early `continue`:
+when the side category is neither 1 nor 2 and `ENEMY_CORE_NO_SPRITE` is set,
+skip this enemy; otherwise address the existing native draw-head slot and
+enter the shared append path. This removes a nested condition without altering
+the side/category gates, sprite filtering, append destination, or subsequent
+update order. No ASM, padding, fake access, or register-forcing hint is added.
+
+Pinned VC7.1 `/O2 /Ob1` emits the **same entire 3,900-byte owner** with exactly
+the original two differing register bytes (`+0x19A/+0x1A1`). The selected
+`EclManager.cpp` canonical exact replay passed all **84 same-source exact
+functions**, **45,420 complete compared physical bytes** and **1,987
+relocation fields** across its two real compiler carriers (`/Ob0`/`/Ob1`),
+including `RunEcl`'s 15,564-byte physical comparison. No newly exact function
+is claimed; the open vreg-7 allocator interference issue remains. Only the
+affected source and its bound nonexact owner were rebuilt, not a full replay.

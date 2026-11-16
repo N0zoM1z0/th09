@@ -427,14 +427,12 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         {
             const unsigned int sideCategory =
                 (enemy->secondaryFlags3380 >> 10) & 3;
-            if (!(sideCategory == 1 || sideCategory == 2))
+            if (sideCategory != 1 && sideCategory != 2)
             {
-                if ((flags & ENEMY_CORE_NO_SPRITE) == 0)
-                {
-                    drawHead = NativeEnemyDrawHead(manager, enemy->drawGroup3387);
-                    goto append_enemy_to_draw_group;
-                }
-                continue;
+                if ((flags & ENEMY_CORE_NO_SPRITE) != 0)
+                    continue;
+                drawHead = NativeEnemyDrawHead(manager, enemy->drawGroup3387);
+                goto append_enemy_to_draw_group;
             }
         }
 

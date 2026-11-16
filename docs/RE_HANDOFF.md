@@ -43,6 +43,9 @@ compiler objects you need.**
   equal-score tie, while the original's EAX preference and descriptor-2
   physical mapping remain unresolved. The scoped volatile side-state pointer
   fixes the pair but shifts four Float3 call-argument bytes; do not restore it.
+  The maintained restricted-side fallback is now a native C++ no-sprite early
+  `continue` followed by the shared draw-head append, retaining byte-identical
+  codegen across the 3,900-byte owner and 84 exact same-source siblings.
 - **SupervisorServiceUpdate** remains protected at 1,629/1,633 bytes / 1,038
   differences. The 20-byte stack map and `[ebp-4]` result home are understood.
   The best saved diagnostic is `.analysis/SupervisorNetwork.final-ebx-reload.cpp`
