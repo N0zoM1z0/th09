@@ -176,12 +176,14 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             s->InsertPredictedFrame(
                 frameNetwork->localSide, frame,
                 static_cast<short>(g_ReplayRng.GetSeed()));
+            // Retail obtains the prediction seed before re-reading the
+            // network side; the peer can change during service callbacks.
+            const short predictedSeed = static_cast<short>(g_ReplayRng.GetSeed());
+            volatile const int &liveSide = g_SupervisorNetworkState->localSide;
+            const int opponentSide = static_cast<int>(
+                1u - static_cast<unsigned int>(liveSide));
             s->InsertPredictedFrame(
-                static_cast<int>(
-                    1u - static_cast<unsigned int>(
-                        g_SupervisorNetworkState->localSide)),
-                s->networkTiming458.frameCounter,
-                static_cast<short>(g_ReplayRng.GetSeed()));
+                opponentSide, s->networkTiming458.frameCounter, predictedSeed);
             // The original service increments the signed frame counter with
             // an i386 DWORD INC, whose physical result wraps modulo 2^32.
             s->networkTiming458.frameCounter = static_cast<int>(

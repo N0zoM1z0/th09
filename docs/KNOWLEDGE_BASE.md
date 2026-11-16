@@ -9368,3 +9368,32 @@ exact owners replayed successfully across three targeted compiler carriers:
 source fidelity and aliasing clarity, not codegen-exact collision closure;
 the hit-dispatch block scheduling and four native advances remain open. No
 full cold replay was run.
+
+## 2026-11-16 GPT-web: supervisor prediction side and seed call ordering
+
+The large `SupervisorServiceUpdate @ 0x00430AA0` now makes the two
+`InsertPredictedFrame` calls' data dependencies explicit. The second
+seed is obtained from `g_ReplayRng.GetSeed()` before reading the *live*
+`g_SupervisorNetworkState->localSide`. A typed
+`volatile const int &liveSide` binds to that existing object, and the
+opponent side uses native unsigned-i386 subtraction
+`static_cast<int>(1u - static_cast<unsigned int>(liveSide))`.
+The second frame counter is still read as a separate live value on the
+second call, then incremented with the original wraparound semantics.
+This requires no ASM, padding, register hints or fake memory accesses.
+
+The pinned `/O2 /Ob1` VC7.1 comparison is **1,629 candidate bytes versus
+1,633 retail bytes**, 106 relocations and **966 mismatching nonrelocation
+offsets**, down from 1,038. The new set is strictly contained in the old:
+**72 previously mismatching positions repaired, zero newly mismatching**.
+One preliminary C++ inline helper variant reached 989 mismatches but
+introduced nine new differences; another side-reference/seed ordering
+reached 980 with three new mismatches. Explicit local side calculation
+and seed-before-side evaluation recovered the 72 positions while eliminating
+all regressions. This is genuine monotone frontier progress, **not** an
+exact-function claim or product verification; the remaining four-byte
+size gap, initial receiver and late network/clock scheduling are still open.
+
+Only the service owner was rebuilt to establish the new frontier; there
+are no authored exact units mapped to `src/SupervisorNetwork.cpp`.
+No full cold replay was run.
