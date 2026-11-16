@@ -14,9 +14,6 @@ typedef int i32;
 
 #include "TitleScreenReplayView.hpp"
 #include "TitleReplayNativeSlots.hpp"
-#include "TitleReplayNativeRecords.hpp"
-
-
 
 // The SDK vector crosses the established Float3 text API at a checked layout.
 typedef char ReplayMenuVectorLayoutMatchesFloat3[
@@ -43,13 +40,6 @@ extern const char *g_ReplayCharacterNames[];
 extern const char *g_ReplayStoryModeName[];
 extern const char *g_ReplayExtraModeName[];
 
-// The selected slot is one of the 50 real 0x200-byte Title replay paths.
-static __forceinline const char *NativeMenuReplayPath(
-    const TitleScreenView *title, int index)
-{
-    return title->replayPaths[index];
-}
-
 // Replay header wire values index the original 32-bit pointer table as
 // base + unsigned(index)*4, without a C++ array bounds precondition.
 static inline const char *NativeReplayTextName(const char **table, int index)
@@ -57,21 +47,8 @@ static inline const char *NativeReplayTextName(const char **table, int index)
     return table[index];
 }
 
-// The live replay header holds three contiguous ten-pointer frame rows.
-// Preserve the original per-use pointer reads and DWORD stage/side strides.
-static inline ReplayFrameDataStartView *NativeMenuFrameStart(
-    const ReplayDataView &replay, int side, int stage)
-{
-    return replay.frameStart[side][stage];
-}
-
-// The custom replay-name characters live at fixed +15..+18 byte offsets
-// in the genuine file-backed 0x200-byte Title replay path records.
-// Resolve each real path and its byte through the original i386 addresses,
-// keeping the eight distinct source loads at their original call sites.
-#define TH09_REPLAY_MENU_PATH_CHAR(index, offset) \
-    (*reinterpret_cast<const char *>( \
-        reinterpret_cast<unsigned int>(NativeMenuReplayPath(this, (index))) + static_cast<unsigned int>(offset)))
+// Each replay keeps the original three by ten frame-header pointer grid.
+// The path is the actual 50 by 0x200 character row owned by TitleScreen.
 
 int TitleScreenView::DrawReplayMenu()
 {
@@ -103,26 +80,26 @@ int TitleScreenView::DrawReplayMenu()
                     &textPosition,
                     "No.%.2d %8s %8s",
                     i + 1,
-                    (TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).magic ? TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).playerName : "--------"),
-                    (TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).magic ? TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).playTime : "--/--/--"));
+                    (replays[i].magic ? replays[i].playerName : "--------"),
+                    (replays[i].magic ? replays[i].playTime : "--/--/--"));
             }
             else
             {
                 g_AsciiManager.AddFormatText(
                     &textPosition, "%c%c%c%c  %8s %8s",
-                    TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).magic ? TH09_REPLAY_MENU_PATH_CHAR(i, 15) : 'u',
-                    TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).magic ? TH09_REPLAY_MENU_PATH_CHAR(i, 16) : 's',
-                    TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).magic ? TH09_REPLAY_MENU_PATH_CHAR(i, 17) : 'e',
-                    TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).magic ? TH09_REPLAY_MENU_PATH_CHAR(i, 18) : 'r',
-                    TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).magic ? TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).playerName : "--------",
-                    TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).magic ? TH09_TITLE_NATIVE_REPLAY_RECORD(this, i).playTime : "--/--/--");
+                    replays[i].magic ? replayPaths[i][15] : 'u',
+                    replays[i].magic ? replayPaths[i][16] : 's',
+                    replays[i].magic ? replayPaths[i][17] : 'e',
+                    replays[i].magic ? replayPaths[i][18] : 'r',
+                    replays[i].magic ? replays[i].playerName : "--------",
+                    replays[i].magic ? replays[i].playTime : "--/--/--");
             }
             position.y += 13.0f;
         }
     }
     else if (currentScreenState == 2)
     {
-        const ReplayDataView &replayValue = TH09_TITLE_NATIVE_REPLAY_RECORD(this, selectedReplay);
+        const ReplayDataView &replayValue = replays[selectedReplay];
         i32 selected = selectedReplay;
 
         position.x = selected < TitleReplayNativeSlots::RowsPerColumn ? 32.0f : 352.0f;
@@ -152,10 +129,10 @@ int TitleScreenView::DrawReplayMenu()
         {
             g_AsciiManager.AddFormatText(
                 &textPosition, "%c%c%c%c  %8s %8s",
-                replayValue.magic ? TH09_REPLAY_MENU_PATH_CHAR(selected, 15) : 'u',
-                replayValue.magic ? TH09_REPLAY_MENU_PATH_CHAR(selected, 16) : 's',
-                replayValue.magic ? TH09_REPLAY_MENU_PATH_CHAR(selected, 17) : 'e',
-                replayValue.magic ? TH09_REPLAY_MENU_PATH_CHAR(selected, 18) : 'r',
+                replayValue.magic ? replayPaths[selected][15] : 'u',
+                replayValue.magic ? replayPaths[selected][16] : 's',
+                replayValue.magic ? replayPaths[selected][17] : 'e',
+                replayValue.magic ? replayPaths[selected][18] : 'r',
                 replayValue.magic ? replayValue.playerName : "--------",
                 replayValue.magic ? replayValue.playTime : "--/--/--");
         }
@@ -163,7 +140,7 @@ int TitleScreenView::DrawReplayMenu()
         position.x = 221.0f;
         position.y = 240.0f;
 
-        if (TH09_TITLE_NATIVE_REPLAY_RECORD(this, selected).value1E4 == 0)
+        if (replays[selected].value1E4 == 0)
         {
             sprintf(
                 buffer, "%s  -%s-",
@@ -172,13 +149,13 @@ int TitleScreenView::DrawReplayMenu()
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
-        else if (TH09_TITLE_NATIVE_REPLAY_RECORD(this, selected).value1E4 == 1)
+        else if (replays[selected].value1E4 == 1)
         {
             sprintf(buffer, "%s", g_ReplayExtraModeName[0]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
-        else if (TH09_TITLE_NATIVE_REPLAY_RECORD(this, selected).value1E4 == 2)
+        else if (replays[selected].value1E4 == 2)
         {
             sprintf(
                 buffer, "%s  -%s-",
@@ -193,15 +170,15 @@ int TitleScreenView::DrawReplayMenu()
 
         for (i32 i = 0; i < TitleReplayNativeSlots::StageCount; ++i)
         {
-            if (NativeMenuFrameStart(replayValue, 0, i) != 0)
+            if (replayValue.frameStart[0][i] != 0)
             {
                 g_AsciiManager.color =
                     (i == keyboardSelection) ? 0xFFFFFFFFu : 0xFF808080u;
                 g_AsciiManager.AddFormatText(
                     &textPosition,
                     "%.8s vs %.8s",
-                    NativeReplayTextName(g_ReplayCharacterNames, NativeMenuFrameStart(replayValue, 0, i)->value06),
-                    NativeReplayTextName(g_ReplayCharacterNames, NativeMenuFrameStart(replayValue, 1, i)->value06));
+                    NativeReplayTextName(g_ReplayCharacterNames, replayValue.frameStart[0][i]->value06),
+                    NativeReplayTextName(g_ReplayCharacterNames, replayValue.frameStart[1][i]->value06));
                 position.y += 13.0f;
             }
         }
@@ -211,7 +188,3 @@ int TitleScreenView::DrawReplayMenu()
     g_AsciiManager.isSelected = 0;
     return 1;
 }
-
-#undef TH09_REPLAY_MENU_PATH_CHAR
-
-#undef TH09_TITLE_NATIVE_REPLAY_RECORD

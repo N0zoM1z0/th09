@@ -9588,3 +9588,29 @@ renderer as well as the nonexact replay-menu owner. The remaining menu
 residual is still register allocation (selected replay EDX/ECX, timer
 register swap), not array addressing. No exactness credit or whole cold
 replay is claimed.
+
+## 2026-11-16 GPT-web: direct native Title replay rendering arrays
+
+The maintained 1,280-byte `TitleScreenView::DrawReplayMenu @ 0x004234F6`
+now uses native C++ indexing throughout the renderer: the real 50-element
+`ReplayDataView replays[]` owner, its paired 0x200-byte
+`replayPaths[index][offset]` character rows (eight name-byte accesses), and
+each replay's genuine three by ten `frameStart[side][stage]` pointer grid.
+Sixteen former `TH09_TITLE_NATIVE_REPLAY_RECORD` macro uses, eight
+`TH09_REPLAY_MENU_PATH_CHAR` integer-address computations and three frame
+lookup helpers are expressed directly through these established arrays.
+The unused inline path/frame helpers, their pointer-arithmetic macro and
+the now-unneeded shared-macro include are retired only from this source.
+Character-name table values retain their own native C++ `table[index]`
+lookup and the original repeated field reads, rendering conditions and
+call order remain intact. No new slot bounds gates, allocation, calls, ASM
+or padding were introduced; the UI supplies native 0..49 row indices.
+
+The fixed VC7.1 Title `/O1 /Ob1` complete carrier is **byte-for-byte
+identical to the former 1,280/1,280 candidate** (57 relocation fields,
+29 remaining register-byte differences); zero new mismatches and zero
+repaired bytes. Seven individually typed/combined indexing experiments and
+a complete macro-free compiled diagnostic were compared before source
+promotion. This is a meaningful removal of constructed integer-pointer
+views, not a claim of authored exactness. This isolated nonexact carrier has
+no accepted same-source exact units; no whole-product cold replay was run.
