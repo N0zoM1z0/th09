@@ -71,14 +71,18 @@ compiler objects you need.**
   those bytes. A byte-width side-category local regresses 463 bytes, and a
   volatile pointer to the flags field regresses 653. All probes were reverted.
 - `SupervisorServiceUpdate` remains 1,629/1,633 bytes / 1,038 differences.
-  Attested Ghidra decomp confirms the retail result local is initialized to
-  zero, set to one on the retry path, and returned from both retry and
-  synchronized-frame exits. The candidate folds this 0/1 local into constants
-  and reuses `[ebp-4]` for a `PopFrame` out-parameter, shifting the seed/predicted
-  scratch layout. Volatile result stores force a home at `[ebp-0xc]` and expand
-  the frame; address-taking, declaration reordering, hoisting/grouping the
-  output scratch, and merging result/returnState did not recover `[ebp-4]`.
-  All variants were reverted; see the 2026-11-15 Supervisor result-home entry.
+  Attested Ghidra decomp confirms the result local is initialized to zero, set
+  to one on the retry path, and returned from both retry and synchronized-frame
+  exits. A common result-return label reduces the residual to 980 but homes the
+  result at `[ebp-0xc]` in a `0x18` frame. A 20-byte aggregate for both `PopFrame`
+  scratch sets, inputs and result reduces it to 931 differences, but grows the
+  owner to 1,656 bytes and still homes the result at `[ebp-8]`. A function-wide
+  `SupervisorNetworkState` snapshot restores the `0x14` frame and `[ebp-4]`
+  result home, but changes the owner to 1,525/1,633 with 1,168 differences;
+  segmented snapshots also spill and regress. All probes were reverted. Next,
+  identify the extra `[ebp-4]` local in the aggregate carrier and its true
+  lifetime before trying another stack overlay. See the 2026-11-16 result/scratch
+  lifetime entry in `KNOWLEDGE_BASE.md`.
 - `PlayerLifecycleView::UpdateChargeAttack` remains 1,210/1,210 with 183
   differences. Separate side/input-side locals, typed-array indexing,
   reference input receivers, and a `register` input-pointer hint did not

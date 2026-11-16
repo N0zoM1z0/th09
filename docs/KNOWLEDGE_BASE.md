@@ -8648,3 +8648,43 @@ baselines: `Enemy OnUpdate` 3900/3900 with 2 differences,
 `CheckBulletCollision` 853/862 with 692, `AddedCallback` 51/51 with 4, and
 `CalcShakeEnvelope` 336/336 with 26. No source carrier, exact-match manifest,
 or frontier metadata was changed, and no full cold replay was run.
+
+## 2026-11-16 GPT-web: SupervisorServiceUpdate result/scratch lifetime experiments
+
+The maintained `SupervisorServiceUpdate @ 0x00430AA0` remains 1,629/1,633
+bytes with 1,038 residual offsets. The source was kept protected while
+several source-level lifetime models were compiled against this owner only.
+
+- Sending the retry return and synchronized return through one
+  `SERVICE_RESULT_RETURN` label makes the result value genuinely live at a
+  common exit. This moves it out of the candidate's reused `[ebp-4]` output
+  slot, but C2 homes it at `[ebp-0xc]` and grows the frame to `0x18`; the
+  candidate is 1,641/1,633 bytes with 980 differences.
+- A 20-byte `ServiceResultScratch` aggregate shared by both `PopFrame` call
+  sites (inputs, time sample, predicted output, two seed outputs and result)
+  improves the residual count to **931**, but produces 1,656/1,633 bytes. The
+  result home is `[ebp-8]`, and another local occupies `[ebp-4]`; the target
+  instead has the result at `[ebp-4]`, predicted output at `[ebp-0xc]`, and
+  seed outputs at `[ebp-8]/[ebp-6]`. This is a useful lifetime model, not a
+  promotable frontier: the owner is 23 bytes too large.
+- Replacing every `g_SupervisorNetworkState` access with one function-wide
+  pointer snapshot after `EnterCriticalSectionWrapper` recovers the target
+  `0x14` frame and `[ebp-4]` result home, and moves the initial global-state
+  load into EDI. It also collapses many later reloads: the candidate becomes
+  1,525/1,633 bytes with 1,168 differences. This confirms the global-pointer
+  live range participates in the stack/register allocation, but a single
+  function-wide snapshot is too broad.
+- Segmented aliases for the initial state, peer state, frame, handshake,
+  packet and final synchronization blocks were also measured. They retain
+  1,591-1,613-byte owners with 1,112-1,129 differences and still spill a
+  pointer into the extra stack slot. Register-qualifying the alias does not
+  alter the result.
+
+Every variant was restored. Do not repeat the common-return, single-aggregate,
+function-wide-global-snapshot or simple segmented-alias forms. The next
+specific question is the identity and lifetime of the extra `[ebp-4]` home in
+the aggregate carrier (the disassembly stores and reloads a separate value
+there), and whether it can share an actually non-overlapping scratch lifetime
+without increasing the frame. Keep the maintained 1,629/1,633, 1,038-offset
+carrier until a candidate improves both the owner extent and residuals. No
+full cold replay was run.
