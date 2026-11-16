@@ -111,6 +111,26 @@ def validate() -> dict[str, int]:
         raise ValueError("source mappings do not cover every authored row with maintained source")
     if not match_addresses.issubset(mapping_addresses):
         raise ValueError("exact matches must have source mappings")
+    # The origin ledger, not textual function similarity, controls authored
+    # exact credit. Require both ledgers to agree on exclusion and authored
+    # statuses. Reviewed codegen-exact aliases may retain status=matching
+    # without an authored match, but must never enter matches.csv.
+    for address, function in function_by_address.items():
+        disposition = origin_by_address[address]["disposition"]
+        status, percent = function["status"], function["match_percent"]
+        if disposition == "exclude":
+            if status != "excluded" or percent != "0.00":
+                raise ValueError(f"excluded origin has contradictory function status at {address}")
+        elif disposition == "authored":
+            expected_status = "matching" if address in match_addresses else "unclassified"
+            expected_percent = "100.00" if address in match_addresses else "0.00"
+            if status != expected_status or percent != expected_percent:
+                raise ValueError(f"authored function exact status disagrees with proof ledger at {address}")
+        elif disposition == "review":
+            if status not in {"unclassified", "matching"} or (
+                status == "unclassified" and percent != "0.00"
+            ) or (status == "matching" and percent != "100.00"):
+                raise ValueError(f"origin-unresolved function has invalid evidence status at {address}")
     for address, mapping in mapping_by_address.items():
         function = function_by_address[address]
         if mapping["type"] != "function" or mapping["name"] != function["proposed_name"]:

@@ -9278,3 +9278,22 @@ relocation fields** across its two real compiler carriers (`/Ob0`/`/Ob1`),
 including `RunEcl`'s 15,564-byte physical comparison. No newly exact function
 is claimed; the open vreg-7 allocator interference issue remains. Only the
 affected source and its bound nonexact owner were rebuilt, not a full replay.
+
+## 2026-11-16 GPT-web: origin/status proof consistency guard
+
+Follow-up to the 33-byte SoundManager wrapper classification: the tracking
+validator now enforces the function ledger's status against the independent
+origin ledger and accepted authored-exact matches. All `exclude` origins must
+carry `excluded / 0.00` in `functions.csv`; authored `matching / 100.00` must
+be backed by `matches.csv`, with other authored sources remaining nonexact;
+reviewed-origin codegen-equivalent aliases may retain `matching / 100.00`
+**without** being admitted to authored exactness. The existing 15-byte
+`Th09EclRunControl::VectorAngle` origin-review wrapper is one such explicit
+case: its body is exact but SDK-versus-game authorship remains unresolved.
+
+A runtime-only ledger mutation reinstating the former erroneous
+`0x0043E170` `unclassified` status is now rejected with a concrete address;
+normal validation still reports **2,248 candidates, 1,037 mappings and 1,026
+exact functions**. This closes an evidence bookkeeping hole rather than
+adding source owners or inventing exactness. No target, compiler binary, or
+raw executable byte was changed.
