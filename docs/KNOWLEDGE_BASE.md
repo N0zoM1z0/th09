@@ -9725,3 +9725,32 @@ the captured kind-0xB helper was not entered for that node. This narrows the
 remaining EAX-versus-ECX discrepancy but does not yet identify the original
 compiler's differing score context or candidate mapping. No register hint,
 synthetic volatile, inline assembly or padding was added to maintained source.
+## 2026-11-17 GPT-web: name Enemy secondary death, marker and priority flags
+
+The native Enemy `+0x3380` secondary DWORD now names more of its previously
+opaque bits in both overlapping C++ views: `deathFlag00` (bit 0),
+`bossMarkerState01_02` (bits 1-2), `bossTimerPause04` (bit 4), and
+`cardAttackIndicator13` (bit 13). Existing `noDeath03`,
+`effectCategory06_08`, `movementMode09_10`, `sideCategory10_11`,
+`interactionTriggered12`, and bit-14 names remain in their correct view.
+The overlapping movement/category interpretations are intentional; in
+particular bit 10 is movement-mode state in one ECL context and the low bit of
+the side category in another.
+
+`EnemyManagerView::OnUpdate` now uses those fields for the death transition,
+Boss marker state and sound choice, timer pause, priority selection, and
+card-attack indicator. The old `0x4DC0` normal-enemy count gate is represented
+by the three actual fields it tests: effect category, side category, and bit
+14. No raw `secondaryFlags3380` masks remain in this boss. The owner remains
+**3,900/3,900 bytes with exactly the same two residual bytes**;
+`check-frontier.py enemy-on-update` passes.
+
+The pinned source-scoped replays passed all 84 exact functions in the
+`EclManager.cpp` carrier (45,420 physical bytes / 1,987 relocations), the
+expanded shared-flag dependent cohort of 88 exact functions (46,147 / 2,007),
+and both enemy-trail exact leaves (664 / 39). The 88-unit cohort includes the
+84-unit EclManager carrier; these figures are separate validation scopes, not
+additive totals. The changed compiler-private local-symbol bindings in
+`config/match-units.toml` retain their original relocation offsets, types and
+retail destinations. No exact-function membership or target bytes changed,
+and no full cold replay was run.

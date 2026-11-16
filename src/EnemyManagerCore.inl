@@ -451,7 +451,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
 
             manager->activeEnemyCount2AC3AC = static_cast<int>(
                     static_cast<unsigned int>(manager->activeEnemyCount2AC3AC) + 1u);
-            if ((enemy->secondaryFlags3380 & 0x4DC0) == 0)
+            if ((enemy->secondaryFlagBits3380.movement.effectCategory06_08 == 0 &&
+                enemy->secondaryFlagBits3380.category.sideCategory10_11 == 0 &&
+                enemy->secondaryFlagBits3380.movement.secondaryFlag4000_14 == 0))
                 manager->normalEnemyCount2AC3B0 = static_cast<int>(
                     static_cast<unsigned int>(manager->normalEnemyCount2AC3B0) + 1u);
             if (enemy->secondaryFlagBits3380.category.sideCategory10_11 != 0)
@@ -509,7 +511,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
 
             if (((enemy->primaryFlags337C & ENEMY_CORE_PAUSE_WITH_PLAYER) != 0 &&
                  manager->sideState320->playerLifecycle04->GetUpdateState() != 0) ||
-                (enemy->secondaryFlags3380 & 0x10) != 0)
+                enemy->secondaryFlagBits3380.movement.bossTimerPause04 != 0)
             {
                 enemy->bossTimer2E64--;
                 goto update_damage_flash;
@@ -636,7 +638,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                  (ENEMY_CORE_NO_SPRITE | ENEMY_CORE_HIDE_PRIMARY)) == 0)
             {
                 if ((enemy->primaryFlags337C & ENEMY_CORE_COLLISION) != 0 &&
-                    ((enemy->secondaryFlags3380 & 0x01C0) == 0 ||
+                    (enemy->secondaryFlagBits3380.movement.effectCategory06_08 == 0 ||
                      manager->sideState320->characterIndex20 != 11))
                 {
                     enemy->AppendPlayerCollisionBox(
@@ -723,13 +725,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                             if (damage == enemy->secondaryDamageAccumulator2E60)
                                 hitKind = 2;
 
-                            if ((enemy->secondaryFlags3380 & 0x01C0) != 0)
+                            if (enemy->secondaryFlagBits3380.movement.effectCategory06_08 != 0)
                             {
                                 int secondaryPart = static_cast<int>(
                                     static_cast<unsigned int>(damage) -
                                     static_cast<unsigned int>(enemy->primaryDamageAccumulator2E5C));
                                 int primaryPart;
-                                if ((enemy->secondaryFlags3380 & 0x1000) == 0)
+                                if (enemy->secondaryFlagBits3380.movement.interactionTriggered12 == 0)
                                     primaryPart =
                                         enemy->primaryDamageAccumulator2E5C / 4;
                                 else
@@ -783,13 +785,14 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 }
             }
 
-            if ((enemy->secondaryFlags3380 & 1) != 0 && enemy->life2E48 > 0)
-                enemy->secondaryFlags3380 &= ~1u;
-            if (enemy->life2E48 > 0 || (enemy->secondaryFlags3380 & 9) != 0)
+            if (enemy->secondaryFlagBits3380.movement.deathFlag00 != 0 && enemy->life2E48 > 0)
+                enemy->secondaryFlagBits3380.movement.deathFlag00 = 0;
+            if (enemy->life2E48 > 0 || (enemy->secondaryFlagBits3380.movement.deathFlag00 != 0 ||
+                 enemy->secondaryFlagBits3380.movement.noDeath03 != 0))
                 goto update_damage_flash;
 
         process_enemy_death:
-            enemy->secondaryFlags3380 |= 1;
+            enemy->secondaryFlagBits3380.movement.deathFlag00 = 1;
             // The retail signed quotient follows a native i386 DWORD
             // subtraction: perform that subtraction modulo 2^32 before
             // interpreting its result as a signed frame count.
@@ -919,7 +922,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             }
             else if (damageOccurred)
             {
-                if ((enemy->secondaryFlags3380 & 6) < 4)
+                if (enemy->secondaryFlagBits3380.movement.bossMarkerState01_02 < 2)
                     g_SoundPlayer.PlaySoundPositionedByIdx(20, enemy->worldPosition2DD4.x);
                 else
                     g_SoundPlayer.PlaySoundPositionedByIdx(37, enemy->worldPosition2DD4.x);
@@ -952,7 +955,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 markerPosition.z = 0.0f;
                 g_AsciiManager.SetBossMarkerPosition(enemy->bossSlot336B,
                                                    &markerPosition);
-                int markerState = (enemy->secondaryFlags3380 >> 1) & 3;
+                int markerState = enemy->secondaryFlagBits3380.movement.bossMarkerState01_02;
                 if (markerState == 0)
                     g_AsciiManager.SetBossMarkerState(enemy->bossSlot336B,
                         (enemy->primaryAnmVm0008.flagsWord >> 17) & 1);
@@ -961,21 +964,21 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                                                     markerState + 1);
             }
 
-            if (((enemy->secondaryFlags3380 & 0x200) != 0 &&
+            if (((enemy->secondaryFlagBits3380.movement.movementMode09_10 & 1) != 0 &&
                  manager->priorityEnemy2AC444 == 0) ||
-                (enemy->secondaryFlags3380 & 0x1000) != 0)
+                enemy->secondaryFlagBits3380.movement.interactionTriggered12 != 0)
             {
                 manager->priorityEnemy2AC444 = enemy;
             }
             if (manager->firstActiveEnemy2AC448 == 0)
                 manager->firstActiveEnemy2AC448 = enemy;
-            if ((enemy->secondaryFlags3380 & 0x0C00) == 0x0C00)
+            if (enemy->secondaryFlagBits3380.category.sideCategory10_11 == 3)
             {
                 g_GameManager.frontFactoryA8->SetSideEnemyIndicatorPosition(
                     manager->sideIndex31C, reinterpret_cast<const Float3 *>(&enemy->position2D74));
                 manager->priorityEnemy2AC444 = enemy;
             }
-            else if ((enemy->secondaryFlags3380 & 0x2000) != 0)
+            else if (enemy->secondaryFlagBits3380.category.cardAttackIndicator13 != 0)
             {
                 manager->priorityEnemy2AC444 = enemy;
             }

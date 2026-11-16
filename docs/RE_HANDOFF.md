@@ -1,4 +1,4 @@
-# TH09 exact reconstruction — agent handoff (verified 2026-11-16)
+# TH09 exact reconstruction — agent handoff (verified 2026-11-17)
 
 **Start:** [AGENTS.md](../AGENTS.md) · [workflow](RE_WORKFLOW.md) ·
 [original/VC7.1 Oracles](ORACLES.md) ·
@@ -44,12 +44,16 @@ compiler objects you need.**
   physical mapping remain unresolved. The scoped volatile side-state pointer
   fixes the pair but shifts four Float3 call-argument bytes; do not restore it.
   The maintained side gates now use the native shared `+0x34` and `+0x337C`
-  bitfield views. The `+0x3380` secondary DWORD also has overlapping movement
-  and late-side-category views: movement mode occupies bits 9-10, while the
-  ECL side category occupies bits 10-11. The boss uses the named side-category,
-  effect-category and interaction-triggered fields for its special/reward
-  counters and special-attack gate. These typed views preserve the complete
-  owner and all 84 exact same-source siblings.
+  bitfield views. The `+0x3380` secondary DWORD has overlapping movement and
+  late-side-category views: movement mode occupies bits 9-10, while the ECL
+  side category occupies bits 10-11. The boss now names and uses the death bit
+  (bit 0), marker state (bits 1-2), timer-pause bit (bit 4), effect category
+  (bits 6-8), interaction bit (bit 12), and card-attack indicator (bit 13);
+  the `0x4DC0` normal-enemy gate is expressed as three typed field tests. The
+  3,900-byte owner remains at the same two residual bytes. Source-scoped replays
+  passed 84 same-source exact units (45,420 bytes / 1,987 relocations), the
+  expanded 88-unit shared-flag cohort (46,147 / 2,007), and both trail leaves
+  (664 / 39). No cold replay was run.
 - **SupervisorServiceUpdate** now has a ratchet-safe maintained natural C++
   baseline of **1,629/1,633 bytes / 966 differences** (72 prior mismatches repaired). The 20-byte stack map and `[ebp-4]` result home are understood.
   A separate natural C++ diagnostic (no ASM) is `.analysis/SupervisorNetwork.natural-ebx-reload.cpp`

@@ -31,15 +31,17 @@ union Th09EclEnemySecondaryFlagBits
     // ECL movement interprets bits 9..10 as a movement mode.
     struct Movement
     {
-        unsigned int unknown00_02 : 3;
+        unsigned int deathFlag00 : 1;
+        unsigned int bossMarkerState01_02 : 2;
         unsigned int noDeath03 : 1;
-        unsigned int unknown04_05 : 2;
+        unsigned int bossTimerPause04 : 1;
+        unsigned int unknown05 : 1;
         // Effect trails and post-ECL interaction share the category at +0x3380.
         unsigned int effectCategory06_08 : 3;
         unsigned int movementMode09_10 : 2;
         unsigned int unknown11 : 1;
         unsigned int interactionTriggered12 : 1;
-        unsigned int unknown13 : 1;
+        unsigned int cardAttackIndicator13 : 1;
         unsigned int secondaryFlag4000_14 : 1;
         unsigned int unknown15_31 : 17;
     } movement;
@@ -47,14 +49,16 @@ union Th09EclEnemySecondaryFlagBits
     // ECL late side-category opcodes overlay bits 10..11 of that same word.
     struct Category
     {
-        unsigned int unknown00_02 : 3;
+        unsigned int deathFlag00 : 1;
+        unsigned int bossMarkerState01_02 : 2;
         unsigned int noDeath03 : 1;
-        unsigned int unknown04_05 : 2;
+        unsigned int bossTimerPause04 : 1;
+        unsigned int unknown05 : 1;
         unsigned int effectCategory06_08 : 3;
         unsigned int unknown09 : 1;
         unsigned int sideCategory10_11 : 2;
         unsigned int interactionTriggered12 : 1;
-        unsigned int unknown13 : 1;
+        unsigned int cardAttackIndicator13 : 1;
         unsigned int secondaryFlag4000_14 : 1;
         unsigned int unknown15_31 : 17;
     } category;
