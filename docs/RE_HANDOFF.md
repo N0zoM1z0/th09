@@ -190,12 +190,20 @@ tool upgrade.
    the circle decision and is invalid. Next, influence C2 block layout without
    changing x87 operand order or adding a latch. Never update the frontier for
    a candidate with new differences.
-2. **SupervisorServiceUpdate (large boss).** Continue from the confirmed
-   `[ebp-4]` result-home mismatch. Recover the original local lifetime and the
-   `PopFrame` scratch layout without forcing an enlarged volatile/address-taken
-   frame. The Ghidra export confirms the result semantics; the remaining
-   question is the source-scope/stack-slot assignment that keeps the result
-   home live while the two seed outputs occupy the lower slots.
+2. **SupervisorServiceUpdate (large boss).** The retail 20-byte frame is now
+   mapped: inputs `-0x14/-0x12`, predicted `-0x0c`, seed outputs `-0x08/-0x06`,
+   and result `-0x04`. The early second `PopFrame` intentionally overlaps seed
+   `-0x0a` with predicted `-0x08`. A saved diagnostic source reproduces all
+   stack homes plus EDI network pointer / EBX frameCounter / ECX syncRate, but
+   is 1,590/1,633 bytes with 1,049 differences and must not replace the
+   maintained 1,629/1,633-byte carrier (1,038 differences). The remaining
+   register conflict is `timeGetTime` IAT lifetime: retail conditionally loads
+   EBX at `0x430b06`, `0x430b54`, `0x430bc1`, then reuses EBX for frameCounter
+   and reloads at `0x430fb0`; candidate calls still differ at those boundaries.
+   Continue with branch-scoped clock pointer loads while preserving the exact
+   20-byte scratch layout. Do not repeat volatile-result or declaration-order
+   probes, function-wide global-pointer snapshots, or keep the diagnostic
+   aggregate candidate as the maintained carrier.
 3. **Enemy OnUpdate (two-byte frontier).** The maintained carrier is
    `3900/3900` bytes with only `+0x19a/+0x1a1` differing. C2 line 68814 / vreg 7
    has live-set mask `0x19E`; class-0 candidates 1 and 2 tie at zero score and
