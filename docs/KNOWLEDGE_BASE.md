@@ -9464,3 +9464,33 @@ initialization, member order and nonvolatile union storage remain
 byte-neutral. The correct target `[ebp-4]` result home and 4-byte extent
 gap still require further C++ lifetime reconstruction. The maintained source
 is still NONEXACT; no full cold replay or authored-exact claim was made.
+
+## 2026-11-16 GPT-web: native Title result character-order access
+
+The maintained `TitleScreenView::OnUpdateResult @ 0x004266B5` now addresses
+`g_TitleResultCharacterOrder[keyboardSelection]` through its actual `char[16]`
+array, rather than manually adding the signed selection DWORD to a cast
+integer pointer. It preserves the two value uses and the pre-callback
+character snapshot: the callback receives the live selected character and
+`nameBankIndex` publishes the previously read `char` after the call.
+This is normal C++ array ownership, with no ASM, padding or invented store.
+
+Pinned VC7.1 `/O1 /Ob1` emits the **identical 484-byte nonexact function**
+against the original 485-byte extent: **167 masked differences remain**.
+The remaining site `+0xFD` is understood: retail issues
+`mov ecx, [esi]`; `mov cl, [ecx+g_TitleResultCharacterOrder]`, then
+`push 2` and `movsx edi, cl` before the cursor call, while C2 still
+uses one indexed sign-extend after a separate address/argument setup.
+Direct `char`, `signed char`, `int`, pointer/reference, volatile and
+store-order probes either retained the old residual or introduced new
+mismatches; none was promoted as exact.
+
+The source-level change renumbered exactly nine compiler-private `$L...`
+labels in the unrelated `TitleScreenView::OnUpdateStartMenu` function.
+Each replacement symbol was proven in the **same COFF owner section**, with
+an unchanged relocation offset/type and exactly the original physical
+target address before updating the nine names in `config/match-units.toml`.
+A selected-source canonical replay passed **all 41 exact TitleScreen units**
+(two compile profiles), covering **18,972 physical bytes and 953
+relocation fields**. There was no machine-code patch, authored exact credit,
+or full cold replay.
