@@ -8818,3 +8818,58 @@ branch currently emits a direct IAT call where retail loads EBX, and the host
 branch reload must not keep EBX live across the frame branch. Do not repeat
 simple declaration reordering or a function-wide global-pointer snapshot.
 No full cold replay was run; only `supervisor-network-service` was compiled.
+
+## 2026-11-16 GPT-web: SupervisorServiceUpdate branch-scoped clock register and final IAT reload
+
+The maintained `SupervisorServiceUpdate @ 0x00430AA0` source and frontier are
+still protected at **1,629/1,633 bytes / 1,038 differences**. A new owner-only
+source candidate is saved at
+`.analysis/SupervisorNetwork.final-ebx-reload.cpp` with its object at
+`.analysis/supervisor-final-ebx-reload.obj` (source SHA-256
+`b9c1e6f23cac598d5f86804cfdfff83e3ce41cb641781cefba14a60161daccdd`; object
+SHA-256 `5653086fa5686dbc44f3603e847df1ae42b540e3896aebeff02822913af4b66c`).
+Its focused comparison is **1,591/1,633 bytes / 976 differing offsets**. This is
+a 62-offset diagnostic improvement over the maintained baseline, but the
+emitted function is still 42 bytes short, so it is **not** ratchet-safe and
+was not promoted to `config/frontiers.toml`.
+
+### Register and clock-lifetime result
+
+- The candidate now emits the retail register roles in the state-1 timeout
+  path: the clock IAT pointer remains in **EBX**, while the sampled
+  `connectNow` value uses **EDI**. This required ending the old network-state
+  receiver's live range before the sample is reused. Keeping
+  `connectionNetwork->localSide` live through the shared host label instead
+  keeps the receiver in EDI and makes C2 overwrite EBX with `connectNow`.
+- The initial host branch loads the IAT pointer before the shared host body;
+  the state-1 reset path jumps past that load and reuses its earlier EBX value.
+  This matches the distinct retail load sites around `0x430b54` and
+  `0x430bc1` without a reload after `ResetSession`. The host-side `localSide`
+  store uses the global receiver so it does not extend the earlier EDI alias
+  across the state-1 sample.
+- A further `stateClock = __imp__timeGetTime` at the final synchronization
+  boundary restores the retail EBX reload corresponding to `0x430fb0`; the
+  following `AreFrameQueuesSynchronized` call preserves EBX, and the clock
+  sample is then `call ebx`, matching the target's `0x430fb0..0x430fd3`
+  sequence. The previous direct-IAT helper emitted `call [IAT]` here and missed
+  this lifetime boundary.
+- The 20-byte frame and `[ebp-4]` result home remain intact, along with the
+  overlapping early `PopFrame` scratch addresses documented above.
+
+### Remaining mismatch and next experiment
+
+The candidate's first network-state receiver is still held in EAX rather than
+retail EDI; this changes the entry/state-0 instruction sequence. At the final
+synchronization boundary it reads `localSide` into EDI and computes the
+inverted side through EAX, while retail keeps the network pointer in EDI,
+loads `localSide` into EAX, then uses ECX for the constant-one subtraction.
+Simple `register` hints for `connectionNetwork`, `network`, `connectNow`, and
+the side temporary did not change the allocation; a volatile-pointee receiver
+was also byte-neutral. Do not re-run those spelling probes. The next useful
+step is a source lifetime that preserves the network receiver in EDI at entry
+but releases it before the state-1 `connectNow` sample, without moving the
+retail global-receiver stores or introducing a new stack home.
+
+Only `supervisor-network-service` was compiled. The result is diagnostic, not
+accepted Oracle evidence; no frontier, source carrier, exact-match manifest,
+or full cold replay was changed.
