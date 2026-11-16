@@ -925,7 +925,11 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             if (frameHeader != NULL)
             {
                 const ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
-                memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), frameHeader, sizeof(*frameHeader));
+                // Copy the native 0x20-byte frame header as its real POD record.
+                ReplayFrameDataStartView *destination =
+                    reinterpret_cast<ReplayFrameDataStartView *>(
+                        tempBuffer + currentOffset - sizeof(ReplayHeaderView));
+                *destination = *frameHeader;
                 replayCopy.frameOffset[stream][loopIndex] = currentOffset;
                 currentOffset += sizeof(*frameHeader);
                 for (; link != NULL; link = link->next)

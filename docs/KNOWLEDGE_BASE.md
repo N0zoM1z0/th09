@@ -9322,3 +9322,23 @@ original address, code byte or exactness proof was modified. The affected
 source-scoped canonical replay passes **all 18 previously exact ScreenEffect
 functions**, covering **2,562 full physical bytes and 164 relocation fields**
 across the three real compiler profiles. No whole-product cold replay was run.
+
+## 2026-11-16 GPT-web: native Replay frame-header aggregate assignment
+
+The original `ReplayManagerView::SaveReplay @ 0x00420C60` first copies a genuine
+32-byte `ReplayFrameDataStartView` record from each selected replay-stage
+header into the native encoded-frame buffer. The maintained source now
+expresses this copy as one natural C++ POD structure assignment through a
+typed `ReplayFrameDataStartView *destination`, instead of a generic `memcpy`.
+The destination still comes from the original allocated byte buffer and
+`currentOffset - sizeof(ReplayHeaderView)`; the following offset publication,
+frame increment, and linked input-frame copy stay in the original order.
+
+Pinned VC7.1 `/O2 /Ob1` turns the type-safe record assignment into **the same
+8-DWORD `rep movsd` copy and complete 1,238-byte function**, with exactly the
+existing two nonmatching register bytes at `+0xB7/+0xBB` and the original
+53 relocation fields. This is real C++ data-ownership reconstruction, not an
+ASM/padding replacement or an exactness claim. All **12 same-source exact
+ReplayInput functions** passed selected-source replay (4,093 physical bytes,
+232 relocation fields, two compiler profiles). No complete cold replay was
+run.
