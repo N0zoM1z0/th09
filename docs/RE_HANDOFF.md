@@ -212,9 +212,10 @@ tool upgrade.
 4. **Smaller owners.** `EffectManager::AddedCallback` remains 51/51 bytes with
    4 differences; `ScreenEffect::CalcShakeEnvelope` remains 336/336 with 26;
    `PlayerLifecycleView::UpdateMovementAndOptions` remains 1,900/1,900 with 4;
-   `TitleScreenView::OnUpdateResult` remains 484/485 with 167. The ANM-manager
-   receiver-order, ScreenEffect/timer, PlayerMovement configuration-pointer
-   order, and TitleResult direct-index/register probes did not improve their
+   `TitleScreenView::OnUpdateResult` remains 484/485 with 167; `ReplaySave`
+   remains 1,238/1,238 with 2. The ANM-manager receiver-order, ScreenEffect/timer,
+   PlayerMovement configuration-pointer order, TitleResult direct-index/register,
+   and ReplaySave temp-buffer register/alias probes did not improve their
    owners. Only reopen them with a new, specific live-range hypothesis. Do not
    repeat the failed aliases, TitleResult table-index forms, or the documented
    BeginPlaybackStage and SaveReplay variants.

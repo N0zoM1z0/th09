@@ -8738,3 +8738,23 @@ Focused checks after restoration confirm the maintained frontiers:
 `player-bullet-collision` 853/862 with 692,
 `supervisor-network-service` 1,629/1,633 with 1,038, and
 `enemy-on-update` 3,900/3,900 with 2. No full cold replay was run.
+
+## 2026-11-16 GPT-web: ReplaySave temp-buffer destination register residual
+
+The maintained `ReplayManagerView::SaveReplay @ 0x00420C60` owner remains
+1,238/1,238 bytes with two residual instructions at `+0x0B6/+0x0B9`. Retail
+loads the temporary-buffer pointer from `[ebp-0x10]` directly into EDI and
+updates it in place with `lea edi,[edi+ebx-0xc0]`. The candidate loads the same
+stack home into ECX, then uses `lea edi,[ecx+ebx-0xc0]`; the final memcpy
+source/destination and copy count are otherwise aligned.
+
+Focused source probes did not alter the pair: register-qualifying the
+`tempBuffer` local, making the pointer variable volatile, introducing a
+register destination alias and incrementing it in place, reordering the
+pointer arithmetic to subtract the header size before adding `currentOffset`,
+and changing the local from `void *` to `u8 *` all preserve the candidate's
+ECX-based temporary. The volatile-pointer form regresses the owner and is
+rejected. All probes were reverted; the maintained 1,238/1,238 carrier still
+has exactly two residual offsets. Do not repeat simple pointer cv-qualifiers,
+register hints or arithmetic-order rewrites without a new liveness hypothesis.
+No full cold replay was run.
