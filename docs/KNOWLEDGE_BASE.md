@@ -17,7 +17,7 @@ not live compiler receipts. Old exact counts, label names and temporary build
 paths can be superseded; do not apply them without checking live source and
 canonical ledgers. Any claim describing a "current" candidate is historical
 unless confirmed in the active handoff. In particular,
-GameplaySetupThread and Title DrawResult are exact; the 12 active nonexact
+GameplaySetupThread and Title DrawResult are exact; the 11 active nonexact
 owners and the unfinished product/runtime gates remain separate.
 
 ## Where to look
@@ -27,15 +27,12 @@ older entries below were removed on 2026-11-15. Their conclusions stand;
 use `scripts/check-frontier.py` (nonexact) or `compare-coff-function.py`
 (exact) to re-measure.
 
-**Size accounting:** the canonical nonexact total (28,145 bytes) sums
-twelve authored `functions.csv` logical extents. The original-bound
-RunEcl, Enemy OnUpdate and Player movement inspections additionally
-cover 772, 17 and 65 bytes of owned physical code/tails/tables respectively,
-so summing the twelve physical comparison sizes instead yields 28,999 bytes.
-Do not conflate physical-owner proof with the exact authored-byte ledger:
-at the 2026-11-14 ledger check, 278,578/291,931 reviewed-authored bytes
-(95.4260%) were exact. See the live generated [PROGRESS.md](PROGRESS.md)
-for changes; the complete-image inventory and Windows product remain open.
+**Current size accounting (verified 2026-11-16):** the canonical ledger has
+11 source-present nonexact functions covering 13,353 authored logical bytes.
+Physical frontier extents can include additional tails/overlap and must not be
+summed into the authored-byte metric. The exact authored-byte total is
+278,578/291,931 (95.4260%). See generated [PROGRESS.md](PROGRESS.md) for the
+live figures; the complete-image inventory and Windows product remain open.
 
 - **Current exactness/frontiers and safe rebuild commands:**
   [RE_HANDOFF.md](RE_HANDOFF.md); generated figures in
@@ -78,7 +75,7 @@ compiler/toolchain and Git history have not been pruned.
   credit. A previous negative register-lifetime experiment is a clue,
   not proof that every natural source form is exhausted.
 - For the other agent's fastest starting point, see the
-  [12-owner table and scoped commands](RE_HANDOFF.md). Do not run a routine
+  [11-owner table and scoped commands](RE_HANDOFF.md). Do not run a routine
   all-owner cold replay, do not change VC7.1 profiles to chase registers,
   and do not treat adjacent-game decompilation as an original TH09 Oracle.
 
@@ -7317,35 +7314,36 @@ records the now-superseded 1,682/1,692-byte diagnostic experiments.
 ## Remaining ScreenEffect, network and Effect callback frontiers
 
 GameplaySetupThread is exact and is no longer part of this unfinished-owner
-group. The comparisons below describe still-nonexact functions, not the
-separate original-bound GameManager worker already closed above.
+group. Current status is summarized here; use the active table in
+[RE_HANDOFF.md](RE_HANDOFF.md) for the full live owner list.
 
-ScreenEffect shake remains 336 bytes/20 fields/26 differences. The final phase
+ScreenEffect shake remains 336/336 bytes with 26 differences. The final phase
 extends endFrame by rawParameter1 + rawParameter2, and both the final guard and
 ramp-down numerator use rawParameter0 + rawParameter1 + rawParameter2. An older
 candidate incorrectly kept the ramp-up endpoint. The remaining question is
 receiver/fade lifetime, with the current full-phase behavior preserved.
 
-Supervisor network service remains 1,627/1,633 bytes and 106 fields. The
-original result home/frame size and successful-prediction/synchronized-wait
-block ordering differ. Swapping source arms or spelling early returns did
-not control emitted block order. The network-message handler is separately
-exact: its input is unsigned 16-bit, while seed is signed short. Its ret16
-contract and four physical argument slots stay fixed.
+Supervisor network service remains protected at 1,629/1,633 bytes with 1,038
+differences. The best saved diagnostic is 1,591/1,633 with 976 differences;
+it restores branch-scoped EBX clock-pointer use, EDI `connectNow`, and the final
+`0x430fb0` IAT reload, but is still 42 bytes short. Its remaining entry receiver
+and final side-inversion register order are listed in the current handoff. The
+network-message handler is separately exact: its input is unsigned 16-bit,
+while seed is signed short. Its ret16 contract and four physical argument slots
+stay fixed.
 
-Effect AddedCallback remains 51 bytes/four fields/eight differences. ESI holds
-the owner and EDI captures the ANM manager, not the returned resource; EAX holds
-GetAnm/PreloadAnm's resource. Bytes +0x0E..+0x32 already match; residuals are
-+0x03..+0x09 and +0x0D. Borrowed owner/captured receiver/interface variants
-left eight or eleven differences. RET at +0x32 ends the owner; the following
-thirteen CC bytes are unowned. Keep the independently exact Create caller.
+Effect AddedCallback remains 51/51 bytes with four differences. Retail uses EDI
+for the global ANM manager and ESI for callback context; the current source
+reverses that setup order. EAX carries the GetAnm/PreloadAnm resource. Earlier
+2026-11-13 trials recorded eight or eleven differences before later source
+cleanup; those historical residual counts are superseded. Keep the independently
+exact Create caller protected.
 
-Eighteen additional current-source VC7.1 trials varied the order of owner and
-ANM manager initialization, cached versus direct GetAnm receiver, reference
-versus pointer owner, conditional assignment and result destination storage.
-All complete 51-byte/4-field comparisons either retained the original eight
-register-scheduling differences or regressed to eleven; a pointer-reference
-trial changed the actual relocation count and was rejected. None was adopted.
+The earlier trials varied owner/ANM-manager initialization order, cached versus
+direct GetAnm receiver, reference versus pointer owner, conditional assignment
+and result destination storage. Their eight/eleven-difference measurements are
+historical and are not the current frontier. Recheck the pinned complete owner
+before relying on an old offset list.
 
 ## Reference integration and phase limits
 
@@ -8264,7 +8262,7 @@ was run, and no source carrier was changed by these diagnostic probes.
 ## 2026-11-15 GPT-web: SupervisorServiceUpdate result-home and out-parameter analysis
 
 Attested Ghidra analysis of `SupervisorServiceUpdate @ 0x00430AA0`
-(`.analysis/ghidra-direct/export-20261115T190745-2/function-00430aa0.c`)
+(`.analysis/ghidra-direct/export-20261116T123503-5/function-00430aa0.c`)
 clarifies the stack-home mismatch. Retail has a zero-initialized result local
 (`local_8`) that is set to `1` on the `uVar9 < 0x4e21` retry path and returned
 on both that exit and the synchronized-frame exit. The two `PopFrame` calls
@@ -8801,16 +8799,14 @@ The register mapping can also be reproduced together:
   confirmed the backend can emit direct IAT calls without holding the pointer
   in EBX.
 
-This is a diagnostic success, not yet a ratchet-safe source improvement. The
-best combined candidate is saved at
-`.analysis/SupervisorNetwork.exact-stack-register-inline-IAT.cpp`; its scoped
-frontier is **1,590/1,633 bytes with 1,049 differing offsets**, versus the
-maintained **1,629/1,633 with 1,038 differences**. It reproduces the EDI/EBX/ECX
-roles, the result home, and both overlapping `PopFrame` layouts, but still
-misses the retail conditional clock-IAT reload boundaries at `0x430b06`,
-`0x430b54`, `0x430bc1`, and `0x430fb0`. An earlier noinline-helper variant
-reached 1,570/1,633 with 1,128 differences. Neither candidate was promoted;
-the maintained source remains unchanged.
+This was a diagnostic success, not a ratchet-safe source improvement. The
+1,590/1,633-byte combined candidate (1,049 differing offsets) and its scratch
+copy `.analysis/SupervisorNetwork.exact-stack-register-inline-IAT.cpp` were
+superseded and removed during the 2026-11-16 scratch cleanup. The newer saved
+candidate and its 1,591/1,633-byte / 976-difference result are documented in the
+following `branch-scoped clock register and final IAT reload` entry. An earlier
+noinline-helper variant reached 1,570/1,633 with 1,128 differences. None of
+these diagnostics was promoted; the maintained source remains unchanged.
 
 Next, keep the exact 20-byte aggregate and post-state-0 network alias while
 reconstructing the four conditional clock-pointer load sites. The state-1

@@ -15,7 +15,7 @@ compiler objects you need.**
   `resources/th09.exe` SHA-256:
   `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
   Do not patch, rename, commit or delete the target.
-- **Ledger (2026-11-14):** 2,248 candidates, **1,037 source-present
+- **Ledger (verified 2026-11-16):** 2,248 candidates, **1,037 source-present
   authored mappings**, **1,026 exact**, **11 nonexact / 13,353 logical
   bytes**, 35 reviewed unresolved origins. Exact authored bytes
   **278,578 / 291,931 = 95.4260%**. Complete original-code inventory is
@@ -29,84 +29,47 @@ compiler objects you need.**
   NONEXACT. Rebind private `$L…`/`$name$…` labels only after checking the
   same-section COFF definition, manifest target and original PE operand.
 
-## What changed in the 2026-11-14/15 sessions
+## What changed in the 2026-11-16 handoff
 
-- **RunEcl is exact** (unit `ecl-run-ecl`, 14,792 logical / 15,564
-  physical bytes). Plain statements replaced mutually compensating
-  `goto` merges and snapshot locals; see the knowledge base section
-  "VC7.1 register choice is coupled to neighbouring source".
-- **BeginPlaybackStage** is plain C++ and now 540/540 bytes (was 538/540).
-- **SaveReplay** and **Player movement** cast/address scaffolding was
-  replaced by plain indexing with byte-identical codegen.
-- No further owner became exact. The pinned `c2.dll` path is mapped through
-  `FUN_107821a7`, `FUN_1078368e`, `FUN_107833f2` (75 weighted register-score
-  slots), and `FUN_107831f7`. `FUN_1077c10f` creates 0x48-byte live-range records
-  that retain a pointer to their source IR node; `FUN_1077ff3b` walks the
-  live-set/bitset structures. The first observed color pick was an EBX-only
-  value (register ID 4), not the draw-group byte; do not use that score as an
-  explanation for EAX/ECX. A raw-register inline-assembly helper emits the
-  desired EAX/EAX pair but moves five local stack homes and four Float3 call
-  argument bytes, producing 22 other differences. Twenty-four declaration
-  permutations, sixteen local-scope combinations, and six `register` index
-  forms did not improve it. All experiments were reverted; the maintained
-  two-byte carrier is intact. A live GDB trace of the pinned C2 backend
-  captured 897 class-0 weighted-score calls while compiling `EclManager.cpp`.
-  The actual restricted-side draw-head expression is now mapped: C2's
-  flattened line 68814 corresponds to physical line 208785 of the preprocessed
-  `EclManager.i`, which is `EnemyManagerCore.inl:439`. Its score node is vreg 7
-  (`IR 0x00b05d04`, opcode `0x200a0805`, AST `0x00b08b8c`) and selects descriptor
-  ID 1. The live-set mask is `0x19E`; candidate IDs 1 and 2 are both eligible,
-  both have zero score and the candidate order starts with ID 1, so the C2
-  tie-break selects ID 1 (the emitted ECX byte load). The later normal draw-head
-  expression maps to preprocessed line 69373 / `EnemyManagerCore.inl:998`, but
-  has no separate score event in this trace. The earlier statement that no
-  node mapped to source line 434 compared flattened C2 line numbers with
-  `.inl` line numbers and is superseded. Descriptor-to-register mapping for
-  the second candidate and the original EAX preference still need proof; see
-  the 2026-11-16 draw-group live-set entry. Do not infer this choice from the
-  first unrelated EBX-only color pick. A scoped volatile side-state pointer
-  produces the target EAX/EAX branch pair but shifts four Float3 call-argument
-  bytes (+0x1BA/+0x1BF/+0x1C1/+0x1C3); narrowing its scope, using const-volatile
-  or a reference, and adding `register` to the pointer/flags do not recover
-  those bytes. A byte-width side-category local regresses 463 bytes, and a
-  volatile pointer to the flags field regresses 653. All probes were reverted.
-- `SupervisorServiceUpdate` remains 1,629/1,633 bytes / 1,038 differences.
-  Attested Ghidra decomp confirms the result local is initialized to zero, set
-  to one on the retry path, and returned from both retry and synchronized-frame
-  exits. A common result-return label reduces the residual to 980 but homes the
-  result at `[ebp-0xc]` in a `0x18` frame. A 20-byte aggregate for both `PopFrame`
-  scratch sets, inputs and result reduces it to 931 differences, but grows the
-  owner to 1,656 bytes and still homes the result at `[ebp-8]`. A function-wide
-  `SupervisorNetworkState` snapshot restores the `0x14` frame and `[ebp-4]`
-  result home, but changes the owner to 1,525/1,633 with 1,168 differences;
-  segmented snapshots also spill and regress. All probes were reverted. Next,
-  identify the extra `[ebp-4]` local in the aggregate carrier and its true
-  lifetime before trying another stack overlay. See the 2026-11-16 result/scratch
-  lifetime entry in `KNOWLEDGE_BASE.md`.
-- `PlayerLifecycleView::UpdateChargeAttack` remains 1,210/1,210 with 183
-  differences. Separate side/input-side locals, typed-array indexing,
-  reference input receivers, and a `register` input-pointer hint did not
-  recover retail's EDI side / EBX input-pointer allocation.
-- A `ScreenEffect::CalcShakeEnvelope` duration-reference probe regressed to
-  340/336 bytes / 252 differences and was reverted; its 336-byte/26-offset
-  baseline remains intact.
-- **Player CheckBulletCollision** has a protected 853/862-byte, 692-difference
-  carrier. The best byte-overlap diagnostic remains **840/862 / 632
-  differences** with the retail circle-first order, but it has five backedges
-  versus the target's four. A new four-latch source reached **835/862 / 683
-  differences** and exactly four header backedges; its type/cancel block is
-  still scheduled after geometry, opposite retail's circle-hit fallthrough.
-  A fallthrough spelling reached 853/862 / 670 differences but retained the
-  wrong block order and added a radius test. A separate six-latch form reached
-  845/862 / 661 differences. This session split the hit dispatcher from the
-  cancel-reward tail, nested it inside the radius branch, moved geometry into
-  an explicit `else`, tried a switch dispatcher, and spelled separate miss
-  increments; C2 still moves the dispatcher after geometry and merges the
-  latches. Best of these new probes is 849/862 / 683; the switch form is
-  857/862 / 688. None was promoted. The five exact same-TU siblings pass
-  scoped replay (1,220 bytes / 32 fields). Maintained source and frontier
-  remain 853/862. See the 2026-11-16 dispatcher-layout and 2026-11-15
-  collision-latch entries.
+- **RunEcl** remains exact (unit `ecl-run-ecl`, 14,792 logical / 15,564
+  physical bytes). Its plain-statement cleanup and compiler-label constraints
+  are documented in the knowledge base.
+- **GameplaySetupThread** is exact at 1,689 bytes and is no longer an open
+  owner. **BeginPlaybackStage** remains nonexact at 540/540 bytes with 13
+  masked / 19 raw differences; its plain-C++ source is retained.
+- **Enemy OnUpdate** remains 3,900/3,900 bytes with two differences
+  (`+0x19A/+0x1A1`). The early draw-group C2 node is mapped to vreg 7 and
+  source `EnemyManagerCore.inl:439`; C2 selects descriptor 1/ECX on an
+  equal-score tie, while the original's EAX preference and descriptor-2
+  physical mapping remain unresolved. The scoped volatile side-state pointer
+  fixes the pair but shifts four Float3 call-argument bytes; do not restore it.
+- **SupervisorServiceUpdate** remains protected at 1,629/1,633 bytes / 1,038
+  differences. The 20-byte stack map and `[ebp-4]` result home are understood.
+  The best saved diagnostic is `.analysis/SupervisorNetwork.final-ebx-reload.cpp`
+  (1,591/1,633 / 976 differences): it recovers the branch-scoped EBX clock
+  pointer, EDI `connectNow`, and final `0x430fb0` IAT reload, but remains 42
+  bytes short. It is not promoted. Next resolve the initial state receiver
+  (candidate EAX vs retail EDI) and final side-inversion register order.
+- **Player CheckBulletCollision** remains protected at 853/862 bytes / 692
+  differences. The best previous byte-overlap diagnostic is 840/862 / 632
+  with five backedges. New split hit-dispatch/radius-nesting probes reached
+  849/862 / 683 but C2 still schedules the dispatcher after square geometry;
+  the switch form is 857/862 / 688. The target still requires circle-hit
+  fallthrough to the early dispatcher and four distinct advances. No candidate
+  was promoted; see the 2026-11-16 dispatcher-layout entry in the knowledge
+  base.
+- **SaveReplay** remains 1,238/1,238 bytes with two differences; **Player
+  movement** remains 1,900/1,900 with eight bytes (four masked); **ChargeAttack**
+  remains 1,210/1,210 with 183 masked differences. **ScreenEffect shake** is
+  336/336 with 26 differences, and **Effect AddedCallback** is 51/51 with four
+  differences. Their failed register/alias probes are recorded in the
+  knowledge base; do not repeat simple spelling sweeps.
+
+All open-owner figures above are diagnostic/frontier status, not exactness
+claims. The live report on 2026-11-16 confirms **11 nonexact owners / 13,353
+logical bytes**, **1,026 exact functions**, and **278,578 / 291,931 authored
+bytes exact (95.4260%)**. The complete original-code inventory and native
+Windows i386 product remain unproven.
 
 ## Remaining source-present nonexact owners
 
@@ -268,10 +231,13 @@ tool upgrade.
 
 ## Storage / protected inputs / commit discipline
 
-Keep `resources/th09.exe`, the `.tools/` Wine/VC7.1 toolchain selectors,
-`.analysis/ghidra-direct/`, `_reference/`, and `.analysis/gpt-web/`.
-`build/` and Python caches are disposable. Do not commit executables,
-analyzer databases, toolchains or decompiler output. Use the commit prefix
-the operator requests (`claude-opus-5.5-high:` in the last session,
-`gpt-web:` per AGENTS.md otherwise), commit coherent checkpoints, and never
-push silently.
+Preserve `resources/th09.exe`, `.tools/` selectors/toolchain, the saved
+`.analysis/ghidra-direct/` project, `c2-analysis/`, `_reference/`, and the
+small `.analysis/gpt-web/*prove*.py` helper templates. Keep only the current
+best diagnostic sources explicitly referenced by this handoff/knowledge base.
+`build/`, Python caches, Ghidra packed-db cache/logs, old variant directories,
+compiler objects/PDBs, preprocessed files, duplicate debugger logs and stale
+scratch snapshots are disposable and may be removed. Do not delete the saved
+Ghidra/C2 analysis projects or protected target. Do not commit executables,
+analyzer databases, toolchains or decompiler output. Use `gpt-web: ...` for
+coherent local checkpoints and never push silently.
