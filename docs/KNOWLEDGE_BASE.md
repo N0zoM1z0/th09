@@ -9124,3 +9124,42 @@ the remaining seven legacy x87 `__asm` sites across four explicitly named
 files as technical debt; the allowance is a non-increasing ceiling, not an
 endorsement of those sites as naturally restored C++. These can be retired
 only with source edits and focused owner tests.
+
+## 2026-11-16 GPT-web: naturally generated collision preheader and late invalid advance
+
+The natural `CheckBulletCollision @ 0x0041DFF0` iteration experiment was
+continued from the dirty nested-`while` source rather than skipped or reset
+without review. The initial three-level loop variant was 840/862 bytes with
+693 masked differences, but changed the register roles (candidate EDI region
+cursor, ESI current region, EBX player; the target uses ESI/ECX/EDI). Reusing
+`(*slot)` in the ordinary-hit type and count reads (rather than the long-lived
+`region` pointer) changes the register allocation: the candidate emits the
+**exact target prologue through +0x25**, including the compiler-generated
+`jmp +0x20` followed by `lea esp,[esp]` loop alignment. There is **no**
+handwritten inline assembler, padding, `_emit`, or custom byte sequence. That
+variant is 835/862 / 683 masked differences, with a late hit dispatcher.
+
+Relocating `next_invalid_region` to the end of the outer loop rather than
+inside the inner region-filter loop produces an even better natural C++
+carrier: **842/862 bytes / 662 masked differences**, 26 relocations, and the
+same exact preheader through +0x25. Two-level and three-level region filters,
+plus circle-inline and circle-skip-square source shapes, all reproduce those
+842 bytes exactly. The source is retained for focused follow-up at
+`.analysis/PlayerCollisionHelpers.natural-preheader-842.cpp`. The target
+branch at +0x24 still jumps to a different return block; more importantly,
+C2 schedules the rotated/AABB geometry before the hit dispatcher instead of
+placing the circle-hit dispatch at retail +0x08E. Lexical movement of the
+circle expression did not change this block ordering.
+
+**Ratchet honesty:** the maintained post-depadding source remains
+842/862 / 705. The new 842/862 / 662 diagnostic repairs 145 previously
+incorrect positions but introduces 102 newly mismatching positions (net 43
+fewer). Thus `check-frontier.py` correctly rejects it despite equal function
+extent; accepting it would silently relax the strictly monotone matched-byte
+set. The dirty nested carrier was examined and saved as an ignored diagnostic;
+`src/PlayerCollisionHelpers.cpp` is restored to its already committed natural
+`for`-loop. Do not treat this as an accepted frontier reduction or an exact
+owner until the block scheduler mismatch and new differences are resolved.
+
+Only this collision owner and its five same-source exact siblings need
+replay. No whole-product cold replay was run.

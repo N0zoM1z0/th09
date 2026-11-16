@@ -158,6 +158,11 @@ tool upgrade.
    compiled 842/862 carrier is byte-identical to the post-depadding baseline. Next, recover the target preheader and successor order through
    genuine C++ control flow while preserving x87 operand order and four
    distinct backedges. No `_emit`, inline assembly, or byte padding.
+   Ignored natural-C++ diagnostic `.analysis/PlayerCollisionHelpers.natural-preheader-842.cpp`
+   reproduces the target preheader through +0x25 and reaches 842/862 with
+   662 differences, but adds 102 new differing positions (145 repairs).
+   It is **not** a ratchet-safe source promotion; next fix C2 circle-hit
+   dispatcher ordering before replacing the maintained 842/705 owner.
 2. **SupervisorServiceUpdate (large boss).** The retail 20-byte frame is now
    mapped: inputs `-0x14/-0x12`, predicted `-0x0c`, seed outputs `-0x08/-0x06`,
    and result `-0x04`. The early second `PopFrame` intentionally overlaps seed
