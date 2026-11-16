@@ -9543,3 +9543,25 @@ full int regressed the owner to 1,209 bytes / 717 differing offsets. There
 are no accepted exact sibling functions in this source carrier. This is
 natural C++ structure and type recovery, not an authored-exact upgrade;
 no whole-project replay was run.
+
+## 2026-11-16 GPT-web: native shared enemy side bitfield gate
+
+The maintained `EnemyManagerView::OnUpdate @ 0x00410730` now checks the
+restricted-side gate with the **actual shared native 0x38-byte GameManager
+side's `EnemySideFlagBits34::bit0`** rather than manually applying
+`sideState320->flags34 & 1`. Both views are backed by the identical
++0x34 DWORD union, and the independent ECL callback mutates that same bit.
+The new C++ expression preserves the single live read, flag meaning,
+side-category filter, and subsequent native sprite append/death/update
+order without register hints, padding or inline assembly.
+
+Pinned VC7.1 `/O2 /Ob1` emits the **same complete 3,900-byte nonexact
+owner with its two original differences** at `+0x19C/+0x1A3`; 97 native
+relocation fields are unchanged. The `EclManager.cpp` selected-source
+canonical exact replay passed **all 84 exact functions**, including
+`RunEcl`, covering **45,420 full physical bytes and 1,987 relocation
+fields across two compiler profiles**. This is meaningful bitfield/owner
+type reconstruction, **not** a claim that the two remaining register
+bytes are exact. The neighboring `Float3::operator+` argument registers
+continue to be the blocker for the EAX-index alternative; no full cold
+replay was run.

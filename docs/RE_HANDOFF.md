@@ -43,9 +43,10 @@ compiler objects you need.**
   equal-score tie, while the original's EAX preference and descriptor-2
   physical mapping remain unresolved. The scoped volatile side-state pointer
   fixes the pair but shifts four Float3 call-argument bytes; do not restore it.
-  The maintained restricted-side fallback is now a native C++ no-sprite early
-  `continue` followed by the shared draw-head append, retaining byte-identical
-  codegen across the 3,900-byte owner and 84 exact same-source siblings.
+  The maintained restricted-side fallback uses the shared native `+0x34`
+  `EnemySideFlagBits34::bit0` C++ field and a no-sprite early `continue`,
+  preserving byte-identical codegen across the 3,900-byte owner and 84 exact
+  same-source siblings.
 - **SupervisorServiceUpdate** now has a ratchet-safe maintained natural C++
   baseline of **1,629/1,633 bytes / 966 differences** (72 prior mismatches repaired). The 20-byte stack map and `[ebp-4]` result home are understood.
   A separate natural C++ diagnostic (no ASM) is `.analysis/SupervisorNetwork.natural-ebx-reload.cpp`

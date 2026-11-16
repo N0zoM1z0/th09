@@ -423,7 +423,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             continue;
         }
 
-        if ((manager->sideState320->flags34 & 1) != 0)
+        // The native side +0x34 gate is the shared GameManager bitfield.
+        if (manager->sideState320->flagBits34.bit0 != 0)
         {
             const unsigned int sideCategory =
                 (enemy->secondaryFlags3380 >> 10) & 3;
