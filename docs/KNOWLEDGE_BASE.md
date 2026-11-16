@@ -8423,3 +8423,62 @@ while preserving the following Float3 argument allocation. Do not repeat the
 same-local reuse, parameter order, or simple array/helper spelling probes.
 The focused `check-frontier.py enemy-on-update` baseline remains
 **3,900/3,900 bytes with two differences**. No full cold replay was run.
+
+
+## 2026-11-16 GPT-web: Enemy OnUpdate scoped volatile-gate allocation frontier
+
+The vreg-7 C2 tie-break result gives a useful control point for source-shape
+experiments. The maintained source was kept protected while testing how the
+side-state gate changes the early draw-group allocation and the later Float3
+call setup.
+
+### Diagnostic carrier: correct draw-group pair, four Float3 differences
+
+A block- or loop-scoped `volatile EnemySideStateView *sideState` used for the
+restricted-side gate changes the early branch to the target's exact pair:
+
+- `movzx eax, byte ptr [ebx+0x3387]`
+- `lea eax, [esi+eax*4+0x2ac410]`
+
+However, it changes four bytes in the following force-death Float3 call setup:
+
+| Offset | Target | Volatile-pointer carrier |
+| --- | --- | --- |
+| `+0x1B9` | `lea edx,[ebx+0x2d80]` | `lea ecx,[ebx+0x2d80]` |
+| `+0x1BF` | `push edx` | `push ecx` |
+| `+0x1C0` | `lea eax,[ebp-0x7c]` | `lea edx,[ebp-0x7c]` |
+| `+0x1C3` | `push eax` | `push edx` |
+
+The owner remains 3,900 bytes; this carrier has **four** ordinary differences
+instead of the maintained two. Narrowing the pointer's lifetime to a block
+around the gate does not restore the Float3 arguments. A `const volatile`
+struct pointer, a volatile reference to the struct, a `register`-qualified
+pointer, and combining the pointer with a `register`-qualified `flags` local
+all retain the same four-byte Float3 mismatch. Moving the pointer declaration
+before `drawHead`/`flags` also retains it. These are useful negative results:
+the branch-pair improvement and the later argument-register allocation are
+coupled through the compiler's TU-wide allocation order, not just the C++
+lexical lifetime of the pointer.
+
+### Rejected nearby variants
+
+- Reusing the mutable `sideCategory` local for the group byte, both as a
+  separate assignment and as an assignment expression inside the helper call,
+  leaves the original two-byte ECX/EAX mismatch unchanged.
+- Narrowing `sideCategory` to `unsigned char` and reusing it regresses **463**
+  bytes, because the category compares become byte-width operations.
+- A volatile pointer directly to `sideState->flags34` changes the branch shape
+  and regresses **653** bytes; it does not preserve the target's byte-test form.
+- The earlier boolean `restrictedSide` plus scoped pointer probe regressed
+  513 bytes and remains rejected.
+
+Every source probe above was reverted. The maintained source is clean and the
+focused frontier remains **3,900/3,900 bytes with the two original differences**
+at `+0x19A/+0x1A1`. No match-unit, manifest, or frontier metadata was changed;
+no full cold replay was run.
+
+**Next:** if revisiting the volatile-gate carrier, investigate the specific
+allocation-order change that swaps the two pushed Float3 arguments, rather than
+trying more pointer cv-qualifiers or lexical scopes. Preserve the current
+2-difference carrier unless both the EAX/EAX pair and the four Float3 bytes are
+recovered together.

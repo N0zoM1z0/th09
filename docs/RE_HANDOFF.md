@@ -64,7 +64,12 @@ compiler objects you need.**
   `.inl` line numbers and is superseded. Descriptor-to-register mapping for
   the second candidate and the original EAX preference still need proof; see
   the 2026-11-16 draw-group live-set entry. Do not infer this choice from the
-  first unrelated EBX-only color pick.
+  first unrelated EBX-only color pick. A scoped volatile side-state pointer
+  produces the target EAX/EAX branch pair but shifts four Float3 call-argument
+  bytes (+0x1BA/+0x1BF/+0x1C1/+0x1C3); narrowing its scope, using const-volatile
+  or a reference, and adding `register` to the pointer/flags do not recover
+  those bytes. A byte-width side-category local regresses 463 bytes, and a
+  volatile pointer to the flags field regresses 653. All probes were reverted.
 - `SupervisorServiceUpdate` remains 1,629/1,633 bytes / 1,038 differences.
   Attested Ghidra decomp confirms the retail result local is initialized to
   zero, set to one on the retry path, and returned from both retry and
@@ -174,9 +179,11 @@ tool upgrade.
    lifetime/interference difference removes descriptor 1 in the original.
    Inspect the additional live-set substructures and `FUN_107831f7` assignment;
    do not repeat same-local reuse or simple helper/array spellings. The later
-   draw-head path at line 998 has no separate score event. The current two-byte
-   carrier is protected; raw inline assembly fixes the branch pair but regresses
-   five stack homes and the following Float3 call. The ignored scratch project
+   draw-head path at line 998 has no separate score event. A scoped volatile
+   side-state pointer yields EAX/EAX but shifts four Float3 call-argument bytes;
+   const-volatile/reference forms and narrower scope do not recover them. The
+   current two-byte carrier is protected; raw inline assembly fixes the branch
+   pair but regresses five stack homes and the following Float3 call. The ignored scratch project
    is reusable; rebuild from the hash-checked pinned backend outside any
    `.`-prefixed path only if it is absent.
 2. Continue `SupervisorServiceUpdate` from the newly confirmed result-home
