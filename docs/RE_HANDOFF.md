@@ -161,7 +161,10 @@ tool upgrade.
    and 853/862 measurements were made with the artificial loop-entry pad in
    place; do not use those byte scores as valid natural-C++ progress. The maintained source now uses a natural top-tested `for` loop with
    `continue` rather than the two artificial advance/backedge labels; its
-   compiled 842/862 carrier is byte-identical to the post-depadding baseline. Next, recover the target preheader and successor order through
+   compiled 842/862 carrier is byte-identical to the post-depadding baseline. The repeated
+   `position` home and overlapping collision scratch cursor now use actual
+   typed `volatile` references instead of repeated reinterpret-casts; this
+   is byte-neutral and all five exact siblings replayed. Next, recover the target preheader and successor order through
    genuine C++ control flow while preserving x87 operand order and four
    distinct backedges. No `_emit`, inline assembly, or byte padding.
    Ignored natural-C++ diagnostic `.analysis/PlayerCollisionHelpers.natural-preheader-842.cpp`

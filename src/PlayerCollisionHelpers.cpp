@@ -54,7 +54,6 @@ int PlayerLifecycleView::CheckBulletCollision(
     PlayerPositionView *collisionSize,
     Bullet * volatile bullet)
 {
-    (void)collisionSize;
 
     // Overlay geometry, reward payloads and the native cursor home in one frame.
     union CollisionScratch
@@ -78,13 +77,16 @@ int PlayerLifecycleView::CheckBulletCollision(
             PlayerCollisionRegionCreateRegionView **slot;
         } cursor;
     } scratch;
+    // Keep the native parameter/cursor homes observable across callbacks.
+    PlayerPositionView *volatile &livePosition = position;
+    volatile CollisionScratch &liveScratch = scratch;
     float xDelta;
     float yDelta;
 
     Bullet *currentBullet = bullet;
     PlayerCollisionRegionCreateRegionView **slot = activeB100;
     PlayerCollisionRegionCreateRegionView *region;
-    reinterpret_cast<volatile CollisionScratch *>(&scratch)->cursor.slot = slot;
+    liveScratch.cursor.slot = slot;
 
     for (; (region = *slot) != NULL; ++slot)
     {
@@ -97,8 +99,8 @@ int PlayerLifecycleView::CheckBulletCollision(
 
         if (region->radius08 != 0.0)
         {
-            xDelta = (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->x - region->centerX00;
-            yDelta = (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->y - region->centerY04;
+            xDelta = livePosition->x - region->centerX00;
+            yDelta = livePosition->y - region->centerY04;
             if (xDelta * xDelta + yDelta * yDelta <
                 region->radius08 * region->radius08)
                 goto hit;
@@ -107,8 +109,8 @@ int PlayerLifecycleView::CheckBulletCollision(
 
         if (region->angle20 != 0.0f)
         {
-            scratch.collision.delta.x = (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->x - region->centerX00;
-            scratch.collision.delta.y = (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->y - region->centerY04;
+            scratch.collision.delta.x = livePosition->x - region->centerX00;
+            scratch.collision.delta.y = livePosition->y - region->centerY04;
             RotatePlayerCollisionVector(
                 &scratch.collision.rotated, &scratch.collision.delta, -region->angle20);
 
@@ -127,13 +129,13 @@ int PlayerLifecycleView::CheckBulletCollision(
         scratch.collision.boundsMax.x = region->halfWidth10 + region->centerX00;
         scratch.collision.boundsMax.y = region->halfHeight14 + region->centerY04;
 
-        if (!(scratch.collision.halfSize.x > (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->x))
+        if (!(scratch.collision.halfSize.x > livePosition->x))
         {
-            if (!(scratch.collision.boundsMax.x < (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->x))
+            if (!(scratch.collision.boundsMax.x < livePosition->x))
             {
-                if (!(scratch.collision.halfSize.y > (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->y))
+                if (!(scratch.collision.halfSize.y > livePosition->y))
                 {
-                    if (!(scratch.collision.boundsMax.y < (*reinterpret_cast<PlayerPositionView * volatile *>(&position))->y))
+                    if (!(scratch.collision.boundsMax.y < livePosition->y))
                         goto hit;
                 }
             }
@@ -153,11 +155,11 @@ hit:
             continue;
 
         {
-            reinterpret_cast<volatile CollisionScratch *>(&scratch)->cursor.slot = slot;
+            liveScratch.cursor.slot = slot;
             scratch.reward.effectPosition.x =
-                g_GameManager.TransformPopupX((*reinterpret_cast<PlayerPositionView * volatile *>(&position))->x);
+                g_GameManager.TransformPopupX(livePosition->x);
             scratch.reward.effectPosition.y =
-                g_GameManager.TransformPopupY((*reinterpret_cast<PlayerPositionView * volatile *>(&position))->y);
+                g_GameManager.TransformPopupY(livePosition->y);
             scratch.reward.effectPosition.z = 0.0f;
 
             g_Supervisor.SelectSide(1 - this->sideIndex);
@@ -198,14 +200,14 @@ hit:
             int rewardMode =
                 (g_GameManager.difficulty11C >= 3) + 2;
             this->ownerState30410.ApplyReward(
-                (*reinterpret_cast<PlayerPositionView * volatile *>(&position)),
+                livePosition,
                 rewardMode, 2, 0, rewardValue);
 
             reinterpret_cast<PlayerCancelSideView *>(this->sideState)
                 ->AddScore(50);
         }
 
-        PlayerCollisionRegionCreateRegionView *hitRegion = *reinterpret_cast<volatile CollisionScratch *>(&scratch)->cursor.slot;
+        PlayerCollisionRegionCreateRegionView *hitRegion = *liveScratch.cursor.slot;
         ++hitRegion->hitCount2C;
         return 2;
 

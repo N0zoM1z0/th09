@@ -9342,3 +9342,29 @@ ASM/padding replacement or an exactness claim. All **12 same-source exact
 ReplayInput functions** passed selected-source replay (4,093 physical bytes,
 232 relocation fields, two compiler profiles). No complete cold replay was
 run.
+
+## 2026-11-16 GPT-web: typed live collision parameter and cursor homes
+
+The maintained `PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0`
+now binds two natural **typed C++ volatile references to existing storage**:
+`PlayerPositionView *volatile &livePosition = position` for repeated native
+parameter-home reloads across the collision checks and reward callbacks, and
+`volatile CollisionScratch &liveScratch = scratch` for the original union
+cursor slot shared with the later reward vectors. Eleven former
+`reinterpret_cast<PlayerPositionView *volatile *>(&position)` dereferences
+and three former `reinterpret_cast<volatile CollisionScratch *>(&scratch)`
+accesses become direct member/lvalue expressions; the unused-parameter dummy
+statement is also removed. These references alias the same original objects;
+no new allocation, synthetic access, volatile storage or extra physics branch
+is introduced. This retires the accidental pointer-to-volatile cast idiom
+without removing the target-observed live reads. There is no ASM or padding.
+
+The pinned `/O2 /Ob1` selected source reproduces the **same 842-byte
+nonexact collision body versus 862-byte retail extent**, and exactly its
+preexisting **705 masked differences / 26 relocations**. The monotone
+frontier has **zero newly mismatching positions**. The five same-source
+exact owners replayed successfully across three targeted compiler carriers:
+**1,220 physical compared bytes and 32 relocation fields**. This is improved
+source fidelity and aliasing clarity, not codegen-exact collision closure;
+the hit-dispatch block scheduling and four native advances remain open. No
+full cold replay was run.
