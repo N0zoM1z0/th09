@@ -9060,3 +9060,34 @@ embedded tables. No manifest address, code byte, or target was patched.
 
 No full cold replay was run. Other existing x87 assembly-containing sources
 remain separate semantic debt; they are not endorsed as natural C++ exactness.
+
+## 2026-11-16 GPT-web: nested natural collision loop CFG
+
+The target's `CheckBulletCollision` decompilation exposes three nested loop
+levels: an outer cancel/reward scan, a middle radius/shape selector, and an
+inner type/delay filter. The inner filter's `LABEL_25` increment is shared by
+invalid/delayed regions and circle misses; rotated-rectangle misses, AABB misses,
+and the post-hit cancel test each have their own increment/backedge.
+
+A natural C++ reconstruction of this shape (ordinary nested `while` loops,
+normal `break`/`continue` and one real `next_invalid_region` label) compiles to
+**840/862 bytes / 693 differing offsets** with 26 relocations. It is saved at
+`.analysis/PlayerCollisionHelpers.nested-loops.cpp` and
+`.analysis/PlayerCollisionHelpers.nested-loops.obj`. The four increment/backedge
+sites are now distinct in the candidate, and C2 naturally places the loop
+header at `+0x20` without any inline assembly or padding. This improves the
+current natural baseline (842/862 / 705) by 12 differing offsets, but the
+function is 22 bytes short and must not be promoted into the frontier.
+
+The remaining entry-register allocation differs materially. Retail starts with
+EBX holding the bullet argument, EDI holding `this`, ESI holding the region
+slot cursor, and ECX holding the region record. The nested candidate instead
+uses EBX for `this`, EDI for the cursor, ESI for the region record, and leaves
+the bullet argument in its stack home. Removing the parameter's top-level
+`volatile`, using the parameter directly, adding `register` to the parameter
+or region local, and pointer/reference aliases did not solve that allocation.
+The next probe should preserve the nested loop shape while recovering the
+retail parameter/register homes and the remaining 22 bytes through natural
+C++ lifetime and local-storage structure.
+
+No maintained source or frontier was changed by this diagnostic.
