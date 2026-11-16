@@ -9684,3 +9684,44 @@ two residual bytes**, and the source-scoped EclManager replay still passes all
 **84 exact owners / 45,420 physical bytes / 1,987 relocations**. This extends
 native type recovery in the large boss without changing its codegen or
 claiming a new exact match. No whole-product cold replay was run.
+
+## 2026-11-16 GPT-web: Supervisor host-session CFG and C2 vreg-7 trace
+
+Fresh IDA disassembly of `SupervisorServiceUpdate @ 0x00430AA0` resolves a
+source-control-flow mismatch that was hidden by the previous local-alias
+experiments. Retail places the shared `HOST_SESSION` block **after** the
+connection-state-1 test. Initial state 0 with `joinMode == 0` branches directly
+to that block; state 1 either returns through the wait path or resets the
+session and branches to the same block; other states skip it and enter the
+state-2/3 peer path. The host block reloads the IAT clock pointer, sleeps,
+reinitializes the host, publishes state 2 and its connection timestamp, then
+reloads the native network receiver before the peer-state test. The early
+network snapshot is in EDI and the branch-scoped `timeGetTime` pointer is in
+EBX. After the peer-state path, retail reloads EDI again and carries the
+network receiver in EDI while the frame counter is in EBX.
+
+A new **natural C++ diagnostic only**, saved at
+`.analysis/supervisor-frame-owner-scratch/SupervisorNetwork.cpp`, expresses
+that host-label placement, the checked 20-byte `ServiceResultScratch` lifetime,
+the actual overlapping `PopFrame` outputs, the EDI network receiver, and the
+ordinary function-pointer IAT clock. Pinned VC7.1 produces **1,589/1,633
+bytes / 1,000 differing offsets / 97 relocations**. The early connection
+sequence now follows the retail EDI/EBX allocation; after the host branch it
+refreshes EDI, and the frame phase uses EDI for the selected network record
+and EBX for the frame counter. This is still not a valid frontier promotion:
+it introduces **303 new differing offsets** while repairing 269 old ones,
+and remains 44 bytes short. The maintained `SupervisorServiceUpdate` source
+and its 1,629/1,633-byte, 966-difference monotone frontier were not changed.
+Do not promote this diagnostic or replace the maintained scratch/return model
+with the earlier 1,563-byte frame-only variant.
+
+The same focused C2 session captured vreg 7 at the allocator scoring routine
+`0x107833F2`. The vreg node chain begins at `0x00AC2928`; the scoring context
+is `0x00AC28A4`, its live-set pointer at `+0x20` is null, and class 0 exposes
+the candidate order **1, 2, 3, 7, 8, 4, 6**. The current allocator therefore
+has no live-set bit to exclude the first candidate at that scoring point.
+The separate owner-overlap scan identifies the vreg-7 node at `0x108A9A44`;
+the captured kind-0xB helper was not entered for that node. This narrows the
+remaining EAX-versus-ECX discrepancy but does not yet identify the original
+compiler's differing score context or candidate mapping. No register hint,
+synthetic volatile, inline assembly or padding was added to maintained source.
