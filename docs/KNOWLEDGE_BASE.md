@@ -8954,3 +8954,42 @@ source spelling sweeps.
 Only `player-bullet-collision`, `supervisor-network-service`, and
 `enemy-on-update` focused carriers were compiled. No full cold replay, frontier
 update, exact-match manifest change, or source-carrier promotion was made.
+
+## 2026-11-16 GPT-web: SupervisorServiceUpdate natural IAT-call carrier
+
+A new owner-only pass removed the inline-assembly dependency from the best
+branch-scoped clock/register diagnostic. Starting from the saved scratch and
+result lifetime model, the two `NativeTimeGetTimeDirect()` calls were replaced
+with ordinary calls through the existing register-qualified
+`frameStartClock` and `lastFrameClock` function-pointer locals. The resulting
+source contains **no inline assembly** and compiles to the same **1,591/1,633
+bytes / 976 differing offsets** as the previous diagnostic. Its object has 97
+relocations and SHA-256
+`2170527561157a67b90df159f8a2f85b1a460d2bd633dc24d912fba39d9e8442`; source
+SHA-256 is
+`18c25cc7ddfd4a98ac7101a289d376b39a7a4e394a0a356a7b2a5933fd50525a`. The
+reproducible diagnostic is saved at
+`.analysis/SupervisorNetwork.natural-ebx-reload.cpp` with object
+`.analysis/supervisor-natural-ebx-reload.obj`.
+
+Changing the `WAIT_FOR_FRAME` edge from a jump to the common scratch-result
+return into a direct `return serviceScratch.result` is byte-neutral. Replacing
+the initial `connectionNetwork` pointer with a reference, then introducing a
+post-state-0 `network` pointer, keeps the 1,591-byte extent but worsens the
+residual to 1,017 offsets. Neither variant advances the owner. The natural
+carrier still has the same known limitations: 42 bytes short of the retail
+extent, initial receiver EAX vs EDI, and the final side-inversion register
+order. It is a diagnostic C++ model only, not a frontier candidate. Do not
+copy the older inline-assembly scratch into maintained source.
+
+The `EnemyManagerView::OnUpdate` two-byte owner was also rechecked with direct
+array subscript and reference-return draw-head access; both are byte-neutral
+against the maintained 3,900-byte candidate. Combining the scoped volatile
+side-state gate with named `Float3` references/pointers changes the EAX/EAX
+draw-head pair but regresses the whole owner to 360 differences; a named
+`Float3` result regresses to 2,021. Reject these carriers. The maintained
+source remains untouched.
+
+Only focused `enemy-on-update` and `supervisor-network-service` probe objects
+were compiled. No source carrier, frontier, exact-match manifest, or match-unit
+was promoted; no full cold replay was run.

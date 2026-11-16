@@ -89,7 +89,7 @@ numbers.
 | **Replay BeginPlaybackStage** | 0x00420840 | **540/540**, 13 masked / 19 raw at +0x14B–0x15F (`/O2 /Ob1`) | Plain C++ (no `volatile` alias). VC7.1 hoists the `sides[0].runtime` load above the +0x37C store; retail issues it after the +0x1E8 load. Statement moves/swaps, array and side-pointer forms do not move it. `replay-begin-playback`. |
 | **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Separate side/input aliases, typed indexing, reference input and register hints did not change the allocation. `player-charge-attack`. |
 | **Player CheckBulletCollision** | 0x0041DFF0 | **853/862**, 692 differing offsets / 26 relocation fields (`/O2 /Ob1`) | Protected carrier. Best byte-overlap diagnostic remains 840/862 / 632 with five backedges; the 835/862 / 683 four-latch candidate still has wrong block order. New split-dispatch / explicit-else probes reach 849/862 / 683, but C2 still places the dispatcher after geometry; switch dispatch regresses to 857/862 / 688. No candidate is promoted. Five exact siblings pass. `player-bullet-collision`. |
-| **Supervisor network service** | 0x00430AA0 | 1,629/1,633 bytes, **1,038 differences** (maintained); diagnostic best **1,591/1,633 / 976 differences** (`/O2 /Ob1`) | The 20-byte frame and `[ebp-4]` result home are mapped. A saved diagnostic now reproduces EBX clock-pointer / EDI `connectNow` allocation and the final `0x430fb0` IAT reload, but is still 42 bytes short and is not promoted. Remaining: initial state receiver EAX vs retail EDI, plus final side-inversion register order. `.analysis/SupervisorNetwork.final-ebx-reload.cpp`; `supervisor-network-service`. |
+| **Supervisor network service** | 0x00430AA0 | 1,629/1,633 bytes, **1,038 differences** (maintained); diagnostic best **1,591/1,633 / 976 differences** (`/O2 /Ob1`) | The 20-byte frame and `[ebp-4]` result home are mapped. A saved natural-C++ diagnostic (no inline assembly) now reproduces EBX clock-pointer / EDI `connectNow` allocation and the final `0x430fb0` IAT reload, but is still 42 bytes short and is not promoted. Remaining: initial state receiver EAX vs retail EDI, plus final side-inversion register order. `.analysis/SupervisorNetwork.natural-ebx-reload.cpp`; `supervisor-network-service`. |
 
 ## Reproduce *only* the changed compiler carriers
 
@@ -163,19 +163,23 @@ tool upgrade.
 2. **SupervisorServiceUpdate (large boss).** The retail 20-byte frame is now
    mapped: inputs `-0x14/-0x12`, predicted `-0x0c`, seed outputs `-0x08/-0x06`,
    and result `-0x04`. The early second `PopFrame` intentionally overlaps seed
-   `-0x0a` with predicted `-0x08`. The latest saved diagnostic is
+   `-0x0a` with predicted `-0x08`. The latest saved natural-C++ diagnostic (no inline assembly) is
    **1,591/1,633 bytes / 976 differences** (maintained baseline remains
    1,629/1,633 / 1,038); it reproduces branch-scoped EBX clock loads, EDI
    `connectNow`, and the final `0x430fb0` EBX reload, but remains 42 bytes short
-   and must not be promoted. Merging the early and later network aliases into
+   and must not be promoted. It is saved at
+   `.analysis/SupervisorNetwork.natural-ebx-reload.cpp` with object
+   `.analysis/supervisor-natural-ebx-reload.obj`. Direct-return and initial
+   reference-alias variants did not improve it. Merging the early and later network aliases into
    one reassigned pointer, or materializing `initialConnectionState`, is
    byte-neutral and must not be repeated. The remaining high-value mismatch is
    the initial network receiver (candidate EAX vs retail EDI) and the final
    side-inversion order (candidate reads into EDI, retail EAX then ECX). Continue from
-   `.analysis/SupervisorNetwork.final-ebx-reload.cpp` and preserve the exact
+   `.analysis/SupervisorNetwork.natural-ebx-reload.cpp` and preserve the exact
    20-byte scratch layout. Do not repeat simple `register` hints, volatile
-   receiver qualification, volatile-result or declaration-order probes, or
-   function-wide global-pointer snapshots.
+   receiver qualification, volatile-result or declaration-order probes,
+   function-wide global-pointer snapshots, or the initial reference-alias
+   variant.
 3. **Enemy OnUpdate (two-byte frontier).** The maintained carrier is
    `3900/3900` bytes with only `+0x19a/+0x1a1` differing. C2 line 68814 / vreg 7
    has live-set mask `0x19E`; class-0 candidates 1 and 2 tie at zero score and
