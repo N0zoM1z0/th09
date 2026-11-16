@@ -8608,3 +8608,43 @@ frontiers for `player-bullet-collision`, `effect-added-callback`, and
 `screen-shake-envelope` remain respectively 853/862 with 692 differences,
 51/51 with 4 differences, and 336/336 with 26 differences. No full cold
 replay was run.
+
+## 2026-11-16 GPT-web: leaf register allocation and collision predicate probes
+
+The small `EffectManager::AddedCallback @ 0x0040d1c0` owner remains 51/51
+bytes with four differences. Retail saves the context in ESI, loads the global
+ANM manager directly into EDI before that context copy, then moves EDI to ECX
+for `GetAnm`. The maintained candidate saves ECX to ESI first, loads the global
+into ECX, pushes the slot, then copies ECX to EDI. This is a source-order /
+register-lifetime mismatch, not a missing call or relocation. Using one local
+ANM-manager snapshot for both calls, using the snapshot for only `GetAnm`,
+reversing the declaration order, `const`/`register` pointer qualifiers, direct
+global access for both calls, and an inline-assembly entry barrier were tested.
+The local-receiver forms swap the saved registers or grow the residual to 25
+bytes; the inline-assembly entry barrier grows the function to 61/51 bytes and
+changes the prologue. All variants were reverted. Do not reinstate them.
+
+`ScreenEffect::CalcShakeEnvelope @ 0x004227a0` remains 336/336 bytes with 26
+differences. The main allocation residual is the screen receiver/timer-pointer
+pair: retail carries the ScreenEffect pointer in EDI and its embedded timer
+pointer in ESI, while the candidate has the inverse assignment. `register` on
+the receiver parameter, the timer reference, and `endFrame`, plus pointer and
+volatile-pointer aliases for the receiver/timer, did not change the owner
+residual. All variants were reverted. Treat this as a separate leaf allocation
+problem rather than changing the established timer semantics.
+
+The large `CheckBulletCollision` owner also received focused x87 predicate
+probes. Writing `radiusSquared <= distanceSquared` preserves the 853-byte
+candidate but adds one new differing byte (693 total). Writing
+`distanceSquared >= radiusSquared` yields 847/862 bytes and 690 differences,
+but adds many new mismatches and changes the x87/branch layout. A register
+`distanceSquared` temporary does not repair that shape. Writing
+`radiusSquared > distanceSquared` has the same 693-difference result as the
+first inversion. These comparison rewrites are rejected; keep the 853/862,
+692-difference carrier and do not update its frontier.
+
+Focused checks after restoring all experiments confirm the maintained
+baselines: `Enemy OnUpdate` 3900/3900 with 2 differences,
+`CheckBulletCollision` 853/862 with 692, `AddedCallback` 51/51 with 4, and
+`CalcShakeEnvelope` 336/336 with 26. No source carrier, exact-match manifest,
+or frontier metadata was changed, and no full cold replay was run.
