@@ -8025,6 +8025,50 @@ rotation or tail merging. None of these diagnostic sources was promoted. The
 maintained file and frontier metadata are restored to **853/862, 692
 ordinary differences**. No full cold replay was run.
 
+## 2026-11-16 GPT-web: live VC7.1 weighted-register score tracing
+
+A repository-local GDB remote session now runs the hash-pinned VC7.1
+13.10.3077 compiler against the real `src/EclManager.cpp` translation unit and
+breaks inside the original `c2.dll` at `FUN_107833f2` (`0x107833f2`). The DLL
+loads at `0x10700000`; its SHA-256 remains the locked
+`bcd28f39b1798b07989c30a1df471cf87fc20e3802d130901a08f83800e6b81e`. This is
+live compiler evidence, not a replacement compiler or a source/target Oracle.
+
+The score-call ABI and live node fields are now observable:
+
+- At entry, `EDX` is the temporary conflict/live-set argument, stack `+4` is
+the current 0x60-byte allocation node (`p3`), and stack `+8` is the register
+class. `p3 + 0x1c` is its virtual ID; `p3 + 0x10` receives the selected
+0x60-byte physical-register descriptor.
+- `p3 + 0x38` heads weighted affinity records. A record's second DWORD points
+to a register descriptor, and its third DWORD is the affinity weight. The
+scoring tail subtracts that weight from the descriptor ID's score slot.
+- `p3 + 0x3c` points to source/IR metadata; the DWORD at metadata `+0x34`
+tracks the source line for ordinary mapped nodes. Live values matched lines
+449, 591 and 710 in `EnemyManagerCore.inl` exactly.
+- A complete focused trace captured **897** `FUN_107833f2` calls while
+compiling `EclManager.cpp`; all were class 0. At the first call, the node has
+virtual ID 1 and one affinity record for descriptor ID 2 with weight 1. Its
+scores are ID 1 = 0, ID 2 = -1, and ID 3 = 0; the pass therefore selects
+descriptor ID 2. This demonstrates the live weighted-affinity adjustment,
+but this line-449 node is **not proven to be** the early draw-group value.
+
+The important negative result is that no scored node in this trace maps to
+source line 434, and the earlier helper-line filter (338-341) also found no
+match. The 0/1 source-line records are still unmapped. Do not equate the
+first score call, the earlier EBX-only pick, or any descriptor ID with the
+`drawGroup3387` EAX/ECX choice until its actual IR node and assignment path are
+identified. Next trace the inline draw-head expression through its C2 IR node
+and `FUN_107831f7`, including source-less/macro-generated nodes; independently
+map descriptor IDs to physical x86 registers before interpreting their costs.
+
+No maintained source, frontier, match unit or exactness ledger changed. The
+`enemy-on-update` frontier remains **3,900/3,900 bytes with two differences**
+at `+0x19A/+0x1A1`. The focused frontier check still passes its recorded
+baseline. The GDB scripts, score logs, compiler outputs and `c2-analysis/`
+Ghidra scratch remain ignored local investigation material and must not be
+force-added.
+
 ## 2026-11-15 GPT-web: Enemy draw-group weighted-conflict and network local-home probes
 
 ### EnemyManagerView::OnUpdate
