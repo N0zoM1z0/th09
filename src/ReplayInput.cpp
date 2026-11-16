@@ -913,7 +913,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         }
     }
 
-    void *tempBuffer = g_ZunMemory.Alloc(allocationSize, "rep tmp");
+    u8 *tempBuffer = static_cast<u8 *>(g_ZunMemory.Alloc(allocationSize, "rep tmp"));
     replayCopy = *replayManager->replayData;
     unsigned int currentOffset = sizeof(ReplayDataView);
 
@@ -925,13 +925,13 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             if (frameHeader != NULL)
             {
                 const ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
-                memcpy((u8 *)tempBuffer + currentOffset - sizeof(ReplayHeaderView), frameHeader, sizeof(*frameHeader));
+                memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), frameHeader, sizeof(*frameHeader));
                 replayCopy.frameOffset[stream][loopIndex] = currentOffset;
                 currentOffset += sizeof(*frameHeader);
                 for (; link != NULL; link = link->next)
                 {
                     unsigned int streamSize = link->frameCount * ReplayRecordingCapacity::InputFrameBytes;
-                    memcpy((u8 *)tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->input[stream], streamSize);
+                    memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->input[stream], streamSize);
                     currentOffset += streamSize;
                 }
             }
@@ -947,7 +947,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             for (; link != NULL; link = link->next)
             {
                 int fpsSize = link->frameCount / ReplayRecordingCapacity::FramesPerFpsSample;
-                memcpy((u8 *)tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->fps, fpsSize);
+                memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->fps, fpsSize);
                 currentOffset += fpsSize;
             }
         }
@@ -1008,7 +1008,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
 
     replayCopy.decompressedSize = currentOffset - sizeof(ReplayHeaderView);
     u8 *compressedData = Lzss::Encode(
-        static_cast<u8 *>(tempBuffer), replayCopy.decompressedSize,
+        tempBuffer, replayCopy.decompressedSize,
         &replayCopy.compressedSize);
     g_ZunMemory.Free(tempBuffer);
     int compressedSize = replayCopy.compressedSize;

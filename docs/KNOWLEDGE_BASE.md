@@ -8757,6 +8757,17 @@ has exactly two residual offsets. Do not repeat simple pointer cv-qualifiers,
 register hints or arithmetic-order rewrites without a new liveness hypothesis.
 No full cold replay was run.
 
+
+The maintained source was subsequently made more faithful in a
+byte-neutral way: `tempBuffer` is now an actual `u8 *` result of the native
+allocation, so the three replay payload copies use direct byte-pointer
+arithmetic without repeated C-style casts. The pinned `SaveReplay` owner is
+still **1,238/1,238 bytes, two differences**, and the twelve canonical exact
+functions sharing `ReplayInput.cpp` replay unchanged: **4,093 compared physical
+bytes, 232 bound relocations**, across two source-profile carriers. The
+remaining EDI/ECX instruction mismatch is still open; no exact credit was
+added.
+
 ## 2026-11-16 GPT-web: SupervisorServiceUpdate frame/clock register lifetime map
 
 A fresh round of scoped `SupervisorServiceUpdate @ 0x00430AA0` compilation
