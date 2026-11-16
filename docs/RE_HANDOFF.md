@@ -167,9 +167,11 @@ tool upgrade.
    **1,591/1,633 bytes / 976 differences** (maintained baseline remains
    1,629/1,633 / 1,038); it reproduces branch-scoped EBX clock loads, EDI
    `connectNow`, and the final `0x430fb0` EBX reload, but remains 42 bytes short
-   and must not be promoted. The remaining high-value mismatch is the initial
-   network receiver (candidate EAX vs retail EDI) and the final side-inversion
-   order (candidate reads into EDI, retail EAX then ECX). Continue from
+   and must not be promoted. Merging the early and later network aliases into
+   one reassigned pointer, or materializing `initialConnectionState`, is
+   byte-neutral and must not be repeated. The remaining high-value mismatch is
+   the initial network receiver (candidate EAX vs retail EDI) and the final
+   side-inversion order (candidate reads into EDI, retail EAX then ECX). Continue from
    `.analysis/SupervisorNetwork.final-ebx-reload.cpp` and preserve the exact
    20-byte scratch layout. Do not repeat simple `register` hints, volatile
    receiver qualification, volatile-result or declaration-order probes, or

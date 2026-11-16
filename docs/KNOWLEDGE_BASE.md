@@ -8916,3 +8916,41 @@ identical inline-increment variants. Next, influence the dispatcher successor
 ordering and preserve the four distinct target backedges without changing x87
 operand order or introducing a boolean hit latch. Only
 `player-bullet-collision` was compiled; no full cold replay was run.
+
+## 2026-11-16 GPT-web: duplicated collision dispatch and cross-boss register-lifetime probes
+
+The large `CheckBulletCollision @ 0x0041DFF0` owner received another focused
+CFG experiment. The maintained carrier remains **853/862 bytes / 692
+differing offsets**. Duplicating the small type/bullet hit dispatcher at each
+circle, rotated-geometry, and AABB success site (with the larger cancel-reward
+body still shared) caused pinned VC7.1 C2 to merge the duplicate dispatchers
+back into one block after the geometry paths. The diagnostic object is
+**844/862 bytes / 675 differing offsets**, 18 bytes short; the dispatcher is
+still late at `+0x17E`. This is a lower raw residual but not a valid owner
+extent and does not reproduce the target's `+0x07E` fallthrough dispatcher.
+Reject it; do not update the frontier or repeat per-site duplicate dispatch.
+
+The `SupervisorServiceUpdate @ 0x00430AA0` diagnostic remains
+**1,591/1,633 bytes / 976 differences**. Merging the entry
+`connectionNetwork` pointer and post-state-0 `network` alias into one
+reassigned pointer variable produces byte-identical code (same 1,591-byte
+object SHA-256 `c5ee24ff3df21777919904f38d2a2a15eec057a21ed1a22bc54260e9a1dbc0f2`).
+Materializing `initialConnectionState` as a local is also optimized away and
+produces the same object. These do not change the initial EAX receiver or the
+final side-inversion register order; reject both and do not repeat simple
+alias-merging or scalar-temporary spelling.
+
+The large `EnemyManagerView::OnUpdate @ 0x00410730` remains
+**3,900/3,900 bytes with two differing bytes** at `+0x19A/+0x1A1`. Replacing
+the first inlined `NativeEnemyDrawHead` call with a local unsigned
+`drawGroupIndex` and explicit native pointer arithmetic is byte-neutral: C2
+still emits `movzx ecx, [ebx+0x3387]` and `lea eax, [esi+ecx*4+0x2AC410]`,
+while retail uses EAX for both instructions. The canonical `EnemyManagerCore.inl`
+was restored. Do not repeat a same-scope local index or explicit pointer
+arithmetic. The next useful work remains tracing C2 vreg 7 through the
+allocator's live-range and kind-`0x0b` interference path rather than further
+source spelling sweeps.
+
+Only `player-bullet-collision`, `supervisor-network-service`, and
+`enemy-on-update` focused carriers were compiled. No full cold replay, frontier
+update, exact-match manifest change, or source-carrier promotion was made.
