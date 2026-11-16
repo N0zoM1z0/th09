@@ -8555,3 +8555,56 @@ layout so circle success really falls through to the hit block while square
 success jumps backward, without changing the target x87 operand order or
 adding a fifth loop latch. Keep the current 853-byte carrier protected until
 a candidate introduces no new mismatches and has a deliberate extent decision.
+
+## 2026-11-16 GPT-web: C2 register interference helpers and early draw-head liveness
+
+A second pass through the pinned C2 register tables and interference helpers
+narrows the remaining Enemy OnUpdate EAX/ECX question. The extracted class-0
+candidate list at `0x108691a0` is `[1, 2, 3, 7, 8, 4, 6]`. Descriptor 1 is at
+`0x108a9804` (`+0x1c = 1`, `+0x28 = 0`); descriptor 2 is at `0x108a9864`
+(`+0x1c = 2`, `+0x28 = 1`). The exact vreg-7 scoring event has both bits 1 and
+2 set in live-set mask `0x19E`, zero weighted score for both, and chooses
+candidate 1 by ordered tie-break. The candidate's actual instruction
+`movzx ecx, byte ptr [ebx+0x3387]` proves descriptor 1 yields ECX at this
+site. Retail instead emits EAX. Descriptor 2 remains the second eligible
+candidate, but its physical-register mapping has not yet been independently
+proven; do not assert that mapping from its numeric ID alone.
+
+Newly mapped C2 helpers make the next allocator trace more concrete:
+
+- `FUN_10770294` and `FUN_10770248` scan existing interference records. Kind 1
+  records compare owner identity and overlapping half-open live intervals
+  using the `+0x20/+0x24` range fields. Kind `0x0b` records check a register
+  live-set bit by splitting the virtual ID into its 32-bit key and bit index.
+- `FUN_10759f2c` inserts a missing 32-bit key into the sorted linked bitset;
+  `FUN_1075a28a` subtracts one bitset from another and removes empty nodes.
+- `FUN_107833f2` remains the weighted candidate-score/tie-break stage, while
+  `FUN_107831f7` performs the later assignment, live-set cleanup and spill
+  bookkeeping. `FUN_1078368e` is the graph/node analysis path.
+
+The original OnUpdate has two distinct draw-group byte loads. The restricted-
+side early site at `0x004108ca` uses EAX for both `movzx` and scaled `lea`;
+the ordinary site at `0x00411615` uses EDX for `movzx` before the same EAX
+scaled `lea`. The maintained candidate's ordinary site already uses EDX; only
+the early site uses ECX. This confirms that a function-wide register hint is
+not the right target. The useful next investigation is to trace the specific
+vreg-7 record through `FUN_10770294`/the kind-`0x0b` bitset checks and identify
+which overlapping live value would make descriptor 1 unavailable or costly
+in the original compilation.
+
+Additional source-shape probes were measured and discarded: a separate early
+append block, a distinct early draw-head alias merged at the append label, a
+force-inline category predicate, and a separate early draw-head helper with a
+32-bit group parameter all retain the original two-byte residual. Duplicating
+the append stores expands the owner to 3,912 bytes and changes the CFG. A
+redundant `flags` guard at the append join regresses to 3,892/3,900 bytes,
+3,065 differences and a larger stack frame. Do not repeat these forms or the
+already recorded mutable-sideCategory reuse, parameter-order, direct-array,
+register-hint, or helper-width sweeps.
+
+All probes were reverted. The maintained `enemy-on-update` frontier remains
+3,900/3,900 bytes with exactly two differences (`+0x19A/+0x1A1`). The focused
+frontiers for `player-bullet-collision`, `effect-added-callback`, and
+`screen-shake-envelope` remain respectively 853/862 with 692 differences,
+51/51 with 4 differences, and 336/336 with 26 differences. No full cold
+replay was run.
