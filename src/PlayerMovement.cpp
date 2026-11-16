@@ -102,8 +102,12 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     else
         player->movementDirection30358 = 0;
 
+    // Retail reads the live configuration receiver before the current side.
+    // Keep both as native C++ values after the directional input callbacks.
+    GameConfiguration *const focusConfiguration = g_GameConfiguration;
+    const int focusSide = player->sideIndex;
     int focused;
-    if (g_GameConfiguration->sideFocusMode[player->sideIndex] == 1)
+    if (focusConfiguration->sideFocusMode[focusSide] == 1)
         // Retail rereads the input record here instead of reusing input.
         focused = g_ReplayInputStates[inputSide].auxiliary2A >= 8;
     else

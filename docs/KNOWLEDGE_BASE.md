@@ -9416,3 +9416,28 @@ byte relative to the accepted 72-position monotone improvement. This is an
 additional source-order and receiver-lifetime recovery, not a new exact
 function. The remaining 966 bytes and missing four target bytes are still
 under investigation; no whole-product replay ran.
+
+## 2026-11-16 GPT-web: typed player focus configuration lookup
+
+The large `PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170`
+now records the intended focus-mode input dependency explicitly in plain C++:
+first obtain the live `g_GameConfiguration` pointer after the direction-input
+callback chain, then read the current `player->sideIndex`, then fetch the
+selected byte from `focusConfiguration->sideFocusMode[focusSide]`. It still
+re-reads the independently live `g_ReplayInputStates[inputSide].auxiliary2A`
+when focus mode is set. No extra calls, volatile barriers, register hints,
+ASM, or padding have been introduced.
+
+Pinned VC7.1 `/O2 /Ob1` generates **the same entire 1,900-byte owner**,
+with exactly the already recorded four non-relocation mismatches at
+`+0x127..+0x12A` and no new differences. Source ordering alone does not
+force the target's `mov ecx, [g_GameConfiguration]` then
+`mov eax, [player->sideIndex]`; the compiler still schedules the independent
+register loads in the opposite order. Fifteen focused natural C++
+config-reference/pointer/value formulations were tested. Ordinary locals,
+references, array base aliases, and explicit comma evaluation all compiled
+to the unchanged four-byte-difference owner; volatile reads changed the
+instruction order but chose the wrong physical registers and caused
+1,109+ mismatches across the full function. These variants remain ignored
+and were not promoted. This is source-semantic fidelity, not an exact codegen
+claim; no cold replay was run.
