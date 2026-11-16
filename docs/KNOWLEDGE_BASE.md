@@ -9494,3 +9494,27 @@ A selected-source canonical replay passed **all 41 exact TitleScreen units**
 (two compile profiles), covering **18,972 physical bytes and 953
 relocation fields**. There was no machine-code patch, authored exact credit,
 or full cold replay.
+
+## 2026-11-16 GPT-web: playback snapshot uses one native GameManager owner
+
+`ReplayManagerView::BeginPlaybackStage @ 0x00420840` reconstructs a complete
+stage's two player sides, character/selector values, difficulty, initial
+health/resources, per-side runtime values, three frame-input cursors, an FPS
+cursor and the configuration snapshot. The maintained source now binds this
+contiguous state-restoration phase through one **real**
+`AsciiGameManagerView &game = g_GameManager` rather than spelling separate
+global object accesses for every field. It still reads each frame header
+and writes every original native field in order; the subsequent
+configuration snapshot publishes through `game.configurationE8`, and the
+original RNG seed and input-delay behavior is unchanged. No synthetic
+accesses, additional calls, ASM, padding, or register hints are introduced.
+
+The pinned VC7.1 `/O2 /Ob1` complete nonexact function remains **540/540
+bytes, 13 masked differences**, with zero new mismatches. The separate
+`SaveReplay` owner still has **1,238/1,238 bytes and two differences**.
+All **12 exact same-source ReplayInput owners** passed selected-source
+canonical replay (4,093 complete compared physical bytes and 232
+relocation fields across two compiler carriers). The remaining playback
+register-load/store scheduling at `+0x14B..+0x15F` is not solved by these
+natural aliases. A native runtime-pointer snapshot moved the overall
+function to 514 bytes and was rejected. No cold replay or new exact claim.
