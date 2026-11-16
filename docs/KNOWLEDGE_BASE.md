@@ -8471,6 +8471,11 @@ lexical lifetime of the pointer.
   and regresses **653** bytes; it does not preserve the target's byte-test form.
 - The earlier boolean `restrictedSide` plus scoped pointer probe regressed
   513 bytes and remains rejected.
+- Reading `drawGroup3387` through a separate volatile-byte pointer before the
+  `ENEMY_CORE_NO_SPRITE` test (then passing the local to the helper) regresses
+  **441** bytes. It moves the volatile byte load ahead of the sprite test and
+  changes the early branch graph; it does not reproduce the target's EAX/EAX
+  pair. This dirty probe was measured and reverted.
 
 Every source probe above was reverted. The maintained source is clean and the
 focused frontier remains **3,900/3,900 bytes with the two original differences**
