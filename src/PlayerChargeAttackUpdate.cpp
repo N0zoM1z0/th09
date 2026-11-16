@@ -28,14 +28,8 @@ typedef char PlayerChargeConfigurationModeAtB4[
 typedef char PlayerChargePlayableSideCountIsTwo[
     (GameplaySetupNativeSides::PlayableCount == 2) ? 1 : -1];
 
-// Player and FrontSide use the shared 0x38-byte side allocation.
-// The three charge input branches read the *same* two focus-mode bytes
-// in the actual GameConfiguration at +0xB4. This accessor is one native
-// 32-bit byte address and does not cache any of their live source reads.
-#define TH09_CHARGE_NATIVE_FOCUS_MODE(side) \
-    (*reinterpret_cast<const u8 *>( \
-        reinterpret_cast<unsigned int>(&g_GameConfiguration->sideFocusMode[0]) + \
-        static_cast<unsigned int>(side)))
+// The charge mode is the native two-side row at GameConfiguration +0xB4.
+// The caller only supplies registered playable sides 0 and 1.
 
 int PlayerLifecycleView::UpdateChargeAttack()
 {
@@ -45,20 +39,14 @@ int PlayerLifecycleView::UpdateChargeAttack()
     volatile u8 sideMode;
     u8 modeSnapshot;
     int previousLevel;
-    // The original input receiver uses the real 0x8E-byte ReplayInputState
-    // stride and this owner's signed-short side snapshot as a native DWORD.
-    // Keep that snapshot and all original input calls in the same order.
-    ReplayInputState *input = reinterpret_cast<ReplayInputState *>(
-        reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
-        static_cast<unsigned int>(static_cast<int>(side)) *
-        sizeof(g_ReplayInputStates[0]));
-    // The two focus-mode tests and the post-charge test read the genuine
-    // configuration byte row through native 32-bit byte addresses. No new
-    // side clamping or cached mode snapshot has been added.
+    ReplayInputState *input = &g_ReplayInputStates[side];
+    // Both focus-mode tests and the post-charge test reread the real
+    // two-byte configuration row, without caching the mode across calls.
     if ((input->WasPressed(1) &&
-         !(TH09_CHARGE_NATIVE_FOCUS_MODE(static_cast<int>(side)) == 1 &&
+         !(g_GameConfiguration->sideFocusMode[side] == 1 &&
            input->IsHeld(4))) ||
-        ((modeSnapshot = TH09_CHARGE_NATIVE_FOCUS_MODE(static_cast<int>(side)), sideMode = modeSnapshot, modeSnapshot == 1) &&
+        ((modeSnapshot = g_GameConfiguration->sideFocusMode[side],
+          sideMode = modeSnapshot, modeSnapshot == 1) &&
          input->IsHeld(1) &&
          !input->IsHeld(4)))
     {
@@ -83,7 +71,7 @@ int PlayerLifecycleView::UpdateChargeAttack()
         {
             timer303B0--;
         }
-        if (TH09_CHARGE_NATIVE_FOCUS_MODE(sideIndex) != 1)
+        if (g_GameConfiguration->sideFocusMode[sideIndex] != 1)
         {
             goto afterCharge;
         }
@@ -195,5 +183,3 @@ afterCharge:
     }
     return 0;
 }
-
-#undef TH09_CHARGE_NATIVE_FOCUS_MODE

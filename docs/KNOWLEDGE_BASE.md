@@ -9518,3 +9518,28 @@ relocation fields across two compiler carriers). The remaining playback
 register-load/store scheduling at `+0x14B..+0x15F` is not solved by these
 natural aliases. A native runtime-pointer snapshot moved the overall
 function to 514 bytes and was rejected. No cold replay or new exact claim.
+
+## 2026-11-16 GPT-web: native ChargeAttack side/input array access
+
+`PlayerLifecycleView::UpdateChargeAttack @ 0x0041F810` now names the actual
+native two-side owners directly in C++: `&g_ReplayInputStates[side]` selects a
+real `ReplayInputState` record of stride `0x8E`, and the three charge/focus
+branches read `g_GameConfiguration->sideFocusMode[side]` or `[sideIndex]`
+from the original two-byte row at `+0xB4`. The caller establishes that the
+playable side is 0 or 1. This retires both hand-built integer-pointer
+address calculations and the `TH09_CHARGE_NATIVE_FOCUS_MODE` macro without
+adding any bounds checks, calls, cached mode values, ASM or padding.
+The preexisting side/volatile-mode snapshot and every input/timer/callback
+branch are retained, so the unresolved original register allocation is not
+hidden or falsely claimed to be fixed.
+
+The selected VC7.1 `/O2 /Ob1` comparison gives **the same entire 1,210-byte
+function, 70 relocation fields and exactly 183 masked differences** as the
+pre-edit owner; **zero newly differing positions**. Parallel source probes
+also tested `short` versus `int` side, typed input pointers, record
+references and array pointer expression variants. Native array forms using
+the retained short snapshot were byte-neutral; changing the snapshot to a
+full int regressed the owner to 1,209 bytes / 717 differing offsets. There
+are no accepted exact sibling functions in this source carrier. This is
+natural C++ structure and type recovery, not an authored-exact upgrade;
+no whole-project replay was run.
