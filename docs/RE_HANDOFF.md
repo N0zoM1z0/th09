@@ -46,8 +46,10 @@ compiler objects you need.**
   The maintained side gates now use the native shared `+0x34` and `+0x337C`
   bitfield views. The `+0x3380` secondary DWORD also has overlapping movement
   and late-side-category views: movement mode occupies bits 9-10, while the
-  ECL side category occupies bits 10-11. These typed views preserve the
-  complete owner and all 84 exact same-source siblings.
+  ECL side category occupies bits 10-11. The boss uses the named side-category,
+  effect-category and interaction-triggered fields for its special/reward
+  counters and special-attack gate. These typed views preserve the complete
+  owner and all 84 exact same-source siblings.
 - **SupervisorServiceUpdate** now has a ratchet-safe maintained natural C++
   baseline of **1,629/1,633 bytes / 966 differences** (72 prior mismatches repaired). The 20-byte stack map and `[ebp-4]` result home are understood.
   A separate natural C++ diagnostic (no ASM) is `.analysis/SupervisorNetwork.natural-ebx-reload.cpp`

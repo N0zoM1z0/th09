@@ -454,14 +454,14 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             if ((enemy->secondaryFlags3380 & 0x4DC0) == 0)
                 manager->normalEnemyCount2AC3B0 = static_cast<int>(
                     static_cast<unsigned int>(manager->normalEnemyCount2AC3B0) + 1u);
-            if ((enemy->secondaryFlags3380 & 0x0C00) != 0)
+            if (enemy->secondaryFlagBits3380.category.sideCategory10_11 != 0)
                 manager->specialEnemyCount2AC3B4 = static_cast<int>(
                     static_cast<unsigned int>(manager->specialEnemyCount2AC3B4) + 1u);
-            if ((enemy->secondaryFlags3380 & 0x01C0) != 0)
+            if (enemy->secondaryFlagBits3380.movement.effectCategory06_08 != 0)
                 manager->rewardEnemyCount2AC3B8 = static_cast<int>(
                     static_cast<unsigned int>(manager->rewardEnemyCount2AC3B8) + 1u);
 
-            if ((enemy->secondaryFlags3380 & 0x1000) != 0)
+            if (enemy->secondaryFlagBits3380.category.interactionTriggered12 != 0)
             {
                 if (enemy->specialAttackTimer5424.HasTickedEvery(2))
                 {

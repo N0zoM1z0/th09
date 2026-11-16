@@ -9667,3 +9667,20 @@ every relocation offset/type, same-section ownership and absolute retail PE
 destination was checked before rebinding the names. No code bytes, target
 addresses, exact-match membership or function-origin claims were changed.
 No full cold replay was run.
+
+## 2026-11-16 GPT-web: use native secondary flags throughout Enemy OnUpdate
+
+The 3,900-byte `EnemyManagerView::OnUpdate` now uses the same native
+`+0x3380` secondary-bitfield overlays for its per-frame count and special
+attack gates, not only for the restricted-side category branch. The special
+side count reads `category.sideCategory10_11`, the reward count reads
+`movement.effectCategory06_08`, and the special-attack gate reads
+`category.interactionTriggered12`. These are the same observed DWORD bits as
+the former `0x0C00`, `0x01C0`, and `0x1000` masks; no counter, callback, timer,
+threshold, or branch ordering changed. Unknown bits remain opaque.
+
+The complete pinned owner remains **3,900/3,900 bytes with exactly the same
+two residual bytes**, and the source-scoped EclManager replay still passes all
+**84 exact owners / 45,420 physical bytes / 1,987 relocations**. This extends
+native type recovery in the large boss without changing its codegen or
+claiming a new exact match. No whole-product cold replay was run.
