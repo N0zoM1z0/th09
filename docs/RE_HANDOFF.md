@@ -171,43 +171,40 @@ tool upgrade.
 
 ## Next steps (ranked)
 
-1. **Compiler model (the only open lead).** The early draw-group node is
-   identified: vreg 7 at flattened C2 line 68814 maps to
-   `EnemyManagerCore.inl:439`. Its live-set mask `0x19E` admits candidate IDs
-   1 and 2 with equal zero scores, and candidate order selects ID 1 / ECX.
-   Continue by identifying descriptor 2's physical register and which source
-   lifetime/interference difference removes descriptor 1 in the original.
-   Inspect the additional live-set substructures and `FUN_107831f7` assignment;
-   do not repeat same-local reuse or simple helper/array spellings. The later
-   draw-head path at line 998 has no separate score event. A scoped volatile
-   side-state pointer yields EAX/EAX but shifts four Float3 call-argument bytes;
-   const-volatile/reference forms and narrower scope do not recover them. The
-   current two-byte carrier is protected; raw inline assembly fixes the branch
-   pair but regresses five stack homes and the following Float3 call. The ignored scratch project
-   is reusable; rebuild from the hash-checked pinned backend outside any
-   `.`-prefixed path only if it is absent.
-2. Continue `SupervisorServiceUpdate` from the newly confirmed result-home
-   mismatch. Recover the original `[ebp-4]` local lifetime and the `PopFrame`
-   scratch layout without forcing an enlarged volatile/address-taken frame.
-   The Ghidra export confirms the target's result semantics; the remaining
+1. **Player CheckBulletCollision (large boss).** Keep the maintained
+   `853/862`-byte, 692-difference carrier protected. Attested target analysis
+   fixes the required order: circle test, shared hit/cancel block, then rotated
+   and AABB geometry; circle success falls through to hit, while square success
+   jumps backward. Retail has four increment/backedge sites at `+0x0a3`,
+   `+0x133`, `+0x194`, and `+0x19e`. The saved `840/862`, 632-difference
+   diagnostic has five backedges and new offsets; the `835/862`, 683-difference
+   candidate has four but C2 still schedules hit/cancel after geometry. The
+   combined common-invalid/circle-latch and pre-square-hit attempt also
+   collapses to that 835-byte shape. Radius comparison inversions change the
+   x87 schedule and are rejected. Next, influence C2 block layout without
+   changing the x87 operand order or adding a latch. Never update the frontier
+   for a candidate with new differences.
+2. **SupervisorServiceUpdate (large boss).** Continue from the confirmed
+   `[ebp-4]` result-home mismatch. Recover the original local lifetime and the
+   `PopFrame` scratch layout without forcing an enlarged volatile/address-taken
+   frame. The Ghidra export confirms the result semantics; the remaining
    question is the source-scope/stack-slot assignment that keeps the result
    home live while the two seed outputs occupy the lower slots.
-3. Continue the Player CheckBulletCollision boss from the 840/862
-   diagnostic geometry layout while keeping the 853/862 carrier protected.
-   The 835/862 candidate now proves that four source-level retry latches can
-   be emitted, but the type/cancel block still lands after geometry and the
-   reward tail remains short. The 840-byte carrier has better overlap but five
-   backedges. Next, recover retail's circle-hit fallthrough into the type test
-   before square geometry without losing the shared invalid/circle latch.
-   Preserve its five exact siblings with scoped replay; never weaken the
-   protected-byte guard.
-4. Continue Enemy OnUpdate's two-byte EAX/ECX allocation question through the
-   mapped C2 weighted-conflict path, not another local spelling sweep. For
-   smaller owners, AddedCallback is currently four bytes (not the historical
-   one-byte diagnostic); only reopen it with a real context/global-pointer
-   lifetime hypothesis. Do not repeat the failed ScreenEffect aliases,
-   TitleResult table-index forms, or the documented BeginPlaybackStage and
-   SaveReplay variants.
+3. **Enemy OnUpdate (two-byte frontier).** The maintained carrier is
+   `3900/3900` bytes with only `+0x19a/+0x1a1` differing. C2 line 68814 / vreg 7
+   ties the first two class-0 descriptors at zero score; `FUN_107833f2` chooses
+   descriptor 1 by table order, while `FUN_107831f7` performs later liveness,
+   interference, and spill bookkeeping. `FUN_1078368e`/`FUN_1073605a` also
+   normalize `0x26a` member-node type words, so inspect that IR lifetime path
+   rather than repeating spelling sweeps. The scoped volatile side-state
+   pointer fixes the EAX/EAX pair but regresses four following Float3 argument
+   bytes; scalar volatile, register-pointer, and force-inline helper probes do
+   not recover them. Do not reinstate the rejected volatile-pointer variant.
+4. **Smaller owners.** AddedCallback is currently four bytes (not the
+   historical one-byte diagnostic); only reopen it with a real
+   context/global-pointer lifetime hypothesis. Do not repeat the failed
+   ScreenEffect aliases, TitleResult table-index forms, or the documented
+   BeginPlaybackStage and SaveReplay variants.
 
 ## Practical pitfalls
 
