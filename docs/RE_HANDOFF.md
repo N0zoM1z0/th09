@@ -98,10 +98,15 @@ compiler objects you need.**
   still scheduled after geometry, opposite retail's circle-hit fallthrough.
   A fallthrough spelling reached 853/862 / 670 differences but retained the
   wrong block order and added a radius test. A separate six-latch form reached
-  845/862 / 661 differences. None was promoted. The five exact same-TU
-  siblings pass scoped replay (1,220 bytes / 32 fields). Maintained source and
-  frontier remain 853/862. See the 2026-11-15 collision-latch and boss
-  allocation entries.
+  845/862 / 661 differences. This session split the hit dispatcher from the
+  cancel-reward tail, nested it inside the radius branch, moved geometry into
+  an explicit `else`, tried a switch dispatcher, and spelled separate miss
+  increments; C2 still moves the dispatcher after geometry and merges the
+  latches. Best of these new probes is 849/862 / 683; the switch form is
+  857/862 / 688. None was promoted. The five exact same-TU siblings pass
+  scoped replay (1,220 bytes / 32 fields). Maintained source and frontier
+  remain 853/862. See the 2026-11-16 dispatcher-layout and 2026-11-15
+  collision-latch entries.
 
 ## Remaining source-present nonexact owners
 
@@ -120,7 +125,7 @@ numbers.
 | **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 29 bytes (Title `/O1 /Ob1`) | Selected-record EDX/ECX. `title-draw-replay-menu`. |
 | **Replay BeginPlaybackStage** | 0x00420840 | **540/540**, 13 masked / 19 raw at +0x14B–0x15F (`/O2 /Ob1`) | Plain C++ (no `volatile` alias). VC7.1 hoists the `sides[0].runtime` load above the +0x37C store; retail issues it after the +0x1E8 load. Statement moves/swaps, array and side-pointer forms do not move it. `replay-begin-playback`. |
 | **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Separate side/input aliases, typed indexing, reference input and register hints did not change the allocation. `player-charge-attack`. |
-| **Player CheckBulletCollision** | 0x0041DFF0 | **853/862**, 692 differing offsets / 26 relocation fields (`/O2 /Ob1`) | Protected carrier. Best byte-overlap diagnostic is 840/862 / 632 differences with five backedges; a separate 835/862 / 683 candidate has four backedges but wrong hit/cancel block order. Both break protected matches; do not update frontier metadata. Five exact siblings pass. `player-bullet-collision`. |
+| **Player CheckBulletCollision** | 0x0041DFF0 | **853/862**, 692 differing offsets / 26 relocation fields (`/O2 /Ob1`) | Protected carrier. Best byte-overlap diagnostic remains 840/862 / 632 with five backedges; the 835/862 / 683 four-latch candidate still has wrong block order. New split-dispatch / explicit-else probes reach 849/862 / 683, but C2 still places the dispatcher after geometry; switch dispatch regresses to 857/862 / 688. No candidate is promoted. Five exact siblings pass. `player-bullet-collision`. |
 | **Supervisor network service** | 0x00430AA0 | 1,629/1,633 bytes, **1,038 differences** (maintained); diagnostic best **1,591/1,633 / 976 differences** (`/O2 /Ob1`) | The 20-byte frame and `[ebp-4]` result home are mapped. A saved diagnostic now reproduces EBX clock-pointer / EDI `connectNow` allocation and the final `0x430fb0` IAT reload, but is still 42 bytes short and is not promoted. Remaining: initial state receiver EAX vs retail EDI, plus final side-inversion register order. `.analysis/SupervisorNetwork.final-ebx-reload.cpp`; `supervisor-network-service`. |
 
 ## Reproduce *only* the changed compiler carriers
@@ -177,19 +182,21 @@ tool upgrade.
 
 1. **Player CheckBulletCollision (large boss).** Keep the maintained
    `853/862`-byte, 692-difference carrier protected. Attested target analysis
-   fixes the required order: circle test, shared hit/cancel block, then rotated
-   and AABB geometry; circle success falls through to hit, while square success
-   jumps backward. Retail has four increment/backedge sites at `+0x0a3`,
+   fixes the required order: circle test, small hit dispatcher, then rotated
+   and AABB geometry; circle success falls through to the dispatcher, while
+   square success jumps backward. The separate cancel-reward body is later in
+   the target. Retail has four increment/backedge sites at `+0x0a3`,
    `+0x133`, `+0x194`, and `+0x19e`. The saved `840/862`, 632-difference
    diagnostic has five backedges and new offsets; the `835/862`, 683-difference
-   candidate has four but C2 still schedules hit/cancel after geometry. The
-   common-invalid/circle-latch plus pre-square-hit attempt also collapses to
-   that 835-byte shape. A negated less-than predicate with unchanged x87
-   operand order plus an early hit label is canonicalized back to the same
-   853-byte layout. The `>=` rewrite emits an unconditional jump that bypasses
-   the circle decision and is invalid. Next, influence C2 block layout without
-   changing x87 operand order or adding a latch. Never update the frontier for
-   a candidate with new differences.
+   candidate has four but C2 still schedules the dispatcher after geometry.
+   New split-dispatch, hit-inside-radius, explicit-else geometry, and inline
+   advance probes remain **849/862 / 683** with the same late dispatcher; a
+   switch dispatcher is **857/862 / 688** and changes the type compare chain
+   to range checks. C2 also merges the identical inline advance sites. Do not
+   repeat these shapes. Next, influence successor ordering and preserve the
+   four distinct target backedges without changing x87 operand order or adding
+   a boolean latch. Never update the frontier for a candidate with new
+   differences.
 2. **SupervisorServiceUpdate (large boss).** The retail 20-byte frame is now
    mapped: inputs `-0x14/-0x12`, predicted `-0x0c`, seed outputs `-0x08/-0x06`,
    and result `-0x04`. The early second `PopFrame` intentionally overlaps seed
