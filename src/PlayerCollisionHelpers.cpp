@@ -86,16 +86,14 @@ int PlayerLifecycleView::CheckBulletCollision(
     PlayerCollisionRegionCreateRegionView *region;
     reinterpret_cast<volatile CollisionScratch *>(&scratch)->cursor.slot = slot;
 
-check_region:
-    region = *slot;
-    if (region == NULL)
-        goto no_collision;
+    for (; (region = *slot) != NULL; ++slot)
+    {
         if (region->type38 != 1 &&
             region->type38 != 2 &&
             region->type38 != 3)
-            goto next_invalid_region;
+            continue;
         if (region->delay40 > 0)
-            goto next_invalid_region;
+            continue;
 
         if (region->radius08 != 0.0)
         {
@@ -104,7 +102,7 @@ check_region:
             if (xDelta * xDelta + yDelta * yDelta <
                 region->radius08 * region->radius08)
                 goto hit;
-            goto next_geometry_region;
+            continue;
         }
 
         if (region->angle20 != 0.0f)
@@ -121,7 +119,7 @@ check_region:
                 -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
                 scratch.collision.rotated.y <= scratch.collision.halfSize.y)
                 goto hit;
-            goto next_geometry_region;
+            continue;
         }
 
         scratch.collision.halfSize.x = region->centerX00 - region->halfWidth10;
@@ -140,7 +138,7 @@ check_region:
                 }
             }
         }
-        goto next_geometry_region;
+        continue;
 
 hit:
         if ((*slot)->type38 == 2)
@@ -152,7 +150,7 @@ hit:
 
     cancel_hit:
         if (currentBullet == NULL || currentBullet->bulletType != 0)
-            goto next_invalid_region;
+            continue;
 
         {
             reinterpret_cast<volatile CollisionScratch *>(&scratch)->cursor.slot = slot;
@@ -211,15 +209,7 @@ hit:
         ++hitRegion->hitCount2C;
         return 2;
 
-next_invalid_region:
-    ++slot;
-    goto check_region;
-
-next_geometry_region:
-    ++slot;
-    goto check_region;
-
-no_collision:
+    }
     return 0;
 }
 

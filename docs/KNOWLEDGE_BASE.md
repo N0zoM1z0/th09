@@ -9091,3 +9091,36 @@ retail parameter/register homes and the remaining 22 bytes through natural
 C++ lifetime and local-storage structure.
 
 No maintained source or frontier was changed by this diagnostic.
+
+## 2026-11-16 GPT-web: natural collision region iteration and source-purity guard
+
+After retiring the fake collision loop-entry bytes, the maintained large
+`PlayerLifecycleView::CheckBulletCollision` owner was converted from two
+explicit increment/backedge labels to a conventional C++ top-tested
+`for (; (region = *slot) != NULL; ++slot)` loop. Invalid regions, delayed
+regions, circle misses, rotated-rectangle misses, AABB misses and invalid
+cancel bullets now use their natural `continue` edges. Shared successful
+collision and cancel-reward handling still use common C++ labels rather than
+duplicating code. No inline assembly, `_emit`, hand-built NOP or inserted
+branch bytes are present.
+
+The pinned `/O2 /Ob1` owner compilation is **byte-identical** to the
+post-depadding 842/862 baseline, with 705 masked differences and 26
+relocations. Equivalent `for(;;)`, while-assignment, `do` and explicit
+bottom-tested label layouts also gave byte-identical 842/862 outputs;
+VC7.1 normalizes these source-level loops to the same region successor
+layout. An initial-only null precheck was rejected: it removes the sentinel
+check on later iterations and is not behaviorally equivalent, irrespective
+of any apparent byte-overlap gain.
+
+The **five exact same-source siblings** still pass a selected-source canonical
+replay: three compiler profiles/carriers, 1,220 physical compared bytes and
+32 reviewed relocations. There was no whole-product replay and no new exact
+claim. The large owner remains open with different block ordering.
+
+A small CI source-purity guard now rejects `_emit`/`__emit`, naked functions
+and *new* inline assembly anywhere under `src/`. It transparently records
+the remaining seven legacy x87 `__asm` sites across four explicitly named
+files as technical debt; the allowance is a non-increasing ceiling, not an
+endorsement of those sites as naturally restored C++. These can be retired
+only with source edits and focused owner tests.

@@ -3,6 +3,7 @@
 from pathlib import Path
 import argparse
 import json
+import re
 import subprocess
 import sys
 import tomllib
@@ -36,6 +37,31 @@ def check_file(path: Path) -> None:
         raise ValueError(f'{path}: {exc}') from exc
 
 
+# Legacy inline x87 implementation debt. These sites are not new natural-C++
+# exactness credit; the budget only prevents fresh assembly from sneaking into
+# source while each old owner is reconstructed and tested separately.
+LEGACY_ASM_BUDGET = {
+    'src/AnmManagerCameraFacing.inl': 1,
+    'src/AnmManagerRender.cpp': 4,
+    'src/EffectPolarScale.inl': 1,
+    'src/ExAttackInitType8.inl': 1,
+}
+
+
+def check_source_purity() -> None:
+    for path in (ROOT / 'src').rglob('*'):
+        if not path.is_file() or path.suffix not in {'.c', '.cpp', '.h', '.hpp', '.inl'}:
+            continue
+        relative = path.relative_to(ROOT).as_posix()
+        source = path.read_text(encoding='utf-8')
+        if re.search(r'\b(?:_emit|__emit)\b|__declspec\s*\(\s*naked\b', source):
+            raise ValueError(f'raw byte emission or naked function is forbidden: {relative}')
+        asm_sites = len(re.findall(r'\b__asm\b|\basm\s*\{', source))
+        allowed = LEGACY_ASM_BUDGET.get(relative, 0)
+        if asm_sites > allowed:
+            raise ValueError(f'new inline assembly is forbidden: {relative} ({asm_sites}, allowed {allowed})')
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--full', action='store_true',
@@ -47,6 +73,7 @@ def main() -> int:
         ], cwd=ROOT).decode().split('\0')
         for name in sorted(set(names) - {''}):
             check_file(ROOT / name)
+        check_source_purity()
         subprocess.run(['git', 'diff', 'HEAD', '--check'], cwd=ROOT, check=True)
         for script in ('validate-tracking.py', 'validate-docs.py', 'progress.py'):
             command = [sys.executable, '-B', '-S', str(ROOT / 'scripts' / script)]

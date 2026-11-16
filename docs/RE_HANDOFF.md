@@ -153,9 +153,9 @@ tool upgrade.
    the target. Retail has four increment/backedge sites at `+0x0a3`,
    `+0x133`, `+0x194`, and `+0x19e`. The previous 840/862, 835/862, 849/862
    and 853/862 measurements were made with the artificial loop-entry pad in
-   place; do not use those byte scores as valid natural-C++ progress. A natural
-   `for`-loop rewrite compiles byte-identically to the unpadded 842/862
-   baseline. Next, recover the target preheader and successor order through
+   place; do not use those byte scores as valid natural-C++ progress. The maintained source now uses a natural top-tested `for` loop with
+   `continue` rather than the two artificial advance/backedge labels; its
+   compiled 842/862 carrier is byte-identical to the post-depadding baseline. Next, recover the target preheader and successor order through
    genuine C++ control flow while preserving x87 operand order and four
    distinct backedges. No `_emit`, inline assembly, or byte padding.
 2. **SupervisorServiceUpdate (large boss).** The retail 20-byte frame is now
@@ -213,6 +213,7 @@ comparison. A source-scoped replay of the other three Etama exact units passes
 1,664 compared bytes and 73 relocations. Internal `$L...` COFF label names
 were updated only after confirming identical same-section targets.
 
+CI now forbids new inline assembly, raw `_emit` bytes or naked functions.
 Other sources still contain genuine x87 inline-assembly helpers
 (`AnmManagerCameraFacing.inl`, `AnmManagerRender.cpp`,
 `EffectPolarScale.inl`, `ExAttackInitType8.inl`). Retire these through actual
