@@ -252,15 +252,14 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
     if (g_GameManager.value348 <= 1)
         return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
 
-    ZunTimer &clock = screenEffect->timer;
-    clock++;
+    screenEffect->timer++;
 
     int endFrame = screenEffect->shakeEnvelope.fadeInFrames;
-    if (clock < endFrame)
+    if (screenEffect->timer < endFrame)
     {
-        shakeAmount = (float)clock / endFrame;
+        shakeAmount = static_cast<float>(screenEffect->timer) / endFrame;
     }
-    else if (clock < static_cast<int>(
+    else if (screenEffect->timer < static_cast<int>(
         static_cast<unsigned int>(endFrame) +
         static_cast<unsigned int>(screenEffect->shakeEnvelope.holdFrames)))
     {
@@ -280,11 +279,11 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
         unsigned int update =
             static_cast<unsigned int>(hold) + static_cast<unsigned int>(fade);
         endFrame = static_cast<unsigned int>(endFrame) + update;
-        if (clock < endFrame)
+        if (screenEffect->timer < endFrame)
         {
             shakeAmount =
-                ((float)(unsigned int)endFrame - (float)clock) /
-                (unsigned int)screenEffect->shakeEnvelope.fadeOutFrames;
+                (static_cast<float>(static_cast<unsigned int>(endFrame)) - static_cast<float>(screenEffect->timer)) /
+                static_cast<unsigned int>(screenEffect->shakeEnvelope.fadeOutFrames);
         }
         else
         {
@@ -292,7 +291,7 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
         }
     }
 
-    shakeAmount = (float)screenEffect->duration * shakeAmount;
+    shakeAmount = static_cast<float>(screenEffect->duration) * shakeAmount;
     switch (g_ReplayRng.GetRandomU32InRange(3))
     {
     case 0:

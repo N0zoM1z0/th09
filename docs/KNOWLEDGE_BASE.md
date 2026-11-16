@@ -9297,3 +9297,28 @@ normal validation still reports **2,248 candidates, 1,037 mappings and 1,026
 exact functions**. This closes an evidence bookkeeping hole rather than
 adding source owners or inventing exactness. No target, compiler binary, or
 raw executable byte was changed.
+
+## 2026-11-16 GPT-web: direct ScreenEffect timer member and verified labels
+
+The maintained `ScreenEffect::CalcShakeEnvelope @ 0x004227A0` has been
+restored to explicit native `screenEffect->timer` member operations rather
+than carrying a synthetic `ZunTimer &clock` alias throughout the callback.
+The timer postincrement, three signed duration comparisons and two float
+conversions still call the same native timer operators in the same order.
+C-style float/unsigned conversions of envelope endpoints and amplitude are
+now explicit C++ `static_cast` expressions without additional memory loads,
+math operations, or inserted compiler/assembly directives. The function's
+**complete 336-byte candidate is byte-for-byte identical to its prior
+336/336, 26-mismatch nonexact baseline**. The ESI/EDI receiver/timer register
+allocation mismatch remains open.
+
+The source-level lexical change renumbered **nine** compiler-private `$L...`
+labels in `ScreenEffect::RegisterChain` but changed neither relocation offset,
+relocation type, target-local destination, body extent nor bytecode. Before
+updating the nine recorded internal symbol spellings, every new COFF label's
+`symbol_section == owner_section` and `target_address + symbol_value -
+owner_value == original manifest target` were checked. No external symbol,
+original address, code byte or exactness proof was modified. The affected
+source-scoped canonical replay passes **all 18 previously exact ScreenEffect
+functions**, covering **2,562 full physical bytes and 164 relocation fields**
+across the three real compiler profiles. No whole-product cold replay was run.
