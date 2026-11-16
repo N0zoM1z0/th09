@@ -6876,6 +6876,16 @@ bytes / 232 relocation fields**. The separately original-bound 1,238-byte
 two differing register bytes `+0xB7/+0xBB`. These are meaningful native
 wire-address semantics, not newly exact owners or whole-product closure.
 
+The maintained playback-stage source now also uses explicit natural C++
+conversion categories: `reinterpret_cast<ReplayDataView *>` for the file-backed
+byte allocation, `reinterpret_cast<u16 *>` for each frame-header-adjacent
+input stream, and `static_cast` for the observed signed replay byte and float
+conversions. The original target is still 540 bytes; the current source
+reproduces 540 bytes with **13 masked differences**. All **12 same-source exact
+functions / 4,093 compared bytes / 232 relocations** pass focused replay.
+The remaining runtime-pointer load order is not repaired, and no new exactness
+claim was made.
+
 ## Replay SaveReplay native name-table indexes
 
 The still-nonexact ReplayManagerView::SaveReplay (0x00420C60) formats

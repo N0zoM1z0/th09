@@ -620,8 +620,8 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     replayManager->frameCounter = 0;
     if (replayManager->replayData == NULL)
     {
-        replayManager->replayData = (ReplayDataView *)FileSystem::OpenFile(
-            replayManager->replayPath, &fileSize, (g_GameManager.flags & 2) == 0);
+        replayManager->replayData = reinterpret_cast<ReplayDataView *>(FileSystem::OpenFile(
+            replayManager->replayPath, &fileSize, (g_GameManager.flags & 2) == 0));
         replayManager->replayData = LoadReplayData(replayManager->replayData, fileSize);
         if (replayManager->replayData == NULL)
             return -1;
@@ -646,7 +646,7 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     g_GameManager.sides[0].value2C = frame0->value0A;
     g_GameManager.sides[1].value2C = frame1->value0A;
     g_GameManager.valueF4 = frame0->value0C;
-    g_GameManager.value138 = (signed char)frame0->value09;
+    g_GameManager.value138 = static_cast<signed char>(frame0->value09);
     g_GameManager.difficulty = replayManager->replayData->value0D7;
     g_GameManager.value378 = replayManager->replayData->value1E6;
     g_GameManager.value37C = replayManager->replayData->value1E7;
@@ -656,12 +656,12 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     g_GameManager.sides[1].runtime->value08 = frame1->value00;
     g_GameManager.sides[0].runtime->value04 = frame0->value00;
     g_GameManager.sides[1].runtime->value04 = frame1->value00;
-    g_GameManager.sides[0].runtime->value00 = (float)frame0->value08;
-    g_GameManager.sides[1].runtime->value00 = (float)frame1->value08;
+    g_GameManager.sides[0].runtime->value00 = static_cast<float>(frame0->value08);
+    g_GameManager.sides[1].runtime->value00 = static_cast<float>(frame1->value08);
     g_GameManager.sides[0].runtime->phase10 = frame0->value10;
-    replayManager->inputCursors[0] = (u16 *)(frame0 + 1);
-    replayManager->inputCursors[1] = (u16 *)(frame1 + 1);
-    replayManager->inputCursors[2] = (u16 *)(frame2 + 1);
+    replayManager->inputCursors[0] = reinterpret_cast<u16 *>(frame0 + 1);
+    replayManager->inputCursors[1] = reinterpret_cast<u16 *>(frame1 + 1);
+    replayManager->inputCursors[2] = reinterpret_cast<u16 *>(frame2 + 1);
     replayManager->fpsCursor = fpsStart;
     *g_GameManager.configurationE8 = replayManager->replayData->configSnapshot;
     g_ReplayRng.SetSeed(frame0->stageSeed);
