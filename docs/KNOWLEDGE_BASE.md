@@ -9025,3 +9025,38 @@ results predate de-padding and are historical diagnostics only.
 
 Only the `player-bullet-collision` owner was rebuilt. No full cold replay was
 run.
+
+## 2026-11-16 GPT-web: natural trig leaf and Etama three-owner exact closure
+
+The source-local `fsincos @ 0x00412780` was still spelled as inline x87
+`FSINCOS` instructions even though the ownership ledger deliberately marks the
+helper **unclassified**, not an authored exact match. Replaced its implementation
+in `src/EtamaControllerDraw.cpp` with ordinary C++ `cosf(angle)` and
+`sinf(angle)` calls, storing cosine through the second output and sine through
+the first. This keeps the observed `__fastcall` signature and pointer-write
+order, with no handwritten assembly or fake alignment bytes. Separate CRT trig
+calls may have different last-bit floating-point behavior from a combined x87
+FSINCOS; numerical equivalence is **not** claimed.
+
+The pinned `/O2 /Ob0` source now compiles that leaf to **36/33 bytes**, with
+**25 nonrelocation differences** and two explicit math-call relocations
+(`@cosf@4`, `@sinf@4`). New focused
+`check-frontier.py etama-fsincos` coverage records the full 33-byte target SHA,
+measured candidate length and residual. The existing `etama-fsincos` match-unit
+is historical x87 diagnostic evidence, **not** an accepted exact unit; the
+source remains unclassified until authored/library provenance is established.
+This is source-integrity progress, not an artificial exactness upgrade.
+
+Changing this C++ helper's body shifted compiler-generated private `$L...`
+label numbers in two unrelated Etama functions. Every renamed COFF symbol was
+verified against the same-section `symbol_value`, unchanged relocation offset
+and unchanged target address before updating the 15 corresponding local-label
+names in `config/match-units.toml`. Full **source-scoped** exact replay then
+passed all three maintained Etama units: `DrawSingleBullet` 232 compared bytes
+(215 code), `EtamaController::AddedCallback` 832 (598 code) and
+`EtamaController::OnDraw` 600 (600 code). The combined check verified
+**1,664 physical bytes and 73 relocation fields**, including the actual
+embedded tables. No manifest address, code byte, or target was patched.
+
+No full cold replay was run. Other existing x87 assembly-containing sources
+remain separate semantic debt; they are not endorsed as natural C++ exactness.

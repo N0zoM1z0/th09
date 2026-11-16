@@ -202,6 +202,25 @@ tool upgrade.
    repeat the failed aliases, TitleResult table-index forms, or the documented
    BeginPlaybackStage and SaveReplay variants.
 
+## Natural-C++ source debt (not exactness credit)
+
+The previous artificial `CheckBulletCollision` loop-entry `_emit` bytes have
+been removed and rebaselined at 842/862. The unclassified `fsincos` source in
+`EtamaControllerDraw.cpp` is also now ordinary `cosf`/`sinf` C++ with
+**36/33** bytes and 25 masked differences. Its old x87 exact-codegen unit is
+historical evidence only; use `check-frontier.py etama-fsincos` for current
+comparison. A source-scoped replay of the other three Etama exact units passes
+1,664 compared bytes and 73 relocations. Internal `$L...` COFF label names
+were updated only after confirming identical same-section targets.
+
+Other sources still contain genuine x87 inline-assembly helpers
+(`AnmManagerCameraFacing.inl`, `AnmManagerRender.cpp`,
+`EffectPolarScale.inl`, `ExAttackInitType8.inl`). Retire these through actual
+C/C++ semantic reconstruction and scoped owner checks, not byte padding or
+manual instruction insertion. Natural trig may differ from the retail x87
+combined result in final rounding; do not assert runtime equivalence without
+evidence.
+
 ## Practical pitfalls
 
 - Compile experiment copies **inside the repository** (e.g. a directory
