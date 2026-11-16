@@ -8688,3 +8688,53 @@ there), and whether it can share an actually non-overlapping scratch lifetime
 without increasing the frame. Keep the maintained 1,629/1,633, 1,038-offset
 carrier until a candidate improves both the owner extent and residuals. No
 full cold replay was run.
+
+## 2026-11-16 GPT-web: PlayerMovement and TitleResult leaf instruction-order probes
+
+Two smaller owners were examined for a focused final instruction-order mismatch.
+All probes were reverted.
+
+### PlayerLifecycleView::UpdateMovementAndOptions
+
+The maintained owner remains 1,900/1,900 bytes with four residual bytes at
+`+0x126..+0x12A`. Retail loads the `g_GameConfiguration` pointer into ECX
+before loading `player->sideIndex` into EAX, then compares
+`byte ptr [eax+ecx+0xb4]` with 1. The maintained candidate performs the same
+two loads in the opposite order. A separate volatile read of the global
+configuration pointer reverses the load order but assigns the global pointer
+to EAX and the side index to ECX; it expands the residual to 1,109 offsets.
+Adding `register` hints to both locals does not change that output. This is a
+register-allocation/order issue, not a missing condition. Do not retain the
+volatile pointer form or repeat simple local/register aliases.
+
+### TitleScreenView::OnUpdateResult
+
+The maintained owner remains 484/485 bytes with 167 residual offsets. The
+character-table lookup is close but not exact: retail loads the selection into
+ECX and reads the selected byte into CL before sign extension; the direct
+index carrier uses EAX as the index/base and sign-extends directly to EDI.
+Replacing the explicit address arithmetic and pointer local with
+`g_TitleResultCharacterOrder[keyboardSelection]`, then adding a `register`
+selection local, produces 483/485 bytes with 171 differences. The form is
+rejected; restore the maintained pointer-expression carrier and do not repeat
+this direct-index/register spelling.
+
+### CheckBulletCollision block-layout follow-up
+
+The 853/862-byte, 692-difference carrier remains protected. Expressing the
+circle miss as `!(distanceSquared < radiusSquared)` while preserving the x87
+operand order, then placing the hit/cancel label directly after the circle
+block with a zero-radius jump around it, is canonicalized by C2 back to the
+same 853-byte code layout: the shared hit block still lands after rotated and
+AABB geometry. A superficially smaller `distanceSquared >= radiusSquared`
+variant emits an unconditional jump that bypasses the circle decision; it is
+not semantically acceptable despite a lower raw difference count. Both
+variants were reverted. Continue to target C2's block layout, not the x87
+comparison or branch semantics.
+
+Focused checks after restoration confirm the maintained frontiers:
+`player-movement` 1,900/1,900 with 4 differences,
+`title-update-result` 484/485 with 167,
+`player-bullet-collision` 853/862 with 692,
+`supervisor-network-service` 1,629/1,633 with 1,038, and
+`enemy-on-update` 3,900/3,900 with 2. No full cold replay was run.

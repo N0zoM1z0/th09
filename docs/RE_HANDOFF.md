@@ -184,8 +184,10 @@ tool upgrade.
    diagnostic has five backedges and new offsets; the `835/862`, 683-difference
    candidate has four but C2 still schedules hit/cancel after geometry. The
    common-invalid/circle-latch plus pre-square-hit attempt also collapses to
-   that 835-byte shape. Radius-first and comparison-inversion probes alter the
-   x87 schedule or add new mismatches. Next, influence C2 block layout without
+   that 835-byte shape. A negated less-than predicate with unchanged x87
+   operand order plus an early hit label is canonicalized back to the same
+   853-byte layout. The `>=` rewrite emits an unconditional jump that bypasses
+   the circle decision and is invalid. Next, influence C2 block layout without
    changing x87 operand order or adding a latch. Never update the frontier for
    a candidate with new differences.
 2. **SupervisorServiceUpdate (large boss).** Continue from the confirmed
@@ -208,12 +210,14 @@ tool upgrade.
    EAX/EAX pair but regresses four following Float3 argument bytes; do not
    reinstate it.
 4. **Smaller owners.** `EffectManager::AddedCallback` remains 51/51 bytes with
-   4 differences; `ScreenEffect::CalcShakeEnvelope` remains 336/336 with 26.
-   The ANM-manager receiver-order and ScreenEffect/timer register-hint probes
-   did not improve either owner. Only reopen them with a new, specific
-   live-range hypothesis. Do not repeat the failed ScreenEffect aliases,
-   TitleResult table-index forms, or the documented BeginPlaybackStage and
-   SaveReplay variants.
+   4 differences; `ScreenEffect::CalcShakeEnvelope` remains 336/336 with 26;
+   `PlayerLifecycleView::UpdateMovementAndOptions` remains 1,900/1,900 with 4;
+   `TitleScreenView::OnUpdateResult` remains 484/485 with 167. The ANM-manager
+   receiver-order, ScreenEffect/timer, PlayerMovement configuration-pointer
+   order, and TitleResult direct-index/register probes did not improve their
+   owners. Only reopen them with a new, specific live-range hypothesis. Do not
+   repeat the failed aliases, TitleResult table-index forms, or the documented
+   BeginPlaybackStage and SaveReplay variants.
 
 ## Practical pitfalls
 
