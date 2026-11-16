@@ -39,7 +39,7 @@ compiler objects you need.**
   masked / 19 raw differences; its plain-C++ source is retained.
 - **Enemy OnUpdate** remains 3,900/3,900 bytes with two differences
   (`+0x19A/+0x1A1`). The early draw-group C2 node is mapped to vreg 7 and
-  source `EnemyManagerCore.inl:439`; C2 selects descriptor 1/ECX on an
+  source `EnemyManagerCore.inl:434`; C2 selects descriptor 1/ECX on an
   equal-score tie, while the original's EAX preference and descriptor-2
   physical mapping remain unresolved. The scoped volatile side-state pointer
   fixes the pair but shifts four Float3 call-argument bytes; do not restore it.
@@ -48,19 +48,22 @@ compiler objects you need.**
   codegen across the 3,900-byte owner and 84 exact same-source siblings.
 - **SupervisorServiceUpdate** remains protected at 1,629/1,633 bytes / 1,038
   differences. The 20-byte stack map and `[ebp-4]` result home are understood.
-  The best saved diagnostic is `.analysis/SupervisorNetwork.final-ebx-reload.cpp`
+  The best saved natural C++ diagnostic (no ASM) is `.analysis/SupervisorNetwork.natural-ebx-reload.cpp`
   (1,591/1,633 / 976 differences): it recovers the branch-scoped EBX clock
   pointer, EDI `connectNow`, and final `0x430fb0` IAT reload, but remains 42
   bytes short. It is not promoted. Next resolve the initial state receiver
   (candidate EAX vs retail EDI) and final side-inversion register order.
-- **Player CheckBulletCollision** remains protected at 853/862 bytes / 692
-  differences. The best previous byte-overlap diagnostic is 840/862 / 632
-  with five backedges. New split hit-dispatch/radius-nesting probes reached
-  849/862 / 683 but C2 still schedules the dispatcher after square geometry;
-  the switch form is 857/862 / 688. The target still requires circle-hit
-  fallthrough to the early dispatcher and four distinct advances. No candidate
-  was promoted; see the 2026-11-16 dispatcher-layout entry in the knowledge
-  base.
+- **Player CheckBulletCollision** now uses natural C++ iteration, with its
+  protected baseline at **842/862 bytes / 705 masked differences**. The old
+  853/862 carrier included an artificial `_emit` loop-entry jump/NOP and is
+  invalid as natural-source progress. A separate genuine C++ diagnostic
+  `.analysis/PlayerCollisionHelpers.natural-preheader-842.cpp` restores the
+  original entry jump/alignment through +0x25 and reaches 842/862 / 662
+  differences, but adds 102 newly mismatching positions, so it cannot pass
+  the monotone frontier ratchet. C2 still places circle-hit dispatch after
+  rectangle/AABB geometry instead of retail's early fallthrough; the four
+  independent native cursor advances remain to be recovered. Do not promote
+  that diagnostic or reintroduce ASM/padding.
 - **SaveReplay** remains 1,238/1,238 bytes with two differences; **Player
   movement** remains 1,900/1,900 with eight bytes (four masked); **ChargeAttack**
   remains 1,210/1,210 with 183 masked differences. **ScreenEffect shake** is
