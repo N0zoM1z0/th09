@@ -76,7 +76,7 @@ void EffectManager::ResetPool()
 {
     Effect *effect = this->effects;
     this->drawSentinel0.nextInDrawGroup = NULL;
-    for (int i = 0; i < EffectNativePoolCapacity::AllocatedCount(*this); ++i, effect = reinterpret_cast<Effect *>(reinterpret_cast<unsigned int>(effect) + sizeof(Effect)))
+    for (int i = 0; i < EffectNativePoolCapacity::AllocatedCount(*this); ++i, ++effect)
     {
         if (effect->vertices != NULL)
         {
@@ -185,7 +185,7 @@ Effect *EffectManager::SpawnEffect(
         if (effectIndex == 0)
             effect = this->effects;
         else
-            effect = reinterpret_cast<Effect *>(reinterpret_cast<unsigned int>(effect) + sizeof(Effect));
+            ++effect;
     }
 
     return i >= this->primaryCount
@@ -220,7 +220,7 @@ Effect *EffectManager::SpawnEffectWithVelocity(
         if (this->nextEffectIndex == 0)
             effect = this->effects;
         else
-            effect = reinterpret_cast<Effect *>(reinterpret_cast<unsigned int>(effect) + sizeof(Effect));
+            ++effect;
     }
 
     return i >= this->primaryCount
@@ -264,7 +264,7 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
     // to the EffectManager layout or the other pool consumers.
     for (int i = 0;
          i < EffectNativePoolCapacity::ActiveCountWithNativeOrder(*effectManager);
-         ++i, effect = reinterpret_cast<Effect *>(reinterpret_cast<unsigned int>(effect) + sizeof(Effect)))
+         ++i, ++effect)
     {
         if (effect->active == 0)
         {
@@ -417,7 +417,7 @@ int EffectManager::AddedCallback(void *context)
 int EffectManager::ReleasePool()
 {
     Effect *effect = this->effects;
-    for (int i = 0; i < EffectNativePoolCapacity::AllocatedCount(*this); ++i, effect = reinterpret_cast<Effect *>(reinterpret_cast<unsigned int>(effect) + sizeof(Effect)))
+    for (int i = 0; i < EffectNativePoolCapacity::AllocatedCount(*this); ++i, ++effect)
     {
         if (effect->vertices != NULL)
         {
