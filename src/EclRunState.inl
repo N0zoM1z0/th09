@@ -605,10 +605,9 @@ __forceinline void AssignFlagField(
 
     case TH09_ECL_OPCODE_SET_TRAIL:
     {
+        // Decode the trail packet from the actual variable-length ECL tail.
         Th09EclRunState::TrailInstructionArgs *trailArgs =
-            reinterpret_cast<Th09EclRunState::TrailInstructionArgs *>(
-                reinterpret_cast<unsigned int>(instruction) +
-                static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)));
+            reinterpret_cast<Th09EclRunState::TrailInstructionArgs *>(instruction->arguments);
 
         enemy->trailFlags53A0 = trailArgs->flags00;
 
