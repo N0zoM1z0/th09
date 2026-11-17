@@ -12588,3 +12588,50 @@ and solved symbolic COFF relocation checks; there
 were no private label name changes. No ASM,
 artificial padding, forced registers, full cold replay,
 or new Exact function credit was used.
+
+## 2026-11-17 GPT-web: native Player shot and damage region pointer iteration
+
+The original-bound `PlayerLifecycleView::CalcDamageToEnemy`
+now walks its genuine 128-element `PlayerShotCtorView` pool
+using `++shot` and the signed `++i` loop index, instead
+of reconstructing a pointer from the i386 address word on
+every iteration. The shot start pointer uses the real
+`&shots[0]` member and the region collision loop
+advances its authentic `PlayerCollisionRegionCreateRegionView **`
+slot with ordinary `++slot`. This eliminates the
+`TH09_PLAYER_NATIVE_NEXT_REGION_SLOT` macro from
+the damage owner, while retaining that shared header
+for other active region consumers.
+
+The exact Player method call `CreateCircleType0` now
+targets `this` directly, without an identical-type
+pointer cast. The region hit count and secondary
+damage accumulator are updated as live C++ lvalues
+with explicit unsigned-32-bit wrap conversions,
+preserving the original addition and hit-cap order.
+The native collision method ABI, rotation workspaces,
+shot state transitions and mixed circular/rotated
+hitboxes are unchanged. No new bounds check or
+alternate shot-copy buffer was added.
+
+Seven separate pinned VC7.1 experiments examined
+the shot cursor, shot position write, Player method
+receiver, hit counter, damage accumulator, region
+slot and initial shot pointer, plus combined variants.
+One tempting direct `shot->position2A4.z = 0.1f`
+rewrite shortened the method to 990 bytes and changed
+its conversion/compile lifetime; it was rejected.
+The original value conversion subobject remains
+explicit. Both signed `+=` accumulator variants
+were additionally proven byte-identical, but the
+maintained form retains explicit unsigned wrap
+semantics for exact behavior.
+
+Maintained one-source replay and strict PE/COFF
+comparison pass **2/2 existing exact functions,
+1,051 complete physical bytes and 21 relocation
+fields**: the full **996/996-byte** damage boss
+and the **55/55-byte** AABB helper leaf.
+No compiler-private symbol rebinding,
+ASM, padding, forced registers or
+whole-game cold replay was used.

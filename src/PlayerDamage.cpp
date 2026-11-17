@@ -1,6 +1,5 @@
 #include "PlayerDamageView.hpp"
 #include "PlayerLifecycleView.hpp"
-#include "PlayerNativeCollisionSlots.hpp"
 #include "SoundPlayer.hpp"
 #include "EffectManager.hpp"
 #include "AnmManager.hpp"
@@ -37,15 +36,13 @@ int PlayerLifecycleView::CalcDamageToEnemy(
 
     PlayerBuildAabb(&enemyTopLeft, &enemyBottomRight, position, hitbox);
 
-    shot = shots;
+    shot = &shots[0];
     if (bombHit != NULL)
         *bombHit = 0;
-    // The player's genuine shot pool contains 128 native 0x484-byte
-    // records, consumed with an i386 DWORD cursor and signed index.
+    // The original shot pool is an array of 128 genuine 0x484-byte
+    // PlayerShotCtorView objects, advanced with a typed pointer.
     for (int i = 0; i < 128;
-         ++*reinterpret_cast<unsigned int *>(&i),
-         shot = reinterpret_cast<PlayerShotCtorView *>(
-             reinterpret_cast<unsigned int>(shot) + sizeof(*shot)))
+         ++i, ++shot)
     {
         if (shot->state462 == 0)
             continue;
@@ -100,8 +97,7 @@ int PlayerLifecycleView::CalcDamageToEnemy(
                 sideState->effectManager0C->SpawnEffectInFixedSlot(
                     34, reinterpret_cast<const EffectFloat3 *>(effectPosition), 6,
                     static_cast<unsigned int>(-1));
-                reinterpret_cast<PlayerLifecycleView *>(this)
-                    ->CreateCircleType0(
+                this->CreateCircleType0(
                         reinterpret_cast<const PlayerRegionPointView *>(effectPosition), 0.0f, 1.6f, 6, 70, 0);
                 g_SoundPlayer.PlaySoundByIdx(
                     16, sideIndex != 0 ? 500 : -500);
@@ -111,7 +107,8 @@ int PlayerLifecycleView::CalcDamageToEnemy(
 
     *primaryAccumulator = damage;
 
-    // Keep the slot authoritative across rotation and region-state writes.
+    // Keep the live collision-region slot authoritative across checks,
+        // without an integer-address slot-advance macro.
     PlayerCollisionRegionCreateRegionView **slot = activeB100;
     while (*slot != NULL)
     {
@@ -170,8 +167,9 @@ int PlayerLifecycleView::CalcDamageToEnemy(
         damage = static_cast<int>(
             static_cast<unsigned int>(damage) +
             static_cast<unsigned int>((*slot)->value28));
-        *reinterpret_cast<unsigned int *>(&(*slot)->hitCount2C) +=
-            static_cast<unsigned int>((*slot)->value28);
+        (*slot)->hitCount2C = static_cast<int>(
+            static_cast<unsigned int>((*slot)->hitCount2C) +
+            static_cast<unsigned int>((*slot)->value28));
         if ((*slot)->hitCap30 > 0 &&
             (*slot)->hitCap30 <= (*slot)->hitCount2C)
         {
@@ -183,11 +181,12 @@ int PlayerLifecycleView::CalcDamageToEnemy(
         }
 
         if ((*slot)->type38 == 4)
-            *reinterpret_cast<unsigned int *>(secondaryAccumulator) +=
-                static_cast<unsigned int>((*slot)->value28);
+            *secondaryAccumulator = static_cast<int>(
+                static_cast<unsigned int>(*secondaryAccumulator) +
+                static_cast<unsigned int>((*slot)->value28));
 
 nextRegion:
-        slot = TH09_PLAYER_NATIVE_NEXT_REGION_SLOT(slot);
+        ++slot;
     }
 
     return damage;
