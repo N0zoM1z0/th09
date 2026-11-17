@@ -10914,3 +10914,44 @@ PE destinations, same-section COFF definitions,
 and relocation type/offset. No new exact-function
 promotion, ASM, artificial padding, forced
 registers or whole-game cold replay was involved.
+
+## 2026-11-17 GPT-web: native Etama drawing buckets, template scripts and ANM flags
+
+`EtamaController::OnDraw` now traverses the real
+`EtamaController::drawBuckets[i]` six-pointer array,
+matching the typed heads also used in the exact
+`EtamaController::OnUpdate`. The original
+integer-address bucket macro is no longer needed
+in this source. `EtamaController::AddedCallback`
+initializes each actual `controller->bulletTypeSprites[i]`
+record and reads the shared 23x5
+`kBulletSpriteScripts[i][column]` C++ table,
+instead of fabricating integer addresses for every
+script entry. The five VM render-mode bit-13
+writes now assign the genuine
+`AnmVm::disableZWrite = 1` field, rather
+than OR a literal 0x2000 into a raw DWORD.
+
+Individual pinned VC7.1 probes for draw buckets,
+template arrays, script rows and the native flag,
+as well as their combined source, all reproduced
+the previously exact **600-byte OnDraw**, **832-byte
+AddedCallback** and **232-byte DrawSingleBullet**
+physical functions. The maintained source-scoped
+replay passes **3/3 authored-exact owners,
+1,664 physical bytes and all 73 original
+relocation fields**. Fifteen generated local
+labels in two functions were rebound only after
+original PE destination and same-section COFF
+proofs. A co-resident three-byte SDK identity
+function is also byte-identical on local comparison
+but is not included in authored-exact credit.
+
+Crucially, the independently protected
+`fsincos @ 0x00412780` remains a
+**36-byte natural C++ candidate versus the
+33-byte retail helper, 25 residual differences**.
+It is unclassified/nonexact, not represented as
+a matched leaf and no x87 ASM or padding was
+introduced to falsely close it. No full-product
+cold replay was used.
