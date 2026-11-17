@@ -4,7 +4,6 @@
 #include "EnemyDrawMath.inl"
 
 #include "EnemyManager.hpp"
-#include "EnemyNativeDrawHeads.hpp"
 #include "AnmManager.hpp"
 #include "Supervisor.hpp"
 #include "AsciiManager.hpp"
@@ -87,12 +86,6 @@ extern float __stdcall EnemyDrawSin(float angle);
 extern float __stdcall EnemyDrawInterpolateWrappedAngle(
     float angle1, float angle2, float factor);
 
-enum EnemyDrawFlags
-{
-    ENEMY_DRAW_ROTATE_WITH_MOVEMENT = 0x00400000,
-    ENEMY_DRAW_SECONDARY_FIXED_OFFSET = 0x00000020
-};
-
 enum EnemyTrailRenderFlags
 {
     ENEMY_TRAIL_TAPER = 0x02,
@@ -101,46 +94,35 @@ enum EnemyTrailRenderFlags
     ENEMY_TRAIL_HIDE_HEAD = 0x10
 };
 
-// Native 0x1C-byte Enemy trail records use a signed index scaled as a
-// Win32 unsigned DWORD from the real EnemyView allocation, without a guard.
-static inline const EnemyTrailSampleView &EnemyDrawTrailSampleNative(
-    const EnemyDrawView *enemy, int index)
-{
-    return *reinterpret_cast<const EnemyTrailSampleView *>(
-        reinterpret_cast<unsigned int>(&enemy->trailSamples33E8[0]) +
-        static_cast<unsigned int>(index) * sizeof(enemy->trailSamples33E8[0]));
-}
+// The native 0x1C-byte Enemy trail records belong to the real EnemyView.
+// Each runtime sample index is converted to the original unsigned word.
 
-// Trail vertex colors retain their original packed 32-bit DWORD form.
-// For their alpha lane, use the native i386 byte offset into that scalar.
-// The ANM VM color and its saved copy instead use AnmVmScriptColor::a.
-#define TH09_ENEMY_NATIVE_ALPHA(word) \
-    (*reinterpret_cast<unsigned char *>( \
-        reinterpret_cast<unsigned int>(&(word)) + 3u))
 
-// The draw groups and secondary ANM VMs are genuine EnemyManager-owned
-// arrays; both trail vertex records and ANM VMs use their physical
-// i386 DWORD record widths, rather than unrelated C++ subarray bounds.
+// Trail vertex alpha is the genuine fourth byte of its packed color;
+// VM color uses the existing native AnmVmScriptColor::a field.
+
+
+// Draw heads, secondary VMs and trail vertices are actual EnemyManager
+// arrays with their original native record widths.
 static int EnemyManagerDrawImpl(
     EnemyManagerView *enemyManager, int drawGroup, int chainPriority)
 {
     for (int group = drawGroup; group < chainPriority;
-         ++*reinterpret_cast<unsigned int *>(&group))
+         ++group)
     {
-        EnemyDrawView *enemy = TH09_ENEMY_NATIVE_DRAW_HEAD(EnemyDrawView, enemyManager, group);
+        EnemyDrawView *enemy = enemyManager->drawGroupHeads2AC410[group];
         while (enemy != NULL)
         {
             EnemyDrawVmView *vm = &enemy->secondaryVms2AC[0];
             for (int k = 0; k < 1; ++k,
-                 vm = reinterpret_cast<EnemyDrawVmView *>(
-                     reinterpret_cast<unsigned int>(vm) + sizeof(*vm)))
+                 ++vm)
             {
                 if (vm->scriptIndex >= 0)
                 {
                     if (vm->type != 0)
                         vm->SetZRotation(enemy->movementAngle2DE0);
 
-                    if ((enemy->secondaryFlags3380 & ENEMY_DRAW_SECONDARY_FIXED_OFFSET) == 0)
+                    if (enemy->secondaryFlagBits3380.movement.extraAnmFixedOffset05 == 0)
                         vm->pos = reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4) + vm->pos2;
                     else
                         vm->pos = reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4) + enemy->primaryAnmVm0008.pos2;
@@ -148,11 +130,11 @@ static int EnemyManagerDrawImpl(
                     vm->pos.z = 0.3f;
                     vm->pos.x = g_GameManager.TransformPopupX(vm->pos.x);
                     vm->pos.y = g_GameManager.TransformPopupY(vm->pos.y);
-                    g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
+                    g_AnmManager->Draw2D(vm);
                 }
             }
 
-            if ((enemy->flags337C & ENEMY_DRAW_ROTATE_WITH_MOVEMENT) != 0)
+            if (enemy->primaryFlagBits337C.anmRotation22 != 0)
                 enemy->primaryAnmVm0008.SetZRotation(enemy->movementAngle2DE0);
 
             enemy->primaryAnmVm0008.pos = reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4) + enemy->primaryAnmVm0008.pos2;
@@ -175,12 +157,12 @@ static int EnemyManagerDrawImpl(
                              static_cast<unsigned int>(k) -
                              static_cast<unsigned int>(enemy->trailSampleStride53A6)))
                     {
-                        if (EnemyDrawTrailSampleNative(enemy, k).position00.x < -990.0f)
+                        if (enemy->trailSamples33E8[static_cast<unsigned int>(k)].position00.x < -990.0f)
                             continue;
 
-                        if ((enemy->flags337C & ENEMY_DRAW_ROTATE_WITH_MOVEMENT) != 0)
+                        if (enemy->primaryFlagBits337C.anmRotation22 != 0)
                             enemy->primaryAnmVm0008.SetZRotation(
-                                EnemyDrawTrailSampleNative(enemy, k).angle18);
+                                enemy->trailSamples33E8[static_cast<unsigned int>(k)].angle18);
 
                         if ((enemy->trailFlags53A0 & ENEMY_TRAIL_TAPER) != 0)
                             enemy->primaryAnmVm0008.scale.x =
@@ -195,13 +177,13 @@ static int EnemyManagerDrawImpl(
                                     enemy->trailHistoryLength53A2;
 
                         enemy->primaryAnmVm0008.pos =
-                            EnemyDrawTrailSampleNative(enemy, k).position00 + enemy->primaryAnmVm0008.pos2;
+                            enemy->trailSamples33E8[static_cast<unsigned int>(k)].position00 + enemy->primaryAnmVm0008.pos2;
                         enemy->primaryAnmVm0008.pos.z = 0.3f;
                         enemy->primaryAnmVm0008.pos.x =
                             g_GameManager.TransformPopupX(enemy->primaryAnmVm0008.pos.x);
                         enemy->primaryAnmVm0008.pos.y =
                             g_GameManager.TransformPopupY(enemy->primaryAnmVm0008.pos.y);
-                        g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(&enemy->primaryAnmVm0008));
+                        g_AnmManager->Draw2D(&enemy->primaryAnmVm0008);
                     }
                 }
                 else
@@ -212,7 +194,7 @@ static int EnemyManagerDrawImpl(
                              static_cast<unsigned int>(k) +
                              static_cast<unsigned int>(enemy->trailSampleStride53A6)))
                     {
-                        if (EnemyDrawTrailSampleNative(enemy, k).position00.x < -990.0f)
+                        if (enemy->trailSamples33E8[static_cast<unsigned int>(k)].position00.x < -990.0f)
                             break;
                         vertexCount = static_cast<int>(
                             static_cast<unsigned int>(vertexCount) +
@@ -236,7 +218,7 @@ static int EnemyManagerDrawImpl(
                                  static_cast<unsigned int>(enemy->trailSampleStride53A6)),
                              uv -= uvStep)
                         {
-                            if (EnemyDrawTrailSampleNative(enemy, k).position00.x < -990.0f)
+                            if (enemy->trailSamples33E8[static_cast<unsigned int>(k)].position00.x < -990.0f)
                                 break;
 
                             float angle;
@@ -247,10 +229,9 @@ static int EnemyManagerDrawImpl(
                             else
                             {
                                 angle = EnemyDrawInterpolateWrappedAngle(
-                                    EnemyDrawTrailSampleNative(
-                                        enemy, static_cast<int>(
-                                            static_cast<unsigned int>(k) - 1u)).angle18,
-                                    EnemyDrawTrailSampleNative(enemy, k).angle18, 0.5f);
+                                    enemy->trailSamples33E8[static_cast<unsigned int>(static_cast<int>(
+                                            static_cast<unsigned int>(k) - 1u))].angle18,
+                                    enemy->trailSamples33E8[static_cast<unsigned int>(k)].angle18, 0.5f);
                             }
 
                             unsigned char taperFlag =
@@ -272,10 +253,9 @@ static int EnemyManagerDrawImpl(
                                         // then the distinct long-double difference lifetime.
                                         const float interpolated =
                                             EnemyDrawInterpolateWrappedAngle(
-                                                EnemyDrawTrailSampleNative(
-                                                    enemy, static_cast<int>(
-                                                        static_cast<unsigned int>(nextSample) - 1u)).angle18,
-                                                EnemyDrawTrailSampleNative(enemy, sampleStride).angle18,
+                                                enemy->trailSamples33E8[static_cast<unsigned int>(static_cast<int>(
+                                                        static_cast<unsigned int>(nextSample) - 1u))].angle18,
+                                                enemy->trailSamples33E8[static_cast<unsigned int>(sampleStride)].angle18,
                                                 0.5f);
                                         long double delta = angle - interpolated;
                                         if (static_cast<float>(EnemyDrawAbs(
@@ -311,15 +291,15 @@ static int EnemyManagerDrawImpl(
                             vertices[0].diffuse10 = vertices[1].diffuse10;
                             if ((enemy->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
                             {
-                                TH09_ENEMY_NATIVE_ALPHA(vertices[1].diffuse10) =
+                                reinterpret_cast<unsigned char *>(&(vertices[1].diffuse10))[3] =
                                     savedColor.a -
                                     savedColor.a * k /
                                         enemy->trailHistoryLength53A2;
-                                TH09_ENEMY_NATIVE_ALPHA(vertices[0].diffuse10) =
-                                    TH09_ENEMY_NATIVE_ALPHA(vertices[1].diffuse10);
+                                reinterpret_cast<unsigned char *>(&(vertices[0].diffuse10))[3] =
+                                    reinterpret_cast<unsigned char *>(&(vertices[1].diffuse10))[3];
                             }
 
-                            vertices[0].position00 = EnemyDrawTrailSampleNative(enemy, k).position00;
+                            vertices[0].position00 = enemy->trailSamples33E8[static_cast<unsigned int>(k)].position00;
                             vertices[0].position00.x +=
                                 cosAngle * halfCenter - sinAngle * halfWidth + 32.0f;
                             vertices[0].position00.y +=
@@ -328,11 +308,9 @@ static int EnemyManagerDrawImpl(
                             vertices[0].v18 =
                                 enemy->primaryAnmVm0008.loadedSprite->uvStartY +
                                 enemy->primaryAnmVm0008.uvScrollPos.y;
-                            vertices = reinterpret_cast<EnemyDrawVertex *>(
-                                reinterpret_cast<unsigned int>(vertices) +
-                                sizeof(*vertices));
+                            ++vertices;
 
-                            vertices[0].position00 = EnemyDrawTrailSampleNative(enemy, k).position00;
+                            vertices[0].position00 = enemy->trailSamples33E8[static_cast<unsigned int>(k)].position00;
                             vertices[0].position00.x +=
                                 cosAngle * halfCenter + sinAngle * halfWidth + 32.0f;
                             vertices[0].position00.y +=
@@ -341,14 +319,12 @@ static int EnemyManagerDrawImpl(
                             vertices[0].v18 =
                                 enemy->primaryAnmVm0008.loadedSprite->uvEndY +
                                 enemy->primaryAnmVm0008.uvScrollPos.y;
-                            vertices = reinterpret_cast<EnemyDrawVertex *>(
-                                reinterpret_cast<unsigned int>(vertices) +
-                                sizeof(*vertices));
+                            ++vertices;
                         }
 
                         if (vertexCount > EnemyNativeTrailRenderCapacity::VerticesPerSample)
                             g_AnmManager->DrawVertices(
-                                reinterpret_cast<AnmVm *>(&enemy->primaryAnmVm0008),
+                                &enemy->primaryAnmVm0008,
                                 reinterpret_cast<VertexTex1DiffuseXyzrhw *>(
                                     enemy->trailVertices3E68),
                                 vertexCount);
@@ -363,20 +339,19 @@ static int EnemyManagerDrawImpl(
             if ((enemy->trailFlags53A0 & ENEMY_TRAIL_HIDE_HEAD) == 0 &&
                 enemy->primaryFlagBits337C.hidePrimary05 == 0)
             {
-                g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(&enemy->primaryAnmVm0008));
+                g_AnmManager->Draw2D(&enemy->primaryAnmVm0008);
             }
 
             for (int k = 1; k < EnemyNativeTrailRenderCapacity::SecondaryVmCount;
                  ++k,
-                 vm = reinterpret_cast<EnemyDrawVmView *>(
-                     reinterpret_cast<unsigned int>(vm) + sizeof(*vm)))
+                 ++vm)
             {
                 if (vm->scriptIndex >= 0)
                 {
                     if (vm->type != 0)
                         vm->SetZRotation(-enemy->movementAngle2DE0);
 
-                    if ((enemy->secondaryFlags3380 & ENEMY_DRAW_SECONDARY_FIXED_OFFSET) == 0)
+                    if (enemy->secondaryFlagBits3380.movement.extraAnmFixedOffset05 == 0)
                         vm->pos = reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4) + vm->pos2;
                     else
                         vm->pos = reinterpret_cast<const Float3 &>(enemy->worldPosition2DD4) + enemy->primaryAnmVm0008.pos2;
@@ -384,7 +359,7 @@ static int EnemyManagerDrawImpl(
                     vm->pos.z = 0.3f;
                     vm->pos.x = g_GameManager.TransformPopupX(vm->pos.x);
                     vm->pos.y = g_GameManager.TransformPopupY(vm->pos.y);
-                    g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(vm));
+                    g_AnmManager->Draw2D(vm);
                 }
             }
 
@@ -406,5 +381,3 @@ int __fastcall EnemyManagerView::OnDrawLowPrio(EnemyManagerView *enemyManager)
     g_Supervisor.ConfigureScreenViewport(enemyManager->sideIndex31C);
     return EnemyManagerDrawImpl(enemyManager, EnemyNativeTrailRenderCapacity::DrawGroupCount / 2, EnemyNativeTrailRenderCapacity::DrawGroupCount);
 }
-
-#undef TH09_ENEMY_NATIVE_ALPHA

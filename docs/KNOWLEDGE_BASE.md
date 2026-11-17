@@ -11792,3 +11792,46 @@ same-section COFF definitions, original PE destinations,
 and relocation offset/type were independently proven.
 No ASM, padding, forced register allocation or
 whole-game cold replay was used.
+
+## 2026-11-17 GPT-web: native Enemy draw chains, trail arrays and ANM flags
+
+The original-bound 1,758-byte `EnemyManagerDrawImpl` now
+reads the authentic `EnemyManagerView::drawGroupHeads2AC410[]`
+array directly instead of invoking a macro that manufactures
+a native integer address. Trail samples are selected from
+`EnemyView::trailSamples33E8[]`, and the actual
+`EnemyTrailVertexView` and `AnmVm` pointers advance with
+`++vertices` and `++vm` rather than byte-stride casts.
+The draw loop index also advances with its native C++
+increment. The two original ANM render entrypoints accept
+their actual `AnmVm *` arguments without duplicate casts.
+
+The packed alpha of trail vertex colors is addressed as
+the fourth unsigned-char byte of the authentic color
+word. The two repeated rotation predicates now read the
+verified `EnemyView::primaryFlagBits337C.anmRotation22`
+member; both secondary VM position predicates use the
+original overlapping
+`secondaryFlagBits3380.movement.extraAnmFixedOffset05`
+field. The old raw 0x00400000/0x20 tests, duplicate
+enum constants, integer-address alpha macro and two
+draw-only lookup helpers are removed.
+
+Eight separate pinned VC7.1 experiments assessed
+native draw-head/track-index, sample array, VM
+and vertex advancement, packed alpha, bitfield
+and direct ANM owner expressions. Bitfield
+reads alone generated 24 nonrelocation differences,
+but their combined form with the other natural
+expressions exactly reproduces the full owner.
+The final source-scoped replay passes
+**4/4 previously exact functions, 1,922 physical
+bytes and 61 original relocations**, including
+**1,758/1,758** bytes and **53/53**
+relocations for the large draw implementation,
+the 35/38-byte high/low priority leaf callbacks,
+and the 91-byte wrapped-angle helper.
+No compiler-label rebindings or ABI changes
+were needed. No ASM, artificial padding,
+forced register assignments or full cold replay
+was used, and no new Exact function is claimed.
