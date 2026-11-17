@@ -55,7 +55,67 @@ none of these changes adds an exact-function ledger claim. All were checked
 against the original Japanese 1.50a executable with pinned VC7.1 profiles,
 complete compared code/tails and independently verified COFF relocations.
 
-### Latest six scoped commits
+### Latest eight native-source checkpoints
+
+Eight local source commits follow the earlier interpreter work, all using
+natural C++ and the original Japanese v1.50a pinned VC7.1 comparison:
+
+- `131ec4ee`, `7a40ed2d`: the **2,045-byte Title options boss** advances its
+  three actual frame/timer members and directly updates eight genuine
+  unsigned `GameConfiguration` volume-byte slots, while retaining the signed
+  display/clamp reads. Its audio helper is also exact: **2 owners, 2,079
+  physical bytes, 138 relocations**.
+- `ec411301`, `b04e17f2`, `be05d70f`: **SoundPlayer** now uses byte-pointer
+  RIFF/WAVE chunk navigation, contiguous command records, native queues,
+  request/pan arrays, BGM paths/format records, DirectSound buffer pointers,
+  `++commandCursor` and direct command-step members. The 1,414-byte
+  `ProcessQueues` boss, 614-byte `LoadSound` and 74-byte WAV scanner are
+  included in **20 exact owners, 5,400 bytes, 184 relocations** across eight
+  compiler carriers.
+- `be37244f`: **EtamaController::OnUpdate** increments the three genuine
+  active-pool counters and controller frame counter without interpreting
+  them as unrelated unsigned storage. All **18 exact BulletManager owners,
+  6,711 bytes and 259 relocations** pass, including the large spawn and update
+  functions.
+- `ee41eb7d`: **RunEcl** reads its movement opcode words directly from
+  `instruction->arguments` / `wireArgs[index]`, with no fabricated integer
+  byte addresses. Its previous 84 exact siblings remain unchanged.
+- `62912d3e`: the shared **ECL integer/float/byte/short operand leaves**
+  borrow the same native variable-length instruction-tail union. The full
+  affected include graph passes **92 exact owners, 51,865 bytes and 2,381
+  relocations** across six compiler carriers, including the 14,792-byte ECL
+  interpreter and ECL operand resolvers.
+
+The four distinct current source cohorts account for **132 previously exact
+owners, 66,055 complete physical bytes and 2,962 relocation fields**. Every
+compiler-private label spelling update was independently proved against the
+actual same-section COFF definition, exact relocation offset/type, linked
+Japanese PE target and complete body/tail before a selected-source replay.
+No new `matches.csv` exact credit, full cold replay, ASM, NOP/PADDING or
+compiler-register forcing is claimed.
+
+**Rejected nonexact probes:** Ten variations separating the Player charge
+attack's original 16-bit focus-side local from a native 32-bit input index
+usually regressed its 1,210/1,210-byte 183-difference frontier to
+1,213–1,215 bytes with roughly 890–900 differences; a single byte-pointer
+variant preserved the same baseline without improvement. Eight direct/const
+nonvolatile forms of the ScreenEffect shake-envelope hold/fade calculation
+regressed its 336-byte/26-difference frontier to 334 bytes/195 differences.
+The maintained nonexact source and all strict frontier records remain
+unchanged. The original Enemy draw-group two-byte and Player collision CFG
+blockers are still open.
+
+To recheck only the impacted source/headers:
+
+~~~sh
+python3 -B scripts/replay-scoped-exact.py --source src/TitleScreenOptions.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/SoundPlayerProcessQueues.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/BulletManager.cpp
+python3 -B scripts/replay-scoped-exact.py --changed-file src/EclRunControl.inl --changed-file src/EclRunState.inl
+python3 -B scripts/check-frontier.py player-charge-attack screen-shake-envelope enemy-on-update
+~~~
+
+### Previous interpreter checkpoints
 
 - `e7c7f5ee`, `34098751` — The **2,852-byte** `FrontMessageRuntimeView::Update`
   boss reads short/byte script operands from their actual native typed payload
