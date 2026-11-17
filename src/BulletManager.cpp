@@ -659,14 +659,13 @@ int EtamaController::OnUpdate(EtamaController *controller)
             continue;
         }
 
-        // The live three Etama pool counts are signed DWORDs. The retail
-        // update writes their native i386 INC bit patterns, then evaluates
-        // the original signed capacity/status transitions separately.
-        ++*reinterpret_cast<unsigned int *>(&controller->activeTotalCount);
+        // The native controller owns three active pool counters. Increment
+        // their actual members before the original status transitions.
+        ++controller->activeTotalCount;
         if (i < EtamaNativePoolLimits::PrimaryUsableCount)
-            ++*reinterpret_cast<unsigned int *>(&controller->activePrimaryCount);
+            ++controller->activePrimaryCount;
         else
-            ++*reinterpret_cast<unsigned int *>(&controller->activeSecondaryCount);
+            ++controller->activeSecondaryCount;
 
         switch (bullet->state)
             {
@@ -960,8 +959,7 @@ updateTimers:
         controller->spawnSuppressionFrames = static_cast<int>(
             static_cast<unsigned int>(controller->spawnSuppressionFrames) - 1u);
     controller->timer++;
-    controller->frameCounter = static_cast<int>(
-        static_cast<unsigned int>(controller->frameCounter) + 1u);
+    ++controller->frameCounter;
     return 1;
 }
 
