@@ -10615,3 +10615,37 @@ comparison and one-source replay also pass
 symbol renumbering. No ASM, padding, forced
 register hints, full cold replay or new exact
 function promotion was used.
+
+## 2026-11-17 GPT-web: native key configuration arrays and digit VM cursor
+
+The complete 2,803-byte `TitleScreenView::OnUpdateKeyConfig`
+boss now indexes the existing `helpTextVms`,
+`g_TitleKeyConfigHelpText`, `controllerState`, and
+two-row `TitleKeyMapping::sides` C++ arrays directly.
+The previous five `TH09_KEY_NATIVE_HELP_VM`,
+`TH09_KEY_HELP_TEXT_NATIVE`, `TH09_KEY_HELP_VM_PTR`,
+`TH09_KEY_NATIVE_CONTROLLER_BYTE` and
+`TH09_KEY_NATIVE_SIDE` integer-address/byte-stride
+lvalue macros are removed. Eight paired digit-VM cursor
+advances now use ordinary `vmPair += 2` on the
+original 0x2A4-byte ANM object entries, without
+extra pointer casts or artificial memory.
+
+The live Supervisor +0xB7 operand remains an explicitly
+byte-addressed wire channel because treating a scalar
+configuration field as a bounded two-byte array is
+not established and would be invalid native ownership.
+The local Title projection and external help-text
+ABI remain pending independent nominal-class proof.
+
+Pinned VC7.1 local probes for all five array families,
+their combined form and digit-cursor increments each
+reproduced the complete target boss. Maintained
+source-scoped replay passes **2/2 existing exact
+functions, 2,909 physical bytes and 118 original
+relocation fields**, including the 106-byte
+`SwapDuplicateCharacterIndex` leaf and the
+2,803-byte KeyConfig boss; full strict PE/COFF
+comparison passes with no compiler-label rebinding.
+No ASM, artificial padding, whole-product cold
+replay or new exact-function credit was claimed.
