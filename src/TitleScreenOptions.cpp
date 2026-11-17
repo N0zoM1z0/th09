@@ -96,18 +96,8 @@ typedef char OptionsTitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) 
 // The real TitleScreen owns 0x2A4-byte ANM VMs and a separate
 // four-byte help-text pointer table. These live selectors form original
 // Win32 byte addresses without a new clamp, copy or auxiliary allocation.
-#define TH09_OPTIONS_HELP_VM_PTR(index) \
-    reinterpret_cast<AnmVmView *>( \
-        reinterpret_cast<unsigned int>(&this->embeddedVms[0]) + \
-        static_cast<unsigned int>(index) * sizeof(this->embeddedVms[0]))
-#define TH09_OPTIONS_VM(index) \
-    (*reinterpret_cast<AnmVm *>( \
-        reinterpret_cast<unsigned int>(&this->vms[0]) + \
-        static_cast<unsigned int>(index) * sizeof(this->vms[0])))
-#define TH09_OPTIONS_HELP_TEXT(index) \
-    (*reinterpret_cast<const char *const *>( \
-        reinterpret_cast<const u8 *>(&g_TitleOptionsHelpText[0]) + \
-        static_cast<unsigned int>(index) * sizeof(g_TitleOptionsHelpText[0])))
+// The original Title object owns native help VMs and script VMs,
+// and the help-text pointers belong to a real four-byte global table.
 
 int TitleScreenView::OnUpdateOptions()
 {
@@ -118,8 +108,8 @@ int TitleScreenView::OnUpdateOptions()
     case 0:
         if (this->stateTimer2 == 0)
         {
-            g_AnmManager->SetInterruptArray(reinterpret_cast<AnmVm *>(this->vms), this->vmCount, 3);
-            g_AnmManager->ExecuteScriptArray(reinterpret_cast<AnmVm *>(this->vms), this->vmCount);
+            g_AnmManager->SetInterruptArray(this->vms, this->vmCount, 3);
+            g_AnmManager->ExecuteScriptArray(this->vms, this->vmCount);
             this->currentScreenState = 0;
             this->stateTimer = 0;
             this->previousCursor = -1;
@@ -130,56 +120,56 @@ int TitleScreenView::OnUpdateOptions()
         this->currentScreenState = 1;
         for (i = 0; i < sizeof(g_TitleOptionsHelpText) / sizeof(g_TitleOptionsHelpText[0]); i++)
         {
-            DrawTitleHelpText(reinterpret_cast<TitleAnmManagerView *>(g_AnmManager), reinterpret_cast<AnmVmView *>(TH09_OPTIONS_HELP_VM_PTR(i)), 0xfff0e0, 0x300000, TH09_OPTIONS_HELP_TEXT(i));
+            DrawTitleHelpText(reinterpret_cast<TitleAnmManagerView *>(g_AnmManager), &this->embeddedVms[i], 0xfff0e0, 0x300000, g_TitleOptionsHelpText[i]);
         }
     case 1:
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) >= 100)
         {
-            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(26), TH09_OPTIONS_VM(26).baseSpriteIndex);
-            TH09_OPTIONS_VM(26).color1Script.a = 0xff;
-            TH09_OPTIONS_VM(26).drawEnabled = 1;
+            this->titleAnm->SetSprite(&this->vms[26], this->vms[26].baseSpriteIndex);
+            this->vms[26].color1Script.a = 0xff;
+            this->vms[26].drawEnabled = 1;
         }
         else
         {
-            TH09_OPTIONS_VM(26).color1Script.a = 0;
-            TH09_OPTIONS_VM(26).drawEnabled = 0;
+            this->vms[26].color1Script.a = 0;
+            this->vms[26].drawEnabled = 0;
         }
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) >= 10)
         {
-            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(27),
-                                 TH09_OPTIONS_VM(27).baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) / 10 % 10 * 2);
-            TH09_OPTIONS_VM(27).color1Script.a = 0xff;
-            TH09_OPTIONS_VM(27).drawEnabled = 1;
+            this->titleAnm->SetSprite(&this->vms[27],
+                                 this->vms[27].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) / 10 % 10 * 2);
+            this->vms[27].color1Script.a = 0xff;
+            this->vms[27].drawEnabled = 1;
         }
         else
         {
-            TH09_OPTIONS_VM(27).color1Script.a = 0;
-            TH09_OPTIONS_VM(27).drawEnabled = 0;
+            this->vms[27].color1Script.a = 0;
+            this->vms[27].drawEnabled = 0;
         }
-        this->titleAnm->SetSprite(&TH09_OPTIONS_VM(28), TH09_OPTIONS_VM(28).baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) % 10 * 2);
-        this->titleAnm->SetSprite(&TH09_OPTIONS_VM(29), TH09_OPTIONS_VM(29).baseSpriteIndex);
+        this->titleAnm->SetSprite(&this->vms[28], this->vms[28].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) % 10 * 2);
+        this->titleAnm->SetSprite(&this->vms[29], this->vms[29].baseSpriteIndex);
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) >= 100)
         {
-            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(30), TH09_OPTIONS_VM(30).baseSpriteIndex);
-            TH09_OPTIONS_VM(30).color1Script.a = 0xff;
-            TH09_OPTIONS_VM(30).drawEnabled = 1;
+            this->titleAnm->SetSprite(&this->vms[30], this->vms[30].baseSpriteIndex);
+            this->vms[30].color1Script.a = 0xff;
+            this->vms[30].drawEnabled = 1;
         }
         else
         {
-            TH09_OPTIONS_VM(30).color1Script.a = 0;
-            TH09_OPTIONS_VM(30).drawEnabled = 0;
+            this->vms[30].color1Script.a = 0;
+            this->vms[30].drawEnabled = 0;
         }
         if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) >= 10)
         {
-            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(31),
-                                 TH09_OPTIONS_VM(31).baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) / 10 % 10 * 2);
-            TH09_OPTIONS_VM(31).color1Script.a = 0xff;
-            TH09_OPTIONS_VM(31).drawEnabled = 1;
+            this->titleAnm->SetSprite(&this->vms[31],
+                                 this->vms[31].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) / 10 % 10 * 2);
+            this->vms[31].color1Script.a = 0xff;
+            this->vms[31].drawEnabled = 1;
         }
         else
         {
-            TH09_OPTIONS_VM(31).color1Script.a = 0;
-            TH09_OPTIONS_VM(31).drawEnabled = 0;
+            this->vms[31].color1Script.a = 0;
+            this->vms[31].drawEnabled = 0;
         }
         if (this->MoveCursorVertical(9) != 0)
         {
@@ -187,7 +177,7 @@ int TitleScreenView::OnUpdateOptions()
         }
         if (this->previousCursor != this->keyboardSelection)
         {
-            this->currentHelpTextVm = TH09_OPTIONS_HELP_VM_PTR(this->keyboardSelection);
+            this->currentHelpTextVm = &this->embeddedVms[this->keyboardSelection];
             this->currentHelpTextVm->pendingInterrupt = 1;
         }
         this->previousCursor = this->keyboardSelection;
@@ -447,9 +437,9 @@ int TitleScreenView::OnUpdateOptions()
                 }
                 return 1;
             }
-            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)), TH09_OPTIONS_VM(static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)).baseSpriteIndex + 1);
+            this->titleAnm->SetSprite(&this->vms[static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)], this->vms[static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)].baseSpriteIndex + 1);
             this->keyboardSelection = 8;
-            this->titleAnm->SetSprite(&TH09_OPTIONS_VM(static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)), TH09_OPTIONS_VM(static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)).baseSpriteIndex);
+            this->titleAnm->SetSprite(&this->vms[static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)], this->vms[static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)].baseSpriteIndex);
             this->PlayMenuSound(11, 0);
         }
     }
@@ -466,7 +456,3 @@ int TitleScreenView::PlayMenuSound(i32 soundId, i32 unused)
     g_SoundPlayer.PlaySoundByIdx(soundId, unused);
     return g_SoundPlayer.ProcessQueues();
 }
-
-#undef TH09_OPTIONS_HELP_VM_PTR
-#undef TH09_OPTIONS_VM
-#undef TH09_OPTIONS_HELP_TEXT

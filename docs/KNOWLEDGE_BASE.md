@@ -10649,3 +10649,33 @@ relocation fields**, including the 106-byte
 comparison passes with no compiler-label rebinding.
 No ASM, artificial padding, whole-product cold
 replay or new exact-function credit was claimed.
+
+## 2026-11-17 GPT-web: native Title options VM and help-text arrays
+
+The `TitleScreenView::OnUpdateOptions` 2,045-byte
+main-menu owner now directly indexes the actual
+`TitleScreenView::vms`, `embeddedVms`, and
+`g_TitleOptionsHelpText` arrays rather than forming
+native integer addresses and reinterpreting them as
+`AnmVm` or text-pointer references. All 32 VM and
+two Help VM operand expressions are native C++ member
+accesses; the original `SetInterruptArray` and
+`ExecuteScriptArray` calls likewise consume the
+actual `AnmVmView *` implicitly as `AnmVm *`.
+The three synthetic address macros have been removed.
+Signed menu selectors, configuration volume storage,
+and exact controller input helper behavior are unchanged.
+
+Seven independent pinned VC7.1 local probes (one for
+each of the three native array families, their
+combined form, and direct VM/help arguments)
+matched the complete owner. The maintained
+source-scoped replay passes **2/2 existing
+exact functions, 2,079 physical bytes and
+138 relocation fields**, including the
+**2,045-byte** options boss with 135 fields and
+the **34-byte** PlayMenuSound leaf with three.
+No compiler-local label rebinding was needed.
+These are natural C++ expressions, without ASM,
+fake padding, forced register hints, cold full
+replay or new authored exact-function credit.
