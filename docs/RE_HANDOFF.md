@@ -48,6 +48,48 @@ experiments. Commit coherent changes as `gpt-web: ...`; never push silently.
   An exact byte count, a matching Ghidra decompilation, or an old object
   alone is not enough to promote a function.
 
+## 2026-11-17 GPT-web source checkpoints (native C++, no new exact claims)
+
+Five local source commits, all `gpt-web: ...`, have been saved after
+strictly scoped VC7.1 compilation/relocation checks:
+
+- `bdd34f42`: `FrontSide::OnDraw` traverses its first 11 genuine HUD
+  `AnmVm` records with an `AnmVm *`, not a `Float3 *` interior-offset
+  cursor. The full 3,094-byte boss remains exact (209 relocations).
+- `ba48f475`: all five `EffectManager` pool cursor advances now use
+  `++effect`, covering reset, spawn, velocity-spawn, update and release.
+- `a4dc57a1`: the three `EffectManager` spawn owners use their real
+  `effects[index]` array instead of manually scaling integer addresses.
+  Across both Effect commits, all 15 exact same-source owners remain exact
+  (2,530 physical bytes; 100 relocations), and the `AddedCallback`
+  frontier remains at four differing bytes.
+- `4d977749`: the three fog-blend branches in the 3,274-byte
+  `Background::RenderObjects` boss read/write the existing packed BGRA
+  word through named `.b/.g/.r/.a` lanes, retaining all 113 relocations.
+- `78abe86d`: the 2,803-byte Title key-config boss directly increments
+  its three native counters (`++screenFrameCounter`, `++stateTimer`,
+  `++stateTimer2`). The 106-byte co-resident leaf remains exact;
+  118 relocations were checked.
+
+These four selected sources passed a combined **19 exact owners, 11,807
+physical bytes and 540 relocation fields**. `scripts/ci.py` also passed.
+The ledger still reports **1,026 exact**; the work improves original-source
+structure without claiming newly exact functions or whole-image closure.
+
+**Targeted negative experiments:** ten `SaveReplay` frame-header copy forms
+preserved the same two EDI/ECX bytes; the tested Effect added-callback and
+Player movement expression variants did not reduce their register residuals.
+Replacing `AnmManager::ExecuteScript` wire-payload casts or its signed
+counter increment shifted compiler-private jump-table relocation identities,
+so none were retained. In the `FrontMessageRuntimeView::Update` boss,
+native side-index expressions and a direct frame-counter increment similarly
+shifted compiler-label identities. Converting the remaining Front HUD
+position cursors to independent `AnmVm *` loop variables changed the exact
+boss's code/relocation schedule; only the verified first group was kept.
+All temporary experiments were restored, without ASM, NOP padding,
+manifest-label rebinding, artificial frontier updates, full cold replay,
+or changes to protected original binaries.
+
 ## Current nonexact work queue
 
 The numbers below were rebuilt with the owner's recorded compiler profile

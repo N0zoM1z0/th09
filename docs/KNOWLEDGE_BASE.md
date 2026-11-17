@@ -12782,3 +12782,36 @@ No ASM, generated instruction padding, forced
 register variables, new array bounds checks,
 full-program cold replay or false exact-function
 promotion was used.
+
+## 2026-11-17 GPT-web: five source-native owner checkpoints and scoped proof
+
+The real worktree now contains commits `bdd34f42`, `ba48f475`,
+`a4dc57a1`, `4d977749`, and `78abe86d`. The 3,094-byte FrontSide draw
+boss now iterates its original status `AnmVm[11]` as typed VM objects;
+other groups retain the original `Float3` member-cursor form because
+whole-function comparisons for alternative loop lifetimes changed their
+original relocation identities. The Effect manager's genuine 0xD8-byte
+pool uses `++effect` for all five advances and native `effects[index]`
+access in the three spawn variations, with unsigned-word fixed-slot
+index addition retained. The 3,274-byte Background render boss retains
+its live fog/sprite byte-access order while naming all three BGRA blend
+paths through `BackgroundRenderColor`. The Title key-config boss directly
+increments three real 32-bit members, retaining all source-side calls,
+branches, and array semantics.
+
+Strict selected-source replay accepted all **19 exact owner extents** in
+these four files (**11,807 physical bytes, 540 relocations**); basic CI
+passed. The original exact ledger remains **1,026** and nonexact frontiers
+remain unchanged. This is verifiable C/C++ naturalization, not added exact
+coverage, product closure, or a replacement for future semantic proof.
+
+In discarded isolated compiler probes: SaveReplay's typed header-copy,
+`memcpy`, lvalue, and cursor forms all retained two register encoding
+bytes; fourteen callback and nine Player movement scheduling variants
+likewise did not improve their existing frontiers. The 9,358-byte ANM
+script boss was investigated with alternate native byte-payload cursor
+forms and its manager-counter increment, but the strict object relocation
+contract changed; these variants were not committed. Front-message side
+indexing and the frame-counter increment also shifted jump-table labels.
+No compiler-private label edits, instruction padding, assembly code, or
+frontier ratchet loosening was accepted.
