@@ -541,11 +541,11 @@ afterControllerBinding:
         break;
     }
 
-    // The original title key-config update advances three signed runtime
-    // frame/phase words with native wrapping i386 DWORD increments.
-    ++*reinterpret_cast<u32 *>(&screenFrameCounter);
-    ++*reinterpret_cast<u32 *>(&stateTimer);
-    ++*reinterpret_cast<u32 *>(&stateTimer2);
+    // The original title key-config update advances its three real
+    // frame/phase counter members directly.
+    ++screenFrameCounter;
+    ++stateTimer;
+    ++stateTimer2;
     return 1;
 }
 
