@@ -43,17 +43,17 @@ extern const char g_NetworkSearchingMessage[];
 extern unsigned short __fastcall ApplyNetworkInput(int side, unsigned short input);
 extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 
-// The two queue-prefill calls use partially overlapping native output
-// slots. The second prediction spans the first seed location.
+// Both prefill PopFrame calls write separate seeds and reuse one predicted
+// value slot. PopFrame's native output arguments are (seed*, predicted*).
 struct NetworkPrefillScratch
 {
     union
     {
         struct First
         {
-            unsigned int predicted;
             unsigned short seed;
             unsigned short overlap;
+            unsigned int predicted;
         } first;
         struct Second
         {
@@ -64,13 +64,11 @@ struct NetworkPrefillScratch
     };
 };
 
-// The target's paired PopFrame arguments use these relative stack offsets:
-// first prediction +0, second seed +2, first seed/second prediction +4.
 typedef char NetworkPrefillScratchLayout[
     (sizeof(NetworkPrefillScratch) == 8 &&
-     offsetof(NetworkPrefillScratch, first.predicted) == 0 &&
+     offsetof(NetworkPrefillScratch, first.seed) == 0 &&
      offsetof(NetworkPrefillScratch, second.seed) == 2 &&
-     offsetof(NetworkPrefillScratch, first.seed) == 4 &&
+     offsetof(NetworkPrefillScratch, first.predicted) == 4 &&
      offsetof(NetworkPrefillScratch, second.predicted) == 4) ? 1 : -1];
 int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
