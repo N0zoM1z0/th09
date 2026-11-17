@@ -12635,3 +12635,32 @@ and the **55/55-byte** AABB helper leaf.
 No compiler-private symbol rebinding,
 ASM, padding, forced registers or
 whole-game cold replay was used.
+
+## 2026-11-17 GPT-web: native MusicRoom file-parsing and menu counters
+
+The full 2,258-byte original-bound
+`TitleScreenView::OnUpdateMusicRoom` now increments
+the real track index, file-character index, description
+line, VM index, screen frame counter and both state
+timers with normal C++ `++` rather than creating
+a second `unsigned int *` alias to the same
+signed state. Its music-row Y coordinate advances
+with a natural `rowY += 18`; these are ten
+independently live source expressions within
+the original file parser and state machine.
+
+All nine counter sites and the row advancement
+were tested independently and together under
+pinned VC7.1 `/O1` compilation. The maintained
+one-source selected replay passes **2/2 previously
+Exact functions, 2,467 complete original bytes
+and 80 symbolic relocation fields**, including
+the 2,258-byte MusicRoom state machine and
+209-byte DrawMusicRoom leaf. An alternate
+file cursor subtraction through a native
+pointer difference generated four nonrelocation
+differences, so the original byte-range offset
+expression was preserved rather than promoting
+a less-exact source variant. No ASM, synthetic
+padding, forced registers, unproved exact
+promotion or whole-program cold replay was used.

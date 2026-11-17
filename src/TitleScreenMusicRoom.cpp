@@ -239,21 +239,21 @@ int TitleScreenView::OnUpdateMusicRoom()
 
             char *cursor = musicCmtFile;
             i32 trackIndex = -1;
-            // The loaded text file is one native Win32 address range;
-            // its byte offset is the original i386 DWORD subtraction.
+            // The file is one contiguous byte allocation; preserve the
+            // original file-relative offset arithmetic at every bound.
             while ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) < (u32)fileSize)
             {
                 if (*cursor == '@')
                 {
                     cursor++;
-                    ++*reinterpret_cast<u32 *>(&trackIndex);
+                    ++trackIndex;
                     i32 charIndex = 0;
 
                     while (*cursor != '\n' && *cursor != '\r')
                     {
                         musicTracks[static_cast<u32>(trackIndex)].path[charIndex] = *cursor;
                         cursor++;
-                        ++*reinterpret_cast<u32 *>(&charIndex);
+                        ++charIndex;
                         if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                             goto parse_done;
                     }
@@ -269,7 +269,7 @@ int TitleScreenView::OnUpdateMusicRoom()
                     {
                         musicTracks[static_cast<u32>(trackIndex)].title[charIndex] = *cursor;
                         cursor++;
-                        ++*reinterpret_cast<u32 *>(&charIndex);
+                        ++charIndex;
                         if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                             goto parse_done;
                     }
@@ -280,7 +280,7 @@ int TitleScreenView::OnUpdateMusicRoom()
                             goto parse_done;
                     }
 
-                    for (i32 descriptionLine = 0; descriptionLine < 7; ++*reinterpret_cast<u32 *>(&descriptionLine))
+                    for (i32 descriptionLine = 0; descriptionLine < 7; ++descriptionLine)
                     {
                         if (*cursor == '@')
                             break;
@@ -292,7 +292,7 @@ int TitleScreenView::OnUpdateMusicRoom()
                         {
                             musicTracks[static_cast<u32>(trackIndex)].descriptions[descriptionLine][charIndex] = *cursor;
                             cursor++;
-                            ++*reinterpret_cast<u32 *>(&charIndex);
+                            ++charIndex;
                             if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
                                 goto parse_done;
                         }
@@ -345,8 +345,8 @@ int TitleScreenView::OnUpdateMusicRoom()
                     vms[159 + vmIndex].anchor = 3;
                     i++;
                     ++musicTrack;
-                    ++*reinterpret_cast<u32 *>(&vmIndex);
-                    *reinterpret_cast<u32 *>(&rowY) += 18u;
+                    ++vmIndex;
+                    rowY += 18;
                 } while (vmIndex < musicTrackCount);
             }
 
@@ -389,9 +389,9 @@ common_tail:
         g_AnmManager->ExecuteScript(&embeddedVms[49 + i]);
     // Retail advances these persistent signed Title state words as native
     // modulo-32 i386 INC DWORD operations after the music/ANM callbacks.
-    ++*reinterpret_cast<u32 *>(&stateTimer);
-    ++*reinterpret_cast<u32 *>(&screenFrameCounter);
-    ++*reinterpret_cast<u32 *>(&stateTimer2);
+    ++stateTimer;
+    ++screenFrameCounter;
+    ++stateTimer2;
     return 1;
 }
 
