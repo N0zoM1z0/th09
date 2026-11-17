@@ -12732,3 +12732,52 @@ passes **2/2 authored-Exact owners, 2,909 physical
 bytes and 118 relocation fields**. There are no
 symbol-label renames, ASM, padding, register hints,
 full-product cold replay or new Exact-function claims.
+
+## 2026-11-17 GPT-web: native Enemy OnUpdate pool, schedule and draw groups
+
+The original 3,900-byte `EnemyManagerView::OnUpdate`
+now reads `g_EnemyCoreSchedule[index]` directly, including
+the original byte index postincrement, and iterates the
+authentic `EnemyView` pool with `++enemy` and a
+normal signed `++enemyIndex`. Both restricted-side and
+normal draw-append paths use the actual
+`EnemyManagerView::drawGroupHeads2AC410[group]`
+four-element array, without the former integer-address
+`TH09_ENEMY_NATIVE_DRAW_HEAD` macro. The redundant
+core-only include is removed. The original 128 active
+records plus pool sentinel, all calls and exit branches,
+and unguarded draw group indexing are preserved.
+
+Fourteen independent pinned VC7.1 source probes
+tested draw-head helper signatures, direct indexed
+lvalues, local byte/index lifetimes, conditional
+ordering, file schedule table reads, and the
+native Enemy record pointer/loop advances. They
+all preserved the current **3,900/3,900-byte**
+nonexact OnUpdate candidate and its two residual
+register-encoding differences (+0x19C/+0x1A3).
+The original EAX-versus-ECX register choice remains
+unresolved; this is a source naturalization, not a
+claim of a newly exact function.
+
+Since the large OnUpdate is compiled in the
+`EclManager.cpp` carrier with the already exact ECL
+interpreter, all **84 authored Exact functions** were
+recompiled and independently checked against the
+original PE: **45,420 complete physical bytes
+and 1,987 relocation fields** retain exact identity,
+including the **15,564-byte RunEcl** and its 598
+relocations. The naturally revised source shifted
+215 compiler-private label spellings in three
+functions. Every manifest rebinding was proved
+against the unchanged PE destination, same COFF
+definition/owner section, and identical relocation
+offset/type before a bounded source replay passed
+84/84 units. The separate nonexact OnUpdate was
+recompiled and its residual checked against the
+monotone frontier with zero new differing positions.
+
+No ASM, generated instruction padding, forced
+register variables, new array bounds checks,
+full-program cold replay or false exact-function
+promotion was used.

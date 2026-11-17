@@ -8,7 +8,6 @@
 // Lexical member of EclManager.cpp; reuses Th09EclRunState::ManagerStateView.
 #include "AsciiManager.hpp"
 #include "EnemyManager.hpp"
-#include "EnemyNativeDrawHeads.hpp"
 #include "EnemyChildEclBlocks.hpp"
 #include "EnemyAttachedEffectStateView.hpp"
 #include "BulletManager.hpp"
@@ -327,18 +326,14 @@ typedef char EnemyHitFlashNativeVmColors[
      offsetof(AnmVmBase, color2Script) + offsetof(AnmVmScriptColor, a) == 0x1F7)
         ? 1 : -1];
 
-// The active and restricted-side paths append to the same four native
-// EnemyManager draw-head pointer words (+0x2AC410). Runtime group bytes
-// form a full i386 DWORD offset; do not add a C++ four-element subscript
-// precondition or a clamping branch at either original append site. The
-// remaining OnUpdate residual is register allocation only: retail reuses
-// EAX for MOVZX plus scaled LEA, while this source currently selects ECX
-// for the byte index. Parameter order, width, direct subscript, and register
-// hints were tested without disturbing the 3,900-byte owner or its 97 edges.
+// Both paths append through the real four-element EnemyManager draw
+// head array. Original group bytes and live loads are left unguarded.
+// The remaining byte mismatch is EAX versus ECX register allocation
+// in the restricted-side append, not array structure or branch order.
 static __forceinline EnemyView **NativeEnemyDrawHead(
     EnemyManagerView *manager, unsigned char group)
 {
-    return &TH09_ENEMY_NATIVE_DRAW_HEAD(EnemyView, manager, group);
+    return &manager->drawGroupHeads2AC410[group];
 }
 
 int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
@@ -370,18 +365,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         else if (manager->normalEnemyCount2AC3B0 == 0 ||
                  (manager->sideTimer2AC3C8 > 0))
         {
-            // Native TH09 schedule bytes are read from the real global
-            // table by unsigned 32-bit address arithmetic. The second
-            // original read still post-increments the live u8 schedule index.
+            // Read the real native enemy schedule table, preserving the
+            // second read's live postincrement on its original byte index.
             manager->scheduleHighBit2AC3F8 =
-                (*reinterpret_cast<const unsigned char *>(
-                    reinterpret_cast<unsigned int>(&g_EnemyCoreSchedule[0]) +
-                    static_cast<unsigned int>(manager->scheduleIndex2AC3D4))) >> 7;
+                g_EnemyCoreSchedule[static_cast<unsigned int>(manager->scheduleIndex2AC3D4)] >> 7;
             manager->scheduledSubroutine2AC400 =
                 manager->primaryEclManager000.GetSubroutine(
-                    (*reinterpret_cast<const unsigned char *>(
-                    reinterpret_cast<unsigned int>(&g_EnemyCoreSchedule[0]) +
-                    static_cast<unsigned int>(manager->scheduleIndex2AC3D4++))) & 0x7F);
+                    g_EnemyCoreSchedule[static_cast<unsigned int>(manager->scheduleIndex2AC3D4++)] & 0x7F);
             manager->scheduleRuntime2AC3E0.timer00 = 0;
         }
     }
@@ -399,18 +389,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
     else
         manager->sideTimer2AC3C8++;
 
-    // One of 129 native records is reserved as the full-pool sentinel.
-    // Keep this loop's signed integer comparison: promoting enemyIndex to
-    // size_t changes the original branch at the callback's loop tail.
-    // Retail increments the signed index as a native DWORD and advances
-    // the actual EnemyView allocation by its full record byte stride.
-    // Keep the original signed comparison and 129th failure sentinel.
+    // The native EnemyView pool has 128 active records and a sentinel.
+    // Keep its original signed loop comparison and native ++enemy pointer
+    // advancement across each complete EnemyView, without a new bound.
     for (enemyIndex = 0;
          enemyIndex < EnemyNativePoolCapacity::ActiveSlots;
-         enemyIndex = static_cast<int>(
-             static_cast<unsigned int>(enemyIndex) + 1u),
-         enemy = reinterpret_cast<EnemyView *>(
-             reinterpret_cast<unsigned int>(enemy) + sizeof(EnemyView)))
+         ++enemyIndex,
+         ++enemy)
     {
         EnemyView **drawHead;
         const Th09EclEnemyPrimaryFlagBits &primaryFlags = enemy->primaryFlagBits337C;
