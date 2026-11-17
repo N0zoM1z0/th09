@@ -27,6 +27,10 @@ typedef char PlayerCancelNativeEffectPayload[
 typedef char PlayerCancelGameManagerCoordinateAt358[
     (offsetof(AsciiGameManagerView, coordinate358) == 0x358) ? 1 : -1];
 
+typedef char PlayerCollisionActiveRegionCursorCountIs514[
+    (sizeof(((PlayerLifecycleView *)0)->activeB100) /
+         sizeof(((PlayerLifecycleView *)0)->activeB100[0]) == 514) ? 1 : -1];
+
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_PlayerRewardEffectManager;
 
