@@ -97,26 +97,20 @@ static void CallSubroutine(
     int rawSubroutineId);
 static int PopContext(EnemyView *enemy);
 
-// The operand sequence follows a zero-size C++ trailing member. Perform
-// native Win32 address arithmetic instead of indexing that abstract array.
+// Each ECL instruction carries native four-byte union words in its trailing
+// variable-length arguments array. The opcode decides which indices exist.
 inline int &RawInt(
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
 {
-    return *reinterpret_cast<int *>(
-        reinterpret_cast<unsigned int>(instruction) +
-        static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)) +
-        static_cast<unsigned int>(operandIndex) * sizeof(Th09EclWireArgument));
+    return instruction->arguments[operandIndex].integer;
 }
 
 inline float &RawFloat(
     Th09EclRawInstructionHeaderView *instruction,
     int operandIndex)
 {
-    return *reinterpret_cast<float *>(
-        reinterpret_cast<unsigned int>(instruction) +
-        static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)) +
-        static_cast<unsigned int>(operandIndex) * sizeof(Th09EclWireArgument));
+    return instruction->arguments[operandIndex].real;
 }
 
 // Target RunEcl inlines these four operand wrappers at every call site while
