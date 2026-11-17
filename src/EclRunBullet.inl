@@ -91,17 +91,11 @@ inline EtamaController *Controller(EnemyView *enemy)
     return enemy->manager00->sideState320->etama08;
 }
 
-// The original i386 forms the physical pointer slot from a signed ECL word
-// and the actual EnemyView 32-pointer table; no new index guard is inserted.
-// Target-observed laser control opcodes index the genuine thirty-two
-// EnemyView laser pointers as native 32-bit byte offsets. Preserve the
-// selected-slot creation as a lexical native lvalue: using the shared
-// accessor changes its distinct original-bound compiler callsite shape.
+// Laser opcodes index the real 32-entry pointer array in the native Enemy.
+// Keep the wire-selected slot without adding a new capacity guard.
 inline Laser *&LaserSlot(EnemyView *enemy, int slot)
 {
-    return *reinterpret_cast<Laser **>(
-        reinterpret_cast<unsigned int>(&enemy->laserSlots32D8[0]) +
-        static_cast<unsigned int>(slot) * sizeof(enemy->laserSlots32D8[0]));
+    return enemy->laserSlots32D8[slot];
 }
 
 inline Th09EclContextView *ActiveContext(EnemyView *enemy)
@@ -115,9 +109,8 @@ inline int &ConditionResult(EnemyView *enemy)
     return ActiveContext(enemy)->intVariables5C[2];
 }
 
-// These mixed-offset packet readers are lexical in the target owner: only the
-// scalar resolver remains out of line. Compute the full signed wire offset as
-// native i386 unsigned address arithmetic rather than subscripting arguments[0].
+// Read mixed-width operands from the native instruction-tail union, with
+// the original byte offsets, mask tests and scalar resolver calls intact.
 __forceinline float ReadLaserFloat(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction,
@@ -125,8 +118,7 @@ __forceinline float ReadLaserFloat(
     int flagIndex)
 {
     float *operand = reinterpret_cast<float *>(
-        reinterpret_cast<unsigned int>(instruction) +
-        static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)) +
+        reinterpret_cast<unsigned char *>(instruction->arguments) +
         static_cast<unsigned int>(byteOffset));
     return (instruction->parameterMask0A & (1U << flagIndex))
         ? enemy->ResolveFloat(*operand) : *operand;
@@ -139,8 +131,7 @@ __forceinline int ReadLaserInt(
     int flagIndex)
 {
     int *operand = reinterpret_cast<int *>(
-        reinterpret_cast<unsigned int>(instruction) +
-        static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)) +
+        reinterpret_cast<unsigned char *>(instruction->arguments) +
         static_cast<unsigned int>(byteOffset));
     return (instruction->parameterMask0A & (1U << flagIndex))
         ? Th09EclRunControl::ResolveInt(enemy, *operand) : *operand;
@@ -152,8 +143,7 @@ __forceinline short ReadLaserColor(
 {
     const LaserInstructionArgs *const args =
         reinterpret_cast<const LaserInstructionArgs *>(
-            reinterpret_cast<unsigned int>(instruction) +
-            static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)));
+            instruction->arguments);
     return (instruction->parameterMask0A & (1U << 1))
         ? static_cast<short>(Th09EclRunControl::ResolveInt(enemy, args->color02))
         : args->color02;
@@ -300,8 +290,7 @@ static void DispatchShotInstruction(
     case TH09_ECL_OPCODE_CREATE_LASER_AIMED:
         // Packed laser arguments occupy the native ECL wire tail.
         laserArgs = reinterpret_cast<Th09EclRunBullet::LaserInstructionArgs *>(
-            reinterpret_cast<unsigned int>(instruction) +
-            static_cast<unsigned int>(offsetof(Th09EclRawInstructionHeaderView, arguments)));
+            instruction->arguments);
         laserDescriptor =
             &Th09EclRunBullet::View(enemy)->laserDescriptor30C4;
         laserDescriptor->position =
