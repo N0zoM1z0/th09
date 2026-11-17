@@ -104,6 +104,47 @@ python3 -B scripts/replay-scoped-exact.py --source src/PlayerShotUpdateCallback1
 python3 -B scripts/replay-scoped-exact.py --source src/PlayerShotUpdateCallback4.cpp
 ~~~
 
+### Replay playback and Effect callback scheduling probes
+
+`ReplayManagerView::BeginPlaybackStage @ 0x00420840` remains **540/540
+bytes with 13 masked differences**. A byte-by-byte comparison identifies
+one exact source-order question at `+0x14B..+0x15F`: retail stores the
+`value1E7` byte, reloads the replay-data pointer, reads `value1E8`, then
+loads the side-0 runtime pointer before publishing `value1E8`. The current
+candidate hoists the runtime pointer read ahead of the preceding store and
+`value1E8` read. Direct `g_GameManager` accesses instead of the local manager
+reference leave the 13-position frontier unchanged. Local runtime pointers
+or references declared before the field stores change the complete owner
+(typically 532/540 with 135 differences); volatile pointer locals expand it
+to 546/540 with 148.
+
+A more targeted interleaving experiment first snapshots `value1E8`, then
+reads the actual side-0 runtime pointer through a volatile pointer lvalue,
+then stores the snapshot. This produces a **540/540, 9-difference** diagnostic,
+removing four previous differences, but introduces seven new offsets
+`+0x156`, `+0x162`, `+0x168`, `+0x16C`, `+0x172`, `+0x178`, and `+0x17A`.
+The C2 allocator reverses the target EDX/ESI roles for the replay byte and
+runtime pointer, and the later side/runtime stores inherit the swap. Changing
+the snapshot width, pointer constness, declaration order, reference form,
+or reloading the pointer at each later runtime write did not repair it. The
+9-difference source is diagnostic only and was reverted; the frontier remains
+13 and no `--update` was used.
+
+`EffectManager::AddedCallback @ 0x0040D1C0` remains **51/51 bytes with four
+masked positions**. Retail loads `g_AnmManager` into EDI before copying the
+callback receiver from ECX to ESI; the candidate saves the receiver first,
+loads the global into ECX, then copies ECX into EDI. Delaying the context cast,
+using a manager reference, passing the helper parameter by reference, using a
+pointer-to-global reference, and spelling out GetAnm/PreloadAnm did not
+improve the complete owner. Volatile/register pointer aliases and explicit
+helper expansion regressed it. All probes were reverted.
+
+The large Player charge owner was also rechecked with direct volatile mode
+assignment and input-pointer declaration/base-increment permutations. The
+short-side/volatile-mode baseline remains **1,210/1,210, 183 differences**;
+none of the new forms improved it. No dirty experiment remains in maintained
+source.
+
 ### Latest shared Player +0x1B80 state-word checkpoint
 
 Two further source commits recover the one real Player DWORD shared by
@@ -419,7 +460,7 @@ instruction starting address can precede the differing byte offset.
 | --- | --- | --- | --- |
 | **enemy-on-update (EclManager.cpp)** | 0x00410730 | 3,900/3,900, **2 masked bytes** | At `+0x19C` and `+0x1A3`, VC7.1 uses ECX where retail uses EAX to load/index the early draw-head group. Typed schedule/pool/group access is already in source. The 84 co-resident ECL exact functions must remain intact. |
 | **replay-save (ReplayInput.cpp)** | 0x00420C60 | 1,238/1,238, **2 masked bytes** | `+0xB7` and `+0xBB`: header-copy destination register ECX instead of retail EDI. |
-| **replay-begin-playback (ReplayInput.cpp)** | 0x00420840 | 540/540, **13 masked bytes** | Replay game-side restoration load order around `+0x14B–0x15F`. |
+| **replay-begin-playback (ReplayInput.cpp)** | 0x00420840 | 540/540, **13 masked bytes** | Candidate hoists `sides[0].runtime` before the `value1E7` store and `value1E8` load; retail loads `value1E8`, then runtime0, then stores it. A volatile pointer-field probe reached 9 differences but introduced seven new positions through an EDX/ESI register swap; do not ratchet. |
 | **player-movement (PlayerMovement.cpp)** | 0x0041C170 | 1,900/1,900, **4 masked bytes** | Config/side load order at `+0x127–0x12A`. |
 | **player-charge-attack (PlayerChargeAttackUpdate.cpp)** | 0x0041F810 | 1,210/1,210, **183 masked bytes** | EDI/EBX side/input allocation remains unresolved. Direct member-index, signed/unsigned/size_t locals, pointer/reference aliases, explicit native byte offsets and mode-snapshot variants did not improve the complete boss. |
 | **player-bullet-collision (PlayerCollisionHelpers.cpp)** | 0x0041DFF0 | 842/862, **705 masked bytes** | Three nested retry levels and four distinct slot-advance sites confirmed. 859/862 and 849/862 natural-loop candidates are not monotone-safe due new differences, size and register/hit-block scheduling; do not ratchet. |

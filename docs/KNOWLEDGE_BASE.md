@@ -12958,3 +12958,41 @@ usually regress to 717-900 differing positions. The maintained short-side /
 volatile mode snapshot remains an acknowledged code-generation compensation,
 not a claimed natural final source. The target's EDI side index and EBX
 `ReplayInputState *` lifetime is still unresolved. All probes were reverted.
+
+
+## 2026-11-17 GPT-web: Replay restore pointer ordering and Effect callback registers
+
+A focused re-read of `ReplayManagerView::BeginPlaybackStage @ 0x00420840`
+confirms its **540/540-byte, 13-difference** frontier is dominated by one
+interleaving at `+0x14B..+0x15F`. Retail stores the `value1E7` value, reloads
+the ReplayData pointer, reads `value1E8`, loads the side-0 runtime pointer,
+and then stores `value1E8`. The current candidate hoists the runtime pointer
+load ahead of the `value1E7` store and `value1E8` read. Replacing the
+`AsciiGameManagerView &game` alias with direct `g_GameManager` accesses has
+no effect. Declaring runtime pointer locals/references before the value
+assignments changes the whole body (532/540 bytes, 135 differences); volatile
+pointer locals grow it to 546/540 and 148 differences.
+
+A narrower C++ interleaving form snapshots `value1E8`, reads the native
+runtime pointer through a volatile pointer lvalue, then publishes the value.
+It reaches **9 differences in 540 bytes**, but introduces seven new offsets
+`+0x156/+0x162/+0x168/+0x16C/+0x172/+0x178/+0x17A`: C2 assigns ESI to the
+replay byte and EDX to the runtime pointer, the reverse of retail's EDX/ESI
+roles. Pointer constness, pointee volatility, local declaration order,
+reference aliases and per-write pointer reloads did not correct the swap.
+The diagnostic was reverted; the original 13-position frontier remains
+unchanged. No frontier ratchet was loosened.
+
+`EffectManager::AddedCallback @ 0x0040D1C0` remains a 51-byte, four-position
+frontier. Retail loads `g_AnmManager` directly into EDI before saving the
+callback context from ECX into ESI. The maintained source instead saves the
+context first, loads the global through ECX, then copies it to EDI. Delayed
+context casts, pointer/reference aliases to the global manager, reference
+helper parameters and explicit GetAnm/PreloadAnm expansion did not improve
+the complete function; volatile/register aliases and explicit expansion
+regressed it.
+
+Additional `UpdateChargeAttack` probes tested direct volatile mode-byte
+assignment, nonvolatile mode storage, and pointer declaration/base-increment
+order. They did not improve the maintained **1,210/1,210-byte, 183-difference**
+owner. All temporary source variants were restored.
