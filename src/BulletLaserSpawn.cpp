@@ -1,10 +1,6 @@
 #include "AnmManager.hpp"
 #include "BulletManager.hpp"
-
-struct BulletPlayerView
-{
-    float AngleToPoint(Float3 *position);
-};
+#include "PlayerAngleView.hpp"
 
 extern int g_LaserColorSpriteOffsets[];
 
@@ -12,9 +8,7 @@ extern int g_LaserColorSpriteOffsets[];
 // by the descriptor color. Retail has no C++ array-bounds condition.
 static __forceinline int NativeLaserColorOffset(int color)
 {
-    return *reinterpret_cast<const int *>(
-        reinterpret_cast<unsigned int>(&g_LaserColorSpriteOffsets[0]) +
-        static_cast<unsigned int>(color) * sizeof(g_LaserColorSpriteOffsets[0]));
+    return g_LaserColorSpriteOffsets[color];
 }
 
 Laser *EtamaController::SpawnLaserPattern(BulletSpawnDescriptor *descriptor)
@@ -29,12 +23,9 @@ Laser *EtamaController::SpawnLaserPattern(BulletSpawnDescriptor *descriptor)
         {
             if (laser->inUse == 0)
                 goto found_laser;
-            // Retail scans 48 genuine 0x59C-byte Laser records.
-            // Advance both signed index and record pointer as native
-            // i386 DWORDs, retaining the original inUse and last-slot gates.
-            ++*reinterpret_cast<unsigned int *>(&index);
-            laser = reinterpret_cast<Laser *>(
-                reinterpret_cast<unsigned int>(laser) + sizeof(*laser));
+            // Scan the original 48-element native Laser allocation.
+            ++index;
+            ++laser;
         }
         while (index < 48);
         return laser;
@@ -67,7 +58,8 @@ Laser *EtamaController::SpawnLaserPattern(BulletSpawnDescriptor *descriptor)
         if (descriptor->aimMode == 0)
         {
             laser->angle +=
-                reinterpret_cast<BulletPlayerView *>(this->sideState->player04)->AngleToPoint(&descriptor->position);
+                reinterpret_cast<PlayerAngleView *>(this->sideState->player04)->AngleToPoint(
+                    reinterpret_cast<PlayerAngleFloat3View *>(&descriptor->position));
         }
 
         laser->flags =
