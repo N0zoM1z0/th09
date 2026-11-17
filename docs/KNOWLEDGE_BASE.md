@@ -10955,3 +10955,55 @@ It is unclassified/nonexact, not represented as
 a matched leaf and no x87 ASM or padding was
 introduced to falsely close it. No full-product
 cold replay was used.
+
+## 2026-11-17 GPT-web: native Title character, replay and start-menu arrays
+
+The complete `TitleScreen.cpp` carrier now uses
+actual native C++ arrays and direct expressions
+through character selection, score-name editing,
+start menu, demo and replay interfaces. Nine
+integer-address lvalue macros have been removed:
+`TH09_TITLE_NATIVE_CHARACTER` and `UNLOCK`
+select the genuine character order and 16-byte
+unlock tables; `INPUT_STATE` indexes the three
+native 0x8E-byte input records;
+`CONFIG_NATIVE_OPTION` reads original six-integer
+option rows of the 16-character configuration
+matrix; `HELP_TEXT` and `DEMO_PATH` use the
+global pointer tables; `EMBEDDED_VM` indexes
+the 57 constructed `AnmVmView` records; and
+`ALPHABET` / `NAME_BYTE` use the original
+char pointer and name arrays. All **86 source
+lvalue uses** are ordinary C++ expressions.
+Original indices, loop/control-flow order and
+unprotected source-domain semantics remain
+unchanged.
+
+Each of the nine macro families was compiled
+individually under the pinned VC7.1 Title
+profile; their combined macro form and the
+subsequent direct-expression replacement
+were separately tested. Both compiler
+carriers, including the distinct
+`TitleScoreRecord::InsertIntoTable` profile,
+were then rebuilt. The selected-source replay
+passed **41/41 existing exact functions,
+18,972 complete physical bytes and 953
+original relocation fields**. These include
+the **2,241-byte mode-0 character-select
+boss**, 2,153-byte mode-123 character
+selection, 1,592-byte StartMenu,
+1,825-byte ReplaySave and 216-byte
+score insertion leaf. Nine private
+jump-table labels in StartMenu were rebound
+only after checking same-section COFF
+symbol ownership, original target PE
+destination, relocation offsets/types and
+complete unmasked byte equality.
+
+No ASM, fabricated padding, added range
+guards, forced register allocation,
+whole-product cold replay or new exact
+function count was claimed. Separate
+nonexact Title UI frontiers were not
+silently reclassified.
