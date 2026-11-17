@@ -47,19 +47,16 @@ extern char sEnd[];
 extern char sCan[];
 extern char sCannot[];
 
-// The original formatter advances its live buffer cursor by native
-// 32-bit unsigned byte-address arithmetic after each sprintf.
+// Capability reports append each formatted line to the original
+// character buffer using ordinary pointer arithmetic.
 static char *AppendD3DCapabilitySupportLine(
     char *capabilityName, u32 capabilityFlags, u32 mask, char *buf)
 {
-    buf = reinterpret_cast<char *>(reinterpret_cast<u32>(buf) +
-            static_cast<u32>(sprintf(buf, capabilityName)));
+    buf += sprintf(buf, capabilityName);
     if ((capabilityFlags & mask) == 0)
-        buf = reinterpret_cast<char *>(reinterpret_cast<u32>(buf) +
-            static_cast<u32>(sprintf(buf, sCannot)));
+        buf += sprintf(buf, sCannot);
     else
-        buf = reinterpret_cast<char *>(reinterpret_cast<u32>(buf) +
-            static_cast<u32>(sprintf(buf, sCan)));
+        buf += sprintf(buf, sCan);
     return buf;
 }
 
@@ -67,15 +64,13 @@ static void FormatD3DCapabilities(D3DCAPS8 *caps, char *buf)
 {
     char *strPos = buf;
 
-    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
-            static_cast<u32>(sprintf(strPos, sCapsStart)));
+    strPos += sprintf(strPos, sCapsStart);
     strPos = AppendD3DCapabilitySupportLine(sReadScanline, caps->Caps, D3DCAPS_READ_SCANLINE, strPos);
     strPos = AppendD3DCapabilitySupportLine(sWindowed, caps->Caps2, D3DCAPS2_CANRENDERWINDOWED, strPos);
     strPos = AppendD3DCapabilitySupportLine(sImmediate, caps->PresentationIntervals, D3DPRESENT_INTERVAL_IMMEDIATE, strPos);
     strPos = AppendD3DCapabilitySupportLine(sVsync, caps->PresentationIntervals, D3DPRESENT_INTERVAL_ONE, strPos);
 
-    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
-            static_cast<u32>(sprintf(strPos, sDeviceStart)));
+    strPos += sprintf(strPos, sDeviceStart);
     strPos = AppendD3DCapabilitySupportLine(sNonlocalBlit, caps->DevCaps, D3DDEVCAPS_CANBLTSYSTONONLOCAL, strPos);
     strPos = AppendD3DCapabilitySupportLine(sHardwareTl, caps->DevCaps, D3DDEVCAPS_HWTRANSFORMANDLIGHT, strPos);
     strPos = AppendD3DCapabilitySupportLine(sTexNonlocal, caps->DevCaps, D3DDEVCAPS_TEXTURENONLOCALVIDMEM, strPos);
@@ -84,8 +79,7 @@ static void FormatD3DCapabilities(D3DCAPS8 *caps, char *buf)
     strPos = AppendD3DCapabilitySupportLine(sVertexSystem, caps->DevCaps, D3DDEVCAPS_TLVERTEXSYSTEMMEMORY, strPos);
     strPos = AppendD3DCapabilitySupportLine(sVertexVideo, caps->DevCaps, D3DDEVCAPS_TLVERTEXVIDEOMEMORY, strPos);
 
-    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
-            static_cast<u32>(sprintf(strPos, sPrimitiveStart)));
+    strPos += sprintf(strPos, sPrimitiveStart);
     strPos = AppendD3DCapabilitySupportLine(sAlphaBlend, caps->PrimitiveMiscCaps, D3DPMISCCAPS_BLENDOP, strPos);
     strPos = AppendD3DCapabilitySupportLine(sPointClip, caps->PrimitiveMiscCaps, D3DPMISCCAPS_CLIPPLANESCALEDPOINTS, strPos);
     strPos = AppendD3DCapabilitySupportLine(sPrimitiveClip, caps->PrimitiveMiscCaps, D3DPMISCCAPS_CLIPTLVERTS, strPos);
@@ -94,8 +88,7 @@ static void FormatD3DCapabilities(D3DCAPS8 *caps, char *buf)
     strPos = AppendD3DCapabilitySupportLine(sCullNone, caps->PrimitiveMiscCaps, D3DPMISCCAPS_CULLNONE, strPos);
     strPos = AppendD3DCapabilitySupportLine(sMaskZ, caps->PrimitiveMiscCaps, D3DPMISCCAPS_MASKZ, strPos);
 
-    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
-            static_cast<u32>(sprintf(strPos, sRasterStart)));
+    strPos += sprintf(strPos, sRasterStart);
     strPos = AppendD3DCapabilitySupportLine(sAnisotropy, caps->RasterCaps, D3DPRASTERCAPS_ANISOTROPY, strPos);
     strPos = AppendD3DCapabilitySupportLine(sAntialias, caps->RasterCaps, D3DPRASTERCAPS_ANTIALIASEDGES, strPos);
     strPos = AppendD3DCapabilitySupportLine(sDither, caps->RasterCaps, D3DPRASTERCAPS_DITHER, strPos);
@@ -105,23 +98,19 @@ static void FormatD3DCapabilities(D3DCAPS8 *caps, char *buf)
     strPos = AppendD3DCapabilitySupportLine(sFogVertex, caps->RasterCaps, D3DPRASTERCAPS_FOGVERTEX, strPos);
     strPos = AppendD3DCapabilitySupportLine(sZTest, caps->RasterCaps, D3DPRASTERCAPS_ZTEST, strPos);
 
-    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
-            static_cast<u32>(sprintf(strPos, sShadeStart)));
+    strPos += sprintf(strPos, sShadeStart);
     strPos = AppendD3DCapabilitySupportLine(sGouraud, caps->ShadeCaps, D3DPSHADECAPS_COLORGOURAUDRGB, strPos);
     strPos = AppendD3DCapabilitySupportLine(sAlphaGouraud, caps->ShadeCaps, D3DPSHADECAPS_ALPHAGOURAUDBLEND, strPos);
     strPos = AppendD3DCapabilitySupportLine(sFogGouraud, caps->ShadeCaps, D3DPSHADECAPS_FOGGOURAUD, strPos);
 
-    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
-            static_cast<u32>(sprintf(strPos, sTextureStart)));
-    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
-            static_cast<u32>(sprintf(strPos, sMaxTexture, caps->MaxTextureWidth, caps->MaxTextureHeight)));
+    strPos += sprintf(strPos, sTextureStart);
+    strPos += sprintf(strPos, sMaxTexture, caps->MaxTextureWidth, caps->MaxTextureHeight);
     strPos = AppendD3DCapabilitySupportLine(sTextureAlpha, caps->TextureCaps, D3DPTEXTURECAPS_ALPHA, strPos);
     strPos = AppendD3DCapabilitySupportLine(sTextureProjected, caps->TextureCaps, D3DPTEXTURECAPS_PROJECTED, strPos);
     strPos = AppendD3DCapabilitySupportLine(sMagLinear, caps->TextureFilterCaps, D3DPTFILTERCAPS_MAGFLINEAR, strPos);
     strPos = AppendD3DCapabilitySupportLine(sMinLinear, caps->TextureFilterCaps, D3DPTFILTERCAPS_MINFLINEAR, strPos);
 
-    strPos = reinterpret_cast<char *>(reinterpret_cast<u32>(strPos) +
-            static_cast<u32>(sprintf(strPos, sEnd)));
+    strPos += sprintf(strPos, sEnd);
 }
 
 #include "AsciiManager.hpp"
@@ -179,10 +168,8 @@ typedef char D3DStartupNativeViewportStorage[
 // The three fullscreen/gameplay D3D viewports share the genuine +0x78
 // SupervisorCtorArrayElement[3] allocation with physical 0xF0 stride.
 // Literal indices retain their original Win32 32-bit record addresses.
-#define TH09_D3D_NATIVE_VIEWPORT(index) \
-    (*reinterpret_cast<SupervisorCtorArrayElement *>( \
-        reinterpret_cast<u32>(&viewports[0]) + \
-        static_cast<u32>(index) * sizeof(viewports[0])))
+// The three original 0xF0-byte camera/viewport records are genuine
+// SupervisorCtorArrayElement elements in one native C++ array.
 
 int InitializeD3DRendering()
 {
@@ -364,50 +351,50 @@ int InitializeD3DRendering()
         &presentParameters,
         sizeof(presentParameters));
 
-    TH09_D3D_NATIVE_VIEWPORT(2).cameraPosition00 =
+    viewports[2].cameraPosition00 =
         Float3(0.0f, 0.0f, 1000.0f);
-    TH09_D3D_NATIVE_VIEWPORT(2).cameraLookAtOffset0C =
+    viewports[2].cameraLookAtOffset0C =
         Float3(0.0f, 0.0f, 0.0f);
-    TH09_D3D_NATIVE_VIEWPORT(2).cameraUp18 =
+    viewports[2].cameraUp18 =
         Float3(0.0f, 1.0f, 0.0f);
-    TH09_D3D_NATIVE_VIEWPORT(2).fieldOfView48 = 0.52359879f;
-    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.X = 0;
-    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.Y = 0;
-    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.Width = 640;
-    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.Height = 480;
-    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.MinZ = 0.0f;
-    TH09_D3D_NATIVE_VIEWPORT(2).viewportCC.MaxZ = 1.0f;
-    TH09_D3D_NATIVE_VIEWPORT(2).viewportModeE4 = 2;
+    viewports[2].fieldOfView48 = 0.52359879f;
+    viewports[2].viewportCC.X = 0;
+    viewports[2].viewportCC.Y = 0;
+    viewports[2].viewportCC.Width = 640;
+    viewports[2].viewportCC.Height = 480;
+    viewports[2].viewportCC.MinZ = 0.0f;
+    viewports[2].viewportCC.MaxZ = 1.0f;
+    viewports[2].viewportModeE4 = 2;
 
-    TH09_D3D_NATIVE_VIEWPORT(0).cameraPosition00 =
+    viewports[0].cameraPosition00 =
         Float3(0.0f, 0.0f, 1000.0f);
-    TH09_D3D_NATIVE_VIEWPORT(0).cameraLookAtOffset0C =
+    viewports[0].cameraLookAtOffset0C =
         Float3(0.0f, 0.0f, 0.0f);
-    TH09_D3D_NATIVE_VIEWPORT(0).cameraUp18 =
+    viewports[0].cameraUp18 =
         Float3(0.0f, 1.0f, 0.0f);
-    TH09_D3D_NATIVE_VIEWPORT(0).fieldOfView48 = 0.52359879f;
-    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.X = 16;
-    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.Y = 16;
-    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.Width = 288;
-    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.Height = 448;
-    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.MinZ = 0.0f;
-    TH09_D3D_NATIVE_VIEWPORT(0).viewportCC.MaxZ = 1.0f;
-    TH09_D3D_NATIVE_VIEWPORT(0).viewportModeE4 = 0;
+    viewports[0].fieldOfView48 = 0.52359879f;
+    viewports[0].viewportCC.X = 16;
+    viewports[0].viewportCC.Y = 16;
+    viewports[0].viewportCC.Width = 288;
+    viewports[0].viewportCC.Height = 448;
+    viewports[0].viewportCC.MinZ = 0.0f;
+    viewports[0].viewportCC.MaxZ = 1.0f;
+    viewports[0].viewportModeE4 = 0;
 
-    TH09_D3D_NATIVE_VIEWPORT(1).cameraPosition00 =
+    viewports[1].cameraPosition00 =
         Float3(0.0f, 0.0f, 1000.0f);
-    TH09_D3D_NATIVE_VIEWPORT(1).cameraLookAtOffset0C =
+    viewports[1].cameraLookAtOffset0C =
         Float3(0.0f, 0.0f, 0.0f);
-    TH09_D3D_NATIVE_VIEWPORT(1).cameraUp18 =
+    viewports[1].cameraUp18 =
         Float3(0.0f, 1.0f, 0.0f);
-    TH09_D3D_NATIVE_VIEWPORT(1).fieldOfView48 = 0.52359879f;
-    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.X = 336;
-    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.Y = 16;
-    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.Width = 288;
-    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.Height = 448;
-    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.MinZ = 0.0f;
-    TH09_D3D_NATIVE_VIEWPORT(1).viewportCC.MaxZ = 1.0f;
-    TH09_D3D_NATIVE_VIEWPORT(1).viewportModeE4 = 1;
+    viewports[1].fieldOfView48 = 0.52359879f;
+    viewports[1].viewportCC.X = 336;
+    viewports[1].viewportCC.Y = 16;
+    viewports[1].viewportCC.Width = 288;
+    viewports[1].viewportCC.Height = 448;
+    viewports[1].viewportCC.MinZ = 0.0f;
+    viewports[1].viewportCC.MaxZ = 1.0f;
+    viewports[1].viewportModeE4 = 1;
 
     g_Supervisor.ConfigureScreenViewport(2);
     g_Supervisor.d3dDevice08->GetDeviceCaps(&g_Supervisor.d3dCaps5D8);
@@ -445,5 +432,3 @@ int InitializeD3DRendering()
     g_Supervisor.lastFrameTime5B4 = 0;
     return 0;
 }
-
-#undef TH09_D3D_NATIVE_VIEWPORT

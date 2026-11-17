@@ -11237,3 +11237,49 @@ definitions and unchanged relocation offsets/types.
 No ASM, artificial padding, forced registers,
 whole-product cold replay or new exact-function
 promotion was claimed.
+
+## 2026-11-17 GPT-web: native D3D viewport arrays and capability-text cursors
+
+The complete `InitializeD3DRendering` owner now writes
+its three original 0xF0-byte
+`SupervisorCtorArrayElement` entries directly as
+`viewports[0]`, `viewports[1]` and
+`viewports[2]`, rather than reconstructing
+Win32 integer addresses through a
+`TH09_D3D_NATIVE_VIEWPORT` pointer-cast macro.
+All 33 original viewport setup lvalues use the
+genuine shared Supervisor storage at +0x78
+including camera, FOV, D3DVIEWPORT8 and mode.
+No new array, branch, or range check was added.
+
+The original D3D capability-report formatter
+and its small line helper now append all
+eleven `sprintf` results through native
+`char *` arithmetic, `strPos += sprintf(...)`
+or `buf += sprintf(...)`, instead of casting
+the live cursor through a 32-bit integer
+on each call. The full original formatting
+and capability ordering is preserved.
+
+Separate pinned VC7.1 probes for the viewport,
+small formatter, large formatter and their
+combination each retained every original
+physical function extent. The maintained
+three-profile selected-source replay passes
+**3/3 existing exact owners, 2,444 physical
+bytes and 245 relocations**: the
+**1,561-byte InitializeD3DRendering** with
+158 relocations, **809-byte formatter** with
+82 relocations, and **74-byte append helper**
+with five. No private symbol rebinding was
+required.
+
+A separate experiment attempted to discard
+the old `SupervisorD3DInitView` and use a
+full `Supervisor *` alias at +0x5D4, but this
+altered VC7.1 register scheduling and the
+initialization owner became 1,581 bytes with
+hundreds of differences. The tested form was
+rejected; no fake exactness, inline ASM,
+padding, profile roulette or full cold replay
+was introduced.
