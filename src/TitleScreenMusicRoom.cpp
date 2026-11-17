@@ -65,7 +65,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             embeddedVms[49].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[49], 0xE0E0FF, 0x302080,
-                                   musicTracks[static_cast<u32>(musicSelectedSongIndex)].descriptions[0]);
+                                   musicTracks[musicSelectedSongIndex].descriptions[0]);
             else
                 g_AnmManager->DrawTextLeft(&embeddedVms[49], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[0]);
@@ -75,7 +75,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             embeddedVms[50].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[50], 0xE0E0FF, 0x302080,
-                                   musicTracks[static_cast<u32>(musicSelectedSongIndex)].descriptions[1]);
+                                   musicTracks[musicSelectedSongIndex].descriptions[1]);
             else
                 g_AnmManager->DrawTextLeft(&embeddedVms[50], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[1]);
@@ -85,7 +85,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             embeddedVms[51].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[51], 0xE0E0FF, 0x302080,
-                                   musicTracks[static_cast<u32>(musicSelectedSongIndex)].descriptions[2]);
+                                   musicTracks[musicSelectedSongIndex].descriptions[2]);
             else
                 g_AnmManager->DrawTextLeft(&embeddedVms[51], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[2]);
@@ -95,7 +95,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             embeddedVms[52].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[52], 0xE0E0FF, 0x302080,
-                                   musicTracks[static_cast<u32>(musicSelectedSongIndex)].descriptions[3]);
+                                   musicTracks[musicSelectedSongIndex].descriptions[3]);
             else
                 g_AnmManager->DrawTextLeft(&embeddedVms[52], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[3]);
@@ -105,7 +105,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             embeddedVms[53].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[53], 0xE0E0FF, 0x302080,
-                                   musicTracks[static_cast<u32>(musicSelectedSongIndex)].descriptions[4]);
+                                   musicTracks[musicSelectedSongIndex].descriptions[4]);
             else
                 g_AnmManager->DrawTextLeft(&embeddedVms[53], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[4]);
@@ -115,7 +115,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             embeddedVms[54].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[54], 0xE0E0FF, 0x302080,
-                                   musicTracks[static_cast<u32>(musicSelectedSongIndex)].descriptions[5]);
+                                   musicTracks[musicSelectedSongIndex].descriptions[5]);
             else
                 g_AnmManager->DrawTextLeft(&embeddedVms[54], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[5]);
@@ -125,7 +125,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             embeddedVms[55].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[55], 0xE0E0FF, 0x302080,
-                                   musicTracks[static_cast<u32>(musicSelectedSongIndex)].descriptions[6]);
+                                   musicTracks[musicSelectedSongIndex].descriptions[6]);
             else
                 g_AnmManager->DrawTextLeft(&embeddedVms[55], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[6]);
@@ -135,7 +135,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             embeddedVms[56].pendingInterrupt = 1;
             if (g_TitleBgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[56], 0xE0E0FF, 0x302080,
-                                   musicTracks[static_cast<u32>(musicSelectedSongIndex)].descriptions[7]);
+                                   musicTracks[musicSelectedSongIndex].descriptions[7]);
             else
                 g_AnmManager->DrawTextLeft(&embeddedVms[56], 0xE0E0FF, 0x302080,
                                    g_TitleBgmNotUnlockedWarning[7]);
@@ -180,8 +180,7 @@ int TitleScreenView::OnUpdateMusicRoom()
                 g_SoundPlayer.QueueCommand(6, 0, "Pause");
             else
                 g_SoundPlayer.QueueCommand(7, 0, "UnPause");
-            musicPaused = static_cast<i32>(
-                1u - static_cast<u32>(musicPaused));
+            musicPaused = 1 - musicPaused;
         }
 
         if (g_ReplayInputStates[2].word06 & 0x4000)
@@ -189,7 +188,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             if (musicPaused)
                 g_SoundPlayer.QueueCommand(7, 0, "UnPause");
             musicPaused = 0;
-            g_Supervisor.PlayAudio(musicTracks[static_cast<u32>(musicSelectedSongIndex)].path, 0);
+            g_Supervisor.PlayAudio(musicTracks[musicSelectedSongIndex].path, 0);
         }
 
         if (g_ReplayInputStates[2].word06 & 0x1001)
@@ -198,7 +197,7 @@ int TitleScreenView::OnUpdateMusicRoom()
                 g_SoundPlayer.QueueCommand(7, 0, "UnPause");
             musicSelectedSongIndex = keyboardSelection;
             musicPaused = 0;
-            g_Supervisor.PlayAudio(musicTracks[static_cast<u32>(keyboardSelection)].path, 0);
+            g_Supervisor.PlayAudio(musicTracks[keyboardSelection].path, 0);
             stateTimer2 = 0;
             for (i = 0; i < 8; i++)
                 g_TitleMusicDescriptionAnm->SetAndExecuteScriptIdx(&embeddedVms[49 + i], 6 + i);
@@ -239,9 +238,9 @@ int TitleScreenView::OnUpdateMusicRoom()
 
             char *cursor = musicCmtFile;
             i32 trackIndex = -1;
-            // The file is one contiguous byte allocation; preserve the
-            // original file-relative offset arithmetic at every bound.
-            while ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) < (u32)fileSize)
+            // Parse the original single contiguous music-comment buffer.
+            // File-relative byte offsets come from the actual cursor pair.
+            while (static_cast<u32>(cursor - musicCmtFile) < (u32)fileSize)
             {
                 if (*cursor == '@')
                 {
@@ -251,32 +250,32 @@ int TitleScreenView::OnUpdateMusicRoom()
 
                     while (*cursor != '\n' && *cursor != '\r')
                     {
-                        musicTracks[static_cast<u32>(trackIndex)].path[charIndex] = *cursor;
+                        musicTracks[trackIndex].path[charIndex] = *cursor;
                         cursor++;
                         ++charIndex;
-                        if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
+                        if (static_cast<u32>(cursor - musicCmtFile) >= (u32)fileSize)
                             goto parse_done;
                     }
                     while (*cursor == '\n' || *cursor == '\r')
                     {
                         cursor++;
-                        if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
+                        if (static_cast<u32>(cursor - musicCmtFile) >= (u32)fileSize)
                             goto parse_done;
                     }
 
                     charIndex = 0;
                     while (*cursor != '\n' && *cursor != '\r')
                     {
-                        musicTracks[static_cast<u32>(trackIndex)].title[charIndex] = *cursor;
+                        musicTracks[trackIndex].title[charIndex] = *cursor;
                         cursor++;
                         ++charIndex;
-                        if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
+                        if (static_cast<u32>(cursor - musicCmtFile) >= (u32)fileSize)
                             goto parse_done;
                     }
                     while (*cursor == '\n' || *cursor == '\r')
                     {
                         cursor++;
-                        if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
+                        if (static_cast<u32>(cursor - musicCmtFile) >= (u32)fileSize)
                             goto parse_done;
                     }
 
@@ -285,21 +284,21 @@ int TitleScreenView::OnUpdateMusicRoom()
                         if (*cursor == '@')
                             break;
 
-                        memset(musicTracks[static_cast<u32>(trackIndex)].descriptions[descriptionLine], 0,
-                               sizeof(musicTracks[static_cast<u32>(trackIndex)].descriptions[descriptionLine]));
+                        memset(musicTracks[trackIndex].descriptions[descriptionLine], 0,
+                               sizeof(musicTracks[trackIndex].descriptions[descriptionLine]));
                         charIndex = 0;
                         while (*cursor != '\n' && *cursor != '\r')
                         {
-                            musicTracks[static_cast<u32>(trackIndex)].descriptions[descriptionLine][charIndex] = *cursor;
+                            musicTracks[trackIndex].descriptions[descriptionLine][charIndex] = *cursor;
                             cursor++;
                             ++charIndex;
-                            if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
+                            if (static_cast<u32>(cursor - musicCmtFile) >= (u32)fileSize)
                                 goto parse_done;
                         }
                         while (*cursor == '\n' || *cursor == '\r')
                         {
                             cursor++;
-                            if ((reinterpret_cast<u32>(cursor) - reinterpret_cast<u32>(musicCmtFile)) >= (u32)fileSize)
+                            if (static_cast<u32>(cursor - musicCmtFile) >= (u32)fileSize)
                                 goto parse_done;
                         }
                     }
