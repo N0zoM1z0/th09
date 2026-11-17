@@ -12399,3 +12399,35 @@ bytes and 183 differences, and 842/862 bytes with
 positions. None is promoted as exact. No ASM,
 padding, register forcing or target-byte patching was
 used.
+
+## 2026-11-17 GPT-web: native front message RNG file entries and color words
+
+The complete `FrontMessageRuntimeView::SetupRandomForSide`
+now selects the real file-backed
+`FrontMessageTableView::entries04[index]` entries directly,
+rather than fabricating signed-index i386 addresses
+through the `NativeMessageEntry` helper. The original
+eight-byte row stride, weighted random search, first
+ten-character messages, fallback slots 210..219 and
+the wire table's own `count00` all retain their
+original read order without any added bounds check.
+
+The two sides are read directly from the shared
+`g_GameManager.sides[1u - side]` native 0x38-byte array.
+Four text/shadow color choices are normal indexed
+`textColors1D20[]` and `shadowColors1D30[]`
+elements; the `TH09_FRONT_RANDOM_NATIVE_COLOR`
+integer-address macro is removed. The independently
+authored original `AnmVm` glyphs, script setup and
+the two DrawTextLeft calls keep their live field reads.
+
+Independent pinned VC7.1 source probes for the
+file-entry reference, color table, original side
+arithmetic and their combination were exact.
+The final direct-expression source retained
+**693/693 bytes and 15/15 symbolic relocation
+fields** under strict original PE/COFF comparison
+and one-source selected replay. No private label
+rebindings, ASM, padding, forced registers,
+extra memory allocation, whole-game cold replay
+or new exact-function credit were involved.

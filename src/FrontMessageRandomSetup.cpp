@@ -14,37 +14,20 @@
 extern AnmLoaded *g_FrontMessageAnm;
 extern RngRuntimeView g_Rng;
 
-// The on-disk message table declares just its first entry; the actual
-// allocation holds count00 entries. A signed selection index is a native
-// 32-bit word scaled by the original eight-byte entry stride.
-static inline FrontMessageTableEntryView &NativeMessageEntry(
-    FrontMessageTableView *file, int index)
-{
-    return *reinterpret_cast<FrontMessageTableEntryView *>(
-        reinterpret_cast<unsigned int>(&file->entries04[0]) +
-        static_cast<unsigned int>(index) * sizeof(file->entries04[0]));
-}
+// The on-disk message table owns a file-backed sequence of eight-byte
+// entries and its live count00; use the real indexed entry allocation.
+// Text and shadow colors use the genuine four-entry tables;
+// preserve the original selector without adding any guard.
 
-// Four native color DWORDs per table are part of the real message VM.
-// Retail indexes the live byte-sized color selector with i386 word scale
-// but does not add a separate C++ bounds check on this signed caller state.
-#define TH09_FRONT_RANDOM_NATIVE_COLOR(table, index) \
-    (*reinterpret_cast<unsigned int *>( \
-        reinterpret_cast<unsigned int>(&(table)[0]) + \
-        static_cast<unsigned int>(index) * sizeof((table)[0])))
 
 void FrontMessageRuntimeView::SetupRandomForSide(int side)
 {
     int i;
     int roll;
-    // The original reads GameManager side 1 minus the signed side word at
-    // its native 0x38-byte stride. Its character selector scales by ten
-    // with i386 DWORD multiplication before the signed loop comparison.
+    // The opponent character comes from the real two-side GameManager
+    // allocation, retaining unsigned arithmetic and ten-message blocks.
     int first = static_cast<int>(
-        static_cast<unsigned int>(reinterpret_cast<AsciiGameManagerSideView *>(
-            reinterpret_cast<unsigned int>(&g_GameManager.sides[1]) -
-            static_cast<unsigned int>(side) * sizeof(g_GameManager.sides[0]))->
-            character20) * 10u);
+        static_cast<unsigned int>(g_GameManager.sides[static_cast<unsigned int>(1u - static_cast<unsigned int>(side))].character20) * 10u);
     FrontMessageTableView *msgFile = this->primary00;
     FrontMessageTableView *msgFile2 = this->secondary0C;
 
@@ -61,15 +44,15 @@ void FrontMessageRuntimeView::SetupRandomForSide(int side)
          i < static_cast<int>(static_cast<unsigned int>(first) + 10u);
          i = static_cast<int>(static_cast<unsigned int>(i) + 1u))
     {
-        if (NativeMessageEntry(msgFile, i).instructions00 != NULL)
+        if (msgFile->entries04[static_cast<unsigned int>(i)].instructions00 != NULL)
         {
-            if (roll < NativeMessageEntry(msgFile, i).weight04)
+            if (roll < msgFile->entries04[static_cast<unsigned int>(i)].weight04)
             {
                 break;
             }
             roll = static_cast<int>(
                 static_cast<unsigned int>(roll) -
-                static_cast<unsigned int>(NativeMessageEntry(msgFile, i).weight04));
+                static_cast<unsigned int>(msgFile->entries04[static_cast<unsigned int>(i)].weight04));
         }
     }
     if (i >= static_cast<int>(static_cast<unsigned int>(first) + 10u))
@@ -78,15 +61,15 @@ void FrontMessageRuntimeView::SetupRandomForSide(int side)
         for (i = 210; i < 220;
              i = static_cast<int>(static_cast<unsigned int>(i) + 1u))
         {
-            if (NativeMessageEntry(msgFile, i).instructions00 != NULL && i < msgFile->count00)
+            if (msgFile->entries04[static_cast<unsigned int>(i)].instructions00 != NULL && i < msgFile->count00)
             {
-                if (roll < NativeMessageEntry(msgFile, i).weight04)
+                if (roll < msgFile->entries04[static_cast<unsigned int>(i)].weight04)
                 {
                     break;
                 }
                 roll = static_cast<int>(
                     static_cast<unsigned int>(roll) -
-                    static_cast<unsigned int>(NativeMessageEntry(msgFile, i).weight04));
+                    static_cast<unsigned int>(msgFile->entries04[static_cast<unsigned int>(i)].weight04));
             }
         }
         if (i >= 220 || i >= msgFile->count00)
@@ -94,7 +77,7 @@ void FrontMessageRuntimeView::SetupRandomForSide(int side)
             i = 210;
         }
     }
-    this->current04 = NativeMessageEntry(msgFile, i).instructions00;
+    this->current04 = msgFile->entries04[static_cast<unsigned int>(i)].instructions00;
     this->textVms1534[0].scriptIndex = -1;
     this->textVms1534[1].scriptIndex = -1;
     this->glyphSize1D54 = 24;
@@ -117,8 +100,6 @@ void FrontMessageRuntimeView::SetupRandomForSide(int side)
     g_FrontMessageAnm->SetAndExecuteScriptIdx(&this->textVms1534[1], 1);
     this->textVms1534[0].fontWidth = this->textVms1534[0].fontHeight = this->glyphSize1D54;
     this->textVms1534[1].fontWidth = this->textVms1534[1].fontHeight = this->glyphSize1D54;
-    g_AnmManager->DrawTextLeft(&this->textVms1534[0], TH09_FRONT_RANDOM_NATIVE_COLOR(this->textColors1D20, this->colorIndex1D64), TH09_FRONT_RANDOM_NATIVE_COLOR(this->shadowColors1D30, this->colorIndex1D64), " ");
-    g_AnmManager->DrawTextLeft(&this->textVms1534[1], TH09_FRONT_RANDOM_NATIVE_COLOR(this->textColors1D20, this->colorIndex1D64), TH09_FRONT_RANDOM_NATIVE_COLOR(this->shadowColors1D30, this->colorIndex1D64), " ");
+    g_AnmManager->DrawTextLeft(&this->textVms1534[0], this->textColors1D20[static_cast<unsigned int>(this->colorIndex1D64)], this->shadowColors1D30[static_cast<unsigned int>(this->colorIndex1D64)], " ");
+    g_AnmManager->DrawTextLeft(&this->textVms1534[1], this->textColors1D20[static_cast<unsigned int>(this->colorIndex1D64)], this->shadowColors1D30[static_cast<unsigned int>(this->colorIndex1D64)], " ");
 }
-
-#undef TH09_FRONT_RANDOM_NATIVE_COLOR
