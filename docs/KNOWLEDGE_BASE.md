@@ -10833,3 +10833,39 @@ No ASM, placeholder/padding structs, synthetic
 instruction filling, whole-game cold replay,
 forced compiler registers or new authored
 exact-function promotion was used.
+
+## 2026-11-17 GPT-web: native ASCII pause/state-4 VM and Supervisor owners
+
+The real 1,776-byte `PauseMenu::OnUpdate` and 1,172-byte
+`AsciiMenuState4::OnUpdate` now index each native
+`PauseMenu::menuSprites[7]` /
+`AsciiMenuState4::menuSprites[4]` VM element directly
+instead of casting a manually computed DWORD address.
+All 45 native VM accesses in the original source
+carrier use the same persistent `AnmVm` instance;
+the duplicate `TH09_ASCII_NATIVE_MENU_VM` macro is gone.
+
+The local padding-filled `AsciiSupervisorView`
+that invented 0x590 bytes before state and 0x79C
+bytes before Win32 system time has been removed.
+The pause/state-4 transition callbacks now read and
+write the real `g_Supervisor.state590` and
+`g_Supervisor.systemTime` fields. The layout is
+checked by native `offsetof(Supervisor,...)`,
+not an unrelated pseudo-object. An unused
+declaration-only `GameManagerSetupLayout` surrogate
+was also removed. No state machine branches, frame
+increments or input semantics were changed.
+
+Three pinned VC7.1 source probes (VM only, native
+Supervisor only, both) preserved the original
+1,776/1,776 and 1,172/1,172 physical extents.
+The maintained source passes **10/10 exact owners,
+4,206 bytes, 264 original relocation fields** in
+selected-source replay, including the pause and
+state-4 draw leaves. Nineteen compiler-private
+labels were individually rebound only after
+byte, relocation offset/type, same-section COFF
+definition, and original PE destination proofs.
+No ASM, padding simulation, forced registers,
+whole-game cold replay, or new exact owner was claimed.

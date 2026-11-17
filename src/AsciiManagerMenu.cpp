@@ -13,22 +13,11 @@ struct AsciiInputView
     unsigned short WasPressed(unsigned short buttons);
 };
 
-struct AsciiSupervisorView
-{
-    unsigned char unknown000[0x590];
-    int state590;
-    unsigned char unknown594[0x10];
-    int field5A4;
-    unsigned char unknown5A8[0x79C - 0x5A8];
-    unsigned int systemTime79C;
-
-    int FinalizeResultScreen();
-};
-
-typedef char AsciiSupervisorField5A4[
-    (offsetof(AsciiSupervisorView, field5A4) == 0x5A4) ? 1 : -1];
-typedef char AsciiSupervisorSystemTimeAt79C[
-    (offsetof(AsciiSupervisorView, systemTime79C) == 0x79C) ? 1 : -1];
+// Native Supervisor owns +0x590 state and the +0x79C Win32 frame timer.
+typedef char AsciiMenuNativeSupervisorOffsets[
+    (offsetof(Supervisor, state590) == 0x590 &&
+     offsetof(Supervisor, screenTransitionCountdown) == 0x5A4 &&
+     offsetof(Supervisor, systemTime) == 0x79C) ? 1 : -1];
 
 extern AsciiInputView g_AsciiInput;
 extern AsciiManager g_AsciiManager;
@@ -37,16 +26,6 @@ extern Chain g_Chain;
 extern ChainElem g_AsciiManagerCalcChain;
 extern ChainElem g_AsciiManagerDrawChainLowPrio;
 extern ChainElem g_AsciiManagerDrawChainHighPrio;
-
-struct GameManagerSetupLayout
-{
-    static void CleanupGameplayState();
-};
-
-static inline AsciiSupervisorView *AsciiSupervisor()
-{
-    return reinterpret_cast<AsciiSupervisorView *>(&g_Supervisor);
-}
 
 enum PauseMenuState
 {
@@ -93,11 +72,7 @@ int AsciiGameManagerView::HasFlagBit0()
 // Both pause-menu owners use genuine 0x2A4-byte AnmVm records, with
 // independent live cursor reads in the original 7/5/4-slot arrays.
 // The native address word preserves VC7.1's original call and loop order.
-#define TH09_ASCII_NATIVE_MENU_VM(owner, index) \
-    (*reinterpret_cast<AnmVm *>( \
-        reinterpret_cast<unsigned int>(&(owner)->menuSprites[0]) + \
-        static_cast<unsigned int>(index) * sizeof((owner)->menuSprites[0])))
-
+// The 7/5/4-slot menu sprites are the actual native AnmVm arrays.
 // The native menu state and frame fields are persistent signed DWORDs.
 // Retail uses i386 wrapping INC for both pause and replay-neutral menus.
 int PauseMenu::OnUpdate()
@@ -108,8 +83,8 @@ int PauseMenu::OnUpdate()
         g_SoundPlayer.PlaySoundByIdx(10, 0);
         this->state = PAUSE_MENU_STATE_CLOSING;
         for (i = 0; i < 7; i++) {
-            if (TH09_ASCII_NATIVE_MENU_VM(this, i).IsVisible()) {
-                TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
+            if ((this->menuSprites[i]).IsVisible()) {
+                (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
             }
         }
         this->frames = 0;
@@ -120,8 +95,8 @@ int PauseMenu::OnUpdate()
         g_SoundPlayer.PlaySoundByIdx(10, 0);
         this->state = PAUSE_MENU_STATE_ACTION_A;
         for (i = 0; i < 7; i++) {
-            if (TH09_ASCII_NATIVE_MENU_VM(this, i).IsVisible()) {
-                TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
+            if ((this->menuSprites[i]).IsVisible()) {
+                (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
             }
         }
         this->frames = 0;
@@ -131,10 +106,10 @@ int PauseMenu::OnUpdate()
     switch (stateAtDispatch) {
     case PAUSE_MENU_STATE_INIT:
         for (i = 0; i < 7; i++) {
-            g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&TH09_ASCII_NATIVE_MENU_VM(this, i), i + 1);
+            g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&(this->menuSprites[i]), i + 1);
         }
         for (i = 0; i < 3; i++) {
-            TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
+            (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_SHOW;
         }
         g_AsciiManager.asciiAnm->SetSprite(
             &this->menuSprites[PAUSE_SPRITE_DIFFICULTY], static_cast<int>(static_cast<unsigned int>(g_GameManager.difficulty) + 125u));
@@ -166,7 +141,7 @@ int PauseMenu::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 this->state = PAUSE_MENU_STATE_CLOSING;
                 this->frames = 0;
@@ -200,10 +175,10 @@ int PauseMenu::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 for (; i < 6; i++) {
-                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
+                    (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_SHOW;
                 }
                 this->state = PAUSE_MENU_STATE_CONFIRM_A_NO;
                 this->frames = 0;
@@ -216,10 +191,10 @@ int PauseMenu::OnUpdate()
             this->state = PAUSE_MENU_STATE_INIT;
             g_GameManager.inGameMenu = 0;
             for (i = 0; i < 7; i++) {
-                TH09_ASCII_NATIVE_MENU_VM(this, i).SetInvisible();
+                (this->menuSprites[i]).SetInvisible();
             }
             g_SoundPlayer.ResumeAfterPause();
-            AsciiSupervisor()->systemTime79C = timeGetTime();
+            g_Supervisor.systemTime = timeGetTime();
         }
         break;
 
@@ -241,7 +216,7 @@ int PauseMenu::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 3; i < 6; i++) {
-                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 this->state = this->state == PAUSE_MENU_STATE_CONFIRM_A_YES
                                   ? PAUSE_MENU_STATE_ACTION_A
@@ -269,10 +244,10 @@ int PauseMenu::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
+                    (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_SHOW;
                 }
                 for (; i < 6; i++) {
-                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 if (this->state == PAUSE_MENU_STATE_CONFIRM_A_NO) {
                     this->state = PAUSE_MENU_STATE_SECONDARY_SELECTED;
@@ -285,9 +260,9 @@ int PauseMenu::OnUpdate()
     case PAUSE_MENU_STATE_ACTION_A:
         if (this->frames >= 20) {
             this->state = PAUSE_MENU_STATE_INIT;
-            AsciiSupervisor()->state590 = 1;
+            g_Supervisor.state590 = 1;
             g_GameManager.inGameMenu = 0;
-            AsciiSupervisor()->systemTime79C = timeGetTime();
+            g_Supervisor.systemTime = timeGetTime();
         }
         break;
 
@@ -295,22 +270,22 @@ int PauseMenu::OnUpdate()
         if (this->frames >= 20) {
             if (g_GameManager.HasFlagBit0() || g_GameManager.difficulty == 4) {
                 g_Supervisor.StopAudio();
-                AsciiSupervisor()->state590 = 11;
+                g_Supervisor.state590 = 11;
                 g_GameManager.inGameMenu = 0;
-                AsciiSupervisor()->systemTime79C = timeGetTime();
+                g_Supervisor.systemTime = timeGetTime();
                 return 0;
             }
 
             this->state = PAUSE_MENU_STATE_INIT;
-            AsciiSupervisor()->state590 = 10;
+            g_Supervisor.state590 = 10;
             g_GameManager.inGameMenu = 0;
-            AsciiSupervisor()->systemTime79C = timeGetTime();
+            g_Supervisor.systemTime = timeGetTime();
         }
         break;
     }
 
     for (i = 0; i < 7; i++) {
-        g_AnmManager->ExecuteScript(&TH09_ASCII_NATIVE_MENU_VM(this, i));
+        g_AnmManager->ExecuteScript(&(this->menuSprites[i]));
     }
     if (g_Supervisor.flags5D4 & 2) {
         g_AnmManager->ExecuteScript(&this->menuBackground);
@@ -325,27 +300,27 @@ int AsciiMenuState4::OnUpdate()
 
     if (g_GameManager.IsReplayNeutral()) {
         g_GameManager.menuStateA7A8Active = 0;
-        AsciiSupervisor()->state590 = 1;
+        g_Supervisor.state590 = 1;
         return 1;
     }
 
     switch (this->state) {
     case 0:
         for (i = 0; i < 3; i++) {
-            g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&TH09_ASCII_NATIVE_MENU_VM(this, i), i + 13);
-            TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
+            g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&(this->menuSprites[i]), i + 13);
+            (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_SHOW;
         }
         ++*reinterpret_cast<unsigned int *>(&this->state);
         this->frames = 0;
         // fallthrough
 
     case 1:
-        TH09_ASCII_NATIVE_MENU_VM(this, 0).color1 = COLOR_WHITE;
-        TH09_ASCII_NATIVE_MENU_VM(this, 2).color1 = COLOR_MENU_ITEM_NORMAL;
-        TH09_ASCII_NATIVE_MENU_VM(this, 1).color1 = COLOR_MENU_ITEM_NORMAL;
-        TH09_ASCII_NATIVE_MENU_VM(this, 0).pos2 = Float3(-4.0f, -4.0f, 0.0f);
-        TH09_ASCII_NATIVE_MENU_VM(this, 2).pos2 = Float3(0.0f, 0.0f, 0.0f);
-        TH09_ASCII_NATIVE_MENU_VM(this, 1).pos2 = TH09_ASCII_NATIVE_MENU_VM(this, 2).pos2;
+        (this->menuSprites[0]).color1 = COLOR_WHITE;
+        (this->menuSprites[2]).color1 = COLOR_MENU_ITEM_NORMAL;
+        (this->menuSprites[1]).color1 = COLOR_MENU_ITEM_NORMAL;
+        (this->menuSprites[0]).pos2 = Float3(-4.0f, -4.0f, 0.0f);
+        (this->menuSprites[2]).pos2 = Float3(0.0f, 0.0f, 0.0f);
+        (this->menuSprites[1]).pos2 = (this->menuSprites[2]).pos2;
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
@@ -359,7 +334,7 @@ int AsciiMenuState4::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 this->state = 4;
                 this->frames = 0;
@@ -368,12 +343,12 @@ int AsciiMenuState4::OnUpdate()
         break;
 
     case 2:
-        TH09_ASCII_NATIVE_MENU_VM(this, 2).color1 = COLOR_MENU_ITEM_NORMAL;
-        TH09_ASCII_NATIVE_MENU_VM(this, 0).color1 = COLOR_MENU_ITEM_NORMAL;
-        TH09_ASCII_NATIVE_MENU_VM(this, 1).color1 = COLOR_WHITE;
-        TH09_ASCII_NATIVE_MENU_VM(this, 2).pos2 = Float3(0.0f, 0.0f, 0.0f);
-        TH09_ASCII_NATIVE_MENU_VM(this, 0).pos2 = TH09_ASCII_NATIVE_MENU_VM(this, 2).pos2;
-        TH09_ASCII_NATIVE_MENU_VM(this, 1).pos2 = Float3(-4.0f, -4.0f, 0.0f);
+        (this->menuSprites[2]).color1 = COLOR_MENU_ITEM_NORMAL;
+        (this->menuSprites[0]).color1 = COLOR_MENU_ITEM_NORMAL;
+        (this->menuSprites[1]).color1 = COLOR_WHITE;
+        (this->menuSprites[2]).pos2 = Float3(0.0f, 0.0f, 0.0f);
+        (this->menuSprites[0]).pos2 = (this->menuSprites[2]).pos2;
+        (this->menuSprites[1]).pos2 = Float3(-4.0f, -4.0f, 0.0f);
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
@@ -387,7 +362,7 @@ int AsciiMenuState4::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 this->state = 5;
                 this->frames = 0;
@@ -396,12 +371,12 @@ int AsciiMenuState4::OnUpdate()
         break;
 
     case 3:
-        TH09_ASCII_NATIVE_MENU_VM(this, 1).color1 = COLOR_MENU_ITEM_NORMAL;
-        TH09_ASCII_NATIVE_MENU_VM(this, 0).color1 = COLOR_MENU_ITEM_NORMAL;
-        TH09_ASCII_NATIVE_MENU_VM(this, 2).color1 = COLOR_WHITE;
-        TH09_ASCII_NATIVE_MENU_VM(this, 1).pos2 = Float3(0.0f, 0.0f, 0.0f);
-        TH09_ASCII_NATIVE_MENU_VM(this, 0).pos2 = TH09_ASCII_NATIVE_MENU_VM(this, 1).pos2;
-        TH09_ASCII_NATIVE_MENU_VM(this, 2).pos2 = Float3(-4.0f, -4.0f, 0.0f);
+        (this->menuSprites[1]).color1 = COLOR_MENU_ITEM_NORMAL;
+        (this->menuSprites[0]).color1 = COLOR_MENU_ITEM_NORMAL;
+        (this->menuSprites[2]).color1 = COLOR_WHITE;
+        (this->menuSprites[1]).pos2 = Float3(0.0f, 0.0f, 0.0f);
+        (this->menuSprites[0]).pos2 = (this->menuSprites[1]).pos2;
+        (this->menuSprites[2]).pos2 = Float3(-4.0f, -4.0f, 0.0f);
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
@@ -415,7 +390,7 @@ int AsciiMenuState4::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 3; i++) {
-                    TH09_ASCII_NATIVE_MENU_VM(this, i).pendingInterrupt = ASCII_INTERRUPT_HIDE;
+                    (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
                 this->state = 6;
                 this->frames = 0;
@@ -426,9 +401,9 @@ int AsciiMenuState4::OnUpdate()
     case 5:
         if (this->frames >= 20) {
             this->state = 0;
-            AsciiSupervisor()->state590 = 1;
+            g_Supervisor.state590 = 1;
             g_GameManager.menuStateA7A8Active = 0;
-            AsciiSupervisor()->systemTime79C = timeGetTime();
+            g_Supervisor.systemTime = timeGetTime();
             return 1;
         }
         break;
@@ -436,9 +411,9 @@ int AsciiMenuState4::OnUpdate()
     case 4:
         if (this->frames >= 20) {
             this->state = 0;
-            AsciiSupervisor()->state590 = 10;
+            g_Supervisor.state590 = 10;
             g_GameManager.menuStateA7A8Active = 0;
-            AsciiSupervisor()->systemTime79C = timeGetTime();
+            g_Supervisor.systemTime = timeGetTime();
             return 1;
         }
         break;
@@ -446,16 +421,16 @@ int AsciiMenuState4::OnUpdate()
     case 6:
         if (this->frames >= 20) {
             this->state = 0;
-            AsciiSupervisor()->state590 = 6;
+            g_Supervisor.state590 = 6;
             g_GameManager.menuStateA7A8Active = 0;
-            AsciiSupervisor()->systemTime79C = timeGetTime();
+            g_Supervisor.systemTime = timeGetTime();
             return 1;
         }
         break;
     }
 
     for (i = 0; i < 3; i++) {
-        g_AnmManager->ExecuteScript(&TH09_ASCII_NATIVE_MENU_VM(this, i));
+        g_AnmManager->ExecuteScript(&(this->menuSprites[i]));
     }
     ++*reinterpret_cast<unsigned int *>(&this->frames);
     return 0;
@@ -530,8 +505,8 @@ void AsciiMenuState5::OnDraw()
         g_AnmManager->DrawNoRotation(&this->menuBackground);
     }
     for (i = 0; i < 5; i++) {
-        if (TH09_ASCII_NATIVE_MENU_VM(this, i).IsVisible()) {
-            g_AnmManager->DrawNoRotation(&TH09_ASCII_NATIVE_MENU_VM(this, i));
+        if ((this->menuSprites[i]).IsVisible()) {
+            g_AnmManager->DrawNoRotation(&(this->menuSprites[i]));
         }
     }
 }
@@ -547,8 +522,8 @@ void AsciiMenuState4::OnDraw()
     g_AnmManager->FlushVertexBuffer();
     g_Supervisor.ConfigureGameplayViewport(2);
     for (i = 0; i < 3; i++) {
-        if (TH09_ASCII_NATIVE_MENU_VM(this, i).IsVisible()) {
-            g_AnmManager->DrawNoRotation(&TH09_ASCII_NATIVE_MENU_VM(this, i));
+        if ((this->menuSprites[i]).IsVisible()) {
+            g_AnmManager->DrawNoRotation(&(this->menuSprites[i]));
         }
     }
 }
@@ -682,5 +657,3 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
         }
     }
 }
-
-#undef TH09_ASCII_NATIVE_MENU_VM
