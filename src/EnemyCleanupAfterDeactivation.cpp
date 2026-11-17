@@ -27,24 +27,23 @@ void EnemyView::CleanupAfterDeactivation()
 {
     EnemyView *enemy = this;
 
-    unsigned int flags = enemy->flags337C;
-    if ((flags & 0x000E0000u) == 0)
-        enemy->flags337C = flags & ~1u;
+    if (enemy->primaryFlagBits337C.deathMode17 == 0)
+        enemy->primaryFlagBits337C.active00 = 0;
 
-    if ((enemy->flags337C & 2u) != 0)
+    if (enemy->primaryFlagBits337C.boss01 != 0)
     {
         unsigned char slot = enemy->bossSlot336B;
         if (slot < 4)
         {
             enemy->manager00->remoteSlots2AC388[slot] = 0;
-            enemy->flags337C &= ~2u;
+            enemy->primaryFlagBits337C.boss01 = 0;
         }
     }
 
     if (enemy->attachedEffectState53B4.count60 != 0)
         Th09EclRunState::ReleaseAttachedEffects(this);
 
-    if ((enemy->flags337C & 2u) != 0)
+    if (enemy->primaryFlagBits337C.boss01 != 0)
         enemy->manager00->remoteSlots2AC388[enemy->bossSlot336B] = 0;
 
     enemy->lifeCallbackThresholds33B0[0] = -1;

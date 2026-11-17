@@ -9857,3 +9857,22 @@ unchanged relocation offsets/types, unchanged original PE destinations
 and zero unmasked byte changes for all 84 original-bound units. No full
 product cold replay was performed and no new exact-function credit is
 claimed.
+
+## 2026-11-17 GPT-web: native deactivation flags in Enemy cleanup leaf
+
+`EnemyView::CleanupAfterDeactivation @ 0x00410110` now uses the shared
+Enemy primary bitfield for its complete deactivation decision: `deathMode17`
+controls clearing `active00`, and the two Boss slot cleanup checks and the
+intervening Boss bit clear use `boss01`. The original native enemy-side
+record, remote-slot clearing, attached-effect release and threshold-reset
+call order are unchanged. No separate flags snapshot is needed: pinned
+VC7.1 naturally retains the original DWORD load/test/AND/store sequence
+for the typed `deathMode17`/`active00` operations, and the original byte
+Boss tests with a DWORD bit clear.
+
+The focused source-scoped replay passed the single **184/184-byte exact**
+leaf with both target-bound relocation fields, and the separately invoked
+strict COFF/PE unit comparison also returned exact. There are no raw
+`0x000E0000`, `1` or `2` Enemy-state masks left in this body. This is native
+C++ source refinement rather than an additional function promotion; the
+whole-product cold replay was not run.
