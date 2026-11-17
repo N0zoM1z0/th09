@@ -10283,3 +10283,40 @@ verified against same-section COFF definitions, offset/type
 and original PE destination. No ASM, synthetic padding,
 forced register hints, whole-product replay or new exact
 function claim was used.
+
+## 2026-11-17 GPT-web: native ANM VM, Sprite and Supervisor in Background renderer
+
+The entire 3,274-byte original-bound
+`Background::RenderObjects @ 0x004026C0` stage renderer
+now uses its real `AnmVm` records at the actual
+`Background::stageObjectVms` allocation; it no longer
+constructs the private 0x2A4-byte
+`BackgroundRenderAnmVmView` with a large unknown/padding
+prefix. All sprite positions, position offsets, scales,
+UV scroll, packed colors and active sprite pointers are read
+or written through native `AnmVm` members. The low
+render-mode byte at +0x1FC is still accessed through
+`unknown_01FC[0]`, because its nominal game type is not
+yet proven; this is the existing authentic byte storage,
+not a new alias allocation.
+
+The source also removes the separate prefix-padded
+`BackgroundRenderLoadedSpriteView` and uses the
+original-bound 0x44-byte `AnmLoadedSprite` member fields
+(`uvStartX/Y`, `uvEndX/Y`, `widthPx`, `heightPx`).
+The old padded `BackgroundRenderSupervisorView` and
+`BackgroundRenderSupervisorCameraView` projections are
+removed; the renderer reads the genuine
+`g_Supervisor.ctorArray078[0]` camera position,
+position offset and forward vector. Native
+`offsetof`/size checks retain each proven field coordinate.
+
+Four independent pinned VC7.1 probes (Supervisor-only,
+Sprite-only, VM-only, and all three) each reproduced
+**3,274/3,274 target bytes with 113 relocations**.
+The maintained full-owner strict COFF/PE comparison and
+single-source scoped replay both pass **1/1 already exact
+owner, 3,274 bytes and 113 original relocations**; no
+private relocation names changed. No ASM, artificial
+padding, forced compiler registers, native product claim,
+new exact-function promotion or full cold replay was used.
