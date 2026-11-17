@@ -856,7 +856,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                     manager->sideState320->playerLifecycle04->SetUpdateState(3);
                 }
                 enemy->primaryFlagBits337C.pauseWithPlayer27 = 0;
-                enemy->primaryFlagBits337C.unknown28 = 0;
+                enemy->primaryFlagBits337C.noDamageDuringStop28 = 0;
                 break;
             }
 

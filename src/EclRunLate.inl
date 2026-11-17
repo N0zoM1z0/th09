@@ -24,14 +24,7 @@
 namespace Th09EclRunLate
 {
 
-enum EnemyLateFlag
-{
-    ENEMY_LATE_TIMER_PAUSED = 0x08000000,
-    ENEMY_LATE_NO_DAMAGE_DURING_STOP = 0x10000000,
-    ENEMY_LATE_EXTRA_ANM_FIXED_OFFSET = 0x00000020,
-    ENEMY_LATE_SIDE_CATEGORY_MASK = 0x00000C00,
-    ENEMY_LATE_SECONDARY_FLAG_4000 = 0x00004000
-};
+// Native ECL flag setters below access the shared Enemy bitfield directly.
 
 // These ECL late-script operands refer to the same concrete Background
 // instance that runs the independently reconstructed stage script. Do not
@@ -209,18 +202,12 @@ static void MoveRandomBiased(
 
     case TH09_ECL_OPCODE_SET_TIMER_PAUSED:
         lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::AssignFlagField(
-            enemy->primaryFlags337C,
-            Th09EclRunLate::ENEMY_LATE_TIMER_PAUSED,
-            static_cast<unsigned int>(lateInt) << 27);
+        enemy->primaryFlagBits337C.pauseWithPlayer27 = lateInt;
         break;
 
     case TH09_ECL_OPCODE_SET_NO_DAMAGE_DURING_STOP:
         lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::AssignFlagField(
-            enemy->primaryFlags337C,
-            Th09EclRunLate::ENEMY_LATE_NO_DAMAGE_DURING_STOP,
-            static_cast<unsigned int>(lateInt) << 28);
+        enemy->primaryFlagBits337C.noDamageDuringStop28 = lateInt;
         break;
 
     case TH09_ECL_OPCODE_SET_MINIMUM_PLAYER_DISTANCE:
@@ -241,18 +228,12 @@ static void MoveRandomBiased(
 
     case TH09_ECL_OPCODE_SET_EXTRA_ANM_FIXED_OFFSET:
         lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::AssignFlagField(
-            enemy->secondaryFlags3380,
-            Th09EclRunLate::ENEMY_LATE_EXTRA_ANM_FIXED_OFFSET,
-            static_cast<unsigned int>(lateInt) << 5);
+        enemy->secondaryFlagBits3380.movement.extraAnmFixedOffset05 = lateInt;
         break;
 
     case TH09_ECL_OPCODE_SET_SIDE_CATEGORY:
         lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::AssignFlagField(
-            enemy->secondaryFlags3380,
-            Th09EclRunLate::ENEMY_LATE_SIDE_CATEGORY_MASK,
-            static_cast<unsigned int>(lateInt) << 10);
+        enemy->secondaryFlagBits3380.category.sideCategory10_11 = lateInt;
         break;
 
     case TH09_ECL_OPCODE_TRIGGER_SIDE_OWNER_STATE:
@@ -309,10 +290,7 @@ static void MoveRandomBiased(
 
     case TH09_ECL_OPCODE_SET_SECONDARY_FLAG_4000:
         lateInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
-        Th09EclRunState::AssignFlagField(
-            enemy->secondaryFlags3380,
-            Th09EclRunLate::ENEMY_LATE_SECONDARY_FLAG_4000,
-            static_cast<unsigned int>(lateInt) << 14);
+        enemy->secondaryFlagBits3380.movement.secondaryFlag4000_14 = lateInt;
         break;
 
 #endif // TH09_ECL_RUN_LATE_BODY

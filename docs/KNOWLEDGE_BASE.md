@@ -9828,3 +9828,32 @@ verifying unchanged COFF relocation types and offsets, zero unmasked PE
 byte differences and each original retail destination. No whole-product
 cold replay ran, and no new exactness credit is claimed for the existing
 exact functions.
+
+## 2026-11-17 GPT-web: typed native ECL late flag setters in RunEcl
+
+Five TH09 late interpreter opcode handlers now write the genuine Enemy
+bitfield rather than shifting a raw operand into an integer mask. The
+recovered fields are `pauseWithPlayer27`, `noDamageDuringStop28`,
+`extraAnmFixedOffset05` in the secondary movement overlay,
+`sideCategory10_11` in the overlapping category overlay, and
+`secondaryFlag4000_14`. The opcode integer is assigned to the native
+one-/two-bit field, preserving the original low-bit truncation even for
+values outside the nominal range; all other flag bits remain unchanged.
+The now-unused late-opcode mask enum was removed. Enemy OnUpdate's
+death-transition clearing of bit 28 uses its recovered semantic name.
+
+This is ordinary typed C++, without inline ASM, forced instructions,
+padding or dummy state. The complete `RunEcl` comparison remains exact
+(15,564/15,564 physical bytes including switch payloads and 598 original
+relocations). Pinned **source-scoped** `EclManager.cpp` replay passed
+**84/84 exact functions, 45,420 physical bytes, 1,987 relocations** under
+its two established VC7.1 profiles. Dependent `EclOperands.cpp`,
+`EnemyManagerDraw.cpp` and `EnemyManagerLifecycle.cpp` selected replays
+passed **12/12 functions, 8,995 physical bytes, 502 relocations**. The
+nonexact `EnemyManagerView::OnUpdate` remains 3,900/3,900 with the same
+two residual bytes. Exactly 215 generated COFF-local label spellings
+(including `th09_ecl_advance_instruction`) were updated after verifying
+unchanged relocation offsets/types, unchanged original PE destinations
+and zero unmasked byte changes for all 84 original-bound units. No full
+product cold replay was performed and no new exact-function credit is
+claimed.

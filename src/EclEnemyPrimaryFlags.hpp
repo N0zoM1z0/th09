@@ -27,7 +27,7 @@ struct Th09EclEnemyPrimaryFlagBits
     unsigned int allowOffscreen25 : 1;
     unsigned int skipMovement26 : 1;
     unsigned int pauseWithPlayer27 : 1;
-    unsigned int unknown28 : 1;
+    unsigned int noDamageDuringStop28 : 1;
     unsigned int unknown29_30 : 2;
     unsigned int alternateAnmBank31 : 1;
 };
@@ -42,7 +42,7 @@ union Th09EclEnemySecondaryFlagBits
         unsigned int bossMarkerState01_02 : 2;
         unsigned int noDeath03 : 1;
         unsigned int bossTimerPause04 : 1;
-        unsigned int unknown05 : 1;
+        unsigned int extraAnmFixedOffset05 : 1;
         // Effect trails and post-ECL interaction share the category at +0x3380.
         unsigned int effectCategory06_08 : 3;
         unsigned int movementMode09_10 : 2;
@@ -60,7 +60,7 @@ union Th09EclEnemySecondaryFlagBits
         unsigned int bossMarkerState01_02 : 2;
         unsigned int noDeath03 : 1;
         unsigned int bossTimerPause04 : 1;
-        unsigned int unknown05 : 1;
+        unsigned int extraAnmFixedOffset05 : 1;
         unsigned int effectCategory06_08 : 3;
         unsigned int unknown09 : 1;
         unsigned int sideCategory10_11 : 2;
