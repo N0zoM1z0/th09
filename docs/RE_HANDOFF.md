@@ -60,6 +60,13 @@ and network-pointer-reload experiments are recorded at the end of
 `KNOWLEDGE_BASE.md`. Do not restore those rejected variants or widen the
 frontier. The 1,210-byte Player charge boss remains at 183 differences; its
 32-bit side-index/register-role probe is also recorded there.
+The current `EffectManager::AddedCallback` source also retains commit
+`2ebbf0cd`: `ResolveEffectAnm(AnmManager *, AnmLoaded *&)` publishes the ANM
+handle through the native output reference only after `GetAnm`/optional
+`PreloadAnm`. Its complete 51-byte frontier still has four differences; the
+EDI/ESI prologue scheduling question remains open. The earlier handoff's
+"all probes reverted" refers to the unsuccessful temporary variants, not
+this committed source carrier.
 
 The maintained source includes several **natural C/C++ ownership recoveries**;
 none of these changes adds an exact-function ledger claim. All were checked

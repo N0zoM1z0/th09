@@ -13173,6 +13173,13 @@ Several natural-C++ owner probes were compiled against this function and restore
 - Rebinding a local `SupervisorNetworkState *network` after the join/host callbacks models the retail global receiver reloads at `0x00430B49` and `0x00430C2E`. The initial state check can then use the expected base pointer in EDI, but the full owner grows to **968 differences** and introduces new offsets. A volatile global-pointer lvalue grows the residual to **1,099 differences**. Both were reverted.
 - Reordering or hoisting the service result, frame outputs, and queue-prefill scratch changes stack homes and the complete register schedule; no variant was promoted. Keep the corrected prefill union, but do not adopt the experimental common epilogue or pointer-reload variants.
 
+The current `EffectManager::AddedCallback` carrier is also retained from
+`2ebbf0cd`: an `AnmManager *` plus `AnmLoaded *&` helper resolves the shared
+ANM and publishes `effectAnm` only after the optional preload. This is a
+natural source/side-effect-ordering improvement, not a byte-match claim; the
+51-byte owner still has four differences. The remaining prologue issue is
+EDI/ESI load order.
+
 `PlayerLifecycleView::UpdateChargeAttack @ 0x0041F810` remains **1,210/1,210 bytes with 183 differences**. The target reads the native 32-bit `Player +0x08` side index into EDI and forms the `ReplayInputState` pointer in EBX. The current source's `short side` local emits a 16-bit sign-extending load. Widening it to `int`, removing the local, using direct array access, or using references/register hints changes the EDI/EBX allocation and regresses the complete owner (the simple `int` form reaches 717 differences). These probes were reverted; the 183-difference baseline is unchanged.
 
 `EnemyManagerView::OnUpdate` remains **3,900/3,900 bytes with two differences** at `+0x19A/+0x1A1` (EAX vs ECX draw-group index). Address-of-index, pointer increment, byte-address and pointer-to-array forms did not improve the owner and were reverted. `PlayerLifecycleView::UpdateMovementAndOptions` remains **1,900/1,900 bytes with four differences**; the config/side load-order probes likewise produced no monotone-safe improvement.
