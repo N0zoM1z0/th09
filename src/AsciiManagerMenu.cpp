@@ -73,8 +73,8 @@ int AsciiGameManagerView::HasFlagBit0()
 // independent live cursor reads in the original 7/5/4-slot arrays.
 // The native address word preserves VC7.1's original call and loop order.
 // The 7/5/4-slot menu sprites are the actual native AnmVm arrays.
-// The native menu state and frame fields are persistent signed DWORDs.
-// Retail uses i386 wrapping INC for both pause and replay-neutral menus.
+// The pause and replay-neutral menu state/frame fields are the native
+// persistent 32-bit C++ members, advanced without a shadow counter.
 int PauseMenu::OnUpdate()
 {
     unsigned int i;
@@ -113,7 +113,7 @@ int PauseMenu::OnUpdate()
         }
         g_AsciiManager.asciiAnm->SetSprite(
             &this->menuSprites[PAUSE_SPRITE_DIFFICULTY], static_cast<int>(static_cast<unsigned int>(g_GameManager.difficulty) + 125u));
-        ++*reinterpret_cast<unsigned int *>(&this->state);
+        ++this->state;
         this->frames = 0;
         // fallthrough
     case PAUSE_MENU_STATE_PRIMARY_SELECTED:
@@ -290,7 +290,7 @@ int PauseMenu::OnUpdate()
     if (g_Supervisor.flags5D4 & 2) {
         g_AnmManager->ExecuteScript(&this->menuBackground);
     }
-    ++*reinterpret_cast<unsigned int *>(&this->frames);
+    ++this->frames;
     return 0;
 }
 
@@ -310,7 +310,7 @@ int AsciiMenuState4::OnUpdate()
             g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&(this->menuSprites[i]), i + 13);
             (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_SHOW;
         }
-        ++*reinterpret_cast<unsigned int *>(&this->state);
+        ++this->state;
         this->frames = 0;
         // fallthrough
 
@@ -432,7 +432,7 @@ int AsciiMenuState4::OnUpdate()
     for (i = 0; i < 3; i++) {
         g_AnmManager->ExecuteScript(&(this->menuSprites[i]));
     }
-    ++*reinterpret_cast<unsigned int *>(&this->frames);
+    ++this->frames;
     return 0;
 }
 
@@ -485,9 +485,8 @@ int AsciiManager::OnUpdate(AsciiManager *ascii)
         return CHAIN_CALLBACK_RESULT_BREAK;
     }
 
-    // The ASCII manager's live frame count is a signed DWORD updated
-    // with retail i386 INC; preserve modulo-32 wrap on the native word.
-    ++*reinterpret_cast<unsigned int *>(&ascii->frameCounter);
+    // Advance the original persistent ASCII manager frame member.
+    ++ascii->frameCounter;
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
