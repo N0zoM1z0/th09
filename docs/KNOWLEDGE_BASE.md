@@ -12521,3 +12521,37 @@ The remaining distinct startup MIDI, ANM and SoundPlayer
 method receivers have not been prematurely renamed.
 No ASM, padding, register forcing, whole-game cold replay,
 or new exact-function count was claimed.
+
+## 2026-11-17 GPT-web: genuine Supervisor startup state and GameManager sides
+
+The original-bound `Supervisor::StartupThread` now uses the
+actual `g_Supervisor` for every startup time, thread, ANM,
+config, MIDI and shutdown-state member. The redundant
+`StartupLayout()` inline helper and its extra type alias
+are no longer used to obscure the same 0x7B0-byte
+Supervisor allocation. The startup's two gameplay sides
+now belong to the authentic
+`AsciiGameManagerView::sides[2]` array, rather than
+the declaration-only empty derived `StartupGameManager`
+type. Original side `value20` initialization, DirectInput,
+BGM, failure and shutdown paths remain in the same order.
+
+Six independent pinned VC7.1 experiments exercised
+direct Supervisor state, real GameManager global,
+DirectInput caps reference owners and combinations.
+The `DIDEVCAPS` experiment using `s` or
+`supervisor` in place of the original global
+changed the **517-byte SetupDInput** leaf to
+510 bytes with multiple relocation/byte regressions
+and was rejected. The accepted native object
+expressions retain the **882/882-byte StartupThread**
+with 106 relocations and **517/517-byte
+SetupDInputInternal** with 33. Both changed
+GameManager global symbol names were proved to
+resolve to the same original `0x004A7D90`
+location with unchanged relocation offsets/types
+and full nonrelocation byte identity. The bounded
+two-source-profile replay passes **2/2 exact
+functions, 1,399 physical bytes, 139 relocation
+fields**. No new exact-function credit, ASM,
+padding, forced registers or cold replay.
