@@ -18,7 +18,7 @@ int __fastcall PlayerShotUpdateCallbackType1(
 
     if (shot->state462 == 1 &&
         static_cast<int>(shot->timer454) >= 40 &&
-        reinterpret_cast<ZunTimer *>(&shot->timer454)->HasTicked())
+        shot->timer454.HasTicked())
     {
         const PlayerEnemyTrackingNativeView &tracking = player->tracking30364;
         if (tracking.trackedX00 > -900.0f)
