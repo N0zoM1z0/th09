@@ -430,9 +430,10 @@ individual source edits and `docs/KNOWLEDGE_BASE.md` for older experiments.
 
 The **11 source-present nonexact owners** remain nonexact. In particular,
 Enemy `OnUpdate` still differs at just two register-encoding bytes in the
-restricted-side draw-head selection. Eleven more natural array, helper,
-reference and category-expression forms were compiled without improving this
-frontier; preserve the current code and investigate the earlier value lifetime.
+restricted-side draw-head selection. The one-use `NativeEnemyDrawHead` helper
+was removed in `09660746`; both append sites now use typed pointer addition
+on the native four-entry array. Further direct-index, integer-local, reference
+and register-hint forms did not improve the EAX/ECX group-index residual.
 `CheckBulletCollision` still needs its original loop backedges and early hit
 routing, while `SupervisorServiceUpdate` has a larger control-flow mismatch.
 Prior short-index-to-int substitutions in `UpdateChargeAttack` increased its
@@ -458,7 +459,7 @@ instruction starting address can precede the differing byte offset.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| **enemy-on-update (EclManager.cpp)** | 0x00410730 | 3,900/3,900, **2 masked bytes** | At `+0x19C` and `+0x1A3`, VC7.1 uses ECX where retail uses EAX to load/index the early draw-head group. Typed schedule/pool/group access is already in source. The 84 co-resident ECL exact functions must remain intact. |
+| **enemy-on-update (EclManager.cpp)** | 0x00410730 | 3,900/3,900, **2 masked bytes** | At `+0x19A` and `+0x1A1`, VC7.1 uses ECX where retail uses EAX for the early draw-group index. Both append sites use direct typed pointer addition; the 84 co-resident ECL exact functions passed scoped replay after the `.inl` change. |
 | **replay-save (ReplayInput.cpp)** | 0x00420C60 | 1,238/1,238, **2 masked bytes** | `+0xB7` and `+0xBB`: header-copy destination register ECX instead of retail EDI. |
 | **replay-begin-playback (ReplayInput.cpp)** | 0x00420840 | 540/540, **13 masked bytes** | Candidate hoists `sides[0].runtime` before the `value1E7` store and `value1E8` load; retail loads `value1E8`, then runtime0, then stores it. A volatile pointer-field probe reached 9 differences but introduced seven new positions through an EDX/ESI register swap; do not ratchet. |
 | **player-movement (PlayerMovement.cpp)** | 0x0041C170 | 1,900/1,900, **4 masked bytes** | Config/side load order at `+0x127–0x12A`. |
@@ -614,3 +615,48 @@ cold replay was run. The last accepted maintained baselines remain unchanged.
 - `BeginPlaybackStage`, `AddedCallback`, Enemy draw-group helper and Player
   focus load-order probes were also reverted; their accepted frontiers are
   unchanged. No cold replay, ASM, padding, or frontier widening was used.
+
+### 2026-11-17 follow-up C++ scheduling probes
+
+All experiments in this section were temporary and restored before the final
+status check. No frontier baseline or manifest was changed.
+
+- **Player collision preheader:** `activeB100` is an inline 514-entry
+  `PlayerCollisionRegionCreateRegionView *` array at `Player +0xB100`.
+  Making only the first element read a volatile lvalue after saving the cursor
+  produces the correct initial `lea esi,[edi+0xB100]` / `[ebp-4]` store / first
+  region load order. It removes four old byte mismatches but moves the loop
+  header/body and leaves 701 differences with new offsets, so it is not
+  monotone-safe. The three-loop diagnostic remains 849/862 with 656
+  differences, but assigns Player/Bullet to EBX/EDI opposite retail. Direct
+  Bullet, register, pointer-reference, and `PlayerLifecycleView &` variants
+  did not restore the target EDI/EBX roles. Maintained source remains 842/862,
+  705 differences.
+- **Effect callback:** a member-reference assignment immediately after
+  `GetAnm` recreates the target EDI-global / ESI-context prologue, but stores
+  `effectAnm` before checking `rawData04` and before a possible `PreloadAnm`.
+  That is observably earlier publication and was rejected. Delayed local
+  results, out-reference helpers, direct global calls, pointer-slot aliases,
+  aggregate state and register/volatile hints did not retain the target
+  prologue while preserving the delayed store. `AddedCallback` remains
+  51/51 bytes with four masked differences.
+- **Title result:** direct array-value, pointer arithmetic, `char` reference,
+  `register` index and assignment-in-call variants did not improve
+  `OnUpdateResult`. Retail reuses ECX as the selected-character index and CL
+  as the byte temporary; the candidate uses EAX for the indexed global load.
+  The maintained owner remains 484/485 bytes with 167 differences.
+- **Replay playback:** an explicit volatile read of the first `activeB100`
+  element after cursor publication fixes the initial load order, but shifts
+  the loop and leaves 701 differences. Register-hint and pointer-local forms
+  did not repair the EDX/ESI roles. `BeginPlaybackStage` remains 540/540 with
+  13 masked differences.
+- **Header-layout probe:** temporarily aliasing `EnemyFloat2` to `Float2`, or
+  adding another `PlayerLifecycleView` header assertion, renumbered many
+  compiler-private ECL local labels without changing the maintained frontier
+  bytes. The alias/assertion experiments were reverted rather than accepting
+  a large manifest-only rebind. Existing native layout assertions remain.
+
+The only accepted source changes from the preceding checkpoint are the three
+Enemy commits already listed above. This follow-up produced no safe monotone
+source variant; do not promote any of the diagnostics above.
+
