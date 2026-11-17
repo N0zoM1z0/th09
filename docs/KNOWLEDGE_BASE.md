@@ -12815,3 +12815,38 @@ contract changed; these variants were not committed. Front-message side
 indexing and the frame-counter increment also shifted jump-table labels.
 No compiler-private label edits, instruction padding, assembly code, or
 frontier ratchet loosening was accepted.
+
+## 2026-11-17: typed Etama/Player owner closure and rejected boss probes
+
+`BulletManager.cpp` no longer needs the private `BulletPlayerView` memory
+projection or the duplicate `BulletTimerCurrentView` to call target functions.
+The real Player position layouts are all three float words; independent TH09
+source/provenance binds `PlayerAngleView::AngleToPoint` to 0x0041BB70,
+`PlayerLifecycleView::CheckGrazeCollision` to 0x0041E350, and the still
+nonexact `CheckBulletCollision` to 0x0041DFF0. The canonical `ZunTimer`
+integer getter is the 0x00435F00 folded entry. Across three VC7.1 carriers,
+all 18 maintained exact `BulletManager.cpp` owners pass 6,711 complete
+physical bytes and 259 relocation fields. Shifted private labels were checked
+against actual same-section COFF definitions and linked PE operands before
+updating `config/match-units.toml`. The `SpawnLaserPattern` 450-byte owner
+likewise uses genuine Laser-pointer iteration, indexed sprite offsets and
+`PlayerAngleView` with all six relocations exact. These are recovered native
+source relationships, not newly credited exact functions.
+
+`PlayerUpdateSelectorState` uses the existing native three-element constructed
+vector workspace through a true `PlayerPositionView *halfSizes` view, including
+all four collision-query call sites. Its 3,238-byte boss and the separate
+412-byte `ResolvePatternOffset` companion pass their two exact profiles:
+3,650 bytes and 154 relocations. Two changes to the companion's private-label
+spellings were accepted only because both old and new COFF labels resolve to
+the same original PE-local destinations and complete linked bytes match.
+
+Rejected compiler experiments are narrowly scoped. Direct `RawStageInstr::args`
+array rewrites in `BackgroundRunStageScriptPhase` changed compiler-private
+switch table symbols and were not accepted without complete symbol proof.
+`UpdateChargeAttack` currently keeps a 16-bit local `side` despite the
+retail 32-bit side load: replacing it with signed/unsigned 32-bit or a
+reference changed the compiler's register lifetimes and regressed its
+strict 1,210/1,210-byte, 183-difference frontier (typical 1,209/1,210,
+717 differences). Do not promote an attractive single instruction while
+breaking the complete boss. No altered candidate was retained.

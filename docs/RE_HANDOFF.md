@@ -90,6 +90,60 @@ All temporary experiments were restored, without ASM, NOP padding,
 manifest-label rebinding, artificial frontier updates, full cold replay,
 or changes to protected original binaries.
 
+## 2026-11-17 follow-on typed-source reconstruction checkpoints
+
+Six further source/relocation checkpoints were saved with `gpt-web:` commits:
+
+- `40a561ee`: the 2,852-byte `FrontMessageRuntimeView::Update` interprets
+  short/byte script arguments using their actual byte-backed wire cursor,
+  rather than converting the cursor to an integer address. The complete
+  same-source exact replay passed. Direct fixed-array argument indexing was
+  rejected because it changed the compiler's switch-table symbol identities.
+- `79fecb41`, `5118ecad`: the 3,238-byte `PlayerUpdateSelectorState` boss
+  now uses the existing native collision-size vector array for initialization
+  and every hitbox query. Its separately compiled `ResolvePatternOffset` leaf
+  retained all 412 original physical bytes and 18 relocations. Two shifted
+  compiler-private label spellings were rebound only after verifying their
+  same-section COFF definitions at original PE destinations. The complete
+  selected source passes **2 exact owners / 3,650 compared physical bytes /
+  154 relocation fields** across both pinned profiles.
+- `c283bb54`, `0f2b2902`: `BulletManager.cpp` now uses the genuine
+  `ZunTimer::operator int()` getter, the original `PlayerLifecycleView`
+  collision receivers and the independently exact `PlayerAngleView` for
+  aiming. The duplicate padded `BulletPlayerView` and timer shadow were
+  retired. Both target-side collision call destinations and angle getter were
+  retained; 0x00435F00 is the canonical folded native timer current getter.
+  Compiler-private labels were changed in the exact manifest only after
+  proving their actual COFF owner-local definitions and PE destinations.
+  Scoped replay passes **18 exact owners / 6,711 physical bytes /
+  259 relocation fields** over all three recorded carrier profiles, including
+  the large update and spawn bosses. The bullet-collision callee itself is
+  still nonexact; a correct call destination does not grant its callee credit.
+- `8e872bff`: `SpawnLaserPattern` scans its true 48-element `Laser` pool with
+  `++laser`, indexes the native sprite offset table, and calls the recovered
+  Player angle receiver. The complete 450-byte owner and six relocations
+  pass the scoped pinned-compiler comparison.
+
+All edits are natural C/C++: no handwritten assembly, instruction padding,
+register forcing, target patching or whole-project replay. Experiments that
+were **not** installed: direct `RawStageInstr::args` operand expressions in
+`BackgroundRunStageScriptPhase` changed large switch-table relocations without
+accepted proof; seven natural 32-bit index/reference variants in the nonexact
+`PlayerLifecycleView::UpdateChargeAttack` worsened its 1,210/1,210,
+183-byte frontier to 1,209/1,210 with 717 differing positions (or worse).
+The strict frontiers were preserved. The canonical ledger remains 1,026
+exact authored functions; full native Windows product/runtime closure is open.
+
+Focused verification entry points:
+
+~~~sh
+python3 -B scripts/replay-scoped-exact.py --source src/FrontMessageUpdate.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/PlayerGameplayState.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/BulletManager.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/BulletLaserSpawn.cpp
+python3 -B scripts/check-frontier.py player-charge-attack player-bullet-collision
+~~~
+
 ## Current nonexact work queue
 
 The numbers below were rebuilt with the owner's recorded compiler profile
