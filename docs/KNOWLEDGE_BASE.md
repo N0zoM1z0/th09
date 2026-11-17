@@ -11422,3 +11422,47 @@ OpenScore. No compiler-private label rebinding
 was needed; no ASM, artificial padding,
 forced registers, whole-product cold replay or
 new exact-function promotion was involved.
+
+## 2026-11-17 GPT-web: native Player SHT, callback and region slot arrays
+
+The main `PlayerRuntime.cpp` carrier now uses the
+true `PlayerShtFileView::shotPowerLevels[]`,
+`g_PlayerShtFilesBySide[]`,
+`g_PlayerResourcePaths[]`, and five native
+`g_PlayerTable303F0/303F4/303F8/303FC/30400`
+data tables directly. Original shot spawn/update/draw/
+collision callback indices, the three player callbacks,
+and the active collision-region word slots are likewise
+read and written through real C++ array members.
+The only purpose of `PlayerNativeWordSlot` was to
+manufacture a 32-bit address and reinterpret it as
+an lvalue: that template helper is removed, with
+22 source call sites now using the actual
+original-bound arrays and their unchanged
+unsigned index expressions.
+
+The large `PlayerLifecycleView::UpdateBeforeState`
+(852 complete bytes) and the 438-byte
+`PlayerLifecycleView::AddedCallback` both remain
+strict byte- and relocation-exact. All five pinned
+VC7.1 source profiles were rebuilt with a full
+original-bound comparison of **22 functions,
+5,419 physical bytes, and 290 relocations**.
+The selected-source authored-exact replay passes
+**21/21 existing Exact owners, 5,391 bytes and
+288 relocation fields**. The additional co-resident
+28-byte folded/alias constructor has matching
+object bytes on local inspection but is not
+credited as an authored Exact owner. Eleven
+compiler-private symbols in UpdateBeforeState
+were individually checked against same-section
+COFF definitions and original PE destinations
+before updating the local relocation manifest.
+
+The pending ScoreSupervisor/ScoreData native-owner
+edits in this same worktree have been preserved
+for their own downstream callgraph and metadata
+validation; they are neither reset nor silently
+included in this checkpoint. No ASM, padding,
+forced register hints, or whole-game cold replay
+was used.
