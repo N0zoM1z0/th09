@@ -9754,3 +9754,27 @@ additive totals. The changed compiler-private local-symbol bindings in
 `config/match-units.toml` retain their original relocation offsets, types and
 retail destinations. No exact-function membership or target bytes changed,
 and no full cold replay was run.
+
+## 2026-11-17 GPT-web: make the Player rotation leaf ABI explicit
+
+`RotatePlayerCollisionVector @ 0x0042AF40` now spells out the target-backed
+`__fastcall` convention in its natural C++ definition and Player helper
+declaration. The original callers pass the output vector in ECX, input vector
+in EDX, and angle on the stack; the source continues to use ordinary `sinf`,
+`cosf`, and the two-dimensional rotation equations. The focused leaf replay
+passed all 62 bytes and both trig relocations. The five exact Player collision
+siblings in `PlayerCollisionHelpers.cpp` also passed their scoped replay
+(1,220 bytes / 32 relocations). No caller bytes changed and no cold replay was
+run.
+
+### CheckBulletCollision natural-C++ diagnostic update
+
+A new two-level nested-loop / shared-hit-dispatch C++ diagnostic compiles to
+**848/862 bytes and 609 differing unmasked offsets** (26 relocations). Against
+the maintained 842/862 / 705 carrier it repairs 185 old mismatches but
+introduces 89 new offsets, mainly around the circle/shape branch schedule and
+the cancel/reward tail. Its entry and region-cursor home are target-shaped,
+but the new offsets violate the monotone frontier ratchet; it remains under
+`.analysis/collision-next/` and was not copied into `src/` or promoted. The
+three-level inner-increment label model still canonicalizes to the maintained
+842/862 carrier under VC7.1. No assembly or emitted padding was used.

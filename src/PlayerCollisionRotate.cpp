@@ -2,7 +2,8 @@
 
 #include <math.h>
 
-void RotatePlayerCollisionVector(
+// Retail callers pass outVector in ECX, point in EDX, and angle on the stack.
+void __fastcall RotatePlayerCollisionVector(
     PlayerPositionView *outVector,
     PlayerPositionView *point,
     float angle)

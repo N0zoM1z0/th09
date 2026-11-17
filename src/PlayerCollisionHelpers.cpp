@@ -9,7 +9,7 @@
 #include "ZunTimer.hpp"
 #include "PlayerCollisionRegionCreate.hpp"
 
-void RotatePlayerCollisionVector(
+void __fastcall RotatePlayerCollisionVector(
     PlayerPositionView *outVector,
     PlayerPositionView *point,
     float angle);
