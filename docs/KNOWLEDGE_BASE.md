@@ -10320,3 +10320,35 @@ owner, 3,274 bytes and 113 original relocations**; no
 private relocation names changed. No ASM, artificial
 padding, forced compiler registers, native product claim,
 new exact-function promotion or full cold replay was used.
+
+## 2026-11-17 GPT-web: native HUD ANM position cursors in FrontSide OnDraw
+
+The complete 3,094-byte original-bound
+`FrontSide::OnDraw` HUD renderer no longer fabricates a
+0x2A4-byte `FrontSideDrawVmCursor` with separate 0x80
+position storage and artificial unknown/padding arrays.
+Each of its 14 HUD VM-group cursor starts is now the
+actual `&frontSide->...pos` member of an
+`AnmVm`. The loop cursor remains a `Float3 *`
+into the native +0x208 position member; each original
+i386 step advances one true `sizeof(AnmVm)==0x2A4`
+record. The secondary position is the genuine
+`FRONT_SIDE_DRAW_BASE(cursor)->pos2` member at
++0x288, not another padded pseudo-VM field.
+The draw dispatch continues to recover the owning
+`AnmVm *` from the position cursor, preserving
+retail pointer and register lifetimes.
+
+Independent pinned VC7.1 probes covered both the
+ordinary member address and i386 base-address forms,
+and a further pair of probes inlined the real
+`pos2` member access and all 14 initial `pos`
+addresses. Each reproduced the original complete
+physical owner. The maintained source's strict
+comparison and selected-source replay passed
+**3,094/3,094 original bytes, all 209 relocation
+fields and the single existing exact owner**. This
+removes a large redundant pseudo-object while retaining
+natural C++ ownership. No inline ASM, memory-padding
+simulation, full-game cold replay or new exact
+function promotion was used.
