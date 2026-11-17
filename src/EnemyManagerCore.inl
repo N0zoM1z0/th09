@@ -318,16 +318,8 @@ typedef char EnemyHitFlashNativeVmColors[
      offsetof(AnmVmBase, color2Script) + offsetof(AnmVmScriptColor, a) == 0x1F7)
         ? 1 : -1];
 
-// Both paths append through the real four-element EnemyManager draw
-// head array. Original group bytes and live loads are left unguarded.
-// The remaining byte mismatch is EAX versus ECX register allocation
-// in the restricted-side append, not array structure or branch order.
-static __forceinline EnemyView **NativeEnemyDrawHead(
-    EnemyManagerView *manager, unsigned char group)
-{
-    return &manager->drawGroupHeads2AC410[group];
-}
-
+// Both append paths address the real four-element EnemyManager draw-head
+// array. Keep the native byte index unguarded and use its typed pointer stride.
 int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
 {
     int bombHit = 0;
@@ -409,7 +401,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             {
                 if (primaryFlags.noSprite04 != 0)
                     continue;
-                drawHead = NativeEnemyDrawHead(manager, enemy->drawGroup3387);
+                drawHead = manager->drawGroupHeads2AC410 + enemy->drawGroup3387;
                 goto append_enemy_to_draw_group;
             }
         }
@@ -972,7 +964,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         if (enemy->primaryFlagBits337C.noSprite04 == 0 &&
             enemy->primaryFlagBits337C.active00 != 0)
         {
-            drawHead = NativeEnemyDrawHead(manager, enemy->drawGroup3387);
+            drawHead = manager->drawGroupHeads2AC410 + enemy->drawGroup3387;
         }
         else
             continue;
