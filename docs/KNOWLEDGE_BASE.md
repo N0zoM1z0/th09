@@ -11869,3 +11869,38 @@ callee symbol was necessary. The full Windows
 i386 product build remains open; no ASM, padding
 simulation, synthetic calls, forced register
 assignments or whole-product cold replay was used.
+
+## 2026-11-17 GPT-web: direct native ECL operand context and Player ownership
+
+All four original-bound ECL operand resolvers now read the native
+`EnemyView::activeContext2CE0` `Th09EclContextView` pointer,
+the real `manager00->sideState320->rewardPlayer04`
+and the opposing side's original `rewardPlayer04`
+directly as C++ member expressions. Three lexical
+`TH09_ECL_OPERAND_CONTEXT/PLAYER/OPPOSING_PLAYER`
+macros previously obscured these already-verified owners;
+they are removed. This eliminates 107 alias-call sites
+across int/float value reads and writable lvalue resolvers.
+Actual global RNG/GameManager, per-Enemy variable banks,
+boss timer, Player spatial operands and the independent
+wrapped-angle/float calculations remain unchanged.
+
+Each of the three substitutions was tested individually with
+pinned VC7.1 as well as together; all four complete
+original-bound physical functions remain byte- and
+relocation-exact. The maintained source-scoped replay
+passes **4/4 previously exact functions,
+5,718 physical bytes, 374 original relocation fields**,
+including the **1,980-byte ResolveInt** (165 fields),
+**2,044-byte EnemyView::ResolveFloat** (121 fields),
+**726-byte ResolveIntLValue** (39 fields), and
+**968-byte ResolveFloatLValue** (49 fields).
+The large switch tables retain their original exact
+physical extents and there are no compiler-private
+symbol changes or new Exact-function claims.
+
+This maintains natural native C++ object ownership without
+introducing a speculative method ABI or shadow class.
+No ASM, padding, forced register assignments,
+whole-product cold replay or artificial byte filling
+was used.

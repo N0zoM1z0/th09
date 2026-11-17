@@ -82,14 +82,11 @@ typedef char EclOperandEnemyLastDamageAt33AC[
 typedef char EclOperandEnemyLifeThresholdsAt33B0[
     (offsetof(EclOperandEnemyView, lifeCallbackThresholds33B0) == 0x33B0) ? 1 : -1];
 
-// The owner and both side Players are already the native C++ source types.
-// Keep only the short lexical aliases for the actual context/side records.
-#define TH09_ECL_OPERAND_CONTEXT(owner) \
-    ((owner)->activeContext2CE0)
-#define TH09_ECL_OPERAND_PLAYER(owner) \
-    ((owner)->manager00->sideState320->rewardPlayer04)
-#define TH09_ECL_OPERAND_OPPOSING_PLAYER(owner) \
-    ((owner)->manager00->opposingSideState324->rewardPlayer04)
+// The owner and both side Players are the same real ECL and Player
+// allocations used by the interpreter; access their members directly.
+
+
+
 // Opcode 0x2739 reads the native GameManager's +0xB4 signed word.
 typedef char EclOperandNativeGameManagerB4[
     (offsetof(AsciiGameManagerView, valueB4) == 0x00B4) ? 1 : -1];
@@ -103,14 +100,14 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
 {
     switch (rawValue)
     {
-    case 0x2710: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[0];
-    case 0x2711: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[1];
-    case 0x2712: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[2];
-    case 0x2713: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[3];
-    case 0x2714: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[4];
-    case 0x2715: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[5];
-    case 0x2716: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[6];
-    case 0x2717: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[7];
+    case 0x2710: return enemy->activeContext2CE0->intVariables1C[0];
+    case 0x2711: return enemy->activeContext2CE0->intVariables1C[1];
+    case 0x2712: return enemy->activeContext2CE0->intVariables1C[2];
+    case 0x2713: return enemy->activeContext2CE0->intVariables1C[3];
+    case 0x2714: return enemy->activeContext2CE0->intVariables1C[4];
+    case 0x2715: return enemy->activeContext2CE0->intVariables1C[5];
+    case 0x2716: return enemy->activeContext2CE0->intVariables1C[6];
+    case 0x2717: return enemy->activeContext2CE0->intVariables1C[7];
 
     case 0x2718: return enemy->intVariables2CE8[0];
     case 0x2719: return enemy->intVariables2CE8[1];
@@ -121,15 +118,15 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x271E: return enemy->intVariables2CE8[6];
     case 0x271F: return enemy->intVariables2CE8[7];
 
-    case 0x2745: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables74[0];
-    case 0x2746: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables74[1];
-    case 0x2747: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables74[2];
-    case 0x2748: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables74[3];
+    case 0x2745: return enemy->activeContext2CE0->intVariables74[0];
+    case 0x2746: return enemy->activeContext2CE0->intVariables74[1];
+    case 0x2747: return enemy->activeContext2CE0->intVariables74[2];
+    case 0x2748: return enemy->activeContext2CE0->intVariables74[3];
 
-    case 0x2734: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables5C[0];
-    case 0x2735: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables5C[1];
-    case 0x2736: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables5C[2];
-    case 0x2737: return TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables5C[3];
+    case 0x2734: return enemy->activeContext2CE0->intVariables5C[0];
+    case 0x2735: return enemy->activeContext2CE0->intVariables5C[1];
+    case 0x2736: return enemy->activeContext2CE0->intVariables5C[2];
+    case 0x2737: return enemy->activeContext2CE0->intVariables5C[3];
 
     case 0x2730: return static_cast<int>(g_Rng.GetRandomU32() & 0x7FFFFFFF);
     case 0x2731: return static_cast<int>(g_Rng.GetRandomF32());
@@ -142,17 +139,17 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x2743: return enemy->life2E48;
     case 0x2744: return enemy->manager00->sideState320->characterIndex20;
 
-    case 0x276E: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables6C[0]);
-    case 0x276F: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables6C[1]);
+    case 0x276E: return static_cast<int>(enemy->activeContext2CE0->floatVariables6C[0]);
+    case 0x276F: return static_cast<int>(enemy->activeContext2CE0->floatVariables6C[1]);
 
-    case 0x2720: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[0]);
-    case 0x2721: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[1]);
-    case 0x2722: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[2]);
-    case 0x2723: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[3]);
-    case 0x2724: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[4]);
-    case 0x2725: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[5]);
-    case 0x2726: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[6]);
-    case 0x2727: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[7]);
+    case 0x2720: return static_cast<int>(enemy->activeContext2CE0->floatVariables3C[0]);
+    case 0x2721: return static_cast<int>(enemy->activeContext2CE0->floatVariables3C[1]);
+    case 0x2722: return static_cast<int>(enemy->activeContext2CE0->floatVariables3C[2]);
+    case 0x2723: return static_cast<int>(enemy->activeContext2CE0->floatVariables3C[3]);
+    case 0x2724: return static_cast<int>(enemy->activeContext2CE0->floatVariables3C[4]);
+    case 0x2725: return static_cast<int>(enemy->activeContext2CE0->floatVariables3C[5]);
+    case 0x2726: return static_cast<int>(enemy->activeContext2CE0->floatVariables3C[6]);
+    case 0x2727: return static_cast<int>(enemy->activeContext2CE0->floatVariables3C[7]);
 
     case 0x2728: return static_cast<int>(enemy->floatVariables2D08[0]);
     case 0x2729: return static_cast<int>(enemy->floatVariables2D08[1]);
@@ -163,10 +160,10 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x272E: return static_cast<int>(enemy->floatVariables2D08[6]);
     case 0x272F: return static_cast<int>(enemy->floatVariables2D08[7]);
 
-    case 0x2749: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[0]);
-    case 0x274A: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[1]);
-    case 0x274B: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[2]);
-    case 0x274C: return static_cast<int>(TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[3]);
+    case 0x2749: return static_cast<int>(enemy->activeContext2CE0->floatVariables84[0]);
+    case 0x274A: return static_cast<int>(enemy->activeContext2CE0->floatVariables84[1]);
+    case 0x274B: return static_cast<int>(enemy->activeContext2CE0->floatVariables84[2]);
+    case 0x274C: return static_cast<int>(enemy->activeContext2CE0->floatVariables84[3]);
 
     case 0x274D: return enemy->manager00->primaryEclManager000.timelineState08.sharedInts160[0];
     case 0x274E: return enemy->manager00->primaryEclManager000.timelineState08.sharedInts160[1];
@@ -180,9 +177,9 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x273A: return static_cast<int>(enemy->worldPosition2DD4.x);
     case 0x273B: return static_cast<int>(enemy->worldPosition2DD4.y);
     case 0x273C: return static_cast<int>(enemy->worldPosition2DD4.z);
-    case 0x273D: return static_cast<int>(TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.x);
-    case 0x273E: return static_cast<int>(TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.y);
-    case 0x273F: return static_cast<int>(TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.z);
+    case 0x273D: return static_cast<int>(enemy->manager00->sideState320->rewardPlayer04->position1B88.x);
+    case 0x273E: return static_cast<int>(enemy->manager00->sideState320->rewardPlayer04->position1B88.y);
+    case 0x273F: return static_cast<int>(enemy->manager00->sideState320->rewardPlayer04->position1B88.z);
 
     case 0x275A: return static_cast<int>(enemy->movementOrigin2E1C.x);
     case 0x275B: return static_cast<int>(enemy->movementOrigin2E1C.y);
@@ -212,16 +209,16 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
 
     case 0x2775:
         return enemy->secondaryFlagBits3380.category.sideCategory10_11 < 3
-                   ? TH09_ECL_OPERAND_OPPOSING_PLAYER(enemy)->initialStateA0[0]
-                   : TH09_ECL_OPERAND_OPPOSING_PLAYER(enemy)->initialStateA0[1];
+                   ? enemy->manager00->opposingSideState324->rewardPlayer04->initialStateA0[0]
+                   : enemy->manager00->opposingSideState324->rewardPlayer04->initialStateA0[1];
 
     case 0x2740:
-        return static_cast<int>(reinterpret_cast<PlayerAngleView *>(TH09_ECL_OPERAND_PLAYER(enemy))->AngleToPoint(
+        return static_cast<int>(reinterpret_cast<PlayerAngleView *>(enemy->manager00->sideState320->rewardPlayer04)->AngleToPoint(
             reinterpret_cast<PlayerAngleFloat3View *>(&enemy->worldPosition2DD4)));
 
     case 0x2742:
     {
-        EclOperandFloat3View delta = TH09_ECL_OPERAND_PLAYER(enemy)->position1B88 - reinterpret_cast<const EclOperandFloat3View &>(enemy->worldPosition2DD4);
+        EclOperandFloat3View delta = enemy->manager00->sideState320->rewardPlayer04->position1B88 - reinterpret_cast<const EclOperandFloat3View &>(enemy->worldPosition2DD4);
         return static_cast<int>(D3DXVec3Length(reinterpret_cast<const D3DXVECTOR3 *>(&delta)));
     }
 
@@ -240,14 +237,14 @@ int *__fastcall ResolveIntLValue(
 
     switch (*rawValue)
     {
-    case 0x2710: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[0];
-    case 0x2711: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[1];
-    case 0x2712: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[2];
-    case 0x2713: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[3];
-    case 0x2714: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[4];
-    case 0x2715: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[5];
-    case 0x2716: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[6];
-    case 0x2717: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables1C[7];
+    case 0x2710: return &enemy->activeContext2CE0->intVariables1C[0];
+    case 0x2711: return &enemy->activeContext2CE0->intVariables1C[1];
+    case 0x2712: return &enemy->activeContext2CE0->intVariables1C[2];
+    case 0x2713: return &enemy->activeContext2CE0->intVariables1C[3];
+    case 0x2714: return &enemy->activeContext2CE0->intVariables1C[4];
+    case 0x2715: return &enemy->activeContext2CE0->intVariables1C[5];
+    case 0x2716: return &enemy->activeContext2CE0->intVariables1C[6];
+    case 0x2717: return &enemy->activeContext2CE0->intVariables1C[7];
 
     case 0x2718: return &enemy->intVariables2CE8[0];
     case 0x2719: return &enemy->intVariables2CE8[1];
@@ -258,15 +255,15 @@ int *__fastcall ResolveIntLValue(
     case 0x271E: return &enemy->intVariables2CE8[6];
     case 0x271F: return &enemy->intVariables2CE8[7];
 
-    case 0x2745: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables74[0];
-    case 0x2746: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables74[1];
-    case 0x2747: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables74[2];
-    case 0x2748: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables74[3];
+    case 0x2745: return &enemy->activeContext2CE0->intVariables74[0];
+    case 0x2746: return &enemy->activeContext2CE0->intVariables74[1];
+    case 0x2747: return &enemy->activeContext2CE0->intVariables74[2];
+    case 0x2748: return &enemy->activeContext2CE0->intVariables74[3];
 
-    case 0x2734: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables5C[0];
-    case 0x2735: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables5C[1];
-    case 0x2736: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables5C[2];
-    case 0x2737: return &TH09_ECL_OPERAND_CONTEXT(enemy)->intVariables5C[3];
+    case 0x2734: return &enemy->activeContext2CE0->intVariables5C[0];
+    case 0x2735: return &enemy->activeContext2CE0->intVariables5C[1];
+    case 0x2736: return &enemy->activeContext2CE0->intVariables5C[2];
+    case 0x2737: return &enemy->activeContext2CE0->intVariables5C[3];
 
     case 0x2738: return &g_GameManager.difficulty;
     case 0x2739: return &g_GameManager.valueB4;
@@ -295,14 +292,14 @@ float *__fastcall ResolveFloatLValue(
 
     switch (static_cast<int>(*rawValue))
     {
-    case 0x2720: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[0];
-    case 0x2721: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[1];
-    case 0x2722: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[2];
-    case 0x2723: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[3];
-    case 0x2724: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[4];
-    case 0x2725: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[5];
-    case 0x2726: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[6];
-    case 0x2727: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables3C[7];
+    case 0x2720: return &enemy->activeContext2CE0->floatVariables3C[0];
+    case 0x2721: return &enemy->activeContext2CE0->floatVariables3C[1];
+    case 0x2722: return &enemy->activeContext2CE0->floatVariables3C[2];
+    case 0x2723: return &enemy->activeContext2CE0->floatVariables3C[3];
+    case 0x2724: return &enemy->activeContext2CE0->floatVariables3C[4];
+    case 0x2725: return &enemy->activeContext2CE0->floatVariables3C[5];
+    case 0x2726: return &enemy->activeContext2CE0->floatVariables3C[6];
+    case 0x2727: return &enemy->activeContext2CE0->floatVariables3C[7];
 
     case 0x2728: return &enemy->floatVariables2D08[0];
     case 0x2729: return &enemy->floatVariables2D08[1];
@@ -313,20 +310,20 @@ float *__fastcall ResolveFloatLValue(
     case 0x272E: return &enemy->floatVariables2D08[6];
     case 0x272F: return &enemy->floatVariables2D08[7];
 
-    case 0x2749: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[0];
-    case 0x274A: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[1];
-    case 0x274B: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[2];
-    case 0x274C: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables84[3];
+    case 0x2749: return &enemy->activeContext2CE0->floatVariables84[0];
+    case 0x274A: return &enemy->activeContext2CE0->floatVariables84[1];
+    case 0x274B: return &enemy->activeContext2CE0->floatVariables84[2];
+    case 0x274C: return &enemy->activeContext2CE0->floatVariables84[3];
 
     case 0x273A: return &enemy->position2D74.x;
     case 0x273B: return &enemy->position2D74.y;
     case 0x273C: return &enemy->position2D74.z;
-    case 0x273D: return &TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.x;
-    case 0x273E: return &TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.y;
-    case 0x273F: return &TH09_ECL_OPERAND_PLAYER(enemy)->position1B88.z;
+    case 0x273D: return &enemy->manager00->sideState320->rewardPlayer04->position1B88.x;
+    case 0x273E: return &enemy->manager00->sideState320->rewardPlayer04->position1B88.y;
+    case 0x273F: return &enemy->manager00->sideState320->rewardPlayer04->position1B88.z;
 
-    case 0x276E: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables6C[0];
-    case 0x276F: return &TH09_ECL_OPERAND_CONTEXT(enemy)->floatVariables6C[1];
+    case 0x276E: return &enemy->activeContext2CE0->floatVariables6C[0];
+    case 0x276F: return &enemy->activeContext2CE0->floatVariables6C[1];
 
     case 0x2751: return &enemy->manager00->primaryEclManager000.timelineState08.sharedFloats170[0];
     case 0x2752: return &enemy->manager00->primaryEclManager000.timelineState08.sharedFloats170[1];
@@ -360,14 +357,14 @@ float EnemyView::ResolveFloat(float rawValue)
 {
     switch (static_cast<int>(rawValue))
     {
-    case 0x2710: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables1C[0]);
-    case 0x2711: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables1C[1]);
-    case 0x2712: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables1C[2]);
-    case 0x2713: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables1C[3]);
-    case 0x2714: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables1C[4]);
-    case 0x2715: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables1C[5]);
-    case 0x2716: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables1C[6]);
-    case 0x2717: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables1C[7]);
+    case 0x2710: return static_cast<float>(this->activeContext2CE0->intVariables1C[0]);
+    case 0x2711: return static_cast<float>(this->activeContext2CE0->intVariables1C[1]);
+    case 0x2712: return static_cast<float>(this->activeContext2CE0->intVariables1C[2]);
+    case 0x2713: return static_cast<float>(this->activeContext2CE0->intVariables1C[3]);
+    case 0x2714: return static_cast<float>(this->activeContext2CE0->intVariables1C[4]);
+    case 0x2715: return static_cast<float>(this->activeContext2CE0->intVariables1C[5]);
+    case 0x2716: return static_cast<float>(this->activeContext2CE0->intVariables1C[6]);
+    case 0x2717: return static_cast<float>(this->activeContext2CE0->intVariables1C[7]);
 
     case 0x2718: return static_cast<float>(this->intVariables2CE8[0]);
     case 0x2719: return static_cast<float>(this->intVariables2CE8[1]);
@@ -378,15 +375,15 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x271E: return static_cast<float>(this->intVariables2CE8[6]);
     case 0x271F: return static_cast<float>(this->intVariables2CE8[7]);
 
-    case 0x2745: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables74[0]);
-    case 0x2746: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables74[1]);
-    case 0x2747: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables74[2]);
-    case 0x2748: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables74[3]);
+    case 0x2745: return static_cast<float>(this->activeContext2CE0->intVariables74[0]);
+    case 0x2746: return static_cast<float>(this->activeContext2CE0->intVariables74[1]);
+    case 0x2747: return static_cast<float>(this->activeContext2CE0->intVariables74[2]);
+    case 0x2748: return static_cast<float>(this->activeContext2CE0->intVariables74[3]);
 
-    case 0x2734: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables5C[0]);
-    case 0x2735: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables5C[1]);
-    case 0x2736: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables5C[2]);
-    case 0x2737: return static_cast<float>(TH09_ECL_OPERAND_CONTEXT(this)->intVariables5C[3]);
+    case 0x2734: return static_cast<float>(this->activeContext2CE0->intVariables5C[0]);
+    case 0x2735: return static_cast<float>(this->activeContext2CE0->intVariables5C[1]);
+    case 0x2736: return static_cast<float>(this->activeContext2CE0->intVariables5C[2]);
+    case 0x2737: return static_cast<float>(this->activeContext2CE0->intVariables5C[3]);
 
     case 0x2730: return static_cast<float>(Th09EclRunControl::g_Rng.GetRandomU32() & 0x7FFFFFFF);
     case 0x2731: return Th09EclRunControl::g_Rng.GetRandomF32();
@@ -411,14 +408,14 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x2753: return this->manager00->primaryEclManager000.timelineState08.sharedFloats170[2];
     case 0x2754: return this->manager00->primaryEclManager000.timelineState08.sharedFloats170[3];
 
-    case 0x2720: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[0];
-    case 0x2721: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[1];
-    case 0x2722: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[2];
-    case 0x2723: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[3];
-    case 0x2724: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[4];
-    case 0x2725: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[5];
-    case 0x2726: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[6];
-    case 0x2727: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables3C[7];
+    case 0x2720: return this->activeContext2CE0->floatVariables3C[0];
+    case 0x2721: return this->activeContext2CE0->floatVariables3C[1];
+    case 0x2722: return this->activeContext2CE0->floatVariables3C[2];
+    case 0x2723: return this->activeContext2CE0->floatVariables3C[3];
+    case 0x2724: return this->activeContext2CE0->floatVariables3C[4];
+    case 0x2725: return this->activeContext2CE0->floatVariables3C[5];
+    case 0x2726: return this->activeContext2CE0->floatVariables3C[6];
+    case 0x2727: return this->activeContext2CE0->floatVariables3C[7];
 
     case 0x2728: return this->floatVariables2D08[0];
     case 0x2729: return this->floatVariables2D08[1];
@@ -429,20 +426,20 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x272E: return this->floatVariables2D08[6];
     case 0x272F: return this->floatVariables2D08[7];
 
-    case 0x2749: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables84[0];
-    case 0x274A: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables84[1];
-    case 0x274B: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables84[2];
-    case 0x274C: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables84[3];
+    case 0x2749: return this->activeContext2CE0->floatVariables84[0];
+    case 0x274A: return this->activeContext2CE0->floatVariables84[1];
+    case 0x274B: return this->activeContext2CE0->floatVariables84[2];
+    case 0x274C: return this->activeContext2CE0->floatVariables84[3];
 
     case 0x273A: return this->worldPosition2DD4.x;
     case 0x273B: return this->worldPosition2DD4.y;
     case 0x273C: return this->worldPosition2DD4.z;
-    case 0x273D: return TH09_ECL_OPERAND_PLAYER(this)->position1B88.x;
-    case 0x273E: return TH09_ECL_OPERAND_PLAYER(this)->position1B88.y;
-    case 0x273F: return TH09_ECL_OPERAND_PLAYER(this)->position1B88.z;
+    case 0x273D: return this->manager00->sideState320->rewardPlayer04->position1B88.x;
+    case 0x273E: return this->manager00->sideState320->rewardPlayer04->position1B88.y;
+    case 0x273F: return this->manager00->sideState320->rewardPlayer04->position1B88.z;
 
-    case 0x276E: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables6C[0];
-    case 0x276F: return TH09_ECL_OPERAND_CONTEXT(this)->floatVariables6C[1];
+    case 0x276E: return this->activeContext2CE0->floatVariables6C[0];
+    case 0x276F: return this->activeContext2CE0->floatVariables6C[1];
 
     case 0x275A: return this->movementOrigin2E1C.x;
     case 0x275B: return this->movementOrigin2E1C.y;
@@ -462,7 +459,7 @@ float EnemyView::ResolveFloat(float rawValue)
     case 0x276B: return static_cast<float>(this->lifeCallbackThresholds33B0[3]);
 
     case 0x2740:
-        return reinterpret_cast<PlayerAngleView *>(TH09_ECL_OPERAND_PLAYER(this))->AngleToPoint(
+        return reinterpret_cast<PlayerAngleView *>(this->manager00->sideState320->rewardPlayer04)->AngleToPoint(
             reinterpret_cast<PlayerAngleFloat3View *>(&this->worldPosition2DD4));
 
     case 0x2755: return this->movementAngle2DE0;
@@ -478,10 +475,10 @@ float EnemyView::ResolveFloat(float rawValue)
         if (this->secondaryFlagBits3380.category.sideCategory10_11 < 3)
         {
             return static_cast<float>(
-                TH09_ECL_OPERAND_OPPOSING_PLAYER(this)->initialStateA0[0]);
+                this->manager00->opposingSideState324->rewardPlayer04->initialStateA0[0]);
         }
         return static_cast<float>(
-            TH09_ECL_OPERAND_OPPOSING_PLAYER(this)->initialStateA0[1]);
+            this->manager00->opposingSideState324->rewardPlayer04->initialStateA0[1]);
     }
 
     case 0x2764: return static_cast<float>(this->bossSlot336B);
@@ -489,7 +486,7 @@ float EnemyView::ResolveFloat(float rawValue)
 
     case 0x2742:
     {
-        EclOperandFloat3View delta = TH09_ECL_OPERAND_PLAYER(this)->position1B88 - reinterpret_cast<const EclOperandFloat3View &>(this->worldPosition2DD4);
+        EclOperandFloat3View delta = this->manager00->sideState320->rewardPlayer04->position1B88 - reinterpret_cast<const EclOperandFloat3View &>(this->worldPosition2DD4);
         return D3DXVec3Length(reinterpret_cast<const D3DXVECTOR3 *>(&delta));
     }
 
