@@ -52,7 +52,7 @@ struct CardAttack
     static CardAttack *Create(int sideIndex);
 
     int sideIndex00;
-    // The exact StartAttack uses a richer view of these same two side pointers.
+    // StartAttack uses the same real side pointers as CardAttack lifecycle.
     union { CardAttackSideStateView *sideState04; CardAttackStartSideView *startSideState04; };
     union { CardAttackSideStateView *otherSideState08; CardAttackStartSideView *startOtherSideState08; };
     ChainElem *calcChain0C;

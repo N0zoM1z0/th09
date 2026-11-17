@@ -11101,3 +11101,88 @@ C++, without an artificial wrapper allocation,
 padding, ASM, forced compiler registers,
 whole-game cold replay or false new exact
 credit.
+
+## 2026-11-17 GPT-web: fold StartAttack into the true CardAttack class
+
+The `StartAttack @ 0x00403E50` receiver and state are the
+original 0x1368-byte `CardAttack`, not a separately allocated
+`CardAttackStartView`. The temporary subclass and its
+header have been deleted. The method is declared and defined
+as `CardAttack::StartAttack` on the native owner and called
+directly from the real `CardAttack *` members in
+`PlayerLifecycleView::EnterDeathState`,
+`PlayerOwnerStateView::ApplyReward` and the nonexact
+`PlayerLifecycleView::UpdateChargeAttack`.
+All three callers retain their original C++ argument order and
+real target entry; there is no ABI pointer conversion or fake
+vtable. Source and tracking ledgers now use the actual owner.
+
+Before promoting this type identity, an isolated pinned VC7.1
+scratch build of the renamed callee matched the complete
+**923/923-byte** original code with 29 relocations.
+Retyping the two authored-exact callers independently retained
+**1,540/1,540 reward bytes with 91 relocations** and
+**753/753 death bytes with 38 relocations**. The 8
+changed REL32 caller symbol names resolve to the same exact
+original destination `0x00403E50`; six compiler-private
+labels in the reward function were each verified against
+same-section COFF definitions and original PE targets.
+The local selected-source replay for native CardAttack and
+its dependent lifecycle owners passed **11/11 existing exact
+functions, 4,518 physical bytes and 233 relocations**.
+The charge boss was separately compiled against the corrected
+native declaration and retained **1,210/1,210 physical bytes,
+183 unchanged nonexact bytes**, with no new residual
+positions. It is not promoted as exact. No ASM, artificial
+padding, whole-game cold replay or renaming-only exact credit
+was used.
+
+## 2026-11-17 GPT-web: native SoundPlayer sound buffers and BGM tables
+
+The complete `SoundPlayer::ProcessQueues` command-state
+interpreter and its exact siblings now access the genuine
+native `SoundPlayer::soundQueue[12]`,
+`soundBuffers[128]`, `duplicateSoundBuffers[128]`,
+`bgmFileNames[32][256]`,
+`bgmPreloadFmtData[16]`,
+`bgmPreloadAllocations[16]`,
+`bgmPreloadData[16]` and
+`bgmPreloadAllocSizes[16]` members with ordinary
+C++ array indexing. The two original global
+`g_SfxList[39]` and `g_SoundBufferIdxVol[54]`
+tables are likewise accessed through native
+array elements. Six helper functions that fabricated
+i386 integer byte addresses solely to return
+lvalue references have been removed entirely;
+48 actual access expressions now use direct
+native array/pointer indexing. Original live
+DirectSound method dispatches, source records,
+queue order and original signed index expressions
+are unchanged, with no new range guard.
+
+Six isolated and one combined pinned VC7.1
+source probes demonstrated exact compiled
+carrier extents for the large queue interpreter,
+WAV loader, core lifecycle and preload paths.
+The eight-profile selected-source replay
+passes **20/20 previously exact functions,
+5,400 complete original physical bytes and
+184 relocation fields**. The 1,456-byte
+ProcessQueues boss still matches all 58 relocations
+and the 614-byte LoadSound parser matches all 30.
+Eleven compiler-private labels in ProcessQueues
+were individually proven to have identical
+original PE destinations, same-section COFF
+definitions and unchanged relocation offset/type
+before rebinding. No target patching or
+new exact-function promotion was used.
+
+A separate diagnostic retyped the older
+padding-filled Supervisor audio subview into the
+real Supervisor class, selecting
+`config388.musicMode/valueAF`; that form changed
+the queue interpreter's VC7.1 register and
+code-size decisions and was rejected. It is not
+promoted or counted as progress. No ASM,
+artificial padding, forced registers or
+whole-product cold replay was used.
