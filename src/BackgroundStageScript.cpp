@@ -24,6 +24,9 @@ struct D3DXVECTOR3 : public D3DVECTOR {};
 D3DXVECTOR3 *WINAPI D3DXVec3Normalize(
     D3DXVECTOR3 *out, const D3DXVECTOR3 *vector);
 
+// The stage-script opcode payload is the native RawStageInstr::args[3].
+// Cast only where wire words are reinterpreted as float/Float3 data; keep
+// the complete original 20-byte instruction stride and decoder reads.
 // Use the actual stage-file and fog records shared with Background.
 typedef char BackgroundStageNativeWireRecords[
     (sizeof(RawStageInstr) == 0x14 &&
@@ -216,22 +219,22 @@ read_instruction:
             instruction = reinterpret_cast<RawStageInstr *>(reinterpret_cast<unsigned char *>(instruction) + sizeof(RawStageInstr));
             background->stagePositionEndFrame = instruction->frame;
             reinterpret_cast<Float3 &>(background->stagePositionTarget) =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 1:
             background->skyFog.color =
-                static_cast<unsigned int>((reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]));
+                static_cast<unsigned int>((instruction->args[0]));
             background->skyFog.nearPlane =
-                (reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
+                (reinterpret_cast<float *>(instruction->args)[1]);
             background->skyFog.farPlane =
-                (reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[2]);
+                (reinterpret_cast<float *>(instruction->args)[2]);
             background->skyFogFinal = background->skyFog;
             break;
 
         case 2:
             background->skyFogInitial = background->skyFog;
-            background->skyFogInterpolationDuration = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
+            background->skyFogInterpolationDuration = (instruction->args[0]);
             background->skyFogInterpolationTimer = 0;
             break;
 
@@ -241,49 +244,49 @@ read_instruction:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraPosition00 =
                 reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraPosition00;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraPosition00 =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             if (background->interpolationDuration[0] == 0)
                 (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                     .cameraPosition00 =
-                    (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                    (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 6:
-            background->interpolationDuration[0] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
+            background->interpolationDuration[0] = (instruction->args[0]);
             background->interpolationTimers[0] = 0;
-            background->interpolationModes[0] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
+            background->interpolationModes[0] = (instruction->args[1]);
             break;
 
         case 7:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraLookAtOffset0C =
                 reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraLookAtOffset0C;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraLookAtOffset0C =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             if (background->interpolationDuration[1] == 0)
                 (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                     .cameraLookAtOffset0C =
-                    (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                    (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 8:
-            background->interpolationDuration[1] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
+            background->interpolationDuration[1] = (instruction->args[0]);
             background->interpolationTimers[1] = 0;
-            background->interpolationModes[1] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
+            background->interpolationModes[1] = (instruction->args[1]);
             break;
 
         case 9:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraUp18 =
                 reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraUp18;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraUp18 =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             if (background->interpolationDuration[2] == 0)
                 (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).cameraUp18 =
-                    (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                    (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 10:
-            background->interpolationDuration[2] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
-            background->interpolationModes[2] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
+            background->interpolationDuration[2] = (instruction->args[0]);
+            background->interpolationModes[2] = (instruction->args[1]);
             background->interpolationTimers[2] = 0;
             break;
 
@@ -291,22 +294,22 @@ read_instruction:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).fieldOfView48 =
                 reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).fieldOfView48;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).fieldOfView48 =
-                (reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
+                (reinterpret_cast<float *>(instruction->args)[0]);
             if (background->interpolationDuration[3] == 0)
                 (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                     .fieldOfView48 =
-                    (reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
+                    (reinterpret_cast<float *>(instruction->args)[0]);
             break;
 
         case 12:
-            background->interpolationDuration[3] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
+            background->interpolationDuration[3] = (instruction->args[0]);
             background->interpolationTimers[3] = 0;
-            background->interpolationModes[3] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
+            background->interpolationModes[3] = (instruction->args[1]);
             break;
 
         case 13:
             background->clearColor =
-                static_cast<unsigned int>((reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]));
+                static_cast<unsigned int>((instruction->args[0]));
             break;
 
         case 3:
@@ -316,102 +319,102 @@ read_instruction:
             break;
 
         case 4:
-            background->stageScriptInstructionIndex = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
-            background->stageScriptTimer = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
+            background->stageScriptInstructionIndex = (instruction->args[0]);
+            background->stageScriptTimer = (instruction->args[1]);
             background->interpolationDuration[0] = 0;
             background->compensateCameraJump = 1;
             goto script_done;
 
         case 14:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraPosition00 =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 15:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraPosition00 =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 16:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraPosition00 =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 17:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentEnd).cameraPosition00 =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 18:
-            background->interpolationDuration[0] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
+            background->interpolationDuration[0] = (instruction->args[0]);
             background->interpolationTimers[0] = 0;
             background->interpolationModes[0] = 7;
             break;
 
         case 19:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraLookAtOffset0C =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 20:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraLookAtOffset0C =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 21:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraLookAtOffset0C =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 22:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentEnd).cameraLookAtOffset0C =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 23:
-            background->interpolationDuration[1] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
+            background->interpolationDuration[1] = (instruction->args[0]);
             background->interpolationTimers[1] = 0;
             background->interpolationModes[1] = 7;
             break;
 
         case 24:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraUp18 =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 25:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraUp18 =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 26:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraUp18 =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 27:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentEnd).cameraUp18 =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 28:
-            background->interpolationDuration[2] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
+            background->interpolationDuration[2] = (instruction->args[0]);
             background->interpolationTimers[2] = 0;
             background->interpolationModes[2] = 7;
             break;
 
         case 29:
-            if ((reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]) >= 0)
+            if ((instruction->args[0]) >= 0)
                 background->stageAnm->ExecuteAnmIdx(
-                    &background->stageVm0, (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]));
+                    &background->stageVm0, (instruction->args[0]));
             else
                 background->stageVm0.activeSpriteIndex = -1;
             break;
 
         case 30:
-            if ((reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]) >= 0)
+            if ((instruction->args[0]) >= 0)
                 background->stageAnm->ExecuteAnmIdx(
-                    &background->stageVm1, (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]));
+                    &background->stageVm1, (instruction->args[0]));
             else
                 background->stageVm0.activeSpriteIndex = -1;
             break;
@@ -427,13 +430,13 @@ read_instruction:
         case 32:
             (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                 .cameraPositionOffset3C =
-                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
+                (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
         case 34:
-            if ((reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]) >= 0)
+            if ((instruction->args[0]) >= 0)
                 background->stageAnm->ExecuteAnmIdx(
-                    &background->stageVm2, (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]));
+                    &background->stageVm2, (instruction->args[0]));
             else
                 background->stageVm2.activeSpriteIndex = -1;
             break;
