@@ -298,14 +298,14 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 
             EnemyView *object =
                 static_cast<EnemyView *>(
-                    reinterpret_cast<EnemyManagerCardAttackSpawnView *>(globalManager.sides[0].subsystem4)
+                    static_cast<EnemyManagerCardAttackSpawnView *>(globalManager.sides[0].enemyManager10)
                         ->SpawnEnemyRecord(19, &position, 830, -2, 10000, 0, 0));
             object->itemDropType335C = lane;
             object->secondaryFlags3380 |= 0x2000u;
 
             object =
                 static_cast<EnemyView *>(
-                    reinterpret_cast<EnemyManagerCardAttackSpawnView *>(globalManager.sides[1].subsystem4)
+                    static_cast<EnemyManagerCardAttackSpawnView *>(globalManager.sides[1].enemyManager10)
                         ->SpawnEnemyRecord(19, &position, 830, -2, 10000, 0, 0));
             object->secondaryFlags3380 |= 0x2000u;
             object->itemDropType335C = lane;
