@@ -64,15 +64,8 @@ struct CardAttackCallbackRow
 };
 
 extern CardAttackCallbackRow g_CardAttackCallbackRows[];
-// The original attack callback dispatch uses 0x10-byte rows in the sole
-// global four-function table. Runtime primary/secondary row words are signed
-// DWORDs scaled by their native i386 offset, not bounded C++ array indices.
-static __forceinline CardAttackCallbackRow &NativeCardAttackCallbackRow(int index)
-{
-    return *reinterpret_cast<CardAttackCallbackRow *>(
-        reinterpret_cast<unsigned int>(&g_CardAttackCallbackRows[0]) +
-        static_cast<unsigned int>(index) * sizeof(g_CardAttackCallbackRows[0]));
-}
+// Attack dispatch reads the real 0x10-byte callback row directly from
+// the original global begin/update/draw/end callback table.
 
 typedef char CardAttackCallbackNativeRowSizeIs10[
     sizeof(CardAttackCallbackRow) == 0x10 ? 1 : -1];
@@ -100,7 +93,7 @@ void CardAttackStartView::StartAttack(
         {
             EnemyView *enemy =
                 startOtherSideState08->enemyManager10->FindActiveEnemyBySideCategory(3);
-            enemy->flags337C |= 0x100u;
+            enemy->primaryFlagBits337C.forceDeath08 = 1;
             // Retail increments live signed Player header counters as native
             // 32-bit words, including their modulo-2^32 overflow behavior.
             ++*reinterpret_cast<unsigned int *>(
@@ -123,14 +116,14 @@ void CardAttackStartView::StartAttack(
         secondaryClass135C = 2;
         strcpy(text18, text);
 
-        NativeCardAttackCallbackRow(secondaryRow1358).begin(
+        g_CardAttackCallbackRows[secondaryRow1358].begin(
             this);
         secondaryUpdate1334 =
-            NativeCardAttackCallbackRow(secondaryRow1358).update;
+            g_CardAttackCallbackRows[secondaryRow1358].update;
         secondaryDraw1338 =
-            NativeCardAttackCallbackRow(secondaryRow1358).draw;
+            g_CardAttackCallbackRows[secondaryRow1358].draw;
         secondaryEnd133C =
-            NativeCardAttackCallbackRow(secondaryRow1358).end;
+            g_CardAttackCallbackRows[secondaryRow1358].end;
 
         if (startOtherSideState08->player04->header24.state80 < 16)
             ++*reinterpret_cast<unsigned int *>(
@@ -159,14 +152,14 @@ void CardAttackStartView::StartAttack(
         ++*reinterpret_cast<unsigned int *>(
             &startOtherSideState08->player04->header24.state8C);
 
-        NativeCardAttackCallbackRow(primaryRow134C).begin(
+        g_CardAttackCallbackRows[primaryRow134C].begin(
             this);
         primaryUpdate1328 =
-            NativeCardAttackCallbackRow(primaryRow134C).update;
+            g_CardAttackCallbackRows[primaryRow134C].update;
         primaryDraw132C =
-            NativeCardAttackCallbackRow(primaryRow134C).draw;
+            g_CardAttackCallbackRows[primaryRow134C].draw;
         primaryEnd1330 =
-            NativeCardAttackCallbackRow(primaryRow134C).end;
+            g_CardAttackCallbackRows[primaryRow134C].end;
 
         if (startOtherSideState08->player04->header24.state7C < 16)
             ++*reinterpret_cast<unsigned int *>(

@@ -11007,3 +11007,39 @@ whole-product cold replay or new exact
 function count was claimed. Separate
 nonexact Title UI frontiers were not
 silently reclassified.
+
+## 2026-11-17 GPT-web: native CardAttack callback dispatch and Enemy death bit
+
+The complete `CardAttackStartView::StartAttack` original-bound
+owner now indexes its genuine global four-function
+`g_CardAttackCallbackRows[callbackRow]` table directly.
+The former `NativeCardAttackCallbackRow` helper fabricated
+a DWORD address from a row index, then cast that address
+back to a four-callback struct reference. All eight live
+begin/update/draw/end callback accesses have been
+recovered as normal C++ members of the original
+0x10-byte row, with call and assignment ordering intact.
+
+The target's primary Enemy +0x337C bit-8 write
+uses the verified native
+`enemy->primaryFlagBits337C.forceDeath08 = 1`
+rather than an opaque `flags337C |= 0x100`
+DWORD mask. The original priority boss checks,
+row dispatch, player counters, FrontSide HUD
+and Background transition publication remain
+in the same branches. The provisional method
+ABI owner `CardAttackStartView` is intentionally
+retained pending proof that retyping its mangled
+symbol as `CardAttack` will preserve every
+caller; no unsupported class merge was claimed.
+
+Three isolated/combined pinned VC7.1 probes
+and a further helper-elimination probe reproduced
+the **923/923-byte** physical StartAttack
+owner with all **29 original relocation fields**.
+The maintained strict COFF/PE comparison and
+one-source scoped replay passed **1/1 existing
+exact owner**, without any private-label or
+callee rebinding. No ASM, artificial padding,
+compiler register hints, full-product cold replay
+or new exact-function credit was used.
