@@ -87,14 +87,9 @@ typedef char BackgroundRenderNativeSpritePixelAndUvOffsets[
      offsetof(AnmLoadedSprite, heightPx) == 0x30 &&
      offsetof(AnmLoadedSprite, widthPx) == 0x34) ? 1 : -1];
 
-// Stage fog and ANM VM colors are real native DWORDs; use the byte lanes
-// of those exact words, without projecting a second color array.
-#define TH09_BG_RENDER_NATIVE_CHANNEL(word, lane) \
-    (*reinterpret_cast<const u8 *>( \
-        reinterpret_cast<u32>(&(word)) + static_cast<u32>(lane)))
-#define TH09_BG_RENDER_MUTABLE_CHANNEL(word, lane) \
-    (*reinterpret_cast<u8 *>( \
-        reinterpret_cast<u32>(&(word)) + static_cast<u32>(lane)))
+// Stage fog and ANM VM colors are the original packed 32-bit words.
+// Their byte channels are accessed through those words' object storage.
+
 
 union BackgroundRenderColor
 {
@@ -175,15 +170,12 @@ int Background::RenderObjects(int mode)
         reinterpret_cast<D3DXVECTOR3 *>(&cameraVector));
 
     // Stage instances form a real file-loaded array terminated by a
-    // negative object ID. Move by each native full-sized record address.
+    // negative object ID. Advance the native record pointer directly.
     for (; instance->objectId >= 0;
-         instance = reinterpret_cast<RawStageObjectInstance *>(
-             reinterpret_cast<unsigned int>(instance) + sizeof(*instance)))
+         ++instance)
     {
-        // The script's signed object id indexes the original pointer table.
-        object = *reinterpret_cast<RawStageObject **>(
-            reinterpret_cast<unsigned int>(&this->stageObjects[0]) +
-            static_cast<unsigned int>(instance->objectId) * sizeof(this->stageObjects[0]));
+        // The script's original object id selects the real pointer table.
+        object = this->stageObjects[static_cast<unsigned int>(instance->objectId)];
         if (object->zLevel == mode)
         {
             quad = &object->firstQuad;
@@ -225,18 +217,13 @@ int Background::RenderObjects(int mode)
 
             object->flags |= 2;
 
-            // The file-backed quad record is variable-width; advance its
-            // signed 16-bit byteSize as an i386 DWORD address, without a
-            // C++ array-subscript or a new range check.
+            // The quad list is variable-sized file data; advance the
+            // original wire pointer by the native signed 16-bit byteSize.
             for (; quad->type >= 0;
-                 quad = reinterpret_cast<RawStageQuadBasic *>(
-                     reinterpret_cast<unsigned int>(quad) +
-                     static_cast<unsigned int>(static_cast<int>(quad->byteSize))))
+                 quad = reinterpret_cast<RawStageQuadBasic *>(reinterpret_cast<unsigned char *>(quad) + static_cast<unsigned int>(static_cast<int>(quad->byteSize))))
             {
-                // Real ANM VMs are 0x2A4-byte entries indexed by the wire VM id.
-                quadVm = reinterpret_cast<AnmVm *>(
-                    reinterpret_cast<unsigned int>(&this->stageObjectVms[0]) +
-                    static_cast<unsigned int>(quad->vmIndex) * sizeof(this->stageObjectVms[0]));
+                // Select the genuine 0x2A4-byte ANM VM by its wire id.
+                quadVm = &this->stageObjectVms[static_cast<unsigned int>(quad->vmIndex)];
 
                 switch (quad->type)
                 {
@@ -330,17 +317,17 @@ int Background::RenderObjects(int mode)
                             // Mutate the actual VM color word's four byte lanes
                             // without treating its DWORD as a separate union.
                             unsigned long &color = quadVm->color1;
-                            TH09_BG_RENDER_MUTABLE_CHANNEL(color, 0) = TH09_BG_RENDER_MUTABLE_CHANNEL(color, 0) -
+                            (reinterpret_cast<u8 *>(&(color))[0]) = (reinterpret_cast<u8 *>(&(color))[0]) -
                                 static_cast<u8>(
-                                    (TH09_BG_RENDER_MUTABLE_CHANNEL(color, 0) - TH09_BG_RENDER_NATIVE_CHANNEL(this->skyFog.color, 0)) * quadWidth);
-                            TH09_BG_RENDER_MUTABLE_CHANNEL(color, 1) = TH09_BG_RENDER_MUTABLE_CHANNEL(color, 1) -
+                                    ((reinterpret_cast<u8 *>(&(color))[0]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[0])) * quadWidth);
+                            (reinterpret_cast<u8 *>(&(color))[1]) = (reinterpret_cast<u8 *>(&(color))[1]) -
                                 static_cast<u8>(
-                                    (TH09_BG_RENDER_MUTABLE_CHANNEL(color, 1) - TH09_BG_RENDER_NATIVE_CHANNEL(this->skyFog.color, 1)) * quadWidth);
-                            TH09_BG_RENDER_MUTABLE_CHANNEL(color, 2) = TH09_BG_RENDER_MUTABLE_CHANNEL(color, 2) -
+                                    ((reinterpret_cast<u8 *>(&(color))[1]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[1])) * quadWidth);
+                            (reinterpret_cast<u8 *>(&(color))[2]) = (reinterpret_cast<u8 *>(&(color))[2]) -
                                 static_cast<u8>(
-                                    (TH09_BG_RENDER_MUTABLE_CHANNEL(color, 2) - TH09_BG_RENDER_NATIVE_CHANNEL(this->skyFog.color, 2)) * quadWidth);
-                            TH09_BG_RENDER_MUTABLE_CHANNEL(color, 3) = static_cast<u8>(
-                                TH09_BG_RENDER_MUTABLE_CHANNEL(color, 3) * (1.0f - quadWidth));
+                                    ((reinterpret_cast<u8 *>(&(color))[2]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[2])) * quadWidth);
+                            (reinterpret_cast<u8 *>(&(color))[3]) = static_cast<u8>(
+                                (reinterpret_cast<u8 *>(&(color))[3]) * (1.0f - quadWidth));
                         }
 
                         quadVm->pos = quadPosition;
@@ -357,25 +344,18 @@ int Background::RenderObjects(int mode)
                             fogState = 0;
                         }
 
-                        g_AnmManager->DrawNoRotationNoRound(reinterpret_cast<AnmVm *>(quadVm));
+                        g_AnmManager->DrawNoRotationNoRound(quadVm);
                         g_AnmManager->ClearTexture();
 
                         if ((quadVm->unknown_01FC[0] & 0xF0) == 0x10 &&
                             this->skyFog.nearPlane > quadWidth &&
                             this->collectSpecialEffectPoints != 0)
                         {
-                            (*reinterpret_cast<BackgroundSpecialEffectPoint *>(
-                                reinterpret_cast<unsigned int>(&this->specialEffectPoints[0]) +
-                                static_cast<unsigned int>(this->specialEffectPointCount) *
-                                    sizeof(this->specialEffectPoints[0]))).point =
+                            this->specialEffectPoints[static_cast<unsigned int>(this->specialEffectPointCount)].point =
                                     *reinterpret_cast<BackgroundPoint *>(
                                         &quadPosition);
-                            (*reinterpret_cast<BackgroundSpecialEffectPoint *>(
-                                reinterpret_cast<unsigned int>(&this->specialEffectPoints[0]) +
-                                static_cast<unsigned int>(this->specialEffectPointCount) *
-                                    sizeof(this->specialEffectPoints[0]))).point.z = 0.0f;
-                            ++*reinterpret_cast<unsigned int *>(
-                                &this->specialEffectPointCount);
+                            this->specialEffectPoints[static_cast<unsigned int>(this->specialEffectPointCount)].point.z = 0.0f;
+                            this->specialEffectPointCount = static_cast<int>(static_cast<unsigned int>(this->specialEffectPointCount) + 1u);
                         }
 
                     restoreColor:
@@ -389,7 +369,7 @@ int Background::RenderObjects(int mode)
                                 g_Supervisor.EnableFog();
                             fogState = 1;
                         }
-                        g_AnmManager->Draw3D(reinterpret_cast<AnmVm *>(quadVm));
+                        g_AnmManager->Draw3D(quadVm);
                     }
                     break;
                 }
@@ -473,22 +453,22 @@ int Background::RenderObjects(int mode)
                         if (fogRatio < 1.0f)
                         {
                             vertices[1].diffuse.b =
-                                TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 0) - static_cast<u8>(
-                                    (TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 0) - TH09_BG_RENDER_NATIVE_CHANNEL(this->skyFog.color, 0)) * fogRatio);
+                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[0]) - static_cast<u8>(
+                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[0]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[0])) * fogRatio);
                             vertices[0].diffuse.b =
                                 vertices[1].diffuse.b;
                             vertices[1].diffuse.g =
-                                TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 1) - static_cast<u8>(
-                                    (TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 1) - TH09_BG_RENDER_NATIVE_CHANNEL(this->skyFog.color, 1)) * fogRatio);
+                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[1]) - static_cast<u8>(
+                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[1]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[1])) * fogRatio);
                             vertices[0].diffuse.g =
                                 vertices[1].diffuse.g;
                             vertices[1].diffuse.r =
-                                TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 2) - static_cast<u8>(
-                                    (TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 2) - TH09_BG_RENDER_NATIVE_CHANNEL(this->skyFog.color, 2)) * fogRatio);
+                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[2]) - static_cast<u8>(
+                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[2]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[2])) * fogRatio);
                             vertices[0].diffuse.r =
                                 vertices[1].diffuse.r;
                             vertices[1].diffuse.a = static_cast<u8>(
-                                TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 3) * (1.0f - fogRatio));
+                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[3]) * (1.0f - fogRatio));
                             vertices[0].diffuse.a =
                                 vertices[1].diffuse.a;
                         }
@@ -575,22 +555,22 @@ int Background::RenderObjects(int mode)
                         if (fogRatio < 1.0f)
                         {
                             vertices[3].diffuse.b =
-                                TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 0) - static_cast<u8>(
-                                    (TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 0) - TH09_BG_RENDER_NATIVE_CHANNEL(this->skyFog.color, 0)) * fogRatio);
+                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[0]) - static_cast<u8>(
+                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[0]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[0])) * fogRatio);
                             vertices[2].diffuse.b =
                                 vertices[3].diffuse.b;
                             vertices[3].diffuse.g =
-                                TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 1) - static_cast<u8>(
-                                    (TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 1) - TH09_BG_RENDER_NATIVE_CHANNEL(this->skyFog.color, 1)) * fogRatio);
+                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[1]) - static_cast<u8>(
+                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[1]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[1])) * fogRatio);
                             vertices[2].diffuse.g =
                                 vertices[3].diffuse.g;
                             vertices[3].diffuse.r =
-                                TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 2) - static_cast<u8>(
-                                    (TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 2) - TH09_BG_RENDER_NATIVE_CHANNEL(this->skyFog.color, 2)) * fogRatio);
+                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[2]) - static_cast<u8>(
+                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[2]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[2])) * fogRatio);
                             vertices[2].diffuse.r =
                                 vertices[3].diffuse.r;
                             vertices[3].diffuse.a = static_cast<u8>(
-                                TH09_BG_RENDER_NATIVE_CHANNEL(quadVm->color1, 3) * (1.0f - fogRatio));
+                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[3]) * (1.0f - fogRatio));
                             vertices[2].diffuse.a =
                                 vertices[3].diffuse.a;
                         }
@@ -679,7 +659,7 @@ int Background::RenderObjects(int mode)
                     }
 
                     g_AnmManager->QueueSpriteQuad(
-                        reinterpret_cast<AnmVm *>(quadVm),
+                        quadVm,
                         reinterpret_cast<VertexTex1DiffuseXyzrhw *>(
                             vertices));
                     break;

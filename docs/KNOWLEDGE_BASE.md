@@ -12036,3 +12036,47 @@ nonrelocation byte identity were independently proved.
 No ASM, synthetic padding, forced registers,
 whole-product cold replay, or new exact-function credit
 was used.
+
+## 2026-11-17 GPT-web: native Background render objects, quads and fog channels
+
+The complete `Background::RenderObjects` owner now traverses
+its genuine file-loaded `RawStageObjectInstance` records with
+`++instance`, and selects `stageObjects[objectId]` and
+`stageObjectVms[vmIndex]` from the actual Background-owned
+arrays using their original unsigned index expressions.
+The variable-sized quad list advances its native byte
+cursor by the original signed 16-bit `byteSize` wire value,
+without pretending it is a fixed-extent C++ array or adding
+a range check.
+
+The two special-effect point writes now use the authentic
+`specialEffectPoints[specialEffectPointCount].point`
+record, and its counter advances through explicit
+unsigned-32-bit integer semantics. The existing ANM VM
+pointer is passed to the real ANM draw routines without
+redundant same-type casts. Both 32-bit packed colors
+remain original `AnmVm::color1` and Background fog words;
+their 23 read and eleven mutable byte-lane sites are direct
+indexed `const unsigned char *` / `unsigned char *`
+accesses, not additional color arrays or the
+`TH09_BG_RENDER_NATIVE/MUTABLE_CHANNEL` integer-address
+macros. The original fog equations, billboard projection
+and exact draw/clear ordering remain unchanged.
+
+Eight independent pinned VC7.1 probes tested pointer
+progression, native object and VM arrays, variable-sized
+quads, special-effect point lvalues/count, packed
+color lanes and native ANM method receivers. Their
+combined form and the subsequent removal of both color
+macros each reproduced the **entire 3,274/3,274-byte
+original-bound RenderObjects owner with all 113
+relocation fields**. The maintained strict COFF/PE
+comparison and selected-source replay both pass
+**1/1 existing exact owner**; no compiler-private
+labels needed rebinding.
+
+The still-unproven type/interpretation of the ANM byte
+at +0x1FC and the Stage projection context remain
+unchanged. No ASM, synthetic padding, register forcing,
+whole-product cold replay or newly exact function
+was claimed.
