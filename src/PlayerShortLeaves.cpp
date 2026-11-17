@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include "AnmManager.hpp"
 
 struct PlayerAnmVmBlendModeView
 {
@@ -22,16 +23,10 @@ void PlayerAnmVmBlendModeView::SetBlendModeNormal()
     flags1F8 &= ~0x30u;
 }
 
-class AnmLoaded;
-
-struct PlayerAnmLoadedRawView
-{
-    unsigned char unknown00[4];
-    void *rawData04;
-};
-
+// The Player preload leaf reads the original ANM loader's +4 file pointer;
+// both owners use the same native layout.
 typedef char PlayerAnmRawDataAt04[
-    (offsetof(PlayerAnmLoadedRawView, rawData04) == 0x04) ? 1 : -1];
+    (offsetof(AnmLoaded, rawData04) == 0x04) ? 1 : -1];
 
 struct PlayerAnmManagerRawView
 {
@@ -41,7 +36,7 @@ struct PlayerAnmManagerRawView
 
 void *PlayerAnmManagerRawView::GetAnmRawData(int anmIdx)
 {
-    return reinterpret_cast<PlayerAnmLoadedRawView *>(GetAnm(anmIdx))->rawData04;
+    return GetAnm(anmIdx)->rawData04;
 }
 
 struct PlayerCollisionRegionRuntimeView
