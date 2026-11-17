@@ -12297,3 +12297,45 @@ shrank the physical owner to 804 bytes and introduced
 many different register/branch bytes; that candidate was
 rejected. No ASM, padding, forced registers, full cold
 replay, or new Exact-function credit was used.
+
+## 2026-11-17 GPT-web: native Type4 ExAttack trail history and source owner
+
+The complete `ExAttackUpdateCallbackType4` now accesses the
+original thirty-two `ExAttackType4UpdateExtra::history10`
+Float3 samples directly, including the preceding sample
+through an unsigned `historyIndex - 1` array index.
+The real five `AnmVm` objects live in the dynamic
+`vms1C` allocation, and the five opponent collision
+queries target the existing `g_GameManager.sides[]`
+records directly. All four
+`TH09_EX4_HISTORY/PREVIOUS/VM/SIDE` integer-address
+macros are deleted; no duplicate array or new bounds
+guard was added.
+
+The previously padded `ExAttackType4SourceRecord` is
+also removed. Its source record is the actual
+`ExAttackRecord *` carried by the Type4 state at
++0x38. The original +0x34 type-specific extra pointer
+is retrieved from the real
+`ExAttackRecord::unknown2C[8]` storage, as a typed
+pointer lvalue at the same physical offset, rather
+than a fabricated 0x34-byte record prefix.
+The original collision, VM interrupt and trail-motion
+execution order remains unchanged.
+
+Four individual pinned VC7.1 probes and a combined
+native-array probe reproduced the entire **739/739
+physical bytes and all 28 relocations**. Two further
+natural source-owner experiments proved that the
+Type4 source record can be native `ExAttackRecord`
+without altering the original owner. Trying to
+replace the *whole* Type4 update view with the
+generic record and a Float3 alias instead enlarged
+the function to 751 bytes with hundreds of
+differences, so that unproven nominal type merge
+was rejected. The maintained strict PE/COFF
+comparison and selected-source replay pass
+**1/1 already Exact owner** with no private-label
+rebindings. No ASM, padding, register forcing,
+whole-product cold replay or new exact-function
+credit was used.
