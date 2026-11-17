@@ -224,8 +224,8 @@ typedef char PlayerSelectorNativeEnemyOwnerFields[
      offsetof(EnemyView, position2D74) == 0x2D74 &&
      offsetof(EnemyView, secondaryFlags3380) == 0x3380 &&
      offsetof(PlayerLifecycleView, targetOverride30F64) == 0x30F64) ? 1 : -1];
-// The selector copies the Enemy's native XYZ into its own PlayerPosition
-// workspace.  Both views have the original, proven 3-float memory geometry.
+// EnemyFloat3 and PlayerPositionView are separate C++ types with the same
+// proven 0x0C XYZ layout. Copy the physical vector bytes without type-punning.
 typedef char PlayerSelectorNativeEnemyXYZWindow[
     (sizeof(EnemyFloat3) == sizeof(PlayerPositionView) &&
      sizeof(PlayerPositionView) == 0x0C &&
@@ -560,7 +560,7 @@ pattern_selected:
                         EnemyView *enemy = manager->priorityEnemy2AC444;
                         if (enemy != NULL)
                         {
-                            target = *reinterpret_cast<const PlayerPositionView *>(&enemy->position2D74);
+                            memcpy(&target, &enemy->position2D74, sizeof(target));
                             target.y += 128.0f;
                             unsigned int flags = enemy->secondaryFlags3380;
                             if ((flags & 0xC00U) == 0xC00U || (flags & 0x2000U) != 0)
@@ -571,7 +571,7 @@ pattern_selected:
                         enemy = manager->firstActiveEnemy2AC448;
                         if (enemy != NULL)
                         {
-                            target = *reinterpret_cast<const PlayerPositionView *>(&enemy->position2D74);
+                            memcpy(&target, &enemy->position2D74, sizeof(target));
                             target.y += 128.0f;
                         }
                     }
