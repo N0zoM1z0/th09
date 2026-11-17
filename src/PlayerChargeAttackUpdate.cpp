@@ -80,7 +80,7 @@ int PlayerLifecycleView::UpdateChargeAttack()
              (sideMode == 0 && input->IsHeld(1)))
     {
         timer303BC++;
-        if (timer303BC >= 10 && (flags1B80 & 4u) == 0)
+        if (timer303BC >= 10 && flagBits1B80.chargeAttackActive02 == 0)
         {
             if (scalar30384 == 0.0f)
             {
@@ -113,7 +113,7 @@ int PlayerLifecycleView::UpdateChargeAttack()
 resolveAttack:
     if (scalar30384 >= 100.0f)
     {
-        flags1B80 |= 4u;
+        flagBits1B80.chargeAttackActive02 = 1;
         timer30398 = 0;
         timer1B74 = 8;
         if (scalar30384 >= 400.0f &&
@@ -150,7 +150,7 @@ resolveAttack:
         timer303B0--;
     }
 afterCharge:
-    if ((flags1B80 & 4u) != 0)
+    if (flagBits1B80.chargeAttackActive02 != 0)
     {
         if (timer30398.HasTicked())
         {
@@ -163,7 +163,7 @@ afterCharge:
         if (shotTime >= sht->shotDuration28)
         {
             timer30398 = 0;
-            flags1B80 &= ~4u;
+            flagBits1B80.chargeAttackActive02 = 0;
         }
     }
     if (timer303A4 >= 0)

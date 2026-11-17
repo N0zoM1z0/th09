@@ -103,12 +103,12 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     else
         focused = input->IsHeld(4) != 0;
 
-    player->flags1B80 ^=
-        (player->flags1B80 ^ static_cast<unsigned int>(focused)) & 3u;
+    player->flagBits1B80.focusState00_01 =
+        static_cast<unsigned int>(focused);
 
 
 
-    if ((player->flags1B80 & 3u) != 0)
+    if (player->flagBits1B80.focusState00_01 != 0)
     {
         if (player->focusEffect364 == NULL)
         {

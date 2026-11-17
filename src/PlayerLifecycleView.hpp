@@ -496,6 +496,19 @@ typedef char PlayerMovementAngleAt0C[
 typedef char PlayerMovementScaleLastAt1C[
     (offsetof(PlayerMovementFields, speedMultiplier1CE8) == 0x1C) ? 1 : -1];
 
+// The Player +0x1B80 DWORD is shared by focus state, charge attack and
+// the separately named added-state flag. Keep the opaque bits in one native
+// word rather than treating each gameplay owner as a different storage.
+struct PlayerFlagBits1B80View
+{
+    unsigned int focusState00_01 : 2;
+    unsigned int chargeAttackActive02 : 1;
+    unsigned int unknown03 : 1;
+    unsigned int unknown04_31 : 28;
+};
+typedef char PlayerFlagBits1B80SizeIs4[
+    (sizeof(PlayerFlagBits1B80View) == sizeof(unsigned int)) ? 1 : -1];
+
 struct PlayerLifecycleView
 {
     int updateState00;
@@ -514,7 +527,11 @@ struct PlayerLifecycleView
     Effect *secondaryEffect368;
     PlayerCollisionQueryStateView collisionQuery36C;
     PlayerTimerCtorView timer1B74;
-    unsigned int flags1B80;
+    union
+    {
+        unsigned int flags1B80;
+        PlayerFlagBits1B80View flagBits1B80;
+    };
     unsigned int unknown1B84;
     PlayerPositionView position1B88;
     PlayerPositionView position1B94;
