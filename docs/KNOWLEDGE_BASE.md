@@ -10180,3 +10180,32 @@ units, 45,420 bytes and 1,987 relocation fields**; its
 nonexact Enemy OnUpdate sibling remains exactly
 3,900/3,900 bytes with only its two existing mismatches.
 No full-product cold replay was run or new exactness credit claimed.
+
+## 2026-11-17 GPT-web: native ANM interpolation arrays in ExecuteScript
+
+The large original-bound `AnmManager::ExecuteScript` interpreter now
+indexes its real `AnmVm::interpEndTimers[7]`,
+`interpCurrentTimers[7]`, and `interpModes[7]` directly.
+The loop's `AnmInterp_Last` bound is seven, matching the actual
+0x0C-byte `ZunTimer` array entries and seven mode bytes at the
+layout-verified VM offsets. The former `TH09_ANM_NATIVE_INTERP_TIMER`
+and `TH09_ANM_NATIVE_INTERP_MODE` macros fabricated native
+integer addresses and cast them back to pointers; they are gone.
+Increment, timer-expiry, ratio calculation, easing interpolation
+and all native reads retain the exact same C++ statement order,
+with no additional guards or behavior.
+
+Three separately compiled natural-C++ probes (direct timer array,
+direct mode array and both) reproduced the complete 9,776-byte
+physical ExecuteScript owner before the maintained edit. The
+maintained code removes both macros, not merely replaces their bodies.
+A pinned VC7.1 replay of the affected two compiler profiles
+passes **5/5 previously exact functions, 10,496 physical bytes
+and 421 relocation fields**, including the 9,358-byte logical /
+**9,776-byte physical interpreter** with its 368 original
+relocations. The 59 changed VC7.1 compiler-local symbols were
+rebound only after full unmasked PE-byte equality and matching
+relocation offsets/types, same-section COFF definitions and
+identical original target destinations were proved. No ASM,
+padding, forced register assignments, whole-product cold
+replay or new exact-function promotion was used.
