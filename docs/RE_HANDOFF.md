@@ -55,7 +55,56 @@ none of these changes adds an exact-function ledger claim. All were checked
 against the original Japanese 1.50a executable with pinned VC7.1 profiles,
 complete compared code/tails and independently verified COFF relocations.
 
-### Latest eight native-source checkpoints
+### Latest five native C++ source checkpoints
+
+The new work is in the registered live `th09` tree, not a separate source
+copy. Each checkpoint includes the pinned VC7.1 exact comparison for all
+co-resident authored owners, including complete physical tails/relocations:
+
+- `2897b950` — the **2,258-byte** `TitleScreenView::OnUpdateMusicRoom`
+  boss uses native file byte-pointer differences, real `musicTracks[]` array
+  indexing and a direct music-pause toggle. Pointer subtraction alone
+  changed four target bytes; the related typed track indexing restored the
+  original entire codegen. Together with the DrawMusicRoom leaf this is
+  **2/2 existing exact, 2,467 bytes, 80 relocation fields**.
+- `b0b01f4f` — the 1,776-byte pause-menu state machine and the 1,172-byte
+  second menu owner, plus ASCII manager update, now increment their real
+  state and frame members directly instead of via unsigned-word casts.
+  **10/10 exact, 4,206 bytes, 264 relocation fields**. A separate typed
+  side-index popup loop changed 11 bytes; it was rejected and reverted.
+- `37056aa6` — `ReplayInputState::Update` advances its real 16-bit held-frame
+  cursor; `RecordInputAndFps` increments the native delay, frame count and
+  frame counter members. All **12/12 exact, 4,093 bytes, 232 relocation
+  fields** pass across the two source profiles. Nonexact `SaveReplay` (2
+  differing bytes) and `BeginPlaybackStage` (13) remain protected. A trial
+  converting all twelve BeginRecordingStage raw stage-slot expressions to
+  direct array indexing grew its 1,323-byte owner to 1,333 bytes and
+  disrupted its code/relocations; it was rejected.
+- `7d310565`, `1a48f848` — `Ending::UpdateFade` and the full script parser
+  now use native fade/wait timers, next-text-VM and two-character local
+  text indexing. The 1,727-byte complete `RunEndingScript` owner and fade
+  leaf are included in **10/10 exact, 3,015 bytes, 159 relocation fields**.
+
+The four distinct source cohorts above prove **34 existing exact owners,
+13,781 physical bytes and 735 relocation fields**, without a full-project
+cold replay. All compiler-private label renames were independently checked
+against their actual same-section COFF definitions and unchanged original PE
+targets before the affected-source replay. The canonical total stays at
+**1,026 exact, 11 source-present nonexact**; no ASM, NOP/PADDING, forced
+register assignments or fabricated exactness was introduced. Whole-game
+native build and runtime closure remain open.
+
+Useful bounded checks:
+
+~~~sh
+python3 -B scripts/replay-scoped-exact.py --source src/TitleScreenMusicRoom.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/AsciiManagerMenu.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/ReplayInput.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/Ending.cpp
+python3 -B scripts/check-frontier.py replay-save replay-begin-playback enemy-on-update
+~~~
+
+### Previous eight native-source checkpoints
 
 Eight local source commits follow the earlier interpreter work, all using
 natural C++ and the original Japanese v1.50a pinned VC7.1 comparison:
