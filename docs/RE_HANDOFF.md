@@ -50,6 +50,17 @@ experiments. Commit coherent changes as `gpt-web: ...`; never push silently.
 
 ## Current source-native reconstruction checkpoints (2026-11-17)
 
+### Active boss: SupervisorServiceUpdate
+
+The 1,633-byte `SupervisorServiceUpdate @ 0x00430AA0` owner remains at
+1,629/1,633 bytes with 966 recorded differences. Commit `1c4cb7e7` corrects
+the two queue-prefill `PopFrame` outputs: distinct 16-bit seed slots and one
+shared 32-bit predicted slot. The ABI/layout proof and rejected common-return
+and network-pointer-reload experiments are recorded at the end of
+`KNOWLEDGE_BASE.md`. Do not restore those rejected variants or widen the
+frontier. The 1,210-byte Player charge boss remains at 183 differences; its
+32-bit side-index/register-role probe is also recorded there.
+
 The maintained source includes several **natural C/C++ ownership recoveries**;
 none of these changes adds an exact-function ledger claim. All were checked
 against the original Japanese 1.50a executable with pinned VC7.1 profiles,

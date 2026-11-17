@@ -13161,3 +13161,20 @@ would require a broad relocation rebind without improving code bytes.
 
 No source, frontier, or manifest changes were retained from these probes.
 No ASM, padding, widened masks, or full cold replay was used.
+
+
+## 2026-11-17 GPT-web: Supervisor service PopFrame alias and large-owner scheduling probes
+
+`SupervisorServiceUpdate @ 0x00430AA0` remains **1,629/1,633 bytes with 966 recorded differences**. The source now corrects one native C++ scratch-layout error: `Supervisor::PopFrame` has output parameters `(unsigned short *seed, unsigned int *predicted)`, and the two queue-prefill calls use separate 16-bit seed slots with one shared 32-bit prediction slot. Retail's first prefill call uses seed/prediction stack addresses `EBP-0x0C` / `EBP-0x08`; the second uses `EBP-0x0A` / `EBP-0x08`. `NetworkPrefillScratch` now expresses those offsets as `first.seed@0`, `second.seed@2`, and both `predicted@4`. The source/layout correction is committed as `1c4cb7e7`; the complete owner frontier passed without changing its mask or byte count. This is a semantic/ABI-layout correction, not a reduction in the 966 residual differences.
+
+Several natural-C++ owner probes were compiled against this function and restored:
+
+- Joining the retry and frame-ready exits through one `RETURN_FRAME_RESULT` label models the retail local result (`0` at entry, `1` on the retry path) and common `LeaveCriticalSectionWrapper` epilogue. VC7.1 grows the owner to **1,651/1,633 bytes and 995 differences**, allocates `0x18` stack bytes, and homes the result at `[ebp-0x0C]` rather than retail `[ebp-4]`. Rejected.
+- Rebinding a local `SupervisorNetworkState *network` after the join/host callbacks models the retail global receiver reloads at `0x00430B49` and `0x00430C2E`. The initial state check can then use the expected base pointer in EDI, but the full owner grows to **968 differences** and introduces new offsets. A volatile global-pointer lvalue grows the residual to **1,099 differences**. Both were reverted.
+- Reordering or hoisting the service result, frame outputs, and queue-prefill scratch changes stack homes and the complete register schedule; no variant was promoted. Keep the corrected prefill union, but do not adopt the experimental common epilogue or pointer-reload variants.
+
+`PlayerLifecycleView::UpdateChargeAttack @ 0x0041F810` remains **1,210/1,210 bytes with 183 differences**. The target reads the native 32-bit `Player +0x08` side index into EDI and forms the `ReplayInputState` pointer in EBX. The current source's `short side` local emits a 16-bit sign-extending load. Widening it to `int`, removing the local, using direct array access, or using references/register hints changes the EDI/EBX allocation and regresses the complete owner (the simple `int` form reaches 717 differences). These probes were reverted; the 183-difference baseline is unchanged.
+
+`EnemyManagerView::OnUpdate` remains **3,900/3,900 bytes with two differences** at `+0x19A/+0x1A1` (EAX vs ECX draw-group index). Address-of-index, pointer increment, byte-address and pointer-to-array forms did not improve the owner and were reverted. `PlayerLifecycleView::UpdateMovementAndOptions` remains **1,900/1,900 bytes with four differences**; the config/side load-order probes likewise produced no monotone-safe improvement.
+
+No frontier masks were widened, no assembly or padding was introduced, and no full cold replay was run.
