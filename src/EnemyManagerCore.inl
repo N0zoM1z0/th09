@@ -251,13 +251,11 @@ typedef char EnemyCoreAttachedEffectNativeOffsets[
 #include "RuntimeAngleMath.hpp"
 extern long double __stdcall AnmProjectionAbs(float value);
 
-// Address attached effect pointers as native Win32 DWORD-stride slots in
-// the actual Enemy+0x53B4 allocation, without an extra C++ bounds gate.
+// Attached effects occupy the real 24-element Enemy pool at +0x53B4.
+// The runtime's live index selects the native pointer slot directly.
 static inline Effect *& NativeEnemyAttachedEffectSlot(EnemyView *enemy, int index)
 {
-    return *reinterpret_cast<Effect **>(
-        reinterpret_cast<unsigned int>(&enemy->attachedEffectState53B4.effects00[0]) +
-        static_cast<unsigned int>(index) * sizeof(enemy->attachedEffectState53B4.effects00[0]));
+    return enemy->attachedEffectState53B4.effects00[index];
 }
 
 static void EnemyCoreUpdateAttachedEffects(EnemyView *nativeEnemy)
@@ -302,19 +300,13 @@ typedef char EnemyCoreCalcNativePoolAndFields[
      offsetof(EnemyView, shootIntervalFrames30B4) == 0x30B4 &&
      offsetof(EnemyView, trailSamples33E8) == 0x33E8) ? 1 : -1];
 
-// Script-controlled trail positions belong to the genuine 0x5430-byte
-// Enemy owner and begin at its independently verified +0x33E8 member.
-// Form the original native byte pointer from that owning allocation,
-// not from a projected one-element trail sample subarray. Do not
-// impose a new index/capacity gate on the original script value.
+// Script-controlled trail positions belong to the native EnemyView
+// trailSamples33E8 array. Keep original live signed script indices and
+// avoid adding a new bounds gate or a separate scratch allocation.
 static __forceinline EnemyTrailSampleView &NativeEnemyTrailSample(
     EnemyView *enemy, int index)
 {
-    return *reinterpret_cast<EnemyTrailSampleView *>(
-        reinterpret_cast<unsigned char *>(enemy) +
-        offsetof(EnemyView, trailSamples33E8) +
-        static_cast<unsigned int>(index) *
-            sizeof(enemy->trailSamples33E8[0]));
+    return enemy->trailSamples33E8[index];
 }
 
 // Hit-flash channels are the native ANM VM's B/G/R/A color2 union fields.
