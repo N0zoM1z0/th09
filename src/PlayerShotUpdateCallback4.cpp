@@ -31,8 +31,8 @@ int __fastcall PlayerShotUpdateCallbackType4(
     nativeShot->position2A4.y += velocityY;
     nativeShot->velocity43C.y -= 1.0f;
 
-    ZunTimer *timer = reinterpret_cast<ZunTimer *>(&nativeShot->timer454);
-    if (*timer >= 15)
+    PlayerTimerCtorView &timer = nativeShot->timer454;
+    if (timer >= 15)
     {
         lifecycle->movementFields1CCC.speedMultiplier1CE0 = 1.0f;
         lifecycle->movementFields1CCC.speedMultiplier1CDC = 1.0f;
@@ -40,7 +40,7 @@ int __fastcall PlayerShotUpdateCallbackType4(
 
     if (nativeShot->state462 == 1)
     {
-        float width = (float)*timer + 80.0f;
+        float width = static_cast<float>(timer) + 80.0f;
         PlayerPositionView center = *position;
         center.y -= 16.0f;
         center.x -= (width - 96.0f) * 0.5f;
