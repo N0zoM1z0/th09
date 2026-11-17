@@ -10120,3 +10120,36 @@ VC7.1 replay passes **4/4 original exact functions,
 1,922 complete physical bytes and 61 relocations**. No ASM,
 padding, target patches, full cold replay, or new exactness
 promotion was involved.
+
+## 2026-11-17 GPT-web: native interaction state in Enemy timeline interpreter
+
+The large `EnemyScheduleRuntimeView::Run` timeline interpreter
+(974 logical code bytes, **1,048-byte** physical owner including its
+dispatch payloads) now writes the real
+`secondaryFlagBits3380.movement.movementMode09_10` low bit when
+opcode 17 creates its Enemy and uses
+`primaryFlagBits337C.active00` for opcode 10's remote-slot
+activation check. Both operate on the genuine `EnemyView` pool;
+the original indexed remote slot reads, timer backedge and
+spawn event dispatch order remain unchanged. The bitfield
+OR preserves the second movement-mode bit just as the original
+0x200 mask did.
+
+A separate **diagnostic only** tried replacing the timeline's
+`EnemyTimelineSpawnManagerView` method signature with the
+other exact consumer's `EnemyManagerCardAttackSpawnView`.
+That source has a `char` defeat-token parameter versus this
+timeline call's native whole-int argument transport, and VC7.1
+changed the physical owner from 1,048 to 1,056 bytes with
+735 differences. It was not promoted; the original ABI
+adaptation needs more evidence, not a coercion to a presumed
+method identity.
+
+The maintained natural-C++ timeline owner is **1,048/1,048
+exact** with all **42 original relocation fields**. The source-
+scoped replay passes the interpreter and its timer leaf
+(**2/2 exact functions, 1,068 physical bytes, 42 relocations**).
+The 19 compiler-private `$L` name updates were individually
+proven against their original PE targets and same-section COFF
+definitions; no behavioral byte changed. No padding, ASM,
+whole-product cold replay or new exactness credit was used.

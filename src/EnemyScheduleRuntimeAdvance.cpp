@@ -163,7 +163,7 @@ int EnemyScheduleRuntimeView::Run()
                                     &position17, TH09_TIMELINE_NATIVE_ARG(args17, 3),
                                     TH09_TIMELINE_NATIVE_ARG(args17, 4), TH09_TIMELINE_NATIVE_ARG(args17, 5),
                                     runtime->mirrorMovementX18, 0));
-                    enemy17->secondaryFlags3380 |= 0x200u;
+                    enemy17->secondaryFlagBits3380.movement.movementMode09_10 |= 1u;
                     break;
                 }
 
@@ -273,8 +273,8 @@ int EnemyScheduleRuntimeView::Run()
                         reinterpret_cast<unsigned int>(instruction) +
                             sizeof(EnemyTimelineInstructionView));
                     if (TimelineRemoteSlot(runtime->manager1C, TH09_TIMELINE_NATIVE_ARG(args10, 0)) != 0 &&
-                        (TimelineRemoteSlot(runtime->manager1C, TH09_TIMELINE_NATIVE_ARG(args10, 0))->primaryFlags337C &
-                         1u) != 0)
+                        TimelineRemoteSlot(runtime->manager1C, TH09_TIMELINE_NATIVE_ARG(args10, 0))->
+                            primaryFlagBits337C.active00 != 0)
                     {
                         runtime->timer00--;
                         goto finish;
