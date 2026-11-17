@@ -536,8 +536,8 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
     replayManager->inputCursors[2] = (u16 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::InputStreamBytes, "rep data");
     replayManager->fpsCursor = (u8 *)g_ZunMemory.Alloc(ReplayRecordingCapacity::FpsStreamBytes, "rep data");
 
-    ReplayBufferLink *first = &TH09_REPLAY_NATIVE_STAGE_ROOT(replayManager, stage);
-    ReplayBufferLink *current = &TH09_REPLAY_NATIVE_STAGE_ROOT(replayManager, stage);
+    ReplayBufferLink *first = &replayManager->stageBuffers[static_cast<unsigned int>(stage)];
+    ReplayBufferLink *current = &replayManager->stageBuffers[static_cast<unsigned int>(stage)];
     replayManager->currentBuffer = first;
     while (current != NULL)
     {
@@ -660,14 +660,12 @@ int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
 
     // Frame-sync capture uses the same 0x8E-byte native side-state stride.
     int side = 0;
-    // This is the genuine GameConfiguration +0xB4 byte row, selected by
-    // native unsigned-DWORD side arithmetic without a new bounds gate.
+    // Use the actual GameConfiguration side-focus array at +0xB4.
+    // The original live unsigned index and condition remain unguarded.
     GameConfiguration *inputGate = g_GameManager.configurationE8;
     for (; side < ReplayNativeInputGateCapacity::SideCount; side++)
     {
-        if (inputGate != NULL && (*reinterpret_cast<const u8 *>(
-            reinterpret_cast<unsigned int>(&inputGate->sideFocusMode[0]) +
-            static_cast<unsigned int>(side))) == 1)
+        if (inputGate != NULL && inputGate->sideFocusMode[static_cast<unsigned int>(side)] == 1)
         {
             ReplayInputState &sideInput = g_ReplayInputStates[side];
             if (sideInput.IsHeld(1))
@@ -754,12 +752,12 @@ void ReplayManagerView::Release()
     if (this == NULL)
         return;
 
-    // Release operates directly on the original 0x18-byte link records,
-    // the 3x10 native frame-pointer table and the 10 FPS pointer slots.
-    // Preserve each repeated live read/free/write and all existing guards.
+    // Release traverses the actual 0x18-byte stage-link records and
+    // their native 3x10 frame-pointer and ten FPS-pointer arrays.
+    // Preserve independent live frees, null checks and write ordering.
     for (int stage = 0; stage < ReplayRecordingCapacity::StageCount; stage++)
     {
-        ReplayBufferLink *first = &TH09_REPLAY_NATIVE_STAGE_ROOT(this, stage);
+        ReplayBufferLink *first = &this->stageBuffers[static_cast<unsigned int>(stage)];
         ReplayBufferLink *link = first;
         while (link != NULL)
         {
@@ -782,28 +780,13 @@ void ReplayManagerView::Release()
         {
             for (int stream = 0; stream < ReplayRecordingCapacity::InputStreamCount; stream++)
             {
-                if ((*reinterpret_cast<ReplayFrameDataStartView **>(
-                    reinterpret_cast<unsigned int>(&this->replayData->frameStart[0][0]) +
-                    (static_cast<unsigned int>(stream) * ReplayRecordingCapacity::StageCount +
-                     static_cast<unsigned int>(stage)) * sizeof(this->replayData->frameStart[0][0]))) != NULL)
-                    g_ZunMemory.Free((*reinterpret_cast<ReplayFrameDataStartView **>(
-                    reinterpret_cast<unsigned int>(&this->replayData->frameStart[0][0]) +
-                    (static_cast<unsigned int>(stream) * ReplayRecordingCapacity::StageCount +
-                     static_cast<unsigned int>(stage)) * sizeof(this->replayData->frameStart[0][0]))));
-                (*reinterpret_cast<ReplayFrameDataStartView **>(
-                    reinterpret_cast<unsigned int>(&this->replayData->frameStart[0][0]) +
-                    (static_cast<unsigned int>(stream) * ReplayRecordingCapacity::StageCount +
-                     static_cast<unsigned int>(stage)) * sizeof(this->replayData->frameStart[0][0]))) = NULL;
+                if (this->replayData->frameStart[static_cast<unsigned int>(stream)][static_cast<unsigned int>(stage)] != NULL)
+                    g_ZunMemory.Free(this->replayData->frameStart[static_cast<unsigned int>(stream)][static_cast<unsigned int>(stage)]);
+                this->replayData->frameStart[static_cast<unsigned int>(stream)][static_cast<unsigned int>(stage)] = NULL;
             }
-            if ((*reinterpret_cast<u8 **>(
-                reinterpret_cast<unsigned int>(&this->replayData->fpsStart[0]) +
-                static_cast<unsigned int>(stage) * sizeof(this->replayData->fpsStart[0]))) != NULL)
-                g_ZunMemory.Free((*reinterpret_cast<u8 **>(
-                reinterpret_cast<unsigned int>(&this->replayData->fpsStart[0]) +
-                static_cast<unsigned int>(stage) * sizeof(this->replayData->fpsStart[0]))));
-            (*reinterpret_cast<u8 **>(
-                reinterpret_cast<unsigned int>(&this->replayData->fpsStart[0]) +
-                static_cast<unsigned int>(stage) * sizeof(this->replayData->fpsStart[0]))) = NULL;
+            if (this->replayData->fpsStart[static_cast<unsigned int>(stage)] != NULL)
+                g_ZunMemory.Free(this->replayData->fpsStart[static_cast<unsigned int>(stage)]);
+            this->replayData->fpsStart[static_cast<unsigned int>(stage)] = NULL;
         }
     }
 

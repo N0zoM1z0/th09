@@ -12664,3 +12664,37 @@ expression was preserved rather than promoting
 a less-exact source variant. No ASM, synthetic
 padding, forced registers, unproved exact
 promotion or whole-program cold replay was used.
+
+## 2026-11-17 GPT-web: native Replay frame pointer tables and stage-root storage
+
+Replay release now frees and clears the original
+`replayData->frameStart[stream][stage]` pointer
+elements and `fpsStart[stage]` bytes through the
+actual 3x10/10-element native array types.
+Three independent live frame-pointer loads/stores
+and three FPS-pointer accesses no longer reinterpret
+integer byte addresses as pointer lvalues.
+The recording stage cursor and release stage root
+both read `ReplayManagerView::stageBuffers[stage]`
+directly, preserving the real 0x18-byte link stride
+and the original independent load/free/write order.
+Frame-sync side focus checks read the genuine
+`GameConfiguration::sideFocusMode[side]` byte.
+
+Isolated pinned VC7.1 probes covered frame tables,
+FPS table, side-focus byte, stage-root index and
+their combined C++ form. Both the `/EHsc` and the
+distinct `NoEh` source-carrier profiles were
+tested; the latter is required to keep the
+1,323-byte BeginRecordingStage owner exact.
+The selected source replay passes **12/12
+previously Exact functions, 4,093 full physical
+bytes and all 232 relocation fields**, with no
+compiler label or callee rebinding. The nonexact
+`SaveReplay` and `BeginPlaybackStage` frontiers
+were independently checked and retain respectively
+1,238 bytes with two residual differences, and
+540 bytes with thirteen; neither acquired new
+mismatches or was falsely promoted to Exact.
+No ASM, padding, forced registers or full-game
+cold replay was used.
