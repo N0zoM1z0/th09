@@ -318,14 +318,14 @@ static __forceinline EnemyTrailSampleView &NativeEnemyTrailSample(
             sizeof(enemy->trailSamples33E8[0]));
 }
 
-// Enemy hit-flash sets the four live channels of the same native
-// AnmVm color2 DWORD used by the independent ANM renderer. Address each
-// original byte lane from that scalar's real Win32 base, not a projected
-// C++ array at a DWORD subobject.
-#define TH09_ENEMY_NATIVE_HIT_COLOR_BYTE(lane) \
-    (*reinterpret_cast<unsigned char *>( \
-        reinterpret_cast<unsigned int>(&enemy->primaryAnmVm0008.color2) + \
-        static_cast<unsigned int>(lane)))
+// Hit-flash channels are the native ANM VM's B/G/R/A color2 union fields.
+// This is the same four-byte color storage used by the ANM script interpreter.
+typedef char EnemyHitFlashNativeVmColors[
+    (offsetof(AnmVmBase, color2Script) + offsetof(AnmVmScriptColor, r) == 0x1F6 &&
+     offsetof(AnmVmBase, color2Script) + offsetof(AnmVmScriptColor, g) == 0x1F5 &&
+     offsetof(AnmVmBase, color2Script) + offsetof(AnmVmScriptColor, b) == 0x1F4 &&
+     offsetof(AnmVmBase, color2Script) + offsetof(AnmVmScriptColor, a) == 0x1F7)
+        ? 1 : -1];
 
 // The active and restricted-side paths append to the same four native
 // EnemyManager draw-head pointer words (+0x2AC410). Runtime group bytes
@@ -921,7 +921,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             if (enemy->damageFlashTimer336C != 0)
             {
                 --enemy->damageFlashTimer336C;
-                enemy->primaryAnmVm0008.flagsWord &= ~0x20000u;
+                enemy->primaryAnmVm0008.flag17 = 0;
             }
             else if (damageOccurred)
             {
@@ -930,18 +930,18 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 else
                     g_SoundPlayer.PlaySoundPositionedByIdx(37, enemy->worldPosition2DD4.x);
 
-                TH09_ENEMY_NATIVE_HIT_COLOR_BYTE(2) = 0xFF;
-                TH09_ENEMY_NATIVE_HIT_COLOR_BYTE(1) = 0x60;
-                TH09_ENEMY_NATIVE_HIT_COLOR_BYTE(0) = 0x80;
-                TH09_ENEMY_NATIVE_HIT_COLOR_BYTE(3) =
+                enemy->primaryAnmVm0008.color2Script.r = 0xFF;
+                enemy->primaryAnmVm0008.color2Script.g = 0x60;
+                enemy->primaryAnmVm0008.color2Script.b = 0x80;
+                enemy->primaryAnmVm0008.color2Script.a =
                     static_cast<unsigned char>(
                         enemy->primaryAnmVm0008.color1 >> 24);
-                enemy->primaryAnmVm0008.flagsWord |= 0x20000;
+                enemy->primaryAnmVm0008.flag17 = 1;
                 enemy->damageFlashTimer336C = 1;
             }
             else
             {
-                enemy->primaryAnmVm0008.flagsWord &= ~0x20000u;
+                enemy->primaryAnmVm0008.flag17 = 0;
             }
 
             // The target retains this boss-kind limit even though the observed

@@ -9924,3 +9924,25 @@ references) changed, each checked against the original PE destination,
 same-section COFF definition and relocation type/offset after proving zero
 unmasked byte differences. No ASM, padding, forced register hints,
 whole-product replay, or new exact-function promotion was involved.
+
+## 2026-11-17 GPT-web: native ANM hit-flash channels in Enemy OnUpdate
+
+The 3,900-byte `EnemyManagerView::OnUpdate` now writes the real ANM VM's
+`primaryAnmVm0008.color2Script.r/g/b/a` fields when flashing a damaged
+enemy. The formerly untyped `TH09_ENEMY_NATIVE_HIT_COLOR_BYTE` macro,
+which formed four byte pointers from an integer address inside
+`color2`, is removed. The byte locations follow the native BGRA layout
+and are checked against `AnmVmBase` and `AnmVmScriptColor` at
+0x1F4..0x1F7. Alpha is still read from the existing `color1` DWORD,
+preserving the target expression and read scheduling.
+
+The three paths that set or clear the native ANM flag at bit 17 now use
+`primaryAnmVm0008.flag17` rather than masked `flagsWord` updates.
+Both the color writes and the bitfield operations compile to the same
+retail instructions. The nonexact Enemy OnUpdate retains its complete
+**3,900/3,900-byte extent and exactly two known unrelated register
+bytes**; no new byte-perfect owner is claimed. The same source's
+previously exact 84 functions still pass the full **45,420-byte,
+1,987-relocation** scoped replay after proving all private label
+renumberings map to identical original PE destinations. No whole-game
+replay, ASM or artificial padding was used.
