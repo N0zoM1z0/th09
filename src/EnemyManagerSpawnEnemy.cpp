@@ -26,7 +26,7 @@ EnemyView *EnemyManagerView::SpawnEnemy(
          enemy = reinterpret_cast<EnemyView *>(
              reinterpret_cast<unsigned int>(enemy) + sizeof(*enemy)))
     {
-        if ((enemy->flags337C & 1) != 0)
+        if (enemy->primaryFlagBits337C.active00 != 0)
             continue;
 
         *enemy = manager->spawnTemplate328;
@@ -49,7 +49,7 @@ EnemyView *EnemyManagerView::SpawnEnemy(
             if (manager->primaryEclManager000.RunEcl(
                     enemy) == -1)
             {
-                enemy->flags337C &= ~1U;
+                enemy->primaryFlagBits337C.active00 = 0;
                 enemyIndex = EnemyNativePoolCapacity::FailureSentinelIndex;
                 break;
             }
@@ -66,7 +66,7 @@ EnemyView *EnemyManagerView::SpawnEnemy(
             if (manager->opposingEclManager188.RunEcl(
                     enemy) == -1)
             {
-                enemy->flags337C &= ~1U;
+                enemy->primaryFlagBits337C.active00 = 0;
                 enemyIndex = EnemyNativePoolCapacity::FailureSentinelIndex;
                 break;
             }

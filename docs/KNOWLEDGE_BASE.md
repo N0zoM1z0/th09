@@ -10037,3 +10037,22 @@ physical bytes and 141 relocation fields**. Independently checked
 Draw3D and projection COFF/PE functions are **811/811 and 595/595
 exact**. The original matrix and D3DX call sequences are unchanged.
 No full-product cold replay or new exact-function promotion was used.
+
+## 2026-11-17 GPT-web: native active-state gates in both Enemy spawn bosses
+
+The complete original-bound EnemyManager spawn carriers
+`EnemyManagerView::SpawnEnemy` (373 physical bytes) and
+`EnemyManagerCardAttackSpawnView::SpawnEnemyRecord` (364 bytes) now
+read `enemy->primaryFlagBits337C.active00` while searching the actual
+Enemy pool and clear the same field on each failed
+`RunEcl` initialization. The old raw `flags337C & 1` and
+`flags337C &= ~1` accesses are gone, preserving the real Enemy
+instance and its signed pool index/stride, ECL manager choice,
+initial operand transfer, reward/color publication and failure
+sentinel. Both functions retain ordinary natural C++ control flow.
+
+Pinned VC7.1 exact COFF/PE comparisons return **373/373** and
+**364/364 physical bytes** with **4+4 original relocations**. The
+two-source scoped replay passes **2/2 existing exact units,
+737 bytes and 8 relocation fields**, without any whole-game
+cold replay, padding, ASM or new exactness promotion.
