@@ -12118,3 +12118,45 @@ still-unproven original nominal loop spelling.
 No ASM, artificial padding, forced registers,
 full-product cold replay or new exact-function
 credit was used.
+
+## 2026-11-17 GPT-web: native screen shake side and viewport arrays
+
+The complete `ScreenEffect::CalcShake` owner now selects
+its actual `g_GameManager.sides[contextIndex]` 0x38-byte
+record and the corresponding authentic
+`g_Supervisor.ctorArray078[contextIndex]` 0xF0-byte
+viewport directly. The old
+`ScreenShakeSideAtNativeIndex` and
+`ScreenShakeViewportAtNativeIndex` helpers are gone;
+they previously constructed integer addresses and
+reinterpreted them as C++ record references.
+All independent side flag checks and six signed
+X/Y shake assignments retain the original runtime
+indices, call order and native object ownership.
+No new range guard or cached viewport was introduced.
+
+Separate pinned VC7.1 probes confirmed each helper
+replacement independently, their combination, and
+the final direct array-expression form. The maintained
+three-profile source-scoped replay passes
+**18/18 existing Exact functions, 2,562 physical
+bytes and 164 original relocation fields**:
+the 316-byte `CalcShake` owner with 16 fields,
+the 480-byte `RegisterChain` owner with 55,
+and the 527-byte `DrawSquare` with 32 are among
+the protected exact extents. Nine compiler-private
+local symbols in the registration owner were
+rebound only after same-section COFF and unchanged
+original PE destinations were proved.
+
+The co-resident 336-byte
+`ScreenEffect::CalcShakeEnvelope` is
+**still nonexact**, with 26 residual bytes under
+its guarded frontier. A separate experiment
+removing the original source's volatile field
+aliases reduced it to 334 bytes and introduced
+170 newly differing bytes; that candidate was
+rejected without changing the maintained envelope
+or claiming new exactness. No ASM, synthetic
+padding, register forcing, or full-product cold
+replay was used.
