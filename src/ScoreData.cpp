@@ -146,12 +146,11 @@ int SaveTitleScoreData()
     if (g_ScoreFileHeader.version == 0)
         return 1;
 
-    // score.dat chapters are packed into one live output allocation. Retail
-    // advances each file-relative signed byte offset through a wrapping
-    // i386 address before writing, rather than a C++ array-subscript bound.
+    // score.dat chapters are packed into one live output allocation.
+    // The cursor addresses its actual serialized bytes directly.
     int currentOffset = 0;
     u8 *scoreData = static_cast<u8 *>(g_ZunMemory.Alloc(0x640000, "scoretmp"));
-    memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), &g_ScoreFileHeader, sizeof(g_ScoreFileHeader));
+    memcpy(scoreData + currentOffset, &g_ScoreFileHeader, sizeof(g_ScoreFileHeader));
     currentOffset += sizeof(g_ScoreFileHeader);
 
     {
@@ -160,7 +159,7 @@ int SaveTitleScoreData()
         th9k.chapterSizeCopy = sizeof(th9k);
         th9k.chapterSize = sizeof(th9k);
         th9k.version = 1;
-        memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), &th9k, sizeof(th9k));
+        memcpy(scoreData + currentOffset, &th9k, sizeof(th9k));
         currentOffset += sizeof(th9k);
     }
 
@@ -169,13 +168,13 @@ int SaveTitleScoreData()
         u32 recordType = g_ReplayRng.GetRandomU32InRange(3);
         if ((pendingMask & 1) && recordType == 0)
         {
-            memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), g_TitleScoreTable, sizeof(g_TitleScoreTable));
+            memcpy(scoreData + currentOffset, g_TitleScoreTable, sizeof(g_TitleScoreTable));
             currentOffset += sizeof(g_TitleScoreTable);
             pendingMask ^= 1;
         }
         else if ((pendingMask & 2) && recordType == 1)
         {
-            memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), &g_LastNameRecord, sizeof(g_LastNameRecord));
+            memcpy(scoreData + currentOffset, &g_LastNameRecord, sizeof(g_LastNameRecord));
             currentOffset += sizeof(g_LastNameRecord);
             pendingMask ^= 2;
         }
@@ -184,7 +183,7 @@ int SaveTitleScoreData()
             reinterpret_cast<ScoreSupervisorView *>(&g_Supervisor)->UpdatePlayTime();
             if (g_PlayStatsRecord.version != 0)
             {
-                memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), &g_PlayStatsRecord, sizeof(g_PlayStatsRecord));
+                memcpy(scoreData + currentOffset, &g_PlayStatsRecord, sizeof(g_PlayStatsRecord));
                 currentOffset += sizeof(g_PlayStatsRecord);
                 pendingMask ^= 4;
             }
@@ -201,7 +200,7 @@ int SaveTitleScoreData()
     ScoreSupervisorView *supervisor = reinterpret_cast<ScoreSupervisorView *>(&g_Supervisor);
     vrsm.exeSize = supervisor->exeSize7A4;
     vrsm.exeChecksum = supervisor->exeChecksum7A0;
-    memcpy(reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(currentOffset)), &vrsm, sizeof(vrsm));
+    memcpy(scoreData + currentOffset, &vrsm, sizeof(vrsm));
     currentOffset += sizeof(vrsm);
 
     ScoreFileView *header = reinterpret_cast<ScoreFileView *>(scoreData);
@@ -222,19 +221,19 @@ int SaveTitleScoreData()
 
     int byteIdx;
     for (byteIdx = offsetof(ScoreFileView, version); byteIdx < currentOffset; byteIdx++)
-        header->checksum += *reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + static_cast<u32>(byteIdx));
+        header->checksum += scoreData[byteIdx];
 
-    u8 *bytes = reinterpret_cast<u8 *>(reinterpret_cast<u32>(scoreData) + 1u);
+    u8 *bytes = scoreData + 1;
     byteIdx = currentOffset - offsetof(ScoreFileView, checksum);
     u8 xorValue = *bytes;
     u8 byteValue;
     while (byteIdx > 0)
     {
-        byteValue = *reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u);
+        byteValue = bytes[1];
         xorValue = static_cast<u8>((xorValue & 0xE0) >> 5 | (xorValue & 0x1F) << 3);
-        *reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u) ^= xorValue;
+        bytes[1] ^= xorValue;
         xorValue += byteValue;
-        bytes = reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u);
+        ++bytes;
         byteIdx--;
     }
 
@@ -309,12 +308,12 @@ ScoreFileView *ScoreFileView::OpenScore(const char *filename)
     {
         xorValue += *bytes;
         xorValue = (u8)((xorValue & 0xE0) >> 5 | (xorValue & 0x1F) << 3);
-        *reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u) ^= xorValue;
+        bytes[1] ^= xorValue;
 
         if (bytesShifted >= 2)
-            checksum += *reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u);
+            checksum += bytes[1];
 
-        bytes = reinterpret_cast<u8 *>(reinterpret_cast<u32>(bytes) + 1u);
+        ++bytes;
         bytesToShift--;
         bytesShifted++;
     }
@@ -384,15 +383,10 @@ out:
     return scoreFile;
 }
 
-// The original 16-by-5-by-5 high-score owner uses the same native
-// 0x44C-byte bank, 0xDC-byte difficulty row and 0x2C-byte record strides
-// as the exact Title result renderer, without shadow storage or bounds gates.
-#define TH09_SCORE_NATIVE_AT(bank, row, rank) \
-    (*reinterpret_cast<TitleScoreRecordView *>( \
-        reinterpret_cast<unsigned int>(&g_TitleScoreTable[0][0][0]) + \
-        static_cast<unsigned int>(bank) * sizeof(g_TitleScoreTable[0]) + \
-        static_cast<unsigned int>(row) * sizeof(g_TitleScoreTable[0][0]) + \
-        static_cast<unsigned int>(rank) * sizeof(g_TitleScoreTable[0][0][0])))
+// The original 16-by-5-by-5 high-score table uses the same real record
+// owner as the Title result renderer, without a second memory view.
+// High scores live in the one native 16-by-5-by-5 record array,
+// whose original chapter, category and rank fields are preserved.
 
 int ScoreFileView::LoadScoreRecords()
 {
@@ -408,20 +402,20 @@ int ScoreFileView::LoadScoreRecords()
         {
             for (rank = 0; rank < 5; rank++)
             {
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).score = 100000 - 20000 * rank;
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).value10 = 0.0f;
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).category0 = (u8)category0;
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).category1 = (u8)category1;
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).rank = (u8)rank;
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).unknown17 = 0;
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).magic = 0x52435348u;
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).chapterSizeCopy = sizeof(TitleScoreRecordView);
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).chapterSize = sizeof(TitleScoreRecordView);
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).version = 2;
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).runtimeMarker = 0;
-                strcpy(TH09_SCORE_NATIVE_AT(category0, category1, rank).name, "No Name ");
-                strcpy(TH09_SCORE_NATIVE_AT(category0, category1, rank).date, "--/--");
-                TH09_SCORE_NATIVE_AT(category0, category1, rank).scoreDigit = 0;
+                g_TitleScoreTable[category0][category1][rank].score = 100000 - 20000 * rank;
+                g_TitleScoreTable[category0][category1][rank].value10 = 0.0f;
+                g_TitleScoreTable[category0][category1][rank].category0 = (u8)category0;
+                g_TitleScoreTable[category0][category1][rank].category1 = (u8)category1;
+                g_TitleScoreTable[category0][category1][rank].rank = (u8)rank;
+                g_TitleScoreTable[category0][category1][rank].unknown17 = 0;
+                g_TitleScoreTable[category0][category1][rank].magic = 0x52435348u;
+                g_TitleScoreTable[category0][category1][rank].chapterSizeCopy = sizeof(TitleScoreRecordView);
+                g_TitleScoreTable[category0][category1][rank].chapterSize = sizeof(TitleScoreRecordView);
+                g_TitleScoreTable[category0][category1][rank].version = 2;
+                g_TitleScoreTable[category0][category1][rank].runtimeMarker = 0;
+                strcpy(g_TitleScoreTable[category0][category1][rank].name, "No Name ");
+                strcpy(g_TitleScoreTable[category0][category1][rank].date, "--/--");
+                g_TitleScoreTable[category0][category1][rank].scoreDigit = 0;
             }
         }
     }
@@ -433,7 +427,7 @@ int ScoreFileView::LoadScoreRecords()
     {
         if (inputRecord->magic == 0x52435348u && inputRecord->version == 2)
         {
-            TH09_SCORE_NATIVE_AT(inputRecord->category0, inputRecord->category1, inputRecord->rank) =
+            g_TitleScoreTable[inputRecord->category0][inputRecord->category1][inputRecord->rank] =
                 *inputRecord;
         }
 
@@ -525,5 +519,3 @@ int ScoreFileView::LoadPlayStats()
 
     return 0;
 }
-
-#undef TH09_SCORE_NATIVE_AT

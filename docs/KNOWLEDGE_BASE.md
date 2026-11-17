@@ -11336,3 +11336,43 @@ new mismatches and no false exact promotion.
 No ASM, pointer-identity hacks, extra bounds
 guards, synthetic padding, register forcing
 or whole-game cold replay was used.
+
+## 2026-11-17 GPT-web: native score.dat bytes and high-score records
+
+The high-score file codec now indexes its actual
+`g_TitleScoreTable[16][5][5]` directly in
+`ScoreFileView::LoadScoreRecords`, rather than using
+the `TH09_SCORE_NATIVE_AT` macro to cast integer
+i386 addresses back into `TitleScoreRecordView`
+lvalues. All 14 table-field reads/writes and the
+record assignment use one real, layout-checked
+0x2C-byte record type with its original 16-bank,
+5-difficulty and 5-rank indexing.
+
+The 745-byte `SaveTitleScoreData` owner now copies
+chapters into the genuine `scoreData + currentOffset`
+byte allocation, computes the serialized checksum
+from `scoreData[byteIdx]`, and traverses XOR bytes
+via `bytes[1]` and `bytes + 1` while preserving
+the original update and seed order. The same byte
+subscript is used during the score file decrypt
+loop in `ScoreFileView::OpenScore`. In particular,
+the intermediate syntax `*scoreData + byteIdx` /
+`*bytes + 1` did **not** mean a byte subscript;
+this was repaired in the existing dirty source
+before promotion, without throwing out other
+native table/pointer edits.
+
+Pinned VC7.1 source-scoped replay passes
+**7/7 previously exact functions, 2,572 full
+physical bytes and 169 original relocation
+fields**, across the six original compilation
+profiles. The main owners are 745/745 bytes
+(40 relocations) for SaveTitleScoreData,
+441/441 (26) for LoadScoreRecords, and
+523/523 (32) for OpenScore. No private label
+renumbering, ASM, new padding, artificial
+bounds checks or whole-product cold replay
+was needed. These are native C++ storage
+and pointer expressions, not newly credited
+exact functions.
