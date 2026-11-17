@@ -48,100 +48,82 @@ experiments. Commit coherent changes as `gpt-web: ...`; never push silently.
   An exact byte count, a matching Ghidra decompilation, or an old object
   alone is not enough to promote a function.
 
-## 2026-11-17 GPT-web source checkpoints (native C++, no new exact claims)
+## Current source-native reconstruction checkpoints (2026-11-17)
 
-Five local source commits, all `gpt-web: ...`, have been saved after
-strictly scoped VC7.1 compilation/relocation checks:
+The maintained source includes several **natural C/C++ ownership recoveries**;
+none of these changes adds an exact-function ledger claim. All were checked
+against the original Japanese 1.50a executable with pinned VC7.1 profiles,
+complete compared code/tails and independently verified COFF relocations.
 
-- `bdd34f42`: `FrontSide::OnDraw` traverses its first 11 genuine HUD
-  `AnmVm` records with an `AnmVm *`, not a `Float3 *` interior-offset
-  cursor. The full 3,094-byte boss remains exact (209 relocations).
-- `ba48f475`: all five `EffectManager` pool cursor advances now use
-  `++effect`, covering reset, spawn, velocity-spawn, update and release.
-- `a4dc57a1`: the three `EffectManager` spawn owners use their real
-  `effects[index]` array instead of manually scaling integer addresses.
-  Across both Effect commits, all 15 exact same-source owners remain exact
-  (2,530 physical bytes; 100 relocations), and the `AddedCallback`
-  frontier remains at four differing bytes.
-- `4d977749`: the three fog-blend branches in the 3,274-byte
-  `Background::RenderObjects` boss read/write the existing packed BGRA
-  word through named `.b/.g/.r/.a` lanes, retaining all 113 relocations.
-- `78abe86d`: the 2,803-byte Title key-config boss directly increments
-  its three native counters (`++screenFrameCounter`, `++stateTimer`,
-  `++stateTimer2`). The 106-byte co-resident leaf remains exact;
-  118 relocations were checked.
+### Latest six scoped commits
 
-These four selected sources passed a combined **19 exact owners, 11,807
-physical bytes and 540 relocation fields**. `scripts/ci.py` also passed.
-The ledger still reports **1,026 exact**; the work improves original-source
-structure without claiming newly exact functions or whole-image closure.
+- `e7c7f5ee`, `34098751` — The **2,852-byte** `FrontMessageRuntimeView::Update`
+  boss reads short/byte script operands from their actual native typed payload
+  pointers (20 short + 2 byte sites) and addresses the authentic
+  `g_GameManager.sides[index]` allocation. Its complete physical owner and
+  same-source decode leaf pass **2 exact / 3,007 bytes / 167 relocations**.
+- `9058a27f` — The **2,472-byte** background stage-script interpreter reads
+  its 22 integer, 4 float and 20 vector wire payloads from
+  `RawStageInstr::args`, retaining the native 20-byte wire record layout.
+  The script, camera interpolation, Hermite and timer owners pass
+  **5 exact / 3,231 bytes / 160 relocations**.
+- `49f2af51` — The **9,358-byte** `AnmManager::ExecuteScript` interpreter reads
+  integer/float operands directly from its variable-length `AnmRawInstr`
+  payload (27 integer + 3 float cursor forms), with readable opcode access
+  macros. The whole instruction-switch tail and sibling ANM leaves pass
+  **5 exact / 10,496 bytes / 421 relocations** across the two pinned profiles.
+- `25c271d0` — The **14,792-byte** `EclManager::RunEcl` boss uses native
+  `activeCallStack2CE4[depth]` context records at all three sites, rather
+  than synthesizing integer-address byte strides. The full ECL source cohort
+  passes **84 exact / 45,420 bytes / 1,987 relocations** across two profiles.
+- `7bcee027` — Enemy's nonexact 3,900-byte `OnUpdate` now indexes the actual
+  `trailSamples33E8` and `attachedEffectState53B4.effects00` arrays. The same
+  **84 ECL exact** siblings pass their scoped replay after this edit; the
+  Enemy calc frontier remains **3,900/3,900 with 2 differing bytes**.
 
-**Targeted negative experiments:** ten `SaveReplay` frame-header copy forms
-preserved the same two EDI/ECX bytes; the tested Effect added-callback and
-Player movement expression variants did not reduce their register residuals.
-Replacing `AnmManager::ExecuteScript` wire-payload casts or its signed
-counter increment shifted compiler-private jump-table relocation identities,
-so none were retained. In the `FrontMessageRuntimeView::Update` boss,
-native side-index expressions and a direct frame-counter increment similarly
-shifted compiler-label identities. Converting the remaining Front HUD
-position cursors to independent `AnmVm *` loop variables changed the exact
-boss's code/relocation schedule; only the verified first group was kept.
-All temporary experiments were restored, without ASM, NOP padding,
-manifest-label rebinding, artificial frontier updates, full cold replay,
-or changes to protected original binaries.
+Across the four distinct exact source cohorts above, the current verified
+comparison totals **96 existing exact functions, 62,154 full physical bytes
+and 2,735 relocation fields**. These are selected-source proofs, not a
+whole-EXE replay, newly promoted functions or a successful native game build.
+The compiler-private `$L...` symbols changed when natural source was restored;
+**every** recorded rebinding was checked against its actual same-section COFF
+definition and the unchanged linked original PE destination (as well as the
+relocation offset, type and full linked bytes). No handwritten ASM, NOP/padding,
+register forcing, altered target bytes or relaxed frontier ratchets were used.
 
-## 2026-11-17 follow-on typed-source reconstruction checkpoints
+### Earlier source-native checkpoints in this worktree
 
-Six further source/relocation checkpoints were saved with `gpt-web:` commits:
+`bdd34f42`, `ba48f475`, `a4dc57a1`, `4d977749`, `78abe86d` restore
+native HUD VM traversal, Effect pool iterators and allocation indexing,
+background fog BGRA lanes, and Title key-config counters. Scoped replay covers
+all associated exact owners. `40a561ee`, `79fecb41`, `5118ecad`, `c283bb54`,
+`0f2b2902`, `8e872bff` additionally recover typed Player selector collision
+vectors, genuine `ZunTimer` conversions and Player collision/angle receivers,
+plus native Laser pool traversal. Their linked COFF symbols were validated
+before rebindings; exact siblings remain unchanged. See the Git commits for
+individual source edits and `docs/KNOWLEDGE_BASE.md` for older experiments.
 
-- `40a561ee`: the 2,852-byte `FrontMessageRuntimeView::Update` interprets
-  short/byte script arguments using their actual byte-backed wire cursor,
-  rather than converting the cursor to an integer address. The complete
-  same-source exact replay passed. Direct fixed-array argument indexing was
-  rejected because it changed the compiler's switch-table symbol identities.
-- `79fecb41`, `5118ecad`: the 3,238-byte `PlayerUpdateSelectorState` boss
-  now uses the existing native collision-size vector array for initialization
-  and every hitbox query. Its separately compiled `ResolvePatternOffset` leaf
-  retained all 412 original physical bytes and 18 relocations. Two shifted
-  compiler-private label spellings were rebound only after verifying their
-  same-section COFF definitions at original PE destinations. The complete
-  selected source passes **2 exact owners / 3,650 compared physical bytes /
-  154 relocation fields** across both pinned profiles.
-- `c283bb54`, `0f2b2902`: `BulletManager.cpp` now uses the genuine
-  `ZunTimer::operator int()` getter, the original `PlayerLifecycleView`
-  collision receivers and the independently exact `PlayerAngleView` for
-  aiming. The duplicate padded `BulletPlayerView` and timer shadow were
-  retired. Both target-side collision call destinations and angle getter were
-  retained; 0x00435F00 is the canonical folded native timer current getter.
-  Compiler-private labels were changed in the exact manifest only after
-  proving their actual COFF owner-local definitions and PE destinations.
-  Scoped replay passes **18 exact owners / 6,711 physical bytes /
-  259 relocation fields** over all three recorded carrier profiles, including
-  the large update and spawn bosses. The bullet-collision callee itself is
-  still nonexact; a correct call destination does not grant its callee credit.
-- `8e872bff`: `SpawnLaserPattern` scans its true 48-element `Laser` pool with
-  `++laser`, indexes the native sprite offset table, and calls the recovered
-  Player angle receiver. The complete 450-byte owner and six relocations
-  pass the scoped pinned-compiler comparison.
+### Unresolved work and useful negative results
 
-All edits are natural C/C++: no handwritten assembly, instruction padding,
-register forcing, target patching or whole-project replay. Experiments that
-were **not** installed: direct `RawStageInstr::args` operand expressions in
-`BackgroundRunStageScriptPhase` changed large switch-table relocations without
-accepted proof; seven natural 32-bit index/reference variants in the nonexact
-`PlayerLifecycleView::UpdateChargeAttack` worsened its 1,210/1,210,
-183-byte frontier to 1,209/1,210 with 717 differing positions (or worse).
-The strict frontiers were preserved. The canonical ledger remains 1,026
-exact authored functions; full native Windows product/runtime closure is open.
+The **11 source-present nonexact owners** remain nonexact. In particular,
+Enemy `OnUpdate` still differs at just two register-encoding bytes in the
+restricted-side draw-head selection. Eleven more natural array, helper,
+reference and category-expression forms were compiled without improving this
+frontier; preserve the current code and investigate the earlier value lifetime.
+`CheckBulletCollision` still needs its original loop backedges and early hit
+routing, while `SupervisorServiceUpdate` has a larger control-flow mismatch.
+Prior short-index-to-int substitutions in `UpdateChargeAttack` increased its
+residual; do not promote unproved variants or fabricate padding/ASM.
 
-Focused verification entry points:
+Fast checks for the maintained work:
 
 ~~~sh
 python3 -B scripts/replay-scoped-exact.py --source src/FrontMessageUpdate.cpp
-python3 -B scripts/replay-scoped-exact.py --source src/PlayerGameplayState.cpp
-python3 -B scripts/replay-scoped-exact.py --source src/BulletManager.cpp
-python3 -B scripts/replay-scoped-exact.py --source src/BulletLaserSpawn.cpp
-python3 -B scripts/check-frontier.py player-charge-attack player-bullet-collision
+python3 -B scripts/replay-scoped-exact.py --source src/BackgroundStageScript.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/AnmManagerExecuteScript.cpp
+python3 -B scripts/replay-scoped-exact.py --changed-file src/EnemyManagerCore.inl
+python3 -B scripts/check-frontier.py enemy-on-update player-bullet-collision supervisor-network-service
+python3 -B scripts/ci.py
 ~~~
 
 ## Current nonexact work queue
