@@ -178,37 +178,12 @@ static void InterpolateBackgroundCameraVector(
 }
 
 
-// STD instruction records carry their operands directly in the file-backed
-// variable-size +0x08 DWORD payload. Read the live wire word by its real
-// Win32 byte address; the nominal args[3] view is only a prefix.
-#define TH09_BG_NATIVE_WIRE_WORD(index) \
-    (*reinterpret_cast<int *>( \
-        reinterpret_cast<unsigned int>(instruction) + \
-        offsetof(RawStageInstr, args) + \
-        static_cast<unsigned int>(index) * sizeof(int)))
-#define TH09_BG_NATIVE_WIRE_FLOAT(index) \
-    (*reinterpret_cast<float *>( \
-        reinterpret_cast<unsigned int>(instruction) + \
-        offsetof(RawStageInstr, args) + \
-        static_cast<unsigned int>(index) * sizeof(float)))
-#define TH09_BG_NATIVE_WIRE_BYTE(index) \
-    (*reinterpret_cast<unsigned char *>( \
-        reinterpret_cast<unsigned int>(instruction) + \
-        offsetof(RawStageInstr, args) + \
-        static_cast<unsigned int>(index)))
-#define TH09_BG_NATIVE_WIRE_VECTOR(type) \
-    (*reinterpret_cast<type *>( \
-        reinterpret_cast<unsigned int>(instruction) + \
-        offsetof(RawStageInstr, args)))
+// The stage wire instruction has a native +0x08 payload. Decode its
+// actual variable-length bytes as typed integer, float or vector data.
+// No fixed-size surrogate argument array or extra bounds check is added.
 
-// All 19 live stage-camera selectors target the same three original
-// 0xF0-byte Supervisor viewport records as exact viewport/routing code.
-// Form the native Win32 signed-DWORD address without a bounded array view.
-#define TH09_BG_NATIVE_CAMERA(owner) \
-    (*reinterpret_cast<BackgroundStageCameraRecord *>( \
-        reinterpret_cast<unsigned int>(&g_Supervisor.ctorArray078[0]) + \
-        static_cast<unsigned int>((owner)->viewportIndex) * \
-            sizeof(g_Supervisor.ctorArray078[0])))
+// All camera selectors refer directly to the real 0xF0-byte
+// Supervisor viewport records with their original unsigned indices.
 
 void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
 {
@@ -217,12 +192,10 @@ void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
     RawStageInstr *instruction;
 
 read_instruction:
-    // Native stage instructions use a 0x14-byte signed wire index scaled as
-    // an unsigned i386 word, without a C++ pointer-in-array precondition.
-    instruction = reinterpret_cast<RawStageInstr *>(
-        reinterpret_cast<unsigned int>(background->stageScript) +
-        static_cast<unsigned int>(background->stageScriptInstructionIndex) *
-            sizeof(RawStageInstr));
+    // The original file contains consecutive 0x14-byte stage records;
+    // retain the exact unsigned word index and live file-memory access.
+    instruction = &background->stageScript[static_cast<unsigned int>(
+        background->stageScriptInstructionIndex)];
     if (background->stageScriptTimer >= instruction->frame)
     {
         if (instruction->frame == -1)
@@ -231,38 +204,34 @@ read_instruction:
         switch (instruction->opcode)
         {
         case 0:
-            position = TH09_BG_NATIVE_WIRE_VECTOR(D3DXVECTOR3);
+            position = (*reinterpret_cast<D3DXVECTOR3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             background->stagePosition.x = position.x;
             background->stagePosition.y = position.y;
             background->stagePosition.z = position.z;
             reinterpret_cast<Float3 &>(background->stagePositionInitial) =
                 *reinterpret_cast<Float3 *>(&position);
             background->stagePositionStartFrame = instruction->frame;
-            // The following camera keyframe is the next physical 0x14-byte
-            // record in the original file-backed instruction stream.
-            // Advance its native i386 byte address, not a bounded C++ array
-            // pointer to a single projected instruction object.
-            instruction = reinterpret_cast<RawStageInstr *>(
-                reinterpret_cast<unsigned int>(instruction) +
-                sizeof(RawStageInstr));
+            // The next camera keyframe is one 0x14-byte wire record
+            // later in the original file-backed script.
+            instruction = reinterpret_cast<RawStageInstr *>(reinterpret_cast<unsigned char *>(instruction) + sizeof(RawStageInstr));
             background->stagePositionEndFrame = instruction->frame;
             reinterpret_cast<Float3 &>(background->stagePositionTarget) =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 1:
             background->skyFog.color =
-                static_cast<unsigned int>(TH09_BG_NATIVE_WIRE_WORD(0));
+                static_cast<unsigned int>((reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]));
             background->skyFog.nearPlane =
-                TH09_BG_NATIVE_WIRE_FLOAT(1);
+                (reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
             background->skyFog.farPlane =
-                TH09_BG_NATIVE_WIRE_FLOAT(2);
+                (reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[2]);
             background->skyFogFinal = background->skyFog;
             break;
 
         case 2:
             background->skyFogInitial = background->skyFog;
-            background->skyFogInterpolationDuration = TH09_BG_NATIVE_WIRE_WORD(0);
+            background->skyFogInterpolationDuration = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
             background->skyFogInterpolationTimer = 0;
             break;
 
@@ -272,49 +241,49 @@ read_instruction:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraPosition00 =
                 reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraPosition00;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraPosition00 =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             if (background->interpolationDuration[0] == 0)
-                TH09_BG_NATIVE_CAMERA(background)
+                (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                     .cameraPosition00 =
-                    TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                    (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 6:
-            background->interpolationDuration[0] = TH09_BG_NATIVE_WIRE_WORD(0);
+            background->interpolationDuration[0] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
             background->interpolationTimers[0] = 0;
-            background->interpolationModes[0] = TH09_BG_NATIVE_WIRE_WORD(1);
+            background->interpolationModes[0] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
             break;
 
         case 7:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraLookAtOffset0C =
                 reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraLookAtOffset0C;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraLookAtOffset0C =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             if (background->interpolationDuration[1] == 0)
-                TH09_BG_NATIVE_CAMERA(background)
+                (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                     .cameraLookAtOffset0C =
-                    TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                    (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 8:
-            background->interpolationDuration[1] = TH09_BG_NATIVE_WIRE_WORD(0);
+            background->interpolationDuration[1] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
             background->interpolationTimers[1] = 0;
-            background->interpolationModes[1] = TH09_BG_NATIVE_WIRE_WORD(1);
+            background->interpolationModes[1] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
             break;
 
         case 9:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraUp18 =
                 reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraUp18;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraUp18 =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             if (background->interpolationDuration[2] == 0)
-                TH09_BG_NATIVE_CAMERA(background).cameraUp18 =
-                    TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).cameraUp18 =
+                    (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 10:
-            background->interpolationDuration[2] = TH09_BG_NATIVE_WIRE_WORD(0);
-            background->interpolationModes[2] = TH09_BG_NATIVE_WIRE_WORD(1);
+            background->interpolationDuration[2] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
+            background->interpolationModes[2] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
             background->interpolationTimers[2] = 0;
             break;
 
@@ -322,22 +291,22 @@ read_instruction:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).fieldOfView48 =
                 reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).fieldOfView48;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).fieldOfView48 =
-                TH09_BG_NATIVE_WIRE_FLOAT(0);
+                (reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
             if (background->interpolationDuration[3] == 0)
-                TH09_BG_NATIVE_CAMERA(background)
+                (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                     .fieldOfView48 =
-                    TH09_BG_NATIVE_WIRE_FLOAT(0);
+                    (reinterpret_cast<float *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
             break;
 
         case 12:
-            background->interpolationDuration[3] = TH09_BG_NATIVE_WIRE_WORD(0);
+            background->interpolationDuration[3] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
             background->interpolationTimers[3] = 0;
-            background->interpolationModes[3] = TH09_BG_NATIVE_WIRE_WORD(1);
+            background->interpolationModes[3] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
             break;
 
         case 13:
             background->clearColor =
-                static_cast<unsigned int>(TH09_BG_NATIVE_WIRE_WORD(0));
+                static_cast<unsigned int>((reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]));
             break;
 
         case 3:
@@ -347,124 +316,124 @@ read_instruction:
             break;
 
         case 4:
-            background->stageScriptInstructionIndex = TH09_BG_NATIVE_WIRE_WORD(0);
-            background->stageScriptTimer = TH09_BG_NATIVE_WIRE_WORD(1);
+            background->stageScriptInstructionIndex = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
+            background->stageScriptTimer = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[1]);
             background->interpolationDuration[0] = 0;
             background->compensateCameraJump = 1;
             goto script_done;
 
         case 14:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraPosition00 =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 15:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraPosition00 =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 16:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraPosition00 =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 17:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentEnd).cameraPosition00 =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 18:
-            background->interpolationDuration[0] = TH09_BG_NATIVE_WIRE_WORD(0);
+            background->interpolationDuration[0] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
             background->interpolationTimers[0] = 0;
             background->interpolationModes[0] = 7;
             break;
 
         case 19:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraLookAtOffset0C =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 20:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraLookAtOffset0C =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 21:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraLookAtOffset0C =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 22:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentEnd).cameraLookAtOffset0C =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 23:
-            background->interpolationDuration[1] = TH09_BG_NATIVE_WIRE_WORD(0);
+            background->interpolationDuration[1] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
             background->interpolationTimers[1] = 0;
             background->interpolationModes[1] = 7;
             break;
 
         case 24:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraUp18 =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 25:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraUp18 =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 26:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraUp18 =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 27:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentEnd).cameraUp18 =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 28:
-            background->interpolationDuration[2] = TH09_BG_NATIVE_WIRE_WORD(0);
+            background->interpolationDuration[2] = (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]);
             background->interpolationTimers[2] = 0;
             background->interpolationModes[2] = 7;
             break;
 
         case 29:
-            if (TH09_BG_NATIVE_WIRE_WORD(0) >= 0)
+            if ((reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]) >= 0)
                 background->stageAnm->ExecuteAnmIdx(
-                    &background->stageVm0, TH09_BG_NATIVE_WIRE_WORD(0));
+                    &background->stageVm0, (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]));
             else
                 background->stageVm0.activeSpriteIndex = -1;
             break;
 
         case 30:
-            if (TH09_BG_NATIVE_WIRE_WORD(0) >= 0)
+            if ((reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]) >= 0)
                 background->stageAnm->ExecuteAnmIdx(
-                    &background->stageVm1, TH09_BG_NATIVE_WIRE_WORD(0));
+                    &background->stageVm1, (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]));
             else
                 background->stageVm0.activeSpriteIndex = -1;
             break;
 
         case 33:
             background->cameraMotionMode =
-                TH09_BG_NATIVE_WIRE_BYTE(0);
+                (reinterpret_cast<unsigned char *>(instruction)[offsetof(RawStageInstr, args) + (0)]);
             background->interpolationDuration[4] = 0;
             background->interpolationTimers[4] = 0;
             background->interpolationModes[4] = 0;
             break;
 
         case 32:
-            TH09_BG_NATIVE_CAMERA(background)
+            (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                 .cameraPositionOffset3C =
-                TH09_BG_NATIVE_WIRE_VECTOR(Float3);
+                (*reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             break;
 
         case 34:
-            if (TH09_BG_NATIVE_WIRE_WORD(0) >= 0)
+            if ((reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]) >= 0)
                 background->stageAnm->ExecuteAnmIdx(
-                    &background->stageVm2, TH09_BG_NATIVE_WIRE_WORD(0));
+                    &background->stageVm2, (reinterpret_cast<int *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args))[0]));
             else
                 background->stageVm2.activeSpriteIndex = -1;
             break;
@@ -485,7 +454,7 @@ script_done:
         InterpolateBackgroundCameraVector(
             background,
             0,
-            &TH09_BG_NATIVE_CAMERA(background).cameraPosition00,
+            &(g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).cameraPosition00,
             &reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraPosition00,
             &reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraPosition00,
             &reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraPosition00,
@@ -495,7 +464,7 @@ script_done:
         InterpolateBackgroundCameraVector(
             background,
             1,
-            &TH09_BG_NATIVE_CAMERA(background).cameraLookAtOffset0C,
+            &(g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).cameraLookAtOffset0C,
             &reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraLookAtOffset0C,
             &reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraLookAtOffset0C,
             &reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraLookAtOffset0C,
@@ -505,7 +474,7 @@ script_done:
         InterpolateBackgroundCameraVector(
             background,
             2,
-            &TH09_BG_NATIVE_CAMERA(background).cameraUp18,
+            &(g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).cameraUp18,
             &reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraUp18,
             &reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraUp18,
             &reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraUp18,
@@ -554,7 +523,7 @@ script_done:
             break;
         }
 
-        TH09_BG_NATIVE_CAMERA(background).fieldOfView48 =
+        (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).fieldOfView48 =
             (reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).fieldOfView48 -
              reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).fieldOfView48) *
                 time +
@@ -563,9 +532,9 @@ script_done:
 
     D3DXVec3Normalize(
         reinterpret_cast<D3DXVECTOR3 *>(
-            &TH09_BG_NATIVE_CAMERA(background).cameraForward24),
+            &(g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).cameraForward24),
         reinterpret_cast<D3DXVECTOR3 *>(
-            &TH09_BG_NATIVE_CAMERA(background).cameraLookAtOffset0C));
+            &(g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).cameraLookAtOffset0C));
 
     if (background->cameraMotionMode != 0)
     {
@@ -573,7 +542,7 @@ script_done:
         {
         case 1:
         {
-            TH09_BG_NATIVE_CAMERA(background)
+            (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                 .cameraPositionOffset3C.x = sinf(
                     (float)background->interpolationTimers[4] *
                         0.01308997f - 3.1415927f) * 40.0f;
@@ -587,9 +556,9 @@ script_done:
             float angle =
                 (float)background->interpolationTimers[4] * 0.01308997f -
                 3.1415927f;
-            TH09_BG_NATIVE_CAMERA(background)
+            (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                 .cameraPositionOffset3C.x = sinf(angle) * 70.0f;
-            TH09_BG_NATIVE_CAMERA(background).cameraUp18.x =
+            (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).cameraUp18.x =
                 sinf(angle) * -0.1f;
             background->interpolationTimers[4]++;
             if (background->interpolationTimers[4] >= 480)
@@ -601,11 +570,11 @@ script_done:
             float angle =
                 (float)background->interpolationTimers[4] * 0.0030679617f -
                 3.1415927f;
-            TH09_BG_NATIVE_CAMERA(background)
+            (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                 .cameraPositionOffset3C.x = sinf(angle) * 30.0f;
-            TH09_BG_NATIVE_CAMERA(background)
+            (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)])
                 .cameraPositionOffset3C.z = cosf(angle) * 30.0f;
-            TH09_BG_NATIVE_CAMERA(background).cameraUp18.x =
+            (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).cameraUp18.x =
                 sinf(angle) * -0.1f;
             background->interpolationTimers[4]++;
             if (background->interpolationTimers[4] >= 2048)
@@ -617,9 +586,9 @@ script_done:
             float angle =
                 (float)background->interpolationTimers[4] * 0.0013089969f -
                 3.1415927f;
-            TH09_BG_NATIVE_CAMERA(background).cameraUp18.x =
+            (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).cameraUp18.x =
                 sinf(angle);
-            TH09_BG_NATIVE_CAMERA(background).cameraUp18.z =
+            (g_Supervisor.ctorArray078[static_cast<unsigned int>((background)->viewportIndex)]).cameraUp18.z =
                 cosf(angle);
             background->interpolationTimers[4]++;
             if (background->interpolationTimers[4] >= 4800)
@@ -630,12 +599,7 @@ script_done:
 
     }
 
-    // Every sky/fog channel is one byte in the original four-byte color
-    // word. Native address arithmetic operates on the real color field.
-#define TH09_BG_NATIVE_FOG_COLOR_BYTE(color, index) \
-    (*reinterpret_cast<unsigned char *>( \
-        reinterpret_cast<unsigned int>(&(color)) + \
-        static_cast<unsigned int>(index)))
+    // The sky/fog color interpolates the four actual packed color bytes.
 
     if (background->skyFogInterpolationDuration != 0)
     {
@@ -646,12 +610,12 @@ script_done:
             fogRatio = 1.0f;
 
         for (int i = 0; i < 4; ++i)
-            TH09_BG_NATIVE_FOG_COLOR_BYTE(background->skyFog.color, i) =
+            (reinterpret_cast<unsigned char *>(&(background->skyFog.color))[i]) =
                 static_cast<unsigned char>(
-                    ((float)TH09_BG_NATIVE_FOG_COLOR_BYTE(background->skyFogFinal.color, i) -
-                     (float)TH09_BG_NATIVE_FOG_COLOR_BYTE(background->skyFogInitial.color, i)) *
+                    ((float)(reinterpret_cast<unsigned char *>(&(background->skyFogFinal.color))[i]) -
+                     (float)(reinterpret_cast<unsigned char *>(&(background->skyFogInitial.color))[i])) *
                         fogRatio +
-                    (float)TH09_BG_NATIVE_FOG_COLOR_BYTE(background->skyFogInitial.color, i));
+                    (float)(reinterpret_cast<unsigned char *>(&(background->skyFogInitial.color))[i]));
 
         background->skyFog.nearPlane =
             (background->skyFogFinal.nearPlane -
@@ -668,14 +632,3 @@ script_done:
             background->skyFogInterpolationDuration = 0;
     }
 }
-
-#undef TH09_BG_NATIVE_CAMERA
-
-#undef TH09_BG_NATIVE_FOG_COLOR_BYTE
-
-#undef TH09_BG_NATIVE_WIRE_WORD
-
-#undef TH09_BG_NATIVE_WIRE_FLOAT
-#undef TH09_BG_NATIVE_WIRE_BYTE
-
-#undef TH09_BG_NATIVE_WIRE_VECTOR

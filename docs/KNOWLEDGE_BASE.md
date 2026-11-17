@@ -11990,3 +11990,49 @@ The new spellings do not add any target exactness credit.
 No ASM, fake padding, forced compiler registers,
 whole-product cold replay or new exact-function promotion
 was used.
+
+## 2026-11-17 GPT-web: native Background stage instruction, viewport and fog bytes
+
+The large `BackgroundRunStageScriptPhase` original-bound
+interpreter now reads variable-length stage-file payloads
+through real byte pointers and typed C++ integer, float and
+vector operands. The four `TH09_BG_NATIVE_WIRE_*`
+address-cast macros have been removed; 48 uses instead
+select the original +0x08 wire payload, preserving every
+opcode's original read order, signed-value interpretation
+and write destination. The original `stageScript` is
+indexed by its actual 0x14-byte record type, and the
+lookahead instruction advances through a genuine file
+byte pointer.
+
+All 19 viewport access sites now index the real
+`g_Supervisor.ctorArray078` 0xF0-byte camera records
+using the live viewport index. The artificial native-DWORD
+camera address macro is removed; animation
+position/look-at/up/FOV interpolation continues to use
+the original Background-owned target/start/tangent camera
+snapshots, not a new buffer. The four sky/fog channel
+reads and writes use their genuine packed
+`unsigned char *` color bytes rather than reinterpreting
+an integer address. No bounds check or nominal
+fixed-size wire argument array has been introduced.
+
+Nine isolated and combined pinned VC7.1 probes tested
+wire integer/float/byte/vector parameters, native viewport
+lvalues, fog-color lanes and direct stage-record traversal.
+The maintained selected-source replay passes **5/5
+existing exact functions, 3,231 complete physical
+bytes and 160 original relocation fields**. The
+original **2,652/2,652-byte StageScript** boss
+retains all 133 relocations and its physical switch
+extent; the co-resident 448-byte interpolation
+helper, 91-byte Hermite scalar and two 20-byte timer
+leaves are also exact. Fifty-five compiler-private
+label spellings were rebound only after same-section
+COFF definitions, identical original PE destination
+targets, identical relocation offset/type and complete
+nonrelocation byte identity were independently proved.
+
+No ASM, synthetic padding, forced registers,
+whole-product cold replay, or new exact-function credit
+was used.
