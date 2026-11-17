@@ -1,6 +1,9 @@
 #include "Background.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 #include "AnmManager.hpp"
+#include "AnmManagerRenderCacheView.hpp"
+#include "AnmManagerFileSlotView.hpp"
 #include "FileSystem.hpp"
 #include "GameErrorContext.hpp"
 #include "ScreenEffect.hpp"
@@ -18,26 +21,12 @@ extern ZunMemory g_ZunMemory;
 extern GameErrorContext g_GameErrorContext;
 extern char g_BackgroundStageMissingMessage[];
 
-struct BackgroundSideStateView
-{
-    unsigned char unknown000[0x34];
-    unsigned char flags34;
-    unsigned char unknown035[3];
-};
-
-typedef char BackgroundSideStateSizeIs38[
-    (sizeof(BackgroundSideStateView) == 0x38) ? 1 : -1];
-
-struct BackgroundGameManagerView
-{
-    BackgroundSideStateView sides[2];
-    unsigned char unknown070[0xF4 - 0x70];
-    int currentStage;
-    unsigned char unknown0F8[0x134 - 0xF8];
-    unsigned int flags134;
-};
-
-extern BackgroundGameManagerView g_GameManager;
+// Runtime reads the authentic game manager and its two 0x38-byte side records.
+typedef char BackgroundNativeGameManagerLayout[
+    (offsetof(AsciiGameManagerView, valueF4) == 0xF4 &&
+     offsetof(AsciiGameManagerView, flags) == 0x134 &&
+     sizeof(AsciiGameManagerSideView) == 0x38) ? 1 : -1];
+extern AsciiGameManagerView g_GameManager;
 
 struct BackgroundStageFiles
 {
@@ -46,43 +35,10 @@ struct BackgroundStageFiles
 };
 extern BackgroundStageFiles g_BackgroundStageFiles[];
 
-// Spell VM and loaded stage VM indices select genuine 0x2A4-byte AnmVm
-// records from two independent allocations, with unsigned DWORD offsets.
-#define TH09_BG_NATIVE_SPELL_VM(owner, index) \
-    (*reinterpret_cast<AnmVm *>( \
-        reinterpret_cast<unsigned int>(&(owner)->spellVms[0]) + \
-        static_cast<unsigned int>(index) * sizeof((owner)->spellVms[0])))
-#define TH09_BG_NATIVE_STAGE_VM(owner, index) \
-    (*reinterpret_cast<AnmVm *>( \
-        reinterpret_cast<unsigned int>((owner)->stageObjectVms) + \
-        static_cast<unsigned int>(index) * sizeof(AnmVm)))
-
-
-// Loaded stage path descriptors occupy the original two 4-byte pointers;
-// the live signed stage selector scales to one native 0x08-byte row.
+// Spell and stage VM indices select the real 0x2A4-byte ANM allocations.
+// Stage paths are native pairs of pointers selected by the current stage.
 typedef char BackgroundNativeStageFileRowSizeIs08[
     sizeof(BackgroundStageFiles) == 0x08 ? 1 : -1];
-static __forceinline const BackgroundStageFiles &NativeBackgroundStageFile(int index)
-{
-    return *reinterpret_cast<const BackgroundStageFiles *>(
-        reinterpret_cast<unsigned int>(&g_BackgroundStageFiles[0]) +
-        static_cast<unsigned int>(index) * sizeof(g_BackgroundStageFiles[0]));
-}
-
-
-struct BackgroundAnmLoadedView
-{
-    unsigned char unknown000[4];
-    void *rawData;
-    unsigned char unknown008[0x20 - 0x08];
-    char filename[0x100];
-};
-
-struct BackgroundSupervisorView
-{
-    unsigned char unknown000[8];
-    IDirect3DDevice8 *d3dDevice;
-};
 
 struct BackgroundStageVmRuntimeView
 {
@@ -106,16 +62,10 @@ union BackgroundRenderColor
     BackgroundTintColorView channels;
 };
 
-struct BackgroundAnmManagerMixView
-{
-    unsigned int mixColor;
-    int useMixColor;
-};
-
 typedef char BackgroundRenderColorSizeIs4[
     (sizeof(BackgroundRenderColor) == 4) ? 1 : -1];
 typedef char BackgroundAnmManagerUseMixColorAt4[
-    (offsetof(BackgroundAnmManagerMixView, useMixColor) == 4) ? 1 : -1];
+    (offsetof(AnmManagerRenderCacheView, useMixColor) == 4) ? 1 : -1];
 
 static unsigned char MixRenderColor(
     unsigned char color, unsigned char mixColor)
@@ -125,21 +75,6 @@ static unsigned char MixRenderColor(
         result = 255;
     return static_cast<unsigned char>(result);
 }
-
-struct BackgroundSpellVmDrawView
-{
-    unsigned char unknown000[0x208];
-    BackgroundPoint position208;
-    unsigned char unknown214[0x288 - 0x214];
-    BackgroundPoint position288;
-    unsigned char unknown294[0x2A4 - 0x294];
-};
-
-struct AsciiGameManagerView
-{
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-};
 
 extern void BackgroundRunStageScriptPhase(Background *background);
 extern void BackgroundUpdateRuntimePhase(Background *background);
@@ -154,16 +89,12 @@ Background *Background::Create(int viewportIndex)
     Background *background = static_cast<Background *>(
         g_ZunMemory.AddToRegistry(new Background, sizeof(Background), "BGScrollInf"));
 
-    background->sideState = reinterpret_cast<BackgroundSideStateView *>(
-        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
-        static_cast<unsigned int>(viewportIndex) *
-        sizeof(g_GameManager.sides[0]));
+    background->sideState = &g_GameManager.sides[static_cast<unsigned int>(viewportIndex)];
     background->frameCounter = 0;
     background->viewportIndex = viewportIndex;
-    background->otherSideState = reinterpret_cast<BackgroundSideStateView *>(
-        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
-        static_cast<unsigned int>(static_cast<int>(1u - static_cast<unsigned int>(viewportIndex))) *
-        sizeof(g_GameManager.sides[0]));
+    background->otherSideState = &g_GameManager.sides[
+        static_cast<unsigned int>(
+            static_cast<int>(1u - static_cast<unsigned int>(viewportIndex)))];
 
     background->calcChain = g_Chain.CreateElem((ChainCallback)Background::OnUpdate);
     background->calcChain->arg = background;
@@ -199,13 +130,11 @@ int Background::LoadStageData(const char *path)
     this->stageObjectCount = this->stageData->objectCount;
     this->stageQuadCount = this->stageData->quadCount;
     this->stageObjectInstances = reinterpret_cast<RawStageObjectInstance *>(
-        reinterpret_cast<unsigned int>(this->stageData) +
-        static_cast<unsigned int>(this->stageData->objectInstancesOffset));
+        reinterpret_cast<unsigned char *>(this->stageData) + this->stageData->objectInstancesOffset);
     this->stageScript = reinterpret_cast<RawStageInstr *>(
-        reinterpret_cast<unsigned int>(this->stageData) +
-        static_cast<unsigned int>(this->stageData->scriptOffset));
+        reinterpret_cast<unsigned char *>(this->stageData) + this->stageData->scriptOffset);
     this->stageObjects = reinterpret_cast<RawStageObject **>(
-        reinterpret_cast<unsigned int>(this->stageData) + sizeof(RawStageHeader));
+        reinterpret_cast<unsigned char *>(this->stageData) + sizeof(RawStageHeader));
 
     for (objectIndex = 0; objectIndex < this->stageObjectCount; objectIndex++)
     {
@@ -228,10 +157,10 @@ int Background::LoadStageData(const char *path)
         while (currentQuad->type >= 0)
         {
             this->stageAnm->ExecuteAnmIdx(
-                &TH09_BG_NATIVE_STAGE_VM(this, vmIndex), currentQuad->anmScript);
+                &this->stageObjectVms[static_cast<unsigned int>(vmIndex)], currentQuad->anmScript);
             currentQuad->vmIndex = static_cast<short>(vmIndex++);
             currentQuad = reinterpret_cast<RawStageQuadBasic *>(
-                reinterpret_cast<unsigned int>(currentQuad) +
+                reinterpret_cast<unsigned char *>(currentQuad) +
                 static_cast<unsigned int>(currentQuad->byteSize));
         }
     }
@@ -268,24 +197,28 @@ int Background::AddedCallback(Background *background)
     background->spellVmScriptBase = 0;
     background->spellVmCount = 2;
 
-    BackgroundAnmLoadedView *loaded =
-        reinterpret_cast<BackgroundAnmLoadedView *>(g_AnmManager->GetAnm(4));
-    if (loaded->rawData != NULL &&
-        strcmp(loaded->filename, NativeBackgroundStageFile(g_GameManager.currentStage).anmPath) == 0)
+    AnmManagerReadSlotView *loaded =
+        reinterpret_cast<AnmManagerReadSlotView *>(g_AnmManager->GetAnm(4));
+    if (loaded->loaded.rawData04 != NULL &&
+        strcmp(loaded->path,
+               g_BackgroundStageFiles[
+                   static_cast<unsigned int>(g_GameManager.valueF4)].anmPath) == 0)
     {
-        background->stageAnm = reinterpret_cast<AnmLoaded *>(loaded);
+        background->stageAnm = &loaded->loaded;
     }
     else
     {
         background->stageAnm = g_AnmManager->PreloadAnm(
-            4, NativeBackgroundStageFile(g_GameManager.currentStage).anmPath);
+            4, g_BackgroundStageFiles[
+                   static_cast<unsigned int>(g_GameManager.valueF4)].anmPath);
         if (background->stageAnm == NULL)
             return -1;
     }
 
     background->sideAnm = g_AnmManager->GetAnm(background->viewportIndex + 5);
     if (background->LoadStageData(
-            NativeBackgroundStageFile(g_GameManager.currentStage).stdPath) != 0)
+            g_BackgroundStageFiles[
+                static_cast<unsigned int>(g_GameManager.valueF4)].stdPath) != 0)
         return -1;
 
     background->skyFog.color = 0xFF000000;
@@ -301,20 +234,20 @@ int Background::AddedCallback(Background *background)
 
     background->pendingStageLabel18 = 0;
     background->cullingDistanceSq = 1822500.0f;
-    if (g_GameManager.currentStage == 5)
+    if (g_GameManager.valueF4 == 5)
     {
         background->cullingDistanceSq = 3062500.0f;
     }
-    else if (g_GameManager.currentStage == 9)
+    else if (g_GameManager.valueF4 == 9)
     {
         background->cullingDistanceSq = 3062500.0f;
     }
-    else if (g_GameManager.currentStage == 11)
+    else if (g_GameManager.valueF4 == 11)
     {
         background->cullingDistanceSq = 4202500.0f;
     }
-    else if (g_GameManager.currentStage == 12 ||
-             g_GameManager.currentStage == 15)
+    else if (g_GameManager.valueF4 == 12 ||
+             g_GameManager.valueF4 == 15)
     {
         background->cullingDistanceSq = 6002500.0f;
     }
@@ -334,7 +267,7 @@ int Background::OnUpdate(Background *background)
     // The original i386 INC/DEC wraps their live physical words at 32 bits.
     if (background->transitionMode != 0)
     {
-        --*reinterpret_cast<unsigned int *>(&background->transitionFrames);
+        --background->transitionFrames;
         if (background->transitionFrames <= 0)
         {
             background->transitionMode = 0;
@@ -354,12 +287,12 @@ int Background::OnUpdate(Background *background)
         }
     }
 
-    if ((g_GameManager.flags134 & 0x1800) != 0)
+    if ((g_GameManager.flags & 0x1800) != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
 
-    BackgroundSideStateView *side =
-        static_cast<BackgroundSideStateView *>(background->sideState);
-    if ((side->flags34 & 1) != 0)
+    AsciiGameManagerSideView *side =
+        static_cast<AsciiGameManagerSideView *>(background->sideState);
+    if ((side->flags & 1) != 0)
     {
         background->tintColor = 0x40303030;
         return CHAIN_CALLBACK_RESULT_CONTINUE;
@@ -383,10 +316,10 @@ int Background::OnUpdate(Background *background)
     if (background->spellBackgroundState >= 1)
     {
         if (background->spellBackgroundFrame == 60)
-            ++*reinterpret_cast<unsigned int *>(&background->spellBackgroundState);
-        ++*reinterpret_cast<unsigned int *>(&background->spellBackgroundFrame);
+            ++background->spellBackgroundState;
+        ++background->spellBackgroundFrame;
         for (int i = 0; i < background->spellVmCount; i++)
-            g_AnmManager->ExecuteScript(&TH09_BG_NATIVE_SPELL_VM(background, i));
+            g_AnmManager->ExecuteScript(&background->spellVms[static_cast<unsigned int>(i)]);
     }
 
     BackgroundStageVmRuntimeView *stageVm0 =
@@ -408,14 +341,13 @@ int Background::OnUpdate(Background *background)
                 &background->stageVm2)->color1;
     }
 
-    ++*reinterpret_cast<unsigned int *>(&background->frameCounter);
+    ++background->frameCounter;
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
 int Background::OnDrawHighPrio(Background *background)
 {
-    BackgroundSupervisorView *supervisor =
-        reinterpret_cast<BackgroundSupervisorView *>(&g_Supervisor);
+    Supervisor *supervisor = &g_Supervisor;
     BackgroundTintColorView *tint =
         reinterpret_cast<BackgroundTintColorView *>(&background->tintColor);
 
@@ -427,7 +359,7 @@ int Background::OnDrawHighPrio(Background *background)
 
     if (background->clearPending != 0)
     {
-        supervisor->d3dDevice->Clear(
+        supervisor->d3dDevice08->Clear(
             0, NULL, D3DCLEAR_TARGET, 0xFF000000, 1.0f, 0);
         background->clearPending = 0;
     }
@@ -438,14 +370,14 @@ int Background::OnDrawHighPrio(Background *background)
     if ((background->clearColor & 0xFF000000) == 0xFF000000)
     {
         unsigned int color = background->skyFog.color;
-        if (reinterpret_cast<BackgroundAnmManagerMixView *>(g_AnmManager)
+        if (reinterpret_cast<AnmManagerRenderCacheView *>(g_AnmManager)
                 ->useMixColor != 0)
         {
             BackgroundTintColorView *colorChannels =
                 reinterpret_cast<BackgroundTintColorView *>(&color);
             BackgroundTintColorView *mixChannels =
                 reinterpret_cast<BackgroundTintColorView *>(
-                    &reinterpret_cast<BackgroundAnmManagerMixView *>(g_AnmManager)
+                    &reinterpret_cast<AnmManagerRenderCacheView *>(g_AnmManager)
                          ->mixColor);
             colorChannels->red =
                 MixRenderColor(colorChannels->red, mixChannels->red);
@@ -456,7 +388,7 @@ int Background::OnDrawHighPrio(Background *background)
             colorChannels->alpha =
                 MixRenderColor(colorChannels->alpha, mixChannels->alpha);
         }
-        supervisor->d3dDevice->Clear(
+        supervisor->d3dDevice08->Clear(
             0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
             color, 1.0f, 0);
     }
@@ -466,12 +398,12 @@ int Background::OnDrawHighPrio(Background *background)
         {
             ScreenEffectRect rect = {32.0f, 16.0f, 416.0f, 464.0f};
             ScreenEffect::DrawSquare(&rect, background->skyFog.color);
-            supervisor->d3dDevice->Clear(
+            supervisor->d3dDevice08->Clear(
                 0, NULL, D3DCLEAR_ZBUFFER, background->clearColor, 1.0f, 0);
         }
         else
         {
-            supervisor->d3dDevice->Clear(
+            supervisor->d3dDevice08->Clear(
                 0, NULL, D3DCLEAR_ZBUFFER, 0, 1.0f, 0);
         }
     }
@@ -485,11 +417,9 @@ int Background::OnDrawHighPrio(Background *background)
         {
             AsciiGameManagerView *gameManager =
                 reinterpret_cast<AsciiGameManagerView *>(&g_GameManager);
-            reinterpret_cast<BackgroundSpellVmDrawView *>(
-                &background->stageVm0)->position208.x =
+            background->stageVm0.pos.x =
                 gameManager->TransformPopupX(-144.0f);
-            reinterpret_cast<BackgroundSpellVmDrawView *>(
-                &background->stageVm0)->position208.z = 0.99f;
+            background->stageVm0.pos.z = 0.99f;
             g_AnmManager->Draw2DAndFlush(&background->stageVm0);
         }
 
@@ -501,7 +431,7 @@ int Background::OnDrawHighPrio(Background *background)
     }
 
     g_Supervisor.SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-    if (reinterpret_cast<BackgroundAnmManagerMixView *>(g_AnmManager)
+    if (reinterpret_cast<AnmManagerRenderCacheView *>(g_AnmManager)
             ->useMixColor == 0)
     {
         g_Supervisor.SetRenderState(
@@ -513,7 +443,7 @@ int Background::OnDrawHighPrio(Background *background)
         fogColor.value = background->skyFog.color;
         BackgroundTintColorView *mixChannels =
             reinterpret_cast<BackgroundTintColorView *>(
-                &reinterpret_cast<BackgroundAnmManagerMixView *>(g_AnmManager)
+                &reinterpret_cast<AnmManagerRenderCacheView *>(g_AnmManager)
                      ->mixColor);
         fogColor.channels.red =
             MixRenderColor(fogColor.channels.red, mixChannels->red);
@@ -569,17 +499,15 @@ int Background::OnDrawLowPrio(Background *background)
     {
         for (int i = 0; i < background->spellVmCount; i++)
         {
-            BackgroundSpellVmDrawView *vm =
-                reinterpret_cast<BackgroundSpellVmDrawView *>(
-                    &TH09_BG_NATIVE_SPELL_VM(background, i));
+            AnmVm *vm = &background->spellVms[static_cast<unsigned int>(i)];
             AsciiGameManagerView *gameManager =
                 reinterpret_cast<AsciiGameManagerView *>(&g_GameManager);
-            vm->position208.x =
-                gameManager->TransformPopupX(vm->position288.x);
-            vm->position208.y =
-                gameManager->TransformPopupY(vm->position288.y);
-            vm->position208.z = vm->position288.z;
-            g_AnmManager->Draw2DAndFlush(&TH09_BG_NATIVE_SPELL_VM(background, i));
+            vm->pos.x =
+                gameManager->TransformPopupX(vm->pos2.x);
+            vm->pos.y =
+                gameManager->TransformPopupY(vm->pos2.y);
+            vm->pos.z = vm->pos2.z;
+            g_AnmManager->Draw2DAndFlush(&background->spellVms[static_cast<unsigned int>(i)]);
         }
         if (background->spellBackgroundDrawCallback != NULL)
             background->spellBackgroundDrawCallback();

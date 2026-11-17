@@ -12204,3 +12204,59 @@ No ASM, padding, artificial duplicate arrays,
 extra bounds checks, forced register allocation,
 whole-product cold replay or new exact-function
 credit was used.
+
+## 2026-11-17 GPT-web: native Background GameManager, ANM slots and stage arrays
+
+The target-bound `Background` create, stage loading, update and
+high/low draw lifecycle now consume the real
+`AsciiGameManagerView` (including its true +0xF4 current-stage
+word, +0x134 flags and 0x38-byte side array). The previous
+`BackgroundGameManagerView` and `BackgroundSideStateView`
+had separate artificial offset padding solely to alias these
+already reconstructed objects; both are removed. Stage
+side/opposing-side state pointers are taken directly from
+the real `g_GameManager.sides[]` elements.
+
+Spell and stage VMs are selected directly from native
+`Background::spellVms[]` and `stageObjectVms[]`;
+the separate `TH09_BG_NATIVE_SPELL_VM` and
+`TH09_BG_NATIVE_STAGE_VM` integer-address macros have
+been removed. Three background stage-file reads now access
+the actual `g_BackgroundStageFiles[stage]` two-pointer
+record. Raw stage instance, script, object-table and
+variable-length Quad offsets use typed pointers into
+the original file bytes, not fabricated native DWORD
+addresses. Signed frame/spell/transition counters use
+normal C++ increments/decrements without extra gates.
+
+The preloaded ANM resource record has been unified with
+the shared native `AnmManagerReadSlotView`: the loading
+callback reads its true `loaded.rawData04` and
+`path` and returns `&slot->loaded`, rather than
+a fake prefix+filename shadow struct. High/low draw code
+uses the actual Supervisor device and the shared
+`AnmManagerRenderCacheView` mix/color fields.
+The old `BackgroundAnmLoadedView`,
+`BackgroundSupervisorView`,
+`BackgroundSpellVmDrawView`, the separate
+`BackgroundAnmManagerMixView` and locally redeclared
+`AsciiGameManagerView` are gone. VM spell position
+writes access the true `AnmVm::pos/pos2` members.
+The remaining distinct `BackgroundStageVmRuntimeView`
+is retained because its direct nominal replacement
+changed 3 update and 2 draw bytes under VC7.1.
+
+Eleven separate pinned VC7.1 probes for native arrays,
+stage file offsets, counters, ANM records, Supervisor
+ownership and shared GameManager state preceded
+promotion. The maintained three-profile selected-source
+replay passes **9/9 existing exact functions,
+2,828 original physical bytes and 171 relocation
+fields**, including 671-byte HighPrio draw,
+475-byte AddedCallback and the independently
+compiled 160-byte constructor. Ten real GameManager
+global symbol names were rebound only after proving
+identical relocation offsets/types, original PE
+destinations and full nonrelocation byte equality.
+No ASM, artificial padding, forced register allocation
+or full-product cold replay was used.
