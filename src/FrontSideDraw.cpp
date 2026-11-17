@@ -64,16 +64,16 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     g_Supervisor.ctorArray078[static_cast<unsigned int>(frontSide->sideIndexA66C)].screenShakeOffsetE8.y = 0.0f;
     g_Supervisor.ConfigureScreenViewport(frontSide->sideIndexA66C);
 
-    Float3 *cursor = &frontSide->statusVms0000[0].pos;
-    for (i = 0; i < 11; ++i, cursor = reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(cursor) + sizeof(AnmVm)))
+    AnmVm *statusVm = &frontSide->statusVms0000[0];
+    for (i = 0; i < 11; ++i, statusVm = statusVm + 1)
     {
-        cursor->x = g_GameManager.TransformPopupX(reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos))->pos2.x);
-        cursor->y = g_GameManager.TransformPopupY(reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos))->pos2.y);
-        cursor->z = 0.0f;
-        g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos)));
+        statusVm->pos.x = g_GameManager.TransformPopupX(statusVm->pos2.x);
+        statusVm->pos.y = g_GameManager.TransformPopupY(statusVm->pos2.y);
+        statusVm->pos.z = 0.0f;
+        g_AnmManager->Draw2D(statusVm);
     }
 
-    cursor = &frontSide->stockVms1D0C[0].pos;
+    Float3 *cursor = &frontSide->stockVms1D0C[0].pos;
     for (i = 0; i < 5; ++i, cursor = reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(cursor) + sizeof(AnmVm)))
     {
         cursor->x = g_GameManager.TransformPopupX(reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos))->pos2.x);
