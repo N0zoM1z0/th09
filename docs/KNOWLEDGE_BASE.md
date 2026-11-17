@@ -10472,3 +10472,46 @@ COFF definitions, identical original PE destinations
 and zero nonrelocation byte differences. No ASM,
 padding, whole-game cold replay or new exact-function
 credit was used.
+
+## 2026-11-17 GPT-web: unify FrontSide HUD with native Player and GameManager
+
+The full `FrontSide::OnUpdate @ 0x00418A90` HUD owner now
+reads `PlayerLifecycleView` directly from the native side's
+`player04` pointer. The former padding-filled
+`FrontSidePlayerRuntimeView`, with its enormous private
+`unknown000AC` and `unknown3038C` byte regions, is
+removed. Stock/gauge values now use the real
+`PlayerHeaderStateView::state7C/state80/state84`,
+`PlayerLifecycleView::scalar30384/scalar30388`,
+and `PlayerOwnerStateView::state04/maxValue10/timer14/timer20`.
+The code also sets and clears the genuine
+`AnmVm::drawEnabled` bit rather than masking
+`flagsWord & 2` in the status, score, rank, and marker VMs.
+
+The separate, padding-filled `FrontSideGameManagerView`
+is removed. This source consumes the same
+`AsciiGameManagerView` allocation as the rest of the
+game, and the known original-bound
+`AsciiGameManagerView::IsGameMode2 @ 0x00415D30`
+replaces the anonymous `IsMode2` declaration.
+All original HUD VM groups, per-side gameplay records,
+and auxiliary path tables use direct native C++ array
+subscripts instead of three integer-address lvalue
+macros. No new bounds checks, receiver allocations,
+padding or synthetic state were introduced.
+
+Separate candidate probes for the typed Player view,
+each direct array family, the VM draw bitfield, and
+the native GameManager were all 2,381-byte codegen
+matches. The maintained source-scoped VC7.1 replay
+passes **15/15 previously exact functions,
+4,087 original physical bytes and 176 relocation
+fields**, including 2,381/2,381 for OnUpdate,
+460/460 for AddedCallback, and 283/283 for Create.
+Eleven updated mangled COFF symbols were
+individually verified against the original PE global
+GameManager address and independently exact
+IsGameMode2 entry, with identical relocation
+offsets/types and zero nonrelocation byte changes.
+No ASM, fake padding, whole-product cold replay
+or new exact-function promotion was used.
