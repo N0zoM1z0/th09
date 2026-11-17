@@ -11708,3 +11708,46 @@ synthetic padding, inserted instruction
 filling, forced registers, whole-product
 cold replay, or new Exact-function count
 was used.
+
+## 2026-11-17 GPT-web: native ANM loader arrays, file-word cursors and Supervisor
+
+The original-bound `AnmManager::LoadTextureData` parser, its
+`LoadExternalTextureData` sibling and `AnmLoaded::LoadSprite`
+now read and write their genuine `AnmLoaded::textures14[]`,
+`scripts10[]`, and `sprites0C[]` allocations directly.
+The ANM texture-format and bytes-per-pixel tables also use
+native indexed C++ entries. The six obsolete helpers that
+fabricated 32-bit integer addresses to recover those same
+resource lvalues were removed, including the duplicate
+resource-file-slot reader. Four pointless casts from
+`AnmLoaded *` to the identical native type are gone.
+
+The texture header name/bitmap offsets and animation script
+offsets remain file-relative, but use typed byte pointers
+rather than casting the address through an integer. The
+original cursor advances via `++currentOffset` and
+`currentOffset += 2`, and `currentOffset[1]` reads the
+actual second script-offset word. The source still respects
+the original runtime-provided counts without introducing
+bounds checks or a fabricated file array.
+
+The padding-filled `SupervisorAnmLoadView` is removed:
+device-dependent loading calls use the real
+`g_Supervisor.d3dDevice08` and async-preload gates read
+`g_Supervisor.subthreadCloseRequestActive` at verified
+native offsets. Seven separate file-pointer experiments and
+six resource-table experiments were all compiled under the
+pinned VC7.1 toolchain. A further attempt to unify the
+still-ambiguous 0x120-byte manager slot projection with the
+other loader's nominal slot type changed the 163-byte
+`ReleaseAnm` owner and was rejected.
+
+The maintained two-profile selected-source replay passes
+**17/17 previously exact functions, 3,258 complete physical
+bytes and 133 original relocation fields**. This includes
+the 558-byte `LoadTextureData` parser, 390-byte
+`ReadAnmEntries` controller, 341-byte constructor,
+330-byte `CreateTextureFromAnm` and all smaller leaves.
+There are no ABI symbol changes, no compiler-local label
+rebindings, no ASM, no synthetic padding or full-game cold
+replay. No newly exact function is claimed.

@@ -104,16 +104,10 @@ typedef char AnmManagerLoadAnmAt24[(offsetof(AnmManagerLoadSlotView, loaded) == 
 typedef char AnmManagerLoadReleaseAt40[(offsetof(AnmManagerLoadSlotView, releasePending) == 0x40) ? 1 : -1];
 typedef char AnmManagerLoadPathAt44[(offsetof(AnmManagerLoadSlotView, path) == 0x44) ? 1 : -1];
 
-struct SupervisorAnmLoadView
-{
-    unsigned char unknown000[0x08];
-    IDirect3DDevice8 *d3dDevice;
-    unsigned char unknown00C[0x6B4 - 0x0C];
-    int subthreadCloseRequestActive;
-};
-
-typedef char SupervisorAnmLoadDeviceAt08[(offsetof(SupervisorAnmLoadView, d3dDevice) == 0x08) ? 1 : -1];
-typedef char SupervisorAnmLoadCloseAt6B4[(offsetof(SupervisorAnmLoadView, subthreadCloseRequestActive) == 0x6B4) ? 1 : -1];
+// Native ANM resource loading uses the actual Supervisor fields.
+typedef char AnmLoadNativeSupervisorState[
+    (offsetof(Supervisor, d3dDevice08) == 0x08 &&
+     offsetof(Supervisor, subthreadCloseRequestActive) == 0x6B4) ? 1 : -1];
 
 struct VertexTex1DiffuseXyzrhwLoadView
 {
@@ -168,11 +162,6 @@ HRESULT WINAPI D3DXLoadSurfaceFromSurface(
     const PALETTEENTRY *srcPalette, const RECT *srcRect,
     unsigned long filter, D3DCOLOR colorKey);
 
-static __inline SupervisorAnmLoadView *AnmSupervisor()
-{
-    return reinterpret_cast<SupervisorAnmLoadView *>(&g_Supervisor);
-}
-
 static __inline AnmManagerLoadSlotView *AnmLoadSlot(AnmManager *manager, int anmIdx)
 {
     // The loader's 0x120-byte resource slots advance by native DWORDs.
@@ -181,30 +170,17 @@ static __inline AnmManagerLoadSlotView *AnmLoadSlot(AnmManager *manager, int anm
         static_cast<unsigned int>(anmIdx) * sizeof(AnmManagerLoadSlotView));
 }
 
-// Both genuine texture-format and pixel-stride tables hold 4-byte words.
-// A const element lvalue retains each retail load from the native Win32
-// table base + unsigned-DWORD indexed byte stride, without a new guard.
-static inline const D3DFORMAT &NativeAnmFormatRef(int index)
-{
-    return *reinterpret_cast<const D3DFORMAT *>(
-        reinterpret_cast<unsigned int>(&g_AnmTextureFormats[0]) +
-        static_cast<unsigned int>(index) * sizeof(g_AnmTextureFormats[0]));
-}
-static inline unsigned int NativeAnmTextureBytesPerPixel(int index)
-{
-    return *reinterpret_cast<const unsigned int *>(
-        reinterpret_cast<unsigned int>(&g_AnmTextureBytesPerPixel[0]) +
-        static_cast<unsigned int>(index) * sizeof(g_AnmTextureBytesPerPixel[0]));
-}
+// Texture format and per-pixel byte counts are the original native
+// DWORD tables. Their index expressions remain unguarded as in retail.
 
 static int __fastcall AnmGetFormat(int format)
 {
     if (g_Supervisor.Is16BitTexturesForced() != 0)
     {
-        if (NativeAnmFormatRef(format) == D3DFMT_A8R8G8B8 ||
-            NativeAnmFormatRef(format) == D3DFMT_UNKNOWN)
+        if (g_AnmTextureFormats[static_cast<unsigned int>(format)] == D3DFMT_A8R8G8B8 ||
+            g_AnmTextureFormats[static_cast<unsigned int>(format)] == D3DFMT_UNKNOWN)
             return 5;
-        if (NativeAnmFormatRef(format) == D3DFMT_R8G8B8)
+        if (g_AnmTextureFormats[static_cast<unsigned int>(format)] == D3DFMT_R8G8B8)
             return 3;
     }
     return format;
@@ -213,8 +189,8 @@ static int __fastcall AnmGetFormat(int format)
 int AnmManager::CreateEmptyTexture(
     IDirect3DTexture8 **outTexture, int width, int height, int format)
 {
-    D3DXCreateTexture(AnmSupervisor()->d3dDevice, width, height, 1, 0,
-                      NativeAnmFormatRef(format), D3DPOOL_MANAGED, outTexture);
+    D3DXCreateTexture(g_Supervisor.d3dDevice08, width, height, 1, 0,
+                      g_AnmTextureFormats[static_cast<unsigned int>(format)], D3DPOOL_MANAGED, outTexture);
     return 0;
 }
 
@@ -223,8 +199,8 @@ int AnmManager::CreateTextureFromFile(
 {
     format = AnmGetFormat(format);
     if (D3DXCreateTextureFromFileInMemoryEx(
-            AnmSupervisor()->d3dDevice, entry->rawData, entry->size,
-            0, 0, 0, 0, NativeAnmFormatRef(format), D3DPOOL_MANAGED,
+            g_Supervisor.d3dDevice08, entry->rawData, entry->size,
+            0, 0, 0, 0, g_AnmTextureFormats[static_cast<unsigned int>(format)], D3DPOOL_MANAGED,
             3, static_cast<unsigned long>(-1), colorKey, NULL, NULL,
             &entry->texture) != D3D_OK)
         return -1;
@@ -240,23 +216,23 @@ int AnmManager::CreateTextureFromAnm(
     int currentY;
 
     format = AnmGetFormat(format);
-    AnmSupervisor()->d3dDevice->CreateImageSurface(
+    g_Supervisor.d3dDevice08->CreateImageSurface(
         textureHeader->width, textureHeader->height,
-        NativeAnmFormatRef(textureHeader->format), &surface);
+        g_AnmTextureFormats[static_cast<unsigned int>(textureHeader->format)], &surface);
     surface->LockRect(&lockedRect, NULL, 0);
     for (currentY = 0; currentY < textureHeader->height; currentY++)
     {
         void *textureDest = static_cast<unsigned char *>(lockedRect.pBits) + currentY * lockedRect.Pitch;
         const void *textureSrc = reinterpret_cast<unsigned char *>(textureHeader) + sizeof(AnmTextureHeader) +
-            currentY * textureHeader->width * NativeAnmTextureBytesPerPixel(textureHeader->format);
+            currentY * textureHeader->width * g_AnmTextureBytesPerPixel[static_cast<unsigned int>(textureHeader->format)];
         memcpy(textureDest, textureSrc,
-               textureHeader->width * NativeAnmTextureBytesPerPixel(textureHeader->format));
+               textureHeader->width * g_AnmTextureBytesPerPixel[static_cast<unsigned int>(textureHeader->format)]);
     }
     surface->UnlockRect();
 
-    if (D3DXCreateTexture(AnmSupervisor()->d3dDevice,
+    if (D3DXCreateTexture(g_Supervisor.d3dDevice08,
                           textureHeader->width, textureHeader->height, 1, 0,
-                          NativeAnmFormatRef(format), D3DPOOL_MANAGED,
+                          g_AnmTextureFormats[static_cast<unsigned int>(format)], D3DPOOL_MANAGED,
                           outTexture) != D3D_OK)
         goto error;
 
@@ -288,45 +264,18 @@ error:
     return -1;
 }
 
-// The ANM loader works with authentic Win32 allocations, not bounded
-// shadow arrays: 0x44-byte sprite records, 0x0C-byte texture entries,
-// 4-byte script pointers and 0x120-byte AnmManager file-slot records.
-// A native signed index scales in an unsigned 32-bit address word; each
-// consumer retains its original independent load/store and null gates.
-static inline AnmEntry &NativeAnmTextureEntry(AnmLoaded *owner, int index)
-{
-    return *reinterpret_cast<AnmEntry *>(
-        reinterpret_cast<unsigned int>(owner->textures14) +
-        static_cast<unsigned int>(index) * sizeof(AnmEntry));
-}
+// The loader owns native sprite, texture and script-pointer arrays.
+// Their real strides and live read/store order are retained directly;
+// the resource file-slot overlay is still separately layout-checked.
 
-static inline AnmRawInstr *&NativeAnmScriptEntry(AnmLoaded *owner, int index)
-{
-    return *reinterpret_cast<AnmRawInstr **>(
-        reinterpret_cast<unsigned int>(owner->scripts10) +
-        static_cast<unsigned int>(index) * sizeof(owner->scripts10[0]));
-}
 
-static inline AnmManagerReadSlotView &NativeAnmManagerReadSlot(
-    AnmManagerReadView *manager, int index)
-{
-    return *reinterpret_cast<AnmManagerReadSlotView *>(
-        reinterpret_cast<unsigned int>(&manager->slots[0]) +
-        static_cast<unsigned int>(index) * sizeof(manager->slots[0]));
-}
 
-static inline AnmLoadedSprite &NativeAnmLoadedSprite(AnmLoaded *owner, int index)
-{
-    return *reinterpret_cast<AnmLoadedSprite *>(
-        reinterpret_cast<unsigned int>(owner->sprites0C) +
-        static_cast<unsigned int>(index) * sizeof(AnmLoadedSprite));
-}
 
 int AnmManager::LoadExternalTextureData(
     AnmLoaded *anmLoadedObject, int entryNumber, int *, int *,
     AnmRawEntry *rawEntry)
 {
-    AnmLoaded *anmLoaded = reinterpret_cast<AnmLoaded *>(anmLoadedObject);
+    AnmLoaded *anmLoaded = anmLoadedObject;
     if (rawEntry == NULL)
     {
         g_GameErrorContext.Fatal(g_AnmCorruptedMessage);
@@ -339,9 +288,7 @@ int AnmManager::LoadExternalTextureData(
     }
     if (!rawEntry->hasData)
     {
-        const char *path = reinterpret_cast<const char *>(
-            reinterpret_cast<unsigned int>(rawEntry) +
-            static_cast<unsigned int>(rawEntry->nameOffset));
+        const char *path = reinterpret_cast<const char *>(rawEntry) + rawEntry->nameOffset;
         if (path[0] != '@')
         {
             int fileSize;
@@ -358,8 +305,8 @@ int AnmManager::LoadExternalTextureData(
                     path);
                 return -1;
             }
-            NativeAnmTextureEntry(anmLoaded, entryNumber).size = fileSize;
-            NativeAnmTextureEntry(anmLoaded, entryNumber).rawData = fileData;
+            anmLoaded->textures14[static_cast<unsigned int>(entryNumber)].size = fileSize;
+            anmLoaded->textures14[static_cast<unsigned int>(entryNumber)].rawData = fileData;
         }
     }
     return 1;
@@ -378,29 +325,29 @@ void AnmManager::ReleaseAnmEntry(AnmEntry *entry)
 
 void AnmLoaded::LoadSprite(int spriteIndex, AnmLoadedSprite *loadedSprite)
 {
-    AnmLoaded *anm = reinterpret_cast<AnmLoaded *>(this);
+    AnmLoaded *anm = this;
     AnmLoadedSprite *source = loadedSprite;
-    NativeAnmLoadedSprite(anm, spriteIndex) = *source;
+    anm->sprites0C[static_cast<unsigned int>(spriteIndex)] = *source;
 
-    NativeAnmLoadedSprite(anm, spriteIndex).uvStartX =
-        NativeAnmLoadedSprite(anm, spriteIndex).startPixelX08 /
-        NativeAnmLoadedSprite(anm, spriteIndex).textureWidth1C;
-    NativeAnmLoadedSprite(anm, spriteIndex).uvEndX =
-        NativeAnmLoadedSprite(anm, spriteIndex).endPixelX10 /
-        NativeAnmLoadedSprite(anm, spriteIndex).textureWidth1C;
-    NativeAnmLoadedSprite(anm, spriteIndex).uvStartY =
-        NativeAnmLoadedSprite(anm, spriteIndex).startPixelY0C /
-        NativeAnmLoadedSprite(anm, spriteIndex).textureHeight18;
-    NativeAnmLoadedSprite(anm, spriteIndex).uvEndY =
-        NativeAnmLoadedSprite(anm, spriteIndex).endPixelY14 /
-        NativeAnmLoadedSprite(anm, spriteIndex).textureHeight18;
-    NativeAnmLoadedSprite(anm, spriteIndex).widthPx =
-        (NativeAnmLoadedSprite(anm, spriteIndex).endPixelX10 -
-         NativeAnmLoadedSprite(anm, spriteIndex).startPixelX08) /
+    anm->sprites0C[static_cast<unsigned int>(spriteIndex)].uvStartX =
+        anm->sprites0C[static_cast<unsigned int>(spriteIndex)].startPixelX08 /
+        anm->sprites0C[static_cast<unsigned int>(spriteIndex)].textureWidth1C;
+    anm->sprites0C[static_cast<unsigned int>(spriteIndex)].uvEndX =
+        anm->sprites0C[static_cast<unsigned int>(spriteIndex)].endPixelX10 /
+        anm->sprites0C[static_cast<unsigned int>(spriteIndex)].textureWidth1C;
+    anm->sprites0C[static_cast<unsigned int>(spriteIndex)].uvStartY =
+        anm->sprites0C[static_cast<unsigned int>(spriteIndex)].startPixelY0C /
+        anm->sprites0C[static_cast<unsigned int>(spriteIndex)].textureHeight18;
+    anm->sprites0C[static_cast<unsigned int>(spriteIndex)].uvEndY =
+        anm->sprites0C[static_cast<unsigned int>(spriteIndex)].endPixelY14 /
+        anm->sprites0C[static_cast<unsigned int>(spriteIndex)].textureHeight18;
+    anm->sprites0C[static_cast<unsigned int>(spriteIndex)].widthPx =
+        (anm->sprites0C[static_cast<unsigned int>(spriteIndex)].endPixelX10 -
+         anm->sprites0C[static_cast<unsigned int>(spriteIndex)].startPixelX08) /
         source->scaleX38;
-    NativeAnmLoadedSprite(anm, spriteIndex).heightPx =
-        (NativeAnmLoadedSprite(anm, spriteIndex).endPixelY14 -
-         NativeAnmLoadedSprite(anm, spriteIndex).startPixelY0C) /
+    anm->sprites0C[static_cast<unsigned int>(spriteIndex)].heightPx =
+        (anm->sprites0C[static_cast<unsigned int>(spriteIndex)].endPixelY14 -
+         anm->sprites0C[static_cast<unsigned int>(spriteIndex)].startPixelY0C) /
         source->scaleY3C;
 }
 
@@ -408,7 +355,7 @@ int AnmManager::LoadTextureData(
     AnmLoaded *anmLoadedObject, int entryNumber, int currentSpriteNumber,
     int currentScriptNumber, AnmRawEntry *rawEntry)
 {
-    AnmLoaded *anmLoaded = reinterpret_cast<AnmLoaded *>(anmLoadedObject);
+    AnmLoaded *anmLoaded = anmLoadedObject;
     int i;
     const char *path;
     D3DSURFACE_DESC surfaceDesc;
@@ -428,15 +375,13 @@ int AnmManager::LoadTextureData(
 
     if (!rawEntry->hasData)
     {
-        path = reinterpret_cast<const char *>(
-            reinterpret_cast<unsigned int>(rawEntry) +
-            static_cast<unsigned int>(rawEntry->nameOffset));
+        path = reinterpret_cast<const char *>(rawEntry) + rawEntry->nameOffset;
         if (path[0] == '@')
         {
-            this->CreateEmptyTexture(&NativeAnmTextureEntry(anmLoaded, entryNumber).texture,
+            this->CreateEmptyTexture(&anmLoaded->textures14[static_cast<unsigned int>(entryNumber)].texture,
                                   rawEntry->width, rawEntry->height, rawEntry->format);
         }
-        else if (this->CreateTextureFromFile(&NativeAnmTextureEntry(anmLoaded, entryNumber),
+        else if (this->CreateTextureFromFile(&anmLoaded->textures14[static_cast<unsigned int>(entryNumber)],
                                           rawEntry->format, rawEntry->colorKey) != 0)
         {
             // Texture creation failure (original CP932 text).
@@ -451,32 +396,26 @@ int AnmManager::LoadTextureData(
         }
     }
     else if (this->CreateTextureFromAnm(
-                 &NativeAnmTextureEntry(anmLoaded, entryNumber).texture,
-                 reinterpret_cast<AnmTextureHeader *>(
-                     reinterpret_cast<unsigned int>(rawEntry) +
-                     static_cast<unsigned int>(rawEntry->textureOffset)),
+                 &anmLoaded->textures14[static_cast<unsigned int>(entryNumber)].texture,
+                 reinterpret_cast<AnmTextureHeader *>(reinterpret_cast<unsigned char *>(rawEntry) + rawEntry->textureOffset),
                  rawEntry->format) != 0)
     {
         g_GameErrorContext.Fatal(g_AnmTextureMessage);
         return -1;
     }
 
-    NativeAnmTextureEntry(anmLoaded, entryNumber).texture->SetPriority(rawEntry->priority);
-    NativeAnmTextureEntry(anmLoaded, entryNumber).texture->PreLoad();
-    NativeAnmTextureEntry(anmLoaded, entryNumber).texture->GetLevelDesc(0, &surfaceDesc);
+    anmLoaded->textures14[static_cast<unsigned int>(entryNumber)].texture->SetPriority(rawEntry->priority);
+    anmLoaded->textures14[static_cast<unsigned int>(entryNumber)].texture->PreLoad();
+    anmLoaded->textures14[static_cast<unsigned int>(entryNumber)].texture->GetLevelDesc(0, &surfaceDesc);
 
-    // The real file-backed Sprite and Script offset words follow each
-    // 0x40-byte header; native byte cursor stepping preserves every original
-    // independently loaded entry rather than constructing C++ arrays.
-    currentOffset = reinterpret_cast<unsigned int *>(
-        reinterpret_cast<unsigned int>(rawEntry) + sizeof(AnmRawEntry));
-    for (i = 0; i < rawEntry->numSprites; i++, currentOffset = reinterpret_cast<unsigned int *>(
-             reinterpret_cast<unsigned int>(currentOffset) + sizeof(*currentOffset)))
+    // The original file-backed sprite and script offset words follow
+    // the 0x40-byte header; traverse their native word cursor directly.
+    currentOffset = reinterpret_cast<unsigned int *>(reinterpret_cast<unsigned char *>(rawEntry) + sizeof(AnmRawEntry));
+    for (i = 0; i < rawEntry->numSprites; i++, ++currentOffset)
     {
-        AnmRawSpriteView *rawSprite = reinterpret_cast<AnmRawSpriteView *>(
-            reinterpret_cast<unsigned int>(rawEntry) + *currentOffset);
+        AnmRawSpriteView *rawSprite = reinterpret_cast<AnmRawSpriteView *>(reinterpret_cast<unsigned char *>(rawEntry) + *currentOffset);
         loadedSprite.anmIdx = anmLoaded->anmIdx;
-        loadedSprite.texture = NativeAnmTextureEntry(anmLoaded, entryNumber).texture;
+        loadedSprite.texture = anmLoaded->textures14[static_cast<unsigned int>(entryNumber)].texture;
         loadedSprite.scaleX38 = surfaceDesc.Width / static_cast<float>(rawEntry->width);
         loadedSprite.scaleY3C = surfaceDesc.Height / static_cast<float>(rawEntry->height);
         loadedSprite.startPixelX08 = rawSprite->x * loadedSprite.scaleX38;
@@ -489,12 +428,9 @@ int AnmManager::LoadTextureData(
         ++*reinterpret_cast<unsigned int *>(&currentSpriteNumber);
     }
 
-    for (i = 0; i < rawEntry->numScripts; i++, currentOffset = reinterpret_cast<unsigned int *>(
-             reinterpret_cast<unsigned int>(currentOffset) + 2u * sizeof(*currentOffset)))
+    for (i = 0; i < rawEntry->numScripts; i++, currentOffset += 2)
     {
-        NativeAnmScriptEntry(anmLoaded, currentScriptNumber) = reinterpret_cast<AnmRawInstr *>(
-            reinterpret_cast<unsigned int>(rawEntry) +
-            *reinterpret_cast<unsigned int *>(reinterpret_cast<unsigned int>(currentOffset) + sizeof(*currentOffset)));
+        anmLoaded->scripts10[static_cast<unsigned int>(currentScriptNumber)] = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(rawEntry) + currentOffset[1]);
         ++*reinterpret_cast<unsigned int *>(&currentScriptNumber);
     }
     return 1;
@@ -510,18 +446,18 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
 
     AnmManagerReadView *manager =
         reinterpret_cast<AnmManagerReadView *>(this);
-    if (NativeAnmManagerReadSlot(manager, anmIdx).loaded.rawData04 != NULL)
+    if (manager->slots[static_cast<unsigned int>(anmIdx)].loaded.rawData04 != NULL)
     {
-        NativeAnmManagerReadSlot(manager, anmIdx).releasePending = 1;
-        while (NativeAnmManagerReadSlot(manager, anmIdx).releasePending != 0 &&
-               !AnmSupervisor()->subthreadCloseRequestActive)
+        manager->slots[static_cast<unsigned int>(anmIdx)].releasePending = 1;
+        while (manager->slots[static_cast<unsigned int>(anmIdx)].releasePending != 0 &&
+               !g_Supervisor.subthreadCloseRequestActive)
             Sleep(1);
     }
 
     AnmRawEntry *entry = reinterpret_cast<AnmRawEntry *>(
         FileSystem::OpenFile(filename, NULL, 0));
     int currentEntryNumber = 0;
-    AnmManagerReadSlotView *slot = &NativeAnmManagerReadSlot(manager, anmIdx);
+    AnmManagerReadSlotView *slot = &manager->slots[static_cast<unsigned int>(anmIdx)];
     AnmLoaded *anmLoaded = &slot->loaded;
     if (entry == NULL)
         return NULL;
@@ -585,14 +521,14 @@ AnmLoaded *AnmManager::PreloadAnm(int anmIdx, const char *filename)
 
     AnmLoaded *view = reinterpret_cast<AnmLoaded *>(anmLoaded);
     view->postloadEntryNumber18 = 1;
-    while (view->postloadEntryNumber18 != 0 && !AnmSupervisor()->subthreadCloseRequestActive)
+    while (view->postloadEntryNumber18 != 0 && !g_Supervisor.subthreadCloseRequestActive)
         Sleep(1);
-    return AnmSupervisor()->subthreadCloseRequestActive ? NULL : anmLoaded;
+    return g_Supervisor.subthreadCloseRequestActive ? NULL : anmLoaded;
 }
 
 AnmLoaded *AnmManager::PostloadAnmEntry(AnmLoaded *anmLoadedObject)
 {
-    AnmLoaded *anmLoaded = reinterpret_cast<AnmLoaded *>(anmLoadedObject);
+    AnmLoaded *anmLoaded = anmLoadedObject;
     AnmRawEntry *rawEntry = anmLoaded->rawData04;
     int entryLoadNumber = 0;
     int currentNumScripts = 0;
@@ -657,7 +593,7 @@ void AnmManager::ReleaseAnm(int anmIdx)
         AnmManagerLoadSlotView *slot = AnmLoadSlot(this, anmIdx);
         for (int i = 0; i < slot->loaded.totalEntries08;
              ++*reinterpret_cast<unsigned int *>(&i))
-            this->ReleaseAnmEntry(&NativeAnmTextureEntry(&slot->loaded, i));
+            this->ReleaseAnmEntry(&(&slot->loaded)->textures14[static_cast<unsigned int>(i)]);
         g_ZunMemory.Free(slot->loaded.textures14);
         g_ZunMemory.Free(slot->loaded.sprites0C);
         g_ZunMemory.Free(slot->loaded.scripts10);
