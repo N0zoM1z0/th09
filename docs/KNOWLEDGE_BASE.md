@@ -11609,3 +11609,46 @@ comparison and the one-source selected replay are both exact;
 no existing sibling or nonexact frontier is misclassified.
 No ASM, synthetic padding, register hints, new bounds checks,
 or whole-game cold replay was used.
+
+## 2026-11-17 GPT-web: native Bullet transform program and Supervisor owner
+
+The complete `Bullet::AdvanceTransformProgram` interpreter now reads
+the real 18-element `Bullet::transforms` array and
+`EtamaController::bulletTypeSprites` directly. The child-pattern
+command advances the native record with `++record` rather than
+manufacturing an integer address, and all five transform-index updates
+use explicit unsigned-32-bit increment/restore expressions so retail
+wrap behavior remains represented in C++. The deceleration state stores
+an actual `0.0f` into `exStates[0].vector.z`, not the bit pattern
+through an `int *` alias. Child pattern type/color lanes are read
+from the existing transform word's `unsigned char` object
+representation; the integer-address byte-reader macro is removed.
+
+Crucially, the former `BulletAdvanceSupervisorView` contained a
+fabricated 0x5B8-byte prefix to access one float. That entire padded
+projection is gone: the function uses the actual
+`g_Supervisor.framerateMultiplier5B8` member of the independently
+reconstructed `Supervisor` class, with native offset assertion.
+
+Ten separate pinned VC7.1 source probes established which native
+expressions preserved target code generation. The attempted
+`BulletSpawnDescriptorAdvanceView` to real `BulletSpawnDescriptor`
+class unification expanded the owner by four bytes and disrupted
+its body; the temporary descriptor's constructor ABI remains
+unresolved and was not forced into the maintained source. The
+combined accepted changes reproduce the full **1,320/1,320
+physical bytes and 26/26 relocations** of the interpreter including
+its switch-data extent. One genuine native Supervisor global symbol
+and seven compiler-local label spellings were rebound only after
+matching their original PE destinations, relocation offset/type
+and same-section COFF provenance. Scoped source replay and strict
+function comparison both passed. No ASM, padding, compiler-register
+forcing, whole-product cold replay or new exact-function promotion
+was involved.
+
+The separate 1,280-byte `TitleScreenView::DrawReplayMenu` nonexact
+boss was also explored with ten natural local-declaration, reference,
+pointer and index-lifetime variants. None improved the protected
+29-register-byte residual; the variants that moved declaration order
+instead generated smaller, much less exact functions and were
+rejected without touching maintained source.

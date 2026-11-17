@@ -2,6 +2,7 @@
 #include "BulletManager.hpp"
 #include "AnmManager.hpp"
 #include "SoundPlayer.hpp"
+#include "Supervisor.hpp"
 
 #include <string.h>
 
@@ -31,12 +32,7 @@ enum BulletAdvanceState
     ADVANCE_BULLET_STATE_DESPAWNING = 5,
 };
 
-struct BulletAdvanceSupervisorView
-{
-    unsigned char unknown000[0x5B8];
-    float framerateMultiplier;
-};
-extern BulletAdvanceSupervisorView g_Supervisor;
+// The global Supervisor owns the +0x5B8 frame multiplier.
 
 struct BulletSpawnDescriptorAdvanceView
 {
@@ -77,14 +73,12 @@ typedef char BulletAdvanceDescriptorViewSizeIs214[
 // Child-spawn opcode 0x01000000 packs type/color bytes inside one real
 // 32-bit transform payload word. Read those exact original Win32 byte
 // lanes without imposing an independent u8[] lifetime on the DWORD.
-#define TH09_BULLET_NATIVE_PAYLOAD_BYTE(word, lane) \
-    (*reinterpret_cast<const unsigned char *>( \
-        reinterpret_cast<unsigned int>(&(word)) + \
-        static_cast<unsigned int>(lane)))
+// The spawn payload's type/color lanes are bytes of its real DWORD,
+// accessed through the C++ unsigned-char aliasing type.
 
-// The transform interpreter owns 18 real 0x18-byte instructions and
-// selects from the controller's 32 real BulletTypeSprites records.
-// Signed runtime indexes and sprite sums wrap as native i386 DWORDs.
+// The transform interpreter owns 18 genuine 0x18-byte instructions and
+// selects the controller's native BulletTypeSprites records. Retain each
+// original transform index and sprite sum, with no new bounds checks.
 void Bullet::AdvanceTransformProgram()
 {
     BulletTransformRecord *record;
@@ -95,11 +89,8 @@ nextRecord:
         return;
 
     index = this->transformIndex;
-    // The native transform-index word may be negative: retail forms
-    // a modulo-32 address from the actual 18-record transform allocation.
-    record = reinterpret_cast<BulletTransformRecord *>(
-        reinterpret_cast<unsigned int>(&this->transforms[0]) +
-        static_cast<unsigned int>(index) * sizeof(this->transforms[0]));
+    // The original transform index selects the physical record directly.
+    record = &this->transforms[static_cast<unsigned int>(index)];
     if (record->kind == ADVANCE_TRANSFORM_NONE)
         return;
 
@@ -121,7 +112,7 @@ nextRecord:
     case ADVANCE_TRANSFORM_DECELERATE:
         this->activeTransformFlags |= ADVANCE_TRANSFORM_DECELERATE;
         this->exStates[0].timer = 0;
-        *reinterpret_cast<int *>(&this->exStates[0].vector.z) = 0;
+        this->exStates[0].vector.z = 0.0f;
         break;
 
     case ADVANCE_TRANSFORM_ACCELERATE_VECTOR:
@@ -137,7 +128,7 @@ nextRecord:
             record->payload.vectorAcceleration.durationFrames;
         SetPolar2D(reinterpret_cast<Float2 *>(&(this->exStates[1].vector)),
             this->exStates[1].accelerationAngle,
-            g_Supervisor.framerateMultiplier *
+            g_Supervisor.framerateMultiplier5B8 *
                 this->exStates[1].accelerationMagnitude);
 
         if (this->transformIndex != 0 &&
@@ -198,21 +189,18 @@ nextRecord:
     case ADVANCE_TRANSFORM_SET_CULL_DELAY:
         this->offscreenCullDelayFrames =
             record->payload.raw.int0;
-        ++*reinterpret_cast<unsigned int *>(&this->transformIndex);
+        ++this->transformIndex;
         goto nextRecord;
 
     case ADVANCE_TRANSFORM_SET_SPRITE:
         this->sprites =
-            *reinterpret_cast<BulletTypeSprites *>(
-                reinterpret_cast<unsigned int>(&this->controller->bulletTypeSprites[0]) +
-                static_cast<unsigned int>(record->payload.raw.int0) *
-                    sizeof(this->controller->bulletTypeSprites[0]));
+            this->controller->bulletTypeSprites[static_cast<unsigned int>(record->payload.raw.int0)];
         this->controller->bulletAnm->SetSprite(
                 &this->sprites.bulletVm,
                 static_cast<int>(
                     static_cast<unsigned int>(this->sprites.bulletVm.activeSpriteIndex) +
                     static_cast<unsigned int>(record->payload.raw.int1)));
-        ++*reinterpret_cast<unsigned int *>(&this->transformIndex);
+        ++this->transformIndex;
         goto nextRecord;
 
     case ADVANCE_TRANSFORM_WAIT:
@@ -227,7 +215,7 @@ nextRecord:
     case ADVANCE_TRANSFORM_PLAY_SOUND:
         g_SoundPlayer.PlaySoundPositionedByIdx(
             record->payload.raw.int0, this->position.x);
-        ++*reinterpret_cast<unsigned int *>(&this->transformIndex);
+        ++this->transformIndex;
         goto nextRecord;
 
     case ADVANCE_TRANSFORM_WRAP_X:
@@ -251,9 +239,9 @@ nextRecord:
                 (static_cast<unsigned int>(record->payload.raw.int0) &
                  0x7F000000u) >> 24);
             pattern.bulletType = static_cast<short>(
-                TH09_BULLET_NATIVE_PAYLOAD_BYTE(record->payload.raw.int0, 2));
+                reinterpret_cast<const unsigned char *>(&record->payload.raw.int0)[2]);
             pattern.color = static_cast<short>(
-                TH09_BULLET_NATIVE_PAYLOAD_BYTE(record->payload.raw.int0, 1));
+                reinterpret_cast<const unsigned char *>(&record->payload.raw.int0)[1]);
             pattern.transformStartIndex =
                 static_cast<unsigned int>(record->payload.raw.int0) & 0xFF;
             pattern.count1 =
@@ -261,9 +249,8 @@ nextRecord:
             pattern.speed1 = record->payload.raw.float0;
             pattern.speed2 = record->payload.raw.float1;
 
-            record = reinterpret_cast<BulletTransformRecord *>(
-                reinterpret_cast<unsigned int>(record) + sizeof(*record));
-            ++*reinterpret_cast<unsigned int *>(&index);
+            ++record;
+            ++index;
             this->transformIndex = index;
             pattern.count2 =
                 static_cast<short>(record->payload.raw.int0);
@@ -279,7 +266,7 @@ nextRecord:
 
             this->controller->SpawnBulletPatternPrimary(
                 reinterpret_cast<BulletSpawnDescriptor *>(&pattern));
-            ++*reinterpret_cast<unsigned int *>(&this->transformIndex);
+            ++this->transformIndex;
 
             if (fadeParent != 0)
             {
@@ -294,7 +281,5 @@ nextRecord:
         break;
     }
 
-    ++*reinterpret_cast<unsigned int *>(&this->transformIndex);
+    ++this->transformIndex;
 }
-
-#undef TH09_BULLET_NATIVE_PAYLOAD_BYTE
