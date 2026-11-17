@@ -11652,3 +11652,59 @@ pointer and index-lifetime variants. None improved the protected
 29-register-byte residual; the variants that moved declaration order
 instead generated smaller, much less exact functions and were
 rejected without touching maintained source.
+
+## 2026-11-17 GPT-web: native Bullet transform interpreter and Supervisor frame rate
+
+The complete 1,320-byte original-bound
+`Bullet::AdvanceTransformProgram` physical
+switch owner now reads `Bullet::transforms[18]`
+and `EtamaController::bulletTypeSprites[]`
+through the real native C++ arrays. Its
+instruction record cursor advances through
+`++record`; transform indices advance through
+ordinary `++index` and `++transformIndex`
+instead of writing signed values via untyped
+integer-pointer aliases. The deceleration
+path zeros the genuine floating-point
+`exStates[0].vector.z` field with a native
+`0.0f` assignment. The child-pattern opcode
+reads bullet type and color bytes from the
+original DWORD payload through standard
+`unsigned char` aliasing without a pointer
+formed by casting its address through an
+integer. The `TH09_BULLET_NATIVE_PAYLOAD_BYTE`
+macro has been removed.
+
+Most significantly, the source no longer
+projects the global Supervisor through a
+fake 0x5B8-byte padded
+`BulletAdvanceSupervisorView`. It uses
+the authentic `Supervisor` class and
+`g_Supervisor.framerateMultiplier5B8`
+member, shared with the rest of Etama physics.
+A pinned VC7.1 probe separately verified
+every one of seven field/pointer/index
+hypotheses and their combined form before
+the native Supervisor conversion. The
+combined native class version is also
+**1,320/1,320 physical target bytes**,
+with all **26 original relocations**;
+the `g_Supervisor` symbol retypes to
+the authentic class at the unchanged
+`0x004B3100` original PE destination.
+Seven further compiler-private labels were
+rebound only after same-section COFF and
+exact relocation-destination proof.
+
+The maintained strict COFF/PE comparison
+and one-source scoped replay both pass
+**1/1 previously Exact function, 1,320
+physical bytes and 26 relocation fields**.
+The separate 0x214-byte local child-spawn
+descriptor remains a provisional constructor
+ABI receiver; its unrelated historical
+class spelling is not claimed. No ASM,
+synthetic padding, inserted instruction
+filling, forced registers, whole-product
+cold replay, or new Exact-function count
+was used.
