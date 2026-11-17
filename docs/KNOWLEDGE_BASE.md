@@ -10547,3 +10547,37 @@ No compiler-private symbol rebinding, ASM,
 artificial padding, forced registers, whole-game
 cold replay or new exact-function promotion was
 used.
+
+## 2026-11-17 GPT-web: native GameManager setup side arrays
+
+The full original-bound `GameplaySetupThread`,
+`GameManagerSetupLayout::OnUpdate`, gameplay cleanup,
+and other setup owner functions now index the actual
+`SetupSideState sides[3]` and
+`AsciiGameManagerView::sides[2]` C++ arrays.
+The earlier `TH09_SETUP_LOCAL_SIDE`,
+`TH09_SETUP_GLOBAL_SIDE` and
+`TH09_SETUP_PARAMETER_SIDE` macros fabricated i386
+integer addresses then recast them as pointers to
+native 0x38-byte side records. All three macros are
+removed. The setup owner's third physical record is
+the already verified shared EffectManager record,
+while the global runtime owner's two slots are the
+playable sides. The reset callback correctly keeps
+its receiver's three-element array.
+
+Independent pinned VC7.1 probes of each macro family
+and the combined direct-array form reproduced the
+large **1,689-byte GameplaySetupThread** and
+**1,230-byte GameManager OnUpdate** owners with
+zero unmasked PE byte differences. The maintained
+source passed strict complete-owner comparisons
+and the source-scoped pinned VC7.1 replay for both
+existing compiler profiles: **12/12 exact functions,
+4,680 physical bytes and 415 original relocation
+fields**. The co-resident 214-byte Supervisor
+loading-VM/capture helper also remained exact.
+There were zero private-label or ABI rebindings.
+No new bounds checks, fabricated arrays, ASM,
+padding, whole-product cold replay, or new
+exact-function promotion was used.

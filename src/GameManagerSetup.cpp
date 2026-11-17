@@ -120,25 +120,12 @@ extern void *__fastcall CreateGameSubsystem();
 extern int __fastcall PreloadPlayerAnmResources();
 extern void __fastcall SupervisorCalculateFps(int shouldDraw);
 extern void __fastcall GameplaySetupThread(void *unused);
-// The actual three 0x38-byte GameManager side records are shared by all
-// setup/update/cleanup sources. Every signed side index forms a native
-// unsigned i386 DWORD-scaled address, not a new bounded alias allocation.
-#define TH09_SETUP_LOCAL_SIDE(index) \
-    (*reinterpret_cast<SetupSideState *>( \
-        reinterpret_cast<unsigned int>(&globalManager.sides[0]) + \
-        static_cast<unsigned int>(index) * sizeof(globalManager.sides[0])))
-#define TH09_SETUP_GLOBAL_SIDE(index) \
-    (*reinterpret_cast<AsciiGameManagerSideView *>( \
-        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) + \
-        static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0])))
+// Setup owns three real 0x38-byte side records, including the third
+// shared EffectManager slot; the global gameplay view exposes the first
+// two playable sides. Both are actual native C++ side arrays.
 // The reset owner traverses all three physical +0x38 side records,
 // including the shared EffectManager slot. Its receiver is the passed
 // GameManager pointer, not the global side-base used in setup.
-#define TH09_SETUP_PARAMETER_SIDE(manager, index) \
-    (*reinterpret_cast<SetupSideState *>( \
-        reinterpret_cast<unsigned int>(&(manager)->sides[0]) + \
-        static_cast<unsigned int>(index) * sizeof((manager)->sides[0])))
-
 
 int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 {
@@ -336,46 +323,46 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 
     for (int sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)
     {
-        if (TH09_SETUP_LOCAL_SIDE(sideIndex).state->value08 >= 1000000000u)
-            TH09_SETUP_LOCAL_SIDE(sideIndex).state->value08 = 999999999u;
+        if (globalManager.sides[sideIndex].state->value08 >= 1000000000u)
+            globalManager.sides[sideIndex].state->value08 = 999999999u;
 
-        if (TH09_SETUP_LOCAL_SIDE(sideIndex).state->value04 !=
-            TH09_SETUP_LOCAL_SIDE(sideIndex).state->value08)
+        if (globalManager.sides[sideIndex].state->value04 !=
+            globalManager.sides[sideIndex].state->value08)
         {
-            if (TH09_SETUP_LOCAL_SIDE(sideIndex).state->value08 <
-                TH09_SETUP_LOCAL_SIDE(sideIndex).state->value04)
+            if (globalManager.sides[sideIndex].state->value08 <
+                globalManager.sides[sideIndex].state->value04)
             {
-                TH09_SETUP_LOCAL_SIDE(sideIndex).state->value08 =
-                    TH09_SETUP_LOCAL_SIDE(sideIndex).state->value04;
+                globalManager.sides[sideIndex].state->value08 =
+                    globalManager.sides[sideIndex].state->value04;
             }
 
             unsigned int step =
-                (TH09_SETUP_LOCAL_SIDE(sideIndex).state->value08 -
-                 TH09_SETUP_LOCAL_SIDE(sideIndex).state->value04) /
+                (globalManager.sides[sideIndex].state->value08 -
+                 globalManager.sides[sideIndex].state->value04) /
                 15u;
             if (step >= 578910u)
                 step = 578910u;
             else if (step == 0)
                 step = 1;
 
-            if (TH09_SETUP_LOCAL_SIDE(sideIndex).state->value0C < step)
-                TH09_SETUP_LOCAL_SIDE(sideIndex).state->value0C = step;
-            if (TH09_SETUP_LOCAL_SIDE(sideIndex).state->value04 +
-                    TH09_SETUP_LOCAL_SIDE(sideIndex).state->value0C >
-                TH09_SETUP_LOCAL_SIDE(sideIndex).state->value08)
+            if (globalManager.sides[sideIndex].state->value0C < step)
+                globalManager.sides[sideIndex].state->value0C = step;
+            if (globalManager.sides[sideIndex].state->value04 +
+                    globalManager.sides[sideIndex].state->value0C >
+                globalManager.sides[sideIndex].state->value08)
             {
-                TH09_SETUP_LOCAL_SIDE(sideIndex).state->value0C =
-                    TH09_SETUP_LOCAL_SIDE(sideIndex).state->value08 -
-                    TH09_SETUP_LOCAL_SIDE(sideIndex).state->value04;
+                globalManager.sides[sideIndex].state->value0C =
+                    globalManager.sides[sideIndex].state->value08 -
+                    globalManager.sides[sideIndex].state->value04;
             }
-            TH09_SETUP_LOCAL_SIDE(sideIndex).state->value04 +=
-                TH09_SETUP_LOCAL_SIDE(sideIndex).state->value0C;
-            if (TH09_SETUP_LOCAL_SIDE(sideIndex).state->value04 >=
-                TH09_SETUP_LOCAL_SIDE(sideIndex).state->value08)
+            globalManager.sides[sideIndex].state->value04 +=
+                globalManager.sides[sideIndex].state->value0C;
+            if (globalManager.sides[sideIndex].state->value04 >=
+                globalManager.sides[sideIndex].state->value08)
             {
-                TH09_SETUP_LOCAL_SIDE(sideIndex).state->value0C = 0;
-                TH09_SETUP_LOCAL_SIDE(sideIndex).state->value04 =
-                    TH09_SETUP_LOCAL_SIDE(sideIndex).state->value08;
+                globalManager.sides[sideIndex].state->value0C = 0;
+                globalManager.sides[sideIndex].state->value04 =
+                    globalManager.sides[sideIndex].state->value08;
             }
         }
     }
@@ -635,7 +622,7 @@ void GameManagerSetupLayout::CleanupGameplayState()
 
     for (int sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)
     {
-        SetupSideState *side = &TH09_SETUP_LOCAL_SIDE(sideIndex);
+        SetupSideState *side = &globalManager.sides[sideIndex];
         side->flags &= ~1u;
         static_cast<Background *>(side->background00)->ClearSpellBackgroundState();
         static_cast<PlayerLifecycleView *>(side->player04)->InitializeAddedState();
@@ -794,15 +781,15 @@ mode_ready:
 
         for (sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)
         {
-            if (TH09_SETUP_GLOBAL_SIDE(sideIndex).state != NULL)
+            if (g_GameManager.sides[sideIndex].state != NULL)
             {
-                operator delete(TH09_SETUP_GLOBAL_SIDE(sideIndex).state);
-                TH09_SETUP_GLOBAL_SIDE(sideIndex).state = NULL;
+                operator delete(g_GameManager.sides[sideIndex].state);
+                g_GameManager.sides[sideIndex].state = NULL;
             }
-            TH09_SETUP_GLOBAL_SIDE(sideIndex).state =
+            g_GameManager.sides[sideIndex].state =
                 static_cast<SetupStateBuffer *>(
                     operator new(sizeof(SetupStateBuffer)));
-            memset(TH09_SETUP_GLOBAL_SIDE(sideIndex).state, 0, sizeof(SetupStateBuffer));
+            memset(g_GameManager.sides[sideIndex].state, 0, sizeof(SetupStateBuffer));
         }
 
         if (g_GameManager.gameMode == 0)
@@ -873,33 +860,33 @@ mode_ready:
 
     for (sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)
     {
-        if (TH09_SETUP_GLOBAL_SIDE(sideIndex).selector != 0)
+        if (g_GameManager.sides[sideIndex].selector != 0)
             *reinterpret_cast<unsigned char *>(
                 reinterpret_cast<unsigned int>(
                     &g_GameManager.configurationE8->sideFocusMode[0]) +
                 static_cast<unsigned int>(sideIndex)) = 0;
-        TH09_SETUP_GLOBAL_SIDE(sideIndex).flags &= ~1u;
+        g_GameManager.sides[sideIndex].flags &= ~1u;
 
-        TH09_SETUP_GLOBAL_SIDE(sideIndex).background00 = Background::Create(sideIndex);
-        if (TH09_SETUP_GLOBAL_SIDE(sideIndex).background00 == NULL)
+        g_GameManager.sides[sideIndex].background00 = Background::Create(sideIndex);
+        if (g_GameManager.sides[sideIndex].background00 == NULL)
             goto setup_failed;
-        TH09_SETUP_GLOBAL_SIDE(sideIndex).player04 = PlayerRegisterChain(0, sideIndex, TH09_SETUP_GLOBAL_SIDE(sideIndex).selector);
-        if (TH09_SETUP_GLOBAL_SIDE(sideIndex).player04 == NULL)
+        g_GameManager.sides[sideIndex].player04 = PlayerRegisterChain(0, sideIndex, g_GameManager.sides[sideIndex].selector);
+        if (g_GameManager.sides[sideIndex].player04 == NULL)
             goto setup_failed;
-        TH09_SETUP_GLOBAL_SIDE(sideIndex).etama08 = EtamaController::Register(sideIndex);
-        if (TH09_SETUP_GLOBAL_SIDE(sideIndex).etama08 == NULL)
+        g_GameManager.sides[sideIndex].etama08 = EtamaController::Register(sideIndex);
+        if (g_GameManager.sides[sideIndex].etama08 == NULL)
             goto setup_failed;
-        TH09_SETUP_GLOBAL_SIDE(sideIndex).effectManager0C = EffectManager::Create(sideIndex, 0x100, 7);
-        if (TH09_SETUP_GLOBAL_SIDE(sideIndex).effectManager0C == NULL)
+        g_GameManager.sides[sideIndex].effectManager0C = EffectManager::Create(sideIndex, 0x100, 7);
+        if (g_GameManager.sides[sideIndex].effectManager0C == NULL)
             goto setup_failed;
-        TH09_SETUP_GLOBAL_SIDE(sideIndex).enemyManager10 = EnemyManagerView::Create(sideIndex);
-        if (TH09_SETUP_GLOBAL_SIDE(sideIndex).enemyManager10 == NULL)
+        g_GameManager.sides[sideIndex].enemyManager10 = EnemyManagerView::Create(sideIndex);
+        if (g_GameManager.sides[sideIndex].enemyManager10 == NULL)
             goto setup_failed;
-        TH09_SETUP_GLOBAL_SIDE(sideIndex).cardAttack14 = CardAttack::Create(sideIndex);
-        if (TH09_SETUP_GLOBAL_SIDE(sideIndex).cardAttack14 == NULL)
+        g_GameManager.sides[sideIndex].cardAttack14 = CardAttack::Create(sideIndex);
+        if (g_GameManager.sides[sideIndex].cardAttack14 == NULL)
             goto setup_failed;
-        TH09_SETUP_GLOBAL_SIDE(sideIndex).frontSide18 = FrontSide::Create(sideIndex);
-        if (TH09_SETUP_GLOBAL_SIDE(sideIndex).frontSide18 == NULL)
+        g_GameManager.sides[sideIndex].frontSide18 = FrontSide::Create(sideIndex);
+        if (g_GameManager.sides[sideIndex].frontSide18 == NULL)
             goto setup_failed;
     }
 
@@ -1051,7 +1038,7 @@ void SupervisorSetupLayout::SetupLoadingVmsAndInitCapture(
 void __fastcall ResetGameManager(GameManagerSetupLayout *manager)
 {
     for (int i = 0; i < 3; ++i)
-        TH09_SETUP_PARAMETER_SIDE(manager, i).flags &= ~1u;
+        manager->sides[i].flags &= ~1u;
 
     manager->valueB0 = 0;
     manager->valueB8 = 2;
@@ -1101,8 +1088,3 @@ void __fastcall FormatCurrentDateString(char *buffer)
     time(&now);
     strftime(buffer, 10, "%y/%m/%d", localtime(&now));
 }
-
-#undef TH09_SETUP_LOCAL_SIDE
-#undef TH09_SETUP_GLOBAL_SIDE
-
-#undef TH09_SETUP_PARAMETER_SIDE
