@@ -11585,3 +11585,27 @@ label changes, ASM, artificial padding,
 added bounds checks or whole-game cold
 replay were needed. Third-party source
 license headers remain unchanged.
+
+## 2026-11-17 GPT-web: native opponent-selection lists, flags and mode tables
+
+The original-bound `AsciiGameManagerView::SelectOpponentConfiguration`
+owner now indexes the genuine global opponent list, parameter tables,
+mode table and character-unlock bytes with ordinary C++ array lvalues.
+Its 16-entry local weighted-candidate pointer list likewise uses
+`candidates[index]`, preserving the postincrement insertion, the
+runtime-selected fallback scan, and independently live score weights.
+The two real gameplay-side records are read directly with
+`sides[randomSide]`. This deletes the four former
+`TH09_OPP_DWORD/PTR/BYTE/SIDE` macros, which fabricated i386 byte
+addresses solely to reinterpret them as array element lvalues.
+The original signed weight subtraction, random selection, two-entry
+unlock scan and opponent character publication are unchanged.
+
+Five independently pinned VC7.1 probes (each macro independently and
+the combined source), followed by a further natural direct-expression
+cleanup, all reproduce the entire **799/799 original physical bytes**
+and **32 original relocation fields**. The strict COFF/PE
+comparison and the one-source selected replay are both exact;
+no existing sibling or nonexact frontier is misclassified.
+No ASM, synthetic padding, register hints, new bounds checks,
+or whole-game cold replay was used.
