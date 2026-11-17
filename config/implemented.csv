@@ -953,7 +953,7 @@ FrontCalcCallback
 FrontDrawCallback
 ReplayInputState::IsHeld
 EtamaController::SpawnLaserPattern
-CardAttackStartView::StartAttack
+CardAttack::StartAttack
 ReplayInputState::WasPressed
 InputView::IsPressedScrolling
 PlayerLifecycleView::UpdateChargeAttack

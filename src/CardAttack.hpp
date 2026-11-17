@@ -43,6 +43,7 @@ struct CardAttack
     // Source-facing roles below are reconstructed from direct target use.
     // Callback return types/original identifiers remain unclaimed.
     void RefreshResource();
+    void StartAttack(int callbackRow, int attackClass, int value, const char *text);
 
     static int OnUpdate(CardAttack *cardAttack);
     static int OnDraw(CardAttack *cardAttack);

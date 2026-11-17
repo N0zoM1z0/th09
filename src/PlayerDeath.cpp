@@ -8,7 +8,7 @@
 #include "FrontSide.hpp"
 #include "EffectManager.hpp"
 #include "SoundPlayer.hpp"
-#include "CardAttackStartView.hpp"
+#include "CardAttack.hpp"
 #include "EnemyManager.hpp"
 #include "GameManagerValueCC.hpp"
 
@@ -40,14 +40,14 @@ void PlayerLifecycleView::EnterDeathState()
             {
                 if (!opponentState->enemyManager10->FindActiveEnemyBySideCategory(3))
                 {
-                    reinterpret_cast<CardAttackStartView *>(opponentState->cardAttack14)->StartAttack(2, 2, 0, primaryShtFile->modePath2);
+                    opponentState->cardAttack14->StartAttack(2, 2, 0, primaryShtFile->modePath2);
                     scalar30384 = 0.0f;
                     scalar30388 = 0.0f;
                     SetBombMode2();
                     return;
                 }
 
-                reinterpret_cast<CardAttackStartView *>(opponentState->cardAttack14)->StartAttack(1, 1, 0, primaryShtFile->modePath1);
+                opponentState->cardAttack14->StartAttack(1, 1, 0, primaryShtFile->modePath1);
                 scalar30384 = 100.0f;
                 scalar30388 = 100.0f;
                 SetBombMode1();
@@ -55,7 +55,7 @@ void PlayerLifecycleView::EnterDeathState()
             }
             if (scalar30388 >= 300.0f)
             {
-                reinterpret_cast<CardAttackStartView *>(opponentState->cardAttack14)->StartAttack(1, 1, 0, primaryShtFile->modePath1);
+                opponentState->cardAttack14->StartAttack(1, 1, 0, primaryShtFile->modePath1);
                 scalar30384 = 0.0f;
                 scalar30388 = 0.0f;
                 SetBombMode1();
@@ -64,7 +64,7 @@ void PlayerLifecycleView::EnterDeathState()
 
             if (scalar30388 >= 200.0f)
             {
-                reinterpret_cast<CardAttackStartView *>(opponentState->cardAttack14)->StartAttack(0, 0, 0, primaryShtFile->modePath0);
+                opponentState->cardAttack14->StartAttack(0, 0, 0, primaryShtFile->modePath0);
                 scalar30384 = 0.0f;
                 scalar30388 = 0.0f;
                 SetBombMode0();

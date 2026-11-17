@@ -1,5 +1,5 @@
 #include "AnmManager.hpp"
-#include "CardAttackStartView.hpp"
+#include "CardAttack.hpp"
 #include "SoundPlayer.hpp"
 #include "EnemyManager.hpp"
 #include "FrontSide.hpp"
@@ -72,7 +72,7 @@ typedef char CardAttackCallbackNativeRowSizeIs10[
 
 
 
-void CardAttackStartView::StartAttack(
+void CardAttack::StartAttack(
     int callbackRow, int attackClass, int value, const char *text)
 {
     int displayValue;

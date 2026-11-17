@@ -2,7 +2,7 @@
 // Control-flow structure adapted from Cirno-Labs/th09 src/player.cpp,
 // Player::UpdateShotInput, d7653152becabb8c86f2f43d49015ecc11bd0652.
 // GPL-3.0-only; see THIRD_PARTY_NOTICES.md. Native ABI/types remain TH09-bound.
-#include "CardAttackStartView.hpp"
+#include "CardAttack.hpp"
 #include "EnemyManager.hpp"
 #include "FrontSide.hpp"
 #include "PlayerLifecycleView.hpp"
@@ -119,8 +119,7 @@ resolveAttack:
         if (scalar30384 >= 400.0f &&
             opponentState->enemyManager10->FindActiveEnemyBySideCategory(3) == NULL)
         {
-            reinterpret_cast<CardAttackStartView *>(
-                opponentState->cardAttack14)->StartAttack(
+            opponentState->cardAttack14->StartAttack(
                         2, 2, 0, primaryShtFile->modePath2);
             SubtractResourceClamped(300.0f);
             timer1B74 = 8;
@@ -128,8 +127,7 @@ resolveAttack:
         }
         else if (scalar30384 >= 300.0f)
         {
-            reinterpret_cast<CardAttackStartView *>(
-                opponentState->cardAttack14)->StartAttack(
+            opponentState->cardAttack14->StartAttack(
                         1, 1, 0, primaryShtFile->modePath1);
             SubtractResourceClamped(200.0f);
             timer1B74 = 8;
@@ -137,8 +135,7 @@ resolveAttack:
         }
         else if (scalar30384 >= 200.0f)
         {
-            reinterpret_cast<CardAttackStartView *>(
-                opponentState->cardAttack14)->StartAttack(
+            opponentState->cardAttack14->StartAttack(
                         0, 0, 0, primaryShtFile->modePath0);
             timer1B74 = 8;
             SubtractResourceClamped(100.0f);

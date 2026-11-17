@@ -11043,3 +11043,61 @@ exact owner**, without any private-label or
 callee rebinding. No ASM, artificial padding,
 compiler register hints, full-product cold replay
 or new exact-function credit was used.
+
+## 2026-11-17 GPT-web: recover native CardAttack StartAttack method ownership
+
+`StartAttack @ 0x00403E50` now belongs to the
+original-bound 0x1368-byte `CardAttack` C++ allocation
+already constructed, drawn and released by the
+gameplay/attack carriers. The provisional empty
+derived `CardAttackStartView` class and its separate
+header were removed. The actual method declaration
+is in `CardAttack.hpp`, and the complete 923-byte
+native implementation is now
+`CardAttack::StartAttack`. Both side pointers,
+the original nine-row callback dispatch, the
+attack-specific tail values, and FrontSide /
+Background / Player state all use the same native
+physical owner as the independently exact
+CardAttack lifecycle functions.
+
+Four call sites in `PlayerOwnerStateView::ApplyReward`,
+four in `PlayerLifecycleView::EnterDeathState`
+and three in the still-nonexact
+`PlayerLifecycleView::UpdateChargeAttack` now
+call through the real `CardAttack *` directly;
+all `reinterpret_cast<CardAttackStartView *>`
+method-owner projections are gone. Function,
+match, implemented and reccmp ledgers and the
+COFF match-unit symbol were updated to the
+canonical native type; the class spelling is a
+reconstruction name, not proof that retail
+debug symbols used the same word. The new
+mangled method symbol and all six exact-caller
+relocations solve to the same original PE
+`0x00403E50` destination with unchanged
+relocation types and offsets.
+
+Pinned VC7.1 probes of the genuine native owner,
+both exact Player callers and the nonexact
+charge path passed before promotion. The
+maintained two-profile/affected-source replay
+passes **11/11 existing exact functions,
+4,518 physical bytes, 233 original relocation
+fields**, including **923/923** for StartAttack,
+**1,540/1,540** for Player reward and
+**753/753** for EnterDeathState.
+Six local labels in the reward owner's switch
+payload were individually rebound against
+same-section COFF definitions and the original
+PE target. The separately guarded charge
+owner remains **1,210/1,210 with exactly its
+prior 183 differing bytes and zero new
+mismatches**; it has not been promoted.
+
+This resolves a real cross-source nominal
+class and method-ABI projection in natural
+C++, without an artificial wrapper allocation,
+padding, ASM, forced compiler registers,
+whole-game cold replay or false new exact
+credit.

@@ -6,7 +6,7 @@
 #include "Supervisor.hpp"
 #include "GameManagerRuntimeView.hpp"
 #include "FrontFactoryConstructView.hpp"
-#include "CardAttackStartView.hpp"
+#include "CardAttack.hpp"
 #include "EnemyManager.hpp"
 
 #include <stddef.h>
@@ -59,18 +59,18 @@ void PlayerOwnerStateView::ApplyReward(
 
     if (state->value0C >= 500000 && oldValue < 500000)
     {
-        reinterpret_cast<CardAttackStartView *>(state->playerOwner00->opponentState->cardAttack14)->StartAttack(1, 1, 0, state->playerOwner00->primaryShtFile->modePath1);
+        state->playerOwner00->opponentState->cardAttack14->StartAttack(1, 1, 0, state->playerOwner00->primaryShtFile->modePath1);
         if (!state->playerOwner00->opponentState->enemyManager10->FindActiveEnemyBySideCategory(3))
-            reinterpret_cast<CardAttackStartView *>(state->playerOwner00->opponentState->cardAttack14)->StartAttack(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
+            state->playerOwner00->opponentState->cardAttack14->StartAttack(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
     }
     else if (state->value0C >= 300000 && oldValue < 300000)
     {
         if (!state->playerOwner00->opponentState->enemyManager10->FindActiveEnemyBySideCategory(3))
-            reinterpret_cast<CardAttackStartView *>(state->playerOwner00->opponentState->cardAttack14)->StartAttack(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
+            state->playerOwner00->opponentState->cardAttack14->StartAttack(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
     }
     else if (state->value0C >= 100000 && oldValue < 100000)
     {
-        reinterpret_cast<CardAttackStartView *>(state->playerOwner00->opponentState->cardAttack14)->StartAttack(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
+        state->playerOwner00->opponentState->cardAttack14->StartAttack(2, 2, 0, state->playerOwner00->primaryShtFile->modePath2);
     }
 
     if (state->value0C >= 999990)
