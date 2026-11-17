@@ -11466,3 +11466,52 @@ validation; they are neither reset nor silently
 included in this checkpoint. No ASM, padding,
 forced register hints, or whole-game cold replay
 was used.
+
+## 2026-11-17 GPT-web: return score timekeeping to the native Supervisor
+
+The original 0x7B0-byte `Supervisor` allocation now
+owns its two native timekeeping methods,
+`Supervisor::UpdatePlayTime @ 0x0042FF70`
+and `Supervisor::UpdateGameTime @ 0x00430060`.
+The temporary `ScoreSupervisorView` subclass,
+which duplicated these method declarations solely
+to carry their old mangled owner, has been removed.
+The `Supervisor` declaration and `ScoreData.cpp`
+definitions now agree. `SaveTitleScoreData`
+calls `g_Supervisor.UpdatePlayTime()` directly
+and accesses the native `exeSize7A4` and
+`exeChecksum7A0` fields without a derived
+receiver cast. The existing native
+`SupervisorStartEffectView` and
+`SupervisorThreadStartView` compatibility
+owners now inherit `Supervisor` directly
+through their established chain without the
+intermediate Score-specific view.
+
+The function ledgers and three independently
+original-bound callers have been rebased from
+`?UpdatePlayTime@ScoreSupervisorView` and
+`?UpdateGameTime@ScoreSupervisorView` to
+the proper `Supervisor` method symbols.
+Four changed REL32 call relocations retain their
+original PE destinations, offsets and types:
+two in GameManager AddedCallback, one in
+GameManager OnUpdate, and one in
+SaveTitleScoreData. Both 233/233 and 237/237
+method bodies match every original byte and
+their 15+15 relocations.
+
+Two-source selected replay passes **19/19
+existing exact ScoreData and GameManager
+functions, 7,252 physical bytes and 584
+original relocation fields**. Additional
+selected EffectLeaf/ThreadStart replay proves
+the shared-header dependent functions
+**3/3 exact, 224 bytes and eight relocations**.
+The exact 47-byte SupervisorStartEffect leaf
+also passes strict comparison. No full-game
+replay, ASM, artificial padding, forced
+register allocation, or new function-count
+promotion was used; exact historical C++ name
+spellings remain separate from this verified
+object ownership.

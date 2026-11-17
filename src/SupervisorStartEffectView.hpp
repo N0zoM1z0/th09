@@ -1,13 +1,13 @@
 #pragma once
 
-#include "ScoreSupervisorView.hpp"
+#include "Supervisor.hpp"
 
 #include <stddef.h>
 
 // The original-bound 47-byte effect-start method acts on the one physical
 // Supervisor, independently of its source-facing method spelling. Keep the
-// exact method ABI and reuse ScoreSupervisorView's real native storage.
-struct SupervisorStartEffectView : ScoreSupervisorView
+// exact method ABI while directly inheriting the native Supervisor allocation.
+struct SupervisorStartEffectView : Supervisor
 {
     void StartEffect(int index);
 };

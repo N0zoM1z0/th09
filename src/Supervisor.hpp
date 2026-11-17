@@ -85,6 +85,9 @@ class Supervisor
     static int AddedCallback(Supervisor *supervisor);
     static void StartupThread(Supervisor *unused);
     void TickTimer(int *current, float *subFrame);
+    // The score.dat timekeepers operate on this same native Supervisor.
+    void UpdatePlayTime();
+    void UpdateGameTime();
     int TakeSnapshot(const char *filePath);
     int LoadConfig(char *configFile);
     int IsFogDisabled();

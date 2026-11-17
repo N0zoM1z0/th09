@@ -10,7 +10,6 @@
 #include "ZunMemory.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
-#include "ScoreSupervisorView.hpp"
 
 #include <windows.h>
 
@@ -80,7 +79,7 @@ extern RngRuntimeView g_ReplayRng;
 
 extern LastNameRecordView g_LastNameRecord;
 
-void ScoreSupervisorView::UpdatePlayTime()
+void Supervisor::UpdatePlayTime()
 {
     DWORD playTime = timeGetTime();
     if (playTime < totalPlayTime)
@@ -110,7 +109,7 @@ void ScoreSupervisorView::UpdatePlayTime()
     totalPlayTime = playTime;
 }
 
-void ScoreSupervisorView::UpdateGameTime()
+void Supervisor::UpdateGameTime()
 {
     DWORD gameTime = timeGetTime();
     if (gameTime < systemTime)
@@ -180,7 +179,7 @@ int SaveTitleScoreData()
         }
         else if ((pendingMask & 4) && recordType == 2)
         {
-            reinterpret_cast<ScoreSupervisorView *>(&g_Supervisor)->UpdatePlayTime();
+            g_Supervisor.UpdatePlayTime();
             if (g_PlayStatsRecord.version != 0)
             {
                 memcpy(scoreData + currentOffset, &g_PlayStatsRecord, sizeof(g_PlayStatsRecord));
@@ -197,7 +196,7 @@ int SaveTitleScoreData()
     vrsm.base.version = 1;
     vrsm.base.runtimeMarker = 0;
     strcpy(vrsm.version, "0150a");
-    ScoreSupervisorView *supervisor = reinterpret_cast<ScoreSupervisorView *>(&g_Supervisor);
+    Supervisor *supervisor = &g_Supervisor;
     vrsm.exeSize = supervisor->exeSize7A4;
     vrsm.exeChecksum = supervisor->exeChecksum7A0;
     memcpy(scoreData + currentOffset, &vrsm, sizeof(vrsm));

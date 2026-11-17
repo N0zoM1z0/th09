@@ -82,8 +82,8 @@ TitleScreenView::OnUpdateModeSelect
 TitleScreenView::OnUpdateResultNameEntry
 TitleScoreRecordView::InsertIntoTable
 ScoreFileView::LoadPlayStats
-ScoreSupervisorView::UpdatePlayTime
-ScoreSupervisorView::UpdateGameTime
+Supervisor::UpdatePlayTime
+Supervisor::UpdateGameTime
 SupervisorVersionView::CheckVersion
 SupervisorAddedLoadDat
 PbgArchive::ParseHeader

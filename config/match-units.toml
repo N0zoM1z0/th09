@@ -1455,8 +1455,8 @@ relocations = [
   { offset = 0x7B, type = "REL32", symbol = "?SetupLoadingVmsAndInitCapture@SupervisorSetupLayout@@QAEXPAUSetupLoadingPosition@@@Z", target = 0x004303C0 },
   { offset = 0x9C, type = "DIR32", symbol = "?GameplaySetupThread@@YIXPAX@Z", target = 0x0041AF2D },
   { offset = 0xA3, type = "REL32", symbol = "?ThreadStart@SupervisorThreadStartView@@QAEHP6GKPAX@Z0@Z", target = 0x00431AE0 },
-  { offset = 0xAA, type = "REL32", symbol = "?UpdateGameTime@ScoreSupervisorView@@QAEXXZ", target = 0x00430060 },
-  { offset = 0xB1, type = "REL32", symbol = "?UpdatePlayTime@ScoreSupervisorView@@QAEXXZ", target = 0x0042FF70 },
+  { offset = 0xAA, type = "REL32", symbol = "?UpdateGameTime@Supervisor@@QAEXXZ", target = 0x00430060 },
+  { offset = 0xB1, type = "REL32", symbol = "?UpdatePlayTime@Supervisor@@QAEXXZ", target = 0x0042FF70 },
 ]
 
 [units.game-manager-deleted-callback]
@@ -2726,8 +2726,8 @@ relocations = [
 source = "src/ScoreData.cpp"
 object = "build/matching/ScoreDataTimekeeping.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["ScoreSupervisorView::UpdatePlayTime"]
-symbol = "?UpdatePlayTime@ScoreSupervisorView@@QAEXXZ"
+functions = ["Supervisor::UpdatePlayTime"]
+symbol = "?UpdatePlayTime@Supervisor@@QAEXXZ"
 target_address = 0x0042FF70
 size = 233
 relocations = [
@@ -2752,8 +2752,8 @@ relocations = [
 source = "src/ScoreData.cpp"
 object = "build/matching/ScoreDataTimekeeping.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["ScoreSupervisorView::UpdateGameTime"]
-symbol = "?UpdateGameTime@ScoreSupervisorView@@QAEXXZ"
+functions = ["Supervisor::UpdateGameTime"]
+symbol = "?UpdateGameTime@Supervisor@@QAEXXZ"
 target_address = 0x00430060
 size = 237
 relocations = [
@@ -19520,7 +19520,7 @@ relocations = [
   { offset = 0x11C, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
   { offset = 0x125, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
   { offset = 0x14B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x150, type = "REL32", symbol = "?UpdatePlayTime@ScoreSupervisorView@@QAEXXZ", target = 0x0042FF70 },
+  { offset = 0x150, type = "REL32", symbol = "?UpdatePlayTime@Supervisor@@QAEXXZ", target = 0x0042FF70 },
   { offset = 0x155, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
   { offset = 0x166, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
   { offset = 0x195, type = "DIR32", symbol = "??_C@_05EJHOHPCC@0150a?$AA@", target = 0x0048F1C4 },
@@ -23309,7 +23309,7 @@ relocations = [
   { offset = 0x125, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
   { offset = 0x13b, type = "REL32", symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z", target = 0x0043EE40 },
   { offset = 0x146, type = "REL32", symbol = "?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z", target = 0x0043E2F0 },
-  { offset = 0x14d, type = "REL32", symbol = "?UpdateGameTime@ScoreSupervisorView@@QAEXXZ", target = 0x00430060 },
+  { offset = 0x14d, type = "REL32", symbol = "?UpdateGameTime@Supervisor@@QAEXXZ", target = 0x00430060 },
   { offset = 0x15f, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18, addend = 0x122 },
   { offset = 0x167, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x590 },
   { offset = 0x18f, type = "REL32", symbol = "?RegisterChain@ScreenEffect@@SIPAU1@W4ScreenEffectType@@HHHHHH@Z", target = 0x00422D20 },
