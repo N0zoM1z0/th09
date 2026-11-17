@@ -104,6 +104,57 @@ python3 -B scripts/replay-scoped-exact.py --source src/PlayerShotUpdateCallback1
 python3 -B scripts/replay-scoped-exact.py --source src/PlayerShotUpdateCallback4.cpp
 ~~~
 
+### Latest shared Player +0x1B80 state-word checkpoint
+
+Two further source commits recover the one real Player DWORD shared by
+movement, charge, added-state initialization and runtime transition:
+
+- `1d0f367a` — `PlayerFlagBits1B80View` is a four-byte bitfield view over the
+  actual `PlayerLifecycleView +0x1B80` word. Bits 0-1 are the two-bit focus
+  state and bit 2 is the charge-attack active state. `UpdateMovementAndOptions`
+  and `UpdateChargeAttack` now use those named members instead of raw masks.
+- `5971a7fb` — the same view names bit 3 as
+  `frontSideClearPending03`. `InitializeAddedState` sets focus state to 2 and
+  publishes the pending flag; `PlayerLifecycleView::OnUpdate` consumes and
+  clears that same bit. The raw `flags1B80` DWORD remains an overlapping alias
+  for owners whose remaining bits have not yet been named.
+
+The original physical word, four-byte layout and all existing bit positions
+are preserved. Pinned VC7.1 source-scoped replay passed **21/21 exact units**
+in `PlayerRuntime.cpp` (**5,391 physical bytes, 288 relocation fields**) and
+**4/4 exact units** in `PlayerAddedState.cpp` (**665 bytes, 30 fields**).
+This is **25 existing exact owners, 6,056 physical bytes and 318 relocation
+fields** across the two separate source cohorts. The 522-byte `OnUpdate`,
+814-byte `UpdateBeforeState` (852-byte physical comparison extent), and
+552-byte `InitializeAddedState` (572-byte physical comparison extent) all
+retain their complete original comparisons. No exact-ledger membership or
+frontier baseline changed.
+
+The two edited source carriers renumbered compiler-private local labels.
+Their updated spellings were accepted only after complete structural-byte
+identity, unchanged relocation offsets/types/addends, and same-section COFF
+symbol-value proofs mapped all six `InitializeAddedState` labels and all
+eleven `UpdateBeforeState` labels to their exact original PE destinations.
+
+The two large Player owners remain open: `UpdateMovementAndOptions` is still
+1,900/1,900 with four differences and `UpdateChargeAttack` is still
+1,210/1,210 with 183. ChargeAttack experiments with 32-bit side locals,
+separate side aliases, pointer/reference input forms, narrowed lexical scopes,
+and nonvolatile/direct focus snapshots were all reverted when they regressed
+the complete boss (typically 717-900 differences or a shorter body). The
+maintained 16-bit side / volatile focus snapshot is still a code-generation
+compensation, not the desired final natural source; its EDI/EBX allocation
+problem remains explicit work. No ASM, padding, full cold replay, or new
+exact-function claim was used.
+
+Useful bounded checks:
+
+~~~sh
+python3 -B scripts/check-frontier.py player-movement player-charge-attack
+python3 -B scripts/replay-scoped-exact.py --source src/PlayerRuntime.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/PlayerAddedState.cpp
+~~~
+
 ### Latest five native Player/GameManager checkpoints
 
 Five further source commits deepen the large Player selector and GameManager
@@ -348,7 +399,7 @@ instruction starting address can precede the differing byte offset.
 | **replay-save (ReplayInput.cpp)** | 0x00420C60 | 1,238/1,238, **2 masked bytes** | `+0xB7` and `+0xBB`: header-copy destination register ECX instead of retail EDI. |
 | **replay-begin-playback (ReplayInput.cpp)** | 0x00420840 | 540/540, **13 masked bytes** | Replay game-side restoration load order around `+0x14B–0x15F`. |
 | **player-movement (PlayerMovement.cpp)** | 0x0041C170 | 1,900/1,900, **4 masked bytes** | Config/side load order at `+0x127–0x12A`. |
-| **player-charge-attack (PlayerChargeAttackUpdate.cpp)** | 0x0041F810 | 1,210/1,210, **183 masked bytes** | Side/input/short state lifetimes and EDI/EBX allocation; keep real ReplayInputState and configuration ownership. |
+| **player-charge-attack (PlayerChargeAttackUpdate.cpp)** | 0x0041F810 | 1,210/1,210, **183 masked bytes** | EDI/EBX side/input allocation remains unresolved. Current short-side/volatile-mode compensation is not the desired natural source; 32-bit and nonvolatile alternatives regress the complete boss. |
 | **player-bullet-collision (PlayerCollisionHelpers.cpp)** | 0x0041DFF0 | 842/862, **705 masked bytes** | Collision/loop CFG, entry preheader and four distinct backedges; no ASM or fake alignment. |
 | **effect-added-callback (EffectManager.cpp)** | 0x0040D1C0 | 51/51, **4 masked bytes** | EDI global ANM manager vs ESI callback receiver setup order. |
 | **screen-shake-envelope (ScreenEffect.cpp)** | 0x004227A0 | 336/336, **26 masked bytes** | Volatile timer/receiver lifetimes and ESI/EDI selection. |

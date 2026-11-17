@@ -12882,3 +12882,41 @@ reference variants did not improve the Player movement residual. The Enemy
 OnUpdate two-byte draw-head register residual was probed with reference-tail
 and pointer-base array forms; all regressed and were reverted. No ASM, NOP,
 padding, or full-project cold replay was used.
+
+
+## 2026-11-17 GPT-web: shared native Player +0x1B80 flag word
+
+The Player's `+0x1B80` DWORD is now represented by a single four-byte
+`PlayerFlagBits1B80View`, overlaid with the original raw `flags1B80` alias.
+The recovered fields are `focusState00_01` (bits 0-1),
+`chargeAttackActive02` (bit 2), and `frontSideClearPending03` (bit 3).
+`UpdateMovementAndOptions` writes/tests the focus-state field;
+`UpdateChargeAttack` tests, sets and clears the charge-active field;
+`InitializeAddedState` sets focus state to 2 and sets the pending transition
+bit; `PlayerLifecycleView::OnUpdate` consumes and clears that same pending
+bit. This is one real native state word shared by four owners, not a second
+shadow allocation. Its four-byte size and original Player offset remain
+asserted.
+
+The PlayerRuntime source-scoped pinned VC7.1 replay passes **21/21 existing
+exact owners, 5,391 physical bytes and 288 relocation fields**. The
+PlayerAddedState source replay passes **4/4, 665 physical bytes and 30
+relocation fields**. The two cohorts together cover **25 existing exact
+owners, 6,056 physical bytes and 318 relocations**. `OnUpdate` remains
+522/522; `UpdateBeforeState` remains 814/814 code bytes and 852/852 physical
+comparison bytes; `InitializeAddedState` remains 552/552 and 572/572.
+Six and eleven compiler-private local labels in those last two owners were
+rebound only after structural-exact code, unchanged relocation offset/type/
+addend, same-section COFF definition and original PE destination proofs. No
+exact ledger membership or nonexact frontier changed.
+
+The nonexact `UpdateChargeAttack @ 0x0041F810` remains 1,210/1,210 with
+183 differences. Experiments changed its side local to signed/unsigned 32-bit,
+created separate side aliases, reordered or scoped the input pointer, and
+removed the volatile focus snapshot. They changed the complete owner to
+717-900 differences or shortened its body; all were reverted. The current
+16-bit side / volatile local is still an acknowledged source-level
+compensation. The target uses EDI for the 32-bit side and EBX for the
+0x8E-byte ReplayInputState pointer; recovering that natural C++ lifetime and
+register allocation remains open. No ASM, padding or full cold replay was
+used.
