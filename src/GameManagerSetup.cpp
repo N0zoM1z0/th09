@@ -135,9 +135,9 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
     SupervisorSetupLayout *supervisor =
         reinterpret_cast<SupervisorSetupLayout *>(&g_Supervisor);
 
-    // Retail advances these persistent signed frame and reward words with
-    // native modulo-32 i386 instructions, not C++ signed-overflow behavior.
-    ++*reinterpret_cast<unsigned int *>(&g_GameManager.playtimeFrames12C);
+    // Advance the real persistent gameplay frame counter without a
+    // second unsigned-pointer alias to the same object storage.
+    ++g_GameManager.playtimeFrames12C;
 
     if (g_GameManager.gameMode != 2 ||
         g_GameManager.sides[0].replaySelector28 != 0 ||
@@ -169,7 +169,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
     {
         if (g_GameManager.gameplaySetupState124 == 2)
             return CHAIN_CALLBACK_RESULT_EXIT_GAME_SUCCESS;
-        ++*reinterpret_cast<unsigned int *>(&gameManager->gameplaySetupWaitFrames);
+        ++gameManager->gameplaySetupWaitFrames;
         return CHAIN_CALLBACK_RESULT_BREAK;
     }
 
@@ -200,7 +200,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         if (g_ReplayInputStates[2].word06 != 0)
             supervisor->state590 = 1;
 
-        ++*reinterpret_cast<unsigned int *>(&gameManager->demoFrameCount);
+        ++gameManager->demoFrameCount;
         if (gameManager->demoFrameCount == 6000)
         {
             ScreenEffect::RegisterChain(
@@ -224,12 +224,12 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
 
     if (!globalManager.gameSubsystem->IsBlocked())
     {
-        ++*reinterpret_cast<unsigned int *>(&g_GameManager.valueD0);
+        ++g_GameManager.valueD0;
 
         if (++g_GameManager.valueB0 % g_GameManager.valueC4 ==
             g_GameManager.valueC4 - 1 &&
             static_cast<int>(
-                ++*reinterpret_cast<unsigned int *>(&g_GameManager.limitB4)) >
+                ++g_GameManager.limitB4) >
                     g_GameManager.valueC8)
         {
             g_GameManager.limitB4 = g_GameManager.valueC8;
@@ -238,29 +238,24 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         g_GameManager.valueC0++;
         // These difficulty counters belong to each side's subsystem1 object;
         // the separate state buffer is allocated as 0xA0 bytes.
-        // These four genuine Player side counters are signed 32-bit words.
-        // Match the original i386 INC DWORD stores while keeping the
+        // Increment the four real Player difficulty counters with the
         // original per-side below-16 bounds tests and read chronology.
         if (g_GameManager.valueB0 % 3600u == 3599u)
         {
             if (globalManager.sides[0].player04->header24.state7C < 16)
-                ++*reinterpret_cast<unsigned int *>(
-                    &globalManager.sides[0].player04->header24.state7C);
+                ++globalManager.sides[0].player04->header24.state7C;
             if (globalManager.sides[0].player04->header24.state80 < 16)
-                ++*reinterpret_cast<unsigned int *>(
-                    &globalManager.sides[0].player04->header24.state80);
+                ++globalManager.sides[0].player04->header24.state80;
             if (globalManager.sides[1].player04->header24.state7C < 16)
-                ++*reinterpret_cast<unsigned int *>(
-                    &globalManager.sides[1].player04->header24.state7C);
+                ++globalManager.sides[1].player04->header24.state7C;
             if (globalManager.sides[1].player04->header24.state80 < 16)
-                ++*reinterpret_cast<unsigned int *>(
-                    &globalManager.sides[1].player04->header24.state80);
+                ++globalManager.sides[1].player04->header24.state80;
         }
 
         if (g_GameManager.valueB8 < 6 &&
             g_GameManager.valueC0 % 720u == 719u)
         {
-            ++*reinterpret_cast<unsigned int *>(&g_GameManager.valueB8);
+            ++g_GameManager.valueB8;
         }
 
         if ((globalManager.flags & 0x1800u) == 0 &&
@@ -383,7 +378,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         globalManager.AdvanceTimedState();
     }
 
-    ++*reinterpret_cast<unsigned int *>(&gameManager->value348);
+    ++gameManager->value348;
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
@@ -861,10 +856,7 @@ mode_ready:
     for (sideIndex = 0; sideIndex < GameplaySetupNativeSides::PlayableCount; sideIndex++)
     {
         if (g_GameManager.sides[sideIndex].selector != 0)
-            *reinterpret_cast<unsigned char *>(
-                reinterpret_cast<unsigned int>(
-                    &g_GameManager.configurationE8->sideFocusMode[0]) +
-                static_cast<unsigned int>(sideIndex)) = 0;
+            g_GameManager.configurationE8->sideFocusMode[static_cast<unsigned int>(sideIndex)] = 0;
         g_GameManager.sides[sideIndex].flags &= ~1u;
 
         g_GameManager.sides[sideIndex].background00 = Background::Create(sideIndex);

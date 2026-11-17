@@ -12555,3 +12555,36 @@ two-source-profile replay passes **2/2 exact
 functions, 1,399 physical bytes, 139 relocation
 fields**. No new exact-function credit, ASM,
 padding, forced registers or cold replay.
+
+## 2026-11-17 GPT-web: native GameManager OnUpdate counters and side-focus array
+
+The original-bound 1,230-byte `GameManagerSetupLayout::OnUpdate`
+now advances real gameplay frame, setup-wait, demo-frame,
+spawn-limit, difficulty, reward and shared side counters with
+native C++ increment expressions rather than reinterpreting
+eleven signed fields through `unsigned int *` aliases.
+The two Player sides retain their exact original separate
+difficulty bounds tests and read/write order. Replay
+input publication, gameplay timer, stage-state branches
+and spawn calculation remain unchanged.
+
+The gameplay setup thread now sets the actual
+`g_GameManager.configurationE8->sideFocusMode[sideIndex]`
+byte directly instead of constructing its address from
+an i386 integer base. The source's original index expression
+and reset ordering are preserved. These twelve independent
+native access experiments, plus their combined form, were
+compiled under pinned VC7.1; `OnUpdate`,
+the 1,689-byte gameplay setup thread and deletion callback
+all retained their exact byte patterns.
+
+The maintained two-profile source-scoped replay passes
+**12/12 previously Exact owners, 4,680 complete physical
+bytes, and 415 original relocation fields**, including
+the 1,230-byte OnUpdate and 1,689-byte setup-thread bosses,
+and 45/55/88-byte leaf helpers. All twelve source units
+also passed complete original PE nonrelocation bytes
+and solved symbolic COFF relocation checks; there
+were no private label name changes. No ASM,
+artificial padding, forced registers, full cold replay,
+or new Exact function credit was used.
