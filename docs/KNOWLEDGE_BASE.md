@@ -11550,3 +11550,38 @@ The existing third-party source attribution
 and license notices are preserved. No ASM,
 whole-game cold replay or new Exact
 function-count credit was used.
+
+## 2026-11-17 GPT-web: native DirectInput and joystick arrays
+
+The main `Controller::GetControllerInput` owner
+now selects the two genuine
+`g_Supervisor.controllers14[2]` device
+pointers, the original global
+`g_JoystickCaps[2]` JOYCAPSA records, and
+the runtime `g_ReplayInputStates[input]`
+record directly as C++ array members.
+The original DirectInput button helper uses
+`inputButtons[buttonIndex]` after its
+negative-index check, not an integer address
+cast. The former three
+`TH09_CONTROLLER_NATIVE_DEVICE/CAPS/BUTTON`
+macros and the fabricated ReplayInputState
+address calculation are all gone. All
+original signed pad/button selectors, WinMM
+threshold calculations, DirectInput retry
+loops and early exits remain intact.
+
+Each of the four array-access hypotheses was
+compiled separately with pinned VC7.1.
+The combined natural C++ candidate retained
+**808/808 complete target bytes and all
+32 relocations** in GetControllerInput.
+The maintained selected-source replay passes
+**3/3 existing Exact functions, 892 physical
+bytes and 32 original relocation fields**,
+including the 37-byte DirectInput button leaf
+and 47-byte joystick button leaf. No private
+label changes, ASM, artificial padding,
+added bounds checks or whole-game cold
+replay were needed. Third-party source
+license headers remain unchanged.

@@ -36,27 +36,12 @@ namespace Controller
 {
 extern JOYCAPSA g_JoystickCaps[2];
 
-// The DirectInput button number is a signed 16-bit controller mapping.
-// Once the original negative-index test passes, retail reads the actual
-// RGB button buffer at native Win32 base plus the signed index byte.
-// These two actual Supervisor DirectInput devices reside at +0x14/+0x18;
-// the input's signed pad selector is scaled in a native 32-bit word.
-#define TH09_CONTROLLER_NATIVE_DEVICE(index) \
-    (*reinterpret_cast<IDirectInputDevice8A **>( \
-        reinterpret_cast<u32>(&g_Supervisor.controllers14[0]) + \
-        static_cast<u32>(index) * sizeof(g_Supervisor.controllers14[0])))
+// DirectInput buttons, the two Supervisor controller pointers, and
+// WinMM joystick capability entries are all genuine native arrays.
+// Preserve the original signed button and pad indices and early returns.
 
-// WinMM joystick capabilities likewise occupy two authentic JOYCAPSA
-// records; do not replace or duplicate this process-global storage.
-#define TH09_CONTROLLER_NATIVE_CAPS(index) \
-    (*reinterpret_cast<JOYCAPSA *>( \
-        reinterpret_cast<u32>(&g_JoystickCaps[0]) + \
-        static_cast<u32>(index) * sizeof(g_JoystickCaps[0])))
 
-#define TH09_CONTROLLER_NATIVE_BUTTON(index) \
-    (*reinterpret_cast<const u8 *>( \
-        reinterpret_cast<u32>(inputButtons) + \
-        static_cast<u32>(static_cast<int>(index))))
+
 
 
 static u32 SetButtonFromDirectInputState(
@@ -65,10 +50,10 @@ static u32 SetButtonFromDirectInputState(
     if (buttonIndex < 0)
         return 0;
 
-    *outButtons |= (TH09_CONTROLLER_NATIVE_BUTTON(buttonIndex) & 0x80)
+    *outButtons |= (inputButtons[buttonIndex] & 0x80)
                        ? touhouButton
                        : 0;
-    return (TH09_CONTROLLER_NATIVE_BUTTON(buttonIndex) & 0x80) ? touhouButton : 0;
+    return (inputButtons[buttonIndex] & 0x80) ? touhouButton : 0;
 }
 
 static u32 SetButtonFromJoystickButtons(
@@ -93,9 +78,7 @@ u16 __fastcall GetControllerInput(int input, int pad, u16 buttons)
 
     // The three actual 0x8E-byte ReplayInputState slots are shared by
     // replay recording, Player movement and the controller pollers.
-    playerInput = reinterpret_cast<ReplayInputState *>(
-        reinterpret_cast<u32>(&g_ReplayInputStates[0]) +
-        static_cast<u32>(input) * sizeof(g_ReplayInputStates[0]));
+    playerInput = &g_ReplayInputStates[input];
     if (g_Supervisor.controllers14[0] == NULL || g_Supervisor.controllers14[1] == NULL)
     {
         memset(&joyInfo, 0, sizeof(joyInfo));
@@ -114,22 +97,22 @@ u16 __fastcall GetControllerInput(int input, int pad, u16 buttons)
         SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[6], 0x40, joyInfo.dwButtons);
         SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[7], 0x80, joyInfo.dwButtons);
         SetButtonFromJoystickButtons(&buttons, playerInput->keyCodes58[8], 0x100, joyInfo.dwButtons);
-        margin = (TH09_CONTROLLER_NATIVE_CAPS(pad).wXmax - TH09_CONTROLLER_NATIVE_CAPS(pad).wXmin) / 2 / 2;
-        buttons |= ((TH09_CONTROLLER_NATIVE_CAPS(pad).wXmin + TH09_CONTROLLER_NATIVE_CAPS(pad).wXmax) / 2 + margin < joyInfo.dwXpos) ? 0x80 : 0;
-        buttons |= (joyInfo.dwXpos < (TH09_CONTROLLER_NATIVE_CAPS(pad).wXmin + TH09_CONTROLLER_NATIVE_CAPS(pad).wXmax) / 2 - margin) ? 0x40 : 0;
-        margin = (TH09_CONTROLLER_NATIVE_CAPS(pad).wYmax - TH09_CONTROLLER_NATIVE_CAPS(pad).wYmin) / 2 / 2;
-        buttons |= ((TH09_CONTROLLER_NATIVE_CAPS(pad).wYmin + TH09_CONTROLLER_NATIVE_CAPS(pad).wYmax) / 2 + margin < joyInfo.dwYpos) ? 0x20 : 0;
-        buttons |= (joyInfo.dwYpos < (TH09_CONTROLLER_NATIVE_CAPS(pad).wYmin + TH09_CONTROLLER_NATIVE_CAPS(pad).wYmax) / 2 - margin) ? 0x10 : 0;
+        margin = (g_JoystickCaps[pad].wXmax - g_JoystickCaps[pad].wXmin) / 2 / 2;
+        buttons |= ((g_JoystickCaps[pad].wXmin + g_JoystickCaps[pad].wXmax) / 2 + margin < joyInfo.dwXpos) ? 0x80 : 0;
+        buttons |= (joyInfo.dwXpos < (g_JoystickCaps[pad].wXmin + g_JoystickCaps[pad].wXmax) / 2 - margin) ? 0x40 : 0;
+        margin = (g_JoystickCaps[pad].wYmax - g_JoystickCaps[pad].wYmin) / 2 / 2;
+        buttons |= ((g_JoystickCaps[pad].wYmin + g_JoystickCaps[pad].wYmax) / 2 + margin < joyInfo.dwYpos) ? 0x20 : 0;
+        buttons |= (joyInfo.dwYpos < (g_JoystickCaps[pad].wYmin + g_JoystickCaps[pad].wYmax) / 2 - margin) ? 0x10 : 0;
         return buttons;
     }
-    hr = TH09_CONTROLLER_NATIVE_DEVICE(pad)->Poll();
+    hr = g_Supervisor.controllers14[pad]->Poll();
     if (FAILED(hr))
     {
         retries = 0;
-        hr = TH09_CONTROLLER_NATIVE_DEVICE(pad)->Acquire();
+        hr = g_Supervisor.controllers14[pad]->Acquire();
         while (hr == DIERR_INPUTLOST)
         {
-            hr = TH09_CONTROLLER_NATIVE_DEVICE(pad)->Acquire();
+            hr = g_Supervisor.controllers14[pad]->Acquire();
             retries++;
             if (retries >= 400)
             {
@@ -139,7 +122,7 @@ u16 __fastcall GetControllerInput(int input, int pad, u16 buttons)
         return buttons;
     }
     memset(&state, 0, sizeof(state));
-    hr = TH09_CONTROLLER_NATIVE_DEVICE(pad)->GetDeviceState(sizeof(DIJOYSTATE2), &state);
+    hr = g_Supervisor.controllers14[pad]->GetDeviceState(sizeof(DIJOYSTATE2), &state);
     if (FAILED(hr))
     {
         return buttons;
@@ -160,8 +143,8 @@ u16 __fastcall GetControllerInput(int input, int pad, u16 buttons)
     return buttons;
 }
 
-#undef TH09_CONTROLLER_NATIVE_BUTTON
-#undef TH09_CONTROLLER_NATIVE_DEVICE
-#undef TH09_CONTROLLER_NATIVE_CAPS
+
+
+
 
 } // namespace Controller
