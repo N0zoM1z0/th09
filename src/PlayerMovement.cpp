@@ -365,8 +365,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     PlayerOptionStateCtorView *option = player->optionStates;
     // Advance through the true 0x2F4-byte native option records.
     for (int optionCount = OptionCount; optionCount != 0; --optionCount,
-         option = reinterpret_cast<PlayerOptionStateCtorView *>(
-             reinterpret_cast<unsigned int>(option) + sizeof(*option)))
+         ++option)
     {
         if (option->updateCallback2EC != NULL)
         {
