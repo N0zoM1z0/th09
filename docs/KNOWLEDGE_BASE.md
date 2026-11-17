@@ -10352,3 +10352,44 @@ removes a large redundant pseudo-object while retaining
 natural C++ ownership. No inline ASM, memory-padding
 simulation, full-game cold replay or new exact
 function promotion was used.
+
+## 2026-11-17 GPT-web: native Player selector tables, history and collision arrays
+
+The complete 3,238-byte `PlayerUpdateSelectorState` boss now uses
+ordinary C++ native array indexing for `g_PlayerPatternFlags`,
+`g_PlayerPatternGrid[12][10]`, `g_PlayerPatternAlternates`,
+`g_ReplayInputStates` and `g_PlayerPatternConfigs`, replacing
+seven `TH09_PATTERN_FLAG/GRID/ALTERNATE/INPUT/CONFIG/HISTORY`
+lvalue macros that built integer byte addresses and cast them
+to source pointers. Both eight-element recent-pattern history
+shift loops use the actual `history[index]` and
+`history[index - 1]` entries. This preserves the original
+row stride, replay input state record stride and all original
+read/write ordering; no new bounds check or side gate was added.
+
+The three already-constructed collision half-size records on the
+stack are accessed as native `constructedHalfSizes[index]`
+with the matching `PlayerPositionView` memory representation,
+rather than manufacturing native DWORD addresses from a scalar.
+The three real floating-point radii use `radii[index]`.
+The selector's priority-Enemy check now reads the genuine
+overlapping `secondaryFlagBits3380.category.sideCategory10_11`
+and `cardAttackIndicator13` fields (3 and nonzero respectively),
+rather than opaque `0xC00/0x2000` DWORD masks. Existing
+standalone `PlayerGameplayHeaderView` and original method/call
+identity remain unchanged pending further native ownership proof.
+
+Separate pinned VC7.1 probes for each of the six array macro
+families, their combined form, both local-array families,
+and the Enemy bitfields were all byte-exact against the
+**full 3,238-byte** physical selector. The maintained natural
+C++ source removes all nine address arithmetic macros.
+Its full original-bound replay passes **2/2 exact
+functions, 3,650 complete physical bytes and 154 relocation
+fields** (3,238/136 for selector, 412/18 for the
+co-resident `PlayerGameplayMethods::ResolvePatternOffset`
+leaf). The 18 compiler-private label spellings in that
+leaf were rebound only after original PE-byte, same-section
+COFF definition and relocation target agreement. No
+ASM, synthetic padding, forced registers, whole-game cold
+replay or new exact-function promotion was used.

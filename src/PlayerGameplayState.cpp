@@ -247,44 +247,11 @@ typedef char PlayerSelectorNativeOpponentAndCollisionCounters[
 // Retail pattern, input and history indices are native Win32 DWORD byte
 // addresses over the actual globals / 0x8E-byte replay input records.
 // These are lvalues, not copies or bounded shadow tables.
-#define TH09_PATTERN_FLAG(index) \
-    (*reinterpret_cast<const int *>(reinterpret_cast<unsigned int>(&g_PlayerPatternFlags[0]) + \
-        static_cast<unsigned int>(index) * sizeof(g_PlayerPatternFlags[0])))
-#define TH09_PATTERN_GRID(row, col) \
-    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&g_PlayerPatternGrid[0][0]) + \
-        (static_cast<unsigned int>(row) * 10u + static_cast<unsigned int>(col)) * \
-        sizeof(g_PlayerPatternGrid[0][0])))
-#define TH09_PATTERN_ALTERNATE(index) \
-    (*reinterpret_cast<const int *>(reinterpret_cast<unsigned int>(&g_PlayerPatternAlternates[0]) + \
-        static_cast<unsigned int>(index) * sizeof(g_PlayerPatternAlternates[0])))
-#define TH09_PATTERN_INPUT(index) \
-    (*reinterpret_cast<ReplayInputState *>(reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) + \
-        static_cast<unsigned int>(index) * sizeof(g_ReplayInputStates[0])))
-#define TH09_PATTERN_CONFIG(index) \
-    (*reinterpret_cast<PlayerPatternConfig *>(reinterpret_cast<unsigned int>(&g_PlayerPatternConfigs[0]) + \
-        static_cast<unsigned int>(index) * sizeof(g_PlayerPatternConfigs[0])))
-#define TH09_PATTERN_HISTORY_AT(history, index) \
-    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(history)[0]) + \
-        static_cast<unsigned int>(index) * sizeof((history)[0])))
-#define TH09_PATTERN_HISTORY_PREV(history, index) \
-    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(history)[0]) + \
-        static_cast<unsigned int>(index) * sizeof((history)[0]) - sizeof((history)[0])))
+// Original pattern data and replay input are the shared native arrays
+// already declared above. Their original slot and row widths are retained.
 
-// The three collision half-sizes are native 0x0C-byte *constructed*
-// Player vectors in this stack frame. The separately projected PlayerPosition
-// view must not impose an unrelated C++ PlayerPositionView[] array bound.
-#define TH09_PATTERN_NATIVE_HALF_SIZE(index) \
-    (*reinterpret_cast<PlayerPositionView *>( \
-        reinterpret_cast<unsigned int>(&constructedHalfSizes[0]) + \
-        static_cast<unsigned int>(index) * sizeof(constructedHalfSizes[0])))
-
-// All three collision radii are genuine on-stack float words beside the
-// constructed half-size vectors. Recover their original byte address from
-// that allocation, rather than indexing a separate projected float array.
-#define TH09_PATTERN_NATIVE_RADIUS(index) \
-    (*reinterpret_cast<const float *>( \
-        reinterpret_cast<unsigned int>(&radii[0]) + \
-        static_cast<unsigned int>(index) * sizeof(radii[0])))
+// The three constructed collision half-size records and the three radius
+// words belong to the actual local arrays below. Each is indexed directly.
 
 void __fastcall PlayerUpdateSelectorState(void *state)
 {
@@ -294,7 +261,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     int alternate = 0;
     PlayerConstructedVector3View constructedHalfSizes[3];
     memset(
-        &TH09_PATTERN_INPUT(header->player78->sideIndex),
+        &g_ReplayInputStates[header->player78->sideIndex],
         0,
         0x58);
     PlayerPositionView *halfSizes =
@@ -314,7 +281,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     // Preserve the initial receiver across the mode and timer calls.
     PlayerLifecycleView *initialPlayer = header->player78;
     PlayerPatternConfig *config =
-        &TH09_PATTERN_CONFIG(initialPlayer->sideState->characterIndex2C);
+        &g_PlayerPatternConfigs[initialPlayer->sideState->characterIndex2C];
     if (g_GameManager.IsGameMode1())
     {
         // Configured interval frames are a live signed DWORD; original
@@ -377,7 +344,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     {
         if (header->crossedThreshold0C != 0)
         {
-            TH09_PATTERN_INPUT(header->player78->sideIndex).historyReleased |= 1U;
+            g_ReplayInputStates[header->player78->sideIndex].historyReleased |= 1U;
             header->crossedThreshold0C = 0;
         }
     }
@@ -391,22 +358,22 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     if (header->player78->position1B88.y < 192.0f)
         cell += 4;
 
-    TH09_PATTERN_NATIVE_HALF_SIZE(0).x = 28.0f;
-    TH09_PATTERN_NATIVE_HALF_SIZE(0).y = 28.0f;
-    TH09_PATTERN_NATIVE_HALF_SIZE(1).x = 10.0f;
-    TH09_PATTERN_NATIVE_HALF_SIZE(1).y = 10.0f;
-    TH09_PATTERN_NATIVE_HALF_SIZE(2) = header->player78->hurtboxHalfSize;
+    reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[0]).x = 28.0f;
+    reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[0]).y = 28.0f;
+    reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[1]).x = 10.0f;
+    reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[1]).y = 10.0f;
+    reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[2]) = header->player78->hurtboxHalfSize;
 
     {
         EnemyManagerView *manager = header->player78->sideState->enemyManager10;
         if (manager->rewardEnemyCount2AC3B8 >= 4)
         {
-            TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |= 4U;
+            g_ReplayInputStates[header->player78->sideIndex].historyCurrent |= 4U;
             alternate = 1;
         }
     }
 
-    TH09_PATTERN_GRID(cell, 1) = header->currentPattern54;
+    g_PlayerPatternGrid[cell][1] = header->currentPattern54;
 
     if ((header->flags74 & 2U) == 0 ||
         header->player78->opponentState->player04->ownerState30410.activeFrameCounter3C > 300)
@@ -435,7 +402,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
                     else if (candidate.y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
                         candidate.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
                 }
-                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, TH09_PATTERN_NATIVE_HALF_SIZE(halfSizeIndex), TH09_PATTERN_NATIVE_RADIUS(halfSizeIndex)) != NULL))
+                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[halfSizeIndex]), radii[halfSizeIndex]) != NULL))
                     goto pattern_selected;
             }
         }
@@ -455,7 +422,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             {
                 for (int patternIndex = halfSizeIndex; patternIndex < 10; ++patternIndex)
                 {
-                    selectedPattern = TH09_PATTERN_GRID(cell, patternIndex);
+                    selectedPattern = g_PlayerPatternGrid[cell][patternIndex];
                     PlayerLifecycleView *candidatePlayer = header->player78;
 
                     {
@@ -479,9 +446,9 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             }
         }
 
-        if ((TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent & 4U) != 0)
+        if ((g_ReplayInputStates[header->player78->sideIndex].historyCurrent & 4U) != 0)
         {
-            TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent &= ~4U;
+            g_ReplayInputStates[header->player78->sideIndex].historyCurrent &= ~4U;
             alternate = 0;
             goto retry_pattern_grid;
         }
@@ -495,12 +462,12 @@ void __fastcall PlayerUpdateSelectorState(void *state)
                 if (header->crossedThreshold0C != 0 &&
                     player->scalar30384 >= 100.0f)
                 {
-                    TH09_PATTERN_INPUT(player->sideIndex).historyReleased |= 1U;
+                    g_ReplayInputStates[player->sideIndex].historyReleased |= 1U;
                     header->crossedThreshold0C = 0;
                     return;
                 }
-                TH09_PATTERN_INPUT(player->sideIndex).historyPressed |= 2U;
-                TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |= 2U;
+                g_ReplayInputStates[player->sideIndex].historyPressed |= 2U;
+                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |= 2U;
             }
         }
         header->currentPattern54 = selectedPattern;
@@ -511,7 +478,7 @@ pattern_selected:
     {
         if (header->player78->scalar30384 >= header->distanceThreshold58)
         {
-            TH09_PATTERN_INPUT(header->player78->sideIndex).historyReleased |= 1U;
+            g_ReplayInputStates[header->player78->sideIndex].historyReleased |= 1U;
             header->crossedThreshold0C = 0;
             header->distanceThreshold58 =
                 (static_cast<int>(g_ReplayRng.GetRandomU32InRange(4)) + 1.0f) * 100.0f;
@@ -521,10 +488,10 @@ pattern_selected:
         else
         {
             if (header->crossedThreshold0C != 0)
-                TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |= 1U;
+                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |= 1U;
         }
 
-        int patternFlag = TH09_PATTERN_FLAG(selectedPattern);
+        int patternFlag = g_PlayerPatternFlags[selectedPattern];
         if (patternFlag != 0 && (header->flags74 & 2U) == 0)
         {
             if (header->retryCooldown50 == 0 &&
@@ -534,9 +501,9 @@ pattern_selected:
                 header->recentPatternFlags30[3] == header->recentPatternFlags30[4] &&
                 header->recentPatternFlags30[4] == header->recentPatternFlags30[5])
             {
-                int candidatePattern = TH09_PATTERN_ALTERNATE(static_cast<int>(
+                int candidatePattern = g_PlayerPatternAlternates[static_cast<int>(
                     static_cast<unsigned int>(g_ReplayRng.GetRandomU16InRange(2)) * 9u +
-                    static_cast<unsigned int>(selectedPattern)));
+                    static_cast<unsigned int>(selectedPattern))];
                 PlayerLifecycleView *candidatePlayer = header->player78;
 
                 {
@@ -557,25 +524,25 @@ pattern_selected:
                 int testHalfSize = halfSizeIndex < 2
                 ? halfSizeIndex + 1
                     : halfSizeIndex;
-                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, TH09_PATTERN_NATIVE_HALF_SIZE(testHalfSize), TH09_PATTERN_NATIVE_RADIUS(testHalfSize)) != NULL))
+                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[testHalfSize]), radii[testHalfSize]) != NULL))
                 {
                     selectedPattern = candidatePattern;
                     header->retryCooldown50 = 8;
-                    patternFlag = TH09_PATTERN_FLAG(selectedPattern);
+                    patternFlag = g_PlayerPatternFlags[selectedPattern];
                 }
             }
 
-            TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |=
-                static_cast<unsigned short>(TH09_PATTERN_FLAG(selectedPattern));
+            g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
+                static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
             if (header->retryCooldown50 == 0)
             {
                 int *history = header->recentPatternFlags30;
                 for (int historyIndex = 7; historyIndex > 0; --historyIndex)
-                    TH09_PATTERN_HISTORY_AT(history, historyIndex) =
-                        TH09_PATTERN_HISTORY_PREV(history, historyIndex);
+                    history[historyIndex] =
+                        history[historyIndex - 1];
             }
             // Cooldown suppresses shifting, not the current flag refresh.
-            header->recentPatternFlags30[0] = TH09_PATTERN_FLAG(selectedPattern);
+            header->recentPatternFlags30[0] = g_PlayerPatternFlags[selectedPattern];
         }
         else
         {
@@ -647,12 +614,12 @@ pattern_selected:
                                 else if (candidate.y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
                                     candidate.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
                             }
-                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, TH09_PATTERN_NATIVE_HALF_SIZE(1), 0.0f) == NULL)
-                                TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |=
-                                    static_cast<unsigned short>(TH09_PATTERN_FLAG(pattern));
+                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[1]), 0.0f) == NULL)
+                                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
+                                    static_cast<unsigned short>(g_PlayerPatternFlags[pattern]);
                             else
-                                TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |=
-                                    static_cast<unsigned short>(TH09_PATTERN_FLAG(selectedPattern));
+                                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
+                                    static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
                         }
                         else if (target.x - 6.0f > trackingPlayer->position1B88.x)
                         {
@@ -675,27 +642,27 @@ pattern_selected:
                                 else if (candidate.y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
                                     candidate.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
                             }
-                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, TH09_PATTERN_NATIVE_HALF_SIZE(1), 0.0f) == NULL)
-                                TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |=
-                                    static_cast<unsigned short>(TH09_PATTERN_FLAG(pattern));
+                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[1]), 0.0f) == NULL)
+                                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
+                                    static_cast<unsigned short>(g_PlayerPatternFlags[pattern]);
                             else
-                                TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |=
-                                    static_cast<unsigned short>(TH09_PATTERN_FLAG(selectedPattern));
+                                g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
+                                    static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
                         }
                         else
                         {
-                            TH09_PATTERN_INPUT(trackingPlayer->sideIndex).historyCurrent |=
-                                static_cast<unsigned short>(TH09_PATTERN_FLAG(selectedPattern));
+                            g_ReplayInputStates[trackingPlayer->sideIndex].historyCurrent |=
+                                static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
                             goto target_pattern_done;
                         }
                     }
                     else
-                        TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |=
-                            static_cast<unsigned short>(TH09_PATTERN_FLAG(selectedPattern));
+                        g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
+                            static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
                 }
                 else
-                    TH09_PATTERN_INPUT(header->player78->sideIndex).historyCurrent |=
-                        static_cast<unsigned short>(TH09_PATTERN_FLAG(selectedPattern));
+                    g_ReplayInputStates[header->player78->sideIndex].historyCurrent |=
+                        static_cast<unsigned short>(g_PlayerPatternFlags[selectedPattern]);
             target_pattern_done:
                 ;
             }
@@ -705,34 +672,31 @@ pattern_selected:
         {
             int *history = header->recentPatterns10;
             for (int historyIndex = 7; historyIndex > 0; --historyIndex)
-                TH09_PATTERN_HISTORY_AT(history, historyIndex) =
-                        TH09_PATTERN_HISTORY_PREV(history, historyIndex);
+                history[historyIndex] =
+                        history[historyIndex - 1];
             player = header->player78;
-            history[0] = TH09_PATTERN_FLAG(selectedPattern);
+            history[0] = g_PlayerPatternFlags[selectedPattern];
         }
 
         EnemyManagerView *manager = player->sideState->enemyManager10;
         EnemyView *targetEnemy = manager->priorityEnemy2AC444;
         if ((targetEnemy != NULL &&
-            ((targetEnemy->secondaryFlags3380 & 0xC00U) == 0xC00U ||
-            (targetEnemy->secondaryFlags3380 & 0x2000U) != 0)) ||
+            (targetEnemy->secondaryFlagBits3380.category.sideCategory10_11 == 3 ||
+            targetEnemy->secondaryFlagBits3380.category.cardAttackIndicator13 != 0)) ||
             reinterpret_cast<const PlayerCollisionRegionCreateView *>(player)->activeCountC110 == 0)
         {
             int emitEvent = manager->activeEnemyCount2AC3AC != 0
             ? header->frameTimer00.HasTickedEvery(10)
                 : header->frameTimer00.HasTickedEvery(30);
             if (emitEvent)
-                TH09_PATTERN_INPUT(player->sideIndex).historyPressed |= 1U;
+                g_ReplayInputStates[player->sideIndex].historyPressed |= 1U;
         }
 
         if (g_GameManager.IsGameMode1() && (header->flags74 & 2U) != 0 &&
             header->player78->opponentState->player04->ownerState30410.activeFrameCounter3C <= 300)
-            TH09_PATTERN_INPUT(header->player78->sideIndex).historyPressed &= ~1U;
+            g_ReplayInputStates[header->player78->sideIndex].historyPressed &= ~1U;
 
         header->currentPattern54 = selectedPattern;
         header->frameTimer00++;
     }
 }
-
-#undef TH09_PATTERN_NATIVE_RADIUS
-#undef TH09_PATTERN_NATIVE_HALF_SIZE
