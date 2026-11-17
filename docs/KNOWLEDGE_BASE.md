@@ -10153,3 +10153,30 @@ The 19 compiler-private `$L` name updates were individually
 proven against their original PE targets and same-section COFF
 definitions; no behavioral byte changed. No padding, ASM,
 whole-product cold replay or new exactness credit was used.
+
+## 2026-11-17 GPT-web: native child ECL context variable-copy window
+
+The `TH09_ECL_OPCODE_SET_CHILD_ECL` branch within the full
+`RunEcl` interpreter now copies the child context's actual
+`context08.intVariables1C` storage from the active
+`Th09EclContextView::intVariables1C` member. Its copy length is
+derived from the original struct boundary,
+`offsetof(secondaryTime094) - offsetof(intVariables1C)`,
+rather than typed as an unexplained hardcoded `0x78` and
+forming both pointers by adding a magic `0x1C` to unrelated
+integer addresses. That span is the six already-layout-verified
+contiguous integer and float variable arrays between context
+offsets 0x1C and 0x94. The original child allocation, live
+slot dereferences, subroutine initialization, and copy order
+are unchanged.
+
+This is real native C++ state ownership, not an inline patch,
+synthetic padding, or an invented child function. Pinned
+VC7.1 `ecl-run-ecl` strictly matches the complete
+**15,564-byte** physical owner with **598 relocations**,
+including its switch jump-table data. The source-scoped
+`EclManager.cpp` cohort passes **84/84 previously exact
+units, 45,420 bytes and 1,987 relocation fields**; its
+nonexact Enemy OnUpdate sibling remains exactly
+3,900/3,900 bytes with only its two existing mismatches.
+No full-product cold replay was run or new exactness credit claimed.

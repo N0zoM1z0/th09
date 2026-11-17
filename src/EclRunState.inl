@@ -439,18 +439,16 @@ __forceinline void AssignFlagField(
             static_cast<short>(
                 reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
                     Th09EclRunState::ChildSlotRef(enemy, stateIndex))->subroutineId00));
-        // The child ECL context and active context are genuine separately
-        // owned 0x22C-byte records. The memcpy payload starts at the real
-        // +0x1C native Win32 address in both, not a constructed C++ array.
+        // Copy the genuine child and active context variable bank, which
+        // starts with each context's native +0x1C intVariables1C member.
+        // The following fields occupy one contiguous 0x78-byte C++ record.
         memcpy(
-            reinterpret_cast<unsigned char *>(
-                reinterpret_cast<unsigned int>(
-                    &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
-                        Th09EclRunState::ChildSlotRef(enemy, stateIndex))->context08) +
-                0x1Cu),
-            reinterpret_cast<const unsigned char *>(
-                reinterpret_cast<unsigned int>(enemy->activeContext2CE0) + 0x1Cu),
-            0x78);
+            &reinterpret_cast<Th09EclRunState::ChildEclBlock *>(
+                Th09EclRunState::ChildSlotRef(enemy, stateIndex))->
+                    context08.intVariables1C[0],
+            &enemy->activeContext2CE0->intVariables1C[0],
+            offsetof(Th09EclContextView, secondaryTime094) -
+                offsetof(Th09EclContextView, intVariables1C));
         break;
 
     case TH09_ECL_OPCODE_SPAWN_EFFECT:
