@@ -10091,3 +10091,32 @@ not counted as accepted exact functions. Strict unit checks for
 Initialize and AddedCallback report **554/554 and 372/372 exact**.
 No ASM, padding, whole-product cold replay, or new function
 promotion was involved.
+
+## 2026-11-17 GPT-web: native saved ANM color in Enemy draw traversal boss
+
+The full 1,758-byte `EnemyManagerDrawImpl` now tests the genuine
+`EnemyView::primaryFlagBits337C.hidePrimary05` directly when
+deciding whether to draw a primary VM. Its trail fading path
+saves the ANM VM's color as one real
+`AnmVmScriptColor` object with `d3dColor` and `a` members,
+rather than using an untyped DWORD and a byte-pointer alias
+to read the saved alpha. The live VM's alpha write uses
+`primaryAnmVm0008.color1Script.a`. Only packed trail
+vertex DWORDs still need native Win32 byte addressing, since
+their current physical vertex view exposes the packed D3D
+color as one 32-bit scalar.
+
+Compiler experiments on the same complete owner show why
+two further apparent field simplifications were not promoted:
+typing only the `+0x3380` extra ANM offset bit or only the
+primary rotation bit each shifted 184 comparison bytes; typing
+both together reduced the residual to 24 but still regressed
+the exact owner. The maintained source keeps those two raw
+bit tests pending a better natural code-generation hypothesis.
+The recovered alpha and no-sprite gate are different: the
+entire owner remains **1,758/1,758 byte exact**, with all
+53 original relocation fields. The source-scoped pinned
+VC7.1 replay passes **4/4 original exact functions,
+1,922 complete physical bytes and 61 relocations**. No ASM,
+padding, target patches, full cold replay, or new exactness
+promotion was involved.

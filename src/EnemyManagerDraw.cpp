@@ -89,7 +89,6 @@ extern float __stdcall EnemyDrawInterpolateWrappedAngle(
 
 enum EnemyDrawFlags
 {
-    ENEMY_DRAW_HIDE_PRIMARY = 0x00000020,
     ENEMY_DRAW_ROTATE_WITH_MOVEMENT = 0x00400000,
     ENEMY_DRAW_SECONDARY_FIXED_OFFSET = 0x00000020
 };
@@ -112,9 +111,9 @@ static inline const EnemyTrailSampleView &EnemyDrawTrailSampleNative(
         static_cast<unsigned int>(index) * sizeof(enemy->trailSamples33E8[0]));
 }
 
-// The fade alpha is byte three of the *real* native 32-bit color DWORD,
-// both in the live VM and in its independently saved/vertex color words.
-// Form that original Win32 byte address without a fake unsigned-char array.
+// Trail vertex colors retain their original packed 32-bit DWORD form.
+// For their alpha lane, use the native i386 byte offset into that scalar.
+// The ANM VM color and its saved copy instead use AnmVmScriptColor::a.
 #define TH09_ENEMY_NATIVE_ALPHA(word) \
     (*reinterpret_cast<unsigned char *>( \
         reinterpret_cast<unsigned int>(&(word)) + 3u))
@@ -166,7 +165,8 @@ static int EnemyManagerDrawImpl(
                 int k;
                 // The two scale components are one snapshot of the actual Float2 field.
                 Float2 savedScale = enemy->primaryAnmVm0008.scale;
-                unsigned long savedColor = enemy->primaryAnmVm0008.color1;
+                AnmVmScriptColor savedColor;
+                savedColor.d3dColor = enemy->primaryAnmVm0008.color1;
 
                 if ((enemy->trailFlags53A0 & ENEMY_TRAIL_RENDER_AS_STRIP) == 0)
                 {
@@ -189,9 +189,9 @@ static int EnemyManagerDrawImpl(
                                     static_cast<float>(enemy->trailHistoryLength53A2);
 
                         if ((enemy->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
-                            TH09_ENEMY_NATIVE_ALPHA(enemy->primaryAnmVm0008.color1) =
-                                TH09_ENEMY_NATIVE_ALPHA(savedColor) -
-                                TH09_ENEMY_NATIVE_ALPHA(savedColor) * k /
+                            enemy->primaryAnmVm0008.color1Script.a =
+                                savedColor.a -
+                                savedColor.a * k /
                                     enemy->trailHistoryLength53A2;
 
                         enemy->primaryAnmVm0008.pos =
@@ -312,8 +312,8 @@ static int EnemyManagerDrawImpl(
                             if ((enemy->trailFlags53A0 & ENEMY_TRAIL_FADE) != 0)
                             {
                                 TH09_ENEMY_NATIVE_ALPHA(vertices[1].diffuse10) =
-                                    TH09_ENEMY_NATIVE_ALPHA(savedColor) -
-                                    TH09_ENEMY_NATIVE_ALPHA(savedColor) * k /
+                                    savedColor.a -
+                                    savedColor.a * k /
                                         enemy->trailHistoryLength53A2;
                                 TH09_ENEMY_NATIVE_ALPHA(vertices[0].diffuse10) =
                                     TH09_ENEMY_NATIVE_ALPHA(vertices[1].diffuse10);
@@ -357,11 +357,11 @@ static int EnemyManagerDrawImpl(
 
                 enemy->primaryAnmVm0008.scale.x = savedScale.x;
                 enemy->primaryAnmVm0008.scale.y = savedScale.y;
-                enemy->primaryAnmVm0008.color1 = savedColor;
+                enemy->primaryAnmVm0008.color1 = savedColor.d3dColor;
             }
 
             if ((enemy->trailFlags53A0 & ENEMY_TRAIL_HIDE_HEAD) == 0 &&
-                (enemy->flags337C & ENEMY_DRAW_HIDE_PRIMARY) == 0)
+                enemy->primaryFlagBits337C.hidePrimary05 == 0)
             {
                 g_AnmManager->Draw2D(reinterpret_cast<AnmVm *>(&enemy->primaryAnmVm0008));
             }
