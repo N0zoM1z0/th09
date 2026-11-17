@@ -10747,3 +10747,42 @@ pass **1/1 existing exact owner** with no
 compiler-private symbol updates. No extra
 bounds checks, ASM, padding, whole-game cold
 replay or new exactness credit were used.
+
+## 2026-11-17 GPT-web: native ExAttack type-18/24 trail and VM arrays
+
+The 1,436-byte original-bound
+`ExAttackUpdateCallbackType18_24` now traverses
+the real `ExAttackType1824UpdateExtra::trailPositions58[16]`
+and `trailAngles118[16]` through native C++ array
+subscripts. Its previous-trail cursor is
+`trailPositions58[i-1]` rather than an integer
+address minus 0x0C. The record's four dynamically
+allocated `PlayerAnmVmView` instances are selected
+by direct typed array indexing at `dynamicData1C`,
+without the `TH09_EX_NATIVE_VM` DWORD-pointer
+macro. ANM calls use the normal implicit derived
+class pointer conversion to `AnmVm *`.
+The opponent/owner sides are read directly from
+the original `g_GameManager.sides[index]` array;
+the helper constructing native i386 addresses
+has been removed.
+
+Peephole register allocation is sensitive to the
+source expression forms. Independently changing
+only the trail-position or previous-position
+macro regressed the complete owner to 1,435
+bytes with thousands of mismatches. Combined
+typed position, angle, VM and side references
+recover **1,436/1,436 original bytes and all
+44 relocations**; the maintained source has
+the same exact full-owner comparison and
+source-scoped pinned VC7.1 replay. A further
+diagnostic attempted to remove the type-specific
+record projection altogether by using the
+shared `ExAttackRecord` with three typed field
+aliases; that altered its generated length to
+1,451 bytes and was rejected. This record
+ownership remains an open type-recovery task,
+not a claimed match. No ASM, synthetic padding,
+forced compiler registers, whole-game replay,
+or new exact-function credit was used.
