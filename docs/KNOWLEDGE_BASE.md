@@ -12339,3 +12339,63 @@ comparison and selected-source replay pass
 rebindings. No ASM, padding, register forcing,
 whole-product cold replay or new exact-function
 credit was used.
+
+## 2026-11-17 GPT-web: recover native Player pattern method and 3.2KB selector
+
+The original `ResolvePatternOffset @ 0x00404710` is now
+declared and defined directly as
+`PlayerLifecycleView::ResolvePatternOffset`, using the same
+real nonvirtual Player allocation and existing thiscall
+receiver. The prior `PlayerGameplayMethods` zero-offset
+anonymous derived class and its redundant method declaration
+are removed. All five callsites in the complete
+`PlayerUpdateSelectorState` boss now invoke the native
+Player method directly. The 0x404710 target address,
+return register, argument stack, eight direction cases,
+movement multipliers, and body/switch tables are unchanged.
+The original nominal proprietary class spelling is not
+uniquely proven, but this shared native object type has the
+independently established Player layout and no fabricated
+additional storage.
+
+The large selector also advances its real collision-grid
+`float *gridRadius` and `PlayerPositionView *gridHalfSize`
+cursors with ordinary `++`, and decrements the native
+retry-cooldown field directly instead of manufacturing
+integer byte addresses. Independent pinned VC7.1 probes
+for both pointer strides, timer decrement and their
+combination all retained the **3,238-byte** selector
+extent. The method-class identity trial additionally
+retained both the **3,238/3,238-byte selector with
+136 relocations** and the **412/412-byte
+ResolvePatternOffset code + switch-table extent with
+18 relocations**. All five relocated native-method
+calls still resolve to the original **0x00404710** entry.
+
+Because the real `PlayerLifecycleView.hpp` header
+is shared, the change was verified across **59 directly
+dependent source carriers / 71 pinned VC7.1 compiler
+jobs**, not simply the modified Player source. Their
+**157 previously authored-exact units, 46,925 complete
+physical bytes and 2,219 relocation fields** retained
+original PE byte identity and solved relocation targets.
+The 74 affected compiler-private labels in seven other
+units were each checked for same-section COFF ownership,
+identical relocation type/offset and original PE
+destination before manifest rebinding. Replayed selected
+batches include **23/23 selector/core runtime units,
+32/32 GameManager/Bullet/Front bosses, and 9/9
+dependent Player/ExAttack leaves**, with all strict
+comparisons passing. This is dependency-scoped checking,
+not a whole-product cold replay.
+
+The three independently nonexact Player movement,
+charge and bullet collision frontiers were **actually
+recompiled against the new header**, then compared
+with their monotone baselines. They retain 1,900/1,900
+bytes and four residual differences, 1,210/1,210
+bytes and 183 differences, and 842/862 bytes with
+705 differences respectively, with zero new mismatch
+positions. None is promoted as exact. No ASM,
+padding, register forcing or target-byte patching was
+used.

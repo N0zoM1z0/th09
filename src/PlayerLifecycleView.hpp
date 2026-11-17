@@ -625,6 +625,9 @@ struct PlayerLifecycleView
         int expandForGraze);
     void __fastcall InitializeShot(PlayerShotCtorView *shot,
                                     PlayerShtDescriptorView *entry);
+    // Native directional offset resolver used by the gameplay selector.
+    float *ResolvePatternOffset(
+        int pattern, int alternate, float *offsetX, float *offsetY);
     void UpdateShots();
     void __fastcall SpawnShots(int value, int powerLevel);
     int UpdateChargeAttack();

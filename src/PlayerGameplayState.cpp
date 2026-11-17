@@ -72,18 +72,9 @@ typedef char PlayerSelectorNativeReplayProtocolOffsets[
      offsetof(ReplayInputState, historyPressed) == 0x32 &&
      offsetof(ReplayInputState, historyReleased) == 0x34) ? 1 : -1];
 
-// This method family addresses the Player's real allocation with a +0x00
-// nonvirtual base and no extra bytes; the independently bound resolver at
-// 0x404710 retains its original source-facing method symbol.
-struct PlayerGameplayMethods : PlayerLifecycleView
-{
-    float *ResolvePatternOffset(
-        int pattern, int alternate, float *offsetX, float *offsetY);
-};
-typedef char PlayerGameplayMethodsNativeOwner[
-    (sizeof(PlayerGameplayMethods) == sizeof(PlayerLifecycleView) &&
-     offsetof(PlayerGameplayMethods, primaryShtFile) == 0x30338 &&
-     offsetof(PlayerGameplayMethods, position1B88) == 0x1B88) ? 1 : -1];
+// The exact direction-offset resolver at 0x404710 belongs to the
+// existing native PlayerLifecycleView, without an added wrapper allocation
+// or a zero-offset derived class. Its nonvirtual thiscall ABI is unchanged.
 
 // The exact Player selector and 1,900-byte Player movement use identical
 // native +0x360..+0x36C GameManager playfield words. A separate ResetView
@@ -105,7 +96,9 @@ typedef char PlayerPatternNativeMovementAndShtOffsets[
          offsetof(PlayerMovementFields, speedMultiplier1CE8) == 0x1CE8 &&
      offsetof(PlayerLifecycleView, primaryShtFile) == 0x30338) ? 1 : -1];
 
-float *PlayerGameplayMethods::ResolvePatternOffset(
+} // namespace
+
+float *PlayerLifecycleView::ResolvePatternOffset(
     int pattern,
     int alternate,
     float *offsetX,
@@ -200,6 +193,8 @@ float *PlayerGameplayMethods::ResolvePatternOffset(
         *offsetY;
     return offsetY;
 }
+
+namespace {
 
 extern PlayerPatternConfig g_PlayerPatternConfigs[];
 extern int g_PlayerPatternGrid[12][10];
@@ -385,14 +380,14 @@ void __fastcall PlayerUpdateSelectorState(void *state)
         if (patternState.retryCooldown50 != 0)
         {
             // Retail decrements the live retry timer as a wrapping DWORD.
-            --*reinterpret_cast<unsigned int *>(&patternState.retryCooldown50);
+            --patternState.retryCooldown50;
             for (halfSizeIndex = 0; halfSizeIndex < 2; ++halfSizeIndex)
             {
                 selectedPattern = patternState.currentPattern54;
                 PlayerLifecycleView *candidatePlayer = static_cast<PlayerLifecycleView *>(header->selfLink78);
 
                 {
-                    reinterpret_cast<PlayerGameplayMethods *>(candidatePlayer)->ResolvePatternOffset(
+                    candidatePlayer->ResolvePatternOffset(
                         selectedPattern, alternate, &offsetX, &offsetY);
                     candidate = candidatePlayer->position1B88;
                     candidate.x += offsetX;
@@ -418,11 +413,8 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             float *gridRadius = radii;
             for (; halfSizeIndex < 3;
                 ++halfSizeIndex,
-                gridRadius = reinterpret_cast<float *>(
-                    reinterpret_cast<unsigned int>(gridRadius) + sizeof(radii[0])),
-                gridHalfSize = reinterpret_cast<PlayerPositionView *>(
-                    reinterpret_cast<unsigned int>(gridHalfSize) +
-                    sizeof(constructedHalfSizes[0])))
+                ++gridRadius,
+                ++gridHalfSize)
             {
                 for (int patternIndex = halfSizeIndex; patternIndex < 10; ++patternIndex)
                 {
@@ -430,7 +422,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
                     PlayerLifecycleView *candidatePlayer = static_cast<PlayerLifecycleView *>(header->selfLink78);
 
                     {
-                        reinterpret_cast<PlayerGameplayMethods *>(candidatePlayer)->ResolvePatternOffset(
+                        candidatePlayer->ResolvePatternOffset(
                             selectedPattern, alternate, &offsetX, &offsetY);
                         candidate = candidatePlayer->position1B88;
                         candidate.x += offsetX;
@@ -511,7 +503,7 @@ pattern_selected:
                 PlayerLifecycleView *candidatePlayer = static_cast<PlayerLifecycleView *>(header->selfLink78);
 
                 {
-                    reinterpret_cast<PlayerGameplayMethods *>(candidatePlayer)->ResolvePatternOffset(
+                    candidatePlayer->ResolvePatternOffset(
                         candidatePattern, alternate, &offsetX, &offsetY);
                     candidate = candidatePlayer->position1B88;
                     candidate.x += offsetX;
@@ -605,7 +597,7 @@ pattern_selected:
                                 (target.y + 6.0f < candidate.y && candidate.y > 48.0f) ? 5 : 7;
                             {
                                 PlayerLifecycleView *candidatePlayer = trackingPlayer;
-                                reinterpret_cast<PlayerGameplayMethods *>(candidatePlayer)->ResolvePatternOffset(
+                                candidatePlayer->ResolvePatternOffset(
                                     pattern, alternate, &offsetX, &offsetY);
                                 candidate.x += offsetX;
                                 candidate.y += offsetY;
@@ -633,7 +625,7 @@ pattern_selected:
                                 (target.y + 6.0f < candidate.y && candidate.y > 48.0f) ? 6 : 8;
                             {
                                 PlayerLifecycleView *candidatePlayer = trackingPlayer;
-                                reinterpret_cast<PlayerGameplayMethods *>(candidatePlayer)->ResolvePatternOffset(
+                                candidatePlayer->ResolvePatternOffset(
                                     selectedPattern, alternate, &offsetX, &offsetY);
                                 candidate.x += offsetX;
                                 candidate.y += offsetY;

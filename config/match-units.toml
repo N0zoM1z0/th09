@@ -11381,7 +11381,7 @@ relocations = [
   { offset = 0x7A, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
   { offset = 0x8A, type = "DIR32", symbol = "__real@3cf5c28f", target = 0x0048EF98 },
   { offset = 0xA2, type = "REL32", symbol = "?CalcItemCollectionCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0@Z", target = 0x0041BEE0 },
-  { offset = 0xC0, type = "DIR32", symbol = "$L63871", target = 0x0041DF50 },
+  { offset = 0xC0, type = "DIR32", symbol = "$L63876", target = 0x0041DF50 },
   { offset = 0xCC, type = "REL32", symbol = "?AddRespawnResource@PlayerLifecycleView@@QAEXM@Z", target = 0x0041BC90 },
   { offset = 0xD7, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
   { offset = 0xDC, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
@@ -11407,7 +11407,7 @@ relocations = [
   { offset = 0x1B5, type = "DIR32", symbol = "?g_PlayerRewardEffectManager@@3PAUEffectManager@@A", target = 0x004A7E0C },
   { offset = 0x1C3, type = "REL32", symbol = "?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z", target = 0x0040CCC0 },
   { offset = 0x1D9, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
-  { offset = 0x1E5, type = "DIR32", symbol = "$L63872", target = 0x0041DF60 },
+  { offset = 0x1E5, type = "DIR32", symbol = "$L63877", target = 0x0041DF60 },
   { offset = 0x1EB, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
   { offset = 0x1F1, type = "DIR32", symbol = "__real@3d23d70a", target = 0x0048EF8C },
   { offset = 0x1F7, type = "DIR32", symbol = "__real@3f666666", target = 0x0048EF88 },
@@ -11433,15 +11433,15 @@ relocations = [
   { offset = 0x2F2, type = "DIR32", symbol = "__real@43c80000", target = 0x0048E3C4 },
   { offset = 0x301, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x307, type = "DIR32", symbol = "__real@43c80000", target = 0x0048E3C4 },
-  { offset = 0x330, type = "DIR32", symbol = "$L63570", target = 0x0041DCE4 },
-  { offset = 0x334, type = "DIR32", symbol = "$L63571", target = 0x0041DCF5 },
-  { offset = 0x338, type = "DIR32", symbol = "$L63591", target = 0x0041DEB6 },
-  { offset = 0x33C, type = "DIR32", symbol = "$L63592", target = 0x0041DECA },
-  { offset = 0x340, type = "DIR32", symbol = "$L63583", target = 0x0041DE09 },
-  { offset = 0x344, type = "DIR32", symbol = "$L63584", target = 0x0041DE1D },
-  { offset = 0x348, type = "DIR32", symbol = "$L63585", target = 0x0041DE31 },
-  { offset = 0x34C, type = "DIR32", symbol = "$L63586", target = 0x0041DE45 },
-  { offset = 0x350, type = "DIR32", symbol = "$L63587", target = 0x0041DE59 },
+  { offset = 0x330, type = "DIR32", symbol = "$L63575", target = 0x0041DCE4 },
+  { offset = 0x334, type = "DIR32", symbol = "$L63576", target = 0x0041DCF5 },
+  { offset = 0x338, type = "DIR32", symbol = "$L63596", target = 0x0041DEB6 },
+  { offset = 0x33C, type = "DIR32", symbol = "$L63597", target = 0x0041DECA },
+  { offset = 0x340, type = "DIR32", symbol = "$L63588", target = 0x0041DE09 },
+  { offset = 0x344, type = "DIR32", symbol = "$L63589", target = 0x0041DE1D },
+  { offset = 0x348, type = "DIR32", symbol = "$L63590", target = 0x0041DE31 },
+  { offset = 0x34C, type = "DIR32", symbol = "$L63591", target = 0x0041DE45 },
+  { offset = 0x350, type = "DIR32", symbol = "$L63592", target = 0x0041DE59 },
 ]
 
 [units.player-set-blend-additive]
@@ -11909,7 +11909,7 @@ relocations = [
   { offset = 0x4BC, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x4C1, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
   { offset = 0x4D8, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
-  { offset = 0x4E4, type = "DIR32", symbol = "$L63082", target = 0x0041D740 },
+  { offset = 0x4E4, type = "DIR32", symbol = "$L63089", target = 0x0041D740 },
   { offset = 0x4EA, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
   { offset = 0x4F0, type = "DIR32", symbol = "__real@3d23d70a", target = 0x0048EF8C },
   { offset = 0x4F6, type = "DIR32", symbol = "__real@3f666666", target = 0x0048EF88 },
@@ -11933,11 +11933,11 @@ relocations = [
   { offset = 0x5C4, type = "REL32", symbol = "??YZunTimer@@QAEXH@Z", target = 0x00406640 },
   { offset = 0x5D6, type = "REL32", symbol = "??BZunTimer@@QAEHXZ", target = 0x00435F00 },
   { offset = 0x5E2, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
-  { offset = 0x5F0, type = "DIR32", symbol = "$L62995", target = 0x0041D638 },
-  { offset = 0x5F4, type = "DIR32", symbol = "$L62996", target = 0x0041D64C },
-  { offset = 0x5F8, type = "DIR32", symbol = "$L62997", target = 0x0041D660 },
-  { offset = 0x5FC, type = "DIR32", symbol = "$L62998", target = 0x0041D674 },
-  { offset = 0x600, type = "DIR32", symbol = "$L62999", target = 0x0041D688 },
+  { offset = 0x5F0, type = "DIR32", symbol = "$L63002", target = 0x0041D638 },
+  { offset = 0x5F4, type = "DIR32", symbol = "$L63003", target = 0x0041D64C },
+  { offset = 0x5F8, type = "DIR32", symbol = "$L63004", target = 0x0041D660 },
+  { offset = 0x5FC, type = "DIR32", symbol = "$L63005", target = 0x0041D674 },
+  { offset = 0x600, type = "DIR32", symbol = "$L63006", target = 0x0041D688 },
 ]
 
 
@@ -15440,30 +15440,30 @@ relocations = [
 source = "src/PlayerGameplayState.cpp"
 object = "build/matching/PlayerGameplayState.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["PlayerGameplayMethods::ResolvePatternOffset"]
-symbol = "?ResolvePatternOffset@PlayerGameplayMethods@?A0x68766efb@@QAEPAMHHPAM0@Z"
+functions = ["PlayerLifecycleView::ResolvePatternOffset"]
+symbol = "?ResolvePatternOffset@PlayerLifecycleView@@QAEPAMHHPAM0@Z"
 target_address = 0x00404710
 size = 0x15A
 compare_size = 0x19C
 relocations = [
-  { offset = 0x31, type = "DIR32", symbol = "$L6131", target = 0x0040486C },
-  { offset = 0xC1, type = "DIR32", symbol = "$L6132", target = 0x0040488C },
-  { offset = 0x15C, type = "DIR32", symbol = "$L3396", target = 0x00404767 },
-  { offset = 0x160, type = "DIR32", symbol = "$L3397", target = 0x00404777 },
-  { offset = 0x164, type = "DIR32", symbol = "$L3395", target = 0x00404755 },
-  { offset = 0x168, type = "DIR32", symbol = "$L3394", target = 0x00404745 },
-  { offset = 0x16C, type = "DIR32", symbol = "$L3398", target = 0x00404787 },
-  { offset = 0x170, type = "DIR32", symbol = "$L3400", target = 0x004047AB },
-  { offset = 0x174, type = "DIR32", symbol = "$L3399", target = 0x00404797 },
-  { offset = 0x178, type = "DIR32", symbol = "$L3401", target = 0x004047BD },
-  { offset = 0x17C, type = "DIR32", symbol = "$L3410", target = 0x004047F1 },
-  { offset = 0x180, type = "DIR32", symbol = "$L3411", target = 0x004047FE },
-  { offset = 0x184, type = "DIR32", symbol = "$L3409", target = 0x004047E2 },
-  { offset = 0x188, type = "DIR32", symbol = "$L3408", target = 0x004047D5 },
-  { offset = 0x18C, type = "DIR32", symbol = "$L3412", target = 0x0040480B },
-  { offset = 0x190, type = "DIR32", symbol = "$L3414", target = 0x00404829 },
-  { offset = 0x194, type = "DIR32", symbol = "$L3413", target = 0x00404818 },
-  { offset = 0x198, type = "DIR32", symbol = "$L3415", target = 0x00404838 },
+  { offset = 0x31, type = "DIR32", symbol = "$L6107", target = 0x0040486C },
+  { offset = 0xC1, type = "DIR32", symbol = "$L6108", target = 0x0040488C },
+  { offset = 0x15C, type = "DIR32", symbol = "$L3382", target = 0x00404767 },
+  { offset = 0x160, type = "DIR32", symbol = "$L3383", target = 0x00404777 },
+  { offset = 0x164, type = "DIR32", symbol = "$L3381", target = 0x00404755 },
+  { offset = 0x168, type = "DIR32", symbol = "$L3380", target = 0x00404745 },
+  { offset = 0x16C, type = "DIR32", symbol = "$L3384", target = 0x00404787 },
+  { offset = 0x170, type = "DIR32", symbol = "$L3386", target = 0x004047AB },
+  { offset = 0x174, type = "DIR32", symbol = "$L3385", target = 0x00404797 },
+  { offset = 0x178, type = "DIR32", symbol = "$L3387", target = 0x004047BD },
+  { offset = 0x17C, type = "DIR32", symbol = "$L3396", target = 0x004047F1 },
+  { offset = 0x180, type = "DIR32", symbol = "$L3397", target = 0x004047FE },
+  { offset = 0x184, type = "DIR32", symbol = "$L3395", target = 0x004047E2 },
+  { offset = 0x188, type = "DIR32", symbol = "$L3394", target = 0x004047D5 },
+  { offset = 0x18C, type = "DIR32", symbol = "$L3398", target = 0x0040480B },
+  { offset = 0x190, type = "DIR32", symbol = "$L3400", target = 0x00404829 },
+  { offset = 0x194, type = "DIR32", symbol = "$L3399", target = 0x00404818 },
+  { offset = 0x198, type = "DIR32", symbol = "$L3401", target = 0x00404838 },
 ]
 [units.front-line-strip]
 source = "src/FrontLineStrip.cpp"
@@ -18415,7 +18415,7 @@ relocations = [
   { offset = 0x41, type = "REL32", symbol = "?IsHeld@ReplayInputState@@QAEGG@Z", target = 0x00415CB0 },
   { offset = 0x58, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x6E, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
-  { offset = 0x93, type = "DIR32", symbol = "$L62368", target = 0x004170B4 },
+  { offset = 0x93, type = "DIR32", symbol = "$L62375", target = 0x004170B4 },
   { offset = 0x9F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
   { offset = 0xA6, type = "REL32", symbol = "?SetUpdateState@PlayerLifecycleView@@QAEXH@Z", target = 0x00403C20 },
   { offset = 0xB5, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x00000004 },
@@ -18549,35 +18549,35 @@ relocations = [
   { offset = 0xB01, type = "REL32", symbol = "?IsGameMode1@AsciiGameManagerView@@QAEHXZ", target = 0x00404970 },
   { offset = 0xB0B, type = "DIR32", symbol = "?g_StageTransitionState@@3HA", target = 0x004B3690 },
   { offset = 0xB1A, type = "DIR32", symbol = "?g_FrontOtherModeDone@@3EA", target = 0x004A7ECE },
-  { offset = 0xB24, type = "DIR32", symbol = "$L61953", target = 0x00417043 },
-  { offset = 0xB28, type = "DIR32", symbol = "$L62053", target = 0x0041693C },
-  { offset = 0xB2C, type = "DIR32", symbol = "$L62078", target = 0x00416A08 },
-  { offset = 0xB30, type = "DIR32", symbol = "$L62135", target = 0x00416AE2 },
-  { offset = 0xB34, type = "DIR32", symbol = "$L62189", target = 0x00416CDE },
-  { offset = 0xB38, type = "DIR32", symbol = "$L62198", target = 0x00416D5A },
-  { offset = 0xB3C, type = "DIR32", symbol = "$L62217", target = 0x00416D8D },
-  { offset = 0xB40, type = "DIR32", symbol = "$L62218", target = 0x00416D98 },
-  { offset = 0xB44, type = "DIR32", symbol = "$L62224", target = 0x00416DE8 },
-  { offset = 0xB48, type = "DIR32", symbol = "$L62229", target = 0x00416E1D },
-  { offset = 0xB4C, type = "DIR32", symbol = "$run_scripts$62196", target = 0x00416EF3 },
-  { offset = 0xB50, type = "DIR32", symbol = "$L62242", target = 0x0041705B },
-  { offset = 0xB54, type = "DIR32", symbol = "$L62230", target = 0x00416E28 },
-  { offset = 0xB58, type = "DIR32", symbol = "$L62232", target = 0x00416E69 },
-  { offset = 0xB5C, type = "DIR32", symbol = "$L62231", target = 0x00416E3C },
-  { offset = 0xB60, type = "DIR32", symbol = "$L61955", target = 0x0041665B },
-  { offset = 0xB64, type = "DIR32", symbol = "$L62183", target = 0x00416BC3 },
-  { offset = 0xB68, type = "DIR32", symbol = "$L62012", target = 0x00416803 },
-  { offset = 0xB6C, type = "DIR32", symbol = "$L62234", target = 0x00416E74 },
-  { offset = 0xB70, type = "DIR32", symbol = "$L62239", target = 0x00416EC1 },
-  { offset = 0xB74, type = "DIR32", symbol = "$L62239", target = 0x00416EC1 },
-  { offset = 0xB78, type = "DIR32", symbol = "$L62239", target = 0x00416EC1 },
-  { offset = 0xB7C, type = "DIR32", symbol = "$L62239", target = 0x00416EC1 },
-  { offset = 0xB80, type = "DIR32", symbol = "$L61954", target = 0x00416627 },
-  { offset = 0xB84, type = "DIR32", symbol = "$L62236", target = 0x00416E7F },
-  { offset = 0xB88, type = "DIR32", symbol = "$L62237", target = 0x00416E8E },
-  { offset = 0xB8C, type = "DIR32", symbol = "$L62050", target = 0x00416927 },
-  { offset = 0xB90, type = "DIR32", symbol = "$L62239", target = 0x00416EC1 },
-  { offset = 0xB94, type = "DIR32", symbol = "$L62238", target = 0x00416EA6 },
+  { offset = 0xB24, type = "DIR32", symbol = "$L61960", target = 0x00417043 },
+  { offset = 0xB28, type = "DIR32", symbol = "$L62060", target = 0x0041693C },
+  { offset = 0xB2C, type = "DIR32", symbol = "$L62085", target = 0x00416A08 },
+  { offset = 0xB30, type = "DIR32", symbol = "$L62142", target = 0x00416AE2 },
+  { offset = 0xB34, type = "DIR32", symbol = "$L62196", target = 0x00416CDE },
+  { offset = 0xB38, type = "DIR32", symbol = "$L62205", target = 0x00416D5A },
+  { offset = 0xB3C, type = "DIR32", symbol = "$L62224", target = 0x00416D8D },
+  { offset = 0xB40, type = "DIR32", symbol = "$L62225", target = 0x00416D98 },
+  { offset = 0xB44, type = "DIR32", symbol = "$L62231", target = 0x00416DE8 },
+  { offset = 0xB48, type = "DIR32", symbol = "$L62236", target = 0x00416E1D },
+  { offset = 0xB4C, type = "DIR32", symbol = "$run_scripts$62203", target = 0x00416EF3 },
+  { offset = 0xB50, type = "DIR32", symbol = "$L62249", target = 0x0041705B },
+  { offset = 0xB54, type = "DIR32", symbol = "$L62237", target = 0x00416E28 },
+  { offset = 0xB58, type = "DIR32", symbol = "$L62239", target = 0x00416E69 },
+  { offset = 0xB5C, type = "DIR32", symbol = "$L62238", target = 0x00416E3C },
+  { offset = 0xB60, type = "DIR32", symbol = "$L61962", target = 0x0041665B },
+  { offset = 0xB64, type = "DIR32", symbol = "$L62190", target = 0x00416BC3 },
+  { offset = 0xB68, type = "DIR32", symbol = "$L62019", target = 0x00416803 },
+  { offset = 0xB6C, type = "DIR32", symbol = "$L62241", target = 0x00416E74 },
+  { offset = 0xB70, type = "DIR32", symbol = "$L62246", target = 0x00416EC1 },
+  { offset = 0xB74, type = "DIR32", symbol = "$L62246", target = 0x00416EC1 },
+  { offset = 0xB78, type = "DIR32", symbol = "$L62246", target = 0x00416EC1 },
+  { offset = 0xB7C, type = "DIR32", symbol = "$L62246", target = 0x00416EC1 },
+  { offset = 0xB80, type = "DIR32", symbol = "$L61961", target = 0x00416627 },
+  { offset = 0xB84, type = "DIR32", symbol = "$L62243", target = 0x00416E7F },
+  { offset = 0xB88, type = "DIR32", symbol = "$L62244", target = 0x00416E8E },
+  { offset = 0xB8C, type = "DIR32", symbol = "$L62057", target = 0x00416927 },
+  { offset = 0xB90, type = "DIR32", symbol = "$L62246", target = 0x00416EC1 },
+  { offset = 0xB94, type = "DIR32", symbol = "$L62245", target = 0x00416EA6 },
 ]
 
 [units.front-message-decode-string]
@@ -19702,7 +19702,7 @@ target_address = 0x00412960
 size = 0x765
 compare_size = 0x78C
 relocations = [
-  { offset = 0x25E, type = "DIR32", symbol = "$L64581", target = 0x004130C8 },
+  { offset = 0x25E, type = "DIR32", symbol = "$L64588", target = 0x004130C8 },
   { offset = 0x28D, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x29B, type = "DIR32", symbol = "__real@bf800000", target = 0x0048E7F4 },
   { offset = 0x2C7, type = "DIR32", symbol = "_kTwoPi", target = 0x0048E4C4 },
@@ -19740,15 +19740,15 @@ relocations = [
   { offset = 0x6F1, type = "REL32", symbol = "??DFloat3@@QBE?AU0@M@Z", target = 0x00401180 },
   { offset = 0x6F9, type = "REL32", symbol = "??ZFloat3@@QAEAAU0@ABU0@@Z", target = 0x004125B0 },
   { offset = 0x735, type = "REL32", symbol = "?AdvanceTransformProgram@Bullet@@QAEXXZ", target = 0x004141C0 },
-  { offset = 0x768, type = "DIR32", symbol = "$L64069", target = 0x00412BC2 },
-  { offset = 0x76C, type = "DIR32", symbol = "$L64069", target = 0x00412BC2 },
-  { offset = 0x770, type = "DIR32", symbol = "$L64078", target = 0x00412C12 },
-  { offset = 0x774, type = "DIR32", symbol = "$L64079", target = 0x00412C18 },
-  { offset = 0x778, type = "DIR32", symbol = "$L64083", target = 0x00412C44 },
-  { offset = 0x77C, type = "DIR32", symbol = "$L64084", target = 0x00412C4A },
-  { offset = 0x780, type = "DIR32", symbol = "$L64088", target = 0x00412C7C },
-  { offset = 0x784, type = "DIR32", symbol = "$L64089", target = 0x00412C98 },
-  { offset = 0x788, type = "DIR32", symbol = "$L64093", target = 0x00412CD8 },
+  { offset = 0x768, type = "DIR32", symbol = "$L64076", target = 0x00412BC2 },
+  { offset = 0x76C, type = "DIR32", symbol = "$L64076", target = 0x00412BC2 },
+  { offset = 0x770, type = "DIR32", symbol = "$L64085", target = 0x00412C12 },
+  { offset = 0x774, type = "DIR32", symbol = "$L64086", target = 0x00412C18 },
+  { offset = 0x778, type = "DIR32", symbol = "$L64090", target = 0x00412C44 },
+  { offset = 0x77C, type = "DIR32", symbol = "$L64091", target = 0x00412C4A },
+  { offset = 0x780, type = "DIR32", symbol = "$L64095", target = 0x00412C7C },
+  { offset = 0x784, type = "DIR32", symbol = "$L64096", target = 0x00412C98 },
+  { offset = 0x788, type = "DIR32", symbol = "$L64100", target = 0x00412CD8 },
 ]
 
 [units.exattack-type4-update]
@@ -20847,7 +20847,7 @@ relocations = [
   { offset = 0x2A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x2F, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
   { offset = 0x4A, type = "REL32", symbol = "?ClearDrawBuckets@EtamaController@@QAEHXZ", target = 0x00412390 },
-  { offset = 0xD0, type = "DIR32", symbol = "$L64643", target = 0x00414F84 },
+  { offset = 0xD0, type = "DIR32", symbol = "$L64650", target = 0x00414F84 },
   { offset = 0xDD, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
   { offset = 0xF1, type = "REL32", symbol = "??KFloat3@@QBE?AU0@M@Z", target = 0x0040F5A0 },
   { offset = 0xFD, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
@@ -20926,11 +20926,11 @@ relocations = [
   { offset = 0x837, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x83D, type = "REL32", symbol = "?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x00436F30 },
   { offset = 0x87D, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
-  { offset = 0x894, type = "DIR32", symbol = "$L64630", target = 0x004148A0 },
-  { offset = 0x898, type = "DIR32", symbol = "$L64193", target = 0x004147C4 },
-  { offset = 0x89C, type = "DIR32", symbol = "$L64199", target = 0x004147FA },
-  { offset = 0x8A0, type = "DIR32", symbol = "$L64204", target = 0x00414830 },
-  { offset = 0x8A4, type = "DIR32", symbol = "$L64210", target = 0x00414C64 },
+  { offset = 0x894, type = "DIR32", symbol = "$L64637", target = 0x004148A0 },
+  { offset = 0x898, type = "DIR32", symbol = "$L64200", target = 0x004147C4 },
+  { offset = 0x89C, type = "DIR32", symbol = "$L64206", target = 0x004147FA },
+  { offset = 0x8A0, type = "DIR32", symbol = "$L64211", target = 0x00414830 },
+  { offset = 0x8A4, type = "DIR32", symbol = "$L64217", target = 0x00414C64 },
 ]
 
 [units.player-update-selector-state]
@@ -20976,7 +20976,7 @@ relocations = [
   { offset = 0x30B, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x312, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x326, type = "DIR32", symbol = "?g_PlayerPatternGrid@?A0x68766efb@@3PAY09HA", target = 0x004A0150 },
-  { offset = 0x377, type = "REL32", symbol = "?ResolvePatternOffset@PlayerGameplayMethods@?A0x68766efb@@QAEPAMHHPAM0@Z", target = 0x00404710 },
+  { offset = 0x377, type = "REL32", symbol = "?ResolvePatternOffset@PlayerLifecycleView@@QAEPAMHHPAM0@Z", target = 0x00404710 },
   { offset = 0x3A9, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3B6, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3C1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -20987,7 +20987,7 @@ relocations = [
   { offset = 0x400, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x428, type = "REL32", symbol = "?FindCollision@PlayerCollisionQueryStateView@@QAEPAUPlayerCollisionQueryRecordView@@ABUPlayerPositionView@@0M@Z", target = 0x0041D810 },
   { offset = 0x47B, type = "DIR32", symbol = "?g_PlayerPatternGrid@?A0x68766efb@@3PAY09HA", target = 0x004A0150 },
-  { offset = 0x496, type = "REL32", symbol = "?ResolvePatternOffset@PlayerGameplayMethods@?A0x68766efb@@QAEPAMHHPAM0@Z", target = 0x00404710 },
+  { offset = 0x496, type = "REL32", symbol = "?ResolvePatternOffset@PlayerLifecycleView@@QAEPAMHHPAM0@Z", target = 0x00404710 },
   { offset = 0x4C8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x4D5, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x4E0, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -21013,7 +21013,7 @@ relocations = [
   { offset = 0x6A1, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x6A6, type = "REL32", symbol = "?GetRandomU16InRange@RngRuntimeView@@QAEGG@Z", target = 0x004048B0 },
   { offset = 0x6B8, type = "DIR32", symbol = "?g_PlayerPatternAlternates@?A0x68766efb@@3PAHA", target = 0x0048E368 },
-  { offset = 0x6CA, type = "REL32", symbol = "?ResolvePatternOffset@PlayerGameplayMethods@?A0x68766efb@@QAEPAMHHPAM0@Z", target = 0x00404710 },
+  { offset = 0x6CA, type = "REL32", symbol = "?ResolvePatternOffset@PlayerLifecycleView@@QAEPAMHHPAM0@Z", target = 0x00404710 },
   { offset = 0x6FC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x708, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x713, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -21037,7 +21037,7 @@ relocations = [
   { offset = 0x918, type = "DIR32", symbol = "__real@40c00000", target = 0x0048E3B4 },
   { offset = 0x947, type = "DIR32", symbol = "__real@40c00000", target = 0x0048E3B4 },
   { offset = 0x95F, type = "DIR32", symbol = "__real@42400000", target = 0x0048E3B0 },
-  { offset = 0x97D, type = "REL32", symbol = "?ResolvePatternOffset@PlayerGameplayMethods@?A0x68766efb@@QAEPAMHHPAM0@Z", target = 0x00404710 },
+  { offset = 0x97D, type = "REL32", symbol = "?ResolvePatternOffset@PlayerLifecycleView@@QAEPAMHHPAM0@Z", target = 0x00404710 },
   { offset = 0x998, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x9A8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x9B8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -21047,7 +21047,7 @@ relocations = [
   { offset = 0x9FA, type = "DIR32", symbol = "__real@40c00000", target = 0x0048E3B4 },
   { offset = 0xA10, type = "DIR32", symbol = "__real@40c00000", target = 0x0048E3B4 },
   { offset = 0xA28, type = "DIR32", symbol = "__real@42400000", target = 0x0048E3B0 },
-  { offset = 0xA46, type = "REL32", symbol = "?ResolvePatternOffset@PlayerGameplayMethods@?A0x68766efb@@QAEPAMHHPAM0@Z", target = 0x00404710 },
+  { offset = 0xA46, type = "REL32", symbol = "?ResolvePatternOffset@PlayerLifecycleView@@QAEPAMHHPAM0@Z", target = 0x00404710 },
   { offset = 0xA61, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xA6D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xA7B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -22274,7 +22274,7 @@ addend = 0
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x30
 type = "DIR32"
-symbol = "$L60189"
+symbol = "$L60194"
 target = 0x444118
 addend = 0
 
@@ -22547,28 +22547,28 @@ addend = 0
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x328
 type = "DIR32"
-symbol = "$L60097"
+symbol = "$L60102"
 target = 0x443e24
 addend = 0
 
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x32c
 type = "DIR32"
-symbol = "$L60101"
+symbol = "$L60106"
 target = 0x443ea9
 addend = 0
 
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x330
 type = "DIR32"
-symbol = "$L60115"
+symbol = "$L60120"
 target = 0x443f91
 addend = 0
 
 [[units.exattack-type14-22-update.relocations]]
 offset = 0x334
 type = "DIR32"
-symbol = "$L60127"
+symbol = "$L60132"
 target = 0x444047
 addend = 0
 
@@ -25048,14 +25048,14 @@ relocations = [
   { offset = 0x186, type = "DIR32", symbol = "?g_PlayerAddedSideTable@@3PAHA", target = 0x4a8108 },
   { offset = 0x191, type = "DIR32", symbol = "?g_PlayerAddedClampValue@@3HA", target = 0x4a7e90 },
   { offset = 0x1a1, type = "DIR32", symbol = "?g_PlayerAddedModeSelector@@3HA", target = 0x4a7eac },
-  { offset = 0x1ad, type = "DIR32", symbol = "$L2907", target = 0x41ede8 },
+  { offset = 0x1ad, type = "DIR32", symbol = "$L2977", target = 0x41ede8 },
   { offset = 0x1f6, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x401500 },
   { offset = 0x20e, type = "REL32", symbol = "?Reset@PlayerHeaderStateView@@QAEXXZ", target = 0x41bdc0 },
-  { offset = 0x228, type = "DIR32", symbol = "$L2863", target = 0x41ed71 },
-  { offset = 0x22c, type = "DIR32", symbol = "$L2863", target = 0x41ed71 },
-  { offset = 0x230, type = "DIR32", symbol = "$L2865", target = 0x41ed74 },
-  { offset = 0x234, type = "DIR32", symbol = "$L2867", target = 0x41ed79 },
-  { offset = 0x238, type = "DIR32", symbol = "$L2869", target = 0x41ed7e },
+  { offset = 0x228, type = "DIR32", symbol = "$L2933", target = 0x41ed71 },
+  { offset = 0x22c, type = "DIR32", symbol = "$L2933", target = 0x41ed71 },
+  { offset = 0x230, type = "DIR32", symbol = "$L2935", target = 0x41ed74 },
+  { offset = 0x234, type = "DIR32", symbol = "$L2937", target = 0x41ed79 },
+  { offset = 0x238, type = "DIR32", symbol = "$L2939", target = 0x41ed7e },
 ]
 
 # Complete constructor-byte replays only. Both original owners retain unknown
