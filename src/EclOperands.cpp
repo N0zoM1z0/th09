@@ -211,7 +211,7 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case 0x276D: return enemy->operandValue2E54;
 
     case 0x2775:
-        return (enemy->secondaryFlags3380 & 0x0C00) < 0x0C00
+        return enemy->secondaryFlagBits3380.category.sideCategory10_11 < 3
                    ? TH09_ECL_OPERAND_OPPOSING_PLAYER(enemy)->initialStateA0[0]
                    : TH09_ECL_OPERAND_OPPOSING_PLAYER(enemy)->initialStateA0[1];
 
@@ -475,9 +475,7 @@ float EnemyView::ResolveFloat(float rawValue)
 
     case 0x2775:
     {
-        unsigned int secondaryFlags =
-            this->secondaryFlags3380;
-        if ((secondaryFlags & 0x0C00) < 0x0C00)
+        if (this->secondaryFlagBits3380.category.sideCategory10_11 < 3)
         {
             return static_cast<float>(
                 TH09_ECL_OPERAND_OPPOSING_PLAYER(this)->initialStateA0[0]);

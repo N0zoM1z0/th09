@@ -9778,3 +9778,28 @@ but the new offsets violate the monotone frontier ratchet; it remains under
 `.analysis/collision-next/` and was not copied into `src/` or promoted. The
 three-level inner-increment label model still canonicalizes to the maintained
 842/862 carrier under VC7.1. No assembly or emitted padding was used.
+
+## 2026-11-17 GPT-web: resolve ECL side category through its native bitfield
+
+The two `0x2775` branches in `Th09EclRunControl::ResolveInt` and
+`EnemyView::ResolveFloat` select the opposing player's initial-state slot
+0 unless the Enemy's native secondary side-category field is 3. Both now
+read the existing overlapping `secondaryFlagBits3380.category.sideCategory10_11`
+view and test `sideCategory10_11 < 3`, instead of treating bits 10..11 as an
+opaque `0x0C00` mask. This is a natural typed access to the already-established
+`+0x3380` DWORD; no range guard, snapshot, helper call or behavior change
+was added.
+
+The exact comparison is sensitive to the C++ predicate spelling under VC7.1:
+`sideCategory10_11 != 3` is logically equivalent for this two-bit field but
+changes the target's unsigned `jae` branch to `je`, leaving one non-relocation
+byte different in each resolver. `<= 2` changes two bytes in each. The retained
+`< 3` expression reproduces the original compare/branch sequence exactly.
+
+The selected `EclOperands.cpp` compiler carrier passed **4/4 exact units,
+5,718 complete physical bytes and 374 relocation fields**. Its 291 changed
+compiler-private `$L` spellings were rebound only after proving zero
+non-relocation byte differences, identical relocation offsets/types, actual
+same-section COFF definitions, and each original PE destination. No exact
+function membership or target bytes changed; no whole-product cold replay
+was run.
