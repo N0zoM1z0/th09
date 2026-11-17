@@ -9970,3 +9970,27 @@ regression. The five exact sibling functions sharing the
 **1,220 complete original bytes and 32 relocations**. This removes
 artificial padded data types and recovers native class ownership with
 ordinary C++ code, not ASM/padding or a whole-product cold replay.
+
+## 2026-11-17 GPT-web: shared Enemy flags in manager clear, lookup and reset
+
+Three separate EnemyManager source carriers now use the genuine
+`EnemyView` state-bit views instead of raw integer masks. The
+392-byte `EnemyManagerCoreView::KillAllNonBossEnemies` loop checks
+`active00`, `boss01`, `secondaryFlagBits3380.movement.noDeath03`
+and `specialInteraction07` before applying its original life,
+score-popup, trail-reward and death-subroutine logic. The 62-byte
+`EnemyManagerView::FindActiveEnemyBySideCategory` walks the actual
+Enemy pool and compares the overlapping
+`secondaryFlagBits3380.category.sideCategory10_11` field followed by
+`active00`. The 177-byte `EnemyManagerView::ResetForGameplayCleanup`
+now clears `active00` directly, retaining the release and schedule
+reinitialization sequence.
+
+Each individually selected COFF/PE unit remains exact:
+**392/392 bytes (6 relocations)**, **62/62 bytes (0 relocations)**,
+and **177/177 bytes (13 relocations)** respectively. The
+three-source selected replay also passes all **5 existing exact
+functions, 773 physical bytes, 32 relocation fields**. These changes
+recover natural shared native Enemy-state semantics across the
+larger clearing loop and two smaller manager procedures, without
+ASM, padding, partial exactness claims or a whole-product cold replay.

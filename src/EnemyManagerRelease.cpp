@@ -55,7 +55,7 @@ void EnemyManagerView::ResetForGameplayCleanup()
     do
     {
         EnemyCoreReleaseChildEclBlocks(enemy);
-        enemy->flags337C &= ~1u;
+        enemy->primaryFlagBits337C.active00 = 0;
         ++enemy;
         --remaining;
     } while (remaining != 0);

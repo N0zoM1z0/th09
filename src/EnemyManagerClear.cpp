@@ -32,17 +32,16 @@ int EnemyManagerCoreView::KillAllNonBossEnemies(
 
     for (int i = 0; i < EnemyNativePoolCapacity::ActiveSlots; ++i, ++enemy)
     {
-        if ((enemy->primaryFlags337C & 1) == 0 ||
-            (enemy->primaryFlags337C & 2) != 0 ||
-            (enemy->secondaryFlags3380 & 8) != 0)
+        if (enemy->primaryFlagBits337C.active00 == 0 ||
+            enemy->primaryFlagBits337C.boss01 != 0 ||
+            enemy->secondaryFlagBits3380.movement.noDeath03 != 0)
         {
             continue;
         }
 
         enemy->life2E48 = 0;
 
-        if ((enemy->primaryFlags337C &
-             Th09EclRunState::ENEMY_STATE_SPECIAL_INTERACTION) != 0)
+        if (enemy->primaryFlagBits337C.specialInteraction07 != 0)
         {
             reinterpret_cast<Float3 &>(enemy->worldPosition2DD4) =
                 reinterpret_cast<const Float3 &>(enemy->position2D74) +
