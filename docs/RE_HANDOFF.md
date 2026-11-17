@@ -144,8 +144,30 @@ and nonvolatile/direct focus snapshots were all reverted when they regressed
 the complete boss (typically 717-900 differences or a shorter body). The
 maintained 16-bit side / volatile focus snapshot is still a code-generation
 compensation, not the desired final natural source; its EDI/EBX allocation
-problem remains explicit work. No ASM, padding, full cold replay, or new
-exact-function claim was used.
+problem remains explicit work. A further isolated probe set covered direct
+`sideIndex` array indexing without a side local, short-side/full-index input
+aliases, unsigned/const/`size_t` side locals, pointer-base-plus-side increments,
+32-bit native byte-offset expressions, side references, and volatile direct
+mode snapshots. None improved the 183-byte frontier; several returned to the
+717-900-difference full-owner regressions. All probes were reverted.
+
+`CheckBulletCollision @ 0x0041DFF0` was also re-read from its original IDA
+control flow. The retail owner is a three-level retry structure: an inner
+region/type/delay scan, a middle rotated/AABB path, and an outer circle/hit/
+cancel path. Four distinct slot-advance sites are real: cancel miss, rotated
+final miss, AABB final miss, and the shared invalid/delay/early-geometry/
+circle miss. New natural C++ loop experiments did expose the original entry
+jump and loop-header schedule: a three-loop candidate reached **859/862 bytes
+and 664 unlike positions**, and a second explicit hit/geometry dispatch
+candidate reached **849/862 and 656**. Neither is ratchet-safe: the candidates
+introduce new differing positions, shorten the physical body, and/or reverse
+the original `this`/Bullet register roles and hit-dispatch layout. A direct
+position-parameter geometry variant further regressed to **827/862** and a larger stack
+frame. A flat explicit-label attempt reached 838/862 but changed additional
+bytes. These are diagnostic source probes only; none was installed. The
+maintained collision frontier remains **842/862, 705 masked differences**.
+No frontier baseline was changed and no ASM, padding, or full cold replay was
+used.
 
 Useful bounded checks:
 
@@ -399,8 +421,8 @@ instruction starting address can precede the differing byte offset.
 | **replay-save (ReplayInput.cpp)** | 0x00420C60 | 1,238/1,238, **2 masked bytes** | `+0xB7` and `+0xBB`: header-copy destination register ECX instead of retail EDI. |
 | **replay-begin-playback (ReplayInput.cpp)** | 0x00420840 | 540/540, **13 masked bytes** | Replay game-side restoration load order around `+0x14B–0x15F`. |
 | **player-movement (PlayerMovement.cpp)** | 0x0041C170 | 1,900/1,900, **4 masked bytes** | Config/side load order at `+0x127–0x12A`. |
-| **player-charge-attack (PlayerChargeAttackUpdate.cpp)** | 0x0041F810 | 1,210/1,210, **183 masked bytes** | EDI/EBX side/input allocation remains unresolved. Current short-side/volatile-mode compensation is not the desired natural source; 32-bit and nonvolatile alternatives regress the complete boss. |
-| **player-bullet-collision (PlayerCollisionHelpers.cpp)** | 0x0041DFF0 | 842/862, **705 masked bytes** | Collision/loop CFG, entry preheader and four distinct backedges; no ASM or fake alignment. |
+| **player-charge-attack (PlayerChargeAttackUpdate.cpp)** | 0x0041F810 | 1,210/1,210, **183 masked bytes** | EDI/EBX side/input allocation remains unresolved. Direct member-index, signed/unsigned/size_t locals, pointer/reference aliases, explicit native byte offsets and mode-snapshot variants did not improve the complete boss. |
+| **player-bullet-collision (PlayerCollisionHelpers.cpp)** | 0x0041DFF0 | 842/862, **705 masked bytes** | Three nested retry levels and four distinct slot-advance sites confirmed. 859/862 and 849/862 natural-loop candidates are not monotone-safe due new differences, size and register/hit-block scheduling; do not ratchet. |
 | **effect-added-callback (EffectManager.cpp)** | 0x0040D1C0 | 51/51, **4 masked bytes** | EDI global ANM manager vs ESI callback receiver setup order. |
 | **screen-shake-envelope (ScreenEffect.cpp)** | 0x004227A0 | 336/336, **26 masked bytes** | Volatile timer/receiver lifetimes and ESI/EDI selection. |
 | **title-update-result (TitleScreen.cpp)** | 0x004266B5 | 484/485, **167 masked bytes** | Control flow / signed character load at result state transition; note the candidate is one byte shorter. |

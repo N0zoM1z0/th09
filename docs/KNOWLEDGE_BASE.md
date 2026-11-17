@@ -12920,3 +12920,41 @@ compensation. The target uses EDI for the 32-bit side and EBX for the
 0x8E-byte ReplayInputState pointer; recovering that natural C++ lifetime and
 register allocation remains open. No ASM, padding or full cold replay was
 used.
+
+
+## 2026-11-17 GPT-web: Player collision nested-loop and ChargeAttack register probes
+
+A fresh IDA decompilation of `PlayerLifecycleView::CheckBulletCollision
+@ 0x0041DFF0` confirms three nested retry levels: the inner loop fetches a
+region and filters its type/delay, the middle path handles rotated and AABB
+geometry, and the outer path handles the circle test, shared hit dispatch and
+bullet-cancel decision. Retail has four physically distinct slot-advance
+paths: cancel miss; rotated final-bound miss; AABB final-bound miss; and the
+shared invalid/delay/early-geometry/circle miss. The corresponding original
+backedges and block order matter; reducing these to a single `for`/`continue`
+loop does not reproduce the retail CFG.
+
+Natural C++ nested-loop/label experiments reached **859/862 bytes / 664
+masked differences** and **849/862 / 656**, respectively. The better entry
+probe recovers the original initial jump, region-slot home and top-tested
+header. However, these candidates introduce new unlike positions and/or a
+shorter physical body; the prologue also assigns the Player receiver and
+Bullet argument to the opposite callee-saved registers, and the compiler
+places the shared hit block after geometry instead of retail's circle/hit/
+rotated/AABB order. A direct `position` parameter geometry variant shrank
+the stack frame from 0x34 to 0x38 and regressed to 827/862. A flat goto
+dispatch reached 838/862 but introduced other new bytes. All candidates were
+reverted; **the maintained frontier remains 842/862, 705 masked positions**.
+Do not accept a lower raw difference count unless it also preserves every
+previously matching position, full physical extent and the original register
+roles/CFG. No frontier update, ASM, padding or full cold replay was used.
+
+The 1,210-byte `UpdateChargeAttack` boss was probed again with direct
+`sideIndex` array indexing, no side local, pointer-base increments,
+full-width/unsigned/const/`size_t` side locals, references, explicit native
+32-bit byte-offset expressions and volatile direct focus-mode snapshots.
+These did not improve its **183-position** frontier; full-width alternatives
+usually regress to 717-900 differing positions. The maintained short-side /
+volatile mode snapshot remains an acknowledged code-generation compensation,
+not a claimed natural final source. The target's EDI side index and EBX
+`ReplayInputState *` lifetime is still unresolved. All probes were reverted.
