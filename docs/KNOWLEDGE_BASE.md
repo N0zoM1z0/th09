@@ -10786,3 +10786,50 @@ ownership remains an open type-recovery task,
 not a claimed match. No ASM, synthetic padding,
 forced compiler registers, whole-game replay,
 or new exact-function credit was used.
+
+## 2026-11-17 GPT-web: native Ending script cursors, VMs and surface owner
+
+The full `Ending::RunEndingScript` interpreter and its
+small shared helpers now walk the original file-backed
+`char *scriptCursor` with normal C++ pointer increments
+instead of the native integer-address macro. The
+original 68-byte local decoded text buffer uses
+ordinary `textBuffer[index]` element stores, and
+the sixteen constructed `Ending::endingVms[16]`
+entries use native array subscripts throughout the
+interpreter, update and draw callbacks.
+
+The former `EndingAnmVmScriptView` had a made-up
+0x21A-byte prefix solely to reach the ANM VM script
+index; it is removed. `endingVms[i].scriptIndex = 0`
+now targets the real, layout-verified +0x21A member.
+The declaration-only `EndingAnmManagerView`
+surface loader shim is also removed: the resource
+branch now calls the independently exact
+`AnmManager::LoadSurface @ 0x0043CAE0`
+on the original `g_AnmManager` receiver.
+The original ending parser, fade-control branches
+and standalone loading/constructor semantics
+remain unchanged.
+
+Seven isolated/combined natural C++ probes kept
+the entire **1,727-byte** original script-owner
+physical extent exact. The true Ending constructor
+uses a second pinned VC7.1 `/Ob0` profile,
+while the interpreter uses `/Ob1`; the maintained
+two-profile source-scoped replay passes
+**10/10 exact functions, 3,015 original physical
+bytes and 159 relocation fields**. In particular,
+the complete RunEndingScript body/switch tables
+are 1,727/1,727 with 88 fields and the 119-byte
+constructor has its original seven fields.
+The single real `LoadSurface` symbol rebind and
+31 compiler-local label spellings were updated
+only after proving unchanged PE target addresses,
+relocation offsets/types, original byte equality
+and local COFF section destinations.
+
+No ASM, placeholder/padding structs, synthetic
+instruction filling, whole-game cold replay,
+forced compiler registers or new authored
+exact-function promotion was used.

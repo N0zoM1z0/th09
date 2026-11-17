@@ -22,39 +22,25 @@ struct AsciiInputView
 };
 extern AsciiInputView g_AsciiInput;
 
-struct EndingAnmManagerView
-{
-    int LoadSurface(int surfaceIndex, const char *filename);
-};
-
-struct EndingAnmVmScriptView
-{
-    unsigned char unknown000[0x21A];
-    short scriptIndex;
-};
-typedef char EndingAnmVmScriptIndexAt21A[
-    (offsetof(EndingAnmVmScriptView, scriptIndex) == 0x21A) ? 1 : -1];
+typedef char EndingNativeAnmScriptIndex[
+    (offsetof(AnmVm, scriptIndex) == 0x21A) ? 1 : -1];
 
 // Neutral reconstruction aliases for target globals whose original owners remain unknown.
 extern int g_EndingLifecycleState;
 extern unsigned int g_EndingLifecycleFlags;
 extern int g_EndingActive;
 
-// The original file-backed script cursor advances through native i386
-// modulo-32 byte addresses, independently of C++ pointer-array bounds.
-#define TH09_ENDING_NATIVE_ADVANCE_CURSOR(owner, amount) \
-    (owner)->scriptCursor = reinterpret_cast<char *>( \
-        reinterpret_cast<unsigned int>((owner)->scriptCursor) + \
-        static_cast<unsigned int>(amount))
+// The script cursor walks the original file-backed character stream;
+// line and control-token parsing retain the target's live read order.
 
 int Ending::ReadScriptParameter()
 {
     int parameter = atol(this->scriptCursor);
 
     while (*this->scriptCursor != '\0')
-        TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+        ++this->scriptCursor;
     while (*this->scriptCursor == '\0')
-        TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+        ++this->scriptCursor;
 
     return parameter;
 }
@@ -147,14 +133,8 @@ void Ending::UpdateFade()
     }
 }
 
-// Original ending script VM selectors address one actual 0x2A4-byte AnmVm
-// array. Script text bytes are written through the real 68-byte stack buffer.
-// Preserve independent live wire reads and i386 modulo-32 address arithmetic.
-#include "EndingNativeVm.hpp"
-#define TH09_ENDING_NATIVE_TEXT(buffer, index) \
-    (*reinterpret_cast<char *>( \
-        reinterpret_cast<unsigned int>(&(buffer)[0]) + \
-        static_cast<unsigned int>(index)))
+// Script VM selectors address the actual 16-member AnmVm array.
+// The decoded line uses the genuine 68-byte local text buffer.
 
 int Ending::RunEndingScript()
 {
@@ -186,7 +166,7 @@ int Ending::RunEndingScript()
         if (this->pageWaitTimer <= 0)
         {
             for (int i = 0; i < 15; i++)
-                TH09_ENDING_NATIVE_VM(this, i).SetInterrupt(2);
+                endingVms[i].SetInterrupt(2);
             this->nextTextVmIndex = 0;
         }
         else
@@ -215,29 +195,29 @@ int Ending::RunEndingScript()
         switch (*this->scriptCursor)
         {
         case '@':
-            TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+            ++this->scriptCursor;
             switch (*this->scriptCursor)
             {
             case 'b':
-                if (reinterpret_cast<EndingAnmManagerView *>(g_AnmManager)->LoadSurface(
+                if (g_AnmManager->LoadSurface(
                         0, this->scriptCursor + 1) != 0)
                     return -1;
                 break;
 
             case 'a':
             {
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
                 int vmIndex = this->ReadScriptParameter();
                 int scriptIndex = this->ReadScriptParameter();
                 int spriteIndex = this->ReadScriptParameter();
-                this->endingAnm->ExecuteAnmIdx(&TH09_ENDING_NATIVE_VM(this, vmIndex), scriptIndex);
-                this->endingAnm->SetSprite(&TH09_ENDING_NATIVE_VM(this, vmIndex), spriteIndex);
+                this->endingAnm->ExecuteAnmIdx(&endingVms[vmIndex], scriptIndex);
+                this->endingAnm->SetSprite(&endingVms[vmIndex], spriteIndex);
                 break;
             }
 
             case 'V':
             {
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
                 int numerator = this->ReadScriptParameter();
                 int denominator = this->ReadScriptParameter();
                 this->backgroundScrollSpeed = (float)numerator / (float)denominator;
@@ -245,7 +225,7 @@ int Ending::RunEndingScript()
             }
 
             case 'v':
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
                 this->backgroundPosY = (float)this->ReadScriptParameter();
                 break;
 
@@ -259,8 +239,7 @@ int Ending::RunEndingScript()
             case 'R':
                 for (int i = 0; i < 16; i++)
                 {
-                    reinterpret_cast<EndingAnmVmScriptView *>(
-                        &TH09_ENDING_NATIVE_VM(this, i))->scriptIndex = 0;
+                    endingVms[i].scriptIndex = 0;
                 }
                 break;
 
@@ -271,19 +250,19 @@ int Ending::RunEndingScript()
                 break;
 
             case 'M':
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
                 fadeTime = (float)this->ReadScriptParameter();
                 g_Supervisor.FadeOutMusic(fadeTime);
                 break;
 
             case 's':
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
                 this->defaultLineWaitFrames = this->ReadScriptParameter();
                 this->minimumLineWaitFrames = this->ReadScriptParameter();
                 break;
 
             case 'c':
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
                 this->textColor = this->ReadScriptParameter();
                 break;
 
@@ -300,31 +279,31 @@ int Ending::RunEndingScript()
                 this->fadeMode = ENDING_FADE_OUT_WHITE;
             set_fade:
                 this->fadeTimer = 0;
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
                 this->fadeDuration = this->ReadScriptParameter() / 2;
                 this->UpdateFade();
                 break;
 
             case 'r':
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
                 this->pageWaitTimer = this->ReadScriptParameter();
                 this->pageSkipLockFrames = this->ReadScriptParameter();
                 this->lineWaitTimer = 0;
                 this->lineSkipLockFrames = 0;
                 while (*this->scriptCursor != '\n' && *this->scriptCursor != '\r')
-                    TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                    ++this->scriptCursor;
                 while (*this->scriptCursor == '\n' || *this->scriptCursor == '\r')
-                    TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                    ++this->scriptCursor;
                 goto end_of_parse;
 
             case 'w':
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
                 this->lineWaitTimer = this->ReadScriptParameter();
                 this->lineSkipLockFrames = this->ReadScriptParameter();
                 while (*this->scriptCursor != '\n' && *this->scriptCursor != '\r')
-                    TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                    ++this->scriptCursor;
                 while (*this->scriptCursor == '\n' || *this->scriptCursor == '\r')
-                    TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                    ++this->scriptCursor;
                 goto end_of_parse;
 
             case 'z':
@@ -332,9 +311,9 @@ int Ending::RunEndingScript()
             }
 
             while (*this->scriptCursor != '\n' && *this->scriptCursor != '\r')
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
             while (*this->scriptCursor == '\n' || *this->scriptCursor == '\r')
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
             break;
 
         case '\0':
@@ -343,14 +322,14 @@ int Ending::RunEndingScript()
             if (textIndex != 0)
             {
                 g_AnmManager->DrawTextLeft(
-                    &TH09_ENDING_NATIVE_VM(this, this->nextTextVmIndex), this->textColor, 0,
+                    &endingVms[this->nextTextVmIndex], this->textColor, 0,
                     textBuffer);
-                TH09_ENDING_NATIVE_VM(this, this->nextTextVmIndex).SetInterrupt(1);
+                endingVms[this->nextTextVmIndex].SetInterrupt(1);
             }
             while (*this->scriptCursor == '\n' || *this->scriptCursor == '\0' ||
                    *this->scriptCursor == '\r')
             {
-                TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 1);
+                ++this->scriptCursor;
             }
             if (g_AsciiInput.IsHeld(0x1001))
             {
@@ -368,10 +347,10 @@ lineWaitConfigured:
 
         default:
             temporary = textIndex;
-            TH09_ENDING_NATIVE_TEXT(textBuffer, textIndex) = *this->scriptCursor;
-            TH09_ENDING_NATIVE_TEXT(textBuffer, static_cast<unsigned int>(temporary) + 1u) = *(this->scriptCursor + 1);
+            textBuffer[textIndex] = *this->scriptCursor;
+            textBuffer[static_cast<unsigned int>(temporary) + 1u] = *(this->scriptCursor + 1);
             textIndex = static_cast<int>(static_cast<unsigned int>(temporary) + 2u);
-            TH09_ENDING_NATIVE_ADVANCE_CURSOR(this, 2);
+            this->scriptCursor += 2;
             break;
         }
     }
@@ -429,7 +408,7 @@ loop:
         return 0;
 
     for (int i = 0; i < 15; i++)
-        g_AnmManager->ExecuteScript(&TH09_ENDING_NATIVE_VM(ending, i));
+        g_AnmManager->ExecuteScript(&ending->endingVms[i]);
 
     if (ending->hasSeenEnding && g_AsciiInput.IsHeld(0x100) && frameSkip < 8)
     {
@@ -444,7 +423,7 @@ int Ending::OnDraw(Ending *ending)
     g_AnmManager->CopySurfaceToBackbuffer2(
         0, 0, 0, (int)ending->backgroundPosX, (int)ending->backgroundPosY, 640, 480);
     for (int i = 0; i < 15; i++)
-        g_AnmManager->Draw2D(&TH09_ENDING_NATIVE_VM(ending, i));
+        g_AnmManager->Draw2D(&ending->endingVms[i]);
     ending->DrawFade();
     return 1;
 }
@@ -480,6 +459,3 @@ int Ending::RegisterChain()
     g_Chain.AddToDrawChain(ending->drawChain, 4);
     return 0;
 }
-
-#undef TH09_ENDING_NATIVE_VM
-#undef TH09_ENDING_NATIVE_TEXT
