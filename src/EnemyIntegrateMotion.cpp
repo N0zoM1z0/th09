@@ -14,7 +14,7 @@ void EnemyView::IntegrateMotion()
         reinterpret_cast<const Float3 &>(this->previousPosition2DA4);
     this->previousPosition2DA4 = this->position2D74;
 
-    if ((this->secondaryFlags3380 & 0x1000U) != 0)
+    if (this->secondaryFlagBits3380.movement.interactionTriggered12 != 0)
     {
         this->position2D74.x +=
             g_Supervisor.framerateMultiplier5B8 *
@@ -25,7 +25,7 @@ void EnemyView::IntegrateMotion()
     }
     else
     {
-        if ((this->primaryFlags337C & 0x8000U) == 0)
+        if (this->primaryFlagBits337C.mirrorMovementX15 == 0)
             this->position2D74.x +=
                 g_Supervisor.framerateMultiplier5B8 *
                 this->velocity2D8C.x;

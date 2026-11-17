@@ -9876,3 +9876,26 @@ strict COFF/PE unit comparison also returned exact. There are no raw
 `0x000E0000`, `1` or `2` Enemy-state masks left in this body. This is native
 C++ source refinement rather than an additional function promotion; the
 whole-product cold replay was not run.
+
+## 2026-11-17 GPT-web: native Enemy motion and attached Effect release leaves
+
+`EnemyView::IntegrateMotion` now reads the actual native
+`secondaryFlagBits3380.movement.interactionTriggered12` when selecting
+alternate velocity and `primaryFlagBits337C.mirrorMovementX15` when
+applying the normal X velocity sign. Their original 0x1000/0x8000
+mask tests are gone, with movement math, Float3 operations and frame
+scaling untouched.
+
+`Th09EclRunState::ReleaseAttachedEffects` now operates on the genuine
+`EnemyView::attachedEffectState53B4`, eliminating a private shadow
+`EnemyAttachedEffectsView` with 0x53B4 bytes of artificial prefix storage.
+Effect release writes the actual `Effect::unknown0C6[0]` member, not
+`reinterpret_cast<unsigned char *>(effect)[0xC6]`. The byte's semantic
+role beyond this release operation remains unproven; its physical
+offset is checked with a native layout assertion. The 24-pointer state
+array and count field belong to the existing shared Enemy allocation.
+
+Strict PE/COFF comparisons and the selected-source pinned VC7.1 replay
+prove **2/2 exact functions**, **252/252 physical bytes** and all **4**
+original relocation fields. This is natural C++ layout/field recovery,
+not ASM, padding, a new exact-function promotion or a full cold replay.
