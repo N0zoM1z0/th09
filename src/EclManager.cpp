@@ -378,7 +378,7 @@ static void SetExtraAnmScript(
 
     if (script >= 0)
     {
-        if ((View(enemy)->primaryFlags337C & ENEMY_ALTERNATE_ANM_BANK) != 0)
+        if (enemy->primaryFlagBits337C.alternateAnmBank31 != 0)
         {
             reinterpret_cast<AnmLoaded *>(AlternateAnm(enemy))->
                 SetAndExecuteScriptIdx(
@@ -540,8 +540,7 @@ static void CallSubroutine(
             static_cast<unsigned int>(
                 static_cast<short>(instruction->nextOffset06)));
 
-    if ((enemy->primaryFlags337C &
-         Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
+    if (enemy->primaryFlagBits337C.callStackDisabled23 == 0)
         *reinterpret_cast<Th09EclContextView *>(
             reinterpret_cast<unsigned int>(enemy->activeCallStack2CE4) +
             static_cast<unsigned int>(static_cast<int>(enemy->activeCallDepth2D2A)) *
@@ -556,8 +555,7 @@ static void CallSubroutine(
            &enemy->activeContext2CE0->selectedManager000->timelineState08.sharedInts160[0],
            0x20);
 
-    if ((enemy->primaryFlags337C &
-         Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0 &&
+    if (enemy->primaryFlagBits337C.callStackDisabled23 == 0 &&
         enemy->activeCallDepth2D2A < TH09_ECL_MAIN_CALL_STACK_CAPACITY - 1)
         enemy->activeCallDepth2D2A = static_cast<short>(
             static_cast<unsigned short>(enemy->activeCallDepth2D2A) + 1u);
@@ -609,8 +607,7 @@ th09_ecl_enter_pending_subroutine:
             static_cast<unsigned int>(
                 static_cast<short>(instruction->nextOffset06)));
 
-    if ((enemy->primaryFlags337C &
-         Th09EclRunState::ENEMY_STATE_CALL_STACK_DISABLED) == 0)
+    if (enemy->primaryFlagBits337C.callStackDisabled23 == 0)
     {
         memcpy(
             &*reinterpret_cast<Th09EclContextView *>(

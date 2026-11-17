@@ -9803,3 +9803,28 @@ non-relocation byte differences, identical relocation offsets/types, actual
 same-section COFF definitions, and each original PE destination. No exact
 function membership or target bytes changed; no whole-product cold replay
 was run.
+
+## 2026-11-17 GPT-web: native call-stack and ANM bank flags in the giant ECL owner
+
+The TH09 `RunEcl` source and its `Th09EclRunControl::CallSubroutine`
+helper no longer test the opaque `0x00800000` primary flag mask: they read
+`enemy->primaryFlagBits337C.callStackDisabled23`. That flag determines
+whether an instruction's context is copied into the active call stack and
+whether the call depth advances. In the same compiler carrier,
+`Th09EclRunMovement::SetExtraAnmScript` now reads
+`enemy->primaryFlagBits337C.alternateAnmBank31` to select the already
+identified primary versus alternate ANM script bank, instead of masking
+`0x80000000`. The existing Enemy view shares both bits with the ECL run
+state; these are native typed accesses, not ASM, fake data or register hints.
+
+The selected `EclManager.cpp` replay after recompilation proved **84/84
+exact functions, 45,420 physical bytes and 1,987 relocation fields** over
+the two pinned `/Ob1` and `/Ob0` profiles. This includes the complete
+14,792-byte `RunEcl` body plus its 15,564-byte physical switch-table
+comparison range. The non-exact 3,900-byte
+`EnemyManagerView::OnUpdate` remains at only its two previously recorded
+register bytes. Four renumbered VC7.1 `$L` symbols were refreshed only after
+verifying unchanged COFF relocation types and offsets, zero unmasked PE
+byte differences and each original retail destination. No whole-product
+cold replay ran, and no new exactness credit is claimed for the existing
+exact functions.
