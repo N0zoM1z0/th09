@@ -443,11 +443,10 @@ int TitleScreenView::OnUpdateOptions()
             this->PlayMenuSound(11, 0);
         }
     }
-    // The persistent signed Title counters advance as native i386
-    // DWORD words rather than overflowing signed C++ integers.
-    ++*reinterpret_cast<u32 *>(&this->optionsFrameCounter);
-    ++*reinterpret_cast<u32 *>(&this->stateTimer);
-    ++*reinterpret_cast<u32 *>(&this->stateTimer2);
+    // Advance the three original Title screen/timer members directly.
+    ++this->optionsFrameCounter;
+    ++this->stateTimer;
+    ++this->stateTimer2;
     return 1;
 }
 
