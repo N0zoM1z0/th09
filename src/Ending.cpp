@@ -60,8 +60,8 @@ void Ending::DrawFade()
 void Ending::UpdateFade()
 {
     int alpha;
-    // The retail i386 fade product and timer INC operate on modulo-32
-    // DWORDs before the original signed division and alpha-byte shift.
+    // The native fade timer is a persistent 32-bit member; the alpha
+    // calculation retains its original arithmetic and branch ordering.
 
     switch (this->fadeMode)
     {
@@ -77,7 +77,7 @@ void Ending::UpdateFade()
                 static_cast<int>(static_cast<unsigned int>(this->fadeTimer) * 255u) /
                 this->fadeDuration));
             this->fadeColor = (unsigned int)alpha << 24;
-            ++*reinterpret_cast<unsigned int *>(&this->fadeTimer);
+            ++this->fadeTimer;
         }
         break;
 
@@ -92,7 +92,7 @@ void Ending::UpdateFade()
                 static_cast<unsigned int>(this->fadeTimer) * 255u) /
                 this->fadeDuration;
             this->fadeColor = (unsigned int)alpha << 24;
-            ++*reinterpret_cast<unsigned int *>(&this->fadeTimer);
+            ++this->fadeTimer;
         }
         break;
 
@@ -108,7 +108,7 @@ void Ending::UpdateFade()
                 static_cast<unsigned int>(this->fadeTimer) * 255u) /
                 this->fadeDuration;
             this->fadeColor = (0xFFFFFFFFu - ((unsigned int)alpha << 24)) | 0x00FFFFFFu;
-            ++*reinterpret_cast<unsigned int *>(&this->fadeTimer);
+            ++this->fadeTimer;
         }
         break;
 
@@ -123,7 +123,7 @@ void Ending::UpdateFade()
                 static_cast<unsigned int>(this->fadeTimer) * 255u) /
                 this->fadeDuration;
             this->fadeColor = ((unsigned int)alpha << 24) | 0x00FFFFFFu;
-            ++*reinterpret_cast<unsigned int *>(&this->fadeTimer);
+            ++this->fadeTimer;
         }
         break;
 
