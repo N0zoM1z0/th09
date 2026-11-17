@@ -25,7 +25,8 @@ struct Th09EclEnemyPrimaryFlagBits
     unsigned int allowOffscreen25 : 1;
     unsigned int skipMovement26 : 1;
     unsigned int pauseWithPlayer27 : 1;
-    unsigned int unknown28_31 : 4;
+    unsigned int unknown28 : 1;
+    unsigned int unknown29_31 : 3;
 };
 // The same native Enemy +0x3380 DWORD controls no-death behavior in ECL
 // movement. Other bits remain unknown rather than importing another game.

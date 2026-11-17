@@ -825,7 +825,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             {
             case 3:
             {
-                enemy->primaryFlags337C &= 0xFFF1FFF7;
+                enemy->primaryFlagBits337C.damageable03 = 0;
+                enemy->primaryFlagBits337C.deathMode17 = 0;
                 enemy->life2E48 = 1;
                 if (enemy->deathEffectVariant3368 >= 0)
                 {
@@ -854,7 +855,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                     player->timer303C8 = 90;
                     manager->sideState320->playerLifecycle04->SetUpdateState(3);
                 }
-                enemy->primaryFlags337C &= 0xE7FFFFFF;
+                enemy->primaryFlagBits337C.pauseWithPlayer27 = 0;
+                enemy->primaryFlagBits337C.unknown28 = 0;
                 break;
             }
 
