@@ -1,7 +1,6 @@
 #include "RuntimePolarMath.hpp"
 #include "BulletManager.hpp"
 #include "EtamaNativePoolLimits.hpp"
-#include "EtamaNativeDrawBuckets.hpp"
 #include "ZunMemory.hpp"
 #include "SoundPlayer.hpp"
 #include "RuntimeAngleMath.hpp"
@@ -128,24 +127,9 @@ enum BulletAimMode
     BULLET_AIM_RANDOM = 8,
 };
 
-// Etama's playable sides use the actual 0x38-byte GameManager records.
-// An out-of-range signed selector still forms the original Win32 address.
-static inline BulletSideStateView &NativeEtamaGameSide(int index)
-{
-    return *reinterpret_cast<BulletSideStateView *>(
-        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
-        static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0]));
-}
-
-// Both retail sprite-offset tables contain native DWORD entries, indexed
-// independently from the live color/offset without an added bounds gate.
-static inline int NativeEtamaSpriteOffset(const int *table, int index)
-{
-    return *reinterpret_cast<const int *>(
-        reinterpret_cast<unsigned int>(table) +
-        static_cast<unsigned int>(index) * sizeof(int));
-}
-
+// Etama's playable sides use real 0x38-byte GameManager records.
+// The two sprite-offset tables likewise contain native DWORD elements;
+// retain the original index expressions without extra range checks.
 static AnmLoadedSprite *GetLoadedSprite(const AnmVm *vm)
 {
     return vm->loadedSprite;
@@ -174,13 +158,13 @@ void EtamaController::SelectBulletSprite(
         if (sprite->heightPx <= 16.0f)
         {
             this->bulletAnm->SetSprite(
-                dst, TH09_ETAMA_NATIVE_SPRITE_ID(baseSprite, NativeEtamaSpriteOffset(g_BulletSpriteOffsetSmall, offset)));
+                dst, TH09_ETAMA_NATIVE_SPRITE_ID(baseSprite, g_BulletSpriteOffsetSmall[offset]));
             return;
         }
         else if (sprite->heightPx <= 32.0f)
         {
             this->bulletAnm->SetSprite(
-                dst, TH09_ETAMA_NATIVE_SPRITE_ID(baseSprite, NativeEtamaSpriteOffset(g_BulletSpriteOffsetMedium, offset)));
+                dst, TH09_ETAMA_NATIVE_SPRITE_ID(baseSprite, g_BulletSpriteOffsetMedium[offset]));
             return;
         }
         else
@@ -417,7 +401,7 @@ Bullet *EtamaController::SpawnSingleBullet(
         {
             if (bullet->state == BULLET_STATE_UNUSED)
                 break;
-            bullet = reinterpret_cast<Bullet *>(reinterpret_cast<unsigned int>(bullet) + sizeof(*bullet));
+            ++bullet;
             if (bullet->state == BULLET_STATE_SENTINEL)
                 bullet = &this->primaryBullets[0];
         }
@@ -431,7 +415,7 @@ Bullet *EtamaController::SpawnSingleBullet(
         {
             if (bullet->state == BULLET_STATE_UNUSED)
                 break;
-            bullet = reinterpret_cast<Bullet *>(reinterpret_cast<unsigned int>(bullet) + sizeof(*bullet));
+            ++bullet;
             if (bullet->state == BULLET_STATE_SENTINEL)
                 bullet = &this->secondaryBullets[0];
         }
@@ -550,14 +534,14 @@ Bullet *EtamaController::SpawnSingleBullet(
             this->bulletAnm->SetSprite(
                 &bullet->sprites.despawnVm,
                 static_cast<int>(static_cast<unsigned int>(despawnBaseSprite) +
-                    static_cast<unsigned int>(NativeEtamaSpriteOffset(g_BulletSpriteOffsetSmall, descriptor->color))));
+                    static_cast<unsigned int>(g_BulletSpriteOffsetSmall[descriptor->color])));
         }
         else if (bullet->sprites.bulletVm.loadedSprite->heightPx <= 32.0f)
         {
             this->bulletAnm->SetSprite(
                 &bullet->sprites.despawnVm,
                 static_cast<int>(static_cast<unsigned int>(despawnBaseSprite) +
-                    static_cast<unsigned int>(NativeEtamaSpriteOffset(g_BulletSpriteOffsetMedium, descriptor->color))));
+                    static_cast<unsigned int>(g_BulletSpriteOffsetMedium[descriptor->color])));
         }
         else
         {
@@ -620,9 +604,7 @@ Bullet *EtamaController::SpawnBulletPatternPrimary(BulletSpawnDescriptor *descri
     float angleToPlayer;
     int index2;
     Bullet *result;
-    descriptor->templateSprites = reinterpret_cast<BulletTypeSprites *>(
-        reinterpret_cast<unsigned int>(&this->bulletTypeSprites[0]) +
-        static_cast<unsigned int>(descriptor->bulletType) * sizeof(this->bulletTypeSprites[0]));
+    descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
     angleToPlayer = reinterpret_cast<BulletPlayerView *>(this->sideState->player04)->AngleToPoint(&descriptor->position);
     for (index2 = 0; index2 < descriptor->count2; ++index2)
     {
@@ -645,9 +627,7 @@ Bullet *EtamaController::SpawnBulletPatternSecondary(BulletSpawnDescriptor *desc
     float angleToPlayer;
     int index2;
     Bullet *result;
-    descriptor->templateSprites = reinterpret_cast<BulletTypeSprites *>(
-        reinterpret_cast<unsigned int>(&this->bulletTypeSprites[0]) +
-        static_cast<unsigned int>(descriptor->bulletType) * sizeof(this->bulletTypeSprites[0]));
+    descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
     angleToPlayer = reinterpret_cast<BulletPlayerView *>(this->sideState->player04)->AngleToPoint(&descriptor->position);
     for (index2 = 0; index2 < descriptor->count2; ++index2)
     {
@@ -684,7 +664,7 @@ int EtamaController::OnUpdate(EtamaController *controller)
     controller->activeSecondaryCount = 0;
     controller->ClearDrawBuckets();
 
-    for (int i = 0; i < EtamaNativePoolLimits::LinearScanCount; bullet = reinterpret_cast<Bullet *>(reinterpret_cast<unsigned int>(bullet) + sizeof(*bullet)), ++i)
+    for (int i = 0; i < EtamaNativePoolLimits::LinearScanCount; ++bullet, ++i)
     {
         if (bullet->state == BULLET_STATE_UNUSED || bullet->state == BULLET_STATE_SENTINEL)
             continue;
@@ -692,8 +672,8 @@ int EtamaController::OnUpdate(EtamaController *controller)
         if ((controller->sideState->flags & 1) != 0)
         {
             bullet->nextInDrawBucket =
-                TH09_ETAMA_NATIVE_DRAW_BUCKET(controller, bullet->sprites.drawBucketIndex);
-            TH09_ETAMA_NATIVE_DRAW_BUCKET(controller, bullet->sprites.drawBucketIndex) = bullet;
+                controller->drawBuckets[bullet->sprites.drawBucketIndex];
+            controller->drawBuckets[bullet->sprites.drawBucketIndex] = bullet;
             continue;
         }
 
@@ -868,15 +848,15 @@ updateTimers:
         bullet->stateTimer++;
         bullet->activeTimer++;
         bullet->nextInDrawBucket =
-            TH09_ETAMA_NATIVE_DRAW_BUCKET(controller, bullet->sprites.drawBucketIndex);
-        TH09_ETAMA_NATIVE_DRAW_BUCKET(controller, bullet->sprites.drawBucketIndex) = bullet;
+            controller->drawBuckets[bullet->sprites.drawBucketIndex];
+        controller->drawBuckets[bullet->sprites.drawBucketIndex] = bullet;
     }
 
     if ((controller->sideState->flags & 1) != 0)
         return 1;
 
     Laser *laser = &controller->lasers[0];
-    for (int i = 0; i < EtamaNativePoolLimits::LaserRecordCount; ++i, laser = reinterpret_cast<Laser *>(reinterpret_cast<unsigned int>(laser) + sizeof(*laser)))
+    for (int i = 0; i < EtamaNativePoolLimits::LaserRecordCount; ++i, ++laser)
     {
         if (laser->inUse == 0)
             continue;
@@ -1019,10 +999,9 @@ EtamaController *EtamaController::Register(int sideIndex)
     controller = static_cast<EtamaController *>(g_ZunMemory.AddToRegistry(
         controller, sizeof(EtamaController), const_cast<char *>("EtamaCtrlInf")));
     controller->Initialize();
-    controller->sideState = &NativeEtamaGameSide(sideIndex);
+    controller->sideState = &g_GameManager.sides[sideIndex];
     controller->sideIndex = sideIndex;
-    controller->opponentSideState = &NativeEtamaGameSide(
-        static_cast<int>(1u - static_cast<unsigned int>(sideIndex)));
+    controller->opponentSideState = &g_GameManager.sides[static_cast<int>(1u - static_cast<unsigned int>(sideIndex))];
 
     controller->calcChain = g_Chain.CreateElem(
         reinterpret_cast<ChainCallback>(EtamaController::OnUpdate));

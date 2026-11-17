@@ -10869,3 +10869,48 @@ byte, relocation offset/type, same-section COFF
 definition, and original PE destination proofs.
 No ASM, padding simulation, forced registers,
 whole-game cold replay, or new exact owner was claimed.
+
+## 2026-11-17 GPT-web: native Etama pool, draw bucket, and sprite indexing
+
+The complete original-bound `EtamaController::OnUpdate`
+and `EtamaController::SpawnSingleBullet` bosses now
+traverse their genuine native `Bullet` and `Laser`
+pool entries using ordinary `++bullet` and
+`++laser` pointer advancement. The active bullet
+draw-group heads are the original
+`EtamaController::drawBuckets[6]` members rather
+than a fabricated integer-address array; both
+bucket reads and pushes remain independently live.
+`SpawnBulletPatternPrimary/Secondary` now retrieve
+the genuine `bulletTypeSprites[bulletType]` descriptor
+directly, preserving the template's 0xD48-byte
+record stride.
+
+Native side-selection now uses the real
+`g_GameManager.sides[sideIndex]` and the
+opponent-side member, removing a local typed-byte
+address helper. Original bullet color offsets are
+directly read from `g_BulletSpriteOffsetSmall[]`
+and `g_BulletSpriteOffsetMedium[]`; the separate
+unsigned-indexing helper is gone. Original i386
+signed-to-unsigned sprite-ID arithmetic remains
+explicit where required for its original byte
+pattern and no new bounds check or alternate
+spawn behavior has been introduced.
+
+Seven isolated/combined pinned VC7.1 probes
+covered native side pointers, sprite offsets,
+three pointer increments, pattern tables and
+draw buckets. All preserved the full physical
+**2,216-byte Etama OnUpdate** and **1,932-byte
+SpawnSingleBullet** owners, plus their collateral
+native registration owner. The maintained source's
+three-profile selected replay passed **18/18
+existing exact functions, 6,711 physical bytes,
+259 original relocation fields**. Sixteen
+compiler-private local label updates were
+independently proved against unchanged original
+PE destinations, same-section COFF definitions,
+and relocation type/offset. No new exact-function
+promotion, ASM, artificial padding, forced
+registers or whole-game cold replay was involved.
