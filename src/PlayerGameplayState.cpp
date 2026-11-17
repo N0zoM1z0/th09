@@ -357,11 +357,13 @@ void __fastcall PlayerUpdateSelectorState(void *state)
     if (static_cast<PlayerLifecycleView *>(header->selfLink78)->position1B88.y < 192.0f)
         cell += 4;
 
-    reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[0]).x = 28.0f;
-    reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[0]).y = 28.0f;
-    reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[1]).x = 10.0f;
-    reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[1]).y = 10.0f;
-    reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[2]) = static_cast<PlayerLifecycleView *>(header->selfLink78)->hurtboxHalfSize;
+    // These three constructor-initialized collision vectors share the exact
+    // native XYZ storage with the existing PlayerPositionView* workspace.
+    halfSizes[0].x = 28.0f;
+    halfSizes[0].y = 28.0f;
+    halfSizes[1].x = 10.0f;
+    halfSizes[1].y = 10.0f;
+    halfSizes[2] = static_cast<PlayerLifecycleView *>(header->selfLink78)->hurtboxHalfSize;
 
     {
         EnemyManagerView *manager = static_cast<PlayerLifecycleView *>(header->selfLink78)->sideState->enemyManager10;
@@ -401,7 +403,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
                     else if (candidate.y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
                         candidate.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
                 }
-                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[halfSizeIndex]), radii[halfSizeIndex]) != NULL))
+                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, halfSizes[halfSizeIndex], radii[halfSizeIndex]) != NULL))
                     goto pattern_selected;
             }
         }
@@ -520,7 +522,7 @@ pattern_selected:
                 int testHalfSize = halfSizeIndex < 2
                 ? halfSizeIndex + 1
                     : halfSizeIndex;
-                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[testHalfSize]), radii[testHalfSize]) != NULL))
+                if (!((candidatePlayer)->collisionQuery36C.FindCollision(candidate, halfSizes[testHalfSize], radii[testHalfSize]) != NULL))
                 {
                     selectedPattern = candidatePattern;
                     patternState.retryCooldown50 = 8;
@@ -610,7 +612,7 @@ pattern_selected:
                                 else if (candidate.y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
                                     candidate.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
                             }
-                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[1]), 0.0f) == NULL)
+                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, halfSizes[1], 0.0f) == NULL)
                                 g_ReplayInputStates[static_cast<PlayerLifecycleView *>(header->selfLink78)->sideIndex].historyCurrent |=
                                     static_cast<unsigned short>(g_PlayerPatternFlags[pattern]);
                             else
@@ -638,7 +640,7 @@ pattern_selected:
                                 else if (candidate.y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
                                     candidate.y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
                             }
-                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, reinterpret_cast<PlayerPositionView &>(constructedHalfSizes[1]), 0.0f) == NULL)
+                            if (trackingPlayer->collisionQuery36C.FindCollision(candidate, halfSizes[1], 0.0f) == NULL)
                                 g_ReplayInputStates[static_cast<PlayerLifecycleView *>(header->selfLink78)->sideIndex].historyCurrent |=
                                     static_cast<unsigned short>(g_PlayerPatternFlags[pattern]);
                             else
