@@ -10432,3 +10432,43 @@ relocations**. Exactly 18 compiler-private labels were
 rebound only after original-PE destination, COFF same-section,
 and relocation offset/type equality proofs. No whole-product
 cold replay, ASM, padding or new exact-function claim was used.
+
+## 2026-11-17 GPT-web: native FrontMessage portrait VMs and decoding
+
+The full `FrontMessageRuntimeView::Update` message/portrait
+switch owner no longer projects the eight native
+`messageVms14` into a separate `FrontMessagePortraitPair`
+array or computes a portrait address by casting a 32-bit
+integer. All 38 portrait accesses now select the
+original `AnmVm` owner directly as
+`messageVms14[2u * unsigned(index) + lane]` where the lane
+is zero or one and the index retains retail's modulo-32
+arithmetic. Interrupt publication, Sprite assignment and
+script execution retain their exact call order.
+
+The existing text-VM and palette arrays are indexed
+through real C++ array members instead of the
+`FRONT_MESSAGE_NATIVE_SLOT` pointer fabrication macro.
+The shared skip/confirm input reads the genuine third
+`ReplayInputState` element instead of a reinterpreted
+byte address; packed variable-length wire short/byte
+arguments keep their original explicitly sized address
+arithmetic. The independent string decode leaf uses
+native `++output` and `++source` pointer operations,
+not integer-then-pointer casts. No new bounds checks,
+lookup helpers, synthetic copies or state was introduced.
+
+Independent probes for direct palette slots, shared
+input, native decode pointers, and native portrait
+indices reproduced the two original target owners.
+The maintained source-scoped pinned VC7.1 replay
+passes **2/2 exact functions, 3,007 physical bytes,
+167 relocation fields**: the full **2,968-byte**
+`Update` switch extent has 167 exact relocation
+fields, and the `DecodeFrontMessageString` leaf is
+**39/39 bytes** with zero. Thirty compiler-private
+labels were rebound only after proving same-section
+COFF definitions, identical original PE destinations
+and zero nonrelocation byte differences. No ASM,
+padding, whole-game cold replay or new exact-function
+credit was used.
