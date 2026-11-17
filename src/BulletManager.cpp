@@ -7,6 +7,7 @@
 #include "AnmManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "PlayerAngleView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 
@@ -31,23 +32,13 @@ typedef char BulletNativeAnmLoadedSpriteDimensions[
 
 extern RngRuntimeView g_Rng;
 
-struct BulletCancelCollisionView
-{
-    int CheckBulletCancelCollision(Float3 *position, Float3 *collisionSize, Bullet *bullet);
-};
-
-
-struct BulletPlayerView
-{
-    unsigned char unknown000[0x36C];
-    BulletCancelCollisionView cancelCollision;
-
-    float AngleToPoint(Float3 *point);
-    int CheckGrazeCollision(Float3 *position, Float3 *collisionSize, Bullet *bullet);
-    int CheckBulletCollision(Float3 *position, Float3 *collisionSize, Bullet *bullet);
-    void CalcLaserHitbox(
-        Float3 *center, Float3 *size, Float3 *origin, float angle, int pulse);
-};
+// Bullet collisions use the constructed PlayerLifecycleView. The separately
+// exact angle receiver is a projection onto that same Player allocation,
+// with both native position types sharing their full XYZ layout.
+typedef char BulletNativePlayerAngleStorage[
+    (offsetof(PlayerAngleView, position1B88) == offsetof(PlayerLifecycleView, position1B88) &&
+     sizeof(PlayerAngleFloat3View) == sizeof(Float3) &&
+     sizeof(PlayerPositionView) == sizeof(Float3)) ? 1 : -1];
 
 // The retained Bullet side subview is physically one native GameManager
 // side slot; the original world flags and playfield callee belong to the
@@ -306,7 +297,7 @@ static void UpdateBulletAimedDirectionChange(Bullet *bullet)
             bullet->exStates[3].directionChangeRepeatCount)
             bullet->activeTransformFlags &= ~BULLET_TRANSFORM_CHANGE_DIRECTION_AIMED;
         bullet->angle = AddNormalizeAngle(
-            reinterpret_cast<BulletPlayerView *>(bullet->controller->sideState->player04)->AngleToPoint(&bullet->position),
+            reinterpret_cast<PlayerAngleView *>(bullet->controller->sideState->player04)->AngleToPoint(reinterpret_cast<PlayerAngleFloat3View *>(&bullet->position)),
             bullet->exStates[3].directionChangeAngle);
         bullet->speed = bullet->exStates[3].directionChangeSpeed;
         magnitude = bullet->speed;
@@ -596,7 +587,7 @@ Bullet *EtamaController::SpawnBulletPatternPrimary(BulletSpawnDescriptor *descri
     int index2;
     Bullet *result;
     descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
-    angleToPlayer = reinterpret_cast<BulletPlayerView *>(this->sideState->player04)->AngleToPoint(&descriptor->position);
+    angleToPlayer = reinterpret_cast<PlayerAngleView *>(this->sideState->player04)->AngleToPoint(reinterpret_cast<PlayerAngleFloat3View *>(&descriptor->position));
     for (index2 = 0; index2 < descriptor->count2; ++index2)
     {
         for (index1 = 0; index1 < descriptor->count1; ++index1)
@@ -619,7 +610,7 @@ Bullet *EtamaController::SpawnBulletPatternSecondary(BulletSpawnDescriptor *desc
     int index2;
     Bullet *result;
     descriptor->templateSprites = &this->bulletTypeSprites[descriptor->bulletType];
-    angleToPlayer = reinterpret_cast<BulletPlayerView *>(this->sideState->player04)->AngleToPoint(&descriptor->position);
+    angleToPlayer = reinterpret_cast<PlayerAngleView *>(this->sideState->player04)->AngleToPoint(reinterpret_cast<PlayerAngleFloat3View *>(&descriptor->position));
     for (index2 = 0; index2 < descriptor->count2; ++index2)
     {
         for (index1 = 0; index1 < descriptor->count1; ++index1)
@@ -798,8 +789,9 @@ int EtamaController::OnUpdate(EtamaController *controller)
                 int collisionResult;
                 if (bullet->isGrazed == 0)
                 {
-                    collisionResult = reinterpret_cast<BulletPlayerView *>(controller->sideState->player04)->CheckGrazeCollision(
-                        &bullet->position, &bullet->sprites.collisionSize, bullet);
+                    collisionResult = controller->sideState->player04->CheckGrazeCollision(
+                        reinterpret_cast<PlayerPositionView *>(&bullet->position),
+                        reinterpret_cast<PlayerPositionView *>(&bullet->sprites.collisionSize), bullet);
                     if (collisionResult == 1)
                     {
                         bullet->isGrazed = 1;
@@ -813,8 +805,9 @@ int EtamaController::OnUpdate(EtamaController *controller)
                     }
                 }
 
-                collisionResult = reinterpret_cast<BulletPlayerView *>(controller->sideState->player04)->CheckBulletCollision(
-                    &bullet->position, &bullet->sprites.collisionSize, bullet);
+                collisionResult = controller->sideState->player04->CheckBulletCollision(
+                    reinterpret_cast<PlayerPositionView *>(&bullet->position),
+                    reinterpret_cast<PlayerPositionView *>(&bullet->sprites.collisionSize), bullet);
                 if (collisionResult != 0 &&
                     (collisionResult != 2 ||
                      (bullet->transformFlags & BULLET_TRANSFORM_CANCEL_IMMUNE) == 0))
