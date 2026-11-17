@@ -697,8 +697,8 @@ int SoundPlayer::ProcessQueues()
 loop:
     queuePhase = FALSE;
 
-    // The live signed BGM command step is a native i386 DWORD state word.
-    // Advance/retry it modulo 2^32, retaining original state transitions.
+    // Each command has its native signed step word. Increment/decrement
+    // that actual member while preserving the original retry transitions.
     switch (commandCursor->opcode)
     {
     case SOUNDPLAYER_COMMAND_SET_VOLUME:
@@ -711,7 +711,7 @@ loop:
         {
             if (commandCursor->step != 0)
             {
-                ++*reinterpret_cast<unsigned int *>(&commandCursor->step);
+                ++commandCursor->step;
                 break;
             }
             this->StopBGM();
@@ -792,7 +792,7 @@ loop:
         {
             goto next_command;
         }
-        ++*reinterpret_cast<unsigned int *>(&commandCursor->step);
+        ++commandCursor->step;
         break;
 
     case SOUNDPLAYER_COMMAND_START_LOADED_BGM:
@@ -818,7 +818,7 @@ loop:
             if (WaitForSingleObject(this->bgmThreadHandle, 256))
             {
                 PostThreadMessageA(this->bgmThreadId, WM_QUIT, 0, 0);
-                --*reinterpret_cast<unsigned int *>(&commandCursor->step);
+                --commandCursor->step;
             }
             else
             {
@@ -840,7 +840,7 @@ loop:
         {
             goto next_command;
         }
-        ++*reinterpret_cast<unsigned int *>(&commandCursor->step);
+        ++commandCursor->step;
         break;
 
     case SOUNDPLAYER_COMMAND_STOP_BGM:
@@ -854,7 +854,7 @@ loop:
         {
             goto next_command;
         }
-        ++*reinterpret_cast<unsigned int *>(&commandCursor->step);
+        ++commandCursor->step;
         break;
 
     case SOUNDPLAYER_COMMAND_FADE_OUT:
@@ -886,7 +886,7 @@ loop:
         {
             if (commandCursor->step != 0)
             {
-                ++*reinterpret_cast<unsigned int *>(&commandCursor->step);
+                ++commandCursor->step;
                 break;
             }
             this->StopBGM();
@@ -903,19 +903,15 @@ loop:
         break;
 
     next_command:
-        // Retire each real native 0x10C-byte command record in sequence,
-        // preserving the original fixed-capacity shift and memcpy order.
+        // Shift native 0x10C-byte command records through the real array.
+        // Adjacent records do not overlap during the one-record memcpy.
         for (i = 0; i < 31; i++,
-             commandCursor = reinterpret_cast<SoundPlayerCommand *>(
-                 reinterpret_cast<unsigned int>(commandCursor) +
-                 sizeof(*commandCursor)))
+             ++commandCursor)
         {
             if (commandCursor->opcode == SOUNDPLAYER_COMMAND_NONE)
                 break;
             memcpy(commandCursor,
-                   reinterpret_cast<const SoundPlayerCommand *>(
-                       reinterpret_cast<unsigned int>(commandCursor) +
-                       sizeof(*commandCursor)),
+                   commandCursor + 1,
                    sizeof(*commandCursor));
         }
 
