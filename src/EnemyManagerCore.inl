@@ -245,6 +245,12 @@ static void EnemyCoreUpdateAttachedEffects(EnemyView *enemy);
 #include "EffectRingRuntimeView.hpp"
 typedef char EnemyCoreAttachedEffectNativeOffsets[
     (offsetof(EffectRingRuntimeView, origin48) == 0x48 &&
+     sizeof(((EffectRingRuntimeView *)0)->origin48) == sizeof(Float3) &&
+     sizeof(EnemyFloat3) == sizeof(Float3) &&
+     offsetof(EnemyFloat3, x) == offsetof(Float3, x) &&
+     offsetof(EnemyFloat3, y) == offsetof(Float3, y) &&
+     offsetof(EnemyFloat3, z) == offsetof(Float3, z) &&
+     offsetof(EnemyView, position2D74) == 0x2D74 &&
      offsetof(EffectRingRuntimeView, radius7C) == 0x7C &&
      offsetof(EffectRingRuntimeView, angle80) == 0x80) ? 1 : -1];
 
