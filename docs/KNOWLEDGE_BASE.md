@@ -11283,3 +11283,56 @@ hundreds of differences. The tested form was
 rejected; no fake exactness, inline ASM,
 padding, profile roulette or full cold replay
 was introduced.
+
+## 2026-11-17 GPT-web: native Replay frame offset and input cursor arrays
+
+The complete `ReplayManagerView::LoadReplayData` decoder
+now reads original serialized frame/FPS offsets and
+publishes the decompressed live pointers directly
+through the `ReplayDataView::frameOffset[3][10]`,
+`frameStart[3][10]`, `fpsOffset[10]` and
+`fpsStart[10]` members. Four integer-address
+lvalue macros for these genuine overlaid record
+tables have been removed. The 3x10 live stage
+loop, base-offset calculation and data overlay
+ordering are unchanged, without any new bounds
+check or synthetic array allocation.
+
+The playback and recording input paths now
+increment the six real
+`ReplayManagerView::inputCursors[3]` 16-bit
+stream pointers and their two FPS byte cursors
+using C++ pointer increments. Both side-input
+instances are indexed directly from the native
+0x8E-byte `g_ReplayInputStates` array and the
+side-focus-mode cursor uses `++sideMode`.
+Replay-info difficulty, mode and character
+strings now index their true global pointer
+tables instead of the old
+`TH09_REPLAY_SAVE_TEXT` Win32-address macro.
+The append-format leaf advances through the
+original `char *buffer + strlen(buffer)`,
+preserving the same terminating-NUL boundary.
+
+Seven isolated and combined pinned VC7.1
+probes validated the new native table, cursor,
+side-input, side-mode and text expressions.
+Both maintained compiler profiles passed the
+selected-source replay:
+**12/12 existing exact owners, 4,093 physical
+bytes and 232 original relocations**,
+including the **1,323-byte BeginRecordingStage**
+and **591-byte LoadReplayData** functions.
+No compiler-private symbol rebinding was
+necessary. The nonexact `SaveReplay` and
+`BeginPlaybackStage` large owners were
+individually checked against their strict
+frontier baselines; they retain respectively
+**1,238/1,238 bytes with two residual byte
+differences** and **540/540 bytes with
+13 residual byte differences**, with zero
+new mismatches and no false exact promotion.
+
+No ASM, pointer-identity hacks, extra bounds
+guards, synthetic padding, register forcing
+or whole-game cold replay was used.

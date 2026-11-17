@@ -163,17 +163,13 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
         g_ReplayInputStates[1].Update();
         g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].Update();
 
-        // Each side is a native 0x8E-byte input-state record. Resolve the
-        // live i386 word-scaled address rather than a C++ array subscript.
+        // Both sides use the real 0x8E-byte ReplayInputState records.
         u8 *sideMode = g_GameManager.configurationE8->sideFocusMode;
         for (int side = 0; side < ReplayNativeInputGateCapacity::SideCount;
              side++,
-             sideMode = reinterpret_cast<u8 *>(
-                 reinterpret_cast<unsigned int>(sideMode) + 1u))
+             ++sideMode)
         {
-            ReplayInputState &sideInput = *reinterpret_cast<ReplayInputState *>(
-                reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
-                static_cast<unsigned int>(side) * sizeof(g_ReplayInputStates[0]));
+            ReplayInputState &sideInput = g_ReplayInputStates[side];
             if (*sideMode == 1)
             {
                 if (sideInput.IsHeld(1))
@@ -189,15 +185,9 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
             }
         }
 
-        replayManager->inputCursors[0] = reinterpret_cast<u16 *>(
-            reinterpret_cast<unsigned int>(replayManager->inputCursors[0]) +
-            static_cast<unsigned int>(sizeof(u16)));
-        replayManager->inputCursors[1] = reinterpret_cast<u16 *>(
-            reinterpret_cast<unsigned int>(replayManager->inputCursors[1]) +
-            static_cast<unsigned int>(sizeof(u16)));
-        replayManager->inputCursors[2] = reinterpret_cast<u16 *>(
-            reinterpret_cast<unsigned int>(replayManager->inputCursors[2]) +
-            static_cast<unsigned int>(sizeof(u16)));
+        ++replayManager->inputCursors[0];
+        ++replayManager->inputCursors[1];
+        ++replayManager->inputCursors[2];
 
         if (replayManager->frameCounter % ReplayRecordingCapacity::FramesPerFpsSample == 0)
         {
@@ -205,8 +195,7 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
                 reinterpret_cast<unsigned int>(replayManager->fpsCursor) + 1u) & 0x7F;
             g_Supervisor.playbackFpsWarning = (char)*reinterpret_cast<const u8 *>(
                 reinterpret_cast<unsigned int>(replayManager->fpsCursor) + 1u) >> 7;
-            replayManager->fpsCursor = reinterpret_cast<u8 *>(
-                reinterpret_cast<unsigned int>(replayManager->fpsCursor) + sizeof(u8));
+            ++replayManager->fpsCursor;
         }
         replayManager->frameCounter = static_cast<int>(static_cast<unsigned int>(replayManager->frameCounter) + 1u);
     }
@@ -288,50 +277,33 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
             decodedReplay->exeVersion, decodedReplay->value1D4, decodedReplay->value1D8))
         goto err2;
 
-    // The decoded header overlays serial u32 frame/FPS offsets with native
-    // pointers in the same 0x1EC-byte ReplayDataView allocation. Resolve
-    // each live stage word by its physical i386 DWORD stride without
-    // imposing a second C++ bounded-array memory model.
-#define TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(row, index) \
-    (*reinterpret_cast<u32 *>( \
-        reinterpret_cast<unsigned int>(&decodedReplay->frameOffset[row][0]) + \
-        static_cast<unsigned int>(index) * sizeof(u32)))
-#define TH09_REPLAY_NATIVE_DECODE_FRAME_START(row, index) \
-    (*reinterpret_cast<ReplayFrameDataStartView **>( \
-        reinterpret_cast<unsigned int>(&decodedReplay->frameStart[row][0]) + \
-        static_cast<unsigned int>(index) * sizeof(decodedReplay->frameStart[0][0])))
-#define TH09_REPLAY_NATIVE_DECODE_FPS_OFFSET(index) \
-    (*reinterpret_cast<u32 *>( \
-        reinterpret_cast<unsigned int>(&decodedReplay->fpsOffset[0]) + \
-        static_cast<unsigned int>(index) * sizeof(u32)))
-#define TH09_REPLAY_NATIVE_DECODE_FPS_START(index) \
-    (*reinterpret_cast<u8 **>( \
-        reinterpret_cast<unsigned int>(&decodedReplay->fpsStart[0]) + \
-        static_cast<unsigned int>(index) * sizeof(decodedReplay->fpsStart[0])))
+    // The decoded header overlays serialized frame/FPS offsets with
+    // native pointers in the real ReplayDataView tables. Preserve
+    // each original stage index and live read/write order.
     for (i = 0; i < ReplayRecordingCapacity::StageCount; i++)
     {
-        if (TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(0, i) != 0)
-            TH09_REPLAY_NATIVE_DECODE_FRAME_START(0, i) = reinterpret_cast<ReplayFrameDataStartView *>(
+        if (decodedReplay->frameOffset[0][i] != 0)
+            decodedReplay->frameStart[0][i] = reinterpret_cast<ReplayFrameDataStartView *>(
                 reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(0, i)));
-        if (TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(1, i) != 0)
-            TH09_REPLAY_NATIVE_DECODE_FRAME_START(1, i) = reinterpret_cast<ReplayFrameDataStartView *>(
+                static_cast<unsigned int>(decodedReplay->frameOffset[0][i]));
+        if (decodedReplay->frameOffset[1][i] != 0)
+            decodedReplay->frameStart[1][i] = reinterpret_cast<ReplayFrameDataStartView *>(
                 reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(1, i)));
-        if (TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(2, i) != 0)
-            TH09_REPLAY_NATIVE_DECODE_FRAME_START(2, i) = reinterpret_cast<ReplayFrameDataStartView *>(
+                static_cast<unsigned int>(decodedReplay->frameOffset[1][i]));
+        if (decodedReplay->frameOffset[2][i] != 0)
+            decodedReplay->frameStart[2][i] = reinterpret_cast<ReplayFrameDataStartView *>(
                 reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET(2, i)));
-        if (TH09_REPLAY_NATIVE_DECODE_FPS_OFFSET(i) != 0)
-            TH09_REPLAY_NATIVE_DECODE_FPS_START(i) = reinterpret_cast<u8 *>(
+                static_cast<unsigned int>(decodedReplay->frameOffset[2][i]));
+        if (decodedReplay->fpsOffset[i] != 0)
+            decodedReplay->fpsStart[i] = reinterpret_cast<u8 *>(
                 reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(TH09_REPLAY_NATIVE_DECODE_FPS_OFFSET(i)));
+                static_cast<unsigned int>(decodedReplay->fpsOffset[i]));
     }
 
-#undef TH09_REPLAY_NATIVE_DECODE_FRAME_OFFSET
-#undef TH09_REPLAY_NATIVE_DECODE_FRAME_START
-#undef TH09_REPLAY_NATIVE_DECODE_FPS_OFFSET
-#undef TH09_REPLAY_NATIVE_DECODE_FPS_START
+
+
+
+
     g_ZunMemory.Free(data);
     return decodedReplay;
 
@@ -404,21 +376,14 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
             g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].historyCurrent;
 
         replayManager->currentBuffer->frameCount = static_cast<int>(static_cast<unsigned int>(replayManager->currentBuffer->frameCount) + 1u);
-        replayManager->inputCursors[0] = reinterpret_cast<u16 *>(
-            reinterpret_cast<unsigned int>(replayManager->inputCursors[0]) +
-            static_cast<unsigned int>(sizeof(u16)));
-        replayManager->inputCursors[1] = reinterpret_cast<u16 *>(
-            reinterpret_cast<unsigned int>(replayManager->inputCursors[1]) +
-            static_cast<unsigned int>(sizeof(u16)));
-        replayManager->inputCursors[2] = reinterpret_cast<u16 *>(
-            reinterpret_cast<unsigned int>(replayManager->inputCursors[2]) +
-            static_cast<unsigned int>(sizeof(u16)));
+        ++replayManager->inputCursors[0];
+        ++replayManager->inputCursors[1];
+        ++replayManager->inputCursors[2];
 
         if (replayManager->frameCounter % ReplayRecordingCapacity::FramesPerFpsSample == 0)
         {
             *replayManager->fpsCursor = (u8)g_Supervisor.recordedFps;
-            replayManager->fpsCursor = reinterpret_cast<u8 *>(
-                reinterpret_cast<unsigned int>(replayManager->fpsCursor) + sizeof(u8));
+            ++replayManager->fpsCursor;
         }
 
         if (replayManager->currentBuffer->frameCount >= ReplayRecordingCapacity::LinkRolloverFrames)
@@ -704,9 +669,7 @@ int ReplayManagerView::CaptureFrameSyncState(ReplayManagerView *replayManager)
             reinterpret_cast<unsigned int>(&inputGate->sideFocusMode[0]) +
             static_cast<unsigned int>(side))) == 1)
         {
-            ReplayInputState &sideInput = *reinterpret_cast<ReplayInputState *>(
-                reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
-                static_cast<unsigned int>(side) * sizeof(g_ReplayInputStates[0]));
+            ReplayInputState &sideInput = g_ReplayInputStates[side];
             if (sideInput.IsHeld(1))
             {
                 sideInput.auxiliary2A++;
@@ -868,20 +831,12 @@ static char *AppendReplayFormat(char *buffer, const char *format, ...)
     va_start(args, format);
     vsprintf(buffer, format, args);
     va_end(args);
-    // Formatting appends to the caller's live replay-info byte stream;
-    // the original i386 computes the next write cursor by a native
-    // 32-bit base-plus-length address, without a new text bound.
-    return reinterpret_cast<char *>(
-        reinterpret_cast<unsigned int>(buffer) +
-        static_cast<unsigned int>(strlen(buffer)));
+    // Append the formatted bytes and advance the live buffer cursor.
+    return buffer + strlen(buffer);
 }
 
-// Lexical native DWORD pointer-table lookup: callable accessors change the
-// original VC7.1 register lifetime in this nearly exact serializer.
-#define TH09_REPLAY_SAVE_TEXT(table, index) \
-    (*reinterpret_cast<const char *const *>( \
-        reinterpret_cast<unsigned int>(&(table)[0]) + \
-        static_cast<unsigned int>(index) * sizeof((table)[0])))
+// Replay-info text is read directly from the original native pointer
+// tables; no additional lookup helper or bounds check is introduced.
 
 int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *replayPath, const char *replayName)
 {
@@ -966,23 +921,23 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     char *infoCursor = infoBuffer;
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoPlayerNameFormat, replayName);
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoPlayTimeFormat, g_ReplayPlayTimeText);
-    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoDifficultyFormat, TH09_REPLAY_SAVE_TEXT(g_ReplayDifficultyNames, g_GameManager.difficulty));
+    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoDifficultyFormat, g_ReplayDifficultyNames[g_GameManager.difficulty]);
     int mode = g_GameManager.gameMode;
     if (mode == 2)
         // Retail adds to a native DWORD before indexing the replay mode names.
         mode = static_cast<int>(
             static_cast<unsigned int>(g_GameManager.replayMode114) + 2u);
-    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoModeFormat, TH09_REPLAY_SAVE_TEXT(g_ReplayModeNames, mode));
+    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoModeFormat, g_ReplayModeNames[mode]);
     if (!g_GameManager.IsGameMode2())
     {
         infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoCharacterFormat,
-            TH09_REPLAY_SAVE_TEXT(g_ReplayCharacterNames, g_GameManager.sides[0].character20));
+            g_ReplayCharacterNames[g_GameManager.sides[0].character20]);
     }
     else
     {
         infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoVersusCharactersFormat,
-            TH09_REPLAY_SAVE_TEXT(g_ReplayCharacterNames, g_GameManager.sides[0].character20),
-            TH09_REPLAY_SAVE_TEXT(g_ReplayCharacterNames, g_GameManager.sides[1].character20));
+            g_ReplayCharacterNames[g_GameManager.sides[0].character20],
+            g_ReplayCharacterNames[g_GameManager.sides[1].character20]);
     }
     infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoInitialHealthFormat,
         g_GameManager.value378 * 0.5f, g_GameManager.value37C * 0.5f);
@@ -1067,7 +1022,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
 }
 
 
-#undef TH09_REPLAY_SAVE_TEXT
+
 
 ReplayInputState::ReplayInputState()
 {
