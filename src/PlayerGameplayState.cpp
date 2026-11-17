@@ -309,7 +309,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             phasePlayer->GetUpdateState() != 1)
         {
             phasePlayer->SetUpdateState(3);
-            *reinterpret_cast<ZunTimer *>(&static_cast<PlayerLifecycleView *>(header->selfLink78)->timer303C8) = 2;
+            static_cast<PlayerLifecycleView *>(header->selfLink78)->timer303C8 = 2;
         }
         if (static_cast<int>(header->timer5C) / 60 >= threshold)
         {
