@@ -12431,3 +12431,51 @@ and one-source selected replay. No private label
 rebindings, ASM, padding, forced registers,
 extra memory allocation, whole-game cold replay
 or new exact-function credit were involved.
+
+## 2026-11-17 GPT-web: native Supervisor viewport records and ANM shake fields
+
+All eight original-bound `SupervisorViewport.cpp` owners now
+use the one genuine `SupervisorCtorArrayElement` 0xF0-byte
+camera/viewport record rather than declaring a separate
+`SupervisorViewportConfiguration` copy. The local
+type name is an alias to the real record, with the native
+`cameraPosition00`, `cameraLookAtOffset0C`,
+`cameraUp18`, `cameraRight30`,
+`cameraPositionOffset3C`, `fieldOfView48`,
+`viewMatrix4C`, `projectionMatrix8C`,
+`viewportCC`, `viewportModeE4`, and
+`screenShakeOffsetE8` members. All screen/gameplay
+camera matrix calculations and three-viewport initialization
+write to these native members, and the side selectors use
+the real indexed record. The old
+`TH09_VIEWPORT_NATIVE_AT` integer-address macro is gone.
+
+The padding-filled `SupervisorViewportAnmManagerView`
+is also removed. Both camera paths publish the frame-shake
+X/Y coordinates directly to the authentic
+`g_AnmManager->frameShakeX1C` and
+`frameShakeY20` members, instead of casting a
+manager pointer into a separate shadow owner. No
+camera equation, original D3DX matrix projection,
+device call or indexed side-selection branch changed.
+
+Original `SupervisorViewportView` method-owner naming
+is intentionally retained because full native Supervisor
+member-call ownership remains unproven. Only the argument
+type is recovered as `SupervisorCtorArrayElement *`.
+The two method symbols and their four original-bound
+caller relocations are updated after explicitly proving
+the same original destinations **0x00430590** and
+**0x004306B0**, unchanged relocation type/offset, and
+complete PE byte identity.
+
+Individual pinned VC7.1 probes compared native viewport
+indexing, authentic ANM render cache, direct shake fields,
+native camera-record type and their combinations. The
+maintained source-scoped replay passes **8/8 existing
+Exact functions, 1,530 complete physical bytes and 106
+original relocation fields**, including the 736-byte
+InitializeViewports boss and 285/257-byte screen/gameplay
+camera matrix helpers. No ASM, artificial padding,
+register forcing, full cold replay or newly exact
+function credit was used.

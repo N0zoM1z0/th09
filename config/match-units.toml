@@ -3495,7 +3495,7 @@ symbol = "?ConfigureGameplayViewport@Supervisor@@QAEXH@Z"
 target_address = 0x00401390
 size = 0x47
 relocations = [
-  { offset = 0x1E, type = "REL32", symbol = "?ApplyGameplayViewport@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z", target = 0x004306B0 },
+  { offset = 0x1E, type = "REL32", symbol = "?ApplyGameplayViewport@SupervisorViewportView@@QAEXPAUSupervisorCtorArrayElement@@@Z", target = 0x004306B0 },
 ]
 
 [units.anm-manager-flush-vertex-buffer]
@@ -3788,7 +3788,7 @@ symbol = "?ApplyCameraMode0@Supervisor@@QAEXXZ"
 target_address = 0x004013E0
 size = 0x2A
 relocations = [
-  { offset = 0xB, type = "REL32", symbol = "?ApplyScreenCamera@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z", target = 0x00430590 },
+  { offset = 0xB, type = "REL32", symbol = "?ApplyScreenCamera@SupervisorViewportView@@QAEXPAUSupervisorCtorArrayElement@@@Z", target = 0x00430590 },
 ]
 
 [units.supervisor-apply-camera-mode1]
@@ -3800,7 +3800,7 @@ symbol = "?ApplyCameraMode1@Supervisor@@QAEXXZ"
 target_address = 0x00401410
 size = 0x2A
 relocations = [
-  { offset = 0xB, type = "REL32", symbol = "?ApplyGameplayViewport@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z", target = 0x004306B0 },
+  { offset = 0xB, type = "REL32", symbol = "?ApplyGameplayViewport@SupervisorViewportView@@QAEXPAUSupervisorCtorArrayElement@@@Z", target = 0x004306B0 },
 ]
 
 [units.supervisor-apply-screen-camera]
@@ -3808,7 +3808,7 @@ source = "src/SupervisorViewport.cpp"
 object = "build/matching/SupervisorViewport.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["SupervisorViewportView::ApplyScreenCamera"]
-symbol = "?ApplyScreenCamera@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z"
+symbol = "?ApplyScreenCamera@SupervisorViewportView@@QAEXPAUSupervisorCtorArrayElement@@@Z"
 target_address = 0x00430590
 size = 0x11D
 relocations = [
@@ -3835,7 +3835,7 @@ source = "src/SupervisorViewport.cpp"
 object = "build/matching/SupervisorViewport.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["SupervisorViewportView::ApplyGameplayViewport"]
-symbol = "?ApplyGameplayViewport@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z"
+symbol = "?ApplyGameplayViewport@SupervisorViewportView@@QAEXPAUSupervisorCtorArrayElement@@@Z"
 target_address = 0x004306B0
 size = 0x101
 relocations = [
@@ -11000,7 +11000,7 @@ symbol = "?ConfigureScreenViewport@Supervisor@@QAEXH@Z"
 target_address = 0x00403D90
 size = 0x47
 relocations = [
-  { offset = 0x1E, type = "REL32", symbol = "?ApplyScreenCamera@SupervisorViewportView@@QAEXPAUSupervisorViewportConfiguration@@@Z", target = 0x00430590 },
+  { offset = 0x1E, type = "REL32", symbol = "?ApplyScreenCamera@SupervisorViewportView@@QAEXPAUSupervisorCtorArrayElement@@@Z", target = 0x00430590 },
 ]
 
 [units.supervisor-thread-close]
