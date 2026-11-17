@@ -90,9 +90,8 @@ typedef char OptionsMenuCountAt1B244[(offsetof(TitleScreenView, menuItemCount) =
 typedef char OptionsConfigAt1B2BC[(offsetof(TitleScreenView, configSnapshot) == 0x1B2BC) ? 1 : -1];
 typedef char OptionsTitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) ? 1 : -1];
 
-// Retail updates signed-byte music/SFX volume storage through wrapping i386
-// ADD/SUB/INC/DEC byte instructions. Use the unsigned view of the same physical
-// GameConfiguration bytes, then keep the original signed clamp checks.
+// The native music/SFX volume members are bytes. Mutate them directly;
+// keep the signed-char reads at the retail display/clamp checks.
 // The real TitleScreen owns 0x2A4-byte ANM VMs and a separate
 // four-byte help-text pointer table. These live selectors form original
 // Win32 byte addresses without a new clamp, copy or auxiliary allocation.
@@ -251,7 +250,7 @@ int TitleScreenView::OnUpdateOptions()
             switch (this->keyboardSelection)
             {
             case 3:
-                reinterpret_cast<u8 &>(g_Supervisor.config388.musicVolume) -= 4u;
+                g_Supervisor.config388.musicVolume -= 4u;
                 if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) < 0)
                 {
                     reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) = 0;
@@ -259,7 +258,7 @@ int TitleScreenView::OnUpdateOptions()
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             case 4:
-                reinterpret_cast<u8 &>(g_Supervisor.config388.sfxVolume) -= 4u;
+                g_Supervisor.config388.sfxVolume -= 4u;
                 if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) < 0)
                 {
                     reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) = 0;
@@ -273,7 +272,7 @@ int TitleScreenView::OnUpdateOptions()
             switch (this->keyboardSelection)
             {
             case 3:
-                reinterpret_cast<u8 &>(g_Supervisor.config388.musicVolume) += 4u;
+                g_Supervisor.config388.musicVolume += 4u;
                 if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) > 100)
                 {
                     reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) = 100;
@@ -281,7 +280,7 @@ int TitleScreenView::OnUpdateOptions()
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             case 4:
-                reinterpret_cast<u8 &>(g_Supervisor.config388.sfxVolume) += 4u;
+                g_Supervisor.config388.sfxVolume += 4u;
                 if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) > 100)
                 {
                     reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) = 100;
@@ -297,14 +296,14 @@ int TitleScreenView::OnUpdateOptions()
             case 3:
                 if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) > 0)
                 {
-                    reinterpret_cast<u8 &>(g_Supervisor.config388.musicVolume)--;
+                    g_Supervisor.config388.musicVolume--;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             case 4:
                 if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) > 0)
                 {
-                    reinterpret_cast<u8 &>(g_Supervisor.config388.sfxVolume)--;
+                    g_Supervisor.config388.sfxVolume--;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
@@ -317,14 +316,14 @@ int TitleScreenView::OnUpdateOptions()
             case 3:
                 if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) < 100)
                 {
-                    reinterpret_cast<u8 &>(g_Supervisor.config388.musicVolume)++;
+                    g_Supervisor.config388.musicVolume++;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             case 4:
                 if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) < 100)
                 {
-                    reinterpret_cast<u8 &>(g_Supervisor.config388.sfxVolume)++;
+                    g_Supervisor.config388.sfxVolume++;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
