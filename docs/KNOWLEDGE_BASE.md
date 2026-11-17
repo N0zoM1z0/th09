@@ -10241,3 +10241,45 @@ spellings were rebound only after COFF same-section and PE
 destination proof; every unmasked target byte remained equal.
 No ASM, fake padding, whole-product cold replay or new exact
 function count was claimed.
+
+## 2026-11-17 GPT-web: remove padded stage-script shadow and use real Background
+
+The complete `BackgroundRunStageScriptPhase @ 0x004018F0` now
+receives, reads and modifies the real 0x65C4-byte `Background`
+record shared with the independently reconstructed constructor,
+loader and draw functions. The separate
+`BackgroundStageView` projection has been **removed**, including
+its large artificial `unknownCC8[0x6408 - 0xCC8]` padding and
+its duplicated AnmVm, timers, fog, camera, and stage-script
+members. Native `Background::stageScript`, `stageScriptTimer`,
+`interpolationDuration/Timers/Modes`, `skyFog`,
+`stagePositionTarget`, `cameraMotionMode` and other actual
+fields replace their private offset-suffixed counterparts.
+The original script instruction and supervisor viewport indices
+retain their checked original Win32 signed index / byte-stride
+semantics.
+
+The 0xF0-byte Background-owned camera snapshots and Supervisor
+viewport records have equivalent **0x4C-byte camera vector
+prefixes**, but distinct owners and tails. Only that
+offset-verified vector prefix is borrowed in C++ with explicit
+typed references where the target requires `Float3` operations.
+No second camera memory allocation is introduced. The
+independent `InterpolateBackgroundCameraVector` helper now
+takes `Background *` rather than a made-up shadow-class
+pointer; the three relinked call sites still resolve to its
+original entry `0x004016E0`.
+
+The exact `BackgroundRunStageScriptPhase` source and
+independently typed helper were tested with pinned VC7.1
+`/O2 /Ob0 /Oy-`. The complete physical **2,652-byte
+stage-script/switch-table** extent and **448-byte interpolation
+helper** are both byte-exact (133 and 23 relocations respectively).
+The 5/5-unit scoped replay passes **3,231 bytes / 160
+original relocation fields**. The helper ABI retyping
+rebound exactly three calls to the same original PE entry,
+and the 55 compiler-local label renumberings were each
+verified against same-section COFF definitions, offset/type
+and original PE destination. No ASM, synthetic padding,
+forced register hints, whole-product replay or new exact
+function claim was used.
