@@ -13108,8 +13108,11 @@ restored.
 `activeB100[514]` array of region pointers at `Player +0xB100`; it is not a
 separately allocated list. Retail computes the array base in ESI, publishes
 that cursor at `[ebp-4]`, and only then loads the first region pointer into
-ECX. The maintained source's ordinary array-to-pointer decay lets VC7.1
-hoist the first element read before the cursor-home store. A source-only
+ECX. `PlayerCollisionHelpers.cpp` now has a compile-time
+`PlayerCollisionActiveRegionCursorCountIs514` assertion, proving the array
+extent without changing runtime code. The maintained source's ordinary
+array-to-pointer decay lets VC7.1 hoist the first element read before the
+cursor-home store. A source-only
 volatile element lvalue placed after the cursor store restores the exact
 initial `lea` / cursor-home / region-load order, but moves the loop header
 from the compiler-aligned target boundary and leaves **701 differences**

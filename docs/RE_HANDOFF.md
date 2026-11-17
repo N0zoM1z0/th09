@@ -656,6 +656,11 @@ status check. No frontier baseline or manifest was changed.
   bytes. The alias/assertion experiments were reverted rather than accepting
   a large manifest-only rebind. Existing native layout assertions remain.
 
+Commit `8db39334` adds `PlayerCollisionActiveRegionCursorCountIs514` beside
+the collision scratch-layout assertions. It proves the native `activeB100`
+array extent at compile time without changing the 842/862-byte owner.
+
 The only accepted source changes from the preceding checkpoint are the three
-Enemy commits already listed above. This follow-up produced no safe monotone
-source variant; do not promote any of the diagnostics above.
+Enemy commits and this collision cursor-extent assertion. The scheduling
+experiments produced no safe monotone loop rewrite; do not promote any of the
+diagnostics above.
