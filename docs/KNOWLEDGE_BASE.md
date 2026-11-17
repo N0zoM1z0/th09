@@ -11515,3 +11515,38 @@ register allocation, or new function-count
 promotion was used; exact historical C++ name
 spellings remain separate from this verified
 object ownership.
+
+## 2026-11-17 GPT-web: native ExAttack type-3 history and VM arrays
+
+The `ExAttackUpdateCallbackType3` state-machine owner
+now shifts the genuine
+`ExAttackType3UpdateExtra::history10[32]`
+Float3 records using normal array subscripts,
+including the previous entry at `i - 1`.
+Its dynamically allocated animation VMs are
+selected from the original `AnmVm *` array at
+`attack->vms1C`, and the collision target is
+taken from the real
+`g_GameManager.sides[opponentSide04]`
+record. Four address-construction macros for
+history, previous history, VM, and side slots
+have been removed. All 14 original live
+operand occurrences are standard C++ array
+accesses, without a new copy, guard or
+additional object.
+
+Four independent and one combined pinned
+VC7.1 probes matched the original complete
+**780-byte** physical state machine with all
+**38 original relocation fields**. The
+maintained source's strict COFF/PE comparison
+and source-scoped replay are **1/1 exact,
+780/780 bytes and 38/38 relocations**.
+The provisional Type3 attack-record view is
+retained until nominal class ownership can
+be verified at its other callsites; no
+padding or identity claim was introduced.
+The existing third-party source attribution
+and license notices are preserved. No ASM,
+whole-game cold replay or new Exact
+function-count credit was used.
