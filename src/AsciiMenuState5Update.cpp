@@ -6,6 +6,7 @@
 #include "SoundPlayer.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
+#include "GameManagerSetupView.hpp"
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -15,70 +16,43 @@ struct AsciiInputView
     unsigned short WasPressed(unsigned short buttons);
 };
 
-struct AsciiState5SupervisorView
-{
-    unsigned char unknown000[0x590];
-    int state590;
-    unsigned char unknown594[0x10];
-    int field5A4;
-    unsigned char unknown5A8[0x10];
-    float frameScalar5B8;
-    unsigned char unknown5BC[0x18];
-    unsigned int flags5D4;
-    unsigned char unknown5D8[0x1C4];
-    unsigned int systemTime79C;
-
-};
-
-typedef char AsciiSupervisorField5A4[
-    (offsetof(AsciiState5SupervisorView, field5A4) == 0x5A4) ? 1 : -1];
-typedef char AsciiSupervisorFrameScalarAt5B8[
-    (offsetof(AsciiState5SupervisorView, frameScalar5B8) == 0x5B8) ? 1 : -1];
-typedef char AsciiSupervisorFlagsAt5D4[
-    (offsetof(AsciiState5SupervisorView, flags5D4) == 0x5D4) ? 1 : -1];
-typedef char AsciiSupervisorSystemTimeAt79C[
-    (offsetof(AsciiState5SupervisorView, systemTime79C) == 0x79C) ? 1 : -1];
+// The menu updates live state in the shared native Supervisor allocation.
+typedef char AsciiState5NativeSupervisorFields[
+    (offsetof(Supervisor, state590) == 0x590 &&
+     offsetof(Supervisor, screenTransitionCountdown) == 0x5A4 &&
+     offsetof(Supervisor, framerateMultiplier5B8) == 0x5B8 &&
+     offsetof(Supervisor, flags) == 0x5D4 &&
+     offsetof(Supervisor, systemTime) == 0x79C) ? 1 : -1];
 
 extern AsciiInputView g_AsciiInput;
 extern AsciiManager g_AsciiManager;
 extern unsigned char *g_AsciiMenuConfig;
 
-struct GameManagerSetupLayout
-{
-    static void CleanupGameplayState();
-};
 
-static inline AsciiState5SupervisorView *AsciiSupervisor()
-{
-    return reinterpret_cast<AsciiState5SupervisorView *>(&g_Supervisor);
-}
 
 static const unsigned int COLOR_MENU_ITEM_SELECTED = 0xFFFF8080u;
 static const unsigned int COLOR_MENU_ITEM_NORMAL = 0xFF505050u;
 static const unsigned short ASCII_INTERRUPT_SHOW = 1;
 
-// State5 owns the genuine 0x2A4-byte AnmVm menu records. Preserve each
-// original live loop load and call with native unsigned-DWORD addressing.
-#define TH09_ASCII_STATE5_VM(index) \
-    (*reinterpret_cast<AnmVm *>( \
-        reinterpret_cast<unsigned int>(&this->menuSprites[0]) + \
-        static_cast<unsigned int>(index) * sizeof(this->menuSprites[0])))
+// State5 owns the five native AnmVm menu records; each update/read
+// uses the real indexed slot with its original iteration order.
 
-// The side-gameover menu updates its own two signed DWORD counters and
-// the true GameManager side-owned BYTE retry counter with native INC.
+
+// Gameover updates its own state/frame counters and the actual
+// one-byte GameManager retry counter, without integer-pointer aliases.
 int AsciiMenuState5::OnUpdate()
 {
     unsigned int i;
 
     if (g_GameManager.IsReplayNeutral()) {
         g_GameManager.menuState97C8Active = 0;
-        AsciiSupervisor()->state590 = 1;
+        g_Supervisor.state590 = 1;
         return 1;
     }
 
     if (g_GameManager.sides[0].runtime->counter14 >= 3) {
         g_GameManager.menuState97C8Active = 0;
-        AsciiSupervisor()->state590 = 6;
+        g_Supervisor.state590 = 6;
         return 1;
     }
 
@@ -86,23 +60,23 @@ int AsciiMenuState5::OnUpdate()
     case 0:
         if (!g_GameManager.IsGameMode1()) {
             for (i = 0; i < 5; i++) {
-                g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&TH09_ASCII_STATE5_VM(i), i + 8);
+                g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&this->menuSprites[i], i + 8);
             }
             for (i = 0; i < 5; i++) {
-                TH09_ASCII_STATE5_VM(i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
+                this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
             }
             g_AsciiManager.asciiAnm->SetSprite(
                 &this->menuSprites[4],
                 120 - g_GameManager.sides[0].runtime->counter14);
         } else {
             for (i = 0; i < 3; i++) {
-                g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&TH09_ASCII_STATE5_VM(i), i + 17);
+                g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&this->menuSprites[i], i + 17);
             }
             for (i = 0; i < 3; i++) {
-                TH09_ASCII_STATE5_VM(i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
+                this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
             }
         }
-        ++*reinterpret_cast<unsigned int *>(&this->state);
+        ++this->state;
         this->frames = 0;
         // fallthrough
 
@@ -120,7 +94,7 @@ int AsciiMenuState5::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 5; i++) {
-                    TH09_ASCII_STATE5_VM(i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
+                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
                 }
                 this->state = 4;
                 this->frames = 0;
@@ -142,7 +116,7 @@ int AsciiMenuState5::OnUpdate()
             if (g_AsciiInput.WasPressed(0x1001)) {
                 g_SoundPlayer.PlaySoundByIdx(10, 0);
                 for (i = 0; i < 5; i++) {
-                    TH09_ASCII_STATE5_VM(i).pendingInterrupt = ASCII_INTERRUPT_SHOW;
+                    this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
                 }
                 this->state = 3;
                 this->frames = 0;
@@ -155,11 +129,11 @@ int AsciiMenuState5::OnUpdate()
             this->state = 0;
             this->frames = 0;
             g_GameManager.menuState97C8Active = 0;
-            AsciiSupervisor()->state590 = 6;
+            g_Supervisor.state590 = 6;
             for (i = 0; i < 5; i++) {
-                TH09_ASCII_STATE5_VM(i).SetInvisible();
+                this->menuSprites[i].SetInvisible();
             }
-            AsciiSupervisor()->systemTime79C = timeGetTime();
+            g_Supervisor.systemTime = timeGetTime();
             return 1;
         }
         break;
@@ -170,9 +144,9 @@ int AsciiMenuState5::OnUpdate()
                 this->frames = 0;
                 g_GameManager.menuState97C8Active = 0;
                 for (i = 0; i < 5; i++) {
-                    TH09_ASCII_STATE5_VM(i).SetInvisible();
+                    this->menuSprites[i].SetInvisible();
                 }
-                ++*reinterpret_cast<unsigned char *>(&g_GameManager.sides[0].runtime->counter14);
+                ++g_GameManager.sides[0].runtime->counter14;
                 g_GameManager.flags |= 0x2000u;
                 g_GameManager.sides[0].runtime->value04 = 0;
                 g_GameManager.sides[0].runtime->value08 = 0;
@@ -180,8 +154,8 @@ int AsciiMenuState5::OnUpdate()
                 g_GameManager.sides[1].runtime->value04 = 0;
                 g_GameManager.sides[1].runtime->value08 = 0;
                 g_GameManager.sides[1].runtime->value0C = 0;
-                AsciiSupervisor()->field5A4 = 8;
-                AsciiSupervisor()->systemTime79C = timeGetTime();
+                g_Supervisor.screenTransitionCountdown = 8;
+                g_Supervisor.systemTime = timeGetTime();
                 g_Supervisor.StopAudio();
                 g_Supervisor.StartLoadedMusic();
                 GameManagerSetupLayout::CleanupGameplayState();
@@ -193,11 +167,11 @@ int AsciiMenuState5::OnUpdate()
                 return 1;
             } else {
                 this->state = 0;
-                AsciiSupervisor()->state590 = 13;
+                g_Supervisor.state590 = 13;
                 this->frames = 0;
                 g_GameManager.field0FC = 0;
                 g_GameManager.menuState97C8Active = 0;
-                AsciiSupervisor()->systemTime79C = timeGetTime();
+                g_Supervisor.systemTime = timeGetTime();
                 return 1;
             }
 
@@ -208,14 +182,11 @@ int AsciiMenuState5::OnUpdate()
     }
 
     for (i = 0; i < 5; i++) {
-        g_AnmManager->ExecuteScript(&TH09_ASCII_STATE5_VM(i));
+        g_AnmManager->ExecuteScript(&this->menuSprites[i]);
     }
-    if (AsciiSupervisor()->flags5D4 & 2) {
+    if (g_Supervisor.flags & 2) {
         g_AnmManager->ExecuteScript(&this->menuBackground);
     }
-    ++*reinterpret_cast<unsigned int *>(&this->frames);
+    ++this->frames;
     return 0;
 }
-
-
-#undef TH09_ASCII_STATE5_VM

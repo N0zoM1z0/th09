@@ -11904,3 +11904,41 @@ introducing a speculative method ABI or shadow class.
 No ASM, padding, forced register assignments,
 whole-product cold replay or artificial byte filling
 was used.
+
+## 2026-11-17 GPT-web: native AsciiMenuState5 gameover VMs and Supervisor fields
+
+The complete game-over `AsciiMenuState5::OnUpdate` owner now
+uses the original `AsciiMenuState5::menuSprites[5]`
+`AnmVm` array directly, removing the
+`TH09_ASCII_STATE5_VM` integer-address/cast macro.
+All nine visible VM script/interrupt accesses retain
+their real underlying objects and original execution order.
+
+The padding-filled `AsciiState5SupervisorView` had invented
+0x590 bytes solely to read/write menu state, transition delay,
+flags and the OS timer. It is gone: the code now uses the real
+`g_Supervisor.state590`, `screenTransitionCountdown`,
+`flags` and `systemTime` members, each checked by
+native `offsetof` assertions. The local declaration-only
+`GameManagerSetupLayout` has also been replaced by the
+authentic shared header. The native signed state and frame
+counters use `++this->state` and `++this->frames`;
+the retry resource increments the actual byte-wide
+`g_GameManager.sides[0].runtime->counter14`, not an
+untyped pointer to its storage. No additional controls,
+branches or range checks are introduced.
+
+Six independent pinned VC7.1 experiments for VMs,
+Supervisor, both independent frame/state increments,
+native setup owner and the combined form preserved
+the retail target. The maintained source has
+**1,236/1,236 exact physical bytes and 86/86 original
+relocation fields**, including its switch-data
+extent. Six compiler-local jump-table symbols were
+rebound only after proving same-section COFF
+definitions, relocation offset/type and identical
+original PE destinations. Selected-source replay
+passes **1/1 existing exact function**, and CI
+passes. No ASM, artificial padding, full cold replay,
+forced compiler registers or newly exact-function
+credit was used.
