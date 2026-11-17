@@ -10015,3 +10015,25 @@ smaller entrypoint wrappers. The already established original-bound
 physical extents and instructions are unchanged; this is natural C++
 field recovery, not new exact-function credit, and no full-game cold
 replay or assembler instructions were used.
+
+## 2026-11-17 GPT-web: native ANM transform flag reads in Draw3D and projection
+
+The independently original-bound 811-byte `AnmManager::Draw3D` and
+595-byte `AnmManager::Project3DQuad` now use the same genuine
+`AnmVm` flag fields as the main ANM renderer: `drawEnabled` tests
+the initial draw gate, `flag16` guards matrix rebuilding, and
+`updateScale` / `updateRotation` are cleared as their cached
+transform components are consumed. The boolean meaning of `flag16`
+beyond this cache guard remains unproven. The existing combined
+`flagsWord & 0x0C` query retains the target's single native bit
+test. The two 2D primitive entrypoints `DrawVertices` and
+`QueueSpriteQuad` also use `drawEnabled`.
+
+All expressions are ordinary typed C++ members in the authentic
+0x2A4-byte `AnmVm`, not pointer casts, padding or forced instructions.
+A pinned selected-source VC7.1 replay for the Draw3D, projection and
+primitive carriers passes **14 existing exact functions, 3,169 complete
+physical bytes and 141 relocation fields**. Independently checked
+Draw3D and projection COFF/PE functions are **811/811 and 595/595
+exact**. The original matrix and D3DX call sequences are unchanged.
+No full-product cold replay or new exact-function promotion was used.

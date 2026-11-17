@@ -22,14 +22,14 @@ void AnmManager::Project3DQuad(AnmVm *vm)
     D3DXMATRIX worldTransformMatrix,rotationMatrix;
     AnmVmProjectionView *projectionVm=reinterpret_cast<AnmVmProjectionView *>(vm);
     AnmManagerProjectionView *anm=reinterpret_cast<AnmManagerProjectionView *>(this);
-    if ((projectionVm->flagsWord&0x10000)==0 && (projectionVm->flagsWord&0x0C)!=0) {
+    if (vm->flag16 == 0 && (projectionVm->flagsWord&0x0C)!=0) {
         projectionVm->matrix2=projectionVm->matrix1;
         projectionVm->matrix2._11*=vm->scale.x; projectionVm->matrix2._22*=vm->scale.y;
-        projectionVm->flagsWord&=~8u;
+        vm->updateScale = 0;
         if (projectionVm->rotation.x!=0.0) { D3DXMatrixRotationX(&rotationMatrix,projectionVm->rotation.x); D3DXMatrixMultiply(&projectionVm->matrix2,&projectionVm->matrix2,&rotationMatrix); }
         if (projectionVm->rotation.y!=0.0) { D3DXMatrixRotationY(&rotationMatrix,projectionVm->rotation.y); D3DXMatrixMultiply(&projectionVm->matrix2,&projectionVm->matrix2,&rotationMatrix); }
         if (projectionVm->rotation.z!=0.0) { D3DXMatrixRotationZ(&rotationMatrix,projectionVm->rotation.z); D3DXMatrixMultiply(&projectionVm->matrix2,&projectionVm->matrix2,&rotationMatrix); }
-        projectionVm->flagsWord&=~4u;
+        vm->updateRotation = 0;
     }
     worldTransformMatrix=projectionVm->matrix2;
     unsigned int anchor = projectionVm->flagsWord >> 11;

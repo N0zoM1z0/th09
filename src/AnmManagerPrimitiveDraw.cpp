@@ -82,7 +82,7 @@ int AnmManager::DrawVertices(AnmVm *vmObject, VertexTex1DiffuseXyzrhw *vertices,
     AnmManagerPrimitiveView *anm = PrimitiveManager(this);
     Supervisor *supervisor = PrimitiveSupervisor();
     if (!vmObject->IsVisible()) return -1;
-    if ((vmObject->flagsWord & 2) == 0) return -1;
+    if (vmObject->drawEnabled == 0) return -1;
     if (vmObject->color1Script.a == 0) return -1;
     if (anm->spritesToDraw != 0) this->FlushVertexBuffer();
     if (anm->currentTexture != vmObject->loadedSprite->texture) {
@@ -105,7 +105,7 @@ int AnmManager::QueueSpriteQuad(AnmVm *vmObject, VertexTex1DiffuseXyzrhw *vertic
     AnmManagerPrimitiveView *anm = PrimitiveManager(this);
     Supervisor *supervisor = PrimitiveSupervisor();
     if (!vmObject->IsVisible()) return -1;
-    if ((vmObject->flagsWord & 2) == 0) return -1;
+    if (vmObject->drawEnabled == 0) return -1;
     if (vmObject->color1Script.a == 0) return -1;
     if (anm->currentTexture != vmObject->loadedSprite->texture) {
         anm->currentTexture = reinterpret_cast<IDirect3DTexture8 *>(vmObject->loadedSprite->texture);

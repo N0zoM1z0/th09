@@ -65,7 +65,7 @@ int AnmManager::Draw3D(AnmVm *vm)
 
     if (!vm->IsVisible())
         return -1;
-    if ((vm->flagsWord & 2) == 0)
+    if (vm->drawEnabled == 0)
         return -1;
     if (vm->color1Script.a == 0)
         return -1;
@@ -73,11 +73,11 @@ int AnmManager::Draw3D(AnmVm *vm)
     if (anm->spritesToDraw != 0)
         this->FlushVertexBuffer();
 
-    if ((vm->flagsWord & 0x10000) == 0 && (vm->flagsWord & 0x0C) != 0) {
+    if (vm->flag16 == 0 && (vm->flagsWord & 0x0C) != 0) {
         reinterpret_cast<D3DXMATRIX &>(vm->matrix2) = reinterpret_cast<D3DXMATRIX &>(vm->matrix1);
         reinterpret_cast<D3DXMATRIX &>(vm->matrix2)._11 *= vm->scale.x;
         reinterpret_cast<D3DXMATRIX &>(vm->matrix2)._22 *= vm->scale.y;
-        vm->flagsWord &= ~8u;
+        vm->updateScale = 0;
 
         if (0.0 != vm->rotation.x) {
             D3DXMatrixRotationX(&rotationMatrix, vm->rotation.x);
@@ -91,7 +91,7 @@ int AnmManager::Draw3D(AnmVm *vm)
             D3DXMatrixRotationZ(&rotationMatrix, vm->rotation.z);
             D3DXMatrixMultiply(&reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &rotationMatrix);
         }
-        vm->flagsWord &= ~4u;
+        vm->updateRotation = 0;
     }
 
     worldTransformMatrix = reinterpret_cast<D3DXMATRIX &>(vm->matrix2);
