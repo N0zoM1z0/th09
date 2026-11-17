@@ -138,12 +138,9 @@ static inline AsciiGameManagerSideView &NativeFrontMessageSide(int index)
 // The message payload is a variable-length file record. Its signed short
 // words and byte operands use the original byte cursor, not a shadow table.
 // Keep native i386 unsigned index scaling for malformed/signed script input.
-#define FRONT_NATIVE_SHORT_ARG(arguments, index) \
-    (*reinterpret_cast<short *>(reinterpret_cast<char *>(arguments) + \
-        static_cast<unsigned int>(index) * sizeof(short)))
-#define FRONT_NATIVE_BYTE_ARG(arguments, index) \
-    (*reinterpret_cast<unsigned char *>(reinterpret_cast<char *>(arguments) + \
-        static_cast<unsigned int>(index)))
+// Instructions carry short and byte operands in their real on-disk payload.
+// Use the native typed pointer already selected for each opcode; the wire
+// index is not normalized or range-checked by the interpreter.
 // Shared input is the third record in the native replay-input array.
 
 int FrontMessageRuntimeView::Update()
@@ -360,14 +357,14 @@ int FrontMessageRuntimeView::Update()
         {
             short *arguments =
                 reinterpret_cast<short *>(&current04->argument04);
-            if (FRONT_NATIVE_SHORT_ARG(arguments, 0) < 2)
+            if (arguments[0] < 2)
             {
                 int side;
                 if (!mode10)
-                    side = FRONT_NATIVE_SHORT_ARG(arguments, 0);
+                    side = arguments[0];
                 else
-                    side = 1 - FRONT_NATIVE_SHORT_ARG(arguments, 0);
-                int sprite = FRONT_NATIVE_SHORT_ARG(arguments, 1);
+                    side = 1 - arguments[0];
+                int sprite = arguments[1];
                 int spriteBase =
                     static_cast<int>(
                         static_cast<unsigned int>(
@@ -381,21 +378,21 @@ int FrontMessageRuntimeView::Update()
                     static_cast<int>(
                         static_cast<unsigned int>(
                             NativeFrontMessageSide(side).player04->tableValue303FC) +
-                        static_cast<unsigned int>(FRONT_NATIVE_SHORT_ARG(arguments, 1)) + 9u);
+                        static_cast<unsigned int>(arguments[1]) + 9u);
                 anm = NativeFrontMessageSide(side).frontSide18->auxA678.sideAnm00;
                 anm->SetSprite(
                     &this->messageVms14[static_cast<unsigned int>(side) * 2u + 1u], spriteBase);
             }
             else
             {
-                int portrait = FRONT_NATIVE_SHORT_ARG(arguments, 0);
+                int portrait = arguments[0];
                 AnmLoaded *anm =
                     g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetSprite(
-                    &this->messageVms14[static_cast<unsigned int>(portrait) * 2u + 0u], FRONT_NATIVE_SHORT_ARG(arguments, 1));
+                    &this->messageVms14[static_cast<unsigned int>(portrait) * 2u + 0u], arguments[1]);
                 anm = g_GameManager.sides[0].frontSide18->auxA678.optionalAnm04;
                 anm->SetSprite(
-                    &this->messageVms14[static_cast<unsigned int>(portrait) * 2u + 1u], static_cast<int>(static_cast<unsigned int>(FRONT_NATIVE_SHORT_ARG(arguments, 1)) + 6u));
+                    &this->messageVms14[static_cast<unsigned int>(portrait) * 2u + 1u], static_cast<int>(static_cast<unsigned int>(arguments[1]) + 6u));
             }
             break;
         }
@@ -404,19 +401,19 @@ int FrontMessageRuntimeView::Update()
         {
             short *arguments =
                 reinterpret_cast<short *>(&current04->argument04);
-            if (FRONT_NATIVE_SHORT_ARG(arguments, 1) == 0 && textVms1534[1].scriptIndex >= 0)
+            if (arguments[1] == 0 && textVms1534[1].scriptIndex >= 0)
             {
                 g_AnmManager->DrawTextLeft(
                     &textVms1534[1],
-                    textColors1D20[FRONT_NATIVE_SHORT_ARG(arguments, 0)],
-                    shadowColors1D30[FRONT_NATIVE_SHORT_ARG(arguments, 0)],
+                    textColors1D20[arguments[0]],
+                    shadowColors1D30[arguments[0]],
                     " ");
             }
 
             g_FrontMessageAnm->SetAndExecuteScriptIdx(
-                &textVms1534[FRONT_NATIVE_SHORT_ARG(arguments, 1)], FRONT_NATIVE_SHORT_ARG(arguments, 1));
-            textVms1534[FRONT_NATIVE_SHORT_ARG(arguments, 1)].fontWidth =
-                textVms1534[FRONT_NATIVE_SHORT_ARG(arguments, 1)].fontHeight =
+                &textVms1534[arguments[1]], arguments[1]);
+            textVms1534[arguments[1]].fontWidth =
+                textVms1534[arguments[1]].fontHeight =
                 (unsigned char)glyphSize1D54;
 
             DecodeFrontMessageString(
@@ -424,9 +421,9 @@ int FrontMessageRuntimeView::Update()
                 reinterpret_cast<const unsigned char *>(
                     reinterpret_cast<unsigned int>(arguments) + 4u));
             g_AnmManager->DrawTextLeft(
-                &textVms1534[FRONT_NATIVE_SHORT_ARG(arguments, 1)],
-                textColors1D20[FRONT_NATIVE_SHORT_ARG(arguments, 0)],
-                shadowColors1D30[FRONT_NATIVE_SHORT_ARG(arguments, 0)],
+                &textVms1534[arguments[1]],
+                textColors1D20[arguments[0]],
+                shadowColors1D30[arguments[0]],
                 textA);
             framesElapsed1D4C = 0;
             break;
@@ -500,10 +497,10 @@ int FrontMessageRuntimeView::Update()
         {
             short *arguments =
                 reinterpret_cast<short *>(&current04->argument04);
-            this->messageVms14[static_cast<unsigned int>(FRONT_NATIVE_SHORT_ARG(arguments, 0)) * 2u + 0u].pendingInterrupt =
-                FRONT_NATIVE_BYTE_ARG(arguments, 2);
-            this->messageVms14[static_cast<unsigned int>(FRONT_NATIVE_SHORT_ARG(arguments, 0)) * 2u + 1u].pendingInterrupt =
-                FRONT_NATIVE_BYTE_ARG(arguments, 2);
+            this->messageVms14[static_cast<unsigned int>(arguments[0]) * 2u + 0u].pendingInterrupt =
+                reinterpret_cast<unsigned char *>(arguments)[2];
+            this->messageVms14[static_cast<unsigned int>(arguments[0]) * 2u + 1u].pendingInterrupt =
+                reinterpret_cast<unsigned char *>(arguments)[2];
             break;
         }
 
@@ -655,8 +652,3 @@ run_scripts:
 
     return 0;
 }
-
-
-
-#undef FRONT_NATIVE_SHORT_ARG
-#undef FRONT_NATIVE_BYTE_ARG
