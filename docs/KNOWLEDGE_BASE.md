@@ -12850,3 +12850,35 @@ reference changed the compiler's register lifetimes and regressed its
 strict 1,210/1,210-byte, 183-difference frontier (typical 1,209/1,210,
 717 differences). Do not promote an attractive single instruction while
 breaking the complete boss. No altered candidate was retained.
+
+
+## 2026-11-17 GPT-web: native Player movement arrays and timer member owners
+
+The 1,900-byte `PlayerLifecycleView::UpdateMovementAndOptions` source now
+traverses the four native `PlayerOptionStateCtorView` records with typed
+pointer increment and shifts the sixteen `PlayerConstructedVector3View`
+history entries through the actual `positions1BA0[]` array. This removes the
+former DWORD-address option step and the `NativeMovementHistorySlot` byte
+address helper. Both natural array forms preserve the complete 1,900-byte
+frontier and its existing four-byte configuration/side-load-order residual.
+The boss remains nonexact; these changes do not claim exact-function credit.
+
+Three Player timer consumers now use the existing `PlayerTimerCtorView`
+(`typedef ZunTimer`) members directly. `FindCollisionAtPlayer` reads
+`player->timer1B74`; shot callback 1 calls `shot->timer454.HasTicked()`;
+shot callback 4 binds a `PlayerTimerCtorView &` to `nativeShot->timer454`.
+All three retain complete original machine code: the PlayerCollisionHelpers
+carrier passes 5 exact siblings / 1,220 physical bytes / 32 relocation
+fields, shot callback 1 passes 471/471 bytes and 19 relocations, and shot
+callback 4 passes 249/249 bytes and 9 relocations. These source-scoped
+cohorts total 7 existing exact owners / 1,940 physical bytes / 60
+relocations; no exact ledger membership changed.
+
+Direct timer member reads in callback 4 changed four original bytes; a
+reference to the real timer member restores all 249 bytes. `memcpy` and
+field-wise copying of the movement history's first vector changed the X87
+operand schedule and were reverted. Volatile config-pointer and side-index
+reference variants did not improve the Player movement residual. The Enemy
+OnUpdate two-byte draw-head register residual was probed with reference-tail
+and pointer-base array forms; all regressed and were reverted. No ASM, NOP,
+padding, or full-project cold replay was used.

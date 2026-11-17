@@ -55,6 +55,55 @@ none of these changes adds an exact-function ledger claim. All were checked
 against the original Japanese 1.50a executable with pinned VC7.1 profiles,
 complete compared code/tails and independently verified COFF relocations.
 
+### Latest Player movement and native timer checkpoints
+
+Five subsequent source commits continue the 1,900-byte Player movement boss
+and its collision/shot leaves. All work is ordinary C++ and was compared to
+the original Japanese 1.50a PE using the pinned VC7.1 owner profiles:
+
+- `9b28b6e8` — the four real `PlayerOptionStateCtorView` records are traversed
+  with `++option`, rather than reconstructing the same 0x2F4-byte stride via
+  an integer-address cast. The 1,900-byte `UpdateMovementAndOptions` frontier
+  remains unchanged at four previously recorded bytes.
+- `b61b2ff3` — the sixteen real `PlayerConstructedVector3View` history records
+  now shift through `positions1BA0[historyIndex]` and
+  `[historyIndex - 1]`. The synthetic byte-address helper was removed; the
+  same 1,900-byte boss retains precisely its four previous differences.
+- `21e7aa0d` — `FindCollisionAtPlayer` reads the actual
+  `PlayerLifecycleView::timer1B74` member directly. It is already the
+  canonical `PlayerTimerCtorView` / `ZunTimer`, not an opaque timer overlay.
+- `a6c3d780` — Player shot callback 1 invokes `shot->timer454.HasTicked()`
+  directly on the real timer member.
+- `2dadaef5` — Player shot callback 4 binds a
+  `PlayerTimerCtorView &` to `nativeShot->timer454`; direct repeated member
+  accesses changed four bytes, while the native reference preserves all 249.
+
+The three exact timer-owner changes pass their complete original-bound
+comparisons. `FindCollisionAtPlayer` and the four other exact siblings in
+`PlayerCollisionHelpers.cpp` pass **5/5, 1,220 physical bytes, 32 relocation
+fields**. Shot callbacks 1 and 4 pass **471/471 bytes / 19 relocations** and
+**249/249 bytes / 9 relocations**, respectively. Together these three
+source-scoped cohorts cover **7 existing exact owners, 1,940 physical bytes
+and 60 relocation fields**. The Player movement boss remains nonexact at
+**1,900/1,900 with four differences**; no exact-ledger promotion is claimed.
+
+The source no longer contains any `reinterpret_cast<ZunTimer *>` pointer
+overlay. Additional Player movement experiments with a volatile config
+pointer, side-index pointer/reference, and memcpy/field-wise history copy
+were reverted: they changed the original load order or X87/register schedule.
+Enemy draw-head tail-reference and base-pointer variants also regressed the
+3,900-byte Enemy OnUpdate and were reverted. The two-byte Enemy frontier is
+unchanged.
+
+Useful bounded checks:
+
+~~~sh
+python3 -B scripts/check-frontier.py player-movement enemy-on-update player-bullet-collision
+python3 -B scripts/replay-scoped-exact.py --source src/PlayerCollisionHelpers.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/PlayerShotUpdateCallback1.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/PlayerShotUpdateCallback4.cpp
+~~~
+
 ### Latest five native Player/GameManager checkpoints
 
 Five further source commits deepen the large Player selector and GameManager
