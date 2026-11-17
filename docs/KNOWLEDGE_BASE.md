@@ -10209,3 +10209,35 @@ relocation offsets/types, same-section COFF definitions and
 identical original target destinations were proved. No ASM,
 padding, forced register assignments, whole-product cold
 replay or new exact-function promotion was used.
+
+## 2026-11-17 GPT-web: native stage-script wire records and interpolation arrays
+
+The `BackgroundRunStageScriptPhase` boss and its camera interpolation
+helper now use the actual `RawStageInstr` and `BackgroundFog`
+types shared with the native `Background` allocation, rather
+than maintaining two duplicate `RawStageInstrProbe` and
+`BackgroundFogProbe` structs. The stage wire record has the
+same 0x14-byte layout and the 0x08 argument offset, while the fog
+record is the original 0x0C-byte `nearPlane / farPlane / color`
+view. The native layout assertions are retained.
+
+In `InterpolateBackgroundCameraVector`, all five channel timer,
+duration and mode accesses now use genuine C++ array subscripts
+(`interpolationTimersC08[index]`,
+`interpolationDurationBF4[index]` and
+`interpolationModesC44[index]`) instead of manufacturing DWORD
+addresses through `TH09_BG_NATIVE_SLOT`. The helper still
+implements the original increment/expiry and linear/Hermite
+calculation order, with no extra bounds checks or alternate state.
+
+Separate pinned VC7.1 probes of the array-only and native-type
+variants reproduced the same full physical owners before promotion.
+The maintained source-scoped replay passes **5/5 previously exact
+functions, 3,231 physical bytes and 160 relocation fields**,
+including the **2,652-byte stage script with its original
+switch-data extent and 133 relocations**, and the 448-byte
+camera interpolation helper. The 55 generated private label
+spellings were rebound only after COFF same-section and PE
+destination proof; every unmasked target byte remained equal.
+No ASM, fake padding, whole-product cold replay or new exact
+function count was claimed.

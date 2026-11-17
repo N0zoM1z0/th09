@@ -9,6 +9,7 @@
 // timer comparisons and scalar Hermite visibility recover private transport.
 
 #include "AsciiManager.hpp"
+#include "Background.hpp"
 #include "AnmManager.hpp"
 #include "ZunTimer.hpp"
 #include "Supervisor.hpp"
@@ -24,24 +25,11 @@ struct D3DXVECTOR3 : public D3DVECTOR {};
 D3DXVECTOR3 *WINAPI D3DXVec3Normalize(
     D3DXVECTOR3 *out, const D3DXVECTOR3 *vector);
 
-struct RawStageInstrProbe
-{
-    int frame;
-    short opcode;
-    short size;
-    int args[3];
-};
-typedef char RawStageInstrProbeSizeIs14[
-    sizeof(RawStageInstrProbe) == 0x14 ? 1 : -1];
-
-struct BackgroundFogProbe
-{
-    float nearPlane;
-    float farPlane;
-    unsigned int color;
-};
-typedef char BackgroundFogProbeSizeIs0C[
-    sizeof(BackgroundFogProbe) == 0x0C ? 1 : -1];
+// Use the actual stage-file and fog records shared with Background.
+typedef char BackgroundStageNativeWireRecords[
+    (sizeof(RawStageInstr) == 0x14 &&
+     offsetof(RawStageInstr, args) == 0x08 &&
+     sizeof(BackgroundFog) == 0x0C) ? 1 : -1];
 
 // The four Background-owned camera snapshots have the same physical 0xF0
 // representation as the native Supervisor viewport. This reuses the data
@@ -69,7 +57,7 @@ struct BackgroundStageView
     unsigned char unknown0010[0x18 - 0x10];
     int pendingStageLabel018;
     unsigned char unknown001C[0x28 - 0x1C];
-    RawStageInstrProbe *stageScript028;
+    RawStageInstr *stageScript028;
     AnmVm stageVm0_02C;
     AnmVm stageVm1_2D0;
     AnmVm stageVm2_574;
@@ -92,9 +80,9 @@ struct BackgroundStageView
     Float3 stagePositionC70;
     unsigned int clearColorC7C;
     unsigned char unknownC80[0xC94 - 0xC80];
-    BackgroundFogProbe skyFogC94;
-    BackgroundFogProbe skyFogInitialCA0;
-    BackgroundFogProbe skyFogFinalCAC;
+    BackgroundFog skyFogC94;
+    BackgroundFog skyFogInitialCA0;
+    BackgroundFog skyFogFinalCAC;
     int skyFogDurationCB8;
     ZunTimer skyFogTimerCBC;
 
@@ -172,12 +160,8 @@ float __stdcall CubicHermiteInterpolateScalar(
            endTangentWeight * endTangent;
 }
 
-// A lexical view of the three native Background interpolation arrays.
-// Preserve the original call/slot lvalues under the /Ob0 owner profile.
-#define TH09_BG_NATIVE_SLOT(array, elementType, index) \
-    (*reinterpret_cast<elementType *>( \
-        reinterpret_cast<unsigned int>(&(array)[0]) + \
-        static_cast<unsigned int>(index) * sizeof((array)[0])))
+// The three interpolation groups are real Background-owned C++ arrays.
+// The helper's index selects the same channel in each of the five slots.
 
 static void InterpolateBackgroundCameraVector(
     BackgroundStageView *background,
@@ -190,22 +174,22 @@ static void InterpolateBackgroundCameraVector(
 {
     float time;
 
-    if (TH09_BG_NATIVE_SLOT(background->interpolationTimersC08, ZunTimer, index) <
-        TH09_BG_NATIVE_SLOT(background->interpolationDurationBF4, int, index))
+    if (background->interpolationTimersC08[index] <
+        background->interpolationDurationBF4[index])
     {
-        TH09_BG_NATIVE_SLOT(background->interpolationTimersC08, ZunTimer, index)++;
-        time = (float)TH09_BG_NATIVE_SLOT(background->interpolationTimersC08, ZunTimer, index) /
-               TH09_BG_NATIVE_SLOT(background->interpolationDurationBF4, int, index);
+        background->interpolationTimersC08[index]++;
+        time = (float)background->interpolationTimersC08[index] /
+               background->interpolationDurationBF4[index];
     }
     else
     {
-        TH09_BG_NATIVE_SLOT(background->interpolationTimersC08, ZunTimer, index) =
-            TH09_BG_NATIVE_SLOT(background->interpolationDurationBF4, int, index);
+        background->interpolationTimersC08[index] =
+            background->interpolationDurationBF4[index];
         time = 1.0f;
-        TH09_BG_NATIVE_SLOT(background->interpolationDurationBF4, int, index) = 0;
+        background->interpolationDurationBF4[index] = 0;
     }
 
-    switch (TH09_BG_NATIVE_SLOT(background->interpolationModesC44, int, index))
+    switch (background->interpolationModesC44[index])
     {
     case 1:
         time = 1.0f - time;
@@ -230,7 +214,7 @@ static void InterpolateBackgroundCameraVector(
         break;
     }
 
-    if (TH09_BG_NATIVE_SLOT(background->interpolationModesC44, int, index) != 7)
+    if (background->interpolationModesC44[index] != 7)
     {
         *out = *end - *start;
         *out = (*out * time) + *start;
@@ -246,7 +230,6 @@ static void InterpolateBackgroundCameraVector(
     }
 }
 
-#undef TH09_BG_NATIVE_SLOT
 
 // STD instruction records carry their operands directly in the file-backed
 // variable-size +0x08 DWORD payload. Read the live wire word by its real
@@ -254,22 +237,22 @@ static void InterpolateBackgroundCameraVector(
 #define TH09_BG_NATIVE_WIRE_WORD(index) \
     (*reinterpret_cast<int *>( \
         reinterpret_cast<unsigned int>(instruction) + \
-        offsetof(RawStageInstrProbe, args) + \
+        offsetof(RawStageInstr, args) + \
         static_cast<unsigned int>(index) * sizeof(int)))
 #define TH09_BG_NATIVE_WIRE_FLOAT(index) \
     (*reinterpret_cast<float *>( \
         reinterpret_cast<unsigned int>(instruction) + \
-        offsetof(RawStageInstrProbe, args) + \
+        offsetof(RawStageInstr, args) + \
         static_cast<unsigned int>(index) * sizeof(float)))
 #define TH09_BG_NATIVE_WIRE_BYTE(index) \
     (*reinterpret_cast<unsigned char *>( \
         reinterpret_cast<unsigned int>(instruction) + \
-        offsetof(RawStageInstrProbe, args) + \
+        offsetof(RawStageInstr, args) + \
         static_cast<unsigned int>(index)))
 #define TH09_BG_NATIVE_WIRE_VECTOR(type) \
     (*reinterpret_cast<type *>( \
         reinterpret_cast<unsigned int>(instruction) + \
-        offsetof(RawStageInstrProbe, args)))
+        offsetof(RawStageInstr, args)))
 
 // All 19 live stage-camera selectors target the same three original
 // 0xF0-byte Supervisor viewport records as exact viewport/routing code.
@@ -285,15 +268,15 @@ void __fastcall BackgroundRunStageScriptPhase(Background *backgroundOwner)
     BackgroundStageView *background =
         reinterpret_cast<BackgroundStageView *>(backgroundOwner);
     D3DXVECTOR3 position;
-    RawStageInstrProbe *instruction;
+    RawStageInstr *instruction;
 
 read_instruction:
     // Native stage instructions use a 0x14-byte signed wire index scaled as
     // an unsigned i386 word, without a C++ pointer-in-array precondition.
-    instruction = reinterpret_cast<RawStageInstrProbe *>(
+    instruction = reinterpret_cast<RawStageInstr *>(
         reinterpret_cast<unsigned int>(background->stageScript028) +
         static_cast<unsigned int>(background->stageScriptInstructionIndexC64) *
-            sizeof(RawStageInstrProbe));
+            sizeof(RawStageInstr));
     if (background->stageScriptTimerC58 >= instruction->frame)
     {
         if (instruction->frame == -1)
@@ -313,9 +296,9 @@ read_instruction:
             // record in the original file-backed instruction stream.
             // Advance its native i386 byte address, not a bounded C++ array
             // pointer to a single projected instruction object.
-            instruction = reinterpret_cast<RawStageInstrProbe *>(
+            instruction = reinterpret_cast<RawStageInstr *>(
                 reinterpret_cast<unsigned int>(instruction) +
-                sizeof(RawStageInstrProbe));
+                sizeof(RawStageInstr));
             background->stagePositionEndFrame6414 = instruction->frame;
             background->stagePositionTarget6408 =
                 TH09_BG_NATIVE_WIRE_VECTOR(Float3);
