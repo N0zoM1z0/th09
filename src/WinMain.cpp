@@ -149,13 +149,9 @@ static int CreateGameWindow(HINSTANCE instance)
     return 0;
 }
 
-// Retail executable-path scanning uses an i386 DWORD address even when
-// strlen(path)-1 is signed. Do not turn the original initial byte read into
-// a checked C++ array access or cache the live characters across the loop.
-#define TH09_NATIVE_EXE_PATH_CHAR(index) \
-    (*reinterpret_cast<char *>( \
-        reinterpret_cast<unsigned int>(&g_ExecutableDirectory[0]) + \
-        static_cast<unsigned int>(index)))
+// Find the executable directory in the real path buffer. Preserve
+// the original 32-bit index and its independent live byte reads.
+
 
 int WINAPI WinMain(
     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR commandLine, int showCommand)
@@ -166,17 +162,17 @@ int WINAPI WinMain(
     if (GetModuleFileNameA(NULL, g_ExecutableDirectory, MAX_PATH) != 0)
     {
         int pathIndex = (int)strlen(g_ExecutableDirectory) - 1;
-        if (TH09_NATIVE_EXE_PATH_CHAR(pathIndex) != '\\')
+        if (g_ExecutableDirectory[static_cast<unsigned int>(pathIndex)] != '\\')
         {
             do
             {
-                if (TH09_NATIVE_EXE_PATH_CHAR(pathIndex) == '/')
+                if (g_ExecutableDirectory[static_cast<unsigned int>(pathIndex)] == '/')
                     break;
                 if (pathIndex <= 0)
                     goto executable_path_fallback;
-                --*reinterpret_cast<unsigned int *>(&pathIndex);
+                --pathIndex;
             }
-            while (TH09_NATIVE_EXE_PATH_CHAR(pathIndex) != '\\');
+            while (g_ExecutableDirectory[static_cast<unsigned int>(pathIndex)] != '\\');
         }
 
         if (pathIndex <= 0)
@@ -186,8 +182,8 @@ int WINAPI WinMain(
         }
         else
         {
-            TH09_NATIVE_EXE_PATH_CHAR(pathIndex) = '/';
-            TH09_NATIVE_EXE_PATH_CHAR(static_cast<unsigned int>(pathIndex) + 1u) = '\0';
+            g_ExecutableDirectory[static_cast<unsigned int>(pathIndex)] = '/';
+            g_ExecutableDirectory[static_cast<unsigned int>(static_cast<unsigned int>(pathIndex) + 1u)] = '\0';
         }
     }
     else
@@ -372,7 +368,7 @@ stop:
                 TranslateMessage(&message);
                 DispatchMessageA(&message);
             }
-            --*reinterpret_cast<unsigned int *>(&waitFrames);
+            --waitFrames;
         } while (waitFrames != 0);
 
         goto restart;
@@ -403,5 +399,3 @@ stop:
 
     return 0;
 }
-
-#undef TH09_NATIVE_EXE_PATH_CHAR

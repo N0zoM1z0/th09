@@ -11835,3 +11835,37 @@ No compiler-label rebindings or ABI changes
 were needed. No ASM, artificial padding,
 forced register assignments or full cold replay
 was used, and no new Exact function is claimed.
+
+## 2026-11-17 GPT-web: native WinMain executable path and restart counters
+
+The full original-bound `WinMain` now traverses the process's
+real `g_ExecutableDirectory[MAX_PATH]` character array directly.
+The five accesses to executable directory separators and its
+terminating byte no longer go through
+`TH09_NATIVE_EXE_PATH_CHAR`, which fabricated a Win32
+integer address just to recover a char lvalue.
+The original path index's unsigned 32-bit representation
+is preserved in the direct subscript. The executable path
+scan and the 60-frame menu restart loop now use normal
+`--pathIndex` and `--waitFrames` expressions rather
+than incrementing/decrementing a reinterpreted integer
+alias. Resource ownership, Win32 window creation,
+Direct3D device-loss recovery, exact two-level
+shutdown and option-restart branches are untouched.
+
+Six pinned VC7.1 source probes tested the path lvalue,
+signed/unsigned index forms and both independent countdown
+expressions. The combined direct-expression candidate
+preserves the complete **1,351-byte WinMain**
+original-bound owner and **all 152 relocations**.
+The adjacent 285-byte `CreateGameWindow` helper
+also remains exact with 19 relocations and the
+original file-local EBX entry convention. The
+maintained selected-source replay passes
+**2/2 existing exact functions, 1,636 original
+physical bytes and 171 relocation fields**.
+No compiler-private label rebinding or changed
+callee symbol was necessary. The full Windows
+i386 product build remains open; no ASM, padding
+simulation, synthetic calls, forced register
+assignments or whole-product cold replay was used.
