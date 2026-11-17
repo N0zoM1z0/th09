@@ -36,15 +36,6 @@ struct BulletCancelCollisionView
     int CheckBulletCancelCollision(Float3 *position, Float3 *collisionSize, Bullet *bullet);
 };
 
-struct BulletTimerCurrentView
-{
-    int previous;
-    float subFrame;
-    int current;
-
-    int GetCurrent();
-};
-
 
 struct BulletPlayerView
 {
@@ -897,8 +888,7 @@ updateTimers:
                 int startTime = laser->startTime;
                 int rampWindow = startTime > 30 ? 30 : startTime;
                 if (startTime - rampWindow <
-                    reinterpret_cast<BulletTimerCurrentView *>(
-                        &laser->timer)->GetCurrent())
+                    static_cast<int>(laser->timer))
                     currentWidth =
                         (float)laser->timer * laser->width / startTime;
                 else
