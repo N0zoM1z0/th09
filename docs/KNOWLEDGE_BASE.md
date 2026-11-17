@@ -12260,3 +12260,40 @@ identical relocation offsets/types, original PE
 destinations and full nonrelocation byte equality.
 No ASM, artificial padding, forced register allocation
 or full-product cold replay was used.
+
+## 2026-11-17 GPT-web: native Type14/22 ExAttack fan, random and ANM data
+
+The original-bound `ExAttackUpdateCallbackType14_22` now selects
+the genuine four `fanGroups2E8[4][33]` vertex groups and
+`randomD38[4][33]` float values using native C++
+array subscripts. Its side selectors read the actual
+`g_GameManager.sides[side]` 0x38-byte gameplay records.
+The three `TH09_EX1422_FAN/RANDOM/SIDE` integer-address
+macros have been eliminated, without introducing duplicate
+buffers or additional range checks.
+
+The original projectile's dynamic VM is an authentic
+`AnmVm`, not a separate padded
+`ExAttackType1422VmView`. Its three update operations
+are expressed through the verified native
+`AnmVm::visible` bitfield (rather than a raw flags
+mask), `currentInstruction` null pointer, and
+`color1` packed DWORD. The fake 0x220-byte VM prefix
+has been deleted. Both the original partial-class
+record and source-level call ordering remain unchanged;
+unproven ExAttackRecord ownership was not claimed.
+
+Eight isolated/combined pinned VC7.1 probes confirmed
+these native arrays and VM semantics. The maintained
+source-scoped replay and strict original PE/COFF
+comparison both match the entire **824/824 physical
+bytes and all 44 relocations**, including the switch
+table beyond the 805-byte code extent. Five
+compiler-private labels were rebound only after proving
+the same COFF section/definition, original PE destination
+and relocation offset/type. A diagnostic caching the
+dynamic `AnmVm *` in one local variable instead
+shrank the physical owner to 804 bytes and introduced
+many different register/branch bytes; that candidate was
+rejected. No ASM, padding, forced registers, full cold
+replay, or new Exact-function credit was used.
