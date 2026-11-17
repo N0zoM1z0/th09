@@ -11186,3 +11186,54 @@ code-size decisions and was rejected. It is not
 promoted or counted as progress. No ASM,
 artificial padding, forced registers or
 whole-product cold replay was used.
+
+## 2026-11-17 GPT-web: native MIDI track, channel and message arrays
+
+The complete `MidiOutput::ProcessMsg` interpreter now reads
+native `MidiOutput::pendingLongMessageHeaders[32]`,
+`fileData[32]`, the runtime-allocated `MidiTrack`
+records, and the 16 `MidiChannel` instances through
+normal C++ array subscripts instead of six
+`TH09_MIDI_NATIVE_*` integer-address cast macros.
+The genuine `MidiChannel::keyPressedFlags[16]`
+bitmap is indexed by the original note-byte shift,
+and SysEx payload bytes are written directly to
+`longMessageHeader->lpData[index + 1]`.
+The six local 16-/32-bit endian-swap reads now
+access byte lanes via `reinterpret_cast<const u8 *>`
+on the actual scalar, not casting its address
+through an integer first. Two MIDI loop checkpoint
+cursors advance using `++MidiTrack *`, while the
+variable-length integer parser advances its
+actual file byte pointer with `++*curTrackDataCursor`.
+
+The old `SupervisorMidiView` with a fabricated
+0x74-byte prefix has also been removed.
+`MidiDevice::OpenDevice` consumes the original
+native `g_Supervisor.window74` HWND member,
+verified against the real Supervisor layout.
+This replaces pseudo-object ownership without
+new state or codegen scaffolding.
+
+Seven isolated probes for each native array family,
+one combined array probe, track cursor increments,
+native Supervisor HWND and byte-cursor advancement
+were tested under the pinned VC7.1 carrier.
+The maintained selected-source replay passes
+**32/32 authored-exact functions, 4,270 physical
+bytes and all 132 relocation fields**.
+The full **1,574-byte ProcessMsg** owner remains
+byte-exact with 43 original relocations, as do
+the 505-byte timer handler, 358-byte MIDI parser
+and 69-byte OpenDevice leaf. A co-resident
+one-byte `MidiTimer::OnTimerElapsed` diagnostic
+body also compared byte-identically, but is
+**not counted as authored exact**, because its
+original one-byte folded-body ownership remains
+unclassified. Twenty-three VC7.1 local symbol
+spellings were rebound only after verifying
+original PE destinations, same-section COFF
+definitions and unchanged relocation offsets/types.
+No ASM, artificial padding, forced registers,
+whole-product cold replay or new exact-function
+promotion was claimed.
