@@ -12080,3 +12080,41 @@ at +0x1FC and the Stage projection context remain
 unchanged. No ASM, synthetic padding, register forcing,
 whole-product cold replay or newly exact function
 was claimed.
+
+## 2026-11-17 GPT-web: native FrontSide HUD viewport and ANM position owner
+
+The full 3,094-byte `FrontSide::OnDraw` HUD renderer
+now addresses the actual
+`g_Supervisor.ctorArray078[sideIndexA66C]` viewport
+to clear its screen-shake offset, rather than computing
+an integer DWORD address for the 0xF0-byte viewport
+record. The HUD position cursors already begin at
+the genuine `AnmVm::pos` member (+0x208).
+All eleven cursor strides use direct
+`unsigned char *` arithmetic over the original
+0x2A4-byte ANM VM records, and the 42 owner-recovery
+expressions address the enclosing `AnmVm` by its
+actual native member offset without fabricating
+a Win32 integer base. The old
+`FRONT_SIDE_DRAW_BASE` address-cast macro is removed.
+
+Separate pinned VC7.1 `/O2 /Ob0` probes verified
+the native Supervisor viewport, byte-oriented
+VM iteration, member-offset owner recovery, and
+their combination. A further true-`AnmVm *` loop
+experiment changed the generated owner size to
+3,127 bytes with more than two thousand
+nonrelocation differences, so the original
+`Float3 *pos` subobject cursor was retained.
+The final maintained C++ source passed complete
+**3,094/3,094 original physical bytes and
+209/209 relocation fields** with no symbol
+renumbering; strict COFF/PE comparison and
+one-source replay are both exact.
+
+The native C++ comments distinguish the
+subobject-cursor register lifetime from the
+still-unproven original nominal loop spelling.
+No ASM, artificial padding, forced registers,
+full-product cold replay or new exact-function
+credit was used.
