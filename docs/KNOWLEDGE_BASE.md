@@ -9994,3 +9994,24 @@ functions, 773 physical bytes, 32 relocation fields**. These changes
 recover natural shared native Enemy-state semantics across the
 larger clearing loop and two smaller manager procedures, without
 ASM, padding, partial exactness claims or a whole-product cold replay.
+
+## 2026-11-17 GPT-web: use one native ANM flag view from Enemy flash to rendering
+
+The full `AnmManagerRender.cpp` carrier now uses the real `AnmVm`
+bitfield `drawEnabled` for all seven visibility/draw-gate tests, and
+`flag17` for the three places that choose between `color1` and
+`color2`. These replace the raw `flagsWord & 2` and
+`flagsWord & 0x20000` predicates. The flag-17 read is the same
+exact VM word that `EnemyManagerView::OnUpdate` now sets or clears
+during damage flashes; the renderers consume the same native
+`color2Script` RGBA value recovered in that caller. No extra ANM
+memory projection, new VM ownership or condition has been introduced.
+
+Pinned VC7.1 selected-source replay over all **16 exact AnmManager
+rendering functions** passes **5,814/5,814 physical bytes and 395
+original relocations**. This includes both 1,067-byte `DrawInner`
+variants, the 658-byte rotated 2D body, render-state setup and the
+smaller entrypoint wrappers. The already established original-bound
+physical extents and instructions are unchanged; this is natural C++
+field recovery, not new exact-function credit, and no full-game cold
+replay or assembler instructions were used.

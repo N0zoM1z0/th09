@@ -90,7 +90,7 @@ int AnmManager::DrawNoRotation(AnmVm *vm)
     if (!vm->IsVisible()) {
         return -1;
     }
-    if ((vm->flagsWord & 2) == 0) {
+    if (vm->drawEnabled == 0) {
         return -1;
     }
     if (vm->color1Script.a == 0) {
@@ -211,7 +211,7 @@ void AnmManager::SetRenderStateForVm3D(AnmVm *vm)
 
     {
         AnmRenderColor color;
-        color.value = (vm->flagsWord & 0x20000) != 0
+        color.value = vm->flag17 != 0
             ? vm->color2 : vm->color1;
         if (anm->useMixColor != 0) {
             color.r = MixRenderColor(color.r, anm->color.r);
@@ -408,7 +408,7 @@ int AnmManager::DrawInner(AnmVm *vm, int flags)
     }
 
     if ((flags & 2) == 0) {
-        color.value = (vm->flagsWord & 0x20000) != 0
+        color.value = vm->flag17 != 0
             ? vm->color2 : vm->color1;
         if (anm->useMixColor != 0) {
             color.r = MixRenderColor(color.r, anm->color.r);
@@ -533,7 +533,7 @@ int AnmManager::DrawInnerFlippedX(AnmVm *vm, int flags)
     }
 
     if ((flags & 2) == 0) {
-        color.value = (vm->flagsWord & 0x20000) != 0
+        color.value = vm->flag17 != 0
             ? vm->color2 : vm->color1;
         if (anm->useMixColor != 0) {
             color.r = MixRenderColor(color.r, anm->color.r);
@@ -571,7 +571,7 @@ int AnmManager::DrawNoRotationFlippedX(AnmVm *vm)
     if (!vm->IsVisible()) {
         return -1;
     }
-    if ((vm->flagsWord & 2) == 0) {
+    if (vm->drawEnabled == 0) {
         return -1;
     }
     if (vm->color1Script.a == 0) {
@@ -637,7 +637,7 @@ int AnmManager::Draw2D(AnmVm *vm)
     if (!vm->IsVisible()) {
         return -1;
     }
-    if ((vm->flagsWord & 2) == 0) {
+    if (vm->drawEnabled == 0) {
         return -1;
     }
     if (vm->color1Script.a == 0) {
@@ -704,7 +704,7 @@ int AnmManager::Draw2DRotatedOrAxisAligned(AnmVm *vm)
     if (!vm->IsVisible()) {
         return -1;
     }
-    if ((vm->flagsWord & 2) == 0) {
+    if (vm->drawEnabled == 0) {
         return -1;
     }
     if (vm->color1Script.a == 0) {
@@ -792,7 +792,7 @@ int AnmManager::DrawNoRotationNoRound(AnmVm *vm)
     float spriteHalfWidth;
     float spriteHalfHeight;
     if (!vm->IsVisible()) return -1;
-    if ((vm->flagsWord & 2) == 0) return -1;
+    if (vm->drawEnabled == 0) return -1;
     if (vm->color1Script.a == 0) return -1;
     spriteHalfWidth = (vm->spriteSize.x * vm->scale.x) / 2.0f;
     spriteHalfHeight = (vm->spriteSize.y * vm->scale.y) / 2.0f;
@@ -817,7 +817,7 @@ int AnmManager::DrawNoRotationNoRound(AnmVm *vm)
 int AnmManager::DrawCameraFacingQuad(AnmVm *vm)
 {
     if (!vm->IsVisible()) return -1;
-    if ((vm->flagsWord & 2) == 0) return -1;
+    if (vm->drawEnabled == 0) return -1;
     if (vm->color1Script.a == 0) return -1;
     if (this->ProjectCameraFacingQuad(vm) != 0) return -1;
     return this->DrawInner(vm, 0);
@@ -826,7 +826,7 @@ int AnmManager::DrawCameraFacingQuad(AnmVm *vm)
 int AnmManager::DrawProjected3DQuad(AnmVm *vm)
 {
     if (!vm->IsVisible()) return -1;
-    if ((vm->flagsWord & 2) == 0) return -1;
+    if (vm->drawEnabled == 0) return -1;
     if (vm->color1Script.a == 0) return -1;
     this->Project3DQuad(vm);
     return this->DrawInner(vm, 0);
