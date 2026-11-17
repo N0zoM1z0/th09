@@ -138,8 +138,8 @@ void Ending::UpdateFade()
 
 int Ending::RunEndingScript()
 {
-    // Skip locks, text row selection, and the packed text-cursor index are
-    // live script-owned signed DWORDs. The original i386 arithmetic wraps.
+    // Skip-lock timers, the next text VM and decoded character index all
+    // belong to the real Ending state and its on-stack text buffer.
     char textBuffer[68];
     float fadeTime;
     int temporary;
@@ -155,7 +155,7 @@ int Ending::RunEndingScript()
         this->pageWaitTimer--;
         if (this->pageSkipLockFrames != 0)
         {
-            --*reinterpret_cast<unsigned int *>(&this->pageSkipLockFrames);
+            --this->pageSkipLockFrames;
         }
         else if (g_AsciiInput.WasPressed(0x1001) ||
                  (this->hasSeenEnding && g_AsciiInput.IsHeld(0x100)))
@@ -180,7 +180,7 @@ int Ending::RunEndingScript()
         this->lineWaitTimer--;
         if (this->lineSkipLockFrames != 0)
         {
-            --*reinterpret_cast<unsigned int *>(&this->lineSkipLockFrames);
+            --this->lineSkipLockFrames;
         }
         else if (g_AsciiInput.WasPressed(0x1001) ||
                  (this->hasSeenEnding && g_AsciiInput.IsHeld(0x100)))
@@ -342,14 +342,14 @@ int Ending::RunEndingScript()
             this->lineSkipLockFrames = this->minimumLineWaitFrames;
 
 lineWaitConfigured:
-            ++*reinterpret_cast<unsigned int *>(&this->nextTextVmIndex);
+            ++this->nextTextVmIndex;
             goto end_of_parse;
 
         default:
             temporary = textIndex;
             textBuffer[textIndex] = *this->scriptCursor;
-            textBuffer[static_cast<unsigned int>(temporary) + 1u] = *(this->scriptCursor + 1);
-            textIndex = static_cast<int>(static_cast<unsigned int>(temporary) + 2u);
+            textBuffer[temporary + 1] = *(this->scriptCursor + 1);
+            textIndex = temporary + 2;
             this->scriptCursor += 2;
             break;
         }
