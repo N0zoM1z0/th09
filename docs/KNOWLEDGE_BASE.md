@@ -10679,3 +10679,38 @@ No compiler-local label rebinding was needed.
 These are natural C++ expressions, without ASM,
 fake padding, forced register hints, cold full
 replay or new authored exact-function credit.
+
+## 2026-11-17 GPT-web: native MusicRoom tracks and selected VM
+
+The complete 2,258-byte `TitleScreenView::OnUpdateMusicRoom`
+owner now reads the real native `musicTracks` descriptor
+array and `g_TitleBgmUnlocked` byte table directly.
+Fifteen old `TH09_MUSIC_NATIVE_TRACK` address-cast
+reads are expressed as `musicTracks[unsigned(index)]`,
+preserving the original 32-bit signed-to-unsigned
+script index and exact native 0x292-byte record stride.
+Nine unlock checks use the real table; the file parser's
+native descriptor cursor advances with `++musicTrack`
+rather than integer address arithmetic.
+
+The selected song drawing helper uses the actual
+`vms[songVmIndex]` 0x2A4-byte ANM object and the
+manager receives its true `AnmVmView *` as an
+`AnmVm *` by ordinary C++ conversion. The
+three track/unlock/draw VM lvalue macros are
+removed without adding a song clamp or extra
+parsing/callback behavior.
+
+Diagnostic signed-index array access exposed one
+nonrelocation register-choice byte at offset
++0x7B1 of Update, while the genuine native
+unsigned-DWORD indexing retained 100% target
+identity; the signed form was not promoted.
+Source-scoped pinned VC7.1 replay passes
+**2/2 previously exact functions, 2,467 physical
+bytes, 80 original relocation fields**: the
+2,258-byte Update with 74 fields and 209-byte
+DrawMusicRoom leaf with six. Strict full-owner
+comparison is exact, with no generated label
+rebindings. No ASM, padding, full cold replay
+or new exact-function credit is claimed.
