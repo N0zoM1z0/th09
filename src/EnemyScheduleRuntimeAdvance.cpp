@@ -65,40 +65,13 @@ extern float g_EnemyTimelineStep;
 extern unsigned char g_FrontMode0Done;
 extern RngRuntimeView g_Rng;
 
-// EX timeline opcodes 8/10 index the real nine EnemyManager remote
-// pointer slots using a signed wire word and original i386 DWORD stride.
-// Preserve all three live lvalue reads; do not cache or clamp the slot.
-static __forceinline EnemyView *&TimelineRemoteSlot(
-    EnemyManagerView *manager, int index)
-{
-    return *reinterpret_cast<EnemyView **>(
-        reinterpret_cast<unsigned int>(&manager->remoteSlots2AC388[0]) +
-        static_cast<unsigned int>(index) * sizeof(manager->remoteSlots2AC388[0]));
-}
-
-// The timeline header is only eight bytes, but its actual file-backed
-// instruction includes variable-length argument words beyond that C++ view.
-// Form each payload pointer as a native 32-bit byte address, not pointer
-// arithmetic outside an eight-byte C++ object.
+// Timeline opcodes 8/10 select the real remote Enemy slots; opcodes
+// 13/14 visit the four native event flags. Their live access ordering is
+// retained, with no extra bounds checks or cached copies.
 //
-// Timeline opcodes 13/14 traverse the actual four EnemyManager event
-// DWORDs at +0x2AC430 using native index-scaled 32-bit addresses.
-static __forceinline int &NativeEnemyTimelineEvent(
-    EnemyManagerView *manager, unsigned int index)
-{
-    return *reinterpret_cast<int *>(
-        reinterpret_cast<unsigned char *>(&manager->timelineEventSlots2AC430[0]) +
-        static_cast<unsigned int>(index) *
-            sizeof(manager->timelineEventSlots2AC430[0]));
-}
-
-// Each timeline opcode's argument pointer addresses a real variable-length
-// packed file record, not a C++ int array with independent provenance.
-// Keep i386 DWORD word-address offsets from that actual payload base.
-#define TH09_TIMELINE_NATIVE_ARG(ptr, ordinal) \
-    (*reinterpret_cast<int *>( \
-        reinterpret_cast<unsigned int>(ptr) + \
-        static_cast<unsigned int>(ordinal) * sizeof(int)))
+// Each timeline instruction is a variable-length file-backed record.
+// Address the payload through the instruction's byte representation,
+// then read its original 32-bit argument words using int *.
 
 int EnemyScheduleRuntimeView::Run()
 {
@@ -132,16 +105,16 @@ int EnemyScheduleRuntimeView::Run()
                 case 1:
                 {
                     int *args1 = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned int>(instruction) +
-                            sizeof(EnemyTimelineInstructionView));
+                        reinterpret_cast<unsigned char *>(instruction) +
+                        sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition position1;
-                    position1.x = *reinterpret_cast<float *>(&TH09_TIMELINE_NATIVE_ARG(args1, 1));
-                    position1.y = *reinterpret_cast<float *>(&TH09_TIMELINE_NATIVE_ARG(args1, 2));
+                    position1.x = *reinterpret_cast<float *>(&args1[1]);
+                    position1.y = *reinterpret_cast<float *>(&args1[2]);
                     position1.z = 0.0f;
                     reinterpret_cast<EnemyTimelineSpawnManagerView *>(
                         runtime->manager1C)->SpawnEnemyRecord(
-                            TH09_TIMELINE_NATIVE_ARG(args1, 0), &position1,
-                            TH09_TIMELINE_NATIVE_ARG(args1, 3), TH09_TIMELINE_NATIVE_ARG(args1, 4), TH09_TIMELINE_NATIVE_ARG(args1, 5),
+                            args1[0], &position1,
+                            args1[3], args1[4], args1[5],
                             runtime->mirrorMovementX18, 0);
                     break;
                 }
@@ -149,19 +122,19 @@ int EnemyScheduleRuntimeView::Run()
                 case 17:
                 {
                     int *args17 = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned int>(instruction) +
-                            sizeof(EnemyTimelineInstructionView));
+                        reinterpret_cast<unsigned char *>(instruction) +
+                        sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition position17;
-                    position17.x = *reinterpret_cast<float *>(&TH09_TIMELINE_NATIVE_ARG(args17, 1));
-                    position17.y = *reinterpret_cast<float *>(&TH09_TIMELINE_NATIVE_ARG(args17, 2));
+                    position17.x = *reinterpret_cast<float *>(&args17[1]);
+                    position17.y = *reinterpret_cast<float *>(&args17[2]);
                     position17.z = 0.0f;
                     EnemyView *enemy17 =
                         reinterpret_cast<EnemyView *>(
                             reinterpret_cast<EnemyTimelineSpawnManagerView *>(
                                 runtime->manager1C)->SpawnEnemyRecord(
-                                    TH09_TIMELINE_NATIVE_ARG(args17, 0),
-                                    &position17, TH09_TIMELINE_NATIVE_ARG(args17, 3),
-                                    TH09_TIMELINE_NATIVE_ARG(args17, 4), TH09_TIMELINE_NATIVE_ARG(args17, 5),
+                                    args17[0],
+                                    &position17, args17[3],
+                                    args17[4], args17[5],
                                     runtime->mirrorMovementX18, 0));
                     enemy17->secondaryFlagBits3380.movement.movementMode09_10 |= 1u;
                     break;
@@ -170,16 +143,16 @@ int EnemyScheduleRuntimeView::Run()
                 case 15:
                 {
                     int *args15 = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned int>(instruction) +
-                            sizeof(EnemyTimelineInstructionView));
+                        reinterpret_cast<unsigned char *>(instruction) +
+                        sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition position15;
-                    position15.x = *reinterpret_cast<float *>(&TH09_TIMELINE_NATIVE_ARG(args15, 1));
-                    position15.y = *reinterpret_cast<float *>(&TH09_TIMELINE_NATIVE_ARG(args15, 2));
+                    position15.x = *reinterpret_cast<float *>(&args15[1]);
+                    position15.y = *reinterpret_cast<float *>(&args15[2]);
                     position15.z = 0.0f;
                     reinterpret_cast<EnemyTimelineSpawnManagerView *>(
                         runtime->manager1C)->SpawnEnemyRecord(
-                            TH09_TIMELINE_NATIVE_ARG(args15, 0), &position15,
-                            TH09_TIMELINE_NATIVE_ARG(args15, 3), TH09_TIMELINE_NATIVE_ARG(args15, 4), TH09_TIMELINE_NATIVE_ARG(args15, 5),
+                            args15[0], &position15,
+                            args15[3], args15[4], args15[5],
                             runtime->mirrorMovementX18, 0);
                     break;
                 }
@@ -194,8 +167,8 @@ int EnemyScheduleRuntimeView::Run()
                         int *args;
                     } locals;
                     locals.args = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned int>(instruction) +
-                            sizeof(EnemyTimelineInstructionView));
+                        reinterpret_cast<unsigned char *>(instruction) +
+                        sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition position11;
                     position11.x =
                         *reinterpret_cast<float *>(&locals.args[1]);
@@ -218,21 +191,21 @@ int EnemyScheduleRuntimeView::Run()
                 case 2:
                 {
                     int *argsRange = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned int>(instruction) +
-                            sizeof(EnemyTimelineInstructionView));
+                        reinterpret_cast<unsigned char *>(instruction) +
+                        sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition positionRange;
                     positionRange.x = g_Rng.GetRandomF32InRange(
-                            *reinterpret_cast<float *>(&TH09_TIMELINE_NATIVE_ARG(argsRange, 2)) -
-                            *reinterpret_cast<float *>(&TH09_TIMELINE_NATIVE_ARG(argsRange, 1))) +
-                        *reinterpret_cast<float *>(&TH09_TIMELINE_NATIVE_ARG(argsRange, 1));
+                            *reinterpret_cast<float *>(&argsRange[2]) -
+                            *reinterpret_cast<float *>(&argsRange[1])) +
+                        *reinterpret_cast<float *>(&argsRange[1]);
                     positionRange.y =
-                        *reinterpret_cast<float *>(&TH09_TIMELINE_NATIVE_ARG(argsRange, 3));
+                        *reinterpret_cast<float *>(&argsRange[3]);
                     positionRange.z = 0.0f;
                     reinterpret_cast<EnemyTimelineSpawnManagerView *>(
                         runtime->manager1C)->SpawnEnemyRecord(
-                            TH09_TIMELINE_NATIVE_ARG(argsRange, 0), &positionRange,
-                            TH09_TIMELINE_NATIVE_ARG(argsRange, 4), TH09_TIMELINE_NATIVE_ARG(argsRange, 5),
-                            TH09_TIMELINE_NATIVE_ARG(argsRange, 6), runtime->mirrorMovementX18, 0);
+                            argsRange[0], &positionRange,
+                            argsRange[4], argsRange[5],
+                            argsRange[6], runtime->mirrorMovementX18, 0);
                     break;
                 }
 
@@ -241,39 +214,39 @@ int EnemyScheduleRuntimeView::Run()
                 case 3:
                 {
                     int *argsPlay = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned int>(instruction) +
-                            sizeof(EnemyTimelineInstructionView));
+                        reinterpret_cast<unsigned char *>(instruction) +
+                        sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition positionPlay;
                     positionPlay.x = g_Rng.GetRandomF32InRange(384.0f);
                     positionPlay.y =
-                        *reinterpret_cast<float *>(&TH09_TIMELINE_NATIVE_ARG(argsPlay, 1));
+                        *reinterpret_cast<float *>(&argsPlay[1]);
                     positionPlay.z = 0.0f;
                     reinterpret_cast<EnemyTimelineSpawnManagerView *>(
                         runtime->manager1C)->SpawnEnemyRecord(
-                            TH09_TIMELINE_NATIVE_ARG(argsPlay, 0), &positionPlay,
-                            TH09_TIMELINE_NATIVE_ARG(argsPlay, 2), TH09_TIMELINE_NATIVE_ARG(argsPlay, 3),
-                            TH09_TIMELINE_NATIVE_ARG(argsPlay, 4), runtime->mirrorMovementX18, 0);
+                            argsPlay[0], &positionPlay,
+                            argsPlay[2], argsPlay[3],
+                            argsPlay[4], runtime->mirrorMovementX18, 0);
                     break;
                 }
 
                 case 8:
                 {
                     int *args8 = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned int>(instruction) +
-                            sizeof(EnemyTimelineInstructionView));
-                    TimelineRemoteSlot(runtime->manager1C, TH09_TIMELINE_NATIVE_ARG(args8, 0))
+                        reinterpret_cast<unsigned char *>(instruction) +
+                        sizeof(EnemyTimelineInstructionView));
+                    runtime->manager1C->remoteSlots2AC388[static_cast<unsigned int>(args8[0])]
                         ->pendingSubroutineId2D70 =
-                            static_cast<short>(TH09_TIMELINE_NATIVE_ARG(args8, 1));
+                            static_cast<short>(args8[1]);
                     break;
                 }
 
                 case 10:
                 {
                     int *args10 = reinterpret_cast<int *>(
-                        reinterpret_cast<unsigned int>(instruction) +
-                            sizeof(EnemyTimelineInstructionView));
-                    if (TimelineRemoteSlot(runtime->manager1C, TH09_TIMELINE_NATIVE_ARG(args10, 0)) != 0 &&
-                        TimelineRemoteSlot(runtime->manager1C, TH09_TIMELINE_NATIVE_ARG(args10, 0))->
+                        reinterpret_cast<unsigned char *>(instruction) +
+                        sizeof(EnemyTimelineInstructionView));
+                    if (runtime->manager1C->remoteSlots2AC388[static_cast<unsigned int>(args10[0])] != 0 &&
+                        runtime->manager1C->remoteSlots2AC388[static_cast<unsigned int>(args10[0])]->
                             primaryFlagBits337C.active00 != 0)
                     {
                         runtime->timer00--;
@@ -287,14 +260,14 @@ int EnemyScheduleRuntimeView::Run()
                     int matchCount = 0;
                     for (unsigned int i = 0; i < 4; ++i)
                     {
-                        if (NativeEnemyTimelineEvent(runtime->manager1C, i) ==
+                        if (runtime->manager1C->timelineEventSlots2AC430[i] ==
                             reinterpret_cast<int *>(
                                 reinterpret_cast<unsigned int>(
                                     runtime->instruction20) +
                                 sizeof(EnemyTimelineInstructionView))[0])
                         {
                             ++matchCount;
-                            NativeEnemyTimelineEvent(runtime->manager1C, i) = -1;
+                            runtime->manager1C->timelineEventSlots2AC430[i] = -1;
                         }
                     }
                     if (matchCount == 0)
@@ -308,9 +281,9 @@ int EnemyScheduleRuntimeView::Run()
                 case 14:
                     for (unsigned int j = 0; j < 4; ++j)
                     {
-                        if (NativeEnemyTimelineEvent(runtime->manager1C, j) >= 0)
+                        if (runtime->manager1C->timelineEventSlots2AC430[j] >= 0)
                             continue;
-                        NativeEnemyTimelineEvent(runtime->manager1C, j) =
+                        runtime->manager1C->timelineEventSlots2AC430[j] =
                             reinterpret_cast<int *>(
                                 reinterpret_cast<unsigned int>(
                                     runtime->instruction20) +
@@ -328,12 +301,11 @@ int EnemyScheduleRuntimeView::Run()
             break;
         }
 
-        // The original timeline instruction is a variable-length byte
-        // record. Advance the genuine live pointer as an i386 DWORD;
-        // the source record's size06 remains a separately reread byte.
+        // Advance the original file-backed instruction pointer by its
+        // live byte length; the payload is not a fixed-size C++ array.
         runtime->instruction20 = reinterpret_cast<EnemyTimelineInstructionView *>(
-            reinterpret_cast<unsigned int>(runtime->instruction20) +
-            static_cast<unsigned int>(runtime->instruction20->size06));
+            reinterpret_cast<unsigned char *>(runtime->instruction20) +
+            runtime->instruction20->size06);
     }
 
 finish:
@@ -347,5 +319,3 @@ finish:
     runtime->timer00 += g_EnemyTimelineStep;
     return 0;
 }
-
-#undef TH09_TIMELINE_NATIVE_ARG

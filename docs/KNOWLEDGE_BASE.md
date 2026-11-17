@@ -11751,3 +11751,44 @@ the 558-byte `LoadTextureData` parser, 390-byte
 There are no ABI symbol changes, no compiler-local label
 rebindings, no ASM, no synthetic padding or full-game cold
 replay. No newly exact function is claimed.
+
+## 2026-11-17 GPT-web: native Enemy timeline argument, event and remote slots
+
+The large `EnemyScheduleRuntimeView::Run` switch interpreter now
+selects the actual nine `EnemyManagerView::remoteSlots2AC388[]`
+and four `timelineEventSlots2AC430[]` elements directly. The
+remote-Enemy state probes and four timeline event checks retain
+their separate original loads/writes and shared Enemy manager
+allocation, with no cache or range check. The old
+`TimelineRemoteSlot` and `NativeEnemyTimelineEvent` functions
+fabricated integer addresses solely to form C++ references and
+have been removed.
+
+The original variable-sized timeline file instruction has an
+eight-byte fixed header followed by 32-bit arguments. The
+interpreter now builds each opcode's argument pointer from
+`unsigned char *` header bytes, reads the native `args[index]`
+elements directly, and advances its live instruction pointer
+by the actual `size06` byte length. Thirty-five uses of the
+`TH09_TIMELINE_NATIVE_ARG` integer-address macro are gone,
+including original spawn, mirror, duration, event and linked
+subroutine branches.
+
+Seven independent pinned VC7.1 source probes covered remote
+slots, event slots, payload indexing, pointer progression,
+variable-length file bytes and native spawn-method identity.
+The alternative use of the differently declared
+`EnemyManagerCardAttackSpawnView::SpawnEnemyRecord` generated
+a 1,056-byte owner with many mismatches; it was rejected,
+leaving its nominal ABI unproven. The combined accepted
+source preserves the complete **1,048/1,048 physical
+Enemy timeline interpreter bytes including switch tables
+and all 42 relocations**. The additional 20-byte
+`ZunTimer::operator==` leaf remains exact; selected-source
+replay passes **2/2 existing exact functions,
+1,068 physical bytes, 42 relocations**. Nineteen VC7.1
+private jump-table label names were rebound only after
+same-section COFF definitions, original PE destinations,
+and relocation offset/type were independently proven.
+No ASM, padding, forced register allocation or
+whole-game cold replay was used.
