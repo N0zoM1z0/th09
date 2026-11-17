@@ -296,35 +296,23 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
     while (instruction = vm->currentInstruction, instruction->time <= (int)vm->currentTimeInScript)
     {
-// Animation opcodes, including jumps and direct VM writes, decode packed,
-// variable-length file records. Each native operand lvalue is the actual
-// buffer's +8 payload and a 32-bit word stride, not an owned intArgs[10]
-// allocation. Preserve the individual live reads at every opcode site.
-#define TH09_ANM_NATIVE_WIRE_INT(index) \
-    (*reinterpret_cast<i32 *>( \
-        reinterpret_cast<u32>(instruction) + \
-        static_cast<u32>(offsetof(AnmRawInstr, intArgs)) + \
-        static_cast<u32>(index) * sizeof(i32)))
-// The equivalent real FLOAT operand occupies the same variable-width
-// instruction payload. Interpret its four bytes at native Win32 addresses.
-#define TH09_ANM_NATIVE_WIRE_FLOAT(index) \
-    (*reinterpret_cast<f32 *>( \
-        reinterpret_cast<u32>(instruction) + \
-        static_cast<u32>(offsetof(AnmRawInstr, floatArgs)) + \
-        static_cast<u32>(index) * sizeof(f32)))
+// Decode operands from the variable-length ANM file record, using the
+// native +8 payload as typed 32-bit integer and float word sequences.
+// Each use retains its original live read and original operand index.
+// Integer and float operands share the same file-backed payload storage.
 // The original variable mask is a wire u16 and a dynamic i386 shift
 // count. Shift an unsigned DWORD, preserving even bit 31 without C++
 // undefined signed-shift behavior or an extra instruction.
 #define GET_INT_VAR(argNumber)                                                                                         \
-    ((instruction->varMask & (1u << argNumber)) ? vm->GetIntVar(TH09_ANM_NATIVE_WIRE_INT(argNumber))                        \
-                                               : TH09_ANM_NATIVE_WIRE_INT(argNumber))
+    ((instruction->varMask & (1u << argNumber)) ? vm->GetIntVar((reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[argNumber]))                        \
+                                               : (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[argNumber]))
 #define GET_FLOAT_VAR(argNumber)                                                                                       \
-    ((instruction->varMask & (1u << argNumber)) ? vm->GetFloatVar(TH09_ANM_NATIVE_WIRE_FLOAT(argNumber))                    \
-                                               : TH09_ANM_NATIVE_WIRE_FLOAT(argNumber))
+    ((instruction->varMask & (1u << argNumber)) ? vm->GetFloatVar((reinterpret_cast<f32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, floatArgs))[argNumber]))                    \
+                                               : (reinterpret_cast<f32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, floatArgs))[argNumber]))
 
-#define GET_INT_VAR_PTR(idx) vm->GetIntVarPtr(&TH09_ANM_NATIVE_WIRE_INT(idx), instruction->varMask, idx)
+#define GET_INT_VAR_PTR(idx) vm->GetIntVarPtr(&(reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[idx]), instruction->varMask, idx)
 
-#define GET_FLOAT_VAR_PTR(idx) vm->GetFloatVarPtr(&TH09_ANM_NATIVE_WIRE_FLOAT(idx), instruction->varMask, idx)
+#define GET_FLOAT_VAR_PTR(idx) vm->GetFloatVarPtr(&(reinterpret_cast<f32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, floatArgs))[idx]), instruction->varMask, idx)
 
         switch (instruction->opcode)
         {
@@ -365,8 +353,8 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
         case AnmOpcode_Jmp:
             // Script records have varying physical argument lengths. The
             // original reads this packed DWORD via the native file address.
-            vm->currentTimeInScript = TH09_ANM_NATIVE_WIRE_INT(1);
-            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_WIRE_INT(0)));
+            vm->currentTimeInScript = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[1]);
+            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(vm->beginningOfScript) + static_cast<unsigned int>((reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0])));
             continue;
         // The animation interpreter's jump counter is a script-controlled
         // signed DWORD; retail decrements its native bits modulo 2^32.
@@ -375,8 +363,8 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
             if (GET_INT_VAR(0) > 0)
             {
-                vm->currentTimeInScript = TH09_ANM_NATIVE_WIRE_INT(2);
-                vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_WIRE_INT(1)));
+                vm->currentTimeInScript = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[2]);
+                vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(vm->beginningOfScript) + static_cast<unsigned int>((reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[1])));
                 continue;
             }
             break;
@@ -386,7 +374,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->updateScale = true;
             break;
         case AnmOpcode_PosMode:
-            vm->usePosOffset = TH09_ANM_NATIVE_WIRE_INT(0);
+            vm->usePosOffset = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0]);
             break;
         case AnmOpcode_FlipY:
             vm->flip ^= (1 << 1);
@@ -424,17 +412,17 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             break;
         case AnmOpcode_AlphaTimeLinear:
             vm->color1Initial.a = vm->color1Script.a;
-            vm->color1Final.a = TH09_ANM_NATIVE_WIRE_INT(0);
+            vm->color1Final.a = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0]);
 
             vm->interpCurrentTimers[AnmInterp_Alpha1] = 0;
             vm->interpEndTimers[AnmInterp_Alpha1] = GET_INT_VAR(1);
             vm->interpModes[AnmInterp_Alpha1] = AnmInterpMode_Linear;
             break;
         case AnmOpcode_AdditiveBlendMode:
-            vm->blendMode = TH09_ANM_NATIVE_WIRE_INT(0) != 0;
+            vm->blendMode = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0]) != 0;
             break;
         case AnmOpcode_BlendMode:
-            vm->blendMode = TH09_ANM_NATIVE_WIRE_INT(0);
+            vm->blendMode = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0]);
             break;
         case AnmOpcode_Pos:
             if (!vm->usePosOffset)
@@ -500,14 +488,14 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             nextInstruction = NULL;
             instruction = vm->beginningOfScript;
             while (
-                !(instruction->opcode == AnmOpcode_InterruptLabel && vm->pendingInterrupt == TH09_ANM_NATIVE_WIRE_INT(0)) &&
+                !(instruction->opcode == AnmOpcode_InterruptLabel && vm->pendingInterrupt == (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0])) &&
                 instruction->opcode != AnmOpcode_EndOfScript)
             {
-                if (instruction->opcode == AnmOpcode_InterruptLabel && TH09_ANM_NATIVE_WIRE_INT(0) == -1)
+                if (instruction->opcode == AnmOpcode_InterruptLabel && (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0]) == -1)
                 {
                     nextInstruction = instruction;
                 }
-                instruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(instruction) + static_cast<unsigned int>(instruction->instructionSize));
+                instruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(instruction) + instruction->instructionSize);
             }
 
             vm->pendingInterrupt = 0;
@@ -525,7 +513,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
             vm->interruptReturnTime = vm->currentTimeInScript;
             vm->interruptReturnInstruction = vm->currentInstruction;
-            instruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(instruction) + static_cast<unsigned int>(instruction->instructionSize));
+            instruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(instruction) + instruction->instructionSize);
             vm->currentInstruction = instruction;
             vm->currentTimeInScript = vm->currentInstruction->time;
             vm->visible = true;
@@ -535,13 +523,13 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->currentInstruction = vm->interruptReturnInstruction;
             continue;
         case AnmOpcode_Visible:
-            vm->visible = TH09_ANM_NATIVE_WIRE_INT(0);
+            vm->visible = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0]);
             break;
         case AnmOpcode_AnchorTopLeft:
             vm->anchor = 3;
             break;
         case AnmOpcode_Ins25:
-            vm->type = TH09_ANM_NATIVE_WIRE_INT(0);
+            vm->type = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0]);
             break;
         case AnmOpcode_AddU:
             vm->uvScrollPos.x += GET_FLOAT_VAR(0);
@@ -579,15 +567,15 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->uvScrollVel.y = GET_FLOAT_VAR(0);
             break;
         case AnmOpcode_ZWriteDisable:
-            vm->disableZWrite = TH09_ANM_NATIVE_WIRE_INT(0);
+            vm->disableZWrite = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0]);
             break;
         case AnmOpcode_Ins31:
-            vm->flag15 = TH09_ANM_NATIVE_WIRE_INT(0);
+            vm->flag15 = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0]);
             break;
         case AnmOpcode_PosTime:
             vm->interpCurrentTimers[AnmInterp_Pos] = 0;
             vm->interpEndTimers[AnmInterp_Pos] = GET_INT_VAR(0);
-            vm->interpModes[AnmInterp_Pos] = TH09_ANM_NATIVE_WIRE_INT(1);
+            vm->interpModes[AnmInterp_Pos] = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[1]);
 
             if (!vm->usePosOffset)
             {
@@ -607,7 +595,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
             vm->interpEndTimers[AnmInterp_RGB1] = GET_INT_VAR(0);
 
-            vm->interpModes[AnmInterp_RGB1] = TH09_ANM_NATIVE_WIRE_INT(1);
+            vm->interpModes[AnmInterp_RGB1] = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[1]);
             vm->color1Initial.r = vm->color1Script.r;
             vm->color1Initial.g = vm->color1Script.g;
             vm->color1Initial.b = vm->color1Script.b;
@@ -619,7 +607,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
         case AnmOpcode_AlphaTime:
             vm->interpCurrentTimers[AnmInterp_Alpha1] = 0;
             vm->interpEndTimers[AnmInterp_Alpha1] = GET_INT_VAR(0);
-            vm->interpModes[AnmInterp_Alpha1] = TH09_ANM_NATIVE_WIRE_INT(1);
+            vm->interpModes[AnmInterp_Alpha1] = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[1]);
 
             vm->color1Initial.a = vm->color1Script.a;
             vm->color1Final.a = GET_INT_VAR(2);
@@ -629,7 +617,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
             vm->interpEndTimers[AnmInterp_RGB2] = GET_INT_VAR(0);
 
-            vm->interpModes[AnmInterp_RGB2] = TH09_ANM_NATIVE_WIRE_INT(1);
+            vm->interpModes[AnmInterp_RGB2] = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[1]);
             vm->color2Initial.r = vm->color2Script.r;
             vm->color2Initial.g = vm->color2Script.g;
             vm->color2Initial.b = vm->color2Script.b;
@@ -641,7 +629,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
         case AnmOpcode_Alpha2Time:
             vm->interpCurrentTimers[AnmInterp_Alpha2] = 0;
             vm->interpEndTimers[AnmInterp_Alpha2] = GET_INT_VAR(0);
-            vm->interpModes[AnmInterp_Alpha2] = TH09_ANM_NATIVE_WIRE_INT(1);
+            vm->interpModes[AnmInterp_Alpha2] = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[1]);
 
             vm->color2Initial.a = vm->color2Script.a;
             vm->color2Final.a = GET_INT_VAR(2);
@@ -651,7 +639,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
 
             vm->interpEndTimers[AnmInterp_Rotate] = GET_INT_VAR(0);
 
-            vm->interpModes[AnmInterp_Rotate] = TH09_ANM_NATIVE_WIRE_INT(1);
+            vm->interpModes[AnmInterp_Rotate] = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[1]);
             vm->rotateInitial = vm->rotation;
 
             vm->rotateFinal.x = GET_FLOAT_VAR(2);
@@ -664,7 +652,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->interpCurrentTimers[AnmInterp_Scale] = 0;
             vm->interpEndTimers[AnmInterp_Scale] = GET_INT_VAR(0);
 
-            vm->interpModes[AnmInterp_Scale] = TH09_ANM_NATIVE_WIRE_INT(1);
+            vm->interpModes[AnmInterp_Scale] = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[1]);
             vm->scaleInitial = vm->scale;
 
             vm->scaleFinal.x = GET_FLOAT_VAR(2);
@@ -672,7 +660,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->updateScale = true;
             break;
         case AnmOpcode_Ins83:
-            vm->playerBulletHitAnimationType = TH09_ANM_NATIVE_WIRE_INT(0);
+            vm->playerBulletHitAnimationType = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[0]);
             break;
         case AnmOpcode_ISet:
             *GET_INT_VAR_PTR(0) = GET_INT_VAR(1);
@@ -845,20 +833,20 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             vm->flag17 = instruction->byteArgs[1];
             break;
         jump:
-            vm->currentTimeInScript = TH09_ANM_NATIVE_WIRE_INT(3);
-            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(vm->beginningOfScript) + static_cast<unsigned int>(TH09_ANM_NATIVE_WIRE_INT(2)));
+            vm->currentTimeInScript = (reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[3]);
+            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(vm->beginningOfScript) + static_cast<unsigned int>((reinterpret_cast<i32 *>(reinterpret_cast<u8 *>(instruction) + offsetof(AnmRawInstr, intArgs))[2])));
             continue;
         default:
             break;
         }
-#undef TH09_ANM_NATIVE_WIRE_FLOAT
-#undef TH09_ANM_NATIVE_WIRE_INT
+
+
 #undef GET_FLOAT_VAR_PTR
 #undef GET_INT_VAR_PTR
 #undef GET_FLOAT_VAR
 #undef GET_INT_VAR
 
-        vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned int>(instruction) + static_cast<unsigned int>(instruction->instructionSize));
+        vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(instruction) + instruction->instructionSize);
     }
 stop:
     if (vm->angleVel.x != 0.0f)

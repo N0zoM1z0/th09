@@ -11942,3 +11942,51 @@ passes **1/1 existing exact function**, and CI
 passes. No ASM, artificial padding, full cold replay,
 forced compiler registers or newly exact-function
 credit was used.
+
+## 2026-11-17 GPT-web: native variable-length ANM instruction payloads
+
+The full 9,776-byte original-bound
+`AnmManager::ExecuteScript` script interpreter now reads its
+packed file-backed integer and float operands as indexed
+32-bit C++ pointer sequences. The 27 integer and three
+float expressions are written directly against the actual
+`AnmRawInstr` +8-byte payload location, rather than
+fabricating i386 integer addresses with the old
+`TH09_ANM_NATIVE_WIRE_INT/FLOAT` lvalue macros.
+The original instruction remains a variable-length disk
+record; no fixed ten-element argument array or extra
+guard was introduced.
+
+Three native script jumps now compute destinations
+relative to the live `beginningOfScript` byte pointer.
+All three variable-length instruction transitions also
+advance through the script byte representation, rather
+than converting a pointer to an integer and back.
+The instructions, switch dispatch ordering, VM timer
+semantics, inline getters and destination instructions
+remain unchanged; only natural C++ buffer and pointer
+representation was restored.
+
+Six separate pinned VC7.1 `/O2 /Ob0` experiments for
+integer operands, float operands, both, script jumps,
+instruction stepping and the combined form reproduced
+the **entire 9,776/9,776-byte** original-bound owner,
+with **368/368 original relocation fields**. Removing
+the two wire-address macros and emitting the direct
+C++ indexed payload expressions was then tested as a
+separate exact candidate. The maintained source-scoped
+replay for both original VC7.1 profiles passes
+**5/5 existing exact functions, 10,496 complete
+physical bytes and 421 relocation fields**, including
+the four int/float variable resolver leaves.
+
+This lexical adjustment renumbered 148 compiler-private
+labels spanning the giant switch tables and helper
+functions. Each manifest change was individually accepted
+only after proving complete nonrelocation PE-byte equality,
+the same COFF owner/definition section, identical original
+PE destination and matching relocation offsets/types.
+The new spellings do not add any target exactness credit.
+No ASM, fake padding, forced compiler registers,
+whole-product cold replay or new exact-function promotion
+was used.
