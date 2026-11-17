@@ -659,4 +659,3 @@ status check. No frontier baseline or manifest was changed.
 The only accepted source changes from the preceding checkpoint are the three
 Enemy commits already listed above. This follow-up produced no safe monotone
 source variant; do not promote any of the diagnostics above.
-

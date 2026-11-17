@@ -13029,7 +13029,8 @@ index while the candidate uses ECX. Direct indexing in only the restricted
 branch, a base-pointer-plus-index form, an array-pointer helper, byte-offset
 helpers, and `register` group/head locals were tested. None improved the
 complete owner; several changed unrelated branches and stack layout. The
-maintained shared four-entry draw-head array and helper remain intact.
+shared four-entry draw-head array remains native; the one-use helper was
+removed in `09660746`, and both append sites now use typed pointer addition.
 
 `PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` remains
 **1,900/1,900 bytes, four differences**. Direct global configuration access,
@@ -13100,3 +13101,60 @@ register schedule. `EnemyManagerView::OnUpdate` group helper parameter
 orders using signed/unsigned integer, enum and array-reference forms all
 retained the two-byte EAX/ECX index difference. All temporary edits were
 restored.
+
+## 2026-11-17 GPT-web: collision preheader and callback publication ordering
+
+`PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` uses the inline
+`activeB100[514]` array of region pointers at `Player +0xB100`; it is not a
+separately allocated list. Retail computes the array base in ESI, publishes
+that cursor at `[ebp-4]`, and only then loads the first region pointer into
+ECX. The maintained source's ordinary array-to-pointer decay lets VC7.1
+hoist the first element read before the cursor-home store. A source-only
+volatile element lvalue placed after the cursor store restores the exact
+initial `lea` / cursor-home / region-load order, but moves the loop header
+from the compiler-aligned target boundary and leaves **701 differences**
+with new offsets. It was reverted; the accepted baseline remains
+**842/862 bytes, 705 differences**.
+
+The saved `.analysis/PlayerCollisionHelpers.nested-three-loop-849.cpp`
+diagnostic reaches **849/862 bytes, 656 differences**. Its loop/cursor shape
+is closer, but C2 allocates Player to EBX and Bullet to EDI, the reverse of
+retail's Player=EDI and Bullet=EBX. Removing the `currentBullet` alias
+restores Player to EDI but no longer keeps Bullet in EBX; local declaration
+order, constness, references, register hints, and Bullet parameter
+qualification did not recover the target roles. All experiments were
+restored. Do not promote the diagnostic or weaken the offset ratchet.
+
+`EffectManager::AddedCallback @ 0x0040D1C0` is **51/51 bytes with four
+masked differences**. The target first loads `g_AnmManager` into EDI, then
+saves the callback receiver in ESI. A C++ reference to `manager->effectAnm`
+assigned immediately after `GetAnm` makes that prologue, but publishes the
+first ANM handle before checking `rawData04` and before a possible
+`PreloadAnm`; that changes observable state timing and is not acceptable.
+Delayed local results, helper out-references, pointer-slot aliases, direct
+calls, aggregate state, declaration order and register/volatile hints did
+not retain the target prologue with the delayed publication. No variant was
+kept.
+
+`TitleScreenView::OnUpdateResult @ 0x004266B5` remains **484/485 bytes,
+167 differences**. Retail reuses ECX for `keyboardSelection`, loads the
+selected byte into CL from the global character-order table, sign-extends it
+to EDI, calls `SetCharacterCursorInactive`, and only then stores the saved
+character into `nameBankIndex`. Direct array-value, pointer arithmetic,
+reference, const, register-index, and assignment-in-call forms continued to
+use EAX for the indexed load or changed the post-call value lifetime. All
+were reverted.
+
+Additional `BeginPlaybackStage` probes confirmed that an explicit volatile
+read of the first runtime pointer after cursor publication fixes only the
+preheader order; the complete owner still has **701 differences** and new
+offsets. Register hints did not repair the side-value/runtime-pointer EDX/ESI
+allocation. `EnemyManagerView::OnUpdate` signed/unsigned int group locals and
+register hints likewise regressed the full owner; direct typed pointer
+addition remains the maintained source. Temporary `EnemyManager.hpp` and
+`PlayerLifecycleView.hpp` layout-only edits were also reverted: changing
+shared header type metadata renumbered many ECL private local labels and
+would require a broad relocation rebind without improving code bytes.
+
+No source, frontier, or manifest changes were retained from these probes.
+No ASM, padding, widened masks, or full cold replay was used.
