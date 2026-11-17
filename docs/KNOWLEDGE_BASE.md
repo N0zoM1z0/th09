@@ -9946,3 +9946,27 @@ previously exact 84 functions still pass the full **45,420-byte,
 1,987-relocation** scoped replay after proving all private label
 renumberings map to identical original PE destinations. No whole-game
 replay, ASM or artificial padding was used.
+
+## 2026-11-17 GPT-web: native cancellation payload and calls in Player collision boss
+
+In the nonexact `PlayerLifecycleView::CheckBulletCollision` owner at
+`0x0041DFF0`, bullet cancellation now fills the existing
+`Effect::cancel` payload (`bulletType`, `color`, `bulletSpeed`,
+`side`, and `extraAttribute`) directly. All five offset locations
+are asserted within the actual `EffectCancelPayloadA0` at Effect +0xA0.
+The separate 0xA0-byte-prefix `PlayerCancelEffectView` was removed.
+The reward path now calls the genuine
+`PlayerLifecycleView::AddRespawnResource @ 0x0041BC90` and
+`AsciiGameManagerSideView::AddScore @ 0x0040F860` directly, replacing
+two dummy method-owner projections. The popup velocity reads the real
+`g_GameManager.coordinate358` without a cast through a reset view.
+
+The target has the same twelve direct-call order (including the two
+original-bound methods above). A pinned VC7.1 frontier rebuild retains
+the **842/862-byte source candidate and exactly the same 705 unmasked
+differences**, i.e. there is no byte-exact promotion or codegen
+regression. The five exact sibling functions sharing the
+`PlayerCollisionHelpers.cpp` source recompiled and passed their
+**1,220 complete original bytes and 32 relocations**. This removes
+artificial padded data types and recovers native class ownership with
+ordinary C++ code, not ASM/padding or a whole-product cold replay.

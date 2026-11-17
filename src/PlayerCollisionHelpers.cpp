@@ -1,7 +1,6 @@
 #include "SoundPlayer.hpp"
 #include "Supervisor.hpp"
 #include "AsciiGameManagerView.hpp"
-#include "GameManagerResetView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "BulletManager.hpp"
 #include "EffectManager.hpp"
@@ -15,35 +14,18 @@ void __fastcall RotatePlayerCollisionVector(
     float angle);
 
 
-struct PlayerCancelEffectView
-{
-    unsigned char unknown000[0xA0];
-    float valueA0;
-    short bulletTypeA4;
-    short colorA6;
-    short sideA8;
-    short extraAA;
-};
-
-typedef char PlayerCancelEffectValueA0[
-    (offsetof(PlayerCancelEffectView, valueA0) == 0xA0) ? 1 : -1];
-typedef char PlayerCancelEffectTypeA4[
-    (offsetof(PlayerCancelEffectView, bulletTypeA4) == 0xA4) ? 1 : -1];
-typedef char PlayerCancelEffectExtraAA[
-    (offsetof(PlayerCancelEffectView, extraAA) == 0xAA) ? 1 : -1];
+// The cancellation reward is a real Effect. Its +0xA0..+0xAB payload
+// overlays other effect variants but is never a separate padded object.
+typedef char PlayerCancelNativeEffectPayload[
+    (offsetof(Effect, cancel) == 0xA0 &&
+     offsetof(EffectCancelPayloadA0, bulletSpeed) == 0x00 &&
+     offsetof(EffectCancelPayloadA0, bulletType) == 0x04 &&
+     offsetof(EffectCancelPayloadA0, color) == 0x06 &&
+     offsetof(EffectCancelPayloadA0, side) == 0x08 &&
+     offsetof(EffectCancelPayloadA0, extraAttribute) == 0x0A) ? 1 : -1];
 
 typedef char PlayerCancelGameManagerCoordinateAt358[
-    (offsetof(GameManagerResetView, coordinate358) == 0x358) ? 1 : -1];
-
-struct PlayerCancelSideView
-{
-    void AddScore(int score);
-};
-
-struct PlayerCancelState4OpsView
-{
-    void AddRespawnResource(float value);
-};
+    (offsetof(AsciiGameManagerView, coordinate358) == 0x358) ? 1 : -1];
 
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_PlayerRewardEffectManager;
@@ -165,8 +147,7 @@ hit:
             g_Supervisor.SelectSide(1 - this->sideIndex);
 
             scratch.reward.velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
-                reinterpret_cast<GameManagerResetView *>(&g_GameManager)
-                    ->coordinate358 * 0.5f - 8.0f);
+                g_GameManager.coordinate358 * 0.5f - 8.0f);
             scratch.reward.velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
             scratch.reward.velocity.z = 0.0f;
 
@@ -176,17 +157,14 @@ hit:
                     1, static_cast<unsigned int>(-1));
             g_Supervisor.SelectSide(this->sideIndex);
 
-            PlayerCancelEffectView *effect =
-                reinterpret_cast<PlayerCancelEffectView *>(effectBase);
-            effect->bulletTypeA4 = currentBullet->bulletType;
-            effect->colorA6 = currentBullet->color;
-            effect->valueA0 = currentBullet->speed;
-            effect->sideA8 =
+            effectBase->cancel.bulletType = currentBullet->bulletType;
+            effectBase->cancel.color = currentBullet->color;
+            effectBase->cancel.bulletSpeed = currentBullet->speed;
+            effectBase->cancel.side =
                 static_cast<short>(currentBullet->controller->sideIndex);
-            effect->extraAA = currentBullet->extraAttribute10BD;
+            effectBase->cancel.extraAttribute = currentBullet->extraAttribute10BD;
 
-            reinterpret_cast<PlayerCancelState4OpsView *>(this)
-                ->AddRespawnResource(0.2f);
+            this->AddRespawnResource(0.2f);
             g_SoundPlayer.PlaySoundByIdx(
                 46, this->sideIndex != 0 ? 500 : -500);
 
@@ -203,8 +181,7 @@ hit:
                 livePosition,
                 rewardMode, 2, 0, rewardValue);
 
-            reinterpret_cast<PlayerCancelSideView *>(this->sideState)
-                ->AddScore(50);
+            this->sideState->AddScore(50);
         }
 
         PlayerCollisionRegionCreateRegionView *hitRegion = *liveScratch.cursor.slot;
