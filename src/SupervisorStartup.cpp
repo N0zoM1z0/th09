@@ -64,9 +64,8 @@ struct SoundPlayerStartup
     void StartBGM(const char *filename);
 };
 
-// Startup and the unsplit Supervisor::OnUpdate share the same native 0x7B0
-// object. The external StartupAnmVm/StartupAnmLoaded method symbols remain
-// distinct and are not falsely renamed to unrelated runtime methods.
+// Startup and OnUpdate share the authentic 0x7B0-byte Supervisor.
+// Keep distinct unresolved StartupAnmVm/StartupAnmLoaded method ABIs.
 typedef Supervisor SupervisorStartupLayout;
 
 typedef char SupervisorStartupFlagsAt5D4[
@@ -89,13 +88,9 @@ struct SupervisorThreadCloseView : Supervisor
     void ThreadClose();
 };
 
-// The exact startup owner consumes the same two native 0x38-byte
-// GameManager sides as the 1,230-byte game manager update and replay owners.
-// Keep StartupGameManager's original external C++ symbol identity while
-// recovering the actual shared offset-backed side records.
-struct StartupGameManager : AsciiGameManagerView
-{
-};
+// The startup owner uses the actual two 0x38-byte GameManager sides.
+// Its source-facing manager type is the shared native AsciiGameManagerView.
+
 typedef char StartupNativeGameSideAt20[
     (sizeof(AsciiGameManagerSideView) == 0x38 &&
      offsetof(AsciiGameManagerSideView, value20) == 0x20 &&
@@ -103,7 +98,7 @@ typedef char StartupNativeGameSideAt20[
 
 extern StartupAnmManager *g_AnmManager;
 extern SoundPlayerStartup g_SoundPlayer;
-extern StartupGameManager g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 extern GameErrorContext g_GameErrorContext;
 
 extern int RegisterAsciiManagerStartup();
@@ -215,11 +210,6 @@ static int SetupDInputInternal(Supervisor *supervisor)
     return 0;
 }
 
-static inline SupervisorStartupLayout *StartupLayout()
-{
-    return &g_Supervisor;
-}
-
 static inline void CloseStartupThread()
 {
     reinterpret_cast<SupervisorThreadCloseView *>(&g_Supervisor)->ThreadClose();
@@ -228,35 +218,35 @@ static inline void CloseStartupThread()
 void Supervisor::StartupThread(Supervisor *unused)
 {
     (void)unused;
-    StartupLayout()->startupField5A8 = 0;
-    StartupLayout()->startupField5A4 = 0;
-    StartupLayout()->totalPlayTime = timeGetTime();
+    g_Supervisor.startupField5A8 = 0;
+    g_Supervisor.startupField5A4 = 0;
+    g_Supervisor.totalPlayTime = timeGetTime();
     SetupDInputInternal(&g_Supervisor);
 
-    if (StartupLayout()->midiOutput5BC == NULL)
+    if (g_Supervisor.midiOutput5BC == NULL)
     {
-        StartupLayout()->midiOutput5BC = static_cast<MidiOutputStartup *>(
+        g_Supervisor.midiOutput5BC = static_cast<MidiOutputStartup *>(
             g_ZunMemory.AddToRegistry(new MidiOutputStartup, sizeof(MidiOutputStartup),
                                       "MidiSysInf"));
     }
-    if (StartupLayout()->midiOutput5BC != NULL)
-        StartupLayout()->midiOutput5BC->ReadFileData(30, "bgm/init.mid");
+    if (g_Supervisor.midiOutput5BC != NULL)
+        g_Supervisor.midiOutput5BC->ReadFileData(30, "bgm/init.mid");
 
     g_SoundPlayer.InitSoundBuffers();
-    StartupLayout()->textAnm5CC = g_AnmManager->PreloadAnm(0, "text.anm");
-    if (StartupLayout()->textAnm5CC == NULL)
+    g_Supervisor.textAnm5CC = g_AnmManager->PreloadAnm(0, "text.anm");
+    if (g_Supervisor.textAnm5CC == NULL)
         goto error;
 
-    StartupLayout()->startupVm584 = static_cast<StartupAnmVm *>(
+    g_Supervisor.startupVm584 = static_cast<StartupAnmVm *>(
         g_ZunMemory.AddToRegistry(new StartupAnmVm, sizeof(StartupAnmVm), "SprtInf"));
-    StartupLayout()->textAnm5CC->InitializeAndSetSprite(StartupLayout()->startupVm584, 31);
-    StartupLayout()->startupVm584->pos.x = 320.0f;
-    StartupLayout()->startupVm584->pos.y = 240.0f;
-    StartupLayout()->startupVm584->pos.z = 0.0f;
+    g_Supervisor.textAnm5CC->InitializeAndSetSprite(g_Supervisor.startupVm584, 31);
+    g_Supervisor.startupVm584->pos.x = 320.0f;
+    g_Supervisor.startupVm584->pos.y = 240.0f;
+    g_Supervisor.startupVm584->pos.z = 0.0f;
 
     if (RegisterAsciiManagerStartup() != 0)
     {
-        if (StartupLayout()->subthreadCloseRequestActive)
+        if (g_Supervisor.subthreadCloseRequestActive)
             return;
         g_GameErrorContext.Log(g_StartupErrorAscii);
         goto error;
@@ -264,7 +254,7 @@ void Supervisor::StartupThread(Supervisor *unused)
 
     if (PreloadEtamaStartup() != 0)
     {
-        if (StartupLayout()->subthreadCloseRequestActive)
+        if (g_Supervisor.subthreadCloseRequestActive)
             return;
         g_GameErrorContext.Log(g_StartupErrorEtama);
         goto error;
@@ -272,7 +262,7 @@ void Supervisor::StartupThread(Supervisor *unused)
 
     if (PreloadFrontStartup() != 0)
     {
-        if (StartupLayout()->subthreadCloseRequestActive)
+        if (g_Supervisor.subthreadCloseRequestActive)
             return;
         g_GameErrorContext.Log(g_StartupErrorFront);
         goto error;
@@ -280,14 +270,14 @@ void Supervisor::StartupThread(Supervisor *unused)
 
     if (g_SoundPlayer.LoadFmt("bgm/thbgm.fmt") != 0)
     {
-        if (StartupLayout()->subthreadCloseRequestActive)
+        if (g_Supervisor.subthreadCloseRequestActive)
             return;
         g_GameErrorContext.Log(g_StartupErrorBgm);
         goto error;
     }
 
-    g_SoundPlayer.bgmVolume = static_cast<signed char>(StartupLayout()->config388.musicVolume);
-    g_SoundPlayer.sfxVolume = static_cast<signed char>(StartupLayout()->config388.sfxVolume);
+    g_SoundPlayer.bgmVolume = static_cast<signed char>(g_Supervisor.config388.musicVolume);
+    g_SoundPlayer.sfxVolume = static_cast<signed char>(g_Supervisor.config388.sfxVolume);
 
     float bgmVolume = g_SoundPlayer.bgmVolume * 0.01f;
     if (g_SoundPlayer.sfxVolume != 0)
@@ -321,25 +311,25 @@ void Supervisor::StartupThread(Supervisor *unused)
 
     InitializeScoreDataStartup();
 
-    if ((StartupLayout()->flags & 0x40u) != 0)
+    if ((g_Supervisor.flags & 0x40u) != 0)
     {
-        StartupLayout()->dummyMidiTimer384 = static_cast<DummyMidiTimerStartup *>(
+        g_Supervisor.dummyMidiTimer384 = static_cast<DummyMidiTimerStartup *>(
             g_ZunMemory.AddToRegistry(new DummyMidiTimerStartup,
                                       sizeof(DummyMidiTimerStartup),
                                       "DummyTimerSysInf"));
-        if (StartupLayout()->dummyMidiTimer384 != NULL)
-            StartupLayout()->dummyMidiTimer384->StartTimer();
+        if (g_Supervisor.dummyMidiTimer384 != NULL)
+            g_Supervisor.dummyMidiTimer384->StartTimer();
     }
 
     CloseStartupThread();
-    StartupLayout()->startupThreadState = 0;
+    g_Supervisor.startupThreadState = 0;
     g_GameManager.sides[0].value20 = 0;
     g_GameManager.sides[1].value20 = 1;
-    StartupLayout()->flags &= ~0x100u;
+    g_Supervisor.flags &= ~0x100u;
     return;
 
 error:
     CloseStartupThread();
-    StartupLayout()->startupThreadState = 2;
-    StartupLayout()->flags |= 0x80u;
+    g_Supervisor.startupThreadState = 2;
+    g_Supervisor.flags |= 0x80u;
 }

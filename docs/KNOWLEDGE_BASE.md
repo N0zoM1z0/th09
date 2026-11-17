@@ -12479,3 +12479,45 @@ InitializeViewports boss and 285/257-byte screen/gameplay
 camera matrix helpers. No ASM, artificial padding,
 register forcing, full cold replay or newly exact
 function credit was used.
+
+## 2026-11-17 GPT-web: native Supervisor startup state and GameManager sides
+
+The full startup controller now accesses
+`g_Supervisor.startupField5A8`,
+`startupField5A4`, `totalPlayTime`,
+`midiOutput5BC`, `textAnm5CC`,
+`startupVm584`, `subthreadCloseRequestActive`,
+`flags` and `startupThreadState` directly.
+The redundant `StartupLayout()` helper, which merely
+returned `&g_Supervisor`, is removed; all its
+live reads and writes retain their original evaluation
+order. The source still uses the actual native
+0x7B0-byte Supervisor allocation and maintains the
+original worker-thread cleanup/error behavior.
+
+The former zero-offset `StartupGameManager :
+AsciiGameManagerView` wrapper was also removed.
+Startup publishes both side identifiers through the
+same real `g_GameManager.sides[]` records already
+used by gameplay, Replay, and background owners.
+The two symbol relocations changed from the local
+StartupGameManager spelling to the shared native
+AsciiGameManagerView spelling, but both independently
+resolve to the unchanged original singleton
+address `0x004A7D90`.
+
+Individual pinned VC7.1 `/O2` tests confirmed both
+changes separately and combined. The maintained
+two-profile selected-source replay passes **2/2
+previously exact functions, 1,399 physical bytes
+and 139 original relocation fields**: the
+882-byte Supervisor StartupThread boss (106 relocs)
+and the independently compiled 517-byte DirectInput
+initialization helper (33 relocs).
+An attempted change from global DIDEVCAPS array bytes
+to a locally aliased capability pointer shortened
+the DirectInput function to 510 bytes and was rejected.
+The remaining distinct startup MIDI, ANM and SoundPlayer
+method receivers have not been prematurely renamed.
+No ASM, padding, register forcing, whole-game cold replay,
+or new exact-function count was claimed.
