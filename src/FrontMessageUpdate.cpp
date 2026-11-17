@@ -124,9 +124,9 @@ static void DecodeFrontMessageString(
 // stride, including when a wire index is outside the playable pair.
 static inline AsciiGameManagerSideView &NativeFrontMessageSide(int index)
 {
-    return *reinterpret_cast<AsciiGameManagerSideView *>(
-        reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
-        static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0]));
+    // The wire index selects a real 0x38-byte GameManager side. Retain
+    // its original unsigned i386 scaling and do not add a bounds gate.
+    return g_GameManager.sides[static_cast<unsigned int>(index)];
 }
 
 // Text-VM and palette selection now use the message runtime's native
