@@ -7,11 +7,12 @@
 
 
 The **future milestone** is at least **98% of reviewed authored bytes
-exact**. It is **not the current state**: the 2026-11-14 canonical ledger has
-**278,578 / 291,931 authored bytes exact (95.4260%)**, and 1,026 / 1,037
-source-present function owners are exact by *count*. Use
-[`PROGRESS.md`](PROGRESS.md) or the live status script for later changes.
-Both measures are distinct from native Windows build/runtime completion.
+exact**. It has **not** been reached. Consult generated
+[`PROGRESS.md`](PROGRESS.md) or
+`scripts/report-reconstruction-status.py` for the current authored-byte
+denominator, exact count and remaining functions; copied dated percentages
+are not authoritative. Authored-function/byte exactness does not establish
+native Windows build or runtime completion.
 Use pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
 For the next reconstruction session, work seriously
 on complete large bosses as well as leaf functions. Re-investigate old claims

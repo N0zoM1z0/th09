@@ -27,12 +27,11 @@ older entries below were removed on 2026-11-15. Their conclusions stand;
 use `scripts/check-frontier.py` (nonexact) or `compare-coff-function.py`
 (exact) to re-measure.
 
-**Current size accounting (verified 2026-11-16):** the canonical ledger has
-11 source-present nonexact functions covering 13,353 authored logical bytes.
-Physical frontier extents can include additional tails/overlap and must not be
-summed into the authored-byte metric. The exact authored-byte total is
-278,578/291,931 (95.4260%). See generated [PROGRESS.md](PROGRESS.md) for the
-live figures; the complete-image inventory and Windows product remain open.
+**Current size accounting:** use generated [PROGRESS.md](PROGRESS.md)
+and `scripts/report-reconstruction-status.py`, not dated figures in this
+historical notebook. Physical frontier extents can include additional
+tails/overlap and must not be summed into the authored-byte metric.
+The complete-image inventory and Windows product remain open.
 
 - **Current exactness/frontiers and safe rebuild commands:**
   [RE_HANDOFF.md](RE_HANDOFF.md); generated figures in
@@ -51,14 +50,14 @@ Keep the canonical match manifests, compiler source profiles and original PE
 as the proof inputs. The longer sections below are topic-specific evidence,
 not instructions to restore old scratch experiments or previous snapshots.
 
-**Retention at the 2026-11-13 handoff:** superseded probe binaries, copied
-sources, JSON result dumps and compiler intermediates were removed to save
-space. The remaining ignored `.analysis/gpt-web/` proof templates and variant
-corpora were also pruned on 2026-11-16 after their durable conclusions were
-captured here. Recreate only a narrowly scoped helper from current source if a
-new question requires it; a missing historical script or dated receipt is not
-a blocker. The saved `.analysis/ghidra-direct/` and `c2-analysis/` projects,
-original executable, compiler/toolchain and Git history have not been pruned.
+**Storage handoff (2026-11-17):** dated compiler PDBs/OBJs, old variant
+corpora, stale JSON receipts and ignored `build/` caches are disposable.
+Historical `.analysis/` probe paths mentioned later in this notebook
+may have been deleted; they are not prerequisites for reproducible exactness.
+Regenerate only the selected compiler carrier from current source.
+The attested original executable, toolchain, saved Ghidra project, C2
+investigation inputs and Git history are retained; consult
+[RE_HANDOFF.md](RE_HANDOFF.md) for the small protected set.
 
 ## Practical interpretation
 
@@ -7692,14 +7691,15 @@ output, EDX is the cosine output, and the angle is the sole stack word. One
 x87 `FSINCOS` leaves cosine above sine; the source stores cosine through EDX
 first and sine through ECX second. The original function ends in `ret 4`.
 
-The new `etama-fsincos` focused unit under the existing EtamaControllerDraw
-`/O2 /Ob0` VC7.1 profile reproduces **33/33 bytes and zero relocations**.
-Rebuilding the co-resident `etama-controller-on-draw` unit also preserves
-**600/600 bytes**, including its call to the now source-present helper. This
-is source and machine-code evidence only: the helper remains
-`unclassified`, with original authored-vs-library/runtime origin unresolved;
-no `matches.csv` or authored exactness credit was added. Do not replace the
-single x87 operation with separate `sinf`/`cosf` calls.
+**Superseded on 2026-11-16/17.** The historical inline-x87
+`etama-fsincos` probe once reproduced **33/33 bytes** with zero
+relocations, and a co-resident 600-byte draw owner stayed exact.
+That assembly-based implementation was *not* retained: current
+`src/EtamaControllerDraw.cpp` uses natural `cosf/sinf`
+and compiles to **36/33 bytes with 25 masked differences**.
+The standalone historical exact match-unit was removed on 2026-11-17,
+while the nonexact frontier remains. Original authored-versus-runtime
+origin stays `unclassified`; no authored exactness is claimed.
 
 ## 2026-11-13 GPT-web: ChargeAttack and Enemy OnUpdate follow-up probes
 
@@ -9131,9 +9131,10 @@ The pinned `/O2 /Ob0` source now compiles that leaf to **36/33 bytes**, with
 **25 nonrelocation differences** and two explicit math-call relocations
 (`@cosf@4`, `@sinf@4`). New focused
 `check-frontier.py etama-fsincos` coverage records the full 33-byte target SHA,
-measured candidate length and residual. The existing `etama-fsincos` match-unit
-is historical x87 diagnostic evidence, **not** an accepted exact unit; the
-source remains unclassified until authored/library provenance is established.
+measured candidate length and residual. The former `etama-fsincos` standalone match-unit was
+retired on 2026-11-17; the maintained `etama-fsincos`
+frontier is the only current source-level comparison for this helper.
+Its original origin remains unclassified.
 This is source-integrity progress, not an artificial exactness upgrade.
 
 Changing this C++ helper's body shifted compiler-generated private `$L...`

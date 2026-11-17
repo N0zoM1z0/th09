@@ -1,307 +1,175 @@
-# TH09 exact reconstruction — agent handoff (verified 2026-11-17)
+# TH09 reconstruction — current agent handoff (2026-11-17)
 
-**Start:** [AGENTS.md](../AGENTS.md) · [workflow](RE_WORKFLOW.md) ·
-[original/VC7.1 Oracles](ORACLES.md) ·
-[knowledge base](KNOWLEDGE_BASE.md).
-This is the **current restart checklist**, not a session log; older session
-notes live in Git history and the knowledge base. **Start with `git status`,
-recover any dirty changes, then regenerate ledger counts and only the
-compiler objects you need.**
+**Read first:** [AGENTS.md](../AGENTS.md) for operator rules,
+[RE_WORKFLOW.md](RE_WORKFLOW.md) for the bounded reconstruction loop,
+[ORACLES.md](ORACLES.md) for source/target evidence, and
+[PROGRESS.md](PROGRESS.md) for generated statistics. This handoff describes
+**current maintained source**; dated entries in
+[KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) are historical observations, not
+instructions to restore previous source or old scratch objects.
 
-## Verified target, counts and evidence boundaries
+## First five minutes
 
-- **Target:** original Japanese TH09 **v1.50a**, Windows i386, PE image base
-  `0x00400000`, entry `0x0047D45F`. Ignored, protected
-  `resources/th09.exe` SHA-256:
-  `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
-  Do not patch, rename, commit or delete the target.
-- **Ledger (verified 2026-11-16):** 2,248 candidates, **1,037 source-present
-  authored mappings**, **1,026 exact**, **11 nonexact / 13,353 logical
-  bytes**, 35 reviewed unresolved origins. Exact authored bytes
-  **278,578 / 291,931 = 95.4260%**. Complete original-code inventory is
-  **not** proven. Use `scripts/report-reconstruction-status.py` and the
-  generated [progress](PROGRESS.md) rather than copying totals.
-- **Phase:** exact reconstruction is unfinished. A whole Windows i386
-  product, dual-Oracle semantic tests and port are **not** proven.
-- **Proof hierarchy:** original PE + attested Ghidra for analysis; pinned
-  VC7.1 COFF for candidates; `config/matches.csv`, `config/functions.csv`
-  and `config/match-units.toml` for exact claims. Partial similarity is
-  NONEXACT. Rebind private `$L…`/`$name$…` labels only after checking the
-  same-section COFF definition, manifest target and original PE operand.
-
-## What changed in the 2026-11-16 handoff
-
-- **RunEcl** remains exact (unit `ecl-run-ecl`, 14,792 logical / 15,564
-  physical bytes). Its plain-statement cleanup and compiler-label constraints
-  are documented in the knowledge base.
-- **GameplaySetupThread** is exact at 1,689 bytes and is no longer an open
-  owner. **BeginPlaybackStage** remains nonexact at 540/540 bytes with 13
-  masked / 19 raw differences; its plain-C++ source is retained.
-- **Enemy OnUpdate** remains 3,900/3,900 bytes with two differences
-  (`+0x19A/+0x1A1`). The early draw-group C2 node is mapped to vreg 7 and
-  source `EnemyManagerCore.inl:439`; C2 selects descriptor 1/ECX on an
-  equal-score tie, while the original's EAX preference and descriptor-2
-  physical mapping remain unresolved. The scoped volatile side-state pointer
-  fixes the pair but shifts four Float3 call-argument bytes; do not restore it.
-  The maintained side gates now use the native shared `+0x34` and `+0x337C`
-  bitfield views. The `+0x3380` secondary DWORD has overlapping movement and
-  late-side-category views: movement mode occupies bits 9-10, while the ECL
-  side category occupies bits 10-11. The boss now names and uses the death bit
-  (bit 0), marker state (bits 1-2), timer-pause bit (bit 4), effect category
-  (bits 6-8), interaction bit (bit 12), and card-attack indicator (bit 13);
-  the `0x4DC0` normal-enemy gate is expressed as three typed field tests. The
-  3,900-byte owner remains at the same two residual bytes. Source-scoped replays
-  passed 84 same-source exact units (45,420 bytes / 1,987 relocations), the
-  expanded 88-unit shared-flag cohort (46,147 / 2,007), and both trail leaves
-  (664 / 39). No cold replay was run.
-- **Player collision rotation leaf** (`0x0042AF40`) now spells out its
-  target-backed `__fastcall` ABI in both definition and Player helper
-  declaration: output in ECX, input in EDX, angle on the stack. The 62-byte
-  leaf remains exact with two trig relocations; five exact Player collision
-  siblings replayed 1,220 bytes / 32 relocations unchanged.
-- **SupervisorServiceUpdate** now has a ratchet-safe maintained natural C++
-  baseline of **1,629/1,633 bytes / 966 differences** (72 prior mismatches repaired). The 20-byte stack map and `[ebp-4]` result home are understood.
-  A separate natural C++ diagnostic (no ASM) is `.analysis/SupervisorNetwork.natural-ebx-reload.cpp`
-  (1,591/1,633 / 976 differences): it recovers the branch-scoped EBX clock
-  pointer, EDI `connectNow`, and final `0x430fb0` IAT reload, but remains 42
-  bytes short. It is not promoted. The maintained improvement makes the
-  predicted-frame sides typed reads after their seed callbacks: the first
-  reads through the captured `frameNetwork` pointer, the second through the
-  refreshed global pointer, preserving retail call-argument order. Next resolve the initial receiver
-  (candidate EAX vs retail EDI) and final side-inversion register order.
-- **Player CheckBulletCollision** now uses natural C++ iteration, with its
-  protected baseline at **842/862 bytes / 705 masked differences**. The old
-  853/862 carrier included an artificial `_emit` loop-entry jump/NOP and is
-  invalid as natural-source progress. A separate genuine C++ diagnostic
-  `.analysis/PlayerCollisionHelpers.natural-preheader-842.cpp` restores the
-  original entry jump/alignment through +0x25 and reaches 842/862 / 662
-  differences, but adds 102 newly mismatching positions, so it cannot pass
-  the monotone frontier ratchet. C2 still places circle-hit dispatch after
-  rectangle/AABB geometry instead of retail's early fallthrough; the four
-  independent native cursor advances remain to be recovered. Do not promote
-  that diagnostic or reintroduce ASM/padding.
-- **SaveReplay** remains 1,238/1,238 bytes with two differences; **Player
-  movement** remains 1,900/1,900 with eight bytes (four masked); **ChargeAttack**
-  remains 1,210/1,210 with 183 masked differences. **ScreenEffect shake** is
-  336/336 with 26 differences, and **Effect AddedCallback** is 51/51 with four
-  differences. Their failed register/alias probes are recorded in the
-  knowledge base; do not repeat simple spelling sweeps.
-
-All open-owner figures above are diagnostic/frontier status, not exactness
-claims. The live report on 2026-11-16 confirms **11 nonexact owners / 13,353
-logical bytes**, **1,026 exact functions**, and **278,578 / 291,931 authored
-bytes exact (95.4260%)**. The complete original-code inventory and native
-Windows i386 product remain unproven.
-
-## Remaining source-present nonexact owners
-
-Measured 2026-11-14 with each owner's pinned profile. "Masked" counts
-exclude relocation fields; dedicated inspectors may report slightly higher
-numbers.
-
-| Owner | Target address | Current comparison | Remaining work |
-| --- | --- | --- | --- |
-| **Enemy OnUpdate** | 0x00410730 | 3,900/3,900, **2 bytes** (+0x19A/+0x1A1) (EclManager `/O2 /Ob1`) | Early draw-group vreg 7 maps to `EnemyManagerCore.inl:439`; C2 mask `0x19E` leaves descriptors 1/2 tied at zero and selects 1/ECX first. Identify why the original chooses EAX and how to make ECX unavailable without regressing adjacent Float3 setup. `check-frontier.py enemy-on-update`. |
-| **Replay SaveReplay** | 0x00420C60 | 1,238/1,238, **2 bytes** (+0xB7/+0xBB) (`/O2 /Ob1`) | Header-copy buffer load ECX vs EDI. The temporary allocation is a genuine `u8 *`, and the first 0x20-byte frame header is copied by natural `ReplayFrameDataStartView` aggregate assignment (`rep movsd` emitted by VC7.1). The 1,238-byte/2-difference owner and twelve same-source exact siblings are unchanged. `replay-save`. |
-| **Player movement** | 0x0041C170 | 1,900/1,900, 8 bytes (4 masked) at +0x127 (`/O2 /Ob1`) | Explicit live `GameConfiguration *` followed by freshly read `sideIndex` models retail's intended data access, but VC7.1 still loads the side first; the four masked differences remain. `player-movement`. |
-| **Effect AddedCallback** | 0x0040D1C0 | 51/51, **4 bytes** in two windows (`/O2 /Ob1`, no `/EHsc`) | Retail uses EDI for the global ANM manager and ESI for callback context; current source reverses the setup order. The shared ANM slot is now resolved through a natural `static inline` helper using one manager receiver across Get/Preload; the 51-byte owner still has four differences, and 15 exact Effect siblings replayed unchanged. `effect-added-callback`. |
-| **Title OnUpdateResult** | 0x004266B5 | **484/485**, one site at +0xFD (Title `/O1 /Ob1`, no `/Oi`) | The selected character now uses native `g_TitleResultCharacterOrder[keyboardSelection]` indexing and is retained across the cursor callback; retail still separately loads CL/sign-extends after a `push 2`, whereas VC7.1 folds our read. The 484/485 and 167-difference frontier is unchanged; 41 exact Title siblings replay. `title-update-result`. |
-| **ScreenEffect shake** | 0x004227A0 | 336/336, 26 bytes (`/O2 /Ob1`) | Natural direct `screenEffect->timer` member calls replace the old clock alias; ESI/EDI receiver/timer register swap remains. Same-source 18 exact owners replayed; `screen-shake-envelope`. |
-| **Title DrawReplayMenu** | 0x004234F6 | 1,280/1,280, 29 bytes (Title `/O1 /Ob1`) | All record, path-character and frame-header accesses now use direct native `replays[index]`, `replayPaths[index][offset]`, `frameStart[side][stage]` C++ arrays rather than the former integer-address macro/inline helper chain; same 29-byte register-allocation residual. The shared record layout remains separately validated. `title-draw-replay-menu`. |
-| **Replay BeginPlaybackStage** | 0x00420840 | **540/540**, 13 masked / 19 raw at +0x14B–0x15F (`/O2 /Ob1`) | Plain C++ (no `volatile` alias). VC7.1 hoists the `sides[0].runtime` load above the +0x37C store; retail issues it after the +0x1E8 load. Statement moves/swaps, array and side-pointer forms do not move it. Native file-to-replay, signed byte/float and frame-stream pointer conversions are typed C++; contiguous playback character/side/score/runtime restoration now uses one actual `AsciiGameManagerView &game` owner without extra loads. The 540/13 carrier and 12 exact siblings are unchanged. `replay-begin-playback`. |
-| **Player ChargeAttack** | 0x0041F810 | 1,210/1,210, 183 masked (`/O2 /Ob1`) | Retail: int side in EDI, input in EBX, `sideMode` spilled to `[ebp-1]`. Maintained source now uses genuine `ReplayInputState[side]` and `GameConfiguration::sideFocusMode[side]` indexing instead of the old raw-pointer stride and macro; 1,210/183 codegen unchanged. The EDI/EBX allocation remains open. `player-charge-attack`. |
-| **Player CheckBulletCollision** | 0x0041DFF0 | **842/862**, 705 differing offsets / 26 relocation fields (`/O2 /Ob1`, maintained natural C++) | Best new natural C++ diagnostic: 848/862 / 609 differences, with target-shaped entry and shared hit dispatch, but 89 new mismatches (185 old offsets repaired); it remains diagnostic-only. The prior 840/862 / 693 nested-loop candidate is superseded. No ASM/padding candidate is retained. `player-bullet-collision`. |
-| **Supervisor network service** | 0x00430AA0 | 1,629/1,633 bytes, **966 differences** (maintained); best separate diagnostic **1,589/1,633 / 1,000 differences** (`/O2 /Ob1`) | The 20-byte frame and `[ebp-4]` result home are mapped. Maintained C++ models the early `PopFrame` output overlap with a checked 8-byte union and a second mutually exclusive `ServiceReturnState` union for frame/retry versus wait/reset enum outcomes. These leave the exact byte residual set and extent unchanged. IDA confirms the retail `HOST_SESSION` label is after the connection-state-1 branch; a natural-C++ CFG diagnostic moves the label there and recovers the early EDI network snapshot, EBX IAT clock pointer, post-host EDI refresh and main-frame EDI/EBX homes, but remains non-ratchetable and is not promoted. The 1,589-byte diagnostic has 303 new and 269 repaired offsets, so the maintained 1,629/966 carrier remains protected. A focused C2 trace maps vreg 7 to the draw-group selector; its score pass sees class 0, a null live-set pointer and candidate order 1,2,3,7,8,4,6, leaving the original EAX preference unexplained. `.analysis/supervisor-frame-owner-scratch/SupervisorNetwork.cpp`; `supervisor-network-service`. |
-
-## Reproduce *only* the changed compiler carriers
-
-`build/` objects, PDBs and comparison JSON are **ignored disposable build
-caches**, removed in the storage cleanup. Missing objects are expected, not
-missing sources or original target data; each selected command regenerates
-only the necessary carriers.
-Do **not** start with `--owner all`, a project-wide cold replay, or
-`ci.py --full` just to repopulate caches.
-
-```bash
-git status --short --branch             # inspect AND recover dirty work
-git diff --check
-git log -7 --oneline
+~~~sh
+git status --short --branch                # inspect and continue any dirty work
+git log -6 --oneline
 python3 -B scripts/verify-target.py
 python3 -B scripts/validate-tracking.py --require-target
 python3 -B scripts/report-reconstruction-status.py
+python3 -B scripts/ci.py                   # syntax, ledgers, docs, progress
+~~~
 
-# Nonexact functions: rebuild and fail if any matching byte regresses
-# (diagnostic only; names and residuals live in config/frontiers.toml).
-nice -n 12 python3 -B scripts/check-frontier.py                 # all, ~80 s
-nice -n 12 python3 -B scripts/check-frontier.py replay-save --show
-python3 -B scripts/check-frontier.py replay-save --update       # record an improvement
+Do not discard uncommitted changes or run an all-owner cold replay. Use the
+registered live `th09` repository/worktree, not copies of source from old
+experiments. Commit coherent changes as `gpt-web: ...`; never push silently.
 
-# Preserve all genuinely affected exact siblings after modifying a source:
-python3 -B scripts/replay-scoped-exact.py --changed-file src/EclRunState.inl --dry-run
-nice -n 12 python3 -B scripts/replay-scoped-exact.py --changed-file src/EclRunState.inl
-# Or use --source src/ReplayInput.cpp for a single source-owned cohort.
+## Authoritative target and phase
 
-# One exact function when needed; builds the selected original-bound carrier:
-nice -n 12 python3 -B scripts/build-match-unit.py --unit ecl-pop-context
-python3 -B scripts/compare-coff-function.py --unit ecl-pop-context --json
+- **Only target:** original Japanese TH09 v1.50a,
+  `resources/th09.exe`, Windows PE32 i386, image base `0x00400000`,
+  entry `0x0047D45F`. SHA-256:
+  `10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822`.
+  This ignored binary is protected: never patch, rename, commit or delete it.
+- **Canonical status on 2026-11-17:** 2,248 provisional function candidates;
+  35 reviewed but origin-unresolved; 1,037 confirmed authored mappings
+  and source-present owners; **1,026 exact, 11 source-present nonexact
+  (13,353 logical authored bytes)**. The authored-byte measure is
+  **278,578 / 291,931 = 95.4260%**. It is *not* a whole-executable
+  exactness percentage or proof of complete original-code inventory.
+  Re-read `scripts/report-reconstruction-status.py` after any ledger change.
+- **Native product:** `config/build.toml` remains a skeleton with
+  unknown translation-unit and link order. Whole Windows i386 build and
+  runtime validation are **open**; semantic dual-Oracle work and port
+  stages have not started.
+- **Exactly measured evidence:** `config/matches.csv` lists accepted
+  authored exact functions; `config/match-units.toml` defines their pinned
+  VC7.1 source/profile, full owned physical extent and symbolic relocation
+  identities; `config/frontiers.toml` sets monotone nonexact baselines.
+  An exact byte count, a matching Ghidra decompilation, or an old object
+  alone is not enough to promote a function.
 
-# For documentation/ledger edits (no game compiler necessary):
-python3 -B scripts/validate-docs.py
+## Current nonexact work queue
+
+The numbers below were rebuilt with the owner's recorded compiler profile
+and `scripts/check-frontier.py` on 2026-11-17. They are **relocation-masked
+differing byte positions**, not counts of differing instructions. The
+instruction starting address can precede the differing byte offset.
+
+| Owner | Target address | Current comparison | Remaining work |
+| --- | --- | --- | --- |
+| **enemy-on-update (EclManager.cpp)** | 0x00410730 | 3,900/3,900, **2 masked bytes** | At `+0x19C` and `+0x1A3`, VC7.1 uses ECX where retail uses EAX to load/index the early draw-head group. Typed schedule/pool/group access is already in source. The 84 co-resident ECL exact functions must remain intact. |
+| **replay-save (ReplayInput.cpp)** | 0x00420C60 | 1,238/1,238, **2 masked bytes** | `+0xB7` and `+0xBB`: header-copy destination register ECX instead of retail EDI. |
+| **replay-begin-playback (ReplayInput.cpp)** | 0x00420840 | 540/540, **13 masked bytes** | Replay game-side restoration load order around `+0x14B–0x15F`. |
+| **player-movement (PlayerMovement.cpp)** | 0x0041C170 | 1,900/1,900, **4 masked bytes** | Config/side load order at `+0x127–0x12A`. |
+| **player-charge-attack (PlayerChargeAttackUpdate.cpp)** | 0x0041F810 | 1,210/1,210, **183 masked bytes** | Side/input/short state lifetimes and EDI/EBX allocation; keep real ReplayInputState and configuration ownership. |
+| **player-bullet-collision (PlayerCollisionHelpers.cpp)** | 0x0041DFF0 | 842/862, **705 masked bytes** | Collision/loop CFG, entry preheader and four distinct backedges; no ASM or fake alignment. |
+| **effect-added-callback (EffectManager.cpp)** | 0x0040D1C0 | 51/51, **4 masked bytes** | EDI global ANM manager vs ESI callback receiver setup order. |
+| **screen-shake-envelope (ScreenEffect.cpp)** | 0x004227A0 | 336/336, **26 masked bytes** | Volatile timer/receiver lifetimes and ESI/EDI selection. |
+| **title-update-result (TitleScreen.cpp)** | 0x004266B5 | 484/485, **167 masked bytes** | Control flow / signed character load at result state transition; note the candidate is one byte shorter. |
+| **title-draw-replay-menu (TitleScreenReplayMenuDraw.cpp)** | 0x004234F6 | 1,280/1,280, **29 masked bytes** | Register assignment around replay-record and menu selection paths. |
+| **supervisor-network-service (SupervisorNetwork.cpp)** | 0x00430AA0 | 1,629/1,633, **966 masked bytes** | Larger host/network branch CFG, 20-byte stack frame and network receiver lifetime. The smaller scratch CFG is *not* ratchet-safe. |
+
+**Additional frontier, not one of the eleven authored nonexact functions:**
+`etama-fsincos` at `0x00412780`, `src/EtamaControllerDraw.cpp`:
+maintained **36 / 33 bytes, 25 differing positions**.
+Original authored-versus-library provenance remains *unclassified*.
+The previous x87/FSINCOS inline-assembly source once produced exact bytes,
+but it was deliberately replaced with natural `cosf/sinf` C++.
+Its obsolete standalone match-unit was removed on 2026-11-17;
+do not restore that exact claim, add inline ASM, or assume numerically
+identical last-bit rounding.
+
+The frontier file is authoritative for addresses, profile flags, byte
+positions, and SHA-256 of each original extent. `check-frontier.py`
+checks the monotone ratchet; it **does not award exact credit**.
+
+## High-value next investigations
+
+1. **Real boss progress:** restore `CheckBulletCollision`'s original
+   early circle-hit dispatch/backedges in natural C++ and compare every
+   exact Player sibling. A previous scratch top-tested-loop variant
+   fixed some old offsets but introduced new ones; do not promote it.
+   `SupervisorNetworkService` likewise needs the correct first
+   network-pointer EDI lifetime and host-session branch placement.
+2. **Two-byte blockers:** trace C2's early Enemy draw-group virtual
+   register choice (vreg 7; equal-score descriptors 1/2) rather than
+   repeating register hints. For `SaveReplay`, analyze the typed
+   frame-header copy and temp-buffer lifetime. Both remained at two
+   differences after earlier simple pointer/declaration sweeps.
+3. **Small leaves / related bosses:** `EffectManager::AddedCallback`,
+   `ScreenEffect::CalcShakeEnvelope`, Replay playback, Player movement,
+   Title result update and replay menu all have bounded frontiers.
+   Recheck both source siblings and the protected residual before
+   keeping a variant.
+4. **Origin and product closure:** resolve the 35 outstanding origin
+   cases separately; establish real translation units, link order,
+   resources, build/runtime tests. Do not equate per-function Exact
+   with a runnable native product.
+
+Recent natural-C++ refactoring has already restored real
+GameManager/Player/Enemy/ANM/Supervisor object ownership, indexed
+arrays and file-backed byte pointers in large exact bosses. Check
+**maintained source and Git history** before repeating this work;
+a private symbol spelling change without PE/COFF proof is not progress.
+
+## Fast, scoped verification
+
+~~~sh
+# One exact owner and all its relocations / complete physical tail:
+python3 -B scripts/build-match-unit.py --unit ecl-run-ecl
+python3 -B scripts/compare-coff-function.py --unit ecl-run-ecl --json
+
+# One affected source, all its exact owners and distinct pinned profiles:
+python3 -B scripts/replay-scoped-exact.py --source src/ReplayInput.cpp
+
+# For a changed shared .hpp/.inl, see actual source dependents first:
+python3 -B scripts/replay-scoped-exact.py --changed-file src/EnemyManagerCore.inl --dry-run
+
+# Recompile and protect only the relevant nonexact boss:
+python3 -B scripts/check-frontier.py enemy-on-update
+python3 -B scripts/check-frontier.py --show replay-save
+
+git diff --check
 python3 -B scripts/ci.py
-```
+# Target-independent tool tests, when editing tooling/config:
+python3 -B scripts/ci.py --full
+~~~
 
-`replay-scoped-exact.py` only checks previously **exact** canonical functions,
-not the nonexact boss in the same TU. Editing a shared `.inl` can change
-private symbol names in several VC7.1 carriers. Compile and check every
-affected physical owner *before* changing manifest symbol spellings. Avoid
-compiler register-forcing hints, artificial padding and target-patching.
+`ReplayInput.cpp` has **both /EHsc and no-/EHsc** exact carrier
+profiles; Title uses `/O1` without `/Oi` and some Effect owners omit
+`/EHsc`. Always use the profile recorded for the target unit.
+For `EclManager.cpp`, changing the included
+`EnemyManagerCore.inl` can renumber private `$L...` labels across
+84 exact functions. Before editing any manifest spelling, prove
+nonrelocation byte equality, relocation offset/type, PE destination
+and same-section COFF symbol definition. Do not pretend changed
+label numbers establish new Exact credit.
 
-For new target analysis use attested `scripts/ghidra-analysis.py`, for example
-`python3 -B scripts/ghidra-analysis.py --function 0x004086C0`. This validates
-the imported Program and original mapped PE bytes. The earlier Ghidra
-pseudocode under ignored `.analysis/ghidra-direct/` is a **hypothesis**, not
-a byte-exact source receipt; a fresh import can be necessary after a Ghidra
-tool upgrade.
+Build products and compiler PDBs are **disposable ignored caches**;
+missing `build/matching/*.obj` or `build/frontier/*.obj` after storage
+cleanup is expected. Regenerate only the relevant carrier(s).
+A missing historical `.analysis` probe is not missing proof: rebuild
+from `src/` with the current target/profile.
 
-## Next steps (ranked)
+## Protected inputs and storage policy
 
-1. **Player CheckBulletCollision (large boss).** The maintained natural-C++
-   carrier is now `842/862` bytes with 705 differences. A 9-byte inline
-   `_emit` jump/NOP pad was removed from the loop entry; the old 853/862,
-   692-difference result is invalid as progress and must not be restored. Attested target analysis
-   fixes the required order: circle test, small hit dispatcher, then rotated
-   and AABB geometry; circle success falls through to the dispatcher, while
-   square success jumps backward. The separate cancel-reward body is later in
-   the target. Retail has four increment/backedge sites at `+0x0a3`,
-   `+0x133`, `+0x194`, and `+0x19e`. The previous 840/862, 835/862, 849/862
-   and 853/862 measurements were made with the artificial loop-entry pad in
-   place; do not use those byte scores as valid natural-C++ progress. The maintained source now uses a natural top-tested `for` loop with
-   `continue` rather than the two artificial advance/backedge labels; its
-   compiled 842/862 carrier is byte-identical to the post-depadding baseline. The repeated
-   `position` home and overlapping collision scratch cursor now use actual
-   typed `volatile` references instead of repeated reinterpret-casts; this
-   is byte-neutral and all five exact siblings replayed. Next, recover the target preheader and successor order through
-   genuine C++ control flow while preserving x87 operand order and four
-   distinct backedges. No `_emit`, inline assembly, or byte padding.
-   Ignored natural-C++ diagnostic `.analysis/PlayerCollisionHelpers.natural-preheader-842.cpp`
-   reproduces the target preheader through +0x25 and reaches 842/862 with
-   662 differences, but adds 102 new differing positions (145 repairs).
-   It is **not** a ratchet-safe source promotion; next fix C2 circle-hit
-   dispatcher ordering before replacing the maintained 842/705 owner.
-2. **SupervisorServiceUpdate (large boss).** The retail 20-byte frame is now
-   mapped: inputs `-0x14/-0x12`, predicted `-0x0c`, seed outputs `-0x08/-0x06`,
-   and result `-0x04`. The early second `PopFrame` intentionally overlaps seed
-   `-0x0a` with predicted `-0x08`. The latest saved natural-C++ diagnostic (no inline assembly) is
-   **1,591/1,633 bytes / 976 differences** (maintained baseline is now
-   1,629/1,633 / 966); it reproduces branch-scoped EBX clock loads, EDI
-   `connectNow`, and the final `0x430fb0` EBX reload, but remains 42 bytes short
-   and must not be promoted. It is saved at
-   `.analysis/SupervisorNetwork.natural-ebx-reload.cpp` with object
-   `.analysis/supervisor-natural-ebx-reload.obj`. Direct-return and initial
-   reference-alias variants did not improve it. Merging the early and later network aliases into
-   one reassigned pointer, or materializing `initialConnectionState`, is
-   byte-neutral and must not be repeated. This turn recovered 72
-   exact offsets in the predicted-frame `InsertPredictedFrame` side/seed path
-   with no new mismatches, using an explicit native unsigned subtraction and
-   a live volatile reference to the network side. The remaining high-value mismatch is
-   the initial network receiver (candidate EAX vs retail EDI) and the final
-   side-inversion order (candidate reads into EDI, retail EAX then ECX). Continue from
-   `.analysis/SupervisorNetwork.natural-ebx-reload.cpp` and preserve the exact
-   20-byte scratch layout. Do not repeat simple `register` hints, volatile
-   receiver qualification, volatile-result or declaration-order probes,
-   function-wide global-pointer snapshots, or the initial reference-alias
-   variant.
-3. **Enemy OnUpdate (two-byte frontier).** The maintained carrier is
-   `3900/3900` bytes with only `+0x19a/+0x1a1` differing. C2 line 68814 / vreg 7
-   has live-set mask `0x19E`; class-0 candidates 1 and 2 tie at zero score and
-   ordered scan chooses descriptor 1, which the candidate emits as ECX. Retail
-   uses EAX only at the early restricted-side draw-group site; the ordinary
-   draw-group site already uses EDX in both builds. Descriptor 2's physical
-   mapping is not yet independently proved. Next, trace vreg 7 through
-   `FUN_10770294`/`FUN_10770248` (live-range overlap and kind-`0x0b` bitset
-   interference), with `FUN_10759f2c`/`FUN_1075a28a` as the bitset insert/subtract
-   helpers. Do not repeat pointer, helper, parameter-width, same-local reuse,
-   or register-hint sweeps. The scoped volatile side-state pointer fixes the
-   EAX/EAX pair but regresses four following Float3 argument bytes; do not
-   reinstate it.
-4. **Smaller owners.** `EffectManager::AddedCallback` remains 51/51 bytes with
-   4 differences; `ScreenEffect::CalcShakeEnvelope` remains 336/336 with 26;
-   `PlayerLifecycleView::UpdateMovementAndOptions` remains 1,900/1,900 with 4;
-   `TitleScreenView::OnUpdateResult` remains 484/485 with 167; `ReplaySave`
-   remains 1,238/1,238 with 2. The ANM-manager receiver-order, ScreenEffect/timer,
-   PlayerMovement configuration-pointer order, TitleResult direct-index/register,
-   and ReplaySave temp-buffer register/alias probes did not improve their
-   owners. Only reopen them with a new, specific live-range hypothesis. Do not
-   repeat the failed aliases, TitleResult table-index forms, or the documented
-   BeginPlaybackStage and SaveReplay variants.
+**Never delete:** the verified executable
+`resources/th09.exe`, `.tools/` pinned runtime/toolchain selectors,
+`_reference/`, saved Ghidra project
+`.analysis/ghidra-direct/`, or the
+`c2-analysis/` C2 investigation / Ghidra projects.
+The native allocator investigation also retains
+`.analysis/c2-heap.bin`,
+`.analysis/FUN_107844a4.decomp.txt`, and four
+`.analysis/gdb-c2-*.cmd` recipes. Two compact
+natural-C++ diagnostic *sources* remain useful:
+`.analysis/PlayerCollisionHelpers.natural-preheader-842.cpp`
+and `.analysis/SupervisorNetwork.natural-ebx-reload.cpp`.
+They are **not maintained source and not exact proof**.
 
-## Natural-C++ source debt (not exactness credit)
-
-The previous artificial `CheckBulletCollision` loop-entry `_emit` bytes have
-been removed and rebaselined at 842/862. The unclassified `fsincos` source in
-`EtamaControllerDraw.cpp` is also now ordinary `cosf`/`sinf` C++ with
-**36/33** bytes and 25 masked differences. Its old x87 exact-codegen unit is
-historical evidence only; use `check-frontier.py etama-fsincos` for current
-comparison. A source-scoped replay of the other three Etama exact units passes
-1,664 compared bytes and 73 relocations. Internal `$L...` COFF label names
-were updated only after confirming identical same-section targets.
-
-CI now forbids new inline assembly, raw `_emit` bytes or naked functions.
-Other sources still contain genuine x87 inline-assembly helpers
-(`AnmManagerCameraFacing.inl`, `AnmManagerRender.cpp`,
-`EffectPolarScale.inl`, `ExAttackInitType8.inl`). Retire these through actual
-C/C++ semantic reconstruction and scoped owner checks, not byte padding or
-manual instruction insertion. Natural trig may differ from the retail x87
-combined result in final rounding; do not assert runtime equivalence without
-evidence.
-
-## Practical pitfalls
-
-- Compile experiment copies **inside the repository** (e.g. a directory
-  under `.analysis/`); compiling from `/tmp` under Wine is ~8x slower.
-  Ghidra refuses project paths containing a `.`-prefixed element, so put
-  Ghidra scratch projects outside `.analysis/`.
-- Title code uses `/O1` without `/Oi`; EffectManager omits `/EHsc`. Check
-  `config/match-units.toml` for the owner's unit profile before measuring.
-- An automated source-variant search (the Cirno-Labs permuter's rewrite
-  functions driven by a local compile/compare harness) was used locally
-  and is **not** committed (GPL-3.0 reference code); its results are
-  recorded in the knowledge base.
-- Repository `.cpp/.hpp` files are CRLF in the working tree
-  (`.gitattributes`); edit them with CRLF-aware tools.
-- `c2-analysis/` is a local scratch bundle containing the pinned C2 backend,
-  Ghidra project/dumps and source probes. Keep it available for the weighted
-  allocator investigation, but do not stage its DLL, analyzer database or
-  decompiler dumps in source commits.
-- A quoted `#include` resolves next to the including file first. To test an
-  edited shared `.inl`/`.hpp`, copy the including `.cpp` next to it; `/I`
-  order alone does not override `src/`.
-- Comparing private `$L` labels is part of exactness: byte-identical edits to
-  `EnemyManagerCore.inl` still renumber labels pinned by exact RunEcl and
-  CompareOperands units.
-- Parallel Wine compiles can leave `_CL_*` compiler scratch files in the
-  repository root; delete them.
-- `scripts/ci.py --full` runs the 82 target-independent tooling tests in a
-  few seconds and must stay green. Source-spelling snapshot tests and
-  per-owner inspectors were removed on 2026-11-15; exactness evidence is the
-  canonical comparison, and nonexact progress is `check-frontier.py`.
-
-## Storage / protected inputs / commit discipline
-
-Preserve `resources/th09.exe`, `.tools/` selectors/toolchain, the saved
-`.analysis/ghidra-direct/` project, `c2-analysis/`, and `_reference/`. The old
-`.analysis/gpt-web/` proof templates and variant corpora were pruned after
-their conclusions were recorded; recreate a narrowly scoped helper only if a
-new question needs it. Keep only the current best diagnostic sources explicitly
-referenced by this handoff/knowledge base. For the open C2 allocator question,
-retain `.analysis/c2-heap.bin`,
-`.analysis/FUN_107844a4.decomp.txt`, and the selected GDB recipes
-`gdb-c2-member-register-flow.cmd`, `gdb-c2-conflict-predicate.cmd`,
-`gdb-c2-source-less-vreg7.cmd`, and `gdb-c2-offset-proof.cmd`. Their captured
-stdout/log duplicates and the volatile heap variant are disposable.
-`build/`, Python caches, Ghidra packed-db cache/logs, old variant directories,
-compiler objects/PDBs, preprocessed files, duplicate debugger logs and stale
-scratch snapshots are disposable and may be removed. Do not delete the saved
-Ghidra/C2 analysis projects or protected target. Do not commit executables,
-analyzer databases, toolchains or decompiler output. Use `gpt-web: ...` for
-coherent local checkpoints and never push silently.
+Superseded compiler objects, PDBs, textual variant corpora,
+captured logs and `build/` caches have been pruned to save disk.
+Do not restore them en masse. Don't commit original game files,
+toolchains, Ghidra databases, C2 DLLs, decompiler dumps or
+generated comparison results. Do not touch the protected
+target while cleaning cache state.
