@@ -11376,3 +11376,49 @@ bounds checks or whole-product cold replay
 was needed. These are native C++ storage
 and pointer expressions, not newly credited
 exact functions.
+
+## 2026-11-17 GPT-web: native score.dat bank and serialized byte cursors
+
+The complete `ScoreFileView::LoadScoreRecords`
+chapter reader now initializes and publishes
+the original `g_TitleScoreTable[16][5][5]`
+through real C++ multidimensional array
+subscripts. The fifteen live reads/writes
+formerly spelled as a `TH09_SCORE_NATIVE_AT`
+integer-address lvalue macro now refer to the
+same record objects as the independently exact
+Title result renderer. Its native 0x44C-byte
+bank, 0xDC-byte difficulty row and 0x2C-byte
+record sizes are unchanged. The variable-sized
+score.dat chapter traversal retains its actual
+file-data byte stepping rather than imposing
+invented fixed-record bounds.
+
+In `SaveTitleScoreData`, each serialized
+chapter is now copied to `scoreData +
+currentOffset` in the real allocated output
+buffer, and the checksum loops access
+`scoreData[byteIdx]` and `bytes[1]`
+directly. The two XOR cursor advances are
+natural `++bytes` operations on the
+original byte stream. The same real byte
+cursor expression replaces redundant integer
+casts in the score reader's checksum pass.
+No changed checksum, obfuscation algorithm,
+record order, compression or safety guard
+has been introduced.
+
+Independent pinned VC7.1 probes of the score
+table, output buffer, checksum, byte base
+and XOR cursor, as well as their combination,
+matched all affected original-bound owners.
+The maintained six-profile selected-source
+replay passes **7/7 previously exact functions,
+2,572 complete physical bytes and 169 relocation
+fields**, including **745/745 bytes** for
+SaveTitleScoreData, **441/441** for
+LoadScoreRecords and **523/523** for
+OpenScore. No compiler-private label rebinding
+was needed; no ASM, artificial padding,
+forced registers, whole-product cold replay or
+new exact-function promotion was involved.
