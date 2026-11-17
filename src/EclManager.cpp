@@ -115,11 +115,10 @@ static void ConfigurePolarMotion(
     int duration = Th09EclRunControl::ReadInt(enemy, instruction, 0);
     view->movementDuration2E34 = duration;
     view->movementTimer2E28 = duration;
-    view->primaryFlags337C =
-        (view->primaryFlags337C & ~0x3A00U) |
-        ((Th09EclRunControl::ReadInt(enemy, instruction, 1) & 7) << 11) |
-        0x400U;
-    if ((view->primaryFlags337C & 0x8000U) != 0)
+    const int easing = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+    view->primaryFlagBits337C.movementEasing11_13 = easing;
+    view->primaryFlagBits337C.movementMode09_10 = 2;
+    if (view->primaryFlagBits337C.mirrorMovementX15 != 0)
         view->movementDelta2E10.x = -view->movementDelta2E10.x;
 }
 
@@ -141,16 +140,13 @@ static void ConfigureRelativeMotion(
     int duration = Th09EclRunControl::ReadInt(enemy, instruction, 0);
     view->movementDuration2E34 = duration;
     view->movementTimer2E28 = duration;
-    unsigned int movementFlags =
-        (view->primaryFlags337C & ~0x3A00U) |
-        ((Th09EclRunControl::ReadInt(enemy, instruction, 1) & 7) << 11);
-    view->primaryFlags337C = movementFlags;
-    view->primaryFlags337C |= 0x400U;
-    movementFlags = view->primaryFlags337C;
+    const int easing = Th09EclRunControl::ReadInt(enemy, instruction, 1);
+    view->primaryFlagBits337C.movementEasing11_13 = easing;
+    view->primaryFlagBits337C.movementMode09_10 = 2;
 
     *reinterpret_cast<Float3 *>(&view->velocity2D8C) =
         Float3(0.0f, 0.0f, 0.0f);
-    if ((movementFlags & 0x8000U) != 0)
+    if (view->primaryFlagBits337C.mirrorMovementX15 != 0)
         view->movementDelta2E10.x = -view->movementDelta2E10.x;
 }
 
@@ -193,12 +189,11 @@ static void StartTimedPolarDisplacement(
              : TH09_NATIVE_ECL_WIRE(wireArgs, 0).integer);
     view->movementDuration2E34 = duration;
     view->movementTimer2E28 = duration;
-    view->primaryFlags337C =
-        (view->primaryFlags337C & ~0x3A00U) |
-        ((((instruction->parameterMask0A & 2U)
+    const int easing = ((instruction->parameterMask0A & 2U)
              ? Th09EclRunControl::ResolveInt(enemy, TH09_NATIVE_ECL_WIRE(wireArgs, 1).integer)
-             : TH09_NATIVE_ECL_WIRE(wireArgs, 1).integer) & 7) << 11) |
-        0x400U;
+             : TH09_NATIVE_ECL_WIRE(wireArgs, 1).integer);
+    view->primaryFlagBits337C.movementEasing11_13 = easing;
+    view->primaryFlagBits337C.movementMode09_10 = 2;
 }
 
 static void BeginBoundaryAwareMove(
@@ -251,9 +246,7 @@ static void BeginBoundaryAwareMove(
         view->movementAngle2DE0 = angle;
         view->speed2DF4 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-        view->primaryFlags337C =
-            (view->primaryFlags337C & ~ENEMY_MOVEMENT_MODE_MASK) |
-            ENEMY_MOVEMENT_MODE_POLAR;
+        view->primaryFlagBits337C.movementMode09_10 = 1;
         view->movementDuration2E34 = 0;
         view->movementTimer2E28 = 0;
     }
@@ -347,10 +340,7 @@ static void MoveRandomBiased(
             ((instruction->parameterMask0A & 4U)
              ? enemy->ResolveFloat(TH09_NATIVE_ECL_WIRE(wireArgs, 2).real)
              : TH09_NATIVE_ECL_WIRE(wireArgs, 2).real);
-        view->primaryFlags337C =
-            (view->primaryFlags337C &
-             ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
-            Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
+        view->primaryFlagBits337C.movementMode09_10 = 1;
         view->movementDuration2E34 = 0;
         view->movementTimer2E28 = 0;
     }

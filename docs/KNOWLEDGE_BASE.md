@@ -9899,3 +9899,28 @@ Strict PE/COFF comparisons and the selected-source pinned VC7.1 replay
 prove **2/2 exact functions**, **252/252 physical bytes** and all **4**
 original relocation fields. This is natural C++ layout/field recovery,
 not ASM, padding, a new exact-function promotion or a full cold replay.
+
+## 2026-11-17 GPT-web: native ECL movement mode and easing in the RunEcl carrier
+
+The movement setup helpers in the real `EclManager.cpp` carrier now write
+`EnemyView::primaryFlagBits337C.movementEasing11_13` and
+`movementMode09_10` instead of constructing a raw 0x3A00 clear-and-OR
+mask. `ConfigurePolarMotion`, `ConfigureRelativeMotion`, and
+`StartTimedPolarDisplacement` set the real two-bit mode to 2 while retaining
+the original opcode's independently resolved three-bit easing value.
+`BeginBoundaryAwareMove` and `MoveRandomBiased` set the mode to 1. The
+polar/relative helpers also use `mirrorMovementX15` for native X
+reflection. All assignments still target the original single Enemy state
+DWORD at +0x337C, preserving unknown bits and bitfield truncation.
+
+The complete source-scoped pinned VC7.1 replay passes **84/84 exact
+functions, 45,420 original physical bytes and 1,987 relocation fields** over
+the canonical /Ob0 and /Ob1 source carrier profiles, including the full
+15,564-byte physical RunEcl owner. The five modified movement helpers
+individually retain their complete original extents, and the nonexact
+EnemyManager::OnUpdate frontier stays 3,900/3,900 with the same two
+mismatching register bytes. Only compiler-local symbol spellings (215
+references) changed, each checked against the original PE destination,
+same-section COFF definition and relocation type/offset after proving zero
+unmasked byte differences. No ASM, padding, forced register hints,
+whole-product replay, or new exact-function promotion was involved.
