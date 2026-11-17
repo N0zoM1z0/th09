@@ -88,7 +88,8 @@ typedef char BackgroundRenderNativeSpritePixelAndUvOffsets[
      offsetof(AnmLoadedSprite, widthPx) == 0x34) ? 1 : -1];
 
 // Stage fog and ANM VM colors are the original packed 32-bit words.
-// Their byte channels are accessed through those words' object storage.
+// Their BGRA byte lanes are accessed through the same packed word storage.
+// Keep each original VM/fog channel read and write in its native order.
 
 
 union BackgroundRenderColor
@@ -316,18 +317,18 @@ int Background::RenderObjects(int mode)
 
                             // Mutate the actual VM color word's four byte lanes
                             // without treating its DWORD as a separate union.
-                            unsigned long &color = quadVm->color1;
-                            (reinterpret_cast<u8 *>(&(color))[0]) = (reinterpret_cast<u8 *>(&(color))[0]) -
+                            BackgroundRenderColor &color = reinterpret_cast<BackgroundRenderColor &>(quadVm->color1);
+                            color.b = color.b -
                                 static_cast<u8>(
-                                    ((reinterpret_cast<u8 *>(&(color))[0]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[0])) * quadWidth);
-                            (reinterpret_cast<u8 *>(&(color))[1]) = (reinterpret_cast<u8 *>(&(color))[1]) -
+                                    (color.b - reinterpret_cast<const BackgroundRenderColor &>(this->skyFog.color).b) * quadWidth);
+                            color.g = color.g -
                                 static_cast<u8>(
-                                    ((reinterpret_cast<u8 *>(&(color))[1]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[1])) * quadWidth);
-                            (reinterpret_cast<u8 *>(&(color))[2]) = (reinterpret_cast<u8 *>(&(color))[2]) -
+                                    (color.g - reinterpret_cast<const BackgroundRenderColor &>(this->skyFog.color).g) * quadWidth);
+                            color.r = color.r -
                                 static_cast<u8>(
-                                    ((reinterpret_cast<u8 *>(&(color))[2]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[2])) * quadWidth);
-                            (reinterpret_cast<u8 *>(&(color))[3]) = static_cast<u8>(
-                                (reinterpret_cast<u8 *>(&(color))[3]) * (1.0f - quadWidth));
+                                    (color.r - reinterpret_cast<const BackgroundRenderColor &>(this->skyFog.color).r) * quadWidth);
+                            color.a = static_cast<u8>(
+                                color.a * (1.0f - quadWidth));
                         }
 
                         quadVm->pos = quadPosition;
@@ -453,22 +454,22 @@ int Background::RenderObjects(int mode)
                         if (fogRatio < 1.0f)
                         {
                             vertices[1].diffuse.b =
-                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[0]) - static_cast<u8>(
-                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[0]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[0])) * fogRatio);
+                                reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).b - static_cast<u8>(
+                                    (reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).b - reinterpret_cast<const BackgroundRenderColor &>(this->skyFog.color).b) * fogRatio);
                             vertices[0].diffuse.b =
                                 vertices[1].diffuse.b;
                             vertices[1].diffuse.g =
-                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[1]) - static_cast<u8>(
-                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[1]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[1])) * fogRatio);
+                                reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).g - static_cast<u8>(
+                                    (reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).g - reinterpret_cast<const BackgroundRenderColor &>(this->skyFog.color).g) * fogRatio);
                             vertices[0].diffuse.g =
                                 vertices[1].diffuse.g;
                             vertices[1].diffuse.r =
-                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[2]) - static_cast<u8>(
-                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[2]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[2])) * fogRatio);
+                                reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).r - static_cast<u8>(
+                                    (reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).r - reinterpret_cast<const BackgroundRenderColor &>(this->skyFog.color).r) * fogRatio);
                             vertices[0].diffuse.r =
                                 vertices[1].diffuse.r;
                             vertices[1].diffuse.a = static_cast<u8>(
-                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[3]) * (1.0f - fogRatio));
+                                reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).a * (1.0f - fogRatio));
                             vertices[0].diffuse.a =
                                 vertices[1].diffuse.a;
                         }
@@ -555,22 +556,22 @@ int Background::RenderObjects(int mode)
                         if (fogRatio < 1.0f)
                         {
                             vertices[3].diffuse.b =
-                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[0]) - static_cast<u8>(
-                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[0]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[0])) * fogRatio);
+                                reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).b - static_cast<u8>(
+                                    (reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).b - reinterpret_cast<const BackgroundRenderColor &>(this->skyFog.color).b) * fogRatio);
                             vertices[2].diffuse.b =
                                 vertices[3].diffuse.b;
                             vertices[3].diffuse.g =
-                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[1]) - static_cast<u8>(
-                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[1]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[1])) * fogRatio);
+                                reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).g - static_cast<u8>(
+                                    (reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).g - reinterpret_cast<const BackgroundRenderColor &>(this->skyFog.color).g) * fogRatio);
                             vertices[2].diffuse.g =
                                 vertices[3].diffuse.g;
                             vertices[3].diffuse.r =
-                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[2]) - static_cast<u8>(
-                                    ((reinterpret_cast<const u8 *>(&(quadVm->color1))[2]) - (reinterpret_cast<const u8 *>(&(this->skyFog.color))[2])) * fogRatio);
+                                reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).r - static_cast<u8>(
+                                    (reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).r - reinterpret_cast<const BackgroundRenderColor &>(this->skyFog.color).r) * fogRatio);
                             vertices[2].diffuse.r =
                                 vertices[3].diffuse.r;
                             vertices[3].diffuse.a = static_cast<u8>(
-                                (reinterpret_cast<const u8 *>(&(quadVm->color1))[3]) * (1.0f - fogRatio));
+                                reinterpret_cast<const BackgroundRenderColor &>(quadVm->color1).a * (1.0f - fogRatio));
                             vertices[2].diffuse.a =
                                 vertices[3].diffuse.a;
                         }
