@@ -18,16 +18,15 @@ static inline bool SkipNetworkValueWhitespace(const char *&cursor, int *remainin
             return false;
         }
 
-        cursor = reinterpret_cast<const char *>(
-                reinterpret_cast<unsigned int>(cursor) + 1u);
+        ++cursor;
         --*remaining;
     }
     return true;
 }
 
-// IP.txt is a file-backed byte stream. Retail scans the live cursor
-// through native i386 32-bit byte addresses, without inventing a
-// second C++ bounded character array or a new input-length guard.
+// IP.txt is the actual file-backed character stream. Advance its
+// original cursor directly without inventing a second byte array
+// or introducing an additional input-length guard.
 static const char *ParseNetworkConfigValue(
     const char *cursor, int *remaining, const char *key, char *out)
 {
@@ -35,23 +34,19 @@ static const char *ParseNetworkConfigValue(
 
     if (strncmp(cursor, key, strlen(key)) == 0)
     {
-        cursor = reinterpret_cast<const char *>(
-            reinterpret_cast<unsigned int>(cursor) +
-            static_cast<unsigned int>(strlen(key)));
+        cursor += strlen(key);
         while (*cursor == ' ' || *cursor == '\t')
         {
             if (*remaining <= 0 || *cursor == '\n')
                 return cursor;
 
-            cursor = reinterpret_cast<const char *>(
-                reinterpret_cast<unsigned int>(cursor) + 1u);
+            ++cursor;
             --*remaining;
         }
 
         if (*remaining > 0 && *cursor == '=')
         {
-            cursor = reinterpret_cast<const char *>(
-                reinterpret_cast<unsigned int>(cursor) + 1u);
+            ++cursor;
             --*remaining;
 
             if (SkipNetworkValueWhitespace(cursor, remaining, out))
@@ -65,8 +60,7 @@ static const char *ParseNetworkConfigValue(
                            outIndex < 255)
                     {
                         out[outIndex] = *cursor;
-                        cursor = reinterpret_cast<const char *>(
-                reinterpret_cast<unsigned int>(cursor) + 1u);
+                        ++cursor;
                         --*remaining;
                         ++outIndex;
                     }
@@ -83,7 +77,7 @@ static const char *ParseNetworkConfigValue(
 void __fastcall PrepareTitleMode4Network(void *optionState)
 {
     SupervisorNetworkState *state =
-        reinterpret_cast<SupervisorNetworkState *>(optionState);
+        static_cast<SupervisorNetworkState *>(optionState);
     char value[256];
     int fileSize;
     unsigned char *allocation;
@@ -112,8 +106,7 @@ void __fastcall PrepareTitleMode4Network(void *optionState)
             if (fileSize <= 0)
                 goto CLEANUP;
 
-            cursor = reinterpret_cast<const char *>(
-                reinterpret_cast<unsigned int>(cursor) + 1u);
+            ++cursor;
             --fileSize;
             if (*cursor != '\n')
                 goto SKIP_COMMENT;
@@ -181,8 +174,7 @@ void __fastcall PrepareTitleMode4Network(void *optionState)
         continue;
 
     SKIP_CHARACTER:
-        cursor = reinterpret_cast<const char *>(
-                reinterpret_cast<unsigned int>(cursor) + 1u);
+        ++cursor;
         --fileSize;
     }
 

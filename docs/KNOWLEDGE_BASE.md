@@ -12160,3 +12160,47 @@ rejected without changing the maintained envelope
 or claiming new exactness. No ASM, synthetic
 padding, register forcing, or full-product cold
 replay was used.
+
+## 2026-11-17 GPT-web: native DirectPlay peer IDs and IP.txt text cursors
+
+The `PrepareTitleMode4Network` IP.txt parser and its
+`ParseNetworkConfigValue` helper now walk the original
+file-backed `const char *` stream with normal
+`++cursor` and `cursor += strlen(key)` operations,
+rather than casting the same pointer through a Win32
+integer on every character advance. The original
+remaining-byte checks, line/comment handling, bounded
+256-byte result buffer and IP address/port/synchronization
+selection semantics are unchanged.
+
+The complete `SupervisorNetworkMessageView::HandleMessage`
+DirectPlay message switch now selects the actual
+two `peerIds[]` `DPNID` records directly with the
+original side expression. The
+`TH09_NETWORK_NATIVE_PEER_ID` integer-address
+lvalue macro is gone, and packet/DirectPlay
+event parameters are interpreted through their
+native typed C++ pointer casts, not synthetic
+packet copies. The unused anonymous ACK record
+projection was removed; handshake, frame
+publication, lock/release ordering and error
+returns are unchanged.
+
+Separate pinned VC7.1 probes confirmed native
+text cursor advances, the key-span pointer,
+and the actual peer ID array lvalues. The
+maintained selected-source replay passes
+**3/3 previously exact functions, 1,730 physical
+bytes and 69 original relocation fields**:
+the **679-byte** network config main function,
+**243-byte** key parser leaf and **808-byte**
+DirectPlay message handler. Eight compiler-private
+jump-table labels in the handler were rebound only
+after same-section COFF definitions, unchanged PE
+destinations, identical relocation offsets/types
+and full nonrelocation byte proof.
+
+No ASM, padding, artificial duplicate arrays,
+extra bounds checks, forced register allocation,
+whole-product cold replay or new exact-function
+credit was used.
