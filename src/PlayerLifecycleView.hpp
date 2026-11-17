@@ -503,7 +503,7 @@ struct PlayerFlagBits1B80View
 {
     unsigned int focusState00_01 : 2;
     unsigned int chargeAttackActive02 : 1;
-    unsigned int unknown03 : 1;
+    unsigned int frontSideClearPending03 : 1;
     unsigned int unknown04_31 : 28;
 };
 typedef char PlayerFlagBits1B80SizeIs4[

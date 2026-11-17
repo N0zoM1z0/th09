@@ -54,7 +54,11 @@ struct PlayerAddedStateLayout
     int field364;
     unsigned char unknown368[0x1B74 - 0x368];
     ZunTimer timer1B74;
-    unsigned int flags1B80;
+    union
+    {
+        unsigned int flags1B80;
+        PlayerFlagBits1B80View flagBits1B80;
+    };
     int addedMarker1B84;
     PlayerPositionView position1B88;
     unsigned char unknown1B94[0x1BA0 - 0x1B94];
@@ -183,11 +187,10 @@ void PlayerLifecycleView::InitializeAddedState()
     for (i = 0; i < 16; ++i)
         player->positionHistory1BA0[i] = player->position1B88;
 
-    unsigned int addedFlags = this->flags1B80;
-    addedFlags &= ~1u;
-    addedFlags |= 2u;
+    PlayerFlagBits1B80View addedFlags = this->flagBits1B80;
+    addedFlags.focusState00_01 = 2;
     player->field303E8 = 0;
-    this->flags1B80 = addedFlags;
+    this->flagBits1B80 = addedFlags;
     player->timer303B0 = 6;
 
     float randomValue = g_PlayerAddedRng.SampleRange(400.0f) + 100.0f;
@@ -238,7 +241,7 @@ void PlayerLifecycleView::InitializeAddedState()
         break;
     }
     if (this->header24.state84 == 1)
-        this->flags1B80 |= 8u;
+        this->flagBits1B80.frontSideClearPending03 = 1;
 
     player->timer303A4 = -1;
     this->movementFields1CCC.movementAngle1CD8 = -1.57079637f;

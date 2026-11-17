@@ -812,11 +812,11 @@ afterTransition:
     if (!g_GameManager.frontFactoryA8->IsBlocked())
     {
         ++player->ownerState30410.activeFrameCounter3C;
-        if ((player->flags1B80 & 8) != 0)
+        if (player->flagBits1B80.frontSideClearPending03 != 0)
         {
             g_SoundPlayer.PlaySoundByIdx(48, player->sideIndex != 0 ? 500 : -500);
             reinterpret_cast<PlayerFrontSideRuntimeView *>(player->sideState->frontSide18)->ClearState(0);
-            player->flags1B80 &= ~8u;
+            player->flagBits1B80.frontSideClearPending03 = 0;
 
             if (g_PlayerGameManagerRuntime.CheckTimingState() && player->sideIndex == 0)
             {
