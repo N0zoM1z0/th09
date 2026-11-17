@@ -55,7 +55,58 @@ none of these changes adds an exact-function ledger claim. All were checked
 against the original Japanese 1.50a executable with pinned VC7.1 profiles,
 complete compared code/tails and independently verified COFF relocations.
 
-### Latest five native C++ source checkpoints
+### Latest five native Player/GameManager checkpoints
+
+Five further source commits deepen the large Player selector and GameManager
+setup/update owners. The work was done on the live registered `th09` tree;
+all exact sibling owners were checked with their original pinned VC7.1 profile,
+complete physical code extent and PE-bound relocation fields:
+
+- `26e847b3` — `PlayerUpdateSelectorState` now writes the actual
+  `PlayerLifecycleView::timer303C8` ZunTimer member directly. The field is
+  already the canonical `ZunTimer` alias and its +0x303C8 offset is pinned;
+  the cast through `ZunTimer *` was unnecessary. The 3,238-byte selector
+  boss and 412-byte pattern-offset resolver pass **2/2 exact, 3,650 bytes,
+  154 relocations**.
+- `f50245ed` — the two 12-byte XYZ transfers from `EnemyFloat3` to
+  `PlayerPositionView` in that same selector now use `memcpy` between two
+  distinct but statically verified 0x0C XYZ records, rather than type-punning
+  one as the other. The selector boss and resolver again pass **2/2 exact,
+  3,650 bytes, 154 relocations**. Field-by-field assignment changed the boss
+  extent to 3,210 bytes; a PlayerPositionView reference changed it to 3,245.
+  Those alternatives were rejected.
+- `920b8979` — `GameManagerSetupLayout::OnUpdate` writes its actual
+  `replayPauseRecorded` member directly rather than reinterpreting the same
+  receiver as `AsciiGameManagerView`.
+- `23187e2c` — the spawn-credit redemption subtracts 10,000 directly from
+  the genuine `g_GameManager.valueCC` member. Its enclosing `> 10000` guard
+  keeps the signed result representable; the unsigned-pointer alias is not
+  needed.
+- `6ffe88ae` — both card-attack spawn calls now downcast the real typed
+  `sides[n].enemyManager10` base pointer to the zero-data derived
+  `EnemyManagerCardAttackSpawnView` interface with `static_cast`, instead
+  of retrieving the same receiver through the untyped `subsystem4` slot.
+
+The three GameManager changes each preserve the entire **12-owner,
+4,680-byte, 415-relocation** source cohort, including the **1,689-byte
+GameplaySetupThread** and **1,230-byte OnUpdate** bosses. Together the two
+distinct source cohorts prove **14 existing exact owners, 8,330 complete
+physical bytes and 569 relocation fields**. No exact-ledger promotion or
+whole-product build claim follows. A separate BackgroundRender attempt to
+replace its VM float-pointer round trip with direct Float3 access expanded
+the 3,274-byte boss to 3,275 bytes; direct BackgroundPoint component writes
+expanded it to 3,298 bytes. Both were reverted. The original 1,026 exact /
+11 nonexact canonical status and all nonexact frontier baselines are retained.
+
+Useful scoped replays:
+
+~~~sh
+python3 -B scripts/replay-scoped-exact.py --source src/PlayerGameplayState.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/GameManagerSetup.cpp
+python3 -B scripts/check-frontier.py enemy-on-update replay-save replay-begin-playback
+~~~
+
+### Previous five native C++ source checkpoints
 
 The new work is in the registered live `th09` tree, not a separate source
 copy. Each checkpoint includes the pinned VC7.1 exact comparison for all
