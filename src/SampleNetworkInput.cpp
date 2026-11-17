@@ -54,13 +54,8 @@ typedef char SampleNetworkNativeSupervisorOwner[
 
 extern int g_WindowActivateWParam;
 
-// The WinMM and DirectInput branches both fill the same genuine 256-byte
-// stack keyboard state. Read each physical byte through its native Win32
-// address, preserving independent checks and scan-code source values.
-#define TH09_NETWORK_NATIVE_KEY(key) \
-    (*reinterpret_cast<const u8 *>( \
-        reinterpret_cast<unsigned int>(&keyboardState[0]) + \
-        static_cast<unsigned int>(key)))
+// WinMM and DirectInput write the same real 256-byte local keyboard
+// state; the original scan codes select ordinary C++ byte array members.
 // Each physical controller assignment is one byte of the genuine
 // Supervisor GameConfiguration (+0x43F/+0x440), selected by a DWORD side.
 #define TH09_NETWORK_NATIVE_CONTROLLER_MODE(index) \
@@ -68,7 +63,7 @@ extern int g_WindowActivateWParam;
         reinterpret_cast<unsigned int>(&g_Supervisor.config388.valueB7) + \
         static_cast<unsigned int>(index)))
 #define KEYBOARD_KEY_PRESSED(button, key) \
-    ((TH09_NETWORK_NATIVE_KEY(key) & 0x80) ? (button) : 0)
+    ((keyboardState[key] & 0x80) ? (button) : 0)
 
 // The true three 0x8E-byte ReplayInputState records and two Supervisor
 // controller-mode bytes are selected by native i386 unsigned DWORD offsets.
@@ -77,9 +72,7 @@ short __fastcall SampleNetworkInput(int side)
 {
     u8 keyboardState[256];
     u16 buttons = 0;
-    ReplayInputState *inputState = reinterpret_cast<ReplayInputState *>(
-        reinterpret_cast<unsigned int>(&g_ReplayInputStates[0]) +
-        static_cast<unsigned int>(side) * sizeof(g_ReplayInputStates[0]));
+    ReplayInputState *inputState = &g_ReplayInputStates[side];
 
     if (g_WindowActivateWParam != 0)
     {
@@ -304,8 +297,7 @@ short __fastcall SampleNetworkInput(int side)
             *held = 0;
         }
         currentBits >>= 1;
-        held = reinterpret_cast<u16 *>(
-            reinterpret_cast<unsigned int>(held) + sizeof(*held));
+        ++held;
         repeatBit <<= 1;
         remaining--;
     } while (remaining != 0);
@@ -317,5 +309,5 @@ short __fastcall SampleNetworkInput(int side)
 }
 
 #undef TH09_NETWORK_NATIVE_CONTROLLER_MODE
-#undef TH09_NETWORK_NATIVE_KEY
+
 #undef KEYBOARD_KEY_PRESSED

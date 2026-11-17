@@ -10714,3 +10714,36 @@ DrawMusicRoom leaf with six. Strict full-owner
 comparison is exact, with no generated label
 rebindings. No ASM, padding, full cold replay
 or new exact-function credit is claimed.
+
+## 2026-11-17 GPT-web: native replay and local keyboard arrays in network input
+
+The complete `SampleNetworkInput` owner now reads its real
+256-byte on-stack `keyboardState[key]` directly rather than
+forming an integer address for each scan code through the
+`TH09_NETWORK_NATIVE_KEY` cast macro. It retrieves its
+original 0x8E-byte `ReplayInputState` record as the
+ordinary `&g_ReplayInputStates[side]` array member
+instead of constructing its native DWORD address.
+The 16 consecutive `networkHeldFrames0A` counters
+are traversed by natural `++held` pointer advancement,
+not integer address arithmetic. The previous window
+activation, WinMM/DirectInput selection, keyboard
+button mapping and network repeat/pressed/released
+flags remain unchanged.
+
+The Supervisor `valueB7` and `valueB8` fields
+are individually real byte members rather than
+a proven two-element C++ array; the original
+side-selected modulo-32 byte calculation is
+intentionally retained there, avoiding an
+unjustified projected array. Three independent
+pinned VC7.1 probes for the local key array,
+replay input owner, and repeat counter, plus
+their combination all reproduced the
+**1,507/1,507 physical target bytes and 13
+original relocations**. The maintained strict
+COFF/PE comparison and source-scoped replay
+pass **1/1 existing exact owner** with no
+compiler-private symbol updates. No extra
+bounds checks, ASM, padding, whole-game cold
+replay or new exactness credit were used.
