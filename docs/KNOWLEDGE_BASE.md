@@ -10056,3 +10056,38 @@ Pinned VC7.1 exact COFF/PE comparisons return **373/373** and
 two-source scoped replay passes **2/2 existing exact units,
 737 bytes and 8 relocation fields**, without any whole-game
 cold replay, padding, ASM or new exactness promotion.
+
+## 2026-11-17 GPT-web: native Enemy spawn-template initialization and resource owners
+
+The 554-byte `EnemyManagerView::Initialize` now initializes the
+actual `EnemyView` state bits `active00`,
+`hasBeenInBounds21`, and `anmRotation22` directly. It writes
+ordinary floating-point zero to the four genuine
+`angularVelocity2DE4`, `movementAngle2DE0`,
+`acceleration2DF8` and `speed2DF4` fields, rather than writing
+the same 32-bit zero through `int *` aliases. The batched
+primary-state flag operations, original float3 constructors and
+native Enemy template layout remain in their existing order to
+preserve the target initializer.
+
+The 372-byte `EnemyManagerView::AddedCallback` reads the
+already defined `AnmLoaded::rawData04` resource member directly,
+without an artificial two-field resource shim. Its schedule uses
+the genuine, independently recovered `RngRuntimeView` and
+`RngRuntimeView::GetRandomU32InRange @ 0x004048E0` instead of
+a declaration-only `EnemyLifecycleRngView` method. The existing
+`g_Rng` address remains `0x004ACE0C`. Four COFF relocation
+symbol spellings were updated only after verifying the unchanged
+original PE destination, native target function binding, and
+zero non-relocation byte differences. The original call and
+loading sequences remain intact.
+
+The selected native lifecycle source replay passed **4/4
+tracked exact owners, 1,355 physical bytes and 67 relocations**
+across the four pinned VC7.1 profiles. The other six source-present
+constructors in the carrier also still reproduce their configured
+object extents and relocation fields on local comparison, but are
+not counted as accepted exact functions. Strict unit checks for
+Initialize and AddedCallback report **554/554 and 372/372 exact**.
+No ASM, padding, whole-product cold replay, or new function
+promotion was involved.

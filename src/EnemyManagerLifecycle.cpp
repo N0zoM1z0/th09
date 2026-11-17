@@ -2,6 +2,7 @@
 
 #include "Chain.hpp"
 #include "ZunMemory.hpp"
+#include "RngRuntimeLeaves.hpp"
 
 #include <new>
 
@@ -47,12 +48,7 @@ EnemyManagerView *__fastcall EnemyManagerView::Create(int sideIndex)
 
 #include <string.h>
 
-struct EnemyLifecycleAnmLoadedView
-{
-    unsigned char unknown00[4];
-    void *rawData04;
-};
-
+// Loaded slot reads reuse the real AnmLoaded resource view.
 struct EnemyLifecycleCharacterResources
 {
     char *eclPath;
@@ -65,13 +61,8 @@ struct EnemyLifecycleCharacterResources
 typedef char EnemyLifecycleCharacterResourcesSizeIs18[
     (sizeof(EnemyLifecycleCharacterResources) == 0x18) ? 1 : -1];
 
-struct EnemyLifecycleRngView
-{
-    unsigned int GetRandomU32InRange(unsigned int maximum);
-};
-
 extern EnemyLifecycleCharacterResources g_EnemyCharacterResources[];
-extern EnemyLifecycleRngView g_Rng;
+extern RngRuntimeView g_Rng;
 extern unsigned char g_EnemySubroutineSchedule[256];
 
 Th09EclInterpolationSlotView::Th09EclInterpolationSlotView()
@@ -125,18 +116,18 @@ void EnemyManagerView::Initialize()
     for (i = 0; i < 96; ++i)
         enemy->trailSamples33E8[i].position00.x = -999.0f;
 
-    enemy->flags337C |= 0x00000001u;
+    enemy->primaryFlagBits337C.active00 = 1;
     enemy->bossTimer2E64 = 0;
 
-    enemy->flags337C &= ~0x00200000u;
+    enemy->primaryFlagBits337C.hasBeenInBounds21 = 0;
     unsigned int movementFlags = enemy->flags337C;
 
     reinterpret_cast<Float3 &>(enemy->hitboxDimensions2DBC) = Float3(24.0f, 24.0f, 24.0f);
     reinterpret_cast<Float3 &>(enemy->velocity2D8C) = Float3(0.0f, 0.0f, 0.0f);
-    *reinterpret_cast<int *>(&enemy->angularVelocity2DE4) = 0;
-    *reinterpret_cast<int *>(&enemy->movementAngle2DE0) = 0;
-    *reinterpret_cast<int *>(&enemy->acceleration2DF8) = 0;
-    *reinterpret_cast<int *>(&enemy->speed2DF4) = 0;
+    enemy->angularVelocity2DE4 = 0.0f;
+    enemy->movementAngle2DE0 = 0.0f;
+    enemy->acceleration2DF8 = 0.0f;
+    enemy->speed2DF4 = 0.0f;
 
     movementFlags &= ~0x0000C602u;
     enemy->flags337C = movementFlags;
@@ -165,7 +156,7 @@ void EnemyManagerView::Initialize()
     enemy->timerCallbackThreshold33D0 = -1;
     enemy->selectedLaserSlot3358 = 0;
     enemy->damageFlashTimer336C = 0;
-    enemy->flags337C &= ~0x00400000u;
+    enemy->primaryFlagBits337C.anmRotation22 = 0;
 
     enemy->bulletRankSpeedLow2E38 = -0.15f;
     enemy->bulletRankSpeedHigh2E3C = 0.15f;
@@ -178,8 +169,7 @@ int __fastcall EnemyManagerView::AddedCallback(EnemyManagerView *enemyManager)
 {
     {
         AnmManager *manager = g_AnmManager;
-        EnemyLifecycleAnmLoadedView *loaded =
-            reinterpret_cast<EnemyLifecycleAnmLoadedView *>(manager->GetAnm(9));
+        AnmLoaded *loaded = manager->GetAnm(9);
 
         if (loaded->rawData04 == NULL)
         {
@@ -208,7 +198,7 @@ int __fastcall EnemyManagerView::AddedCallback(EnemyManagerView *enemyManager)
         }
         else
         {
-            enemyManager->enemyAnm2AC420 = reinterpret_cast<AnmLoaded *>(loaded);
+            enemyManager->enemyAnm2AC420 = loaded;
         }
     }
 
