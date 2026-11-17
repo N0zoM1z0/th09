@@ -15,7 +15,7 @@ struct Th09EclEnemyPrimaryFlagBits
     unsigned int forceDeath08 : 1;
     unsigned int movementMode09_10 : 2;
     unsigned int movementEasing11_13 : 3;
-    unsigned int unknown14 : 1;
+    unsigned int deferBulletPattern14 : 1;
     unsigned int mirrorMovementX15 : 1;
     unsigned int clampPosition16 : 1;
     unsigned int deathMode17 : 3;

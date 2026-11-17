@@ -204,8 +204,7 @@ static void DispatchShotInstruction(
     case TH09_ECL_OPCODE_SHOOT_RANDOM:
         if (Th09EclRunBullet::View(enemy)->life2E48 > 0)
         {
-            if ((Th09EclRunBullet::View(enemy)->primaryFlags337C &
-                 Th09EclRunBullet::ENEMY_DEFER_BULLET_PATTERN) != 0)
+            if (Th09EclRunBullet::View(enemy)->primaryFlagBits337C.deferBulletPattern14 != 0)
             {
                 memcpy(
                     Th09EclRunBullet::View(enemy)->pendingShotInstruction3088,
@@ -274,13 +273,11 @@ static void DispatchShotInstruction(
         break;
 
     case TH09_ECL_OPCODE_ENABLE_DEFERRED_SHOOTING:
-        Th09EclRunBullet::View(enemy)->primaryFlags337C |=
-            Th09EclRunBullet::ENEMY_DEFER_BULLET_PATTERN;
+        Th09EclRunBullet::View(enemy)->primaryFlagBits337C.deferBulletPattern14 = 1;
         break;
 
     case TH09_ECL_OPCODE_DISABLE_DEFERRED_SHOOTING:
-        Th09EclRunBullet::View(enemy)->primaryFlags337C &=
-            ~Th09EclRunBullet::ENEMY_DEFER_BULLET_PATTERN;
+        Th09EclRunBullet::View(enemy)->primaryFlagBits337C.deferBulletPattern14 = 0;
         break;
 
     case TH09_ECL_OPCODE_SHOOT_NOW:

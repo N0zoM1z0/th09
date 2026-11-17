@@ -183,8 +183,7 @@ static void BeginBoundaryAwareMove(
             TH09_EXPR_MOVEMENT_PRIMARY_ANM(enemy),
             TH09_EXPR_MOVEMENT_PRIMARY_ANM_VM(enemy),
             Th09EclRunControl::ReadInt(enemy, instruction, 0));
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &=
-            ~Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->alternateAnmBank31 = 0;
         break;
 
     case TH09_ECL_OPCODE_SET_PRIMARY_ANM_SEQUENCE:
@@ -199,8 +198,7 @@ static void BeginBoundaryAwareMove(
             static_cast<int>(static_cast<unsigned int>(movementInt) + 3u),
             static_cast<int>(static_cast<unsigned int>(movementInt) + 4u),
             static_cast<int>(static_cast<unsigned int>(movementInt) + 5u));
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &=
-            ~Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->alternateAnmBank31 = 0;
         break;
 
     case TH09_ECL_OPCODE_SET_PRIMARY_ANM_SCRIPTS:
@@ -212,14 +210,12 @@ static void BeginBoundaryAwareMove(
             Th09EclRunControl::ReadInt(enemy, instruction, 3),
             Th09EclRunControl::ReadInt(enemy, instruction, 4),
             Th09EclRunControl::ReadInt(enemy, instruction, 5));
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &=
-            ~Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->alternateAnmBank31 = 0;
         break;
 
     case TH09_ECL_OPCODE_SET_EXTRA_ANM_SCRIPT:
         Th09EclRunMovement::SetExtraAnmScript(enemy, instruction);
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &=
-            ~Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->alternateAnmBank31 = 0;
         break;
 
     case TH09_ECL_OPCODE_SET_MAIN_ANM_ALTERNATE:
@@ -227,8 +223,7 @@ static void BeginBoundaryAwareMove(
             TH09_EXPR_MOVEMENT_ALTERNATE_ANM(enemy),
             TH09_EXPR_MOVEMENT_PRIMARY_ANM_VM(enemy),
             Th09EclRunControl::ReadInt(enemy, instruction, 0));
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
-            Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->alternateAnmBank31 = 1;
         break;
 
     case TH09_ECL_OPCODE_SET_PRIMARY_ANM_SEQUENCE_ALTERNATE:
@@ -243,8 +238,7 @@ static void BeginBoundaryAwareMove(
             static_cast<int>(static_cast<unsigned int>(movementInt) + 3u),
             static_cast<int>(static_cast<unsigned int>(movementInt) + 4u),
             static_cast<int>(static_cast<unsigned int>(movementInt) + 5u));
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
-            Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->alternateAnmBank31 = 1;
         break;
 
     case TH09_ECL_OPCODE_SET_PRIMARY_ANM_SCRIPTS_ALTERNATE:
@@ -256,19 +250,16 @@ static void BeginBoundaryAwareMove(
             Th09EclRunControl::ReadInt(enemy, instruction, 3),
             Th09EclRunControl::ReadInt(enemy, instruction, 4),
             Th09EclRunControl::ReadInt(enemy, instruction, 5));
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
-            Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->alternateAnmBank31 = 1;
         break;
 
     case TH09_ECL_OPCODE_SET_EXTRA_ANM_SCRIPT_ALTERNATE:
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
-            Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->alternateAnmBank31 = 1;
         Th09EclRunMovement::SetExtraAnmScript(enemy, instruction);
         break;
 
     case TH09_ECL_OPCODE_PLAY_SPECIAL_ANM:
-        if ((TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
-             Th09EclRunMovement::ENEMY_ALTERNATE_ANM_BANK) == 0)
+        if (TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->alternateAnmBank31 == 0)
         {
             Th09EclRunMovement::SetAndExecuteAnmScript(
                 TH09_EXPR_MOVEMENT_PRIMARY_ANM(enemy),
@@ -303,10 +294,7 @@ static void BeginBoundaryAwareMove(
                 Th09EclRunControl::ReadFloat(enemy, instruction, 0), 0.0f);
         TH09_EXPR_MOVEMENT_VIEW(enemy)->speed2DF4 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C =
-            (TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
-             ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
-            Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->movementMode09_10 = 1;
         TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = 0;
         TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28 = 0;
         break;
@@ -319,10 +307,7 @@ static void BeginBoundaryAwareMove(
                     Th09EclRunControl::ReadFloat(enemy, instruction, 2), 0.0f);
             TH09_EXPR_MOVEMENT_VIEW(enemy)->speed2DF4 =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-            TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C =
-                (TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
-                 ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
-                Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->movementMode09_10 = 1;
             TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = 0;
             TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28 = 0;
         }
@@ -367,10 +352,7 @@ static void BeginBoundaryAwareMove(
                                 &TH09_EXPR_MOVEMENT_VIEW(enemy)->position2D74)));
             TH09_EXPR_MOVEMENT_VIEW(enemy)->speed2DF4 =
                 Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-            TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C =
-                (TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
-                 ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
-                Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
+            TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->movementMode09_10 = 1;
             movementInt = Th09EclRunControl::ReadInt(enemy, instruction, 0);
             TH09_EXPR_MOVEMENT_VIEW(enemy)->movementDuration2E34 = movementInt;
             TH09_EXPR_MOVEMENT_VIEW(enemy)->movementTimer2E28 =
@@ -385,19 +367,13 @@ static void BeginBoundaryAwareMove(
     case TH09_ECL_OPCODE_SET_ANGULAR_VELOCITY:
         TH09_EXPR_MOVEMENT_VIEW(enemy)->angularVelocity2DE4 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C =
-            (TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
-             ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
-            Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->movementMode09_10 = 1;
         break;
 
     case TH09_ECL_OPCODE_SET_ACCELERATION:
         TH09_EXPR_MOVEMENT_VIEW(enemy)->acceleration2DF8 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 0);
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C =
-            (TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &
-             ~Th09EclRunMovement::ENEMY_MOVEMENT_MODE_MASK) |
-            Th09EclRunMovement::ENEMY_MOVEMENT_MODE_POLAR;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->movementMode09_10 = 1;
         break;
 
     case TH09_ECL_OPCODE_ORBIT_AROUND_POINT:
@@ -417,8 +393,7 @@ static void BeginBoundaryAwareMove(
             Th09EclRunControl::ReadFloat(enemy, instruction, 5);
         TH09_EXPR_MOVEMENT_VIEW(enemy)->radialVelocity2E00 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 6);
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
-            Th09EclRunMovement::ENEMY_MOVEMENT_MODE_ORBIT;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->movementMode09_10 = 3;
         break;
 
     case TH09_ECL_OPCODE_ORBIT_AROUND_CURRENT_POSITION:
@@ -435,8 +410,7 @@ static void BeginBoundaryAwareMove(
         TH09_EXPR_MOVEMENT_VIEW(enemy)->orbitRadius2DFC = 0.0f;
         TH09_EXPR_MOVEMENT_VIEW(enemy)->radialVelocity2E00 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
-            Th09EclRunMovement::ENEMY_MOVEMENT_MODE_ORBIT;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->movementMode09_10 = 3;
         break;
 
     case TH09_ECL_OPCODE_SET_ORBIT_VELOCITIES:
@@ -448,8 +422,7 @@ static void BeginBoundaryAwareMove(
             Th09EclRunControl::ReadFloat(enemy, instruction, 1);
         TH09_EXPR_MOVEMENT_VIEW(enemy)->radialVelocity2E00 =
             Th09EclRunControl::ReadFloat(enemy, instruction, 2);
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
-            Th09EclRunMovement::ENEMY_MOVEMENT_MODE_ORBIT;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->movementMode09_10 = 3;
         break;
 
     case TH09_ECL_OPCODE_SET_MOVEMENT_BOUNDS:
@@ -461,13 +434,11 @@ static void BeginBoundaryAwareMove(
             Th09EclRunControl::ReadFloat(enemy, instruction, 2);
         TH09_EXPR_MOVEMENT_VIEW(enemy)->movementUpperBounds33A0.y =
             Th09EclRunControl::ReadFloat(enemy, instruction, 3);
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C |=
-            Th09EclRunMovement::ENEMY_CLAMP_POSITION;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->clampPosition16 = 1;
         break;
 
     case TH09_ECL_OPCODE_DISABLE_MOVEMENT_BOUNDS:
-        TH09_EXPR_MOVEMENT_VIEW(enemy)->primaryFlags337C &=
-            ~Th09EclRunMovement::ENEMY_CLAMP_POSITION;
+        TH09_EXPR_MOVEMENT_PRIMARY_FLAG_BITS(enemy)->clampPosition16 = 0;
         break;
 
     case TH09_ECL_OPCODE_SET_HITBOX:
