@@ -10393,3 +10393,42 @@ leaf were rebound only after original PE-byte, same-section
 COFF definition and relocation target agreement. No
 ASM, synthetic padding, forced registers, whole-game cold
 replay or new exact-function promotion was used.
+
+## 2026-11-17 GPT-web: real PlayerHeaderStateView in selector boss
+
+The 3,238-byte `PlayerUpdateSelectorState` now receives and
+manipulates the genuine `PlayerHeaderStateView` embedded in
+`PlayerLifecycleView::header24`, rather than inventing a separate
+`PlayerGameplayHeaderView` copy of its 0x80-byte prefix. The
+retail frame timer at header +0x00, opening timer +0x5C,
+secondary timer +0x68 and flags +0x74 are read/written through
+the existing native Header class members. Each access to the
+real +0x78 `selfLink78` remains an independent
+`static_cast<PlayerLifecycleView *>` from the native void
+pointer, preserving the observed original receiver reloads
+across callbacks and not adding a speculative owner cache.
+
+The pattern-specific fields in header +0x0C..+0x5B form one
+**0x50-byte typed state window** (`PlayerGameplayStateFields`),
+borrowed from the actual `header->unknown0C` storage.
+Its threshold, eight pattern IDs, eight recent pattern flags,
+retry cooldown, current pattern and distance threshold are all
+verified at their original absolute header offsets. There is
+no shadow header allocation, artificial padding or unrelated
+constructed state. The rest of the selector retains the
+native array accesses recovered in the previous checkpoint.
+
+Before promotion a separate natural-C++ diagnostic with
+the same Player header semantics compiled to the complete
+**3,238-byte** owner with no non-relocation differences.
+The maintained original-named compiler carrier then passed
+a strict COFF/PE comparison of both source functions:
+**3,238/3,238 bytes with 136 relocations** for the selector,
+and **412/412 bytes with 18 relocations** for the exact
+`PlayerGameplayMethods::ResolvePatternOffset` leaf. The
+source-scoped pinned VC7.1 replay passed **2/2 already exact
+functions, 3,650 complete physical bytes and 154 original
+relocations**. Exactly 18 compiler-private labels were
+rebound only after original-PE destination, COFF same-section,
+and relocation offset/type equality proofs. No whole-product
+cold replay, ASM, padding or new exact-function claim was used.
