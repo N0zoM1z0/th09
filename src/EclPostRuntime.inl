@@ -106,7 +106,7 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
 {
     EnemyPostEclRuntimeView *enemy = PostEclView(thisEnemy);
 
-    switch ((enemy->primaryFlags337C >> 9) & 3)
+    switch (enemy->primaryFlagBits337C.movementMode09_10)
     {
     case 3:
     {
@@ -134,7 +134,7 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
         {
             enemy->movementTimer2E28 -= g_GameManager.speedEC;
             if (enemy->movementTimer2E28 <= 0)
-                enemy->primaryFlags337C &= ~ENEMY_MOVEMENT_MODE_MASK;
+                enemy->primaryFlagBits337C.movementMode09_10 = 0;
         }
         break;
     }
@@ -157,7 +157,7 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
         {
             enemy->movementTimer2E28--;
             if (enemy->movementTimer2E28 <= 0)
-                enemy->primaryFlags337C &= ~ENEMY_MOVEMENT_MODE_MASK;
+                enemy->primaryFlagBits337C.movementMode09_10 = 0;
         }
         break;
 
@@ -173,7 +173,7 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
             progress = 0.0f;
 
         unsigned int movementFlags = enemy->primaryFlags337C;
-        switch ((movementFlags >> ENEMY_MOVEMENT_EASING_SHIFT) & 7)
+        switch (enemy->primaryFlagBits337C.movementEasing11_13)
         {
         case 1:
             progress *= progress;
@@ -284,7 +284,7 @@ static void EnemyPostEclUpdateShotAndAnm(EnemyView *thisEnemy)
 
     direction = 0;
     horizontalVelocity = enemy->velocity2D8C.x;
-    if ((enemy->primaryFlags337C & ENEMY_MIRROR_MOVEMENT_X) != 0)
+    if (enemy->primaryFlagBits337C.mirrorMovementX15 != 0)
         horizontalVelocity = -horizontalVelocity;
     if (horizontalVelocity < -0.01f)
         direction = 1;
@@ -294,7 +294,7 @@ static void EnemyPostEclUpdateShotAndAnm(EnemyView *thisEnemy)
     if (static_cast<unsigned char>(enemy->anmDirection3386) == direction)
         return;
 
-    anm = (enemy->primaryFlags337C & ENEMY_ALTERNATE_ANM_BANK) != 0
+    anm = enemy->primaryFlagBits337C.alternateAnmBank31 != 0
         ? enemy->manager00->opposingEnemyAnm2AC424
         : enemy->manager00->enemyAnm2AC420;
 
