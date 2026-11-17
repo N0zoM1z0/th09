@@ -317,9 +317,8 @@ err2:
     return NULL;
 }
 
-// Sixteen held-frame counters reside in one real 0x8E-byte input-state
-// record. Advance that native cursor by one 16-bit physical word, without
-// claiming an unrelated C++ array object for the successive fields.
+// Traverse the real sixteen-element held-frame array in its native
+// 0x8E-byte ReplayInputState, advancing a genuine 16-bit element pointer.
 void ReplayInputState::Update()
 {
     u16 currentBits = this->historyCurrent;
@@ -344,8 +343,7 @@ void ReplayInputState::Update()
             *held = 0;
         }
         currentBits >>= 1;
-        held = reinterpret_cast<u16 *>(
-            reinterpret_cast<unsigned int>(held) + sizeof(*held));
+        ++held;
         remaining--;
     } while (remaining != 0);
 
@@ -365,7 +363,7 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
         {
             if (replayManager->inputDelay >= 3)
                 return 1;
-            replayManager->inputDelay = static_cast<int>(static_cast<unsigned int>(replayManager->inputDelay) + 1u);
+            ++replayManager->inputDelay;
         }
 
         if (g_GameManager.sides[0].replaySelector28 == 0)
@@ -375,7 +373,7 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
         *replayManager->inputCursors[2] =
             g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].historyCurrent;
 
-        replayManager->currentBuffer->frameCount = static_cast<int>(static_cast<unsigned int>(replayManager->currentBuffer->frameCount) + 1u);
+        ++replayManager->currentBuffer->frameCount;
         ++replayManager->inputCursors[0];
         ++replayManager->inputCursors[1];
         ++replayManager->inputCursors[2];
@@ -411,7 +409,7 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
             memset(replayManager->fpsCursor, 0, ReplayRecordingCapacity::FpsStreamBytes);
         }
 
-        replayManager->frameCounter = static_cast<int>(static_cast<unsigned int>(replayManager->frameCounter) + 1u);
+        ++replayManager->frameCounter;
     }
 
     return 1;
