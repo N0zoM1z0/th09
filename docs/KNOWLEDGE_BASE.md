@@ -10581,3 +10581,37 @@ There were zero private-label or ABI rebindings.
 No new bounds checks, fabricated arrays, ASM,
 padding, whole-product cold replay, or new
 exact-function promotion was used.
+
+## 2026-11-17 GPT-web: native title result score-table traversal
+
+The full `TitleScreenView::DrawResult @ 0x00423D16`
+owner now accesses the actual native
+`g_TitleScoreTable[16][5][5]` rank records through
+`&g_TitleScoreTable[nameBankIndex][0]`. The previously
+constructed `TH09_RESULT_NATIVE_BANK` DWORD-pointer
+macro is removed. Each difficulty group advances
+its `TitleScoreRecordView (*)[5]` cursor with a
+normal `++scores`, retaining the original
+five-record row stride and exact read order.
+
+The difficulty labels and record fields use the
+existing `g_TitleRankLabels[i]` and
+`(*scores)[i]` C++ array entries; the name grid
+uses `g_TitleAlphabet[row * Columns + col]`.
+Four integer-address/cast macros are gone. This
+uses original score records with the known 0x2C
+layout, not new pseudo allocations or extra
+guard behavior.
+
+Separate pinned VC7.1 `/O1 /Ob1` probes of
+each native macro form, normal row-pointer
+increments, and their combined version all
+reproduced **1,939/1,939 complete retail bytes
+with 82 original relocation fields**. The
+maintained source's strict complete-owner
+comparison and one-source replay also pass
+**1/1 previously exact function, 1,939 bytes,
+82 relocations** without compiler-private
+symbol renumbering. No ASM, padding, forced
+register hints, full cold replay or new exact
+function promotion was used.

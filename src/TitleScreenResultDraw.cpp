@@ -40,26 +40,9 @@ extern AsciiManager g_AsciiManager;
 extern const char *g_TitleRankLabels[];
 extern char *g_TitleAlphabet;
 
-// The original 16*5*5 score storage contains 0x2C-byte rank records.
-// Use native unsigned-DWORD byte addresses for the live bank, rank and
-// label selector. Each difficulty row is five real score records (0xDC).
-#define TH09_RESULT_NATIVE_BANK(index) \
-    reinterpret_cast<const TitleScoreRecordView (*)[5]>( \
-        reinterpret_cast<unsigned int>(&g_TitleScoreTable[0]) + \
-        static_cast<unsigned int>(index) * sizeof(g_TitleScoreTable[0]))
-#define TH09_RESULT_NATIVE_LABEL(index) \
-    (*reinterpret_cast<const char *const *>( \
-        reinterpret_cast<unsigned int>(&g_TitleRankLabels[0]) + \
-        static_cast<unsigned int>(index) * sizeof(g_TitleRankLabels[0])))
-#define TH09_RESULT_NATIVE_SCORE(index) \
-    (*reinterpret_cast<const TitleScoreRecordView *>( \
-        reinterpret_cast<unsigned int>(&(*scores)[0]) + \
-        static_cast<unsigned int>(index) * sizeof((*scores)[0])))
-#define TH09_RESULT_NATIVE_ALPHA(index) \
-    (*reinterpret_cast<const char *>( \
-        reinterpret_cast<unsigned int>(&g_TitleAlphabet[0]) + \
-        static_cast<unsigned int>(index)))
-
+// The native title score table is a [16][5][5] array of 0x2C-byte
+// records; labels and character names are real native pointer/byte arrays.
+// Scores advance by one physical five-rank row for each difficulty.
 
 int TitleScreenView::DrawResult()
 {
@@ -72,7 +55,7 @@ int TitleScreenView::DrawResult()
     float scale;
     char str[16];
     // Score entries are read while rendering; only the bank cursor advances.
-    const TitleScoreRecordView (*scores)[5] = TH09_RESULT_NATIVE_BANK(nameBankIndex);
+    const TitleScoreRecordView (*scores)[5] = &g_TitleScoreTable[nameBankIndex][0];
     // Name-grid highlight offsets use the 32-bit i386 ADD/IMUL result
     // before float conversion; unsigned intermediates keep that overflow
     // behavior for every live cursor without changing the screen gates.
@@ -120,12 +103,12 @@ int TitleScreenView::DrawResult()
                 g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
                 pos.x -= static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
             }
-            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", TH09_RESULT_NATIVE_LABEL(i), TH09_RESULT_NATIVE_SCORE(i).name, TH09_RESULT_NATIVE_SCORE(i).score,
-                                  (char)TH09_RESULT_NATIVE_SCORE(i).scoreDigit);
+            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", g_TitleRankLabels[i], (*scores)[i].name, (*scores)[i].score,
+                                  (char)(*scores)[i].scoreDigit);
             pos.y += 16.0f;
         }
     }
-    scores = reinterpret_cast<const TitleScoreRecordView (*)[5]>(reinterpret_cast<unsigned int>(scores) + sizeof(*scores));
+    ++scores;
     g_AsciiManager.color = mask & 2 ? (static_cast<unsigned int>(alpha) << 24) | 0xd0ffd0 : (static_cast<unsigned int>(alpha) << 24) | 0x808080;
     pos.x = 358.0f;
     pos.y = 80.0f;
@@ -150,12 +133,12 @@ int TitleScreenView::DrawResult()
                 g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
                 pos.x -= static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
             }
-            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", TH09_RESULT_NATIVE_LABEL(i), TH09_RESULT_NATIVE_SCORE(i).name, TH09_RESULT_NATIVE_SCORE(i).score,
-                                  (char)TH09_RESULT_NATIVE_SCORE(i).scoreDigit);
+            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", g_TitleRankLabels[i], (*scores)[i].name, (*scores)[i].score,
+                                  (char)(*scores)[i].scoreDigit);
             pos.y += 16.0f;
         }
     }
-    scores = reinterpret_cast<const TitleScoreRecordView (*)[5]>(reinterpret_cast<unsigned int>(scores) + sizeof(*scores));
+    ++scores;
     g_AsciiManager.color = mask & 4 ? (static_cast<unsigned int>(alpha) << 24) | 0xfff0d0 : (static_cast<unsigned int>(alpha) << 24) | 0x808080;
     pos.x = 102.0f;
     pos.y = 192.0f;
@@ -180,12 +163,12 @@ int TitleScreenView::DrawResult()
                 g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
                 pos.x -= static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
             }
-            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", TH09_RESULT_NATIVE_LABEL(i), TH09_RESULT_NATIVE_SCORE(i).name, TH09_RESULT_NATIVE_SCORE(i).score,
-                                  (char)TH09_RESULT_NATIVE_SCORE(i).scoreDigit);
+            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", g_TitleRankLabels[i], (*scores)[i].name, (*scores)[i].score,
+                                  (char)(*scores)[i].scoreDigit);
             pos.y += 16.0f;
         }
     }
-    scores = reinterpret_cast<const TitleScoreRecordView (*)[5]>(reinterpret_cast<unsigned int>(scores) + sizeof(*scores));
+    ++scores;
     g_AsciiManager.color = mask & 8 ? (static_cast<unsigned int>(alpha) << 24) | 0xffc0c0 : (static_cast<unsigned int>(alpha) << 24) | 0x808080;
     pos.x = 358.0f;
     pos.y = 192.0f;
@@ -210,12 +193,12 @@ int TitleScreenView::DrawResult()
                 g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
                 pos.x -= static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
             }
-            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", TH09_RESULT_NATIVE_LABEL(i), TH09_RESULT_NATIVE_SCORE(i).name, TH09_RESULT_NATIVE_SCORE(i).score,
-                                  (char)TH09_RESULT_NATIVE_SCORE(i).scoreDigit);
+            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", g_TitleRankLabels[i], (*scores)[i].name, (*scores)[i].score,
+                                  (char)(*scores)[i].scoreDigit);
             pos.y += 16.0f;
         }
     }
-    scores = reinterpret_cast<const TitleScoreRecordView (*)[5]>(reinterpret_cast<unsigned int>(scores) + sizeof(*scores));
+    ++scores;
     g_AsciiManager.color = mask & 16 ? (static_cast<unsigned int>(alpha) << 24) | 0xffc0f0 : (static_cast<unsigned int>(alpha) << 24) | 0x808080;
     pos.x = 102.0f;
     pos.y = 304.0f;
@@ -240,8 +223,8 @@ int TitleScreenView::DrawResult()
                 g_AsciiManager.AddFormatText(&pos, "%.8s", "_");
                 pos.x -= static_cast<int>((static_cast<unsigned int>(this->replayNameCursor) + 4u) * 9u);
             }
-            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", TH09_RESULT_NATIVE_LABEL(i), TH09_RESULT_NATIVE_SCORE(i).name, TH09_RESULT_NATIVE_SCORE(i).score,
-                                  (char)TH09_RESULT_NATIVE_SCORE(i).scoreDigit);
+            g_AsciiManager.AddFormatText(&pos, "%s %.8s %.9d%d", g_TitleRankLabels[i], (*scores)[i].name, (*scores)[i].score,
+                                  (char)(*scores)[i].scoreDigit);
             pos.y += 16.0f;
         }
     }
@@ -285,7 +268,7 @@ int TitleScreenView::DrawResult()
                 charPos.x = offsetX + pos.x;
                 charPos.y = offsetY + pos.y;
                 charPos.z = pos.z;
-                str[0] = TH09_RESULT_NATIVE_ALPHA(row * TitleNativeNameKeyboard::Columns + col);
+                str[0] = g_TitleAlphabet[row * TitleNativeNameKeyboard::Columns + col];
                 str[1] = 0;
                 if (row == TitleNativeNameKeyboard::LastRow)
                 {
@@ -308,8 +291,3 @@ int TitleScreenView::DrawResult()
     g_AsciiManager.scaleY = 1.0f;
     return 1;
 }
-
-#undef TH09_RESULT_NATIVE_BANK
-#undef TH09_RESULT_NATIVE_LABEL
-#undef TH09_RESULT_NATIVE_SCORE
-#undef TH09_RESULT_NATIVE_ALPHA
