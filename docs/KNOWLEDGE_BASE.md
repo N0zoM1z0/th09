@@ -12698,3 +12698,37 @@ were independently checked and retain respectively
 mismatches or was falsely promoted to Exact.
 No ASM, padding, forced registers or full-game
 cold replay was used.
+
+## 2026-11-17 GPT-web: native Title key configuration focus and selection
+
+The complete 2,803-byte
+`TitleScreenView::OnUpdateKeyConfig` now uses
+the actual `g_Supervisor.config388.sideFocusMode[2]`
+array for 18 original settings reads/writes, rather
+than manufacturing integer addresses through
+`TH09_KEY_NATIVE_BYTE`. The native signed
+`keyboardSelection` advances with C++ addition;
+both `keyConfigSide` toggles use explicit
+unsigned-word subtraction/restore. The original
+game controller scan, duplicate-binding cases,
+sprite color state, and help/interrupt calls retain
+their live branch and read ordering.
+
+Seven isolated pinned VC7.1 probes tested the
+native focus array, adjacent device mode bytes,
+signed/unsigned cursor arithmetic, side toggles,
+and their combined forms. Direct pointer indexing
+of the adjacent `valueB7/valueB8` settings
+introduced two changed original bytes; the
+separate device-mode accessor therefore remains
+until its actual packed owner is proved. The
+accepted combined source strictly reproduces
+**2,803/2,803 original physical bytes and 118
+relocation fields** for OnUpdateKeyConfig.
+The 106-byte
+`TitleScreenView::SwapDuplicateCharacterIndex`
+leaf remains byte-identical; selected-source replay
+passes **2/2 authored-Exact owners, 2,909 physical
+bytes and 118 relocation fields**. There are no
+symbol-label renames, ASM, padding, register hints,
+full-product cold replay or new Exact-function claims.

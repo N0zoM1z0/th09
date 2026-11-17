@@ -147,8 +147,10 @@ short *TitleScreenView::SwapDuplicateCharacterIndex(
     return slots;
 }
 
-// The real Supervisor settings occupy adjacent native byte addresses.
-// The existing Title runtime has no added side-selection bounds gate.
+// The native sideFocusMode[2] uses actual C++ array elements.
+// The adjacent device-mode valueB7/valueB8 bytes still need a raw
+// offset accessor: replacing it with an ordinary pointer index
+// changes two VC7.1 bytes and remains unproven for this owner.
 #define TH09_KEY_NATIVE_BYTE(first, index) \
     (*reinterpret_cast<unsigned char *>( \
         reinterpret_cast<unsigned int>(first) + \
@@ -187,7 +189,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
             SetIndexedSpriteChoice(
                 TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide), 48);
             SetIndexedSpriteChoice(
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)], 49);
 
             vmPair = &vms[50];
             SetTwoDigitVmValue(vmPair, keyMapping.sides[keyConfigSide].keys[0]);
@@ -219,7 +221,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
         if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 2)
         {
             while (keyboardSelection >= 3 && keyboardSelection <= 7)
-                *reinterpret_cast<u32 *>(&keyboardSelection) += static_cast<u32>(i);
+                keyboardSelection += i;
         }
         UpdateMenuSelection();
     }
@@ -306,22 +308,22 @@ afterControllerBinding:
         g_TitleLastControllerButton = keyToChange;
     }
 
-    // Both side-toggle branches perform original i386 DWORD subtraction
-    // directly on the signed +0xC920 selector; the input cursor step above
-    // also adds in the same native 32-bit word before the signed 3..7 test.
+    // Both side-toggle branches use the original unsigned word
+    // arithmetic on the signed selector. The cursor update now uses
+    // its natural C++ addition while preserving the 3..7 range gate.
     if (g_TitleInput.IsPressedScrolling(0x40))
     {
         switch (keyboardSelection)
         {
         case 0:
-            *reinterpret_cast<u32 *>(&keyConfigSide) = 1u - static_cast<u32>(keyConfigSide);
+            keyConfigSide = static_cast<int>(1u - static_cast<u32>(keyConfigSide));
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)], 49);
             SetIndexedSpriteChoice(
                 TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide), 48);
             SetIndexedSpriteChoice(
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 42);
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)], 42);
             if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 2)
             {
                 for (i = 0; i < 5; ++i)
@@ -380,13 +382,13 @@ afterControllerBinding:
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         case 2:
-            if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide) <= 0)
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide) += 2;
-            --TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide);
+            if (g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)] <= 0)
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)] += 2;
+            --g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)];
             SetIndexedSpriteChoice(
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)], 49);
             SetIndexedSpriteChoice(
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 42);
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)], 42);
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         default:
@@ -399,14 +401,14 @@ afterControllerBinding:
         switch (keyboardSelection)
         {
         case 0:
-            *reinterpret_cast<u32 *>(&keyConfigSide) = 1u - static_cast<u32>(keyConfigSide);
+            keyConfigSide = static_cast<int>(1u - static_cast<u32>(keyConfigSide));
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)], 49);
             SetIndexedSpriteChoice(
                 TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide), 48);
             SetIndexedSpriteChoice(
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 42);
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)], 42);
             if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 2)
             {
                 for (i = 0; i < 5; ++i)
@@ -465,13 +467,13 @@ afterControllerBinding:
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         case 2:
-            ++TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide);
-            if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide) >= 2)
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide) -= 2;
+            ++g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)];
+            if (g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)] >= 2)
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)] -= 2;
             SetIndexedSpriteChoice(
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)], 49);
             SetIndexedSpriteChoice(
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 42);
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)], 42);
             g_SoundPlayer.PlaySoundByIdx(12, 0);
             break;
         default:
@@ -505,16 +507,16 @@ afterControllerBinding:
                 &keyMapping.serialized,
                 &g_Supervisor.config388.controllerMapping,
                 sizeof(keyMapping.serialized));
-            TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide) = 0;
+            g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)] = 0;
             TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) =
                 (u8)keyConfigSide;
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 49);
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)], 49);
             SetIndexedSpriteChoice(
                 TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide), 48);
             SetIndexedSpriteChoice(
-                TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.sideFocusMode[0], keyConfigSide), 42);
+                g_Supervisor.config388.sideFocusMode[static_cast<unsigned int>(keyConfigSide)], 42);
 
             if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) >= 2)
             {
