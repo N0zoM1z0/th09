@@ -81,11 +81,14 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
     supervisor->EnterCriticalSectionWrapper(4);
 
-    if (g_SupervisorNetworkState->connectionState == 0)
+    // The initial state/join decisions use the same network object, before
+    // the connection callbacks independently reload their live receiver.
+    SupervisorNetworkState *network = g_SupervisorNetworkState;
+    if (network->connectionState == 0)
     {
-        if (g_SupervisorNetworkState->joinMode != 0)
+        if (network->joinMode != 0)
         {
-            g_SupervisorNetworkState->localSide = 1;
+            network->localSide = 1;
             g_SupervisorNetworkState->CreateDeviceAddress();
             g_SupervisorNetworkState->CreateHostAddress();
             g_SupervisorNetworkState->ConnectSession();
