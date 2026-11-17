@@ -189,7 +189,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         (g_ReplayInputStates[2].word06 & 8u) != 0)
     {
         gameManager->inGameMenu = 1;
-        reinterpret_cast<AsciiGameManagerView *>(gameManager)->replayPauseRecorded130 = 1;
+        gameManager->replayPauseRecorded = 1;
         g_SoundPlayer.QueueCommand(6, 0, "Pause");
         g_SoundPlayer.PlaySoundByIdx(0x22, 0);
         supervisor->UpdateGameTime();
