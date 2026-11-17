@@ -574,3 +574,25 @@ Do not restore them en masse. Don't commit original game files,
 toolchains, Ghidra databases, C2 DLLs, decompiler dumps or
 generated comparison results. Do not touch the protected
 target while cleaning cache state.
+
+
+### 2026-11-17 continued source probes (all experimental edits reverted)
+
+- `ReplayManagerView::SaveReplay`: 1,238/1,238 bytes, 2 register differences
+  at `+0xB6/+0xB9`; typed assignment, direct typed lvalue, `memcpy`, register
+  qualifiers and link-lifetime changes did not improve it.
+- `ScreenEffect::CalcShakeEnvelope`: 336/336 bytes, 26 differences; hold/fade
+  operand and declaration-order experiments did not improve the complete owner.
+- `EnemyManagerView::OnUpdate`: 3,900/3,900 bytes, 2 differences; direct
+  indexing, pointer-base/byte-offset helpers and register locals did not
+  improve EAX/ECX group-index allocation.
+- `PlayerLifecycleView::UpdateMovementAndOptions`: 1,900/1,900 bytes, 4
+  differences; direct/global-reference/volatile and index-width probes left
+  the global-configuration vs side-index load order unresolved.
+- `EffectManager::AddedCallback`: 51/51 bytes, 4 differences; inline store
+  helpers and argument-order variations did not alter the receiver/global
+  register schedule. `TitleScreenView::DrawReplayMenu`: 1,280/1,280 bytes,
+  29 differences; selected-index and pointer/reference variants did not help.
+
+No frontier metadata was widened, no ASM/padding was introduced, and no full
+cold replay was run. The last accepted maintained baselines remain unchanged.

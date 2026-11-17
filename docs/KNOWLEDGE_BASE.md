@@ -12996,3 +12996,58 @@ Additional `UpdateChargeAttack` probes tested direct volatile mode-byte
 assignment, nonvolatile mode storage, and pointer declaration/base-increment
 order. They did not improve the maintained **1,210/1,210-byte, 183-difference**
 owner. All temporary source variants were restored.
+
+
+## 2026-11-17 GPT-web: replay-save, screen-shake, Enemy draw-head and Player focus scheduling probes
+
+This follow-up rebuilt only the touched frontiers; all temporary variants were
+restored before recording the results.
+
+`ReplayManagerView::SaveReplay @ 0x00420C60` remains **1,238/1,238 bytes,
+two differing bytes** at `+0xB6/+0xB9`. Retail loads the temporary replay
+buffer directly into EDI before forming the frame-header destination; the
+current candidate loads it into ECX and then forms the same EDI destination.
+Changing the header copy between typed assignment, direct typed lvalue, POD
+reference assignment and `memcpy` did not change the two bytes. Register
+qualifiers on the destination, temporary buffer and current offset also had
+no effect. Moving the live `ReplayBufferLink` declaration past the header
+copy changed the owner to 148 differences, so the original pointer lifetime
+was restored. No exactness ratchet was changed.
+
+`ScreenEffect::CalcShakeEnvelope @ 0x004227A0` remains **336/336 bytes, 26
+differences**. Reversing hold/fade alias declaration order reverses the two
+field loads but also reverses their target register roles and introduces two
+new differences. Reversing only the commutative sum operands leaves the
+frontier unchanged. Sequential assignments and materialized hold/fade
+locals perturb the receiver/timer allocation and grow the residual to 74
+or more differences. The established volatile field-read semantics remain
+unchanged.
+
+`EnemyManagerView::OnUpdate @ 0x004108B0` remains **3,900/3,900 bytes, two
+differences** at `+0x19A/+0x1A1`: retail uses EAX for the byte-sized draw-group
+index while the candidate uses ECX. Direct indexing in only the restricted
+branch, a base-pointer-plus-index form, an array-pointer helper, byte-offset
+helpers, and `register` group/head locals were tested. None improved the
+complete owner; several changed unrelated branches and stack layout. The
+maintained shared four-entry draw-head array and helper remain intact.
+
+`PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` remains
+**1,900/1,900 bytes, four differences**. Direct global configuration access,
+reference aliases, pointer-to-global aliases, pointer arithmetic, commuted
+array indexing, integer-width variations and address-derived side-index
+reads did not change the four-byte load-order residual. A volatile global
+pointer reference changed the effective address operand order and added one
+new mismatch; volatile pointer locals and volatile side-index forms caused
+large regressions. IDA's provisional decompilation independently confirms
+the condition is the global configuration's side-focus byte at `+0xB4`
+indexed by the live `Player +0x08` side word. The ordinary nonvolatile C++
+source remains the accepted carrier; no artificial barrier was introduced.
+
+`EffectManager::AddedCallback @ 0x0040D1C0` remains **51/51 bytes, four
+differences**. Inline store-helper forms, nested helper calls, reversed helper
+argument order and a receiver-reference helper all compile to the same
+register-order residual. `TitleScreenView::DrawReplayMenu @ 0x004234F6` remains
+**1,280/1,280 bytes, 29 differences**; selected-index declaration order,
+register/volatile selected locals and pointer-vs-reference replay-header
+views did not improve its register and stack-home mismatches. All probes were
+reverted.
