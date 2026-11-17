@@ -135,11 +135,14 @@ static inline AsciiGameManagerSideView &NativeFrontMessageSide(int index)
 // The packed FrontMessage payload is a variable-length native byte stream.
 // Its 16-bit/8-bit wire operands still require original native byte offsets;
 // the shared ReplayInputState is instead indexed as a real array member.
+// The message payload is a variable-length file record. Its signed short
+// words and byte operands use the original byte cursor, not a shadow table.
+// Keep native i386 unsigned index scaling for malformed/signed script input.
 #define FRONT_NATIVE_SHORT_ARG(arguments, index) \
-    (*reinterpret_cast<short *>(reinterpret_cast<unsigned int>(arguments) + \
+    (*reinterpret_cast<short *>(reinterpret_cast<char *>(arguments) + \
         static_cast<unsigned int>(index) * sizeof(short)))
 #define FRONT_NATIVE_BYTE_ARG(arguments, index) \
-    (*reinterpret_cast<unsigned char *>(reinterpret_cast<unsigned int>(arguments) + \
+    (*reinterpret_cast<unsigned char *>(reinterpret_cast<char *>(arguments) + \
         static_cast<unsigned int>(index)))
 // Shared input is the third record in the native replay-input array.
 
