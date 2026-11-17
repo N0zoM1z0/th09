@@ -48,13 +48,10 @@ static int PopContext(EnemyView *enemy)
         enemy->activeCallDepth2D2A = enemy->mainCallDepth2D28;
         return 1;
     }
-    // The original call-stack entry is a 0x22C-byte native context record;
-    // signed short depth scales modulo 2^32 from the live stack pointer.
+    // The active stack already points to native 0x22C-byte context records;
+    // the signed depth selects one real element without a new range gate.
     *enemy->activeContext2CE0 =
-        *reinterpret_cast<Th09EclContextView *>(
-            reinterpret_cast<unsigned int>(enemy->activeCallStack2CE4) +
-            static_cast<unsigned int>(static_cast<int>(enemy->activeCallDepth2D2A)) *
-                sizeof(Th09EclContextView));
+        enemy->activeCallStack2CE4[enemy->activeCallDepth2D2A];
     return 0;
 }
 
@@ -531,10 +528,7 @@ static void CallSubroutine(
                 static_cast<short>(instruction->nextOffset06)));
 
     if (enemy->primaryFlagBits337C.callStackDisabled23 == 0)
-        *reinterpret_cast<Th09EclContextView *>(
-            reinterpret_cast<unsigned int>(enemy->activeCallStack2CE4) +
-            static_cast<unsigned int>(static_cast<int>(enemy->activeCallDepth2D2A)) *
-                sizeof(Th09EclContextView)) =
+        enemy->activeCallStack2CE4[enemy->activeCallDepth2D2A] =
             *enemy->activeContext2CE0;
 
     enemy->activeContext2CE0->selectedManager000->InitializeSubroutine(
@@ -600,10 +594,7 @@ th09_ecl_enter_pending_subroutine:
     if (enemy->primaryFlagBits337C.callStackDisabled23 == 0)
     {
         memcpy(
-            &*reinterpret_cast<Th09EclContextView *>(
-            reinterpret_cast<unsigned int>(enemy->activeCallStack2CE4) +
-            static_cast<unsigned int>(static_cast<int>(enemy->activeCallDepth2D2A)) *
-                sizeof(Th09EclContextView)),
+            &enemy->activeCallStack2CE4[enemy->activeCallDepth2D2A],
             savedMainContext,
             sizeof(Th09EclContextView));
     }
