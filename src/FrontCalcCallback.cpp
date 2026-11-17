@@ -8,6 +8,7 @@
 #include "Background.hpp"
 #include "CardAttack.hpp"
 #include "GameManagerRuntimeView.hpp"
+#include "GameManagerSetupView.hpp"
 
 #include <stddef.h>
 
@@ -24,21 +25,14 @@ extern int g_TransitionResultTable[];
 extern int g_TransitionResultTableAlt[];
 extern void *g_NeutralMessageSource;
 
-struct GameManagerSetupLayout
-{
-    static void CleanupGameplayState();
-};
 // The native Front allocation owns two 0x64-byte panel rows containing
 // five 0x14-byte vertices each; colors/timers and result-table entries
-// are independent DWORDs. Preserve live signed selectors and original
-// Win32 address words without adding a bounds guard or shadow storage.
+// are independent DWORDs. Retain the original signed selector arithmetic
+// and call ordering without adding a bounds guard or shadow storage.
 #include "FrontNativePanelVertices.hpp"
 #include "FrontNativePanelState.hpp"
-#define FRONT_NATIVE_SIDE(index) \
-    (*reinterpret_cast<AsciiGameManagerSideView *>(reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) + static_cast<unsigned int>(index) * sizeof(g_GameManager.sides[0])))
-#define FRONT_NATIVE_RESULT(table, index) \
-    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(table)[0]) + static_cast<unsigned int>(index) * sizeof((table)[0])))
-
+// The GameManager's native 0x38-byte side records and result-table
+// entries are already declared as C++ arrays with the original strides.
 int __fastcall FrontCalcCallback(void *frontArg)
 {
     FrontFactoryConstructView *front = static_cast<FrontFactoryConstructView *>(frontArg);
@@ -163,7 +157,7 @@ int __fastcall FrontCalcCallback(void *frontArg)
             g_GameManager.flags ^=
                 (g_GameManager.flags ^ targetBit) & 0x1800u;
 
-            FRONT_NATIVE_SIDE(static_cast<int>(1u - static_cast<unsigned int>(front->transitionSide10964)))
+            g_GameManager.sides[static_cast<int>(1u - static_cast<unsigned int>(front->transitionSide10964))]
                 .cardAttack14->timer98 = 0;
 
             PlayerPositionView point;
@@ -187,9 +181,9 @@ int __fastcall FrontCalcCallback(void *frontArg)
         {
             g_SoundPlayer.PlaySoundByIdx(49, 0);
 
-            FRONT_NATIVE_SIDE(static_cast<int>(1u - static_cast<unsigned int>(front->transitionSide10964)))
+            g_GameManager.sides[static_cast<int>(1u - static_cast<unsigned int>(front->transitionSide10964))]
                 .background00->transitionMode = 1;
-            FRONT_NATIVE_SIDE(static_cast<int>(1u - static_cast<unsigned int>(front->transitionSide10964)))
+            g_GameManager.sides[static_cast<int>(1u - static_cast<unsigned int>(front->transitionSide10964))]
                 .background00->transitionFrames = 30;
 
             ScreenEffect::RegisterChain(
@@ -261,17 +255,15 @@ int __fastcall FrontCalcCallback(void *frontArg)
                     (g_GameManager.flags & 0x4000u) != 0)
                 {
                     g_SelectedOpponentParameter =
-                        FRONT_NATIVE_RESULT(g_TransitionResultTableAlt,
-                            static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
-                                             5u * static_cast<unsigned int>(g_GameStageValue)));
+                        g_TransitionResultTableAlt[static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
+                                             5u * static_cast<unsigned int>(g_GameStageValue))];
                 }
                 else
                 {
                     g_SelectedOpponentParameter =
-                        FRONT_NATIVE_RESULT(g_TransitionResultTable,
-                            static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
+                        g_TransitionResultTable[static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
                                              5u * static_cast<unsigned int>(g_GameStageValue) +
-                                             static_cast<unsigned int>(modeValue)));
+                                             static_cast<unsigned int>(modeValue))];
                 }
             }
         }
@@ -287,5 +279,3 @@ int __fastcall FrontCalcCallback(void *frontArg)
 #undef FRONT_NATIVE_VERTEX
 #undef FRONT_NATIVE_TIMER
 #undef FRONT_NATIVE_COLOR
-#undef FRONT_NATIVE_SIDE
-#undef FRONT_NATIVE_RESULT

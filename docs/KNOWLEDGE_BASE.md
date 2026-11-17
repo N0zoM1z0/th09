@@ -10515,3 +10515,35 @@ IsGameMode2 entry, with identical relocation
 offsets/types and zero nonrelocation byte changes.
 No ASM, fake padding, whole-product cold replay
 or new exact-function promotion was used.
+
+## 2026-11-17 GPT-web: native FrontCalc side and result-table indexing
+
+The large `FrontCalcCallback @ 0x00417630` transition
+controller now uses the real `GameManagerSetupLayout`
+declaration from the existing original-bound
+`GameManagerSetupView.hpp`, rather than a local
+declaration-only surrogate for
+`CleanupGameplayState`. Three opponent-side
+timer/background writes directly index the genuine
+`AsciiGameManagerView::sides[2]` array. Both final
+result-table reads use native C++ array subscripts
+in the existing `g_TransitionResultTable` and
+`g_TransitionResultTableAlt` buffers instead of
+separate integer-address/cast macros. The original
+32-bit selector calculations, panel vertex effects,
+resource calls, state transitions and cleanup
+order remain unchanged.
+
+Four independent pinned VC7.1 probes of direct
+side indexing, result-table indexing, the actual
+GameManagerSetupLayout definition, and their combined
+form all reproduce the complete
+**1,491/1,491-byte** target function with 107
+relocation fields. The maintained complete-owner
+strict comparison and single-source scoped replay
+also pass **1/1 previously exact function,
+1,491 bytes and 107 original relocation fields**.
+No compiler-private symbol rebinding, ASM,
+artificial padding, forced registers, whole-game
+cold replay or new exact-function promotion was
+used.
