@@ -158,9 +158,7 @@ Effect *EffectManager::SpawnEffect(
 {
     int effectIndex = this->nextEffectIndex;
     // Native Win32 pool address = allocation base + 0xD8-byte record stride.
-    Effect *effect = reinterpret_cast<Effect *>(
-        reinterpret_cast<unsigned int>(this->effects) +
-        static_cast<unsigned int>(effectIndex) * static_cast<unsigned int>(sizeof(Effect)));
+    Effect *effect = &this->effects[effectIndex];
     Float3 velocity(0.0f, 0.0f, 0.0f);
     int i;
 
@@ -197,9 +195,7 @@ Effect *EffectManager::SpawnEffectWithVelocity(
     int effectId, const EffectFloat3 *position, const EffectFloat3 *velocity,
     int count, unsigned int color)
 {
-    Effect *effect = reinterpret_cast<Effect *>(
-        reinterpret_cast<unsigned int>(this->effects) +
-        static_cast<unsigned int>(this->nextEffectIndex) * static_cast<unsigned int>(sizeof(Effect)));
+    Effect *effect = &this->effects[this->nextEffectIndex];
     int i;
 
     for (i = 0; i < this->primaryCount; ++i)
@@ -232,10 +228,9 @@ Effect *EffectManager::SpawnEffectInFixedSlot(
     int effectId, const EffectFloat3 *position, int slotIndex, unsigned int color)
 {
     // The fixed-slot index sum and address scale also wrap as native DWORDs.
-    Effect *effect = reinterpret_cast<Effect *>(
-        reinterpret_cast<unsigned int>(this->effects) +
-        (static_cast<unsigned int>(this->primaryCount) +
-         static_cast<unsigned int>(slotIndex)) * static_cast<unsigned int>(sizeof(Effect)));
+    Effect *effect = &this->effects[
+        static_cast<unsigned int>(this->primaryCount) +
+        static_cast<unsigned int>(slotIndex)];
     Float3 velocity(0.0f, 0.0f, 0.0f);
     this->InitializeEffect(
         effect, effectId, position, color,
