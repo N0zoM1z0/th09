@@ -596,3 +596,21 @@ target while cleaning cache state.
 
 No frontier metadata was widened, no ASM/padding was introduced, and no full
 cold replay was run. The last accepted maintained baselines remain unchanged.
+
+
+### 2026-11-17 Player bullet-collision loop reconstruction
+
+- Fresh IDA confirms `CheckBulletCollision @ 0x41DFF0` must keep the native
+  `activeB100` cursor in ESI, Player in EDI, Bullet in EBX, and region in ECX.
+  The cursor home at `[ebp-4]` is written before the first region dereference.
+- Target control flow is three nested retry levels: type/delay filter,
+  radius/angle geometry dispatch, then the shared hit/cancellation path.
+  Distinct miss paths increment the cursor at `0x41E0A3`, `0x41E133`, and
+  `0x41E19E`; cancellation saves the live cursor before calls.
+- Temporary direct-slot nested loops reached 849/862 (676 differences) and
+  854/862 (673 differences); a region-reference form reached 835/862 (668).
+  Each introduced new differences or changed target register roles, so all
+  were reverted. Maintained baseline remains 842/862, 705 differences.
+- `BeginPlaybackStage`, `AddedCallback`, Enemy draw-group helper and Player
+  focus load-order probes were also reverted; their accepted frontiers are
+  unchanged. No cold replay, ASM, padding, or frontier widening was used.

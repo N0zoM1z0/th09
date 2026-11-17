@@ -13051,3 +13051,52 @@ register-order residual. `TitleScreenView::DrawReplayMenu @ 0x004234F6` remains
 register/volatile selected locals and pointer-vs-reference replay-header
 views did not improve its register and stack-home mismatches. All probes were
 reverted.
+
+
+## 2026-11-17 GPT-web: reconstruct Player bullet-collision cursor and nested loops
+
+A fresh attested-IDA disassembly of `PlayerLifecycleView::CheckBulletCollision
+@ 0x0041DFF0` confirms the exact native cursor lifetime and three nested
+retry levels. Retail saves the Bullet argument in EBX, the Player receiver in
+EDI, and the `activeB100` array cursor in ESI. It forms `this + 0xB100` with
+`lea esi,[edi+0xB100]`, saves that cursor to `[ebp-4]`, and only then loads
+the first region pointer with `mov ecx,[esi]`. The initial sentinel check
+branches to the single return-zero epilogue at `0x41E340`.
+
+The first loop filters the native region types 1/2/3 and positive delay;
+its rejected-record path increments ESI by four and returns to `0x41E010`.
+The next level dispatches on the region's radius and angle: nonzero radius
+uses the X87 circle-distance path, zero radius selects either the rotated
+rectangle test or the axis-aligned rectangle test. The rotated and AABB
+miss paths have distinct cursor increments (`0x41E133` and `0x41E19E`),
+while circle misses and the Bullet-type retry return through the shared
+`0x41E19E` cursor advance. The common hit label at `0x41E07E` distinguishes
+ordinary hit-count updates from type-2/3 cancellation; only a non-null
+Bullet with type zero enters the cancellation/reward path. This is the
+structural target, not a generic single-loop scan.
+
+The maintained baseline remains **842/862 bytes with 705 differences**.
+Several temporary natural-C++ nested-loop reconstructions were compiled and
+compared against only this owner. Direct `*slot` accesses preserved the
+target's Player/cursor/region register roles more closely than a separately
+materialized region pointer. One direct-slot nested-loop form reached
+**849/862 bytes and 676 differences**; another reached **854/862 bytes and
+673 differences**. A reference-to-region form reached **835/862 bytes and
+668 differences**, but changed the target's EDI/ESI/ECX register roles. All
+three candidates introduced new differing offsets and were reverted. The
+experiments demonstrate the correct loop nesting and cursor retry topology,
+but none is eligible for frontier promotion. The maintained 842/862 source
+remains untouched; no padding, assembly, or full cold replay was used.
+
+Additional register-order probes on `ReplayManagerView::BeginPlaybackStage`
+(`replay-begin-playback`, 540/540 bytes, 13 differences) tried side-value
+temporaries, runtime-pointer locals/references, and volatile pointer
+accesses. The temporary and reference forms did not alter the residual;
+volatile pointer forms increased it to 17-27 differences.
+`EffectManager::AddedCallback` (51/51, four differences) was also tested
+with global-manager/context declaration order, direct inline ANM calls, and
+combined helper argument orders; no variant improved its receiver/global
+register schedule. `EnemyManagerView::OnUpdate` group helper parameter
+orders using signed/unsigned integer, enum and array-reference forms all
+retained the two-byte EAX/ECX index difference. All temporary edits were
+restored.
