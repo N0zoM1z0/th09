@@ -23,10 +23,10 @@ typedef char EtamaDrawBodyPositionOffsetIs208[
 // its exact runtime/library provenance is still unresolved.
 void __fastcall fsincos(float *sine, float *cosine, float angle)
 {
-    float cosineValue = cosf(angle);
     float sineValue = sinf(angle);
-    *cosine = cosineValue;
+    float cosineValue = cosf(angle);
     *sine = sineValue;
+    *cosine = cosineValue;
 }
 // SDK conversions use the same checked three-float storage and this pointer.
 typedef char EtamaSdkVectorLayoutMatchesFloat3[
