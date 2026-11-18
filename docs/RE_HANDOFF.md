@@ -466,3 +466,16 @@ improvement. Keep resolving those new offsets in natural C++.
   the member side index, reference binding for `ReplayInputState`, and pointer
   declaration-order permutations did not improve the 183-byte residual; the
   full-width forms regressed hundreds of bytes. Restored the baseline source.
+
+## 2026-11-18 GPT-web: second boss/charge allocation pass
+
+- `EnemyManager::OnUpdate`: unsigned local index, split base/index pointer
+  arithmetic, array subscript, and `register` byte/integer locals all retained
+  the same two EAX/ECX residual instructions. Directly rereading the no-sprite
+  flag instead of using the existing native flag reference caused 645
+  differences; reverted.
+- `UpdateChargeAttack`: full-width side locals plus pointer, reference,
+  const-pointer, array-base arithmetic, declaration-order and volatile field
+  variants consistently moved the candidate to EBX=side / EDI=input, opposite
+  retail's EDI=side / EBX=input, and regressed 183 -> 717 differences. Reverted
+  all trials; the original 183-difference source remains.

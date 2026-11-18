@@ -13564,3 +13564,26 @@ reference input bindings, and declaration-order changes. The full-width forms
 shifted hundreds of bytes and failed the monotonic checker; the reference and
 reordered-short forms retained the recorded 183 differences. The source was
 restored. No frontier baseline changed.
+
+## 2026-11-18 GPT-web: second boss/charge register allocation pass
+
+`EnemyManagerView::OnUpdate` was tested with a materialized unsigned draw-group
+index, split base/index pointer arithmetic, array-subscript syntax, and
+register-qualified byte/integer index locals. Every variant retained exactly
+the same two residual instructions at `+0x19A/+0x1A1`: retail loads the byte
+index into EAX and uses EAX in the scaled LEA; VC7.1 currently loads it into
+ECX. Reading the early no-sprite flag directly instead of through the existing
+native flag reference changed the alias/load schedule and regressed the
+function to 645 differences. All source trials were discarded.
+
+`UpdateChargeAttack` was probed with a full-width signed/unsigned side local,
+input-pointer declaration/initialization permutations, pointer arithmetic from
+the replay-input array base, reference and const-pointer bindings, and a
+volatile full-width side-field read. Full-width variants consistently emitted
+`mov ebx,[esi+8]` followed by scaled pointer arithmetic in EDI, opposite the
+retail sequence `mov edi,[esi+8]; imul eax,edi,0x8e; lea ebx,[eax+0x4ace18]`,
+and expanded the raw mismatch count from 183 to 717. The existing signed-short
+source shape remains the least-different candidate (183 differences). The
+key remaining problem is local register lifetime/allocation, not merely
+changing the C++ type or spelling of the array subscript. All trials were
+reverted; the frontier baseline remains untouched.
