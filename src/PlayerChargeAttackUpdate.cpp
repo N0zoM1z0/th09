@@ -61,6 +61,21 @@ enum PlayerChargeResourceCost
     PLAYER_CHARGE_THIRD_ATTACK_COST = 300
 };
 
+// All charge timing thresholds are native frame counts. These are the
+// original cooldown, warm-up and automatic-release limits, not a new timer.
+enum PlayerChargeFrameTiming
+{
+    PLAYER_CHARGE_RETRY_FRAMES = 3,
+    PLAYER_CHARGE_FIRST_FIRING_FRAME = 1,
+    PLAYER_CHARGE_COOLDOWN_SHORT_STEP = 5,
+    PLAYER_CHARGE_COOLDOWN_LONG_STEP = 10,
+    PLAYER_CHARGE_MIN_HOLD_FRAMES = 10,
+    PLAYER_CHARGE_EFFECT_FRAMES = 8,
+    PLAYER_CHARGE_AUTORELEASE_FRAMES = 300,
+    PLAYER_CHARGE_NORMAL_FIRE_LIMIT = 15,
+    PLAYER_CHARGE_METER_INTERVAL = 100
+};
+
 int PlayerLifecycleView::UpdateChargeAttack()
 {
     // PlayerRegisterChain is only called from GameManagerSetup's two-side
@@ -86,16 +101,16 @@ int PlayerLifecycleView::UpdateChargeAttack()
             {
                 timer303A4 = 0;
             }
-            else if (timer303A4 >= 10)
+            else if (timer303A4 >= PLAYER_CHARGE_COOLDOWN_LONG_STEP)
             {
-                timer303A4 -= 10;
+                timer303A4 -= PLAYER_CHARGE_COOLDOWN_LONG_STEP;
             }
-            else if (timer303A4 >= 5)
+            else if (timer303A4 >= PLAYER_CHARGE_COOLDOWN_SHORT_STEP)
             {
-                timer303A4 -= 5;
+                timer303A4 -= PLAYER_CHARGE_COOLDOWN_SHORT_STEP;
             }
-            timer303B0 = 3;
-            timer303BC = 1;
+            timer303B0 = PLAYER_CHARGE_RETRY_FRAMES;
+            timer303BC = PLAYER_CHARGE_FIRST_FIRING_FRAME;
         }
         else if (timer303B0 > 0)
         {
@@ -110,21 +125,21 @@ int PlayerLifecycleView::UpdateChargeAttack()
              (sideMode == PLAYER_CHARGE_FROM_SHOT_INPUT && input->IsHeld(1)))
     {
         timer303BC++;
-        if (timer303BC >= 10 && flagBits1B80.chargeAttackActive02 == 0)
+        if (timer303BC >= PLAYER_CHARGE_MIN_HOLD_FRAMES && flagBits1B80.chargeAttackActive02 == 0)
         {
             if (scalar30384 == 0.0f)
             {
                 g_SoundPlayer.PlaySoundByIdx(43, sideIndex != 0 ? 500 : -500);
                 sideState->frontSide18->ActivateMeterVms();
             }
-            previousLevel = static_cast<int>(scalar30384) / 100;
+            previousLevel = static_cast<int>(scalar30384) / PLAYER_CHARGE_METER_INTERVAL;
             scalar30384 +=
                 g_Supervisor.framerateMultiplier5B8 * primaryShtFile->chargeRate24;
             if (scalar30384 >= scalar30388)
             {
                 scalar30384 = scalar30388;
                 timer3038C++;
-                if (timer3038C >= 300)
+                if (timer3038C >= PLAYER_CHARGE_AUTORELEASE_FRAMES)
                 {
                     goto resolveAttack;
                 }
@@ -133,7 +148,7 @@ int PlayerLifecycleView::UpdateChargeAttack()
             {
                 timer3038C = 0;
             }
-            if (previousLevel < static_cast<int>(scalar30384) / 100)
+            if (previousLevel < static_cast<int>(scalar30384) / PLAYER_CHARGE_METER_INTERVAL)
             {
                 g_SoundPlayer.PlaySoundByIdx(50, sideIndex != 0 ? 500 : -500);
             }
@@ -145,14 +160,14 @@ resolveAttack:
     {
         flagBits1B80.chargeAttackActive02 = 1;
         timer30398 = 0;
-        timer1B74 = 8;
+        timer1B74 = PLAYER_CHARGE_EFFECT_FRAMES;
         if (scalar30384 >= static_cast<float>(PLAYER_CHARGE_THIRD_ATTACK_LEVEL) &&
             opponentState->enemyManager10->FindActiveEnemyBySideCategory(3) == NULL)
         {
             opponentState->cardAttack14->StartAttack(
                         2, 2, 0, primaryShtFile->modePath2);
             SubtractResourceClamped(static_cast<float>(PLAYER_CHARGE_THIRD_ATTACK_COST));
-            timer1B74 = 8;
+            timer1B74 = PLAYER_CHARGE_EFFECT_FRAMES;
             ConfigureState3Effect15();
         }
         else if (scalar30384 >= static_cast<float>(PLAYER_CHARGE_SECOND_ATTACK_LEVEL))
@@ -160,14 +175,14 @@ resolveAttack:
             opponentState->cardAttack14->StartAttack(
                         1, 1, 0, primaryShtFile->modePath1);
             SubtractResourceClamped(static_cast<float>(PLAYER_CHARGE_SECOND_ATTACK_COST));
-            timer1B74 = 8;
+            timer1B74 = PLAYER_CHARGE_EFFECT_FRAMES;
             ConfigureState3Effect14();
         }
         else if (scalar30384 >= static_cast<float>(PLAYER_CHARGE_FIRST_ATTACK_LEVEL))
         {
             opponentState->cardAttack14->StartAttack(
                         0, 0, 0, primaryShtFile->modePath0);
-            timer1B74 = 8;
+            timer1B74 = PLAYER_CHARGE_EFFECT_FRAMES;
             SubtractResourceClamped(static_cast<float>(PLAYER_CHARGE_FIRST_ATTACK_COST));
             ConfigureState3Effect13();
         }
@@ -203,7 +218,7 @@ afterCharge:
             SpawnShots(static_cast<int>(timer303A4), 0);
         }
         timer303A4++;
-        if (timer303A4 >= 15)
+        if (timer303A4 >= PLAYER_CHARGE_NORMAL_FIRE_LIMIT)
         {
             timer303A4 = -1;
         }
