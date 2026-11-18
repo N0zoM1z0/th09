@@ -91,10 +91,12 @@ inline assembly or an old exact claim.
   Commit `b79c9cf2` also names target-observed network timing thresholds
   (100-ms host poll, 4000-ms jitter, 4000/6000-ms retry bases, 20/60-second
   frame deadlines), 60-Hz frame conversion and -9998/+9998 prefill origin.
-  Commits `8eb542ff`, `95006098` and `7394f9a5` separate the native
-  frame-result and wait/reset-status variables, restore the positive
-  synchronized-frame branch before its prediction fallback, and express
-  frame prefill as a counted native for-loop with DWORD wrap semantics.
+  Commits `8eb542ff`, `95006098`, `7394f9a5` and `67071267` separate
+  frame-completion from wait/reset statuses, prioritize synchronized frames
+  over prediction fallback, recover counted prefill with DWORD wrap, and
+  restore the join-retry and packet-wait branches as natural positive C++
+  conditions. Full-function VC7.1 comparison still holds the original
+  1,629/1,633-byte, 966-difference frontier.
   This follows the independently observed TH09 state transitions (the
   adjacent GPL-3.0 App::UpdateNetPlay source remains a hypothesis).
   These are not new retry or safety policies. Six further C++ seed/prediction
