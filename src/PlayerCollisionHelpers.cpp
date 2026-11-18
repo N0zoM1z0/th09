@@ -51,18 +51,27 @@ int PlayerLifecycleView::CheckBulletCollision(
             PlayerPositionView delta;
             PlayerPositionView rotated;
         } collision;
+        // Geometry's first two vectors share the native 24-byte prefix
+        // with reward coordinates; these are the same stack storage.
         struct RewardVectors
         {
-            unsigned char collisionScratchPrefix[24];
+            PlayerPositionView boundsMax;
+            PlayerPositionView halfSize;
             EffectFloat3 effectPosition;
             EffectFloat3 velocity;
         } reward;
+        // The cursor home follows all four physical geometry vectors.
         struct CursorHome
         {
-            unsigned char collisionScratchPrefix[48];
+            CollisionVectors frame;
             PlayerCollisionRegionCreateRegionView **slot;
         } cursor;
     } scratch;
+    typedef char NativeCollisionScratchLayout[
+        (sizeof(CollisionScratch) == 52 &&
+         offsetof(CollisionScratch, reward.effectPosition) == 24 &&
+         offsetof(CollisionScratch, reward.velocity) == 36 &&
+         offsetof(CollisionScratch, cursor.slot) == 48) ? 1 : -1];
     // Keep the native parameter/cursor homes observable across callbacks.
     PlayerPositionView *volatile &livePosition = position;
     volatile CollisionScratch &liveScratch = scratch;
