@@ -43,9 +43,13 @@ extern const char g_NetworkSearchingMessage[];
 extern unsigned short __fastcall ApplyNetworkInput(int side, unsigned short input);
 extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 
-// Both prefill PopFrame calls write separate seeds and reuse one predicted
-// value slot. PopFrame's native output arguments are (seed*, predicted*).
-struct NetworkPrefillScratch
+// PopFrame returns a seed and a predicted-frame value through pointers.
+// Retail uses the same eight-byte stack window in two mutually exclusive
+// phases. The handshake writes seeds at -0xC/-0xA and prediction at -0x8;
+// the final frame instead writes prediction at -0xC and seeds at -0x8/-0x6.
+// The final-phase scalar locals remain separate until their exact compiler
+// lifetime is recovered; all three views describe the observed wire layout.
+struct NetworkPopFrameScratch
 {
     union
     {
@@ -61,15 +65,24 @@ struct NetworkPrefillScratch
             unsigned short seed;
             unsigned int predicted;
         } second;
+        struct FinalFrame
+        {
+            unsigned int predicted;
+            unsigned short firstSeed;
+            unsigned short secondSeed;
+        } finalFrame;
     };
 };
 
-typedef char NetworkPrefillScratchLayout[
-    (sizeof(NetworkPrefillScratch) == 8 &&
-     offsetof(NetworkPrefillScratch, first.seed) == 0 &&
-     offsetof(NetworkPrefillScratch, second.seed) == 2 &&
-     offsetof(NetworkPrefillScratch, first.predicted) == 4 &&
-     offsetof(NetworkPrefillScratch, second.predicted) == 4) ? 1 : -1];
+typedef char NetworkPopFrameScratchLayout[
+    (sizeof(NetworkPopFrameScratch) == 8 &&
+     offsetof(NetworkPopFrameScratch, first.seed) == 0 &&
+     offsetof(NetworkPopFrameScratch, second.seed) == 2 &&
+     offsetof(NetworkPopFrameScratch, first.predicted) == 4 &&
+     offsetof(NetworkPopFrameScratch, second.predicted) == 4 &&
+     offsetof(NetworkPopFrameScratch, finalFrame.predicted) == 0 &&
+     offsetof(NetworkPopFrameScratch, finalFrame.firstSeed) == 4 &&
+     offsetof(NetworkPopFrameScratch, finalFrame.secondSeed) == 6) ? 1 : -1];
 int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
     Supervisor *s = supervisor;
@@ -231,7 +244,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
                     if (g_SupervisorNetworkState->syncValue != 0)
                     {
-                        NetworkPrefillScratch prefill;
+                        NetworkPopFrameScratch prefill;
                         s->PopFrame(0, &prefill.first.seed, &prefill.first.predicted);
                         s->PopFrame(1, &prefill.second.seed, &prefill.second.predicted);
                     }
