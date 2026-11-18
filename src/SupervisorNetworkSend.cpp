@@ -7,8 +7,7 @@ int SupervisorNetworkState::SendPacket(void *packet, int size)
     if (!this->active)
         return 0;
 
-    unsigned int *remotePeer = &this->peerIds[static_cast<unsigned int>(
-        1u - static_cast<unsigned int>(this->localSide))];
+    unsigned int *remotePeer = &this->peerIds[1u - static_cast<unsigned int>(this->localSide)];
     if (*remotePeer == 0)
         return 0;
 

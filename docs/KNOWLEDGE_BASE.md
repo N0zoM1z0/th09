@@ -13280,3 +13280,14 @@ bytes. It was rejected and the maintained collision source restored. The
 remaining concrete CFG mismatch is the target's reward path preceding the
 direct-hit tail epilogue; do not promote the nested-loop trial or widen the
 frontier to accept it.
+
+## 2026-11-18 GPT-web: remove redundant unsigned index casts in network leaves
+
+`SupervisorNetworkState::GetRemotePeerId` and `SupervisorNetworkState::SendPacket`
+now index `peerIds` directly with `1u - static_cast<unsigned int>(localSide)`.
+The subtraction already has unsigned DWORD type, so the former outer
+`static_cast<unsigned int>` was redundant and did not express any additional
+wraparound behavior. Both complete pinned VC7.1 exact owners replayed
+byte-for-byte after the simplification: `GetRemotePeerId` 17/17 bytes and
+`SendPacket` 95/95 bytes, with zero relocations. Their null-check and delayed
+peer-ID dereference order is unchanged.
