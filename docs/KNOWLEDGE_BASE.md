@@ -13641,3 +13641,37 @@ hit block after the rectangle branches (`+0x17C`) rather than retail's
 fallthrough dispatcher at `+0x8E`; the current frame also remains four bytes
 larger than retail (`0x38` vs `0x34`). Continue with natural C++ block and
 scratch-home lifetime experiments, not assembly or padding.
+
+## 2026-11-18 GPT-web: follow-up boss and leaf register allocation pass
+
+A focused register-lifetime pass was run after the structured collision commit.
+All rejected trials were restored; none changed a frontier baseline.
+
+- `EnemyManagerView::OnUpdate`: moving the draw-head calculation to the append
+  site and binding the head as a C++ reference caused a 3,005-difference
+  regression; duplicating the reference assignment at both append sites still
+  caused 1,816 differences. Scoping the side-category DWORD into a separate
+  boolean did not change the two residual bytes. Retain the existing source
+  and the EAX/ECX residual at `+0x19A/+0x1A1`.
+- `UpdateChargeAttack`: replacing the short side snapshot with a full-width
+  integer, unsigned integer, reference, direct member access, or alternative
+  input-table pointer forms caused 717-873 differences. The target wants the
+  full DWORD side in EDI and input pointer in EBX, but these C++ forms allocate
+  them in the opposite registers. Retain the 1,210-byte / 183-difference source.
+- `SaveReplay`: binding the frame destination as a reference, deriving it from
+  a register-qualified byte cursor, and using `memcpy` all retained the same
+  two register residuals at `+0xB6/+0xB9`. Making the destination pointer
+  volatile caused an 856-difference regression. Retain the 1,238-byte source.
+- `EffectManager::AddedCallback`: reversed helper parameters, direct member
+  calls, register-qualified locals, and deferring the context cast did not
+  improve the four recorded differences. The target loads the global ANM
+  manager into EDI and the callback owner into ESI; natural local variants
+  assigned those registers in the opposite order. A typed `EffectManager *`
+  callback signature is incompatible with the existing declaration and was
+  discarded. Retain the 51-byte source.
+- `ScreenEffect::CalcShakeEnvelope`: receiver/timer pointer aliases did not
+  improve the 26 differences and swapped the ESI/EDI receiver assignments.
+  Retain the current 336-byte source.
+- `RotatePlayerCollisionVector`: direct two-term expressions and a volatile
+  cosine accumulator were worse than the committed 62-byte / 10-difference
+  checkpoint. Retain the existing natural-C++ double-wrapper source.

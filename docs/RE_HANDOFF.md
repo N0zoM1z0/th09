@@ -507,3 +507,17 @@ improvement. Keep resolving those new offsets in natural C++.
   differ. Keep the original baseline. The dispatcher still lays out at
   candidate +0x17C instead of retail +0x8E; stack frame remains 0x38 vs 0x34.
   Commit is an exploratory source checkpoint, not an exactness claim.
+
+## 2026-11-18 GPT-web: rejected register-allocation probes
+
+The follow-up pass restored all non-improving source variants. Enemy update
+append-site references regressed 3,005/1,816 bytes; side-category scope did
+not change its 2-byte residual. Full-width/direct/reference side-index forms
+in `UpdateChargeAttack` regressed to 717-873 differences, so retain 183. The
+`SaveReplay` reference, register-cursor, and memcpy forms kept the same two
+`+0xB6/+0xB9` differences; volatile destination cursor regressed to 856. The
+callback helper/parameter/register variants retained 4 differences or
+regressed; retain the 51-byte source. Screen shake receiver/timer aliases
+retained 26 differences or swapped ESI/EDI. Direct rotation expressions and
+volatile cosine were worse than the committed 62-byte/10-difference leaf.
+No baseline was changed.
