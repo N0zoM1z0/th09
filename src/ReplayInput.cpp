@@ -869,8 +869,9 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
                 ReplayFrameDataStartView *destination =
                     reinterpret_cast<ReplayFrameDataStartView *>(
                         tempBuffer + currentOffset - sizeof(ReplayHeaderView));
-                // Retail emits qmemcpy for this fixed 0x20-byte native frame header.
-                memcpy(destination, frameHeader, sizeof(*frameHeader));
+                // Copy the complete native POD frame record. VC7.1 emits
+                // the original eight-DWORD REP MOVSD aggregate assignment.
+                *destination = *frameHeader;
                 replayCopy.frameOffset[stream][loopIndex] = currentOffset;
                 currentOffset += sizeof(*frameHeader);
                 for (; link != NULL; link = link->next)
