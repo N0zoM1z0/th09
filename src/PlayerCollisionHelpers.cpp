@@ -85,15 +85,21 @@ int PlayerLifecycleView::CheckBulletCollision(
 
     for (; ; ++slot)
     {
-        region = *slot;
-        if (region == NULL)
-            return 0;
-        if (region->type38 != 1 &&
-            region->type38 != 2 &&
-            region->type38 != 3)
-            continue;
-        if (region->delay40 > 0)
-            continue;
+        // Retail has a distinct inner retry for inactive types and delayed
+        // regions. The outer cursor advance belongs to the geometry and
+        // cancellation retry, not to this filter's own rejected entries.
+        while (true)
+        {
+            region = *slot;
+            if (region == NULL)
+                return 0;
+            if (region->type38 == 1 || region->type38 == 2 || region->type38 == 3)
+            {
+                if (region->delay40 <= 0)
+                    break;
+            }
+            ++slot;
+        }
 
         if (region->radius08 != 0.0)
         {
