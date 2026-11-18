@@ -195,15 +195,14 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         if (now < s->networkConnectStartTime588)
             s->networkConnectStartTime588 = now;
 
-        if (now - s->networkConnectStartTime588 <
-                g_ReplayRng.GetRandomU32InRange(NETWORK_PEER_JITTER_MS) + NETWORK_JOIN_RETRY_MS ||
-            g_SupervisorNetworkState->joinMode == 1)
+        if (now - s->networkConnectStartTime588 >=
+                g_ReplayRng.GetRandomU32InRange(NETWORK_PEER_JITTER_MS) + NETWORK_JOIN_RETRY_MS &&
+            g_SupervisorNetworkState->joinMode != 1)
         {
-            goto NETWORK_WAIT;
+            g_SupervisorNetworkState->ResetSession();
+            goto HOST_SESSION;
         }
-
-        g_SupervisorNetworkState->ResetSession();
-        goto HOST_SESSION;
+        goto NETWORK_WAIT;
     }
 
     if (g_SupervisorNetworkState->connectionState == NETWORK_SESSION_HOST_WAIT || g_SupervisorNetworkState->connectionState == NETWORK_SESSION_PEER_READY)
@@ -288,15 +287,13 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                     g_SupervisorNetworkState->initialFramesQueued = 1;
                 }
 
-                if (g_SupervisorNetworkState->packetReady != 0)
-                    goto HAVE_PACKET;
-
-            WAIT_FOR_FRAME:
-                result = NETWORK_SERVICE_RETRY_FRAME;
-                supervisor->LeaveCriticalSectionWrapper(4);
-                return result;
-
-            HAVE_PACKET:
+                if (g_SupervisorNetworkState->packetReady == 0)
+                {
+                WAIT_FOR_FRAME:
+                    result = NETWORK_SERVICE_RETRY_FRAME;
+                    supervisor->LeaveCriticalSectionWrapper(4);
+                    return result;
+                }
                 g_NetworkFramePacket.words.input =
                     static_cast<unsigned short>(Controller::GetInput(g_SupervisorNetworkState->localSide));
                 s->networkTiming458.frameCounter = static_cast<int>(
