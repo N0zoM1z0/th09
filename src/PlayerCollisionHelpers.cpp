@@ -131,10 +131,10 @@ int PlayerLifecycleView::CheckBulletCollision(
                 scratch.collision.halfSize.y = region->centerY04 - region->halfHeight14;
                 scratch.collision.boundsMax.x = region->halfWidth10 + region->centerX00;
                 scratch.collision.boundsMax.y = region->halfHeight14 + region->centerY04;
-                if (!(!(scratch.collision.halfSize.x > livePosition->x) &&
-                      !(scratch.collision.boundsMax.x < livePosition->x) &&
-                      !(scratch.collision.halfSize.y > livePosition->y) &&
-                      !(scratch.collision.boundsMax.y < livePosition->y)))
+                if (scratch.collision.halfSize.x > livePosition->x ||
+                    scratch.collision.boundsMax.x < livePosition->x ||
+                    scratch.collision.halfSize.y > livePosition->y ||
+                    scratch.collision.boundsMax.y < livePosition->y)
                     continue;
             }
         }
