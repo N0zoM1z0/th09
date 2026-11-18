@@ -41,6 +41,14 @@ enum PlayerChargeFocusMode
     PLAYER_CHARGE_FROM_FOCUS_INPUT = 1
 };
 
+// Exact TH09 input samplers bind Z to bit 0 and Focus/Shift to bit 2.
+// These masks are independent from the configuration's 0/1 charge modes.
+enum PlayerChargeInputButton
+{
+    PLAYER_CHARGE_BUTTON_SHOOT = 0x0001,
+    PLAYER_CHARGE_BUTTON_FOCUS = 0x0004
+};
+
 
 // TH09's charge meter is measured in 100-point tiers. The retail owner
 // starts a release at 100, exposes progressively stronger attacks at
@@ -87,13 +95,13 @@ int PlayerLifecycleView::UpdateChargeAttack()
     ReplayInputState *input = &g_ReplayInputStates[side];
     // Both focus-mode tests and the post-charge test reread the real
     // two-byte configuration row, without caching the mode across calls.
-    if ((input->WasPressed(1) &&
+    if ((input->WasPressed(PLAYER_CHARGE_BUTTON_SHOOT) &&
          !(g_GameConfiguration->sideFocusMode[side] == PLAYER_CHARGE_FROM_FOCUS_INPUT &&
-           input->IsHeld(4))) ||
+           input->IsHeld(PLAYER_CHARGE_BUTTON_FOCUS))) ||
         ((modeSnapshot = g_GameConfiguration->sideFocusMode[side],
           sideMode = modeSnapshot, modeSnapshot == PLAYER_CHARGE_FROM_FOCUS_INPUT) &&
-         input->IsHeld(1) &&
-         !input->IsHeld(4)))
+         input->IsHeld(PLAYER_CHARGE_BUTTON_SHOOT) &&
+         !input->IsHeld(PLAYER_CHARGE_BUTTON_FOCUS)))
     {
         if (timer303B0 == 0)
         {
@@ -121,8 +129,8 @@ int PlayerLifecycleView::UpdateChargeAttack()
             goto afterCharge;
         }
     }
-    else if ((sideMode == PLAYER_CHARGE_FROM_FOCUS_INPUT && input->IsHeld(4)) ||
-             (sideMode == PLAYER_CHARGE_FROM_SHOT_INPUT && input->IsHeld(1)))
+    else if ((sideMode == PLAYER_CHARGE_FROM_FOCUS_INPUT && input->IsHeld(PLAYER_CHARGE_BUTTON_FOCUS)) ||
+             (sideMode == PLAYER_CHARGE_FROM_SHOT_INPUT && input->IsHeld(PLAYER_CHARGE_BUTTON_SHOOT)))
     {
         timer303BC++;
         if (timer303BC >= PLAYER_CHARGE_MIN_HOLD_FRAMES && flagBits1B80.chargeAttackActive02 == 0)
