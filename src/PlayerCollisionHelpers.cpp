@@ -83,7 +83,6 @@ int PlayerLifecycleView::CheckBulletCollision(
          offsetof(CollisionScratch, reward.velocity) == 36 &&
          offsetof(CollisionScratch, cursor.slot) == 48) ? 1 : -1];
     // Keep the native parameter/cursor homes observable across callbacks.
-    PlayerPositionView *volatile &livePosition = position;
     volatile CollisionScratch &liveScratch = scratch;
     float xDelta;
     float yDelta;
@@ -118,31 +117,7 @@ int PlayerLifecycleView::CheckBulletCollision(
                   region->radius08 * region->radius08))
                 goto next_region;
         }
-        else
-        {
-            goto rectangle_geometry;
-        }
-
-process_hit:
-        {
-            PlayerCollisionRegionCreateRegionView * volatile hitRegion = *slot;
-            const int hitType = hitRegion->type38;
-            if (hitType == PLAYER_REGION_BULLET_CANCEL_2)
-                goto cancel_hit;
-            if (hitType == PLAYER_REGION_BULLET_CANCEL_3)
-                goto cancel_hit;
-            hitRegion->hitCount2C = static_cast<int>(
-                static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
-            return 2;
-
-        cancel_hit:
-            if (currentBullet != NULL && currentBullet->bulletType == 0)
-                break;
-            goto cancel_next;
-        }
-
-rectangle_geometry:
-        if (region->angle20 != 0.0f)
+        else if (region->angle20 != 0.0f)
         {
             scratch.collision.delta.x = position->x - region->centerX00;
             scratch.collision.delta.y = position->y - region->centerY04;
@@ -151,12 +126,11 @@ rectangle_geometry:
                 -region->angle20);
             scratch.collision.halfSize.x = (*slot)->halfWidth10;
             scratch.collision.halfSize.y = (*slot)->halfHeight14;
-            if (-scratch.collision.halfSize.x <= scratch.collision.rotated.x &&
-                scratch.collision.rotated.x <= scratch.collision.halfSize.x &&
-                -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
-                scratch.collision.rotated.y <= scratch.collision.halfSize.y)
-                goto process_hit;
-            goto next_region;
+            if (-scratch.collision.halfSize.x > scratch.collision.rotated.x ||
+                scratch.collision.rotated.x > scratch.collision.halfSize.x ||
+                -scratch.collision.halfSize.y > scratch.collision.rotated.y ||
+                scratch.collision.rotated.y > scratch.collision.halfSize.y)
+                goto next_region;
         }
         else
         {
@@ -168,22 +142,40 @@ rectangle_geometry:
                 region->halfWidth10 + region->centerX00;
             scratch.collision.boundsMax.y =
                 region->halfHeight14 + region->centerY04;
-            if (!(scratch.collision.halfSize.x > position->x ||
-                  scratch.collision.boundsMax.x < position->x ||
-                  scratch.collision.halfSize.y > position->y ||
-                  scratch.collision.boundsMax.y < position->y))
-                goto process_hit;
-            goto next_region;
+            if (scratch.collision.halfSize.x > position->x ||
+                scratch.collision.boundsMax.x < position->x ||
+                scratch.collision.halfSize.y > position->y ||
+                scratch.collision.boundsMax.y < position->y)
+                goto next_region;
+        }
+
+        {
+            PlayerCollisionRegionCreateRegionView * volatile hitRegion = *slot;
+            const int hitType = hitRegion->type38;
+            if (hitType == PLAYER_REGION_BULLET_CANCEL_2)
+            {
+                if (currentBullet != NULL && currentBullet->bulletType == 0)
+                    break;
+                goto next_region;
+            }
+            if (hitType == PLAYER_REGION_BULLET_CANCEL_3)
+            {
+                if (currentBullet != NULL && currentBullet->bulletType == 0)
+                    break;
+                goto next_region;
+            }
+            hitRegion->hitCount2C = static_cast<int>(
+                static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
+            return 2;
         }
 
 next_region:
         ++slot;
-        continue;
-
-cancel_next:
-        ++slot;
     } while (true);
 
+    // The reward callbacks need the original position argument home only
+    // after the scan has selected its cancellation path.
+    PlayerPositionView *volatile &livePosition = position;
     // Cancellation leaves the region scan before creating the reward effect.
 {
         liveScratch.cursor.slot = slot;
