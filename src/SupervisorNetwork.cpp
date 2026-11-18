@@ -146,10 +146,11 @@ enum NetworkServiceLimits
 int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
     Supervisor *s = supervisor;
-    // Both frame and wait paths return one native service status value.
-    // The native frame-service return local is a plain i386 int. Keep the
-    // public enum for call-site meaning, but model the local ABI directly.
+    // Retail maintains independent frame-completion and wait/reset results.
+    // The frame result begins at zero; the waiting status is assigned by the
+    // session and timeout branches before reaching RETURN_STATE.
     int result = NETWORK_SERVICE_FRAME_READY;
+    int status;
     DWORD now;
 
     supervisor->EnterCriticalSectionWrapper(4);
@@ -211,7 +212,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         {
             if (s->networkTiming458.frameCounter != 0)
             {
-                result = NETWORK_SERVICE_RESET;
+                status = NETWORK_SERVICE_RESET;
                 goto RETURN_STATE;
             }
 
@@ -376,7 +377,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
         if (now - s->networkTiming458.frameStartTime > NETWORK_DISCONNECT_TIMEOUT_MS)
         {
-            result = NETWORK_SERVICE_RESET;
+            status = NETWORK_SERVICE_RESET;
             goto RETURN_STATE;
         }
 
@@ -386,14 +387,14 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             g_NetworkDisconnectedMessage);
 
     NETWORK_WAIT:
-        result = NETWORK_SERVICE_WAIT;
+        status = NETWORK_SERVICE_WAIT;
 
     RETURN_STATE:
         supervisor->LeaveCriticalSectionWrapper(4);
         if ((Controller::GetInput(2) & 2) != 0)
             return NETWORK_SERVICE_RESET;
         if (s->flagsLow5D4 >= 0 || SupervisorSubthreadIsRunning(supervisor))
-            return result;
+            return status;
         return NETWORK_SERVICE_STOP;
     }
 
