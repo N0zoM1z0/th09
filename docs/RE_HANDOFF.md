@@ -521,3 +521,20 @@ regressed; retain the 51-byte source. Screen shake receiver/timer aliases
 retained 26 differences or swapped ESI/EDI. Direct rotation expressions and
 volatile cosine were worse than the committed 62-byte/10-difference leaf.
 No baseline was changed.
+
+## 2026-11-18 GPT-web: title-result and network-boss follow-up
+
+- `TitleScreenView::OnUpdateResult` now takes the selected byte through the
+  native array element pointer. The cursor walk guarantees an index in
+  `[0, FullCharacterSlots)`. Focused result remains 484/485 bytes / 167 recorded
+  differences (`OK`); this improves natural C++ expression only, not binary
+  matching. Commit: `2f78701f`.
+- `Supervisor::UpdateNetworkService` current scratch-overlay source remains
+  `REGRESSED` at 1650/1633 bytes / 914 differences. Splitting the 20-byte
+  overlay into separate locals reached 1629 bytes but had 967 differences and
+  a new `+0x05` mismatch because the frame shrank to 0x10 rather than 0x14.
+  Shared timer, receiver aliases, and volatile scratch probes did not improve
+  it. Restore all trials; keep the baseline unchanged.
+- Enemy-update combined predicate and switch experiments were discarded; the
+  two-byte residual remains. `EtamaController::fsincos` remains the 36-byte
+  natural C++ implementation against the 33-byte x87 target; no ASM.

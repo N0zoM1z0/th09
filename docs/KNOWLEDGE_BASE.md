@@ -13675,3 +13675,36 @@ All rejected trials were restored; none changed a frontier baseline.
 - `RotatePlayerCollisionVector`: direct two-term expressions and a volatile
   cosine accumulator were worse than the committed 62-byte / 10-difference
   checkpoint. Retain the existing natural-C++ double-wrapper source.
+
+## 2026-11-18 GPT-web: result-character access and network-boss stack probes
+
+- `TitleScreenView::OnUpdateResult`: the selected character index is already
+  wrapped by the preceding cursor walk into the native 16-byte order table.
+  Replaced the fabricated integer-address calculation with
+  `&g_TitleResultCharacterOrder[keyboardSelection]`, retaining a real array
+  element pointer and the captured byte across the cursor callback. The
+  focused object remains 484/485 bytes with the same 167 recorded differing
+  positions (`OK`); this is a natural-C++ source cleanup, not a byte-match
+  improvement. Direct-value, register-index, register-byte and volatile-byte
+  alternatives changed code size or introduced new offsets and were discarded.
+- `Supervisor::UpdateNetworkService`: the current structured 20-byte scratch
+  overlay is 1650/1633 bytes with 914 raw differences, but the strict frontier
+  reports `REGRESSED` against the 1629-byte candidate baseline because of the
+  size increase and newly differing positions. A trial that split the
+  return-status, PopFrame and input/frame overlays into separate C++ locals
+  shrank the candidate to 1629 bytes and 967 differences, but still introduced
+  a new byte at `+0x05`: it emitted `sub esp, 0x10` instead of the target's
+  `sub esp, 0x14`. The 4-byte deficit is the optimized-away upper half of the
+  input/frame home. Hoisting the timeout `DWORD`, restoring a named
+  `Supervisor *` receiver, and a short-lived initial network-state alias did
+  not fix the frame/register allocation. Volatile return storage regressed to
+  919 differences; a volatile input-frame aggregate also failed compilation
+  at the packed input-word load because of discarded qualifiers. All these
+  experiments were restored. Do not change the baseline or claim exactness.
+- `EnemyManagerView::OnUpdate`: a combined side-category predicate did not
+  change the final EAX/ECX draw-group-index residual; a `switch` formulation
+  expanded the candidate to 463 differences. Both were discarded.
+- `EtamaController::fsincos`: the target helper is a 33-byte x87 `FSINCOS`
+  sequence, while the natural C++ `cosf`/`sinf` implementation remains 36
+  bytes / 25 recorded differences. No assembly or byte-emission substitute
+  was introduced.
