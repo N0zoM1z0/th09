@@ -409,7 +409,10 @@ int ReplayManagerView::RecordInputAndFps(ReplayManagerView *replayManager)
             memset(replayManager->fpsCursor, 0, ReplayRecordingCapacity::FpsStreamBytes);
         }
 
-        ++replayManager->frameCounter;
+        // Native Replay frame count is a 32-bit Win32 DWORD. Preserve
+        // the physical INC wrap rather than signed C++ overflow.
+        replayManager->frameCounter = static_cast<i32>(
+            static_cast<u32>(replayManager->frameCounter) + 1u);
     }
 
     return 1;
