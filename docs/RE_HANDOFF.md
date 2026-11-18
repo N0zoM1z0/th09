@@ -602,3 +602,20 @@ No baseline was changed.
   `REGRESSED` because the compiler schedules the shared hit dispatcher after
   the rectangle blocks instead of at target `+0x8E`. Separate cancellation
   retry and volatile region-pointer variants were worse. Source restored.
+
+## 2026-11-18 GPT-web: collision x87/dispatcher layout follow-up
+
+- Re-examined the live dirty collision source and ran only the focused
+  `player-bullet-collision` frontier plus target/candidate disassembly. The
+  48-byte geometry/reward union and separate cursor home are structurally
+  correct, but candidate stack lifetimes can shift the frame to 0x30/0x38.
+- A scoped volatile radius reference used in both the radius-zero test and
+  circle product reproduced target x87 load order; direct member and volatile
+  cast variants did not. Splitting type and positive-delay rejections can
+  restore the target `JG` sense and common cursor advance.
+- Main unresolved CFG mismatch: target lays out circle test, hit dispatcher,
+  then rectangle geometry at +0x5D/+0x8E/+0xBB. Compiler continues to place
+  rectangle geometry before the dispatcher. The best candidate in this pass
+  is still `REGRESSED` (848/862, 607 raw differences); no source candidate
+  retained. Canonical collision source restored. Continue with natural C++
+  basic-block shaping, not asm or padding.

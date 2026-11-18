@@ -13823,3 +13823,36 @@ All rejected trials were restored; none changed a frontier baseline.
   branch backward to it; the current compiler schedules that common block
   after rectangle tests. No tested C++ layout has yet forced the target order.
   All variants were restored.
+
+## 2026-11-18 GPT-web: collision dispatcher layout and x87 comparison pass
+
+- Revisited the live uncommitted `CheckBulletCollision` work rather than
+  silently discarding it. Its 48-byte geometry/reward overlay and separate
+  cursor home compile with the target's 0x34 frame when the source retains the
+  original bullet/position/cursor lifetimes. Other shapes can shrink the frame
+  to 0x30 or grow it to 0x38, so the stack objects must remain simultaneously
+  live across reward callbacks.
+- The circle predicate's operand evaluation matters. A scoped volatile
+  reference to `region->radius08` used in both the zero comparison and the
+  circle product produced `FLD [region+8]; FLD qword-zero; FUCOMPP`, matching
+  the target's x87 operand order. Direct `region->radius08 != 0.0`, a volatile
+  pointer cast, and a separate double-zero expression all reversed the loads.
+- The target's scan filter sends invalid type and positive delay entries to
+  the same outer `+0x1AE` cursor increment. A combined
+  `(type==1 || type==2 || type==3) && delay<=0` source form instead emits a
+  local increment and the opposite `JLE` sense. Splitting the invalid-type
+  and `delay>0` rejections into explicit gotos to the common increment restores
+  the `JG` sense, though the current block placement still differs.
+- Target order is circle test at `+0x5D`, shared type/cancel dispatcher at
+  `+0x8E`, and zero-radius rotated/AABB geometry beginning at `+0xBB`.
+  The current compiler repeatedly schedules the zero-radius geometry at
+  `+0x8E` and moves the dispatcher after it (`+0x178` or later), adding an
+  unconditional branch after the circle check. Explicit C++ if/else, labels,
+  positive/negative hit predicates, and two-/three-loop layouts did not yet
+  make the compiler keep the target order.
+- The best exploratory raw mismatch count in this pass was 607/705, but the
+  function grew to 848/862 and strict frontier remained `REGRESSED`. The
+  explicit-if/else variant was 835/862 and 699-710 differences depending on
+  bullet parameter lifetime. All are rejected; no frontier baseline changed.
+  Canonical `PlayerCollisionHelpers.cpp` restored to HEAD after preserving
+  these observations.
