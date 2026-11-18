@@ -56,7 +56,7 @@ for exact residual offsets, profiles, sizes and target hashes.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| `SupervisorServiceUpdate` (`SupervisorNetwork.cpp`) | 0x00430AA0 | 1,629 / 1,633 bytes; 966 residual positions | Large host/network state-machine CFG, call order, stack homes and receiver lifetimes |
+| `Supervisor::UpdateNetworkService` (`SupervisorNetwork.cpp`) | 0x00430AA0 | 1,629 / 1,633 bytes; 966 residual positions | Large host/network state-machine CFG, call order, stack homes and receiver lifetimes |
 | `CheckBulletCollision` (`PlayerCollisionHelpers.cpp`) | 0x0041DFF0 | 842 / 862 bytes; 705 residual positions | Three nested retry levels, geometry/hit dispatch, cursor lifetime and native block order |
 | `UpdateChargeAttack` (`PlayerChargeAttackUpdate.cpp`) | 0x0041F810 | 1,210 / 1,210 bytes; 183 residual positions | Native 32-bit side-index vs current 16-bit local; EDI/EBX input-pointer lifetime |
 | `OnUpdateResult` (`TitleScreen.cpp`) | 0x004266B5 | 484 / 485 bytes; 167 residual positions | Result-state branches and selected-character load/call/store lifetime |
@@ -229,8 +229,11 @@ compiler roulette or a widened frontier to manufacture progress.
 
 ## Next investigations
 
-1. **Large boss — `SupervisorServiceUpdate`:** continue from the original
-   `0x00430AA0` body and current `src/SupervisorNetwork.cpp`. Commits
+1. **Large boss — `Supervisor::UpdateNetworkService`:** continue from the
+   original `0x00430AA0` body and current `src/SupervisorNetwork.cpp`. This is
+   a reconstruction-facing member name: IDA identifies a `__thiscall` receiver
+   and the sole caller is `Supervisor::OnUpdate`; the original spelling is
+   unknown. Commits
    `8eb542ff`, `95006098`, `7394f9a5` and `67071267` already separate frame
    result from wait/reset status, restore synchronized-frame-first dispatch,
    recover the counted prefill loop, and make join retry / packet wait gates

@@ -51,7 +51,7 @@ int Supervisor::OnUpdate(Supervisor *app)
     {
         for (;;)
         {
-            switch (SupervisorServiceUpdate(app))
+            switch (app->UpdateNetworkService())
             {
             case NETWORK_SERVICE_RETRY_FRAME:
                 continue;

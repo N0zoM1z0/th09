@@ -13240,3 +13240,23 @@ callback and `SupervisorServiceUpdate`. Both complete pinned VC7.1 owners
 remain byte-identical: 17 bytes for `GetRemotePeerId` and 95 bytes for
 `SendPacket`, with no relocation fields. The pointer local in `SendPacket`
 remains intact, preserving the original null check and delayed peer-ID load.
+
+## 2026-11-18 GPT-web: restore Supervisor ownership of the network service boss
+
+The 1,633-byte service at `0x00430AA0` is now expressed as the natural
+`Supervisor::UpdateNetworkService()` member rather than a free fastcall helper
+that accepts an explicit `Supervisor *`. IDA's function prototype identifies
+a `__thiscall` receiver, and the sole caller is `Supervisor::OnUpdate`, which
+passes the same Supervisor object in ECX. `SupervisorNetworkService.hpp` now
+retains only the shared result protocol; `Supervisor::OnUpdate` invokes the
+service through its actual receiver. The chosen method name is a reconstruction
+alias, not a claim about the original source identifier.
+
+This ownership correction preserves the complete `Supervisor::OnUpdate`
+`.text` section byte-for-byte: all 996 comparison bytes match the prior free
+function caller. Both call relocations still resolve to `0x00430AA0`; 40
+compiler-private local-label spellings were rebound only after their COFF
+section offsets were proven identical to the baseline. The exact OnUpdate
+unit still passes all 844 code bytes and 92 relocations. The network-service
+boss itself remains at 1,629/1,633 bytes with 966 residual positions; this
+commit improves native C++ ownership, not its byte-match score.

@@ -12,5 +12,3 @@ enum SupervisorNetworkServiceResult
     NETWORK_SERVICE_RESET = 3,
     NETWORK_SERVICE_STOP = 4
 };
-
-int __fastcall SupervisorServiceUpdate(Supervisor *supervisor);

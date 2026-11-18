@@ -130,10 +130,10 @@ target_sha256 = "d0201b3aae3727f7aa773187ac9ac6d21727c86342b657c780cb9353cdc39ed
 residual = ["185", "18B", "193", "19D-19E", "1A0-1A1", "1B6", "1BC", "1D3", "24A", "25A", "25C", "271-272", "29D", "2A3", "2C6", "2D7", "2F0", "2F5", "2FD", "304", "308", "316", "319", "31C", "31E", "321"]
 
 [frontier.supervisor-network-service]
-function = "SupervisorServiceUpdate"
+function = "Supervisor::UpdateNetworkService"
 source = "src/SupervisorNetwork.cpp"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-symbol = "?SupervisorServiceUpdate@@YIHPAVSupervisor@@@Z"
+symbol = "?UpdateNetworkService@Supervisor@@QAEHXZ"
 address = 0x00430AA0
 size = 1633
 candidate_size = 1629

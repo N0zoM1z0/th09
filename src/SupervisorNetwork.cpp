@@ -143,9 +143,9 @@ enum NetworkServiceLimits
     NETWORK_PREFILL_FRAME_OFFSET = 9998
 };
 
-int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
+int Supervisor::UpdateNetworkService()
 {
-    Supervisor *s = supervisor;
+    Supervisor *s = this;
     // Retail maintains independent frame-completion and wait/reset results.
     // The frame result begins at zero; the waiting status is assigned by the
     // session and timeout branches before reaching RETURN_STATE.
@@ -153,7 +153,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
     int status;
     DWORD now;
 
-    supervisor->EnterCriticalSectionWrapper(4);
+    this->EnterCriticalSectionWrapper(4);
 
     // The initial state/join decisions use the same network object, before
     // the connection callbacks independently reload their live receiver.
@@ -291,7 +291,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 {
                 WAIT_FOR_FRAME:
                     result = NETWORK_SERVICE_RETRY_FRAME;
-                    supervisor->LeaveCriticalSectionWrapper(4);
+                    this->LeaveCriticalSectionWrapper(4);
                     return result;
                 }
                 g_NetworkFramePacket.words.input =
@@ -385,10 +385,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         status = NETWORK_SERVICE_WAIT;
 
     RETURN_STATE:
-        supervisor->LeaveCriticalSectionWrapper(4);
+        this->LeaveCriticalSectionWrapper(4);
         if ((Controller::GetInput(2) & 2) != 0)
             return NETWORK_SERVICE_RESET;
-        if (s->flagsLow5D4 >= 0 || SupervisorSubthreadIsRunning(supervisor))
+        if (s->flagsLow5D4 >= 0 || SupervisorSubthreadIsRunning(this))
             return status;
         return NETWORK_SERVICE_STOP;
     }
@@ -406,7 +406,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         ApplyNetworkInput(0, static_cast<unsigned short>(inputs.packed));
         ApplyNetworkInput(1, inputs.side1);
         ApplyNetworkInput(2, inputs.side0 | inputs.side1);
-        supervisor->LeaveCriticalSectionWrapper(4);
+        this->LeaveCriticalSectionWrapper(4);
         return result;
     }
 }

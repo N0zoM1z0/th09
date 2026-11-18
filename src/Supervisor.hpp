@@ -83,6 +83,7 @@ class Supervisor
     Supervisor();
     static int OnUpdate(Supervisor *supervisor);
     static int AddedCallback(Supervisor *supervisor);
+    int UpdateNetworkService();
     static void StartupThread(Supervisor *unused);
     void TickTimer(int *current, float *subFrame);
     // The score.dat timekeepers operate on this same native Supervisor.
