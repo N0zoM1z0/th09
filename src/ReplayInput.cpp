@@ -627,7 +627,7 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     replayManager->inputCursors[1] = reinterpret_cast<u16 *>(frame1 + 1);
     replayManager->inputCursors[2] = reinterpret_cast<u16 *>(frame2 + 1);
     replayManager->fpsCursor = fpsStart;
-    *game.configurationE8 = replayManager->replayData->configSnapshot;
+    memcpy(game.configurationE8, reinterpret_cast<const u8 *>(replayManager->replayData) + offsetof(ReplayDataView, configSnapshot), sizeof(GameConfiguration));
     g_ReplayRng.SetSeed(frame0->stageSeed);
     replayManager->inputDelay = 0;
     return 0;
