@@ -13388,3 +13388,19 @@ Both were restored. The committed 20-byte `NetworkServiceStackScratch`
 variant remains the best network boss checkpoint at 914 differing positions;
 its frame layout is correct, but its register schedule and 17-byte size excess
 remain unresolved. No frontier baseline was changed.
+
+
+## 2026-11-18 GPT-web: collision scan control-flow recovery
+
+`PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` now has a focused
+natural-C++ nested scan variant that reduces the frontier from 705 to 610
+differing positions. The owner is 848 bytes versus the 862-byte retail body.
+The outer loop retains the cancellation/reward exit, the inner scan skips
+inactive region kinds and delayed regions, and the shared hit tail increments
+direct-hit regions or handles bullet cancellation. The rotated-box path reloads
+its region dimensions through the live slot after `RotatePlayerCollisionVector`,
+matching retail's post-callback pointer reload rather than extending the region
+pointer's lifetime across the call. The cursor and 20-byte `CollisionScratch`
+layout remain unchanged. This is a substantial but non-exact intermediate:
+do not rebaseline. Continue with the null-return tail, region-filter branches,
+x87 comparison flags, and register allocation before accepting the owner.
