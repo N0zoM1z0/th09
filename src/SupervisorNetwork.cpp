@@ -119,6 +119,23 @@ enum NetworkWireMessageKind
     NETWORK_MESSAGE_HANDSHAKE = 2
 };
 
+// timeGetTime is measured in milliseconds; these bounds come from the
+// original host/join state machine rather than from a new retry policy.
+// The prefill begins at the signed frame index -9998 and uses the matching
+// positive offset to count through the native frame queue history.
+enum NetworkServiceLimits
+{
+    NETWORK_HOST_POLL_MS = 100,
+    NETWORK_PEER_JITTER_MS = 4000,
+    NETWORK_JOIN_RETRY_MS = 4000,
+    NETWORK_PEER_RETRY_MS = 6000,
+    NETWORK_FRAME_WAIT_MS = 20000,
+    NETWORK_DISCONNECT_TIMEOUT_MS = 60000,
+    NETWORK_FRAMES_PER_SECOND = 60,
+    NETWORK_PREFILL_START_FRAME = -9998,
+    NETWORK_PREFILL_FRAME_OFFSET = 9998
+};
+
 int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
     Supervisor *s = supervisor;
@@ -151,7 +168,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         else
         {
         HOST_SESSION:
-            Sleep(100);
+            Sleep(NETWORK_HOST_POLL_MS);
             g_SupervisorNetworkState->localSide = 0;
             g_SupervisorNetworkState->CreateDeviceAddress();
             g_SupervisorNetworkState->HostSession();
@@ -171,7 +188,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             s->networkConnectStartTime588 = now;
 
         if (now - s->networkConnectStartTime588 <
-                g_ReplayRng.GetRandomU32InRange(4000) + 4000 ||
+                g_ReplayRng.GetRandomU32InRange(NETWORK_PEER_JITTER_MS) + NETWORK_JOIN_RETRY_MS ||
             g_SupervisorNetworkState->joinMode == 1)
         {
             goto NETWORK_WAIT;
@@ -197,7 +214,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 s->networkTiming458.connectionTime = now;
 
             if (now - s->networkTiming458.connectionTime >
-                g_ReplayRng.GetRandomU32InRange(4000) + 6000)
+                g_ReplayRng.GetRandomU32InRange(NETWORK_PEER_JITTER_MS) + NETWORK_PEER_RETRY_MS)
             {
                 g_SupervisorNetworkState->ResetSession();
                 g_SupervisorNetworkState->connectionState = NETWORK_SESSION_IDLE;
@@ -218,7 +235,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         unsigned int frame = s->networkTiming458.frameCounter;
 
         if (frame != 0 &&
-            frame % (60 / g_SupervisorNetworkState->syncRate) != 0)
+            frame % (NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate) != 0)
         {
             // The first predicted frame uses the captured network receiver,
             // but reads its side after the seed callback has finished.
@@ -245,9 +262,9 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 if (frameNetwork->initialFramesQueued == 0)
                 {
                     if (frameNetwork->localSide == 0 &&
-                        60 / frameNetwork->syncRate - 1 > 0)
+                        NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1 > 0)
                     {
-                        unsigned int queuedFrame = static_cast<unsigned int>(-9998);
+                        unsigned int queuedFrame = static_cast<unsigned int>(NETWORK_PREFILL_START_FRAME);
                         do
                         {
                             g_Supervisor.InsertReceivedFrame(
@@ -258,8 +275,8 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                                 static_cast<short>(g_ReplayRng.GetSeed()));
                         // The original i386 loop adds 9998 as a DWORD and
                         // performs a signed comparison on that wrapped sum.
-                        } while (static_cast<int>(queuedFrame + 9998u) <
-                                 60 / frameNetwork->syncRate - 1);
+                        } while (static_cast<int>(queuedFrame + static_cast<unsigned int>(NETWORK_PREFILL_FRAME_OFFSET)) <
+                                 NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1);
                     }
 
                     frameNetwork->packetReady = 0;
@@ -311,7 +328,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             // The packet's signed frame field is serialized from a native
             // DWORD sum; preserve the same wraparound at the boundary.
             g_NetworkFramePacket.frame = static_cast<int>(
-                static_cast<unsigned int>(60 / g_SupervisorNetworkState->syncRate) +
+                static_cast<unsigned int>(NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate) +
                 static_cast<unsigned int>(s->networkTiming458.frameCounter) - 1u);
             g_NetworkFramePacket.seed =
                 g_ReplayRng.GetSeed();
@@ -347,10 +364,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         if (now < s->networkTiming458.frameStartTime)
             s->networkTiming458.frameStartTime = now;
 
-        if (now - s->networkTiming458.frameStartTime <= 20000)
+        if (now - s->networkTiming458.frameStartTime <= NETWORK_FRAME_WAIT_MS)
             goto WAIT_FOR_FRAME;
 
-        if (now - s->networkTiming458.frameStartTime > 60000)
+        if (now - s->networkTiming458.frameStartTime > NETWORK_DISCONNECT_TIMEOUT_MS)
         {
             result = NETWORK_SERVICE_RESET;
             goto RETURN_STATE;
