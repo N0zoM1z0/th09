@@ -13338,3 +13338,53 @@ reached 612 differing positions from the 705-position baseline, but created
 reward block. All collision experiments were restored. The next viable
 attack is the native three-loop continue/break structure with the shared
 reward/direct-hit tail, not the rejected early-return variant.
+
+
+## 2026-11-18 GPT-web: near-exact leaf register-lifetime probes
+
+The following focused C++ lifetime experiments were compiled against their
+individual frontiers and restored because they did not improve the measured
+owner. They are useful negative results; do not reintroduce them as fixes.
+
+- `PlayerLifecycleView::UpdateMovementAndOptions @ 0x0041C170` remains
+  1900/1900 bytes with one four-byte residual at `+0x126`. Retail loads
+  `g_GameConfiguration` into ECX before loading `player->sideIndex` into EAX;
+  VC7.1 emits those independent reads in the opposite order. Reordering the
+  local declarations, adding `register`, using the direct array expression,
+  a volatile global-pointer read, and a byte-offset focus-mode view all kept
+  the same residual or disturbed the rest of the function. Keep the original
+  two-local form until a source-level sequencing explanation is found.
+- `EffectManager::AddedCallback @ 0x0040D1E0` remains 51/51 bytes with four
+  residual positions. The two remaining differences are the global ANM
+  receiver/context register order at `+2` and the corresponding receiver move
+  at `+0x0C`. Reversing helper parameter order, returning the loaded ANM,
+  passing an output pointer, inlining the resolver, and changing local
+  declaration/assignment order did not improve the owner. Restore the existing
+  helper form.
+- `ScreenEffect::CalcShakeEnvelope @ 0x004227A0` remains 336/336 bytes with
+  26 residual positions. The current candidate consistently allocates the
+  callback pointer to ESI and the timer subobject to EDI, opposite retail's
+  EDI/ESI assignment. Register callback parameters, pointer/reference timer
+  aliases, and a typed envelope subobject did not solve this; the timer alias
+  variants expanded the function to 337 bytes and 242 differences. Keep the
+  committed source and pursue the lifetime of the timer receiver rather than
+  adding more aliases.
+- `ReplayManagerView::SaveReplay` remains 1238/1238 bytes with two residual
+  positions at `+0xB6/+0xB9`: retail loads the temporary destination base into
+  EDI before the LEA, while the candidate uses ECX as the temporary. A
+  function-scope register destination and an explicit `memcpy` intrinsic
+  both retained the same two residuals; the POD record assignment remains the
+  clearer source form.
+- `TitleScreenView::DrawReplayMenu` remains 1280/1280 bytes with 29 residual
+  positions. Swapping the selected-index and replay-reference declarations
+  moved the local stack homes and expanded the frontier to 694 differences;
+  that experiment was restored. The original declaration order is retained.
+
+A network receiver-lifetime trial that kept a local `SupervisorNetworkState`
+pointer across the idle/search/host branches changed the first receiver to
+EBX rather than the target EDI and expanded the frontier to 923 differences.
+Adding a local `timeGetTime` import pointer expanded it to 950 differences.
+Both were restored. The committed 20-byte `NetworkServiceStackScratch`
+variant remains the best network boss checkpoint at 914 differing positions;
+its frame layout is correct, but its register schedule and 17-byte size excess
+remain unresolved. No frontier baseline was changed.

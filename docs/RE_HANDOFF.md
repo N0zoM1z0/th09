@@ -335,3 +335,19 @@ versus 1633 target bytes); do not rebaseline. The collision nested-loop
 experiment remains rejected (612 total differences but 93 new positions).
 Continue with the two large owners and near-exact leaves; keep the natural C++
 stack overlay and commit after focused verification.
+
+
+## 2026-11-18 GPT-web follow-up checkpoint
+
+The near-exact leaves were probed again after the network stack overlay commit.
+No speculative register alias was retained: PlayerMovement still has one
+four-byte config/side load-order residual; AddedCallback has two register
+setup differences; CalcShakeEnvelope has the ESI/EDI timer-receiver swap;
+SaveReplay has the two destination-base register differences; and the replay
+menu declaration reorder was a large regression. The detailed variants and
+measured results are in `docs/KNOWLEDGE_BASE.md`. All rejected source trials
+were restored. The best source state remains HEAD `107ff7b1` with the verified
+20-byte network stack overlay (914 differing positions) and playback-stage
+lifetime union (13 residual positions). Continue with the network boss CFG /
+register lifetimes and the large collision/charge owners; run only the
+frontiers involved in each source change.
