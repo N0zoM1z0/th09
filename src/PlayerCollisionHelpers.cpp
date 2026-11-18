@@ -105,48 +105,21 @@ int PlayerLifecycleView::CheckBulletCollision(
         {
             xDelta = livePosition->x - region->centerX00;
             yDelta = livePosition->y - region->centerY04;
-            if (xDelta * xDelta + yDelta * yDelta <
-                region->radius08 * region->radius08)
-                goto hit;
-            continue;
+            if (!(xDelta * xDelta + yDelta * yDelta <
+                region->radius08 * region->radius08))
+                continue;
         }
-
-        if (region->angle20 != 0.0f)
+        else
         {
-            scratch.collision.delta.x = livePosition->x - region->centerX00;
-            scratch.collision.delta.y = livePosition->y - region->centerY04;
-            RotatePlayerCollisionVector(
-                &scratch.collision.rotated, &scratch.collision.delta, -region->angle20);
-
-            scratch.collision.halfSize.x = (*slot)->halfWidth10;
-            scratch.collision.halfSize.y = (*slot)->halfHeight14;
-            if (-scratch.collision.halfSize.x <= scratch.collision.rotated.x &&
-                scratch.collision.rotated.x <= scratch.collision.halfSize.x &&
-                -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
-                scratch.collision.rotated.y <= scratch.collision.halfSize.y)
-                goto hit;
-            continue;
+            // Circle hits enter the shared dispatcher below. Zero-radius
+            // shapes must first test their orientation and bounds.
+            goto noncircular_region;
         }
 
-        scratch.collision.halfSize.x = region->centerX00 - region->halfWidth10;
-        scratch.collision.halfSize.y = region->centerY04 - region->halfHeight14;
-        scratch.collision.boundsMax.x = region->halfWidth10 + region->centerX00;
-        scratch.collision.boundsMax.y = region->halfHeight14 + region->centerY04;
-
-        if (!(scratch.collision.halfSize.x > livePosition->x))
-        {
-            if (!(scratch.collision.boundsMax.x < livePosition->x))
-            {
-                if (!(scratch.collision.halfSize.y > livePosition->y))
-                {
-                    if (!(scratch.collision.boundsMax.y < livePosition->y))
-                        goto hit;
-                }
-            }
-        }
-        continue;
-
+    // The original control flow joins all three geometry paths at one
+    // hit/cancellation dispatcher, ahead of the rectangle-test blocks.
 hit:
+    {
         if ((*slot)->type38 == 2)
             goto cancel_hit;
         if ((*slot)->type38 == 3)
@@ -221,6 +194,44 @@ hit:
             static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
         return 2;
 
+
+    }
+
+noncircular_region:
+        if (region->angle20 != 0.0f)
+        {
+            scratch.collision.delta.x = livePosition->x - region->centerX00;
+            scratch.collision.delta.y = livePosition->y - region->centerY04;
+            RotatePlayerCollisionVector(
+                &scratch.collision.rotated, &scratch.collision.delta, -region->angle20);
+
+            scratch.collision.halfSize.x = (*slot)->halfWidth10;
+            scratch.collision.halfSize.y = (*slot)->halfHeight14;
+            if (-scratch.collision.halfSize.x <= scratch.collision.rotated.x &&
+                scratch.collision.rotated.x <= scratch.collision.halfSize.x &&
+                -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
+                scratch.collision.rotated.y <= scratch.collision.halfSize.y)
+                goto hit;
+            continue;
+        }
+
+        scratch.collision.halfSize.x = region->centerX00 - region->halfWidth10;
+        scratch.collision.halfSize.y = region->centerY04 - region->halfHeight14;
+        scratch.collision.boundsMax.x = region->halfWidth10 + region->centerX00;
+        scratch.collision.boundsMax.y = region->halfHeight14 + region->centerY04;
+
+        if (!(scratch.collision.halfSize.x > livePosition->x))
+        {
+            if (!(scratch.collision.boundsMax.x < livePosition->x))
+            {
+                if (!(scratch.collision.halfSize.y > livePosition->y))
+                {
+                    if (!(scratch.collision.boundsMax.y < livePosition->y))
+                        goto hit;
+                }
+            }
+        }
+        continue;
 
     }
 }
