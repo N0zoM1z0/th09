@@ -81,9 +81,12 @@ inline assembly or an old exact claim.
   `NetworkPopFrameScratch`. The prefill at `0x00430E66`/`0x00430E77` writes
   two seeds at frame offsets 0/2 and prediction at 4; the final frame at
   `0x0043108B`/`0x004310AC` reverses this to prediction at 0 and seeds at 4/6.
-  All three typed union views have compile-time offset assertions. The final
-  frame still uses independent scalar locals pending VC7.1 lifetime recovery.
-  Its complete frontier remains 1,629/1,633 bytes, 966 residual positions;
+  All three typed union views have compile-time offset assertions. Commit
+  `719acb53` also recovers the final frame's two consecutive 16-bit input
+  results as a typed `NetworkFrameInputPair` with offsets 0/2 and size 4;
+  the seed/prediction output pointers remain independent scalars pending
+  VC7.1 lifetime recovery. The complete frontier remains 1,629/1,633 bytes,
+  966 residual positions;
   a shared function-scope output-object probe changed the local-frame size
   without yielding a ratchetable improvement. Common epilogue and global
   receiver-reload experiments also regressed; do not promote them on partial
@@ -104,14 +107,22 @@ inline assembly or an old exact claim.
   `8db39334` assert the true 514-entry `activeB100` extent. Commits
   `8613e62f` and `1bc46c9b` replace opaque collision/reward stack prefixes
   with typed 52-byte vector/cursor overlays (reward vectors at offsets 24/36,
-  cursor pointer at 48) and spell out the original null-region return within
-  the retry loop. The maintained 842/862-byte, 705-difference frontier is
-  unchanged. Its five exact same-source functions pass a focused replay over
-  1,220 physical bytes and 32 relocation fields. Target evidence carries
+  cursor pointer at 48) and spell out the original null-region return.
+  Commits `aa841a4e` and `aa59e47b` restore a distinct inner type/delay
+  retry and place the shared hit/cancel C++ dispatcher between the circle and
+  rectangle paths, mirroring the target's logical joins without ASM or fake
+  code. VC7.1 still emits the maintained 842/862-byte, 705-difference body.
+  Its five exact same-source functions pass a focused replay over 1,220
+  physical bytes and 32 relocation fields. Target evidence carries
   Player in EDI, Bullet in EBX, the cursor in ESI, and region in ECX; the
   cursor home precedes the first region dereference. A complete three-nested-
   loop rewrite and a reordered rectangle branch fixed some bytes but also
-  introduced new differences; neither is an accepted carrier.
+  introduced new differences. The best angle-branch ordering probe reached
+  845/862 bytes and 477 residual positions, but introduced 28 new positions
+  (notably `+0xC9..+0xCD`, `+0x11A..+0x11C`, `+0x1B6..+0x1BF`); the original
+  target executes rotated-rectangle geometry before AABB geometry and joins
+  circle hits at the same dispatcher. Do not promote the diagnostic probe or
+  widen the frontier based solely on its lower total mismatch count.
 - **Player charge:** the current `short side` and volatile mode snapshot are
   not claimed as final semantics. Widening/removing the side local, direct
   indexing and pointer/reference alternatives regressed the complete owner
