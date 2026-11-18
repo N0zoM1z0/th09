@@ -13802,3 +13802,24 @@ All rejected trials were restored; none changed a frontier baseline.
   did not alter the x87 operand ordering or remove the extra stack pop.
 - All unsuccessful source probes were restored. No ASM, padding, or frontier
   baseline changes were used.
+
+### Follow-up nested collision variants (same 2026-11-18 session)
+
+- A second pass rebuilt the collision boss from the historical early-dispatch
+  reward path but used the 48-byte scratch + 4-byte cursor-home overlay and
+  the target's three nested scan loops. Variant 37 compiled to exactly the
+  target's 862-byte extent and 640 raw differences, but was still
+  `REGRESSED`: it introduced new offsets. Its prologue matched, but the
+  compiler put the rectangle blocks between the circle check and the shared
+  hit dispatcher.
+- Separating cancellation rejection into its own inline `++slot; continue;`
+  (variant 38) expanded the candidate to 877 bytes / 661 differences. Making
+  the position pointer nonvolatile (variant 39) produced 848 bytes / 569
+  differences, but the shared dispatcher still landed after rectangle code.
+  Making the region-pointer dereference volatile (variant 40) produced 858
+  bytes / 613 differences and did not restore the dispatcher placement.
+- These results narrow the remaining issue: the native shared dispatcher is
+  a fallthrough immediately after the circle x87 test, while rectangle paths
+  branch backward to it; the current compiler schedules that common block
+  after rectangle tests. No tested C++ layout has yet forced the target order.
+  All variants were restored.

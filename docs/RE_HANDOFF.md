@@ -595,3 +595,10 @@ No baseline was changed.
   session. Documentation validation passed. Continue from `4738abd3` and keep
   `gpt-web: ...` commit subjects; run only touched frontiers, never full cold
   replay unless specifically needed.
+
+- Additional collision-loop experiments after `4738abd3`: the 48+4 stack
+  overlay and three nested loops compiled at 862 bytes / 640 differences;
+  a nonvolatile position-pointer variant reached 848 / 569. Both remain
+  `REGRESSED` because the compiler schedules the shared hit dispatcher after
+  the rectangle blocks instead of at target `+0x8E`. Separate cancellation
+  retry and volatile region-pointer variants were worse. Source restored.
