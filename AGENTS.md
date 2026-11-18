@@ -147,10 +147,16 @@ rebuild from maintained source when needed. Exactness comes from reproducible
 complete comparison, not historical file accumulation.
 
 Preserve dirty/untracked operator work, targets, toolchains, game-specific
-prefixes and analyzer projects. `.analysis/` mixes protected Ghidra state and
-disposable output; identify those inputs before deleting scratch. Builds belong
-under `build/`, scratch under `.analysis/`, downloaded tools under `.tools/`.
-`build/` may be absent after cleanup; recreate selected objects before comparing.
+prefixes and saved analyzer project roots. `.analysis/` mixes protected Ghidra
+state and disposable output; identify those inputs before deleting scratch.
+For this TH09 tree, the active Ghidra project, the two C2 project roots and the
+small C2 compiler context named in `docs/RE_HANDOFF.md` are retained inputs.
+Per-variant `c2-analysis/probe*` project copies, one-shot analysis exports,
+replay JSON snapshots and generated compiler objects are disposable once their
+useful conclusions are recorded. Builds belong under `build/`, scratch under
+`.analysis/`, downloaded tools under `.tools/`. `build/` may be absent after
+cleanup; recreate selected objects before comparing. Do not use `git clean -fdx`
+against this repository because it also matches protected ignored inputs.
 
 Use fluent English for repository documentation. Lead with the finding, identify
 the applicable target/compiler/scope, and explain a real uncertainty once when
