@@ -563,3 +563,35 @@ No baseline was changed.
   EDX/ESI swap also remains unresolved and its probes were restored.
 - Worktree should be clean at `c2431adc`; continue from this checkpoint and
   keep the `gpt-web: ...` commit subject format.
+
+## 2026-11-18 GPT-web: collision layout and replay/charge register probes
+
+- New checkpoint `4738abd3 gpt-web: map collision boss scratch and retry flow`
+  records the full target `CheckBulletCollision` stack/CFG findings in the
+  knowledge base. Do not treat the temporary 832-byte / 435-difference
+  collision candidate as accepted: it introduced new offsets and was restored.
+- Collision target frame: 0x34 local bytes, with a 48-byte geometry/reward
+  overlay and a separate cursor home at `[ebp-4]`. Target registers: EBX bullet,
+  ESI cursor, EDI owner. Target's two retry paths and shared hit dispatcher are
+  described in `docs/KNOWLEDGE_BASE.md`.
+- Remaining collision task: find a natural C++ source shape that keeps the
+  circle check's x87 condition branch (`test ah,0x41` / `jne next`) and places
+  the shared hit dispatcher at target `+0x8E`, before rectangle blocks. Current
+  compiler layout moves the dispatcher after rectangle tests. No asm/padding.
+- Replay playback: attempts to widen/promote the `value1E8` byte, reverse
+  register-local declaration order, or force a volatile stack home did not
+  resolve the target EDX-byte / ESI-runtime-pointer allocation. Restore
+  `src/ReplayInput.cpp` to HEAD.
+- Charge boss: side-index and input-pointer register hints/aggregate/volatile
+  variants still fail to put the side in EDI and input pointer in EBX. Restore
+  `src/PlayerChargeAttackUpdate.cpp` to HEAD.
+- Enemy boss: byte register local and explicit DWORD address arithmetic do
+  not change the EAX/ECX two-instruction residual. Restore
+  `src/EnemyManagerCore.inl` to HEAD.
+- Title result and collision rotation: direct character-array/volatile-local
+  and distinct/mutable cosine variants were non-improving; restore both files
+  to HEAD.
+- All experimental source files are restored. Only docs changed in this
+  session. Documentation validation passed. Continue from `4738abd3` and keep
+  `gpt-web: ...` commit subjects; run only touched frontiers, never full cold
+  replay unless specifically needed.
