@@ -117,8 +117,14 @@ int PlayerLifecycleView::CheckBulletCollision(
             if (!(xDelta * xDelta + yDelta * yDelta <
                   region->radius08 * region->radius08))
                 goto next_region;
+        }
+        else
+        {
+            goto rectangle_geometry;
+        }
 
-hit:
+process_hit:
+        {
             PlayerCollisionRegionCreateRegionView * volatile hitRegion = *slot;
             const int hitType = hitRegion->type38;
             if (hitType == PLAYER_REGION_BULLET_CANCEL_2)
@@ -129,12 +135,14 @@ hit:
                 static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
             return 2;
 
-cancel_hit:
+        cancel_hit:
             if (currentBullet != NULL && currentBullet->bulletType == 0)
                 break;
             goto cancel_next;
         }
-        else if (region->angle20 != 0.0f)
+
+rectangle_geometry:
+        if (region->angle20 != 0.0f)
         {
             scratch.collision.delta.x = position->x - region->centerX00;
             scratch.collision.delta.y = position->y - region->centerY04;
@@ -147,7 +155,7 @@ cancel_hit:
                 scratch.collision.rotated.x <= scratch.collision.halfSize.x &&
                 -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
                 scratch.collision.rotated.y <= scratch.collision.halfSize.y)
-                goto hit;
+                goto process_hit;
             goto next_region;
         }
         else
@@ -164,7 +172,7 @@ cancel_hit:
                   scratch.collision.boundsMax.x < position->x ||
                   scratch.collision.halfSize.y > position->y ||
                   scratch.collision.boundsMax.y < position->y))
-                goto hit;
+                goto process_hit;
             goto next_region;
         }
 
