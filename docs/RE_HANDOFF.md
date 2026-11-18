@@ -116,9 +116,13 @@ inline assembly or an old exact claim.
   not an exactness claim.
 - **Enemy draw heads:** commit `09660746` removed the one-use synthetic
   draw-head helper. Both append sites use typed pointer arithmetic on the
-  real four-entry `drawGroupHeads2AC410` array. The 3,900-byte Enemy manager
-  boss remains at two residual bytes; do not reintroduce assembly, byte
-  offsets or padding to force EAX allocation.
+  real four-entry `drawGroupHeads2AC410` array. Commit `bcdc5040` restores
+  the actual EnemyView object at the common draw-chain append as a C++
+  reference, after a direct pointer-elimination experiment changed a private
+  `CompareOperands` relocation label. The maintained reference passes the
+  scoped 84 exact units: 45,420 bytes and 1,987 relocation fields.
+  The 3,900-byte Enemy manager boss remains at two residual bytes; do not
+  introduce assembly, byte offsets or padding to force EAX allocation.
 - **Player collision cursor and retry loop:** commits `4a6e16cb` and
   `8db39334` assert the true 514-entry `activeB100` extent. Commits
   `8613e62f` and `1bc46c9b` replace opaque collision/reward stack prefixes
@@ -130,7 +134,11 @@ inline assembly or an old exact claim.
   checks as one natural three-way C++ dispatch feeding that common hit path.
   Commit `a4290c3c` snapshots the hit-region kind once before testing the
   two cancellation categories, matching the target's single kind load.
-  VC7.1 still emits the maintained 842/862-byte, 705-difference body.
+  Commit `8f8adf56` places the circle's common `hit:` label inside the
+  circle branch and moves the cancellation reward outside the active-region
+  scan, aligning natural C++ control flow with the observed target and the
+  GPL-3.0 adjacent-source hypothesis. VC7.1 still emits the maintained
+  842/862-byte, 705-difference body.
   Its five exact same-source functions pass a focused replay over 1,220
   physical bytes and 32 relocation fields. Target evidence carries
   Player in EDI, Bullet in EBX, the cursor in ESI, and region in ECX; the
@@ -142,13 +150,21 @@ inline assembly or an old exact claim.
   target executes rotated-rectangle geometry before AABB geometry and joins
   circle hits at the same dispatcher. Do not promote the diagnostic probe or
   widen the frontier based solely on its lower total mismatch count.
-- **Player charge:** commit `ba55d762` names the two observed focus-input
-  states: charge from held shot input (0) or held focus input (1), including
-  the different held-key checks. The current `short side` and volatile mode
-  snapshot are not claimed as final semantics. Widening/removing the side local, direct
-  indexing and pointer/reference alternatives regressed the complete owner
-  (some to 717+ differing positions). Preserve the 183-position frontier;
-  do not ratchet based on a local instruction win.
+- **Player movement and charge input:** commit `cf3ed195` names the native
+  four cardinal and four combined diagonal movement masks plus focus input.
+  Commit `ba55d762` names the two observed charge configuration states:
+  charge from held shot input (0) or held focus input (1). Commits `34315d01`
+  and `f6d85416` recover the actual 100/200/300/400 charge tiers, resource
+  costs, and native frame deadlines. Commit `897d149c` names the distinct
+  shoot bit `0x0001` and focus bit `0x0004`, grounded in TH09's keyboard and
+  controller sampler; they must not be confused with configuration mode 0/1.
+  Both full-function frontiers remain unchanged: movement 1,900/1,900 with
+  4 residual bytes and charge 1,210/1,210 with 183. The current `short side`
+  and volatile charge-mode snapshot are not claimed as final semantics.
+  Widening/removing the side local, direct indexing and pointer/reference
+  alternatives regressed charge, while twelve additional ordinary movement
+  config-mode accessors compiled to the same four residual bytes. Preserve
+  the complete owner measurements; do not ratchet on a local instruction win.
 
 - **New bounded compiler probes (2026-11-18):** ten `PlayerMovement`
   source-only inline focus-mode accessor variants all reproduced the same
