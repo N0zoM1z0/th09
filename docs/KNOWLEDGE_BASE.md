@@ -13396,8 +13396,11 @@ remain unresolved. No frontier baseline was changed.
 nested-scan checkpoints. The first committed version (`428f4079`) measured
 638 differing positions. A follow-up source-level rework replaces the `do`
 loop with a native outer `for (;;)` scan and inner region-filter `for (;;)`;
-that variant measures 848/862 bytes with 610 differing positions, down from
-705 at the original baseline. The outer loop retains the cancellation/reward
+that variant first measured 848/862 bytes with 610 differing positions, down
+from 705 at the original baseline. Using the original double-precision `0.0`
+literals for the radius and angle tests then reduced the same owner to 606
+differing positions; this also restores retail's `FLD m64` zero operand for
+both x87 comparisons instead of the candidate's `FLD m32` constant. The outer loop retains the cancellation/reward
 exit, the inner scan skips inactive region kinds and delayed regions, and the
 shared hit tail increments direct-hit regions or handles bullet cancellation.
 The rotated-box path reloads its region dimensions through the live slot after

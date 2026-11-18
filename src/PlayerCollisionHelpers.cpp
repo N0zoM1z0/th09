@@ -109,7 +109,7 @@ int PlayerLifecycleView::CheckBulletCollision(
             ++slot;
         }
 
-        if (region->radius08 != 0.0f)
+        if (region->radius08 != 0.0)
         {
             xDelta = livePosition->x - region->centerX00;
             yDelta = livePosition->y - region->centerY04;
@@ -120,7 +120,7 @@ int PlayerLifecycleView::CheckBulletCollision(
                 continue;
             }
         }
-        else if (region->angle20 != 0.0f)
+        else if (region->angle20 != 0.0)
         {
             scratch.collision.delta.x = livePosition->x - region->centerX00;
             scratch.collision.delta.y = livePosition->y - region->centerY04;
