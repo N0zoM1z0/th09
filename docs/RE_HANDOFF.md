@@ -446,3 +446,12 @@ improvement. Keep resolving those new offsets in natural C++.
   and an explicit 32-bit draw-group pointer rewrite did not improve the
   measured object and were discarded. `EnemyManager::OnUpdate` remains 2
   residual bytes; `UpdateChargeAttack` remains 183 residual bytes.
+
+## 2026-11-18 GPT-web: collision rotation leaf
+
+- `RotatePlayerCollisionVector` uses a volatile reference to the native point
+  record and retains ordinary double-precision C++ arithmetic. Candidate size
+  is now 62/62 bytes and raw differences fall 24 -> 10. The checker still
+  reports `REGRESSED` because x87 operand order differs at `0x21-0x22` and
+  `0x24-0x25`: retail duplicates cosine before the point-X memory multiply;
+  candidate loads point X/Y first. Do not update the frontier baseline.

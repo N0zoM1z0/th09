@@ -13536,3 +13536,18 @@ places an unconditional jump from the circle test to the shared hit block at
 rectangle paths in retail branch backward to the same dispatcher. The
 frontier baseline was deliberately not updated. Further work should focus on
 source-level control-flow/block layout, not byte patching or padding.
+
+## 2026-11-18 GPT-web: collision rotation x87 operand experiment
+
+`RotatePlayerCollisionVector` now has a measured natural-C++ experiment using a
+volatile reference to the native point record while retaining the two-double
+rotation expressions. The object size now matches the 62-byte target (down
+from the previous 66-byte candidate), and the raw byte mismatch count falls
+from 24 to 10. This is not an accepted exact match: the strict frontier checker
+reports `REGRESSED` because offsets `0x21-0x22` and `0x24-0x25` are newly
+misordered. The remaining difference is x87 operand scheduling: retail
+duplicates the cosine accumulator before multiplying by the point's X field
+and uses direct memory-operand `FMUL` for both point components, while the
+candidate loads the volatile point components first and multiplies the x87
+register value. No assembly or padding was introduced; the frontier baseline
+was not changed.
