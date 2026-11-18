@@ -17,7 +17,7 @@ void SupervisorNetworkState::ReleaseDirectPlayResources()
 
     if (this->unknown00C != NULL)
     {
-        reinterpret_cast<IUnknown *>(this->unknown00C)->Release();
+        this->unknown00C->Release();
         this->unknown00C = NULL;
     }
 

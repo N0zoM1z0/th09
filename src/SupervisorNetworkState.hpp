@@ -4,13 +4,14 @@
 
 struct IDirectPlay8Peer;
 struct IDirectPlay8Address;
+struct IUnknown;
 
 struct SupervisorNetworkState
 {
     IDirectPlay8Peer *peer;
     IDirectPlay8Address *deviceAddress;
     unsigned char unknown008[0x04];
-    void *unknown00C;
+    IUnknown *unknown00C;
     IDirectPlay8Address *hostAddress;
     unsigned int sendAsyncHandle;
     unsigned int connectAsyncHandle;

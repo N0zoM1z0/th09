@@ -25,7 +25,7 @@ int SupervisorNetworkState::ResetSession()
     }
     if (this->unknown00C != NULL)
     {
-        reinterpret_cast<IUnknown *>(this->unknown00C)->Release();
+        this->unknown00C->Release();
         this->unknown00C = NULL;
     }
     if (this->hostAddress != NULL)
