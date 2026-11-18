@@ -160,7 +160,10 @@ hit:
                 g_GameManager.TransformPopupY(livePosition->y);
             scratch.reward.effectPosition.z = 0.0f;
 
-            g_Supervisor.SelectSide(1 - this->sideIndex);
+            // Retail subtracts the signed side from a native i386 DWORD, wrapping
+            // through zero without introducing signed C++ overflow.
+            g_Supervisor.SelectSide(static_cast<int>(
+                1u - static_cast<unsigned int>(this->sideIndex)));
 
             scratch.reward.velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
                 g_GameManager.coordinate358 * 0.5f - 8.0f);
@@ -169,7 +172,9 @@ hit:
 
             Effect *effectBase =
                 g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                    this->sideIndex + 1, &scratch.reward.effectPosition, &scratch.reward.velocity,
+                    // A native i386 INC supplies the effect side, including DWORD wrap.
+                    static_cast<int>(static_cast<unsigned int>(this->sideIndex) + 1u),
+                    &scratch.reward.effectPosition, &scratch.reward.velocity,
                     1, static_cast<unsigned int>(-1));
             g_Supervisor.SelectSide(this->sideIndex);
 
