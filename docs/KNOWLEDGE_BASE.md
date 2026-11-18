@@ -13748,3 +13748,57 @@ All rejected trials were restored; none changed a frontier baseline.
   842-byte / 705-difference baseline (`OK`), but does not improve it. The
   current 849-byte / 496-difference source remains `REGRESSED` because it adds
   new offsets. No collision experiment from this session was retained.
+
+## 2026-11-18 GPT-web: TH09 boss control-flow and register-allocation follow-up
+
+### Player bullet collision boss
+
+- Re-read the target `0x41DFF0` decompilation and instructions. The native
+  frame can be represented as a 48-byte geometry/reward overlay followed by
+  a separate 4-byte cursor home at `[ebp-4]`. The reward vectors begin at
+  union offsets 24 and 36; the geometry scratch needs a non-linear layout:
+  bounds maximum at offset 0, AABB minimum-Y / rotated half-width at 16,
+  rotated delta at 24, rotated output at 32, and rotated half-height at 40.
+- A temporary C++ layout with two-float points, a separate cursor home, a
+  full-width bullet argument, and a volatile position-argument reference
+  reproduced the target prologue (`sub esp,0x34`, EBX bullet, ESI cursor,
+  EDI owner, `[ebp-4]` cursor home). It reached 832 bytes and 435 raw byte
+  differences, but strict frontier reported `REGRESSED` because new offsets
+  appeared. The source was restored; this is a layout/control-flow probe, not
+  an accepted reconstruction.
+- The target has a three-level scan/retry structure. The innermost filter
+  rejects inactive/delayed regions; the middle loop handles zero-radius
+  rectangles; a nonzero radius exits that loop to the circle test. Circle
+  success falls through to the shared hit/cancel dispatcher at target `+0x8E`.
+  Rotated/AABB rectangle hits jump backward to that dispatcher. Geometry and
+  circle misses share an inner cursor-advance/retry block at target `+0x1AE`;
+  a non-cancel hit increments the region counter and returns, while eligible
+  cancellation jumps to reward construction. The compiler repeatedly moved
+  the common hit dispatcher behind rectangle code in the C++ variants.
+- Historical early-dispatch source `aa59e47b` remains the 842/862-byte,
+  705-difference strict-OK reference. No collision experiment in this session
+  was retained or committed.
+
+### Other boss/leaf probes
+
+- `ReplayManagerView::BeginPlaybackStage` still has the 9-offset register
+  reversal: target uses EDX for replay bytes and ESI for the side-0 runtime
+  pointer; current C++ emits ESI for bytes and EDX for the pointer. Promoting
+  the byte to DWORD, changing register-local declaration order, and forcing a
+  volatile stack home either preserved the reversal or regressed the function.
+- `PlayerLifecycleView::UpdateChargeAttack` remains at its 183-difference
+  baseline. Full-width/volatile side locals, input-pointer register hints and
+  a side/input aggregate did not place the native side in EDI and input record
+  in EBX.
+- `EnemyManagerView::OnUpdate` remains at its 2-difference baseline. An
+  unsigned-char draw-group local and an explicit DWORD byte-index address
+  expression did not change the EAX/ECX allocation at `+0x19A`.
+- `TitleScreenView::OnUpdateResult` remains at 484/485 bytes and 167 recorded
+  differences. Direct array access, register-qualified index/character locals,
+  and a volatile character local did not improve the native selected-character
+  read; the volatile variant regressed substantially.
+- `RotatePlayerCollisionVector` remains at its 66/62-byte, 24-difference
+  strict-OK baseline. Distinct cosine copies and a mutable cosine accumulator
+  did not alter the x87 operand ordering or remove the extra stack pop.
+- All unsuccessful source probes were restored. No ASM, padding, or frontier
+  baseline changes were used.
