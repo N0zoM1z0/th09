@@ -2477,13 +2477,10 @@ int TitleScreenView::OnUpdateResult()
                         static_cast<unsigned int>(FullCharacterSlots));
             }
 
-            // The original reads from the character-order table's byte
-            // address plus the current signed selection DWORD, with native
-            // 32-bit wrap and no new array bounds gate. Hold the selected
-            // character across the cursor callback, which may change state.
-            char *characterSlot = reinterpret_cast<char *>(
-                reinterpret_cast<unsigned int>(&g_TitleResultCharacterOrder[0]) +
-                static_cast<unsigned int>(keyboardSelection));
+            // The preceding cursor walk wraps keyboardSelection into the
+            // native 16-byte character-order table before this selected read.
+            // Keep the real array element and its address as ordinary C++.
+            char *characterSlot = &g_TitleResultCharacterOrder[keyboardSelection];
             char character = *characterSlot;
             SetCharacterCursorInactive(*characterSlot, 60, FullCharacterSlots, 2);
             nameBankIndex = character;
