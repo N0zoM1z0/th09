@@ -13489,3 +13489,33 @@ x87 locals did not change the generated code. The remaining differences are
 x87 operand evaluation order and the final stack cleanup. Keep the double
 wrapper checkpoint and continue only with natural source-level lifetime
 experiments.
+
+## 2026-11-18 GPT-web: replay playback runtime-pointer ordering experiment
+
+`ReplayManagerView::BeginPlaybackStage` now has an exploratory C++ checkpoint
+(`30febe15`). A volatile read of the native side-0 runtime pointer slot keeps
+that read after the replay `value1E7` store and after reading `value1E8`, which
+matches the retail ordering more closely than the prior compiler-hoisted load.
+The raw structural mismatch count falls from 13 to 9 bytes in the 540-byte
+function. However, the monotonic frontier checker reports `REGRESSED`: seven
+new positions (`156`, `162`, `168`, `16C`, `172`, `178`, `17A`) differ because
+VC7.1 assigns ESI to the replay-data byte/pointer and EDX to the runtime pointer,
+where retail uses EDX for replay data and ESI for the runtime pointer. The
+frontier residual list was deliberately not changed. Attempts to make the
+replay-data pointer volatile, split the stage/runtime union, or register-qualify
+the scratch pointer changed much larger portions of the function and were
+reverted. Continue with source-level register-lifetime work; do not treat the
+lower raw byte count as monotonic exactness progress.
+
+## 2026-11-18 GPT-web: remaining player update register tails
+
+`PlayerLifecycleView::UpdateMovementAndOptions` remains 1900/1900 bytes with
+four differing positions around `+0x126`: target loads `g_GameConfiguration`
+into ECX before reloading `sideIndex` into EAX, while the current object emits
+the independent loads in the opposite order. Direct subscript and reference
+forms did not change the code; volatile global-pointer or side-index reads
+caused broad register-allocation regressions and were reverted. The large
+`EnemyManagerView::OnUpdate` remains 3900/3900 bytes with only the two known
+EAX-vs-ECX draw-group register positions; reusing the side-category local,
+union overlays, volatile byte access and a narrower scope did not change the
+object. No baseline was changed for either function.

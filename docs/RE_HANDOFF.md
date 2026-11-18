@@ -415,3 +415,19 @@ improvement. Keep resolving those new offsets in natural C++.
 - `RotatePlayerCollisionVector`: retain the 66-byte double-wrapper checkpoint;
   `long double` variants did not change the 24-position residual. Remaining
   work is x87 operand order and final `fstp st(0)` cleanup.
+
+## 2026-11-18 GPT-web: replay and movement residuals
+
+- `BeginPlaybackStage` checkpoint `30febe15` uses a volatile read of the
+  side-0 runtime pointer to stop hoisting it before the replay-byte read. Raw
+  differences fall 13 -> 9, but the monotonic checker reports `REGRESSED` due
+  to seven new offsets (`156`, `162`, `168`, `16C`, `172`, `178`, `17A`). The
+  target uses EDX for replay-data and ESI for runtime; the candidate reverses
+  those registers. Keep the recorded frontier baseline unchanged.
+- `UpdateMovementAndOptions` is still 1900 bytes / 4 differences. The only
+  residual is the global configuration pointer vs side-index load order at
+  `+0x126`; direct C++ expression/reference variants did not alter codegen,
+  volatile variants regressed the large body and were reverted.
+- `EnemyManagerView::OnUpdate` is still 3900 bytes / 2 differences. Multiple
+  natural C++ local, union, volatile-byte and scope variants did not change the
+  EAX/ECX draw-group allocation. No assembly, padding or baseline update.
