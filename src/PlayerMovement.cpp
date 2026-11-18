@@ -43,6 +43,21 @@ typedef char PlayerMovementNativeVectorStorage[
      offsetof(PlayerPositionView, y) == offsetof(Float3, y) &&
      offsetof(PlayerPositionView, z) == offsetof(Float3, z)) ? 1 : -1];
 
+// Native input bits are shared with the exact keyboard/controller pollers.
+// Diagonal masks combine the same cardinal bits, not separate virtual keys.
+enum PlayerMovementInputMask
+{
+    PLAYER_MOVE_FOCUS = 0x0004,
+    PLAYER_MOVE_UP = 0x0010,
+    PLAYER_MOVE_DOWN = 0x0020,
+    PLAYER_MOVE_LEFT = 0x0040,
+    PLAYER_MOVE_RIGHT = 0x0080,
+    PLAYER_MOVE_UP_LEFT = PLAYER_MOVE_UP | PLAYER_MOVE_LEFT,
+    PLAYER_MOVE_DOWN_LEFT = PLAYER_MOVE_DOWN | PLAYER_MOVE_LEFT,
+    PLAYER_MOVE_UP_RIGHT = PLAYER_MOVE_UP | PLAYER_MOVE_RIGHT,
+    PLAYER_MOVE_DOWN_RIGHT = PLAYER_MOVE_DOWN | PLAYER_MOVE_RIGHT
+};
+
 extern GameConfiguration *g_GameConfiguration;
 
 // Actual playfield bounds are four fields within the exact GameManager
@@ -73,21 +88,21 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     const int inputSide = player->sideIndex;
     ReplayInputState *input = &g_ReplayInputStates[inputSide];
 
-    if (input->IsHeld(0x50) == 0x50)
+    if (input->IsHeld(PLAYER_MOVE_UP_LEFT) == PLAYER_MOVE_UP_LEFT)
         player->movementDirection30358 = 5;
-    else if (input->IsHeld(0x60) == 0x60)
+    else if (input->IsHeld(PLAYER_MOVE_DOWN_LEFT) == PLAYER_MOVE_DOWN_LEFT)
         player->movementDirection30358 = 7;
-    else if (input->IsHeld(0x90) == 0x90)
+    else if (input->IsHeld(PLAYER_MOVE_UP_RIGHT) == PLAYER_MOVE_UP_RIGHT)
         player->movementDirection30358 = 6;
-    else if (input->IsHeld(0xA0) == 0xA0)
+    else if (input->IsHeld(PLAYER_MOVE_DOWN_RIGHT) == PLAYER_MOVE_DOWN_RIGHT)
         player->movementDirection30358 = 8;
-    else if (input->IsHeld(0x20))
+    else if (input->IsHeld(PLAYER_MOVE_DOWN))
         player->movementDirection30358 = 2;
-    else if (input->IsHeld(0x10))
+    else if (input->IsHeld(PLAYER_MOVE_UP))
         player->movementDirection30358 = 1;
-    else if (input->IsHeld(0x40))
+    else if (input->IsHeld(PLAYER_MOVE_LEFT))
         player->movementDirection30358 = 3;
-    else if (input->IsHeld(0x80))
+    else if (input->IsHeld(PLAYER_MOVE_RIGHT))
         player->movementDirection30358 = 4;
     else
         player->movementDirection30358 = 0;
@@ -101,7 +116,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
         // Retail rereads the input record here instead of reusing input.
         focused = g_ReplayInputStates[inputSide].auxiliary2A >= 8;
     else
-        focused = input->IsHeld(4) != 0;
+        focused = input->IsHeld(PLAYER_MOVE_FOCUS) != 0;
 
     player->flagBits1B80.focusState00_01 =
         static_cast<unsigned int>(focused);
