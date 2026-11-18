@@ -21,14 +21,15 @@ Documentation/test-only changes do not need target or compiler replay.
 | Runtime semantics | deterministic scenarios against original and native products | both Oracles agree on declared observables |
 | Port behavior | native baseline plus port scenario | separate portability claim |
 
-Direct local Ghidra is the semantic-analysis tool, not an independent exactness Oracle.
-Decompiler text, names, types, and candidate extents remain provisional. A thunk
-can inherit its callee name and produce expanded callee pseudocode: at47B249,
-Ghidra reports a5-byte body named _free,while the fixed CRT member proves scalar
-operator delete jumping to the separate _free entry47B163. Check actual body
-bytes,entry and provider identity before using such output as a call contract. A
-successful build or visually plausible runtime also cannot waive missing bytes,
-relocations, data owners, or scenario observables.
+Direct local Ghidra is the semantic-analysis tool, not an independent exactness
+Oracle. Decompiler text, names, types, and candidate extents remain provisional.
+A thunk can inherit its callee name and produce expanded callee pseudocode: at
+`0x0047B249`, Ghidra reports a 5-byte body named `_free`, while the fixed CRT
+member proves scalar `operator delete` jumping to the separate `_free` entry at
+`0x0047B163`. Check actual body bytes, entry and provider identity before using
+such output as a call contract. A successful build or visually plausible
+runtime also cannot waive missing bytes, relocations, data owners, or scenario
+observables.
 
 If a required input, extent, tool profile, or observable cannot be established,
 record `unknown` or an open candidate. Accuracy takes precedence over apparent

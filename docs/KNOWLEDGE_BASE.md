@@ -7357,30 +7357,37 @@ function, not evidence for the still-open whole Windows i386 native product,
 linker closure or runtime semantics. The immediately following section
 records the now-superseded 1,682/1,692-byte diagnostic experiments.
 
-## Remaining ScreenEffect, network and Effect callback frontiers
+## Historical snapshot: ScreenEffect, network and Effect callback frontiers
 
+This section records an earlier checkpoint and is not a live frontier table.
+The current owner list, sizes and residuals are maintained only in
+[RE_HANDOFF.md](RE_HANDOFF.md) and `config/frontiers.toml`.
 GameplaySetupThread is exact and is no longer part of this unfinished-owner
-group. Current status is summarized here; use the active table in
-[RE_HANDOFF.md](RE_HANDOFF.md) for the full live owner list.
+group.
 
 ScreenEffect shake remains 336/336 bytes with 26 differences. The final phase
 extends endFrame by rawParameter1 + rawParameter2, and both the final guard and
 ramp-down numerator use rawParameter0 + rawParameter1 + rawParameter2. An older
-candidate incorrectly kept the ramp-up endpoint. The remaining question is
-receiver/fade lifetime, with the current full-phase behavior preserved.
+candidate incorrectly kept the ramp-up endpoint. At that checkpoint the
+remaining question was receiver/fade lifetime; the current handoff now tracks
+the remaining register/timer and X87 value-lifetime differences.
 
-Supervisor network service remains protected at 1,629/1,633 bytes with 1,038
-differences. The best saved diagnostic is 1,591/1,633 with 976 differences;
-it restores branch-scoped EBX clock-pointer use, EDI `connectNow`, and the final
+At this historical checkpoint, Supervisor network service was protected at
+1,629/1,633 bytes with 1,038 differences. Subsequent source reconstruction
+reduced the maintained residual to 966 positions; the 1,591/1,633 diagnostic
+below is an old, superseded trial and must not be used as current status.
+The best saved diagnostic at that checkpoint was 1,591/1,633 with 976
+differences; it restores branch-scoped EBX clock-pointer use, EDI `connectNow`,
+and the final
 `0x430fb0` IAT reload, but is still 42 bytes short. Its remaining entry receiver
-and final side-inversion register order are listed in the current handoff. The
-network-message handler is separately exact: its input is unsigned 16-bit,
+and final side-inversion register order were listed in the handoff at that
+checkpoint. The network-message handler is separately exact: its input is unsigned 16-bit,
 while seed is signed short. Its ret16 contract and four physical argument slots
 stay fixed.
 
 Effect AddedCallback remains 51/51 bytes with four differences. Retail uses EDI
-for the global ANM manager and ESI for callback context; the current source
-reverses that setup order. EAX carries the GetAnm/PreloadAnm resource. Earlier
+for the global ANM manager and ESI for callback context; the maintained source
+still reverses that setup order. EAX carries the GetAnm/PreloadAnm resource. Earlier
 2026-11-13 trials recorded eight or eleven differences before later source
 cleanup; those historical residual counts are superseded. Keep the independently
 exact Create caller protected.
@@ -13184,7 +13191,9 @@ No ASM, padding, widened masks, or full cold replay was used.
 
 ## 2026-11-17 GPT-web: Supervisor service PopFrame alias and large-owner scheduling probes
 
-`SupervisorServiceUpdate @ 0x00430AA0` remains **1,629/1,633 bytes with 966 recorded differences**. The source now corrects one native C++ scratch-layout error: `Supervisor::PopFrame` has output parameters `(unsigned short *seed, unsigned int *predicted)`, and the two queue-prefill calls use separate 16-bit seed slots with one shared 32-bit prediction slot. Retail's first prefill call uses seed/prediction stack addresses `EBP-0x0C` / `EBP-0x08`; the second uses `EBP-0x0A` / `EBP-0x08`. `NetworkPrefillScratch` now expresses those offsets as `first.seed@0`, `second.seed@2`, and both `predicted@4`. The source/layout correction is committed as `1c4cb7e7`; the complete owner frontier passed without changing its mask or byte count. This is a semantic/ABI-layout correction, not a reduction in the 966 residual differences.
+`SupervisorServiceUpdate @ 0x00430AA0` remains **1,629/1,633 bytes with 966 recorded differences**. The source now corrects one native C++ scratch-layout error: `Supervisor::PopFrame` has output parameters `(unsigned short *seed, unsigned int *predicted)`, and the two queue-prefill calls use separate 16-bit seed slots with one shared 32-bit prediction slot. Retail's first prefill call uses seed/prediction stack addresses `EBP-0x0C` / `EBP-0x08`; the second uses `EBP-0x0A` / `EBP-0x08`. `NetworkPopFrameScratch` expresses the first, second and final-frame overlays with compile-time offset checks; `NetworkFrameInputPair` separately models the two adjacent 16-bit final inputs and their packed DWORD view. The source/layout work includes commits `1c4cb7e7`, `bd4b8b07`, `719acb53` and `e60dd477`; these semantic/ABI-layout corrections do not themselves reduce the 966 residual positions.
+
+Later 2026-11-18 commits `8eb542ff`, `95006098`, `7394f9a5` and `67071267` recover distinct frame/wait status locals, synchronized-frame-first dispatch, a counted DWORD-wrapping prefill loop, and the join-retry / packet-wait gates. Each full-function comparison preserves the same 1,629/1,633-byte, 966-position frontier. These are source/control-flow improvements, not exactness credit; current remaining work is the final output-home and receiver/register lifetime.
 
 Several natural-C++ owner probes were compiled against this function and restored:
 

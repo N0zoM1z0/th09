@@ -230,15 +230,19 @@ compiler roulette or a widened frontier to manufacture progress.
 ## Next investigations
 
 1. **Large boss — `SupervisorServiceUpdate`:** continue from the original
-   `0x00430AA0` body and current `src/SupervisorNetwork.cpp`. Recover the
-   state/host/network branches, native call order, result lifetime and frame
-   processing as natural C++. Preserve the corrected prefill scratch layout.
-   The current 966-position residual is substantial; the alias correction is
-   not a boss solution.
-2. **Large boss — `CheckBulletCollision`:** reconstruct the original nested
-   filter/geometry/hit retry structure and cursor advances. Keep all affected
-   exact Player siblings protected. Do not promote saved diagnostic C++ files
-   just because their raw mismatch count is lower.
+   `0x00430AA0` body and current `src/SupervisorNetwork.cpp`. Commits
+   `8eb542ff`, `95006098`, `7394f9a5` and `67071267` already separate frame
+   result from wait/reset status, restore synchronized-frame-first dispatch,
+   recover the counted prefill loop, and make join retry / packet wait gates
+   explicit. Do not repeat those branch rewrites: they all preserve the
+   1,629/1,633-byte, 966-position frontier. Focus next on the remaining
+   `PopFrame` output homes, receiver reloads, stack lifetime and call order.
+2. **Large boss — `CheckBulletCollision`:** the circle `hit:` entry now sits
+   inside the circle branch, and cancellation rewards execute after leaving
+   the region scan (`8f8adf56`). Continue with the distinct nested filter /
+   geometry / hit retry levels, cursor advances and rotated/AABB block order.
+   Keep all exact Player siblings protected; never promote a saved diagnostic
+   merely because its raw mismatch count is lower.
 3. **Small, bounded blockers:** `EnemyManagerView::OnUpdate` (two draw-index
    bytes), `SaveReplay` (two header-copy bytes), then Effect callback,
    ScreenEffect, Replay playback and Title owners. Test complete owners, not
@@ -288,19 +292,26 @@ Preserve these inputs; they are not disposable build output:
 - `.analysis/ghidra-direct/243bffea8dcbe99a/` (saved Ghidra project) and
   `.analysis/factory-runtime/` (runtime lock state).
 - `.analysis/c2-heap.bin`, `FUN_107844a4.decomp.txt`, the four
-  `gdb-c2-*.cmd` recipes and the three small natural-C++ diagnostics retained
-  under `.analysis/`.
+  `gdb-c2-*.cmd` recipes, and exactly these three natural-C++ diagnostics:
+  `SupervisorNetwork.natural-ebx-reload.cpp`,
+  `PlayerCollisionHelpers.natural-preheader-842.cpp`, and
+  `PlayerCollisionHelpers.nested-three-loop-849.cpp`.
 - `c2-analysis/c2.dll`, `c2-analysis/project/`,
   `c2-analysis/allocator-project/`, `c2-analysis/scripts/` and the retained
   top-level C2 register/allocator/codegen reports. These support the still
   unresolved Enemy/Supervisor compiler-allocation questions.
 
-`build/`, generated OBJ/PDB files, the 294 old `c2-analysis/probe*`
-experiment project directories, duplicate C2 reports, old `.analysis/*.json`
-replay snapshots, temporary IDA call-result captures and Ghidra export
-snapshots are disposable and have been pruned. Recreate only the selected
-compiler carrier when needed. Missing `build/frontier/*.obj` or
-`build/matching/*.obj` after cleanup is expected. Do not run `git clean -fdx`:
-it would also target protected ignored inputs. Never delete `.tools/`,
-`resources/th09.exe`, `_reference/` or the saved analysis project while
-cleaning caches.
+The top-level `.analysis/` compiler scratch corpus accumulated hundreds of
+source variants and generated OBJ/PDB pairs after the previous cleanup. Those
+variants are reproducible from maintained source and the notes above; they are
+not prerequisites for exactness. The cleanup for this handoff removes those
+root-level trials, generated objects/PDBs, old rename/export snapshots,
+`.analysis/factory-native-ida/` call-result captures, and `build/`. It retains
+only the three C++ diagnostics listed above, the four GDB recipes, the heap /
+allocator decompilation inputs, the active Ghidra project, and runtime lock
+state. The two C2 project roots, C2 DLL/scripts and retained top-level reports
+remain intact. Recreate only the selected compiler carrier when needed.
+Missing `build/frontier/*.obj` or `build/matching/*.obj` after cleanup is
+expected. Do not run `git clean -fdx`: it would also target protected ignored
+inputs. Never delete `.tools/`, `resources/th09.exe`, `_reference/`, either C2
+project, or the saved Ghidra project while cleaning caches.
