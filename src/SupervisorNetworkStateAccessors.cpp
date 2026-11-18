@@ -2,5 +2,6 @@
 
 int SupervisorNetworkState::GetRemotePeerId()
 {
-    return this->peerIds[1 - this->localSide];
+    return this->peerIds[static_cast<unsigned int>(
+        1u - static_cast<unsigned int>(this->localSide))];
 }

@@ -13228,3 +13228,15 @@ retain the same original PE destinations, relocation offsets and types. The
 match-unit manifest records the new spellings only after this proof.
 This is a natural type cleanup, not a change to callback behavior or a new
 function-exactness claim.
+
+## 2026-11-18 GPT-web: preserve native DWORD side inversion in network leaves
+
+`SupervisorNetworkState::GetRemotePeerId` and `SupervisorNetworkState::SendPacket`
+now express the peer-slot inversion as unsigned 32-bit subtraction before
+indexing `peerIds`. This matches the i386 DWORD `1 - localSide` operation
+without relying on signed-overflow behavior for unusual stored side values,
+and agrees with the already recovered unsigned inversion in the message
+callback and `SupervisorServiceUpdate`. Both complete pinned VC7.1 owners
+remain byte-identical: 17 bytes for `GetRemotePeerId` and 95 bytes for
+`SendPacket`, with no relocation fields. The pointer local in `SendPacket`
+remains intact, preserving the original null check and delayed peer-ID load.
