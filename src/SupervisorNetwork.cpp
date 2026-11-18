@@ -211,20 +211,18 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                     if (frameNetwork->localSide == 0 &&
                         60 / frameNetwork->syncRate - 1 > 0)
                     {
-                        int queuedFrame = -9998;
+                        unsigned int queuedFrame = static_cast<unsigned int>(-9998);
                         do
                         {
                             g_Supervisor.InsertReceivedFrame(
-                                0, queuedFrame, 0,
+                                0, static_cast<int>(queuedFrame), 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
                             g_Supervisor.InsertReceivedFrame(
-                                1, queuedFrame++, 0,
+                                1, static_cast<int>(queuedFrame++), 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
-                        // Retail compares the signed result of a native
-                        // i386 DWORD ADD, including its 32-bit wraparound.
-                        } while (static_cast<int>(
-                                     static_cast<unsigned int>(queuedFrame) +
-                                     9998u) <
+                        // The original i386 loop adds 9998 as a DWORD and
+                        // performs a signed comparison on that wrapped sum.
+                        } while (static_cast<int>(queuedFrame + 9998u) <
                                  60 / frameNetwork->syncRate - 1);
                     }
 
