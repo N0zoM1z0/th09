@@ -22,15 +22,11 @@ void __fastcall RotatePlayerCollisionVector(
     float angle)
 {
     float sinOut = static_cast<float>(CollisionSin(angle));
-    register double cosOut = CollisionCos(angle);
-    volatile PlayerPositionView &nativePoint = *point;
+    const double cosOut = CollisionCos(angle);
+    PlayerPositionView &nativePoint = *point;
 
-    register double rotatedX = cosOut;
-    rotatedX = rotatedX * nativePoint.x;
-    rotatedX -= sinOut * nativePoint.y;
-    outVector->x = static_cast<float>(rotatedX);
-
-    cosOut = cosOut * nativePoint.y;
-    cosOut += sinOut * nativePoint.x;
-    outVector->y = static_cast<float>(cosOut);
+    outVector->x = static_cast<float>(
+        cosOut * nativePoint.x - sinOut * nativePoint.y);
+    outVector->y = static_cast<float>(
+        cosOut * nativePoint.y + sinOut * nativePoint.x);
 }
