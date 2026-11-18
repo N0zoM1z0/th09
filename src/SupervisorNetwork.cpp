@@ -83,6 +83,19 @@ typedef char NetworkPopFrameScratchLayout[
      offsetof(NetworkPopFrameScratch, finalFrame.predicted) == 0 &&
      offsetof(NetworkPopFrameScratch, finalFrame.firstSeed) == 4 &&
      offsetof(NetworkPopFrameScratch, finalFrame.secondSeed) == 6) ? 1 : -1];
+// Final PopFrame produces two adjacent native input words. Retail reloads
+// both words through one DWORD home, sends each input independently, then
+// ORs them for the aggregate input callback. Keep their physical pair typed.
+struct NetworkFrameInputPair
+{
+    unsigned short side0;
+    unsigned short side1;
+};
+typedef char NativeNetworkFrameInputPairLayout[
+    (sizeof(NetworkFrameInputPair) == 4 &&
+     offsetof(NetworkFrameInputPair, side0) == 0 &&
+     offsetof(NetworkFrameInputPair, side1) == 2) ? 1 : -1];
+
 int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
     Supervisor *s = supervisor;
@@ -338,18 +351,18 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
     }
 
     {
-        unsigned short inputs[2];
+        NetworkFrameInputPair inputs;
         unsigned short seed0;
         unsigned short seed1;
         unsigned int predicted;
 
         s->networkTiming458.confirmedFrame = s->networkTiming458.frameCounter;
         s->networkTiming458.frameMode = 0;
-        inputs[0] = static_cast<unsigned short>(s->PopFrame(0, &seed0, &predicted));
-        inputs[1] = static_cast<unsigned short>(s->PopFrame(1, &seed1, &predicted));
-        ApplyNetworkInput(0, inputs[0]);
-        ApplyNetworkInput(1, inputs[1]);
-        ApplyNetworkInput(2, inputs[0] | inputs[1]);
+        inputs.side0 = static_cast<unsigned short>(s->PopFrame(0, &seed0, &predicted));
+        inputs.side1 = static_cast<unsigned short>(s->PopFrame(1, &seed1, &predicted));
+        ApplyNetworkInput(0, inputs.side0);
+        ApplyNetworkInput(1, inputs.side1);
+        ApplyNetworkInput(2, inputs.side0 | inputs.side1);
         supervisor->LeaveCriticalSectionWrapper(4);
         return result;
     }
