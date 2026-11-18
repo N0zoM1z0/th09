@@ -74,7 +74,9 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 {
     Supervisor *s = supervisor;
     // Both frame and wait paths return one native service status value.
-    SupervisorNetworkServiceResult result = NETWORK_SERVICE_FRAME_READY;
+    // The native frame-service return local is a plain i386 int. Keep the
+    // public enum for call-site meaning, but model the local ABI directly.
+    int result = NETWORK_SERVICE_FRAME_READY;
     DWORD now;
 
     supervisor->EnterCriticalSectionWrapper(4);
