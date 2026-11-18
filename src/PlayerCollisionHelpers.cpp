@@ -85,140 +85,125 @@ int PlayerLifecycleView::CheckBulletCollision(
 
     for (; ; ++slot)
     {
-        // Retail has a distinct inner retry for inactive types and delayed
-        // regions. The outer cursor advance belongs to the geometry and
-        // cancellation retry, not to this filter's own rejected entries.
-        while (true)
-        {
-            region = *slot;
-            if (region == NULL)
-                return 0;
-            if (region->type38 == 1 || region->type38 == 2 || region->type38 == 3)
-            {
-                if (region->delay40 <= 0)
-                    break;
-            }
-            ++slot;
-        }
+        region = *slot;
+        if (region == NULL)
+            return 0;
+        if (region->type38 != 1 && region->type38 != 2 && region->type38 != 3)
+            continue;
+        if (region->delay40 > 0)
+            continue;
 
         if (region->radius08 != 0.0)
         {
             xDelta = livePosition->x - region->centerX00;
             yDelta = livePosition->y - region->centerY04;
-            if (!(xDelta * xDelta + yDelta * yDelta <
-                region->radius08 * region->radius08))
-                continue;
+            if (xDelta * xDelta + yDelta * yDelta <
+                region->radius08 * region->radius08)
+            {
+hit:
+                const int hitType = (*slot)->type38;
+                if (hitType == 2)
+                    goto cancel_hit;
+                if (hitType == 3)
+                    goto cancel_hit;
+                (*slot)->hitCount2C = static_cast<int>(
+                    static_cast<unsigned int>((*slot)->hitCount2C) + 1u);
+                return 2;
+
+cancel_hit:
+                if (currentBullet != NULL && currentBullet->bulletType == 0)
+                    break;
+            }
+        }
+        else if (region->angle20 != 0.0f)
+        {
+            scratch.collision.delta.x = livePosition->x - region->centerX00;
+            scratch.collision.delta.y = livePosition->y - region->centerY04;
+            RotatePlayerCollisionVector(
+                &scratch.collision.rotated, &scratch.collision.delta, -region->angle20);
+            scratch.collision.halfSize.x = (*slot)->halfWidth10;
+            scratch.collision.halfSize.y = (*slot)->halfHeight14;
+            if (-scratch.collision.halfSize.x <= scratch.collision.rotated.x &&
+                scratch.collision.rotated.x <= scratch.collision.halfSize.x &&
+                -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
+                scratch.collision.rotated.y <= scratch.collision.halfSize.y)
+                goto hit;
         }
         else
         {
-            if (region->angle20 != 0.0f)
-            {
-                scratch.collision.delta.x = livePosition->x - region->centerX00;
-                scratch.collision.delta.y = livePosition->y - region->centerY04;
-                RotatePlayerCollisionVector(
-                    &scratch.collision.rotated, &scratch.collision.delta, -region->angle20);
-                scratch.collision.halfSize.x = (*slot)->halfWidth10;
-                scratch.collision.halfSize.y = (*slot)->halfHeight14;
-                if (!(-scratch.collision.halfSize.x <= scratch.collision.rotated.x &&
-                      scratch.collision.rotated.x <= scratch.collision.halfSize.x &&
-                      -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
-                      scratch.collision.rotated.y <= scratch.collision.halfSize.y))
-                    continue;
-            }
-            else
-            {
-                scratch.collision.halfSize.x = region->centerX00 - region->halfWidth10;
-                scratch.collision.halfSize.y = region->centerY04 - region->halfHeight14;
-                scratch.collision.boundsMax.x = region->halfWidth10 + region->centerX00;
-                scratch.collision.boundsMax.y = region->halfHeight14 + region->centerY04;
-                if (scratch.collision.halfSize.x > livePosition->x ||
-                    scratch.collision.boundsMax.x < livePosition->x ||
-                    scratch.collision.halfSize.y > livePosition->y ||
-                    scratch.collision.boundsMax.y < livePosition->y)
-                    continue;
-            }
+            scratch.collision.halfSize.x = region->centerX00 - region->halfWidth10;
+            scratch.collision.halfSize.y = region->centerY04 - region->halfHeight14;
+            scratch.collision.boundsMax.x = region->halfWidth10 + region->centerX00;
+            scratch.collision.boundsMax.y = region->halfHeight14 + region->centerY04;
+            if (!(scratch.collision.halfSize.x > livePosition->x ||
+                  scratch.collision.boundsMax.x < livePosition->x ||
+                  scratch.collision.halfSize.y > livePosition->y ||
+                  scratch.collision.boundsMax.y < livePosition->y))
+                goto hit;
         }
-
-hit:
-        // Retail fetches this record's kind once at the shared hit entry,
-        // then tests the same value for the two cancellation categories.
-        const int hitType = (*slot)->type38;
-        if (hitType == 2)
-            goto cancel_hit;
-        if (hitType == 3)
-            goto cancel_hit;
-        // The native counter is incremented as a 32-bit DWORD, even on wrap.
-        (*slot)->hitCount2C = static_cast<int>(
-            static_cast<unsigned int>((*slot)->hitCount2C) + 1u);
-        return 2;
-
-    cancel_hit:
-        if (currentBullet == NULL || currentBullet->bulletType != 0)
-            continue;
-
-        {
-            liveScratch.cursor.slot = slot;
-            scratch.reward.effectPosition.x =
-                g_GameManager.TransformPopupX(livePosition->x);
-            scratch.reward.effectPosition.y =
-                g_GameManager.TransformPopupY(livePosition->y);
-            scratch.reward.effectPosition.z = 0.0f;
-
-            // Retail subtracts the signed side from a native i386 DWORD, wrapping
-            // through zero without introducing signed C++ overflow.
-            g_Supervisor.SelectSide(static_cast<int>(
-                1u - static_cast<unsigned int>(this->sideIndex)));
-
-            scratch.reward.velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
-                g_GameManager.coordinate358 * 0.5f - 8.0f);
-            scratch.reward.velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
-            scratch.reward.velocity.z = 0.0f;
-
-            Effect *effectBase =
-                g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                    // A native i386 INC supplies the effect side, including DWORD wrap.
-                    static_cast<int>(static_cast<unsigned int>(this->sideIndex) + 1u),
-                    &scratch.reward.effectPosition, &scratch.reward.velocity,
-                    1, static_cast<unsigned int>(-1));
-            g_Supervisor.SelectSide(this->sideIndex);
-
-            effectBase->cancel.bulletType = currentBullet->bulletType;
-            effectBase->cancel.color = currentBullet->color;
-            effectBase->cancel.bulletSpeed = currentBullet->speed;
-            effectBase->cancel.side =
-                static_cast<short>(currentBullet->controller->sideIndex);
-            effectBase->cancel.extraAttribute = currentBullet->extraAttribute10BD;
-
-            this->AddRespawnResource(0.2f);
-            g_SoundPlayer.PlaySoundByIdx(
-                46, this->sideIndex != 0 ? 500 : -500);
-
-            int rewardValue =
-                this->ownerState30410.state38;
-            if (rewardValue > 100)
-                rewardValue = 1000;
-            else
-                // Retail uses a DWORD LEA/SHL, so multiplication wraps
-                // before the signed reward value is forwarded.
-                rewardValue = static_cast<int>(
-                    static_cast<unsigned int>(rewardValue) * 10u);
-
-            int rewardMode =
-                (g_GameManager.difficulty11C >= 3) + 2;
-            this->ownerState30410.ApplyReward(
-                livePosition,
-                rewardMode, 2, 0, rewardValue);
-
-            this->sideState->AddScore(50);
-        }
-
-        PlayerCollisionRegionCreateRegionView *hitRegion = *liveScratch.cursor.slot;
-        hitRegion->hitCount2C = static_cast<int>(
-            static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
-        return 2;
-
-
     }
+
+    // Cancellation leaves the region scan before creating the reward effect.
+{
+        liveScratch.cursor.slot = slot;
+        scratch.reward.effectPosition.x =
+            g_GameManager.TransformPopupX(livePosition->x);
+        scratch.reward.effectPosition.y =
+            g_GameManager.TransformPopupY(livePosition->y);
+        scratch.reward.effectPosition.z = 0.0f;
+
+        // Retail subtracts the signed side from a native i386 DWORD, wrapping
+        // through zero without introducing signed C++ overflow.
+        g_Supervisor.SelectSide(static_cast<int>(
+            1u - static_cast<unsigned int>(this->sideIndex)));
+
+        scratch.reward.velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
+            g_GameManager.coordinate358 * 0.5f - 8.0f);
+        scratch.reward.velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
+        scratch.reward.velocity.z = 0.0f;
+
+        Effect *effectBase =
+            g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
+                // A native i386 INC supplies the effect side, including DWORD wrap.
+                static_cast<int>(static_cast<unsigned int>(this->sideIndex) + 1u),
+                &scratch.reward.effectPosition, &scratch.reward.velocity,
+                1, static_cast<unsigned int>(-1));
+        g_Supervisor.SelectSide(this->sideIndex);
+
+        effectBase->cancel.bulletType = currentBullet->bulletType;
+        effectBase->cancel.color = currentBullet->color;
+        effectBase->cancel.bulletSpeed = currentBullet->speed;
+        effectBase->cancel.side =
+            static_cast<short>(currentBullet->controller->sideIndex);
+        effectBase->cancel.extraAttribute = currentBullet->extraAttribute10BD;
+
+        this->AddRespawnResource(0.2f);
+        g_SoundPlayer.PlaySoundByIdx(
+            46, this->sideIndex != 0 ? 500 : -500);
+
+        int rewardValue =
+            this->ownerState30410.state38;
+        if (rewardValue > 100)
+            rewardValue = 1000;
+        else
+            // Retail uses a DWORD LEA/SHL, so multiplication wraps
+            // before the signed reward value is forwarded.
+            rewardValue = static_cast<int>(
+                static_cast<unsigned int>(rewardValue) * 10u);
+
+        int rewardMode =
+            (g_GameManager.difficulty11C >= 3) + 2;
+        this->ownerState30410.ApplyReward(
+            livePosition,
+            rewardMode, 2, 0, rewardValue);
+
+        this->sideState->AddScore(50);
+    }
+
+    PlayerCollisionRegionCreateRegionView *hitRegion = *liveScratch.cursor.slot;
+    hitRegion->hitCount2C = static_cast<int>(
+        static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
+    return 2;
 }
 
 int PlayerLifecycleView::CheckGrazeCollision(
