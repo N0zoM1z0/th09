@@ -13410,3 +13410,27 @@ cursor and 20-byte `CollisionScratch` layout remain unchanged. This is a
 substantial but non-exact intermediate: do not rebaseline. Continue with the
 null-return tail, region-filter branches, x87 comparison flags, and register
 allocation before accepting the owner.
+
+
+## 2026-11-18 GPT-web: collision scan hit-region reload
+
+`PlayerLifecycleView::CheckBulletCollision @ 0x0041DFF0` now has a second
+natural-C++ control-flow checkpoint. The source keeps the native 20-byte
+geometry/reward scratch overlay, uses a nested scan preheader inside a
+`do` loop, sends unsupported/delayed/missed regions to one `next_region`
+advance, and uses a distinct `cancel_next` advance for a non-canceling bullet.
+The hit path reloads the active region slot through a volatile pointer local
+before reading the type and incrementing `hitCount2C`; the rotated-rectangle
+path also reloads the slot after `RotatePlayerCollisionVector` before reading
+its half extents.
+
+The focused frontier now reports 849 candidate bytes against 862 target bytes
+and 533 differing positions, down from the committed 705-position baseline.
+This is a substantial natural-source improvement, not exactness: the circle
+comparison still branches to the shared hit block at the end of the function
+instead of falling through to retail's early hit block; the angle/axis paths
+and the cancellation/reward tail also retain differences. The target's
+prologue and active-slot register lifetime match, as do the type/delay filter
+and the ordered radius-vs-zero x87 comparison. No frontier baseline was
+changed. Continue by making the hit block's native source lifetime/placement
+match the circle fallthrough and preserving the post-rotation slot reload.

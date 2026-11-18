@@ -365,3 +365,17 @@ separately from the earlier network stack work. It is still nonexact and must
 not be used to update the frontier baseline. Next compare the null-return
 branch target, type/delay filter branch polarity, x87 unordered flags, and the
 bullet/slot register lifetimes.
+
+
+## 2026-11-18 GPT-web collision continuation
+
+The current collision scan checkpoint is the volatile hit-region reload
+variant. It preserves the nested scan preheader and the target ESI cursor
+prologue, sends invalid/delayed/geometric misses through a shared C++ advance,
+and separately advances after a cancel-kind hit whose bullet is not canceled.
+The hit path reloads `*slot` through a volatile pointer local; the rotated
+path reloads it after the vector-rotation call. The focused frontier is
+849/862 bytes with 533 differing positions (baseline 842/862, 705 positions).
+Do not rebaseline: the circle hit still branches to a late common block rather
+than retail's fallthrough hit block, and the angle/axis and reward tails remain
+nonexact. Continue with source-level control-flow/lifetime experiments only.

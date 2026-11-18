@@ -93,50 +93,62 @@ int PlayerLifecycleView::CheckBulletCollision(
     PlayerCollisionRegionCreateRegionView *region;
     liveScratch.cursor.slot = slot;
 
-    for (;;)
+    do
     {
         for (;;)
         {
             region = *slot;
             if (region == NULL)
                 return 0;
-            const int regionType = region->type38;
-            if ((regionType == PLAYER_REGION_DIRECT_HIT ||
-                 regionType == PLAYER_REGION_BULLET_CANCEL_2 ||
-                 regionType == PLAYER_REGION_BULLET_CANCEL_3) &&
-                region->delay40 <= 0)
-                break;
-            ++slot;
+            if (region->type38 != PLAYER_REGION_DIRECT_HIT &&
+                region->type38 != PLAYER_REGION_BULLET_CANCEL_2 &&
+                region->type38 != PLAYER_REGION_BULLET_CANCEL_3)
+                goto next_region;
+            if (region->delay40 > 0)
+                goto next_region;
+            break;
         }
 
-        if (region->radius08 != 0.0)
+        volatile float &radius = region->radius08;
+        if (radius != 0.0)
         {
-            xDelta = livePosition->x - region->centerX00;
-            yDelta = livePosition->y - region->centerY04;
-            if (xDelta * xDelta + yDelta * yDelta >=
-                region->radius08 * region->radius08)
-            {
-                ++slot;
-                continue;
-            }
+            xDelta = position->x - region->centerX00;
+            yDelta = position->y - region->centerY04;
+            if (!(xDelta * xDelta + yDelta * yDelta <
+                  region->radius08 * region->radius08))
+                goto next_region;
+
+hit:
+            PlayerCollisionRegionCreateRegionView * volatile hitRegion = *slot;
+            const int hitType = hitRegion->type38;
+            if (hitType == PLAYER_REGION_BULLET_CANCEL_2)
+                goto cancel_hit;
+            if (hitType == PLAYER_REGION_BULLET_CANCEL_3)
+                goto cancel_hit;
+            hitRegion->hitCount2C = static_cast<int>(
+                static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
+            return 2;
+
+cancel_hit:
+            if (currentBullet != NULL && currentBullet->bulletType == 0)
+                break;
+            goto cancel_next;
         }
-        else if (region->angle20 != 0.0)
+        else if (region->angle20 != 0.0f)
         {
-            scratch.collision.delta.x = livePosition->x - region->centerX00;
-            scratch.collision.delta.y = livePosition->y - region->centerY04;
+            scratch.collision.delta.x = position->x - region->centerX00;
+            scratch.collision.delta.y = position->y - region->centerY04;
             RotatePlayerCollisionVector(
                 &scratch.collision.rotated, &scratch.collision.delta,
                 -region->angle20);
             scratch.collision.halfSize.x = (*slot)->halfWidth10;
             scratch.collision.halfSize.y = (*slot)->halfHeight14;
-            if (-scratch.collision.halfSize.x > scratch.collision.rotated.x ||
-                scratch.collision.rotated.x > scratch.collision.halfSize.x ||
-                -scratch.collision.halfSize.y > scratch.collision.rotated.y ||
-                scratch.collision.rotated.y > scratch.collision.halfSize.y)
-            {
-                ++slot;
-                continue;
-            }
+            if (-scratch.collision.halfSize.x <= scratch.collision.rotated.x &&
+                scratch.collision.rotated.x <= scratch.collision.halfSize.x &&
+                -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
+                scratch.collision.rotated.y <= scratch.collision.halfSize.y)
+                goto hit;
+            goto next_region;
         }
         else
         {
@@ -148,29 +160,21 @@ int PlayerLifecycleView::CheckBulletCollision(
                 region->halfWidth10 + region->centerX00;
             scratch.collision.boundsMax.y =
                 region->halfHeight14 + region->centerY04;
-            if (scratch.collision.halfSize.x > livePosition->x ||
-                scratch.collision.boundsMax.x < livePosition->x ||
-                scratch.collision.halfSize.y > livePosition->y ||
-                scratch.collision.boundsMax.y < livePosition->y)
-            {
-                ++slot;
-                continue;
-            }
+            if (!(scratch.collision.halfSize.x > position->x ||
+                  scratch.collision.boundsMax.x < position->x ||
+                  scratch.collision.halfSize.y > position->y ||
+                  scratch.collision.boundsMax.y < position->y))
+                goto hit;
+            goto next_region;
         }
 
-        const int hitType = (*slot)->type38;
-        if (hitType != PLAYER_REGION_BULLET_CANCEL_2 &&
-            hitType != PLAYER_REGION_BULLET_CANCEL_3)
-        {
-            (*slot)->hitCount2C = static_cast<int>(
-                static_cast<unsigned int>((*slot)->hitCount2C) + 1u);
-            return 2;
-        }
-
-        if (currentBullet != NULL && currentBullet->bulletType == 0)
-            break;
+next_region:
         ++slot;
-    }
+        continue;
+
+cancel_next:
+        ++slot;
+    } while (true);
 
     // Cancellation leaves the region scan before creating the reward effect.
 {
