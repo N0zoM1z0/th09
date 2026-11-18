@@ -50,14 +50,16 @@ Keep the canonical match manifests, compiler source profiles and original PE
 as the proof inputs. The longer sections below are topic-specific evidence,
 not instructions to restore old scratch experiments or previous snapshots.
 
-**Storage handoff (2026-11-17):** dated compiler PDBs/OBJs, old variant
-corpora, stale JSON receipts and ignored `build/` caches are disposable.
-Historical `.analysis/` probe paths mentioned later in this notebook
-may have been deleted; they are not prerequisites for reproducible exactness.
-Regenerate only the selected compiler carrier from current source.
-The attested original executable, toolchain, saved Ghidra project, C2
-investigation inputs and Git history are retained; consult
-[RE_HANDOFF.md](RE_HANDOFF.md) for the small protected set.
+**Storage handoff (2026-11-18):** generated `build/` caches, the old
+`c2-analysis/probe*` project corpus, duplicate C2 reports, stale replay JSON,
+IDA call-result captures and Ghidra export snapshots are disposable and have
+been pruned. The original target, shared toolchain/Wine prefix, reference
+checkout, saved Ghidra project, two C2 analysis projects, C2 scripts and the
+small set of compiler/heap diagnostics are retained. Historical `.analysis/`
+paths mentioned later in this notebook may no longer exist; they are not
+prerequisites for reproducible exactness. Regenerate only the selected
+compiler carrier from maintained source. See [RE_HANDOFF.md](RE_HANDOFF.md)
+for the exact retained set and cleanup boundary.
 
 ## Practical interpretation
 
@@ -78,6 +80,21 @@ investigation inputs and Git history are retained; consult
   all-owner cold replay, do not change VC7.1 profiles to chase registers,
   and do not treat adjacent-game decompilation as an original TH09 Oracle.
 
+## Current source supersessions (2026-11-18)
+
+- `EffectManager::AddedCallback`: commit `2ebbf0cd` keeps the natural
+  `ResolveEffectAnm(AnmManager *, AnmLoaded *&)` helper, which publishes the
+  final ANM handle only after optional preload. The current 51-byte frontier
+  has four residual positions. Older dated entries reporting eight unmatched
+  register bytes describe earlier source snapshots, not the live carrier.
+- `SupervisorServiceUpdate`: commit `1c4cb7e7` corrects the paired
+  `PopFrame` scratch union: two distinct 16-bit seed slots and one shared
+  32-bit predicted slot. The 1,629/1,633-byte owner still has 966 residual
+  positions; this ABI/layout correction is not a byte-match improvement.
+- Current owner counts, residuals and next steps live only in
+  [RE_HANDOFF.md](RE_HANDOFF.md). Older experiment entries below are dated
+  evidence and must not override the live source or `config/frontiers.toml`.
+
 ## 2026-11-11 native Effect template indexed storage
 
 `EffectManager::InitializeEffect @ 0x0040CA60` reads nine fields from the
@@ -92,9 +109,11 @@ without caching a read, creating a new backing table, or adding a guard.
 After applying the maintained source change, the pinned VC7.1 one-carrier
 scoped cold replay passed **15 complete exact EffectManager owners / 2,530
 physical bytes / 100 relocation fields**, including all **407 bytes and 17
-fields** of `InitializeEffect`. The separately original-bound 51-byte
-`AddedCallback` still has four bound fields, both correct calls and its
-existing eight nonexact register bytes. This improves source semantics but
+fields** of `InitializeEffect`. At this historical 2026-11-11 snapshot,
+the separately original-bound 51-byte `AddedCallback` had four bound fields,
+both correct calls and eight nonexact register bytes. The current source
+carrier was later improved in commit `2ebbf0cd`; it now has four residual
+positions, as recorded in the current handoff. This source-semantic change
 adds no exact function or whole-product/runtime credit.
 
 ## 2026-11-11 native ANM capture surface and file-slot selectors
