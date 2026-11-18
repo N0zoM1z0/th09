@@ -145,7 +145,9 @@ hit:
             goto cancel_hit;
         if ((*slot)->type38 == 3)
             goto cancel_hit;
-        ++(*slot)->hitCount2C;
+        // The native counter is incremented as a 32-bit DWORD, even on wrap.
+        (*slot)->hitCount2C = static_cast<int>(
+            static_cast<unsigned int>((*slot)->hitCount2C) + 1u);
         return 2;
 
     cancel_hit:
@@ -194,7 +196,10 @@ hit:
             if (rewardValue > 100)
                 rewardValue = 1000;
             else
-                rewardValue *= 10;
+                // Retail uses a DWORD LEA/SHL, so multiplication wraps
+                // before the signed reward value is forwarded.
+                rewardValue = static_cast<int>(
+                    static_cast<unsigned int>(rewardValue) * 10u);
 
             int rewardMode =
                 (g_GameManager.difficulty11C >= 3) + 2;
@@ -206,7 +211,8 @@ hit:
         }
 
         PlayerCollisionRegionCreateRegionView *hitRegion = *liveScratch.cursor.slot;
-        ++hitRegion->hitCount2C;
+        hitRegion->hitCount2C = static_cast<int>(
+            static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
         return 2;
 
 
