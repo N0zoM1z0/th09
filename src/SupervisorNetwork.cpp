@@ -47,8 +47,8 @@ extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 // Retail uses the same eight-byte stack window in two mutually exclusive
 // phases. The handshake writes seeds at -0xC/-0xA and prediction at -0x8;
 // the final frame instead writes prediction at -0xC and seeds at -0x8/-0x6.
-// The final-phase scalar locals remain separate until their exact compiler
-// lifetime is recovered; all three views describe the observed wire layout.
+// The adjacent input/frame home at -0x14 is separately reused for the
+// frame counter during prediction and the two input words during consumption.
 struct NetworkPopFrameScratch
 {
     union
@@ -83,25 +83,47 @@ typedef char NetworkPopFrameScratchLayout[
      offsetof(NetworkPopFrameScratch, finalFrame.predicted) == 0 &&
      offsetof(NetworkPopFrameScratch, finalFrame.firstSeed) == 4 &&
      offsetof(NetworkPopFrameScratch, finalFrame.secondSeed) == 6) ? 1 : -1];
-// Final PopFrame produces two adjacent native input words. Retail reloads
-// both words through one DWORD home, sends each input independently, then
-// ORs them for the aggregate input callback. Keep their physical pair typed.
-struct NetworkFrameInputPair
+// The native eight-byte home at EBP-0x14 first holds the frame counter and
+// later holds the two final input words. Only the low four bytes are consumed
+// by the input callbacks; keep the complete home explicit in the stack view.
+struct NetworkServiceInputScratch
 {
-    union
-    {
-        struct { unsigned short side0; unsigned short side1; };
-        // The native first input is read as one DWORD after both 16-bit
-        // PopFrame results have been stored. The callee consumes its low
-        // word, while the side fields preserve the physical wire order.
-        unsigned int packed;
-    };
+    unsigned short side0;
+    unsigned short side1;
+    unsigned short reserved0;
+    unsigned short reserved1;
 };
-typedef char NativeNetworkFrameInputPairLayout[
-    (sizeof(NetworkFrameInputPair) == 4 &&
-     offsetof(NetworkFrameInputPair, side0) == 0 &&
-     offsetof(NetworkFrameInputPair, side1) == 2 &&
-     offsetof(NetworkFrameInputPair, packed) == 0) ? 1 : -1];
+union NetworkServiceReturnScratch
+{
+    int result;
+    int status;
+};
+union NetworkServiceInputFrameScratch
+{
+    NetworkServiceInputScratch inputs;
+    unsigned int frame;
+};
+struct NetworkServiceStackScratch
+{
+    NetworkServiceInputFrameScratch inputFrame;
+    NetworkPopFrameScratch popFrame;
+    NetworkServiceReturnScratch returnValue;
+};
+typedef char NetworkServiceStackScratchLayout[
+    (sizeof(NetworkServiceStackScratch) == 20 &&
+     offsetof(NetworkServiceStackScratch, inputFrame) == 0 &&
+     offsetof(NetworkServiceInputFrameScratch, inputs) == 0 &&
+     offsetof(NetworkServiceInputFrameScratch, frame) == 0 &&
+     offsetof(NetworkServiceInputFrameScratch, inputs.side0) == 0 &&
+     offsetof(NetworkServiceInputFrameScratch, inputs.side1) == 2 &&
+     offsetof(NetworkServiceStackScratch, popFrame) == 8 &&
+     offsetof(NetworkServiceStackScratch, returnValue) == 16 &&
+     sizeof(NetworkServiceReturnScratch) == 4 &&
+     offsetof(NetworkServiceStackScratch, popFrame.first.seed) == 8 &&
+     offsetof(NetworkServiceStackScratch, popFrame.first.predicted) == 12 &&
+     offsetof(NetworkServiceStackScratch, popFrame.finalFrame.predicted) == 8 &&
+     offsetof(NetworkServiceStackScratch, popFrame.finalFrame.firstSeed) == 12 &&
+     offsetof(NetworkServiceStackScratch, popFrame.finalFrame.secondSeed) == 14) ? 1 : -1];
 
 // Values are taken from the original network service's state and packet
 // transitions. The original identifier spelling is not established.
@@ -145,23 +167,21 @@ enum NetworkServiceLimits
 
 int Supervisor::UpdateNetworkService()
 {
-    // Retail maintains independent frame-completion and wait/reset results.
-    // The frame result begins at zero; the waiting status is assigned by the
-    // session and timeout branches before reaching RETURN_STATE.
-    int result = NETWORK_SERVICE_FRAME_READY;
-    int status;
-    DWORD now;
+    // Frame completion and wait/reset returns have disjoint lifetimes in the
+    // native return home; PopFrame scratch and the frame/input home are reused
+    // at their original offsets rather than allocated as unrelated locals.
+    NetworkServiceStackScratch scratch;
+    scratch.returnValue.result = NETWORK_SERVICE_FRAME_READY;
 
     this->EnterCriticalSectionWrapper(4);
 
     // The initial state/join decisions use the same network object, before
     // the connection callbacks independently reload their live receiver.
-    SupervisorNetworkState *network = g_SupervisorNetworkState;
-    if (network->connectionState == NETWORK_SESSION_IDLE)
+    if (g_SupervisorNetworkState->connectionState == NETWORK_SESSION_IDLE)
     {
-        if (network->joinMode != 0)
+        if (g_SupervisorNetworkState->joinMode != 0)
         {
-            network->localSide = 1;
+            g_SupervisorNetworkState->localSide = 1;
             g_SupervisorNetworkState->CreateDeviceAddress();
             g_SupervisorNetworkState->CreateHostAddress();
             g_SupervisorNetworkState->ConnectSession();
@@ -189,7 +209,7 @@ int Supervisor::UpdateNetworkService()
 
     if (g_SupervisorNetworkState->connectionState == NETWORK_SESSION_SEARCHING)
     {
-        now = timeGetTime();
+        DWORD now = timeGetTime();
         this->networkBusy478 = 1;
         if (now < this->networkConnectStartTime588)
             this->networkConnectStartTime588 = now;
@@ -210,12 +230,12 @@ int Supervisor::UpdateNetworkService()
         {
             if (this->networkTiming458.frameCounter != 0)
             {
-                status = NETWORK_SERVICE_RESET;
+                scratch.returnValue.status = NETWORK_SERVICE_RESET;
                 goto RETURN_STATE;
             }
 
             this->networkBusy478 = 1;
-            now = timeGetTime();
+            DWORD now = timeGetTime();
             if (now < this->networkTiming458.connectionTime)
                 this->networkTiming458.connectionTime = now;
 
@@ -238,10 +258,10 @@ int Supervisor::UpdateNetworkService()
 
     if (this->networkTiming458.frameMode == NETWORK_FRAME_PREPARING || this->networkTiming458.frameMode == NETWORK_FRAME_PREDICTING)
     {
-        unsigned int frame = this->networkTiming458.frameCounter;
-
-        if (frame == 0 ||
-            frame % (NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate) == 0)
+        scratch.inputFrame.frame = this->networkTiming458.frameCounter;
+        if (scratch.inputFrame.frame == 0 ||
+            scratch.inputFrame.frame %
+                (NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate) == 0)
         {
             if (this->networkTiming458.frameMode == NETWORK_FRAME_PREPARING)
             {
@@ -279,9 +299,10 @@ int Supervisor::UpdateNetworkService()
 
                     if (g_SupervisorNetworkState->syncValue != 0)
                     {
-                        NetworkPopFrameScratch prefill;
-                        this->PopFrame(0, &prefill.first.seed, &prefill.first.predicted);
-                        this->PopFrame(1, &prefill.second.seed, &prefill.second.predicted);
+                        this->PopFrame(0, &scratch.popFrame.first.seed,
+                                       &scratch.popFrame.first.predicted);
+                        this->PopFrame(1, &scratch.popFrame.second.seed,
+                                       &scratch.popFrame.second.predicted);
                     }
                     g_SupervisorNetworkState->initialFramesQueued = 1;
                 }
@@ -289,9 +310,9 @@ int Supervisor::UpdateNetworkService()
                 if (g_SupervisorNetworkState->packetReady == 0)
                 {
                 WAIT_FOR_FRAME:
-                    result = NETWORK_SERVICE_RETRY_FRAME;
+                    scratch.returnValue.result = NETWORK_SERVICE_RETRY_FRAME;
                     this->LeaveCriticalSectionWrapper(4);
-                    return result;
+                    return scratch.returnValue.result;
                 }
                 g_NetworkFramePacket.words.input =
                     static_cast<unsigned short>(Controller::GetInput(g_SupervisorNetworkState->localSide));
@@ -339,7 +360,8 @@ int Supervisor::UpdateNetworkService()
             // but reads its side after the seed callback has finished.
             const short firstSeed = static_cast<short>(g_ReplayRng.GetSeed());
             volatile const int &firstSide = frameNetwork->localSide;
-            this->InsertPredictedFrame(firstSide, frame, firstSeed);
+            this->InsertPredictedFrame(
+                firstSide, scratch.inputFrame.frame, firstSeed);
             // Retail obtains the prediction seed before re-reading the
             // network side; the peer can change during service callbacks.
             const short predictedSeed = static_cast<short>(g_ReplayRng.GetSeed());
@@ -361,7 +383,7 @@ int Supervisor::UpdateNetworkService()
             1u - static_cast<unsigned int>(
                 g_SupervisorNetworkState->localSide))))
     {
-        now = timeGetTime();
+        DWORD now = timeGetTime();
         this->networkTiming458.waitTime = now;
         if (now < this->networkTiming458.frameStartTime)
             this->networkTiming458.frameStartTime = now;
@@ -371,7 +393,7 @@ int Supervisor::UpdateNetworkService()
 
         if (now - this->networkTiming458.frameStartTime > NETWORK_DISCONNECT_TIMEOUT_MS)
         {
-            status = NETWORK_SERVICE_RESET;
+            scratch.returnValue.status = NETWORK_SERVICE_RESET;
             goto RETURN_STATE;
         }
 
@@ -381,31 +403,31 @@ int Supervisor::UpdateNetworkService()
             g_NetworkDisconnectedMessage);
 
     NETWORK_WAIT:
-        status = NETWORK_SERVICE_WAIT;
+        scratch.returnValue.status = NETWORK_SERVICE_WAIT;
 
     RETURN_STATE:
         this->LeaveCriticalSectionWrapper(4);
         if ((Controller::GetInput(2) & 2) != 0)
             return NETWORK_SERVICE_RESET;
         if (this->flagsLow5D4 >= 0 || SupervisorSubthreadIsRunning(this))
-            return status;
+            return scratch.returnValue.status;
         return NETWORK_SERVICE_STOP;
     }
 
     {
-        NetworkFrameInputPair inputs;
-        unsigned short seed0;
-        unsigned short seed1;
-        unsigned int predicted;
-
         this->networkTiming458.confirmedFrame = this->networkTiming458.frameCounter;
         this->networkTiming458.frameMode = NETWORK_FRAME_PREPARING;
-        inputs.side0 = static_cast<unsigned short>(this->PopFrame(0, &seed0, &predicted));
-        inputs.side1 = static_cast<unsigned short>(this->PopFrame(1, &seed1, &predicted));
-        ApplyNetworkInput(0, static_cast<unsigned short>(inputs.packed));
-        ApplyNetworkInput(1, inputs.side1);
-        ApplyNetworkInput(2, inputs.side0 | inputs.side1);
+        scratch.inputFrame.inputs.side0 = static_cast<unsigned short>(
+            this->PopFrame(0, &scratch.popFrame.finalFrame.firstSeed,
+                           &scratch.popFrame.finalFrame.predicted));
+        scratch.inputFrame.inputs.side1 = static_cast<unsigned short>(
+            this->PopFrame(1, &scratch.popFrame.finalFrame.secondSeed,
+                           &scratch.popFrame.finalFrame.predicted));
+        ApplyNetworkInput(0, static_cast<unsigned short>(
+            *reinterpret_cast<unsigned int *>(&scratch.inputFrame.inputs.side0)));
+        ApplyNetworkInput(1, scratch.inputFrame.inputs.side1);
+        ApplyNetworkInput(2, scratch.inputFrame.inputs.side0 | scratch.inputFrame.inputs.side1);
         this->LeaveCriticalSectionWrapper(4);
-        return result;
+        return scratch.returnValue.result;
     }
 }

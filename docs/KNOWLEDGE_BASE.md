@@ -13291,3 +13291,50 @@ wraparound behavior. Both complete pinned VC7.1 exact owners replayed
 byte-for-byte after the simplification: `GetRemotePeerId` 17/17 bytes and
 `SendPacket` 95/95 bytes, with zero relocations. Their null-check and delayed
 peer-ID dereference order is unchanged.
+
+## 2026-11-18 GPT-web: playback-stage local lifetime overlay and boss probes
+
+`ReplayManagerView::BeginPlaybackStage @ 0x00420840` now expresses the
+mutually exclusive playback-stage index and side-0 runtime pointer as one
+four-byte `ReplayPlaybackScratch` union. The target first keeps
+`g_GameManager.field0FC` in ESI for the frame-array calculations and later
+reuses ESI for `g_GameManager.sides[0].runtime`; the compile-time layout
+assertion documents the shared native local lifetime without assembly or
+padding. The redundant `AsciiGameManagerView &game` alias was also removed in
+favour of direct global-object access. The complete function remains 540 bytes
+with 13 residual positions: VC7.1 still hoists the side-0 runtime-pointer
+load ahead of the target's `value1E7` store / `value1E8` read sequence. A
+volatile pointer-read experiment changed the earlier ESI/EDI allocation and
+was rejected. No exactness credit is claimed for the union cleanup.
+
+The same session rechecked the other near-exact owners. `SaveReplay` remains
+1238 bytes with two residual positions: its REP MOVSD destination calculation
+uses ECX as a temporary where retail loads the base directly into EDI. The
+source now uses the direct POD assignment expression from the decompiler's
+`qmemcpy` shape; it does not change the current byte frontier.
+`EnemyManagerView::OnUpdate` remains 3900 bytes with two residual positions:
+retail uses EAX for the zero-extended draw-group index and its LEA result,
+while VC7.1 uses ECX as the index temporary. Function-scope locals, array
+subscript addressing, explicit unsigned indexing, and volatile slot aliases
+were tested and restored.
+
+`Supervisor::UpdateNetworkService @ 0x00430AA0` target decompilation confirms
+a 20-byte local frame: the final input pair begins at `EBP-0x14`, the shared
+eight-byte PopFrame overlay begins at `EBP-0x0C`, and the result DWORD is at
+`EBP-4`. The current natural-C++ trial models this with a frame/input union at
+offset 0, the PopFrame union at offset 8, and a result/status union at offset
+16; compile-time `sizeof`/`offsetof` assertions verify the complete 20-byte
+layout. The focused frontier comparison falls from 966 to 914 differing
+positions. The emitted prologue now uses `sub esp, 0x14`, initializes the
+result at `EBP-4`, and uses the target PopFrame/input homes. The function is
+still 1650 bytes versus the target's 1633 and remains nonexact; the first
+network receiver is still allocated to ECX rather than retail's EDI, and many
+body instructions differ. Do not update the frontier baseline or claim
+exactness. Continue with receiver/register lifetime and branch CFG recovery.
+
+`PlayerLifecycleView::CheckBulletCollision` nested-loop CFG experiments
+reached 612 differing positions from the 705-position baseline, but created
+93 newly differing positions and moved the direct-hit epilogue ahead of the
+reward block. All collision experiments were restored. The next viable
+attack is the native three-loop continue/break structure with the shared
+reward/direct-hit tail, not the rejected early-return variant.

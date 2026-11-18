@@ -576,7 +576,17 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
 int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
 {
     i32 fileSize;
-    i32 stage;
+    // The playback stage index dies before the side-0 runtime pointer is
+    // needed. The native owner reuses this 32-bit local/register lifetime.
+    union ReplayPlaybackScratch
+    {
+        i32 stage;
+        AsciiGameSideRuntimeView *side0Runtime;
+    } scratch;
+    typedef char ReplayPlaybackScratchLayout[
+        (sizeof(ReplayPlaybackScratch) == 4 &&
+         offsetof(ReplayPlaybackScratch, stage) == 0 &&
+         offsetof(ReplayPlaybackScratch, side0Runtime) == 0) ? 1 : -1];
     i32 i;
     ReplayFrameDataStartView *frame0;
     ReplayFrameDataStartView *frame1;
@@ -593,44 +603,45 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
             return -1;
         replayManager->unknown110 = 0;
     }
-    stage = g_GameManager.field0FC;
-    if (replayManager->replayData->frameStart[stage] == NULL)
+    scratch.stage = g_GameManager.field0FC;
+    if (replayManager->replayData->frameStart[scratch.stage] == NULL)
         return -1;
-    if ((g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1()) && stage > 0)
+    if ((g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1()) && scratch.stage > 0)
     {
-        for (i = 0; i < stage; i++)
+        for (i = 0; i < scratch.stage; i++)
             g_GameManager.clearD8[replayManager->replayData->frameStart[1][i]->value06] = 1;
     }
-    frame1 = replayManager->replayData->frameStart[1][stage];
-    frame0 = replayManager->replayData->frameStart[0][stage];
-    frame2 = replayManager->replayData->frameStart[2][stage];
-    fpsStart = replayManager->replayData->fpsStart[stage];
-    AsciiGameManagerView &game = g_GameManager;
-    game.sides[0].character20 = frame0->value06;
-    game.sides[1].character20 = frame1->value06;
-    game.sides[0].replaySelector28 = frame0->value07;
-    game.sides[1].replaySelector28 = frame1->value07;
-    game.sides[0].value2C = frame0->value0A;
-    game.sides[1].value2C = frame1->value0A;
-    game.valueF4 = frame0->value0C;
-    game.value138 = static_cast<signed char>(frame0->value09);
-    game.difficulty = replayManager->replayData->value0D7;
-    game.value378 = replayManager->replayData->value1E6;
-    game.value37C = replayManager->replayData->value1E7;
-    game.sides[0].value30 = replayManager->replayData->value1E8;
-    game.sides[1].value30 = replayManager->replayData->value1E9;
-    game.sides[0].runtime->value08 = frame0->value00;
-    game.sides[1].runtime->value08 = frame1->value00;
-    game.sides[0].runtime->value04 = frame0->value00;
-    game.sides[1].runtime->value04 = frame1->value00;
-    game.sides[0].runtime->value00 = static_cast<float>(frame0->value08);
-    game.sides[1].runtime->value00 = static_cast<float>(frame1->value08);
-    game.sides[0].runtime->phase10 = frame0->value10;
+    frame1 = replayManager->replayData->frameStart[1][scratch.stage];
+    frame0 = replayManager->replayData->frameStart[0][scratch.stage];
+    frame2 = replayManager->replayData->frameStart[2][scratch.stage];
+    fpsStart = replayManager->replayData->fpsStart[scratch.stage];
+    g_GameManager.sides[0].character20 = frame0->value06;
+    g_GameManager.sides[1].character20 = frame1->value06;
+    g_GameManager.sides[0].replaySelector28 = frame0->value07;
+    g_GameManager.sides[1].replaySelector28 = frame1->value07;
+    g_GameManager.sides[0].value2C = frame0->value0A;
+    g_GameManager.sides[1].value2C = frame1->value0A;
+    g_GameManager.valueF4 = frame0->value0C;
+    g_GameManager.value138 = static_cast<signed char>(frame0->value09);
+    g_GameManager.difficulty = replayManager->replayData->value0D7;
+    g_GameManager.value378 = replayManager->replayData->value1E6;
+    g_GameManager.value37C = replayManager->replayData->value1E7;
+    const u8 side0Value30 = replayManager->replayData->value1E8;
+    scratch.side0Runtime = g_GameManager.sides[0].runtime;
+    g_GameManager.sides[0].value30 = side0Value30;
+    g_GameManager.sides[1].value30 = replayManager->replayData->value1E9;
+    scratch.side0Runtime->value08 = frame0->value00;
+    g_GameManager.sides[1].runtime->value08 = frame1->value00;
+    g_GameManager.sides[0].runtime->value04 = frame0->value00;
+    g_GameManager.sides[1].runtime->value04 = frame1->value00;
+    g_GameManager.sides[0].runtime->value00 = static_cast<float>(frame0->value08);
+    g_GameManager.sides[1].runtime->value00 = static_cast<float>(frame1->value08);
+    g_GameManager.sides[0].runtime->phase10 = frame0->value10;
     replayManager->inputCursors[0] = reinterpret_cast<u16 *>(frame0 + 1);
     replayManager->inputCursors[1] = reinterpret_cast<u16 *>(frame1 + 1);
     replayManager->inputCursors[2] = reinterpret_cast<u16 *>(frame2 + 1);
     replayManager->fpsCursor = fpsStart;
-    memcpy(game.configurationE8, reinterpret_cast<const u8 *>(replayManager->replayData) + offsetof(ReplayDataView, configSnapshot), sizeof(GameConfiguration));
+    memcpy(g_GameManager.configurationE8, reinterpret_cast<const u8 *>(replayManager->replayData) + offsetof(ReplayDataView, configSnapshot), sizeof(GameConfiguration));
     g_ReplayRng.SetSeed(frame0->stageSeed);
     replayManager->inputDelay = 0;
     return 0;

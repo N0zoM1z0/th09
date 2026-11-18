@@ -318,3 +318,20 @@ Missing `build/frontier/*.obj` or `build/matching/*.obj` after cleanup is
 expected. Do not run `git clean -fdx`: it would also target protected ignored
 inputs. Never delete `.tools/`, `resources/th09.exe`, `_reference/`, either C2
 project, or the saved Ghidra project while cleaning caches.
+
+## 2026-11-18 GPT-web continuation checkpoint
+
+Current HEAD is the two-commit network leaf cleanup from this workstream.
+The playback-stage source now has a four-byte `ReplayPlaybackScratch` union
+for the disjoint stage-index / side-0-runtime-pointer lifetime, while its
+complete owner remains at 13 residual positions. The near-exact SaveReplay
+and EnemyManager update owners still have two register-scheduling residuals
+each. The live Supervisor network service trial now uses a compile-time-checked
+20-byte aggregate: frame/input union at offset 0, PopFrame overlay at offset 8,
+and result/status union at offset 16. Its emitted frame matches the target
+(`sub esp, 0x14`, result at EBP-4, PopFrame homes at EBP-0x0C), and the focused
+residual count falls from 966 to 914. It remains nonexact (1650 candidate bytes
+versus 1633 target bytes); do not rebaseline. The collision nested-loop
+experiment remains rejected (612 total differences but 93 new positions).
+Continue with the two large owners and near-exact leaves; keep the natural C++
+stack overlay and commit after focused verification.
