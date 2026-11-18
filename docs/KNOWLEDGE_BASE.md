@@ -13461,3 +13461,31 @@ differing positions, but the original monotonic ratchet still reports
 grew from 842 to 849 bytes. The lower total difference count is diagnostic
 evidence, not an accepted frontier improvement. Preserve the original baseline
 and keep fixing the newly differing offsets.
+
+## 2026-11-18 GPT-web: remaining large-function register residuals
+
+`EnemyManagerView::OnUpdate` remains a 3,900-byte natural-C++ reconstruction
+with exactly two byte mismatches. At `+0x19A/+0x1A1`, retail reuses EAX for
+`movzx eax, [enemy+0x3387]` and `lea eax, [manager+eax*4+0x2AC410]`; VC7.1
+currently uses ECX for the zero-extended draw-group index and EAX for the
+result pointer. Pointer addition, array indexing, split pointer increment,
+byte/int/register locals, inline accessors and explicit integer-offset forms
+all retained the same ECX/EAX allocation. Keep the idiomatic pointer expression
+and leave these two bytes as a documented register-allocation residual rather
+than forcing registers with assembly or padding.
+
+`UpdateChargeAttack` remains at its original 1,210-byte / 183-position
+frontier. Trials widening the short local side index to int, moving the input
+pointer declaration, and using a reference instead of a pointer caused a
+large register-allocation cascade (648 differing positions) and were reverted.
+The useful target clue is still that retail holds the full-width side index in
+EDI and the `ReplayInputState *` in EBX, while the current source produces the
+opposite allocation. Continue with source lifetime/declaration-order work;
+do not bless the regressed variant.
+
+The collision rotation leaf remains at its committed 66-byte candidate against
+a 62-byte target. Replacing `double` with `long double` for the CRT wrappers and
+x87 locals did not change the generated code. The remaining differences are
+x87 operand evaluation order and the final stack cleanup. Keep the double
+wrapper checkpoint and continue only with natural source-level lifetime
+experiments.

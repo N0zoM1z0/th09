@@ -400,3 +400,18 @@ positions, but `check-frontier.py` reports `REGRESSED` because new byte offsets
 differ and the candidate grew by seven bytes from the original 842-byte
 baseline. Do not rebaseline; the count reduction alone is not a monotonic
 improvement. Keep resolving those new offsets in natural C++.
+
+## 2026-11-18 GPT-web: boss residual register research
+
+- `EnemyManagerView::OnUpdate`: 3900/3900 bytes, only two differing bytes at
+  `+0x19A/+0x1A1`; target reuses EAX for the draw-group byte and scaled pointer,
+  candidate uses ECX for the index. Several typed-pointer, array, split-increment,
+  local-type and inline-accessor variants did not change codegen. Keep natural
+  pointer arithmetic; no assembly/padding.
+- `UpdateChargeAttack`: retain the 1210-byte / 183-difference baseline. Widening
+  the local side index or changing input pointer to reference caused a 648-diff
+  regression and was reverted. Target side/input registers are EDI/EBX versus
+  candidate EBX/EDI; continue source lifetime experiments.
+- `RotatePlayerCollisionVector`: retain the 66-byte double-wrapper checkpoint;
+  `long double` variants did not change the 24-position residual. Remaining
+  work is x87 operand order and final `fstp st(0)` cleanup.
