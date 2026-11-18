@@ -42,6 +42,25 @@ enum PlayerChargeFocusMode
 };
 
 
+// TH09's charge meter is measured in 100-point tiers. The retail owner
+// starts a release at 100, exposes progressively stronger attacks at
+// 200/300/400 and consumes 100/200/300 points for the respective attacks.
+// These are the decoded meter values, not new gameplay thresholds.
+enum PlayerChargeMeterLevel
+{
+    PLAYER_CHARGE_RELEASE_LEVEL = 100,
+    PLAYER_CHARGE_FIRST_ATTACK_LEVEL = 200,
+    PLAYER_CHARGE_SECOND_ATTACK_LEVEL = 300,
+    PLAYER_CHARGE_THIRD_ATTACK_LEVEL = 400
+};
+
+enum PlayerChargeResourceCost
+{
+    PLAYER_CHARGE_FIRST_ATTACK_COST = 100,
+    PLAYER_CHARGE_SECOND_ATTACK_COST = 200,
+    PLAYER_CHARGE_THIRD_ATTACK_COST = 300
+};
+
 int PlayerLifecycleView::UpdateChargeAttack()
 {
     // PlayerRegisterChain is only called from GameManagerSetup's two-side
@@ -122,34 +141,34 @@ int PlayerLifecycleView::UpdateChargeAttack()
         goto afterCharge;
     }
 resolveAttack:
-    if (scalar30384 >= 100.0f)
+    if (scalar30384 >= static_cast<float>(PLAYER_CHARGE_RELEASE_LEVEL))
     {
         flagBits1B80.chargeAttackActive02 = 1;
         timer30398 = 0;
         timer1B74 = 8;
-        if (scalar30384 >= 400.0f &&
+        if (scalar30384 >= static_cast<float>(PLAYER_CHARGE_THIRD_ATTACK_LEVEL) &&
             opponentState->enemyManager10->FindActiveEnemyBySideCategory(3) == NULL)
         {
             opponentState->cardAttack14->StartAttack(
                         2, 2, 0, primaryShtFile->modePath2);
-            SubtractResourceClamped(300.0f);
+            SubtractResourceClamped(static_cast<float>(PLAYER_CHARGE_THIRD_ATTACK_COST));
             timer1B74 = 8;
             ConfigureState3Effect15();
         }
-        else if (scalar30384 >= 300.0f)
+        else if (scalar30384 >= static_cast<float>(PLAYER_CHARGE_SECOND_ATTACK_LEVEL))
         {
             opponentState->cardAttack14->StartAttack(
                         1, 1, 0, primaryShtFile->modePath1);
-            SubtractResourceClamped(200.0f);
+            SubtractResourceClamped(static_cast<float>(PLAYER_CHARGE_SECOND_ATTACK_COST));
             timer1B74 = 8;
             ConfigureState3Effect14();
         }
-        else if (scalar30384 >= 200.0f)
+        else if (scalar30384 >= static_cast<float>(PLAYER_CHARGE_FIRST_ATTACK_LEVEL))
         {
             opponentState->cardAttack14->StartAttack(
                         0, 0, 0, primaryShtFile->modePath0);
             timer1B74 = 8;
-            SubtractResourceClamped(100.0f);
+            SubtractResourceClamped(static_cast<float>(PLAYER_CHARGE_FIRST_ATTACK_COST));
             ConfigureState3Effect13();
         }
     }
