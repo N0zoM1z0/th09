@@ -85,12 +85,24 @@ inline assembly or an old exact claim.
   `719acb53` also recovers the final frame's two consecutive 16-bit input
   results as a typed `NetworkFrameInputPair` with offsets 0/2 and size 4;
   the seed/prediction output pointers remain independent scalars pending
-  VC7.1 lifetime recovery. The complete frontier remains 1,629/1,633 bytes,
-  966 residual positions;
+  VC7.1 lifetime recovery. Commit `32e1524f` additionally makes the
+  target-backed connection phases 0/1/2/3, frame phases 0/1/2, and message
+  kinds 0/2 explicit C++ enums; original identifier spellings are unknown.
+  The complete frontier remains 1,629/1,633 bytes, 966 residual positions;
   a shared function-scope output-object probe changed the local-frame size
   without yielding a ratchetable improvement. Common epilogue and global
   receiver-reload experiments also regressed; do not promote them on partial
   instruction similarity.
+- **Replay capture/save native semantics:** commit `fb66d164` restores
+  native 32-bit wrapping frame-counter increments in `RecordInputAndFps`
+  without signed-overflow assumptions. Commit `9ad8f335` uses a complete
+  typed `ReplayFrameDataStartView` aggregate assignment in `SaveReplay`,
+  naturally emitting the retail eight-DWORD REP MOVSD. A focused replay of
+  `ReplayInput.cpp` still proves 12 exact units over 4,093 physical bytes
+  and 232 relocation fields. The nonexact `SaveReplay` and
+  `BeginPlaybackStage` remain 1,238/1,238 with 2 residual positions and
+  540/540 with 13, respectively. Neither commit claims an additional exact
+  function.
 - **Effect ANM publication:** commit `2ebbf0cd` keeps the natural
   `ResolveEffectAnm(AnmManager *, AnmLoaded *&)` helper. It resolves the
   resident ANM, optionally preloads it, then publishes the final handle to
@@ -109,9 +121,10 @@ inline assembly or an old exact claim.
   with typed 52-byte vector/cursor overlays (reward vectors at offsets 24/36,
   cursor pointer at 48) and spell out the original null-region return.
   Commits `aa841a4e` and `aa59e47b` restore a distinct inner type/delay
-  retry and place the shared hit/cancel C++ dispatcher between the circle and
-  rectangle paths, mirroring the target's logical joins without ASM or fake
-  code. VC7.1 still emits the maintained 842/862-byte, 705-difference body.
+  retry and make the shared hit/cancel dispatch explicit in source.
+  Commit `f8bd4309` further recovers the circle, rotated-rectangle and AABB
+  checks as one natural three-way C++ dispatch feeding that common hit path.
+  VC7.1 still emits the maintained 842/862-byte, 705-difference body.
   Its five exact same-source functions pass a focused replay over 1,220
   physical bytes and 32 relocation fields. Target evidence carries
   Player in EDI, Bullet in EBX, the cursor in ESI, and region in ECX; the
@@ -128,6 +141,17 @@ inline assembly or an old exact claim.
   indexing and pointer/reference alternatives regressed the complete owner
   (some to 717+ differing positions). Preserve the 183-position frontier;
   do not ratchet based on a local instruction win.
+
+- **New bounded compiler probes (2026-11-18):** ten `PlayerMovement`
+  source-only inline focus-mode accessor variants all reproduced the same
+  complete 1,900-byte function and four residual positions. Reversing the
+  `ResolveEffectAnm` argument order and changing pointer/reference forms
+  did not solve the 51-byte Effect callback's four-register-byte residual.
+  A type-safe rewrite of the native Title increment macro and an explicit
+  endpoint cast in `ScreenEffect` preserved their named nonexact frontiers,
+  but changed compiler-private COFF labels in same-source exact units; both
+  experiments were restored, with no ledger or private-label rewriting.
+  Keep the scoped exact cohorts mandatory for future shared-source edits.
 
 Historical negative results are clues, not proof that every natural source
 form is exhausted. Never use ASM, inert padding, fake returns, register hints,
