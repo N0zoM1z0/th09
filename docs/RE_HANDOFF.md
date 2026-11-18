@@ -76,14 +76,18 @@ inline assembly or an old exact claim.
 
 ## Latest source facts to preserve
 
-- **Supervisor network prefill:** commit `1c4cb7e7` corrected
-  `NetworkPrefillScratch` to match the two `PopFrame` calls: first seed at
-  offset 0, second seed at offset 2, and one shared 32-bit predicted slot at
-  offset 4. This is a C++ stack-alias/layout correction. It did not reduce
-  the `SupervisorServiceUpdate` frontier (still 1,629/1,633, 966 residual
-  positions). Keep this union layout. The common frame-result epilogue and
-  global network-pointer reload experiments were tested and regressed the
-  complete owner; do not restore them without new evidence.
+- **Supervisor network PopFrame scratch:** commits `1c4cb7e7` and
+  `bd4b8b07` recover the eight-byte native output window as
+  `NetworkPopFrameScratch`. The prefill at `0x00430E66`/`0x00430E77` writes
+  two seeds at frame offsets 0/2 and prediction at 4; the final frame at
+  `0x0043108B`/`0x004310AC` reverses this to prediction at 0 and seeds at 4/6.
+  All three typed union views have compile-time offset assertions. The final
+  frame still uses independent scalar locals pending VC7.1 lifetime recovery.
+  Its complete frontier remains 1,629/1,633 bytes, 966 residual positions;
+  a shared function-scope output-object probe changed the local-frame size
+  without yielding a ratchetable improvement. Common epilogue and global
+  receiver-reload experiments also regressed; do not promote them on partial
+  instruction similarity.
 - **Effect ANM publication:** commit `2ebbf0cd` keeps the natural
   `ResolveEffectAnm(AnmManager *, AnmLoaded *&)` helper. It resolves the
   resident ANM, optionally preloads it, then publishes the final handle to
@@ -96,14 +100,18 @@ inline assembly or an old exact claim.
   real four-entry `drawGroupHeads2AC410` array. The 3,900-byte Enemy manager
   boss remains at two residual bytes; do not reintroduce assembly, byte
   offsets or padding to force EAX allocation.
-- **Player collision cursor:** commits `4a6e16cb` and `8db39334` record and
-  assert the real 514-entry `activeB100` region-pointer extent. The current
-  842/862-byte collision boss is still nonexact. Target evidence identifies
-  Player in EDI, Bullet in EBX, the cursor in ESI, and the region in ECX;
-  the cursor home is written before the first region dereference. The target
-  has distinct filter, geometry and hit/cancellation retry paths. Historical
-  849/862 and 854/862 natural-loop diagnostics introduced new differences or
-  changed register/CFG shape; they are not accepted carriers.
+- **Player collision cursor and retry loop:** commits `4a6e16cb` and
+  `8db39334` assert the true 514-entry `activeB100` extent. Commits
+  `8613e62f` and `1bc46c9b` replace opaque collision/reward stack prefixes
+  with typed 52-byte vector/cursor overlays (reward vectors at offsets 24/36,
+  cursor pointer at 48) and spell out the original null-region return within
+  the retry loop. The maintained 842/862-byte, 705-difference frontier is
+  unchanged. Its five exact same-source functions pass a focused replay over
+  1,220 physical bytes and 32 relocation fields. Target evidence carries
+  Player in EDI, Bullet in EBX, the cursor in ESI, and region in ECX; the
+  cursor home precedes the first region dereference. A complete three-nested-
+  loop rewrite and a reordered rectangle branch fixed some bytes but also
+  introduced new differences; neither is an accepted carrier.
 - **Player charge:** the current `short side` and volatile mode snapshot are
   not claimed as final semantics. Widening/removing the side local, direct
   indexing and pointer/reference alternatives regressed the complete owner
