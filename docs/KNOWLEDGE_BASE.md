@@ -13213,3 +13213,18 @@ EDI/ESI load order.
 `EnemyManagerView::OnUpdate` remains **3,900/3,900 bytes with two differences** at `+0x19A/+0x1A1` (EAX vs ECX draw-group index). Address-of-index, pointer increment, byte-address and pointer-to-array forms did not improve the owner and were reverted. `PlayerLifecycleView::UpdateMovementAndOptions` remains **1,900/1,900 bytes with four differences**; the config/side load-order probes likewise produced no monotone-safe improvement.
 
 No frontier masks were widened, no assembly or padding was introduced, and no full cold replay was run.
+
+## 2026-11-18 GPT-web: use the typed DirectPlay peer in the network callback
+
+`SupervisorNetworkMessageView::HandleMessage @ 0x00432B70` now calls
+`peer->GetPeerInfo` through the already-established inherited
+`IDirectPlay8Peer *` field, removing two redundant `static_cast` operations.
+The old and new pinned VC7.1 objects have byte-identical complete `.text`
+sections (808 bytes). C2 renumbered five private `$L` symbols; each new COFF
+definition was checked against the baseline definition in the same `.text`
+section: the changed pairs retain section offsets `0x318`, `0x300`, `0x2B6`,
+`0x26F` and `0x29E`, respectively. The six jump-table relocations therefore
+retain the same original PE destinations, relocation offsets and types. The
+match-unit manifest records the new spellings only after this proof.
+This is a natural type cleanup, not a change to callback behavior or a new
+function-exactness claim.

@@ -88,11 +88,11 @@ int SupervisorNetworkMessageView::HandleMessage(void *userContext, unsigned long
     case DPN_MSGID_CREATE_PLAYER:
         g_Supervisor.EnterCriticalSectionWrapper(4);
         size = 0;
-        static_cast<IDirectPlay8Peer *>(peer)->GetPeerInfo((static_cast<DPNMSG_CREATE_PLAYER *>(message))->dpnidPlayer, NULL, &size, 0);
+        peer->GetPeerInfo((static_cast<DPNMSG_CREATE_PLAYER *>(message))->dpnidPlayer, NULL, &size, 0);
         info = static_cast<DPN_PLAYER_INFO *>(::operator new(size));
         memset(info, 0, size);
         info->dwSize = sizeof(DPN_PLAYER_INFO);
-        hr = static_cast<IDirectPlay8Peer *>(peer)->GetPeerInfo((static_cast<DPNMSG_CREATE_PLAYER *>(message))->dpnidPlayer, info, &size, 0);
+        hr = peer->GetPeerInfo((static_cast<DPNMSG_CREATE_PLAYER *>(message))->dpnidPlayer, info, &size, 0);
         if (hr != DPN_OK)
         {
             delete info;
