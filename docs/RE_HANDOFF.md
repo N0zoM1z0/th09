@@ -431,3 +431,18 @@ improvement. Keep resolving those new offsets in natural C++.
 - `EnemyManagerView::OnUpdate` is still 3900 bytes / 2 differences. Multiple
   natural C++ local, union, volatile-byte and scope variants did not change the
   EAX/ECX draw-group allocation. No assembly, padding or baseline update.
+
+## 2026-11-18 GPT-web: collision hit-layout trial
+
+- `CheckBulletCollision` was restructured as natural C++ with a shared
+  `process_hit` block before the rectangle tests. The candidate's raw mismatch
+  count dropped from 705 to 531, but function size grew 842 -> 849 and
+  `check-frontier.py` reports `REGRESSED` due to newly differing positions.
+  Retail falls through from the circle hit test into its dispatcher at `+0x8E`;
+  this build emits a jump to `+0x17C`. The rotated-rectangle/AABB branches still
+  target the common block. Keep the experiment as a source checkpoint, but do
+  not alter the recorded baseline or claim exactness.
+- A second outer-`for`/inner-retry rewrite, a duplicated hit-handler rewrite,
+  and an explicit 32-bit draw-group pointer rewrite did not improve the
+  measured object and were discarded. `EnemyManager::OnUpdate` remains 2
+  residual bytes; `UpdateChargeAttack` remains 183 residual bytes.

@@ -13519,3 +13519,20 @@ caused broad register-allocation regressions and were reverted. The large
 EAX-vs-ECX draw-group register positions; reusing the side-category local,
 union overlays, volatile byte access and a narrower scope did not change the
 object. No baseline was changed for either function.
+
+## 2026-11-18 GPT-web: CheckBulletCollision shared-hit layout experiment
+
+A source-only C++ restructuring moved the circle-hit dispatch ahead of the
+rotated-rectangle and AABB checks, with both rectangle paths jumping to the
+same dispatcher. It retains the native three-way region type filter, live
+radius read, volatile hit-region reload, 32-bit hit-count increment, and
+post-loop cancellation reward path. The local candidate now has 531 raw byte
+differences against the 862-byte target, compared with the previous candidate's
+705, but its size grew from 842 to 849 bytes and the monotonic frontier checker
+reports `REGRESSED` because it introduces new positions (`93-94`, `CC-CD`,
+`DB`, `11A-11C`, and others). The principal layout residual is that VC7.1
+places an unconditional jump from the circle test to the shared hit block at
+`+0x17C`, whereas retail falls directly into that block at `+0x8E`; the
+rectangle paths in retail branch backward to the same dispatcher. The
+frontier baseline was deliberately not updated. Further work should focus on
+source-level control-flow/block layout, not byte patching or padding.
