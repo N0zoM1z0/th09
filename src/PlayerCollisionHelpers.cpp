@@ -140,9 +140,12 @@ int PlayerLifecycleView::CheckBulletCollision(
         }
 
 hit:
-        if ((*slot)->type38 == 2)
+        // Retail fetches this record's kind once at the shared hit entry,
+        // then tests the same value for the two cancellation categories.
+        const int hitType = (*slot)->type38;
+        if (hitType == 2)
             goto cancel_hit;
-        if ((*slot)->type38 == 3)
+        if (hitType == 3)
             goto cancel_hit;
         // The native counter is incremented as a 32-bit DWORD, even on wrap.
         (*slot)->hitCount2C = static_cast<int>(
