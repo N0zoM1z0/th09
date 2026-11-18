@@ -13615,3 +13615,29 @@ frontier state:
 
 These are code-generation experiments, not accepted exactness. No baseline,
 ASM, padding, or binary patch was used.
+
+## 2026-11-18 GPT-web: CheckBulletCollision structured geometry checkpoint
+
+The target-attested IDA decompilation at `0x41DFF0` confirms the scan's
+semantic order: the inner retry loads each region, returns zero at the null
+sentinel, accepts only types 1/2/3 with nonpositive delay, then selects circle
+geometry when radius is nonzero, rotated-rectangle geometry when radius is
+zero and angle is nonzero, or axis-aligned bounds when both are zero. A shared
+hit block increments the region counter and returns 2 for direct-hit kind 1;
+kinds 2/3 take the reward path only when the current bullet exists and its
+native word at `+0x10C0` is zero. Other cancel-kind hits advance the cursor.
+
+The source now expresses the three geometry choices as a structured
+`if/else-if/else` and shares one post-geometry hit dispatcher. It retains the
+volatile region reload, native cursor/scratch overlay, x87 geometry operations,
+and the original reward side-selection/call sequence. The focused candidate
+is 849/862 bytes with 496 raw differing positions, improving the prior shared-
+hit candidate from 531 to 496 differences and the original 705-difference
+baseline by 209 positions. This is not monotonic frontier progress: the
+candidate extent grew from 842 to 849 bytes and new positions differ, so
+`check-frontier.py` reports `REGRESSED`. Do not update the frontier baseline.
+The current remaining structural issue is the compiler's layout of the shared
+hit block after the rectangle branches (`+0x17C`) rather than retail's
+fallthrough dispatcher at `+0x8E`; the current frame also remains four bytes
+larger than retail (`0x38` vs `0x34`). Continue with natural C++ block and
+scratch-home lifetime experiments, not assembly or padding.

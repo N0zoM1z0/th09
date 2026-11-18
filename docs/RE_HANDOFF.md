@@ -493,3 +493,17 @@ improvement. Keep resolving those new offsets in natural C++.
 - `UpdateMovementAndOptions`: volatile configuration pointer alone caused
   1109 differences. `EffectManager::AddedCallback`: volatile global manager
   read changed 4 differences to 7. Both reverted.
+
+## 2026-11-18 GPT-web: structured CheckBulletCollision follow-up
+
+- Target-attested IDA decompilation confirms the scan order and reward gate:
+  valid kinds 1/2/3 with delay <= 0; circle when radius != 0; rotated rectangle
+  when radius == 0 and angle != 0; otherwise AABB. Shared hit kind 1 increments
+  and returns 2; cancel kinds 2/3 reward only for a non-null bullet whose word
+  at +0x10C0 is zero.
+- The current natural-C++ structured geometry/shared-hit candidate is
+  849/862 bytes and 496 raw differences (prior best 531, original baseline
+  705). It remains `REGRESSED` because size grew 842 -> 849 and new positions
+  differ. Keep the original baseline. The dispatcher still lays out at
+  candidate +0x17C instead of retail +0x8E; stack frame remains 0x38 vs 0x34.
+  Commit is an exploratory source checkpoint, not an exactness claim.
