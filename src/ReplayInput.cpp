@@ -627,7 +627,10 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     g_GameManager.value378 = replayManager->replayData->value1E6;
     g_GameManager.value37C = replayManager->replayData->value1E7;
     const u8 side0Value30 = replayManager->replayData->value1E8;
-    scratch.side0Runtime = g_GameManager.sides[0].runtime;
+    // Retail reads this slot after the replay byte above and before publishing
+    // value30. Keep the native pointer-field read at this sequence point.
+    scratch.side0Runtime = *reinterpret_cast<AsciiGameSideRuntimeView * volatile *>(
+        &g_GameManager.sides[0].runtime);
     g_GameManager.sides[0].value30 = side0Value30;
     g_GameManager.sides[1].value30 = replayManager->replayData->value1E9;
     scratch.side0Runtime->value08 = frame0->value00;
