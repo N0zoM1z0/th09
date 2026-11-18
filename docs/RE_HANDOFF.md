@@ -91,7 +91,16 @@ inline assembly or an old exact claim.
   Commit `b79c9cf2` also names target-observed network timing thresholds
   (100-ms host poll, 4000-ms jitter, 4000/6000-ms retry bases, 20/60-second
   frame deadlines), 60-Hz frame conversion and -9998/+9998 prefill origin.
-  These are native compile-time values, not new retry or safety behavior.
+  Commits `8eb542ff`, `95006098` and `7394f9a5` separate the native
+  frame-result and wait/reset-status variables, restore the positive
+  synchronized-frame branch before its prediction fallback, and express
+  frame prefill as a counted native for-loop with DWORD wrap semantics.
+  This follows the independently observed TH09 state transitions (the
+  adjacent GPL-3.0 App::UpdateNetPlay source remains a hypothesis).
+  These are not new retry or safety policies. Six further C++ seed/prediction
+  sharing experiments contracted the stack frame from 0x14 to 0x10 and
+  introduced a new mismatch at +0x05, so the distinct scratch phases remain
+  maintained pending better lifetime evidence.
   The complete frontier remains 1,629/1,633 bytes, 966 residual positions;
   a shared function-scope output-object probe changed the local-frame size
   without yielding a ratchetable improvement. Common epilogue and global
@@ -101,7 +110,10 @@ inline assembly or an old exact claim.
   native 32-bit wrapping frame-counter increments in `RecordInputAndFps`
   without signed-overflow assumptions. Commit `9ad8f335` uses a complete
   typed `ReplayFrameDataStartView` aggregate assignment in `SaveReplay`,
-  naturally emitting the retail eight-DWORD REP MOVSD. A focused replay of
+  naturally emitting the retail eight-DWORD REP MOVSD. Commit `19e3e09f`
+  recovers the native little-endian USER chunk magic as a typed C++ character
+  constant (the original tag is still 0x52455355), instead of treating a
+  wire-format signature as an opaque integer. A focused replay of
   `ReplayInput.cpp` still proves 12 exact units over 4,093 physical bytes
   and 232 relocation fields. The nonexact `SaveReplay` and
   `BeginPlaybackStage` remain 1,238/1,238 with 2 residual positions and
@@ -137,7 +149,10 @@ inline assembly or an old exact claim.
   Commit `8f8adf56` places the circle's common `hit:` label inside the
   circle branch and moves the cancellation reward outside the active-region
   scan, aligning natural C++ control flow with the observed target and the
-  GPL-3.0 adjacent-source hypothesis. VC7.1 still emits the maintained
+  GPL-3.0 adjacent-source hypothesis. Commit `60c2fa0d` also names the three
+  TH09-attested region kinds (direct hit 1, bullet cancellation 2 and 3)
+  without implying that original C++ enum spellings were recovered.
+  VC7.1 still emits the maintained
   842/862-byte, 705-difference body.
   Its five exact same-source functions pass a focused replay over 1,220
   physical bytes and 32 relocation fields. Target evidence carries
@@ -178,6 +193,10 @@ inline assembly or an old exact claim.
   A local `ShakeDirection` enum in the nonexact envelope also changed the
   original same-source `RegisterChain` private COFF relocation labels;
   the enum experiment was restored despite matching the 336-byte envelope.
+  Four additional clean C++ amplitude-helper extractions emitted ~175-byte
+  `CalcShakeEnvelope` candidates instead of the target's 336 bytes; preserve
+  the native timer/x87 calculation inside its owner. Do not bypass private
+  label or full function verification to promote those probes.
   Keep the scoped exact cohorts mandatory for future shared-source edits.
 
 Historical negative results are clues, not proof that every natural source
