@@ -31,7 +31,7 @@ int SupervisorNetworkState::InitializePeer()
         return result;
     }
 
-    result = reinterpret_cast<IDirectPlay8Peer *>(this->peer)->Initialize(
+    result = this->peer->Initialize(
         NULL,
         reinterpret_cast<PFNDPNMESSAGEHANDLER>(
             SupervisorNetworkMessageThunk),

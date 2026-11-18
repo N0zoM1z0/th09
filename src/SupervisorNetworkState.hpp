@@ -2,13 +2,16 @@
 
 #include <stddef.h>
 
+struct IDirectPlay8Peer;
+struct IDirectPlay8Address;
+
 struct SupervisorNetworkState
 {
-    void *peer;
-    void *deviceAddress;
+    IDirectPlay8Peer *peer;
+    IDirectPlay8Address *deviceAddress;
     unsigned char unknown008[0x04];
     void *unknown00C;
-    void *hostAddress;
+    IDirectPlay8Address *hostAddress;
     unsigned int sendAsyncHandle;
     unsigned int connectAsyncHandle;
     unsigned int peerIds[2];

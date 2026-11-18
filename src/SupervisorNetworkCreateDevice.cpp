@@ -19,7 +19,7 @@ int SupervisorNetworkState::CreateDeviceAddress()
         NULL,
         CLSCTX_INPROC_SERVER,
         IID_IDirectPlay8Address,
-        &this->deviceAddress);
+        reinterpret_cast<void **>(&this->deviceAddress));
     if (FAILED(result))
     {
         g_GameErrorContext.Fatal(g_DirectPlayDeviceAddressCreateError);
@@ -27,7 +27,7 @@ int SupervisorNetworkState::CreateDeviceAddress()
     }
 
     result =
-        reinterpret_cast<IDirectPlay8Address *>(this->deviceAddress)->
+        this->deviceAddress->
             SetSP(&CLSID_DP8SP_TCPIP);
     if (FAILED(result))
     {
@@ -38,7 +38,7 @@ int SupervisorNetworkState::CreateDeviceAddress()
     }
 
     result =
-        reinterpret_cast<IDirectPlay8Address *>(this->deviceAddress)->
+        this->deviceAddress->
             AddComponent(
         DPNA_KEY_PORT,
         &this->port,

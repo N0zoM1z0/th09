@@ -14,7 +14,7 @@ int SupervisorNetworkState::IsServiceProviderAvailable(const void *provider)
     DWORD providerCount = 0;
     DWORD bufferSize = 0;
 
-    hr = reinterpret_cast<IDirectPlay8Peer *>(this->peer)->
+    hr = this->peer->
         EnumServiceProviders(
             &CLSID_DP8SP_TCPIP, NULL, NULL,
             &bufferSize, &providerCount, 0);
@@ -29,7 +29,7 @@ int SupervisorNetworkState::IsServiceProviderAvailable(const void *provider)
         g_ZunMemory.Alloc(bufferSize, "./system\\global.h"));
 
     if (FAILED(
-            hr = reinterpret_cast<IDirectPlay8Peer *>(this->peer)->
+            hr = this->peer->
                 EnumServiceProviders(
                     &CLSID_DP8SP_TCPIP, NULL, providers,
                     &bufferSize, &providerCount, 0)))

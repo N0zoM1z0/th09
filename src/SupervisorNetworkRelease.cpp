@@ -5,13 +5,13 @@
 void SupervisorNetworkState::ReleaseDirectPlayResources()
 {
     IDirectPlay8Peer *networkPeer =
-        reinterpret_cast<IDirectPlay8Peer *>(this->peer);
+        this->peer;
     if (networkPeer != NULL)
         networkPeer->Close(0);
 
     if (this->deviceAddress != NULL)
     {
-        reinterpret_cast<IUnknown *>(this->deviceAddress)->Release();
+        this->deviceAddress->Release();
         this->deviceAddress = NULL;
     }
 
@@ -23,13 +23,13 @@ void SupervisorNetworkState::ReleaseDirectPlayResources()
 
     if (this->hostAddress != NULL)
     {
-        reinterpret_cast<IUnknown *>(this->hostAddress)->Release();
+        this->hostAddress->Release();
         this->hostAddress = NULL;
     }
 
     if (this->peer != NULL)
     {
-        reinterpret_cast<IUnknown *>(this->peer)->Release();
+        this->peer->Release();
         this->peer = NULL;
     }
 }

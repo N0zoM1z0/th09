@@ -31,9 +31,9 @@ unsigned int SupervisorNetworkState::HostSession()
     appDesc.pwszSessionName = sessionName;
 
     HRESULT result =
-        reinterpret_cast<IDirectPlay8Peer *>(this->peer)->Host(
+        this->peer->Host(
             &appDesc,
-            reinterpret_cast<IDirectPlay8Address **>(&this->deviceAddress),
+            &this->deviceAddress,
             1,
             NULL,
             NULL,
@@ -59,10 +59,10 @@ unsigned int SupervisorNetworkState::ConnectSession()
     appDesc.pwszSessionName = sessionName;
 
     HRESULT result =
-        reinterpret_cast<IDirectPlay8Peer *>(this->peer)->Connect(
+        this->peer->Connect(
             &appDesc,
-            reinterpret_cast<IDirectPlay8Address *>(this->hostAddress),
-            reinterpret_cast<IDirectPlay8Address *>(this->deviceAddress),
+            this->hostAddress,
+            this->deviceAddress,
             NULL,
             NULL,
             NULL,

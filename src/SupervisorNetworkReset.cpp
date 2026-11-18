@@ -14,13 +14,13 @@ void __fastcall ReportDirectPlayError(HRESULT error);
 
 int SupervisorNetworkState::ResetSession()
 {
-    reinterpret_cast<IDirectPlay8Peer *>(this->peer)->
+    this->peer->
         CancelAsyncOperation(NULL, DPNCANCEL_ALL_OPERATIONS);
-    reinterpret_cast<IDirectPlay8Peer *>(this->peer)->Close(0);
+    this->peer->Close(0);
 
     if (this->deviceAddress != NULL)
     {
-        reinterpret_cast<IUnknown *>(this->deviceAddress)->Release();
+        this->deviceAddress->Release();
         this->deviceAddress = NULL;
     }
     if (this->unknown00C != NULL)
@@ -30,14 +30,14 @@ int SupervisorNetworkState::ResetSession()
     }
     if (this->hostAddress != NULL)
     {
-        reinterpret_cast<IUnknown *>(this->hostAddress)->Release();
+        this->hostAddress->Release();
         this->hostAddress = NULL;
     }
 
     Sleep(100);
 
     HRESULT result =
-        reinterpret_cast<IDirectPlay8Peer *>(this->peer)->Initialize(
+        this->peer->Initialize(
             NULL,
             reinterpret_cast<PFNDPNMESSAGEHANDLER>(
                 SupervisorNetworkMessageThunk),

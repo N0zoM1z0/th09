@@ -14,7 +14,7 @@ int SupervisorNetworkState::SendPacket(void *packet, int size)
     DPN_BUFFER_DESC buffer;
     buffer.dwBufferSize = size;
     buffer.pBufferData = reinterpret_cast<BYTE *>(packet);
-    return reinterpret_cast<IDirectPlay8Peer *>(this->peer)->SendTo(
+    return this->peer->SendTo(
         *remotePeer,
         &buffer,
         1,

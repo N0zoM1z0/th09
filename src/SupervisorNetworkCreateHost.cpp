@@ -22,7 +22,7 @@ int SupervisorNetworkState::CreateHostAddress()
         NULL,
         CLSCTX_INPROC_SERVER,
         IID_IDirectPlay8Address,
-        &this->hostAddress);
+        reinterpret_cast<void **>(&this->hostAddress));
     if (FAILED(result))
     {
         g_GameErrorContext.Fatal(g_DirectPlayHostAddressCreateError);
@@ -30,7 +30,7 @@ int SupervisorNetworkState::CreateHostAddress()
     }
 
     result =
-        reinterpret_cast<IDirectPlay8Address *>(this->hostAddress)->
+        this->hostAddress->
             SetSP(&CLSID_DP8SP_TCPIP);
     if (FAILED(result))
     {
@@ -41,7 +41,7 @@ int SupervisorNetworkState::CreateHostAddress()
     }
 
     result =
-        reinterpret_cast<IDirectPlay8Address *>(this->hostAddress)->
+        this->hostAddress->
             AddComponent(
                 DPNA_KEY_HOSTNAME,
                 hostname,
@@ -54,7 +54,7 @@ int SupervisorNetworkState::CreateHostAddress()
     }
 
     result =
-        reinterpret_cast<IDirectPlay8Address *>(this->hostAddress)->
+        this->hostAddress->
             AddComponent(
                 DPNA_KEY_PORT,
                 &this->port,
