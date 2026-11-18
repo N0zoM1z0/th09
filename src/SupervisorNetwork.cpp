@@ -88,13 +88,20 @@ typedef char NetworkPopFrameScratchLayout[
 // ORs them for the aggregate input callback. Keep their physical pair typed.
 struct NetworkFrameInputPair
 {
-    unsigned short side0;
-    unsigned short side1;
+    union
+    {
+        struct { unsigned short side0; unsigned short side1; };
+        // The native first input is read as one DWORD after both 16-bit
+        // PopFrame results have been stored. The callee consumes its low
+        // word, while the side fields preserve the physical wire order.
+        unsigned int packed;
+    };
 };
 typedef char NativeNetworkFrameInputPairLayout[
     (sizeof(NetworkFrameInputPair) == 4 &&
      offsetof(NetworkFrameInputPair, side0) == 0 &&
-     offsetof(NetworkFrameInputPair, side1) == 2) ? 1 : -1];
+     offsetof(NetworkFrameInputPair, side1) == 2 &&
+     offsetof(NetworkFrameInputPair, packed) == 0) ? 1 : -1];
 
 // Values are taken from the original network service's state and packet
 // transitions. The original identifier spelling is not established.
@@ -400,7 +407,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         s->networkTiming458.frameMode = NETWORK_FRAME_PREPARING;
         inputs.side0 = static_cast<unsigned short>(s->PopFrame(0, &seed0, &predicted));
         inputs.side1 = static_cast<unsigned short>(s->PopFrame(1, &seed1, &predicted));
-        ApplyNetworkInput(0, inputs.side0);
+        ApplyNetworkInput(0, static_cast<unsigned short>(inputs.packed));
         ApplyNetworkInput(1, inputs.side1);
         ApplyNetworkInput(2, inputs.side0 | inputs.side1);
         supervisor->LeaveCriticalSectionWrapper(4);
