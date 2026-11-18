@@ -13434,3 +13434,30 @@ prologue and active-slot register lifetime match, as do the type/delay filter
 and the ordered radius-vs-zero x87 comparison. No frontier baseline was
 changed. Continue by making the hit block's native source lifetime/placement
 match the circle fallthrough and preserving the post-rotation slot reload.
+
+
+## 2026-11-18 GPT-web: collision rotation leaf and x87 trig lifetime
+
+Added `frontier.player-collision-rotate` for the 62-byte retail leaf at
+`0x0042AF40`. The first source implementation used `sinf`/`cosf`, which VC7.1
+folded into inline `fsin`/`fcos`; retail instead calls float-argument,
+double-return CRT trigonometric wrappers. `PlayerCollisionRotate.cpp` now
+expresses those wrappers as ordinary `static double __stdcall` C++ functions
+that call `sin(double)`/`cos(double)`, with `#pragma function(sin, cos)` to
+keep the CRT calls out of intrinsic expansion. The leaf now has the retail
+register-save/prologue shape, argument reuse at `[ebp+8]`, two trig calls,
+and the same x87 multiply/add/subtract families. Current candidate: 66 bytes
+vs 62 target, 24 differing positions (`1D`, `1F`, `2A-2B`, `2D-36`, `38-41`).
+No ASM or padding is used. Remaining differences are the x87 operand order in
+the first/second cosine products and the compiler's final `fstp st(0)` plus
+resulting epilogue offsets. Keep this diagnostic frontier separate from the
+large `CheckBulletCollision` frontier; do not rebaseline either one.
+
+### Collision frontier ratchet note
+
+The current `CheckBulletCollision` source measures 849/862 bytes with 533
+differing positions, but the original monotonic ratchet still reports
+`REGRESSED`: several formerly matching offsets changed and the candidate extent
+grew from 842 to 849 bytes. The lower total difference count is diagnostic
+evidence, not an accepted frontier improvement. Preserve the original baseline
+and keep fixing the newly differing offsets.

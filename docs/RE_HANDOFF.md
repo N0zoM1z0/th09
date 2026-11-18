@@ -379,3 +379,24 @@ path reloads it after the vector-rotation call. The focused frontier is
 Do not rebaseline: the circle hit still branches to a late common block rather
 than retail's fallthrough hit block, and the angle/axis and reward tails remain
 nonexact. Continue with source-level control-flow/lifetime experiments only.
+
+
+## 2026-11-18 GPT-web collision rotation leaf
+
+A new focused frontier tracks `RotatePlayerCollisionVector` at `0x42AF40`
+(target 62 bytes). The source now calls explicit natural-C++ float-argument,
+double-return wrappers around CRT `sin` and `cos`; this avoids VC7.1 folding
+`sinf`/`cosf` into `fsin`/`fcos`. The focused object has the retail save/prologue,
+argument home reuse, trig call ordering, and x87 expression family. It is
+currently 66 bytes with 24 differing offsets (`1D`, `1F`, `2A-2B`, `2D-36`,
+`38-41`). Continue with x87 operand evaluation order and removal of the
+leftover `fstp st(0)` through source-level lifetime changes. No baseline for
+existing frontiers was altered.
+
+### Collision frontier ratchet note
+
+`CheckBulletCollision` currently measures 849/862 bytes and 533 differing
+positions, but `check-frontier.py` reports `REGRESSED` because new byte offsets
+differ and the candidate grew by seven bytes from the original 842-byte
+baseline. Do not rebaseline; the count reduction alone is not a monotonic
+improvement. Keep resolving those new offsets in natural C++.
