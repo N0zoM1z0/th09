@@ -538,3 +538,28 @@ No baseline was changed.
 - Enemy-update combined predicate and switch experiments were discarded; the
   two-byte residual remains. `EtamaController::fsincos` remains the 36-byte
   natural C++ implementation against the 33-byte x87 target; no ASM.
+
+## 2026-11-18 GPT-web: rotation, Etama and boss register-lifetime probes
+
+- New source checkpoints: `ec7d138f` simplifies `RotatePlayerCollisionVector`
+  to direct C++ vector equations and removes the volatile point alias; focused
+  frontier is back at 66/62 bytes, 24 recorded differences (`OK`).
+  `c2431adc` orders the Etama sine/cosine computations and output stores like
+  the native helper; frontier remains 36/33 bytes, 25 recorded differences
+  (`OK`). Neither commit claims a byte-match improvement.
+- Collision boss: the historical `aa59e47b` source compiles against the current
+  target at its recorded 842/705 baseline. Current 849/496 candidate is still
+  `REGRESSED` due new offsets; all this session's loop experiments were
+  restored.
+- Charge boss: full-width side index, reordered pointer construction,
+  volatile side, and aggregate context probes did not solve the EBX/EDI swap;
+  source restored to the 183-difference baseline.
+- Enemy boss: removing the side-category local and materializing the draw-group
+  index did not solve the two-byte EAX/ECX residual; source restored.
+- Network boss: separate stack locals with a volatile return word and native
+  declaration order reproduced the retail 0x14 prologue and `[ebp-4]` zero
+  store, but the body still has 926 differences and a receiver-register
+  mismatch. All network probes restored. The nine-offset replay playback
+  EDX/ESI swap also remains unresolved and its probes were restored.
+- Worktree should be clean at `c2431adc`; continue from this checkpoint and
+  keep the `gpt-web: ...` commit subject format.

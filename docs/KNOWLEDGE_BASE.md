@@ -13708,3 +13708,43 @@ All rejected trials were restored; none changed a frontier baseline.
   sequence, while the natural C++ `cosf`/`sinf` implementation remains 36
   bytes / 25 recorded differences. No assembly or byte-emission substitute
   was introduced.
+
+## 2026-11-18 GPT-web: collision-rotation, Etama and network-boss follow-up
+
+- `RotatePlayerCollisionVector`: simplified the output equations to direct
+  natural C++ vector math and removed an unnecessary volatile point alias.
+  The candidate returns to the recorded 66-byte / 24-difference baseline and
+  strict `OK`. The 62-byte / 10-difference version remains `REGRESSED` because
+  it introduces new offsets and shortens the candidate. Operand-order,
+  compound-multiply, register-local and const-cosine variants did not produce
+  the target x87 `FLD ST(0); FMUL [point.x]` sequence. Commit: `ec7d138f`.
+- `EtamaController::fsincos`: changed the ordinary C++ wrapper to compute and
+  publish sine before cosine, matching the target helper's output-store order.
+  The natural `sinf`/`cosf` implementation remains 36 bytes / 25 recorded
+  differences (`OK`); the target is the 33-byte x87 `FSINCOS` leaf. No inline
+  assembly or instruction-byte substitute. Commit: `c2431adc`.
+- `ReplayManagerView::BeginPlaybackStage`: the remaining nine offsets are a
+  register-lifetime swap at `+0x151..+0x17A`: retail keeps the replay byte in
+  EDX and the side-0 runtime pointer in ESI; the candidate reverses those
+  registers. Widening the byte, register-qualified byte/pointer locals, and
+  separating the stage/runtime union did not change the swap. Restore probes.
+- `Supervisor::UpdateNetworkService`: splitting the 20-byte scratch into
+  independent locals and making the return word volatile, while declaring
+  the stack homes in native order, restored the exact target prologue:
+  `sub esp,0x14`, saved EBX/ESI/EDI, `push 4`, owner ESI, and zeroed `[ebp-4]`.
+  The body still has 926 differences and uses ECX for the first global network
+  receiver instead of retail EDI; strict frontier remains `REGRESSED`. A
+  separate volatile input/frame aggregate shrank to `0x10`; it did not keep
+  the complete frame home. Register-qualified initial receiver did not alter
+  the ECX/EDI allocation. All probes were restored.
+- `PlayerLifecycleView::UpdateChargeAttack`: full-DWORD side locals, reordered
+  input-pointer calculation, volatile locals and an aggregate side/input
+  context all retained the EBX-side / EDI-input allocation (or expanded to
+  717+ differences). Restored the 183-difference baseline.
+- `EnemyManagerView::OnUpdate`: removing the side-category temporary and
+  explicitly materializing the draw-group byte index did not change the final
+  EAX/ECX two-byte residual. Restored the source.
+- `CheckBulletCollision`: historical source `aa59e47b` compiles to the recorded
+  842-byte / 705-difference baseline (`OK`), but does not improve it. The
+  current 849-byte / 496-difference source remains `REGRESSED` because it adds
+  new offsets. No collision experiment from this session was retained.
