@@ -34,6 +34,16 @@ typedef char PlayerCollisionActiveRegionCursorCountIs514[
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_PlayerRewardEffectManager;
 
+// The native collision scan accepts kinds 1, 2 and 3. Kind 1 reports a
+// direct hit, while kinds 2 and 3 take the bullet-cancellation path when the
+// bullet's sprite discriminator is zero. Original names are unknown.
+enum PlayerCollisionRegionKind
+{
+    PLAYER_REGION_DIRECT_HIT = 1,
+    PLAYER_REGION_BULLET_CANCEL_2 = 2,
+    PLAYER_REGION_BULLET_CANCEL_3 = 3
+};
+
 
 int PlayerLifecycleView::CheckBulletCollision(
     PlayerPositionView *position,
@@ -88,7 +98,9 @@ int PlayerLifecycleView::CheckBulletCollision(
         region = *slot;
         if (region == NULL)
             return 0;
-        if (region->type38 != 1 && region->type38 != 2 && region->type38 != 3)
+        if (region->type38 != PLAYER_REGION_DIRECT_HIT &&
+            region->type38 != PLAYER_REGION_BULLET_CANCEL_2 &&
+            region->type38 != PLAYER_REGION_BULLET_CANCEL_3)
             continue;
         if (region->delay40 > 0)
             continue;
@@ -102,9 +114,9 @@ int PlayerLifecycleView::CheckBulletCollision(
             {
 hit:
                 const int hitType = (*slot)->type38;
-                if (hitType == 2)
+                if (hitType == PLAYER_REGION_BULLET_CANCEL_2)
                     goto cancel_hit;
-                if (hitType == 3)
+                if (hitType == PLAYER_REGION_BULLET_CANCEL_3)
                     goto cancel_hit;
                 (*slot)->hitCount2C = static_cast<int>(
                     static_cast<unsigned int>((*slot)->hitCount2C) + 1u);
