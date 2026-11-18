@@ -242,28 +242,8 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
     {
         unsigned int frame = s->networkTiming458.frameCounter;
 
-        if (frame != 0 &&
-            frame % (NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate) != 0)
-        {
-            // The first predicted frame uses the captured network receiver,
-            // but reads its side after the seed callback has finished.
-            const short firstSeed = static_cast<short>(g_ReplayRng.GetSeed());
-            volatile const int &firstSide = frameNetwork->localSide;
-            s->InsertPredictedFrame(firstSide, frame, firstSeed);
-            // Retail obtains the prediction seed before re-reading the
-            // network side; the peer can change during service callbacks.
-            const short predictedSeed = static_cast<short>(g_ReplayRng.GetSeed());
-            volatile const int &liveSide = g_SupervisorNetworkState->localSide;
-            const int opponentSide = static_cast<int>(
-                1u - static_cast<unsigned int>(liveSide));
-            s->InsertPredictedFrame(
-                opponentSide, s->networkTiming458.frameCounter, predictedSeed);
-            // The original service increments the signed frame counter with
-            // an i386 DWORD INC, whose physical result wraps modulo 2^32.
-            s->networkTiming458.frameCounter = static_cast<int>(
-                static_cast<unsigned int>(s->networkTiming458.frameCounter) + 1u);
-        }
-        else
+        if (frame == 0 ||
+            frame % (NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate) == 0)
         {
             if (s->networkTiming458.frameMode == NETWORK_FRAME_PREPARING)
             {
@@ -358,7 +338,27 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 g_NetworkFramePacket.frame,
                 g_NetworkFramePacket.words.input,
                 static_cast<short>(g_NetworkFramePacket.seed));
-        }
+                }
+        else
+        {
+            // The first predicted frame uses the captured network receiver,
+            // but reads its side after the seed callback has finished.
+            const short firstSeed = static_cast<short>(g_ReplayRng.GetSeed());
+            volatile const int &firstSide = frameNetwork->localSide;
+            s->InsertPredictedFrame(firstSide, frame, firstSeed);
+            // Retail obtains the prediction seed before re-reading the
+            // network side; the peer can change during service callbacks.
+            const short predictedSeed = static_cast<short>(g_ReplayRng.GetSeed());
+            volatile const int &liveSide = g_SupervisorNetworkState->localSide;
+            const int opponentSide = static_cast<int>(
+                1u - static_cast<unsigned int>(liveSide));
+            s->InsertPredictedFrame(
+                opponentSide, s->networkTiming458.frameCounter, predictedSeed);
+            // The original service increments the signed frame counter with
+            // an i386 DWORD INC, whose physical result wraps modulo 2^32.
+            s->networkTiming458.frameCounter = static_cast<int>(
+                static_cast<unsigned int>(s->networkTiming458.frameCounter) + 1u);
+                }
     }
 
     // Retail side inversion uses i386 32-bit subtraction even if the
