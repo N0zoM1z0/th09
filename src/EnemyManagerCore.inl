@@ -976,9 +976,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             continue;
 
     append_enemy_to_draw_group:
-        EnemyView *nativeEnemy = enemy;
-        nativeEnemy->nextInDrawGroup04 = *drawHead;
-        *drawHead = nativeEnemy;
+        EnemyView &nativeEnemy = *enemy;
+        nativeEnemy.nextInDrawGroup04 = *drawHead;
+        *drawHead = &nativeEnemy;
     }
 
     manager->frameTimer2AC404++;
