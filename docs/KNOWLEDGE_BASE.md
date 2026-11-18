@@ -13856,3 +13856,25 @@ All rejected trials were restored; none changed a frontier baseline.
   bullet parameter lifetime. All are rejected; no frontier baseline changed.
   Canonical `PlayerCollisionHelpers.cpp` restored to HEAD after preserving
   these observations.
+
+## 2026-11-18 GPT-web: EnemyManager and charge boss register allocation
+
+- `EnemyManagerView::OnUpdate` target/candidate differ only at `+0x19A` and
+  `+0x1A1`: target loads the byte draw-group index into EAX and reuses EAX in
+  `lea eax,[esi+eax*4+0x2AC410]`; current source loads the same byte into ECX
+  and uses ECX as the LEA index. The surrounding category/no-sprite tests,
+  head address, branch destination and append path already match. Replacing
+  the local head pointer with a common-label calculation changed thousands of
+  bytes; volatile pointer/head-slot and volatile byte-reference variants
+  retained the same two-byte residual. Restored the exact 3900/3900, 2-diff
+  source; no inline asm or baseline edits.
+- `PlayerLifecycleView::UpdateChargeAttack` IDA and target disassembly show
+  the native `sideIndex` is read as a full DWORD into EDI, multiplied by the
+  0x8E-byte ReplayInputState stride through EAX, then based at the global
+  replay-input table into EBX. The current source's `short side` local causes
+  `movsx ebx,word [esi+8]`, then uses EDI for the input pointer—the reverse
+  register allocation. Full-width `int` side, register input pointer, reversed
+  declaration order, volatile full-width side, and a split full/short local
+  did not recover the native allocation (648-895 differences, 1200-1221
+  bytes). Restored the 183-difference / 1210-byte baseline; this is an exact
+  member-width/register-lifetime lead, not a completed fix.

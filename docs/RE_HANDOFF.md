@@ -619,3 +619,19 @@ No baseline was changed.
   is still `REGRESSED` (848/862, 607 raw differences); no source candidate
   retained. Canonical collision source restored. Continue with natural C++
   basic-block shaping, not asm or padding.
+
+## 2026-11-18 GPT-web: boss register allocation follow-up
+
+- `EnemyManager::OnUpdate`: exact two-byte residual is register choice only.
+  At `+0x19A/+0x1A1`, retail uses EAX for the byte draw-group index and then
+  for the computed head pointer; source emits ECX for the index and EAX for
+  the pointer. Removing/recomputing the head local or making either pointer
+  volatile caused 696-3005 differences; volatile byte reference did not move
+  the residual. Canonical source restored at 3900/3900, 2 differences.
+- `UpdateChargeAttack`: target loads `sideIndex` as a full DWORD into EDI and
+  derives the input pointer in EBX using stride 0x8E. Current source narrows
+  the side local to short, putting sign-extended side in EBX and input pointer
+  in EDI. Full-width and volatile side locals, register pointer, reversed
+  declaration order, and split full/short index experiments regressed to
+  648-895 differences. Canonical source restored at 1210/1210, 183 differences.
+- Continue from this handoff; do not change the recorded frontier baselines.
