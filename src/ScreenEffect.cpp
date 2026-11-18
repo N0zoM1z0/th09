@@ -177,6 +177,14 @@ int ScreenEffect::CalcArcadePulse(ScreenEffect *screenEffect)
 // Select the real 0x38-byte GameManager side record for the active shake.
 // Preserve the original unsigned index expression and access order.
 // Screen shake writes the real Supervisor 0xF0-byte viewport slots.
+// Both original shake callbacks choose zero, positive or negative
+// displacement independently on each axis from the same three RNG values.
+// These names describe target-observed meanings, not established retail names.
+#define SCREEN_SHAKE_AXIS_CHOICES 3
+#define SCREEN_SHAKE_AXIS_ZERO 0
+#define SCREEN_SHAKE_AXIS_POSITIVE 1
+#define SCREEN_SHAKE_AXIS_NEGATIVE 2
+
 int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
 {
     if ((g_GameManager.sides[static_cast<unsigned int>(screenEffect->contextIndex)].flags & 1u) != 0)
@@ -203,28 +211,28 @@ int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
             duration +
         screenEffect->rawParameter0;
 
-    switch (g_ReplayRng.GetRandomU32InRange(3))
+    switch (g_ReplayRng.GetRandomU32InRange(SCREEN_SHAKE_AXIS_CHOICES))
     {
-    case 0:
+    case SCREEN_SHAKE_AXIS_ZERO:
         g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetX = 0.0f;
         break;
-    case 1:
+    case SCREEN_SHAKE_AXIS_POSITIVE:
         g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetX = shakeAmount;
         break;
-    case 2:
+    case SCREEN_SHAKE_AXIS_NEGATIVE:
         g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetX = -shakeAmount;
         break;
     }
 
-    switch (g_ReplayRng.GetRandomU32InRange(3))
+    switch (g_ReplayRng.GetRandomU32InRange(SCREEN_SHAKE_AXIS_CHOICES))
     {
-    case 0:
+    case SCREEN_SHAKE_AXIS_ZERO:
         g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetY = 0.0f;
         break;
-    case 1:
+    case SCREEN_SHAKE_AXIS_POSITIVE:
         g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetY = shakeAmount;
         break;
-    case 2:
+    case SCREEN_SHAKE_AXIS_NEGATIVE:
         g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetY = -shakeAmount;
         break;
     }
@@ -279,34 +287,39 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
     }
 
     shakeAmount = static_cast<float>(screenEffect->duration) * shakeAmount;
-    switch (g_ReplayRng.GetRandomU32InRange(3))
+    switch (g_ReplayRng.GetRandomU32InRange(SCREEN_SHAKE_AXIS_CHOICES))
     {
-    case 0:
+    case SCREEN_SHAKE_AXIS_ZERO:
         g_AnmManager->frameShakeX1C = 0.0f;
         break;
-    case 1:
+    case SCREEN_SHAKE_AXIS_POSITIVE:
         g_AnmManager->frameShakeX1C = shakeAmount;
         break;
-    case 2:
+    case SCREEN_SHAKE_AXIS_NEGATIVE:
         g_AnmManager->frameShakeX1C = -shakeAmount;
         break;
     }
 
-    switch (g_ReplayRng.GetRandomU32InRange(3))
+    switch (g_ReplayRng.GetRandomU32InRange(SCREEN_SHAKE_AXIS_CHOICES))
     {
-    case 0:
+    case SCREEN_SHAKE_AXIS_ZERO:
         g_AnmManager->frameShakeY20 = 0.0f;
         break;
-    case 1:
+    case SCREEN_SHAKE_AXIS_POSITIVE:
         g_AnmManager->frameShakeY20 = shakeAmount;
         break;
-    case 2:
+    case SCREEN_SHAKE_AXIS_NEGATIVE:
         g_AnmManager->frameShakeY20 = -shakeAmount;
         break;
     }
 
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
+
+#undef SCREEN_SHAKE_AXIS_CHOICES
+#undef SCREEN_SHAKE_AXIS_ZERO
+#undef SCREEN_SHAKE_AXIS_POSITIVE
+#undef SCREEN_SHAKE_AXIS_NEGATIVE
 
 int ScreenEffect::InitializeTimer(ScreenEffect *screenEffect)
 {
