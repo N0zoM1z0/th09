@@ -88,6 +88,10 @@ inline assembly or an old exact claim.
   VC7.1 lifetime recovery. Commit `32e1524f` additionally makes the
   target-backed connection phases 0/1/2/3, frame phases 0/1/2, and message
   kinds 0/2 explicit C++ enums; original identifier spellings are unknown.
+  Commit `b79c9cf2` also names target-observed network timing thresholds
+  (100-ms host poll, 4000-ms jitter, 4000/6000-ms retry bases, 20/60-second
+  frame deadlines), 60-Hz frame conversion and -9998/+9998 prefill origin.
+  These are native compile-time values, not new retry or safety behavior.
   The complete frontier remains 1,629/1,633 bytes, 966 residual positions;
   a shared function-scope output-object probe changed the local-frame size
   without yielding a ratchetable improvement. Common epilogue and global
@@ -124,6 +128,8 @@ inline assembly or an old exact claim.
   retry and make the shared hit/cancel dispatch explicit in source.
   Commit `f8bd4309` further recovers the circle, rotated-rectangle and AABB
   checks as one natural three-way C++ dispatch feeding that common hit path.
+  Commit `a4290c3c` snapshots the hit-region kind once before testing the
+  two cancellation categories, matching the target's single kind load.
   VC7.1 still emits the maintained 842/862-byte, 705-difference body.
   Its five exact same-source functions pass a focused replay over 1,220
   physical bytes and 32 relocation fields. Target evidence carries
@@ -136,8 +142,10 @@ inline assembly or an old exact claim.
   target executes rotated-rectangle geometry before AABB geometry and joins
   circle hits at the same dispatcher. Do not promote the diagnostic probe or
   widen the frontier based solely on its lower total mismatch count.
-- **Player charge:** the current `short side` and volatile mode snapshot are
-  not claimed as final semantics. Widening/removing the side local, direct
+- **Player charge:** commit `ba55d762` names the two observed focus-input
+  states: charge from held shot input (0) or held focus input (1), including
+  the different held-key checks. The current `short side` and volatile mode
+  snapshot are not claimed as final semantics. Widening/removing the side local, direct
   indexing and pointer/reference alternatives regressed the complete owner
   (some to 717+ differing positions). Preserve the 183-position frontier;
   do not ratchet based on a local instruction win.
@@ -151,6 +159,9 @@ inline assembly or an old exact claim.
   endpoint cast in `ScreenEffect` preserved their named nonexact frontiers,
   but changed compiler-private COFF labels in same-source exact units; both
   experiments were restored, with no ledger or private-label rewriting.
+  A local `ShakeDirection` enum in the nonexact envelope also changed the
+  original same-source `RegisterChain` private COFF relocation labels;
+  the enum experiment was restored despite matching the 336-byte envelope.
   Keep the scoped exact cohorts mandatory for future shared-source edits.
 
 Historical negative results are clues, not proof that every natural source
