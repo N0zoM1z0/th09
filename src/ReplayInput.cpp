@@ -900,7 +900,15 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     }
 
     ReplayUserDataHeaderView infoHeader;
-    infoHeader.magic = 0x52455355;
+    // On disk the native four-byte little-endian tag spells USER, as in the
+    // original replay writer's USER text chunk. Retain ordinary C++ constant
+    // packing rather than a pointer cast or target-byte emission.
+    enum ReplayUserSectionTag
+    {
+        REPLAY_USER_SECTION_TAG =
+            ('U' | ('S' << 8) | ('E' << 16) | ('R' << 24))
+    };
+    infoHeader.magic = REPLAY_USER_SECTION_TAG;
     infoHeader.type = 0;
     char infoBuffer[1024];
     memset(infoBuffer, 0, sizeof(infoBuffer));
