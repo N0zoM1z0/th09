@@ -2469,9 +2469,13 @@ int TitleScreenView::OnUpdateResult()
                         static_cast<unsigned int>(FullCharacterSlots));
             }
 
-            // Retain the selected native table entry across the cursor
-            // callback; the call may change the current selection state.
-            char *characterSlot = &g_TitleResultCharacterOrder[keyboardSelection];
+            // The original reads from the character-order table's byte
+            // address plus the current signed selection DWORD, with native
+            // 32-bit wrap and no new array bounds gate. Hold the selected
+            // character across the cursor callback, which may change state.
+            char *characterSlot = reinterpret_cast<char *>(
+                reinterpret_cast<unsigned int>(&g_TitleResultCharacterOrder[0]) +
+                static_cast<unsigned int>(keyboardSelection));
             char character = *characterSlot;
             SetCharacterCursorInactive(*characterSlot, 60, FullCharacterSlots, 2);
             nameBankIndex = character;
